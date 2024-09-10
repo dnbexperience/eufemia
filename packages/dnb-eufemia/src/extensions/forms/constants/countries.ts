@@ -1213,15 +1213,6 @@ const countries: Array<CountryType> = [
   },
   {
     i18n: {
-      en: 'Macedonia',
-      nb: 'Makedonia',
-    },
-    cdc: '389',
-    iso: 'MK',
-    continent: 'Europe',
-  },
-  {
-    i18n: {
       en: 'Madagascar',
       nb: 'Madagaskar',
     },
@@ -1516,6 +1507,15 @@ const countries: Array<CountryType> = [
     cdc: '850',
     iso: 'KP',
     continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'North Macedonia',
+      nb: 'Nord-Makedonia',
+    },
+    cdc: '389',
+    iso: 'MK',
+    continent: 'Europe',
   },
   {
     i18n: {
