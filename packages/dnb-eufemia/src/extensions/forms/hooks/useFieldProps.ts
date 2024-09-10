@@ -711,7 +711,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
 
     // Ideally, we should rather call "callOnChangeValidator", but sadly it's not possible,
-    // because the we get an additional delay due to the async nature, which is too much.
+    // because we get an additional delay due to the async nature, which is too much.
+    // So when a submit button is pressed, and there is a sync validator, it needs to be validated without a delay.
     const tmpValue = valueRef.current
     let result = isAsync(onChangeValidatorRef.current)
       ? await callValidatorFnAsync(onChangeValidatorRef.current)
@@ -770,12 +771,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         return {}
       }
 
-      // Since the validator can return either a synchronous result or an asynchronous
       const value = transformers.current.toEvent(
         overrideValue ?? valueRef.current,
         'onBlurValidator'
       )
 
+      // Since the validator can return either a synchronous result or an asynchronous.
       let result = isAsync(onBlurValidatorRef.current)
         ? await callValidatorFnAsync(onBlurValidatorRef.current, value)
         : callValidatorFnSync(onBlurValidatorRef.current, value)
@@ -817,11 +818,27 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         setFieldState('validating')
       }
 
-      const { result } = await callOnBlurValidator({ overrideValue })
+      const value = transformers.current.toEvent(
+        overrideValue ?? valueRef.current,
+        'onBlurValidator'
+      )
+
+      // Since the validator can return either a synchronous result or an asynchronous.
+      // Ideally, we should rather call "callOnBlurValidator", but sadly it's not possible,
+      // because we get an additional delay due to the async nature, which is too much.
+      // So when a submit button is pressed, and there is a sync validator, it needs to be validated without a delay.
+      let result = isAsync(onBlurValidatorRef.current)
+        ? await callValidatorFnAsync(onBlurValidatorRef.current, value)
+        : callValidatorFnSync(onBlurValidatorRef.current, value)
+      if (result instanceof Promise) {
+        result = await result
+      }
+
       revealOnBlurValidatorResult({ result })
     },
     [
-      callOnBlurValidator,
+      callValidatorFnAsync,
+      callValidatorFnSync,
       defineAsyncProcess,
       revealOnBlurValidatorResult,
       setFieldState,
