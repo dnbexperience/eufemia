@@ -46,7 +46,7 @@ function ViewContainer(props: AllProps) {
         {itemTitle && <Lead size="basis">{itemTitle}</Lead>}
         {children}
         {toolbar ??
-          (!hideContainerToolbarWhen?.(index, arrayValue) && (
+          (!hideContainerToolbarWhen?.(index, arrayValue, 'view') && (
             <Toolbar>
               <ViewToolbarTools />
             </Toolbar>

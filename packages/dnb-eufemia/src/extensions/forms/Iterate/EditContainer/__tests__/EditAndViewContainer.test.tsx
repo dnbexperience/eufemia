@@ -389,48 +389,133 @@ describe('EditContainer and ViewContainer', () => {
       expect(containerMode).toBe('edit')
     })
 
-    it('should not contain toolbar when "hideContainerToolbarWhen" returns true', async () => {
-      render(
-        <Iterate.Array
-          value={['foo', 'bar', 'baz']}
-          hideContainerToolbarWhen={(index) => index === 0}
-        >
-          <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
-          <Iterate.EditContainer>Edit Content</Iterate.EditContainer>
-        </Iterate.Array>
-      )
-
-      const elements = document.querySelectorAll(
-        '.dnb-forms-iterate__element'
-      )
-      expect(elements).toHaveLength(3)
-
-      const [firstElement, secondElement, thirdElement] =
-        Array.from(elements)
-
-      {
-        const [viewBlock, editBlock] = Array.from(
-          firstElement.querySelectorAll('.dnb-forms-section-block')
+    describe('hideContainerToolbarWhen', () => {
+      it('should not contain toolbar when "hideContainerToolbarWhen" returns true', async () => {
+        render(
+          <Iterate.Array
+            value={['foo', 'bar', 'baz']}
+            hideContainerToolbarWhen={(index) => index === 0}
+          >
+            <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
+            <Iterate.EditContainer>Edit Content</Iterate.EditContainer>
+          </Iterate.Array>
         )
-        expect(editBlock.querySelectorAll('button')).toHaveLength(0)
-        expect(viewBlock.querySelectorAll('button')).toHaveLength(0)
-      }
 
-      {
-        const [viewBlock, editBlock] = Array.from(
-          secondElement.querySelectorAll('.dnb-forms-section-block')
+        const elements = document.querySelectorAll(
+          '.dnb-forms-iterate__element'
         )
-        expect(editBlock.querySelectorAll('button')).toHaveLength(2)
-        expect(viewBlock.querySelectorAll('button')).toHaveLength(2)
-      }
+        expect(elements).toHaveLength(3)
 
-      {
-        const [viewBlock, editBlock] = Array.from(
-          thirdElement.querySelectorAll('.dnb-forms-section-block')
+        const [firstElement, secondElement, thirdElement] =
+          Array.from(elements)
+
+        {
+          const [viewBlock, editBlock] = Array.from(
+            firstElement.querySelectorAll('.dnb-forms-section-block')
+          )
+          expect(editBlock.querySelectorAll('button')).toHaveLength(0)
+          expect(viewBlock.querySelectorAll('button')).toHaveLength(0)
+        }
+
+        {
+          const [viewBlock, editBlock] = Array.from(
+            secondElement.querySelectorAll('.dnb-forms-section-block')
+          )
+          expect(editBlock.querySelectorAll('button')).toHaveLength(2)
+          expect(viewBlock.querySelectorAll('button')).toHaveLength(2)
+        }
+
+        {
+          const [viewBlock, editBlock] = Array.from(
+            thirdElement.querySelectorAll('.dnb-forms-section-block')
+          )
+          expect(editBlock.querySelectorAll('button')).toHaveLength(2)
+          expect(viewBlock.querySelectorAll('button')).toHaveLength(2)
+        }
+      })
+
+      it('should hide toolbar in view mode', async () => {
+        render(
+          <Iterate.Array
+            value={['foo']}
+            hideContainerToolbarWhen={(index, items, mode) =>
+              mode === 'view'
+            }
+          >
+            <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
+            <Iterate.EditContainer>Edit Content</Iterate.EditContainer>
+          </Iterate.Array>
         )
-        expect(editBlock.querySelectorAll('button')).toHaveLength(2)
-        expect(viewBlock.querySelectorAll('button')).toHaveLength(2)
-      }
+
+        const elements = document.querySelectorAll(
+          '.dnb-forms-iterate__element'
+        )
+        expect(elements).toHaveLength(1)
+
+        const [firstElement] = Array.from(elements)
+
+        {
+          const [viewBlock, editBlock] = Array.from(
+            firstElement.querySelectorAll('.dnb-forms-section-block')
+          )
+          expect(editBlock.querySelectorAll('button')).toHaveLength(2)
+          expect(viewBlock.querySelectorAll('button')).toHaveLength(0)
+        }
+      })
+
+      it('should call it with the correct arguments', async () => {
+        const hideContainerToolbarWhen = jest.fn(
+          (index, items, mode) => mode === 'view'
+        )
+
+        render(
+          <Iterate.Array
+            value={['foo', 'bar', 'baz']}
+            hideContainerToolbarWhen={hideContainerToolbarWhen}
+          >
+            <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
+            <Iterate.EditContainer>Edit Content</Iterate.EditContainer>
+          </Iterate.Array>
+        )
+
+        expect(hideContainerToolbarWhen).toHaveBeenCalledTimes(6)
+        expect(hideContainerToolbarWhen).toHaveBeenNthCalledWith(
+          1,
+          0,
+          ['foo', 'bar', 'baz'],
+          'view'
+        )
+        expect(hideContainerToolbarWhen).toHaveBeenNthCalledWith(
+          2,
+          0,
+          ['foo', 'bar', 'baz'],
+          'edit'
+        )
+        expect(hideContainerToolbarWhen).toHaveBeenNthCalledWith(
+          3,
+          1,
+          ['foo', 'bar', 'baz'],
+          'view'
+        )
+        expect(hideContainerToolbarWhen).toHaveBeenNthCalledWith(
+          4,
+          1,
+          ['foo', 'bar', 'baz'],
+          'edit'
+        )
+        expect(hideContainerToolbarWhen).toHaveBeenNthCalledWith(
+          5,
+          2,
+          ['foo', 'bar', 'baz'],
+          'view'
+        )
+        expect(hideContainerToolbarWhen).toHaveBeenNthCalledWith(
+          6,
+          2,
+          ['foo', 'bar', 'baz'],
+          'edit'
+        )
+      })
     })
 
     it('should hide remove button when "minimumContainerItems" is set to 1 and there is only one item', () => {

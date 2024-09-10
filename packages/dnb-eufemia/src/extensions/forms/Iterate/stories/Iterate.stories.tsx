@@ -182,8 +182,8 @@ export const InitialOpen = () => {
               // defaultValue={['NO']}
               defaultValue={[null]}
               minimumContainerItems={1}
-              hideContainerToolbarWhen={(index, items) =>
-                items.length === 1
+              hideContainerToolbarWhen={(index, items, mode) =>
+                items.length === 1 && mode === 'edit'
               }
             >
               <MyViewItem />

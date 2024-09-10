@@ -25,6 +25,7 @@ export type Props = Omit<
     countPathTransform?: (params: { value: any; index: number }) => any
     hideContainerToolbarWhen?: (
       index: number,
-      items: Array<ElementChild>
+      items: Array<ElementChild>,
+      mode: ContainerMode
     ) => boolean
   }

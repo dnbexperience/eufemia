@@ -45,7 +45,7 @@ export default function EditContainer(props: AllProps) {
     <EditContainerWithoutToolbar
       toolbar={
         toolbar ??
-        (!hideContainerToolbarWhen?.(index, arrayValue) && (
+        (!hideContainerToolbarWhen?.(index, arrayValue, 'edit') && (
           <Toolbar>
             <EditToolbarTools />
           </Toolbar>

@@ -47,7 +47,7 @@ export const ArrayProperties: PropertiesTableProps = {
     status: 'optional',
   },
   hideContainerToolbarWhen: {
-    doc: 'Defines if the toolbar should be hidden based on your logic (e.g. `(index, items) => items.length === 1`).',
+    doc: 'Defines if the toolbar should be hidden based on your logic (e.g. `(index, items, mode) => items.length === 1`).',
     type: 'function',
     status: 'optional',
   },

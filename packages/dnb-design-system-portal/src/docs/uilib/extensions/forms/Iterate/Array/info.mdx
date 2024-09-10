@@ -98,7 +98,7 @@ When a new item is added via the [Iterate.PushButton](/uilib/extensions/forms/It
 
 You can also set `minimumContainerItems` to 1, to ensure that the first item does not have a remove button, as long as there is at least one item.
 
-You can also set `hideContainerToolbarWhen`, like `(index, items) => items.length === 1` to hide the toolbar when there is only one item.
+You can also set `hideContainerToolbarWhen`, like `(index, items, mode) => items.length === 1` to hide the toolbar when there is only one item.
 
 ## Filter data
 
