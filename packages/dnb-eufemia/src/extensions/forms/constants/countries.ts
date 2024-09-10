@@ -1289,7 +1289,7 @@ const countries: Array<CountryType> = [
       nb: 'Martinique',
     },
     cdc: '596',
-    iso: 'MH',
+    iso: 'MQ',
     continent: 'South America',
   },
   {
