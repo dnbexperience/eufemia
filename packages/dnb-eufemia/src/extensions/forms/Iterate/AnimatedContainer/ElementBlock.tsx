@@ -169,7 +169,7 @@ function ElementBlock(props: Props & FlexContainerProps) {
   }, [handleRemove, setOpenState])
 
   return (
-    <ElementBlockContext.Provider value={{ handleRemoveBlock }}>
+    <ElementBlockContext.Provider value={{ mode, handleRemoveBlock }}>
       <HeightAnimation
         className={classnames(
           'dnb-forms-section-block',

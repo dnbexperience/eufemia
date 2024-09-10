@@ -1,6 +1,8 @@
 import { createContext } from 'react'
+import { ContainerMode } from '../Array/types'
 
 type ElementBlockContext = {
+  mode?: ContainerMode
   handleRemoveBlock?: () => void
 }
 
