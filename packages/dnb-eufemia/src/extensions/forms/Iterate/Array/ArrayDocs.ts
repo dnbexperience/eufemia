@@ -42,12 +42,12 @@ export const ArrayProperties: PropertiesTableProps = {
     status: 'optional',
   },
   minimumContainerItems: {
-    doc: 'Defines the minimum amount of items required to open the container. Defaults to `0`.',
+    doc: 'Determines the minimum number of items required in the array for the delete/remove button to be visible. If the number of items in the array is less than this value, the delete/remove button will be hidden. Defaults to `0`.',
     type: 'number',
     status: 'optional',
   },
   hideContainerToolbarWhen: {
-    doc: 'Defines if the toolbar should be hidden based on your logic (e.g. `(index, items, mode) => items.length === 1`).',
+    doc: 'Allows you to hide the toolbar when a certain condition is met. When the given function returns true, the toolbar will be hidden (e.g. `(index, items, mode) => items.length === 1`).',
     type: 'function',
     status: 'optional',
   },

@@ -51,8 +51,8 @@ With an optional `title` and [Iterate.Toolbar](/uilib/extensions/forms/Iterate/T
 
 This example uses additioanl container props (for the `EditContainer` and the `ViewContainer`) to customize the behavior of the nested containers.
 
-- `minimumContainerItems` will hide the toolbar when the array value (items) has less than this number of items.
-- `hideContainerToolbarWhen` will hide the toolbar completely when the given function returns true. You can e.g. use this to hide the toolbar when there is only one item in the array.
+- `minimumContainerItems` is a property that determines the minimum number of items required in the array for the delete/remove button to be visible. If the number of items in the array is less than this value, the delete/remove button will be hidden.
+- `hideContainerToolbarWhen` is a property that allows you to hide the toolbar when a certain condition is met. When the given function returns true, the toolbar will be hidden. This can be useful, for example, when you want to hide the toolbar when there is only one item in the array.
 
 <Examples.InitialOpen />
 
