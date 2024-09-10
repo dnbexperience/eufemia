@@ -128,7 +128,7 @@ function ArrayComponent(props: Props) {
 
   const { getNextContainerMode } = useSwitchContainerMode()
 
-  const elementData = useMemo(() => {
+  const arrayItems = useMemo(() => {
     const list = valueWhileClosingRef.current || arrayValue
     return (list ?? []).map((value, index) => {
       const id = idsRef.current[index] || makeUniqueId()
@@ -221,13 +221,13 @@ function ArrayComponent(props: Props) {
 
   // - Call the onChange callback when a new element is added without calling "handlePush"
   useMemo(() => {
-    const last = elementData?.[elementData.length - 1]
+    const last = arrayItems?.[arrayItems.length - 1]
     if (last?.isNew && !hadPushRef.current) {
       onChange?.(arrayValue)
     } else {
       hadPushRef.current = false
     }
-  }, [arrayValue, elementData, onChange])
+  }, [arrayValue, arrayItems, onChange])
 
   const flexProps: FlexContainerProps & {
     innerRef: FlexContainerAllProps['innerRef']
@@ -248,8 +248,8 @@ function ArrayComponent(props: Props) {
     <WrapperElement {...(omitFlex ? null : flexProps)}>
       {arrayValue === emptyValue || props?.value?.length === 0
         ? placeholder
-        : elementData.map((elementProps) => {
-            const { id, value, index } = elementProps
+        : arrayItems.map((itemProps) => {
+            const { id, value, index } = itemProps
             const elementRef = (innerRefs.current[id] =
               innerRefs.current[id] || createRef<HTMLDivElement>())
 
@@ -260,7 +260,7 @@ function ArrayComponent(props: Props) {
             }
 
             const contextValue = {
-              ...elementProps,
+              ...itemProps,
               elementRef,
             }
 
