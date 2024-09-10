@@ -2,7 +2,6 @@ import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
 import IterateItemContext from '../../IterateItemContext'
 import Toolbar from '../../Toolbar'
-import ViewToolbarTools from '../ViewToolbarTools'
 
 import nbNO from '../../../constants/locales/nb-NO'
 
@@ -13,7 +12,14 @@ describe('ViewToolbarTools', () => {
     render(
       <IterateItemContext.Provider value={{}}>
         <Toolbar>
-          <ViewToolbarTools />
+          {({ EditButton, RemoveButton }) => {
+            return (
+              <>
+                <EditButton />
+                <RemoveButton />
+              </>
+            )
+          }}
         </Toolbar>
       </IterateItemContext.Provider>
     )
@@ -31,7 +37,14 @@ describe('ViewToolbarTools', () => {
     render(
       <IterateItemContext.Provider value={{ handleRemove, isNew: true }}>
         <Toolbar>
-          <ViewToolbarTools />
+          {({ EditButton, RemoveButton }) => {
+            return (
+              <>
+                <EditButton />
+                <RemoveButton />
+              </>
+            )
+          }}
         </Toolbar>
       </IterateItemContext.Provider>
     )

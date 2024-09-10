@@ -20,12 +20,6 @@ export type Props = Omit<
     countPathLimit?: number
     withoutFlex?: boolean
     placeholder?: React.ReactNode
-    minimumContainerItems?: number
     containerMode?: ContainerMode
     countPathTransform?: (params: { value: any; index: number }) => any
-    hideContainerToolbarWhen?: (
-      index: number,
-      items: Array<ElementChild>,
-      mode: ContainerMode
-    ) => boolean
   }

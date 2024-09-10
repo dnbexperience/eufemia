@@ -28,10 +28,8 @@ describe('Toolbar', () => {
     )
 
     expect(
-      document.querySelector(
-        '.dnb-forms-iterate-toolbar .dnb-flex-container'
-      )
-    ).toBeEmptyDOMElement()
+      document.querySelector('.dnb-forms-iterate-toolbar')
+    ).not.toBeInTheDocument()
   })
 
   it('calls "handleRemove" when remove button is clicked and isNew is true', () => {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Path } from '../types'
-import { Props, ContainerMode, ElementChild } from './Array/types'
+import { ContainerMode, ElementChild } from './Array/types'
 
 export interface IterateItemContextState {
   id?: string
@@ -12,10 +12,8 @@ export interface IterateItemContextState {
   containerMode?: ContainerMode
   previousContainerMode?: ContainerMode
   initialContainerMode?: ContainerMode
-  minimumContainerItems?: Props['minimumContainerItems']
   containerRef?: React.RefObject<HTMLDivElement>
   elementRef?: React.RefObject<HTMLDivElement>
-  hideContainerToolbarWhen?: Props['hideContainerToolbarWhen']
   switchContainerMode?: (mode: ContainerMode) => void
   handleChange?: (path: Path, value: unknown) => void
   handleRemove?: ({ keepItems }?: { keepItems?: boolean }) => void

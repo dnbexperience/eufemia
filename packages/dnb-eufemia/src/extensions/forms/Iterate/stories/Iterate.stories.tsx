@@ -148,7 +148,24 @@ export const InitialOpen = () => {
 
   const MyEditItem = useCallback(() => {
     return (
-      <Iterate.EditContainer>
+      <Iterate.EditContainer
+        toolbar={
+          <Iterate.Toolbar>
+            {({ DoneButton, CancelButton, items }) => {
+              if (items.length === 1) {
+                return null
+              }
+
+              return (
+                <>
+                  <DoneButton />
+                  <CancelButton />
+                </>
+              )
+            }}
+          </Iterate.Toolbar>
+        }
+      >
         <MyEditItemForm />
       </Iterate.EditContainer>
     )
@@ -156,7 +173,24 @@ export const InitialOpen = () => {
 
   const MyViewItem = useCallback(() => {
     return (
-      <Iterate.ViewContainer>
+      <Iterate.ViewContainer
+        toolbar={
+          <Iterate.Toolbar>
+            {({ EditButton, RemoveButton, items }) => {
+              if (items.length === 1) {
+                return <EditButton />
+              }
+
+              return (
+                <>
+                  <EditButton />
+                  <RemoveButton />
+                </>
+              )
+            }}
+          </Iterate.Toolbar>
+        }
+      >
         <Value.SelectCountry
           label="Land du er statsborger i"
           itemPath="/"
@@ -181,10 +215,6 @@ export const InitialOpen = () => {
               path="/countries"
               // defaultValue={['NO']}
               defaultValue={[null]}
-              minimumContainerItems={1}
-              hideContainerToolbarWhen={(index, items, mode) =>
-                items.length === 1 && mode === 'edit'
-              }
             >
               <MyViewItem />
               <MyEditItem />

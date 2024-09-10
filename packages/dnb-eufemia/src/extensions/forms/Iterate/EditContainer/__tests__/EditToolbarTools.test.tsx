@@ -2,7 +2,6 @@ import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import IterateItemContext from '../../IterateItemContext'
 import Toolbar from '../../Toolbar'
-import EditToolbarTools from '../EditToolbarTools'
 
 import nbNO from '../../../constants/locales/nb-NO'
 
@@ -15,7 +14,14 @@ describe('EditToolbarTools', () => {
     render(
       <IterateItemContext.Provider value={{ switchContainerMode }}>
         <Toolbar>
-          <EditToolbarTools />
+          {({ DoneButton, CancelButton }) => {
+            return (
+              <>
+                <DoneButton />
+                <CancelButton />
+              </>
+            )
+          }}
         </Toolbar>
       </IterateItemContext.Provider>
     )
@@ -34,7 +40,14 @@ describe('EditToolbarTools', () => {
         value={{ switchContainerMode, isNew: true }}
       >
         <Toolbar>
-          <EditToolbarTools />
+          {({ DoneButton, CancelButton }) => {
+            return (
+              <>
+                <DoneButton />
+                <CancelButton />
+              </>
+            )
+          }}
         </Toolbar>
       </IterateItemContext.Provider>
     )
@@ -58,7 +71,14 @@ describe('EditToolbarTools', () => {
         }}
       >
         <Toolbar>
-          <EditToolbarTools />
+          {({ DoneButton, CancelButton }) => {
+            return (
+              <>
+                <DoneButton />
+                <CancelButton />
+              </>
+            )
+          }}
         </Toolbar>
       </IterateItemContext.Provider>
     )
@@ -79,7 +99,14 @@ describe('EditToolbarTools', () => {
           }}
         >
           <Toolbar>
-            <EditToolbarTools />
+            {({ DoneButton, CancelButton }) => {
+              return (
+                <>
+                  <DoneButton />
+                  <CancelButton />
+                </>
+              )
+            }}
           </Toolbar>
         </IterateItemContext.Provider>
       )
@@ -95,7 +122,14 @@ describe('EditToolbarTools', () => {
       render(
         <IterateItemContext.Provider value={{ containerMode: 'edit' }}>
           <Toolbar>
-            <EditToolbarTools />
+            {({ DoneButton, CancelButton }) => {
+              return (
+                <>
+                  <DoneButton />
+                  <CancelButton />
+                </>
+              )
+            }}
           </Toolbar>
         </IterateItemContext.Provider>
       )

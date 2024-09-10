@@ -88,8 +88,6 @@ function ArrayComponent(props: Props) {
     withoutFlex,
     emptyValue,
     placeholder,
-    minimumContainerItems,
-    hideContainerToolbarWhen,
     containerMode,
     handleChange,
     onChange,
@@ -160,11 +158,9 @@ function ArrayComponent(props: Props) {
         arrayValue,
         containerRef,
         isNew,
-        minimumContainerItems,
         containerMode: modesRef.current[id].current,
         previousContainerMode: modesRef.current[id].previous,
         initialContainerMode: containerMode || 'auto',
-        hideContainerToolbarWhen,
         switchContainerMode: (mode: ContainerMode) => {
           modesRef.current[id].previous = modesRef.current[id].current
           modesRef.current[id].current = mode

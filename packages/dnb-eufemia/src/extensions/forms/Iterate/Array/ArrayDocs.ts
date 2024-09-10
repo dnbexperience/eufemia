@@ -41,16 +41,6 @@ export const ArrayProperties: PropertiesTableProps = {
     type: 'unknown',
     status: 'optional',
   },
-  minimumContainerItems: {
-    doc: 'Determines the minimum number of items required in the array for the delete/remove button to be visible. If the number of items in the array is less than this value, the delete/remove button will be hidden. Defaults to `0`.',
-    type: 'number',
-    status: 'optional',
-  },
-  hideContainerToolbarWhen: {
-    doc: 'Allows you to hide the toolbar when a certain condition is met. When the given function returns true, the toolbar will be hidden (e.g. `(index, items, mode) => items.length === 1`).',
-    type: 'function',
-    status: 'optional',
-  },
   containerMode: {
     doc: 'Defines the container mode for all nested containers. Can be `view`, `edit` or `auto`. When using `auto`, it will automatically open if there is an error in the container. When a new item is added, the item before it will change to `view` mode, if it had no validation errors. Defaults to `auto`.',
     type: 'string',
