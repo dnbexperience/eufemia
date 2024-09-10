@@ -3,6 +3,7 @@ import SectionContainerContext from './SectionContainerContext'
 import { ContainerMode } from './SectionContainer'
 
 export type Props = {
+  validateInitially?: boolean
   containerMode?: ContainerMode
   children: React.ReactNode
 }
@@ -10,12 +11,10 @@ export type Props = {
 function SectionContainerProvider(props: Props) {
   const [, forceUpdate] = useReducer(() => ({}), {})
 
-  const { containerMode, children } = props
+  const { validateInitially, containerMode, children } = props
 
   const containerModeRef = useRef<ContainerMode>(
-    containerMode === 'openWhenFieldValidationError'
-      ? 'view'
-      : containerMode
+    containerMode === 'auto' ? 'view' : containerMode
   )
 
   const switchContainerMode = useCallback((mode: ContainerMode) => {
@@ -26,6 +25,7 @@ function SectionContainerProvider(props: Props) {
   return (
     <SectionContainerContext.Provider
       value={{
+        validateInitially,
         containerMode: containerModeRef.current,
         initialContainerMode: containerMode,
         switchContainerMode,

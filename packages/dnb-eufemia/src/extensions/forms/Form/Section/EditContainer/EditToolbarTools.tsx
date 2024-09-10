@@ -25,10 +25,7 @@ export default function EditToolbarTools() {
   const [showError, setShowError] = useState(false)
 
   const cancelHandler = useCallback(() => {
-    if (
-      hasSubmitError ||
-      (initialContainerMode === 'openWhenFieldValidationError' && hasError)
-    ) {
+    if (hasSubmitError || (initialContainerMode === 'auto' && hasError)) {
       setShowBoundaryErrors?.(true)
       setShowError(true)
     } else {

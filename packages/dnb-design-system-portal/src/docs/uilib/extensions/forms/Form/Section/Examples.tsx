@@ -82,6 +82,7 @@ export const ViewAndEditContainer = () => {
             defaultData={{
               nestedPath: {
                 firstName: 'Nora',
+                lastName: 'Mørk',
               },
             }}
           >
@@ -100,7 +101,7 @@ export const ViewAndEditContainer = () => {
   )
 }
 
-export const ViewAndEditContainerValidateInitially = () => {
+export const ViewAndEditContainerValidation = () => {
   return (
     <ComponentBox hideCode>
       {() => {
@@ -130,16 +131,13 @@ export const ViewAndEditContainerValidateInitially = () => {
             defaultData={{
               nestedPath: {
                 firstName: 'Nora',
+                lastName: undefined, // initiate error
               },
             }}
           >
             <Card stack>
               <Form.SubHeading>Your account</Form.SubHeading>
-              <Form.Section
-                path="/nestedPath"
-                required
-                containerMode="openWhenFieldValidationError"
-              >
+              <Form.Section path="/nestedPath" required validateInitially>
                 <MyEditContainer />
                 <MyViewContainer />
               </Form.Section>
@@ -185,6 +183,7 @@ export const BasicViewAndEditContainer = () => {
             defaultData={{
               nestedPath: {
                 firstName: 'Nora',
+                lastName: 'Mørk',
               },
             }}
           >

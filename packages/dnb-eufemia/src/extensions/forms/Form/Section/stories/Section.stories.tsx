@@ -277,11 +277,7 @@ export function OpenWhenFieldValidationError() {
     >
       <Card stack>
         <Form.SubHeading>Your account</Form.SubHeading>
-        <Form.Section
-          path="/nestedPath"
-          required
-          containerMode="openWhenFieldValidationError"
-        >
+        <Form.Section path="/nestedPath" required validateInitially>
           <MyEditContainer />
           <MyViewContainer />
         </Form.Section>

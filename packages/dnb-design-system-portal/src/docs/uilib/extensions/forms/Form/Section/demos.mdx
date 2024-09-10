@@ -25,9 +25,9 @@ This example uses the [EditContainer](/uilib/extensions/forms/Form/Section/EditC
 
 ### Show errors on the whole section
 
-When a field in the section has an error and the section has `containerMode="openWhenFieldValidationError"` set to true, the whole section will switch to edit mode. The errors will be shown.
+When a field in the section has an error and the section has `containerMode` set to `auto` (default), the whole section will switch to edit mode. The errors will be shown when `validateInitially` is set to `true`.
 
-<Examples.ViewAndEditContainerValidateInitially />
+<Examples.ViewAndEditContainerValidation />
 
 Using `variant="basic"` will render the view and edit container without the additional Card `outline`.
 

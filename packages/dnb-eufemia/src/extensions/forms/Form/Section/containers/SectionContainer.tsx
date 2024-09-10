@@ -13,10 +13,7 @@ import SectionContainerContext, {
 import { Props as FlexContainerProps } from '../../../../../components/flex/Container'
 import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBoundaryContext'
 
-export type ContainerMode =
-  | 'view'
-  | 'edit'
-  | 'openWhenFieldValidationError'
+export type ContainerMode = 'view' | 'edit' | 'auto'
 export type SectionContainerProps = {
   /**
    * Defines the variant of the ViewContainer or EditContainer. Can be `outline`.
@@ -53,8 +50,7 @@ function SectionContainer(props: Props & FlexContainerProps) {
     contextRef.current.containerMode = 'edit'
   }
 
-  const { switchContainerMode, containerMode, initialContainerMode } =
-    contextRef.current
+  const { containerMode, initialContainerMode } = contextRef.current
 
   const {
     mode,
@@ -88,15 +84,10 @@ function SectionContainer(props: Props & FlexContainerProps) {
   // - Remove the block with animation, if it's in the right mode
   const handleAnimationEnd = useCallback(
     (state) => {
-      // - Keep the block open if we have an error
-      if (contextRef.current.hasSubmitError) {
-        switchContainerMode?.('edit')
-      }
-
       if (state === 'opened') {
         if (
           !contextRef.current.hasSubmitError &&
-          initialContainerMode === 'openWhenFieldValidationError'
+          initialContainerMode === 'auto'
             ? !contextRef.current.hasError
             : true
         ) {
@@ -106,15 +97,17 @@ function SectionContainer(props: Props & FlexContainerProps) {
 
       onAnimationEnd?.(state)
     },
-    [initialContainerMode, onAnimationEnd, switchContainerMode]
+    [initialContainerMode, onAnimationEnd]
   )
 
   const preventAnimationRef = useRef(true)
   useEffect(() => {
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       preventAnimationRef.current = false
       forceUpdate()
     }, 1000) // Initially, we don't want to animate
+
+    return () => clearTimeout(timeout)
   }, [])
 
   return (

@@ -66,7 +66,13 @@ describe('EditContainer and ViewContainer', () => {
       <Form.Handler>
         <Form.Section>
           <Form.Section.EditContainer>
-            <Field.String path="/" required />
+            <Field.String
+              path="/"
+              label="Label"
+              onBlurValidator={() => {
+                return new Error('Error message')
+              }}
+            />
           </Form.Section.EditContainer>
 
           <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
@@ -77,6 +83,9 @@ describe('EditContainer and ViewContainer', () => {
     )
 
     expect(containerMode).toBe('view')
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
 
     const input = document.querySelector('input')
     await userEvent.type(input, 'x{Backspace}')
@@ -84,6 +93,7 @@ describe('EditContainer and ViewContainer', () => {
     const form = document.querySelector('form')
     fireEvent.submit(form)
 
+    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
     expect(containerMode).toBe('edit')
   })
 
@@ -128,32 +138,32 @@ describe('EditContainer and ViewContainer', () => {
     expect(input).toHaveValue('bar')
   })
 
-  describe('containerMode="openWhenFieldValidationError"', () => {
-    it('should open in view mode when there are no errors', async () => {
-      let containerMode = null
+  it('should open in view mode when there are no errors', async () => {
+    let containerMode = null
 
-      const ContextConsumer = () => {
-        const context = React.useContext(SectionContainerContext)
-        containerMode = context.containerMode
+    const ContextConsumer = () => {
+      const context = React.useContext(SectionContainerContext)
+      containerMode = context.containerMode
 
-        return null
-      }
+      return null
+    }
 
-      render(
-        <Form.Section containerMode="openWhenFieldValidationError">
-          <Form.Section.EditContainer>
-            <Field.String path="/foo" />
-          </Form.Section.EditContainer>
+    render(
+      <Form.Section containerMode="auto">
+        <Form.Section.EditContainer>
+          <Field.String path="/foo" />
+        </Form.Section.EditContainer>
 
-          <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+        <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
 
-          <ContextConsumer />
-        </Form.Section>
-      )
+        <ContextConsumer />
+      </Form.Section>
+    )
 
-      expect(containerMode).toBe('view')
-    })
+    expect(containerMode).toBe('view')
+  })
 
+  describe('validateInitially', () => {
     it('fields open in edit mode and show errors when there are errors', async () => {
       let containerMode = null
 
@@ -165,7 +175,7 @@ describe('EditContainer and ViewContainer', () => {
       }
 
       render(
-        <Form.Section containerMode="openWhenFieldValidationError">
+        <Form.Section validateInitially>
           <Form.Section.EditContainer>
             <Field.String path="/foo" required />
           </Form.Section.EditContainer>
@@ -210,10 +220,7 @@ describe('EditContainer and ViewContainer', () => {
       }
 
       render(
-        <Form.Section
-          containerMode="openWhenFieldValidationError"
-          required
-        >
+        <Form.Section validateInitially required>
           <Form.Section.EditContainer>
             <Field.String path="/foo" />
             <Field.String path="/bar" />
@@ -245,7 +252,7 @@ describe('EditContainer and ViewContainer', () => {
 
   it('should not set focus on initially opened section', async () => {
     render(
-      <Form.Section containerMode="openWhenFieldValidationError">
+      <Form.Section>
         <Form.Section.ViewContainer>
           View Content
         </Form.Section.ViewContainer>
@@ -271,7 +278,7 @@ describe('EditContainer and ViewContainer', () => {
 
     render(
       <Form.Handler>
-        <Form.Section containerMode="openWhenFieldValidationError">
+        <Form.Section>
           <Form.Section.ViewContainer>
             View Content
           </Form.Section.ViewContainer>
@@ -533,19 +540,20 @@ describe('EditContainer and ViewContainer', () => {
     await userEvent.click(doneButton)
 
     expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
+    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
 
     await userEvent.click(cancelButton)
-    await userEvent.click(editButton)
 
-    expect(
-      document.querySelector('.dnb-form-status')
-    ).not.toBeInTheDocument()
-
-    await userEvent.click(doneButton)
-
-    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
+    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(2)
 
     await userEvent.type(document.querySelector('input'), 'foo')
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+    })
+
     await userEvent.click(doneButton)
 
     expect(
