@@ -3,6 +3,38 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.47.0](https://github.com/dnbexperience/eufemia/compare/v10.46.0...v10.47.0) (2024-09-10)
+
+
+### :memo: Documentation
+
+* add component translations table to properties docs ([#3902](https://github.com/dnbexperience/eufemia/issues/3902)) ([66dd12e](https://github.com/dnbexperience/eufemia/commit/66dd12e5434876168a5cd9b31601b9e8b866f077))
+* **useTheme:** updates docs to match TS type definitions ([#3901](https://github.com/dnbexperience/eufemia/issues/3901)) ([52aaab3](https://github.com/dnbexperience/eufemia/commit/52aaab379bfe6cae216ce9742d1aa2cb4e4c456a))
+
+
+### :sparkles: Features
+
+* **Button:** rewise documented `title` prop with aria-label documentation ([#3863](https://github.com/dnbexperience/eufemia/issues/3863)) ([ea444c0](https://github.com/dnbexperience/eufemia/commit/ea444c0f925f08d48bd2af9c94617a3025b775ef))
+* **CopyOnClick:** adds copyContent prop ([e5a91b6](https://github.com/dnbexperience/eufemia/commit/e5a91b6ea999f70f43a92dd7511a10be808f6898))
+* **countries:** Added missing countries from ISO 3166 [#3894](https://github.com/dnbexperience/eufemia/issues/3894) ([2992084](https://github.com/dnbexperience/eufemia/commit/29920848f3fc459ac7469c8896a77cb728f5c8c2))
+* **countries:** Added missing countries from ISO 3166 [#3894](https://github.com/dnbexperience/eufemia/issues/3894) ([#3899](https://github.com/dnbexperience/eufemia/issues/3899)) ([ada0e92](https://github.com/dnbexperience/eufemia/commit/ada0e92f5745af037145df70ee336606dae2ad1d))
+* **Forms:** extend validations in `Field.NationalIdentityNumber` ([#3888](https://github.com/dnbexperience/eufemia/issues/3888)) ([50cc26b](https://github.com/dnbexperience/eufemia/commit/50cc26bc2491b75857a3740e7bce4b5e497f0d28))
+* **Forms:** make it possible to reuse and extend internal validators ([#3908](https://github.com/dnbexperience/eufemia/issues/3908)) ([7c97bf5](https://github.com/dnbexperience/eufemia/commit/7c97bf55df887d5fb7e9e6390bf0adaa706c3667))
+* **Forms:** provide `connectWithPath` in the validator and onBlurValidator to get values from other fields/paths ([#3895](https://github.com/dnbexperience/eufemia/issues/3895)) ([f4cf06f](https://github.com/dnbexperience/eufemia/commit/f4cf06ffa53a5467ce323c6dc7b279c531079134))
+* **Value.Date:** adds numeric variant ([#3907](https://github.com/dnbexperience/eufemia/issues/3907)) ([b03e199](https://github.com/dnbexperience/eufemia/commit/b03e1993588cb62e4c6c14e3ebc617e44e04cf0a))
+
+
+### :bug: Bug Fixes
+
+* **Accordion:** deprecate (rename) expandBehaviour in favor of expandBehavior ([#3905](https://github.com/dnbexperience/eufemia/issues/3905)) ([76143b0](https://github.com/dnbexperience/eufemia/commit/76143b0401eb50e158cc017b2acce18ff75f277b))
+* **Breakpoint:** ensure matching breakpoint ranges in mixins with docs & hooks ([#3896](https://github.com/dnbexperience/eufemia/issues/3896)) ([260fcaf](https://github.com/dnbexperience/eufemia/commit/260fcafac9e6d22ba160f6d8ec8d2383cd7f849f))
+* **Flex:** enhance handling of React fragments ([#3892](https://github.com/dnbexperience/eufemia/issues/3892)) ([156c805](https://github.com/dnbexperience/eufemia/commit/156c805f6cf6adaceb97b4011003dc1c668c15d3))
+* **Forms:** enhance cleanup routine of fields ([#3885](https://github.com/dnbexperience/eufemia/issues/3885)) ([388e0b2](https://github.com/dnbexperience/eufemia/commit/388e0b2f2b63968cd60e3c1007b66b31de80ff03)), closes [#3877](https://github.com/dnbexperience/eufemia/issues/3877)
+* **Forms:** ensure label supports HTML formatting ([#3911](https://github.com/dnbexperience/eufemia/issues/3911)) ([227569c](https://github.com/dnbexperience/eufemia/commit/227569cb43f86ccfcafcd5675eb139e320c176f6))
+* **Forms:** ensure labels do update when they change (async fields) ([#3910](https://github.com/dnbexperience/eufemia/issues/3910)) ([bc40449](https://github.com/dnbexperience/eufemia/commit/bc404495356babf5b99d7d4481c13dcbd29861a0))
+* **Forms:** warn on value prop usage on fields inside iterate with itemPath ([#3886](https://github.com/dnbexperience/eufemia/issues/3886)) ([116820d](https://github.com/dnbexperience/eufemia/commit/116820dd7547b0880ae4d442254dbe61be056e4f)), closes [#3877](https://github.com/dnbexperience/eufemia/issues/3877) [#3882](https://github.com/dnbexperience/eufemia/issues/3882)
+* **LabelDescription:** nothing was returned ([#3898](https://github.com/dnbexperience/eufemia/issues/3898)) ([3452855](https://github.com/dnbexperience/eufemia/commit/3452855fd48f1d3ea5d28f7cccdf1aa00eca1a05))
+
 ## [10.46.0](https://github.com/dnbexperience/eufemia/compare/v10.45.0...v10.46.0) (2024-09-02)
 
 
