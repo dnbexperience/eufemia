@@ -98,7 +98,12 @@ function ArrayComponent(props: Props) {
 
   const idsRef = useRef<Array<Identifier>>([])
   const isNewRef = useRef<Record<string, boolean>>({})
-  const modesRef = useRef<Record<Identifier, ContainerMode>>({})
+  const modesRef = useRef<
+    Record<
+      Identifier,
+      { current: ContainerMode; previous?: ContainerMode }
+    >
+  >({})
   const valueWhileClosingRef = useRef<Value>()
   const valueCountRef = useRef(arrayValue)
   const containerRef = useRef<HTMLDivElement>()
@@ -139,10 +144,12 @@ function ArrayComponent(props: Props) {
       }
 
       const isNew = isNewRef.current[id] || false
-      if (!modesRef.current[id]) {
-        modesRef.current[id] =
-          containerMode ??
-          (isNew ? getNextContainerMode() ?? 'edit' : 'auto')
+      if (!modesRef.current[id]?.current) {
+        modesRef.current[id] = {
+          current:
+            containerMode ??
+            (isNew ? getNextContainerMode() ?? 'edit' : 'auto'),
+        }
       }
 
       const itemContext: IterateItemContextState = {
@@ -154,11 +161,13 @@ function ArrayComponent(props: Props) {
         containerRef,
         isNew,
         minimumContainerItems,
-        containerMode: modesRef.current[id],
+        containerMode: modesRef.current[id].current,
+        previousContainerMode: modesRef.current[id].previous,
         initialContainerMode: containerMode || 'auto',
         hideContainerToolbarWhen,
         switchContainerMode: (mode: ContainerMode) => {
-          modesRef.current[id] = mode
+          modesRef.current[id].previous = modesRef.current[id].current
+          modesRef.current[id].current = mode
           delete isNewRef.current?.[id]
           forceUpdate()
         },

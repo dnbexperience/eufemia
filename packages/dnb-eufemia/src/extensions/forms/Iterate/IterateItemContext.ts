@@ -10,6 +10,7 @@ export interface IterateItemContextState {
   path?: Path
   arrayValue?: Array<ElementChild>
   containerMode?: ContainerMode
+  previousContainerMode?: ContainerMode
   initialContainerMode?: ContainerMode
   minimumContainerItems?: Props['minimumContainerItems']
   containerRef?: React.RefObject<HTMLDivElement>
