@@ -4,12 +4,13 @@ import { convertJsxToString } from '../../../../shared/component-helper'
 import { Lead } from '../../../../elements'
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
 import IterateItemContext from '../IterateItemContext'
-import EditToolbarTools, { useWasNew } from './EditToolbarTools'
 import ElementBlock, {
   ElementSectionProps,
 } from '../AnimatedContainer/ElementBlock'
 import Toolbar from '../Toolbar'
 import { useSwitchContainerMode } from '../hooks'
+import DoneButton from './DoneButton'
+import CancelButton, { useWasNew } from './CancelButton'
 
 export type Props = {
   /**
@@ -36,20 +37,17 @@ export type Props = {
 export type AllProps = Props & FlexContainerProps & ElementSectionProps
 
 export default function EditContainer(props: AllProps) {
-  const iterateItemContext = useContext(IterateItemContext)
-  const { index, arrayValue, hideContainerToolbarWhen } =
-    iterateItemContext || {}
   const { toolbar, ...rest } = props
 
   return (
     <EditContainerWithoutToolbar
       toolbar={
-        toolbar ??
-        (!hideContainerToolbarWhen?.(index, arrayValue, 'edit') && (
+        toolbar ?? (
           <Toolbar>
-            <EditToolbarTools />
+            <DoneButton />
+            <CancelButton />
           </Toolbar>
-        ))
+        )
       }
       {...rest}
     />

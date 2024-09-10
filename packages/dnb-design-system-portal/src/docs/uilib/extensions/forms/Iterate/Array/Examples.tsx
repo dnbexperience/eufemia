@@ -377,22 +377,48 @@ export const InitialOpen = () => {
           <Form.MainHeading>Statsborgerskap</Form.MainHeading>
 
           <Card align="stretch">
-            <Iterate.Array
-              path="/countries"
-              defaultValue={[null]}
-              minimumContainerItems={1}
-              hideContainerToolbarWhen={(index, items, mode) =>
-                items.length === 1 && mode === 'edit'
-              }
-            >
-              <Iterate.ViewContainer>
+            <Iterate.Array path="/countries" defaultValue={[null]}>
+              <Iterate.ViewContainer
+                toolbar={
+                  <Iterate.Toolbar>
+                    {({ EditButton, RemoveButton, items }) => {
+                      if (items.length === 1) {
+                        return <EditButton />
+                      }
+                      return (
+                        <>
+                          <EditButton />
+                          <RemoveButton />
+                        </>
+                      )
+                    }}
+                  </Iterate.Toolbar>
+                }
+              >
                 <Value.SelectCountry
                   label="Land du er statsborger i"
                   itemPath="/"
                 />
               </Iterate.ViewContainer>
 
-              <Iterate.EditContainer>
+              <Iterate.EditContainer
+                toolbar={
+                  <Iterate.Toolbar>
+                    {({ DoneButton, CancelButton, items }) => {
+                      if (items.length === 1) {
+                        return null
+                      }
+
+                      return (
+                        <>
+                          <DoneButton />
+                          <CancelButton />
+                        </>
+                      )
+                    }}
+                  </Iterate.Toolbar>
+                }
+              >
                 <Field.SelectCountry
                   label="Land du er statsborger i"
                   itemPath="/"

@@ -1,13 +1,47 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import classnames from 'classnames'
 import { Hr } from '../../../../elements'
 import { Flex, Space } from '../../../../components'
 import { SpaceAllProps } from '../../../../components/Space'
+import IterateItemContext from '../IterateItemContext'
+import EditButton from '../ViewContainer/EditButton'
+import RemoveButton from '../ViewContainer/RemoveButton'
+import CancelButton from '../EditContainer/CancelButton'
+import DoneButton from '../EditContainer/DoneButton'
 
-export type Props = SpaceAllProps
+export type ToolbarParams = {
+  index: number
+  items: Array<unknown>
+  EditButton: typeof EditButton
+  RemoveButton: typeof RemoveButton
+  CancelButton: typeof CancelButton
+  DoneButton: typeof DoneButton
+}
+export type Props = Omit<SpaceAllProps, 'children'> & {
+  children?: React.ReactNode | ((params: ToolbarParams) => React.ReactNode)
+}
 
-export default function Toolbar(props: Props) {
-  const { children, className, ...rest } = props || {}
+export default function Toolbar({
+  children,
+  className,
+  ...rest
+}: Props = {}) {
+  const { index, arrayValue: items } = useContext(IterateItemContext)
+
+  if (typeof children === 'function') {
+    children = children?.({
+      index,
+      items,
+      EditButton,
+      RemoveButton,
+      CancelButton,
+      DoneButton,
+    })
+  }
+
+  if (React.Children.count(children) === 0) {
+    return <></>
+  }
 
   return (
     <Space

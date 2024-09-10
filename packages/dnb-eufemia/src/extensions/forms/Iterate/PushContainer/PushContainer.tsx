@@ -4,14 +4,15 @@ import PushContainerContext from './PushContainerContext'
 import IterateItemContext from '../IterateItemContext'
 import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
-import EditContainer from '../EditContainer'
+import EditContainer, { CancelButton, DoneButton } from '../EditContainer'
 import IterateArray, { ContainerMode } from '../Array'
 import OpenButton from './OpenButton'
-import EditToolbarTools from '../EditContainer/EditToolbarTools'
 import { HeightAnimation } from '../../../../components'
 import { Path } from '../../types'
 import { SpacingProps } from '../../../../shared/types'
 import { useSwitchContainerMode } from '../hooks'
+import Toolbar from '../Toolbar'
+import { useTranslation } from '../../hooks'
 
 export type Props = {
   /**
@@ -129,7 +130,7 @@ function NewContainer({
   const { containerMode, switchContainerMode } =
     useContext(IterateItemContext) || {}
   switchContainerModeRef.current = switchContainerMode
-
+  const { createButton } = useTranslation().IteratePushContainer
   const { clearData } = useContext(DataContext) || {}
   const restoreOriginalValue = useCallback(() => {
     clearData?.()
@@ -144,9 +145,10 @@ function NewContainer({
         }
         return (
           <IterateItemContext.Provider value={newItemContextProps}>
-            <EditToolbarTools
-              enableButtons={['create', showOpenButton ? 'cancel' : false]}
-            />
+            <Toolbar>
+              <DoneButton text={createButton} />
+              {showOpenButton && <CancelButton />}
+            </Toolbar>
           </IterateItemContext.Provider>
         )
       }}

@@ -7,6 +7,8 @@ hideInMenu: true
 
 Use `Iterate.Toolbar` to enhance each item in the array with additional functionality. It's particularly useful within components like [Iterate.AnimatedContainer](/uilib/extensions/forms/Iterate/AnimatedContainer) to incorporate a toolbar with extra tools.
 
+The Toolbar is integrated into the containers [Iterate.ViewContainer](/uilib/extensions/forms/Iterate/ViewContainer/) and [Iterate.EditContainer](/uilib/extensions/forms/Iterate/EditContainer/).
+
 ```tsx
 import { Iterate } from '@dnb/eufemia/extensions/forms'
 
@@ -22,4 +24,46 @@ render(
 )
 ```
 
-The Toolbar is integrated into the containers [Iterate.ViewContainer](/uilib/extensions/forms/Iterate/ViewContainer/) and [Iterate.EditContainer](/uilib/extensions/forms/Iterate/EditContainer/).
+## Cusomize the Toolbar
+
+You can customize the toolbar by passing a function as a child to `Iterate.Toolbar`. The function receives the following parameters as an object:
+
+- `index` the index of the current item in the array.
+- `items` the array of items.
+- `EditButton` used in the `Iterate.ViewContainer`.
+- `RemoveButton` used in the `Iterate.ViewContainer`.
+- `CancelButton` used in the `Iterate.EditContainer`.
+- `DoneButton` used in the `Iterate.EditContainer`.
+
+```tsx
+import { Iterate } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Iterate.Array>
+    <Iterate.ViewContainer>
+      Item Content
+      <Iterate.Toolbar>
+        {({
+          index,
+          items,
+          EditButton,
+          RemoveButton,
+          CancelButton,
+          DoneButton,
+        }) => {
+          if (items.length === 1) {
+            return null
+          }
+
+          return (
+            <>
+              <EditButton />
+              <RemoveButton />
+            </>
+          )
+        }}
+      </Iterate.Toolbar>
+    </Iterate.ViewContainer>
+  </Iterate.Array>,
+)
+```

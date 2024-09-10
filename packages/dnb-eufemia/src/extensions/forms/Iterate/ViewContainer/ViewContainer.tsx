@@ -9,7 +9,8 @@ import ElementBlock, {
 } from '../AnimatedContainer/ElementBlock'
 import IterateItemContext from '../IterateItemContext'
 import Toolbar from '../Toolbar'
-import ViewToolbarTools from './ViewToolbarTools'
+import EditButton from './EditButton'
+import RemoveButton from './RemoveButton'
 
 export type Props = {
   /**
@@ -26,8 +27,7 @@ export type AllProps = Props & FlexContainerProps & ElementSectionProps
 
 function ViewContainer(props: AllProps) {
   const { children, className, title, toolbar, ...restProps } = props || {}
-  const { index, arrayValue, hideContainerToolbarWhen } =
-    useContext(IterateItemContext)
+  const { index } = useContext(IterateItemContext)
 
   let itemTitle = title
   let ariaLabel = useMemo(() => convertJsxToString(itemTitle), [itemTitle])
@@ -45,12 +45,12 @@ function ViewContainer(props: AllProps) {
       <Flex.Stack>
         {itemTitle && <Lead size="basis">{itemTitle}</Lead>}
         {children}
-        {toolbar ??
-          (!hideContainerToolbarWhen?.(index, arrayValue, 'view') && (
-            <Toolbar>
-              <ViewToolbarTools />
-            </Toolbar>
-          ))}
+        {toolbar ?? (
+          <Toolbar>
+            <EditButton />
+            <RemoveButton />
+          </Toolbar>
+        )}
       </Flex.Stack>
     </ElementBlock>
   )
