@@ -1447,15 +1447,6 @@ const countries: Array<CountryType> = [
   },
   {
     i18n: {
-      en: 'Netherlands Antilles',
-      nb: 'Nederlandske Antiller',
-    },
-    cdc: '599',
-    iso: 'AN',
-    continent: 'North America',
-  },
-  {
-    i18n: {
       en: 'New Caledonia',
       nb: 'Ny-Caledonia',
     },
@@ -1985,15 +1976,6 @@ const countries: Array<CountryType> = [
     cdc: '47',
     iso: 'SJ',
     continent: 'Europe',
-  },
-  {
-    i18n: {
-      en: 'Swaziland',
-      nb: 'Swaziland',
-    },
-    cdc: '268',
-    iso: 'SZ',
-    continent: 'Africa',
   },
   {
     i18n: {
