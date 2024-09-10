@@ -4,7 +4,7 @@ import { Form, Value } from '@dnb/eufemia/src/extensions/forms'
 
 export const Empty = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <Value.PostalCodeAndCity showEmpty />
     </ComponentBox>
   )
@@ -12,7 +12,7 @@ export const Empty = () => {
 
 export const Placeholder = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <Value.PostalCodeAndCity placeholder="The value was not filled in" />
     </ComponentBox>
   )
@@ -20,7 +20,7 @@ export const Placeholder = () => {
 
 export const WithValue = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <Value.PostalCodeAndCity value="0010 Oslo" />
     </ComponentBox>
   )
@@ -28,7 +28,7 @@ export const WithValue = () => {
 
 export const Label = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <Value.PostalCodeAndCity label="Label text" showEmpty />
     </ComponentBox>
   )
@@ -36,7 +36,7 @@ export const Label = () => {
 
 export const LabelAndValue = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <Value.PostalCodeAndCity label="Label text" value="0010 Oslo" />
     </ComponentBox>
   )
@@ -44,7 +44,7 @@ export const LabelAndValue = () => {
 
 export const LabelAndValueFromDataContext = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <Form.Handler data={{ myPostalCode: '0010', myCity: 'Oslo' }}>
         <Value.PostalCodeAndCity
           postalCode={{ path: '/myPostalCode' }}
@@ -57,7 +57,7 @@ export const LabelAndValueFromDataContext = () => {
 
 export const Inline = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <P>
         This is before the component
         <Value.PostalCodeAndCity value="0010 Oslo" inline />

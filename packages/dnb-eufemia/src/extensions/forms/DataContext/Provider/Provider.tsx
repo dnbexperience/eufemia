@@ -29,7 +29,6 @@ import {
 import type { IsolationProviderProps } from '../../Form/Isolation/Isolation'
 import { debounce } from '../../../../shared/helpers'
 import FieldPropsProvider from '../../Form/FieldProps'
-import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
@@ -65,13 +64,17 @@ export interface Props<Data extends JsonObject>
    */
   globalStatusId?: string
   /**
+   * Source data, will be used instead of defaultData, and leading to updates if changed after mount
+   */
+  data?: Data
+  /**
    * Default source data, only used if no other source is available, and not leading to updates if changed after mount
    */
   defaultData?: Data
   /**
-   * Source data, will be used instead of defaultData, and leading to updates if changed after mount
+   * Empty data, used to clear the data set.
    */
-  data?: Data
+  emptyData?: unknown
   /**
    * JSON Schema to validate the data against.
    */
@@ -178,6 +181,7 @@ export default function Provider<Data extends JsonObject>(
     id,
     globalStatusId = 'main',
     defaultData,
+    emptyData,
     data,
     schema,
     onChange,
@@ -241,7 +245,7 @@ export default function Provider<Data extends JsonObject>(
       } else {
         delete hasVisibleErrorRef.current[path]
       }
-      forceUpdate()
+      forceUpdate() // Will rerender the whole form initially
     },
     []
   )
@@ -709,7 +713,7 @@ export default function Provider<Data extends JsonObject>(
         storeInSession()
       }
 
-      forceUpdate()
+      forceUpdate() // Will rerender the whole form initially
     },
     [
       extendSharedData,
@@ -744,6 +748,17 @@ export default function Provider<Data extends JsonObject>(
           await onPathChange?.(path, value)
         } else {
           onPathChange?.(path, value)
+        }
+
+        for (const itm of fieldEventListenersRef.current) {
+          if (itm.type === 'onPathChange' && itm.path === path) {
+            const { callback } = itm
+            if (isAsync(callback)) {
+              await callback({ value })
+            } else {
+              callback({ value })
+            }
+          }
         }
       },
       [onPathChange, updateDataValue]
@@ -829,14 +844,15 @@ export default function Provider<Data extends JsonObject>(
   }, [])
 
   const clearData = useCallback(() => {
-    internalDataRef.current = clearedData as Data
+    internalDataRef.current = (emptyData ?? clearedData) as Data
+
     if (id) {
       setSharedData?.(internalDataRef.current)
     } else {
       forceUpdate()
     }
     onClear?.()
-  }, [id, onClear, setSharedData])
+  }, [emptyData, id, onClear, setSharedData])
 
   /**
    * Shared logic dedicated to submit the whole form
@@ -845,7 +861,7 @@ export default function Provider<Data extends JsonObject>(
     async (args) => {
       const {
         onSubmit,
-        enableAsyncBehaviour,
+        enableAsyncBehavior,
         skipFieldValidation,
         skipErrorCheck,
       } = args
@@ -855,9 +871,9 @@ export default function Provider<Data extends JsonObject>(
       const asyncBehaviorIsEnabled =
         (skipErrorCheck
           ? true
-          : // Don't enable async behaviour if we have errors, but when we have a pending state
+          : // Don't enable async behavior if we have errors, but when we have a pending state
             !hasErrors() || hasFieldState('pending')) &&
-        (enableAsyncBehaviour || hasFieldWithAsyncValidator())
+        (enableAsyncBehavior || hasFieldWithAsyncValidator())
 
       if (asyncBehaviorIsEnabled) {
         setFormState('pending')
@@ -865,11 +881,8 @@ export default function Provider<Data extends JsonObject>(
 
       // Just call the submit listeners "once", and not on the retry/recall
       if (!skipFieldValidation) {
-        for (const {
-          path,
-          type,
-          callback,
-        } of fieldEventListenersRef.current) {
+        for (const item of fieldEventListenersRef.current) {
+          const { path, type, callback } = item
           if (
             type === 'onSubmit' &&
             mountedFieldPathsRef.current.includes(path)
@@ -985,7 +998,7 @@ export default function Provider<Data extends JsonObject>(
   const handleSubmit = useCallback<ContextState['handleSubmit']>(
     async ({ formElement = null } = {}) => {
       handleSubmitCall({
-        enableAsyncBehaviour: isAsync(onSubmit),
+        enableAsyncBehavior: isAsync(onSubmit),
         onSubmit: async () => {
           if (handleSubmitListeners()) {
             return // stop here
@@ -1068,9 +1081,11 @@ export default function Provider<Data extends JsonObject>(
       callback: EventListenerCall['callback']
     ) => {
       fieldEventListenersRef.current =
-        fieldEventListenersRef.current.filter(({ path: p, type: t }) => {
-          return !(p === path && t === type)
-        })
+        fieldEventListenersRef.current.filter(
+          ({ path: p, type: t, callback: c }) => {
+            return !(p === path && t === type && c === callback)
+          }
+        )
       fieldEventListenersRef.current.push({ path, type, callback })
     },
     []
@@ -1084,14 +1099,14 @@ export default function Provider<Data extends JsonObject>(
   }
 
   // - ajv validator routines
-  useMountEffect(() => {
+  useEffect(() => {
     if (schema) {
       ajvValidatorRef.current = ajvRef.current?.compile(schema)
     }
 
     // Validate the initial data
     validateData()
-  })
+  }, [schema, validateData])
   useUpdateEffect(() => {
     if (schema && schema !== cacheRef.current.schema) {
       cacheRef.current.schema = schema
@@ -1177,6 +1192,7 @@ export default function Provider<Data extends JsonObject>(
         /** Additional */
         id,
         data: internalDataRef.current,
+        internalDataRef,
         props,
         ...rest,
       }}

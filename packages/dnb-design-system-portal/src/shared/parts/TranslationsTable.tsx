@@ -37,6 +37,16 @@ export default function TranslationsTable({
     return key
   })
 
+  function addToEntries(key, translation, locale, localeKey) {
+    key = `${localeKey}.${key}`
+    if (allowList[localeKey] && !allowList[localeKey].includes(key)) {
+      return
+    }
+    entries[key] = Object.assign(entries[key] || {}, {
+      [locale]: translation,
+    })
+  }
+
   Object.entries(allTranslations).forEach(([locale, translations]) => {
     localeKeys.forEach((localeKey) => {
       const translationsObj = translations[localeKey]
@@ -47,13 +57,14 @@ export default function TranslationsTable({
         return
       }
       Object.entries(translationsObj).forEach(([key, translation]) => {
-        key = `${localeKey}.${key}`
-        if (allowList[localeKey] && !allowList[localeKey].includes(key)) {
-          return
+        if (typeof translation === 'object') {
+          const nestedKey = `${localeKey}.${key}`
+          Object.entries(translation).forEach(([key, translation]) => {
+            addToEntries(key, translation, locale, nestedKey)
+          })
+        } else {
+          addToEntries(key, translation, locale, localeKey)
         }
-        entries[key] = Object.assign(entries[key] || {}, {
-          [locale]: translation,
-        })
       })
     })
   })

@@ -23,6 +23,44 @@ export { JSONSchemaType }
 
 type ValidationRule = 'type' | 'pattern' | 'required' | string
 type MessageValues = Record<string, string>
+export type ValidatorReturnSync<Value> =
+  | Error
+  | undefined
+  | void
+  | Array<Validator<Value>>
+
+export type ValidatorReturnAsync<Value> =
+  | ValidatorReturnSync<Value>
+  | Promise<ValidatorReturnSync<Value>>
+export type Validator<Value, ErrorMessages = DefaultErrorMessages> = (
+  value: Value,
+  additionalArgs?: ValidatorAdditionalArgs<Value, ErrorMessages>
+) => ValidatorReturnAsync<Value>
+export type ValidatorAdditionalArgs<
+  Value,
+  ErrorMessages = DefaultErrorMessages,
+> = {
+  /**
+   * Returns the error messages from the { errorMessages } object.
+   */
+  errorMessages: ErrorMessages
+
+  /**
+   * Connects the validator to another field.
+   * This allows you to rerun the validator function once the value of the connected field changes.
+   */
+  connectWithPath: (path: Path) => { getValue: () => Value }
+
+  /**
+   * Returns the validators from the { exportValidators } object.
+   */
+  validators: Record<string, Validator<Value>>
+} & {
+  /** @deprecated use the error messages from the { errorMessages } object instead. */
+  pattern: string
+  /** @deprecated use the error messages from the { errorMessages } object instead. */
+  required: string
+}
 
 interface IFormErrorOptions {
   validationRule?: ValidationRule
@@ -265,13 +303,9 @@ export interface UseFieldProps<
   // - Validation
   required?: boolean
   schema?: AllJSONSchemaVersions<Value>
-  validator?: (
-    value: Value | EmptyValue,
-    errorMessages?: ErrorMessages
-  ) => Error | undefined | void | Promise<Error | undefined | void>
-  onBlurValidator?: (
-    value: Value | EmptyValue
-  ) => Error | undefined | void | Promise<Error | undefined | void>
+  validator?: Validator<Value>
+  onBlurValidator?: Validator<Value>
+  exportValidators?: Record<string, Validator<Value>>
   validateRequired?: (
     internal: Value,
     {

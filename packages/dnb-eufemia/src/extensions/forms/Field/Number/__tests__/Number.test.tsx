@@ -1,6 +1,12 @@
 import React from 'react'
 import { axeComponent, wait } from '../../../../../core/jest/jestSetup'
-import { screen, render, fireEvent, act } from '@testing-library/react'
+import {
+  screen,
+  render,
+  fireEvent,
+  act,
+  waitFor,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Field, FieldBlock, Form, JSONSchema } from '../../..'
 import { Provider } from '../../../../../shared'
@@ -467,8 +473,7 @@ describe('Field.Number', () => {
         </Form.Handler>
       )
 
-      const form = document.querySelector('form')
-      fireEvent.submit(form)
+      fireEvent.submit(document.querySelector('form'))
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenCalledWith(
@@ -517,6 +522,52 @@ describe('Field.Number', () => {
     it('should show error initially when validateInitially', () => {
       render(<Field.Number required validateInitially />)
       expect(screen.queryByRole('alert')).toBeInTheDocument()
+    })
+
+    it('should call validator with validateInitially', async () => {
+      const validator = jest.fn(() => {
+        return new Error('Validator message')
+      })
+
+      render(
+        <Field.Number
+          validator={validator}
+          defaultValue={123}
+          validateInitially
+        />
+      )
+
+      expect(validator).toHaveBeenCalledTimes(1)
+      expect(validator).toHaveBeenCalledWith(123, expect.anything())
+
+      await waitFor(() => {
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
+      })
+    })
+
+    it('should call validator on form submit', async () => {
+      const validator = jest.fn(() => {
+        return new Error('Validator message')
+      })
+
+      render(
+        <Form.Handler>
+          <Field.Number
+            path="/myNumber"
+            validator={validator}
+            defaultValue={123}
+          />
+        </Form.Handler>
+      )
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(validator).toHaveBeenCalledTimes(1)
+      expect(validator).toHaveBeenCalledWith(123, expect.anything())
+
+      await waitFor(() => {
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
+      })
     })
 
     describe('validation based on required-prop', () => {

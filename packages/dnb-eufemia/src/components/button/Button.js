@@ -229,6 +229,9 @@ export default class Button extends React.PureComponent {
     if (Element !== Anchor && !params.type) {
       params.type = params.type === '' ? undefined : 'button'
     }
+    if (isIconOnly) {
+      params['aria-label'] = params['aria-label'] || title
+    }
 
     skeletonDOMAttributes(params, skeleton, this.context)
 
@@ -279,7 +282,7 @@ export default class Button extends React.PureComponent {
 Button.propTypes = {
   text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   type: PropTypes.string,
-  title: PropTypes.node,
+  title: PropTypes.string,
   variant: buttonVariantPropType.variant,
   size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
   icon: PropTypes.oneOfType([
@@ -460,7 +463,7 @@ function Content({
 }
 
 Content.propTypes = {
-  title: PropTypes.node,
+  title: PropTypes.string,
   custom_content: PropTypes.node,
   content: PropTypes.oneOfType([
     PropTypes.string,

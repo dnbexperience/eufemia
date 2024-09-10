@@ -11,14 +11,15 @@ export type Props = StringFieldProps & {
 }
 
 function NationalIdentityNumber(props: Props) {
-  const translations = useTranslation().NationalIdentityNumber
-  const errorMessage = translations.errorRequired
-
   const { validate = true, omitMask } = props
 
+  const translations = useTranslation().NationalIdentityNumber
+  const { label, errorRequired, errorFnr, errorDnr } = translations
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: errorMessage,
-    pattern: errorMessage,
+    required: errorRequired,
+    pattern: errorRequired,
+    errorFnr,
+    errorDnr,
   })
 
   const mask = useMemo(
@@ -49,11 +50,10 @@ function NationalIdentityNumber(props: Props) {
         new RegExp(validationPattern).test(value) &&
         fnr(value).status === 'invalid'
       ) {
-        return Error(translations.errorFnr)
+        return Error(errorFnr)
       }
-      return undefined
     },
-    [translations.errorFnr]
+    [errorFnr]
   )
 
   const dnrValidator = useCallback(
@@ -63,11 +63,10 @@ function NationalIdentityNumber(props: Props) {
         new RegExp(validationPattern).test(value) &&
         dnr(value).status === 'invalid'
       ) {
-        return Error(translations.errorDnr)
+        return Error(errorDnr)
       }
-      return undefined
     },
-    [translations.errorDnr]
+    [errorDnr]
   )
 
   const dnrAndFnrValidator = useCallback(
@@ -85,7 +84,7 @@ function NationalIdentityNumber(props: Props) {
         : validate && !props.validator
         ? validationPattern
         : undefined,
-    label: props.label ?? translations.label,
+    label: props.label ?? label,
     errorMessages,
     mask,
     width: props.width ?? 'medium',
@@ -93,6 +92,7 @@ function NationalIdentityNumber(props: Props) {
     validator: validate
       ? props.validator || dnrAndFnrValidator
       : undefined,
+    exportValidators: { dnrValidator, fnrValidator },
   }
 
   return <StringField {...StringFieldProps} />

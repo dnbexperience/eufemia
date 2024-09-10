@@ -141,7 +141,7 @@ export const ValidationFunction = () => {
         const fnr = (value: string) =>
           value.length >= 11 ? { status: 'valid' } : { status: 'invalid' }
 
-        const validator = (value, errorMessages) => {
+        const validator = (value, { errorMessages }) => {
           const result = fnr(value)
           return result.status === 'invalid'
             ? new Error(errorMessages.pattern)
@@ -153,6 +153,38 @@ export const ValidationFunction = () => {
             required
             value="123"
             validator={validator}
+            validateInitially
+          />
+        )
+      }}
+    </ComponentBox>
+  )
+}
+
+export const ValidationExtendValidator = () => {
+  return (
+    <ComponentBox>
+      {() => {
+        const bornInApril = (value: string) =>
+          value.substring(2, 4) === '04'
+            ? { status: 'valid' }
+            : { status: 'invalid' }
+
+        const myValidator = (value, { validators }) => {
+          const { dnrValidator, fnrValidator } = validators
+          const result = bornInApril(value)
+          if (result.status === 'invalid') {
+            return new Error('My error')
+          }
+
+          return [dnrValidator, fnrValidator]
+        }
+
+        return (
+          <Field.NationalIdentityNumber
+            required
+            value="53050129159"
+            validator={myValidator}
             validateInitially
           />
         )

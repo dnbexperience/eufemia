@@ -9,11 +9,6 @@ import locales from '../../../constants/locales'
 const nbNO = locales['nb-NO']
 const enGB = locales['en-GB']
 
-beforeEach(() => {
-  // Reset locale to nb-NO
-  render(<Provider locale="nb-NO">nothing</Provider>)
-})
-
 describe('Field.PhoneNumber', () => {
   it('should default to 47', () => {
     render(<Field.PhoneNumber />)
@@ -289,7 +284,7 @@ describe('Field.PhoneNumber', () => {
       keyCode: 13,
     })
 
-    expect(europe).toHaveLength(51)
+    expect(europe).toHaveLength(52)
   })
 
   it('should return correct value onChange event', async () => {
@@ -649,10 +644,15 @@ describe('Field.PhoneNumber', () => {
     )
 
     expect(validator).toHaveBeenCalledTimes(1)
-    expect(validator).toHaveBeenCalledWith('+41 9999', {
-      pattern: enGB.PhoneNumber.errorRequired,
-      required: enGB.PhoneNumber.errorRequired,
-    })
+    expect(validator).toHaveBeenCalledWith(
+      '+41 9999',
+      expect.objectContaining({
+        errorMessages: expect.objectContaining({
+          pattern: enGB.PhoneNumber.errorRequired,
+          required: enGB.PhoneNumber.errorRequired,
+        }),
+      })
+    )
 
     await waitFor(() => {
       expect(document.querySelector('[role="alert"]')).toBeInTheDocument()

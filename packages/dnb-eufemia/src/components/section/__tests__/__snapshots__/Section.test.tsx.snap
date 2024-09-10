@@ -74,7 +74,7 @@ exports[`Section scss has to match style dependencies css 1`] = `
     );
   }
 }
-@media screen and (max-width: 59.9375em) and (min-width: 40.0625em) {
+@media screen and (max-width: 60em) and (min-width: 40.0625em) {
   .dnb-section {
     --breakout: var(--breakout--medium, var(--breakout--fallback));
     --background-color--value: var(--background-color--medium);
@@ -87,7 +87,7 @@ exports[`Section scss has to match style dependencies css 1`] = `
     );
   }
 }
-@media screen and (min-width: 60em) {
+@media screen and (min-width: 60.0625em) {
   .dnb-section {
     --breakout: var(--breakout--large, var(--breakout--fallback));
     --background-color--value: var(--background-color--large);

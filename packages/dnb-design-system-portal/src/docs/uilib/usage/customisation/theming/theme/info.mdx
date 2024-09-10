@@ -12,7 +12,7 @@ The Theme component is a helper component that lets you create nested theming so
 import { Theme, useTheme } from '@dnb/eufemia/shared'
 
 const Component = () => {
-  const { name } = useTheme()
+  const themeName = useTheme()?.name
   return 'My Component'
 }
 
@@ -58,7 +58,8 @@ In order to change or map CSS properties, you can make use of the `propMapping` 
 import { Theme, useTheme } from '@dnb/eufemia/shared'
 
 const Component = () => {
-  const { name, propMapping } = useTheme()
+  const theme = useTheme()
+  const { name, propMapping } = theme || {}
   return 'My Component'
 }
 
@@ -136,7 +137,8 @@ import { Theme, useTheme } from '@dnb/eufemia/shared'
 
 const Component = () => {
   // Result: { name: 'sbanken', isUi: false, isSbanken: true, isEiendom: false }
-  const { name, isUi, isSbanken, isEiendom } = useTheme()
+  const theme = useTheme()
+  const { name, isUi, isSbanken, isEiendom } = theme || {}
   return null
 }
 

@@ -89,7 +89,7 @@ export const AriaLivePlayground = () => (
 )
 
 export const AriaLiveAdditions = () => (
-  <ComponentBox hideCode scope={{ FieldBlock }}>
+  <ComponentBox hideCode>
     {() => {
       const defaultData = {
         enabled: false,

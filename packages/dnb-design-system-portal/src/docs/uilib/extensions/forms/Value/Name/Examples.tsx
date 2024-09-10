@@ -4,7 +4,7 @@ import { Form, Value } from '@dnb/eufemia/src/extensions/forms'
 
 export const FirstName = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <Value.Name.First value="Nora" />
     </ComponentBox>
   )
@@ -12,7 +12,7 @@ export const FirstName = () => {
 
 export const LastName = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <Value.Name.Last value="Mørk" />
     </ComponentBox>
   )
@@ -20,7 +20,7 @@ export const LastName = () => {
 
 export const CompanyName = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <Value.Name.Company value="DNB" />
     </ComponentBox>
   )
@@ -28,7 +28,7 @@ export const CompanyName = () => {
 
 export const Placeholder = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <Value.Name.Last placeholder="Custom placeholder" />
     </ComponentBox>
   )
@@ -36,7 +36,7 @@ export const Placeholder = () => {
 
 export const Composition = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <Value.Composition>
         <Value.Name.First value="Nora" />
         <Value.Name.Last value="Mørk" />
@@ -47,7 +47,7 @@ export const Composition = () => {
 
 export const Inline = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <Form.Handler
         defaultData={{
           firstName: 'Nora',

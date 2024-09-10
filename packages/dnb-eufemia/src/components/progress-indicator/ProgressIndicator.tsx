@@ -46,7 +46,7 @@ export type DeprecatedProgressIndicatorProps = {
 function ProgressIndicator(
   props: ProgressIndicatorAllProps & DeprecatedProgressIndicatorProps
 ) {
-  const undeprecatedProps = handleDeprecatedBehaviour(props)
+  const undeprecatedProps = handleDeprecatedBehavior(props)
   const allProps = updatePropsWithContext(
     undeprecatedProps,
     useContext(Context)
@@ -190,9 +190,9 @@ function updatePropsWithContext(
 }
 
 /**
- * Support deprecated behaviour by mutating the props.
+ * Support deprecated behavior by mutating the props.
  */
-function handleDeprecatedBehaviour(
+function handleDeprecatedBehavior(
   oldProps: ProgressIndicatorAllProps & DeprecatedProgressIndicatorProps
 ): ProgressIndicatorAllProps {
   // Rename deprecated props

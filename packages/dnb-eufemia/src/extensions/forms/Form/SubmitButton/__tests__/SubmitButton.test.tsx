@@ -6,11 +6,6 @@ import { Provider } from '../../../../../shared'
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
-afterEach(() => {
-  // Reset locale to nb-NO
-  render(<Provider locale="nb-NO">nothing</Provider>)
-})
-
 describe('Form.SubmitButton', () => {
   it('should call "onSubmit" on form element', () => {
     const onSubmit = jest.fn()

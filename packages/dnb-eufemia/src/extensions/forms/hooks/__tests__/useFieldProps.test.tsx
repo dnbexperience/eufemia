@@ -1,14 +1,23 @@
 import React from 'react'
-import { act, render, renderHook, waitFor } from '@testing-library/react'
+import {
+  act,
+  fireEvent,
+  render,
+  renderHook,
+  waitFor,
+  screen,
+} from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import useFieldProps from '../useFieldProps'
 import { Provider } from '../../DataContext'
-import {
+import Field, {
   FieldBlock,
   Form,
   FormError,
   JSONSchema,
   OnChange,
   SubmitState,
+  UseFieldProps,
 } from '../../Forms'
 import { wait } from '../../../../core/jest/jestSetup'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
@@ -2720,5 +2729,1159 @@ describe('useFieldProps', () => {
       expect.anything()
     )
     expect(result.current.error).toBeInstanceOf(Error)
+  })
+
+  describe('validator', () => {
+    describe('connectWithPath', () => {
+      const validatorFn: UseFieldProps<number>['validator'] = (
+        num,
+        { connectWithPath }
+      ) => {
+        const amount = connectWithPath('/refValue').getValue()
+
+        if (amount >= num) {
+          return new Error(`The amount should be greater than ${amount}`)
+        }
+      }
+
+      it('should show validator error on form submit', async () => {
+        const validator = jest.fn(validatorFn)
+
+        render(
+          <Form.Handler>
+            <Field.Number path="/refValue" defaultValue={2} />
+
+            <Field.Number
+              path="/myNumberWithValidator"
+              defaultValue={2}
+              validator={validator}
+            />
+          </Form.Handler>
+        )
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+        fireEvent.submit(document.querySelector('form'))
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          expect(screen.queryByRole('alert')).toHaveTextContent(
+            'The amount should be greater than 2'
+          )
+        })
+        expect(validator).toHaveBeenCalledTimes(1)
+        expect(validator).toHaveBeenLastCalledWith(
+          2,
+          expect.objectContaining({
+            connectWithPath: expect.any(Function),
+          })
+        )
+      })
+
+      it('should update error message on input change', async () => {
+        const validator = jest.fn(validatorFn)
+
+        render(
+          <Form.Handler>
+            <Field.Number path="/refValue" defaultValue={2} />
+
+            <Field.Number
+              path="/myNumberWithValidator"
+              defaultValue={2}
+              validator={validator}
+            />
+          </Form.Handler>
+        )
+
+        const [inputWithRefValue] = Array.from(
+          document.querySelectorAll('input')
+        )
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+        // Show error message
+        fireEvent.submit(document.querySelector('form'))
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          expect(screen.queryByRole('alert')).toHaveTextContent(
+            'The amount should be greater than 2'
+          )
+        })
+
+        // Make a change to the ref input
+        await userEvent.type(inputWithRefValue, '2')
+
+        expect(screen.queryByRole('alert')).toHaveTextContent(
+          'The amount should be greater than 22'
+        )
+      })
+
+      it('should hide error message when validation is successful', async () => {
+        const validator = jest.fn(validatorFn)
+
+        render(
+          <Form.Handler>
+            <Field.Number path="/refValue" defaultValue={2} />
+
+            <Field.Number
+              path="/myNumberWithValidator"
+              defaultValue={2}
+              validator={validator}
+            />
+          </Form.Handler>
+        )
+
+        const [inputWithRefValue] = Array.from(
+          document.querySelectorAll('input')
+        )
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+        // Show error message
+        fireEvent.submit(document.querySelector('form'))
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          expect(screen.queryByRole('alert')).toHaveTextContent(
+            'The amount should be greater than 2'
+          )
+        })
+
+        await userEvent.type(inputWithRefValue, '{Backspace}')
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        expect(validator).toHaveBeenCalledTimes(2)
+        expect(validator).toHaveBeenLastCalledWith(
+          2,
+          expect.objectContaining({
+            connectWithPath: expect.any(Function),
+          })
+        )
+      })
+
+      it('should keep error message hidden after validation is successful and another input change', async () => {
+        const validator = jest.fn(validatorFn)
+
+        render(
+          <Form.Handler>
+            <Field.Number path="/refValue" defaultValue={2} />
+
+            <Field.Number
+              path="/myNumberWithValidator"
+              defaultValue={2}
+              validator={validator}
+            />
+          </Form.Handler>
+        )
+
+        const [inputWithRefValue] = Array.from(
+          document.querySelectorAll('input')
+        )
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+        // Show error message
+        fireEvent.submit(document.querySelector('form'))
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          expect(screen.queryByRole('alert')).toHaveTextContent(
+            'The amount should be greater than 2'
+          )
+        })
+
+        await userEvent.type(inputWithRefValue, '{Backspace}')
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        expect(validator).toHaveBeenCalledTimes(2)
+
+        await userEvent.type(inputWithRefValue, '2')
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      })
+
+      describe('validateInitially', () => {
+        it('should show error message initially', async () => {
+          const validator = jest.fn(validatorFn)
+
+          render(
+            <Form.Handler>
+              <Field.Number path="/refValue" defaultValue={2} />
+
+              <Field.Number
+                path="/myNumberWithValidator"
+                defaultValue={2}
+                validator={validator}
+                validateInitially
+              />
+            </Form.Handler>
+          )
+
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(screen.queryByRole('alert')).toHaveTextContent(
+              'The amount should be greater than 2'
+            )
+          })
+        })
+
+        it('should not show error message after it was hidden while typing', async () => {
+          const validator = jest.fn(validatorFn)
+
+          render(
+            <Form.Handler>
+              <Field.Number path="/refValue" defaultValue={2} />
+
+              <Field.Number
+                path="/myNumberWithValidator"
+                defaultValue={2}
+                validator={validator}
+                validateInitially
+              />
+            </Form.Handler>
+          )
+
+          const [inputWithRefValue] = Array.from(
+            document.querySelectorAll('input')
+          )
+
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(screen.queryByRole('alert')).toHaveTextContent(
+              'The amount should be greater than 2'
+            )
+          })
+
+          await userEvent.type(inputWithRefValue, '{Backspace}')
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+          await userEvent.type(inputWithRefValue, '3')
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        })
+      })
+
+      describe('validateUnchanged', () => {
+        it('should show error message initially', async () => {
+          const validator = jest.fn(validatorFn)
+
+          render(
+            <Form.Handler>
+              <Field.Number path="/refValue" defaultValue={2} />
+
+              <Field.Number
+                path="/myNumberWithValidator"
+                defaultValue={2}
+                validator={validator}
+                validateUnchanged
+              />
+            </Form.Handler>
+          )
+
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(screen.queryByRole('alert')).toHaveTextContent(
+              'The amount should be greater than 2'
+            )
+          })
+        })
+
+        it('should hide and show error message while typing', async () => {
+          const validator = jest.fn(validatorFn)
+
+          render(
+            <Form.Handler>
+              <Field.Number path="/refValue" defaultValue={2} />
+
+              <Field.Number
+                path="/myNumberWithValidator"
+                defaultValue={2}
+                validator={validator}
+                validateUnchanged
+              />
+            </Form.Handler>
+          )
+
+          const [inputWithRefValue] = Array.from(
+            document.querySelectorAll('input')
+          )
+
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(screen.queryByRole('alert')).toHaveTextContent(
+              'The amount should be greater than 2'
+            )
+          })
+
+          await userEvent.type(inputWithRefValue, '{Backspace}')
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+          await userEvent.type(inputWithRefValue, '3')
+
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(screen.queryByRole('alert')).toHaveTextContent(
+              'The amount should be greater than 3'
+            )
+          })
+        })
+      })
+
+      describe('continuousValidation', () => {
+        it('should show not show error message initially', async () => {
+          const validator = jest.fn(validatorFn)
+
+          render(
+            <Form.Handler>
+              <Field.Number path="/refValue" defaultValue={2} />
+
+              <Field.Number
+                path="/myNumberWithValidator"
+                defaultValue={2}
+                validator={validator}
+                continuousValidation
+              />
+            </Form.Handler>
+          )
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        })
+
+        it('should hide and show error message while typing', async () => {
+          const validator = jest.fn(validatorFn)
+
+          render(
+            <Form.Handler>
+              <Field.Number path="/refValue" defaultValue={2} />
+
+              <Field.Number
+                path="/myNumberWithValidator"
+                defaultValue={2}
+                validator={validator}
+                continuousValidation
+              />
+            </Form.Handler>
+          )
+
+          const [inputWithRefValue] = Array.from(
+            document.querySelectorAll('input')
+          )
+
+          // Show error message
+          fireEvent.submit(document.querySelector('form'))
+
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(screen.queryByRole('alert')).toHaveTextContent(
+              'The amount should be greater than 2'
+            )
+          })
+
+          await userEvent.type(inputWithRefValue, '{Backspace}')
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+          await userEvent.type(inputWithRefValue, '3')
+
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(screen.queryByRole('alert')).toHaveTextContent(
+              'The amount should be greater than 3'
+            )
+          })
+        })
+      })
+    })
+
+    describe('exportValidators', () => {
+      it('should call all validators returned as an array', async () => {
+        const fooValidator = jest.fn((value) => {
+          if (value.includes('foo')) {
+            return new Error('foo')
+          }
+        })
+
+        const barValidator = jest.fn((value) => {
+          if (value.includes('bar')) {
+            return new Error('bar')
+          }
+        })
+
+        const myValidator = jest.fn(() => {
+          return [fooValidator, barValidator]
+        })
+
+        render(
+          <Form.Handler>
+            <Field.String
+              path="/myField"
+              defaultValue="foo"
+              validator={myValidator}
+              validateUnchanged
+            />
+          </Form.Handler>
+        )
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toHaveTextContent('foo')
+        })
+        expect(myValidator).toHaveBeenCalledTimes(1)
+        expect(fooValidator).toHaveBeenCalledTimes(1)
+        expect(barValidator).toHaveBeenCalledTimes(0)
+
+        await userEvent.type(
+          document.querySelector('input'),
+          '{Backspace}bar'
+        )
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toHaveTextContent('bar')
+        })
+        expect(myValidator).toHaveBeenCalledTimes(5)
+        expect(fooValidator).toHaveBeenCalledTimes(5)
+        expect(barValidator).toHaveBeenCalledTimes(4)
+      })
+
+      it('should call all validators returned as an array (mixed async and sync)', async () => {
+        const fooValidator = jest.fn(async (value) => {
+          if (value.includes('foo')) {
+            return new Error('foo')
+          }
+        })
+
+        const barValidator = jest.fn((value) => {
+          if (value.includes('bar')) {
+            return new Error('bar')
+          }
+        })
+
+        // The main validator needs to be async, because it contains async validators in the array
+        const myValidator = jest.fn(async () => {
+          return [fooValidator, barValidator]
+        })
+
+        render(
+          <Form.Handler>
+            <Field.String
+              label="Label"
+              path="/myField"
+              defaultValue="foo"
+              validator={myValidator}
+              validateUnchanged
+            />
+          </Form.Handler>
+        )
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toHaveTextContent('foo')
+        })
+        expect(myValidator).toHaveBeenCalledTimes(1)
+        expect(fooValidator).toHaveBeenCalledTimes(1)
+        expect(barValidator).toHaveBeenCalledTimes(0)
+
+        await userEvent.type(
+          document.querySelector('input'),
+          '{Backspace}bar'
+        )
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toHaveTextContent('bar')
+        })
+        expect(myValidator).toHaveBeenCalledTimes(5)
+        expect(fooValidator).toHaveBeenCalledTimes(5)
+        expect(barValidator).toHaveBeenCalledTimes(4)
+      })
+
+      it('should call exported validators from mock component', async () => {
+        let internalValidators, fooValidator, barValidator, bazValidator
+
+        const MockComponent = (props) => {
+          barValidator = jest.fn((value) => {
+            if (value.includes('bar')) {
+              return new Error('bar')
+            }
+          })
+
+          bazValidator = jest.fn((value) => {
+            if (value.includes('baz')) {
+              return new Error('baz')
+            }
+          })
+
+          internalValidators = jest.fn((value) => {
+            return barValidator(value) || bazValidator(value)
+          })
+
+          return (
+            <Field.String
+              exportValidators={{ barValidator, bazValidator }}
+              validator={internalValidators}
+              {...props}
+            />
+          )
+        }
+
+        const publicValidator = jest.fn(
+          (value, { validators: { barValidator, bazValidator } }) => {
+            fooValidator = jest.fn(() => {
+              if (value.includes('foo')) {
+                return new Error('foo')
+              }
+            })
+
+            return [fooValidator, barValidator, bazValidator]
+          }
+        )
+
+        render(
+          <Form.Handler>
+            <MockComponent
+              path="/myField"
+              defaultValue="foo"
+              validator={publicValidator}
+              validateUnchanged
+            />
+          </Form.Handler>
+        )
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toHaveTextContent('foo')
+        })
+        expect(publicValidator).toHaveBeenCalledTimes(1)
+        expect(fooValidator).toHaveBeenCalledTimes(1)
+        expect(barValidator).toHaveBeenCalledTimes(0)
+        expect(bazValidator).toHaveBeenCalledTimes(0)
+        expect(internalValidators).toHaveBeenCalledTimes(0)
+
+        expect(publicValidator).toHaveBeenLastCalledWith(
+          'foo',
+          expect.objectContaining({
+            validators: {
+              barValidator,
+              bazValidator,
+            },
+          })
+        )
+
+        await userEvent.type(
+          document.querySelector('input'),
+          '{Backspace}bar'
+        )
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toHaveTextContent('bar')
+        })
+        expect(publicValidator).toHaveBeenCalledTimes(5)
+        expect(fooValidator).toHaveBeenCalledTimes(1)
+        expect(barValidator).toHaveBeenCalledTimes(4)
+        expect(bazValidator).toHaveBeenCalledTimes(3)
+        expect(internalValidators).toHaveBeenCalledTimes(0)
+
+        await userEvent.type(
+          document.querySelector('input'),
+          '{Backspace}baz'
+        )
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toHaveTextContent('baz')
+        })
+        expect(publicValidator).toHaveBeenCalledTimes(9)
+        expect(fooValidator).toHaveBeenCalledTimes(1)
+        expect(barValidator).toHaveBeenCalledTimes(8)
+        expect(bazValidator).toHaveBeenCalledTimes(7)
+        expect(internalValidators).toHaveBeenCalledTimes(0)
+      })
+
+      it('should only call returned validators (barValidator should not be called)', async () => {
+        let internalValidators, fooValidator, barValidator, bazValidator
+
+        const MockComponent = (props) => {
+          barValidator = jest.fn((value) => {
+            if (value.includes('bar')) {
+              return new Error('bar')
+            }
+          })
+
+          bazValidator = jest.fn((value) => {
+            if (value.includes('baz')) {
+              return new Error('baz')
+            }
+          })
+
+          internalValidators = jest.fn((value) => {
+            return barValidator(value) || bazValidator(value)
+          })
+
+          return (
+            <Field.String
+              exportValidators={{ barValidator, bazValidator }}
+              validator={internalValidators}
+              {...props}
+            />
+          )
+        }
+
+        const publicValidator = jest.fn(
+          (value, { validators: { bazValidator } }) => {
+            fooValidator = jest.fn(() => {
+              if (value.includes('foo')) {
+                return new Error('foo')
+              }
+            })
+
+            return [fooValidator, bazValidator]
+          }
+        )
+
+        render(
+          <Form.Handler>
+            <MockComponent
+              path="/myField"
+              defaultValue="foo"
+              validator={publicValidator}
+              validateUnchanged
+            />
+          </Form.Handler>
+        )
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toHaveTextContent('foo')
+        })
+        expect(publicValidator).toHaveBeenCalledTimes(1)
+        expect(fooValidator).toHaveBeenCalledTimes(1)
+        expect(barValidator).toHaveBeenCalledTimes(0)
+        expect(bazValidator).toHaveBeenCalledTimes(0)
+        expect(internalValidators).toHaveBeenCalledTimes(0)
+
+        expect(publicValidator).toHaveBeenLastCalledWith(
+          'foo',
+          expect.objectContaining({
+            validators: {
+              barValidator,
+              bazValidator,
+            },
+          })
+        )
+
+        await userEvent.type(
+          document.querySelector('input'),
+          '{Backspace}bar' // remove one letter from bar, so the bar validator should return undefined
+        )
+        await waitFor(() => {
+          // Here we should not see the bar validator called
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        })
+        expect(publicValidator).toHaveBeenCalledTimes(5)
+        expect(fooValidator).toHaveBeenCalledTimes(1)
+        expect(barValidator).toHaveBeenCalledTimes(0)
+        expect(bazValidator).toHaveBeenCalledTimes(4)
+        expect(internalValidators).toHaveBeenCalledTimes(0)
+
+        await userEvent.type(
+          document.querySelector('input'),
+          '{Backspace}baz'
+        )
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toHaveTextContent('baz')
+        })
+        expect(publicValidator).toHaveBeenCalledTimes(9)
+        expect(fooValidator).toHaveBeenCalledTimes(1)
+        expect(barValidator).toHaveBeenCalledTimes(0)
+        expect(bazValidator).toHaveBeenCalledTimes(8)
+        expect(internalValidators).toHaveBeenCalledTimes(0)
+      })
+
+      it('should call internal validates when they are not returned in the publicValidator', async () => {
+        let internalValidators, barValidator, bazValidator
+
+        const MockComponent = (props) => {
+          barValidator = jest.fn((value) => {
+            if (value.includes('bar')) {
+              return new Error('bar')
+            }
+          })
+
+          bazValidator = jest.fn((value) => {
+            if (value.includes('baz')) {
+              return new Error('baz')
+            }
+          })
+
+          internalValidators = jest.fn((value) => {
+            return barValidator(value) || bazValidator(value)
+          })
+
+          return (
+            <Field.String
+              exportValidators={{ barValidator, bazValidator }}
+              validator={internalValidators}
+              {...props}
+            />
+          )
+        }
+
+        const publicValidator = jest.fn((value) => {
+          if (value.includes('foo')) {
+            return new Error('foo')
+          }
+        })
+
+        render(
+          <Form.Handler>
+            <MockComponent
+              path="/myField"
+              defaultValue="foo"
+              validator={publicValidator}
+              validateUnchanged
+            />
+          </Form.Handler>
+        )
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toHaveTextContent('foo')
+        })
+        expect(publicValidator).toHaveBeenCalledTimes(1)
+        expect(barValidator).toHaveBeenCalledTimes(0)
+        expect(bazValidator).toHaveBeenCalledTimes(0)
+        expect(internalValidators).toHaveBeenCalledTimes(0)
+
+        expect(publicValidator).toHaveBeenLastCalledWith(
+          'foo',
+          expect.objectContaining({
+            validators: {
+              barValidator,
+              bazValidator,
+            },
+          })
+        )
+
+        await userEvent.type(
+          document.querySelector('input'),
+          '{Backspace}bar'
+        )
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toHaveTextContent('bar')
+        })
+        expect(publicValidator).toHaveBeenCalledTimes(5)
+        expect(barValidator).toHaveBeenCalledTimes(4)
+        expect(bazValidator).toHaveBeenCalledTimes(3)
+        expect(internalValidators).toHaveBeenCalledTimes(0)
+
+        await userEvent.type(
+          document.querySelector('input'),
+          '{Backspace}baz'
+        )
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toHaveTextContent('baz')
+        })
+        expect(publicValidator).toHaveBeenCalledTimes(9)
+        expect(barValidator).toHaveBeenCalledTimes(8)
+        expect(bazValidator).toHaveBeenCalledTimes(7)
+        expect(internalValidators).toHaveBeenCalledTimes(0)
+      })
+    })
+  })
+
+  describe('onBlurValidator', () => {
+    describe('connectWithPath', () => {
+      const validatorFn: UseFieldProps<number>['validator'] = (
+        num,
+        { connectWithPath }
+      ) => {
+        const amount = connectWithPath('/refValue').getValue()
+
+        if (amount >= num) {
+          return new Error(`The amount should be greater than ${amount}`)
+        }
+      }
+
+      it('should show validator error on form submit', async () => {
+        const validator = jest.fn(validatorFn)
+
+        render(
+          <Form.Handler>
+            <Field.Number path="/refValue" defaultValue={2} />
+
+            <Field.Number
+              path="/myNumberWithValidator"
+              defaultValue={2}
+              onBlurValidator={validator}
+            />
+          </Form.Handler>
+        )
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+        fireEvent.submit(document.querySelector('form'))
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          expect(screen.queryByRole('alert')).toHaveTextContent(
+            'The amount should be greater than 2'
+          )
+        })
+
+        expect(validator).toHaveBeenCalledTimes(1)
+        expect(validator).toHaveBeenLastCalledWith(
+          2,
+          expect.objectContaining({
+            connectWithPath: expect.any(Function),
+          })
+        )
+      })
+
+      it('should update error message on input change', async () => {
+        const validator = jest.fn(validatorFn)
+
+        render(
+          <Form.Handler>
+            <Field.Number path="/refValue" defaultValue={12} />
+
+            <Field.Number
+              path="/myNumberWithValidator"
+              defaultValue={1}
+              onBlurValidator={validator}
+            />
+          </Form.Handler>
+        )
+
+        const [inputWithRefValue, inputWithValidator] = Array.from(
+          document.querySelectorAll('input')
+        )
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+        // Make a change to the input with the validator
+        await userEvent.type(inputWithValidator, '2')
+        fireEvent.blur(inputWithValidator)
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          expect(screen.queryByRole('alert')).toHaveTextContent(
+            'The amount should be greater than 12'
+          )
+        })
+
+        // Make a change to the ref input
+        await userEvent.type(inputWithRefValue, '3')
+
+        expect(screen.queryByRole('alert')).toHaveTextContent(
+          'The amount should be greater than 123'
+        )
+      })
+
+      it('should hide error message when validation is successful', async () => {
+        const validator = jest.fn(validatorFn)
+
+        render(
+          <Form.Handler>
+            <Field.Number path="/refValue" defaultValue={2} />
+
+            <Field.Number
+              path="/myNumberWithValidator"
+              defaultValue={2}
+              onBlurValidator={validator}
+            />
+          </Form.Handler>
+        )
+
+        const [inputWithRefValue] = Array.from(
+          document.querySelectorAll('input')
+        )
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+        // Show error message
+        fireEvent.submit(document.querySelector('form'))
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+        })
+
+        await userEvent.type(inputWithRefValue, '{Backspace}')
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        expect(validator).toHaveBeenCalledTimes(2)
+        expect(validator).toHaveBeenLastCalledWith(
+          2,
+          expect.objectContaining({
+            connectWithPath: expect.any(Function),
+          })
+        )
+      })
+
+      it('should keep error message hidden during ref input change', async () => {
+        const validator = jest.fn(validatorFn)
+
+        render(
+          <Form.Handler>
+            <Field.Number path="/refValue" defaultValue={2} />
+
+            <Field.Number
+              path="/myNumberWithValidator"
+              defaultValue={2}
+              onBlurValidator={validator}
+            />
+          </Form.Handler>
+        )
+
+        const [inputWithRefValue] = Array.from(
+          document.querySelectorAll('input')
+        )
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+        // Show error message
+        fireEvent.submit(document.querySelector('form'))
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+        })
+
+        await userEvent.type(inputWithRefValue, '{Backspace}')
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        expect(validator).toHaveBeenCalledTimes(2)
+
+        await userEvent.type(inputWithRefValue, '2')
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      })
+
+      describe('validateInitially', () => {
+        it('should not show error message initially', async () => {
+          const validator = jest.fn(validatorFn)
+
+          render(
+            <Form.Handler>
+              <Field.Number path="/refValue" defaultValue={2} />
+
+              <Field.Number
+                path="/myNumberWithValidator"
+                defaultValue={2}
+                onBlurValidator={validator}
+                validateInitially
+              />
+            </Form.Handler>
+          )
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        })
+
+        it('should not show error message while typing', async () => {
+          const validator = jest.fn(validatorFn)
+
+          render(
+            <Form.Handler>
+              <Field.Number path="/refValue" defaultValue={2} />
+
+              <Field.Number
+                path="/myNumberWithValidator"
+                defaultValue={2}
+                onBlurValidator={validator}
+                validateInitially
+              />
+            </Form.Handler>
+          )
+
+          const [inputWithRefValue] = Array.from(
+            document.querySelectorAll('input')
+          )
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+          await userEvent.type(inputWithRefValue, '{Backspace}')
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+          await userEvent.type(inputWithRefValue, '3')
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        })
+      })
+
+      describe('validateUnchanged', () => {
+        it('should not show error message initially', async () => {
+          const validator = jest.fn(validatorFn)
+
+          render(
+            <Form.Handler>
+              <Field.Number path="/refValue" defaultValue={2} />
+
+              <Field.Number
+                path="/myNumberWithValidator"
+                defaultValue={2}
+                onBlurValidator={validator}
+                validateUnchanged
+              />
+            </Form.Handler>
+          )
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        })
+
+        it('should not show error message while typing', async () => {
+          const validator = jest.fn(validatorFn)
+
+          render(
+            <Form.Handler>
+              <Field.Number path="/refValue" defaultValue={2} />
+
+              <Field.Number
+                path="/myNumberWithValidator"
+                defaultValue={2}
+                onBlurValidator={validator}
+                validateUnchanged
+              />
+            </Form.Handler>
+          )
+
+          const [inputWithRefValue] = Array.from(
+            document.querySelectorAll('input')
+          )
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+          await userEvent.type(inputWithRefValue, '{Backspace}')
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+          await userEvent.type(inputWithRefValue, '3')
+
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+          })
+        })
+      })
+
+      describe('continuousValidation', () => {
+        it('should show not show error message initially', async () => {
+          const validator = jest.fn(validatorFn)
+
+          render(
+            <Form.Handler>
+              <Field.Number path="/refValue" defaultValue={2} />
+
+              <Field.Number
+                path="/myNumberWithValidator"
+                defaultValue={2}
+                onBlurValidator={validator}
+                continuousValidation
+              />
+            </Form.Handler>
+          )
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        })
+      })
+    })
+
+    describe('exportValidators', () => {
+      it('should only call returned validators (barValidator should not be called)', async () => {
+        let internalValidators, fooValidator, barValidator, bazValidator
+
+        const MockComponent = (props) => {
+          barValidator = jest.fn((value) => {
+            if (value.includes('bar')) {
+              return new Error('bar')
+            }
+          })
+
+          bazValidator = jest.fn((value) => {
+            if (value.includes('baz')) {
+              return new Error('baz')
+            }
+          })
+
+          internalValidators = jest.fn((value) => {
+            return barValidator(value) || bazValidator(value)
+          })
+
+          return (
+            <Field.String
+              exportValidators={{ barValidator, bazValidator }}
+              onBlurValidator={internalValidators}
+              {...props}
+            />
+          )
+        }
+
+        const publicValidator = jest.fn(
+          (value, { validators: { bazValidator } }) => {
+            fooValidator = jest.fn(() => {
+              if (value.includes('foo')) {
+                return new Error('foo')
+              }
+            })
+
+            return [fooValidator, bazValidator]
+          }
+        )
+
+        render(
+          <Form.Handler>
+            <MockComponent
+              path="/myField"
+              defaultValue="foo"
+              onBlurValidator={publicValidator}
+            />
+          </Form.Handler>
+        )
+
+        fireEvent.submit(document.querySelector('form'))
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toHaveTextContent('foo')
+        })
+        expect(publicValidator).toHaveBeenCalledTimes(1)
+        expect(fooValidator).toHaveBeenCalledTimes(1)
+        expect(barValidator).toHaveBeenCalledTimes(0)
+        expect(bazValidator).toHaveBeenCalledTimes(0)
+        expect(internalValidators).toHaveBeenCalledTimes(0)
+
+        expect(publicValidator).toHaveBeenLastCalledWith(
+          'foo',
+          expect.objectContaining({
+            validators: {
+              barValidator,
+              bazValidator,
+            },
+          })
+        )
+
+        const input = document.querySelector('input')
+
+        await userEvent.type(
+          input,
+          '{Backspace}bar' // remove one letter from bar, so the bar validator should return undefined
+        )
+        fireEvent.blur(input)
+        await waitFor(() => {
+          // Here we should not see the bar validator called
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        })
+        expect(publicValidator).toHaveBeenCalledTimes(2)
+        expect(fooValidator).toHaveBeenCalledTimes(1)
+        expect(barValidator).toHaveBeenCalledTimes(0)
+        expect(bazValidator).toHaveBeenCalledTimes(1)
+        expect(internalValidators).toHaveBeenCalledTimes(0)
+
+        await userEvent.type(input, ' baz')
+        fireEvent.blur(input)
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toHaveTextContent('baz')
+        })
+        expect(publicValidator).toHaveBeenCalledTimes(3)
+        expect(fooValidator).toHaveBeenCalledTimes(1)
+        expect(barValidator).toHaveBeenCalledTimes(0)
+        expect(bazValidator).toHaveBeenCalledTimes(2)
+        expect(internalValidators).toHaveBeenCalledTimes(0)
+      })
+    })
   })
 })

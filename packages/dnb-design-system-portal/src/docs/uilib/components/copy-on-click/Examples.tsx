@@ -36,3 +36,15 @@ export const CopyCursorHidden = () => {
     </ComponentBox>
   )
 }
+
+export const CopyContent = () => {
+  return (
+    <ComponentBox>
+      <P>
+        <CopyOnClick copyContent="content to copy">
+          content to display
+        </CopyOnClick>
+      </P>
+    </ComponentBox>
+  )
+}

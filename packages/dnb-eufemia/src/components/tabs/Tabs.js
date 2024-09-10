@@ -360,7 +360,7 @@ export default class Tabs extends React.PureComponent {
 
   init = () => {
     if (this._isMounted) {
-      this.addScrollBehaviour()
+      this.addScrollBehavior()
 
       const hasScrollbar = this.hasScrollbar()
       const hasLastPosition = this.hasLastPosition()
@@ -492,7 +492,7 @@ export default class Tabs extends React.PureComponent {
     )
   }
 
-  addScrollBehaviour() {
+  addScrollBehavior() {
     if (typeof window !== 'undefined') {
       window.addEventListener('resize', this.onResizeHandler)
     }

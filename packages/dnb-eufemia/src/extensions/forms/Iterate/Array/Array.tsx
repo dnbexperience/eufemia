@@ -43,7 +43,7 @@ function ArrayComponent(props: Props) {
   const summaryListContext = useContext(SummaryListContext)
   const valueBlockContext = useContext(ValueBlockContext)
 
-  const { getValue } = useDataValue()
+  const { getValueByPath } = useDataValue()
   const preparedProps = useMemo(() => {
     const {
       path,
@@ -53,8 +53,8 @@ function ArrayComponent(props: Props) {
     } = props
 
     if (countPath) {
-      const arrayValue = getValue(path)
-      let countValue = parseFloat(getValue(countPath))
+      const arrayValue = getValueByPath(path)
+      let countValue = parseFloat(getValueByPath(countPath))
       if (!(countValue >= 0)) {
         countValue = 0
       }
@@ -76,7 +76,7 @@ function ArrayComponent(props: Props) {
     }
 
     return props
-  }, [getValue, props])
+  }, [getValueByPath, props])
 
   const {
     path,

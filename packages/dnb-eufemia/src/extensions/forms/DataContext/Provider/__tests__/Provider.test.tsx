@@ -925,14 +925,11 @@ describe('DataContext.Provider', () => {
           data={{ fooBar: 'changed' }}
           onSubmitRequest={onSubmitRequest}
         >
-          <Field.Number path="/fooBar" minimum={3} />
+          <Field.Number path="/fooBar" required />
           <Form.SubmitButton>Submit</Form.SubmitButton>
         </DataContext.Provider>
       )
 
-      fireEvent.change(inputElement, {
-        target: { value: '2' },
-      })
       fireEvent.click(submitButton)
 
       expect(onSubmitRequest).toHaveBeenCalledTimes(2)
@@ -2866,9 +2863,6 @@ describe('DataContext.Provider', () => {
         </DataContext.Provider>
       )
 
-      fireEvent.change(inputElement, {
-        target: { value: '2' },
-      })
       fireEvent.click(submitButton)
 
       expect(onSubmitRequest).toHaveBeenCalledTimes(2)

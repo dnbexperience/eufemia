@@ -261,7 +261,7 @@ function ListItem({
   subheadings,
   hideInMenu,
 }: ListItemProps) {
-  const { name: currentTheme } = useTheme()
+  const currentTheme = useTheme()?.name
   const { closeMenu } = useContext(SidebarMenuContext)
   const { skeleton } = useContext(Context)
   const ref = useRef(null)

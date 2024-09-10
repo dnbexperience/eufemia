@@ -95,7 +95,7 @@ export const WithTable = () => {
 
 export const ObjectItems = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <Iterate.Array
         value={[
           {

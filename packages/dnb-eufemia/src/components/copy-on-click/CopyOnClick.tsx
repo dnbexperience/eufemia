@@ -19,6 +19,7 @@ const CopyOnClick = ({
   className = null,
   disabled,
   showCursor = true,
+  copyContent = null,
   ...props
 }: CopyOnClickAllProps) => {
   const ref = useRef<HTMLSpanElement>(null)
@@ -43,7 +44,7 @@ const CopyOnClick = ({
   const onClickHandler = useCallback(() => {
     if (!hasSelectedText()) {
       try {
-        const str = convertJsxToString(children)
+        const str = convertJsxToString(copyContent || children)
 
         if (str) {
           const selection = window.getSelection()
@@ -58,7 +59,7 @@ const CopyOnClick = ({
         warn(e)
       }
     }
-  }, [children, copy])
+  }, [children, copyContent, copy])
 
   const params = {
     onClick: disabled ? undefined : onClickHandler,

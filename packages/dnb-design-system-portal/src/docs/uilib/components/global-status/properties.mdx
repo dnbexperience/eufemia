@@ -2,6 +2,7 @@
 showTabs: true
 ---
 
+import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import { GlobalStatusExampleControllers } from 'Docs/uilib/components/global-status/Examples'
 
 ## Properties
@@ -25,6 +26,10 @@ import { GlobalStatusExampleControllers } from 'Docs/uilib/components/global-sta
 | `status_anchor_text`                    | _(optional)_ defines the anchor text showing up after every item, in case there is a `status_id` defined. Defaults to `Gå til %s`. The `%s` represents the optional and internal handled label addition. |
 | `omit_set_focus`                        | _(optional)_ set to `true` to omit setting the focus during visibility. Defaults to `false`. Additionally, there is `omit_set_focus_on_update` which is set to `true` by default.                        |
 | [Space](/uilib/layout/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                                                                    |
+
+## Translations
+
+<TranslationsTable localeKey="GlobalStatus" />
 
 ## Item Object
 

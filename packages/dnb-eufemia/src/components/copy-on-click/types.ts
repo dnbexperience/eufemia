@@ -15,6 +15,12 @@ export type CopyOnClickProps = {
 
   /**
    * The content to be copied.
+   * Used when the copied value should differ from the visually shown value(`children`).
+   */
+  copyContent?: React.ReactNode
+
+  /**
+   * The content/children to be copied.
    */
   children: React.ReactNode
 }

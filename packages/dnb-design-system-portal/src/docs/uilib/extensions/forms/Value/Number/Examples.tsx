@@ -4,7 +4,7 @@ import { Form, Value } from '@dnb/eufemia/src/extensions/forms'
 
 export const WithLabelAndEmpty = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <Value.Number label="Label text" showEmpty />
     </ComponentBox>
   )
@@ -12,7 +12,7 @@ export const WithLabelAndEmpty = () => {
 
 export const Placeholder = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <Value.Number placeholder="The number was not filled in" />
     </ComponentBox>
   )
@@ -20,7 +20,7 @@ export const Placeholder = () => {
 
 export const LabelAndValue = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <Value.Number label="Label text" value={12345678} />
     </ComponentBox>
   )
@@ -28,7 +28,7 @@ export const LabelAndValue = () => {
 
 export const ValueAndPath = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <Form.Handler data={{ myNumber: 12345678 }}>
         <Value.Number
           label="Label text"
@@ -44,7 +44,7 @@ export const ValueAndPath = () => {
 
 export const Inline = () => {
   return (
-    <ComponentBox scope={{ Value }}>
+    <ComponentBox>
       <P>
         This is before the component
         <Value.Number value={123} inline />

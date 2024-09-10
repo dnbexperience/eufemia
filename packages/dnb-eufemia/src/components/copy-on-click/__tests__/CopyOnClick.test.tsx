@@ -101,6 +101,16 @@ describe('CopyOnClick', () => {
     expect(await navigator.clipboard.readText()).toBe('CopyOnClick')
   })
 
+  it('should accept copyContent prop', async () => {
+    render(
+      <CopyOnClick copyContent="copyContent">CopyOnClick</CopyOnClick>
+    )
+
+    await waitFor(() =>
+      expect(screen.getByText('CopyOnClick')).toBeInTheDocument()
+    )
+  })
+
   it('should support spacing props', async () => {
     render(<CopyOnClick top="large">CopyOnClick text</CopyOnClick>)
     const element = document.querySelector('.dnb-copy-on-click')

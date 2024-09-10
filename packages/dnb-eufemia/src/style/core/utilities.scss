@@ -291,7 +291,7 @@ $breakpoint-offset: 0;
 // @include allAbove(medium){ styles go here.. }
 // $offset and $list are needed to provide global customization options
 @mixin allAbove($size, $offset: $breakpoint-offset, $list: $breakpoints) {
-  @media screen and (min-width: (if(map-has-key($list, $size), map-get($list, $size), #{$size}) + $offset)) {
+  @media screen and (min-width: (if(map-has-key($list, $size), map-get($list, $size), #{$size}) + $offset + 0.0625em)) {
     @content;
   }
 }
@@ -301,11 +301,8 @@ $breakpoint-offset: 0;
   }
 }
 @mixin allBetween($fromSize, $toSize, $fromOffset: null, $toOffset: null) {
-  @include allBelow($toSize, if($toOffset == null, -0.0625em, $toOffset)) {
-    @include allAbove(
-      $fromSize,
-      if($fromOffset == null, 0.0625em, $fromOffset)
-    ) {
+  @include allBelow($toSize, if($toOffset == null, 0, $toOffset)) {
+    @include allAbove($fromSize, if($fromOffset == null, 0, $fromOffset)) {
       @content;
     }
   }

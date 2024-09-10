@@ -126,7 +126,7 @@ const Tag = (localProps: TagProps & SpacingProps) => {
     removeIconTitle, // has a translation in context
     addIconTitle, // has a translation in context
     ...props
-  } = handleDeprecatedBehaviour(allProps)
+  } = handleDeprecatedBehavior(allProps)
 
   const content = text || children
 
@@ -192,10 +192,10 @@ const Tag = (localProps: TagProps & SpacingProps) => {
 }
 
 /**
- * Support deprecated behaviour by mutating the props.
- * Deprecated behaviour: variant 'clickable' and 'removable' is defined by the 'onClick' and 'onDelete' props
+ * Support deprecated behavior by mutating the props.
+ * Deprecated behavior: variant 'clickable' and 'removable' is defined by the 'onClick' and 'onDelete' props
  */
-const handleDeprecatedBehaviour: (allProps: TagProps) => TagProps = ({
+const handleDeprecatedBehavior: (allProps: TagProps) => TagProps = ({
   onDelete,
   ...allProps
 }) => {

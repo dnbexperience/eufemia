@@ -21,8 +21,8 @@ type HandleSubmitProps = {
 
 export type EventListenerCall = {
   path?: Path
-  type?: 'onSubmit'
-  callback: () => void
+  type?: 'onSubmit' | 'onPathChange'
+  callback: (params?: { value: unknown }) => void | Promise<void | Error>
 }
 
 export type FilterDataHandler<Data> = (
@@ -66,6 +66,7 @@ export interface ContextState {
   hasContext: boolean
   /** The dataset for the form / form wizard */
   data: any
+  internalDataRef?: React.MutableRefObject<any>
   /** Should the form validate data before submitting? */
   errors?: Record<string, Error>
   /** Will set autoComplete="on" on each nested Field.String and Field.Number */
@@ -98,7 +99,7 @@ export interface ContextState {
   addOnChangeHandler?: (callback: OnChange) => void
   handleSubmitCall: ({
     onSubmit,
-    enableAsyncBehaviour,
+    enableAsyncBehavior,
     skipFieldValidation,
     skipErrorCheck,
   }: {
@@ -106,11 +107,11 @@ export interface ContextState {
       | EventReturnWithStateObject
       | void
       | Promise<EventReturnWithStateObject | void>
-    enableAsyncBehaviour: boolean
+    enableAsyncBehavior: boolean
     skipFieldValidation?: boolean
     skipErrorCheck?: boolean
   }) => void
-  setFieldEventListener: (
+  setFieldEventListener?: (
     path: EventListenerCall['path'],
     type: EventListenerCall['type'],
     callback: EventListenerCall['callback']
@@ -154,7 +155,6 @@ export const defaultContextState: ContextState = {
   formState: undefined,
   setFormState: () => null,
   setSubmitState: () => null,
-  setFieldEventListener: () => null,
   handleSubmitCall: () => null,
   setShowAllErrors: () => null,
   handleMountField: () => null,

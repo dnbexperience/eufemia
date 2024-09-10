@@ -36,6 +36,15 @@ describe('Button component', () => {
     expect(button.getAttribute('title')).toBe(title)
   })
 
+  it('icon button should set aria-label with title', () => {
+    const title = 'title'
+    render(<Button icon="bell" title={title} />)
+    const button = document.querySelector('button')
+
+    expect(button.getAttribute('title')).toBe(title)
+    expect(button.getAttribute('aria-label')).toBe(title)
+  })
+
   it('icon only has to have some extra classes', () => {
     render(<Button icon="question" />)
     const button = document.querySelector('button')

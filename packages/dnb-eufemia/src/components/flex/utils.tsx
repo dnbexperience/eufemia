@@ -128,6 +128,8 @@ export function renderWithSpacing(
 function wrapWithSpace({ element, spaceProps, variant = null }) {
   return variant ?? getSpaceVariant(element) === true ? (
     React.cloneElement(element as React.ReactElement, spaceProps)
+  ) : getSpaceVariant(element) === 'children' ? (
+    renderWithSpacing(element, spaceProps)
   ) : (
     <Space {...spaceProps}>{element}</Space>
   )
