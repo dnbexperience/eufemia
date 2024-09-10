@@ -20,6 +20,7 @@ export default function FieldBoundaryProvider({ children }) {
     } else {
       delete errorsRef.current?.[path]
     }
+    forceUpdate()
   }, [])
 
   const setShowBoundaryErrors = useCallback(
