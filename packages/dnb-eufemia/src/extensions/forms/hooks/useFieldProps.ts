@@ -1535,16 +1535,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         // something else that should lead to showing the user all errors.
         revealError()
       }
-    } else if (showBoundaryErrors === false && !validateInitially) {
+    } else if (showBoundaryErrors === false) {
       hideError()
     }
-  }, [
-    hideError,
-    revealError,
-    showAllErrors,
-    showBoundaryErrors,
-    validateInitially,
-  ])
+  }, [hideError, revealError, showAllErrors, showBoundaryErrors])
 
   useEffect(() => {
     if (
