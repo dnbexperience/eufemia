@@ -210,7 +210,7 @@ const countries: Array<CountryType> = [
   {
     i18n: {
       en: 'Belarus',
-      nb: 'Hviterussland',
+      nb: 'Belarus',
     },
     cdc: '375',
     iso: 'BY',
