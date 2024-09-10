@@ -1,10 +1,11 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Card, Flex, Section, Table, Td, Th, Tr } from '@dnb/eufemia/src'
+import { Card, Flex, Table, Td, Th, Tr } from '@dnb/eufemia/src'
 import {
   Iterate,
   Field,
   Value,
   Form,
+  Tools,
 } from '@dnb/eufemia/src/extensions/forms'
 export { Default as AnimatedContainer } from '../AnimatedContainer/Examples'
 
@@ -367,91 +368,51 @@ export const WithVisibility = () => {
 
 export const InitialOpen = () => {
   return (
-    <ComponentBox scope={{ Iterate }}>
-      {() => {
-        const MyEditItemForm = () => {
-          return (
-            <Field.SelectCountry
-              label="Land du er statsborger i"
-              itemPath="/"
-              required
+    <ComponentBox scope={{ Iterate, Tools }}>
+      <Form.Handler
+        onSubmit={async (data) => console.log('onSubmit', data)}
+        onSubmitRequest={() => console.log('onSubmitRequest')}
+      >
+        <Flex.Stack>
+          <Form.MainHeading>Statsborgerskap</Form.MainHeading>
+
+          <Card align="stretch">
+            <Iterate.Array
+              path="/countries"
+              defaultValue={[null]}
+              minimumContainerItems={1}
+              hideContainerToolbarWhen={(index, items) =>
+                items.length === 1
+              }
+            >
+              <Iterate.ViewContainer>
+                <Value.SelectCountry
+                  label="Land du er statsborger i"
+                  itemPath="/"
+                />
+              </Iterate.ViewContainer>
+
+              <Iterate.EditContainer>
+                <Field.SelectCountry
+                  label="Land du er statsborger i"
+                  itemPath="/"
+                  required
+                />
+              </Iterate.EditContainer>
+            </Iterate.Array>
+
+            <Iterate.PushButton
+              path="/countries"
+              pushValue={null}
+              text="Legg til flere statsborgerskap"
             />
-          )
-        }
+          </Card>
 
-        const MyEditItem = (props) => {
-          return (
-            <Iterate.EditContainer {...props}>
-              <MyEditItemForm />
-            </Iterate.EditContainer>
-          )
-        }
+          <Form.SubmitButton variant="send" />
 
-        const MyViewItem = () => {
-          return (
-            <Iterate.ViewContainer>
-              <Value.SelectCountry
-                label="Land du er statsborger i"
-                itemPath="/"
-              />
-            </Iterate.ViewContainer>
-          )
-        }
-
-        const MyForm = () => {
-          return (
-            <Form.Handler
-              onSubmit={async (data) => console.log('onSubmit', data)}
-              onSubmitRequest={() => console.log('onSubmitRequest')}
-            >
-              <Flex.Stack>
-                <Form.MainHeading>Statsborgerskap</Form.MainHeading>
-
-                <Card align="stretch">
-                  <Iterate.Array
-                    path="/countries"
-                    defaultValue={[null]}
-                    minimumContainerItems={1}
-                    hideContainerToolbarWhen={(index, items) =>
-                      items.length === 1
-                    }
-                  >
-                    <MyViewItem />
-                    <MyEditItem />
-                  </Iterate.Array>
-
-                  <Iterate.PushButton
-                    path="/countries"
-                    pushValue={null}
-                    text="Legg til flere statsborgerskap"
-                  />
-                </Card>
-
-                <Form.SubmitButton variant="send" />
-
-                <Output />
-              </Flex.Stack>
-            </Form.Handler>
-          )
-        }
-
-        const Output = () => {
-          const { data } = Form.useData()
-
-          return (
-            <Section
-              element="output"
-              backgroundColor="sand-yellow"
-              style={{ maxWidth: '80vw' }}
-              innerSpace
-            >
-              <pre>All data: {JSON.stringify(data)}</pre>
-            </Section>
-          )
-        }
-
-        return <MyForm />
-      }}
+          <Tools.Log />
+        </Flex.Stack>
+      </Form.Handler>
     </ComponentBox>
   )
 }
