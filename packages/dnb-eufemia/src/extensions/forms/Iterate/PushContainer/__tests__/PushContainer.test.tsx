@@ -384,8 +384,9 @@ describe('PushContainer', () => {
       <Form.Handler>
         <Iterate.Array path="/entries">...</Iterate.Array>
 
-        <Iterate.PushContainer path="/entries" toolbar={<Toolbar />}>
+        <Iterate.PushContainer path="/entries">
           <Field.String itemPath="/" />
+          <Toolbar />
         </Iterate.PushContainer>
       </Form.Handler>
     )

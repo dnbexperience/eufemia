@@ -7,7 +7,7 @@ import useDataValue from '../../hooks/useDataValue'
 import EditContainer, { CancelButton, DoneButton } from '../EditContainer'
 import IterateArray, { ContainerMode } from '../Array'
 import OpenButton from './OpenButton'
-import { HeightAnimation } from '../../../../components'
+import { Flex, HeightAnimation } from '../../../../components'
 import { Path } from '../../types'
 import { SpacingProps } from '../../../../shared/types'
 import { useSwitchContainerMode } from '../hooks'
@@ -137,22 +137,24 @@ function NewContainer({
   }, [clearData])
 
   const toolbar = (
-    <IterateItemContext.Consumer>
-      {(context) => {
-        const newItemContextProps = {
-          ...context,
-          restoreOriginalValue,
-        }
-        return (
-          <IterateItemContext.Provider value={newItemContextProps}>
-            <Toolbar>
-              <DoneButton text={createButton} />
-              {showOpenButton && <CancelButton />}
-            </Toolbar>
-          </IterateItemContext.Provider>
-        )
-      }}
-    </IterateItemContext.Consumer>
+    <Toolbar>
+      <IterateItemContext.Consumer>
+        {(context) => {
+          const newItemContextProps = {
+            ...context,
+            restoreOriginalValue,
+          }
+          return (
+            <IterateItemContext.Provider value={newItemContextProps}>
+              <Flex.Horizontal gap="large">
+                <DoneButton text={createButton} />
+                {showOpenButton && <CancelButton />}
+              </Flex.Horizontal>
+            </IterateItemContext.Provider>
+          )
+        }}
+      </IterateItemContext.Consumer>
+    </Toolbar>
   )
 
   return (

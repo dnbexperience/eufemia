@@ -54,15 +54,12 @@ import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
 
 render(
   <Iterate.Array>
-    <Iterate.EditContainer
-      toolbar={
-        <Iterate.Toolbar>
-          <Iterate.EditContainer.DoneButton />
-          <Iterate.EditContainer.CancelButton />
-        </Iterate.Toolbar>
-      }
-    >
+    <Iterate.EditContainer>
       <Field.Name.Last itemPath="/name" />
+      <Iterate.Toolbar>
+        <Iterate.EditContainer.DoneButton />
+        <Iterate.EditContainer.CancelButton />
+      </Iterate.Toolbar>
     </Iterate.EditContainer>
   </Iterate.Array>,
 )

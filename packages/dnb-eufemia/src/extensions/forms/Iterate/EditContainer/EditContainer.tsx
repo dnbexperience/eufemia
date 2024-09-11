@@ -37,20 +37,30 @@ export type Props = {
 export type AllProps = Props & FlexContainerProps & ElementSectionProps
 
 export default function EditContainer(props: AllProps) {
-  const { toolbar, ...rest } = props
+  const { toolbar, children, ...rest } = props
+
+  const hasToolbar =
+    !toolbar &&
+    React.Children.toArray(children).some((child) => {
+      return child?.['type'] === Toolbar
+    })
 
   return (
     <EditContainerWithoutToolbar
       toolbar={
-        toolbar ?? (
-          <Toolbar>
-            <DoneButton />
-            <CancelButton />
-          </Toolbar>
-        )
+        hasToolbar
+          ? null
+          : toolbar ?? (
+              <Toolbar>
+                <DoneButton />
+                <CancelButton />
+              </Toolbar>
+            )
       }
       {...rest}
-    />
+    >
+      {children}
+    </EditContainerWithoutToolbar>
   )
 }
 

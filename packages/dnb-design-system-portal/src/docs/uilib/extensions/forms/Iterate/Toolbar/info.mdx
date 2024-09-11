@@ -26,7 +26,25 @@ render(
 
 ## Customize the Toolbar
 
-You can customize the toolbar by passing a function as a child to `Iterate.Toolbar`. The function receives the following parameters as an object:
+You can customize the toolbar by either passing a function as a child or as a JSX element:
+
+```tsx
+import { Iterate } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Iterate.Array>
+    <Iterate.ViewContainer>
+      Item Content
+      <Iterate.Toolbar>
+        <Iterate.ViewContainer.EditButton />
+        <Iterate.ViewContainer.RemoveButton />
+      </Iterate.Toolbar>
+    </Iterate.ViewContainer>
+  </Iterate.Array>,
+)
+```
+
+The function receives the following parameters as an object:
 
 - `index` the index of the current item in the array.
 - `value` the value of the current item.
@@ -37,25 +55,18 @@ import { Iterate } from '@dnb/eufemia/extensions/forms'
 
 render(
   <Iterate.Array>
-    <Iterate.ViewContainer
-      toolbar={
-        <Iterate.Toolbar>
-          {({ items, index, value }) => {
-            if (items.length === 1) {
-              return null
-            }
-
-            return (
-              <>
-                <Iterate.ViewContainer.EditButton />
-                <Iterate.ViewContainer.RemoveButton />
-              </>
-            )
-          }}
-        </Iterate.Toolbar>
-      }
-    >
+    <Iterate.ViewContainer>
       Item Content
+      <Iterate.Toolbar>
+        {({ items, index, value }) => {
+          return items.length === 1 ? null : (
+            <>
+              <Iterate.ViewContainer.EditButton />
+              <Iterate.ViewContainer.RemoveButton />
+            </>
+          )
+        }}
+      </Iterate.Toolbar>
     </Iterate.ViewContainer>
   </Iterate.Array>,
 )

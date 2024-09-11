@@ -35,6 +35,12 @@ function ViewContainer(props: AllProps) {
     itemTitle = ariaLabel = ariaLabel.replace('{itemNr}', index + 1)
   }
 
+  const hasToolbar =
+    !toolbar &&
+    React.Children.toArray(children).some((child) => {
+      return child?.['type'] === Toolbar
+    })
+
   return (
     <ElementBlock
       mode="view"
@@ -45,12 +51,14 @@ function ViewContainer(props: AllProps) {
       <Flex.Stack>
         {itemTitle && <Lead size="basis">{itemTitle}</Lead>}
         {children}
-        {toolbar ?? (
-          <Toolbar>
-            <EditButton />
-            <RemoveButton />
-          </Toolbar>
-        )}
+        {hasToolbar
+          ? null
+          : toolbar ?? (
+              <Toolbar>
+                <EditButton />
+                <RemoveButton />
+              </Toolbar>
+            )}
       </Flex.Stack>
     </ElementBlock>
   )

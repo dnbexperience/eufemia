@@ -378,52 +378,41 @@ export const InitialOpen = () => {
 
           <Card align="stretch">
             <Iterate.Array path="/countries" defaultValue={[null]}>
-              <Iterate.ViewContainer
-                toolbar={
-                  <Iterate.Toolbar>
-                    {({ items }) => {
-                      if (items.length === 1) {
-                        return <Iterate.ViewContainer.EditButton />
-                      }
-                      return (
-                        <>
-                          <Iterate.ViewContainer.EditButton />
-                          <Iterate.ViewContainer.RemoveButton />
-                        </>
-                      )
-                    }}
-                  </Iterate.Toolbar>
-                }
-              >
+              <Iterate.ViewContainer>
                 <Value.SelectCountry
                   label="Land du er statsborger i"
                   itemPath="/"
                 />
+                <Iterate.Toolbar>
+                  {({ items }) =>
+                    items.length === 1 ? (
+                      <Iterate.ViewContainer.EditButton />
+                    ) : (
+                      <>
+                        <Iterate.ViewContainer.EditButton />
+                        <Iterate.ViewContainer.RemoveButton />
+                      </>
+                    )
+                  }
+                </Iterate.Toolbar>
               </Iterate.ViewContainer>
 
-              <Iterate.EditContainer
-                toolbar={
-                  <Iterate.Toolbar>
-                    {({ items }) => {
-                      if (items.length === 1) {
-                        return null
-                      }
-
-                      return (
-                        <>
-                          <Iterate.EditContainer.DoneButton />
-                          <Iterate.EditContainer.CancelButton />
-                        </>
-                      )
-                    }}
-                  </Iterate.Toolbar>
-                }
-              >
+              <Iterate.EditContainer>
                 <Field.SelectCountry
                   label="Land du er statsborger i"
                   itemPath="/"
                   required
                 />
+                <Iterate.Toolbar>
+                  {({ items }) =>
+                    items.length === 1 ? null : (
+                      <>
+                        <Iterate.EditContainer.DoneButton />
+                        <Iterate.EditContainer.CancelButton />
+                      </>
+                    )
+                  }
+                </Iterate.Toolbar>
               </Iterate.EditContainer>
             </Iterate.Array>
 
