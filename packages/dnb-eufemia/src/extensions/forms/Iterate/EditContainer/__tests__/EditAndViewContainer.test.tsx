@@ -150,98 +150,141 @@ describe('EditContainer and ViewContainer', () => {
     expect(containerMode).toBe('edit')
   })
 
-  it('should set focus on __element when containerMode changes', async () => {
-    render(
-      <Iterate.Array value={['foo', 'bar']}>
-        <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
-        <Iterate.EditContainer>Edit Content</Iterate.EditContainer>
-      </Iterate.Array>
-    )
+  describe('focus management', () => {
+    it('should not set focus when container opens initially in edit mode', async () => {
+      let containerMode = null
 
-    const elements = document.querySelectorAll(
-      '.dnb-forms-iterate__element'
-    )
-    expect(elements).toHaveLength(2)
+      const ContextConsumer = () => {
+        const context = React.useContext(IterateItemContext)
+        containerMode = context.containerMode
 
-    const firstElement = elements[0]
-    const [viewBlock, editBlock] = Array.from(
-      firstElement.querySelectorAll('.dnb-forms-section-block')
-    )
-    const [editButton] = Array.from(viewBlock.querySelectorAll('button'))
-    const [cancelButton] = Array.from(editBlock.querySelectorAll('button'))
+        return null
+      }
 
-    expect(viewBlock).toHaveClass('dnb-forms-section-view-block')
-    expect(editBlock).toHaveClass('dnb-forms-section-edit-block')
+      render(
+        <Iterate.Array value={['foo']}>
+          <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
+          <Iterate.EditContainer>
+            <Field.String path="/foo" required />
+          </Iterate.EditContainer>
+          <ContextConsumer />
+        </Iterate.Array>
+      )
 
-    expect(document.body).toHaveFocus()
+      expect(document.body).toHaveFocus()
+      expect(containerMode).toBe('edit')
 
-    // Switch to edit mode
-    fireEvent.click(editButton)
-    expect(firstElement).toHaveTextContent('Edit Content')
-
-    await waitFor(() => {
-      expect(firstElement).toHaveFocus()
-    })
-
-    // Reset focus, so we can test focus during close
-    ;(document.activeElement as HTMLElement).blur()
-
-    // Switch to view mode
-    fireEvent.click(cancelButton)
-    expect(firstElement).toHaveTextContent('View Content')
-
-    await waitFor(() => {
-      expect(firstElement).toHaveFocus()
-    })
-
-    // Reset focus, so we can test focus during close
-    ;(document.activeElement as HTMLElement).blur()
-
-    // Switch to edit mode
-    fireEvent.click(editButton)
-    expect(firstElement).toHaveTextContent('Edit Content')
-
-    await waitFor(() => {
-      expect(firstElement).toHaveFocus()
-    })
-  })
-
-  it('should set focus on other item __element when containerMode gets removed', async () => {
-    render(
-      <Iterate.Array value={['foo', 'bar']}>
-        <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
-        <Iterate.EditContainer>Edit Content</Iterate.EditContainer>
-      </Iterate.Array>
-    )
-
-    const elements = document.querySelectorAll(
-      '.dnb-forms-iterate__element'
-    )
-    expect(elements).toHaveLength(2)
-
-    const firstElement = elements[0]
-    const [viewBlock, editBlock] = Array.from(
-      firstElement.querySelectorAll('.dnb-forms-section-block')
-    )
-    const [, removeButton] = Array.from(
-      viewBlock.querySelectorAll('button')
-    )
-
-    expect(viewBlock).toHaveClass('dnb-forms-section-view-block')
-    expect(editBlock).toHaveClass('dnb-forms-section-edit-block')
-
-    expect(document.body).toHaveFocus()
-
-    // Remove the element
-    fireEvent.click(removeButton)
-    expect(removeButton).toHaveTextContent(tr.editContainer.removeButton)
-
-    await waitFor(() => {
       const elements = document.querySelectorAll(
         '.dnb-forms-iterate__element'
       )
-      expect(elements).toHaveLength(1)
-      expect(elements[0]).toHaveFocus()
+      const firstElement = elements[0]
+      const [viewBlock] = Array.from(
+        firstElement.querySelectorAll('.dnb-forms-section-block')
+      )
+
+      await waitFor(() => {
+        expect(viewBlock).toHaveClass('dnb-height-animation--hidden')
+      })
+
+      expect(document.body).toHaveFocus()
+      expect(containerMode).toBe('edit')
+    })
+
+    it('should set focus on __element when containerMode changes', async () => {
+      render(
+        <Iterate.Array value={['foo', 'bar']}>
+          <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
+          <Iterate.EditContainer>Edit Content</Iterate.EditContainer>
+        </Iterate.Array>
+      )
+
+      const elements = document.querySelectorAll(
+        '.dnb-forms-iterate__element'
+      )
+      expect(elements).toHaveLength(2)
+
+      const firstElement = elements[0]
+      const [viewBlock, editBlock] = Array.from(
+        firstElement.querySelectorAll('.dnb-forms-section-block')
+      )
+      const [editButton] = Array.from(viewBlock.querySelectorAll('button'))
+      const [cancelButton] = Array.from(
+        editBlock.querySelectorAll('button')
+      )
+
+      expect(viewBlock).toHaveClass('dnb-forms-section-view-block')
+      expect(editBlock).toHaveClass('dnb-forms-section-edit-block')
+
+      expect(document.body).toHaveFocus()
+
+      // Switch to edit mode
+      fireEvent.click(editButton)
+      expect(firstElement).toHaveTextContent('Edit Content')
+
+      await waitFor(() => {
+        expect(firstElement).toHaveFocus()
+      })
+
+      // Reset focus, so we can test focus during close
+      ;(document.activeElement as HTMLElement).blur()
+
+      // Switch to view mode
+      fireEvent.click(cancelButton)
+      expect(firstElement).toHaveTextContent('View Content')
+
+      await waitFor(() => {
+        expect(firstElement).toHaveFocus()
+      })
+
+      // Reset focus, so we can test focus during close
+      ;(document.activeElement as HTMLElement).blur()
+
+      // Switch to edit mode
+      fireEvent.click(editButton)
+      expect(firstElement).toHaveTextContent('Edit Content')
+
+      await waitFor(() => {
+        expect(firstElement).toHaveFocus()
+      })
+    })
+
+    it('should set focus on other item __element when containerMode gets removed', async () => {
+      render(
+        <Iterate.Array value={['foo', 'bar', 'baz']}>
+          <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
+          <Iterate.EditContainer>Edit Content</Iterate.EditContainer>
+        </Iterate.Array>
+      )
+
+      const elements = document.querySelectorAll(
+        '.dnb-forms-iterate__element'
+      )
+      expect(elements).toHaveLength(3)
+
+      const firstElement = elements[0]
+      const [viewBlock, editBlock] = Array.from(
+        firstElement.querySelectorAll('.dnb-forms-section-block')
+      )
+      const [, removeButton] = Array.from(
+        viewBlock.querySelectorAll('button')
+      )
+
+      expect(viewBlock).toHaveClass('dnb-forms-section-view-block')
+      expect(editBlock).toHaveClass('dnb-forms-section-edit-block')
+
+      expect(document.body).toHaveFocus()
+
+      // Remove the element
+      await userEvent.click(removeButton)
+      expect(removeButton).toHaveTextContent(tr.editContainer.removeButton)
+
+      await waitFor(() => {
+        const elements = document.querySelectorAll(
+          '.dnb-forms-iterate__element'
+        )
+        expect(elements).toHaveLength(2)
+        expect(elements[1]).toHaveFocus()
+      })
     })
   })
 

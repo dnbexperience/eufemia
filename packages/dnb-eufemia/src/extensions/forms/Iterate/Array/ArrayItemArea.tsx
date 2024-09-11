@@ -10,12 +10,12 @@ import { Flex, HeightAnimation } from '../../../../components'
 import IterateItemContext, {
   IterateItemContextState,
 } from '../IterateItemContext'
-import ElementBlockContext from './ElementBlockContext'
+import ArrayItemAreaContext from './ArrayItemAreaContext'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
-import { ContainerMode } from '../Array/types'
+import { ContainerMode } from './types'
 
-export type ElementSectionProps = {
+export type ArrayItemAreaProps = {
   /**
    * Defines the variant of the ViewContainer or EditContainer. Can be `outline`.
    * Defaults to `outline`.
@@ -28,9 +28,9 @@ export type Props = {
   open?: boolean | undefined
   ariaLabel?: string
   openDelay?: number
-} & ElementSectionProps
+} & ArrayItemAreaProps
 
-function ElementBlock(props: Props & FlexContainerProps) {
+function ArrayItemArea(props: Props & FlexContainerProps) {
   const [, forceUpdate] = useReducer(() => ({}), {})
 
   const {
@@ -46,11 +46,11 @@ function ElementBlock(props: Props & FlexContainerProps) {
   } = props
 
   const localContextRef = useRef<IterateItemContextState>()
-
   const { hasError, hasSubmitError } =
     useContext(FieldBoundaryContext) || {}
   localContextRef.current = useContext(IterateItemContext) || {}
   const omitFocusManagementRef = useRef(false)
+  const nextFocusElementRef = useRef<HTMLElement>()
   const { isNew, value } = localContextRef.current
   if (hasSubmitError || !value) {
     localContextRef.current.containerMode = 'edit'
@@ -79,7 +79,7 @@ function ElementBlock(props: Props & FlexContainerProps) {
     determineMode()
   }, [determineMode])
 
-  const { handleRemove, previousContainerMode, containerMode } =
+  const { handleRemove, index, previousContainerMode, containerMode } =
     localContextRef.current
 
   const openRef = useRef(open ?? (containerMode === mode && !isNew))
@@ -121,26 +121,7 @@ function ElementBlock(props: Props & FlexContainerProps) {
         if (state === 'opened') {
           localContextRef.current?.elementRef?.current?.focus?.()
         } else if (state === 'closed') {
-          // Wait until the element is removed, then check if we can set focus
-          window.requestAnimationFrame(() => {
-            // try to focus on the second last element
-            try {
-              if (
-                // But not when we focus is already inside our element
-                !document.activeElement?.closest(
-                  '.dnb-forms-iterate__element'
-                )
-              ) {
-                const elements =
-                  localContextRef.current?.containerRef.current.querySelectorAll<HTMLDivElement>(
-                    '.dnb-forms-iterate__element'
-                  )
-                elements[elements.length - 1].focus()
-              }
-            } catch (e) {
-              /* do nothing */
-            }
-          })
+          nextFocusElementRef.current?.focus?.()
         }
       }
 
@@ -162,14 +143,23 @@ function ElementBlock(props: Props & FlexContainerProps) {
     },
     [onAnimationEnd, setFocus]
   )
-  const handleRemoveBlock = useCallback(() => {
+
+  const handleRemoveItem = useCallback(() => {
+    try {
+      // Because "previousElementSibling" did not work in Jest/JSDOM
+      nextFocusElementRef.current = Array.from(
+        localContextRef.current.elementRef.current.parentElement.childNodes
+      ).at(index - 1) as HTMLElement
+    } catch (e) {
+      //
+    }
     isRemoving.current = true
     handleRemove?.({ keepItems: true })
     setOpenState(false)
-  }, [handleRemove, setOpenState])
+  }, [handleRemove, index, setOpenState])
 
   return (
-    <ElementBlockContext.Provider value={{ handleRemoveBlock }}>
+    <ArrayItemAreaContext.Provider value={{ handleRemoveItem }}>
       <HeightAnimation
         className={classnames(
           'dnb-forms-section-block',
@@ -192,9 +182,9 @@ function ElementBlock(props: Props & FlexContainerProps) {
           {children}
         </Flex.Stack>
       </HeightAnimation>
-    </ElementBlockContext.Provider>
+    </ArrayItemAreaContext.Provider>
   )
 }
 
-ElementBlock._supportsSpacingProps = true
-export default ElementBlock
+ArrayItemArea._supportsSpacingProps = true
+export default ArrayItemArea

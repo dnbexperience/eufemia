@@ -4,9 +4,7 @@ import { convertJsxToString } from '../../../../shared/component-helper'
 import { Flex } from '../../../../components'
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
 import { Lead } from '../../../../elements'
-import ElementBlock, {
-  ElementSectionProps,
-} from '../AnimatedContainer/ElementBlock'
+import ArrayItemArea, { ArrayItemAreaProps } from '../Array/ArrayItemArea'
 import IterateItemContext from '../IterateItemContext'
 import Toolbar from '../Toolbar'
 import EditButton from './EditButton'
@@ -23,7 +21,7 @@ export type Props = {
   toolbar?: React.ReactNode
 }
 
-export type AllProps = Props & FlexContainerProps & ElementSectionProps
+export type AllProps = Props & FlexContainerProps & ArrayItemAreaProps
 
 function ViewContainer(props: AllProps) {
   const { children, className, title, toolbar, ...restProps } = props || {}
@@ -42,7 +40,7 @@ function ViewContainer(props: AllProps) {
     })
 
   return (
-    <ElementBlock
+    <ArrayItemArea
       mode="view"
       ariaLabel={ariaLabel}
       className={classnames('dnb-forms-section-view-block', className)}
@@ -60,7 +58,7 @@ function ViewContainer(props: AllProps) {
               </Toolbar>
             )}
       </Flex.Stack>
-    </ElementBlock>
+    </ArrayItemArea>
   )
 }
 

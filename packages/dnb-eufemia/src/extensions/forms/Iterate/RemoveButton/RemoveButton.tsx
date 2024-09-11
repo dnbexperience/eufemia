@@ -4,7 +4,7 @@ import { Button } from '../../../../components'
 import { ButtonProps } from '../../../../components/Button'
 import IterateItemContext from '../IterateItemContext'
 import { useFieldProps, useTranslation } from '../../hooks'
-import ElementBlockContext from '../AnimatedContainer/ElementBlockContext'
+import ArrayItemAreaContext from '../Array/ArrayItemAreaContext'
 import {
   DataValueReadWriteComponentProps,
   omitDataValueReadWriteProps,
@@ -28,16 +28,16 @@ function RemoveButton(props: Props) {
   const translation = useTranslation().RemoveButton
   const textContent = text || children || translation.text
 
-  const elementBlockContext = useContext(ElementBlockContext)
-  const { handleRemoveBlock } = elementBlockContext || {}
+  const elementBlockContext = useContext(ArrayItemAreaContext)
+  const { handleRemoveItem } = elementBlockContext || {}
 
   const handleClick = useCallback(() => {
-    if (handleRemoveBlock) {
-      handleRemoveBlock()
+    if (handleRemoveItem) {
+      handleRemoveItem()
     } else {
       handleRemove()
     }
-  }, [handleRemove, handleRemoveBlock])
+  }, [handleRemove, handleRemoveItem])
 
   return (
     <Button

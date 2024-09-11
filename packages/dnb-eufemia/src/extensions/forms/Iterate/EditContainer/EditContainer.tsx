@@ -4,9 +4,7 @@ import { convertJsxToString } from '../../../../shared/component-helper'
 import { Lead } from '../../../../elements'
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
 import IterateItemContext from '../IterateItemContext'
-import ElementBlock, {
-  ElementSectionProps,
-} from '../AnimatedContainer/ElementBlock'
+import ArrayItemArea, { ArrayItemAreaProps } from '../Array/ArrayItemArea'
 import Toolbar from '../Toolbar'
 import { useSwitchContainerMode } from '../hooks'
 import DoneButton from './DoneButton'
@@ -34,7 +32,7 @@ export type Props = {
   toolbar?: React.ReactNode
 }
 
-export type AllProps = Props & FlexContainerProps & ElementSectionProps
+export type AllProps = Props & FlexContainerProps & ArrayItemAreaProps
 
 export default function EditContainer(props: AllProps) {
   const { toolbar, children, ...rest } = props
@@ -89,7 +87,7 @@ export function EditContainerWithoutToolbar(
   useSwitchContainerMode({ path })
 
   return (
-    <ElementBlock
+    <ArrayItemArea
       mode="edit"
       className={classnames('dnb-forms-section-edit-block', className)}
       ariaLabel={ariaLabel}
@@ -98,7 +96,7 @@ export function EditContainerWithoutToolbar(
       {itemTitle && <Lead size="basis">{itemTitle}</Lead>}
       {children}
       {toolbar}
-    </ElementBlock>
+    </ArrayItemArea>
   )
 }
 
