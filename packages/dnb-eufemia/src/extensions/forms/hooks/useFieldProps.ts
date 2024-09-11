@@ -248,7 +248,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   // - Should errors received through validation be shown initially. Assume that providing a direct prop to
   // the component means it is supposed to be shown initially.
   const revealErrorRef = useRef<boolean>(
-    Boolean(validateInitially || errorProp)
+    validateInitially ?? Boolean(errorProp)
   )
   // - Local errors are errors based on validation instructions received by
   const errorMethodRef = useRef<
@@ -367,16 +367,27 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   )
 
   const revealError = useCallback(() => {
+    // To support "validateInitially={false}" prop, we need to make sure that the error is not shown initially
+    if (revealErrorRef.current === false && validateInitially === false) {
+      revealErrorRef.current = undefined
+      return // stop here
+    }
+
     if (!revealErrorRef.current) {
       revealErrorRef.current = true
       showFieldErrorFieldBlock?.(identifier, true)
       setHasVisibleErrorDataContext?.(identifier, !!localErrorRef.current)
     }
-  }, [identifier, setHasVisibleErrorDataContext, showFieldErrorFieldBlock])
+  }, [
+    identifier,
+    setHasVisibleErrorDataContext,
+    showFieldErrorFieldBlock,
+    validateInitially,
+  ])
 
   const hideError = useCallback(() => {
     if (revealErrorRef.current) {
-      revealErrorRef.current = false
+      revealErrorRef.current = undefined
       showFieldErrorFieldBlock?.(identifier, false)
       setHasVisibleErrorDataContext?.(identifier, false)
     }

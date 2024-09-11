@@ -26,8 +26,10 @@ export default function EditToolbarTools() {
 
   const cancelHandler = useCallback(() => {
     if (hasSubmitError || (initialContainerMode === 'auto' && hasError)) {
-      setShowBoundaryErrors?.(true)
-      setShowError(true)
+      setShowBoundaryErrors?.(Date.now())
+      if (hasVisibleError) {
+        setShowError(true)
+      }
     } else {
       setShowError(false)
       setShowBoundaryErrors?.(false)
@@ -35,16 +37,17 @@ export default function EditToolbarTools() {
       switchContainerMode?.('view')
     }
   }, [
-    hasError,
     hasSubmitError,
-    restoreOriginalData,
-    setShowBoundaryErrors,
-    switchContainerMode,
     initialContainerMode,
+    hasError,
+    setShowBoundaryErrors,
+    hasVisibleError,
+    restoreOriginalData,
+    switchContainerMode,
   ])
   const doneHandler = useCallback(() => {
     if (hasError) {
-      setShowBoundaryErrors?.(true)
+      setShowBoundaryErrors?.(Date.now())
       if (hasVisibleError) {
         setShowError(true)
       }
@@ -62,9 +65,6 @@ export default function EditToolbarTools() {
 
   return (
     <>
-      <FormStatus show={showError && hasVisibleError} no_animation={false}>
-        {translation.errorInSection}
-      </FormStatus>
       <Flex.Horizontal gap="large">
         <Button
           variant="tertiary"
@@ -84,6 +84,14 @@ export default function EditToolbarTools() {
           {translation.cancelButton}
         </Button>
       </Flex.Horizontal>
+
+      <FormStatus
+        show={showError && hasVisibleError}
+        shellSpace={{ top: 'x-small' }}
+        no_animation={false}
+      >
+        {translation.errorInSection}
+      </FormStatus>
     </>
   )
 }

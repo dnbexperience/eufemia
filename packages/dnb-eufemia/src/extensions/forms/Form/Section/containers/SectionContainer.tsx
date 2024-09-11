@@ -26,9 +26,22 @@ export type Props = {
   mode: ContainerMode
   open?: boolean | undefined
   ariaLabel?: string
+  omitFocusManagementRef?: React.MutableRefObject<boolean>
 } & SectionContainerProps
 
 function SectionContainer(props: Props & FlexContainerProps) {
+  const {
+    mode,
+    open,
+    ariaLabel,
+    onAnimationEnd,
+    className,
+    children,
+    variant = 'outline',
+    omitFocusManagementRef = { current: undefined },
+    ...restProps
+  } = props
+
   const [, forceUpdate] = useReducer(() => ({}), {})
 
   const containerRef = useRef<HTMLDivElement>()
@@ -50,18 +63,7 @@ function SectionContainer(props: Props & FlexContainerProps) {
     contextRef.current.containerMode = 'edit'
   }
 
-  const { containerMode, initialContainerMode } = contextRef.current
-
-  const {
-    mode,
-    open,
-    ariaLabel,
-    onAnimationEnd,
-    className,
-    children,
-    variant = 'outline',
-    ...restProps
-  } = props
+  const { containerMode } = contextRef.current
 
   const openRef = useRef(open ?? containerMode === mode)
   const setOpenState = useCallback((open: boolean) => {
@@ -81,41 +83,36 @@ function SectionContainer(props: Props & FlexContainerProps) {
     }
   }, [containerMode, mode, open, setOpenState])
 
-  // - Remove the block with animation, if it's in the right mode
-  const handleAnimationEnd = useCallback(
+  const setFocus = useCallback(
     (state) => {
       if (state === 'opened') {
         if (
-          !contextRef.current.hasSubmitError &&
-          initialContainerMode === 'auto'
-            ? !contextRef.current.hasError
-            : true
+          !omitFocusManagementRef.current &&
+          !contextRef.current.hasSubmitError
         ) {
           containerRef?.current?.focus?.()
         }
+        omitFocusManagementRef.current = false
       }
-
-      onAnimationEnd?.(state)
     },
-    [initialContainerMode, onAnimationEnd]
+    [omitFocusManagementRef]
   )
 
-  const preventAnimationRef = useRef(true)
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      preventAnimationRef.current = false
-      forceUpdate()
-    }, 1000) // Initially, we don't want to animate
-
-    return () => clearTimeout(timeout)
-  }, [])
+  // - Remove the block with animation, if it's in the right mode
+  const handleAnimationEnd = useCallback(
+    (state) => {
+      setFocus(state)
+      onAnimationEnd?.(state)
+    },
+    [onAnimationEnd, setFocus]
+  )
 
   return (
     <HeightAnimation
       className={classnames(
         'dnb-forms-section-block',
         variant && `dnb-forms-section-block--variant-${variant}`,
-        preventAnimationRef.current &&
+        omitFocusManagementRef.current &&
           'dnb-forms-section-block--no-animation',
         contextRef.current.hasSubmitError &&
           'dnb-forms-section-block--error',

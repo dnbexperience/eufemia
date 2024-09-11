@@ -16,31 +16,29 @@ export default function FieldBoundaryProvider(props: Props) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const { showAllErrors, hasVisibleError } = useContext(DataContext)
 
+  const onPathErrorRef = useRef(onPathError)
+  onPathErrorRef.current = onPathError
   const errorsRef = useRef<Record<Path, boolean>>({})
-  const showBoundaryErrorsRef = useRef<boolean>(showErrors)
+  const showBoundaryErrorsRef =
+    useRef<FieldBoundaryContextState['showBoundaryErrors']>(showErrors)
   const hasError = Object.keys(errorsRef.current).length > 0
   const hasSubmitError = showAllErrors && hasError
 
-  const setFieldError = useCallback(
-    (path: Path, error: Error) => {
-      if (error) {
-        errorsRef.current[path] = !!error
-      } else {
-        delete errorsRef.current?.[path]
-      }
-      forceUpdate()
-      onPathError?.(path, error)
-    },
-    [onPathError]
-  )
+  const setFieldError = useCallback((path: Path, error: Error) => {
+    if (error) {
+      errorsRef.current[path] = !!error
+    } else {
+      delete errorsRef.current?.[path]
+    }
+    forceUpdate()
+    onPathErrorRef.current?.(path, error)
+  }, [])
 
-  const setShowBoundaryErrors = useCallback(
-    (showBoundaryErrors: boolean) => {
+  const setShowBoundaryErrors: FieldBoundaryContextState['setShowBoundaryErrors'] =
+    useCallback((showBoundaryErrors) => {
       showBoundaryErrorsRef.current = showBoundaryErrors
       forceUpdate()
-    },
-    []
-  )
+    }, [])
 
   const context: FieldBoundaryContextState = {
     hasError,

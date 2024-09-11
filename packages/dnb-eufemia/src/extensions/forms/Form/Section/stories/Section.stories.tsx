@@ -250,7 +250,7 @@ export function OpenWhenFieldValidationError() {
     return (
       <Form.Section.EditContainer>
         <Field.Name.First path="/firstName" />
-        <Field.Name.Last path="/lastName" />
+        <Field.Name.Last path="/lastName" validateInitially={false} />
       </Form.Section.EditContainer>
     )
   }, [])
@@ -272,6 +272,7 @@ export function OpenWhenFieldValidationError() {
       defaultData={{
         nestedPath: {
           firstName: 'Nora',
+          lastName: undefined, // initiate error
         },
       }}
     >
