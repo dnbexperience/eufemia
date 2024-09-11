@@ -64,10 +64,10 @@ describe('Field.PhoneNumber', () => {
     expect(label).toHaveTextContent(nbNO.PhoneNumber.label)
   })
 
-  it('should add (optional) text to the number label', () => {
+  it('should add (optional) text to the number label if required={false}', () => {
     render(
       <Form.Handler required>
-        <Field.PhoneNumber optional />
+        <Field.PhoneNumber required={false} />
       </Form.Handler>
     )
 
@@ -79,15 +79,15 @@ describe('Field.PhoneNumber', () => {
     ) as HTMLInputElement
 
     expect(codeElement.querySelector('label')).not.toHaveTextContent(
-      `${nbNO.Field.optionalLabel}`
+      `${nbNO.Field.optionalLabelSuffix}`
     )
     expect(numberElement.querySelector('label')).toHaveTextContent(
-      `${nbNO.PhoneNumber.label} ${nbNO.Field.optionalLabel}`
+      `${nbNO.PhoneNumber.label} ${nbNO.Field.optionalLabelSuffix}`
     )
 
     // Use "textContent" to check against non-breaking space
     expect(numberElement.querySelector('label').textContent).toBe(
-      `${nbNO.PhoneNumber.label}${' '}${nbNO.Field.optionalLabel}`
+      `${nbNO.PhoneNumber.label}${' '}${nbNO.Field.optionalLabelSuffix}`
     )
   })
 

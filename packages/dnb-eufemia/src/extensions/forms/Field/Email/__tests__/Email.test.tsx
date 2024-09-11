@@ -122,16 +122,16 @@ describe('Field.Email', () => {
     expect(label).toHaveTextContent(nb.Email.label)
   })
 
-  it('should add (optional) text to the label', () => {
+  it('should add (optional) text to the label if required={false}', () => {
     render(
       <Form.Handler required>
-        <Field.Email optional />
+        <Field.Email required={false} />
       </Form.Handler>
     )
 
     const label = document.querySelector('label')
     expect(label).toHaveTextContent(
-      `${nb.Email.label} ${nb.Field.optionalLabel}`
+      `${nb.Email.label} ${nb.Field.optionalLabelSuffix}`
     )
   })
 

@@ -2004,8 +2004,7 @@ describe('useFieldProps', () => {
       const { result } = renderHook(() =>
         useFieldProps({
           value: undefined,
-          required: true,
-          optional: true,
+          required: false,
         })
       )
 

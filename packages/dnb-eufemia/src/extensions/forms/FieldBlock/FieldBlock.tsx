@@ -50,6 +50,7 @@ export type Props = Pick<
   | keyof ComponentProps
   | 'layout'
   | 'label'
+  | 'labelSuffix'
   | 'labelDescription'
   | 'info'
   | 'warning'
@@ -62,8 +63,6 @@ export type Props = Pick<
   asFieldset?: boolean
   /** use `true` to make the label only readable by screen readers. */
   labelSrOnly?: boolean
-  /** use `true` to add an optional label to the field. */
-  optional?: boolean
   /** Defines the layout of nested fields */
   composition?: FieldBlockContextProps['composition']
   /** Width of outer block element */
@@ -78,6 +77,8 @@ export type Props = Pick<
   fieldState?: SubmitState
   /** Typography size */
   labelSize?: 'medium' | 'large'
+  /** For internal use only */
+  required?: boolean
   children?: React.ReactNode
 } & React.HTMLAttributes<HTMLDivElement>
 
@@ -95,9 +96,10 @@ function FieldBlock(props: Props) {
     composition,
     label: labelProp,
     labelDescription,
+    labelSuffix,
     labelSrOnly,
     asFieldset,
-    optional,
+    required,
     info,
     warning,
     error: errorProp,
@@ -125,36 +127,50 @@ function FieldBlock(props: Props) {
     return Boolean(errorProp)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const { optionalLabel } = useTranslation().Field
-  const optionalLabelText = useMemo(() => {
-    if (optional) {
-      // eslint-disable-next-line no-irregular-whitespace
-      return ` ${optionalLabel}`
+  const { optionalLabelSuffix } = useTranslation().Field
+  const labelSuffixText = useMemo(() => {
+    if (required === false || typeof labelSuffix !== 'undefined') {
+      return labelSuffix ?? optionalLabelSuffix
     }
     return ''
-  }, [optional, optionalLabel])
+  }, [required, labelSuffix, optionalLabelSuffix])
 
   const label = useMemo(() => {
     let content = labelProp
+
     if (iterateIndex !== undefined) {
       content = convertJsxToString(labelProp).replace(
         '{itemNr}',
         String(iterateIndex + 1)
       )
     }
-    if (typeof content === 'string') {
-      return content + optionalLabelText
+
+    if (labelSuffixText) {
+      if (
+        convertJsxToString(content).includes(
+          convertJsxToString(labelSuffixText)
+        )
+      ) {
+        return content
+      }
+
+      if (typeof content === 'string') {
+        return content + ' ' + labelSuffixText
+      }
+
+      if (React.isValidElement(content)) {
+        return (
+          <>
+            {content}
+            {' '}
+            {labelSuffixText}
+          </>
+        )
+      }
     }
-    if (React.isValidElement(content)) {
-      return (
-        <>
-          {content}
-          {optionalLabelText}
-        </>
-      )
-    }
+
     return content
-  }, [iterateIndex, labelProp, optionalLabelText])
+  }, [iterateIndex, labelProp, labelSuffixText])
 
   const setInternalRecord = useCallback((props: StateBasis) => {
     const { stateId, identifier, type } = props

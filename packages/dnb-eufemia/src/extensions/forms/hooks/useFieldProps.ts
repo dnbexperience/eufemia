@@ -86,7 +86,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     defaultValue,
     itemPath,
     emptyValue,
-    optional,
     required: requiredProp,
     disabled: disabledProp,
     info,
@@ -211,12 +210,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const changedRef = useRef<boolean>()
   const hasFocusRef = useRef<boolean>()
 
-  const requiredValue = requiredProp
-    ? requiredProp && !optional
-    : requiredProp
   const required = useMemo(() => {
-    if (requiredValue) {
-      return requiredValue
+    if (typeof requiredProp !== 'undefined') {
+      return requiredProp
     }
 
     const paths = identifier.split('/')
@@ -246,7 +242,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         return true
       }
     }
-  }, [requiredValue, identifier, schema, dataContext.schema, sectionPath])
+  }, [requiredProp, identifier, schema, dataContext.schema, sectionPath])
 
   // Error handling
   // - Should errors received through validation be shown initially. Assume that providing a direct prop to
@@ -924,7 +920,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     try {
       const requiredError = transformers.current.validateRequired(value, {
         emptyValue,
-        required: requiredValue ?? required,
+        required: requiredProp ?? required,
         isChanged: changedRef.current,
         error: new FormError('The value is required', {
           validationRule: 'required',
@@ -978,7 +974,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     setFieldState,
     clearErrorState,
     emptyValue,
-    requiredValue,
+    requiredProp,
     required,
     prioritizeContextSchema,
     validateInitially,
@@ -1704,7 +1700,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     info: !inFieldBlock ? infoRef.current : undefined,
     warning: !inFieldBlock ? warningRef.current : undefined,
     error: !inFieldBlock ? error : undefined,
-    optional,
+    required,
+    labelSuffix: props.labelSuffix,
 
     /** HTML Attributes */
     disabled:

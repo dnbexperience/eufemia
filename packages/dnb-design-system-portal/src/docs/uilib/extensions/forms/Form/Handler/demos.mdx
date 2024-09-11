@@ -10,7 +10,7 @@ import * as Examples from './Examples'
 
 To make all fields required, set the `required` prop on the `Form.Handler` component.
 
-For fields that should remain optional, use the `optional` prop on the specific field, which will add "(optional)" to the label.
+For fields that should remain optional, use `required={false}` prop on the specific field. When doing so, it will append "(optional)" to the optional field's label(`labelSuffix`).
 
 <Examples.RequiredAndOptionalFields />
 

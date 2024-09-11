@@ -10,12 +10,12 @@ export const RequiredAndOptionalFields = () => {
     <ComponentBox data-visual-test="required-and-optional-fields">
       <Form.Handler required>
         <Card stack>
-          <Field.Email path="/email" optional />
+          <Field.Email path="/email" required={false} />
           <Field.String
             path="/custom"
             label="Label"
             labelDescription="\nLabel description"
-            optional
+            required={false}
           />
           <Field.Currency path="/amount" label="Amount" />
           <Form.SubmitButton />

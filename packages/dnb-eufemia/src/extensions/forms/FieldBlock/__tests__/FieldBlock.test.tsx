@@ -142,10 +142,10 @@ describe('FieldBlock', () => {
     expect(labelElement).toHaveTextContent('A Label Description')
   })
 
-  describe('optional', () => {
-    it('should add (optional) text to the label', () => {
+  describe('labelSuffix', () => {
+    it('should add additional text to the label with a non-breaking space', () => {
       render(
-        <FieldBlock label="A Label" optional>
+        <FieldBlock label="A Label" labelSuffix="(valgfritt)">
           content
         </FieldBlock>
       )
@@ -154,14 +154,86 @@ describe('FieldBlock', () => {
 
       expect(labelElement).toBeInTheDocument()
       expect(labelElement).toHaveTextContent(
-        `A Label ${nb.Field.optionalLabel}`
+        `A Label ${nb.Field.optionalLabelSuffix}`
+      )
+      expect(
+        labelElement.querySelector('span > span').innerHTML
+      ).toContain(`A Label&nbsp;(valgfritt)`)
+    })
+
+    it('should add additional text to the label with a non-breaking space when label and labelSuffix is a JSX element', () => {
+      render(
+        <FieldBlock
+          label={<b>A Label</b>}
+          labelSuffix={<i>(valgfritt)</i>}
+        >
+          content
+        </FieldBlock>
+      )
+
+      const labelElement = document.querySelector('label')
+
+      expect(labelElement).toBeInTheDocument()
+      expect(labelElement).toHaveTextContent(
+        `A Label ${nb.Field.optionalLabelSuffix}`
+      )
+      expect(labelElement.querySelector('span').innerHTML).toContain(
+        `<b>A Label</b>&nbsp;<i>(valgfritt)</i>`
+      )
+    })
+  })
+
+  describe('required={false}', () => {
+    it('should add (optional) text to the label', () => {
+      render(
+        <FieldBlock label="A Label" required={false}>
+          content
+        </FieldBlock>
+      )
+
+      const labelElement = document.querySelector('label')
+
+      expect(labelElement).toBeInTheDocument()
+      expect(labelElement).toHaveTextContent(
+        `A Label ${nb.Field.optionalLabelSuffix}`
+      )
+    })
+
+    it('should prioritize labelSuffix over optionalLabel', () => {
+      render(
+        <FieldBlock
+          label="A Label"
+          required={false}
+          labelSuffix="(suffix)"
+        >
+          content
+        </FieldBlock>
+      )
+
+      const labelElement = document.querySelector('label')
+      expect(labelElement.textContent).toBe('A Label (suffix)')
+    })
+
+    it('should check if labelSuffix already exists in label', () => {
+      render(
+        <FieldBlock
+          label={`My Label ${nb.Field.optionalLabelSuffix}`}
+          required={false}
+        >
+          content
+        </FieldBlock>
+      )
+
+      const labelElement = document.querySelector('label')
+      expect(labelElement.textContent).toBe(
+        `My Label ${nb.Field.optionalLabelSuffix}`
       )
     })
 
     it('should support en-GB locale', () => {
       render(
         <Form.Handler locale="en-GB">
-          <FieldBlock label="A Label" optional>
+          <FieldBlock label="A Label" required={false}>
             content
           </FieldBlock>
         </Form.Handler>
@@ -171,13 +243,13 @@ describe('FieldBlock', () => {
 
       expect(labelElement).toBeInTheDocument()
       expect(labelElement).toHaveTextContent(
-        `A Label ${en.Field.optionalLabel}`
+        `A Label ${en.Field.optionalLabelSuffix}`
       )
     })
 
     it('should add (optional) text when label is a JSX element', () => {
       render(
-        <FieldBlock label={<b>A Label</b>} optional>
+        <FieldBlock label={<b>A Label</b>} required={false}>
           content
         </FieldBlock>
       )
@@ -186,10 +258,10 @@ describe('FieldBlock', () => {
 
       expect(labelElement).toBeInTheDocument()
       expect(labelElement).toHaveTextContent(
-        `A Label ${nb.Field.optionalLabel}`
+        `A Label ${nb.Field.optionalLabelSuffix}`
       )
-      expect(labelElement.innerHTML).toContain(
-        `<span><b>A Label</b>&nbsp;(valgfritt)</span>`
+      expect(labelElement.querySelector('span').innerHTML).toContain(
+        `<b>A Label</b>&nbsp;(valgfritt)`
       )
     })
   })

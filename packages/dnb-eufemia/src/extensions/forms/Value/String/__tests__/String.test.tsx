@@ -61,26 +61,30 @@ describe('Value.String', () => {
       ).toHaveTextContent('The label')
     })
 
-    it('should only show optional label on the field label', () => {
+    it('should only show optional label on the field label if required={false}', () => {
       render(
         <Form.Handler
           data={{
             myPath: 'A value',
           }}
         >
-          <Field.String path="/myPath" label="The label" optional />
+          <Field.String
+            path="/myPath"
+            label="The label"
+            required={false}
+          />
           <Value.String path="/myPath" inheritLabel />
         </Form.Handler>
       )
       expect(
         document.querySelector('.dnb-forms-field-string')
-      ).toHaveTextContent(`The label ${nb.Field.optionalLabel}`)
+      ).toHaveTextContent(`The label ${nb.Field.optionalLabelSuffix}`)
       expect(
         document.querySelector('.dnb-forms-value-string')
       ).toHaveTextContent('The label')
       expect(
         document.querySelector('.dnb-forms-value-string')
-      ).not.toHaveTextContent(nb.Field.optionalLabel)
+      ).not.toHaveTextContent(nb.Field.optionalLabelSuffix)
     })
 
     it('should not use label from field with same path when label is false', () => {
@@ -171,6 +175,26 @@ describe('Value.String', () => {
       expect(
         document.querySelector('.dnb-forms-value-string')
       ).toHaveTextContent('The label')
+    })
+
+    it('should not inherit labelSuffix in value label', () => {
+      render(
+        <Form.Handler required>
+          <Field.String
+            path="/myPath"
+            label="The label"
+            required={false}
+          />
+          <Value.String path="/myPath" inheritLabel showEmpty />
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('label').textContent).toBe(
+        `The label${' '}${nb.Field.optionalLabelSuffix}`
+      )
+      expect(
+        document.querySelector('.dnb-forms-value-string').textContent
+      ).toBe('The label')
     })
   })
 

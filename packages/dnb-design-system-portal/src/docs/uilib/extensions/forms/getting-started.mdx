@@ -338,14 +338,13 @@ The `required` property is a boolean that indicates whether the field is require
 </Form.Handler>
 ```
 
-#### optional
-
-The `optional` property adds "(optional)" to the field label and ensures the field is not required. Even if all fields in the form are made required by inheriting the required property from a component, like [Form.Handler](/uilib/extensions/forms/Form/Handler/), the optional field will still not be required.
+When you need to opt-out of the required field validation, you can use the `required={false}` property. This will also add a "(optional)" suffix to the field label(`labelSuffix`).
 
 ```tsx
 <Form.Handler required>
   <Field.String label="I'm required" />
-  <Field.String label="I'm not" optional />
+  <Field.String label="I'm not" required={false} />
+  <Field.Email required={false} labelSuffix="(recommended)" />
 </Form.Handler>
 ```
 
