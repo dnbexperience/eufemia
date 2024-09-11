@@ -47,6 +47,27 @@ render(
 )
 ```
 
+## Customize the Toolbar
+
+```tsx
+import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Iterate.Array>
+    <Iterate.EditContainer
+      toolbar={
+        <Iterate.Toolbar>
+          <Iterate.EditContainer.DoneButton />
+          <Iterate.EditContainer.CancelButton />
+        </Iterate.Toolbar>
+      }
+    >
+      <Field.Name.Last itemPath="/name" />
+    </Iterate.EditContainer>
+  </Iterate.Array>,
+)
+```
+
 ## Get the internal item object
 
 You can get the internal item object by using the `Iterate.useItem` hook.

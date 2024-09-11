@@ -92,5 +92,8 @@ export function EditContainerWithoutToolbar(
   )
 }
 
+EditContainer.DoneButton = DoneButton
+EditContainer.CancelButton = CancelButton
+
 EditContainer._supportsSpacingProps = true
 EditContainerWithoutToolbar._supportsSpacingProps = true

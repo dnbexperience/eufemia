@@ -151,15 +151,15 @@ export const InitialOpen = () => {
       <Iterate.EditContainer
         toolbar={
           <Iterate.Toolbar>
-            {({ DoneButton, CancelButton, items }) => {
+            {({ items }) => {
               if (items.length === 1) {
                 return null
               }
 
               return (
                 <>
-                  <DoneButton />
-                  <CancelButton />
+                  <Iterate.EditContainer.DoneButton />
+                  <Iterate.EditContainer.CancelButton />
                 </>
               )
             }}
@@ -176,15 +176,15 @@ export const InitialOpen = () => {
       <Iterate.ViewContainer
         toolbar={
           <Iterate.Toolbar>
-            {({ EditButton, RemoveButton, items }) => {
+            {({ items }) => {
               if (items.length === 1) {
-                return <EditButton />
+                return <Iterate.ViewContainer.EditButton />
               }
 
               return (
                 <>
-                  <EditButton />
-                  <RemoveButton />
+                  <Iterate.ViewContainer.EditButton />
+                  <Iterate.ViewContainer.RemoveButton />
                 </>
               )
             }}

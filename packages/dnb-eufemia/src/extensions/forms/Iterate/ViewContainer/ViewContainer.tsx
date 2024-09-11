@@ -56,5 +56,8 @@ function ViewContainer(props: AllProps) {
   )
 }
 
+ViewContainer.EditButton = EditButton
+ViewContainer.RemoveButton = RemoveButton
+
 ViewContainer._supportsSpacingProps = true
 export default ViewContainer

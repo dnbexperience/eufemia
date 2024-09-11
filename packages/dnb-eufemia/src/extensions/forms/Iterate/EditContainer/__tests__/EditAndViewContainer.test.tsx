@@ -1,8 +1,6 @@
 import React from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import IterateItemContext from '../../IterateItemContext'
-import EditContainer from '../EditContainer'
-import ViewContainer from '../../ViewContainer'
 import { Field, Form, Iterate } from '../../..'
 import userEvent from '@testing-library/user-event'
 import nbNO from '../../../constants/locales/nb-NO'
@@ -85,7 +83,7 @@ describe('EditContainer and ViewContainer', () => {
     render(
       <Form.Handler>
         <Iterate.Array value={['0']}>
-          <EditContainer>
+          <Iterate.EditContainer>
             <Field.String
               itemPath="/"
               validator={(value) => {
@@ -94,8 +92,8 @@ describe('EditContainer and ViewContainer', () => {
                 }
               }}
             />
-          </EditContainer>
-          <ViewContainer>content</ViewContainer>
+          </Iterate.EditContainer>
+          <Iterate.ViewContainer>content</Iterate.ViewContainer>
           <ContextConsumer />
         </Iterate.Array>
       </Form.Handler>
@@ -122,7 +120,7 @@ describe('EditContainer and ViewContainer', () => {
     render(
       <Form.Handler>
         <Iterate.Array value={['0']}>
-          <EditContainer>
+          <Iterate.EditContainer>
             <Field.String
               itemPath="/"
               onBlurValidator={(value) => {
@@ -131,8 +129,8 @@ describe('EditContainer and ViewContainer', () => {
                 }
               }}
             />
-          </EditContainer>
-          <ViewContainer>content</ViewContainer>
+          </Iterate.EditContainer>
+          <Iterate.ViewContainer>content</Iterate.ViewContainer>
           <ContextConsumer />
         </Iterate.Array>
         <Form.SubmitButton />
@@ -293,10 +291,10 @@ describe('EditContainer and ViewContainer', () => {
     render(
       <Form.Handler>
         <Iterate.Array value={['']} onChange={onChange}>
-          <EditContainer>
+          <Iterate.EditContainer>
             <Field.String required itemPath="/" />
-          </EditContainer>
-          <ViewContainer>content</ViewContainer>
+          </Iterate.EditContainer>
+          <Iterate.ViewContainer>content</Iterate.ViewContainer>
         </Iterate.Array>
       </Form.Handler>
     )
@@ -417,14 +415,14 @@ describe('EditContainer and ViewContainer', () => {
   it('should render the given toolbar buttons', () => {
     const viewToolbar = (
       <Iterate.Toolbar>
-        {({ EditButton, RemoveButton, items }) => {
+        {({ items }) => {
           if (items.length === 1) {
-            return <EditButton />
+            return <Iterate.ViewContainer.EditButton />
           }
           return (
             <>
-              <EditButton />
-              <RemoveButton />
+              <Iterate.ViewContainer.EditButton />
+              <Iterate.ViewContainer.RemoveButton />
             </>
           )
         }}
@@ -433,14 +431,14 @@ describe('EditContainer and ViewContainer', () => {
 
     const editToolbar = (
       <Iterate.Toolbar>
-        {({ DoneButton, CancelButton, items }) => {
+        {({ items }) => {
           if (items.length === 1) {
             return null
           }
           return (
             <>
-              <DoneButton />
-              <CancelButton />
+              <Iterate.EditContainer.DoneButton />
+              <Iterate.EditContainer.CancelButton />
             </>
           )
         }}
@@ -505,10 +503,10 @@ describe('EditContainer and ViewContainer', () => {
     render(
       <Form.Handler>
         <Iterate.Array value={['']}>
-          <EditContainer>
+          <Iterate.EditContainer>
             <Field.String required itemPath="/" />
-          </EditContainer>
-          <ViewContainer>content</ViewContainer>
+          </Iterate.EditContainer>
+          <Iterate.ViewContainer>content</Iterate.ViewContainer>
         </Iterate.Array>
       </Form.Handler>
     )
