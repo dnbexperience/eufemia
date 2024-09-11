@@ -2,6 +2,7 @@ import React, { useCallback, useContext, useEffect, useRef } from 'react'
 import { Button } from '../../../../components'
 import useTranslation from '../../hooks/useTranslation'
 import IterateItemContext from '../IterateItemContext'
+import ToolbarContext from '../Toolbar/ToolbarContext'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
 import { close } from '../../../../icons'
 import { ButtonProps } from '../../../../components/Button'
@@ -20,8 +21,9 @@ export default function EditToolbarTools(props: Props) {
     isNew,
     index,
   } = useContext(IterateItemContext) || {}
-  const { hasError, setShowBoundaryErrors } =
+  const { hasError, hasVisibleError, setShowBoundaryErrors } =
     useContext(FieldBoundaryContext) || {}
+  const { setShowError } = useContext(ToolbarContext) || {}
 
   const { cancelButton, removeButton } =
     useTranslation().IterateEditContainer
@@ -39,16 +41,22 @@ export default function EditToolbarTools(props: Props) {
   const cancelHandler = useCallback(() => {
     if (hasError && initialContainerMode === 'auto') {
       setShowBoundaryErrors?.(true)
+      if (hasVisibleError) {
+        setShowError(true)
+      }
     } else {
       restoreOriginalValue?.(valueBackupRef.current)
+      setShowError(false)
       setShowBoundaryErrors?.(false)
       switchContainerMode?.('view')
     }
   }, [
     hasError,
+    hasVisibleError,
     initialContainerMode,
     restoreOriginalValue,
     setShowBoundaryErrors,
+    setShowError,
     switchContainerMode,
   ])
 

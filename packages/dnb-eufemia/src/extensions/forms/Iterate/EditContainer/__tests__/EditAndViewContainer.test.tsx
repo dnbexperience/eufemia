@@ -521,6 +521,60 @@ describe('EditContainer and ViewContainer', () => {
     expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
   })
 
+  it('should show "errorInContainer" message', async () => {
+    render(
+      <Form.Handler>
+        <Iterate.Array value={[null]}>
+          <Iterate.EditContainer>
+            <Field.String required itemPath="/" />
+          </Iterate.EditContainer>
+        </Iterate.Array>
+      </Form.Handler>
+    )
+
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
+
+    const [doneButton, cancelButton] = Array.from(
+      document.querySelectorAll('button')
+    )
+    const input = document.querySelector('input')
+    fireEvent.submit(input)
+
+    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
+
+    fireEvent.submit(input)
+
+    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
+
+    await userEvent.click(doneButton)
+
+    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(2)
+
+    await userEvent.type(input, 'x{Backspace}')
+
+    await waitFor(() => {
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(0)
+    })
+
+    await userEvent.click(cancelButton)
+
+    // Expect 2, because we already have an error in the field
+    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(2)
+    expect(
+      document.querySelectorAll('.dnb-form-status')[1]
+    ).toHaveTextContent(
+      nbNO['nb-NO'].IterateEditContainer.errorInContainer
+    )
+
+    await userEvent.type(input, 'x')
+
+    await waitFor(() => {
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(0)
+    })
+  })
+
   it('should open in "edit" mode without focusing', async () => {
     const containerMode = {}
 

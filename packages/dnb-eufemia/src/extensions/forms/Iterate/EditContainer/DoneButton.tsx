@@ -2,6 +2,7 @@ import React, { useCallback, useContext, useEffect, useRef } from 'react'
 import { Button } from '../../../../components'
 import useTranslation from '../../hooks/useTranslation'
 import IterateItemContext from '../IterateItemContext'
+import ToolbarContext from '../Toolbar/ToolbarContext'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
 import PushContainerContext from '../PushContainer/PushContainerContext'
 import { check } from '../../../../icons'
@@ -12,9 +13,11 @@ type Props = ButtonProps
 export default function DoneButton(props: Props) {
   const { switchContainerMode, containerMode, arrayValue, index } =
     useContext(IterateItemContext) || {}
-  const { hasError, setShowBoundaryErrors } =
+  const { hasError, hasVisibleError, setShowBoundaryErrors } =
     useContext(FieldBoundaryContext) || {}
   const { commitHandleRef } = useContext(PushContainerContext) || {}
+  useContext(FieldBoundaryContext) || {}
+  const { setShowError } = useContext(ToolbarContext) || {}
 
   const { doneButton } = useTranslation().IterateEditContainer
   const valueBackupRef = useRef<unknown>()
@@ -31,8 +34,12 @@ export default function DoneButton(props: Props) {
   const doneHandler = useCallback(() => {
     if (hasError) {
       setShowBoundaryErrors?.(true)
+      if (hasVisibleError) {
+        setShowError(true)
+      }
     } else {
       setShowBoundaryErrors?.(false)
+      setShowError(false)
       if (commitHandleRef) {
         commitHandleRef.current?.()
       } else {
@@ -42,7 +49,9 @@ export default function DoneButton(props: Props) {
   }, [
     commitHandleRef,
     hasError,
+    hasVisibleError,
     setShowBoundaryErrors,
+    setShowError,
     switchContainerMode,
   ])
 

@@ -48,6 +48,7 @@ export default {
       removeButton: 'Fjern',
       doneButton: 'Ferdig',
       cancelButton: 'Avbryt',
+      errorInContainer: 'Feilene ovenfor må rettes',
     },
     IteratePushContainer: {
       createButton: 'Legg til',
