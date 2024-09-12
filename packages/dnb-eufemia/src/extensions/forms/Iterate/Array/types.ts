@@ -25,6 +25,7 @@ export type Props = Omit<
     countPathLimit?: number
     validator?: Validator<Value>
     withoutFlex?: boolean
+    animate?: boolean
     placeholder?: React.ReactNode
     containerMode?: ContainerMode
     countPathTransform?: (params: { value: any; index: number }) => any
