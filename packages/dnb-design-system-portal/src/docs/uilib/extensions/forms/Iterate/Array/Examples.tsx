@@ -409,3 +409,33 @@ export const InitialOpen = () => {
     </ComponentBox>
   )
 }
+
+export const ToolbarVariantMiniumOneItemOneItem = () => {
+  return (
+    <ComponentBox hideCode>
+      <Iterate.Array value={['foo']}>
+        <Iterate.ViewContainer toolbarVariant="minimumOneItem">
+          View Content
+        </Iterate.ViewContainer>
+        <Iterate.EditContainer toolbarVariant="minimumOneItem">
+          Edit Content
+        </Iterate.EditContainer>
+      </Iterate.Array>
+    </ComponentBox>
+  )
+}
+
+export const ToolbarVariantMiniumOneItemTwoItems = () => {
+  return (
+    <ComponentBox hideCode>
+      <Iterate.Array value={['foo', 'bar']}>
+        <Iterate.ViewContainer toolbarVariant="minimumOneItem">
+          View Content
+        </Iterate.ViewContainer>
+        <Iterate.EditContainer toolbarVariant="minimumOneItem">
+          Edit Content
+        </Iterate.EditContainer>
+      </Iterate.Array>
+    </ComponentBox>
+  )
+}
