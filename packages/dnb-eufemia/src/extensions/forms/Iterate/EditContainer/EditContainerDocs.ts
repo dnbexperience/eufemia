@@ -21,6 +21,11 @@ export const EditContainerProperties: PropertiesTableProps = {
     type: 'React.Node',
     status: 'optional',
   },
+  toolbarVariant: {
+    doc: 'Use variants to render the toolbar differently. Currently there is only the `minimumOneItem` variant. See the info section for more info.',
+    type: 'string',
+    status: 'optional',
+  },
   open: {
     doc: 'If the container should be open or not. This is taken care of internally by default.',
     type: 'boolean',

@@ -589,10 +589,69 @@ describe('EditContainer and ViewContainer', () => {
 
     const { rerender } = render(
       <Iterate.Array value={['foo']}>
-        <Iterate.ViewContainer toolbar={viewToolbar}>
+        <Iterate.ViewContainer>
+          View Content
+          {viewToolbar}
+        </Iterate.ViewContainer>
+        <Iterate.EditContainer>
+          Edit Content
+          {editToolbar}
+        </Iterate.EditContainer>
+      </Iterate.Array>
+    )
+
+    {
+      const elements = document.querySelectorAll(
+        '.dnb-forms-iterate__element'
+      )
+      expect(elements).toHaveLength(1)
+
+      const [firstElement] = Array.from(elements)
+      const [viewBlock, editBlock] = Array.from(
+        firstElement.querySelectorAll('.dnb-forms-section-block')
+      )
+      expect(editBlock.querySelectorAll('button')).toHaveLength(0)
+      expect(viewBlock.querySelectorAll('button')).toHaveLength(1)
+      expect(viewBlock.querySelectorAll('button')[0]).toHaveTextContent(
+        tr.viewContainer.editButton
+      )
+    }
+
+    rerender(
+      <Iterate.Array value={['foo', 'bar']}>
+        <Iterate.ViewContainer>
+          View Content
+          {viewToolbar}
+        </Iterate.ViewContainer>
+        <Iterate.EditContainer>
+          Edit Content
+          {editToolbar}
+        </Iterate.EditContainer>
+      </Iterate.Array>
+    )
+
+    {
+      const elements = document.querySelectorAll(
+        '.dnb-forms-iterate__element'
+      )
+      expect(elements).toHaveLength(2)
+
+      const [firstElement] = Array.from(elements)
+      const [viewBlock, editBlock] = Array.from(
+        firstElement.querySelectorAll('.dnb-forms-section-block')
+      )
+      expect(editBlock.querySelectorAll('button')).toHaveLength(2)
+      expect(viewBlock.querySelectorAll('button')).toHaveLength(2)
+    }
+  })
+
+  it('should render toolbarVariant="minimumOneItem" with correct buttons', () => {
+    const { rerender } = render(
+      <Iterate.Array value={['foo']}>
+        <Iterate.ViewContainer toolbarVariant="minimumOneItem">
           View Content
         </Iterate.ViewContainer>
-        <Iterate.EditContainer toolbar={editToolbar}>
+        <Iterate.EditContainer toolbarVariant="minimumOneItem">
           Edit Content
         </Iterate.EditContainer>
       </Iterate.Array>
@@ -617,10 +676,10 @@ describe('EditContainer and ViewContainer', () => {
 
     rerender(
       <Iterate.Array value={['foo', 'bar']}>
-        <Iterate.ViewContainer toolbar={viewToolbar}>
+        <Iterate.ViewContainer toolbarVariant="minimumOneItem">
           View Content
         </Iterate.ViewContainer>
-        <Iterate.EditContainer toolbar={editToolbar}>
+        <Iterate.EditContainer toolbarVariant="minimumOneItem">
           Edit Content
         </Iterate.EditContainer>
       </Iterate.Array>

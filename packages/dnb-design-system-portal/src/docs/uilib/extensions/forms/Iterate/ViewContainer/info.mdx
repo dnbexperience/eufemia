@@ -63,6 +63,26 @@ render(
 )
 ```
 
+### Variants
+
+#### `minimumOneItem`
+
+This variant has the following behavior:
+
+- When `ViewContainer` is visible, and the number of items in the array is one, the remove button will be hidden.
+
+```tsx
+import { Iterate } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Iterate.Array>
+    <Iterate.ViewContainer toolbarVariant="minimumOneItem">
+      Item Content
+    </Iterate.ViewContainer>
+  </Iterate.Array>,
+)
+```
+
 ## Accessibility
 
 The `Iterate.ViewContainer` component has an `aria-label` attribute, which is set to the `title` prop value. It uses a section element to wrap the content, which helps users with screen readers to get the needed announcement.

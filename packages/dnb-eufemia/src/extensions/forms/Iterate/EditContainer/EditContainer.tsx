@@ -30,15 +30,25 @@ export type Props = {
    * An alternative toolbar to be shown in the EditContainer.
    */
   toolbar?: React.ReactNode
+  /**
+   * The variant of the toolbar.
+   */
+  toolbarVariant?: 'minimumOneItem'
 }
 
 export type AllProps = Props & FlexContainerProps & ArrayItemAreaProps
 
 export default function EditContainer(props: AllProps) {
-  const { toolbar, children, ...rest } = props
+  const { toolbar, toolbarVariant, children, ...rest } = props
+  const { arrayValue } = useContext(IterateItemContext)
+
+  let toolbarElement = toolbar
+  if (toolbarVariant === 'minimumOneItem' && arrayValue.length <= 1) {
+    toolbarElement = <></>
+  }
 
   const hasToolbar =
-    !toolbar &&
+    !toolbarElement &&
     React.Children.toArray(children).some((child) => {
       return child?.['type'] === Toolbar
     })
@@ -48,7 +58,7 @@ export default function EditContainer(props: AllProps) {
       toolbar={
         hasToolbar
           ? null
-          : toolbar ?? (
+          : toolbarElement ?? (
               <Toolbar>
                 <DoneButton />
                 <CancelButton />

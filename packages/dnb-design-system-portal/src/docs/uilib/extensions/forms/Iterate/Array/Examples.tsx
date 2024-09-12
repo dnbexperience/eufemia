@@ -378,41 +378,19 @@ export const InitialOpen = () => {
 
           <Card align="stretch">
             <Iterate.Array path="/countries" defaultValue={[null]}>
-              <Iterate.ViewContainer>
+              <Iterate.ViewContainer toolbarVariant="minimumOneItem">
                 <Value.SelectCountry
                   label="Land du er statsborger i"
                   itemPath="/"
                 />
-                <Iterate.Toolbar>
-                  {({ items }) =>
-                    items.length === 1 ? (
-                      <Iterate.ViewContainer.EditButton />
-                    ) : (
-                      <>
-                        <Iterate.ViewContainer.EditButton />
-                        <Iterate.ViewContainer.RemoveButton />
-                      </>
-                    )
-                  }
-                </Iterate.Toolbar>
               </Iterate.ViewContainer>
 
-              <Iterate.EditContainer>
+              <Iterate.EditContainer toolbarVariant="minimumOneItem">
                 <Field.SelectCountry
                   label="Land du er statsborger i"
                   itemPath="/"
                   required
                 />
-                <Iterate.Toolbar>
-                  {({ items }) =>
-                    items.length === 1 ? null : (
-                      <>
-                        <Iterate.EditContainer.DoneButton />
-                        <Iterate.EditContainer.CancelButton />
-                      </>
-                    )
-                  }
-                </Iterate.Toolbar>
               </Iterate.EditContainer>
             </Iterate.Array>
 
@@ -428,6 +406,36 @@ export const InitialOpen = () => {
           <Tools.Log />
         </Flex.Stack>
       </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const ToolbarVariantMiniumOneItemOneItem = () => {
+  return (
+    <ComponentBox hideCode>
+      <Iterate.Array value={['foo']}>
+        <Iterate.ViewContainer toolbarVariant="minimumOneItem">
+          View Content
+        </Iterate.ViewContainer>
+        <Iterate.EditContainer toolbarVariant="minimumOneItem">
+          Edit Content
+        </Iterate.EditContainer>
+      </Iterate.Array>
+    </ComponentBox>
+  )
+}
+
+export const ToolbarVariantMiniumOneItemTwoItems = () => {
+  return (
+    <ComponentBox hideCode>
+      <Iterate.Array value={['foo', 'bar']}>
+        <Iterate.ViewContainer toolbarVariant="minimumOneItem">
+          View Content
+        </Iterate.ViewContainer>
+        <Iterate.EditContainer toolbarVariant="minimumOneItem">
+          Edit Content
+        </Iterate.EditContainer>
+      </Iterate.Array>
     </ComponentBox>
   )
 }

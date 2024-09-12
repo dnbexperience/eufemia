@@ -47,6 +47,27 @@ render(
 )
 ```
 
+## Get the internal item object
+
+You can get the internal item object by using the `Iterate.useItem` hook.
+
+```tsx
+import { Iterate, Field, Value } from '@dnb/eufemia/extensions/forms'
+
+const MyItemForm = () => {
+  const item = Iterate.useItem()
+  console.log('index:', item.index)
+
+  return <Field.String itemPath="/" />
+}
+
+render(
+  <Iterate.Array value={['foo', 'bar']}>
+    <MyItemForm />
+  </Iterate.Array>,
+)
+```
+
 ## Customize the Toolbar
 
 ```tsx
@@ -65,23 +86,22 @@ render(
 )
 ```
 
-## Get the internal item object
+### Variants
 
-You can get the internal item object by using the `Iterate.useItem` hook.
+#### `minimumOneItem`
+
+This variant has the following behavior:
+
+- When `EditContainer` is visible, and the number of items in the array is one, the entire toolbar will be hidden.
 
 ```tsx
-import { Iterate, Field, Value } from '@dnb/eufemia/extensions/forms'
-
-const MyItemForm = () => {
-  const item = Iterate.useItem()
-  console.log('index:', item.index)
-
-  return <Field.String itemPath="/" />
-}
+import { Iterate } from '@dnb/eufemia/extensions/forms'
 
 render(
-  <Iterate.Array value={['foo', 'bar']}>
-    <MyItemForm />
+  <Iterate.Array>
+    <Iterate.EditContainer toolbarVariant="minimumOneItem">
+      Item Content
+    </Iterate.EditContainer>
   </Iterate.Array>,
 )
 ```

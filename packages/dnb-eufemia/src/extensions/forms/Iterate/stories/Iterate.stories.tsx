@@ -148,49 +148,19 @@ export const InitialOpen = () => {
 
   const MyEditItem = useCallback(() => {
     return (
-      <Iterate.EditContainer>
+      <Iterate.EditContainer toolbarVariant="minimumOneItem">
         <MyEditItemForm />
-
-        <Iterate.Toolbar>
-          {({ items }) => {
-            if (items.length === 1) {
-              return null
-            }
-
-            return (
-              <>
-                <Iterate.EditContainer.DoneButton />
-                <Iterate.EditContainer.CancelButton />
-              </>
-            )
-          }}
-        </Iterate.Toolbar>
       </Iterate.EditContainer>
     )
   }, [MyEditItemForm])
 
   const MyViewItem = useCallback(() => {
     return (
-      <Iterate.ViewContainer>
+      <Iterate.ViewContainer toolbarVariant="minimumOneItem">
         <Value.SelectCountry
           label="Land du er statsborger i"
           itemPath="/"
         />
-
-        <Iterate.Toolbar>
-          {({ items }) => {
-            if (items.length === 1) {
-              return <Iterate.ViewContainer.EditButton />
-            }
-
-            return (
-              <>
-                <Iterate.ViewContainer.EditButton />
-                <Iterate.ViewContainer.RemoveButton />
-              </>
-            )
-          }}
-        </Iterate.Toolbar>
       </Iterate.ViewContainer>
     )
   }, [])

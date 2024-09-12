@@ -19,13 +19,24 @@ export type Props = {
    * An alternative toolbar to be shown in the ViewContainer.
    */
   toolbar?: React.ReactNode
+  /**
+   * The variant of the toolbar.
+   */
+  toolbarVariant?: 'minimumOneItem'
 }
 
 export type AllProps = Props & FlexContainerProps & ArrayItemAreaProps
 
 function ViewContainer(props: AllProps) {
-  const { children, className, title, toolbar, ...restProps } = props || {}
-  const { index } = useContext(IterateItemContext)
+  const {
+    children,
+    className,
+    title,
+    toolbar,
+    toolbarVariant,
+    ...restProps
+  } = props || {}
+  const { index, arrayValue } = useContext(IterateItemContext)
 
   let itemTitle = title
   let ariaLabel = useMemo(() => convertJsxToString(itemTitle), [itemTitle])
@@ -33,8 +44,17 @@ function ViewContainer(props: AllProps) {
     itemTitle = ariaLabel = ariaLabel.replace('{itemNr}', index + 1)
   }
 
+  let toolbarElement = toolbar
+  if (toolbarVariant === 'minimumOneItem' && arrayValue.length <= 1) {
+    toolbarElement = (
+      <Toolbar>
+        <EditButton />
+      </Toolbar>
+    )
+  }
+
   const hasToolbar =
-    !toolbar &&
+    !toolbarElement &&
     React.Children.toArray(children).some((child) => {
       return child?.['type'] === Toolbar
     })
@@ -51,7 +71,7 @@ function ViewContainer(props: AllProps) {
         {children}
         {hasToolbar
           ? null
-          : toolbar ?? (
+          : toolbarElement ?? (
               <Toolbar>
                 <EditButton />
                 <RemoveButton />
