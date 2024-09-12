@@ -89,19 +89,31 @@ describe('Wizard.Container', () => {
     await userEvent.click(secondStep.querySelector('.dnb-button'))
     expect(output()).toHaveTextContent('Step 2')
     expect(onStepChange).toHaveBeenCalledTimes(1)
-    expect(onStepChange).toHaveBeenLastCalledWith(1, 'next')
+    expect(onStepChange).toHaveBeenLastCalledWith(
+      1,
+      'next',
+      expect.anything()
+    )
 
     await userEvent.click(firstStep.querySelector('.dnb-button'))
     await wait(1000)
     expect(output()).toHaveTextContent('Step 1')
     expect(onStepChange).toHaveBeenCalledTimes(2)
-    expect(onStepChange).toHaveBeenLastCalledWith(0, 'previous')
+    expect(onStepChange).toHaveBeenLastCalledWith(
+      0,
+      'previous',
+      expect.anything()
+    )
 
     await userEvent.click(nextButton())
     expect(nextButton()).not.toBeDisabled()
 
     expect(onStepChange).toHaveBeenCalledTimes(3)
-    expect(onStepChange).toHaveBeenLastCalledWith(1, 'next')
+    expect(onStepChange).toHaveBeenLastCalledWith(
+      1,
+      'next',
+      expect.anything()
+    )
 
     // Use fireEvent to trigger the event fast
     fireEvent.click(previousButton())
@@ -110,7 +122,11 @@ describe('Wizard.Container', () => {
     await waitFor(() => {
       expect(previousButton()).toBeNull()
       expect(onStepChange).toHaveBeenCalledTimes(4)
-      expect(onStepChange).toHaveBeenLastCalledWith(0, 'previous')
+      expect(onStepChange).toHaveBeenLastCalledWith(
+        0,
+        'previous',
+        expect.anything()
+      )
       expect(previousButton()).not.toBeInTheDocument()
     })
   })
@@ -1538,7 +1554,7 @@ describe('Wizard.Container', () => {
       <Form.Handler>
         <Wizard.Container
           onStepChange={(step, mode, { preventNavigation }) => {
-            // Stop navigation of user presses the next button on step 2
+            // Stop navigation of user presses the next button on step 2 (B)
             if (step === 2 && mode === 'next') {
               preventNavigation()
             }
@@ -1575,6 +1591,8 @@ describe('Wizard.Container', () => {
     expect(stepC).not.toHaveClass('dnb-step-indicator__item--current')
 
     await userEvent.click(screen.getByText('Neste'))
+
+    // Stay on Step B
 
     expect(stepA).not.toHaveClass('dnb-step-indicator__item--current')
     expect(stepB).toHaveClass('dnb-step-indicator__item--current')
