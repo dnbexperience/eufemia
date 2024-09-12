@@ -9,6 +9,7 @@ export default {
       errorSummary: 'Please correct the following errors:',
       errorRequired: 'This field is required.',
       errorPattern: 'The value is invalid.',
+      optionalLabelSuffix: '(optional)',
     },
     SubmitButton: {
       text: 'Send',
@@ -48,7 +49,7 @@ export default {
       removeButton: 'Remove',
       doneButton: 'Done',
       cancelButton: 'Cancel',
-      errorInSection: 'Please correct the errors above',
+      errorInContainer: 'Please correct the errors above',
     },
     IteratePushContainer: {
       createButton: 'Add',

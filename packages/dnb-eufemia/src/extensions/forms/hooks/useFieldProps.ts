@@ -211,7 +211,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const hasFocusRef = useRef<boolean>()
 
   const required = useMemo(() => {
-    if (requiredProp) {
+    if (typeof requiredProp !== 'undefined') {
       return requiredProp
     }
 
@@ -242,13 +242,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         return true
       }
     }
-  }, [sectionPath, dataContext.schema, identifier, requiredProp, schema])
+  }, [requiredProp, identifier, schema, dataContext.schema, sectionPath])
 
   // Error handling
   // - Should errors received through validation be shown initially. Assume that providing a direct prop to
   // the component means it is supposed to be shown initially.
   const revealErrorRef = useRef<boolean>(
-    Boolean(validateInitially || errorProp)
+    validateInitially ?? Boolean(errorProp)
   )
   // - Local errors are errors based on validation instructions received by
   const errorMethodRef = useRef<
@@ -367,16 +367,27 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   )
 
   const revealError = useCallback(() => {
+    // To support "validateInitially={false}" prop, we need to make sure that the error is not shown initially
+    if (revealErrorRef.current === false && validateInitially === false) {
+      revealErrorRef.current = undefined
+      return // stop here
+    }
+
     if (!revealErrorRef.current) {
       revealErrorRef.current = true
       showFieldErrorFieldBlock?.(identifier, true)
       setHasVisibleErrorDataContext?.(identifier, !!localErrorRef.current)
     }
-  }, [identifier, setHasVisibleErrorDataContext, showFieldErrorFieldBlock])
+  }, [
+    identifier,
+    setHasVisibleErrorDataContext,
+    showFieldErrorFieldBlock,
+    validateInitially,
+  ])
 
   const hideError = useCallback(() => {
     if (revealErrorRef.current) {
-      revealErrorRef.current = false
+      revealErrorRef.current = undefined
       showFieldErrorFieldBlock?.(identifier, false)
       setHasVisibleErrorDataContext?.(identifier, false)
     }
@@ -711,7 +722,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
 
     // Ideally, we should rather call "callOnChangeValidator", but sadly it's not possible,
-    // because the we get an additional delay due to the async nature, which is too much.
+    // because we get an additional delay due to the async nature, which is too much.
+    // So when a submit button is pressed, and there is a sync validator, it needs to be validated without a delay.
     const tmpValue = valueRef.current
     let result = isAsync(onChangeValidatorRef.current)
       ? await callValidatorFnAsync(onChangeValidatorRef.current)
@@ -770,12 +782,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         return {}
       }
 
-      // Since the validator can return either a synchronous result or an asynchronous
       const value = transformers.current.toEvent(
         overrideValue ?? valueRef.current,
         'onBlurValidator'
       )
 
+      // Since the validator can return either a synchronous result or an asynchronous.
       let result = isAsync(onBlurValidatorRef.current)
         ? await callValidatorFnAsync(onBlurValidatorRef.current, value)
         : callValidatorFnSync(onBlurValidatorRef.current, value)
@@ -817,11 +829,27 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         setFieldState('validating')
       }
 
-      const { result } = await callOnBlurValidator({ overrideValue })
+      const value = transformers.current.toEvent(
+        overrideValue ?? valueRef.current,
+        'onBlurValidator'
+      )
+
+      // Since the validator can return either a synchronous result or an asynchronous.
+      // Ideally, we should rather call "callOnBlurValidator", but sadly it's not possible,
+      // because we get an additional delay due to the async nature, which is too much.
+      // So when a submit button is pressed, and there is a sync validator, it needs to be validated without a delay.
+      let result = isAsync(onBlurValidatorRef.current)
+        ? await callValidatorFnAsync(onBlurValidatorRef.current, value)
+        : callValidatorFnSync(onBlurValidatorRef.current, value)
+      if (result instanceof Promise) {
+        result = await result
+      }
+
       revealOnBlurValidatorResult({ result })
     },
     [
-      callOnBlurValidator,
+      callValidatorFnAsync,
+      callValidatorFnSync,
       defineAsyncProcess,
       revealOnBlurValidatorResult,
       setFieldState,
@@ -1239,6 +1267,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     ]
   )
 
+  const setChanged = (state: boolean) => {
+    changedRef.current = state
+  }
+
   const handleChange = useCallback(
     async (
       argFromInput: Value | unknown,
@@ -1390,19 +1422,26 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     validateValue()
   }, [schema, validateValue])
 
+  const isEmptyData = useCallback(() => {
+    return (
+      dataContext.internalDataRef?.current ===
+      (dataContext.props?.emptyData ?? clearedData)
+    )
+  }, [dataContext.internalDataRef, dataContext.props?.emptyData])
+
   useEffect(() => {
-    if (dataContext.data === clearedData) {
+    if (isEmptyData()) {
       hideError()
     }
-  }, [dataContext.data, hideError])
+  }, [externalValue, hideError, isEmptyData])
 
   useUpdateEffect(() => {
     // Error or removed error for this field from the surrounding data context (by path)
     if (valueRef.current !== externalValue) {
       valueRef.current = externalValue
       validateValue()
+      forceUpdate()
     }
-    forceUpdate()
   }, [externalValue, validateValue])
 
   useEffect(() => {
@@ -1665,6 +1704,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     info: !inFieldBlock ? infoRef.current : undefined,
     warning: !inFieldBlock ? warningRef.current : undefined,
     error: !inFieldBlock ? error : undefined,
+    required,
+    labelSuffix: props.labelSuffix,
 
     /** HTML Attributes */
     disabled:
@@ -1709,6 +1750,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     handleBlur,
     handleChange,
     updateValue,
+    setChanged,
     forceUpdate,
 
     /** Internal */
@@ -1732,6 +1774,7 @@ export interface ReturnAdditional<Value> {
     value: Value | unknown,
     additionalArgs?: AdditionalEventArgs
   ) => void
+  setChanged: (state: boolean) => void
   updateValue: (value: Value) => void
   forceUpdate: () => void
   hasError?: boolean

@@ -21,6 +21,11 @@ export const SectionProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  validateInitially: {
+    doc: 'If set to `true`, the whole section will be validated initially. All fields will then automatically get `validateInitially` and show their error messages. Can be useful in combination with `containerMode="auto"`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   defaultData: {
     doc: 'Provide default data to the section fields and values, in case the data context (Form.Handler) is not available.',
     type: 'object',
@@ -32,7 +37,7 @@ export const SectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   containerMode: {
-    doc: 'Defines the container mode. Can be `view` or `edit`. Defaults to `view`.',
+    doc: 'Defines the container mode. Can be `view`, `edit` or `auto`. When set to `auto`, the mode will initially be "edit" if fields contain errors. Defaults to `auto`.',
     type: 'string',
     status: 'optional',
   },

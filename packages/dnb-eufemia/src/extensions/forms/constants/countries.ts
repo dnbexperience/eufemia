@@ -210,7 +210,7 @@ const countries: Array<CountryType> = [
   {
     i18n: {
       en: 'Belarus',
-      nb: 'Hviterussland',
+      nb: 'Belarus',
     },
     cdc: '375',
     iso: 'BY',
@@ -1213,15 +1213,6 @@ const countries: Array<CountryType> = [
   },
   {
     i18n: {
-      en: 'Macedonia',
-      nb: 'Makedonia',
-    },
-    cdc: '389',
-    iso: 'MK',
-    continent: 'Europe',
-  },
-  {
-    i18n: {
       en: 'Madagascar',
       nb: 'Madagaskar',
     },
@@ -1289,7 +1280,7 @@ const countries: Array<CountryType> = [
       nb: 'Martinique',
     },
     cdc: '596',
-    iso: 'MH',
+    iso: 'MQ',
     continent: 'South America',
   },
   {
@@ -1447,15 +1438,6 @@ const countries: Array<CountryType> = [
   },
   {
     i18n: {
-      en: 'Netherlands Antilles',
-      nb: 'Nederlandske Antiller',
-    },
-    cdc: '599',
-    iso: 'AN',
-    continent: 'North America',
-  },
-  {
-    i18n: {
       en: 'New Caledonia',
       nb: 'Ny-Caledonia',
     },
@@ -1525,6 +1507,15 @@ const countries: Array<CountryType> = [
     cdc: '850',
     iso: 'KP',
     continent: 'Asia',
+  },
+  {
+    i18n: {
+      en: 'North Macedonia',
+      nb: 'Nord-Makedonia',
+    },
+    cdc: '389',
+    iso: 'MK',
+    continent: 'Europe',
   },
   {
     i18n: {
@@ -1985,15 +1976,6 @@ const countries: Array<CountryType> = [
     cdc: '47',
     iso: 'SJ',
     continent: 'Europe',
-  },
-  {
-    i18n: {
-      en: 'Swaziland',
-      nb: 'Swaziland',
-    },
-    cdc: '268',
-    iso: 'SZ',
-    continent: 'Africa',
   },
   {
     i18n: {

@@ -82,12 +82,62 @@ export const ViewAndEditContainer = () => {
             defaultData={{
               nestedPath: {
                 firstName: 'Nora',
+                lastName: 'Mørk',
               },
             }}
           >
             <Card stack>
               <Form.SubHeading>Your account</Form.SubHeading>
               <Form.Section path="/nestedPath" required>
+                <MyEditContainer />
+                <MyViewContainer />
+              </Form.Section>
+            </Card>
+            <Form.SubmitButton />
+          </Form.Handler>
+        )
+      }}
+    </ComponentBox>
+  )
+}
+
+export const ViewAndEditContainerValidation = () => {
+  return (
+    <ComponentBox hideCode>
+      {() => {
+        const MyEditContainer = () => {
+          return (
+            <Form.Section.EditContainer>
+              <Field.Name.First path="/firstName" />
+              <Field.Name.Last path="/lastName" />
+            </Form.Section.EditContainer>
+          )
+        }
+
+        const MyViewContainer = () => {
+          return (
+            <Form.Section.ViewContainer>
+              <Value.SummaryList>
+                <Value.Name.First path="/firstName" />
+                <Value.Name.Last path="/lastName" />
+              </Value.SummaryList>
+            </Form.Section.ViewContainer>
+          )
+        }
+
+        return (
+          <Form.Handler
+            onSubmit={async (data) => console.log('onSubmit', data)}
+            defaultData={{
+              nestedPath: {
+                firstName: 'Nora',
+                lastName: undefined, // initiate error
+              },
+            }}
+          >
+            <Card stack>
+              <Form.SubHeading>Your account</Form.SubHeading>
+              <Form.Section path="/nestedPath" required validateInitially>
                 <MyEditContainer />
                 <MyViewContainer />
               </Form.Section>
@@ -133,6 +183,7 @@ export const BasicViewAndEditContainer = () => {
             defaultData={{
               nestedPath: {
                 firstName: 'Nora',
+                lastName: 'Mørk',
               },
             }}
           >

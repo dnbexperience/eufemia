@@ -5,6 +5,7 @@ import {
   Field,
   Value,
   Form,
+  Tools,
 } from '@dnb/eufemia/src/extensions/forms'
 export { Default as AnimatedContainer } from '../AnimatedContainer/Examples'
 
@@ -172,7 +173,7 @@ export const ArrayFromFormHandler = () => {
         }}
         onChange={(data) => console.log('DataContext/onChange', data)}
       >
-        <Flex.Vertical>
+        <Flex.Stack>
           <Form.MainHeading>Avengers</Form.MainHeading>
 
           <Card stack>
@@ -212,7 +213,7 @@ export const ArrayFromFormHandler = () => {
               pushValue={{}}
             />
           </Card>
-        </Flex.Vertical>
+        </Flex.Stack>
       </Form.Handler>
     </ComponentBox>
   )
@@ -282,7 +283,7 @@ export const ViewAndEditContainer = () => {
                 accounts: [
                   {
                     firstName: 'Tony',
-                    lastName: undefined, // initiate error
+                    lastName: 'Rogers',
                   },
                 ],
               }}
@@ -291,7 +292,7 @@ export const ViewAndEditContainer = () => {
               }
               onSubmit={async (data) => console.log('onSubmit', data)}
             >
-              <Flex.Vertical>
+              <Flex.Stack>
                 <Form.MainHeading>Accounts</Form.MainHeading>
 
                 <Card stack>
@@ -304,7 +305,7 @@ export const ViewAndEditContainer = () => {
                 </Card>
 
                 <Form.SubmitButton variant="send" />
-              </Flex.Vertical>
+              </Flex.Stack>
             </Form.Handler>
           )
         }
@@ -360,6 +361,120 @@ export const WithVisibility = () => {
             </Form.Visibility>
           </Flex.Stack>
         </Iterate.Array>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const InitialOpen = () => {
+  return (
+    <ComponentBox scope={{ Iterate, Tools }}>
+      <Form.Handler
+        onSubmit={async (data) => console.log('onSubmit', data)}
+        onSubmitRequest={() => console.log('onSubmitRequest')}
+      >
+        <Flex.Stack>
+          <Form.MainHeading>Statsborgerskap</Form.MainHeading>
+
+          <Card align="stretch">
+            <Iterate.Array path="/countries" defaultValue={[null]}>
+              <Iterate.ViewContainer toolbarVariant="minimumOneItem">
+                <Value.SelectCountry
+                  label="Land du er statsborger i"
+                  itemPath="/"
+                />
+              </Iterate.ViewContainer>
+
+              <Iterate.EditContainer toolbarVariant="minimumOneItem">
+                <Field.SelectCountry
+                  label="Land du er statsborger i"
+                  itemPath="/"
+                  required
+                />
+              </Iterate.EditContainer>
+            </Iterate.Array>
+
+            <Iterate.PushButton
+              path="/countries"
+              pushValue={null}
+              text="Legg til flere statsborgerskap"
+            />
+          </Card>
+
+          <Form.SubmitButton variant="send" />
+
+          <Tools.Log />
+        </Flex.Stack>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const ToolbarVariantMiniumOneItemOneItem = () => {
+  return (
+    <ComponentBox hideCode>
+      <Iterate.Array value={['foo']}>
+        <Iterate.ViewContainer toolbarVariant="minimumOneItem">
+          View Content
+        </Iterate.ViewContainer>
+        <Iterate.EditContainer toolbarVariant="minimumOneItem">
+          Edit Content
+        </Iterate.EditContainer>
+      </Iterate.Array>
+    </ComponentBox>
+  )
+}
+
+export const ToolbarVariantMiniumOneItemTwoItems = () => {
+  return (
+    <ComponentBox hideCode>
+      <Iterate.Array value={['foo', 'bar']}>
+        <Iterate.ViewContainer toolbarVariant="minimumOneItem">
+          View Content
+        </Iterate.ViewContainer>
+        <Iterate.EditContainer toolbarVariant="minimumOneItem">
+          Edit Content
+        </Iterate.EditContainer>
+      </Iterate.Array>
+    </ComponentBox>
+  )
+}
+
+export const WithArrayValidator = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler
+        defaultData={{ items: ['foo'] }}
+        onSubmit={async () => console.log('onSubmit')}
+      >
+        <Card stack>
+          <Iterate.Array
+            path="/items"
+            validator={(arrayValue) => {
+              if (!(arrayValue && arrayValue.length > 1)) {
+                return new Error('You need at least two items')
+              }
+            }}
+          >
+            <Flex.Horizontal align="flex-end">
+              <Field.String
+                label="Item no. {itemNr}"
+                itemPath="/"
+                width="medium"
+                size="medium"
+              />
+              <Iterate.RemoveButton />
+            </Flex.Horizontal>
+          </Iterate.Array>
+
+          <Iterate.PushButton
+            top
+            path="/items"
+            pushValue={null}
+            text="Add"
+          />
+          <Form.SubmitButton />
+        </Card>
       </Form.Handler>
     </ComponentBox>
   )

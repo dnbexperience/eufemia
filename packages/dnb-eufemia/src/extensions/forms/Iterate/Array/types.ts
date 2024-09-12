@@ -1,7 +1,7 @@
-import { Path, UseFieldProps } from '../../types'
+import { Path, UseFieldProps, Validator } from '../../types'
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
 
-export type ContainerMode = 'view' | 'edit'
+export type ContainerMode = 'view' | 'edit' | 'auto'
 export type Value = Array<unknown | Record<string, unknown>>
 export type ElementChild =
   | React.ReactNode
@@ -12,13 +12,20 @@ export type Props = Omit<
 > &
   Pick<
     UseFieldProps<Value, undefined | Value>,
-    'value' | 'emptyValue' | 'onChange'
+    | 'value'
+    | 'defaultValue'
+    | 'emptyValue'
+    | 'onChange'
+    | 'validateInitially'
+    | 'continuousValidation'
   > & {
     children: ElementChild | Array<ElementChild>
     path?: Path
     countPath?: Path
     countPathLimit?: number
-    countPathTransform?: (params: { value: any; index: number }) => any
+    validator?: Validator<Value>
     withoutFlex?: boolean
     placeholder?: React.ReactNode
+    containerMode?: ContainerMode
+    countPathTransform?: (params: { value: any; index: number }) => any
   }

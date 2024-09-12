@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Field, Form, Iterate, Value } from '../..'
-import { Card, Flex } from '../../../../components'
+import { Card, Flex, Section } from '../../../../components'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Iterate',
@@ -102,16 +102,16 @@ const MyViewItem = () => {
 
 export const ViewAndEditContainer = () => {
   return (
-    <React.StrictMode>
+    <>
       <Form.Handler
         data={{
           accounts: [
-            {
-              firstName: 'Tony',
-            },
-            {
-              firstName: 'Maria',
-            },
+            // {
+            //   firstName: 'Tony',
+            // },
+            // {
+            //   firstName: 'Maria',
+            // },
           ],
         }}
         onSubmit={(data) => console.log('onSubmit', data)}
@@ -131,6 +131,112 @@ export const ViewAndEditContainer = () => {
           <Form.SubmitButton variant="send" />
         </Flex.Vertical>
       </Form.Handler>
-    </React.StrictMode>
+    </>
+  )
+}
+
+export const InitialOpen = () => {
+  const MyEditItemForm = useCallback(() => {
+    return (
+      <Field.SelectCountry
+        label="Land du er statsborger i"
+        itemPath="/"
+        required
+      />
+    )
+  }, [])
+
+  const MyEditItem = useCallback(() => {
+    return (
+      <Iterate.EditContainer toolbarVariant="minimumOneItem">
+        <MyEditItemForm />
+      </Iterate.EditContainer>
+    )
+  }, [MyEditItemForm])
+
+  const MyViewItem = useCallback(() => {
+    return (
+      <Iterate.ViewContainer toolbarVariant="minimumOneItem">
+        <Value.SelectCountry
+          label="Land du er statsborger i"
+          itemPath="/"
+        />
+      </Iterate.ViewContainer>
+    )
+  }, [])
+
+  const [count, setCount] = React.useState(0)
+
+  return (
+    <>
+      <Form.Handler
+        onSubmit={(data) => console.log('onSubmit', data)}
+        onSubmitRequest={() => console.log('onSubmitRequest')}
+      >
+        <Flex.Stack>
+          <Form.MainHeading>Statsborgerskap</Form.MainHeading>
+
+          <Card align="stretch">
+            <Iterate.Array
+              path="/countries"
+              // defaultValue={['NO']}
+              defaultValue={[null]}
+            >
+              <MyViewItem />
+              <MyEditItem />
+            </Iterate.Array>
+
+            <Iterate.PushButton
+              path="/countries"
+              pushValue={null}
+              text="Legg til flere statsborgerskap"
+            />
+          </Card>
+
+          <Form.SubmitButton variant="send" />
+
+          <Output />
+
+          {count}
+          <button type="button" onClick={() => setCount(count + 1)}>
+            Add
+          </button>
+        </Flex.Stack>
+      </Form.Handler>
+    </>
+  )
+}
+
+const Output = () => {
+  const { data } = Form.useData()
+
+  return (
+    <Section
+      element="output"
+      backgroundColor="sand-yellow"
+      style={{ maxWidth: '80vw' }}
+      innerSpace
+    >
+      <pre>All data: {JSON.stringify(data)}</pre>
+    </Section>
+  )
+}
+
+export const WithArrayValidator = () => {
+  return (
+    <Form.Handler>
+      <Iterate.Array
+        path="/items"
+        validator={(arrayValue) => {
+          if (!(arrayValue?.length > 0)) {
+            return new Error('You need at least one item')
+          }
+        }}
+      >
+        <Field.String itemPath="/" />
+      </Iterate.Array>
+      <Iterate.PushButton path="/items" pushValue="baz" />
+      <Form.SubmitButton />
+    </Form.Handler>
   )
 }

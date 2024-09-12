@@ -126,6 +126,7 @@ function WizardContainer(props: Props) {
   const totalStepsRef = useRef<number>(NaN)
   const errorOnStepRef = useRef<Record<StepIndex, boolean>>({})
   const stepElementRef = useRef<HTMLElement>()
+  const preventNextStepRef = useRef(false)
 
   // - Handle shared state
   const sharedStateRef =
@@ -141,15 +142,19 @@ function WizardContainer(props: Props) {
   // Store the current state of showAllErrors
   errorOnStepRef.current[activeIndexRef.current] = showAllErrors
 
+  const preventNavigation = useCallback((shouldPrevent = true) => {
+    preventNextStepRef.current = shouldPrevent
+  }, [])
+
   const callOnStepChange = useCallback(
     async (index: StepIndex, mode: 'previous' | 'next') => {
       if (isAsync(onStepChange)) {
-        return await onStepChange(index, mode)
+        return await onStepChange(index, mode, { preventNavigation })
       }
 
-      return onStepChange?.(index, mode)
+      return onStepChange?.(index, mode, { preventNavigation })
     },
-    [onStepChange]
+    [onStepChange, preventNavigation]
   )
 
   const { setFocus, scrollToTop, isInteractionRef } =
@@ -182,7 +187,9 @@ function WizardContainer(props: Props) {
         enableAsyncBehavior: isAsync(onStepChange),
         onSubmit: async () => {
           if (!skipStepChangeCallFromHook) {
-            sharedStateRef.current?.data?.onStepChange?.(index, mode)
+            sharedStateRef.current?.data?.onStepChange?.(index, mode, {
+              preventNavigation,
+            })
           }
 
           const result =
@@ -199,12 +206,14 @@ function WizardContainer(props: Props) {
             setShowAllErrors(errorOnStepRef.current[index])
           }
 
-          if (!(result instanceof Error)) {
+          if (!preventNextStepRef.current && !(result instanceof Error)) {
             handleLayoutEffect()
 
             activeIndexRef.current = index
             forceUpdate()
           }
+
+          preventNextStepRef.current = false
 
           return result
         },
@@ -216,6 +225,7 @@ function WizardContainer(props: Props) {
       handleSubmitCall,
       isInteractionRef,
       onStepChange,
+      preventNavigation,
       setFormState,
       setShowAllErrors,
     ]

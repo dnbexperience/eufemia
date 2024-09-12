@@ -277,6 +277,29 @@ describe('useFieldProps', () => {
       })
     })
 
+    it('should not return error when validateInitially is set to false', async () => {
+      const { result } = renderHook(useFieldProps, {
+        initialProps: {
+          value: '',
+          error: new Error('Error message'),
+          validateInitially: false,
+        },
+      })
+
+      await waitFor(() => {
+        expect(result.current.error).toBeUndefined()
+      })
+
+      act(() => {
+        result.current.handleChange('x')
+        result.current.handleBlur()
+      })
+
+      await waitFor(() => {
+        expect(result.current.error).toBeInstanceOf(Error)
+      })
+    })
+
     describe('with async validator', () => {
       const validateBlur = async (result, value = Date.now()) => {
         act(() => {
@@ -1975,6 +1998,18 @@ describe('useFieldProps', () => {
       )
 
       expect(result.current.htmlAttributes).toEqual({})
+    })
+
+    it('should return empty htmlAttributes when optional prop is true and required prop is true', async () => {
+      const { result } = renderHook(() =>
+        useFieldProps({
+          value: undefined,
+          required: false,
+        })
+      )
+
+      expect(result.current.htmlAttributes).toEqual({})
+      expect(result.current.error).not.toBeInstanceOf(Error)
     })
 
     describe('required', () => {

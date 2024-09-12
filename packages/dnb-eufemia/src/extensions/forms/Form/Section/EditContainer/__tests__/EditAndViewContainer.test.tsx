@@ -1,7 +1,5 @@
 import React from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
-import EditContainer from '../EditContainer'
-import ViewContainer from '../../ViewContainer'
 import SectionContainerContext from '../../containers/SectionContainerContext'
 import { Field, Form } from '../../../..'
 import userEvent from '@testing-library/user-event'
@@ -11,14 +9,26 @@ const nb = nbNO['nb-NO']
 
 describe('EditContainer and ViewContainer', () => {
   it('should switch mode on pressing edit button', () => {
+    let containerMode = null
+
+    const ContextConsumer = () => {
+      const context = React.useContext(SectionContainerContext)
+      containerMode = context.containerMode
+
+      return null
+    }
+
     render(
       <Form.Section>
         <Form.Section.ViewContainer>
           View Content
         </Form.Section.ViewContainer>
+
         <Form.Section.EditContainer>
           Edit Content
         </Form.Section.EditContainer>
+
+        <ContextConsumer />
       </Form.Section>
     )
 
@@ -31,15 +41,15 @@ describe('EditContainer and ViewContainer', () => {
 
     // Switch to edit mode
     fireEvent.click(viewBlock.querySelector('button'))
-    expect(editBlock).toHaveTextContent('Edit Content')
+    expect(containerMode).toBe('edit')
 
     // Switch to view mode
     fireEvent.click(editBlock.querySelector('button'))
-    expect(viewBlock).toHaveTextContent('View Content')
+    expect(containerMode).toBe('view')
 
     // Switch to edit mode
     fireEvent.click(viewBlock.querySelector('button'))
-    expect(editBlock).toHaveTextContent('Edit Content')
+    expect(containerMode).toBe('edit')
   })
 
   it('should switch mode from view to edit on error during submit', async () => {
@@ -55,16 +65,27 @@ describe('EditContainer and ViewContainer', () => {
     render(
       <Form.Handler>
         <Form.Section>
-          <EditContainer>
-            <Field.String path="/" required />
-          </EditContainer>
-          <ViewContainer>content</ViewContainer>
+          <Form.Section.EditContainer>
+            <Field.String
+              path="/"
+              label="Label"
+              onBlurValidator={() => {
+                return new Error('Error message')
+              }}
+            />
+          </Form.Section.EditContainer>
+
+          <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+
           <ContextConsumer />
         </Form.Section>
       </Form.Handler>
     )
 
     expect(containerMode).toBe('view')
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
 
     const input = document.querySelector('input')
     await userEvent.type(input, 'x{Backspace}')
@@ -72,6 +93,7 @@ describe('EditContainer and ViewContainer', () => {
     const form = document.querySelector('form')
     fireEvent.submit(form)
 
+    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
     expect(containerMode).toBe('edit')
   })
 
@@ -88,10 +110,12 @@ describe('EditContainer and ViewContainer', () => {
     render(
       <Form.Handler data={{ foo: 'bar' }}>
         <Form.Section containerMode="edit" path="/">
-          <EditContainer>
+          <Form.Section.EditContainer>
             <Field.String path="/foo" required />
-          </EditContainer>
-          <ViewContainer>content</ViewContainer>
+          </Form.Section.EditContainer>
+
+          <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+
           <ContextConsumer />
         </Form.Section>
       </Form.Handler>
@@ -112,6 +136,356 @@ describe('EditContainer and ViewContainer', () => {
 
     expect(containerMode).toBe('view')
     expect(input).toHaveValue('bar')
+  })
+
+  it('should open in view mode when there are no errors', async () => {
+    let containerMode = null
+
+    const ContextConsumer = () => {
+      const context = React.useContext(SectionContainerContext)
+      containerMode = context.containerMode
+
+      return null
+    }
+
+    render(
+      <Form.Section containerMode="auto">
+        <Form.Section.EditContainer>
+          <Field.String path="/foo" />
+        </Form.Section.EditContainer>
+
+        <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+
+        <ContextConsumer />
+      </Form.Section>
+    )
+
+    expect(containerMode).toBe('view')
+  })
+
+  describe('validateInitially', () => {
+    it('fields open in edit mode and show errors when there are errors', async () => {
+      let containerMode = null
+
+      const ContextConsumer = () => {
+        const context = React.useContext(SectionContainerContext)
+        containerMode = context.containerMode
+
+        return null
+      }
+
+      render(
+        <Form.Section validateInitially>
+          <Form.Section.EditContainer>
+            <Field.String path="/foo" required />
+          </Form.Section.EditContainer>
+
+          <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+
+          <ContextConsumer />
+        </Form.Section>
+      )
+
+      expect(containerMode).toBe('edit')
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Field.errorRequired
+      )
+
+      const input = document.querySelector('input')
+      expect(input).toHaveValue('')
+
+      await userEvent.type(input, 'something')
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      const [doneButton] = Array.from(document.querySelectorAll('button'))
+      await userEvent.click(doneButton)
+
+      expect(containerMode).toBe('view')
+    })
+
+    it('fields with validateInitially=false should not validate initially', async () => {
+      render(
+        <Form.Section validateInitially>
+          <Form.Section.EditContainer>
+            <Field.String required />
+            <Field.String required validateInitially={false} />
+          </Form.Section.EditContainer>
+        </Form.Section>
+      )
+
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
+      const [, second] = Array.from(document.querySelectorAll('input'))
+      expect(second).toHaveValue('')
+
+      await userEvent.type(second, 'x{Backspace}')
+      fireEvent.blur(second)
+
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(2)
+    })
+
+    it('when done button is pressed, the section should show all errors', async () => {
+      render(
+        <Form.Section validateInitially>
+          <Form.Section.ViewContainer>
+            View Content
+          </Form.Section.ViewContainer>
+
+          <Form.Section.EditContainer>
+            <Field.String required validateInitially={false} />
+          </Form.Section.EditContainer>
+        </Form.Section>
+      )
+
+      const blocks = document.querySelectorAll('.dnb-forms-section-block')
+      const [viewBlock, editBlock] = Array.from(blocks)
+      const [doneButton] = Array.from(editBlock.querySelectorAll('button'))
+
+      await waitFor(() => {
+        // Wait for the animation to finish
+        expect(viewBlock).toHaveClass('dnb-height-animation--hidden')
+      })
+
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(0)
+
+      await userEvent.click(doneButton)
+
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
+
+      await userEvent.click(doneButton)
+
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(2)
+      expect(
+        document.querySelectorAll('.dnb-form-status')[1]
+      ).toHaveTextContent(nb.SectionEditContainer.errorInSection)
+    })
+
+    it('the cancel button should not cancel the edit mode', async () => {
+      let containerMode = null
+
+      const ContextConsumer = () => {
+        const context = React.useContext(SectionContainerContext)
+        containerMode = context.containerMode
+
+        return null
+      }
+
+      render(
+        <Form.Section validateInitially required>
+          <Form.Section.EditContainer>
+            <Field.String path="/foo" />
+            <Field.String path="/bar" />
+          </Form.Section.EditContainer>
+
+          <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+
+          <ContextConsumer />
+        </Form.Section>
+      )
+
+      expect(containerMode).toBe('edit')
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(2)
+
+      const [doneButton, cancelButton] = Array.from(
+        document.querySelectorAll('button')
+      )
+      await userEvent.click(doneButton)
+
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(3)
+
+      await userEvent.click(cancelButton)
+
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(3)
+
+      expect(containerMode).toBe('edit')
+    })
+  })
+
+  describe('focus management', () => {
+    it('should set focus on __element when containerMode changes', async () => {
+      let containerMode = null
+
+      const ContextConsumer = () => {
+        const context = React.useContext(SectionContainerContext)
+        containerMode = context.containerMode
+
+        return null
+      }
+
+      render(
+        <Form.Section>
+          <Form.Section.ViewContainer>
+            View Content
+          </Form.Section.ViewContainer>
+
+          <Form.Section.EditContainer>
+            Edit Content
+          </Form.Section.EditContainer>
+
+          <ContextConsumer />
+        </Form.Section>
+      )
+
+      const blocks = document.querySelectorAll('.dnb-forms-section-block')
+      expect(blocks).toHaveLength(2)
+      const [viewBlock, editBlock] = Array.from(blocks)
+      const [editButton] = Array.from(viewBlock.querySelectorAll('button'))
+      const [cancelButton] = Array.from(
+        editBlock.querySelectorAll('button')
+      )
+
+      expect(viewBlock).toHaveClass('dnb-forms-section-view-block')
+      expect(editBlock).toHaveClass('dnb-forms-section-edit-block')
+
+      expect(document.body).toHaveFocus()
+
+      // Switch to edit mode
+      fireEvent.click(editButton)
+      expect(containerMode).toBe('edit')
+
+      await waitFor(() => {
+        expect(
+          editBlock.querySelector('.dnb-forms-section-block__inner')
+        ).toHaveFocus()
+        expect(document.activeElement.parentElement).toBe(editBlock)
+      })
+
+      // Reset focus, so we can test focus during close
+      ;(document.activeElement as HTMLElement).blur()
+
+      // Switch to view mode
+      fireEvent.click(cancelButton)
+      expect(containerMode).toBe('view')
+
+      await waitFor(() => {
+        expect(
+          viewBlock.querySelector('.dnb-forms-section-block__inner')
+        ).toHaveFocus()
+        expect(document.activeElement.parentElement).toBe(viewBlock)
+      })
+
+      // Reset focus, so we can test focus during close
+      ;(document.activeElement as HTMLElement).blur()
+
+      // Switch to edit mode
+      fireEvent.click(editButton)
+      expect(containerMode).toBe('edit')
+
+      await waitFor(() => {
+        expect(
+          editBlock.querySelector('.dnb-forms-section-block__inner')
+        ).toHaveFocus()
+        expect(document.activeElement.parentElement).toBe(editBlock)
+      })
+    })
+
+    it('should not set focus on initially opened section', async () => {
+      render(
+        <Form.Section>
+          <Form.Section.ViewContainer>
+            View Content
+          </Form.Section.ViewContainer>
+
+          <Form.Section.EditContainer>
+            Edit Content
+          </Form.Section.EditContainer>
+        </Form.Section>
+      )
+
+      expect(document.body).toHaveFocus()
+    })
+
+    it('should set focus after the section is opened', async () => {
+      let containerMode = null
+
+      const ContextConsumer = () => {
+        const context = React.useContext(SectionContainerContext)
+        containerMode = context.containerMode
+
+        return null
+      }
+
+      render(
+        <Form.Handler>
+          <Form.Section>
+            <Form.Section.ViewContainer>
+              View Content
+            </Form.Section.ViewContainer>
+
+            <Form.Section.EditContainer>
+              <Field.String path="/foo" required />
+            </Form.Section.EditContainer>
+
+            <ContextConsumer />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      expect(document.body).toHaveFocus()
+      expect(containerMode).toBe('edit')
+
+      const blocks = document.querySelectorAll('.dnb-forms-section-block')
+      const [viewBlock, editBlock] = Array.from(blocks)
+      const [editButton] = Array.from(viewBlock.querySelectorAll('button'))
+      const [cancelButton] = Array.from(
+        editBlock.querySelectorAll('button')
+      )
+
+      await waitFor(() => {
+        // Wait for the animation to finish
+        expect(viewBlock).toHaveClass('dnb-height-animation--hidden')
+      })
+
+      expect(document.body).toHaveFocus()
+
+      const input = document.querySelector('input')
+      await userEvent.type(input, 'foo')
+
+      fireEvent.click(cancelButton)
+
+      expect(containerMode).toBe('view')
+      await waitFor(() => {
+        expect(
+          viewBlock.querySelector('.dnb-forms-section-block__inner')
+        ).toHaveFocus()
+        expect(document.activeElement.parentElement).toBe(viewBlock)
+      })
+
+      fireEvent.click(editButton)
+
+      expect(containerMode).toBe('edit')
+      await waitFor(() => {
+        expect(
+          editBlock.querySelector('.dnb-forms-section-block__inner')
+        ).toHaveFocus()
+        expect(document.activeElement.parentElement).toBe(editBlock)
+      })
+
+      fireEvent.click(cancelButton)
+
+      expect(containerMode).toBe('view')
+      await waitFor(() => {
+        expect(
+          viewBlock.querySelector('.dnb-forms-section-block__inner')
+        ).toHaveFocus()
+        expect(document.activeElement.parentElement).toBe(viewBlock)
+      })
+
+      fireEvent.click(editButton)
+
+      expect(containerMode).toBe('edit')
+      await waitFor(() => {
+        expect(
+          editBlock.querySelector('.dnb-forms-section-block__inner')
+        ).toHaveFocus()
+        expect(document.activeElement.parentElement).toBe(editBlock)
+      })
+    })
   })
 
   it('should reset entered data on Cancel press when path is set', async () => {
@@ -133,10 +507,12 @@ describe('EditContainer and ViewContainer', () => {
         }}
       >
         <Form.Section containerMode="edit" path="/section">
-          <EditContainer>
+          <Form.Section.EditContainer>
             <Field.String path="/foo" required />
-          </EditContainer>
-          <ViewContainer>content</ViewContainer>
+          </Form.Section.EditContainer>
+
+          <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+
           <ContextConsumer />
         </Form.Section>
       </Form.Handler>
@@ -159,72 +535,13 @@ describe('EditContainer and ViewContainer', () => {
     expect(input).toHaveValue('bar')
   })
 
-  it('should set focus on __element when containerMode changes', async () => {
-    render(
-      <Form.Section>
-        <Form.Section.ViewContainer>
-          View Content
-        </Form.Section.ViewContainer>
-        <Form.Section.EditContainer>
-          Edit Content
-        </Form.Section.EditContainer>
-      </Form.Section>
-    )
-
-    const blocks = document.querySelectorAll('.dnb-forms-section-block')
-    expect(blocks).toHaveLength(2)
-    const [viewBlock, editBlock] = Array.from(blocks)
-    const [editButton] = Array.from(viewBlock.querySelectorAll('button'))
-    const [cancelButton] = Array.from(editBlock.querySelectorAll('button'))
-
-    expect(viewBlock).toHaveClass('dnb-forms-section-view-block')
-    expect(editBlock).toHaveClass('dnb-forms-section-edit-block')
-
-    expect(document.body).toHaveFocus()
-
-    // Switch to edit mode
-    fireEvent.click(editButton)
-    expect(editBlock).toHaveTextContent('Edit Content')
-
-    await waitFor(() => {
-      expect(
-        editBlock.querySelector('.dnb-forms-section-block__inner')
-      ).toHaveFocus()
-    })
-
-    // Reset focus, so we can test focus during close
-    ;(document.activeElement as HTMLElement).blur()
-
-    // Switch to view mode
-    fireEvent.click(cancelButton)
-    expect(viewBlock).toHaveTextContent('View Content')
-
-    await waitFor(() => {
-      expect(
-        viewBlock.querySelector('.dnb-forms-section-block__inner')
-      ).toHaveFocus()
-    })
-
-    // Reset focus, so we can test focus during close
-    ;(document.activeElement as HTMLElement).blur()
-
-    // Switch to edit mode
-    fireEvent.click(editButton)
-    expect(editBlock).toHaveTextContent('Edit Content')
-
-    await waitFor(() => {
-      expect(
-        editBlock.querySelector('.dnb-forms-section-block__inner')
-      ).toHaveFocus()
-    })
-  })
-
   it('should set variant to "outline" when variant is not set', async () => {
     render(
       <Form.Section>
         <Form.Section.ViewContainer>
           View Content
         </Form.Section.ViewContainer>
+
         <Form.Section.EditContainer>
           Edit Content
         </Form.Section.EditContainer>
@@ -248,6 +565,7 @@ describe('EditContainer and ViewContainer', () => {
         <Form.Section.ViewContainer variant="basic">
           View Content
         </Form.Section.ViewContainer>
+
         <Form.Section.EditContainer variant="basic">
           Edit Content
         </Form.Section.EditContainer>
@@ -263,14 +581,13 @@ describe('EditContainer and ViewContainer', () => {
 
   it('should validate on done button click', async () => {
     render(
-      <Form.Handler>
-        <Form.Section>
-          <EditContainer>
-            <Field.Name required path="/name" />
-          </EditContainer>
-          <ViewContainer>content</ViewContainer>
-        </Form.Section>
-      </Form.Handler>
+      <Form.Section>
+        <Form.Section.EditContainer>
+          <Field.Name required path="/name" />
+        </Form.Section.EditContainer>
+
+        <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+      </Form.Section>
     )
 
     expect(
@@ -292,19 +609,20 @@ describe('EditContainer and ViewContainer', () => {
     await userEvent.click(doneButton)
 
     expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
+    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
 
     await userEvent.click(cancelButton)
-    await userEvent.click(editButton)
 
-    expect(
-      document.querySelector('.dnb-form-status')
-    ).not.toBeInTheDocument()
-
-    await userEvent.click(doneButton)
-
-    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
+    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(2)
 
     await userEvent.type(document.querySelector('input'), 'foo')
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+    })
+
     await userEvent.click(doneButton)
 
     expect(

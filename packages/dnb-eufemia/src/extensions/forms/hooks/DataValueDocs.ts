@@ -42,8 +42,13 @@ export const dataValueProperties: PropertiesTableProps = {
     status: 'optional',
   },
   required: {
-    doc: 'When set `true`, the field will give an error if the value cannot be empty.',
+    doc: 'When set to `true`, the field will give an error if the value fails the required validation. When set to `false`, the field will not be required, but will add a "(optional)" suffix to the label.',
     type: 'boolean',
+    status: 'optional',
+  },
+  labelSuffix: {
+    doc: 'Will append an additional text to the label, like "(optional)". When using `inheritLabel`, the suffix will not be inherited. NB: The visual appearance of the `labelSuffix` may change in the future.',
+    type: 'React.Node',
     status: 'optional',
   },
   schema: {

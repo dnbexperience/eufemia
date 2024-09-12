@@ -88,6 +88,14 @@ render(
 )
 ```
 
+### Initial container mode
+
+This section describes the behavior of the `EditContainer` and the `ViewContainer` components.
+
+By default, the container mode is set to `auto`. This means that the container will open (switch to `edit` mode) when there is an error in the container or the value is falsy (empty string, null, undefined, etc.).
+
+When a new item is added via the [Iterate.PushButton](/uilib/extensions/forms/Iterate/PushButton/) component, the item before it will change to `view` mode, if it had no validation errors.
+
 ## Filter data
 
 You can filter data by paths specific or all paths.

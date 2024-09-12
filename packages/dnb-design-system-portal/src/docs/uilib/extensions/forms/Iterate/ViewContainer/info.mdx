@@ -33,12 +33,51 @@ render(
 You can use the `{itemNr}` variable in the `title` property to display the current item number.
 
 ```tsx
-import { Iterate, Field, Value } from '@dnb/eufemia/extensions/forms'
+import { Iterate, Value } from '@dnb/eufemia/extensions/forms'
 
 render(
   <Iterate.Array>
     <Iterate.ViewContainer title="Account holder {itemNr}">
       <Value.Name.Last itemPath="/name" />
+    </Iterate.ViewContainer>
+  </Iterate.Array>,
+)
+```
+
+## Customize the Toolbar
+
+```tsx
+import { Iterate, Value } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Iterate.Array>
+    <Iterate.ViewContainer>
+      <Value.Name.Last itemPath="/name" />
+
+      <Iterate.Toolbar>
+        <Iterate.ViewContainer.EditButton />
+        <Iterate.ViewContainer.RemoveButton />
+      </Iterate.Toolbar>
+    </Iterate.ViewContainer>
+  </Iterate.Array>,
+)
+```
+
+### Variants
+
+#### `minimumOneItem`
+
+This variant has the following behavior:
+
+- When `ViewContainer` is visible, and the number of items in the array is one, the remove button will be hidden.
+
+```tsx
+import { Iterate } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Iterate.Array>
+    <Iterate.ViewContainer toolbarVariant="minimumOneItem">
+      Item Content
     </Iterate.ViewContainer>
   </Iterate.Array>,
 )

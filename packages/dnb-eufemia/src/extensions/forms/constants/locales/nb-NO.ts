@@ -9,6 +9,7 @@ export default {
       errorSummary: 'Feil som må rettes:',
       errorRequired: 'Dette feltet må fylles ut.',
       errorPattern: 'Verdien er ugyldig.',
+      optionalLabelSuffix: '(valgfritt)',
     },
     SubmitButton: {
       text: 'Send',
@@ -48,7 +49,7 @@ export default {
       removeButton: 'Fjern',
       doneButton: 'Ferdig',
       cancelButton: 'Avbryt',
-      errorInSection: 'Feilene ovenfor må rettes',
+      errorInContainer: 'Feilene ovenfor må rettes',
     },
     IteratePushContainer: {
       createButton: 'Legg til',

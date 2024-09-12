@@ -43,6 +43,13 @@ describe('usePath', () => {
     expect(result.current.path).toBe(`${sectionPath}${path}`)
   })
 
+  it('joinPath', () => {
+    const { result } = renderHook(() => usePath(), {})
+    expect(
+      result.current.joinPath([undefined, null, '', 'foo/', '/bar//'])
+    ).toBe('/foo/bar')
+  })
+
   it('should return the correct identifier when itemPath is defined', () => {
     const path = '/path'
     const iteratePath = '/iteratePath'

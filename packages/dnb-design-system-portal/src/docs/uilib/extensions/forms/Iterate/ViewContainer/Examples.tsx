@@ -1,1 +1,5 @@
-export { ViewAndEditContainer } from '../Array/Examples'
+export {
+  ViewAndEditContainer,
+  ToolbarVariantMiniumOneItemOneItem,
+  ToolbarVariantMiniumOneItemTwoItems,
+} from '../Array/Examples'

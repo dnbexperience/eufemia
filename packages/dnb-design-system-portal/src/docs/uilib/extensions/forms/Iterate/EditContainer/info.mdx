@@ -68,6 +68,44 @@ render(
 )
 ```
 
+## Customize the Toolbar
+
+```tsx
+import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Iterate.Array>
+    <Iterate.EditContainer>
+      <Field.Name.Last itemPath="/name" />
+      <Iterate.Toolbar>
+        <Iterate.EditContainer.DoneButton />
+        <Iterate.EditContainer.CancelButton />
+      </Iterate.Toolbar>
+    </Iterate.EditContainer>
+  </Iterate.Array>,
+)
+```
+
+### Variants
+
+#### `minimumOneItem`
+
+This variant has the following behavior:
+
+- When `EditContainer` is visible, and the number of items in the array is one, the entire toolbar will be hidden.
+
+```tsx
+import { Iterate } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Iterate.Array>
+    <Iterate.EditContainer toolbarVariant="minimumOneItem">
+      Item Content
+    </Iterate.EditContainer>
+  </Iterate.Array>,
+)
+```
+
 ## Accessibility
 
 The `Iterate.EditContainer` component has an `aria-label` attribute, which is set to the `title` prop value. It uses a section element to wrap the content, which helps users with screen readers to get the needed announcement.

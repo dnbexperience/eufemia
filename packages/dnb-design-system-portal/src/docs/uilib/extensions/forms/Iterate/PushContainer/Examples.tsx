@@ -74,7 +74,7 @@ export const InitiallyOpen = () => {
               }
               onSubmit={async (data) => console.log('onSubmit', data)}
             >
-              <Flex.Vertical>
+              <Flex.Stack>
                 <Form.MainHeading>Accounts</Form.MainHeading>
 
                 <Card stack>
@@ -87,7 +87,7 @@ export const InitiallyOpen = () => {
                 </Card>
 
                 <Form.SubmitButton variant="send" />
-              </Flex.Vertical>
+              </Flex.Stack>
             </Form.Handler>
           )
         }

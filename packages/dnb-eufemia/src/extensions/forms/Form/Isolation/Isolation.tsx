@@ -174,7 +174,9 @@ function IsolationProvider<Data extends JsonObject>(
       // Commit the internal data to the nested context data
       handlePathChangeOuter?.(
         path,
-        extendDeep({}, outerData, isolatedData)
+        Array.isArray(isolatedData)
+          ? isolatedData
+          : extendDeep({}, outerData, isolatedData)
       )
 
       return await onCommitProp?.(
@@ -202,8 +204,7 @@ function IsolationProvider<Data extends JsonObject>(
 
   const providerProps: IsolationProps<Data> = {
     ...props,
-    data: internalDataRef.current,
-    defaultData: undefined,
+    [defaultData ? 'defaultData' : 'data']: internalDataRef.current,
     onPathChange: onPathChangeHandler,
     onCommit,
     onClear,

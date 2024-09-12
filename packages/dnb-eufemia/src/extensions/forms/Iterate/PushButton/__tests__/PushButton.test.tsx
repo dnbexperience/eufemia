@@ -1,7 +1,9 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import IterateItemContext from '../../IterateItemContext'
 import PushButton from '../PushButton'
+import { Field, Form, Iterate } from '../../..'
 
 describe('PushButton', () => {
   it('should call handlePush when clicked inside an Iterate element', () => {
@@ -19,7 +21,8 @@ describe('PushButton', () => {
     const button = document.querySelector('button')
     fireEvent.click(button)
 
-    expect(handlePush).toHaveBeenCalledWith(pushValue)
+    expect(handlePush).toHaveBeenCalledTimes(1)
+    expect(handlePush).toHaveBeenLastCalledWith(pushValue)
   })
 
   it('should call handleChange when clicked outside an Iterate element', () => {
@@ -27,15 +30,21 @@ describe('PushButton', () => {
     const pushValue = 'push value'
 
     render(
-      <PushButton onChange={handleChange} pushValue={pushValue}>
-        Push Button
-      </PushButton>
+      <Form.Handler onChange={handleChange}>
+        <PushButton path="/foo" pushValue={pushValue}>
+          Push Button
+        </PushButton>
+      </Form.Handler>
     )
 
     const button = document.querySelector('button')
     fireEvent.click(button)
 
-    expect(handleChange).toHaveBeenCalledWith([pushValue])
+    expect(handleChange).toHaveBeenCalledTimes(1)
+    expect(handleChange).toHaveBeenLastCalledWith(
+      { foo: [pushValue] },
+      expect.anything()
+    )
   })
 
   it('should accept "pushValue" from a function call', () => {
@@ -43,36 +52,21 @@ describe('PushButton', () => {
     const pushValue = jest.fn(() => 'push value')
 
     render(
-      <PushButton onChange={handleChange} pushValue={pushValue}>
-        Push Button
-      </PushButton>
+      <Form.Handler onChange={handleChange}>
+        <PushButton path="/foo" pushValue={pushValue}>
+          Push Button
+        </PushButton>
+      </Form.Handler>
     )
 
     const button = document.querySelector('button')
     fireEvent.click(button)
 
-    expect(handleChange).toHaveBeenCalledWith(['push value'])
-    expect(pushValue).toHaveBeenCalledWith(undefined)
-  })
-
-  it('should throw an error if value is not an array', () => {
-    const log = jest.spyOn(console, 'error').mockImplementation()
-    const invalidValue = 'invalid value'
-    const error = 'PushButton received a non-array value'
-
-    expect(() => {
-      render(
-        <PushButton
-          value={invalidValue as unknown as string[]}
-          pushValue="push value"
-        >
-          Push Button
-        </PushButton>
-      )
-    }).toThrow()
-
-    expect(log.mock.calls[0][0].toString()).toContain(error)
-    log.mockRestore()
+    expect(handleChange).toHaveBeenLastCalledWith(
+      { foo: ['push value'] },
+      expect.anything()
+    )
+    expect(pushValue).toHaveBeenLastCalledWith(undefined)
   })
 
   it('should render with the correct class name', () => {
@@ -129,6 +123,40 @@ describe('PushButton', () => {
     expect(button.querySelector('.dnb-icon')).toHaveAttribute(
       'data-testid',
       'add icon'
+    )
+  })
+
+  it('should not overwrite initial data because of the same path as the Iterate.Array', async () => {
+    const onSubmit = jest.fn()
+
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Iterate.Array path="/myList" defaultValue={[null]}>
+          <Field.String itemPath="/" />
+        </Iterate.Array>
+
+        <PushButton path="/myList" pushValue="push value" />
+      </Form.Handler>
+    )
+
+    const form = document.querySelector('form')
+    const button = document.querySelector('.dnb-forms-iterate-push-button')
+
+    fireEvent.submit(form)
+
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenLastCalledWith(
+      { myList: [null] },
+      expect.anything()
+    )
+
+    await userEvent.click(button)
+    fireEvent.submit(form)
+
+    expect(onSubmit).toHaveBeenCalledTimes(2)
+    expect(onSubmit).toHaveBeenLastCalledWith(
+      { myList: [null, 'push value'] },
+      expect.anything()
     )
   })
 })

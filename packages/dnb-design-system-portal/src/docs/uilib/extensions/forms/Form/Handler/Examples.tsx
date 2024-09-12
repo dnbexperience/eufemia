@@ -5,6 +5,26 @@ import { Button, Card, Flex, P, Section } from '@dnb/eufemia/src'
 import { debounceAsync } from '@dnb/eufemia/src/shared/helpers/debounce'
 import { createRequest } from '../SubmitIndicator/Examples'
 
+export const RequiredAndOptionalFields = () => {
+  return (
+    <ComponentBox data-visual-test="required-and-optional-fields">
+      <Form.Handler required>
+        <Card stack>
+          <Field.Email path="/email" required={false} />
+          <Field.String
+            path="/custom"
+            label="Label"
+            labelDescription="\nLabel description"
+            required={false}
+          />
+          <Field.Currency path="/amount" label="Amount" />
+          <Form.SubmitButton />
+        </Card>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
 export const AsyncSubmit = () => {
   return (
     <ComponentBox>

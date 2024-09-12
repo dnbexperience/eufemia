@@ -50,6 +50,7 @@ export type Props = Pick<
   | keyof ComponentProps
   | 'layout'
   | 'label'
+  | 'labelSuffix'
   | 'labelDescription'
   | 'info'
   | 'warning'
@@ -76,6 +77,8 @@ export type Props = Pick<
   fieldState?: SubmitState
   /** Typography size */
   labelSize?: 'medium' | 'large'
+  /** For internal use only */
+  required?: boolean
   children?: React.ReactNode
 } & React.HTMLAttributes<HTMLDivElement>
 
@@ -93,8 +96,10 @@ function FieldBlock(props: Props) {
     composition,
     label: labelProp,
     labelDescription,
+    labelSuffix,
     labelSrOnly,
     asFieldset,
+    required,
     info,
     warning,
     error: errorProp,
@@ -122,15 +127,46 @@ function FieldBlock(props: Props) {
     return Boolean(errorProp)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
+  const { optionalLabelSuffix } = useTranslation().Field
+  const labelSuffixText = useMemo(() => {
+    if (required === false || typeof labelSuffix !== 'undefined') {
+      return labelSuffix ?? optionalLabelSuffix
+    }
+    return ''
+  }, [required, labelSuffix, optionalLabelSuffix])
+
   const label = useMemo(() => {
+    let content = labelProp
+
     if (iterateIndex !== undefined) {
-      return convertJsxToString(labelProp).replace(
+      content = convertJsxToString(labelProp).replace(
         '{itemNr}',
         String(iterateIndex + 1)
       )
     }
-    return labelProp
-  }, [iterateIndex, labelProp])
+
+    if (labelSuffixText) {
+      if (convertJsxToString(content).includes(optionalLabelSuffix)) {
+        return content
+      }
+
+      if (typeof content === 'string') {
+        return content + ' ' + labelSuffixText
+      }
+
+      if (React.isValidElement(content)) {
+        return (
+          <>
+            {content}
+            {' '}
+            {labelSuffixText}
+          </>
+        )
+      }
+    }
+
+    return content
+  }, [iterateIndex, labelProp, labelSuffixText])
 
   const setInternalRecord = useCallback((props: StateBasis) => {
     const { stateId, identifier, type } = props
@@ -393,8 +429,10 @@ function FieldBlock(props: Props) {
     return null
   }
 
-  if (fieldState && !label) {
-    warn('You have to provide a label to use show an indicator.')
+  if (fieldState && typeof label === 'undefined') {
+    warn(
+      'Provide a label when using an async validator or onChange event.'
+    )
   }
 
   return (
@@ -524,7 +562,7 @@ function LabelDescription({ labelDescription, children }) {
   return <div className="dnb-forms-field-block__label">{children}</div>
 }
 
-function getMessage(item: Partial<StateWithMessage>): StateMessage {
+export function getMessage(item: Partial<StateWithMessage>): StateMessage {
   const { content } = item
 
   return ((content instanceof Error && content.message) ||

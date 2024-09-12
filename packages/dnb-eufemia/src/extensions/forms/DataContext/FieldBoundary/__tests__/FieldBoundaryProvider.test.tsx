@@ -124,6 +124,27 @@ describe('FieldBoundaryProvider', () => {
     })
   })
 
+  it('should set showBoundaryErrorsRef to true when showErrors is true', async () => {
+    const contextRef: React.MutableRefObject<FieldBoundaryContextState> =
+      React.createRef()
+
+    const ContextConsumer = () => {
+      contextRef.current = useContext(FieldBoundaryContext)
+      return null
+    }
+
+    render(
+      <Provider>
+        <FieldBoundaryProvider showErrors>
+          <ContextConsumer />
+          <Field.String />
+        </FieldBoundaryProvider>
+      </Provider>
+    )
+
+    expect(contextRef.current.showBoundaryErrors).toBe(true)
+  })
+
   it('should set error in boundary context', async () => {
     const contextRef: React.MutableRefObject<FieldBoundaryContextState> =
       React.createRef()

@@ -13,7 +13,7 @@ import SectionContainerContext, {
 import { Props as FlexContainerProps } from '../../../../../components/flex/Container'
 import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBoundaryContext'
 
-export type ContainerMode = 'view' | 'edit'
+export type ContainerMode = 'view' | 'edit' | 'auto'
 export type SectionContainerProps = {
   /**
    * Defines the variant of the ViewContainer or EditContainer. Can be `outline`.
@@ -26,9 +26,22 @@ export type Props = {
   mode: ContainerMode
   open?: boolean | undefined
   ariaLabel?: string
+  omitFocusManagementRef?: React.MutableRefObject<boolean>
 } & SectionContainerProps
 
 function SectionContainer(props: Props & FlexContainerProps) {
+  const {
+    mode,
+    open,
+    ariaLabel,
+    onAnimationEnd,
+    className,
+    children,
+    variant = 'outline',
+    omitFocusManagementRef = { current: undefined },
+    ...restProps
+  } = props
+
   const [, forceUpdate] = useReducer(() => ({}), {})
 
   const containerRef = useRef<HTMLDivElement>()
@@ -50,18 +63,7 @@ function SectionContainer(props: Props & FlexContainerProps) {
     contextRef.current.containerMode = 'edit'
   }
 
-  const { switchContainerMode, containerMode } = contextRef.current
-
-  const {
-    mode,
-    open,
-    ariaLabel,
-    onAnimationEnd,
-    className,
-    children,
-    variant = 'outline',
-    ...restProps
-  } = props
+  const { containerMode } = contextRef.current
 
   const openRef = useRef(open ?? containerMode === mode)
   const setOpenState = useCallback((open: boolean) => {
@@ -81,25 +83,28 @@ function SectionContainer(props: Props & FlexContainerProps) {
     }
   }, [containerMode, mode, open, setOpenState])
 
+  const setFocus = useCallback(
+    (state) => {
+      if (state === 'opened') {
+        if (
+          !omitFocusManagementRef.current &&
+          !contextRef.current.hasSubmitError
+        ) {
+          containerRef?.current?.focus?.()
+        }
+        omitFocusManagementRef.current = false
+      }
+    },
+    [omitFocusManagementRef]
+  )
+
   // - Remove the block with animation, if it's in the right mode
   const handleAnimationEnd = useCallback(
     (state) => {
-      // - Keep the block open if we have an error
-      if (contextRef.current.hasSubmitError) {
-        switchContainerMode?.('edit')
-      }
-
-      if (state === 'opened') {
-        const preventFocusOnErrorOpening =
-          !contextRef.current.hasSubmitError
-        if (preventFocusOnErrorOpening) {
-          containerRef?.current?.focus?.()
-        }
-      }
-
+      setFocus(state)
       onAnimationEnd?.(state)
     },
-    [onAnimationEnd, switchContainerMode]
+    [onAnimationEnd, setFocus]
   )
 
   return (
@@ -107,6 +112,8 @@ function SectionContainer(props: Props & FlexContainerProps) {
       className={classnames(
         'dnb-forms-section-block',
         variant && `dnb-forms-section-block--variant-${variant}`,
+        omitFocusManagementRef.current &&
+          'dnb-forms-section-block--no-animation',
         contextRef.current.hasSubmitError &&
           'dnb-forms-section-block--error',
         className

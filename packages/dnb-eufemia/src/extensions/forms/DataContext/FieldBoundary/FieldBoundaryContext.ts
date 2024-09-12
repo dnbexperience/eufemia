@@ -24,13 +24,16 @@ export interface FieldBoundaryContextState {
 
   /**
    * Will be set to true when the boundary context error state should be shown.
+   * Support a number to ensure we can renew hooks each time we get a new value.
    */
-  showBoundaryErrors?: boolean
+  showBoundaryErrors?: boolean | number
 
   /**
    * To set the boundary context error state.
    */
-  setShowBoundaryErrors?: (showBoundaryErrors: boolean) => void
+  setShowBoundaryErrors?: (
+    showBoundaryErrors: FieldBoundaryContextState['showBoundaryErrors']
+  ) => void
 
   /**
    * To set the local error state.
