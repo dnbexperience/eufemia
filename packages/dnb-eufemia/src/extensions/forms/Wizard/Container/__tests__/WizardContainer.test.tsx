@@ -89,19 +89,31 @@ describe('Wizard.Container', () => {
     await userEvent.click(secondStep.querySelector('.dnb-button'))
     expect(output()).toHaveTextContent('Step 2')
     expect(onStepChange).toHaveBeenCalledTimes(1)
-    expect(onStepChange).toHaveBeenLastCalledWith(1, 'next')
+    expect(onStepChange).toHaveBeenLastCalledWith(
+      1,
+      'next',
+      expect.anything()
+    )
 
     await userEvent.click(firstStep.querySelector('.dnb-button'))
     await wait(1000)
     expect(output()).toHaveTextContent('Step 1')
     expect(onStepChange).toHaveBeenCalledTimes(2)
-    expect(onStepChange).toHaveBeenLastCalledWith(0, 'previous')
+    expect(onStepChange).toHaveBeenLastCalledWith(
+      0,
+      'previous',
+      expect.anything()
+    )
 
     await userEvent.click(nextButton())
     expect(nextButton()).not.toBeDisabled()
 
     expect(onStepChange).toHaveBeenCalledTimes(3)
-    expect(onStepChange).toHaveBeenLastCalledWith(1, 'next')
+    expect(onStepChange).toHaveBeenLastCalledWith(
+      1,
+      'next',
+      expect.anything()
+    )
 
     // Use fireEvent to trigger the event fast
     fireEvent.click(previousButton())
@@ -110,7 +122,11 @@ describe('Wizard.Container', () => {
     await waitFor(() => {
       expect(previousButton()).toBeNull()
       expect(onStepChange).toHaveBeenCalledTimes(4)
-      expect(onStepChange).toHaveBeenLastCalledWith(0, 'previous')
+      expect(onStepChange).toHaveBeenLastCalledWith(
+        0,
+        'previous',
+        expect.anything()
+      )
       expect(previousButton()).not.toBeInTheDocument()
     })
   })
@@ -1531,6 +1547,110 @@ describe('Wizard.Container', () => {
 
     expect(output()).toHaveTextContent('Step 2')
     expect(screen.queryByRole('alert')).toBeInTheDocument()
+  })
+
+  it('should prevent navigation if `preventNavigation` is called', async () => {
+    render(
+      <Form.Handler>
+        <Wizard.Container
+          onStepChange={(step, mode, { preventNavigation }) => {
+            // Stop navigation of user presses the next button on step 2 (B)
+            if (step === 2 && mode === 'next') {
+              preventNavigation()
+            }
+          }}
+        >
+          <Wizard.Step title="Step A">
+            <p>Step A</p>
+            <Wizard.Buttons />
+          </Wizard.Step>
+          <Wizard.Step title="Step B">
+            <p>Step B</p>
+            <Wizard.Buttons />
+          </Wizard.Step>
+          <Wizard.Step title="Step C">
+            <p>Step C</p>
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>
+    )
+
+    const [stepA, stepB, stepC] = Array.from(
+      document.querySelectorAll('.dnb-step-indicator__item')
+    )
+
+    expect(stepA).toHaveClass('dnb-step-indicator__item--current')
+    expect(stepB).not.toHaveClass('dnb-step-indicator__item--current')
+    expect(stepC).not.toHaveClass('dnb-step-indicator__item--current')
+
+    await userEvent.click(screen.getByText('Neste'))
+
+    expect(stepA).not.toHaveClass('dnb-step-indicator__item--current')
+    expect(stepB).toHaveClass('dnb-step-indicator__item--current')
+    expect(stepC).not.toHaveClass('dnb-step-indicator__item--current')
+
+    await userEvent.click(screen.getByText('Neste'))
+
+    // Stay on Step B
+
+    expect(stepA).not.toHaveClass('dnb-step-indicator__item--current')
+    expect(stepB).toHaveClass('dnb-step-indicator__item--current')
+    expect(stepC).not.toHaveClass('dnb-step-indicator__item--current')
+
+    await userEvent.click(screen.getByText('Tilbake'))
+
+    expect(stepA).toHaveClass('dnb-step-indicator__item--current')
+    expect(stepB).not.toHaveClass('dnb-step-indicator__item--current')
+    expect(stepC).not.toHaveClass('dnb-step-indicator__item--current')
+  })
+
+  it('should run validation before `preventNavigation` result is evaluated', async () => {
+    const onStepChange = jest.fn((step, mode, { preventNavigation }) => {
+      if (step === 1 && mode === 'next') {
+        preventNavigation()
+      }
+    })
+
+    render(
+      <Form.Handler>
+        <Wizard.Container onStepChange={onStepChange}>
+          <Wizard.Step title="Step 1">
+            <Field.String required />
+            <output>Step 1</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+          <Wizard.Step title="Step 2">
+            <output>Step 2</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>
+    )
+
+    expect(output()).toHaveTextContent('Step 1')
+
+    await userEvent.click(nextButton())
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    })
+
+    expect(output()).toHaveTextContent('Step 1')
+
+    await userEvent.type(document.querySelector('input'), 'valid')
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeNull()
+    })
+
+    await userEvent.click(nextButton())
+
+    expect(output()).toHaveTextContent('Step 1')
+    expect(onStepChange).toHaveBeenCalledTimes(1)
+    expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
+      preventNavigation: expect.any(Function),
+    })
   })
 
   describe('prerenderFieldProps and filterData', () => {
