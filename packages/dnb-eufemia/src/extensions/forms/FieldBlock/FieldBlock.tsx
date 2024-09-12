@@ -562,7 +562,7 @@ function LabelDescription({ labelDescription, children }) {
   return <div className="dnb-forms-field-block__label">{children}</div>
 }
 
-function getMessage(item: Partial<StateWithMessage>): StateMessage {
+export function getMessage(item: Partial<StateWithMessage>): StateMessage {
   const { content } = item
 
   return ((content instanceof Error && content.message) ||

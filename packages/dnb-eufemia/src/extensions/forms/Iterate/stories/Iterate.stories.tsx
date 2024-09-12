@@ -221,3 +221,37 @@ const Output = () => {
     </Section>
   )
 }
+
+export const WithArrayValidator = () => {
+  const [count, increment] = React.useReducer((state) => state + 1, 0)
+
+  return (
+    <>
+      <Form.Handler
+        defaultData={{
+          items: ['foo', 'bar'],
+        }}
+        onSubmit={(data) => console.log('onSubmit', data)}
+      >
+        <Flex.Stack>
+          <Iterate.Array
+            path="/items"
+            validator={(arrayValue) => {
+              if (arrayValue.length === 2 || arrayValue.length === 3) {
+                return new Error('You can not have 2 or 3 items')
+              }
+            }}
+            validateInitially
+          >
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+          <Iterate.PushButton top path="/items" pushValue="baz" />
+          <Form.SubmitButton />
+          <button type="button" onClick={increment}>
+            {count}
+          </button>
+        </Flex.Stack>
+      </Form.Handler>
+    </>
+  )
+}

@@ -1,4 +1,5 @@
 import { PropertiesTableProps } from '../../../../shared/types'
+import { dataValueProperties } from '../../hooks/DataValueDocs'
 
 export const ArrayProperties: PropertiesTableProps = {
   value: {
@@ -46,6 +47,7 @@ export const ArrayProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  validator: dataValueProperties.validator,
   children: {
     doc: 'React.Node or a function so you can get the current value and index.',
     type: 'boolean',

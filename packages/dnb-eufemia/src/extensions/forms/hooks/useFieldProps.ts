@@ -1267,6 +1267,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     ]
   )
 
+  const setChanged = (state: boolean) => {
+    changedRef.current = state
+  }
+
   const handleChange = useCallback(
     async (
       argFromInput: Value | unknown,
@@ -1746,6 +1750,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     handleBlur,
     handleChange,
     updateValue,
+    setChanged,
     forceUpdate,
 
     /** Internal */
@@ -1769,6 +1774,7 @@ export interface ReturnAdditional<Value> {
     value: Value | unknown,
     additionalArgs?: AdditionalEventArgs
   ) => void
+  setChanged: (state: boolean) => void
   updateValue: (value: Value) => void
   forceUpdate: () => void
   hasError?: boolean

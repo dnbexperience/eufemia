@@ -11,7 +11,7 @@ import classnames from 'classnames'
 import pointer from 'json-pointer'
 import { useFieldProps } from '../../hooks'
 import { makeUniqueId } from '../../../../shared/component-helper'
-import { Flex } from '../../../../components'
+import { Flex, FormStatus, HeightAnimation } from '../../../../components'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import {
@@ -28,6 +28,7 @@ import FieldBoundaryProvider from '../../DataContext/FieldBoundary/FieldBoundary
 import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
 import { useSwitchContainerMode } from '../hooks'
+import { getMessage } from '../../FieldBlock'
 
 import type { ContainerMode, ElementChild, Props, Value } from './types'
 import type { Identifier } from '../../types'
@@ -84,15 +85,22 @@ function ArrayComponent(props: Props) {
   const {
     path,
     value: arrayValue,
+    error,
     defaultValue,
     withoutFlex,
     emptyValue,
     placeholder,
     containerMode,
     handleChange,
+    setChanged,
     onChange,
     children,
   } = useFieldProps(preparedProps)
+
+  useMountEffect(() => {
+    // To ensure the validator is called when a new item is added
+    setChanged(true)
+  })
 
   const idsRef = useRef<Array<Identifier>>([])
   const isNewRef = useRef<Record<string, boolean>>({})
@@ -248,57 +256,81 @@ function ArrayComponent(props: Props) {
     innerRef: containerRef,
   }
 
-  const WrapperElement = omitFlex ? Fragment : Flex.Stack
+  const WrapperElement = omitFlex ? Fragment : StackWithAnimation
 
   return (
-    <WrapperElement {...(omitFlex ? null : flexProps)}>
-      {arrayValue === emptyValue || props?.value?.length === 0
-        ? placeholder
-        : arrayItems.map((itemProps) => {
-            const { id, value, index } = itemProps
-            const elementRef = (innerRefs.current[id] =
-              innerRefs.current[id] || createRef<HTMLDivElement>())
+    <>
+      <WrapperElement {...(omitFlex ? null : flexProps)}>
+        {arrayValue === emptyValue || props?.value?.length === 0
+          ? placeholder
+          : arrayItems.map((itemProps) => {
+              const { id, value, index } = itemProps
+              const elementRef = (innerRefs.current[id] =
+                innerRefs.current[id] || createRef<HTMLDivElement>())
 
-            const renderChildren = (elementChild: ElementChild) => {
-              return typeof elementChild === 'function'
-                ? elementChild(value, index)
-                : elementChild
-            }
+              const renderChildren = (elementChild: ElementChild) => {
+                return typeof elementChild === 'function'
+                  ? elementChild(value, index)
+                  : elementChild
+              }
 
-            const contextValue = {
-              ...itemProps,
-              elementRef,
-            }
+              const contextValue = {
+                ...itemProps,
+                elementRef,
+              }
 
-            const content = Array.isArray(children)
-              ? children.map((child) => renderChildren(child))
-              : renderChildren(children)
+              const content = Array.isArray(children)
+                ? children.map((child) => renderChildren(child))
+                : renderChildren(children)
 
-            if (omitFlex) {
+              if (omitFlex) {
+                return (
+                  <IterateItemContext.Provider
+                    key={`element-${id}`}
+                    value={contextValue}
+                  >
+                    <FieldBoundaryProvider>
+                      {content}
+                    </FieldBoundaryProvider>
+                  </IterateItemContext.Provider>
+                )
+              }
+
               return (
-                <IterateItemContext.Provider
+                <Flex.Item
+                  className="dnb-forms-iterate__element"
+                  tabIndex={-1}
+                  innerRef={elementRef}
                   key={`element-${id}`}
-                  value={contextValue}
                 >
-                  <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
-                </IterateItemContext.Provider>
+                  <IterateItemContext.Provider value={contextValue}>
+                    <FieldBoundaryProvider>
+                      {content}
+                    </FieldBoundaryProvider>
+                  </IterateItemContext.Provider>
+                </Flex.Item>
               )
-            }
+            })}
+      </WrapperElement>
 
-            return (
-              <Flex.Item
-                className="dnb-forms-iterate__element"
-                tabIndex={-1}
-                innerRef={elementRef}
-                key={`element-${id}`}
-              >
-                <IterateItemContext.Provider value={contextValue}>
-                  <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
-                </IterateItemContext.Provider>
-              </Flex.Item>
-            )
-          })}
-    </WrapperElement>
+      <FormStatus
+        top={0}
+        bottom={0}
+        show={Boolean(error)}
+        no_animation={false}
+        shellSpace={{ top: true, bottom: true }}
+      >
+        {getMessage({ content: error })}
+      </FormStatus>
+    </>
+  )
+}
+
+function StackWithAnimation(props) {
+  return (
+    <HeightAnimation>
+      <Flex.Stack {...props} />
+    </HeightAnimation>
   )
 }
 
