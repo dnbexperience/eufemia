@@ -3,21 +3,18 @@ import { render, fireEvent } from '@testing-library/react'
 import IterateItemContext from '../../IterateItemContext'
 import Toolbar from '../../Toolbar'
 import DoneButton from '../DoneButton'
-import CancelButton from '../CancelButton'
-
 import nbNO from '../../../constants/locales/nb-NO'
 
 const nb = nbNO['nb-NO'].IterateEditContainer
 
-describe('EditToolbarTools', () => {
-  it('calls "switchContainerMode" when remove button is clicked', () => {
+describe('DoneButton', () => {
+  it('calls "switchContainerMode"', () => {
     const switchContainerMode = jest.fn()
 
     render(
       <IterateItemContext.Provider value={{ switchContainerMode }}>
         <Toolbar>
           <DoneButton />
-          <CancelButton />
         </Toolbar>
       </IterateItemContext.Provider>
     )
@@ -28,7 +25,7 @@ describe('EditToolbarTools', () => {
     expect(switchContainerMode).toHaveBeenCalledWith('view')
   })
 
-  it('calls "switchContainerMode" when remove button is clicked and isNew is true', () => {
+  it('calls "switchContainerMode" when isNew is true', () => {
     const switchContainerMode = jest.fn()
 
     render(
@@ -37,7 +34,6 @@ describe('EditToolbarTools', () => {
       >
         <Toolbar>
           <DoneButton />
-          <CancelButton />
         </Toolbar>
       </IterateItemContext.Provider>
     )
@@ -48,32 +44,7 @@ describe('EditToolbarTools', () => {
     expect(switchContainerMode).toHaveBeenCalledWith('view')
   })
 
-  it('calls "restoreOriginalValue" when cancel button is clicked', () => {
-    const restoreOriginalValue = jest.fn()
-
-    render(
-      <IterateItemContext.Provider
-        value={{
-          restoreOriginalValue,
-          containerMode: 'edit',
-          index: 0,
-          arrayValue: ['original value'],
-        }}
-      >
-        <Toolbar>
-          <DoneButton />
-          <CancelButton />
-        </Toolbar>
-      </IterateItemContext.Provider>
-    )
-
-    fireEvent.click(document.querySelectorAll('button')[1])
-
-    expect(restoreOriginalValue).toHaveBeenCalledTimes(1)
-    expect(restoreOriginalValue).toHaveBeenCalledWith('original value')
-  })
-
-  describe('to have buttons with correct text', () => {
+  describe('to have button with correct text', () => {
     it('and isNew is true', () => {
       render(
         <IterateItemContext.Provider
@@ -84,16 +55,12 @@ describe('EditToolbarTools', () => {
         >
           <Toolbar>
             <DoneButton />
-            <CancelButton />
           </Toolbar>
         </IterateItemContext.Provider>
       )
 
-      const buttons = document.querySelectorAll('button')
-
-      expect(buttons).toHaveLength(2)
-      expect(buttons[0]).toHaveTextContent(nb.doneButton)
-      expect(buttons[1]).toHaveTextContent(nb.removeButton)
+      const button = document.querySelector('button')
+      expect(button).toHaveTextContent(nb.doneButton)
     })
 
     it('and isNew is not set', () => {
@@ -101,16 +68,12 @@ describe('EditToolbarTools', () => {
         <IterateItemContext.Provider value={{ containerMode: 'edit' }}>
           <Toolbar>
             <DoneButton />
-            <CancelButton />
           </Toolbar>
         </IterateItemContext.Provider>
       )
 
-      const buttons = document.querySelectorAll('button')
-
-      expect(buttons).toHaveLength(2)
-      expect(buttons[0]).toHaveTextContent(nb.doneButton)
-      expect(buttons[1]).toHaveTextContent(nb.cancelButton)
+      const button = document.querySelector('button')
+      expect(button).toHaveTextContent(nb.doneButton)
     })
   })
 })

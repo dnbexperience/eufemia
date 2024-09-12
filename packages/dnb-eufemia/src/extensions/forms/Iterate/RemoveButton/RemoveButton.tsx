@@ -33,9 +33,9 @@ function RemoveButton(props: Props) {
 
   const handleClick = useCallback(() => {
     if (handleRemoveItem) {
-      handleRemoveItem()
+      handleRemoveItem?.()
     } else {
-      handleRemove()
+      handleRemove?.()
     }
   }, [handleRemove, handleRemoveItem])
 
