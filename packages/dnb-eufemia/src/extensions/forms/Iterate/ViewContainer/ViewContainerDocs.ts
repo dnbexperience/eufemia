@@ -16,6 +16,11 @@ export const ViewContainerProperties: PropertiesTableProps = {
     type: 'React.Node',
     status: 'optional',
   },
+  toolbarVariant: {
+    doc: 'Use variants to render the toolbar differently. Currently there is only the `minimumOneItem` variant. See the info section for more info.',
+    type: 'string',
+    status: 'optional',
+  },
   '[FlexVertical](/uilib/layout/flex/container/)': {
     doc: 'All Flex.Vertical properties.',
     type: 'Various',

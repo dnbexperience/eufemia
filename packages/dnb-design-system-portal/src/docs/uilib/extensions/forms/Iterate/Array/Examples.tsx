@@ -378,41 +378,19 @@ export const InitialOpen = () => {
 
           <Card align="stretch">
             <Iterate.Array path="/countries" defaultValue={[null]}>
-              <Iterate.ViewContainer>
+              <Iterate.ViewContainer toolbarVariant="minimumOneItem">
                 <Value.SelectCountry
                   label="Land du er statsborger i"
                   itemPath="/"
                 />
-                <Iterate.Toolbar>
-                  {({ items }) =>
-                    items.length === 1 ? (
-                      <Iterate.ViewContainer.EditButton />
-                    ) : (
-                      <>
-                        <Iterate.ViewContainer.EditButton />
-                        <Iterate.ViewContainer.RemoveButton />
-                      </>
-                    )
-                  }
-                </Iterate.Toolbar>
               </Iterate.ViewContainer>
 
-              <Iterate.EditContainer>
+              <Iterate.EditContainer toolbarVariant="minimumOneItem">
                 <Field.SelectCountry
                   label="Land du er statsborger i"
                   itemPath="/"
                   required
                 />
-                <Iterate.Toolbar>
-                  {({ items }) =>
-                    items.length === 1 ? null : (
-                      <>
-                        <Iterate.EditContainer.DoneButton />
-                        <Iterate.EditContainer.CancelButton />
-                      </>
-                    )
-                  }
-                </Iterate.Toolbar>
               </Iterate.EditContainer>
             </Iterate.Array>
 
