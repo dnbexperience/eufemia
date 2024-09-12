@@ -1533,6 +1533,42 @@ describe('Wizard.Container', () => {
     expect(screen.queryByRole('alert')).toBeInTheDocument()
   })
 
+  it('should prevent navigation if `preventNavigation` is called', async () => {
+    render(
+      <Form.Handler>
+        <Wizard.Container
+          onStepChange={(e) => {
+            console.log('e', e)
+          }}
+        >
+          <Wizard.Step title="Step 1">
+            <p>Step 1</p>
+            <Wizard.Buttons />
+          </Wizard.Step>
+          <Wizard.Step title="Step 2">
+            <p>Step 2</p>
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>
+    )
+
+    const [firstStep, secondStep] = document.querySelectorAll(
+      '.dnb-step-indicator__item'
+    )
+
+    const nextButton = document.querySelector('.dnb-forms-submit-button')
+
+    expect(firstStep).toHaveClass('.dnb-step-indicator__item--current')
+
+    await userEvent.click(nextButton)
+
+    expect(firstStep).toHaveClass('.dnb-step-indicator__item--current')
+    expect(secondStep).not.toHaveClass(
+      '.dnb-step-indicator__item--current'
+    )
+  })
+
   describe('prerenderFieldProps and filterData', () => {
     it('should keep field props in memory during step change', async () => {
       const filterDataHandler = jest.fn(({ props }) => {
