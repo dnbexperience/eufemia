@@ -433,11 +433,11 @@ describe('Iterate.Array', () => {
     })
 
     it('should validate during typing and show error when duplicate item is added', async () => {
-      const findFirstDuplicate = (arr) =>
+      const findFirstDuplication = (arr) =>
         arr.findIndex((e, i) => arr.indexOf(e) !== i)
 
       const validator = jest.fn((arrayValue) => {
-        const index = findFirstDuplicate(arrayValue)
+        const index = findFirstDuplication(arrayValue)
         if (index > -1) {
           const value = arrayValue[index]
           return new Error(`You can not have duplicate items: ${value}`)

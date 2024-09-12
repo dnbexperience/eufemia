@@ -17,6 +17,7 @@ export type Props = Omit<
     | 'emptyValue'
     | 'onChange'
     | 'validateInitially'
+    | 'continuousValidation'
   > & {
     children: ElementChild | Array<ElementChild>
     path?: Path

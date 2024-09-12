@@ -439,3 +439,51 @@ export const ToolbarVariantMiniumOneItemTwoItems = () => {
     </ComponentBox>
   )
 }
+
+export const WithArrayValidator = () => {
+  return (
+    <ComponentBox>
+      {() => {
+        const findFirstDuplication = (arr) =>
+          arr.findIndex((e, i) => arr.indexOf(e) !== i)
+
+        return (
+          <Form.Handler defaultData={{ items: ['foo'] }}>
+            <Card stack>
+              <Iterate.Array
+                path="/items"
+                validator={(arrayValue) => {
+                  const index = findFirstDuplication(arrayValue)
+                  console.log('index', index)
+                  if (index > -1) {
+                    const value = arrayValue[index]
+                    return new Error(
+                      'You can not have duplicate items: ' + value,
+                    )
+                  }
+                }}
+                continuousValidation
+              >
+                <Flex.Horizontal align="flex-end">
+                  <Field.String
+                    label="Item no. {itemNr}"
+                    itemPath="/"
+                    width="medium"
+                  />
+                  <Iterate.RemoveButton />
+                </Flex.Horizontal>
+              </Iterate.Array>
+              <Iterate.PushButton
+                top
+                path="/items"
+                pushValue="foo"
+                text="Add foo"
+              />
+              <Form.SubmitButton />
+            </Card>
+          </Form.Handler>
+        )
+      }}
+    </ComponentBox>
+  )
+}

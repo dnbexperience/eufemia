@@ -11,7 +11,7 @@ import classnames from 'classnames'
 import pointer from 'json-pointer'
 import { useFieldProps } from '../../hooks'
 import { makeUniqueId } from '../../../../shared/component-helper'
-import { Flex, FormStatus, HeightAnimation } from '../../../../components'
+import { Flex, FormStatus } from '../../../../components'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import {
@@ -256,7 +256,7 @@ function ArrayComponent(props: Props) {
     innerRef: containerRef,
   }
 
-  const WrapperElement = omitFlex ? Fragment : StackWithAnimation
+  const WrapperElement = omitFlex ? Fragment : Flex.Stack
 
   return (
     <>
@@ -323,14 +323,6 @@ function ArrayComponent(props: Props) {
         {getMessage({ content: error })}
       </FormStatus>
     </>
-  )
-}
-
-function StackWithAnimation(props) {
-  return (
-    <HeightAnimation>
-      <Flex.Stack {...props} />
-    </HeightAnimation>
   )
 }
 
