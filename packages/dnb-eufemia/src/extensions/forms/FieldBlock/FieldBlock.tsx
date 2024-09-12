@@ -393,8 +393,10 @@ function FieldBlock(props: Props) {
     return null
   }
 
-  if (fieldState && !label) {
-    warn('You have to provide a label to use show an indicator.')
+  if (fieldState && typeof label === 'undefined') {
+    warn(
+      'Provide a label when using an async validator or onChange event.'
+    )
   }
 
   return (

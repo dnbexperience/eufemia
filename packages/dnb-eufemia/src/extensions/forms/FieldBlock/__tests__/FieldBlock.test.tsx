@@ -577,7 +577,7 @@ describe('FieldBlock', () => {
     expect(log).toHaveBeenLastCalledWith(
       expect.any(String),
       expect.any(String),
-      'You have to provide a label to use show an indicator.'
+      'Provide a label when using an async validator or onChange event.'
     )
 
     log.mockRestore()
