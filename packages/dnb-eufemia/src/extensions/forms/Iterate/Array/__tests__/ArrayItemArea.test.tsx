@@ -373,7 +373,9 @@ describe('ArrayItemArea', () => {
     )
 
     expect(switchContainerMode).toHaveBeenCalledTimes(1)
-    expect(switchContainerMode).toHaveBeenLastCalledWith('edit')
+    expect(switchContainerMode).toHaveBeenLastCalledWith('edit', {
+      omitFocusManagement: true,
+    })
   })
 
   it('opens component based on "open" prop', async () => {

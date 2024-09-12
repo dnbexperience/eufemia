@@ -49,7 +49,6 @@ function ArrayItemArea(props: Props & FlexContainerProps) {
   const { hasError, hasSubmitError } =
     useContext(FieldBoundaryContext) || {}
   localContextRef.current = useContext(IterateItemContext) || {}
-  const omitFocusManagementRef = useRef(false)
   const nextFocusElementRef = useRef<HTMLElement>()
   const { isNew, value } = localContextRef.current
   if (hasSubmitError || !value) {
@@ -69,8 +68,7 @@ function ArrayItemArea(props: Props & FlexContainerProps) {
     ) {
       // - Set the container mode to "edit" if we have an error
       if (hasError && !isNew) {
-        omitFocusManagementRef.current = true
-        switchContainerMode('edit')
+        switchContainerMode('edit', { omitFocusManagement: true })
       }
     }
   }, [hasError, hasSubmitError, isNew, mode])
@@ -113,19 +111,18 @@ function ArrayItemArea(props: Props & FlexContainerProps) {
   const setFocus = useCallback(
     (state) => {
       if (
-        !omitFocusManagementRef.current &&
+        localContextRef.current.modeOptions?.omitFocusManagement !==
+          true &&
         !hasSubmitError &&
         containerMode === mode && // ensure we match the correct mode
         containerMode !== previousContainerMode // ensure we have a new mode
       ) {
         if (state === 'opened') {
-          localContextRef.current?.elementRef?.current?.focus?.()
+          localContextRef.current.elementRef?.current?.focus?.()
         } else if (state === 'closed') {
           nextFocusElementRef.current?.focus?.()
         }
       }
-
-      omitFocusManagementRef.current = false
     },
     [containerMode, hasSubmitError, mode, previousContainerMode]
   )
@@ -135,7 +132,7 @@ function ArrayItemArea(props: Props & FlexContainerProps) {
     (state) => {
       if (!openRef.current && isRemoving.current) {
         isRemoving.current = false
-        localContextRef.current?.fulfillRemove?.()
+        localContextRef.current.fulfillRemove?.()
       }
 
       setFocus(state)

@@ -30,7 +30,7 @@ import useDataValue from '../../hooks/useDataValue'
 import { useSwitchContainerMode } from '../hooks'
 
 import type { ContainerMode, ElementChild, Props, Value } from './types'
-import type { Identifier, Path } from '../../types'
+import type { Identifier } from '../../types'
 
 /**
  * Deprecated, as it is supported by all major browsers and Node.js >=v18
@@ -99,7 +99,11 @@ function ArrayComponent(props: Props) {
   const modesRef = useRef<
     Record<
       Identifier,
-      { current: ContainerMode; previous?: ContainerMode }
+      {
+        current: ContainerMode
+        previous?: ContainerMode
+        options?: { omitFocusManagement?: boolean }
+      }
     >
   >({})
   const valueWhileClosingRef = useRef<Value>()
@@ -161,13 +165,15 @@ function ArrayComponent(props: Props) {
         containerMode: modesRef.current[id].current,
         previousContainerMode: modesRef.current[id].previous,
         initialContainerMode: containerMode || 'auto',
-        switchContainerMode: (mode: ContainerMode) => {
+        modeOptions: modesRef.current[id].options,
+        switchContainerMode: (mode, options = {}) => {
           modesRef.current[id].previous = modesRef.current[id].current
           modesRef.current[id].current = mode
+          modesRef.current[id].options = options
           delete isNewRef.current?.[id]
           forceUpdate()
         },
-        handleChange: (path: Path, value: unknown) => {
+        handleChange: (path, value) => {
           const newArrayValue = structuredClone(arrayValue)
 
           // Make sure we have a new object reference,
@@ -177,7 +183,7 @@ function ArrayComponent(props: Props) {
           pointer.set(newArrayValue, path, value)
           handleChange(newArrayValue)
         },
-        handlePush: (element: unknown) => {
+        handlePush: (element) => {
           hadPushRef.current = true
           handleChange([...(arrayValue || []), element])
         },
@@ -203,7 +209,7 @@ function ArrayComponent(props: Props) {
         },
 
         // - Called when cancel button press
-        restoreOriginalValue: (value: unknown) => {
+        restoreOriginalValue: (value) => {
           if (value) {
             const newArrayValue = structuredClone(arrayValue)
             newArrayValue[index] = value

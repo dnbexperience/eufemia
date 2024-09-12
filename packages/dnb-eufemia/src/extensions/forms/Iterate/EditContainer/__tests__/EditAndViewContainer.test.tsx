@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import IterateItemContext from '../../IterateItemContext'
-import { Field, Form, Iterate } from '../../..'
+import { Field, Form, Iterate, Value } from '../../..'
 import userEvent from '@testing-library/user-event'
 import nbNO from '../../../constants/locales/nb-NO'
 
@@ -188,6 +188,105 @@ describe('EditContainer and ViewContainer', () => {
 
       expect(document.body).toHaveFocus()
       expect(containerMode).toBe('edit')
+    })
+
+    it('should only set focus on newly added element when containerMode changes', async () => {
+      const containerMode = []
+
+      const ContextConsumer = () => {
+        const context = React.useContext(IterateItemContext)
+        containerMode.push(context.containerMode)
+
+        return null
+      }
+
+      render(
+        <Form.Handler>
+          <Iterate.Array path="/items">
+            <Iterate.ViewContainer>
+              <Value.String path="/foo" />
+            </Iterate.ViewContainer>
+            <Iterate.EditContainer>
+              <Field.String path="/foo" />
+            </Iterate.EditContainer>
+            <ContextConsumer />
+          </Iterate.Array>
+          <Iterate.PushButton path="/items" pushValue="value" />
+        </Form.Handler>
+      )
+
+      expect(document.body).toHaveFocus()
+      expect(containerMode).toEqual([])
+
+      const button = document.querySelector('button')
+      await userEvent.click(button)
+
+      expect(containerMode).toEqual(['edit', 'edit', 'edit'])
+
+      {
+        const elements = document.querySelectorAll(
+          '.dnb-forms-iterate__element'
+        )
+        expect(elements).toHaveLength(1)
+
+        const firstElement = elements[0]
+        const [, editBlock] = Array.from(
+          firstElement.querySelectorAll('.dnb-forms-section-block')
+        )
+
+        expect(
+          document.querySelector('.dnb-forms-iterate-push-button')
+        ).toHaveFocus()
+        await waitFor(() => {
+          expect(editBlock).toHaveStyle('height: auto;')
+        })
+        expect(firstElement).toHaveFocus()
+      }
+
+      await userEvent.click(button)
+
+      {
+        expect(containerMode).toEqual([
+          'edit',
+          'edit',
+          'edit',
+          'edit',
+          'edit',
+          'edit',
+        ])
+
+        const elements = document.querySelectorAll(
+          '.dnb-forms-iterate__element'
+        )
+        expect(elements).toHaveLength(2)
+
+        const firstElement = elements[0]
+        const secondElement = elements[1]
+        const [, editBlock] = Array.from(
+          secondElement.querySelectorAll('.dnb-forms-section-block')
+        )
+
+        expect(
+          document.querySelector('.dnb-forms-iterate-push-button')
+        ).toHaveFocus()
+        await waitFor(() => {
+          expect(editBlock).toHaveStyle('height: auto;')
+        })
+        expect(
+          firstElement.querySelector('.dnb-forms-section-block')
+        ).toHaveStyle('height: 0;')
+        expect(secondElement).toHaveFocus()
+        expect(containerMode).toEqual([
+          'edit',
+          'edit',
+          'edit',
+          'edit',
+          'edit',
+          'edit',
+          'view',
+          'edit',
+        ])
+      }
     })
 
     it('should set focus on __element when containerMode changes', async () => {

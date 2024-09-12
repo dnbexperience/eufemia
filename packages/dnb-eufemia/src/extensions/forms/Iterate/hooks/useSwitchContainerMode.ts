@@ -1,11 +1,30 @@
 import { useCallback, useContext, useEffect, useRef } from 'react'
 import { ContainerMode } from '../Array'
-import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
-import IterateItemContext from '../IterateItemContext'
+import FieldBoundaryContext, {
+  FieldBoundaryContextState,
+} from '../../DataContext/FieldBoundary/FieldBoundaryContext'
+import IterateItemContext, {
+  IterateItemContextState,
+} from '../IterateItemContext'
 import { Path } from '../../types'
 
+type GlobalCacheHash = string
+type GlobalCacheId = string
+type GlobalCache = {
+  index: IterateItemContextState['index']
+  hasError: FieldBoundaryContextState['hasError']
+  count: number
+  switchContainerMode: IterateItemContextState['switchContainerMode']
+}
+type GlobalCacheItem = {
+  [string: GlobalCacheHash]: GlobalCache
+}
+
 const globalContainerModeRef = { current: undefined }
-const globalCache = {}
+const globalCache: Record<
+  GlobalCacheHash,
+  Record<GlobalCacheId, GlobalCache>
+> = {}
 
 /**
  * This is a helper for the Iterate component.
@@ -34,7 +53,7 @@ export default function useSwitchContainerMode({
 
   useEffect(() => {
     if (hash && iterateItemContext) {
-      globalCache[hash] = globalCache[hash] || {}
+      globalCache[hash] = globalCache[hash] || ({} as GlobalCacheItem)
       const { index, arrayValue, switchContainerMode } = iterateItemContext
       globalCache[hash][id] = {
         index,
@@ -62,7 +81,7 @@ export default function useSwitchContainerMode({
         const item = data[id]
         const mode = item && fn?.(item)
         if (mode) {
-          item.switchContainerMode(mode)
+          item.switchContainerMode(mode, { omitFocusManagement: true })
         }
       }
     },
