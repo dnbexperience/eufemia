@@ -246,6 +246,10 @@ export type FieldBlockProps = {
    */
   label?: React.ReactNode
   /**
+   * Will append an additional text to the label, like "(optional)" or "(recommended)"
+   */
+  labelSuffix?: React.ReactNode
+  /**
    * A more discreet text displayed beside the label
    */
   labelDescription?: React.ReactNode

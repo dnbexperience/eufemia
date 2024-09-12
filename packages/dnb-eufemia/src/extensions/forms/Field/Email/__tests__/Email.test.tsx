@@ -115,6 +115,26 @@ describe('Field.Email', () => {
     expect(input).toHaveAttribute('type', 'email')
   })
 
+  it('should have default label', () => {
+    render(<Field.Email />)
+
+    const label = document.querySelector('label')
+    expect(label).toHaveTextContent(nb.Email.label)
+  })
+
+  it('should add (optional) text to the label if required={false}', () => {
+    render(
+      <Form.Handler required>
+        <Field.Email required={false} />
+      </Form.Handler>
+    )
+
+    const label = document.querySelector('label')
+    expect(label).toHaveTextContent(
+      `${nb.Email.label} ${nb.Field.optionalLabelSuffix}`
+    )
+  })
+
   it('should allow a custom pattern', async () => {
     render(<Field.Email pattern="[A-Z]" required />)
 

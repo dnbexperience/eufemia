@@ -57,6 +57,40 @@ describe('Field.PhoneNumber', () => {
     expect(labelElement()).not.toHaveAttribute('disabled')
   })
 
+  it('should have default label', () => {
+    render(<Field.PhoneNumber />)
+
+    const label = document.querySelector('.dnb-forms-field-phone-number')
+    expect(label).toHaveTextContent(nbNO.PhoneNumber.label)
+  })
+
+  it('should add (optional) text to the number label if required={false}', () => {
+    render(
+      <Form.Handler required>
+        <Field.PhoneNumber required={false} />
+      </Form.Handler>
+    )
+
+    const codeElement = document.querySelector(
+      '.dnb-forms-field-phone-number__country-code'
+    ) as HTMLInputElement
+    const numberElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number'
+    ) as HTMLInputElement
+
+    expect(codeElement.querySelector('label')).not.toHaveTextContent(
+      `${nbNO.Field.optionalLabelSuffix}`
+    )
+    expect(numberElement.querySelector('label')).toHaveTextContent(
+      `${nbNO.PhoneNumber.label} ${nbNO.Field.optionalLabelSuffix}`
+    )
+
+    // Use "textContent" to check against non-breaking space
+    expect(numberElement.querySelector('label').textContent).toBe(
+      `${nbNO.PhoneNumber.label}${' '}${nbNO.Field.optionalLabelSuffix}`
+    )
+  })
+
   it('should only have a mask when +47 is given', async () => {
     const { rerender } = render(<Field.PhoneNumber value="999999990000" />)
 

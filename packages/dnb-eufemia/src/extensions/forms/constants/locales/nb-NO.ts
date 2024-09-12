@@ -9,6 +9,7 @@ export default {
       errorSummary: 'Feil som må rettes:',
       errorRequired: 'Dette feltet må fylles ut.',
       errorPattern: 'Verdien er ugyldig.',
+      optionalLabelSuffix: '(valgfritt)',
     },
     SubmitButton: {
       text: 'Send',

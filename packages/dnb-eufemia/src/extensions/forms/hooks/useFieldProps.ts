@@ -211,7 +211,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const hasFocusRef = useRef<boolean>()
 
   const required = useMemo(() => {
-    if (requiredProp) {
+    if (typeof requiredProp !== 'undefined') {
       return requiredProp
     }
 
@@ -242,7 +242,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         return true
       }
     }
-  }, [sectionPath, dataContext.schema, identifier, requiredProp, schema])
+  }, [requiredProp, identifier, schema, dataContext.schema, sectionPath])
 
   // Error handling
   // - Should errors received through validation be shown initially. Assume that providing a direct prop to
@@ -1700,6 +1700,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     info: !inFieldBlock ? infoRef.current : undefined,
     warning: !inFieldBlock ? warningRef.current : undefined,
     error: !inFieldBlock ? error : undefined,
+    required,
+    labelSuffix: props.labelSuffix,
 
     /** HTML Attributes */
     disabled:

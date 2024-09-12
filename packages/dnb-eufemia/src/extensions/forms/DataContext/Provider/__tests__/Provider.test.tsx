@@ -4226,6 +4226,97 @@ describe('DataContext.Provider', () => {
     })
   })
 
+  describe('required={false}', () => {
+    it('should add optional label', () => {
+      const { rerender } = render(
+        <DataContext.Provider required>
+          <Field.String label="Foo" />
+          <Field.String label="Bar" required={false} />
+          <Field.String label="Baz" />
+        </DataContext.Provider>
+      )
+
+      const [first, second, third] = Array.from(
+        document.querySelectorAll('label')
+      )
+
+      expect(first).toHaveTextContent('Foo')
+      expect(second).toHaveTextContent(
+        `Bar ${nb.Field.optionalLabelSuffix}`
+      )
+      expect(third).toHaveTextContent('Baz')
+
+      rerender(
+        <DataContext.Provider required>
+          <Field.String label="Foo" required={false} />
+          <Field.String label="Bar" />
+          <Field.String label="Baz" required={false} />
+        </DataContext.Provider>
+      )
+
+      expect(first).toHaveTextContent(
+        `Foo ${nb.Field.optionalLabelSuffix}`
+      )
+      expect(second).toHaveTextContent('Bar')
+      expect(third).toHaveTextContent(
+        `Baz ${nb.Field.optionalLabelSuffix}`
+      )
+    })
+
+    it('should prioritize labelSuffix over optionalLabel', () => {
+      render(
+        <DataContext.Provider required>
+          <Field.Email
+            label="e-post"
+            required={false}
+            labelSuffix="(suffix)"
+          />
+        </DataContext.Provider>
+      )
+
+      const labelElement = document.querySelector('label')
+      expect(labelElement.textContent).toBe('e-post (suffix)')
+    })
+
+    it('should hide labelSuffix with empty string', () => {
+      render(
+        <DataContext.Provider required>
+          <Field.Email label="e-post" required={false} labelSuffix="" />
+        </DataContext.Provider>
+      )
+
+      const labelElement = document.querySelector('label')
+      expect(labelElement.textContent).toBe('e-post')
+    })
+
+    it('should support translations', () => {
+      render(
+        <DataContext.Provider
+          required
+          translations={{
+            'nb-NO': {
+              Field: {
+                optionalLabelSuffix: '(recommended)',
+              },
+            },
+          }}
+        >
+          <Field.String label="Foo" />
+          <Field.String label="Bar" required={false} />
+          <Field.String label="Baz" />
+        </DataContext.Provider>
+      )
+
+      const [first, second, third] = Array.from(
+        document.querySelectorAll('label')
+      )
+
+      expect(first).toHaveTextContent('Foo')
+      expect(second).toHaveTextContent('Bar (recommended)')
+      expect(third).toHaveTextContent('Baz')
+    })
+  })
+
   describe('required', () => {
     it('should make all fields required', () => {
       const { rerender } = render(

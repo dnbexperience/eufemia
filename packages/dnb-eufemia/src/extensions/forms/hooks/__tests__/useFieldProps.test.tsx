@@ -2000,6 +2000,18 @@ describe('useFieldProps', () => {
       expect(result.current.htmlAttributes).toEqual({})
     })
 
+    it('should return empty htmlAttributes when optional prop is true and required prop is true', async () => {
+      const { result } = renderHook(() =>
+        useFieldProps({
+          value: undefined,
+          required: false,
+        })
+      )
+
+      expect(result.current.htmlAttributes).toEqual({})
+      expect(result.current.error).not.toBeInstanceOf(Error)
+    })
+
     describe('required', () => {
       it('should return aria-required=true when required prop is true', async () => {
         const { result } = renderHook(() =>

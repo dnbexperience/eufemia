@@ -9,6 +9,7 @@ export default {
       errorSummary: 'Please correct the following errors:',
       errorRequired: 'This field is required.',
       errorPattern: 'The value is invalid.',
+      optionalLabelSuffix: '(optional)',
     },
     SubmitButton: {
       text: 'Send',
