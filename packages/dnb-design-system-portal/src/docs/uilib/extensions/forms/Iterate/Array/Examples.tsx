@@ -443,47 +443,39 @@ export const ToolbarVariantMiniumOneItemTwoItems = () => {
 export const WithArrayValidator = () => {
   return (
     <ComponentBox>
-      {() => {
-        const findFirstDuplication = (arr) =>
-          arr.findIndex((e, i) => arr.indexOf(e) !== i)
-
-        return (
-          <Form.Handler defaultData={{ items: ['foo'] }}>
-            <Card stack>
-              <Iterate.Array
-                path="/items"
-                validator={(arrayValue) => {
-                  const index = findFirstDuplication(arrayValue)
-                  console.log('index', index)
-                  if (index > -1) {
-                    const value = arrayValue[index]
-                    return new Error(
-                      'You can not have duplicate items: ' + value,
-                    )
-                  }
-                }}
-                continuousValidation
-              >
-                <Flex.Horizontal align="flex-end">
-                  <Field.String
-                    label="Item no. {itemNr}"
-                    itemPath="/"
-                    width="medium"
-                  />
-                  <Iterate.RemoveButton />
-                </Flex.Horizontal>
-              </Iterate.Array>
-              <Iterate.PushButton
-                top
-                path="/items"
-                pushValue="foo"
-                text="Add foo"
+      <Form.Handler
+        defaultData={{ items: ['foo'] }}
+        onSubmit={async () => console.log('onSubmit')}
+      >
+        <Card stack>
+          <Iterate.Array
+            path="/items"
+            validator={(arrayValue) => {
+              if (!(arrayValue && arrayValue.length > 1)) {
+                return new Error('You need at least two items')
+              }
+            }}
+          >
+            <Flex.Horizontal align="flex-end">
+              <Field.String
+                label="Item no. {itemNr}"
+                itemPath="/"
+                width="medium"
+                size="medium"
               />
-              <Form.SubmitButton />
-            </Card>
-          </Form.Handler>
-        )
-      }}
+              <Iterate.RemoveButton />
+            </Flex.Horizontal>
+          </Iterate.Array>
+
+          <Iterate.PushButton
+            top
+            path="/items"
+            pushValue={null}
+            text="Add"
+          />
+          <Form.SubmitButton />
+        </Card>
+      </Form.Handler>
     </ComponentBox>
   )
 }
