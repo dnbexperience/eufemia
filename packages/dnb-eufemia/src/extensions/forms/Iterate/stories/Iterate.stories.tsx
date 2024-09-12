@@ -221,3 +221,22 @@ const Output = () => {
     </Section>
   )
 }
+
+export const WithArrayValidator = () => {
+  return (
+    <Form.Handler>
+      <Iterate.Array
+        path="/items"
+        validator={(arrayValue) => {
+          if (!(arrayValue?.length > 0)) {
+            return new Error('You need at least one item')
+          }
+        }}
+      >
+        <Field.String itemPath="/" />
+      </Iterate.Array>
+      <Iterate.PushButton path="/items" pushValue="baz" />
+      <Form.SubmitButton />
+    </Form.Handler>
+  )
+}

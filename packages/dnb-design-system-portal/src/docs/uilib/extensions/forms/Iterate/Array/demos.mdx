@@ -68,3 +68,17 @@ It hides the toolbar in the `EditContainer` when there is only one item in the a
 ### Value composition
 
 <Examples.ValueComposition />
+
+### Array validator
+
+You can also add a validator to ensure that the array contains at least one item:
+
+```tsx
+const validator = (arrayValue) => {
+  if (!(arrayValue?.length > 0)) {
+    return new Error('You need at least one item')
+  }
+}
+```
+
+<Examples.WithArrayValidator />

@@ -439,3 +439,43 @@ export const ToolbarVariantMiniumOneItemTwoItems = () => {
     </ComponentBox>
   )
 }
+
+export const WithArrayValidator = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler
+        defaultData={{ items: ['foo'] }}
+        onSubmit={async () => console.log('onSubmit')}
+      >
+        <Card stack>
+          <Iterate.Array
+            path="/items"
+            validator={(arrayValue) => {
+              if (!(arrayValue && arrayValue.length > 1)) {
+                return new Error('You need at least two items')
+              }
+            }}
+          >
+            <Flex.Horizontal align="flex-end">
+              <Field.String
+                label="Item no. {itemNr}"
+                itemPath="/"
+                width="medium"
+                size="medium"
+              />
+              <Iterate.RemoveButton />
+            </Flex.Horizontal>
+          </Iterate.Array>
+
+          <Iterate.PushButton
+            top
+            path="/items"
+            pushValue={null}
+            text="Add"
+          />
+          <Form.SubmitButton />
+        </Card>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}

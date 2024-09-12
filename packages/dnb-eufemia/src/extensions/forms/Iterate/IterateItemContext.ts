@@ -1,6 +1,6 @@
 import React from 'react'
 import { Path } from '../types'
-import { ContainerMode, ElementChild } from './Array/types'
+import { ContainerMode } from './Array/types'
 
 export type ModeOptions = {
   omitFocusManagement?: boolean
@@ -12,7 +12,7 @@ export interface IterateItemContextState {
   value?: unknown
   isNew?: boolean
   path?: Path
-  arrayValue?: Array<ElementChild>
+  arrayValue?: Array<unknown>
   containerMode?: ContainerMode
   previousContainerMode?: ContainerMode
   initialContainerMode?: ContainerMode

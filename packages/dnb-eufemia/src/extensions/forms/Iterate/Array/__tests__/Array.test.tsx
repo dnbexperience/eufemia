@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as Iterate from '../..'
 import * as DataContext from '../../../DataContext'
@@ -319,6 +319,151 @@ describe('Iterate.Array', () => {
       )
 
       expect(document.querySelectorAll('input')).toHaveLength(2)
+    })
+  })
+
+  describe('validator', () => {
+    it('should validate validator initially (validateInitially)', async () => {
+      const validator = jest.fn((arrayValue) => {
+        if (arrayValue.length === 2) {
+          return new Error('Error message')
+        }
+      })
+
+      render(
+        <Form.Handler
+          data={{
+            items: ['foo', 'bar'],
+          }}
+        >
+          <Iterate.Array
+            path="/items"
+            validator={validator}
+            validateInitially
+          >
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+          <Iterate.PushButton path="/items" pushValue="baz" />
+        </Form.Handler>
+      )
+
+      expect(validator).toHaveBeenCalledTimes(1)
+      expect(validator).toHaveBeenCalledWith(
+        ['foo', 'bar'],
+        expect.anything()
+      )
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('Error message')
+      })
+
+      fireEvent.click(document.querySelector('button'))
+
+      expect(validator).toHaveBeenCalledTimes(2)
+      expect(validator).toHaveBeenCalledWith(
+        ['foo', 'bar', 'baz'],
+        expect.anything()
+      )
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
+    })
+
+    it('should validate validator on form submit', async () => {
+      const validator = jest.fn((arrayValue) => {
+        if (arrayValue.length === 2) {
+          return new Error('Error message')
+        }
+      })
+
+      render(
+        <Form.Handler
+          data={{
+            items: ['foo', 'bar'],
+          }}
+        >
+          <Iterate.Array path="/items" validator={validator}>
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+          <Iterate.PushButton path="/items" pushValue="baz" />
+        </Form.Handler>
+      )
+
+      expect(validator).toHaveBeenCalledTimes(0)
+
+      const form = document.querySelector('form')
+      fireEvent.submit(form)
+
+      expect(validator).toHaveBeenCalledTimes(1)
+      expect(validator).toHaveBeenCalledWith(
+        ['foo', 'bar'],
+        expect.anything()
+      )
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('Error message')
+      })
+
+      fireEvent.click(document.querySelector('button'))
+
+      expect(validator).toHaveBeenCalledTimes(2)
+      expect(validator).toHaveBeenCalledWith(
+        ['foo', 'bar', 'baz'],
+        expect.anything()
+      )
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
+    })
+
+    it('should validate during typing and show error when duplicate item is added', async () => {
+      const findFirstDuplication = (arr) =>
+        arr.findIndex((e, i) => arr.indexOf(e) !== i)
+
+      const validator = jest.fn((arrayValue) => {
+        const index = findFirstDuplication(arrayValue)
+        if (index > -1) {
+          const value = arrayValue[index]
+          return new Error(`You can not have duplicate items: ${value}`)
+        }
+      })
+
+      render(
+        <Form.Handler data={{ items: [null, 'foo'] }}>
+          <Iterate.Array path="/items" validator={validator}>
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      await userEvent.type(input, 'foo')
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+      })
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        'You can not have duplicate items: foo'
+      )
     })
   })
 
