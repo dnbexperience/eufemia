@@ -1605,6 +1605,54 @@ describe('Wizard.Container', () => {
     expect(stepC).not.toHaveClass('dnb-step-indicator__item--current')
   })
 
+  it('should run validation before `preventNavigation` result is evaluated', async () => {
+    const onStepChange = jest.fn((step, mode, { preventNavigation }) => {
+      if (step === 1 && mode === 'next') {
+        preventNavigation()
+      }
+    })
+
+    render(
+      <Form.Handler>
+        <Wizard.Container onStepChange={onStepChange}>
+          <Wizard.Step title="Step 1">
+            <Field.String required />
+            <output>Step 1</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+          <Wizard.Step title="Step 2">
+            <output>Step 2</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>
+    )
+
+    expect(output()).toHaveTextContent('Step 1')
+
+    await userEvent.click(nextButton())
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    })
+
+    expect(output()).toHaveTextContent('Step 1')
+
+    await userEvent.type(document.querySelector('input'), 'valid')
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeNull()
+    })
+
+    await userEvent.click(nextButton())
+
+    expect(output()).toHaveTextContent('Step 1')
+    expect(onStepChange).toHaveBeenCalledTimes(1)
+    expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
+      preventNavigation: expect.any(Function),
+    })
+  })
+
   describe('prerenderFieldProps and filterData', () => {
     it('should keep field props in memory during step change', async () => {
       const filterDataHandler = jest.fn(({ props }) => {
