@@ -146,11 +146,7 @@ function FieldBlock(props: Props) {
     }
 
     if (labelSuffixText) {
-      if (
-        convertJsxToString(content).includes(
-          convertJsxToString(labelSuffixText)
-        )
-      ) {
+      if (convertJsxToString(content).includes(optionalLabelSuffix)) {
         return content
       }
 
