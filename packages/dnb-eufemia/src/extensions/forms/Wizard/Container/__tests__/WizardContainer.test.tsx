@@ -1537,36 +1537,54 @@ describe('Wizard.Container', () => {
     render(
       <Form.Handler>
         <Wizard.Container
-          onStepChange={(e) => {
-            console.log('e', e)
+          onStepChange={(step, mode, { preventNavigation }) => {
+            // Stop navigation of user presses the next button on step 2
+            if (step === 2 && mode === 'next') {
+              preventNavigation()
+            }
           }}
         >
-          <Wizard.Step title="Step 1">
-            <p>Step 1</p>
+          <Wizard.Step title="Step A">
+            <p>Step A</p>
             <Wizard.Buttons />
           </Wizard.Step>
-          <Wizard.Step title="Step 2">
-            <p>Step 2</p>
+          <Wizard.Step title="Step B">
+            <p>Step B</p>
+            <Wizard.Buttons />
+          </Wizard.Step>
+          <Wizard.Step title="Step C">
+            <p>Step C</p>
             <Wizard.Buttons />
           </Wizard.Step>
         </Wizard.Container>
       </Form.Handler>
     )
 
-    const [firstStep, secondStep] = document.querySelectorAll(
-      '.dnb-step-indicator__item'
+    const [stepA, stepB, stepC] = Array.from(
+      document.querySelectorAll('.dnb-step-indicator__item')
     )
 
-    const nextButton = document.querySelector('.dnb-forms-submit-button')
+    expect(stepA).toHaveClass('dnb-step-indicator__item--current')
+    expect(stepB).not.toHaveClass('dnb-step-indicator__item--current')
+    expect(stepC).not.toHaveClass('dnb-step-indicator__item--current')
 
-    expect(firstStep).toHaveClass('.dnb-step-indicator__item--current')
+    await userEvent.click(screen.getByText('Neste'))
 
-    await userEvent.click(nextButton)
+    expect(stepA).not.toHaveClass('dnb-step-indicator__item--current')
+    expect(stepB).toHaveClass('dnb-step-indicator__item--current')
+    expect(stepC).not.toHaveClass('dnb-step-indicator__item--current')
 
-    expect(firstStep).toHaveClass('.dnb-step-indicator__item--current')
-    expect(secondStep).not.toHaveClass(
-      '.dnb-step-indicator__item--current'
-    )
+    await userEvent.click(screen.getByText('Neste'))
+
+    expect(stepA).not.toHaveClass('dnb-step-indicator__item--current')
+    expect(stepB).toHaveClass('dnb-step-indicator__item--current')
+    expect(stepC).not.toHaveClass('dnb-step-indicator__item--current')
+
+    await userEvent.click(screen.getByText('Tilbake'))
+
+    expect(stepA).toHaveClass('dnb-step-indicator__item--current')
+    expect(stepB).not.toHaveClass('dnb-step-indicator__item--current')
+    expect(stepC).not.toHaveClass('dnb-step-indicator__item--current')
   })
 
   describe('prerenderFieldProps and filterData', () => {
