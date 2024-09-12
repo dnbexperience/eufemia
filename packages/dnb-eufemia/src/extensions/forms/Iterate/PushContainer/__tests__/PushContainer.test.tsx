@@ -305,7 +305,7 @@ describe('PushContainer', () => {
         nb.IterateEditContainer.cancelButton
       )
 
-      // Hide the form
+      // Hide the form by adding a new item
       await userEvent.click(buttons[1])
     }
 
