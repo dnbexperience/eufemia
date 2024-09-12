@@ -3,6 +3,27 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.48.0](https://github.com/dnbexperience/eufemia/compare/v10.47.0...v10.48.0) (2024-09-12)
+
+
+### :bug: Bug Fixes
+
+* **countries:** Fixes wrong country code for Martinique [#3915](https://github.com/dnbexperience/eufemia/issues/3915) ([a9f86e4](https://github.com/dnbexperience/eufemia/commit/a9f86e4ed9c0d84f7b580a8567b5c6f18f5a9053))
+* **countries:** Remove outdated countries [#3915](https://github.com/dnbexperience/eufemia/issues/3915) ([36ef5cf](https://github.com/dnbexperience/eufemia/commit/36ef5cfb88b288399b2ef8fcc57fb34d05f2efd2))
+* **Forms:** rename 'Macedonia' to 'North Macedonia' ([#3918](https://github.com/dnbexperience/eufemia/issues/3918)) ([a4eb8a4](https://github.com/dnbexperience/eufemia/commit/a4eb8a4f8eac8ac50410f5c1099fe91bceb94b1b))
+* **Forms:** rename "Hviterussland" to "Belarus" ([#3917](https://github.com/dnbexperience/eufemia/issues/3917)) ([702118a](https://github.com/dnbexperience/eufemia/commit/702118a966858e73f3e7bae77ab5e026f083fd54))
+* removes outdated countries based on ISO 3166-1 alpha-2 ([#3916](https://github.com/dnbexperience/eufemia/issues/3916)) ([a045acd](https://github.com/dnbexperience/eufemia/commit/a045acdb5e89e1834cf3a59b4ae671bad209c0e5))
+
+
+### :sparkles: Features
+
+* **Forms:** add `toolbarVariant="minimumOneItem"` to Iterate.Toolbar for hiding buttons when there is only one item in the array ([#3919](https://github.com/dnbexperience/eufemia/issues/3919)) ([3367a77](https://github.com/dnbexperience/eufemia/commit/3367a774f79916f3a7ed785b38680fc40f82cf1f)), closes [#3877](https://github.com/dnbexperience/eufemia/issues/3877)
+* **Forms:** add `validator` support to Iterate.Array ([#3926](https://github.com/dnbexperience/eufemia/issues/3926)) ([6fd439e](https://github.com/dnbexperience/eufemia/commit/6fd439e4133a96838434c2d6989c9b33f45f8b1a))
+* **Forms:** auto-open Form.Section container when fields have errors and add `validateInitially` prop  ([#3878](https://github.com/dnbexperience/eufemia/issues/3878)) ([9b49006](https://github.com/dnbexperience/eufemia/commit/9b49006d3d60bde2904facde28d070867f3c8e80))
+* **Forms:** auto-open iterate containers when validation errors and make `Iterate.Toolbar` fully customizable ([#3877](https://github.com/dnbexperience/eufemia/issues/3877)) ([52326bf](https://github.com/dnbexperience/eufemia/commit/52326bf136ea3d26c835accf8932cb0e93259e98)), closes [#3919](https://github.com/dnbexperience/eufemia/issues/3919)
+* **Forms:** show optional label when a field uses `required={false}` and add `labelSuffix` prop to each field ([#3921](https://github.com/dnbexperience/eufemia/issues/3921)) ([60e440a](https://github.com/dnbexperience/eufemia/commit/60e440a4f07becf01e4ffa25c6f9bf4684160f6d))
+* **Wizard:** add `preventNavigation` callback function to `onStepChange` ([#3924](https://github.com/dnbexperience/eufemia/issues/3924)) ([5ec2772](https://github.com/dnbexperience/eufemia/commit/5ec27728a257707e0a463a8df68d4bf321790a84))
+
 ## [10.47.0](https://github.com/dnbexperience/eufemia/compare/v10.46.0...v10.47.0) (2024-09-10)
 
 
