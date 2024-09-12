@@ -195,7 +195,7 @@ function SelectCountry(props: Props) {
         label={label}
         input_icon={false}
         data={dataRef.current}
-        value={value}
+        value={typeof value === 'string' ? value : null}
         disabled={disabled}
         on_show={fillData}
         on_focus={onFocusHandler}

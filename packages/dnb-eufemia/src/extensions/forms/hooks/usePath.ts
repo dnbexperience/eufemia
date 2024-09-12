@@ -24,6 +24,13 @@ export default function usePath(props: Props = {}) {
     throw new Error(`itemPath="${itemPathProp}" must start with a slash`)
   }
 
+  const joinPath = useCallback((paths: Array<Path>) => {
+    return paths
+      .reduce((acc, cur) => (cur ? `${acc}/${cur}` : acc), '/')
+      .replace(/\/{2,}/g, '/')
+      .replace(/\/+$/, '')
+  }, [])
+
   const makeSectionPath = useCallback(
     (path: Path) => {
       return `${
@@ -44,7 +51,7 @@ export default function usePath(props: Props = {}) {
         root = makeSectionPath('')
       }
 
-      return `${root}${iteratePath}/${iterateElementIndex}${
+      return `${root}${iteratePath || ''}/${iterateElementIndex}${
         itemPath && itemPath !== '/' ? itemPath : ''
       }`
     },
@@ -88,6 +95,7 @@ export default function usePath(props: Props = {}) {
     identifier,
     path,
     itemPath,
+    joinPath,
     makePath,
     makeIteratePath,
     makeSectionPath,

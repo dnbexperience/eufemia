@@ -29,7 +29,7 @@ describe('Iterate.Array', () => {
     const screenshot = await makeScreenshot({
       url,
       selector:
-        '[data-visual-test="view-and-edit-container"] .dnb-forms-section-block',
+        '[data-visual-test="view-and-edit-container"] .dnb-forms-section-view-block',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

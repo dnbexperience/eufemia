@@ -5,6 +5,7 @@ import {
   Field,
   Value,
   Form,
+  Tools,
 } from '@dnb/eufemia/src/extensions/forms'
 export { Default as AnimatedContainer } from '../AnimatedContainer/Examples'
 
@@ -172,7 +173,7 @@ export const ArrayFromFormHandler = () => {
         }}
         onChange={(data) => console.log('DataContext/onChange', data)}
       >
-        <Flex.Vertical>
+        <Flex.Stack>
           <Form.MainHeading>Avengers</Form.MainHeading>
 
           <Card stack>
@@ -212,7 +213,7 @@ export const ArrayFromFormHandler = () => {
               pushValue={{}}
             />
           </Card>
-        </Flex.Vertical>
+        </Flex.Stack>
       </Form.Handler>
     </ComponentBox>
   )
@@ -282,7 +283,7 @@ export const ViewAndEditContainer = () => {
                 accounts: [
                   {
                     firstName: 'Tony',
-                    lastName: undefined, // initiate error
+                    lastName: 'Rogers',
                   },
                 ],
               }}
@@ -291,7 +292,7 @@ export const ViewAndEditContainer = () => {
               }
               onSubmit={async (data) => console.log('onSubmit', data)}
             >
-              <Flex.Vertical>
+              <Flex.Stack>
                 <Form.MainHeading>Accounts</Form.MainHeading>
 
                 <Card stack>
@@ -304,7 +305,7 @@ export const ViewAndEditContainer = () => {
                 </Card>
 
                 <Form.SubmitButton variant="send" />
-              </Flex.Vertical>
+              </Flex.Stack>
             </Form.Handler>
           )
         }
@@ -360,6 +361,72 @@ export const WithVisibility = () => {
             </Form.Visibility>
           </Flex.Stack>
         </Iterate.Array>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const InitialOpen = () => {
+  return (
+    <ComponentBox scope={{ Iterate, Tools }}>
+      <Form.Handler
+        onSubmit={async (data) => console.log('onSubmit', data)}
+        onSubmitRequest={() => console.log('onSubmitRequest')}
+      >
+        <Flex.Stack>
+          <Form.MainHeading>Statsborgerskap</Form.MainHeading>
+
+          <Card align="stretch">
+            <Iterate.Array path="/countries" defaultValue={[null]}>
+              <Iterate.ViewContainer>
+                <Value.SelectCountry
+                  label="Land du er statsborger i"
+                  itemPath="/"
+                />
+                <Iterate.Toolbar>
+                  {({ items }) =>
+                    items.length === 1 ? (
+                      <Iterate.ViewContainer.EditButton />
+                    ) : (
+                      <>
+                        <Iterate.ViewContainer.EditButton />
+                        <Iterate.ViewContainer.RemoveButton />
+                      </>
+                    )
+                  }
+                </Iterate.Toolbar>
+              </Iterate.ViewContainer>
+
+              <Iterate.EditContainer>
+                <Field.SelectCountry
+                  label="Land du er statsborger i"
+                  itemPath="/"
+                  required
+                />
+                <Iterate.Toolbar>
+                  {({ items }) =>
+                    items.length === 1 ? null : (
+                      <>
+                        <Iterate.EditContainer.DoneButton />
+                        <Iterate.EditContainer.CancelButton />
+                      </>
+                    )
+                  }
+                </Iterate.Toolbar>
+              </Iterate.EditContainer>
+            </Iterate.Array>
+
+            <Iterate.PushButton
+              path="/countries"
+              pushValue={null}
+              text="Legg til flere statsborgerskap"
+            />
+          </Card>
+
+          <Form.SubmitButton variant="send" />
+
+          <Tools.Log />
+        </Flex.Stack>
       </Form.Handler>
     </ComponentBox>
   )

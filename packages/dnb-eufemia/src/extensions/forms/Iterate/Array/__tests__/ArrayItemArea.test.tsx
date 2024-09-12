@@ -1,26 +1,29 @@
 import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
 import IterateItemContext from '../../IterateItemContext'
-import ElementBlock from '../ElementBlock'
+import ArrayItemArea from '../ArrayItemArea'
 import RemoveButton from '../../RemoveButton'
+import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBoundaryContext'
 import { wait } from '../../../../../core/jest/jestSetup'
 import { DataContext, Field, Form, Iterate } from '../../..'
 import { simulateAnimationEnd } from '../../../../../components/height-animation/__tests__/HeightAnimationUtils'
 
-describe('ElementBlock', () => {
+describe('ArrayItemArea', () => {
   it('should call "onAnimationEnd"', () => {
     const onAnimationEnd = jest.fn()
 
     const wrapper = ({ children }) => (
-      <IterateItemContext.Provider value={{ containerMode: 'view' }}>
+      <IterateItemContext.Provider
+        value={{ containerMode: 'view', value: 'foo' }}
+      >
         {children}
       </IterateItemContext.Provider>
     )
 
     render(
-      <ElementBlock mode="view" onAnimationEnd={onAnimationEnd}>
+      <ArrayItemArea mode="view" onAnimationEnd={onAnimationEnd}>
         <RemoveButton />
-      </ElementBlock>,
+      </ArrayItemArea>,
       { wrapper }
     )
 
@@ -41,9 +44,9 @@ describe('ElementBlock', () => {
     )
 
     render(
-      <ElementBlock mode="view">
+      <ArrayItemArea mode="view">
         <RemoveButton />
-      </ElementBlock>,
+      </ArrayItemArea>,
       { wrapper }
     )
 
@@ -57,16 +60,16 @@ describe('ElementBlock', () => {
 
     const wrapper = ({ children }) => (
       <IterateItemContext.Provider
-        value={{ containerMode: 'view', fulfillRemove }}
+        value={{ containerMode: 'view', value: 'foo', fulfillRemove }}
       >
         {children}
       </IterateItemContext.Provider>
     )
 
     render(
-      <ElementBlock mode="view">
+      <ArrayItemArea mode="view">
         <RemoveButton />
-      </ElementBlock>,
+      </ArrayItemArea>,
       { wrapper }
     )
 
@@ -166,9 +169,9 @@ describe('ElementBlock', () => {
     )
 
     const { rerender } = render(
-      <ElementBlock mode="view" openDelay={1}>
+      <ArrayItemArea mode="view" openDelay={1}>
         Content
-      </ElementBlock>,
+      </ArrayItemArea>,
       { wrapper }
     )
 
@@ -176,9 +179,9 @@ describe('ElementBlock', () => {
     expect(block).toHaveClass('dnb-height-animation--hidden')
 
     rerender(
-      <ElementBlock mode="edit" openDelay={1}>
+      <ArrayItemArea mode="edit" openDelay={1}>
         Content
-      </ElementBlock>
+      </ArrayItemArea>
     )
 
     expect(block).toHaveClass('dnb-height-animation--hidden')
@@ -196,7 +199,7 @@ describe('ElementBlock', () => {
       </IterateItemContext.Provider>
     )
 
-    render(<ElementBlock mode="view">Content</ElementBlock>, { wrapper })
+    render(<ArrayItemArea mode="view">Content</ArrayItemArea>, { wrapper })
 
     expect(
       document.querySelector('.dnb-forms-section-block__inner').tagName
@@ -211,9 +214,9 @@ describe('ElementBlock', () => {
     )
 
     render(
-      <ElementBlock mode="view" ariaLabel="Aria Label">
+      <ArrayItemArea mode="view" ariaLabel="Aria Label">
         Content
-      </ElementBlock>,
+      </ArrayItemArea>,
       { wrapper }
     )
 
@@ -224,7 +227,7 @@ describe('ElementBlock', () => {
 
   it('renders content and without errors', () => {
     const { rerender } = render(
-      <ElementBlock mode="view">content</ElementBlock>
+      <ArrayItemArea mode="view">content</ArrayItemArea>
     )
 
     const element = document.querySelector('.dnb-forms-section-block')
@@ -237,9 +240,9 @@ describe('ElementBlock', () => {
     expect(inner).toHaveTextContent('content')
 
     rerender(
-      <ElementBlock mode="view" open>
+      <ArrayItemArea mode="view" open>
         content
-      </ElementBlock>
+      </ArrayItemArea>
     )
 
     expect(element).not.toHaveClass('dnb-height-animation--hidden')
@@ -247,9 +250,9 @@ describe('ElementBlock', () => {
 
   it('closes the block when open prop is false', () => {
     render(
-      <ElementBlock mode="view" open={false}>
+      <ArrayItemArea mode="view" open={false}>
         content
-      </ElementBlock>
+      </ArrayItemArea>
     )
 
     expect(
@@ -262,9 +265,9 @@ describe('ElementBlock', () => {
 
     render(
       <IterateItemContext.Provider value={{ handleRemove }}>
-        <ElementBlock mode="view">
+        <ArrayItemArea mode="view">
           <RemoveButton />
-        </ElementBlock>
+        </ArrayItemArea>
       </IterateItemContext.Provider>
     )
 
@@ -279,11 +282,16 @@ describe('ElementBlock', () => {
 
     render(
       <IterateItemContext.Provider
-        value={{ handleRemove, fulfillRemove, containerMode: 'view' }}
+        value={{
+          handleRemove,
+          fulfillRemove,
+          containerMode: 'view',
+          value: 'foo',
+        }}
       >
-        <ElementBlock mode="view">
+        <ArrayItemArea mode="view">
           <RemoveButton />
-        </ElementBlock>
+        </ArrayItemArea>
       </IterateItemContext.Provider>
     )
 
@@ -301,8 +309,10 @@ describe('ElementBlock', () => {
 
   it('opens component based on containerMode', async () => {
     const { rerender } = render(
-      <IterateItemContext.Provider value={{ containerMode: 'view' }}>
-        <ElementBlock mode="view">content</ElementBlock>
+      <IterateItemContext.Provider
+        value={{ containerMode: 'view', value: 'foo' }}
+      >
+        <ArrayItemArea mode="view">content</ArrayItemArea>
       </IterateItemContext.Provider>
     )
 
@@ -311,19 +321,68 @@ describe('ElementBlock', () => {
     expect(element).not.toHaveClass('dnb-height-animation--hidden')
 
     rerender(
-      <IterateItemContext.Provider value={{ containerMode: 'edit' }}>
-        <ElementBlock mode="view">content</ElementBlock>
+      <IterateItemContext.Provider
+        value={{ containerMode: 'edit', value: 'foo' }}
+      >
+        <ArrayItemArea mode="view">content</ArrayItemArea>
       </IterateItemContext.Provider>
     )
 
     expect(element).toHaveClass('dnb-height-animation--hidden')
   })
 
+  it('opens in edit mode when falsy value was given', async () => {
+    let containerMode = null
+
+    const ContextConsumer = () => {
+      const context = React.useContext(IterateItemContext)
+      containerMode = context.containerMode
+
+      return null
+    }
+
+    render(
+      <IterateItemContext.Provider
+        value={{ containerMode: 'view', value: null }}
+      >
+        <ArrayItemArea mode="view">
+          <ContextConsumer />
+        </ArrayItemArea>
+      </IterateItemContext.Provider>
+    )
+
+    expect(containerMode).toBe('edit')
+  })
+
+  it('should call switchContainerMode when mode is edit and error is present', async () => {
+    const switchContainerMode = jest.fn()
+
+    render(
+      <FieldBoundaryContext.Provider value={{ hasError: true }}>
+        <IterateItemContext.Provider
+          value={{
+            switchContainerMode,
+            initialContainerMode: 'auto',
+            containerMode: 'view',
+            value: 'foo',
+          }}
+        >
+          <ArrayItemArea mode="edit">content</ArrayItemArea>
+        </IterateItemContext.Provider>
+      </FieldBoundaryContext.Provider>
+    )
+
+    expect(switchContainerMode).toHaveBeenCalledTimes(1)
+    expect(switchContainerMode).toHaveBeenLastCalledWith('edit', {
+      omitFocusManagement: true,
+    })
+  })
+
   it('opens component based on "open" prop', async () => {
     const { rerender } = render(
-      <ElementBlock mode="view" open={true}>
+      <ArrayItemArea mode="view" open={true}>
         content
-      </ElementBlock>
+      </ArrayItemArea>
     )
 
     const element = document.querySelector('.dnb-forms-section-block')
@@ -331,17 +390,17 @@ describe('ElementBlock', () => {
     expect(element).not.toHaveClass('dnb-height-animation--hidden')
 
     rerender(
-      <ElementBlock mode="view" open={false}>
+      <ArrayItemArea mode="view" open={false}>
         content
-      </ElementBlock>
+      </ArrayItemArea>
     )
 
     expect(element).toHaveClass('dnb-height-animation--hidden')
 
     rerender(
-      <ElementBlock mode="view" open={true}>
+      <ArrayItemArea mode="view" open={true}>
         content
-      </ElementBlock>
+      </ArrayItemArea>
     )
 
     expect(element).not.toHaveClass('dnb-height-animation--hidden')
@@ -352,7 +411,7 @@ describe('ElementBlock', () => {
       <IterateItemContext.Provider
         value={{ containerMode: 'view', isNew: true }}
       >
-        <ElementBlock mode="view">content</ElementBlock>
+        <ArrayItemArea mode="view">content</ArrayItemArea>
       </IterateItemContext.Provider>
     )
 
@@ -370,15 +429,19 @@ describe('ElementBlock', () => {
         value={{
           handleRemove,
           containerMode: 'view',
+          value: 'foo',
         }}
       >
-        <ElementBlock mode="view" onAnimationEnd={onAnimationEnd}>
+        <ArrayItemArea mode="view" onAnimationEnd={onAnimationEnd}>
           <RemoveButton />
-        </ElementBlock>
+        </ArrayItemArea>
       </IterateItemContext.Provider>
     )
 
-    fireEvent.click(document.querySelector('button'))
+    const buttons = document.querySelectorAll('button')
+    expect(buttons).toHaveLength(1)
+
+    fireEvent.click(buttons[0])
 
     expect(handleRemove).toHaveBeenCalledTimes(1)
 

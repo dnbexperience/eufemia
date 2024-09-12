@@ -11,7 +11,7 @@ export default function FieldBoundaryProvider({ children }) {
 
   const errorsRef = useRef<Record<Path, boolean>>({})
   const showBoundaryErrorsRef = useRef<boolean>(false)
-  const hasError = Object.keys(errorsRef.current || {}).length > 0
+  const hasError = Object.keys(errorsRef.current).length > 0
   const hasSubmitError = showAllErrors && hasError
 
   const setFieldError = useCallback((path: Path, error: Error) => {
@@ -20,6 +20,7 @@ export default function FieldBoundaryProvider({ children }) {
     } else {
       delete errorsRef.current?.[path]
     }
+    forceUpdate()
   }, [])
 
   const setShowBoundaryErrors = useCallback(

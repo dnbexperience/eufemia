@@ -4,11 +4,11 @@ import { convertJsxToString } from '../../../../shared/component-helper'
 import { Lead } from '../../../../elements'
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
 import IterateItemContext from '../IterateItemContext'
-import EditToolbarTools, { useWasNew } from './EditToolbarTools'
-import ElementBlock, {
-  ElementSectionProps,
-} from '../AnimatedContainer/ElementBlock'
+import ArrayItemArea, { ArrayItemAreaProps } from '../Array/ArrayItemArea'
 import Toolbar from '../Toolbar'
+import { useSwitchContainerMode } from '../hooks'
+import DoneButton from './DoneButton'
+import CancelButton, { useWasNew } from './CancelButton'
 
 export type Props = {
   /**
@@ -32,29 +32,41 @@ export type Props = {
   toolbar?: React.ReactNode
 }
 
-export type AllProps = Props & FlexContainerProps & ElementSectionProps
+export type AllProps = Props & FlexContainerProps & ArrayItemAreaProps
 
 export default function EditContainer(props: AllProps) {
-  const { toolbar, ...rest } = props
+  const { toolbar, children, ...rest } = props
+
+  const hasToolbar =
+    !toolbar &&
+    React.Children.toArray(children).some((child) => {
+      return child?.['type'] === Toolbar
+    })
+
   return (
     <EditContainerWithoutToolbar
       toolbar={
-        toolbar ?? (
-          <Toolbar>
-            <EditToolbarTools />
-          </Toolbar>
-        )
+        hasToolbar
+          ? null
+          : toolbar ?? (
+              <Toolbar>
+                <DoneButton />
+                <CancelButton />
+              </Toolbar>
+            )
       }
       {...rest}
-    />
+    >
+      {children}
+    </EditContainerWithoutToolbar>
   )
 }
 
 export function EditContainerWithoutToolbar(
   props: Props & FlexContainerProps & { toolbar?: React.ReactNode }
 ) {
-  const iterateItemContext = useContext(IterateItemContext)
-  const { containerMode, isNew } = iterateItemContext ?? {}
+  const { containerMode, isNew, index, path } =
+    useContext(IterateItemContext)
 
   const {
     children,
@@ -69,14 +81,13 @@ export function EditContainerWithoutToolbar(
   let itemTitle = wasNew && titleWhenNew ? titleWhenNew : title
   let ariaLabel = useMemo(() => convertJsxToString(itemTitle), [itemTitle])
   if (ariaLabel.includes('{itemNr}')) {
-    itemTitle = ariaLabel = ariaLabel.replace(
-      '{itemNr}',
-      iterateItemContext.index + 1
-    )
+    itemTitle = ariaLabel = ariaLabel.replace('{itemNr}', index + 1)
   }
 
+  useSwitchContainerMode({ path })
+
   return (
-    <ElementBlock
+    <ArrayItemArea
       mode="edit"
       className={classnames('dnb-forms-section-edit-block', className)}
       ariaLabel={ariaLabel}
@@ -85,9 +96,12 @@ export function EditContainerWithoutToolbar(
       {itemTitle && <Lead size="basis">{itemTitle}</Lead>}
       {children}
       {toolbar}
-    </ElementBlock>
+    </ArrayItemArea>
   )
 }
+
+EditContainer.DoneButton = DoneButton
+EditContainer.CancelButton = CancelButton
 
 EditContainer._supportsSpacingProps = true
 EditContainerWithoutToolbar._supportsSpacingProps = true

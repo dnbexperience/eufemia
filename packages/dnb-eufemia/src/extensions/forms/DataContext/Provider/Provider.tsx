@@ -1167,6 +1167,7 @@ export default function Provider<Data extends JsonObject>(
         validateData,
         updateDataValue,
         setData,
+        clearData,
         filterDataHandler,
         addOnChangeHandler,
         setHandleSubmit,

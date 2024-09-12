@@ -13,6 +13,7 @@ import { useFieldProps } from '../../hooks'
 import { makeUniqueId } from '../../../../shared/component-helper'
 import { Flex } from '../../../../components'
 import { pickSpacingProps } from '../../../../components/flex/utils'
+import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import {
   BasicProps as FlexContainerProps,
   Props as FlexContainerAllProps,
@@ -24,10 +25,12 @@ import IterateItemContext, {
 import SummaryListContext from '../../Value/SummaryList/SummaryListContext'
 import ValueBlockContext from '../../ValueBlock/ValueBlockContext'
 import FieldBoundaryProvider from '../../DataContext/FieldBoundary/FieldBoundaryProvider'
+import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
+import { useSwitchContainerMode } from '../hooks'
 
 import type { ContainerMode, ElementChild, Props, Value } from './types'
-import type { Identifier, Path } from '../../types'
+import type { Identifier } from '../../types'
 
 /**
  * Deprecated, as it is supported by all major browsers and Node.js >=v18
@@ -81,9 +84,11 @@ function ArrayComponent(props: Props) {
   const {
     path,
     value: arrayValue,
+    defaultValue,
     withoutFlex,
     emptyValue,
     placeholder,
+    containerMode,
     handleChange,
     onChange,
     children,
@@ -91,7 +96,16 @@ function ArrayComponent(props: Props) {
 
   const idsRef = useRef<Array<Identifier>>([])
   const isNewRef = useRef<Record<string, boolean>>({})
-  const modesRef = useRef<Record<Identifier, ContainerMode>>({})
+  const modesRef = useRef<
+    Record<
+      Identifier,
+      {
+        current: ContainerMode
+        previous?: ContainerMode
+        options?: { omitFocusManagement?: boolean }
+      }
+    >
+  >({})
   const valueWhileClosingRef = useRef<Value>()
   const valueCountRef = useRef(arrayValue)
   const containerRef = useRef<HTMLDivElement>()
@@ -102,89 +116,110 @@ function ArrayComponent(props: Props) {
 
   const omitFlex = withoutFlex ?? (summaryListContext || valueBlockContext)
 
+  // To support React.StrictMode, we inject the defaultValue into the data context this way.
+  // The routine inside useFieldProps where updateDataValueDataContext is called, does not support React.StrictMode
+  const { handlePathChange } = useContext(DataContext) || {}
+  useMountEffect(() => {
+    if (defaultValue) {
+      handlePathChange?.(path, defaultValue)
+    }
+  })
+
   useEffect(() => {
     // Update inside the useEffect, to support React.StrictMode
     valueCountRef.current = arrayValue || []
   }, [arrayValue])
 
-  const elementData = useMemo(() => {
-    return ((valueWhileClosingRef.current || arrayValue) ?? []).map(
-      (value, index) => {
-        const id = idsRef.current[index] || makeUniqueId()
+  const { getNextContainerMode } = useSwitchContainerMode()
 
-        const hasNewItems =
-          arrayValue.length > valueCountRef.current?.length
+  const arrayItems = useMemo(() => {
+    const list = valueWhileClosingRef.current || arrayValue
+    return (list ?? []).map((value, index) => {
+      const id = idsRef.current[index] || makeUniqueId()
 
-        if (!idsRef.current[index]) {
-          isNewRef.current[id] = hasNewItems
-          idsRef.current.push(id)
+      const hasNewItems =
+        arrayValue?.length > valueCountRef.current?.length
+
+      if (!idsRef.current[index]) {
+        isNewRef.current[id] = hasNewItems
+        idsRef.current.push(id)
+      }
+
+      const isNew = isNewRef.current[id] || false
+      if (!modesRef.current[id]?.current) {
+        modesRef.current[id] = {
+          current:
+            containerMode ??
+            (isNew ? getNextContainerMode() ?? 'edit' : 'auto'),
         }
+      }
 
-        const isNew = isNewRef.current[id] || false
-        if (!modesRef.current[id]) {
-          modesRef.current[id] =
-            value?.['__containerMode'] ?? (isNew ? 'edit' : 'view')
-          delete value?.['__containerMode']
-        }
+      const itemContext: IterateItemContextState = {
+        id,
+        path,
+        value,
+        index,
+        arrayValue,
+        containerRef,
+        isNew,
+        containerMode: modesRef.current[id].current,
+        previousContainerMode: modesRef.current[id].previous,
+        initialContainerMode: containerMode || 'auto',
+        modeOptions: modesRef.current[id].options,
+        switchContainerMode: (mode, options = {}) => {
+          modesRef.current[id].previous = modesRef.current[id].current
+          modesRef.current[id].current = mode
+          modesRef.current[id].options = options
+          delete isNewRef.current?.[id]
+          forceUpdate()
+        },
+        handleChange: (path, value) => {
+          const newArrayValue = structuredClone(arrayValue)
 
-        return {
-          id,
-          path,
-          value,
-          index,
-          arrayValue,
-          containerRef,
-          isNew,
-          containerMode: modesRef.current[id],
-          switchContainerMode: (mode: ContainerMode) => {
-            modesRef.current[id] = mode
-            delete isNewRef.current?.[id]
-            forceUpdate()
-          },
-          handleChange: (path: Path, value: unknown) => {
-            const newArrayValue = structuredClone(arrayValue)
+          // Make sure we have a new object reference,
+          // else two new objects will be the same
+          newArrayValue[index] = { ...newArrayValue[index] }
 
-            // Make sure we have a new object reference,
-            // else two new objects will be the same
-            newArrayValue[index] = { ...newArrayValue[index] }
+          pointer.set(newArrayValue, path, value)
+          handleChange(newArrayValue)
+        },
+        handlePush: (element) => {
+          hadPushRef.current = true
+          handleChange([...(arrayValue || []), element])
+        },
+        handleRemove: ({ keepItems = false } = {}) => {
+          if (keepItems) {
+            // Add a backup as the array value while animating
+            valueWhileClosingRef.current = arrayValue
+          }
 
-            pointer.set(newArrayValue, path, value)
-            handleChange(newArrayValue)
-          },
-          handlePush: (element: unknown) => {
-            hadPushRef.current = true
-            handleChange([...(arrayValue ?? []), element])
-          },
-          handleRemove: ({ keepItems = false } = {}) => {
-            if (keepItems) {
-              // Add a backup as the array value while animating
-              valueWhileClosingRef.current = arrayValue
-            }
+          const newArrayValue = structuredClone(arrayValue)
+          newArrayValue.splice(index, 1)
+          handleChange(newArrayValue)
+        },
 
-            const newArrayValue = structuredClone(arrayValue)
-            newArrayValue.splice(index, 1)
-            handleChange(newArrayValue)
-          },
+        // - Called after animation end
+        fulfillRemove: () => {
+          valueWhileClosingRef.current = null
+          delete modesRef.current?.[id]
+          delete isNewRef.current?.[id]
+          const findIndex = idsRef.current.indexOf(id)
+          idsRef.current.splice(findIndex, 1)
+          forceUpdate()
+        },
 
-          // - Called after animation end
-          fulfillRemove: () => {
-            valueWhileClosingRef.current = null
-            delete modesRef.current?.[id]
-            delete isNewRef.current?.[id]
-            const findIndex = idsRef.current.indexOf(id)
-            idsRef.current.splice(findIndex, 1)
-            forceUpdate()
-          },
-
-          // - Called when cancel button press
-          restoreOriginalValue: (value: unknown) => {
+        // - Called when cancel button press
+        restoreOriginalValue: (value) => {
+          if (value) {
             const newArrayValue = structuredClone(arrayValue)
             newArrayValue[index] = value
             handleChange(newArrayValue)
-          },
-        } as IterateItemContextState
+          }
+        },
       }
-    )
+
+      return itemContext
+    })
 
     // In order to update "valueWhileClosingRef" we need to have "salt" in the deps array
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -192,13 +227,13 @@ function ArrayComponent(props: Props) {
 
   // - Call the onChange callback when a new element is added without calling "handlePush"
   useMemo(() => {
-    const last = elementData?.[elementData.length - 1]
+    const last = arrayItems?.[arrayItems.length - 1]
     if (last?.isNew && !hadPushRef.current) {
       onChange?.(arrayValue)
     } else {
       hadPushRef.current = false
     }
-  }, [arrayValue, elementData, onChange])
+  }, [arrayValue, arrayItems, onChange])
 
   const flexProps: FlexContainerProps & {
     innerRef: FlexContainerAllProps['innerRef']
@@ -219,8 +254,8 @@ function ArrayComponent(props: Props) {
     <WrapperElement {...(omitFlex ? null : flexProps)}>
       {arrayValue === emptyValue || props?.value?.length === 0
         ? placeholder
-        : elementData.map((elementProps) => {
-            const { id, value, index } = elementProps
+        : arrayItems.map((itemProps) => {
+            const { id, value, index } = itemProps
             const elementRef = (innerRefs.current[id] =
               innerRefs.current[id] || createRef<HTMLDivElement>())
 
@@ -231,7 +266,7 @@ function ArrayComponent(props: Props) {
             }
 
             const contextValue = {
-              ...elementProps,
+              ...itemProps,
               elementRef,
             }
 
@@ -267,5 +302,5 @@ function ArrayComponent(props: Props) {
   )
 }
 
-ArrayComponent._supportsSpacingProps = true
+ArrayComponent._supportsSpacingProps = false // disable flex support to avoid rerender, which could result in flickering
 export default ArrayComponent

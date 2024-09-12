@@ -114,7 +114,6 @@ function EditContent({ enableAdditionalQuestions }: Props) {
             <Form.Visibility pathTrue="/hasJointResponsibility">
               <Field.Boolean
                 itemPath="/jointResponsibility"
-                defaultValue={false}
                 label={
                   tr.ChildrenWithAge.confirmJointResponsibility.fieldLabel
                 }
@@ -124,7 +123,6 @@ function EditContent({ enableAdditionalQuestions }: Props) {
             <Form.Visibility pathTrue="/usesDaycare">
               <Field.Boolean
                 itemPath="/hasDaycare"
-                defaultValue={false}
                 label={tr.ChildrenWithAge.hasDaycare.fieldLabel}
               />
             </Form.Visibility>

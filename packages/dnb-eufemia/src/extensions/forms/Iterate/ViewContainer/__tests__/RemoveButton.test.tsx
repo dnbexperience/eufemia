@@ -2,27 +2,23 @@ import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
 import IterateItemContext from '../../IterateItemContext'
 import Toolbar from '../../Toolbar'
-import ViewToolbarTools from '../ViewToolbarTools'
-
+import RemoveButton from '../RemoveButton'
 import nbNO from '../../../constants/locales/nb-NO'
 
 const nb = nbNO['nb-NO'].IterateViewContainer
 
-describe('ViewToolbarTools', () => {
+describe('RemoveButton', () => {
   it('to have buttons with correct text', () => {
     render(
       <IterateItemContext.Provider value={{}}>
         <Toolbar>
-          <ViewToolbarTools />
+          <RemoveButton />
         </Toolbar>
       </IterateItemContext.Provider>
     )
 
-    const buttons = document.querySelectorAll('button')
-
-    expect(buttons).toHaveLength(2)
-    expect(buttons[0]).toHaveTextContent(nb.editButton)
-    expect(buttons[1]).toHaveTextContent(nb.removeButton)
+    const button = document.querySelector('button')
+    expect(button).toHaveTextContent(nb.removeButton)
   })
 
   it('calls "handleRemove" when remove button is clicked', () => {
@@ -31,13 +27,13 @@ describe('ViewToolbarTools', () => {
     render(
       <IterateItemContext.Provider value={{ handleRemove, isNew: true }}>
         <Toolbar>
-          <ViewToolbarTools />
+          <RemoveButton />
         </Toolbar>
       </IterateItemContext.Provider>
     )
 
-    const buttons = document.querySelectorAll('button')
-    fireEvent.click(buttons[1])
+    const button = document.querySelector('button')
+    fireEvent.click(button)
 
     expect(handleRemove).toHaveBeenCalledTimes(1)
   })

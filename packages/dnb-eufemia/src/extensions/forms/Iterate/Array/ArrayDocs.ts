@@ -41,6 +41,11 @@ export const ArrayProperties: PropertiesTableProps = {
     type: 'unknown',
     status: 'optional',
   },
+  containerMode: {
+    doc: 'Defines the container mode for all nested containers. Can be `view`, `edit` or `auto`. When using `auto`, it will automatically open if there is an error in the container. When a new item is added, the item before it will change to `view` mode, if it had no validation errors. Defaults to `auto`.',
+    type: 'string',
+    status: 'optional',
+  },
   children: {
     doc: 'React.Node or a function so you can get the current value and index.',
     type: 'boolean',

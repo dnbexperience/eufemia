@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as Iterate from '../..'
 import * as DataContext from '../../../DataContext'
+import { IterateItemContext } from '../..'
 import { Field, FieldBlock, Form, Value, ValueBlock } from '../../..'
 import { FilterData } from '../../../DataContext'
 
@@ -414,6 +415,66 @@ describe('Iterate.Array', () => {
       )
       expect(onChangeIterate).toHaveBeenCalledTimes(1)
       expect(onChangeIterate).toHaveBeenLastCalledWith(['foo'])
+    })
+
+    it('should handle "defaultValue" with React.StrictMode', () => {
+      const onSubmit = jest.fn()
+
+      render(
+        <React.StrictMode>
+          <Form.Handler onSubmit={onSubmit}>
+            <Iterate.Array path="/myList" defaultValue={['']}>
+              <Field.String itemPath="/" />
+            </Iterate.Array>
+          </Form.Handler>
+        </React.StrictMode>
+      )
+
+      const form = document.querySelector('form')
+      const input = document.querySelector('input')
+
+      expect(input).toHaveValue('')
+
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { myList: [''] },
+        expect.anything()
+      )
+    })
+
+    it('should warn when "defaultValue" is used inside iterate', () => {
+      const log = jest.spyOn(console, 'log').mockImplementation()
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Iterate.Array path="/myList" defaultValue={['']}>
+            <Field.String itemPath="/" defaultValue="default value" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      const input = document.querySelector('input')
+
+      expect(input).toHaveValue('')
+
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { myList: [''] },
+        expect.anything()
+      )
+
+      expect(log).toHaveBeenCalledWith(
+        expect.any(String),
+        'Using defaultValue="default value" prop inside Iterate is not supported yet'
+      )
+
+      log.mockRestore()
     })
 
     describe('with primitive elements', () => {
@@ -1110,5 +1171,98 @@ describe('Iterate.Array', () => {
 
       log.mockRestore()
     })
+  })
+
+  it('should contain tabindex of -1', () => {
+    render(<Iterate.Array value={['one']}>content</Iterate.Array>)
+
+    expect(
+      document.querySelector('.dnb-forms-iterate__element')
+    ).toHaveAttribute('tabindex', '-1')
+  })
+
+  it('should set elementRef', () => {
+    let elementRef = null
+
+    const ContextConsumer = () => {
+      const context = React.useContext(IterateItemContext)
+
+      useEffect(() => {
+        elementRef = context.elementRef.current
+      })
+
+      return null
+    }
+
+    render(
+      <Iterate.Array value={['one']}>
+        <ContextConsumer />
+      </Iterate.Array>
+    )
+
+    expect(elementRef).toBeDefined()
+    expect(elementRef instanceof HTMLElement).toBeTruthy()
+  })
+
+  it('should set index and value', () => {
+    let contextToTest = null
+
+    const ContextConsumer = () => {
+      const context = React.useContext(IterateItemContext)
+
+      useEffect(() => {
+        contextToTest = context
+      })
+
+      return null
+    }
+
+    render(
+      <Iterate.Array value={['one']}>
+        <ContextConsumer />
+      </Iterate.Array>
+    )
+
+    expect(contextToTest).toMatchObject({
+      index: 0,
+      value: 'one',
+    })
+  })
+
+  it('focuses on the block when focusOnOpen prop is true', async () => {
+    const { rerender } = render(
+      <Iterate.Array value={['foo']}>
+        {(itemValue, index) => {
+          return (
+            <output>
+              Content {JSON.stringify(itemValue)} {index}
+            </output>
+          )
+        }}
+      </Iterate.Array>
+    )
+
+    expect(
+      document.querySelectorAll('.dnb-forms-iterate__element')
+    ).toHaveLength(1)
+    expect(document.querySelector('output')).toHaveTextContent(
+      'Content "foo" 0'
+    )
+
+    rerender(
+      <Iterate.Array value={['foo', 'bar']}>
+        {(itemValue, index) => {
+          return (
+            <output>
+              Content {JSON.stringify(itemValue)} {index}
+            </output>
+          )
+        }}
+      </Iterate.Array>
+    )
+
+    const outputs = document.querySelectorAll('output')
+    expect(outputs[0]).toHaveTextContent('Content "foo" 0')
+    expect(outputs[1]).toHaveTextContent('Content "bar" 1')
   })
 })

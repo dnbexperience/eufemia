@@ -48,7 +48,7 @@ export default {
       removeButton: 'Remove',
       doneButton: 'Done',
       cancelButton: 'Cancel',
-      errorInSection: 'Please correct the errors above',
+      errorInContainer: 'Please correct the errors above',
     },
     IteratePushContainer: {
       createButton: 'Add',

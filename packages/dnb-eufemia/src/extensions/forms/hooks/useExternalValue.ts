@@ -22,10 +22,10 @@ export default function useExternalValue<Value>(props: Props<Value>) {
     transformers,
     emptyValue = undefined,
   } = props
-  const dataContext = useContext(DataContext)
+  const { data } = useContext(DataContext) || {}
   const iterateItemContext = useContext(IterateElementContext)
   const inIterate = Boolean(iterateItemContext)
-  const { value: iterateElementValue } = iterateItemContext ?? {}
+  const { value: iterateElementValue } = iterateItemContext || {}
 
   return useMemo(() => {
     if (value !== emptyValue) {
@@ -44,20 +44,18 @@ export default function useExternalValue<Value>(props: Props<Value>) {
         : emptyValue
     }
 
-    if (dataContext.data && path) {
+    if (data && path) {
       // There is a surrounding data context and a path for where in the source to find the data
       if (path === '/') {
-        return dataContext.data
+        return data
       }
 
-      return pointer.has(dataContext.data, path)
-        ? pointer.get(dataContext.data, path)
-        : emptyValue
+      return pointer.has(data, path) ? pointer.get(data, path) : emptyValue
     }
 
     return emptyValue
   }, [
-    dataContext.data,
+    data,
     emptyValue,
     inIterate,
     itemPath,

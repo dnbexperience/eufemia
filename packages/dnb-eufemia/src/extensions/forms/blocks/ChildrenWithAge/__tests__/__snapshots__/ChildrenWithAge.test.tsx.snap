@@ -107,7 +107,6 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
         "width": "small",
       },
       "hasDaycare": {
-        "defaultValue": false,
         "itemPath": "/hasDaycare",
         "label": "Er på SFO/AKS",
         "required": true,
@@ -194,7 +193,6 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
         "valueType": "boolean",
       },
       "jointResponsibility": {
-        "defaultValue": false,
         "itemPath": "/jointResponsibility",
         "label": "Delt omsorg",
         "required": true,
@@ -385,7 +383,6 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
         "width": "small",
       },
       "hasDaycare": {
-        "defaultValue": false,
         "itemPath": "/hasDaycare",
         "label": "Er på SFO/AKS",
         "required": true,
@@ -472,7 +469,6 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
         "valueType": "boolean",
       },
       "jointResponsibility": {
-        "defaultValue": false,
         "itemPath": "/jointResponsibility",
         "label": "Delt omsorg",
         "required": true,
@@ -563,10 +559,6 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
     "countPathLimit": 20,
     "path": "/children",
     "required": true,
-    "space": {
-      "bottom": 0,
-      "top": "medium",
-    },
     "translations": {
       "en-GB": {
         "ChildrenWithAge": {

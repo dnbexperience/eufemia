@@ -21,6 +21,8 @@ import * as Examples from './Examples'
 
 ### Render props with primitive items
 
+You can provide the child as a function that receives the value of the item as the first argument, and the index of which item you are on as the second.
+
 <Examples.RenderPropsPrimitiveItems />
 
 ### Render props with object items
@@ -46,6 +48,14 @@ With an optional `title` and [Iterate.Toolbar](/uilib/extensions/forms/Iterate/T
 ### Toggle between a view and edit container
 
 <Examples.ViewAndEditContainer />
+
+### Initially open
+
+This example uses a customized [Iterate.Toolbar](/uilib/extensions/forms/Iterate/Toolbar/).
+
+It hides the toolbar in the `EditContainer` when there is only one item in the array. And it hides the remove button in the `ViewContainer` when there is only one item in the array.
+
+<Examples.InitialOpen />
 
 ### With DataContext and add/remove buttons
 
