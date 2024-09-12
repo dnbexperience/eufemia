@@ -41,7 +41,7 @@ export const fieldBlockSharedProperties: PropertiesTableProps = {
 export const fieldBlockProperties: PropertiesTableProps = {
   ...fieldBlockSharedProperties,
   labelSize: {
-    doc: 'Define one of the following [heading size](/uilib/elements/heading/): `medium` or `large`.',
+    doc: 'Define one of the following [heading sizes](/uilib/elements/heading/): `medium` or `large`.',
     type: ['string', 'false'],
     status: 'optional',
   },
