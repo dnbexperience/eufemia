@@ -142,8 +142,8 @@ function WizardContainer(props: Props) {
   // Store the current state of showAllErrors
   errorOnStepRef.current[activeIndexRef.current] = showAllErrors
 
-  const preventNavigation = useCallback((state = true) => {
-    preventNextStepRef.current = state
+  const preventNavigation = useCallback((shouldPrevent = true) => {
+    preventNextStepRef.current = shouldPrevent
   }, [])
 
   const callOnStepChange = useCallback(

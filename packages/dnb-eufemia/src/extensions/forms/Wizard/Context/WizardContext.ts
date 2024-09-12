@@ -4,7 +4,8 @@ import { VisibleWhen } from '../../Form/Visibility'
 
 export type OnStepChange = (
   index: StepIndex,
-  mode: 'previous' | 'next'
+  mode: 'previous' | 'next',
+  options: { preventNavigation: (shouldPrevent?: boolean) => void }
 ) =>
   | EventReturnWithStateObject
   | void
