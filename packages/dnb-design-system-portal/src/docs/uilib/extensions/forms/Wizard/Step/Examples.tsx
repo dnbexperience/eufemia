@@ -13,38 +13,38 @@ export const DynamicSteps = () => {
       <Form.Handler defaultData={{ activeSteps: 'group-1' }}>
         <Wizard.Container id="my-wizard">
           <Wizard.Step
-            title="Step 1"
+            title="Step A"
             activeWhen={{ path: '/activeSteps', hasValue: 'group-1' }}
           >
-            <Form.MainHeading>Step 1</Form.MainHeading>
+            <Form.MainHeading>Step A</Form.MainHeading>
             <Wizard.Buttons />
           </Wizard.Step>
 
           <Wizard.Step
-            title="Step 2"
+            title="Step B"
             activeWhen={{ path: '/activeSteps', hasValue: 'group-1' }}
           >
-            <Form.MainHeading>Step 2</Form.MainHeading>
+            <Form.MainHeading>Step B</Form.MainHeading>
             <Wizard.Buttons />
           </Wizard.Step>
 
           <Wizard.Step
-            title="Step 3"
+            title="Step C"
             activeWhen={{
               path: '/activeSteps',
               hasValue: (value: string) =>
                 ['group-1', 'group-2'].includes(value),
             }}
           >
-            <Form.MainHeading>Step 3</Form.MainHeading>
+            <Form.MainHeading>Step C</Form.MainHeading>
             <Wizard.Buttons />
           </Wizard.Step>
 
           <Wizard.Step
-            title="Step 4"
+            title="Step D"
             activeWhen={{ path: '/activeSteps', hasValue: 'group-2' }}
           >
-            <Form.MainHeading>Step 4</Form.MainHeading>
+            <Form.MainHeading>Step D</Form.MainHeading>
             <Wizard.Buttons />
           </Wizard.Step>
         </Wizard.Container>
