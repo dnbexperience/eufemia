@@ -22,7 +22,7 @@ export const UsingCommitButton = () => {
 
           <Field.String
             required
-            label="Commited from isolation"
+            label="Committed from isolation"
             path="/isolated"
           />
           <Field.String
