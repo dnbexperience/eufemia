@@ -37,8 +37,14 @@ export type SectionProps<overwriteProps = OverwritePropsDefaults> = {
   required?: boolean
 
   /**
-   * Defines the container mode. Can be `view` or `edit`.
-   * Defaults to `view`.
+   * If set to `true`, the whole section will be validated initially. All fields will then automatically get `validateInitially` and show their error messages. Can be useful in combination with `containerMode="auto"`.
+   */
+  validateInitially?: boolean
+
+  /**
+   * Defines the container mode. Can be `view`, `edit` or `auto`.
+   * When set to `auto`, the mode will initially be "edit" if fields contain errors.
+   * Defaults to `auto`.
    */
   containerMode?: ContainerMode
 
@@ -65,7 +71,8 @@ function SectionComponent(props: LocalProps) {
     required,
     data,
     defaultData,
-    containerMode = 'view',
+    validateInitially,
+    containerMode = 'auto',
     onChange,
     errorPrioritization = ['contextSchema'],
     children,
@@ -109,7 +116,10 @@ function SectionComponent(props: LocalProps) {
         props,
       }}
     >
-      <SectionContainerProvider containerMode={containerMode}>
+      <SectionContainerProvider
+        validateInitially={validateInitially}
+        containerMode={containerMode}
+      >
         <FieldPropsProvider
           overwriteProps={{
             ...overwriteProps,

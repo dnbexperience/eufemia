@@ -11,7 +11,8 @@ export default function EditToolbarTools() {
   useEditContainerToolbar()
   const { restoreOriginalData } = useContainerDataStore()
 
-  const { switchContainerMode } = useContext(SectionContainerContext) || {}
+  const { switchContainerMode, initialContainerMode } =
+    useContext(SectionContainerContext) || {}
   const {
     hasVisibleError,
     hasSubmitError,
@@ -24,9 +25,11 @@ export default function EditToolbarTools() {
   const [showError, setShowError] = useState(false)
 
   const cancelHandler = useCallback(() => {
-    if (hasSubmitError) {
-      setShowError(true)
-      setShowBoundaryErrors?.(true)
+    if (hasSubmitError || (initialContainerMode === 'auto' && hasError)) {
+      setShowBoundaryErrors?.(Date.now())
+      if (hasVisibleError) {
+        setShowError(true)
+      }
     } else {
       setShowError(false)
       setShowBoundaryErrors?.(false)
@@ -35,13 +38,16 @@ export default function EditToolbarTools() {
     }
   }, [
     hasSubmitError,
-    restoreOriginalData,
+    initialContainerMode,
+    hasError,
     setShowBoundaryErrors,
+    hasVisibleError,
+    restoreOriginalData,
     switchContainerMode,
   ])
   const doneHandler = useCallback(() => {
     if (hasError) {
-      setShowBoundaryErrors?.(true)
+      setShowBoundaryErrors?.(Date.now())
       if (hasVisibleError) {
         setShowError(true)
       }
@@ -59,9 +65,6 @@ export default function EditToolbarTools() {
 
   return (
     <>
-      <FormStatus show={showError && hasVisibleError} no_animation={false}>
-        {translation.errorInSection}
-      </FormStatus>
       <Flex.Horizontal gap="large">
         <Button
           variant="tertiary"
@@ -81,6 +84,14 @@ export default function EditToolbarTools() {
           {translation.cancelButton}
         </Button>
       </Flex.Horizontal>
+
+      <FormStatus
+        show={showError && hasVisibleError}
+        shellSpace={{ top: 'x-small' }}
+        no_animation={false}
+      >
+        {translation.errorInSection}
+      </FormStatus>
     </>
   )
 }

@@ -5,12 +5,22 @@ import FieldBoundaryContext, {
 import DataContext from '../Context'
 import { Path } from '../../types'
 
-export default function FieldBoundaryProvider({ children }) {
+export type Props = {
+  showErrors?: boolean
+  onPathError?: (path: Path, error: Error) => void
+  children: React.ReactNode
+}
+
+export default function FieldBoundaryProvider(props: Props) {
+  const { showErrors = false, onPathError = null, children } = props
   const [, forceUpdate] = useReducer(() => ({}), {})
   const { showAllErrors, hasVisibleError } = useContext(DataContext)
 
+  const onPathErrorRef = useRef(onPathError)
+  onPathErrorRef.current = onPathError
   const errorsRef = useRef<Record<Path, boolean>>({})
-  const showBoundaryErrorsRef = useRef<boolean>(false)
+  const showBoundaryErrorsRef =
+    useRef<FieldBoundaryContextState['showBoundaryErrors']>(showErrors)
   const hasError = Object.keys(errorsRef.current).length > 0
   const hasSubmitError = showAllErrors && hasError
 
@@ -21,15 +31,14 @@ export default function FieldBoundaryProvider({ children }) {
       delete errorsRef.current?.[path]
     }
     forceUpdate()
+    onPathErrorRef.current?.(path, error)
   }, [])
 
-  const setShowBoundaryErrors = useCallback(
-    (showBoundaryErrors: boolean) => {
+  const setShowBoundaryErrors: FieldBoundaryContextState['setShowBoundaryErrors'] =
+    useCallback((showBoundaryErrors) => {
       showBoundaryErrorsRef.current = showBoundaryErrors
       forceUpdate()
-    },
-    []
-  )
+    }, [])
 
   const context: FieldBoundaryContextState = {
     hasError,
