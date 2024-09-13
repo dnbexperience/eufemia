@@ -838,6 +838,11 @@ export default function Provider<Data extends JsonObject>(
       } else {
         Object.assign(mountedFieldsRef.current[path], options)
       }
+
+      // To ensure nested fields get the correct visibility state
+      if (options.isMounted && options.isVisible === false) {
+        forceUpdate()
+      }
     },
     []
   )

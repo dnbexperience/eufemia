@@ -21,6 +21,7 @@ type HandleSubmitProps = {
 
 export type MountOptions = {
   isMounted?: boolean
+  isVisible?: boolean
 }
 
 export type EventListenerCall = {

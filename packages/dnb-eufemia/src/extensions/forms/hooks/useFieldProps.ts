@@ -31,6 +31,7 @@ import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateElementContext from '../Iterate/IterateItemContext'
 import SectionContext from '../Form/Section/SectionContext'
 import FieldBoundaryContext from '../DataContext/FieldBoundary/FieldBoundaryContext'
+import VisibilityContext from '../Form/Visibility/VisibilityContext'
 import useProcessManager from './useProcessManager'
 import usePath from './usePath'
 import {
@@ -140,6 +141,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const iterateItemContext = useContext(IterateElementContext)
   const sectionContext = useContext(SectionContext)
   const fieldBoundaryContext = useContext(FieldBoundaryContext)
+  const visibilityContext = useContext(VisibilityContext)
   const translation = useTranslation()
 
   const transformers = useRef({
@@ -1390,6 +1392,18 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   // Put props into the surrounding data context as early as possible
   setPropsDataContext?.(identifier, props)
+
+  useMemo(() => {
+    if (typeof visibilityContext?.isVisible === 'boolean') {
+      setMountedFieldStateDataContext(identifier, {
+        isVisible: visibilityContext.isVisible,
+      })
+    }
+  }, [
+    visibilityContext?.isVisible,
+    setMountedFieldStateDataContext,
+    identifier,
+  ])
 
   useEffect(() => {
     // Mount procedure.
