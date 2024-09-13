@@ -52,7 +52,7 @@ export const ArrayProperties: PropertiesTableProps = {
   },
   children: {
     doc: 'React.Node or a function so you can get the current value and index.',
-    type: 'boolean',
+    type: ['React.ReactNode', 'function'],
     status: 'optional',
   },
   '[Flex.Stack](/uilib/layout/flex/stack/)': {
