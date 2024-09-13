@@ -163,8 +163,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     setFieldError: setFieldErrorDataContext,
     setFieldProps: setPropsDataContext,
     setHasVisibleError: setHasVisibleErrorDataContext,
-    handleMountField,
-    handleUnMountField,
+    setMountedFieldState: setMountedFieldStateDataContext,
     setFieldEventListener,
     errors: dataContextErrors,
     showAllErrors,
@@ -1394,21 +1393,24 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   useEffect(() => {
     // Mount procedure.
-    handleMountField(identifier)
+    setMountedFieldStateDataContext(identifier, {
+      isMounted: true,
+    })
 
     // Unmount procedure.
     return () => {
-      handleUnMountField(identifier)
+      setMountedFieldStateDataContext(identifier, {
+        isMounted: false,
+      })
       setFieldErrorDataContext?.(identifier, undefined)
       setFieldError?.(identifier, undefined)
       localErrorRef.current = undefined
     }
   }, [
-    handleMountField,
-    handleUnMountField,
     identifier,
     setFieldError,
     setFieldErrorDataContext,
+    setMountedFieldStateDataContext,
   ])
 
   useEffect(() => {
