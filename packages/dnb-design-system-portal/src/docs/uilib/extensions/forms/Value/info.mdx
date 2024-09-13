@@ -26,6 +26,26 @@ You can also combine `Value.*` components together by using the value [Compositi
 
 <Composition />
 
+## Inherit visibility from fields based on path
+
+You can use the `inheritVisibility={true}` prop to inherit the visibility from the field with the same path.
+
+```tsx
+import { Form, Field, Value } from '@dnb/eufemia/extensions/forms'
+
+const MyForm = () => {
+  return (
+    <Form.Handler>
+      <Form.Visibility pathTrue="/makeVisible">
+        <Field.Email path="/myPath" />
+      </Form.Visibility>
+
+      <Value.Email path="/myPath" inheritVisibility />
+    </Form.Handler>
+  )
+}
+```
+
 ## Inherit labels from fields to values
 
 You can use the `inheritLabel={true}` prop to inherit the label from the field with the same path.

@@ -31,6 +31,8 @@ import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateElementContext from '../Iterate/IterateItemContext'
 import SectionContext from '../Form/Section/SectionContext'
 import FieldBoundaryContext from '../DataContext/FieldBoundary/FieldBoundaryContext'
+import VisibilityContext from '../Form/Visibility/VisibilityContext'
+import WizardContext from '../Wizard/Context'
 import useProcessManager from './useProcessManager'
 import usePath from './usePath'
 import {
@@ -140,6 +142,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const iterateItemContext = useContext(IterateElementContext)
   const sectionContext = useContext(SectionContext)
   const fieldBoundaryContext = useContext(FieldBoundaryContext)
+  const wizardContext = useContext(WizardContext)
+  const { isVisible } = useContext(VisibilityContext) || {}
+
   const translation = useTranslation()
 
   const transformers = useRef({
@@ -1403,6 +1408,46 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   // Put props into the surrounding data context as early as possible
   setPropsDataContext?.(identifier, props)
 
+  const { activeIndex, activeIndexRef } = wizardContext || {}
+  const activeIndexTmpRef = useRef(activeIndex)
+  useEffect(() => {
+    activeIndexTmpRef.current = activeIndex
+  }, [activeIndex]) // We want to watch for step changes
+
+  useMemo(() => {
+    setMountedFieldStateDataContext(identifier, {
+      isPreMounted: true,
+    })
+
+    if (typeof isVisible === 'boolean') {
+      setMountedFieldStateDataContext(identifier, { isVisible })
+    }
+  }, [setMountedFieldStateDataContext, identifier, isVisible])
+
+  useEffect(() => {
+    if (typeof activeIndexRef?.current === 'number') {
+      setMountedFieldStateDataContext(identifier, {
+        wasStepChange: false,
+      })
+
+      return () => {
+        const wasStepChange =
+          typeof activeIndex === 'number' &&
+          // eslint-disable-next-line react-hooks/exhaustive-deps
+          activeIndexRef.current !== activeIndexTmpRef.current
+
+        setMountedFieldStateDataContext(identifier, {
+          wasStepChange,
+        })
+      }
+    }
+  }, [
+    activeIndex,
+    activeIndexRef,
+    identifier,
+    setMountedFieldStateDataContext,
+  ])
+
   useEffect(() => {
     // Mount procedure.
     setMountedFieldStateDataContext(identifier, {
@@ -1413,7 +1458,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     return () => {
       setMountedFieldStateDataContext(identifier, {
         isMounted: false,
+        isPreMounted: false,
       })
+    }
+  }, [identifier, setMountedFieldStateDataContext])
+
+  useEffect(() => {
+    return () => {
       setFieldErrorDataContext?.(identifier, undefined)
       setFieldErrorBoundary?.(identifier, undefined)
       localErrorRef.current = undefined

@@ -21,6 +21,11 @@ export const ValueProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  inheritVisibility: {
+    doc: 'Use `true` to inherit the visibility from a field with the same path.',
+    type: 'boolean',
+    status: 'optional',
+  },
   showEmpty: {
     doc: 'Shows the value even if it is empty.',
     type: 'boolean',

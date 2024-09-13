@@ -11,6 +11,7 @@ import useVisibility from './useVisibility'
 import type { Path, UseFieldProps } from '../../types'
 import type { DataAttributes } from '../../hooks/useFieldProps'
 import { FilterData } from '../../DataContext'
+import VisibilityContext from './VisibilityContext'
 
 export type VisibleWhen =
   | {
@@ -120,6 +121,15 @@ function Visibility({
     filterData,
   })
   const open = check()
+  const content = (
+    <VisibilityContext.Provider
+      value={{
+        isVisible: open,
+      }}
+    >
+      {children}
+    </VisibilityContext.Provider>
+  )
 
   if (animate) {
     const props = !open ? fieldPropsWhenHidden : null
@@ -132,7 +142,7 @@ function Visibility({
         compensateForGap={compensateForGap}
         {...rest}
       >
-        <FieldProps {...props}>{children}</FieldProps>
+        <FieldProps {...props}>{content}</FieldProps>
       </HeightAnimation>
     )
   }
@@ -141,12 +151,12 @@ function Visibility({
     const props = !open ? fieldPropsWhenHidden : null
     return (
       <span className="dnb-forms-visibility" hidden={!open}>
-        <FieldProps {...props}>{children}</FieldProps>
+        <FieldProps {...props}>{content}</FieldProps>
       </span>
     )
   }
 
-  return <>{open ? children : null}</>
+  return <>{open ? content : null}</>
 }
 
 Visibility._supportsSpacingProps = 'children'

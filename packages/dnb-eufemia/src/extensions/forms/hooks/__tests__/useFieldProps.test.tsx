@@ -9,7 +9,8 @@ import {
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import useFieldProps from '../useFieldProps'
-import { Provider } from '../../DataContext'
+import { Context, ContextState, Provider } from '../../DataContext'
+import WizardContext from '../../Wizard/Context'
 import Field, {
   FieldBlock,
   Form,
@@ -3917,6 +3918,190 @@ describe('useFieldProps', () => {
         expect(bazValidator).toHaveBeenCalledTimes(2)
         expect(internalValidators).toHaveBeenCalledTimes(0)
       })
+    })
+  })
+
+  describe('setMountedFieldState', () => {
+    it('should mount and unmount when the field is removed from the DOM', () => {
+      const setMountedFieldState = jest.fn()
+
+      const { unmount } = renderHook((props) => useFieldProps(props), {
+        initialProps: {
+          path: '/foo',
+        },
+        wrapper: ({ children }) => {
+          const value = {
+            setMountedFieldState,
+          } as unknown as ContextState
+          return (
+            <Context.Provider value={value}>{children}</Context.Provider>
+          )
+        },
+      })
+
+      expect(setMountedFieldState).toHaveBeenCalledTimes(2)
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(1, '/foo', {
+        isPreMounted: true,
+      })
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(2, '/foo', {
+        isMounted: true,
+      })
+
+      unmount()
+
+      expect(setMountedFieldState).toHaveBeenCalledTimes(3)
+      expect(setMountedFieldState).toHaveBeenLastCalledWith('/foo', {
+        isMounted: false,
+        isPreMounted: false,
+      })
+    })
+
+    it('should set isVisible when within a visibility context', () => {
+      const setMountedFieldState = jest.fn()
+
+      const { unmount } = renderHook((props) => useFieldProps(props), {
+        initialProps: {
+          path: '/foo',
+        },
+        wrapper: ({ children }) => {
+          const value = {
+            setMountedFieldState,
+          } as unknown as ContextState
+          return (
+            <Context.Provider value={value}>
+              <Form.Visibility visible>{children}</Form.Visibility>
+            </Context.Provider>
+          )
+        },
+      })
+
+      expect(setMountedFieldState).toHaveBeenCalledTimes(3)
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(1, '/foo', {
+        isPreMounted: true,
+      })
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(2, '/foo', {
+        isVisible: true,
+      })
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(3, '/foo', {
+        isMounted: true,
+      })
+
+      unmount()
+
+      expect(setMountedFieldState).toHaveBeenCalledTimes(4)
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(4, '/foo', {
+        isMounted: false,
+        isPreMounted: false,
+      })
+    })
+
+    it('should set isVisible when within a visibility context with a negative visibility', () => {
+      const setMountedFieldState = jest.fn()
+
+      const { unmount } = renderHook((props) => useFieldProps(props), {
+        initialProps: {
+          path: '/foo',
+        },
+        wrapper: ({ children }) => {
+          const value = {
+            setMountedFieldState,
+          } as unknown as ContextState
+          return (
+            <Context.Provider value={value}>
+              <Form.Visibility visible={false} keepInDOM>
+                {children}
+              </Form.Visibility>
+            </Context.Provider>
+          )
+        },
+      })
+
+      expect(setMountedFieldState).toHaveBeenCalledTimes(3)
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(1, '/foo', {
+        isPreMounted: true,
+      })
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(2, '/foo', {
+        isVisible: false,
+      })
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(3, '/foo', {
+        isMounted: true,
+      })
+
+      unmount()
+
+      expect(setMountedFieldState).toHaveBeenCalledTimes(4)
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(4, '/foo', {
+        isMounted: false,
+        isPreMounted: false,
+      })
+    })
+
+    it('should set isMounted to true when Wizard step has changed', () => {
+      const originalConsoleLog = console.log
+      const log = jest
+        .spyOn(console, 'log')
+        .mockImplementation((...message) => {
+          if (!message[0].includes('Eufemia')) {
+            originalConsoleLog(...message)
+          }
+        })
+      const setMountedFieldState = jest.fn()
+
+      let activeIndex = 0
+      const { rerender, unmount } = renderHook(
+        (props) => useFieldProps(props),
+        {
+          initialProps: { path: '/foo' },
+          wrapper: ({ children }) => {
+            const value = {
+              setMountedFieldState,
+            } as unknown as ContextState
+            activeIndex++
+            return (
+              <Context.Provider value={value}>
+                <WizardContext.Provider
+                  value={{
+                    activeIndex,
+                  }}
+                >
+                  {children}
+                </WizardContext.Provider>
+              </Context.Provider>
+            )
+          },
+        }
+      )
+
+      expect(setMountedFieldState).toHaveBeenCalledTimes(2)
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(1, '/foo', {
+        isPreMounted: true,
+      })
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(2, '/foo', {
+        isMounted: true,
+      })
+
+      rerender({ path: '/bar' })
+
+      expect(setMountedFieldState).toHaveBeenCalledTimes(5)
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(3, '/bar', {
+        isPreMounted: true,
+      })
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(4, '/foo', {
+        isMounted: false,
+        isPreMounted: false,
+      })
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(5, '/bar', {
+        isMounted: true,
+      })
+
+      unmount()
+
+      expect(setMountedFieldState).toHaveBeenCalledTimes(6)
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(2, '/foo', {
+        isMounted: true,
+      })
+
+      log.mockRestore()
     })
   })
 })

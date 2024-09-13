@@ -40,7 +40,7 @@ import Context, {
   FilterData,
   FilterDataHandler,
   HandleSubmitCallback,
-  MountOptions,
+  MountState,
   TransformData,
 } from '../Context'
 
@@ -829,11 +829,18 @@ export default function Provider<Data extends JsonObject>(
 
   // - Mounted fields
   const setMountedFieldState = useCallback(
-    (path: Path, options: MountOptions) => {
+    (path: Path, state: MountState) => {
       if (!mountedFieldsRef.current[path]) {
-        mountedFieldsRef.current[path] = { ...options }
+        mountedFieldsRef.current[path] = { ...state }
       } else {
-        Object.assign(mountedFieldsRef.current[path], options)
+        Object.assign(mountedFieldsRef.current[path], state)
+      }
+
+      for (const itm of fieldEventListenersRef.current) {
+        if (itm.type === 'onMount' && itm.path === path) {
+          const { callback } = itm
+          callback()
+        }
       }
     },
     []
