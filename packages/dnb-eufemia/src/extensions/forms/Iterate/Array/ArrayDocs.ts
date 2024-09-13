@@ -32,6 +32,11 @@ export const ArrayProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  animate: {
+    doc: 'When `true` it will animate the height of the items.',
+    type: 'boolean',
+    status: 'optional',
+  },
   placeholder: {
     doc: 'Will be shown if the value or data context value is empty.',
     type: 'React.Node',

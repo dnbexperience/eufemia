@@ -5,13 +5,12 @@ import React, {
   useReducer,
   createRef,
   useContext,
-  Fragment,
 } from 'react'
 import classnames from 'classnames'
 import pointer from 'json-pointer'
 import { useFieldProps } from '../../hooks'
 import { makeUniqueId } from '../../../../shared/component-helper'
-import { Flex, FormStatus } from '../../../../components'
+import { Flex, FormStatus, HeightAnimation } from '../../../../components'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import {
@@ -91,6 +90,7 @@ function ArrayComponent(props: Props) {
     emptyValue,
     placeholder,
     containerMode,
+    animate,
     handleChange,
     setChanged,
     onChange,
@@ -256,62 +256,63 @@ function ArrayComponent(props: Props) {
     innerRef: containerRef,
   }
 
-  const WrapperElement = omitFlex ? Fragment : Flex.Stack
+  const arrayElements =
+    arrayValue === emptyValue || props?.value?.length === 0
+      ? placeholder
+      : arrayItems.map((itemProps) => {
+          const { id, value, index } = itemProps
+          const elementRef = (innerRefs.current[id] =
+            innerRefs.current[id] || createRef<HTMLDivElement>())
+
+          const renderChildren = (elementChild: ElementChild) => {
+            return typeof elementChild === 'function'
+              ? elementChild(value, index)
+              : elementChild
+          }
+
+          const contextValue = {
+            ...itemProps,
+            elementRef,
+          }
+
+          const content = Array.isArray(children)
+            ? children.map((child) => renderChildren(child))
+            : renderChildren(children)
+
+          if (omitFlex) {
+            return (
+              <IterateItemContext.Provider
+                key={`element-${id}`}
+                value={contextValue}
+              >
+                <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
+              </IterateItemContext.Provider>
+            )
+          }
+
+          return (
+            <Flex.Item
+              className="dnb-forms-iterate__element"
+              tabIndex={-1}
+              innerRef={elementRef}
+              key={`element-${id}`}
+            >
+              <IterateItemContext.Provider value={contextValue}>
+                <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
+              </IterateItemContext.Provider>
+            </Flex.Item>
+          )
+        })
+
+  const content = omitFlex ? (
+    arrayElements
+  ) : (
+    <Flex.Stack {...flexProps}>{arrayElements}</Flex.Stack>
+  )
 
   return (
     <>
-      <WrapperElement {...(omitFlex ? null : flexProps)}>
-        {arrayValue === emptyValue || props?.value?.length === 0
-          ? placeholder
-          : arrayItems.map((itemProps) => {
-              const { id, value, index } = itemProps
-              const elementRef = (innerRefs.current[id] =
-                innerRefs.current[id] || createRef<HTMLDivElement>())
-
-              const renderChildren = (elementChild: ElementChild) => {
-                return typeof elementChild === 'function'
-                  ? elementChild(value, index)
-                  : elementChild
-              }
-
-              const contextValue = {
-                ...itemProps,
-                elementRef,
-              }
-
-              const content = Array.isArray(children)
-                ? children.map((child) => renderChildren(child))
-                : renderChildren(children)
-
-              if (omitFlex) {
-                return (
-                  <IterateItemContext.Provider
-                    key={`element-${id}`}
-                    value={contextValue}
-                  >
-                    <FieldBoundaryProvider>
-                      {content}
-                    </FieldBoundaryProvider>
-                  </IterateItemContext.Provider>
-                )
-              }
-
-              return (
-                <Flex.Item
-                  className="dnb-forms-iterate__element"
-                  tabIndex={-1}
-                  innerRef={elementRef}
-                  key={`element-${id}`}
-                >
-                  <IterateItemContext.Provider value={contextValue}>
-                    <FieldBoundaryProvider>
-                      {content}
-                    </FieldBoundaryProvider>
-                  </IterateItemContext.Provider>
-                </Flex.Item>
-              )
-            })}
-      </WrapperElement>
+      {animate ? <HeightAnimation>{content}</HeightAnimation> : content}
 
       <FormStatus
         top={0}

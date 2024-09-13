@@ -455,6 +455,7 @@ export const WithArrayValidator = () => {
                 return new Error('You need at least two items')
               }
             }}
+            animate
           >
             <Flex.Horizontal align="flex-end">
               <Field.String
