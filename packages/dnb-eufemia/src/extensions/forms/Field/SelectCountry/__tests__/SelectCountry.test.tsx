@@ -1,6 +1,7 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { Props } from '..'
 import { Provider } from '../../../../../shared'
 import { Field, Form, FieldBlock } from '../../..'
@@ -120,7 +121,6 @@ describe('Field.SelectCountry', () => {
     )
 
     // open
-    fireEvent.focus(inputElement)
     fireEvent.keyDown(inputElement, {
       key: 'Enter',
       keyCode: 13,
@@ -137,7 +137,73 @@ describe('Field.SelectCountry', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('should by default sort prioritized countries on top', () => {
+  it('should filter countries based on a list of country codes', async () => {
+    const onChange = jest.fn()
+
+    render(
+      <Form.Handler
+        data={{
+          countries: ['NO', 'DK'],
+        }}
+      >
+        <Field.SelectCountry
+          noAnimation
+          onChange={onChange}
+          preventInputValidator={(value, { connectWithPath }) => {
+            const { getValue } = connectWithPath('/countries')
+            const countries = getValue()
+            if (countries.includes(value)) {
+              return new Error('You can not have the same country twice')
+            }
+          }}
+        />
+      </Form.Handler>
+    )
+
+    const inputElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-select-country input'
+    )
+    const makeSelection = () => {
+      fireEvent.keyDown(inputElement, {
+        key: 'ArrowDown',
+        keyCode: 40,
+      })
+      fireEvent.keyDown(inputElement, {
+        key: 'Enter',
+        keyCode: 13,
+      })
+    }
+
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
+
+    // Make selection
+    await userEvent.type(inputElement, 'Nor')
+    makeSelection()
+
+    expect(inputElement).toHaveValue('Norge')
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+    })
+    expect(onChange).toHaveBeenCalledTimes(0)
+
+    // Make selection
+    await userEvent.type(inputElement, '{Backspace>10}Sve')
+    makeSelection()
+
+    expect(inputElement).toHaveValue('Sverige')
+    expect(onChange).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+    })
+  })
+
+  it('should by default sort prioritized countries on top', async () => {
     render(<Field.SelectCountry />)
 
     const inputElement: HTMLInputElement = document.querySelector(
@@ -145,7 +211,6 @@ describe('Field.SelectCountry', () => {
     )
 
     // open
-    fireEvent.focus(inputElement)
     fireEvent.keyDown(inputElement, {
       key: 'Enter',
       keyCode: 13,
@@ -168,7 +233,6 @@ describe('Field.SelectCountry', () => {
     )
 
     // open
-    fireEvent.focus(inputElement)
     fireEvent.keyDown(inputElement, {
       key: 'Enter',
       keyCode: 13,

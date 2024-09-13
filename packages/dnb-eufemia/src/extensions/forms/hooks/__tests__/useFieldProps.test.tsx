@@ -835,6 +835,48 @@ describe('useFieldProps', () => {
       log.mockRestore()
     })
 
+    it('should not update value when preventInputValidator returns error', async () => {
+      const preventInputValidator = jest.fn((value) => {
+        if (value === 'invalid') {
+          return new Error('throw-preventInputValidator')
+        }
+      })
+
+      const defaultValue = 'foo'
+      const { result } = renderHook(useFieldProps, {
+        initialProps: {
+          defaultValue,
+          preventInputValidator,
+        },
+      })
+
+      const { handleChange } = result.current
+
+      act(() => {
+        handleChange('bar')
+      })
+
+      expect(result.current.value).toBe('bar')
+      expect(result.current.error).toBeUndefined()
+
+      act(() => {
+        handleChange('invalid')
+      })
+
+      expect(result.current.value).toBe('bar')
+      expect(result.current.error).toBeInstanceOf(Error)
+      expect(result.current.error.message).toBe(
+        'throw-preventInputValidator'
+      )
+
+      act(() => {
+        handleChange('baz')
+      })
+
+      expect(result.current.value).toBe('baz')
+      expect(result.current.error).toBeUndefined()
+    })
+
     it('should have correct validation order', async () => {
       const schema: JSONSchema = {
         type: 'string',

@@ -390,6 +390,14 @@ export const InitialOpen = () => {
                   label="Land du er statsborger i"
                   itemPath="/"
                   required
+                  preventInputValidator={(value, { connectWithPath }) => {
+                    const { getValue } = connectWithPath('/countries')
+                    if ((getValue() || []).includes(value)) {
+                      return new Error(
+                        'You can not have the same country twice',
+                      )
+                    }
+                  }}
                 />
               </Iterate.EditContainer>
             </Iterate.Array>

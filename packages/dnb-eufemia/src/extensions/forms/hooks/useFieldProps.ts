@@ -97,6 +97,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     onChange,
     onBlurValidator,
     validator,
+    preventInputValidator,
     exportValidators,
     schema,
     validateInitially,
@@ -272,6 +273,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   useUpdateEffect(() => {
     onBlurValidatorRef.current = onBlurValidator
   }, [onBlurValidator])
+  const preventInputValidatorRef = useRef(preventInputValidator)
+  useUpdateEffect(() => {
+    preventInputValidatorRef.current = preventInputValidator
+  }, [preventInputValidator])
 
   const schemaValidatorRef = useRef<ValidateFunction>(
     schema ? dataContext.ajvInstance?.compile(schema) : undefined
@@ -1289,6 +1294,18 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         transformers.current.transformValue(fromInput, currentValue)
       )
 
+      if (preventInputValidatorRef.current) {
+        const result = callValidatorFnSync(
+          preventInputValidatorRef.current,
+          transformedValue
+        )
+        if (result instanceof Error) {
+          persistErrorState('weak', result)
+          revealError()
+          return // stop here
+        }
+      }
+
       // Must be set before validation
       changedRef.current = true
 
@@ -1374,6 +1391,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       asyncBehaviorIsEnabled,
       onChange,
       runPool,
+      callValidatorFnSync,
+      persistErrorState,
+      revealError,
       handleChangeIterateContext,
       makeIteratePath,
       hideError,
