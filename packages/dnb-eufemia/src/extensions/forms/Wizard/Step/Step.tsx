@@ -47,7 +47,7 @@ export type Props = ComponentProps &
     prerenderFieldProps?: boolean
   }
 
-function Step(props: Props) {
+function Step(props: Props): JSX.Element {
   const {
     className,
     title,
@@ -82,7 +82,7 @@ function Step(props: Props) {
   }, [prerenderFieldProps, stepElementRef])
 
   if (prerenderFieldProps) {
-    return children
+    return children as JSX.Element
   }
 
   if (
