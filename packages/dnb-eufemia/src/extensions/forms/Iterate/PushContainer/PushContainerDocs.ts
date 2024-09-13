@@ -21,6 +21,11 @@ export const PushContainerProperties: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
+  variant: {
+    doc: 'Defines the variant of the container. Can be `outline` or `basic`. Defaults to `outline`.',
+    type: 'string',
+    status: 'optional',
+  },
   toolbar: {
     doc: 'A custom toolbar to be shown below the container.',
     type: 'React.Node',

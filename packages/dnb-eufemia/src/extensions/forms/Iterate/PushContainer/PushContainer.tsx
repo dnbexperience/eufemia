@@ -13,6 +13,7 @@ import { SpacingProps } from '../../../../shared/types'
 import { useSwitchContainerMode } from '../hooks'
 import Toolbar from '../Toolbar'
 import { useTranslation } from '../../hooks'
+import { ArrayItemAreaProps } from '../Array/ArrayItemArea'
 
 export type Props = {
   /**
@@ -52,7 +53,7 @@ export type Props = {
   children: React.ReactNode
 }
 
-export type AllProps = Props & SpacingProps
+export type AllProps = Props & SpacingProps & ArrayItemAreaProps
 
 function PushContainer(props: AllProps) {
   const {
