@@ -19,6 +19,10 @@ type HandleSubmitProps = {
   formElement?: HTMLFormElement
 }
 
+export type MountOptions = {
+  isMounted?: boolean
+}
+
 export type EventListenerCall = {
   path?: Path
   type?: 'onSubmit' | 'onPathChange'
@@ -93,8 +97,7 @@ export interface ContextState {
   hasFieldError: (path: Path) => boolean
   setFieldState: (path: Path, fieldState: SubmitState) => void
   setFieldError: (path: Path, error: Error | FormError) => void
-  handleMountField: (path: Path) => void
-  handleUnMountField: (path: Path) => void
+  setMountedFieldState: (path: Path, options: MountOptions) => void
   setFormState?: (state: SubmitState) => void
   setSubmitState?: (state: EventStateObject) => void
   addOnChangeHandler?: (callback: OnChange) => void
@@ -123,7 +126,7 @@ export interface ContextState {
   setHandleSubmit?: (callback: HandleSubmitCallback) => void
   fieldPropsRef?: React.MutableRefObject<Record<string, FieldProps>>
   valuePropsRef?: React.MutableRefObject<Record<string, ValueProps>>
-  mountedFieldPathsRef?: React.MutableRefObject<Path[]>
+  mountedFieldsRef?: React.MutableRefObject<Record<Path, MountOptions>>
   showAllErrors: boolean
   hasVisibleError: boolean
   formState: SubmitState
@@ -158,8 +161,7 @@ export const defaultContextState: ContextState = {
   setSubmitState: () => null,
   handleSubmitCall: () => null,
   setShowAllErrors: () => null,
-  handleMountField: () => null,
-  handleUnMountField: () => null,
+  setMountedFieldState: () => null,
   hasErrors: () => false,
   hasFieldState: () => false,
   hasFieldError: () => false,

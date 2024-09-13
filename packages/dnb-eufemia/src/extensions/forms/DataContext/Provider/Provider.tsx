@@ -40,6 +40,7 @@ import Context, {
   FilterData,
   FilterDataHandler,
   HandleSubmitCallback,
+  MountOptions,
   TransformData,
 } from '../Context'
 
@@ -228,7 +229,7 @@ export default function Provider<Data extends JsonObject>(
   const ajvRef = useRef<Ajv>(makeAjvInstance(ajvInstance))
 
   // - Paths
-  const mountedFieldPathsRef = useRef<Path[]>([])
+  const mountedFieldsRef: ContextState['mountedFieldsRef'] = useRef({})
 
   // - Errors from provider validation (the whole data set)
   const hasVisibleErrorRef = useRef<Record<Path, boolean>>({})
@@ -323,17 +324,25 @@ export default function Provider<Data extends JsonObject>(
   )
   const hasFieldState = useCallback(
     (state: SubmitState) => {
-      return mountedFieldPathsRef.current.some((path) => {
-        return checkFieldStateFor(path, state)
-      })
+      for (const path in mountedFieldsRef.current) {
+        if (checkFieldStateFor(path, state)) {
+          return true
+        }
+      }
+
+      return false
     },
     [checkFieldStateFor]
   )
   const hasFieldError = useCallback(
     (path: Path) => {
-      return mountedFieldPathsRef.current.some((p) => {
-        return p === path && checkFieldStateFor(p, 'error')
-      })
+      for (const p in mountedFieldsRef.current) {
+        if (p === path && checkFieldStateFor(path, 'error')) {
+          return true
+        }
+      }
+
+      return false
     },
     [checkFieldStateFor]
   )
@@ -505,7 +514,7 @@ export default function Provider<Data extends JsonObject>(
   )
   const hasFieldWithAsyncValidator = useCallback(() => {
     for (const path in fieldPropsRef.current) {
-      if (mountedFieldPathsRef.current.includes(path)) {
+      if (mountedFieldsRef.current[path]?.isMounted) {
         const props = fieldPropsRef.current[path]
         if (isAsync(props.validator) || isAsync(props.onBlurValidator)) {
           return true
@@ -822,19 +831,16 @@ export default function Provider<Data extends JsonObject>(
   }, [])
 
   // - Mounted fields
-  const handleMountField = useCallback((path: Path) => {
-    mountedFieldPathsRef.current = addListPath(
-      mountedFieldPathsRef.current,
-      path
-    )
-  }, [])
-
-  const handleUnMountField = useCallback((path: Path) => {
-    mountedFieldPathsRef.current = removeListPath(
-      mountedFieldPathsRef.current,
-      path
-    )
-  }, [])
+  const setMountedFieldState = useCallback(
+    (path: Path, options: MountOptions) => {
+      if (!mountedFieldsRef.current[path]) {
+        mountedFieldsRef.current[path] = { ...options }
+      } else {
+        Object.assign(mountedFieldsRef.current[path], options)
+      }
+    },
+    []
+  )
 
   // - Features
   const scrollToTop = useCallback(() => {
@@ -885,7 +891,7 @@ export default function Provider<Data extends JsonObject>(
           const { path, type, callback } = item
           if (
             type === 'onSubmit' &&
-            mountedFieldPathsRef.current.includes(path)
+            mountedFieldsRef.current[path]?.isMounted
           ) {
             // Call all submit listener callbacks (e.g. to validate fields)
             if (asyncBehaviorIsEnabled) {
@@ -957,8 +963,6 @@ export default function Provider<Data extends JsonObject>(
 
         setShowAllErrors(true)
       }
-
-      return internalDataRef.current
     },
     [
       clearData,
@@ -1149,8 +1153,7 @@ export default function Provider<Data extends JsonObject>(
         handlePathChange,
         handlePathChangeUnvalidated,
         handleSubmit,
-        handleMountField,
-        handleUnMountField,
+        setMountedFieldState,
         handleSubmitCall,
         setFormState,
         setSubmitState,
@@ -1187,7 +1190,7 @@ export default function Provider<Data extends JsonObject>(
           Object.keys(hasVisibleErrorRef.current).length > 0,
         fieldPropsRef,
         valuePropsRef,
-        mountedFieldPathsRef,
+        mountedFieldsRef,
         ajvInstance: ajvRef.current,
 
         /** Additional */
@@ -1218,16 +1221,6 @@ export default function Provider<Data extends JsonObject>(
       </FieldPropsProvider>
     </Context.Provider>
   )
-}
-
-type PathList = string[]
-
-export function addListPath(paths: PathList, path: Path): PathList {
-  return paths.includes(path) ? paths : paths.concat(path)
-}
-
-export function removeListPath(paths: PathList, path: Path): PathList {
-  return paths.filter((thisPath) => thisPath !== path)
 }
 
 type FormStatusBufferProps = {
