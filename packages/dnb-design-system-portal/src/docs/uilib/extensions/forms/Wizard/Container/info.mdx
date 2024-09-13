@@ -146,8 +146,6 @@ You can also prevent the user from navigating to the next or previous step, by u
 import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
 
 const MyForm = () => {
-  const { setActiveIndex, activeIndex } = Wizard.useStep('unique-id')
-
   return (
     <Form.Handler>
       <Wizard.Container
