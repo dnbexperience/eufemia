@@ -61,6 +61,24 @@ describe('HeightAnimationInstance', () => {
     expect(inst.getHeight()).toBe(100)
   })
 
+  it('getHeight with 0 should return 0', () => {
+    const inst = new HeightAnimationInstance()
+    inst.setElement(element)
+
+    mockHeight(0, element)
+
+    expect(inst.getHeight()).toBe(0)
+  })
+
+  it('getHeight with unknown value should return "null"', () => {
+    const inst = new HeightAnimationInstance()
+    inst.setElement(element)
+
+    mockHeight(undefined, element)
+
+    expect(inst.getHeight()).toBe(null)
+  })
+
   describe('getUnknownHeight', () => {
     it('should return proper height', () => {
       const inst = new HeightAnimationInstance()

@@ -168,7 +168,7 @@ export default class HeightAnimation {
     this.callAnimationEnd()
   }
   getHeight() {
-    return parseFloat(String(this.elem?.clientHeight)) || null
+    return this.withFallback(this.elem, 'clientHeight') ?? null
   }
   getUnknownHeight() {
     if (!this.elem) {
@@ -198,20 +198,15 @@ export default class HeightAnimation {
     // so we need to set the width to the original width
     const elemWidth = this.elem.clientWidth
     const clonedWidth =
-      clonedElem.clientWidth ||
-      // data-width is used for mockup testing with "mockHeight"
-      parseFloat(clonedElem.getAttribute('data-width')) ||
-      0
+      this.withFallback(clonedElem, 'clientWidth', 'data-width') ?? 0
 
     if (clonedWidth > elemWidth) {
       clonedElem.style.width = `${elemWidth}px`
     }
 
     const height =
-      clonedElem.clientHeight ||
       // data-height is used for mockup testing with "mockHeight"
-      parseFloat(clonedElem.getAttribute('data-height')) ||
-      null
+      this.withFallback(this.elem, 'clientHeight', 'data-height') ?? null
 
     clonedElem.parentNode?.removeChild(clonedElem)
 
@@ -220,6 +215,22 @@ export default class HeightAnimation {
     }
 
     return height
+  }
+  withFallback(
+    elem: HTMLElement,
+    key: 'clientHeight' | 'clientWidth',
+    fallback?: 'data-height' | 'data-width'
+  ) {
+    const val =
+      fallback && elem.hasAttribute(fallback)
+        ? parseFloat(elem.getAttribute(fallback))
+        : elem?.[key]
+
+    if (isNaN(val)) {
+      return null
+    }
+
+    return val
   }
   onStart(fn: HeightAnimationOnStartCallback) {
     this.onStartStack.push(fn)
@@ -348,7 +359,7 @@ export default class HeightAnimation {
       return
     }
 
-    if (fromHeight === 0 || fromHeight === null) {
+    if (fromHeight === null) {
       fromHeight = this.getHeight()
     }
     if (toHeight === null) {
