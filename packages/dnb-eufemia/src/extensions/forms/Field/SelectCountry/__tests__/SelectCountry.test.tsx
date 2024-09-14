@@ -149,7 +149,7 @@ describe('Field.SelectCountry', () => {
         <Field.SelectCountry
           noAnimation
           onChange={onChange}
-          preventInputValidator={(value, { connectWithPath }) => {
+          preventChangeValidator={(value, { connectWithPath }) => {
             const { getValue } = connectWithPath('/countries')
             const countries = getValue()
             if (countries.includes(value)) {

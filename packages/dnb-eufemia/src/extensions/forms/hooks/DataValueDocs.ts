@@ -86,7 +86,7 @@ export const dataValueProperties: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
-  preventInputValidator: {
+  preventChangeValidator: {
     doc: 'Custom validator function (synchronous) that is triggered when the user makes a change to a field (e.g. making a change to a dropdown). When the function returns an error, the field will not store the new value in the data context or call the onChange event. The given error will be shown.  The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }.',
     type: 'function',
     status: 'optional',

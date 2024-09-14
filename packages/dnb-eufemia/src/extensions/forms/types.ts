@@ -309,7 +309,7 @@ export interface UseFieldProps<
   schema?: AllJSONSchemaVersions<Value>
   validator?: Validator<Value>
   onBlurValidator?: Validator<Value>
-  preventInputValidator?: Validator<Value>
+  preventChangeValidator?: Validator<Value>
   exportValidators?: Record<string, Validator<Value>>
   validateRequired?: (
     internal: Value,

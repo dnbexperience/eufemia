@@ -835,10 +835,10 @@ describe('useFieldProps', () => {
       log.mockRestore()
     })
 
-    it('should not update value when preventInputValidator returns error', async () => {
-      const preventInputValidator = jest.fn((value) => {
+    it('should not update value when preventChangeValidator returns error', async () => {
+      const preventChangeValidator = jest.fn((value) => {
         if (value === 'invalid') {
-          return new Error('throw-preventInputValidator')
+          return new Error('throw-preventChangeValidator')
         }
       })
 
@@ -846,7 +846,7 @@ describe('useFieldProps', () => {
       const { result } = renderHook(useFieldProps, {
         initialProps: {
           defaultValue,
-          preventInputValidator,
+          preventChangeValidator,
         },
       })
 
@@ -866,7 +866,7 @@ describe('useFieldProps', () => {
       expect(result.current.value).toBe('bar')
       expect(result.current.error).toBeInstanceOf(Error)
       expect(result.current.error.message).toBe(
-        'throw-preventInputValidator'
+        'throw-preventChangeValidator'
       )
 
       act(() => {

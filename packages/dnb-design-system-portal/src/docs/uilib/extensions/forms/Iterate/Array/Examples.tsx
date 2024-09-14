@@ -390,7 +390,7 @@ export const InitialOpen = () => {
                   label="Land du er statsborger i"
                   itemPath="/"
                   required
-                  preventInputValidator={(value, { connectWithPath }) => {
+                  preventChangeValidator={(value, { connectWithPath }) => {
                     const { getValue } = connectWithPath('/countries')
                     if ((getValue() || []).includes(value)) {
                       return new Error(
