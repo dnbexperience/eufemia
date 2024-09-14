@@ -17,13 +17,13 @@ You can place it below the [Array](/uilib/extensions/forms/Iterate/Array/) compo
 import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
 
 render(
-  <>
-    <Iterate.Array>...</Iterate.Array>
+  <Form.Handler>
+    <Iterate.Array path="/myList">...</Iterate.Array>
 
-    <Iterate.PushContainer title="New item title">
+    <Iterate.PushContainer path="/myList" title="New item title">
       <Field.Name.Last itemPath="/name" />
     </Iterate.PushContainer>
-  </>,
+  </Form.Handler>,
 )
 ```
 
@@ -41,10 +41,11 @@ The button will be shown instead of the content provided by the children when th
 import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
 
 render(
-  <>
-    <Iterate.Array>...</Iterate.Array>
+  <Form.Handler>
+    <Iterate.Array path="/myList">...</Iterate.Array>
 
     <Iterate.PushContainer
+      path="/myList"
       title="New item title"
       openButton={
         <Iterate.PushContainer.OpenButton text="Add another item" />
@@ -53,8 +54,33 @@ render(
     >
       Will be hidden based on the showOpenButtonWhen function
     </Iterate.PushContainer>
-  </>,
+  </Form.Handler>,
 )
 ```
 
 The `Iterate.PushContainer.OpenButton` accepts the same props as the [Button](/uilib/components/button/) component.
+
+## Show the next item number in the open button
+
+You can use the `{nextItemNr}` variable in the `text` or `children` property to display the next item number.
+
+```tsx
+import { Iterate, Field, Value } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Handler>
+    <Iterate.Array path="/myList">...</Iterate.Array>
+
+    <Iterate.PushContainer
+      path="/myList"
+      title="New item title"
+      openButton={
+        <Iterate.PushContainer.OpenButton text="Add no. {nextItemNr}" />
+      }
+      showOpenButtonWhen={(list) => list.length > 0}
+    >
+      <Field.Name.Last itemPath="/name" />
+    </Iterate.PushContainer>
+  </Form.Handler>,
+)
+```
