@@ -22,3 +22,25 @@ render(
 ```
 
 In order to create new items you can also use the [Iterate.PushContainer](/uilib/extensions/forms/Iterate/PushContainer/) component.
+
+## The item number in the text
+
+You can use the `{itemNr}` variable in the `text` or `children` property to display the next item number.
+
+```tsx
+import { Iterate, Field, Value } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Handler>
+    <Iterate.Array path="/myList">
+      <Field.String itemPath="/" />
+    </Iterate.Array>
+
+    <PushButton
+      path="/myList"
+      pushValue="push value"
+      text="Add no. {itemNr}"
+    />
+  </Form.Handler>,
+)
+```

@@ -159,4 +159,36 @@ describe('PushButton', () => {
       expect.anything()
     )
   })
+
+  it('should support {itemNr}', async () => {
+    render(
+      <Form.Handler>
+        <Iterate.Array path="/myList">
+          <Field.String itemPath="/" />
+          <Iterate.RemoveButton />
+        </Iterate.Array>
+
+        <PushButton
+          path="/myList"
+          pushValue="push value"
+          text="Add no. {itemNr}"
+        />
+      </Form.Handler>
+    )
+
+    const pushButton = document.querySelector(
+      '.dnb-forms-iterate-push-button'
+    )
+
+    expect(pushButton).toHaveTextContent('Add no. 1')
+
+    await userEvent.click(pushButton)
+    expect(pushButton).toHaveTextContent('Add no. 2')
+
+    const removeButton = document.querySelector(
+      '.dnb-forms-iterate-remove-element-button'
+    )
+    await userEvent.click(removeButton)
+    expect(pushButton).toHaveTextContent('Add no. 1')
+  })
 })
