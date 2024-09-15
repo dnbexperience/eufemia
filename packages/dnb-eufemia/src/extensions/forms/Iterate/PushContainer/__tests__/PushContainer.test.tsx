@@ -525,7 +525,7 @@ describe('PushContainer', () => {
     log.mockRestore()
   })
 
-  it('should support {nextItemNr}', async () => {
+  it('should support {nextItemNo}', async () => {
     render(
       <Form.Handler data={{ myList: undefined }}>
         <Iterate.Array path="/myList">
@@ -536,7 +536,7 @@ describe('PushContainer', () => {
         <Iterate.PushContainer
           path="/myList"
           openButton={
-            <Iterate.PushContainer.OpenButton text="Add no. {nextItemNr}" />
+            <Iterate.PushContainer.OpenButton text="Add no. {nextItemNo}" />
           }
           showOpenButtonWhen={(list) => list.length >= 0}
         >

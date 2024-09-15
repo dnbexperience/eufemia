@@ -62,7 +62,7 @@ The `Iterate.PushContainer.OpenButton` accepts the same props as the [Button](/u
 
 ## Show the next item number in the open button
 
-You can use the `{nextItemNr}` variable in the `text` or `children` property to display the next item number.
+You can use the `{nextItemNo}` variable in the `text` or `children` property to display the next item number.
 
 ```tsx
 import { Iterate, Field, Value } from '@dnb/eufemia/extensions/forms'
@@ -75,7 +75,7 @@ render(
       path="/myList"
       title="New item title"
       openButton={
-        <Iterate.PushContainer.OpenButton text="Add no. {nextItemNr}" />
+        <Iterate.PushContainer.OpenButton text="Add no. {nextItemNo}" />
       }
       showOpenButtonWhen={(list) => list.length > 0}
     >

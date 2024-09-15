@@ -21,9 +21,9 @@ function OpenButton(props: Props) {
     if (children || text) {
       const str = convertJsxToString(children || text)
 
-      if (str.includes('{nextItemNr}')) {
-        const nextItemNr = (entries?.length || 0) + 1
-        return str.replace('{nextItemNr}', String(nextItemNr))
+      if (str.includes('{nextItemNo}')) {
+        const nextItemNo = (entries?.length || 0) + 1
+        return str.replace('{nextItemNo}', String(nextItemNo))
       }
     }
 
