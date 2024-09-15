@@ -2,7 +2,6 @@ import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import IterateItemContext from '../../IterateItemContext'
-import PushButton from '../PushButton'
 import { Field, Form, Iterate } from '../../..'
 
 describe('PushButton', () => {
@@ -10,13 +9,18 @@ describe('PushButton', () => {
     const handlePush = jest.fn()
     const pushValue = 'push value'
 
-    render(<PushButton pushValue={pushValue}>Push Button</PushButton>, {
-      wrapper: ({ children }) => (
-        <IterateItemContext.Provider value={{ handlePush }}>
-          {children}
-        </IterateItemContext.Provider>
-      ),
-    })
+    render(
+      <Iterate.PushButton pushValue={pushValue}>
+        Push Button
+      </Iterate.PushButton>,
+      {
+        wrapper: ({ children }) => (
+          <IterateItemContext.Provider value={{ handlePush }}>
+            {children}
+          </IterateItemContext.Provider>
+        ),
+      }
+    )
 
     const button = document.querySelector('button')
     fireEvent.click(button)
@@ -31,9 +35,9 @@ describe('PushButton', () => {
 
     render(
       <Form.Handler onChange={handleChange}>
-        <PushButton path="/foo" pushValue={pushValue}>
+        <Iterate.PushButton path="/foo" pushValue={pushValue}>
           Push Button
-        </PushButton>
+        </Iterate.PushButton>
       </Form.Handler>
     )
 
@@ -53,9 +57,9 @@ describe('PushButton', () => {
 
     render(
       <Form.Handler onChange={handleChange}>
-        <PushButton path="/foo" pushValue={pushValue}>
+        <Iterate.PushButton path="/foo" pushValue={pushValue}>
           Push Button
-        </PushButton>
+        </Iterate.PushButton>
       </Form.Handler>
     )
 
@@ -70,35 +74,45 @@ describe('PushButton', () => {
   })
 
   it('should render with the correct class name', () => {
-    render(<PushButton pushValue="push value">Push Button</PushButton>)
+    render(
+      <Iterate.PushButton pushValue="push value">
+        Push Button
+      </Iterate.PushButton>
+    )
 
     const button = document.querySelector('button')
     expect(button).toHaveClass('dnb-forms-iterate-push-button')
   })
 
   it('should be a secondary variant', () => {
-    render(<PushButton pushValue="push value">Push Button</PushButton>)
+    render(
+      <Iterate.PushButton pushValue="push value">
+        Push Button
+      </Iterate.PushButton>
+    )
 
     const button = document.querySelector('button')
     expect(button).toHaveClass('dnb-button--secondary')
   })
 
   it('should have no text by default', () => {
-    render(<PushButton pushValue="push value" />)
+    render(<Iterate.PushButton pushValue="push value" />)
 
     const button = document.querySelector('button')
     expect(button.textContent).toBe('‌')
   })
 
   it('should accept "text" prop', () => {
-    render(<PushButton pushValue="push value" text="text" />)
+    render(<Iterate.PushButton pushValue="push value" text="text" />)
 
     const button = document.querySelector('button')
     expect(button).toHaveTextContent('text')
   })
 
   it('should accept children content as text', () => {
-    render(<PushButton pushValue="push value">text</PushButton>)
+    render(
+      <Iterate.PushButton pushValue="push value">text</Iterate.PushButton>
+    )
 
     const button = document.querySelector('button')
     expect(button).toHaveTextContent('text')
@@ -106,9 +120,9 @@ describe('PushButton', () => {
 
   it('should accept custom attributes', () => {
     render(
-      <PushButton pushValue="push value" aria-label="Aria Label">
+      <Iterate.PushButton pushValue="push value" aria-label="Aria Label">
         text
-      </PushButton>
+      </Iterate.PushButton>
     )
 
     const button = document.querySelector('button')
@@ -116,7 +130,11 @@ describe('PushButton', () => {
   })
 
   it('should render with "add" icon', () => {
-    render(<PushButton pushValue="push value">Push Button</PushButton>)
+    render(
+      <Iterate.PushButton pushValue="push value">
+        Push Button
+      </Iterate.PushButton>
+    )
 
     const button = document.querySelector('.dnb-forms-iterate-push-button')
 
@@ -135,7 +153,7 @@ describe('PushButton', () => {
           <Field.String itemPath="/" />
         </Iterate.Array>
 
-        <PushButton path="/myList" pushValue="push value" />
+        <Iterate.PushButton path="/myList" pushValue="push value" />
       </Form.Handler>
     )
 
@@ -160,7 +178,7 @@ describe('PushButton', () => {
     )
   })
 
-  it('should support {itemNr}', async () => {
+  it('should support {nextItemNr}', async () => {
     render(
       <Form.Handler>
         <Iterate.Array path="/myList">
@@ -168,10 +186,10 @@ describe('PushButton', () => {
           <Iterate.RemoveButton />
         </Iterate.Array>
 
-        <PushButton
+        <Iterate.PushButton
           path="/myList"
           pushValue="push value"
-          text="Add no. {itemNr}"
+          text="Add no. {nextItemNr}"
         />
       </Form.Handler>
     )

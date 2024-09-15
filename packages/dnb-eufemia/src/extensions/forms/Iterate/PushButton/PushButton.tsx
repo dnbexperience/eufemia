@@ -66,9 +66,9 @@ function PushButton(props: Props) {
     if (children || text) {
       const str = convertJsxToString(children || text)
 
-      if (str.includes('{itemNr}')) {
-        const itemNr = (arrayValue?.length || 0) + 1
-        return str.replace('{itemNr}', String(itemNr))
+      if (str.includes('{nextItemNr}')) {
+        const nextItemNr = (arrayValue?.length || 0) + 1
+        return str.replace('{nextItemNr}', String(nextItemNr))
       }
     }
 

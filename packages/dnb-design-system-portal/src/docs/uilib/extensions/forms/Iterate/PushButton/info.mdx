@@ -11,21 +11,25 @@ hideInMenu: true
 import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
 
 render(
-  <>
-    <Iterate.Array path="/">
+  <Form.Handler>
+    <Iterate.Array path="/myList">
       <Field.Name.Last itemPath="/name" />
     </Iterate.Array>
 
-    <Iterate.PushButton text="Add another item" path="/" pushValue={{}} />
-  </>,
+    <Iterate.PushButton
+      path="/myList"
+      text="Add another item"
+      pushValue={{}}
+    />
+  </Form.Handler>,
 )
 ```
 
 In order to create new items you can also use the [Iterate.PushContainer](/uilib/extensions/forms/Iterate/PushContainer/) component.
 
-## The item number in the text
+## Show the next item number in the button
 
-You can use the `{itemNr}` variable in the `text` or `children` property to display the next item number.
+You can use the `{nextItemNr}` variable in the `text` or `children` property to display the next item number.
 
 ```tsx
 import { Iterate, Field, Value } from '@dnb/eufemia/extensions/forms'
@@ -36,10 +40,10 @@ render(
       <Field.String itemPath="/" />
     </Iterate.Array>
 
-    <PushButton
+    <Iterate.PushButton
       path="/myList"
       pushValue="push value"
-      text="Add no. {itemNr}"
+      text="Add no. {nextItemNr}"
     />
   </Form.Handler>,
 )
