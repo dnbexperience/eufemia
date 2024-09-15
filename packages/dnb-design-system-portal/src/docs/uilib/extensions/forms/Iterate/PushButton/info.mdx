@@ -29,7 +29,7 @@ In order to create new items you can also use the [Iterate.PushContainer](/uilib
 
 ## Show the next item number in the button
 
-You can use the `{nextItemNr}` variable in the `text` or `children` property to display the next item number.
+You can use the `{nextItemNo}` variable in the `text` or `children` property to display the next item number.
 
 ```tsx
 import { Iterate, Field, Value } from '@dnb/eufemia/extensions/forms'
@@ -43,7 +43,7 @@ render(
     <Iterate.PushButton
       path="/myList"
       pushValue="push value"
-      text="Add no. {nextItemNr}"
+      text="Add no. {nextItemNo}"
     />
   </Form.Handler>,
 )

@@ -178,7 +178,7 @@ describe('PushButton', () => {
     )
   })
 
-  it('should support {nextItemNr}', async () => {
+  it('should support {nextItemNo}', async () => {
     render(
       <Form.Handler>
         <Iterate.Array path="/myList">
@@ -189,7 +189,7 @@ describe('PushButton', () => {
         <Iterate.PushButton
           path="/myList"
           pushValue="push value"
-          text="Add no. {nextItemNr}"
+          text="Add no. {nextItemNo}"
         />
       </Form.Handler>
     )
