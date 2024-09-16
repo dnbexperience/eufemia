@@ -3,6 +3,25 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.49.0](https://github.com/dnbexperience/eufemia/compare/v10.48.0...v10.49.0) (2024-09-16)
+
+
+### :sparkles: Features
+
+* **Forms:** add `{nextItemNo}` support to Iterate.PushButton ([#3936](https://github.com/dnbexperience/eufemia/issues/3936)) ([c1445a3](https://github.com/dnbexperience/eufemia/commit/c1445a3db8b4ddd343d4093510e2b70ac94dddf7))
+* **Forms:** add `{nextItemNo}` support to Iterate.PushContainer open button ([#3937](https://github.com/dnbexperience/eufemia/issues/3937)) ([84e8281](https://github.com/dnbexperience/eufemia/commit/84e82817637bdd2392841d484a4c564e6f670618))
+* **Forms:** add `animate` prop to Iterate.Array ([#3928](https://github.com/dnbexperience/eufemia/issues/3928)) ([1d9f3e4](https://github.com/dnbexperience/eufemia/commit/1d9f3e43e98faf5ba3663129eb6b7fa0ac73df8b))
+
+
+### :bug: Bug Fixes
+
+* **ChildrenWithAge:** fixes spacing issue above 1st child ([#3942](https://github.com/dnbexperience/eufemia/issues/3942)) ([0f9dff3](https://github.com/dnbexperience/eufemia/commit/0f9dff3c90a3e8d0b4f002fdb30d2e076f1e323e))
+* **Forms:** enhance container boundary error handling ([#3939](https://github.com/dnbexperience/eufemia/issues/3939)) ([e4691a0](https://github.com/dnbexperience/eufemia/commit/e4691a0e5361c801e9551d3073fad551428acb0d))
+* **Forms:** remove unwanted Iterate.EditContainer error confirmation when using required on Form.Handler ([#3938](https://github.com/dnbexperience/eufemia/issues/3938)) ([4523e35](https://github.com/dnbexperience/eufemia/commit/4523e350f01536bf909a13d737fa0b6423405510))
+* **Forms:** Wizard.Step JSX component TypeScript fix ([#3935](https://github.com/dnbexperience/eufemia/issues/3935)) ([5556182](https://github.com/dnbexperience/eufemia/commit/5556182a0983a11fe952cba9fb34f188d22b60dc))
+* **HeightAnimation:** enhance adjusting the height to 0 ([#3929](https://github.com/dnbexperience/eufemia/issues/3929)) ([a1f6129](https://github.com/dnbexperience/eufemia/commit/a1f6129d0342d8870db7bd07ddab0556cf926c09))
+* **PushContainer:** Add missing variant type ([#3931](https://github.com/dnbexperience/eufemia/issues/3931)) ([32d41b9](https://github.com/dnbexperience/eufemia/commit/32d41b93c4f7f4a65e4bcde4c56e4d335aa65a1f))
+
 ## [10.48.0](https://github.com/dnbexperience/eufemia/compare/v10.47.0...v10.48.0) (2024-09-12)
 
 
