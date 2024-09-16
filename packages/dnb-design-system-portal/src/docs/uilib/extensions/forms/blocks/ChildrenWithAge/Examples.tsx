@@ -23,6 +23,7 @@ export const ChildrenWithAge = (props) => {
           />
           <Blocks.ChildrenWithAge
             mode="summary"
+            showEmpty
             enableAdditionalQuestions={['joint-responsibility', 'daycare']}
             {...props}
           />
@@ -49,6 +50,7 @@ export const ChildrenWithAgeWizard = (props) => {
                 <Wizard.Step title={summaryTitle}>
                   <Blocks.ChildrenWithAge
                     mode="summary"
+                    showEmpty
                     toWizardStep={0}
                     {...props}
                   />
