@@ -368,45 +368,43 @@ export const WithVisibility = () => {
 
 export const InitialOpen = () => {
   return (
-    <ComponentBox scope={{ Iterate, Tools }}>
-      <Form.Handler
-        onSubmit={async (data) => console.log('onSubmit', data)}
-        onSubmitRequest={() => console.log('onSubmitRequest')}
-      >
-        <Flex.Stack>
-          <Form.MainHeading>Statsborgerskap</Form.MainHeading>
+    <Form.Handler
+      onSubmit={async (data) => console.log('onSubmit', data)}
+      onSubmitRequest={() => console.log('onSubmitRequest')}
+    >
+      <Flex.Stack>
+        <Form.MainHeading>Statsborgerskap</Form.MainHeading>
 
-          <Card stack>
-            <Iterate.Array path="/countries" defaultValue={[null]}>
-              <Iterate.ViewContainer toolbarVariant="minimumOneItem">
-                <Value.SelectCountry
-                  label="Land du er statsborger i"
-                  itemPath="/"
-                />
-              </Iterate.ViewContainer>
+        <Card stack>
+          <Iterate.Array path="/countries" defaultValue={[null]}>
+            <Iterate.ViewContainer toolbarVariant="minimumOneItem">
+              <Value.SelectCountry
+                label="Land du er statsborger i"
+                itemPath="/"
+              />
+            </Iterate.ViewContainer>
 
-              <Iterate.EditContainer toolbarVariant="minimumOneItem">
-                <Field.SelectCountry
-                  label="Land du er statsborger i"
-                  itemPath="/"
-                  required
-                />
-              </Iterate.EditContainer>
-            </Iterate.Array>
+            <Iterate.EditContainer toolbarVariant="minimumOneItem">
+              <Field.SelectCountry
+                label="Land du er statsborger i"
+                itemPath="/"
+                required
+              />
+            </Iterate.EditContainer>
+          </Iterate.Array>
 
-            <Iterate.PushButton
-              path="/countries"
-              pushValue={null}
-              text="Legg til flere statsborgerskap"
-            />
-          </Card>
+          <Iterate.PushButton
+            path="/countries"
+            pushValue={null}
+            text="Legg til flere statsborgerskap"
+          />
+        </Card>
 
-          <Form.SubmitButton variant="send" />
+        <Form.SubmitButton variant="send" />
 
-          <Tools.Log />
-        </Flex.Stack>
-      </Form.Handler>
-    </ComponentBox>
+        <Tools.Log />
+      </Flex.Stack>
+    </Form.Handler>
   )
 }
 
