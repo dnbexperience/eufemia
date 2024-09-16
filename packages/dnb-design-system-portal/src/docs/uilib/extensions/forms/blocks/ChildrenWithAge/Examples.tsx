@@ -1,5 +1,5 @@
 import { useMemo, useRef } from 'react'
-import ComponentBox from '../../../../../shared/tags/ComponentBox'
+import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Flex, HelpButton, Lead, Section } from '@dnb/eufemia/src'
 import {
   Field,

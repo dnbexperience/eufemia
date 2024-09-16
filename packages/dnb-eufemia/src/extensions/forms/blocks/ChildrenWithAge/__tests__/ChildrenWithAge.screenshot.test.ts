@@ -11,7 +11,7 @@ import {
 describe.each(['ui', 'sbanken'])('ChildrenWithAge for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/extensions/forms/blocks/ChildrenWithAge',
+    url: '/uilib/extensions/forms/blocks/ChildrenWithAge/demos',
   })
 
   it('have to match when answering yes to all options', async () => {
@@ -24,7 +24,7 @@ describe.each(['ui', 'sbanken'])('ChildrenWithAge for %s', (themeName) => {
 
 describe('ChildrenWithAge', () => {
   setupPageScreenshot({
-    url: '/uilib/extensions/forms/blocks/ChildrenWithAge',
+    url: '/uilib/extensions/forms/blocks/ChildrenWithAge/demos',
     pageViewport: {
       width: 480, // 30rem
     },
