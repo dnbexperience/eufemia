@@ -559,6 +559,10 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
     "countPathLimit": 20,
     "path": "/children",
     "required": false,
+    "space": {
+      "bottom": 0,
+      "top": "medium",
+    },
     "translations": {
       "en-GB": {
         "ChildrenWithAge": {

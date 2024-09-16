@@ -31,6 +31,7 @@ export const ChildrenWithAge = (props) => {
     </Form.Handler>
   )
 }
+
 export const ChildrenWithAgeWizard = (props) => {
   return (
     <ComponentBox scope={{ Blocks, props }}>
@@ -158,5 +159,30 @@ function Output({ title, generateRef, transform = (data) => data }) {
         <pre>{JSON.stringify(data, null, 2)}</pre>
       </Section>
     </>
+  )
+}
+
+export const ChildrenWithAgePrefilledYes = (props) => {
+  return (
+    <ComponentBox
+      data-visual-test="children-with-age-prefilled"
+      scope={{ Blocks }}
+    >
+      <Form.Handler
+        data={{
+          hasChildren: true,
+          hasJointResponsibility: true,
+          usesDaycare: true,
+          countChildren: 2,
+          children: [{}, {}],
+        }}
+      >
+        <Flex.Stack>
+          <Blocks.ChildrenWithAge
+            enableAdditionalQuestions={['joint-responsibility', 'daycare']}
+          />
+        </Flex.Stack>
+      </Form.Handler>
+    </ComponentBox>
   )
 }
