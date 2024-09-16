@@ -181,6 +181,7 @@ export interface DrawerListProps {
   on_resize?: (...args: any[]) => any;
   on_select?: (...args: any[]) => any;
   on_state_update?: (...args: any[]) => any;
+  keepSelectIndexOnDataChange?: boolean;
 }
 export type DrawerListOptionsProps = {
   children: React.ReactNode;

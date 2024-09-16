@@ -463,8 +463,15 @@ export const prepareDerivedState = (props, state) => {
 
     // Reset selected_item and active_item on data prop change
     if (!props?.keepSelectIndexOnDataChange) {
-      state.selected_item = null
-      state.active_item = null
+      // Sets the selected_item to be the default_value if provided
+      // And -1 or null if not provided, making the active item be unselected on props.data change
+      const defaultItem =
+        props.default_value !== undefined || props.default_value !== null
+          ? getCurrentIndex(props.default_value, state.data)
+          : null
+
+      state.selected_item = defaultItem
+      state.active_item = defaultItem
     }
   }
 
