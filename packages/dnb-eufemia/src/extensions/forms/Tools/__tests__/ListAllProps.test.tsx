@@ -688,6 +688,7 @@ describe('Tools.ListAllProps', () => {
           },
           "countPath": "/count",
           "path": "/items",
+          "required": false,
           "value": [
             {
               "item": 0,

@@ -16,7 +16,6 @@ export default function DoneButton(props: Props) {
   const { hasError, hasVisibleError, setShowBoundaryErrors } =
     useContext(FieldBoundaryContext) || {}
   const { commitHandleRef } = useContext(PushContainerContext) || {}
-  useContext(FieldBoundaryContext) || {}
   const { setShowError } = useContext(ToolbarContext) || {}
 
   const { doneButton } = useTranslation().IterateEditContainer
