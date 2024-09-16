@@ -44,7 +44,8 @@ export default function ListSummaryFromEdges({
   returnListItems = false,
   ...props
 }: ListSummaryFromEdgesProps) {
-  const Wrapper = returnListItems ? Ul : React.Fragment
+  const ListWrapper = returnListItems ? Ul : React.Fragment
+  const ItemWrapper = returnListItems ? Li : React.Fragment
 
   resetLevels((level || 2) as InternalHeadingLevel)
 
@@ -59,19 +60,14 @@ export default function ListSummaryFromEdges({
       i,
     ) => {
       return (
-        <Wrapper key={i}>
+        <ItemWrapper key={i}>
           <Title />
-        </Wrapper>
+        </ItemWrapper>
       )
 
       function Title() {
         if (returnListItems) {
-          return (
-            <Li>
-              <Anchor href={'/' + slug}>{title}</Anchor>
-              <br />
-            </Li>
-          )
+          return <Anchor href={'/' + slug}>{title}</Anchor>
         }
 
         return (
@@ -96,5 +92,5 @@ export default function ListSummaryFromEdges({
     },
   )
 
-  return <>{jsx}</>
+  return <ListWrapper>{jsx}</ListWrapper>
 }
