@@ -7,6 +7,7 @@ import { LOCALE } from '../../../../shared/defaults'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import SharedContext, { InternalLocale } from '../../../../shared/Context'
 import Context from '../../DataContext/Context'
+import { Li, Ol, Ul } from '../../../../elements'
 
 export type Props = ValueProps<Array<number | string>> & {
   /**
@@ -14,14 +15,27 @@ export type Props = ValueProps<Array<number | string>> & {
    * See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/ListFormat/ListFormat
    */
   format?: Intl.ListFormatOptions
+  /**
+   * Defines if the the value should be displayed in list format or reuglar text format on one line.
+   * Default: `text`
+   */
+  variant?: 'ol' | 'ol-unstyled' | 'ul' | 'ul-unstyled' | 'text'
 }
 
 function ArraySelection(props: Props) {
   const { locale } = useContext(SharedContext)
   const { fieldPropsRef } = useContext(Context) || {}
-  const { path, value, format, className, ...rest } = useValueProps(props)
+  const {
+    path,
+    value,
+    format,
+    className,
+    variant = 'text',
+    ...rest
+  } = useValueProps(props)
 
   const list = useMemo(() => {
+    const isListVariant = variant !== 'text'
     if (path) {
       const data = fieldPropsRef?.current?.[
         path + '/arraySelectionData'
@@ -29,18 +43,48 @@ function ArraySelection(props: Props) {
         value: string
         title: string | React.ReactNode
       }>
-      return data?.map?.(({ title }) => convertJsxToString(title)) || value
+
+      return (
+        data?.map?.(({ title }, index) =>
+          isListVariant ? (
+            <Li key={index}>{convertJsxToString(title)}</Li>
+          ) : (
+            convertJsxToString(title)
+          )
+        ) || value
+      )
     }
 
-    return value
-  }, [fieldPropsRef, path, value])
+    return isListVariant
+      ? value.map((value, index) => (
+          <Li key={index}>{convertJsxToString(value)}</Li>
+        ))
+      : value
+  }, [fieldPropsRef, path, value, variant])
+
+  const listValue = useMemo(() => {
+    if (variant === 'text') {
+      return listFormat(list, { locale, format })
+    }
+    const ListElement = variant.startsWith('ol') ? Ol : Ul
+
+    return (
+      <ListElement
+        className={classnames(
+          variant.endsWith('unstyled') && 'dnb-unstyled-list'
+        )}
+      >
+        {list}
+      </ListElement>
+    )
+  }, [format, list, locale, variant])
 
   return (
     <ValueBlock
       className={classnames('dnb-forms-value-array-selection', className)}
       {...rest}
     >
-      {listFormat(list, { locale, format })}
+      {listValue}
     </ValueBlock>
   )
 }

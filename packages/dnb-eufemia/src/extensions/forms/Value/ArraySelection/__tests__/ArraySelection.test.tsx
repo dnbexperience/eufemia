@@ -38,6 +38,72 @@ describe('Value.ArraySelection', () => {
     ).toHaveTextContent('123, 456 eller 789')
   })
 
+  it('should render different variants', () => {
+    const { rerender } = render(
+      <Value.ArraySelection variant="ol" value={[123, 456, 789]} />
+    )
+
+    const valueBlock = document.querySelector(
+      '.dnb-forms-value-array-selection .dnb-forms-value-block__content'
+    )
+
+    const ol = valueBlock.querySelector('.dnb-ol') as HTMLOListElement
+
+    expect(ol).toBeInTheDocument()
+    expect(ol.children.length).toBe(3)
+    expect(ol).toContainHTML(
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+    )
+    rerender(<Value.ArraySelection variant="ul" value={[123, 456, 789]} />)
+
+    const ul = valueBlock.querySelector('.dnb-ul') as HTMLUListElement
+
+    expect(ol).not.toBeInTheDocument()
+    expect(ul).toBeInTheDocument()
+    expect(ul.children.length).toBe(3)
+    expect(ul).toContainHTML(
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+    )
+
+    rerender(
+      <Value.ArraySelection variant="text" value={[123, 456, 789]} />
+    )
+
+    expect(ol).not.toBeInTheDocument()
+    expect(ul).not.toBeInTheDocument()
+    expect(valueBlock).toHaveTextContent('123, 456 og 789')
+  })
+
+  it('should render unstyled list variants if specified', () => {
+    const { rerender } = render(
+      <Value.ArraySelection
+        variant="ol-unstyled"
+        value={[123, 456, 789]}
+      />
+    )
+
+    const valueBlock = document.querySelector(
+      '.dnb-forms-value-array-selection .dnb-forms-value-block__content'
+    )
+
+    const ol = valueBlock.querySelector('.dnb-ol')
+
+    expect(ol).toHaveClass('dnb-unstyled-list')
+    expect(ol).not.toHaveClass('dnb-list')
+
+    rerender(
+      <Value.ArraySelection
+        variant="ul-unstyled"
+        value={[123, 456, 789]}
+      />
+    )
+
+    const ul = valueBlock.querySelector('.dnb-ul')
+
+    expect(ul).toHaveClass('dnb-unstyled-list')
+    expect(ul).not.toHaveClass('dnb-list')
+  })
+
   it('renders label when showEmpty is true', () => {
     render(<Value.ArraySelection showEmpty label="My label" />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(

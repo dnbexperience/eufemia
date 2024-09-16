@@ -104,3 +104,30 @@ export const Inline = () => {
     </ComponentBox>
   )
 }
+
+export const ListVariants = () => {
+  return (
+    <ComponentBox>
+      <Value.ArraySelection
+        value={['Foo', 'Bar', 'Baz']}
+        label="Ordered List"
+        variant="ol"
+      />
+      <Value.ArraySelection
+        value={['Foo', 'Bar', 'Baz']}
+        label="Ordered List Unstyled"
+        variant="ol-unstyled"
+      />
+      <Value.ArraySelection
+        value={['Foo', 'Bar', 'Baz']}
+        label="Unordered List"
+        variant="ul"
+      />
+      <Value.ArraySelection
+        value={['Foo', 'Bar', 'Baz']}
+        label="Unordered List Unstyled"
+        variant="ul-unstyled"
+      />
+    </ComponentBox>
+  )
+}
