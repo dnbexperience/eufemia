@@ -16,7 +16,7 @@ export type Props = ValueProps<Array<number | string>> & {
    */
   format?: Intl.ListFormatOptions
   /**
-   * Defines if the the value should be displayed in list format or reuglar text format on one line.
+   * Defines if the value should be displayed in list format or reuglar text format on one line.
    * Default: `text`
    */
   variant?: 'ol' | 'ul' | 'text'
