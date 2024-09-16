@@ -327,5 +327,5 @@ function ArrayComponent(props: Props) {
   )
 }
 
-ArrayComponent._supportsSpacingProps = false // disable flex support to avoid rerender, which could result in flickering
+ArrayComponent._supportsSpacingProps = true // disable flex support to avoid rerender, which could result in flickering
 export default ArrayComponent
