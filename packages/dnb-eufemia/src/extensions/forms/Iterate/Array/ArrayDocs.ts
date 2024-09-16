@@ -32,6 +32,11 @@ export const ArrayProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  animate: {
+    doc: 'When `true` it will animate the height of the items.',
+    type: 'boolean',
+    status: 'optional',
+  },
   placeholder: {
     doc: 'Will be shown if the value or data context value is empty.',
     type: 'React.Node',
@@ -52,7 +57,7 @@ export const ArrayProperties: PropertiesTableProps = {
   },
   children: {
     doc: 'React.Node or a function so you can get the current value and index.',
-    type: 'boolean',
+    type: ['React.ReactNode', 'function'],
     status: 'optional',
   },
   '[Flex.Stack](/uilib/layout/flex/stack/)': {

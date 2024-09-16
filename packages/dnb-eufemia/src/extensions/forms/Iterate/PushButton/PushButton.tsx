@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react'
+import React, { useCallback, useContext, useMemo } from 'react'
 import classnames from 'classnames'
 import { Button } from '../../../../components'
 import { ButtonProps } from '../../../../components/Button'
@@ -8,6 +8,7 @@ import { omitDataValueReadWriteProps, Path } from '../../types'
 import { add } from '../../../../icons'
 import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
+import { convertJsxToString } from '../../../../shared/component-helper'
 
 export type Props = ButtonProps & {
   path?: Path
@@ -24,11 +25,12 @@ function PushButton(props: Props) {
   const iterateItemContext = useContext(IterateItemContext)
   const { handlePush } = iterateItemContext ?? {}
 
-  const { pushValue, className, path, children, ...restProps } = props
+  const { pushValue, className, path, text, children, ...restProps } =
+    props
   const buttonProps = omitDataValueReadWriteProps(restProps)
-  const value = useDataValue().getValueByPath(path)
+  const arrayValue = useDataValue().getValueByPath(path)
 
-  if (value !== undefined && !Array.isArray(value)) {
+  if (arrayValue !== undefined && !Array.isArray(arrayValue)) {
     throw new Error('PushButton received a non-array value')
   }
 
@@ -38,14 +40,14 @@ function PushButton(props: Props) {
 
   const handleClick = useCallback(async () => {
     const newValue =
-      typeof pushValue === 'function' ? pushValue(value) : pushValue
+      typeof pushValue === 'function' ? pushValue(arrayValue) : pushValue
 
     if (handlePush) {
       // Inside an Iterate element - make the change through the Iterate component
       handlePush(newValue)
     } else {
       // If not inside an iterate, it could still manipulate a source data set through useFieldProps
-      await handlePathChange?.(path, [...(value ?? []), newValue])
+      await handlePathChange?.(path, [...(arrayValue ?? []), newValue])
     }
 
     setTimeout(() => {
@@ -57,8 +59,21 @@ function PushButton(props: Props) {
     path,
     pushValue,
     setLastItemContainerMode,
-    value,
+    arrayValue,
   ])
+
+  const content = useMemo(() => {
+    if (children || text) {
+      const str = convertJsxToString(children || text)
+
+      if (str.includes('{nextItemNo}')) {
+        const nextItemNo = (arrayValue?.length || 0) + 1
+        return str.replace('{nextItemNo}', String(nextItemNo))
+      }
+    }
+
+    return children || text
+  }, [arrayValue?.length, children, text])
 
   return (
     <Button
@@ -69,7 +84,7 @@ function PushButton(props: Props) {
       on_click={handleClick}
       {...buttonProps}
     >
-      {children}
+      {content}
     </Button>
   )
 }

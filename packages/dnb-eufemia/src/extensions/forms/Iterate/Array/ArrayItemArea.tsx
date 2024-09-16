@@ -17,7 +17,7 @@ import { ContainerMode } from './types'
 
 export type ArrayItemAreaProps = {
   /**
-   * Defines the variant of the ViewContainer or EditContainer. Can be `outline`.
+   * Defines the variant of the ViewContainer, EditContainer or PushContainer. Can be `outline` or `basic`.
    * Defaults to `outline`.
    */
   variant?: 'outline' | 'basic'

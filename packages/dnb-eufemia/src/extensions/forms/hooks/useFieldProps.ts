@@ -162,9 +162,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     setFieldState: setFieldStateDataContext,
     setFieldError: setFieldErrorDataContext,
     setFieldProps: setPropsDataContext,
-    setHasVisibleError: setHasVisibleErrorDataContext,
-    handleMountField,
-    handleUnMountField,
+    setVisibleError: setVisibleErrorDataContext,
+    setMountedFieldState: setMountedFieldStateDataContext,
     setFieldEventListener,
     errors: dataContextErrors,
     showAllErrors,
@@ -182,7 +181,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const { handleChange: handleChangeIterateContext } =
     iterateItemContext || {}
   const { path: sectionPath, errorPrioritization } = sectionContext || {}
-  const { setFieldError, showBoundaryErrors } = fieldBoundaryContext || {}
+  const {
+    setFieldError: setFieldErrorBoundary,
+    setVisibleError: setVisibleErrorBoundary,
+    showBoundaryErrors,
+  } = fieldBoundaryContext || {}
 
   const hasPath = Boolean(pathProp)
   const { path, identifier, makeIteratePath } = usePath({
@@ -376,11 +379,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     if (!revealErrorRef.current) {
       revealErrorRef.current = true
       showFieldErrorFieldBlock?.(identifier, true)
-      setHasVisibleErrorDataContext?.(identifier, !!localErrorRef.current)
+      setVisibleErrorBoundary?.(identifier, !!localErrorRef.current)
+      setVisibleErrorDataContext?.(identifier, !!localErrorRef.current)
     }
   }, [
     identifier,
-    setHasVisibleErrorDataContext,
+    setVisibleErrorDataContext,
+    setVisibleErrorBoundary,
     showFieldErrorFieldBlock,
     validateInitially,
   ])
@@ -389,9 +394,15 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     if (revealErrorRef.current) {
       revealErrorRef.current = undefined
       showFieldErrorFieldBlock?.(identifier, false)
-      setHasVisibleErrorDataContext?.(identifier, false)
+      setVisibleErrorBoundary?.(identifier, false)
+      setVisibleErrorDataContext?.(identifier, false)
     }
-  }, [identifier, setHasVisibleErrorDataContext, showFieldErrorFieldBlock])
+  }, [
+    identifier,
+    setVisibleErrorBoundary,
+    setVisibleErrorDataContext,
+    showFieldErrorFieldBlock,
+  ])
 
   /**
    * Prepare error from validation logic with correct error messages based on props
@@ -612,7 +623,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
       // Tell the data context about the error, so it can stop the user from submitting the form until the error has been fixed
       setFieldErrorDataContext?.(identifier, error)
-      setFieldError?.(identifier, error)
+      setFieldErrorBoundary?.(identifier, error)
 
       // Set the visual states
       setFieldStateDataContext?.(identifier, error ? 'error' : undefined)
@@ -630,7 +641,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       prepareError,
       setFieldErrorDataContext,
       identifier,
-      setFieldError,
+      setFieldErrorBoundary,
       setFieldStateDataContext,
       setFieldStateFieldBlock,
       stateId,
@@ -1394,21 +1405,24 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   useEffect(() => {
     // Mount procedure.
-    handleMountField(identifier)
+    setMountedFieldStateDataContext(identifier, {
+      isMounted: true,
+    })
 
     // Unmount procedure.
     return () => {
-      handleUnMountField(identifier)
+      setMountedFieldStateDataContext(identifier, {
+        isMounted: false,
+      })
       setFieldErrorDataContext?.(identifier, undefined)
-      setFieldError?.(identifier, undefined)
+      setFieldErrorBoundary?.(identifier, undefined)
       localErrorRef.current = undefined
     }
   }, [
-    handleMountField,
-    handleUnMountField,
     identifier,
-    setFieldError,
+    setFieldErrorBoundary,
     setFieldErrorDataContext,
+    setMountedFieldStateDataContext,
   ])
 
   useEffect(() => {
