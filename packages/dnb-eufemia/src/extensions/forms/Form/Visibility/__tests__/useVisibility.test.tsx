@@ -22,6 +22,22 @@ describe('useVisibility', () => {
       )
       expect(result.current.check()).toBe(false)
     })
+
+    it('renders children when target path is falsy, but visible prop is true', () => {
+      const { result } = renderHook(
+        () =>
+          useVisibility({
+            visible: true,
+            pathTruthy: '/isTruthy',
+          }),
+        {
+          wrapper: ({ children }) => (
+            <Provider data={{ isTruthy: undefined }}>{children}</Provider>
+          ),
+        }
+      )
+      expect(result.current.check()).toBe(true)
+    })
   })
 
   describe('pathDefined', () => {
