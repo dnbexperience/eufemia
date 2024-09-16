@@ -62,32 +62,58 @@ export default function ListSummaryFromEdges({
       return (
         <ItemWrapper key={i}>
           <Title />
+          <Description />
         </ItemWrapper>
       )
 
       function Title() {
+        const titleLink = <Anchor href={'/' + slug}>{title}</Anchor>
+
         if (returnListItems) {
-          return <Anchor href={'/' + slug}>{title}</Anchor>
+          return titleLink
         }
 
         return (
-          <>
-            <AutoLinkHeader
-              level={level || 2}
-              size={size}
-              useSlug={'/' + slug}
-              title={title}
-              {...props}
-            >
-              <Anchor href={'/' + slug}>{title}</Anchor>
-            </AutoLinkHeader>
-            {(description !== null ? description : fmDescription) && (
-              <ReactMarkdown components={basicComponents}>
-                {description !== null ? description : fmDescription}
-              </ReactMarkdown>
-            )}
-          </>
+          <AutoLinkHeader
+            level={level || 2}
+            size={size}
+            useSlug={'/' + slug}
+            title={title}
+            {...props}
+          >
+            {titleLink}
+          </AutoLinkHeader>
         )
+      }
+
+      function Description() {
+        const rawDescription =
+          description !== null ? description : fmDescription
+
+        if (rawDescription) {
+          if (returnListItems) {
+            return (
+              <>
+                :{' '}
+                <em>
+                  <ReactMarkdown
+                    components={basicComponents}
+                    disallowedElements={['p']}
+                    unwrapDisallowed={true}
+                  >
+                    {rawDescription}
+                  </ReactMarkdown>
+                </em>
+              </>
+            )
+          }
+
+          return (
+            <ReactMarkdown components={basicComponents}>
+              {rawDescription}
+            </ReactMarkdown>
+          )
+        }
       }
     },
   )
