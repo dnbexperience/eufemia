@@ -19,7 +19,7 @@ export type Props = ValueProps<Array<number | string>> & {
    * Defines if the the value should be displayed in list format or reuglar text format on one line.
    * Default: `text`
    */
-  variant?: 'ol' | 'ol-unstyled' | 'ul' | 'ul-unstyled' | 'text'
+  variant?: 'ol' | 'ul' | 'text'
 }
 
 function ArraySelection(props: Props) {
@@ -68,15 +68,7 @@ function ArraySelection(props: Props) {
     }
     const ListElement = variant.startsWith('ol') ? Ol : Ul
 
-    return (
-      <ListElement
-        className={classnames(
-          variant.endsWith('unstyled') && 'dnb-unstyled-list'
-        )}
-      >
-        {list}
-      </ListElement>
-    )
+    return <ListElement>{list}</ListElement>
   }, [format, list, locale, variant])
 
   return (

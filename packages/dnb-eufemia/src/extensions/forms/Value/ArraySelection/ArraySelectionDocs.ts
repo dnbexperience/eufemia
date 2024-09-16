@@ -8,7 +8,7 @@ export const ArraySelectionProperties: PropertiesTableProps = {
   },
   variant: {
     doc: 'Defines if the the value should be displayed in list format, or reuglar text format on one line. Defaults to `text`',
-    type: ['ol', 'ol-unstyled', 'ul', 'ul-unstyled', 'text'],
+    type: ['ol', 'ul', 'text'],
     status: 'optional',
   },
 }

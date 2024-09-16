@@ -74,36 +74,6 @@ describe('Value.ArraySelection', () => {
     expect(valueBlock).toHaveTextContent('123, 456 og 789')
   })
 
-  it('should render unstyled list variants if specified', () => {
-    const { rerender } = render(
-      <Value.ArraySelection
-        variant="ol-unstyled"
-        value={[123, 456, 789]}
-      />
-    )
-
-    const valueBlock = document.querySelector(
-      '.dnb-forms-value-array-selection .dnb-forms-value-block__content'
-    )
-
-    const ol = valueBlock.querySelector('.dnb-ol')
-
-    expect(ol).toHaveClass('dnb-unstyled-list')
-    expect(ol).not.toHaveClass('dnb-list')
-
-    rerender(
-      <Value.ArraySelection
-        variant="ul-unstyled"
-        value={[123, 456, 789]}
-      />
-    )
-
-    const ul = valueBlock.querySelector('.dnb-ul')
-
-    expect(ul).toHaveClass('dnb-unstyled-list')
-    expect(ul).not.toHaveClass('dnb-list')
-  })
-
   it('renders label when showEmpty is true', () => {
     render(<Value.ArraySelection showEmpty label="My label" />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
