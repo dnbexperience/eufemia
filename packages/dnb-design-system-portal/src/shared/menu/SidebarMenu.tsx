@@ -609,9 +609,7 @@ function groupNavItems(navItems: NavItem[], location: Location) {
     // It's solved this way since the id and parent.id from gatsby nodes does not seem to seem to relate to the structure in the SidebarMenu
     // and therefor leads to wrong grouping if used
     const itemId = item.path.replace(/\//g, '-')
-    const parentId = item.path
-      .replace(/\/[\w-]+$/g, '')
-      .replace(/\//g, '-')
+    const parentId = item.path.replace(/\/[^/]+$/g, '').replace(/\//g, '-')
 
     const { isActive, isInsideActiveCategory, isInsideActivePath } =
       getActiveStatusForItem(currentPathName, item)
