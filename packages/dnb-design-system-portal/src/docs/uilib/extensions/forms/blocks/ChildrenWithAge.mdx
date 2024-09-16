@@ -12,7 +12,11 @@ breadcrumb:
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { ChildrenWithAgeProperties } from '@dnb/eufemia/src/extensions/forms/blocks/ChildrenWithAge/ChildrenWithAgeDocs'
-import { ChildrenWithAge, ChildrenWithAgeWizard } from './Examples'
+import {
+  ChildrenWithAge,
+  ChildrenWithAgeWizard,
+  ChildrenWithAgePrefilledYes,
+} from './Examples'
 
 # ChildrenWithAge
 
@@ -46,3 +50,7 @@ All features are enabled in this example.
 ## Properties
 
 <PropertiesTable props={ChildrenWithAgeProperties} />
+
+<VisibleWhenVisualTest>
+  <ChildrenWithAgePrefilledYes />
+</VisibleWhenVisualTest>
