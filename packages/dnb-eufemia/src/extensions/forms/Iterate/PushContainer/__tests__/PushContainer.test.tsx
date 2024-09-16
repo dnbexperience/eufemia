@@ -141,11 +141,7 @@ describe('PushContainer', () => {
   it('should render children with initial data value as an object', () => {
     render(
       <Form.Handler>
-        <Iterate.PushContainer
-          path="/entries"
-          data={{ name: 'Tony' }}
-          openButton={<Iterate.PushContainer.OpenButton />}
-        >
+        <Iterate.PushContainer path="/entries" data={{ name: 'Tony' }}>
           <Field.String itemPath="/name" />
         </Iterate.PushContainer>
       </Form.Handler>
@@ -527,5 +523,40 @@ describe('PushContainer', () => {
     )
 
     log.mockRestore()
+  })
+
+  it('should support {nextItemNo}', async () => {
+    render(
+      <Form.Handler data={{ myList: undefined }}>
+        <Iterate.Array path="/myList">
+          <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
+          <Iterate.EditContainer>Edit Content</Iterate.EditContainer>
+        </Iterate.Array>
+
+        <Iterate.PushContainer
+          path="/myList"
+          openButton={
+            <Iterate.PushContainer.OpenButton text="Add no. {nextItemNo}" />
+          }
+          showOpenButtonWhen={(list) => list.length >= 0}
+        >
+          <Field.String itemPath="/name" />
+        </Iterate.PushContainer>
+      </Form.Handler>
+    )
+
+    const openButton = document.querySelector(
+      '.dnb-forms-iterate-open-button'
+    )
+    const doneButton = document.querySelector('button')
+
+    expect(openButton).toHaveTextContent('Add no. 1')
+
+    await userEvent.click(doneButton)
+    expect(openButton).toHaveTextContent('Add no. 2')
+
+    const removeButton = document.querySelectorAll('button')[1]
+    await userEvent.click(removeButton)
+    expect(openButton).toHaveTextContent('Add no. 1')
   })
 })
