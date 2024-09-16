@@ -37,7 +37,7 @@ function Selection(props: Props) {
     return value
   }, [dataPath, fieldPropsRef, getValueByPath, path, value])
 
-  return <StringValue value={valueToDisplay} {...rest} />
+  return <StringValue value={valueToDisplay} path={path} {...rest} />
 }
 
 Selection._supportsSpacingProps = true
