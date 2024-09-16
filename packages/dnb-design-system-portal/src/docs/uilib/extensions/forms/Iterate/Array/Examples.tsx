@@ -376,7 +376,7 @@ export const InitialOpen = () => {
         <Flex.Stack>
           <Form.MainHeading>Statsborgerskap</Form.MainHeading>
 
-          <Card align="stretch">
+          <Card stack>
             <Iterate.Array path="/countries" defaultValue={[null]}>
               <Iterate.ViewContainer toolbarVariant="minimumOneItem">
                 <Value.SelectCountry

@@ -77,6 +77,7 @@ describe('FieldBoundaryProvider', () => {
       hasVisibleError: true,
       showBoundaryErrors: false,
       setFieldError: expect.any(Function),
+      setVisibleError: expect.any(Function),
       setShowBoundaryErrors: expect.any(Function),
     })
 

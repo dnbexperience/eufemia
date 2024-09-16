@@ -120,7 +120,7 @@ export const ViewAndEditContainer = () => {
         <Flex.Vertical>
           <Form.MainHeading>Accounts</Form.MainHeading>
 
-          <Card align="stretch">
+          <Card stack>
             <Iterate.Array path="/accounts">
               <MyViewItem />
               <MyEditItem />

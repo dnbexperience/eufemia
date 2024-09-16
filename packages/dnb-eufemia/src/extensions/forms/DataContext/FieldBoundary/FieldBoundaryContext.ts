@@ -39,6 +39,11 @@ export interface FieldBoundaryContextState {
    * To set the local error state.
    */
   setFieldError?: (path: Path, error: Error) => void
+
+  /**
+   * To set the local visible error state.
+   */
+  setVisibleError?: (path: Path, hasError: boolean) => void
 }
 
 const FieldBoundaryContext = React.createContext<

@@ -239,17 +239,14 @@ export default function Provider<Data extends JsonObject>(
     showAllErrorsRef.current = showAllErrors
     forceUpdate()
   }, [])
-  const setHasVisibleError = useCallback(
-    (path: Path, hasError: boolean) => {
-      if (hasError) {
-        hasVisibleErrorRef.current[path] = hasError
-      } else {
-        delete hasVisibleErrorRef.current[path]
-      }
-      forceUpdate() // Will rerender the whole form initially
-    },
-    []
-  )
+  const setVisibleError = useCallback((path: Path, hasError: boolean) => {
+    if (hasError) {
+      hasVisibleErrorRef.current[path] = hasError
+    } else {
+      delete hasVisibleErrorRef.current[path]
+    }
+    forceUpdate() // Will rerender the whole form initially
+  }, [])
   const submitStateRef = useRef<Partial<EventStateObject>>({})
   const setSubmitState = useCallback((state: EventStateObject) => {
     Object.assign(submitStateRef.current, state)
@@ -1158,7 +1155,7 @@ export default function Provider<Data extends JsonObject>(
         setFormState,
         setSubmitState,
         setShowAllErrors,
-        setHasVisibleError,
+        setVisibleError,
         setFieldEventListener,
         setFieldState,
         setFieldError,
