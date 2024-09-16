@@ -7,7 +7,7 @@ export const ArraySelectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   variant: {
-    doc: 'Defines if the the value should be displayed in list format, or reuglar text format on one line. Defaults to `text`',
+    doc: 'Defines if the value should be displayed in list format, or reuglar text format on one line. Defaults to `text`',
     type: ['ol', 'ul', 'text'],
     status: 'optional',
   },
