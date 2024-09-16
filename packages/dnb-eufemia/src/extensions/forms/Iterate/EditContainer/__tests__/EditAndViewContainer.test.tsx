@@ -150,6 +150,52 @@ describe('EditContainer and ViewContainer', () => {
     expect(containerMode).toBe('edit')
   })
 
+  it('should not show error if every field is required via Form.Handler required', async () => {
+    let containerMode = null
+
+    const ContextConsumer = () => {
+      const context = React.useContext(IterateItemContext)
+      containerMode = context.containerMode
+
+      return null
+    }
+
+    render(
+      <Form.Handler required defaultData={{ myList: ['foo'] }}>
+        <Iterate.Array path="/myList">
+          <Iterate.ViewContainer>ViewContainer</Iterate.ViewContainer>
+          <Iterate.EditContainer>EditContainer</Iterate.EditContainer>
+          <ContextConsumer />
+        </Iterate.Array>
+      </Form.Handler>
+    )
+
+    const [editButton, removeButton, doneButton, cancelButton] =
+      Array.from(document.querySelectorAll('button'))
+
+    expect(containerMode).toBe('view')
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
+
+    expect(editButton).toHaveTextContent(tr.viewContainer.editButton)
+    expect(removeButton).toHaveTextContent(tr.viewContainer.removeButton)
+    expect(doneButton).toHaveTextContent(tr.editContainer.doneButton)
+    expect(cancelButton).toHaveTextContent(tr.editContainer.cancelButton)
+
+    await userEvent.click(editButton)
+    expect(containerMode).toBe('edit')
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
+
+    await userEvent.click(doneButton)
+    expect(containerMode).toBe('view')
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
+  })
+
   describe('focus management', () => {
     it('should not set focus when container opens initially in edit mode', async () => {
       let containerMode = null

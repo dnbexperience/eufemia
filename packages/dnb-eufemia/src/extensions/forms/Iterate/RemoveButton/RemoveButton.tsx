@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import { Button } from '../../../../components'
 import { ButtonProps } from '../../../../components/Button'
 import IterateItemContext from '../IterateItemContext'
-import { useFieldProps, useTranslation } from '../../hooks'
+import { useTranslation } from '../../hooks'
 import ArrayItemAreaContext from '../Array/ArrayItemAreaContext'
 import {
   DataValueReadWriteComponentProps,
@@ -22,8 +22,7 @@ function RemoveButton(props: Props) {
     throw new Error('RemoveButton must be inside an Iterate.Array')
   }
 
-  const { className, ...restProps } = props
-  const { children, text } = useFieldProps(restProps)
+  const { text, children, className, ...restProps } = props
   const buttonProps = omitDataValueReadWriteProps(restProps)
   const translation = useTranslation().RemoveButton
   const textContent = text || children || translation.text

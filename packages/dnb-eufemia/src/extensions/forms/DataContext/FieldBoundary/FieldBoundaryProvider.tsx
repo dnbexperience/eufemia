@@ -14,7 +14,7 @@ export type Props = {
 export default function FieldBoundaryProvider(props: Props) {
   const { showErrors = false, onPathError = null, children } = props
   const [, forceUpdate] = useReducer(() => ({}), {})
-  const { showAllErrors, hasVisibleError } = useContext(DataContext)
+  const { showAllErrors } = useContext(DataContext)
 
   const onPathErrorRef = useRef(onPathError)
   onPathErrorRef.current = onPathError
@@ -34,6 +34,16 @@ export default function FieldBoundaryProvider(props: Props) {
     onPathErrorRef.current?.(path, error)
   }, [])
 
+  const hasVisibleErrorRef = useRef<Record<Path, boolean>>({})
+  const setVisibleError = useCallback((path: Path, hasError: boolean) => {
+    if (hasError) {
+      hasVisibleErrorRef.current[path] = hasError
+    } else {
+      delete hasVisibleErrorRef.current[path]
+    }
+    forceUpdate()
+  }, [])
+
   const setShowBoundaryErrors: FieldBoundaryContextState['setShowBoundaryErrors'] =
     useCallback((showBoundaryErrors) => {
       showBoundaryErrorsRef.current = showBoundaryErrors
@@ -43,11 +53,12 @@ export default function FieldBoundaryProvider(props: Props) {
   const context: FieldBoundaryContextState = {
     hasError,
     hasSubmitError,
-    hasVisibleError,
+    hasVisibleError: Object.keys(hasVisibleErrorRef.current).length > 0,
     errorsRef,
     showBoundaryErrors: showBoundaryErrorsRef.current,
     setShowBoundaryErrors,
     setFieldError,
+    setVisibleError,
   }
 
   return (

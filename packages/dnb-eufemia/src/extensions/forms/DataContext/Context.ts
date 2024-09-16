@@ -120,7 +120,7 @@ export interface ContextState {
     type: EventListenerCall['type'],
     callback: EventListenerCall['callback']
   ) => void
-  setHasVisibleError?: (path: Path, hasError: boolean) => void
+  setVisibleError?: (path: Path, hasError: boolean) => void
   setFieldProps?: (path: Path, props: unknown) => void
   setValueProps?: (path: Path, props: unknown) => void
   setHandleSubmit?: (callback: HandleSubmitCallback) => void

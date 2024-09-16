@@ -72,13 +72,14 @@ function ArrayComponent(props: Props) {
         }
 
         return {
+          required: false,
           ...props,
           value: newValue,
         }
       }
     }
 
-    return props
+    return { required: false, ...props }
   }, [getValueByPath, props])
 
   const {
