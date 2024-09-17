@@ -76,7 +76,7 @@ export default function SidebarLayout({
                 key
               }
               theme
-              expanded
+              accordion
             }
           }
         }
@@ -259,7 +259,7 @@ type ListItemProps = {
   isInsideActivePath?: boolean
   isInsideActiveCategory?: boolean
   currentPathName?: string
-  expanded?: boolean
+  accordion?: boolean
   scrollRef?: React.MutableRefObject<HTMLElement>
 }
 
@@ -278,7 +278,7 @@ function ListItem({
   subheadings,
   hideInMenu,
   currentPathName,
-  expanded: defaultExpanded = null,
+  accordion = false,
   scrollRef,
 }: ListItemProps) {
   const currentTheme = useTheme()?.name
@@ -292,11 +292,11 @@ function ListItem({
     [subheadings],
   )
   const isAccordion = useMemo(
-    () => defaultExpanded !== null && hasSubheadings,
-    [defaultExpanded, hasSubheadings],
+    () => accordion && hasSubheadings,
+    [accordion, hasSubheadings],
   )
   const [isExpanded, setIsExpanded] = useState(
-    isAccordion ? defaultExpanded || isInsideActivePath || isActive : true,
+    isAccordion ? isInsideActivePath || isActive : true,
   )
   const [manualClick, setManualClick] = useState(false)
   if (hideInMenu) {
@@ -327,10 +327,7 @@ function ListItem({
       }
     } else {
       const shouldAutoCollapse =
-        !defaultExpanded &&
-        !isInsideActivePath &&
-        !isActive &&
-        hasCurrentPathNameChanged
+        !isInsideActivePath && !isActive && hasCurrentPathNameChanged
 
       if (shouldAutoCollapse) {
         setIsExpanded(false)
@@ -354,8 +351,6 @@ function ListItem({
           isAccordion &&
             `dnb-sidebar-menu--accordion dnb-sidebar-menu--${
               isExpanded ? 'expanded' : 'collapsed'
-            }${
-              defaultExpanded ? '' : ' dnb-sidebar-menu--default-collapsed'
             }`,
           className,
         )}
