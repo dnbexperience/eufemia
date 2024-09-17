@@ -20,6 +20,22 @@ describe.each(['ui', 'sbanken'])('ChildrenWithAge for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match field and value when multiple children', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="children-with-age-summary-multiple-children"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match field and value when no children', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="children-with-age-summary-no-children"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe('ChildrenWithAge', () => {

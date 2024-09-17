@@ -162,7 +162,7 @@ function Output({ title, generateRef, transform = (data) => data }) {
   )
 }
 
-export const ChildrenWithAgePrefilledYes = (props) => {
+export const ChildrenWithAgePrefilledYes = () => {
   return (
     <ComponentBox
       data-visual-test="children-with-age-prefilled"
@@ -183,6 +183,48 @@ export const ChildrenWithAgePrefilledYes = (props) => {
           />
         </Flex.Stack>
       </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const ChildrenWithAgeSummaryMultipleChildren = () => {
+  const multipleChildren = {
+    hasChildren: true,
+    usesDaycare: true,
+    countChildren: 2,
+    children: [
+      {
+        age: 1,
+      },
+      {
+        age: 2,
+        hasDaycare: true,
+      },
+    ],
+  }
+
+  return (
+    <ComponentBox
+      data-visual-test="children-with-age-summary-multiple-children"
+      scope={{ Blocks, multipleChildren }}
+    >
+      <Blocks.ChildrenWithAge data={multipleChildren} />
+      <Blocks.ChildrenWithAge mode="summary" data={multipleChildren} />
+    </ComponentBox>
+  )
+}
+
+export const ChildrenWithAgeSummaryNoChildren = () => {
+  const noChildren = {
+    hasChildren: false,
+  }
+  return (
+    <ComponentBox
+      data-visual-test="children-with-age-summary-no-children"
+      scope={{ Blocks, noChildren }}
+    >
+      <Blocks.ChildrenWithAge data={noChildren} />
+      <Blocks.ChildrenWithAge mode="summary" data={noChildren} />
     </ComponentBox>
   )
 }
