@@ -278,22 +278,3 @@ export const ChildrenWithAgeSummaryShowEmpty = () => {
     </ComponentBox>
   )
 }
-
-export const ChildrenWithAgeSummaryShowEmptyFalse = () => {
-  const data = {
-    hasChildren: false,
-  }
-  return (
-    <ComponentBox
-      data-visual-test="children-with-age-summary-show-empty-false"
-      scope={{ Blocks, data }}
-    >
-      <Blocks.ChildrenWithAge data={data} />
-      <Blocks.ChildrenWithAge
-        mode="summary"
-        showEmpty={false}
-        data={data}
-      />
-    </ComponentBox>
-  )
-}
