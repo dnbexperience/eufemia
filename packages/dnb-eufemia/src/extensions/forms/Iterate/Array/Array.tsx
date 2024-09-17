@@ -316,11 +316,10 @@ function ArrayComponent(props: Props) {
       {animate ? <HeightAnimation>{content}</HeightAnimation> : content}
 
       <FormStatus
-        top={0}
-        bottom={0}
         show={Boolean(error)}
         no_animation={false}
-        shellSpace={{ top: true, bottom: true }}
+        space={0}
+        shellSpace={{ top: 0, bottom: 'medium' }}
       >
         {getMessage({ content: error })}
       </FormStatus>
