@@ -187,6 +187,39 @@ export const ChildrenWithAgePrefilledYes = () => {
   )
 }
 
+export const ChildrenWithAgeSummaryMultipleNoAnswers = () => {
+  const multipleChildrenNoJointAndDaycare = {
+    hasChildren: true,
+    hasJointResponsibility: false,
+    usesDaycare: false,
+    countChildren: 2,
+    children: [
+      {
+        age: 0,
+      },
+      {
+        age: 0,
+      },
+    ],
+  }
+
+  return (
+    <ComponentBox
+      data-visual-test="children-with-age-summary-multiple-no-answers"
+      scope={{ Blocks, multipleChildrenNoJointAndDaycare }}
+    >
+      <Blocks.ChildrenWithAge
+        data={multipleChildrenNoJointAndDaycare}
+        enableAdditionalQuestions={['joint-responsibility', 'daycare']}
+      />
+      <Blocks.ChildrenWithAge
+        mode="summary"
+        data={multipleChildrenNoJointAndDaycare}
+      />
+    </ComponentBox>
+  )
+}
+
 export const ChildrenWithAgeSummaryMultipleChildren = () => {
   const multipleChildren = {
     hasChildren: true,
