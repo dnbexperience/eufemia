@@ -22,8 +22,8 @@ export type Props = ValueProps<Array<number | string>> & {
   variant?: 'ol' | 'ul' | 'text'
   /**
    * Defines the type of list styling used for list variants. Used on conjuction with variant `ol` and `ul`.
-   * `ol` variant: `a`, `A`, `i`, `I` and `1`.
-   * `ul` variant: `cirlce`, `disc` and `square`.
+   * Variant `ol`: `a`, `A`, `i`, `I` and `1`.
+   * Variant `ul`: `cirlce`, `disc` and `square`.
    * Default: `undefined`
    */
   listType?:
