@@ -263,3 +263,37 @@ export const ChildrenWithAgeSummaryNoChildren = () => {
     </ComponentBox>
   )
 }
+
+export const ChildrenWithAgeSummaryShowEmpty = () => {
+  const data = {
+    hasChildren: false,
+  }
+  return (
+    <ComponentBox
+      data-visual-test="children-with-age-summary-show-empty"
+      scope={{ Blocks, data }}
+    >
+      <Blocks.ChildrenWithAge data={data} />
+      <Blocks.ChildrenWithAge mode="summary" showEmpty data={data} />
+    </ComponentBox>
+  )
+}
+
+export const ChildrenWithAgeSummaryShowEmptyFalse = () => {
+  const data = {
+    hasChildren: false,
+  }
+  return (
+    <ComponentBox
+      data-visual-test="children-with-age-summary-show-empty-false"
+      scope={{ Blocks, data }}
+    >
+      <Blocks.ChildrenWithAge data={data} />
+      <Blocks.ChildrenWithAge
+        mode="summary"
+        showEmpty={false}
+        data={data}
+      />
+    </ComponentBox>
+  )
+}
