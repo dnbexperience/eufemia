@@ -6,4 +6,24 @@ export const ArraySelectionProperties: PropertiesTableProps = {
     type: 'Intl.ListFormatOptions',
     status: 'optional',
   },
+  variant: {
+    doc: 'Defines if the value should be displayed in list format, or reuglar text format on one line. Defaults to `text`',
+    type: ['ol', 'ul', 'text'],
+    status: 'optional',
+  },
+  listType: {
+    doc: 'Defines the type of list styling used for list variants. Used on conjuction with variant `ol` and `ul`. Variant `ol`: `a`, `A`, `i`, `I` and `1`. Variant `ul`: `cirlce`, `disc` and `square`. Defaults to `undefined`',
+    type: [
+      'a',
+      'A',
+      'i',
+      'I',
+      '1',
+      'circle',
+      'disc',
+      'square',
+      'undefined',
+    ],
+    status: 'optional',
+  },
 }
