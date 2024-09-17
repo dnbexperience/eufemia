@@ -1,16 +1,13 @@
-import React, { useContext, useMemo } from 'react'
+import React from 'react'
 import classnames from 'classnames'
 import { useTranslation, useValueProps } from '../../hooks'
 import { ValueProps } from '../../types'
 import ValueBlock from '../../ValueBlock'
-import SharedContext from '../../../../shared/Context'
-import { getCountryData } from '../../Field/SelectCountry'
-import { CountryLang } from '../../constants/countries'
+import useCountry from './useCountry'
 
 export type Props = ValueProps<string>
 
 function SelectCountry(props: Props) {
-  const { locale } = useContext(SharedContext)
   const translations = useTranslation().SelectCountry
   const {
     value,
@@ -19,19 +16,7 @@ function SelectCountry(props: Props) {
     ...rest
   } = useValueProps(props)
 
-  const countryName = useMemo(() => {
-    if (!value) {
-      return null
-    }
-
-    const lang = locale?.split('-')[0] as CountryLang
-    return getCountryData({
-      lang,
-      filter: (country) => {
-        return country.iso === value
-      },
-    }).at(0)?.content
-  }, [locale, value])
+  const { getCountryNameByIso } = useCountry()
 
   return (
     <ValueBlock
@@ -39,10 +24,11 @@ function SelectCountry(props: Props) {
       className={classnames('dnb-forms-value-select-country', className)}
       {...rest}
     >
-      {countryName}
+      {getCountryNameByIso(value)}
     </ValueBlock>
   )
 }
 
+SelectCountry.useCountry = useCountry
 SelectCountry._supportsSpacingProps = true
 export default SelectCountry
