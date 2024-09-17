@@ -34,8 +34,8 @@ export default function useVisibility(props?: Partial<Props>) {
         filterData,
       }: Partial<Props> = propsRef.current
     ) => {
-      if (visible === false) {
-        return false
+      if (typeof visible === 'boolean') {
+        return visible
       }
 
       const data =
@@ -120,7 +120,7 @@ export default function useVisibility(props?: Partial<Props>) {
 
       return true
     },
-    [makePath, filterDataHandler, originalData]
+    [filterDataHandler, originalData, makePath, makeIteratePath]
   )
 
   return { check }
