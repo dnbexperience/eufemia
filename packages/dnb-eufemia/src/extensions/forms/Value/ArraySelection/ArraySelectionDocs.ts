@@ -12,7 +12,7 @@ export const ArraySelectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   listType: {
-    doc: 'Defines the type of list styling used for list variants. Used on conjuction with variant `ol` and `ul`. variant `ol`: `a`, `A`, `i`, `I` and `1`. variant `ul`: `cirlce`, `disc` and `square`. defaults to `undefined`',
+    doc: 'Defines the type of list styling used for list variants. Used on conjuction with variant `ol` and `ul`. Variant `ol`: `a`, `A`, `i`, `I` and `1`. Variant `ul`: `cirlce`, `disc` and `square`. Defaults to `undefined`',
     type: [
       'a',
       'A',
