@@ -12,3 +12,15 @@ render(<Value.SelectCountry path="/country" />)
 ```
 
 There is a corresponding [Field.SelectCountry](/uilib/extensions/forms/feature-fields/SelectCountry) component.
+
+### The `useCountry` hook
+
+You can use the `Value.SelectCountry.useCountry` hook to get the country name by ISO code. It reutnrs the country name in the current locale.
+
+```tsx
+import { Value } from '@dnb/eufemia/extensions/forms'
+
+const MyComponent = () => {
+  const { getCountryNameByIso } = Value.SelectCountry.useCountry('NO')
+}
+```

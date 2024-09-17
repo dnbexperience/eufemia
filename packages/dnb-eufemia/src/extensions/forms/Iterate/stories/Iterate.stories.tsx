@@ -165,6 +165,8 @@ export const InitialOpen = () => {
     )
   }, [])
 
+  const { getCountryNameByIso } = Value.SelectCountry.useCountry()
+
   const [count, setCount] = React.useState(0)
 
   return (
@@ -181,6 +183,18 @@ export const InitialOpen = () => {
               path="/countries"
               // defaultValue={['NO']}
               defaultValue={[null]}
+              validator={(arrayValue) => {
+                const findFirstDuplication = (arr) =>
+                  arr.findIndex((e, i) => arr.indexOf(e) !== i)
+
+                const index = findFirstDuplication(arrayValue)
+                if (index > -1) {
+                  return new Error(
+                    'You can not have duplicate items: ' +
+                      getCountryNameByIso(arrayValue.at(index) as string)
+                  )
+                }
+              }}
             >
               <MyViewItem />
               <MyEditItem />
