@@ -23,6 +23,7 @@ export const ChildrenWithAge = (props) => {
           />
           <Blocks.ChildrenWithAge
             mode="summary"
+            showEmpty
             enableAdditionalQuestions={['joint-responsibility', 'daycare']}
             {...props}
           />
@@ -49,6 +50,7 @@ export const ChildrenWithAgeWizard = (props) => {
                 <Wizard.Step title={summaryTitle}>
                   <Blocks.ChildrenWithAge
                     mode="summary"
+                    showEmpty
                     toWizardStep={0}
                     {...props}
                   />
@@ -258,6 +260,21 @@ export const ChildrenWithAgeSummaryNoChildren = () => {
     >
       <Blocks.ChildrenWithAge data={noChildren} />
       <Blocks.ChildrenWithAge mode="summary" data={noChildren} />
+    </ComponentBox>
+  )
+}
+
+export const ChildrenWithAgeSummaryShowEmpty = () => {
+  const data = {
+    hasChildren: false,
+  }
+  return (
+    <ComponentBox
+      data-visual-test="children-with-age-summary-show-empty"
+      scope={{ Blocks, data }}
+    >
+      <Blocks.ChildrenWithAge data={data} />
+      <Blocks.ChildrenWithAge mode="summary" showEmpty data={data} />
     </ComponentBox>
   )
 }

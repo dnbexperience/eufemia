@@ -100,7 +100,7 @@ describe('ChildrenWithAge', () => {
 
     await userEvent.click(document.querySelector('button'))
 
-    const childreAgenFieldBlock = screen.queryByText(
+    const childrenAgeFieldBlock = screen.queryByText(
       translationsNO.ChildrenWithAge.childrenAge.fieldLabel.replace(
         '{itemNr}',
         '1'
@@ -108,7 +108,7 @@ describe('ChildrenWithAge', () => {
     ).parentElement.parentElement.parentElement
 
     expect(
-      within(childreAgenFieldBlock).queryByRole('Reduser')
+      within(childrenAgeFieldBlock).queryByRole('Reduser')
     ).not.toBeInTheDocument()
 
     expect(
@@ -158,6 +158,27 @@ describe('ChildrenWithAge', () => {
     fireEvent.blur(input)
 
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+  })
+
+  it('should reset age when hasChildren changes to false', async () => {
+    render(<ChildrenWithAge />)
+
+    const [yesButton, noButton] = Array.from(
+      document.querySelectorAll('button')
+    )
+
+    expect(
+      document.querySelector('.dnb-input__input')
+    ).not.toBeInTheDocument()
+
+    await userEvent.click(yesButton)
+    expect(document.querySelector('.dnb-input__input')).toHaveValue('1')
+
+    await userEvent.click(noButton)
+    expect(document.querySelector('.dnb-input__input')).toHaveValue('0')
+
+    await userEvent.click(yesButton)
+    expect(document.querySelector('.dnb-input__input')).toHaveValue('0')
   })
 
   it('should replace translations', async () => {
