@@ -1,7 +1,15 @@
 ---
 title: 'ChildrenWithAge'
+description: '`ChildrenWithAge` is a block for displaying children with age.'
 hideInMenu: true
-showTabs: false
+showTabs: true
+tabs:
+  - title: Info
+    key: '/info'
+  - title: Demos
+    key: '/demos'
+  - title: Properties
+    key: '/properties'
 breadcrumb:
   - text: Forms
     href: /uilib/extensions/forms/
@@ -10,45 +18,8 @@ breadcrumb:
   - text: ChildrenWithAge
 ---
 
-import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { ChildrenWithAgeProperties } from '@dnb/eufemia/src/extensions/forms/blocks/ChildrenWithAge/ChildrenWithAgeDocs'
-import * as Examples from './Examples'
+import Info from 'Docs/uilib/extensions/forms/blocks/ChildrenWithAge/info'
+import Demos from 'Docs/uilib/extensions/forms/blocks/ChildrenWithAge/demos'
 
-# ChildrenWithAge
-
-`ChildrenWithAge` is a block for displaying children with age. Check out the [source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/blocks/ChildrenWithAge) for more information.
-
-## Usage
-
-```tsx
-import { ChildrenWithAge } from '@dnb/eufemia/extensions/forms/blocks'
-render(<ChildrenWithAge />)
-```
-
-## In Wizard
-
-All features are enabled in this example.
-
-<Examples.ChildrenWithAgeWizard />
-
-## Basic
-
-<Examples.ChildrenWithAge />
-
-## With `joint-responsibility` question
-
-<Examples.ChildrenWithAge
-  enableAdditionalQuestions={['joint-responsibility']}
-/>
-
-## With `daycare` question
-
-<Examples.ChildrenWithAge enableAdditionalQuestions={['daycare']} />
-
-## Properties
-
-<PropertiesTable props={ChildrenWithAgeProperties} />
-
-<VisibleWhenVisualTest>
-  <Examples.ChildrenWithAgePrefilledYes />
-</VisibleWhenVisualTest>
+<Info />
+<Demos />

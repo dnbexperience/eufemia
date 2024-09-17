@@ -1,0 +1,16 @@
+---
+showTabs: true
+---
+
+import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { ChildrenWithAgeProperties } from '@dnb/eufemia/src/extensions/forms/blocks/ChildrenWithAge/ChildrenWithAgeDocs'
+import { translations } from '@dnb/eufemia/src/extensions/forms/blocks/ChildrenWithAge/ChildrenWithAgeTranslations'
+
+## Properties
+
+<PropertiesTable props={ChildrenWithAgeProperties} />
+
+## Translations
+
+<TranslationsTable source={translations} localeKey="ChildrenWithAge" />

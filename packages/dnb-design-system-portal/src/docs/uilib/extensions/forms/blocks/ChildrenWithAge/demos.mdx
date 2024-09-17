@@ -1,0 +1,31 @@
+---
+showTabs: true
+---
+
+import * as Examples from './Examples'
+
+## Demos
+
+### In Wizard
+
+All features are enabled in this example.
+
+<Examples.ChildrenWithAgeWizard />
+
+### Basic
+
+<Examples.ChildrenWithAge />
+
+### With `joint-responsibility` question
+
+<Examples.ChildrenWithAge
+  enableAdditionalQuestions={['joint-responsibility']}
+/>
+
+### With `daycare` question
+
+<Examples.ChildrenWithAge enableAdditionalQuestions={['daycare']} />
+
+<VisibleWhenVisualTest>
+  <Examples.ChildrenWithAgePrefilledYes />
+</VisibleWhenVisualTest>
