@@ -4,6 +4,7 @@ import { extendDeep, warn } from '@dnb/eufemia/src/shared/component-helper'
 import globalTranslations from '@dnb/eufemia/src/shared/locales'
 import formsTranslations from '@dnb/eufemia/src/extensions/forms/constants/locales'
 import { FormattedCode } from './PropertiesTable'
+import { Translation } from '@dnb/eufemia/src/shared/Context'
 
 const StyledTable = styled(Table)`
   td {
@@ -11,17 +12,17 @@ const StyledTable = styled(Table)`
   }
 `
 
-const allTranslations = extendDeep(
-  {},
-  globalTranslations,
-  formsTranslations,
-)
-
 export default function TranslationsTable({
   localeKey,
+  source = null,
 }: {
   localeKey?: string | Array<string>
+  source?: Record<string, Translation>
 }) {
+  if (!source) {
+    source = extendDeep({}, globalTranslations, formsTranslations)
+  }
+
   const entries = {}
   const allowList = {}
   const localeKeys = (
@@ -37,7 +38,7 @@ export default function TranslationsTable({
     return key
   })
 
-  function addToEntries(key, translation, locale, localeKey) {
+  const addToEntries = (key, translation, locale, localeKey) => {
     key = `${localeKey}.${key}`
     if (allowList[localeKey] && !allowList[localeKey].includes(key)) {
       return
@@ -47,7 +48,7 @@ export default function TranslationsTable({
     })
   }
 
-  Object.entries(allTranslations).forEach(([locale, translations]) => {
+  Object.entries(source).forEach(([locale, translations]) => {
     localeKeys.forEach((localeKey) => {
       const translationsObj = translations[localeKey]
       if (!translationsObj) {
@@ -69,7 +70,7 @@ export default function TranslationsTable({
     })
   })
 
-  const locales = Object.keys(allTranslations)
+  const locales = Object.keys(source)
   const tableRows = Object.entries(entries).map(([key, values]) => {
     return (
       <Tr key={key}>
