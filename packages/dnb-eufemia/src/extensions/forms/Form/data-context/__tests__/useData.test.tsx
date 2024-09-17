@@ -1,10 +1,11 @@
 import React from 'react'
 import { renderHook, act, render, fireEvent } from '@testing-library/react'
 import { makeUniqueId } from '../../../../../shared/component-helper'
-import { Field } from '../../..'
+import { Field, Form } from '../../..'
 import Provider from '../../../DataContext/Provider'
 import useData from '../useData'
 import { FilterData } from '../../../DataContext/Context'
+import userEvent from '@testing-library/user-event'
 
 describe('Form.useData', () => {
   let identifier: string
@@ -291,6 +292,7 @@ describe('Form.useData', () => {
       update: expect.any(Function),
       set: expect.any(Function),
       getValue: expect.any(Function),
+      reduceToVisibleFields: expect.any(Function),
       filterData: expect.any(Function),
     })
   })
@@ -392,5 +394,329 @@ describe('Form.useData', () => {
         },
       } as FilterData<Data>)
     ).toEqual({})
+  })
+
+  describe('reduceToVisibleFields', () => {
+    it('should remove data entries of hidden fields using Visibility', async () => {
+      const data = { field1: 'foo', field2: 'bar', field3: 'baz' }
+
+      const { result } = renderHook(() => useData(identifier), {
+        wrapper: ({ children }) => (
+          <Provider id={identifier} data={data}>
+            <Form.Visibility
+              keepInDOM
+              visibleWhenNot={{ path: '/field1', hasValue: 'hide me' }}
+            >
+              <Field.String path="/field1" />
+            </Form.Visibility>
+            <Form.Visibility
+              visibleWhenNot={{ path: '/field2', hasValue: 'hide me' }}
+            >
+              <Field.String path="/field2" />
+            </Form.Visibility>
+            <Field.String path="/field3" />
+            {children}
+          </Provider>
+        ),
+      })
+
+      const [field1, field2] = Array.from(
+        document.querySelectorAll('input')
+      )
+
+      expect(
+        result.current.reduceToVisibleFields(result.current.data)
+      ).toEqual({
+        field1: 'foo',
+        field2: 'bar',
+        field3: 'baz',
+      })
+
+      fireEvent.change(field1, {
+        target: { value: 'hide me' },
+      })
+
+      expect(
+        result.current.reduceToVisibleFields(result.current.data)
+      ).toEqual({
+        field2: 'bar',
+        field3: 'baz',
+      })
+
+      fireEvent.change(field1, {
+        target: { value: 'something else' },
+      })
+
+      expect(
+        result.current.reduceToVisibleFields(result.current.data)
+      ).toEqual({
+        field1: 'something else',
+        field2: 'bar',
+        field3: 'baz',
+      })
+
+      fireEvent.change(field2, {
+        target: { value: 'hide me' },
+      })
+
+      expect(
+        result.current.reduceToVisibleFields(result.current.data)
+      ).toEqual({
+        field1: 'something else',
+        field3: 'baz',
+      })
+    })
+
+    it('should return visible data after visibility change', async () => {
+      let collectedData = null
+
+      const Output = () => {
+        const { data, reduceToVisibleFields } = Form.useData()
+
+        // Use useEffect to ensure we get the latest data
+        React.useEffect(() => {
+          collectedData = reduceToVisibleFields(data)
+        }, [data, reduceToVisibleFields])
+
+        return null
+      }
+
+      render(
+        <Form.Handler>
+          <Field.Boolean
+            variant="button"
+            path="/isVisible"
+            defaultValue={false}
+          />
+
+          <Form.Visibility pathTrue="/isVisible">
+            <Field.String
+              path="/interactive"
+              defaultValue="I am visible"
+            />
+          </Form.Visibility>
+
+          <Output />
+        </Form.Handler>
+      )
+
+      const button = document.querySelector('button')
+
+      expect(collectedData).toEqual({
+        isVisible: false,
+      })
+
+      await userEvent.click(button)
+
+      expect(collectedData).toEqual({
+        interactive: 'I am visible',
+        isVisible: true,
+      })
+
+      await userEvent.click(button)
+
+      expect(collectedData).toEqual({
+        isVisible: false,
+      })
+
+      await userEvent.click(button)
+
+      expect(collectedData).toEqual({
+        interactive: 'I am visible',
+        isVisible: true,
+      })
+    })
+
+    it('should keep paths with "keepPaths"', async () => {
+      let collectedData = null
+
+      const Output = () => {
+        const { data, reduceToVisibleFields } = Form.useData()
+
+        // Use useEffect to ensure we get the latest data
+        React.useEffect(() => {
+          collectedData = reduceToVisibleFields(data, {
+            keepPaths: ['/otherExistingPath'],
+          })
+        }, [data, reduceToVisibleFields])
+
+        return null
+      }
+
+      render(
+        <Form.Handler
+          data={{
+            otherExistingPath: 'foo',
+          }}
+        >
+          <Field.Boolean
+            variant="button"
+            path="/isVisible"
+            defaultValue={true}
+          />
+
+          <Form.Visibility pathTrue="/isVisible">
+            <Field.String
+              path="/interactive"
+              defaultValue="I am visible"
+            />
+          </Form.Visibility>
+
+          <Output />
+        </Form.Handler>
+      )
+
+      const button = document.querySelector('button')
+
+      expect(collectedData).toEqual({
+        interactive: 'I am visible',
+        otherExistingPath: 'foo',
+        isVisible: true,
+      })
+
+      await userEvent.click(button)
+      expect(collectedData).toEqual({
+        otherExistingPath: 'foo',
+        isVisible: false,
+      })
+
+      await userEvent.click(button)
+      expect(collectedData).toEqual({
+        interactive: 'I am visible',
+        otherExistingPath: 'foo',
+        isVisible: true,
+      })
+
+      await userEvent.click(button)
+      expect(collectedData).toEqual({
+        otherExistingPath: 'foo',
+        isVisible: false,
+      })
+
+      await userEvent.click(button)
+      expect(collectedData).toEqual({
+        interactive: 'I am visible',
+        otherExistingPath: 'foo',
+        isVisible: true,
+      })
+    })
+
+    it('should exclude paths with "removePaths"', async () => {
+      let collectedData = null
+
+      const Output = () => {
+        const { data, reduceToVisibleFields } = Form.useData()
+
+        // Use useEffect to ensure we get the latest data
+        React.useEffect(() => {
+          collectedData = reduceToVisibleFields(data, {
+            removePaths: ['/isVisible'],
+          })
+        }, [data, reduceToVisibleFields])
+
+        return null
+      }
+
+      render(
+        <Form.Handler>
+          <Field.Boolean
+            variant="button"
+            path="/isVisible"
+            defaultValue={true}
+          />
+
+          <Form.Visibility pathTrue="/isVisible">
+            <Field.String
+              path="/interactive"
+              defaultValue="I am visible"
+            />
+          </Form.Visibility>
+
+          <Output />
+        </Form.Handler>
+      )
+
+      const button = document.querySelector('button')
+
+      expect(collectedData).toEqual({
+        interactive: 'I am visible',
+      })
+
+      await userEvent.click(button)
+      expect(collectedData).toEqual({})
+
+      await userEvent.click(button)
+      expect(collectedData).toEqual({
+        interactive: 'I am visible',
+      })
+
+      await userEvent.click(button)
+      expect(collectedData).toEqual({})
+
+      await userEvent.click(button)
+      expect(collectedData).toEqual({
+        interactive: 'I am visible',
+      })
+    })
+
+    it('should return visible data after unmount and mount', async () => {
+      let collectedData = null
+
+      const Output = () => {
+        const { data, reduceToVisibleFields } = Form.useData()
+
+        // Use useEffect to ensure we get the latest data
+        React.useEffect(() => {
+          collectedData = reduceToVisibleFields(data)
+        }, [data, reduceToVisibleFields])
+
+        return null
+      }
+
+      const MockComponent = () => {
+        const [count, increment] = React.useReducer(
+          (state) => state + 1,
+          0
+        )
+        return (
+          <Form.Handler>
+            <button type="button" onClick={increment}>
+              {count}
+            </button>
+
+            {count % 2 ? (
+              <Field.String
+                path="/interactive"
+                defaultValue="I am visible"
+              />
+            ) : null}
+
+            <Output />
+          </Form.Handler>
+        )
+      }
+
+      render(<MockComponent />)
+
+      const button = document.querySelector('button')
+
+      expect(collectedData).toEqual({})
+
+      await userEvent.click(button)
+
+      expect(collectedData).toEqual({
+        interactive: 'I am visible',
+      })
+
+      await userEvent.click(button)
+
+      expect(collectedData).toEqual({})
+
+      await userEvent.click(button)
+
+      expect(collectedData).toEqual({
+        interactive: 'I am visible',
+      })
+    })
   })
 })

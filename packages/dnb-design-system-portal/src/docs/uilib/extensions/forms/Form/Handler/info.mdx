@@ -30,16 +30,24 @@ import { Form } from '@dnb/eufemia/extensions/forms'
 
 function MyForm() {
   const {
-    getValue, // Method to get a single value
-    update, // Method to update a single value
-    set, // Method to set the whole dataset
-    data, // The whole dataset (unvalidated)
-    filterData, // Method to filter data with your own logic
+    getValue,
+    update,
+    set,
+    data,
+    filterData,
+    reduceToVisibleFields,
   } = Form.useData('unique')
 
   return <Form.Handler id="unique">...</Form.Handler>
 }
 ```
+
+- `getValue` will return the value of the given path.
+- `update` will update the value of the given path.
+- `set` will set the whole dataset.
+- `data` will return the whole dataset (unvalidated).
+- `filterData` will filter the data based on your own logic.
+- `reduceToVisibleFields` will use the provided data and remove data entries of hidden (unmounted) fields.
 
 More examples can be found in the [useData](/uilib/extensions/forms/Form/useData/) hook docs.
 
@@ -127,9 +135,30 @@ Ensure you only use this feature for non-sensitive data.
 
 It will flush the storage once the form gets submitted.
 
+## Visible data
+
+You can use the `reduceToVisibleFields` function to get only the data of visible (mounted) fields.
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Handler
+    onSubmit={(data, { reduceToVisibleFields }) => {
+      const myData = reduceToVisibleFields(data, {
+        keepPaths: ['/foo'],
+        removePaths: ['/bar'],
+      })
+    }}
+  >
+    <Form.SubmitButton />
+  </Form.Handler>,
+)
+```
+
 ## Filter data
 
-You can use the `filterData` method to filter your `onSubmit` data. It might be useful, for example, to **exclude disabled fields** or filter out empty fields. The callback function receives the following arguments:
+You can use the `filterData` function to filter your `onSubmit` data. It might be useful, for example, to **exclude disabled fields** or filter out empty fields. The callback function receives the following arguments:
 
 1. `path` as the first argument.
 2. `value` as the second argument.
@@ -150,9 +179,10 @@ You can filter arrays by using the `filterData` method. You can find more inform
 
 ### onSubmit parameters
 
-The `onSubmit` event returns additional methods you can call:
+The `onSubmit` event returns additional functions you can call:
 
 - `filterData` Filters the given/internal data set.
+- `reduceToVisibleFields` Reduces the given data set to only contain the visible fields (mounted fields).
 - `resetForm` Deletes `sessionStorage` and browser stored autocomplete data.
 - `clearData` Empties the given/internal data set.
 
@@ -168,11 +198,14 @@ const myFilter = {
 const MyForm = () => {
   return (
     <Form.Handler
-      onSubmit={(data, { filterData, resetForm, clearData }) => {
+      onSubmit={(
+        data,
+        { filterData, reduceToVisibleFields, resetForm, clearData },
+      ) => {
         resetForm()
         clearData()
 
-        const myData = filterData(myFilter)
+        const myData = reduceToVisibleFields(filterData(myFilter))
       }}
       sessionStorageId="session-key"
     >

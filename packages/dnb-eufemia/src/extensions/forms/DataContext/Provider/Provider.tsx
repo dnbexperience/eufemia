@@ -42,6 +42,7 @@ import Context, {
   HandleSubmitCallback,
   MountState,
   TransformData,
+  VisibleDataHandler,
 } from '../Context'
 
 /**
@@ -475,6 +476,39 @@ export default function Provider<Data extends JsonObject>(
   )
 
   /**
+   * Ensure only visible data is returned
+   */
+  const visibleDataHandler: VisibleDataHandler<Data> = useCallback(
+    (data = internalDataRef.current, { keepPaths, removePaths } = {}) => {
+      const visibleData = {} as Partial<Data>
+
+      for (const path in mountedFieldsRef.current) {
+        const item = mountedFieldsRef.current[path]
+        if (
+          item &&
+          item.isVisible !== false &&
+          (item.isPreMounted !== false || item.wasStepChange === true) &&
+          (removePaths ? !removePaths.includes(path) : true) &&
+          pointer.has(data, path)
+        ) {
+          pointer.set(visibleData, path, pointer.get(data, path))
+        }
+      }
+
+      if (keepPaths) {
+        keepPaths.forEach((path) => {
+          if (pointer.has(data, path)) {
+            pointer.set(visibleData, path, pointer.get(data, path))
+          }
+        })
+      }
+
+      return visibleData
+    },
+    []
+  )
+
+  /**
    * Filter the data set based on the filterData function
    */
   const filterDataHandler = useCallback(
@@ -525,6 +559,7 @@ export default function Provider<Data extends JsonObject>(
   // - Shared state
   const sharedData = useSharedState<Data>(id)
   const sharedAttachments = useSharedState<{
+    visibleDataHandler?: VisibleDataHandler<Data>
     filterDataHandler?: FilterDataHandler<Data>
     hasErrors?: ContextState['hasErrors']
     hasFieldError?: ContextState['hasFieldError']
@@ -636,6 +671,7 @@ export default function Provider<Data extends JsonObject>(
   useLayoutEffect(() => {
     if (id) {
       extendAttachment?.({
+        visibleDataHandler,
         filterDataHandler,
         hasErrors,
         hasFieldError,
@@ -648,6 +684,7 @@ export default function Provider<Data extends JsonObject>(
     }
   }, [
     extendAttachment,
+    visibleDataHandler,
     filterDataHandler,
     filterSubmitData,
     hasErrors,
@@ -1020,8 +1057,20 @@ export default function Provider<Data extends JsonObject>(
           const filteredData = filterSubmitData
             ? filterDataHandler(mutatedData, filterSubmitData)
             : mutatedData // @deprecated – can be removed in v11
+
+          const reduceToVisibleFields: VisibleDataHandler<Data> = (
+            data,
+            options
+          ) => {
+            return visibleDataHandler(
+              transformOut ? mutateDataHandler(data, transformOut) : data,
+              options
+            )
+          }
+
           const options = {
             filterData,
+            reduceToVisibleFields,
             resetForm: () => {
               formElement?.reset?.()
 
@@ -1077,6 +1126,7 @@ export default function Provider<Data extends JsonObject>(
       scrollTopOnSubmit,
       sessionStorageId,
       transformOut,
+      visibleDataHandler,
     ]
   )
 
@@ -1175,6 +1225,7 @@ export default function Provider<Data extends JsonObject>(
         updateDataValue,
         setData,
         clearData,
+        visibleDataHandler,
         filterDataHandler,
         addOnChangeHandler,
         setHandleSubmit,

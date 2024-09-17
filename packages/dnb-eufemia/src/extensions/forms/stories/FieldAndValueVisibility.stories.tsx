@@ -6,13 +6,31 @@ export default {
   title: 'Eufemia/Extensions/Forms/FieldAndValueVisibility',
 }
 
+const LogVisibleData = () => {
+  const { data, reduceToVisibleFields } = Form.useData()
+
+  // Use useEffect to ensure we get the latest data
+  React.useEffect(() => {
+    console.log(
+      'visibleData',
+      reduceToVisibleFields(data, {
+        removePaths: ['/isVisible'],
+      })
+    )
+  }, [data, reduceToVisibleFields])
+
+  return null
+}
+
 export const ValueVisibility = () => {
   const [count, increment] = React.useReducer((state) => state + 1, 1)
+
   return (
     <Form.Handler
     // onChange={(data) => console.log('onChange', data)}
     // onSubmit={(data) => console.log('onSubmit', data)}
     >
+      <LogVisibleData />
       <Card stack>
         <button type="button" onClick={increment}>
           {count}
@@ -66,8 +84,14 @@ export const ValueVisibilityInWizard = () => {
     // onChange={(data) => console.log('onChange', data)}
     // onSubmit={(data) => console.log('onSubmit', data)}
     >
+      <LogVisibleData />
       <Flex.Stack>
         <Wizard.Container mode="loose">
+          <Wizard.Step title="Step 0">
+            <Wizard.Buttons />
+            first
+          </Wizard.Step>
+
           <Wizard.Step title="Step 1">
             <Wizard.Buttons />
 

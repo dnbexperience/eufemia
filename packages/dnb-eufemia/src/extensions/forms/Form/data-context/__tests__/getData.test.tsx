@@ -158,4 +158,54 @@ describe('getData', () => {
       bar: 'baz',
     })
   })
+
+  it('should provide reduceToVisibleFields handler', () => {
+    type Data = { foo: string }
+
+    const { rerender } = render(
+      <Form.Handler id={identifier}>
+        <Form.Visibility visible={true}>
+          <Field.String path="/foo" value="foo" />
+        </Form.Visibility>
+
+        <Field.String path="/bar" value="baz" />
+      </Form.Handler>
+    )
+
+    const { data, reduceToVisibleFields } = getData<Data>(identifier)
+
+    expect(data).toEqual({
+      foo: 'foo',
+      bar: 'baz',
+    })
+
+    rerender(
+      <Form.Handler id={identifier}>
+        <Form.Visibility visible={false}>
+          <Field.String path="/foo" value="foo" />
+        </Form.Visibility>
+
+        <Field.String path="/bar" value="baz" />
+      </Form.Handler>
+    )
+
+    expect(reduceToVisibleFields(data)).toEqual({
+      bar: 'baz',
+    })
+
+    rerender(
+      <Form.Handler id={identifier}>
+        <Form.Visibility visible={true}>
+          <Field.String path="/foo" value="foo" />
+        </Form.Visibility>
+
+        <Field.String path="/bar" value="baz" />
+      </Form.Handler>
+    )
+
+    expect(reduceToVisibleFields(data)).toEqual({
+      foo: 'foo',
+      bar: 'baz',
+    })
+  })
 })

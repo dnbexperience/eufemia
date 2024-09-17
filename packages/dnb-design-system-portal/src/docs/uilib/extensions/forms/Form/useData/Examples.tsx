@@ -1,7 +1,7 @@
 import React from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Button, Flex, Section } from '@dnb/eufemia/src'
-import { Form, Field } from '@dnb/eufemia/src/extensions/forms'
+import { Form, Field, Value } from '@dnb/eufemia/src/extensions/forms'
 import { ScrollView } from '@dnb/eufemia/src/fragments'
 
 export function Default() {
@@ -179,6 +179,61 @@ export function FilterData() {
                 </pre>
               </ScrollView>
             </Section>
+          )
+        }
+
+        return <MyForm />
+      }}
+    </ComponentBox>
+  )
+}
+
+export const VisibleData = () => {
+  return (
+    <ComponentBox>
+      {() => {
+        const MyForm = () => {
+          const { data, reduceToVisibleFields } = Form.useData()
+
+          // Use useEffect to ensure we get the latest data
+          React.useEffect(() => {
+            console.log(
+              'Result of reduceToVisibleFields:\n',
+              reduceToVisibleFields(data, {
+                removePaths: ['/isVisible'],
+              }),
+            )
+          }, [data, reduceToVisibleFields])
+
+          return (
+            <Form.Handler>
+              <Flex.Stack>
+                <Field.Boolean
+                  label="Show radio buttons"
+                  variant="button"
+                  path="/isVisible"
+                  defaultValue={true}
+                />
+
+                <Form.Visibility pathTrue="/isVisible" animate>
+                  <Field.Selection
+                    label="Radio buttons"
+                    variant="radio"
+                    path="/myValue"
+                    defaultValue="foo"
+                  >
+                    <Field.Option value="foo" title="Foo" />
+                    <Field.Option value="bar" title="Bar" />
+                  </Field.Selection>
+                </Form.Visibility>
+
+                <Value.Selection
+                  path="/myValue"
+                  inheritLabel
+                  inheritVisibility
+                />
+              </Flex.Stack>
+            </Form.Handler>
           )
         }
 
