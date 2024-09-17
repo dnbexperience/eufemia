@@ -74,6 +74,79 @@ describe('Value.ArraySelection', () => {
     expect(valueBlock).toHaveTextContent('123, 456 og 789')
   })
 
+  it('should render different `listTypes`', () => {
+    const { rerender } = render(
+      <Value.ArraySelection
+        variant="ol"
+        listType="a"
+        value={[123, 456, 789]}
+      />
+    )
+
+    const valueBlock = document.querySelector(
+      '.dnb-forms-value-array-selection .dnb-forms-value-block__content'
+    )
+
+    const list = (type: 'ol' | 'ul') =>
+      valueBlock.querySelector(`.dnb-${type}`)
+
+    expect(list('ol')).toHaveAttribute('type', 'a')
+
+    rerender(
+      <Value.ArraySelection
+        variant="ol"
+        listType="A"
+        value={[123, 456, 789]}
+      />
+    )
+    expect(list('ol')).toHaveAttribute('type', 'A')
+
+    rerender(
+      <Value.ArraySelection
+        variant="ol"
+        listType="i"
+        value={[123, 456, 789]}
+      />
+    )
+    expect(list('ol')).toHaveAttribute('type', 'i')
+
+    rerender(
+      <Value.ArraySelection
+        variant="ol"
+        listType="I"
+        value={[123, 456, 789]}
+      />
+    )
+    expect(list('ol')).toHaveAttribute('type', 'I')
+
+    rerender(
+      <Value.ArraySelection
+        variant="ul"
+        listType="circle"
+        value={[123, 456, 789]}
+      />
+    )
+    expect(list('ul')).toHaveAttribute('type', 'circle')
+
+    rerender(
+      <Value.ArraySelection
+        variant="ul"
+        listType="disc"
+        value={[123, 456, 789]}
+      />
+    )
+    expect(list('ul')).toHaveAttribute('type', 'disc')
+
+    rerender(
+      <Value.ArraySelection
+        variant="ul"
+        listType="square"
+        value={[123, 456, 789]}
+      />
+    )
+    expect(list('ul')).toHaveAttribute('type', 'square')
+  })
+
   it('renders label when showEmpty is true', () => {
     render(<Value.ArraySelection showEmpty label="My label" />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(

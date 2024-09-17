@@ -11,4 +11,19 @@ export const ArraySelectionProperties: PropertiesTableProps = {
     type: ['ol', 'ul', 'text'],
     status: 'optional',
   },
+  listType: {
+    doc: 'Defines the type of list styling used for list variants. Used on conjuction with variant `ol` and `ul`. variant `ol`: `a`, `A`, `i`, `I` and `1`. variant `ul`: `cirlce`, `disc` and `square`. defaults to `undefined`',
+    type: [
+      'a',
+      'A',
+      'i',
+      'I',
+      '1',
+      'circle',
+      'disc',
+      'square',
+      'undefined',
+    ],
+    status: 'optional',
+  },
 }

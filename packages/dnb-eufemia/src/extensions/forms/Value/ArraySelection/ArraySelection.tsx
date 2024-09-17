@@ -20,6 +20,22 @@ export type Props = ValueProps<Array<number | string>> & {
    * Default: `text`
    */
   variant?: 'ol' | 'ul' | 'text'
+  /**
+   * Defines the type of list styling used for list variants. Used on conjuction with variant `ol` and `ul`.
+   * `ol` variant: `a`, `A`, `i`, `I` and `1`.
+   * `ul` variant: `cirlce`, `disc` and `square`.
+   * Default: `undefined`
+   */
+  listType?:
+    | 'a'
+    | 'A'
+    | 'i'
+    | 'I'
+    | '1'
+    | 'circle'
+    | 'disc'
+    | 'square'
+    | undefined
 }
 
 function ArraySelection(props: Props) {
@@ -31,11 +47,13 @@ function ArraySelection(props: Props) {
     format,
     className,
     variant = 'text',
+    listType,
     ...rest
   } = useValueProps(props)
 
   const list = useMemo(() => {
     const isListVariant = variant !== 'text'
+
     if (path) {
       const data = fieldPropsRef?.current?.[
         path + '/arraySelectionData'
@@ -66,10 +84,11 @@ function ArraySelection(props: Props) {
     if (variant === 'text') {
       return listFormat(list, { locale, format })
     }
+
     const ListElement = variant.startsWith('ol') ? Ol : Ul
 
-    return <ListElement>{list}</ListElement>
-  }, [format, list, locale, variant])
+    return <ListElement type={listType}>{list}</ListElement>
+  }, [format, list, locale, variant, listType])
 
   return (
     <ValueBlock
