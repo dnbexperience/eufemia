@@ -120,7 +120,7 @@ export default function useVisibility(props?: Partial<Props>) {
 
       return true
     },
-    [makePath, filterDataHandler, originalData]
+    [filterDataHandler, originalData, makePath, makeIteratePath]
   )
 
   return { check }
