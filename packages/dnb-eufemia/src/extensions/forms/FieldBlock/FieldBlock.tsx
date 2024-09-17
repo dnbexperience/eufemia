@@ -20,7 +20,6 @@ import FieldBlockContext, {
   FieldBlockContextProps,
   StateBasis,
 } from './FieldBlockContext'
-import DataContext from '../DataContext/Context'
 import IterateElementContext from '../Iterate/IterateItemContext'
 import { Space, FormLabel, FormStatus } from '../../../components'
 import { Ul, Li } from '../../../elements'
@@ -83,7 +82,6 @@ export type Props = Pick<
 } & React.HTMLAttributes<HTMLDivElement>
 
 function FieldBlock(props: Props) {
-  const dataContext = useContext(DataContext)
   const nestedFieldBlockContext = useContext(FieldBlockContext)
 
   const sharedData = createSharedState<Props>(
@@ -423,10 +421,6 @@ function FieldBlock(props: Props) {
     space: { top: 0, bottom: 'x-small' },
     size: labelSize,
     disabled,
-  }
-
-  if (dataContext?.prerenderFieldProps) {
-    return null
   }
 
   if (fieldState && typeof label === 'undefined') {

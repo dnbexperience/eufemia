@@ -284,7 +284,7 @@ function WizardContainer(props: Props) {
 
   const titlesRef = useRef({})
   const updateTitlesRef = useRef<() => void>()
-  const prerenderFieldPropsRef = useRef<
+  const prerenderFieldsRef = useRef<
     Record<string, () => React.ReactElement>
   >({})
 
@@ -301,7 +301,7 @@ function WizardContainer(props: Props) {
       activeIndexRef,
       totalStepsRef,
       prerenderFieldProps,
-      prerenderFieldPropsRef,
+      prerenderFieldsRef,
       check,
       setActiveIndex,
       handlePrevious,
@@ -365,7 +365,7 @@ function WizardContainer(props: Props) {
 
       {prerenderFieldProps && (
         <PrerenderFieldPropsOfOtherSteps
-          prerenderFieldPropsRef={prerenderFieldPropsRef}
+          prerenderFieldsRef={prerenderFieldsRef}
         />
       )}
     </WizardContext.Provider>
@@ -412,7 +412,7 @@ function IterateOverSteps({ children }) {
     activeIndexRef,
     totalStepsRef,
     prerenderFieldProps,
-    prerenderFieldPropsRef,
+    prerenderFieldsRef,
   } = useContext(WizardContext)
 
   titlesRef.current = {}
@@ -459,10 +459,10 @@ function IterateOverSteps({ children }) {
           prerenderFieldProps &&
           typeof document !== 'undefined' &&
           index !== activeIndexRef.current &&
-          typeof prerenderFieldPropsRef.current['step-' + index] ===
+          typeof prerenderFieldsRef.current['step-' + index] ===
             'undefined'
         ) {
-          prerenderFieldPropsRef.current['step-' + index] = () =>
+          prerenderFieldsRef.current['step-' + index] = () =>
             clone({
               key,
               index,
@@ -494,9 +494,9 @@ function IterateOverSteps({ children }) {
 }
 
 function PrerenderFieldPropsOfOtherSteps({
-  prerenderFieldPropsRef,
+  prerenderFieldsRef,
 }: {
-  prerenderFieldPropsRef: WizardContextState['prerenderFieldPropsRef']
+  prerenderFieldsRef: WizardContextState['prerenderFieldsRef']
 }) {
   const hasRenderedRef = useRef(true)
   if (!hasRenderedRef.current) {
@@ -508,7 +508,7 @@ function PrerenderFieldPropsOfOtherSteps({
     <WizardPortal>
       <PrerenderFieldPropsProvider>
         <iframe title="Wizard Prerender" hidden>
-          {Object.values(prerenderFieldPropsRef.current).map((Fn, i) => (
+          {Object.values(prerenderFieldsRef.current).map((Fn, i) => (
             <Fn key={i} />
           ))}
         </iframe>

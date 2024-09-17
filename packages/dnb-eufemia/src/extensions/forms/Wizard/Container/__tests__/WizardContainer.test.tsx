@@ -1821,11 +1821,7 @@ describe('Wizard.Container', () => {
 
             <Wizard.Step title="Step 3">
               <Field.String path="/fooStep3" />
-              <Field.String
-                path="/barStep3"
-                // excludeFromFilterData
-                data-exclude-field
-              />
+              <Field.String path="/barStep3" data-exclude-field />
               <Wizard.Buttons />
             </Wizard.Step>
           </Wizard.Container>

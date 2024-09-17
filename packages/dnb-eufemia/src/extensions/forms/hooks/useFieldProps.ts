@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, {
   useRef,
   useEffect,
@@ -168,6 +169,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     errors: dataContextErrors,
     showAllErrors,
     contextErrorMessages,
+    prerenderFieldProps,
   } = dataContext || {}
   const onChangeContext = dataContext?.props?.onChange
 
@@ -193,6 +195,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     path: pathProp,
     itemPath,
   })
+
+  // Put props into the surrounding data context as early as possible
+  setPropsDataContext?.(identifier, props)
 
   const defaultValueRef = useRef(defaultValue)
   const externalValue =
@@ -1401,7 +1406,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const handleBlur = useCallback(() => setHasFocus(false), [setHasFocus])
 
   // Put props into the surrounding data context as early as possible
-  setPropsDataContext?.(identifier, props)
+  // setPropsDataContext?.(identifier, props)
 
   useEffect(() => {
     // Mount procedure.
@@ -1555,6 +1560,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     validateDataDataContext,
     valueProp,
   ])
+
+  if (prerenderFieldProps) {
+    return {} as typeof props & ReturnAdditional<Value>
+  }
 
   useEffect(() => {
     if (showAllErrors || showBoundaryErrors) {
