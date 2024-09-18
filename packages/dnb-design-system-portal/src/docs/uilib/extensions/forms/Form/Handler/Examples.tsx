@@ -301,6 +301,9 @@ export const VisibleData = () => {
   return (
     <ComponentBox>
       <Form.Handler
+        defaultData={{
+          isVisible: true,
+        }}
         onSubmit={(data, { reduceToVisibleFields }) => {
           const myData = reduceToVisibleFields(data, {
             removePaths: ['/isVisible'],
@@ -313,9 +316,7 @@ export const VisibleData = () => {
             label="Show radio buttons"
             variant="button"
             path="/isVisible"
-            defaultValue={true}
           />
-
           <Form.Visibility pathTrue="/isVisible" animate>
             <Field.Selection
               label="Radio buttons"
@@ -327,12 +328,6 @@ export const VisibleData = () => {
               <Field.Option value="bar" title="Bar" />
             </Field.Selection>
           </Form.Visibility>
-
-          <Value.Selection
-            path="/myValue"
-            inheritLabel
-            inheritVisibility
-          />
         </Flex.Stack>
       </Form.Handler>
     </ComponentBox>
