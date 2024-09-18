@@ -32,6 +32,7 @@ function MyForm() {
   const {
     getValue,
     update,
+    remove,
     set,
     data,
     filterData,
@@ -44,10 +45,11 @@ function MyForm() {
 
 - `getValue` will return the value of the given path.
 - `update` will update the value of the given path.
+- `remove` will remove the given path from the data context (fields will reapply their values afterwards).
 - `set` will set the whole dataset.
 - `data` will return the whole dataset (unvalidated).
 - `filterData` will filter the data based on your own logic.
-- `reduceToVisibleFields` will use the provided data and remove data entries of hidden (unmounted) fields.
+- `reduceToVisibleFields` will reduces the given data set to only contain the visible fields (mounted fields).
 
 More examples can be found in the [useData](/uilib/extensions/forms/Form/useData/) hook docs.
 

@@ -50,6 +50,7 @@ type UseDataReturn<Data> = {
   data: Data
   set: (newData: Data) => void
   update: UseDataReturnUpdate<Data>
+  remove: (path: Path) => void
   getValue: UseDataReturnGetValue<Data>
   filterData: UseDataReturnFilterData<Data>
   reduceToVisibleFields: UseDataReturnVisibleData<Data>
@@ -109,7 +110,7 @@ export default function useData<Data>(
   const updateDataValue = context?.updateDataValue
   const setData = context?.setData
 
-  const setHandler = useCallback(
+  const set = useCallback(
     (newData: Data) => {
       if (id) {
         sharedDataRef.current.update(newData)
@@ -120,26 +121,49 @@ export default function useData<Data>(
     [id, setData]
   )
 
-  const updateHandler = useCallback<UseDataReturnUpdate<Data>>(
+  const update = useCallback<UseDataReturnUpdate<Data>>(
     (path, value = undefined) => {
-      const existingData = sharedDataRef.current.data || ({} as Data)
+      const existingData = structuredClone(
+        sharedDataRef.current.data || ({} as Data)
+      )
       const existingValue = pointer.has(existingData, path)
         ? pointer.get(existingData, path)
         : undefined
 
-      // get new value
+      // Get new value
       const newValue =
         typeof value === 'function' ? value(existingValue) : value
 
       if (newValue !== existingValue) {
-        // update existing data
+        // Update existing data
         pointer.set(existingData, path, newValue)
 
-        // update provider
+        // Update provider with new data
         if (id) {
           sharedDataRef.current.extend(existingData)
         } else {
           updateDataValue(path, newValue)
+        }
+      }
+    },
+    [id, updateDataValue]
+  )
+
+  const remove = useCallback<UseDataReturn<Data>['remove']>(
+    (path) => {
+      const existingData = structuredClone(
+        sharedDataRef.current.data || ({} as Data)
+      )
+
+      if (pointer.has(existingData, path)) {
+        // Remove existing data
+        pointer.remove(existingData, path)
+
+        // Update provider with new data
+        if (id) {
+          sharedDataRef.current.set(existingData)
+        } else {
+          updateDataValue(path, undefined)
         }
       }
     },
@@ -195,16 +219,18 @@ export default function useData<Data>(
   return useMemo(
     () => ({
       data,
-      update: updateHandler,
-      set: setHandler,
+      remove,
+      update,
+      set,
       getValue,
       reduceToVisibleFields,
       filterData,
     }),
     [
       data,
-      updateHandler,
-      setHandler,
+      remove,
+      update,
+      set,
       getValue,
       reduceToVisibleFields,
       filterData,
