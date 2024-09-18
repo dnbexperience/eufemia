@@ -3,6 +3,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react'
@@ -178,6 +179,7 @@ export default function Switch(props: SwitchProps) {
   const [isChecked, setIsChecked] = useState(checkedProp ?? false)
   const [prevChecked, setPrevChecked] = useState(checkedProp)
 
+  const id = useId(idProp)
   const isFn = typeof innerRefProp === 'function'
   const refHook = useRef<HTMLInputElement>()
   const innerRef = (!isFn && innerRefProp) || refHook
@@ -188,16 +190,12 @@ export default function Switch(props: SwitchProps) {
     }
   }, [innerRefProp, isFn, refHook])
 
-  const id = useId(idProp)
-
   useEffect(() => {
     if (checkedProp !== prevChecked) {
       setIsChecked(!!checkedProp)
       setPrevChecked(!!checkedProp)
     }
   }, [checkedProp, prevChecked])
-
-  const helperParams = { onMouseDown: (e) => e.preventDefault() }
 
   const callOnChange = useCallback(
     ({ checked, event }) => {
@@ -245,7 +243,7 @@ export default function Switch(props: SwitchProps) {
     [onChangeHandler]
   )
 
-  const showStatus = getStatusState(status)
+  const showStatus = useMemo(() => getStatusState(status), [status])
 
   const mainParams = {
     className: classnames(
@@ -280,15 +278,27 @@ export default function Switch(props: SwitchProps) {
   skeletonDOMAttributes(inputParams, skeleton, context)
   validateDOMAttributes(props, inputParams)
 
-  const labelComp = label && (
-    <FormLabel
-      id={id + '-label'}
-      forId={id}
-      text={label}
-      disabled={disabled}
-      skeleton={skeleton}
-      srOnly={labelSrOnly}
-    />
+  const helperParams = useMemo(
+    () => ({
+      onMouseDown: (e: React.MouseEvent<HTMLSpanElement>) =>
+        e.preventDefault(),
+    }),
+    []
+  )
+
+  const labelComp = useMemo(
+    () =>
+      label && (
+        <FormLabel
+          id={id + '-label'}
+          forId={id}
+          text={label}
+          disabled={disabled}
+          skeleton={skeleton}
+          srOnly={labelSrOnly}
+        />
+      ),
+    [disabled, id, label, labelSrOnly, skeleton]
   )
 
   return (
