@@ -1,5 +1,11 @@
-import { useContext, useRef } from 'react'
-import { ValueProps } from '../types'
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+  useRef,
+} from 'react'
+import { Path, ValueProps } from '../types'
 import useExternalValue from './useExternalValue'
 import usePath from './usePath'
 import DataContext from '../DataContext/Context'
@@ -10,12 +16,15 @@ export default function useValueProps<
   Value = unknown,
   Props extends ValueProps<Value> = ValueProps<Value>,
 >(props: Props): Props & ValueProps<Value> {
+  const [, forceUpdate] = useReducer(() => ({}), {})
+
   const {
     path: pathProp,
+    value: valueProp,
     itemPath,
-    value,
     defaultValue,
     inheritLabel,
+    inheritVisibility,
     transformIn = (value: Value) => value,
     toInput = (value: Value) => value,
     fromExternal = (value: Value) => value,
@@ -33,22 +42,52 @@ export default function useValueProps<
     useExternalValue<Value>({
       path,
       itemPath,
-      value,
+      value: valueProp,
       transformers,
     }) ?? defaultValue
 
-  const dataContext = useContext(DataContext)
-  dataContext?.setValueProps?.(path, props)
+  const {
+    fieldPropsRef,
+    mountedFieldsRef,
+    setValueProps,
+    setFieldEventListener,
+  } = useContext(DataContext) || {}
+  setValueProps?.(path, props)
 
-  const label = inheritLabel
-    ? dataContext?.fieldPropsRef?.current?.[path]?.label
+  useEffect(() => {
+    if (inheritLabel || inheritVisibility) {
+      setFieldEventListener?.(path, 'onMount', () => {
+        // This is needed to make values, rendered before the field, to get the correct visibility state
+        requestAnimationFrame(forceUpdate)
+      })
+    }
+  }, [setFieldEventListener, path, inheritVisibility, inheritLabel])
+
+  const shouldBeVisible = useCallback(
+    (path: Path): boolean => {
+      const item = mountedFieldsRef?.current?.[path]
+
+      if (!item || !inheritVisibility) {
+        return true
+      }
+
+      return (
+        item.isVisible !== false &&
+        (item.isPreMounted !== false || item.wasStepChange === true)
+      )
+    },
+    [inheritVisibility, mountedFieldsRef]
+  )
+
+  const value = shouldBeVisible(path)
+    ? transformers.current.transformIn(
+        transformers.current.toInput(externalValue)
+      )
     : undefined
 
-  return {
-    ...props,
-    label: props.label ?? label,
-    value: transformers.current.transformIn(
-      transformers.current.toInput(externalValue)
-    ),
-  }
+  const label =
+    props.label ??
+    (inheritLabel ? fieldPropsRef?.current?.[path]?.label : undefined)
+
+  return { ...props, label, value }
 }

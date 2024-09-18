@@ -447,6 +447,11 @@ export interface ValueProps<Value = unknown>
   inheritLabel?: boolean
 
   /**
+   * Use `true` to inherit the visibility from a field with the same path.
+   */
+  inheritVisibility?: boolean
+
+  /**
    * Shows the value even if it is empty.
    */
   showEmpty?: boolean

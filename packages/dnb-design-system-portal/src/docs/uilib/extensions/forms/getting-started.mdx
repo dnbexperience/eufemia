@@ -237,6 +237,14 @@ In short, field components are interactive components that the user can interact
 
 Beside the interactive [Field](/uilib/extensions/forms/all-fields/) components, there is also the static [Value](/uilib/extensions/forms/Value/) components. Use these to show summaries or read-only parts of your application with benefits such as linking to source data and standardized formatting based on the type of data to be displayed.
 
+#### Inherit visibility from fields
+
+User entered data will always be stored internally in the data context, even if a [Field](/uilib/extensions/forms/all-fields/) is temporarily shown (mounted/unmounted).
+
+`Value.*` components will render the value regardless of the visibility of the field.
+
+You can use the `inheritVisibility` property on the [Value.\*](/uilib/extensions/forms/Value/) components to inherit the visibility from the field with the same path.
+
 ### Async form behavior
 
 This feature allows you to perform asynchronous operations such as fetching data from an API – without additional state management.

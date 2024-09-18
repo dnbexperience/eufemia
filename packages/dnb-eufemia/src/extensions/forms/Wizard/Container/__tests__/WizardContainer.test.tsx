@@ -520,6 +520,48 @@ describe('Wizard.Container', () => {
     expect(output()).toHaveTextContent('Step 3')
   })
 
+  it('should keep current step on rerender', async () => {
+    const onStepChange = jest.fn()
+
+    render(
+      <Form.Handler>
+        <Wizard.Container mode="loose" onStepChange={onStepChange}>
+          <Wizard.Step title="Step 1">
+            <output>Step 1</output>
+            <button
+              type="button" // needed in order to not submit the form
+              id="not-submit"
+            >
+              not-submit
+            </button>
+            <button
+              // no type is defined
+              id="submit"
+            >
+              submit
+            </button>
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 2">
+            <output>Step 2</output>
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>
+    )
+
+    expect(output()).toHaveTextContent('Step 1')
+
+    await userEvent.click(document.querySelector('#not-submit'))
+
+    expect(output()).toHaveTextContent('Step 1')
+    expect(onStepChange).toHaveBeenCalledTimes(0)
+
+    await userEvent.click(document.querySelector('#submit'))
+
+    expect(output()).toHaveTextContent('Step 2')
+    expect(onStepChange).toHaveBeenCalledTimes(1)
+  })
+
   describe('dynamic steps', () => {
     it('should not render inactive steps', () => {
       render(

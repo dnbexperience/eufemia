@@ -19,16 +19,23 @@ type HandleSubmitProps = {
   formElement?: HTMLFormElement
 }
 
-export type MountOptions = {
+export type MountState = {
+  isPreMounted?: boolean
   isMounted?: boolean
+  isVisible?: boolean
+  wasStepChange?: boolean
 }
 
 export type EventListenerCall = {
   path?: Path
-  type?: 'onSubmit' | 'onPathChange'
+  type?: 'onSubmit' | 'onPathChange' | 'onMount'
   callback: (params?: { value: unknown }) => void | Promise<void | Error>
 }
 
+export type MutateDataHandler<Data> = (
+  data: Data,
+  mutate: TransformData
+) => Partial<Data>
 export type FilterDataHandler<Data> = (
   data: Data,
   filter: FilterData
@@ -58,6 +65,7 @@ export type FilterDataPathObject<Data> = Record<
 export type FilterData<Data = unknown> =
   | FilterDataPathObject<Data>
   | FilterDataHandlerCallback<boolean | undefined>
+export type VisibleData<Data = unknown> = Partial<Data>
 export type TransformData = FilterDataHandlerCallback<unknown>
 export type HandleSubmitCallback = ({
   preventSubmit,
@@ -86,10 +94,10 @@ export interface ContextState {
   updateDataValue: (path: Path, value: any) => void
   setData: (data: any) => void
   clearData?: () => void
-  mutateDataHandler?: (data: any, mutate: TransformData) => any
-  filterDataHandler?: (data: any, filter: FilterData) => any
+  mutateDataHandler?: MutateDataHandler<unknown>
+  filterDataHandler?: FilterDataHandler<unknown>
   validateData: () => void
-  handleSubmit: (props?: HandleSubmitProps) => any
+  handleSubmit: (props?: HandleSubmitProps) => void
   scrollToTop: () => void
   setShowAllErrors: (showAllErrors: boolean) => void
   hasErrors: () => boolean
@@ -97,7 +105,7 @@ export interface ContextState {
   hasFieldError: (path: Path) => boolean
   setFieldState: (path: Path, fieldState: SubmitState) => void
   setFieldError: (path: Path, error: Error | FormError) => void
-  setMountedFieldState: (path: Path, options: MountOptions) => void
+  setMountedFieldState: (path: Path, options: MountState) => void
   setFormState?: (state: SubmitState) => void
   setSubmitState?: (state: EventStateObject) => void
   addOnChangeHandler?: (callback: OnChange) => void
@@ -126,7 +134,7 @@ export interface ContextState {
   setHandleSubmit?: (callback: HandleSubmitCallback) => void
   fieldPropsRef?: React.MutableRefObject<Record<string, FieldProps>>
   valuePropsRef?: React.MutableRefObject<Record<string, ValueProps>>
-  mountedFieldsRef?: React.MutableRefObject<Record<Path, MountOptions>>
+  mountedFieldsRef?: React.MutableRefObject<Record<Path, MountState>>
   showAllErrors: boolean
   hasVisibleError: boolean
   formState: SubmitState
