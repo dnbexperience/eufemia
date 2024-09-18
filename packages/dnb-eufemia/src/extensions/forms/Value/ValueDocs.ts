@@ -22,7 +22,7 @@ export const ValueProperties: PropertiesTableProps = {
     status: 'optional',
   },
   inheritVisibility: {
-    doc: 'Use `true` to inherit the visibility from a field with the same path. You find more info in the [Value section](/uilib/extensions/forms/Value/#inherit-visibility-from-fields-based-on-path).',
+    doc: 'Use `true` to inherit the visibility from a field with the same path. You can find more info in the [Value section](/uilib/extensions/forms/Value/#inherit-visibility-from-fields-based-on-path).',
     type: 'boolean',
     status: 'optional',
   },
