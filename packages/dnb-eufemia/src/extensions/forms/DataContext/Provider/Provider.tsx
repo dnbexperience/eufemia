@@ -323,7 +323,8 @@ export default function Provider<Data extends JsonObject>(
   const hasFieldState = useCallback(
     (state: SubmitState) => {
       for (const path in mountedFieldsRef.current) {
-        if (checkFieldStateFor(path, state)) {
+        const item = mountedFieldsRef.current[path]
+        if (item.isMounted && checkFieldStateFor(path, state)) {
           return true
         }
       }
@@ -335,7 +336,12 @@ export default function Provider<Data extends JsonObject>(
   const hasFieldError = useCallback(
     (path: Path) => {
       for (const p in mountedFieldsRef.current) {
-        if (p === path && checkFieldStateFor(path, 'error')) {
+        const item = mountedFieldsRef.current[path]
+        if (
+          item.isMounted &&
+          p === path &&
+          checkFieldStateFor(path, 'error')
+        ) {
           return true
         }
       }
