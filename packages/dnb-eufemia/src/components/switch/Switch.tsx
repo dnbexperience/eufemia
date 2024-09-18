@@ -278,7 +278,6 @@ export default function Switch(props: SwitchProps) {
   }
 
   skeletonDOMAttributes(inputParams, skeleton, context)
-  // also used for code markup simulation
   validateDOMAttributes(props, inputParams)
 
   const labelComp = label && (
