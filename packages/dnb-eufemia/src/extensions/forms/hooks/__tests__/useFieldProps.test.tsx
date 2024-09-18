@@ -3968,6 +3968,7 @@ describe('useFieldProps', () => {
       })
       expect(setMountedFieldState).toHaveBeenNthCalledWith(2, '/foo', {
         isMounted: true,
+        isPreMounted: true,
       })
 
       unmount()
@@ -4007,6 +4008,7 @@ describe('useFieldProps', () => {
       })
       expect(setMountedFieldState).toHaveBeenNthCalledWith(3, '/foo', {
         isMounted: true,
+        isPreMounted: true,
       })
 
       unmount()
@@ -4048,6 +4050,7 @@ describe('useFieldProps', () => {
       })
       expect(setMountedFieldState).toHaveBeenNthCalledWith(3, '/foo', {
         isMounted: true,
+        isPreMounted: true,
       })
 
       unmount()
@@ -4101,6 +4104,7 @@ describe('useFieldProps', () => {
       })
       expect(setMountedFieldState).toHaveBeenNthCalledWith(2, '/foo', {
         isMounted: true,
+        isPreMounted: true,
       })
 
       rerender({ path: '/bar' })
@@ -4115,6 +4119,7 @@ describe('useFieldProps', () => {
       })
       expect(setMountedFieldState).toHaveBeenNthCalledWith(5, '/bar', {
         isMounted: true,
+        isPreMounted: true,
       })
 
       unmount()
@@ -4122,6 +4127,7 @@ describe('useFieldProps', () => {
       expect(setMountedFieldState).toHaveBeenCalledTimes(6)
       expect(setMountedFieldState).toHaveBeenNthCalledWith(2, '/foo', {
         isMounted: true,
+        isPreMounted: true,
       })
 
       log.mockRestore()
