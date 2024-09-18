@@ -117,7 +117,7 @@ export type SwitchProps = {
     | ((elem: HTMLInputElement) => void)
 } & Omit<
   React.HTMLProps<HTMLElement>,
-  'ref' | 'size' | 'onChange' | 'innerRef'
+  'ref' | 'size' | 'onChange' | 'innerRef' | 'label'
 > &
   SpacingProps &
   DeprecatedSwitchProps

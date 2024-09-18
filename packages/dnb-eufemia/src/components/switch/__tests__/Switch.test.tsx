@@ -6,9 +6,8 @@
 import { cleanup, fireEvent, render } from '@testing-library/react'
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import Switch from '../Switch'
+import Switch, { SwitchProps } from '../Switch'
 import { Provider } from '../../../shared'
-import { SwitchProps } from '../types'
 
 const props: SwitchProps = {
   title: 'title',
