@@ -28,7 +28,11 @@ You can also combine `Value.*` components together by using the value [Compositi
 
 ## Inherit visibility from fields based on path
 
-You can use the `inheritVisibility={true}` prop to inherit the visibility from the field with the same path.
+User-entered data is always stored internally in the data context, even when a [Field](/uilib/extensions/forms/all-fields/) is temporarily shown or hidden (mounted/unmounted).
+
+By default, `Value.*` components will render the value regardless of the field's visibility.
+
+To make the visibility of a `Value.*` component match the field with the same path, use `inheritVisibility={true}`:
 
 ```tsx
 import { Form, Field, Value } from '@dnb/eufemia/extensions/forms'
@@ -46,9 +50,11 @@ const MyForm = () => {
 }
 ```
 
+It's recommended to use [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) because it can animate and describes the UI in a clear, declarative way. However, `inheritVisibility` will also work with other methods, such as React's `useState` hook.
+
 ## Inherit labels from fields to values
 
-You can use the `inheritLabel={true}` prop to inherit the label from the field with the same path.
+You can use `inheritLabel={true}` to inherit the label from the field with the same path.
 
 ```tsx
 import { Form, Field, Value } from '@dnb/eufemia/extensions/forms'
