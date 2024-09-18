@@ -15,6 +15,7 @@ import { SidebarMenuContext } from './SidebarMenuContext'
 import PortalToolsMenu from './PortalToolsMenu'
 import { SearchBarInput } from './SearchBar'
 import { Context } from '@dnb/eufemia/src/shared'
+import { ButtonProps } from '@dnb/eufemia/src/components/Button'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
 import {
   headerStyle,
@@ -61,25 +62,8 @@ export default function StickyMenuBar({
       )}
     >
       <div className={portalHeaderWrapperStyle}>
-        <Button
-          id="toggle-main-menu"
-          variant="primary"
-          text="Home"
-          title="Eufemia main sections"
-          href="/"
-          element={Link}
-          icon="chevron_left"
-          icon_position="left"
-        />
-        <Button
-          id="toggle-main-menu-small-screen"
-          variant="primary"
-          title="Eufemia main sections"
-          href="/"
-          element={Link}
-          icon="chevron_left"
-          icon_position="left"
-        />
+        <HomeButton id="toggle-main-menu" text="Home" />
+        <HomeButton id="toggle-main-menu-small-screen" size="default" />
 
         <span aria-hidden className={centerWrapperStyle}>
           <Icon
@@ -131,6 +115,21 @@ export default function StickyMenuBar({
     </header>
   )
 }
+
+function HomeButton(props: ButtonProps) {
+  return (
+    <Button
+      variant="primary"
+      title="Eufemia main sections"
+      href="/"
+      icon="chevron_left"
+      icon_position="left"
+      element={Link}
+      {...props}
+    />
+  )
+}
+
 StickyMenuBar.propTypes = {
   hideSidebarToggleButton: PropTypes.bool,
   preventBarVisibility: PropTypes.bool,

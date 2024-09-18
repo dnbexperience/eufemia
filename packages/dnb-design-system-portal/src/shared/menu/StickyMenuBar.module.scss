@@ -1,3 +1,4 @@
+@use 'sass:math';
 @import '@dnb/eufemia/src/style/core/utilities.scss';
 
 :global {
@@ -44,12 +45,6 @@
     #github-button {
       display: inline-flex;
     }
-    #toggle-main-menu {
-      display: inline-flex;
-    }
-    #toggle-main-menu-small-screen {
-      display: none;
-    }
 
     /*
     God for a mobile menu instead
@@ -67,8 +62,10 @@
       #toggle-main-menu {
         display: none;
       }
+    }
+    @include allAbove(small, math.div(1, 16)) {
       #toggle-main-menu-small-screen {
-        display: inline-flex;
+        display: none;
       }
     }
   }
