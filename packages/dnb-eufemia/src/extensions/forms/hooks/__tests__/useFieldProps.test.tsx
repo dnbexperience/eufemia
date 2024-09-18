@@ -82,6 +82,27 @@ describe('useFieldProps', () => {
       })
     })
 
+    it('should support ReactStrict mode', () => {
+      const defaultValue = 'include this'
+
+      const { result } = renderHook(
+        () => useFieldProps({ path: '/foo', defaultValue }),
+        {
+          wrapper: ({ children }) => {
+            return (
+              <React.StrictMode>
+                <Provider>{children}</Provider>
+              </React.StrictMode>
+            )
+          },
+        }
+      )
+
+      expect(result.current.dataContext.data).toEqual({
+        foo: defaultValue,
+      })
+    })
+
     it('given "defaultValue" should not take precedence over data context value', () => {
       const givenValue = 'given value'
       const defaultValue = 'include this'
@@ -90,7 +111,9 @@ describe('useFieldProps', () => {
         () => useFieldProps({ path: '/foo', defaultValue }),
         {
           wrapper: (props) => (
-            <Provider data={{ foo: givenValue }} {...props} />
+            <React.StrictMode>
+              <Provider data={{ foo: givenValue }} {...props} />
+            </React.StrictMode>
           ),
         }
       )

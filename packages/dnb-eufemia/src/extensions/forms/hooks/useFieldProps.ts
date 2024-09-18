@@ -27,6 +27,7 @@ import FieldPropsContext from '../Form/FieldProps/FieldPropsContext'
 import { combineDescribedBy, warn } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import useUpdateEffect from '../../../shared/helpers/useUpdateEffect'
+import useMountEffect from '../../../shared/helpers/useMountEffect'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateElementContext from '../Iterate/IterateItemContext'
 import SectionContext from '../Form/Section/SectionContext'
@@ -200,6 +201,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   })
 
   const defaultValueRef = useRef(defaultValue)
+  useMountEffect(() => {
+    // To support ReactStrict mode, we also need to add it from inside a useEffect
+    defaultValueRef.current = defaultValue
+  })
   const externalValue =
     useExternalValue<Value>({
       path,
