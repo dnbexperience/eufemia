@@ -4028,6 +4028,7 @@ describe('DataContext.Provider', () => {
         filterData: expect.any(Function),
         getValue: expect.any(Function),
         update: expect.any(Function),
+        remove: expect.any(Function),
         set: expect.any(Function),
       })
       expect(onSubmit).toHaveBeenCalledTimes(1)
@@ -4069,6 +4070,7 @@ describe('DataContext.Provider', () => {
         filterData: expect.any(Function),
         getValue: expect.any(Function),
         update: expect.any(Function),
+        remove: expect.any(Function),
         set: expect.any(Function),
       })
       expect(onSubmit).toHaveBeenCalledTimes(2)

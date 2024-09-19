@@ -71,6 +71,61 @@ describe('Form.useData', () => {
     expect(result.current.data).toEqual({ key: 'changed value' })
   })
 
+  describe('remove', () => {
+    it('should remove the data', () => {
+      const { result } = renderHook(() => useData(), {
+        wrapper: ({ children }) => (
+          <Provider>
+            <Field.String path="/foo" defaultValue="foo" />
+            <Field.String path="/bar" defaultValue="bar" />
+            {children}
+          </Provider>
+        ),
+      })
+
+      expect(result.current.data).toEqual({
+        foo: 'foo',
+        bar: 'bar',
+      })
+
+      act(() => {
+        result.current.remove('/foo')
+      })
+
+      expect(result.current.data).toEqual({
+        foo: undefined, // The value gets re-added via the field component
+        bar: 'bar',
+      })
+      expect(result.current.data).toHaveProperty('foo')
+    })
+
+    it('should remove the data when id is given', () => {
+      const { result } = renderHook(() => useData(identifier), {
+        wrapper: ({ children }) => (
+          <Provider id={identifier}>
+            <Field.String path="/foo" defaultValue="foo" />
+            <Field.String path="/bar" defaultValue="bar" />
+            {children}
+          </Provider>
+        ),
+      })
+
+      expect(result.current.data).toEqual({
+        foo: 'foo',
+        bar: 'bar',
+      })
+
+      act(() => {
+        result.current.remove('/foo')
+      })
+
+      expect(result.current.data).toEqual({
+        bar: 'bar',
+      })
+      expect(result.current.data).not.toHaveProperty('foo')
+    })
+  })
+
   it('"update" should only re-render when value has changed', () => {
     let rerendered = 0
     const MockComponent = () => {
@@ -290,6 +345,7 @@ describe('Form.useData', () => {
     expect(result.current).toEqual({
       data: { key: 'value' },
       update: expect.any(Function),
+      remove: expect.any(Function),
       set: expect.any(Function),
       getValue: expect.any(Function),
       reduceToVisibleFields: expect.any(Function),
