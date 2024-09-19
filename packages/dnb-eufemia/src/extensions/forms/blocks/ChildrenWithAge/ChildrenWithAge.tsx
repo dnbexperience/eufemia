@@ -22,9 +22,9 @@ export type Props = SectionProps & {
 
 export default function ChildrenWithAge({
   mode,
-  showEmpty,
   enableAdditionalQuestions,
   toWizardStep,
+  showEmpty,
   ...props
 }: Props) {
   const spacingProps = pickSpacingProps<Props>(props)
@@ -32,13 +32,13 @@ export default function ChildrenWithAge({
   return (
     <Form.Section translations={translations} required {...restProps}>
       {mode === 'summary' ? (
-        <Summary
-          showEmpty={showEmpty}
+        <SummaryContainer
           toWizardStep={toWizardStep}
+          showEmpty={showEmpty}
           spacingProps={spacingProps}
         />
       ) : (
-        <EditContent
+        <EditContainer
           enableAdditionalQuestions={enableAdditionalQuestions}
           spacingProps={spacingProps}
         />
@@ -47,14 +47,13 @@ export default function ChildrenWithAge({
   )
 }
 
-function EditContent({
+function EditContainer({
   spacingProps,
   enableAdditionalQuestions,
 }: Props & {
   spacingProps?: SpacingProps
 }) {
   const tr = Form.useTranslation<Translation>()
-  const { update } = Form.useData()
 
   return (
     <Card stack {...spacingProps}>
@@ -67,11 +66,6 @@ function EditContent({
         defaultValue={false}
         errorMessages={{
           required: tr.ChildrenWithAge.hasChildren.required,
-        }}
-        onChange={(value) => {
-          if (value === false) {
-            update('/countChildren', 0)
-          }
         }}
       />
 
@@ -115,10 +109,10 @@ function EditContent({
         />
 
         <Iterate.Array
+          path="/children"
           countPath="/countChildren"
           countPathTransform={transformAgeItem}
           countPathLimit={20}
-          path="/children"
         >
           <Field.Composition
             label={tr.ChildrenWithAge.childrenAge.fieldLabel}
@@ -158,7 +152,7 @@ function EditContent({
   )
 }
 
-function Summary({
+function SummaryContainer({
   spacingProps,
   toWizardStep,
   showEmpty,
@@ -166,6 +160,9 @@ function Summary({
   spacingProps?: SpacingProps
 }) {
   const tr = Form.useTranslation<Translation>()
+
+  const { getValue } = Form.useData()
+  const hasNoChildren = getValue('/hasChildren') === false
 
   return (
     <Form.Visibility visible={showEmpty} pathTrue="/hasChildren" animate>
@@ -179,9 +176,13 @@ function Summary({
             defaultValue={0}
             suffix={tr.ChildrenWithAge.countChildren.suffix}
             maximum={20}
+            transformIn={(value) => (hasNoChildren ? 0 : value)}
           />
 
-          <Iterate.Array path="/children">
+          <Iterate.Array
+            path="/children"
+            limit={hasNoChildren ? 0 : undefined}
+          >
             <Value.Composition
               label={tr.ChildrenWithAge.childrenAge.fieldLabel}
               gap={false}

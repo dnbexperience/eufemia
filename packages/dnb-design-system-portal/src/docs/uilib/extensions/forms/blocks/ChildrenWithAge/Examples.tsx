@@ -14,7 +14,11 @@ import { useData } from '@dnb/eufemia/src/extensions/forms/Form'
 
 export const ChildrenWithAge = (props) => {
   return (
-    <Form.Handler>
+    <Form.Handler
+      onSubmit={(data, { reduceToVisibleFields }) => {
+        console.log(reduceToVisibleFields(data))
+      }}
+    >
       <WithToolbar>
         <Flex.Stack>
           <Blocks.ChildrenWithAge
@@ -40,7 +44,11 @@ export const ChildrenWithAgeWizard = (props) => {
         const MyForm = () => {
           const { summaryTitle } = Form.useLocale().Step
           return (
-            <Form.Handler>
+            <Form.Handler
+              onSubmit={(data, { reduceToVisibleFields }) => {
+                console.log(reduceToVisibleFields(data))
+              }}
+            >
               <Wizard.Container>
                 <Wizard.Step title="Step 1">
                   <Blocks.ChildrenWithAge {...props} />
@@ -50,7 +58,6 @@ export const ChildrenWithAgeWizard = (props) => {
                 <Wizard.Step title={summaryTitle}>
                   <Blocks.ChildrenWithAge
                     mode="summary"
-                    showEmpty
                     toWizardStep={0}
                     {...props}
                   />
@@ -177,6 +184,9 @@ export const ChildrenWithAgePrefilledYes = () => {
           usesDaycare: true,
           countChildren: 2,
           children: [{}, {}],
+        }}
+        onSubmit={(data, { reduceToVisibleFields }) => {
+          console.log(reduceToVisibleFields(data))
         }}
       >
         <Flex.Stack>

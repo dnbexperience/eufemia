@@ -6,11 +6,6 @@ export const ChildrenWithAgeProperties: PropertiesTableProps = {
     type: 'number',
     status: 'optional',
   },
-  showEmpty: {
-    doc: 'Show the `Value.*` version when there are no children. Defaults to `false`.',
-    type: 'boolean',
-    status: 'optional',
-  },
   enableAdditionalQuestions: {
     doc: '[`joint-responsibility`, `daycare`]',
     type: 'array',
@@ -19,6 +14,11 @@ export const ChildrenWithAgeProperties: PropertiesTableProps = {
   toWizardStep: {
     doc: 'If defined, a `Wizard.EditButton` will be shown.',
     type: 'number',
+    status: 'optional',
+  },
+  showEmpty: {
+    doc: 'Show the `Value.*` version when there are no children. Defaults to `false`.',
+    type: 'boolean',
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {
