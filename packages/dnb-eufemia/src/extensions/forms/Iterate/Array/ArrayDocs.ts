@@ -13,7 +13,7 @@ export const ArrayProperties: PropertiesTableProps = {
     status: 'optional',
   },
   limit: {
-    doc: 'Limit the number of items to iterate over. Defaults to `undefined`.',
+    doc: 'Limit the number of rendered items to iterate over. Defaults to `undefined`.',
     type: 'number',
     status: 'optional',
   },

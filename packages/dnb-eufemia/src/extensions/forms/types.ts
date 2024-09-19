@@ -586,7 +586,10 @@ export type OnSubmit<Data = JsonObject> = (
 
 export type OnCommit<Data = JsonObject> = (
   data: Data,
-  { clearData }: { clearData: () => void }
+  {
+    clearData,
+    preventCommit,
+  }: { clearData: () => void; preventCommit?: () => void }
 ) =>
   | EventReturnWithStateObject
   | void

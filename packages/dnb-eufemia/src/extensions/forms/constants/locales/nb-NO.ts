@@ -33,26 +33,27 @@ export default {
     RemoveButton: {
       text: 'Fjern',
     },
-    IterateViewContainer: {
-      removeButton: 'Fjern',
-      editButton: 'Endre',
-    },
     SectionViewContainer: {
       editButton: 'Endre',
     },
     SectionEditContainer: {
       doneButton: 'Ferdig',
       cancelButton: 'Avbryt',
-      errorInSection: 'Feilene ovenfor må rettes',
+      errorInSection: 'Feilene ovenfor må rettes.',
+    },
+    IterateViewContainer: {
+      removeButton: 'Fjern',
+      editButton: 'Endre',
     },
     IterateEditContainer: {
       removeButton: 'Fjern',
       doneButton: 'Ferdig',
       cancelButton: 'Avbryt',
-      errorInContainer: 'Feilene ovenfor må rettes',
+      errorInContainer: 'Feilene ovenfor må rettes.',
     },
     IteratePushContainer: {
       createButton: 'Legg til',
+      itemsLimitReached: 'Du har nådd grensen på: {limit}',
     },
 
     /**

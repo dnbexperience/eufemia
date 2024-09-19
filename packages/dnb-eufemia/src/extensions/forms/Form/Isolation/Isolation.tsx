@@ -8,6 +8,7 @@ import React, {
 } from 'react'
 import pointer, { JsonObject } from 'json-pointer'
 import { extendDeep } from '../../../../shared/component-helper'
+import { isAsync } from '../../../../shared/helpers/isAsync'
 import useDataValue from '../../hooks/useDataValue'
 import { Context, ContextState, Provider } from '../../DataContext'
 import SectionContext from '../Section/SectionContext'
@@ -170,18 +171,27 @@ function IsolationProvider<Data extends JsonObject>(
         isolatedData = transformOnCommitProp(isolatedData, outerData)
       }
 
+      let stop = false
+      additionalArgs.preventCommit = () => (stop = true)
+
+      const commitData = removeSectionPath(isolatedData)
+      const result = isAsync(onCommitProp)
+        ? await onCommitProp?.(commitData, additionalArgs)
+        : onCommitProp?.(commitData, additionalArgs)
+
+      if (stop) {
+        return // stop here
+      }
+
       // Commit the internal data to the nested context data
-      handlePathChangeOuter?.(
+      await handlePathChangeOuter?.(
         path,
         Array.isArray(isolatedData)
           ? isolatedData
           : extendDeep({}, outerData, isolatedData)
       )
 
-      return await onCommitProp?.(
-        removeSectionPath(isolatedData),
-        additionalArgs
-      )
+      return result
     },
     [
       getMountedData,
