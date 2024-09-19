@@ -275,13 +275,12 @@ describe('useFieldProps', () => {
   })
 
   describe('with local validation', () => {
-    it('should return error when validator callback return error', async () => {
+    it('should return error when validator callback returns error', async () => {
       const { result, rerender } = renderHook(useFieldProps, {
         initialProps: {
           validator: () => new Error('This is wrong...'),
           value: 'foo',
           validateInitially: true,
-          continuousValidation: true,
         },
       })
 
@@ -293,7 +292,6 @@ describe('useFieldProps', () => {
         validator: () => undefined,
         value: 'bar',
         validateInitially: true,
-        continuousValidation: true,
       })
 
       await waitFor(() => {
