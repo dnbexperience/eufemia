@@ -80,9 +80,7 @@ export default function useValueProps<
   )
 
   const value = shouldBeVisible(path)
-    ? transformers.current.transformIn(
-        transformers.current.toInput(externalValue)
-      )
+    ? transformIn(toInput(externalValue))
     : undefined
 
   const label =
