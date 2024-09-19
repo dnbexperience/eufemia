@@ -44,15 +44,11 @@ This example is only for demo purpose and will NOT redirect to a new location. I
 
 <Examples.AsyncSubmitComplete />
 
-### Filter your data
+### Visible data
 
-By using the `filterData` method from the `onSubmit` event callback you can filter out data that you don't want to send to your server.
+You can use the `reduceToVisibleFields` function to get only the data of visible (mounted) fields.
 
-More info about `filterData` can be found in the [Getting Started](/uilib/extensions/forms/getting-started/#filter-data) section.
-
-In this example we filter out all fields that are disabled.
-
-<Examples.FilterData />
+<Examples.VisibleData />
 
 ### With session storage
 
@@ -88,3 +84,13 @@ This example demonstrates how to use async validation with an async `onSubmit` a
 - To access the `date` "in sync" – you can use the [useData](/uilib/extensions/forms/Form/useData/) hook.
 
 <Examples.AsyncChangeAndValidation />
+
+### Filter your data
+
+By using the `filterData` method from the `onSubmit` event callback you can filter out data that you don't want to send to your server.
+
+More info about `filterData` can be found in the [Getting Started](/uilib/extensions/forms/getting-started/#filter-data) section.
+
+In this example we filter out all fields that are disabled.
+
+<Examples.FilterData />

@@ -374,6 +374,7 @@ describe('Field.Upload', () => {
           clearData: expect.any(Function),
           resetForm: expect.any(Function),
           filterData: expect.any(Function),
+          reduceToVisibleFields: expect.any(Function),
         }
       )
     })
@@ -506,6 +507,7 @@ describe('Field.Upload', () => {
           clearData: expect.any(Function),
           resetForm: expect.any(Function),
           filterData: expect.any(Function),
+          reduceToVisibleFields: expect.any(Function),
         }
       )
     })
@@ -627,6 +629,7 @@ describe('Field.Upload', () => {
           clearData: expect.any(Function),
           resetForm: expect.any(Function),
           filterData: expect.any(Function),
+          reduceToVisibleFields: expect.any(Function),
         }
       )
     })
@@ -770,6 +773,7 @@ describe('Field.Upload', () => {
           clearData: expect.any(Function),
           resetForm: expect.any(Function),
           filterData: expect.any(Function),
+          reduceToVisibleFields: expect.any(Function),
         }
       )
     })

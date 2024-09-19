@@ -297,6 +297,43 @@ export const Locale = () => {
   )
 }
 
+export const VisibleData = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler
+        defaultData={{
+          isVisible: true,
+        }}
+        onSubmit={(data, { reduceToVisibleFields }) => {
+          const myData = reduceToVisibleFields(data, {
+            removePaths: ['/isVisible'],
+          })
+          console.log('Result of reduceToVisibleFields: ', myData)
+        }}
+      >
+        <Flex.Stack>
+          <Field.Boolean
+            label="Show radio buttons"
+            variant="button"
+            path="/isVisible"
+          />
+          <Form.Visibility pathTrue="/isVisible" animate>
+            <Field.Selection
+              label="Radio buttons"
+              variant="radio"
+              path="/myValue"
+              defaultValue="foo"
+            >
+              <Field.Option value="foo" title="Foo" />
+              <Field.Option value="bar" title="Bar" />
+            </Field.Selection>
+          </Form.Visibility>
+        </Flex.Stack>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
 export const FilterData = () => {
   return (
     <ComponentBox scope={{ replaceUndefinedValues }}>

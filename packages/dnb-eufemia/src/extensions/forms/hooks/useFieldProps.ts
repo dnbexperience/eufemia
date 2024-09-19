@@ -1457,6 +1457,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     // Mount procedure.
     setMountedFieldStateDataContext(identifier, {
       isMounted: true,
+      isPreMounted: true,
     })
 
     // Unmount procedure.

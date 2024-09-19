@@ -32,6 +32,14 @@ export type EventListenerCall = {
   callback: (params?: { value: unknown }) => void | Promise<void | Error>
 }
 
+export type VisibleDataHandler<Data> = (
+  data?: Data,
+  options?: VisibleDataOptions
+) => Partial<Data>
+export type VisibleDataOptions = {
+  keepPaths?: Array<Path>
+  removePaths?: Array<Path>
+}
 export type MutateDataHandler<Data> = (
   data: Data,
   mutate: TransformData
@@ -96,6 +104,7 @@ export interface ContextState {
   clearData?: () => void
   mutateDataHandler?: MutateDataHandler<unknown>
   filterDataHandler?: FilterDataHandler<unknown>
+  visibleDataHandler?: VisibleDataHandler<unknown>
   validateData: () => void
   handleSubmit: (props?: HandleSubmitProps) => void
   scrollToTop: () => void

@@ -3,7 +3,7 @@ import type { JSONSchema4, JSONSchema6, JSONSchema7 } from 'json-schema'
 import type { JSONSchemaType } from 'ajv/dist/2020'
 import { JsonObject } from 'json-pointer'
 import { AriaAttributes } from 'react'
-import { FilterData } from './DataContext'
+import { FilterData, VisibleDataOptions } from './DataContext'
 
 export type * from 'json-schema'
 export type JSONSchema = JSONSchema7
@@ -555,6 +555,12 @@ export type EventReturnWithStateObjectAndSuccess =
   | EventStateObjectWithSuccess
 
 export type OnSubmitParams = {
+  /** Will remove data entries of fields that are not visible */
+  reduceToVisibleFields: (
+    data: JsonObject,
+    options?: VisibleDataOptions
+  ) => Partial<JsonObject>
+
   /** Will filter data based on the given "filterDataHandler" method */
   filterData: (filterDataHandler: FilterData) => Partial<JsonObject>
 
@@ -567,7 +573,12 @@ export type OnSubmitParams = {
 
 export type OnSubmit<Data = JsonObject> = (
   data: Data,
-  { filterData, resetForm, clearData }: OnSubmitParams
+  {
+    reduceToVisibleFields,
+    filterData,
+    resetForm,
+    clearData,
+  }: OnSubmitParams
 ) =>
   | EventReturnWithStateObject
   | void

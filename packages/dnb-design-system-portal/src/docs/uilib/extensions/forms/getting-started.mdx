@@ -114,11 +114,12 @@ function MyForm() {
 
 function MyComponent() {
   const {
-    getValue, // Method to get a single value
-    update, // Method to update a single value
-    set, // Method to set the whole dataset
-    data, // The whole dataset (unvalidated)
-    filterData, // Method to filter data with your own logic
+    getValue,
+    update,
+    set,
+    data,
+    filterData,
+    reduceToVisibleFields,
   } = Form.useData() // optionally provide an id (unique-id)
 }
 
@@ -126,16 +127,29 @@ function MyComponent() {
 Form.setData('unique-id', { companyName: 'DNB' })
 
 // ... and the getData – method when ever you need to:
-const {
-  getValue, // Method to get a single value
-  data, // The whole dataset (unvalidated)
-  filterData, // Method to filter data with your own logic
-} = Form.getData('unique-id')
+const { getValue, data, filterData, reduceToVisibleFields } =
+  Form.getData('unique-id')
 ```
+
+- `getValue` will return the value of the given path.
+- `update` will update the value of the given path.
+- `set` will set the whole dataset.
+- `data` will return the whole dataset (unvalidated).
+- `filterData` will filter the data based on your own logic.
+- `reduceToVisibleFields` will use the provided data and remove data entries of hidden (unmounted) fields.
 
 As you can see in the code above, you can even handle the state outside the `Form.Handler` context. You find more details on this topic in the [useData](/uilib/extensions/forms/Form/useData/) documentation.
 
 <Examples.GettingStarted />
+
+#### Visible data
+
+User entered data will always be stored internally in the data context, even if a [Field](/uilib/extensions/forms/all-fields/) is temporarily shown (mounted/unmounted).
+
+When submitting data to the server, you might want to exclude data that has been hidden (unmounted) by the user. You have two built-in options to achieve this:
+
+- You can use the `reduceToVisibleFields` function to get only the data of visible (mounted) fields. Check out the [example](/uilib/extensions/forms/Form/Handler/demos/#visible-data) in the demo section.
+- Or you may use the `filterData` function to filter your data. More details in the next section.
 
 #### Filter data
 

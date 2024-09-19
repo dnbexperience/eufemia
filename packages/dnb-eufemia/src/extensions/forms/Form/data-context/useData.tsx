@@ -15,6 +15,7 @@ import type { Path } from '../../types'
 import DataContext, {
   FilterData,
   FilterDataHandler,
+  VisibleDataHandler,
 } from '../../DataContext/Context'
 
 type PathImpl<T, P extends string> = P extends `${infer Key}/${infer Rest}`
@@ -43,17 +44,21 @@ export type UseDataReturnFilterData<Data> = (
   data?: Data
 ) => Partial<Data>
 
+export type UseDataReturnVisibleData<Data> = VisibleDataHandler<Data>
+
 type UseDataReturn<Data> = {
   data: Data
   set: (newData: Data) => void
   update: UseDataReturnUpdate<Data>
   getValue: UseDataReturnGetValue<Data>
   filterData: UseDataReturnFilterData<Data>
+  reduceToVisibleFields: UseDataReturnVisibleData<Data>
 }
 
 type SharedAttachment<Data> = {
   rerenderUseDataHook: () => void
   filterDataHandler?: FilterDataHandler<Data>
+  visibleDataHandler?: VisibleDataHandler<Data>
 }
 
 /**
@@ -141,6 +146,22 @@ export default function useData<Data>(
     [id, updateDataValue]
   )
 
+  const reduceToVisibleFields = useCallback<
+    UseDataReturn<Data>['reduceToVisibleFields']
+  >(
+    (data, options = {}) => {
+      if (id) {
+        return sharedAttachmentsRef.current.data?.visibleDataHandler?.(
+          data,
+          options
+        )
+      }
+
+      return context?.visibleDataHandler?.(data, options)
+    },
+    [context, id]
+  )
+
   const filterData = useCallback<UseDataReturn<Data>['filterData']>(
     (filter, data = sharedDataRef.current.data) => {
       if (id) {
@@ -150,7 +171,7 @@ export default function useData<Data>(
         )
       }
 
-      return context?.filterDataHandler(data, filter)
+      return context?.filterDataHandler?.(data, filter)
     },
     [context, id]
   )
@@ -177,8 +198,16 @@ export default function useData<Data>(
       update: updateHandler,
       set: setHandler,
       getValue,
+      reduceToVisibleFields,
       filterData,
     }),
-    [data, getValue, setHandler, updateHandler, filterData]
+    [
+      data,
+      updateHandler,
+      setHandler,
+      getValue,
+      reduceToVisibleFields,
+      filterData,
+    ]
   )
 }
