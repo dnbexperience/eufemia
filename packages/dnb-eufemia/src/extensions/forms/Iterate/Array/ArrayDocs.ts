@@ -12,6 +12,11 @@ export const ArrayProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  limit: {
+    doc: 'Limit the number of items to iterate over. Defaults to `undefined`.',
+    type: 'number',
+    status: 'optional',
+  },
   countPath: {
     doc: 'A path (JSON Pointer) to the array length.',
     type: 'string',

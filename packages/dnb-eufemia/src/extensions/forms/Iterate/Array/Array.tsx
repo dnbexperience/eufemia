@@ -85,6 +85,7 @@ function ArrayComponent(props: Props) {
   const {
     path,
     value: arrayValue,
+    limit,
     error,
     defaultValue,
     withoutFlex,
@@ -142,8 +143,10 @@ function ArrayComponent(props: Props) {
   const { getNextContainerMode } = useSwitchContainerMode()
 
   const arrayItems = useMemo(() => {
-    const list = valueWhileClosingRef.current || arrayValue
-    return (list ?? []).map((value, index) => {
+    const list = (valueWhileClosingRef.current || arrayValue) ?? []
+    const limitedList =
+      typeof limit === 'number' ? list.slice(0, limit) : list
+    return limitedList.map((value, index) => {
       const id = idsRef.current[index] || makeUniqueId()
 
       const hasNewItems =
@@ -232,7 +235,7 @@ function ArrayComponent(props: Props) {
 
     // In order to update "valueWhileClosingRef" we need to have "salt" in the deps array
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [salt, arrayValue, path, handleChange])
+  }, [salt, arrayValue, limit, path, handleChange])
 
   // - Call the onChange callback when a new element is added without calling "handlePush"
   useMemo(() => {
