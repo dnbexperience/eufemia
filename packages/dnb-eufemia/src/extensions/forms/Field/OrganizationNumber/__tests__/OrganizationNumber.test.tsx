@@ -1,15 +1,11 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
-import { render, waitFor, screen } from '@testing-library/react'
+import { render, waitFor, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Field } from '../../..'
+import { Field, Form } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 
 const nb = nbNO['nb-NO']
-
-async function expectNever(callable: () => unknown): Promise<void> {
-  await expect(() => waitFor(callable)).rejects.toEqual(expect.anything())
-}
 
 describe('Field.OrganizationNumber', () => {
   it('should have Norwegian mask', async () => {
@@ -84,25 +80,30 @@ describe('Field.OrganizationNumber', () => {
 
     const invalidOrgNum = ['123', '123456789', '148623907', '987654321']
 
-    it.each(validOrgNum)(
-      'Valid organization number: %s',
-      async (orgNo) => {
-        render(
+    it.each(validOrgNum)('Valid organization number: %s', (orgNo) => {
+      render(
+        <Form.Handler>
           <Field.OrganizationNumber value={orgNo} validateInitially />
-        )
-        await expectNever(() => {
-          // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-        })
-      }
-    )
+        </Form.Handler>
+      )
+
+      fireEvent.blur(document.querySelector('input'))
+
+      expect(screen.queryByRole('alert')).toBeNull()
+    })
 
     it.each(invalidOrgNum)(
       'Invalid organization number: %s',
       async (orgNo) => {
         render(
-          <Field.OrganizationNumber value={orgNo} validateInitially />
+          <Field.OrganizationNumber
+            value={orgNo}
+            validateInitially
+            validateUnchanged
+          />
         )
+
+        fireEvent.blur(document.querySelector('input'))
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()

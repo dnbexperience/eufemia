@@ -31,29 +31,6 @@ function OrganizationNumber(props: Props) {
 
   const organizationNumberValidator = useCallback(
     (value: string) => {
-      const isValidOrgNumber = (digits: string) => {
-        // www.brreg.no/om-oss/registrene-vare/om-enhetsregisteret/organisasjonsnummeret/
-        let checkDigit = 2
-        let sum = 0
-
-        for (let i = digits.length - 2; i >= 0; --i) {
-          sum += parseInt(digits.charAt(i)) * checkDigit
-
-          checkDigit += 1
-
-          if (checkDigit > 7) {
-            checkDigit = 2
-          }
-        }
-
-        const result = 11 - (sum % 11)
-        const finalCheckDigit = result === 11 ? 0 : result
-
-        return (
-          parseInt(digits.charAt(digits.length - 1), 10) ===
-          finalCheckDigit
-        )
-      }
       if (
         new RegExp(validationPattern).test(value) &&
         !isValidOrgNumber(value)
@@ -73,13 +50,37 @@ function OrganizationNumber(props: Props) {
     mask,
     width: props.width ?? 'medium',
     inputMode: 'numeric',
-    validator: validate
-      ? props.validator || organizationNumberValidator
+    onBlurValidator: validate
+      ? props.onBlurValidator || organizationNumberValidator
       : undefined,
-    // exportValidators: { organizationNumberValidator },
+    exportValidators: { organizationNumberValidator },
   }
 
   return <StringField {...StringFieldProps} />
+}
+
+/**
+ * Source:
+ * www.brreg.no/om-oss/registrene-vare/om-enhetsregisteret/organisasjonsnummeret/
+ */
+function isValidOrgNumber(digits: string) {
+  let checkDigit = 2
+  let sum = 0
+
+  for (let i = digits.length - 2; i >= 0; --i) {
+    sum += parseInt(digits.charAt(i)) * checkDigit
+
+    checkDigit += 1
+
+    if (checkDigit > 7) {
+      checkDigit = 2
+    }
+  }
+
+  const result = 11 - (sum % 11)
+  const finalCheckDigit = result === 11 ? 0 : result
+
+  return parseInt(digits.charAt(digits.length - 1), 10) === finalCheckDigit
 }
 
 OrganizationNumber._supportsSpacingProps = true
