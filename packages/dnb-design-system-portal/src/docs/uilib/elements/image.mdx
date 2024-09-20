@@ -13,12 +13,12 @@ import {
 
 The image element associated with the class `dnb-img` does not have much opinionated styling. It exists more to have a future possibility to optimize and add features.
 
-As of now, the React image "element" (Img) does provide a `figure` element with the `role="img"` and an `img` tag inside. This is mainly to support the [Skeleton](/uilib/components/skeleton) provider.
+The React image "element" (Img) does provide a `figure` element with an `img` element inside. This is mainly to support a `caption` text and a [Skeleton](/uilib/components/skeleton).
 
 ```jsx
 import { Img } from '@dnb/eufemia'
 
-render(<InlineImg alt="..." src="..." width="100" height="100" />)
+render(<Img alt="..." src="..." width="100" height="100" />)
 ```
 
 ## Basic image element
