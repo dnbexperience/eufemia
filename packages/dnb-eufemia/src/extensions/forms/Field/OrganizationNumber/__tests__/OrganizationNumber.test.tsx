@@ -1,8 +1,15 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
-import { render } from '@testing-library/react'
+import { render, waitFor, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Field } from '../../..'
+import nbNO from '../../../constants/locales/nb-NO'
+
+const nb = nbNO['nb-NO']
+
+async function expectNever(callable: () => unknown): Promise<void> {
+  await expect(() => waitFor(callable)).rejects.toEqual(expect.anything())
+}
 
 describe('Field.OrganizationNumber', () => {
   it('should have Norwegian mask', async () => {
@@ -55,6 +62,56 @@ describe('Field.OrganizationNumber', () => {
     const input = document.querySelector('.dnb-input__input')
 
     expect(input).toHaveAttribute('inputmode', 'numeric')
+  })
+
+  describe('should validate Norwegian organization number', () => {
+    const validOrgNum = [
+      '724841198',
+      '602105938',
+      '656231440',
+      '967746096',
+      '721357694',
+      '282334933',
+      '519909235',
+      '530028801',
+      '991541209',
+      '756299263',
+      '100214458',
+      '208141554',
+      '507364276',
+      '148623902',
+    ]
+
+    const invalidOrgNum = ['123', '123456789', '148623907', '987654321']
+
+    it.each(validOrgNum)(
+      'Valid organization number: %s',
+      async (orgNo) => {
+        render(
+          <Field.OrganizationNumber value={orgNo} validateInitially />
+        )
+        await expectNever(() => {
+          // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+        })
+      }
+    )
+
+    it.each(invalidOrgNum)(
+      'Invalid organization number: %s',
+      async (orgNo) => {
+        render(
+          <Field.OrganizationNumber value={orgNo} validateInitially />
+        )
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          expect(screen.queryByRole('alert')).toHaveTextContent(
+            nb.OrganizationNumber.errorPattern
+          )
+        })
+      }
+    )
   })
 
   describe('ARIA', () => {
