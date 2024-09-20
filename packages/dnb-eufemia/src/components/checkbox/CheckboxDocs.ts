@@ -68,7 +68,7 @@ export const CheckboxProperties: PropertiesTableProps = {
   },
   innerRef: {
     doc: 'By providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.',
-    type: 'string',
+    type: 'React.Ref',
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {
