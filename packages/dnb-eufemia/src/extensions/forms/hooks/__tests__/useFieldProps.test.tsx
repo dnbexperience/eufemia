@@ -2229,7 +2229,7 @@ describe('useFieldProps', () => {
       expect(transformIn).toHaveBeenCalledTimes(2)
       expect(transformIn).toHaveBeenLastCalledWith(3)
       expect(transformOut).toHaveBeenCalledTimes(1)
-      expect(transformOut).toHaveBeenLastCalledWith(2)
+      expect(transformOut).toHaveBeenLastCalledWith(2, undefined)
 
       act(() => {
         handleChange(4)
@@ -2238,7 +2238,37 @@ describe('useFieldProps', () => {
       expect(transformIn).toHaveBeenCalledTimes(3)
       expect(transformIn).toHaveBeenLastCalledWith(5)
       expect(transformOut).toHaveBeenCalledTimes(2)
-      expect(transformOut).toHaveBeenLastCalledWith(4)
+      expect(transformOut).toHaveBeenLastCalledWith(4, undefined)
+    })
+
+    it('should call "transformOut" initially when value is given', () => {
+      const transformOut = jest.fn((v) => v + 1)
+      const defaultValue = 1
+
+      const { result } = renderHook(
+        () => useFieldProps({ path: '/foo', transformOut, defaultValue }),
+        { wrapper: Provider }
+      )
+
+      expect(result.current.dataContext.data).toEqual({
+        foo: 2,
+      })
+      expect(transformOut).toHaveBeenCalledTimes(1)
+    })
+
+    it('should call "transformOut" initially when defaultValue is given', () => {
+      const transformOut = jest.fn((v) => v + 1)
+      const defaultValue = 1
+
+      const { result } = renderHook(
+        () => useFieldProps({ path: '/foo', transformOut, defaultValue }),
+        { wrapper: Provider }
+      )
+
+      expect(result.current.dataContext.data).toEqual({
+        foo: 2,
+      })
+      expect(transformOut).toHaveBeenCalledTimes(1)
     })
 
     it('should call "transformIn" and "transformOut" after "fromInput" and "toInput"', () => {
@@ -2272,7 +2302,7 @@ describe('useFieldProps', () => {
       expect(transformIn).toHaveBeenCalledTimes(2)
       expect(transformIn).toHaveBeenLastCalledWith(3)
       expect(transformOut).toHaveBeenCalledTimes(1)
-      expect(transformOut).toHaveBeenLastCalledWith(3)
+      expect(transformOut).toHaveBeenLastCalledWith(3, undefined)
 
       act(() => {
         handleChange(4)
@@ -2281,7 +2311,7 @@ describe('useFieldProps', () => {
       expect(transformIn).toHaveBeenCalledTimes(3)
       expect(transformIn).toHaveBeenLastCalledWith(5)
       expect(transformOut).toHaveBeenCalledTimes(2)
-      expect(transformOut).toHaveBeenLastCalledWith(5)
+      expect(transformOut).toHaveBeenLastCalledWith(5, undefined)
     })
 
     it('should call "fromInput" and "toInput"', () => {

@@ -356,7 +356,10 @@ export interface UseFieldProps<
    * Transforms the value before it gets forwarded to the form data object or returned as the onChange value parameter.
    * Public API. Should not be used internally.
    */
-  transformOut?: (internal: Value | unknown) => Value
+  transformOut?: (
+    internal: Value | unknown,
+    additionalArgs?: unknown
+  ) => Value
 
   /**
    * Transforms the value given by `handleChange` after `fromInput` and before `updateValue` and `toEvent`. The second parameter returns the current value.
@@ -364,11 +367,11 @@ export interface UseFieldProps<
   transformValue?: (value: Value, currentValue?: Value) => Value
 
   /**
-   * Transform additionalArgs or generate it based on value after `toEvent` and before callbacks such as `onChange`, `onFocus` and `onBlur`.
+   * Transform additionalArgs or generate it based on `value`.
    */
-  transformAdditionalArgs?: (
-    additionalArgs: AdditionalEventArgs,
-    internal: Value
+  provideAdditionalArgs?: (
+    value: Value,
+    additionalArgs?: AdditionalEventArgs
   ) => AdditionalEventArgs
 
   /**

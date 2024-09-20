@@ -114,13 +114,15 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     fromInput = (value: Value) => value,
     toEvent = (value: Value) => value,
     transformValue = (value: Value) => value,
-    transformAdditionalArgs = (additionalArgs: AdditionalEventArgs) =>
-      additionalArgs,
+    provideAdditionalArgs = (
+      value: Value,
+      additionalArgs: AdditionalEventArgs
+    ) => additionalArgs,
     fromExternal = (value: Value) => value,
     validateRequired = (value, { emptyValue, required, error }) => {
       const res =
         required &&
-        ((value as any) === emptyValue ||
+        ((value as unknown) === emptyValue ||
           (typeof emptyValue === 'undefined' && value === ''))
           ? error
           : undefined
@@ -154,7 +156,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const transformers = useRef({
     transformIn,
     transformOut,
-    transformAdditionalArgs,
+    provideAdditionalArgs,
     toInput,
     fromInput,
     toEvent,
@@ -1023,39 +1025,49 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
   }, [continuousValidation, hideError, revealError])
 
+  const getEventArgs = useCallback(
+    ({
+      eventName,
+      additionalArgs,
+      overrideValue = undefined,
+    }): [Value] | [Value, AdditionalEventArgs] => {
+      const value = transformers.current.toEvent(
+        overrideValue ?? valueRef.current,
+        eventName
+      )
+      const args = transformers.current.provideAdditionalArgs(
+        value,
+        additionalArgs
+      )
+
+      if (typeof args !== 'undefined') {
+        return [value, args]
+      }
+
+      return [value]
+    },
+    []
+  )
+
   const setHasFocus = useCallback(
     async (
       hasFocus: boolean,
       overrideValue?: Value,
       additionalArgs?: AdditionalEventArgs
     ) => {
-      const getArgs = (
-        type: Parameters<typeof transformers.current.toEvent>[1]
-      ) => {
-        const value = transformers.current.toEvent(
-          overrideValue ?? valueRef.current,
-          type
-        )
-        const transformedAdditionalArgs =
-          transformers.current.transformAdditionalArgs(
-            additionalArgs,
-            value
-          )
-
-        return typeof transformedAdditionalArgs !== 'undefined'
-          ? [value, transformedAdditionalArgs]
-          : [value]
-      }
+      const args = getEventArgs({
+        eventName: hasFocus ? 'onFocus' : 'onBlur',
+        overrideValue,
+        additionalArgs,
+      })
 
       if (hasFocus) {
         // Field was put in focus (like when clicking in a text field or opening a dropdown menu)
         hasFocusRef.current = true
-        const args = getArgs('onFocus')
         onFocus?.apply(this, args)
       } else {
         // Field was removed from focus (like when tabbing out of a text field or closing a dropdown menu)
         hasFocusRef.current = false
-        const args = getArgs('onBlur')
         onBlur?.apply(this, args)
 
         if (!changedRef.current && !validateUnchanged) {
@@ -1078,6 +1090,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       }
     },
     [
+      getEventArgs,
       onFocus,
       onBlur,
       validateUnchanged,
@@ -1311,7 +1324,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       }
 
       const transformedValue = transformers.current.transformOut(
-        transformers.current.transformValue(fromInput, currentValue)
+        transformers.current.transformValue(fromInput, currentValue),
+        transformers.current.provideAdditionalArgs(
+          fromInput,
+          additionalArgs
+        )
       )
 
       // Must be set before validation
@@ -1332,28 +1349,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         updateValue(transformedValue)
       }
 
-      const getArgs = (): [Value] | [Value, AdditionalEventArgs] => {
-        const value = transformers.current.toEvent(
-          valueRef.current,
-          'onChange'
-        )
-
-        const transformedAdditionalArgs =
-          transformers.current.transformAdditionalArgs(
-            additionalArgs,
-            value
-          )
-
-        return typeof transformedAdditionalArgs !== 'undefined'
-          ? [value, transformedAdditionalArgs]
-          : [value]
-      }
-
       if (isAsync(onChange)) {
         addToPool(
           'onChangeLocal',
           async () => {
-            const args = getArgs()
+            const args = getEventArgs({
+              eventName: 'onChange',
+              additionalArgs,
+            })
 
             await yieldAsyncProcess({
               name: 'onChangeLocal',
@@ -1389,7 +1392,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           true
         )
       } else {
-        setEventResult(onChange?.apply(this, getArgs()))
+        const args = getEventArgs({
+          eventName: 'onChange',
+          additionalArgs,
+        })
+        setEventResult(onChange?.apply(this, args))
       }
 
       await runPool()
@@ -1404,6 +1411,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       hideError,
       updateValue,
       addToPool,
+      getEventArgs,
       yieldAsyncProcess,
       defineAsyncProcess,
       hasError,
@@ -1620,7 +1628,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       ) {
         // Update the data context when a pointer not exists,
         // but was given initially.
-        updateDataValueDataContext?.(identifier, value)
+        updateDataValueDataContext?.(
+          identifier,
+          transformers.current.transformOut(
+            value,
+            transformers.current.provideAdditionalArgs(value)
+          )
+        )
         validateDataDataContext?.()
       }
     }

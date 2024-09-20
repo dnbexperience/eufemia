@@ -277,7 +277,7 @@ describe('Field.String', () => {
       expect(transformIn).toHaveBeenCalledTimes(7)
       expect(transformIn).toHaveBeenLastCalledWith('abc')
       expect(transformOut).toHaveBeenCalledTimes(6)
-      expect(transformOut).toHaveBeenLastCalledWith('ABc')
+      expect(transformOut).toHaveBeenLastCalledWith('ABc', undefined)
       expect(onChangeProvider).toHaveBeenCalledTimes(6)
       expect(onChangeProvider).toHaveBeenLastCalledWith(
         { myField: 'abc' },
@@ -292,7 +292,7 @@ describe('Field.String', () => {
       expect(transformIn).toHaveBeenCalledTimes(13)
       expect(transformIn).toHaveBeenLastCalledWith('efg')
       expect(transformOut).toHaveBeenCalledTimes(12)
-      expect(transformOut).toHaveBeenLastCalledWith('EFG')
+      expect(transformOut).toHaveBeenLastCalledWith('EFG', undefined)
       expect(onChangeProvider).toHaveBeenCalledTimes(12)
       expect(onChangeProvider).toHaveBeenLastCalledWith(
         { myField: 'efg' },

@@ -50,14 +50,12 @@ function SelectCountry(props: Props) {
   const translations = useTranslation().SelectCountry
   const lang = sharedContext.locale?.split('-')[0] as CountryLang
 
-  const transformAdditionalArgs = (additionalArgs: CountryType, value) => {
+  const provideAdditionalArgs = useCallback((value) => {
     const country = countries.find(({ iso }) => value === iso)
     if (country?.iso) {
       return country
-    } else {
-      return additionalArgs
     }
-  }
+  }, [])
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: translations.errorRequired,
@@ -69,7 +67,7 @@ function SelectCountry(props: Props) {
   const preparedProps: Props = {
     ...defaultProps,
     ...props,
-    transformAdditionalArgs,
+    provideAdditionalArgs,
   }
 
   const {

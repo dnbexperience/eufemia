@@ -253,6 +253,8 @@ They should return a transformed value: `(value) => value`
 
 - `transformValue` transforms the value given by `handleChange` after `fromInput` and before `updateValue` and `toEvent`. The second parameter returns the current value.
 
+- `provideAdditionalArgs` provide a function that can be called by the field to provide additional parameters, so events (`onFocus`, `onBlur` and `onChange`) and transformers (`transformOut`) get an additional parameter when transforming the value.
+
 In addition there are **field value transformers** which should be used outside of the field component (by the field consumer):
 
 - `transformIn` transforms the `value` before its displayed in the field (e.g. input).
