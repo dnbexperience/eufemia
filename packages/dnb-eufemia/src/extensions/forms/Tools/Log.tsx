@@ -14,7 +14,7 @@ function Log(props: SectionProps) {
       {...props}
     >
       <pre>
-        {JSON.stringify(data)}
+        {JSON.stringify(data, null, 2)}
         {' ' /* Ensure one line of spacing */}
       </pre>
     </Section>
