@@ -1,3 +1,4 @@
+import nb from './nb-NO'
 export default {
   'en-GB': {
     TextCounter: {
@@ -164,5 +165,5 @@ export default {
       deleteButton: 'Delete',
       fileListAriaLabel: 'uploaded files',
     },
-  },
+  } satisfies (typeof nb)['nb-NO'],
 }

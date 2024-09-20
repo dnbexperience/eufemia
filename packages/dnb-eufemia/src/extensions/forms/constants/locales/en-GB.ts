@@ -1,3 +1,4 @@
+import nb from './nb-NO'
 export default {
   'en-GB': {
     /**
@@ -168,5 +169,5 @@ export default {
       errorRequired: 'You must upload a file.',
       errorInvalidFiles: 'Remove all files that have errors.',
     },
-  },
+  } satisfies (typeof nb)['nb-NO'],
 }
