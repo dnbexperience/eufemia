@@ -27,7 +27,6 @@ import FieldPropsContext from '../Form/FieldProps/FieldPropsContext'
 import { combineDescribedBy, warn } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import useUpdateEffect from '../../../shared/helpers/useUpdateEffect'
-import useMountEffect from '../../../shared/helpers/useMountEffect'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateElementContext from '../Iterate/IterateItemContext'
 import SectionContext from '../Form/Section/SectionContext'
@@ -44,6 +43,10 @@ import { isAsync } from '../../../shared/helpers/isAsync'
 import useTranslation from './useTranslation'
 import useExternalValue from './useExternalValue'
 import useDataValue from './useDataValue'
+
+// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
+const useLayoutEffect =
+  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
 type SubmitStateWithValidating = SubmitState | 'validating'
 type AsyncProcesses =
@@ -201,10 +204,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   })
 
   const defaultValueRef = useRef(defaultValue)
-  useMountEffect(() => {
+  useLayoutEffect(() => {
     // To support ReactStrict mode, we also need to add it from inside a useEffect
     defaultValueRef.current = defaultValue
-  })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   const externalValue =
     useExternalValue<Value>({
       path,
@@ -1500,20 +1504,33 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     )
   }, [dataContext.internalDataRef, dataContext.props?.emptyData])
 
-  useEffect(() => {
+  // Use "useLayoutEffect" to be in sync with the data context "updateDataValueDataContext" routine further down.
+  useLayoutEffect(() => {
     if (isEmptyData()) {
       hideError()
     }
   }, [externalValue, hideError, isEmptyData])
 
-  useUpdateEffect(() => {
+  // Use "useLayoutEffect" and "externalValueDidChangeRef"
+  // to cooperate with the the data context "updateDataValueDataContext" routine further down,
+  // which also uses useLayoutEffect.
+  const externalValueDidChangeRef = useRef(false)
+  useLayoutEffect(() => {
     // Error or removed error for this field from the surrounding data context (by path)
     if (valueRef.current !== externalValue) {
       valueRef.current = externalValue
+      externalValueDidChangeRef.current = true
+    }
+  }, [externalValue])
+
+  useEffect(() => {
+    // Error or removed error for this field from the surrounding data context (by path)
+    if (externalValueDidChangeRef.current) {
+      externalValueDidChangeRef.current = false
       validateValue()
       forceUpdate()
     }
-  }, [externalValue, validateValue])
+  }, [externalValue, validateValue]) // Keep "externalValue" in the dependency list, so it will be updated when it changes
 
   useEffect(() => {
     // Check against the local error state,
@@ -1551,7 +1568,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
   }, [defaultValue, itemPath, valueProp])
 
-  useEffect(() => {
+  // Use "useLayoutEffect" to avoid flickering when value/defaultValue gets set, and other fields dependent on it.
+  // Form.Visibility is an example of a logic, where a field value/defaultValue can be used to set the set state of a path,
+  // where again other fields depend on it.
+  useLayoutEffect(() => {
     if (hasPath) {
       let value = valueProp
 
@@ -1605,7 +1625,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   }, [
     dataContext.data,
     dataContext.id,
-    defaultValue,
     hasPath,
     identifier,
     updateDataValueDataContext,

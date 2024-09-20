@@ -3458,15 +3458,17 @@ describe('DataContext.Provider', () => {
         </>
       )
 
-      expect(sidecarMockData).toHaveLength(2)
+      expect(sidecarMockData).toHaveLength(3)
       expect(sidecarMockData).toEqual([
         undefined,
         { fieldA: 'updated A', fieldB: 'updated B' },
+        { fieldA: 'updated A', fieldB: 'updated B' },
       ])
 
-      expect(nestedMockData).toHaveLength(2)
+      expect(nestedMockData).toHaveLength(3)
       expect(nestedMockData).toEqual([
         undefined,
+        { fieldA: 'updated A', fieldB: 'updated B' },
         { fieldA: 'updated A', fieldB: 'updated B' },
       ])
 

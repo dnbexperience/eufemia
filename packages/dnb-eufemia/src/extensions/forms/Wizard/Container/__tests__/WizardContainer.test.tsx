@@ -1749,7 +1749,7 @@ describe('Wizard.Container', () => {
 
       render(<MyForm />)
 
-      expect(filterDataHandler).toHaveBeenCalledTimes(12)
+      expect(filterDataHandler).toHaveBeenCalledTimes(6)
 
       expect(currentData).toEqual({
         barStep1: 'has value',
@@ -1829,7 +1829,7 @@ describe('Wizard.Container', () => {
         fooStep3: undefined,
       })
 
-      expect(filterDataHandler).toHaveBeenCalledTimes(60)
+      expect(filterDataHandler).toHaveBeenCalledTimes(54)
     })
 
     it('should set field props of all steps when "prerenderFieldProps" is set', () => {
