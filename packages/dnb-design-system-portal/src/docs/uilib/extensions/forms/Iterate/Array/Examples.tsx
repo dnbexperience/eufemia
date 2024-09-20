@@ -239,8 +239,8 @@ export const ViewAndEditContainer = () => {
         const MyEditItem = () => {
           return (
             <Iterate.EditContainer
-              title="Edit account holder {itemNr}"
-              titleWhenNew="New account holder {itemNr}"
+              title="Edit account holder {itemNo}"
+              titleWhenNew="New account holder {itemNo}"
             >
               <MyEditItemForm />
             </Iterate.EditContainer>
@@ -252,7 +252,7 @@ export const ViewAndEditContainer = () => {
           console.log('index:', item.index)
 
           return (
-            <Iterate.ViewContainer title="Account holder {itemNr}">
+            <Iterate.ViewContainer title="Account holder {itemNo}">
               <Value.SummaryList>
                 <Value.Name.First itemPath="/firstName" showEmpty />
                 <Value.Name.Last itemPath="/lastName" placeholder="-" />
@@ -331,7 +331,7 @@ export const DynamicPathValue = () => {
                 : { myObject: index }
             }
           >
-            <Field.Number itemPath="/myObject" label="Item no. {itemNr}" />
+            <Field.Number itemPath="/myObject" label="Item no. {itemNo}" />
           </Iterate.Array>
         </Flex.Stack>
       </Form.Handler>
@@ -486,7 +486,7 @@ export const WithArrayValidator = () => {
           >
             <Flex.Horizontal align="flex-end">
               <Field.String
-                label="Item no. {itemNr}"
+                label="Item no. {itemNo}"
                 itemPath="/"
                 width="medium"
                 size="medium"

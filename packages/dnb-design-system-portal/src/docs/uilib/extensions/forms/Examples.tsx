@@ -578,8 +578,8 @@ export const UsingIterate = () => {
         const MyEditItem = () => {
           return (
             <Iterate.EditContainer
-              title="Edit account holder {itemNr}"
-              titleWhenNew="New account holder {itemNr}"
+              title="Edit account holder {itemNo}"
+              titleWhenNew="New account holder {itemNo}"
             >
               <MyEditItemForm />
             </Iterate.EditContainer>
@@ -591,7 +591,7 @@ export const UsingIterate = () => {
           console.log('index:', item.index)
 
           return (
-            <Iterate.ViewContainer title="Account holder {itemNr}">
+            <Iterate.ViewContainer title="Account holder {itemNo}">
               <Value.SummaryList>
                 <Value.Name.First itemPath="/firstName" showEmpty />
                 <Value.Name.Last itemPath="/lastName" placeholder="-" />

@@ -11,7 +11,7 @@ const nbNO = {
     suffix: 'barn',
   },
   childrenAge: {
-    fieldLabel: 'Alder på barn nr. {itemNr}',
+    fieldLabel: 'Alder på barn nr. {itemNo}',
     required: 'Du må skrive inn alder på barnet.',
     suffix: 'år',
   },
@@ -47,7 +47,7 @@ const enGB = {
     suffix: 'children',
   },
   childrenAge: {
-    fieldLabel: 'Age of child no. {itemNr}',
+    fieldLabel: 'Age of child no. {itemNo}',
     required: 'You must enter the age of the child.',
     suffix: 'years old',
   },

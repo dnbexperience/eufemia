@@ -70,7 +70,7 @@ describe('ChildrenWithAge', () => {
       screen.queryByText(
         translations[
           'nb-NO'
-        ].ChildrenWithAge.childrenAge.fieldLabel.replace('{itemNr}', '1')
+        ].ChildrenWithAge.childrenAge.fieldLabel.replace('{itemNo}', '1')
       )
     ).toBeInTheDocument()
   })
@@ -102,7 +102,7 @@ describe('ChildrenWithAge', () => {
 
     const childrenAgeFieldBlock = screen.queryByText(
       translationsNO.ChildrenWithAge.childrenAge.fieldLabel.replace(
-        '{itemNr}',
+        '{itemNo}',
         '1'
       )
     ).parentElement.parentElement.parentElement

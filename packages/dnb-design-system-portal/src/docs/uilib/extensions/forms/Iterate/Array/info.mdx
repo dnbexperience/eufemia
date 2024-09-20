@@ -62,26 +62,26 @@ Examples of both the use of `itemPath` and Render Props in `Iterate.Array` can b
 
 ## The item number in labels
 
-You can use the `{itemNr}` variable in the label to display the current item number. This is useful when you have a list of items and you want to display the item number in the label.
+You can use the `{itemNo}` variable in the label to display the current item number. This is useful when you have a list of items and you want to display the item number in the label.
 
 ```tsx
 import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
 
 render(
   <Iterate.Array value={['foo', 'bar']}>
-    <Field.String itemPath="/" label="Item no. {itemNr}" />
+    <Field.String itemPath="/" label="Item no. {itemNo}" />
   </Iterate.Array>,
 )
 ```
 
-The [ViewContainer](/uilib/extensions/forms/Iterate/ViewContainer) and the [EditContainer](/uilib/extensions/forms/Iterate/EditContainer) also supports `{itemNr}` in the `title` property to display the current item number.
+The [ViewContainer](/uilib/extensions/forms/Iterate/ViewContainer) and the [EditContainer](/uilib/extensions/forms/Iterate/EditContainer) also supports `{itemNo}` in the `title` property to display the current item number.
 
 ```tsx
 import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
 
 render(
   <Iterate.Array value={['foo', 'bar']}>
-    <Iterate.ViewContainer title="Item no. {itemNr}">
+    <Iterate.ViewContainer title="Item no. {itemNo}">
       ...
     </Iterate.ViewContainer>
   </Iterate.Array>,
@@ -127,8 +127,8 @@ render(
     }}
   >
     <Iterate.Array path="/myList">
-      <Field.String itemPath="/foo" label="Foo no. {itemNr}" />
-      <Field.String itemPath="/bar" label="Bar no. {itemNr}" />
+      <Field.String itemPath="/foo" label="Foo no. {itemNo}" />
+      <Field.String itemPath="/bar" label="Bar no. {itemNo}" />
     </Iterate.Array>
   </Form.Handler>,
 )

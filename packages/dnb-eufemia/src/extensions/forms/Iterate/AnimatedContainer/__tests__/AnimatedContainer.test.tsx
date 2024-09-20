@@ -33,10 +33,10 @@ describe('AnimatedContainer', () => {
     )
   })
 
-  it('should render title with "itemNr"', () => {
+  it('should render title with "itemNo"', () => {
     render(
       <Iterate.Array value={['foo', 'bar']}>
-        <AnimatedContainer title="Item title {itemNr}">
+        <AnimatedContainer title="Item title {itemNo}">
           content
         </AnimatedContainer>
       </Iterate.Array>
