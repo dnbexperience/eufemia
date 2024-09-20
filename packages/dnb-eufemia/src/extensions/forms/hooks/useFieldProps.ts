@@ -173,7 +173,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     validateData: validateDataDataContext,
     setFieldState: setFieldStateDataContext,
     setFieldError: setFieldErrorDataContext,
-    setFieldProps: setPropsDataContext,
+    setFieldProps: setFieldPropsDataContext,
+    setFieldConnection: setFieldConnectionDataContext,
     setVisibleError: setVisibleErrorDataContext,
     setMountedFieldState: setMountedFieldStateDataContext,
     setFieldEventListener,
@@ -681,6 +682,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     hasLocalErrorRef.current = false
   }, [persistErrorState])
 
+  const removeError = useCallback(() => {
+    changedRef.current = false
+    hideError()
+    clearErrorState()
+  }, [clearErrorState, hideError])
+
   const validatorCacheRef = useRef({
     onChangeValidator: null,
     onBlurValidator: null,
@@ -1166,8 +1173,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       changeEventResultRef.current
 
     if (typeof result?.error !== 'undefined') {
-      persistErrorState('gracefully', result.error)
-      revealError()
+      if (result?.error === null) {
+        removeError()
+      } else {
+        persistErrorState('gracefully', result.error)
+        revealError()
+      }
     }
     if (typeof result?.warning !== 'undefined') {
       warningRef.current = result.warning
@@ -1192,17 +1203,20 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     } else if (asyncBehaviorIsEnabled) {
       setFieldState('complete')
     }
+
+    forceUpdate()
   }, [
     asyncBehaviorIsEnabled,
     defineAsyncProcess,
+    removeError,
     persistErrorState,
-    setFieldState,
     revealError,
     yieldAsyncProcess,
+    setFieldState,
   ])
 
   const setEventResult = useCallback(
-    (result: EventReturnWithStateObjectAndSuccess) => {
+    async (result: EventReturnWithStateObjectAndSuccess) => {
       if (result instanceof Error) {
         result = { error: result }
       }
@@ -1211,7 +1225,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         ...result,
       } as EventStateObjectWithSuccess
 
-      handleChangeEventResult()
+      await handleChangeEventResult()
     },
     [handleChangeEventResult]
   )
@@ -1241,13 +1255,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
         // Skip sync errors, such as required
         if (!hasError() || executeOnChangeRegardlessOfError) {
-          setEventResult(
+          await setEventResult(
             (await handlePathChangeDataContext?.(
               identifier
             )) as EventReturnWithStateObjectAndSuccess
           )
         } else {
-          setEventResult(null)
+          await setEventResult(null)
         }
       } else {
         setEventResult(
@@ -1394,9 +1408,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
             // Skip sync errors, such as required
             if (!hasError()) {
               // If the value has changed during the async process, we don't want to call the onChange anymore
-              setEventResult(await onChange?.apply(this, args))
+              await setEventResult(await onChange?.apply(this, args))
             } else {
-              setEventResult(null)
+              await setEventResult(null)
             }
           },
           true
@@ -1433,7 +1447,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const handleBlur = useCallback(() => setHasFocus(false), [setHasFocus])
 
   // Put props into the surrounding data context as early as possible
-  setPropsDataContext?.(identifier, props)
+  setFieldPropsDataContext?.(identifier, props)
 
   const { activeIndex, activeIndexRef } = wizardContext || {}
   const activeIndexTmpRef = useRef(activeIndex)
@@ -1525,11 +1539,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   // Use "useLayoutEffect" to be in sync with the data context "updateDataValueDataContext" routine further down.
   useLayoutEffect(() => {
     if (isEmptyData()) {
-      changedRef.current = false
-      hideError()
-      clearErrorState()
+      removeError()
     }
-  }, [externalValue, clearErrorState, hideError, isEmptyData]) // ensure to include "externalValue" in order to properly remove errors
+
+    // NB: ensure to include "externalValue" in order to properly remove errors
+  }, [externalValue, clearErrorState, hideError, isEmptyData, removeError])
 
   // Use "useLayoutEffect" and "externalValueDidChangeRef"
   // to cooperate with the the data context "updateDataValueDataContext" routine further down,
@@ -1772,6 +1786,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     warningRef.current = warning
     forceUpdate()
   }, [info, warning])
+
+  const connections = useMemo(() => {
+    return {
+      setEventResult,
+    }
+  }, [setEventResult])
+  setFieldConnectionDataContext?.(identifier, connections)
 
   // - Handle htmlAttributes
   const htmlAttributes = useMemo(() => {

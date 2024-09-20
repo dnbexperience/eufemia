@@ -99,7 +99,7 @@ const filterDataHandler = ({ props }) => {
 }
 
 export const FilterData = () => {
-  const { hasErrors } = Form.useError(id)
+  const { hasErrors } = Form.useValidation(id)
   const { data, filterData } = Form.useData(id, {
     disabled: true,
     validate: false,

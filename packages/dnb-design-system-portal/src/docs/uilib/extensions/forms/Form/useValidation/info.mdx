@@ -1,0 +1,129 @@
+---
+showTabs: true
+---
+
+## Description
+
+The `Form.useValidation` lets you monitor and modify field status or your form errors outside of the context.
+
+## Usage
+
+You can use it in several ways. Like within the context of `Form.Handler`:
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function MyForm() {
+  return (
+    <Form.Handler>
+      ...
+      <Component />
+      ...
+    </Form.Handler>
+  )
+}
+
+function Component() {
+  const { hasErrors, hasFieldError, setFormError, setFieldStatus } =
+    Form.useValidation()
+
+  // True if any error is present
+  hasErrors()
+
+  // True if the field has an error
+  hasFieldError('/path/to/field')
+
+  // Report a form error
+  setFormError(new Error('This is a global form error'))
+
+  // Show a field error
+  setFieldStatus('/path/to/field', {
+    error: new Error('This is a field error'),
+    warning: 'This is a field warning',
+    info: 'This is a field info',
+  })
+}
+```
+
+Or by linking the hook together with the form by using the `id` (string) property:
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function MyForm() {
+  return (
+    <>
+      <Form.Handler id="unique">...</Form.Handler>
+      <Component />
+    </>
+  )
+}
+
+function Component() {
+  const { hasErrors, hasFieldError } = Form.useValidation('unique')
+}
+```
+
+Or by using it in the form component itself:
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function MyForm() {
+  const { hasErrors } = Form.useValidation('unique')
+
+  return <Form.Handler id="unique">...</Form.Handler>
+}
+```
+
+## Report a form error
+
+You can also report a form error that gets displayed on the bottom of the form by using the `Form.useValidation` hook:
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function MyForm() {
+  const { setFormError } = Form.useValidation('unique')
+
+  useEffect(() => {
+    setFormError('This is a global form error')
+  }, [])
+
+  return <Form.Handler id="unique">...</Form.Handler>
+}
+```
+
+## Field status
+
+You can also use the `setFieldStatus` method to report field status. This will update the field with the status and show it in the form.
+
+```jsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+function Component() {
+  const { setFieldStatus } = Form.useValidation('unique')
+
+  return (
+    <Form.Handler
+      id="unique"
+      onSubmit={async () => {
+        // Report a field status
+        setFieldStatus('/path/to/field', {
+          error: new Error('This is a field error'),
+          warning: 'This is a field warning',
+          info: 'This is a field info',
+        })
+      }}
+    >
+      <Field.String path="/path/to/field" />
+    </Form.Handler>
+  )
+}
+```
+
+The remove the field status, you can use `setFieldStatus('/path/to/field', { error: null })`.
+
+## Accessibility
+
+The form error is connected with the [Form.Handler](/uilib/extensions/forms/Form/Handler/) itself via `aria-labelledby` for screen reader support.
