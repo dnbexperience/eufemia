@@ -5,10 +5,8 @@ import SectionContainerContext from '../containers/SectionContainerContext'
 import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBoundaryContext'
 import { check, close } from '../../../../../icons'
 import useContainerDataStore from './useContainerDataStore'
-import useEditContainerToolbar from './useEditContainerToolbar'
 
 export default function EditToolbarTools() {
-  useEditContainerToolbar()
   const { restoreOriginalData } = useContainerDataStore()
 
   const { switchContainerMode, initialContainerMode } =
