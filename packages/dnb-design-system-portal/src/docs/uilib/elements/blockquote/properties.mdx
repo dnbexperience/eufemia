@@ -1,11 +1,10 @@
 ---
-showTabs: false
-draft: true
+showTabs: true
 ---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { BlockquoteProperties } from '@dnb/eufemia/src/elements/blockquote/BlockquoteDocs'
 
 ## Properties
 
-| Properties     | Description                                                                                                                                        |
-| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `noBackground` | _(optional)_ Hides the blockquote background by making it transparent.                                                                             |
-| `direction`    | _(optional)_ Determines the flow direction of the content inside of blockquote. Can be either `horizontal` or `vertical`. Defaults to `horizontal` |
+<PropertiesTable props={BlockquoteProperties} />

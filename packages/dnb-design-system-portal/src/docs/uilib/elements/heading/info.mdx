@@ -1,0 +1,49 @@
+---
+showTabs: true
+---
+
+## Description
+
+Eufemia comes with three levels of heading styles:
+
+- `.dnb-h--xx-large` (Heading xx-large)
+- `.dnb-h--x-large` (Heading x-large)
+- `.dnb-h--large` (Heading large)
+
+Additional, you can use these style modifiers if needed:
+
+- `.dnb-h--medium`
+- `.dnb-h--basis`
+- `.dnb-h--small`
+- `.dnb-h--x-small`
+
+Optional, you could use `.dnb-lead` (equivalent to `.dnb-h--medium`) to style a heading as well. But only if that would make sense in the particular context.
+
+The sizes are aligned to the [font-size definitions](/uilib/typography/font-size).
+
+## Think semantics first
+
+You should [think semantics first](/uilib/usage/best-practices/for-typography#headings-and-styling) once you choose what level of heading you use. Always try to start with an `<h1>`. When the heading levels are properly defined, you can go ahead and define the sizes (styles).
+
+If you have to use a paragraph (`<p>`) or a arbitrary heading, and it has to **look like** a specific heading, you can use these classes:
+
+- `.dnb-h--xx-large`
+- `.dnb-h--x-large`
+- `.dnb-h--large`
+- etc.
+
+Read more about [best practices for typography](/uilib/usage/best-practices/for-typography).
+
+## Automated heading levels
+
+There is also [Heading](/uilib/components/heading), a component to create automated semantic headings within a boundary of some rules.
+
+```jsx
+import { Heading } from '@dnb/eufemia/components'
+```
+
+## Heading styles in React
+
+```jsx
+import { H1, H2, ... } from '@dnb/eufemia'
+```
