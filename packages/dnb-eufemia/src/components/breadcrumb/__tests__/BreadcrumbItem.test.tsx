@@ -54,9 +54,9 @@ describe('BreadcrumbItem', () => {
     )
   })
 
-  it('should have delay style based on itemNr', () => {
+  it('should have delay style based on itemNo', () => {
     const { rerender } = render(
-      <BreadcrumbItem {...defaultProps} itemNr={1} />
+      <BreadcrumbItem {...defaultProps} itemNo={1} />
     )
 
     expect(document.querySelector('li')).toHaveAttribute(
@@ -64,7 +64,7 @@ describe('BreadcrumbItem', () => {
       '--delay: 1;'
     )
 
-    rerender(<BreadcrumbItem {...defaultProps} itemNr={2} />)
+    rerender(<BreadcrumbItem {...defaultProps} itemNo={2} />)
 
     expect(document.querySelector('li')).toHaveAttribute(
       'style',
