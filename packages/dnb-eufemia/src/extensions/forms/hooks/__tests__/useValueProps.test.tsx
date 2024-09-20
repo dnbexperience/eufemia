@@ -10,15 +10,54 @@ import nbNO from '../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
 describe('useValueProps', () => {
-  it('should call use "transformIn" to prepare value', () => {
-    const value = 1
+  describe('transformIn', () => {
+    it('should prepare value', () => {
+      const value = 1
 
-    const transformIn = (value) => value + 1
-    const { result } = renderHook(() =>
-      useValueProps({ value, transformIn })
-    )
+      const transformIn = (value) => value + 1
+      const { result } = renderHook(() =>
+        useValueProps({ value, transformIn })
+      )
 
-    expect(result.current.value).toBe(2)
+      expect(result.current.value).toBe(2)
+    })
+
+    it('should prepare value when function instance changes', () => {
+      const { result, rerender } = renderHook(useValueProps, {
+        initialProps: {
+          value: 1,
+          transformIn: (value: number) => value + 1,
+        },
+      })
+
+      expect(result.current.value).toBe(2)
+
+      rerender({ value: 2, transformIn: (value: number) => value + 2 })
+
+      expect(result.current.value).toBe(4)
+    })
+
+    it('should prepare value from context', () => {
+      const path = '/contextValue'
+
+      const transformIn = (value) => value + 1
+      const { result } = renderHook(
+        () => useValueProps({ path, transformIn }),
+        {
+          wrapper: ({ children }) => (
+            <Provider
+              data={{
+                contextValue: 1,
+              }}
+            >
+              {children}
+            </Provider>
+          ),
+        }
+      )
+
+      expect(result.current.value).toBe(2)
+    })
   })
 
   it('should call use "toInput" to prepare value', () => {
@@ -131,28 +170,6 @@ describe('useValueProps', () => {
         </Provider>
       ),
     })
-
-    expect(result.current.value).toBe(2)
-  })
-
-  it('should use "transformIn" to prepare value from context', () => {
-    const path = '/contextValue'
-
-    const transformIn = (value) => value + 1
-    const { result } = renderHook(
-      () => useValueProps({ path, transformIn }),
-      {
-        wrapper: ({ children }) => (
-          <Provider
-            data={{
-              contextValue: 1,
-            }}
-          >
-            {children}
-          </Provider>
-        ),
-      }
-    )
 
     expect(result.current.value).toBe(2)
   })
