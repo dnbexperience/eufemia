@@ -30,6 +30,10 @@ export function Basic() {
       // onChange={(data) => {
       //   console.log('onChange', data.children.length)
       // }}
+      onSubmit={(data, { reduceToVisibleFields }) => {
+        console.log('Raw', data)
+        console.log('Reduced', reduceToVisibleFields(data))
+      }}
       translations={myTranslations}
     >
       <Flex.Stack>
@@ -40,6 +44,7 @@ export function Basic() {
         <ChildrenWithAge
           mode="summary"
           enableAdditionalQuestions={['daycare', 'joint-responsibility']}
+          showEmpty
         />
         <Form.SubmitButton />
       </Flex.Stack>
@@ -64,6 +69,10 @@ export function InsideWizard() {
             age: undefined,
           },
         ],
+      }}
+      onSubmit={(data, { reduceToVisibleFields }) => {
+        console.log('Raw', data)
+        console.log('Reduced', reduceToVisibleFields(data))
       }}
     >
       <Wizard.Container initialActiveIndex={0}>

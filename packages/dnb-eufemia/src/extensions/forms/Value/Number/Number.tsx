@@ -28,6 +28,7 @@ function NumberValue(props: Props) {
     inline,
     showEmpty,
     className,
+    path, // eslint-disable-line
     ...rest
   } = useValueProps(props)
   const numberFormatProps = convertCamelCaseProps(omitSpacingProps(rest))

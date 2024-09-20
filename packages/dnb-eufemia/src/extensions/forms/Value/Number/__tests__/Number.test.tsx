@@ -184,6 +184,20 @@ describe('Value.Number', () => {
     ).toBe('-12 345.68 Swedish kronor')
   })
 
+  it('should forward HTML attributes', () => {
+    render(
+      <Value.Number path="/myValue" data-testid="testid" value={123} />
+    )
+
+    const element = document.querySelector('.dnb-number-format')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['lang', 'class', 'data-testid', 'role'])
+    expect(element).toHaveAttribute('data-testid', 'testid')
+  })
+
   describe('inheritLabel', () => {
     it('renders label from field with same path', () => {
       render(
