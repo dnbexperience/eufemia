@@ -1,0 +1,25 @@
+---
+showTabs: true
+---
+
+## Description
+
+Lists are used to specify lists of information.
+
+## List modifiers
+
+- `.dnb-ul--nested` / `.dnb-ol--nested` will ensure a nested structure of several lists
+- `.dnb-ol--outside` (default) defines the position of the marker
+- `.dnb-ol--inside` defines the position of the marker
+
+With React you can also send in the modifiers as booleans:
+
+```jsx
+import { Ol } from '@dnb/eufemia'
+
+render(
+  <Ol nested inside>
+    <li>Item</li>
+  </Ol>,
+)
+```
