@@ -1,5 +1,11 @@
+import { Card } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Field } from '@dnb/eufemia/src/extensions/forms'
+import {
+  Field,
+  Form,
+  Tools,
+  Value,
+} from '@dnb/eufemia/src/extensions/forms'
 
 export const Empty = () => {
   return (
@@ -111,6 +117,49 @@ export const ValidationRequired = () => {
         validateInitially
         validateUnchanged
       />
+    </ComponentBox>
+  )
+}
+
+export function TransformInAndOut() {
+  return (
+    <ComponentBox scope={{ Tools }}>
+      {() => {
+        const transformOut = (value, country) => {
+          if (value) {
+            return country
+          }
+        }
+        const transformIn = (country) => {
+          return country?.iso
+        }
+
+        const MyForm = () => {
+          return (
+            <Form.Handler onSubmit={console.log}>
+              <Card stack>
+                <Field.SelectCountry
+                  path="/country"
+                  transformIn={transformIn}
+                  transformOut={transformOut}
+                  defaultValue="NO"
+                />
+
+                <Value.SelectCountry
+                  path="/country"
+                  transformIn={transformIn}
+                  placeholder="(Select a country)"
+                  showEmpty
+                />
+
+                <Tools.Log />
+              </Card>
+              <Form.SubmitButton />
+            </Form.Handler>
+          )
+        }
+        return <MyForm />
+      }}
     </ComponentBox>
   )
 }

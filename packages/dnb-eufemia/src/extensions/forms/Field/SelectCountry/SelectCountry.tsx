@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo } from 'react'
+import React, { useCallback, useContext, useMemo, useRef } from 'react'
 import classnames from 'classnames'
 import SharedContext from '../../../../shared/Context'
 import { Autocomplete, HelpButton } from '../../../../components'
@@ -50,12 +50,27 @@ function SelectCountry(props: Props) {
   const translations = useTranslation().SelectCountry
   const lang = sharedContext.locale?.split('-')[0] as CountryLang
 
-  const provideAdditionalArgs = useCallback((value) => {
-    const country = countries.find(({ iso }) => value === iso)
-    if (country?.iso) {
+  const getCountryObjectByIso = useCallback(
+    (value: CountryType['iso']) => {
+      const country = countries.find(({ iso }) => value === iso)
+      if (country?.i18n) {
+        country['name'] = country.i18n[lang]
+      }
       return country
-    }
-  }, [])
+    },
+    [lang]
+  )
+
+  const provideAdditionalArgs = useCallback(
+    (value: CountryType['iso']) => {
+      const country = getCountryObjectByIso(value)
+
+      if (country?.iso) {
+        return country
+      }
+    },
+    [getCountryObjectByIso]
+  )
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: translations.errorRequired,
@@ -94,9 +109,9 @@ function SelectCountry(props: Props) {
       : undefined,
   } = useFieldProps(preparedProps)
 
-  const dataRef = React.useRef(null)
-  const langRef = React.useRef(lang)
-  const wasFilled = React.useRef(false)
+  const dataRef = useRef(null)
+  const langRef = useRef(lang)
+  const wasFilled = useRef(false)
 
   /**
    * We do not process the whole country list at the first render.
@@ -132,12 +147,12 @@ function SelectCountry(props: Props) {
   const handleCountryChange = useCallback(
     ({ data }: { data: { selectedKey: string } }) => {
       const newValue = data?.selectedKey
-      const country = countries.find(({ iso }) => newValue === iso)
+      const country = getCountryObjectByIso(newValue)
       if (country?.iso) {
-        handleChange(country.iso)
+        handleChange(country.iso, country)
       }
     },
-    [handleChange]
+    [getCountryObjectByIso, handleChange]
   )
 
   const fillData = useCallback(() => {

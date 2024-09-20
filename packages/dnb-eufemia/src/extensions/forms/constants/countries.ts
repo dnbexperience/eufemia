@@ -24,6 +24,7 @@ export type CountryType = {
     | 'South America'
     | 'None'
   regions?: Array<'Scandinavia' | 'Nordic'>
+  name?: string
 }
 
 export type CountryLang = keyof CountryType['i18n']
