@@ -32,7 +32,7 @@ function OrganizationNumber(props: Props) {
   const organizationNumberValidator = useCallback(
     (value: string) => {
       const isValidOrgNumber = (digits: string) => {
-        //www.brreg.no/om-oss/registrene-vare/om-enhetsregisteret/organisasjonsnummeret/
+        // www.brreg.no/om-oss/registrene-vare/om-enhetsregisteret/organisasjonsnummeret/
         let checkDigit = 2
         let sum = 0
 
