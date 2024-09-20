@@ -125,11 +125,11 @@ describe('Iterate.Array', () => {
     })
 
     describe('label', () => {
-      it('should replace {itemNr} in labels for fields and values', () => {
+      it('should replace {itemNo} in labels for fields and values', () => {
         render(
           <Iterate.Array value={['foo', 'bar']}>
-            <Field.String itemPath="/" label="Field label {itemNr}" />
-            <Value.String itemPath="/" label="Value label {itemNr}" />
+            <Field.String itemPath="/" label="Field label {itemNo}" />
+            <Value.String itemPath="/" label="Value label {itemNo}" />
           </Iterate.Array>
         )
 
@@ -142,13 +142,13 @@ describe('Iterate.Array', () => {
         expect(valueLabel2).toHaveTextContent('Value label 2')
       })
 
-      it('should replace {itemNr} in labels for FieldBlock and ValueBlock', () => {
+      it('should replace {itemNo} in labels for FieldBlock and ValueBlock', () => {
         render(
           <Iterate.Array value={['foo', 'bar']}>
-            <FieldBlock label="FieldBlock label {itemNr}">
+            <FieldBlock label="FieldBlock label {itemNo}">
               content
             </FieldBlock>
-            <ValueBlock label="ValueBlock label {itemNr}">
+            <ValueBlock label="ValueBlock label {itemNo}">
               content
             </ValueBlock>
           </Iterate.Array>

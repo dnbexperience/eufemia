@@ -19,7 +19,7 @@ export const AnimatedContainer = () => {
         <Iterate.Count path="/myList" />
         <Card top>
           <Iterate.Array path="/myList" placeholder={<>Empty list</>}>
-            <Iterate.AnimatedContainer title="Title {itemNr}">
+            <Iterate.AnimatedContainer title="Title {itemNo}">
               <Field.String label="Label" itemPath="/" />
 
               <Iterate.Toolbar>
@@ -65,8 +65,8 @@ const MyEditItemForm = () => {
 const MyEditItem = (props) => {
   return (
     <Iterate.EditContainer
-      title="Edit account holder {itemNr}"
-      titleWhenNew="New account holder {itemNr}"
+      title="Edit account holder {itemNo}"
+      titleWhenNew="New account holder {itemNo}"
       {...props}
     >
       <MyEditItemForm />
@@ -91,7 +91,7 @@ const CreateNewEntry = () => {
 
 const MyViewItem = () => {
   return (
-    <Iterate.ViewContainer title="Account holder {itemNr}">
+    <Iterate.ViewContainer title="Account holder {itemNo}">
       <Value.SummaryList>
         <Value.Name.First itemPath="/firstName" showEmpty />
         <Value.Name.Last itemPath="/lastName" placeholder="–" />

@@ -90,8 +90,15 @@ export function EditContainerWithoutToolbar(
   const wasNew = useWasNew({ isNew, containerMode })
   let itemTitle = wasNew && titleWhenNew ? titleWhenNew : title
   let ariaLabel = useMemo(() => convertJsxToString(itemTitle), [itemTitle])
-  if (ariaLabel.includes('{itemNr}')) {
-    itemTitle = ariaLabel = ariaLabel.replace('{itemNr}', index + 1)
+  if (ariaLabel.includes('{itemN')) {
+    /**
+     * {itemNr} is deprecated, and can be removed in v11 in favor of {itemNo}
+     * So in v11 we can use '{itemNo}' instead of a regex
+     */
+    itemTitle = ariaLabel = ariaLabel.replace(
+      /\{itemN(r|o)\}/g,
+      String(index + 1)
+    )
   }
 
   useSwitchContainerMode({ path })

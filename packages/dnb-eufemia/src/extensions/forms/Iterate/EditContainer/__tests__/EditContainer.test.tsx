@@ -134,10 +134,10 @@ describe('EditContainer', () => {
     )
   })
 
-  it('should render title with "itemNr"', () => {
+  it('should render title with "itemNo"', () => {
     render(
       <Iterate.Array value={['foo', 'bar']}>
-        <EditContainer title="Item title {itemNr}">content</EditContainer>
+        <EditContainer title="Item title {itemNo}">content</EditContainer>
       </Iterate.Array>
     )
 
@@ -147,12 +147,12 @@ describe('EditContainer', () => {
     expect(leads[1]).toHaveTextContent('Item title 2')
   })
 
-  it('should render titleWhenNew with "itemNr"', () => {
+  it('should render titleWhenNew with "itemNo"', () => {
     render(
       <IterateItemContext.Provider
         value={{ containerMode: 'edit', isNew: true, index: 0 }}
       >
-        <EditContainer titleWhenNew="New Item title {itemNr}">
+        <EditContainer titleWhenNew="New Item title {itemNo}">
           content
         </EditContainer>
       </IterateItemContext.Provider>

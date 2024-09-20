@@ -58,7 +58,7 @@ function ValueBlock(props: Props) {
     }
     if (iterateIndex !== undefined) {
       return convertJsxToString(labelProp).replace(
-        '{itemNr}',
+        '{itemNo}',
         String(iterateIndex + 1)
       )
     }
