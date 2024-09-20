@@ -1410,4 +1410,40 @@ describe('Iterate.Array', () => {
     expect(outputs[0]).toHaveTextContent('Content "foo" 0')
     expect(outputs[1]).toHaveTextContent('Content "bar" 1')
   })
+
+  describe('limit', () => {
+    it('should limit the number of rendered items', () => {
+      const { rerender } = render(
+        <Iterate.Array value={['foo', 'bar', 'baz']} limit={2}>
+          <Value.String itemPath="/" />
+        </Iterate.Array>
+      )
+
+      expect(
+        document.querySelectorAll('.dnb-forms-iterate__element')
+      ).toHaveLength(2)
+      expect(document.body.textContent).toBe('foobar')
+
+      rerender(
+        <Iterate.Array value={['foo', 'bar', 'baz']} limit={1}>
+          <Value.String itemPath="/" />
+        </Iterate.Array>
+      )
+
+      expect(
+        document.querySelectorAll('.dnb-forms-iterate__element')
+      ).toHaveLength(1)
+      expect(document.body.textContent).toBe('foo')
+    })
+
+    it('should not display a warning when the number of items exceeds the limit', () => {
+      render(
+        <Iterate.Array value={['foo', 'bar', 'baz']} limit={2}>
+          <Value.String itemPath="/" />
+        </Iterate.Array>
+      )
+
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(0)
+    })
+  })
 })

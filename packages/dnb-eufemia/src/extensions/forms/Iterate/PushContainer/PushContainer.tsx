@@ -10,7 +10,7 @@ import OpenButton from './OpenButton'
 import { Flex, HeightAnimation } from '../../../../components'
 import { Path } from '../../types'
 import { SpacingProps } from '../../../../shared/types'
-import { useSwitchContainerMode } from '../hooks'
+import { useArrayLimit, useSwitchContainerMode } from '../hooks'
 import Toolbar from '../Toolbar'
 import { useTranslation } from '../../hooks'
 import { ArrayItemAreaProps } from '../Array/ArrayItemArea'
@@ -73,6 +73,14 @@ function PushContainer(props: AllProps) {
   >({ path })
 
   const { setNextContainerMode } = useSwitchContainerMode({ path })
+  const { hasReachedLimit, setShowStatus } = useArrayLimit({
+    path,
+  })
+  const cancelHandler = useCallback(() => {
+    if (hasReachedLimit) {
+      setShowStatus(false)
+    }
+  }, [hasReachedLimit, setShowStatus])
 
   const showOpenButton = showOpenButtonWhen?.(entries)
   const newItemContextProps: PushContainerContext = {
@@ -94,10 +102,15 @@ function PushContainer(props: AllProps) {
       transformOnCommit={({ newItems }) => {
         return moveValueToPath(path, [...entries, ...newItems])
       }}
-      onCommit={(data, { clearData }) => {
-        setNextContainerMode('view')
-        switchContainerModeRef.current?.('view')
-        clearData()
+      onCommit={(data, { clearData, preventCommit }) => {
+        if (hasReachedLimit) {
+          preventCommit()
+          setShowStatus(true)
+        } else {
+          setNextContainerMode('view')
+          switchContainerModeRef.current?.('view')
+          clearData()
+        }
       }}
     >
       <PushContainerContext.Provider value={newItemContextProps}>
@@ -110,6 +123,7 @@ function PushContainer(props: AllProps) {
             openButton={openButton}
             switchContainerModeRef={switchContainerModeRef}
             showOpenButton={showOpenButton}
+            cancelHandler={cancelHandler}
             {...rest}
           >
             {children}
@@ -125,6 +139,7 @@ function NewContainer({
   openButton,
   showOpenButton,
   switchContainerModeRef,
+  cancelHandler,
   children,
   ...rest
 }) {
@@ -149,7 +164,9 @@ function NewContainer({
             <IterateItemContext.Provider value={newItemContextProps}>
               <Flex.Horizontal gap="large">
                 <DoneButton text={createButton} />
-                {showOpenButton && <CancelButton />}
+                {showOpenButton && (
+                  <CancelButton onClick={cancelHandler} />
+                )}
               </Flex.Horizontal>
             </IterateItemContext.Provider>
           )

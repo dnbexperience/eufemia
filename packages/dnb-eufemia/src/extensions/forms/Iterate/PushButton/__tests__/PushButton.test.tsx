@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import IterateItemContext from '../../IterateItemContext'
 import { Field, Form, Iterate } from '../../..'
@@ -208,5 +208,50 @@ describe('PushButton', () => {
     )
     await userEvent.click(removeButton)
     expect(pushButton).toHaveTextContent('Add no. 1')
+  })
+
+  it('should inherit "limit" prop from Array and show warning when limit is reached', async () => {
+    render(
+      <Form.Handler>
+        <Iterate.Array path="/myList" limit={2}>
+          <i />
+          <Iterate.RemoveButton />
+        </Iterate.Array>
+
+        <Iterate.PushButton path="/myList" pushValue="push value" />
+      </Form.Handler>
+    )
+
+    const pushButton = document.querySelector(
+      '.dnb-forms-iterate-push-button'
+    )
+
+    // Add first item
+    await userEvent.click(pushButton)
+
+    // Add second item
+    await userEvent.click(pushButton)
+
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+    // Try a third one
+    await userEvent.click(pushButton)
+
+    await waitFor(() => {
+      const element = document.querySelector('.dnb-form-status')
+      expect(element).toBeInTheDocument()
+      expect(element).toHaveTextContent('Du har nådd grensen på: 2')
+      expect(element).toHaveClass('dnb-form-status--warn')
+      expect(document.querySelectorAll('i')).toHaveLength(2)
+    })
+
+    const removeButton = document.querySelector(
+      '.dnb-forms-iterate-remove-element-button'
+    )
+    await userEvent.click(removeButton)
+
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-form-status')).toBeNull()
+    })
   })
 })

@@ -21,6 +21,7 @@ export type Props = Omit<
   > & {
     children: ElementChild | Array<ElementChild>
     path?: Path
+    limit?: number
     countPath?: Path
     countPathLimit?: number
     validator?: Validator<Value>

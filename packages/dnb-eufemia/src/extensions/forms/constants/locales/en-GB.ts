@@ -33,26 +33,27 @@ export default {
     RemoveButton: {
       text: 'Remove',
     },
-    IterateViewContainer: {
-      removeButton: 'Remove',
-      editButton: 'Edit',
-    },
     SectionViewContainer: {
       editButton: 'Edit',
     },
     SectionEditContainer: {
       doneButton: 'Done',
       cancelButton: 'Cancel',
-      errorInSection: 'Please correct the errors above',
+      errorInSection: 'Please correct the errors above.',
+    },
+    IterateViewContainer: {
+      removeButton: 'Remove',
+      editButton: 'Edit',
     },
     IterateEditContainer: {
       removeButton: 'Remove',
       doneButton: 'Done',
       cancelButton: 'Cancel',
-      errorInContainer: 'Please correct the errors above',
+      errorInContainer: 'Please correct the errors above.',
     },
     IteratePushContainer: {
       createButton: 'Add',
+      itemsLimitReached: 'You have reached the limit of: {limit}',
     },
 
     /**

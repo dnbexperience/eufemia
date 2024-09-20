@@ -121,7 +121,7 @@ export const ViewAndEditContainer = () => {
           <Form.MainHeading>Accounts</Form.MainHeading>
 
           <Card stack>
-            <Iterate.Array path="/accounts">
+            <Iterate.Array path="/accounts" limit={2}>
               <MyViewItem />
               <MyEditItem />
             </Iterate.Array>
@@ -180,6 +180,7 @@ export const InitialOpen = () => {
 
           <Card align="stretch">
             <Iterate.Array
+              limit={2}
               path="/countries"
               // defaultValue={['NO']}
               defaultValue={[null]}
@@ -187,8 +188,9 @@ export const InitialOpen = () => {
                 const findFirstDuplication = (arr) =>
                   arr.findIndex((e, i) => arr.indexOf(e) !== i)
 
+                const count = arrayValue.filter(Boolean).length
                 const index = findFirstDuplication(arrayValue)
-                if (index > -1) {
+                if (count > 1 && index > -1) {
                   return new Error(
                     'You can not have duplicate items: ' +
                       getCountryNameByIso(arrayValue.at(index) as string)

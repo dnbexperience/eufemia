@@ -1507,9 +1507,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   // Use "useLayoutEffect" to be in sync with the data context "updateDataValueDataContext" routine further down.
   useLayoutEffect(() => {
     if (isEmptyData()) {
+      changedRef.current = false
       hideError()
+      clearErrorState()
     }
-  }, [externalValue, hideError, isEmptyData])
+  }, [externalValue, clearErrorState, hideError, isEmptyData]) // ensure to include "externalValue" in order to properly remove errors
 
   // Use "useLayoutEffect" and "externalValueDidChangeRef"
   // to cooperate with the the data context "updateDataValueDataContext" routine further down,
