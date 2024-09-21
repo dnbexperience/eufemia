@@ -3228,7 +3228,7 @@ describe('useFieldProps', () => {
           expect(screen.queryByRole('alert')).toHaveTextContent('bar')
         })
         expect(myValidator).toHaveBeenCalledTimes(5)
-        expect(fooValidator).toHaveBeenCalledTimes(5)
+        expect(fooValidator).toHaveBeenCalledTimes(4)
         expect(barValidator).toHaveBeenCalledTimes(4)
       })
 
@@ -3278,7 +3278,7 @@ describe('useFieldProps', () => {
           expect(screen.queryByRole('alert')).toHaveTextContent('bar')
         })
         expect(myValidator).toHaveBeenCalledTimes(5)
-        expect(fooValidator).toHaveBeenCalledTimes(5)
+        expect(fooValidator).toHaveBeenCalledTimes(4)
         expect(barValidator).toHaveBeenCalledTimes(4)
       })
 
@@ -3376,9 +3376,42 @@ describe('useFieldProps', () => {
         })
         expect(publicValidator).toHaveBeenCalledTimes(9)
         expect(fooValidator).toHaveBeenCalledTimes(1)
-        expect(barValidator).toHaveBeenCalledTimes(8)
+        expect(barValidator).toHaveBeenCalledTimes(7)
         expect(bazValidator).toHaveBeenCalledTimes(7)
         expect(internalValidators).toHaveBeenCalledTimes(0)
+      })
+
+      it('should export and call same validator without "Maximum call stack size exceeded"', async () => {
+        const onBlurValidator = jest.fn((value) => {
+          if (value === '1234') {
+            return Error('Error message')
+          }
+        })
+
+        render(
+          <Field.String
+            onBlurValidator={onBlurValidator}
+            exportValidators={{ onBlurValidator }}
+          />
+        )
+
+        const input = document.querySelector('input')
+
+        await userEvent.type(input, '123')
+        fireEvent.blur(input)
+
+        expect(onBlurValidator).toHaveBeenCalledTimes(2)
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+        await userEvent.type(input, '4')
+        fireEvent.blur(input)
+
+        expect(onBlurValidator).toHaveBeenCalledTimes(3)
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('Error message')
+        })
       })
 
       it('should only call returned validators (barValidator should not be called)', async () => {
@@ -3566,7 +3599,7 @@ describe('useFieldProps', () => {
           expect(screen.queryByRole('alert')).toHaveTextContent('baz')
         })
         expect(publicValidator).toHaveBeenCalledTimes(9)
-        expect(barValidator).toHaveBeenCalledTimes(8)
+        expect(barValidator).toHaveBeenCalledTimes(7)
         expect(bazValidator).toHaveBeenCalledTimes(7)
         expect(internalValidators).toHaveBeenCalledTimes(0)
       })

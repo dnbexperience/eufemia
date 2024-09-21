@@ -531,8 +531,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         exportValidatorsRef.current &&
         !result &&
         (validator === onChangeValidatorRef.current ||
-          validator === onBlurValidatorRef.current) &&
-        !Array.isArray(result)
+          validator === onBlurValidatorRef.current)
       ) {
         return Object.values(exportValidatorsRef.current)
       }
@@ -542,13 +541,20 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     []
   )
 
+  const callStackRef = useRef<Array<Validator<Value>>>([])
+  const hasBeenCalledRef = useCallback((validator: Validator<Value>) => {
+    const result = callStackRef.current.includes(validator)
+    callStackRef.current.push(validator)
+    return result
+  }, [])
+
   const callValidatorFnSync = useCallback(
     (
       validator: Validator<Value>,
       value: Value = valueRef.current
     ): ReturnType<Validator<Value>> => {
       if (typeof validator !== 'function') {
-        return undefined
+        return // stop here
       }
 
       const result = extendWithExportedValidators(
@@ -558,18 +564,20 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
       if (Array.isArray(result)) {
         for (const validator of result) {
-          const result = callValidatorFnSync(validator, value)
-          if (result instanceof Error) {
-            return result
+          if (!hasBeenCalledRef(validator)) {
+            const result = callValidatorFnSync(validator, value)
+            if (result instanceof Error) {
+              return result
+            }
           }
         }
 
-        return // stop here
+        callStackRef.current = []
+      } else {
+        return result
       }
-
-      return result
     },
-    [additionalArgs, extendWithExportedValidators]
+    [additionalArgs, extendWithExportedValidators, hasBeenCalledRef]
   )
 
   const callValidatorFnAsync = useCallback(
@@ -578,7 +586,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       value: Value = valueRef.current
     ): Promise<ReturnType<Validator<Value>>> => {
       if (typeof validator !== 'function') {
-        return undefined
+        return
       }
 
       const result = extendWithExportedValidators(
@@ -588,19 +596,20 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
       if (Array.isArray(result)) {
         for (const validator of result) {
-          const result = await callValidatorFnAsync(validator, value)
-
-          if (result instanceof Error) {
-            return result
+          if (!hasBeenCalledRef(validator)) {
+            const result = await callValidatorFnAsync(validator, value)
+            if (result instanceof Error) {
+              return result
+            }
           }
         }
 
-        return // stop here
+        callStackRef.current = []
+      } else {
+        return result
       }
-
-      return result
     },
-    [additionalArgs, extendWithExportedValidators]
+    [additionalArgs, extendWithExportedValidators, hasBeenCalledRef]
   )
 
   /**
