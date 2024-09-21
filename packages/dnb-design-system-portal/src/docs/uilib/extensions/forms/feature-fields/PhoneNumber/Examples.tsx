@@ -174,3 +174,14 @@ export const InCard = () => {
     </ComponentBox>
   )
 }
+
+export function FilterCountries() {
+  return (
+    <ComponentBox>
+      <Field.PhoneNumber
+        countries="Scandinavia"
+        filterCountries={({ iso }) => iso !== 'DK'}
+      />
+    </ComponentBox>
+  )
+}

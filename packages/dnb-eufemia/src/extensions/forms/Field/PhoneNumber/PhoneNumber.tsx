@@ -17,9 +17,9 @@ import {
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import SharedContext from '../../../../shared/Context'
 import {
+  countryFilter,
   CountryFilterSet,
   getCountryData,
-  makeCountryFilterSet,
 } from '../SelectCountry'
 import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
@@ -41,13 +41,15 @@ export type Props = FieldHelpProps &
     omitCountryCodeField?: boolean
     onCountryCodeChange?: (value: string | undefined) => void
     onNumberChange?: (value: string | undefined) => void
+
+    /**
+     * Defines the countries to filter. Can be `Scandinavia`, `Nordic`, `Europe` or `Prioritized`.
+     * Defaults to `Prioritized`.
+     */
     countries?: CountryFilterSet
 
     /**
-     * For internal use only.
-     *
-     * @param country
-     * @returns boolean
+     * Use this prop to filter out certain countries. The function receives the country object and should return a boolean. Returning `false` will omit the country.
      */
     filterCountries?: (country: CountryType) => boolean
 
@@ -161,9 +163,7 @@ function PhoneNumber(props: Props) {
     handleChange,
     onCountryCodeChange,
     onNumberChange,
-    filterCountries = ccFilter !== 'Prioritized'
-      ? makeCountryFilterSet(ccFilter)
-      : undefined,
+    filterCountries,
   } = useFieldProps(preparedProps)
 
   function fromExternal(external: string) {
@@ -182,6 +182,13 @@ function PhoneNumber(props: Props) {
     return value
   }
 
+  const filter = useCallback(
+    (country: CountryType) => {
+      return countryFilter(country, filterCountries, ccFilter)
+    },
+    [ccFilter, filterCountries]
+  )
+
   const updateCurrentDataSet = useCallback(() => {
     dataRef.current = getCountryData({
       lang,
@@ -191,11 +198,11 @@ function PhoneNumber(props: Props) {
           ? (country) =>
               `${formatCountryCode(country.cdc)}` ===
               countryCodeRef.current
-          : filterCountries,
+          : filter,
       sort: ccFilter as Extract<CountryFilterSet, 'Prioritized'>,
       makeObject,
     })
-  }, [lang, filterCountries, ccFilter])
+  }, [lang, filter, ccFilter])
 
   const getEventValues = useCallback(
     ({
