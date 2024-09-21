@@ -20,6 +20,7 @@ import {
   EventStateObjectWithSuccess,
   ValidatorAdditionalArgs,
   Validator,
+  Identifier,
 } from '../types'
 import { Context as DataContext, ContextState } from '../DataContext'
 import { clearedData } from '../DataContext/Provider/Provider'
@@ -1590,6 +1591,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   // Use "useLayoutEffect" to avoid flickering when value/defaultValue gets set, and other fields dependent on it.
   // Form.Visibility is an example of a logic, where a field value/defaultValue can be used to set the set state of a path,
   // where again other fields depend on it.
+  const tmpValueRef = useRef<Record<Identifier, unknown>>({})
   useLayoutEffect(() => {
     if (hasPath) {
       let value = valueProp
@@ -1635,15 +1637,25 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           // Prevents an infinite loop by skipping the update if the value hasn't changed
           valueRef.current !== existingValue)
       ) {
+        if (
+          identifier in tmpValueRef.current &&
+          tmpValueRef.current[identifier] === value
+        ) {
+          return // stop here, avoid infinite loop
+        }
+
+        const transformedValue = transformers.current.transformOut(
+          value,
+          transformers.current.provideAdditionalArgs(value)
+        )
+        if (transformedValue !== value) {
+          tmpValueRef.current[identifier] = value
+          value = transformedValue
+        }
+
         // Update the data context when a pointer not exists,
         // but was given initially.
-        updateDataValueDataContext?.(
-          identifier,
-          transformers.current.transformOut(
-            value,
-            transformers.current.provideAdditionalArgs(value)
-          )
-        )
+        updateDataValueDataContext?.(identifier, value)
         validateDataDataContext?.()
       }
     }

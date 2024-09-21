@@ -2201,7 +2201,7 @@ describe('useFieldProps', () => {
     })
   })
 
-  describe('value manipulation', () => {
+  describe('value manipulation with transformers', () => {
     it('should call "transformIn" and "transformOut"', () => {
       const transformIn = jest.fn((v) => v - 1)
       const transformOut = jest.fn((v) => v + 1)
@@ -2241,33 +2241,62 @@ describe('useFieldProps', () => {
       expect(transformOut).toHaveBeenLastCalledWith(4, undefined)
     })
 
-    it('should call "transformOut" initially when value is given', () => {
+    it('should call "transformOut" initially when path is given', () => {
       const transformOut = jest.fn((v) => v + 1)
-      const defaultValue = 1
+
+      const { result } = renderHook(useFieldProps, {
+        initialProps: {
+          path: '/myPath',
+          value: 1,
+          transformOut,
+        },
+        wrapper: Provider,
+      })
+
+      expect(transformOut).toHaveBeenCalledTimes(1)
+      expect(transformOut).toHaveBeenLastCalledWith(1, undefined)
+      expect(result.current.dataContext.data).toEqual({
+        myPath: 2,
+      })
+      expect(result.current.value).toEqual(1)
+    })
+
+    it('should call "transformOut" initially when "value" is given', () => {
+      const transformOut = jest.fn((v) => v + 1)
+      const value = 1
 
       const { result } = renderHook(
-        () => useFieldProps({ path: '/foo', transformOut, defaultValue }),
+        () => useFieldProps({ path: '/foo', transformOut, value }),
         { wrapper: Provider }
       )
 
       expect(result.current.dataContext.data).toEqual({
         foo: 2,
       })
+      expect(result.current.value).toEqual(1)
       expect(transformOut).toHaveBeenCalledTimes(1)
     })
 
-    it('should call "transformOut" initially when defaultValue is given', () => {
+    it('should call "transformOut" initially when "defaultValue" is given', () => {
       const transformOut = jest.fn((v) => v + 1)
+      const transformIn = jest.fn((v) => v - 1)
       const defaultValue = 1
 
       const { result } = renderHook(
-        () => useFieldProps({ path: '/foo', transformOut, defaultValue }),
+        () =>
+          useFieldProps({
+            path: '/foo',
+            transformOut,
+            transformIn,
+            defaultValue,
+          }),
         { wrapper: Provider }
       )
 
       expect(result.current.dataContext.data).toEqual({
         foo: 2,
       })
+      expect(result.current.value).toEqual(1)
       expect(transformOut).toHaveBeenCalledTimes(1)
     })
 
@@ -2492,6 +2521,106 @@ describe('useFieldProps', () => {
 
       expect(transformValue).toHaveBeenCalledTimes(2)
       expect(transformValue).toHaveBeenLastCalledWith(4, 3)
+    })
+
+    it('"provideAdditionalArgs" should provide additional arguments to "onFocus", "onBlur" and "onChange" and "transformOut"', () => {
+      const onFocus = jest.fn()
+      const onBlur = jest.fn()
+      const onChange = jest.fn()
+      const transformOut = jest.fn((value) => value + 1)
+      const provideAdditionalArgs = jest.fn((value) => {
+        return {
+          value,
+          foo: 'bar',
+        }
+      })
+
+      const { result } = renderHook(useFieldProps, {
+        initialProps: {
+          path: '/myPath',
+          value: 1,
+          onFocus,
+          onBlur,
+          onChange,
+          transformOut,
+          provideAdditionalArgs,
+        },
+        wrapper: Provider,
+      })
+
+      const { handleFocus, handleBlur, handleChange } = result.current
+
+      expect(transformOut).toHaveBeenCalledTimes(1)
+      expect(transformOut).toHaveBeenLastCalledWith(1, {
+        foo: 'bar',
+        value: 1,
+      })
+      expect(result.current.value).toBe(1)
+      expect(result.current.dataContext.data).toEqual({
+        myPath: 2,
+      })
+
+      act(() => {
+        handleFocus()
+        handleChange(2)
+        handleBlur()
+      })
+
+      expect(result.current.value).toBe(3)
+      expect(result.current.dataContext.data).toEqual({
+        myPath: 3,
+      })
+      expect(transformOut).toHaveBeenCalledTimes(2)
+      expect(transformOut).toHaveBeenLastCalledWith(2, {
+        value: 2,
+        foo: 'bar',
+      })
+      expect(onFocus).toHaveBeenCalledTimes(1)
+      expect(onFocus).toHaveBeenLastCalledWith(1, {
+        value: 1,
+        foo: 'bar',
+      })
+      expect(onBlur).toHaveBeenCalledTimes(1)
+      expect(onBlur).toHaveBeenLastCalledWith(3, {
+        value: 3,
+        foo: 'bar',
+      })
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenLastCalledWith(3, {
+        value: 3,
+        foo: 'bar',
+      })
+
+      act(() => {
+        handleFocus()
+        handleChange(4)
+        handleBlur()
+      })
+
+      expect(result.current.value).toBe(5)
+      expect(result.current.dataContext.data).toEqual({
+        myPath: 5,
+      })
+      expect(transformOut).toHaveBeenCalledTimes(3)
+      expect(transformOut).toHaveBeenLastCalledWith(4, {
+        value: 4,
+        foo: 'bar',
+      })
+      expect(onFocus).toHaveBeenCalledTimes(2)
+      expect(onFocus).toHaveBeenLastCalledWith(3, {
+        value: 3,
+        foo: 'bar',
+      })
+      expect(onBlur).toHaveBeenCalledTimes(2)
+      expect(onBlur).toHaveBeenLastCalledWith(5, {
+        value: 5,
+        foo: 'bar',
+      })
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onChange).toHaveBeenLastCalledWith(5, {
+        value: 5,
+        foo: 'bar',
+      })
     })
   })
 
