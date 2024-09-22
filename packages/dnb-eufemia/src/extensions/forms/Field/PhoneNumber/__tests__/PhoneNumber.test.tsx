@@ -775,6 +775,36 @@ describe('Field.PhoneNumber', () => {
     ).toBe('+47 Norge')
   })
 
+  it('should show only Scandinavian countries and filterCountries at the same time', () => {
+    render(
+      <Field.PhoneNumber
+        countries="Scandinavia"
+        filterCountries={({ iso }) => iso !== 'DK'}
+      />
+    )
+
+    const codeElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-phone-number__country-code input'
+    )
+
+    // open
+    fireEvent.focus(codeElement)
+    fireEvent.keyDown(codeElement, {
+      key: 'Enter',
+      keyCode: 13,
+    })
+
+    const liElements = document.querySelectorAll('li:not([aria-hidden])')
+    expect(liElements).toHaveLength(2)
+    expect(liElements[0].textContent).toBe('+47 Norge')
+    expect(liElements[1].textContent).toBe('+46 Sverige')
+
+    expect(
+      document.querySelector('li.dnb-drawer-list__option--selected')
+        .textContent
+    ).toBe('+47 Norge')
+  })
+
   it('should sort prioritized countries on top', () => {
     render(<Field.PhoneNumber countries="Prioritized" />)
 
