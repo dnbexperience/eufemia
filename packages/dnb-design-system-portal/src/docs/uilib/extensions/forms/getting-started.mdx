@@ -226,18 +226,58 @@ You may check out an [interactive example](/uilib/extensions/forms/Form/Handler/
 
 #### Transforming data
 
-Each [field](/uilib/extensions/forms/all-fields/) supports transformer functions. So you can transform a value before it is processed to the form data object and vis-a-versa:
+Each [field](/uilib/extensions/forms/all-fields/) and [value](/uilib/extensions/forms/Value/) component supports transformer functions. These functions allow you to transform a value before it is processed into the form data object and vice versa:
 
 ```tsx
 <Field.String
-  label="Label"
   path="/myField"
   transformIn={transformIn}
   transformOut={transformOut}
 />
 ```
 
+This allows you to show a value in a different format than it is stored in the form data object.
+
+- `transformIn` (in to the field or value) transforms the internal value before it is displayed.
+- `transformOut` (out of the field) transforms the internal value before it gets forwarded to the data context or returned as e.g. the `onChange` value parameter.
+
 <Examples.Transformers />
+
+##### Complex objects in the data context
+
+If you need to store complex objects in the data context instead of simple values like strings, numbers, or booleans, you can use transformer functions.
+
+Suppose you want to store a country object instead of just a country code like `NO` or `SV` when using [Field.SelectCountry](/uilib/extensions/forms/feature-fields/SelectCountry/).
+
+You can achieve this by using the `transformIn` and `transformOut` functions:
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+
+const transformOut = (value, country) => {
+  if (value) {
+    return country
+  }
+}
+const transformIn = (country) => {
+  return country?.iso
+}
+
+const MyForm = () => {
+  return (
+    <Form.Handler>
+      <Field.SelectCountry
+        path="/country"
+        transformIn={transformIn}
+        transformOut={transformOut}
+        defaultValue="NO"
+      />
+
+      <Value.SelectCountry path="/country" transformIn={transformIn} />
+    </Form.Handler>
+  )
+}
+```
 
 ### Async form handling
 
