@@ -185,6 +185,31 @@ describe('Field.SelectCountry', () => {
     expect(liElements[2].textContent).toBe('Sverige')
   })
 
+  it('should show only Scandinavian countries and filterCountries at the same time', () => {
+    render(
+      <Field.SelectCountry
+        countries="Scandinavia"
+        filterCountries={({ iso }) => iso !== 'DK'}
+      />
+    )
+
+    const inputElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-select-country input'
+    )
+
+    // open
+    fireEvent.focus(inputElement)
+    fireEvent.keyDown(inputElement, {
+      key: 'Enter',
+      keyCode: 13,
+    })
+
+    const liElements = document.querySelectorAll('li:not([aria-hidden])')
+    expect(liElements).toHaveLength(2)
+    expect(liElements[0].textContent).toBe('Norge')
+    expect(liElements[1].textContent).toBe('Sverige')
+  })
+
   it('should sort prioritized countries on top', () => {
     render(<Field.SelectCountry countries="Prioritized" />)
 

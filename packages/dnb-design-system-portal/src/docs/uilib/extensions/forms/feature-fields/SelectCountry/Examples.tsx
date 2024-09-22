@@ -121,6 +121,17 @@ export const ValidationRequired = () => {
   )
 }
 
+export function FilterCountries() {
+  return (
+    <ComponentBox>
+      <Field.SelectCountry
+        countries="Scandinavia"
+        filterCountries={({ iso }) => iso !== 'DK'}
+      />
+    </ComponentBox>
+  )
+}
+
 export function TransformInAndOut() {
   return (
     <ComponentBox scope={{ Tools }}>
@@ -152,6 +163,7 @@ export function TransformInAndOut() {
                   showEmpty
                 />
 
+                <Form.SubHeading>Data Context</Form.SubHeading>
                 <Tools.Log />
               </Card>
               <Form.SubmitButton />

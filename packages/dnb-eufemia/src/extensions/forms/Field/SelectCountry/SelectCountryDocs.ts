@@ -7,6 +7,11 @@ export const SelectCountryProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  filterCountries: {
+    doc: 'Use this prop to filter out certain countries. The function receives the country object and should return a boolean. Returning `false` will omit the country.',
+    type: 'function',
+    status: 'optional',
+  },
 }
 
 export const SelectCountryGeneralEvents = getFieldEventsWithTypes(
