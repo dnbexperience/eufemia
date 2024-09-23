@@ -3,6 +3,44 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.50.0](https://github.com/dnbexperience/eufemia/compare/v10.49.0...v10.50.0) (2024-09-23)
+
+
+### :memo: Documentation
+
+* adds import statement to info doc for components ([#3966](https://github.com/dnbexperience/eufemia/issues/3966)) ([8034c44](https://github.com/dnbexperience/eufemia/commit/8034c4448f794958de57771941e6402817086014))
+* adds import statement to info doc for elements ([#3972](https://github.com/dnbexperience/eufemia/issues/3972)) ([55ba97d](https://github.com/dnbexperience/eufemia/commit/55ba97dc9956adaed291d9bafdaadbed5519157a))
+* adds tabs to elements docs ([#3967](https://github.com/dnbexperience/eufemia/issues/3967)) ([8305ce3](https://github.com/dnbexperience/eufemia/commit/8305ce3dad911e3a840f73c2096205313d8e9d9d))
+* fix markdown link to text counter component ([4fb5485](https://github.com/dnbexperience/eufemia/commit/4fb5485a9b950650d7ebbdd59e17a662a22b2ccf))
+* fix markdown link to text counter component ([#3958](https://github.com/dnbexperience/eufemia/issues/3958)) ([2671ed4](https://github.com/dnbexperience/eufemia/commit/2671ed452bcab6554c1ba4a7650a8ab40dbd67a4))
+
+
+### :bug: Bug Fixes
+
+* **ChildrenWithAge:** sync summary and edit container ([#3950](https://github.com/dnbexperience/eufemia/issues/3950)) ([52ca0fb](https://github.com/dnbexperience/eufemia/commit/52ca0fb8b24864d3ee72970a4ce0b32cc6ef85d4))
+* **Forms:** add support for `transformIn` and `transformOut` to Field.SelectCountry ([#3975](https://github.com/dnbexperience/eufemia/issues/3975)) ([d1c44c8](https://github.com/dnbexperience/eufemia/commit/d1c44c88a3401f4cd6d7884416287ca827137b9d)), closes [#3974](https://github.com/dnbexperience/eufemia/issues/3974)
+* **Forms:** deprecate and rename `{itemNr}` in favor of `{itemNo}` ([#3969](https://github.com/dnbexperience/eufemia/issues/3969)) ([594f967](https://github.com/dnbexperience/eufemia/commit/594f9675c0cf2888ebc6a222ebd20d9d36003b03))
+* **Forms:** enhance defaultValue routine during mounting of fields ([#3962](https://github.com/dnbexperience/eufemia/issues/3962)) ([68bcbcb](https://github.com/dnbexperience/eufemia/commit/68bcbcbfcd74623e31e31dde8dcde35cdd1d2fcd))
+* **Forms:** enhance reset routine of ChildrenWithAge block ([#3961](https://github.com/dnbexperience/eufemia/issues/3961)) ([2ae6a5f](https://github.com/dnbexperience/eufemia/commit/2ae6a5f373b4e07f0b1b75855c6fb4b701837e28))
+* **Forms:** ensure `defaultValue` works in React.StrictMode ([#3959](https://github.com/dnbexperience/eufemia/issues/3959)) ([fb71a48](https://github.com/dnbexperience/eufemia/commit/fb71a48561001e968a555b7e3477354e8f91ab5b))
+* **Forms:** ensure `Value.*` component's `transformIn` can changes its value ([#3965](https://github.com/dnbexperience/eufemia/issues/3965)) ([0698741](https://github.com/dnbexperience/eufemia/commit/069874197569ec8996ed66eaa6ee274e1c892116))
+* **Forms:** execute `transformOut` when value or defaultValue is given ([#3974](https://github.com/dnbexperience/eufemia/issues/3974)) ([77eab0c](https://github.com/dnbexperience/eufemia/commit/77eab0c2a9a71222565722835c3a02508c89eb7f))
+* **Forms:** make `exportValidators` work with the same validator as given in `validator` or `onBlurValidator` ([#3977](https://github.com/dnbexperience/eufemia/issues/3977)) ([52a5e69](https://github.com/dnbexperience/eufemia/commit/52a5e69ca6e7f09e01dda0bf975897ab00471a09))
+* **Visibility:** prioritize `visible` with a booean over other path assetion ([#3949](https://github.com/dnbexperience/eufemia/issues/3949)) ([c74ee1d](https://github.com/dnbexperience/eufemia/commit/c74ee1d4abf6a0772b09539f302a34049ffc914b))
+
+
+### :sparkles: Features
+
+* **Forms:** add `filterCountries` prop to Field.SelectCountry to filter out certain countries ([#3979](https://github.com/dnbexperience/eufemia/issues/3979)) ([56dfe4f](https://github.com/dnbexperience/eufemia/commit/56dfe4fbbd03c5a3baee15f104d6d43a95b6128e))
+* **Forms:** add `filterCountries` to Field.PhoneNumber ([#3981](https://github.com/dnbexperience/eufemia/issues/3981)) ([8041541](https://github.com/dnbexperience/eufemia/commit/80415413cd4b2cdcd0aca86961f7eab6987741d4))
+* **Forms:** add `inheritVisibility` to each `Value.*` component ([#3948](https://github.com/dnbexperience/eufemia/issues/3948)) ([367889b](https://github.com/dnbexperience/eufemia/commit/367889b38d498f5721869d57cfd5b7006fa5c339))
+* **Forms:** add `limit` prop to Iterate.Array ([#3964](https://github.com/dnbexperience/eufemia/issues/3964)) ([c29b477](https://github.com/dnbexperience/eufemia/commit/c29b4770672fc95402bd98921184c57b50efda82))
+* **Forms:** add `reduceToVisibleFields` to the `useData` hook and Form.Handler `onSubmit` ([#3957](https://github.com/dnbexperience/eufemia/issues/3957)) ([db24256](https://github.com/dnbexperience/eufemia/commit/db24256211116d8f7bc65e88913575eede07d6c6))
+* **Forms:** add `remove` method to Form.useData ([#3960](https://github.com/dnbexperience/eufemia/issues/3960)) ([950e6a3](https://github.com/dnbexperience/eufemia/commit/950e6a3c8da3672810fd5abb70167dce3c5c7937))
+* **Forms:** add `useCountry` with `getCountryNameByIso` to Value.SelectCountry ([#3953](https://github.com/dnbexperience/eufemia/issues/3953)) ([350c060](https://github.com/dnbexperience/eufemia/commit/350c060d69e2694edaee8cf1f6da38f80a8471b4))
+* **OrganizationNumber:** adds organization number validation ([#3976](https://github.com/dnbexperience/eufemia/issues/3976)) ([6f344c2](https://github.com/dnbexperience/eufemia/commit/6f344c2a54e784fe08a5557698e449accdbb246f))
+* **Value.ArraySelection:** add `variant` prop to allow for list layout ([#3947](https://github.com/dnbexperience/eufemia/issues/3947)) ([1aff360](https://github.com/dnbexperience/eufemia/commit/1aff360bc316847082bd656e4e8c54a99c9137b8))
+
 ## [10.49.0](https://github.com/dnbexperience/eufemia/compare/v10.48.0...v10.49.0) (2024-09-16)
 
 
