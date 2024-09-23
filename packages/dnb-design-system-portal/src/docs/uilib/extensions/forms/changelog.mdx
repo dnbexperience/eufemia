@@ -13,10 +13,22 @@ breadcrumb:
 
 Change log for the Eufemia Forms extension.
 
+## v10.50
+
+- Added `reduceToVisibleFields` to the [Form.useData](/uilib/extensions/forms/Form/useData/) hook and [Form.Handler](/uilib/extensions/forms/Form/Handler/) `onSubmit`.
+- Added `inheritVisibility` to each `Value.*` component.
+- Added `variant` to [Value.ArraySelection](/uilib/extensions/forms/base-fields/ArraySelection/), to allow for list layout.
+- Added validation of norwegian organization number to [Field.OrganizationNumber](/uilib/extensions/forms/feature-fields/OrganizationNumber/).
+- Added `filterCountries` to [Field.PhoneNumber](/uilib/extensions/forms/feature-fields/PhoneNumber/), to be able to filter out countries.
+- Added `filterCountries` to [Field.SelectCountry](/uilib/extensions/forms/feature-fields/SelectCountry/), to be able to filter out countries.
+- Added `limit` in [Iterate](/uilib/extensions/forms/Iterate/Array/).
+- Added `remove` method to the [Form.useData](/uilib/extensions/forms/Form/useData/) hook.
+- Deprecated `itemNr` in [Iterate](/uilib/extensions/forms/Iterate/) and replaced with `itemNo`.
+
 ## v10.48
 
 - Make [Iterate.Toolbar](/uilib/extensions/forms/Iterate/Toolbar/) customizable.
-- Add new property `toolbarVariant` to [Iterate.ViewContainer](/uilib/extensions/forms/Iterate/ViewContainer/) and [Iterate.EditContainer](/uilib/extensions/forms/Iterate/EditContainer/) for hiding toolbar buttons when there is only one item in the array.
+- Added new property `toolbarVariant` to [Iterate.ViewContainer](/uilib/extensions/forms/Iterate/ViewContainer/) and [Iterate.EditContainer](/uilib/extensions/forms/Iterate/EditContainer/) for hiding toolbar buttons when there is only one item in the array.
 
 ## v10.46
 
