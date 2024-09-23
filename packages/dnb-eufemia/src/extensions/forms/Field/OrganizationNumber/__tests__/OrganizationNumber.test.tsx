@@ -79,11 +79,6 @@ describe('Field.OrganizationNumber', () => {
   })
 
   it('should not validate custom validator when validate false', async () => {
-    const text = 'Custom Error message'
-    const validator = jest.fn((value) => {
-      return value.length < 4 ? new Error(text) : undefined
-    })
-
     const invalidOrgNo = '987654321'
 
     const firstNumIs1 = (value: string) =>
