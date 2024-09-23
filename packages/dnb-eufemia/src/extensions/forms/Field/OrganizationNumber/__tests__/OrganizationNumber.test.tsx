@@ -2,7 +2,7 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { render, waitFor, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Field, Form } from '../../..'
+import { Field, Form, Validator } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 
 const nb = nbNO['nb-NO']
@@ -60,6 +60,94 @@ describe('Field.OrganizationNumber', () => {
     expect(input).toHaveAttribute('inputmode', 'numeric')
   })
 
+  it('should not validate organization number when validate false', async () => {
+    const invalidOrgNo = '987654321'
+
+    render(
+      <Form.Handler>
+        <Field.OrganizationNumber
+          value={invalidOrgNo}
+          validateInitially
+          validate={false}
+        />
+      </Form.Handler>
+    )
+
+    fireEvent.blur(document.querySelector('input'))
+
+    expect(screen.queryByRole('alert')).toBeNull()
+  })
+
+  it('should not validate custom validator when validate false', async () => {
+    const text = 'Custom Error message'
+    const validator = jest.fn((value) => {
+      return value.length < 4 ? new Error(text) : undefined
+    })
+
+    const invalidOrgNo = '987654321'
+
+    const firstNumIs1 = (value: string) =>
+      value.substring(0, 1) === '1'
+        ? { status: 'valid' }
+        : { status: 'invalid' }
+
+    const customValidator: Validator<string> = (value) => {
+      const result = firstNumIs1(value)
+      if (result.status === 'invalid') {
+        return new Error('My error')
+      }
+    }
+
+    render(
+      <Form.Handler>
+        <Field.OrganizationNumber
+          value={invalidOrgNo}
+          validateInitially
+          validate={false}
+          validator={customValidator}
+        />
+      </Form.Handler>
+    )
+
+    fireEvent.blur(document.querySelector('input'))
+
+    expect(screen.queryByRole('alert')).toBeNull()
+  })
+
+  it('should not validate extended validator when validate false', async () => {
+    const invalidOrgNo = '987654321'
+
+    const firstNumIs1 = (value: string) =>
+      value.substring(0, 1) === '1'
+        ? { status: 'valid' }
+        : { status: 'invalid' }
+
+    const customValidator: Validator<string> = (value, { validators }) => {
+      const { organizationNumberValidator } = validators
+      const result = firstNumIs1(value)
+      if (result.status === 'invalid') {
+        return new Error('My error')
+      }
+
+      return [organizationNumberValidator]
+    }
+
+    render(
+      <Form.Handler>
+        <Field.OrganizationNumber
+          value={invalidOrgNo}
+          validateInitially
+          validate={false}
+          validator={customValidator}
+        />
+      </Form.Handler>
+    )
+
+    fireEvent.blur(document.querySelector('input'))
+
+    expect(screen.queryByRole('alert')).toBeNull()
+  })
+
   describe('should validate Norwegian organization number', () => {
     const validOrgNum = [
       '724841198',
@@ -100,6 +188,105 @@ describe('Field.OrganizationNumber', () => {
             value={orgNo}
             validateInitially
             validateUnchanged
+          />
+        )
+
+        fireEvent.blur(document.querySelector('input'))
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          expect(screen.queryByRole('alert')).toHaveTextContent(
+            nb.OrganizationNumber.errorPattern
+          )
+        })
+      }
+    )
+  })
+
+  describe('should extend validation using custom validator', () => {
+    const validOrgNumStartingWith1 = ['100214458', '148623902']
+
+    const validOrgNumNotStartingWith1 = [
+      '208141554',
+      '507364276',
+      '724841198',
+      '602105938',
+      '656231440',
+      '967746096',
+      '721357694',
+      '282334933',
+      '519909235',
+      '530028801',
+      '991541209',
+      '756299263',
+    ]
+
+    const invalidOrgNum = ['123', '123456789', '148623907', '987654321']
+
+    const firstNumIs1 = (value: string) =>
+      value.substring(0, 1) === '1'
+        ? { status: 'valid' }
+        : { status: 'invalid' }
+
+    const customValidator: Validator<string> = (value, { validators }) => {
+      const { organizationNumberValidator } = validators
+      const result = firstNumIs1(value)
+      if (result.status === 'invalid') {
+        return new Error('My error')
+      }
+
+      return [organizationNumberValidator]
+    }
+
+    it.each(validOrgNumStartingWith1)(
+      'Valid organization number: %s',
+      (orgNo) => {
+        render(
+          <Form.Handler>
+            <Field.OrganizationNumber
+              value={orgNo}
+              validateInitially
+              validator={customValidator}
+            />
+          </Form.Handler>
+        )
+
+        fireEvent.blur(document.querySelector('input'))
+
+        expect(screen.queryByRole('alert')).toBeNull()
+      }
+    )
+
+    it.each(validOrgNumNotStartingWith1)(
+      'Invalid organization number: %s',
+      async (orgNo) => {
+        render(
+          <Field.OrganizationNumber
+            value={orgNo}
+            validateInitially
+            validateUnchanged
+            validator={customValidator}
+          />
+        )
+
+        fireEvent.blur(document.querySelector('input'))
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          expect(screen.queryByRole('alert')).toHaveTextContent('My error')
+        })
+      }
+    )
+
+    it.each(invalidOrgNum)(
+      'Invalid organization number: %s',
+      async (orgNo) => {
+        render(
+          <Field.OrganizationNumber
+            value={orgNo}
+            validateInitially
+            validateUnchanged
+            validator={customValidator}
           />
         )
 
