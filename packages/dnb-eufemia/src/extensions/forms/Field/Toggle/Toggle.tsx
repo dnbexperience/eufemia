@@ -90,6 +90,8 @@ function Toggle(props: Props) {
   const isOn = value === valueOn
   const isOff = value === valueOff
 
+  const displayButtonsLabelDescription = labelDescription || help
+
   switch (variant) {
     default:
     case 'checkbox':
@@ -139,18 +141,20 @@ function Toggle(props: Props) {
           {...fieldBlockProps}
           asFieldset
           labelDescription={
-            <>
-              {labelDescription}
-              {help ? (
-                <HelpButton
-                  size="small"
-                  left={labelDescription ? 'x-small' : false}
-                  title={help.title}
-                >
-                  {help.content}
-                </HelpButton>
-              ) : undefined}
-            </>
+            displayButtonsLabelDescription && (
+              <>
+                {labelDescription}
+                {help && (
+                  <HelpButton
+                    size="small"
+                    left={labelDescription ? 'x-small' : false}
+                    title={help.title}
+                  >
+                    {help.content}
+                  </HelpButton>
+                )}
+              </>
+            )
           }
         >
           <ButtonRow bottom="x-small">

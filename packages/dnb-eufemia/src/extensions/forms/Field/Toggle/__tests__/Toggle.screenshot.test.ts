@@ -15,4 +15,13 @@ describe('Field.Toggle', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match buttons variant without label', async () => {
+    const screenshot = await makeScreenshot({
+      url,
+      selector:
+        '[data-visual-test="toggle-variant-buttons-without-label"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
