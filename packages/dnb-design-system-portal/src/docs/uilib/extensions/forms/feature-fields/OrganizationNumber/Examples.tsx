@@ -135,7 +135,7 @@ export const ValidationExtendValidator = () => {
           <Field.OrganizationNumber
             required
             value="991541209"
-            validator={myValidator}
+            onBlurValidator={myValidator}
             validateInitially
           />
         )
