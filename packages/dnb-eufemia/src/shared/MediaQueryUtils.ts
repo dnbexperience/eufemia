@@ -27,7 +27,7 @@ export type MediaQueryCondition =
       minWidth?: number | string | MediaQuerySizes
       maxWidth?: number | string | MediaQuerySizes
       orientation?: string
-      handheld?: boolean
+      handheld?: boolean // DEPRECATED: this is no longer an accepted media-type. Should we remove it?
       not?: boolean
       all?: boolean
       monochrome?: boolean
@@ -248,7 +248,7 @@ function combineQueries(
 
       const query = convertToMediaQuery(when, breakpoints, options)
 
-      if (query) {
+      if (query && query !== 'and') {
         switch (arr[i - 1]) {
           case 'and':
             listOfQueries.push('and')
@@ -370,7 +370,7 @@ function objToMediaQuery(
     const size =
       parseFloat(query.match(/\(min-width: ([0-9]+)em\)/)[1]) || 0
     if (size > 0) {
-      const correctedSize = (size * 16 + 1) / 16
+      const correctedSize = (size * 16 + 0.1) / 16 // add 0.1px to the minimum to avoid overlap with and equivalent maximum
       query = query.replace(
         /(min-width: [0-9]+em)/,
         `min-width: ${correctedSize}em`

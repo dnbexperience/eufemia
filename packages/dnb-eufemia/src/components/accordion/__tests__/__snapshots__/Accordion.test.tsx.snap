@@ -228,7 +228,7 @@ p > .dnb-icon {
   position: static;
   max-width: 60rem;
 }
-@media screen and (min-width: 40.0625em) {
+@media screen and (min-width: 40.00625em) {
   .dnb-accordion-group--single-container .dnb-accordion__header {
     width: 40%;
   }
@@ -240,7 +240,7 @@ p > .dnb-icon {
     margin-top: 0;
   }
 }
-@media screen and (min-width: 40.0625em) {
+@media screen and (min-width: 40.00625em) {
   .dnb-accordion-group--single-container .dnb-accordion > .dnb-accordion__header .dnb-accordion__header__icon {
     transform: rotate(-90deg);
   }
@@ -248,7 +248,7 @@ p > .dnb-icon {
 .dnb-accordion-group--single-container .dnb-accordion-group__children {
   max-width: 60rem;
 }
-@media screen and (min-width: 40.0625em) {
+@media screen and (min-width: 40.00625em) {
   .dnb-accordion-group--single-container .dnb-accordion-group__children {
     position: relative;
     display: flex;
