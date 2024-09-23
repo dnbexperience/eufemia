@@ -449,12 +449,30 @@ export const prepareStartupState = (props) => {
   return state
 }
 
+function isSameData(a, b) {
+  // Compare arrays
+  if (Array.isArray(a) && Array.isArray(b)) {
+    return a.every((itemA, index) => {
+      const itemB = b[index]
+      if (itemA?.constructor === Object && itemB?.constructor === Object) {
+        return Object.keys(itemA).every(
+          (key) => key in itemB && itemA[key] === itemB[key]
+        )
+      }
+
+      return itemA === itemB
+    })
+  }
+
+  return a === b
+}
+
 export const prepareDerivedState = (props, state) => {
   if (state.opened && !state.data && typeof props.data === 'function') {
     state.data = getData(props)
   }
 
-  if (props.data && props.data !== state._data) {
+  if (props.data && !isSameData(props.data, state._data)) {
     if (state._data) {
       state.cache_hash = state.cache_hash + Date.now()
     }

@@ -267,7 +267,6 @@ function Selection(props: Props) {
                     dropdownProps
                   ) as DropdownAllProps)
                 : null)}
-              keepSelectIndexOnDataChange
             />
           )}
         </FieldBlock>
