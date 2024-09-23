@@ -30,7 +30,7 @@ render(
 
 ## The item number in the title
 
-You can use the `{itemNr}` variable in the `title` or the `titleWhenNew` property to display the current item number.
+You can use the `{itemNo}` variable in the `title` or the `titleWhenNew` property to display the current item number.
 
 ```tsx
 import { Iterate, Field, Value } from '@dnb/eufemia/extensions/forms'
@@ -38,8 +38,8 @@ import { Iterate, Field, Value } from '@dnb/eufemia/extensions/forms'
 render(
   <Iterate.Array>
     <Iterate.EditContainer
-      title="Edit account holder {itemNr}"
-      titleWhenNew="New account holder {itemNr}"
+      title="Edit account holder {itemNo}"
+      titleWhenNew="New account holder {itemNo}"
     >
       <Field.Name.Last itemPath="/name" />
     </Iterate.EditContainer>

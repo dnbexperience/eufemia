@@ -47,7 +47,7 @@ export const VisibilityProperties: PropertiesTableProps = {
     status: 'optional',
   },
   visible: {
-    doc: 'Control visibility directly by boolean value.',
+    doc: 'Control visibility directly using the `visible` prop. When used alongside other conditions, the `visible` prop takes precedence.',
     type: 'boolean',
     status: 'optional',
   },

@@ -140,7 +140,7 @@ function FieldBlock(props: Props) {
 
     if (iterateIndex !== undefined) {
       content = convertJsxToString(labelProp).replace(
-        '{itemNr}',
+        '{itemNo}',
         String(iterateIndex + 1)
       )
     }

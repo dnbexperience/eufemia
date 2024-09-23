@@ -82,11 +82,11 @@ describe('PushContainer', () => {
     })
   })
 
-  it('should clear the input when the button is clicked', async () => {
+  it('should clear the input without an error, when the submit button is clicked', async () => {
     render(
       <Form.Handler>
         <Iterate.PushContainer path="/entries">
-          <Field.String itemPath="/name" />
+          <Field.Name.First itemPath="/name" required />
         </Iterate.PushContainer>
       </Form.Handler>
     )
@@ -94,14 +94,25 @@ describe('PushContainer', () => {
     const input = document.querySelector('input')
     const button = document.querySelector('button')
 
-    await userEvent.type(input, 'Tony')
+    await userEvent.type(input, '1')
+    await userEvent.click(button)
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+    })
+
+    await userEvent.type(input, '{Backspace}Tony')
 
     expect(input).toHaveValue('Tony')
 
     await userEvent.click(button)
 
     expect(input).toHaveValue('')
-    expect(document.querySelector('.dnb-form-status')).toBeNull()
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-form-status')).toBeNull()
+    })
   })
 
   it('should validate input values', async () => {
@@ -558,5 +569,50 @@ describe('PushContainer', () => {
     const removeButton = document.querySelectorAll('button')[1]
     await userEvent.click(removeButton)
     expect(openButton).toHaveTextContent('Add no. 1')
+  })
+
+  it('should inherit "limit" prop from Array and show warning when limit is reached', async () => {
+    render(
+      <Form.Handler>
+        <Iterate.Array path="/myList" limit={2}>
+          <i />
+          <Iterate.RemoveButton />
+        </Iterate.Array>
+
+        <Iterate.PushContainer path="/myList">
+          content
+        </Iterate.PushContainer>
+      </Form.Handler>
+    )
+
+    const doneButton = document.querySelector('button')
+
+    // Add first item
+    await userEvent.click(doneButton)
+
+    // Add second item
+    await userEvent.click(doneButton)
+
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+    // Try a third one
+    await userEvent.click(doneButton)
+
+    await waitFor(() => {
+      const element = document.querySelector('.dnb-form-status')
+      expect(element).toBeInTheDocument()
+      expect(element).toHaveTextContent('Du har nådd grensen på: 2')
+      expect(element).toHaveClass('dnb-form-status--warn')
+      expect(document.querySelectorAll('i')).toHaveLength(2)
+    })
+
+    const removeButton = document.querySelector(
+      '.dnb-forms-iterate-remove-element-button'
+    )
+    await userEvent.click(removeButton)
+
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-form-status')).toBeNull()
+    })
   })
 })

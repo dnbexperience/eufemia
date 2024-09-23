@@ -114,11 +114,13 @@ function MyForm() {
 
 function MyComponent() {
   const {
-    getValue, // Method to get a single value
-    update, // Method to update a single value
-    set, // Method to set the whole dataset
-    data, // The whole dataset (unvalidated)
-    filterData, // Method to filter data with your own logic
+    getValue,
+    update,
+    remove,
+    set,
+    data,
+    filterData,
+    reduceToVisibleFields,
   } = Form.useData() // optionally provide an id (unique-id)
 }
 
@@ -126,16 +128,30 @@ function MyComponent() {
 Form.setData('unique-id', { companyName: 'DNB' })
 
 // ... and the getData – method when ever you need to:
-const {
-  getValue, // Method to get a single value
-  data, // The whole dataset (unvalidated)
-  filterData, // Method to filter data with your own logic
-} = Form.getData('unique-id')
+const { getValue, data, filterData, reduceToVisibleFields } =
+  Form.getData('unique-id')
 ```
+
+- `getValue` will return the value of the given path.
+- `update` will update the value of the given path.
+- `remove` will remove the given path from the data context (fields will reapply their values afterwards).
+- `set` will set the whole dataset.
+- `data` will return the whole dataset (unvalidated).
+- `filterData` will filter the data based on your own logic.
+- `reduceToVisibleFields` will reduce the given data set to only contain the visible fields (mounted fields).
 
 As you can see in the code above, you can even handle the state outside the `Form.Handler` context. You find more details on this topic in the [useData](/uilib/extensions/forms/Form/useData/) documentation.
 
 <Examples.GettingStarted />
+
+#### Visible data
+
+User entered data will always be stored internally in the data context, even if a [Field](/uilib/extensions/forms/all-fields/) is temporarily shown (mounted/unmounted).
+
+When submitting data to the server, you might want to exclude data that has been hidden (unmounted) by the user. You have two built-in options to achieve this:
+
+- You can use the `reduceToVisibleFields` function to get only the data of visible (mounted) fields. Check out the [example](/uilib/extensions/forms/Form/Handler/demos/#visible-data) in the demo section.
+- Or you may use the `filterData` function to filter your data. More details in the next section.
 
 #### Filter data
 
@@ -210,18 +226,58 @@ You may check out an [interactive example](/uilib/extensions/forms/Form/Handler/
 
 #### Transforming data
 
-Each [field](/uilib/extensions/forms/all-fields/) supports transformer functions. So you can transform a value before it is processed to the form data object and vis-a-versa:
+Each [field](/uilib/extensions/forms/all-fields/) and [value](/uilib/extensions/forms/Value/) component supports transformer functions. These functions allow you to transform a value before it is processed into the form data object and vice versa:
 
 ```tsx
 <Field.String
-  label="Label"
   path="/myField"
   transformIn={transformIn}
   transformOut={transformOut}
 />
 ```
 
+This allows you to show a value in a different format than it is stored in the form data object.
+
+- `transformIn` (in to the field or value) transforms the internal value before it is displayed.
+- `transformOut` (out of the field) transforms the internal value before it gets forwarded to the data context or returned as e.g. the `onChange` value parameter.
+
 <Examples.Transformers />
+
+##### Complex objects in the data context
+
+If you need to store complex objects in the data context instead of simple values like strings, numbers, or booleans, you can use transformer functions.
+
+Suppose you want to store a country object instead of just a country code like `NO` or `SV` when using [Field.SelectCountry](/uilib/extensions/forms/feature-fields/SelectCountry/).
+
+You can achieve this by using the `transformIn` and `transformOut` functions:
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+
+const transformOut = (value, country) => {
+  if (value) {
+    return country
+  }
+}
+const transformIn = (country) => {
+  return country?.iso
+}
+
+const MyForm = () => {
+  return (
+    <Form.Handler>
+      <Field.SelectCountry
+        path="/country"
+        transformIn={transformIn}
+        transformOut={transformOut}
+        defaultValue="NO"
+      />
+
+      <Value.SelectCountry path="/country" transformIn={transformIn} />
+    </Form.Handler>
+  )
+}
+```
 
 ### Async form handling
 
@@ -236,6 +292,14 @@ In short, field components are interactive components that the user can interact
 ### Value components
 
 Beside the interactive [Field](/uilib/extensions/forms/all-fields/) components, there is also the static [Value](/uilib/extensions/forms/Value/) components. Use these to show summaries or read-only parts of your application with benefits such as linking to source data and standardized formatting based on the type of data to be displayed.
+
+#### Inherit visibility from fields
+
+User entered data will always be stored internally in the data context, even if a [Field](/uilib/extensions/forms/all-fields/) is temporarily shown (mounted/unmounted).
+
+`Value.*` components will render the value regardless of the visibility of the field.
+
+You can use the `inheritVisibility` property on the [Value.\*](/uilib/extensions/forms/Value/) components to inherit the visibility from the field with the same path.
 
 ### Async form behavior
 

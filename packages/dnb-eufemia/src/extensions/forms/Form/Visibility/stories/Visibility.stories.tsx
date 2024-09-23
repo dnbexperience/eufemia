@@ -54,8 +54,9 @@ export const RadioDisabled = () => {
           label="Visible"
           variant="button"
           path="/isVisible"
+          defaultValue={false}
         />
-        <Form.Visibility visible pathTrue="/isVisible" animate keepInDOM>
+        <Form.Visibility pathTrue="/isVisible" animate keepInDOM>
           <Field.Selection
             label="Radio"
             variant="radio"

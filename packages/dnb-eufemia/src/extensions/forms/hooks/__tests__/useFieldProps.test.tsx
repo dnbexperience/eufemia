@@ -9,7 +9,8 @@ import {
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import useFieldProps from '../useFieldProps'
-import { Provider } from '../../DataContext'
+import { Context, ContextState, Provider } from '../../DataContext'
+import WizardContext from '../../Wizard/Context'
 import Field, {
   FieldBlock,
   Form,
@@ -81,6 +82,27 @@ describe('useFieldProps', () => {
       })
     })
 
+    it('should support ReactStrict mode', () => {
+      const defaultValue = 'include this'
+
+      const { result } = renderHook(
+        () => useFieldProps({ path: '/foo', defaultValue }),
+        {
+          wrapper: ({ children }) => {
+            return (
+              <React.StrictMode>
+                <Provider>{children}</Provider>
+              </React.StrictMode>
+            )
+          },
+        }
+      )
+
+      expect(result.current.dataContext.data).toEqual({
+        foo: defaultValue,
+      })
+    })
+
     it('given "defaultValue" should not take precedence over data context value', () => {
       const givenValue = 'given value'
       const defaultValue = 'include this'
@@ -89,7 +111,9 @@ describe('useFieldProps', () => {
         () => useFieldProps({ path: '/foo', defaultValue }),
         {
           wrapper: (props) => (
-            <Provider data={{ foo: givenValue }} {...props} />
+            <React.StrictMode>
+              <Provider data={{ foo: givenValue }} {...props} />
+            </React.StrictMode>
           ),
         }
       )
@@ -251,13 +275,12 @@ describe('useFieldProps', () => {
   })
 
   describe('with local validation', () => {
-    it('should return error when validator callback return error', async () => {
+    it('should return error when validator callback returns error', async () => {
       const { result, rerender } = renderHook(useFieldProps, {
         initialProps: {
           validator: () => new Error('This is wrong...'),
           value: 'foo',
           validateInitially: true,
-          continuousValidation: true,
         },
       })
 
@@ -269,7 +292,6 @@ describe('useFieldProps', () => {
         validator: () => undefined,
         value: 'bar',
         validateInitially: true,
-        continuousValidation: true,
       })
 
       await waitFor(() => {
@@ -2179,7 +2201,7 @@ describe('useFieldProps', () => {
     })
   })
 
-  describe('value manipulation', () => {
+  describe('value manipulation with transformers', () => {
     it('should call "transformIn" and "transformOut"', () => {
       const transformIn = jest.fn((v) => v - 1)
       const transformOut = jest.fn((v) => v + 1)
@@ -2207,7 +2229,7 @@ describe('useFieldProps', () => {
       expect(transformIn).toHaveBeenCalledTimes(2)
       expect(transformIn).toHaveBeenLastCalledWith(3)
       expect(transformOut).toHaveBeenCalledTimes(1)
-      expect(transformOut).toHaveBeenLastCalledWith(2)
+      expect(transformOut).toHaveBeenLastCalledWith(2, undefined)
 
       act(() => {
         handleChange(4)
@@ -2216,7 +2238,66 @@ describe('useFieldProps', () => {
       expect(transformIn).toHaveBeenCalledTimes(3)
       expect(transformIn).toHaveBeenLastCalledWith(5)
       expect(transformOut).toHaveBeenCalledTimes(2)
-      expect(transformOut).toHaveBeenLastCalledWith(4)
+      expect(transformOut).toHaveBeenLastCalledWith(4, undefined)
+    })
+
+    it('should call "transformOut" initially when path is given', () => {
+      const transformOut = jest.fn((v) => v + 1)
+
+      const { result } = renderHook(useFieldProps, {
+        initialProps: {
+          path: '/myPath',
+          value: 1,
+          transformOut,
+        },
+        wrapper: Provider,
+      })
+
+      expect(transformOut).toHaveBeenCalledTimes(1)
+      expect(transformOut).toHaveBeenLastCalledWith(1, undefined)
+      expect(result.current.dataContext.data).toEqual({
+        myPath: 2,
+      })
+      expect(result.current.value).toEqual(1)
+    })
+
+    it('should call "transformOut" initially when "value" is given', () => {
+      const transformOut = jest.fn((v) => v + 1)
+      const value = 1
+
+      const { result } = renderHook(
+        () => useFieldProps({ path: '/foo', transformOut, value }),
+        { wrapper: Provider }
+      )
+
+      expect(result.current.dataContext.data).toEqual({
+        foo: 2,
+      })
+      expect(result.current.value).toEqual(1)
+      expect(transformOut).toHaveBeenCalledTimes(1)
+    })
+
+    it('should call "transformOut" initially when "defaultValue" is given', () => {
+      const transformOut = jest.fn((v) => v + 1)
+      const transformIn = jest.fn((v) => v - 1)
+      const defaultValue = 1
+
+      const { result } = renderHook(
+        () =>
+          useFieldProps({
+            path: '/foo',
+            transformOut,
+            transformIn,
+            defaultValue,
+          }),
+        { wrapper: Provider }
+      )
+
+      expect(result.current.dataContext.data).toEqual({
+        foo: 2,
+      })
+      expect(result.current.value).toEqual(1)
+      expect(transformOut).toHaveBeenCalledTimes(1)
     })
 
     it('should call "transformIn" and "transformOut" after "fromInput" and "toInput"', () => {
@@ -2250,7 +2331,7 @@ describe('useFieldProps', () => {
       expect(transformIn).toHaveBeenCalledTimes(2)
       expect(transformIn).toHaveBeenLastCalledWith(3)
       expect(transformOut).toHaveBeenCalledTimes(1)
-      expect(transformOut).toHaveBeenLastCalledWith(3)
+      expect(transformOut).toHaveBeenLastCalledWith(3, undefined)
 
       act(() => {
         handleChange(4)
@@ -2259,7 +2340,7 @@ describe('useFieldProps', () => {
       expect(transformIn).toHaveBeenCalledTimes(3)
       expect(transformIn).toHaveBeenLastCalledWith(5)
       expect(transformOut).toHaveBeenCalledTimes(2)
-      expect(transformOut).toHaveBeenLastCalledWith(5)
+      expect(transformOut).toHaveBeenLastCalledWith(5, undefined)
     })
 
     it('should call "fromInput" and "toInput"', () => {
@@ -2440,6 +2521,106 @@ describe('useFieldProps', () => {
 
       expect(transformValue).toHaveBeenCalledTimes(2)
       expect(transformValue).toHaveBeenLastCalledWith(4, 3)
+    })
+
+    it('"provideAdditionalArgs" should provide additional arguments to "onFocus", "onBlur" and "onChange" and "transformOut"', () => {
+      const onFocus = jest.fn()
+      const onBlur = jest.fn()
+      const onChange = jest.fn()
+      const transformOut = jest.fn((value) => value + 1)
+      const provideAdditionalArgs = jest.fn((value) => {
+        return {
+          value,
+          foo: 'bar',
+        }
+      })
+
+      const { result } = renderHook(useFieldProps, {
+        initialProps: {
+          path: '/myPath',
+          value: 1,
+          onFocus,
+          onBlur,
+          onChange,
+          transformOut,
+          provideAdditionalArgs,
+        },
+        wrapper: Provider,
+      })
+
+      const { handleFocus, handleBlur, handleChange } = result.current
+
+      expect(transformOut).toHaveBeenCalledTimes(1)
+      expect(transformOut).toHaveBeenLastCalledWith(1, {
+        foo: 'bar',
+        value: 1,
+      })
+      expect(result.current.value).toBe(1)
+      expect(result.current.dataContext.data).toEqual({
+        myPath: 2,
+      })
+
+      act(() => {
+        handleFocus()
+        handleChange(2)
+        handleBlur()
+      })
+
+      expect(result.current.value).toBe(3)
+      expect(result.current.dataContext.data).toEqual({
+        myPath: 3,
+      })
+      expect(transformOut).toHaveBeenCalledTimes(2)
+      expect(transformOut).toHaveBeenLastCalledWith(2, {
+        value: 2,
+        foo: 'bar',
+      })
+      expect(onFocus).toHaveBeenCalledTimes(1)
+      expect(onFocus).toHaveBeenLastCalledWith(1, {
+        value: 1,
+        foo: 'bar',
+      })
+      expect(onBlur).toHaveBeenCalledTimes(1)
+      expect(onBlur).toHaveBeenLastCalledWith(3, {
+        value: 3,
+        foo: 'bar',
+      })
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenLastCalledWith(3, {
+        value: 3,
+        foo: 'bar',
+      })
+
+      act(() => {
+        handleFocus()
+        handleChange(4)
+        handleBlur()
+      })
+
+      expect(result.current.value).toBe(5)
+      expect(result.current.dataContext.data).toEqual({
+        myPath: 5,
+      })
+      expect(transformOut).toHaveBeenCalledTimes(3)
+      expect(transformOut).toHaveBeenLastCalledWith(4, {
+        value: 4,
+        foo: 'bar',
+      })
+      expect(onFocus).toHaveBeenCalledTimes(2)
+      expect(onFocus).toHaveBeenLastCalledWith(3, {
+        value: 3,
+        foo: 'bar',
+      })
+      expect(onBlur).toHaveBeenCalledTimes(2)
+      expect(onBlur).toHaveBeenLastCalledWith(5, {
+        value: 5,
+        foo: 'bar',
+      })
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onChange).toHaveBeenLastCalledWith(5, {
+        value: 5,
+        foo: 'bar',
+      })
     })
   })
 
@@ -3176,7 +3357,7 @@ describe('useFieldProps', () => {
           expect(screen.queryByRole('alert')).toHaveTextContent('bar')
         })
         expect(myValidator).toHaveBeenCalledTimes(5)
-        expect(fooValidator).toHaveBeenCalledTimes(5)
+        expect(fooValidator).toHaveBeenCalledTimes(4)
         expect(barValidator).toHaveBeenCalledTimes(4)
       })
 
@@ -3226,7 +3407,7 @@ describe('useFieldProps', () => {
           expect(screen.queryByRole('alert')).toHaveTextContent('bar')
         })
         expect(myValidator).toHaveBeenCalledTimes(5)
-        expect(fooValidator).toHaveBeenCalledTimes(5)
+        expect(fooValidator).toHaveBeenCalledTimes(4)
         expect(barValidator).toHaveBeenCalledTimes(4)
       })
 
@@ -3324,9 +3505,42 @@ describe('useFieldProps', () => {
         })
         expect(publicValidator).toHaveBeenCalledTimes(9)
         expect(fooValidator).toHaveBeenCalledTimes(1)
-        expect(barValidator).toHaveBeenCalledTimes(8)
+        expect(barValidator).toHaveBeenCalledTimes(7)
         expect(bazValidator).toHaveBeenCalledTimes(7)
         expect(internalValidators).toHaveBeenCalledTimes(0)
+      })
+
+      it('should export and call same validator without "Maximum call stack size exceeded"', async () => {
+        const onBlurValidator = jest.fn((value) => {
+          if (value === '1234') {
+            return Error('Error message')
+          }
+        })
+
+        render(
+          <Field.String
+            onBlurValidator={onBlurValidator}
+            exportValidators={{ onBlurValidator }}
+          />
+        )
+
+        const input = document.querySelector('input')
+
+        await userEvent.type(input, '123')
+        fireEvent.blur(input)
+
+        expect(onBlurValidator).toHaveBeenCalledTimes(2)
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+        await userEvent.type(input, '4')
+        fireEvent.blur(input)
+
+        expect(onBlurValidator).toHaveBeenCalledTimes(3)
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('Error message')
+        })
       })
 
       it('should only call returned validators (barValidator should not be called)', async () => {
@@ -3514,7 +3728,7 @@ describe('useFieldProps', () => {
           expect(screen.queryByRole('alert')).toHaveTextContent('baz')
         })
         expect(publicValidator).toHaveBeenCalledTimes(9)
-        expect(barValidator).toHaveBeenCalledTimes(8)
+        expect(barValidator).toHaveBeenCalledTimes(7)
         expect(bazValidator).toHaveBeenCalledTimes(7)
         expect(internalValidators).toHaveBeenCalledTimes(0)
       })
@@ -3917,6 +4131,196 @@ describe('useFieldProps', () => {
         expect(bazValidator).toHaveBeenCalledTimes(2)
         expect(internalValidators).toHaveBeenCalledTimes(0)
       })
+    })
+  })
+
+  describe('setMountedFieldState', () => {
+    it('should mount and unmount when the field is removed from the DOM', () => {
+      const setMountedFieldState = jest.fn()
+
+      const { unmount } = renderHook((props) => useFieldProps(props), {
+        initialProps: {
+          path: '/foo',
+        },
+        wrapper: ({ children }) => {
+          const value = {
+            setMountedFieldState,
+          } as unknown as ContextState
+          return (
+            <Context.Provider value={value}>{children}</Context.Provider>
+          )
+        },
+      })
+
+      expect(setMountedFieldState).toHaveBeenCalledTimes(2)
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(1, '/foo', {
+        isPreMounted: true,
+      })
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(2, '/foo', {
+        isMounted: true,
+        isPreMounted: true,
+      })
+
+      unmount()
+
+      expect(setMountedFieldState).toHaveBeenCalledTimes(3)
+      expect(setMountedFieldState).toHaveBeenLastCalledWith('/foo', {
+        isMounted: false,
+        isPreMounted: false,
+      })
+    })
+
+    it('should set isVisible when within a visibility context', () => {
+      const setMountedFieldState = jest.fn()
+
+      const { unmount } = renderHook((props) => useFieldProps(props), {
+        initialProps: {
+          path: '/foo',
+        },
+        wrapper: ({ children }) => {
+          const value = {
+            setMountedFieldState,
+          } as unknown as ContextState
+          return (
+            <Context.Provider value={value}>
+              <Form.Visibility visible>{children}</Form.Visibility>
+            </Context.Provider>
+          )
+        },
+      })
+
+      expect(setMountedFieldState).toHaveBeenCalledTimes(3)
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(1, '/foo', {
+        isPreMounted: true,
+      })
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(2, '/foo', {
+        isVisible: true,
+      })
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(3, '/foo', {
+        isMounted: true,
+        isPreMounted: true,
+      })
+
+      unmount()
+
+      expect(setMountedFieldState).toHaveBeenCalledTimes(4)
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(4, '/foo', {
+        isMounted: false,
+        isPreMounted: false,
+      })
+    })
+
+    it('should set isVisible when within a visibility context with a negative visibility', () => {
+      const setMountedFieldState = jest.fn()
+
+      const { unmount } = renderHook((props) => useFieldProps(props), {
+        initialProps: {
+          path: '/foo',
+        },
+        wrapper: ({ children }) => {
+          const value = {
+            setMountedFieldState,
+          } as unknown as ContextState
+          return (
+            <Context.Provider value={value}>
+              <Form.Visibility visible={false} keepInDOM>
+                {children}
+              </Form.Visibility>
+            </Context.Provider>
+          )
+        },
+      })
+
+      expect(setMountedFieldState).toHaveBeenCalledTimes(3)
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(1, '/foo', {
+        isPreMounted: true,
+      })
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(2, '/foo', {
+        isVisible: false,
+      })
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(3, '/foo', {
+        isMounted: true,
+        isPreMounted: true,
+      })
+
+      unmount()
+
+      expect(setMountedFieldState).toHaveBeenCalledTimes(4)
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(4, '/foo', {
+        isMounted: false,
+        isPreMounted: false,
+      })
+    })
+
+    it('should set isMounted to true when Wizard step has changed', () => {
+      const originalConsoleLog = console.log
+      const log = jest
+        .spyOn(console, 'log')
+        .mockImplementation((...message) => {
+          if (!message[0].includes('Eufemia')) {
+            originalConsoleLog(...message)
+          }
+        })
+      const setMountedFieldState = jest.fn()
+
+      let activeIndex = 0
+      const { rerender, unmount } = renderHook(
+        (props) => useFieldProps(props),
+        {
+          initialProps: { path: '/foo' },
+          wrapper: ({ children }) => {
+            const value = {
+              setMountedFieldState,
+            } as unknown as ContextState
+            activeIndex++
+            return (
+              <Context.Provider value={value}>
+                <WizardContext.Provider
+                  value={{
+                    activeIndex,
+                  }}
+                >
+                  {children}
+                </WizardContext.Provider>
+              </Context.Provider>
+            )
+          },
+        }
+      )
+
+      expect(setMountedFieldState).toHaveBeenCalledTimes(2)
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(1, '/foo', {
+        isPreMounted: true,
+      })
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(2, '/foo', {
+        isMounted: true,
+        isPreMounted: true,
+      })
+
+      rerender({ path: '/bar' })
+
+      expect(setMountedFieldState).toHaveBeenCalledTimes(5)
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(3, '/bar', {
+        isPreMounted: true,
+      })
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(4, '/foo', {
+        isMounted: false,
+        isPreMounted: false,
+      })
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(5, '/bar', {
+        isMounted: true,
+        isPreMounted: true,
+      })
+
+      unmount()
+
+      expect(setMountedFieldState).toHaveBeenCalledTimes(6)
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(2, '/foo', {
+        isMounted: true,
+        isPreMounted: true,
+      })
+
+      log.mockRestore()
     })
   })
 })

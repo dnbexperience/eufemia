@@ -3,7 +3,7 @@ import type { JSONSchema4, JSONSchema6, JSONSchema7 } from 'json-schema'
 import type { JSONSchemaType } from 'ajv/dist/2020'
 import { JsonObject } from 'json-pointer'
 import { AriaAttributes } from 'react'
-import { FilterData } from './DataContext'
+import { FilterData, VisibleDataOptions } from './DataContext'
 
 export type * from 'json-schema'
 export type JSONSchema = JSONSchema7
@@ -356,7 +356,10 @@ export interface UseFieldProps<
    * Transforms the value before it gets forwarded to the form data object or returned as the onChange value parameter.
    * Public API. Should not be used internally.
    */
-  transformOut?: (internal: Value | unknown) => Value
+  transformOut?: (
+    internal: Value | unknown,
+    additionalArgs?: unknown
+  ) => Value
 
   /**
    * Transforms the value given by `handleChange` after `fromInput` and before `updateValue` and `toEvent`. The second parameter returns the current value.
@@ -364,11 +367,11 @@ export interface UseFieldProps<
   transformValue?: (value: Value, currentValue?: Value) => Value
 
   /**
-   * Transform additionalArgs or generate it based on value after `toEvent` and before callbacks such as `onChange`, `onFocus` and `onBlur`.
+   * Transform additionalArgs or generate it based on `value`.
    */
-  transformAdditionalArgs?: (
-    additionalArgs: AdditionalEventArgs,
-    internal: Value
+  provideAdditionalArgs?: (
+    value: Value,
+    additionalArgs?: AdditionalEventArgs
   ) => AdditionalEventArgs
 
   /**
@@ -445,6 +448,11 @@ export interface ValueProps<Value = unknown>
    * Use `true` to inherit the label from a visible (rendered) field with the same path.
    */
   inheritLabel?: boolean
+
+  /**
+   * Use `true` to inherit the visibility from a field with the same path.
+   */
+  inheritVisibility?: boolean
 
   /**
    * Shows the value even if it is empty.
@@ -550,6 +558,12 @@ export type EventReturnWithStateObjectAndSuccess =
   | EventStateObjectWithSuccess
 
 export type OnSubmitParams = {
+  /** Will remove data entries of fields that are not visible */
+  reduceToVisibleFields: (
+    data: JsonObject,
+    options?: VisibleDataOptions
+  ) => Partial<JsonObject>
+
   /** Will filter data based on the given "filterDataHandler" method */
   filterData: (filterDataHandler: FilterData) => Partial<JsonObject>
 
@@ -562,7 +576,12 @@ export type OnSubmitParams = {
 
 export type OnSubmit<Data = JsonObject> = (
   data: Data,
-  { filterData, resetForm, clearData }: OnSubmitParams
+  {
+    reduceToVisibleFields,
+    filterData,
+    resetForm,
+    clearData,
+  }: OnSubmitParams
 ) =>
   | EventReturnWithStateObject
   | void
@@ -570,7 +589,10 @@ export type OnSubmit<Data = JsonObject> = (
 
 export type OnCommit<Data = JsonObject> = (
   data: Data,
-  { clearData }: { clearData: () => void }
+  {
+    clearData,
+    preventCommit,
+  }: { clearData: () => void; preventCommit?: () => void }
 ) =>
   | EventReturnWithStateObject
   | void

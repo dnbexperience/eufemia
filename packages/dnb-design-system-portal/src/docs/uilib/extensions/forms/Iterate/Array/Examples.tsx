@@ -239,8 +239,8 @@ export const ViewAndEditContainer = () => {
         const MyEditItem = () => {
           return (
             <Iterate.EditContainer
-              title="Edit account holder {itemNr}"
-              titleWhenNew="New account holder {itemNr}"
+              title="Edit account holder {itemNo}"
+              titleWhenNew="New account holder {itemNo}"
             >
               <MyEditItemForm />
             </Iterate.EditContainer>
@@ -252,7 +252,7 @@ export const ViewAndEditContainer = () => {
           console.log('index:', item.index)
 
           return (
-            <Iterate.ViewContainer title="Account holder {itemNr}">
+            <Iterate.ViewContainer title="Account holder {itemNo}">
               <Value.SummaryList>
                 <Value.Name.First itemPath="/firstName" showEmpty />
                 <Value.Name.Last itemPath="/lastName" placeholder="-" />
@@ -331,7 +331,7 @@ export const DynamicPathValue = () => {
                 : { myObject: index }
             }
           >
-            <Field.Number itemPath="/myObject" label="Item no. {itemNr}" />
+            <Field.Number itemPath="/myObject" label="Item no. {itemNo}" />
           </Iterate.Array>
         </Flex.Stack>
       </Form.Handler>
@@ -369,43 +369,70 @@ export const WithVisibility = () => {
 export const InitialOpen = () => {
   return (
     <ComponentBox scope={{ Iterate, Tools }}>
-      <Form.Handler
-        onSubmit={async (data) => console.log('onSubmit', data)}
-        onSubmitRequest={() => console.log('onSubmitRequest')}
-      >
-        <Flex.Stack>
-          <Form.MainHeading>Statsborgerskap</Form.MainHeading>
+      {() => {
+        const MyForm = () => {
+          const { getCountryNameByIso } = Value.SelectCountry.useCountry()
 
-          <Card stack>
-            <Iterate.Array path="/countries" defaultValue={[null]}>
-              <Iterate.ViewContainer toolbarVariant="minimumOneItem">
-                <Value.SelectCountry
-                  label="Land du er statsborger i"
-                  itemPath="/"
-                />
-              </Iterate.ViewContainer>
+          return (
+            <Form.Handler
+              onSubmit={async (data) => console.log('onSubmit', data)}
+              onSubmitRequest={() => console.log('onSubmitRequest')}
+            >
+              <Flex.Stack>
+                <Form.MainHeading>Statsborgerskap</Form.MainHeading>
 
-              <Iterate.EditContainer toolbarVariant="minimumOneItem">
-                <Field.SelectCountry
-                  label="Land du er statsborger i"
-                  itemPath="/"
-                  required
-                />
-              </Iterate.EditContainer>
-            </Iterate.Array>
+                <Card stack>
+                  <Iterate.Array
+                    path="/countries"
+                    defaultValue={[null]}
+                    validator={(arrayValue) => {
+                      const findFirstDuplication = (arr) =>
+                        arr.findIndex((e, i) => arr.indexOf(e) !== i)
 
-            <Iterate.PushButton
-              path="/countries"
-              pushValue={null}
-              text="Legg til flere statsborgerskap"
-            />
-          </Card>
+                      const index = findFirstDuplication(arrayValue)
+                      if (index > -1) {
+                        return new Error(
+                          'You can not have duplicate items: ' +
+                            getCountryNameByIso(
+                              String(arrayValue.at(index)),
+                            ),
+                        )
+                      }
+                    }}
+                  >
+                    <Iterate.ViewContainer toolbarVariant="minimumOneItem">
+                      <Value.SelectCountry
+                        label="Land du er statsborger i"
+                        itemPath="/"
+                      />
+                    </Iterate.ViewContainer>
 
-          <Form.SubmitButton variant="send" />
+                    <Iterate.EditContainer toolbarVariant="minimumOneItem">
+                      <Field.SelectCountry
+                        label="Land du er statsborger i"
+                        itemPath="/"
+                        required
+                      />
+                    </Iterate.EditContainer>
+                  </Iterate.Array>
 
-          <Tools.Log />
-        </Flex.Stack>
-      </Form.Handler>
+                  <Iterate.PushButton
+                    path="/countries"
+                    pushValue={null}
+                    text="Legg til flere statsborgerskap"
+                  />
+                </Card>
+
+                <Form.SubmitButton variant="send" />
+
+                <Tools.Log />
+              </Flex.Stack>
+            </Form.Handler>
+          )
+        }
+
+        return <MyForm />
+      }}
     </ComponentBox>
   )
 }
@@ -459,7 +486,7 @@ export const WithArrayValidator = () => {
           >
             <Flex.Horizontal align="flex-end">
               <Field.String
-                label="Item no. {itemNr}"
+                label="Item no. {itemNo}"
                 itemPath="/"
                 width="medium"
                 size="medium"

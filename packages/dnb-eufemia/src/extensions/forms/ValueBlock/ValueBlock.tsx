@@ -37,9 +37,8 @@ export type Props = Omit<ValueProps<unknown>, 'value'> & {
 function ValueBlock(props: Props) {
   const summaryListContext = useContext(SummaryListContext)
   const valueBlockContext = useContext(ValueBlockContext)
-  const dataContext = useContext(DataContext)
-  const iterateItemContext = useContext(IterateElementContext)
-  const { index: iterateIndex } = iterateItemContext ?? {}
+  const { prerenderFieldProps } = useContext(DataContext) || {}
+  const { index: iterateIndex } = useContext(IterateElementContext) || {}
 
   const {
     className,
@@ -59,7 +58,7 @@ function ValueBlock(props: Props) {
     }
     if (iterateIndex !== undefined) {
       return convertJsxToString(labelProp).replace(
-        '{itemNr}',
+        '{itemNo}',
         String(iterateIndex + 1)
       )
     }
@@ -69,13 +68,14 @@ function ValueBlock(props: Props) {
   const ref = useRef<HTMLElement>(null)
   useNotInSummaryList(valueBlockContext?.composition ? null : ref, label)
 
-  if (
+  const hide =
+    prerenderFieldProps ||
     ((children === undefined || children === null || children === false) &&
       !showEmpty &&
-      !placeholder) ||
-    dataContext?.prerenderFieldProps
-  ) {
-    return null
+      !placeholder)
+
+  if (hide) {
+    return <></>
   }
 
   let content = null

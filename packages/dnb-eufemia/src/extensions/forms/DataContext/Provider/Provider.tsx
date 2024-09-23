@@ -40,8 +40,9 @@ import Context, {
   FilterData,
   FilterDataHandler,
   HandleSubmitCallback,
-  MountOptions,
+  MountState,
   TransformData,
+  VisibleDataHandler,
 } from '../Context'
 
 /**
@@ -322,7 +323,8 @@ export default function Provider<Data extends JsonObject>(
   const hasFieldState = useCallback(
     (state: SubmitState) => {
       for (const path in mountedFieldsRef.current) {
-        if (checkFieldStateFor(path, state)) {
+        const item = mountedFieldsRef.current[path]
+        if (item.isMounted && checkFieldStateFor(path, state)) {
           return true
         }
       }
@@ -334,7 +336,12 @@ export default function Provider<Data extends JsonObject>(
   const hasFieldError = useCallback(
     (path: Path) => {
       for (const p in mountedFieldsRef.current) {
-        if (p === path && checkFieldStateFor(path, 'error')) {
+        const item = mountedFieldsRef.current[path]
+        if (
+          item.isMounted &&
+          p === path &&
+          checkFieldStateFor(path, 'error')
+        ) {
           return true
         }
       }
@@ -475,6 +482,39 @@ export default function Provider<Data extends JsonObject>(
   )
 
   /**
+   * Ensure only visible data is returned
+   */
+  const visibleDataHandler: VisibleDataHandler<Data> = useCallback(
+    (data = internalDataRef.current, { keepPaths, removePaths } = {}) => {
+      const visibleData = {} as Partial<Data>
+
+      for (const path in mountedFieldsRef.current) {
+        const item = mountedFieldsRef.current[path]
+        if (
+          item &&
+          item.isVisible !== false &&
+          (item.isPreMounted !== false || item.wasStepChange === true) &&
+          (removePaths ? !removePaths.includes(path) : true) &&
+          pointer.has(data, path)
+        ) {
+          pointer.set(visibleData, path, pointer.get(data, path))
+        }
+      }
+
+      if (keepPaths) {
+        keepPaths.forEach((path) => {
+          if (pointer.has(data, path)) {
+            pointer.set(visibleData, path, pointer.get(data, path))
+          }
+        })
+      }
+
+      return visibleData
+    },
+    []
+  )
+
+  /**
    * Filter the data set based on the filterData function
    */
   const filterDataHandler = useCallback(
@@ -525,6 +565,7 @@ export default function Provider<Data extends JsonObject>(
   // - Shared state
   const sharedData = useSharedState<Data>(id)
   const sharedAttachments = useSharedState<{
+    visibleDataHandler?: VisibleDataHandler<Data>
     filterDataHandler?: FilterDataHandler<Data>
     hasErrors?: ContextState['hasErrors']
     hasFieldError?: ContextState['hasFieldError']
@@ -636,6 +677,7 @@ export default function Provider<Data extends JsonObject>(
   useLayoutEffect(() => {
     if (id) {
       extendAttachment?.({
+        visibleDataHandler,
         filterDataHandler,
         hasErrors,
         hasFieldError,
@@ -648,6 +690,7 @@ export default function Provider<Data extends JsonObject>(
     }
   }, [
     extendAttachment,
+    visibleDataHandler,
     filterDataHandler,
     filterSubmitData,
     hasErrors,
@@ -670,36 +713,8 @@ export default function Provider<Data extends JsonObject>(
     )
   }, [sessionStorageId])
 
-  /**
-   * Update the data set
-   */
-  const updateDataValue: ContextState['updateDataValue'] = useCallback(
-    (path, value) => {
-      if (!path) {
-        return
-      }
-
-      const givenData = (
-        path === '/'
-          ? // When setting the root of the data, the whole data set should be the new value
-            value
-          : // For sub paths, use the existing data set (or empty array/object), but modify it below (since pointer.set is not immutable)
-            internalDataRef.current ??
-            (path.match(isArrayJsonPointer) ? [] : {})
-      ) as Data
-
-      let newData: Data = null
-      try {
-        // Update the data even if it contains errors. Submit/SubmitRequest will be called accordingly
-        newData = structuredClone(givenData)
-      } catch (e) {
-        newData = givenData
-      }
-
-      if (path !== '/') {
-        pointer.set(newData, path, value)
-      }
-
+  const setData = useCallback(
+    (newData: Data) => {
       // - Mutate the data context
       if (transformIn) {
         newData = mutateDataHandler(newData, transformIn)
@@ -733,10 +748,40 @@ export default function Provider<Data extends JsonObject>(
     ]
   )
 
-  const setData = useCallback((newData: Data) => {
-    internalDataRef.current = newData
-    forceUpdate()
-  }, [])
+  /**
+   * Update the data set
+   */
+  const updateDataValue: ContextState['updateDataValue'] = useCallback(
+    (path, value) => {
+      if (!path) {
+        return
+      }
+
+      const givenData = (
+        path === '/'
+          ? // When setting the root of the data, the whole data set should be the new value
+            value
+          : // For sub paths, use the existing data set (or empty array/object), but modify it below (since pointer.set is not immutable)
+            internalDataRef.current ??
+            (path.match(isArrayJsonPointer) ? [] : {})
+      ) as Data
+
+      let newData: Data = null
+      try {
+        // Update the data even if it contains errors. Submit/SubmitRequest will be called accordingly
+        newData = structuredClone(givenData)
+      } catch (e) {
+        newData = givenData
+      }
+
+      if (path !== '/') {
+        pointer.set(newData, path, value)
+      }
+
+      setData(newData)
+    },
+    [setData]
+  )
 
   /**
    * Update the data set on user interaction (unvalidated)
@@ -829,11 +874,18 @@ export default function Provider<Data extends JsonObject>(
 
   // - Mounted fields
   const setMountedFieldState = useCallback(
-    (path: Path, options: MountOptions) => {
+    (path: Path, state: MountState) => {
       if (!mountedFieldsRef.current[path]) {
-        mountedFieldsRef.current[path] = { ...options }
+        mountedFieldsRef.current[path] = { ...state }
       } else {
-        Object.assign(mountedFieldsRef.current[path], options)
+        Object.assign(mountedFieldsRef.current[path], state)
+      }
+
+      for (const itm of fieldEventListenersRef.current) {
+        if (itm.type === 'onMount' && itm.path === path) {
+          const { callback } = itm
+          callback()
+        }
       }
     },
     []
@@ -1013,8 +1065,20 @@ export default function Provider<Data extends JsonObject>(
           const filteredData = filterSubmitData
             ? filterDataHandler(mutatedData, filterSubmitData)
             : mutatedData // @deprecated – can be removed in v11
+
+          const reduceToVisibleFields: VisibleDataHandler<Data> = (
+            data,
+            options
+          ) => {
+            return visibleDataHandler(
+              transformOut ? mutateDataHandler(data, transformOut) : data,
+              options
+            )
+          }
+
           const options = {
             filterData,
+            reduceToVisibleFields,
             resetForm: () => {
               formElement?.reset?.()
 
@@ -1070,6 +1134,7 @@ export default function Provider<Data extends JsonObject>(
       scrollTopOnSubmit,
       sessionStorageId,
       transformOut,
+      visibleDataHandler,
     ]
   )
 
@@ -1168,6 +1233,7 @@ export default function Provider<Data extends JsonObject>(
         updateDataValue,
         setData,
         clearData,
+        visibleDataHandler,
         filterDataHandler,
         addOnChangeHandler,
         setHandleSubmit,

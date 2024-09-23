@@ -1,5 +1,5 @@
 import { useMemo, useRef } from 'react'
-import ComponentBox from '../../../../../shared/tags/ComponentBox'
+import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Flex, HelpButton, Lead, Section } from '@dnb/eufemia/src'
 import {
   Field,
@@ -14,7 +14,11 @@ import { useData } from '@dnb/eufemia/src/extensions/forms/Form'
 
 export const ChildrenWithAge = (props) => {
   return (
-    <Form.Handler>
+    <Form.Handler
+      onSubmit={(data, { reduceToVisibleFields }) => {
+        console.log(reduceToVisibleFields(data))
+      }}
+    >
       <WithToolbar>
         <Flex.Stack>
           <Blocks.ChildrenWithAge
@@ -23,6 +27,7 @@ export const ChildrenWithAge = (props) => {
           />
           <Blocks.ChildrenWithAge
             mode="summary"
+            showEmpty
             enableAdditionalQuestions={['joint-responsibility', 'daycare']}
             {...props}
           />
@@ -39,7 +44,11 @@ export const ChildrenWithAgeWizard = (props) => {
         const MyForm = () => {
           const { summaryTitle } = Form.useLocale().Step
           return (
-            <Form.Handler>
+            <Form.Handler
+              onSubmit={(data, { reduceToVisibleFields }) => {
+                console.log(reduceToVisibleFields(data))
+              }}
+            >
               <Wizard.Container>
                 <Wizard.Step title="Step 1">
                   <Blocks.ChildrenWithAge {...props} />
@@ -162,7 +171,7 @@ function Output({ title, generateRef, transform = (data) => data }) {
   )
 }
 
-export const ChildrenWithAgePrefilledYes = (props) => {
+export const ChildrenWithAgePrefilledYes = () => {
   return (
     <ComponentBox
       data-visual-test="children-with-age-prefilled"
@@ -176,6 +185,9 @@ export const ChildrenWithAgePrefilledYes = (props) => {
           countChildren: 2,
           children: [{}, {}],
         }}
+        onSubmit={(data, { reduceToVisibleFields }) => {
+          console.log(reduceToVisibleFields(data))
+        }}
       >
         <Flex.Stack>
           <Blocks.ChildrenWithAge
@@ -183,6 +195,96 @@ export const ChildrenWithAgePrefilledYes = (props) => {
           />
         </Flex.Stack>
       </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const ChildrenWithAgeSummaryMultipleNoAnswers = () => {
+  const multipleChildrenNoJointAndDaycare = {
+    hasChildren: true,
+    hasJointResponsibility: false,
+    usesDaycare: false,
+    countChildren: 2,
+    children: [
+      {
+        age: 0,
+      },
+      {
+        age: 0,
+      },
+    ],
+  }
+
+  return (
+    <ComponentBox
+      data-visual-test="children-with-age-summary-multiple-no-answers"
+      scope={{ Blocks, multipleChildrenNoJointAndDaycare }}
+    >
+      <Blocks.ChildrenWithAge
+        data={multipleChildrenNoJointAndDaycare}
+        enableAdditionalQuestions={['joint-responsibility', 'daycare']}
+      />
+      <Blocks.ChildrenWithAge
+        mode="summary"
+        data={multipleChildrenNoJointAndDaycare}
+      />
+    </ComponentBox>
+  )
+}
+
+export const ChildrenWithAgeSummaryMultipleChildren = () => {
+  const multipleChildren = {
+    hasChildren: true,
+    usesDaycare: true,
+    countChildren: 2,
+    children: [
+      {
+        age: 1,
+      },
+      {
+        age: 2,
+        hasDaycare: true,
+      },
+    ],
+  }
+
+  return (
+    <ComponentBox
+      data-visual-test="children-with-age-summary-multiple-children"
+      scope={{ Blocks, multipleChildren }}
+    >
+      <Blocks.ChildrenWithAge data={multipleChildren} />
+      <Blocks.ChildrenWithAge mode="summary" data={multipleChildren} />
+    </ComponentBox>
+  )
+}
+
+export const ChildrenWithAgeSummaryNoChildren = () => {
+  const noChildren = {
+    hasChildren: false,
+  }
+  return (
+    <ComponentBox
+      data-visual-test="children-with-age-summary-no-children"
+      scope={{ Blocks, noChildren }}
+    >
+      <Blocks.ChildrenWithAge data={noChildren} />
+      <Blocks.ChildrenWithAge mode="summary" data={noChildren} />
+    </ComponentBox>
+  )
+}
+
+export const ChildrenWithAgeSummaryShowEmpty = () => {
+  const data = {
+    hasChildren: false,
+  }
+  return (
+    <ComponentBox
+      data-visual-test="children-with-age-summary-show-empty"
+      scope={{ Blocks, data }}
+    >
+      <Blocks.ChildrenWithAge data={data} />
+      <Blocks.ChildrenWithAge mode="summary" showEmpty data={data} />
     </ComponentBox>
   )
 }

@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo } from 'react'
+import React, { useCallback, useContext, useMemo, useRef } from 'react'
 import classnames from 'classnames'
 import SharedContext from '../../../../shared/Context'
 import { Autocomplete, HelpButton } from '../../../../components'
@@ -26,16 +26,14 @@ export type CountryFilterSet =
 
 export type Props = FieldHelpProps &
   FieldPropsWithExtraValue<string, CountryType, undefined | string> & {
+    /**
+     * Lists only the countries you want to show. Can be `Scandinavia`, `Nordic`, `Europe` or `Prioritized`.
+     * Defaults to `Prioritized`.
+     */
     countries?: CountryFilterSet
 
-    // Styling
-    width?: FieldBlockWidth
-
     /**
-     * For internal use only.
-     *
-     * @param country
-     * @returns boolean
+     * Use this prop to filter out certain countries. The function receives the country object and should return a boolean. Returning `false` will omit the country.
      */
     filterCountries?: (country: CountryType) => boolean
 
@@ -43,6 +41,11 @@ export type Props = FieldHelpProps &
      * For internal testing purposes
      */
     noAnimation?: boolean
+
+    /**
+     * The width of the component.
+     */
+    width?: FieldBlockWidth
   }
 
 function SelectCountry(props: Props) {
@@ -50,14 +53,27 @@ function SelectCountry(props: Props) {
   const translations = useTranslation().SelectCountry
   const lang = sharedContext.locale?.split('-')[0] as CountryLang
 
-  const transformAdditionalArgs = (additionalArgs: CountryType, value) => {
-    const country = countries.find(({ iso }) => value === iso)
-    if (country?.iso) {
+  const getCountryObjectByIso = useCallback(
+    (value: CountryType['iso']) => {
+      const country = countries.find(({ iso }) => value === iso)
+      if (country?.i18n) {
+        country['name'] = country.i18n[lang]
+      }
       return country
-    } else {
-      return additionalArgs
-    }
-  }
+    },
+    [lang]
+  )
+
+  const provideAdditionalArgs = useCallback(
+    (value: CountryType['iso']) => {
+      const country = getCountryObjectByIso(value)
+
+      if (country?.iso) {
+        return country
+      }
+    },
+    [getCountryObjectByIso]
+  )
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: translations.errorRequired,
@@ -69,7 +85,7 @@ function SelectCountry(props: Props) {
   const preparedProps: Props = {
     ...defaultProps,
     ...props,
-    transformAdditionalArgs,
+    provideAdditionalArgs,
   }
 
   const {
@@ -91,14 +107,19 @@ function SelectCountry(props: Props) {
     handleChange,
     updateValue,
     forceUpdate,
-    filterCountries = ccFilter !== 'Prioritized'
-      ? makeCountryFilterSet(ccFilter)
-      : undefined,
+    filterCountries,
   } = useFieldProps(preparedProps)
 
-  const dataRef = React.useRef(null)
-  const langRef = React.useRef(lang)
-  const wasFilled = React.useRef(false)
+  const dataRef = useRef(null)
+  const langRef = useRef(lang)
+  const wasFilled = useRef(false)
+
+  const filter = useCallback(
+    (country: CountryType) => {
+      return countryFilter(country, filterCountries, ccFilter)
+    },
+    [ccFilter, filterCountries]
+  )
 
   /**
    * We do not process the whole country list at the first render.
@@ -117,7 +138,7 @@ function SelectCountry(props: Props) {
         lang,
         filter: !wasFilled.current
           ? (country) => country.iso === value
-          : filterCountries,
+          : filter,
         sort: ccFilter as Extract<CountryFilterSet, 'Prioritized'>,
       })
 
@@ -129,17 +150,17 @@ function SelectCountry(props: Props) {
         })
       }
     }
-  }, [lang, filterCountries, ccFilter, updateValue, value])
+  }, [lang, filter, ccFilter, updateValue, value])
 
   const handleCountryChange = useCallback(
     ({ data }: { data: { selectedKey: string } }) => {
       const newValue = data?.selectedKey
-      const country = countries.find(({ iso }) => newValue === iso)
+      const country = getCountryObjectByIso(newValue)
       if (country?.iso) {
-        handleChange(country.iso)
+        handleChange(country.iso, country)
       }
     },
-    [handleChange]
+    [getCountryObjectByIso, handleChange]
   )
 
   const fillData = useCallback(() => {
@@ -147,12 +168,12 @@ function SelectCountry(props: Props) {
       wasFilled.current = true
       dataRef.current = getCountryData({
         lang: langRef.current,
-        filter: filterCountries,
+        filter,
         sort: ccFilter as Extract<CountryFilterSet, 'Prioritized'>,
       })
       forceUpdate()
     }
-  }, [ccFilter, filterCountries, forceUpdate])
+  }, [ccFilter, filter, forceUpdate])
 
   const onFocusHandler = useCallback(
     ({ updateData }) => {
@@ -273,6 +294,34 @@ export function getCountryData({
       return a[lang].localeCompare(b[lang])
     })
     .map((country) => makeObject(country, lang))
+}
+
+export function countryFilter(
+  country: CountryType,
+  filterCountries: (country: CountryType) => boolean,
+  ccFilter: CountryFilterSet
+) {
+  let result = true
+
+  if (ccFilter !== 'Prioritized') {
+    switch (ccFilter) {
+      case 'Scandinavia':
+      case 'Nordic': {
+        result = country.regions?.includes(ccFilter)
+        break
+      }
+      case 'Europe': {
+        result = country.continent.includes(ccFilter)
+        break
+      }
+    }
+  }
+
+  if (result && filterCountries) {
+    result = filterCountries(country)
+  }
+
+  return result
 }
 
 export function makeCountryFilterSet(ccFilter: CountryFilterSet) {

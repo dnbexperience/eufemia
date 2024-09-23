@@ -1146,6 +1146,82 @@ describe('Form.Isolation', () => {
     expect(onCommit).toHaveBeenCalledTimes(3)
   })
 
+  it('should support async onCommit', async () => {
+    const onSubmit = jest.fn()
+    const onCommit = jest.fn(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 100))
+    })
+
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Field.String path="/myValue" />
+
+        <Form.Isolation onCommit={onCommit}>
+          <Field.String path="/myValue" value="isolated" />
+          <Form.Isolation.CommitButton />
+        </Form.Isolation>
+      </Form.Handler>
+    )
+
+    const [regular, isolated] = Array.from(
+      document.querySelectorAll('input')
+    )
+
+    expect(regular).toHaveValue('')
+    expect(isolated).toHaveValue('isolated')
+
+    const commitButton = document.querySelector('button')
+    await userEvent.click(commitButton)
+
+    const now = Date.now()
+    await waitFor(() => {
+      expect(regular).toHaveValue('isolated')
+      expect(isolated).toHaveValue('isolated')
+    })
+
+    const delay = Date.now() - now
+    expect(delay).toBeGreaterThan(100)
+  })
+
+  it('should prevent commit on "preventCommit" call', async () => {
+    const onSubmit = jest.fn()
+    const onCommit = jest.fn(({ myValue }, { preventCommit }) => {
+      if (myValue === 'prevent-commit') {
+        preventCommit()
+      }
+    })
+
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Field.String path="/myValue" />
+
+        <Form.Isolation onCommit={onCommit}>
+          <Field.String path="/myValue" value="isolated" />
+          <Form.Isolation.CommitButton />
+        </Form.Isolation>
+      </Form.Handler>
+    )
+
+    const [regular, isolated] = Array.from(
+      document.querySelectorAll('input')
+    )
+
+    expect(regular).toHaveValue('')
+    expect(isolated).toHaveValue('isolated')
+
+    const commitButton = document.querySelector('button')
+    await userEvent.click(commitButton)
+
+    expect(regular).toHaveValue('isolated')
+    expect(isolated).toHaveValue('isolated')
+
+    fireEvent.change(isolated, { target: { value: 'prevent-commit' } })
+    await userEvent.click(commitButton)
+
+    expect(regular).toHaveValue('isolated')
+    expect(isolated).toHaveValue('prevent-commit')
+  })
+
   it('should not call onCommit when error is present', async () => {
     const onSubmit = jest.fn()
     const onCommit = jest.fn()
@@ -1388,7 +1464,10 @@ describe('Form.Isolation', () => {
     expect(onCommit).toHaveBeenCalledTimes(1)
     expect(onCommit).toHaveBeenLastCalledWith(
       { isolated: 'inside changed' },
-      { clearData: expect.any(Function) }
+      {
+        clearData: expect.any(Function),
+        preventCommit: expect.any(Function),
+      }
     )
     expect(onChange).toHaveBeenLastCalledWith(
       {
@@ -1476,7 +1555,10 @@ describe('Form.Isolation', () => {
     expect(onCommit).toHaveBeenCalledTimes(1)
     expect(onCommit).toHaveBeenLastCalledWith(
       { isolated: 'inside' },
-      { clearData: expect.any(Function) }
+      {
+        clearData: expect.any(Function),
+        preventCommit: expect.any(Function),
+      }
     )
     expect(onChange).toHaveBeenLastCalledWith(
       {
@@ -1535,7 +1617,10 @@ describe('Form.Isolation', () => {
     expect(onCommit).toHaveBeenCalledTimes(1)
     expect(onCommit).toHaveBeenLastCalledWith(
       { isolated: 'inside changed' },
-      { clearData: expect.any(Function) }
+      {
+        clearData: expect.any(Function),
+        preventCommit: expect.any(Function),
+      }
     )
 
     await waitFor(() => {

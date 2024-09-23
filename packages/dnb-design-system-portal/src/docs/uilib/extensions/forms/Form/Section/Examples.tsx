@@ -373,7 +373,7 @@ export const WithVisibility = () => {
                   variant="buttons"
                   path="/iAmSure"
                 />
-                <Form.Visibility visible pathTrue="/iAmSure" animate>
+                <Form.Visibility pathTrue="/iAmSure" animate>
                   <Field.Selection
                     label="Choose"
                     variant="radio"

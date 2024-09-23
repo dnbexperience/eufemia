@@ -12,3 +12,51 @@ render(<Value.SelectCountry path="/country" />)
 ```
 
 There is a corresponding [Field.SelectCountry](/uilib/extensions/forms/feature-fields/SelectCountry) component.
+
+### The `useCountry` hook
+
+You can use the `Value.SelectCountry.useCountry` hook to get the country name by ISO code. It reutnrs the country name in the current locale.
+
+```tsx
+import { Value } from '@dnb/eufemia/extensions/forms'
+
+const MyComponent = () => {
+  const { getCountryNameByIso } = Value.SelectCountry.useCountry('NO')
+}
+```
+
+### TransformIn and TransformOut
+
+You can use the `transformIn` and `transformOut` to transform the value before it gets displayed in the field and before it gets sent to the form. The second parameter is the country object. You may have a look at the demo below to see how it works.
+
+```tsx
+const transformOut = (value, country) => {
+  if (value) {
+    return `${country.name} (${value})`
+  }
+}
+const transformIn = (value) => {
+  return String(value).match(/\((.*)\)/)?.[1]
+}
+```
+
+### onFocus, onBlur, onChange
+
+These events have an additional parameter with the country object.
+
+```tsx
+const onFocus = (value, country) => {}
+```
+
+## The country object
+
+```ts
+{
+  cdc: '47',
+  iso: 'NO',
+  name: 'Norge',
+  i18n: { en: 'Norway', nb: 'Norge' },
+  regions: ['Scandinavia', 'Nordic'],
+  continent: 'Europe',
+}
+```

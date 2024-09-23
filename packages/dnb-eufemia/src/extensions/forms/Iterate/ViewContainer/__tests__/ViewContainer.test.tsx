@@ -64,10 +64,10 @@ describe('ViewContainer', () => {
     )
   })
 
-  it('should render title with "itemNr"', () => {
+  it('should render title with "itemNo"', () => {
     render(
       <Iterate.Array value={['foo', 'bar']}>
-        <ViewContainer title="Item title {itemNr}">content</ViewContainer>
+        <ViewContainer title="Item title {itemNo}">content</ViewContainer>
       </Iterate.Array>
     )
 

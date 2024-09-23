@@ -20,6 +20,7 @@ import {
   EventStateObjectWithSuccess,
   ValidatorAdditionalArgs,
   Validator,
+  Identifier,
 } from '../types'
 import { Context as DataContext, ContextState } from '../DataContext'
 import { clearedData } from '../DataContext/Provider/Provider'
@@ -31,6 +32,8 @@ import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateElementContext from '../Iterate/IterateItemContext'
 import SectionContext from '../Form/Section/SectionContext'
 import FieldBoundaryContext from '../DataContext/FieldBoundary/FieldBoundaryContext'
+import VisibilityContext from '../Form/Visibility/VisibilityContext'
+import WizardContext from '../Wizard/Context'
 import useProcessManager from './useProcessManager'
 import usePath from './usePath'
 import {
@@ -41,6 +44,10 @@ import { isAsync } from '../../../shared/helpers/isAsync'
 import useTranslation from './useTranslation'
 import useExternalValue from './useExternalValue'
 import useDataValue from './useDataValue'
+
+// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
+const useLayoutEffect =
+  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
 type SubmitStateWithValidating = SubmitState | 'validating'
 type AsyncProcesses =
@@ -108,13 +115,15 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     fromInput = (value: Value) => value,
     toEvent = (value: Value) => value,
     transformValue = (value: Value) => value,
-    transformAdditionalArgs = (additionalArgs: AdditionalEventArgs) =>
-      additionalArgs,
+    provideAdditionalArgs = (
+      value: Value,
+      additionalArgs: AdditionalEventArgs
+    ) => additionalArgs,
     fromExternal = (value: Value) => value,
     validateRequired = (value, { emptyValue, required, error }) => {
       const res =
         required &&
-        ((value as any) === emptyValue ||
+        ((value as unknown) === emptyValue ||
           (typeof emptyValue === 'undefined' && value === ''))
           ? error
           : undefined
@@ -140,12 +149,15 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const iterateItemContext = useContext(IterateElementContext)
   const sectionContext = useContext(SectionContext)
   const fieldBoundaryContext = useContext(FieldBoundaryContext)
+  const wizardContext = useContext(WizardContext)
+  const { isVisible } = useContext(VisibilityContext) || {}
+
   const translation = useTranslation()
 
   const transformers = useRef({
     transformIn,
     transformOut,
-    transformAdditionalArgs,
+    provideAdditionalArgs,
     toInput,
     fromInput,
     toEvent,
@@ -195,6 +207,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   })
 
   const defaultValueRef = useRef(defaultValue)
+  useLayoutEffect(() => {
+    // To support ReactStrict mode, we also need to add it from inside a useEffect
+    defaultValueRef.current = defaultValue
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   const externalValue =
     useExternalValue<Value>({
       path,
@@ -515,8 +532,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         exportValidatorsRef.current &&
         !result &&
         (validator === onChangeValidatorRef.current ||
-          validator === onBlurValidatorRef.current) &&
-        !Array.isArray(result)
+          validator === onBlurValidatorRef.current)
       ) {
         return Object.values(exportValidatorsRef.current)
       }
@@ -526,13 +542,20 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     []
   )
 
+  const callStackRef = useRef<Array<Validator<Value>>>([])
+  const hasBeenCalledRef = useCallback((validator: Validator<Value>) => {
+    const result = callStackRef.current.includes(validator)
+    callStackRef.current.push(validator)
+    return result
+  }, [])
+
   const callValidatorFnSync = useCallback(
     (
       validator: Validator<Value>,
       value: Value = valueRef.current
     ): ReturnType<Validator<Value>> => {
       if (typeof validator !== 'function') {
-        return undefined
+        return // stop here
       }
 
       const result = extendWithExportedValidators(
@@ -542,18 +565,20 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
       if (Array.isArray(result)) {
         for (const validator of result) {
-          const result = callValidatorFnSync(validator, value)
-          if (result instanceof Error) {
-            return result
+          if (!hasBeenCalledRef(validator)) {
+            const result = callValidatorFnSync(validator, value)
+            if (result instanceof Error) {
+              return result
+            }
           }
         }
 
-        return // stop here
+        callStackRef.current = []
+      } else {
+        return result
       }
-
-      return result
     },
-    [additionalArgs, extendWithExportedValidators]
+    [additionalArgs, extendWithExportedValidators, hasBeenCalledRef]
   )
 
   const callValidatorFnAsync = useCallback(
@@ -562,7 +587,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       value: Value = valueRef.current
     ): Promise<ReturnType<Validator<Value>>> => {
       if (typeof validator !== 'function') {
-        return undefined
+        return
       }
 
       const result = extendWithExportedValidators(
@@ -572,19 +597,20 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
       if (Array.isArray(result)) {
         for (const validator of result) {
-          const result = await callValidatorFnAsync(validator, value)
-
-          if (result instanceof Error) {
-            return result
+          if (!hasBeenCalledRef(validator)) {
+            const result = await callValidatorFnAsync(validator, value)
+            if (result instanceof Error) {
+              return result
+            }
           }
         }
 
-        return // stop here
+        callStackRef.current = []
+      } else {
+        return result
       }
-
-      return result
     },
-    [additionalArgs, extendWithExportedValidators]
+    [additionalArgs, extendWithExportedValidators, hasBeenCalledRef]
   )
 
   /**
@@ -1009,39 +1035,49 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
   }, [continuousValidation, hideError, revealError])
 
+  const getEventArgs = useCallback(
+    ({
+      eventName,
+      additionalArgs,
+      overrideValue = undefined,
+    }): [Value] | [Value, AdditionalEventArgs] => {
+      const value = transformers.current.toEvent(
+        overrideValue ?? valueRef.current,
+        eventName
+      )
+      const args = transformers.current.provideAdditionalArgs(
+        value,
+        additionalArgs
+      )
+
+      if (typeof args !== 'undefined') {
+        return [value, args]
+      }
+
+      return [value]
+    },
+    []
+  )
+
   const setHasFocus = useCallback(
     async (
       hasFocus: boolean,
       overrideValue?: Value,
       additionalArgs?: AdditionalEventArgs
     ) => {
-      const getArgs = (
-        type: Parameters<typeof transformers.current.toEvent>[1]
-      ) => {
-        const value = transformers.current.toEvent(
-          overrideValue ?? valueRef.current,
-          type
-        )
-        const transformedAdditionalArgs =
-          transformers.current.transformAdditionalArgs(
-            additionalArgs,
-            value
-          )
-
-        return typeof transformedAdditionalArgs !== 'undefined'
-          ? [value, transformedAdditionalArgs]
-          : [value]
-      }
+      const args = getEventArgs({
+        eventName: hasFocus ? 'onFocus' : 'onBlur',
+        overrideValue,
+        additionalArgs,
+      })
 
       if (hasFocus) {
         // Field was put in focus (like when clicking in a text field or opening a dropdown menu)
         hasFocusRef.current = true
-        const args = getArgs('onFocus')
         onFocus?.apply(this, args)
       } else {
         // Field was removed from focus (like when tabbing out of a text field or closing a dropdown menu)
         hasFocusRef.current = false
-        const args = getArgs('onBlur')
         onBlur?.apply(this, args)
 
         if (!changedRef.current && !validateUnchanged) {
@@ -1064,6 +1100,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       }
     },
     [
+      getEventArgs,
       onFocus,
       onBlur,
       validateUnchanged,
@@ -1297,7 +1334,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       }
 
       const transformedValue = transformers.current.transformOut(
-        transformers.current.transformValue(fromInput, currentValue)
+        transformers.current.transformValue(fromInput, currentValue),
+        transformers.current.provideAdditionalArgs(
+          fromInput,
+          additionalArgs
+        )
       )
 
       // Must be set before validation
@@ -1318,28 +1359,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         updateValue(transformedValue)
       }
 
-      const getArgs = (): [Value] | [Value, AdditionalEventArgs] => {
-        const value = transformers.current.toEvent(
-          valueRef.current,
-          'onChange'
-        )
-
-        const transformedAdditionalArgs =
-          transformers.current.transformAdditionalArgs(
-            additionalArgs,
-            value
-          )
-
-        return typeof transformedAdditionalArgs !== 'undefined'
-          ? [value, transformedAdditionalArgs]
-          : [value]
-      }
-
       if (isAsync(onChange)) {
         addToPool(
           'onChangeLocal',
           async () => {
-            const args = getArgs()
+            const args = getEventArgs({
+              eventName: 'onChange',
+              additionalArgs,
+            })
 
             await yieldAsyncProcess({
               name: 'onChangeLocal',
@@ -1375,7 +1402,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           true
         )
       } else {
-        setEventResult(onChange?.apply(this, getArgs()))
+        const args = getEventArgs({
+          eventName: 'onChange',
+          additionalArgs,
+        })
+        setEventResult(onChange?.apply(this, args))
       }
 
       await runPool()
@@ -1390,6 +1421,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       hideError,
       updateValue,
       addToPool,
+      getEventArgs,
       yieldAsyncProcess,
       defineAsyncProcess,
       hasError,
@@ -1403,17 +1435,64 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   // Put props into the surrounding data context as early as possible
   setPropsDataContext?.(identifier, props)
 
+  const { activeIndex, activeIndexRef } = wizardContext || {}
+  const activeIndexTmpRef = useRef(activeIndex)
+  useEffect(() => {
+    activeIndexTmpRef.current = activeIndex
+  }, [activeIndex]) // We want to watch for step changes
+
+  useMemo(() => {
+    setMountedFieldStateDataContext(identifier, {
+      isPreMounted: true,
+    })
+
+    if (typeof isVisible === 'boolean') {
+      setMountedFieldStateDataContext(identifier, { isVisible })
+    }
+  }, [setMountedFieldStateDataContext, identifier, isVisible])
+
+  useEffect(() => {
+    if (typeof activeIndexRef?.current === 'number') {
+      setMountedFieldStateDataContext(identifier, {
+        wasStepChange: false,
+      })
+
+      return () => {
+        const wasStepChange =
+          typeof activeIndex === 'number' &&
+          // eslint-disable-next-line react-hooks/exhaustive-deps
+          activeIndexRef.current !== activeIndexTmpRef.current
+
+        setMountedFieldStateDataContext(identifier, {
+          wasStepChange,
+        })
+      }
+    }
+  }, [
+    activeIndex,
+    activeIndexRef,
+    identifier,
+    setMountedFieldStateDataContext,
+  ])
+
   useEffect(() => {
     // Mount procedure.
     setMountedFieldStateDataContext(identifier, {
       isMounted: true,
+      isPreMounted: true,
     })
 
     // Unmount procedure.
     return () => {
       setMountedFieldStateDataContext(identifier, {
         isMounted: false,
+        isPreMounted: false,
       })
+    }
+  }, [identifier, setMountedFieldStateDataContext])
+
+  useEffect(() => {
+    return () => {
       setFieldErrorDataContext?.(identifier, undefined)
       setFieldErrorBoundary?.(identifier, undefined)
       localErrorRef.current = undefined
@@ -1443,20 +1522,35 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     )
   }, [dataContext.internalDataRef, dataContext.props?.emptyData])
 
-  useEffect(() => {
+  // Use "useLayoutEffect" to be in sync with the data context "updateDataValueDataContext" routine further down.
+  useLayoutEffect(() => {
     if (isEmptyData()) {
+      changedRef.current = false
       hideError()
+      clearErrorState()
     }
-  }, [externalValue, hideError, isEmptyData])
+  }, [externalValue, clearErrorState, hideError, isEmptyData]) // ensure to include "externalValue" in order to properly remove errors
 
-  useUpdateEffect(() => {
+  // Use "useLayoutEffect" and "externalValueDidChangeRef"
+  // to cooperate with the the data context "updateDataValueDataContext" routine further down,
+  // which also uses useLayoutEffect.
+  const externalValueDidChangeRef = useRef(false)
+  useLayoutEffect(() => {
     // Error or removed error for this field from the surrounding data context (by path)
     if (valueRef.current !== externalValue) {
       valueRef.current = externalValue
+      externalValueDidChangeRef.current = true
+    }
+  }, [externalValue])
+
+  useEffect(() => {
+    // Error or removed error for this field from the surrounding data context (by path)
+    if (externalValueDidChangeRef.current) {
+      externalValueDidChangeRef.current = false
       validateValue()
       forceUpdate()
     }
-  }, [externalValue, validateValue])
+  }, [externalValue, validateValue]) // Keep "externalValue" in the dependency list, so it will be updated when it changes
 
   useEffect(() => {
     // Check against the local error state,
@@ -1494,7 +1588,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
   }, [defaultValue, itemPath, valueProp])
 
-  useEffect(() => {
+  // Use "useLayoutEffect" to avoid flickering when value/defaultValue gets set, and other fields dependent on it.
+  // Form.Visibility is an example of a logic, where a field value/defaultValue can be used to set the set state of a path,
+  // where again other fields depend on it.
+  const tmpValueRef = useRef<Record<Identifier, unknown>>({})
+  useLayoutEffect(() => {
     if (hasPath) {
       let value = valueProp
 
@@ -1539,6 +1637,22 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           // Prevents an infinite loop by skipping the update if the value hasn't changed
           valueRef.current !== existingValue)
       ) {
+        if (
+          identifier in tmpValueRef.current &&
+          tmpValueRef.current[identifier] === value
+        ) {
+          return // stop here, avoid infinite loop
+        }
+
+        const transformedValue = transformers.current.transformOut(
+          value,
+          transformers.current.provideAdditionalArgs(value)
+        )
+        if (transformedValue !== value) {
+          tmpValueRef.current[identifier] = value
+          value = transformedValue
+        }
+
         // Update the data context when a pointer not exists,
         // but was given initially.
         updateDataValueDataContext?.(identifier, value)
@@ -1548,7 +1662,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   }, [
     dataContext.data,
     dataContext.id,
-    defaultValue,
     hasPath,
     identifier,
     updateDataValueDataContext,

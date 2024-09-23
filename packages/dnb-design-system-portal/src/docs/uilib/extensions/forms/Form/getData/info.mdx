@@ -14,12 +14,14 @@ function Component() {
 }
 
 // Later, when there is data available
-const {
-  getValue, // Method to get a single value
-  data, // The whole dataset (unvalidated)
-  filterData, // Method to filter data with your own logic
-} = Form.getData('unique-id')
+const { getValue, data, filterData, reduceToVisibleFields } =
+  Form.getData('unique-id')
 ```
+
+- `getValue` will return the value of the given path.
+- `data` will return the whole dataset (unvalidated).
+- `filterData` will filter the data based on your own logic.
+- `reduceToVisibleFields` will reduce the given data set to only contain the visible fields (mounted fields).
 
 You link them together via the `id` (string) property.
 
@@ -35,9 +37,31 @@ Related helpers:
 - [setData](/uilib/extensions/forms/Form/setData/)
 - [useData](/uilib/extensions/forms/Form/useData/)
 
+## Visible data
+
+You can use the `reduceToVisibleFields` function to get only the data of visible (mounted) fields.
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+const MyForm = () => {
+  return (
+    <Form.Handler id="unique-id">
+      <Form.Visibility pathTrue="/isVisible">
+        <Field.String path="/foo" />
+      </Form.Visibility>
+    </Form.Handler>
+  )
+}
+
+// Later, when there is data available
+const { data, reduceToVisibleFields } = Form.getData('unique-id')
+const visibleData = reduceToVisibleFields(data)
+```
+
 ## Filter data
 
-You can use the `filterData` method to filter your data.
+You can use the `filterData` function to filter your data.
 
 You simply give it the [same kind of filter](/uilib/extensions/forms/Form/Handler/demos/#filter-your-data) as you would within the `onSubmit` event callback.
 
@@ -55,7 +79,7 @@ It returns the filtered form data.
 ```tsx
 const MyForm = () => {
   return (
-    <Form.Handler id={id}>
+    <Form.Handler id="unique-id">
       <Field.String path="/foo" disabled />
     </Form.Handler>
   )
@@ -68,6 +92,6 @@ const filterDataHandler = ({ path, value, data, props, internal }) => {
 }
 
 // Later, when there is data available
-const { filterData } = Form.getData(id)
+const { filterData } = Form.getData('unique-id')
 const filteredData = filterData(filterDataHandler)
 ```

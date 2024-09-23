@@ -40,8 +40,8 @@ function ViewContainer(props: AllProps) {
 
   let itemTitle = title
   let ariaLabel = useMemo(() => convertJsxToString(itemTitle), [itemTitle])
-  if (ariaLabel.includes('{itemNr}')) {
-    itemTitle = ariaLabel = ariaLabel.replace('{itemNr}', index + 1)
+  if (ariaLabel.includes('{itemNo}')) {
+    itemTitle = ariaLabel = ariaLabel.replace('{itemNo}', index + 1)
   }
 
   let toolbarElement = toolbar

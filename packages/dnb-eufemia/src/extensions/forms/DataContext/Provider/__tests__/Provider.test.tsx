@@ -3458,15 +3458,17 @@ describe('DataContext.Provider', () => {
         </>
       )
 
-      expect(sidecarMockData).toHaveLength(2)
+      expect(sidecarMockData).toHaveLength(3)
       expect(sidecarMockData).toEqual([
         undefined,
         { fieldA: 'updated A', fieldB: 'updated B' },
+        { fieldA: 'updated A', fieldB: 'updated B' },
       ])
 
-      expect(nestedMockData).toHaveLength(2)
+      expect(nestedMockData).toHaveLength(3)
       expect(nestedMockData).toEqual([
         undefined,
+        { fieldA: 'updated A', fieldB: 'updated B' },
         { fieldA: 'updated A', fieldB: 'updated B' },
       ])
 
@@ -4024,9 +4026,11 @@ describe('DataContext.Provider', () => {
 
       expect(result.current).toEqual({
         data: { myField: 'foo' },
+        reduceToVisibleFields: expect.any(Function),
         filterData: expect.any(Function),
         getValue: expect.any(Function),
         update: expect.any(Function),
+        remove: expect.any(Function),
         set: expect.any(Function),
       })
       expect(onSubmit).toHaveBeenCalledTimes(1)
@@ -4064,9 +4068,11 @@ describe('DataContext.Provider', () => {
 
       expect(result.current).toEqual({
         data: { myField: 'bar' },
+        reduceToVisibleFields: expect.any(Function),
         filterData: expect.any(Function),
         getValue: expect.any(Function),
         update: expect.any(Function),
+        remove: expect.any(Function),
         set: expect.any(Function),
       })
       expect(onSubmit).toHaveBeenCalledTimes(2)
@@ -4379,6 +4385,382 @@ describe('DataContext.Provider', () => {
       expect(first).not.toHaveAttribute('aria-required', 'true')
       expect(second).toHaveAttribute('aria-required', 'true')
       expect(third).not.toHaveAttribute('aria-required', 'true')
+    })
+  })
+
+  it('should transform a field value with "transformIn"', async () => {
+    let submitData = null
+    let changeData = null
+
+    const onSubmit = jest.fn((data) => {
+      submitData = data
+    })
+    const onChange = jest.fn((data) => {
+      changeData = data
+    })
+
+    const transformIn = jest.fn(({ path, value }) => {
+      if (path === '/foo' && value === 'foo') {
+        return 'transformed'
+      }
+      return value
+    })
+
+    render(
+      <Form.Handler
+        onSubmit={onSubmit}
+        onChange={onChange}
+        transformIn={transformIn}
+      >
+        <Field.String path="/foo" defaultValue="foo" />
+        <Field.String path="/myPath" defaultValue="My Value" />
+      </Form.Handler>
+    )
+
+    const form = document.querySelector('form')
+    fireEvent.submit(form)
+
+    expect(document.querySelector('input')).toHaveValue('transformed')
+    expect(submitData).toEqual({
+      foo: 'transformed',
+      myPath: 'My Value',
+    })
+    expect(changeData).toEqual(null)
+
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: 'baz' },
+    })
+    expect(document.querySelector('input')).toHaveValue('baz')
+    expect(submitData).toEqual({
+      foo: 'transformed',
+      myPath: 'My Value',
+    })
+    expect(changeData).toEqual({
+      foo: 'baz',
+      myPath: 'My Value',
+    })
+
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: 'foo' },
+    })
+    fireEvent.blur(document.querySelector('input'))
+    expect(document.querySelector('input')).toHaveValue('transformed')
+    expect(submitData).toEqual({
+      foo: 'transformed',
+      myPath: 'My Value',
+    })
+    expect(changeData).toEqual({
+      foo: 'transformed',
+      myPath: 'My Value',
+    })
+  })
+
+  it('should transform a field value with "transformOut"', async () => {
+    let submitData = null
+
+    const onSubmit = jest.fn((data) => {
+      submitData = data
+    })
+
+    const transformOut = jest.fn(({ path, value }) => {
+      if (path === '/foo') {
+        return 'bar'
+      }
+      return value
+    })
+
+    render(
+      <Form.Handler onSubmit={onSubmit} transformOut={transformOut}>
+        <Field.String path="/foo" defaultValue="foo" />
+        <Field.String path="/myPath" defaultValue="My Value" />
+      </Form.Handler>
+    )
+
+    const form = document.querySelector('form')
+    fireEvent.submit(form)
+
+    expect(submitData).toEqual({
+      foo: 'bar',
+      myPath: 'My Value',
+    })
+    expect(document.querySelector('input')).toHaveValue('foo')
+  })
+
+  describe('reduceToVisibleFields', () => {
+    it('should remove data entries of hidden fields using Visibility', async () => {
+      let submitData = null
+
+      const onSubmit = jest.fn((data, { reduceToVisibleFields }) => {
+        submitData = reduceToVisibleFields(data)
+      })
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Field.Boolean
+            variant="button"
+            path="/isVisible"
+            defaultValue={false}
+          />
+
+          <Form.Visibility pathTrue="/isVisible">
+            <Field.String
+              path="/interactive"
+              defaultValue="I am visible"
+            />
+          </Form.Visibility>
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      const button = document.querySelector('button')
+
+      fireEvent.submit(form)
+      expect(submitData).toEqual({
+        isVisible: false,
+      })
+
+      await userEvent.click(button)
+      fireEvent.submit(form)
+      expect(submitData).toEqual({
+        interactive: 'I am visible',
+        isVisible: true,
+      })
+
+      await userEvent.click(button)
+      fireEvent.submit(form)
+      expect(submitData).toEqual({
+        isVisible: false,
+      })
+
+      await userEvent.click(button)
+      fireEvent.submit(form)
+      expect(submitData).toEqual({
+        interactive: 'I am visible',
+        isVisible: true,
+      })
+    })
+
+    it('should still take in account "transformOut"', async () => {
+      let submitData = null
+
+      const onSubmit = jest.fn((data, { reduceToVisibleFields }) => {
+        submitData = reduceToVisibleFields(data)
+      })
+
+      const transformOut = jest.fn(({ path, value }) => {
+        if (path === '/interactive') {
+          return 'bar'
+        }
+        return value
+      })
+
+      render(
+        <Form.Handler onSubmit={onSubmit} transformOut={transformOut}>
+          <Field.Boolean
+            variant="button"
+            path="/isVisible"
+            defaultValue={false}
+          />
+
+          <Form.Visibility pathTrue="/isVisible">
+            <Field.String
+              path="/interactive"
+              defaultValue="I am visible"
+            />
+          </Form.Visibility>
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      const button = document.querySelector('button')
+
+      fireEvent.submit(form)
+      expect(submitData).toEqual({
+        isVisible: false,
+      })
+
+      await userEvent.click(button)
+      fireEvent.submit(form)
+      expect(submitData).toEqual({
+        interactive: 'bar',
+        isVisible: true,
+      })
+
+      await userEvent.click(button)
+      fireEvent.submit(form)
+      expect(submitData).toEqual({
+        isVisible: false,
+      })
+
+      await userEvent.click(button)
+      fireEvent.submit(form)
+      expect(submitData).toEqual({
+        interactive: 'bar',
+        isVisible: true,
+      })
+    })
+
+    it('should keep paths with "keepPaths"', async () => {
+      let submitData = null
+
+      const onSubmit = jest.fn((data, { reduceToVisibleFields }) => {
+        submitData = reduceToVisibleFields(data, {
+          keepPaths: ['/otherExistingPath'],
+          removePaths: ['/isVisible'],
+        })
+      })
+
+      render(
+        <Form.Handler
+          onSubmit={onSubmit}
+          data={{
+            otherExistingPath: 'foo',
+          }}
+        >
+          <Field.Boolean
+            variant="button"
+            path="/isVisible"
+            defaultValue={false}
+          />
+
+          <Form.Visibility pathTrue="/isVisible">
+            <Field.String
+              path="/interactive"
+              defaultValue="I am visible"
+            />
+          </Form.Visibility>
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      const button = document.querySelector('button')
+
+      fireEvent.submit(form)
+      expect(submitData).toEqual({
+        otherExistingPath: 'foo',
+      })
+
+      await userEvent.click(button)
+      fireEvent.submit(form)
+      expect(submitData).toEqual({
+        interactive: 'I am visible',
+        otherExistingPath: 'foo',
+      })
+
+      await userEvent.click(button)
+      fireEvent.submit(form)
+      expect(submitData).toEqual({
+        otherExistingPath: 'foo',
+      })
+
+      await userEvent.click(button)
+      fireEvent.submit(form)
+      expect(submitData).toEqual({
+        interactive: 'I am visible',
+        otherExistingPath: 'foo',
+      })
+    })
+
+    it('should exclude paths with "removePaths"', async () => {
+      let submitData = null
+
+      const onSubmit = jest.fn((data, { reduceToVisibleFields }) => {
+        submitData = reduceToVisibleFields(data, {
+          removePaths: ['/isVisible'],
+        })
+      })
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Field.Boolean
+            variant="button"
+            path="/isVisible"
+            defaultValue={false}
+          />
+
+          <Form.Visibility pathTrue="/isVisible">
+            <Field.String
+              path="/interactive"
+              defaultValue="I am visible"
+            />
+          </Form.Visibility>
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      const button = document.querySelector('button')
+
+      fireEvent.submit(form)
+      expect(submitData).toEqual({})
+
+      await userEvent.click(button)
+      fireEvent.submit(form)
+      expect(submitData).toEqual({
+        interactive: 'I am visible',
+      })
+
+      await userEvent.click(button)
+      fireEvent.submit(form)
+      expect(submitData).toEqual({})
+
+      await userEvent.click(button)
+      fireEvent.submit(form)
+      expect(submitData).toEqual({
+        interactive: 'I am visible',
+      })
+    })
+
+    it('should return visible data after unmount and mount', async () => {
+      let submitData = null
+
+      const onSubmit = jest.fn((data, { reduceToVisibleFields }) => {
+        submitData = reduceToVisibleFields(data)
+      })
+
+      const MockComponent = () => {
+        const [count, increment] = React.useReducer(
+          (state) => state + 1,
+          0
+        )
+        return (
+          <Form.Handler onSubmit={onSubmit}>
+            <button type="button" onClick={increment}>
+              {count}
+            </button>
+
+            {count % 2 ? (
+              <Field.String
+                path="/interactive"
+                defaultValue="I am visible"
+              />
+            ) : null}
+          </Form.Handler>
+        )
+      }
+
+      render(<MockComponent />)
+
+      const form = document.querySelector('form')
+      const button = document.querySelector('button')
+
+      fireEvent.submit(form)
+      expect(submitData).toEqual({})
+
+      await userEvent.click(button)
+      fireEvent.submit(form)
+      expect(submitData).toEqual({
+        interactive: 'I am visible',
+      })
+
+      await userEvent.click(button)
+      fireEvent.submit(form)
+      expect(submitData).toEqual({})
+
+      await userEvent.click(button)
+      fireEvent.submit(form)
+      expect(submitData).toEqual({
+        interactive: 'I am visible',
+      })
     })
   })
 })

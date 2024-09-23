@@ -1,0 +1,74 @@
+---
+showTabs: true
+---
+
+import {
+  DefinitionListExample,
+  DefinitionListHorizontalExample,
+  DefinitionListGridExample,
+  UnorderedListExample,
+  OrderedListNestedExample,
+  OrderedListStylePositionExample,
+  OrderedListOtherTypesExample,
+  RemoveListExample,
+} from 'Docs/uilib/elements/lists/Examples'
+
+## Demos
+
+### Unordered Lists
+
+<UnorderedListExample />
+
+### Ordered Lists (nested)
+
+Nested `<ol>` list by using `.dnb-ol--nested`.
+
+<OrderedListNestedExample />
+
+#### Ordered list style position (outside vs inside)
+
+The list marker will be inside of wrapped text / text with newlines.
+
+Nested `<ol>` with inside modifier `.dnb-ol--inside`.
+
+<OrderedListStylePositionExample />
+
+#### Ordered list with other types
+
+Ordered lists do support natively other types, like _letters_ and _roman numerals_. You can define that by using the `type` HTML attribute.
+
+`<ol>` with custom type.
+
+<OrderedListOtherTypesExample />
+
+### Definition Lists
+
+Use Definition Lists when ever you have to tie together any items that have a direct relationship with each other (name/value sets).
+
+You can use multiples of `<dt>` and `<dd>` within a definition list.
+
+You can also use block level elements in the definition description, such as the `<p>` and `<ul>` elements. But you cannot use block level elements inside a definition term.
+
+Any styling can be applied.
+
+<DefinitionListExample />
+
+### Definition List in horizontal direction
+
+When using the `layout="horizontal"` property, the term and description will be wrapped in a `Dl.Item` element. You can only use one `Dd` element per `Dt` element.
+
+The term and description are aligned on the bottom.
+
+<DefinitionListHorizontalExample />
+
+#### Definition List with a Grid pattern
+
+You can only use one `Dd` element per `Dt` element.
+
+The term and description are aligned on the bottom.
+
+<DefinitionListGridExample />
+
+### Remove list styles
+
+<RemoveListExample />

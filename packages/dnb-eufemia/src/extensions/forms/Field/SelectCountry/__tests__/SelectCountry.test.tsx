@@ -3,7 +3,8 @@ import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { Props } from '..'
 import { Provider } from '../../../../../shared'
-import { Field, Form, FieldBlock } from '../../..'
+import { Field, Form, FieldBlock, Value } from '../../..'
+import userEvent from '@testing-library/user-event'
 
 describe('Field.SelectCountry', () => {
   it('should render with props', () => {
@@ -30,7 +31,7 @@ describe('Field.SelectCountry', () => {
     )
     const firstItemElement = () =>
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
-    expect(inputElement.value).toEqual('')
+    expect(inputElement).toHaveValue('')
 
     fireEvent.focus(inputElement)
     fireEvent.change(inputElement, { target: { value: 'Norge' } })
@@ -47,10 +48,11 @@ describe('Field.SelectCountry', () => {
         },
         iso: 'NO',
         regions: ['Scandinavia', 'Nordic'],
+        name: 'Norge',
       },
     ]
     expect(onChange).toHaveBeenLastCalledWith(...firstEventValues)
-    expect(inputElement.value).toEqual('Norge')
+    expect(inputElement).toHaveValue('Norge')
 
     fireEvent.blur(inputElement)
     fireEvent.focus(inputElement)
@@ -70,8 +72,9 @@ describe('Field.SelectCountry', () => {
       },
       iso: 'DK',
       regions: ['Scandinavia', 'Nordic'],
+      name: 'Danmark',
     })
-    expect(inputElement.value).toEqual('Danmark')
+    expect(inputElement).toHaveValue('Danmark')
   })
 
   it('should select matching country on type change to support autofill', async () => {
@@ -95,7 +98,7 @@ describe('Field.SelectCountry', () => {
       nativeEvent: undefined,
     })
 
-    expect(inputElement.value).toEqual('Sverige')
+    expect(inputElement).toHaveValue('Sverige')
     expect(liElements()).toHaveLength(2)
     expect(selectedItemElement().textContent).toBe('Sverige')
     expect(onChange).toHaveBeenCalledTimes(1)
@@ -105,6 +108,7 @@ describe('Field.SelectCountry', () => {
       i18n: { en: 'Sweden', nb: 'Sverige' },
       iso: 'SE',
       regions: ['Scandinavia', 'Nordic'],
+      name: 'Sverige',
     })
   })
 
@@ -179,6 +183,31 @@ describe('Field.SelectCountry', () => {
     expect(liElements[0].textContent).toBe('Danmark')
     expect(liElements[1].textContent).toBe('Norge')
     expect(liElements[2].textContent).toBe('Sverige')
+  })
+
+  it('should show only Scandinavian countries and filterCountries at the same time', () => {
+    render(
+      <Field.SelectCountry
+        countries="Scandinavia"
+        filterCountries={({ iso }) => iso !== 'DK'}
+      />
+    )
+
+    const inputElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-select-country input'
+    )
+
+    // open
+    fireEvent.focus(inputElement)
+    fireEvent.keyDown(inputElement, {
+      key: 'Enter',
+      keyCode: 13,
+    })
+
+    const liElements = document.querySelectorAll('li:not([aria-hidden])')
+    expect(liElements).toHaveLength(2)
+    expect(liElements[0].textContent).toBe('Norge')
+    expect(liElements[1].textContent).toBe('Sverige')
   })
 
   it('should sort prioritized countries on top', () => {
@@ -320,6 +349,123 @@ describe('Field.SelectCountry', () => {
 
     const input = document.querySelector('.dnb-autocomplete__input')
     expect(input).toHaveClass('dnb-input__status--error')
+  })
+
+  it('should support "transformIn" and "transformOut"', async () => {
+    const transformOut = jest.fn((value, country) => {
+      if (value) {
+        return `${country.name} (${value})`
+      }
+    })
+    const transformIn = jest.fn((value) => {
+      return String(value).match(/\((.*)\)/)?.[1]
+    })
+    const valueTransformIn = jest.fn((value) => {
+      return String(value).match(/\((.*)\)/)?.[1]
+    })
+
+    const onSubmit = jest.fn()
+
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Field.SelectCountry
+          path="/country"
+          transformIn={transformIn}
+          transformOut={transformOut}
+          defaultValue="NO"
+        />
+
+        <Value.SelectCountry
+          path="/country"
+          transformIn={valueTransformIn}
+        />
+
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    const NO = {
+      cdc: '47',
+      continent: 'Europe',
+      i18n: { en: 'Norway', nb: 'Norge' },
+      iso: 'NO',
+      name: 'Norge',
+      regions: ['Scandinavia', 'Nordic'],
+    }
+
+    const CH = {
+      cdc: '41',
+      continent: 'Europe',
+      i18n: { en: 'Switzerland', nb: 'Sveits' },
+      iso: 'CH',
+      name: 'Sveits',
+    }
+
+    expect(transformOut).toHaveBeenCalledTimes(1)
+    expect(transformIn).toHaveBeenCalledTimes(3)
+    expect(valueTransformIn).toHaveBeenCalledTimes(2)
+
+    const firstItemElement = () =>
+      document.querySelectorAll('li.dnb-drawer-list__option')[0]
+
+    const form = document.querySelector('form')
+    const input = document.querySelector('input')
+    const value = document.querySelector('.dnb-forms-value-block__content')
+
+    fireEvent.submit(form)
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenLastCalledWith(
+      { country: 'Norge (NO)' },
+      expect.anything()
+    )
+
+    expect(transformOut).toHaveBeenCalledTimes(1)
+    expect(transformIn).toHaveBeenCalledTimes(4)
+    expect(valueTransformIn).toHaveBeenCalledTimes(3)
+
+    expect(input).toHaveValue('Norge')
+    expect(value).toHaveTextContent('Norge')
+
+    await userEvent.type(input, '{Backspace>10}Sveits')
+    await waitFor(() => {
+      expect(firstItemElement()).toBeInTheDocument()
+    })
+    await userEvent.click(firstItemElement())
+
+    expect(input).toHaveValue('Sveits')
+    expect(value).toHaveTextContent('Sveits')
+
+    expect(transformOut).toHaveBeenCalledTimes(2)
+    expect(transformIn).toHaveBeenCalledTimes(6)
+    expect(valueTransformIn).toHaveBeenCalledTimes(4)
+
+    fireEvent.submit(form)
+    expect(onSubmit).toHaveBeenCalledTimes(2)
+    expect(onSubmit).toHaveBeenLastCalledWith(
+      { country: 'Sveits (CH)' },
+      expect.anything()
+    )
+
+    expect(transformOut).toHaveBeenCalledTimes(2)
+    expect(transformIn).toHaveBeenCalledTimes(7)
+    expect(valueTransformIn).toHaveBeenCalledTimes(5)
+
+    expect(transformOut).toHaveBeenNthCalledWith(1, 'NO', NO)
+    expect(transformOut).toHaveBeenNthCalledWith(2, 'CH', CH)
+
+    expect(transformIn).toHaveBeenNthCalledWith(1, 'NO')
+    expect(transformIn).toHaveBeenNthCalledWith(2, 'NO')
+    expect(transformIn).toHaveBeenNthCalledWith(3, 'Norge (NO)')
+    expect(transformIn).toHaveBeenNthCalledWith(4, 'Norge (NO)')
+    expect(transformIn).toHaveBeenNthCalledWith(5, 'Norge (NO)')
+    expect(transformIn).toHaveBeenNthCalledWith(6, 'Sveits (CH)')
+    expect(transformIn).toHaveBeenNthCalledWith(7, 'Sveits (CH)')
+
+    expect(valueTransformIn).toHaveBeenNthCalledWith(1, undefined)
+    expect(valueTransformIn).toHaveBeenNthCalledWith(2, 'Norge (NO)')
+    expect(valueTransformIn).toHaveBeenNthCalledWith(3, 'Norge (NO)')
+    expect(valueTransformIn).toHaveBeenNthCalledWith(4, 'Sveits (CH)')
+    expect(valueTransformIn).toHaveBeenNthCalledWith(5, 'Sveits (CH)')
   })
 
   describe('ARIA', () => {

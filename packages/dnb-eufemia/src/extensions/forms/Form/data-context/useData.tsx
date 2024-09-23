@@ -15,6 +15,7 @@ import type { Path } from '../../types'
 import DataContext, {
   FilterData,
   FilterDataHandler,
+  VisibleDataHandler,
 } from '../../DataContext/Context'
 
 type PathImpl<T, P extends string> = P extends `${infer Key}/${infer Rest}`
@@ -43,17 +44,22 @@ export type UseDataReturnFilterData<Data> = (
   data?: Data
 ) => Partial<Data>
 
+export type UseDataReturnVisibleData<Data> = VisibleDataHandler<Data>
+
 type UseDataReturn<Data> = {
   data: Data
   set: (newData: Data) => void
   update: UseDataReturnUpdate<Data>
+  remove: (path: Path) => void
   getValue: UseDataReturnGetValue<Data>
   filterData: UseDataReturnFilterData<Data>
+  reduceToVisibleFields: UseDataReturnVisibleData<Data>
 }
 
 type SharedAttachment<Data> = {
   rerenderUseDataHook: () => void
   filterDataHandler?: FilterDataHandler<Data>
+  visibleDataHandler?: VisibleDataHandler<Data>
 }
 
 /**
@@ -104,7 +110,7 @@ export default function useData<Data>(
   const updateDataValue = context?.updateDataValue
   const setData = context?.setData
 
-  const setHandler = useCallback(
+  const set = useCallback(
     (newData: Data) => {
       if (id) {
         sharedDataRef.current.update(newData)
@@ -115,22 +121,24 @@ export default function useData<Data>(
     [id, setData]
   )
 
-  const updateHandler = useCallback<UseDataReturnUpdate<Data>>(
+  const update = useCallback<UseDataReturnUpdate<Data>>(
     (path, value = undefined) => {
-      const existingData = sharedDataRef.current.data || ({} as Data)
+      const existingData = structuredClone(
+        sharedDataRef.current.data || ({} as Data)
+      )
       const existingValue = pointer.has(existingData, path)
         ? pointer.get(existingData, path)
         : undefined
 
-      // get new value
+      // Get new value
       const newValue =
         typeof value === 'function' ? value(existingValue) : value
 
       if (newValue !== existingValue) {
-        // update existing data
+        // Update existing data
         pointer.set(existingData, path, newValue)
 
-        // update provider
+        // Update provider with new data
         if (id) {
           sharedDataRef.current.extend(existingData)
         } else {
@@ -139,6 +147,43 @@ export default function useData<Data>(
       }
     },
     [id, updateDataValue]
+  )
+
+  const remove = useCallback<UseDataReturn<Data>['remove']>(
+    (path) => {
+      const existingData = structuredClone(
+        sharedDataRef.current.data || ({} as Data)
+      )
+
+      if (pointer.has(existingData, path)) {
+        // Remove existing data
+        pointer.remove(existingData, path)
+
+        // Update provider with new data
+        if (id) {
+          sharedDataRef.current.set(existingData)
+        } else {
+          updateDataValue(path, undefined)
+        }
+      }
+    },
+    [id, updateDataValue]
+  )
+
+  const reduceToVisibleFields = useCallback<
+    UseDataReturn<Data>['reduceToVisibleFields']
+  >(
+    (data, options = {}) => {
+      if (id) {
+        return sharedAttachmentsRef.current.data?.visibleDataHandler?.(
+          data,
+          options
+        )
+      }
+
+      return context?.visibleDataHandler?.(data, options)
+    },
+    [context, id]
   )
 
   const filterData = useCallback<UseDataReturn<Data>['filterData']>(
@@ -150,7 +195,7 @@ export default function useData<Data>(
         )
       }
 
-      return context?.filterDataHandler(data, filter)
+      return context?.filterDataHandler?.(data, filter)
     },
     [context, id]
   )
@@ -174,11 +219,21 @@ export default function useData<Data>(
   return useMemo(
     () => ({
       data,
-      update: updateHandler,
-      set: setHandler,
+      remove,
+      update,
+      set,
       getValue,
+      reduceToVisibleFields,
       filterData,
     }),
-    [data, getValue, setHandler, updateHandler, filterData]
+    [
+      data,
+      remove,
+      update,
+      set,
+      getValue,
+      reduceToVisibleFields,
+      filterData,
+    ]
   )
 }

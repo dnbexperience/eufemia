@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import { Button } from '../../../../components'
 import { ButtonProps } from '../../../../components/Button'
 import IterateItemContext from '../IterateItemContext'
-import { useSwitchContainerMode } from '../hooks'
+import { useArrayLimit, useSwitchContainerMode } from '../hooks'
 import { omitDataValueReadWriteProps, Path } from '../../types'
 import { add } from '../../../../icons'
 import DataContext from '../../DataContext/Context'
@@ -29,6 +29,9 @@ function PushButton(props: Props) {
     props
   const buttonProps = omitDataValueReadWriteProps(restProps)
   const arrayValue = useDataValue().getValueByPath(path)
+  const { hasReachedLimit, setShowStatus } = useArrayLimit({
+    path,
+  })
 
   if (arrayValue !== undefined && !Array.isArray(arrayValue)) {
     throw new Error('PushButton received a non-array value')
@@ -39,6 +42,11 @@ function PushButton(props: Props) {
   })
 
   const handleClick = useCallback(async () => {
+    if (hasReachedLimit) {
+      setShowStatus(true)
+      return // stop here
+    }
+
     const newValue =
       typeof pushValue === 'function' ? pushValue(arrayValue) : pushValue
 
@@ -54,12 +62,14 @@ function PushButton(props: Props) {
       setLastItemContainerMode('view')
     }, 100) // UX improvement because of the "openDelay"
   }, [
+    arrayValue,
     handlePathChange,
     handlePush,
+    hasReachedLimit,
     path,
     pushValue,
     setLastItemContainerMode,
-    arrayValue,
+    setShowStatus,
   ])
 
   const content = useMemo(() => {

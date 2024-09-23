@@ -4,6 +4,11 @@ import { Card } from '../../../../components'
 import { Lead } from '../../../../elements'
 import { Translation, translations } from './ChildrenWithAgeTranslations'
 import type { SectionProps } from '../../Form/Section'
+import {
+  omitSpacingProps,
+  pickSpacingProps,
+} from '../../../../components/flex/utils'
+import { SpacingProps } from '../../../../shared/types'
 
 type Mode = 'edit' | 'summary'
 type Variant = Array<'joint-responsibility' | 'daycare'>
@@ -12,32 +17,46 @@ export type Props = SectionProps & {
   mode?: Mode
   enableAdditionalQuestions?: Variant
   toWizardStep?: number
-}
+  showEmpty?: boolean
+} & SpacingProps
 
 export default function ChildrenWithAge({
   mode,
   enableAdditionalQuestions,
   toWizardStep,
+  showEmpty,
   ...props
 }: Props) {
+  const spacingProps = pickSpacingProps<Props>(props)
+  const restProps = omitSpacingProps(props)
   return (
-    <Form.Section translations={translations} required {...props}>
+    <Form.Section translations={translations} required {...restProps}>
       {mode === 'summary' ? (
-        <Summary toWizardStep={toWizardStep} />
+        <SummaryContainer
+          toWizardStep={toWizardStep}
+          showEmpty={showEmpty}
+          spacingProps={spacingProps}
+        />
       ) : (
-        <EditContent
+        <EditContainer
           enableAdditionalQuestions={enableAdditionalQuestions}
+          spacingProps={spacingProps}
         />
       )}
     </Form.Section>
   )
 }
 
-function EditContent({ enableAdditionalQuestions }: Props) {
+function EditContainer({
+  spacingProps,
+  enableAdditionalQuestions,
+}: Props & {
+  spacingProps?: SpacingProps
+}) {
   const tr = Form.useTranslation<Translation>()
 
   return (
-    <Card stack>
+    <Card stack {...spacingProps}>
       <Lead>{tr.ChildrenWithAge.hasChildren.title}</Lead>
 
       <Field.Boolean
@@ -90,10 +109,10 @@ function EditContent({ enableAdditionalQuestions }: Props) {
         />
 
         <Iterate.Array
+          path="/children"
           countPath="/countChildren"
           countPathTransform={transformAgeItem}
           countPathLimit={20}
-          path="/children"
         >
           <Field.Composition
             label={tr.ChildrenWithAge.childrenAge.fieldLabel}
@@ -133,23 +152,37 @@ function EditContent({ enableAdditionalQuestions }: Props) {
   )
 }
 
-function Summary({ toWizardStep }: Props) {
+function SummaryContainer({
+  spacingProps,
+  toWizardStep,
+  showEmpty,
+}: Props & {
+  spacingProps?: SpacingProps
+}) {
   const tr = Form.useTranslation<Translation>()
+
+  const { getValue } = Form.useData()
+  const hasNoChildren = getValue('/hasChildren') === false
+
   return (
-    <Card stack>
-      <Lead>{tr.ChildrenWithAge.hasChildren.title}</Lead>
+    <Form.Visibility visible={showEmpty} pathTrue="/hasChildren" animate>
+      <Card stack {...spacingProps}>
+        {<Lead>{tr.ChildrenWithAge.hasChildren.title}</Lead>}
 
-      <Value.SummaryList>
-        <Value.Number
-          path="/countChildren"
-          label={tr.ChildrenWithAge.countChildren.valueVale}
-          defaultValue={0}
-          suffix={tr.ChildrenWithAge.countChildren.suffix}
-          maximum={20}
-        />
+        <Value.SummaryList>
+          <Value.Number
+            path="/countChildren"
+            label={tr.ChildrenWithAge.countChildren.valueVale}
+            defaultValue={0}
+            suffix={tr.ChildrenWithAge.countChildren.suffix}
+            maximum={20}
+            transformIn={(value) => (hasNoChildren ? 0 : value)}
+          />
 
-        <Form.Visibility pathTrue="/hasChildren">
-          <Iterate.Array path="/children">
+          <Iterate.Array
+            path="/children"
+            limit={hasNoChildren ? 0 : undefined}
+          >
             <Value.Composition
               label={tr.ChildrenWithAge.childrenAge.fieldLabel}
               gap={false}
@@ -183,13 +216,13 @@ function Summary({ toWizardStep }: Props) {
               </Form.Visibility>
             </Value.Composition>
           </Iterate.Array>
-        </Form.Visibility>
-      </Value.SummaryList>
+        </Value.SummaryList>
 
-      {typeof toWizardStep === 'number' ? (
-        <Wizard.EditButton toStep={toWizardStep} />
-      ) : null}
-    </Card>
+        {typeof toWizardStep === 'number' ? (
+          <Wizard.EditButton toStep={toWizardStep} />
+        ) : null}
+      </Card>
+    </Form.Visibility>
   )
 }
 

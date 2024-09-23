@@ -1,62 +1,15 @@
 ---
 title: 'Paragraph'
 theme: 'sbanken'
+showTabs: true
+hideTabs:
+  - title: Events
 redirect_from:
   - /uilib/typography/paragraph
 ---
 
-import {
-  ParagraphDefault,
-  ParagraphSmall,
-  ParagraphAdditional,
-  ParagraphModifiers,
-  ParagraphRegressionTests,
-} from 'Docs/uilib/elements/paragraph/Examples'
+import ParagraphInfo from 'Docs/uilib/elements/paragraph/info'
+import ParagraphDemos from 'Docs/uilib/elements/paragraph/demos'
 
-# Paragraph
-
-## Paragraph class modifiers
-
-Eufemia comes with several styles you can use on paragraphs and other HTML text elements:
-
-**Weights**
-
-- `.dnb-p` (Body text)
-- `.dnb-p--medium`
-
-**Sizes**
-
-- `.dnb-p--small`
-- `.dnb-p--x-small`
-
-**Variants**
-
-- `.dnb-p--lead`
-
-### Paragraphs in React
-
-Paragraphs using React JSX.
-
-```jsx
-import { P } from '@dnb/eufemia'
-```
-
-<ParagraphModifiers />
-
-### Paragraphs `basis` sized
-
-<ParagraphDefault />
-
-#### Paragraph `small` sized
-
-<ParagraphSmall />
-
-#### Additional Paragraph formatting (not defined yet)
-
-<ParagraphAdditional />
-
-Read more [about Fonts in the Designer Guides](/quickguide-designer/fonts/).
-
-<VisibleWhenVisualTest>
-  <ParagraphRegressionTests />
-</VisibleWhenVisualTest>
+<ParagraphInfo />
+<ParagraphDemos />

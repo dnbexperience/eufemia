@@ -26,7 +26,7 @@ import ValueBlockContext from '../../ValueBlock/ValueBlockContext'
 import FieldBoundaryProvider from '../../DataContext/FieldBoundary/FieldBoundaryProvider'
 import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
-import { useSwitchContainerMode } from '../hooks'
+import { useArrayLimit, useSwitchContainerMode } from '../hooks'
 import { getMessage } from '../../FieldBlock'
 
 import type { ContainerMode, ElementChild, Props, Value } from './types'
@@ -45,6 +45,9 @@ function ArrayComponent(props: Props) {
 
   const summaryListContext = useContext(SummaryListContext)
   const valueBlockContext = useContext(ValueBlockContext)
+  const { setLimitProps, error: limitWarning } = useArrayLimit({
+    path: props.path,
+  })
 
   const { getValueByPath } = useDataValue()
   const preparedProps = useMemo(() => {
@@ -85,6 +88,7 @@ function ArrayComponent(props: Props) {
   const {
     path,
     value: arrayValue,
+    limit,
     error,
     defaultValue,
     withoutFlex,
@@ -142,8 +146,11 @@ function ArrayComponent(props: Props) {
   const { getNextContainerMode } = useSwitchContainerMode()
 
   const arrayItems = useMemo(() => {
-    const list = valueWhileClosingRef.current || arrayValue
-    return (list ?? []).map((value, index) => {
+    const list = (valueWhileClosingRef.current || arrayValue) ?? []
+    const limitedList =
+      typeof limit === 'number' ? list.slice(0, limit) : list
+
+    return limitedList.map((value, index) => {
       const id = idsRef.current[index] || makeUniqueId()
 
       const hasNewItems =
@@ -232,7 +239,14 @@ function ArrayComponent(props: Props) {
 
     // In order to update "valueWhileClosingRef" we need to have "salt" in the deps array
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [salt, arrayValue, path, handleChange])
+  }, [salt, arrayValue, limit, path, handleChange])
+
+  const total = arrayItems.length
+  useEffect(() => {
+    if (limit) {
+      setLimitProps({ limit, total })
+    }
+  }, [total, limit, setLimitProps])
 
   // - Call the onChange callback when a new element is added without calling "handlePush"
   useMemo(() => {
@@ -316,13 +330,12 @@ function ArrayComponent(props: Props) {
       {animate ? <HeightAnimation>{content}</HeightAnimation> : content}
 
       <FormStatus
-        top={0}
-        bottom={0}
-        show={Boolean(error)}
+        show={Boolean(error || limitWarning)}
+        state={!error && limitWarning ? 'warning' : undefined}
+        shellSpace={{ top: 0, bottom: 'medium' }}
         no_animation={false}
-        shellSpace={{ top: true, bottom: true }}
       >
-        {getMessage({ content: error })}
+        {getMessage({ content: error || limitWarning })}
       </FormStatus>
     </>
   )

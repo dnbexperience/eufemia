@@ -19,7 +19,7 @@ export const AnimatedContainer = () => {
         <Iterate.Count path="/myList" />
         <Card top>
           <Iterate.Array path="/myList" placeholder={<>Empty list</>}>
-            <Iterate.AnimatedContainer title="Title {itemNr}">
+            <Iterate.AnimatedContainer title="Title {itemNo}">
               <Field.String label="Label" itemPath="/" />
 
               <Iterate.Toolbar>
@@ -65,8 +65,8 @@ const MyEditItemForm = () => {
 const MyEditItem = (props) => {
   return (
     <Iterate.EditContainer
-      title="Edit account holder {itemNr}"
-      titleWhenNew="New account holder {itemNr}"
+      title="Edit account holder {itemNo}"
+      titleWhenNew="New account holder {itemNo}"
       {...props}
     >
       <MyEditItemForm />
@@ -91,7 +91,7 @@ const CreateNewEntry = () => {
 
 const MyViewItem = () => {
   return (
-    <Iterate.ViewContainer title="Account holder {itemNr}">
+    <Iterate.ViewContainer title="Account holder {itemNo}">
       <Value.SummaryList>
         <Value.Name.First itemPath="/firstName" showEmpty />
         <Value.Name.Last itemPath="/lastName" placeholder="–" />
@@ -121,7 +121,7 @@ export const ViewAndEditContainer = () => {
           <Form.MainHeading>Accounts</Form.MainHeading>
 
           <Card stack>
-            <Iterate.Array path="/accounts">
+            <Iterate.Array path="/accounts" limit={2}>
               <MyViewItem />
               <MyEditItem />
             </Iterate.Array>
@@ -165,6 +165,8 @@ export const InitialOpen = () => {
     )
   }, [])
 
+  const { getCountryNameByIso } = Value.SelectCountry.useCountry()
+
   const [count, setCount] = React.useState(0)
 
   return (
@@ -178,9 +180,23 @@ export const InitialOpen = () => {
 
           <Card align="stretch">
             <Iterate.Array
+              limit={2}
               path="/countries"
               // defaultValue={['NO']}
               defaultValue={[null]}
+              validator={(arrayValue) => {
+                const findFirstDuplication = (arr) =>
+                  arr.findIndex((e, i) => arr.indexOf(e) !== i)
+
+                const count = arrayValue.filter(Boolean).length
+                const index = findFirstDuplication(arrayValue)
+                if (count > 1 && index > -1) {
+                  return new Error(
+                    'You can not have duplicate items: ' +
+                      getCountryNameByIso(arrayValue.at(index) as string)
+                  )
+                }
+              }}
             >
               <MyViewItem />
               <MyEditItem />

@@ -16,4 +16,14 @@ export const ChildrenWithAgeProperties: PropertiesTableProps = {
     type: 'number',
     status: 'optional',
   },
+  showEmpty: {
+    doc: 'Show the `Value.*` version when there are no children. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  '[Space](/uilib/layout/space/properties)': {
+    doc: 'Spacing properties like `top` or `bottom` are supported.',
+    type: ['string', 'object'],
+    status: 'optional',
+  },
 }

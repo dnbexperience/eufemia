@@ -12,6 +12,7 @@ import { ContainerMode } from '../Array'
 type Props = ButtonProps
 
 export default function EditToolbarTools(props: Props) {
+  const { onClick, ...rest } = props
   const {
     restoreOriginalValue,
     switchContainerMode,
@@ -38,27 +39,32 @@ export default function EditToolbarTools(props: Props) {
     }
   }, [arrayValue, containerMode, index])
 
-  const cancelHandler = useCallback(() => {
-    if (hasError && initialContainerMode === 'auto') {
-      setShowBoundaryErrors?.(true)
-      if (hasVisibleError) {
-        setShowError(true)
+  const cancelHandler = useCallback(
+    ({ event }: { event: React.MouseEvent<HTMLButtonElement> }) => {
+      onClick?.(event)
+      if (hasError && initialContainerMode === 'auto') {
+        setShowBoundaryErrors?.(true)
+        if (hasVisibleError) {
+          setShowError(true)
+        }
+      } else {
+        restoreOriginalValue?.(valueBackupRef.current)
+        setShowError(false)
+        setShowBoundaryErrors?.(false)
+        switchContainerMode?.('view')
       }
-    } else {
-      restoreOriginalValue?.(valueBackupRef.current)
-      setShowError(false)
-      setShowBoundaryErrors?.(false)
-      switchContainerMode?.('view')
-    }
-  }, [
-    hasError,
-    hasVisibleError,
-    initialContainerMode,
-    restoreOriginalValue,
-    setShowBoundaryErrors,
-    setShowError,
-    switchContainerMode,
-  ])
+    },
+    [
+      hasError,
+      hasVisibleError,
+      initialContainerMode,
+      onClick,
+      restoreOriginalValue,
+      setShowBoundaryErrors,
+      setShowError,
+      switchContainerMode,
+    ]
+  )
 
   const wasNew = useWasNew({ isNew, containerMode })
 
@@ -70,7 +76,8 @@ export default function EditToolbarTools(props: Props) {
     return (
       <RemoveButton
         text={removeButton}
-        {...(props as RemoveButtonProps)}
+        onClick={onClick}
+        {...(rest as RemoveButtonProps)}
       />
     )
   }
@@ -81,7 +88,7 @@ export default function EditToolbarTools(props: Props) {
       icon={close}
       icon_position="left"
       on_click={cancelHandler}
-      {...props}
+      {...rest}
     >
       {cancelButton}
     </Button>

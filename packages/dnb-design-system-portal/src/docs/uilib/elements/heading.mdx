@@ -1,96 +1,16 @@
 ---
 title: 'Heading'
+description: 'The heading element is used to indicate the quotation of a large section of text from another source.'
+showTabs: true
 theme: 'sbanken'
 redirect_from:
   - /uilib/typography/heading
+hideTabs:
+  - title: Events
 ---
 
-import {
-  HeadingBasicsExample,
-  HeadingTypographyExample,
-  HeadingTypographyXLargeExample,
-  HeadingVanillaHTMLExample,
-  HeadingModifiersExample,
-  HeadingMarginCollapsingExample,
-  HeadingRegressionTest,
-} from 'Docs/uilib/elements/heading/Examples'
+import HeadingInfo from 'Docs/uilib/elements/heading/info'
+import HeadingDemos from 'Docs/uilib/elements/heading/demos'
 
-# Heading
-
-Eufemia comes with three levels of heading styles:
-
-- `.dnb-h--xx-large` (Heading xx-large)
-- `.dnb-h--x-large` (Heading x-large)
-- `.dnb-h--large` (Heading large)
-
-Additional, you can use these style modifiers if needed:
-
-- `.dnb-h--medium`
-- `.dnb-h--basis`
-- `.dnb-h--small`
-- `.dnb-h--x-small`
-
-Optional, you could use `.dnb-lead` (equivalent to `.dnb-h--medium`) to style a heading as well. But only if that would make sense in the particular context.
-
-The sizes are aligned to the [font-size definitions](/uilib/typography/font-size).
-
-## Think semantics first
-
-You should [think semantics first](/uilib/usage/best-practices/for-typography#headings-and-styling) once you choose what level of heading you use. Always try to start with an `<h1>`. When the heading levels are properly defined, you can go ahead and define the sizes (styles).
-
-If you have to use a paragraph (`<p>`) or a arbitrary heading, and it has to **look like** a specific heading, you can use these classes:
-
-- `.dnb-h--xx-large`
-- `.dnb-h--x-large`
-- `.dnb-h--large`
-- etc.
-
-Read more about [best practices for typography](/uilib/usage/best-practices/for-typography).
-
-## Automated heading levels
-
-There is also [Heading](/uilib/components/heading), a component to create automated semantic headings within a boundary of some rules.
-
-```jsx
-import { Heading } from '@dnb/eufemia/components'
-```
-
-## Heading styles in React
-
-```jsx
-import { H1, H2, ... } from '@dnb/eufemia'
-```
-
-### The most basic use of headings
-
-Just using the `H1, H2, etc.` components will give you the basic headings.
-
-<HeadingBasicsExample />
-
-### Heading typography using React JSX
-
-The visual size of a heading can be customized using the `size` prop with values: `xx-large | x-large | large | medium | basis | small | x-small`
-
-<HeadingTypographyExample />
-
-By using the `<small>` element, we decrease the size one level (default size is `xx-large`):
-
-<HeadingTypographyXLargeExample />
-
-## Heading styles in vanilla HTML
-
-<HeadingVanillaHTMLExample />
-
-### Additional Heading modifiers
-
-<HeadingModifiersExample />
-
-## Example of margin collapsing
-
-Only the largest margin takes effect.
-
-<HeadingMarginCollapsingExample />
-
-<VisibleWhenVisualTest>
-  <HeadingRegressionTest />
-</VisibleWhenVisualTest>
+<HeadingInfo />
+<HeadingDemos />

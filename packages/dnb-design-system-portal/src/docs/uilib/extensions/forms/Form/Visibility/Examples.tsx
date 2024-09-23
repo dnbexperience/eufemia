@@ -1,6 +1,6 @@
 import React from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Card, Flex, P } from '@dnb/eufemia/src'
+import { Card, Flex, P, Section } from '@dnb/eufemia/src'
 import {
   Field,
   Form,
@@ -166,15 +166,26 @@ export const NestedExample = () => {
                   </Form.Visibility>
                 </Form.Visibility>
               </Flex.Stack>
-              <Log />
+
+              <Output />
             </Form.Handler>
           )
         }
 
-        const Log = () => {
+        const Output = () => {
           const { filterData } = Form.useData()
-          console.log(filterData(filterDataHandler))
-          return null
+          const filteredData = filterData(filterDataHandler)
+
+          return (
+            <Section
+              element="output"
+              innerSpace
+              backgroundColor="sand-yellow"
+              top
+            >
+              {JSON.stringify(filteredData || {}, null, 4)}
+            </Section>
+          )
         }
 
         return <MyForm />
@@ -207,8 +218,9 @@ export const FilterData = () => {
                   label="Visible"
                   variant="button"
                   path="/isVisible"
+                  defaultValue={false}
                 />
-                <Form.Visibility visible pathTrue="/isVisible" animate>
+                <Form.Visibility pathTrue="/isVisible" animate>
                   <Field.Selection
                     label="Choose"
                     variant="radio"
@@ -243,15 +255,24 @@ export const FilterData = () => {
                 </Form.Visibility>
               </Flex.Stack>
 
-              <Log />
+              <Output />
             </Form.Handler>
           )
         }
 
-        const Log = () => {
+        const Output = () => {
           const { filterData } = Form.useData()
-          console.log(filterData(filterDataPaths))
-          return null
+          const filteredData = filterData(filterDataPaths)
+          return (
+            <Section
+              element="output"
+              innerSpace
+              backgroundColor="sand-yellow"
+              top
+            >
+              {JSON.stringify(filteredData || {}, null, 4)}
+            </Section>
+          )
         }
 
         return <MyForm />

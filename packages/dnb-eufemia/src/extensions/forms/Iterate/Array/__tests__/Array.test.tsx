@@ -125,11 +125,11 @@ describe('Iterate.Array', () => {
     })
 
     describe('label', () => {
-      it('should replace {itemNr} in labels for fields and values', () => {
+      it('should replace {itemNo} in labels for fields and values', () => {
         render(
           <Iterate.Array value={['foo', 'bar']}>
-            <Field.String itemPath="/" label="Field label {itemNr}" />
-            <Value.String itemPath="/" label="Value label {itemNr}" />
+            <Field.String itemPath="/" label="Field label {itemNo}" />
+            <Value.String itemPath="/" label="Value label {itemNo}" />
           </Iterate.Array>
         )
 
@@ -142,13 +142,13 @@ describe('Iterate.Array', () => {
         expect(valueLabel2).toHaveTextContent('Value label 2')
       })
 
-      it('should replace {itemNr} in labels for FieldBlock and ValueBlock', () => {
+      it('should replace {itemNo} in labels for FieldBlock and ValueBlock', () => {
         render(
           <Iterate.Array value={['foo', 'bar']}>
-            <FieldBlock label="FieldBlock label {itemNr}">
+            <FieldBlock label="FieldBlock label {itemNo}">
               content
             </FieldBlock>
-            <ValueBlock label="ValueBlock label {itemNr}">
+            <ValueBlock label="ValueBlock label {itemNo}">
               content
             </ValueBlock>
           </Iterate.Array>
@@ -1409,5 +1409,41 @@ describe('Iterate.Array', () => {
     const outputs = document.querySelectorAll('output')
     expect(outputs[0]).toHaveTextContent('Content "foo" 0')
     expect(outputs[1]).toHaveTextContent('Content "bar" 1')
+  })
+
+  describe('limit', () => {
+    it('should limit the number of rendered items', () => {
+      const { rerender } = render(
+        <Iterate.Array value={['foo', 'bar', 'baz']} limit={2}>
+          <Value.String itemPath="/" />
+        </Iterate.Array>
+      )
+
+      expect(
+        document.querySelectorAll('.dnb-forms-iterate__element')
+      ).toHaveLength(2)
+      expect(document.body.textContent).toBe('foobar')
+
+      rerender(
+        <Iterate.Array value={['foo', 'bar', 'baz']} limit={1}>
+          <Value.String itemPath="/" />
+        </Iterate.Array>
+      )
+
+      expect(
+        document.querySelectorAll('.dnb-forms-iterate__element')
+      ).toHaveLength(1)
+      expect(document.body.textContent).toBe('foo')
+    })
+
+    it('should not display a warning when the number of items exceeds the limit', () => {
+      render(
+        <Iterate.Array value={['foo', 'bar', 'baz']} limit={2}>
+          <Value.String itemPath="/" />
+        </Iterate.Array>
+      )
+
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(0)
+    })
   })
 })

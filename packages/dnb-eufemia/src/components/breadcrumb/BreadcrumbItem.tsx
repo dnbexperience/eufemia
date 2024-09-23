@@ -64,7 +64,7 @@ export type BreadcrumbItemProps = {
   skeleton?: SkeletonShow
 
   /** Internal */
-  itemNr?: number
+  itemNo?: number
 } & (AnchorAllProps & Omit<ButtonProps, 'variant'>) &
   DataAttributeTypes
 
@@ -107,7 +107,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
     onClick,
     variant,
     skeleton,
-    itemNr,
+    itemNo,
     ...props
   } = extendPropsWithContext(
     localProps,
@@ -136,7 +136,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
   const currentText = text || (variant === 'home' && homeText) || ''
   const isInteractive =
     (href || onClick || props.to) && variant !== 'current'
-  const style = { '--delay': String(itemNr) } as React.CSSProperties
+  const style = { '--delay': String(itemNo) } as React.CSSProperties
 
   const iconToUse =
     variant === 'home' || currentIcon === 'home-icon'
