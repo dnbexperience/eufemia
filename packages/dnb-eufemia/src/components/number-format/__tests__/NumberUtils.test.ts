@@ -16,6 +16,7 @@ import {
   getThousandsSeparator,
   getCurrencySymbol,
   countDecimals,
+  roundHalfEven,
 } from '../NumberUtils'
 
 const locale = LOCALE
@@ -109,28 +110,102 @@ describe('Decimals format', () => {
     ).toBe('-1,1234567891234568')
   })
 
-  it('should handle omit rounding', () => {
-    expect(
-      format(num, { currency: true, decimals: 0, omit_rounding: true })
-    ).toBe('-12 345 kr')
-    expect(
-      format(num, { currency: true, decimals: 1, omit_rounding: true })
-    ).toBe('-12 345,6 kr')
-    expect(
-      format(num, { currency: true, decimals: 2, omit_rounding: true })
-    ).toBe('-12 345,67 kr')
-    expect(
-      format(num, { currency: true, decimals: 3, omit_rounding: true })
-    ).toBe('-12 345,678 kr')
-    expect(
-      format(num, { currency: true, decimals: 4, omit_rounding: true })
-    ).toBe('-12 345,6789 kr')
-    expect(
-      format(num, { currency: true, decimals: 5, omit_rounding: true })
-    ).toBe('-12 345,67890 kr')
-    expect(
-      format(num, { currency: true, decimals: 6, omit_rounding: true })
-    ).toBe('-12 345,678900 kr')
+  describe('rounding', () => {
+    it('omit', () => {
+      expect(
+        format(num, { currency: true, decimals: 0, rounding: 'omit' })
+      ).toBe('-12 345 kr')
+      expect(
+        format(num, { currency: true, decimals: 1, rounding: 'omit' })
+      ).toBe('-12 345,6 kr')
+      expect(
+        format(num, { currency: true, decimals: 2, rounding: 'omit' })
+      ).toBe('-12 345,67 kr')
+      expect(
+        format(num, { currency: true, decimals: 3, rounding: 'omit' })
+      ).toBe('-12 345,678 kr')
+      expect(
+        format(num, { currency: true, decimals: 4, rounding: 'omit' })
+      ).toBe('-12 345,6789 kr')
+      expect(
+        format(num, { currency: true, decimals: 5, rounding: 'omit' })
+      ).toBe('-12 345,67890 kr')
+      expect(
+        format(num, { currency: true, decimals: 6, rounding: 'omit' })
+      ).toBe('-12 345,678900 kr')
+    })
+
+    it('half-even', () => {
+      expect(
+        format(2.5, {
+          decimals: 0,
+          rounding: 'half-even',
+        })
+      ).toBe('2')
+
+      expect(
+        format(3.5, {
+          decimals: 0,
+          rounding: 'half-even',
+        })
+      ).toBe('4')
+
+      expect(
+        format(-1000.415, {
+          decimals: 2,
+          rounding: 'half-even',
+        })
+      ).toBe('-1 000,42')
+
+      expect(
+        format(-100.435, {
+          currency: true,
+          decimals: 2,
+          rounding: 'half-even',
+        })
+      ).toBe('-100,44 kr')
+
+      expect(
+        format(-90.435, {
+          percent: true,
+          decimals: 2,
+          rounding: 'half-even',
+        })
+      ).toBe('−90,44 %')
+    })
+
+    it('half-up (default)', () => {
+      expect(
+        format(2.5, {
+          decimals: 0,
+          rounding: 'half-up',
+        })
+      ).toBe('3')
+      expect(
+        format(-2.5, {
+          decimals: 0,
+          rounding: 'half-up',
+        })
+      ).toBe('-3')
+      expect(
+        format(2.434, {
+          decimals: 2,
+          rounding: 'half-up',
+        })
+      ).toBe('2,43')
+      expect(
+        format(2.476, {
+          decimals: 2,
+          rounding: 'half-up',
+        })
+      ).toBe('2,48')
+      expect(
+        format(2.476, {
+          decimals: 2,
+          rounding: undefined,
+        })
+      ).toBe('2,48')
+    })
   })
 
   it('should handle omit currency sign', () => {
@@ -453,7 +528,7 @@ describe('NumberFormat percentage', () => {
       '−4,17 %'
     )
     expect(
-      format(-4.165, { percent: true, decimals: 2, omit_rounding: true })
+      format(-4.165, { percent: true, decimals: 2, rounding: 'omit' })
     ).toBe('−4,16 %')
   })
 
@@ -742,5 +817,85 @@ describe('countDecimals should', () => {
     expect(countDecimals('1,23', decimalSeparator)).toBe(2)
     expect(countDecimals('1,01', decimalSeparator)).toBe(2)
     expect(countDecimals('1,00', decimalSeparator)).toBe(2)
+  })
+})
+
+describe('rounding', () => {
+  describe('roundHalfEven', () => {
+    it('should handle 0 input value', () => {
+      expect(roundHalfEven(0, 2)).toEqual(0)
+    })
+
+    it('should handle 0 input value and 0 decimal places', () => {
+      expect(roundHalfEven(0, 0)).toEqual(0)
+    })
+
+    it('should handle 0 decimal places [1]', () => {
+      expect(roundHalfEven(1.234, 0)).toEqual(1)
+    })
+
+    it('should handle 0 decimal places [2]', () => {
+      expect(roundHalfEven(2.9, 0)).toEqual(3)
+    })
+
+    it('should handle 0 decimal places [3]', () => {
+      expect(roundHalfEven(2.5, 0)).toEqual(2)
+    })
+
+    it('should handle 0 decimal places [4]', () => {
+      expect(roundHalfEven(3.5, 0)).toEqual(4)
+    })
+
+    it('should round to the specified number of decimal places', () => {
+      expect(roundHalfEven(1.234, 1)).toEqual(1.2)
+    })
+
+    it('should round to 2 decimals when numDecimals is omitted', () => {
+      expect(roundHalfEven(12.345)).toEqual(12.34)
+    })
+
+    it('should handle negative fractions', () => {
+      expect(roundHalfEven(-1.2345, 2)).toEqual(-1.23)
+    })
+
+    it("should handle '5 case' [1]", () => {
+      expect(roundHalfEven(100.435, 2)).toEqual(100.44)
+    })
+
+    it("should handle '5 case' [2]", () => {
+      expect(roundHalfEven(100.465, 2)).toEqual(100.46)
+    })
+
+    it("should handle '5 case' [3]", () => {
+      expect(roundHalfEven(100.405, 2)).toEqual(100.4)
+    })
+
+    it('should work for integers', () => {
+      expect(roundHalfEven(1234, 2)).toEqual(1234)
+    })
+
+    it('should work for negative integers', () => {
+      expect(roundHalfEven(-1234, 2)).toEqual(-1234)
+    })
+
+    it('should work for negative numbers with N decimal places [1]', () => {
+      expect(roundHalfEven(-104.8936316, 6)).toEqual(-104.893632)
+    })
+
+    it('should work for negative numbers with N decimal places [2]', () => {
+      expect(roundHalfEven(-83.0715644, 7)).toEqual(-83.0715644)
+    })
+
+    it('should work even if numDecimals > number of digits after decimal in the input', () => {
+      expect(roundHalfEven(1.2, 4)).toEqual(1.2)
+    })
+
+    it('should handle numbers with exponential', () => {
+      expect(roundHalfEven(1e-7, 6)).toEqual(0)
+      expect(roundHalfEven(1e-6, 6)).toEqual(0.000001)
+      expect(roundHalfEven(12e-6, 6)).toEqual(0.000012)
+      expect(roundHalfEven(0.1e-1)).toEqual(0.01)
+      expect(roundHalfEven(11.1e-1, 0)).toEqual(1)
+    })
   })
 })

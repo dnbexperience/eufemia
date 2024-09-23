@@ -55,7 +55,13 @@ Example: <NumberFormat value="invalid" currency />
 
 ## Decimals
 
-When the amount of wanted `decimals` is set as a property, but the given value contains decimals that exceeds the wanted `decimals`, the output value will get rounded up or down. Use `omit_rounding` if you need to hard-cut decimals from the displayed value.
+If the value has more decimal places than specified by the `decimals={2}` property, it will be rounded accordingly.
+
+Here are the available options for the `rounding="half-up"` property:
+
+- `omit` truncate decimals without rounding.
+- `half-even` will round to the nearest even number.
+- `half-up` (default) will round up if the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down.
 
 ## Provider
 

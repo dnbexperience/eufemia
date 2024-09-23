@@ -43,7 +43,8 @@ const NUMBER_CHARS = '\\-0-9,.'
  * @property {string} currency_position - can be "before" or "after"
  * @property {string} omit_currency_sign - hides currency sign if true is given
  * @property {number} decimals - defines how many decimals should be added
- * @property {boolean} omit_rounding - if true, the decimal will NOT be rounded. Normally, by using `toFixed` or by using `maximumFractionDigits`, decimals get rounded.
+ * @property {boolean} omit_rounding - @deprecated Use `rounding: "omit"` instead.
+ * @property {string} rounding - if `omit`, the decimal will NOT be rounded. If `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.
  * @property {object} options - accepts all number.toLocaleString API options
  * @property {boolean} returnAria - if true, this function returns an object that includes an aria property with a special aria formatting
  * @returns a formatted number as a string or as an object if "returnAria" is true
@@ -65,7 +66,8 @@ export const format = (
     omit_currency_sign = null,
     clean_copy_value = null,
     decimals = null,
-    omit_rounding = null,
+    omit_rounding = null, // @deprecated – can be removed in v11
+    rounding = null,
     options = null,
     returnAria = false,
   } = {}
@@ -95,7 +97,12 @@ export const format = (
       : options) || {}
 
   if (parseFloat(decimals) >= 0) {
-    value = formatDecimals(value, decimals, omit_rounding, opts)
+    value = formatDecimals(
+      value,
+      decimals,
+      rounding ?? omit_rounding,
+      opts
+    )
   } else if (
     typeof opts.maximumFractionDigits === 'undefined' &&
     !isTrue(percent) &&
@@ -139,7 +146,12 @@ export const format = (
       if (typeof opts.maximumFractionDigits === 'undefined') {
         decimals = countDecimals(value)
       }
-      value = formatDecimals(value, decimals, omit_rounding, opts)
+      value = formatDecimals(
+        value,
+        decimals,
+        rounding ?? omit_rounding,
+        opts
+      )
     }
 
     if (!opts.style) {
@@ -157,7 +169,12 @@ export const format = (
 
     if (decimals === null) {
       decimals = 2
-      value = formatDecimals(value, decimals, omit_rounding, opts)
+      value = formatDecimals(
+        value,
+        decimals,
+        rounding ?? omit_rounding,
+        opts
+      )
     }
 
     // cleanup, but only if it not got cleaned up already
@@ -312,30 +329,34 @@ export const format = (
  *
  * @param {number|string} value
  * @param {number} decimals how many decimals
- * @param {boolean} omit_rounding if decimals should be rounded or cut off
+ * @param {boolean} rounding what rounding method to use for decimals
  * @param {boolean} clean whether the value should be cleaned or not
  * @param {object} opts immutable object
  * @returns a decimal prepared number
  */
-export const formatDecimals = (
-  value,
-  decimals,
-  omit_rounding = false,
-  opts = {}
-) => {
+export const formatDecimals = (value, decimals, rounding, opts = {}) => {
   decimals = parseFloat(decimals)
 
+  // Mutate the given options
   if (decimals >= 0) {
     opts.minimumFractionDigits = decimals
     opts.maximumFractionDigits = decimals
   }
 
-  const pos = String(value).indexOf('.')
-  if (pos > 0 && omit_rounding === true) {
-    value = String(value).substring(
-      0,
-      pos + 1 + (decimals || opts.maximumFractionDigits)
-    )
+  if (String(value).includes('.')) {
+    const decimalPlaces = decimals || opts.maximumFractionDigits
+    if (rounding === 'omit' || rounding === true) {
+      const factor = Math.pow(10, decimalPlaces)
+      value = Math.trunc(value * factor) / factor
+    } else {
+      switch (rounding) {
+        case 'half-even': {
+          value = roundHalfEven(value, decimalPlaces)
+
+          break
+        }
+      }
+    }
   }
 
   return value
@@ -1261,4 +1282,29 @@ function canHandleCompact({ value, compact }) {
   }
 
   return false
+}
+
+/**
+ * Rounds the number to the nearest even number
+ *
+ * @param {number} num the number to round
+ * @param {number} decimalPlaces the number of decimal places to round to
+ * @returns {number} the rounded number
+ */
+export function roundHalfEven(num, decimalPlaces = 2) {
+  const multiplier = Math.pow(10, decimalPlaces)
+  const adjustedNum = num * multiplier
+  const floored = Math.floor(adjustedNum)
+  const diff = adjustedNum - floored
+
+  if (diff > 0.5) {
+    return Math.ceil(adjustedNum) / multiplier
+  } else if (diff < 0.5) {
+    return Math.floor(adjustedNum) / multiplier
+  }
+
+  // If exactly halfway, round to the nearest even number
+  return floored % 2 === 0
+    ? floored / multiplier
+    : Math.ceil(adjustedNum) / multiplier
 }
