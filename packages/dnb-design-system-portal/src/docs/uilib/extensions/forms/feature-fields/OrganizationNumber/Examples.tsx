@@ -111,3 +111,35 @@ export const ValidationRequired = () => {
     </ComponentBox>
   )
 }
+
+export const ValidationExtendValidator = () => {
+  return (
+    <ComponentBox>
+      {() => {
+        const firstNumIs1 = (value: string) =>
+          value.substring(0, 1) === '1'
+            ? { status: 'valid' }
+            : { status: 'invalid' }
+
+        const myValidator = (value, { validators }) => {
+          const { organizationNumberValidator } = validators
+          const result = firstNumIs1(value)
+          if (result.status === 'invalid') {
+            return new Error('My error')
+          }
+
+          return [organizationNumberValidator]
+        }
+
+        return (
+          <Field.OrganizationNumber
+            required
+            value="991541209"
+            onBlurValidator={myValidator}
+            validateInitially
+          />
+        )
+      }}
+    </ComponentBox>
+  )
+}
