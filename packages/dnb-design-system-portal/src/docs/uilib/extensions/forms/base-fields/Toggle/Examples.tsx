@@ -229,3 +229,18 @@ export const VariantButtonsWithHelp = () => {
     </ComponentBox>
   )
 }
+
+export const VariantButtonsWithoutLabel = () => {
+  return (
+    <ComponentBox data-visual-test="toggle-variant-buttons-without-label">
+      Text above the toggle:
+      <Field.Toggle
+        valueOn="on"
+        valueOff="off"
+        variant="buttons"
+        value="on"
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
