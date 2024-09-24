@@ -436,7 +436,8 @@ function FieldBlock(props: Props) {
   }
 
   const hasLabelDescription = isFragment(labelDescription)
-    ? fragmentHasChildren(labelDescription)
+    ? fragmentHasChildren(labelDescription) &&
+      !fragmentHasOnlyUndefinedChildren(labelDescription)
     : labelDescription
 
   return (
@@ -583,6 +584,15 @@ function fragmentHasChildren(fragment: React.ReactNode) {
   return (
     React.isValidElement(fragment) &&
     React.Children.count(fragment.props.children) > 0
+  )
+}
+
+function fragmentHasOnlyUndefinedChildren(fragment: React.ReactNode) {
+  const isUndefined = (child) => child === undefined
+
+  return (
+    React.isValidElement(fragment) &&
+    React.Children.toArray(fragment.props.children).every(isUndefined)
   )
 }
 
