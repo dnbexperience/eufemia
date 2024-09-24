@@ -95,15 +95,13 @@ export default function ListSummaryFromEdges({
             return (
               <>
                 :{' '}
-                <em>
-                  <ReactMarkdown
-                    components={basicComponents}
-                    disallowedElements={['p']}
-                    unwrapDisallowed={true}
-                  >
-                    {rawDescription}
-                  </ReactMarkdown>
-                </em>
+                <ReactMarkdown
+                  components={basicComponents}
+                  disallowedElements={['p']}
+                  unwrapDisallowed={true}
+                >
+                  {rawDescription}
+                </ReactMarkdown>
               </>
             )
           }
