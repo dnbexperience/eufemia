@@ -256,10 +256,15 @@ export default function Provider<Data extends JsonObject>(
 
   // - Progress
   const formStateRef = useRef<SubmitState>()
-  const setFormState = useCallback((formState: SubmitState) => {
-    formStateRef.current = formState
-    forceUpdate()
-  }, [])
+  const keepPending = useRef(false)
+  const setFormState = useCallback<ContextState['setFormState']>(
+    (formState: SubmitState, options = {}) => {
+      keepPending.current = options?.keepPending
+      formStateRef.current = formState
+      forceUpdate()
+    },
+    []
+  )
 
   // - States (e.g. error) reported by fields, based on their direct validation rules
   const fieldErrorRef = useRef<Record<Path, Error>>({})
@@ -989,7 +994,7 @@ export default function Provider<Data extends JsonObject>(
 
         const state = result as EventStateObject
 
-        if (asyncBehaviorIsEnabled) {
+        if (asyncBehaviorIsEnabled && keepPending.current !== true) {
           setFormState(state?.error ? 'abort' : 'complete')
         }
 
@@ -1041,9 +1046,14 @@ export default function Provider<Data extends JsonObject>(
 
   const handleSubmitListenersRef = useRef<Array<HandleSubmitCallback>>([])
   const setHandleSubmit: ContextState['setHandleSubmit'] = useCallback(
-    (callback) => {
-      if (!handleSubmitListenersRef.current.includes(callback)) {
-        handleSubmitListenersRef.current.push(callback)
+    (callback, { remove = false } = {}) => {
+      const listeners = handleSubmitListenersRef.current
+      if (remove) {
+        handleSubmitListenersRef.current = listeners.filter(
+          (item) => item !== callback
+        )
+      } else if (!listeners.includes(callback)) {
+        listeners.push(callback)
       }
     },
     []
@@ -1062,7 +1072,7 @@ export default function Provider<Data extends JsonObject>(
    */
   const handleSubmit = useCallback<ContextState['handleSubmit']>(
     async ({ formElement = null } = {}) => {
-      handleSubmitCall({
+      await handleSubmitCall({
         enableAsyncBehavior: isAsync(onSubmit),
         onSubmit: async () => {
           if (handleSubmitListeners()) {

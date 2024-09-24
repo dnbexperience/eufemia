@@ -1,0 +1,78 @@
+---
+showTabs: true
+---
+
+## Description
+
+`Form.SubmitConfirmation` prevents the [Form.Handler](/uilib/extensions/forms/Form/Handler/) from submitting, and makes it possible to show a confirmation dialog instead.
+
+```jsx
+import { Dialog } from '@dnb/eufemia'
+import { Form } from '@dnb/eufemia/extensions/forms'
+render(
+  <Form.Handler
+    onSubmit={async () => {
+      // Your submit request
+    }}
+  >
+    Content...
+    <Form.SubmitButton />
+    <Form.SubmitConfirmation
+      renderWithState={(parameters) => {
+        return 'Your content'
+      }}
+    />
+  </Form.Handler>,
+)
+```
+
+The `renderWithState` function is called whenever the submit confirmation state changes. It receives an object as the first parameter, which contains:
+
+- `connectWithDialog` lets you connect the submit confirmation with a [Dialog](/uilib/components/dialog).
+- `submitHandler` is a function that can be called to submit the form.
+- `cancelHandler` is a function that can be called to cancel the form.
+- `setSubmitState` is a function that can be called to update the submit state.
+- `submitState` is a string that can be used to determine the current state of the submit confirmation.
+
+## Connect with a Dialog
+
+You can connect the submit confirmation with a [Dialog](/uilib/components/dialog) by using the `connectWithDialog` property. This property is an object that contains the `openState`, `onConfirm`, `onDecline`, and `onClose` properties you can spead to the Dialog component.
+
+```jsx
+import { Dialog } from '@dnb/eufemia'
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Handler>
+    <Form.SubmitConfirmation
+      renderWithState={({ connectWithDialog }) => {
+        return (
+          <Dialog
+            variant="confirmation"
+            title="Dialog confirmation title"
+            description="Some content describing the situation."
+            {...connectWithDialog}
+          />
+        )
+      }}
+    />
+  </Form.Handler>,
+)
+```
+
+## Using the submitHandler and cancelHandler
+
+In addition to `connectWithDialog`, there are the `submitHandler` and `cancelHandler` functions available to handle the submission and cancellation processes:
+
+```jsx
+<Form.SubmitConfirmation
+  renderWithState={({ submitHandler, cancelHandler }) => {
+    return (
+      <>
+        <Button onClick={submitHandler} text="Submit" />
+        <Button onClick={cancelHandler} text="Cancel" />
+      </>
+    )
+  }}
+/>
+```
