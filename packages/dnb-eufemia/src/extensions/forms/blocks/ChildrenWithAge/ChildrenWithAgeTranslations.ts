@@ -7,7 +7,6 @@ const nbNO = {
   countChildren: {
     fieldLabel: 'Antall barn under 18 år',
     required: 'Du må skrive inn antall barn.',
-    valueVale: 'Antall barn under 18 år',
     suffix: 'barn',
   },
   childrenAge: {
@@ -43,7 +42,6 @@ const enGB = {
   countChildren: {
     fieldLabel: 'Number of children under the age of 18',
     required: 'You must enter the number of children.',
-    valueVale: 'Number of children under the age of 18',
     suffix: 'children',
   },
   childrenAge: {
