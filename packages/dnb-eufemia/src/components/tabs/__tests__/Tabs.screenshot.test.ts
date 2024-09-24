@@ -36,6 +36,13 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match when using the align property', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="tabs-align-property"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match a tablist with a click handler', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="tabs-clickhandler"] .dnb-tabs__tabs',

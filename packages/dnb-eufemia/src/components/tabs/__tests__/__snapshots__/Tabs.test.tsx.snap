@@ -100,6 +100,7 @@ html:not([data-visual-test]) .dnb-tabs__tabs__tablist {
   justify-content: flex-end;
 }
 .dnb-tabs__tabs--center .dnb-tabs__tabs__tablist {
+  flex: 1;
   justify-content: center;
 }
 .dnb-tabs__tabs::before {
