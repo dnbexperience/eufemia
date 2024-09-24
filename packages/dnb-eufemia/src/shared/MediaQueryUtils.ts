@@ -27,7 +27,6 @@ export type MediaQueryCondition =
       minWidth?: number | string | MediaQuerySizes
       maxWidth?: number | string | MediaQuerySizes
       orientation?: string
-      handheld?: boolean // DEPRECATED: this is no longer an accepted media-type. Should we remove it?
       not?: boolean
       all?: boolean
       monochrome?: boolean
@@ -331,6 +330,9 @@ function objToMediaQuery(
       if (feature === 'not') {
         hasNot = true
         return acc
+      }
+      if (feature === 'monochrome') {
+        feature = `(${feature})`
       }
 
       if (feature === 'min' || feature === 'max') {
