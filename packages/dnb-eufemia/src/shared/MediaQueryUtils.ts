@@ -195,10 +195,10 @@ export function buildQuery(
       listOfQueries = listOfQueries.concat(
         combineQueries(when, breakpoints, options)
       )
-    } else if (when && typeof when === 'object') {
-      const query = convertToMediaQuery(when, breakpoints, options)
-      if (query) {
-        listOfQueries.push(query)
+    } else if (typeof when === 'object') {
+      const queryItem = convertToMediaQuery(when, breakpoints, options)
+      if (queryItem) {
+        listOfQueries.push(queryItem)
       }
     }
 
@@ -247,16 +247,9 @@ function combineQueries(
 
       const query = convertToMediaQuery(when, breakpoints, options)
 
-      if (query && query !== 'and') {
-        switch (arr[i - 1]) {
-          case 'and':
-            listOfQueries.push('and')
-            break
-
-          case 'or':
-          default:
-            listOfQueries.push(', ')
-            break
+      if (query) {
+        if (query !== 'and' && arr[i - 1] !== 'and') {
+          listOfQueries.push(', ')
         }
 
         listOfQueries.push(query)
@@ -302,9 +295,11 @@ export function convertToMediaQuery(
     return query.reduce((acc, q, index) => {
       acc += objToMediaQuery(q, breakpoints, options)
       if (index < query.length - 1) {
-        acc += ', '
+        if (q !== 'and' && query[index + 1] !== 'and') {
+          acc += ','
+        }
+        acc += ' '
       }
-
       return acc
     }, '') as string
   }
@@ -321,6 +316,9 @@ function objToMediaQuery(
   breakpoints: MediaQueryBreakpoints = null,
   options?: MediaQueryOptions
 ): string {
+  if (typeof obj === 'string') {
+    return obj
+  }
   let hasNot = false
   let query: string | Array<null> = Object.keys(obj).reduce(
     (acc, feature) => {
