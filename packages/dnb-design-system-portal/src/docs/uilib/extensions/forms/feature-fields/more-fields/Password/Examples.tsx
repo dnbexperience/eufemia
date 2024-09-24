@@ -1,4 +1,4 @@
-import ComponentBox from '../../../../../../shared/tags/ComponentBox'
+import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 
 export const Placeholder = () => {

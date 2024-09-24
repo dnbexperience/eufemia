@@ -1,8 +1,8 @@
 import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
-import ListSummaryFromEdges from '../../../../../shared/parts/ListSummaryFromEdges'
+import ListSummaryFromEdges from '../../../../../../shared/parts/ListSummaryFromEdges'
 
-export default function ListFeatureFieldComponents(props) {
+export default function ListMoreFieldComponents(props) {
   const {
     allMdx: { edges },
   } = useStaticQuery(graphql`
@@ -16,7 +16,7 @@ export default function ListFeatureFieldComponents(props) {
           }
           internal: {
             contentFilePath: {
-              glob: "**/uilib/extensions/forms/feature-fields/{more-fields/,}*"
+              glob: "**/uilib/extensions/forms/feature-fields/more-fields/*"
             }
           }
         }

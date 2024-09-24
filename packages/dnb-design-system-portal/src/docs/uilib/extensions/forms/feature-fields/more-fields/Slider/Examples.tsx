@@ -1,5 +1,5 @@
 import { Flex, HelpButton, P } from '@dnb/eufemia/src'
-import ComponentBox from '../../../../../../shared/tags/ComponentBox'
+import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
 import { Field, Form, Value } from '@dnb/eufemia/src/extensions/forms'
 
 export const BasicUsage = () => {
