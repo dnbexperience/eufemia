@@ -1,7 +1,7 @@
 import type { SpacingProps } from '../../components/space/types'
 import type { JSONSchema4, JSONSchema6, JSONSchema7 } from 'json-schema'
 import type { JSONSchemaType } from 'ajv/dist/2020'
-import { JsonObject } from 'json-pointer'
+import { JsonObject } from './utils/json-pointer'
 import { AriaAttributes } from 'react'
 import { FilterData, VisibleDataOptions } from './DataContext'
 
@@ -601,7 +601,7 @@ export type OnCommit<Data = JsonObject> = (
   | void
   | Promise<EventReturnWithStateObject | void>
 
-export type OnChange<Data = unknown> = (
+export type OnChange<Data = JsonObject> = (
   data: Data,
   additionalArgs: Pick<OnSubmitParams, 'filterData'>
 ) => OnChangeReturnType

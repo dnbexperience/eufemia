@@ -1,4 +1,4 @@
-import pointer from 'json-pointer'
+import pointer from '../../utils/json-pointer'
 import {
   SharedStateId,
   createSharedState,

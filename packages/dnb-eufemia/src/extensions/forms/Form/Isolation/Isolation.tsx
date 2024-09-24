@@ -6,7 +6,7 @@ import React, {
   useReducer,
   useRef,
 } from 'react'
-import pointer, { JsonObject } from 'json-pointer'
+import pointer, { JsonObject } from '../../utils/json-pointer'
 import { extendDeep } from '../../../../shared/component-helper'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import useDataValue from '../../hooks/useDataValue'
@@ -39,7 +39,10 @@ export type IsolationProviderProps<Data> = {
    * It will receive the data from the isolated context and the data from the outer context.
    * You can use this to transform the data before it is committed.
    */
-  transformOnCommit?: (isolatedData: Data, handlerData: Data) => Data
+  transformOnCommit?: (
+    isolatedData: JsonObject,
+    handlerData: JsonObject
+  ) => unknown
   /**
    * Used internally by the Form.Isolation component
    */
@@ -165,7 +168,7 @@ function IsolationProvider<Data extends JsonObject>(
           : dataOuter
 
       localDataRef.current = mountedData
-      let isolatedData = structuredClone(mountedData) as Data
+      let isolatedData = structuredClone(mountedData)
 
       if (typeof transformOnCommitProp === 'function') {
         isolatedData = transformOnCommitProp(isolatedData, outerData)
