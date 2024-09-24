@@ -357,7 +357,7 @@ Every field component has a built-in validation that is based on the type of dat
 
 In addition, you can add your own validation to a field component. This is done by adding a `required`, `pattern`, `schema` or `validator` property.
 
-Fields which have the `disabled` prop or the `readOnly` prop, will skip validation.
+Fields which have the `disabled` property or the `readOnly` property, will skip validation.
 
 For monitoring and set your form errors, you can use the [useError](/uilib/extensions/forms/Form/useError) hook.
 
@@ -477,7 +477,7 @@ render(
 
 By default, the validator function will only run when the "/withValidator" field is changed. When the error message is shown, it will update the message with the new value of the "/myReference" field.
 
-You can also change this behavior by using the following props:
+You can also change this behavior by using the following properties:
 
 - `validateInitially` will run the validation initially.
 - `continuousValidation` will run the validation on every change, including when the connected field changes.

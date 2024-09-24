@@ -99,7 +99,7 @@ Also, note you can describe the schema without using the `type` property, as the
 
 ## Fields which are disabled or read-only
 
-Fields which have the `disabled` prop or the `readOnly` prop, will skip validation.
+Fields which have the `disabled` property or the `readOnly` property, will skip validation.
 
 ## JSONSchema and TypeScript
 
@@ -245,7 +245,7 @@ You can find more info about error messages in the [Error messages](/uilib/exten
 
 ### Custom error messages
 
-When having a custom keyword, you can provide custom error message on four levels with the `errorMessage` or `errorMessages` prop:
+When having a custom keyword, you can provide custom error message on four levels with the `errorMessage` or `errorMessages` property:
 
 1. On the schema level.
 2. On the Form.Handler (Provider) level.
@@ -294,7 +294,7 @@ You can find more info about error messages in the [Error messages](/uilib/exten
 
 ## Generate schema from fields
 
-You can also generate a Ajv schema from a set of fields, by using the `log` prop on the `Tools.GenerateSchema` component. I will console log the generated schema.
+You can also generate a Ajv schema from a set of fields, by using the `log` property on the `Tools.GenerateSchema` component. I will console log the generated schema.
 
 ```tsx
 import { Form, Field, Tools } from '@dnb/eufemia/extensions/forms'
@@ -319,7 +319,7 @@ render(
 }
 ```
 
-Or by using the `generateRef` prop on the `Tools.GenerateSchema` component. Here is an example of how to do that within a test:
+Or by using the `generateRef` property on the `Tools.GenerateSchema` component. Here is an example of how to do that within a test:
 
 ```tsx
 import { Form, Field, Tools } from '@dnb/eufemia/extensions/forms'

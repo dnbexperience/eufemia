@@ -31,15 +31,15 @@ This data format will be returned by the `onChange` and the `onSubmit` event han
 
 ## Validation
 
-The `required` prop will validate if there are valid files present. If there are files with an error, the validation will fail.
+The `required` property will validate if there are valid files present. If there are files with an error, the validation will fail.
 
 If there are invalid files, the `onSubmit` event will not be called and a validation error will be shown.
 
 The `onChange` event handler will return an array with objects containing the file object and some additional properties – regardless of the validity of the file.
 
-## About the `value` and `path` prop
+## About the `value` and `path` property
 
-The `path` prop represents an array with an object described above:
+The `path` property represents an array with an object described above:
 
 ```tsx
 render(
@@ -49,7 +49,7 @@ render(
 )
 ```
 
-The `value` prop represents an array with an object described above:
+The `value` property represents an array with an object described above:
 
 ```tsx
 render(<Field.Upload value={files} />)
