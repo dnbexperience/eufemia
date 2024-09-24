@@ -108,7 +108,7 @@ export interface DropdownProps {
   on_show_focus?: (...args: any[]) => any;
   on_hide_focus?: (...args: any[]) => any;
   /**
-   * Resets the select index when data prop changes
+   * Determines if the selection index should retain between `data` changes or not. Default: `false`
    */
   keepSelectIndexOnDataChange?: boolean;
 }

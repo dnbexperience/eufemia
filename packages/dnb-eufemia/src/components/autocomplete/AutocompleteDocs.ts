@@ -236,6 +236,11 @@ export const autocompleteProperties: PropertiesTableProps = {
     type: ['string', 'React.Element'],
     status: 'optional',
   },
+  keepSelectIndexOnDataChange: {
+    doc: 'Determines if the selection index should be retained between `data` changes or not. Defaults to `false`',
+    type: 'boolean',
+    status: 'optional',
+  },
   '[DrawerList](/uilib/components/fragments/drawer-list/properties)': {
     doc: 'all DrawerList properties.',
     type: 'Various',
