@@ -7,7 +7,7 @@ export const NumberFormatProperties: PropertiesTableProps = {
     status: 'required',
   },
   srLabel: {
-    doc: 'Will add a visually hidden label to give screen reader users the missing context to understand easier what the number represents.',
+    doc: 'Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.',
     type: 'string',
     status: 'optional',
   },
