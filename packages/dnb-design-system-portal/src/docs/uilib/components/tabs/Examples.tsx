@@ -381,3 +381,41 @@ export const TabsSingleElementData = () => (
     </ComponentBox>
   </Wrapper>
 )
+
+export const TabsAlignProperty = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="tabs-align-property">
+      <Tabs
+        align="left"
+        data={[
+          {
+            title: 'Left',
+            key: 1,
+            content: <H2>Content</H2>,
+          },
+        ]}
+      />
+      <Tabs
+        align="center"
+        data={[
+          {
+            title: 'Center',
+            key: 1,
+            content: <H2>Content</H2>,
+          },
+        ]}
+      />
+
+      <Tabs
+        align="right"
+        data={[
+          {
+            title: 'Right',
+            key: 1,
+            content: <H2>Content</H2>,
+          },
+        ]}
+      />
+    </ComponentBox>
+  </Wrapper>
+)
