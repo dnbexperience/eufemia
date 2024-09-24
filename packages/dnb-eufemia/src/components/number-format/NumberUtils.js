@@ -329,7 +329,7 @@ export const format = (
  *
  * @param {number|string} value
  * @param {number} decimals how many decimals
- * @param {boolean} rounding what rounding method to use for decimals
+ * @param {boolean} defines what rounding method to use for decimals
  * @param {boolean} clean whether the value should be cleaned or not
  * @param {object} opts immutable object
  * @returns a decimal prepared number
