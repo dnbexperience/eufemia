@@ -27,7 +27,6 @@ export type MediaQueryCondition =
       minWidth?: number | string | MediaQuerySizes
       maxWidth?: number | string | MediaQuerySizes
       orientation?: string
-      handheld?: boolean
       not?: boolean
       all?: boolean
       monochrome?: boolean
@@ -196,10 +195,10 @@ export function buildQuery(
       listOfQueries = listOfQueries.concat(
         combineQueries(when, breakpoints, options)
       )
-    } else if (when && typeof when === 'object') {
-      const query = convertToMediaQuery(when, breakpoints, options)
-      if (query) {
-        listOfQueries.push(query)
+    } else if (typeof when === 'object') {
+      const queryItem = convertToMediaQuery(when, breakpoints, options)
+      if (queryItem) {
+        listOfQueries.push(queryItem)
       }
     }
 
@@ -249,15 +248,8 @@ function combineQueries(
       const query = convertToMediaQuery(when, breakpoints, options)
 
       if (query) {
-        switch (arr[i - 1]) {
-          case 'and':
-            listOfQueries.push('and')
-            break
-
-          case 'or':
-          default:
-            listOfQueries.push(', ')
-            break
+        if (query !== 'and' && arr[i - 1] !== 'and') {
+          listOfQueries.push(', ')
         }
 
         listOfQueries.push(query)
@@ -303,9 +295,11 @@ export function convertToMediaQuery(
     return query.reduce((acc, q, index) => {
       acc += objToMediaQuery(q, breakpoints, options)
       if (index < query.length - 1) {
-        acc += ', '
+        if (q !== 'and' && query[index + 1] !== 'and') {
+          acc += ','
+        }
+        acc += ' '
       }
-
       return acc
     }, '') as string
   }
@@ -322,6 +316,9 @@ function objToMediaQuery(
   breakpoints: MediaQueryBreakpoints = null,
   options?: MediaQueryOptions
 ): string {
+  if (typeof obj === 'string') {
+    return obj
+  }
   let hasNot = false
   let query: string | Array<null> = Object.keys(obj).reduce(
     (acc, feature) => {
@@ -331,6 +328,9 @@ function objToMediaQuery(
       if (feature === 'not') {
         hasNot = true
         return acc
+      }
+      if (feature === 'monochrome') {
+        feature = `(${feature})`
       }
 
       if (feature === 'min' || feature === 'max') {
@@ -370,7 +370,7 @@ function objToMediaQuery(
     const size =
       parseFloat(query.match(/\(min-width: ([0-9]+)em\)/)[1]) || 0
     if (size > 0) {
-      const correctedSize = (size * 16 + 1) / 16
+      const correctedSize = (size * 16 + 0.1) / 16 // add 0.1px to the minimum to avoid overlap with and equivalent maximum
       query = query.replace(
         /(min-width: [0-9]+em)/,
         `min-width: ${correctedSize}em`
