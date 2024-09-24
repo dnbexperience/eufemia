@@ -107,6 +107,10 @@ export interface DropdownProps {
   suffix?: DrawerListSuffix;
   on_show_focus?: (...args: any[]) => any;
   on_hide_focus?: (...args: any[]) => any;
+  /**
+   * Determines if the selection index should retain between `data` changes or not. Default: `false`
+   */
+  keepSelectIndexOnDataChange?: boolean;
 }
 export type DropdownAllProps = DropdownProps &
   DrawerListProps &

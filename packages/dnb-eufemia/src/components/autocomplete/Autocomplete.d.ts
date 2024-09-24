@@ -211,6 +211,10 @@ export interface AutocompleteProps {
    * Define a custom class for the internal drawer-list. This makes it possible more easily customize the drawer-list style with styled-components and the `css` style method. Defaults to `null`.
    */
   drawer_class?: string;
+  /**
+   * Determines if the selection index should retain between `data` changes or not. Default: `false`
+   */
+  keepSelectIndexOnDataChange?: boolean;
   on_type?: (...args: any[]) => any;
   on_focus?: (...args: any[]) => any;
   on_blur?: (...args: any[]) => any;
