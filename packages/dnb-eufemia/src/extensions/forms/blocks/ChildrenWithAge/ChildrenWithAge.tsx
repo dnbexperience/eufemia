@@ -172,7 +172,7 @@ function SummaryContainer({
         <Value.SummaryList>
           <Value.Number
             path="/countChildren"
-            label={tr.ChildrenWithAge.countChildren.valueVale}
+            label={tr.ChildrenWithAge.countChildren.fieldLabel}
             defaultValue={0}
             suffix={tr.ChildrenWithAge.countChildren.suffix}
             maximum={20}
