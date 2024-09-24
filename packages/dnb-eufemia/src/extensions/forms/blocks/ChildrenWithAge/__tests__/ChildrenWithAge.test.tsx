@@ -166,11 +166,11 @@ describe('ChildrenWithAge', () => {
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
   })
 
-  it('should show summary with 0 children when hasChildren changes to false', async () => {
+  it('should show summary with Nei when hasChildren changes to false', async () => {
     render(
       <Form.Handler>
         <ChildrenWithAge />
-        <ChildrenWithAge mode="summary" showEmpty />
+        <ChildrenWithAge mode="summary" />
       </Form.Handler>
     )
 
@@ -181,15 +181,15 @@ describe('ChildrenWithAge', () => {
     expect(document.querySelectorAll('input')).toHaveLength(0)
     const dlDDs = Array.from(document.querySelectorAll('dl dd'))
     expect(dlDDs).toHaveLength(1)
-    expect(dlDDs.at(0)).toHaveTextContent('0 barn')
+    expect(dlDDs.at(0)).toHaveTextContent('Nei')
 
     await userEvent.click(yesButton)
     expect(document.querySelector('.dnb-input__input')).toHaveValue('1')
 
     await waitFor(() => {
       const dlDDs = Array.from(document.querySelectorAll('dl dd'))
-      expect(dlDDs).toHaveLength(2)
-      expect(dlDDs.at(0)).toHaveTextContent('1 barn')
+      expect(dlDDs).toHaveLength(3)
+      expect(dlDDs.at(0)).toHaveTextContent('Ja')
     })
 
     await userEvent.click(noButton)
@@ -197,11 +197,11 @@ describe('ChildrenWithAge', () => {
       expect(document.querySelectorAll('input')).toHaveLength(0)
     })
 
-    // Here we check that the summary still shows 0 children
+    // Here we check that the summary still shows Nei
     {
       const dlDDs = Array.from(document.querySelectorAll('dl dd'))
       expect(dlDDs).toHaveLength(1)
-      expect(dlDDs.at(0)).toHaveTextContent('0 barn')
+      expect(dlDDs.at(0)).toHaveTextContent('Nei')
     }
 
     await userEvent.click(yesButton)
@@ -209,8 +209,8 @@ describe('ChildrenWithAge', () => {
 
     {
       const dlDDs = Array.from(document.querySelectorAll('dl dd'))
-      expect(dlDDs).toHaveLength(2)
-      expect(dlDDs.at(0)).toHaveTextContent('1 barn')
+      expect(dlDDs).toHaveLength(3)
+      expect(dlDDs.at(0)).toHaveTextContent('Ja')
     }
   })
 

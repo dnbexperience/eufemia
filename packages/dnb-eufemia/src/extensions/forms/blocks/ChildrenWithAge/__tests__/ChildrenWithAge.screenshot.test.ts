@@ -44,14 +44,6 @@ describe.each(['ui', 'sbanken'])('ChildrenWithAge for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-
-  it('have to match field and value when showEmpty', async () => {
-    const screenshot = await makeScreenshot({
-      selector:
-        '[data-visual-test="children-with-age-summary-show-empty"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 })
 
 describe('ChildrenWithAge', () => {
