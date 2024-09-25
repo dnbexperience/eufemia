@@ -460,7 +460,7 @@ describe('NumberFormat component', () => {
     rerender(
       <Component
         percent
-        omit_rounding
+        rounding="omit"
         options={{ maximumFractionDigits: 2 }}
       >
         12.3456
@@ -525,7 +525,7 @@ describe('NumberFormat component', () => {
     ).toBe('12,35 %')
 
     rerender(
-      <Component percent omit_rounding decimals={2}>
+      <Component percent rounding="omit" decimals={2}>
         12.3456
       </Component>
     )
@@ -549,7 +549,7 @@ describe('NumberFormat component', () => {
     rerender(
       <Component
         currency
-        omit_rounding
+        rounding="omit"
         options={{ maximumFractionDigits: 2 }}
       >
         12.3456
@@ -601,7 +601,7 @@ describe('NumberFormat component', () => {
     ).toBe('12,35 kr')
 
     rerender(
-      <Component currency omit_rounding decimals={2}>
+      <Component currency rounding="omit" decimals={2}>
         12.3456
       </Component>
     )
@@ -658,6 +658,24 @@ describe('NumberFormat component', () => {
 
     expect(comp).not.toHaveClass('dnb-number-format--selected')
     expect(selection).toHaveTextContent('')
+  })
+
+  describe('rounding', () => {
+    it('should support "omit"', async () => {
+      render(
+        <NumberFormat rounding="omit" value={123456.789} decimals={2} />
+      )
+      expect(
+        document.querySelector('.dnb-number-format')
+      ).toHaveTextContent('123 456,78') // without omit it would equal to 123 456,79
+    })
+
+    it('should support "half-even"', async () => {
+      render(<NumberFormat rounding="half-even" value={2.5} />)
+      expect(
+        document.querySelector('.dnb-number-format')
+      ).toHaveTextContent('2')
+    })
   })
 })
 

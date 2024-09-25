@@ -67,7 +67,7 @@ export interface InputMaskedProps
    */
   mask_options?: InputMaskedMaskOptions;
   /**
-   * Use an object with [NumberFormat](/uilib/components/number-format/properties) e.g. `{ omit_rounding: false }`.
+   * Use an object with [NumberFormat](/uilib/components/number-format/properties)
    */
   number_format?: NumberFormatProps;
   /**

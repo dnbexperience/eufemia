@@ -32,7 +32,7 @@ export const inputMaskedProperties: PropertiesTableProps = {
     status: 'optional',
   },
   number_format: {
-    doc: 'Use an object with [NumberFormat](/uilib/components/number-format/properties) e.g. `{ omit_rounding: false }`.',
+    doc: 'Use an object with [NumberFormat](/uilib/components/number-format/properties).',
     type: 'object',
     status: 'optional',
   },
