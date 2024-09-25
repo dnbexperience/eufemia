@@ -1,7 +1,7 @@
 import React from 'react'
 import { renderHook, act, render, fireEvent } from '@testing-library/react'
 import { makeUniqueId } from '../../../../../shared/component-helper'
-import { Field, Form } from '../../..'
+import { Field, Form, Wizard, Iterate } from '../../..'
 import Provider from '../../../DataContext/Provider'
 import useData from '../useData'
 import { FilterData } from '../../../DataContext/Context'
@@ -27,6 +27,41 @@ describe('Form.useData', () => {
     }
 
     expect(renderComponent).toThrow(
+      'useData needs to run inside DataContext (Form.Handler) or have a valid id'
+    )
+
+    log.mockRestore()
+  })
+
+  it('should not throw when used within a Form.Handler and Wizard without id', () => {
+    const log = jest.spyOn(console, 'error').mockImplementation()
+
+    const CountCountries = () => {
+      const { count } = Iterate.useCount()
+      return (
+        <Iterate.Array path="/countries">
+          {() => `{itemNo} of ' ${count('/countries')}`}
+        </Iterate.Array>
+      )
+    }
+
+    const renderComponent = () => {
+      render(
+        <Form.Handler data={{ countries: [] }}>
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <CountCountries />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <CountCountries />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+    }
+
+    expect(renderComponent).not.toThrow(
       'useData needs to run inside DataContext (Form.Handler) or have a valid id'
     )
 
