@@ -92,23 +92,21 @@ export default function useData<Data>(
   )
 
   // If no id is provided, use the context data
-  const context = useContext(DataContext)
+  const dataContext = useContext(DataContext)
   if (!id) {
-    if (!context?.hasContext) {
+    if (!dataContext.hasContext) {
       throw new Error(
         'useData needs to run inside DataContext (Form.Handler) or have a valid id'
       )
     }
 
-    if (context) {
-      sharedDataRef.current.data = context.data
-      sharedAttachmentsRef.current.data.filterDataHandler =
-        context.filterDataHandler
-    }
+    sharedDataRef.current.data = dataContext.data
+    sharedAttachmentsRef.current.data.filterDataHandler =
+      dataContext.filterDataHandler
   }
 
-  const updateDataValue = context?.updateDataValue
-  const setData = context?.setData
+  const updateDataValue = dataContext?.updateDataValue
+  const setData = dataContext?.setData
 
   const set = useCallback(
     (newData: Data) => {
@@ -181,9 +179,9 @@ export default function useData<Data>(
         )
       }
 
-      return context?.visibleDataHandler?.(data, options)
+      return dataContext?.visibleDataHandler?.(data, options)
     },
-    [context, id]
+    [dataContext, id]
   )
 
   const filterData = useCallback<UseDataReturn<Data>['filterData']>(
@@ -195,9 +193,9 @@ export default function useData<Data>(
         )
       }
 
-      return context?.filterDataHandler?.(data, filter)
+      return dataContext?.filterDataHandler?.(data, filter)
     },
-    [context, id]
+    [dataContext, id]
   )
 
   const getValue = useCallback<UseDataReturn<Data>['getValue']>((path) => {

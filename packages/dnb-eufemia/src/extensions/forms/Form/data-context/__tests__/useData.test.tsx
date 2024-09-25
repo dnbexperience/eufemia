@@ -1,7 +1,7 @@
 import React from 'react'
 import { renderHook, act, render, fireEvent } from '@testing-library/react'
 import { makeUniqueId } from '../../../../../shared/component-helper'
-import { Field, Form, Wizard, Iterate } from '../../..'
+import { Field, Form, Wizard } from '../../..'
 import Provider from '../../../DataContext/Provider'
 import useData from '../useData'
 import { FilterData } from '../../../DataContext/Context'
@@ -34,27 +34,21 @@ describe('Form.useData', () => {
   })
 
   it('should not throw when used within a Form.Handler and Wizard without id', () => {
-    const log = jest.spyOn(console, 'error').mockImplementation()
-
-    const CountCountries = () => {
-      const { count } = Iterate.useCount()
-      return (
-        <Iterate.Array path="/countries">
-          {() => `{itemNo} of ' ${count('/countries')}`}
-        </Iterate.Array>
-      )
+    const MockComponent = () => {
+      Form.useData()
+      return null
     }
 
     const renderComponent = () => {
       render(
-        <Form.Handler data={{ countries: [] }}>
+        <Form.Handler>
           <Wizard.Container>
             <Wizard.Step title="Step 1">
-              <CountCountries />
+              <MockComponent />
             </Wizard.Step>
 
             <Wizard.Step title="Step 2">
-              <CountCountries />
+              <MockComponent />
             </Wizard.Step>
           </Wizard.Container>
         </Form.Handler>
@@ -64,8 +58,32 @@ describe('Form.useData', () => {
     expect(renderComponent).not.toThrow(
       'useData needs to run inside DataContext (Form.Handler) or have a valid id'
     )
+  })
 
-    log.mockRestore()
+  it('should work inside Wizard when prerender (step 2', () => {
+    let collectData = null
+
+    const MockComponent = () => {
+      const { data } = Form.useData()
+      collectData = data
+      return null
+    }
+
+    render(
+      <Form.Handler data={{ foo: 'bar' }}>
+        <Wizard.Container>
+          <Wizard.Step title="Step 1">
+            <MockComponent />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 2">
+            <MockComponent />
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>
+    )
+
+    expect(collectData).toEqual({ foo: 'bar' })
   })
 
   it('should return "getValue" method that lets you get a single path value', () => {
