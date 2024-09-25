@@ -9,6 +9,7 @@ import { Path, ValueProps } from '../types'
 import useExternalValue from './useExternalValue'
 import usePath from './usePath'
 import DataContext from '../DataContext/Context'
+import SummaryListContext from '../Value/SummaryList/SummaryListContext'
 
 export type Props<Value> = ValueProps<Value>
 
@@ -24,7 +25,7 @@ export default function useValueProps<
     itemPath,
     defaultValue,
     inheritLabel,
-    inheritVisibility,
+    inheritVisibility: inheritVisibilityProp,
     transformIn = (value: Value) => value,
     toInput = (value: Value) => value,
     fromExternal = (value: Value) => value,
@@ -45,6 +46,11 @@ export default function useValueProps<
       value: valueProp,
       transformers,
     }) ?? defaultValue
+
+  const { inheritVisibility: inheritVisibilitySummaryList } =
+    useContext(SummaryListContext) || {}
+  const inheritVisibility =
+    inheritVisibilityProp ?? inheritVisibilitySummaryList
 
   const {
     fieldPropsRef,
