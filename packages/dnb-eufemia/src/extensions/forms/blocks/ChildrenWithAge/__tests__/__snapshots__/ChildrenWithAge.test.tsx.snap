@@ -860,5 +860,9 @@ exports[`ChildrenWithAge should match snapshot 2`] = `
     "path": "/countChildren",
     "suffix": "barn",
   },
+  "hasChildren": {
+    "label": "Har du/dere barn under 18 år?",
+    "path": "/hasChildren",
+  },
 }
 `;

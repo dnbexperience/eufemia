@@ -44,7 +44,6 @@ export function Basic() {
         <ChildrenWithAge
           mode="summary"
           enableAdditionalQuestions={['daycare', 'joint-responsibility']}
-          showEmpty
         />
         <Form.SubmitButton />
       </Flex.Stack>
