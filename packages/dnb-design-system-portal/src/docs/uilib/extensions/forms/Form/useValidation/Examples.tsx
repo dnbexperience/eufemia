@@ -12,7 +12,8 @@ export function HasErrors() {
             showError: true,
             isVisible: true,
           })
-          const { hasErrors, hasFieldError } = Form.useError('default-id')
+          const { hasErrors, hasFieldError } =
+            Form.useValidation('default-id')
 
           return (
             <Form.Handler id="default-id">
@@ -57,6 +58,49 @@ export function HasErrors() {
         }
 
         return <Component />
+      }}
+    </ComponentBox>
+  )
+}
+
+export function SetFieldStatus() {
+  return (
+    <ComponentBox>
+      {() => {
+        const MyForm = () => {
+          const { setFieldStatus } = Form.useValidation('form-status')
+
+          return (
+            <Form.Handler
+              id="form-status"
+              onSubmit={async () => {
+                await new Promise((resolve) => setTimeout(resolve, 1000))
+
+                setFieldStatus('/myField', {
+                  error: new Error('This is a field error'),
+                  warning: 'This is a field warning',
+                  info: 'This is a field info',
+                })
+
+                await new Promise((resolve) => setTimeout(resolve, 5000))
+
+                setFieldStatus('/myField', {
+                  error: null,
+                  warning: null,
+                  info: null,
+                })
+              }}
+            >
+              <Flex.Stack>
+                <Field.String label="My field" path="/myField" />
+
+                <Form.SubmitButton />
+              </Flex.Stack>
+            </Form.Handler>
+          )
+        }
+
+        return <MyForm />
       }}
     </ComponentBox>
   )

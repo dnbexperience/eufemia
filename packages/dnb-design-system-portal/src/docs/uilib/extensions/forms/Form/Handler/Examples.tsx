@@ -371,7 +371,7 @@ export const FilterData = () => {
 
         const Output = () => {
           const { filterData } = Form.useData(id)
-          const { hasErrors } = Form.useError(id)
+          const { hasErrors } = Form.useValidation(id)
 
           return (
             <Section

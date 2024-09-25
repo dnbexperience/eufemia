@@ -535,14 +535,24 @@ export default function Provider<Data extends JsonObject>(
     [filterDataHandler]
   )
 
+  const fieldConnectionsRef = useRef<
+    Record<Path, Record<string, unknown>>
+  >({})
+  const setFieldConnection = useCallback(
+    (path: Path, connections: Record<string, unknown>) => {
+      fieldConnectionsRef.current[path] = connections
+    },
+    []
+  )
+
   const fieldPropsRef = useRef<Record<Path, FieldProps>>({})
-  const valuePropsRef = useRef<Record<Path, ValueProps<unknown>>>({})
   const setFieldProps = useCallback(
     (path: Path, props: Record<string, unknown>) => {
       fieldPropsRef.current[path] = props
     },
     []
   )
+  const valuePropsRef = useRef<Record<Path, ValueProps<unknown>>>({})
   const setValueProps = useCallback(
     (path: Path, props: Record<string, unknown>) => {
       valuePropsRef.current[path] = props
@@ -572,6 +582,7 @@ export default function Provider<Data extends JsonObject>(
     setShowAllErrors?: ContextState['setShowAllErrors']
     setSubmitState?: ContextState['setSubmitState']
     rerenderUseDataHook?: () => void
+    fieldConnectionsRef?: ContextState['fieldConnectionsRef']
   }>(id + '-attachments')
 
   const setSharedData = sharedData.set
@@ -683,6 +694,7 @@ export default function Provider<Data extends JsonObject>(
         hasFieldError,
         setShowAllErrors,
         setSubmitState,
+        fieldConnectionsRef,
       })
       if (filterSubmitData) {
         rerenderUseDataHook?.()
@@ -1224,6 +1236,7 @@ export default function Provider<Data extends JsonObject>(
         setFieldEventListener,
         setFieldState,
         setFieldError,
+        setFieldConnection,
         setFieldProps,
         setValueProps,
         hasErrors,
@@ -1251,6 +1264,7 @@ export default function Provider<Data extends JsonObject>(
         showAllErrors: showAllErrorsRef.current,
         hasVisibleError:
           Object.keys(hasVisibleErrorRef.current).length > 0,
+        fieldConnectionsRef,
         fieldPropsRef,
         valuePropsRef,
         mountedFieldsRef,

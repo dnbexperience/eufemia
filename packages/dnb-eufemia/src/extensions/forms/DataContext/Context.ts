@@ -80,6 +80,9 @@ export type HandleSubmitCallback = ({
 }: {
   preventSubmit: () => void
 }) => void
+export type FieldConnections = {
+  setEventResult?: (status: EventStateObject) => void
+}
 
 export interface ContextState {
   id?: Identifier
@@ -141,8 +144,10 @@ export interface ContextState {
   setFieldProps?: (path: Path, props: unknown) => void
   setValueProps?: (path: Path, props: unknown) => void
   setHandleSubmit?: (callback: HandleSubmitCallback) => void
+  setFieldConnection?: (path: Path, connections: FieldConnections) => void
   fieldPropsRef?: React.MutableRefObject<Record<string, FieldProps>>
   valuePropsRef?: React.MutableRefObject<Record<string, ValueProps>>
+  fieldConnectionsRef?: React.RefObject<Record<Path, FieldConnections>>
   mountedFieldsRef?: React.MutableRefObject<Record<Path, MountState>>
   showAllErrors: boolean
   hasVisibleError: boolean

@@ -14,7 +14,7 @@ export { default as useData } from './data-context/useData'
 export { default as setData } from './data-context/setData'
 export { default as getData } from './data-context/getData'
 export { default as clearData } from './data-context/clearData'
-export { default as useError } from './data-context/useError'
+export { default as useValidation } from './data-context/useValidation'
 export { default as useTranslation } from '../hooks/useTranslation'
 
 /**
@@ -22,3 +22,9 @@ export { default as useTranslation } from '../hooks/useTranslation'
  * @deprecated Use `useTranslation` instead
  */
 export { default as useLocale } from '../hooks/useTranslation'
+
+/**
+ * Can be removed in v11
+ * @deprecated Use `useValidation` instead
+ */
+export { default as useError } from './data-context/useValidation'
