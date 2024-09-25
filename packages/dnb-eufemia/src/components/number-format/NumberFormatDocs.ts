@@ -12,7 +12,7 @@ export const NumberFormatProperties: PropertiesTableProps = {
     status: 'optional',
   },
   locale: {
-    doc: 'Use a [2 Letter Language Codes](https://www.sitepoint.com/iso-2-letter-language-codes/) or an extended code such as `nb-NO`. Use `auto` to detect the locale from the browser (`navigator.language`). Defaults to the Norwegian locale: `nb-NO`.',
+    doc: 'Use a [2 Letter Language Code](https://www.sitepoint.com/iso-2-letter-language-codes/) or an extended code such as `nb-NO`. Use `auto` to detect the locale from the browser (`navigator.language`). Defaults to the Norwegian locale: `nb-NO`.',
     type: 'string',
     status: 'optional',
   },
