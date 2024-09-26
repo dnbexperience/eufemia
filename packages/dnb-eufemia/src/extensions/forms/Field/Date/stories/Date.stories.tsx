@@ -25,3 +25,13 @@ export function Date() {
     />
   )
 }
+
+export function Range() {
+  return (
+    <Field.Date
+      value={'2023-01-16 2023-01-20'}
+      onChange={console.log}
+      range
+    />
+  )
+}
