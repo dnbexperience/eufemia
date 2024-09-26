@@ -11,6 +11,11 @@ export const SummaryListProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  inheritLabel: {
+    doc: 'Use this property to propagate the `inheritLabel` property to all nested values.',
+    type: 'boolean',
+    status: 'optional',
+  },
   children: {
     doc: 'Contents.',
     type: 'React.Node',

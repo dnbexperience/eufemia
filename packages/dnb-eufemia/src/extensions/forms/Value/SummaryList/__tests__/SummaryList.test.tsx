@@ -144,4 +144,27 @@ describe('Field.SummaryList', () => {
       })
     })
   })
+
+  describe('inheritLabel', () => {
+    it('renders labels', async () => {
+      render(
+        <Form.Handler>
+          <Field.String path="/foo" defaultValue="foo" label="foo label" />
+          <Field.String path="/bar" defaultValue="bar" label="bar label" />
+
+          <Value.SummaryList inheritLabel>
+            <Value.String path="/foo" />
+            <Value.String path="/bar" />
+          </Value.SummaryList>
+        </Form.Handler>
+      )
+
+      const [labelFoo, labelBar] = Array.from(
+        document.querySelectorAll('dt')
+      )
+
+      expect(labelFoo).toHaveTextContent('foo label')
+      expect(labelBar).toHaveTextContent('bar label')
+    })
+  })
 })
