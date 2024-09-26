@@ -24,8 +24,8 @@ export default function useValueProps<
     value: valueProp,
     itemPath,
     defaultValue,
-    inheritLabel,
     inheritVisibility: inheritVisibilityProp,
+    inheritLabel: inheritLabelProp,
     transformIn = (value: Value) => value,
     toInput = (value: Value) => value,
     fromExternal = (value: Value) => value,
@@ -47,10 +47,14 @@ export default function useValueProps<
       transformers,
     }) ?? defaultValue
 
-  const { inheritVisibility: inheritVisibilitySummaryList } =
-    useContext(SummaryListContext) || {}
+  const {
+    inheritVisibility: inheritVisibilitySummaryList,
+    inheritLabel: inheritLabelSummaryList,
+  } = useContext(SummaryListContext) || {}
   const inheritVisibility =
     inheritVisibilityProp ?? inheritVisibilitySummaryList
+
+  const inheritLabel = inheritLabelProp ?? inheritLabelSummaryList
 
   const {
     fieldPropsRef,

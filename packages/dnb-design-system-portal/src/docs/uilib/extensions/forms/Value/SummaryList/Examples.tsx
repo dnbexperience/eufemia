@@ -129,3 +129,21 @@ export function InheritVisibility() {
     </ComponentBox>
   )
 }
+
+export function InheritLabel() {
+  return (
+    <ComponentBox>
+      <Form.Handler>
+        <Card stack>
+          <Field.String path="/foo" defaultValue="foo" label="foo label" />
+          <Field.String path="/bar" defaultValue="bar" label="bar label" />
+
+          <Value.SummaryList inheritLabel>
+            <Value.String path="/foo" />
+            <Value.String path="/bar" />
+          </Value.SummaryList>
+        </Card>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
