@@ -3,8 +3,19 @@ showTabs: true
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { CurrencyValueProperties } from '@dnb/eufemia/src/extensions/forms/Value/Currency/CurrencyDocs'
 import { ValueProperties } from '@dnb/eufemia/src/extensions/forms/Value/ValueDocs'
 
 ## Properties
 
-<PropertiesTable props={ValueProperties} valueType="number" />
+### Value-specific properties
+
+<PropertiesTable props={CurrencyValueProperties} />
+
+### General properties
+
+<PropertiesTable
+  props={ValueProperties}
+  valueType="number"
+  omit={['value', '[Space](/uilib/layout/space/properties)']}
+/>
