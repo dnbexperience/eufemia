@@ -3534,7 +3534,7 @@ __metadata:
     react-to-typescript-definitions: "npm:3.1.1"
     regenerator-runtime: "npm:0.13.9"
     repo-utils: "workspace:*"
-    rollup: "npm:3.11.0"
+    rollup: "npm:3.29.5"
     rollup-plugin-node-globals: "npm:1.4.0"
     rollup-plugin-terser: "npm:7.0.2"
     sass: "npm:1.62.0"
@@ -30405,9 +30405,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:3.11.0":
-  version: 3.11.0
-  resolution: "rollup@npm:3.11.0"
+"rollup@npm:3.29.5":
+  version: 3.29.5
+  resolution: "rollup@npm:3.29.5"
   dependencies:
     fsevents: "npm:~2.3.2"
   dependenciesMeta:
@@ -30415,7 +30415,7 @@ __metadata:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: 08f4876a8ab56706e0403fc44ab611181c4879a7607bbf57391fb17029dc3abc6c055dcf09f29c5f2648d1fe463fba8589ed980807dbd03ac082ef9bddf32d97
+  checksum: 5ce0e5f1d9288d4954db93993477f894eb3042ec98a7c9c19980e53b1f58296481e3dc6c2b1a2a3680b20eb6c3fe64ed97942d5ff29df658a059647c33b3593c
   languageName: node
   linkType: hard
 
