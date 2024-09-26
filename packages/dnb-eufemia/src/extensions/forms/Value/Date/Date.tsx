@@ -26,20 +26,6 @@ function getOptions(
   } as const
 }
 
-function formatDate({
-  date,
-  locale,
-  options,
-}: {
-  date: Date
-  locale: string
-  options: Intl.DateTimeFormatOptions
-}) {
-  return typeof Intl !== 'undefined'
-    ? new Intl.DateTimeFormat(locale, options).format(date)
-    : date.toLocaleString(locale, options)
-}
-
 function DateComponent(props: Props) {
   const translations = useTranslation().Date
   const { locale: contextLocale } = useContext(SharedContext)
@@ -69,24 +55,22 @@ function DateComponent(props: Props) {
           return undefined
         }
 
-        const formattedStartDate = formatDate({
-          date: startDate,
-          locale,
-          options,
-        })
-        const formattedEndDate = formatDate({
-          date: endDate,
-          locale,
-          options,
-        })
-
-        return `${formattedStartDate} - ${formattedEndDate}`
+        return typeof Intl !== 'undefined'
+          ? new Intl.DateTimeFormat(locale, options).formatRange(
+              startDate,
+              endDate
+            )
+          : `${startDate.toLocaleString(
+              locale,
+              options
+            )} - ${endDate.toLocaleString(locale, options)}`
       }
 
       const date = new Date(value)
-      const formattedDate = formatDate({ date, locale, options })
 
-      return formattedDate
+      return typeof Intl !== 'undefined'
+        ? new Intl.DateTimeFormat(locale, options).format(date)
+        : date.toLocaleString(locale, options)
     },
     [locale, variant]
   )
