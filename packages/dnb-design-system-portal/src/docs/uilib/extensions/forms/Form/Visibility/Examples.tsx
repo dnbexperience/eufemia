@@ -1,6 +1,6 @@
 import React from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Card, Flex, P, Section } from '@dnb/eufemia/src'
+import { Card, Flex, HeightAnimation, P, Section } from '@dnb/eufemia/src'
 import {
   Field,
   Form,
@@ -297,12 +297,14 @@ export function InheritVisibility() {
             <Field.Name.Last path="/bar" defaultValue="bar" />
           </Form.Visibility>
 
-          <Form.Visibility.Provider inheritVisibility>
-            <Value.SummaryList>
-              <Value.Name.First path="/foo" />
-              <Value.Name.First path="/bar" />
-            </Value.SummaryList>
-          </Form.Visibility.Provider>
+          <Value.Provider inheritVisibility>
+            <HeightAnimation>
+              <Value.SummaryList>
+                <Value.Name.First path="/foo" />
+                <Value.Name.First path="/bar" />
+              </Value.SummaryList>
+            </HeightAnimation>
+          </Value.Provider>
         </Card>
       </Form.Handler>
     </ComponentBox>

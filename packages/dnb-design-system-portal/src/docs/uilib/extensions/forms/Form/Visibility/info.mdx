@@ -82,17 +82,17 @@ In some cases, you want to keep the content in the DOM, even if it's not visible
 
 ## Inherit visibility
 
-By using the provider component `Form.Visibility.Provider`, you can propagate the visibility (with the `inheritVisibility` property) of the parent to all nested values.
+By using the provider component `Value.Provider`, you can propagate the visibility (with the `inheritVisibility` property) of the parent to all nested values.
 
 ```tsx
 import { Form, Value } from '@dnb/eufemia/extensions/forms'
 
 render(
   <Form.Handler>
-    <Form.Visibility.Provider inheritVisibility>
+    <Value.Provider inheritVisibility>
       <Value.String path="/foo" />
       <Value.String path="/bar" />
-    </Form.Visibility.Provider>
+    </Value.Provider>
   </Form.Handler>,
 )
 ```
