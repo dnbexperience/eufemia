@@ -77,6 +77,20 @@ describe('ViewContainer', () => {
     expect(leads[1]).toHaveTextContent('Item title 2')
   })
 
+  // Deprecated, can be removed in v11
+  it('should render title with "itemNr"', () => {
+    render(
+      <Iterate.Array value={['foo', 'bar']}>
+        <ViewContainer title="Item title {itemNr}">content</ViewContainer>
+      </Iterate.Array>
+    )
+
+    const leads = document.querySelectorAll('.dnb-p')
+    expect(leads).toHaveLength(2)
+    expect(leads[0]).toHaveTextContent('Item title 1')
+    expect(leads[1]).toHaveTextContent('Item title 2')
+  })
+
   it('calls "handleRemove" when remove button is clicked', () => {
     const handleRemove = jest.fn()
 
