@@ -9,10 +9,10 @@ export const Required = () => {
         <Flex.Stack>
           <Field.String label="Not required" />
 
-          <Form.FieldProps required>
+          <Field.Provider required>
             <Field.String label="Required A" />
             <Field.Number label="Required B" />
-          </Form.FieldProps>
+          </Field.Provider>
 
           <Form.ButtonRow>
             <Form.SubmitButton />
@@ -30,14 +30,14 @@ export const Disabled = () => {
         <Flex.Stack>
           <Field.String label="Not disabled" />
 
-          <Form.FieldProps disabled>
+          <Field.Provider disabled>
             <Flex.Stack>
               <Field.String label="Disabled" />
               <Form.ButtonRow>
                 <Form.SubmitButton />
               </Form.ButtonRow>
             </Flex.Stack>
-          </Form.FieldProps>
+          </Field.Provider>
         </Flex.Stack>
       </Form.Handler>
     </ComponentBox>
@@ -51,14 +51,14 @@ export const Inverted = () => {
         <Flex.Stack>
           <Field.String label="Disabled" />
 
-          <Form.FieldProps disabled={false}>
+          <Field.Provider disabled={false}>
             <Flex.Stack>
               <Field.String label="Not disabled" />
               <Form.ButtonRow>
                 <Form.SubmitButton />
               </Form.ButtonRow>
             </Flex.Stack>
-          </Form.FieldProps>
+          </Field.Provider>
         </Flex.Stack>
       </Form.Handler>
     </ComponentBox>

@@ -1,22 +1,131 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import FieldProviderContext from '../FieldProviderContext'
 import { Form, Field } from '../../..'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
-describe('Form.FieldProps', () => {
+describe('Field.Provider', () => {
   it('should have constant of _supportsSpacingProps="children"', () => {
-    expect(Form.FieldProps._supportsSpacingProps).toBe('children')
+    expect(Field.Provider._supportsSpacingProps).toBe('children')
+  })
+
+  it('should merge inheritedContext with props passed to extend', () => {
+    let collectedProps = null
+
+    const Collector = (props) => {
+      return (
+        <FieldProviderContext.Consumer>
+          {({ extend }) => {
+            collectedProps = extend(props)
+            return null
+          }}
+        </FieldProviderContext.Consumer>
+      )
+    }
+
+    render(
+      <Field.Provider disabled={true}>
+        <Collector myProp="value" />
+      </Field.Provider>
+    )
+
+    expect(collectedProps).toEqual({
+      disabled: true,
+      myProp: 'value',
+    })
+  })
+
+  it('props passed to extend should override inheritedContext', () => {
+    let collectedProps = null
+
+    const Collector = (props) => {
+      return (
+        <FieldProviderContext.Consumer>
+          {({ extend }) => {
+            collectedProps = extend(props)
+            return null
+          }}
+        </FieldProviderContext.Consumer>
+      )
+    }
+
+    render(
+      <Field.Provider disabled={true}>
+        <Collector disabled={false} myProp="value" />
+      </Field.Provider>
+    )
+
+    expect(collectedProps).toEqual({
+      disabled: false,
+      myProp: 'value',
+    })
+  })
+
+  it('props passed to extend should override nested inheritedContext', () => {
+    let collectedProps = null
+
+    const Collector = (props) => {
+      return (
+        <FieldProviderContext.Consumer>
+          {({ extend }) => {
+            collectedProps = extend(props)
+            return null
+          }}
+        </FieldProviderContext.Consumer>
+      )
+    }
+
+    render(
+      <Field.Provider disabled={true}>
+        <Field.Provider disabled={false}>
+          <Collector disabled={true} myProp="value" />
+        </Field.Provider>
+      </Field.Provider>
+    )
+
+    expect(collectedProps).toEqual({
+      disabled: true,
+      myProp: 'value',
+    })
+  })
+
+  it('second provider should override nested inheritedContext', () => {
+    let collectedProps = null
+
+    const Collector = (props) => {
+      return (
+        <FieldProviderContext.Consumer>
+          {({ extend }) => {
+            collectedProps = extend(props)
+            return null
+          }}
+        </FieldProviderContext.Consumer>
+      )
+    }
+
+    render(
+      <Field.Provider disabled={true}>
+        <Field.Provider disabled={false}>
+          <Collector myProp="value" />
+        </Field.Provider>
+      </Field.Provider>
+    )
+
+    expect(collectedProps).toEqual({
+      disabled: false,
+      myProp: 'value',
+    })
   })
 
   describe('disable', () => {
     it('should disable the input and button', () => {
       render(
-        <Form.FieldProps disabled={true}>
+        <Field.Provider disabled={true}>
           <Field.String />
           <Form.SubmitButton />
-        </Form.FieldProps>
+        </Field.Provider>
       )
 
       const input = document.querySelector('input')
@@ -28,10 +137,10 @@ describe('Form.FieldProps', () => {
 
     it('should not disable the input when prop is set', () => {
       render(
-        <Form.FieldProps disabled={true}>
+        <Field.Provider disabled={true}>
           <Field.String disabled={false} />
           <Form.SubmitButton disabled={false} />
-        </Form.FieldProps>
+        </Field.Provider>
       )
 
       const input = document.querySelector('input')
@@ -44,10 +153,10 @@ describe('Form.FieldProps', () => {
     it('should handle the disabled prop from the Form.Handler', () => {
       const { rerender } = render(
         <Form.Handler disabled={true}>
-          <Form.FieldProps>
+          <Field.Provider>
             <Field.String />
             <Form.SubmitButton />
-          </Form.FieldProps>
+          </Field.Provider>
         </Form.Handler>
       )
 
@@ -59,10 +168,10 @@ describe('Form.FieldProps', () => {
 
       rerender(
         <Form.Handler disabled={true}>
-          <Form.FieldProps disabled={false}>
+          <Field.Provider disabled={false}>
             <Field.String />
             <Form.SubmitButton />
-          </Form.FieldProps>
+          </Field.Provider>
         </Form.Handler>
       )
 
@@ -71,10 +180,10 @@ describe('Form.FieldProps', () => {
 
       rerender(
         <Form.Handler disabled={true}>
-          <Form.FieldProps>
+          <Field.Provider>
             <Field.String disabled={false} />
             <Form.SubmitButton disabled={false} />
-          </Form.FieldProps>
+          </Field.Provider>
         </Form.Handler>
       )
 
@@ -84,12 +193,12 @@ describe('Form.FieldProps', () => {
 
     it('should handle nested FieldProps', () => {
       const { rerender } = render(
-        <Form.FieldProps disabled={true}>
-          <Form.FieldProps>
+        <Field.Provider disabled={true}>
+          <Field.Provider>
             <Field.String />
             <Form.SubmitButton />
-          </Form.FieldProps>
-        </Form.FieldProps>
+          </Field.Provider>
+        </Field.Provider>
       )
 
       const input = document.querySelector('input')
@@ -99,24 +208,24 @@ describe('Form.FieldProps', () => {
       expect(button).toBeDisabled()
 
       rerender(
-        <Form.FieldProps disabled={true}>
-          <Form.FieldProps disabled={false}>
+        <Field.Provider disabled={true}>
+          <Field.Provider disabled={false}>
             <Field.String />
             <Form.SubmitButton />
-          </Form.FieldProps>
-        </Form.FieldProps>
+          </Field.Provider>
+        </Field.Provider>
       )
 
       expect(input).not.toBeDisabled()
       expect(button).not.toBeDisabled()
 
       rerender(
-        <Form.FieldProps disabled={true}>
-          <Form.FieldProps>
+        <Field.Provider disabled={true}>
+          <Field.Provider>
             <Field.String disabled={false} />
             <Form.SubmitButton disabled={false} />
-          </Form.FieldProps>
-        </Form.FieldProps>
+          </Field.Provider>
+        </Field.Provider>
       )
 
       expect(input).not.toBeDisabled()
@@ -125,10 +234,10 @@ describe('Form.FieldProps', () => {
 
     it('should support data-* attributes in fields', () => {
       render(
-        <Form.FieldProps data-exclude-field>
+        <Field.Provider data-exclude-field>
           <Field.String />
           <Form.SubmitButton />
-        </Form.FieldProps>
+        </Field.Provider>
       )
 
       const input = document.querySelector('input')
@@ -142,9 +251,9 @@ describe('Form.FieldProps', () => {
   describe('require', () => {
     it('should require the input and button', () => {
       render(
-        <Form.FieldProps required={true}>
+        <Field.Provider required={true}>
           <Field.String validateInitially />
-        </Form.FieldProps>
+        </Field.Provider>
       )
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
@@ -154,9 +263,9 @@ describe('Form.FieldProps', () => {
 
     it('should not require the input when prop is set', () => {
       render(
-        <Form.FieldProps required={true}>
+        <Field.Provider required={true}>
           <Field.String validateInitially required={false} />
-        </Form.FieldProps>
+        </Field.Provider>
       )
 
       expect(
@@ -167,9 +276,9 @@ describe('Form.FieldProps', () => {
     it('should handle the required prop from the Form.Handler', () => {
       const { rerender } = render(
         <Form.Handler required={true}>
-          <Form.FieldProps>
+          <Field.Provider>
             <Field.String validateInitially />
-          </Form.FieldProps>
+          </Field.Provider>
         </Form.Handler>
       )
 
@@ -179,9 +288,9 @@ describe('Form.FieldProps', () => {
 
       rerender(
         <Form.Handler required={true}>
-          <Form.FieldProps required={false}>
+          <Field.Provider required={false}>
             <Field.String validateInitially />
-          </Form.FieldProps>
+          </Field.Provider>
         </Form.Handler>
       )
 
@@ -191,9 +300,9 @@ describe('Form.FieldProps', () => {
 
       rerender(
         <Form.Handler required={true}>
-          <Form.FieldProps>
+          <Field.Provider>
             <Field.String validateInitially required={false} />
-          </Form.FieldProps>
+          </Field.Provider>
         </Form.Handler>
       )
 
