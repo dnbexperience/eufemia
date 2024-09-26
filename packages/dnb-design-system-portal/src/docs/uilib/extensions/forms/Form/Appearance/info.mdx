@@ -15,12 +15,12 @@ You can nest `Form.Appearance` to provide different themes for different parts o
 ## Usage
 
 ```tsx
-import { Form } from '@dnb/eufemia/extensions/forms'
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
 render(
   <Form.Appearance size="medium">
-    <Form.Input />
+    <Field.String />
     <Form.Appearance size="large">
-      <Form.Input />
+      <Field.String />
     </Form.Appearance>
   </Form.Appearance>,
 )
