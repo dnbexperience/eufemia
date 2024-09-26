@@ -10,6 +10,7 @@ import useExternalValue from './useExternalValue'
 import usePath from './usePath'
 import DataContext from '../DataContext/Context'
 import SummaryListContext from '../Value/SummaryList/SummaryListContext'
+import VisibilityProviderContext from '../Form/Visibility/VisibilityProviderContext'
 
 export type Props<Value> = ValueProps<Value>
 
@@ -51,8 +52,13 @@ export default function useValueProps<
     inheritVisibility: inheritVisibilitySummaryList,
     inheritLabel: inheritLabelSummaryList,
   } = useContext(SummaryListContext) || {}
+  const { inheritVisibility: inheritVisibilityFromProvider } =
+    useContext(VisibilityProviderContext) || {}
+
   const inheritVisibility =
-    inheritVisibilityProp ?? inheritVisibilitySummaryList
+    inheritVisibilityProp ??
+    inheritVisibilityFromProvider ??
+    inheritVisibilitySummaryList
 
   const inheritLabel = inheritLabelProp ?? inheritLabelSummaryList
 

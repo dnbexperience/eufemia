@@ -12,6 +12,7 @@ import type { Path, UseFieldProps } from '../../types'
 import type { DataAttributes } from '../../hooks/useFieldProps'
 import { FilterData } from '../../DataContext'
 import VisibilityContext from './VisibilityContext'
+import VisibilityProvider from './VisibilityProvider'
 
 export type VisibleWhen =
   | {
@@ -159,5 +160,6 @@ function Visibility({
   return <>{open ? content : null}</>
 }
 
+Visibility.Provider = VisibilityProvider
 Visibility._supportsSpacingProps = 'children'
 export default Visibility

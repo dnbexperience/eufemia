@@ -280,3 +280,31 @@ export const FilterData = () => {
     </ComponentBox>
   )
 }
+
+export function InheritVisibility() {
+  return (
+    <ComponentBox>
+      <Form.Handler>
+        <Card stack>
+          <Field.Boolean
+            variant="button"
+            path="/isVisible"
+            defaultValue={true}
+          />
+
+          <Form.Visibility pathTrue="/isVisible" animate>
+            <Field.Name.First path="/foo" defaultValue="foo" />
+            <Field.Name.Last path="/bar" defaultValue="bar" />
+          </Form.Visibility>
+
+          <Form.Visibility.Provider inheritVisibility>
+            <Value.SummaryList>
+              <Value.Name.First path="/foo" />
+              <Value.Name.First path="/bar" />
+            </Value.SummaryList>
+          </Form.Visibility.Provider>
+        </Card>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
