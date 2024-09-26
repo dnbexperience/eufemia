@@ -8,6 +8,38 @@ export type Props = StringValueProps & {
   locale?: AnyLocale
 }
 
+function getOptions(
+  variant: Props['variant']
+): Intl.DateTimeFormatOptions {
+  if (variant === 'numeric') {
+    return {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    } as const
+  }
+
+  return {
+    day: 'numeric',
+    month: variant,
+    year: 'numeric',
+  } as const
+}
+
+function formatDate({
+  date,
+  locale,
+  options,
+}: {
+  date: Date
+  locale: string
+  options: Intl.DateTimeFormatOptions
+}) {
+  return typeof Intl !== 'undefined'
+    ? new Intl.DateTimeFormat(locale, options).format(date)
+    : date.toLocaleString(locale, options)
+}
+
 function DateComponent(props: Props) {
   const translations = useTranslation().Date
   const { locale: contextLocale } = useContext(SharedContext)
@@ -20,28 +52,39 @@ function DateComponent(props: Props) {
         return undefined
       }
 
-      const getOptions = (variant) => {
-        if (variant === 'numeric') {
-          return {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-          } as const
+      // Either of the range dates can be null
+      const isRange =
+        /^(\d{4}-\d{2}-\d{2}|null) (\d{4}-\d{2}-\d{2}|null)$/.test(value)
+
+      const options = getOptions(variant)
+
+      if (isRange) {
+        const [startValue, endValue] = value.split(/\s/)
+
+        const startDate = new Date(startValue)
+        const endDate = new Date(endValue)
+
+        // Stop if either date is invalid
+        if (isNaN(startDate.valueOf()) || isNaN(endDate.valueOf())) {
+          return undefined
         }
-        return {
-          day: 'numeric',
-          month: variant,
-          year: 'numeric',
-        } as const
+
+        const formattedStartDate = formatDate({
+          date: startDate,
+          locale,
+          options,
+        })
+        const formattedEndDate = formatDate({
+          date: endDate,
+          locale,
+          options,
+        })
+
+        return `${formattedStartDate} - ${formattedEndDate}`
       }
 
       const date = new Date(value)
-      const options = getOptions(variant)
-
-      const formattedDate =
-        typeof Intl !== 'undefined'
-          ? new Intl.DateTimeFormat(locale, options).format(date)
-          : date.toLocaleString(locale, options)
+      const formattedDate = formatDate({ date, locale, options })
 
       return formattedDate
     },
