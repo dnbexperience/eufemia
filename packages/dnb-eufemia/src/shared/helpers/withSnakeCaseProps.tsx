@@ -98,7 +98,6 @@ export function convertSnakeCaseProps<P>(
       delete newProps[key]
     }
   }
-  // add tests!!!M PLX YAY
 
   return isFrozen ? Object.freeze(newProps) : newProps
 }
