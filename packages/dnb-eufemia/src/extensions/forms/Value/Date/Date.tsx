@@ -38,22 +38,15 @@ function DateComponent(props: Props) {
           return undefined
         }
 
-        return typeof Intl !== 'undefined'
-          ? new Intl.DateTimeFormat(locale, options).formatRange(
-              startDate,
-              endDate
-            )
-          : `${startDate.toLocaleString(
-              locale,
-              options
-            )} - ${endDate.toLocaleString(locale, options)}`
+        return new Intl.DateTimeFormat(locale, options).formatRange(
+          startDate,
+          endDate
+        )
       }
 
       const date = new Date(value)
 
-      return typeof Intl !== 'undefined'
-        ? new Intl.DateTimeFormat(locale, options).format(date)
-        : date.toLocaleString(locale, options)
+      return new Intl.DateTimeFormat(locale, options).format(date)
     },
     [locale, variant]
   )
