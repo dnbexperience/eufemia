@@ -236,7 +236,7 @@ describe('buildQuery', () => {
     ).toBe('(min-width: 10em), (monochrome) and (orientation: landscape)')
   })
 
-  it('should combine multiple media queries seperated by "and"', () => {
+  it('should combine multiple media queries separated by "and"', () => {
     expect(
       buildQuery({
         when: [
@@ -377,7 +377,7 @@ describe('convertToMediaQuery', () => {
     ).toBe('(min-width: 10em), (monochrome) and (orientation: landscape)')
   })
 
-  it('should combine multiple media queries seperated by "and"', () => {
+  it('should combine multiple media queries separated by "and"', () => {
     expect(
       convertToMediaQuery([
         { minWidth: 10 },
