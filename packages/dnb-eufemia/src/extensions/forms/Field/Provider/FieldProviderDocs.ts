@@ -1,7 +1,7 @@
 import { PropertiesTableProps } from '../../../../shared/types'
 import { dataValueProperties } from '../../hooks/DataValueDocs'
 
-export const FieldPropsProperties: PropertiesTableProps = {
+export const FieldProviderProperties: PropertiesTableProps = {
   required: dataValueProperties.required,
   disabled: dataValueProperties.disabled,
   locale: {
