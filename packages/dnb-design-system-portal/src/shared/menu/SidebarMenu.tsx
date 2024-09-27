@@ -3,13 +3,24 @@
  *
  */
 
-import React, { useContext, useEffect, useRef } from 'react'
+import React, {
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import classnames from 'classnames'
 import Anchor from '../tags/Anchor'
 import { useStaticQuery, graphql } from 'gatsby'
 import { SidebarMenuContext } from './SidebarMenuContext'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
-import { Icon, Badge } from '@dnb/eufemia/src/components'
+import {
+  Icon,
+  Badge,
+  Button,
+  HeightAnimation,
+} from '@dnb/eufemia/src/components'
 import type { ThemeNames } from '@dnb/eufemia/src/shared/Theme'
 import { Context, useTheme } from '@dnb/eufemia/src/shared'
 import graphics from './SidebarGraphics'
@@ -65,6 +76,7 @@ export default function SidebarLayout({
                 key
               }
               theme
+              accordion
             }
           }
         }
@@ -87,7 +99,7 @@ export default function SidebarLayout({
       setTimeout(() => {
         scrollToActiveItem()
         applyPageFocus('sidebar')
-      }, 300) // after animation is done
+      }, 10) // after animation is done
     } else if (isClosing) {
       setTimeout(() => {
         applyPageFocus('content')
@@ -120,6 +132,7 @@ export default function SidebarLayout({
           isInsideActivePath,
           isInsideActiveCategory,
           subheadings,
+          currentPathName,
         },
         nr,
       ) => {
@@ -133,10 +146,11 @@ export default function SidebarLayout({
           isInsideActiveCategory,
           path,
           subheadings,
+          currentPathName,
           title: menuTitle || title,
         }
 
-        return <ListItem key={path} {...props} />
+        return <ListItem key={path} {...props} scrollRef={scrollRef} />
       },
     )
 
@@ -244,6 +258,9 @@ type ListItemProps = {
   hideInMenu?: boolean
   isInsideActivePath?: boolean
   isInsideActiveCategory?: boolean
+  currentPathName?: string
+  accordion?: boolean
+  scrollRef?: React.MutableRefObject<HTMLElement>
 }
 
 function ListItem({
@@ -260,16 +277,31 @@ function ListItem({
   title,
   subheadings,
   hideInMenu,
+  currentPathName,
+  accordion = false,
+  scrollRef,
 }: ListItemProps) {
   const currentTheme = useTheme()?.name
   const { closeMenu } = useContext(SidebarMenuContext)
   const { skeleton } = useContext(Context)
   const ref = useRef(null)
-
+  const [, isInsideActivePathPrevious] = usePrevious(isInsideActivePath)
+  const [hasCurrentPathNameChanged] = usePrevious(currentPathName)
+  const hasSubheadings = useMemo(
+    () => subheadings && subheadings.some((x) => x.hideInMenu !== true),
+    [subheadings],
+  )
+  const isAccordion = useMemo(
+    () => accordion && hasSubheadings,
+    [accordion, hasSubheadings],
+  )
+  const [isExpanded, setIsExpanded] = useState(
+    isAccordion ? isInsideActivePath || isActive : true,
+  )
+  const [manualClick, setManualClick] = useState(false)
   if (hideInMenu) {
     return null
   }
-
   const statusTitle =
     status &&
     {
@@ -283,6 +315,25 @@ function ListItem({
 
   const params = {}
 
+  if (isAccordion) {
+    if (!isExpanded) {
+      const shouldAutoExpand =
+        (isInsideActivePath &&
+          (!isInsideActivePathPrevious || hasCurrentPathNameChanged)) ||
+        (isActive && hasCurrentPathNameChanged)
+
+      if (shouldAutoExpand) {
+        setIsExpanded(true)
+      }
+    } else {
+      const shouldAutoCollapse =
+        !isInsideActivePath && !isActive && hasCurrentPathNameChanged
+
+      if (shouldAutoCollapse) {
+        setIsExpanded(false)
+      }
+    }
+  }
   if (isActive) {
     params['aria-current'] = true
   }
@@ -297,6 +348,10 @@ function ListItem({
           isInsideActivePath && 'is-inside-active-path',
           isInsideActiveCategory && !isInsideActivePath && 'is-inside',
           status && `status-${status}`,
+          isAccordion &&
+            `dnb-sidebar-menu--accordion dnb-sidebar-menu--${
+              isExpanded ? 'expanded' : 'collapsed'
+            }`,
           className,
         )}
         ref={ref}
@@ -308,37 +363,77 @@ function ListItem({
           } as React.CSSProperties /* Casting to allow css variable in JSX inline styling */
         }
       >
-        <Anchor
-          href={path}
-          onClick={closeMenu}
-          className={classnames(
-            'dnb-anchor',
-            'dnb-anchor--no-underline',
-            'dnb-anchor--no-radius',
-            'dnb-anchor--no-hover',
-            icon && graphics[icon] ? 'has-icon' : null,
-          )}
-          {...params}
-        >
-          <span>
-            {icon && graphics[icon] && (
-              <Icon icon={graphics[icon]} size="medium" />
+        <div className="dnb-sidebar-menu__item">
+          <Anchor
+            href={path}
+            aria-expanded={isAccordion ? isExpanded : undefined}
+            onClick={() => {
+              closeMenu()
+              if (!isExpanded) {
+                setIsExpanded(true)
+              }
+            }}
+            className={classnames(
+              'dnb-anchor',
+              'dnb-anchor--no-underline',
+              'dnb-anchor--no-radius',
+              'dnb-anchor--no-hover',
+              icon && graphics[icon] ? 'has-icon' : null,
             )}
-            <span
-              className={classnames(createSkeletonClass('font', skeleton))}
-            >
-              {title}
+            {...params}
+          >
+            <span>
+              {icon && graphics[icon] && (
+                <Icon icon={graphics[icon]} size="medium" />
+              )}
+              <span
+                className={classnames(
+                  createSkeletonClass('font', skeleton),
+                )}
+              >
+                {title}
+              </span>
             </span>
-          </span>
-          {theme === currentTheme && <ThemeBadge theme={theme} />}
-          {status && (
-            <Badge space={{ right: 'xx-small' }} content={statusTitle} />
+            {theme === currentTheme && <ThemeBadge theme={theme} />}
+            {status && (
+              <Badge space={{ right: 'xx-small' }} content={statusTitle} />
+            )}
+          </Anchor>
+
+          {isAccordion && (
+            <Button
+              left="x-small"
+              className="dnb-sidebar-menu__expand-button"
+              variant="tertiary"
+              size="small"
+              aria-expanded={isExpanded}
+              icon={isExpanded ? 'subtract' : 'add'}
+              onClick={() => {
+                setIsExpanded(!isExpanded)
+                setManualClick(true)
+              }}
+            />
           )}
-        </Anchor>
+        </div>
+        {hasSubheadings && (
+          <HeightAnimation
+            element="ul"
+            open={isExpanded}
+            onAnimationEnd={(state) => {
+              if (manualClick) {
+                setManualClick(false)
+              } else if (state === 'closed') {
+                ensureActiveMenuItemIsInView(scrollRef)
+              }
+            }}
+          >
+            {subheadings.map((item) => (
+              <ListItem key={item.path} {...item} scrollRef={scrollRef} />
+            ))}
+          </HeightAnimation>
+        )}
       </li>
       {/* Currently not nesting list items with an <ul/> inside <li/> as it breaks the styling for the time being */}
-      {subheadings &&
-        subheadings.map((item) => <ListItem key={item.path} {...item} />)}
     </>
   )
 }
@@ -351,7 +446,7 @@ type NavItemTabs = {
 type NavItem = {
   id: string
   parentId?: string
-  active?: boolean
+  isActive?: boolean
   isInsideActivePath?: boolean
   isInsideActiveCategory?: boolean
   icon?: string
@@ -360,12 +455,13 @@ type NavItem = {
   hideInMenu?: boolean
   order?: number
   _order?: string
-  path?: string
+  path: string
   status?: string
-  title?: string
+  title: string
   showTabs?: boolean
   tabs?: NavItemTabs[]
   subheadings?: NavItem[]
+  currentPathName?: string
 }
 
 const prepareNav = ({
@@ -424,8 +520,8 @@ const prepareNav = ({
     )
 
   let countLevels = 0
-  const levelCache = {},
-    subCache = {}
+  const orderCache = {},
+    childCounts = {}
 
   const list = showAlwaysMenuItems
     .reduce((acc, cur) => acc.concat(navItems[cur]), []) // put in the sub parts
@@ -459,25 +555,23 @@ const prepareNav = ({
 
     // prepare items, make sure we forward order for sub paths, if needed
     .map((item) => {
-      levelCache[item.level] = levelCache[item.level] || {}
-
       const parts = item.path.split('/').filter(Boolean)
 
       // Handle ordering when no order field is given
-      const sub = parts.slice(0, -1).join('/')
-      subCache[sub] = subCache[sub] || { count: 1000 }
-      const count = subCache[sub].count++
-
+      const parentPath = parts.slice(0, -1).join('/')
+      childCounts[parentPath] = childCounts[parentPath] || 0
+      const count = childCounts[parentPath]++
       item._order = parts
         .reduce((acc, cur, i) => {
-          if (!levelCache[item.level][cur]) {
-            levelCache[item.level][cur] = item.order
-              ? parseFloat(item.order) + 2000 // push manual ordering to the top
-              : count
+          const mySub = parts.slice(0, i + 1).join('/')
+          if (!orderCache[mySub]) {
+            orderCache[mySub] = item.order
+              ? parseFloat(item.order) >= 0
+                ? parseFloat(item.order) + 1000 // push manual ordering to the top
+                : parseFloat(item.order) + 3000 // push negative manual ordering to the bottom
+              : count + 2000
           }
-          if (levelCache[i + 1]) {
-            acc.push(levelCache[i + 1][cur])
-          }
+          acc.push(orderCache[mySub])
           return acc
         }, [])
         .join('/')
@@ -495,7 +589,7 @@ const prepareNav = ({
 }
 
 function groupNavItems(navItems: NavItem[], location: Location) {
-  const topLevelHeadings = []
+  const topLevelHeadings: NavItem[] = []
 
   // Remove first and last slash from pathname to match path from graphql
   const currentPathName = location.pathname
@@ -510,9 +604,7 @@ function groupNavItems(navItems: NavItem[], location: Location) {
     // It's solved this way since the id and parent.id from gatsby nodes does not seem to seem to relate to the structure in the SidebarMenu
     // and therefor leads to wrong grouping if used
     const itemId = item.path.replace(/\//g, '-')
-    const parentId = item.path
-      .replace(/\/[\w-]+$/g, '')
-      .replace(/\//g, '-')
+    const parentId = item.path.replace(/\/[^/]+$/g, '').replace(/\//g, '-')
 
     const { isActive, isInsideActiveCategory, isInsideActivePath } =
       getActiveStatusForItem(currentPathName, item)
@@ -525,6 +617,7 @@ function groupNavItems(navItems: NavItem[], location: Location) {
       isActive,
       isInsideActiveCategory,
       isInsideActivePath,
+      currentPathName,
     }
 
     // Initialize parentItem in hashmap
@@ -640,4 +733,42 @@ function checkIfActiveItem(
   }
 
   return false
+}
+
+function usePrevious<T>(
+  value: T,
+  hasChanged: (current: T, previous: T) => boolean = (a, b) => a !== b,
+): [boolean, T] {
+  const valueRef = useRef(value)
+  const previousValue = valueRef.current
+  valueRef.current = value
+
+  return [hasChanged(value, previousValue), previousValue]
+}
+
+function ensureActiveMenuItemIsInView(
+  parentRef: React.MutableRefObject<HTMLElement>,
+) {
+  const nav = parentRef?.current
+  if (nav) {
+    const item = nav.querySelector(
+      'li.is-active > div.dnb-sidebar-menu__item',
+    ) as HTMLElement
+
+    if (item) {
+      const navTop = nav.scrollTop
+      const navBottom = navTop + nav.offsetHeight
+      const itemTop = item.offsetTop
+      const itemBottom = itemTop + item.offsetHeight
+
+      const isInView = navTop <= itemTop && navBottom >= itemBottom
+
+      if (!isInView) {
+        nav.scrollTop = itemTop
+      } else {
+        // stop scrolling if item is in view
+        nav.scrollTop = navTop
+      }
+    }
+  }
 }

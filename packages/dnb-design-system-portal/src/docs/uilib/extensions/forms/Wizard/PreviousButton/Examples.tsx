@@ -1,4 +1,4 @@
-import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
+import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Wizard } from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
@@ -6,14 +6,14 @@ export const Default = () => {
     <ComponentBox>
       <Wizard.Provider
         value={{
-          activeIndex: 0,
-          handlePrevious: () => null,
-          handleNext: () => console.log('handleNext'),
+          activeIndex: 5,
+          handlePrevious: () => console.log('handlePrevious'),
+          handleNext: () => null,
           setActiveIndex: () => null,
           setFormError: () => null,
         }}
       >
-        <Wizard.NextButton />
+        <Wizard.PreviousButton />
       </Wizard.Provider>
     </ComponentBox>
   )
