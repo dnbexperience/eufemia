@@ -6,97 +6,297 @@ import { ConfirmParams } from '../SubmitConfirmation'
 import userEvent from '@testing-library/user-event'
 
 describe('Form.SubmitConfirmation', () => {
-  it('should keep pending state when submitState is "beforeSubmit"', async () => {
-    const onSubmit = jest.fn()
-    const submitStateRef: React.MutableRefObject<
-      ConfirmParams['submitState']
-    > = React.createRef()
-    const submitHandlerRef: React.MutableRefObject<
-      ConfirmParams['submitHandler']
-    > = React.createRef()
+  describe('with preventSubmitWhen', () => {
+    it('should keep pending state when confirmationState is "readyToBeSubmitted"', async () => {
+      const onSubmit = jest.fn()
+      const confirmationStateRef: React.MutableRefObject<
+        ConfirmParams['confirmationState']
+      > = React.createRef()
+      const submitHandlerRef: React.MutableRefObject<
+        ConfirmParams['submitHandler']
+      > = React.createRef()
 
-    render(
-      <Form.Handler onSubmit={onSubmit}>
-        <Form.SubmitConfirmation
-          onStateChange={({ submitHandler }) => {
-            submitHandlerRef.current = submitHandler
-          }}
-          renderWithState={({ submitState }) => {
-            submitStateRef.current = submitState
-            return null
-          }}
-        >
-          <Form.SubmitButton />
-        </Form.SubmitConfirmation>
-      </Form.Handler>
-    )
-
-    const submitButton = document.querySelector('button')
-    fireEvent.click(submitButton)
-    expect(onSubmit).toHaveBeenCalledTimes(0)
-
-    expect(
-      submitButton.querySelector(
-        '.dnb-forms-submit-indicator--state-pending'
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Form.SubmitConfirmation
+            preventSubmitWhen={() => true}
+            onStateChange={({ submitHandler }) => {
+              submitHandlerRef.current = submitHandler
+            }}
+            renderWithState={({ confirmationState }) => {
+              confirmationStateRef.current = confirmationState
+              return null
+            }}
+          >
+            <Form.SubmitButton />
+          </Form.SubmitConfirmation>
+        </Form.Handler>
       )
-    ).toBeTruthy()
 
-    await act(submitHandlerRef.current)
-    expect(onSubmit).toHaveBeenCalledTimes(1)
+      const submitButton = document.querySelector(
+        '.dnb-forms-submit-button'
+      )
+      await userEvent.click(submitButton)
+      expect(onSubmit).toHaveBeenCalledTimes(0)
 
-    await waitFor(() => {
-      expect(
-        submitButton.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
-        )
-      ).toBeFalsy()
+      await waitFor(() => {
+        expect(
+          submitButton.querySelector(
+            '.dnb-forms-submit-indicator--state-pending'
+          )
+        ).toBeTruthy()
+      })
+
+      await act(submitHandlerRef.current)
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+
+      await waitFor(() => {
+        expect(
+          submitButton.querySelector(
+            '.dnb-forms-submit-indicator--state-pending'
+          )
+        ).toBeFalsy()
+      })
     })
-  })
 
-  it('should keep pending state when submitState is "beforeSubmit" and onSubmit is async', async () => {
-    const onSubmit = jest.fn(async () => null)
-    const submitStateRef: React.MutableRefObject<
-      ConfirmParams['submitState']
-    > = React.createRef()
-    const submitHandlerRef: React.MutableRefObject<
-      ConfirmParams['submitHandler']
-    > = React.createRef()
+    it('should keep pending state when confirmationState is "readyToBeSubmitted" and onSubmit is async', async () => {
+      const onSubmit = jest.fn(async () => null)
+      const confirmationStateRef: React.MutableRefObject<
+        ConfirmParams['confirmationState']
+      > = React.createRef()
+      const submitHandlerRef: React.MutableRefObject<
+        ConfirmParams['submitHandler']
+      > = React.createRef()
 
-    render(
-      <Form.Handler onSubmit={onSubmit}>
-        <Form.SubmitConfirmation
-          onStateChange={({ submitHandler }) => {
-            submitHandlerRef.current = submitHandler
-          }}
-          renderWithState={({ submitState }) => {
-            submitStateRef.current = submitState
-            return null
-          }}
-        >
-          <Form.SubmitButton />
-        </Form.SubmitConfirmation>
-      </Form.Handler>
-    )
-
-    const submitButton = document.querySelector('button')
-    fireEvent.click(submitButton)
-    expect(onSubmit).toHaveBeenCalledTimes(0)
-
-    expect(
-      submitButton.querySelector(
-        '.dnb-forms-submit-indicator--state-pending'
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Form.SubmitConfirmation
+            preventSubmitWhen={() => true}
+            onStateChange={({ submitHandler }) => {
+              submitHandlerRef.current = submitHandler
+            }}
+            renderWithState={({ confirmationState }) => {
+              confirmationStateRef.current = confirmationState
+              return null
+            }}
+          >
+            <Form.SubmitButton />
+          </Form.SubmitConfirmation>
+        </Form.Handler>
       )
-    ).toBeTruthy()
 
-    await act(submitHandlerRef.current)
-    expect(onSubmit).toHaveBeenCalledTimes(1)
+      const submitButton = document.querySelector(
+        '.dnb-forms-submit-button'
+      )
+      await userEvent.click(submitButton)
+      expect(onSubmit).toHaveBeenCalledTimes(0)
 
-    await waitFor(() => {
       expect(
         submitButton.querySelector(
           '.dnb-forms-submit-indicator--state-pending'
         )
-      ).toBeFalsy()
+      ).toBeTruthy()
+
+      await act(submitHandlerRef.current)
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+
+      await waitFor(() => {
+        expect(
+          submitButton.querySelector(
+            '.dnb-forms-submit-indicator--state-pending'
+          )
+        ).toBeFalsy()
+      })
+    })
+
+    describe('focus handling', () => {
+      it('should set focus on submit button when submitHandler is called', async () => {
+        const submitHandlerRef: React.MutableRefObject<
+          ConfirmParams['submitHandler']
+        > = React.createRef()
+
+        render(
+          <Form.Handler>
+            <Form.SubmitConfirmation
+              preventSubmitWhen={() => true}
+              onStateChange={({ submitHandler }) => {
+                submitHandlerRef.current = submitHandler
+              }}
+            >
+              <Form.SubmitButton />
+            </Form.SubmitConfirmation>
+          </Form.Handler>
+        )
+
+        expect(document.body).toHaveFocus()
+
+        const submitButton = document.querySelector(
+          '.dnb-forms-submit-button'
+        ) as HTMLButtonElement
+
+        const focus = jest.fn()
+        jest.spyOn(submitButton, 'focus').mockImplementation(focus)
+
+        await userEvent.click(submitButton)
+
+        await waitFor(() => {
+          expect(
+            submitButton.querySelector(
+              '.dnb-forms-submit-indicator--state-pending'
+            )
+          ).toBeTruthy()
+        })
+        expect(focus).toHaveBeenCalledTimes(1)
+
+        await act(submitHandlerRef.current)
+
+        await waitFor(() => {
+          expect(
+            submitButton.querySelector(
+              '.dnb-forms-submit-indicator--state-pending'
+            )
+          ).toBeFalsy()
+        })
+        expect(focus).toHaveBeenCalledTimes(2)
+        expect(focus).toHaveBeenLastCalledWith()
+      })
+
+      it('should set focus on submit button when cancelHandler is called', async () => {
+        const cancelHandlerRef: React.MutableRefObject<
+          ConfirmParams['cancelHandler']
+        > = React.createRef()
+
+        render(
+          <Form.Handler>
+            <Form.SubmitConfirmation
+              preventSubmitWhen={() => true}
+              onStateChange={({ cancelHandler }) => {
+                cancelHandlerRef.current = cancelHandler
+              }}
+            >
+              <Form.SubmitButton />
+            </Form.SubmitConfirmation>
+          </Form.Handler>
+        )
+
+        expect(document.body).toHaveFocus()
+
+        const submitButton = document.querySelector(
+          '.dnb-forms-submit-button'
+        ) as HTMLButtonElement
+
+        const focus = jest.fn()
+        jest.spyOn(submitButton, 'focus').mockImplementation(focus)
+
+        await userEvent.click(submitButton)
+
+        await waitFor(() => {
+          expect(
+            submitButton.querySelector(
+              '.dnb-forms-submit-indicator--state-pending'
+            )
+          ).toBeTruthy()
+        })
+        expect(focus).toHaveBeenCalledTimes(1)
+
+        await act(cancelHandlerRef.current)
+
+        await waitFor(() => {
+          expect(
+            submitButton.querySelector(
+              '.dnb-forms-submit-indicator--state-pending'
+            )
+          ).toBeFalsy()
+        })
+        expect(focus).toHaveBeenCalledTimes(2)
+        expect(focus).toHaveBeenLastCalledWith()
+      })
+    })
+
+    it('when inactive, it should not prevent "onSubmit" from being called', async () => {
+      const onSubmit = jest.fn()
+      let preventSubmit = false
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Form.SubmitConfirmation
+            preventSubmitWhen={() => preventSubmit}
+            onStateChange={({
+              confirmationState,
+              setConfirmationState,
+            }) => {
+              switch (confirmationState) {
+                case 'submitInProgress':
+                  setConfirmationState('idle')
+                  break
+              }
+            }}
+          >
+            content
+          </Form.SubmitConfirmation>
+        </Form.Handler>
+      )
+
+      fireEvent.submit(document.querySelector('form'))
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+
+      preventSubmit = true
+
+      fireEvent.submit(document.querySelector('form'))
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+
+      preventSubmit = false
+
+      fireEvent.submit(document.querySelector('form'))
+      expect(onSubmit).toHaveBeenCalledTimes(2)
+    })
+
+    it('should get result from "onSubmit" including "customStatus"', async () => {
+      const error = new Error('Error message')
+      const customStatus = 'custom'
+
+      const onSubmit = jest.fn(() => {
+        return { error, customStatus }
+      })
+      const preventSubmitWhen = jest.fn(() => {
+        return false
+      })
+      const onSubmitResult = jest.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Form.SubmitConfirmation
+            preventSubmitWhen={preventSubmitWhen}
+            onSubmitResult={onSubmitResult}
+          >
+            content
+          </Form.SubmitConfirmation>
+        </Form.Handler>
+      )
+
+      await act(async () => {
+        fireEvent.submit(document.querySelector('form'))
+      })
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(preventSubmitWhen).toHaveBeenCalledTimes(1)
+      expect(onSubmitResult).toHaveBeenCalledTimes(1)
+      expect(onSubmitResult).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          submitState: { error, customStatus },
+        })
+      )
+
+      await act(async () => {
+        fireEvent.submit(document.querySelector('form'))
+      })
+      expect(onSubmit).toHaveBeenCalledTimes(2)
+      expect(preventSubmitWhen).toHaveBeenCalledTimes(1)
+      expect(onSubmitResult).toHaveBeenCalledTimes(2)
+      expect(onSubmitResult).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          submitState: { error, customStatus },
+        })
+      )
     })
   })
 
@@ -105,8 +305,8 @@ describe('Form.SubmitConfirmation', () => {
       const onSubmit = jest.fn(async () => {
         await new Promise((resolve) => setTimeout(resolve, 100))
       })
-      const submitStateRef: React.MutableRefObject<
-        ConfirmParams['submitState']
+      const confirmationStateRef: React.MutableRefObject<
+        ConfirmParams['confirmationState']
       > = React.createRef()
 
       render(
@@ -114,12 +314,16 @@ describe('Form.SubmitConfirmation', () => {
           <Form.SubmitButton />
 
           <Form.SubmitConfirmation
-            onStateChange={async ({ submitState, setSubmitState }) => {
-              submitStateRef.current = submitState
+            preventSubmitWhen={() => true}
+            onStateChange={async ({
+              confirmationState,
+              setConfirmationState,
+            }) => {
+              confirmationStateRef.current = confirmationState
               await new Promise((resolve) => setTimeout(resolve, 100))
-              switch (submitState) {
+              switch (confirmationState) {
                 case 'submissionComplete':
-                  setSubmitState('idle')
+                  setConfirmationState('idle')
                   break
               }
             }}
@@ -136,39 +340,49 @@ describe('Form.SubmitConfirmation', () => {
         </Form.Handler>
       )
 
-      expect(submitStateRef.current).toBe(null)
+      expect(confirmationStateRef.current).toBe(null)
 
-      const submitButton = document.querySelector('button')
+      const submitButton = document.querySelector(
+        '.dnb-forms-submit-button'
+      )
       await userEvent.click(submitButton)
       expect(onSubmit).toHaveBeenCalledTimes(0)
-      expect(submitStateRef.current).toBe('beforeSubmit')
-      expect(
-        submitButton.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
-        )
-      ).toBeTruthy()
+      expect(confirmationStateRef.current).toBe('readyToBeSubmitted')
+      await waitFor(() => {
+        expect(
+          submitButton.querySelector(
+            '.dnb-forms-submit-indicator--state-pending'
+          )
+        ).toBeTruthy()
+      })
 
       const [cancelButton] = Array.from(
         document.querySelectorAll('.dnb-dialog button')
       )
       await userEvent.click(cancelButton)
-      expect(submitStateRef.current).toBe('idle')
+      expect(confirmationStateRef.current).toBe('idle')
+
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled()
+      })
 
       await userEvent.click(submitButton)
-      expect(submitStateRef.current).toBe('beforeSubmit')
+      expect(confirmationStateRef.current).toBe('readyToBeSubmitted')
 
       const [, confirmButton] = Array.from(
         document.querySelectorAll('.dnb-dialog button')
       )
       await userEvent.click(confirmButton)
-      expect(onSubmit).toHaveBeenCalledTimes(1)
-      expect(submitStateRef.current).toBe('submitInProgress')
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+      })
+      expect(confirmationStateRef.current).toBe('submitInProgress')
 
       await waitFor(() => {
-        expect(submitStateRef.current).toBe('submissionComplete')
+        expect(confirmationStateRef.current).toBe('submissionComplete')
       })
       await waitFor(() => {
-        expect(submitStateRef.current).toBe('idle')
+        expect(confirmationStateRef.current).toBe('idle')
       })
     })
 
@@ -176,8 +390,8 @@ describe('Form.SubmitConfirmation', () => {
       const onSubmit = jest.fn(async () => {
         await new Promise((resolve) => setTimeout(resolve, 100))
       })
-      const submitStateRef: React.MutableRefObject<
-        ConfirmParams['submitState']
+      const confirmationStateRef: React.MutableRefObject<
+        ConfirmParams['confirmationState']
       > = React.createRef()
 
       render(
@@ -185,15 +399,22 @@ describe('Form.SubmitConfirmation', () => {
           <Form.SubmitButton />
 
           <Form.SubmitConfirmation
-            onStateChange={({ submitState, setSubmitState }) => {
-              switch (submitState) {
+            preventSubmitWhen={() => true}
+            onStateChange={({
+              confirmationState,
+              setConfirmationState,
+            }) => {
+              switch (confirmationState) {
                 case 'submissionComplete':
-                  setSubmitState('idle')
+                  setConfirmationState('idle')
                   break
               }
             }}
-            renderWithState={({ submitState, connectWithDialog }) => {
-              submitStateRef.current = submitState
+            renderWithState={({
+              confirmationState,
+              connectWithDialog,
+            }) => {
+              confirmationStateRef.current = confirmationState
               return (
                 <Dialog
                   title="Title"
@@ -206,12 +427,14 @@ describe('Form.SubmitConfirmation', () => {
         </Form.Handler>
       )
 
-      expect(submitStateRef.current).toBe('idle')
+      expect(confirmationStateRef.current).toBe('idle')
 
-      const submitButton = document.querySelector('button')
+      const submitButton = document.querySelector(
+        '.dnb-forms-submit-button'
+      )
       await userEvent.click(submitButton)
       expect(onSubmit).toHaveBeenCalledTimes(0)
-      expect(submitStateRef.current).toBe('beforeSubmit')
+      expect(confirmationStateRef.current).toBe('readyToBeSubmitted')
       expect(
         submitButton.querySelector(
           '.dnb-forms-submit-indicator--state-pending'
@@ -224,7 +447,7 @@ describe('Form.SubmitConfirmation', () => {
         )
       })
       await waitFor(() => {
-        expect(submitStateRef.current).toBe('idle')
+        expect(confirmationStateRef.current).toBe('idle')
       })
     })
   })
@@ -239,22 +462,23 @@ describe('Form.SubmitConfirmation', () => {
         <Form.SubmitButton />
 
         <Form.SubmitConfirmation
-          onStateChange={({ submitState, setSubmitState }) => {
-            switch (submitState) {
+          preventSubmitWhen={() => true}
+          onStateChange={({ confirmationState, setConfirmationState }) => {
+            switch (confirmationState) {
               case 'submissionComplete':
-                setSubmitState('idle')
+                setConfirmationState('idle')
                 break
             }
           }}
-          renderWithState={({ submitState, connectWithDialog }) => {
+          renderWithState={({ confirmationState, connectWithDialog }) => {
             let content = null
 
-            switch (submitState) {
-              case 'beforeSubmit':
-                content = <output>Is waiting</output>
+            switch (confirmationState) {
+              case 'readyToBeSubmitted':
+                content = <output>readyToBeSubmitted</output>
                 break
               case 'submitInProgress':
-                content = <output>Is submitting</output>
+                content = <output>submitInProgress</output>
                 break
             }
 
@@ -273,11 +497,11 @@ describe('Form.SubmitConfirmation', () => {
       </Form.Handler>
     )
 
-    const submitButton = document.querySelector('button')
+    const submitButton = document.querySelector('.dnb-forms-submit-button')
     await userEvent.click(submitButton)
     expect(onSubmit).toHaveBeenCalledTimes(0)
     expect(document.querySelector('output')).toHaveTextContent(
-      'Is waiting'
+      'readyToBeSubmitted'
     )
     expect(
       submitButton.querySelector(
@@ -289,11 +513,16 @@ describe('Form.SubmitConfirmation', () => {
       document.querySelectorAll('.dnb-dialog button')
     )
     await userEvent.click(cancelButton)
-    expect(document.querySelector('output')).toBeNull()
+    expect(document.querySelector('output')).toHaveTextContent(
+      'readyToBeSubmitted'
+    )
+    await waitFor(() => {
+      expect(document.querySelector('output')).toBeNull()
+    })
 
     await userEvent.click(submitButton)
     expect(document.querySelector('output')).toHaveTextContent(
-      'Is waiting'
+      'readyToBeSubmitted'
     )
 
     const [, confirmButton] = Array.from(
@@ -302,7 +531,7 @@ describe('Form.SubmitConfirmation', () => {
     await userEvent.click(confirmButton)
     expect(onSubmit).toHaveBeenCalledTimes(1)
     expect(document.querySelector('output')).toHaveTextContent(
-      'Is submitting'
+      'submitInProgress'
     )
 
     await waitFor(() => {
@@ -310,12 +539,14 @@ describe('Form.SubmitConfirmation', () => {
     })
   })
 
-  it('should prevent the original onSubmit from being called', () => {
+  it('should prevent "onSubmit" from being called', () => {
     const onSubmit = jest.fn()
 
     const { rerender } = render(
       <Form.Handler onSubmit={onSubmit}>
-        <Form.SubmitConfirmation>content</Form.SubmitConfirmation>
+        <Form.SubmitConfirmation preventSubmitWhen={() => true}>
+          content
+        </Form.SubmitConfirmation>
       </Form.Handler>
     )
 
@@ -326,7 +557,9 @@ describe('Form.SubmitConfirmation', () => {
 
     rerender(
       <Form.Handler onSubmit={onSubmit}>
-        <Form.SubmitConfirmation>content</Form.SubmitConfirmation>
+        <Form.SubmitConfirmation preventSubmitWhen={() => true}>
+          content
+        </Form.SubmitConfirmation>
         <Form.SubmitButton />
       </Form.Handler>
     )
@@ -344,6 +577,7 @@ describe('Form.SubmitConfirmation', () => {
     render(
       <Form.Handler onSubmit={onSubmit}>
         <Form.SubmitConfirmation
+          preventSubmitWhen={() => true}
           onStateChange={({ submitHandler }) => {
             submitHandlerRef.current = submitHandler
           }}
@@ -360,9 +594,9 @@ describe('Form.SubmitConfirmation', () => {
     expect(onSubmit).toHaveBeenCalledTimes(1)
   })
 
-  it('should set submitState to idle when cancelHandler is called', () => {
-    const submitStateRef: React.MutableRefObject<
-      ConfirmParams['submitState']
+  it('should set confirmationState to idle when cancelHandler is called', async () => {
+    const confirmationStateRef: React.MutableRefObject<
+      ConfirmParams['confirmationState']
     > = React.createRef()
     const cancelHandlerRef: React.MutableRefObject<
       ConfirmParams['cancelHandler']
@@ -371,11 +605,12 @@ describe('Form.SubmitConfirmation', () => {
     render(
       <Form.Handler>
         <Form.SubmitConfirmation
+          preventSubmitWhen={() => true}
           onStateChange={({ cancelHandler }) => {
             cancelHandlerRef.current = cancelHandler
           }}
-          renderWithState={({ submitState }) => {
-            submitStateRef.current = submitState
+          renderWithState={({ confirmationState }) => {
+            confirmationStateRef.current = confirmationState
             return null
           }}
         >
@@ -384,18 +619,22 @@ describe('Form.SubmitConfirmation', () => {
       </Form.Handler>
     )
 
-    expect(submitStateRef.current).toBe('idle')
+    expect(confirmationStateRef.current).toBe('idle')
     fireEvent.submit(document.querySelector('form'))
-    expect(submitStateRef.current).toBe('beforeSubmit')
+    expect(confirmationStateRef.current).toBe('readyToBeSubmitted')
 
-    act(cancelHandlerRef.current)
-    expect(submitStateRef.current).toBe('idle')
+    await act(cancelHandlerRef.current)
+    expect(confirmationStateRef.current).toBe('readyToBeSubmitted')
+    await waitFor(() => {
+      expect(confirmationStateRef.current).toBe('idle')
+    })
   })
 
   it('should not disable buttons when disabled is set to true', () => {
     render(
       <Form.Handler disabled>
         <Form.SubmitConfirmation
+          preventSubmitWhen={() => true}
           renderWithState={() => {
             return <Button>I'm not disabled</Button>
           }}

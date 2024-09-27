@@ -12,12 +12,9 @@ import {
   FormError,
   ValueProps,
   OnChange,
+  OnSubmitParams,
 } from '../types'
 import { Props as ProviderProps } from './Provider'
-
-type HandleSubmitProps = {
-  formElement?: HTMLFormElement
-}
 
 export type MountState = {
   isPreMounted?: boolean
@@ -109,7 +106,7 @@ export interface ContextState {
   filterDataHandler?: FilterDataHandler<unknown>
   visibleDataHandler?: VisibleDataHandler<unknown>
   validateData: () => void
-  handleSubmit: (props?: HandleSubmitProps) => Promise<void>
+  handleSubmit: () => Promise<EventStateObject | undefined>
   scrollToTop: () => void
   setShowAllErrors: (showAllErrors: boolean) => void
   hasErrors: () => boolean
@@ -137,7 +134,9 @@ export interface ContextState {
     enableAsyncBehavior: boolean
     skipFieldValidation?: boolean
     skipErrorCheck?: boolean
-  }) => Promise<void>
+  }) => Promise<EventStateObject | undefined>
+  getSubmitData?: () => unknown
+  getSubmitOptions?: () => OnSubmitParams
   setFieldEventListener?: (
     path: EventListenerCall['path'],
     type: EventListenerCall['type'],
@@ -155,6 +154,7 @@ export interface ContextState {
   valuePropsRef?: React.MutableRefObject<Record<string, ValueProps>>
   fieldConnectionsRef?: React.RefObject<Record<Path, FieldConnections>>
   mountedFieldsRef?: React.MutableRefObject<Record<Path, MountState>>
+  formElementRef?: React.MutableRefObject<HTMLFormElement>
   showAllErrors: boolean
   hasVisibleError: boolean
   formState: SubmitState

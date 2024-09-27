@@ -1,4 +1,10 @@
-import React, { useCallback, useContext, useReducer, useRef } from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useMemo,
+  useReducer,
+  useRef,
+} from 'react'
 import DataContext from '../../DataContext/Context'
 import SharedProvider from '../../../../shared/Provider'
 import { ContextProps } from '../../../../shared/Context'
@@ -7,55 +13,99 @@ import {
   DialogContentProps,
   DialogProps,
 } from '../../../../components/dialog/types'
+import { EventStateObject } from '../../types'
+import { removeUndefinedProps } from '../../../../shared/component-helper'
 
-export type SubmitState =
+export type ConfirmationState =
   | 'idle'
-  | 'beforeSubmit'
+  | 'readyToBeSubmitted'
   | 'submitInProgress'
   | 'submissionComplete'
+
 export type ConfirmParams = {
-  submitState: SubmitState
-  setSubmitState: (state: SubmitState) => void
-  submitHandler: () => Promise<void>
-  cancelHandler: () => void
+  data: unknown
+  confirmationState: ConfirmationState
+  submitState: EventStateObject | undefined
   connectWithDialog: Pick<
     DialogProps & DialogContentProps,
     'openState' | 'onConfirm' | 'onDecline' | 'onClose'
   >
+  setConfirmationState: (state: ConfirmationState) => void
+  submitHandler: () => void | Promise<void>
+  cancelHandler: () => void | Promise<void>
 }
 
 export type ConfirmProps = {
-  onStateChange?: (getConfirmParams: ConfirmParams) => void
-  renderWithState?: (getConfirmParams: ConfirmParams) => React.ReactNode
+  preventSubmitWhen?: (params: ConfirmParams) => boolean
+  onStateChange?: (params: ConfirmParams) => void | Promise<void>
+  onSubmitResult?: (params: ConfirmParams) => void
+  renderWithState?: (params: ConfirmParams) => React.ReactNode
   children?: React.ReactNode
 }
 
 function SubmitConfirmation(props: ConfirmProps) {
   const [, forceUpdate] = useReducer(() => ({}), {})
 
-  const { onStateChange, renderWithState, children } = props
+  const {
+    preventSubmitWhen,
+    onStateChange,
+    onSubmitResult,
+    renderWithState,
+    children,
+  } = props
 
-  const dataContext = useContext(DataContext)
-  const setFormState = dataContext?.setFormState
-  const setHandleSubmit = dataContext?.setHandleSubmit
-  const handleFinalSubmit = dataContext?.handleSubmit
+  const {
+    setFormState,
+    setHandleSubmit,
+    handleSubmit: handleFinalSubmit,
+    submitState,
+    formElementRef,
+    internalDataRef,
+  } = useContext(DataContext)
 
-  const submitStateRef = useRef<SubmitState>('idle')
+  const confirmationStateRef = useRef<ConfirmationState>('idle')
+  const submitStateRef = useRef<EventStateObject>()
+  const preventSubmitRef = useRef<boolean>(undefined)
 
-  const setSubmitState = useCallback(
-    (state: SubmitState) => {
-      submitStateRef.current = state
-      forceUpdate()
-      onStateChange?.(getParamsRef.current())
+  const validatePreventSubmit = useCallback(() => {
+    return (preventSubmitRef.current = preventSubmitWhen?.(
+      getParamsRef.current()
+    ))
+  }, [preventSubmitWhen])
+
+  const setConfirmationState = useCallback(
+    async (state: ConfirmationState) => {
+      confirmationStateRef.current = state
+      await onStateChange?.(getParamsRef.current())
+      if (typeof window !== 'undefined') {
+        window.requestAnimationFrame(() => {
+          switch (state) {
+            case 'idle':
+              setFormState('complete', { keepPending: false })
+              break
+            case 'readyToBeSubmitted':
+              setFormState('pending', { keepPending: true })
+              break
+            case 'submitInProgress':
+              setFormState('pending', { keepPending: true })
+              break
+            case 'submissionComplete':
+              setFormState('complete', { keepPending: false })
+              break
+            default:
+              forceUpdate()
+          }
+        })
+      }
     },
-    [onStateChange]
+    [onStateChange, setFormState]
   )
 
   const getParamsRef = useRef(() => {
-    const submitState = submitStateRef.current
+    const confirmationState = confirmationStateRef.current
 
     const connectWithDialog = {
-      openState: submitState === 'beforeSubmit',
+      openState: confirmationState === 'readyToBeSubmitted',
       onConfirm: submitHandler,
       onDecline: cancelHandler,
       onClose: ({ triggeredBy }) => {
@@ -66,49 +116,77 @@ function SubmitConfirmation(props: ConfirmProps) {
     }
 
     return {
-      submitState,
-      setSubmitState,
+      data: internalDataRef.current,
+      confirmationState,
+      setConfirmationState,
       submitHandler,
       cancelHandler,
       connectWithDialog,
-    }
+      submitState: submitStateRef.current,
+    } satisfies ConfirmParams
   })
 
-  const cancelHandler = useCallback(() => {
-    setFormState('complete', { keepPending: false })
-    setSubmitState('idle')
-  }, [setFormState, setSubmitState])
+  useMemo(() => {
+    if (Object.keys(removeUndefinedProps(submitState)).length > 0) {
+      submitStateRef.current = {
+        ...submitState,
+      } as EventStateObject
+      onSubmitResult?.(getParamsRef.current())
+    }
+  }, [submitState, onSubmitResult])
+
+  const setFocusOnButton = useCallback(() => {
+    try {
+      const form = formElementRef.current
+      const element = (form.querySelector('.dnb-forms-submit-button') ||
+        form) as HTMLElement
+      element.focus()
+    } catch (e) {
+      //
+    }
+  }, [formElementRef])
+
+  const cancelHandler = useCallback(async () => {
+    await setConfirmationState('idle')
+    setFocusOnButton()
+  }, [setFocusOnButton, setConfirmationState])
 
   const handleSubmit = useCallback(
-    ({ preventSubmit }) => {
-      if (submitStateRef.current === 'submitInProgress') {
+    async ({ preventSubmit }) => {
+      if (confirmationStateRef.current === 'submitInProgress') {
         return // stop here
       }
+
+      if (validatePreventSubmit() !== true) {
+        await setConfirmationState('submitInProgress')
+        return // stop here
+      }
+
+      submitStateRef.current = undefined
+
+      // Prevent the form form from being submitted
       preventSubmit()
 
-      setFormState('pending', { keepPending: true })
-      setSubmitState('beforeSubmit')
+      await setConfirmationState('readyToBeSubmitted')
     },
-    [setFormState, setSubmitState]
+    [setConfirmationState, validatePreventSubmit]
   )
   setHandleSubmit?.(handleSubmit)
 
   const submitHandler = useCallback(async () => {
     setHandleSubmit?.(handleSubmit, { remove: true })
 
-    setFormState('pending', { keepPending: false })
-    setSubmitState('submitInProgress')
-
+    await setConfirmationState('submitInProgress')
     await handleFinalSubmit()
+    await setConfirmationState('submissionComplete')
 
-    setFormState('complete')
-    setSubmitState('submissionComplete')
+    setFocusOnButton()
   }, [
     handleFinalSubmit,
     handleSubmit,
-    setFormState,
+    setFocusOnButton,
     setHandleSubmit,
-    setSubmitState,
+    setConfirmationState,
   ])
 
   const sharedProviderParams: ContextProps = {
