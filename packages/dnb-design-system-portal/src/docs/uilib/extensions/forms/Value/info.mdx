@@ -52,6 +52,8 @@ const MyForm = () => {
 
 It's recommended to use [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) because it can animate and describes the UI in a clear, declarative way. However, `inheritVisibility` will also work with other methods, such as React's `useState` hook.
 
+You can also propagate the `inheritVisibility` property down to all nested values with the [Value.Provider](/uilib/extensions/forms/Form/Visibility/).
+
 ## Inherit labels from fields to values
 
 You can use `inheritLabel={true}` to inherit the label from the field with the same path.

@@ -9,23 +9,26 @@ import { Path, ValueProps } from '../types'
 import useExternalValue from './useExternalValue'
 import usePath from './usePath'
 import DataContext from '../DataContext/Context'
-import SummaryListContext from '../Value/SummaryList/SummaryListContext'
+import ValueProviderContext from '../Value/Provider/ValueProviderContext'
 
 export type Props<Value> = ValueProps<Value>
 
 export default function useValueProps<
   Value = unknown,
   Props extends ValueProps<Value> = ValueProps<Value>,
->(props: Props): Props & ValueProps<Value> {
+>(localeProps: Props): Props & ValueProps<Value> {
   const [, forceUpdate] = useReducer(() => ({}), {})
+
+  const { extend } = useContext(ValueProviderContext)
+  const props = extend(localeProps)
 
   const {
     path: pathProp,
     value: valueProp,
     itemPath,
     defaultValue,
-    inheritVisibility: inheritVisibilityProp,
-    inheritLabel: inheritLabelProp,
+    inheritVisibility,
+    inheritLabel,
     transformIn = (value: Value) => value,
     toInput = (value: Value) => value,
     fromExternal = (value: Value) => value,
@@ -46,15 +49,6 @@ export default function useValueProps<
       value: valueProp,
       transformers,
     }) ?? defaultValue
-
-  const {
-    inheritVisibility: inheritVisibilitySummaryList,
-    inheritLabel: inheritLabelSummaryList,
-  } = useContext(SummaryListContext) || {}
-  const inheritVisibility =
-    inheritVisibilityProp ?? inheritVisibilitySummaryList
-
-  const inheritLabel = inheritLabelProp ?? inheritLabelSummaryList
 
   const {
     fieldPropsRef,
