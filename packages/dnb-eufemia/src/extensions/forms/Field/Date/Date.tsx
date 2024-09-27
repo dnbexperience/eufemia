@@ -13,10 +13,6 @@ import { parseISO, isValid } from 'date-fns'
 import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
 
-/**
- * If the date picker should support a range of two dates (starting and ending date). Defaults to `false`.
- */
-
 export type Props = FieldHelpProps &
   FieldProps<string, undefined | string> & {
     // Validation
@@ -96,7 +92,7 @@ function DateComponent(props: Props) {
 
   const rangeValue = useMemo(() => {
     if (!range) {
-      return undefined
+      return
     }
 
     const [startDate, endDate] = value.split(/\s/)
