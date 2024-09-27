@@ -21,7 +21,15 @@ export const Placeholder = () => {
 export const WithValue = () => {
   return (
     <ComponentBox>
-      <Value.Currency value={150} suffix=" kr" />
+      <Value.Currency value={150} />
+    </ComponentBox>
+  )
+}
+
+export const WithSuffix = () => {
+  return (
+    <ComponentBox>
+      <Value.Currency value={150} suffix=" - my suffix" />
     </ComponentBox>
   )
 }
