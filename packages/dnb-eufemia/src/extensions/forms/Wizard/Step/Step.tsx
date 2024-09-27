@@ -5,7 +5,7 @@ import { Props as FlexContainerProps } from '../../../../components/flex/Contain
 import WizardContext from '../Context/WizardContext'
 import Flex from '../../../../components/flex/Flex'
 import { convertJsxToString } from '../../../../shared/component-helper'
-import FieldProps from '../../Form/FieldProps'
+import FieldProvider from '../../Field/Provider'
 import type { VisibleWhen } from '../../Form/Visibility'
 
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
@@ -107,7 +107,7 @@ function Step(props: Props): JSX.Element {
       {...restProps}
     >
       {fieldProps ? (
-        <FieldProps {...fieldProps}>{children}</FieldProps>
+        <FieldProvider {...fieldProps}>{children}</FieldProvider>
       ) : (
         children
       )}

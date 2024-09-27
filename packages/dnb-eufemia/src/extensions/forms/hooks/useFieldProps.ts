@@ -24,7 +24,7 @@ import {
 } from '../types'
 import { Context as DataContext, ContextState } from '../DataContext'
 import { clearedData } from '../DataContext/Provider/Provider'
-import FieldPropsContext from '../Form/FieldProps/FieldPropsContext'
+import FieldProviderContext from '../Field/Provider/FieldProviderContext'
 import { combineDescribedBy, warn } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import useUpdateEffect from '../../../shared/helpers/useUpdateEffect'
@@ -84,7 +84,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   localeProps: Props & FieldPropsGeneric<Value, EmptyValue>,
   { executeOnChangeRegardlessOfError = false } = {}
 ): typeof localeProps & ReturnAdditional<Value> {
-  const { extend } = useContext(FieldPropsContext)
+  const { extend } = useContext(FieldProviderContext)
   const props = extend(localeProps)
 
   const {

@@ -1,0 +1,20 @@
+---
+showTabs: true
+---
+
+## Description
+
+`Field.Provider` is a provider for forwarding fields properties, such as `required` or `disabled` to all nested field components.
+
+## Usage
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+render(
+  <Field.Provider required disabled>
+    <Field.String />
+  </Field.Provider>,
+)
+```
+
+Keep in mind, you can also set `required` or `disabled` on the [Form.Handler](/uilib/extensions/forms/Form/Handler/). And invert the logic via the `Field.Provider` by using `required={false}` or `disabled={false}`.
