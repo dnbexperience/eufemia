@@ -12,6 +12,7 @@ import FieldBlock from '../../FieldBlock'
 import { parseISO, isValid } from 'date-fns'
 import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
+import { DatePickerEvent } from '../../../../components/DatePicker'
 
 export type Props = FieldHelpProps &
   FieldProps<string, undefined | string> & {
@@ -61,11 +62,7 @@ function DateComponent(props: Props) {
       date,
       start_date,
       end_date,
-    }: {
-      date: string
-      start_date?: string
-      end_date?: string
-    }) => {
+    }: DatePickerEvent<React.ChangeEvent<HTMLInputElement>>) => {
       return range ? `${start_date}|${end_date}` : date
     },
     validateRequired,
