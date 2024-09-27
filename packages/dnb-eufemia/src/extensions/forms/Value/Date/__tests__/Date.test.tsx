@@ -89,6 +89,28 @@ describe('Value.Date', () => {
       globalThis.Intl = intlBackup
     })
 
+    it('should support date range values', () => {
+      const { rerender } = render(
+        <Value.Date value="2024-09-01 2024-09-30" variant="numeric" />
+      )
+
+      const valueBlock = document.querySelector(
+        '.dnb-forms-value-block__content'
+      )
+
+      expect(valueBlock).toHaveTextContent('01.09.2024–30.09.2024')
+
+      rerender(
+        <Value.Date value="2024-09-01 2024-09-30" variant="short" />
+      )
+
+      expect(valueBlock).toHaveTextContent('1.–30. sep. 2024')
+
+      rerender(<Value.Date value="2024-09-01 2024-09-30" variant="long" />)
+
+      expect(valueBlock).toHaveTextContent('1.–30. september 2024')
+    })
+
     describe('formats with different locale', () => {
       it('given as prop', () => {
         render(<Value.Date value="2023-01-16" locale="en-GB" />)

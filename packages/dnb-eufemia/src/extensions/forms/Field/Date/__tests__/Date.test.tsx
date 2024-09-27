@@ -50,6 +50,70 @@ describe('Field.Date', () => {
     expect(screen.queryByRole('alert')).toBeInTheDocument()
   })
 
+  it('should support date range', () => {
+    const { rerender } = render(
+      <Field.Date range value="2024-09-01 2024-09-30" />
+    )
+
+    const fields = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    )
+
+    expect(fields).toHaveLength(6)
+
+    const [startDay, startMonth, startYear, endDay, endMonth, endYear] =
+      fields
+
+    // Start date
+    expect(startDay).toHaveValue('01')
+    expect(startMonth).toHaveValue('09')
+    expect(startYear).toHaveValue('2024')
+
+    // End date
+    expect(endDay).toHaveValue('30')
+    expect(endMonth).toHaveValue('09')
+    expect(endYear).toHaveValue('2024')
+
+    // Should handle undfined or null end date
+    rerender(<Field.Date range value="2024-09-01 undefined" />)
+
+    // Start date
+    expect(startDay).toHaveValue('01')
+    expect(startMonth).toHaveValue('09')
+    expect(startYear).toHaveValue('2024')
+
+    // End date
+    expect(endDay).toHaveValue('dd')
+    expect(endMonth).toHaveValue('mm')
+    expect(endYear).toHaveValue('åååå')
+
+    // Should handle undfined or null start and end dates
+    rerender(<Field.Date range value="null undefined" />)
+
+    // Start date
+    expect(startDay).toHaveValue('dd')
+    expect(startMonth).toHaveValue('mm')
+    expect(startYear).toHaveValue('åååå')
+
+    // End date
+    expect(endDay).toHaveValue('dd')
+    expect(endMonth).toHaveValue('mm')
+    expect(endYear).toHaveValue('åååå')
+
+    // Should handle undfined or null start date
+    rerender(<Field.Date range value="null 2024-04-01" />)
+
+    // Start date
+    expect(startDay).toHaveValue('dd')
+    expect(startMonth).toHaveValue('mm')
+    expect(startYear).toHaveValue('åååå')
+
+    // End date
+    expect(endDay).toHaveValue('01')
+    expect(endMonth).toHaveValue('04')
+    expect(endYear).toHaveValue('2024')
+  })
+
   describe('error handling', () => {
     describe('with validateInitially', () => {
       it('should show error message initially', async () => {

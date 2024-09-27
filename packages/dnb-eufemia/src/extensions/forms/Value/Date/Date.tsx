@@ -8,24 +8,6 @@ export type Props = StringValueProps & {
   locale?: AnyLocale
 }
 
-function getOptions(
-  variant: Props['variant']
-): Intl.DateTimeFormatOptions {
-  if (variant === 'numeric') {
-    return {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    } as const
-  }
-
-  return {
-    day: 'numeric',
-    month: variant,
-    year: 'numeric',
-  } as const
-}
-
 function DateComponent(props: Props) {
   const translations = useTranslation().Date
   const { locale: contextLocale } = useContext(SharedContext)
@@ -40,8 +22,9 @@ function DateComponent(props: Props) {
 
       // Either of the range dates can be null
       const isRange =
-        /^(\d{4}-\d{2}-\d{2}|null) (\d{4}-\d{2}-\d{2}|null)$/.test(value)
-
+        /^(\d{4}-\d{2}-\d{2}|null|undefined) (\d{4}-\d{2}-\d{2}|null|undefined)$/.test(
+          value
+        )
       const options = getOptions(variant)
 
       if (isRange) {
@@ -81,6 +64,24 @@ function DateComponent(props: Props) {
     toInput,
   }
   return <StringValue {...stringProps} />
+}
+
+function getOptions(
+  variant: Props['variant']
+): Intl.DateTimeFormatOptions {
+  if (variant === 'numeric') {
+    return {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    } as const
+  }
+
+  return {
+    day: 'numeric',
+    month: variant,
+    year: 'numeric',
+  } as const
 }
 
 DateComponent._supportsSpacingProps = true
