@@ -263,7 +263,7 @@ describe('Field.PhoneNumber', () => {
     expect(phoneElement.value).toEqual('')
   })
 
-  it('should display specified countries on drodpdown click, after user has entered a phonenumber', async () => {
+  it('should display specified countries on dropdown click, after user has entered a phonenumber', async () => {
     const { rerender } = render(
       <Field.PhoneNumber countries="Scandinavia" />
     )
