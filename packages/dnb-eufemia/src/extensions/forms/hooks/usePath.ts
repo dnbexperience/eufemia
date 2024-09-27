@@ -25,17 +25,16 @@ export default function usePath(props: Props = {}) {
   }
 
   const joinPath = useCallback((paths: Array<Path>) => {
-    return paths
-      .reduce((acc, cur) => (cur ? `${acc}/${cur}` : acc), '/')
-      .replace(/\/{2,}/g, '/')
-      .replace(/\/+$/, '')
+    return cleanPath(
+      paths.reduce((acc, cur) => (cur ? `${acc}/${cur}` : acc), '/')
+    )
   }, [])
 
   const makeSectionPath = useCallback(
     (path: Path) => {
-      return `${
-        sectionPath && sectionPath !== '/' ? sectionPath : ''
-      }${path}`.replace(/\/$/, '')
+      return cleanPath(
+        `${sectionPath && sectionPath !== '/' ? sectionPath : ''}${path}`
+      )
     },
     [sectionPath]
   )
@@ -51,15 +50,17 @@ export default function usePath(props: Props = {}) {
         root = makeSectionPath('')
       }
 
-      return `${root}${iteratePath || ''}/${iterateElementIndex}${
-        itemPath && itemPath !== '/' ? itemPath : ''
-      }`
+      return cleanPath(
+        `${root}${iteratePath || ''}/${iterateElementIndex}${
+          itemPath || ''
+        }`
+      )
     },
     [
+      itemPathProp,
       iteratePathProp,
       sectionPath,
       iterateElementIndex,
-      itemPathProp,
       makeSectionPath,
     ]
   )
@@ -100,4 +101,10 @@ export default function usePath(props: Props = {}) {
     makeIteratePath,
     makeSectionPath,
   }
+}
+
+// Will remove duplicate slashes and trailing slashes
+// /foo///bar/// => /foo/bar
+function cleanPath(path: Path) {
+  return path.replace(/\/+$|\/(\/)+/g, '$1')
 }
