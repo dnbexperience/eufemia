@@ -1,0 +1,20 @@
+---
+showTabs: true
+---
+
+## Description
+
+The `Value.Provider` lets you pass generic properties to all nested Value.\* components.
+
+```tsx
+import { Field, Value } from '@dnb/eufemia/extensions/forms'
+render(
+  <>
+    <Field.Boolean path="/myPath" label="My label" />
+
+    <Value.Provider inheritLabel>
+      <Value.Boolean path="/myPath" />
+    </Value.Provider>
+  </>,
+)
+```

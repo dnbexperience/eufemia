@@ -1,6 +1,7 @@
 import { createContext } from 'react'
 
 type VisibilityContext = {
+  inheritVisibility?: boolean
   isVisible?: boolean
 }
 
