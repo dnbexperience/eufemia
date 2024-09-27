@@ -70,12 +70,14 @@
     margin-left: calc(var(--dropdown-padding-horizontal) - 0.25rem);
   }
   &--icon-position-left#{&}--large .dnb-drawer-list__triangle {
-    margin-left: calc(var(--dropdown-padding-horizontal) + 0.25rem);
+    margin-left: calc(var(--dropdown-padding-horizontal) - 0.25rem);
   }
 
   &__icon {
     position: relative;
     order: 2;
+    // To align icon with dropdown triangle
+    margin-right: calc(var(--dropdown-padding-horizontal) - 0.5rem);
 
     display: inline-flex;
     justify-content: center;
@@ -165,6 +167,8 @@
 
   &--icon-position-left &__icon {
     order: 1;
+    // To align icon with dropdown triangle
+    margin-left: calc(var(--dropdown-padding-horizontal) - 0.5rem);
   }
 
   &--icon-position-right &__text {

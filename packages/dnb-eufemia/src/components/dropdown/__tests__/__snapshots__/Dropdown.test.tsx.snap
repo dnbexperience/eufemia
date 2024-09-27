@@ -823,11 +823,12 @@ button .dnb-form-status__text {
   margin-left: calc(var(--dropdown-padding-horizontal) - 0.25rem);
 }
 .dnb-dropdown--icon-position-left.dnb-dropdown--large .dnb-drawer-list__triangle {
-  margin-left: calc(var(--dropdown-padding-horizontal) + 0.25rem);
+  margin-left: calc(var(--dropdown-padding-horizontal) - 0.25rem);
 }
 .dnb-dropdown__icon {
   position: relative;
   order: 2;
+  margin-right: calc(var(--dropdown-padding-horizontal) - 0.5rem);
   display: inline-flex;
   justify-content: center;
   pointer-events: none;
@@ -904,6 +905,7 @@ html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown
 }
 .dnb-dropdown--icon-position-left .dnb-dropdown__icon {
   order: 1;
+  margin-left: calc(var(--dropdown-padding-horizontal) - 0.5rem);
 }
 .dnb-dropdown--icon-position-right .dnb-dropdown__text {
   padding-right: var(--dropdown-text-padding);
