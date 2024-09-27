@@ -19,7 +19,7 @@ export type Props = FieldHelpProps &
     pattern?: string
     /**
      * Defines if the Date field should support a value of two dates (starting and ending date).
-     * The value needs to be a stirng containing two dates, seperated by a space i.e. (`01-09-2024 30-09-2024`) when this is set to `true`.
+     * The value needs to be a stirng containing two dates, seperated by a pipe character (`|`) i.e. (`01-09-2024|30-09-2024`) when this is set to `true`.
      * Defaults to `false`.
      */
     range?: boolean
@@ -66,7 +66,7 @@ function DateComponent(props: Props) {
       start_date?: string
       end_date?: string
     }) => {
-      return range ? `${start_date} ${end_date}` : date
+      return range ? `${start_date}|${end_date}` : date
     },
     validateRequired,
   }
@@ -95,7 +95,7 @@ function DateComponent(props: Props) {
       return
     }
 
-    const [startDate, endDate] = value.split(/\s/)
+    const [startDate, endDate] = value.split('|')
 
     return { startDate, endDate }
   }, [range, value])

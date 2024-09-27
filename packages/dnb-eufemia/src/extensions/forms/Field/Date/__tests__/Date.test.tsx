@@ -52,7 +52,7 @@ describe('Field.Date', () => {
 
   it('should support date range', () => {
     const { rerender } = render(
-      <Field.Date range value="2024-09-01 2024-09-30" />
+      <Field.Date range value="2024-09-01|2024-09-30" />
     )
 
     const fields = Array.from(
@@ -75,7 +75,7 @@ describe('Field.Date', () => {
     expect(endYear).toHaveValue('2024')
 
     // Should handle undfined or null end date
-    rerender(<Field.Date range value="2024-09-01 undefined" />)
+    rerender(<Field.Date range value="2024-09-01|undefined" />)
 
     // Start date
     expect(startDay).toHaveValue('01')
@@ -88,7 +88,7 @@ describe('Field.Date', () => {
     expect(endYear).toHaveValue('åååå')
 
     // Should handle undfined or null start and end dates
-    rerender(<Field.Date range value="null undefined" />)
+    rerender(<Field.Date range value="null|undefined" />)
 
     // Start date
     expect(startDay).toHaveValue('dd')
@@ -101,7 +101,7 @@ describe('Field.Date', () => {
     expect(endYear).toHaveValue('åååå')
 
     // Should handle undfined or null start date
-    rerender(<Field.Date range value="null 2024-04-01" />)
+    rerender(<Field.Date range value="null|2024-04-01" />)
 
     // Start date
     expect(startDay).toHaveValue('dd')

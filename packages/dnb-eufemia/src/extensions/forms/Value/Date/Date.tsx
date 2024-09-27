@@ -22,13 +22,13 @@ function DateComponent(props: Props) {
 
       // Either of the range dates can be null
       const isRange =
-        /^(\d{4}-\d{2}-\d{2}|null|undefined) (\d{4}-\d{2}-\d{2}|null|undefined)$/.test(
+        /^(\d{4}-\d{2}-\d{2}|null|undefined)\|(\d{4}-\d{2}-\d{2}|null|undefined)$/.test(
           value
         )
       const options = getOptions(variant)
 
       if (isRange) {
-        const [startValue, endValue] = value.split(/\s/)
+        const [startValue, endValue] = value.split('|')
 
         const startDate = new Date(startValue)
         const endDate = new Date(endValue)

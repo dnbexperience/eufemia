@@ -29,7 +29,7 @@ export function Date() {
 
 export function Range() {
   return (
-    <FormHandler data={{ myRange: '2023-01-16 2023-01-20' }}>
+    <FormHandler data={{ myRange: '2023-01-16|2023-01-20' }}>
       <Field.Date path="/myRange" range />
       <Value.Date path="/myRange" variant="numeric" />
     </FormHandler>

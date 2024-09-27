@@ -73,7 +73,7 @@ export const Inline = () => {
 export const Range = () => {
   return (
     <ComponentBox>
-      <Value.Date value="2023-01-16 2023-04-01" />
+      <Value.Date value="2023-01-16|2023-04-01" />
     </ComponentBox>
   )
 }

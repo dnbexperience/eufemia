@@ -91,7 +91,7 @@ describe('Value.Date', () => {
 
     it('should support date range values', () => {
       const { rerender } = render(
-        <Value.Date value="2024-09-01 2024-09-30" variant="numeric" />
+        <Value.Date value="2024-09-01|2024-09-30" variant="numeric" />
       )
 
       const valueBlock = document.querySelector(
@@ -101,12 +101,12 @@ describe('Value.Date', () => {
       expect(valueBlock).toHaveTextContent('01.09.2024–30.09.2024')
 
       rerender(
-        <Value.Date value="2024-09-01 2024-09-30" variant="short" />
+        <Value.Date value="2024-09-01|2024-09-30" variant="short" />
       )
 
       expect(valueBlock).toHaveTextContent('1.–30. sep. 2024')
 
-      rerender(<Value.Date value="2024-09-01 2024-09-30" variant="long" />)
+      rerender(<Value.Date value="2024-09-01|2024-09-30" variant="long" />)
 
       expect(valueBlock).toHaveTextContent('1.–30. september 2024')
     })
