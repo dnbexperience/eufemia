@@ -36,7 +36,11 @@ export function SubmitConfirmation() {
             setConfirmationState('readyToBeSubmitted')
           }
         }}
-        renderWithState={({ confirmationState, connectWithDialog }) => {
+        renderWithState={({
+          submitState,
+          confirmationState,
+          connectWithDialog,
+        }) => {
           let content = null
 
           switch (confirmationState) {
@@ -63,13 +67,19 @@ export function SubmitConfirmation() {
                   innerSpace={{ top: true, bottom: true }}
                   top
                 >
-                  <Form.Isolation onChange={console.log}>
-                    <Field.String
-                      label="Inside the dialog"
-                      path="/bar"
-                      defaultValue="bar"
-                    />
-                  </Form.Isolation>
+                  <Flex.Stack>
+                    <Field.String label="Inside the dialog" path="/foo" />
+                    <Form.Isolation
+                      onChange={console.log}
+                      data={{
+                        bar: submitState
+                          ? submitState.customStatus
+                          : 'bar',
+                      }}
+                    >
+                      <Field.String label="Isolated" path="/bar" />
+                    </Form.Isolation>
+                  </Flex.Stack>
                 </Section>
               </Dialog>
             </>

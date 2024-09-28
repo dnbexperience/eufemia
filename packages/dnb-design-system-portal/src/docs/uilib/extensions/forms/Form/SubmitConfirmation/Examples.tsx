@@ -121,7 +121,6 @@ export const WithCustomReturnStatus = () => {
                 variant="confirmation"
                 title="Dialog confirmation title"
                 description="Some content describing the situation."
-                alignContent="left"
                 {...connectWithDialog}
               >
                 <Section
@@ -129,14 +128,19 @@ export const WithCustomReturnStatus = () => {
                   innerSpace={{ top: true, bottom: true }}
                   top
                 >
-                  <Form.Isolation
-                    onChange={console.log}
-                    data={{
-                      foo: submitState ? submitState.customStatus : 'bar',
-                    }}
-                  >
+                  <Flex.Stack>
                     <Field.String label="Inside the dialog" path="/foo" />
-                  </Form.Isolation>
+                    <Form.Isolation
+                      onChange={console.log}
+                      data={{
+                        bar: submitState
+                          ? submitState.customStatus
+                          : 'bar',
+                      }}
+                    >
+                      <Field.String label="Isolated" path="/bar" />
+                    </Form.Isolation>
+                  </Flex.Stack>
                 </Section>
               </Dialog>
             )
