@@ -530,6 +530,7 @@ export type EventStateObjectOr = {
   warning?: EventStateObjectWarning
   info?: EventStateObjectInfo
   pending?: EventStateObjectStatus
+  customStatus?: unknown
 }
 
 export type EventStateObjectEitherOr =
@@ -537,6 +538,7 @@ export type EventStateObjectEitherOr =
   | { warning: EventStateObjectWarning }
   | { info: EventStateObjectInfo }
   | { status: EventStateObjectStatus }
+  | { customStatus: unknown }
 
 export type EventStateObject = EventStateObjectOr &
   EventStateObjectEitherOr
@@ -574,6 +576,10 @@ export type OnSubmitParams = {
   clearData: () => void
 }
 
+export type OnSubmitReturn =
+  | EventReturnWithStateObject
+  | void
+  | Promise<EventReturnWithStateObject | void>
 export type OnSubmit<Data = JsonObject> = (
   data: Data,
   {
@@ -582,10 +588,7 @@ export type OnSubmit<Data = JsonObject> = (
     resetForm,
     clearData,
   }: OnSubmitParams
-) =>
-  | EventReturnWithStateObject
-  | void
-  | Promise<EventReturnWithStateObject | void>
+) => OnSubmitReturn
 
 export type OnCommit<Data = JsonObject> = (
   data: Data,

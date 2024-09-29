@@ -25,7 +25,11 @@ export default function FormElement({
       event?.preventDefault()
 
       const formElement = event.target as HTMLFormElement
-      dataContext?.handleSubmit?.({ formElement })
+
+      if (dataContext.hasContext) {
+        dataContext.formElementRef.current = formElement
+        dataContext.handleSubmit()
+      }
 
       if (typeof onSubmit === 'function') {
         onSubmit(event)

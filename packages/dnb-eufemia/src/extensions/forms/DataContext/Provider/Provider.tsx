@@ -25,6 +25,8 @@ import {
   OnChange,
   EventReturnWithStateObject,
   ValueProps,
+  OnSubmitParams,
+  OnSubmitReturn,
 } from '../../types'
 import type { IsolationProviderProps } from '../../Form/Isolation/Isolation'
 import { debounce } from '../../../../shared/helpers'
@@ -223,6 +225,9 @@ export default function Provider<Data extends JsonObject>(
     throw new Error('DataContext (Form.Handler) can not be nested')
   }
 
+  // - Element
+  const formElementRef = useRef<HTMLFormElement>(null)
+
   // - Locale
   const translation = useTranslation().Field
 
@@ -250,16 +255,23 @@ export default function Provider<Data extends JsonObject>(
   }, [])
   const submitStateRef = useRef<Partial<EventStateObject>>({})
   const setSubmitState = useCallback((state: EventStateObject) => {
-    Object.assign(submitStateRef.current, state)
+    submitStateRef.current = { ...submitStateRef.current, ...state }
     forceUpdate()
   }, [])
 
   // - Progress
   const formStateRef = useRef<SubmitState>()
-  const setFormState = useCallback((formState: SubmitState) => {
-    formStateRef.current = formState
-    forceUpdate()
-  }, [])
+  const keepPending = useRef(false)
+  const setFormState = useCallback<ContextState['setFormState']>(
+    (formState: SubmitState, options = {}) => {
+      if (typeof options?.keepPending === 'boolean') {
+        keepPending.current = options?.keepPending
+      }
+      formStateRef.current = formState
+      forceUpdate()
+    },
+    []
+  )
 
   // - States (e.g. error) reported by fields, based on their direct validation rules
   const fieldErrorRef = useRef<Record<Path, Error>>({})
@@ -933,7 +945,7 @@ export default function Provider<Data extends JsonObject>(
         skipErrorCheck,
       } = args
 
-      setSubmitState({ error: undefined })
+      setSubmitState({ error: undefined, customStatus: undefined })
 
       const asyncBehaviorIsEnabled =
         (skipErrorCheck
@@ -964,42 +976,52 @@ export default function Provider<Data extends JsonObject>(
         }
       }
 
+      let result: EventStateObject
+
       if (
         !(skipErrorCheck ? false : hasErrors()) &&
         !hasFieldState('pending') &&
         (skipFieldValidation ? true : !hasFieldState('error'))
       ) {
-        let result: EventStateObject | unknown
-
+        let submitResult: OnSubmitReturn
         try {
           if (isolate) {
-            result = await onCommit?.(internalDataRef.current, {
+            submitResult = await onCommit?.(internalDataRef.current, {
               clearData,
             })
           } else {
-            result = await onSubmit()
+            submitResult = await onSubmit()
           }
 
-          if (result instanceof Error) {
-            throw result
+          if (submitResult instanceof Error) {
+            throw submitResult
           }
         } catch (error) {
-          result = { error }
+          submitResult = { error }
         }
 
-        const state = result as EventStateObject
+        result = submitResult as EventStateObject
 
         if (asyncBehaviorIsEnabled) {
-          setFormState(state?.error ? 'abort' : 'complete')
+          if (result?.error) {
+            setFormState('abort')
+          } else if (keepPending.current !== true) {
+            setFormState('complete')
+          }
         }
 
         // Force the state to be set by a custom status
-        if (state?.['status']) {
-          setFormState(state?.['status'])
+        if (result?.['status']) {
+          setFormState(result?.['status'])
         }
 
-        if (state?.error || state?.warning || state?.info) {
-          setSubmitState(state)
+        if (
+          result?.error ||
+          result?.warning ||
+          result?.info ||
+          result?.customStatus
+        ) {
+          setSubmitState(result)
         }
       } else {
         if (asyncBehaviorIsEnabled) {
@@ -1024,6 +1046,8 @@ export default function Provider<Data extends JsonObject>(
 
         setShowAllErrors(true)
       }
+
+      return result
     },
     [
       clearData,
@@ -1041,9 +1065,14 @@ export default function Provider<Data extends JsonObject>(
 
   const handleSubmitListenersRef = useRef<Array<HandleSubmitCallback>>([])
   const setHandleSubmit: ContextState['setHandleSubmit'] = useCallback(
-    (callback) => {
-      if (!handleSubmitListenersRef.current.includes(callback)) {
-        handleSubmitListenersRef.current.push(callback)
+    (callback, { remove = false } = {}) => {
+      const listeners = handleSubmitListenersRef.current
+      if (remove) {
+        handleSubmitListenersRef.current = listeners.filter(
+          (item) => item !== callback
+        )
+      } else if (!listeners.includes(callback)) {
+        listeners.push(callback)
       }
     },
     []
@@ -1057,98 +1086,112 @@ export default function Provider<Data extends JsonObject>(
     return stop
   }, [])
 
+  const getSubmitData = useCallback(() => {
+    // - Mutate the data context
+    const data = internalDataRef.current
+    const mutatedData = transformOut
+      ? mutateDataHandler(data, transformOut)
+      : data
+
+    // @deprecated – can be removed in v11 (use only mutatedData instead)
+    const filteredData = filterSubmitData
+      ? filterDataHandler(mutatedData, filterSubmitData)
+      : mutatedData
+
+    return filteredData
+  }, [
+    filterDataHandler,
+    filterSubmitData,
+    mutateDataHandler,
+    transformOut,
+  ])
+
+  const getSubmitOptions = useCallback(() => {
+    const reduceToVisibleFields: VisibleDataHandler<Data> = (
+      data,
+      options
+    ) => {
+      return visibleDataHandler(
+        transformOut ? mutateDataHandler(data, transformOut) : data,
+        options
+      )
+    }
+    const formElement = formElementRef.current
+    const options: OnSubmitParams = {
+      filterData,
+      reduceToVisibleFields,
+      resetForm: () => {
+        formElement?.reset?.()
+
+        if (typeof window !== 'undefined') {
+          if (sessionStorageId) {
+            window.sessionStorage.removeItem(sessionStorageId)
+          }
+        }
+
+        forceUpdate() // in order to fill "empty fields" again with their internal states
+      },
+      clearData,
+    }
+
+    return options
+  }, [
+    clearData,
+    filterData,
+    mutateDataHandler,
+    sessionStorageId,
+    transformOut,
+    visibleDataHandler,
+  ])
+
   /**
    * Request to submit the whole form
    */
-  const handleSubmit = useCallback<ContextState['handleSubmit']>(
-    async ({ formElement = null } = {}) => {
-      handleSubmitCall({
-        enableAsyncBehavior: isAsync(onSubmit),
-        onSubmit: async () => {
-          if (handleSubmitListeners()) {
-            return // stop here
-          }
+  const handleSubmit = useCallback<
+    ContextState['handleSubmit']
+  >(async () => {
+    return await handleSubmitCall({
+      enableAsyncBehavior: isAsync(onSubmit),
+      onSubmit: async () => {
+        if (handleSubmitListeners()) {
+          return // stop here
+        }
 
-          // - Mutate the data context
-          const data = internalDataRef.current
-          const mutatedData = transformOut
-            ? mutateDataHandler(data, transformOut)
-            : data
-          const filteredData = filterSubmitData
-            ? filterDataHandler(mutatedData, filterSubmitData)
-            : mutatedData // @deprecated – can be removed in v11
+        const data = getSubmitData()
+        const options = getSubmitOptions()
+        let result = undefined
 
-          const reduceToVisibleFields: VisibleDataHandler<Data> = (
-            data,
-            options
-          ) => {
-            return visibleDataHandler(
-              transformOut ? mutateDataHandler(data, transformOut) : data,
-              options
-            )
-          }
+        if (isAsync(onSubmit)) {
+          result = await onSubmit(data, options)
+        } else {
+          result = onSubmit?.(data, options)
+        }
 
-          const options = {
-            filterData,
-            reduceToVisibleFields,
-            resetForm: () => {
-              formElement?.reset?.()
+        const completeResult = await onSubmitComplete?.(data, result)
+        if (completeResult) {
+          result =
+            Object.keys(result).length > 0
+              ? { ...result, ...completeResult }
+              : completeResult
+        }
 
-              if (typeof window !== 'undefined') {
-                if (sessionStorageId) {
-                  window.sessionStorage.removeItem(sessionStorageId)
-                }
-              }
+        if (scrollTopOnSubmit) {
+          scrollToTop()
+        }
 
-              forceUpdate() // in order to fill "empty fields" again with their internal states
-            },
-            clearData,
-          }
-
-          let result = undefined
-
-          if (isAsync(onSubmit)) {
-            result = await onSubmit(filteredData, options)
-          } else {
-            result = onSubmit?.(filteredData, options)
-          }
-
-          const completeResult = await onSubmitComplete?.(
-            filteredData,
-            result
-          )
-          if (completeResult) {
-            result =
-              Object.keys(result).length > 0
-                ? { ...result, ...completeResult }
-                : completeResult
-          }
-
-          if (scrollTopOnSubmit) {
-            scrollToTop()
-          }
-
-          return result
-        },
-      })
-    },
-    [
-      clearData,
-      filterData,
-      filterDataHandler,
-      filterSubmitData,
-      handleSubmitCall,
-      handleSubmitListeners,
-      mutateDataHandler,
-      onSubmit,
-      onSubmitComplete,
-      scrollToTop,
-      scrollTopOnSubmit,
-      sessionStorageId,
-      transformOut,
-      visibleDataHandler,
-    ]
-  )
+        return result
+      },
+    })
+  }, [
+    getSubmitData,
+    getSubmitOptions,
+    handleSubmitCall,
+    handleSubmitListeners,
+    onSubmit,
+    onSubmitComplete,
+    scrollToTop,
+    scrollTopOnSubmit,
+  ])
 
   // Collect listeners to be called during form submit
   const fieldEventListenersRef = useRef<Array<EventListenerCall>>([])
@@ -1201,6 +1244,7 @@ export default function Provider<Data extends JsonObject>(
       info: undefined,
       warning: undefined,
       error: undefined,
+      customStatus: undefined,
     })
   }, [setFormState, setSubmitState])
 
@@ -1248,6 +1292,8 @@ export default function Provider<Data extends JsonObject>(
         clearData,
         visibleDataHandler,
         filterDataHandler,
+        getSubmitData,
+        getSubmitOptions,
         addOnChangeHandler,
         setHandleSubmit,
         scrollToTop,
@@ -1268,6 +1314,7 @@ export default function Provider<Data extends JsonObject>(
         fieldPropsRef,
         valuePropsRef,
         mountedFieldsRef,
+        formElementRef,
         ajvInstance: ajvRef.current,
 
         /** Additional */
