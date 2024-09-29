@@ -495,47 +495,6 @@ describe('PushContainer', () => {
     )
   })
 
-  it('should push "null" to the array when "defaultValue" is given because it is not supported', async () => {
-    const log = jest.spyOn(console, 'log').mockImplementation()
-    const onChange = jest.fn()
-
-    render(
-      <Form.Handler data={['foo']} onChange={onChange}>
-        <Iterate.Array path="/">
-          <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
-          <Iterate.EditContainer>Edit Content</Iterate.EditContainer>
-        </Iterate.Array>
-
-        <Iterate.PushContainer path="/">
-          <Field.String itemPath="/" defaultValue="bar" />
-        </Iterate.PushContainer>
-      </Form.Handler>
-    )
-
-    const blocks = Array.from(
-      document.querySelectorAll('.dnb-forms-section-block')
-    )
-    const [, , thirdBlock] = blocks
-
-    const input = thirdBlock.querySelector('input')
-    expect(input).toHaveValue('bar')
-
-    await userEvent.click(thirdBlock.querySelector('button'))
-
-    expect(onChange).toHaveBeenCalledTimes(1)
-    expect(onChange).toHaveBeenLastCalledWith(
-      ['foo', null],
-      expect.anything()
-    )
-
-    expect(log).toHaveBeenCalledWith(
-      expect.any(String),
-      'Using defaultValue="bar" prop inside Iterate is not supported yet'
-    )
-
-    log.mockRestore()
-  })
-
   it('should support {nextItemNo}', async () => {
     render(
       <Form.Handler data={{ myList: undefined }}>

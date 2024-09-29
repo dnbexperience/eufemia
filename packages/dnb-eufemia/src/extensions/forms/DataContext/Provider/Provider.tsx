@@ -740,7 +740,7 @@ export default function Provider<Data extends JsonObject>(
   }, [sessionStorageId])
 
   const setData = useCallback(
-    (newData: Data) => {
+    (newData: Data, preventUpdate = false) => {
       // - Mutate the data context
       if (transformIn) {
         newData = mutateDataHandler(newData, transformIn)
@@ -760,7 +760,9 @@ export default function Provider<Data extends JsonObject>(
         storeInSession()
       }
 
-      forceUpdate() // Will rerender the whole form initially
+      if (!preventUpdate) {
+        forceUpdate() // Will rerender the whole form initially
+      }
     },
     [
       extendSharedData,
@@ -778,7 +780,7 @@ export default function Provider<Data extends JsonObject>(
    * Update the data set
    */
   const updateDataValue: ContextState['updateDataValue'] = useCallback(
-    (path, value) => {
+    (path, value, { preventUpdate } = {}) => {
       if (!path) {
         return
       }
@@ -804,7 +806,7 @@ export default function Provider<Data extends JsonObject>(
         pointer.set(newData, path, value)
       }
 
-      setData(newData)
+      setData(newData, preventUpdate)
     },
     [setData]
   )
