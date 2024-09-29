@@ -12,12 +12,9 @@ import {
   FormError,
   ValueProps,
   OnChange,
+  OnSubmitParams,
 } from '../types'
 import { Props as ProviderProps } from './Provider'
-
-type HandleSubmitProps = {
-  formElement?: HTMLFormElement
-}
 
 export type MountState = {
   isPreMounted?: boolean
@@ -109,7 +106,7 @@ export interface ContextState {
   filterDataHandler?: FilterDataHandler<unknown>
   visibleDataHandler?: VisibleDataHandler<unknown>
   validateData: () => void
-  handleSubmit: (props?: HandleSubmitProps) => void
+  handleSubmit: () => Promise<EventStateObject | undefined>
   scrollToTop: () => void
   setShowAllErrors: (showAllErrors: boolean) => void
   hasErrors: () => boolean
@@ -118,7 +115,10 @@ export interface ContextState {
   setFieldState: (path: Path, fieldState: SubmitState) => void
   setFieldError: (path: Path, error: Error | FormError) => void
   setMountedFieldState: (path: Path, options: MountState) => void
-  setFormState?: (state: SubmitState) => void
+  setFormState?: (
+    state: SubmitState,
+    options?: { keepPending?: boolean }
+  ) => void
   setSubmitState?: (state: EventStateObject) => void
   addOnChangeHandler?: (callback: OnChange) => void
   handleSubmitCall: ({
@@ -134,7 +134,9 @@ export interface ContextState {
     enableAsyncBehavior: boolean
     skipFieldValidation?: boolean
     skipErrorCheck?: boolean
-  }) => void
+  }) => Promise<EventStateObject | undefined>
+  getSubmitData?: () => unknown
+  getSubmitOptions?: () => OnSubmitParams
   setFieldEventListener?: (
     path: EventListenerCall['path'],
     type: EventListenerCall['type'],
@@ -143,12 +145,16 @@ export interface ContextState {
   setVisibleError?: (path: Path, hasError: boolean) => void
   setFieldProps?: (path: Path, props: unknown) => void
   setValueProps?: (path: Path, props: unknown) => void
-  setHandleSubmit?: (callback: HandleSubmitCallback) => void
+  setHandleSubmit?: (
+    callback: HandleSubmitCallback,
+    params?: { remove?: boolean }
+  ) => void
   setFieldConnection?: (path: Path, connections: FieldConnections) => void
   fieldPropsRef?: React.MutableRefObject<Record<string, FieldProps>>
   valuePropsRef?: React.MutableRefObject<Record<string, ValueProps>>
   fieldConnectionsRef?: React.RefObject<Record<Path, FieldConnections>>
   mountedFieldsRef?: React.MutableRefObject<Record<Path, MountState>>
+  formElementRef?: React.MutableRefObject<HTMLFormElement>
   showAllErrors: boolean
   hasVisibleError: boolean
   formState: SubmitState
