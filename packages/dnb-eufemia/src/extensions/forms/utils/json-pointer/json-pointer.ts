@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 export type PointerPath = string | Array<string>
 export type JsonValue = any
 export type JsonObject = any
@@ -5,10 +7,7 @@ export type JsonObject = any
 /**
  * Lookup a json pointer in an object
  */
-export function get<T = JsonObject>(
-  obj: JsonObject | T,
-  pointer: PointerPath
-) {
+export function get<T = JsonObject>(obj: T, pointer: PointerPath) {
   const refTokens = Array.isArray(pointer) ? pointer : parse(pointer)
 
   for (let i = 0; i < refTokens.length; ++i) {
@@ -25,12 +24,14 @@ export function get<T = JsonObject>(
 /**
  * Sets a value on an object
  */
-export function set(
-  obj: JsonObject,
+export function set<T = JsonObject>(
+  obj: T,
   pointer: PointerPath,
   value: JsonValue
 ) {
-  const refTokens = Array.isArray(pointer) ? pointer : parse(pointer)
+  const refTokens = (
+    Array.isArray(pointer) ? pointer : parse(pointer)
+  ) as Array<number | string>
   let nextTok = refTokens[0]
 
   if (refTokens.length === 0) {
@@ -52,16 +53,16 @@ export function set(
     if (tok === '-' && Array.isArray(obj)) {
       tok = obj.length
     }
-    nextTok = refTokens[i + 1]
+    nextTok = refTokens[i + 1] as string
 
-    if (!(tok in obj)) {
+    if (!(tok in (obj as JsonObject))) {
       if (nextTok.match(/^(\d+|-)$/)) {
         obj[tok] = []
       } else {
         obj[tok] = {}
       }
     }
-    obj = obj[tok] as JsonObject
+    obj = obj[tok] as T
   }
 
   if (nextTok === '-' && Array.isArray(obj)) {
@@ -74,7 +75,7 @@ export function set(
 /**
  * Removes an attribute
  */
-export function remove(obj: JsonObject, pointer: PointerPath) {
+export function remove<T = JsonObject>(obj: T, pointer: PointerPath) {
   const refTokens = Array.isArray(pointer) ? pointer : parse(pointer)
   const finalToken = refTokens[refTokens.length - 1]
   if (finalToken === undefined) {
@@ -97,7 +98,7 @@ export function remove(obj: JsonObject, pointer: PointerPath) {
 /**
  * Returns a (pointer -> value) dictionary for an object
  */
-export function dict(obj: JsonObject, descend = null) {
+export function dict<T = JsonObject>(obj: T, descend = null) {
   const results = {}
   walk(
     obj,
@@ -112,7 +113,7 @@ export function dict(obj: JsonObject, descend = null) {
 /**
  * Iterates over an object
  */
-export function walk(obj: JsonObject, iterator, descend = null) {
+export function walk<T = JsonObject>(obj: T, iterator, descend = null) {
   const refTokens = []
 
   descend =
@@ -147,10 +148,7 @@ export function walk(obj: JsonObject, iterator, descend = null) {
 /**
  * Tests if an object has a value for a json pointer
  */
-export function has<T = JsonObject>(
-  obj: JsonObject | T,
-  pointer: PointerPath
-) {
+export function has<T = JsonObject>(obj: T, pointer: PointerPath) {
   try {
     get<T>(obj, pointer)
   } catch (e) {
@@ -162,21 +160,21 @@ export function has<T = JsonObject>(
 /**
  * Escapes a reference token
  */
-export function escape(str) {
+export function escape(str: string) {
   return str.toString().replace(/~/g, '~0').replace(/\//g, '~1')
 }
 
 /**
  * Unescape a reference token
  */
-export function unescape(str) {
+export function unescape(str: string) {
   return str.replace(/~1/g, '/').replace(/~0/g, '~')
 }
 
 /**
  * Converts a json pointer into a array of reference tokens
  */
-export function parse(pointer) {
+export function parse(pointer: Extract<PointerPath, string>): PointerPath {
   if (pointer === '') {
     return []
   }
@@ -189,7 +187,7 @@ export function parse(pointer) {
 /**
  * Builds a json pointer from a array of reference tokens
  */
-export function compile(refTokens) {
+export function compile(refTokens: Extract<PointerPath, Array<string>>) {
   if (refTokens.length === 0) {
     return ''
   }

@@ -72,14 +72,14 @@ describe('json-pointer', () => {
       expect(get(obj, '')).toBe(obj)
     })
 
-    Object.keys(rfcValues).forEach(function (p) {
+    Object.keys(rfcValues).forEach((p) => {
       it('should work for "' + p + '"', () => {
         const expectedValue = rfcValues[p]
         expect(get(rfcExample, p)).toBe(expectedValue)
       })
     })
 
-    Object.keys(rfcParsed).forEach(function (p) {
+    Object.keys(rfcParsed).forEach((p) => {
       const tokens = [...rfcParsed[p].tokens]
       it('should work for ' + JSON.stringify(tokens), function () {
         const expectedValue = rfcParsed[p].value
@@ -177,7 +177,7 @@ describe('json-pointer', () => {
   })
 
   describe('remove', () => {
-    Object.keys(rfcValues).forEach(function (p) {
+    Object.keys(rfcValues).forEach((p) => {
       if (p === '' || p === '/foo/0') return
 
       it('should work for "' + p + '"', () => {
@@ -198,7 +198,7 @@ describe('json-pointer', () => {
       expect(() => get(pointer, rfcExample)).toThrow(Error)
     })
 
-    Object.keys(rfcParsed).forEach(function (p) {
+    Object.keys(rfcParsed).forEach((p) => {
       if (p === '' || p === '/foo/0') return
 
       it(
@@ -350,9 +350,11 @@ describe('json-pointer', () => {
   })
 
   describe('parse and then #compile pointer', () => {
-    Object.keys(rfcValues).forEach(function (p) {
+    Object.keys(rfcValues).forEach((p) => {
       it('should equal for "' + p + '"', () => {
-        expect(compile(parse(p))).toBe(p)
+        expect(
+          compile(parse(p) as Extract<PointerPath, Array<string>>)
+        ).toBe(p)
       })
     })
   })
