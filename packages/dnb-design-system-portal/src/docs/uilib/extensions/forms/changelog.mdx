@@ -21,14 +21,14 @@ Change log for the Eufemia Forms extension.
 - Added displaying of `hasChildren` value in summary of [Block.ChildrenWithAge](/uilib/extensions/forms/blocks/ChildrenWithAge/).
 - Added `range` for date range functionality in [Field.Date](/uilib/extensions/forms/feature-fields/Date/), and [Value.Date](/uilib/extensions/forms/Value/Date/).
 - Added [Form.SubmitConfirmation](/uilib/extensions/forms/Form/SubmitConfirmation/) to confirm a submit during or before sending.
-- Added [Value.Provider](/uilib/extensions/forms/Value/Provider/) to propagate value props down to Value components (e.g. `inheritVisibility`).
+- Added [Value.Provider](/uilib/extensions/forms/Value/Provider/) to propagate value props down to [Value components](/uilib/extensions/forms/Value/components/) (e.g. `inheritVisibility`).
 - Deprecated [Form.useError](/uilib/extensions/forms/Form/useError/) and replaced with [Form.useValidation](/uilib/extensions/forms/Form/useValidation/).
 - Deprecated `omit_rounding` in [Value.Number](/uilib/extensions/forms/Value/Number/) and [Value.Currency](/uilib/extensions/forms/Value/Currency/), replaced with `rounding="omit"`.
 - Deprecated [Form.FieldProps](/uilib/extensions/forms/Form/FieldProps/) and replaced with [Field.Provider](/uilib/extensions/forms/feature-fields/Provider/).
-- Fixed error throwing when using [Iterate.useCount hook](/uilib/extensions/forms/Iterate/Count/) or [useData hook](/uilib/extensions/forms/Form/useData/) in Wizard without form id.
+- Fixed error throwing when using [Iterate.useCount hook](/uilib/extensions/forms/Iterate/Count/) or [useData hook](/uilib/extensions/forms/Form/useData/) in [Wizard](/uilib/extensions/forms/Wizard/) without form id.
 - Fixed so the deprecated `itemNr` still works in the [Iterate.ViewContainer](/uilib/extensions/forms/Iterate/ViewContainer/).
 - Fixed so [Field.Toggle](/uilib/extensions/forms/base-fields/Toggle/) does not render invisible label when not providing any label.
-- Fixed CSS `max-width` of card in [Wizard(StepIndicator)](/uilib/extensions/forms/Wizard/) by removing the `max-width`.
+- Fixed CSS `max-width` of card in [Wizard(StepIndicator)](/uilib/extensions/forms/Wizard/) by removing the `max-width` attribute.
 - Fixed so that we keep field state during a [Wizard](/uilib/extensions/forms/Wizard/) step change when used inside [Iterate.Array](/uilib/extensions/forms/Iterate/Array/) (which used `defaultValue` as the data source).
 
 ## v10.50
