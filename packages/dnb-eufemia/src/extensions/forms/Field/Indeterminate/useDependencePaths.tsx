@@ -1,5 +1,5 @@
 import { useCallback, useContext, useMemo, useRef } from 'react'
-import pointer from 'json-pointer'
+import pointer from '../../utils/json-pointer'
 import DataContext from '../../DataContext/Context'
 import { Props } from './Indeterminate'
 

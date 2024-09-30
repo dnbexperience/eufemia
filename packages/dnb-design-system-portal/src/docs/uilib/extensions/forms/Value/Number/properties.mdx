@@ -8,12 +8,14 @@ import { ValueProperties } from '@dnb/eufemia/src/extensions/forms/Value/ValueDo
 
 ## Properties
 
-### Value-specific props
-
-It inherits all the [properties](/uilib/components/number-format/properties/) from the `NumberFormat` component. All snake_case props are converted to camelCase.
+### Value-specific properties
 
 <PropertiesTable props={NumberProperties} />
 
-### General props
+### General properties
 
-<PropertiesTable props={ValueProperties} valueType="number" />
+<PropertiesTable
+  props={ValueProperties}
+  valueType="number"
+  omit={['value', '[Space](/uilib/layout/space/properties)']}
+/>

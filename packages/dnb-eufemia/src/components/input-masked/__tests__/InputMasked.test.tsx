@@ -1381,11 +1381,7 @@ describe('InputMasked component as_currency', () => {
     expect(document.querySelector('input').value).toBe('12 345,01 kr')
 
     rerender(
-      <InputMasked
-        value="12345.016"
-        as_currency="NOK"
-        number_format={{ omit_rounding: false }}
-      />
+      <InputMasked value="12345.016" as_currency="NOK" number_format />
     )
 
     expect(document.querySelector('input').value).toBe('12 345,02 kr')
@@ -1439,9 +1435,7 @@ describe('InputMasked component as_currency', () => {
           currency_mask: {
             decimalLimit: 2,
           },
-          number_format: {
-            omit_rounding: false,
-          },
+          number_format: {},
         }}
       >
         <InputMasked as_currency value="12345.678" />

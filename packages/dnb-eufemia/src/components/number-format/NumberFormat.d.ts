@@ -116,9 +116,16 @@ export type NumberFormatProps = {
    */
   clean_copy_value?: boolean;
   /**
-   * If set to `true`, the decimal will NOT be rounded. Normally, by using `toFixed` or by using `maximumFractionDigits`, decimals get rounded.
+   * @deprecated Use `rounding="omit"` instead.
    */
   omit_rounding?: boolean;
+  /**
+   * If set to `omit`, the decimal will NOT be rounded.
+   * If set to `half-even`, the decimal will be rounded to the nearest even number.
+   * If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down.
+   * Defaults to `half-up`.
+   */
+  rounding?: 'omit' | 'half-even' | 'half-up';
   /**
    * If set to `true` a dirty string will be parsed to to extract the number (`prefix -123.45 suffix` would result in e.g. `kr -123,45`).
    */

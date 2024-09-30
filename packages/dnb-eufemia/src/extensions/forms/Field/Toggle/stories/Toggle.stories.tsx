@@ -47,6 +47,17 @@ export function Toggle() {
         validateInitially
         onChange={(value) => console.log('onChange', value)}
       />
+      <>
+        No label:
+        <Field.Toggle
+          variant="buttons"
+          valueOn="checked"
+          valueOff="unchecked"
+          required
+          validateInitially
+          onChange={(value) => console.log('onChange', value)}
+        />
+      </>
     </>
   )
 }

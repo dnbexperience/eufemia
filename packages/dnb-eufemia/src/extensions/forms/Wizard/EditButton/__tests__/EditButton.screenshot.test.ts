@@ -1,7 +1,7 @@
 import { makeScreenshot } from '../../../../../core/jest/jestSetupScreenshots'
 
 describe('EditButton', () => {
-  const url = '/uilib/extensions/forms/Wizard/Step/EditButton'
+  const url = '/uilib/extensions/forms/Wizard/EditButton'
 
   it('have to match button with hr', async () => {
     const screenshot = await makeScreenshot({

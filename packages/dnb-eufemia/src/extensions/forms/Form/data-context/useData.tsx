@@ -5,7 +5,7 @@ import {
   useReducer,
   useRef,
 } from 'react'
-import pointer from 'json-pointer'
+import pointer, { JsonObject } from '../../utils/json-pointer'
 import {
   SharedStateId,
   useSharedState,
@@ -37,7 +37,7 @@ type UseDataReturnUpdate<Data> = <P extends Path>(
 
 export type UseDataReturnGetValue<Data> = <P extends Path>(
   path: P
-) => PathType<Data, P>
+) => PathType<Data, P> | unknown
 
 export type UseDataReturnFilterData<Data> = (
   filterDataHandler: FilterData,
@@ -70,7 +70,7 @@ type SharedAttachment<Data> = {
  * @param {Data} initialData - The initial data value (optional).
  * @returns {UseDataReturn<Data>} An object containing the data and data management functions.
  */
-export default function useData<Data>(
+export default function useData<Data = JsonObject>(
   id: SharedStateId = undefined,
   initialData: Data = undefined
 ): UseDataReturn<Data> {
@@ -92,23 +92,21 @@ export default function useData<Data>(
   )
 
   // If no id is provided, use the context data
-  const context = useContext(DataContext)
+  const dataContext = useContext(DataContext)
   if (!id) {
-    if (!context?.hasContext) {
+    if (!dataContext.hasContext) {
       throw new Error(
         'useData needs to run inside DataContext (Form.Handler) or have a valid id'
       )
     }
 
-    if (context) {
-      sharedDataRef.current.data = context.data
-      sharedAttachmentsRef.current.data.filterDataHandler =
-        context.filterDataHandler
-    }
+    sharedDataRef.current.data = dataContext.data
+    sharedAttachmentsRef.current.data.filterDataHandler =
+      dataContext.filterDataHandler
   }
 
-  const updateDataValue = context?.updateDataValue
-  const setData = context?.setData
+  const updateDataValue = dataContext?.updateDataValue
+  const setData = dataContext?.setData
 
   const set = useCallback(
     (newData: Data) => {
@@ -124,8 +122,8 @@ export default function useData<Data>(
   const update = useCallback<UseDataReturnUpdate<Data>>(
     (path, value = undefined) => {
       const existingData = structuredClone(
-        sharedDataRef.current.data || ({} as Data)
-      )
+        sharedDataRef.current.data || {}
+      ) as Data & JsonObject
       const existingValue = pointer.has(existingData, path)
         ? pointer.get(existingData, path)
         : undefined
@@ -152,8 +150,8 @@ export default function useData<Data>(
   const remove = useCallback<UseDataReturn<Data>['remove']>(
     (path) => {
       const existingData = structuredClone(
-        sharedDataRef.current.data || ({} as Data)
-      )
+        sharedDataRef.current.data || {}
+      ) as Data & JsonObject
 
       if (pointer.has(existingData, path)) {
         // Remove existing data
@@ -181,9 +179,9 @@ export default function useData<Data>(
         )
       }
 
-      return context?.visibleDataHandler?.(data, options)
+      return dataContext?.visibleDataHandler?.(data, options)
     },
-    [context, id]
+    [dataContext, id]
   )
 
   const filterData = useCallback<UseDataReturn<Data>['filterData']>(
@@ -195,9 +193,9 @@ export default function useData<Data>(
         )
       }
 
-      return context?.filterDataHandler?.(data, filter)
+      return dataContext?.filterDataHandler?.(data, filter)
     },
-    [context, id]
+    [dataContext, id]
   )
 
   const getValue = useCallback<UseDataReturn<Data>['getValue']>((path) => {

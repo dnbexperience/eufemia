@@ -19,7 +19,7 @@ There are three interactive tag variants:
 
 - `clickable` (can also accept a custom icon as it does not have on of its own)
 - `addable`
-- `removable` (also triggers `onClick` when pressing the `Delete` or `Backspace` keyboard key (`keyup` event), can be disabled with the `omitOnKeyUpDeleteEvent` prop)
+- `removable` (also triggers `onClick` when pressing the `Delete` or `Backspace` keyboard key (`keyup` event), can be disabled with the `omitOnKeyUpDeleteEvent` property)
 
 We require `<Tag>`-components to be wrapped by a `<Tag.Group>`-component. The required `label`-property in `<Tag.Group>` will ensure the correct use of accessibility for screen readers.
 
@@ -30,7 +30,7 @@ We require `<Tag>`-components to be wrapped by a `<Tag.Group>`-component. The re
 - Not interactable
 - Can have icon
 
-Non-interactable tags are simply made by skipping all callback props, and are the only type that can have an icon.
+Non-interactable tags are simply made by skipping all callback properties, and are the only type that can have an icon.
 
 <TagDefault />
 

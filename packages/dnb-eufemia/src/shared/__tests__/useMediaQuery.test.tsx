@@ -55,7 +55,7 @@ describe('useMediaQuery', () => {
 
   it('should have valid strings inside render and rerender', () => {
     matchMedia.useMediaQuery(
-      '(min-width: 60.0625em) and (max-width: 72em)'
+      '(min-width: 60.00625em) and (max-width: 72em)'
     )
 
     const { rerender } = render(
@@ -110,7 +110,7 @@ describe('useMediaQuery', () => {
 
   it('should handle media query changes', () => {
     matchMedia.useMediaQuery(
-      'not screen and (min-width: 40.0625em) and (max-width: 72em)'
+      'not screen and (min-width: 40.00625em) and (max-width: 72em)'
     )
 
     const match1Handler = jest.fn()

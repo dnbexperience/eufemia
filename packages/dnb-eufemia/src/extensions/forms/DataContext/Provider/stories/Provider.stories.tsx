@@ -2,6 +2,7 @@ import React from 'react'
 import { Field, Form, JSONSchema } from '../../..'
 import { Flex } from '../../../../../components'
 import Provider from '../Provider'
+import type { FilterData } from '../../Context'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Provider',
@@ -92,14 +93,14 @@ export function Validation() {
 
 const id = 'form-with-disabled'
 
-const filterDataHandler = ({ props }) => {
+const filterDataHandler: FilterData = ({ props }) => {
   if (props.disabled === true) {
     return false
   }
 }
 
-export const FilterData = () => {
-  const { hasErrors } = Form.useError(id)
+export const FilterDataStory = () => {
+  const { hasErrors } = Form.useValidation(id)
   const { data, filterData } = Form.useData(id, {
     disabled: true,
     validate: false,
@@ -109,8 +110,8 @@ export const FilterData = () => {
   return (
     <Form.Handler
       id={id}
-      onSubmit={(data) => {
-        console.log('onSubmit', filterDataHandler(data))
+      onSubmit={(data, { filterData }) => {
+        console.log('onSubmit', filterData(filterDataHandler))
       }}
     >
       <Flex.Stack>

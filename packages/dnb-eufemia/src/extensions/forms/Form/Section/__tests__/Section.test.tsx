@@ -4,7 +4,7 @@ import { fireEvent, render } from '@testing-library/react'
 import { Field, Form, JSONSchema, Tools, Value } from '../../..'
 import { SectionProps } from '../Section'
 import { Props as FieldNameProps } from '../../../Field/Name'
-import FieldPropsProvider from '../../FieldProps'
+import FieldPropsProvider from '../../../Field/Provider'
 import { GenerateRef as GeneratePropsRef } from '../../../Tools/ListAllProps'
 import { GenerateRef as GenerateSchemaRef } from '../../../Tools/GenerateSchema'
 

@@ -65,10 +65,6 @@ export class SidebarMenuProvider extends React.PureComponent<Props> {
       this.setState({
         isClosing: true,
       })
-    } else if (typeof window !== 'undefined') {
-      window.scrollTo({
-        top: 0,
-      })
     }
   }
 

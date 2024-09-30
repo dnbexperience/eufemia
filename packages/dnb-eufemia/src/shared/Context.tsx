@@ -7,7 +7,7 @@ import { createContext } from 'react'
 import { LOCALE, CURRENCY, CURRENCY_DISPLAY } from './defaults'
 import defaultLocales from './locales'
 import { extendDeep } from './component-helper'
-import pointer from 'json-pointer'
+import pointer from '../extensions/forms/utils/json-pointer'
 
 // All TypeScript based Eufemia elements
 import type { ScrollViewProps } from '../fragments/scroll-view/ScrollView'
@@ -49,6 +49,7 @@ import type { FormStatusProps } from '../components/FormStatus'
 import type { LogoProps } from '../components/Logo'
 import type { IconProps } from '../components/Icon'
 import type { IconPrimaryProps } from '../components/IconPrimary'
+import { SwitchProps } from '../components/Switch'
 
 import type { FormElementProps } from './helpers/filterValidProps'
 import type { ThemeProps } from './Theme'
@@ -92,6 +93,7 @@ export type ContextComponents = {
   Icon?: Partial<IconProps>
   IconPrimary?: Partial<IconPrimaryProps>
 
+  Switch?: Partial<SwitchProps>
   // -- TODO: Not converted yet --
   NumberFormat?: Record<string, unknown>
   Pagination?: Record<string, unknown>
@@ -226,10 +228,10 @@ export type TranslationFlat = Record<
 
 export type TranslationFlatToObject<T> = T extends Record<string, unknown>
   ? {
-      // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line
       [K in keyof T as K extends `${infer First}.${infer Rest}`
         ? First
-        : // eslint-disable-next-line no-unused-vars
+        : // eslint-disable-next-line
           K]: K extends `${infer First}.${infer Rest}`
         ? TranslationFlatToObject<Record<Rest, T[K]>>
         : T[K]

@@ -483,7 +483,7 @@ del .dnb-code {
   margin-top: calc(var(--row-gap) + 0.5rem);
   margin-left: 2rem;
 }
-@media screen and (min-width: 40.0625em) {
+@media screen and (min-width: 40.00625em) {
   .dnb-dl__layout--horizontal {
     --dt-max-width: 40%;
     --dd-max-width: calc(60% - 1rem);

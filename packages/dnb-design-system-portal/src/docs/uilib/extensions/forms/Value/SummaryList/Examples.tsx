@@ -1,6 +1,6 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Card } from '@dnb/eufemia/src'
-import { Form, Value } from '@dnb/eufemia/src/extensions/forms'
+import { Field, Form, Value } from '@dnb/eufemia/src/extensions/forms'
 
 export const DefaultLayout = () => {
   return (
@@ -97,6 +97,50 @@ export const CombinedLayout = () => {
               <Value.String path="/postalCode" />
               <Value.String path="/city" />
             </Value.Composition>
+          </Value.SummaryList>
+        </Card>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export function InheritVisibility() {
+  return (
+    <ComponentBox>
+      <Form.Handler>
+        <Card stack>
+          <Field.Boolean
+            variant="button"
+            path="/isVisible"
+            defaultValue={true}
+          />
+
+          <Form.Visibility pathTrue="/isVisible" animate>
+            <Field.Name.First path="/foo" defaultValue="foo" />
+            <Field.Name.Last path="/bar" defaultValue="bar" />
+          </Form.Visibility>
+
+          <Value.SummaryList inheritVisibility>
+            <Value.Name.First path="/foo" />
+            <Value.Name.First path="/bar" />
+          </Value.SummaryList>
+        </Card>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export function InheritLabel() {
+  return (
+    <ComponentBox>
+      <Form.Handler>
+        <Card stack>
+          <Field.String path="/foo" defaultValue="foo" label="foo label" />
+          <Field.String path="/bar" defaultValue="bar" label="bar label" />
+
+          <Value.SummaryList inheritLabel>
+            <Value.String path="/foo" />
+            <Value.String path="/bar" />
           </Value.SummaryList>
         </Card>
       </Form.Handler>

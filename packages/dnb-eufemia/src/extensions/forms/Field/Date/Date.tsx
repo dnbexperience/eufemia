@@ -12,11 +12,18 @@ import FieldBlock from '../../FieldBlock'
 import { parseISO, isValid } from 'date-fns'
 import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
+import { DatePickerEvent } from '../../../../components/DatePicker'
 
 export type Props = FieldHelpProps &
   FieldProps<string, undefined | string> & {
     // Validation
     pattern?: string
+    /**
+     * Defines if the Date field should support a value of two dates (starting and ending date).
+     * The value needs to be a string containing two dates, separated by a pipe character (`|`) i.e. (`01-09-2024|30-09-2024`) when this is set to `true`.
+     * Defaults to `false`.
+     */
+    range?: boolean
   }
 
 function DateComponent(props: Props) {
@@ -51,8 +58,12 @@ function DateComponent(props: Props) {
     ...props,
     errorMessages,
     schema,
-    fromInput: ({ date }: { date: string }) => {
-      return date
+    fromInput: ({
+      date,
+      start_date,
+      end_date,
+    }: DatePickerEvent<React.ChangeEvent<HTMLInputElement>>) => {
+      return range ? `${start_date}|${end_date}` : date
     },
     validateRequired,
   }
@@ -73,7 +84,18 @@ function DateComponent(props: Props) {
     handleFocus,
     handleBlur,
     handleChange,
+    range,
   } = useFieldProps(preparedProps)
+
+  const rangeValue = useMemo(() => {
+    if (!range) {
+      return
+    }
+
+    const [startDate, endDate] = value.split('|')
+
+    return { startDate, endDate }
+  }, [range, value])
 
   return (
     <FieldBlock
@@ -89,17 +111,20 @@ function DateComponent(props: Props) {
     >
       <DatePicker
         id={id}
-        date={value}
+        date={!range ? value : undefined}
         disabled={disabled}
         show_input={true}
         show_cancel_button={true}
         show_reset_button={true}
+        start_date={range ? rangeValue.startDate : undefined}
+        end_date={range ? rangeValue.endDate : undefined}
         status={hasError ? 'error' : undefined}
         suffix={
           help ? (
             <HelpButton title={help.title}>{help.content}</HelpButton>
           ) : undefined
         }
+        range={range}
         on_change={handleChange}
         on_reset={handleChange}
         onFocus={handleFocus}

@@ -1,5 +1,6 @@
 import React from 'react'
-import { Field } from '../../..'
+import { Field, Value } from '../../..'
+import FormHandler from '../../../Form/Handler/Handler'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Date',
@@ -23,5 +24,14 @@ export function Date() {
         update(value)
       }}
     />
+  )
+}
+
+export function Range() {
+  return (
+    <FormHandler data={{ myRange: '2023-01-16|2023-01-20' }}>
+      <Field.Date path="/myRange" range />
+      <Value.Date path="/myRange" variant="numeric" />
+    </FormHandler>
   )
 }

@@ -50,7 +50,7 @@ exports[`FormRow scss has to match style dependencies css 1`] = `
     margin-top: 1rem;
   }
 }
-@media screen and (min-width: 40.0625em) {
+@media screen and (min-width: 40.00625em) {
   .dnb-form-row--centered.dnb-form-row:not(.dnb-form-row--vertical) .dnb-form-row__content {
     align-items: center;
   }

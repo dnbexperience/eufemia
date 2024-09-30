@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useMemo } from 'react'
 import SectionContext, { SectionContextState } from './SectionContext'
 import DataContext from '../../DataContext/Context'
 import Provider from '../../DataContext/Provider/Provider'
-import FieldPropsProvider from '../FieldProps'
+import FieldPropsProvider from '../../Field/Provider'
 import SectionContainerProvider from './containers/SectionContainerProvider'
 import ViewContainer from './ViewContainer'
 import EditContainer from './EditContainer'
@@ -15,6 +15,7 @@ import type {
   FieldProps,
   OnChange,
 } from '../../types'
+import type { JsonObject } from '../../utils/json-pointer'
 
 export type OverwritePropsDefaults = {
   [key: Path]: (FieldProps & FieldBlockProps) | OverwritePropsDefaults
@@ -55,7 +56,7 @@ export type SectionProps<overwriteProps = OverwritePropsDefaults> = {
    */
   errorPrioritization?: SectionContextState['errorPrioritization']
 } & Pick<
-  DataContextProps<unknown>,
+  DataContextProps<JsonObject>,
   'data' | 'defaultData' | 'onChange' | 'translations'
 >
 

@@ -2,7 +2,7 @@ import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { wait } from '../../../../../core/jest/jestSetup'
-import { Field, Form, OnSubmit, Wizard } from '../../..'
+import { Field, Form, Iterate, OnSubmit, Wizard } from '../../..'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
@@ -1962,6 +1962,104 @@ describe('Wizard.Container', () => {
       expect(iframe).toHaveAttribute('title', 'Wizard Prerender')
       expect(iframe).toHaveTextContent('')
       expect(iframe.parentElement).toBeNull()
+    })
+  })
+
+  describe('defaultValue', () => {
+    it('should set defaultValue of a Field.* only once between step changes', async () => {
+      const onChange = jest.fn()
+      const onStepChange = jest.fn()
+
+      render(
+        <Form.Handler onChange={onChange}>
+          <Wizard.Container onStepChange={onStepChange}>
+            <Wizard.Step>
+              <Field.String path="/foo" defaultValue="123" />
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('input')).toHaveValue('123')
+
+      await userEvent.type(document.querySelector('input'), '4')
+
+      expect(document.querySelector('input')).toHaveValue('1234')
+
+      await userEvent.click(nextButton())
+
+      expect(onStepChange).toHaveBeenLastCalledWith(
+        1,
+        'next',
+        expect.anything()
+      )
+
+      await userEvent.click(previousButton())
+
+      expect(onStepChange).toHaveBeenLastCalledWith(
+        0,
+        'previous',
+        expect.anything()
+      )
+
+      expect(document.querySelector('input')).toHaveValue('1234')
+    })
+
+    it('should remember an entered value between step changes', async () => {
+      const onChange = jest.fn()
+      const onStepChange = jest.fn()
+
+      render(
+        <Form.Handler onChange={onChange}>
+          <Wizard.Container onStepChange={onStepChange}>
+            <Wizard.Step>
+              <Iterate.Array path="/items" defaultValue={[null]}>
+                <Field.String itemPath="/" />
+              </Iterate.Array>
+
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step>
+              <Iterate.Array path="/items">
+                <Field.String itemPath="/" />
+              </Iterate.Array>
+
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('input')).toHaveValue('')
+
+      await userEvent.type(document.querySelector('input'), '123')
+
+      expect(document.querySelector('input')).toHaveValue('123')
+
+      await userEvent.click(nextButton())
+      expect(onStepChange).toHaveBeenLastCalledWith(
+        1,
+        'next',
+        expect.anything()
+      )
+      expect(document.querySelector('input')).toHaveValue('123')
+
+      await userEvent.type(document.querySelector('input'), '4')
+      expect(document.querySelector('input')).toHaveValue('1234')
+
+      await userEvent.click(previousButton())
+      expect(onStepChange).toHaveBeenLastCalledWith(
+        0,
+        'previous',
+        expect.anything()
+      )
+      expect(document.querySelector('input')).toHaveValue('1234')
     })
   })
 })

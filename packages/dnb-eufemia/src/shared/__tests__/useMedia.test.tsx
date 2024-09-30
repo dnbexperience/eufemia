@@ -842,7 +842,7 @@ describe('useMedia', () => {
     })
 
     it('will return positive isMedium', () => {
-      const query = `(min-width: 40.0625em) and (max-width: 60em)`
+      const query = `(min-width: 40.00625em) and (max-width: 60em)`
       matchMedia.useMediaQuery(query)
 
       const { result } = renderHook(useMedia, { wrapper })
@@ -858,7 +858,7 @@ describe('useMedia', () => {
     })
 
     it('will return positive isLarge', () => {
-      const query = `(min-width: 60.0625em)`
+      const query = `(min-width: 60.00625em)`
       matchMedia.useMediaQuery(query)
 
       const { result } = renderHook(useMedia, { wrapper })

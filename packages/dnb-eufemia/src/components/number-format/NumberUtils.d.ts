@@ -44,8 +44,16 @@ export interface formatOptionParams {
   /** How many decimals */
   decimals?: number;
 
-  /** Do not round the returned number */
+  /** @deprecated Use `rounding: "omit"` instead. */
   omit_rounding?: boolean;
+
+  /**
+   * Rounding method
+   * - If set to `omit`, the decimal will NOT be rounded.
+   * - If set to `half-even`, the decimal will be rounded to the nearest even number.
+   * - If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.
+   */
+  rounding?: 'omit' | 'half-even' | 'half-up';
 
   /** phone type */
   phone?: boolean;
@@ -143,3 +151,15 @@ export const useCopyWithNotice: () => { copy: copy };
  * NB: This hack may be removed in future iOS versions.
  */
 export const runIOSSelectionFix = () => null;
+
+/**
+ * Rounds the number to the nearest even number
+ *
+ * @param {number} num the number to round
+ * @param {number} decimalPlaces the number of decimal places to round to
+ * @returns {number} the rounded number
+ */
+export const roundHalfEven: (
+  num: number,
+  decimalPlaces?: number
+) => number;

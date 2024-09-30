@@ -5,7 +5,7 @@ import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import HeightAnimation, {
   HeightAnimationProps,
 } from '../../../../components/HeightAnimation'
-import FieldProps from '../FieldProps'
+import FieldProvider from '../../Field/Provider'
 import useVisibility from './useVisibility'
 
 import type { Path, UseFieldProps } from '../../types'
@@ -142,7 +142,7 @@ function Visibility({
         compensateForGap={compensateForGap}
         {...rest}
       >
-        <FieldProps {...props}>{content}</FieldProps>
+        <FieldProvider {...props}>{content}</FieldProvider>
       </HeightAnimation>
     )
   }
@@ -151,7 +151,7 @@ function Visibility({
     const props = !open ? fieldPropsWhenHidden : null
     return (
       <span className="dnb-forms-visibility" hidden={!open}>
-        <FieldProps {...props}>{content}</FieldProps>
+        <FieldProvider {...props}>{content}</FieldProvider>
       </span>
     )
   }

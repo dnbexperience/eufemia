@@ -20,7 +20,7 @@ export function extendPropsWithContext<Props>(
   props = { ...defaults, ...props }
   return {
     ...props,
-    ...reduceContexthasValue(props, defaults, contexts),
+    ...reduceContextHasValue(props, defaults, contexts),
   }
 }
 
@@ -31,7 +31,7 @@ export function extendPropsWithContextInClassComponent<Props>(
 ) {
   return {
     ...props,
-    ...reduceContexthasValue(props, defaults, contexts, {
+    ...reduceContextHasValue(props, defaults, contexts, {
       onlyMergeExistingProps: true,
     }),
   }
@@ -46,7 +46,7 @@ export function reduceContext(contexts: Contexts) {
   }, {})
 }
 
-function reduceContexthasValue<Props>(
+function reduceContextHasValue<Props>(
   props: Props,
   defaults: DefaultsProps,
   contexts: Contexts,

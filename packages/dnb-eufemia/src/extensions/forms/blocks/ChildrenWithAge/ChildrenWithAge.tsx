@@ -17,14 +17,12 @@ export type Props = SectionProps & {
   mode?: Mode
   enableAdditionalQuestions?: Variant
   toWizardStep?: number
-  showEmpty?: boolean
 } & SpacingProps
 
 export default function ChildrenWithAge({
   mode,
   enableAdditionalQuestions,
   toWizardStep,
-  showEmpty,
   ...props
 }: Props) {
   const spacingProps = pickSpacingProps<Props>(props)
@@ -34,7 +32,6 @@ export default function ChildrenWithAge({
       {mode === 'summary' ? (
         <SummaryContainer
           toWizardStep={toWizardStep}
-          showEmpty={showEmpty}
           spacingProps={spacingProps}
         />
       ) : (
@@ -155,7 +152,6 @@ function EditContainer({
 function SummaryContainer({
   spacingProps,
   toWizardStep,
-  showEmpty,
 }: Props & {
   spacingProps?: SpacingProps
 }) {
@@ -165,64 +161,67 @@ function SummaryContainer({
   const hasNoChildren = getValue('/hasChildren') === false
 
   return (
-    <Form.Visibility visible={showEmpty} pathTrue="/hasChildren" animate>
-      <Card stack {...spacingProps}>
-        {<Lead>{tr.ChildrenWithAge.hasChildren.title}</Lead>}
+    <Card stack {...spacingProps}>
+      {<Lead>{tr.ChildrenWithAge.hasChildren.title}</Lead>}
 
-        <Value.SummaryList>
+      <Value.SummaryList>
+        <Value.Boolean
+          path="/hasChildren"
+          label={tr.ChildrenWithAge.hasChildren.fieldLabel}
+        />
+        <Form.Visibility pathTrue="/hasChildren">
           <Value.Number
             path="/countChildren"
-            label={tr.ChildrenWithAge.countChildren.valueVale}
+            label={tr.ChildrenWithAge.countChildren.fieldLabel}
             defaultValue={0}
             suffix={tr.ChildrenWithAge.countChildren.suffix}
             maximum={20}
             transformIn={(value) => (hasNoChildren ? 0 : value)}
           />
-
-          <Iterate.Array
-            path="/children"
-            limit={hasNoChildren ? 0 : undefined}
+        </Form.Visibility>
+        <Iterate.Array
+          path="/children"
+          limit={hasNoChildren ? 0 : undefined}
+        >
+          <Value.Composition
+            label={tr.ChildrenWithAge.childrenAge.fieldLabel}
+            gap={false}
           >
-            <Value.Composition
-              label={tr.ChildrenWithAge.childrenAge.fieldLabel}
-              gap={false}
-            >
-              <Value.Number
-                itemPath="/age"
-                suffix={tr.ChildrenWithAge.childrenAge.suffix}
-                defaultValue="–"
+            <Value.Number
+              itemPath="/age"
+              suffix={tr.ChildrenWithAge.childrenAge.suffix}
+              defaultValue="–"
+            />
+
+            <Form.Visibility pathTrue="/hasJointResponsibility">
+              {', '}
+              <Value.Boolean
+                inline
+                itemPath="/jointResponsibility"
+                trueText={tr.ChildrenWithAge.jointResponsibilityTrue}
+                falseText={tr.ChildrenWithAge.jointResponsibilityFalse}
+                defaultValue={false}
               />
+            </Form.Visibility>
 
-              <Form.Visibility pathTrue="/hasJointResponsibility">
-                {', '}
-                <Value.Boolean
-                  inline
-                  itemPath="/jointResponsibility"
-                  trueText={tr.ChildrenWithAge.jointResponsibilityTrue}
-                  falseText={tr.ChildrenWithAge.jointResponsibilityFalse}
-                  defaultValue={false}
-                />
-              </Form.Visibility>
+            <Form.Visibility pathTrue="/usesDaycare">
+              {', '}
+              <Value.Boolean
+                inline
+                itemPath="/hasDaycare"
+                trueText={tr.ChildrenWithAge.daycareTrue}
+                falseText={tr.ChildrenWithAge.daycareFalse}
+                defaultValue={false}
+              />
+            </Form.Visibility>
+          </Value.Composition>
+        </Iterate.Array>
+      </Value.SummaryList>
 
-              <Form.Visibility pathTrue="/usesDaycare">
-                {', '}
-                <Value.Boolean
-                  inline
-                  itemPath="/hasDaycare"
-                  trueText={tr.ChildrenWithAge.daycareTrue}
-                  falseText={tr.ChildrenWithAge.daycareFalse}
-                  defaultValue={false}
-                />
-              </Form.Visibility>
-            </Value.Composition>
-          </Iterate.Array>
-        </Value.SummaryList>
-
-        {typeof toWizardStep === 'number' ? (
-          <Wizard.EditButton toStep={toWizardStep} />
-        ) : null}
-      </Card>
-    </Form.Visibility>
+      {typeof toWizardStep === 'number' ? (
+        <Wizard.EditButton toStep={toWizardStep} />
+      ) : null}
+    </Card>
   )
 }
 

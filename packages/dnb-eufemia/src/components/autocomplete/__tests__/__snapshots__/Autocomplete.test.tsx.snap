@@ -2241,7 +2241,7 @@ html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown
     border-radius: 50%;
   }
 }
-@media screen and (min-width: 40.0625em) {
+@media screen and (min-width: 40.00625em) {
   .dnb-dropdown--action-menu .dnb-dropdown__shell .dnb-dropdown__text {
     padding: 0 0.5rem;
   }
@@ -2764,7 +2764,7 @@ html[data-visual-test] .dnb-autocomplete .dnb-input__submit-button__button .dnb-
   z-index: 3;
   cursor: text;
 }
-@media screen and (min-width: 40.0625em) {
+@media screen and (min-width: 40.00625em) {
   .dnb-autocomplete .dnb-input--has-inner-element .dnb-input__placeholder, .dnb-autocomplete .dnb-input--has-inner-element .dnb-input__input {
     padding-right: 0 !important;
   }

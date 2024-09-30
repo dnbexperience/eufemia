@@ -63,7 +63,7 @@
         display: none;
       }
     }
-    @include allAbove(small, math.div(1, 16)) {
+    @include allAbove(small) {
       #toggle-main-menu-small-screen {
         display: none;
       }

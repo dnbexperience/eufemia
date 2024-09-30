@@ -18,7 +18,7 @@ render(
 
 It should only be used in combination with checkbox looking variants.
 
-Under the hood the [Toggle](/uilib/extensions/forms/base-fields/Toggle/) base field is used. That means you can use all the props from the `Toggle` component.
+Under the hood the [Toggle](/uilib/extensions/forms/base-fields/Toggle/) base field is used. That means you can use all the properties from the `Toggle` component.
 
 ## Details about the state handling
 
@@ -29,4 +29,4 @@ The indeterminate state of a parent checkbox should be shown when some children 
 - When all children are unchecked, the parent should get unchecked.
   - When the parent gets unchecked (clicked), all children should get unchecked.
 - When some children are checked, the parent should be set in an indeterminate state.
-  - When the parent gets clicked, all children should get checked. This behavior can be changed to the opposite or `auto` by using the `propagateIndeterminateState` prop. Auto means that the parent will switch from its current state to be inverted.
+  - When the parent gets clicked, all children should get checked. This behavior can be changed to the opposite or `auto` by using the `propagateIndeterminateState` property. Auto means that the parent will switch from its current state to be inverted.

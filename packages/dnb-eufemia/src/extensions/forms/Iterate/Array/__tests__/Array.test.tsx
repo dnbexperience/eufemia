@@ -562,64 +562,106 @@ describe('Iterate.Array', () => {
       expect(onChangeIterate).toHaveBeenLastCalledWith(['foo'])
     })
 
-    it('should handle "defaultValue" with React.StrictMode', () => {
-      const onSubmit = jest.fn()
+    describe('defaultValue on Iterate.Array', () => {
+      it('should validate required fields', async () => {
+        const onSubmit = jest.fn()
 
-      render(
-        <React.StrictMode>
+        render(
           <Form.Handler onSubmit={onSubmit}>
-            <Iterate.Array path="/myList" defaultValue={['']}>
-              <Field.String itemPath="/" />
+            <Iterate.Array path="/myList" defaultValue={[null]}>
+              <Field.String itemPath="/" required />
             </Iterate.Array>
           </Form.Handler>
-        </React.StrictMode>
-      )
+        )
 
-      const form = document.querySelector('form')
-      const input = document.querySelector('input')
+        const form = document.querySelector('form')
+        fireEvent.submit(form)
 
-      expect(input).toHaveValue('')
+        expect(onSubmit).toHaveLength(0)
 
-      fireEvent.submit(form)
+        await waitFor(() => {
+          expect(
+            document.querySelectorAll('.dnb-form-status')
+          ).toHaveLength(1)
+        })
+      })
 
-      expect(onSubmit).toHaveBeenCalledTimes(1)
-      expect(onSubmit).toHaveBeenLastCalledWith(
-        { myList: [''] },
-        expect.anything()
-      )
-    })
+      it('should handle "defaultValue" (empty string) in React.StrictMode', () => {
+        const onSubmit = jest.fn()
 
-    it('should warn when "defaultValue" is used inside iterate', () => {
-      const log = jest.spyOn(console, 'log').mockImplementation()
-      const onSubmit = jest.fn()
+        render(
+          <React.StrictMode>
+            <Form.Handler onSubmit={onSubmit}>
+              <Iterate.Array path="/myList" defaultValue={['']}>
+                <Field.String itemPath="/" />
+              </Iterate.Array>
+            </Form.Handler>
+          </React.StrictMode>
+        )
 
-      render(
-        <Form.Handler onSubmit={onSubmit}>
-          <Iterate.Array path="/myList" defaultValue={['']}>
-            <Field.String itemPath="/" defaultValue="default value" />
-          </Iterate.Array>
-        </Form.Handler>
-      )
+        const form = document.querySelector('form')
+        const input = document.querySelector('input')
 
-      const form = document.querySelector('form')
-      const input = document.querySelector('input')
+        expect(input).toHaveValue('')
 
-      expect(input).toHaveValue('')
+        fireEvent.submit(form)
 
-      fireEvent.submit(form)
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { myList: [''] },
+          expect.anything()
+        )
+      })
 
-      expect(onSubmit).toHaveBeenCalledTimes(1)
-      expect(onSubmit).toHaveBeenLastCalledWith(
-        { myList: [''] },
-        expect.anything()
-      )
+      it('should handle "defaultValue" (with value) in React.StrictMode', () => {
+        const onSubmit = jest.fn()
 
-      expect(log).toHaveBeenCalledWith(
-        expect.any(String),
-        'Using defaultValue="default value" prop inside Iterate is not supported yet'
-      )
+        render(
+          <React.StrictMode>
+            <Form.Handler onSubmit={onSubmit}>
+              <Iterate.Array path="/myList" defaultValue={['foo']}>
+                <Field.String itemPath="/" />
+              </Iterate.Array>
+            </Form.Handler>
+          </React.StrictMode>
+        )
 
-      log.mockRestore()
+        const form = document.querySelector('form')
+        const input = document.querySelector('input')
+
+        expect(input).toHaveValue('foo')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { myList: ['foo'] },
+          expect.anything()
+        )
+      })
+
+      it('should set empty array in the data context', () => {
+        const onSubmit = jest.fn()
+
+        render(
+          <React.StrictMode>
+            <Form.Handler onSubmit={onSubmit}>
+              <Iterate.Array path="/myList" defaultValue={[]}>
+                content
+              </Iterate.Array>
+            </Form.Handler>
+          </React.StrictMode>
+        )
+
+        const form = document.querySelector('form')
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { myList: [] },
+          expect.anything()
+        )
+      })
     })
 
     describe('with primitive elements', () => {
@@ -1275,46 +1317,6 @@ describe('Iterate.Array', () => {
       )
 
       expect(container.querySelector('.dnb-flex-container')).toBeNull()
-    })
-  })
-
-  describe('value and defaultValue', () => {
-    it('should warn when "value" prop is used', () => {
-      const log = jest.spyOn(console, 'log').mockImplementation()
-
-      render(
-        <Form.Handler data={['foo']}>
-          <Iterate.Array path="/">
-            <Field.String itemPath="/" value="bar" />
-          </Iterate.Array>
-        </Form.Handler>
-      )
-
-      expect(log).toHaveBeenCalledWith(
-        expect.any(String),
-        'Using value="bar" prop inside Iterate is not supported yet'
-      )
-
-      log.mockRestore()
-    })
-
-    it('should warn when "defaultValue" prop is used', () => {
-      const log = jest.spyOn(console, 'log').mockImplementation()
-
-      render(
-        <Form.Handler data={['foo']}>
-          <Iterate.Array path="/">
-            <Field.String itemPath="/" defaultValue="bar" />
-          </Iterate.Array>
-        </Form.Handler>
-      )
-
-      expect(log).toHaveBeenCalledWith(
-        expect.any(String),
-        'Using defaultValue="bar" prop inside Iterate is not supported yet'
-      )
-
-      log.mockRestore()
     })
   })
 

@@ -90,7 +90,7 @@ export const NumberProvider = () => (
         value={{
           NumberFormat: {
             currency: true,
-            omit_rounding: true,
+            rounding: 'omit',
             clean_copy_value: true,
           },
         }}

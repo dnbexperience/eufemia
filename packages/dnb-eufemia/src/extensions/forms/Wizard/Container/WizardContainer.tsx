@@ -536,6 +536,7 @@ function PrerenderFieldPropsProvider({ children }) {
         setFieldProps,
         updateDataValue,
         prerenderFieldProps: true,
+        hasContext: true,
       }}
     >
       <WizardContext.Provider value={{ prerenderFieldProps: true }}>

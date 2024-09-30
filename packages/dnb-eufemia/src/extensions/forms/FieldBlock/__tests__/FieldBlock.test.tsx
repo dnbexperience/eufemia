@@ -126,20 +126,72 @@ describe('FieldBlock', () => {
     expect(labelElement).toHaveTextContent('A Label')
   })
 
-  it('should render a "labelDescription"', () => {
-    render(
-      <FieldBlock labelDescription="A Label Description">
-        content
-      </FieldBlock>
-    )
+  describe('labelDescription', () => {
+    it('should render with a string', () => {
+      render(
+        <FieldBlock labelDescription="A Label Description">
+          content
+        </FieldBlock>
+      )
 
-    const labelElement = document.querySelector('label')
+      const labelElement = document.querySelector('label')
 
-    expect(labelElement).toBeInTheDocument()
-    expect(labelElement).toHaveClass(
-      'dnb-form-label dnb-space__right--small dnb-space__top--zero dnb-space__bottom--x-small'
-    )
-    expect(labelElement).toHaveTextContent('A Label Description')
+      expect(labelElement).toBeInTheDocument()
+      expect(labelElement).toHaveClass(
+        'dnb-form-label dnb-space__right--small dnb-space__top--zero dnb-space__bottom--x-small'
+      )
+      expect(labelElement).toHaveTextContent('A Label Description')
+    })
+
+    it('should render with JSX content', () => {
+      render(
+        <FieldBlock labelDescription={<span>A Label Description</span>}>
+          content
+        </FieldBlock>
+      )
+
+      const labelElement = document.querySelector('label')
+
+      expect(labelElement).toBeInTheDocument()
+      expect(labelElement).toHaveClass(
+        'dnb-form-label dnb-space__right--small dnb-space__top--zero dnb-space__bottom--x-small'
+      )
+      expect(labelElement).toHaveTextContent('A Label Description')
+    })
+
+    it('should render with a React element', () => {
+      const LabelDescription = () => <span>A Label Description</span>
+
+      render(
+        <FieldBlock labelDescription={<LabelDescription />}>
+          content
+        </FieldBlock>
+      )
+
+      const labelElement = document.querySelector('label')
+
+      expect(labelElement).toBeInTheDocument()
+      expect(labelElement).toHaveClass(
+        'dnb-form-label dnb-space__right--small dnb-space__top--zero dnb-space__bottom--x-small'
+      )
+      expect(labelElement).toHaveTextContent('A Label Description')
+    })
+
+    it('should not render when empty fragment is given', () => {
+      render(<FieldBlock labelDescription={<></>}>content</FieldBlock>)
+
+      expect(
+        document.querySelector('.dnb-forms-field-block__label-description')
+      ).toBeNull()
+
+      const labelElement = document.querySelector('label')
+
+      expect(labelElement).toBeInTheDocument()
+      expect(labelElement).toHaveClass(
+        'dnb-form-label dnb-space__right--small dnb-space__top--zero dnb-space__bottom--x-small'
+      )
+      expect(labelElement).toHaveTextContent('')
+    })
   })
 
   describe('labelSuffix', () => {

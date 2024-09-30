@@ -7,7 +7,7 @@ import { SummaryList, Composition } from './Examples'
 
 # Description
 
-On many screens, data from the dataset is summarized statically, such as on a final review screen where users can confirm their entered data before submitting it to the bank. To streamline the display of such data, Eufemia Forms has Value components. These components operate similarly to [field components](/uilib/extensions/forms/all-fields/), meaning they're data-driven, can accept value props, and can be connected to a surrounding [Form.Handler](/uilib/extensions/forms/Form/Handler) by specifying the relevant value with a `path` prop.
+On many screens, data from the dataset is summarized statically, such as on a final review screen where users can confirm their entered data before submitting it to the bank. To streamline the display of such data, Eufemia Forms has Value components. These components operate similarly to [field components](/uilib/extensions/forms/all-fields/), meaning they're data-driven, can accept value properties, and can be connected to a surrounding [Form.Handler](/uilib/extensions/forms/Form/Handler) by specifying the relevant value with a `path` property.
 
 ```jsx
 import { Value } from '@dnb/eufemia/extensions/forms'
@@ -51,6 +51,8 @@ const MyForm = () => {
 ```
 
 It's recommended to use [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) because it can animate and describes the UI in a clear, declarative way. However, `inheritVisibility` will also work with other methods, such as React's `useState` hook.
+
+You can also propagate the `inheritVisibility` property down to all nested values with the [Value.Provider](/uilib/extensions/forms/Form/Visibility/).
 
 ## Inherit labels from fields to values
 

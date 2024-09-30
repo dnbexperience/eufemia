@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { Field, Form, Iterate, Value } from '../..'
+import { Field, Form, Iterate, Value, Wizard } from '../..'
 import { Card, Flex, Section } from '../../../../components'
 
 export default {
@@ -256,3 +256,27 @@ export const WithArrayValidator = () => {
     </Form.Handler>
   )
 }
+
+const CountCountries = () => {
+  const { count } = Iterate.useCount()
+
+  return (
+    <Iterate.Array path="/countries">
+      {() => `{itemNo} of ' ${count('/countries')}`}
+    </Iterate.Array>
+  )
+}
+
+export const useCount = () => (
+  <Form.Handler data={{ countries: [] }}>
+    <Wizard.Container>
+      <Wizard.Step title="Step 1">
+        <CountCountries />
+      </Wizard.Step>
+
+      <Wizard.Step title="Step 2">
+        <CountCountries />
+      </Wizard.Step>
+    </Wizard.Container>
+  </Form.Handler>
+)

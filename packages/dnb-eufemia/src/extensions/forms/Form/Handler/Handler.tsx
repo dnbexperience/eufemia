@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { JsonObject } from 'json-pointer'
+import { JsonObject } from '../../utils/json-pointer'
 import DataContextProvider, {
   Props as ProviderProps,
 } from '../../DataContext/Provider'

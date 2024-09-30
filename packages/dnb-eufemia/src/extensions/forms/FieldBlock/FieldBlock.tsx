@@ -435,6 +435,11 @@ function FieldBlock(props: Props) {
     )
   }
 
+  const hasLabelDescription = isFragment(labelDescription)
+    ? fragmentHasChildren(labelDescription) &&
+      !fragmentHasOnlyUndefinedChildren(labelDescription)
+    : labelDescription
+
   return (
     <FieldBlockContext.Provider
       value={{
@@ -457,7 +462,7 @@ function FieldBlock(props: Props) {
               <FormLabel {...labelProps}>
                 <SubmitIndicator state={fieldState}>
                   {label}
-                  {labelDescription && (
+                  {hasLabelDescription && (
                     <span className="dnb-forms-field-block__label-description">
                       {labelDescription}
                     </span>
@@ -569,6 +574,26 @@ export function getMessage(item: Partial<StateWithMessage>): StateMessage {
     (content instanceof FormError && content.message) ||
     content?.toString() ||
     content) as StateMessage
+}
+
+function isFragment(fragment: React.ReactNode) {
+  return React.isValidElement(fragment) && fragment.type === React.Fragment
+}
+
+function fragmentHasChildren(fragment: React.ReactNode) {
+  return (
+    React.isValidElement(fragment) &&
+    React.Children.count(fragment.props.children) > 0
+  )
+}
+
+function fragmentHasOnlyUndefinedChildren(fragment: React.ReactNode) {
+  const isUndefined = (child) => child === undefined
+
+  return (
+    React.isValidElement(fragment) &&
+    React.Children.toArray(fragment.props.children).every(isUndefined)
+  )
 }
 
 FieldBlock._supportsSpacingProps = true

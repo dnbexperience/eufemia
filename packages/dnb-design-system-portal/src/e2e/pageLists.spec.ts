@@ -1,5 +1,14 @@
 import { test, expect } from '@playwright/test'
 
+const expandAllSidebarItems = async (page) => {
+  const links = page.locator('.dnb-sidebar-menu__expand-button')
+  const linksCount = await links.count()
+
+  for (let i = 0; i < linksCount; i++) {
+    await links.nth(i).click()
+  }
+}
+
 test.describe('Page Lists', () => {
   test.describe('of components', () => {
     test.beforeEach(async ({ page }) => {
@@ -18,11 +27,13 @@ test.describe('Page Lists', () => {
     })
 
     test('should have same amount of components', async ({ page }) => {
+      await expandAllSidebarItems(page)
+
       const listLength = await page
         .locator(
           // make exception with:
           // - "infinity-scroller"
-          '#portal-sidebar-menu ul li:has(> a[href*="/uilib/components"]) ~ li:is(.l-3:has(> a[href*="/components"]):has(> a:not([href*="/fragments"])), .l-4:has(a[href*="/infinity"]))',
+          '#portal-sidebar-menu ul li:has(> .dnb-sidebar-menu__item > a[href*="/uilib/components"]) ul li:is(.l-3:has(> .dnb-sidebar-menu__item > a[href*="/components"]):has(>.dnb-sidebar-menu__item> a:not([href*="/fragments"])), .l-4:has(a[href*="/infinity"]))',
         )
         .count()
 
@@ -53,7 +64,7 @@ test.describe('Page Lists', () => {
     test('should have same amount of extensions', async ({ page }) => {
       const listLength = await page
         .locator(
-          '#portal-sidebar-menu ul li:has(> a[href*="/uilib/extensions"]) ~ li.l-3:has(> a[href*="/uilib/extensions/"])',
+          '#portal-sidebar-menu ul li:has(> .dnb-sidebar-menu__item> a[href*="/uilib/extensions"]) ul li.l-3:has(> .dnb-sidebar-menu__item> a[href*="/uilib/extensions/"])',
         )
         .count()
 
@@ -84,7 +95,7 @@ test.describe('Page Lists', () => {
     test('should have same amount of elements', async ({ page }) => {
       const listLength = await page
         .locator(
-          '#portal-sidebar-menu ul li.l-2:has(> a[href*="/uilib/elements"]) ~ li:has(> a[href*="/uilib/elements"])',
+          '#portal-sidebar-menu ul li.l-2:has(> .dnb-sidebar-menu__item> a[href*="/uilib/elements"]) ul li:has(> .dnb-sidebar-menu__item> a[href*="/uilib/elements"])',
         )
         .count()
       await expect(

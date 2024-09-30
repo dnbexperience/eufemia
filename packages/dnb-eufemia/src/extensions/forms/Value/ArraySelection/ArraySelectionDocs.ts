@@ -7,12 +7,12 @@ export const ArraySelectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   variant: {
-    doc: 'Defines if the value should be displayed in list format, or reuglar text format on one line. Defaults to `text`',
+    doc: 'Defines if the value should be displayed in list format, or regular text format on one line. Defaults to `text`',
     type: ['ol', 'ul', 'text'],
     status: 'optional',
   },
   listType: {
-    doc: 'Defines the type of list styling used for list variants. Used on conjuction with variant `ol` and `ul`. Variant `ol`: `a`, `A`, `i`, `I` and `1`. Variant `ul`: `cirlce`, `disc` and `square`. Defaults to `undefined`',
+    doc: 'Defines the type of list styling used for list variants. Used on conjunction with variant `ol` and `ul`. Variant `ol`: `a`, `A`, `i`, `I` and `1`. Variant `ul`: `circle`, `disc` and `square`. Defaults to `undefined`',
     type: [
       'a',
       'A',

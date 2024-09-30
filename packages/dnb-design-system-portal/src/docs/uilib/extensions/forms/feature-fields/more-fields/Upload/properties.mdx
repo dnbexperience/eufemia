@@ -1,0 +1,26 @@
+---
+showTabs: true
+---
+
+import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { fieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import { UploadFieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/Upload/UploadDocs'
+
+## Properties
+
+### Field-specific properties
+
+<PropertiesTable props={UploadFieldProperties} />
+
+### General properties
+
+<PropertiesTable
+  props={fieldProperties}
+  valueType={['Array<{ file, id }>']}
+  omit={['layout', 'onBlurValidator', 'contentWidth']}
+/>
+
+## Translations
+
+<TranslationsTable localeKey={['Upload']} />

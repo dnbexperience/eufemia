@@ -6,6 +6,7 @@ breadcrumb:
     href: /uilib/extensions/forms/
   - text: Create your component
     href: /uilib/extensions/forms/create-component/
+accordion: true
 ---
 
 import ListBasisAPIs from './create-component/ListBasisAPIs'
@@ -106,7 +107,7 @@ useFieldProps({
 })
 ```
 
-or a custom `required` prop validation function:
+or a custom `required` property validation function:
 
 ```tsx
 const validateRequired = (value, { emptyValue, required, isChanged }) => {
@@ -122,7 +123,7 @@ For more information about all the available parameters, see the [useFieldProps]
 
 ### More details
 
-This example shows a custom component. The [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) hook receives the props and adds extra properties to standardize field behavior. These includes `handleFocus`, `handleChange`, and `handleBlur` functions. Even if the field components has external callbacks like "onChange", these won't be altered. The "handle" variants simplifies your code.
+This example shows a custom component. The [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) hook receives the properties and adds extra properties to standardize field behavior. These includes `handleFocus`, `handleChange`, and `handleBlur` functions. Even if the field components has external callbacks like "onChange", these won't be altered. The "handle" variants simplifies your code.
 
 ### The example explained
 
@@ -132,7 +133,7 @@ Keep in mind, you can customize the behavior of [useFieldProps](/uilib/extension
 
 ### Your own validation
 
-If you need custom validation that can't use the built-in JSON Schema or a derivative validator (like in the example above), you can create your own logic. Then, pass the result as an `error` prop to [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/). All direct props override standard handling, giving you full control over your component.
+If you need custom validation that can't use the built-in JSON Schema or a derivative validator (like in the example above), you can create your own logic. Then, pass the result as an `error` property to [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/). All direct properties override standard handling, giving you full control over your component.
 
 ### Customized even further
 
@@ -155,11 +156,10 @@ These are the official sizes you can use when [creating your own form fields](/u
   --forms-field-width--small: 5rem;
   --forms-field-width--medium: 11rem;
   --forms-field-width--large: 21rem;
-  --forms-card-max-width: 36.5rem;
 }
 ```
 
-You can also use a [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) and provide a `width` prop with a value of either `small`, `medium` or `large` and use it as a sized wrapper.
+You can also use a [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) and provide a `width` property with a value of either `small`, `medium` or `large` and use it as a sized wrapper.
 
 ## Localization and translations
 

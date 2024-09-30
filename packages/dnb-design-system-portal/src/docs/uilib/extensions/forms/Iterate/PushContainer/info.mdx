@@ -31,9 +31,9 @@ Technically it uses the [EditContainer](/uilib/extensions/forms/Iterate/EditCont
 
 ## Show a button to create a new item
 
-By default, it keeps the form open after a new item has been created. You can change this behavior by using the `openButton` and `showOpenButtonWhen` props.
+By default, it keeps the form open after a new item has been created. You can change this behavior by using the `openButton` and `showOpenButtonWhen` properties.
 
-These props allow you to render a button (`openButton`) and determine when to show it based on the logic provided by the `showOpenButtonWhen` function. The `showOpenButtonWhen` function receives the current list of items as an argument.
+These properties allow you to render a button (`openButton`) and determine when to show it based on the logic provided by the `showOpenButtonWhen` function. The `showOpenButtonWhen` function receives the current list of items as an argument.
 
 The button will be shown instead of the content provided by the children when the `showOpenButtonWhen` function returns `true`.
 
@@ -58,7 +58,7 @@ render(
 )
 ```
 
-The `Iterate.PushContainer.OpenButton` accepts the same props as the [Button](/uilib/components/button/) component.
+The `Iterate.PushContainer.OpenButton` accepts the same properties as the [Button](/uilib/components/button/) component.
 
 ## Show the next item number in the open button
 

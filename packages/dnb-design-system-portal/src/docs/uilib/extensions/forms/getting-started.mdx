@@ -19,15 +19,33 @@ import AsyncChangeExample from './Form/Handler/parts/async-change-example.mdx'
 **Table of Contents**
 
 - [Quick start](#quick-start)
-- [Creating forms](#creating-forms)
-- [State management](#state-management)
-- [Field components](#field-components)
-- [Value components](#value-components)
-- [Async form behavior](#async-form-behavior)
-- [Validation and error handling](#validation-and-error-handling)
-- [Localization and translation](#localization-and-translation)
-- [Layout](#layout)
-- [Best practices](#best-practices)
+  - [Creating forms](#creating-forms)
+  - [State management](#state-management)
+    - [What is a JSON Pointer?](#what-is-a-json-pointer)
+    - [Data handling](#data-handling)
+    - [Filter data](#filter-data)
+      - [Filter data during submit](#filter-data-during-submit)
+    - [Transforming data](#transforming-data)
+  - [Async form handling](#async-form-handling)
+  - [Field components](#field-components)
+  - [Value components](#value-components)
+  - [Async form behavior](#async-form-behavior)
+    - [onChange and autosave](#onchange-and-autosave)
+    - [Async field validation](#async-field-validation)
+  - [Validation and error handling](#validation-and-error-handling)
+    - [Summary for errors](#summary-for-errors)
+    - [required](#required)
+    - [pattern](#pattern)
+    - [schema](#schema)
+    - [validator](#validator)
+      - [Async validation](#async-validation)
+      - [Async validator with debounce](#async-validator-with-debounce)
+  - [Localization and translation](#localization-and-translation)
+    - [Customize translations](#customize-translations)
+    - [How to customize translations in a form](#how-to-customize-translations-in-a-form)
+    - [Use the shared Provider to customize translations](#use-the-shared-provider-to-customize-translations)
+  - [Layout](#layout)
+  - [Best practices](#best-practices)
 - [Create your own component](#create-your-own-component)
 
 <QuickStart />
@@ -155,7 +173,7 @@ When submitting data to the server, you might want to exclude data that has been
 
 #### Filter data
 
-In this seciton we will show how to filter out some data based on your own logic. You can filter data by any given criteria. This is done by utilizing the `filterData` method from e.g.:
+In this section we will show how to filter out some data based on your own logic. You can filter data by any given criteria. This is done by utilizing the `filterData` method from e.g.:
 
 - [useData](/uilib/extensions/forms/Form/useData/#filter-data) hook.
 - [getData](/uilib/extensions/forms/Form/getData/#filter-data) method.
@@ -357,9 +375,9 @@ Every field component has a built-in validation that is based on the type of dat
 
 In addition, you can add your own validation to a field component. This is done by adding a `required`, `pattern`, `schema` or `validator` property.
 
-Fields which have the `disabled` prop or the `readOnly` prop, will skip validation.
+Fields which have the `disabled` property or the `readOnly` property, will skip validation.
 
-For monitoring and set your form errors, you can use the [useError](/uilib/extensions/forms/Form/useError) hook.
+For monitoring and setting your form errors, you can use the [useValidation](/uilib/extensions/forms/Form/useValidation) hook.
 
 #### Summary for errors
 
@@ -393,7 +411,7 @@ The `required` property is a boolean that indicates whether the field is require
 <Field.PhoneNumber required />
 ```
 
-**Note:** You can use the `required` property on the [Form.Handler](/uilib/extensions/forms/Form/Handler/) or [Wizard.Step](/uilib/extensions/forms/Wizard/Step/) components ([example](/uilib/extensions/forms/Form/Handler/demos/#required-and-optional-fields)). Additionally, the [Form.Section](/uilib/extensions/forms/Form/Section/) component as well as the [Form.FieldProps](/uilib/extensions/forms/Form/FieldProps/) provider has a `required` property, which will make all nested fields within that section required.
+**Note:** You can use the `required` property on the [Form.Handler](/uilib/extensions/forms/Form/Handler/) or [Wizard.Step](/uilib/extensions/forms/Wizard/Step/) components ([example](/uilib/extensions/forms/Form/Handler/demos/#required-and-optional-fields)). Additionally, the [Form.Section](/uilib/extensions/forms/Form/Section/) component as well as the [Field.Provider](/uilib/extensions/forms/feature-fields/Provider/) provider has a `required` property, which will make all nested fields within that section required.
 
 ```tsx
 <Form.Handler required>
@@ -477,7 +495,7 @@ render(
 
 By default, the validator function will only run when the "/withValidator" field is changed. When the error message is shown, it will update the message with the new value of the "/myReference" field.
 
-You can also change this behavior by using the following props:
+You can also change this behavior by using the following properties:
 
 - `validateInitially` will run the validation initially.
 - `continuousValidation` will run the validation on every change, including when the connected field changes.

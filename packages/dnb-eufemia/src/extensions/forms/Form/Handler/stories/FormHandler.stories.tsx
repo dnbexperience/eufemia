@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { Field, Form } from '../../..'
 import { Button, Card, GlobalStatus } from '../../../../../components'
 import { debounceAsync } from '../../../../../shared/helpers'
@@ -333,4 +333,56 @@ export function GlobalStatusStory() {
       </Form.Handler>
     </>
   )
+}
+
+export function UseValidation() {
+  // const { setFieldStatus } = Form.useValidation('my-form')
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setFieldStatus('/myField', { error: new Error('Error message') })
+  //   }, 100)
+  //   setTimeout(() => {
+  //     setFieldStatus('/myField', undefined)
+  //   }, 1400)
+  // }, [setFieldStatus])
+
+  return (
+    <Form.Handler
+      id="my-form"
+      onSubmit={(data) => {
+        console.log('onSubmit', data)
+      }}
+    >
+      <Field.String label="Test" path="/myField" />
+
+      <UseValidationComponent />
+
+      <Form.SubmitButton top />
+    </Form.Handler>
+  )
+}
+
+function UseValidationComponent() {
+  const { setFieldStatus } = Form.useValidation()
+
+  useEffect(() => {
+    setTimeout(() => {
+      setFieldStatus('/myField', {
+        error: new Error('Error message'),
+        warning: 'Warning message',
+        info: 'Info message',
+      })
+    }, 100)
+    setTimeout(() => {
+      setFieldStatus('/myField', { warning: null })
+      setFieldStatus('/myField', { info: null })
+      setFieldStatus('/myField', { error: null })
+    }, 1400)
+    setTimeout(() => {
+      setFieldStatus('/myField', { info: 'TEst' })
+      // setFieldStatus('/myField', { error: new Error('New message') })
+    }, 2400)
+  }, [setFieldStatus])
+
+  return null
 }

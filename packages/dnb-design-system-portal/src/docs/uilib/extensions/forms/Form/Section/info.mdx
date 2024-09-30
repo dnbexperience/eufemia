@@ -9,10 +9,10 @@ hideInMenu: true
 
 ### Good to know
 
-- It allows you to easily customize and reposition nested `Form.Section` components within the data context, making it effortless to reuse the same set of fields and values in various contexts. Check out e.g. the `overwriteProps` and `path` props for more information.
-- When defining a default value for a field or value, you can use the `defaultValue` prop instead of value. It will not take precedence over the data context like value does.
+- It allows you to easily customize and reposition nested `Form.Section` components within the data context, making it effortless to reuse the same set of fields and values in various contexts. Check out e.g. the `overwriteProps` and `path` properties for more information.
+- When defining a default value for a field or value, you can use the `defaultValue` property instead of value. It will not take precedence over the data context like value does.
 - Use [Visibility](/uilib/extensions/forms/Form/Visibility/) to handle logic and hide parts of your form based on the data context.
-- To provide localization for all used texts defined in the `translations` prop of the section, you can create a localization easily.
+- To provide localization for all used texts defined in the `translations` property of the section, you can create a localization easily.
 - Only imported sections with their localizations are included in the production bundle.
 - It is possible to overwrite the translations later by using the `Form.Handler` component.
 - A single section can be used without `Form.Handler`, just like any other field and value.
@@ -54,9 +54,9 @@ function MyForm() {
 }
 ```
 
-## Overwrite props
+## Overwrite properties
 
-It lets you overwrite all of the given props if needed by using `overwriteProps`:
+It lets you overwrite all of the given properties if needed by using `overwriteProps`:
 
 ```tsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
@@ -112,9 +112,9 @@ render(
 )
 ```
 
-## Required prop
+## Required property
 
-Optionally you can define a `required` prop to the section component. Fields inside the section then be required.
+Optionally you can define a `required` property to the section component. Fields inside the section then be required.
 
 ```tsx
 render(
@@ -127,7 +127,7 @@ render(
 
 ## TypeScript support
 
-Optionally you can define what the props of the nested fields should accept:
+Optionally you can define what the properties of the nested fields should accept:
 
 ```tsx
 import { Form, Field, SectionProps } from '@dnb/eufemia/extensions/forms'
@@ -190,7 +190,7 @@ render(
 
 ## Translations
 
-You can use the `translations` prop to provide translations for the section:
+You can use the `translations` property to provide translations for the section:
 
 ```tsx
 import { Field, Form } from '@dnb/eufemia/extensions/forms'

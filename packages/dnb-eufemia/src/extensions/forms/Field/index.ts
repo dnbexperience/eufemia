@@ -1,3 +1,4 @@
+export { default as Provider } from './Provider'
 export { default as Composition } from './Composition'
 export { default as String } from './String'
 export { default as Number } from './Number'

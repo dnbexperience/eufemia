@@ -174,7 +174,7 @@ html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options, .dnb-
   word-break: break-word;
   font-size: inherit;
 }
-@media screen and (min-width: 40.0625em) {
+@media screen and (min-width: 40.00625em) {
   .dnb-drawer-list__option__suffix {
     grid-column: 2;
     grid-row: 1/-1;
@@ -322,7 +322,7 @@ html[data-visual-test] .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawe
   justify-content: flex-start;
   align-items: center;
 }
-@media screen and (min-width: 40.0625em) {
+@media screen and (min-width: 40.00625em) {
   .dnb-drawer-list--action-menu.dnb-drawer-list--is-popup.dnb-drawer-list--left .dnb-drawer-list__list {
     left: 0;
   }
@@ -528,7 +528,7 @@ html:not([data-whatintent=touch]) .dnb-drawer-list__option--selected .dnb-drawer
 .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner::before {
   visibility: hidden;
 }
-@media screen and (min-width: 40.0625em) {
+@media screen and (min-width: 40.00625em) {
   .dnb-drawer-list__option--selected .dnb-drawer-list__option__suffix {
     z-index: 2;
     background-color: inherit;

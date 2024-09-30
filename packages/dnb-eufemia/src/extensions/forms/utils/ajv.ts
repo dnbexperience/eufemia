@@ -1,6 +1,6 @@
 import ajvInstance, { ErrorObject } from 'ajv/dist/2020'
 import ajvErrors from 'ajv-errors'
-import pointer from 'json-pointer'
+import pointer, { JsonObject } from './json-pointer'
 import { FormError, Path } from '../types'
 import type Ajv from 'ajv/dist/2020'
 
@@ -156,7 +156,7 @@ export function ajvErrorsToOneFormError(
  */
 export const ajvErrorsToFormErrors = (
   errors?: ErrorObject[] | null,
-  data?: Record<Path, unknown>
+  data?: JsonObject
 ): Record<string, FormError> => {
   return (errors ?? []).reduce((errors, ajvError) => {
     const path = getInstancePath(ajvError)

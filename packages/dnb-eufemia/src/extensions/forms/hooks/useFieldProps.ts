@@ -7,7 +7,7 @@ import React, {
   useReducer,
   AriaAttributes,
 } from 'react'
-import pointer from 'json-pointer'
+import pointer from '../utils/json-pointer'
 import { ValidateFunction } from 'ajv/dist/2020'
 import { errorChanged } from '../utils'
 import { ajvErrorsToOneFormError } from '../utils/ajv'
@@ -24,7 +24,7 @@ import {
 } from '../types'
 import { Context as DataContext, ContextState } from '../DataContext'
 import { clearedData } from '../DataContext/Provider/Provider'
-import FieldPropsContext from '../Form/FieldProps/FieldPropsContext'
+import FieldProviderContext from '../Field/Provider/FieldProviderContext'
 import { combineDescribedBy, warn } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import useUpdateEffect from '../../../shared/helpers/useUpdateEffect'
@@ -82,9 +82,12 @@ export type DataAttributes = {
 
 export default function useFieldProps<Value, EmptyValue, Props>(
   localeProps: Props & FieldPropsGeneric<Value, EmptyValue>,
-  { executeOnChangeRegardlessOfError = false } = {}
+  {
+    executeOnChangeRegardlessOfError = false,
+    updateContextDataInSync = false,
+  } = {}
 ): typeof localeProps & ReturnAdditional<Value> {
-  const { extend } = useContext(FieldPropsContext)
+  const { extend } = useContext(FieldProviderContext)
   const props = extend(localeProps)
 
   const {
@@ -173,7 +176,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     validateData: validateDataDataContext,
     setFieldState: setFieldStateDataContext,
     setFieldError: setFieldErrorDataContext,
-    setFieldProps: setPropsDataContext,
+    setFieldProps: setFieldPropsDataContext,
+    setFieldConnection: setFieldConnectionDataContext,
     setVisibleError: setVisibleErrorDataContext,
     setMountedFieldState: setMountedFieldStateDataContext,
     setFieldEventListener,
@@ -246,7 +250,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           ? pointer.get(schema, schemaPath)
           : schema
 
-        requiredList.push(schemaPart?.required)
+        requiredList.push(schemaPart?.['required'])
       }
 
       if (sectionPath) {
@@ -680,6 +684,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     persistErrorState('wipe')
     hasLocalErrorRef.current = false
   }, [persistErrorState])
+
+  const removeError = useCallback(() => {
+    changedRef.current = false
+    hideError()
+    clearErrorState()
+  }, [clearErrorState, hideError])
 
   const validatorCacheRef = useRef({
     onChangeValidator: null,
@@ -1166,8 +1176,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       changeEventResultRef.current
 
     if (typeof result?.error !== 'undefined') {
-      persistErrorState('gracefully', result.error)
-      revealError()
+      if (result?.error === null) {
+        removeError()
+      } else {
+        persistErrorState('gracefully', result.error)
+        revealError()
+      }
     }
     if (typeof result?.warning !== 'undefined') {
       warningRef.current = result.warning
@@ -1192,17 +1206,20 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     } else if (asyncBehaviorIsEnabled) {
       setFieldState('complete')
     }
+
+    forceUpdate()
   }, [
     asyncBehaviorIsEnabled,
     defineAsyncProcess,
+    removeError,
     persistErrorState,
-    setFieldState,
     revealError,
     yieldAsyncProcess,
+    setFieldState,
   ])
 
   const setEventResult = useCallback(
-    (result: EventReturnWithStateObjectAndSuccess) => {
+    async (result: EventReturnWithStateObjectAndSuccess) => {
       if (result instanceof Error) {
         result = { error: result }
       }
@@ -1211,7 +1228,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         ...result,
       } as EventStateObjectWithSuccess
 
-      handleChangeEventResult()
+      await handleChangeEventResult()
     },
     [handleChangeEventResult]
   )
@@ -1241,13 +1258,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
         // Skip sync errors, such as required
         if (!hasError() || executeOnChangeRegardlessOfError) {
-          setEventResult(
+          await setEventResult(
             (await handlePathChangeDataContext?.(
               identifier
             )) as EventReturnWithStateObjectAndSuccess
           )
         } else {
-          setEventResult(null)
+          await setEventResult(null)
         }
       } else {
         setEventResult(
@@ -1394,9 +1411,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
             // Skip sync errors, such as required
             if (!hasError()) {
               // If the value has changed during the async process, we don't want to call the onChange anymore
-              setEventResult(await onChange?.apply(this, args))
+              await setEventResult(await onChange?.apply(this, args))
             } else {
-              setEventResult(null)
+              await setEventResult(null)
             }
           },
           true
@@ -1433,7 +1450,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const handleBlur = useCallback(() => setHasFocus(false), [setHasFocus])
 
   // Put props into the surrounding data context as early as possible
-  setPropsDataContext?.(identifier, props)
+  setFieldPropsDataContext?.(identifier, props)
 
   const { activeIndex, activeIndexRef } = wizardContext || {}
   const activeIndexTmpRef = useRef(activeIndex)
@@ -1515,28 +1532,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     validateValue()
   }, [schema, validateValue])
 
-  const isEmptyData = useCallback(() => {
-    return (
-      dataContext.internalDataRef?.current ===
-      (dataContext.props?.emptyData ?? clearedData)
-    )
-  }, [dataContext.internalDataRef, dataContext.props?.emptyData])
-
-  // Use "useLayoutEffect" to be in sync with the data context "updateDataValueDataContext" routine further down.
-  useLayoutEffect(() => {
-    if (isEmptyData()) {
-      changedRef.current = false
-      hideError()
-      clearErrorState()
-    }
-  }, [externalValue, clearErrorState, hideError, isEmptyData]) // ensure to include "externalValue" in order to properly remove errors
-
   // Use "useLayoutEffect" and "externalValueDidChangeRef"
   // to cooperate with the the data context "updateDataValueDataContext" routine further down,
   // which also uses useLayoutEffect.
   const externalValueDidChangeRef = useRef(false)
   useLayoutEffect(() => {
-    // Error or removed error for this field from the surrounding data context (by path)
     if (valueRef.current !== externalValue) {
       valueRef.current = externalValue
       externalValueDidChangeRef.current = true
@@ -1591,83 +1591,168 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   // Use "useLayoutEffect" to avoid flickering when value/defaultValue gets set, and other fields dependent on it.
   // Form.Visibility is an example of a logic, where a field value/defaultValue can be used to set the set state of a path,
   // where again other fields depend on it.
-  const tmpValueRef = useRef<Record<Identifier, unknown>>({})
-  useLayoutEffect(() => {
-    if (hasPath) {
-      let value = valueProp
+  const tmpTransValueRef = useRef<Record<Identifier, unknown>>({})
+  const setContextData = useCallback(() => {
+    if (!hasPath) {
+      return // stop here
+    }
 
-      // First, look for existing data in the context
-      const hasValue =
-        pointer.has(dataContext.data, identifier) || identifier === '/'
-      const existingValue =
-        identifier === '/'
-          ? dataContext.data
-          : hasValue
-          ? pointer.get(dataContext.data, identifier)
-          : undefined
+    let valueToStore = valueProp
 
-      // If no data where found in the dataContext, look for shared data
-      if (
-        dataContext.id &&
-        !hasValue &&
-        typeof existingValue === 'undefined' &&
-        typeof value === 'undefined'
-      ) {
-        const sharedState = createSharedState(dataContext.id)
-        const hasValue = pointer.has(sharedState.data, identifier)
-        if (hasValue) {
-          const sharedValue = pointer.get(sharedState.data, identifier)
-          if (sharedValue) {
-            value = sharedValue
-          }
+    const data = wizardContext?.prerenderFieldProps
+      ? dataContext.data
+      : dataContext.internalDataRef?.current
+
+    // First, look for existing data in the context
+    const hasValue = pointer.has(data, identifier) || identifier === '/'
+    const existingValue =
+      identifier === '/'
+        ? data
+        : hasValue
+        ? pointer.get(data, identifier)
+        : undefined
+
+    // If no data where found in the dataContext, look for shared data
+    if (
+      dataContext.id &&
+      !hasValue &&
+      typeof existingValue === 'undefined' &&
+      typeof valueToStore === 'undefined'
+    ) {
+      const sharedState = createSharedState(dataContext.id)
+      const hasValue = pointer.has(sharedState.data, identifier)
+      if (hasValue) {
+        const sharedValue = pointer.get(sharedState.data, identifier)
+        if (sharedValue) {
+          valueToStore = sharedValue as Value
         }
       }
+    }
 
-      if (
-        typeof defaultValueRef.current !== 'undefined' &&
-        typeof value === 'undefined'
-      ) {
-        value = defaultValueRef.current
-        defaultValueRef.current = undefined
+    const hasDefaultValue =
+      typeof defaultValueRef.current !== 'undefined' &&
+      typeof valueToStore === 'undefined'
+
+    if (hasDefaultValue) {
+      valueToStore = defaultValueRef.current
+      defaultValueRef.current = undefined
+    }
+
+    // Used by e.g. Iterate.Array
+    if (updateContextDataInSync) {
+      // When an array is given (iterate), we don't want to overwrite the existing array
+      if (hasDefaultValue && hasValue) {
+        return // stop here, we don't want to overwrite the existing array
       }
 
-      if (
-        !hasValue ||
-        (value !== existingValue &&
-          // Prevents an infinite loop by skipping the update if the value hasn't changed
-          valueRef.current !== existingValue)
-      ) {
-        if (
-          identifier in tmpValueRef.current &&
-          tmpValueRef.current[identifier] === value
-        ) {
-          return // stop here, avoid infinite loop
-        }
-
-        const transformedValue = transformers.current.transformOut(
-          value,
-          transformers.current.provideAdditionalArgs(value)
-        )
-        if (transformedValue !== value) {
-          tmpValueRef.current[identifier] = value
-          value = transformedValue
-        }
-
-        // Update the data context when a pointer not exists,
-        // but was given initially.
-        updateDataValueDataContext?.(identifier, value)
-        validateDataDataContext?.()
+      // React.StrictMode will come with "undefined" on the second render,
+      // because "defaultValueRef.current" was removed.
+      // But because we run "useMemo" on the first render when updateContextDataInSync is true,
+      // we have still a valid value/array.
+      if (!Array.isArray(valueToStore)) {
+        return // stop here, never use a non-array value when in "updateContextDataInSync"
       }
+    }
+
+    if (
+      hasValue &&
+      (valueToStore === existingValue ||
+        // Prevents an infinite loop by skipping the update if the value hasn't changed
+        valueRef.current === existingValue)
+    ) {
+      return // stop here, we don't want to set same value twice
+    }
+
+    if (
+      identifier in tmpTransValueRef.current &&
+      tmpTransValueRef.current[identifier] === valueToStore
+    ) {
+      return // stop here, avoid infinite loop
+    }
+
+    const transformedValue = transformers.current.transformOut(
+      valueToStore,
+      transformers.current.provideAdditionalArgs(valueToStore)
+    )
+    if (transformedValue !== valueToStore) {
+      // When the value got transformed, we want to update the internal value, and avoid an infinite loop
+      tmpTransValueRef.current[identifier] = valueToStore
+      valueToStore = transformedValue
+    }
+
+    // When an itemPath is given, we don't want to rerender the context on every iteration because of performance reasons.
+    // We know when the last item is reached, so we can prevent rerenders during the iteration.
+    const preventUpdate = updateContextDataInSync
+
+    // Update the data context when a pointer not exists,
+    // but was given initially.
+    updateDataValueDataContext?.(identifier, valueToStore, {
+      preventUpdate,
+    })
+
+    if (!preventUpdate) {
+      validateDataDataContext?.()
     }
   }, [
     dataContext.data,
     dataContext.id,
+    dataContext.internalDataRef,
     hasPath,
     identifier,
+    updateContextDataInSync,
     updateDataValueDataContext,
     validateDataDataContext,
     valueProp,
+    wizardContext?.prerenderFieldProps,
   ])
+
+  const isEmptyData = useCallback(
+    () => {
+      return (
+        dataContext.internalDataRef?.current ===
+        (dataContext.props?.emptyData ?? clearedData)
+      )
+    },
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      dataContext.internalDataRef,
+      dataContext.props?.emptyData,
+      externalValue, // ensure to include "externalValue" in order to properly remove errors
+    ]
+  )
+
+  // Use "useLayoutEffect" to be in sync with the data context "updateDataValueDataContext".
+  useLayoutEffect(() => {
+    if (isEmptyData()) {
+      defaultValueRef.current = defaultValue
+      changedRef.current = false
+      hideError()
+      clearErrorState()
+    }
+  }, [clearErrorState, defaultValue, hideError, isEmptyData])
+
+  useMemo(() => {
+    if (updateContextDataInSync && !isEmptyData()) {
+      setContextData()
+    }
+  }, [isEmptyData, updateContextDataInSync, setContextData])
+
+  useLayoutEffect(() => {
+    if (!updateContextDataInSync && !isEmptyData()) {
+      setContextData()
+    }
+  }, [isEmptyData, updateContextDataInSync, setContextData])
+
+  useEffect(() => {
+    if (isEmptyData()) {
+      // Fill the data context with the default value after it has been cleared
+      requestAnimationFrame(() => {
+        setContextData()
+        validateValue()
+      })
+    }
+  }, [isEmptyData, setContextData, validateValue])
 
   useEffect(() => {
     if (showAllErrors || showBoundaryErrors) {
@@ -1751,6 +1836,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       return () => {
         // Unmount procedure
         if (mountedFieldsRefFieldBlock) {
+          // eslint-disable-next-line react-hooks/exhaustive-deps
           mountedFieldsRefFieldBlock.current[identifier] = true
         }
       }
@@ -1772,6 +1858,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     warningRef.current = warning
     forceUpdate()
   }, [info, warning])
+
+  const connections = useMemo(() => {
+    return {
+      setEventResult,
+    }
+  }, [setEventResult])
+  setFieldConnectionDataContext?.(identifier, connections)
 
   // - Handle htmlAttributes
   const htmlAttributes = useMemo(() => {

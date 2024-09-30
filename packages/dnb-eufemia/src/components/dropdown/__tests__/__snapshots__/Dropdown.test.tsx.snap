@@ -918,7 +918,7 @@ html:not([data-whatintent=touch]) .dnb-dropdown__status--error:not(.dnb-dropdown
     border-radius: 50%;
   }
 }
-@media screen and (min-width: 40.0625em) {
+@media screen and (min-width: 40.00625em) {
   .dnb-dropdown--action-menu .dnb-dropdown__shell .dnb-dropdown__text {
     padding: 0 0.5rem;
   }

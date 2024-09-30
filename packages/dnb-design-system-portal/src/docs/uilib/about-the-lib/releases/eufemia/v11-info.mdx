@@ -1,4 +1,7 @@
 ---
+title: 'v11'
+description: 'TBA'
+order: -11
 draft: true
 ---
 
@@ -105,6 +108,17 @@ The `InputPassword` component has been moved to `Field.Password`, and is now a p
 - replace `on_change` with `onChange`.
 - replace `children` with `label`.
 
+## Switch
+
+- replace `label_position` with `labelPosition`.
+- replace `label_sr_only` with `labelSrOnly`.
+- replace `status_state` with `statusState`.
+- replace `status_props` with `statusProps`.
+- replace `on_change` with `onChange`.
+- replace `on_change_end` with `onChangeEnd`.
+- replace `on_state_update` with `onStateUpdate`.
+- replace `status_no_animation` with `statusNoAnimation`.
+
 ## Logo
 
 - remove `size`. replace it with `height` if it contains a numeric value and with `inheritSize` where `size='inherit'`.
@@ -129,8 +143,14 @@ The `InputPassword` component has been moved to `Field.Password`, and is now a p
 
 - replace `withValue` with `hasValue`.
 
-## Form.Iterate
+## Eufemia Forms
 
-- Rename label variable `{itemNr}` to `{itemNo}`.
+- replace `useError` with `useValidation`.
+- replace Form.Iterate label variable `{itemNr}` with `{itemNo}`.
+- replace `Form.FieldProps` with `Field.Provider`.
+
+## NumberFormat
+
+- Replace `omit_rounding` with `rounding="omit"`.
 
 _February, 6. 2024_

@@ -4,7 +4,7 @@ showTabs: true
 
 ## Description
 
-The `Form.Visibility` component makes it possible to show or hide components on the screen based on the state of data. It can either be fed with the values directly via props, or it can read data from a surrounding [Form.Handler](/uilib/extensions/forms/Form/Handler) and show or hide components based on the data it points to.
+The `Form.Visibility` component makes it possible to show or hide components on the screen based on the state of data. It can either be fed with the values directly via properties, or it can read data from a surrounding [Form.Handler](/uilib/extensions/forms/Form/Handler) and show or hide components based on the data it points to.
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
@@ -56,7 +56,7 @@ render(
 
 ## Disable children fields when hidden
 
-You can disable children fields when they are hidden by using the `fieldPropsWhenHidden` property. It will pass the given props to the children when the visibility is hidden. It needs to be used in combination with the `keepInDOM` property.
+You can disable children fields when they are hidden by using the `fieldPropsWhenHidden` property. It will pass the given properties to the children when the visibility is hidden. It needs to be used in combination with the `keepInDOM` property.
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
@@ -79,3 +79,20 @@ Check out the [Nested visibility example](#nested-visibility-example) to see how
 ### Why is this useful?
 
 In some cases, you want to keep the content in the DOM, even if it's not visible. This can be useful for fields that still needs to run validation.
+
+## Inherit visibility
+
+By using the provider component `Value.Provider`, you can propagate the visibility (with the `inheritVisibility` property) of the parent to all nested values.
+
+```tsx
+import { Form, Value } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Handler>
+    <Value.Provider inheritVisibility>
+      <Value.String path="/foo" />
+      <Value.String path="/bar" />
+    </Value.Provider>
+  </Form.Handler>,
+)
+```

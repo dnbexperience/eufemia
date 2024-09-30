@@ -1,7 +1,7 @@
 import React from 'react'
 import { renderHook, act, render, fireEvent } from '@testing-library/react'
 import { makeUniqueId } from '../../../../../shared/component-helper'
-import { Field, Form } from '../../..'
+import { Field, Form, Wizard } from '../../..'
 import Provider from '../../../DataContext/Provider'
 import useData from '../useData'
 import { FilterData } from '../../../DataContext/Context'
@@ -31,6 +31,59 @@ describe('Form.useData', () => {
     )
 
     log.mockRestore()
+  })
+
+  it('should not throw when used within a Form.Handler and Wizard without id', () => {
+    const MockComponent = () => {
+      Form.useData()
+      return null
+    }
+
+    const renderComponent = () => {
+      render(
+        <Form.Handler>
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <MockComponent />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <MockComponent />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+    }
+
+    expect(renderComponent).not.toThrow(
+      'useData needs to run inside DataContext (Form.Handler) or have a valid id'
+    )
+  })
+
+  it('should work inside Wizard when prerender (step 2', () => {
+    let collectData = null
+
+    const MockComponent = () => {
+      const { data } = Form.useData()
+      collectData = data
+      return null
+    }
+
+    render(
+      <Form.Handler data={{ foo: 'bar' }}>
+        <Wizard.Container>
+          <Wizard.Step title="Step 1">
+            <MockComponent />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 2">
+            <MockComponent />
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>
+    )
+
+    expect(collectData).toEqual({ foo: 'bar' })
   })
 
   it('should return "getValue" method that lets you get a single path value', () => {

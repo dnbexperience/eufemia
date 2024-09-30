@@ -70,6 +70,24 @@ describe('usePath', () => {
     )
   })
 
+  it('should clean paths properly when "iteratePath" is just a slash', () => {
+    const path = '/path'
+    const iteratePath = '/'
+    const itemPath = '/itemPath'
+    const iterateElementIndex = 0
+    const { result } = renderHook(() => usePath({ path, itemPath }), {
+      wrapper: ({ children }) => (
+        <Iterate.Array path={iteratePath} value={['one']}>
+          {children}
+        </Iterate.Array>
+      ),
+    })
+    expect(result.current.path).toBe(`/${iterateElementIndex}${itemPath}`)
+    expect(result.current.itemPath).toBe(
+      `/${iterateElementIndex}${itemPath}`
+    )
+  })
+
   it('should return a combined path when Iterate is inside Form.Section', () => {
     const path = '/path'
     const sectionPath = '/sectionPath'

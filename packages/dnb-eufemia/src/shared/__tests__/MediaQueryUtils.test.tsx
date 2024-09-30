@@ -87,7 +87,9 @@ describe('buildQuery', () => {
   })
 
   it('should return query string for media type with not', () => {
-    expect(buildQuery({ when: { handheld: false } })).toBe('not handheld')
+    expect(buildQuery({ when: { monochrome: false } })).toBe(
+      'not (monochrome)'
+    )
   })
 
   it('should return query string for media type with orientation', () => {
@@ -228,15 +230,30 @@ describe('buildQuery', () => {
       buildQuery({
         when: [
           { minWidth: 10 },
-          { handheld: true, orientation: 'landscape' },
+          { monochrome: true, orientation: 'landscape' },
         ],
       })
-    ).toBe('(min-width: 10em), handheld and (orientation: landscape)')
+    ).toBe('(min-width: 10em), (monochrome) and (orientation: landscape)')
+  })
+
+  it('should combine multiple media queries separated by "and"', () => {
+    expect(
+      buildQuery({
+        when: [
+          { minWidth: 10 },
+          'and',
+          { monochrome: true, orientation: 'landscape' },
+          { maxWidth: 50 },
+        ],
+      })
+    ).toBe(
+      '(min-width: 10em) and (monochrome) and (orientation: landscape), (max-width: 50em)'
+    )
   })
 
   it('should only return feature if its value is true', () => {
     expect(buildQuery({ when: { all: true, monochrome: true } })).toBe(
-      'all and monochrome'
+      'all and (monochrome)'
     )
   })
 })
@@ -278,7 +295,9 @@ describe('convertToMediaQuery', () => {
   })
 
   it('should return query string for media type with not', () => {
-    expect(convertToMediaQuery({ handheld: false })).toBe('not handheld')
+    expect(convertToMediaQuery({ monochrome: false })).toBe(
+      'not (monochrome)'
+    )
   })
 
   it('should return query string for media type with orientation', () => {
@@ -353,14 +372,27 @@ describe('convertToMediaQuery', () => {
     expect(
       convertToMediaQuery([
         { minWidth: 10 },
-        { handheld: true, orientation: 'landscape' },
+        { monochrome: true, orientation: 'landscape' },
       ])
-    ).toBe('(min-width: 10em), handheld and (orientation: landscape)')
+    ).toBe('(min-width: 10em), (monochrome) and (orientation: landscape)')
+  })
+
+  it('should combine multiple media queries separated by "and"', () => {
+    expect(
+      convertToMediaQuery([
+        { minWidth: 10 },
+        'and',
+        { monochrome: true, orientation: 'landscape' },
+        { maxWidth: 50 },
+      ])
+    ).toBe(
+      '(min-width: 10em) and (monochrome) and (orientation: landscape), (max-width: 50em)'
+    )
   })
 
   it('should only return feature if its value is true', () => {
     expect(convertToMediaQuery({ all: true, monochrome: true })).toBe(
-      'all and monochrome'
+      'all and (monochrome)'
     )
   })
 })

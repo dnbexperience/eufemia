@@ -9,22 +9,26 @@ import { Path, ValueProps } from '../types'
 import useExternalValue from './useExternalValue'
 import usePath from './usePath'
 import DataContext from '../DataContext/Context'
+import ValueProviderContext from '../Value/Provider/ValueProviderContext'
 
 export type Props<Value> = ValueProps<Value>
 
 export default function useValueProps<
   Value = unknown,
   Props extends ValueProps<Value> = ValueProps<Value>,
->(props: Props): Props & ValueProps<Value> {
+>(localeProps: Props): Props & ValueProps<Value> {
   const [, forceUpdate] = useReducer(() => ({}), {})
+
+  const { extend } = useContext(ValueProviderContext)
+  const props = extend(localeProps)
 
   const {
     path: pathProp,
     value: valueProp,
     itemPath,
     defaultValue,
-    inheritLabel,
     inheritVisibility,
+    inheritLabel,
     transformIn = (value: Value) => value,
     toInput = (value: Value) => value,
     fromExternal = (value: Value) => value,

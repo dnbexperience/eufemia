@@ -11,7 +11,7 @@ export const DynamicSteps = () => {
   return (
     <ComponentBox>
       <Form.Handler defaultData={{ activeSteps: 'group-1' }}>
-        <Wizard.Container id="my-wizard">
+        <Wizard.Container>
           <Wizard.Step
             title="Step A"
             activeWhen={{ path: '/activeSteps', hasValue: 'group-1' }}

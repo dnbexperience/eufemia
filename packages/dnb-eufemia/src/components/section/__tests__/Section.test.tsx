@@ -72,10 +72,10 @@ describe('Section component', () => {
   })
 
   it('should support any string in style_type', () => {
-    render(<Section style_type="cucstom" />)
+    render(<Section style_type="custom" />)
     expect(
       document.querySelector('section.dnb-section').classList
-    ).toContain('dnb-section--cucstom')
+    ).toContain('dnb-section--custom')
   })
 
   it('should support spacing props', () => {
