@@ -7,11 +7,6 @@ export const NumberFormatProperties: PropertiesTableProps = {
     type: 'number',
     status: 'required',
   },
-  srLabel: {
-    doc: 'Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.',
-    type: 'string',
-    status: 'optional',
-  },
   locale: {
     doc: 'Use a [2 Letter Language Code](https://www.sitepoint.com/iso-2-letter-language-codes/) or an extended code such as `nb-NO`. Use `auto` to detect the locale from the browser (`navigator.language`). Defaults to the Norwegian locale: `nb-NO`.',
     type: 'string',
@@ -20,11 +15,6 @@ export const NumberFormatProperties: PropertiesTableProps = {
   compact: {
     doc: 'Shortens any number or currency including an abbreviation. You can combine `compact` with `currency`. It gives you zero decimal by default `decimals={0}`. Use either `short` or `long`. Defaults to `short` if `true` is given.',
     type: ['boolean', 'string'],
-    status: 'optional',
-  },
-  clean: {
-    doc: 'If set to `true` a dirty string will be parsed to extract the number (`prefix -123.45 suffix` would result in e.g. `kr -123,45`).',
-    type: 'boolean',
     status: 'optional',
   },
   currency: {
@@ -92,6 +82,11 @@ export const NumberFormatProperties: PropertiesTableProps = {
     type: 'React.Node',
     status: 'optional',
   },
+  srLabel: {
+    doc: 'Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.',
+    type: 'string',
+    status: 'optional',
+  },
   selectall: {
     doc: 'Use `false` to disable the auto select all on the first click. Defaults to `true`.',
     type: 'boolean',
@@ -109,6 +104,11 @@ export const NumberFormatProperties: PropertiesTableProps = {
   },
   clean_copy_value: {
     doc: 'If set to `true` the copy&paste value will be provided without e.g. a currency sign or a percent sign. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  clean: {
+    doc: 'If set to `true` a dirty string will be parsed to extract the number (`prefix -123.45 suffix` would result in e.g. `kr -123,45`).',
     type: 'boolean',
     status: 'optional',
   },
