@@ -6,7 +6,7 @@ import React, {
   useEffect,
   useContext,
 } from 'react'
-import pointer, { JsonObject } from 'json-pointer'
+import pointer, { JsonObject } from '../../utils/json-pointer'
 import { ValidateFunction } from 'ajv/dist/2020'
 import {
   Ajv,
@@ -585,7 +585,7 @@ export default function Provider<Data extends JsonObject>(
   }, [])
 
   // - Shared state
-  const sharedData = useSharedState<Data>(id)
+  const sharedData = useSharedState<Data & { clearForm?: () => void }>(id)
   const sharedAttachments = useSharedState<{
     visibleDataHandler?: VisibleDataHandler<Data>
     filterDataHandler?: FilterDataHandler<Data>
@@ -623,7 +623,8 @@ export default function Provider<Data extends JsonObject>(
       initialData &&
       sharedData.data &&
       cacheRef.current.shared === sharedData.data &&
-      internalDataRef.current === initialData
+      internalDataRef.current === initialData &&
+      typeof internalDataRef.current === 'object'
     ) {
       return {
         ...internalDataRef.current,
@@ -647,7 +648,8 @@ export default function Provider<Data extends JsonObject>(
       id &&
       sharedData.data &&
       cacheRef.current.shared !== sharedData.data &&
-      sharedData.data !== internalDataRef.current
+      sharedData.data !== internalDataRef.current &&
+      typeof internalDataRef.current === 'object'
     ) {
       cacheRef.current.shared = sharedData.data
 
@@ -1348,8 +1350,8 @@ export default function Provider<Data extends JsonObject>(
 }
 
 type FormStatusBufferProps = {
-  minimumAsyncBehaviorTime?: Props<unknown>['minimumAsyncBehaviorTime']
-  asyncSubmitTimeout?: Props<unknown>['asyncSubmitTimeout']
+  minimumAsyncBehaviorTime?: Props<JsonObject>['minimumAsyncBehaviorTime']
+  asyncSubmitTimeout?: Props<JsonObject>['asyncSubmitTimeout']
   formState: ContextState['formState']
   waitFor: boolean
   onTimeout: () => void

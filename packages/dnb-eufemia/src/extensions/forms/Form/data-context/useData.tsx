@@ -5,7 +5,7 @@ import {
   useReducer,
   useRef,
 } from 'react'
-import pointer from 'json-pointer'
+import pointer, { JsonObject } from '../../utils/json-pointer'
 import {
   SharedStateId,
   useSharedState,
@@ -37,7 +37,7 @@ type UseDataReturnUpdate<Data> = <P extends Path>(
 
 export type UseDataReturnGetValue<Data> = <P extends Path>(
   path: P
-) => PathType<Data, P>
+) => PathType<Data, P> | unknown
 
 export type UseDataReturnFilterData<Data> = (
   filterDataHandler: FilterData,
@@ -70,7 +70,7 @@ type SharedAttachment<Data> = {
  * @param {Data} initialData - The initial data value (optional).
  * @returns {UseDataReturn<Data>} An object containing the data and data management functions.
  */
-export default function useData<Data>(
+export default function useData<Data = JsonObject>(
   id: SharedStateId = undefined,
   initialData: Data = undefined
 ): UseDataReturn<Data> {
@@ -122,8 +122,8 @@ export default function useData<Data>(
   const update = useCallback<UseDataReturnUpdate<Data>>(
     (path, value = undefined) => {
       const existingData = structuredClone(
-        sharedDataRef.current.data || ({} as Data)
-      )
+        sharedDataRef.current.data || {}
+      ) as Data & JsonObject
       const existingValue = pointer.has(existingData, path)
         ? pointer.get(existingData, path)
         : undefined
@@ -150,8 +150,8 @@ export default function useData<Data>(
   const remove = useCallback<UseDataReturn<Data>['remove']>(
     (path) => {
       const existingData = structuredClone(
-        sharedDataRef.current.data || ({} as Data)
-      )
+        sharedDataRef.current.data || {}
+      ) as Data & JsonObject
 
       if (pointer.has(existingData, path)) {
         // Remove existing data

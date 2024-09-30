@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import pointer from 'json-pointer'
+import pointer from '../../utils/json-pointer'
 import { Identifier, Path } from '../../types'
 import { useData, getData } from '../../Form'
 

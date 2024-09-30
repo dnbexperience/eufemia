@@ -1,5 +1,5 @@
 import { useCallback, useContext, useRef } from 'react'
-import pointer from 'json-pointer'
+import pointer from '../utils/json-pointer'
 import { Path } from '../types'
 import DataContext, { ContextState } from '../DataContext/Context'
 import usePath from './usePath'
@@ -48,14 +48,14 @@ export default function useDataValue<Value>({
     [get, makeIteratePath]
   )
 
-  const moveValueToPath = useCallback(<T>(path: Path, value: unknown) => {
+  const moveValueToPath = useCallback(<T>(path: Path, value: T): T => {
     if (path !== '/' && isPath(path)) {
-      const obj = {} as T
+      const obj = {}
       pointer.set(obj, path, value)
-      return obj
+      return obj as T
     }
 
-    return value as T
+    return value
   }, [])
 
   const getData = useCallback(

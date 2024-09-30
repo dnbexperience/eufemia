@@ -567,7 +567,7 @@ describe('DataContext.Provider', () => {
         })
 
         let filteredData = undefined
-        const onSubmit: OnSubmit = jest.fn((data, { filterData }) => {
+        const onSubmit = jest.fn((data, { filterData }) => {
           return (filteredData = filterData(filterDataHandler))
         })
 
