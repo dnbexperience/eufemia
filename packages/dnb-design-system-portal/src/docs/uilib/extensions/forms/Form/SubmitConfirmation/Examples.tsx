@@ -122,6 +122,7 @@ export const WithCustomReturnStatus = () => {
                 variant="confirmation"
                 title="Dialog confirmation title"
                 description="Some content describing the situation."
+                confirmText="Send"
                 {...connectWithDialog}
               >
                 <Section
