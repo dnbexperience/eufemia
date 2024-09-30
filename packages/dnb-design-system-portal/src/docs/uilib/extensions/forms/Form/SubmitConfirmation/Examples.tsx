@@ -97,6 +97,7 @@ export const WithCustomReturnStatus = () => {
   return (
     <ComponentBox>
       <Form.Handler
+        locale="en-GB"
         onSubmit={async () => {
           await new Promise((resolve) => setTimeout(resolve, 2000))
           return {
