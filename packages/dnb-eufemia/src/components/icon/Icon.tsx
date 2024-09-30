@@ -63,7 +63,7 @@ export type IconColor =
 
 export type IconProps = {
   /**
-   * A React SVG Component or the icon name (in case we use `IconPrimary` or `dnb-icon-primary`).
+   * A React SVG Component.
    */
   icon?: IconIcon
 
