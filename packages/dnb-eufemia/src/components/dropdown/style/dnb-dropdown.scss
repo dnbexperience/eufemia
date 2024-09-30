@@ -378,14 +378,14 @@
 .dnb-drawer-list--triangle-position {
   // Cant access --dropdown-padding-horizontal, as the drawer list is outside of the dropdown scope
   &-left {
-    .dnb-dropdown__list .dnb-drawer-list__triangle {
+    .dnb-dropdown__list--tertiary .dnb-drawer-list__triangle {
       // --dropdown-padding-horizontal divided by two
       margin-left: 0.5rem;
     }
   }
 
   &-right {
-    .dnb-dropdown__list .dnb-drawer-list__triangle {
+    .dnb-dropdown__list--tertiary .dnb-drawer-list__triangle {
       // --dropdown-padding-horizontal divided by two
       margin-right: 0.5rem;
     }
