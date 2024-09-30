@@ -2,10 +2,16 @@ import { PropertiesTableProps } from '../../../../shared/types'
 import { NumberProperties } from '../Number/NumberDocs'
 
 export const CurrencyValueProperties: PropertiesTableProps = {
+  value: NumberProperties.value,
+  currency: NumberProperties.currency,
+  currencyDisplay: NumberProperties.currencyDisplay,
+  currencyPosition: NumberProperties.currencyPosition,
   ...NumberProperties,
-  currency: {
-    doc: 'Currency code (ISO 4217) or `true` to use the default `NOK`, which use two decimals by default. Defaults to value `NOK`.',
-    type: ['string', 'boolean'],
-    status: 'optional',
-  },
+  ban: undefined,
+  nin: undefined,
+  org: undefined,
+  percent: undefined,
+  phone: undefined,
+  link: undefined,
+  omitRounding: undefined,
 }

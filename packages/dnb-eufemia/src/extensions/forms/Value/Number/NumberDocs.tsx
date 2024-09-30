@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../../../shared/types'
 import { NumberFormatPropertiesCamelCase } from '../../../../components/number-format/NumberFormatDocs'
 
 export const NumberProperties: PropertiesTableProps = {
-  ...NumberFormatPropertiesCamelCase,
+  value: NumberFormatPropertiesCamelCase.value,
   minimum: {
     doc: 'Defines the minimum value of the rendered number. Defaults to `Number.MIN_SAFE_INTEGER`.',
     type: 'number',
@@ -13,4 +13,5 @@ export const NumberProperties: PropertiesTableProps = {
     type: 'number',
     status: 'optional',
   },
+  ...NumberFormatPropertiesCamelCase,
 }
