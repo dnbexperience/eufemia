@@ -24,7 +24,6 @@ import IterateItemContext, {
 import SummaryListContext from '../../Value/SummaryList/SummaryListContext'
 import ValueBlockContext from '../../ValueBlock/ValueBlockContext'
 import FieldBoundaryProvider from '../../DataContext/FieldBoundary/FieldBoundaryProvider'
-import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
 import { useArrayLimit, useSwitchContainerMode } from '../hooks'
 import { getMessage } from '../../FieldBlock'
@@ -90,7 +89,6 @@ function ArrayComponent(props: Props) {
     value: arrayValue,
     limit,
     error,
-    defaultValue,
     withoutFlex,
     emptyValue,
     placeholder,
@@ -100,7 +98,11 @@ function ArrayComponent(props: Props) {
     setChanged,
     onChange,
     children,
-  } = useFieldProps(preparedProps)
+  } = useFieldProps(preparedProps, {
+    // To ensure the defaultValue set on the Iterate.Array is set in the data context,
+    // and will not overwrite defaultValues set by fields inside the Iterate.Array.
+    updateContextDataInSync: true,
+  })
 
   useMountEffect(() => {
     // To ensure the validator is called when a new item is added
@@ -128,15 +130,6 @@ function ArrayComponent(props: Props) {
   >({})
 
   const omitFlex = withoutFlex ?? (summaryListContext || valueBlockContext)
-
-  // To support React.StrictMode, we inject the defaultValue into the data context this way.
-  // The routine inside useFieldProps where updateDataValueDataContext is called, does not support React.StrictMode
-  const { handlePathChange } = useContext(DataContext) || {}
-  useMountEffect(() => {
-    if (defaultValue) {
-      handlePathChange?.(path, defaultValue)
-    }
-  })
 
   useEffect(() => {
     // Update inside the useEffect, to support React.StrictMode

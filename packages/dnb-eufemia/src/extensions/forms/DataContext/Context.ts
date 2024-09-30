@@ -99,7 +99,11 @@ export interface ContextState {
     | unknown
     | Promise<EventReturnWithStateObject | unknown>
   handlePathChangeUnvalidated: (path: Path, value: any) => void
-  updateDataValue: (path: Path, value: any) => void
+  updateDataValue: (
+    path: Path,
+    value: any,
+    options?: { preventUpdate?: boolean }
+  ) => void
   setData: (data: any) => void
   clearData?: () => void
   mutateDataHandler?: MutateDataHandler<unknown>
