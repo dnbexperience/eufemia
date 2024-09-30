@@ -646,7 +646,10 @@ class DropdownInstance extends React.PureComponent {
                 id={id}
                 role={handleAsMenu ? 'menu' : 'listbox'}
                 portal_class={portal_class}
-                list_class="dnb-dropdown__list"
+                list_class={classnames(
+                  'dnb-dropdown__list',
+                  variant === 'tertiary' && 'dnb-dropdown__list--tertiary'
+                )}
                 value={selected_item}
                 default_value={default_value}
                 scrollable={scrollable}

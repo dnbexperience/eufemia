@@ -2142,12 +2142,6 @@ button .dnb-form-status__text {
 .dnb-dropdown__row {
   display: inline-flex;
 }
-.dnb-dropdown--large .dnb-drawer-list__triangle {
-  margin-left: calc(var(--dropdown-padding-horizontal) - 0.25rem);
-}
-.dnb-dropdown--icon-position-left.dnb-dropdown--large .dnb-drawer-list__triangle {
-  margin-left: calc(var(--dropdown-padding-horizontal) + 0.25rem);
-}
 .dnb-dropdown__icon {
   position: relative;
   order: 2;
@@ -2387,6 +2381,13 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
   .dnb-responsive-component .dnb-dropdown__helper {
     display: none;
   }
+}
+
+.dnb-drawer-list--triangle-position-left .dnb-dropdown__list--tertiary .dnb-drawer-list__triangle {
+  margin-left: 0.5rem;
+}
+.dnb-drawer-list--triangle-position-right .dnb-dropdown__list--tertiary .dnb-drawer-list__triangle {
+  margin-right: 0.5rem;
 }
 
 /*
