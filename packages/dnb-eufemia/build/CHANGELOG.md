@@ -3,6 +3,43 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.51.0](https://github.com/dnbexperience/eufemia/compare/v10.50.0...v10.51.0) (2024-09-30)
+
+
+### :bug: Bug Fixes
+
+* **Field.Toggle:** removes invisible label when label not provided ([#3984](https://github.com/dnbexperience/eufemia/issues/3984)) ([c945d5b](https://github.com/dnbexperience/eufemia/commit/c945d5b1bbf49d70bc06c722f73d5ecf573d4038))
+* **Forms:** `Form.useData` should not throw error when used in Wizard ([#4001](https://github.com/dnbexperience/eufemia/issues/4001)) ([aac721b](https://github.com/dnbexperience/eufemia/commit/aac721b63daadb9cf8dbf39baf5fbe7d3717eb1f))
+* **Forms:** ensure `itemNr` still works in the Iterate.ViewContainer ([#4002](https://github.com/dnbexperience/eufemia/issues/4002)) ([6f8bfb3](https://github.com/dnbexperience/eufemia/commit/6f8bfb34b645d32edfdee96120c448e99840d31c))
+* **Forms:** keep field state during a Wizard step change when used inside Iterate.Array (which used defualtValue as the data source) ([#4025](https://github.com/dnbexperience/eufemia/issues/4025)) ([595cfd5](https://github.com/dnbexperience/eufemia/commit/595cfd55997ceaf3f0da63908f1b7042d6ce56c1))
+* **Forms:** removes cards max-width in Wizard (StepIndicator) ([#4011](https://github.com/dnbexperience/eufemia/issues/4011)) ([2bc8812](https://github.com/dnbexperience/eufemia/commit/2bc8812b091331ff35902d0fbbddabd9599b2114))
+* **Tabs:** fix align property with value center ([#3991](https://github.com/dnbexperience/eufemia/issues/3991)) ([8483df8](https://github.com/dnbexperience/eufemia/commit/8483df8a27521c19417655c329eff332a422ec7e))
+
+
+### :sparkles: Features
+
+* **ChildrenWithAge:** display hasChildren value in summary ([#3993](https://github.com/dnbexperience/eufemia/issues/3993)) ([9ab9de5](https://github.com/dnbexperience/eufemia/commit/9ab9de53df5c239bdffa29f5529ad83174328c86))
+* **Field.Date:** add date range functionality ([#4006](https://github.com/dnbexperience/eufemia/issues/4006)) ([12081c3](https://github.com/dnbexperience/eufemia/commit/12081c3be7bdcf1d858e6097b17b9c263e4b0e57))
+* **Forms:** add `Form.SubmitConfirmation` to confirm a submit during or before sent ([#4019](https://github.com/dnbexperience/eufemia/issues/4019)) ([dfce4e4](https://github.com/dnbexperience/eufemia/commit/dfce4e468bd4894b7d1484c1edd7bed6edfa6c1c))
+* **Forms:** add `inheritVisibility` to Value.SummaryList ([#4003](https://github.com/dnbexperience/eufemia/issues/4003)) ([9849516](https://github.com/dnbexperience/eufemia/commit/9849516cf2e3ef7059fc5b3a1fbb1060d5401d45))
+* **Forms:** add inheritLabel to Value.SummaryList ([#4009](https://github.com/dnbexperience/eufemia/issues/4009)) ([1715a6a](https://github.com/dnbexperience/eufemia/commit/1715a6adfbc39f341bb29cd6a278b9c88412a3ea))
+* **Forms:** add Value.Provider to propagate value props down to Value.* components (e.g. `inheritVisibility`) ([#4005](https://github.com/dnbexperience/eufemia/issues/4005)) ([c3f10e3](https://github.com/dnbexperience/eufemia/commit/c3f10e3e50512b3660dd7d9b5b469f5bce7569fa)), closes [#4003](https://github.com/dnbexperience/eufemia/issues/4003)
+* **Forms:** deprecate `Form.FieldProps` in favor of `Field.Provider` ([#4020](https://github.com/dnbexperience/eufemia/issues/4020)) ([d549870](https://github.com/dnbexperience/eufemia/commit/d5498704b2f3529a13f79f8da437070ea1edce96))
+* **Forms:** deprecate Form.useError in favor of `Form.useValidation` featuring `setFieldStatus` to handle the status (error) of a single field ([#3986](https://github.com/dnbexperience/eufemia/issues/3986)) ([dd39eef](https://github.com/dnbexperience/eufemia/commit/dd39eefbb8aa17d22d16b70d417b5cd75c57f5d4))
+* **Forms:** implement TypeScript version of `json-pointer` ([#4000](https://github.com/dnbexperience/eufemia/issues/4000)) ([f3caa4b](https://github.com/dnbexperience/eufemia/commit/f3caa4b97867500a111e1643f180c0854d49d7ab))
+* **NumberFormat:** add `half-even` rounding and deprecated `omit_rounding` in favor of `rounding="omit"` ([#3988](https://github.com/dnbexperience/eufemia/issues/3988)) ([0c121f1](https://github.com/dnbexperience/eufemia/commit/0c121f145bee840cea5daf545ce9727dfe0bb1bf))
+* **SASS mixins:** media queries mixins now uses 0.1px instead of 1px to avoid overlap ([#3985](https://github.com/dnbexperience/eufemia/issues/3985)) ([1cb495a](https://github.com/dnbexperience/eufemia/commit/1cb495a5894c53f57fa02adf6c72fc63bc5cac3d)), closes [media#sect2](https://github.com/dnbexperience/media/issues/sect2)
+* **Switch:** refactor to typescript ([#3727](https://github.com/dnbexperience/eufemia/issues/3727)) ([4833c42](https://github.com/dnbexperience/eufemia/commit/4833c42e922755eaed1923873265d5bfdb808929))
+
+
+### :memo: Documentation
+
+* adds import statement to info doc for layout ([#4018](https://github.com/dnbexperience/eufemia/issues/4018)) ([0508c4b](https://github.com/dnbexperience/eufemia/commit/0508c4b00038e1fbcbb2cd91b56b03ac06f1af4b))
+* **Forms:** improves docs for Value.Number & Value.Currency ([#4008](https://github.com/dnbexperience/eufemia/issues/4008)) ([cc1c365](https://github.com/dnbexperience/eufemia/commit/cc1c365936b5bee94fe37129e744726a6f58e7da))
+* **Portal:** add accordion to side menu ([#3794](https://github.com/dnbexperience/eufemia/issues/3794)) ([e2604f6](https://github.com/dnbexperience/eufemia/commit/e2604f68ae48a8a964b87ce8ceb3af6b801e5742))
+* prop -> property, and props -> properties ([#3990](https://github.com/dnbexperience/eufemia/issues/3990)) ([a122fa2](https://github.com/dnbexperience/eufemia/commit/a122fa24462eb456507de9fca2781c05480eb528))
+* **Value.Currency:** improve documented properties ([#4022](https://github.com/dnbexperience/eufemia/issues/4022)) ([d392901](https://github.com/dnbexperience/eufemia/commit/d3929016120f254c4e18f056f3aa41901bd656fa)), closes [/github.com/dnbexperience/eufemia/pull/4008#discussion_r1776864819](https://github.com/dnbexperience//github.com/dnbexperience/eufemia/pull/4008/issues/discussion_r1776864819)
+
 ## [10.50.0](https://github.com/dnbexperience/eufemia/compare/v10.49.0...v10.50.0) (2024-09-23)
 
 
