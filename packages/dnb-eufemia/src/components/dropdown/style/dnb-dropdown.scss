@@ -56,23 +56,6 @@
     display: inline-flex;
   }
 
-  // NB: looks like we don't need this anymore!
-  // &--default .dnb-drawer-list__list {
-  //   top: var(--dropdown-height);
-  //   bottom: auto;
-  // }
-  // &--default#{&}--top .dnb-drawer-list__list {
-  //   bottom: var(--dropdown-height);
-  //   top: auto;
-  // }
-
-  &--large .dnb-drawer-list__triangle {
-    margin-left: calc(var(--dropdown-padding-horizontal) - 0.25rem);
-  }
-  &--icon-position-left#{&}--large .dnb-drawer-list__triangle {
-    margin-left: calc(var(--dropdown-padding-horizontal) + 0.25rem);
-  }
-
   &__icon {
     position: relative;
     order: 2;
@@ -388,6 +371,23 @@
       &__helper {
         display: none;
       }
+    }
+  }
+}
+
+.dnb-drawer-list--triangle-position {
+  // Cant access --dropdown-padding-horizontal, as the drawer list is outside of the dropdown scope
+  &-left {
+    .dnb-dropdown__list--tertiary .dnb-drawer-list__triangle {
+      // --dropdown-padding-horizontal divided by two
+      margin-left: 0.5rem;
+    }
+  }
+
+  &-right {
+    .dnb-dropdown__list--tertiary .dnb-drawer-list__triangle {
+      // --dropdown-padding-horizontal divided by two
+      margin-right: 0.5rem;
     }
   }
 }
