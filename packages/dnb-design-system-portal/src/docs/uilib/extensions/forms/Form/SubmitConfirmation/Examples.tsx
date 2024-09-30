@@ -97,6 +97,7 @@ export const WithCustomReturnStatus = () => {
   return (
     <ComponentBox>
       <Form.Handler
+        locale="en-GB"
         onSubmit={async () => {
           await new Promise((resolve) => setTimeout(resolve, 2000))
           return {
@@ -121,6 +122,7 @@ export const WithCustomReturnStatus = () => {
                 variant="confirmation"
                 title="Dialog confirmation title"
                 description="Some content describing the situation."
+                confirmText="Send"
                 {...connectWithDialog}
               >
                 <Section
