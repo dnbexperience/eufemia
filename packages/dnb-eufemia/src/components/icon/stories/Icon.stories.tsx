@@ -19,6 +19,7 @@ export const IconSandbox = () => (
     <Box>
       text
       <Svg />
+      <Icon icon="bell" />
       <Icon icon={Svg} />
     </Box>
     <Box>
