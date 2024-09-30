@@ -3,6 +3,19 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.51.1](https://github.com/dnbexperience/eufemia/compare/v10.51.0...v10.51.1) (2024-09-30)
+
+
+### :memo: Documentation
+
+* **Icon:** removes string as a icon type ([#4034](https://github.com/dnbexperience/eufemia/issues/4034)) ([4c53199](https://github.com/dnbexperience/eufemia/commit/4c53199d6aa16c0c36ea19824e73053c6872fcef))
+
+
+### :bug: Bug Fixes
+
+* **Dropdown:** align tertiary dropdown triangle icon with button ([#4023](https://github.com/dnbexperience/eufemia/issues/4023)) ([1527d70](https://github.com/dnbexperience/eufemia/commit/1527d70b8073323b2e3f2dfae4347e3a84e3f427))
+* **Form.UseData:** getValue returns any instead of unknown ([#4035](https://github.com/dnbexperience/eufemia/issues/4035)) ([8434de9](https://github.com/dnbexperience/eufemia/commit/8434de9e94d630dadb274365020991daa2dedf85))
+
 ## [10.51.0](https://github.com/dnbexperience/eufemia/compare/v10.50.0...v10.51.0) (2024-09-30)
 
 
