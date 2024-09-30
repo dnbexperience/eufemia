@@ -37,7 +37,7 @@ type UseDataReturnUpdate<Data> = <P extends Path>(
 
 export type UseDataReturnGetValue<Data> = <P extends Path>(
   path: P
-) => PathType<Data, P> | unknown
+) => PathType<Data, P> | any
 
 export type UseDataReturnFilterData<Data> = (
   filterDataHandler: FilterData,
