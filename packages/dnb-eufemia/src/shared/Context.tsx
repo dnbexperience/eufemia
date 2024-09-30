@@ -7,7 +7,7 @@ import { createContext } from 'react'
 import { LOCALE, CURRENCY, CURRENCY_DISPLAY } from './defaults'
 import defaultLocales from './locales'
 import { extendDeep } from './component-helper'
-import pointer from 'json-pointer'
+import pointer from '../extensions/forms/utils/json-pointer'
 
 // All TypeScript based Eufemia elements
 import type { ScrollViewProps } from '../fragments/scroll-view/ScrollView'
@@ -228,10 +228,10 @@ export type TranslationFlat = Record<
 
 export type TranslationFlatToObject<T> = T extends Record<string, unknown>
   ? {
-      // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line
       [K in keyof T as K extends `${infer First}.${infer Rest}`
         ? First
-        : // eslint-disable-next-line no-unused-vars
+        : // eslint-disable-next-line
           K]: K extends `${infer First}.${infer Rest}`
         ? TranslationFlatToObject<Record<Rest, T[K]>>
         : T[K]

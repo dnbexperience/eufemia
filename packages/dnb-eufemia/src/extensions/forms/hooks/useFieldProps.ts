@@ -7,7 +7,7 @@ import React, {
   useReducer,
   AriaAttributes,
 } from 'react'
-import pointer from 'json-pointer'
+import pointer from '../utils/json-pointer'
 import { ValidateFunction } from 'ajv/dist/2020'
 import { errorChanged } from '../utils'
 import { ajvErrorsToOneFormError } from '../utils/ajv'
@@ -247,7 +247,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           ? pointer.get(schema, schemaPath)
           : schema
 
-        requiredList.push(schemaPart?.required)
+        requiredList.push(schemaPart?.['required'])
       }
 
       if (sectionPath) {
@@ -1632,7 +1632,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         if (hasValue) {
           const sharedValue = pointer.get(sharedState.data, identifier)
           if (sharedValue) {
-            value = sharedValue
+            value = sharedValue as Value
           }
         }
       }

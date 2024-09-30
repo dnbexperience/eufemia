@@ -1,5 +1,5 @@
 import { useContext, useMemo } from 'react'
-import pointer from 'json-pointer'
+import pointer from '../utils/json-pointer'
 import { FieldProps, Path } from '../types'
 import DataContext from '../DataContext/Context'
 import IterateElementContext from '../Iterate/IterateItemContext'

@@ -1,5 +1,5 @@
 import { isValidElement, useCallback, useContext, useRef } from 'react'
-import pointer, { JsonObject } from 'json-pointer'
+import pointer, { JsonObject } from '../utils/json-pointer'
 import DataContext, { FilterData } from '../DataContext/Context'
 
 export type ListAllPropsReturn = {

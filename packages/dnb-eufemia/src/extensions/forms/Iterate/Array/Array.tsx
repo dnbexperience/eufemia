@@ -7,7 +7,7 @@ import React, {
   useContext,
 } from 'react'
 import classnames from 'classnames'
-import pointer from 'json-pointer'
+import pointer from '../../utils/json-pointer'
 import { useFieldProps } from '../../hooks'
 import { makeUniqueId } from '../../../../shared/component-helper'
 import { Flex, FormStatus, HeightAnimation } from '../../../../components'

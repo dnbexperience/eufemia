@@ -15,6 +15,7 @@ import type {
   FieldProps,
   OnChange,
 } from '../../types'
+import type { JsonObject } from '../../utils/json-pointer'
 
 export type OverwritePropsDefaults = {
   [key: Path]: (FieldProps & FieldBlockProps) | OverwritePropsDefaults
@@ -55,7 +56,7 @@ export type SectionProps<overwriteProps = OverwritePropsDefaults> = {
    */
   errorPrioritization?: SectionContextState['errorPrioritization']
 } & Pick<
-  DataContextProps<unknown>,
+  DataContextProps<JsonObject>,
   'data' | 'defaultData' | 'onChange' | 'translations'
 >
 

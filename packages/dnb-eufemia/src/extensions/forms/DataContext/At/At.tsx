@@ -1,5 +1,5 @@
 import React, { useCallback, useContext } from 'react'
-import pointer from 'json-pointer'
+import pointer from '../../utils/json-pointer'
 import type { ComponentProps } from '../../types'
 import Context, { ContextState } from '../Context'
 
