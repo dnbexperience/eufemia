@@ -310,3 +310,25 @@ export function InheritVisibility() {
     </ComponentBox>
   )
 }
+
+export function VisibilityOnValidation() {
+  return (
+    <ComponentBox>
+      <Form.Handler>
+        <Card stack>
+          <Field.Name.First path="/foo" required />
+
+          <Form.Visibility
+            visibleWhen={{
+              path: '/foo',
+              hasValidated: true,
+            }}
+            animate
+          >
+            <Value.Name.First path="/foo" />
+          </Form.Visibility>
+        </Card>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}

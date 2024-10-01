@@ -56,3 +56,11 @@ In this example we filter out all fields that have the `data-exclude-field` attr
 ### Inherit visibility
 
 <Examples.InheritVisibility />
+
+### Visibility on validation
+
+When using `hasValidated`, the visibility will only change when the field has no errors and has lost focus (blurred).
+
+This prevents visibility changes during user interactions like typing.
+
+<Examples.VisibilityOnValidation />

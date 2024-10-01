@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { Field, Form } from '../../..'
+import { Field, Form, Value } from '../../..'
 import { Flex, Section, Card } from '../../../../../components'
 import { P, Ul, Li } from '../../../../../elements'
 
@@ -469,6 +469,26 @@ export const wrappingSingleVisibilityInRootFragment = () => {
             <P>text</P>
           </Form.Visibility>
         </>
+      </Card>
+    </Form.Handler>
+  )
+}
+
+export function VisibilityOnValidation() {
+  return (
+    <Form.Handler>
+      <Card stack>
+        <Field.Name.First path="/foo" required />
+
+        <Form.Visibility
+          visibleWhen={{
+            path: '/foo',
+            hasValidated: true,
+          }}
+          animate
+        >
+          <Value.Name.First path="/foo" />
+        </Form.Visibility>
       </Card>
     </Form.Handler>
   )

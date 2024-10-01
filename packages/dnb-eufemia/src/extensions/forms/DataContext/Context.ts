@@ -20,6 +20,7 @@ export type MountState = {
   isPreMounted?: boolean
   isMounted?: boolean
   isVisible?: boolean
+  isFocused?: boolean
   wasStepChange?: boolean
 }
 

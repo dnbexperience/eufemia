@@ -16,12 +16,21 @@ import VisibilityContext from './VisibilityContext'
 export type VisibleWhen =
   | {
       path: Path
-      hasValue: unknown
+      hasValue: unknown | ((value: unknown) => boolean)
     }
   | {
       itemPath: Path
-      hasValue: unknown
+      hasValue: unknown | ((value: unknown) => boolean)
     }
+  | {
+      path: Path
+      hasValidated: boolean
+    }
+  | {
+      itemPath: Path
+      hasValidated: boolean
+    }
+
   /**
    * @deprecated Will be removed in v11!
    */
