@@ -303,6 +303,7 @@ export default function Provider<Data extends JsonObject>(
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Avoid triggering code that should only run initially
   }, [])
   const internalDataRef = useRef<Data>(initialData)
+  const isEmptyDataRef = useRef(false)
 
   // - Validator
   const ajvValidatorRef = useRef<ValidateFunction>()
@@ -658,8 +659,10 @@ export default function Provider<Data extends JsonObject>(
     ) {
       cacheRef.current.shared = sharedData.data
 
-      if (internalDataRef.current === clearedData) {
-        return clearedData as Data
+      if (isEmptyDataRef.current) {
+        return (
+          Array.isArray(internalDataRef.current) ? [] : clearedData
+        ) as Data
       }
 
       return {
@@ -683,7 +686,11 @@ export default function Provider<Data extends JsonObject>(
       : internalData
 
   const clearData = useCallback(() => {
-    internalDataRef.current = (emptyData ?? clearedData) as Data
+    isEmptyDataRef.current = true
+    internalDataRef.current = ((typeof emptyData === 'function'
+      ? emptyData(internalDataRef.current)
+      : emptyData) ??
+      (Array.isArray(internalDataRef.current) ? [] : clearedData)) as Data
 
     if (id) {
       setSharedData?.(internalDataRef.current)
@@ -691,6 +698,10 @@ export default function Provider<Data extends JsonObject>(
 
     forceUpdate()
     onClear?.()
+
+    requestAnimationFrame?.(() => {
+      isEmptyDataRef.current = false
+    }) // Delay so the field validation error message are not shown
   }, [emptyData, id, onClear, setSharedData])
 
   useEffect(() => {
@@ -1329,6 +1340,7 @@ export default function Provider<Data extends JsonObject>(
         id,
         data: internalDataRef.current,
         internalDataRef,
+        isEmptyDataRef,
         props,
         ...rest,
       }}

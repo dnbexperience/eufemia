@@ -1785,8 +1785,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const isEmptyData = useCallback(
     () => {
       return (
+        dataContext.isEmptyDataRef?.current ||
         dataContext.internalDataRef?.current ===
-        (dataContext.props?.emptyData ?? clearedData)
+          (dataContext.props?.emptyData ?? clearedData)
       )
     },
 
@@ -1822,11 +1823,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   useEffect(() => {
     if (isEmptyData()) {
-      // Fill the data context with the default value after it has been cleared
-      requestAnimationFrame(() => {
-        setContextData()
-        validateValue()
-      })
+      setContextData()
+      validateValue()
     }
   }, [isEmptyData, setContextData, validateValue])
 
