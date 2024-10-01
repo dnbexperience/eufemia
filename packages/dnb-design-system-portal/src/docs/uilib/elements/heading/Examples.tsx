@@ -51,16 +51,19 @@ export const HeadingModifiersExample = () => (
   <ComponentBox hideCode data-visual-test="heading-additional">
     <article>
       <h1 className="dnb-h--xx-large">
-        <small>dnb-h--x-large</small> Normal dnb-h--xx-large
+        .dnb-h--xx-large <small>small</small>
       </h1>
+      <h2 className="dnb-h--x-large">
+        .dnb-h--x-large <small>small</small>
+      </h2>
       <h2 className="dnb-h--large">
-        Normal dnb-h--large <small>dnb-h--medium</small>
+        .dnb-h--large <small>small</small>
       </h2>
       <h3 className="dnb-h--medium">
-        Normal dnb-h--medium <small>dnb-h--basis</small>
+        .dnb-h--medium <small>small</small>
       </h3>
       <h3 className="dnb-lead">
-        Normal dnb-lead <small>small</small>
+        .dnb-lead <small>small</small>
       </h3>
     </article>
   </ComponentBox>
