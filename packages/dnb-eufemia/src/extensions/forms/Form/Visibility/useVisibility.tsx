@@ -63,7 +63,7 @@ export default function useVisibility(props?: Partial<Props>) {
             return visibleWhenNot ? true : false
           }
           const result =
-            item.isFocused === false && hasFieldError(path) === false
+            item.isFocused !== true && hasFieldError(path) === false
           return visibleWhenNot ? !result : result
         }
 

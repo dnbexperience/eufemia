@@ -320,7 +320,7 @@ describe('useVisibility', () => {
         ).toBe(false)
       })
 
-      it('should return false children when path did validate, but is not blurred', () => {
+      it('should return true children when path did validate initially', () => {
         const { result } = renderHook(useVisibility, {
           wrapper: ({ children }) => (
             <Provider>
@@ -337,7 +337,7 @@ describe('useVisibility', () => {
               hasValidated: true,
             },
           })
-        ).toBe(false)
+        ).toBe(true)
       })
 
       it('should return true when path did validate after blur', () => {
@@ -359,6 +359,7 @@ describe('useVisibility', () => {
           })
         ).toBe(false)
 
+        fireEvent.focus(document.querySelector('input'))
         fireEvent.change(document.querySelector('input'), {
           target: { value: '2' },
         })
@@ -455,7 +456,7 @@ describe('useVisibility', () => {
         ).toBe(true)
       })
 
-      it('should return true children when path did validate, but is not blurred', () => {
+      it('should return false children when path did validate initially', () => {
         const { result } = renderHook(useVisibility, {
           wrapper: ({ children }) => (
             <Provider>
@@ -472,7 +473,7 @@ describe('useVisibility', () => {
               hasValidated: true,
             },
           })
-        ).toBe(true)
+        ).toBe(false)
       })
 
       it('should return false when path did validate after blur', () => {
@@ -494,6 +495,7 @@ describe('useVisibility', () => {
           })
         ).toBe(true)
 
+        fireEvent.focus(document.querySelector('input'))
         fireEvent.change(document.querySelector('input'), {
           target: { value: '2' },
         })
