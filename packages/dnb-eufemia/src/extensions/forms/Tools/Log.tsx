@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import React, { useContext } from 'react'
 import DataContext from '../DataContext/Context'
 import Section, { SectionProps } from '../../../components/Section'
 

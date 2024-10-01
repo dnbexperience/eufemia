@@ -451,6 +451,200 @@ describe('PushContainer', () => {
     )
   })
 
+  describe('defaultValue', () => {
+    it('should render and set defaultValue in data context', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Form.Handler onChange={onChange}>
+          <Iterate.PushContainer path="/myList">
+            <Field.String itemPath="/foo" defaultValue="bar" />
+          </Iterate.PushContainer>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('input')).toHaveValue('bar')
+      await userEvent.click(document.querySelector('button'))
+
+      expect(document.querySelector('input')).toHaveValue('bar')
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          myList: [{ foo: 'bar' }],
+        },
+        expect.anything()
+      )
+
+      await userEvent.click(document.querySelector('button'))
+
+      expect(document.querySelector('input')).toHaveValue('bar')
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          myList: [{ foo: 'bar' }, { foo: 'bar' }],
+        },
+        expect.anything()
+      )
+    })
+
+    it('should support "/" as the path and push the defaultValue', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Form.Handler onChange={onChange}>
+          <Iterate.PushContainer path="/">
+            <Field.String itemPath="/" defaultValue="foo" />
+          </Iterate.PushContainer>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('input')).toHaveValue('foo')
+      await userEvent.click(document.querySelector('button'))
+
+      expect(document.querySelector('input')).toHaveValue('foo')
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenLastCalledWith(['foo'], expect.anything())
+
+      await userEvent.click(document.querySelector('button'))
+
+      expect(document.querySelector('input')).toHaveValue('foo')
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onChange).toHaveBeenLastCalledWith(
+        ['foo', 'foo'],
+        expect.anything()
+      )
+    })
+
+    it('should render and extend the data context', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Form.Handler data={['foo']} onChange={onChange}>
+          <Iterate.Array path="/">
+            <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
+            <Iterate.EditContainer>Edit Content</Iterate.EditContainer>
+          </Iterate.Array>
+
+          <Iterate.PushContainer path="/">
+            <Field.String itemPath="/" defaultValue="bar" />
+          </Iterate.PushContainer>
+        </Form.Handler>
+      )
+
+      const blocks = Array.from(
+        document.querySelectorAll('.dnb-forms-section-block')
+      )
+      const [, , thirdBlock] = blocks
+
+      const input = thirdBlock.querySelector('input')
+      expect(input).toHaveValue('bar')
+
+      await userEvent.click(thirdBlock.querySelector('button'))
+
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenLastCalledWith(
+        ['foo', 'bar'],
+        expect.anything()
+      )
+    })
+
+    it('should keep the defaultValue after clearing', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Form.Handler onChange={onChange}>
+          <Iterate.PushContainer path="/entries">
+            <Field.Name.First
+              itemPath="/first"
+              defaultValue="first name"
+              required
+            />
+            <Field.Name.Last
+              itemPath="/last"
+              defaultValue="last name"
+              required
+            />
+          </Iterate.PushContainer>
+        </Form.Handler>
+      )
+
+      const [firstInput, lastInput] = Array.from(
+        document.querySelectorAll('input')
+      )
+      const button = document.querySelector('button')
+
+      expect(firstInput).toHaveValue('first name')
+      expect(lastInput).toHaveValue('last name')
+
+      await userEvent.click(button)
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          entries: [
+            {
+              first: 'first name',
+              last: 'last name',
+            },
+          ],
+        },
+        expect.anything()
+      )
+
+      expect(firstInput).toHaveValue('first name')
+      expect(lastInput).toHaveValue('last name')
+
+      await userEvent.click(button)
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          entries: [
+            {
+              first: 'first name',
+              last: 'last name',
+            },
+            {
+              first: 'first name',
+              last: 'last name',
+            },
+          ],
+        },
+        expect.anything()
+      )
+
+      expect(firstInput).toHaveValue('first name')
+      expect(lastInput).toHaveValue('last name')
+
+      await userEvent.click(button)
+      expect(onChange).toHaveBeenCalledTimes(3)
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          entries: [
+            {
+              first: 'first name',
+              last: 'last name',
+            },
+            {
+              first: 'first name',
+              last: 'last name',
+            },
+            {
+              first: 'first name',
+              last: 'last name',
+            },
+          ],
+        },
+        expect.anything()
+      )
+
+      expect(firstInput).toHaveValue('first name')
+      expect(lastInput).toHaveValue('last name')
+
+      await waitFor(() => {
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+      })
+    })
+  })
+
   it('should support initial data as a string', async () => {
     const onChange = jest.fn()
 

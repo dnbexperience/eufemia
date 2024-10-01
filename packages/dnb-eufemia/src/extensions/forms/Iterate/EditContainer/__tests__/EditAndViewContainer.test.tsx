@@ -431,6 +431,53 @@ describe('EditContainer and ViewContainer', () => {
         expect(elements[1]).toHaveFocus()
       })
     })
+
+    it('should removed item from data context', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Form.Handler onChange={onChange}>
+          <Iterate.Array path="/myList" defaultValue={['foo', 'bar']}>
+            <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
+            <Iterate.EditContainer>Edit Content</Iterate.EditContainer>
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      const elements = document.querySelectorAll(
+        '.dnb-forms-iterate__element'
+      )
+      expect(elements).toHaveLength(2)
+
+      const firstElement = elements[0]
+      const [viewBlock, editBlock] = Array.from(
+        firstElement.querySelectorAll('.dnb-forms-section-block')
+      )
+      const [, removeButton] = Array.from(
+        viewBlock.querySelectorAll('button')
+      )
+
+      expect(viewBlock).toHaveClass('dnb-forms-section-view-block')
+      expect(editBlock).toHaveClass('dnb-forms-section-edit-block')
+
+      // Remove the element
+      await userEvent.click(removeButton)
+
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          myList: ['bar'],
+        },
+        expect.anything()
+      )
+
+      await waitFor(() => {
+        const elements = document.querySelectorAll(
+          '.dnb-forms-iterate__element'
+        )
+        expect(elements).toHaveLength(1)
+      })
+    })
   })
 
   it('should set variant to "outline" when variant is not set', async () => {

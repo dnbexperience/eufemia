@@ -13,7 +13,7 @@ export const PrimitiveItemsFields = () => {
   return (
     <ComponentBox>
       <Iterate.Array
-        value={['Iron Man', 'Captain America', 'The Hulk']}
+        defaultValue={['Iron Man', 'Captain America', 'The Hulk']}
         onChange={console.log}
       >
         <Field.String itemPath="/" />
@@ -26,7 +26,9 @@ export const PrimitiveItemsValues = () => {
   return (
     <ComponentBox data-visual-test="primitive-element-values">
       <Value.SummaryList>
-        <Iterate.Array value={['Iron Man', 'Captain America', 'The Hulk']}>
+        <Iterate.Array
+          defaultValue={['Iron Man', 'Captain America', 'The Hulk']}
+        >
           <Value.String itemPath="/" />
         </Iterate.Array>
       </Value.SummaryList>
@@ -39,7 +41,7 @@ export const ValueComposition = () => {
     <ComponentBox>
       <Value.Composition>
         <Iterate.Array
-          value={[
+          defaultValue={[
             {
               label: 'Label A',
               value: 'value 1',
@@ -73,7 +75,7 @@ export const WithTable = () => {
         <tbody>
           <Iterate.Array
             withoutFlex
-            value={[
+            defaultValue={[
               { name: 'Iron Man', age: 45 },
               { name: 'Captain America', age: 123 },
               { name: 'The Hulk', age: 3337 },
@@ -98,7 +100,7 @@ export const ObjectItems = () => {
   return (
     <ComponentBox>
       <Iterate.Array
-        value={[
+        defaultValue={[
           {
             accountName: 'Brukskonto',
             accountNumber: '90901134567',
@@ -123,7 +125,7 @@ export const RenderPropsPrimitiveItems = () => {
   return (
     <ComponentBox>
       <Iterate.Array
-        value={['foo', 'bar']}
+        defaultValue={['foo', 'bar']}
         onChange={(value) => console.log('onChange', value)}
       >
         {(elementValue) => <Field.String value={elementValue} />}
@@ -136,7 +138,7 @@ export const RenderPropsObjectItems = () => {
   return (
     <ComponentBox>
       <Iterate.Array
-        value={[
+        defaultValue={[
           { num: 1, txt: 'One' },
           { num: 2, txt: 'Two' },
         ]}
@@ -343,7 +345,7 @@ export const WithVisibility = () => {
   return (
     <ComponentBox>
       <Form.Handler>
-        <Iterate.Array path="/myList" value={[{}]}>
+        <Iterate.Array path="/myList" defaultValue={[{}]}>
           <Flex.Stack>
             <Field.Name.First
               className="firstName"
@@ -440,7 +442,7 @@ export const InitialOpen = () => {
 export const ToolbarVariantMiniumOneItemOneItem = () => {
   return (
     <ComponentBox hideCode>
-      <Iterate.Array value={['foo']}>
+      <Iterate.Array defaultValue={['foo']}>
         <Iterate.ViewContainer toolbarVariant="minimumOneItem">
           View Content
         </Iterate.ViewContainer>
@@ -455,7 +457,7 @@ export const ToolbarVariantMiniumOneItemOneItem = () => {
 export const ToolbarVariantMiniumOneItemTwoItems = () => {
   return (
     <ComponentBox hideCode>
-      <Iterate.Array value={['foo', 'bar']}>
+      <Iterate.Array defaultValue={['foo', 'bar']}>
         <Iterate.ViewContainer toolbarVariant="minimumOneItem">
           View Content
         </Iterate.ViewContainer>

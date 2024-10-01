@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { Field, Form, Iterate, Value, Wizard } from '../..'
+import { Field, Form, Iterate, Tools, Value, Wizard } from '../..'
 import { Card, Flex, Section } from '../../../../components'
 
 export default {
@@ -280,3 +280,42 @@ export const useCount = () => (
     </Wizard.Container>
   </Form.Handler>
 )
+
+export function InWizard() {
+  return (
+    <React.StrictMode>
+      <Form.Handler>
+        <Wizard.Container>
+          <Wizard.Step>
+            <Field.String
+              label="Regular"
+              path="/regular"
+              defaultValue="123"
+            />
+            <Iterate.Array path="/items" defaultValue={[{}]}>
+              <Field.String
+                label="In Iterate"
+                itemPath="/x"
+                defaultValue="123"
+              />
+            </Iterate.Array>
+
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step>
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+
+        <Tools.Log />
+      </Form.Handler>
+
+      <Form.Handler>
+        <Iterate.Array path="/myList" defaultValue={[null]}>
+          <Field.String itemPath="/" defaultValue="bar" />
+        </Iterate.Array>
+      </Form.Handler>
+    </React.StrictMode>
+  )
+}
