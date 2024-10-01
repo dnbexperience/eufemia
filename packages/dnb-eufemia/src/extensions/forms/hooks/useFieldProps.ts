@@ -217,13 +217,15 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const externalValue =
-    useExternalValue<Value>({
-      path,
-      itemPath,
-      value: valueProp,
-      transformers,
-      emptyValue,
-    }) ?? defaultValueRef.current
+    transformers.current.transformIn(
+      useExternalValue<Value>({
+        path,
+        itemPath,
+        value: valueProp,
+        transformers,
+        emptyValue,
+      })
+    ) ?? defaultValueRef.current
 
   // Many variables are kept in refs to avoid triggering unnecessary update loops because updates using
   // useEffect depend on them (like the external `value`)
@@ -1059,12 +1061,16 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         value,
         additionalArgs
       )
+      const transformedValue = transformers.current.transformOut(
+        value,
+        args
+      ) as Value
 
       if (typeof args !== 'undefined') {
-        return [value, args]
+        return [transformedValue, args]
       }
 
-      return [value]
+      return [transformedValue]
     },
     []
   )
@@ -1291,16 +1297,36 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   const updateValue = useCallback(
     async (newValue: Value) => {
-      if (newValue === valueRef.current) {
+      const currentValue = valueRef.current
+      if (newValue === currentValue) {
         // Avoid triggering a change if the value was not actually changed. This may be caused by rendering components
         // calling onChange even if the actual value did not change.
         return
       }
 
-      valueRef.current = newValue
+      const transformedValue = transformers.current.transformValue(
+        newValue,
+        currentValue
+      )
+      const contextValue = transformers.current.transformOut(
+        transformedValue,
+        transformers.current.provideAdditionalArgs(
+          transformedValue,
+          additionalArgs
+        )
+      )
+
+      valueRef.current = transformedValue
 
       if (hasPath) {
-        handlePathChangeUnvalidatedDataContext(identifier, newValue)
+        handlePathChangeUnvalidatedDataContext(identifier, contextValue)
+      }
+
+      if (itemPath) {
+        handleChangeIterateContext?.(
+          makeIteratePath(itemPath, ''),
+          contextValue
+        )
       }
 
       addToPool(
@@ -1320,7 +1346,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       })
     },
     [
+      additionalArgs,
       hasPath,
+      itemPath,
       addToPool,
       validateValue,
       callOnChangeContext,
@@ -1328,6 +1356,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       runPool,
       handlePathChangeUnvalidatedDataContext,
       identifier,
+      handleChangeIterateContext,
+      makeIteratePath,
       handleError,
     ]
   )
@@ -1350,30 +1380,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         return
       }
 
-      const transformedValue = transformers.current.transformOut(
-        transformers.current.transformValue(fromInput, currentValue),
-        transformers.current.provideAdditionalArgs(
-          fromInput,
-          additionalArgs
-        )
-      )
-
       // Must be set before validation
       changedRef.current = true
 
-      // Run in sync, before any async operations to avoid lag in UX
-      if (itemPath) {
-        handleChangeIterateContext?.(
-          makeIteratePath(itemPath, ''),
-          transformedValue
-        )
-      }
-
       if (asyncBehaviorIsEnabled) {
         hideError()
-        await updateValue(transformedValue)
+        await updateValue(fromInput)
       } else {
-        updateValue(transformedValue)
+        updateValue(fromInput)
       }
 
       if (isAsync(onChange)) {
@@ -1429,12 +1443,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       await runPool()
     },
     [
-      itemPath,
       asyncBehaviorIsEnabled,
       onChange,
       runPool,
-      handleChangeIterateContext,
-      makeIteratePath,
       hideError,
       updateValue,
       addToPool,
@@ -1597,7 +1608,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       return // stop here
     }
 
-    let valueToStore = valueProp
+    let valueToStore: Value | unknown = valueProp
 
     const data = wizardContext?.prerenderFieldProps
       ? dataContext.data
@@ -1605,12 +1616,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
     // First, look for existing data in the context
     const hasValue = pointer.has(data, identifier) || identifier === '/'
-    const existingValue =
+    const existingValue = transformers.current.transformIn(
       identifier === '/'
         ? data
         : hasValue
         ? pointer.get(data, identifier)
         : undefined
+    )
 
     // If no data where found in the dataContext, look for shared data
     if (
@@ -1622,7 +1634,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       const sharedState = createSharedState(dataContext.id)
       const hasValue = pointer.has(sharedState.data, identifier)
       if (hasValue) {
-        const sharedValue = pointer.get(sharedState.data, identifier)
+        const sharedValue = transformers.current.transformIn(
+          pointer.get(sharedState.data, identifier)
+        )
         if (sharedValue) {
           valueToStore = sharedValue as Value
         }
@@ -1671,8 +1685,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
 
     const transformedValue = transformers.current.transformOut(
-      valueToStore,
-      transformers.current.provideAdditionalArgs(valueToStore)
+      valueToStore as Value,
+      transformers.current.provideAdditionalArgs(valueToStore as Value)
     )
     if (transformedValue !== valueToStore) {
       // When the value got transformed, we want to update the internal value, and avoid an infinite loop
@@ -1958,9 +1972,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
     /** Documented APIs */
     id,
-    value: transformers.current.transformIn(
-      transformers.current.toInput(valueRef.current)
-    ),
+    // value: valueRef.current,
+    // value: transformers.current.transformIn(
+    //   transformers.current.toInput(valueRef.current)
+    // ),
+    value: transformers.current.toInput(valueRef.current),
     hasError: hasVisibleError,
     isChanged: Boolean(changedRef.current),
     props,
