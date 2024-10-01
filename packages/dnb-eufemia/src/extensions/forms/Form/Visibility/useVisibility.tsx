@@ -59,11 +59,13 @@ export default function useVisibility(props?: Partial<Props>) {
 
         if ('hasValidated' in visibleWhen) {
           const item = mountedFieldsRef.current[path]
-          if (!item || item.isMounted === false) {
+          if (!item || item.isMounted !== true) {
             return visibleWhenNot ? true : false
           }
           const result =
-            item.isFocused !== true && hasFieldError(path) === false
+            (visibleWhen.continuousValidation
+              ? true
+              : item.isFocused !== true) && hasFieldError(path) === false
           return visibleWhenNot ? !result : result
         }
 
@@ -143,6 +145,7 @@ export default function useVisibility(props?: Partial<Props>) {
       originalData,
       makePath,
       makeIteratePath,
+      mountedFieldsRef,
       hasFieldError,
     ]
   )

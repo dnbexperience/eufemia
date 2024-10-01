@@ -382,6 +382,51 @@ describe('useVisibility', () => {
           })
         ).toBe(true)
       })
+
+      it('should return true immediately when "continuousValidation" is true', () => {
+        const { result } = renderHook(useVisibility, {
+          wrapper: ({ children }) => (
+            <Provider>
+              <Field.Number path="/myPath" required minimum={2} />
+              {children}
+            </Provider>
+          ),
+        })
+
+        expect(
+          result.current.check({
+            visibleWhen: {
+              path: '/myPath',
+              hasValidated: true,
+              continuousValidation: true,
+            },
+          })
+        ).toBe(false)
+
+        fireEvent.focus(document.querySelector('input'))
+        fireEvent.change(document.querySelector('input'), {
+          target: { value: '2' },
+        })
+        expect(
+          result.current.check({
+            visibleWhen: {
+              path: '/myPath',
+              hasValidated: true,
+              continuousValidation: true,
+            },
+          })
+        ).toBe(true)
+
+        fireEvent.blur(document.querySelector('input'))
+        expect(
+          result.current.check({
+            visibleWhen: {
+              path: '/myPath',
+              hasValidated: true,
+            },
+          })
+        ).toBe(true)
+      })
     })
   })
 
