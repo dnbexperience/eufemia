@@ -342,6 +342,54 @@ describe('variants', () => {
       )
     })
 
+    it('should support keyboard navigation to select an option', async () => {
+      render(
+        <Field.Selection variant="radio" value="bar">
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+          <Field.Option value="baz">Baz</Field.Option>
+        </Field.Selection>
+      )
+
+      const radioButtons = screen.queryAllByRole('radio')
+
+      expect(radioButtons.length).toEqual(3)
+      expect(radioButtons[0]).not.toBeChecked()
+      expect(radioButtons[1]).toBeChecked()
+      expect(radioButtons[2]).not.toBeChecked()
+
+      await userEvent.tab()
+      await userEvent.keyboard('{arrowdown}')
+      expect(radioButtons[0]).not.toBeChecked()
+      expect(radioButtons[1]).not.toBeChecked()
+      expect(radioButtons[2]).toBeChecked()
+
+      await userEvent.keyboard('{arrowdown}')
+      expect(radioButtons[0]).toBeChecked()
+      expect(radioButtons[1]).not.toBeChecked()
+      expect(radioButtons[2]).not.toBeChecked()
+
+      await userEvent.keyboard('{arrowdown}')
+      expect(radioButtons[0]).not.toBeChecked()
+      expect(radioButtons[1]).toBeChecked()
+      expect(radioButtons[2]).not.toBeChecked()
+
+      await userEvent.keyboard('{arrowup}')
+      expect(radioButtons[0]).toBeChecked()
+      expect(radioButtons[1]).not.toBeChecked()
+      expect(radioButtons[2]).not.toBeChecked()
+
+      await userEvent.keyboard('{arrowup}')
+      expect(radioButtons[0]).not.toBeChecked()
+      expect(radioButtons[1]).not.toBeChecked()
+      expect(radioButtons[2]).toBeChecked()
+
+      await userEvent.keyboard('{arrowup}')
+      expect(radioButtons[0]).not.toBeChecked()
+      expect(radioButtons[1]).toBeChecked()
+      expect(radioButtons[2]).not.toBeChecked()
+    })
+
     describe('ARIA', () => {
       it('should validate with ARIA rules', async () => {
         const result = render(

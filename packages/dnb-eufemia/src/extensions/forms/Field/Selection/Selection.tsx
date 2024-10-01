@@ -342,7 +342,7 @@ function renderRadioItems({
     return (
       <Component
         id={optionsCount === 1 ? id : undefined}
-        key={`option-${i}-${value}`}
+        key={`option-${i}-${id}`}
         label={variant === 'radio' ? label : undefined}
         text={variant === 'button' ? label : undefined}
         value={String(value ?? '')}
