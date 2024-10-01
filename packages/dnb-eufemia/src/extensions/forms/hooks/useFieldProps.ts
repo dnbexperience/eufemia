@@ -25,7 +25,7 @@ import {
 import { Context as DataContext, ContextState } from '../DataContext'
 import { clearedData } from '../DataContext/Provider/Provider'
 import FieldProviderContext from '../Field/Provider/FieldProviderContext'
-import { combineDescribedBy, warn } from '../../../shared/component-helper'
+import { combineDescribedBy } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import useUpdateEffect from '../../../shared/helpers/useUpdateEffect'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
@@ -194,8 +194,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     showFieldError: showFieldErrorFieldBlock,
     mountedFieldsRef: mountedFieldsRefFieldBlock,
   } = fieldBlockContext || {}
-  const { handleChange: handleChangeIterateContext } =
-    iterateItemContext || {}
+  const {
+    handleChange: handleChangeIterateContext,
+    index: iterateIndex,
+    arrayValue: iterateArrayValue,
+  } = iterateItemContext || {}
   const { path: sectionPath, errorPrioritization } = sectionContext || {}
   const {
     setFieldError: setFieldErrorBoundary,
@@ -204,6 +207,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   } = fieldBoundaryContext || {}
 
   const hasPath = Boolean(pathProp)
+  const hasItemPath = Boolean(itemPath)
   const { path, identifier, makeIteratePath } = usePath({
     id,
     path: pathProp,
@@ -1552,7 +1556,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       valueRef.current = externalValue
       externalValueDidChangeRef.current = true
     }
-  }, [externalValue])
+  }, [externalValue, hasItemPath])
 
   useEffect(() => {
     // Error or removed error for this field from the surrounding data context (by path)
@@ -1586,25 +1590,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     validateInitially,
   ])
 
-  useEffect(() => {
-    if (itemPath && valueProp !== undefined) {
-      warn(
-        `Using value="${valueProp}" prop inside Iterate is not supported yet`
-      )
-    }
-    if (itemPath && defaultValue !== undefined) {
-      warn(
-        `Using defaultValue="${defaultValue}" prop inside Iterate is not supported yet`
-      )
-    }
-  }, [defaultValue, itemPath, valueProp])
-
   // Use "useLayoutEffect" to avoid flickering when value/defaultValue gets set, and other fields dependent on it.
   // Form.Visibility is an example of a logic, where a field value/defaultValue can be used to set the set state of a path,
   // where again other fields depend on it.
   const tmpTransValueRef = useRef<Record<Identifier, unknown>>({})
   const setContextData = useCallback(() => {
-    if (!hasPath) {
+    if (!hasPath && !hasItemPath) {
       return // stop here
     }
 
@@ -1652,6 +1643,38 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       defaultValueRef.current = undefined
     }
 
+    let skipEqualCheck = false
+
+    if (hasItemPath) {
+      if (existingValue === valueToStore) {
+        return // stop here, don't store the same value again
+      }
+
+      if (
+        typeof valueToStore === 'undefined' &&
+        typeof existingValue !== 'undefined'
+      ) {
+        // On the rerender (after defaultValue was set) and the data context was given, but as "undefined",
+        // then we want to use the current value (the defaultValue from the previous render),
+        // because else the comparison "valueRef.current !== existingValue" is true and we will set undefined as the new data context value.
+        valueToStore = existingValue
+      }
+
+      if (itemPath === '/') {
+        // The push container uses an object as the default value for the array.
+        // But when a root slash is used, we want to make sure the field don't gets the object.
+        if (existingValue === clearedData) {
+          valueRef.current = undefined
+        }
+
+        if (hasDefaultValue && Array.isArray(existingValue)) {
+          // Ensures support to have a field with a defaultValue and a itemPath of "/"
+          // This way, we ensure the defaultValue is actually set in the data context.
+          skipEqualCheck = true
+        }
+      }
+    }
+
     // Used by e.g. Iterate.Array
     if (updateContextDataInSync) {
       // When an array is given (iterate), we don't want to overwrite the existing array
@@ -1669,6 +1692,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
 
     if (
+      !skipEqualCheck &&
       hasValue &&
       (valueToStore === existingValue ||
         // Prevents an infinite loop by skipping the update if the value hasn't changed
@@ -1696,7 +1720,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
     // When an itemPath is given, we don't want to rerender the context on every iteration because of performance reasons.
     // We know when the last item is reached, so we can prevent rerenders during the iteration.
-    const preventUpdate = updateContextDataInSync
+    const preventUpdate =
+      updateContextDataInSync ||
+      (hasItemPath && iterateIndex < iterateArrayValue?.length - 1)
 
     // Update the data context when a pointer not exists,
     // but was given initially.
@@ -1711,8 +1737,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     dataContext.data,
     dataContext.id,
     dataContext.internalDataRef,
+    hasItemPath,
     hasPath,
     identifier,
+    itemPath,
+    iterateArrayValue?.length,
+    iterateIndex,
     updateContextDataInSync,
     updateDataValueDataContext,
     validateDataDataContext,
