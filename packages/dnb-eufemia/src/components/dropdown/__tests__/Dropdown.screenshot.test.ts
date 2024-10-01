@@ -186,6 +186,34 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match the tertiary variant opened on left side', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="dropdown-tertiary"]',
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="dropdown-tertiary"] .dnb-dropdown__trigger',
+      simulateAfter: { keypress: 'Escape' },
+      style: {
+        'padding-bottom': '16rem',
+      },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the tertiary variant opened on right side', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="dropdown-tertiary-right"]',
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="dropdown-tertiary-right"] .dnb-dropdown__trigger',
+      simulateAfter: { keypress: 'Escape' },
+      style: {
+        'padding-bottom': '16rem',
+      },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match the dropdown action menu in mobile view', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="dropdown-action_menu-custom"]',
