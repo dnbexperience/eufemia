@@ -18,17 +18,21 @@ import AsyncChangeExample from './Form/Handler/parts/async-change-example.mdx'
 
 **Table of Contents**
 
-- [Quick start](#quick-start)
+- [Getting started](#getting-started)
   - [Creating forms](#creating-forms)
   - [State management](#state-management)
     - [What is a JSON Pointer?](#what-is-a-json-pointer)
     - [Data handling](#data-handling)
+    - [Visible data](#visible-data)
     - [Filter data](#filter-data)
       - [Filter data during submit](#filter-data-during-submit)
     - [Transforming data](#transforming-data)
+      - [Complex objects in the data context](#complex-objects-in-the-data-context)
   - [Async form handling](#async-form-handling)
   - [Field components](#field-components)
   - [Value components](#value-components)
+    - [Inherit visibility from fields](#inherit-visibility-from-fields)
+  - [Conditionally display content](#conditionally-display-content)
   - [Async form behavior](#async-form-behavior)
     - [onChange and autosave](#onchange-and-autosave)
     - [Async field validation](#async-field-validation)
@@ -37,7 +41,8 @@ import AsyncChangeExample from './Form/Handler/parts/async-change-example.mdx'
     - [required](#required)
     - [pattern](#pattern)
     - [schema](#schema)
-    - [validator](#validator)
+    - [onBlurValidator and validator](#onblurvalidator-and-validator)
+      - [Connect with another field](#connect-with-another-field)
       - [Async validation](#async-validation)
       - [Async validator with debounce](#async-validator-with-debounce)
   - [Localization and translation](#localization-and-translation)
@@ -46,7 +51,7 @@ import AsyncChangeExample from './Form/Handler/parts/async-change-example.mdx'
     - [Use the shared Provider to customize translations](#use-the-shared-provider-to-customize-translations)
   - [Layout](#layout)
   - [Best practices](#best-practices)
-- [Create your own component](#create-your-own-component)
+  - [Create your own component](#create-your-own-component)
 
 <QuickStart />
 
@@ -318,6 +323,23 @@ User entered data will always be stored internally in the data context, even if 
 `Value.*` components will render the value regardless of the visibility of the field.
 
 You can use the `inheritVisibility` property on the [Value.\*](/uilib/extensions/forms/Value/) components to inherit the visibility from the field with the same path.
+
+### Conditionally display content
+
+You can conditionally display content using the [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) component. This allows you to show or hide its children based on the validation (A.) or the value (B.) of another path (data entry).
+
+```tsx
+<Form.Visibility
+  animate
+  visibleWhen={{
+    path: '/myField',
+    hasValue: (value) => value === 'foo', // A. Value based
+    isValid: true, // B. Validation based
+  }}
+>
+  <Field.String path="/myField" />
+</Form.Visibility>
+```
 
 ### Async form behavior
 
