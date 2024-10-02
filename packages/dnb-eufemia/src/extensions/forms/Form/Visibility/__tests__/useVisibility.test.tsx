@@ -284,7 +284,7 @@ describe('useVisibility', () => {
       log.mockRestore()
     })
 
-    describe('hasValidated', () => {
+    describe('isValid', () => {
       it('should return false when path is not existing', () => {
         const { result } = renderHook(useVisibility, {
           wrapper: ({ children }) => <Provider>{children}</Provider>,
@@ -294,7 +294,7 @@ describe('useVisibility', () => {
           result.current.check({
             visibleWhen: {
               path: '/something',
-              hasValidated: true,
+              isValid: true,
             },
           })
         ).toBe(false)
@@ -314,7 +314,7 @@ describe('useVisibility', () => {
           result.current.check({
             visibleWhen: {
               path: '/myPath',
-              hasValidated: true,
+              isValid: true,
             },
           })
         ).toBe(false)
@@ -334,7 +334,7 @@ describe('useVisibility', () => {
           result.current.check({
             visibleWhen: {
               path: '/myPath',
-              hasValidated: true,
+              isValid: true,
             },
           })
         ).toBe(true)
@@ -354,7 +354,7 @@ describe('useVisibility', () => {
           result.current.check({
             visibleWhen: {
               path: '/myPath',
-              hasValidated: true,
+              isValid: true,
             },
           })
         ).toBe(false)
@@ -367,7 +367,7 @@ describe('useVisibility', () => {
           result.current.check({
             visibleWhen: {
               path: '/myPath',
-              hasValidated: true,
+              isValid: true,
             },
           })
         ).toBe(false)
@@ -377,7 +377,7 @@ describe('useVisibility', () => {
           result.current.check({
             visibleWhen: {
               path: '/myPath',
-              hasValidated: true,
+              isValid: true,
             },
           })
         ).toBe(true)
@@ -397,7 +397,7 @@ describe('useVisibility', () => {
           result.current.check({
             visibleWhen: {
               path: '/myPath',
-              hasValidated: true,
+              isValid: true,
               continuousValidation: true,
             },
           })
@@ -411,7 +411,7 @@ describe('useVisibility', () => {
           result.current.check({
             visibleWhen: {
               path: '/myPath',
-              hasValidated: true,
+              isValid: true,
               continuousValidation: true,
             },
           })
@@ -422,7 +422,7 @@ describe('useVisibility', () => {
           result.current.check({
             visibleWhen: {
               path: '/myPath',
-              hasValidated: true,
+              isValid: true,
             },
           })
         ).toBe(true)
@@ -465,7 +465,7 @@ describe('useVisibility', () => {
       ).toBe(true)
     })
 
-    describe('hasValidated', () => {
+    describe('isValid', () => {
       it('should return true when path is not existing', () => {
         const { result } = renderHook(useVisibility, {
           wrapper: ({ children }) => <Provider>{children}</Provider>,
@@ -475,7 +475,7 @@ describe('useVisibility', () => {
           result.current.check({
             visibleWhenNot: {
               path: '/something',
-              hasValidated: true,
+              isValid: true,
             },
           })
         ).toBe(true)
@@ -495,7 +495,7 @@ describe('useVisibility', () => {
           result.current.check({
             visibleWhenNot: {
               path: '/myPath',
-              hasValidated: true,
+              isValid: true,
             },
           })
         ).toBe(true)
@@ -515,7 +515,7 @@ describe('useVisibility', () => {
           result.current.check({
             visibleWhenNot: {
               path: '/myPath',
-              hasValidated: true,
+              isValid: true,
             },
           })
         ).toBe(false)
@@ -535,7 +535,7 @@ describe('useVisibility', () => {
           result.current.check({
             visibleWhenNot: {
               path: '/myPath',
-              hasValidated: true,
+              isValid: true,
             },
           })
         ).toBe(true)
@@ -548,7 +548,7 @@ describe('useVisibility', () => {
           result.current.check({
             visibleWhenNot: {
               path: '/myPath',
-              hasValidated: true,
+              isValid: true,
             },
           })
         ).toBe(true)
@@ -558,7 +558,7 @@ describe('useVisibility', () => {
           result.current.check({
             visibleWhenNot: {
               path: '/myPath',
-              hasValidated: true,
+              isValid: true,
             },
           })
         ).toBe(false)

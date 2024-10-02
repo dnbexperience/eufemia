@@ -57,7 +57,7 @@ export default function useVisibility(props?: Partial<Props>) {
             ? makeIteratePath(visibleWhen.itemPath)
             : makePath(visibleWhen.path)
 
-        if ('hasValidated' in visibleWhen) {
+        if ('isValid' in visibleWhen) {
           const item = mountedFieldsRef.current[path]
           if (!item || item.isMounted !== true) {
             return visibleWhenNot ? true : false

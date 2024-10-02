@@ -24,12 +24,12 @@ export type VisibleWhen =
     }
   | {
       path: Path
-      hasValidated: boolean
+      isValid: boolean
       continuousValidation?: boolean
     }
   | {
       itemPath: Path
-      hasValidated: boolean
+      isValid: boolean
       continuousValidation?: boolean
     }
 

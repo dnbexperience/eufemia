@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../../../shared/types'
 
 export const VisibilityProperties: PropertiesTableProps = {
   visibleWhen: {
-    doc: 'Provide a `path` or `itemPath` and a `hasValue` method that returns a boolean or the excepted value in order to show children. The first parameter is the value of the path. You can also use `hasValidated` instead of `hasValue` to only show the children when the field has no errors and has lost focus (blurred).',
+    doc: 'Provide a `path` or `itemPath` and a `hasValue` method that returns a boolean or the excepted value in order to show children. The first parameter is the value of the path. You can also use `isValid` instead of `hasValue` to only show the children when the field has no errors and has lost focus (blurred). You can change that behavior by using the `continuousValidation` property.',
     type: 'object',
     status: 'optional',
   },

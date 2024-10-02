@@ -47,7 +47,7 @@ render(
 
 ### Validation driven visibility
 
-You can conditionally display children based on field validation by using the `visibleWhen` property with `hasValidated: true`:
+You can conditionally display children based on field validation by using the `visibleWhen` property with `isValid: true`:
 
 ```tsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
@@ -58,7 +58,7 @@ render(
     <Form.Visibility
       visibleWhen={{
         path: '/myField',
-        hasValidated: true,
+        isValid: true,
       }}
     >
       show me when the validation succeeds

@@ -321,7 +321,7 @@ export function VisibilityOnValidation() {
           <Form.Visibility
             visibleWhen={{
               path: '/foo',
-              hasValidated: true,
+              isValid: true,
             }}
             animate
           >
