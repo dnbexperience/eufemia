@@ -17,6 +17,7 @@ import {
   getCurrencySymbol,
   countDecimals,
   roundHalfEven,
+  formatPhone,
 } from '../NumberUtils'
 
 const locale = LOCALE
@@ -897,5 +898,66 @@ describe('rounding', () => {
       expect(roundHalfEven(0.1e-1)).toEqual(0.01)
       expect(roundHalfEven(11.1e-1, 0)).toEqual(1)
     })
+  })
+})
+
+describe('formatPhone', () => {
+  it('should format phone number correctly', () => {
+    const { number } = formatPhone('12345678')
+    expect(number).toBe('12 34 56 78')
+  })
+
+  it('should format a phone number with country code', () => {
+    const result = formatPhone('+4712345678')
+    expect(result.number).toBe('+47 12 34 56 78')
+    expect(result.aria).toBe('+47 12 34 56 78')
+  })
+
+  it('should format a phone number without country code', () => {
+    const result = formatPhone('12345678')
+    expect(result.number).toBe('12 34 56 78')
+    expect(result.aria).toBe('12 34 56 78')
+  })
+
+  it('should format a phone number with leading 00 country code', () => {
+    const result = formatPhone('004712345678')
+    expect(result.number).toBe('+47 12 34 56 78')
+    expect(result.aria).toBe('+47 12 34 56 78')
+  })
+
+  it('should format a short phone number', () => {
+    const result = formatPhone('12345')
+    expect(result.number).toBe('12345')
+    expect(result.aria).toBe('12 34 5')
+  })
+
+  it('should format a special phone number starting with 8', () => {
+    const result = formatPhone('80022222')
+    expect(result.number).toBe('800 22 222')
+    expect(result.aria).toBe('80 02 22 22')
+  })
+
+  it('should handle invalid characters in phone number', () => {
+    const result = formatPhone('+47-123-456-78')
+    expect(result.number).toBe('+47 12 34 56 78')
+    expect(result.aria).toBe('+47 12 34 56 78')
+  })
+
+  it('should handle empty input', () => {
+    const result = formatPhone('')
+    expect(result.number).toBe('')
+    expect(result.aria).toBe('')
+  })
+
+  it('should handle null input', () => {
+    const result = formatPhone(null)
+    expect(result.number).toBe('')
+    expect(result.aria).toBe('')
+  })
+
+  it('should handle undefined input', () => {
+    const result = formatPhone(undefined)
+    expect(result.number).toBe('')
+    expect(result.aria).toBe('')
   })
 })

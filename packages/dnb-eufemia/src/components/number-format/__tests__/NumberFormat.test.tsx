@@ -321,7 +321,7 @@ describe('NumberFormat component', () => {
   it('have to match phone number', () => {
     render(<Component phone>+47 99999999</Component>)
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '0047 99 99 99 99'
+      '+47 99 99 99 99'
     )
   })
 
