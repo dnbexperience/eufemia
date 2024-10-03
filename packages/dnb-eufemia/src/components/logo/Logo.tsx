@@ -114,7 +114,7 @@ function Logo(localProps: LogoProps) {
   /** @deprecated Can remove this in v11 */
   const height = parseFloat(size) > 0 ? size : heightProp
 
-  // Alt text for the logo does not need to be translated. DNB alt will be the same in english, and sbanken alt should always be in norwegian
+  // Alt text for the logo does not need to be translated. DNB alt will be the same in English, and sbanken alt should always be in norwegian
   const altText =
     logoType === 'dnb' ? 'DNB Logo' : 'Sbanken - et konsept fra DNB logo'
 
