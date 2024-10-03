@@ -18,7 +18,7 @@ function PhoneNumber(props: Props) {
     const splitBySpace = value?.split(' ')
     if (splitBySpace?.length > 1) {
       // This is good enough for norwegian country code.
-      // As we don't have to format the country code, only return +47.
+      // As we don't have to format the country code, only return +47 {phonenumber}.
       // I believe other country codes, like Trinidad and Tobago
       // Should format the country code, like so +1 868. This is not supported today.
       return `${splitBySpace[0]} ${formatPhoneNumber(splitBySpace[1])}`
