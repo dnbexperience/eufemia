@@ -120,7 +120,7 @@ describe('Badge', () => {
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['role', 'class', 'aria-label'])
+    expect(attributes).toEqual(['role', 'class', 'top', 'aria-label'])
     expect(Array.from(element.classList)).toEqual([
       'dnb-badge',
       'dnb-badge--variant-information',

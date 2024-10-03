@@ -6,7 +6,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 
 // Shared
-import Context from '../../shared/Context'
+import Context, { ContextProps } from '../../shared/Context'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import {
@@ -89,18 +89,7 @@ function Badge(localProps: BadgeAndSpacingProps) {
     context?.Badge,
     { skeleton: context?.skeleton }
   )
-
-  const {
-    label,
-    className,
-    children, // eslint-disable-line
-    skeleton,
-    horizontal,
-    vertical,
-    content: contentProp,
-    variant,
-    ...props
-  } = allProps
+  const { children, ...props } = allProps
 
   validateDOMAttributes(allProps, props)
 
@@ -108,61 +97,76 @@ function Badge(localProps: BadgeAndSpacingProps) {
     return (
       <BadgeRoot>
         {children}
-        <BadgeElem />
+        <BadgeElem context={context} {...allProps} />
       </BadgeRoot>
     )
   }
 
-  return <BadgeElem />
+  return <BadgeElem context={context} {...allProps} />
+}
 
-  function BadgeRoot({ children }: { children: React.ReactNode }) {
-    return <span className="dnb-badge__root">{children}</span>
-  }
+function BadgeRoot({ children }: { children: React.ReactNode }) {
+  return <span className="dnb-badge__root">{children}</span>
+}
 
-  function BadgeElem() {
-    const skeletonClasses = createSkeletonClass('shape', skeleton, context)
-    const spacingClasses = createSpacingClasses(allProps)
-    const contentIsNum = typeof contentProp === 'number'
-    const variantIsNotification = variant === 'notification'
+function BadgeElem(
+  props: BadgeAndSpacingProps & { context: ContextProps }
+) {
+  const {
+    label,
+    className,
+    children,
+    skeleton,
+    horizontal,
+    vertical,
+    content: contentProp,
+    variant,
+    context,
+    ...restProps
+  } = props
 
-    const content =
-      variantIsNotification && contentIsNum && contentProp > 9
-        ? '9+'
-        : contentProp
+  const skeletonClasses = createSkeletonClass('shape', skeleton, context)
+  const spacingClasses = createSpacingClasses(props)
+  const contentIsNum = typeof contentProp === 'number'
+  const variantIsNotification = variant === 'notification'
 
-    if (variantIsNotification && !contentIsNum) {
-      warn(
-        `Type of content should be a number: A notification badge is best suited to display content of type number.`
-      )
-    }
-    if (!label && contentIsNum) {
-      warn(
-        `Label required: A Badge with a number as content requires a label describing the content of the badge. This is to ensure correct semantic and accessibility.`
-      )
-    }
+  const content =
+    variantIsNotification && contentIsNum && contentProp > 9
+      ? '9+'
+      : contentProp
 
-    const isInline = !children && content
-
-    return (
-      <span
-        role="status"
-        className={classnames(
-          'dnb-badge',
-          `dnb-badge--variant-${variant}`,
-          horizontal && `dnb-badge--horizontal-${horizontal}`,
-          vertical && `dnb-badge--vertical-${vertical}`,
-          isInline && 'dnb-badge--inline',
-          skeletonClasses,
-          spacingClasses,
-          className
-        )}
-        {...props}
-      >
-        {label && <span className="dnb-sr-only">{label} </span>}
-        {content}
-      </span>
+  if (variantIsNotification && !contentIsNum) {
+    warn(
+      `Type of content should be a number: A notification badge is best suited to display content of type number.`
     )
   }
+  if (!label && contentIsNum) {
+    warn(
+      `Label required: A Badge with a number as content requires a label describing the content of the badge. This is to ensure correct semantic and accessibility.`
+    )
+  }
+
+  const isInline = !children && content
+
+  return (
+    <span
+      role="status"
+      className={classnames(
+        'dnb-badge',
+        `dnb-badge--variant-${variant}`,
+        horizontal && `dnb-badge--horizontal-${horizontal}`,
+        vertical && `dnb-badge--vertical-${vertical}`,
+        isInline && 'dnb-badge--inline',
+        skeletonClasses,
+        spacingClasses,
+        className
+      )}
+      {...restProps}
+    >
+      {label && <span className="dnb-sr-only">{label} </span>}
+      {content}
+    </span>
+  )
 }
 
 Badge._supportsSpacingProps = true
