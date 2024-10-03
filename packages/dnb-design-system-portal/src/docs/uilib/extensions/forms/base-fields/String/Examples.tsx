@@ -1,6 +1,11 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Flex } from '@dnb/eufemia/src'
-import { Field } from '@dnb/eufemia/src/extensions/forms'
+import { Card, Flex } from '@dnb/eufemia/src'
+import {
+  Field,
+  Form,
+  Tools,
+  Value,
+} from '@dnb/eufemia/src/extensions/forms'
 
 export const Empty = () => {
   return (
@@ -408,6 +413,50 @@ export const MultipleWithHelp = () => {
         multiline
         onChange={(value) => console.log('onChange', value)}
       />
+    </ComponentBox>
+  )
+}
+
+export function TransformInAndOut() {
+  return (
+    <ComponentBox scope={{ Tools }}>
+      {() => {
+        const transformOut = (value) => {
+          return { value, foo: 'bar' }
+        }
+        const transformIn = (data) => {
+          return data?.value
+        }
+
+        const MyForm = () => {
+          return (
+            <Form.Handler onSubmit={console.log}>
+              <Card stack>
+                <Field.String
+                  label="String field"
+                  path="/myValue"
+                  transformIn={transformIn}
+                  transformOut={transformOut}
+                  defaultValue="Default value"
+                />
+
+                <Value.String
+                  label="String value"
+                  path="/myValue"
+                  transformIn={transformIn}
+                  placeholder="(placeholder)"
+                  showEmpty
+                />
+
+                <Form.SubHeading>Data Context</Form.SubHeading>
+                <Tools.Log />
+              </Card>
+              <Form.SubmitButton />
+            </Form.Handler>
+          )
+        }
+        return <MyForm />
+      }}
     </ComponentBox>
   )
 }

@@ -350,16 +350,13 @@ export interface UseFieldProps<
    * Transforms the `value` before its displayed in the field (e.g. input).
    * Public API. Should not be used internally.
    */
-  transformIn?: (external: Value | unknown) => Value | unknown
+  transformIn?: (external: unknown) => Value
 
   /**
    * Transforms the value before it gets forwarded to the form data object or returned as the onChange value parameter.
    * Public API. Should not be used internally.
    */
-  transformOut?: (
-    internal: Value | unknown,
-    additionalArgs?: unknown
-  ) => Value
+  transformOut?: (internal: Value, additionalArgs?: unknown) => unknown
 
   /**
    * Transforms the value given by `handleChange` after `fromInput` and before `updateValue` and `toEvent`. The second parameter returns the current value.
