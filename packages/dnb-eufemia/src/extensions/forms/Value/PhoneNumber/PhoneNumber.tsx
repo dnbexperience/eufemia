@@ -15,9 +15,16 @@ function PhoneNumber(props: Props) {
     props.label ?? (props.inline ? undefined : translations.label)
 
   const toInput = useCallback((value) => {
-    return format(cleanNumber(value), {
-      phone: true,
-    }).toString()
+    const splitBySpace = value?.split(' ')
+    if (splitBySpace?.length > 1) {
+      // This is good enough for norwegian country code.
+      // As we don't have to format the country code, only return +47.
+      // Other country codes, like Trinidad and Tobago
+      // Should format the country code, like so +1 868. This is not supported today.
+      return `${splitBySpace[0]} ${formatPhoneNumber(splitBySpace[1])}`
+    } else {
+      return formatPhoneNumber(value)
+    }
   }, [])
 
   const stringValueProps: Props = {
@@ -27,6 +34,15 @@ function PhoneNumber(props: Props) {
   }
 
   return <StringValue {...stringValueProps} />
+}
+
+export const formatPhoneNumber = (phoneNumber) => {
+  // This only adds space between two and two digits, like 22 22 22 22.
+  // That's the correct way of formatting norwegian numbers.
+  // But it's not correct for all countries we support.
+  return format(cleanNumber(phoneNumber), {
+    phone: true,
+  }).toString()
 }
 
 PhoneNumber._supportsSpacingProps = true
