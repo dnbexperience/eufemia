@@ -4,10 +4,12 @@ import { removeUndefinedProps } from '../../../../shared/component-helper'
 import SummaryListContext from './SummaryListContext'
 import Dl, { DlAllProps } from '../../../../elements/Dl'
 import ValueProvider from '../Provider/ValueProvider'
+import { ValueProps } from '../../types'
 
 export type Props = Omit<DlAllProps, 'label'> & {
-  inheritVisibility?: boolean
-  inheritLabel?: boolean
+  transformLabel?: ValueProps['transformLabel']
+  inheritVisibility?: ValueProps['inheritVisibility']
+  inheritLabel?: ValueProps['inheritLabel']
 }
 
 function SummaryList(props: Props) {
@@ -15,12 +17,14 @@ function SummaryList(props: Props) {
     className,
     children,
     layout,
+    transformLabel,
     inheritVisibility,
     inheritLabel,
     ...rest
   } = props
 
   const valueProviderProps = removeUndefinedProps({
+    transformLabel,
     inheritVisibility,
     inheritLabel,
   })
