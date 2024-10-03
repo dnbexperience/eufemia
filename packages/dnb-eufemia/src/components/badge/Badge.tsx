@@ -89,9 +89,7 @@ function Badge(localProps: BadgeAndSpacingProps) {
     context?.Badge,
     { skeleton: context?.skeleton }
   )
-  const { children, ...props } = allProps
-
-  validateDOMAttributes(allProps, props)
+  const { children } = allProps
 
   if (children) {
     return (
@@ -124,6 +122,9 @@ function BadgeElem(
     context,
     ...restProps
   } = props
+
+  // to remove spacing props, etc.
+  validateDOMAttributes(props, restProps)
 
   const skeletonClasses = createSkeletonClass('shape', skeleton, context)
   const spacingClasses = createSpacingClasses(props)
