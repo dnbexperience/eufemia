@@ -3,6 +3,16 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.51.2](https://github.com/dnbexperience/eufemia/compare/v10.51.1...v10.51.2) (2024-10-03)
+
+
+### :bug: Bug Fixes
+
+* **Badge:** prevents unwanted re-rendering ([#4049](https://github.com/dnbexperience/eufemia/issues/4049)) ([1e51e7a](https://github.com/dnbexperience/eufemia/commit/1e51e7aee28a6cc2ef1607226fc2c1463b9e4b48))
+* **Field.Selection:** prevent `radio` re-render onClick to enable keyboard navigation ([#4037](https://github.com/dnbexperience/eufemia/issues/4037)) ([d122f98](https://github.com/dnbexperience/eufemia/commit/d122f98c9fd31c3e7dafde5bfc91d231e7884e62))
+* **Forms:** support validation when using object based `transformOut` and `transformIn` on fields ([#4042](https://github.com/dnbexperience/eufemia/issues/4042)) ([5554525](https://github.com/dnbexperience/eufemia/commit/5554525e0272917084798aad7567773eac8e42ed)), closes [#3997](https://github.com/dnbexperience/eufemia/issues/3997)
+* **Timeline:** alt label complete -> completed ([#4044](https://github.com/dnbexperience/eufemia/issues/4044)) ([4a6828d](https://github.com/dnbexperience/eufemia/commit/4a6828d29c8a7bbfb7ddd102ef672f365a6e3fab))
+
 ## [10.51.1](https://github.com/dnbexperience/eufemia/compare/v10.51.0...v10.51.1) (2024-09-30)
 
 
