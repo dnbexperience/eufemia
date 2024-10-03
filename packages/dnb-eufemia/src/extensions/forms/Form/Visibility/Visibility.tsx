@@ -23,7 +23,7 @@ export type VisibleWhen =
       hasValue: unknown
     }
   /**
-   * @deprecated Will be remove din v11!
+   * @deprecated Will be removed in v11!
    */
   | {
       path: Path
@@ -31,7 +31,7 @@ export type VisibleWhen =
       withValue: (value: unknown) => boolean
     }
   /**
-   * @deprecated  Will be remove din v11!
+   * @deprecated  Will be removed in v11!
    */
   | {
       itemPath: Path

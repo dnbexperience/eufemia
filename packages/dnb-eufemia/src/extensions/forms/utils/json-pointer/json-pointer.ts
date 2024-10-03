@@ -178,7 +178,7 @@ export function parse(pointer: Extract<PointerPath, string>): PointerPath {
   if (pointer === '') {
     return []
   }
-  if (pointer.charAt(0) !== '/') {
+  if (pointer?.charAt(0) !== '/') {
     throw new Error('Invalid JSON pointer: ' + pointer)
   }
   return pointer.substring(1).split(/\//).map(unescape)

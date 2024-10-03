@@ -185,7 +185,9 @@ function ajvErrorsTransformation(
 ) {
   if (ajvError.keyword === 'type') {
     const value =
-      data && typeof data === 'object' ? pointer.get(data, path) : data
+      data && typeof data === 'object' && path
+        ? pointer.get(data, path)
+        : data
 
     // Remove the error if the value is empty
     if (value === '' || value === null) {

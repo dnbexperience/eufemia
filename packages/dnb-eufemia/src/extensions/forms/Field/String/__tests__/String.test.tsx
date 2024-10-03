@@ -10,7 +10,7 @@ import {
 import userEvent from '@testing-library/user-event'
 import { Provider } from '../../../../../shared'
 import * as DataContext from '../../../DataContext'
-import { Field, FieldBlock } from '../../..'
+import { Field, FieldBlock, Form, Value } from '../../..'
 import enGB from '../../../../../shared/locales/en-GB'
 
 const gb = enGB['en-GB']
@@ -265,7 +265,7 @@ describe('Field.String', () => {
       const input = document.querySelector('input')
 
       expect(input).toHaveValue('XYZ')
-      expect(transformIn).toHaveBeenCalledTimes(1)
+      expect(transformIn).toHaveBeenCalledTimes(2)
       expect(transformIn).toHaveBeenLastCalledWith('xYz')
       expect(transformOut).toHaveBeenCalledTimes(0)
       expect(onChangeProvider).toHaveBeenCalledTimes(0)
@@ -274,9 +274,9 @@ describe('Field.String', () => {
       await userEvent.type(input, '{Backspace>3}aBc')
 
       expect(input).toHaveValue('ABC')
-      expect(transformIn).toHaveBeenCalledTimes(7)
+      expect(transformIn).toHaveBeenCalledTimes(16)
       expect(transformIn).toHaveBeenLastCalledWith('abc')
-      expect(transformOut).toHaveBeenCalledTimes(6)
+      expect(transformOut).toHaveBeenCalledTimes(13)
       expect(transformOut).toHaveBeenLastCalledWith('ABc', undefined)
       expect(onChangeProvider).toHaveBeenCalledTimes(6)
       expect(onChangeProvider).toHaveBeenLastCalledWith(
@@ -289,9 +289,9 @@ describe('Field.String', () => {
       await userEvent.type(input, '{Backspace>3}EfG')
 
       expect(input).toHaveValue('EFG')
-      expect(transformIn).toHaveBeenCalledTimes(13)
+      expect(transformIn).toHaveBeenCalledTimes(29)
       expect(transformIn).toHaveBeenLastCalledWith('efg')
-      expect(transformOut).toHaveBeenCalledTimes(12)
+      expect(transformOut).toHaveBeenCalledTimes(25)
       expect(transformOut).toHaveBeenLastCalledWith('EFG', undefined)
       expect(onChangeProvider).toHaveBeenCalledTimes(12)
       expect(onChangeProvider).toHaveBeenLastCalledWith(
@@ -300,6 +300,160 @@ describe('Field.String', () => {
       )
       expect(onChangeField).toHaveBeenCalledTimes(12)
       expect(onChangeField).toHaveBeenLastCalledWith('efg')
+    })
+
+    it('should support "transformIn" and "transformOut"', async () => {
+      const transformOut = jest.fn((value) => {
+        return { value, foo: 'bar' }
+      })
+      const transformIn = jest.fn((data) => {
+        return data?.value
+      })
+      const valueTransformIn = jest.fn((data) => {
+        return data?.value
+      })
+
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Field.String
+            path="/myValue"
+            transformIn={transformIn}
+            transformOut={transformOut}
+            defaultValue="A"
+          />
+
+          <Value.String path="/myValue" transformIn={valueTransformIn} />
+        </Form.Handler>
+      )
+
+      expect(transformOut).toHaveBeenCalledTimes(1)
+      expect(transformIn).toHaveBeenCalledTimes(4)
+      expect(valueTransformIn).toHaveBeenCalledTimes(2)
+
+      const form = document.querySelector('form')
+      const input = document.querySelector('input')
+
+      fireEvent.submit(form)
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        {
+          myValue: {
+            foo: 'bar',
+            value: 'A',
+          },
+        },
+        expect.anything()
+      )
+
+      expect(transformOut).toHaveBeenCalledTimes(1)
+      expect(transformIn).toHaveBeenCalledTimes(5)
+      expect(valueTransformIn).toHaveBeenCalledTimes(3)
+
+      expect(input).toHaveValue('A')
+      expect(
+        document.querySelector('.dnb-forms-value-block__content')
+      ).toHaveTextContent('A')
+
+      await userEvent.type(input, '{Backspace>1}B')
+
+      expect(input).toHaveValue('B')
+      expect(
+        document.querySelector('.dnb-forms-value-block__content')
+      ).toHaveTextContent('B')
+
+      expect(transformOut).toHaveBeenCalledTimes(6)
+      expect(transformIn).toHaveBeenCalledTimes(9)
+      expect(valueTransformIn).toHaveBeenCalledTimes(5)
+
+      fireEvent.submit(form)
+      expect(onSubmit).toHaveBeenCalledTimes(2)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        {
+          myValue: {
+            foo: 'bar',
+            value: 'B',
+          },
+        },
+        expect.anything()
+      )
+
+      expect(transformOut).toHaveBeenCalledTimes(6)
+      expect(transformIn).toHaveBeenCalledTimes(10)
+      expect(valueTransformIn).toHaveBeenCalledTimes(6)
+
+      expect(transformOut).toHaveBeenNthCalledWith(1, 'A', undefined)
+      expect(transformOut).toHaveBeenNthCalledWith(2, 'A', undefined)
+      expect(transformOut).toHaveBeenNthCalledWith(
+        3,
+        undefined,
+        expect.anything()
+      )
+      expect(transformOut).toHaveBeenNthCalledWith(4, undefined, undefined)
+      expect(transformOut).toHaveBeenNthCalledWith(
+        5,
+        'B',
+        expect.anything()
+      )
+      expect(transformOut).toHaveBeenNthCalledWith(6, 'B', undefined)
+
+      expect(transformIn).toHaveBeenNthCalledWith(1, undefined)
+      expect(transformIn).toHaveBeenNthCalledWith(2, undefined)
+      expect(transformIn).toHaveBeenNthCalledWith(3, {
+        foo: 'bar',
+        value: 'A',
+      })
+      expect(transformIn).toHaveBeenNthCalledWith(4, {
+        foo: 'bar',
+        value: 'A',
+      })
+      expect(transformIn).toHaveBeenNthCalledWith(5, {
+        foo: 'bar',
+        value: 'A',
+      })
+      expect(transformIn).toHaveBeenNthCalledWith(6, {
+        foo: 'bar',
+        value: undefined,
+      })
+      expect(transformIn).toHaveBeenNthCalledWith(7, {
+        foo: 'bar',
+        value: undefined,
+      })
+      expect(transformIn).toHaveBeenNthCalledWith(8, {
+        foo: 'bar',
+        value: 'B',
+      })
+      expect(transformIn).toHaveBeenNthCalledWith(9, {
+        foo: 'bar',
+        value: 'B',
+      })
+      expect(transformIn).toHaveBeenNthCalledWith(10, {
+        foo: 'bar',
+        value: 'B',
+      })
+
+      expect(valueTransformIn).toHaveBeenNthCalledWith(1, undefined)
+      expect(valueTransformIn).toHaveBeenNthCalledWith(2, {
+        foo: 'bar',
+        value: 'A',
+      })
+      expect(valueTransformIn).toHaveBeenNthCalledWith(3, {
+        foo: 'bar',
+        value: 'A',
+      })
+      expect(valueTransformIn).toHaveBeenNthCalledWith(4, {
+        foo: 'bar',
+        value: undefined,
+      })
+      expect(valueTransformIn).toHaveBeenNthCalledWith(5, {
+        foo: 'bar',
+        value: 'B',
+      })
+      expect(valueTransformIn).toHaveBeenNthCalledWith(6, {
+        foo: 'bar',
+        value: 'B',
+      })
     })
 
     it('should trim whitespaces', async () => {

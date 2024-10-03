@@ -2227,18 +2227,20 @@ describe('useFieldProps', () => {
       })
 
       expect(transformIn).toHaveBeenCalledTimes(2)
-      expect(transformIn).toHaveBeenLastCalledWith(3)
-      expect(transformOut).toHaveBeenCalledTimes(1)
-      expect(transformOut).toHaveBeenLastCalledWith(2, undefined)
+      expect(transformIn).toHaveBeenLastCalledWith(1)
+      expect(transformOut).toHaveBeenCalledTimes(2)
+      expect(transformOut).toHaveBeenNthCalledWith(1, 2, expect.anything())
+      expect(transformOut).toHaveBeenNthCalledWith(2, 2, undefined)
 
       act(() => {
         handleChange(4)
       })
 
       expect(transformIn).toHaveBeenCalledTimes(3)
-      expect(transformIn).toHaveBeenLastCalledWith(5)
-      expect(transformOut).toHaveBeenCalledTimes(2)
-      expect(transformOut).toHaveBeenLastCalledWith(4, undefined)
+      expect(transformIn).toHaveBeenLastCalledWith(1)
+      expect(transformOut).toHaveBeenCalledTimes(4)
+      expect(transformOut).toHaveBeenNthCalledWith(3, 4, expect.anything())
+      expect(transformOut).toHaveBeenNthCalledWith(4, 4, undefined)
     })
 
     it('should call "transformOut" initially when path is given', () => {
@@ -2321,7 +2323,7 @@ describe('useFieldProps', () => {
       const { handleChange } = result.current
 
       expect(transformIn).toHaveBeenCalledTimes(1)
-      expect(transformIn).toHaveBeenLastCalledWith(0)
+      expect(transformIn).toHaveBeenLastCalledWith(1)
       expect(transformOut).toHaveBeenCalledTimes(0)
 
       act(() => {
@@ -2329,18 +2331,20 @@ describe('useFieldProps', () => {
       })
 
       expect(transformIn).toHaveBeenCalledTimes(2)
-      expect(transformIn).toHaveBeenLastCalledWith(3)
-      expect(transformOut).toHaveBeenCalledTimes(1)
-      expect(transformOut).toHaveBeenLastCalledWith(3, undefined)
+      expect(transformIn).toHaveBeenLastCalledWith(1)
+      expect(transformOut).toHaveBeenCalledTimes(2)
+      expect(transformOut).toHaveBeenNthCalledWith(1, 3, expect.anything())
+      expect(transformOut).toHaveBeenNthCalledWith(2, 3, undefined)
 
       act(() => {
         handleChange(4)
       })
 
       expect(transformIn).toHaveBeenCalledTimes(3)
-      expect(transformIn).toHaveBeenLastCalledWith(5)
-      expect(transformOut).toHaveBeenCalledTimes(2)
-      expect(transformOut).toHaveBeenLastCalledWith(5, undefined)
+      expect(transformIn).toHaveBeenLastCalledWith(1)
+      expect(transformOut).toHaveBeenCalledTimes(4)
+      expect(transformOut).toHaveBeenNthCalledWith(3, 5, expect.anything())
+      expect(transformOut).toHaveBeenNthCalledWith(4, 5, undefined)
     })
 
     it('should call "fromInput" and "toInput"', () => {
@@ -2566,28 +2570,44 @@ describe('useFieldProps', () => {
         handleBlur()
       })
 
-      expect(result.current.value).toBe(3)
+      expect(result.current.value).toBe(2)
       expect(result.current.dataContext.data).toEqual({
         myPath: 3,
       })
-      expect(transformOut).toHaveBeenCalledTimes(2)
-      expect(transformOut).toHaveBeenLastCalledWith(2, {
+      expect(transformOut).toHaveBeenCalledTimes(5)
+      expect(transformOut).toHaveBeenNthCalledWith(1, 1, {
+        value: 1,
+        foo: 'bar',
+      })
+      expect(transformOut).toHaveBeenNthCalledWith(2, 1, {
+        value: 1,
+        foo: 'bar',
+      })
+      expect(transformOut).toHaveBeenNthCalledWith(3, 2, {
+        value: 2,
+        foo: 'bar',
+      })
+      expect(transformOut).toHaveBeenNthCalledWith(4, 2, {
+        value: 2,
+        foo: 'bar',
+      })
+      expect(transformOut).toHaveBeenNthCalledWith(5, 2, {
         value: 2,
         foo: 'bar',
       })
       expect(onFocus).toHaveBeenCalledTimes(1)
-      expect(onFocus).toHaveBeenLastCalledWith(1, {
+      expect(onFocus).toHaveBeenLastCalledWith(2, {
         value: 1,
         foo: 'bar',
       })
       expect(onBlur).toHaveBeenCalledTimes(1)
       expect(onBlur).toHaveBeenLastCalledWith(3, {
-        value: 3,
+        value: 2,
         foo: 'bar',
       })
       expect(onChange).toHaveBeenCalledTimes(1)
       expect(onChange).toHaveBeenLastCalledWith(3, {
-        value: 3,
+        value: 2,
         foo: 'bar',
       })
 
@@ -2597,28 +2617,28 @@ describe('useFieldProps', () => {
         handleBlur()
       })
 
-      expect(result.current.value).toBe(5)
+      expect(result.current.value).toBe(4)
       expect(result.current.dataContext.data).toEqual({
         myPath: 5,
       })
-      expect(transformOut).toHaveBeenCalledTimes(3)
+      expect(transformOut).toHaveBeenCalledTimes(9)
       expect(transformOut).toHaveBeenLastCalledWith(4, {
         value: 4,
         foo: 'bar',
       })
       expect(onFocus).toHaveBeenCalledTimes(2)
       expect(onFocus).toHaveBeenLastCalledWith(3, {
-        value: 3,
+        value: 2,
         foo: 'bar',
       })
       expect(onBlur).toHaveBeenCalledTimes(2)
       expect(onBlur).toHaveBeenLastCalledWith(5, {
-        value: 5,
+        value: 4,
         foo: 'bar',
       })
       expect(onChange).toHaveBeenCalledTimes(2)
       expect(onChange).toHaveBeenLastCalledWith(5, {
-        value: 5,
+        value: 4,
         foo: 'bar',
       })
     })

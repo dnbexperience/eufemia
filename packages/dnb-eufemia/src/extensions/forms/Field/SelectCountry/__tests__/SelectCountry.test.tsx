@@ -379,8 +379,6 @@ describe('Field.SelectCountry', () => {
           path="/country"
           transformIn={valueTransformIn}
         />
-
-        <Form.SubmitButton />
       </Form.Handler>
     )
 
@@ -402,7 +400,7 @@ describe('Field.SelectCountry', () => {
     }
 
     expect(transformOut).toHaveBeenCalledTimes(1)
-    expect(transformIn).toHaveBeenCalledTimes(3)
+    expect(transformIn).toHaveBeenCalledTimes(4)
     expect(valueTransformIn).toHaveBeenCalledTimes(2)
 
     const firstItemElement = () =>
@@ -420,7 +418,7 @@ describe('Field.SelectCountry', () => {
     )
 
     expect(transformOut).toHaveBeenCalledTimes(1)
-    expect(transformIn).toHaveBeenCalledTimes(4)
+    expect(transformIn).toHaveBeenCalledTimes(5)
     expect(valueTransformIn).toHaveBeenCalledTimes(3)
 
     expect(input).toHaveValue('Norge')
@@ -435,8 +433,8 @@ describe('Field.SelectCountry', () => {
     expect(input).toHaveValue('Sveits')
     expect(value).toHaveTextContent('Sveits')
 
-    expect(transformOut).toHaveBeenCalledTimes(2)
-    expect(transformIn).toHaveBeenCalledTimes(6)
+    expect(transformOut).toHaveBeenCalledTimes(4)
+    expect(transformIn).toHaveBeenCalledTimes(8)
     expect(valueTransformIn).toHaveBeenCalledTimes(4)
 
     fireEvent.submit(form)
@@ -446,20 +444,24 @@ describe('Field.SelectCountry', () => {
       expect.anything()
     )
 
-    expect(transformOut).toHaveBeenCalledTimes(2)
-    expect(transformIn).toHaveBeenCalledTimes(7)
+    expect(transformOut).toHaveBeenCalledTimes(4)
+    expect(transformIn).toHaveBeenCalledTimes(9)
     expect(valueTransformIn).toHaveBeenCalledTimes(5)
 
     expect(transformOut).toHaveBeenNthCalledWith(1, 'NO', NO)
-    expect(transformOut).toHaveBeenNthCalledWith(2, 'CH', CH)
+    expect(transformOut).toHaveBeenNthCalledWith(2, 'NO', NO)
+    expect(transformOut).toHaveBeenNthCalledWith(3, 'CH', CH)
+    expect(transformOut).toHaveBeenNthCalledWith(4, 'CH', CH)
 
-    expect(transformIn).toHaveBeenNthCalledWith(1, 'NO')
-    expect(transformIn).toHaveBeenNthCalledWith(2, 'NO')
+    expect(transformIn).toHaveBeenNthCalledWith(1, undefined)
+    expect(transformIn).toHaveBeenNthCalledWith(2, undefined)
     expect(transformIn).toHaveBeenNthCalledWith(3, 'Norge (NO)')
     expect(transformIn).toHaveBeenNthCalledWith(4, 'Norge (NO)')
     expect(transformIn).toHaveBeenNthCalledWith(5, 'Norge (NO)')
-    expect(transformIn).toHaveBeenNthCalledWith(6, 'Sveits (CH)')
+    expect(transformIn).toHaveBeenNthCalledWith(6, 'Norge (NO)')
     expect(transformIn).toHaveBeenNthCalledWith(7, 'Sveits (CH)')
+    expect(transformIn).toHaveBeenNthCalledWith(8, 'Sveits (CH)')
+    expect(transformIn).toHaveBeenNthCalledWith(9, 'Sveits (CH)')
 
     expect(valueTransformIn).toHaveBeenNthCalledWith(1, undefined)
     expect(valueTransformIn).toHaveBeenNthCalledWith(2, 'Norge (NO)')

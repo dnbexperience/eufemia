@@ -42,3 +42,29 @@ export const Transform = () => {
     </Form.Handler>
   )
 }
+
+export function TransformObject() {
+  const defaultData = {
+    myLabel: { value: 'Some value', test: 'test' },
+  }
+
+  return (
+    <Form.Handler
+      defaultData={defaultData}
+      onSubmit={(data) => console.log('onSubmit', data)}
+      onChange={(data) => console.log('onChange', data)}
+    >
+      <Field.Name.First
+        path="/myLabel"
+        transformOut={(value) => {
+          return { value, test: 'test' }
+        }}
+        transformIn={(data: typeof defaultData.myLabel) => {
+          return data?.value
+        }}
+      />
+
+      <Form.SubmitButton top />
+    </Form.Handler>
+  )
+}

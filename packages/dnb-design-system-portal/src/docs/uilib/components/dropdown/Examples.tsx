@@ -322,9 +322,28 @@ export const DropdownTertiary = () => (
     <ComponentBox scope={{ data }} data-visual-test="dropdown-tertiary">
       <Dropdown
         variant="tertiary"
+        direction="bottom"
         independent_width={true}
         icon_position="left"
         align_dropdown="left"
+        data={data}
+      />
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const DropdownTertiaryRight = () => (
+  <Wrapper>
+    <ComponentBox
+      scope={{ data }}
+      data-visual-test="dropdown-tertiary-right"
+    >
+      <Dropdown
+        variant="tertiary"
+        direction="bottom"
+        independent_width={true}
+        icon_position="right"
+        align_dropdown="right"
         data={data}
       />
     </ComponentBox>
