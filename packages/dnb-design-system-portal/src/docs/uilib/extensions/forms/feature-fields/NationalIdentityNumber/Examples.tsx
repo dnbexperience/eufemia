@@ -165,19 +165,15 @@ export const ValidationExtendValidator = () => {
   return (
     <ComponentBox>
       {() => {
-        const bornInApril = (value: string) =>
-          value.substring(2, 4) === '04'
-            ? { status: 'valid' }
-            : { status: 'invalid' }
-
-        const myValidator = (value, { validators }) => {
-          const { dnrValidator, fnrValidator } = validators
-          const result = bornInApril(value)
-          if (result.status === 'invalid') {
+        const bornInAprilValidator = (value: string) => {
+          if (value.substring(2, 4) !== '04') {
             return new Error('My error')
           }
+        }
+        const myValidator = (value, { validators }) => {
+          const { dnrValidator, fnrValidator } = validators
 
-          return [dnrValidator, fnrValidator]
+          return [dnrValidator, fnrValidator, bornInAprilValidator]
         }
 
         return (
