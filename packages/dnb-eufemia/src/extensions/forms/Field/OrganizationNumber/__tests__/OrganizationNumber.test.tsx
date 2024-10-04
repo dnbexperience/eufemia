@@ -68,7 +68,7 @@ describe('Field.OrganizationNumber', () => {
         <Field.OrganizationNumber
           value={invalidOrgNo}
           validateInitially
-          validate={false}
+          validate={true}
         />
       </Form.Handler>
     )
@@ -98,7 +98,7 @@ describe('Field.OrganizationNumber', () => {
         <Field.OrganizationNumber
           value={invalidOrgNo}
           validateInitially
-          validate={false}
+          validate={true}
           validator={customValidator}
         />
       </Form.Handler>
@@ -132,7 +132,7 @@ describe('Field.OrganizationNumber', () => {
         <Field.OrganizationNumber
           value={invalidOrgNo}
           validateInitially
-          validate={false}
+          validate={true}
           validator={customValidator}
         />
       </Form.Handler>
