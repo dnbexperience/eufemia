@@ -90,7 +90,7 @@ function NationalIdentityNumber(props: Props) {
     width: props.width ?? 'medium',
     inputMode: 'numeric',
     onBlurValidator: validate
-      ? props.validator || dnrAndFnrValidator
+      ? props.onBlurValidator || dnrAndFnrValidator
       : undefined,
     exportValidators: { dnrValidator, fnrValidator },
   }
