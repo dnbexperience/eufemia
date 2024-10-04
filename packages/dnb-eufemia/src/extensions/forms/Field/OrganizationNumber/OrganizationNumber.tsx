@@ -50,6 +50,7 @@ function OrganizationNumber(props: Props) {
     mask,
     width: props.width ?? 'medium',
     inputMode: 'numeric',
+    validator: validate ? props.validator : undefined,
     onBlurValidator: validate
       ? props.onBlurValidator || organizationNumberValidator
       : undefined,
