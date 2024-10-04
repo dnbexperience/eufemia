@@ -117,7 +117,7 @@ export const ValidationExtendValidator = () => {
     <ComponentBox>
       {() => {
         const firstNumIs1Validator = (value: string) => {
-          if (value.substring(0, 1) === '1') {
+          if (value.substring(0, 1) !== '1') {
             return new Error('My error')
           }
         }
