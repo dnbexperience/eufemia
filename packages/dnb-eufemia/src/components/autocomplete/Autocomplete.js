@@ -961,8 +961,23 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   onInputClickHandler = (e) => {
-    const { value } = e.target
-    this.setVisibleByContext({ value })
+    // const { value } = e.target
+    // this.setVisibleByContext({ value })
+
+    if (!this.context.drawerList.opened && this.hasFilterActive()) {
+      this.ignoreEvents()
+      this.showAll()
+    }
+
+    if (
+      (!this.hasValidData() || !this.hasSelectedItem()) &&
+      !this.hasActiveItem()
+    ) {
+      this.toggleVisible()
+    } else {
+      const { value } = e.target
+      this.setVisibleByContext({ value })
+    }
   }
 
   onInputFocusHandler = (event) => {
@@ -1086,6 +1101,7 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   onTriggerKeyDownHandler = (e) => {
+    console.log('keydown', e)
     const key = keycode(e)
 
     switch (key) {
@@ -1612,6 +1628,7 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   onSelectHandler = (args) => {
+    console.log('selecting', args)
     if (parseFloat(args.active_item) > -1) {
       dispatchCustomElementEvent(this, 'on_select', {
         ...args,
