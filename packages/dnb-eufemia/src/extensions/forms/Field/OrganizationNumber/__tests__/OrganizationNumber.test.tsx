@@ -8,6 +8,12 @@ import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
 describe('Field.OrganizationNumber', () => {
+  async function expectNever(callable: () => unknown): Promise<void> {
+    await expect(() => waitFor(callable)).rejects.toEqual(
+      expect.anything()
+    )
+  }
+
   it('should have Norwegian mask', async () => {
     render(<Field.OrganizationNumber />)
 
@@ -75,7 +81,10 @@ describe('Field.OrganizationNumber', () => {
 
     fireEvent.blur(document.querySelector('input'))
 
-    expect(screen.queryByRole('alert')).toBeNull()
+    await expectNever(() => {
+      // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    })
   })
 
   it('should not validate custom validator when validate false', async () => {
@@ -104,9 +113,10 @@ describe('Field.OrganizationNumber', () => {
       </Form.Handler>
     )
 
-    fireEvent.blur(document.querySelector('input'))
-
-    expect(screen.queryByRole('alert')).toBeNull()
+    await expectNever(() => {
+      // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    })
   })
 
   it('should not validate extended validator when validate false', async () => {
@@ -138,9 +148,10 @@ describe('Field.OrganizationNumber', () => {
       </Form.Handler>
     )
 
-    fireEvent.blur(document.querySelector('input'))
-
-    expect(screen.queryByRole('alert')).toBeNull()
+    await expectNever(() => {
+      // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    })
   })
 
   describe('should validate Norwegian organization number', () => {
@@ -163,17 +174,23 @@ describe('Field.OrganizationNumber', () => {
 
     const invalidOrgNum = ['123', '123456789', '148623907', '987654321']
 
-    it.each(validOrgNum)('Valid organization number: %s', (orgNo) => {
-      render(
-        <Form.Handler>
-          <Field.OrganizationNumber value={orgNo} validateInitially />
-        </Form.Handler>
-      )
+    it.each(validOrgNum)(
+      'Valid organization number: %s',
+      async (orgNo) => {
+        render(
+          <Form.Handler>
+            <Field.OrganizationNumber value={orgNo} validateInitially />
+          </Form.Handler>
+        )
 
-      fireEvent.blur(document.querySelector('input'))
+        fireEvent.blur(document.querySelector('input'))
 
-      expect(screen.queryByRole('alert')).toBeNull()
-    })
+        await expectNever(() => {
+          // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+        })
+      }
+    )
 
     it.each(invalidOrgNum)(
       'Invalid organization number: %s',
@@ -235,7 +252,7 @@ describe('Field.OrganizationNumber', () => {
 
     it.each(validOrgNumStartingWith1)(
       'Valid organization number: %s',
-      (orgNo) => {
+      async (orgNo) => {
         render(
           <Form.Handler>
             <Field.OrganizationNumber
@@ -246,9 +263,10 @@ describe('Field.OrganizationNumber', () => {
           </Form.Handler>
         )
 
-        fireEvent.blur(document.querySelector('input'))
-
-        expect(screen.queryByRole('alert')).toBeNull()
+        await expectNever(() => {
+          // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+        })
       }
     )
 
@@ -263,8 +281,6 @@ describe('Field.OrganizationNumber', () => {
             validator={customValidator}
           />
         )
-
-        fireEvent.blur(document.querySelector('input'))
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
