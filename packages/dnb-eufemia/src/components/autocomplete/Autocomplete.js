@@ -961,23 +961,14 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   onInputClickHandler = (e) => {
-    // const { value } = e.target
-    // this.setVisibleByContext({ value })
-
+    // Show the whole list an item is selected
     if (!this.context.drawerList.opened && this.hasFilterActive()) {
       this.ignoreEvents()
       this.showAll()
     }
 
-    if (
-      (!this.hasValidData() || !this.hasSelectedItem()) &&
-      !this.hasActiveItem()
-    ) {
-      this.toggleVisible()
-    } else {
-      const { value } = e.target
-      this.setVisibleByContext({ value })
-    }
+    const { value } = e.target
+    this.setVisibleByContext({ value })
   }
 
   onInputFocusHandler = (event) => {
