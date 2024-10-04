@@ -116,19 +116,16 @@ export const ValidationExtendValidator = () => {
   return (
     <ComponentBox>
       {() => {
-        const firstNumIs1 = (value: string) =>
-          value.substring(0, 1) === '1'
-            ? { status: 'valid' }
-            : { status: 'invalid' }
+        const firstNumIs1Validator = (value: string) => {
+          if (value.substring(0, 1) === '1') {
+            return new Error('My error')
+          }
+        }
 
         const myValidator = (value, { validators }) => {
           const { organizationNumberValidator } = validators
-          const result = firstNumIs1(value)
-          if (result.status === 'invalid') {
-            return new Error('My error')
-          }
 
-          return [organizationNumberValidator]
+          return [organizationNumberValidator, firstNumIs1Validator]
         }
 
         return (
