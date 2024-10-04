@@ -1092,7 +1092,6 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   onTriggerKeyDownHandler = (e) => {
-    console.log('keydown', e)
     const key = keycode(e)
 
     switch (key) {
@@ -1619,7 +1618,6 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   onSelectHandler = (args) => {
-    console.log('selecting', args)
     if (parseFloat(args.active_item) > -1) {
       dispatchCustomElementEvent(this, 'on_select', {
         ...args,
