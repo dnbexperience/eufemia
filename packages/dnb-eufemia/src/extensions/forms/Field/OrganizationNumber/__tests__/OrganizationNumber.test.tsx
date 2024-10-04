@@ -7,13 +7,11 @@ import nbNO from '../../../constants/locales/nb-NO'
 
 const nb = nbNO['nb-NO']
 
-describe('Field.OrganizationNumber', () => {
-  async function expectNever(callable: () => unknown): Promise<void> {
-    await expect(() => waitFor(callable)).rejects.toEqual(
-      expect.anything()
-    )
-  }
+async function expectNever(callable: () => unknown): Promise<void> {
+  await expect(() => waitFor(callable)).rejects.toEqual(expect.anything())
+}
 
+describe('Field.OrganizationNumber', () => {
   it('should have Norwegian mask', async () => {
     render(<Field.OrganizationNumber />)
 
