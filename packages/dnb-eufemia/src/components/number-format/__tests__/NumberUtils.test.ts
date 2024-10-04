@@ -307,7 +307,7 @@ describe('Currency format with dirty number', () => {
     ).toBe('-1 234 567,89 kr')
   })
 
-  it('should treat english style (SI style (English version))', () => {
+  it('should treat English style (SI style (English version))', () => {
     expect(
       format('prefix -1 234 567.891 suffix', {
         clean: true,
@@ -686,7 +686,7 @@ describe('NumberFormat cleanNumber', () => {
     )
   })
 
-  it('should clean up english style (SI style (English version))', () => {
+  it('should clean up English style (SI style (English version))', () => {
     expect(cleanNumber('prefix -1 234 567.891 suffix')).toBe(
       '-1234567.891'
     )
