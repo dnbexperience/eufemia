@@ -14,9 +14,9 @@ import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import type { Path } from '../../types'
 import DataContext, {
   FilterData,
-  FilterDataHandler,
   VisibleDataHandler,
 } from '../../DataContext/Context'
+import { SharedAttachments } from '../../DataContext/Provider'
 
 type PathImpl<T, P extends string> = P extends `${infer Key}/${infer Rest}`
   ? Key extends keyof T
@@ -56,12 +56,6 @@ type UseDataReturn<Data> = {
   reduceToVisibleFields: UseDataReturnVisibleData<Data>
 }
 
-type SharedAttachment<Data> = {
-  rerenderUseDataHook: () => void
-  filterDataHandler?: FilterDataHandler<Data>
-  visibleDataHandler?: VisibleDataHandler<Data>
-}
-
 /**
  * Custom hook that provides form data management functionality.
  *
@@ -77,7 +71,9 @@ export default function useData<Data = JsonObject>(
   const sharedDataRef =
     useRef<ReturnType<typeof useSharedState<Data>>>(null)
   const sharedAttachmentsRef =
-    useRef<ReturnType<typeof useSharedState<SharedAttachment<Data>>>>(null)
+    useRef<ReturnType<typeof useSharedState<SharedAttachments<Data>>>>(
+      null
+    )
   const [, forceUpdate] = useReducer(() => ({}), {})
 
   sharedDataRef.current = useSharedState<Data>(
@@ -86,7 +82,7 @@ export default function useData<Data = JsonObject>(
     forceUpdate
   )
 
-  sharedAttachmentsRef.current = useSharedState<SharedAttachment<Data>>(
+  sharedAttachmentsRef.current = useSharedState<SharedAttachments<Data>>(
     id + '-attachments',
     { rerenderUseDataHook: forceUpdate }
   )
