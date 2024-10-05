@@ -17,8 +17,10 @@ import useId from '../../../../shared/helpers/useId'
 import Step, { Props as StepProps } from '../Step'
 import WizardContext, {
   OnStepChange,
+  OnStepsChangeMode,
   SetActiveIndexOptions,
   StepIndex,
+  Steps,
   WizardContextState,
 } from '../Context/WizardContext'
 import DataContext, {
@@ -146,15 +148,32 @@ function WizardContainer(props: Props) {
     preventNextStepRef.current = shouldPrevent
   }, [])
 
-  const callOnStepChange = useCallback(
-    async (index: StepIndex, mode: 'previous' | 'next') => {
-      if (isAsync(onStepChange)) {
-        return await onStepChange(index, mode, { preventNavigation })
+  const getStepChangeOptions = useCallback(
+    (index: StepIndex) => {
+      const previousIndex = activeIndexRef.current
+      const options = {
+        previousIndex,
+        preventNavigation,
+      }
+      const id = stepsRef.current[index]?.id
+      if (id) {
+        Object.assign(options, { id })
       }
 
-      return onStepChange?.(index, mode, { preventNavigation })
+      return options
     },
-    [onStepChange, preventNavigation]
+    [preventNavigation]
+  )
+
+  const callOnStepChange = useCallback(
+    async (index: StepIndex, mode: OnStepsChangeMode) => {
+      if (isAsync(onStepChange)) {
+        return await onStepChange(index, mode, getStepChangeOptions(index))
+      }
+
+      return onStepChange?.(index, mode, getStepChangeOptions(index))
+    },
+    [getStepChangeOptions, onStepChange]
   )
 
   const { setFocus, scrollToTop, isInteractionRef } =
@@ -179,7 +198,7 @@ function WizardContainer(props: Props) {
       mode,
     }: {
       index: StepIndex
-      mode: 'previous' | 'next'
+      mode: OnStepsChangeMode
     } & SetActiveIndexOptions) => {
       handleSubmitCall({
         skipErrorCheck,
@@ -187,9 +206,11 @@ function WizardContainer(props: Props) {
         enableAsyncBehavior: isAsync(onStepChange),
         onSubmit: async () => {
           if (!skipStepChangeCallFromHook) {
-            sharedStateRef.current?.data?.onStepChange?.(index, mode, {
-              preventNavigation,
-            })
+            sharedStateRef.current?.data?.onStepChange?.(
+              index,
+              mode,
+              getStepChangeOptions(index)
+            )
           }
 
           const result =
@@ -221,11 +242,11 @@ function WizardContainer(props: Props) {
     },
     [
       callOnStepChange,
+      getStepChangeOptions,
       handleLayoutEffect,
       handleSubmitCall,
       isInteractionRef,
       onStepChange,
-      preventNavigation,
       setFormState,
       setShowAllErrors,
     ]
@@ -282,7 +303,8 @@ function WizardContainer(props: Props) {
   )
   dataContext.setHandleSubmit?.(handleSubmit)
 
-  const titlesRef = useRef({})
+  const stepsRef = useRef<Steps>({})
+  const tmpStepsRef = useRef<Steps>({})
   const updateTitlesRef = useRef<() => void>()
   const prerenderFieldPropsRef = useRef<
     Record<string, () => React.ReactElement>
@@ -296,7 +318,7 @@ function WizardContainer(props: Props) {
       id,
       activeIndex,
       stepElementRef,
-      titlesRef,
+      stepsRef,
       updateTitlesRef,
       activeIndexRef,
       totalStepsRef,
@@ -329,7 +351,18 @@ function WizardContainer(props: Props) {
   useLayoutEffect(() => {
     updateTitlesRef.current?.()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [titlesRef.current])
+  }, [stepsRef.current])
+
+  useLayoutEffect(() => {
+    const count = Object.keys(stepsRef.current).length
+    const tmpCount = Object.keys(tmpStepsRef.current).length
+    if (count !== 0 && tmpCount !== 0 && count !== tmpCount) {
+      // - Call onStepChange when step gets replaced or added (activeWhen)
+      callOnStepChange(activeIndexRef.current, 'stepListModified')
+    }
+    tmpStepsRef.current = stepsRef.current
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stepsRef.current])
 
   if (!hasContext) {
     warn('You may wrap Wizard.Container in Form.Handler')
@@ -380,7 +413,7 @@ function DisplaySteps({
   sidebarId,
 }) {
   const [, forceUpdate] = useReducer(() => ({}), {})
-  const { id, activeIndexRef, titlesRef, updateTitlesRef } =
+  const { id, activeIndexRef, stepsRef, updateTitlesRef } =
     useContext(WizardContext) || {}
   updateTitlesRef.current = () => {
     forceUpdate()
@@ -395,7 +428,7 @@ function DisplaySteps({
       <StepIndicator
         bottom
         current_step={activeIndexRef.current}
-        data={Object.values(titlesRef.current)}
+        data={Object.values(stepsRef.current).map(({ title }) => title)}
         mode={mode}
         no_animation={noAnimation}
         on_change={handleChange}
@@ -408,14 +441,14 @@ function DisplaySteps({
 function IterateOverSteps({ children }) {
   const {
     check,
-    titlesRef,
+    stepsRef,
     activeIndexRef,
     totalStepsRef,
     prerenderFieldProps,
     prerenderFieldPropsRef,
   } = useContext(WizardContext)
 
-  titlesRef.current = {}
+  stepsRef.current = {}
   let incrementIndex = -1
 
   const childrenArray = React.Children.map(children, (child) => {
@@ -447,10 +480,13 @@ function IterateOverSteps({ children }) {
         incrementIndex++
         const index = incrementIndex
 
-        titlesRef.current[index] =
-          child.props.title !== undefined
-            ? convertJsxToString(child.props.title)
-            : 'Title missing'
+        stepsRef.current[index] = {
+          id: child.props.id,
+          title:
+            child.props.title !== undefined
+              ? convertJsxToString(child.props.title)
+              : 'Title missing',
+        }
         const key = `${index}-${activeIndexRef.current}`
         const clone = (props) =>
           React.cloneElement(child as React.ReactElement<StepProps>, props)
