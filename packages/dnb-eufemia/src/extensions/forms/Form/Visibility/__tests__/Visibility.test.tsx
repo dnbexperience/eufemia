@@ -285,7 +285,7 @@ describe('Visibility', () => {
       it('should render with whole path', async () => {
         render(
           <Form.Handler>
-            <Iterate.Array path="/myList" value={[{}]}>
+            <Iterate.Array path="/myList" defaultValue={[{}]}>
               <Field.Name.First
                 className="firstName"
                 itemPath="/firstName"
@@ -294,7 +294,7 @@ describe('Visibility', () => {
               <Form.Visibility
                 visibleWhen={{
                   path: '/myList/0/firstName',
-                  hasValue: (value: string) => value.length > 0,
+                  hasValue: (value: string) => value?.length > 0,
                 }}
               >
                 <Field.Name.Last
@@ -322,7 +322,7 @@ describe('Visibility', () => {
 
         render(
           <Form.Handler>
-            <Iterate.Array path="/myList" value={[{}]}>
+            <Iterate.Array path="/myList" defaultValue={[{}]}>
               <Field.Name.First
                 className="firstName"
                 itemPath="/firstName"
@@ -331,7 +331,7 @@ describe('Visibility', () => {
               <Form.Visibility
                 visibleWhen={{
                   itemPath: '/firstName',
-                  hasValue: (value: string) => value.length > 0,
+                  hasValue: (value: string) => value?.length > 0,
                 }}
               >
                 <Field.Name.Last

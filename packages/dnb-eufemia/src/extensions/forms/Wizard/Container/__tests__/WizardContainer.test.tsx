@@ -2061,5 +2061,62 @@ describe('Wizard.Container', () => {
       )
       expect(document.querySelector('input')).toHaveValue('1234')
     })
+
+    it('should set defaultValue of Iterate.Array only once between step changes', async () => {
+      const onChange = jest.fn()
+      const onStepChange = jest.fn()
+
+      render(
+        <Form.Handler onChange={onChange}>
+          <Wizard.Container onStepChange={onStepChange}>
+            <Wizard.Step>
+              <Iterate.Array path="/items" defaultValue={[null]}>
+                <Field.String itemPath="/" defaultValue="123" />
+              </Iterate.Array>
+
+              <Iterate.PushButton pushValue={null} path="/items" />
+
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      expect(document.querySelectorAll('input')).toHaveLength(1)
+      expect(document.querySelector('input')).toHaveValue('123')
+
+      await userEvent.type(document.querySelector('input'), '4')
+
+      expect(document.querySelector('input')).toHaveValue('1234')
+
+      const pushButton = document.querySelector(
+        '.dnb-forms-iterate-push-button'
+      )
+      await userEvent.click(pushButton)
+
+      expect(document.querySelectorAll('input')).toHaveLength(2)
+
+      await userEvent.click(nextButton())
+
+      expect(onStepChange).toHaveBeenLastCalledWith(
+        1,
+        'next',
+        expect.anything()
+      )
+
+      await userEvent.click(previousButton())
+
+      expect(document.querySelectorAll('input')).toHaveLength(2)
+      expect(onStepChange).toHaveBeenLastCalledWith(
+        0,
+        'previous',
+        expect.anything()
+      )
+      expect(document.querySelector('input')).toHaveValue('1234')
+    })
   })
 })

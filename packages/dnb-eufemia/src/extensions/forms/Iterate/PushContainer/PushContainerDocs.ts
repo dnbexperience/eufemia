@@ -11,6 +11,16 @@ export const PushContainerProperties: PropertiesTableProps = {
     type: 'React.Node',
     status: 'optional',
   },
+  data: {
+    doc: 'Prefilled data to be used by fields. Use `defaultData` when possible.',
+    type: ['object', 'array'],
+    status: 'optional',
+  },
+  defaultData: {
+    doc: 'Prefilled data to be used by fields.',
+    type: ['object', 'array'],
+    status: 'optional',
+  },
   openButton: {
     doc: 'The button to open container.',
     type: 'React.Node',

@@ -14,6 +14,7 @@ import { useArrayLimit, useSwitchContainerMode } from '../hooks'
 import Toolbar from '../Toolbar'
 import { useTranslation } from '../../hooks'
 import { ArrayItemAreaProps } from '../Array/ArrayItemArea'
+import { clearedData } from '../../DataContext/Provider'
 
 export type Props = {
   /**
@@ -43,6 +44,11 @@ export type Props = {
   data?: unknown | Record<string, unknown>
 
   /**
+   * Prefilled data to add to the fields.
+   */
+  defaultData?: unknown | Record<string, unknown>
+
+  /**
    * A custom toolbar to be shown below the container.
    */
   toolbar?: React.ReactNode
@@ -57,7 +63,8 @@ export type AllProps = Props & SpacingProps & ArrayItemAreaProps
 
 function PushContainer(props: AllProps) {
   const {
-    data = null,
+    data: dataProp,
+    defaultData: defaultDataProp,
     path,
     title,
     children,
@@ -90,12 +97,20 @@ function PushContainer(props: AllProps) {
     switchContainerMode: switchContainerModeRef.current,
   }
 
+  const data = useMemo(() => {
+    if (defaultDataProp) {
+      return // don't return a fallback, because we want to use the defaultData
+    }
+    return { newItems: [dataProp ?? clearedData] }
+  }, [dataProp, defaultDataProp])
+
   const defaultData = useMemo(() => {
-    return { newItems: [data] }
-  }, [data])
+    return { newItems: [defaultDataProp ?? clearedData] }
+  }, [defaultDataProp])
 
   return (
     <Isolation
+      data={data}
       defaultData={defaultData}
       emptyData={defaultData}
       commitHandleRef={commitHandleRef}
