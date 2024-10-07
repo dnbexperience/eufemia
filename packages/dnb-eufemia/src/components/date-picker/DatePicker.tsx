@@ -63,13 +63,8 @@ export type DatePickerEventAttributes = {
   end?: string
 } & Record<string, unknown>
 
-export type DatePickerEvent<T> = T & {
-  date?: string
-  start_date?: string
-  end_date?: string
-  partialStartDate?: string
-  partialEndDate?: string
-}
+// Takes the return object from DatePickerProiver and extends it with the event
+export type DatePickerEvent<T> = ReturnObject<T>
 
 export type DisplayPickerEvent = (
   | React.MouseEvent<HTMLButtonElement | HTMLAnchorElement | HTMLElement>
@@ -289,48 +284,52 @@ export type DatePickerProps = Omit<
      * Will be called on a date change event. Returns an `object`. See Returned Object below.
      */
     on_change?: (
-      event: ReturnObject<React.ChangeEvent<HTMLInputElement>>
+      event: DatePickerEvent<React.ChangeEvent<HTMLInputElement>>
     ) => void
     /**
      * Will be called on every input and date picker interaction. Returns an `object`. See Returned Object below.
      */
     on_type?: (
-      event: ReturnObject<React.ChangeEvent<HTMLInputElement>>
+      event: DatePickerEvent<React.ChangeEvent<HTMLInputElement>>
     ) => void
     /**
      * Will be called once date-picker is visible.
      */
-    on_show?: (event: ReturnObject<DisplayPickerEvent>) => void
+    on_show?: (event: DatePickerEvent<DisplayPickerEvent>) => void
     /**
      * Will be called once date-picker is hidden.
      */
-    on_hide?: (event: ReturnObject<DisplayPickerEvent>) => void
+    on_hide?: (event: DatePickerEvent<DisplayPickerEvent>) => void
     /**
      * Will be called once a user presses the submit button.
      */
     on_submit?: (
-      event: ReturnObject<React.MouseEvent<HTMLButtonElement>>
+      event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>
     ) => void
     /**
      * Will be called once a user presses the cancel button.
      */
     on_cancel?: (
-      event: ReturnObject<React.MouseEvent<HTMLButtonElement>>
+      event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>
     ) => void
     /**
      * Will be called once a user presses the reset button.
      */
     on_reset?: (
-      event: ReturnObject<React.MouseEvent<HTMLButtonElement>>
+      event: DatePickerEvent<React.MouseEvent<HTMLButtonElement>>
     ) => void
     /**
      * Will be called once the input gets focus.
      */
-    onFocus?: (event: ReturnObject<React.FocusEvent<HTMLElement>>) => void
+    onFocus?: (
+      event: DatePickerEvent<React.FocusEvent<HTMLElement>>
+    ) => void
     /**
      * Will be called once the input lose focus.
      */
-    onBlur?: (event: ReturnObject<React.FocusEvent<HTMLElement>>) => void
+    onBlur?: (
+      event: DatePickerEvent<React.FocusEvent<HTMLElement>>
+    ) => void
   }
 
 const defaultProps: DatePickerProps = {
