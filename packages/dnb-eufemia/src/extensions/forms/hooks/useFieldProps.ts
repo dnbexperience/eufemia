@@ -559,38 +559,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     return result
   }, [])
 
-  const callValidatorFnSync = useCallback(
-    (
-      validator: Validator<Value>,
-      value: Value = valueRef.current
-    ): ReturnType<Validator<Value>> => {
-      if (typeof validator !== 'function') {
-        return // stop here
-      }
-
-      const result = extendWithExportedValidators(
-        validator,
-        validator(value, additionalArgs)
-      )
-
-      if (Array.isArray(result)) {
-        for (const validator of result) {
-          if (!hasBeenCalledRef(validator)) {
-            const result = callValidatorFnSync(validator, value)
-            if (result instanceof Error) {
-              return result
-            }
-          }
-        }
-
-        callStackRef.current = []
-      } else {
-        return result
-      }
-    },
-    [additionalArgs, extendWithExportedValidators, hasBeenCalledRef]
-  )
-
   const callValidatorFnAsync = useCallback(
     async (
       validator: Validator<Value>,
@@ -610,6 +578,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           if (!hasBeenCalledRef(validator)) {
             const result = await callValidatorFnAsync(validator, value)
             if (result instanceof Error) {
+              callStackRef.current = []
               return result
             }
           }
@@ -621,6 +590,55 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       }
     },
     [additionalArgs, extendWithExportedValidators, hasBeenCalledRef]
+  )
+
+  const callValidatorFnSync = useCallback(
+    (
+      validator: Validator<Value>,
+      value: Value = valueRef.current
+    ): ReturnType<Validator<Value>> => {
+      if (typeof validator !== 'function') {
+        return // stop here
+      }
+
+      const result = extendWithExportedValidators(
+        validator,
+        validator(value, additionalArgs)
+      )
+
+      if (Array.isArray(result)) {
+        const hasAsyncValidator = result.some((validator) =>
+          isAsync(validator)
+        )
+        if (hasAsyncValidator) {
+          return new Promise((resolve) => {
+            callValidatorFnAsync(validator, value).then((result) => {
+              resolve(result)
+            })
+          })
+        }
+
+        for (const validator of result) {
+          if (!hasBeenCalledRef(validator)) {
+            const result = callValidatorFnSync(validator, value)
+            if (result instanceof Error) {
+              callStackRef.current = []
+              return result
+            }
+          }
+        }
+
+        callStackRef.current = []
+      } else {
+        return result
+      }
+    },
+    [
+      additionalArgs,
+      callValidatorFnAsync,
+      extendWithExportedValidators,
+      hasBeenCalledRef,
+    ]
   )
 
   /**
