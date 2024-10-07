@@ -1027,6 +1027,19 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         }
       }
 
+      // Only for when "validateInitially" is set to true
+      if (
+        onBlurValidatorRef.current &&
+        validateInitially &&
+        !changedRef.current
+      ) {
+        const { result } = await callOnBlurValidator()
+
+        if (result instanceof Error) {
+          throw result
+        }
+      }
+
       if (isProcessActive()) {
         clearErrorState()
       }
@@ -1051,6 +1064,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     validateInitially,
     validateUnchanged,
     startOnChangeValidatorValidation,
+    callOnBlurValidator,
     persistErrorState,
   ])
 
