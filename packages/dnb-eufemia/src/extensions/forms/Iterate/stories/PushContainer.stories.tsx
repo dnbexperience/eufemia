@@ -1,5 +1,5 @@
 import React, { useLayoutEffect } from 'react'
-import { Field, Form, Iterate, Value, Wizard } from '../..'
+import { Field, Form, Iterate, Tools, Value } from '../..'
 import { Card, Flex } from '../../../../components'
 
 export default {
@@ -9,33 +9,24 @@ export default {
 const formData = {
   persons: [
     {
-      firstName: 'Test',
-      lastName: 'Bruker',
+      firstName: 'Ola',
+      lastName: 'Nordmann',
     },
     {
-      firstName: 'Some',
-      lastName: 'Person',
+      firstName: 'Kari',
+      lastName: 'Nordmann',
     },
     {
-      firstName: 'Geir',
-      lastName: 'Service',
+      firstName: 'Per',
+      lastName: 'Hansen',
     },
   ],
 }
 
 export const ComplexPushContainer = () => {
   return (
-    <Form.Handler id="main-form">
-      <RepresentativesSection />
-      <Wizard.Buttons />
-    </Form.Handler>
-  )
-}
-
-function RepresentativesSection() {
-  return (
-    <Form.Section>
-      <Form.MainHeading bottom="1rem">Representatives</Form.MainHeading>
+    <Form.Handler>
+      <Form.MainHeading>Representatives</Form.MainHeading>
       <Card stack>
         <Iterate.Array path="/representatives">
           <RepresentativesView />
@@ -43,7 +34,8 @@ function RepresentativesSection() {
         </Iterate.Array>
         <RepresentativesCreateNew />
       </Card>
-    </Form.Section>
+      <Tools.Log />
+    </Form.Handler>
   )
 }
 
@@ -155,9 +147,8 @@ function RepresentativesCreateNew() {
       }}
       openButton={
         <Iterate.PushContainer.OpenButton
-          text="Add new representative"
           variant="tertiary"
-          icon="add"
+          text="Add new representative"
         />
       }
       showOpenButtonWhen={(list) => list.length > 0}
