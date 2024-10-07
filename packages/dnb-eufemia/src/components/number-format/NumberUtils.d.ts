@@ -168,7 +168,7 @@ export const roundHalfEven: (
  * Formats a number as a phone number
  *
  * @param {string|number} number any number
- * @param {string} locale locale as a string. Defaults to the global LOCALE constant
+ * @param {string} locale as a string. Defaults to the global LOCALE constant
  * @param {string} options formatting options based on the toLocaleString API
  * @returns {string} a phone number
  */
