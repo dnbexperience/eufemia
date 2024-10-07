@@ -63,6 +63,14 @@ export type DatePickerEventAttributes = {
   end?: string
 } & Record<string, unknown>
 
+export type DatePickerEvent<T> = T & {
+  date?: string
+  start_date?: string
+  end_date?: string
+  partialStartDate?: string
+  partialEndDate?: string
+}
+
 export type DisplayPickerEvent = (
   | React.MouseEvent<HTMLButtonElement | HTMLAnchorElement | HTMLElement>
   | MouseEvent
