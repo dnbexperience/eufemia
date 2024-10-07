@@ -202,8 +202,6 @@ describe('Field.NationalIdentityNumber', () => {
       />
     )
 
-    fireEvent.blur(document.querySelector('input'))
-
     expect(screen.queryByRole('alert')).toBeNull()
   })
 
@@ -229,8 +227,6 @@ describe('Field.NationalIdentityNumber', () => {
         validator={customValidator}
       />
     )
-
-    fireEvent.blur(document.querySelector('input'))
 
     expect(screen.queryByRole('alert')).toBeNull()
   })
@@ -384,8 +380,6 @@ describe('Field.NationalIdentityNumber', () => {
         />
       )
 
-      fireEvent.blur(document.querySelector('input'))
-
       expect(screen.queryByRole('alert')).toBeNull()
     })
 
@@ -398,8 +392,6 @@ describe('Field.NationalIdentityNumber', () => {
           value={id}
         />
       )
-
-      fireEvent.blur(document.querySelector('input'))
 
       await waitFor(() => {
         expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -418,8 +410,6 @@ describe('Field.NationalIdentityNumber', () => {
           value={dNum}
         />
       )
-
-      fireEvent.blur(document.querySelector('input'))
 
       await waitFor(() => {
         expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -440,8 +430,6 @@ describe('Field.NationalIdentityNumber', () => {
             value={fnr}
           />
         )
-
-        fireEvent.blur(document.querySelector('input'))
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
