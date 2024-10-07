@@ -1577,7 +1577,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       ? dataContext.ajvInstance?.compile(schema)
       : undefined
     validateValue()
-  }, [schema, validateValue])
+  }, [schema])
 
   // Use "useLayoutEffect" and "externalValueDidChangeRef"
   // to cooperate with the the data context "updateDataValueDataContext" routine further down,
@@ -1590,14 +1590,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
   }, [externalValue, hasItemPath])
 
-  useEffect(() => {
+  useUpdateEffect(() => {
     // Error or removed error for this field from the surrounding data context (by path)
     if (externalValueDidChangeRef.current) {
       externalValueDidChangeRef.current = false
       validateValue()
       forceUpdate()
     }
-  }, [externalValue, validateValue]) // Keep "externalValue" in the dependency list, so it will be updated when it changes
+  }, [externalValue]) // Keep "externalValue" in the dependency list, so it will be updated when it changes
 
   useEffect(() => {
     // Check against the local error state,
