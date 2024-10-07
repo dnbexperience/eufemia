@@ -77,14 +77,14 @@ function DatePickerAddon(props: DatePickerAddonProps) {
 
       const startDate =
         typeof start_date === 'function'
-          ? start_date(currentDates.start_date)
+          ? start_date(currentDates)
           : start_date
           ? convertStringToDate(start_date)
           : null
 
       const endDate =
         typeof end_date === 'function'
-          ? end_date(currentDates.end_date)
+          ? end_date(currentDates)
           : end_date
           ? convertStringToDate(end_date)
           : null
