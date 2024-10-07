@@ -79,7 +79,7 @@
     "test:auto-generated-types": "yarn jest ./postTypeGeneration.test.ts --ci --testPathIgnorePatterns=[]",
     "test:ci": "yarn jest --ci",
     "test:e2e": "yarn playwright test",
-    "test:e2e:ci": "start-server-and-test 'yarn workspace dnb-design-system-portal serve' http://localhost:8000 test:e2e",
+    "test:e2e:ci": "start-server-and-test 'yarn workspace dnb-design-system-portal serve:8001' http://localhost:8001 test:e2e",
     "test:e2e:watch": "playwright test --ui",
     "test:postbuild": "yarn jest ./postbuild.test.ts --ci --testPathIgnorePatterns=[]",
     "test:screenshots": "yarn jest --config=./jest.config.screenshots.js --maxWorkers=1 --detectOpenHandles --testPathPattern ",

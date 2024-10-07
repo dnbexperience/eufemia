@@ -38,7 +38,7 @@ jobs:
   visual-test:
     name: Run visual e2e-tests
 
-    runs-on: macos-latest
+    runs-on: macos-15
 
     timeout-minutes: 40
 
