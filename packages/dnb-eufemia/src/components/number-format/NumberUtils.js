@@ -591,18 +591,22 @@ export const formatPhone = (number, locale = null) => {
       number = String(number).replace(/[^+0-9]/g, '')
 
       let code = ''
-      if (number.length > 8 && number.substr(0, 2) !== '00') {
+      if (
+        number.length > 8 &&
+        number.substring(0, 2) !== '00' &&
+        !number.startsWith('+')
+      ) {
         number = '+' + number
-        number = number.replace(/^\+{2,}/, '+')
       }
+
       if (number[0] === '+') {
-        code = number.substr(0, 3) + ' '
-        number = number.substr(3)
-      } else if (number.substr(0, 2) === '00') {
-        code = number.substr(0, 4) + ' '
-        number = number.substr(4)
+        code = number.substring(0, 3) + ' '
+        number = number.substring(3)
+      } else if (number.substring(0, 2) === '00') {
+        code = number.substring(0, 4) + ' '
+        number = number.substring(4)
       }
-      code = code.replace('+', '00')
+      code = code.replace(/^00/, '+')
       const length = number.length
 
       // get 800 22 222

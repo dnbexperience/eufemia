@@ -37,7 +37,17 @@ export const Label = () => {
 export const LabelAndValue = () => {
   return (
     <ComponentBox>
-      <Value.PhoneNumber label="Label text" value="+4798712345" />
+      <Value.PhoneNumber label="Label text" value="98712345" />
+    </ComponentBox>
+  )
+}
+
+export const InternationalSuffix = () => {
+  return (
+    <ComponentBox>
+      <Value.PhoneNumber label="Label text" value="+47 98712345" />
+      <Value.PhoneNumber label="Label text" value="+886 0998472751" />
+      <Value.PhoneNumber label="Label text" value="+1-868 6758288" />
     </ComponentBox>
   )
 }
