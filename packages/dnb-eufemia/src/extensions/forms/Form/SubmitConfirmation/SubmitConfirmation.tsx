@@ -127,7 +127,7 @@ function SubmitConfirmation(props: ConfirmProps) {
   })
 
   useMemo(() => {
-    if (Object.keys(removeUndefinedProps(submitState)).length > 0) {
+    if (Object.keys(removeUndefinedProps(submitState) || {}).length > 0) {
       submitStateRef.current = {
         ...submitState,
       } as EventStateObject
