@@ -362,13 +362,13 @@ describe('Field.NationalIdentityNumber', () => {
         : { status: 'invalid' }
 
     const customValidator: Validator<string> = (value, { validators }) => {
-      const { dnrValidator, fnrValidator } = validators
+      const { dnrAndFnrValidator } = validators
       const result = bornInApril(value)
       if (result.status === 'invalid') {
         return new Error('custom error')
       }
 
-      return [dnrValidator, fnrValidator]
+      return [dnrAndFnrValidator]
     }
 
     it.each(validIds)('Valid identity number: %s', async (fnrNum) => {
