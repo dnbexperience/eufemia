@@ -59,7 +59,10 @@ describe('Field.NationalIdentityNumber', () => {
     rerender(<Field.NationalIdentityNumber validateInitially />)
 
     await waitFor(() => {
-      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        nb.NationalIdentityNumber.errorFnr
+      )
     })
   })
 
