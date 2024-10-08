@@ -1127,10 +1127,16 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         // Field was put in focus (like when clicking in a text field or opening a dropdown menu)
         hasFocusRef.current = true
         onFocus?.apply(this, args)
+        setMountedFieldStateDataContext(identifier, {
+          isFocused: true,
+        })
       } else {
         // Field was removed from focus (like when tabbing out of a text field or closing a dropdown menu)
         hasFocusRef.current = false
         onBlur?.apply(this, args)
+        setMountedFieldStateDataContext(identifier, {
+          isFocused: false,
+        })
 
         if (!changedRef.current && !validateUnchanged) {
           // Avoid showing errors when blurring without having changed the value, so tabbing through several
@@ -1154,6 +1160,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     [
       getEventArgs,
       onFocus,
+      setMountedFieldStateDataContext,
+      identifier,
       onBlur,
       validateUnchanged,
       addToPool,

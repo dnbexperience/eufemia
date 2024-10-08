@@ -4,19 +4,70 @@ showTabs: true
 
 ## Description
 
-The `Form.Visibility` component makes it possible to show or hide components on the screen based on the state of data. It can either be fed with the values directly via properties, or it can read data from a surrounding [Form.Handler](/uilib/extensions/forms/Form/Handler) and show or hide components based on the data it points to.
+The `Form.Visibility` component allows you to conditionally show or hide components based on the state of data or field validation. You can either provide the values directly via properties or let it read data from a surrounding [Form.Handler](/uilib/extensions/forms/Form/Handler). This enables dynamic visibility control based on the paths it points to.
+
+### Data driven visibility
+
+There are several [properties](/uilib/extensions/forms/Form/Visibility/properties/) you can use to control visibility, such as `pathDefined`, `pathTruthy`, `pathTrue` etc.
 
 ```tsx
-import { Form } from '@dnb/eufemia/extensions/forms'
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
 render(
   <>
     <Field.Boolean path="/myState" />
     <Form.Visibility pathTrue="/myState">
-      show me when the state value is true
+      show me when the data value is true
     </Form.Visibility>
   </>,
 )
 ```
+
+#### Dynamic value driven visibility
+
+You can also use the `visibleWhen` property to conditionally show the children based on the data value of the path.
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <>
+    <Field.Boolean path="/myState" />
+    <Form.Visibility
+      visibleWhen={{
+        path: '/myState',
+        hasValue: (value) => value === true,
+      }}
+    >
+      show me when the data value is true
+    </Form.Visibility>
+  </>,
+)
+```
+
+### Validation driven visibility
+
+You can conditionally display children based on field validation by using the `visibleWhen` property with `isValid: true`:
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <>
+    <Field.Boolean path="/myField" />
+    <Form.Visibility
+      visibleWhen={{
+        path: '/myField',
+        isValid: true,
+      }}
+    >
+      show me when the validation succeeds
+    </Form.Visibility>
+  </>,
+)
+```
+
+To prevent visibility changes during user interactions like typing, it shows the children first when the field both has no errors and has lost focus (blurred). You can use the `continuousValidation: true` property to immediately show the children when the field has no errors.
 
 ## Accessibility
 
@@ -32,7 +83,7 @@ render(
   <>
     <Field.Boolean path="/myState" />
     <Form.Visibility pathTrue="/myState" animate>
-      show me when the state value is true
+      show me when the data value is true
     </Form.Visibility>
   </>,
 )
@@ -48,7 +99,7 @@ render(
   <>
     <Field.Boolean path="/myState" />
     <Form.Visibility pathTrue="/myState" keepInDOM>
-      show me when the state value is true
+      show me when the data value is true
     </Form.Visibility>
   </>,
 )

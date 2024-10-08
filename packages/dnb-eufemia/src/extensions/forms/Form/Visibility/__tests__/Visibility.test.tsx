@@ -1,8 +1,9 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { FilterData, Provider } from '../../../DataContext'
 import Visibility from '../Visibility'
+import useVisibility from '../useVisibility'
 import { Field, Form, Iterate } from '../../..'
 import { Flex } from '../../../../../components'
 import { P } from '../../../../../elements'
@@ -942,6 +943,96 @@ describe('Visibility', () => {
       )
 
       expect(screen.getByText('Child')).toBeInTheDocument()
+    })
+  })
+
+  describe('visibleWhen with "isValid"', () => {
+    it('should return only false when field path is non existent', () => {
+      const collectResult = []
+
+      const MockComponent = () => {
+        const result = useVisibility().check({
+          visibleWhen: {
+            path: '/non-existent-path',
+            isValid: true,
+          },
+        })
+        collectResult.push(result)
+        return null
+      }
+
+      render(
+        <Provider>
+          <MockComponent />
+        </Provider>
+      )
+
+      expect(collectResult).toEqual([false])
+    })
+
+    it('should return only false on first render', () => {
+      const collectResult = []
+
+      const MockComponent = () => {
+        const result = useVisibility().check({
+          visibleWhen: {
+            path: '/myPath',
+            isValid: true,
+          },
+        })
+        collectResult.push(result)
+        return null
+      }
+
+      render(
+        <Provider>
+          <Field.Number path="/myPath" required minimum={2} />
+          <MockComponent />
+        </Provider>
+      )
+
+      expect(collectResult).toEqual([false, false, false])
+
+      fireEvent.focus(document.querySelector('input'))
+      fireEvent.change(document.querySelector('input'), {
+        target: { value: '2' },
+      })
+      expect(collectResult).toEqual([false, false, false, false])
+
+      fireEvent.blur(document.querySelector('input'))
+      expect(collectResult).toEqual([false, false, false, false, true])
+    })
+
+    it('should support fields without focus and blur events', async () => {
+      const collectResult = []
+
+      const MockComponent = () => {
+        const result = useVisibility().check({
+          visibleWhen: {
+            path: '/myPath',
+            isValid: true,
+          },
+        })
+        collectResult.push(result)
+        return null
+      }
+
+      render(
+        <Provider>
+          <Field.Boolean path="/myPath" required />
+          <MockComponent />
+        </Provider>
+      )
+
+      expect(collectResult).toEqual([false, false, false])
+
+      await userEvent.click(document.querySelector('input'))
+      expect(collectResult).toEqual([false, false, false, true])
+
+      // Should have no effect
+      fireEvent.focus(document.querySelector('input'))
+      fireEvent.blur(document.querySelector('input'))
+      expect(collectResult).toEqual([false, false, false, true])
     })
   })
 })

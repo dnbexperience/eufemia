@@ -8,7 +8,12 @@ import { Props } from './Visibility'
 export type { Props }
 
 export default function useVisibility(props?: Partial<Props>) {
-  const { filterDataHandler, data: originalData } = useContext(DataContext)
+  const {
+    hasFieldError,
+    filterDataHandler,
+    mountedFieldsRef,
+    data: originalData,
+  } = useContext(DataContext)
 
   const { makePath, makeIteratePath } = usePath()
 
@@ -51,33 +56,48 @@ export default function useVisibility(props?: Partial<Props>) {
           'itemPath' in visibleWhen
             ? makeIteratePath(visibleWhen.itemPath)
             : makePath(visibleWhen.path)
-        const hasPath = pointer.has(data, path)
 
-        if (hasPath) {
-          const value = pointer.get(data, path)
-
-          if (visibleWhen?.['withValue']) {
-            console.warn(
-              'VisibleWhen: "withValue" is deprecated, use "hasValue" instead'
-            )
+        if ('isValid' in visibleWhen) {
+          const item = mountedFieldsRef.current[path]
+          if (!item || item.isMounted !== true) {
+            return visibleWhenNot ? true : false
           }
-
-          const hasValue =
-            visibleWhen?.['hasValue'] ?? visibleWhen?.['withValue']
           const result =
-            typeof hasValue === 'function'
-              ? hasValue(value) === false
-              : hasValue !== value
+            (visibleWhen.continuousValidation
+              ? true
+              : item.isFocused !== true) && hasFieldError(path) === false
+          return visibleWhenNot ? !result : result
+        }
 
-          if (visibleWhenNot) {
-            if (!result) {
+        if ('hasValue' in visibleWhen || 'withValue' in visibleWhen) {
+          const hasPath = pointer.has(data, path)
+
+          if (hasPath) {
+            const value = pointer.get(data, path)
+
+            if (visibleWhen?.['withValue']) {
+              console.warn(
+                'VisibleWhen: "withValue" is deprecated, use "hasValue" instead'
+              )
+            }
+
+            const hasValue =
+              visibleWhen?.['hasValue'] ?? visibleWhen?.['withValue']
+            const result =
+              typeof hasValue === 'function'
+                ? hasValue(value) === false
+                : hasValue !== value
+
+            if (visibleWhenNot) {
+              if (!result) {
+                return false
+              }
+            } else if (result) {
               return false
             }
-          } else if (result) {
+          } else {
             return false
           }
-        } else {
-          return false
         }
       }
 
@@ -120,7 +140,14 @@ export default function useVisibility(props?: Partial<Props>) {
 
       return true
     },
-    [filterDataHandler, originalData, makePath, makeIteratePath]
+    [
+      filterDataHandler,
+      originalData,
+      makePath,
+      makeIteratePath,
+      mountedFieldsRef,
+      hasFieldError,
+    ]
   )
 
   return { check }
