@@ -1,5 +1,5 @@
 import React from 'react'
-import { Ajv, makeAjvInstance } from '../utils/ajv'
+import { Ajv, FormError, makeAjvInstance } from '../utils'
 import {
   AllJSONSchemaVersions,
   CustomErrorMessagesWithPaths,
@@ -9,7 +9,6 @@ import {
   EventReturnWithStateObject,
   Identifier,
   FieldProps,
-  FormError,
   ValueProps,
   OnChange,
   OnSubmitParams,

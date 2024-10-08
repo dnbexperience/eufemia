@@ -15,7 +15,6 @@ import {
   FieldPropsWithExtraValue,
 } from '../../types'
 import FieldBlock from '../../FieldBlock'
-import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
 
 export type CountryFilterSet =
@@ -75,13 +74,7 @@ function SelectCountry(props: Props) {
     [getCountryObjectByIso]
   )
 
-  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.errorRequired,
-  })
-
-  const defaultProps: Partial<Props> = {
-    errorMessages,
-  }
+  const defaultProps: Partial<Props> = {}
   const preparedProps: Props = {
     ...defaultProps,
     ...props,

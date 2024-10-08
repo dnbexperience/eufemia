@@ -10,13 +10,13 @@ export type Props = StringFieldProps & {
 
 function OrganizationNumber(props: Props) {
   const translations = useTranslation().OrganizationNumber
-  const { errorPattern, errorRequired, label } = translations
+  const { errorRequired, errorPattern, label } = translations
 
   const { validate = true, omitMask } = props
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: errorRequired,
-    pattern: errorPattern,
+    'Field.errorRequired': errorRequired,
+    'Field.errorPattern': errorPattern,
   })
 
   const mask = useMemo(

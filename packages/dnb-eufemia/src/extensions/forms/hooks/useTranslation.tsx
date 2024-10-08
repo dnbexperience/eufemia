@@ -1,6 +1,15 @@
-import { useMemo, useContext } from 'react'
-import SharedContext from '../../../shared/Context'
-import { combineWithExternalTranslations } from '../../../shared/useTranslation'
+import { useMemo, useContext, useCallback } from 'react'
+import SharedContext, {
+  TranslationFlatToObject,
+  TranslationObjectToFlat,
+} from '../../../shared/Context'
+import {
+  combineWithExternalTranslations,
+  formatMessage,
+  TranslationArguments,
+  TranslationId,
+  TranslationIdAsFunction,
+} from '../../../shared/useTranslation'
 import { extendDeep } from '../../../shared/component-helper'
 import { DeepPartial } from '../../../shared/types'
 import { LOCALE } from '../../../shared/defaults'
@@ -15,6 +24,8 @@ export type FormsTranslationValues =
 export type FormsTranslation = DeepPartial<
   FormsTranslationDefaultLocales[FormsTranslationLocale]
 >
+export type FormsTranslationFlat =
+  TranslationObjectToFlat<FormsTranslation>
 
 type CustomLocales = Partial<
   Record<FormsTranslationLocale, FormsTranslation>
@@ -29,7 +40,7 @@ export default function useTranslation<T = FormsTranslation>(
   const { locale, translation: globalTranslation } =
     useContext(SharedContext)
 
-  return useMemo(() => {
+  const combinedTranslation = useMemo(() => {
     const translation = extendDeep(
       {},
       formsLocales[locale] || formsLocales[LOCALE],
@@ -42,4 +53,20 @@ export default function useTranslation<T = FormsTranslation>(
       locale,
     }) as T
   }, [globalTranslation, locale, messages])
+
+  const getTranslation = useCallback(
+    (
+      id:
+        | TranslationId
+        | TranslationIdAsFunction<TranslationFlatToObject<T>>,
+      params?: TranslationArguments
+    ) => {
+      return formatMessage(id, params, combinedTranslation) ?? id
+    },
+    [combinedTranslation]
+  )
+
+  return useMemo(() => {
+    return Object.assign(combinedTranslation, { locale, getTranslation })
+  }, [combinedTranslation, getTranslation, locale])
 }

@@ -439,7 +439,7 @@ describe('Field.Number', () => {
         expect(statuses).toHaveLength(0)
       })
 
-      it('throw type error when invalid value is given', () => {
+      it('throw type error when invalid value is given', async () => {
         const log = jest.spyOn(console, 'error').mockImplementation()
 
         render(

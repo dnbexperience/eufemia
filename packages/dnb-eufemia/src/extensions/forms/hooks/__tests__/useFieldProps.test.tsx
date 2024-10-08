@@ -972,9 +972,7 @@ describe('useFieldProps', () => {
     it('should validate "validateRequired"', async () => {
       const validateRequired = jest.fn((v, { emptyValue, required }) => {
         return required && emptyValue === 'empty' && v > 1
-          ? new FormError('The value is required', {
-              validationRule: 'required',
-            })
+          ? new FormError('Field.errorRequired')
           : undefined
       })
       const onChange = jest.fn()

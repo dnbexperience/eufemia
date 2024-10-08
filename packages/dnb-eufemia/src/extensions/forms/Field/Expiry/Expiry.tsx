@@ -31,7 +31,7 @@ function Expiry(props: ExpiryProps) {
   } = useSharedTranslation()
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: errorRequired,
+    'Field.errorRequired': errorRequired,
   })
 
   const validateRequired = useCallback(

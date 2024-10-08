@@ -1128,6 +1128,26 @@ describe('Field.String', () => {
             emptyValue=""
             value=""
             errorMessages={{
+              'Field.errorRequired': 'You need this',
+            }}
+            required
+            validateInitially
+          />
+        )
+        expect(
+          document.querySelector('.dnb-form-status').textContent
+        ).toBe('You need this')
+      })
+
+      /**
+       * @deprecated – can be removed in v11
+       */
+      it('should support deprecated "required" errorMessage', () => {
+        render(
+          <Field.String
+            emptyValue=""
+            value=""
+            errorMessages={{
               required: 'You need this',
             }}
             required
@@ -1143,13 +1163,13 @@ describe('Field.String', () => {
             emptyValue=""
             value=""
             errorMessages={{
-              minLength: 'At least {minLength}..',
+              minLength: 'At least {minLength}.',
             }}
             minLength={4}
             validateInitially
           />
         )
-        expect(screen.getByText('At least 4..')).toBeInTheDocument()
+        expect(screen.getByText('At least 4.')).toBeInTheDocument()
       })
     })
   })

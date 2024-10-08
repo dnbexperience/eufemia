@@ -2355,7 +2355,7 @@ describe('DataContext.Provider', () => {
         render(
           <DataContext.Provider
             errorMessages={{
-              pattern: 'pattern provider error',
+              'Field.errorPattern': 'pattern provider error',
             }}
           >
             <Field.String
@@ -2376,9 +2376,9 @@ describe('DataContext.Provider', () => {
         render(
           <DataContext.Provider
             errorMessages={{
-              pattern: 'pattern provider error',
+              'Field.errorPattern': 'pattern provider error',
               '/myKey': {
-                pattern: 'pattern provider myKey error',
+                'Field.errorPattern': 'pattern provider myKey error',
               },
             }}
           >
@@ -2400,9 +2400,9 @@ describe('DataContext.Provider', () => {
         render(
           <DataContext.Provider
             errorMessages={{
-              pattern: 'pattern provider error',
+              'Field.errorPattern': 'pattern provider error',
               '/myKey': {
-                pattern: 'pattern provider myKey error',
+                'Field.errorPattern': 'pattern provider myKey error',
               },
             }}
           >
@@ -2412,7 +2412,7 @@ describe('DataContext.Provider', () => {
               pattern="^correct$"
               value="wrong"
               errorMessages={{
-                pattern: 'pattern field error',
+                'Field.errorPattern': 'pattern field error',
               }}
             />
           </DataContext.Provider>

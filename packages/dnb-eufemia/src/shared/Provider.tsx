@@ -3,7 +3,13 @@
  *
  */
 
-import React, { useCallback, useContext, useMemo, useState } from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import Context, {
   prepareContext,
   ContextProps,
@@ -57,13 +63,17 @@ export default function Provider<Props>(
     [update]
   )
 
+  const propsRef = useRef(props)
+  propsRef.current = props
+
   const value = useMemo(() => {
     const preparedContext = {
       // Make copy to avoid extending the root context
       ...prepareContext(
         mergeContextWithProps(nestedContext, {
           ...localContext,
-          ...props,
+          ...propsRef.current,
+          locale: props.locale,
         })
       ),
     }
@@ -82,11 +92,11 @@ export default function Provider<Props>(
   }, [
     nestedContext,
     localContext,
-    props,
-    setLocale,
-    setCurrentLocale,
+    props.locale,
     update,
+    setLocale,
     updateCurrent,
+    setCurrentLocale,
   ])
 
   return <Context.Provider value={value}>{children}</Context.Provider>

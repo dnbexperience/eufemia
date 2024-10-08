@@ -1,3 +1,5 @@
+export * from './ajv'
 export * from './errors'
 export * from './json-pointer'
+export * from './FormError'
 export { default as TestElement } from './TestElement/TestElement'

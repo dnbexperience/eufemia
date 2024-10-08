@@ -123,8 +123,8 @@ render(<MyField onBlurValidator={myValidator} />)
 
 #### Error
 
-- `error` object like `FormError` that includes the string to display or an object with the key `validationRule`. More info down below.
-- `errorMessages` object with your custom messages, where each key represents a `validationRule`. More info down below.
+- `error` like `new Error()` or `new FormError()` that includes a message to display. More info down below.
+- `errorMessages` object with your custom messages or translation keys, such as `'Field.errorRequired'`. More info down below.
 
 ### Return Parameters
 
@@ -147,9 +147,7 @@ It returns all of the given component properties, in addition to these:
 ```ts
 const validateRequired = (value, { emptyValue, required, isChanged }) => {
   if (required && value === emptyValue) {
-    return new FormError('This value is required', {
-      validationRule: 'required',
-    })
+    return new FormError('Field.errorRequired')
   }
 }
 
@@ -203,9 +201,7 @@ To re-use existing `errorMessages`, you can use the `FormError` constructor as w
 import { FormError } from '@dnb/eufemia/extensions/forms'
 
 // Will show the message from the errorMessages
-new FormError('Internal error message', {
-  validationRule: 'required',
-})
+new FormError('Field.errorRequired')
 ```
 
 In order to invoke an error without a change and blur event, you can use `validateInitially`:

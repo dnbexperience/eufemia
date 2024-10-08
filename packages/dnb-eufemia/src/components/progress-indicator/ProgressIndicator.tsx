@@ -178,13 +178,13 @@ function updatePropsWithContext(
   props: ProgressIndicatorAllProps,
   context: ContextProps
 ) {
-  const localePropsFromContext =
+  const localPropsFromContext =
     context?.getTranslation(props).ProgressIndicator
   const componentPropsFromContext = context?.ProgressIndicator
   return extendPropsWithContext(
     props,
     {},
-    localePropsFromContext,
+    localPropsFromContext,
     componentPropsFromContext
   )
 }

@@ -20,8 +20,8 @@ Name._supportsSpacingProps = true
 Name.First = function FirstName(props: Props) {
   const translations = useTranslation().FirstName
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.errorRequired,
-    pattern: translations.errorPattern,
+    'Field.errorRequired': translations.errorRequired,
+    'Field.errorPattern': translations.errorPattern,
   })
 
   const nameProps: Props = {

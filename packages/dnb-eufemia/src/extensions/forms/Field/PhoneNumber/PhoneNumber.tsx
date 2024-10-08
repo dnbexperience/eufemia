@@ -89,8 +89,8 @@ function PhoneNumber(props: Props) {
   const wasFilled = React.useRef<boolean>(false)
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.PhoneNumber.errorRequired,
-    pattern: translations.PhoneNumber.errorRequired,
+    'Field.errorRequired': translations.PhoneNumber.errorRequired,
+    'Field.errorPattern': translations.PhoneNumber.errorRequired,
   })
 
   const validateRequired = useCallback(
