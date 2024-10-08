@@ -4,13 +4,14 @@ import classnames from 'classnames'
 import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import { ReturnAdditional } from '../../hooks/useFieldProps'
-import { FieldHelpProps, FieldProps, FormError, Path } from '../../types'
+import { FieldHelpProps, FieldProps, Path } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { getStatus, mapOptions, Data } from '../Selection'
 import { HelpButtonProps } from '../../../../components/HelpButton'
 import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
 import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
+import { FormError } from '../../utils'
 
 type OptionProps = React.ComponentProps<
   React.FC<{

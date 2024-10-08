@@ -21,11 +21,11 @@ const transformLabelParameters = {
 export default function useValueProps<
   Value = unknown,
   Props extends ValueProps<Value> = ValueProps<Value>,
->(localeProps: Props): Props & ValueProps<Value> {
+>(localProps: Props): Props & ValueProps<Value> {
   const [, forceUpdate] = useReducer(() => ({}), {})
 
   const { extend } = useContext(ValueProviderContext)
-  const props = extend(localeProps)
+  const props = extend(localProps)
 
   const {
     path: pathProp,

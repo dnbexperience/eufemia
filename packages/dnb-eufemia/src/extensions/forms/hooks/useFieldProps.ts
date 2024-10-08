@@ -9,10 +9,8 @@ import React, {
 } from 'react'
 import pointer from '../utils/json-pointer'
 import { ValidateFunction } from 'ajv/dist/2020'
-import { errorChanged } from '../utils'
-import { ajvErrorsToOneFormError } from '../utils/ajv'
+import { ajvErrorsToOneFormError, errorChanged, FormError } from '../utils'
 import {
-  FormError,
   FieldPropsGeneric,
   AdditionalEventArgs,
   SubmitState,
@@ -84,15 +82,15 @@ const existingFields = new Map()
 // useEffect depend on them (like the external `value`)
 
 export default function useFieldProps<Value, EmptyValue, Props>(
-  localeProps: Props & FieldPropsGeneric<Value, EmptyValue>,
+  localProps: Props & FieldPropsGeneric<Value, EmptyValue>,
   {
     executeOnChangeRegardlessOfError = false,
     updateContextDataInSync = false,
     omitMultiplePathWarning = false,
   } = {}
-): typeof localeProps & ReturnAdditional<Value> {
+): typeof localProps & ReturnAdditional<Value> {
   const { extend } = useContext(FieldProviderContext)
-  const props = extend(localeProps)
+  const props = extend(localProps)
 
   const {
     path: pathProp,
@@ -316,11 +314,55 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   // Needs to be placed before "prepareError"
   const errorMessagesRef = useRef(null)
   errorMessagesRef.current = useMemo(() => {
-    return {
-      required: translation.Field.errorRequired,
+    const messages = {
+      ...contextErrorMessages,
       ...errorMessages,
     }
-  }, [errorMessages, translation.Field.errorRequired])
+
+    /**
+     * @deprecated – can be removed in v11
+     */
+    const deprecated = { required: translation.Field.errorRequired }
+    if (messages.required) {
+      deprecated['Field.errorRequired'] = messages.required
+    }
+    if (messages.pattern) {
+      deprecated['Field.errorPattern'] = messages.pattern
+    }
+    if (messages.minLength) {
+      deprecated['StringField.errorMinLength'] = messages.minLength
+    }
+    if (messages.maxLength) {
+      deprecated['StringField.errorMaxLength'] = messages.maxLength
+    }
+    if (messages.minimum) {
+      deprecated['NumberField.errorMinimum'] = messages.minimum
+    }
+    if (messages.maximum) {
+      deprecated['NumberField.errorMaximum'] = messages.maximum
+    }
+    if (messages.exclusiveMinimum) {
+      deprecated['NumberField.errorExclusiveMinimum'] =
+        messages.exclusiveMinimum
+    }
+    if (messages.exclusiveMaximum) {
+      deprecated['NumberField.errorExclusiveMaximum'] =
+        messages.exclusiveMaximum
+    }
+    if (messages.multipleOf) {
+      deprecated['NumberField.errorMultipleOf'] = messages.multipleOf
+    }
+    /**
+     * @deprecated – can be removed in v11
+     */
+    Object.assign(messages, deprecated)
+
+    return messages
+  }, [
+    contextErrorMessages,
+    errorMessages,
+    translation.Field.errorRequired,
+  ])
 
   // - Async behavior
   const asyncBehaviorIsEnabled = useMemo(() => {
@@ -445,6 +487,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       if (error instanceof FormError) {
         let message = error.message
 
+        /** @deprecated – can be removed in v11 */
         const { validationRule } = error
         if (typeof validationRule === 'string') {
           const fieldMessage = errorMessagesRef.current?.[validationRule]
@@ -453,20 +496,31 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           }
         }
 
-        const messageHasValues = Object.entries(
-          error.messageValues || {}
-        ).reduce((message, [key, value]) => {
-          return message.replace(`{${key}}`, value)
-        }, message)
+        if (errorMessagesRef.current[message]) {
+          // - For when the message is e.g. Field.errorRequired or Custom.key, but delivered in the `errorMessages` object
+          message = errorMessagesRef.current[message]
 
-        error.message = messageHasValues
+          if (error.messageValues) {
+            message = Object.entries(error.messageValues || {}).reduce(
+              (msg, [key, value]) => {
+                return msg.replace(`{${key}}`, value)
+              },
+              message
+            )
+          }
+        } else if (message.includes('.')) {
+          // - For when the message is e.g. Field.errorRequired
+          message = translation.formatMessage(message, error.messageValues)
+        }
+
+        error.message = message
 
         return error
       }
 
       return error
     },
-    []
+    [translation]
   )
 
   contextErrorRef.current = useMemo(() => {
@@ -482,7 +536,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const error =
     revealErrorRef.current ||
     // If the error is a type error, we want to show it even if the field as not been used
-    localErrorRef.current?.['validationRule'] === 'type'
+    localErrorRef.current?.['ajvKeyword'] === 'type'
       ? errorProp ?? localErrorRef.current ?? contextErrorRef.current
       : undefined
 
@@ -514,15 +568,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const exportValidatorsRef = useRef(exportValidators)
   exportValidatorsRef.current = exportValidators
   const additionalArgs = useMemo(() => {
-    const errorMessages = {
-      ...contextErrorMessages,
-      ...errorMessagesRef.current,
-    }
     const args: ValidatorAdditionalArgs<Value> = {
       /** @deprecated – can be removed in v11 */
-      ...errorMessages,
+      ...errorMessagesRef.current,
 
-      errorMessages,
+      errorMessages: errorMessagesRef.current,
       validators: exportValidatorsRef.current,
       connectWithPath: (path) => {
         setFieldEventListener?.(
@@ -538,7 +588,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
 
     return args
-  }, [contextErrorMessages, getValueByPath, setFieldEventListener])
+  }, [getValueByPath, setFieldEventListener])
 
   const callStackRef = useRef<Array<Validator<Value>>>([])
   const hasBeenCalledRef = useCallback((validator: Validator<Value>) => {
@@ -970,9 +1020,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         emptyValue,
         required: requiredProp ?? required,
         isChanged: changedRef.current,
-        error: new FormError('The value is required', {
-          validationRule: 'required',
-        }),
+        error: new FormError('Field.errorRequired'),
       })
       if (requiredError instanceof Error) {
         throw requiredError

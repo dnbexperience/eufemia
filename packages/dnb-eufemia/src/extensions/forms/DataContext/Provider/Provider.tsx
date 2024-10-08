@@ -12,9 +12,9 @@ import {
   Ajv,
   makeAjvInstance,
   ajvErrorsToFormErrors,
-} from '../../utils/ajv'
-import {
   FormError,
+} from '../../utils'
+import {
   CustomErrorMessagesWithPaths,
   AllJSONSchemaVersions,
   FieldProps,

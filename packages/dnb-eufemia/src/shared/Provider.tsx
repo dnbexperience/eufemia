@@ -3,7 +3,13 @@
  *
  */
 
-import React, { useCallback, useContext, useMemo, useState } from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import Context, {
   prepareContext,
   ContextProps,
@@ -57,13 +63,16 @@ export default function Provider<Props>(
     [update]
   )
 
+  const propsRef = useRef(props)
+  propsRef.current = props
+
   const value = useMemo(() => {
     const preparedContext = {
       // Make copy to avoid extending the root context
       ...prepareContext(
         mergeContextWithProps(nestedContext, {
           ...localContext,
-          ...props,
+          ...propsRef.current,
         })
       ),
     }
@@ -79,14 +88,16 @@ export default function Provider<Props>(
     )
 
     return preparedContext
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     nestedContext,
     localContext,
-    props,
-    setLocale,
-    setCurrentLocale,
+    props.locale, // is needed to rerender
+    props.formElement, // is needed to rerender
     update,
+    setLocale,
     updateCurrent,
+    setCurrentLocale,
   ])
 
   return <Context.Provider value={value}>{children}</Context.Provider>

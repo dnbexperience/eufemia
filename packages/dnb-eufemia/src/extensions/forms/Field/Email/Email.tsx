@@ -9,8 +9,8 @@ function Email(props: Props) {
   const translations = useTranslation().Email
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.errorRequired,
-    pattern: translations.errorPattern,
+    'Field.errorRequired': translations.errorRequired,
+    'Field.errorPattern': translations.errorPattern,
   })
 
   const StringFieldProps: Props = {

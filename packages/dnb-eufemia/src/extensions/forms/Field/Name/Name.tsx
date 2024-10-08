@@ -20,8 +20,8 @@ Name._supportsSpacingProps = true
 Name.First = function FirstName(props: Props) {
   const translations = useTranslation().FirstName
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.errorRequired,
-    pattern: translations.errorPattern,
+    'Field.errorRequired': translations.errorRequired,
+    'Field.errorPattern': translations.errorPattern,
   })
 
   const nameProps: Props = {
@@ -38,8 +38,8 @@ Name.First['_supportsSpacingProps'] = true
 Name.Last = function LastName(props: Props) {
   const translations = useTranslation().LastName
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.errorRequired,
-    pattern: translations.errorPattern,
+    'Field.errorRequired': translations.errorRequired,
+    'Field.errorPattern': translations.errorPattern,
   })
 
   const nameProps: Props = {
@@ -56,7 +56,7 @@ Name.First['_supportsSpacingProps'] = true
 Name.Company = function CompanyName(props: Props) {
   const translations = useTranslation().CompanyName
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.errorRequired,
+    'Field.errorRequired': translations.errorRequired,
   })
 
   const StringFieldProps: Props = {

@@ -49,31 +49,64 @@ render(<Field.PhoneNumber error={new Error('Custom message')} />)
 
 When it comes to re-using existing translations, you can also use the `FormError` object to display error messages.
 
-The `validationRule` is used to identify the error message to display.
+You can provide either an existing translation key, such as:
 
-- `required` - Displayed when the field is required and the user has not provided a value.
-- `pattern` - Displayed when the user has provided a value that does not match the pattern.
+- `Field.errorRequired` - Displayed when the field is required and the user has not provided a value.
+- `Field.errorPattern` - Displayed when the user has provided a value that does not match the pattern.
 
 ```tsx
 import { FormError, Field } from '@dnb/eufemia/extensions/forms'
+
+// - Error property
+render(<Field.PhoneNumber error={new FormError('Field.errorPattern')} />)
+
+// - Validator function
 render(
   <Field.PhoneNumber
-    error={
-      new FormError('Invalid value', {
-        validationRule: 'pattern',
-      })
-    }
+    onBlurValidator={() => {
+      return new FormError('Field.errorPattern')
+    }}
   />,
 )
 ```
 
-Here is how you can provide validation rules, or even overwrite existing ones:
+#### Overwrite existing keys
+
+Per field, you can overwrite existing keys:
+
+```tsx
+render(
+  <Field.PhoneNumber
+    errorMessages={{
+      'Field.errorPattern': 'Display me, instead of the default message',
+    }}
+  />,
+)
+```
+
+#### Custom keys
+
+You can also provide your own keys:
+
+```tsx
+<Field.PhoneNumber
+  error={new FormError('Custom.key')}
+  errorMessages={{
+    'Custom.key': 'Your custom error message',
+  }}
+/>
+```
+
+#### Custom keys in Form.Handler
+
+Here is how you can provide your own keys or overwrite existing ones in a global `errorMessages` object inside the [Form.Handler](/uilib/extensions/forms/Form/Handler/):
 
 ```tsx
 render(
   <Form.Handler
     errorMessages={{
-      pattern: 'Display me, instead of the default message',
+      'Custom.key': 'Your custom error message',
+      'Field.errorPattern': 'Display me, instead of the default message',
     }}
   >
     ...
@@ -81,19 +114,7 @@ render(
 )
 ```
 
-For one field only:
-
-```tsx
-render(
-  <Field.PhoneNumber
-    errorMessages={{
-      pattern: 'Display me, instead of the default message',
-    }}
-  />,
-)
-```
-
-## Localization of error messages
+#### Localization of error messages
 
 You can also provide localized error messages:
 
@@ -102,10 +123,10 @@ render(
   <Form.Handler
     errorMessages={{
       'en-GB': {
-        pattern: 'Display me, instead of the default message',
+        'Field.errorPattern': 'Display me, instead of the default message',
       },
       'nb-NO': {
-        pattern: 'Vis meg istedenfor for standardmeldingen',
+        'Field.errorPattern': 'Vis meg istedenfor for standardmeldingen',
       },
     }}
   >
@@ -114,7 +135,9 @@ render(
 )
 ```
 
-In addition, you can customize the translations globally:
+#### Use translations to localize error messages
+
+You can customize error messages via translations for the entire form:
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
@@ -122,7 +145,13 @@ render(
   <Form.Handler
     translations={{
       'nb-NO': {
-        Field: { errorPattern: 'Custom pattern error' },
+        // - Overwrite existing keys
+        Field: { errorPattern: 'Display this error message instead' },
+        'Field.errorPattern': 'Display this error message instead',
+
+        // - Custom keys
+        Custom: { key: 'Your custom error message' },
+        'Custom.key': 'Your custom error message',
       },
     }}
   >
@@ -131,7 +160,9 @@ render(
 )
 ```
 
-Or define an error message in a `schema` for one field:
+#### Error message in a field `schema`
+
+You can define an error message in a `schema` for one field:
 
 ```tsx
 import { Provider } from '@dnb/eufemia/shared'
@@ -149,29 +180,9 @@ render(
 )
 ```
 
-Or in a field `schema` for one field with a JSON Pointer path:
+#### Error message in a global `schema`
 
-```tsx
-const schema = {
-  type: 'object',
-  properties: {
-    myKey: {
-      type: 'string',
-      pattern: '^([a-z]+)$',
-      errorMessage:
-        'You can provide a custom message in the schema itself',
-    },
-  },
-} as const
-
-render(
-  <Form.Handler schema={schema}>
-    <Field.String path="/myKey" value="123" validateInitially />
-  </Form.Handler>,
-)
-```
-
-Or in a Form.Handler `schema` for one field with a JSON Pointer path:
+You can also define an error message in a `schema` for the entire form:
 
 ```tsx
 const schema = {
@@ -228,7 +239,7 @@ You can provide custom error message different levels with the `errorMessages` p
 
 The levels are prioritized in the order above, so the field level error message will overwrite all other levels.
 
-Here is an example of how to do expose a custom error message for the `pattern` validation rule on all levels:
+Here is an example of how to do expose a custom error message for the `Field.errorPattern` validation rule on all levels:
 
 ```tsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
@@ -237,10 +248,10 @@ render(
   <Form.Handler
     errorMessages={{
       // Level 1
-      pattern: 'Or on the provider',
+      'Field.errorPattern': 'Or on the provider',
       '/myKey': {
         // Level 2
-        pattern: 'Or on the provider for just one field',
+        'Field.errorPattern': 'Or on the provider for just one field',
       },
     }}
   >
@@ -248,7 +259,7 @@ render(
       path="/myKey"
       errorMessages={{
         // Level 3
-        pattern: 'Or on a single Field itself',
+        'Field.errorPattern': 'Or on a single Field itself',
       }}
       ...
     />

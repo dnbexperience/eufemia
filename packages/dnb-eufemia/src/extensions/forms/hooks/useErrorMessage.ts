@@ -2,6 +2,7 @@ import { useContext, useMemo } from 'react'
 import {
   DefaultErrorMessages,
   CustomErrorMessagesWithPaths,
+  Path,
 } from '../types'
 import Context from '../DataContext/Context'
 
@@ -14,9 +15,9 @@ import Context from '../DataContext/Context'
  * @returns An object containing the merged error messages.
  */
 export default function useErrorMessage(
-  path: string,
+  path: Path,
   errorMessages: DefaultErrorMessages | CustomErrorMessagesWithPaths,
-  defaultErrorMessages: Record<string, string>
+  defaultErrorMessages: Record<`${string}.${string}`, string>
 ) {
   const context = useContext(Context)
 

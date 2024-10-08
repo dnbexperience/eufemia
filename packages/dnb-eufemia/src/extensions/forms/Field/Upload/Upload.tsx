@@ -4,12 +4,7 @@ import {
   useFieldProps,
   useTranslation as useFormsTranslation,
 } from '../../hooks'
-import {
-  FieldBlockWidth,
-  FieldHelpProps,
-  FieldProps,
-  FormError,
-} from '../../types'
+import { FieldBlockWidth, FieldHelpProps, FieldProps } from '../../types'
 import Upload, {
   UploadFile,
   UploadProps,
@@ -19,6 +14,7 @@ import { pickSpacingProps } from '../../../../components/flex/utils'
 import { HelpButton } from '../../../../components'
 import { useTranslation as useSharedTranslation } from '../../../../shared'
 import { SpacingProps } from '../../../../shared/types'
+import { FormError } from '../../utils'
 
 export type UploadValue = Array<UploadFile>
 export type Props = FieldHelpProps &
@@ -41,9 +37,7 @@ function UploadComponent(props: Props) {
     (value: UploadValue, { required, isChanged, error }) => {
       const hasError = value?.some((file) => file.errorMessage)
       if (hasError) {
-        return new FormError(error.message, {
-          validationRule: 'invalid',
-        })
+        return new FormError('Upload.errorInvalidFiles')
       }
 
       if (required && (!isChanged || !(value.length > 0))) {
@@ -60,8 +54,9 @@ function UploadComponent(props: Props) {
 
   const preparedProps = {
     errorMessages: {
-      required: formsTr.errorRequired,
-      invalid: formsTr.errorInvalidFiles,
+      'Field.errorRequired': formsTr.errorRequired,
+      // required: formsTr.errorRequired,
+      // invalid: formsTr.errorInvalidFiles,
     },
     validateRequired,
     ...props,
