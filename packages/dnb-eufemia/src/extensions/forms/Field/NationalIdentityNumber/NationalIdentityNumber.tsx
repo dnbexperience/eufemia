@@ -66,11 +66,10 @@ function NationalIdentityNumber(props: Props) {
     (value: string) => {
       const validationPattern = '^[4-9].*' // 1st num is increased by 4. i.e, if 01.01.1985, D number would be 410185.
 
-      return (
-        (new RegExp(validationPattern).test(value) &&
-          dnrValidator(value)) ||
-        fnrValidator(value)
-      )
+      if (new RegExp(validationPattern).test(value)) {
+        return dnrValidator(value)
+      }
+      return fnrValidator(value)
     },
     [dnrValidator, fnrValidator]
   )
