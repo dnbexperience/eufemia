@@ -60,6 +60,8 @@ function OrganizationNumber(props: Props) {
  * www.brreg.no/om-oss/registrene-vare/om-enhetsregisteret/organisasjonsnummeret/
  */
 function isValidOrgNumber(digits: string) {
+  if (digits === undefined) return false
+
   let checkDigit = 2
   let sum = 0
 

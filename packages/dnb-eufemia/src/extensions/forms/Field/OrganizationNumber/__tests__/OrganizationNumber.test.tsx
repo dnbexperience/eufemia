@@ -60,6 +60,23 @@ describe('Field.OrganizationNumber', () => {
     expect(input).toHaveAttribute('inputmode', 'numeric')
   })
 
+  it('should execute validateInitially if required', async () => {
+    const { rerender } = render(
+      <Field.OrganizationNumber required validateInitially />
+    )
+
+    expect(screen.queryByRole('alert')).toBeInTheDocument()
+
+    rerender(<Field.OrganizationNumber validateInitially />)
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        nb.OrganizationNumber.errorPattern
+      )
+    })
+  })
+
   it('should validate organization number based on the internal pattern', () => {
     render(
       <Form.Handler>
