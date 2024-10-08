@@ -10,6 +10,7 @@ This field is meant for [Norwegian national identity numbers(fnr)](https://www.s
 More info can be found at [Skatteetaten](https://www.skatteetaten.no/en/person/national-registry/identitetsnummer/fodselsnummer/#:~:text=A%20national%20identity%20number%20consists,national%20identity%20number%20are%20220676)
 
 It validates input for [Norwegian national identity numbers(fnr)](https://www.skatteetaten.no/en/person/national-registry/identitetsnummer/fodselsnummer/) and [D numbers](https://www.skatteetaten.no/en/person/national-registry/identitetsnummer/d-nummer/) using the [fnrvalidator](https://github.com/navikt/fnrvalidator).
+The validation happens on blur, internally using the `onBlurValidator` [property](/uilib/extensions/forms/feature-fields/NationalIdentityNumber/properties/#field-specific-properties).
 
 ```jsx
 import { Field } from '@dnb/eufemia/extensions/forms'
