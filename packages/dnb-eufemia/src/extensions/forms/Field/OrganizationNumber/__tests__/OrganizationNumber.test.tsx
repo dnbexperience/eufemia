@@ -60,7 +60,7 @@ describe('Field.OrganizationNumber', () => {
     expect(input).toHaveAttribute('inputmode', 'numeric')
   })
 
-  it('should validate organization number', async () => {
+  it('should validate organization number', () => {
     const invalidOrgNo = '123'
 
     render(
@@ -74,7 +74,7 @@ describe('Field.OrganizationNumber', () => {
     expect(screen.queryByRole('alert')).toBeInTheDocument()
   })
 
-  it('should not validate organization number when validate false', async () => {
+  it('should not validate organization number when validate false', () => {
     const invalidOrgNo = '987654321'
 
     render(
@@ -92,7 +92,7 @@ describe('Field.OrganizationNumber', () => {
     expect(screen.queryByRole('alert')).toBeNull()
   })
 
-  it('should not validate custom validator when validate false', async () => {
+  it('should not validate custom validator when validate false', () => {
     const invalidOrgNo = '987654321'
 
     const firstNumIs1 = (value: string) =>
@@ -123,7 +123,7 @@ describe('Field.OrganizationNumber', () => {
     expect(screen.queryByRole('alert')).toBeNull()
   })
 
-  it('should not validate extended validator when validate false', async () => {
+  it('should not validate extended validator when validate false', () => {
     const invalidOrgNo = '987654321'
 
     const firstNumIs1 = (value: string) =>
