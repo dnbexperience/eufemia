@@ -21,7 +21,6 @@ import {
   CountryFilterSet,
   getCountryData,
 } from '../SelectCountry'
-import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
 import { DrawerListDataObject } from '../../../../fragments/DrawerList'
 
@@ -88,10 +87,11 @@ function PhoneNumber(props: Props) {
   const langRef = React.useRef<string>(lang)
   const wasFilled = React.useRef<boolean>(false)
 
-  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.PhoneNumber.errorRequired,
-    pattern: translations.PhoneNumber.errorRequired,
-  })
+  const errorMessages = {
+    'Field.errorRequired': translations.PhoneNumber.errorRequired,
+    'Field.errorPattern': translations.PhoneNumber.errorRequired,
+    ...props.errorMessages,
+  }
 
   const validateRequired = useCallback(
     (value: string, { required, isChanged, error }) => {

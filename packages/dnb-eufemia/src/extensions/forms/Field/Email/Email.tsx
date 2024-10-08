@@ -1,6 +1,5 @@
 import React from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
-import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
 
 export type Props = StringFieldProps
@@ -8,10 +7,11 @@ export type Props = StringFieldProps
 function Email(props: Props) {
   const translations = useTranslation().Email
 
-  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.errorRequired,
-    pattern: translations.errorPattern,
-  })
+  const errorMessages = {
+    'Field.errorRequired': translations.errorRequired,
+    'Field.errorPattern': translations.errorPattern,
+    ...props.errorMessages,
+  }
 
   const StringFieldProps: Props = {
     label: translations.label,

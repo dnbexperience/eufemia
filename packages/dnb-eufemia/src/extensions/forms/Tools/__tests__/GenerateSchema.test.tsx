@@ -102,12 +102,6 @@ describe('Tools.GenerateSchema', () => {
     expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
       {
         "myField": {
-          "errorMessages": {
-            "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-            "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-            "pattern": "Verdien er ugyldig.",
-            "required": "Dette feltet må fylles ut.",
-          },
           "label": "My field",
           "path": "/myField",
           "schema": {
@@ -120,12 +114,6 @@ describe('Tools.GenerateSchema', () => {
         },
         "nested": {
           "myString": {
-            "errorMessages": {
-              "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-              "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-              "pattern": "Verdien er ugyldig.",
-              "required": "Dette feltet må fylles ut.",
-            },
             "minLength": 2,
             "path": "/nested/myString",
             "required": true,
@@ -157,12 +145,6 @@ describe('Tools.GenerateSchema', () => {
     expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
       {
         "myField": {
-          "errorMessages": {
-            "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-            "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-            "pattern": "Verdien er ugyldig.",
-            "required": "Dette feltet må fylles ut.",
-          },
           "label": "My field",
           "path": "/myField",
           "schema": {
@@ -174,12 +156,6 @@ describe('Tools.GenerateSchema', () => {
           "width": "large",
         },
         "myString": {
-          "errorMessages": {
-            "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-            "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-            "pattern": "Verdien er ugyldig.",
-            "required": "Dette feltet må fylles ut.",
-          },
           "minLength": 2,
           "path": "/myString",
           "required": true,
@@ -194,12 +170,6 @@ describe('Tools.GenerateSchema', () => {
         },
         "nested": {
           "myString": {
-            "errorMessages": {
-              "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-              "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-              "pattern": "Verdien er ugyldig.",
-              "required": "Dette feltet må fylles ut.",
-            },
             "minLength": 2,
             "path": "/nested/myString",
             "required": true,

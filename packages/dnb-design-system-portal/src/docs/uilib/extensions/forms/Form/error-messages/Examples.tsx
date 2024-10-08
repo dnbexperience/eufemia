@@ -7,17 +7,17 @@ export const BasicErrorMessage = () => {
       <Form.Handler
         errorMessages={{
           // Level 1
-          pattern: 'Or on the provider',
+          'Field.errorPattern': 'Or on the provider',
           '/myKey': {
             // Level 2
-            pattern: 'Or on the provider for just one field',
+            'Field.errorPattern': 'Or on the provider for just one field',
           },
         }}
       >
         <Field.String
           errorMessages={{
             // Level 3
-            pattern: 'Or on a single Field itself',
+            'Field.errorPattern': 'Or on a single Field itself',
           }}
           path="/myKey"
           value="abc"

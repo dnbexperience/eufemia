@@ -11,7 +11,9 @@ import userEvent from '@testing-library/user-event'
 import { spyOnEufemiaWarn, wait } from '../../../../../core/jest/jestSetup'
 import { simulateAnimationEnd } from '../../../../../components/height-animation/__tests__/HeightAnimationUtils'
 import { GlobalStatus } from '../../../../../components'
+import SharedProvider from '../../../../../shared/Provider'
 import { makeUniqueId } from '../../../../../shared/component-helper'
+import { debounceAsync } from '../../../../../shared/helpers/debounce'
 import {
   Form,
   DataContext,
@@ -29,7 +31,6 @@ import {
   FilterData,
   FilterDataPathCondition,
 } from '../../Context'
-import { debounceAsync } from '../../../../../shared/helpers/debounce'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
@@ -2274,7 +2275,7 @@ describe('DataContext.Provider', () => {
             label="Field 1"
             path="/foo"
             errorMessages={{
-              required: 'Required string',
+              'Field.errorRequired': 'Required string',
             }}
             required
           />
@@ -2283,13 +2284,13 @@ describe('DataContext.Provider', () => {
             value="abc"
             minLength={5}
             errorMessages={{
-              minLength: 'Min 5 chars',
+              'StringField.errorMinLength': 'Min 5 chars',
             }}
           />
           <Field.Number
             label="Field 3"
             errorMessages={{
-              required: 'Required number',
+              'Field.errorRequired': 'Required number',
             }}
             required
           />
@@ -2350,7 +2351,7 @@ describe('DataContext.Provider', () => {
         render(
           <DataContext.Provider
             errorMessages={{
-              pattern: 'pattern provider error',
+              'Field.errorPattern': 'Pattern provider error',
             }}
           >
             <Field.String
@@ -2363,7 +2364,7 @@ describe('DataContext.Provider', () => {
         )
 
         expect(screen.getByRole('alert')).toHaveTextContent(
-          'pattern provider error'
+          'Pattern provider error'
         )
       })
 
@@ -2371,9 +2372,9 @@ describe('DataContext.Provider', () => {
         render(
           <DataContext.Provider
             errorMessages={{
-              pattern: 'pattern provider error',
+              'Field.errorPattern': 'Pattern provider error',
               '/myKey': {
-                pattern: 'pattern provider myKey error',
+                'Field.errorPattern': 'Pattern provider myKey error',
               },
             }}
           >
@@ -2387,7 +2388,7 @@ describe('DataContext.Provider', () => {
         )
 
         expect(screen.getByRole('alert')).toHaveTextContent(
-          'pattern provider myKey error'
+          'Pattern provider myKey error'
         )
       })
 
@@ -2395,9 +2396,9 @@ describe('DataContext.Provider', () => {
         render(
           <DataContext.Provider
             errorMessages={{
-              pattern: 'pattern provider error',
+              'Field.errorPattern': 'Pattern provider error',
               '/myKey': {
-                pattern: 'pattern provider myKey error',
+                'Field.errorPattern': 'Pattern provider myKey error',
               },
             }}
           >
@@ -2407,14 +2408,14 @@ describe('DataContext.Provider', () => {
               pattern="^correct$"
               value="wrong"
               errorMessages={{
-                pattern: 'pattern field error',
+                'Field.errorPattern': 'Pattern field error',
               }}
             />
           </DataContext.Provider>
         )
 
         expect(screen.getByRole('alert')).toHaveTextContent(
-          'pattern field error'
+          'Pattern field error'
         )
       })
 
@@ -2711,13 +2712,15 @@ describe('DataContext.Provider', () => {
             <TestField
               path="/val"
               errorMessages={{
-                minLength: 'Minimum {minLength} chars.',
+                'StringField.errorMinLength': 'Minimum {minLength} chars.',
               }}
             />
           </DataContext.Provider>
         )
 
-        expect(screen.getByText('Minimum 7 chars.')).toBeInTheDocument()
+        expect(screen.getByRole('alert')).toHaveTextContent(
+          'Minimum 7 chars.'
+        )
       })
 
       describe('disabled and readOnly', () => {
@@ -3068,7 +3071,7 @@ describe('DataContext.Provider', () => {
           myKey: {
             type: 'string',
             pattern: '[a-z]{1,}',
-            errorMessage: 'message in provider schema',
+            errorMessage: 'Message in provider schema',
           },
         },
       } as const
@@ -3080,7 +3083,7 @@ describe('DataContext.Provider', () => {
       )
 
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        'message in provider schema'
+        'Message in provider schema'
       )
 
       const providerSharedSchema = {
@@ -3091,8 +3094,8 @@ describe('DataContext.Provider', () => {
             minLength: 2,
             maxLength: 3,
             errorMessage: {
-              minLength: 'minLength message in provider schema',
-              maxLength: 'maxLength message in provider schema',
+              minLength: 'minLength Message in provider schema',
+              maxLength: 'maxLength Message in provider schema',
             },
           },
         },
@@ -3110,14 +3113,14 @@ describe('DataContext.Provider', () => {
       fireEvent.blur(input)
 
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        'minLength message in provider schema'
+        'minLength Message in provider schema'
       )
 
       await userEvent.type(input, '1234')
       fireEvent.blur(input)
 
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        'maxLength message in provider schema'
+        'maxLength Message in provider schema'
       )
     })
 
@@ -3142,7 +3145,7 @@ describe('DataContext.Provider', () => {
       const { rerender } = render(
         <DataContext.Provider ajvInstance={ajv}>
           <Field.String
-            schema={{ ...schema, errorMessage: 'message in schema' }}
+            schema={{ ...schema, errorMessage: 'Message in schema' }}
             path="/myKey"
             value=""
             validateInitially
@@ -3151,18 +3154,18 @@ describe('DataContext.Provider', () => {
       )
 
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        'message in schema'
+        'Message in schema'
       )
 
       rerender(
         <DataContext.Provider
           ajvInstance={ajv}
           errorMessages={{
-            notEmpty: 'message in provider',
+            notEmpty: 'Message in provider',
           }}
         >
           <Field.String
-            schema={{ ...schema, errorMessage: 'message in schema' }}
+            schema={{ ...schema, errorMessage: 'Message in schema' }}
             path="/myKey"
             value=""
             validateInitially
@@ -3171,14 +3174,14 @@ describe('DataContext.Provider', () => {
       )
 
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        'message in schema'
+        'Message in schema'
       )
 
       rerender(
         <DataContext.Provider
           ajvInstance={ajv}
           errorMessages={{
-            notEmpty: 'message in provider',
+            notEmpty: 'Message in provider',
           }}
         >
           <Field.String
@@ -3191,16 +3194,16 @@ describe('DataContext.Provider', () => {
       )
 
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        'message in provider'
+        'Message in provider'
       )
 
       rerender(
         <DataContext.Provider
           ajvInstance={ajv}
           errorMessages={{
-            notEmpty: 'message in provider',
+            notEmpty: 'Message in provider',
             '/myKey': {
-              notEmpty: 'message in provider for just one field',
+              notEmpty: 'Message in provider for just one field',
             },
           }}
         >
@@ -3214,16 +3217,16 @@ describe('DataContext.Provider', () => {
       )
 
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        'message in provider for just one field'
+        'Message in provider for just one field'
       )
 
       rerender(
         <DataContext.Provider
           ajvInstance={ajv}
           errorMessages={{
-            notEmpty: 'message in provider',
+            notEmpty: 'Message in provider',
             '/myKey': {
-              notEmpty: 'message in provider for just one field',
+              notEmpty: 'Message in provider for just one field',
             },
           }}
         >
@@ -3232,14 +3235,53 @@ describe('DataContext.Provider', () => {
             path="/myKey"
             value=""
             validateInitially
-            errorMessages={{ notEmpty: 'message for just this field' }}
+            errorMessages={{ notEmpty: 'Message for just this field' }}
           />
         </DataContext.Provider>
       )
 
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        'message for just this field'
+        'Message for just this field'
       )
+    })
+
+    it('should support locale in errorMessages', () => {
+      const errorRequired = 'Display me, instead of the default message'
+
+      render(
+        <Form.Handler
+          locale="en-GB"
+          errorMessages={{
+            'en-GB': {
+              'Field.errorRequired': errorRequired,
+            },
+          }}
+        >
+          <Field.String required validateInitially />
+        </Form.Handler>
+      )
+
+      expect(screen.queryByRole('alert')).toHaveTextContent(errorRequired)
+    })
+
+    it('should support locale in errorMessages when locale is given by the shared Provider', () => {
+      const errorRequired = 'Display me, instead of the default message'
+
+      render(
+        <SharedProvider locale="en-GB">
+          <Form.Handler
+            errorMessages={{
+              'en-GB': {
+                'Field.errorRequired': errorRequired,
+              },
+            }}
+          >
+            <Field.String required validateInitially />
+          </Form.Handler>
+        </SharedProvider>
+      )
+
+      expect(screen.queryByRole('alert')).toHaveTextContent(errorRequired)
     })
   })
 

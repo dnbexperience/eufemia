@@ -10,10 +10,11 @@ import {
 import userEvent from '@testing-library/user-event'
 import { Provider } from '../../../../../shared'
 import * as DataContext from '../../../DataContext'
-import { Field, FieldBlock, Form, Value } from '../../..'
-import enGB from '../../../../../shared/locales/en-GB'
+import { Field, FieldBlock, Form, FormError, Value } from '../../..'
+import sharedGB from '../../../../../shared/locales/en-GB'
+import nbNO from '../../../constants/locales/nb-NO'
 
-const gb = enGB['en-GB']
+const nb = nbNO['nb-NO']
 
 const syncValidatorReturningUndefined = () => undefined
 
@@ -1117,8 +1118,38 @@ describe('Field.String', () => {
       it('should show provided errorMessages based on validation rule', () => {
         render(
           <Field.String
-            emptyValue=""
-            value=""
+            errorMessages={{
+              'Field.errorRequired': 'You need this',
+            }}
+            required
+            validateInitially
+          />
+        )
+        expect(
+          document.querySelector('.dnb-form-status').textContent
+        ).toBe('You need this')
+      })
+
+      it('should support custom error messages', () => {
+        render(
+          <Field.String
+            error={new FormError('MyCustom.message')}
+            errorMessages={{
+              'MyCustom.message': 'Your custom error message',
+            }}
+          />
+        )
+        expect(
+          document.querySelector('.dnb-form-status').textContent
+        ).toBe('Your custom error message')
+      })
+
+      /**
+       * @deprecated – can be removed in v11
+       */
+      it('should support deprecated "required" errorMessage', () => {
+        render(
+          <Field.String
             errorMessages={{
               required: 'You need this',
             }}
@@ -1126,7 +1157,9 @@ describe('Field.String', () => {
             validateInitially
           />
         )
-        expect(screen.getByText('You need this')).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status').textContent
+        ).toBe('You need this')
       })
 
       it('should show provided errorMessages based on validation rule with injected value', () => {
@@ -1135,13 +1168,48 @@ describe('Field.String', () => {
             emptyValue=""
             value=""
             errorMessages={{
-              minLength: 'At least {minLength}..',
+              'StringField.errorMinLength': 'At least {minLength}.',
+
+              /** @deprecated – can be removed in v11 */
+              minLength: 'At least {minLength}.',
             }}
             minLength={4}
             validateInitially
           />
         )
-        expect(screen.getByText('At least 4..')).toBeInTheDocument()
+
+        expect(
+          document.querySelector('.dnb-form-status').textContent
+        ).toBe('At least 4.')
+      })
+
+      it('should provide error message to the validator', async () => {
+        let collectDeprecatedMessage = null
+        let collectCustomMessage = null
+        const customMessage = 'Your custom error message'
+
+        render(
+          <Field.String
+            errorMessages={{
+              'MyCustom.message': customMessage,
+            }}
+            onBlurValidator={(value, { errorMessages }) => {
+              collectDeprecatedMessage = errorMessages.required
+              collectCustomMessage = errorMessages['MyCustom.message']
+              return new FormError('MyCustom.message')
+            }}
+            validateInitially
+          />
+        )
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status').textContent
+          ).toBe(customMessage)
+        })
+
+        expect(collectCustomMessage).toBe(customMessage)
+        expect(collectDeprecatedMessage).toBe(nb.Field.errorRequired)
       })
     })
   })
@@ -1263,7 +1331,7 @@ describe('Field.String', () => {
     )
 
     expect(counter).toHaveTextContent(
-      gb.TextCounter.characterExceeded
+      sharedGB['en-GB'].TextCounter.characterExceeded
         .replace('%count', '1')
         .replace('%max', '8')
     )

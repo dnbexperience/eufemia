@@ -7,7 +7,6 @@ import FieldBlock from '../../FieldBlock'
 import { MultiInputMask } from '../../../../components/input-masked'
 import type { MultiInputMaskValue } from '../../../../components/input-masked'
 import { HelpButton } from '../../../../components'
-import useErrorMessage from '../../hooks/useErrorMessage'
 import { useTranslation as useSharedTranslation } from '../../../../shared'
 import useTranslation from '../../hooks/useTranslation'
 
@@ -30,9 +29,10 @@ function Expiry(props: ExpiryProps) {
     },
   } = useSharedTranslation()
 
-  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: errorRequired,
-  })
+  const errorMessages = {
+    'Field.errorRequired': errorRequired,
+    ...props.errorMessages,
+  }
 
   const validateRequired = useCallback(
     (value: string, { required, error }) => {

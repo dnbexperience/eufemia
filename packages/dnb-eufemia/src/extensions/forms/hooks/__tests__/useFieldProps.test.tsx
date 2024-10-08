@@ -24,6 +24,9 @@ import Field, {
 import { spyOnEufemiaWarn, wait } from '../../../../core/jest/jestSetup'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
 
+import nbNO from '../../constants/locales/nb-NO'
+const nb = nbNO['nb-NO']
+
 describe('useFieldProps', () => {
   it('should call external onChange based change callbacks', () => {
     const onChange = jest.fn()
@@ -926,9 +929,7 @@ describe('useFieldProps', () => {
       })
 
       await waitFor(() => {
-        expect(result.current.error.message).toBe(
-          'must match pattern "^(throw-on-validator)$"'
-        )
+        expect(result.current.error.message).toBe(nb.Field.errorPattern)
       })
 
       await validateBlur()
@@ -944,19 +945,66 @@ describe('useFieldProps', () => {
       await validateBlur()
     })
 
-    it('should show given error from errorMessages', () => {
-      const { result } = renderHook(() =>
-        useFieldProps({
+    describe('errorMessages', () => {
+      it('should show given error from errorMessages', () => {
+        const { result } = renderHook(() =>
+          useFieldProps({
+            value: undefined,
+            required: true,
+            validateInitially: true,
+            errorMessages: {
+              'Field.errorRequired': 'Show this message',
+            },
+          })
+        )
+        expect(result.current.error).toBeInstanceOf(Error)
+        expect(result.current.error.message).toBe('Show this message')
+      })
+
+      it('should update error message given via errorMessages', () => {
+        const props = {
           value: undefined,
           required: true,
           validateInitially: true,
-          errorMessages: {
-            required: 'Show this message',
+        }
+        const { result, rerender } = renderHook(useFieldProps, {
+          initialProps: {
+            ...props,
+            errorMessages: {
+              'Field.errorRequired': 'Show this message',
+            },
           },
         })
-      )
-      expect(result.current.error).toBeInstanceOf(Error)
-      expect(result.current.error.message).toBe('Show this message')
+        expect(result.current.error).toBeInstanceOf(Error)
+        expect(result.current.error.message).toBe('Show this message')
+
+        rerender({
+          ...props,
+          errorMessages: {
+            'Field.errorRequired': 'Update the message',
+          },
+        })
+
+        expect(result.current.error.message).toBe('Update the message')
+      })
+
+      /**
+       * @deprecated – can be removed in v11
+       */
+      it('with backwards compatibility', () => {
+        const { result } = renderHook(() =>
+          useFieldProps({
+            value: undefined,
+            required: true,
+            validateInitially: true,
+            errorMessages: {
+              required: 'Show this message',
+            },
+          })
+        )
+        expect(result.current.error).toBeInstanceOf(Error)
+        expect(result.current.error.message).toBe('Show this message')
+      })
     })
 
     it('should validate required when value is empty string', () => {
@@ -973,9 +1021,7 @@ describe('useFieldProps', () => {
     it('should validate "validateRequired"', async () => {
       const validateRequired = jest.fn((v, { emptyValue, required }) => {
         return required && emptyValue === 'empty' && v > 1
-          ? new FormError('The value is required', {
-              validationRule: 'required',
-            })
+          ? new FormError('Field.errorRequired')
           : undefined
       })
       const onChange = jest.fn()
@@ -989,6 +1035,9 @@ describe('useFieldProps', () => {
           validateInitially: true,
           validateRequired,
           errorMessages: {
+            'Field.errorRequired': 'Show this message',
+
+            /** @deprecated – can be removed in v11 */
             required: 'Show this message',
           },
           onChange,

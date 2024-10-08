@@ -65,7 +65,7 @@ function EditContainer({
         label={tr.ChildrenWithAge.hasChildren.fieldLabel}
         variant="buttons"
         errorMessages={{
-          required: tr.ChildrenWithAge.hasChildren.required,
+          'Field.errorRequired': tr.ChildrenWithAge.hasChildren.required,
         }}
       />
 
@@ -74,8 +74,10 @@ function EditContainer({
           path="/countChildren"
           label={tr.ChildrenWithAge.countChildren.fieldLabel}
           errorMessages={{
-            minimum: tr.ChildrenWithAge.countChildren.required,
-            required: tr.ChildrenWithAge.countChildren.required,
+            'NumberField.errorMinimum':
+              tr.ChildrenWithAge.countChildren.required,
+            'Field.errorRequired':
+              tr.ChildrenWithAge.countChildren.required,
           }}
           defaultValue={1}
           width="small"
@@ -96,7 +98,8 @@ function EditContainer({
             itemPath="/age"
             label={tr.ChildrenWithAge.childrenAge.fieldLabel}
             errorMessages={{
-              required: tr.ChildrenWithAge.childrenAge.required,
+              'Field.errorRequired':
+                tr.ChildrenWithAge.childrenAge.required,
             }}
             placeholder="0"
             width="small"
@@ -115,7 +118,8 @@ function EditContainer({
             label={tr.ChildrenWithAge.usesDaycare.fieldLabel}
             variant="buttons"
             errorMessages={{
-              required: tr.ChildrenWithAge.usesDaycare.required,
+              'Field.errorRequired':
+                tr.ChildrenWithAge.usesDaycare.required,
             }}
             help={{
               title: tr.ChildrenWithAge.usesDaycare.fieldLabel,
@@ -133,7 +137,8 @@ function EditContainer({
             path="/daycareExpenses"
             label={tr.ChildrenWithAge.dayCareExpenses.fieldLabel}
             errorMessages={{
-              required: tr.ChildrenWithAge.dayCareExpenses.required,
+              'Field.errorRequired':
+                tr.ChildrenWithAge.dayCareExpenses.required,
             }}
             minimum={1}
             decimalLimit={0}
@@ -149,7 +154,8 @@ function EditContainer({
             label={tr.ChildrenWithAge.hasJointResponsibility.fieldLabel}
             variant="buttons"
             errorMessages={{
-              required: tr.ChildrenWithAge.hasJointResponsibility.required,
+              'Field.errorRequired':
+                tr.ChildrenWithAge.hasJointResponsibility.required,
             }}
           />
         </Form.Visibility>
@@ -164,7 +170,7 @@ function EditContainer({
                 tr.ChildrenWithAge.jointResponsibilityExpenses.fieldLabel
               }
               errorMessages={{
-                required:
+                'Field.errorRequired':
                   tr.ChildrenWithAge.jointResponsibilityExpenses.required,
               }}
               minimum={1}

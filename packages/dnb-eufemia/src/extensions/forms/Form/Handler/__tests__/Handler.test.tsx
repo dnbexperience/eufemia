@@ -827,6 +827,17 @@ describe('Form.Handler', () => {
         'bar',
         expect.objectContaining({
           errorMessages: expect.objectContaining({
+            'Field.errorRequired': expect.any(String),
+            'Field.errorPattern': expect.any(String),
+            'StringField.errorMinLength': expect.any(String),
+            'StringField.errorMaxLength': expect.any(String),
+            'NumberField.errorMinimum': expect.any(String),
+            'NumberField.errorMaximum': expect.any(String),
+            'NumberField.errorExclusiveMinimum': expect.any(String),
+            'NumberField.errorExclusiveMaximum': expect.any(String),
+            'NumberField.errorMultipleOf': expect.any(String),
+
+            /** @deprecated – can be removed in v11 */
             maxLength: expect.any(String),
             minLength: expect.any(String),
             pattern: expect.any(String),

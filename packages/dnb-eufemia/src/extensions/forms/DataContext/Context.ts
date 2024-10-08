@@ -1,15 +1,14 @@
 import React from 'react'
-import { Ajv, makeAjvInstance } from '../utils/ajv'
+import { Ajv, FormError, makeAjvInstance } from '../utils'
 import {
   AllJSONSchemaVersions,
-  CustomErrorMessagesWithPaths,
+  GlobalErrorMessagesWithPaths,
   SubmitState,
   Path,
   EventStateObject,
   EventReturnWithStateObject,
   Identifier,
   FieldProps,
-  FormError,
   ValueProps,
   OnChange,
   OnSubmitParams,
@@ -171,7 +170,7 @@ export interface ContextState {
   hasVisibleError: boolean
   formState: SubmitState
   ajvInstance: Ajv
-  contextErrorMessages: CustomErrorMessagesWithPaths
+  contextErrorMessages: GlobalErrorMessagesWithPaths
   schema: AllJSONSchemaVersions
   path?: Path
   disabled?: boolean

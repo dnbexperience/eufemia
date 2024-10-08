@@ -100,8 +100,8 @@ function PostalCodeAndCity(props: Props) {
         )}
         label={postalCodeLabel ?? translations.PostalCode.label}
         errorMessages={{
-          required: translations.PostalCode.errorRequired,
-          pattern: translations.PostalCode.errorPattern,
+          'Field.errorRequired': translations.PostalCode.errorRequired,
+          'Field.errorPattern': translations.PostalCode.errorPattern,
           ...postalCodeErrorMessages,
         }}
         width={postalCodeWidth ?? false}
@@ -109,6 +109,7 @@ function PostalCodeAndCity(props: Props) {
         inputMode="numeric"
         autoComplete="postal-code"
       />
+
       <StringField
         {...city}
         className={classnames(
@@ -117,8 +118,8 @@ function PostalCodeAndCity(props: Props) {
         )}
         label={cityLabel ?? translations.City.label}
         errorMessages={{
-          required: translations.City.errorRequired,
-          pattern: translations.City.errorPattern,
+          'Field.errorRequired': translations.City.errorRequired,
+          'Field.errorPattern': translations.City.errorPattern,
           ...cityErrorMessages,
         }}
         pattern={cityPattern ?? '^[A-Za-zÆØÅæøå -]+$'}

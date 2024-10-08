@@ -37,6 +37,7 @@ import AsyncChangeExample from './Form/Handler/parts/async-change-example.mdx'
     - [onChange and autosave](#onchange-and-autosave)
     - [Async field validation](#async-field-validation)
   - [Validation and error handling](#validation-and-error-handling)
+    - [Error messages](#error-messages)
     - [Summary for errors](#summary-for-errors)
     - [required](#required)
     - [pattern](#pattern)
@@ -48,7 +49,7 @@ import AsyncChangeExample from './Form/Handler/parts/async-change-example.mdx'
   - [Localization and translation](#localization-and-translation)
     - [Customize translations](#customize-translations)
     - [How to customize translations in a form](#how-to-customize-translations-in-a-form)
-    - [Use the shared Provider to customize translations](#use-the-shared-provider-to-customize-translations)
+      - [Consume the translations](#consume-the-translations)
   - [Layout](#layout)
   - [Best practices](#best-practices)
   - [Create your own component](#create-your-own-component)
@@ -401,6 +402,21 @@ Fields which have the `disabled` property or the `readOnly` property, will skip 
 
 For monitoring and setting your form errors, you can use the [useValidation](/uilib/extensions/forms/Form/useValidation) hook.
 
+#### Error messages
+
+Eufemia Forms comes with built-in error messages. But you can also customize and override these messages by using the `errorMessages` property both on [fields](/uilib/extensions/forms/all-fields/) (field level) and on the [Form.Handler](/uilib/extensions/forms/Form/Handler/) (global level).
+
+You may use the `errorMessages` property for two purposes:
+
+- Provide your onw error messages.
+- Overwrite the default error messages.
+
+Both can be done on a global level or on a field level.
+
+How ever, for when overwriting the default error messages on a global level, you can also use [internationalization (i18n)](#localization-and-translation).
+
+Read more about [error messages](/uilib/extensions/forms/Form/error-messages/).
+
 #### Summary for errors
 
 To improve user experience communication regarding errors and their locations, WCAG/UU suggests summarizing error messages when errors have occurred.
@@ -485,7 +501,7 @@ const onChangeValidator = (value) => {
 render(<Field.PhoneNumber validator={onChangeValidator} />)
 ```
 
-You can find more info about error messages in the [Error messages](/uilib/extensions/forms/Form/error-messages/) docs.
+You can find more info about error messages in the [error messages](/uilib/extensions/forms/Form/error-messages/) docs.
 
 ##### Connect with another field
 
@@ -517,7 +533,7 @@ render(
 
 By default, the validator function will only run when the "/withValidator" field is changed. When the error message is shown, it will update the message with the new value of the "/myReference" field.
 
-You can also change this behavior by using the following properties:
+You can also change this behavior for testing purposes by using the following properties:
 
 - `validateInitially` will run the validation initially.
 - `continuousValidation` will run the validation on every change, including when the connected field changes.
