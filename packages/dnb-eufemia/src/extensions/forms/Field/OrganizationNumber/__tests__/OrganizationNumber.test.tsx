@@ -60,18 +60,36 @@ describe('Field.OrganizationNumber', () => {
     expect(input).toHaveAttribute('inputmode', 'numeric')
   })
 
-  it('should validate organization number', () => {
-    const invalidOrgNo = '123'
-
+  it('should validate organization number based on the internal pattern', () => {
     render(
       <Form.Handler>
-        <Field.OrganizationNumber value={invalidOrgNo} validateInitially />
+        <Field.OrganizationNumber validateInitially value="123" />
       </Form.Handler>
     )
 
-    fireEvent.blur(document.querySelector('input'))
-
     expect(screen.queryByRole('alert')).toBeInTheDocument()
+    expect(screen.queryByRole('alert').textContent).toBe(
+      nb.OrganizationNumber.errorPattern
+    )
+  })
+
+  it('should validate organization number based on the internal validator', async () => {
+    render(
+      <Form.Handler>
+        <Field.OrganizationNumber
+          validateInitially
+          value="123"
+          pattern="[1-3]"
+        />
+      </Form.Handler>
+    )
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert').textContent).toBe(
+        nb.OrganizationNumber.errorPattern
+      )
+    })
   })
 
   it('should not validate organization number when validate false', () => {
