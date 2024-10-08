@@ -1,6 +1,6 @@
 import React from 'react'
 import { act, fireEvent, render, waitFor } from '@testing-library/react'
-import { Form } from '../../..'
+import { Form, Wizard } from '../../..'
 import { Button, Dialog } from '../../../../../components'
 import { ConfirmParams } from '../SubmitConfirmation'
 import userEvent from '@testing-library/user-event'
@@ -628,6 +628,66 @@ describe('Form.SubmitConfirmation', () => {
     await waitFor(() => {
       expect(confirmationStateRef.current).toBe('idle')
     })
+  })
+
+  it('should prevent "onSubmit" when used inside a Wizard.Container (with prerender)', async () => {
+    const onSubmit = jest.fn()
+    const onStepChange = jest.fn()
+
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Wizard.Container onStepChange={onStepChange}>
+          <Wizard.Step title="Step 1">
+            <Wizard.Buttons />
+          </Wizard.Step>
+          <Wizard.Step title="Step 2">
+            <Form.SubmitConfirmation preventSubmitWhen={() => true} />
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    const form = document.querySelector('form')
+    await act(async () => {
+      fireEvent.submit(form)
+    })
+
+    expect(onSubmit).toHaveBeenCalledTimes(0)
+    expect(onStepChange).toHaveBeenCalledTimes(1)
+    expect(onStepChange).toHaveBeenLastCalledWith(
+      1,
+      'next',
+      expect.anything()
+    )
+
+    await userEvent.click(
+      document.querySelector('.dnb-forms-previous-button')
+    )
+    expect(onStepChange).toHaveBeenCalledTimes(2)
+    expect(onStepChange).toHaveBeenLastCalledWith(
+      0,
+      'previous',
+      expect.anything()
+    )
+
+    await userEvent.click(
+      document.querySelector('.dnb-forms-submit-button')
+    )
+    expect(onSubmit).toHaveBeenCalledTimes(0)
+    expect(onStepChange).toHaveBeenCalledTimes(3)
+    expect(onStepChange).toHaveBeenLastCalledWith(
+      1,
+      'next',
+      expect.anything()
+    )
+
+    await userEvent.click(
+      document.querySelector('dnb-forms-submit-button')
+    )
+    expect(onSubmit).toHaveBeenCalledTimes(0)
+    expect(onStepChange).toHaveBeenCalledTimes(3)
   })
 
   it('should not disable buttons when disabled is set to true', () => {
