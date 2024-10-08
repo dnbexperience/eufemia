@@ -60,7 +60,39 @@ describe('Field.OrganizationNumber', () => {
     expect(input).toHaveAttribute('inputmode', 'numeric')
   })
 
-  it('should not validate organization number when validate false', async () => {
+  it('should validate organization number based on the internal pattern', () => {
+    render(
+      <Form.Handler>
+        <Field.OrganizationNumber validateInitially value="123" />
+      </Form.Handler>
+    )
+
+    expect(screen.queryByRole('alert')).toBeInTheDocument()
+    expect(screen.queryByRole('alert').textContent).toBe(
+      nb.OrganizationNumber.errorPattern
+    )
+  })
+
+  it('should validate organization number based on the internal validator', async () => {
+    render(
+      <Form.Handler>
+        <Field.OrganizationNumber
+          validateInitially
+          value="123"
+          pattern="[1-3]"
+        />
+      </Form.Handler>
+    )
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert').textContent).toBe(
+        nb.OrganizationNumber.errorPattern
+      )
+    })
+  })
+
+  it('should not validate organization number when validate false', () => {
     const invalidOrgNo = '987654321'
 
     render(
@@ -78,7 +110,7 @@ describe('Field.OrganizationNumber', () => {
     expect(screen.queryByRole('alert')).toBeNull()
   })
 
-  it('should not validate custom validator when validate false', async () => {
+  it('should not validate custom validator when validate false', () => {
     const invalidOrgNo = '987654321'
 
     const firstNumIs1 = (value: string) =>
@@ -109,7 +141,7 @@ describe('Field.OrganizationNumber', () => {
     expect(screen.queryByRole('alert')).toBeNull()
   })
 
-  it('should not validate extended validator when validate false', async () => {
+  it('should not validate extended validator when validate false', () => {
     const invalidOrgNo = '987654321'
 
     const firstNumIs1 = (value: string) =>
