@@ -22,10 +22,10 @@ import { NationalIdentityNumberProperties } from '@dnb/eufemia/src/extensions/fo
 `Field.NationalIdentityNumber` expose the following validators through its `validator` and `onBlurValidator` property:
 
 - `dnrValidator`: validates a d number.
-- `fnrValidator`: validates a national identity number(fødselsnummer).
+- `fnrValidator`: validates a national identity number (fødselsnummer).
 - `dnrAndFnrValidator`:
-  - validates the identification number as a d number when first digit is 4 or greater(As a d number has its first number increased by 4).
-  - validates the identification number as a national identity number(fødselsnummer) when first digit is 3 or less.
+  - validates the identification number as a d number when first digit is 4 or greater (because a d number has its first number increased by 4).
+  - validates the identification number as a national identity number (fødselsnummer) when first digit is 3 or less.
 
 See the following [example](/uilib/extensions/forms/feature-fields/NationalIdentityNumber/#extend-validation-with-custom-validation-function) on how to extend validation using the exposed validators.
 
