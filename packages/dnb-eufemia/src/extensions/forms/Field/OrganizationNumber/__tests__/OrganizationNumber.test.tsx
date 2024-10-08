@@ -77,26 +77,13 @@ describe('Field.OrganizationNumber', () => {
     })
   })
 
-  it('should validate organization number based on the internal pattern', () => {
-    render(
-      <Form.Handler>
-        <Field.OrganizationNumber validateInitially value="123" />
-      </Form.Handler>
-    )
-
-    expect(screen.queryByRole('alert')).toBeInTheDocument()
-    expect(screen.queryByRole('alert').textContent).toBe(
-      nb.OrganizationNumber.errorPattern
-    )
-  })
-
-  it('should validate organization number based on the internal validator', async () => {
+  it('should support custom pattern', async () => {
     render(
       <Form.Handler>
         <Field.OrganizationNumber
           validateInitially
-          value="123"
-          pattern="[1-3]"
+          value="724841198" // valid, but not in the pattern
+          pattern="^6"
         />
       </Form.Handler>
     )
@@ -109,7 +96,75 @@ describe('Field.OrganizationNumber', () => {
     })
   })
 
-  it('should not validate organization number when validate false', () => {
+  it('should support custom pattern without validator', async () => {
+    const dummyValidator = jest.fn()
+
+    render(
+      <Form.Handler>
+        <Field.OrganizationNumber
+          validateInitially
+          value="6"
+          pattern="^6"
+          onBlurValidator={() => {
+            return [dummyValidator]
+          }}
+        />
+      </Form.Handler>
+    )
+
+    await expect(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    }).neverToResolve()
+
+    expect(dummyValidator).toHaveBeenCalledTimes(1)
+    expect(dummyValidator).toHaveBeenCalledWith('6', expect.anything())
+  })
+
+  it('should validate organization number based on the internal validator', async () => {
+    render(
+      <Form.Handler>
+        <Field.OrganizationNumber validateInitially value="123" />
+      </Form.Handler>
+    )
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert').textContent).toBe(
+        nb.OrganizationNumber.errorPattern
+      )
+    })
+  })
+
+  it('should replace the internal validator with the given one', async () => {
+    const myValidator = jest.fn(() => {
+      return new Error('My error message')
+    })
+    const onBlurValidator = jest.fn(() => {
+      return [myValidator]
+    })
+
+    render(
+      <Field.OrganizationNumber
+        value="123"
+        validateInitially
+        onBlurValidator={onBlurValidator}
+      />
+    )
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert').textContent).toBe(
+        'My error message'
+      )
+    })
+
+    expect(myValidator).toHaveBeenCalledTimes(1)
+    expect(myValidator).toHaveBeenCalledWith('123', expect.anything())
+    expect(onBlurValidator).toHaveBeenCalledTimes(1)
+    expect(onBlurValidator).toHaveBeenCalledWith('123', expect.anything())
+  })
+
+  it('should not validate organization number when "validate" is set to false', () => {
     const invalidOrgNo = '987654321'
 
     render(
@@ -127,7 +182,7 @@ describe('Field.OrganizationNumber', () => {
     expect(screen.queryByRole('alert')).toBeNull()
   })
 
-  it('should not validate custom validator when validate false', () => {
+  it('should not validate custom validator when "validate" is set to false', () => {
     const invalidOrgNo = '987654321'
 
     const firstNumIs1 = (value: string) =>
@@ -158,7 +213,7 @@ describe('Field.OrganizationNumber', () => {
     expect(screen.queryByRole('alert')).toBeNull()
   })
 
-  it('should not validate extended validator when validate false', () => {
+  it('should not validate extended validator when "validate" is set to false', () => {
     const invalidOrgNo = '987654321'
 
     const firstNumIs1 = (value: string) =>

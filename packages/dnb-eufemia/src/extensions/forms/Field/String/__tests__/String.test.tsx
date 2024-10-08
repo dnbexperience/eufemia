@@ -15,10 +15,6 @@ import enGB from '../../../../../shared/locales/en-GB'
 
 const gb = enGB['en-GB']
 
-async function expectNever(callable: () => unknown): Promise<void> {
-  await expect(() => waitFor(callable)).rejects.toEqual(expect.anything())
-}
-
 const syncValidatorReturningUndefined = () => undefined
 
 const syncValidatorReturningError = () =>
@@ -928,10 +924,9 @@ describe('Field.String', () => {
             validateInitially
           />
         )
-        await expectNever(() => {
-          // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
+        await expect(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
-        })
+        }).neverToResolve()
       })
     })
 
@@ -996,10 +991,9 @@ describe('Field.String', () => {
           />
         )
 
-        await expectNever(() => {
-          // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
+        await expect(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
-        })
+        }).neverToResolve()
       })
     })
 
@@ -1055,10 +1049,9 @@ describe('Field.String', () => {
         const input = document.querySelector('input')
         await userEvent.type(input, 'd')
         fireEvent.blur(input)
-        await expectNever(() => {
-          // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
+        await expect(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
-        })
+        }).neverToResolve()
       })
     })
 
@@ -1114,10 +1107,9 @@ describe('Field.String', () => {
         const input = document.querySelector('input')
         await userEvent.type(input, 'd')
         fireEvent.blur(input)
-        await expectNever(() => {
-          // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
+        await expect(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
-        })
+        }).neverToResolve()
       })
     })
 

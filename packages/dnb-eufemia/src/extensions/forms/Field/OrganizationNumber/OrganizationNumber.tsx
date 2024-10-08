@@ -39,7 +39,6 @@ function OrganizationNumber(props: Props) {
   const StringFieldProps: Props = {
     ...props,
     className: 'dnb-forms-field-organization-number',
-    pattern: props.pattern ?? (validate ? '^[0-9]{9}$' : undefined),
     label: props.label ?? label,
     errorMessages,
     mask,
