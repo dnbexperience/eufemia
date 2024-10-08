@@ -4,7 +4,6 @@ import {
   Field,
   FieldBlock,
   Form,
-  AllJSONSchemaVersions,
   useFieldProps,
 } from '@dnb/eufemia/src/extensions/forms'
 import { Flex, Slider } from '@dnb/eufemia/src'
@@ -20,22 +19,17 @@ export const CustomComponentExample = () => {
             [],
           )
 
-          const errorMessages = React.useMemo(
-            () => ({
-              required: 'This field is required',
+          const errorMessages = React.useMemo(() => {
+            return {
+              'Field.errorRequired': 'This field is required',
               ...props.errorMessages,
-            }),
-            [props.errorMessages],
-          )
-          const schema = React.useMemo<AllJSONSchemaVersions>(
-            () =>
-              props.schema ?? {
-                type: 'number',
-                minimum: props.minimum,
-                maximum: props.maximum,
-              },
-            [props.schema, props.minimum, props.maximum],
-          )
+            }
+          }, [props.errorMessages])
+          const schema = props.schema ?? {
+            type: 'number',
+            minimum: props.minimum,
+            maximum: props.maximum,
+          }
 
           const preparedProps = {
             fromInput,

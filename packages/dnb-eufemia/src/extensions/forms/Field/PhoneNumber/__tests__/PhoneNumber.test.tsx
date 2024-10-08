@@ -682,8 +682,12 @@ describe('Field.PhoneNumber', () => {
       '+41 9999',
       expect.objectContaining({
         errorMessages: expect.objectContaining({
-          pattern: enGB.PhoneNumber.errorRequired,
+          'Field.errorRequired': enGB.PhoneNumber.errorRequired,
+          'Field.errorPattern': enGB.PhoneNumber.errorRequired,
+
+          /** @deprecated – can be removed in v11 */
           required: enGB.PhoneNumber.errorRequired,
+          pattern: enGB.PhoneNumber.errorRequired,
         }),
       })
     )

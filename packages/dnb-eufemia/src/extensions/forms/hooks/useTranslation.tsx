@@ -4,7 +4,7 @@ import SharedContext, {
 } from '../../../shared/Context'
 import {
   combineWithExternalTranslations,
-  FormatMessage,
+  AdditionalReturnUtils,
   useAdditionalUtils,
 } from '../../../shared/useTranslation'
 import { extendDeep } from '../../../shared/component-helper'
@@ -51,6 +51,6 @@ export default function useTranslation<T = FormsTranslation>(
         messages,
         locale,
       })
-    ) as T & FormatMessage
+    ) as T & AdditionalReturnUtils
   }, [assignUtils, globalTranslation, locale, messages])
 }

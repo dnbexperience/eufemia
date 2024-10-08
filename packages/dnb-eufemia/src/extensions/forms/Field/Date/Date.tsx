@@ -10,7 +10,6 @@ import { pickSpacingProps } from '../../../../components/flex/utils'
 import classnames from 'classnames'
 import FieldBlock from '../../FieldBlock'
 import { parseISO, isValid } from 'date-fns'
-import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
 import { DatePickerEvent } from '../../../../components/DatePicker'
 
@@ -29,10 +28,13 @@ export type Props = FieldHelpProps &
 function DateComponent(props: Props) {
   const translations = useTranslation()
 
-  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.Date.errorRequired,
-    pattern: translations.Field.errorRequired,
-  })
+  const errorMessages = useMemo(() => {
+    return {
+      'Field.errorRequired': translations.Date.errorRequired,
+      'Field.errorPattern': translations.Date.errorRequired,
+      ...props.errorMessages,
+    }
+  }, [props.errorMessages, translations.Date.errorRequired])
 
   const schema = useMemo<AllJSONSchemaVersions>(
     () =>

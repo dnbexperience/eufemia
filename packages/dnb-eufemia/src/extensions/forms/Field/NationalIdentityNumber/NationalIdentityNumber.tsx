@@ -1,9 +1,8 @@
 import React, { useCallback, useMemo } from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
 import { dnr, fnr } from '@navikt/fnrvalidator'
-import { FormError, Validator } from '../../types'
-
-import useErrorMessage from '../../hooks/useErrorMessage'
+import { Validator } from '../../types'
+import { FormError } from '../../utils'
 import useTranslation from '../../hooks/useTranslation'
 
 export type Props = Omit<StringFieldProps, 'onBlurValidator'> & {
@@ -21,19 +20,15 @@ function NationalIdentityNumber(props: Props) {
     errorFnrLength,
     errorDnr,
     errorDnrLength,
-    errorMinimumAgeValidator,
-    errorMinimumAgeValidatorLength,
   } = translations
-  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: errorRequired,
-    pattern: errorFnr,
-    errorFnr,
-    errorFnrLength,
-    errorDnr,
-    errorDnrLength,
-    errorMinimumAgeValidator,
-    errorMinimumAgeValidatorLength,
-  })
+  const errorMessages = useMemo(
+    () => ({
+      'Field.errorRequired': errorRequired,
+      'Field.errorPattern': errorFnr,
+      ...props.errorMessages,
+    }),
+    [errorRequired, errorFnr, props.errorMessages]
+  )
 
   const identificationNumberIsOfLength = (
     identificationNumber: string,

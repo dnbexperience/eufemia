@@ -19,10 +19,19 @@ describe('Form.Section', () => {
   }: SectionProps<{ lastName: FieldNameProps }> & {
     children?: React.ReactNode
   }) => {
+    const errorMessages = {}
     return (
       <Form.Section {...props}>
-        <Field.Name.First path="/firstName" />
-        <Field.Name.Last path="/lastName" required minLength={2} />
+        <Field.Name.First
+          path="/firstName"
+          errorMessages={errorMessages}
+        />
+        <Field.Name.Last
+          path="/lastName"
+          required
+          minLength={2}
+          errorMessages={errorMessages}
+        />
         {children}
       </Form.Section>
     )
@@ -36,10 +45,11 @@ describe('Form.Section', () => {
   }> & {
     children?: React.ReactNode
   }) => {
+    const errorMessages = {}
     return (
       <Form.Section {...props}>
         <MySection path="/innerSection" />
-        <Field.String path="/otherField" />
+        <Field.String path="/otherField" errorMessages={errorMessages} />
         {children}
       </Form.Section>
     )
@@ -112,10 +122,8 @@ describe('Form.Section', () => {
         "firstName": {
           "autoComplete": "given-name",
           "errorMessages": {
-            "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-            "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-            "pattern": "Kun bokstaver og tegn som bindestrek og mellomrom er tillatt.",
-            "required": "Du må fylle inn fornavn.",
+            "Field.errorPattern": "Kun bokstaver og tegn som bindestrek og mellomrom er tillatt.",
+            "Field.errorRequired": "Du må fylle inn fornavn.",
           },
           "label": "Fornavn",
           "path": "/firstName",
@@ -132,10 +140,8 @@ describe('Form.Section', () => {
         "lastName": {
           "autoComplete": "family-name",
           "errorMessages": {
-            "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-            "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-            "pattern": "Kun bokstaver og tegn som bindestrek og mellomrom er tillatt.",
-            "required": "Du må fylle inn etternavn.",
+            "Field.errorPattern": "Kun bokstaver og tegn som bindestrek og mellomrom er tillatt.",
+            "Field.errorRequired": "Du må fylle inn etternavn.",
           },
           "label": "Etternavn",
           "minLength": 2,

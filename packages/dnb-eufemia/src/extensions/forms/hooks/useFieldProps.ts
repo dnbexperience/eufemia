@@ -9,10 +9,14 @@ import React, {
 } from 'react'
 import pointer from '../utils/json-pointer'
 import { ValidateFunction } from 'ajv/dist/2020'
-import { errorChanged } from '../utils'
-import { ajvErrorsToOneFormError } from '../utils/ajv'
 import {
+  ajvErrorsToOneFormError,
+  errorChanged,
+  overwriteErrorMessagesWithGivenAjvKeys,
+  extendErrorMessagesWithTranslationMessages,
   FormError,
+} from '../utils'
+import {
   FieldPropsGeneric,
   AdditionalEventArgs,
   SubmitState,
@@ -161,6 +165,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const { isVisible } = useContext(VisibilityContext) || {}
 
   const translation = useTranslation()
+  const { formatMessage } = translation
+  const translationRef = useRef(translation)
+  translationRef.current = translation
 
   const transformers = useRef({
     transformIn,
@@ -313,15 +320,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     schema ? dataContext.ajvInstance?.compile(schema) : undefined
   )
 
-  // Needs to be placed before "prepareError"
-  const errorMessagesRef = useRef(null)
-  errorMessagesRef.current = useMemo(() => {
-    return {
-      required: translation.Field.errorRequired,
-      ...errorMessages,
-    }
-  }, [errorMessages, translation.Field.errorRequired])
-
   // - Async behavior
   const asyncBehaviorIsEnabled = useMemo(() => {
     return isAsync(onChange) || isAsync(onChangeContext)
@@ -394,7 +392,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const setFieldState = useCallback(
     (state: SubmitStateWithValidating) => {
       fieldStateRef.current = state
-      setFieldStateDataContext(identifier, resolveValidatingState(state))
+      setFieldStateDataContext?.(identifier, resolveValidatingState(state))
       if (!validateInitially) {
         forceUpdate()
       }
@@ -437,6 +435,25 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     showFieldErrorFieldBlock,
   ])
 
+  const getErrorMessages = useCallback(() => {
+    const messages = {
+      ...contextErrorMessages,
+      ...contextErrorMessages?.[identifier],
+      ...errorMessages,
+    }
+
+    return extendErrorMessagesWithTranslationMessages(
+      overwriteErrorMessagesWithGivenAjvKeys(messages),
+      translationRef.current
+    )
+  }, [contextErrorMessages, errorMessages, identifier])
+
+  const loopCounterRef = useRef(0)
+  loopCounterRef.current += 1
+  if (loopCounterRef.current > 100) {
+    throw new Error('Infinity loop detected and stopped.')
+  }
+
   /**
    * Prepare error from validation logic with correct error messages based on props
    */
@@ -444,29 +461,50 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     (error: Error | FormError | undefined): FormError | undefined => {
       if (error instanceof FormError) {
         let message = error.message
+        const errorMessages = getErrorMessages()
 
-        const { validationRule } = error
-        if (typeof validationRule === 'string') {
-          const fieldMessage = errorMessagesRef.current?.[validationRule]
-          if (fieldMessage) {
-            message = fieldMessage
+        const { ajvKeyword } = error
+        if (typeof ajvKeyword === 'string') {
+          const ajvMessage = errorMessages?.[ajvKeyword]
+          if (ajvMessage) {
+            message = ajvMessage
           }
         }
 
-        const messageHasValues = Object.entries(
-          error.messageValues || {}
-        ).reduce((message, [key, value]) => {
-          return message.replace(`{${key}}`, value)
-        }, message)
+        /** @deprecated – can be removed in v11 */
+        const { validationRule } = error
+        if (typeof validationRule === 'string') {
+          const ajvMessage = errorMessages?.[validationRule]
+          if (ajvMessage) {
+            message = ajvMessage
+          }
+        }
 
-        error.message = messageHasValues
+        if (errorMessages[message]) {
+          // - For when the message is e.g. Field.errorRequired or Custom.key, but delivered in the `errorMessages` object
+          message = errorMessages[message]
+
+          if (error.messageValues) {
+            message = Object.entries(error.messageValues || {}).reduce(
+              (msg, [key, value]) => {
+                return msg.replace(`{${key}}`, value)
+              },
+              message
+            )
+          }
+        } else if (message.includes('.')) {
+          // - For when the message is e.g. Field.errorRequired
+          message = formatMessage(message, error.messageValues)
+        }
+
+        error.message = message
 
         return error
       }
 
       return error
     },
-    []
+    [getErrorMessages, formatMessage]
   )
 
   contextErrorRef.current = useMemo(() => {
@@ -479,12 +517,16 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
   }, [dataContextError, prepareError])
 
-  const error =
-    revealErrorRef.current ||
-    // If the error is a type error, we want to show it even if the field as not been used
-    localErrorRef.current?.['validationRule'] === 'type'
-      ? errorProp ?? localErrorRef.current ?? contextErrorRef.current
-      : undefined
+  // If the error is a type error, we want to show it even if the field as not been used
+  if (localErrorRef.current?.['ajvKeyword'] === 'type') {
+    revealErrorRef.current = true
+  }
+
+  const error = revealErrorRef.current
+    ? prepareError(errorProp) ??
+      localErrorRef.current ??
+      contextErrorRef.current
+    : undefined
 
   const hasVisibleError =
     Boolean(error) || (inFieldBlock && fieldBlockContext.hasErrorProp)
@@ -514,10 +556,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const exportValidatorsRef = useRef(exportValidators)
   exportValidatorsRef.current = exportValidators
   const additionalArgs = useMemo(() => {
-    const errorMessages = {
-      ...contextErrorMessages,
-      ...errorMessagesRef.current,
-    }
+    const errorMessages = getErrorMessages()
+
     const args: ValidatorAdditionalArgs<Value> = {
       /** @deprecated – can be removed in v11 */
       ...errorMessages,
@@ -538,7 +578,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
 
     return args
-  }, [contextErrorMessages, getValueByPath, setFieldEventListener])
+  }, [getErrorMessages, getValueByPath, setFieldEventListener])
 
   const callStackRef = useRef<Array<Validator<Value>>>([])
   const hasBeenCalledRef = useCallback((validator: Validator<Value>) => {
@@ -657,7 +697,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       setFieldErrorBoundary?.(identifier, error)
 
       // Set the visual states
-      setFieldStateDataContext?.(identifier, error ? 'error' : undefined)
       setFieldStateFieldBlock?.({
         stateId,
         identifier,
@@ -665,18 +704,19 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         content: error,
         showInitially: Boolean(inFieldBlock && validateInitially),
       })
+      setFieldStateDataContext?.(identifier, error ? 'error' : undefined)
 
       forceUpdate()
     },
     [
-      prepareError,
-      setFieldErrorDataContext,
       identifier,
+      inFieldBlock,
+      prepareError,
       setFieldErrorBoundary,
+      setFieldErrorDataContext,
       setFieldStateDataContext,
       setFieldStateFieldBlock,
       stateId,
-      inFieldBlock,
       validateInitially,
     ]
   )
@@ -970,9 +1010,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         emptyValue,
         required: requiredProp ?? required,
         isChanged: changedRef.current,
-        error: new FormError('The value is required', {
-          validationRule: 'required',
-        }),
+        error: new FormError('Field.errorRequired'),
       })
       if (requiredError instanceof Error) {
         throw requiredError
@@ -1029,20 +1067,20 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       }
     }
   }, [
-    startProcess,
-    disabled,
-    hideError,
-    setFieldState,
+    callOnBlurValidator,
     clearErrorState,
+    disabled,
     emptyValue,
-    requiredProp,
-    required,
+    hideError,
+    persistErrorState,
     prioritizeContextSchema,
+    required,
+    requiredProp,
+    setFieldState,
+    startOnChangeValidatorValidation,
+    startProcess,
     validateInitially,
     validateUnchanged,
-    startOnChangeValidatorValidation,
-    callOnBlurValidator,
-    persistErrorState,
   ])
 
   const handleError = useCallback(() => {

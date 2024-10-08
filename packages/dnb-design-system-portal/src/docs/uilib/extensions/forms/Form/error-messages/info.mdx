@@ -2,9 +2,33 @@
 showTabs: true
 ---
 
+**Table of Contents**
+
+- [Description](#description)
+- [Error object](#error-object)
+- [Reuse existing error messages in a validator function](#reuse-existing-error-messages-in-a-validator-function)
+  - [FormError object](#formerror-object)
+    - [Overwrite existing keys](#overwrite-existing-keys)
+    - [Custom keys in a field](#custom-keys-in-a-field)
+    - [Custom keys in Form.Handler](#custom-keys-in-formhandler)
+    - [Localization of error messages](#localization-of-error-messages)
+    - [Use translations to localize error messages](#use-translations-to-localize-error-messages)
+    - [Error message in a field `schema`](#error-message-in-a-field-schema)
+    - [Error message in a global `schema`](#error-message-in-a-global-schema)
+- [Levels of `errorMessages`](#levels-of-errormessages)
+
 ## Description
 
-Error messages in Eufemia Forms are used to provide feedback to users when there are issues with their input.
+Eufemia Forms comes with built-in error messages. But you can also customize and override these messages by using the `errorMessages` property both on [fields](/uilib/extensions/forms/all-fields/) (field level) and on the [Form.Handler](/uilib/extensions/forms/Form/Handler/) (global level).
+
+You may use the `errorMessages` property for two purposes:
+
+- Provide your onw error messages.
+- Overwrite the default error messages.
+
+Both can be done on a global level or on a field level.
+
+How ever, for when overwriting the default error messages on a global level, you can also use [internationalization (i18n)](#localization-of-error-messages).
 
 ## Error object
 
@@ -17,25 +41,35 @@ render(<Field.PhoneNumber error={new Error('Show this message')} />)
 Or in case of a validator:
 
 ```tsx
-const validator = (value) => {
+const myValidator = (value) => {
   // Your validation logic
   return new Error('Show this message')
 }
-render(<Field.PhoneNumber validator={validator} />)
+
+render(<Field.PhoneNumber onBlurValidator={myValidator} />)
 ```
 
 ## Reuse existing error messages in a validator function
 
 You can reuse existing error messages in a validator function. The types of error messages available depend on the field type.
 
-For example, you can reuse the `required` error message in a validator function:
+For example, you can reuse the `Field.errorRequired` error message in a validator function:
 
 ```tsx
-const validator = (value, { errorMessages }) => {
+const myValidator = (value) => {
   // Your validation logic
+  return new FormError('Field.errorRequired')
+}
+
+// Other options to reuse error messages, without using "FormError".
+const myValidatorAlt = (value, { errorMessages }) => {
+  return new Error(errorMessages['Field.errorRequired'])
+
+  // Deprecated
   return new Error(errorMessages.required)
 }
-render(<Field.String validator={validator} />)
+
+render(<Field.String onBlurValidator={myValidator} />)
 ```
 
 ### FormError object
@@ -44,36 +78,70 @@ You can use the JavaScript `Error` object to display a custom error message:
 
 ```tsx
 import { Field } from '@dnb/eufemia/extensions/forms'
+
 render(<Field.PhoneNumber error={new Error('Custom message')} />)
 ```
 
 When it comes to re-using existing translations, you can also use the `FormError` object to display error messages.
 
-The `validationRule` is used to identify the error message to display.
+You can provide either an existing translation key, such as:
 
-- `required` - Displayed when the field is required and the user has not provided a value.
-- `pattern` - Displayed when the user has provided a value that does not match the pattern.
+- `Field.errorRequired` - Displayed when the field is required and the user has not provided a value.
+- `Field.errorPattern` - Displayed when the user has provided a value that does not match the pattern.
 
 ```tsx
 import { FormError, Field } from '@dnb/eufemia/extensions/forms'
+
+// - Error property
+render(<Field.PhoneNumber error={new FormError('Field.errorRequired')} />)
+
+// - Validator function
 render(
   <Field.PhoneNumber
-    error={
-      new FormError('Invalid value', {
-        validationRule: 'pattern',
-      })
-    }
+    onBlurValidator={() => {
+      return new FormError('Field.errorRequired')
+    }}
   />,
 )
 ```
 
-Here is how you can provide validation rules, or even overwrite existing ones:
+#### Overwrite existing keys
+
+Per field, you can overwrite existing keys:
+
+```tsx
+render(
+  <Field.PhoneNumber
+    errorMessages={{
+      'Field.errorRequired': 'Display me, instead of the default message',
+    }}
+  />,
+)
+```
+
+#### Custom keys in a field
+
+You can also provide your own keys:
+
+```tsx
+<Field.PhoneNumber
+  error={new FormError('MyCustom.message')}
+  errorMessages={{
+    'MyCustom.message': 'Your custom error message',
+  }}
+/>
+```
+
+#### Custom keys in Form.Handler
+
+Here is how you can provide your own keys or overwrite existing ones in a global `errorMessages` object inside the [Form.Handler](/uilib/extensions/forms/Form/Handler/):
 
 ```tsx
 render(
   <Form.Handler
     errorMessages={{
-      pattern: 'Display me, instead of the default message',
+      'MyCustom.message': 'Your custom error message',
+      'Field.errorRequired': 'Display me, instead of the default message',
     }}
   >
     ...
@@ -81,19 +149,7 @@ render(
 )
 ```
 
-For one field only:
-
-```tsx
-render(
-  <Field.PhoneNumber
-    errorMessages={{
-      pattern: 'Display me, instead of the default message',
-    }}
-  />,
-)
-```
-
-## Localization of error messages
+#### Localization of error messages
 
 You can also provide localized error messages:
 
@@ -102,10 +158,11 @@ render(
   <Form.Handler
     errorMessages={{
       'en-GB': {
-        pattern: 'Display me, instead of the default message',
+        'Field.errorRequired':
+          'Display me, instead of the default message',
       },
       'nb-NO': {
-        pattern: 'Vis meg istedenfor for standardmeldingen',
+        'Field.errorRequired': 'Vis meg istedenfor for standardmeldingen',
       },
     }}
   >
@@ -114,15 +171,24 @@ render(
 )
 ```
 
-In addition, you can customize the translations globally:
+#### Use translations to localize error messages
+
+You can customize error messages via translations for the entire form:
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
+
 render(
   <Form.Handler
     translations={{
       'nb-NO': {
-        Field: { errorPattern: 'Custom pattern error' },
+        // - Overwrite existing keys
+        Field: { errorRequired: 'Display this error message instead' },
+        'Field.errorRequired': 'Display this error message instead',
+
+        // - Custom keys
+        MyCustom: { key: 'Your custom error message' },
+        'MyCustom.message': 'Your custom error message',
       },
     }}
   >
@@ -131,7 +197,9 @@ render(
 )
 ```
 
-Or define an error message in a `schema` for one field:
+#### Error message in a field `schema`
+
+You can define an error message in a `schema` for one field:
 
 ```tsx
 import { Provider } from '@dnb/eufemia/shared'
@@ -149,29 +217,9 @@ render(
 )
 ```
 
-Or in a field `schema` for one field with a JSON Pointer path:
+#### Error message in a global `schema`
 
-```tsx
-const schema = {
-  type: 'object',
-  properties: {
-    myKey: {
-      type: 'string',
-      pattern: '^([a-z]+)$',
-      errorMessage:
-        'You can provide a custom message in the schema itself',
-    },
-  },
-} as const
-
-render(
-  <Form.Handler schema={schema}>
-    <Field.String path="/myKey" value="123" validateInitially />
-  </Form.Handler>,
-)
-```
-
-Or in a Form.Handler `schema` for one field with a JSON Pointer path:
+You can also define an error message in a `schema` for the entire form:
 
 ```tsx
 const schema = {
@@ -228,7 +276,7 @@ You can provide custom error message different levels with the `errorMessages` p
 
 The levels are prioritized in the order above, so the field level error message will overwrite all other levels.
 
-Here is an example of how to do expose a custom error message for the `pattern` validation rule on all levels:
+Here is an example of how to do expose a custom error message for the `Field.errorRequired` validation rule on all levels:
 
 ```tsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
@@ -237,10 +285,10 @@ render(
   <Form.Handler
     errorMessages={{
       // Level 1
-      pattern: 'Or on the provider',
+      'Field.errorRequired': 'Or on the provider',
       '/myKey': {
         // Level 2
-        pattern: 'Or on the provider for just one field',
+        'Field.errorRequired': 'Or on the provider for just one field',
       },
     }}
   >
@@ -248,7 +296,7 @@ render(
       path="/myKey"
       errorMessages={{
         // Level 3
-        pattern: 'Or on a single Field itself',
+        'Field.errorRequired': 'Or on a single Field itself',
       }}
       ...
     />

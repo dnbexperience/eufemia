@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
-import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
 
 export type Props = StringFieldProps
@@ -19,10 +18,17 @@ Name._supportsSpacingProps = true
 
 Name.First = function FirstName(props: Props) {
   const translations = useTranslation().FirstName
-  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.errorRequired,
-    pattern: translations.errorPattern,
-  })
+  const errorMessages = useMemo(() => {
+    return {
+      'Field.errorRequired': translations.errorRequired,
+      'Field.errorPattern': translations.errorPattern,
+      ...props.errorMessages,
+    }
+  }, [
+    props.errorMessages,
+    translations.errorPattern,
+    translations.errorRequired,
+  ])
 
   const nameProps: Props = {
     label: translations.label,
@@ -37,10 +43,17 @@ Name.First['_supportsSpacingProps'] = true
 
 Name.Last = function LastName(props: Props) {
   const translations = useTranslation().LastName
-  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.errorRequired,
-    pattern: translations.errorPattern,
-  })
+  const errorMessages = useMemo(() => {
+    return {
+      'Field.errorRequired': translations.errorRequired,
+      'Field.errorPattern': translations.errorPattern,
+      ...props.errorMessages,
+    }
+  }, [
+    props.errorMessages,
+    translations.errorPattern,
+    translations.errorRequired,
+  ])
 
   const nameProps: Props = {
     label: translations.label,
@@ -55,9 +68,12 @@ Name.First['_supportsSpacingProps'] = true
 
 Name.Company = function CompanyName(props: Props) {
   const translations = useTranslation().CompanyName
-  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.errorRequired,
-  })
+  const errorMessages = useMemo(() => {
+    return {
+      'Field.errorRequired': translations.errorRequired,
+      ...props.errorMessages,
+    }
+  }, [props.errorMessages, translations.errorRequired])
 
   const StringFieldProps: Props = {
     label: translations.label,

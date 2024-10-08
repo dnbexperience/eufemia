@@ -52,13 +52,13 @@ export type CombineWithExternalTranslationsArgs = {
   messages?: TranslationCustomLocales
   locale?: InternalLocale
 }
-export type FormatMessage = {
+export type AdditionalReturnUtils = {
   formatMessage: typeof formatMessage
   renderMessage: typeof renderMessage
 }
 export type CombineWithExternalTranslationsReturn = Translation &
   TranslationCustomLocales &
-  FormatMessage
+  AdditionalReturnUtils
 
 export function useAdditionalUtils() {
   const translationsRef = useRef<CombineWithExternalTranslationsReturn>()
