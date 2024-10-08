@@ -7,8 +7,9 @@ import {
   ajvErrorToFormError,
   ajvErrorsToOneFormError,
   ajvErrorsToFormErrors,
+  getTranslationKeyFromValidationRule,
 } from '../ajv'
-import { FormError } from '../../types'
+import { FormError } from '../FormError'
 
 describe('makeAjvInstance', () => {
   it('should return a new Ajv instance', () => {
@@ -261,16 +262,14 @@ describe('ajvErrorToFormError', () => {
       message: 'Should not be shorter than 5 characters',
     }
     const formError = ajvErrorToFormError(ajvError)
-    expect(formError.message).toBe(
-      'Should not be shorter than 5 characters'
-    )
+    expect(formError.message).toBe('StringField.errorMinLength')
   })
 
-  it('should return a FormError with "Unknown error" message if no message is provided', () => {
+  it('should return a FormError with "Unknown error" message if no message and undefined keyword is provided', () => {
     const ajvError: ErrorObject = {
       schemaPath: '#',
       instancePath: '/path',
-      keyword: 'minLength',
+      keyword: undefined,
       params: { limit: 5 },
     }
     const formError = ajvErrorToFormError(ajvError)
@@ -299,9 +298,7 @@ describe('ajvErrorsToOneFormError', () => {
     }
     const formError = ajvErrorsToOneFormError([ajvError])
     expect(formError).toBeInstanceOf(FormError)
-    expect(formError.message).toBe(
-      'Should not be shorter than 5 characters'
-    )
+    expect(formError.message).toBe('StringField.errorMinLength')
   })
 
   it('should return a FormError with multiple messages for multiple errors', () => {
@@ -359,8 +356,60 @@ describe('ajvErrorsToFormErrors', () => {
     ]
     const formErrors = ajvErrorsToFormErrors(ajvErrors)
     expect(formErrors).toEqual({
-      '/path1': new Error('Should not be shorter than 5 characters'),
-      '/path2': new Error('Should not be longer than 10 characters'),
+      '/path1': new Error('StringField.errorMinLength'),
+      '/path2': new Error('StringField.errorMaxLength'),
     })
+  })
+})
+
+describe('getTranslationKeyFromValidationRule', () => {
+  it('should return the correct translation key for pattern', () => {
+    const key = getTranslationKeyFromValidationRule('pattern')
+    expect(key).toBe('Field.errorPattern')
+  })
+
+  it('should return the correct translation key for required', () => {
+    const key = getTranslationKeyFromValidationRule('required')
+    expect(key).toBe('Field.errorRequired')
+  })
+
+  it('should return the correct translation key for minLength', () => {
+    const key = getTranslationKeyFromValidationRule('minLength')
+    expect(key).toBe('StringField.errorMinLength')
+  })
+
+  it('should return the correct translation key for maxLength', () => {
+    const key = getTranslationKeyFromValidationRule('maxLength')
+    expect(key).toBe('StringField.errorMaxLength')
+  })
+
+  it('should return the correct translation key for minimum', () => {
+    const key = getTranslationKeyFromValidationRule('minimum')
+    expect(key).toBe('NumberField.errorMinimum')
+  })
+
+  it('should return the correct translation key for maximum', () => {
+    const key = getTranslationKeyFromValidationRule('maximum')
+    expect(key).toBe('NumberField.errorMaximum')
+  })
+
+  it('should return the correct translation key for exclusiveMinimum', () => {
+    const key = getTranslationKeyFromValidationRule('exclusiveMinimum')
+    expect(key).toBe('NumberField.errorExclusiveMinimum')
+  })
+
+  it('should return the correct translation key for exclusiveMaximum', () => {
+    const key = getTranslationKeyFromValidationRule('exclusiveMaximum')
+    expect(key).toBe('NumberField.errorExclusiveMaximum')
+  })
+
+  it('should return the correct translation key for multipleOf', () => {
+    const key = getTranslationKeyFromValidationRule('multipleOf')
+    expect(key).toBe('NumberField.errorMultipleOf')
+  })
+
+  it('should return undefined for unsupported validation rules', () => {
+    const key = getTranslationKeyFromValidationRule('unsupported')
+    expect(key).toBeUndefined()
   })
 })

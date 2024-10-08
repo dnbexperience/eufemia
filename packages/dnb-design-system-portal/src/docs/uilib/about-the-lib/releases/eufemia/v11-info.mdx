@@ -153,4 +153,22 @@ The `InputPassword` component has been moved to `Field.Password`, and is now a p
 
 - Replace `omit_rounding` with `rounding="omit"`.
 
+## Forms error handling
+
+**FormError**
+
+- Remove the `validationRule` parameter in favor of a translation key, like so: `new FormError('Field.errorRequired')`.
+
+**errorMessages** object
+
+- Replace `required` with `Field.errorRequired`.
+- Replace `pattern` with `Field.errorPattern`.
+- Replace `minLength` with `StringField.errorMinLength`.
+- Replace `maxLength` with `StringField.errorMaxLength`.
+- Replace `minimum` with `NumberField.errorMinimum`.
+- Replace `maximum` with `NumberField.errorMaximum`.
+- Replace `exclusiveMinimum` with `NumberField.errorExclusiveMinimum`.
+- Replace `exclusiveMaximum` with `NumberField.errorExclusiveMaximum`.
+- Replace `multipleOf` with `NumberField.errorMultipleOf`.
+
 _February, 6. 2024_

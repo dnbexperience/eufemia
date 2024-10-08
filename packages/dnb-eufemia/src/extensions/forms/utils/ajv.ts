@@ -1,8 +1,9 @@
 import ajvInstance, { ErrorObject } from 'ajv/dist/2020'
 import ajvErrors from 'ajv-errors'
 import pointer, { JsonObject } from './json-pointer'
-import { FormError, Path } from '../types'
+import { Path } from '../types'
 import type Ajv from 'ajv/dist/2020'
+import { FormError } from './FormError'
 
 export type AjvInstance = typeof ajvInstance
 export { ajvInstance, Ajv }
@@ -104,6 +105,45 @@ export function getMessageValues(
 }
 
 /**
+ * Get the translation key from the Ajv validation rule
+ */
+export function getTranslationKeyFromValidationRule(
+  validationRule: string
+) {
+  switch (validationRule) {
+    /**
+     * General
+     */
+    case 'pattern':
+      return 'Field.errorPattern'
+    case 'required':
+      return 'Field.errorRequired'
+
+    /**
+     * Field.String
+     */
+    case 'minLength':
+      return 'StringField.errorMinLength'
+    case 'maxLength':
+      return 'StringField.errorMaxLength'
+
+    /**
+     * Field.Number
+     */
+    case 'minimum':
+      return 'NumberField.errorMinimum'
+    case 'maximum':
+      return 'NumberField.errorMaximum'
+    case 'exclusiveMinimum':
+      return 'NumberField.errorExclusiveMinimum'
+    case 'exclusiveMaximum':
+      return 'NumberField.errorExclusiveMaximum'
+    case 'multipleOf':
+      return 'NumberField.errorMultipleOf'
+  }
+}
+
+/**
  * Converts an AJV error object to a FormError object.
  *
  * @param ajvError - The AJV error object to convert.
@@ -114,12 +154,17 @@ export function ajvErrorToFormError(ajvError: ErrorObject): FormError {
     return new Error(ajvError.message ?? 'Unknown error')
   }
 
-  return new FormError(ajvError.message ?? 'Unknown error', {
-    validationRule: getValidationRule(ajvError),
-    // Keep the message values in the error object instead of injecting them into the message
-    // at once, since an error might be validated one place, and then get a new message before it is displayed.
-    messageValues: getMessageValues(ajvError),
-  })
+  return new FormError(
+    getTranslationKeyFromValidationRule(getValidationRule(ajvError)) ??
+      ajvError.message ??
+      'Unknown error',
+    {
+      // Keep the message values in the error object instead of injecting them into the message
+      // at once, since an error might be validated one place, and then get a new message before it is displayed.
+      messageValues: getMessageValues(ajvError),
+      ajvKeyword: ajvError.keyword,
+    }
+  )
 }
 
 /**

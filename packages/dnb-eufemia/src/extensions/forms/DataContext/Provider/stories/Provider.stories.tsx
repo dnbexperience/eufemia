@@ -65,7 +65,7 @@ export function Validation() {
           label="Field 1"
           path="/foo"
           errorMessages={{
-            required: 'Required string',
+            'Field.errorRequired': 'Required string',
           }}
           required
         />
@@ -74,13 +74,13 @@ export function Validation() {
           value="abc"
           minLength={5}
           errorMessages={{
-            minLength: 'Min 5 chars',
+            'StringField.errorMinLength': 'Min 5 chars',
           }}
         />
         <Field.Number
           label="Field 3"
           errorMessages={{
-            required: 'Required number',
+            'Field.errorRequired': 'Required number',
           }}
           required
         />

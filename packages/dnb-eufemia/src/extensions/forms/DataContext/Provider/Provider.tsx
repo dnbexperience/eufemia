@@ -12,9 +12,9 @@ import {
   Ajv,
   makeAjvInstance,
   ajvErrorsToFormErrors,
-} from '../../utils/ajv'
-import {
   FormError,
+} from '../../utils'
+import {
   CustomErrorMessagesWithPaths,
   AllJSONSchemaVersions,
   FieldProps,
@@ -34,9 +34,9 @@ import FieldPropsProvider from '../../Field/Provider'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
-import { ContextProps } from '../../../../shared/Context'
+import SharedContext, { ContextProps } from '../../../../shared/Context'
 import useTranslation from '../../hooks/useTranslation'
-import Context, {
+import DataContext, {
   ContextState,
   EventListenerCall,
   FilterData,
@@ -218,7 +218,7 @@ export default function Provider<Data extends JsonObject>(
     locale,
     translations,
     required,
-    errorMessages: contextErrorMessages,
+    errorMessages,
     isolate,
     children,
     ...rest
@@ -231,7 +231,7 @@ export default function Provider<Data extends JsonObject>(
     )
   }
 
-  const { hasContext } = useContext(Context) || {}
+  const { hasContext } = useContext(DataContext) || {}
 
   if (hasContext && !isolate) {
     throw new Error('DataContext (Form.Handler) can not be nested')
@@ -241,6 +241,7 @@ export default function Provider<Data extends JsonObject>(
   const formElementRef = useRef<HTMLFormElement>(null)
 
   // - Locale
+  const { locale: sharedLocale } = useContext(SharedContext) || {}
   const translation = useTranslation().Field
 
   // - Ajv
@@ -1285,6 +1286,8 @@ export default function Provider<Data extends JsonObject>(
       : (formState === 'pending') === true
       ? true
       : undefined
+  const contextErrorMessages =
+    errorMessages?.[locale ?? sharedLocale] || errorMessages
 
   const contextValue: ContextState = {
     /** Method */
@@ -1353,7 +1356,7 @@ export default function Provider<Data extends JsonObject>(
   }
 
   return (
-    <Context.Provider value={contextValue}>
+    <DataContext.Provider value={contextValue}>
       <FieldPropsProvider
         FormStatus={
           globalStatusId
@@ -1372,7 +1375,7 @@ export default function Provider<Data extends JsonObject>(
       >
         {children}
       </FieldPropsProvider>
-    </Context.Provider>
+    </DataContext.Provider>
   )
 }
 

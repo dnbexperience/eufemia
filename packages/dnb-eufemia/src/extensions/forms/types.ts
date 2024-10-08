@@ -1,9 +1,13 @@
+import type { AriaAttributes } from 'react'
 import type { SpacingProps } from '../../components/space/types'
+import type { FilterData, VisibleDataOptions } from './DataContext'
 import type { JSONSchema4, JSONSchema6, JSONSchema7 } from 'json-schema'
 import type { JSONSchemaType } from 'ajv/dist/2020'
-import { JsonObject } from './utils/json-pointer'
-import { AriaAttributes } from 'react'
-import { FilterData, VisibleDataOptions } from './DataContext'
+import { JsonObject, FormError } from './utils'
+import {
+  FormsTranslationFlat,
+  FormsTranslationLocale,
+} from './hooks/useTranslation'
 
 export type * from 'json-schema'
 export type JSONSchema = JSONSchema7
@@ -21,8 +25,6 @@ export type AllJSONSchemaVersions<DataType = unknown> =
     })
 export { JSONSchemaType }
 
-type ValidationRule = 'type' | 'pattern' | 'required' | string
-type MessageValues = Record<string, string>
 export type ValidatorReturnSync<Value> =
   | Error
   | undefined
@@ -62,56 +64,68 @@ export type ValidatorAdditionalArgs<
   required: string
 }
 
-interface IFormErrorOptions {
-  validationRule?: ValidationRule
-  messageValues?: MessageValues
-}
-
-/**
- * Standard error object for Eufemia Forms, extending the built-in error with additional information for data handling
- */
-export class FormError extends Error {
-  /**
-   * What validation rule did the error occur based on? (i.e: minLength, required or maximum)
-   */
-  validationRule?: ValidationRule
-
-  /**
-   * Replacement values relevant for this error.
-   * @example { minLength: 3 } to be able to replace values in a message like "Minimum {minLength} characters"
-   */
-  messageValues?: MessageValues
-
-  constructor(message: string, options?: IFormErrorOptions) {
-    super(message)
-
-    if (options) {
-      for (const key in options) {
-        this[key] = options[key]
-      }
-    }
-  }
-}
-
-/**
- * Accept any key, so custom message keys can be used
- */
-export type CustomErrorMessages = Record<string, string>
-
 /**
  * Accept any key, so custom message keys can be used
  * including the path to the field the message is for
  */
 export type CustomErrorMessagesWithPaths =
-  | CustomErrorMessages
+  | DefaultErrorMessages
   | {
       // eslint-disable-next-line no-unused-vars
-      [K in `/${string}`]?: CustomErrorMessages
+      [K in `/${string}`]?: DefaultErrorMessages
     }
 
-export interface DefaultErrorMessages {
+export type ErrorMessagesBasis = Partial<
+  Record<FormsTranslationFlat, string>
+> &
+  DotNotationErrorMessages &
+  DeprecatedErrorMessages
+
+export type DotNotationErrorMessages = Record<
+  `${string}` | `${string}.${string}`,
+  string
+>
+
+export type DefaultErrorMessages = ErrorMessagesBasis &
+  Partial<Record<FormsTranslationLocale, ErrorMessagesBasis>>
+
+export type DeprecatedErrorMessages = {
+  /**
+   * @deprecated Use translation keys as the message instead of this parameter (e.g. Field.errorRequired)
+   */
   required?: string
+  /**
+   * @deprecated Use translation keys as the message instead of this parameter (e.g. Field.errorPattern)
+   */
   pattern?: string
+  /**
+   * @deprecated use StringField.errorMinLength instead
+   */
+  minLength?: string
+  /**
+   * @deprecated use StringField.errorMaxLength instead
+   */
+  maxLength?: string
+  /**
+   * @deprecated use NumberField.errorMinimum instead
+   */
+  minimum?: string
+  /**
+   * @deprecated use NumberField.errorMaximum instead
+   */
+  maximum?: string
+  /**
+   * @deprecated use NumberField.errorExclusiveMinimum instead
+   */
+  exclusiveMinimum?: string
+  /**
+   * @deprecated use NumberField.errorExclusiveMaximum instead
+   */
+  exclusiveMaximum?: string
+  /**
+   * @deprecated use NumberField.errorMultipleOf instead
+   */
+  multipleOf?: string
 }
 
 export interface DataValueReadProps<Value = unknown> {

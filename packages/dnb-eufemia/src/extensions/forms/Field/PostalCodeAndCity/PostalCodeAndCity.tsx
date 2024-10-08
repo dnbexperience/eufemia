@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import { Props as FieldBlockProps } from '../../FieldBlock'
 import StringField, { Props as StringFieldProps } from '../String'
 import CompositionField from '../Composition'
-import { FieldHelpProps, Path } from '../../types'
+import { ErrorMessagesBasis, FieldHelpProps, Path } from '../../types'
 import useTranslation from '../../hooks/useTranslation'
 import useDataValue from '../../hooks/useDataValue'
 import { COUNTRY as defaultCountry } from '../../../../shared/defaults'
@@ -100,15 +100,16 @@ function PostalCodeAndCity(props: Props) {
         )}
         label={postalCodeLabel ?? translations.PostalCode.label}
         errorMessages={{
-          required: translations.PostalCode.errorRequired,
-          pattern: translations.PostalCode.errorPattern,
-          ...postalCodeErrorMessages,
+          'Field.errorRequired': translations.PostalCode.errorRequired,
+          'Field.errorPattern': translations.PostalCode.errorPattern,
+          ...(postalCodeErrorMessages as ErrorMessagesBasis),
         }}
         width={postalCodeWidth ?? false}
         inputClassName="dnb-forms-field-postal-code-and-city__postal-code-input"
         inputMode="numeric"
         autoComplete="postal-code"
       />
+
       <StringField
         {...city}
         className={classnames(
@@ -117,9 +118,9 @@ function PostalCodeAndCity(props: Props) {
         )}
         label={cityLabel ?? translations.City.label}
         errorMessages={{
-          required: translations.City.errorRequired,
-          pattern: translations.City.errorPattern,
-          ...cityErrorMessages,
+          'Field.errorRequired': translations.City.errorRequired,
+          'Field.errorPattern': translations.City.errorPattern,
+          ...(cityErrorMessages as ErrorMessagesBasis),
         }}
         pattern={cityPattern ?? '^[A-Za-zÆØÅæøå -]+$'}
         trim

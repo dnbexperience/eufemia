@@ -14,7 +14,6 @@ import { ReturnAdditional } from '../../hooks/useFieldProps'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import FieldBlock from '../../FieldBlock'
 import {
-  FormError,
   FieldProps,
   FieldHelpProps,
   FieldBlockWidth,
@@ -30,6 +29,7 @@ import {
   ToCamelCase,
 } from '../../../../shared/helpers/withCamelCaseProps'
 import useDataValue from '../../hooks/useDataValue'
+import { FormError } from '../../utils'
 
 type IOption = {
   title: string | React.ReactNode

@@ -11,7 +11,9 @@ import userEvent from '@testing-library/user-event'
 import { spyOnEufemiaWarn, wait } from '../../../../../core/jest/jestSetup'
 import { simulateAnimationEnd } from '../../../../../components/height-animation/__tests__/HeightAnimationUtils'
 import { GlobalStatus } from '../../../../../components'
+import SharedProvider from '../../../../../shared/Provider'
 import { makeUniqueId } from '../../../../../shared/component-helper'
+import { debounceAsync } from '../../../../../shared/helpers/debounce'
 import {
   Form,
   DataContext,
@@ -29,7 +31,6 @@ import {
   FilterData,
   FilterDataPathCondition,
 } from '../../Context'
-import { debounceAsync } from '../../../../../shared/helpers/debounce'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
@@ -2274,7 +2275,7 @@ describe('DataContext.Provider', () => {
             label="Field 1"
             path="/foo"
             errorMessages={{
-              required: 'Required string',
+              'Field.errorRequired': 'Required string',
             }}
             required
           />
@@ -2283,13 +2284,13 @@ describe('DataContext.Provider', () => {
             value="abc"
             minLength={5}
             errorMessages={{
-              minLength: 'Min 5 chars',
+              'StringField.errorMinLength': 'Min 5 chars',
             }}
           />
           <Field.Number
             label="Field 3"
             errorMessages={{
-              required: 'Required number',
+              'Field.errorRequired': 'Required number',
             }}
             required
           />
@@ -2350,7 +2351,7 @@ describe('DataContext.Provider', () => {
         render(
           <DataContext.Provider
             errorMessages={{
-              pattern: 'pattern provider error',
+              'Field.errorPattern': 'pattern provider error',
             }}
           >
             <Field.String
@@ -2371,9 +2372,9 @@ describe('DataContext.Provider', () => {
         render(
           <DataContext.Provider
             errorMessages={{
-              pattern: 'pattern provider error',
+              'Field.errorPattern': 'pattern provider error',
               '/myKey': {
-                pattern: 'pattern provider myKey error',
+                'Field.errorPattern': 'pattern provider myKey error',
               },
             }}
           >
@@ -2395,9 +2396,9 @@ describe('DataContext.Provider', () => {
         render(
           <DataContext.Provider
             errorMessages={{
-              pattern: 'pattern provider error',
+              'Field.errorPattern': 'pattern provider error',
               '/myKey': {
-                pattern: 'pattern provider myKey error',
+                'Field.errorPattern': 'pattern provider myKey error',
               },
             }}
           >
@@ -2407,7 +2408,7 @@ describe('DataContext.Provider', () => {
               pattern="^correct$"
               value="wrong"
               errorMessages={{
-                pattern: 'pattern field error',
+                'Field.errorPattern': 'pattern field error',
               }}
             />
           </DataContext.Provider>
@@ -2711,7 +2712,7 @@ describe('DataContext.Provider', () => {
             <TestField
               path="/val"
               errorMessages={{
-                minLength: 'Minimum {minLength} chars.',
+                'StringField.errorMinLength': 'Minimum {minLength} chars.',
               }}
             />
           </DataContext.Provider>
@@ -3240,6 +3241,45 @@ describe('DataContext.Provider', () => {
       expect(screen.queryByRole('alert')).toHaveTextContent(
         'message for just this field'
       )
+    })
+
+    it('should support locale in errorMessages', () => {
+      const errorRequired = 'Display me, instead of the default message'
+
+      render(
+        <Form.Handler
+          locale="en-GB"
+          errorMessages={{
+            'en-GB': {
+              'Field.errorRequired': errorRequired,
+            },
+          }}
+        >
+          <Field.String required validateInitially />
+        </Form.Handler>
+      )
+
+      expect(screen.queryByRole('alert')).toHaveTextContent(errorRequired)
+    })
+
+    it('should support locale in errorMessages when locale is given by the shared Provider', () => {
+      const errorRequired = 'Display me, instead of the default message'
+
+      render(
+        <SharedProvider locale="en-GB">
+          <Form.Handler
+            errorMessages={{
+              'en-GB': {
+                'Field.errorRequired': errorRequired,
+              },
+            }}
+          >
+            <Field.String required validateInitially />
+          </Form.Handler>
+        </SharedProvider>
+      )
+
+      expect(screen.queryByRole('alert')).toHaveTextContent(errorRequired)
     })
   })
 

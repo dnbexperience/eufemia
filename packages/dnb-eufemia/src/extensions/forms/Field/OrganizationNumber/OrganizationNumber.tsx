@@ -16,10 +16,8 @@ function OrganizationNumber(props: Props) {
     translations
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: errorRequired,
-    pattern: errorOrgNo,
-    errorOrgNo,
-    errorOrgNoLength,
+    'Field.errorRequired': errorRequired,
+    'Field.errorPattern': errorOrgNo,
   })
 
   const organizationNumberValidator = useCallback(

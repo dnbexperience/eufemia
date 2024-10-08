@@ -20,10 +20,8 @@ function BankAccountNumber(props: Props) {
   } = useTranslation().BankAccountNumber
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: errorRequired,
-    pattern: errorBankAccountNumber,
-    errorBankAccountNumber,
-    errorBankAccountNumberLength,
+    'Field.errorRequired': errorRequired,
+    'Field.errorPattern': errorBankAccountNumber,
   })
 
   const bankAccountNumberValidator = useCallback(

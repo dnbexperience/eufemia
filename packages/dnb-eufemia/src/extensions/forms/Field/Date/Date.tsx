@@ -30,8 +30,8 @@ function DateComponent(props: Props) {
   const translations = useTranslation()
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.Date.errorRequired,
-    pattern: translations.Field.errorRequired,
+    'Field.errorRequired': translations.Date.errorRequired,
+    'Field.errorPattern': translations.Date.errorRequired,
   })
 
   const schema = useMemo<AllJSONSchemaVersions>(
