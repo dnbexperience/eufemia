@@ -60,6 +60,20 @@ describe('Field.OrganizationNumber', () => {
     expect(input).toHaveAttribute('inputmode', 'numeric')
   })
 
+  it('should validate organization number', async () => {
+    const invalidOrgNo = '123'
+
+    render(
+      <Form.Handler>
+        <Field.OrganizationNumber value={invalidOrgNo} validateInitially />
+      </Form.Handler>
+    )
+
+    fireEvent.blur(document.querySelector('input'))
+
+    expect(screen.queryByRole('alert')).toBeInTheDocument()
+  })
+
   it('should not validate organization number when validate false', async () => {
     const invalidOrgNo = '987654321'
 

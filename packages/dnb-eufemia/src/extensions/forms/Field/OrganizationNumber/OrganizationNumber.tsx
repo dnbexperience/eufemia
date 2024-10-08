@@ -14,8 +14,6 @@ function OrganizationNumber(props: Props) {
 
   const { validate = true, omitMask } = props
 
-  const validationPattern = '^[0-9]{9}$'
-
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: errorRequired,
     pattern: errorPattern,
@@ -31,10 +29,7 @@ function OrganizationNumber(props: Props) {
 
   const organizationNumberValidator = useCallback(
     (value: string) => {
-      if (
-        new RegExp(validationPattern).test(value) &&
-        !isValidOrgNumber(value)
-      ) {
+      if (!isValidOrgNumber(value)) {
         return Error(errorPattern)
       }
     },
@@ -44,7 +39,7 @@ function OrganizationNumber(props: Props) {
   const StringFieldProps: Props = {
     ...props,
     className: 'dnb-forms-field-organization-number',
-    pattern: props.pattern ?? (validate ? validationPattern : undefined),
+    pattern: props.pattern ?? (validate ? '^[0-9]{9}$' : undefined),
     label: props.label ?? label,
     errorMessages,
     mask,
