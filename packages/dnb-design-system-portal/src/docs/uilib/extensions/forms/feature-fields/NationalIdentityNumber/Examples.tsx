@@ -152,7 +152,7 @@ export const ValidationFunction = () => {
           <Field.NationalIdentityNumber
             required
             value="123"
-            validator={validator}
+            onBlurValidator={validator}
             validateInitially
           />
         )
@@ -180,7 +180,7 @@ export const ValidationExtendValidator = () => {
           <Field.NationalIdentityNumber
             required
             value="53050129159"
-            validator={myValidator}
+            onBlurValidator={myValidator}
             validateInitially
           />
         )
