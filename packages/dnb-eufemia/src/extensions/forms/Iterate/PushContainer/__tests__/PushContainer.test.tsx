@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Field, Form, Iterate } from '../../..'
-import nbNO from '../../../constants/locales/nb-NO'
 import { Div } from '../../../../../elements'
+import DataContext from '../../../DataContext/Context'
 
+import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
 describe('PushContainer', () => {
@@ -548,7 +549,7 @@ describe('PushContainer', () => {
       )
     })
 
-    it('should keep the defaultValue after clearing', async () => {
+    it('should not show error message after clearing', async () => {
       const onChange = jest.fn()
 
       render(
@@ -642,6 +643,68 @@ describe('PushContainer', () => {
       await waitFor(() => {
         expect(document.querySelector('.dnb-form-status')).toBeNull()
       })
+    })
+
+    it('should keep the defaultValue after clearing', async () => {
+      const onChange = jest.fn()
+      const onCommit = jest.fn()
+
+      let internalContext = null
+      const CollectInternalData = () => {
+        internalContext = useContext(DataContext)
+        return null
+      }
+
+      render(
+        <Form.Handler onChange={onChange}>
+          <Iterate.PushContainer path="/" onCommit={onCommit}>
+            <Field.String itemPath="/" defaultValue="default value" />
+            <CollectInternalData />
+          </Iterate.PushContainer>
+        </Form.Handler>
+      )
+
+      expect(internalContext).toMatchObject({
+        data: {
+          pushContainerItems: ['default value'],
+        },
+      })
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, ' changed')
+
+      const button = document.querySelector('button')
+
+      await userEvent.click(button)
+      expect(internalContext.internalDataRef.current).toEqual({
+        pushContainerItems: ['default value'],
+      })
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenLastCalledWith(
+        ['default value changed'],
+        expect.anything()
+      )
+      expect(onCommit).toHaveBeenCalledTimes(1)
+      expect(onCommit).toHaveBeenLastCalledWith(
+        ['default value changed'],
+        expect.anything()
+      )
+
+      await userEvent.click(button)
+      expect(internalContext.internalDataRef.current).toEqual({
+        pushContainerItems: ['default value'],
+      })
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onChange).toHaveBeenLastCalledWith(
+        ['default value changed', 'default value'],
+        expect.anything()
+      )
+      expect(onCommit).toHaveBeenCalledTimes(2)
+      expect(onCommit).toHaveBeenLastCalledWith(
+        ['default value changed', 'default value'],
+        expect.anything()
+      )
     })
   })
 

@@ -600,7 +600,10 @@ export type OnCommit<Data = JsonObject> = (
   {
     clearData,
     preventCommit,
-  }: { clearData: () => void; preventCommit?: () => void }
+  }: {
+    clearData: () => void
+    preventCommit?: () => void
+  }
 ) =>
   | EventReturnWithStateObject
   | void

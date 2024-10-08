@@ -8,7 +8,7 @@ import EditContainer, { CancelButton, DoneButton } from '../EditContainer'
 import IterateArray, { ContainerMode } from '../Array'
 import OpenButton from './OpenButton'
 import { Flex, HeightAnimation } from '../../../../components'
-import { Path } from '../../types'
+import { OnCommit, Path } from '../../types'
 import { SpacingProps } from '../../../../shared/types'
 import { useArrayLimit, useSwitchContainerMode } from '../hooks'
 import Toolbar from '../Toolbar'
@@ -39,19 +39,29 @@ export type Props = {
   showOpenButtonWhen?: (list: unknown[]) => boolean
 
   /**
-   * Prefilled data to add to the fields.
+   * Prefilled data to add to the fields. The data will be put into this path: "/pushContainerItems/0".
    */
   data?: unknown | Record<string, unknown>
 
   /**
-   * Prefilled data to add to the fields.
+   * Prefilled data to add to the fields. The data will be put into this path: "/pushContainerItems/0".
    */
   defaultData?: unknown | Record<string, unknown>
+
+  /**
+   * Provide additional data that will be put into the root of the isolated data context (parallel to "/pushContainerItems/0").
+   */
+  isolatedData?: Record<string, unknown>
 
   /**
    * A custom toolbar to be shown below the container.
    */
   toolbar?: React.ReactNode
+
+  /**
+   * Will be called when the user clicks on the "Done" button.
+   */
+  onCommit?: OnCommit
 
   /**
    * The container contents.
@@ -65,11 +75,13 @@ function PushContainer(props: AllProps) {
   const {
     data: dataProp,
     defaultData: defaultDataProp,
+    isolatedData,
     path,
     title,
     children,
     openButton,
     showOpenButtonWhen,
+    onCommit,
     ...rest
   } = props
 
@@ -101,23 +113,44 @@ function PushContainer(props: AllProps) {
     if (defaultDataProp) {
       return // don't return a fallback, because we want to use the defaultData
     }
-    return { newItems: [dataProp ?? clearedData] }
-  }, [dataProp, defaultDataProp])
+    return {
+      ...isolatedData,
+      pushContainerItems: [dataProp ?? clearedData],
+    }
+  }, [dataProp, defaultDataProp, isolatedData])
 
   const defaultData = useMemo(() => {
-    return { newItems: [defaultDataProp ?? clearedData] }
-  }, [defaultDataProp])
+    return {
+      ...(!dataProp ? isolatedData : null),
+      pushContainerItems: [defaultDataProp ?? clearedData],
+    }
+  }, [dataProp, defaultDataProp, isolatedData])
+
+  const emptyData = useCallback(
+    (data: { pushContainerItems: unknown[] }) => {
+      const firstItem = data.pushContainerItems?.[0]
+      if (firstItem === null || typeof firstItem !== 'object') {
+        return {
+          ...isolatedData,
+          pushContainerItems: [null],
+        }
+      }
+      return defaultData
+    },
+    [defaultData, isolatedData]
+  )
 
   return (
     <Isolation
       data={data}
       defaultData={defaultData}
-      emptyData={defaultData}
+      emptyData={emptyData}
       commitHandleRef={commitHandleRef}
-      transformOnCommit={({ newItems }) => {
-        return moveValueToPath(path, [...entries, ...newItems])
+      transformOnCommit={({ pushContainerItems }) => {
+        return moveValueToPath(path, [...entries, ...pushContainerItems])
       }}
-      onCommit={(data, { clearData, preventCommit }) => {
+      onCommit={(data, options) => {
+        const { clearData, preventCommit } = options
         if (hasReachedLimit) {
           preventCommit()
           setShowStatus(true)
@@ -126,11 +159,12 @@ function PushContainer(props: AllProps) {
           switchContainerModeRef.current?.('view')
           clearData()
         }
+        onCommit?.(data, options)
       }}
     >
       <PushContainerContext.Provider value={newItemContextProps}>
         <IterateArray
-          path="/newItems"
+          path="/pushContainerItems"
           containerMode={showOpenButton ? 'view' : 'edit'}
         >
           <NewContainer

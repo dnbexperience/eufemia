@@ -155,6 +155,7 @@ export interface ContextState {
     params?: { remove?: boolean }
   ) => void
   setFieldConnection?: (path: Path, connections: FieldConnections) => void
+  isEmptyDataRef?: React.MutableRefObject<boolean>
   fieldPropsRef?: React.MutableRefObject<Record<string, FieldProps>>
   valuePropsRef?: React.MutableRefObject<Record<string, ValueProps>>
   fieldConnectionsRef?: React.RefObject<Record<Path, FieldConnections>>
