@@ -46,10 +46,8 @@ function NationalIdentityNumber(props: Props) {
 
   const fnrValidator = useCallback(
     (value: string) => {
-      if (
-        new RegExp(validationPattern).test(value) &&
-        fnr(value).status === 'invalid'
-      ) {
+      // have to check for undefined as @navikt/fnrvalidator does not support undefined
+      if (value === undefined || fnr(value).status === 'invalid') {
         return Error(errorFnr)
       }
     },
@@ -58,11 +56,8 @@ function NationalIdentityNumber(props: Props) {
 
   const dnrValidator = useCallback(
     (value: string) => {
-      const validationPattern = '^[4-7]([0-9]{10}$)' // 1st num is increased by 4. i.e, if 01.01.1985, D number would be 410185.
-      if (
-        new RegExp(validationPattern).test(value) &&
-        dnr(value).status === 'invalid'
-      ) {
+      // have to check for undefined as @navikt/fnrvalidator does not support undefined
+      if (value === undefined || dnr(value).status === 'invalid') {
         return Error(errorDnr)
       }
     },
@@ -71,7 +66,12 @@ function NationalIdentityNumber(props: Props) {
 
   const dnrAndFnrValidator = useCallback(
     (value: string) => {
-      return dnrValidator(value) || fnrValidator(value)
+      const validationPattern = '^[4-9].*' // 1st num is increased by 4. i.e, if 01.01.1985, D number would be 410185.
+
+      if (new RegExp(validationPattern).test(value)) {
+        return dnrValidator(value)
+      }
+      return fnrValidator(value)
     },
     [dnrValidator, fnrValidator]
   )
@@ -93,7 +93,7 @@ function NationalIdentityNumber(props: Props) {
     onBlurValidator: validate
       ? props.onBlurValidator || dnrAndFnrValidator
       : undefined,
-    exportValidators: { dnrValidator, fnrValidator },
+    exportValidators: { dnrValidator, fnrValidator, dnrAndFnrValidator },
   }
 
   return <StringField {...StringFieldProps} />

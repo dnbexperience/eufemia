@@ -49,17 +49,53 @@ describe('Field.NationalIdentityNumber', () => {
     expect(screen.queryByRole('alert')).toBeInTheDocument()
   })
 
-  it('should execute validateInitially if required', async () => {
-    const { rerender } = render(
-      <Field.NationalIdentityNumber required validateInitially />
-    )
+  it('should validate "required"', async () => {
+    render(<Field.NationalIdentityNumber required validateInitially />)
 
     expect(screen.queryByRole('alert')).toBeInTheDocument()
+    expect(screen.queryByRole('alert')).toHaveTextContent(
+      nb.NationalIdentityNumber.errorRequired
+    )
+  })
 
-    rerender(<Field.NationalIdentityNumber validateInitially />)
+  it('should show "errorRequired" error message when "pattern" not matches', async () => {
+    render(<Field.NationalIdentityNumber validateInitially value="123" />)
+
+    expect(screen.queryByRole('alert')).toBeInTheDocument()
+    expect(screen.queryByRole('alert')).toHaveTextContent(
+      nb.NationalIdentityNumber.errorRequired
+    )
+  })
+
+  it('should validate internal validator', async () => {
+    const { rerender } = render(
+      <Field.NationalIdentityNumber
+        validateInitially
+        pattern=".*"
+        value="123"
+      />
+    )
 
     await waitFor(() => {
-      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        nb.NationalIdentityNumber.errorFnr
+      )
+    })
+
+    rerender(
+      <Field.NationalIdentityNumber
+        validateInitially
+        pattern=".*"
+        value="456"
+      />
+    )
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        nb.NationalIdentityNumber.errorDnr
+      )
     })
   })
 
@@ -362,13 +398,13 @@ describe('Field.NationalIdentityNumber', () => {
         : { status: 'invalid' }
 
     const customValidator: Validator<string> = (value, { validators }) => {
-      const { dnrValidator, fnrValidator } = validators
+      const { dnrAndFnrValidator } = validators
       const result = bornInApril(value)
       if (result.status === 'invalid') {
         return new Error('custom error')
       }
 
-      return [dnrValidator, fnrValidator]
+      return [dnrAndFnrValidator]
     }
 
     it.each(validIds)('Valid identity number: %s', async (fnrNum) => {
