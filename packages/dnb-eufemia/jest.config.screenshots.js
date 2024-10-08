@@ -12,7 +12,7 @@ module.exports = {
           // before the test suite moves on to the next one.
           // You can change this value to be whatever number you want.
           // Defaults to 30 seconds (30e3)
-          headlessTimeout: 30e3,
+          headlessTimeout: 60e3,
         },
         browsers: [
           // 'chromium',
@@ -21,6 +21,7 @@ module.exports = {
         ],
       },
     },
+    testTimeout: 60e3,
     testRegex: 'screenshot.test.(js|ts|tsx)$',
     testEnvironment: './src/core/jest/jestPuppeteerEnvironment.js',
     setupFilesAfterEnv: ['./src/core/jest/setupJestScreenshot.js'],
