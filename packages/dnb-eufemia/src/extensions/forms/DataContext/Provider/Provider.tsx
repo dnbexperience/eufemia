@@ -1332,13 +1332,14 @@ export default function Provider<Data extends JsonObject>(
     mountedFieldsRef,
     snapshotsRef,
     formElementRef,
+    isEmptyDataRef,
+    fieldErrorRef,
     ajvInstance: ajvRef.current,
 
     /** Additional */
     id,
     data: internalDataRef.current,
     internalDataRef,
-    isEmptyDataRef,
     props,
     ...rest,
   }

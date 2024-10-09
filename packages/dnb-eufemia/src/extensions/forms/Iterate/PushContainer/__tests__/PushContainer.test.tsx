@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { render, waitFor } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Field, Form, Iterate } from '../../..'
 import { Div } from '../../../../../elements'
@@ -42,6 +42,56 @@ describe('PushContainer', () => {
       },
       expect.anything()
     )
+  })
+
+  describe('bubbleValidation', () => {
+    it('should prevent the form from submitting as long as there are errors', async () => {
+      const onSubmitRequest = jest.fn()
+      const onSubmit = jest.fn()
+      const onCommit = jest.fn()
+
+      render(
+        <Form.Handler
+          onSubmitRequest={onSubmitRequest}
+          onSubmit={onSubmit}
+        >
+          <Iterate.Array path="/entries">...</Iterate.Array>
+
+          <Iterate.PushContainer
+            path="/entries"
+            bubbleValidation
+            onCommit={onCommit}
+          >
+            <Field.String itemPath="/name" required />
+          </Iterate.PushContainer>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const form = document.querySelector('form')
+      const commitButton = document.querySelector('button')
+
+      await userEvent.click(commitButton)
+      fireEvent.submit(form)
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Field.errorRequired
+      )
+
+      expect(onSubmit).toHaveBeenCalledTimes(0)
+      expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+      expect(onCommit).toHaveBeenCalledTimes(0)
+
+      await userEvent.type(input, 'Tony')
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+      expect(onCommit).toHaveBeenCalledTimes(0)
+
+      await userEvent.click(commitButton)
+      expect(onCommit).toHaveBeenCalledTimes(1)
+    })
   })
 
   it('should show view container after adding a new entry', async () => {
