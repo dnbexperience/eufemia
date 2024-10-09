@@ -48,7 +48,7 @@ type IconType =
   | false
 
 /** For external usage */
-export type IconIcon = IconType | FormStatusIconTypes | React.FC<any>
+export type IconIcon = IconType | FormStatusIconTypes | React.FC<unknown>
 
 export type IconSize =
   | ValidIconNumericSize
