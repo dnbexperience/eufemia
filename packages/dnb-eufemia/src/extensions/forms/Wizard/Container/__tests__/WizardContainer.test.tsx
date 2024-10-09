@@ -127,6 +127,51 @@ describe('Wizard.Container', () => {
     })
   })
 
+  it('should provide current index in "onBeforeStepChange" when navigating back and forth', async () => {
+    const onBeforeStepChange = jest.fn()
+
+    render(
+      <Wizard.Container
+        onBeforeStepChange={onBeforeStepChange}
+        mode="loose"
+      >
+        <Wizard.Step title="Step 1">
+          <output>Step 1</output>
+          <Wizard.Buttons />
+        </Wizard.Step>
+
+        <Wizard.Step title="Step 2">
+          <output>Step 2</output>
+          <Wizard.Buttons />
+        </Wizard.Step>
+      </Wizard.Container>
+    )
+
+    await userEvent.click(nextButton())
+
+    expect(onBeforeStepChange).toHaveBeenCalledTimes(1)
+    expect(onBeforeStepChange).toHaveBeenLastCalledWith(0, 'next', {
+      preventNavigation: expect.any(Function),
+      previousIndex: 0,
+    })
+
+    await userEvent.click(previousButton())
+
+    expect(onBeforeStepChange).toHaveBeenCalledTimes(2)
+    expect(onBeforeStepChange).toHaveBeenLastCalledWith(1, 'previous', {
+      preventNavigation: expect.any(Function),
+      previousIndex: 1,
+    })
+
+    await userEvent.click(nextButton())
+
+    expect(onBeforeStepChange).toHaveBeenCalledTimes(3)
+    expect(onBeforeStepChange).toHaveBeenLastCalledWith(0, 'next', {
+      preventNavigation: expect.any(Function),
+      previousIndex: 0,
+    })
+  })
+
   it('should have previousIndex in "onStepChange" when navigating back and forth', async () => {
     const onStepChange = jest.fn()
 

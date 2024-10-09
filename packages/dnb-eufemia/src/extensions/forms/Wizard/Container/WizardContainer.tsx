@@ -68,6 +68,11 @@ export type Props = ComponentProps & {
   onStepChange?: OnStepChange
 
   /**
+   * Same as "onStepChange", but will be called with the current step index.
+   */
+  onBeforeStepChange?: OnStepChange
+
+  /**
    * The sidebar variant.
    */
   variant?: 'sidebar' | 'drawer'
@@ -104,6 +109,7 @@ function WizardContainer(props: Props) {
     omitScrollManagement,
     omitFocusManagement,
     onStepChange,
+    onBeforeStepChange,
     children,
     noAnimation = true,
     prerenderFieldProps = true,
@@ -176,6 +182,13 @@ function WizardContainer(props: Props) {
     [getStepChangeOptions, onStepChange]
   )
 
+  const callOnBeforeStepChange = useCallback(
+    (index: StepIndex, mode: OnStepsChangeMode) => {
+      return onBeforeStepChange?.(index, mode, getStepChangeOptions(index))
+    },
+    [getStepChangeOptions, onBeforeStepChange]
+  )
+
   const { setFocus, scrollToTop, isInteractionRef } =
     useHandleLayoutEffect({ activeIndexRef, stepElementRef })
 
@@ -205,6 +218,8 @@ function WizardContainer(props: Props) {
         skipFieldValidation: skipErrorCheck,
         enableAsyncBehavior: isAsync(onStepChange),
         onSubmit: async () => {
+          callOnBeforeStepChange(activeIndexRef.current, mode)
+
           if (!skipStepChangeCallFromHook) {
             sharedStateRef.current?.data?.onStepChange?.(
               index,
@@ -213,11 +228,14 @@ function WizardContainer(props: Props) {
             )
           }
 
-          const result =
-            skipStepChangeCall ||
-            (skipStepChangeCallBeforeMounted && !isInteractionRef.current)
-              ? undefined
-              : await callOnStepChange(index, mode)
+          let result = undefined
+
+          if (
+            !skipStepChangeCall &&
+            !(skipStepChangeCallBeforeMounted && !isInteractionRef.current)
+          ) {
+            result = await callOnStepChange(index, mode)
+          }
 
           // Hide async indicator
           setFormState('abort')
@@ -242,6 +260,7 @@ function WizardContainer(props: Props) {
     },
     [
       callOnStepChange,
+      callOnBeforeStepChange,
       getStepChangeOptions,
       handleLayoutEffect,
       handleSubmitCall,
@@ -359,6 +378,7 @@ function WizardContainer(props: Props) {
     if (count !== 0 && tmpCount !== 0 && count !== tmpCount) {
       // - Call onStepChange when step gets replaced or added (activeWhen)
       callOnStepChange(activeIndexRef.current, 'stepListModified')
+      callOnBeforeStepChange(activeIndexRef.current, 'stepListModified')
     }
     tmpStepsRef.current = stepsRef.current
     // eslint-disable-next-line react-hooks/exhaustive-deps
