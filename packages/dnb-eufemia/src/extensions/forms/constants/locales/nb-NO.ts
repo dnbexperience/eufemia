@@ -115,8 +115,7 @@ export default {
     },
     NationalIdentityNumber: {
       label: 'Fødselsnummer (11 siffer)',
-      errorRequired:
-        'Ugyldig fødselsnummer. Skriv inn et gyldig fødselsnummer med 11 siffer.',
+      errorRequired: 'Du må fylle inn et fødselsnummer.',
       errorFnr: 'Ugyldig fødselsnummer.',
       errorDnr: 'Ugyldig d-nummer.',
     },

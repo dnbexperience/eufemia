@@ -179,7 +179,7 @@ describe('Field.NationalIdentityNumber', () => {
           maxLength: expect.stringContaining('{maxLength}'),
           minLength: expect.stringContaining('{minLength}'),
           pattern: expect.stringContaining('11'),
-          required: expect.stringContaining('11'),
+          required: expect.stringContaining('fødselsnummer'),
           errorDnr: expect.stringContaining('d-nummer'),
           errorFnr: expect.stringContaining('fødselsnummer'),
         }),
