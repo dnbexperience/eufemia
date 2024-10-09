@@ -123,7 +123,7 @@ export default {
     OrganizationNumber: {
       label: 'Organisasjonsnummer',
       errorRequired: 'Du må fylle inn et organisasjonsnummer.',
-      errorPattern: 'Dette er ikke et gyldig organisasjonsnummer.',
+      errorOrgNo: 'Dette er ikke et gyldig organisasjonsnummer.',
     },
     BankAccountNumber: {
       label: 'Bankkonto',

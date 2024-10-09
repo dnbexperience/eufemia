@@ -112,7 +112,7 @@ describe('Field.OrganizationNumber', () => {
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        nb.OrganizationNumber.errorPattern
+        nb.OrganizationNumber.errorOrgNo
       )
     })
   })
@@ -139,7 +139,7 @@ describe('Field.OrganizationNumber', () => {
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert').textContent).toBe(
-        nb.OrganizationNumber.errorPattern
+        nb.OrganizationNumber.errorOrgNo
       )
     })
   })
@@ -178,7 +178,7 @@ describe('Field.OrganizationNumber', () => {
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert').textContent).toBe(
-        nb.OrganizationNumber.errorPattern
+        nb.OrganizationNumber.errorOrgNo
       )
     })
   })
@@ -343,7 +343,7 @@ describe('Field.OrganizationNumber', () => {
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.OrganizationNumber.errorPattern
+            nb.OrganizationNumber.errorOrgNo
           )
         })
       }
@@ -442,7 +442,7 @@ describe('Field.OrganizationNumber', () => {
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.OrganizationNumber.errorPattern
+            nb.OrganizationNumber.errorOrgNo
           )
         })
       }
