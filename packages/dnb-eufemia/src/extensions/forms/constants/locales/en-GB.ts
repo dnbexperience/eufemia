@@ -125,7 +125,7 @@ export default {
     OrganizationNumber: {
       label: 'Organisation number',
       errorRequired: 'You must enter an organisation number.',
-      errorPattern: 'This is not a valid organisation number.',
+      errorOrgNo: 'This is not a valid organisation number.',
     },
     BankAccountNumber: {
       label: 'Bank account',

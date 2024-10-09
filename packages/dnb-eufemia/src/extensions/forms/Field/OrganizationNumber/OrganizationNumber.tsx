@@ -10,13 +10,14 @@ export type Props = StringFieldProps & {
 
 function OrganizationNumber(props: Props) {
   const translations = useTranslation().OrganizationNumber
-  const { errorPattern, errorRequired, label } = translations
+  const { errorOrgNo, errorRequired, label } = translations
 
   const { validate = true, omitMask } = props
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: errorRequired,
-    pattern: errorPattern,
+    pattern: errorOrgNo,
+    errorOrgNo,
   })
 
   const mask = useMemo(
@@ -30,10 +31,10 @@ function OrganizationNumber(props: Props) {
   const organizationNumberValidator = useCallback(
     (value: string) => {
       if (value !== undefined && !isValidOrgNumber(value)) {
-        return Error(errorPattern)
+        return Error(errorOrgNo)
       }
     },
-    [errorPattern]
+    [errorOrgNo]
   )
 
   const StringFieldProps: Props = {
