@@ -208,7 +208,7 @@ describe('EditContainer and ViewContainer', () => {
       }
 
       render(
-        <Iterate.Array value={['foo']}>
+        <Iterate.Array value={['foo']} containerMode="edit">
           <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
           <Iterate.EditContainer>
             <Field.String path="/foo" required />

@@ -6,6 +6,7 @@ import {
   Value,
   Form,
   Tools,
+  Wizard,
 } from '@dnb/eufemia/src/extensions/forms'
 export { Default as AnimatedContainer } from '../AnimatedContainer/Examples'
 
@@ -368,7 +369,62 @@ export const WithVisibility = () => {
   )
 }
 
-export const InitialOpen = () => {
+export const InitiallyOpen = () => {
+  return (
+    <ComponentBox scope={{ Iterate, Tools }}>
+      <Form.Handler required>
+        <Wizard.Container>
+          <Wizard.Step>
+            <Card stack>
+              <Iterate.Array path="/myList" defaultValue={[{}]}>
+                <Iterate.ViewContainer>
+                  <Value.String label="Item {itemNo}" itemPath="/foo" />
+                </Iterate.ViewContainer>
+                <Iterate.EditContainer>
+                  <Field.String
+                    label="Item {itemNo}"
+                    itemPath="/foo"
+                    defaultValue="foo"
+                  />
+                </Iterate.EditContainer>
+              </Iterate.Array>
+
+              <Iterate.PushButton
+                text="Add"
+                path="/myList"
+                variant="tertiary"
+                pushValue={{}}
+              />
+            </Card>
+
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step>
+            <Iterate.Array path="/myList" defaultValue={[{}]}>
+              <Iterate.EditContainer>
+                <Field.String
+                  label="Item {itemNo}"
+                  itemPath="/foo"
+                  defaultValue="foo"
+                />
+              </Iterate.EditContainer>
+              <Iterate.ViewContainer>
+                <Value.String label="Item {itemNo}" itemPath="/foo" />
+              </Iterate.ViewContainer>
+            </Iterate.Array>
+
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+
+        <Tools.Log top />
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const InitialOpenWithToolbarVariant = () => {
   return (
     <ComponentBox scope={{ Iterate, Tools }}>
       {() => {

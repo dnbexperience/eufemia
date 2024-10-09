@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { Field, Form, Iterate, Tools, Value, Wizard } from '../..'
-import { Card, Flex, Section } from '../../../../components'
+import { Card, Flex } from '../../../../components'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Iterate',
@@ -211,7 +211,7 @@ export const InitialOpen = () => {
 
           <Form.SubmitButton variant="send" />
 
-          <Output />
+          <Tools.Log />
 
           {count}
           <button type="button" onClick={() => setCount(count + 1)}>
@@ -220,21 +220,6 @@ export const InitialOpen = () => {
         </Flex.Stack>
       </Form.Handler>
     </>
-  )
-}
-
-const Output = () => {
-  const { data } = Form.useData()
-
-  return (
-    <Section
-      element="output"
-      backgroundColor="sand-yellow"
-      style={{ maxWidth: '80vw' }}
-      innerSpace
-    >
-      <pre>All data: {JSON.stringify(data)}</pre>
-    </Section>
   )
 }
 
@@ -284,37 +269,53 @@ export const useCount = () => (
 export function InWizard() {
   return (
     <React.StrictMode>
-      <Form.Handler>
+      <Form.Handler required>
         <Wizard.Container>
           <Wizard.Step>
-            <Field.String
-              label="Regular"
-              path="/regular"
-              defaultValue="123"
-            />
-            <Iterate.Array path="/items" defaultValue={[{}]}>
-              <Field.String
-                label="In Iterate"
-                itemPath="/x"
-                defaultValue="123"
+            <Card stack>
+              <Iterate.Array path="/myList" defaultValue={[{}]}>
+                <Iterate.ViewContainer>
+                  <Value.String label="Item {itemNo}" itemPath="/foo" />
+                </Iterate.ViewContainer>
+                <Iterate.EditContainer>
+                  <Field.String
+                    label="Item {itemNo}"
+                    itemPath="/foo"
+                    defaultValue="foo"
+                  />
+                </Iterate.EditContainer>
+              </Iterate.Array>
+
+              <Iterate.PushButton
+                text="Add"
+                path="/myList"
+                variant="tertiary"
+                pushValue={{}}
               />
+            </Card>
+
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step>
+            <Iterate.Array path="/myList" defaultValue={[{}]}>
+              <Iterate.EditContainer>
+                <Field.String
+                  label="Item {itemNo}"
+                  itemPath="/foo"
+                  defaultValue="foo"
+                />
+              </Iterate.EditContainer>
+              <Iterate.ViewContainer>
+                <Value.String label="Item {itemNo}" itemPath="/foo" />
+              </Iterate.ViewContainer>
             </Iterate.Array>
 
             <Wizard.Buttons />
           </Wizard.Step>
-
-          <Wizard.Step>
-            <Wizard.Buttons />
-          </Wizard.Step>
         </Wizard.Container>
 
-        <Tools.Log />
-      </Form.Handler>
-
-      <Form.Handler>
-        <Iterate.Array path="/myList" defaultValue={[null]}>
-          <Field.String itemPath="/" defaultValue="bar" />
-        </Iterate.Array>
+        <Tools.Log top />
       </Form.Handler>
     </React.StrictMode>
   )

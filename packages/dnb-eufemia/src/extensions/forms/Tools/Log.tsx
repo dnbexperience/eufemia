@@ -1,8 +1,13 @@
 import React, { useContext } from 'react'
 import DataContext from '../DataContext/Context'
-import Section, { SectionProps } from '../../../components/Section'
+import Section, { SectionAllProps } from '../../../components/Section'
 
-function Log(props: SectionProps) {
+function Log({
+  placeholder,
+  ...props
+}: SectionAllProps & {
+  placeholder?: React.ReactNode
+}) {
   const { data } = useContext(DataContext)
 
   return (
@@ -14,7 +19,9 @@ function Log(props: SectionProps) {
       {...props}
     >
       <pre>
-        {JSON.stringify(data, null, 2)}
+        {placeholder && Object.keys(data || {}).length === 0
+          ? placeholder
+          : JSON.stringify(data, null, 2)}
         {' ' /* Ensure one line of spacing */}
       </pre>
     </Section>
