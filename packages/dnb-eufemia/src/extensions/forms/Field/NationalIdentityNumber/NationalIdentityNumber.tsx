@@ -47,7 +47,7 @@ function NationalIdentityNumber(props: Props) {
   const fnrValidator = useCallback(
     (value: string) => {
       // have to check for undefined as @navikt/fnrvalidator does not support undefined
-      if (value === undefined || fnr(value).status === 'invalid') {
+      if (value !== undefined || fnr(value).status === 'invalid') {
         return Error(errorFnr)
       }
     },
@@ -57,7 +57,7 @@ function NationalIdentityNumber(props: Props) {
   const dnrValidator = useCallback(
     (value: string) => {
       // have to check for undefined as @navikt/fnrvalidator does not support undefined
-      if (value === undefined || dnr(value).status === 'invalid') {
+      if (value !== undefined || dnr(value).status === 'invalid') {
         return Error(errorDnr)
       }
     },
