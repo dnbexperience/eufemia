@@ -7,6 +7,7 @@ import { axe, toHaveNoViolations } from 'jest-axe'
 import fs from 'fs-extra'
 import path from 'path'
 import sass from 'sass'
+import { waitFor } from '@testing-library/react'
 import { toBeType } from 'jest-tobetype'
 
 export { axe, toHaveNoViolations }
@@ -136,6 +137,25 @@ export const axeComponent = async (...components) => {
     typeof components[1] === 'object' ? components[1] : null
   )
 }
+
+expect.extend({
+  async neverToResolve(callable) {
+    try {
+      await waitFor(callable)
+      return {
+        pass: false,
+        message: () => 'Expected the function to reject, but it resolved.',
+      }
+    } catch (error) {
+      // If it rejects, the test passes
+      return {
+        pass: true,
+        message: () =>
+          'Expected the function to resolve, but it correctly rejected.',
+      }
+    }
+  },
+})
 
 // For Yarn v3 we need this fix in order to make jest-axe work properly
 // https://github.com/nickcolley/jest-axe/issues/147
