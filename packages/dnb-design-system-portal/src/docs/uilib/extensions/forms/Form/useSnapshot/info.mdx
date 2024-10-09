@@ -1,0 +1,75 @@
+---
+showTabs: true
+---
+
+## Description
+
+The `Form.useSnapshot` hook lets you store data snapshots of your form data, either inside or outside of the form context.
+
+The hook returns an object with the following properties:
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function MyComponent() {
+  const { createSnapshot, revertSnapshot } = Form.useSnapshot()
+
+  return <>MyComponent</>
+}
+
+render(
+  <Form.Handler>
+    <MyComponent />
+  </Form.Handler>,
+)
+```
+
+- `createSnapshot` will store the current data as a new snapshot with the given id.
+- `revertSnapshot` will revert the data to the snapshot with the given id (required). A reverted snapshot gets deleted from the memory.
+
+## Usage
+
+You can use the `Form.useSnapshot` hook with or without an `id` (string) property, which is optional and can be used to link the data to a specific [Form.Handler](/uilib/extensions/forms/Form/Handler/) component.
+
+### Without an `id` property
+
+Here "Component" is rendered inside the `Form.Handler` component and does not need an `id` property to access the form data:
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function MyForm() {
+  return (
+    <Form.Handler>
+      <Component />
+    </Form.Handler>
+  )
+}
+
+function Component() {
+  const { createSnapshot, revertSnapshot } = Form.useSnapshot()
+}
+```
+
+### With an `id` property
+
+While in this example, "Component" is outside the `Form.Handler` context, but linked together via the `id` (string) property:
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function MyForm() {
+  return (
+    <>
+      <Form.Handler id="unique">...</Form.Handler>
+      <Component />
+    </>
+  )
+}
+
+function Component() {
+  const { createSnapshot, revertSnapshot } = Form.useSnapshot('unique')
+}
+```
+
+This is beneficial when you need to utilize the form data in other places within your application.

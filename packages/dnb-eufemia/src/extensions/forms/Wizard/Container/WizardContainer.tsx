@@ -17,6 +17,7 @@ import useId from '../../../../shared/helpers/useId'
 import Step, { Props as StepProps } from '../Step'
 import WizardContext, {
   OnStepChange,
+  OnStepChangeOptions,
   OnStepsChangeMode,
   SetActiveIndexOptions,
   StepIndex,
@@ -148,22 +149,26 @@ function WizardContainer(props: Props) {
     preventNextStepRef.current = shouldPrevent
   }, [])
 
-  const getStepChangeOptions = useCallback(
-    (index: StepIndex) => {
-      const previousIndex = activeIndexRef.current
-      const options = {
-        previousIndex,
-        preventNavigation,
-      }
-      const id = stepsRef.current[index]?.id
-      if (id) {
-        Object.assign(options, { id })
-      }
+  const getStepChangeOptions: (index: StepIndex) => OnStepChangeOptions =
+    useCallback(
+      (index) => {
+        const previousIndex = activeIndexRef.current
+        const options = {
+          preventNavigation,
+          previousStep: { index: previousIndex },
+        }
 
-      return options
-    },
-    [preventNavigation]
-  )
+        const id = stepsRef.current[index]?.id
+        if (id) {
+          const previousId = stepsRef.current[previousIndex]?.id
+          Object.assign(options, { id })
+          Object.assign(options.previousStep, { id: previousId })
+        }
+
+        return options
+      },
+      [preventNavigation]
+    )
 
   const callOnStepChange = useCallback(
     async (index: StepIndex, mode: OnStepsChangeMode) => {
@@ -213,11 +218,14 @@ function WizardContainer(props: Props) {
             )
           }
 
-          const result =
-            skipStepChangeCall ||
-            (skipStepChangeCallBeforeMounted && !isInteractionRef.current)
-              ? undefined
-              : await callOnStepChange(index, mode)
+          let result = undefined
+
+          if (
+            !skipStepChangeCall &&
+            !(skipStepChangeCallBeforeMounted && !isInteractionRef.current)
+          ) {
+            result = await callOnStepChange(index, mode)
+          }
 
           // Hide async indicator
           setFormState('abort')
