@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
 import DataContext from '../DataContext/Context'
-import Section, { SectionProps } from '../../../components/Section'
+import Section, { SectionAllProps } from '../../../components/Section'
 
 function Log({
   placeholder,
   ...props
-}: SectionProps & {
+}: SectionAllProps & {
   placeholder?: React.ReactNode
 }) {
   const { data } = useContext(DataContext)
