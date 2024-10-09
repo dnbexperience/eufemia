@@ -178,7 +178,7 @@ describe('Field.NationalIdentityNumber', () => {
         errorMessages: expect.objectContaining({
           maxLength: expect.stringContaining('{maxLength}'),
           minLength: expect.stringContaining('{minLength}'),
-          pattern: expect.stringContaining('11'),
+          pattern: expect.stringContaining('fødselsnummer'),
           required: expect.stringContaining('fødselsnummer'),
           errorDnr: expect.stringContaining('d-nummer'),
           errorFnr: expect.stringContaining('fødselsnummer'),
