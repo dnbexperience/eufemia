@@ -60,14 +60,54 @@ describe('Field.OrganizationNumber', () => {
     expect(input).toHaveAttribute('inputmode', 'numeric')
   })
 
-  it('should execute validateInitially if required', async () => {
-    const { rerender } = render(
-      <Field.OrganizationNumber required validateInitially />
-    )
+  it('should not provide an error for empty/undefined value when not required', async () => {
+    render(<Field.OrganizationNumber />)
 
-    expect(screen.queryByRole('alert')).toBeInTheDocument()
+    const element = document.querySelector('input')
+    await userEvent.type(element, '123123123')
+    expect(element.value).toBe('123 123 123')
+    await userEvent.type(element, '{Backspace>9}')
+    expect(element).toHaveValue('')
 
-    rerender(<Field.OrganizationNumber validateInitially />)
+    element.blur()
+
+    await expect(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    }).neverToResolve()
+  })
+
+  it('should provide an error for empty/undefined value when required', async () => {
+    render(<Field.OrganizationNumber required />)
+
+    const element = document.querySelector('input')
+    await userEvent.type(element, '123123123')
+    expect(element.value).toBe('123 123 123')
+    await userEvent.type(element, '{Backspace>9}')
+    expect(element).toHaveValue('')
+
+    element.blur()
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        nb.OrganizationNumber.errorRequired
+      )
+    })
+  })
+
+  it('should display error if required and validateInitially', async () => {
+    render(<Field.OrganizationNumber required validateInitially />)
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        nb.OrganizationNumber.errorRequired
+      )
+    })
+  })
+
+  it('should display error when validateInitially and value', async () => {
+    render(<Field.OrganizationNumber validateInitially value="123" />)
 
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -75,6 +115,14 @@ describe('Field.OrganizationNumber', () => {
         nb.OrganizationNumber.errorPattern
       )
     })
+  })
+
+  it('should not display error when validateInitially and no value', async () => {
+    render(<Field.OrganizationNumber validateInitially />)
+
+    await expect(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    }).neverToResolve()
   })
 
   it('should support custom pattern', async () => {
