@@ -260,6 +260,23 @@ describe('Field.NationalIdentityNumber', () => {
     }).neverToResolve()
   })
 
+  it('should not validate when onBlurValidator is false', async () => {
+    const invalidFnr = '29020112345'
+    render(
+      <Field.NationalIdentityNumber
+        value={invalidFnr}
+        validateInitially
+        onBlurValidator={false}
+      />
+    )
+
+    fireEvent.blur(document.querySelector('input'))
+
+    await expect(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    }).neverToResolve()
+  })
+
   it('should not validate dnum when validate false', async () => {
     const invalidDnum = '69020112345'
     render(
