@@ -29,7 +29,7 @@ function OrganizationNumber(props: Props) {
 
   const organizationNumberValidator = useCallback(
     (value: string) => {
-      if (!isValidOrgNumber(value)) {
+      if (value !== undefined && !isValidOrgNumber(value)) {
         return Error(errorPattern)
       }
     },
@@ -59,8 +59,6 @@ function OrganizationNumber(props: Props) {
  * www.brreg.no/om-oss/registrene-vare/om-enhetsregisteret/organisasjonsnummeret/
  */
 function isValidOrgNumber(digits: string) {
-  if (digits === undefined) return false
-
   let checkDigit = 2
   let sum = 0
 

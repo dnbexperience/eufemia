@@ -3,6 +3,7 @@ import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import { Props } from '..'
 import { Field, Form, Validator } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
+import userEvent from '@testing-library/user-event'
 
 const nb = nbNO['nb-NO']
 
@@ -160,19 +161,69 @@ describe('Field.NationalIdentityNumber', () => {
     expect(input).toHaveAttribute('inputmode', 'numeric')
   })
 
-  it('should not validate pattern when validate false', async () => {
-    const invalidPattern = '1234'
-    render(
-      <Field.NationalIdentityNumber
-        value={invalidPattern}
-        validateInitially
-        validate={false}
-      />
-    )
+  it('should not provide an error for empty/undefined value when not required', async () => {
+    render(<Field.NationalIdentityNumber />)
 
-    fireEvent.blur(document.querySelector('input'))
+    const element = document.querySelector('input')
+    await userEvent.type(element, '12312312312')
+    expect(element.value).toBe('123123 12312')
+    await userEvent.type(element, '{Backspace>11}')
+    expect(element).toHaveValue('')
 
-    expect(screen.queryByRole('alert')).toBeNull()
+    element.blur()
+
+    await expect(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    }).neverToResolve()
+  })
+
+  it('should provide an error for empty/undefined value when required', async () => {
+    render(<Field.NationalIdentityNumber required />)
+
+    const element = document.querySelector('input')
+    await userEvent.type(element, '12312312312')
+    expect(element.value).toBe('123123 12312')
+    await userEvent.type(element, '{Backspace>11}')
+    expect(element).toHaveValue('')
+
+    element.blur()
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        nb.NationalIdentityNumber.errorRequired
+      )
+    })
+  })
+
+  it('should display error if required and validateInitially', async () => {
+    render(<Field.NationalIdentityNumber required validateInitially />)
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        nb.NationalIdentityNumber.errorRequired
+      )
+    })
+  })
+
+  it('should display error when validateInitially and value', async () => {
+    render(<Field.NationalIdentityNumber validateInitially value="123" />)
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        nb.NationalIdentityNumber.errorRequired
+      )
+    })
+  })
+
+  it('should not display error when validateInitially and no value', async () => {
+    render(<Field.NationalIdentityNumber validateInitially />)
+
+    await expect(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    }).neverToResolve()
   })
 
   it('should not validate custom pattern when validate false', async () => {
