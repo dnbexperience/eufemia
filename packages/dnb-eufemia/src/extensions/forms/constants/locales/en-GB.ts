@@ -117,8 +117,7 @@ export default {
     },
     NationalIdentityNumber: {
       label: 'National identity number (11 digits)',
-      errorRequired:
-        'Invalid national identity number. Enter a valid 11-digit number.',
+      errorRequired: 'You must enter a national identity number.',
       errorFnr: 'Invalid national identity number.',
       errorDnr: 'Invalid D number.',
     },

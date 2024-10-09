@@ -105,7 +105,7 @@ describe('Field.NationalIdentityNumber', () => {
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert').textContent).toBe(
-        nb.NationalIdentityNumber.errorRequired
+        nb.NationalIdentityNumber.errorFnr
       )
     })
   })
@@ -178,8 +178,8 @@ describe('Field.NationalIdentityNumber', () => {
         errorMessages: expect.objectContaining({
           maxLength: expect.stringContaining('{maxLength}'),
           minLength: expect.stringContaining('{minLength}'),
-          pattern: expect.stringContaining('11'),
-          required: expect.stringContaining('11'),
+          pattern: expect.stringContaining('fødselsnummer'),
+          required: expect.stringContaining('fødselsnummer'),
           errorDnr: expect.stringContaining('d-nummer'),
           errorFnr: expect.stringContaining('fødselsnummer'),
         }),

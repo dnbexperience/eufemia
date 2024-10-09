@@ -17,7 +17,7 @@ function NationalIdentityNumber(props: Props) {
   const { label, errorRequired, errorFnr, errorDnr } = translations
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: errorRequired,
-    pattern: errorRequired,
+    pattern: errorFnr,
     errorFnr,
     errorDnr,
   })
