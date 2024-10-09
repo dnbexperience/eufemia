@@ -59,15 +59,6 @@ describe('Field.NationalIdentityNumber', () => {
     )
   })
 
-  it('should show "errorRequired" error message when "pattern" not matches', async () => {
-    render(<Field.NationalIdentityNumber validateInitially value="123" />)
-
-    expect(screen.queryByRole('alert')).toBeInTheDocument()
-    expect(screen.queryByRole('alert')).toHaveTextContent(
-      nb.NationalIdentityNumber.errorRequired
-    )
-  })
-
   it('should validate internal validator', async () => {
     const { rerender } = render(
       <Field.NationalIdentityNumber
@@ -98,6 +89,49 @@ describe('Field.NationalIdentityNumber', () => {
         nb.NationalIdentityNumber.errorDnr
       )
     })
+  })
+
+  it('should support custom pattern', async () => {
+    render(
+      <Form.Handler>
+        <Field.NationalIdentityNumber
+          validateInitially
+          value="58081633086" // valid, but not in the pattern
+          pattern="^6"
+        />
+      </Form.Handler>
+    )
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert').textContent).toBe(
+        nb.NationalIdentityNumber.errorRequired
+      )
+    })
+  })
+
+  it('should support custom pattern without validator', async () => {
+    const dummyValidator = jest.fn()
+
+    render(
+      <Form.Handler>
+        <Field.NationalIdentityNumber
+          validateInitially
+          value="6"
+          pattern="^6"
+          onBlurValidator={() => {
+            return [dummyValidator]
+          }}
+        />
+      </Form.Handler>
+    )
+
+    await expect(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    }).neverToResolve()
+
+    expect(dummyValidator).toHaveBeenCalledTimes(1)
+    expect(dummyValidator).toHaveBeenCalledWith('6', expect.anything())
   })
 
   it('should validate given function', async () => {
@@ -213,7 +247,7 @@ describe('Field.NationalIdentityNumber', () => {
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        nb.NationalIdentityNumber.errorRequired
+        nb.NationalIdentityNumber.errorFnr
       )
     })
   })
@@ -224,22 +258,6 @@ describe('Field.NationalIdentityNumber', () => {
     await expect(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
     }).neverToResolve()
-  })
-
-  it('should not validate custom pattern when validate false', async () => {
-    const invalidPattern = '1234'
-    render(
-      <Field.NationalIdentityNumber
-        pattern="[A-Z]"
-        value={invalidPattern}
-        validateInitially
-        validate={false}
-      />
-    )
-
-    fireEvent.blur(document.querySelector('input'))
-
-    expect(screen.queryByRole('alert')).toBeNull()
   })
 
   it('should not validate dnum when validate false', async () => {

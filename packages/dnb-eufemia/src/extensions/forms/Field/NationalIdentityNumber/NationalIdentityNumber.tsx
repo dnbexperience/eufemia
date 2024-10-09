@@ -42,7 +42,6 @@ function NationalIdentityNumber(props: Props) {
           ],
     [omitMask]
   )
-  const validationPattern = '^[0-9]{11}$'
 
   const fnrValidator = useCallback(
     (value: string) => {
@@ -66,9 +65,9 @@ function NationalIdentityNumber(props: Props) {
 
   const dnrAndFnrValidator = useCallback(
     (value: string) => {
-      const validationPattern = '^[4-9].*' // 1st num is increased by 4. i.e, if 01.01.1985, D number would be 410185.
+      const dnrValidationPattern = '^[4-9].*' // 1st num is increased by 4. i.e, if 01.01.1985, D number would be 410185.
 
-      if (new RegExp(validationPattern).test(value)) {
+      if (new RegExp(dnrValidationPattern).test(value)) {
         return dnrValidator(value)
       }
       return fnrValidator(value)
@@ -78,12 +77,6 @@ function NationalIdentityNumber(props: Props) {
 
   const StringFieldProps: Props = {
     ...props,
-    pattern:
-      validate && props.pattern
-        ? props.pattern
-        : validate && !props.validator
-        ? validationPattern
-        : undefined,
     label: props.label ?? label,
     errorMessages,
     mask,
