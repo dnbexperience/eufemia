@@ -41,122 +41,70 @@ export const Basic = () => {
   )
 }
 
-const Step1 = () => {
-  const { data } = Form.useData<typeof initialData>()
-  return (
-    <Wizard.Step
-      title="Step 1"
-      active={data?.step1}
-      activeWhen={{
-        path: '/enabledStep',
-        hasValue: (value) => {
-          return value === '1' || value === undefined
-        },
-      }}
-    >
-      <Form.MainHeading>Heading Step 1</Form.MainHeading>
-
-      <Field.Boolean
-        bottom
-        label="Toggle step 2"
-        variant="buttons"
-        path="/step2"
-        // help={{
-        //   title: 'Help is available',
-        //   content:
-        //     'Helping others, without expecting anything in return is what true self-worth is all about.',
-        // }}
-      />
-
-      <Card stack>
-        <P>Contents</P>
-        <P>Contents</P>
-      </Card>
-      <Card stack>
-        <P>Contents</P>
-        <P>Contents</P>
-      </Card>
-      <Wizard.Buttons />
-    </Wizard.Step>
-  )
-}
-const Step2 = () => {
-  const { data } = Form.useData<typeof initialData>()
-  return (
-    <Wizard.Step
-      title="Step 2"
-      active={data?.step2}
-      activeWhen={{ path: '/enabledStep', hasValue: '2' }}
-    >
-      <Form.MainHeading>Heading Step 2</Form.MainHeading>
-      <Card stack>
-        <P>Contents</P>
-        <P>Contents</P>
-      </Card>
-      <Wizard.Buttons />
-    </Wizard.Step>
-  )
-}
-const Step3 = () => {
-  const { data } = Form.useData<typeof initialData>()
-  const { summaryTitle } = Form.useLocale().Step
-
-  return (
-    <Wizard.Step
-      title={summaryTitle}
-      active={data?.step3}
-      activeWhen={{ path: '/enabledStep', hasValue: '3' }}
-    >
-      <Form.MainHeading>Summary</Form.MainHeading>
-      <Card stack>
-        <P>Contents</P>
-        <P>Contents</P>
-        <P>Contents</P>
-      </Card>
-      <Wizard.Buttons />
-    </Wizard.Step>
-  )
-}
-
-const initialData = {
-  step1: true,
-  step2: true,
-  step3: true,
-}
-
-export const WizardDynamicSteps = () => {
-  return (
-    <Form.Handler id="my-wizard" defaultData={initialData}>
-      <Wizard.Container mode="loose">
-        <Step1 />
-        <Step2 />
-        <Step3 />
-        {/* {data?.step1 && <Step1 />}
-          {data?.step2 && <Step2 />}
-          {data?.step3 && <Step3 />} */}
-      </Wizard.Container>
-    </Form.Handler>
-  )
-}
-
 export const WizardDynamicStepsActiveWhen = () => {
   return (
-    <Form.Handler>
-      <Field.Selection
-        path="/enabledStep"
-        variant="button"
-        onChange={(value) => console.log('onChange', value)}
+    <Form.Handler defaultData={{ activeSteps: 'group-1' }}>
+      <Wizard.Container
+        onStepChange={(index, mode, args) => {
+          console.log(
+            'onStepChange',
+            index,
+            mode,
+            args.id,
+            args.previousIndex
+          )
+        }}
       >
-        <Field.Option value="1" title="1" />
-        <Field.Option value="2" title="2" />
-        <Field.Option value="3" title="3" />
-      </Field.Selection>
+        <Wizard.Step
+          title="Step A"
+          activeWhen={{ path: '/activeSteps', hasValue: 'group-1' }}
+          id="step-a"
+        >
+          <Form.MainHeading>Step A</Form.MainHeading>
+          <Wizard.Buttons />
+        </Wizard.Step>
 
-      <Wizard.Container mode="loose">
-        <Step1 />
-        <Step2 />
-        <Step3 />
+        <Wizard.Step
+          title="Step B"
+          activeWhen={{ path: '/activeSteps', hasValue: 'group-1' }}
+          id="step-b"
+        >
+          <Form.MainHeading>Step B</Form.MainHeading>
+          <Wizard.Buttons />
+        </Wizard.Step>
+
+        <Wizard.Step
+          title="Step C"
+          activeWhen={{
+            path: '/activeSteps',
+            hasValue: (value: string) =>
+              ['group-1', 'group-2'].includes(value),
+          }}
+          id="step-c"
+        >
+          <Form.MainHeading>Step C</Form.MainHeading>
+          <Wizard.Buttons />
+        </Wizard.Step>
+
+        <Wizard.Step
+          title="Step D"
+          activeWhen={{ path: '/activeSteps', hasValue: 'group-2' }}
+          id="step-d"
+        >
+          <Form.MainHeading>Step D</Form.MainHeading>
+          <Wizard.Buttons />
+        </Wizard.Step>
       </Wizard.Container>
+
+      <Field.Selection
+        path="/activeSteps"
+        variant="button"
+        optionsLayout="horizontal"
+        top
+      >
+        <Field.Option value="group-1" title="Group 1" />
+        <Field.Option value="group-2" title="Group 2" />
+      </Field.Selection>
     </Form.Handler>
   )
 }

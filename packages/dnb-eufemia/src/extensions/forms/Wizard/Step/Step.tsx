@@ -59,15 +59,15 @@ function Step(props: Props): JSX.Element {
     children,
     ...restProps
   } = props
-  const { check, activeIndex, titlesRef, stepElementRef } =
+  const { check, activeIndex, stepsRef, stepElementRef } =
     useContext(WizardContext) || {}
 
   const ariaLabel = useMemo(() => {
     return (
-      (!prerenderFieldProps && titlesRef?.current?.[index]) ??
+      (!prerenderFieldProps && stepsRef?.current?.[index]) ??
       convertJsxToString(title)
     )
-  }, [index, prerenderFieldProps, title, titlesRef])
+  }, [index, prerenderFieldProps, title, stepsRef])
 
   const currentElementRef = useRef<HTMLElement>()
   useLayoutEffect(() => {
