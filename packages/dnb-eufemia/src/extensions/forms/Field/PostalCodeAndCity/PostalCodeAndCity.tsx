@@ -9,6 +9,11 @@ import useTranslation from '../../hooks/useTranslation'
 export type Props = FieldHelpProps &
   Omit<FieldBlockProps, 'children'> &
   Partial<Record<'postalCode' | 'city', StringFieldProps>> & {
+    /**
+     * Defines which country the postal code and city is for.
+     * Setting it to anything other than `no` will remove the default norwegian postal code pattern.
+     * Default: `no`
+     */
     country?: string
   }
 
@@ -24,7 +29,22 @@ function PostalCodeAndCity(props: Props) {
     ...fieldBlockProps
   } = props
 
-  const isNorway = useMemo(() => country === 'no', [country])
+  const postalCodeValidationProps = useMemo(() => {
+    const isNorway = country === 'no'
+    return {
+      mask:
+        postalCode.mask ?? isNorway
+          ? [/\d/, /\d/, /\d/, /\d/]
+          : postalCode.mask,
+      pattern: postalCode.pattern ?? isNorway ? '^[0-9]{4}$' : '',
+      placeholder: postalCode.placeholder ?? isNorway ? '0000' : '',
+    }
+  }, [
+    postalCode.pattern,
+    postalCode.placeholder,
+    postalCode.mask,
+    country,
+  ])
 
   return (
     <CompositionField
@@ -37,8 +57,8 @@ function PostalCodeAndCity(props: Props) {
     >
       <StringField
         {...postalCode}
-        pattern={postalCode.pattern ?? isNorway ? '^[0-9]{4}$' : ''}
-        mask={isNorway ? [/\d/, /\d/, /\d/, /\d/] : postalCode.mask}
+        pattern={postalCodeValidationProps.pattern}
+        mask={postalCodeValidationProps.mask}
         className={classnames(
           'dnb-forms-field-postal-code-and-city__postal-code',
           postalCode.className
@@ -49,8 +69,8 @@ function PostalCodeAndCity(props: Props) {
           pattern: translations.PostalCode.errorPattern,
           ...postalCode.errorMessages,
         }}
-        placeholder={postalCode.placeholder ?? isNorway ? '0000' : ''}
-        width={isNorway ? false : postalCode.width ?? 'small'}
+        placeholder={postalCodeValidationProps.placeholder}
+        width={postalCode.width ?? false}
         inputClassName="dnb-forms-field-postal-code-and-city__postal-code-input"
         inputMode="numeric"
         autoComplete="postal-code"
