@@ -6,7 +6,7 @@
 import React, { useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import emailMask from '../addons/emailMask'
-import { InputMasked, FormSet, ToggleButton } from '../..'
+import { InputMasked, FormSet, ToggleButton, Button } from '../..'
 import { Hr } from '../../..'
 import styled from '@emotion/styled'
 import { Provider } from '../../../shared'
@@ -328,5 +328,73 @@ function MultiInputMaskStatuses() {
         ]}
       />
     </>
+  )
+}
+
+function Test({ form }) {
+  return (
+    <InputMasked
+      as_percent
+      on_change={({ numberValue }: { numberValue: number }) =>
+        console.log('hello')
+      }
+      value={form.value}
+    />
+  )
+}
+
+export function State0ExternalComp() {
+  const [form, setForm] = useState({ value: undefined })
+  return (
+    <div id="div">
+      <Test form={form} />
+      <br />
+      <Button
+        style={{ backgroundColor: 'red' }}
+        onClick={() => setForm({ value: 0 })}
+        text="click me"
+      />
+    </div>
+  )
+}
+
+export function State0InternalComp() {
+  function TestInternal({ form }) {
+    return (
+      <InputMasked
+        as_percent
+        on_change={({ numberValue }: { numberValue: number }) =>
+          console.log('hello')
+        }
+        value={form.value}
+      />
+    )
+  }
+  const [form, setForm] = useState({ value: undefined })
+  return (
+    <div id="div">
+      <TestInternal form={form} />
+      <br />
+      <Button
+        style={{ backgroundColor: 'red' }}
+        onClick={() => setForm({ value: 0 })}
+        text="click me"
+      />
+    </div>
+  )
+}
+
+export function State1() {
+  const [form, setForm] = useState({ value: undefined })
+  return (
+    <div id="div">
+      <Test form={form} />
+      <br />
+      <Button
+        style={{ backgroundColor: 'red' }}
+        onClick={() => setForm({ value: 1 })}
+        text="click me"
+      />
+    </div>
   )
 }
