@@ -41,19 +41,19 @@ export default function useStep(
   }
 
   const value = data || context
-  const { titlesRef } = value || {}
+  const { stepsRef } = value || {}
   const setTotalSteps = useCallback(() => {
-    const totalSteps = Object.keys(titlesRef?.current || {}).length || 0
+    const totalSteps = Object.keys(stepsRef?.current || {}).length || 0
     if (value.totalSteps !== totalSteps) {
       value.totalSteps = totalSteps
     }
-  }, [titlesRef, value])
+  }, [stepsRef, value])
   if (data) {
     setTotalSteps()
   }
   useLayoutEffect(() => {
     setTotalSteps()
-  }, [setTotalSteps, titlesRef, value])
+  }, [setTotalSteps, stepsRef, value])
 
   return value
 }

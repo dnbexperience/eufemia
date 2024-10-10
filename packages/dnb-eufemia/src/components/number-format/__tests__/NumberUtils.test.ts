@@ -17,6 +17,7 @@ import {
   getCurrencySymbol,
   countDecimals,
   roundHalfEven,
+  formatPhone,
 } from '../NumberUtils'
 
 const locale = LOCALE
@@ -295,7 +296,7 @@ describe('Currency format with dirty number', () => {
     ).toBe('-1 234 567,89 kr')
   })
 
-  it('should treat norwegian style (SI style (French version))', () => {
+  it('should treat Norwegian style (SI style (French version))', () => {
     expect(
       format('prefix -12 345,678 suffix', { clean: true, currency: true })
     ).toBe('-12 345,68 kr')
@@ -307,7 +308,7 @@ describe('Currency format with dirty number', () => {
     ).toBe('-1 234 567,89 kr')
   })
 
-  it('should treat english style (SI style (English version))', () => {
+  it('should treat English style (SI style (English version))', () => {
     expect(
       format('prefix -1 234 567.891 suffix', {
         clean: true,
@@ -679,14 +680,14 @@ describe('NumberFormat cleanNumber', () => {
     ).toBe('1234567.0123')
   })
 
-  it('should clean up norwegian style (SI style (French version))', () => {
+  it('should clean up Norwegian style (SI style (French version))', () => {
     expect(cleanNumber('prefix -12 345,678 suffix')).toBe('-12345.678')
     expect(cleanNumber('prefix -1 234 567,891 suffix')).toBe(
       '-1234567.891'
     )
   })
 
-  it('should clean up english style (SI style (English version))', () => {
+  it('should clean up English style (SI style (English version))', () => {
     expect(cleanNumber('prefix -1 234 567.891 suffix')).toBe(
       '-1234567.891'
     )
@@ -897,5 +898,66 @@ describe('rounding', () => {
       expect(roundHalfEven(0.1e-1)).toEqual(0.01)
       expect(roundHalfEven(11.1e-1, 0)).toEqual(1)
     })
+  })
+})
+
+describe('formatPhone', () => {
+  it('should format phone number correctly', () => {
+    const { number } = formatPhone('12345678')
+    expect(number).toBe('12 34 56 78')
+  })
+
+  it('should format a phone number with country code', () => {
+    const result = formatPhone('+4712345678')
+    expect(result.number).toBe('+47 12 34 56 78')
+    expect(result.aria).toBe('+47 12 34 56 78')
+  })
+
+  it('should format a phone number without country code', () => {
+    const result = formatPhone('12345678')
+    expect(result.number).toBe('12 34 56 78')
+    expect(result.aria).toBe('12 34 56 78')
+  })
+
+  it('should format a phone number with leading 00 country code', () => {
+    const result = formatPhone('004712345678')
+    expect(result.number).toBe('+47 12 34 56 78')
+    expect(result.aria).toBe('+47 12 34 56 78')
+  })
+
+  it('should format a short phone number', () => {
+    const result = formatPhone('12345')
+    expect(result.number).toBe('12345')
+    expect(result.aria).toBe('12 34 5')
+  })
+
+  it('should format a special phone number starting with 8', () => {
+    const result = formatPhone('80022222')
+    expect(result.number).toBe('800 22 222')
+    expect(result.aria).toBe('80 02 22 22')
+  })
+
+  it('should handle invalid characters in phone number', () => {
+    const result = formatPhone('+47-123-456-78')
+    expect(result.number).toBe('+47 12 34 56 78')
+    expect(result.aria).toBe('+47 12 34 56 78')
+  })
+
+  it('should handle empty input', () => {
+    const result = formatPhone('')
+    expect(result.number).toBe('')
+    expect(result.aria).toBe('')
+  })
+
+  it('should handle null input', () => {
+    const result = formatPhone(null)
+    expect(result.number).toBe('')
+    expect(result.aria).toBe('')
+  })
+
+  it('should handle undefined input', () => {
+    const result = formatPhone(undefined)
+    expect(result.number).toBe('')
+    expect(result.aria).toBe('')
   })
 })

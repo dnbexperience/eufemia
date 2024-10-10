@@ -470,6 +470,14 @@ export interface ValueProps<Value = unknown>
   maxWidth?: 'small' | 'medium' | 'large' | 'auto'
 
   /**
+   * Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is a object containing the `convertJsxToString` function.
+   */
+  transformLabel?: (
+    label: React.ReactNode,
+    convertJsxToString: (label: React.ReactNode) => string
+  ) => React.ReactNode
+
+  /**
    * Transforms the `value` before its displayed in the field (e.g. input).
    * Public API. Should not be used internally.
    */
@@ -592,7 +600,10 @@ export type OnCommit<Data = JsonObject> = (
   {
     clearData,
     preventCommit,
-  }: { clearData: () => void; preventCommit?: () => void }
+  }: {
+    clearData: () => void
+    preventCommit?: () => void
+  }
 ) =>
   | EventReturnWithStateObject
   | void

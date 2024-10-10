@@ -1,9 +1,9 @@
 import { createSharedState } from '../../../../shared/helpers/useSharedState'
+import { SharedAttachments } from '../../DataContext/Provider'
 
 export default function clearData(id: string) {
-  const sharedAttachments = createSharedState(id + '-attachments')
-  sharedAttachments.set({})
-
-  const sharedData = createSharedState(id)
-  sharedData.update({ clearForm: true })
+  const sharedAttachments = createSharedState<SharedAttachments<unknown>>(
+    id + '-attachments'
+  )
+  sharedAttachments.data.clearData?.()
 }

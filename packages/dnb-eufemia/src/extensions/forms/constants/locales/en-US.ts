@@ -8,7 +8,7 @@ export default {
     OrganizationNumber: {
       label: 'Organization number',
       errorRequired: 'You must enter an organization number.',
-      errorPattern: 'This is not a valid organization number.',
+      errorOrgNo: 'This is not a valid organization number.',
     },
   },
 }

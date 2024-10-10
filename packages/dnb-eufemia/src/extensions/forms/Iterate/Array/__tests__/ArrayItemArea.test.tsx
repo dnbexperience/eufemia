@@ -331,7 +331,7 @@ describe('ArrayItemArea', () => {
     expect(element).toHaveClass('dnb-height-animation--hidden')
   })
 
-  it('opens in edit mode when falsy value was given', async () => {
+  it('opens in view mode by default when mode is view', () => {
     let containerMode = null
 
     const ContextConsumer = () => {
@@ -343,7 +343,64 @@ describe('ArrayItemArea', () => {
 
     render(
       <IterateItemContext.Provider
-        value={{ containerMode: 'view', value: null }}
+        value={{
+          containerMode: 'auto',
+          value: 'foo',
+        }}
+      >
+        <ArrayItemArea mode="view">
+          <ContextConsumer />
+        </ArrayItemArea>
+      </IterateItemContext.Provider>
+    )
+
+    expect(containerMode).toBe('view')
+  })
+
+  it('opens in view mode by default when mode is edit', () => {
+    let containerMode = null
+
+    const ContextConsumer = () => {
+      const context = React.useContext(IterateItemContext)
+      containerMode = context.containerMode
+
+      return null
+    }
+
+    render(
+      <IterateItemContext.Provider
+        value={{
+          containerMode: 'auto',
+          value: 'foo',
+        }}
+      >
+        <ArrayItemArea mode="edit">
+          <ContextConsumer />
+        </ArrayItemArea>
+      </IterateItemContext.Provider>
+    )
+
+    expect(containerMode).toBe('view')
+  })
+
+  it('opens in edit mode when falsy value was given and mode is view', () => {
+    let containerMode = null
+    const switchContainerMode = jest.fn()
+
+    const ContextConsumer = () => {
+      const context = React.useContext(IterateItemContext)
+      containerMode = context.containerMode
+
+      return null
+    }
+
+    render(
+      <IterateItemContext.Provider
+        value={{
+          switchContainerMode,
+          initialContainerMode: 'auto',
+          value: null,
+        }}
       >
         <ArrayItemArea mode="view">
           <ContextConsumer />
@@ -352,9 +409,76 @@ describe('ArrayItemArea', () => {
     )
 
     expect(containerMode).toBe('edit')
+    expect(switchContainerMode).toHaveBeenCalledTimes(0)
   })
 
-  it('should call switchContainerMode when mode is edit and error is present', async () => {
+  it('opens in edit mode when falsy value was given and mode is edit', () => {
+    let containerMode = null
+    const switchContainerMode = jest.fn()
+
+    const ContextConsumer = () => {
+      const context = React.useContext(IterateItemContext)
+      containerMode = context.containerMode
+
+      return null
+    }
+
+    render(
+      <IterateItemContext.Provider
+        value={{
+          switchContainerMode,
+          initialContainerMode: 'auto',
+          value: null,
+        }}
+      >
+        <ArrayItemArea mode="edit">
+          <ContextConsumer />
+        </ArrayItemArea>
+      </IterateItemContext.Provider>
+    )
+
+    expect(containerMode).toBe('edit')
+    expect(switchContainerMode).toHaveBeenCalledTimes(1)
+    expect(switchContainerMode).toHaveBeenLastCalledWith('edit', {
+      omitFocusManagement: true,
+      preventUpdate: true,
+    })
+  })
+
+  it('should thread empty object as falsy', () => {
+    let containerMode = null
+    const switchContainerMode = jest.fn()
+
+    const ContextConsumer = () => {
+      const context = React.useContext(IterateItemContext)
+      containerMode = context.containerMode
+
+      return null
+    }
+
+    render(
+      <IterateItemContext.Provider
+        value={{
+          switchContainerMode,
+          initialContainerMode: 'auto',
+          value: {},
+        }}
+      >
+        <ArrayItemArea mode="edit">
+          <ContextConsumer />
+        </ArrayItemArea>
+      </IterateItemContext.Provider>
+    )
+
+    expect(containerMode).toBe('edit')
+    expect(switchContainerMode).toHaveBeenCalledTimes(1)
+    expect(switchContainerMode).toHaveBeenLastCalledWith('edit', {
+      omitFocusManagement: true,
+      preventUpdate: true,
+    })
+  })
+
+  it('should call switchContainerMode when mode is edit and error is present', () => {
     const switchContainerMode = jest.fn()
 
     render(
@@ -375,6 +499,7 @@ describe('ArrayItemArea', () => {
     expect(switchContainerMode).toHaveBeenCalledTimes(1)
     expect(switchContainerMode).toHaveBeenLastCalledWith('edit', {
       omitFocusManagement: true,
+      preventUpdate: true,
     })
   })
 

@@ -8,7 +8,7 @@ export default defineConfig({
 
   use: {
     // Base URL to use in actions like `await page.goto('/')`.
-    baseURL: 'http://localhost:8000',
+    baseURL: 'http://localhost:8002',
 
     // Name of the browser that runs tests. For example `chromium`, `firefox`, `webkit`.
     browserName: 'firefox',

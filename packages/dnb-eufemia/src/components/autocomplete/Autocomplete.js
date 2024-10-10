@@ -961,6 +961,12 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   onInputClickHandler = (e) => {
+    // Show the entire list when an item is selected
+    if (!this.context.drawerList.opened && this.hasFilterActive()) {
+      this.ignoreEvents()
+      this.showAll()
+    }
+
     const { value } = e.target
     this.setVisibleByContext({ value })
   }

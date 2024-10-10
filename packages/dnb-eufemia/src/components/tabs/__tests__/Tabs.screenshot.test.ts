@@ -115,6 +115,7 @@ describe.each(['ui', 'sbanken'])('Tabs for %s', (themeName) => {
       simulateSelector:
         '[data-visual-test="tabs-tablist"] .dnb-tabs__tabs__tablist .dnb-tabs__button__snap:nth-of-type(2) button',
       simulate: 'focus',
+      waitAfterSimulate: isCI ? 100 : 0, // ensure the buttons are "hidden", so give time for a slow CI
     })
     expect(screenshot).toMatchImageSnapshot()
   })

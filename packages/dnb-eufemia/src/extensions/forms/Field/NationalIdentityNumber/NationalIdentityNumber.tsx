@@ -1,26 +1,67 @@
 import React, { useCallback, useMemo } from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
 import { dnr, fnr } from '@navikt/fnrvalidator'
+import { Validator } from '../../types'
 
 import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
 
-export type Props = StringFieldProps & {
+export type Props = Omit<StringFieldProps, 'onBlurValidator'> & {
   omitMask?: boolean
   validate?: boolean
+  onBlurValidator?: Validator<string> | false
 }
 
 function NationalIdentityNumber(props: Props) {
-  const { validate = true, omitMask } = props
-
   const translations = useTranslation().NationalIdentityNumber
   const { label, errorRequired, errorFnr, errorDnr } = translations
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: errorRequired,
-    pattern: errorRequired,
+    pattern: errorFnr,
     errorFnr,
     errorDnr,
   })
+
+  const fnrValidator = useCallback(
+    (value: string) => {
+      // have to check for undefined as @navikt/fnrvalidator does not support undefined
+      if (value !== undefined && fnr(value).status === 'invalid') {
+        return Error(errorFnr)
+      }
+    },
+    [errorFnr]
+  )
+
+  const dnrValidator = useCallback(
+    (value: string) => {
+      // have to check for undefined as @navikt/fnrvalidator does not support undefined
+      if (value !== undefined && dnr(value).status === 'invalid') {
+        return Error(errorDnr)
+      }
+    },
+    [errorDnr]
+  )
+
+  const dnrAndFnrValidator = useCallback(
+    (value: string) => {
+      const dnrValidationPattern = '^[4-9].*' // 1st num is increased by 4. i.e, if 01.01.1985, D number would be 410185.
+
+      if (new RegExp(dnrValidationPattern).test(value)) {
+        return dnrValidator(value)
+      }
+      return fnrValidator(value)
+    },
+    [dnrValidator, fnrValidator]
+  )
+
+  const {
+    validate = true,
+    omitMask,
+    onBlurValidator = dnrAndFnrValidator,
+    validator,
+    width,
+    label: labelProp,
+  } = props
 
   const mask = useMemo(
     () =>
@@ -42,57 +83,24 @@ function NationalIdentityNumber(props: Props) {
           ],
     [omitMask]
   )
-  const validationPattern = '^[0-9]{11}$'
 
-  const fnrValidator = useCallback(
-    (value: string) => {
-      if (
-        new RegExp(validationPattern).test(value) &&
-        fnr(value).status === 'invalid'
-      ) {
-        return Error(errorFnr)
-      }
-    },
-    [errorFnr]
-  )
+  const onBlurValidatorToUse =
+    onBlurValidator === false ? undefined : onBlurValidator
 
-  const dnrValidator = useCallback(
-    (value: string) => {
-      const validationPattern = '^[4-7]([0-9]{10}$)' // 1st num is increased by 4. i.e, if 01.01.1985, D number would be 410185.
-      if (
-        new RegExp(validationPattern).test(value) &&
-        dnr(value).status === 'invalid'
-      ) {
-        return Error(errorDnr)
-      }
-    },
-    [errorDnr]
-  )
-
-  const dnrAndFnrValidator = useCallback(
-    (value: string) => {
-      return dnrValidator(value) || fnrValidator(value)
-    },
-    [dnrValidator, fnrValidator]
-  )
-
-  const StringFieldProps: Props = {
+  const StringFieldProps: StringFieldProps = {
     ...props,
-    pattern:
-      validate && props.pattern
-        ? props.pattern
-        : validate && !props.validator
-        ? validationPattern
-        : undefined,
-    label: props.label ?? label,
+    label: labelProp ?? label,
     errorMessages,
     mask,
-    width: props.width ?? 'medium',
+    width: width ?? 'medium',
     inputMode: 'numeric',
-    validator: validate
-      ? props.validator || dnrAndFnrValidator
-      : undefined,
-    exportValidators: { dnrValidator, fnrValidator },
+    validator: validate ? validator : undefined,
+    onBlurValidator: validate ? onBlurValidatorToUse : undefined,
+    exportValidators: {
+      dnrValidator,
+      fnrValidator,
+      dnrAndFnrValidator,
+    },
   }
 
   return <StringField {...StringFieldProps} />

@@ -6,6 +6,11 @@ export const SummaryListProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  transformLabel: {
+    doc: 'Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is a object containing the `convertJsxToString` function.',
+    type: 'function',
+    status: 'optional',
+  },
   inheritVisibility: {
     doc: 'Use this property to propagate the `inheritVisibility` property to all nested values.',
     type: 'boolean',

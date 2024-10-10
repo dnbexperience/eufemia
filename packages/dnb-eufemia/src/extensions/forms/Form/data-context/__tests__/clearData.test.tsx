@@ -1,5 +1,6 @@
 import React from 'react'
 import { act, render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { Field, Form } from '../../..'
 
 describe('Form.clearData', () => {
@@ -15,6 +16,28 @@ describe('Form.clearData', () => {
     act(() => Form.clearData('unique-id'))
 
     expect(document.querySelector('input')).toHaveValue('')
+  })
+
+  it('should not show an error when clearing a form in React.StrictMode', async () => {
+    render(
+      <React.StrictMode>
+        <Form.Handler id="unique-id">
+          <Field.String path="/myString" required />
+        </Form.Handler>
+        <button onClick={() => Form.clearData('unique-id')} />
+      </React.StrictMode>
+    )
+
+    const input = document.querySelector('input')
+    await userEvent.type(input, 'my string')
+    expect(input).toHaveValue('my string')
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+    const button = document.querySelector('button')
+    await userEvent.click(button)
+
+    expect(input).toHaveValue('')
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
   })
 
   it('should call onClear', () => {

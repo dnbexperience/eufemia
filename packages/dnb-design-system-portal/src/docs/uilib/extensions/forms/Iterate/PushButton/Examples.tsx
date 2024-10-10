@@ -1,15 +1,27 @@
+import { Flex } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Iterate, Field, Form } from '@dnb/eufemia/src/extensions/forms'
+import {
+  Iterate,
+  Field,
+  Form,
+  Value,
+} from '@dnb/eufemia/src/extensions/forms'
 
 export const PrimitiveItems = () => {
   return (
     <ComponentBox>
-      <Iterate.PushButton
-        text="Add another item"
-        value={['foo', 'bar']}
-        pushValue="new"
-        onChange={(value) => console.log('onChange', value)}
-      />
+      <Form.Handler>
+        <Flex.Stack>
+          <Iterate.Array path="/">
+            <Value.String itemPath="/" />
+          </Iterate.Array>
+          <Iterate.PushButton
+            text="Add another item"
+            path="/"
+            pushValue="new"
+          />
+        </Flex.Stack>
+      </Form.Handler>
     </ComponentBox>
   )
 }

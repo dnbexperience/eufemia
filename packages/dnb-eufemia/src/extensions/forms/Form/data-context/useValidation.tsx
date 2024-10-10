@@ -4,6 +4,7 @@ import {
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
 import DataContext, { ContextState } from '../../DataContext/Context'
+import { SharedAttachments } from '../../DataContext/Provider'
 import { EventStateObject, Path } from '../../types'
 
 type UseDataReturn = {
@@ -17,9 +18,7 @@ export default function useValidation(
   id: SharedStateId = undefined
 ): UseDataReturn {
   const { data } = useSharedState<
-    UseDataReturn & {
-      setSubmitState: ContextState['setSubmitState']
-    }
+    UseDataReturn & SharedAttachments<unknown>
   >(id + '-attachments')
 
   const fallback = useCallback(() => false, [])

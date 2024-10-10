@@ -16,6 +16,11 @@ export const ValueProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  transformLabel: {
+    doc: 'Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is a object containing the `convertJsxToString` function.',
+    type: 'function',
+    status: 'optional',
+  },
   inheritLabel: {
     doc: 'Use `true` to inherit the label from a visible (rendered) field with the same path.',
     type: 'boolean',

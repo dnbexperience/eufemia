@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useReducer,
-  useRef,
-} from 'react'
+import React, { useCallback, useContext, useReducer, useRef } from 'react'
 import classnames from 'classnames'
 import { Flex, HeightAnimation } from '../../../../components'
 import IterateItemContext, {
@@ -14,6 +8,10 @@ import ArrayItemAreaContext from './ArrayItemAreaContext'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
 import { ContainerMode } from './types'
+
+// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
+const useLayoutEffect =
+  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
 export type ArrayItemAreaProps = {
   /**
@@ -50,32 +48,46 @@ function ArrayItemArea(props: Props & FlexContainerProps) {
     useContext(FieldBoundaryContext) || {}
   localContextRef.current = useContext(IterateItemContext) || {}
   const nextFocusElementRef = useRef<HTMLElement>()
-  const { isNew, value } = localContextRef.current
-  if (hasSubmitError || !value) {
+  const { isNew } = localContextRef.current
+
+  const determineMode = useCallback(() => {
+    const { value, initialContainerMode } = localContextRef.current
+    if (initialContainerMode === 'auto') {
+      // - Set the container mode to "edit" if we have an error
+      if (
+        hasSubmitError ||
+        hasError ||
+        !value ||
+        (typeof value === 'object' && Object.keys(value).length === 0)
+      ) {
+        return 'edit'
+      }
+    }
+  }, [hasError, hasSubmitError])
+
+  if (determineMode() === 'edit') {
     localContextRef.current.containerMode = 'edit'
+    if (!localContextRef.current.modeOptions) {
+      localContextRef.current.modeOptions = {}
+    }
+    localContextRef.current.modeOptions.omitFocusManagement = true
   }
   if (localContextRef.current.containerMode === 'auto') {
     localContextRef.current.containerMode = 'view'
   }
 
-  const determineMode = useCallback(() => {
-    const { initialContainerMode, switchContainerMode } =
-      localContextRef.current
-    if (
-      mode === 'edit' &&
-      !hasSubmitError &&
-      initialContainerMode === 'auto'
-    ) {
-      // - Set the container mode to "edit" if we have an error
-      if (hasError && !isNew) {
-        switchContainerMode('edit', { omitFocusManagement: true })
+  useLayoutEffect(() => {
+    if (mode === 'edit') {
+      const editMode = determineMode()
+      if (editMode) {
+        const { switchContainerMode } = localContextRef.current
+        switchContainerMode?.(editMode, {
+          omitFocusManagement: true,
+          preventUpdate: true,
+        })
       }
     }
-  }, [hasError, hasSubmitError, isNew, mode])
-
-  useEffect(() => {
-    determineMode()
-  }, [determineMode])
+  }, [determineMode, mode])
 
   const { handleRemove, index, previousContainerMode, containerMode } =
     localContextRef.current
@@ -88,7 +100,7 @@ function ArrayItemArea(props: Props & FlexContainerProps) {
     forceUpdate()
   }, [])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!isRemoving.current) {
       // - Set the open state, if it's controlled
       if (typeof open !== 'undefined') {

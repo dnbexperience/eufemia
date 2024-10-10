@@ -14,7 +14,13 @@ import {
   mockImplementationForDirectionObserver,
   testDirectionObserver,
 } from '../../../fragments/drawer-list/__tests__/DrawerListTestMocks'
-import { fireEvent, render, act, waitFor } from '@testing-library/react'
+import {
+  fireEvent,
+  render,
+  act,
+  waitFor,
+  screen,
+} from '@testing-library/react'
 import {
   DrawerListData,
   DrawerListDataObject,
@@ -3269,6 +3275,25 @@ describe('Autocomplete component', () => {
     rerender(<Autocomplete input_value="second value" />)
 
     expect(input.value).toBe('second value')
+  })
+
+  it('should show the whole list when clicking the input after item selection', async () => {
+    render(<Autocomplete data={mockData} />)
+
+    const input = document.querySelector('input')
+
+    await userEvent.click(input)
+
+    expect(screen.getAllByRole('option')).toHaveLength(3)
+
+    await userEvent.type(input, 'aa')
+
+    expect(screen.getAllByRole('option')).toHaveLength(2)
+
+    await userEvent.click(screen.getAllByRole('option')[0])
+    await userEvent.click(input)
+
+    expect(screen.getAllByRole('option')).toHaveLength(3)
   })
 })
 

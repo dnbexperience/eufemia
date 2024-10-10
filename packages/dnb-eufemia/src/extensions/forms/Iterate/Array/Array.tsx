@@ -20,6 +20,7 @@ import {
 } from '../../../../components/flex/Container'
 import IterateItemContext, {
   IterateItemContextState,
+  ModeOptions,
 } from '../IterateItemContext'
 import SummaryListContext from '../../Value/SummaryList/SummaryListContext'
 import ValueBlockContext from '../../ValueBlock/ValueBlockContext'
@@ -117,7 +118,7 @@ function ArrayComponent(props: Props) {
       {
         current: ContainerMode
         previous?: ContainerMode
-        options?: { omitFocusManagement?: boolean }
+        options?: ModeOptions
       }
     >
   >({})
@@ -180,7 +181,9 @@ function ArrayComponent(props: Props) {
           modesRef.current[id].current = mode
           modesRef.current[id].options = options
           delete isNewRef.current?.[id]
-          forceUpdate()
+          if (options?.preventUpdate !== true) {
+            forceUpdate()
+          }
         },
         handleChange: (path, value) => {
           const newArrayValue = structuredClone(arrayValue)

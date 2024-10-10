@@ -49,6 +49,6 @@ describe('Value.PhoneNumber', () => {
     render(<Value.PhoneNumber value="+47 11223344" />)
 
     const element = document.querySelector('.dnb-forms-value-block')
-    expect(element).toHaveTextContent('0047 11 22 33 44')
+    expect(element).toHaveTextContent('+47 11 22 33 44')
   })
 })

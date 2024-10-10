@@ -57,6 +57,18 @@ import structuredClone from '@ungap/structured-clone'
 const useLayoutEffect =
   typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
+export type SharedAttachments<Data> = {
+  visibleDataHandler?: VisibleDataHandler<Data>
+  filterDataHandler?: FilterDataHandler<Data>
+  hasErrors?: ContextState['hasErrors']
+  hasFieldError?: ContextState['hasFieldError']
+  setShowAllErrors?: ContextState['setShowAllErrors']
+  setSubmitState?: ContextState['setSubmitState']
+  rerenderUseDataHook?: () => void
+  fieldConnectionsRef?: ContextState['fieldConnectionsRef']
+  clearData?: () => void
+}
+
 export interface Props<Data extends JsonObject>
   extends IsolationProviderProps<Data> {
   /**
@@ -291,6 +303,7 @@ export default function Provider<Data extends JsonObject>(
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Avoid triggering code that should only run initially
   }, [])
   const internalDataRef = useRef<Data>(initialData)
+  const isEmptyDataRef = useRef(false)
 
   // - Validator
   const ajvValidatorRef = useRef<ValidateFunction>()
@@ -586,16 +599,9 @@ export default function Provider<Data extends JsonObject>(
 
   // - Shared state
   const sharedData = useSharedState<Data & { clearForm?: () => void }>(id)
-  const sharedAttachments = useSharedState<{
-    visibleDataHandler?: VisibleDataHandler<Data>
-    filterDataHandler?: FilterDataHandler<Data>
-    hasErrors?: ContextState['hasErrors']
-    hasFieldError?: ContextState['hasFieldError']
-    setShowAllErrors?: ContextState['setShowAllErrors']
-    setSubmitState?: ContextState['setSubmitState']
-    rerenderUseDataHook?: () => void
-    fieldConnectionsRef?: ContextState['fieldConnectionsRef']
-  }>(id + '-attachments')
+  const sharedAttachments = useSharedState<SharedAttachments<Data>>(
+    id + '-attachments'
+  )
 
   const setSharedData = sharedData.set
   const extendSharedData = sharedData.extend
@@ -653,11 +659,10 @@ export default function Provider<Data extends JsonObject>(
     ) {
       cacheRef.current.shared = sharedData.data
 
-      // Reset the shared state, if clearForm is set
-      if (sharedData.data?.clearForm) {
-        const clear = (cacheRef.current.shared = clearedData as Data)
-        setSharedData(clear)
-        return clear
+      if (isEmptyDataRef.current) {
+        return (
+          Array.isArray(internalDataRef.current) ? [] : clearedData
+        ) as Data
       }
 
       return {
@@ -673,12 +678,31 @@ export default function Provider<Data extends JsonObject>(
     }
 
     return internalDataRef.current
-  }, [id, initialData, sharedData, data, setSharedData])
+  }, [id, initialData, sharedData, data])
 
   internalDataRef.current =
     props.path && pointer.has(internalData, props.path)
       ? pointer.get(internalData, props.path)
       : internalData
+
+  const clearData = useCallback(() => {
+    isEmptyDataRef.current = true
+    internalDataRef.current = ((typeof emptyData === 'function'
+      ? emptyData(internalDataRef.current)
+      : emptyData) ??
+      (Array.isArray(internalDataRef.current) ? [] : clearedData)) as Data
+
+    if (id) {
+      setSharedData?.(internalDataRef.current)
+    }
+
+    forceUpdate()
+    onClear?.()
+
+    requestAnimationFrame?.(() => {
+      isEmptyDataRef.current = false
+    }) // Delay so the field validation error message are not shown
+  }, [emptyData, id, onClear, setSharedData])
 
   useEffect(() => {
     if (sharedData.data?.clearForm) {
@@ -709,6 +733,7 @@ export default function Provider<Data extends JsonObject>(
         setShowAllErrors,
         setSubmitState,
         fieldConnectionsRef,
+        clearData,
       })
       if (filterSubmitData) {
         rerenderUseDataHook?.()
@@ -725,6 +750,7 @@ export default function Provider<Data extends JsonObject>(
     rerenderUseDataHook,
     setShowAllErrors,
     setSubmitState,
+    clearData,
   ])
 
   const storeInSession = useMemo(() => {
@@ -925,17 +951,6 @@ export default function Provider<Data extends JsonObject>(
       window?.scrollTo?.({ top: 0, behavior: 'smooth' })
     }
   }, [])
-
-  const clearData = useCallback(() => {
-    internalDataRef.current = (emptyData ?? clearedData) as Data
-
-    if (id) {
-      setSharedData?.(internalDataRef.current)
-    } else {
-      forceUpdate()
-    }
-    onClear?.()
-  }, [emptyData, id, onClear, setSharedData])
 
   /**
    * Shared logic dedicated to submit the whole form
@@ -1325,6 +1340,7 @@ export default function Provider<Data extends JsonObject>(
         id,
         data: internalDataRef.current,
         internalDataRef,
+        isEmptyDataRef,
         props,
         ...rest,
       }}

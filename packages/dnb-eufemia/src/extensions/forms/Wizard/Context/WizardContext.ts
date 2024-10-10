@@ -2,16 +2,22 @@ import React from 'react'
 import { EventReturnWithStateObject } from '../../types'
 import { VisibleWhen } from '../../Form/Visibility'
 
+export type OnStepsChangeMode = 'previous' | 'next' | 'stepListModified'
 export type OnStepChange = (
   index: StepIndex,
-  mode: 'previous' | 'next',
-  options: { preventNavigation: (shouldPrevent?: boolean) => void }
+  mode: OnStepsChangeMode,
+  options: {
+    id?: string
+    previousIndex: StepIndex
+    preventNavigation: (shouldPrevent?: boolean) => void
+  }
 ) =>
   | EventReturnWithStateObject
   | void
   | Promise<EventReturnWithStateObject | void>
 
 export type StepIndex = number
+export type Steps = Record<string, { title: string; id: string }>
 export type SetActiveIndexOptions = {
   skipStepChangeCall?: boolean
   skipStepChangeCallBeforeMounted?: boolean
@@ -23,7 +29,7 @@ export interface WizardContextState {
   totalSteps?: number
   activeIndex?: StepIndex
   stepElementRef?: React.MutableRefObject<HTMLElement>
-  titlesRef?: React.MutableRefObject<Record<string, string>>
+  stepsRef?: React.MutableRefObject<Steps>
   updateTitlesRef?: React.MutableRefObject<() => void>
   activeIndexRef?: React.MutableRefObject<StepIndex>
   totalStepsRef?: React.MutableRefObject<number>

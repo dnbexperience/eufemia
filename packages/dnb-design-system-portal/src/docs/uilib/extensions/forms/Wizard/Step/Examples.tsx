@@ -11,9 +11,14 @@ export const DynamicSteps = () => {
   return (
     <ComponentBox>
       <Form.Handler defaultData={{ activeSteps: 'group-1' }}>
-        <Wizard.Container>
+        <Wizard.Container
+          onStepChange={(index, mode, args) => {
+            console.log('onStepChange', index, mode, args.id)
+          }}
+        >
           <Wizard.Step
             title="Step A"
+            id="step-a"
             activeWhen={{ path: '/activeSteps', hasValue: 'group-1' }}
           >
             <Form.MainHeading>Step A</Form.MainHeading>
@@ -22,6 +27,7 @@ export const DynamicSteps = () => {
 
           <Wizard.Step
             title="Step B"
+            id="step-b"
             activeWhen={{ path: '/activeSteps', hasValue: 'group-1' }}
           >
             <Form.MainHeading>Step B</Form.MainHeading>
@@ -30,6 +36,7 @@ export const DynamicSteps = () => {
 
           <Wizard.Step
             title="Step C"
+            id="step-c"
             activeWhen={{
               path: '/activeSteps',
               hasValue: (value: string) =>
@@ -42,6 +49,7 @@ export const DynamicSteps = () => {
 
           <Wizard.Step
             title="Step D"
+            id="step-d"
             activeWhen={{ path: '/activeSteps', hasValue: 'group-2' }}
           >
             <Form.MainHeading>Step D</Form.MainHeading>

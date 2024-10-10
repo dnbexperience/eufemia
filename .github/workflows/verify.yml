@@ -38,12 +38,12 @@ jobs:
           persist-credentials: false
 
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: 'package.json'
 
       - name: Use node_modules cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: modules-cache
         with:
           path: '**/node_modules'
@@ -92,12 +92,12 @@ jobs:
           fetch-depth: 20 # The "postbuild:ci" method "getCommittedFiles" needs all history
 
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: 'package.json'
 
       - name: Use node_modules cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: modules-cache
         with:
           path: '**/node_modules'

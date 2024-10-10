@@ -4,6 +4,7 @@ import { ContainerMode } from './Array/types'
 
 export type ModeOptions = {
   omitFocusManagement?: boolean
+  preventUpdate?: boolean
 }
 
 export interface IterateItemContextState {

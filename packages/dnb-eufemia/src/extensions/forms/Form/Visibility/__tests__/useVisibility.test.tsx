@@ -1,7 +1,8 @@
 import React from 'react'
-import { renderHook } from '@testing-library/react'
+import { fireEvent, renderHook } from '@testing-library/react'
 import { Provider } from '../../../DataContext'
 import useVisibility from '../useVisibility'
+import { Field } from '../../..'
 
 describe('useVisibility', () => {
   describe('visibility', () => {
@@ -121,7 +122,7 @@ describe('useVisibility', () => {
     })
 
     it('does not render children when target path is not truthy', () => {
-      const { result } = renderHook(() => useVisibility(), {
+      const { result } = renderHook(useVisibility, {
         wrapper: ({ children }) => (
           <Provider data={{ isFalsy: null }}>{children}</Provider>
         ),
@@ -134,7 +135,7 @@ describe('useVisibility', () => {
     })
 
     it('does not render children when target path is not defined', () => {
-      const { result } = renderHook(() => useVisibility(), {
+      const { result } = renderHook(useVisibility, {
         wrapper: ({ children }) => (
           <Provider data={{ isFalse: false }}>{children}</Provider>
         ),
@@ -164,7 +165,7 @@ describe('useVisibility', () => {
     })
 
     it('renders children when target path is not defined', () => {
-      const { result } = renderHook(() => useVisibility(), {
+      const { result } = renderHook(useVisibility, {
         wrapper: ({ children }) => (
           <Provider data={{ isFalse: false }}>{children}</Provider>
         ),
@@ -177,7 +178,7 @@ describe('useVisibility', () => {
     })
 
     it('does not render children when target path is not falsy', () => {
-      const { result } = renderHook(() => useVisibility(), {
+      const { result } = renderHook(useVisibility, {
         wrapper: ({ children }) => (
           <Provider data={{ isTruthy: 'value' }}>{children}</Provider>
         ),
@@ -210,7 +211,7 @@ describe('useVisibility', () => {
     })
 
     it('should not render children when hasValue does not match', () => {
-      const { result } = renderHook(() => useVisibility(), {
+      const { result } = renderHook(useVisibility, {
         wrapper: ({ children }) => (
           <Provider data={{ myPath: 'foo' }}>{children}</Provider>
         ),
@@ -226,7 +227,7 @@ describe('useVisibility', () => {
     })
 
     it('should not render children when path does not match', () => {
-      const { result } = renderHook(() => useVisibility(), {
+      const { result } = renderHook(useVisibility, {
         wrapper: ({ children }) => (
           <Provider data={{ myPath: 'foo' }}>{children}</Provider>
         ),
@@ -266,7 +267,7 @@ describe('useVisibility', () => {
     it('should not render children when withValue does not match', () => {
       const log = jest.spyOn(console, 'warn').mockImplementation()
 
-      const { result } = renderHook(() => useVisibility(), {
+      const { result } = renderHook(useVisibility, {
         wrapper: ({ children }) => (
           <Provider data={{ myPath: 'foo' }}>{children}</Provider>
         ),
@@ -281,6 +282,151 @@ describe('useVisibility', () => {
       ).toBe(false)
 
       log.mockRestore()
+    })
+
+    describe('isValid', () => {
+      it('should return false when path is not existing', () => {
+        const { result } = renderHook(useVisibility, {
+          wrapper: ({ children }) => <Provider>{children}</Provider>,
+        })
+
+        expect(
+          result.current.check({
+            visibleWhen: {
+              path: '/something',
+              isValid: true,
+            },
+          })
+        ).toBe(false)
+      })
+
+      it('should return false when path did validate', () => {
+        const { result } = renderHook(useVisibility, {
+          wrapper: ({ children }) => (
+            <Provider>
+              <Field.Number path="/myPath" required minimum={2} />
+              {children}
+            </Provider>
+          ),
+        })
+
+        expect(
+          result.current.check({
+            visibleWhen: {
+              path: '/myPath',
+              isValid: true,
+            },
+          })
+        ).toBe(false)
+      })
+
+      it('should return true children when path did validate initially', () => {
+        const { result } = renderHook(useVisibility, {
+          wrapper: ({ children }) => (
+            <Provider>
+              <Field.Number path="/myPath" />
+              {children}
+            </Provider>
+          ),
+        })
+
+        expect(
+          result.current.check({
+            visibleWhen: {
+              path: '/myPath',
+              isValid: true,
+            },
+          })
+        ).toBe(true)
+      })
+
+      it('should return true when path did validate after blur', () => {
+        const { result } = renderHook(useVisibility, {
+          wrapper: ({ children }) => (
+            <Provider>
+              <Field.Number path="/myPath" required minimum={2} />
+              {children}
+            </Provider>
+          ),
+        })
+
+        expect(
+          result.current.check({
+            visibleWhen: {
+              path: '/myPath',
+              isValid: true,
+            },
+          })
+        ).toBe(false)
+
+        fireEvent.focus(document.querySelector('input'))
+        fireEvent.change(document.querySelector('input'), {
+          target: { value: '2' },
+        })
+        expect(
+          result.current.check({
+            visibleWhen: {
+              path: '/myPath',
+              isValid: true,
+            },
+          })
+        ).toBe(false)
+
+        fireEvent.blur(document.querySelector('input'))
+        expect(
+          result.current.check({
+            visibleWhen: {
+              path: '/myPath',
+              isValid: true,
+            },
+          })
+        ).toBe(true)
+      })
+
+      it('should return true immediately when "continuousValidation" is true', () => {
+        const { result } = renderHook(useVisibility, {
+          wrapper: ({ children }) => (
+            <Provider>
+              <Field.Number path="/myPath" required minimum={2} />
+              {children}
+            </Provider>
+          ),
+        })
+
+        expect(
+          result.current.check({
+            visibleWhen: {
+              path: '/myPath',
+              isValid: true,
+              continuousValidation: true,
+            },
+          })
+        ).toBe(false)
+
+        fireEvent.focus(document.querySelector('input'))
+        fireEvent.change(document.querySelector('input'), {
+          target: { value: '2' },
+        })
+        expect(
+          result.current.check({
+            visibleWhen: {
+              path: '/myPath',
+              isValid: true,
+              continuousValidation: true,
+            },
+          })
+        ).toBe(true)
+
+        fireEvent.blur(document.querySelector('input'))
+        expect(
+          result.current.check({
+            visibleWhen: {
+              path: '/myPath',
+              isValid: true,
+            },
+          })
+        ).toBe(true)
+      })
     })
   })
 
@@ -304,7 +450,7 @@ describe('useVisibility', () => {
     })
 
     it('should not render children when hasValue does not match', () => {
-      const { result } = renderHook(() => useVisibility(), {
+      const { result } = renderHook(useVisibility, {
         wrapper: ({ children }) => (
           <Provider data={{ myPath: 'foo' }}>{children}</Provider>
         ),
@@ -317,6 +463,106 @@ describe('useVisibility', () => {
           },
         })
       ).toBe(true)
+    })
+
+    describe('isValid', () => {
+      it('should return true when path is not existing', () => {
+        const { result } = renderHook(useVisibility, {
+          wrapper: ({ children }) => <Provider>{children}</Provider>,
+        })
+
+        expect(
+          result.current.check({
+            visibleWhenNot: {
+              path: '/something',
+              isValid: true,
+            },
+          })
+        ).toBe(true)
+      })
+
+      it('should return true when path did validate', () => {
+        const { result } = renderHook(useVisibility, {
+          wrapper: ({ children }) => (
+            <Provider>
+              <Field.Number path="/myPath" required minimum={2} />
+              {children}
+            </Provider>
+          ),
+        })
+
+        expect(
+          result.current.check({
+            visibleWhenNot: {
+              path: '/myPath',
+              isValid: true,
+            },
+          })
+        ).toBe(true)
+      })
+
+      it('should return false children when path did validate initially', () => {
+        const { result } = renderHook(useVisibility, {
+          wrapper: ({ children }) => (
+            <Provider>
+              <Field.Number path="/myPath" />
+              {children}
+            </Provider>
+          ),
+        })
+
+        expect(
+          result.current.check({
+            visibleWhenNot: {
+              path: '/myPath',
+              isValid: true,
+            },
+          })
+        ).toBe(false)
+      })
+
+      it('should return false when path did validate after blur', () => {
+        const { result } = renderHook(useVisibility, {
+          wrapper: ({ children }) => (
+            <Provider>
+              <Field.Number path="/myPath" required minimum={2} />
+              {children}
+            </Provider>
+          ),
+        })
+
+        expect(
+          result.current.check({
+            visibleWhenNot: {
+              path: '/myPath',
+              isValid: true,
+            },
+          })
+        ).toBe(true)
+
+        fireEvent.focus(document.querySelector('input'))
+        fireEvent.change(document.querySelector('input'), {
+          target: { value: '2' },
+        })
+        expect(
+          result.current.check({
+            visibleWhenNot: {
+              path: '/myPath',
+              isValid: true,
+            },
+          })
+        ).toBe(true)
+
+        fireEvent.blur(document.querySelector('input'))
+        expect(
+          result.current.check({
+            visibleWhenNot: {
+              path: '/myPath',
+              isValid: true,
+            },
+          })
+        ).toBe(false)
+      })
     })
   })
 })

@@ -9,6 +9,7 @@ import IterateItemContext from '../IterateItemContext'
 import Toolbar from '../Toolbar'
 import EditButton from './EditButton'
 import RemoveButton from './RemoveButton'
+import { replaceItemNo } from '../ItemNo'
 
 export type Props = {
   /**
@@ -37,19 +38,9 @@ function ViewContainer(props: AllProps) {
     ...restProps
   } = props || {}
   const { index, arrayValue } = useContext(IterateItemContext)
-
-  let itemTitle = title
-  let ariaLabel = useMemo(() => convertJsxToString(itemTitle), [itemTitle])
-  if (ariaLabel.includes('{itemN')) {
-    /**
-     * {itemNr} is deprecated, and can be removed in v11 in favor of {itemNo}
-     * So in v11 we can use '{itemNo}' instead of a regex
-     */
-    itemTitle = ariaLabel = ariaLabel.replace(
-      /\{itemN(r|o)\}/g,
-      String(index + 1)
-    )
-  }
+  const itemTitle = useMemo(() => {
+    return replaceItemNo(title, index)
+  }, [index, title])
 
   let toolbarElement = toolbar
   if (toolbarVariant === 'minimumOneItem' && arrayValue.length <= 1) {
@@ -69,7 +60,7 @@ function ViewContainer(props: AllProps) {
   return (
     <ArrayItemArea
       mode="view"
-      ariaLabel={ariaLabel}
+      ariaLabel={convertJsxToString(itemTitle)}
       className={classnames('dnb-forms-section-view-block', className)}
       {...restProps}
     >

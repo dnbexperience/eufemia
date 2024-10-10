@@ -3,12 +3,9 @@ import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import { Props } from '..'
 import { Field, Form, Validator } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
+import userEvent from '@testing-library/user-event'
 
 const nb = nbNO['nb-NO']
-
-async function expectNever(callable: () => unknown): Promise<void> {
-  await expect(() => waitFor(callable)).rejects.toEqual(expect.anything())
-}
 
 describe('Field.NationalIdentityNumber', () => {
   it('should render with props', () => {
@@ -53,18 +50,88 @@ describe('Field.NationalIdentityNumber', () => {
     expect(screen.queryByRole('alert')).toBeInTheDocument()
   })
 
-  it('should execute validateInitially if required', async () => {
-    const { rerender } = render(
-      <Field.NationalIdentityNumber required validateInitially />
-    )
+  it('should validate "required"', async () => {
+    render(<Field.NationalIdentityNumber required validateInitially />)
 
     expect(screen.queryByRole('alert')).toBeInTheDocument()
+    expect(screen.queryByRole('alert')).toHaveTextContent(
+      nb.NationalIdentityNumber.errorRequired
+    )
+  })
 
-    rerender(<Field.NationalIdentityNumber validateInitially />)
+  it('should validate internal validator', async () => {
+    const { rerender } = render(
+      <Field.NationalIdentityNumber
+        validateInitially
+        pattern=".*"
+        value="123"
+      />
+    )
 
     await waitFor(() => {
-      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        nb.NationalIdentityNumber.errorFnr
+      )
     })
+
+    rerender(
+      <Field.NationalIdentityNumber
+        validateInitially
+        pattern=".*"
+        value="456"
+      />
+    )
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        nb.NationalIdentityNumber.errorDnr
+      )
+    })
+  })
+
+  it('should support custom pattern', async () => {
+    render(
+      <Form.Handler>
+        <Field.NationalIdentityNumber
+          validateInitially
+          value="58081633086" // valid, but not in the pattern
+          pattern="^6"
+        />
+      </Form.Handler>
+    )
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert').textContent).toBe(
+        nb.NationalIdentityNumber.errorFnr
+      )
+    })
+  })
+
+  it('should support custom pattern without validator', async () => {
+    const dummyValidator = jest.fn()
+
+    render(
+      <Form.Handler>
+        <Field.NationalIdentityNumber
+          validateInitially
+          value="6"
+          pattern="^6"
+          onBlurValidator={() => {
+            return [dummyValidator]
+          }}
+        />
+      </Form.Handler>
+    )
+
+    await expect(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    }).neverToResolve()
+
+    expect(dummyValidator).toHaveBeenCalledTimes(1)
+    expect(dummyValidator).toHaveBeenCalledWith('6', expect.anything())
   })
 
   it('should validate given function', async () => {
@@ -111,8 +178,8 @@ describe('Field.NationalIdentityNumber', () => {
         errorMessages: expect.objectContaining({
           maxLength: expect.stringContaining('{maxLength}'),
           minLength: expect.stringContaining('{minLength}'),
-          pattern: expect.stringContaining('11'),
-          required: expect.stringContaining('11'),
+          pattern: expect.stringContaining('fødselsnummer'),
+          required: expect.stringContaining('fødselsnummer'),
           errorDnr: expect.stringContaining('d-nummer'),
           errorFnr: expect.stringContaining('fødselsnummer'),
         }),
@@ -128,35 +195,86 @@ describe('Field.NationalIdentityNumber', () => {
     expect(input).toHaveAttribute('inputmode', 'numeric')
   })
 
-  it('should not validate pattern when validate false', async () => {
-    const invalidPattern = '1234'
-    render(
-      <Field.NationalIdentityNumber
-        value={invalidPattern}
-        validateInitially
-        validate={false}
-      />
-    )
-    await expectNever(() => {
-      // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
+  it('should not provide an error for empty/undefined value when not required', async () => {
+    render(<Field.NationalIdentityNumber />)
+
+    const element = document.querySelector('input')
+    await userEvent.type(element, '12312312312')
+    expect(element.value).toBe('123123 12312')
+    await userEvent.type(element, '{Backspace>11}')
+    expect(element).toHaveValue('')
+
+    element.blur()
+
+    await expect(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
+    }).neverToResolve()
+  })
+
+  it('should provide an error for empty/undefined value when required', async () => {
+    render(<Field.NationalIdentityNumber required />)
+
+    const element = document.querySelector('input')
+    await userEvent.type(element, '12312312312')
+    expect(element.value).toBe('123123 12312')
+    await userEvent.type(element, '{Backspace>11}')
+    expect(element).toHaveValue('')
+
+    element.blur()
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        nb.NationalIdentityNumber.errorRequired
+      )
     })
   })
 
-  it('should not validate custom pattern when validate false', async () => {
-    const invalidPattern = '1234'
+  it('should display error if required and validateInitially', async () => {
+    render(<Field.NationalIdentityNumber required validateInitially />)
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        nb.NationalIdentityNumber.errorRequired
+      )
+    })
+  })
+
+  it('should display error when validateInitially and value', async () => {
+    render(<Field.NationalIdentityNumber validateInitially value="123" />)
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        nb.NationalIdentityNumber.errorFnr
+      )
+    })
+  })
+
+  it('should not display error when validateInitially and no value', async () => {
+    render(<Field.NationalIdentityNumber validateInitially />)
+
+    await expect(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    }).neverToResolve()
+  })
+
+  it('should not validate when onBlurValidator is false', async () => {
+    const invalidFnr = '29020112345'
     render(
       <Field.NationalIdentityNumber
-        pattern="[A-Z]"
-        value={invalidPattern}
+        value={invalidFnr}
         validateInitially
-        validate={false}
+        onBlurValidator={false}
       />
     )
-    await expectNever(() => {
-      // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
+
+    fireEvent.blur(document.querySelector('input'))
+
+    await expect(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
-    })
+    }).neverToResolve()
   })
 
   it('should not validate dnum when validate false', async () => {
@@ -168,10 +286,10 @@ describe('Field.NationalIdentityNumber', () => {
         validate={false}
       />
     )
-    await expectNever(() => {
-      // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
-      expect(screen.queryByRole('alert')).toBeInTheDocument()
-    })
+
+    fireEvent.blur(document.querySelector('input'))
+
+    expect(screen.queryByRole('alert')).toBeNull()
   })
 
   it('should not validate fnr when validate false', async () => {
@@ -183,46 +301,40 @@ describe('Field.NationalIdentityNumber', () => {
         validate={false}
       />
     )
-    await expectNever(() => {
-      // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
-      expect(screen.queryByRole('alert')).toBeInTheDocument()
-    })
+
+    fireEvent.blur(document.querySelector('input'))
+
+    expect(screen.queryByRole('alert')).toBeNull()
   })
 
   it('should not validate custom validator when validate false', async () => {
-    const text = 'Custom Error message'
-    const validator = jest.fn((value) => {
-      return value.length < 4 ? new Error(text) : undefined
-    })
+    const customValidator: Validator<string> = (value) => {
+      if (value?.length < 4) {
+        return new Error('My error')
+      }
+    }
 
     render(
       <Field.NationalIdentityNumber
         value="123"
         required
-        validator={validator}
+        validator={customValidator}
         validateInitially
         validate={false}
       />
     )
 
-    await expectNever(() => {
-      // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
-      expect(screen.queryByRole('alert')).toBeInTheDocument()
-    })
+    expect(screen.queryByRole('alert')).toBeNull()
   })
 
   it('should not validate extended validator when validate false', async () => {
-    const invalidFnr = '29040112345'
+    const invalidFnrBornInApril = '29040112345'
 
-    const bornInApril = (value: string) =>
-      value.substring(2, 4) === '04'
-        ? { status: 'valid' }
-        : { status: 'invalid' }
+    const bornInApril = (value: string) => value.substring(2, 4) === '04'
 
     const customValidator: Validator<string> = (value, { validators }) => {
       const { dnrValidator, fnrValidator } = validators
-      const result = bornInApril(value)
-      if (result.status === 'invalid') {
+      if (bornInApril(value)) {
         return new Error('custom error')
       }
 
@@ -231,16 +343,14 @@ describe('Field.NationalIdentityNumber', () => {
 
     render(
       <Field.NationalIdentityNumber
-        value={invalidFnr}
+        value={invalidFnrBornInApril}
         validateInitially
         validate={false}
         validator={customValidator}
       />
     )
-    await expectNever(() => {
-      // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
-      expect(screen.queryByRole('alert')).toBeInTheDocument()
-    })
+
+    expect(screen.queryByRole('alert')).toBeNull()
   })
 
   describe('should validate Norwegian D number', () => {
@@ -266,16 +376,22 @@ describe('Field.NationalIdentityNumber', () => {
       render(
         <Field.NationalIdentityNumber value={dNum} validateInitially />
       )
-      await expectNever(() => {
-        // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
-        expect(screen.queryByRole('alert')).toBeInTheDocument()
-      })
+
+      fireEvent.blur(document.querySelector('input'))
+
+      expect(screen.queryByRole('alert')).toBeNull()
     })
 
     it.each(invalidDNum)('Invalid D number: %s', async (dNum) => {
       render(
-        <Field.NationalIdentityNumber value={dNum} validateInitially />
+        <Field.NationalIdentityNumber
+          value={dNum}
+          validateUnchanged
+          validateInitially
+        />
       )
+
+      fireEvent.blur(document.querySelector('input'))
 
       await waitFor(() => {
         expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -314,10 +430,10 @@ describe('Field.NationalIdentityNumber', () => {
         render(
           <Field.NationalIdentityNumber validateInitially value={fnrNum} />
         )
-        await expectNever(() => {
-          // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-        })
+
+        fireEvent.blur(document.querySelector('input'))
+
+        expect(screen.queryByRole('alert')).toBeNull()
       }
     )
 
@@ -325,8 +441,15 @@ describe('Field.NationalIdentityNumber', () => {
       'Invalid national identity number(fnr): %s',
       async (fnrNum) => {
         render(
-          <Field.NationalIdentityNumber validateInitially value={fnrNum} />
+          <Field.NationalIdentityNumber
+            validateInitially
+            validateUnchanged
+            value={fnrNum}
+          />
         )
+
+        fireEvent.blur(document.querySelector('input'))
+
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
@@ -361,13 +484,13 @@ describe('Field.NationalIdentityNumber', () => {
         : { status: 'invalid' }
 
     const customValidator: Validator<string> = (value, { validators }) => {
-      const { dnrValidator, fnrValidator } = validators
+      const { dnrAndFnrValidator } = validators
       const result = bornInApril(value)
       if (result.status === 'invalid') {
         return new Error('custom error')
       }
 
-      return [dnrValidator, fnrValidator]
+      return [dnrAndFnrValidator]
     }
 
     it.each(validIds)('Valid identity number: %s', async (fnrNum) => {
@@ -378,10 +501,8 @@ describe('Field.NationalIdentityNumber', () => {
           value={fnrNum}
         />
       )
-      await expectNever(() => {
-        // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
-        expect(screen.queryByRole('alert')).toBeInTheDocument()
-      })
+
+      expect(screen.queryByRole('alert')).toBeNull()
     })
 
     it.each(invalidIds)('Invalid identity number: %s', async (id) => {
@@ -389,9 +510,11 @@ describe('Field.NationalIdentityNumber', () => {
         <Field.NationalIdentityNumber
           validator={customValidator}
           validateInitially
+          validateUnchanged
           value={id}
         />
       )
+
       await waitFor(() => {
         expect(screen.queryByRole('alert')).toBeInTheDocument()
         expect(screen.queryByRole('alert')).toHaveTextContent(
@@ -405,9 +528,11 @@ describe('Field.NationalIdentityNumber', () => {
         <Field.NationalIdentityNumber
           validator={customValidator}
           validateInitially
+          validateUnchanged
           value={dNum}
         />
       )
+
       await waitFor(() => {
         expect(screen.queryByRole('alert')).toBeInTheDocument()
         expect(screen.queryByRole('alert')).toHaveTextContent(
@@ -423,9 +548,11 @@ describe('Field.NationalIdentityNumber', () => {
           <Field.NationalIdentityNumber
             validator={customValidator}
             validateInitially
+            validateUnchanged
             value={fnr}
           />
         )
+
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(

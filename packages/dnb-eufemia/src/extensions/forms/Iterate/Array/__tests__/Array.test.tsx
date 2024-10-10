@@ -640,6 +640,61 @@ describe('Iterate.Array', () => {
         )
       })
 
+      it('should handle "defaultValue" (with null) in React.StrictMode', () => {
+        const onSubmit = jest.fn()
+
+        render(
+          <React.StrictMode>
+            <Form.Handler onSubmit={onSubmit}>
+              <Iterate.Array path="/myList" defaultValue={[null]}>
+                <Field.String itemPath="/" defaultValue="foo" />
+              </Iterate.Array>
+            </Form.Handler>
+          </React.StrictMode>
+        )
+
+        const form = document.querySelector('form')
+        const input = document.querySelector('input')
+
+        expect(input).toHaveValue('foo')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { myList: ['foo'] },
+          expect.anything()
+        )
+      })
+
+      it('should not set defaultValue when item gets removed', () => {
+        const onSubmit = jest.fn()
+
+        render(
+          <React.StrictMode>
+            <Form.Handler onSubmit={onSubmit}>
+              <Iterate.Array path="/myList" defaultValue={[null]}>
+                <Field.String itemPath="/" defaultValue="foo" />
+                <Iterate.RemoveButton />
+              </Iterate.Array>
+            </Form.Handler>
+          </React.StrictMode>
+        )
+
+        const form = document.querySelector('form')
+        const input = document.querySelector('input')
+
+        expect(input).toHaveValue('foo')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { myList: ['foo'] },
+          expect.anything()
+        )
+      })
+
       it('should set empty array in the data context', () => {
         const onSubmit = jest.fn()
 
@@ -1317,6 +1372,92 @@ describe('Iterate.Array', () => {
       )
 
       expect(container.querySelector('.dnb-flex-container')).toBeNull()
+    })
+  })
+
+  describe('value and defaultValue', () => {
+    it('should support "value" on fields inside iterate', () => {
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler
+          onSubmit={onSubmit}
+          data={{
+            myList: ['', undefined, null, 'something'],
+          }}
+        >
+          <Iterate.Array path="/myList">
+            {(value, index) => {
+              return (
+                <Field.String itemPath="/" value={`value ${index + 1}`} />
+              )
+            }}
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      const [first, second, third, forth] = Array.from(
+        document.querySelectorAll('input')
+      )
+
+      expect(first).toHaveValue('value 1')
+      expect(second).toHaveValue('value 2')
+      expect(third).toHaveValue('value 3')
+      expect(forth).toHaveValue('value 4')
+
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        {
+          myList: ['value 1', 'value 2', 'value 3', 'value 4'],
+        },
+        expect.anything()
+      )
+    })
+
+    it('should support "defaultValue" on fields inside iterate', () => {
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler
+          onSubmit={onSubmit}
+          data={{
+            myList: [undefined, null, 'something'],
+          }}
+        >
+          <Iterate.Array path="/myList">
+            {(value, index) => {
+              return (
+                <Field.String
+                  itemPath="/"
+                  defaultValue={`default value ${index + 1}`}
+                />
+              )
+            }}
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      const [first, second, third] = Array.from(
+        document.querySelectorAll('input')
+      )
+
+      expect(first).toHaveValue('default value 1')
+      expect(second).toHaveValue('default value 2')
+      expect(third).toHaveValue('something')
+
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        {
+          myList: ['default value 1', 'default value 2', 'something'],
+        },
+        expect.anything()
+      )
     })
   })
 

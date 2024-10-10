@@ -29,6 +29,7 @@ import {
   matchAll,
   convertJsxToString,
   escapeRegexChars,
+  removeUndefinedProps,
 } from '../component-helper'
 
 beforeAll(() => {
@@ -662,5 +663,28 @@ describe('"escapeRegexChars" should', () => {
     expect(escapeRegexChars(text)).toBe(
       '\\-\\\\\\{\\}\\(\\)\\*\\+\\?\\.\\,\\^\\$\\|\\#'
     )
+  })
+})
+
+describe('"removeUndefinedProps" should', () => {
+  const object = {
+    foo: undefined,
+    bar: null,
+    baz: undefined,
+    qux: null,
+    quux: undefined,
+  }
+
+  it('remove undefined props', () => {
+    expect(removeUndefinedProps(object)).toEqual({
+      bar: null,
+      baz: undefined,
+      qux: null,
+      quux: undefined,
+    })
+  })
+
+  it('remove support undefined as data', () => {
+    expect(removeUndefinedProps(undefined)).toBeUndefined()
   })
 })
