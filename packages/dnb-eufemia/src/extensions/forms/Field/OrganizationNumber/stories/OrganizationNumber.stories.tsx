@@ -59,7 +59,7 @@ export function OrganizationNumberDefault() {
   )
 }
 
-export function OrganizationNumberValidator() {
+export function OrganizationNumberOnBlurValidator() {
   return (
     <>
       <Field.OrganizationNumber
@@ -86,6 +86,114 @@ export function OrganizationNumberValidator() {
       <Field.OrganizationNumber
         validateInitially
         onBlurValidator={myOrganizationNumberValidator}
+        value="321321321"
+      />
+    </>
+  )
+}
+
+export function OrganizationNumberValidator() {
+  return (
+    <>
+      <Field.OrganizationNumber
+        onBlurValidator={false}
+        validator={myOrganizationNumberValidator}
+      />
+      <Field.OrganizationNumber
+        onBlurValidator={false}
+        validator={myOrganizationNumberValidator}
+        value="123123123"
+      />
+      <Field.OrganizationNumber
+        onBlurValidator={false}
+        validator={myOrganizationNumberValidator}
+        value="321321321"
+      />
+      <h2>Validate Initially:</h2>
+      <Field.OrganizationNumber
+        onBlurValidator={false}
+        validateInitially
+        validator={myOrganizationNumberValidator}
+      />
+      <Field.OrganizationNumber
+        validateInitially
+        onBlurValidator={false}
+        validator={myOrganizationNumberValidator}
+        value="123123123"
+      />
+      <Field.OrganizationNumber
+        validateInitially
+        onBlurValidator={false}
+        validator={myOrganizationNumberValidator}
+        value="321321321"
+      />
+    </>
+  )
+}
+
+export function OrganizationNumberValidatorSimple() {
+  const simpleValidator = (value) => {
+    return value?.length < 4 ? Error('At least 4 characters') : undefined
+  }
+
+  return (
+    <>
+      <Field.OrganizationNumber
+        onBlurValidator={false}
+        validator={simpleValidator}
+      />
+      <Field.OrganizationNumber
+        onBlurValidator={false}
+        validator={simpleValidator}
+        value="123123123"
+      />
+      <Field.OrganizationNumber
+        onBlurValidator={false}
+        validator={simpleValidator}
+        value="321321321"
+      />
+      <h2>Validate Initially:</h2>
+      <Field.OrganizationNumber
+        validateInitially
+        onBlurValidator={false}
+        validator={simpleValidator}
+      />
+      <Field.OrganizationNumber
+        validateInitially
+        onBlurValidator={false}
+        validator={simpleValidator}
+        value="123123123"
+      />
+      <Field.OrganizationNumber
+        validateInitially
+        onBlurValidator={false}
+        validator={simpleValidator}
+        value="321321321"
+      />
+    </>
+  )
+}
+
+export function StringValidatorSimple() {
+  const simpleValidator = (value) => {
+    return value?.length < 4 ? Error('At least 4 characters') : undefined
+  }
+
+  return (
+    <>
+      <Field.String validator={simpleValidator} />
+      <Field.String validator={simpleValidator} value="123123123" />
+      <Field.String validator={simpleValidator} value="321321321" />
+      <h2>Validate Initially:</h2>
+      <Field.String validateInitially validator={simpleValidator} />
+      <Field.String
+        validateInitially
+        validator={simpleValidator}
+        value="123123123"
+      />
+      <Field.String
+        validateInitially
+        validator={simpleValidator}
         value="321321321"
       />
     </>
