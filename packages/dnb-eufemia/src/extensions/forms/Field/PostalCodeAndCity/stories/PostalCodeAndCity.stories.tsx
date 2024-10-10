@@ -1,4 +1,4 @@
-import { Field } from '../../..'
+import { Field, Form, Value } from '../../..'
 
 export default {
   title: 'Eufemia/Extensions/Forms/PostalCodeAndCity',
@@ -21,5 +21,27 @@ export const PostalCodeAndCity = () => {
         )
       }
     />
+  )
+}
+
+export function PostalCodeAndCityCountryCodeSelection() {
+  return (
+    <>
+      <Form.Handler>
+        <Field.Selection path="/country" defaultValue="no" variant="radio">
+          <Field.Option value="no" label="Norway" />
+          <Field.Option value="de" label="Germany" />
+        </Field.Selection>
+        <Field.PostalCodeAndCity
+          country="/country"
+          postalCode={{ path: '/postalCode' }}
+          city={{ path: '/city' }}
+        />
+        <Value.PostalCodeAndCity
+          postalCode={{ path: '/postalCode' }}
+          city={{ path: '/city' }}
+        />
+      </Form.Handler>
+    </>
   )
 }

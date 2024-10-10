@@ -1,25 +1,57 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import classnames from 'classnames'
 import { Props as FieldBlockProps } from '../../FieldBlock'
 import StringField, { Props as StringFieldProps } from '../String'
 import CompositionField from '../Composition'
-import { FieldHelpProps } from '../../types'
+import { FieldHelpProps, Path } from '../../types'
 import useTranslation from '../../hooks/useTranslation'
+import useDataValue from '../../hooks/useDataValue'
 
 export type Props = FieldHelpProps &
   Omit<FieldBlockProps, 'children'> &
-  Partial<Record<'postalCode' | 'city', StringFieldProps>>
+  Partial<Record<'postalCode' | 'city', StringFieldProps>> & {
+    /**
+     * Defines which country the postal code and city is for.
+     * Setting it to anything other than `no` will remove the default norwegian postal code pattern.
+     * You can also use the value of another field to define the country, by using a path value i.e. `/myCountryPath`.
+     * Default: `no`
+     */
+    // Add type for all country codes?
+    country?: Path | 'no' | string
+  }
 
 function PostalCodeAndCity(props: Props) {
   const translations = useTranslation()
+  const { getSourceValue } = useDataValue()
 
   const {
     postalCode = {},
     city = {},
     help,
     width = 'large',
+    country = 'no',
     ...fieldBlockProps
   } = props
+
+  const countryValue = getSourceValue(country)
+
+  const isNorway = useMemo(() => countryValue === 'no', [countryValue])
+
+  const postalCodeValidationProps = useMemo(() => {
+    return {
+      mask:
+        postalCode.mask ?? isNorway
+          ? [/\d/, /\d/, /\d/, /\d/]
+          : postalCode.mask,
+      pattern: postalCode.pattern ?? isNorway ? '^[0-9]{4}$' : '',
+      placeholder: postalCode.placeholder ?? isNorway ? '0000' : '',
+    }
+  }, [
+    postalCode.pattern,
+    postalCode.placeholder,
+    postalCode.mask,
+    isNorway,
+  ])
 
   return (
     <CompositionField
@@ -32,8 +64,8 @@ function PostalCodeAndCity(props: Props) {
     >
       <StringField
         {...postalCode}
-        pattern={postalCode.pattern ?? '^[0-9]{4}$'}
-        mask={[/\d/, /\d/, /\d/, /\d/]}
+        pattern={postalCodeValidationProps.pattern}
+        mask={postalCodeValidationProps.mask}
         className={classnames(
           'dnb-forms-field-postal-code-and-city__postal-code',
           postalCode.className
@@ -44,8 +76,8 @@ function PostalCodeAndCity(props: Props) {
           pattern: translations.PostalCode.errorPattern,
           ...postalCode.errorMessages,
         }}
-        placeholder={postalCode.placeholder ?? '0000'}
-        width={false}
+        placeholder={postalCodeValidationProps.placeholder}
+        width={postalCode.width ?? false}
         inputClassName="dnb-forms-field-postal-code-and-city__postal-code-input"
         inputMode="numeric"
         autoComplete="postal-code"
