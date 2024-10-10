@@ -1,6 +1,6 @@
 import React from 'react'
 import { Field, Validator } from '../../..'
-import { Wrapper, Box } from 'storybook-utils/helpers'
+import { Wrapper } from 'storybook-utils/helpers'
 
 export default {
   title: 'Eufemia/Extensions/Forms/OrganizationNumber',
