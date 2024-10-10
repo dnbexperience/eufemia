@@ -183,6 +183,22 @@ describe('Field.OrganizationNumber', () => {
     })
   })
 
+  it('should not validate organization number based on the internal validator when onBlurValidator is false', async () => {
+    render(
+      <Form.Handler>
+        <Field.OrganizationNumber
+          validateInitially
+          value="123"
+          onBlurValidator={false}
+        />
+      </Form.Handler>
+    )
+
+    await expect(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    }).neverToResolve()
+  })
+
   it('should replace the internal validator with the given one', async () => {
     const myValidator = jest.fn(() => {
       return new Error('My error message')
@@ -212,7 +228,27 @@ describe('Field.OrganizationNumber', () => {
     expect(onBlurValidator).toHaveBeenCalledWith('123', expect.anything())
   })
 
-  it('should not validate organization number when "validate" is set to false', () => {
+  it('should not validate organization number when "onBlurValidator" is set to false', async () => {
+    const invalidOrgNo = '987654321'
+
+    render(
+      <Form.Handler>
+        <Field.OrganizationNumber
+          value={invalidOrgNo}
+          validateInitially
+          onBlurValidator={false}
+        />
+      </Form.Handler>
+    )
+
+    fireEvent.blur(document.querySelector('input'))
+
+    await expect(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    }).neverToResolve()
+  })
+
+  it('should not validate organization number when "validate" is set to false', async () => {
     const invalidOrgNo = '987654321'
 
     render(
@@ -227,10 +263,12 @@ describe('Field.OrganizationNumber', () => {
 
     fireEvent.blur(document.querySelector('input'))
 
-    expect(screen.queryByRole('alert')).toBeNull()
+    await expect(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    }).neverToResolve()
   })
 
-  it('should not validate custom validator when "validate" is set to false', () => {
+  it('should not validate custom validator when "validate" is set to false', async () => {
     const invalidOrgNo = '987654321'
 
     const firstNumIs1 = (value: string) =>
@@ -258,10 +296,12 @@ describe('Field.OrganizationNumber', () => {
 
     fireEvent.blur(document.querySelector('input'))
 
-    expect(screen.queryByRole('alert')).toBeNull()
+    await expect(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    }).neverToResolve()
   })
 
-  it('should not validate extended validator when "validate" is set to false', () => {
+  it('should not validate extended validator when "validate" is set to false', async () => {
     const invalidOrgNo = '987654321'
 
     const firstNumIs1 = (value: string) =>
@@ -292,7 +332,9 @@ describe('Field.OrganizationNumber', () => {
 
     fireEvent.blur(document.querySelector('input'))
 
-    expect(screen.queryByRole('alert')).toBeNull()
+    await expect(() => {
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+    }).neverToResolve()
   })
 
   describe('should validate Norwegian organization number', () => {
@@ -315,17 +357,22 @@ describe('Field.OrganizationNumber', () => {
 
     const invalidOrgNum = ['123', '123456789', '148623907', '987654321']
 
-    it.each(validOrgNum)('Valid organization number: %s', (orgNo) => {
-      render(
-        <Form.Handler>
-          <Field.OrganizationNumber value={orgNo} validateInitially />
-        </Form.Handler>
-      )
+    it.each(validOrgNum)(
+      'Valid organization number: %s',
+      async (orgNo) => {
+        render(
+          <Form.Handler>
+            <Field.OrganizationNumber value={orgNo} validateInitially />
+          </Form.Handler>
+        )
 
-      fireEvent.blur(document.querySelector('input'))
+        fireEvent.blur(document.querySelector('input'))
 
-      expect(screen.queryByRole('alert')).toBeNull()
-    })
+        await expect(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+        }).neverToResolve()
+      }
+    )
 
     it.each(invalidOrgNum)(
       'Invalid organization number: %s',
@@ -387,7 +434,7 @@ describe('Field.OrganizationNumber', () => {
 
     it.each(validOrgNumStartingWith1)(
       'Valid organization number: %s',
-      (orgNo) => {
+      async (orgNo) => {
         render(
           <Form.Handler>
             <Field.OrganizationNumber
@@ -400,7 +447,9 @@ describe('Field.OrganizationNumber', () => {
 
         fireEvent.blur(document.querySelector('input'))
 
-        expect(screen.queryByRole('alert')).toBeNull()
+        await expect(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+        }).neverToResolve()
       }
     )
 
