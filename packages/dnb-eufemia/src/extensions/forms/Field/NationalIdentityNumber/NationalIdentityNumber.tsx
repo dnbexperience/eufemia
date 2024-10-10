@@ -133,9 +133,9 @@ export function getBirthDateByFnrOrDnr(value: string) {
   }
 
   const yearPart = value.substring(4, 6)
-  const individualNumber = Number.parseInt(value.substring(6, 9))
+  const centuryNumber = Number.parseInt(value.substring(6, 7))
 
-  const isBornIn20XX = individualNumber >= 500 && individualNumber <= 999
+  const isBornIn20XX = centuryNumber >= 5
   const year = isBornIn20XX ? `20${yearPart}` : `19${yearPart}`
   const month = Number.parseInt(value.substring(2, 4))
 
