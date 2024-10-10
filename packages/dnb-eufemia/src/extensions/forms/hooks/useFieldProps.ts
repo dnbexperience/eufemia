@@ -1348,10 +1348,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         return
       }
 
-      const transformedValue = transformers.current.transformValue(
-        newValue,
-        currentValue
-      )
+      const transformedValue =
+        transformers.current.transformValue(newValue, currentValue) ??
+        (emptyValue as unknown as Value)
       const contextValue = transformers.current.transformOut(
         transformedValue,
         transformers.current.provideAdditionalArgs(
@@ -1390,6 +1389,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       })
     },
     [
+      emptyValue,
       additionalArgs,
       hasPath,
       itemPath,
@@ -1639,7 +1639,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       return // stop here
     }
 
-    let valueToStore: Value | unknown = valueProp
+    let valueToStore: Value | unknown = valueProp ?? emptyValue
 
     const data = wizardContext?.prerenderFieldProps
       ? dataContext.data
@@ -1777,6 +1777,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     dataContext.data,
     dataContext.id,
     dataContext.internalDataRef,
+    emptyValue,
     hasItemPath,
     hasPath,
     identifier,
@@ -2040,10 +2041,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
     /** Documented APIs */
     id,
-    // value: valueRef.current,
-    // value: transformers.current.transformIn(
-    //   transformers.current.toInput(valueRef.current)
-    // ),
     value: transformers.current.toInput(valueRef.current),
     hasError: hasVisibleError,
     isChanged: Boolean(changedRef.current),
