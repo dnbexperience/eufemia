@@ -462,9 +462,10 @@ export function toCapitalized(str) {
 
 /**
  * [detectOutsideClick Detects a click outside a given DOM element]
- * @param  {[type]} ignoreElement [The element we want to protect from a click]
- * @param  {[type]} onSuccess     [Will be called on outside click]
- * @return {[type]}               [void]
+ * @param  {HTMLElement} ignoreElement [The element we want to protect from a click]
+ * @param  {Function} onSuccess     [Will be called on outside click]
+ * @param  {Object} [options]      [Options]
+ * @return {DetectOutsideClickClass} [A new instance of DetectOutsideClickClass]
  */
 export const detectOutsideClick = (ignoreElements, onSuccess, options) =>
   new DetectOutsideClickClass(ignoreElements, onSuccess, options)
