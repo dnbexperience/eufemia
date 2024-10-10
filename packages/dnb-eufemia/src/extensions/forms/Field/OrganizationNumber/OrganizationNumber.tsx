@@ -47,7 +47,7 @@ function OrganizationNumber(props: Props) {
   )
 
   const onBlurValidatorToUse =
-    onBlurValidator == false ? undefined : onBlurValidator
+    onBlurValidator === false ? undefined : onBlurValidator
 
   const StringFieldProps: StringFieldProps = {
     ...props,
