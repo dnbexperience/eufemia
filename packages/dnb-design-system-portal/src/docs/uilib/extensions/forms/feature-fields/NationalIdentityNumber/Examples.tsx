@@ -188,3 +188,26 @@ export const ValidationExtendValidator = () => {
     </ComponentBox>
   )
 }
+
+export const ValidationExtendValidatorAdult = () => {
+  return (
+    <ComponentBox>
+      {() => {
+        const myAdultValidator = (value, { validators }) => {
+          const { adultValidator, dnrAndFnrValidator } = validators
+
+          return [dnrAndFnrValidator, adultValidator]
+        }
+
+        return (
+          <Field.NationalIdentityNumber
+            required
+            value="56052459244"
+            onBlurValidator={myAdultValidator}
+            validateInitially
+          />
+        )
+      }}
+    </ComponentBox>
+  )
+}

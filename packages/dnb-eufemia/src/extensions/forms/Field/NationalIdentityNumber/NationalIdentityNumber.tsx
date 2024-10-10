@@ -14,17 +14,19 @@ export type Props = Omit<StringFieldProps, 'onBlurValidator'> & {
 
 function NationalIdentityNumber(props: Props) {
   const translations = useTranslation().NationalIdentityNumber
-  const { label, errorRequired, errorFnr, errorDnr } = translations
+  const { label, errorRequired, errorFnr, errorDnr, errorAdult } =
+    translations
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: errorRequired,
     pattern: errorFnr,
     errorFnr,
     errorDnr,
+    errorAdult,
   })
 
   const fnrValidator = useCallback(
     (value: string) => {
-      // have to check for undefined as @navikt/fnrvalidator does not support undefined
+      // We don't want to validate if the value is undefined
       if (value !== undefined && fnr(value).status === 'invalid') {
         return Error(errorFnr)
       }
@@ -34,7 +36,7 @@ function NationalIdentityNumber(props: Props) {
 
   const dnrValidator = useCallback(
     (value: string) => {
-      // have to check for undefined as @navikt/fnrvalidator does not support undefined
+      // We don't want to validate if the value is undefined
       if (value !== undefined && dnr(value).status === 'invalid') {
         return Error(errorDnr)
       }
@@ -52,6 +54,16 @@ function NationalIdentityNumber(props: Props) {
       return fnrValidator(value)
     },
     [dnrValidator, fnrValidator]
+  )
+
+  const adultValidator = useCallback(
+    (value: string) => {
+      // We don't want to validate if the value is undefined
+      if (value !== undefined && !is18YearsOrOlder(value)) {
+        return Error(errorAdult)
+      }
+    },
+    [errorAdult]
   )
 
   const {
@@ -100,10 +112,44 @@ function NationalIdentityNumber(props: Props) {
       dnrValidator,
       fnrValidator,
       dnrAndFnrValidator,
+      adultValidator,
     },
   }
 
   return <StringField {...StringFieldProps} />
+}
+
+function is18YearsOrOlder(value: string) {
+  if (!new RegExp('^[0-9]{11}$').test(value)) return false
+
+  function getAge(birthDate: Date): number {
+    const today = new Date()
+    const age = today.getFullYear() - birthDate.getFullYear()
+    const month = today.getMonth() - birthDate.getMonth()
+    const day = today.getDate() - birthDate.getDate()
+
+    if (month < 0 || (month === 0 && day < 0)) {
+      return age - 1
+    }
+
+    return age
+  }
+
+  const yearPart = value.substring(4, 6)
+  const individNumber = Number.parseInt(value.substring(6, 9))
+
+  const isBornIn20XX = individNumber >= 500 && individNumber <= 999
+  const year = isBornIn20XX ? `20${yearPart}` : `19${yearPart}`
+  const month = Number.parseInt(value.substring(2, 4))
+
+  const isDnr = dnr(value).status === 'valid'
+
+  const day = isDnr
+    ? Number.parseInt(value.substring(0, 2)) - 40
+    : Number.parseInt(value.substring(0, 2))
+  const date = new Date(Number.parseInt(year), month - 1, day)
+
+  return getAge(date) >= 18
 }
 
 NationalIdentityNumber._supportsSpacingProps = true

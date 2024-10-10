@@ -118,6 +118,7 @@ export default {
       errorRequired: 'Du må fylle inn et fødselsnummer.',
       errorFnr: 'Ugyldig fødselsnummer.',
       errorDnr: 'Ugyldig d-nummer.',
+      errorAdult: 'Må være minst 18 år.',
     },
     OrganizationNumber: {
       label: 'Organisasjonsnummer',
