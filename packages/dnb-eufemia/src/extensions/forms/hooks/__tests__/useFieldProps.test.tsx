@@ -2938,6 +2938,54 @@ describe('useFieldProps', () => {
     expect(result.current.error).toBeInstanceOf(Error)
   })
 
+  it('should set emptyValue when handleChange gets undefined', async () => {
+    const onSubmit = jest.fn(() => null)
+
+    const first = {}
+    const { result } = renderHook(useFieldProps, {
+      initialProps: {
+        path: '/foo',
+        emptyValue: first,
+      },
+      wrapper: (props) => <Form.Handler {...props} onSubmit={onSubmit} />,
+    })
+
+    const form = document.querySelector('form')
+
+    fireEvent.submit(form)
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenLastCalledWith(
+      { foo: first },
+      expect.anything()
+    )
+    expect(result.current.value).toBe(first)
+
+    const second = {}
+    act(() => {
+      result.current.handleChange(second)
+    })
+
+    fireEvent.submit(form)
+    expect(onSubmit).toHaveBeenCalledTimes(2)
+    expect(onSubmit).toHaveBeenLastCalledWith(
+      { foo: second },
+      expect.anything()
+    )
+    expect(result.current.value).toBe(second)
+
+    act(() => {
+      result.current.handleChange(undefined)
+    })
+
+    fireEvent.submit(form)
+    expect(onSubmit).toHaveBeenCalledTimes(3)
+    expect(onSubmit).toHaveBeenLastCalledWith(
+      { foo: first },
+      expect.anything()
+    )
+    expect(result.current.value).toBe(first)
+  })
+
   it('should call async context onChange regardless of error when executeOnChangeRegardlessOfError is true', async () => {
     const onChange = jest.fn(async () => null)
 

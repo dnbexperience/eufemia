@@ -844,4 +844,45 @@ describe('Field.Number', () => {
       expect(input).toHaveAttribute('aria-invalid', 'true')
     })
   })
+
+  describe('emptyValue', () => {
+    it('should use the given emptyValue and set in the data context', async () => {
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Field.Number path="/myValue" emptyValue={0} />
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      const input = document.querySelector('input')
+      expect(input).toHaveValue('0')
+
+      fireEvent.submit(form)
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { myValue: 0 },
+        expect.anything()
+      )
+
+      await userEvent.type(input, '1')
+
+      fireEvent.submit(form)
+      expect(onSubmit).toHaveBeenCalledTimes(2)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { myValue: 1 },
+        expect.anything()
+      )
+
+      await userEvent.type(input, '{Backspace}')
+
+      fireEvent.submit(form)
+      expect(onSubmit).toHaveBeenCalledTimes(3)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { myValue: 0 },
+        expect.anything()
+      )
+    })
+  })
 })
