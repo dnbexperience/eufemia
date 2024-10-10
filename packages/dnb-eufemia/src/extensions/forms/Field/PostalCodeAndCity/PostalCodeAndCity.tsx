@@ -3,8 +3,9 @@ import classnames from 'classnames'
 import { Props as FieldBlockProps } from '../../FieldBlock'
 import StringField, { Props as StringFieldProps } from '../String'
 import CompositionField from '../Composition'
-import { FieldHelpProps } from '../../types'
+import { FieldHelpProps, Path } from '../../types'
 import useTranslation from '../../hooks/useTranslation'
+import useDataValue from '../../hooks/useDataValue'
 
 export type Props = FieldHelpProps &
   Omit<FieldBlockProps, 'children'> &
@@ -14,23 +15,29 @@ export type Props = FieldHelpProps &
      * Setting it to anything other than `no` will remove the default norwegian postal code pattern.
      * Default: `no`
      */
-    country?: string
+    // Add type for all country codes?
+    country?: Path | 'no' | string
   }
 
 function PostalCodeAndCity(props: Props) {
   const translations = useTranslation()
+  const { getSourceValue } = useDataValue()
 
   const {
     postalCode = {},
     city = {},
     help,
     width = 'large',
-    country = 'no', // default to Norway
+    country = 'no',
     ...fieldBlockProps
   } = props
 
+  const countryValue = getSourceValue(country)
+
+  const isNorway = useMemo(() => countryValue === 'no', [countryValue])
+
   const postalCodeValidationProps = useMemo(() => {
-    const isNorway = country === 'no'
+    console.log('Recalc')
     return {
       mask:
         postalCode.mask ?? isNorway
@@ -43,7 +50,7 @@ function PostalCodeAndCity(props: Props) {
     postalCode.pattern,
     postalCode.placeholder,
     postalCode.mask,
-    country,
+    isNorway,
   ])
 
   return (
@@ -87,8 +94,7 @@ function PostalCodeAndCity(props: Props) {
           pattern: translations.City.errorPattern,
           ...city.errorMessages,
         }}
-        // Propably have to update this pattern to allow for more characters like Û, Ô, Ñ, etc.
-        pattern={'^[A-Za-zÆØÅæøå -]+$'}
+        pattern={city.pattern ?? '^[A-Za-zÆØÅæøå -]+$'}
         trim
         width="stretch"
         autoComplete="address-level2"
