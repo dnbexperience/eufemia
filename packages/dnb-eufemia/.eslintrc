@@ -143,6 +143,13 @@
               }
             ]
           }
+        ],
+        "no-restricted-globals": [
+          "error",
+          {
+            "name": "structuredClone",
+            "message": "Import `structuredClone` from '@ungap/structured-clone' instead."
+          }
         ]
       }
     },
