@@ -1,5 +1,6 @@
 import React from 'react'
 import { Field, Validator } from '../../..'
+import { Wrapper, Box } from 'storybook-utils/helpers'
 
 export default {
   title: 'Eufemia/Extensions/Forms/OrganizationNumber',
@@ -16,7 +17,7 @@ const myOrganizationNumberValidator: Validator<string> = (
 
 export function OnBlurValidatorFalse() {
   return (
-    <>
+    <Wrapper>
       <Field.OrganizationNumber onBlurValidator={false} />
       <Field.OrganizationNumber
         onBlurValidator={false}
@@ -41,13 +42,13 @@ export function OnBlurValidatorFalse() {
         onBlurValidator={false}
         value="321321321"
       />
-    </>
+    </Wrapper>
   )
 }
 
 export function OrganizationNumberDefault() {
   return (
-    <>
+    <Wrapper>
       <Field.OrganizationNumber />
       <Field.OrganizationNumber value="123123123" />
       <Field.OrganizationNumber value="321321321" />
@@ -55,13 +56,13 @@ export function OrganizationNumberDefault() {
       <Field.OrganizationNumber validateInitially />
       <Field.OrganizationNumber validateInitially value="123123123" />
       <Field.OrganizationNumber validateInitially value="321321321" />
-    </>
+    </Wrapper>
   )
 }
 
 export function OrganizationNumberOnBlurValidator() {
   return (
-    <>
+    <Wrapper>
       <Field.OrganizationNumber
         onBlurValidator={myOrganizationNumberValidator}
       />
@@ -88,13 +89,13 @@ export function OrganizationNumberOnBlurValidator() {
         onBlurValidator={myOrganizationNumberValidator}
         value="321321321"
       />
-    </>
+    </Wrapper>
   )
 }
 
 export function OrganizationNumberValidator() {
   return (
-    <>
+    <Wrapper>
       <Field.OrganizationNumber
         onBlurValidator={false}
         validator={myOrganizationNumberValidator}
@@ -127,7 +128,7 @@ export function OrganizationNumberValidator() {
         validator={myOrganizationNumberValidator}
         value="321321321"
       />
-    </>
+    </Wrapper>
   )
 }
 
@@ -137,7 +138,7 @@ export function OrganizationNumberValidatorSimple() {
   }
 
   return (
-    <>
+    <Wrapper>
       <Field.OrganizationNumber
         onBlurValidator={false}
         validator={simpleValidator}
@@ -170,7 +171,7 @@ export function OrganizationNumberValidatorSimple() {
         validator={simpleValidator}
         value="321321321"
       />
-    </>
+    </Wrapper>
   )
 }
 
@@ -180,7 +181,7 @@ export function StringValidatorSimple() {
   }
 
   return (
-    <>
+    <Wrapper>
       <Field.String validator={simpleValidator} />
       <Field.String validator={simpleValidator} value="123" />
       <Field.String validator={simpleValidator} value="321" />
@@ -196,6 +197,6 @@ export function StringValidatorSimple() {
         validator={simpleValidator}
         value="321"
       />
-    </>
+    </Wrapper>
   )
 }
