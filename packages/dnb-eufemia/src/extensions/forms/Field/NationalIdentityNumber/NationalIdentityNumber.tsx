@@ -144,9 +144,9 @@ function is18YearsOrOlder(value: string) {
   }
 
   const yearPart = value.substring(4, 6)
-  const individNumber = Number.parseInt(value.substring(6, 9))
+  const centuryNumber = Number.parseInt(value.substring(6, 7))
 
-  const isBornIn20XX = individNumber >= 500 && individNumber <= 999
+  const isBornIn20XX = centuryNumber >= 5
   const year = isBornIn20XX ? `20${yearPart}` : `19${yearPart}`
   const month = Number.parseInt(value.substring(2, 4))
 
