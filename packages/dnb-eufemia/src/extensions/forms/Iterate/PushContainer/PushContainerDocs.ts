@@ -27,6 +27,11 @@ export const PushContainerProperties: PropertiesTableProps = {
     type: 'object',
     status: 'optional',
   },
+  bubbleValidation: {
+    doc: 'Prevent the form from being submitted when there are fields with errors inside the PushContainer.',
+    type: 'boolean',
+    status: 'optional',
+  },
   openButton: {
     doc: 'The button to open container.',
     type: 'React.Node',

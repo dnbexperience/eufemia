@@ -1643,4 +1643,49 @@ describe('Form.Isolation', () => {
     expect(synced).toHaveValue('inside changed')
     expect(regular).toHaveValue('regular')
   })
+
+  describe('bubbleValidation', () => {
+    it('should prevent the form from submitting as long as there are errors', async () => {
+      const onSubmitRequest = jest.fn()
+      const onSubmit = jest.fn()
+      const onCommit = jest.fn()
+
+      render(
+        <Form.Handler
+          onSubmitRequest={onSubmitRequest}
+          onSubmit={onSubmit}
+        >
+          <Form.Isolation onCommit={onCommit} bubbleValidation>
+            <Field.String label="Isolated" path="/isolated" required />
+            <Form.Isolation.CommitButton />
+          </Form.Isolation>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const form = document.querySelector('form')
+      const commitButton = document.querySelector('button')
+
+      await userEvent.click(commitButton)
+      fireEvent.submit(form)
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Field.errorRequired
+      )
+
+      expect(onSubmit).toHaveBeenCalledTimes(0)
+      expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+      expect(onCommit).toHaveBeenCalledTimes(0)
+
+      await userEvent.type(input, 'Tony')
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+      expect(onCommit).toHaveBeenCalledTimes(0)
+
+      await userEvent.click(commitButton)
+      expect(onCommit).toHaveBeenCalledTimes(1)
+    })
+  })
 })

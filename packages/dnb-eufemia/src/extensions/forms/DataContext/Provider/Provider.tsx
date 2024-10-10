@@ -1334,13 +1334,14 @@ export default function Provider<Data extends JsonObject>(
         valuePropsRef,
         mountedFieldsRef,
         formElementRef,
+        isEmptyDataRef,
+        fieldErrorRef,
         ajvInstance: ajvRef.current,
 
         /** Additional */
         id,
         data: internalDataRef.current,
         internalDataRef,
-        isEmptyDataRef,
         props,
         ...rest,
       }}

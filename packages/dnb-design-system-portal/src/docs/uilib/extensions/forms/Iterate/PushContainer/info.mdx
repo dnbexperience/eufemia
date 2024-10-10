@@ -33,6 +33,24 @@ render(
 )
 ```
 
+## Prevent the form from being submitted
+
+To prevent the [Form.Handler](/uilib/extensions/forms/Form/Handler/) from being submitted when there are fields with errors inside the PushContainer, you can use the `bubbleValidation` property.
+
+```tsx
+import { Form, Field, Iterate } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Handler>
+    <Iterate.Array path="/myList">...</Iterate.Array>
+
+    <Iterate.PushContainer path="/myList" bubbleValidation>
+      <Field.Name.Last itemPath="/name" required />
+    </Iterate.PushContainer>
+  </Form.Handler>,
+)
+```
+
 ## Show a button to create a new item
 
 By default, it keeps the form open after a new item has been created. You can change this behavior by using the `openButton` and `showOpenButtonWhen` properties.

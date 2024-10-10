@@ -161,6 +161,7 @@ export interface ContextState {
   fieldConnectionsRef?: React.RefObject<Record<Path, FieldConnections>>
   mountedFieldsRef?: React.MutableRefObject<Record<Path, MountState>>
   formElementRef?: React.MutableRefObject<HTMLFormElement>
+  fieldErrorRef?: React.MutableRefObject<Record<Path, Error>>
   showAllErrors: boolean
   hasVisibleError: boolean
   formState: SubmitState
