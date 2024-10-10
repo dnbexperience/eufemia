@@ -211,3 +211,26 @@ export const ValidationExtendValidatorAdult = () => {
     </ComponentBox>
   )
 }
+
+export const ValidationFnrAdult = () => {
+  return (
+    <ComponentBox>
+      {() => {
+        const myFnrAdultValidator = (value, { validators }) => {
+          const { adultValidator, fnrValidator } = validators
+
+          return [fnrValidator, adultValidator]
+        }
+
+        return (
+          <Field.NationalIdentityNumber
+            required
+            value="49100651997"
+            onBlurValidator={myFnrAdultValidator}
+            validateInitially
+          />
+        )
+      }}
+    </ComponentBox>
+  )
+}

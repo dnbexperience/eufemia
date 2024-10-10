@@ -26,8 +26,11 @@ function NationalIdentityNumber(props: Props) {
 
   const fnrValidator = useCallback(
     (value: string) => {
-      // We don't want to validate if the value is undefined
-      if (value !== undefined && fnr(value).status === 'invalid') {
+      if (
+        value !== undefined &&
+        (Number.parseInt(value.substring(0, 1)) > 3 ||
+          fnr(value).status === 'invalid')
+      ) {
         return Error(errorFnr)
       }
     },
@@ -36,8 +39,11 @@ function NationalIdentityNumber(props: Props) {
 
   const dnrValidator = useCallback(
     (value: string) => {
-      // We don't want to validate if the value is undefined
-      if (value !== undefined && dnr(value).status === 'invalid') {
+      if (
+        value !== undefined &&
+        (Number.parseInt(value.substring(0, 1)) < 4 ||
+          dnr(value).status === 'invalid')
+      ) {
         return Error(errorDnr)
       }
     },
@@ -58,7 +64,9 @@ function NationalIdentityNumber(props: Props) {
 
   const adultValidator = useCallback(
     (value: string) => {
-      // We don't want to validate if the value is undefined
+      // if (value !== undefined && value.length < 9) {
+      //   return Error(errorAdultPattern)
+      // }
       if (value !== undefined && !is18YearsOrOlder(value)) {
         return Error(errorAdult)
       }
@@ -142,7 +150,9 @@ function is18YearsOrOlder(value: string) {
   const year = isBornIn20XX ? `20${yearPart}` : `19${yearPart}`
   const month = Number.parseInt(value.substring(2, 4))
 
-  const isDnr = dnr(value).status === 'valid'
+  const differentiatorValue =
+    value.length > 0 ? Number.parseInt(value.substring(0, 1)) : undefined
+  const isDnr = differentiatorValue && differentiatorValue > 3
 
   const day = isDnr
     ? Number.parseInt(value.substring(0, 2)) - 40
