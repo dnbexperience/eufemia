@@ -12,12 +12,14 @@ export { default as SubHeading } from './SubHeading'
 export { default as Visibility } from './Visibility'
 export { default as Section } from './Section'
 export { default as Isolation } from './Isolation'
+export { default as Snapshot } from './Snapshot'
 export { default as useData } from './data-context/useData'
 export { default as setData } from './data-context/setData'
 export { default as getData } from './data-context/getData'
 export { default as clearData } from './data-context/clearData'
 export { default as useValidation } from './data-context/useValidation'
 export { default as useTranslation } from '../hooks/useTranslation'
+export { default as useSnapshot } from '../hooks/useSnapshot'
 
 /**
  * Can be removed in v11

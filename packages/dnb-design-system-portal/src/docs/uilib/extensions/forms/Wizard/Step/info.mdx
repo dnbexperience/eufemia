@@ -57,7 +57,11 @@ To keep track of the current step, you can provide each step with an `id` proper
 ```tsx
 <Wizard.Container
   onStepChange={(index, mode, args) => {
-    const { id, previousIndex, preventNavigation } = args
+    const {
+      id,
+      preventNavigation,
+      previousStep: { index },
+    } = args
   }}
 >
   <Wizard.Step

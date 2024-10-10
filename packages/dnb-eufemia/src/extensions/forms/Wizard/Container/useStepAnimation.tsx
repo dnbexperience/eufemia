@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
 const useLayoutEffect =
@@ -7,6 +7,7 @@ const useLayoutEffect =
 export default function useStepAnimation({
   activeIndexRef,
   stepElementRef,
+  executeLayoutAnimationRef,
 }) {
   const activeIndex = activeIndexRef.current
   const indexRef = useRef(activeIndex)
@@ -15,13 +16,7 @@ export default function useStepAnimation({
     indexRef.current = activeIndex
   }, [activeIndex])
 
-  useLayoutEffect(() => {
-    // Use layout effect to compare the active step before we update the cached indexRef
-    // This way we don't have an animation on the first render, but only on a step change.
-    if (activeIndex === indexRef.current) {
-      return // stop here
-    }
-
+  const executeLayoutAnimation = useCallback(() => {
     // Wait until "stepElementRef.current = currentElementRef.current" is set
     // So we actually get the correct elements when useStep is called,
     // as it rerenders the children
@@ -39,5 +34,16 @@ export default function useStepAnimation({
         //
       }
     })
-  }, [activeIndex, stepElementRef])
+  }, [stepElementRef])
+  executeLayoutAnimationRef.current = executeLayoutAnimation
+
+  useLayoutEffect(() => {
+    // Use layout effect to compare the active step before we update the cached indexRef
+    // This way we don't have an animation on the first render, but only on a step change.
+    if (activeIndex === indexRef.current) {
+      return // stop here
+    }
+
+    executeLayoutAnimation()
+  }, [activeIndex, executeLayoutAnimation])
 }

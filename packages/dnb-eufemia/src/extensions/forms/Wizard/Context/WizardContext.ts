@@ -3,14 +3,18 @@ import { EventReturnWithStateObject } from '../../types'
 import { VisibleWhen } from '../../Form/Visibility'
 
 export type OnStepsChangeMode = 'previous' | 'next' | 'stepListModified'
+export type OnStepChangeOptions = {
+  preventNavigation: (shouldPrevent?: boolean) => void
+  id?: string
+  previousStep: {
+    index: StepIndex
+    id?: string
+  }
+}
 export type OnStepChange = (
   index: StepIndex,
   mode: OnStepsChangeMode,
-  options: {
-    id?: string
-    previousIndex: StepIndex
-    preventNavigation: (shouldPrevent?: boolean) => void
-  }
+  options: OnStepChangeOptions
 ) =>
   | EventReturnWithStateObject
   | void

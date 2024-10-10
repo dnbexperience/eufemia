@@ -34,6 +34,7 @@ import SectionContext from '../Form/Section/SectionContext'
 import FieldBoundaryContext from '../DataContext/FieldBoundary/FieldBoundaryContext'
 import VisibilityContext from '../Form/Visibility/VisibilityContext'
 import WizardContext from '../Wizard/Context'
+import SnapshotContext from '../Form/Snapshot/SnapshotContext'
 import useProcessManager from './useProcessManager'
 import usePath from './usePath'
 import {
@@ -153,6 +154,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const sectionContext = useContext(SectionContext)
   const fieldBoundaryContext = useContext(FieldBoundaryContext)
   const wizardContext = useContext(WizardContext)
+  const { setMountedField: setMountedFieldSnapshot } =
+    useContext(SnapshotContext) || {}
   const { isVisible } = useContext(VisibilityContext) || {}
 
   const translation = useTranslation()
@@ -1553,6 +1556,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       isMounted: true,
       isPreMounted: true,
     })
+    setMountedFieldSnapshot?.(identifier, { isMounted: true })
 
     // Unmount procedure.
     return () => {
@@ -1560,8 +1564,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         isMounted: false,
         isPreMounted: false,
       })
+      setMountedFieldSnapshot?.(identifier, { isMounted: false })
     }
-  }, [identifier, setMountedFieldStateDataContext])
+  }, [
+    identifier,
+    setMountedFieldSnapshot,
+    setMountedFieldStateDataContext,
+  ])
 
   useEffect(() => {
     return () => {

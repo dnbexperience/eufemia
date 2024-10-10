@@ -127,7 +127,7 @@ describe('Wizard.Container', () => {
     })
   })
 
-  it('should have previousIndex in "onStepChange" when navigating back and forth', async () => {
+  it('should have previousStep in "onStepChange" when navigating back and forth', async () => {
     const onStepChange = jest.fn()
 
     render(
@@ -149,7 +149,7 @@ describe('Wizard.Container', () => {
     expect(onStepChange).toHaveBeenCalledTimes(1)
     expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
       preventNavigation: expect.any(Function),
-      previousIndex: 0,
+      previousStep: { index: 0 },
     })
 
     await userEvent.click(previousButton())
@@ -157,7 +157,7 @@ describe('Wizard.Container', () => {
     expect(onStepChange).toHaveBeenCalledTimes(2)
     expect(onStepChange).toHaveBeenLastCalledWith(0, 'previous', {
       preventNavigation: expect.any(Function),
-      previousIndex: 1,
+      previousStep: { index: 1 },
     })
 
     await userEvent.click(nextButton())
@@ -165,7 +165,7 @@ describe('Wizard.Container', () => {
     expect(onStepChange).toHaveBeenCalledTimes(3)
     expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
       preventNavigation: expect.any(Function),
-      previousIndex: 0,
+      previousStep: { index: 0 },
     })
   })
 
@@ -195,7 +195,7 @@ describe('Wizard.Container', () => {
     expect(onStepChange).toHaveBeenCalledTimes(1)
     expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
       id: 'step-2',
-      previousIndex: 0,
+      previousStep: { index: 0, id: 'step-1' },
       preventNavigation: expect.any(Function),
     })
 
@@ -204,7 +204,7 @@ describe('Wizard.Container', () => {
     expect(onStepChange).toHaveBeenCalledTimes(2)
     expect(onStepChange).toHaveBeenLastCalledWith(0, 'previous', {
       id: 'step-1',
-      previousIndex: 1,
+      previousStep: { index: 1, id: 'step-2' },
       preventNavigation: expect.any(Function),
     })
 
@@ -213,7 +213,7 @@ describe('Wizard.Container', () => {
     expect(onStepChange).toHaveBeenCalledTimes(3)
     expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
       id: 'step-2',
-      previousIndex: 0,
+      previousStep: { index: 0, id: 'step-1' },
       preventNavigation: expect.any(Function),
     })
   })
@@ -1029,7 +1029,7 @@ describe('Wizard.Container', () => {
         'stepListModified',
         {
           id: 'step-1',
-          previousIndex: 0,
+          previousStep: { index: 0, id: 'step-1' },
           preventNavigation: expect.any(Function),
         }
       )
@@ -1043,7 +1043,7 @@ describe('Wizard.Container', () => {
         'stepListModified',
         {
           id: 'step-2',
-          previousIndex: 0,
+          previousStep: { index: 0, id: 'step-2' },
           preventNavigation: expect.any(Function),
         }
       )
@@ -1057,7 +1057,7 @@ describe('Wizard.Container', () => {
         'stepListModified',
         {
           id: 'step-1',
-          previousIndex: 0,
+          previousStep: { index: 0, id: 'step-1' },
           preventNavigation: expect.any(Function),
         }
       )
@@ -1068,7 +1068,7 @@ describe('Wizard.Container', () => {
       expect(onStepChange).toHaveBeenCalledTimes(4)
       expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
         id: 'step-3',
-        previousIndex: 0,
+        previousStep: { index: 0, id: 'step-1' },
         preventNavigation: expect.any(Function),
       })
 
@@ -1081,7 +1081,7 @@ describe('Wizard.Container', () => {
         'stepListModified',
         {
           id: 'step-2',
-          previousIndex: 0,
+          previousStep: { index: 0, id: 'step-2' },
           preventNavigation: expect.any(Function),
         }
       )
@@ -1095,7 +1095,7 @@ describe('Wizard.Container', () => {
         'stepListModified',
         {
           id: 'step-1',
-          previousIndex: 0,
+          previousStep: { index: 0, id: 'step-1' },
           preventNavigation: expect.any(Function),
         }
       )
@@ -1106,7 +1106,7 @@ describe('Wizard.Container', () => {
       expect(onStepChange).toHaveBeenCalledTimes(7)
       expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
         id: 'step-3',
-        previousIndex: 0,
+        previousStep: { index: 0, id: 'step-1' },
         preventNavigation: expect.any(Function),
       })
 
@@ -1116,7 +1116,7 @@ describe('Wizard.Container', () => {
       expect(onStepChange).toHaveBeenCalledTimes(8)
       expect(onStepChange).toHaveBeenLastCalledWith(0, 'previous', {
         id: 'step-1',
-        previousIndex: 1,
+        previousStep: { index: 1, id: 'step-3' },
         preventNavigation: expect.any(Function),
       })
     })
@@ -1244,7 +1244,7 @@ describe('Wizard.Container', () => {
       expect(onStepChange).toHaveBeenCalledTimes(1)
       expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
         id: 'step-2',
-        previousIndex: 0,
+        previousStep: { index: 0, id: 'step-1' },
         preventNavigation: expect.any(Function),
       })
 
@@ -1253,7 +1253,7 @@ describe('Wizard.Container', () => {
       expect(onStepChange).toHaveBeenCalledTimes(2)
       expect(onStepChange).toHaveBeenLastCalledWith(0, 'previous', {
         id: 'step-1',
-        previousIndex: 1,
+        previousStep: { index: 1, id: 'step-2' },
         preventNavigation: expect.any(Function),
       })
 
@@ -1262,7 +1262,7 @@ describe('Wizard.Container', () => {
       expect(onStepChange).toHaveBeenCalledTimes(3)
       expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
         id: 'step-2',
-        previousIndex: 0,
+        previousStep: { index: 0, id: 'step-1' },
         preventNavigation: expect.any(Function),
       })
     })
@@ -1976,7 +1976,7 @@ describe('Wizard.Container', () => {
     expect(output()).toHaveTextContent('Step 1')
     expect(onStepChange).toHaveBeenCalledTimes(1)
     expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
-      previousIndex: 0,
+      previousStep: { index: 0 },
       preventNavigation: expect.any(Function),
     })
   })
