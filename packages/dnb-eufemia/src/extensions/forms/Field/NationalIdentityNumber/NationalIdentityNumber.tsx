@@ -1,18 +1,18 @@
 import React, { useCallback, useMemo } from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
 import { dnr, fnr } from '@navikt/fnrvalidator'
+import { Validator } from '../../types'
 
 import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
 
-export type Props = StringFieldProps & {
+export type Props = Omit<StringFieldProps, 'onBlurValidator'> & {
   omitMask?: boolean
   validate?: boolean
+  onBlurValidator?: Validator<string> | false
 }
 
 function NationalIdentityNumber(props: Props) {
-  const { validate = true, omitMask } = props
-
   const translations = useTranslation().NationalIdentityNumber
   const { label, errorRequired, errorFnr, errorDnr } = translations
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
@@ -21,27 +21,6 @@ function NationalIdentityNumber(props: Props) {
     errorFnr,
     errorDnr,
   })
-
-  const mask = useMemo(
-    () =>
-      omitMask
-        ? Array(11).fill(/\d/)
-        : [
-            /\d/,
-            /\d/,
-            /\d/,
-            /\d/,
-            /\d/,
-            /\d/,
-            ' ',
-            /\d/,
-            /\d/,
-            /\d/,
-            /\d/,
-            /\d/,
-          ],
-    [omitMask]
-  )
 
   const fnrValidator = useCallback(
     (value: string) => {
@@ -75,18 +54,53 @@ function NationalIdentityNumber(props: Props) {
     [dnrValidator, fnrValidator]
   )
 
-  const StringFieldProps: Props = {
+  const {
+    validate = true,
+    omitMask,
+    onBlurValidator = dnrAndFnrValidator,
+    validator,
+    width,
+    label: labelProp,
+  } = props
+
+  const mask = useMemo(
+    () =>
+      omitMask
+        ? Array(11).fill(/\d/)
+        : [
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/,
+            ' ',
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/,
+          ],
+    [omitMask]
+  )
+
+  const onBlurValidatorToUse =
+    onBlurValidator === false ? undefined : onBlurValidator
+
+  const StringFieldProps: StringFieldProps = {
     ...props,
-    label: props.label ?? label,
+    label: labelProp ?? label,
     errorMessages,
     mask,
-    width: props.width ?? 'medium',
+    width: width ?? 'medium',
     inputMode: 'numeric',
-    validator: validate ? props.validator : undefined,
-    onBlurValidator: validate
-      ? props.onBlurValidator || dnrAndFnrValidator
-      : undefined,
-    exportValidators: { dnrValidator, fnrValidator, dnrAndFnrValidator },
+    validator: validate ? validator : undefined,
+    onBlurValidator: validate ? onBlurValidatorToUse : undefined,
+    exportValidators: {
+      dnrValidator,
+      fnrValidator,
+      dnrAndFnrValidator,
+    },
   }
 
   return <StringField {...StringFieldProps} />
