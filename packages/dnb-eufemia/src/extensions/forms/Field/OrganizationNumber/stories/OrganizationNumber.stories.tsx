@@ -182,19 +182,19 @@ export function StringValidatorSimple() {
   return (
     <>
       <Field.String validator={simpleValidator} />
-      <Field.String validator={simpleValidator} value="123123123" />
-      <Field.String validator={simpleValidator} value="321321321" />
+      <Field.String validator={simpleValidator} value="123" />
+      <Field.String validator={simpleValidator} value="321" />
       <h2>Validate Initially:</h2>
       <Field.String validateInitially validator={simpleValidator} />
       <Field.String
         validateInitially
         validator={simpleValidator}
-        value="123123123"
+        value="123"
       />
       <Field.String
         validateInitially
         validator={simpleValidator}
-        value="321321321"
+        value="321"
       />
     </>
   )
