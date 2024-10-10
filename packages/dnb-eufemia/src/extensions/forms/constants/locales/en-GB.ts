@@ -120,6 +120,9 @@ export default {
       errorRequired: 'You must enter a national identity number.',
       errorFnr: 'Invalid national identity number.',
       errorDnr: 'Invalid D number.',
+      errorFnrPattern:
+        'Invalid national identity number. Enter a valid 11-digit number.',
+      errorDnrPattern: 'Invalid D number. Enter a valid 11-digit number.',
       errorAdult: 'Must be atleast 18 years of age.',
     },
     OrganizationNumber: {

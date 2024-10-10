@@ -14,40 +14,59 @@ export type Props = Omit<StringFieldProps, 'onBlurValidator'> & {
 
 function NationalIdentityNumber(props: Props) {
   const translations = useTranslation().NationalIdentityNumber
-  const { label, errorRequired, errorFnr, errorDnr, errorAdult } =
-    translations
+  const {
+    label,
+    errorRequired,
+    errorFnr,
+    errorDnr,
+    errorAdult,
+    errorFnrPattern,
+    errorDnrPattern,
+  } = translations
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: errorRequired,
     pattern: errorFnr,
     errorFnr,
     errorDnr,
     errorAdult,
+    errorFnrPattern,
+    errorDnrPattern,
   })
+
+  const validationPattern = '^[0-9]{11}$'
 
   const fnrValidator = useCallback(
     (value: string) => {
       if (
         value !== undefined &&
-        (Number.parseInt(value.substring(0, 1)) > 3 ||
-          fnr(value).status === 'invalid')
+        Number.parseInt(value.substring(0, 1)) < 4
       ) {
-        return Error(errorFnr)
+        if (!new RegExp(validationPattern).test(value)) {
+          return Error(errorFnrPattern)
+        }
+        if (fnr(value).status === 'invalid') {
+          return Error(errorFnr)
+        }
       }
     },
-    [errorFnr]
+    [errorFnr, errorFnrPattern]
   )
 
   const dnrValidator = useCallback(
     (value: string) => {
       if (
         value !== undefined &&
-        (Number.parseInt(value.substring(0, 1)) < 4 ||
-          dnr(value).status === 'invalid')
+        Number.parseInt(value.substring(0, 1)) > 3
       ) {
-        return Error(errorDnr)
+        if (!new RegExp(validationPattern).test(value)) {
+          return Error(errorDnrPattern)
+        }
+        if (dnr(value).status === 'invalid') {
+          return Error(errorDnr)
+        }
       }
     },
-    [errorDnr]
+    [errorDnr, errorDnrPattern]
   )
 
   const dnrAndFnrValidator = useCallback(
@@ -64,9 +83,6 @@ function NationalIdentityNumber(props: Props) {
 
   const adultValidator = useCallback(
     (value: string) => {
-      // if (value !== undefined && value.length < 9) {
-      //   return Error(errorAdultPattern)
-      // }
       if (value !== undefined && !is18YearsOrOlder(value)) {
         return Error(errorAdult)
       }
@@ -144,9 +160,9 @@ function is18YearsOrOlder(value: string) {
   }
 
   const yearPart = value.substring(4, 6)
-  const individNumber = Number.parseInt(value.substring(6, 9))
+  const centuryNumber = Number.parseInt(value.substring(6, 7))
 
-  const isBornIn20XX = individNumber >= 500 && individNumber <= 999
+  const isBornIn20XX = centuryNumber >= 5
   const year = isBornIn20XX ? `20${yearPart}` : `19${yearPart}`
   const month = Number.parseInt(value.substring(2, 4))
 

@@ -118,6 +118,10 @@ export default {
       errorRequired: 'Du må fylle inn et fødselsnummer.',
       errorFnr: 'Ugyldig fødselsnummer.',
       errorDnr: 'Ugyldig d-nummer.',
+      errorFnrPattern:
+        'Ugyldig fødselsnummer. Skriv inn et gyldig fødselsnummer med 11 siffer.',
+      errorDnrPattern:
+        'Ugyldig d-nummer. Skriv inn et gyldig fødselsnummer med 11 siffer.',
       errorAdult: 'Må være minst 18 år.',
     },
     OrganizationNumber: {
