@@ -56,7 +56,7 @@ export type Props = {
   /**
    * Prevent the form from being submitted when there are fields with errors inside the PushContainer.
    */
-  delegateValidation?: boolean
+  bubbleValidation?: boolean
 
   /**
    * A custom toolbar to be shown below the container.
@@ -81,7 +81,7 @@ function PushContainer(props: AllProps) {
     data: dataProp,
     defaultData: defaultDataProp,
     isolatedData,
-    delegateValidation,
+    bubbleValidation,
     path,
     title,
     children,
@@ -151,7 +151,7 @@ function PushContainer(props: AllProps) {
       data={data}
       defaultData={defaultData}
       emptyData={emptyData}
-      delegateValidation={delegateValidation}
+      bubbleValidation={bubbleValidation}
       commitHandleRef={commitHandleRef}
       transformOnCommit={({ pushContainerItems }) => {
         return moveValueToPath(path, [...entries, ...pushContainerItems])

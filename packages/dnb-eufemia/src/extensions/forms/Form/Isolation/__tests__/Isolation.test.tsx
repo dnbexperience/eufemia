@@ -1644,7 +1644,7 @@ describe('Form.Isolation', () => {
     expect(regular).toHaveValue('regular')
   })
 
-  describe('delegateValidation', () => {
+  describe('bubbleValidation', () => {
     it('should prevent the form from submitting as long as there are errors', async () => {
       const onSubmitRequest = jest.fn()
       const onSubmit = jest.fn()
@@ -1655,7 +1655,7 @@ describe('Form.Isolation', () => {
           onSubmitRequest={onSubmitRequest}
           onSubmit={onSubmit}
         >
-          <Form.Isolation onCommit={onCommit} delegateValidation>
+          <Form.Isolation onCommit={onCommit} bubbleValidation>
             <Field.String label="Isolated" path="/isolated" required />
             <Form.Isolation.CommitButton />
           </Form.Isolation>

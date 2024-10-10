@@ -27,7 +27,7 @@ export const PushContainerProperties: PropertiesTableProps = {
     type: 'object',
     status: 'optional',
   },
-  delegateValidation: {
+  bubbleValidation: {
     doc: 'Prevent the form from being submitted when there are fields with errors inside the PushContainer.',
     type: 'boolean',
     status: 'optional',

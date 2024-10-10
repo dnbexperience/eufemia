@@ -44,7 +44,7 @@ describe('PushContainer', () => {
     )
   })
 
-  describe('delegateValidation', () => {
+  describe('bubbleValidation', () => {
     it('should prevent the form from submitting as long as there are errors', async () => {
       const onSubmitRequest = jest.fn()
       const onSubmit = jest.fn()
@@ -59,7 +59,7 @@ describe('PushContainer', () => {
 
           <Iterate.PushContainer
             path="/entries"
-            delegateValidation
+            bubbleValidation
             onCommit={onCommit}
           >
             <Field.String itemPath="/name" required />

@@ -51,7 +51,7 @@ export type IsolationProviderProps<Data> = {
   /**
    * Prevent the form from being submitted when there are fields with errors inside the Form.Isolation.
    */
-  delegateValidation?: boolean
+  bubbleValidation?: boolean
   /**
    * Used internally by the Form.Isolation component
    */
@@ -89,7 +89,7 @@ function IsolationProvider<Data extends JsonObject>(
     onClear: onClearProp,
     transformOnCommit: transformOnCommitProp,
     commitHandleRef,
-    delegateValidation,
+    bubbleValidation,
     data,
     defaultData,
   } = props
@@ -247,7 +247,7 @@ function IsolationProvider<Data extends JsonObject>(
         }}
       </DataContext.Consumer>
 
-      {delegateValidation && (
+      {bubbleValidation && (
         <DelegateValidation outerContext={outerContext} />
       )}
     </Provider>

@@ -20,7 +20,7 @@ export const IsolationProperties: PropertiesTableProps = {
     type: 'React.Ref',
     status: 'optional',
   },
-  delegateValidation: {
+  bubbleValidation: {
     doc: 'Prevent the form from being submitted when there are fields with errors inside the Form.Isolation.',
     type: 'boolean',
     status: 'optional',
