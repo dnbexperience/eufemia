@@ -37,7 +37,6 @@ function PostalCodeAndCity(props: Props) {
   const isNorway = useMemo(() => countryValue === 'no', [countryValue])
 
   const postalCodeValidationProps = useMemo(() => {
-    console.log('Recalc')
     return {
       mask:
         postalCode.mask ?? isNorway
