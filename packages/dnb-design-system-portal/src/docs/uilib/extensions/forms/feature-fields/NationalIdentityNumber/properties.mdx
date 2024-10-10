@@ -28,6 +28,17 @@ import { NationalIdentityNumberProperties } from '@dnb/eufemia/src/extensions/fo
   - validates the identification number as a national identity number (fødselsnummer) when first digit is 3 or less.
 - `adultValidator`: validates if the identification number has a date of birth that is 18 years or older. It uses only the 9 first digits of an identification number to validate, first 6 digits representing the birth of date, and the next three digits are individual numbers. It does not validate the identification number, therefore it's quite common to use this validator together with one of the validators above (`dnrValidator`, `fnrValidator` or `dnrAndFnrValidator`) to validate the identification number as well.
 
+You can create your own `adultValidator` by using the `createAboveAgeValidator` function. It takes an age as a parameter and returns a validator function. The validator function takes a value and returns an error message if the value is not above the given age.
+
+You need to import the `createAboveAgeValidator` function from the `Field.NationalIdentityNumber` component:
+
+```tsx
+import { createAboveAgeValidator } from '@dnb/eufemia/extensions/forms/Field/NationalIdentityNumber'
+
+// Create a validator that validates if the value is above 18 years old
+const above18Validator = createAboveAgeValidator(18)
+```
+
 See the following [example](/uilib/extensions/forms/feature-fields/NationalIdentityNumber/#extend-validation-with-custom-validation-function) on how to extend validation using the exposed validators.
 
 ## Translations

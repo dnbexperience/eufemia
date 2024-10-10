@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
 import { dnr, fnr } from '@navikt/fnrvalidator'
-import { Validator } from '../../types'
+import { FormError, Validator } from '../../types'
 
 import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
@@ -14,14 +14,14 @@ export type Props = Omit<StringFieldProps, 'onBlurValidator'> & {
 
 function NationalIdentityNumber(props: Props) {
   const translations = useTranslation().NationalIdentityNumber
-  const { label, errorRequired, errorFnr, errorDnr, errorAdult } =
+  const { label, errorRequired, errorFnr, errorDnr, errorBelowAge } =
     translations
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: errorRequired,
     pattern: errorFnr,
     errorFnr,
     errorDnr,
-    errorAdult,
+    errorBelowAge,
   })
 
   const fnrValidator = useCallback(
@@ -60,18 +60,6 @@ function NationalIdentityNumber(props: Props) {
       return fnrValidator(value)
     },
     [dnrValidator, fnrValidator]
-  )
-
-  const adultValidator = useCallback(
-    (value: string) => {
-      // if (value !== undefined && value.length < 9) {
-      //   return Error(errorAdultPattern)
-      // }
-      if (value !== undefined && !is18YearsOrOlder(value)) {
-        return Error(errorAdult)
-      }
-    },
-    [errorAdult]
   )
 
   const {
@@ -120,33 +108,34 @@ function NationalIdentityNumber(props: Props) {
       dnrValidator,
       fnrValidator,
       dnrAndFnrValidator,
-      adultValidator,
     },
   }
 
   return <StringField {...StringFieldProps} />
 }
 
-function is18YearsOrOlder(value: string) {
-  if (!new RegExp('^[0-9]{11}$').test(value)) return false
+export function getAgeByBirthDate(birthDate: Date): number {
+  const today = new Date()
+  const age = today.getFullYear() - birthDate.getFullYear()
+  const month = today.getMonth() - birthDate.getMonth()
+  const day = today.getDate() - birthDate.getDate()
 
-  function getAge(birthDate: Date): number {
-    const today = new Date()
-    const age = today.getFullYear() - birthDate.getFullYear()
-    const month = today.getMonth() - birthDate.getMonth()
-    const day = today.getDate() - birthDate.getDate()
+  if (month < 0 || (month === 0 && day < 0)) {
+    return age - 1
+  }
 
-    if (month < 0 || (month === 0 && day < 0)) {
-      return age - 1
-    }
+  return age
+}
 
-    return age
+export function getBirthDateByFnrOrDnr(value: string) {
+  if (value === undefined) {
+    return // stop here
   }
 
   const yearPart = value.substring(4, 6)
-  const individNumber = Number.parseInt(value.substring(6, 9))
+  const individualNumber = Number.parseInt(value.substring(6, 9))
 
-  const isBornIn20XX = individNumber >= 500 && individNumber <= 999
+  const isBornIn20XX = individualNumber >= 500 && individualNumber <= 999
   const year = isBornIn20XX ? `20${yearPart}` : `19${yearPart}`
   const month = Number.parseInt(value.substring(2, 4))
 
@@ -157,9 +146,24 @@ function is18YearsOrOlder(value: string) {
   const day = isDnr
     ? Number.parseInt(value.substring(0, 2)) - 40
     : Number.parseInt(value.substring(0, 2))
-  const date = new Date(Number.parseInt(year), month - 1, day)
 
-  return getAge(date) >= 18
+  return new Date(Number.parseInt(year), month - 1, day)
+}
+
+export function createAboveAgeValidator(age: number) {
+  return (value: string) => {
+    if (typeof value !== 'string' || value.length < 9) {
+      return
+    }
+
+    const date = getBirthDateByFnrOrDnr(value)
+    if (getAgeByBirthDate(date) < age) {
+      return new FormError('NationalIdentityNumber.errorBelowAge', {
+        validationRule: 'errorBelowAge', // "validationRule" Will be removed in future PR
+        messageValues: { age: String(age) },
+      })
+    }
+  }
 }
 
 NationalIdentityNumber._supportsSpacingProps = true
