@@ -6,13 +6,12 @@ showTabs: true
 
 The `Form.useSnapshot` hook lets you store data snapshots of your form data, either inside or outside of the form context.
 
-The hook returns an object with the following properties:
-
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
 function MyComponent() {
-  const { createSnapshot, revertSnapshot } = Form.useSnapshot()
+  const { createSnapshot, applySnapshot, revertSnapshot } =
+    Form.useSnapshot()
 
   return <>MyComponent</>
 }
@@ -24,16 +23,49 @@ render(
 )
 ```
 
+The hook returns an object with the following properties:
+
 - `createSnapshot` will store the current data as a new snapshot with the given id.
+- `applySnapshot` will revert the data to the snapshot with the given id (required).
 - `revertSnapshot` will revert the data to the snapshot with the given id (required). A reverted snapshot gets deleted from the memory.
 
-## Usage
+## Partial data snapshots
+
+In order to create and revert a snapshot for a specific part of the data context, you can use the `Form.Snapshot` component:
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+function MyForm() {
+  return (
+    <Form.Handler>
+      <Form.Snapshot name="my-snapshot-slice-name">
+        <Field.String path="/foo" label="Will be reverted" />
+        <Field.String path="/bar" label="Me too" />
+      </Form.Snapshot>
+
+      <Field.String path="/baz" label="Will stay as before" />
+    </Form.Handler>
+  )
+}
+```
+
+When calling the `createSnapshot` or `revertSnapshot` functions, you can pass inn your snapshot the `name` (my-snapshot-slice-name) as the second parameter. This will make sure that the snapshot is only applied to the given part of the form data.
+
+```tsx
+createSnapshot('my-snapshot-1', 'my-snapshot-slice-name')
+revertSnapshot('my-snapshot-1', 'my-snapshot-slice-name')
+```
+
+You can check out examples in the demo section.
+
+## Usage of the `Form.useSnapshot` hook
 
 You can use the `Form.useSnapshot` hook with or without an `id` (string) property, which is optional and can be used to link the data to a specific [Form.Handler](/uilib/extensions/forms/Form/Handler/) component.
 
 ### Without an `id` property
 
-Here "Component" is rendered inside the `Form.Handler` component and does not need an `id` property to access the form data:
+Here "Component" is rendered inside the `Form.Handler` component and does not need an `id` property to access the snapshot:
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'

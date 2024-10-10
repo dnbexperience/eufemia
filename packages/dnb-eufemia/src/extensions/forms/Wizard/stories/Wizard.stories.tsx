@@ -56,9 +56,9 @@ export const WizardDynamicStepsActiveWhen = () => {
           )
 
           if (mode === 'previous') {
-            revertSnapshot(args.id)
+            revertSnapshot(args.id, 'my-snapshot-slice')
           } else {
-            createSnapshot(args.previousStep.id)
+            createSnapshot(args.previousStep.id, 'my-snapshot-slice')
           }
         }}
       >
@@ -68,7 +68,12 @@ export const WizardDynamicStepsActiveWhen = () => {
           id="step-a"
         >
           <Form.MainHeading>Step A</Form.MainHeading>
-          <Field.String path="/foo" label="Content" />
+
+          <Form.Snapshot name="my-snapshot-slice">
+            <Field.String path="/foo" label="Will be reverted" />
+          </Form.Snapshot>
+
+          <Field.String path="/bar" label="Will stay" />
           <Wizard.Buttons />
         </Wizard.Step>
 
@@ -78,7 +83,8 @@ export const WizardDynamicStepsActiveWhen = () => {
           id="step-b"
         >
           <Form.MainHeading>Step B</Form.MainHeading>
-          <Field.String path="/foo" label="Content" />
+          <Field.String path="/foo" label="Will be reverted" />
+          <Field.String path="/bar" label="Will stay" />
           <Wizard.Buttons />
         </Wizard.Step>
 

@@ -1,10 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react'
-import useStepAnimation from './useStepAnimation'
 
-export default function useHandleLayoutEffect({
-  activeIndexRef,
-  stepElementRef,
-}) {
+export default function useHandleLayoutEffect({ stepElementRef }) {
   const isInteractionRef = useRef(false)
 
   useEffect(() => {
@@ -15,8 +11,6 @@ export default function useHandleLayoutEffect({
     }, delay)
     return () => clearTimeout(timeout)
   })
-
-  useStepAnimation({ activeIndexRef, stepElementRef })
 
   const action = useCallback((fn: () => void) => {
     // Wait for the next render cycle

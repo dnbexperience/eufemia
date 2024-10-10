@@ -33,6 +33,7 @@ import {
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
 import useHandleLayoutEffect from './useHandleLayoutEffect'
+import useStepAnimation from './useStepAnimation'
 import { ComponentProps } from '../../types'
 import useVisibility from '../../Form/Visibility/useVisibility'
 
@@ -130,6 +131,12 @@ function WizardContainer(props: Props) {
   const errorOnStepRef = useRef<Record<StepIndex, boolean>>({})
   const stepElementRef = useRef<HTMLElement>()
   const preventNextStepRef = useRef(false)
+  const stepsRef = useRef<Steps>({})
+  const tmpStepsRef = useRef<Steps>({})
+  const updateTitlesRef = useRef<() => void>()
+  const prerenderFieldPropsRef = useRef<
+    Record<string, () => React.ReactElement>
+  >({})
 
   // - Handle shared state
   const sharedStateRef =
@@ -182,7 +189,16 @@ function WizardContainer(props: Props) {
   )
 
   const { setFocus, scrollToTop, isInteractionRef } =
-    useHandleLayoutEffect({ activeIndexRef, stepElementRef })
+    useHandleLayoutEffect({
+      stepElementRef,
+    })
+
+  const executeLayoutAnimationRef = useRef<() => void>()
+  useStepAnimation({
+    activeIndexRef,
+    stepElementRef,
+    executeLayoutAnimationRef,
+  })
 
   const handleLayoutEffect = useCallback(() => {
     if (!omitFocusManagement) {
@@ -311,13 +327,6 @@ function WizardContainer(props: Props) {
   )
   dataContext.setHandleSubmit?.(handleSubmit)
 
-  const stepsRef = useRef<Steps>({})
-  const tmpStepsRef = useRef<Steps>({})
-  const updateTitlesRef = useRef<() => void>()
-  const prerenderFieldPropsRef = useRef<
-    Record<string, () => React.ReactElement>
-  >({})
-
   const { check } = useVisibility()
 
   const activeIndex = activeIndexRef.current
@@ -361,16 +370,21 @@ function WizardContainer(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stepsRef.current])
 
-  useLayoutEffect(() => {
+  const stepsLengthDidChange = useCallback(() => {
     const count = Object.keys(stepsRef.current).length
     const tmpCount = Object.keys(tmpStepsRef.current).length
-    if (count !== 0 && tmpCount !== 0 && count !== tmpCount) {
-      // - Call onStepChange when step gets replaced or added (activeWhen)
+    return count !== 0 && tmpCount !== 0 && count !== tmpCount
+  }, [])
+
+  // - Call onStepChange when step gets replaced or added (e.g. via activeWhen)
+  useLayoutEffect(() => {
+    if (stepsLengthDidChange()) {
       callOnStepChange(activeIndexRef.current, 'stepListModified')
+      executeLayoutAnimationRef.current?.()
     }
     tmpStepsRef.current = stepsRef.current
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stepsRef.current])
+  }, [stepsRef.current, callOnStepChange, stepsLengthDidChange])
 
   if (!hasContext) {
     warn('You may wrap Wizard.Container in Form.Handler')
