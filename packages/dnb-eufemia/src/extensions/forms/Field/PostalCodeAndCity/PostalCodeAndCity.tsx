@@ -17,7 +17,7 @@ export type Props = FieldHelpProps &
      * Default: `no`
      */
     // Add type for all country codes?
-    country?: Path | 'no' | string
+    country?: Path | string
   }
 
 function PostalCodeAndCity(props: Props) {
@@ -39,12 +39,21 @@ function PostalCodeAndCity(props: Props) {
 
   const postalCodeValidationProps = useMemo(() => {
     return {
-      mask:
-        postalCode.mask ?? isNorway
-          ? [/\d/, /\d/, /\d/, /\d/]
-          : postalCode.mask,
-      pattern: postalCode.pattern ?? isNorway ? '^[0-9]{4}$' : '',
-      placeholder: postalCode.placeholder ?? isNorway ? '0000' : '',
+      mask: postalCode?.mask
+        ? postalCode.mask
+        : isNorway
+        ? [/\d/, /\d/, /\d/, /\d/]
+        : postalCode.mask,
+      pattern: postalCode.pattern
+        ? postalCode?.pattern
+        : isNorway
+        ? '^[0-9]{4}$'
+        : '',
+      placeholder: postalCode?.placeholder
+        ? postalCode.placeholder
+        : isNorway
+        ? '0000'
+        : '',
     }
   }, [
     postalCode.pattern,
@@ -96,7 +105,7 @@ function PostalCodeAndCity(props: Props) {
         }}
         pattern={city.pattern ?? '^[A-Za-zÆØÅæøå -]+$'}
         trim
-        width="stretch"
+        width={city.width ?? 'stretch'}
         autoComplete="address-level2"
         help={help}
       />
