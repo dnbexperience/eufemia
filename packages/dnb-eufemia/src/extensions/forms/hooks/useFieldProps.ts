@@ -533,24 +533,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
     return args
   }, [contextErrorMessages, getValueByPath, setFieldEventListener])
-  const extendWithExportedValidators = useCallback(
-    (
-      validator: Validator<Value>,
-      result: ReturnType<Validator<Value>>
-    ) => {
-      if (
-        exportValidatorsRef.current &&
-        !result &&
-        (validator === onChangeValidatorRef.current ||
-          validator === onBlurValidatorRef.current)
-      ) {
-        return Object.values(exportValidatorsRef.current)
-      }
-
-      return result
-    },
-    []
-  )
 
   const callStackRef = useRef<Array<Validator<Value>>>([])
   const hasBeenCalledRef = useCallback((validator: Validator<Value>) => {
@@ -568,10 +550,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         return
       }
 
-      const result = extendWithExportedValidators(
-        validator,
-        await validator(value, additionalArgs)
-      )
+      const result = await validator(value, additionalArgs)
 
       if (Array.isArray(result)) {
         for (const validator of result) {
@@ -589,7 +568,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         return result
       }
     },
-    [additionalArgs, extendWithExportedValidators, hasBeenCalledRef]
+    [additionalArgs, hasBeenCalledRef]
   )
 
   const callValidatorFnSync = useCallback(
@@ -601,10 +580,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         return // stop here
       }
 
-      const result = extendWithExportedValidators(
-        validator,
-        validator(value, additionalArgs)
-      )
+      const result = validator(value, additionalArgs)
 
       if (Array.isArray(result)) {
         const hasAsyncValidator = result.some((validator) =>
@@ -633,12 +609,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         return result
       }
     },
-    [
-      additionalArgs,
-      callValidatorFnAsync,
-      extendWithExportedValidators,
-      hasBeenCalledRef,
-    ]
+    [additionalArgs, callValidatorFnAsync, hasBeenCalledRef]
   )
 
   /**

@@ -3372,7 +3372,7 @@ describe('useFieldProps', () => {
       })
     })
 
-    describe('exportValidators', () => {
+    describe('validators given as an array', () => {
       it('should call all validators returned as an array', async () => {
         const fooValidator = jest.fn((value) => {
           if (value.includes('foo')) {
@@ -3470,7 +3470,9 @@ describe('useFieldProps', () => {
         expect(fooValidator).toHaveBeenCalledTimes(5)
         expect(barValidator).toHaveBeenCalledTimes(4)
       })
+    })
 
+    describe('exportValidators', () => {
       it('should call exported validators from mock component', async () => {
         let internalValidators, fooValidator, barValidator, bazValidator
 
@@ -3589,13 +3591,13 @@ describe('useFieldProps', () => {
         await userEvent.type(input, '123')
         fireEvent.blur(input)
 
-        expect(onBlurValidator).toHaveBeenCalledTimes(2)
+        expect(onBlurValidator).toHaveBeenCalledTimes(1)
         expect(document.querySelector('.dnb-form-status')).toBeNull()
 
         await userEvent.type(input, '4')
         fireEvent.blur(input)
 
-        expect(onBlurValidator).toHaveBeenCalledTimes(3)
+        expect(onBlurValidator).toHaveBeenCalledTimes(2)
         await waitFor(() => {
           expect(
             document.querySelector('.dnb-form-status')
@@ -3843,7 +3845,36 @@ describe('useFieldProps', () => {
         })
       })
 
-      it('should call internal validates when they are not returned in the publicValidator', async () => {
+      it('should not run exported internal validators when a validator is given', async () => {
+        const exportedValidator = jest.fn(() => {
+          return undefined
+        })
+
+        const myValidator = jest.fn(() => {
+          return undefined
+        })
+
+        const MockComponent = (props) => {
+          return (
+            <Field.String
+              label="Label"
+              validator={props.validator}
+              exportValidators={{ exportedValidator }}
+              validateInitially
+            />
+          )
+        }
+
+        render(<MockComponent validator={myValidator} />)
+
+        await expect(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toBeInTheDocument()
+        }).neverToResolve()
+      })
+
+      it('should not call internal validates when they are not returned in the publicValidator', async () => {
         let internalValidators, barValidator, bazValidator
 
         const MockComponent = (props) => {
@@ -3911,12 +3942,12 @@ describe('useFieldProps', () => {
           document.querySelector('input'),
           '{Backspace}bar'
         )
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toHaveTextContent('bar')
-        })
+        await expect(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+        }).neverToResolve()
         expect(publicValidator).toHaveBeenCalledTimes(5)
-        expect(barValidator).toHaveBeenCalledTimes(4)
-        expect(bazValidator).toHaveBeenCalledTimes(3)
+        expect(barValidator).toHaveBeenCalledTimes(0)
+        expect(bazValidator).toHaveBeenCalledTimes(0)
         expect(internalValidators).toHaveBeenCalledTimes(0)
 
         await userEvent.type(
@@ -3924,12 +3955,12 @@ describe('useFieldProps', () => {
           '{Backspace}baz'
         )
 
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toHaveTextContent('baz')
-        })
+        await expect(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+        }).neverToResolve()
         expect(publicValidator).toHaveBeenCalledTimes(9)
-        expect(barValidator).toHaveBeenCalledTimes(8)
-        expect(bazValidator).toHaveBeenCalledTimes(7)
+        expect(barValidator).toHaveBeenCalledTimes(0)
+        expect(bazValidator).toHaveBeenCalledTimes(0)
         expect(internalValidators).toHaveBeenCalledTimes(0)
       })
     })
