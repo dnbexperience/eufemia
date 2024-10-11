@@ -172,3 +172,20 @@ export const IterateArray = () => {
     </ComponentBox>
   )
 }
+
+export const NonNorwegianPostalCode = () => {
+  return (
+    <ComponentBox>
+      <Field.PostalCodeAndCity
+        country="de"
+        postalCode={{
+          pattern: '^[0-9]{5}$',
+          mask: [/\\d/, /\\d/, /\\d/, /\\d/, /\\d/],
+          placeholder: '00000',
+          width: 'medium',
+        }}
+        city={{ pattern: '^[a-zA-ZäöüÄÖÜß -]+$', width: 'stretch' }}
+      />
+    </ComponentBox>
+  )
+}
