@@ -172,9 +172,9 @@ export const ValidationExtendValidator = () => {
           }
         }
         const myValidator = (value, { validators }) => {
-          const { dnrValidator, fnrValidator } = validators
+          const { dnrAndFnrValidator } = validators
 
-          return [dnrValidator, fnrValidator, bornInAprilValidator]
+          return [dnrAndFnrValidator, bornInAprilValidator]
         }
 
         return (

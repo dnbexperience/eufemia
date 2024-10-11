@@ -171,7 +171,7 @@ describe('Field.OrganizationNumber', () => {
   it('should validate organization number based on the internal validator', async () => {
     render(
       <Form.Handler>
-        <Field.OrganizationNumber validateInitially value="123" />
+        <Field.OrganizationNumber validateInitially value="123321123" />
       </Form.Handler>
     )
 
@@ -290,6 +290,7 @@ describe('Field.OrganizationNumber', () => {
           validateInitially
           validate={false}
           validator={customValidator}
+          onBlurValidator={false}
         />
       </Form.Handler>
     )
@@ -326,6 +327,7 @@ describe('Field.OrganizationNumber', () => {
           validateInitially
           validate={false}
           validator={customValidator}
+          onBlurValidator={false}
         />
       </Form.Handler>
     )
@@ -355,7 +357,8 @@ describe('Field.OrganizationNumber', () => {
       '148623902',
     ]
 
-    const invalidOrgNum = ['123', '123456789', '148623907', '987654321']
+    const invalidOrgNum = ['123456789', '148623907', '987654321']
+    const invalidOrgNumTooShort = ['123', '321', '123123', '321321']
 
     it.each(validOrgNum)(
       'Valid organization number: %s',
@@ -378,11 +381,7 @@ describe('Field.OrganizationNumber', () => {
       'Invalid organization number: %s',
       async (orgNo) => {
         render(
-          <Field.OrganizationNumber
-            value={orgNo}
-            validateInitially
-            validateUnchanged
-          />
+          <Field.OrganizationNumber value={orgNo} validateInitially />
         )
 
         fireEvent.blur(document.querySelector('input'))
@@ -391,6 +390,24 @@ describe('Field.OrganizationNumber', () => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
             nb.OrganizationNumber.errorOrgNo
+          )
+        })
+      }
+    )
+
+    it.each(invalidOrgNumTooShort)(
+      'Invalid organization number: %s',
+      async (orgNo) => {
+        render(
+          <Field.OrganizationNumber value={orgNo} validateInitially />
+        )
+
+        fireEvent.blur(document.querySelector('input'))
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          expect(screen.queryByRole('alert')).toHaveTextContent(
+            nb.OrganizationNumber.errorOrgNoLength
           )
         })
       }
@@ -415,21 +432,19 @@ describe('Field.OrganizationNumber', () => {
       '756299263',
     ]
 
-    const invalidOrgNum = ['123', '123456789', '148623907', '987654321']
+    const invalidOrgNum = ['123456789', '148623907', '987654321']
+    const invalidOrgNumTooShort = ['123', '321', '123123', '321321']
 
-    const firstNumIs1 = (value: string) =>
-      value.substring(0, 1) === '1'
-        ? { status: 'valid' }
-        : { status: 'invalid' }
+    const firstNumIs1Validator = (value: string) => {
+      if (value.substring(0, 1) !== '1') {
+        return new Error('My error')
+      }
+    }
 
     const customValidator: Validator<string> = (value, { validators }) => {
       const { organizationNumberValidator } = validators
-      const result = firstNumIs1(value)
-      if (result.status === 'invalid') {
-        return new Error('My error')
-      }
 
-      return [organizationNumberValidator]
+      return [organizationNumberValidator, firstNumIs1Validator]
     }
 
     it.each(validOrgNumStartingWith1)(
@@ -440,7 +455,7 @@ describe('Field.OrganizationNumber', () => {
             <Field.OrganizationNumber
               value={orgNo}
               validateInitially
-              validator={customValidator}
+              onBlurValidator={customValidator}
             />
           </Form.Handler>
         )
@@ -460,12 +475,9 @@ describe('Field.OrganizationNumber', () => {
           <Field.OrganizationNumber
             value={orgNo}
             validateInitially
-            validateUnchanged
-            validator={customValidator}
+            onBlurValidator={customValidator}
           />
         )
-
-        fireEvent.blur(document.querySelector('input'))
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -481,8 +493,7 @@ describe('Field.OrganizationNumber', () => {
           <Field.OrganizationNumber
             value={orgNo}
             validateInitially
-            validateUnchanged
-            validator={customValidator}
+            onBlurValidator={customValidator}
           />
         )
 
@@ -492,6 +503,28 @@ describe('Field.OrganizationNumber', () => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
           expect(screen.queryByRole('alert')).toHaveTextContent(
             nb.OrganizationNumber.errorOrgNo
+          )
+        })
+      }
+    )
+
+    it.each(invalidOrgNumTooShort)(
+      'Invalid organization number: %s',
+      async (orgNo) => {
+        render(
+          <Field.OrganizationNumber
+            value={orgNo}
+            validateInitially
+            onBlurValidator={customValidator}
+          />
+        )
+
+        fireEvent.blur(document.querySelector('input'))
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          expect(screen.queryByRole('alert')).toHaveTextContent(
+            nb.OrganizationNumber.errorOrgNoLength
           )
         })
       }

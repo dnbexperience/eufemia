@@ -12,21 +12,30 @@ export type Props = Omit<StringFieldProps, 'onBlurValidator'> & {
 
 function OrganizationNumber(props: Props) {
   const translations = useTranslation().OrganizationNumber
-  const { errorOrgNo, errorRequired, label } = translations
+  const { errorOrgNo, errorOrgNoLength, errorRequired, label } =
+    translations
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: errorRequired,
     pattern: errorOrgNo,
     errorOrgNo,
+    errorOrgNoLength,
   })
 
   const organizationNumberValidator = useCallback(
     (value: string) => {
-      if (value !== undefined && !isValidOrgNumber(value)) {
-        return Error(errorOrgNo)
+      if (value !== undefined) {
+        const orgNoIs9Digits = value?.length === 9
+
+        if (!orgNoIs9Digits) {
+          return Error(errorOrgNoLength)
+        }
+        if (orgNoIs9Digits && !isValidOrgNumber(value)) {
+          return Error(errorOrgNo)
+        }
       }
     },
-    [errorOrgNo]
+    [errorOrgNo, errorOrgNoLength]
   )
 
   const {
