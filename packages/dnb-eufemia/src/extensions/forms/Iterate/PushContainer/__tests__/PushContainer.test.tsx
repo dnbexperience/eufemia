@@ -1,10 +1,11 @@
-import React from 'react'
-import { render, waitFor } from '@testing-library/react'
+import React, { useContext } from 'react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Field, Form, Iterate } from '../../..'
-import nbNO from '../../../constants/locales/nb-NO'
 import { Div } from '../../../../../elements'
+import DataContext from '../../../DataContext/Context'
 
+import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
 describe('PushContainer', () => {
@@ -41,6 +42,56 @@ describe('PushContainer', () => {
       },
       expect.anything()
     )
+  })
+
+  describe('bubbleValidation', () => {
+    it('should prevent the form from submitting as long as there are errors', async () => {
+      const onSubmitRequest = jest.fn()
+      const onSubmit = jest.fn()
+      const onCommit = jest.fn()
+
+      render(
+        <Form.Handler
+          onSubmitRequest={onSubmitRequest}
+          onSubmit={onSubmit}
+        >
+          <Iterate.Array path="/entries">...</Iterate.Array>
+
+          <Iterate.PushContainer
+            path="/entries"
+            bubbleValidation
+            onCommit={onCommit}
+          >
+            <Field.String itemPath="/name" required />
+          </Iterate.PushContainer>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const form = document.querySelector('form')
+      const commitButton = document.querySelector('button')
+
+      await userEvent.click(commitButton)
+      fireEvent.submit(form)
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Field.errorRequired
+      )
+
+      expect(onSubmit).toHaveBeenCalledTimes(0)
+      expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+      expect(onCommit).toHaveBeenCalledTimes(0)
+
+      await userEvent.type(input, 'Tony')
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+      expect(onCommit).toHaveBeenCalledTimes(0)
+
+      await userEvent.click(commitButton)
+      expect(onCommit).toHaveBeenCalledTimes(1)
+    })
   })
 
   it('should show view container after adding a new entry', async () => {
@@ -449,6 +500,262 @@ describe('PushContainer', () => {
       ['foo', 'bar'],
       expect.anything()
     )
+  })
+
+  describe('defaultValue', () => {
+    it('should render and set defaultValue in data context', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Form.Handler onChange={onChange}>
+          <Iterate.PushContainer path="/myList">
+            <Field.String itemPath="/foo" defaultValue="bar" />
+          </Iterate.PushContainer>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('input')).toHaveValue('bar')
+      await userEvent.click(document.querySelector('button'))
+
+      expect(document.querySelector('input')).toHaveValue('bar')
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          myList: [{ foo: 'bar' }],
+        },
+        expect.anything()
+      )
+
+      await userEvent.click(document.querySelector('button'))
+
+      expect(document.querySelector('input')).toHaveValue('bar')
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          myList: [{ foo: 'bar' }, { foo: 'bar' }],
+        },
+        expect.anything()
+      )
+    })
+
+    it('should support "/" as the path and push the defaultValue', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Form.Handler onChange={onChange}>
+          <Iterate.PushContainer path="/">
+            <Field.String itemPath="/" defaultValue="foo" />
+          </Iterate.PushContainer>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('input')).toHaveValue('foo')
+      await userEvent.click(document.querySelector('button'))
+
+      expect(document.querySelector('input')).toHaveValue('foo')
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenLastCalledWith(['foo'], expect.anything())
+
+      await userEvent.click(document.querySelector('button'))
+
+      expect(document.querySelector('input')).toHaveValue('foo')
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onChange).toHaveBeenLastCalledWith(
+        ['foo', 'foo'],
+        expect.anything()
+      )
+    })
+
+    it('should render and extend the data context', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Form.Handler data={['foo']} onChange={onChange}>
+          <Iterate.Array path="/">
+            <Iterate.ViewContainer>View Content</Iterate.ViewContainer>
+            <Iterate.EditContainer>Edit Content</Iterate.EditContainer>
+          </Iterate.Array>
+
+          <Iterate.PushContainer path="/">
+            <Field.String itemPath="/" defaultValue="bar" />
+          </Iterate.PushContainer>
+        </Form.Handler>
+      )
+
+      const blocks = Array.from(
+        document.querySelectorAll('.dnb-forms-section-block')
+      )
+      const [, , thirdBlock] = blocks
+
+      const input = thirdBlock.querySelector('input')
+      expect(input).toHaveValue('bar')
+
+      await userEvent.click(thirdBlock.querySelector('button'))
+
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenLastCalledWith(
+        ['foo', 'bar'],
+        expect.anything()
+      )
+    })
+
+    it('should not show error message after clearing', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Form.Handler onChange={onChange}>
+          <Iterate.PushContainer path="/entries">
+            <Field.Name.First
+              itemPath="/first"
+              defaultValue="first name"
+              required
+            />
+            <Field.Name.Last
+              itemPath="/last"
+              defaultValue="last name"
+              required
+            />
+          </Iterate.PushContainer>
+        </Form.Handler>
+      )
+
+      const [firstInput, lastInput] = Array.from(
+        document.querySelectorAll('input')
+      )
+      const button = document.querySelector('button')
+
+      expect(firstInput).toHaveValue('first name')
+      expect(lastInput).toHaveValue('last name')
+
+      await userEvent.click(button)
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          entries: [
+            {
+              first: 'first name',
+              last: 'last name',
+            },
+          ],
+        },
+        expect.anything()
+      )
+
+      expect(firstInput).toHaveValue('first name')
+      expect(lastInput).toHaveValue('last name')
+
+      await userEvent.click(button)
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          entries: [
+            {
+              first: 'first name',
+              last: 'last name',
+            },
+            {
+              first: 'first name',
+              last: 'last name',
+            },
+          ],
+        },
+        expect.anything()
+      )
+
+      expect(firstInput).toHaveValue('first name')
+      expect(lastInput).toHaveValue('last name')
+
+      await userEvent.click(button)
+      expect(onChange).toHaveBeenCalledTimes(3)
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          entries: [
+            {
+              first: 'first name',
+              last: 'last name',
+            },
+            {
+              first: 'first name',
+              last: 'last name',
+            },
+            {
+              first: 'first name',
+              last: 'last name',
+            },
+          ],
+        },
+        expect.anything()
+      )
+
+      expect(firstInput).toHaveValue('first name')
+      expect(lastInput).toHaveValue('last name')
+
+      await waitFor(() => {
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+      })
+    })
+
+    it('should keep the defaultValue after clearing', async () => {
+      const onChange = jest.fn()
+      const onCommit = jest.fn()
+
+      let internalContext = null
+      const CollectInternalData = () => {
+        internalContext = useContext(DataContext)
+        return null
+      }
+
+      render(
+        <Form.Handler onChange={onChange}>
+          <Iterate.PushContainer path="/" onCommit={onCommit}>
+            <Field.String itemPath="/" defaultValue="default value" />
+            <CollectInternalData />
+          </Iterate.PushContainer>
+        </Form.Handler>
+      )
+
+      expect(internalContext).toMatchObject({
+        data: {
+          pushContainerItems: ['default value'],
+        },
+      })
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, ' changed')
+
+      const button = document.querySelector('button')
+
+      await userEvent.click(button)
+      expect(internalContext.internalDataRef.current).toEqual({
+        pushContainerItems: ['default value'],
+      })
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenLastCalledWith(
+        ['default value changed'],
+        expect.anything()
+      )
+      expect(onCommit).toHaveBeenCalledTimes(1)
+      expect(onCommit).toHaveBeenLastCalledWith(
+        ['default value changed'],
+        expect.anything()
+      )
+
+      await userEvent.click(button)
+      expect(internalContext.internalDataRef.current).toEqual({
+        pushContainerItems: ['default value'],
+      })
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onChange).toHaveBeenLastCalledWith(
+        ['default value changed', 'default value'],
+        expect.anything()
+      )
+      expect(onCommit).toHaveBeenCalledTimes(2)
+      expect(onCommit).toHaveBeenLastCalledWith(
+        ['default value changed', 'default value'],
+        expect.anything()
+      )
+    })
   })
 
   it('should support initial data as a string', async () => {

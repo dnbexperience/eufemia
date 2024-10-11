@@ -2938,6 +2938,54 @@ describe('useFieldProps', () => {
     expect(result.current.error).toBeInstanceOf(Error)
   })
 
+  it('should set emptyValue when handleChange gets undefined', async () => {
+    const onSubmit = jest.fn(() => null)
+
+    const first = {}
+    const { result } = renderHook(useFieldProps, {
+      initialProps: {
+        path: '/foo',
+        emptyValue: first,
+      },
+      wrapper: (props) => <Form.Handler {...props} onSubmit={onSubmit} />,
+    })
+
+    const form = document.querySelector('form')
+
+    fireEvent.submit(form)
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenLastCalledWith(
+      { foo: first },
+      expect.anything()
+    )
+    expect(result.current.value).toBe(first)
+
+    const second = {}
+    act(() => {
+      result.current.handleChange(second)
+    })
+
+    fireEvent.submit(form)
+    expect(onSubmit).toHaveBeenCalledTimes(2)
+    expect(onSubmit).toHaveBeenLastCalledWith(
+      { foo: second },
+      expect.anything()
+    )
+    expect(result.current.value).toBe(second)
+
+    act(() => {
+      result.current.handleChange(undefined)
+    })
+
+    fireEvent.submit(form)
+    expect(onSubmit).toHaveBeenCalledTimes(3)
+    expect(onSubmit).toHaveBeenLastCalledWith(
+      { foo: first },
+      expect.anything()
+    )
+    expect(result.current.value).toBe(first)
+  })
+
   it('should call async context onChange regardless of error when executeOnChangeRegardlessOfError is true', async () => {
     const onChange = jest.fn(async () => null)
 
@@ -2968,6 +3016,46 @@ describe('useFieldProps', () => {
   })
 
   describe('validator', () => {
+    describe('validateInitially', () => {
+      it('should show error message initially', async () => {
+        const validator = jest.fn(() => {
+          return new Error('My Error')
+        })
+
+        render(
+          <Form.Handler>
+            <Field.Number validator={validator} validateInitially />
+          </Form.Handler>
+        )
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+        })
+        expect(validator).toHaveBeenCalledTimes(1)
+      })
+
+      it('should show error message initially when validator is async', async () => {
+        const validator = jest.fn(async () => {
+          return new Error('My Error')
+        })
+
+        render(
+          <Form.Handler>
+            <Field.Number
+              label="Label"
+              validator={validator}
+              validateInitially
+            />
+          </Form.Handler>
+        )
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+        })
+        expect(validator).toHaveBeenCalledTimes(1)
+      })
+    })
+
     describe('connectWithPath', () => {
       const validatorFn: UseFieldProps<number>['validator'] = (
         num,
@@ -3332,7 +3420,7 @@ describe('useFieldProps', () => {
       })
     })
 
-    describe('exportValidators', () => {
+    describe('validators given as an array', () => {
       it('should call all validators returned as an array', async () => {
         const fooValidator = jest.fn((value) => {
           if (value.includes('foo')) {
@@ -3377,7 +3465,7 @@ describe('useFieldProps', () => {
           expect(screen.queryByRole('alert')).toHaveTextContent('bar')
         })
         expect(myValidator).toHaveBeenCalledTimes(5)
-        expect(fooValidator).toHaveBeenCalledTimes(4)
+        expect(fooValidator).toHaveBeenCalledTimes(5)
         expect(barValidator).toHaveBeenCalledTimes(4)
       })
 
@@ -3427,10 +3515,12 @@ describe('useFieldProps', () => {
           expect(screen.queryByRole('alert')).toHaveTextContent('bar')
         })
         expect(myValidator).toHaveBeenCalledTimes(5)
-        expect(fooValidator).toHaveBeenCalledTimes(4)
+        expect(fooValidator).toHaveBeenCalledTimes(5)
         expect(barValidator).toHaveBeenCalledTimes(4)
       })
+    })
 
+    describe('exportValidators', () => {
       it('should call exported validators from mock component', async () => {
         let internalValidators, fooValidator, barValidator, bazValidator
 
@@ -3525,7 +3615,7 @@ describe('useFieldProps', () => {
         })
         expect(publicValidator).toHaveBeenCalledTimes(9)
         expect(fooValidator).toHaveBeenCalledTimes(1)
-        expect(barValidator).toHaveBeenCalledTimes(7)
+        expect(barValidator).toHaveBeenCalledTimes(8)
         expect(bazValidator).toHaveBeenCalledTimes(7)
         expect(internalValidators).toHaveBeenCalledTimes(0)
       })
@@ -3549,13 +3639,123 @@ describe('useFieldProps', () => {
         await userEvent.type(input, '123')
         fireEvent.blur(input)
 
-        expect(onBlurValidator).toHaveBeenCalledTimes(2)
+        expect(onBlurValidator).toHaveBeenCalledTimes(1)
         expect(document.querySelector('.dnb-form-status')).toBeNull()
 
         await userEvent.type(input, '4')
         fireEvent.blur(input)
 
-        expect(onBlurValidator).toHaveBeenCalledTimes(3)
+        expect(onBlurValidator).toHaveBeenCalledTimes(2)
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('Error message')
+        })
+      })
+
+      it('should show error on every value change', async () => {
+        const exportedValidator = jest.fn((value) => {
+          if (value === '1234') {
+            return Error('Error message')
+          }
+        })
+
+        const myValidator = jest.fn((value, { validators }) => {
+          const { exportedValidator } = validators
+
+          return [exportedValidator]
+        })
+
+        const MockComponent = (props) => {
+          return (
+            <Field.String
+              label="Label"
+              onBlurValidator={props.onBlurValidator}
+              exportValidators={{ exportedValidator }}
+            />
+          )
+        }
+
+        render(<MockComponent onBlurValidator={myValidator} />)
+
+        const input = document.querySelector('input')
+
+        await userEvent.type(input, '123')
+        fireEvent.blur(input)
+
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+        await userEvent.type(input, '4')
+        fireEvent.blur(input)
+
+        expect(exportedValidator).toHaveBeenCalledTimes(2)
+        expect(myValidator).toHaveBeenCalledTimes(2)
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('Error message')
+        })
+
+        await userEvent.type(input, '{Backspace}4')
+        fireEvent.blur(input)
+
+        expect(exportedValidator).toHaveBeenCalledTimes(3)
+        expect(myValidator).toHaveBeenCalledTimes(3)
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('Error message')
+        })
+      })
+
+      it('should support mixed sync and async validators', async () => {
+        const exportedValidator = jest.fn(async (value) => {
+          if (value === '1234') {
+            return Error('Error message')
+          }
+        })
+
+        const myValidator = jest.fn((value, { validators }) => {
+          const { exportedValidator } = validators
+
+          return [exportedValidator]
+        })
+
+        const MockComponent = (props) => {
+          return (
+            <Field.String
+              label="Label"
+              onBlurValidator={props.onBlurValidator}
+              exportValidators={{ exportedValidator }}
+            />
+          )
+        }
+
+        render(<MockComponent onBlurValidator={myValidator} />)
+
+        const input = document.querySelector('input')
+
+        await userEvent.type(input, '123')
+        fireEvent.blur(input)
+
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+        await userEvent.type(input, '4')
+        fireEvent.blur(input)
+
+        expect(exportedValidator).toHaveBeenCalledTimes(1)
+        expect(myValidator).toHaveBeenCalledTimes(4)
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('Error message')
+        })
+
+        await userEvent.type(input, '{Backspace}4')
+        fireEvent.blur(input)
+
+        expect(exportedValidator).toHaveBeenCalledTimes(2)
+        expect(myValidator).toHaveBeenCalledTimes(6)
         await waitFor(() => {
           expect(
             document.querySelector('.dnb-form-status')
@@ -3663,7 +3863,66 @@ describe('useFieldProps', () => {
         expect(internalValidators).toHaveBeenCalledTimes(0)
       })
 
-      it('should call internal validates when they are not returned in the publicValidator', async () => {
+      it('should show error when validateInitially is set to true', async () => {
+        const exportedValidator = jest.fn(() => {
+          return Error('Error message')
+        })
+
+        const myValidator = jest.fn((value, { validators }) => {
+          const { exportedValidator } = validators
+          return [exportedValidator]
+        })
+
+        const MockComponent = (props) => {
+          return (
+            <Field.String
+              label="Label"
+              validator={props.validator}
+              exportValidators={{ exportedValidator }}
+              validateInitially
+            />
+          )
+        }
+
+        render(<MockComponent validator={myValidator} />)
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toBeInTheDocument()
+        })
+      })
+
+      it('should not run exported internal validators when a validator is given', async () => {
+        const exportedValidator = jest.fn(() => {
+          return undefined
+        })
+
+        const myValidator = jest.fn(() => {
+          return undefined
+        })
+
+        const MockComponent = (props) => {
+          return (
+            <Field.String
+              label="Label"
+              validator={props.validator}
+              exportValidators={{ exportedValidator }}
+              validateInitially
+            />
+          )
+        }
+
+        render(<MockComponent validator={myValidator} />)
+
+        await expect(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toBeInTheDocument()
+        }).toNeverResolve()
+      })
+
+      it('should not call internal validators when they are not returned in the publicValidator', async () => {
         let internalValidators, barValidator, bazValidator
 
         const MockComponent = (props) => {
@@ -3731,12 +3990,12 @@ describe('useFieldProps', () => {
           document.querySelector('input'),
           '{Backspace}bar'
         )
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toHaveTextContent('bar')
-        })
+        await expect(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+        }).toNeverResolve()
         expect(publicValidator).toHaveBeenCalledTimes(5)
-        expect(barValidator).toHaveBeenCalledTimes(4)
-        expect(bazValidator).toHaveBeenCalledTimes(3)
+        expect(barValidator).toHaveBeenCalledTimes(0)
+        expect(bazValidator).toHaveBeenCalledTimes(0)
         expect(internalValidators).toHaveBeenCalledTimes(0)
 
         await userEvent.type(
@@ -3744,18 +4003,61 @@ describe('useFieldProps', () => {
           '{Backspace}baz'
         )
 
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toHaveTextContent('baz')
-        })
+        await expect(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+        }).toNeverResolve()
         expect(publicValidator).toHaveBeenCalledTimes(9)
-        expect(barValidator).toHaveBeenCalledTimes(7)
-        expect(bazValidator).toHaveBeenCalledTimes(7)
+        expect(barValidator).toHaveBeenCalledTimes(0)
+        expect(bazValidator).toHaveBeenCalledTimes(0)
         expect(internalValidators).toHaveBeenCalledTimes(0)
       })
     })
   })
 
   describe('onBlurValidator', () => {
+    describe('validateInitially', () => {
+      it('should show error message initially', async () => {
+        const onBlurValidator = jest.fn(() => {
+          return new Error('My Error')
+        })
+
+        render(
+          <Form.Handler>
+            <Field.Number
+              onBlurValidator={onBlurValidator}
+              validateInitially
+            />
+          </Form.Handler>
+        )
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+        })
+        expect(onBlurValidator).toHaveBeenCalledTimes(1)
+      })
+
+      it('should show error message initially when validator is async', async () => {
+        const onBlurValidator = jest.fn(async () => {
+          return new Error('My Error')
+        })
+
+        render(
+          <Form.Handler>
+            <Field.Number
+              label="Label"
+              onBlurValidator={onBlurValidator}
+              validateInitially
+            />
+          </Form.Handler>
+        )
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+        })
+        expect(onBlurValidator).toHaveBeenCalledTimes(1)
+      })
+    })
+
     describe('connectWithPath', () => {
       const validatorFn: UseFieldProps<number>['validator'] = (
         num,
@@ -4150,6 +4452,35 @@ describe('useFieldProps', () => {
         expect(barValidator).toHaveBeenCalledTimes(0)
         expect(bazValidator).toHaveBeenCalledTimes(2)
         expect(internalValidators).toHaveBeenCalledTimes(0)
+      })
+    })
+
+    it('should show error when validateInitially is set to true', async () => {
+      const exportedValidator = jest.fn(() => {
+        return Error('Error message')
+      })
+
+      const myValidator = jest.fn((value, { validators }) => {
+        const { exportedValidator } = validators
+        return [exportedValidator]
+      })
+
+      const MockComponent = (props) => {
+        return (
+          <Field.String
+            onBlurValidator={props.onBlurValidator}
+            exportValidators={{ exportedValidator }}
+            validateInitially
+          />
+        )
+      }
+
+      render(<MockComponent onBlurValidator={myValidator} />)
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
       })
     })
   })

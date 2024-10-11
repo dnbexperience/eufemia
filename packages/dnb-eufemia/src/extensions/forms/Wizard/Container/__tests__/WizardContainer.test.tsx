@@ -64,20 +64,19 @@ describe('Wizard.Container', () => {
     expect(secondStep.querySelector('.dnb-button').tagName).toBe('SPAN')
   })
 
-  it('should call event listener onStepChange', async () => {
+  it('should call event listener "onStepChange"', async () => {
     const onStepChange = jest.fn()
 
     render(
       <Wizard.Container onStepChange={onStepChange} mode="loose">
         <Wizard.Step title="Step 1">
           <output>Step 1</output>
-          <Wizard.NextButton />
+          <Wizard.Buttons />
         </Wizard.Step>
 
         <Wizard.Step title="Step 2">
           <output>Step 2</output>
-          <Wizard.PreviousButton />
-          <Wizard.NextButton />
+          <Wizard.Buttons />
         </Wizard.Step>
       </Wizard.Container>
     )
@@ -96,7 +95,6 @@ describe('Wizard.Container', () => {
     )
 
     await userEvent.click(firstStep.querySelector('.dnb-button'))
-    await wait(1000)
     expect(output()).toHaveTextContent('Step 1')
     expect(onStepChange).toHaveBeenCalledTimes(2)
     expect(onStepChange).toHaveBeenLastCalledWith(
@@ -106,7 +104,6 @@ describe('Wizard.Container', () => {
     )
 
     await userEvent.click(nextButton())
-    expect(nextButton()).not.toBeDisabled()
 
     expect(onStepChange).toHaveBeenCalledTimes(3)
     expect(onStepChange).toHaveBeenLastCalledWith(
@@ -117,7 +114,6 @@ describe('Wizard.Container', () => {
 
     // Use fireEvent to trigger the event fast
     fireEvent.click(previousButton())
-    expect(previousButton()).not.toBeDisabled()
 
     await waitFor(() => {
       expect(previousButton()).toBeNull()
@@ -128,6 +124,97 @@ describe('Wizard.Container', () => {
         expect.anything()
       )
       expect(previousButton()).not.toBeInTheDocument()
+    })
+  })
+
+  it('should have previousStep in "onStepChange" when navigating back and forth', async () => {
+    const onStepChange = jest.fn()
+
+    render(
+      <Wizard.Container onStepChange={onStepChange} mode="loose">
+        <Wizard.Step title="Step 1">
+          <output>Step 1</output>
+          <Wizard.Buttons />
+        </Wizard.Step>
+
+        <Wizard.Step title="Step 2">
+          <output>Step 2</output>
+          <Wizard.Buttons />
+        </Wizard.Step>
+      </Wizard.Container>
+    )
+
+    await userEvent.click(nextButton())
+
+    expect(onStepChange).toHaveBeenCalledTimes(1)
+    expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
+      preventNavigation: expect.any(Function),
+      previousStep: { index: 0 },
+    })
+
+    await userEvent.click(previousButton())
+
+    expect(onStepChange).toHaveBeenCalledTimes(2)
+    expect(onStepChange).toHaveBeenLastCalledWith(0, 'previous', {
+      preventNavigation: expect.any(Function),
+      previousStep: { index: 1 },
+    })
+
+    await userEvent.click(nextButton())
+
+    expect(onStepChange).toHaveBeenCalledTimes(3)
+    expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
+      preventNavigation: expect.any(Function),
+      previousStep: { index: 0 },
+    })
+  })
+
+  it('should provide id prop in "onStepChange"', async () => {
+    const onStepChange = jest.fn()
+
+    render(
+      <Wizard.Container onStepChange={onStepChange} mode="loose">
+        <Wizard.Step title="Step 1" id="step-1">
+          <output>Step 1</output>
+          <Wizard.Buttons />
+        </Wizard.Step>
+
+        <Wizard.Step title="Step 2" id="step-2">
+          <output>Step 2</output>
+          <Wizard.Buttons />
+        </Wizard.Step>
+      </Wizard.Container>
+    )
+
+    const [firstStep, secondStep] = Array.from(
+      document.querySelectorAll('.dnb-step-indicator__item')
+    )
+
+    await userEvent.click(secondStep.querySelector('.dnb-button'))
+    expect(output()).toHaveTextContent('Step 2')
+    expect(onStepChange).toHaveBeenCalledTimes(1)
+    expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
+      id: 'step-2',
+      previousStep: { index: 0, id: 'step-1' },
+      preventNavigation: expect.any(Function),
+    })
+
+    await userEvent.click(firstStep.querySelector('.dnb-button'))
+    expect(output()).toHaveTextContent('Step 1')
+    expect(onStepChange).toHaveBeenCalledTimes(2)
+    expect(onStepChange).toHaveBeenLastCalledWith(0, 'previous', {
+      id: 'step-1',
+      previousStep: { index: 1, id: 'step-2' },
+      preventNavigation: expect.any(Function),
+    })
+
+    await userEvent.click(nextButton())
+
+    expect(onStepChange).toHaveBeenCalledTimes(3)
+    expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
+      id: 'step-2',
+      previousStep: { index: 0, id: 'step-1' },
+      preventNavigation: expect.any(Function),
     })
   })
 
@@ -832,6 +919,10 @@ describe('Wizard.Container', () => {
         </Form.Handler>
       )
 
+      const [groupOne, groupTwo] = Array.from(
+        document.querySelectorAll('.dnb-toggle-button button')
+      )
+
       expect(output()).toHaveTextContent('Step 2')
       expect(
         document.querySelector('.dnb-step-indicator')
@@ -842,9 +933,7 @@ describe('Wizard.Container', () => {
       expect(previousButton()).toBeNull()
       expect(nextButton()).toBeNull()
 
-      await userEvent.click(
-        document.querySelectorAll('.dnb-toggle-button button')[0]
-      )
+      await userEvent.click(groupOne)
 
       expect(output()).toHaveTextContent('Step 1')
       expect(
@@ -856,9 +945,7 @@ describe('Wizard.Container', () => {
       expect(previousButton()).toBeNull()
       expect(nextButton()).toBeInTheDocument()
 
-      await userEvent.click(
-        document.querySelectorAll('.dnb-toggle-button button')[1]
-      )
+      await userEvent.click(groupTwo)
 
       expect(output()).toHaveTextContent('Step 2')
       expect(
@@ -883,6 +970,155 @@ describe('Wizard.Container', () => {
       ).toHaveLength(0)
       expect(previousButton()).toBeNull()
       expect(nextButton()).toBeNull()
+    })
+
+    it('should provide "id" prop and "same" mode in "onStepChange"', async () => {
+      const onStepChange = jest.fn(async () => null)
+
+      render(
+        <Form.Handler defaultData={{ enabledStep: 'group-2' }}>
+          <Field.Selection path="/enabledStep" variant="button">
+            <Field.Option value="group-1" title="1" />
+            <Field.Option value="group-2" title="2" />
+          </Field.Selection>
+
+          <Wizard.Container mode="loose" onStepChange={onStepChange}>
+            <Wizard.Step
+              title="Step 1"
+              id="step-1"
+              activeWhen={{ path: '/enabledStep', hasValue: 'group-1' }}
+            >
+              <output>Step 1</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step
+              title="Step 2"
+              id="step-2"
+              activeWhen={{ path: '/enabledStep', hasValue: 'group-2' }}
+            >
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step
+              title="Step 3"
+              id="step-3"
+              activeWhen={{ path: '/enabledStep', hasValue: 'group-1' }}
+            >
+              <output>Step 3</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      expect(output()).toHaveTextContent('Step 2')
+      expect(onStepChange).toHaveBeenCalledTimes(0)
+
+      const [groupOne, groupTwo] = Array.from(
+        document.querySelectorAll('.dnb-toggle-button button')
+      )
+
+      await userEvent.click(groupOne)
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(onStepChange).toHaveBeenCalledTimes(1)
+      expect(onStepChange).toHaveBeenLastCalledWith(
+        0,
+        'stepListModified',
+        {
+          id: 'step-1',
+          previousStep: { index: 0, id: 'step-1' },
+          preventNavigation: expect.any(Function),
+        }
+      )
+
+      await userEvent.click(groupTwo)
+
+      expect(output()).toHaveTextContent('Step 2')
+      expect(onStepChange).toHaveBeenCalledTimes(2)
+      expect(onStepChange).toHaveBeenLastCalledWith(
+        0,
+        'stepListModified',
+        {
+          id: 'step-2',
+          previousStep: { index: 0, id: 'step-2' },
+          preventNavigation: expect.any(Function),
+        }
+      )
+
+      await userEvent.click(groupOne)
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(onStepChange).toHaveBeenCalledTimes(3)
+      expect(onStepChange).toHaveBeenLastCalledWith(
+        0,
+        'stepListModified',
+        {
+          id: 'step-1',
+          previousStep: { index: 0, id: 'step-1' },
+          preventNavigation: expect.any(Function),
+        }
+      )
+
+      await userEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 3')
+      expect(onStepChange).toHaveBeenCalledTimes(4)
+      expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
+        id: 'step-3',
+        previousStep: { index: 0, id: 'step-1' },
+        preventNavigation: expect.any(Function),
+      })
+
+      await userEvent.click(groupTwo)
+
+      expect(output()).toHaveTextContent('Step 2')
+      expect(onStepChange).toHaveBeenCalledTimes(5)
+      expect(onStepChange).toHaveBeenLastCalledWith(
+        0,
+        'stepListModified',
+        {
+          id: 'step-2',
+          previousStep: { index: 0, id: 'step-2' },
+          preventNavigation: expect.any(Function),
+        }
+      )
+
+      await userEvent.click(groupOne)
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(onStepChange).toHaveBeenCalledTimes(6)
+      expect(onStepChange).toHaveBeenLastCalledWith(
+        0,
+        'stepListModified',
+        {
+          id: 'step-1',
+          previousStep: { index: 0, id: 'step-1' },
+          preventNavigation: expect.any(Function),
+        }
+      )
+
+      await userEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 3')
+      expect(onStepChange).toHaveBeenCalledTimes(7)
+      expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
+        id: 'step-3',
+        previousStep: { index: 0, id: 'step-1' },
+        preventNavigation: expect.any(Function),
+      })
+
+      await userEvent.click(previousButton())
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(onStepChange).toHaveBeenCalledTimes(8)
+      expect(onStepChange).toHaveBeenLastCalledWith(0, 'previous', {
+        id: 'step-1',
+        previousStep: { index: 1, id: 'step-3' },
+        preventNavigation: expect.any(Function),
+      })
     })
   })
 
@@ -930,7 +1166,7 @@ describe('Wizard.Container', () => {
   })
 
   describe('async step change', () => {
-    it('should handle async onStepChange', async () => {
+    it('should disable and enable buttons', async () => {
       const onStepChange = async () => null
 
       render(
@@ -979,6 +1215,55 @@ describe('Wizard.Container', () => {
         expect(output()).toHaveTextContent('Step 1')
         expect(previousButton()).toBeDisabled()
         expect(nextButton()).not.toBeDisabled()
+      })
+    })
+
+    it('should provide id prop in "onStepChange"', async () => {
+      const onStepChange = jest.fn(async () => null)
+
+      render(
+        <Wizard.Container onStepChange={onStepChange} mode="loose">
+          <Wizard.Step title="Step 1" id="step-1">
+            <output>Step 1</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 2" id="step-2">
+            <output>Step 2</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+      )
+
+      const [firstStep, secondStep] = Array.from(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      )
+
+      await userEvent.click(secondStep.querySelector('.dnb-button'))
+      expect(output()).toHaveTextContent('Step 2')
+      expect(onStepChange).toHaveBeenCalledTimes(1)
+      expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
+        id: 'step-2',
+        previousStep: { index: 0, id: 'step-1' },
+        preventNavigation: expect.any(Function),
+      })
+
+      await userEvent.click(firstStep.querySelector('.dnb-button'))
+      expect(output()).toHaveTextContent('Step 1')
+      expect(onStepChange).toHaveBeenCalledTimes(2)
+      expect(onStepChange).toHaveBeenLastCalledWith(0, 'previous', {
+        id: 'step-1',
+        previousStep: { index: 1, id: 'step-2' },
+        preventNavigation: expect.any(Function),
+      })
+
+      await userEvent.click(nextButton())
+
+      expect(onStepChange).toHaveBeenCalledTimes(3)
+      expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
+        id: 'step-2',
+        previousStep: { index: 0, id: 'step-1' },
+        preventNavigation: expect.any(Function),
       })
     })
 
@@ -1691,6 +1976,7 @@ describe('Wizard.Container', () => {
     expect(output()).toHaveTextContent('Step 1')
     expect(onStepChange).toHaveBeenCalledTimes(1)
     expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
+      previousStep: { index: 0 },
       preventNavigation: expect.any(Function),
     })
   })
@@ -1779,7 +2065,6 @@ describe('Wizard.Container', () => {
         fooStep3: undefined,
       })
 
-      await wait(10)
       await userEvent.type(document.querySelector('input'), ' changed')
 
       expect(onChange).toHaveBeenCalledTimes(8)
@@ -2054,6 +2339,63 @@ describe('Wizard.Container', () => {
       expect(document.querySelector('input')).toHaveValue('1234')
 
       await userEvent.click(previousButton())
+      expect(onStepChange).toHaveBeenLastCalledWith(
+        0,
+        'previous',
+        expect.anything()
+      )
+      expect(document.querySelector('input')).toHaveValue('1234')
+    })
+
+    it('should set defaultValue of Iterate.Array only once between step changes', async () => {
+      const onChange = jest.fn()
+      const onStepChange = jest.fn()
+
+      render(
+        <Form.Handler onChange={onChange}>
+          <Wizard.Container onStepChange={onStepChange}>
+            <Wizard.Step>
+              <Iterate.Array path="/items" defaultValue={[null]}>
+                <Field.String itemPath="/" defaultValue="123" />
+              </Iterate.Array>
+
+              <Iterate.PushButton pushValue={null} path="/items" />
+
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      expect(document.querySelectorAll('input')).toHaveLength(1)
+      expect(document.querySelector('input')).toHaveValue('123')
+
+      await userEvent.type(document.querySelector('input'), '4')
+
+      expect(document.querySelector('input')).toHaveValue('1234')
+
+      const pushButton = document.querySelector(
+        '.dnb-forms-iterate-push-button'
+      )
+      await userEvent.click(pushButton)
+
+      expect(document.querySelectorAll('input')).toHaveLength(2)
+
+      await userEvent.click(nextButton())
+
+      expect(onStepChange).toHaveBeenLastCalledWith(
+        1,
+        'next',
+        expect.anything()
+      )
+
+      await userEvent.click(previousButton())
+
+      expect(document.querySelectorAll('input')).toHaveLength(2)
       expect(onStepChange).toHaveBeenLastCalledWith(
         0,
         'previous',

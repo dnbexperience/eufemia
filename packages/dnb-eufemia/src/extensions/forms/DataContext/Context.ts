@@ -15,11 +15,13 @@ import {
   OnSubmitParams,
 } from '../types'
 import { Props as ProviderProps } from './Provider'
+import { SnapshotName } from '../Form/Snapshot'
 
 export type MountState = {
   isPreMounted?: boolean
   isMounted?: boolean
   isVisible?: boolean
+  isFocused?: boolean
   wasStepChange?: boolean
 }
 
@@ -154,11 +156,16 @@ export interface ContextState {
     params?: { remove?: boolean }
   ) => void
   setFieldConnection?: (path: Path, connections: FieldConnections) => void
+  isEmptyDataRef?: React.MutableRefObject<boolean>
   fieldPropsRef?: React.MutableRefObject<Record<string, FieldProps>>
   valuePropsRef?: React.MutableRefObject<Record<string, ValueProps>>
   fieldConnectionsRef?: React.RefObject<Record<Path, FieldConnections>>
   mountedFieldsRef?: React.MutableRefObject<Record<Path, MountState>>
+  snapshotsRef?: React.MutableRefObject<
+    Map<SnapshotName, Map<Path, unknown>>
+  >
   formElementRef?: React.MutableRefObject<HTMLFormElement>
+  fieldErrorRef?: React.MutableRefObject<Record<Path, Error>>
   showAllErrors: boolean
   hasVisibleError: boolean
   formState: SubmitState

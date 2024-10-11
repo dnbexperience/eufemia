@@ -4,10 +4,6 @@ import userEvent from '@testing-library/user-event'
 import SummaryList from '../SummaryList'
 import { Field, Form, Value } from '../../..'
 
-beforeEach(() => {
-  global.console.log = jest.fn()
-})
-
 describe('Field.SummaryList', () => {
   it('should forward HTML attributes', () => {
     render(<SummaryList aria-label="Aria Label">Aria Summary</SummaryList>)
@@ -106,7 +102,7 @@ describe('Field.SummaryList', () => {
   describe('inheritVisibility', () => {
     it('renders value when visibility of field is initially true', async () => {
       render(
-        <Form.Handler onChange={console.log}>
+        <Form.Handler>
           <Field.Boolean
             variant="button"
             path="/isVisible"
@@ -165,6 +161,32 @@ describe('Field.SummaryList', () => {
 
       expect(labelFoo).toHaveTextContent('foo label')
       expect(labelBar).toHaveTextContent('bar label')
+    })
+  })
+
+  describe('transformLabel', () => {
+    it('renders labels', async () => {
+      render(
+        <Form.Handler>
+          <Field.String path="/foo" defaultValue="foo" label="foo label" />
+          <Field.String path="/bar" defaultValue="bar" label="bar label" />
+
+          <Value.SummaryList
+            inheritLabel
+            transformLabel={(label: string) => label.toUpperCase()}
+          >
+            <Value.String path="/foo" />
+            <Value.String path="/bar" />
+          </Value.SummaryList>
+        </Form.Handler>
+      )
+
+      const [labelFoo, labelBar] = Array.from(
+        document.querySelectorAll('dt')
+      )
+
+      expect(labelFoo).toHaveTextContent('FOO LABEL')
+      expect(labelBar).toHaveTextContent('BAR LABEL')
     })
   })
 })

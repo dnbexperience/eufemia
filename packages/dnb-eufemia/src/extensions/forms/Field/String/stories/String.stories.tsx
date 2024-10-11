@@ -1,5 +1,5 @@
 import React from 'react'
-import { Field, Form } from '../../..'
+import { Field, Form, Tools } from '../../..'
 import { Flex } from '../../../../../components'
 
 export default {
@@ -39,6 +39,26 @@ export const Transform = () => {
         transformIn={transformIn}
         transformOut={transformOut}
       />
+    </Form.Handler>
+  )
+}
+
+export const TransformInOnFormHandler = () => {
+  const transformIn = ({ value }) => {
+    if (value === undefined) {
+      return ''
+    }
+    return value
+  }
+  return (
+    <Form.Handler
+      transformIn={transformIn}
+      defaultData={{
+        myPath: '',
+      }}
+    >
+      <Field.String label="Label" path="/myPath" />
+      <Tools.Log />
     </Form.Handler>
   )
 }

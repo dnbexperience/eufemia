@@ -22,4 +22,11 @@
     margin-top: calc(var(--dialog-icon-positioning) * -1);
     margin-bottom: calc(var(--dialog-icon-positioning) * -1);
   }
+
+  &__title {
+    @include allBetween(small, medium) {
+      font-size: var(--sb-font-size-medium--plus) !important;
+      line-height: var(--line-height-medium) !important;
+    }
+  }
 }

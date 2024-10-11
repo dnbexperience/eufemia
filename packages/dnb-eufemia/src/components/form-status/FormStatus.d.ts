@@ -129,3 +129,9 @@ export interface MarketingIconProps {
   title?: string;
 }
 export declare const MarketingIcon: React.FC<MarketingIconProps>;
+
+export type FormStatusIconTypes =
+  | typeof ErrorIcon
+  | typeof WarnIcon
+  | typeof InfoIcon
+  | typeof MarketingIcon;

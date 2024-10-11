@@ -2,24 +2,50 @@ import React, { useCallback, useMemo } from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
 import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
+import { Validator } from '../../types'
 
-export type Props = StringFieldProps & {
+export type Props = Omit<StringFieldProps, 'onBlurValidator'> & {
   validate?: boolean
   omitMask?: boolean
+  onBlurValidator?: Validator<string> | false
 }
 
 function OrganizationNumber(props: Props) {
   const translations = useTranslation().OrganizationNumber
-  const { errorPattern, errorRequired, label } = translations
-
-  const { validate = true, omitMask } = props
-
-  const validationPattern = '^[0-9]{9}$'
+  const { errorOrgNo, errorOrgNoLength, errorRequired, label } =
+    translations
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: errorRequired,
-    pattern: errorPattern,
+    pattern: errorOrgNo,
+    errorOrgNo,
+    errorOrgNoLength,
   })
+
+  const organizationNumberValidator = useCallback(
+    (value: string) => {
+      if (value !== undefined) {
+        const orgNoIs9Digits = value?.length === 9
+
+        if (!orgNoIs9Digits) {
+          return Error(errorOrgNoLength)
+        }
+        if (orgNoIs9Digits && !isValidOrgNumber(value)) {
+          return Error(errorOrgNo)
+        }
+      }
+    },
+    [errorOrgNo, errorOrgNoLength]
+  )
+
+  const {
+    validate = true,
+    omitMask,
+    validator,
+    onBlurValidator = organizationNumberValidator,
+    label: labelProp,
+    width,
+  } = props
 
   const mask = useMemo(
     () =>
@@ -29,30 +55,19 @@ function OrganizationNumber(props: Props) {
     [omitMask]
   )
 
-  const organizationNumberValidator = useCallback(
-    (value: string) => {
-      if (
-        new RegExp(validationPattern).test(value) &&
-        !isValidOrgNumber(value)
-      ) {
-        return Error(errorPattern)
-      }
-    },
-    [errorPattern]
-  )
+  const onBlurValidatorToUse =
+    onBlurValidator === false ? undefined : onBlurValidator
 
-  const StringFieldProps: Props = {
+  const StringFieldProps: StringFieldProps = {
     ...props,
     className: 'dnb-forms-field-organization-number',
-    pattern: props.pattern ?? (validate ? validationPattern : undefined),
-    label: props.label ?? label,
+    label: labelProp ?? label,
     errorMessages,
     mask,
-    width: props.width ?? 'medium',
+    width: width ?? 'medium',
     inputMode: 'numeric',
-    onBlurValidator: validate
-      ? props.onBlurValidator || organizationNumberValidator
-      : undefined,
+    validator: validate ? validator : undefined,
+    onBlurValidator: validate ? onBlurValidatorToUse : undefined,
     exportValidators: { organizationNumberValidator },
   }
 

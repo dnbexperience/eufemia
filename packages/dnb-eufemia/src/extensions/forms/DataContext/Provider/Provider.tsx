@@ -57,6 +57,18 @@ import structuredClone from '@ungap/structured-clone'
 const useLayoutEffect =
   typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
+export type SharedAttachments<Data = unknown> = {
+  visibleDataHandler?: VisibleDataHandler<Data>
+  filterDataHandler?: FilterDataHandler<Data>
+  hasErrors?: ContextState['hasErrors']
+  hasFieldError?: ContextState['hasFieldError']
+  setShowAllErrors?: ContextState['setShowAllErrors']
+  setSubmitState?: ContextState['setSubmitState']
+  rerenderUseDataHook?: () => void
+  clearData?: () => void
+  fieldConnectionsRef?: ContextState['fieldConnectionsRef']
+}
+
 export interface Props<Data extends JsonObject>
   extends IsolationProviderProps<Data> {
   /**
@@ -237,6 +249,12 @@ export default function Provider<Data extends JsonObject>(
   // - Paths
   const mountedFieldsRef: ContextState['mountedFieldsRef'] = useRef({})
 
+  // - Snapshots
+  const snapshotsRef: ContextState['snapshotsRef'] = useRef()
+  if (!snapshotsRef.current) {
+    snapshotsRef.current = new Map()
+  }
+
   // - Errors from provider validation (the whole data set)
   const hasVisibleErrorRef = useRef<Record<Path, boolean>>({})
   const errorsRef = useRef<Record<Path, FormError> | undefined>()
@@ -291,6 +309,7 @@ export default function Provider<Data extends JsonObject>(
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Avoid triggering code that should only run initially
   }, [])
   const internalDataRef = useRef<Data>(initialData)
+  const isEmptyDataRef = useRef(false)
 
   // - Validator
   const ajvValidatorRef = useRef<ValidateFunction>()
@@ -585,17 +604,13 @@ export default function Provider<Data extends JsonObject>(
   }, [])
 
   // - Shared state
-  const sharedData = useSharedState<Data & { clearForm?: () => void }>(id)
-  const sharedAttachments = useSharedState<{
-    visibleDataHandler?: VisibleDataHandler<Data>
-    filterDataHandler?: FilterDataHandler<Data>
-    hasErrors?: ContextState['hasErrors']
-    hasFieldError?: ContextState['hasFieldError']
-    setShowAllErrors?: ContextState['setShowAllErrors']
-    setSubmitState?: ContextState['setSubmitState']
-    rerenderUseDataHook?: () => void
-    fieldConnectionsRef?: ContextState['fieldConnectionsRef']
-  }>(id + '-attachments')
+  const sharedData = useSharedState<Data>(id)
+  const sharedAttachments = useSharedState<SharedAttachments<Data>>(
+    id + '-attachments'
+  )
+  const sharedDataContext = useSharedState<ContextState>(
+    id + '-data-context'
+  )
 
   const setSharedData = sharedData.set
   const extendSharedData = sharedData.extend
@@ -628,7 +643,7 @@ export default function Provider<Data extends JsonObject>(
     ) {
       return {
         ...internalDataRef.current,
-        ...sharedData.data,
+        ...(sharedData.data || {}),
       }
     }
 
@@ -653,16 +668,15 @@ export default function Provider<Data extends JsonObject>(
     ) {
       cacheRef.current.shared = sharedData.data
 
-      // Reset the shared state, if clearForm is set
-      if (sharedData.data?.clearForm) {
-        const clear = (cacheRef.current.shared = clearedData as Data)
-        setSharedData(clear)
-        return clear
+      if (isEmptyDataRef.current) {
+        return (
+          Array.isArray(internalDataRef.current) ? [] : clearedData
+        ) as Data
       }
 
       return {
         ...internalDataRef.current,
-        ...sharedData.data,
+        ...(sharedData.data || {}),
       }
     }
 
@@ -673,18 +687,31 @@ export default function Provider<Data extends JsonObject>(
     }
 
     return internalDataRef.current
-  }, [id, initialData, sharedData, data, setSharedData])
+  }, [id, initialData, sharedData, data])
 
   internalDataRef.current =
     props.path && pointer.has(internalData, props.path)
       ? pointer.get(internalData, props.path)
       : internalData
 
-  useEffect(() => {
-    if (sharedData.data?.clearForm) {
-      onClear?.()
+  const clearData = useCallback(() => {
+    isEmptyDataRef.current = true
+    internalDataRef.current = ((typeof emptyData === 'function'
+      ? emptyData(internalDataRef.current)
+      : emptyData) ??
+      (Array.isArray(internalDataRef.current) ? [] : clearedData)) as Data
+
+    if (id) {
+      setSharedData?.(internalDataRef.current)
     }
-  }, [onClear, sharedData.data?.clearForm])
+
+    forceUpdate()
+    onClear?.()
+
+    requestAnimationFrame?.(() => {
+      isEmptyDataRef.current = false
+    }) // Delay so the field validation error message are not shown
+  }, [emptyData, id, onClear, setSharedData])
 
   useLayoutEffect(() => {
     // Set the shared state, if initialData was given
@@ -708,6 +735,7 @@ export default function Provider<Data extends JsonObject>(
         hasFieldError,
         setShowAllErrors,
         setSubmitState,
+        clearData,
         fieldConnectionsRef,
       })
       if (filterSubmitData) {
@@ -725,6 +753,7 @@ export default function Provider<Data extends JsonObject>(
     rerenderUseDataHook,
     setShowAllErrors,
     setSubmitState,
+    clearData,
   ])
 
   const storeInSession = useMemo(() => {
@@ -925,17 +954,6 @@ export default function Provider<Data extends JsonObject>(
       window?.scrollTo?.({ top: 0, behavior: 'smooth' })
     }
   }, [])
-
-  const clearData = useCallback(() => {
-    internalDataRef.current = (emptyData ?? clearedData) as Data
-
-    if (id) {
-      setSharedData?.(internalDataRef.current)
-    } else {
-      forceUpdate()
-    }
-    onClear?.()
-  }, [emptyData, id, onClear, setSharedData])
 
   /**
    * Shared logic dedicated to submit the whole form
@@ -1268,67 +1286,73 @@ export default function Provider<Data extends JsonObject>(
       ? true
       : undefined
 
+  const contextValue: ContextState = {
+    /** Method */
+    handlePathChange,
+    handlePathChangeUnvalidated,
+    handleSubmit,
+    setMountedFieldState,
+    handleSubmitCall,
+    setFormState,
+    setSubmitState,
+    setShowAllErrors,
+    setVisibleError,
+    setFieldEventListener,
+    setFieldState,
+    setFieldError,
+    setFieldConnection,
+    setFieldProps,
+    setValueProps,
+    hasErrors,
+    hasFieldError,
+    hasFieldState,
+    validateData,
+    updateDataValue,
+    setData,
+    clearData,
+    visibleDataHandler,
+    filterDataHandler,
+    getSubmitData,
+    getSubmitOptions,
+    addOnChangeHandler,
+    setHandleSubmit,
+    scrollToTop,
+
+    /** State handling */
+    schema,
+    disabled,
+    required,
+    formState,
+    submitState,
+    contextErrorMessages,
+    hasContext: true,
+    errors: errorsRef.current,
+    showAllErrors: showAllErrorsRef.current,
+    hasVisibleError: Object.keys(hasVisibleErrorRef.current).length > 0,
+    fieldConnectionsRef,
+    fieldPropsRef,
+    valuePropsRef,
+    mountedFieldsRef,
+    snapshotsRef,
+    formElementRef,
+    isEmptyDataRef,
+    fieldErrorRef,
+    ajvInstance: ajvRef.current,
+
+    /** Additional */
+    id,
+    data: internalDataRef.current,
+    internalDataRef,
+    props,
+    ...rest,
+  }
+
+  if (id) {
+    sharedDataContext.set(contextValue)
+  }
+
   return (
-    <Context.Provider
-      value={{
-        /** Method */
-        handlePathChange,
-        handlePathChangeUnvalidated,
-        handleSubmit,
-        setMountedFieldState,
-        handleSubmitCall,
-        setFormState,
-        setSubmitState,
-        setShowAllErrors,
-        setVisibleError,
-        setFieldEventListener,
-        setFieldState,
-        setFieldError,
-        setFieldConnection,
-        setFieldProps,
-        setValueProps,
-        hasErrors,
-        hasFieldError,
-        hasFieldState,
-        validateData,
-        updateDataValue,
-        setData,
-        clearData,
-        visibleDataHandler,
-        filterDataHandler,
-        getSubmitData,
-        getSubmitOptions,
-        addOnChangeHandler,
-        setHandleSubmit,
-        scrollToTop,
-
-        /** State handling */
-        schema,
-        disabled,
-        required,
-        formState,
-        submitState,
-        contextErrorMessages,
-        hasContext: true,
-        errors: errorsRef.current,
-        showAllErrors: showAllErrorsRef.current,
-        hasVisibleError:
-          Object.keys(hasVisibleErrorRef.current).length > 0,
-        fieldConnectionsRef,
-        fieldPropsRef,
-        valuePropsRef,
-        mountedFieldsRef,
-        formElementRef,
-        ajvInstance: ajvRef.current,
-
-        /** Additional */
-        id,
-        data: internalDataRef.current,
-        internalDataRef,
-        props,
-        ...rest,
-      }}
-    >
+    <Context.Provider value={contextValue}>
       <FieldPropsProvider
         FormStatus={
           globalStatusId

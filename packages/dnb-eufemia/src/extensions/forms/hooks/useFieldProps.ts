@@ -25,7 +25,7 @@ import {
 import { Context as DataContext, ContextState } from '../DataContext'
 import { clearedData } from '../DataContext/Provider/Provider'
 import FieldProviderContext from '../Field/Provider/FieldProviderContext'
-import { combineDescribedBy, warn } from '../../../shared/component-helper'
+import { combineDescribedBy } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import useUpdateEffect from '../../../shared/helpers/useUpdateEffect'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
@@ -34,6 +34,7 @@ import SectionContext from '../Form/Section/SectionContext'
 import FieldBoundaryContext from '../DataContext/FieldBoundary/FieldBoundaryContext'
 import VisibilityContext from '../Form/Visibility/VisibilityContext'
 import WizardContext from '../Wizard/Context'
+import SnapshotContext from '../Form/Snapshot/SnapshotContext'
 import useProcessManager from './useProcessManager'
 import usePath from './usePath'
 import {
@@ -153,6 +154,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const sectionContext = useContext(SectionContext)
   const fieldBoundaryContext = useContext(FieldBoundaryContext)
   const wizardContext = useContext(WizardContext)
+  const { setMountedField: setMountedFieldSnapshot } =
+    useContext(SnapshotContext) || {}
   const { isVisible } = useContext(VisibilityContext) || {}
 
   const translation = useTranslation()
@@ -194,8 +197,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     showFieldError: showFieldErrorFieldBlock,
     mountedFieldsRef: mountedFieldsRefFieldBlock,
   } = fieldBlockContext || {}
-  const { handleChange: handleChangeIterateContext } =
-    iterateItemContext || {}
+  const {
+    handleChange: handleChangeIterateContext,
+    index: iterateIndex,
+    arrayValue: iterateArrayValue,
+  } = iterateItemContext || {}
   const { path: sectionPath, errorPrioritization } = sectionContext || {}
   const {
     setFieldError: setFieldErrorBoundary,
@@ -204,6 +210,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   } = fieldBoundaryContext || {}
 
   const hasPath = Boolean(pathProp)
+  const hasItemPath = Boolean(itemPath)
   const { path, identifier, makeIteratePath } = usePath({
     id,
     path: pathProp,
@@ -529,24 +536,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
     return args
   }, [contextErrorMessages, getValueByPath, setFieldEventListener])
-  const extendWithExportedValidators = useCallback(
-    (
-      validator: Validator<Value>,
-      result: ReturnType<Validator<Value>>
-    ) => {
-      if (
-        exportValidatorsRef.current &&
-        !result &&
-        (validator === onChangeValidatorRef.current ||
-          validator === onBlurValidatorRef.current)
-      ) {
-        return Object.values(exportValidatorsRef.current)
-      }
-
-      return result
-    },
-    []
-  )
 
   const callStackRef = useRef<Array<Validator<Value>>>([])
   const hasBeenCalledRef = useCallback((validator: Validator<Value>) => {
@@ -554,38 +543,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     callStackRef.current.push(validator)
     return result
   }, [])
-
-  const callValidatorFnSync = useCallback(
-    (
-      validator: Validator<Value>,
-      value: Value = valueRef.current
-    ): ReturnType<Validator<Value>> => {
-      if (typeof validator !== 'function') {
-        return // stop here
-      }
-
-      const result = extendWithExportedValidators(
-        validator,
-        validator(value, additionalArgs)
-      )
-
-      if (Array.isArray(result)) {
-        for (const validator of result) {
-          if (!hasBeenCalledRef(validator)) {
-            const result = callValidatorFnSync(validator, value)
-            if (result instanceof Error) {
-              return result
-            }
-          }
-        }
-
-        callStackRef.current = []
-      } else {
-        return result
-      }
-    },
-    [additionalArgs, extendWithExportedValidators, hasBeenCalledRef]
-  )
 
   const callValidatorFnAsync = useCallback(
     async (
@@ -596,16 +553,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         return
       }
 
-      const result = extendWithExportedValidators(
-        validator,
-        await validator(value, additionalArgs)
-      )
+      const result = await validator(value, additionalArgs)
 
       if (Array.isArray(result)) {
         for (const validator of result) {
           if (!hasBeenCalledRef(validator)) {
             const result = await callValidatorFnAsync(validator, value)
             if (result instanceof Error) {
+              callStackRef.current = []
               return result
             }
           }
@@ -616,7 +571,48 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         return result
       }
     },
-    [additionalArgs, extendWithExportedValidators, hasBeenCalledRef]
+    [additionalArgs, hasBeenCalledRef]
+  )
+
+  const callValidatorFnSync = useCallback(
+    (
+      validator: Validator<Value>,
+      value: Value = valueRef.current
+    ): ReturnType<Validator<Value>> => {
+      if (typeof validator !== 'function') {
+        return // stop here
+      }
+
+      const result = validator(value, additionalArgs)
+
+      if (Array.isArray(result)) {
+        const hasAsyncValidator = result.some((validator) =>
+          isAsync(validator)
+        )
+        if (hasAsyncValidator) {
+          return new Promise((resolve) => {
+            callValidatorFnAsync(validator, value).then((result) => {
+              resolve(result)
+            })
+          })
+        }
+
+        for (const validator of result) {
+          if (!hasBeenCalledRef(validator)) {
+            const result = callValidatorFnSync(validator, value)
+            if (result instanceof Error) {
+              callStackRef.current = []
+              return result
+            }
+          }
+        }
+
+        callStackRef.current = []
+      } else {
+        return result
+      }
+    },
+    [additionalArgs, callValidatorFnAsync, hasBeenCalledRef]
   )
 
   /**
@@ -1005,6 +1001,19 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         }
       }
 
+      // Only for when "validateInitially" is set to true
+      if (
+        onBlurValidatorRef.current &&
+        validateInitially &&
+        !changedRef.current
+      ) {
+        const { result } = await callOnBlurValidator()
+
+        if (result instanceof Error) {
+          throw result
+        }
+      }
+
       if (isProcessActive()) {
         clearErrorState()
       }
@@ -1029,6 +1038,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     validateInitially,
     validateUnchanged,
     startOnChangeValidatorValidation,
+    callOnBlurValidator,
     persistErrorState,
   ])
 
@@ -1091,10 +1101,16 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         // Field was put in focus (like when clicking in a text field or opening a dropdown menu)
         hasFocusRef.current = true
         onFocus?.apply(this, args)
+        setMountedFieldStateDataContext(identifier, {
+          isFocused: true,
+        })
       } else {
         // Field was removed from focus (like when tabbing out of a text field or closing a dropdown menu)
         hasFocusRef.current = false
         onBlur?.apply(this, args)
+        setMountedFieldStateDataContext(identifier, {
+          isFocused: false,
+        })
 
         if (!changedRef.current && !validateUnchanged) {
           // Avoid showing errors when blurring without having changed the value, so tabbing through several
@@ -1118,6 +1134,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     [
       getEventArgs,
       onFocus,
+      setMountedFieldStateDataContext,
+      identifier,
       onBlur,
       validateUnchanged,
       addToPool,
@@ -1304,10 +1322,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         return
       }
 
-      const transformedValue = transformers.current.transformValue(
-        newValue,
-        currentValue
-      )
+      const transformedValue =
+        transformers.current.transformValue(newValue, currentValue) ??
+        (emptyValue as unknown as Value)
       const contextValue = transformers.current.transformOut(
         transformedValue,
         transformers.current.provideAdditionalArgs(
@@ -1346,6 +1363,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       })
     },
     [
+      emptyValue,
       additionalArgs,
       hasPath,
       itemPath,
@@ -1509,6 +1527,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       isMounted: true,
       isPreMounted: true,
     })
+    setMountedFieldSnapshot?.(identifier, { isMounted: true })
 
     // Unmount procedure.
     return () => {
@@ -1516,8 +1535,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         isMounted: false,
         isPreMounted: false,
       })
+      setMountedFieldSnapshot?.(identifier, { isMounted: false })
     }
-  }, [identifier, setMountedFieldStateDataContext])
+  }, [
+    identifier,
+    setMountedFieldSnapshot,
+    setMountedFieldStateDataContext,
+  ])
 
   useEffect(() => {
     return () => {
@@ -1541,7 +1565,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       ? dataContext.ajvInstance?.compile(schema)
       : undefined
     validateValue()
-  }, [schema, validateValue])
+  }, [schema])
 
   // Use "useLayoutEffect" and "externalValueDidChangeRef"
   // to cooperate with the the data context "updateDataValueDataContext" routine further down,
@@ -1552,16 +1576,16 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       valueRef.current = externalValue
       externalValueDidChangeRef.current = true
     }
-  }, [externalValue])
+  }, [externalValue, hasItemPath])
 
-  useEffect(() => {
+  useUpdateEffect(() => {
     // Error or removed error for this field from the surrounding data context (by path)
     if (externalValueDidChangeRef.current) {
       externalValueDidChangeRef.current = false
       validateValue()
       forceUpdate()
     }
-  }, [externalValue, validateValue]) // Keep "externalValue" in the dependency list, so it will be updated when it changes
+  }, [externalValue]) // Keep "externalValue" in the dependency list, so it will be updated when it changes
 
   useEffect(() => {
     // Check against the local error state,
@@ -1586,29 +1610,16 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     validateInitially,
   ])
 
-  useEffect(() => {
-    if (itemPath && valueProp !== undefined) {
-      warn(
-        `Using value="${valueProp}" prop inside Iterate is not supported yet`
-      )
-    }
-    if (itemPath && defaultValue !== undefined) {
-      warn(
-        `Using defaultValue="${defaultValue}" prop inside Iterate is not supported yet`
-      )
-    }
-  }, [defaultValue, itemPath, valueProp])
-
   // Use "useLayoutEffect" to avoid flickering when value/defaultValue gets set, and other fields dependent on it.
   // Form.Visibility is an example of a logic, where a field value/defaultValue can be used to set the set state of a path,
   // where again other fields depend on it.
   const tmpTransValueRef = useRef<Record<Identifier, unknown>>({})
   const setContextData = useCallback(() => {
-    if (!hasPath) {
+    if (!hasPath && !hasItemPath) {
       return // stop here
     }
 
-    let valueToStore: Value | unknown = valueProp
+    let valueToStore: Value | unknown = valueProp ?? emptyValue
 
     const data = wizardContext?.prerenderFieldProps
       ? dataContext.data
@@ -1652,6 +1663,38 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       defaultValueRef.current = undefined
     }
 
+    let skipEqualCheck = false
+
+    if (hasItemPath) {
+      if (existingValue === valueToStore) {
+        return // stop here, don't store the same value again
+      }
+
+      if (
+        typeof valueToStore === 'undefined' &&
+        typeof existingValue !== 'undefined'
+      ) {
+        // On the rerender (after defaultValue was set) and the data context was given, but as "undefined",
+        // then we want to use the current value (the defaultValue from the previous render),
+        // because else the comparison "valueRef.current !== existingValue" is true and we will set undefined as the new data context value.
+        valueToStore = existingValue
+      }
+
+      if (itemPath === '/') {
+        // The push container uses an object as the default value for the array.
+        // But when a root slash is used, we want to make sure the field don't gets the object.
+        if (existingValue === clearedData) {
+          valueRef.current = undefined
+        }
+
+        if (hasDefaultValue && Array.isArray(existingValue)) {
+          // Ensures support to have a field with a defaultValue and a itemPath of "/"
+          // This way, we ensure the defaultValue is actually set in the data context.
+          skipEqualCheck = true
+        }
+      }
+    }
+
     // Used by e.g. Iterate.Array
     if (updateContextDataInSync) {
       // When an array is given (iterate), we don't want to overwrite the existing array
@@ -1669,6 +1712,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
 
     if (
+      !skipEqualCheck &&
       hasValue &&
       (valueToStore === existingValue ||
         // Prevents an infinite loop by skipping the update if the value hasn't changed
@@ -1696,7 +1740,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
     // When an itemPath is given, we don't want to rerender the context on every iteration because of performance reasons.
     // We know when the last item is reached, so we can prevent rerenders during the iteration.
-    const preventUpdate = updateContextDataInSync
+    const preventUpdate =
+      updateContextDataInSync ||
+      (hasItemPath && iterateIndex < iterateArrayValue?.length - 1)
 
     // Update the data context when a pointer not exists,
     // but was given initially.
@@ -1711,8 +1757,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     dataContext.data,
     dataContext.id,
     dataContext.internalDataRef,
+    emptyValue,
+    hasItemPath,
     hasPath,
     identifier,
+    itemPath,
+    iterateArrayValue?.length,
+    iterateIndex,
     updateContextDataInSync,
     updateDataValueDataContext,
     validateDataDataContext,
@@ -1723,8 +1774,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const isEmptyData = useCallback(
     () => {
       return (
+        dataContext.isEmptyDataRef?.current ||
         dataContext.internalDataRef?.current ===
-        (dataContext.props?.emptyData ?? clearedData)
+          (dataContext.props?.emptyData ?? clearedData)
       )
     },
 
@@ -1760,11 +1812,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   useEffect(() => {
     if (isEmptyData()) {
-      // Fill the data context with the default value after it has been cleared
-      requestAnimationFrame(() => {
-        setContextData()
-        validateValue()
-      })
+      setContextData()
+      validateValue()
     }
   }, [isEmptyData, setContextData, validateValue])
 
@@ -1972,10 +2021,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
     /** Documented APIs */
     id,
-    // value: valueRef.current,
-    // value: transformers.current.transformIn(
-    //   transformers.current.toInput(valueRef.current)
-    // ),
     value: transformers.current.toInput(valueRef.current),
     hasError: hasVisibleError,
     isChanged: Boolean(changedRef.current),

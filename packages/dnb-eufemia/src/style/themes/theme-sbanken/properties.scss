@@ -18,15 +18,16 @@
   --sb-font-weight-bold: 700;
 
   // Typography Sizes
-  --sb-font-size-x-small: 0.75rem;
-  --sb-font-size-small: 0.875rem;
-  --sb-font-size-basis: 1rem;
+  --sb-font-size-x-small: 0.75rem; // 12px
+  --sb-font-size-small: 0.875rem; // 14px
+  --sb-font-size-basis: 1rem; // 16px
   --sb-font-size-basis--em: 1em;
-  --sb-font-size-lead: 1.25rem;
-  --sb-font-size-medium: 1.625rem;
-  --sb-font-size-large: 2rem;
-  --sb-font-size-x-large: 2.375rem;
-  --sb-font-size-xx-large: 3rem;
+  --sb-font-size-lead: var(--font-size-medium); // 20px
+  --sb-font-size-medium: 1.25rem; // 20px
+  --sb-font-size-medium--plus: 1.625rem; // 26px extra for Sbanken theme
+  --sb-font-size-large: 2rem; // 32px
+  --sb-font-size-x-large: 2.375rem; // 38px
+  --sb-font-size-xx-large: 3rem; // 48px
 
   // Typography Line heights
   --sb-line-height-x-small: 1.125rem;

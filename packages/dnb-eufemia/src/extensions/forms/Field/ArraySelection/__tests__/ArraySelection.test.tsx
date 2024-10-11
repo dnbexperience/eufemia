@@ -55,7 +55,7 @@ describe('ArraySelection', () => {
     it('handles emptyValue correctly', () => {
       const handleChange = jest.fn()
       render(
-        <Field.ArraySelection onChange={handleChange} emptyValue="empty">
+        <Field.ArraySelection onChange={handleChange} emptyValue={[]}>
           <Field.Option value="option1">Option 1</Field.Option>
           <Field.Option value="option2">Option 2</Field.Option>
         </Field.ArraySelection>
@@ -63,7 +63,7 @@ describe('ArraySelection', () => {
 
       fireEvent.click(screen.getByText('Option 1'))
       fireEvent.click(screen.getByText('Option 1'))
-      expect(handleChange).toHaveBeenLastCalledWith('empty')
+      expect(handleChange).toHaveBeenLastCalledWith([])
     })
 
     it('displays error message when error prop is provided', () => {

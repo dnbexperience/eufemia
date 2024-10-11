@@ -1,11 +1,11 @@
 import React from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Form, Field } from '@dnb/eufemia/src/extensions/forms'
-import { Flex, Section } from '@dnb/eufemia/src'
+import { Form, Field, Tools } from '@dnb/eufemia/src/extensions/forms'
+import { Flex } from '@dnb/eufemia/src'
 
 export function HasErrors() {
   return (
-    <ComponentBox>
+    <ComponentBox scope={{ Tools }}>
       {() => {
         const Component = () => {
           const { data } = Form.useData('default-id', {
@@ -18,18 +18,16 @@ export function HasErrors() {
           return (
             <Form.Handler id="default-id">
               <Flex.Stack>
-                <Section
-                  innerSpace
-                  backgroundColor="sand-yellow"
+                <Tools.Log
+                  data={hasErrors()}
+                  label="hasErrors:"
                   breakout={false}
-                  element="output"
-                >
-                  <pre>
-                    hasErrors: {JSON.stringify(hasErrors(), null, 2)}
-                    hasFieldError:{' '}
-                    {JSON.stringify(hasFieldError('/foo'), null, 2)}
-                  </pre>
-                </Section>
+                />
+                <Tools.Log
+                  data={hasFieldError('/foo')}
+                  label="hasFieldError:"
+                  breakout={false}
+                />
 
                 <Field.Boolean
                   label="Error"

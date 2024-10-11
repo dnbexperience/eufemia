@@ -1,36 +1,25 @@
 import * as React from 'react'
-import { Section, Code, Card, Flex } from '@dnb/eufemia/src'
+import { Card, Flex } from '@dnb/eufemia/src'
 import {
   Form,
   Field,
   Value,
   Wizard,
+  Tools,
 } from '@dnb/eufemia/src/extensions/forms'
 import { Provider } from '@dnb/eufemia/src/shared'
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
 
 export const BecomeCorporateCustomer = () => {
   return (
-    <ComponentBox hideCode>
+    <ComponentBox hideCode scope={{ Tools }}>
       {() => {
         const Output = () => {
           const { data } = Form.useData('example-form', {
             website: 'www.dnb.no',
           })
 
-          return (
-            <Section
-              element="output"
-              innerSpace
-              backgroundColor="sand-yellow"
-              top
-              bottom="large"
-            >
-              <Code>
-                <pre>{JSON.stringify(data, null, 2)}</pre>
-              </Code>
-            </Section>
-          )
+          return <Tools.Log data={data} top bottom="large" />
         }
 
         const MyForm = () => {
@@ -187,26 +176,8 @@ export const BecomeCorporateCustomer = () => {
 
 export function PizzaDemo() {
   return (
-    <ComponentBox hideCode>
+    <ComponentBox hideCode scope={{ Tools }}>
       {() => {
-        const Output = () => {
-          const { data } = Form.useData('pizza-demo', {})
-
-          return (
-            <Section
-              element="output"
-              innerSpace
-              backgroundColor="sand-yellow"
-              top
-              bottom="large"
-            >
-              <Code>
-                <pre>{JSON.stringify(data, null, 2)}</pre>
-              </Code>
-            </Section>
-          )
-        }
-
         const MyForm = () => {
           // Routers like "react-router" are supported as well
           Wizard.useQueryLocator('my-wizard')
@@ -216,7 +187,6 @@ export function PizzaDemo() {
             <Provider locale="en-GB">
               <Form.Handler
                 onSubmit={(data) => console.log('onSubmit', data)}
-                id="pizza-demo"
                 sessionStorageId="pizza-form"
               >
                 <Wizard.Container id="my-wizard">
@@ -346,7 +316,7 @@ export function PizzaDemo() {
                 </Wizard.Container>
               </Form.Handler>
 
-              <Output />
+              <Tools.Log />
             </Provider>
           )
         }

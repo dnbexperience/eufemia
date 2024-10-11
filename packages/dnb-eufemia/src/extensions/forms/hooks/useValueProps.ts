@@ -6,12 +6,17 @@ import {
   useRef,
 } from 'react'
 import { Path, ValueProps } from '../types'
+import { convertJsxToString } from '../../../shared/component-helper'
 import useExternalValue from './useExternalValue'
 import usePath from './usePath'
 import DataContext from '../DataContext/Context'
 import ValueProviderContext from '../Value/Provider/ValueProviderContext'
 
 export type Props<Value> = ValueProps<Value>
+
+const transformLabelParameters = {
+  convertJsxToString,
+} as unknown as Parameters<Props<unknown>['transformLabel']>[1]
 
 export default function useValueProps<
   Value = unknown,
@@ -29,6 +34,7 @@ export default function useValueProps<
     defaultValue,
     inheritVisibility,
     inheritLabel,
+    transformLabel = (label: Props['label']) => label,
     transformIn = (value: Value) => value,
     toInput = (value: Value) => value,
     fromExternal = (value: Value) => value,
@@ -87,9 +93,11 @@ export default function useValueProps<
     ? transformIn(toInput(externalValue))
     : undefined
 
-  const label =
+  const label = transformLabel(
     props.label ??
-    (inheritLabel ? fieldPropsRef?.current?.[path]?.label : undefined)
+      (inheritLabel ? fieldPropsRef?.current?.[path]?.label : undefined),
+    transformLabelParameters
+  )
 
   return { ...props, label, value }
 }

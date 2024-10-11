@@ -8,7 +8,9 @@ export default {
     OrganizationNumber: {
       label: 'Organization number',
       errorRequired: 'You must enter an organization number.',
-      errorPattern: 'This is not a valid organization number.',
+      errorOrgNo: 'Invalid organization number.',
+      errorOrgNoLength:
+        'Invalid organization number. Enter a valid organization number with 9 digits.',
     },
   },
 }

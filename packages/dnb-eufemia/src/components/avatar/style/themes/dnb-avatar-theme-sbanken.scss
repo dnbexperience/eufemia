@@ -36,7 +36,7 @@
 
   &__group {
     --avatar-font-size-left--medium: var(--font-size-basis);
-    --avatar-font-size-left--large: var(--font-size-medium);
-    --avatar-font-size-left--x-large: var(--font-size-medium);
+    --avatar-font-size-left--large: var(--sb-font-size-medium--plus);
+    --avatar-font-size-left--x-large: var(--sb-font-size-medium--plus);
   }
 }

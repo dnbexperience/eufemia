@@ -9,8 +9,13 @@ import React, {
 import pointer, { JsonObject } from '../../utils/json-pointer'
 import { extendDeep } from '../../../../shared/component-helper'
 import { isAsync } from '../../../../shared/helpers/isAsync'
+import useId from '../../../../shared/helpers/useId'
 import useDataValue from '../../hooks/useDataValue'
-import { Context, ContextState, Provider } from '../../DataContext'
+import {
+  Context as DataContext,
+  ContextState,
+  Provider,
+} from '../../DataContext'
 import SectionContext from '../Section/SectionContext'
 import IsolationCommitButton from './IsolationCommitButton'
 import {
@@ -43,6 +48,10 @@ export type IsolationProviderProps<Data> = {
     isolatedData: JsonObject,
     handlerData: JsonObject
   ) => unknown
+  /**
+   * Prevent the form from being submitted when there are fields with errors inside the Form.Isolation.
+   */
+  bubbleValidation?: boolean
   /**
    * Used internally by the Form.Isolation component
    */
@@ -80,6 +89,7 @@ function IsolationProvider<Data extends JsonObject>(
     onClear: onClearProp,
     transformOnCommit: transformOnCommitProp,
     commitHandleRef,
+    bubbleValidation,
     data,
     defaultData,
   } = props
@@ -88,7 +98,7 @@ function IsolationProvider<Data extends JsonObject>(
   const internalDataRef = useRef<Data>()
   const localDataRef = useRef<Partial<Data>>({})
   const dataContextRef = useRef<ContextState>(null)
-  const outerContext = useContext(Context)
+  const outerContext = useContext(DataContext)
   const { path: pathSection } = useContext(SectionContext) || {}
   const { handlePathChange: handlePathChangeOuter, data: dataOuter } =
     outerContext || {}
@@ -225,7 +235,7 @@ function IsolationProvider<Data extends JsonObject>(
 
   return (
     <Provider {...providerProps}>
-      <Context.Consumer>
+      <DataContext.Consumer>
         {(dataContext) => {
           dataContextRef.current = dataContext
 
@@ -235,9 +245,32 @@ function IsolationProvider<Data extends JsonObject>(
 
           return children
         }}
-      </Context.Consumer>
+      </DataContext.Consumer>
+
+      {bubbleValidation && (
+        <BubbleValidation outerContext={outerContext} />
+      )}
     </Provider>
   )
+}
+
+function BubbleValidation({ outerContext }) {
+  const { setMountedFieldState, setFieldError } = outerContext || {}
+  const dataContext = useContext(DataContext)
+
+  const id = useId()
+  useEffect(() => {
+    const path = `/${id}`
+    const errors = dataContext.hasErrors()
+    if (errors) {
+      setMountedFieldState?.(path, {
+        isMounted: true,
+      })
+    }
+    setFieldError?.(path, errors ? new Error('Form.Isolation') : undefined)
+  }, [dataContext, id, setFieldError, setMountedFieldState])
+
+  return null
 }
 
 IsolationProvider.CommitButton = IsolationCommitButton

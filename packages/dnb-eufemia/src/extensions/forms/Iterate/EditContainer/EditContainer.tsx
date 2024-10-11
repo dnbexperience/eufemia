@@ -9,6 +9,7 @@ import Toolbar from '../Toolbar'
 import { useSwitchContainerMode } from '../hooks'
 import DoneButton from './DoneButton'
 import CancelButton, { useWasNew } from './CancelButton'
+import { replaceItemNo } from '../ItemNo'
 
 export type Props = {
   /**
@@ -88,18 +89,12 @@ export function EditContainerWithoutToolbar(
   } = props || {}
 
   const wasNew = useWasNew({ isNew, containerMode })
-  let itemTitle = wasNew && titleWhenNew ? titleWhenNew : title
-  let ariaLabel = useMemo(() => convertJsxToString(itemTitle), [itemTitle])
-  if (ariaLabel.includes('{itemN')) {
-    /**
-     * {itemNr} is deprecated, and can be removed in v11 in favor of {itemNo}
-     * So in v11 we can use '{itemNo}' instead of a regex
-     */
-    itemTitle = ariaLabel = ariaLabel.replace(
-      /\{itemN(r|o)\}/g,
-      String(index + 1)
+  const itemTitle = useMemo(() => {
+    return replaceItemNo(
+      wasNew && titleWhenNew ? titleWhenNew : title,
+      index
     )
-  }
+  }, [index, title, titleWhenNew, wasNew])
 
   useSwitchContainerMode({ path })
 
@@ -107,7 +102,7 @@ export function EditContainerWithoutToolbar(
     <ArrayItemArea
       mode="edit"
       className={classnames('dnb-forms-section-edit-block', className)}
-      ariaLabel={ariaLabel}
+      ariaLabel={convertJsxToString(itemTitle)}
       {...restProps}
     >
       {itemTitle && <Lead size="basis">{itemTitle}</Lead>}

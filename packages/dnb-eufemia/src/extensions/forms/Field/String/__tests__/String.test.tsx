@@ -15,10 +15,6 @@ import enGB from '../../../../../shared/locales/en-GB'
 
 const gb = enGB['en-GB']
 
-async function expectNever(callable: () => unknown): Promise<void> {
-  await expect(() => waitFor(callable)).rejects.toEqual(expect.anything())
-}
-
 const syncValidatorReturningUndefined = () => undefined
 
 const syncValidatorReturningError = () =>
@@ -663,10 +659,10 @@ describe('Field.String', () => {
       render(<Field.String value="abc" onChange={onChange} />)
       const input = document.querySelector('input')
       await userEvent.type(input, 'def')
-      expect(onChange.mock.calls).toHaveLength(3)
-      expect(onChange.mock.calls[0][0]).toEqual('abcd')
-      expect(onChange.mock.calls[1][0]).toEqual('abcde')
-      expect(onChange.mock.calls[2][0]).toEqual('abcdef')
+      expect(onChange).toHaveBeenCalledTimes(3)
+      expect(onChange).toHaveBeenNthCalledWith(1, 'abcd')
+      expect(onChange).toHaveBeenNthCalledWith(2, 'abcde')
+      expect(onChange).toHaveBeenNthCalledWith(3, 'abcdef')
     })
 
     it('calls onFocus with current value', () => {
@@ -676,8 +672,8 @@ describe('Field.String', () => {
       act(() => {
         input.focus()
       })
-      expect(onFocus.mock.calls).toHaveLength(1)
-      expect(onFocus.mock.calls[0][0]).toEqual('blah')
+      expect(onFocus).toHaveBeenCalledTimes(1)
+      expect(onFocus).toHaveBeenNthCalledWith(1, 'blah')
     })
 
     it('calls onBlur with current value', async () => {
@@ -687,12 +683,12 @@ describe('Field.String', () => {
       input.focus()
       fireEvent.blur(input)
       await wait(0)
-      expect(onBlur.mock.calls).toHaveLength(1)
-      expect(onBlur.mock.calls[0][0]).toEqual('song2')
+      expect(onBlur).toHaveBeenCalledTimes(1)
+      expect(onBlur).toHaveBeenNthCalledWith(1, 'song2')
       await userEvent.type(input, '345')
       fireEvent.blur(input)
-      expect(onBlur.mock.calls).toHaveLength(2)
-      expect(onBlur.mock.calls[1][0]).toEqual('song2345')
+      expect(onBlur).toHaveBeenCalledTimes(2)
+      expect(onBlur).toHaveBeenNthCalledWith(2, 'song2345')
     })
   })
 
@@ -881,8 +877,12 @@ describe('Field.String', () => {
         )
         await waitFor(() => {
           // Wait for since external validators are processed asynchronously
-          expect(validator.mock.calls).toHaveLength(1)
-          expect((validator.mock.calls[0] as unknown[])[0]).toEqual('abc')
+          expect(validator).toHaveBeenCalledTimes(1)
+          expect(validator).toHaveBeenNthCalledWith(
+            1,
+            'abc',
+            expect.anything()
+          )
           expect(
             screen.getByText('I think this is wrong')
           ).toBeInTheDocument()
@@ -893,13 +893,21 @@ describe('Field.String', () => {
         fireEvent.blur(input)
 
         await waitFor(() => {
-          expect(validator.mock.calls).toHaveLength(4)
-          expect((validator.mock.calls[1] as unknown[])[0]).toEqual('abcd')
-          expect((validator.mock.calls[2] as unknown[])[0]).toEqual(
-            'abcde'
+          expect(validator).toHaveBeenCalledTimes(4)
+          expect(validator).toHaveBeenNthCalledWith(
+            2,
+            'abcd',
+            expect.anything()
           )
-          expect((validator.mock.calls[3] as unknown[])[0]).toEqual(
-            'abcdef'
+          expect(validator).toHaveBeenNthCalledWith(
+            3,
+            'abcde',
+            expect.anything()
+          )
+          expect(validator).toHaveBeenNthCalledWith(
+            4,
+            'abcdef',
+            expect.anything()
           )
           expect(
             screen.getByText('I think this is wrong')
@@ -916,10 +924,9 @@ describe('Field.String', () => {
             validateInitially
           />
         )
-        await expectNever(() => {
-          // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
+        await expect(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
-        })
+        }).toNeverResolve()
       })
     })
 
@@ -935,8 +942,12 @@ describe('Field.String', () => {
         )
         await waitFor(() => {
           // Wait for since external validators are processed asynchronously
-          expect(validator.mock.calls).toHaveLength(1)
-          expect((validator.mock.calls[0] as unknown[])[0]).toEqual('abc')
+          expect(validator).toHaveBeenCalledTimes(1)
+          expect(validator).toHaveBeenNthCalledWith(
+            1,
+            'abc',
+            expect.anything()
+          )
           expect(
             screen.getByText('Whats left when nothing is right?')
           ).toBeInTheDocument()
@@ -949,10 +960,22 @@ describe('Field.String', () => {
           fireEvent.blur(input)
         })
 
-        expect(validator.mock.calls).toHaveLength(4)
-        expect((validator.mock.calls[1] as unknown[])[0]).toEqual('abcd')
-        expect((validator.mock.calls[2] as unknown[])[0]).toEqual('abcde')
-        expect((validator.mock.calls[3] as unknown[])[0]).toEqual('abcdef')
+        expect(validator).toHaveBeenCalledTimes(4)
+        expect(validator).toHaveBeenNthCalledWith(
+          2,
+          'abcd',
+          expect.anything()
+        )
+        expect(validator).toHaveBeenNthCalledWith(
+          3,
+          'abcde',
+          expect.anything()
+        )
+        expect(validator).toHaveBeenNthCalledWith(
+          4,
+          'abcdef',
+          expect.anything()
+        )
         expect(
           screen.getByText('Whats left when nothing is right?')
         ).toBeInTheDocument()
@@ -968,10 +991,9 @@ describe('Field.String', () => {
           />
         )
 
-        await expectNever(() => {
-          // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
+        await expect(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
-        })
+        }).toNeverResolve()
       })
     })
 
@@ -988,8 +1010,8 @@ describe('Field.String', () => {
 
         await waitFor(() => {
           // Wait for since external validators are processed asynchronously
-          expect(validator.mock.calls).toHaveLength(0)
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+          expect(validator).toHaveBeenCalledTimes(1)
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
         })
         const input = document.querySelector('input')
         await userEvent.type(input, 'def')
@@ -997,9 +1019,16 @@ describe('Field.String', () => {
 
         await waitFor(() => {
           // Wait for since external validators are processed asynchronously
-          expect(validator.mock.calls).toHaveLength(1)
-          expect((validator.mock.calls[0] as unknown[])[0]).toEqual(
-            'abcdef'
+          expect(validator).toHaveBeenCalledTimes(2)
+          expect(validator).toHaveBeenNthCalledWith(
+            1,
+            'abc',
+            expect.anything()
+          )
+          expect(validator).toHaveBeenNthCalledWith(
+            2,
+            'abcdef',
+            expect.anything()
           )
 
           expect(
@@ -1020,10 +1049,9 @@ describe('Field.String', () => {
         const input = document.querySelector('input')
         await userEvent.type(input, 'd')
         fireEvent.blur(input)
-        await expectNever(() => {
-          // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
+        await expect(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
-        })
+        }).toNeverResolve()
       })
     })
 
@@ -1040,8 +1068,8 @@ describe('Field.String', () => {
 
         await waitFor(() => {
           // Wait for since external validators are processed asynchronously
-          expect(validator.mock.calls).toHaveLength(0)
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+          expect(validator).toHaveBeenCalledTimes(1)
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
         })
         const input = document.querySelector('input')
         await userEvent.type(input, 'def')
@@ -1049,9 +1077,16 @@ describe('Field.String', () => {
 
         await waitFor(() => {
           // Wait for since external validators are processed asynchronously
-          expect(validator.mock.calls).toHaveLength(1)
-          expect((validator.mock.calls[0] as unknown[])[0]).toEqual(
-            'abcdef'
+          expect(validator).toHaveBeenCalledTimes(2)
+          expect(validator).toHaveBeenNthCalledWith(
+            1,
+            'abc',
+            expect.anything()
+          )
+          expect(validator).toHaveBeenNthCalledWith(
+            2,
+            'abcdef',
+            expect.anything()
           )
 
           expect(
@@ -1072,10 +1107,9 @@ describe('Field.String', () => {
         const input = document.querySelector('input')
         await userEvent.type(input, 'd')
         fireEvent.blur(input)
-        await expectNever(() => {
-          // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
+        await expect(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
-        })
+        }).toNeverResolve()
       })
     })
 
@@ -1153,29 +1187,36 @@ describe('Field.String', () => {
       await userEvent.type(input, 'O!')
 
       await waitFor(() => {
-        expect(inputOnChange.mock.calls).toHaveLength(2)
-        expect(inputOnChange.mock.calls[0][0]).toEqual('FOOO')
-        expect(inputOnChange.mock.calls[1][0]).toEqual('FOOO!')
+        expect(inputOnChange).toHaveBeenNthCalledWith(1, 'FOOO')
+        expect(inputOnChange).toHaveBeenNthCalledWith(2, 'FOOO!')
 
-        expect(dataContextOnChange.mock.calls).toHaveLength(2)
-        expect(dataContextOnChange.mock.calls[0][0]).toEqual({
-          foo: 'FOOO',
-          bar: 'BAAAR',
-        })
-        expect(dataContextOnChange.mock.calls[1][0]).toEqual({
-          foo: 'FOOO!',
-          bar: 'BAAAR',
-        })
+        expect(dataContextOnChange).toHaveBeenNthCalledWith(
+          1,
+          {
+            foo: 'FOOO',
+            bar: 'BAAAR',
+          },
+          expect.anything()
+        )
+        expect(dataContextOnChange).toHaveBeenNthCalledWith(
+          2,
+          {
+            foo: 'FOOO!',
+            bar: 'BAAAR',
+          },
+          expect.anything()
+        )
 
-        expect(dataContextOnPathChange.mock.calls).toHaveLength(2)
-        expect(dataContextOnPathChange.mock.calls[0]).toEqual([
+        expect(dataContextOnPathChange).toHaveBeenNthCalledWith(
+          1,
           '/foo',
-          'FOOO',
-        ])
-        expect(dataContextOnPathChange.mock.calls[1]).toEqual([
+          'FOOO'
+        )
+        expect(dataContextOnPathChange).toHaveBeenNthCalledWith(
+          2,
           '/foo',
-          'FOOO!',
-        ])
+          'FOOO!'
+        )
       })
     })
   })
@@ -1486,6 +1527,86 @@ describe('Field.String', () => {
       expect(first).toHaveTextContent(inputError)
       expect(second).toHaveTextContent(inputWarning)
       expect(third).toHaveTextContent(inputInfo)
+    })
+  })
+
+  describe('emptyValue', () => {
+    it('should use the given emptyValue and set in the data context', async () => {
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Field.String path="/myValue" emptyValue="" />
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      const input = document.querySelector('input')
+      expect(input).toHaveValue('')
+
+      fireEvent.submit(form)
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { myValue: '' },
+        expect.anything()
+      )
+
+      await userEvent.type(input, ' ')
+
+      fireEvent.submit(form)
+      expect(onSubmit).toHaveBeenCalledTimes(2)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { myValue: ' ' },
+        expect.anything()
+      )
+
+      await userEvent.type(input, '{Backspace}')
+
+      fireEvent.submit(form)
+      expect(onSubmit).toHaveBeenCalledTimes(3)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { myValue: '' },
+        expect.anything()
+      )
+    })
+
+    it('should set the emptyValue when string gets empty', async () => {
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Field.String path="/myValue" emptyValue="foo" />
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      const input = document.querySelector('input')
+      expect(input).toHaveValue('foo')
+
+      fireEvent.submit(form)
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { myValue: 'foo' },
+        expect.anything()
+      )
+
+      await userEvent.type(input, ' ')
+
+      fireEvent.submit(form)
+      expect(onSubmit).toHaveBeenCalledTimes(2)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { myValue: 'foo ' },
+        expect.anything()
+      )
+
+      await userEvent.type(input, '{Backspace>4}')
+
+      fireEvent.submit(form)
+      expect(onSubmit).toHaveBeenCalledTimes(3)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { myValue: 'foo' },
+        expect.anything()
+      )
     })
   })
 })

@@ -70,3 +70,25 @@ const MyForm = () => {
   )
 }
 ```
+
+## Transform labels
+
+You can use `transformLabel` to transform the label before it gets displayed.
+
+```tsx
+<Value.String
+  label="The label"
+  transformLabel={(label) => label.toUpperCase()}
+/>
+```
+
+You can combine it with `inheritLabel` to transform the label from the field with the same path.
+
+And by using the [Value.Provider](/uilib/extensions/forms/Value/Provider/), you can transform the labels of all nested value components.
+
+```tsx
+<Value.Provider transformLabel={(label) => label.replace(/\?$/, '')}>
+  <Field.String path="/myPath" label="My label with a question mark?" />
+  <Value.String path="/myPath" inheritLabel />
+</Value.Provider>
+```

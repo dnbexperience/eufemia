@@ -117,21 +117,29 @@ export default {
     },
     NationalIdentityNumber: {
       label: 'National identity number (11 digits)',
-      errorRequired:
-        'Invalid national identity number. Enter a valid 11-digit number.',
+      errorRequired: 'You must enter a national identity number.',
       errorFnr: 'Invalid national identity number.',
+      errorFnrLength:
+        'Invalid national identity number. Enter a valid national identity number with 11 digits.',
       errorDnr: 'Invalid D number.',
+      errorDnrLength:
+        'Invalid D number. Enter a valid d-number with 11 digits.',
+      errorMinimumAgeValidator: 'Must be at least {age} years of age.',
+      errorMinimumAgeValidatorLength:
+        'Invalid birth of date. Enter a valid birth of date (incl. century digit) with 7 digits.',
     },
     OrganizationNumber: {
       label: 'Organisation number',
       errorRequired: 'You must enter an organisation number.',
-      errorPattern: 'This is not a valid organisation number.',
+      errorOrgNo: 'Invalid organisation number.',
+      errorOrgNoLength:
+        'Invalid organisation number. Enter a valid organisation number with 9 digits.',
     },
     BankAccountNumber: {
       label: 'Bank account',
       errorRequired:
         'Enter a valid account number. Account number is mandatory to fill out.',
-      errorPattern: 'This is not a valid bank account number.',
+      errorPattern: 'Invalid bank account number.',
     },
     PhoneNumber: {
       label: 'Mobile number',

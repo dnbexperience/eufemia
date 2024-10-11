@@ -1,4 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
+import { createMinimumAgeValidator } from '@dnb/eufemia/src/extensions/forms/Field/NationalIdentityNumber'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 
 export const Empty = () => {
@@ -152,7 +153,7 @@ export const ValidationFunction = () => {
           <Field.NationalIdentityNumber
             required
             value="123"
-            validator={validator}
+            onBlurValidator={validator}
             validateInitially
           />
         )
@@ -165,26 +166,70 @@ export const ValidationExtendValidator = () => {
   return (
     <ComponentBox>
       {() => {
-        const bornInApril = (value: string) =>
-          value.substring(2, 4) === '04'
-            ? { status: 'valid' }
-            : { status: 'invalid' }
-
-        const myValidator = (value, { validators }) => {
-          const { dnrValidator, fnrValidator } = validators
-          const result = bornInApril(value)
-          if (result.status === 'invalid') {
+        const bornInAprilValidator = (value: string) => {
+          if (value.substring(2, 4) !== '04') {
             return new Error('My error')
           }
+        }
+        const myValidator = (value, { validators }) => {
+          const { dnrAndFnrValidator } = validators
 
-          return [dnrValidator, fnrValidator]
+          return [dnrAndFnrValidator, bornInAprilValidator]
         }
 
         return (
           <Field.NationalIdentityNumber
             required
             value="53050129159"
-            validator={myValidator}
+            onBlurValidator={myValidator}
+            validateInitially
+          />
+        )
+      }}
+    </ComponentBox>
+  )
+}
+
+export const ValidationExtendValidatorAdult = () => {
+  return (
+    <ComponentBox scope={{ createMinimumAgeValidator }}>
+      {() => {
+        const adultValidator = createMinimumAgeValidator(18)
+        const myAdultValidator = (value, { validators }) => {
+          const { dnrAndFnrValidator } = validators
+
+          return [dnrAndFnrValidator, adultValidator]
+        }
+
+        return (
+          <Field.NationalIdentityNumber
+            required
+            value="56052459244"
+            onBlurValidator={myAdultValidator}
+            validateInitially
+          />
+        )
+      }}
+    </ComponentBox>
+  )
+}
+
+export const ValidationFnrAdult = () => {
+  return (
+    <ComponentBox scope={{ createMinimumAgeValidator }}>
+      {() => {
+        const adultValidator = createMinimumAgeValidator(18)
+        const myFnrAdultValidator = (value, { validators }) => {
+          const { fnrValidator } = validators
+
+          return [fnrValidator, adultValidator]
+        }
+
+        return (
+          <Field.NationalIdentityNumber
+            required
+            value="49100651997"
+            onBlurValidator={myFnrAdultValidator}
             validateInitially
           />
         )

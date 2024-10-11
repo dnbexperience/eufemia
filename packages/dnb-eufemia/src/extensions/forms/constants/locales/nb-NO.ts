@@ -115,21 +115,29 @@ export default {
     },
     NationalIdentityNumber: {
       label: 'Fødselsnummer (11 siffer)',
-      errorRequired:
-        'Ugyldig fødselsnummer. Skriv inn et gyldig fødselsnummer med 11 siffer.',
+      errorRequired: 'Du må fylle inn et fødselsnummer.',
       errorFnr: 'Ugyldig fødselsnummer.',
+      errorFnrLength:
+        'Ugyldig fødselsnummer. Skriv inn et gyldig fødselsnummer med 11 siffer.',
       errorDnr: 'Ugyldig d-nummer.',
+      errorDnrLength:
+        'Ugyldig d-nummer. Skriv inn et gyldig d-nummer med 11 siffer.',
+      errorMinimumAgeValidator: 'Må være minst {age} år.',
+      errorMinimumAgeValidatorLength:
+        'Ugyldig fødselsdato. Skriv inn en gyldig fødselsdato (inkl. århundresiffer) med 7 siffer.',
     },
     OrganizationNumber: {
       label: 'Organisasjonsnummer',
       errorRequired: 'Du må fylle inn et organisasjonsnummer.',
-      errorPattern: 'Dette er ikke et gyldig organisasjonsnummer.',
+      errorOrgNo: 'Ugyldig organisasjonsnummer.',
+      errorOrgNoLength:
+        'Ugyldig organisasjonsnummer. Skriv inn et gyldig organisasjonsnummer med 9 siffer.',
     },
     BankAccountNumber: {
       label: 'Bankkonto',
       errorRequired:
         'Skriv inn et gyldig kontonummer. Kontonummeret må fylles ut.',
-      errorPattern: 'Dette er ikke et gyldig kontonummer.',
+      errorPattern: 'Ugyldig kontonummer.',
     },
     PhoneNumber: {
       label: 'Mobilnummer',

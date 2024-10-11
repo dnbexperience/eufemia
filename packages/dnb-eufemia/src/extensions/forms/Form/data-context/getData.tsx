@@ -3,21 +3,13 @@ import {
   SharedStateId,
   createSharedState,
 } from '../../../../shared/helpers/useSharedState'
-import type {
-  FilterDataHandler,
-  VisibleDataHandler,
-} from '../../DataContext/Context'
+import { SharedAttachments } from '../../DataContext/Provider'
 import type { Path } from '../../types'
 import type {
   UseDataReturnGetValue,
   UseDataReturnFilterData,
   UseDataReturnVisibleData,
 } from './useData'
-
-type SharedAttachment<Data> = {
-  filterDataHandler: FilterDataHandler<Data>
-  visibleDataHandler?: VisibleDataHandler<Data>
-}
 
 type SetDataReturn<Data> = {
   data: Data
@@ -30,7 +22,7 @@ export default function getData<Data>(
   id: SharedStateId
 ): SetDataReturn<Data> {
   const sharedState = createSharedState(id)
-  const sharedAttachments = createSharedState<SharedAttachment<Data>>(
+  const sharedAttachments = createSharedState<SharedAttachments<Data>>(
     id + '-attachments'
   )
 
