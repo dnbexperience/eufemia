@@ -1,6 +1,6 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Card, Flex, HeightAnimation, Section } from '@dnb/eufemia/src'
-import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
+import { Card, Flex, HeightAnimation } from '@dnb/eufemia/src'
+import { Field, Form, Tools } from '@dnb/eufemia/src/extensions/forms'
 import React from 'react'
 
 export const UsingCommitButton = () => {
@@ -40,7 +40,7 @@ export const UsingCommitButton = () => {
 
 export const CommitHandleRef = () => {
   return (
-    <ComponentBox>
+    <ComponentBox scope={{ Tools }}>
       {() => {
         const MyForm = () => {
           const commitHandleRef = React.useRef(null)
@@ -88,7 +88,7 @@ export const CommitHandleRef = () => {
                       </Form.Section>
                     </Flex.Stack>
                   </Form.Isolation>
-                  <Log />
+                  <Tools.Log />
                 </Card>
               </Form.Handler>
 
@@ -100,20 +100,6 @@ export const CommitHandleRef = () => {
                 Commit from outside of handler
               </button>
             </>
-          )
-        }
-
-        const Log = () => {
-          const { data } = Form.useData()
-          return (
-            <Section
-              element="output"
-              innerSpace
-              backgroundColor="sand-yellow"
-              top
-            >
-              {JSON.stringify(data || {}, null, 4)}
-            </Section>
           )
         }
 

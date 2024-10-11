@@ -1,10 +1,11 @@
 import React from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Card, Flex, HeightAnimation, P, Section } from '@dnb/eufemia/src'
+import { Card, Flex, HeightAnimation, P } from '@dnb/eufemia/src'
 import {
   Field,
   Form,
   TestElement,
+  Tools,
   Value,
 } from '@dnb/eufemia/src/extensions/forms'
 
@@ -118,7 +119,7 @@ export const BasedOnContext = () => {
 
 export const NestedExample = () => {
   return (
-    <ComponentBox>
+    <ComponentBox scope={{ Tools }}>
       {() => {
         const filterDataHandler = ({ props }) =>
           !props['data-exclude-field']
@@ -176,16 +177,7 @@ export const NestedExample = () => {
           const { filterData } = Form.useData()
           const filteredData = filterData(filterDataHandler)
 
-          return (
-            <Section
-              element="output"
-              innerSpace
-              backgroundColor="sand-yellow"
-              top
-            >
-              {JSON.stringify(filteredData || {}, null, 4)}
-            </Section>
-          )
+          return <Tools.Log data={filteredData} top />
         }
 
         return <MyForm />
@@ -196,7 +188,7 @@ export const NestedExample = () => {
 
 export const FilterData = () => {
   return (
-    <ComponentBox>
+    <ComponentBox scope={{ Tools }}>
       {() => {
         const filterDataPaths = {
           '/isVisible': false,
@@ -263,16 +255,7 @@ export const FilterData = () => {
         const Output = () => {
           const { filterData } = Form.useData()
           const filteredData = filterData(filterDataPaths)
-          return (
-            <Section
-              element="output"
-              innerSpace
-              backgroundColor="sand-yellow"
-              top
-            >
-              {JSON.stringify(filteredData || {}, null, 4)}
-            </Section>
-          )
+          return <Tools.Log data={filteredData} top />
         }
 
         return <MyForm />

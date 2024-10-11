@@ -1,10 +1,11 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Card, Code, Flex, P, Section } from '@dnb/eufemia/src'
+import { Card, Flex, P } from '@dnb/eufemia/src'
 import {
   Field,
   Form,
   JSONSchema,
   SectionProps,
+  Tools,
   Value,
 } from '@dnb/eufemia/src/extensions/forms'
 
@@ -362,7 +363,7 @@ export const SchemaSupport = () => {
 
 export const WithVisibility = () => {
   return (
-    <ComponentBox scope={{ Output }}>
+    <ComponentBox scope={{ Tools }}>
       {() => {
         const MySection = ({ children, ...props }) => {
           return (
@@ -397,7 +398,7 @@ export const WithVisibility = () => {
                 {children}
               </Card>
 
-              <Output />
+              <Tools.Log />
             </Form.Section>
           )
         }
@@ -520,23 +521,5 @@ export const NestedSections = () => {
         }
       }}
     </ComponentBox>
-  )
-}
-
-const Output = () => {
-  const { data } = Form.useData()
-
-  return (
-    <Section
-      element="output"
-      innerSpace
-      backgroundColor="sand-yellow"
-      top
-      bottom="large"
-    >
-      <Code>
-        <pre>{JSON.stringify(data, null, 2)}</pre>
-      </Code>
-    </Section>
   )
 }

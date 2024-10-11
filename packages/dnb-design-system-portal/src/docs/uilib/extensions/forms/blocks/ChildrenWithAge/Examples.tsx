@@ -38,7 +38,7 @@ export const ChildrenWithAge = (props) => {
 
 export const ChildrenWithAgeWizard = (props) => {
   return (
-    <ComponentBox scope={{ Blocks, props }}>
+    <ComponentBox scope={{ Tools, Blocks, props }}>
       {() => {
         const MyForm = () => {
           const { summaryTitle } = Form.useLocale().Step
@@ -163,9 +163,7 @@ function Output({ title, generateRef, transform = (data) => data }) {
   return (
     <>
       <Lead>{title}</Lead>
-      <Section element="output" innerSpace backgroundColor="sand-yellow">
-        <pre>{JSON.stringify(data, null, 2)}</pre>
-      </Section>
+      <Tools.Log data={data} />
     </>
   )
 }
@@ -174,7 +172,7 @@ export const ChildrenWithAgePrefilledYes = () => {
   return (
     <ComponentBox
       data-visual-test="children-with-age-prefilled"
-      scope={{ Blocks }}
+      scope={{ Tools, Blocks }}
     >
       <Form.Handler
         data={{
@@ -217,7 +215,7 @@ export const ChildrenWithAgeSummaryMultipleNoAnswers = () => {
   return (
     <ComponentBox
       data-visual-test="children-with-age-summary-multiple-no-answers"
-      scope={{ Blocks, multipleChildrenNoJointAndDaycare }}
+      scope={{ Tools, Blocks, multipleChildrenNoJointAndDaycare }}
     >
       <Blocks.ChildrenWithAge
         data={multipleChildrenNoJointAndDaycare}
@@ -250,7 +248,7 @@ export const ChildrenWithAgeSummaryMultipleChildren = () => {
   return (
     <ComponentBox
       data-visual-test="children-with-age-summary-multiple-children"
-      scope={{ Blocks, multipleChildren }}
+      scope={{ Tools, Blocks, multipleChildren }}
     >
       <Blocks.ChildrenWithAge data={multipleChildren} />
       <Blocks.ChildrenWithAge mode="summary" data={multipleChildren} />
@@ -265,7 +263,7 @@ export const ChildrenWithAgeSummaryNoChildren = () => {
   return (
     <ComponentBox
       data-visual-test="children-with-age-summary-no-children"
-      scope={{ Blocks, noChildren }}
+      scope={{ Tools, Blocks, noChildren }}
     >
       <Blocks.ChildrenWithAge data={noChildren} />
       <Blocks.ChildrenWithAge mode="summary" data={noChildren} />

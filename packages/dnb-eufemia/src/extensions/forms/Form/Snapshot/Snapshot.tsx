@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import React, { useCallback, useContext, useEffect, useRef } from 'react'
 import SnapshotContext, {
   SnapshotContextState,
   SnapshotMap,
@@ -22,9 +16,11 @@ export type SnapshotProps = {
 function SnapshotProvider(props: SnapshotProps) {
   const { name, children } = props
 
-  const [map] = useState(() => new Map())
-  const mountedFieldsRef: SnapshotMap = useRef(map)
   const { snapshotsRef } = useContext(DataContext) || {}
+  const mountedFieldsRef: SnapshotMap = useRef()
+  if (!mountedFieldsRef.current) {
+    mountedFieldsRef.current = new Map()
+  }
 
   const setMountedField: SnapshotContextState['setMountedField'] =
     useCallback((path, state) => {

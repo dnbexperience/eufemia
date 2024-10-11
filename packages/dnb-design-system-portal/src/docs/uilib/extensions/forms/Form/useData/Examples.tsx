@@ -1,8 +1,12 @@
 import React from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Button, Flex, Section } from '@dnb/eufemia/src'
-import { Form, Field, Value } from '@dnb/eufemia/src/extensions/forms'
-import { ScrollView } from '@dnb/eufemia/src/fragments'
+import { Button, Flex } from '@dnb/eufemia/src'
+import {
+  Form,
+  Field,
+  Value,
+  Tools,
+} from '@dnb/eufemia/src/extensions/forms'
 
 export function Default() {
   return (
@@ -100,7 +104,7 @@ export function WithoutFormHandler() {
 
 export function FilterData() {
   return (
-    <ComponentBox>
+    <ComponentBox scope={{ Tools }}>
       {() => {
         const filterDataPaths = {
           '/isVisible': false,
@@ -162,23 +166,13 @@ export function FilterData() {
           const { data, filterData } = Form.useData()
 
           return (
-            <Section
-              element="output"
-              backgroundColor="sand-yellow"
-              style={{ maxWidth: '80vw' }}
-              innerSpace
-            >
-              <ScrollView>
-                <pre>
-                  Filtered: <br />
-                  {JSON.stringify(filterData(filterDataPaths), null, 2)}
-                </pre>
-                <pre>
-                  All data: <br />
-                  {JSON.stringify(data, null, 2)}
-                </pre>
-              </ScrollView>
-            </Section>
+            <>
+              <Tools.Log
+                data={filterData(filterDataPaths)}
+                label="Filtered:"
+              />
+              <Tools.Log data={data} label="All data:" />
+            </>
           )
         }
 
