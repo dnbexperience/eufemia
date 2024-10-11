@@ -3874,7 +3874,7 @@ describe('useFieldProps', () => {
         }).neverToResolve()
       })
 
-      it('should not call internal validates when they are not returned in the publicValidator', async () => {
+      it('should not call internal validators when they are not returned in the publicValidator', async () => {
         let internalValidators, barValidator, bazValidator
 
         const MockComponent = (props) => {
