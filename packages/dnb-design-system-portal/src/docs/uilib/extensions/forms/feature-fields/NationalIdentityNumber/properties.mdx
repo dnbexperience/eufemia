@@ -19,6 +19,8 @@ import { NationalIdentityNumberProperties } from '@dnb/eufemia/src/extensions/fo
 
 ## Validators
 
+### Internal validators exposed
+
 `Field.NationalIdentityNumber` expose the following validators through its `validator` and `onBlurValidator` property:
 
 - `dnrValidator`: validates a D number.
@@ -26,6 +28,8 @@ import { NationalIdentityNumberProperties } from '@dnb/eufemia/src/extensions/fo
 - `dnrAndFnrValidator`:
   - validates the identification number as a D number when first digit is 4 or greater (because a D number has its first number increased by 4).
   - validates the identification number as a national identity number (fødselsnummer) when first digit is 3 or less.
+
+### createMinimumAgeValidator
 
 You can create your own age validator by using the `createMinimumAgeValidator` function. It takes an age as a parameter and returns a validator function. The validator function takes a value and returns an error message if the value is not above the given age.
 It validates if the identification number has a date of birth that is 18 years or older. It uses only the 7 first digits of the identification number to validate. The first 6 digits representing the birth of date, and the next digit represents the century.
