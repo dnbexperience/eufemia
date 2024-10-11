@@ -118,7 +118,7 @@ export default {
       errorRequired: 'Du må fylle inn et fødselsnummer.',
       errorFnr: 'Ugyldig fødselsnummer.',
       errorDnr: 'Ugyldig d-nummer.',
-      errorAgeValidator: 'Må være minst {age} år.',
+      errorMinimumAgeValidator: 'Må være minst {age} år.',
     },
     OrganizationNumber: {
       label: 'Organisasjonsnummer',

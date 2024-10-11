@@ -8,8 +8,11 @@ import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
 describe('Field.NationalIdentityNumber with adultValidator', () => {
-  const errorAgeValidator =
-    nb.NationalIdentityNumber.errorAgeValidator.replace('{age}', '18')
+  const errorMinimumAgeValidator =
+    nb.NationalIdentityNumber.errorMinimumAgeValidator.replace(
+      '{age}',
+      '18'
+    )
   const adultValidator = createMinimumAgeValidator(18)
   const extendingDnrAndFnrValidatorWithAdultValidator: Validator<
     string
@@ -70,7 +73,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        errorAgeValidator
+        errorMinimumAgeValidator
       )
     })
   })
@@ -215,7 +218,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              errorAgeValidator
+              errorMinimumAgeValidator
             )
           })
         }
@@ -253,7 +256,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              errorAgeValidator
+              errorMinimumAgeValidator
             )
           })
         }
@@ -293,7 +296,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              errorAgeValidator
+              errorMinimumAgeValidator
             )
           })
         }
@@ -375,7 +378,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              errorAgeValidator
+              errorMinimumAgeValidator
             )
           })
         }
@@ -457,7 +460,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              errorAgeValidator
+              errorMinimumAgeValidator
             )
           })
         }
@@ -515,7 +518,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              errorAgeValidator
+              errorMinimumAgeValidator
             )
           })
         }
@@ -576,7 +579,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              errorAgeValidator
+              errorMinimumAgeValidator
             )
           })
         }
@@ -634,7 +637,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
           await waitFor(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
             expect(screen.queryByRole('alert')).toHaveTextContent(
-              errorAgeValidator
+              errorMinimumAgeValidator
             )
           })
         }
