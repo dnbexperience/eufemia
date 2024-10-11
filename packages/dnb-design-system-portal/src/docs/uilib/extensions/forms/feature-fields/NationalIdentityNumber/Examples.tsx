@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { createAboveAgeValidator } from '@dnb/eufemia/src/extensions/forms/Field/NationalIdentityNumber'
+import { createAgeValidator } from '@dnb/eufemia/src/extensions/forms/Field/NationalIdentityNumber'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 
 export const Empty = () => {
@@ -192,9 +192,9 @@ export const ValidationExtendValidator = () => {
 
 export const ValidationExtendValidatorAdult = () => {
   return (
-    <ComponentBox scope={{ createAboveAgeValidator }}>
+    <ComponentBox scope={{ createAgeValidator }}>
       {() => {
-        const adultValidator = createAboveAgeValidator(18)
+        const adultValidator = createAgeValidator(18)
         const myAdultValidator = (value, { validators }) => {
           const { dnrAndFnrValidator } = validators
 
@@ -216,9 +216,9 @@ export const ValidationExtendValidatorAdult = () => {
 
 export const ValidationFnrAdult = () => {
   return (
-    <ComponentBox scope={{ createAboveAgeValidator }}>
+    <ComponentBox scope={{ createAgeValidator }}>
       {() => {
-        const adultValidator = createAboveAgeValidator(18)
+        const adultValidator = createAgeValidator(18)
         const myFnrAdultValidator = (value, { validators }) => {
           const { fnrValidator } = validators
 

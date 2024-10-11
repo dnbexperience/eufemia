@@ -150,7 +150,7 @@ export function getBirthDateByFnrOrDnr(value: string) {
   return new Date(Number.parseInt(year), month - 1, day)
 }
 
-export function createAboveAgeValidator(age: number) {
+export function createAgeValidator(age: number) {
   return (value: string) => {
     if (typeof value !== 'string') {
       return // stop here
