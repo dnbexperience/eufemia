@@ -18,6 +18,12 @@ import DataContext, {
 } from '../../DataContext/Context'
 import { SharedAttachments } from '../../DataContext/Provider'
 
+/**
+ * Deprecated, as it is supported by all major browsers and Node.js >=v18
+ * So its a question of time, when we will remove this polyfill
+ */
+import structuredClone from '@ungap/structured-clone'
+
 type PathImpl<T, P extends string> = P extends `${infer Key}/${infer Rest}`
   ? Key extends keyof T
     ? Rest extends ''
