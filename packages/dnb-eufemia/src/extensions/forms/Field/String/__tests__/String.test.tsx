@@ -926,7 +926,7 @@ describe('Field.String', () => {
         )
         await expect(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
-        }).neverToResolve()
+        }).toNeverResolve()
       })
     })
 
@@ -993,7 +993,7 @@ describe('Field.String', () => {
 
         await expect(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
-        }).neverToResolve()
+        }).toNeverResolve()
       })
     })
 
@@ -1051,7 +1051,7 @@ describe('Field.String', () => {
         fireEvent.blur(input)
         await expect(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
-        }).neverToResolve()
+        }).toNeverResolve()
       })
     })
 
@@ -1109,7 +1109,7 @@ describe('Field.String', () => {
         fireEvent.blur(input)
         await expect(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
-        }).neverToResolve()
+        }).toNeverResolve()
       })
     })
 

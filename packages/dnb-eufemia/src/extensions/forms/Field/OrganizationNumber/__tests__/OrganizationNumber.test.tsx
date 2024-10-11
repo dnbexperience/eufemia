@@ -73,7 +73,7 @@ describe('Field.OrganizationNumber', () => {
 
     await expect(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
-    }).neverToResolve()
+    }).toNeverResolve()
   })
 
   it('should provide an error for empty/undefined value when required', async () => {
@@ -122,7 +122,7 @@ describe('Field.OrganizationNumber', () => {
 
     await expect(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
-    }).neverToResolve()
+    }).toNeverResolve()
   })
 
   it('should support custom pattern', async () => {
@@ -162,7 +162,7 @@ describe('Field.OrganizationNumber', () => {
 
     await expect(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
-    }).neverToResolve()
+    }).toNeverResolve()
 
     expect(dummyValidator).toHaveBeenCalledTimes(1)
     expect(dummyValidator).toHaveBeenCalledWith('6', expect.anything())
@@ -196,7 +196,7 @@ describe('Field.OrganizationNumber', () => {
 
     await expect(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
-    }).neverToResolve()
+    }).toNeverResolve()
   })
 
   it('should replace the internal validator with the given one', async () => {
@@ -245,7 +245,7 @@ describe('Field.OrganizationNumber', () => {
 
     await expect(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
-    }).neverToResolve()
+    }).toNeverResolve()
   })
 
   it('should not validate organization number when "validate" is set to false', async () => {
@@ -265,7 +265,7 @@ describe('Field.OrganizationNumber', () => {
 
     await expect(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
-    }).neverToResolve()
+    }).toNeverResolve()
   })
 
   it('should not validate custom validator when "validate" is set to false', async () => {
@@ -299,7 +299,7 @@ describe('Field.OrganizationNumber', () => {
 
     await expect(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
-    }).neverToResolve()
+    }).toNeverResolve()
   })
 
   it('should not validate extended validator when "validate" is set to false', async () => {
@@ -336,7 +336,7 @@ describe('Field.OrganizationNumber', () => {
 
     await expect(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
-    }).neverToResolve()
+    }).toNeverResolve()
   })
 
   describe('should validate Norwegian organization number', () => {
@@ -373,7 +373,7 @@ describe('Field.OrganizationNumber', () => {
 
         await expect(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
-        }).neverToResolve()
+        }).toNeverResolve()
       }
     )
 
@@ -464,7 +464,7 @@ describe('Field.OrganizationNumber', () => {
 
         await expect(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
-        }).neverToResolve()
+        }).toNeverResolve()
       }
     )
 

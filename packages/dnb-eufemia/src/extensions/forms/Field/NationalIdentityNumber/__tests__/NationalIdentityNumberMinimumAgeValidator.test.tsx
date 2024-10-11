@@ -89,7 +89,7 @@ describe('Field.NationalIdentityNumber with minimumAgeValidator', () => {
 
     await expect(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
-    }).neverToResolve()
+    }).toNeverResolve()
   })
 
   describe('should validate if identity numbers is adult(18 years and older)', () => {
@@ -201,7 +201,7 @@ describe('Field.NationalIdentityNumber with minimumAgeValidator', () => {
 
           await expect(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
-          }).neverToResolve()
+          }).toNeverResolve()
         }
       )
 
@@ -240,7 +240,7 @@ describe('Field.NationalIdentityNumber with minimumAgeValidator', () => {
 
           await expect(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
-          }).neverToResolve()
+          }).toNeverResolve()
         }
       )
 
@@ -279,7 +279,7 @@ describe('Field.NationalIdentityNumber with minimumAgeValidator', () => {
 
           await expect(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
-          }).neverToResolve()
+          }).toNeverResolve()
         }
       )
 
@@ -360,7 +360,7 @@ describe('Field.NationalIdentityNumber with minimumAgeValidator', () => {
 
           await expect(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
-          }).neverToResolve()
+          }).toNeverResolve()
         }
       )
 
@@ -443,7 +443,7 @@ describe('Field.NationalIdentityNumber with minimumAgeValidator', () => {
 
           await expect(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
-          }).neverToResolve()
+          }).toNeverResolve()
         }
       )
 
@@ -502,7 +502,7 @@ describe('Field.NationalIdentityNumber with minimumAgeValidator', () => {
 
           await expect(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
-          }).neverToResolve()
+          }).toNeverResolve()
         }
       )
 
@@ -562,7 +562,7 @@ describe('Field.NationalIdentityNumber with minimumAgeValidator', () => {
 
           await expect(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
-          }).neverToResolve()
+          }).toNeverResolve()
         }
       )
 
@@ -621,7 +621,7 @@ describe('Field.NationalIdentityNumber with minimumAgeValidator', () => {
 
           await expect(() => {
             expect(screen.queryByRole('alert')).toBeInTheDocument()
-          }).neverToResolve()
+          }).toNeverResolve()
         }
       )
 

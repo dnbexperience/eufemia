@@ -128,7 +128,7 @@ describe('Field.NationalIdentityNumber', () => {
 
     await expect(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
-    }).neverToResolve()
+    }).toNeverResolve()
 
     expect(dummyValidator).toHaveBeenCalledTimes(1)
     expect(dummyValidator).toHaveBeenCalledWith('6', expect.anything())
@@ -208,7 +208,7 @@ describe('Field.NationalIdentityNumber', () => {
 
     await expect(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
-    }).neverToResolve()
+    }).toNeverResolve()
   })
 
   it('should provide an error for empty/undefined value when required', async () => {
@@ -257,7 +257,7 @@ describe('Field.NationalIdentityNumber', () => {
 
     await expect(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
-    }).neverToResolve()
+    }).toNeverResolve()
   })
 
   it('should not validate when onBlurValidator is false', async () => {
@@ -274,7 +274,7 @@ describe('Field.NationalIdentityNumber', () => {
 
     await expect(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
-    }).neverToResolve()
+    }).toNeverResolve()
   })
 
   it('should not validate dnum when validate false', async () => {

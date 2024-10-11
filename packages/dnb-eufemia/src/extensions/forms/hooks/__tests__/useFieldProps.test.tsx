@@ -3919,7 +3919,7 @@ describe('useFieldProps', () => {
           expect(
             document.querySelector('.dnb-form-status')
           ).toBeInTheDocument()
-        }).neverToResolve()
+        }).toNeverResolve()
       })
 
       it('should not call internal validators when they are not returned in the publicValidator', async () => {
@@ -3992,7 +3992,7 @@ describe('useFieldProps', () => {
         )
         await expect(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
-        }).neverToResolve()
+        }).toNeverResolve()
         expect(publicValidator).toHaveBeenCalledTimes(5)
         expect(barValidator).toHaveBeenCalledTimes(0)
         expect(bazValidator).toHaveBeenCalledTimes(0)
@@ -4005,7 +4005,7 @@ describe('useFieldProps', () => {
 
         await expect(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
-        }).neverToResolve()
+        }).toNeverResolve()
         expect(publicValidator).toHaveBeenCalledTimes(9)
         expect(barValidator).toHaveBeenCalledTimes(0)
         expect(bazValidator).toHaveBeenCalledTimes(0)
