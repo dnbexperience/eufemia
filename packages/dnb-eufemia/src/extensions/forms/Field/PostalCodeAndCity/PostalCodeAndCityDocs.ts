@@ -7,7 +7,7 @@ export const PostalCodeAndCityProperties: PropertiesTableProps = {
       'Setting it to anything other than `no` will remove the default norwegian postal code pattern.' +
       'You can also use the value of another field to define the country, by using a path value i.e. `/myCountryPath`.' +
       'Defaults to `no`',
-    type: ['Path', 'no', 'string'],
+    type: ['Path', 'string'],
     status: 'optional',
   },
   postalCode: {
