@@ -3,6 +3,50 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.52.0](https://github.com/dnbexperience/eufemia/compare/v10.51.2...v10.52.0) (2024-10-11)
+
+
+### :memo: Documentation
+
+* **NationalIdentityNumber:** add docs about validation ([#4077](https://github.com/dnbexperience/eufemia/issues/4077)) ([51bfd80](https://github.com/dnbexperience/eufemia/commit/51bfd803a49738815b5325f65f4d54f41ed47e02))
+* **OrganizationNumber:** adds docs about validation ([#4078](https://github.com/dnbexperience/eufemia/issues/4078)) ([c785c51](https://github.com/dnbexperience/eufemia/commit/c785c51da4294c34fef8d4d874bb890544533fc6))
+
+
+### :bug: Bug Fixes
+
+* **Autocomplete:** Show whole suggestion list after item selection ([#4060](https://github.com/dnbexperience/eufemia/issues/4060)) ([0acf061](https://github.com/dnbexperience/eufemia/commit/0acf061aab86ef09ece0afe89df51019de838a00))
+* **Field.NationalIdentityNumber:** validate on all digits(not only 11 digits) ([#4079](https://github.com/dnbexperience/eufemia/issues/4079)) ([7c34fc9](https://github.com/dnbexperience/eufemia/commit/7c34fc9a42aea2af1ca8ca42425f3c1cc5468e64))
+* **Field.OrganizationNumber:** should validate on all digits(not only when 9) ([#4071](https://github.com/dnbexperience/eufemia/issues/4071)) ([08a4b51](https://github.com/dnbexperience/eufemia/commit/08a4b51610118cc464b4d8712724524263133b1a))
+* **Forms:** add support for `Form.SubmitConfirmation` inside Wizard ([#4088](https://github.com/dnbexperience/eufemia/issues/4088)) ([e1167a4](https://github.com/dnbexperience/eufemia/commit/e1167a40d5e75bc8f350b790ba04b824202fe08b)), closes [#4086](https://github.com/dnbexperience/eufemia/issues/4086)
+* **Forms:** don't call internal `exportValidators` when they not are exported as an array ([#4113](https://github.com/dnbexperience/eufemia/issues/4113)) ([cd54ed0](https://github.com/dnbexperience/eufemia/commit/cd54ed0d590eb03def53f0f7cb4a97494600ee27)), closes [#4106](https://github.com/dnbexperience/eufemia/issues/4106)
+* **Forms:** ensure `emptyValue` is set in the data context when defined ([#4111](https://github.com/dnbexperience/eufemia/issues/4111)) ([dcc5694](https://github.com/dnbexperience/eufemia/commit/dcc569487e3c663f5f61aa9d7f259e58dab59708)), closes [#4070](https://github.com/dnbexperience/eufemia/issues/4070)
+* **Forms:** ensure `onBlurValidator` gets called when `validateInitially` is true ([#4069](https://github.com/dnbexperience/eufemia/issues/4069)) ([59cf6c5](https://github.com/dnbexperience/eufemia/commit/59cf6c55acf34c3f561b136c7821b7120ef4cd24)), closes [#4068](https://github.com/dnbexperience/eufemia/issues/4068) [#4066](https://github.com/dnbexperience/eufemia/issues/4066)
+* **Forms:** ensure Field.SelectCountry has a fallback locale (nb-NO) ([#4114](https://github.com/dnbexperience/eufemia/issues/4114)) ([568229a](https://github.com/dnbexperience/eufemia/commit/568229a641220b33bf4ff4d0ad6b2eaa03ad95dc))
+* **Forms:** ensure Form.clearData works in React.StrictMode ([#4053](https://github.com/dnbexperience/eufemia/issues/4053)) ([da0c93a](https://github.com/dnbexperience/eufemia/commit/da0c93a70c0124690fcd63d4fafa4a92d2174c28)), closes [#4048](https://github.com/dnbexperience/eufemia/issues/4048)
+* **Forms:** Fix use of unpolyfilled structuredClone in useData hook ([#4108](https://github.com/dnbexperience/eufemia/issues/4108)) ([1f59f10](https://github.com/dnbexperience/eufemia/commit/1f59f10fd1e8d9ae1c1ba832e780d3e2cc6b413a))
+* **Forms:** keep `Iterate.EditContainer` open when falsy value or empty object was given as the iterate value ([#4087](https://github.com/dnbexperience/eufemia/issues/4087)) ([e932059](https://github.com/dnbexperience/eufemia/commit/e932059f81c9f64a98a413e9bacf2d0e78b5d40c)), closes [#4046](https://github.com/dnbexperience/eufemia/issues/4046)
+* **Forms:** show error on every value change when using exported validators ([#4068](https://github.com/dnbexperience/eufemia/issues/4068)) ([cab6d01](https://github.com/dnbexperience/eufemia/commit/cab6d01d78d733d479510e608bb71ec76445eca2)), closes [#4067](https://github.com/dnbexperience/eufemia/issues/4067)
+* **Icon:** icon property typing should accept FormStatus icons ([#4091](https://github.com/dnbexperience/eufemia/issues/4091)) ([f49eb34](https://github.com/dnbexperience/eufemia/commit/f49eb344ea0038071275ea2e9cb173e5ff0418c3))
+* **NationalIdentityNumber:** use `onBlurValidator` instead of `validator` ([#3982](https://github.com/dnbexperience/eufemia/issues/3982)) ([0a93755](https://github.com/dnbexperience/eufemia/commit/0a93755b981a767d2b2a0f23bdf22d4e26a30c4b))
+* **Typography:** match medium heading font size in Sbanken theme ([#4039](https://github.com/dnbexperience/eufemia/issues/4039)) ([ce50529](https://github.com/dnbexperience/eufemia/commit/ce505298084a217b45b931880b45e59832b614e2))
+
+
+### :sparkles: Features
+
+* **Forms:** add `bubbleValidation` to Form.Isolation and Iterate.PushContainer to prevent the form from being submitted when there are fields with errors ([#4103](https://github.com/dnbexperience/eufemia/issues/4103)) ([880f870](https://github.com/dnbexperience/eufemia/commit/880f870ace8789f12d532acfc48c7fe389cdcbe4)), closes [#4072](https://github.com/dnbexperience/eufemia/issues/4072)
+* **Forms:** add `createMinimumAgeValidator` to Field.NationalIdentityNumber make a customizable `adultValidator` ([#4057](https://github.com/dnbexperience/eufemia/issues/4057)) ([6c20ba2](https://github.com/dnbexperience/eufemia/commit/6c20ba27e287683db376fc5f69d48cee2a6632d1))
+* **Forms:** add `Form.useSnapshot` hook to handle snapshots of data ([#4102](https://github.com/dnbexperience/eufemia/issues/4102)) ([d451793](https://github.com/dnbexperience/eufemia/commit/d45179312c33201b2b84c63c9a06ab19d195e122))
+* **Forms:** add `isolatedData` prop to `Iterate.PushContainer` ([#4076](https://github.com/dnbexperience/eufemia/issues/4076)) ([ede5f8e](https://github.com/dnbexperience/eufemia/commit/ede5f8e5c6588997d1f34ec6439bde66183aa068))
+* **Forms:** add `isValid` to Form.Visibility for showing content based on the validation of a field ([#4038](https://github.com/dnbexperience/eufemia/issues/4038)) ([7536752](https://github.com/dnbexperience/eufemia/commit/75367528ca5da533cf795aecb2cdb813046cffc8))
+* **Forms:** add `Iterate.ItemNo` component ([#4095](https://github.com/dnbexperience/eufemia/issues/4095)) ([c736c9e](https://github.com/dnbexperience/eufemia/commit/c736c9e2726082ee70449e6d1128f07fcb33eca7))
+* **Forms:** add `transformLabel` to all Value.* component ([#4056](https://github.com/dnbexperience/eufemia/issues/4056)) ([d63e472](https://github.com/dnbexperience/eufemia/commit/d63e4727d70c34d5b9cdaad950a5ed9ef5bddff7))
+* **Forms:** add support for `defaultValue` (and `value`) for fields used in `Iterate.Array` ([#3987](https://github.com/dnbexperience/eufemia/issues/3987)) ([afbdddf](https://github.com/dnbexperience/eufemia/commit/afbdddf299289f80777c5af13e060f5f692be1d1)), closes [#3882](https://github.com/dnbexperience/eufemia/issues/3882)
+* **Forms:** add support for `id` for when using dynamic steps with `activeWhen` ([#4093](https://github.com/dnbexperience/eufemia/issues/4093)) ([248da92](https://github.com/dnbexperience/eufemia/commit/248da926003166fa3cfc47f0b46bc5f7e8ea3d52))
+* **Forms:** remove internal pattern from `Field.NationalIdentityNumber` in favor of the internal validator ([#4098](https://github.com/dnbexperience/eufemia/issues/4098)) ([fb35722](https://github.com/dnbexperience/eufemia/commit/fb3572284e839d820b7cffb1fdf0204ad1ef5867))
+* **Forms:** remove internal pattern from `Field.OrganizationNumber` in favor of the internal validator ([#4092](https://github.com/dnbexperience/eufemia/issues/4092)) ([e829f8b](https://github.com/dnbexperience/eufemia/commit/e829f8b3345c4863d80eee9990c4d0cf2d085486)), closes [#4073](https://github.com/dnbexperience/eufemia/issues/4073)
+* **Skeleton:** stop animation after 30 seconds ([#3479](https://github.com/dnbexperience/eufemia/issues/3479)) ([f67b3bb](https://github.com/dnbexperience/eufemia/commit/f67b3bbd099ecb9e3ca3017c1d8f8530d84ad8f1))
+* **Value.PhoneNumber and NumberFormat:** displays country code using prefix `+` instead of `00` ([#4051](https://github.com/dnbexperience/eufemia/issues/4051)) ([fb363d0](https://github.com/dnbexperience/eufemia/commit/fb363d0cfa57153a27ab50d9253b3c0369b26194))
+
 ## [10.51.2](https://github.com/dnbexperience/eufemia/compare/v10.51.1...v10.51.2) (2024-10-03)
 
 
