@@ -14,14 +14,14 @@ export type Props = Omit<StringFieldProps, 'onBlurValidator'> & {
 
 function NationalIdentityNumber(props: Props) {
   const translations = useTranslation().NationalIdentityNumber
-  const { label, errorRequired, errorFnr, errorDnr, errorBelowAge } =
+  const { label, errorRequired, errorFnr, errorDnr, errorAgeValidator } =
     translations
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: errorRequired,
     pattern: errorFnr,
     errorFnr,
     errorDnr,
-    errorBelowAge,
+    errorAgeValidator,
   })
 
   const fnrValidator = useCallback(
@@ -163,8 +163,8 @@ export function createAgeValidator(age: number) {
       }
     }
 
-    return new FormError('NationalIdentityNumber.errorBelowAge', {
-      validationRule: 'errorBelowAge', // "validationRule" Will be removed in future PR
+    return new FormError('NationalIdentityNumber.errorAgeValidator', {
+      validationRule: 'errorAgeValidator', // "validationRule" Will be removed in future PR
       messageValues: { age: String(age) },
     })
   }
