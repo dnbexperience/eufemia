@@ -43,7 +43,7 @@ function PostalCodeAndCity(props: Props) {
         ? postalCode.mask
         : isNorway
         ? [/\d/, /\d/, /\d/, /\d/]
-        : postalCode.mask,
+        : '',
       pattern: postalCode.pattern
         ? postalCode?.pattern
         : isNorway
