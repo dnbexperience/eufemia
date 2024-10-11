@@ -1,7 +1,6 @@
 import React from 'react'
-import { Card, Section } from '../../../components'
-import { Field, Form, Wizard, Value } from '..'
-import { Code } from '../../../elements'
+import { Card } from '../../../components'
+import { Field, Form, Wizard, Value, Tools } from '..'
 import { Provider } from '../../../../shared'
 
 export default {
@@ -150,21 +149,7 @@ export function PizzaDemo() {
         </Wizard.Container>
       </Form.Handler>
 
-      <Output>{data}</Output>
+      <Tools.Log data={data} top />
     </Provider>
-  )
-}
-
-function Output({ children }) {
-  return (
-    <Section
-      element="output"
-      spacing
-      style_type="sand-yellow"
-      top
-      bottom="large"
-    >
-      JSON Output: <Code>{JSON.stringify(children || {}, null, 4)}</Code>
-    </Section>
   )
 }

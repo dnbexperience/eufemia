@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useRef } from 'react'
 import { makeUniqueId } from '../../../shared/component-helper'
 import pointer from '../utils/json-pointer'
 import { SharedStateId } from '../../../shared/helpers/useSharedState'
@@ -7,8 +7,10 @@ import { SnapshotId, SnapshotName } from '../Form/Snapshot'
 import useData from '../Form/data-context/useData'
 
 export default function useSnapshot(id?: SharedStateId) {
-  const [map] = useState(() => new Map())
-  const internalSnapshotsRef = useRef<Map<SnapshotId, unknown>>(map)
+  const internalSnapshotsRef = useRef<Map<SnapshotId, unknown>>()
+  if (!internalSnapshotsRef.current) {
+    internalSnapshotsRef.current = new Map()
+  }
 
   const { getContext } = useDataContext(id)
   const { set: setData, update: updateData } = useData(id)

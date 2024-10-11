@@ -1,5 +1,5 @@
 import React from 'react'
-import { Field, Form, JSONSchema } from '../../..'
+import { Field, Form, JSONSchema, Tools } from '../../..'
 import { Flex } from '../../../../../components'
 import Provider from '../Provider'
 import type { FilterData } from '../../Context'
@@ -128,44 +128,9 @@ export const FilterDataStory = () => {
           <Form.SubmitButton />
         </Form.ButtonRow>
 
-        <output>
-          hasErrors: {JSON.stringify(hasErrors(), null, 2)}
-          <pre>
-            {JSON.stringify(
-              replaceUndefinedValues(filterData(filterDataHandler)),
-              null,
-              2
-            )}
-          </pre>
-        </output>
+        <Tools.Log top data={hasErrors()} label="hasErrors:" />
+        <Tools.Log top data={filterData(filterDataHandler)} />
       </Flex.Stack>
     </Form.Handler>
   )
-}
-
-/**
- * Replaces undefined values in an object with a specified replacement value.
- * @param value - The value to check for undefined values.
- * @param replaceWith - The value to replace undefined values with. Default is null.
- * @returns The object with undefined values replaced.
- */
-function replaceUndefinedValues(
-  value: unknown,
-  replaceWith = null
-): unknown {
-  if (typeof value === 'undefined') {
-    return replaceWith
-  } else if (typeof value === 'object' && value !== replaceWith) {
-    return {
-      ...value,
-      ...Object.fromEntries(
-        Object.entries(value).map(([k, v]) => [
-          k,
-          replaceUndefinedValues(v),
-        ])
-      ),
-    }
-  } else {
-    return value
-  }
 }

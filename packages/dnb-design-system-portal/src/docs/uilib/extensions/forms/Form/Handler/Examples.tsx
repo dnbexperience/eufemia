@@ -1,7 +1,12 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Form, Field, Value } from '@dnb/eufemia/src/extensions/forms'
+import {
+  Form,
+  Field,
+  Value,
+  Tools,
+} from '@dnb/eufemia/src/extensions/forms'
 import { stop as stopIcon } from '@dnb/eufemia/src/icons'
-import { Button, Card, Flex, P, Section } from '@dnb/eufemia/src'
+import { Button, Card, Flex, P } from '@dnb/eufemia/src'
 import { debounceAsync } from '@dnb/eufemia/src/shared/helpers/debounce'
 import { createRequest } from '../SubmitIndicator/Examples'
 
@@ -336,7 +341,7 @@ export const VisibleData = () => {
 
 export const FilterData = () => {
   return (
-    <ComponentBox scope={{ replaceUndefinedValues }}>
+    <ComponentBox scope={{ Tools }}>
       {() => {
         const id = 'my-form'
         const filterDataHandler = ({ props }) => !props.disabled
@@ -374,22 +379,10 @@ export const FilterData = () => {
           const { hasErrors } = Form.useValidation(id)
 
           return (
-            <Section
-              top
-              innerSpace
-              backgroundColor="sand-yellow"
-              breakout={false}
-              element="output"
-            >
-              hasErrors: {JSON.stringify(hasErrors(), null, 2)}
-              <pre>
-                {JSON.stringify(
-                  replaceUndefinedValues(filterData(filterDataHandler)),
-                  null,
-                  2,
-                )}
-              </pre>
-            </Section>
+            <>
+              <Tools.Log top data={hasErrors()} label="hasErrors:" />
+              <Tools.Log top data={filterData(filterDataHandler)} />
+            </>
           )
         }
 
@@ -402,31 +395,4 @@ export const FilterData = () => {
       }}
     </ComponentBox>
   )
-}
-
-/**
- * Replaces undefined values in an object with a specified replacement value.
- * @param value - The value to check for undefined values.
- * @param replaceWith - The value to replace undefined values with. Default is null.
- * @returns The object with undefined values replaced.
- */
-function replaceUndefinedValues(
-  value: unknown,
-  replaceWith = null,
-): unknown {
-  if (typeof value === 'undefined') {
-    return replaceWith
-  } else if (typeof value === 'object' && value !== replaceWith) {
-    return {
-      ...value,
-      ...Object.fromEntries(
-        Object.entries(value).map(([k, v]) => [
-          k,
-          replaceUndefinedValues(v),
-        ]),
-      ),
-    }
-  } else {
-    return value
-  }
 }
