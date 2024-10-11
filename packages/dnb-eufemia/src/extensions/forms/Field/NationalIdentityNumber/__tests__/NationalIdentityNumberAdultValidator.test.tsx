@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, waitFor, screen } from '@testing-library/react'
 import { Field, Validator } from '../../..'
-import { createAgeValidator } from '../NationalIdentityNumber'
+import { createMinimumAgeValidator } from '../NationalIdentityNumber'
 
 import nbNO from '../../../constants/locales/nb-NO'
 
@@ -10,7 +10,7 @@ const nb = nbNO['nb-NO']
 describe('Field.NationalIdentityNumber with adultValidator', () => {
   const errorAgeValidator =
     nb.NationalIdentityNumber.errorAgeValidator.replace('{age}', '18')
-  const adultValidator = createAgeValidator(18)
+  const adultValidator = createMinimumAgeValidator(18)
   const extendingDnrAndFnrValidatorWithAdultValidator: Validator<
     string
   > = (value, { validators }) => {

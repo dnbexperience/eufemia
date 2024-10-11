@@ -1,7 +1,7 @@
 import React from 'react'
 import { Field, Validator } from '../../..'
 import { Wrapper } from 'storybook-utils/helpers'
-import { createAgeValidator } from '../NationalIdentityNumber'
+import { createMinimumAgeValidator } from '../NationalIdentityNumber'
 
 export default {
   title: 'Eufemia/Extensions/Forms/NationalIdentityNumber',
@@ -11,7 +11,7 @@ const simpleValidator = (value) => {
   return value?.length < 4 ? Error('At least 4 characters') : undefined
 }
 
-const adultValidator = createAgeValidator(18)
+const adultValidator = createMinimumAgeValidator(18)
 
 const myAdultValidator: Validator<string> = () => {
   return [adultValidator]
