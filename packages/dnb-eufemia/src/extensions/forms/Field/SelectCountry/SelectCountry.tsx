@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useMemo, useRef } from 'react'
 import classnames from 'classnames'
 import SharedContext from '../../../../shared/Context'
+import { LOCALE } from '../../../../shared/defaults'
 import { Autocomplete, HelpButton } from '../../../../components'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import countries, {
@@ -51,7 +52,9 @@ export type Props = FieldHelpProps &
 function SelectCountry(props: Props) {
   const sharedContext = useContext(SharedContext)
   const translations = useTranslation().SelectCountry
-  const lang = sharedContext.locale?.split('-')[0] as CountryLang
+  const lang = (sharedContext.locale || LOCALE).split(
+    '-'
+  )[0] as CountryLang
 
   const getCountryObjectByIso = useCallback(
     (value: CountryType['iso']) => {
@@ -291,7 +294,7 @@ export function getCountryData({
         }
       }
 
-      return a[lang].localeCompare(b[lang])
+      return String(a[lang])?.localeCompare?.(b[lang])
     })
     .map((country) => makeObject(country, lang))
 }
