@@ -152,17 +152,21 @@ export function getBirthDateByFnrOrDnr(value: string) {
 
 export function createAboveAgeValidator(age: number) {
   return (value: string) => {
-    if (typeof value !== 'string' || value.length < 7) {
-      return
+    if (typeof value !== 'string') {
+      return // stop here
     }
 
-    const date = getBirthDateByFnrOrDnr(value)
-    if (getAgeByBirthDate(date) < age) {
-      return new FormError('NationalIdentityNumber.errorBelowAge', {
-        validationRule: 'errorBelowAge', // "validationRule" Will be removed in future PR
-        messageValues: { age: String(age) },
-      })
+    if (value.length > 6) {
+      const date = getBirthDateByFnrOrDnr(value)
+      if (getAgeByBirthDate(date) >= age) {
+        return // stop here
+      }
     }
+
+    return new FormError('NationalIdentityNumber.errorBelowAge', {
+      validationRule: 'errorBelowAge', // "validationRule" Will be removed in future PR
+      messageValues: { age: String(age) },
+    })
   }
 }
 

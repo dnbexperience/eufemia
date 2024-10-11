@@ -60,12 +60,12 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
     })
   })
 
-  it.skip('should display error when value is invalid', async () => {
+  it('should display error when value is invalid', async () => {
     render(
       <Field.NationalIdentityNumber
         onBlurValidator={myAdultValidator}
         validateInitially
-        value="123" // outputs the age of 105 years, which is valid
+        value="123"
       />
     )
 
