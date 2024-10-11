@@ -7,47 +7,48 @@ import nbNO from '../../../constants/locales/nb-NO'
 
 const nb = nbNO['nb-NO']
 
-describe('Field.NationalIdentityNumber with adultValidator', () => {
+describe('Field.NationalIdentityNumber with minimumAgeValidator', () => {
   const errorMinimumAgeValidator =
     nb.NationalIdentityNumber.errorMinimumAgeValidator.replace(
       '{age}',
       '18'
     )
-  const adultValidator = createMinimumAgeValidator(18)
-  const extendingDnrAndFnrValidatorWithAdultValidator: Validator<
+
+  const minimum18YearsValidator = createMinimumAgeValidator(18)
+  const extendingDnrAndFnrValidatorWithMin18Validator: Validator<
     string
   > = (value, { validators }) => {
     const { dnrAndFnrValidator } = validators
 
-    return [dnrAndFnrValidator, adultValidator]
+    return [dnrAndFnrValidator, minimum18YearsValidator]
   }
 
-  const extendingDnrValidatorWithAdultValidator: Validator<string> = (
+  const extendingDnrValidatorWithMin18Validator: Validator<string> = (
     value,
     { validators }
   ) => {
     const { dnrValidator } = validators
 
-    return [dnrValidator, adultValidator]
+    return [dnrValidator, minimum18YearsValidator]
   }
 
-  const extendingFnrValidatorWithAdultValidator: Validator<string> = (
+  const extendingFnrValidatorWithMin18Validator: Validator<string> = (
     value,
     { validators }
   ) => {
     const { fnrValidator } = validators
 
-    return [fnrValidator, adultValidator]
+    return [fnrValidator, minimum18YearsValidator]
   }
 
-  const myAdultValidator: Validator<string> = () => {
-    return [adultValidator]
+  const myMinimum18YearsValidator: Validator<string> = () => {
+    return [minimum18YearsValidator]
   }
 
   it('should display error if required and validateInitially', async () => {
     render(
       <Field.NationalIdentityNumber
-        onBlurValidator={myAdultValidator}
+        onBlurValidator={myMinimum18YearsValidator}
         required
         validateInitially
       />
@@ -64,7 +65,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
   it('should display error when value is invalid', async () => {
     render(
       <Field.NationalIdentityNumber
-        onBlurValidator={myAdultValidator}
+        onBlurValidator={myMinimum18YearsValidator}
         validateInitially
         value="123"
       />
@@ -73,7 +74,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
     await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        errorMinimumAgeValidator
+        nb.NationalIdentityNumber.errorMinimumAgeValidatorLength
       )
     })
   })
@@ -81,7 +82,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
   it('should not display error when validateInitially and no value', async () => {
     render(
       <Field.NationalIdentityNumber
-        onBlurValidator={myAdultValidator}
+        onBlurValidator={myMinimum18YearsValidator}
         validateInitially
       />
     )
@@ -191,7 +192,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
         async (validId) => {
           render(
             <Field.NationalIdentityNumber
-              validator={myAdultValidator}
+              validator={myMinimum18YearsValidator}
               onBlurValidator={false}
               validateInitially
               value={validId}
@@ -209,7 +210,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
         async (invalidId) => {
           render(
             <Field.NationalIdentityNumber
-              validator={myAdultValidator}
+              validator={myMinimum18YearsValidator}
               onBlurValidator={false}
               validateInitially
               value={invalidId}
@@ -231,7 +232,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
         async (validId) => {
           render(
             <Field.NationalIdentityNumber
-              onBlurValidator={myAdultValidator}
+              onBlurValidator={myMinimum18YearsValidator}
               validateInitially
               value={validId}
             />
@@ -248,7 +249,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
         async (invalidId) => {
           render(
             <Field.NationalIdentityNumber
-              onBlurValidator={myAdultValidator}
+              onBlurValidator={myMinimum18YearsValidator}
               validateInitially
               value={invalidId}
             />
@@ -270,7 +271,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
           render(
             <Field.NationalIdentityNumber
               onBlurValidator={false}
-              validator={extendingDnrAndFnrValidatorWithAdultValidator}
+              validator={extendingDnrAndFnrValidatorWithMin18Validator}
               validateInitially
               value={validId}
             />
@@ -288,7 +289,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
           render(
             <Field.NationalIdentityNumber
               onBlurValidator={false}
-              validator={extendingDnrAndFnrValidatorWithAdultValidator}
+              validator={extendingDnrAndFnrValidatorWithMin18Validator}
               validateInitially
               value={invalidId}
             />
@@ -308,7 +309,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
           render(
             <Field.NationalIdentityNumber
               onBlurValidator={false}
-              validator={extendingDnrAndFnrValidatorWithAdultValidator}
+              validator={extendingDnrAndFnrValidatorWithMin18Validator}
               validateInitially
               value={invalidDnum}
             />
@@ -328,7 +329,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
           render(
             <Field.NationalIdentityNumber
               onBlurValidator={false}
-              validator={extendingDnrAndFnrValidatorWithAdultValidator}
+              validator={extendingDnrAndFnrValidatorWithMin18Validator}
               validateInitially
               value={invalidFnr}
             />
@@ -350,7 +351,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
           render(
             <Field.NationalIdentityNumber
               onBlurValidator={
-                extendingDnrAndFnrValidatorWithAdultValidator
+                extendingDnrAndFnrValidatorWithMin18Validator
               }
               validateInitially
               value={validId}
@@ -369,7 +370,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
           render(
             <Field.NationalIdentityNumber
               onBlurValidator={
-                extendingDnrAndFnrValidatorWithAdultValidator
+                extendingDnrAndFnrValidatorWithMin18Validator
               }
               validateInitially
               value={invalidId}
@@ -390,7 +391,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
           render(
             <Field.NationalIdentityNumber
               onBlurValidator={
-                extendingDnrAndFnrValidatorWithAdultValidator
+                extendingDnrAndFnrValidatorWithMin18Validator
               }
               validateInitially
               value={invalidDnum}
@@ -411,7 +412,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
           render(
             <Field.NationalIdentityNumber
               onBlurValidator={
-                extendingDnrAndFnrValidatorWithAdultValidator
+                extendingDnrAndFnrValidatorWithMin18Validator
               }
               validateInitially
               value={invalidFnr}
@@ -434,7 +435,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
           render(
             <Field.NationalIdentityNumber
               onBlurValidator={false}
-              validator={extendingDnrValidatorWithAdultValidator}
+              validator={extendingDnrValidatorWithMin18Validator}
               validateInitially
               value={validDnum}
             />
@@ -452,7 +453,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
           render(
             <Field.NationalIdentityNumber
               onBlurValidator={false}
-              validator={extendingDnrValidatorWithAdultValidator}
+              validator={extendingDnrValidatorWithMin18Validator}
               validateInitially
               value={invalidDnum}
             />
@@ -472,7 +473,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
           render(
             <Field.NationalIdentityNumber
               onBlurValidator={false}
-              validator={extendingDnrValidatorWithAdultValidator}
+              validator={extendingDnrValidatorWithMin18Validator}
               validateInitially
               value={invalidDnum}
             />
@@ -493,7 +494,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
         async (validDnum) => {
           render(
             <Field.NationalIdentityNumber
-              onBlurValidator={extendingDnrValidatorWithAdultValidator}
+              onBlurValidator={extendingDnrValidatorWithMin18Validator}
               validateInitially
               value={validDnum}
             />
@@ -510,7 +511,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
         async (invalidDnum) => {
           render(
             <Field.NationalIdentityNumber
-              onBlurValidator={extendingDnrValidatorWithAdultValidator}
+              onBlurValidator={extendingDnrValidatorWithMin18Validator}
               validateInitially
               value={invalidDnum}
             />
@@ -532,7 +533,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
       ])('Invalid d number: %s', async (invalidDnum) => {
         render(
           <Field.NationalIdentityNumber
-            onBlurValidator={extendingDnrValidatorWithAdultValidator}
+            onBlurValidator={extendingDnrValidatorWithMin18Validator}
             validateInitially
             value={invalidDnum}
           />
@@ -553,7 +554,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
           render(
             <Field.NationalIdentityNumber
               onBlurValidator={false}
-              validator={extendingFnrValidatorWithAdultValidator}
+              validator={extendingFnrValidatorWithMin18Validator}
               validateInitially
               value={validFnr}
             />
@@ -571,7 +572,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
           render(
             <Field.NationalIdentityNumber
               onBlurValidator={false}
-              validator={extendingFnrValidatorWithAdultValidator}
+              validator={extendingFnrValidatorWithMin18Validator}
               validateInitially
               value={invalidFnr}
             />
@@ -591,7 +592,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
           render(
             <Field.NationalIdentityNumber
               onBlurValidator={false}
-              validator={extendingFnrValidatorWithAdultValidator}
+              validator={extendingFnrValidatorWithMin18Validator}
               validateInitially
               value={invalidFnr}
             />
@@ -612,7 +613,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
         async (validFnr) => {
           render(
             <Field.NationalIdentityNumber
-              onBlurValidator={extendingFnrValidatorWithAdultValidator}
+              onBlurValidator={extendingFnrValidatorWithMin18Validator}
               validateInitially
               value={validFnr}
             />
@@ -629,7 +630,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
         async (invalidFnr) => {
           render(
             <Field.NationalIdentityNumber
-              onBlurValidator={extendingFnrValidatorWithAdultValidator}
+              onBlurValidator={extendingFnrValidatorWithMin18Validator}
               validateInitially
               value={invalidFnr}
             />
@@ -651,7 +652,7 @@ describe('Field.NationalIdentityNumber with adultValidator', () => {
       ])('Invalid identity number(fnr): %s', async (invalidFnr) => {
         render(
           <Field.NationalIdentityNumber
-            onBlurValidator={extendingFnrValidatorWithAdultValidator}
+            onBlurValidator={extendingFnrValidatorWithMin18Validator}
             validateInitially
             value={invalidFnr}
           />

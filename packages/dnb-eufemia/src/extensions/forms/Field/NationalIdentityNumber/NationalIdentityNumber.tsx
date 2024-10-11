@@ -18,41 +18,68 @@ function NationalIdentityNumber(props: Props) {
     label,
     errorRequired,
     errorFnr,
+    errorFnrLength,
     errorDnr,
+    errorDnrLength,
     errorMinimumAgeValidator,
+    errorMinimumAgeValidatorLength,
   } = translations
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: errorRequired,
     pattern: errorFnr,
     errorFnr,
+    errorFnrLength,
     errorDnr,
+    errorDnrLength,
     errorMinimumAgeValidator,
+    errorMinimumAgeValidatorLength,
   })
+
+  const identificationNumberIsOfLength = (
+    identificationNumber: string,
+    length: number
+  ) => {
+    return identificationNumber?.length === length
+  }
 
   const fnrValidator = useCallback(
     (value: string) => {
-      if (
-        value !== undefined &&
-        (Number.parseInt(value.substring(0, 1)) > 3 ||
-          fnr(value).status === 'invalid')
-      ) {
-        return Error(errorFnr)
+      if (value !== undefined) {
+        if (Number.parseInt(value.substring(0, 1)) > 3) {
+          return Error(errorFnr)
+        }
+
+        const fnrIs11Digits = identificationNumberIsOfLength(value, 11)
+
+        if (!fnrIs11Digits) {
+          return Error(errorFnrLength)
+        }
+        if (fnrIs11Digits && fnr(value).status === 'invalid') {
+          return Error(errorFnr)
+        }
       }
     },
-    [errorFnr]
+    [errorFnr, errorFnrLength]
   )
 
   const dnrValidator = useCallback(
     (value: string) => {
-      if (
-        value !== undefined &&
-        (Number.parseInt(value.substring(0, 1)) < 4 ||
-          dnr(value).status === 'invalid')
-      ) {
-        return Error(errorDnr)
+      if (value !== undefined) {
+        if (Number.parseInt(value.substring(0, 1)) < 4) {
+          return Error(errorDnr)
+        }
+
+        const dnrIs11Digits = identificationNumberIsOfLength(value, 11)
+
+        if (!dnrIs11Digits) {
+          return Error(errorDnrLength)
+        }
+        if (dnrIs11Digits && dnr(value).status === 'invalid') {
+          return Error(errorDnr)
+        }
       }
     },
-    [errorDnr]
+    [errorDnr, errorDnrLength]
   )
 
   const dnrAndFnrValidator = useCallback(
@@ -161,7 +188,18 @@ export function createMinimumAgeValidator(age: number) {
       return // stop here
     }
 
-    if (value.length > 6) {
+    const identificationNumberIs7DigitsOrMore = value?.length >= 7
+
+    if (!identificationNumberIs7DigitsOrMore) {
+      return new FormError(
+        'NationalIdentityNumber.errorMinimumAgeValidatorLength',
+        {
+          validationRule: 'errorMinimumAgeValidatorLength', // "validationRule" Will be removed in future PR
+        }
+      )
+    }
+
+    if (identificationNumberIs7DigitsOrMore) {
       const date = getBirthDateByFnrOrDnr(value)
       if (getAgeByBirthDate(date) >= age) {
         return // stop here
