@@ -1529,4 +1529,84 @@ describe('Field.String', () => {
       expect(third).toHaveTextContent(inputInfo)
     })
   })
+
+  describe('emptyValue', () => {
+    it('should use the given emptyValue and set in the data context', async () => {
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Field.String path="/myValue" emptyValue="" />
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      const input = document.querySelector('input')
+      expect(input).toHaveValue('')
+
+      fireEvent.submit(form)
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { myValue: '' },
+        expect.anything()
+      )
+
+      await userEvent.type(input, ' ')
+
+      fireEvent.submit(form)
+      expect(onSubmit).toHaveBeenCalledTimes(2)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { myValue: ' ' },
+        expect.anything()
+      )
+
+      await userEvent.type(input, '{Backspace}')
+
+      fireEvent.submit(form)
+      expect(onSubmit).toHaveBeenCalledTimes(3)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { myValue: '' },
+        expect.anything()
+      )
+    })
+
+    it('should set the emptyValue when string gets empty', async () => {
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Field.String path="/myValue" emptyValue="foo" />
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      const input = document.querySelector('input')
+      expect(input).toHaveValue('foo')
+
+      fireEvent.submit(form)
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { myValue: 'foo' },
+        expect.anything()
+      )
+
+      await userEvent.type(input, ' ')
+
+      fireEvent.submit(form)
+      expect(onSubmit).toHaveBeenCalledTimes(2)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { myValue: 'foo ' },
+        expect.anything()
+      )
+
+      await userEvent.type(input, '{Backspace>4}')
+
+      fireEvent.submit(form)
+      expect(onSubmit).toHaveBeenCalledTimes(3)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { myValue: 'foo' },
+        expect.anything()
+      )
+    })
+  })
 })
