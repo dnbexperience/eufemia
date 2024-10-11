@@ -120,6 +120,7 @@ export default {
       errorRequired: 'You must enter a national identity number.',
       errorFnr: 'Invalid national identity number.',
       errorDnr: 'Invalid D number.',
+      errorMinimumAgeValidator: 'Must be at least {age} years of age.',
     },
     OrganizationNumber: {
       label: 'Organisation number',

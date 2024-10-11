@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
 import { dnr, fnr } from '@navikt/fnrvalidator'
-import { Validator } from '../../types'
+import { FormError, Validator } from '../../types'
 
 import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
@@ -14,18 +14,28 @@ export type Props = Omit<StringFieldProps, 'onBlurValidator'> & {
 
 function NationalIdentityNumber(props: Props) {
   const translations = useTranslation().NationalIdentityNumber
-  const { label, errorRequired, errorFnr, errorDnr } = translations
+  const {
+    label,
+    errorRequired,
+    errorFnr,
+    errorDnr,
+    errorMinimumAgeValidator,
+  } = translations
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: errorRequired,
     pattern: errorFnr,
     errorFnr,
     errorDnr,
+    errorMinimumAgeValidator,
   })
 
   const fnrValidator = useCallback(
     (value: string) => {
-      // have to check for undefined as @navikt/fnrvalidator does not support undefined
-      if (value !== undefined && fnr(value).status === 'invalid') {
+      if (
+        value !== undefined &&
+        (Number.parseInt(value.substring(0, 1)) > 3 ||
+          fnr(value).status === 'invalid')
+      ) {
         return Error(errorFnr)
       }
     },
@@ -34,8 +44,11 @@ function NationalIdentityNumber(props: Props) {
 
   const dnrValidator = useCallback(
     (value: string) => {
-      // have to check for undefined as @navikt/fnrvalidator does not support undefined
-      if (value !== undefined && dnr(value).status === 'invalid') {
+      if (
+        value !== undefined &&
+        (Number.parseInt(value.substring(0, 1)) < 4 ||
+          dnr(value).status === 'invalid')
+      ) {
         return Error(errorDnr)
       }
     },
@@ -104,6 +117,65 @@ function NationalIdentityNumber(props: Props) {
   }
 
   return <StringField {...StringFieldProps} />
+}
+
+export function getAgeByBirthDate(birthDate: Date): number {
+  const today = new Date()
+  const age = today.getFullYear() - birthDate.getFullYear()
+  const month = today.getMonth() - birthDate.getMonth()
+  const day = today.getDate() - birthDate.getDate()
+
+  if (month < 0 || (month === 0 && day < 0)) {
+    return age - 1
+  }
+
+  return age
+}
+
+export function getBirthDateByFnrOrDnr(value: string) {
+  if (value === undefined) {
+    return // stop here
+  }
+
+  const yearPart = value.substring(4, 6)
+  const centuryNumber = Number.parseInt(value.substring(6, 7))
+
+  const isBornIn20XX = centuryNumber >= 5
+  const year = isBornIn20XX ? `20${yearPart}` : `19${yearPart}`
+  const month = Number.parseInt(value.substring(2, 4))
+
+  const differentiatorValue =
+    value.length > 0 ? Number.parseInt(value.substring(0, 1)) : undefined
+  const isDnr = differentiatorValue && differentiatorValue > 3
+
+  const day = isDnr
+    ? Number.parseInt(value.substring(0, 2)) - 40
+    : Number.parseInt(value.substring(0, 2))
+
+  return new Date(Number.parseInt(year), month - 1, day)
+}
+
+export function createMinimumAgeValidator(age: number) {
+  return (value: string) => {
+    if (typeof value !== 'string') {
+      return // stop here
+    }
+
+    if (value.length > 6) {
+      const date = getBirthDateByFnrOrDnr(value)
+      if (getAgeByBirthDate(date) >= age) {
+        return // stop here
+      }
+    }
+
+    return new FormError(
+      'NationalIdentityNumber.errorMinimumAgeValidator',
+      {
+        validationRule: 'errorMinimumAgeValidator', // "validationRule" Will be removed in future PR
+        messageValues: { age: String(age) },
+      }
+    )
+  }
 }
 
 NationalIdentityNumber._supportsSpacingProps = true

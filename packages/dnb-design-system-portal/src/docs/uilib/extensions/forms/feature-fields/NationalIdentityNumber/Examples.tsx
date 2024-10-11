@@ -1,4 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
+import { createMinimumAgeValidator } from '@dnb/eufemia/src/extensions/forms/Field/NationalIdentityNumber'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 
 export const Empty = () => {
@@ -181,6 +182,54 @@ export const ValidationExtendValidator = () => {
             required
             value="53050129159"
             onBlurValidator={myValidator}
+            validateInitially
+          />
+        )
+      }}
+    </ComponentBox>
+  )
+}
+
+export const ValidationExtendValidatorAdult = () => {
+  return (
+    <ComponentBox scope={{ createMinimumAgeValidator }}>
+      {() => {
+        const adultValidator = createMinimumAgeValidator(18)
+        const myAdultValidator = (value, { validators }) => {
+          const { dnrAndFnrValidator } = validators
+
+          return [dnrAndFnrValidator, adultValidator]
+        }
+
+        return (
+          <Field.NationalIdentityNumber
+            required
+            value="56052459244"
+            onBlurValidator={myAdultValidator}
+            validateInitially
+          />
+        )
+      }}
+    </ComponentBox>
+  )
+}
+
+export const ValidationFnrAdult = () => {
+  return (
+    <ComponentBox scope={{ createMinimumAgeValidator }}>
+      {() => {
+        const adultValidator = createMinimumAgeValidator(18)
+        const myFnrAdultValidator = (value, { validators }) => {
+          const { fnrValidator } = validators
+
+          return [fnrValidator, adultValidator]
+        }
+
+        return (
+          <Field.NationalIdentityNumber
+            required
+            value="49100651997"
+            onBlurValidator={myFnrAdultValidator}
             validateInitially
           />
         )

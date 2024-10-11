@@ -54,18 +54,28 @@ Below is an example of the error message displayed when there's an invalid Norwe
 
 It validates [D numbers](https://www.skatteetaten.no/en/person/national-registry/identitetsnummer/d-nummer/) using the [fnrvalidator](https://github.com/navikt/fnrvalidator).
 
-Below is an example of the error message displayed when there's an invalid D number:
+Below is an example of the error message displayed when there's an invalid D number(a D number has its first number in the identification number increased by 4):
 
 <Examples.ValidationDnr />
 
 ### Validation function
 
-You can provide your own validation function.
+You can provide your own validation function, either to `validator` or `onBlurValidator`.
 
 <Examples.ValidationFunction />
 
 ### Extend validation with custom validation function
 
-You can [extend the existing validations](/uilib/extensions/forms/create-component/useFieldProps/info/#validators)(`dnrValidator`, `fnrValidator`, and `dnrAndFnrValidator`) with your own validation function.
+You can [extend the existing validations](/uilib/extensions/forms/create-component/useFieldProps/info/#validators)(`dnrValidator`, `fnrValidator`, `dnrAndFnrValidator`, and make your own age validator by using the `createMinimumAgeValidator` function) with your own validation function.
 
 <Examples.ValidationExtendValidator />
+
+### Extend validation with adult validator
+
+You can [extend the existing validations](/uilib/extensions/forms/create-component/useFieldProps/info/#validators)(`dnrValidator`, `fnrValidator`, and `dnrAndFnrValidator`) with your own age validator, by using the `createMinimumAgeValidator` function.
+
+<Examples.ValidationExtendValidatorAdult />
+
+### Validate only national identity numbers(fnr) above 18 years old
+
+<Examples.ValidationFnrAdult />
