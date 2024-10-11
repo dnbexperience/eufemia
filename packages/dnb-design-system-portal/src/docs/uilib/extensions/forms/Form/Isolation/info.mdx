@@ -65,6 +65,23 @@ function MyForm() {
 render(<MyForm />)
 ```
 
+## Prevent the form from being submitted
+
+To prevent the [Form.Handler](/uilib/extensions/forms/Form/Handler/) from being submitted when there are fields with errors inside the Isolation, you can use the `bubbleValidation` property.
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Handler>
+    <Form.Isolation bubbleValidation>
+      <Field.String label="Required field" path="/isolated" required />
+      <Form.Isolation.CommitButton />
+    </Form.Isolation>
+  </Form.Handler>,
+)
+```
+
 ## Schema support
 
 You can also use a `schema` to define the properties of the nested fields:

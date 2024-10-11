@@ -165,6 +165,7 @@ export interface ContextState {
     Map<SnapshotName, Map<Path, unknown>>
   >
   formElementRef?: React.MutableRefObject<HTMLFormElement>
+  fieldErrorRef?: React.MutableRefObject<Record<Path, Error>>
   showAllErrors: boolean
   hasVisibleError: boolean
   formState: SubmitState
