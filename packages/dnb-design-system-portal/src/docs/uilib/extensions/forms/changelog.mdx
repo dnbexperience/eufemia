@@ -15,7 +15,27 @@ Change log for the Eufemia Forms extension.
 
 ## v10.52
 
--
+- Added `transformLabel` to all `Value.*` components.
+- Added `bubbleValidation` to [Form.Isolation](/uilib/extensions/forms/Form/Isolation/) and [Iterate.PushContainer](/uilib/extensions/forms/Iterate/PushContainer/), to prevent the form from being submitted when there are fields with errors.
+- Added [createMinimumAgeValidator](/uilib/extensions/forms/feature-fields/NationalIdentityNumber/properties/#createminimumagevalidator) in [Field.NationalIdentityNumber](/uilib/extensions/forms/feature-fields/NationalIdentityNumber/) to make a customizable minimum age validator.
+- Added [Form.useSnapshot](/uilib/extensions/forms/Form/useSnapshot/) hook to handle snapshots of data.
+- Added `id` to [Wizard.Step](/uilib/extensions/forms/Wizard/Step/) for when using dynamic steps with `activeWhen`.
+- Added [Iterate.ItemNo](/uilib/extensions/forms/Iterate/ItemNo/).
+- Added support for `Form.SubmitConfirmation` in [Wizard](/uilib/extensions/forms/Wizard/).
+- Added `isolatedData` to [Iterate.PushContainer](/uilib/extensions/forms/Iterate/PushContainer/).
+- Added displaying phone numbers in [Value.PhoneNumber](/uilib/extensions/forms/Value/PhoneNumber/) using prefix `+` instead of `00`.
+- Added support for `defaultValue` (and `value`) for fields used in [Iterate.Array](/uilib/extensions/forms/Iterate/Array/).
+- Added support for `isValid` in [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) for showing content based on the validation of a field.
+- Removed the internal `pattern` in [Field.OrganizationNumber](/uilib/extensions/forms/feature-fields/OrganizationNumber/), rather using the internal validator.
+- Removed the internal `pattern` in [Field.NationalIdentityNumber](/uilib/extensions/forms/feature-fields/NationalIdentityNumber/), rather using the internal validator.
+- Fixed so `Form.clearData` works in `React.StrictMode`.
+- Fixed use of unpolyfilled structuredClone in [Form.useData](/uilib/extensions/forms/Form/useData/) hook.
+- Fixed so `onBlurValidator` works with `validateInitially`.
+- Fixed so [Iterate.EditContainer](/uilib/extensions/forms/Iterate/EditContainer/) keeps open when falsy value or empty object was given as the iterate value.
+- Fixed so all errors on every value change is displayed when using exported validators from `exportValidators`.
+- Fixed so `exportValidators` is not called when not exported as an array.
+- Fixed so `emptyValue` is set in the data context when defined.
+- Fixed so [Field.SelectCountry](/uilib/extensions/forms/feature-fields/SelectCountry/) has a fallback locale (nb-NO).
 
 ## v10.51
 
