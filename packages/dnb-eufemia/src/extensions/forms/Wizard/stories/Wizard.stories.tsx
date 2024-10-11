@@ -42,8 +42,9 @@ export const Basic = () => {
 }
 
 export const WizardDynamicStepsActiveWhen = () => {
+  const { createSnapshot, revertSnapshot } = Form.useSnapshot('my-form')
   return (
-    <Form.Handler defaultData={{ activeSteps: 'group-1' }}>
+    <Form.Handler id="my-form" defaultData={{ activeSteps: 'group-a' }}>
       <Wizard.Container
         onStepChange={(index, mode, args) => {
           console.log(
@@ -51,25 +52,39 @@ export const WizardDynamicStepsActiveWhen = () => {
             index,
             mode,
             args.id,
-            args.previousIndex
+            args.previousStep
           )
+
+          if (mode === 'previous') {
+            revertSnapshot(args.id, 'my-snapshot-slice')
+          } else {
+            createSnapshot(args.previousStep.id, 'my-snapshot-slice')
+          }
         }}
       >
         <Wizard.Step
           title="Step A"
-          activeWhen={{ path: '/activeSteps', hasValue: 'group-1' }}
+          activeWhen={{ path: '/activeSteps', hasValue: 'group-a' }}
           id="step-a"
         >
           <Form.MainHeading>Step A</Form.MainHeading>
+
+          <Form.Snapshot name="my-snapshot-slice">
+            <Field.String path="/foo" label="Will be reverted" />
+          </Form.Snapshot>
+
+          <Field.String path="/bar" label="Will stay" />
           <Wizard.Buttons />
         </Wizard.Step>
 
         <Wizard.Step
           title="Step B"
-          activeWhen={{ path: '/activeSteps', hasValue: 'group-1' }}
+          activeWhen={{ path: '/activeSteps', hasValue: 'group-a' }}
           id="step-b"
         >
           <Form.MainHeading>Step B</Form.MainHeading>
+          <Field.String path="/foo" label="Will be reverted" />
+          <Field.String path="/bar" label="Will stay" />
           <Wizard.Buttons />
         </Wizard.Step>
 
@@ -78,20 +93,22 @@ export const WizardDynamicStepsActiveWhen = () => {
           activeWhen={{
             path: '/activeSteps',
             hasValue: (value: string) =>
-              ['group-1', 'group-2'].includes(value),
+              ['group-a', 'group-b'].includes(value),
           }}
           id="step-c"
         >
           <Form.MainHeading>Step C</Form.MainHeading>
+          <Field.String path="/foo" label="Content" />
           <Wizard.Buttons />
         </Wizard.Step>
 
         <Wizard.Step
           title="Step D"
-          activeWhen={{ path: '/activeSteps', hasValue: 'group-2' }}
+          activeWhen={{ path: '/activeSteps', hasValue: 'group-b' }}
           id="step-d"
         >
           <Form.MainHeading>Step D</Form.MainHeading>
+          <Field.String path="/foo" label="Content" />
           <Wizard.Buttons />
         </Wizard.Step>
       </Wizard.Container>
@@ -102,8 +119,8 @@ export const WizardDynamicStepsActiveWhen = () => {
         optionsLayout="horizontal"
         top
       >
-        <Field.Option value="group-1" title="Group 1" />
-        <Field.Option value="group-2" title="Group 2" />
+        <Field.Option value="group-a" title="Group A" />
+        <Field.Option value="group-b" title="Group B" />
       </Field.Selection>
     </Form.Handler>
   )
