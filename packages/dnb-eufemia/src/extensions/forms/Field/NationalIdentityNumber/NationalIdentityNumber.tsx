@@ -152,7 +152,7 @@ export function getBirthDateByFnrOrDnr(value: string) {
 
 export function createAboveAgeValidator(age: number) {
   return (value: string) => {
-    if (typeof value !== 'string' || value.length < 9) {
+    if (typeof value !== 'string' || value.length < 7) {
       return
     }
 
