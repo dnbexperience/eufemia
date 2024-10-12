@@ -99,14 +99,12 @@ export function SelectUpToThree() {
         }
         required
         optionsLayout="horizontal"
-        onChange={(value) => console.log('onChange', value)}
         variant="button"
         data={data}
         schema={{
           minItems: 2,
           maxItems: 3,
         }}
-        path="/capitals"
         errorMessages={{
           minItems: 'You must select at least two',
           maxItems: 'You can only select up to three',
