@@ -105,29 +105,29 @@ render(
 
 ## Provide your own translations
 
+You can provide your own translations by using the shared [Provider](/uilib/usage/customisation/provider). Translation strings with several levels of depth can be given as a flat object with dot-notation, or as a nested object (cascaded).
+
 ```tsx
-import Provider, { Locales } from '@dnb/eufemia/shared/Provider'
+import Provider from '@dnb/eufemia/shared/Provider'
 
-const customTranslation = {
-  'en-GB': {
-    // Extend the translation as an object
-    myString: 'Custom string',
-    myGroup: {
-      subString: 'Second string',
-      stringWithArgument: 'String with {myArg}',
-    },
-
-    // Or as a flat object (dot-notated keys)
-    'myGroup.subString': 'Second string',
-    'myGroup.stringWithArgument': 'String with {myArg}',
+const nbNO = { myString: 'Min egendefinerte streng' }
+const enGB = {
+  // Cascaded translations
+  Nested: {
+    stringWithArgs: 'My custom string with an argument: {myKey}',
   },
+
+  // Flat translations
+  'Nested.stringWithArgs': 'My custom string with an argument: {myKey}',
 }
 
-type CustomLocales = keyof typeof customTranslation
-type CustomTranslation = (typeof customTranslation)[CustomLocales]
+const myTranslations = {
+  'nb-NO': nbNO,
+  'en-GB': enGB,
+}
 
 render(
-  <Provider translations={customTranslation} locale="en-GB">
+  <Provider translations={myTranslations} locale="en-GB">
     <MyApp>
       <MyComponent />
     </MyApp>
@@ -142,30 +142,47 @@ You can use the `useTranslation` hook to get the strings from the shared context
 ```tsx
 import { useTranslation } from '@dnb/eufemia/shared'
 
-function MyComponent() {
-  const { Dropdown, myString, myGroup, formatMessage } =
-    useTranslation<CustomTranslation>()
-  return (
-    <>
-      <P>{Dropdown.title}</P>
+const myTranslations = {
+  'nb-NO': { myString: 'Min egendefinerte streng' },
+  'en-GB': {
+    // Cascaded translations
+    Nested: {
+      stringWithArgs: 'My custom string with an argument: {myKey}',
+    },
 
-      <P>{myString}</P>
-      <P>{myGroup.subString}</P>
-
-      <P>
-        {formatMessage(myGroup.stringWithArgument, {
-          myArg: 'dynamic-value',
-        })}
-      </P>
-
-      <P>
-        {formatMessage('myGroup.stringWithArgument', {
-          myArg: 'dynamic-value',
-        })}
-      </P>
-    </>
-  )
+    // Flat translations
+    'Nested.stringWithArgs': 'My custom string with an argument: {myKey}',
+  },
 }
+
+const MyComponent = () => {
+  const t = useTranslation<typeof myTranslations>()
+
+  // Internal translations
+  const existingString = t.Dropdown.title
+
+  // Your translations
+  const myString = t.myString
+
+  // Use the "formatMessage" function to handle strings with arguments
+  const myStringWithArgsA = t.formatMessage(t.Nested.stringWithArgs, {
+    myKey: 'myValue',
+  })
+  // You can also get the string with a key (dot-notation)
+  const myStringWithArgsB = t.formatMessage('Nested.stringWithArgs', {
+    myKey: 'myValue',
+  })
+
+  return <>MyComponent</>
+}
+
+render(
+  <Provider translations={myTranslations} locale="en-GB">
+    <MyApp>
+      <MyComponent />
+    </MyApp>
+  </Provider>,
+)
 ```
 
 **Good to know:** You can consume the strings with a dot-notated key, directly from
@@ -173,6 +190,28 @@ the `formatMessage` function:
 
 ```tsx
 formatMessage('myGroup.subString')
+```
+
+## TypeScript support
+
+```tsx
+import Provider, { Locales } from '@dnb/eufemia/shared/Provider'
+
+const nbNO = {
+  myString: 'Min egendefinerte streng',
+}
+const enGB = {
+  myString: 'My custom string',
+} satisfies typeof nbNO // Ensure the types are compatible
+
+const myTranslations = {
+  'nb-NO': nbNO,
+  'en-GB': enGB,
+}
+
+// Infer the type of the translations
+type MyLocales = keyof typeof myTranslations
+type MyTranslation = (typeof myTranslations)[MyLocales]
 ```
 
 ## How to combine with other tools
@@ -324,10 +363,10 @@ And add the file, like so:
 
 ```jsx
 import Provider from '@dnb/eufemia/shared/Provider'
-import customTranslation from './locales/sv-SE'
+import myTranslations from './locales/sv-SE'
 
 render(
-  <Provider translations={customTranslation}>
+  <Provider translations={myTranslations}>
     <MyApp>Eufemia components</MyApp>
   </Provider>,
 )
@@ -339,13 +378,13 @@ or add/update the locales during runtime:
 import Provider from '@dnb/eufemia/shared/Provider'
 import Context from '@dnb/eufemia/shared/Context'
 
-import customTranslation from './locales/sv-SE'
+import myTranslations from './locales/sv-SE'
 
 const ChangeLocale = () => {
   const { update, locale } = React.useContext(Context)
 
   // Add new locales
-  update({ locales: customTranslation, locale: 'sv-SE' })
+  update({ locales: myTranslations, locale: 'sv-SE' })
 
   return locale
 }

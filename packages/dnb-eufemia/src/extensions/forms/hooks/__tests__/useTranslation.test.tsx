@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { renderHook } from '@testing-library/react'
+import { render, renderHook } from '@testing-library/react'
 import useTranslation from '../useTranslation'
 import Provider from '../../../../shared/Provider'
 
@@ -97,5 +97,140 @@ describe('Form.useTranslation', () => {
     expect(resultGB.current.Email).not.toMatchObject(
       extendedLocale['nb-NO'].Email
     )
+  })
+
+  describe('formatMessage', () => {
+    const myTranslations = {
+      'nb-NO': {
+        Custom: {
+          translation: 'My translation with a {myKey}',
+        },
+      },
+      'en-GB': {
+        Custom: {
+          translation: 'My translation with a {myKey}',
+        },
+      },
+    }
+    type Translation = (typeof myTranslations)[keyof typeof myTranslations]
+
+    it('should return translation', () => {
+      const { result } = renderHook(useTranslation)
+
+      expect(result.current.formatMessage('Field.errorRequired')).toBe(
+        forms_nbNO['nb-NO'].Field.errorRequired
+      )
+    })
+
+    it('should return translation for given locale', () => {
+      const { result } = renderHook(useTranslation, {
+        wrapper: ({ children }) => (
+          <Provider locale="en-GB">{children}</Provider>
+        ),
+      })
+
+      expect(result.current.formatMessage('Field.errorRequired')).toBe(
+        forms_enGB['en-GB'].Field.errorRequired
+      )
+    })
+
+    it('should return translation when switching locale', () => {
+      const MockComponent = () => {
+        const { formatMessage } = useTranslation()
+        return <>{formatMessage('Field.errorRequired')}</>
+      }
+
+      const { rerender } = render(
+        <Provider locale="nb-NO">
+          <MockComponent />
+        </Provider>
+      )
+      expect(document.body.textContent).toBe(
+        forms_nbNO['nb-NO'].Field.errorRequired
+      )
+
+      rerender(
+        <Provider locale="en-GB">
+          <MockComponent />
+        </Provider>
+      )
+      expect(document.body.textContent).toBe(
+        forms_enGB['en-GB'].Field.errorRequired
+      )
+    })
+
+    it('should support custom translation when switching locale', () => {
+      const MockComponent = () => {
+        const { formatMessage } = useTranslation<Translation>()
+        return (
+          <>
+            {formatMessage('Custom.translation', {
+              myKey: 'value!',
+            })}
+          </>
+        )
+      }
+
+      const { rerender } = render(
+        <Provider locale="nb-NO" translations={myTranslations}>
+          <MockComponent />
+        </Provider>
+      )
+      expect(document.body.textContent).toBe(
+        myTranslations['nb-NO'].Custom.translation.replace(
+          '{myKey}',
+          'value!'
+        )
+      )
+
+      rerender(
+        <Provider locale="en-GB" translations={myTranslations}>
+          <MockComponent />
+        </Provider>
+      )
+      expect(document.body.textContent).toBe(
+        myTranslations['en-GB'].Custom.translation.replace(
+          '{myKey}',
+          'value!'
+        )
+      )
+    })
+
+    it('should support custom translation object when switching locale', () => {
+      const MockComponent = () => {
+        const { formatMessage, Custom } = useTranslation<Translation>()
+        return (
+          <>
+            {formatMessage(Custom.translation, {
+              myKey: 'value!',
+            })}
+          </>
+        )
+      }
+
+      const { rerender } = render(
+        <Provider locale="nb-NO" translations={myTranslations}>
+          <MockComponent />
+        </Provider>
+      )
+      expect(document.body.textContent).toBe(
+        myTranslations['nb-NO'].Custom.translation.replace(
+          '{myKey}',
+          'value!'
+        )
+      )
+
+      rerender(
+        <Provider locale="en-GB" translations={myTranslations}>
+          <MockComponent />
+        </Provider>
+      )
+      expect(document.body.textContent).toBe(
+        myTranslations['en-GB'].Custom.translation.replace(
+          '{myKey}',
+          'value!'
+        )
+      )
+    })
   })
 })
