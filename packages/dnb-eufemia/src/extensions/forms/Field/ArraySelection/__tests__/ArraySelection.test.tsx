@@ -547,6 +547,45 @@ describe('ArraySelection', () => {
         )
         expect(option3).not.toHaveClass('dnb-toggle-button--checked')
       })
+
+      it('displays correct error messages for minItems and maxItems', () => {
+        const data = [
+          { value: 'oslo', title: 'Oslo' },
+          { value: 'stockholm', title: 'Stockholm' },
+          { value: 'copenhagen', title: 'Copenhagen' },
+          { value: 'helsinki', title: 'Helsinki' },
+        ]
+
+        render(
+          <Field.ArraySelection
+            label="Select cities"
+            data={data}
+            schema={{
+              type: 'array',
+              minItems: 2,
+              maxItems: 3,
+            }}
+            errorMessages={{
+              minItems: 'You must select at least two',
+              maxItems: 'You can only select up to three',
+            }}
+          />
+        )
+
+        // Trying to select only one item
+        fireEvent.click(screen.getByText('Oslo'))
+        expect(
+          screen.getByText('You must select at least two')
+        ).toBeInTheDocument()
+
+        // Trying to select four items
+        fireEvent.click(screen.getByText('Stockholm'))
+        fireEvent.click(screen.getByText('Copenhagen'))
+        fireEvent.click(screen.getByText('Helsinki'))
+        expect(
+          screen.getByText('You can only select up to three')
+        ).toBeInTheDocument()
+      })
     }
   )
 })

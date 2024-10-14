@@ -102,6 +102,7 @@ export function SelectUpToThree() {
         variant="button"
         data={data}
         schema={{
+          type: 'array',
           minItems: 2,
           maxItems: 3,
         }}
