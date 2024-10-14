@@ -233,7 +233,6 @@ describe('Field.PostalCodeAndCity', () => {
       </Form.Handler>
     )
 
-    // TODO: Figure out why previous input is still in the DOM
     const postalCodeNo = document.querySelector(
       '.dnb-forms-field-postal-code-and-city input'
     )
