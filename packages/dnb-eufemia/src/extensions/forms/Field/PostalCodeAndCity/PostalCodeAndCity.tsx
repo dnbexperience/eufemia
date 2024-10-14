@@ -43,17 +43,17 @@ function PostalCodeAndCity(props: Props) {
         ? postalCode.mask
         : isNorway
         ? [/\d/, /\d/, /\d/, /\d/]
-        : '',
+        : undefined,
       pattern: postalCode.pattern
         ? postalCode?.pattern
         : isNorway
         ? '^[0-9]{4}$'
-        : '',
+        : undefined,
       placeholder: postalCode?.placeholder
         ? postalCode.placeholder
         : isNorway
         ? '0000'
-        : '',
+        : undefined,
     }
   }, [
     postalCode.pattern,
