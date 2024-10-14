@@ -435,7 +435,7 @@ describe('Field.OrganizationNumber', () => {
     const invalidOrgNum = ['123456789', '148623907', '987654321']
     const invalidOrgNumTooShort = ['123', '321', '123123', '321321']
 
-    const firstNumIs1Validator = (value: string) => {
+    const firstDigitIs1Validator = (value: string) => {
       if (value.substring(0, 1) !== '1') {
         return new Error('My error')
       }
@@ -444,7 +444,7 @@ describe('Field.OrganizationNumber', () => {
     const customValidator: Validator<string> = (value, { validators }) => {
       const { organizationNumberValidator } = validators
 
-      return [organizationNumberValidator, firstNumIs1Validator]
+      return [organizationNumberValidator, firstDigitIs1Validator]
     }
 
     it.each(validOrgNumStartingWith1)(
