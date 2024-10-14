@@ -12,14 +12,12 @@ export type Props = Omit<StringFieldProps, 'onBlurValidator'> & {
 }
 
 function BankAccountNumber(props: Props) {
-  const translations = useTranslation().BankAccountNumber
-
   const {
     errorBankAccountNumber,
     errorBankAccountNumberLength,
     errorRequired,
     label,
-  } = translations
+  } = useTranslation().BankAccountNumber
 
   const errorMessages = useErrorMessage(props.path, props.errorMessages, {
     required: errorRequired,
