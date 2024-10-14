@@ -201,7 +201,7 @@ describe('Field.PostalCodeAndCity', () => {
       document.querySelectorAll('input')
     )
 
-    expect(postalCode).toHaveAttribute('placeholder', '00000')
+    expect(postalCode).toHaveAttribute('aria-placeholder', '00000')
     await userEvent.type(postalCode, 'abcs123456')
 
     expect(postalCode).toHaveValue('12345')
