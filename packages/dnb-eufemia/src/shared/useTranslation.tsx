@@ -38,24 +38,26 @@ export default function useTranslation<T = Translation>(
   }, [locale, messages, args, translation])
 }
 
-export type combineWithExternalTranslationsArgs = {
+export type CombineWithExternalTranslationsArgs = {
   translation: Translation
   messages?: TranslationCustomLocales
   locale?: InternalLocale
 }
-export type combineWithExternalTranslationsReturn = Translation &
-  TranslationCustomLocales & {
-    formatMessage: typeof formatMessage
-  }
+export type FormatMessage = {
+  formatMessage: typeof formatMessage
+}
+export type CombineWithExternalTranslationsReturn = Translation &
+  TranslationCustomLocales &
+  FormatMessage
 
 export function combineWithExternalTranslations({
   translation,
   messages,
   locale,
-}: combineWithExternalTranslationsArgs): combineWithExternalTranslationsReturn {
+}: CombineWithExternalTranslationsArgs): CombineWithExternalTranslationsReturn {
   let combined = {
     ...translation,
-  } as combineWithExternalTranslationsReturn
+  } as CombineWithExternalTranslationsReturn
 
   if (messages) {
     if (Object.keys(defaultLocales).some((locale) => messages[locale])) {
@@ -81,27 +83,35 @@ export function combineWithExternalTranslations({
 
 export function formatMessage(
   id: TranslationId | TranslationIdAsFunction,
-  args: TranslationArguments,
-  messages: TranslationCustomLocales
+  args?: TranslationArguments,
+  messages?: TranslationCustomLocales
 ) {
   let str = undefined
 
-  if (typeof id === 'function') {
-    str = id(messages)
-  } else if (messages[id]) {
-    str = messages[id]
-  } else if (id?.includes?.('.')) {
-    const keys = id.split('.')
-    for (const key of keys) {
-      if (messages[key]) {
-        messages = messages[key]
-      } else {
-        break
+  if (typeof id === 'string') {
+    let found = false
+    if (messages[id]) {
+      str = messages[id]
+      found = true
+    } else if (id?.includes?.('.')) {
+      const keys = id.split('.')
+      for (const key of keys) {
+        if (messages[key]) {
+          messages = messages[key]
+        } else {
+          break
+        }
+      }
+      if (typeof messages === 'string') {
+        str = messages
+        found = true
       }
     }
-    if (typeof messages === 'string') {
-      str = messages
+    if (!found && typeof id === 'string') {
+      str = id
     }
+  } else if (typeof id === 'function') {
+    str = id(messages)
   }
 
   if (str) {

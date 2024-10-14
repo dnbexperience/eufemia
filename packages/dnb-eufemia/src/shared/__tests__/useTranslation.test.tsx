@@ -145,41 +145,176 @@ describe('useTranslation without an ID', () => {
     )
   })
 
-  it('should return "formatMessage" function', () => {
-    const customTranslation = {
-      'en-GB': {
-        myString: 'Custom string',
-        myGroup: {
-          subString: 'Second string',
-          stringWithArg: 'Second string {arg}',
+  describe('formatMessage', () => {
+    const myTranslations = {
+      'nb-NO': {
+        Custom: {
+          translation: 'My translation with a {myKey}',
         },
       },
-      'nb-NO': {
-        myString: 'Tilpasset streng',
-        myGroup: {
-          subString: 'Ny streng',
-          stringWithArg: 'Ny streng {arg}',
+      'en-GB': {
+        Custom: {
+          translation: 'My translation with a {myKey}',
         },
       },
     }
+    type Translation = (typeof myTranslations)[keyof typeof myTranslations]
 
-    const result = renderHook(() => useTranslation(), {
-      wrapper: ({ children }) => (
-        <Provider translations={customTranslation} locale="en-GB">
-          {children}
-        </Provider>
-      ),
+    it('should return translation', () => {
+      const { result } = renderHook(useTranslation)
+
+      expect(result.current.formatMessage).toBeInstanceOf(Function)
+      expect(result.current.formatMessage('Modal.close_title')).toBe(
+        nbNO['nb-NO'].Modal.close_title
+      )
     })
 
-    expect(result.result.current.formatMessage).toBeInstanceOf(Function)
-    expect(result.result.current.myGroup.stringWithArg).toBe(
-      'Second string {arg}'
-    )
-    expect(
-      result.result.current.formatMessage('myGroup.stringWithArg', {
-        arg: 'dynamic-value',
+    it('should return translation for given locale', () => {
+      const { result } = renderHook(useTranslation, {
+        wrapper: ({ children }) => (
+          <Provider locale="en-GB">{children}</Provider>
+        ),
       })
-    ).toBe('Second string dynamic-value')
+
+      expect(result.current.formatMessage('Modal.close_title')).toBe(
+        enGB['en-GB'].Modal.close_title
+      )
+    })
+
+    it('should return translation when switching locale', () => {
+      const MockComponent = () => {
+        const { formatMessage } = useTranslation()
+        return <>{formatMessage('Modal.close_title')}</>
+      }
+
+      const { rerender } = render(
+        <Provider locale="nb-NO">
+          <MockComponent />
+        </Provider>
+      )
+      expect(document.body.textContent).toBe(
+        nbNO['nb-NO'].Modal.close_title
+      )
+
+      rerender(
+        <Provider locale="en-GB">
+          <MockComponent />
+        </Provider>
+      )
+      expect(document.body.textContent).toBe(
+        enGB['en-GB'].Modal.close_title
+      )
+    })
+
+    it('should support custom translation when switching locale', () => {
+      const MockComponent = () => {
+        const { formatMessage } = useTranslation<Translation>()
+        return (
+          <>
+            {formatMessage('Custom.translation', {
+              myKey: 'value!',
+            })}
+          </>
+        )
+      }
+
+      const { rerender } = render(
+        <Provider locale="nb-NO" translations={myTranslations}>
+          <MockComponent />
+        </Provider>
+      )
+      expect(document.body.textContent).toBe(
+        myTranslations['nb-NO'].Custom.translation.replace(
+          '{myKey}',
+          'value!'
+        )
+      )
+
+      rerender(
+        <Provider locale="en-GB" translations={myTranslations}>
+          <MockComponent />
+        </Provider>
+      )
+      expect(document.body.textContent).toBe(
+        myTranslations['en-GB'].Custom.translation.replace(
+          '{myKey}',
+          'value!'
+        )
+      )
+    })
+
+    it('should support custom translation object when switching locale', () => {
+      const MockComponent = () => {
+        const { formatMessage, Custom } = useTranslation<Translation>()
+        return (
+          <>
+            {formatMessage(Custom.translation, {
+              myKey: 'value!',
+            })}
+          </>
+        )
+      }
+
+      const { rerender } = render(
+        <Provider locale="nb-NO" translations={myTranslations}>
+          <MockComponent />
+        </Provider>
+      )
+      expect(document.body.textContent).toBe(
+        myTranslations['nb-NO'].Custom.translation.replace(
+          '{myKey}',
+          'value!'
+        )
+      )
+
+      rerender(
+        <Provider locale="en-GB" translations={myTranslations}>
+          <MockComponent />
+        </Provider>
+      )
+      expect(document.body.textContent).toBe(
+        myTranslations['en-GB'].Custom.translation.replace(
+          '{myKey}',
+          'value!'
+        )
+      )
+    })
+
+    it('should support nested translations', () => {
+      const customTranslation = {
+        'en-GB': {
+          myString: 'Custom string',
+          myGroup: {
+            subString: 'Second string',
+            stringWithArg: 'Second string {arg}',
+          },
+        },
+        'nb-NO': {
+          myString: 'Tilpasset streng',
+          myGroup: {
+            subString: 'Ny streng',
+            stringWithArg: 'Ny streng {arg}',
+          },
+        },
+      }
+
+      const result = renderHook(() => useTranslation(), {
+        wrapper: ({ children }) => (
+          <Provider translations={customTranslation} locale="en-GB">
+            {children}
+          </Provider>
+        ),
+      })
+
+      expect(result.result.current.myGroup.stringWithArg).toBe(
+        'Second string {arg}'
+      )
+      expect(
+        result.result.current.formatMessage('myGroup.stringWithArg', {
+          arg: 'dynamic-value',
+        })
+      ).toBe('Second string dynamic-value')
+    })
   })
 })
 

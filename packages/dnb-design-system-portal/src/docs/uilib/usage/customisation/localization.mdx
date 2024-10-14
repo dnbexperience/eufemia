@@ -103,6 +103,78 @@ render(
 )
 ```
 
+## Provide your own translations
+
+```tsx
+import Provider, { Locales } from '@dnb/eufemia/shared/Provider'
+
+const customTranslation = {
+  'en-GB': {
+    // Extend the translation as an object
+    myString: 'Custom string',
+    myGroup: {
+      subString: 'Second string',
+      stringWithArgument: 'String with {myArg}',
+    },
+
+    // Or as a flat object (dot-notated keys)
+    'myGroup.subString': 'Second string',
+    'myGroup.stringWithArgument': 'String with {myArg}',
+  },
+}
+
+type CustomLocales = keyof typeof customTranslation
+type CustomTranslation = (typeof customTranslation)[CustomLocales]
+
+render(
+  <Provider translations={customTranslation} locale="en-GB">
+    <MyApp>
+      <MyComponent />
+    </MyApp>
+  </Provider>,
+)
+```
+
+## Consume translations in your components
+
+You can use the `useTranslation` hook to get the strings from the shared context. The hook returns an object with the strings and a `formatMessage` function you can use to get the translated strings with arguments.
+
+```tsx
+import { useTranslation } from '@dnb/eufemia/shared'
+
+function MyComponent() {
+  const { Dropdown, myString, myGroup, formatMessage } =
+    useTranslation<CustomTranslation>()
+  return (
+    <>
+      <P>{Dropdown.title}</P>
+
+      <P>{myString}</P>
+      <P>{myGroup.subString}</P>
+
+      <P>
+        {formatMessage(myGroup.stringWithArgument, {
+          myArg: 'dynamic-value',
+        })}
+      </P>
+
+      <P>
+        {formatMessage('myGroup.stringWithArgument', {
+          myArg: 'dynamic-value',
+        })}
+      </P>
+    </>
+  )
+}
+```
+
+**Good to know:** You can consume the strings with a dot-notated key, directly from
+the `formatMessage` function:
+
+```tsx
+formatMessage('myGroup.subString')
+```
+
 ## How to combine with other tools
 
 You can easily combine the locales support it with other translation tools, like `react-intl`.
@@ -134,63 +206,7 @@ render(
 )
 ```
 
-## How to use your own translation strings
-
-You have even the option to extend the strings with your own and use it as an internationalization tool replacement for e.g. `react-intl`.
-
-## Get the strings from Context
-
-It is possible to use the Eufemia shared Provider for your own project / App localization.
-
-```tsx
-import Provider, { Locales } from '@dnb/eufemia/shared/Provider'
-
-const customTranslation = {
-  // extend the translation
-  'en-GB': {
-    myString: 'Custom string',
-    myGroup: {
-      subString: 'Second string',
-      stringWithArgument: 'String with {myArg}',
-    },
-  },
-}
-
-type CustomLocales = keyof typeof customTranslation
-type CustomTranslation = (typeof customTranslation)[CustomLocales]
-
-render(
-  <Provider translations={customTranslation} locale="en-GB">
-    <MyApp>
-      <MyComponent />
-    </MyApp>
-  </Provider>,
-)
-```
-
-... and consume the strings in your components:
-
-```tsx
-import { useTranslation } from '@dnb/eufemia/shared'
-
-function MyComponent() {
-  const { myString, myGroup, formatMessage } =
-    useTranslation<CustomTranslation>()
-  return (
-    <>
-      <P>{myString}</P>
-      <P>{myGroup.subString}</P>
-      <P>
-        {formatMessage('myGroup.stringWithArgument', {
-          myArg: 'dynamic-value',
-        })}
-      </P>
-    </>
-  )
-}
-```
-
-### Cascaded string ids support
+### Cascaded object (flat object, dot-notated keys) support
 
 1. Lets say you have your translation files as JSON object/files `en.json`:
 
