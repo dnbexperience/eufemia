@@ -22,9 +22,6 @@ const nbNO = {
     fieldLabel: 'Oppgi barnebidrag per måned',
     required: 'Du må oppgi barnebidrag per måned.',
   },
-  confirmJointResponsibility: {
-    fieldLabel: 'Delt omsorg',
-  },
   usesDaycare: {
     fieldLabel: 'Har du/dere utgifter til SFO/AKS?',
     required: 'Du må angi om du/dere har utgifter til SFO/AKS.',
@@ -63,9 +60,6 @@ const enGB = {
   jointResponsibilityExpenses: {
     fieldLabel: 'Enter child support per month',
     required: 'You must enter child support per month.',
-  },
-  confirmJointResponsibility: {
-    fieldLabel: 'Joint parental responsibility',
   },
   usesDaycare: {
     fieldLabel: 'Do you have expenses for SFO/AKS?',
