@@ -137,9 +137,10 @@ export default {
     },
     BankAccountNumber: {
       label: 'Bank account',
-      errorRequired:
-        'Enter a valid account number. Account number is mandatory to fill out.',
-      errorPattern: 'Invalid bank account number.',
+      errorRequired: 'You must enter an account number.',
+      errorBankAccountNumber: 'Invalid account number.',
+      errorBankAccountNumberLength:
+        'Invalid account number. Enter a valid organisation number with 11 digits.',
     },
     PhoneNumber: {
       label: 'Mobile number',

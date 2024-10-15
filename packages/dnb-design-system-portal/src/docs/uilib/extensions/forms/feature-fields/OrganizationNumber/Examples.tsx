@@ -118,7 +118,7 @@ export const ValidationExtendValidator = () => {
       {() => {
         const firstDigitIs1Validator = (value: string) => {
           if (value.substring(0, 1) !== '1') {
-            return new Error('My error')
+            return new Error('First digit is not 1')
           }
         }
 
