@@ -58,7 +58,7 @@ const enGB = {
   },
   hasJointResponsibility: {
     fieldLabel: 'Do you pay child support?',
-    required: 'You must state whether you pay chid support.',
+    required: 'You must state whether you pay child support.',
   },
   jointResponsibilityExpenses: {
     fieldLabel: 'Enter child support per month',
