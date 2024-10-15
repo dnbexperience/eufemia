@@ -499,7 +499,6 @@ describe('Iterate.Array', () => {
               { mem: 'D', second: '2nd' },
             ]}
           >
-            <Field.String itemPath="/" />
             {renderProp1}
             {renderProp2}
           </Iterate.Array>

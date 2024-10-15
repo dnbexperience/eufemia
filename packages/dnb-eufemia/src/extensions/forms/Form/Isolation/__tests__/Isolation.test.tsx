@@ -1,4 +1,5 @@
 import React from 'react'
+import { spyOnEufemiaWarn } from '../../../../../core/jest/jestSetup'
 import {
   act,
   createEvent,
@@ -14,6 +15,14 @@ import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
 describe('Form.Isolation', () => {
+  let log = null
+  beforeEach(() => {
+    log = spyOnEufemiaWarn()
+  })
+  afterEach(() => {
+    log.mockRestore()
+  })
+
   it('should have constant of _supportsSpacingProps="undefined"', () => {
     expect(Form.Isolation._supportsSpacingProps).toBeUndefined()
   })

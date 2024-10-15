@@ -88,6 +88,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   {
     executeOnChangeRegardlessOfError = false,
     updateContextDataInSync = false,
+    omitMultiplePathWarning = false,
   } = {}
 ): typeof localeProps & ReturnAdditional<Value> {
   const { extend } = useContext(FieldProviderContext)
@@ -1547,7 +1548,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   // - Warn when a field path is used multiple times
   useEffect(() => {
-    if (hasPath || hasItemPath) {
+    if (
+      !omitMultiplePathWarning &&
+      process.env.NODE_ENV !== 'production' &&
+      (hasPath || hasItemPath) &&
+      (hasPath ? !iterateItemContext : true)
+    ) {
       if (existingFields.has(identifier)) {
         warn('You have declared the same path several times:', identifier)
       } else {
@@ -1557,7 +1563,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         }
       }
     }
-  }, [hasItemPath, hasPath, identifier])
+  }, [
+    hasItemPath,
+    hasPath,
+    identifier,
+    iterateItemContext,
+    omitMultiplePathWarning,
+  ])
 
   useEffect(() => {
     return () => {
