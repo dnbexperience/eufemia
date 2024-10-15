@@ -15,6 +15,7 @@ import Field, {
   FieldBlock,
   Form,
   FormError,
+  Iterate,
   JSONSchema,
   OnChange,
   SubmitState,
@@ -4672,6 +4673,73 @@ describe('useFieldProps', () => {
       })
 
       log.mockRestore()
+    })
+  })
+
+  describe('warn about duplicated paths', () => {
+    let log = null
+    const originalConsoleLog = console.log
+
+    beforeEach(() => {
+      log = jest.spyOn(console, 'log').mockImplementation((...message) => {
+        if (!message[0].includes('Eufemia')) {
+          originalConsoleLog(...message)
+        }
+      })
+    })
+    afterEach(() => {
+      log.mockRestore()
+    })
+
+    it('for the "path" prop', () => {
+      render(
+        <React.StrictMode>
+          <Field.String path="/myPath" />
+          <Field.String path="/myPath" />
+        </React.StrictMode>
+      )
+
+      expect(log).toHaveBeenCalledWith(
+        expect.any(String),
+        'You have declared the same path several times:',
+        '/myPath'
+      )
+    })
+
+    it('for the "itemPath" prop', () => {
+      render(
+        <React.StrictMode>
+          <Iterate.Array value={['foo']}>
+            <Field.String itemPath="/myPath" />
+            <Field.String itemPath="/myPath" />
+          </Iterate.Array>
+        </React.StrictMode>
+      )
+
+      expect(log).toHaveBeenCalledWith(
+        expect.any(String),
+        'You have declared the same path several times:',
+        '/0/myPath'
+      )
+    })
+
+    it('for the "itemPath" prop distributed in several Iterate.Array', () => {
+      render(
+        <React.StrictMode>
+          <Iterate.Array value={['foo']}>
+            <Field.String itemPath="/myPath" />
+          </Iterate.Array>
+          <Iterate.Array value={['bar']}>
+            <Field.String itemPath="/myPath" />
+          </Iterate.Array>
+        </React.StrictMode>
+      )
+
+      expect(log).toHaveBeenCalledWith(
+        expect.any(String),
+        'You have declared the same path several times:',
+        '/0/myPath'
+      )
     })
   })
 })
