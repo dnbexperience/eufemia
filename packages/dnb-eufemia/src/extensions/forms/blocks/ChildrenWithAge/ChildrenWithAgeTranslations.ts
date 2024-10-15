@@ -15,22 +15,29 @@ const nbNO = {
     suffix: 'år',
   },
   hasJointResponsibility: {
-    fieldLabel: 'Har du delt omsorg for noen av barna?',
+    fieldLabel: 'Betaler du/dere barnebidrag?',
+    required: 'Du må angi om du/dere betaler barnebidrag.',
+  },
+  jointResponsibilityExpenses: {
+    fieldLabel: 'Oppgi barnebidrag per måned',
+    required: 'Du må oppgi barnebidrag per måned.',
   },
   confirmJointResponsibility: {
     fieldLabel: 'Delt omsorg',
   },
   usesDaycare: {
-    fieldLabel: 'Har du/dere SFO/AKS for noen av barna?',
-    required: 'Du må angi om du har SFO/AKS for noen av barna.',
+    fieldLabel: 'Har du/dere utgifter til SFO/AKS?',
+    required: 'Du må angi om du/dere har utgifter til SFO/AKS.',
+    helpText:
+      'Oppgi totalt beløp per måned som du betaler til Skolefritidsordningen (SFO) eller Aktivitetsskolen (AKS).\n\nBarnehageutgifter skal ikke tas med her.',
+  },
+  dayCareExpenses: {
+    fieldLabel: 'Oppgi utgifter til SFO/AKS per måned',
+    required: 'Du må oppgi dine utgifter til SFO/AKS per måned.',
   },
   hasDaycare: {
     fieldLabel: 'Er på SFO/AKS',
   },
-  jointResponsibilityTrue: 'delt omsorg',
-  jointResponsibilityFalse: 'ikke delt omsorg',
-  daycareTrue: 'SFO/AKS',
-  daycareFalse: 'uten SFO/AKS',
 }
 
 const enGB = {
@@ -50,24 +57,30 @@ const enGB = {
     suffix: 'years old',
   },
   hasJointResponsibility: {
-    fieldLabel:
-      'Do you have joint parental responsibility for any of the children?',
+    fieldLabel: 'Do you pay child support?',
+    required: 'You must state whether you pay chid support.',
+  },
+  jointResponsibilityExpenses: {
+    fieldLabel: 'Enter child support per month',
+    required: 'You must enter child support per month.',
   },
   confirmJointResponsibility: {
     fieldLabel: 'Joint parental responsibility',
   },
   usesDaycare: {
-    fieldLabel: 'Do you have SFO/AKS for any of the children?',
-    required:
-      'You must state whether you have SFO/AKS for any of the children.',
+    fieldLabel: 'Do you have expenses for SFO/AKS?',
+    required: 'You must state whether you have any expenses for SFO/AKS.',
+    helpText:
+      'State the total amount per month that you pay to Skolefritidsordningen (SFO) or Aktivitetsskolen (AKS). \n Kindergarten expenses are not to be included here.',
   },
+  dayCareExpenses: {
+    fieldLabel: 'Enter expenses for SFO/AKS per month',
+    required: 'You must enter your expenses for SFO/AKS per month.',
+  },
+
   hasDaycare: {
     fieldLabel: 'Has SFO/AKS',
   },
-  jointResponsibilityTrue: 'joint parental responsibility',
-  jointResponsibilityFalse: 'not joint parental responsibility',
-  daycareTrue: 'SFO/AKS',
-  daycareFalse: 'without SFO/AKS',
 } satisfies typeof nbNO
 
 export const translations = {

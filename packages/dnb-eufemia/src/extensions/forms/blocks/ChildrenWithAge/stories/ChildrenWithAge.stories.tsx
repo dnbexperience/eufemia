@@ -60,15 +60,6 @@ export function InsideWizard() {
     <Form.Handler
       id="ChildrenWithAge"
       translations={myTranslations}
-      defaultData={{
-        hasChildren: true,
-        countChildren: 1,
-        children: [
-          {
-            age: undefined,
-          },
-        ],
-      }}
       onSubmit={(data, { reduceToVisibleFields }) => {
         console.log('Raw', data)
         console.log('Reduced', reduceToVisibleFields(data))
@@ -119,11 +110,7 @@ export function WithoutDataContext() {
         enableAdditionalQuestions={['daycare', 'joint-responsibility']}
       />
 
-      <ChildrenWithAge
-        data={data}
-        mode="summary"
-        enableAdditionalQuestions={['daycare', 'joint-responsibility']}
-      />
+      <ChildrenWithAge data={data} mode="summary" />
       <Form.SubmitButton />
     </Flex.Stack>
   )

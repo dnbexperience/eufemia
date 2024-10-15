@@ -33,6 +33,7 @@ export default function ChildrenWithAge({
         <SummaryContainer
           toWizardStep={toWizardStep}
           spacingProps={spacingProps}
+          enableAdditionalQuestions={enableAdditionalQuestions}
         />
       ) : (
         <EditContainer
@@ -60,63 +61,38 @@ function EditContainer({
         path="/hasChildren"
         label={tr.ChildrenWithAge.hasChildren.fieldLabel}
         variant="buttons"
-        defaultValue={false}
         errorMessages={{
           required: tr.ChildrenWithAge.hasChildren.required,
         }}
       />
 
       <Form.Visibility pathTrue="/hasChildren" animate>
-        {enableAdditionalQuestions?.includes('joint-responsibility') && (
-          <Field.Boolean
-            path="/hasJointResponsibility"
-            label={tr.ChildrenWithAge.hasJointResponsibility.fieldLabel}
-            variant="buttons"
-            defaultValue={false}
-            errorMessages={{
-              required: tr.ChildrenWithAge.hasChildren.required,
-            }}
-          />
-        )}
-
-        {enableAdditionalQuestions?.includes('daycare') && (
-          <Field.Boolean
-            path="/usesDaycare"
-            label={tr.ChildrenWithAge.usesDaycare.fieldLabel}
-            variant="buttons"
-            defaultValue={false}
-            errorMessages={{
-              required: tr.ChildrenWithAge.usesDaycare.required,
-            }}
-          />
-        )}
-
         <Field.Number
           path="/countChildren"
           label={tr.ChildrenWithAge.countChildren.fieldLabel}
           errorMessages={{
             minimum: tr.ChildrenWithAge.countChildren.required,
+            required: tr.ChildrenWithAge.countChildren.required,
           }}
           width="small"
-          defaultValue={1}
           minimum={1}
           maximum={20}
           showStepControls
           decimalLimit={0}
+          allowNegative={false}
         />
 
-        <Iterate.Array
-          path="/children"
-          countPath="/countChildren"
-          countPathTransform={transformAgeItem}
-          countPathLimit={20}
-        >
-          <Field.Composition
-            label={tr.ChildrenWithAge.childrenAge.fieldLabel}
-            align="center"
+        <Form.Visibility pathTruthy="/countChildren" animate>
+          <Iterate.Array
+            path="/children"
+            countPath="/countChildren"
+            countPathTransform={transformAgeItem}
+            countPathLimit={20}
+            animate
           >
             <Field.Number
               itemPath="/age"
+              label={tr.ChildrenWithAge.childrenAge.fieldLabel}
               errorMessages={{
                 required: tr.ChildrenWithAge.childrenAge.required,
               }}
@@ -125,25 +101,66 @@ function EditContainer({
               minimum={0}
               maximum={17}
               decimalLimit={0}
+              allowNegative={false}
             />
+          </Iterate.Array>
+        </Form.Visibility>
 
-            <Form.Visibility pathTrue="/hasJointResponsibility">
-              <Field.Boolean
-                itemPath="/jointResponsibility"
-                label={
-                  tr.ChildrenWithAge.confirmJointResponsibility.fieldLabel
-                }
-              />
-            </Form.Visibility>
+        {enableAdditionalQuestions?.includes('daycare') && (
+          <Field.Boolean
+            path="/usesDaycare"
+            label={tr.ChildrenWithAge.usesDaycare.fieldLabel}
+            variant="buttons"
+            errorMessages={{
+              required: tr.ChildrenWithAge.usesDaycare.required,
+            }}
+            help={{
+              title: tr.ChildrenWithAge.usesDaycare.fieldLabel,
+              content: tr.ChildrenWithAge.usesDaycare.helpText,
+            }}
+          />
+        )}
 
-            <Form.Visibility pathTrue="/usesDaycare">
-              <Field.Boolean
-                itemPath="/hasDaycare"
-                label={tr.ChildrenWithAge.hasDaycare.fieldLabel}
-              />
-            </Form.Visibility>
-          </Field.Composition>
-        </Iterate.Array>
+        {enableAdditionalQuestions?.includes('daycare') && (
+          <Form.Visibility pathTrue="/usesDaycare" animate>
+            <Field.Currency
+              path="/daycareExpenses"
+              label={tr.ChildrenWithAge.dayCareExpenses.fieldLabel}
+              errorMessages={{
+                required: tr.ChildrenWithAge.dayCareExpenses.required,
+              }}
+              minimum={0}
+              allowNegative={false}
+            />
+          </Form.Visibility>
+        )}
+
+        {enableAdditionalQuestions?.includes('joint-responsibility') && (
+          <Field.Boolean
+            path="/hasJointResponsibility"
+            label={tr.ChildrenWithAge.hasJointResponsibility.fieldLabel}
+            variant="buttons"
+            errorMessages={{
+              required: tr.ChildrenWithAge.hasJointResponsibility.required,
+            }}
+          />
+        )}
+        {enableAdditionalQuestions?.includes('joint-responsibility') && (
+          <Form.Visibility pathTrue="/hasJointResponsibility" animate>
+            <Field.Currency
+              path="/jointResponsibilityExpenses"
+              label={
+                tr.ChildrenWithAge.jointResponsibilityExpenses.fieldLabel
+              }
+              errorMessages={{
+                required:
+                  tr.ChildrenWithAge.jointResponsibilityExpenses.required,
+              }}
+              minimum={0}
+              allowNegative={false}
+            />
+          </Form.Visibility>
+        )}
       </Form.Visibility>
     </Card>
   )
@@ -173,49 +190,49 @@ function SummaryContainer({
           <Value.Number
             path="/countChildren"
             label={tr.ChildrenWithAge.countChildren.fieldLabel}
-            defaultValue={0}
             suffix={tr.ChildrenWithAge.countChildren.suffix}
             maximum={20}
             transformIn={(value) => (hasNoChildren ? 0 : value)}
           />
-        </Form.Visibility>
-        <Iterate.Array
-          path="/children"
-          limit={hasNoChildren ? 0 : undefined}
-        >
-          <Value.Composition
-            label={tr.ChildrenWithAge.childrenAge.fieldLabel}
-            gap={false}
+          <Iterate.Array
+            path="/children"
+            limit={hasNoChildren ? 0 : undefined}
           >
             <Value.Number
               itemPath="/age"
+              label={tr.ChildrenWithAge.childrenAge.fieldLabel}
               suffix={tr.ChildrenWithAge.childrenAge.suffix}
               defaultValue="–"
             />
-
-            <Form.Visibility pathTrue="/hasJointResponsibility">
-              {', '}
-              <Value.Boolean
-                inline
-                itemPath="/jointResponsibility"
-                trueText={tr.ChildrenWithAge.jointResponsibilityTrue}
-                falseText={tr.ChildrenWithAge.jointResponsibilityFalse}
-                defaultValue={false}
-              />
-            </Form.Visibility>
-
+          </Iterate.Array>
+          <Form.Visibility pathDefined="/usesDaycare">
+            <Value.Boolean
+              label={tr.ChildrenWithAge.usesDaycare.fieldLabel}
+              path="/usesDaycare"
+            />
             <Form.Visibility pathTrue="/usesDaycare">
-              {', '}
-              <Value.Boolean
-                inline
-                itemPath="/hasDaycare"
-                trueText={tr.ChildrenWithAge.daycareTrue}
-                falseText={tr.ChildrenWithAge.daycareFalse}
-                defaultValue={false}
+              <Value.Currency
+                label={tr.ChildrenWithAge.dayCareExpenses.fieldLabel}
+                path="/daycareExpenses"
               />
             </Form.Visibility>
-          </Value.Composition>
-        </Iterate.Array>
+          </Form.Visibility>
+
+          <Form.Visibility pathDefined="/hasJointResponsibility">
+            <Value.Boolean
+              path="/hasJointResponsibility"
+              label={tr.ChildrenWithAge.hasJointResponsibility.fieldLabel}
+            />
+            <Form.Visibility pathTrue="/hasJointResponsibility">
+              <Value.Currency
+                label={
+                  tr.ChildrenWithAge.jointResponsibilityExpenses.fieldLabel
+                }
+                path="/jointResponsibilityExpenses"
+              />
+            </Form.Visibility>
+          </Form.Visibility>
+        </Form.Visibility>
       </Value.SummaryList>
 
       {typeof toWizardStep === 'number' ? (

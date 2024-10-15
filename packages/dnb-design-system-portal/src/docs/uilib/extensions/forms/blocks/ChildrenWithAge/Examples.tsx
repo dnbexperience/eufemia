@@ -25,11 +25,7 @@ export const ChildrenWithAge = (props) => {
             enableAdditionalQuestions={['joint-responsibility', 'daycare']}
             {...props}
           />
-          <Blocks.ChildrenWithAge
-            mode="summary"
-            enableAdditionalQuestions={['joint-responsibility', 'daycare']}
-            {...props}
-          />
+          <Blocks.ChildrenWithAge mode="summary" {...props} />
         </Flex.Stack>
       </WithToolbar>
     </Form.Handler>
@@ -41,16 +37,48 @@ export const ChildrenWithAgeWizard = (props) => {
     <ComponentBox scope={{ Tools, Blocks, props }}>
       {() => {
         const MyForm = () => {
+          const myTranslations = {
+            'nb-NO': {
+              ChildrenWithAge: {
+                hasChildren: {
+                  title: 'Utgifter til barn',
+                  fieldLabel:
+                    'Har du/dere barn under 18 år som dere er økonomisk ansvarlige for?',
+                  required:
+                    'Du må angi om du/dere har barn under 18 år som dere er økonomisk ansvarlige for.',
+                },
+              },
+            },
+            'en-GB': {
+              ChildrenWithAge: {
+                hasChildren: {
+                  title: 'Child expenses',
+                  fieldLabel:
+                    'Do you have children under the age of 18 for whom you are financially responsible?',
+                  required:
+                    'You must state whether you have children under the age of 18 for whom you are financially responsible.',
+                },
+              },
+            },
+          }
+
           const { summaryTitle } = Form.useLocale().Step
           return (
             <Form.Handler
               onSubmit={(data, { reduceToVisibleFields }) => {
                 console.log(reduceToVisibleFields(data))
               }}
+              translations={myTranslations}
             >
               <Wizard.Container>
                 <Wizard.Step title="Step 1">
-                  <Blocks.ChildrenWithAge {...props} />
+                  <Blocks.ChildrenWithAge
+                    enableAdditionalQuestions={[
+                      'joint-responsibility',
+                      'daycare',
+                    ]}
+                    {...props}
+                  />
                   <Wizard.Buttons />
                 </Wizard.Step>
 
@@ -179,11 +207,9 @@ export const ChildrenWithAgePrefilledYes = () => {
           hasChildren: true,
           hasJointResponsibility: true,
           usesDaycare: true,
+          daycareExpenses: 123,
           countChildren: 2,
           children: [{}, {}],
-        }}
-        onSubmit={(data, { reduceToVisibleFields }) => {
-          console.log(reduceToVisibleFields(data))
         }}
       >
         <Flex.Stack>
@@ -224,6 +250,7 @@ export const ChildrenWithAgeSummaryMultipleNoAnswers = () => {
       <Blocks.ChildrenWithAge
         mode="summary"
         data={multipleChildrenNoJointAndDaycare}
+        enableAdditionalQuestions={['joint-responsibility', 'daycare']}
       />
     </ComponentBox>
   )
@@ -233,6 +260,9 @@ export const ChildrenWithAgeSummaryMultipleChildren = () => {
   const multipleChildren = {
     hasChildren: true,
     usesDaycare: true,
+    hasJointResponsibility: true,
+    daycareExpenses: 4001,
+    jointResponsibilityExpenses: 1004,
     countChildren: 2,
     children: [
       {
@@ -240,7 +270,6 @@ export const ChildrenWithAgeSummaryMultipleChildren = () => {
       },
       {
         age: 2,
-        hasDaycare: true,
       },
     ],
   }
@@ -250,8 +279,15 @@ export const ChildrenWithAgeSummaryMultipleChildren = () => {
       data-visual-test="children-with-age-summary-multiple-children"
       scope={{ Tools, Blocks, multipleChildren }}
     >
-      <Blocks.ChildrenWithAge data={multipleChildren} />
-      <Blocks.ChildrenWithAge mode="summary" data={multipleChildren} />
+      <Blocks.ChildrenWithAge
+        data={multipleChildren}
+        enableAdditionalQuestions={['daycare', 'joint-responsibility']}
+      />
+      <Blocks.ChildrenWithAge
+        mode="summary"
+        data={multipleChildren}
+        enableAdditionalQuestions={['daycare', 'joint-responsibility']}
+      />
     </ComponentBox>
   )
 }
@@ -267,6 +303,44 @@ export const ChildrenWithAgeSummaryNoChildren = () => {
     >
       <Blocks.ChildrenWithAge data={noChildren} />
       <Blocks.ChildrenWithAge mode="summary" data={noChildren} />
+    </ComponentBox>
+  )
+}
+
+export const ChildrenWithAgeSummaryNoChildrenAfterFilledOutData = () => {
+  const noChildren = {
+    hasChildren: false,
+    countChildren: 3,
+    usesDaycare: true,
+    hasJointResponsibility: true,
+    daycareExpenses: 4001,
+    jointResponsibilityExpenses: 1004,
+    children: [
+      {
+        age: 1,
+      },
+      {
+        age: 2,
+      },
+      {
+        age: 3,
+      },
+    ],
+  }
+  return (
+    <ComponentBox
+      data-visual-test="children-with-age-summary-previously-filled-out-data"
+      scope={{ Tools, Blocks, noChildren }}
+    >
+      <Blocks.ChildrenWithAge
+        data={noChildren}
+        enableAdditionalQuestions={['joint-responsibility', 'daycare']}
+      />
+      <Blocks.ChildrenWithAge
+        mode="summary"
+        data={noChildren}
+        enableAdditionalQuestions={['joint-responsibility', 'daycare']}
+      />
     </ComponentBox>
   )
 }
