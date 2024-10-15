@@ -71,7 +71,7 @@ const enGB = {
     fieldLabel: 'Do you have expenses for SFO/AKS?',
     required: 'You must state whether you have any expenses for SFO/AKS.',
     helpText:
-      'State the total amount per month that you pay to Skolefritidsordningen (SFO) or Aktivitetsskolen (AKS). \n Kindergarten expenses are not to be included here.',
+      'State the total amount per month that you pay to Skolefritidsordningen (SFO) or Aktivitetsskolen (AKS).\n\nKindergarten expenses are not to be included here.',
   },
   dayCareExpenses: {
     fieldLabel: 'Enter expenses for SFO/AKS per month',
