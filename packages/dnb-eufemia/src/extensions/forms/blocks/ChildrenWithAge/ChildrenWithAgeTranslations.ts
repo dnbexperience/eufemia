@@ -32,9 +32,6 @@ const nbNO = {
     fieldLabel: 'Oppgi utgifter til SFO/AKS per måned',
     required: 'Du må oppgi dine utgifter til SFO/AKS per måned.',
   },
-  hasDaycare: {
-    fieldLabel: 'Er på SFO/AKS',
-  },
 }
 
 const enGB = {
@@ -70,10 +67,6 @@ const enGB = {
   dayCareExpenses: {
     fieldLabel: 'Enter expenses for SFO/AKS per month',
     required: 'You must enter your expenses for SFO/AKS per month.',
-  },
-
-  hasDaycare: {
-    fieldLabel: 'Has SFO/AKS',
   },
 } satisfies typeof nbNO
 
