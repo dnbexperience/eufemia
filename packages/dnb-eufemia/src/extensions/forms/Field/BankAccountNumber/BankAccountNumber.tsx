@@ -28,7 +28,6 @@ function BankAccountNumber(props: Props) {
 
   const bankAccountNumberValidator = useCallback(
     (value: string) => {
-      console.log(value)
       if (value !== undefined) {
         const bankAccountNoIs11Digits = value?.length === 11
 
