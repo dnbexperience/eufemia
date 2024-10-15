@@ -28,13 +28,13 @@ render(
 In addition to all internal translations, you also get;
 
 - `formatMessage` - a function you can use to get a specific translation based on a key (flattened object with dot-notation).
-- `renderWithLinebreaks` - a function you can use to render a string with line-breaks. It converts `{br}` to a JSX line-break.
+- `renderWithFormatting` - a function you can use to render a string with line-breaks. It converts `{br}` to a JSX line-break.
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
 function MyComponent() {
-  const { formatMessage, renderWithLinebreaks } = Form.useTranslation()
+  const { formatMessage, renderWithFormatting } = Form.useTranslation()
   const errorRequired = formatMessage('Field.errorRequired')
 
   return <>MyComponent</>
@@ -87,7 +87,7 @@ const MyComponent = () => {
   })
 
   // Render line-breaks
-  const jsxOutput = t.renderWithLinebreaks(t.Nested.stringWithLinebreaks)
+  const jsxOutput = t.renderWithFormatting(t.Nested.stringWithLinebreaks)
 
   return <>MyComponent</>
 }

@@ -45,7 +45,7 @@ export type CombineWithExternalTranslationsArgs = {
 }
 export type FormatMessage = {
   formatMessage: typeof formatMessage
-  renderWithLinebreaks: typeof renderWithLinebreaks
+  renderWithFormatting: typeof renderWithFormatting
 }
 export type CombineWithExternalTranslationsReturn = Translation &
   TranslationCustomLocales &
@@ -80,7 +80,7 @@ export function combineWithExternalTranslations({
   }
 
   // Support line-breaks
-  combined.renderWithLinebreaks = renderWithLinebreaks
+  combined.renderWithFormatting = renderWithFormatting
 
   return combined
 }
@@ -124,14 +124,14 @@ export function formatMessage(
     }
 
     if (str.includes('{br}')) {
-      return renderWithLinebreaks(str)
+      return renderWithFormatting(str)
     }
   }
 
   return str ?? id
 }
 
-export function renderWithLinebreaks(
+export function renderWithFormatting(
   text: string | Array<React.ReactNode>
 ): string | React.ReactNode {
   let element = text
