@@ -3,6 +3,21 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.52.1](https://github.com/dnbexperience/eufemia/compare/v10.52.0...v10.52.1) (2024-10-15)
+
+
+### :memo: Documentation
+
+* **OrganizationNumber:** adds docs about validation ([1dbe8f0](https://github.com/dnbexperience/eufemia/commit/1dbe8f083f10d143e9344e65905426f8e448cbf9))
+* **OrganizationNumber:** adds docs about validation ([#4122](https://github.com/dnbexperience/eufemia/issues/4122)) ([0c3eae7](https://github.com/dnbexperience/eufemia/commit/0c3eae79c32cb54fb3625cfdc6ccea4a754afbe9))
+
+
+### :bug: Bug Fixes
+
+* **Forms:** add support for Form.SubmitConfirmation inside Wizard (renderWithState) ([2d2de53](https://github.com/dnbexperience/eufemia/commit/2d2de53a0e41d6f566bfff6b4cb14b8e56bb7a14))
+* **Forms:** add support for Form.SubmitConfirmation inside Wizard (renderWithState) ([#4128](https://github.com/dnbexperience/eufemia/issues/4128)) ([63878cc](https://github.com/dnbexperience/eufemia/commit/63878ccf709b62b93b49f7e0840a0df20683dae1)), closes [#4086](https://github.com/dnbexperience/eufemia/issues/4086)
+* **Forms:** UI aligments of the ChildrenWithAge block ([#4126](https://github.com/dnbexperience/eufemia/issues/4126)) ([f2193f0](https://github.com/dnbexperience/eufemia/commit/f2193f044c6c8344807acd8ab73858ee9587c520))
+
 ## [10.52.0](https://github.com/dnbexperience/eufemia/compare/v10.51.2...v10.52.0) (2024-10-11)
 
 
