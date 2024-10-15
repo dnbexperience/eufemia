@@ -19,7 +19,7 @@ describe('useTranslation without an ID', () => {
     expect(result.current).toEqual(
       Object.assign({}, nbNO[defaultLocale], {
         formatMessage: expect.any(Function),
-        renderWithFormatting: expect.any(Function),
+        renderMessage: expect.any(Function),
       })
     )
   })
@@ -34,7 +34,7 @@ describe('useTranslation without an ID', () => {
     expect(resultGB.current).toEqual(
       Object.assign({}, enGB['en-GB'], {
         formatMessage: expect.any(Function),
-        renderWithFormatting: expect.any(Function),
+        renderMessage: expect.any(Function),
       })
     )
 
@@ -47,7 +47,7 @@ describe('useTranslation without an ID', () => {
     expect(resultNO.current).toEqual(
       Object.assign({}, nbNO['nb-NO'], {
         formatMessage: expect.any(Function),
-        renderWithFormatting: expect.any(Function),
+        renderMessage: expect.any(Function),
       })
     )
   })
@@ -481,13 +481,11 @@ describe('useTranslation with an ID', () => {
     })
   })
 
-  describe('renderWithFormatting', () => {
+  describe('renderMessage', () => {
     it('should render with JSX line-breaks', () => {
       const { result } = renderHook(() => useTranslation())
 
-      expect(
-        result.current.renderWithFormatting('Hello{br}World')
-      ).toEqual([
+      expect(result.current.renderMessage('Hello{br}World')).toEqual([
         <React.Fragment key="0">
           Hello
           <br />
@@ -502,7 +500,7 @@ describe('useTranslation with an ID', () => {
     it('should support multiple line-breaks', () => {
       const { result } = renderHook(() => useTranslation())
 
-      expect(result.current.renderWithFormatting('A{br}B{br}C')).toEqual([
+      expect(result.current.renderMessage('A{br}B{br}C')).toEqual([
         <React.Fragment key="0">
           A
           <br />
