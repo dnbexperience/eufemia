@@ -116,7 +116,7 @@ function SubmitConfirmation(props: ConfirmProps) {
     }
 
     return {
-      data: internalDataRef.current,
+      data: internalDataRef?.current,
       confirmationState,
       setConfirmationState,
       submitHandler,

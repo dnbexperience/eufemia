@@ -690,6 +690,35 @@ describe('Form.SubmitConfirmation', () => {
     expect(onStepChange).toHaveBeenCalledTimes(3)
   })
 
+  it('should render "renderWithState" inside a Wizard.Container (with prerender)', async () => {
+    render(
+      <Form.Handler>
+        <Wizard.Container>
+          <Wizard.Step title="Step 1">
+            <Wizard.Buttons />
+          </Wizard.Step>
+          <Wizard.Step title="Step 2">
+            <Form.SubmitConfirmation
+              renderWithState={() => {
+                return 'rendered content'
+              }}
+            />
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    const form = document.querySelector('form')
+    await act(async () => {
+      fireEvent.submit(form)
+    })
+
+    expect(document.body).toHaveTextContent('Step 2')
+    expect(document.body).toHaveTextContent('rendered content')
+  })
+
   it('should not disable buttons when disabled is set to true', () => {
     render(
       <Form.Handler disabled>
