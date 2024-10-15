@@ -1,6 +1,11 @@
 import { useMemo, useContext } from 'react'
-import SharedContext from '../../../shared/Context'
-import { combineWithExternalTranslations } from '../../../shared/useTranslation'
+import SharedContext, {
+  TranslationObjectToFlat,
+} from '../../../shared/Context'
+import {
+  combineWithExternalTranslations,
+  FormatMessage,
+} from '../../../shared/useTranslation'
 import { extendDeep } from '../../../shared/component-helper'
 import { DeepPartial } from '../../../shared/types'
 import { LOCALE } from '../../../shared/defaults'
@@ -15,6 +20,8 @@ export type FormsTranslationValues =
 export type FormsTranslation = DeepPartial<
   FormsTranslationDefaultLocales[FormsTranslationLocale]
 >
+export type FormsTranslationFlat =
+  TranslationObjectToFlat<FormsTranslation>
 
 type CustomLocales = Partial<
   Record<FormsTranslationLocale, FormsTranslation>
@@ -40,6 +47,6 @@ export default function useTranslation<T = FormsTranslation>(
       translation,
       messages,
       locale,
-    }) as T
+    }) as T & FormatMessage
   }, [globalTranslation, locale, messages])
 }

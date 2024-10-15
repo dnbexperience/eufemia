@@ -1,0 +1,155 @@
+---
+showTabs: true
+---
+
+## Description
+
+The `Form.useTranslation` is a hook that returns the translations for the current locale.
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function MyComponent() {
+  const { Field } = Form.useTranslation()
+  const { errorRequired } = Field
+
+  return <>MyComponent</>
+}
+
+render(
+  <Form.Handler locale="en-GB">
+    <MyComponent />
+  </Form.Handler>,
+)
+```
+
+## Additional utilities
+
+In addition to all internal translations, you also get;
+
+- `formatMessage` - a function you can use to get a specific translation based on a key (flattened object with dot-notation).
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function MyComponent() {
+  const { formatMessage } = Form.useTranslation()
+  const errorRequired = formatMessage('Field.errorRequired')
+
+  return <>MyComponent</>
+}
+
+render(
+  <Form.Handler locale="en-GB">
+    <MyComponent />
+  </Form.Handler>,
+)
+```
+
+## Custom translations
+
+You can also extend the translations with your own custom translations.
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+const myTranslations = {
+  'nb-NO': { myString: 'Min egendefinerte streng' },
+  'en-GB': {
+    // Cascaded translations
+    Nested: {
+      stringWithArgs: 'My custom string with an argument: {myKey}',
+    },
+
+    // Flat translations
+    'Nested.stringWithArgs': 'My custom string with an argument: {myKey}',
+  },
+}
+
+const MyComponent = () => {
+  const t = Form.useTranslation<typeof myTranslations>()
+
+  // Internal translations
+  const existingString = t.Field.errorRequired
+
+  // Your translations
+  const myString = t.myString
+
+  // Use the "formatMessage" function to handle strings with arguments
+  const myStringWithArgsA = t.formatMessage(t.Nested.stringWithArgs, {
+    myKey: 'myValue',
+  })
+  // You can also get the string with a key (dot-notation)
+  const myStringWithArgsB = t.formatMessage('Nested.stringWithArgs', {
+    myKey: 'myValue',
+  })
+
+  return <>MyComponent</>
+}
+
+render(
+  <Form.Handler translations={myTranslations}>
+    <MyComponent />
+  </Form.Handler>,
+)
+```
+
+## Using the `<Translation />`
+
+Instead of using the hook, you can also, use the `<Translation />` component to consume your translations:
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+import { Translation, TranslationProps } from '@dnb/eufemia/shared'
+
+const myTranslations = {
+  'nb-NO': { 'custom.string': 'Min egendefinerte streng' },
+  'en-GB': { 'custom.string': 'My custom string' },
+}
+
+// For TypeScript support
+type Tr<T> = TranslationProps<T[keyof T]>
+const Tr = (props: Tr<typeof myTranslations>) => <Translation {...props} />
+
+render(
+  <Form.Handler translations={myTranslations}>
+    <Form.MainHeading>
+      <Translation id="custom.string" />
+    </Form.MainHeading>
+
+    <Form.SubHeading>
+      <Tr id={(t) => t.custom.string} />
+    </Form.SubHeading>
+  </Form.Handler>,
+)
+```
+
+## Use the shared Provider to customize translations
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+import { Provider, Translation } from '@dnb/eufemia/shared'
+
+const myTranslations = {
+  'nb-NO': {
+    'PhoneNumber.label': 'Egendefinert',
+    'custom.string': 'Min egendefinerte streng',
+  },
+  'en-GB': {
+    'PhoneNumber.label': 'Custom',
+    'custom.string': 'My custom string',
+  },
+}
+
+render(
+  <Provider translations={myTranslations}>
+    <Heading>
+      <Translation id="custom.string" />
+    </Heading>
+
+    <Form.Handler>
+      <Field.PhoneNumber />
+    </Form.Handler>
+  </Provider>,
+)
+```
