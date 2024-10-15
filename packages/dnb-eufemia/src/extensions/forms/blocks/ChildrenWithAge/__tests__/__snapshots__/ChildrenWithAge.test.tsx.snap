@@ -53,7 +53,7 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
               },
               "hasJointResponsibility": {
                 "fieldLabel": "Do you pay child support?",
-                "required": "You must state whether you pay chid support.",
+                "required": "You must state whether you pay child support.",
               },
               "jointResponsibilityExpenses": {
                 "fieldLabel": "Enter child support per month",
@@ -61,8 +61,9 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
               },
               "usesDaycare": {
                 "fieldLabel": "Do you have expenses for SFO/AKS?",
-                "helpText": "State the total amount per month that you pay to Skolefritidsordningen (SFO) or Aktivitetsskolen (AKS). 
- Kindergarten expenses are not to be included here.",
+                "helpText": "State the total amount per month that you pay to Skolefritidsordningen (SFO) or Aktivitetsskolen (AKS).
+
+Kindergarten expenses are not to be included here.",
                 "required": "You must state whether you have any expenses for SFO/AKS.",
               },
             },
@@ -160,7 +161,7 @@ Barnehageutgifter skal ikke tas med her.",
               },
               "hasJointResponsibility": {
                 "fieldLabel": "Do you pay child support?",
-                "required": "You must state whether you pay chid support.",
+                "required": "You must state whether you pay child support.",
               },
               "jointResponsibilityExpenses": {
                 "fieldLabel": "Enter child support per month",
@@ -168,8 +169,9 @@ Barnehageutgifter skal ikke tas med her.",
               },
               "usesDaycare": {
                 "fieldLabel": "Do you have expenses for SFO/AKS?",
-                "helpText": "State the total amount per month that you pay to Skolefritidsordningen (SFO) or Aktivitetsskolen (AKS). 
- Kindergarten expenses are not to be included here.",
+                "helpText": "State the total amount per month that you pay to Skolefritidsordningen (SFO) or Aktivitetsskolen (AKS).
+
+Kindergarten expenses are not to be included here.",
                 "required": "You must state whether you have any expenses for SFO/AKS.",
               },
             },
@@ -250,7 +252,7 @@ Barnehageutgifter skal ikke tas med her.",
           },
           "hasJointResponsibility": {
             "fieldLabel": "Do you pay child support?",
-            "required": "You must state whether you pay chid support.",
+            "required": "You must state whether you pay child support.",
           },
           "jointResponsibilityExpenses": {
             "fieldLabel": "Enter child support per month",
@@ -258,8 +260,9 @@ Barnehageutgifter skal ikke tas med her.",
           },
           "usesDaycare": {
             "fieldLabel": "Do you have expenses for SFO/AKS?",
-            "helpText": "State the total amount per month that you pay to Skolefritidsordningen (SFO) or Aktivitetsskolen (AKS). 
- Kindergarten expenses are not to be included here.",
+            "helpText": "State the total amount per month that you pay to Skolefritidsordningen (SFO) or Aktivitetsskolen (AKS).
+
+Kindergarten expenses are not to be included here.",
             "required": "You must state whether you have any expenses for SFO/AKS.",
           },
         },
@@ -357,7 +360,7 @@ Barnehageutgifter skal ikke tas med her.",
           },
           "hasJointResponsibility": {
             "fieldLabel": "Do you pay child support?",
-            "required": "You must state whether you pay chid support.",
+            "required": "You must state whether you pay child support.",
           },
           "jointResponsibilityExpenses": {
             "fieldLabel": "Enter child support per month",
@@ -365,8 +368,9 @@ Barnehageutgifter skal ikke tas med her.",
           },
           "usesDaycare": {
             "fieldLabel": "Do you have expenses for SFO/AKS?",
-            "helpText": "State the total amount per month that you pay to Skolefritidsordningen (SFO) or Aktivitetsskolen (AKS). 
- Kindergarten expenses are not to be included here.",
+            "helpText": "State the total amount per month that you pay to Skolefritidsordningen (SFO) or Aktivitetsskolen (AKS).
+
+Kindergarten expenses are not to be included here.",
             "required": "You must state whether you have any expenses for SFO/AKS.",
           },
         },
@@ -450,7 +454,7 @@ Barnehageutgifter skal ikke tas med her.",
           },
           "hasJointResponsibility": {
             "fieldLabel": "Do you pay child support?",
-            "required": "You must state whether you pay chid support.",
+            "required": "You must state whether you pay child support.",
           },
           "jointResponsibilityExpenses": {
             "fieldLabel": "Enter child support per month",
@@ -458,8 +462,9 @@ Barnehageutgifter skal ikke tas med her.",
           },
           "usesDaycare": {
             "fieldLabel": "Do you have expenses for SFO/AKS?",
-            "helpText": "State the total amount per month that you pay to Skolefritidsordningen (SFO) or Aktivitetsskolen (AKS). 
- Kindergarten expenses are not to be included here.",
+            "helpText": "State the total amount per month that you pay to Skolefritidsordningen (SFO) or Aktivitetsskolen (AKS).
+
+Kindergarten expenses are not to be included here.",
             "required": "You must state whether you have any expenses for SFO/AKS.",
           },
         },
