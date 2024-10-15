@@ -42,11 +42,11 @@ describe('ChildrenWithAge', () => {
 
     expect(
       document.querySelectorAll('.dnb-forms-field-block__grid')
-    ).toHaveLength(6)
+    ).toHaveLength(4)
 
-    expect(document.querySelector('input')).toHaveValue('1')
+    expect(document.querySelector('input')).toHaveValue('')
 
-    await userEvent.type(document.querySelector('input'), '{Backspace}1')
+    await userEvent.type(document.querySelector('input'), '1')
 
     expect(
       document.querySelectorAll('.dnb-forms-field-number__input')
@@ -54,29 +54,46 @@ describe('ChildrenWithAge', () => {
 
     expect(
       screen.queryByText(
-        translationsNO.ChildrenWithAge.hasChildren.fieldLabel
-      )
-    ).toBeInTheDocument()
-    expect(
-      screen.queryByText(
-        translationsNO.ChildrenWithAge.hasJointResponsibility.fieldLabel
-      )
-    ).toBeInTheDocument()
-    expect(
-      screen.queryByText(
-        translationsNO.ChildrenWithAge.usesDaycare.fieldLabel
-      )
-    ).toBeInTheDocument()
-    expect(
-      screen.queryByText(
         translationsNO.ChildrenWithAge.countChildren.fieldLabel
       )
     ).toBeInTheDocument()
+
     expect(
       screen.queryByText(
         translations[
           'nb-NO'
         ].ChildrenWithAge.childrenAge.fieldLabel.replace('{itemNo}', '1')
+      )
+    ).toBeInTheDocument()
+
+    expect(
+      screen.queryByText(
+        translationsNO.ChildrenWithAge.hasChildren.fieldLabel
+      )
+    ).toBeInTheDocument()
+    expect(
+      screen.queryAllByText(
+        translationsNO.ChildrenWithAge.usesDaycare.fieldLabel
+      )
+    ).toHaveLength(2)
+    expect(
+      screen.queryByText(
+        translationsNO.ChildrenWithAge.hasJointResponsibility.fieldLabel
+      )
+    ).toBeInTheDocument()
+
+    await userEvent.click(document.querySelectorAll('button')[5])
+    expect(
+      screen.queryByText(
+        translationsNO.ChildrenWithAge.dayCareExpenses.fieldLabel
+      )
+    ).toBeInTheDocument()
+
+    await userEvent.click(document.querySelectorAll('button')[7])
+    expect(
+      screen.queryByText(
+        translationsNO.ChildrenWithAge.jointResponsibilityExpenses
+          .fieldLabel
       )
     ).toBeInTheDocument()
   })
@@ -85,16 +102,17 @@ describe('ChildrenWithAge', () => {
     render(<ChildrenWithAge />)
 
     await userEvent.click(document.querySelector('button'))
+    await userEvent.type(document.querySelector('input'), '2')
 
     const countChildrenFieldBlock = screen.queryByText(
       translationsNO.ChildrenWithAge.countChildren.fieldLabel
     ).parentElement.parentElement.parentElement
 
     expect(
-      within(countChildrenFieldBlock).getByTitle('Reduser (0)')
+      within(countChildrenFieldBlock).getByTitle('Reduser (1)')
     ).toBeInTheDocument()
     expect(
-      within(countChildrenFieldBlock).getByTitle('Øk (2)')
+      within(countChildrenFieldBlock).getByTitle('Øk (3)')
     ).toBeInTheDocument()
     expect(
       document.querySelectorAll('.dnb-input__input')[0]
@@ -105,6 +123,7 @@ describe('ChildrenWithAge', () => {
     render(<ChildrenWithAge />)
 
     await userEvent.click(document.querySelector('button'))
+    await userEvent.type(document.querySelector('input'), '1')
 
     const childrenAgeFieldBlock = screen.queryByText(
       translationsNO.ChildrenWithAge.childrenAge.fieldLabel.replace(
@@ -126,6 +145,7 @@ describe('ChildrenWithAge', () => {
     render(<ChildrenWithAge />)
 
     await userEvent.click(document.querySelector('button'))
+    await userEvent.type(document.querySelector('input'), '1')
 
     const input = document.querySelectorAll('.dnb-input__input')[1]
 
@@ -149,6 +169,7 @@ describe('ChildrenWithAge', () => {
     render(<ChildrenWithAge />)
 
     await userEvent.click(document.querySelector('button'))
+    await userEvent.type(document.querySelector('input'), '1')
 
     const input = document.querySelectorAll('.dnb-input__input')[1]
 
@@ -178,17 +199,19 @@ describe('ChildrenWithAge', () => {
       document.querySelectorAll('button')
     )
 
+    await userEvent.click(noButton)
+
     expect(document.querySelectorAll('input')).toHaveLength(0)
     const dlDDs = Array.from(document.querySelectorAll('dl dd'))
     expect(dlDDs).toHaveLength(1)
     expect(dlDDs.at(0)).toHaveTextContent('Nei')
 
     await userEvent.click(yesButton)
-    expect(document.querySelector('.dnb-input__input')).toHaveValue('1')
+    expect(document.querySelector('.dnb-input__input')).toHaveValue('')
 
     await waitFor(() => {
       const dlDDs = Array.from(document.querySelectorAll('dl dd'))
-      expect(dlDDs).toHaveLength(3)
+      expect(dlDDs).toHaveLength(1)
       expect(dlDDs.at(0)).toHaveTextContent('Ja')
     })
 
@@ -205,11 +228,11 @@ describe('ChildrenWithAge', () => {
     }
 
     await userEvent.click(yesButton)
-    expect(document.querySelector('.dnb-input__input')).toHaveValue('1')
+    expect(document.querySelector('.dnb-input__input')).toHaveValue('')
 
     {
       const dlDDs = Array.from(document.querySelectorAll('dl dd'))
-      expect(dlDDs).toHaveLength(3)
+      expect(dlDDs).toHaveLength(1)
       expect(dlDDs.at(0)).toHaveTextContent('Ja')
     }
   })
@@ -291,6 +314,7 @@ describe('ChildrenWithAge', () => {
     let submitData = null
 
     const defaultData = {
+      hasChildren: true,
       countChildren: 1,
       children: [
         {
@@ -312,17 +336,10 @@ describe('ChildrenWithAge', () => {
       </React.StrictMode>
     )
 
-    const [yesButton, noButton] = Array.from(
-      document.querySelectorAll('button')
-    )
+    const [, noButton] = Array.from(document.querySelectorAll('button'))
+
     const form = document.querySelector('form')
 
-    fireEvent.submit(form)
-    expect(submitData).toEqual({
-      hasChildren: false,
-    })
-
-    await userEvent.click(yesButton)
     await waitFor(() => {
       expect(screen.getByText('Alder på barn nr. 1')).toBeInTheDocument()
     })
