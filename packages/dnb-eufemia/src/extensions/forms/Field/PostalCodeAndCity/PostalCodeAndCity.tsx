@@ -6,6 +6,7 @@ import CompositionField from '../Composition'
 import { FieldHelpProps, Path } from '../../types'
 import useTranslation from '../../hooks/useTranslation'
 import useDataValue from '../../hooks/useDataValue'
+import { COUNTRY as defaultCountry } from '../../../../shared/defaults'
 
 export type Props = FieldHelpProps &
   Omit<FieldBlockProps, 'children'> &
@@ -29,13 +30,16 @@ function PostalCodeAndCity(props: Props) {
     city = {},
     help,
     width = 'large',
-    country = 'no',
+    country = defaultCountry,
     ...fieldBlockProps
   } = props
 
   const countryValue = getSourceValue(country)
 
-  const isNorway = useMemo(() => countryValue === 'no', [countryValue])
+  const isNorway = useMemo(
+    () => countryValue === defaultCountry,
+    [countryValue]
+  )
 
   const postalCodeValidationProps = useMemo(() => {
     return {
