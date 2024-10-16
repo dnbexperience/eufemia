@@ -10,8 +10,8 @@ const nb = nbNO['nb-NO']
 describe('Field.PostalCodeAndCity', () => {
   it('should render with props', () => {
     render(<Field.PostalCodeAndCity />)
-    expect(screen.getByLabelText('Postnr.')).toBeInTheDocument()
-    expect(screen.getByLabelText('Sted')).toBeInTheDocument()
+    expect(screen.getByLabelText(nb.PostalCode.label)).toBeInTheDocument()
+    expect(screen.getByLabelText(nb.City.label)).toBeInTheDocument()
   })
 
   it('postal code should only allow four numbers', async () => {
