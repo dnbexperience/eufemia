@@ -8,7 +8,7 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { wait } from '../../../../../core/jest/jestSetup'
+import { spyOnEufemiaWarn, wait } from '../../../../../core/jest/jestSetup'
 import { simulateAnimationEnd } from '../../../../../components/height-animation/__tests__/HeightAnimationUtils'
 import { GlobalStatus } from '../../../../../components'
 import { makeUniqueId } from '../../../../../shared/component-helper'
@@ -942,12 +942,7 @@ describe('DataContext.Provider', () => {
   describe('async submit', () => {
     let log: jest.SpyInstance
     beforeEach(() => {
-      const originalConsoleLog = console.log
-      log = jest.spyOn(console, 'log').mockImplementation((...message) => {
-        if (!message[0].includes('Eufemia')) {
-          originalConsoleLog(...message)
-        }
-      })
+      log = spyOnEufemiaWarn()
     })
     afterEach(() => {
       log.mockRestore()

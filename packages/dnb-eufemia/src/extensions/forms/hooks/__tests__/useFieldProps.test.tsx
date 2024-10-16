@@ -4605,14 +4605,7 @@ describe('useFieldProps', () => {
     })
 
     it('should set isMounted to true when Wizard step has changed', () => {
-      const originalConsoleLog = console.log
-      const log = jest
-        .spyOn(console, 'log')
-        .mockImplementation((...message) => {
-          if (!message[0].includes('Eufemia')) {
-            originalConsoleLog(...message)
-          }
-        })
+      const log = spyOnEufemiaWarn()
       const setMountedFieldState = jest.fn()
 
       let activeIndex = 0
