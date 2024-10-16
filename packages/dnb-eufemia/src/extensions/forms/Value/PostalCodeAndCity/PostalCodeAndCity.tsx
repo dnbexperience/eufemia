@@ -34,15 +34,7 @@ function PostalCodeAndCity(props: Props) {
 }
 
 function usePostalCodeAndCityValue(props: Props) {
-  let value = props.value ?? undefined
-
-  const valueProps = useValueProps(props)
-
-  if (valueProps.value) {
-    value = valueProps.value
-  }
-
-  return value
+  return useValueProps(props).value ?? props.value
 }
 
 PostalCodeAndCity._supportsSpacingProps = true
