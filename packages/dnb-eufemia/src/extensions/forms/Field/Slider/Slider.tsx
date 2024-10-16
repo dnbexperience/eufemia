@@ -85,7 +85,9 @@ function SliderComponent(props: Props) {
     handleChange,
     handleFocus,
     handleBlur,
-  } = useFieldProps(preparedProps)
+  } = useFieldProps(preparedProps, {
+    omitMultiplePathWarning: true,
+  })
 
   const handleLocalChange = useCallback(
     ({ value }: { value: number | number[] }) => {
