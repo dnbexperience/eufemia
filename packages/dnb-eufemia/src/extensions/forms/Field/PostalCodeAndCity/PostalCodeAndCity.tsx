@@ -14,7 +14,7 @@ export type Props = FieldHelpProps &
      * Defines which country the postal code and city is for.
      * Setting it to anything other than `no` will remove the default norwegian postal code pattern.
      * You can also use the value of another field to define the country, by using a path value i.e. `/myCountryPath`.
-     * Default: `no`
+     * Default: `NO`
      */
     // Add type for all country codes?
     country?: Path | string
