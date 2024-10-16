@@ -49,7 +49,7 @@ function PostalCodeAndCity(props: Props) {
         ? [/\d/, /\d/, /\d/, /\d/]
         : undefined,
       pattern: postalCode?.pattern
-        ? postalCode?.pattern
+        ? postalCode.pattern
         : isNorway
         ? '^[0-9]{4}$'
         : undefined,
