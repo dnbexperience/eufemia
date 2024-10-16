@@ -84,7 +84,7 @@ describe('verifyFiles', () => {
     })
   })
 
-  it('returns no error message when uploading a file of a "acceptedFileType" extension in lower case', () => {
+  it('returns no error message when uploading a file of a "acceptedFileType" file extension in lower case', () => {
     const file1 = createMockFile('fileName1.png', 100, 'image/png')
 
     const rawFiles = [{ file: file1 }]
