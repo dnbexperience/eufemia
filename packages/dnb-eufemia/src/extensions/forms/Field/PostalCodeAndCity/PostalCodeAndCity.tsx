@@ -61,13 +61,25 @@ function PostalCodeAndCity(props: Props) {
 
   const postalCodeValidationProps = useMemo(() => {
     return {
-      mask:
-        postalCodeMask ?? isNorway ? [/\d/, /\d/, /\d/, /\d/] : undefined,
-      pattern: postalCodePattern ?? isNorway ? '^[0-9]{4}$' : undefined,
-      placeholder: postalCodePlaceHolder ?? isNorway ? '0000' : undefined,
+      mask: postalCodeMask
+        ? postalCodeMask
+        : isNorway
+        ? [/\d/, /\d/, /\d/, /\d/]
+        : undefined,
+      pattern: postalCodePattern
+        ? postalCodePattern
+        : isNorway
+        ? '^[0-9]{4}$'
+        : undefined,
+      placeholder: postalCodePlaceHolder
+        ? postalCodePlaceHolder
+        : isNorway
+        ? '0000'
+        : undefined,
     }
   }, [postalCodePattern, postalCodePlaceHolder, postalCodeMask, isNorway])
 
+  console.log('postalCodeValidationProps', postalCodeValidationProps)
   return (
     <CompositionField
       className={classnames(
