@@ -79,7 +79,6 @@ function PostalCodeAndCity(props: Props) {
     }
   }, [postalCodePattern, postalCodePlaceHolder, postalCodeMask, isNorway])
 
-  console.log('postalCodeValidationProps', postalCodeValidationProps)
   return (
     <CompositionField
       className={classnames(
