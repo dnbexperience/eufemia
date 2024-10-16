@@ -74,6 +74,7 @@ function EditContainer({
             minimum: tr.ChildrenWithAge.countChildren.required,
             required: tr.ChildrenWithAge.countChildren.required,
           }}
+          defaultValue={1}
           width="small"
           minimum={1}
           maximum={20}
