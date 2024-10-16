@@ -164,7 +164,7 @@ describe('Field.PostalCodeAndCity', () => {
     expect(city2).toHaveValue('Bergen')
   })
 
-  it('should not use Norwegian postal code validation rules of `country` is set to something other than `no`', async () => {
+  it('should not use Norwegian postal code validation rules if `country` is set to something other than `NO`', async () => {
     render(<Field.PostalCodeAndCity country="DE" />)
 
     const postalCodeInput = document.querySelector(
