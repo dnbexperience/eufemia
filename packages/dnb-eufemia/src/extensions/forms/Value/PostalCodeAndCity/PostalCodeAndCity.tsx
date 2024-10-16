@@ -9,10 +9,9 @@ export type Props = StringValueProps &
 function PostalCodeAndCity(props: Props) {
   const translations = useTranslation().PostalCodeAndCity
 
-  const cityValue = usePostalCodeAndCityValue(props?.city || {})
-  const postalCodeValue = usePostalCodeAndCityValue(
-    props?.postalCode || {}
-  )
+  const cityValue = useValueProps(props?.city || {}).value ?? props.value
+  const postalCodeValue =
+    useValueProps(props?.postalCode || {}).value ?? props.value
 
   const value =
     props.value ??
@@ -31,10 +30,6 @@ function PostalCodeAndCity(props: Props) {
   }
 
   return <StringValue {...stringValueProps} />
-}
-
-function usePostalCodeAndCityValue(props: Props) {
-  return useValueProps(props).value ?? props.value
 }
 
 PostalCodeAndCity._supportsSpacingProps = true
