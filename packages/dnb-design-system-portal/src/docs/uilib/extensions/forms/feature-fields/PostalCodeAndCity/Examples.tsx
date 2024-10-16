@@ -192,7 +192,7 @@ export const NonNorwegianPostalCode = () => {
   return (
     <ComponentBox>
       <Field.PostalCodeAndCity
-        country="de"
+        country="DE"
         postalCode={{
           pattern: '^[0-9]{5}$',
           mask: [/\\d/, /\\d/, /\\d/, /\\d/, /\\d/],
