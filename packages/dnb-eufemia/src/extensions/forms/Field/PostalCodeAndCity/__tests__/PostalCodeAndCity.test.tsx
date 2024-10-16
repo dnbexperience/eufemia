@@ -213,7 +213,7 @@ describe('Field.PostalCodeAndCity', () => {
 
   it('should be able to use a path to set the country value', async () => {
     const { rerender } = render(
-      <Form.Handler data={{ country: 'de' }}>
+      <Form.Handler data={{ country: 'DE' }}>
         <Field.PostalCodeAndCity country="/country" />
       </Form.Handler>
     )
