@@ -227,7 +227,7 @@ describe('Field.PostalCodeAndCity', () => {
     expect(postalCodeDe).not.toHaveAttribute('aria-placeholder')
 
     rerender(
-      <Form.Handler data={{ country: 'no' }}>
+      <Form.Handler data={{ country: 'NO' }}>
         <Field.PostalCodeAndCity country="/country" />
       </Form.Handler>
     )
