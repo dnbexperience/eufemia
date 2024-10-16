@@ -4695,7 +4695,7 @@ describe('useFieldProps', () => {
 
       expect(log).toHaveBeenCalledWith(
         expect.any(String),
-        'You have declared the same path several times:',
+        'Path declared multiple times: times:',
         '/myPath'
       )
     })
@@ -4746,7 +4746,7 @@ describe('useFieldProps', () => {
 
       expect(log).toHaveBeenCalledWith(
         expect.any(String),
-        'You have declared the same path several times:',
+        'Path declared multiple times: times:',
         '/0/myPath'
       )
     })
@@ -4765,7 +4765,7 @@ describe('useFieldProps', () => {
 
       expect(log).toHaveBeenCalledWith(
         expect.any(String),
-        'You have declared the same path several times:',
+        'Path declared multiple times: times:',
         '/0/myPath'
       )
     })

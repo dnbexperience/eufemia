@@ -1555,7 +1555,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       (hasPath ? !iterateItemContext : true)
     ) {
       if (existingFields.has(identifier)) {
-        warn('You have declared the same path several times:', identifier)
+        warn('Path declared multiple times: times:', identifier)
       } else {
         existingFields.set(identifier, true)
         return () => {
