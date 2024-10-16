@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Field, Iterate } from '@dnb/eufemia/src/extensions/forms'
+import { Field, Form, Iterate } from '@dnb/eufemia/src/extensions/forms'
 
 export const Empty = () => {
   return (
@@ -169,6 +169,17 @@ export const IterateArray = () => {
           city={{ itemPath: '/city' }}
         />
       </Iterate.Array>
+    </ComponentBox>
+  )
+}
+
+export const SettingCountryBasedOnPath = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler>
+        <Field.SelectCountry path="/myCountry" defaultValue="NO" />
+        <Field.PostalCodeAndCity country="/myCountry" />
+      </Form.Handler>
     </ComponentBox>
   )
 }
