@@ -171,7 +171,6 @@ describe('Field.PostalCodeAndCity', () => {
       '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
     ) as HTMLInputElement
 
-
     expect(postalCodeInput).not.toHaveAttribute('placeholder')
 
     await userEvent.type(postalCodeInput, '123456')
