@@ -19,6 +19,7 @@ describe('useTranslation without an ID', () => {
     expect(result.current).toEqual(
       Object.assign({}, nbNO[defaultLocale], {
         formatMessage: expect.any(Function),
+        renderMessage: expect.any(Function),
       })
     )
   })
@@ -33,6 +34,7 @@ describe('useTranslation without an ID', () => {
     expect(resultGB.current).toEqual(
       Object.assign({}, enGB['en-GB'], {
         formatMessage: expect.any(Function),
+        renderMessage: expect.any(Function),
       })
     )
 
@@ -45,6 +47,7 @@ describe('useTranslation without an ID', () => {
     expect(resultNO.current).toEqual(
       Object.assign({}, nbNO['nb-NO'], {
         formatMessage: expect.any(Function),
+        renderMessage: expect.any(Function),
       })
     )
   })
@@ -475,6 +478,42 @@ describe('useTranslation with an ID', () => {
       expect(document.querySelector('span.nested').textContent).toBe(
         expected_nbNO_nested
       )
+    })
+  })
+
+  describe('renderMessage', () => {
+    it('should render with JSX line-breaks', () => {
+      const { result } = renderHook(() => useTranslation())
+
+      expect(result.current.renderMessage('Hello{br}World')).toEqual([
+        <React.Fragment key="0">
+          Hello
+          <br />
+        </React.Fragment>,
+        <React.Fragment key="1">
+          World
+          <br />
+        </React.Fragment>,
+      ])
+    })
+
+    it('should support multiple line-breaks', () => {
+      const { result } = renderHook(() => useTranslation())
+
+      expect(result.current.renderMessage('A{br}B{br}C')).toEqual([
+        <React.Fragment key="0">
+          A
+          <br />
+        </React.Fragment>,
+        <React.Fragment key="1">
+          B
+          <br />
+        </React.Fragment>,
+        <React.Fragment key="2">
+          C
+          <br />
+        </React.Fragment>,
+      ])
     })
   })
 })

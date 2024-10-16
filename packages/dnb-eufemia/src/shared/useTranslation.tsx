@@ -1,4 +1,4 @@
-import { useContext, useMemo } from 'react'
+import React, { Fragment, useContext, useMemo } from 'react'
 import Context, {
   Translation,
   TranslationLocale,
@@ -45,6 +45,7 @@ export type CombineWithExternalTranslationsArgs = {
 }
 export type FormatMessage = {
   formatMessage: typeof formatMessage
+  renderMessage: typeof renderMessage
 }
 export type CombineWithExternalTranslationsReturn = Translation &
   TranslationCustomLocales &
@@ -77,6 +78,9 @@ export function combineWithExternalTranslations({
   ) => {
     return formatMessage(id, args, combined)
   }
+
+  // Support line-breaks
+  combined.renderMessage = renderMessage
 
   return combined
 }
@@ -114,11 +118,36 @@ export function formatMessage(
     str = id(messages)
   }
 
-  if (str) {
+  if (typeof str === 'string') {
     for (const t in args) {
       str = str.replace(new RegExp(`{${t}}`, 'g'), args[t])
     }
+
+    if (str.includes('{br}')) {
+      return renderMessage(str)
+    }
   }
 
-  return str
+  return str ?? id
+}
+
+export function renderMessage(
+  text: string | Array<React.ReactNode>
+): string | React.ReactNode {
+  let element = text
+
+  if (typeof text === 'string') {
+    element = text.split('{br}')
+  }
+
+  if (Array.isArray(element)) {
+    return element.map((item, index) => (
+      <Fragment key={index}>
+        {item}
+        <br />
+      </Fragment>
+    ))
+  }
+
+  return text
 }

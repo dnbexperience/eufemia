@@ -24,6 +24,7 @@ describe('Form.useTranslation', () => {
     const nb = {}
     extendDeep(nb, forms_nbNO['nb-NO'], global_nbNO['nb-NO'])
     nb['formatMessage'] = expect.any(Function)
+    nb['renderMessage'] = expect.any(Function)
 
     expect(result.current).toEqual(nb)
   })
@@ -38,6 +39,7 @@ describe('Form.useTranslation', () => {
     const gb = {}
     extendDeep(gb, forms_enGB['en-GB'], global_enGB['en-GB'])
     gb['formatMessage'] = expect.any(Function)
+    gb['renderMessage'] = expect.any(Function)
 
     expect(resultGB.current).toEqual(gb)
 
@@ -50,6 +52,7 @@ describe('Form.useTranslation', () => {
     const nb = {}
     extendDeep(nb, forms_nbNO['nb-NO'], global_nbNO['nb-NO'])
     nb['formatMessage'] = expect.any(Function)
+    nb['renderMessage'] = expect.any(Function)
 
     expect(resultNO.current).toEqual(nb)
   })
