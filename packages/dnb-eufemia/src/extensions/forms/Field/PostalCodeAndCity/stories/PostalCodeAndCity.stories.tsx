@@ -28,7 +28,7 @@ export function PostalCodeAndCityCountryCodeSelection() {
   return (
     <>
       <Form.Handler>
-        <Field.Selection path="/country" defaultValue="no" variant="radio">
+        <Field.Selection path="/country" defaultValue="NO" variant="radio">
           <Field.Option value="NO" label="Norway" />
           <Field.Option value="DE" label="Germany" />
         </Field.Selection>
