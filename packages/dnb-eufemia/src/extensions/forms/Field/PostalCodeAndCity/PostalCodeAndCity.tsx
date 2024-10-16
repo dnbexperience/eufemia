@@ -41,30 +41,31 @@ function PostalCodeAndCity(props: Props) {
     [countryValue]
   )
 
+  const {
+    pattern: cityPattern,
+    className: cityClassName,
+    label: cityLabel,
+    width: cityWidth,
+    errorMessages: cityErrorMessages,
+  } = city
+
+  const {
+    mask: postalCodeMask = isNorway ? [/\d/, /\d/, /\d/, /\d/] : undefined,
+    pattern: postalCodePattern = isNorway ? '^[0-9]{4}$' : undefined,
+    placeholder: postalCodePlaceHolder = isNorway ? '0000' : undefined,
+    className: postalCodeClassName,
+    label: postalCodeLabel,
+    width: postalCodeWidth,
+    errorMessages: postalCodeErrorMessages,
+  } = postalCode
+
   const postalCodeValidationProps = useMemo(() => {
     return {
-      mask: postalCode?.mask
-        ? postalCode.mask
-        : isNorway
-        ? [/\d/, /\d/, /\d/, /\d/]
-        : undefined,
-      pattern: postalCode.pattern
-        ? postalCode?.pattern
-        : isNorway
-        ? '^[0-9]{4}$'
-        : undefined,
-      placeholder: postalCode?.placeholder
-        ? postalCode.placeholder
-        : isNorway
-        ? '0000'
-        : undefined,
+      mask: postalCodeMask,
+      pattern: postalCodePattern,
+      placeholder: postalCodePlaceHolder,
     }
-  }, [
-    postalCode.pattern,
-    postalCode.placeholder,
-    postalCode.mask,
-    isNorway,
-  ])
+  }, [postalCodePattern, postalCodePlaceHolder, postalCodeMask, isNorway])
 
   return (
     <CompositionField
@@ -81,16 +82,16 @@ function PostalCodeAndCity(props: Props) {
         mask={postalCodeValidationProps.mask}
         className={classnames(
           'dnb-forms-field-postal-code-and-city__postal-code',
-          postalCode.className
+          postalCodeClassName
         )}
-        label={postalCode.label ?? translations.PostalCode.label}
+        label={postalCodeLabel ?? translations.PostalCode.label}
         errorMessages={{
           required: translations.PostalCode.errorRequired,
           pattern: translations.PostalCode.errorPattern,
-          ...postalCode.errorMessages,
+          ...postalCodeErrorMessages,
         }}
         placeholder={postalCodeValidationProps.placeholder}
-        width={postalCode.width ?? false}
+        width={postalCodeWidth ?? false}
         inputClassName="dnb-forms-field-postal-code-and-city__postal-code-input"
         inputMode="numeric"
         autoComplete="postal-code"
@@ -99,17 +100,17 @@ function PostalCodeAndCity(props: Props) {
         {...city}
         className={classnames(
           'dnb-forms-field-postal-code-and-city__city',
-          city.className
+          cityClassName
         )}
-        label={city.label ?? translations.City.label}
+        label={cityLabel ?? translations.City.label}
         errorMessages={{
           required: translations.City.errorRequired,
           pattern: translations.City.errorPattern,
-          ...city.errorMessages,
+          ...cityErrorMessages,
         }}
-        pattern={city.pattern ?? '^[A-Za-zÆØÅæøå -]+$'}
+        pattern={cityPattern ?? '^[A-Za-zÆØÅæøå -]+$'}
         trim
-        width={city.width ?? 'stretch'}
+        width={cityWidth ?? 'stretch'}
         autoComplete="address-level2"
         help={help}
       />
