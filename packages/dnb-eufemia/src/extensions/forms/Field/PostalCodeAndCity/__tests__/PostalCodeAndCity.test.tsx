@@ -165,7 +165,7 @@ describe('Field.PostalCodeAndCity', () => {
   })
 
   it('should not use Norwegian postal code validation rules of `country` is set to something other than `no`', async () => {
-    render(<Field.PostalCodeAndCity country="de" />)
+    render(<Field.PostalCodeAndCity country="DE" />)
 
     const postalCodeInput = document.querySelector(
       '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
