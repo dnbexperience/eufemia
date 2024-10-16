@@ -50,9 +50,9 @@ function PostalCodeAndCity(props: Props) {
   } = city
 
   const {
-    mask: postalCodeMask = isNorway ? [/\d/, /\d/, /\d/, /\d/] : undefined,
-    pattern: postalCodePattern = isNorway ? '^[0-9]{4}$' : undefined,
-    placeholder: postalCodePlaceHolder = isNorway ? '0000' : undefined,
+    mask: postalCodeMask,
+    pattern: postalCodePattern,
+    placeholder: postalCodePlaceHolder,
     className: postalCodeClassName,
     label: postalCodeLabel,
     width: postalCodeWidth,
@@ -61,9 +61,10 @@ function PostalCodeAndCity(props: Props) {
 
   const postalCodeValidationProps = useMemo(() => {
     return {
-      mask: postalCodeMask,
-      pattern: postalCodePattern,
-      placeholder: postalCodePlaceHolder,
+      mask:
+        postalCodeMask ?? isNorway ? [/\d/, /\d/, /\d/, /\d/] : undefined,
+      pattern: postalCodePattern ?? isNorway ? '^[0-9]{4}$' : undefined,
+      placeholder: postalCodePlaceHolder ?? isNorway ? '0000' : undefined,
     }
   }, [postalCodePattern, postalCodePlaceHolder, postalCodeMask, isNorway])
 
