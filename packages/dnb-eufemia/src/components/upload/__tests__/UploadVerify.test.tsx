@@ -84,6 +84,68 @@ describe('verifyFiles', () => {
     })
   })
 
+  it('returns no error message when uploading a file of a "acceptedFileType" file extension in lower case', () => {
+    const file1 = createMockFile('fileName1.png', 100, 'image/png')
+
+    const rawFiles = [{ file: file1 }]
+    const acceptedFileTypesLowerCase = ['png']
+
+    const filesLowerCase = verifyFiles(rawFiles, {
+      fileMaxSize: 1000,
+      acceptedFileTypes: acceptedFileTypesLowerCase,
+      errorUnsupportedFile: 'error 1',
+      errorLargeFile: 'error 2',
+    })
+
+    expect(filesLowerCase[0]).toEqual({
+      file: file1,
+    })
+
+    const acceptedFileTypesUpperCase = ['PNG']
+
+    const filesUpperCase = verifyFiles(rawFiles, {
+      fileMaxSize: 1000,
+      acceptedFileTypes: acceptedFileTypesUpperCase,
+      errorUnsupportedFile: 'error 1',
+      errorLargeFile: 'error 2',
+    })
+
+    expect(filesUpperCase[0]).toEqual({
+      file: file1,
+    })
+  })
+
+  it('returns no error message when uploading a file of a "acceptedFileType" file extension in upper case', () => {
+    const file1 = createMockFile('fileName1.PNG', 100, 'image/png')
+
+    const rawFiles = [{ file: file1 }]
+    const acceptedFileTypesLowerCase = ['png']
+
+    const filesLowerCase = verifyFiles(rawFiles, {
+      fileMaxSize: 1000,
+      acceptedFileTypes: acceptedFileTypesLowerCase,
+      errorUnsupportedFile: 'error 1',
+      errorLargeFile: 'error 2',
+    })
+
+    expect(filesLowerCase[0]).toEqual({
+      file: file1,
+    })
+
+    const acceptedFileTypesUpperCase = ['PNG']
+
+    const filesUpperCase = verifyFiles(rawFiles, {
+      fileMaxSize: 1000,
+      acceptedFileTypes: acceptedFileTypesUpperCase,
+      errorUnsupportedFile: 'error 1',
+      errorLargeFile: 'error 2',
+    })
+
+    expect(filesUpperCase[0]).toEqual({
+      file: file1,
+    })
+  })
+
   describe('when providing max size to file type', () => {
     it('returns file size error', () => {
       const file1 = createMockFile('fileName1.png', 100000000, 'image/png')
@@ -161,6 +223,88 @@ describe('verifyFiles', () => {
       })
 
       expect(files[0]).toEqual({
+        file: file1,
+      })
+    })
+
+    it('returns no error message when uploading a file of a "acceptedFileType" file extension in lower case', () => {
+      const file1 = createMockFile('fileName1.png', 100, 'image/png')
+
+      const rawFiles = [{ file: file1 }]
+      const acceptedFileTypesLowerCase = [
+        {
+          fileType: 'png',
+          fileMaxSize: 0,
+        },
+      ]
+
+      const filesLowerCase = verifyFiles(rawFiles, {
+        fileMaxSize: 1000,
+        acceptedFileTypes: acceptedFileTypesLowerCase,
+        errorUnsupportedFile: 'error 1',
+        errorLargeFile: 'error 2',
+      })
+
+      expect(filesLowerCase[0]).toEqual({
+        file: file1,
+      })
+
+      const acceptedFileTypesUpperCase = [
+        {
+          fileType: 'PNG',
+          fileMaxSize: 0,
+        },
+      ]
+
+      const filesUpperCase = verifyFiles(rawFiles, {
+        fileMaxSize: 1000,
+        acceptedFileTypes: acceptedFileTypesUpperCase,
+        errorUnsupportedFile: 'error 1',
+        errorLargeFile: 'error 2',
+      })
+
+      expect(filesUpperCase[0]).toEqual({
+        file: file1,
+      })
+    })
+
+    it('returns no error message when uploading a file of a "acceptedFileType" file extension in upper case', () => {
+      const file1 = createMockFile('fileName1.PNG', 100, 'image/png')
+
+      const rawFiles = [{ file: file1 }]
+      const acceptedFileTypesLowerCase = [
+        {
+          fileType: 'png',
+          fileMaxSize: 0,
+        },
+      ]
+
+      const filesLowerCase = verifyFiles(rawFiles, {
+        fileMaxSize: 1000,
+        acceptedFileTypes: acceptedFileTypesLowerCase,
+        errorUnsupportedFile: 'error 1',
+        errorLargeFile: 'error 2',
+      })
+
+      expect(filesLowerCase[0]).toEqual({
+        file: file1,
+      })
+
+      const acceptedFileTypesUpperCase = [
+        {
+          fileType: 'PNG',
+          fileMaxSize: 0,
+        },
+      ]
+
+      const filesUpperCase = verifyFiles(rawFiles, {
+        fileMaxSize: 1000,
+        acceptedFileTypes: acceptedFileTypesUpperCase,
+        errorUnsupportedFile: 'error 1',
+        errorLargeFile: 'error 2',
+      })
+
+      expect(filesUpperCase[0]).toEqual({
         file: file1,
       })
     })
