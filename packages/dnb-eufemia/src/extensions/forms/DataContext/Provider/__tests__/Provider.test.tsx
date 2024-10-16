@@ -3379,6 +3379,8 @@ describe('DataContext.Provider', () => {
     })
 
     it('should contain data on first render, when nested and in side car', () => {
+      const log = spyOnEufemiaWarn()
+
       const initialData = { foo: 'bar' }
       const sidecarMockData = []
       const nestedMockData = []
@@ -3419,6 +3421,8 @@ describe('DataContext.Provider', () => {
       )
       expect(sidecar).toHaveValue('') // Because the field is outside of the context
       expect(nested).toHaveValue('bar')
+
+      log.mockRestore()
     })
 
     it('should be able to update data from side car', async () => {
@@ -3476,6 +3480,8 @@ describe('DataContext.Provider', () => {
     })
 
     it('should support StrictMode', async () => {
+      const log = spyOnEufemiaWarn()
+
       const initialData = { foo: 'bar' }
       const sidecarMockData = []
       const nestedMockData = []
@@ -3523,6 +3529,8 @@ describe('DataContext.Provider', () => {
       )
       expect(sidecar).toHaveValue('') // Because the field is outside of the context
       expect(nested).toHaveValue('bar')
+
+      log.mockRestore()
     })
 
     it('should set Provider data when sessionStorageId was given', () => {
