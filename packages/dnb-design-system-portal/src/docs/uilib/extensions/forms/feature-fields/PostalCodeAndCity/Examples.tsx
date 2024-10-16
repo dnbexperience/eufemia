@@ -177,7 +177,11 @@ export const SettingCountryBasedOnPath = () => {
   return (
     <ComponentBox>
       <Form.Handler>
-        <Field.SelectCountry path="/myCountry" defaultValue="NO" />
+        <Field.SelectCountry
+          path="/myCountry"
+          defaultValue="NO"
+          bottom="medium"
+        />
         <Field.PostalCodeAndCity country="/myCountry" />
       </Form.Handler>
     </ComponentBox>
