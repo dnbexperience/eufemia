@@ -88,16 +88,29 @@ describe('verifyFiles', () => {
     const file1 = createMockFile('fileName1.png', 100, 'image/png')
 
     const rawFiles = [{ file: file1 }]
-    const acceptedFileTypes = ['png']
+    const acceptedFileTypesLowerCase = ['png']
 
-    const files = verifyFiles(rawFiles, {
+    const filesLowerCase = verifyFiles(rawFiles, {
       fileMaxSize: 1000,
-      acceptedFileTypes,
+      acceptedFileTypes: acceptedFileTypesLowerCase,
       errorUnsupportedFile: 'error 1',
       errorLargeFile: 'error 2',
     })
 
-    expect(files[0]).toEqual({
+    expect(filesLowerCase[0]).toEqual({
+      file: file1,
+    })
+
+    const acceptedFileTypesUpperCase = ['PNG']
+
+    const filesUpperCase = verifyFiles(rawFiles, {
+      fileMaxSize: 1000,
+      acceptedFileTypes: acceptedFileTypesUpperCase,
+      errorUnsupportedFile: 'error 1',
+      errorLargeFile: 'error 2',
+    })
+
+    expect(filesUpperCase[0]).toEqual({
       file: file1,
     })
   })
@@ -106,16 +119,29 @@ describe('verifyFiles', () => {
     const file1 = createMockFile('fileName1.PNG', 100, 'image/png')
 
     const rawFiles = [{ file: file1 }]
-    const acceptedFileTypes = ['png']
+    const acceptedFileTypesLowerCase = ['png']
 
-    const files = verifyFiles(rawFiles, {
+    const filesLowerCase = verifyFiles(rawFiles, {
       fileMaxSize: 1000,
-      acceptedFileTypes,
+      acceptedFileTypes: acceptedFileTypesLowerCase,
       errorUnsupportedFile: 'error 1',
       errorLargeFile: 'error 2',
     })
 
-    expect(files[0]).toEqual({
+    expect(filesLowerCase[0]).toEqual({
+      file: file1,
+    })
+
+    const acceptedFileTypesUpperCase = ['PNG']
+
+    const filesUpperCase = verifyFiles(rawFiles, {
+      fileMaxSize: 1000,
+      acceptedFileTypes: acceptedFileTypesUpperCase,
+      errorUnsupportedFile: 'error 1',
+      errorLargeFile: 'error 2',
+    })
+
+    expect(filesUpperCase[0]).toEqual({
       file: file1,
     })
   })
@@ -205,21 +231,39 @@ describe('verifyFiles', () => {
       const file1 = createMockFile('fileName1.png', 100, 'image/png')
 
       const rawFiles = [{ file: file1 }]
-      const acceptedFileTypes = [
+      const acceptedFileTypesLowerCase = [
         {
           fileType: 'png',
           fileMaxSize: 0,
         },
       ]
 
-      const files = verifyFiles(rawFiles, {
+      const filesLowerCase = verifyFiles(rawFiles, {
         fileMaxSize: 1000,
-        acceptedFileTypes,
+        acceptedFileTypes: acceptedFileTypesLowerCase,
         errorUnsupportedFile: 'error 1',
         errorLargeFile: 'error 2',
       })
 
-      expect(files[0]).toEqual({
+      expect(filesLowerCase[0]).toEqual({
+        file: file1,
+      })
+
+      const acceptedFileTypesUpperCase = [
+        {
+          fileType: 'PNG',
+          fileMaxSize: 0,
+        },
+      ]
+
+      const filesUpperCase = verifyFiles(rawFiles, {
+        fileMaxSize: 1000,
+        acceptedFileTypes: acceptedFileTypesUpperCase,
+        errorUnsupportedFile: 'error 1',
+        errorLargeFile: 'error 2',
+      })
+
+      expect(filesUpperCase[0]).toEqual({
         file: file1,
       })
     })
@@ -228,21 +272,39 @@ describe('verifyFiles', () => {
       const file1 = createMockFile('fileName1.PNG', 100, 'image/png')
 
       const rawFiles = [{ file: file1 }]
-      const acceptedFileTypes = [
+      const acceptedFileTypesLowerCase = [
         {
           fileType: 'png',
           fileMaxSize: 0,
         },
       ]
 
-      const files = verifyFiles(rawFiles, {
+      const filesLowerCase = verifyFiles(rawFiles, {
         fileMaxSize: 1000,
-        acceptedFileTypes,
+        acceptedFileTypes: acceptedFileTypesLowerCase,
         errorUnsupportedFile: 'error 1',
         errorLargeFile: 'error 2',
       })
 
-      expect(files[0]).toEqual({
+      expect(filesLowerCase[0]).toEqual({
+        file: file1,
+      })
+
+      const acceptedFileTypesUpperCase = [
+        {
+          fileType: 'PNG',
+          fileMaxSize: 0,
+        },
+      ]
+
+      const filesUpperCase = verifyFiles(rawFiles, {
+        fileMaxSize: 1000,
+        acceptedFileTypes: acceptedFileTypesUpperCase,
+        errorUnsupportedFile: 'error 1',
+        errorLargeFile: 'error 2',
+      })
+
+      expect(filesUpperCase[0]).toEqual({
         file: file1,
       })
     })
