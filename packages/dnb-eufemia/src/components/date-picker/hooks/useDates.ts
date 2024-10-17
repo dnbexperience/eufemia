@@ -142,41 +142,16 @@ export default function useDates(
 
   // Updated input dates based on start and end dates
   useEffect(() => {
-    const updatedInputDates = {}
+    const startDates = updateInputDates('start', dates)
+    const endDates = updateInputDates('end', dates)
 
-    hasHadValidDate.current = false
-
-    if (isValid(dates.startDate)) {
-      updatedInputDates['__startDay'] = pad(
-        format(dates.startDate, 'dd'),
-        2
-      )
-      updatedInputDates['__startMonth'] = pad(
-        format(dates.startDate, 'MM'),
-        2
-      )
-      updatedInputDates['__startYear'] = format(dates.startDate, 'yyyy')
-      hasHadValidDate.current = true
-    } else if (dates.startDate === undefined) {
-      updatedInputDates['__startDay'] = null
-      updatedInputDates['__startMonth'] = null
-      updatedInputDates['__startYear'] = null
-    }
-
-    if (isValid(dates.endDate)) {
-      updatedInputDates['__endDay'] = pad(format(dates.endDate, 'dd'), 2)
-      updatedInputDates['__endMonth'] = pad(format(dates.endDate, 'MM'), 2)
-      updatedInputDates['__endYear'] = format(dates.endDate, 'yyyy')
-      hasHadValidDate.current = true
-    } else if (dates.endDate === undefined) {
-      updatedInputDates['__endDay'] = null
-      updatedInputDates['__endMonth'] = null
-      updatedInputDates['__endYear'] = null
-    }
+    hasHadValidDate.current =
+      isValid(dates.startDate) || isValid(dates.endDate)
 
     setDates((currentDates) => ({
       ...currentDates,
-      ...updatedInputDates,
+      ...startDates,
+      ...endDates,
     }))
   }, [dates.startDate, dates.endDate])
 
@@ -186,6 +161,23 @@ export default function useDates(
     hasHadValidDate.current,
     previousDates,
   ] as const
+}
+
+function updateInputDates(type: 'start' | 'end', dates: DatePickerDates) {
+  const updatedDates = {}
+  const date = dates[`${type}Date`]
+
+  if (isValid(date)) {
+    updatedDates[`__${type}Day`] = pad(format(date, 'dd'), 2)
+    updatedDates[`__${type}Month`] = pad(format(date, 'MM'), 2)
+    updatedDates[`__${type}Year`] = format(date, 'yyyy')
+  } else if (date === undefined) {
+    updatedDates[`__${type}Day`] = null
+    updatedDates[`__${type}Month`] = null
+    updatedDates[`__${type}Year`] = null
+  }
+
+  return updatedDates
 }
 
 function mapDates(
