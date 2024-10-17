@@ -76,9 +76,9 @@ function EditContainer({
           }}
           defaultValue={1}
           width="small"
+          showStepControls
           minimum={1}
           maximum={20}
-          showStepControls
           decimalLimit={0}
           allowNegative={false}
         />
@@ -130,8 +130,8 @@ function EditContainer({
                 required: tr.ChildrenWithAge.dayCareExpenses.required,
               }}
               minimum={1}
-              allowNegative={false}
               decimalLimit={0}
+              allowNegative={false}
             />
           </Form.Visibility>
         )}
