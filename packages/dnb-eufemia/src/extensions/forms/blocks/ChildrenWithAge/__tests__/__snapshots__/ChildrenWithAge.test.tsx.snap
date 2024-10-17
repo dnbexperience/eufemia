@@ -218,7 +218,7 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
     "required": false,
     "space": {
       "bottom": 0,
-      "top": 0,
+      "top": "medium",
     },
     "translations": {
       "en-GB": {
@@ -298,6 +298,7 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
   "countChildren": {
     "allowNegative": false,
     "decimalLimit": 0,
+    "defaultValue": 1,
     "errorMessages": {
       "exclusiveMaximum": "Verdien må være mindre enn {exclusiveMaximum}.",
       "exclusiveMinimum": "Verdien må være større enn {exclusiveMinimum}.",
@@ -516,6 +517,7 @@ exports[`ChildrenWithAge should match snapshot 2`] = `
   },
   "daycareExpenses": {
     "currency": "NOK",
+    "decimals": "0",
     "label": "Oppgi utgifter til SFO/AKS per måned",
     "path": "/daycareExpenses",
   },
@@ -529,6 +531,7 @@ exports[`ChildrenWithAge should match snapshot 2`] = `
   },
   "jointResponsibilityExpenses": {
     "currency": "NOK",
+    "decimals": "0",
     "label": "Oppgi barnebidrag per måned",
     "path": "/jointResponsibilityExpenses",
   },
