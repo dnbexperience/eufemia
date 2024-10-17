@@ -5,6 +5,7 @@ import React, {
   useReducer,
   createRef,
   useContext,
+  useCallback,
 } from 'react'
 import classnames from 'classnames'
 import pointer from '../../utils/json-pointer'
@@ -13,6 +14,7 @@ import { makeUniqueId } from '../../../../shared/component-helper'
 import { Flex, FormStatus, HeightAnimation } from '../../../../components'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
+import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
 import {
   BasicProps as FlexContainerProps,
   Props as FlexContainerAllProps,
@@ -25,6 +27,7 @@ import IterateItemContext, {
 import SummaryListContext from '../../Value/SummaryList/SummaryListContext'
 import ValueBlockContext from '../../ValueBlock/ValueBlockContext'
 import FieldBoundaryProvider from '../../DataContext/FieldBoundary/FieldBoundaryProvider'
+import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
 import { useArrayLimit, useSwitchContainerMode } from '../hooks'
 import { getMessage } from '../../FieldBlock'
@@ -43,6 +46,7 @@ export type * from './types'
 function ArrayComponent(props: Props) {
   const [salt, forceUpdate] = useReducer(() => ({}), {})
 
+  const dataContext = useContext(DataContext)
   const summaryListContext = useContext(SummaryListContext)
   const valueBlockContext = useContext(ValueBlockContext)
   const { setLimitProps, error: limitWarning } = useArrayLimit({
@@ -50,40 +54,48 @@ function ArrayComponent(props: Props) {
   })
 
   const { getValueByPath } = useDataValue()
+  const { countPath, countPathLimit = Infinity } = props
+  const getCountValue = useCallback(() => {
+    if (!countPath) {
+      return -1
+    }
+
+    let countValue = parseFloat(getValueByPath(countPath))
+    if (!(countValue >= 0)) {
+      countValue = 0
+    }
+    if (countValue > countPathLimit) {
+      countValue = countPathLimit
+    }
+
+    return countValue
+  }, [countPath, countPathLimit, getValueByPath])
+  const countValue = getCountValue()
+
   const preparedProps = useMemo(() => {
-    const {
-      path,
-      countPath,
-      countPathLimit = Infinity,
-      countPathTransform,
-    } = props
+    const { path, countPath, countPathTransform } = props
 
     if (countPath) {
       const arrayValue = getValueByPath(path)
-      let countValue = parseFloat(getValueByPath(countPath))
-      if (!(countValue >= 0)) {
-        countValue = 0
+      const newValue = []
+      for (let i = 0, l = countValue; i < l; i++) {
+        const value = arrayValue?.[i]
+        newValue.push(
+          countPathTransform
+            ? countPathTransform({ value, index: i })
+            : value
+        )
       }
-      if (countValue > countPathLimit) {
-        countValue = countPathLimit
-      }
-      if (arrayValue?.length !== countValue) {
-        const newValue = []
-        for (let i = 0, l = countValue; i < l; i++) {
-          const value = arrayValue?.[i]
-          newValue.push(countPathTransform?.({ value, index: i }))
-        }
 
-        return {
-          required: false,
-          ...props,
-          value: newValue,
-        }
+      return {
+        required: false,
+        ...props,
+        value: newValue,
       }
     }
 
     return { required: false, ...props }
-  }, [getValueByPath, props])
+  }, [countValue, getValueByPath, props])
 
   const {
     path,
@@ -104,7 +116,30 @@ function ArrayComponent(props: Props) {
     // and will not overwrite defaultValues set by fields inside the Iterate.Array.
     updateContextDataInSync: true,
     omitMultiplePathWarning: true,
+    forceUpdateWhenContextDataIsSet: Boolean(countPath),
   })
+
+  // - Call onChange on the data context, if the count value changes
+  const countValueRef = useRef<number>()
+  useUpdateEffect(() => {
+    if (countPath) {
+      if (
+        typeof countValueRef.current === 'number' &&
+        countValue !== countValueRef.current
+      ) {
+        window.requestAnimationFrame(() => {
+          dataContext.handlePathChange(path, getValueByPath(path))
+        }) // so we get the correct value inside the array.
+      }
+      countValueRef.current = countValue
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [countValue])
+
+  useEffect(() => {
+    // Update inside the useEffect, to support React.StrictMode
+    valueCountRef.current = arrayValue || []
+  }, [arrayValue])
 
   useMountEffect(() => {
     // To ensure the validator is called when a new item is added
@@ -132,11 +167,6 @@ function ArrayComponent(props: Props) {
   >({})
 
   const omitFlex = withoutFlex ?? (summaryListContext || valueBlockContext)
-
-  useEffect(() => {
-    // Update inside the useEffect, to support React.StrictMode
-    valueCountRef.current = arrayValue || []
-  }, [arrayValue])
 
   const { getNextContainerMode } = useSwitchContainerMode()
 

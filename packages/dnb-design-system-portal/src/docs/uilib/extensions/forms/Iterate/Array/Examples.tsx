@@ -328,11 +328,11 @@ export const DynamicPathValue = () => {
           <Iterate.Array
             path="/items"
             countPath="/count"
-            countPathTransform={({ value, index }) =>
-              Object.prototype.hasOwnProperty.call(value || {}, 'myObject')
+            countPathTransform={({ value, index }) => {
+              return 'myObject' in (value || {})
                 ? value
                 : { myObject: index }
-            }
+            }}
           >
             <Field.Number itemPath="/myObject" label="Item no. {itemNo}" />
           </Iterate.Array>
