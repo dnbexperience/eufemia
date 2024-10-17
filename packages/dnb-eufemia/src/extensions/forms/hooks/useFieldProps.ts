@@ -84,15 +84,15 @@ const existingFields = new Map()
 // useEffect depend on them (like the external `value`)
 
 export default function useFieldProps<Value, EmptyValue, Props>(
-  localeProps: Props & FieldPropsGeneric<Value, EmptyValue>,
+  localProps: Props & FieldPropsGeneric<Value, EmptyValue>,
   {
     executeOnChangeRegardlessOfError = false,
     updateContextDataInSync = false,
     omitMultiplePathWarning = false,
   } = {}
-): typeof localeProps & ReturnAdditional<Value> {
+): typeof localProps & ReturnAdditional<Value> {
   const { extend } = useContext(FieldProviderContext)
-  const props = extend(localeProps)
+  const props = extend(localProps)
 
   const {
     path: pathProp,
