@@ -63,6 +63,32 @@ export const ValueComposition = () => {
   )
 }
 
+export const DynamicNumOfInputs = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler>
+        <Field.Number
+          path="/countFields"
+          label="number of input fields"
+          width="small"
+          showStepControls
+          defaultValue={2}
+        />
+
+        <Iterate.Array path="/values" countPath="/countFields">
+          <Field.Number
+            label="value: {itemNo}"
+            itemPath="/value"
+            placeholder="0"
+            width="small"
+            defaultValue={1}
+          />
+        </Iterate.Array>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
 export const WithTable = () => {
   return (
     <ComponentBox>
