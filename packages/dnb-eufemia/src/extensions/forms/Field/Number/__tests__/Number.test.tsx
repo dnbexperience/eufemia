@@ -197,6 +197,13 @@ describe('Field.Number', () => {
         expect(document.querySelector('input')).toHaveValue('1 234,56 kr')
       })
 
+      it('formats with currency and decimalLimit 0', () => {
+        render(
+          <Field.Number value={1234.56789} currency decimalLimit={0} />
+        )
+        expect(document.querySelector('input')).toHaveValue('1 234 kr')
+      })
+
       it('formats in different locale', () => {
         render(
           <Provider locale="en-GB">
