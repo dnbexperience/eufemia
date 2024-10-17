@@ -1,4 +1,3 @@
-import React from 'react'
 import { Card, Section } from '../../../../../components'
 import { Field, Form } from '../../..'
 
@@ -70,5 +69,48 @@ export function NestingWithLogic() {
         </Field.ArraySelection>
       </Card>
     </Form.Handler>
+  )
+}
+
+export function SelectUpToThree() {
+  const data = [
+    { value: 'oslo', title: 'Oslo' },
+    { value: 'stockholm', title: 'Stockholm' },
+    { value: 'copenhagen', title: 'Copenhagen' },
+    { value: 'helsinki', title: 'Helsinki' },
+    { value: 'reykjavik', title: 'Reykjavik' },
+    { value: 'antananarivo', title: 'Antananarivo' },
+    { value: 'nuuk', title: 'Nuuk' },
+    { value: 'nairobi', title: 'Nairobi' },
+    { value: 'tokyo', title: 'Tokyo' },
+  ]
+
+  return (
+    <Card stack>
+      <Field.ArraySelection
+        label={
+          <>
+            Which capitals would you most like to visit?
+            <br />
+            <em style={{ fontSize: '0.8em' }}>
+              Select between two and three
+            </em>
+          </>
+        }
+        required
+        optionsLayout="horizontal"
+        variant="button"
+        data={data}
+        schema={{
+          type: 'array',
+          minItems: 2,
+          maxItems: 3,
+        }}
+        errorMessages={{
+          minItems: 'You must select at least two',
+          maxItems: 'You can only select up to three',
+        }}
+      />
+    </Card>
   )
 }
