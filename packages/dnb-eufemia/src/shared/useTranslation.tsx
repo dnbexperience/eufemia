@@ -1,4 +1,10 @@
-import React, { Fragment, useContext, useMemo } from 'react'
+import React, {
+  Fragment,
+  useCallback,
+  useContext,
+  useMemo,
+  useRef,
+} from 'react'
 import Context, {
   Translation,
   TranslationLocale,
@@ -23,6 +29,7 @@ export default function useTranslation<T = Translation>(
   args?: TranslationArguments
 ) {
   const { locale, translation } = useContext(Context)
+  const { assignUtils } = useAdditionalUtils()
 
   return useMemo(() => {
     const id = typeof messages === 'string' ? messages : undefined
@@ -30,12 +37,14 @@ export default function useTranslation<T = Translation>(
       return formatMessage(id, args, translation)
     }
 
-    return combineWithExternalTranslations({
-      translation,
-      messages,
-      locale,
-    }) as T
-  }, [locale, messages, args, translation])
+    return assignUtils(
+      combineWithExternalTranslations({
+        translation,
+        messages,
+        locale,
+      })
+    )
+  }, [messages, translation, locale, assignUtils, args])
 }
 
 export type CombineWithExternalTranslationsArgs = {
@@ -50,6 +59,32 @@ export type FormatMessage = {
 export type CombineWithExternalTranslationsReturn = Translation &
   TranslationCustomLocales &
   FormatMessage
+
+export function useAdditionalUtils() {
+  const translationsRef = useRef<CombineWithExternalTranslationsReturn>()
+
+  const fM = useCallback(
+    (id: TranslationId, args: TranslationArguments) => {
+      return formatMessage(id, args, translationsRef.current)
+    },
+    []
+  )
+
+  const rM = useCallback((message: string) => {
+    return renderMessage(message)
+  }, [])
+
+  const assignUtils = useCallback(
+    (translations: CombineWithExternalTranslationsReturn) => {
+      translationsRef.current = translations
+      Object.assign(translations, { formatMessage: fM, renderMessage: rM })
+      return translations
+    },
+    [fM, rM]
+  )
+
+  return { assignUtils }
+}
 
 export function combineWithExternalTranslations({
   translation,
@@ -71,16 +106,6 @@ export function combineWithExternalTranslations({
       combined[key] = { ...translation[key], ...messages[key] }
     }
   }
-
-  combined.formatMessage = (
-    id: TranslationId,
-    args: TranslationArguments
-  ) => {
-    return formatMessage(id, args, combined)
-  }
-
-  // Support line-breaks
-  combined.renderMessage = renderMessage
 
   return combined
 }
@@ -121,10 +146,6 @@ export function formatMessage(
   if (typeof str === 'string') {
     for (const t in args) {
       str = str.replace(new RegExp(`{${t}}`, 'g'), args[t])
-    }
-
-    if (str.includes('{br}')) {
-      return renderMessage(str)
     }
   }
 
