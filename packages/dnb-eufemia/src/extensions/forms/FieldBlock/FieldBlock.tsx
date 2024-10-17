@@ -112,6 +112,8 @@ function FieldBlock(props: Props) {
     children,
     ...rest
   } = Object.assign({}, sharedData.data, props)
+  const hasCustomWidth = /\d(ch|rem)$/.test(String(width))
+  const hasCustomContentWidth = /\d(ch|rem)$/.test(String(contentWidth))
 
   const iterateItemContext = useContext(IterateElementContext)
   const { index: iterateIndex } = iterateItemContext ?? {}
@@ -165,7 +167,7 @@ function FieldBlock(props: Props) {
     }
 
     return content
-  }, [iterateIndex, labelProp, labelSuffixText])
+  }, [iterateIndex, labelProp, labelSuffixText, optionalLabelSuffix])
 
   const setInternalRecord = useCallback((props: StateBasis) => {
     const { stateId, identifier, type } = props
@@ -399,7 +401,8 @@ function FieldBlock(props: Props) {
 
   const mainClasses = classnames(
     'dnb-forms-field-block',
-    width !== undefined && `dnb-forms-field-block--width-${width}`,
+    width &&
+      `dnb-forms-field-block--width-${hasCustomWidth ? 'custom' : width}`,
     className
   )
   const gridClasses = classnames(
@@ -423,6 +426,22 @@ function FieldBlock(props: Props) {
     size: labelSize,
     disabled,
   }
+
+  const mainStyle = useMemo(() => {
+    if (hasCustomWidth) {
+      return {
+        '--dnb-forms-field-block-width': width,
+      } as React.CSSProperties
+    }
+  }, [hasCustomWidth, width])
+
+  const contentsStyle = useMemo(() => {
+    if (hasCustomContentWidth) {
+      return {
+        '--dnb-forms-field-block-content-width': contentWidth,
+      } as React.CSSProperties
+    }
+  }, [contentWidth, hasCustomContentWidth])
 
   if (dataContext?.prerenderFieldProps) {
     return null
@@ -452,6 +471,7 @@ function FieldBlock(props: Props) {
     >
       <Space
         element={enableFieldset ? 'fieldset' : 'div'} // use fieldset and legend to enhance a11y
+        style={mainStyle}
         className={mainClasses}
         {...rest}
       >
@@ -478,10 +498,13 @@ function FieldBlock(props: Props) {
           </div>
 
           <div
+            style={contentsStyle}
             className={classnames(
               'dnb-forms-field-block__contents',
               contentWidth &&
-                `dnb-forms-field-block__contents--width-${contentWidth}`,
+                `dnb-forms-field-block__contents--width-${
+                  hasCustomContentWidth ? 'custom' : contentWidth
+                }`,
               align && `dnb-forms-field-block__contents--align-${align}`,
               composition &&
                 `dnb-forms-field-block__contents__composition--${

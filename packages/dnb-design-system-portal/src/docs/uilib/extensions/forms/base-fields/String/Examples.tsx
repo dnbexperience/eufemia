@@ -107,6 +107,7 @@ export const Widths = () => {
         <Field.String label="Small" value="foo" width="small" />
         <Field.String label="Medium" value="foo" width="medium" />
         <Field.String label="Large" value="foo" width="large" />
+        <Field.String label="Custom" value="foo" width="8rem" />
         <Field.String label="Stretch" value="foo" width="stretch" />
 
         <Field.String
@@ -122,6 +123,7 @@ export const Widths = () => {
           multiline
         />
         <Field.String label="Large" value="foo" width="large" multiline />
+        <Field.String label="Custom" value="foo" width="8rem" multiline />
         <Field.String
           label="Stretch"
           value="foo"

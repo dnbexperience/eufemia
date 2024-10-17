@@ -53,6 +53,9 @@ fieldset.dnb-forms-field-block {
       flex-grow: 1;
     }
     @include allAbove(x-small) {
+      &-custom {
+        width: calc(var(--dnb-forms-field-block-width));
+      }
       &-small {
         width: var(--forms-field-width--small);
       }
@@ -98,6 +101,9 @@ fieldset.dnb-forms-field-block {
         width: 100%;
       }
       @include allAbove(x-small) {
+        &-custom {
+          width: calc(var(--dnb-forms-field-block-content-width));
+        }
         &-small {
           width: var(--forms-field-width--small);
         }

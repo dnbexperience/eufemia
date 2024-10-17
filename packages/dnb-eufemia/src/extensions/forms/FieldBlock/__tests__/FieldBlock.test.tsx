@@ -529,6 +529,32 @@ describe('FieldBlock', () => {
     )
   })
 
+  it('should support custom "width"', () => {
+    render(<FieldBlock width="4rem">content</FieldBlock>)
+
+    const element = document.querySelector('.dnb-forms-field-block')
+
+    expect(element.classList).toContain(
+      'dnb-forms-field-block--width-custom'
+    )
+    expect(element).toHaveStyle('--dnb-forms-field-block-width: 4rem;')
+  })
+
+  it('should support custom "contentWidth"', () => {
+    render(<FieldBlock contentWidth="4rem">content</FieldBlock>)
+
+    const element = document.querySelector(
+      '.dnb-forms-field-block__contents'
+    )
+
+    expect(element.classList).toContain(
+      'dnb-forms-field-block__contents--width-custom'
+    )
+    expect(element).toHaveStyle(
+      '--dnb-forms-field-block-content-width: 4rem;'
+    )
+  })
+
   it('should support "contentClassName" property', () => {
     render(
       <FieldBlock contentClassName="custom-class">content</FieldBlock>

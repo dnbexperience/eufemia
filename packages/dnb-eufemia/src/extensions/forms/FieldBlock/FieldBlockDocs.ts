@@ -22,12 +22,12 @@ export const fieldBlockSharedProperties: PropertiesTableProps = {
     status: 'optional',
   },
   width: {
-    doc: '`small`, `medium`, `large`, `stretch` or `false` for predefined standard widths.',
+    doc: 'Will set the width for the whole block. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.',
     type: ['string', 'false'],
     status: 'optional',
   },
   contentWidth: {
-    doc: '`small`, `medium`, `large`, `stretch` or `false` for predefined standard widths.',
+    doc: 'Will set the width for its contents. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.',
     type: ['string', 'false'],
     status: 'optional',
   },

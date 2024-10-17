@@ -262,12 +262,14 @@ export type FieldBlockProps = {
 /**
  * The width of a field block
  */
+export type CustomWidth = `${number}rem`
 export type FieldBlockWidth =
   | false
   | 'small'
   | 'medium'
   | 'large'
   | 'stretch'
+  | CustomWidth
 
 export interface UseFieldProps<
   Value = unknown,
