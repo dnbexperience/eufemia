@@ -125,7 +125,7 @@ describe('Field.Currency', () => {
     expect(input).toHaveAttribute('inputmode', 'decimal')
   })
 
-  it('should work with decimal limit', async () => {
+  it('should work with decimal limit 0', async () => {
     render(<Field.Currency decimalLimit={0} />)
 
     const input = document.querySelector('.dnb-input__input')
