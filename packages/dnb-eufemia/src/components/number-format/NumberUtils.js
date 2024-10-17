@@ -366,7 +366,7 @@ export const formatDecimals = (value, decimals, rounding, opts = {}) => {
  * Find the amount of decimals
  *
  * @param {number|string} value any number
- * @param {string} decimalSeparator a dot or coma
+ * @param {string} decimalSeparator a dot or comma
  * @returns amount of decimals
  */
 export const countDecimals = (value, decimalSeparator = '.') => {
@@ -842,7 +842,7 @@ export function cleanNumber(
   }
 
   // 2. Rename invalid decimal separator
-  // Make sure that there are only two digits after the coma, then we clean that up.
+  // Make sure that there are only two digits after the comma, then we clean that up.
   // else we don't, because it can be a US number
   // therefore, check first, is there a chance of being a decimal?
   // const decimalReg = new RegExp(`(${decimal})([0-9]{1,2})`, 'g')

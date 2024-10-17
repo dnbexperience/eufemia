@@ -738,13 +738,13 @@ describe('getFallbackCurrencyDisplay should', () => {
 })
 
 describe('getDecimalSeparator should', () => {
-  it('default to coma', () => {
+  it('default to comma', () => {
     expect(getDecimalSeparator()).toBe(',')
   })
-  it('return coma when locale is nb-NO', () => {
+  it('return comma when locale is nb-NO', () => {
     expect(getDecimalSeparator('nb-NO')).toBe(',')
   })
-  it('return coma when locale is sv-SE', () => {
+  it('return comma when locale is sv-SE', () => {
     expect(getDecimalSeparator('sv-SE')).toBe(',')
   })
   it('return dot when locale is en-GB', () => {
