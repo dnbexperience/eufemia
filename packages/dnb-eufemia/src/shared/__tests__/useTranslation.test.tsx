@@ -12,7 +12,7 @@ import enGB from '../locales/en-GB'
 
 describe('useTranslation without an ID', () => {
   it('should default to nb-NO if no locale is specified in context', () => {
-    const { result } = renderHook(() => useTranslation(), {
+    const { result } = renderHook(useTranslation, {
       wrapper: ({ children }) => <Provider>{children}</Provider>,
     })
 
@@ -25,7 +25,7 @@ describe('useTranslation without an ID', () => {
   })
 
   it('should inherit locale from shared context', () => {
-    const { result: resultGB } = renderHook(() => useTranslation(), {
+    const { result: resultGB } = renderHook(useTranslation, {
       wrapper: ({ children }) => (
         <Provider locale="en-GB">{children}</Provider>
       ),
@@ -38,7 +38,7 @@ describe('useTranslation without an ID', () => {
       })
     )
 
-    const { result: resultNO } = renderHook(() => useTranslation(), {
+    const { result: resultNO } = renderHook(useTranslation, {
       wrapper: ({ children }) => (
         <Provider locale="nb-NO">{children}</Provider>
       ),
@@ -162,6 +162,16 @@ describe('useTranslation without an ID', () => {
       },
     }
     type Translation = (typeof myTranslations)[keyof typeof myTranslations]
+
+    it('should have the same instance after rerendering', () => {
+      const { result, rerender } = renderHook(useTranslation, {
+        wrapper: ({ children }) => <Provider>{children}</Provider>,
+      })
+
+      const firstInstance = result.current.formatMessage
+      rerender()
+      expect(result.current.formatMessage).toBe(firstInstance)
+    })
 
     it('should return translation', () => {
       const { result } = renderHook(useTranslation)
@@ -301,7 +311,7 @@ describe('useTranslation without an ID', () => {
         },
       }
 
-      const result = renderHook(() => useTranslation(), {
+      const result = renderHook(useTranslation, {
         wrapper: ({ children }) => (
           <Provider translations={customTranslation} locale="en-GB">
             {children}
@@ -482,8 +492,18 @@ describe('useTranslation with an ID', () => {
   })
 
   describe('renderMessage', () => {
+    it('should have the same instance after rerendering', () => {
+      const { result, rerender } = renderHook(useTranslation, {
+        wrapper: ({ children }) => <Provider>{children}</Provider>,
+      })
+
+      const firstInstance = result.current.renderMessage
+      rerender()
+      expect(result.current.renderMessage).toBe(firstInstance)
+    })
+
     it('should render with JSX line-breaks', () => {
-      const { result } = renderHook(() => useTranslation())
+      const { result } = renderHook(useTranslation)
 
       expect(result.current.renderMessage('Hello{br}World')).toEqual([
         <React.Fragment key="0">
@@ -498,7 +518,7 @@ describe('useTranslation with an ID', () => {
     })
 
     it('should support multiple line-breaks', () => {
-      const { result } = renderHook(() => useTranslation())
+      const { result } = renderHook(useTranslation)
 
       expect(result.current.renderMessage('A{br}B{br}C')).toEqual([
         <React.Fragment key="0">
