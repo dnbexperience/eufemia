@@ -83,29 +83,26 @@ function EditContainer({
           allowNegative={false}
         />
 
-        <Form.Visibility pathTruthy="/countChildren" animate>
-          <Iterate.Array
-            path="/children"
-            countPath="/countChildren"
-            countPathTransform={transformAgeItem}
-            countPathLimit={20}
-            animate
-          >
-            <Field.Number
-              itemPath="/age"
-              label={tr.ChildrenWithAge.childrenAge.fieldLabel}
-              errorMessages={{
-                required: tr.ChildrenWithAge.childrenAge.required,
-              }}
-              placeholder="0"
-              width="small"
-              minimum={0}
-              maximum={17}
-              decimalLimit={0}
-              allowNegative={false}
-            />
-          </Iterate.Array>
-        </Form.Visibility>
+        <Iterate.Array
+          path="/children"
+          countPath="/countChildren"
+          countPathLimit={20}
+          animate
+        >
+          <Field.Number
+            itemPath="/age"
+            label={tr.ChildrenWithAge.childrenAge.fieldLabel}
+            errorMessages={{
+              required: tr.ChildrenWithAge.childrenAge.required,
+            }}
+            placeholder="0"
+            width="small"
+            minimum={0}
+            maximum={17}
+            decimalLimit={0}
+            allowNegative={false}
+          />
+        </Iterate.Array>
 
         {enableAdditionalQuestions?.includes('daycare') && (
           <Field.Boolean
@@ -179,9 +176,6 @@ function SummaryContainer({
 }) {
   const tr = Form.useTranslation<Translation>()
 
-  const { getValue } = Form.useData()
-  const hasNoChildren = getValue('/hasChildren') === false
-
   return (
     <Card stack {...spacingProps}>
       {<Lead>{tr.ChildrenWithAge.hasChildren.title}</Lead>}
@@ -197,12 +191,8 @@ function SummaryContainer({
             label={tr.ChildrenWithAge.countChildren.fieldLabel}
             suffix={tr.ChildrenWithAge.countChildren.suffix}
             maximum={20}
-            transformIn={(value) => (hasNoChildren ? 0 : value)}
           />
-          <Iterate.Array
-            path="/children"
-            limit={hasNoChildren ? 0 : undefined}
-          >
+          <Iterate.Array path="/children">
             <Value.Number
               itemPath="/age"
               label={tr.ChildrenWithAge.childrenAge.fieldLabel}
@@ -248,10 +238,5 @@ function SummaryContainer({
     </Card>
   )
 }
-
-const transformAgeItem = ({ value }) =>
-  Object.prototype.hasOwnProperty.call(value || {}, 'age')
-    ? value
-    : { age: undefined }
 
 ChildrenWithAge._supportsSpacingProps = true
