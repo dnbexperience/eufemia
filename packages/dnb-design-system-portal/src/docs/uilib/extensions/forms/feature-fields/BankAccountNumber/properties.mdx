@@ -5,19 +5,17 @@ showTabs: true
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { fieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import { BankAccountNumberProperties } from '@dnb/eufemia/src/extensions/forms/Field/BankAccountNumber/BankAccountNumberDocs'
 
 ## Properties
 
 ### Field-specific properties
 
-| Property   | Type      | Description                                                                     |
-| ---------- | --------- | ------------------------------------------------------------------------------- |
-| `validate` | `boolean` | _(optional)_ Using this property you can disable the default validation.        |
-| `help`     | `object`  | _(optional)_ Provide a help button. Object consisting of `title` and `content`. |
+<PropertiesTable props={BankAccountNumberProperties} />
 
 ### General properties
 
-<PropertiesTable props={fieldProperties} />
+<PropertiesTable props={fieldProperties} omit={['onBlurValidator']} />
 
 ## Translations
 

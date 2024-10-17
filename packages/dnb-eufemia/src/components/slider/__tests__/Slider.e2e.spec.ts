@@ -10,7 +10,7 @@ test.describe('Slider', () => {
     })
   })
 
-  test('click on grid switch should enable the grid', async ({ page }) => {
+  test('should swap thumbs by using ArrowRight', async ({ page }) => {
     const inputElements = page.locator(
       '[data-visual-test="slider-multi"] .dnb-slider:nth-child(2) input'
     )

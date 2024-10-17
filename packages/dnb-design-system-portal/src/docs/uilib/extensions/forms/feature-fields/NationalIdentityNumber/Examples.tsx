@@ -168,7 +168,7 @@ export const ValidationExtendValidator = () => {
       {() => {
         const bornInAprilValidator = (value: string) => {
           if (value.substring(2, 4) !== '04') {
-            return new Error('My error')
+            return new Error('Not born in April')
           }
         }
         const myValidator = (value, { validators }) => {

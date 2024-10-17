@@ -25,7 +25,7 @@ import {
 import { Context as DataContext, ContextState } from '../DataContext'
 import { clearedData } from '../DataContext/Provider/Provider'
 import FieldProviderContext from '../Field/Provider/FieldProviderContext'
-import { combineDescribedBy } from '../../../shared/component-helper'
+import { combineDescribedBy, warn } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import useUpdateEffect from '../../../shared/helpers/useUpdateEffect'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
@@ -78,18 +78,21 @@ export type DataAttributes = {
   [property: `data-${string}`]: string | boolean | number
 }
 
+const existingFields = new Map()
+
 // Many variables are kept in refs to avoid triggering unnecessary update loops because updates using
 // useEffect depend on them (like the external `value`)
 
 export default function useFieldProps<Value, EmptyValue, Props>(
-  localeProps: Props & FieldPropsGeneric<Value, EmptyValue>,
+  localProps: Props & FieldPropsGeneric<Value, EmptyValue>,
   {
     executeOnChangeRegardlessOfError = false,
     updateContextDataInSync = false,
+    omitMultiplePathWarning = false,
   } = {}
-): typeof localeProps & ReturnAdditional<Value> {
+): typeof localProps & ReturnAdditional<Value> {
   const { extend } = useContext(FieldProviderContext)
-  const props = extend(localeProps)
+  const props = extend(localProps)
 
   const {
     path: pathProp,
@@ -219,7 +222,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   const defaultValueRef = useRef(defaultValue)
   useLayoutEffect(() => {
-    // To support ReactStrict mode, we also need to add it from inside a useEffect
+    // To support React.StrictMode, we also need to add it from inside a useEffect
     defaultValueRef.current = defaultValue
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -1541,6 +1544,31 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     identifier,
     setMountedFieldSnapshot,
     setMountedFieldStateDataContext,
+  ])
+
+  // - Warn when a field path is used multiple times
+  useEffect(() => {
+    if (
+      !omitMultiplePathWarning &&
+      process.env.NODE_ENV !== 'production' &&
+      (hasPath || hasItemPath) &&
+      (hasPath ? !iterateItemContext : true)
+    ) {
+      if (existingFields.has(identifier)) {
+        warn('Path declared multiple times: times:', identifier)
+      } else {
+        existingFields.set(identifier, true)
+        return () => {
+          existingFields.delete(identifier)
+        }
+      }
+    }
+  }, [
+    hasItemPath,
+    hasPath,
+    identifier,
+    iterateItemContext,
+    omitMultiplePathWarning,
   ])
 
   useEffect(() => {

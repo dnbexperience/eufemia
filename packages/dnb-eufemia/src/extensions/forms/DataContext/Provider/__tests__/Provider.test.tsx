@@ -8,7 +8,7 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { wait } from '../../../../../core/jest/jestSetup'
+import { spyOnEufemiaWarn, wait } from '../../../../../core/jest/jestSetup'
 import { simulateAnimationEnd } from '../../../../../components/height-animation/__tests__/HeightAnimationUtils'
 import { GlobalStatus } from '../../../../../components'
 import { makeUniqueId } from '../../../../../shared/component-helper'
@@ -942,12 +942,7 @@ describe('DataContext.Provider', () => {
   describe('async submit', () => {
     let log: jest.SpyInstance
     beforeEach(() => {
-      const originalConsoleLog = console.log
-      log = jest.spyOn(console, 'log').mockImplementation((...message) => {
-        if (!message[0].includes('Eufemia')) {
-          originalConsoleLog(...message)
-        }
-      })
+      log = spyOnEufemiaWarn()
     })
     afterEach(() => {
       log.mockRestore()
@@ -3384,6 +3379,8 @@ describe('DataContext.Provider', () => {
     })
 
     it('should contain data on first render, when nested and in side car', () => {
+      const log = spyOnEufemiaWarn()
+
       const initialData = { foo: 'bar' }
       const sidecarMockData = []
       const nestedMockData = []
@@ -3424,6 +3421,8 @@ describe('DataContext.Provider', () => {
       )
       expect(sidecar).toHaveValue('') // Because the field is outside of the context
       expect(nested).toHaveValue('bar')
+
+      log.mockRestore()
     })
 
     it('should be able to update data from side car', async () => {
@@ -3481,6 +3480,8 @@ describe('DataContext.Provider', () => {
     })
 
     it('should support StrictMode', async () => {
+      const log = spyOnEufemiaWarn()
+
       const initialData = { foo: 'bar' }
       const sidecarMockData = []
       const nestedMockData = []
@@ -3528,6 +3529,8 @@ describe('DataContext.Provider', () => {
       )
       expect(sidecar).toHaveValue('') // Because the field is outside of the context
       expect(nested).toHaveValue('bar')
+
+      log.mockRestore()
     })
 
     it('should set Provider data when sessionStorageId was given', () => {

@@ -135,9 +135,10 @@ export default {
     },
     BankAccountNumber: {
       label: 'Bankkonto',
-      errorRequired:
-        'Skriv inn et gyldig kontonummer. Kontonummeret må fylles ut.',
-      errorPattern: 'Ugyldig kontonummer.',
+      errorRequired: 'Du må fylle inn et kontonummer.',
+      errorBankAccountNumber: 'Ugyldig kontonummer.',
+      errorBankAccountNumberLength:
+        'Ugyldig kontonummer. Skriv inn et gyldig kontonummer med 11 siffer.',
     },
     PhoneNumber: {
       label: 'Mobilnummer',

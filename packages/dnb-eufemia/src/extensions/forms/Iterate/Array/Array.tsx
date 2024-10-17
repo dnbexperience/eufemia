@@ -103,6 +103,7 @@ function ArrayComponent(props: Props) {
     // To ensure the defaultValue set on the Iterate.Array is set in the data context,
     // and will not overwrite defaultValues set by fields inside the Iterate.Array.
     updateContextDataInSync: true,
+    omitMultiplePathWarning: true,
   })
 
   useMountEffect(() => {

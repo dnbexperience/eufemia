@@ -111,3 +111,32 @@ export const ValidationRequired = () => {
     </ComponentBox>
   )
 }
+
+export const ValidationExtendValidator = () => {
+  return (
+    <ComponentBox>
+      {() => {
+        const firstDigitIs1Validator = (value: string) => {
+          if (value.substring(0, 1) !== '1') {
+            return new Error('First digit is not 1')
+          }
+        }
+
+        const myValidator = (value, { validators }) => {
+          const { bankAccountNumberValidator } = validators
+
+          return [bankAccountNumberValidator, firstDigitIs1Validator]
+        }
+
+        return (
+          <Field.BankAccountNumber
+            required
+            value="65845125621"
+            onBlurValidator={myValidator}
+            validateInitially
+          />
+        )
+      }}
+    </ComponentBox>
+  )
+}

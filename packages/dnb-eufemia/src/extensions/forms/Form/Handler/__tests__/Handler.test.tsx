@@ -3,7 +3,7 @@
 import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { wait } from '../../../../../core/jest/jestSetup'
+import { spyOnEufemiaWarn, wait } from '../../../../../core/jest/jestSetup'
 import {
   Form,
   Field,
@@ -491,12 +491,7 @@ describe('Form.Handler', () => {
   describe('async submit', () => {
     let log: jest.SpyInstance
     beforeEach(() => {
-      const originalConsoleLog = console.log
-      log = jest.spyOn(console, 'log').mockImplementation((...message) => {
-        if (!message[0].includes('Eufemia')) {
-          originalConsoleLog(...message)
-        }
-      })
+      log = spyOnEufemiaWarn()
     })
     afterEach(() => {
       log.mockRestore()

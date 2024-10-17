@@ -67,7 +67,7 @@ export function verifyFiles(
       const acceptedFileTypeObj = (
         acceptedFileTypes as UploadAcceptedFileTypesWithFileMaxSize
       ).find((item) => {
-        return item.fileType === fileType
+        return item.fileType.toLowerCase() === fileType.toLowerCase()
       })
 
       return validateFileSize(
@@ -94,7 +94,7 @@ export function verifyFiles(
       /**
        * "file.type" can be e.g. "image/png"
        */
-      return fileType.includes(type)
+      return fileType.toLowerCase().includes(type.toLowerCase())
     })
     return !foundType ? errorUnsupportedFile : null
   }

@@ -1,4 +1,4 @@
-name: e2e
+name: visual-regression
 
 on:
   push:
@@ -35,28 +35,31 @@ env:
   RUN_POST_BUILD: ${{ startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/heads/v') }}
 
 jobs:
-  e2e:
-    name: Run e2e tests
+  visual-regression:
+    name: Run visual-regression tests
 
-    runs-on: ubuntu-latest
+    runs-on: macos-15
 
     timeout-minutes: 40
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Git checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
           node-version-file: 'package.json'
 
-      - name: Use node_modules cache
+      - name: Use yarn cache
         uses: actions/cache@v4
-        id: modules-cache
+        id: yarn-cache
         with:
-          path: '**/node_modules'
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-
+          path: ./.yarn/cache
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-deps-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-deps-
 
       - name: Install dependencies
         run: yarn install --immutable
@@ -70,34 +73,36 @@ jobs:
             ~/.cache/ms-playwright
             %USERPROFILE%\AppData\Local\ms-playwright
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn workspace dnb-design-system-portal playwright install --with-deps firefox
+      - run: yarn workspace @dnb/eufemia playwright install --with-deps firefox
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-      - run: yarn workspace dnb-design-system-portal playwright install-deps firefox
+      - run: yarn workspace @dnb/eufemia playwright install-deps firefox
         if: steps.playwright-cache.outputs.cache-hit == 'true'
 
       - name: Prebuild Library
+        if: env.RUN_POST_BUILD == 'true'
         run: yarn workspace @dnb/eufemia prebuild:ci
 
       - name: Postbuild Library
+        if: env.RUN_POST_BUILD == 'true'
         run: yarn workspace @dnb/eufemia postbuild:ci
 
       - name: Build portal
-        run: yarn workspace dnb-design-system-portal build
+        run: yarn workspace dnb-design-system-portal build:visual-test
 
-      - name: Run Playwright on Portal
-        run: yarn workspace dnb-design-system-portal test:e2e:portal:ci
+      - name: Run visual tests
+        run: yarn workspace dnb-design-system-portal test:screenshots:ci
 
-      - name: Run Playwright on Eufemia Components
-        run: yarn workspace @dnb/eufemia test:e2e:ci
-
-      - name: Store Playwright artifacts
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: playwright-develop-artifact
+          name: visual-test-artifact
           path: |
-            ./packages/dnb-design-system-portal/test-results
-            ./packages/dnb-design-system-portal/playwright-report
+            ./packages/dnb-eufemia/src/**/*.snap-diff.png
+            ./packages/dnb-eufemia/jest-visual-diff-report/*
+
+      - name: Run visual tests info
+        if: failure()
+        run: echo '\n\n👉 Download the diff files as a ZIP file. \nIt is called "visual-test-artifact" and you find it in the test "Summary" under "Artifacts".\n\n\n'
 
       - name: Slack
         uses: 8398a7/action-slack@v3
@@ -105,7 +110,7 @@ jobs:
           channel: '#eufemia-dev'
           status: ${{ job.status }}
           fields: author,ref,workflow,job,took
-          job_name: Run e2e tests
+          job_name: Run visual regression tests
           github_base_url: https://github.com/
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}

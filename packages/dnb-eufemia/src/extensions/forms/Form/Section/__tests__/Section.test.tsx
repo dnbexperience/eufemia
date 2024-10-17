@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react'
+import { spyOnEufemiaWarn } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import { Field, Form, JSONSchema, Tools, Value } from '../../..'
 import { SectionProps } from '../Section'
@@ -1155,6 +1156,8 @@ describe('Form.Section', () => {
     })
 
     it('should not mutate translations object', () => {
+      const log = spyOnEufemiaWarn()
+
       const sectionTranslations = {
         'nb-NO': { MySection: { CustomField: { label: 'Section nb' } } },
         'en-GB': { MySection: { CustomField: { label: 'Section en' } } },
@@ -1207,6 +1210,8 @@ describe('Form.Section', () => {
       expect(
         sectionTranslations['en-GB'].MySection.CustomField.label
       ).toBe('Section en')
+
+      log.mockRestore()
     })
   })
 

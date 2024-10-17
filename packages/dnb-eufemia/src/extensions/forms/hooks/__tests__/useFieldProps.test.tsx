@@ -15,12 +15,13 @@ import Field, {
   FieldBlock,
   Form,
   FormError,
+  Iterate,
   JSONSchema,
   OnChange,
   SubmitState,
   UseFieldProps,
 } from '../../Forms'
-import { wait } from '../../../../core/jest/jestSetup'
+import { spyOnEufemiaWarn, wait } from '../../../../core/jest/jestSetup'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
 
 describe('useFieldProps', () => {
@@ -4604,14 +4605,7 @@ describe('useFieldProps', () => {
     })
 
     it('should set isMounted to true when Wizard step has changed', () => {
-      const originalConsoleLog = console.log
-      const log = jest
-        .spyOn(console, 'log')
-        .mockImplementation((...message) => {
-          if (!message[0].includes('Eufemia')) {
-            originalConsoleLog(...message)
-          }
-        })
+      const log = spyOnEufemiaWarn()
       const setMountedFieldState = jest.fn()
 
       let activeIndex = 0
@@ -4672,6 +4666,113 @@ describe('useFieldProps', () => {
       })
 
       log.mockRestore()
+    })
+  })
+
+  describe('warn about duplicated paths', () => {
+    let log = null
+    beforeEach(() => {
+      log = spyOnEufemiaWarn()
+    })
+    afterEach(() => {
+      log.mockRestore()
+    })
+
+    it('for the "path" prop', () => {
+      render(
+        <React.StrictMode>
+          <Field.String path="/myPath" />
+          <Field.String path="/myPath" />
+        </React.StrictMode>
+      )
+
+      expect(log).toHaveBeenCalledWith(
+        expect.any(String),
+        'Path declared multiple times: times:',
+        '/myPath'
+      )
+    })
+
+    it('should not warn when omitMultiplePathWarning is true', () => {
+      const MockComponent = () => {
+        useFieldProps(
+          { path: '/myPath' },
+          { omitMultiplePathWarning: true }
+        )
+        return null
+      }
+
+      render(
+        <React.StrictMode>
+          <MockComponent />
+          <MockComponent />
+        </React.StrictMode>
+      )
+
+      expect(log).toHaveBeenCalledTimes(0)
+    })
+
+    it('should not warn when process.env.NODE_ENV is not production', () => {
+      const originalNodeEnv = process.env.NODE_ENV
+      process.env.NODE_ENV = 'production'
+
+      render(
+        <React.StrictMode>
+          <Field.String path="/myPath" />
+          <Field.String path="/myPath" />
+        </React.StrictMode>
+      )
+
+      expect(log).toHaveBeenCalledTimes(0)
+      process.env.NODE_ENV = originalNodeEnv
+    })
+
+    it('for the "itemPath" prop', () => {
+      render(
+        <React.StrictMode>
+          <Iterate.Array value={['foo', 'bar']}>
+            <Field.String itemPath="/myPath" defaultValue="foo" />
+            <Field.String itemPath="/myPath" defaultValue="bar" />
+          </Iterate.Array>
+        </React.StrictMode>
+      )
+
+      expect(log).toHaveBeenCalledWith(
+        expect.any(String),
+        'Path declared multiple times: times:',
+        '/0/myPath'
+      )
+    })
+
+    it('for the "itemPath" prop distributed in several Iterate.Array', () => {
+      render(
+        <React.StrictMode>
+          <Iterate.Array value={['foo']}>
+            <Field.String itemPath="/myPath" defaultValue="foo" />
+          </Iterate.Array>
+          <Iterate.Array value={['bar']}>
+            <Field.String itemPath="/myPath" defaultValue="bar" />
+          </Iterate.Array>
+        </React.StrictMode>
+      )
+
+      expect(log).toHaveBeenCalledWith(
+        expect.any(String),
+        'Path declared multiple times: times:',
+        '/0/myPath'
+      )
+    })
+
+    it('should not warn when path is used in iterate', () => {
+      render(
+        <React.StrictMode>
+          <Iterate.Array value={['foo']}>
+            <Field.String path="/myPath" />
+          </Iterate.Array>
+        </React.StrictMode>
+      )
+
+      expect(log).toHaveBeenCalledTimes(0)
     })
   })
 })

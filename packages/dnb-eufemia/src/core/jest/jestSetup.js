@@ -129,3 +129,16 @@ export const axeComponent = async (...components) => {
     typeof components[1] === 'object' ? components[1] : null
   )
 }
+
+export function spyOnEufemiaWarn() {
+  const originalConsoleLog = console.log
+  const log = jest
+    .spyOn(console, 'log')
+    .mockImplementation((...message) => {
+      if (!message[0].includes('Eufemia')) {
+        originalConsoleLog(...message)
+      }
+    })
+
+  return log
+}

@@ -249,7 +249,7 @@ describe('InputMasked component', () => {
 
     fireEvent.keyDown(document.querySelector('input'), {
       key: ',',
-      keyCode: 188, // coma
+      keyCode: 188, // comma
       target: {
         value: '',
         selectionStart: 0, // set it to be a leading zero
@@ -388,7 +388,7 @@ describe('InputMasked component', () => {
       />
     )
 
-    const keyCode = 188 // coma
+    const keyCode = 188 // comma
     fireEvent.keyDown(document.querySelector('input'), {
       keyCode,
       target: {
@@ -1021,7 +1021,7 @@ describe('InputMasked component as_number', () => {
 
     const elem = document.querySelector('input')
 
-    const pressDotAndUseItAsComa = ({ value }) => {
+    const pressDotAndUseItAscomma = ({ value }) => {
       const keyCode = 190 // dot
       fireEvent.keyDown(document.querySelector('input'), {
         keyCode,
@@ -1033,19 +1033,19 @@ describe('InputMasked component as_number', () => {
       })
     }
 
-    pressDotAndUseItAsComa({ value: '12 345' })
+    pressDotAndUseItAscomma({ value: '12 345' })
 
     expect(elem.value).toBe('12 345,')
 
     // try a second time from the same cursor position
-    pressDotAndUseItAsComa({ value: '12 345,' })
+    pressDotAndUseItAscomma({ value: '12 345,' })
 
     expect(elem.value).toBe('12 345,')
     expect(setSelectionRange).toHaveBeenCalledTimes(1)
     expect(setSelectionRange).toHaveBeenCalledWith(7, 7)
   })
 
-  it('should prevent a coma when decimalLimit=0', () => {
+  it('should prevent a comma when decimalLimit=0', () => {
     render(<InputMasked as_number mask_options={{ decimalLimit: 0 }} />)
 
     const preventDefault = jest.fn()
@@ -1058,21 +1058,21 @@ describe('InputMasked component as_number', () => {
       ...event,
     })
 
-    const pressDotAndUseItAsComa = () => {
-      const keyCode = 188 // coma
+    const pressDotAndUseItAscomma = () => {
+      const keyCode = 188 // comma
       fireEvent.keyDown(document.querySelector('input'), {
         keyCode,
         ...event,
       })
     }
 
-    pressDotAndUseItAsComa()
-    pressDotAndUseItAsComa() // try a second time
+    pressDotAndUseItAscomma()
+    pressDotAndUseItAscomma() // try a second time
 
     expect(document.querySelector('input').value).toBe('12 345')
   })
 
-  it('should prevent a coma by default', () => {
+  it('should prevent a comma by default', () => {
     render(<InputMasked as_number />)
 
     const preventDefault = jest.fn()
@@ -1083,16 +1083,16 @@ describe('InputMasked component as_number', () => {
       target: { value: newValue },
     })
 
-    const pressDotAndUseItAsComa = () => {
-      const keyCode = 188 // coma
+    const pressDotAndUseItAscomma = () => {
+      const keyCode = 188 // comma
       fireEvent.keyDown(document.querySelector('input'), {
         keyCode,
         ...event,
       })
     }
 
-    pressDotAndUseItAsComa()
-    pressDotAndUseItAsComa() // try a second time
+    pressDotAndUseItAscomma()
+    pressDotAndUseItAscomma() // try a second time
 
     expect(document.querySelector('input').value).toBe('12 345')
   })
@@ -1387,7 +1387,7 @@ describe('InputMasked component as_currency', () => {
     expect(document.querySelector('input').value).toBe('12 345,02 kr')
   })
 
-  it('should not append a coma when entering a dot', () => {
+  it('should not append a comma when entering a dot', () => {
     render(<InputMasked as_currency />)
 
     const preventDefault = jest.fn()
@@ -1398,16 +1398,16 @@ describe('InputMasked component as_currency', () => {
       target: { value: newValue },
     })
 
-    const pressDotAndUseItAsComa = () => {
-      const keyCode = 188 // coma
+    const pressDotAndUseItAscomma = () => {
+      const keyCode = 188 // comma
       fireEvent.keyDown(document.querySelector('input'), {
         keyCode,
         ...event,
       })
     }
 
-    pressDotAndUseItAsComa() // try a first time, without success
-    pressDotAndUseItAsComa() // try a second time, without success
+    pressDotAndUseItAscomma() // try a first time, without success
+    pressDotAndUseItAscomma() // try a second time, without success
 
     expect(document.querySelector('input').value).toBe('12 345,67 kr')
   })

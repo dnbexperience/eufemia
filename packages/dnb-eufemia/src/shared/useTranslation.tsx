@@ -1,4 +1,10 @@
-import { useContext, useMemo } from 'react'
+import React, {
+  Fragment,
+  useCallback,
+  useContext,
+  useMemo,
+  useRef,
+} from 'react'
 import Context, {
   Translation,
   TranslationLocale,
@@ -23,6 +29,7 @@ export default function useTranslation<T = Translation>(
   args?: TranslationArguments
 ) {
   const { locale, translation } = useContext(Context)
+  const { assignUtils } = useAdditionalUtils()
 
   return useMemo(() => {
     const id = typeof messages === 'string' ? messages : undefined
@@ -30,32 +37,63 @@ export default function useTranslation<T = Translation>(
       return formatMessage(id, args, translation)
     }
 
-    return combineWithExternalTranslations({
-      translation,
-      messages,
-      locale,
-    }) as T
-  }, [locale, messages, args, translation])
+    return assignUtils(
+      combineWithExternalTranslations({
+        translation,
+        messages,
+        locale,
+      })
+    )
+  }, [messages, translation, locale, assignUtils, args])
 }
 
-export type combineWithExternalTranslationsArgs = {
+export type CombineWithExternalTranslationsArgs = {
   translation: Translation
   messages?: TranslationCustomLocales
   locale?: InternalLocale
 }
-export type combineWithExternalTranslationsReturn = Translation &
-  TranslationCustomLocales & {
-    formatMessage: typeof formatMessage
-  }
+export type FormatMessage = {
+  formatMessage: typeof formatMessage
+  renderMessage: typeof renderMessage
+}
+export type CombineWithExternalTranslationsReturn = Translation &
+  TranslationCustomLocales &
+  FormatMessage
+
+export function useAdditionalUtils() {
+  const translationsRef = useRef<CombineWithExternalTranslationsReturn>()
+
+  const fM = useCallback(
+    (id: TranslationId, args: TranslationArguments) => {
+      return formatMessage(id, args, translationsRef.current)
+    },
+    []
+  )
+
+  const rM = useCallback((message: string) => {
+    return renderMessage(message)
+  }, [])
+
+  const assignUtils = useCallback(
+    (translations: CombineWithExternalTranslationsReturn) => {
+      translationsRef.current = translations
+      Object.assign(translations, { formatMessage: fM, renderMessage: rM })
+      return translations
+    },
+    [fM, rM]
+  )
+
+  return { assignUtils }
+}
 
 export function combineWithExternalTranslations({
   translation,
   messages,
   locale,
-}: combineWithExternalTranslationsArgs): combineWithExternalTranslationsReturn {
+}: CombineWithExternalTranslationsArgs): CombineWithExternalTranslationsReturn {
   let combined = {
     ...translation,
-  } as combineWithExternalTranslationsReturn
+  } as CombineWithExternalTranslationsReturn
 
   if (messages) {
     if (Object.keys(defaultLocales).some((locale) => messages[locale])) {
@@ -69,46 +107,68 @@ export function combineWithExternalTranslations({
     }
   }
 
-  combined.formatMessage = (
-    id: TranslationId,
-    args: TranslationArguments
-  ) => {
-    return formatMessage(id, args, combined)
-  }
-
   return combined
 }
 
 export function formatMessage(
   id: TranslationId | TranslationIdAsFunction,
-  args: TranslationArguments,
-  messages: TranslationCustomLocales
+  args?: TranslationArguments,
+  messages?: TranslationCustomLocales
 ) {
   let str = undefined
 
-  if (typeof id === 'function') {
-    str = id(messages)
-  } else if (messages[id]) {
-    str = messages[id]
-  } else if (id?.includes?.('.')) {
-    const keys = id.split('.')
-    for (const key of keys) {
-      if (messages[key]) {
-        messages = messages[key]
-      } else {
-        break
+  if (typeof id === 'string') {
+    let found = false
+    if (messages[id]) {
+      str = messages[id]
+      found = true
+    } else if (id?.includes?.('.')) {
+      const keys = id.split('.')
+      for (const key of keys) {
+        if (messages[key]) {
+          messages = messages[key]
+        } else {
+          break
+        }
+      }
+      if (typeof messages === 'string') {
+        str = messages
+        found = true
       }
     }
-    if (typeof messages === 'string') {
-      str = messages
+    if (!found && typeof id === 'string') {
+      str = id
     }
+  } else if (typeof id === 'function') {
+    str = id(messages)
   }
 
-  if (str) {
+  if (typeof str === 'string') {
     for (const t in args) {
       str = str.replace(new RegExp(`{${t}}`, 'g'), args[t])
     }
   }
 
-  return str
+  return str ?? id
+}
+
+export function renderMessage(
+  text: string | Array<React.ReactNode>
+): string | React.ReactNode {
+  let element = text
+
+  if (typeof text === 'string') {
+    element = text.split('{br}')
+  }
+
+  if (Array.isArray(element)) {
+    return element.map((item, index) => (
+      <Fragment key={index}>
+        {item}
+        <br />
+      </Fragment>
+    ))
+  }
+
+  return text
 }

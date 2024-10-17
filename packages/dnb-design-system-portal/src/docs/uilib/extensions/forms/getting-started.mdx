@@ -581,7 +581,7 @@ function MyForm() {
 
 #### Customize translations
 
-You can customize the internal translations in a flat structure:
+You can customize the internal translations in a flat structure (dot-notation):
 
 ```tsx
 {
@@ -605,7 +605,7 @@ You can customize the translations in a form by using the `translations` propert
 
 Alternatively, you can use the global Eufemia [Provider](/uilib/usage/customisation/localization/) (example further down).
 
-You can find all available strings/keys in the properties tab of each field component. You can have a look at the [PhoneNumber field](!/uilib/extensions/forms/feature-fields/PhoneNumber/properties/#translations).
+You can find all available strings and keys in the properties tab of each field or value component. For example, check out the [PhoneNumber field properties](#!/uilib/extensions/forms/feature-fields/PhoneNumber/properties/#translations).
 
 ```tsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
@@ -622,20 +622,49 @@ render(
 )
 ```
 
-You can consume them with the `useTranslation` hook:
+##### Consume the translations
+
+You can consume both the internal or your own translations with the [Form.useTranslation](/uilib/extensions/forms/Form/useTranslation/) hook:
 
 ```tsx
-import { Form, Field } from '@dnb/eufemia/extensions/forms'
-import { useTranslation } from '@dnb/eufemia/shared'
+import { Form } from '@dnb/eufemia/extensions/forms'
 
 const myTranslations = {
-  'nb-NO': { 'custom.string': 'Min egendefinerte streng' },
-  'en-GB': { 'custom.string': 'My custom string' },
+  'nb-NO': { myString: 'Min egendefinerte streng' },
+  'en-GB': {
+    // Cascaded translations
+    Nested: {
+      stringWithArgs: 'My custom string with an argument: {myKey}',
+    },
+
+    // Flat translations
+    'Nested.stringWithLinebreaks':
+      'My custom string with a {br}line-break',
+  },
 }
 
 const MyComponent = () => {
-  const t = useTranslation<typeof myTranslations>()
-  return t.custom.string
+  const t = Form.useTranslation<typeof myTranslations>()
+
+  // Internal translations
+  const existingString = t.Field.errorRequired
+
+  // Your translations
+  const myString = t.myString
+
+  // Use the "formatMessage" function to handle strings with arguments
+  const myStringWithArgsA = t.formatMessage(t.Nested.stringWithArgs, {
+    myKey: 'myValue',
+  })
+  // You can also get the string with a key (dot-notation)
+  const myStringWithArgsB = t.formatMessage('Nested.stringWithArgs', {
+    myKey: 'myValue',
+  })
+
+  // Render line-breaks
+  const jsxOutput = t.renderMessage(t.Nested.stringWithLinebreaks)
+
+  return <>MyComponent</>
 }
 
 render(
@@ -645,67 +674,9 @@ render(
 )
 ```
 
-Or customize them with the `<Translation />` component:
-
-```tsx
-import { Form, Field } from '@dnb/eufemia/extensions/forms'
-import { Translation, TranslationProps } from '@dnb/eufemia/shared'
-
-const myTranslations = {
-  'nb-NO': { 'custom.string': 'Min egendefinerte streng' },
-  'en-GB': { 'custom.string': 'My custom string' },
-}
-
-// For TypeScript support
-type Tr<T> = TranslationProps<T[keyof T]>
-const Tr = (props: Tr<typeof myTranslations>) => <Translation {...props} />
-
-render(
-  <Form.Handler translations={myTranslations}>
-    <Form.MainHeading>
-      <Translation id="custom.string" />
-    </Form.MainHeading>
-
-    <Form.SubHeading>
-      <Tr id={(t) => t.custom.string} />
-    </Form.SubHeading>
-  </Form.Handler>,
-)
-```
-
 Here is a [demo](/uilib/extensions/forms/Form/Handler/demos/#locale-and-translations) of how to use the translations in a form.
 
 When creating [your own field](/uilib/extensions/forms/create-component/#localization-and-translations), you can use the `Form.useTranslation` hook to localize your field.
-
-#### Use the shared Provider to customize translations
-
-```tsx
-import { Form, Field } from '@dnb/eufemia/extensions/forms'
-import { Provider, Translation } from '@dnb/eufemia/shared'
-
-const myTranslations = {
-  'nb-NO': {
-    'PhoneNumber.label': 'Egendefinert',
-    'custom.string': 'Min egendefinerte streng',
-  },
-  'en-GB': {
-    'PhoneNumber.label': 'Custom',
-    'custom.string': 'My custom string',
-  },
-}
-
-render(
-  <Provider translations={myTranslations}>
-    <Heading>
-      <Translation id="custom.string" />
-    </Heading>
-
-    <Form.Handler>
-      <Field.PhoneNumber />
-    </Form.Handler>
-  </Provider>,
-)
-```
 
 ### Layout
 

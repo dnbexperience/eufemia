@@ -42,11 +42,9 @@ describe('ChildrenWithAge', () => {
 
     expect(
       document.querySelectorAll('.dnb-forms-field-block__grid')
-    ).toHaveLength(4)
+    ).toHaveLength(5)
 
-    expect(document.querySelector('input')).toHaveValue('')
-
-    await userEvent.type(document.querySelector('input'), '1')
+    expect(document.querySelector('input')).toHaveValue('1')
 
     expect(
       document.querySelectorAll('.dnb-forms-field-number__input')
@@ -102,17 +100,16 @@ describe('ChildrenWithAge', () => {
     render(<ChildrenWithAge />)
 
     await userEvent.click(document.querySelector('button'))
-    await userEvent.type(document.querySelector('input'), '2')
 
     const countChildrenFieldBlock = screen.queryByText(
       translationsNO.ChildrenWithAge.countChildren.fieldLabel
     ).parentElement.parentElement.parentElement
 
     expect(
-      within(countChildrenFieldBlock).getByTitle('Reduser (1)')
+      within(countChildrenFieldBlock).getByTitle('Reduser (0)')
     ).toBeInTheDocument()
     expect(
-      within(countChildrenFieldBlock).getByTitle('Øk (3)')
+      within(countChildrenFieldBlock).getByTitle('Øk (2)')
     ).toBeInTheDocument()
     expect(
       document.querySelectorAll('.dnb-input__input')[0]
@@ -207,11 +204,11 @@ describe('ChildrenWithAge', () => {
     expect(dlDDs.at(0)).toHaveTextContent('Nei')
 
     await userEvent.click(yesButton)
-    expect(document.querySelector('.dnb-input__input')).toHaveValue('')
+    expect(document.querySelector('.dnb-input__input')).toHaveValue('1')
 
     await waitFor(() => {
       const dlDDs = Array.from(document.querySelectorAll('dl dd'))
-      expect(dlDDs).toHaveLength(1)
+      expect(dlDDs).toHaveLength(3)
       expect(dlDDs.at(0)).toHaveTextContent('Ja')
     })
 
@@ -228,11 +225,11 @@ describe('ChildrenWithAge', () => {
     }
 
     await userEvent.click(yesButton)
-    expect(document.querySelector('.dnb-input__input')).toHaveValue('')
+    expect(document.querySelector('.dnb-input__input')).toHaveValue('1')
 
     {
       const dlDDs = Array.from(document.querySelectorAll('dl dd'))
-      expect(dlDDs).toHaveLength(1)
+      expect(dlDDs).toHaveLength(3)
       expect(dlDDs.at(0)).toHaveTextContent('Ja')
     }
   })
