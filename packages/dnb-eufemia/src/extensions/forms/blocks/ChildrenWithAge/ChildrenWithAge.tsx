@@ -132,8 +132,9 @@ function EditContainer({
               errorMessages={{
                 required: tr.ChildrenWithAge.dayCareExpenses.required,
               }}
-              minimum={0}
+              minimum={1}
               allowNegative={false}
+              decimalLimit={0}
             />
           </Form.Visibility>
         )}
@@ -159,7 +160,8 @@ function EditContainer({
                 required:
                   tr.ChildrenWithAge.jointResponsibilityExpenses.required,
               }}
-              minimum={0}
+              minimum={1}
+              decimalLimit={0}
               allowNegative={false}
             />
           </Form.Visibility>
@@ -217,6 +219,7 @@ function SummaryContainer({
               <Value.Currency
                 label={tr.ChildrenWithAge.dayCareExpenses.fieldLabel}
                 path="/daycareExpenses"
+                decimals="0"
               />
             </Form.Visibility>
           </Form.Visibility>
@@ -232,6 +235,7 @@ function SummaryContainer({
                   tr.ChildrenWithAge.jointResponsibilityExpenses.fieldLabel
                 }
                 path="/jointResponsibilityExpenses"
+                decimals="0"
               />
             </Form.Visibility>
           </Form.Visibility>
