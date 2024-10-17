@@ -84,6 +84,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
     on_change,
     setReturnObject,
     hidePicker,
+    link,
   } = props
 
   const sharedContext = useContext(SharedContext)
@@ -101,6 +102,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
     {
       dateFormat: date_format,
       isRange: range,
+      isLinked: link,
       shouldCorrectDate: correct_invalid_date,
     }
   )

@@ -3,6 +3,7 @@ import { convertStringToDate, isDisabled } from '../DatePickerCalc'
 import isValid from 'date-fns/isValid'
 import usePreviousValue from './usePreviousValue'
 import format from 'date-fns/format'
+import { addMonths } from 'date-fns'
 
 export type DatePickerInitialDates = {
   date?: Date | string
@@ -18,6 +19,7 @@ export type DatePickerInitialDates = {
 type UseDatesOptions = {
   dateFormat: string
   isRange: boolean
+  isLinked: boolean
   shouldCorrectDate: boolean
 }
 
@@ -49,6 +51,7 @@ export default function useDates(
   {
     dateFormat,
     isRange = false,
+    isLinked = false,
     shouldCorrectDate = false,
   }: UseDatesOptions
 ) {
@@ -82,10 +85,21 @@ export default function useDates(
           })
         : {}
 
+      // Update months based on month or start/end date changes
+      const months = {
+        startMonth:
+          newDates.startMonth ??
+          (!isLinked ? newDates.startDate : dates.startMonth),
+        endMonth:
+          newDates.endMonth ??
+          (!isLinked ? newDates.endDate : dates.endMonth),
+      }
+
       setDates((currentDates) => {
         return {
           ...currentDates,
           ...newDates,
+          ...months,
           ...correctedDates,
         }
       })
@@ -93,10 +107,11 @@ export default function useDates(
       callback?.({
         ...dates,
         ...newDates,
+        ...months,
         ...correctedDates,
       })
     },
-    [dates, shouldCorrectDate, isRange]
+    [dates, shouldCorrectDate, isRange, isLinked]
   )
 
   // Update dates on prop change
@@ -121,6 +136,7 @@ export default function useDates(
     updateDates,
     dateFormat,
     isRange,
+    isLinked,
     shouldCorrectDate,
   ])
 
@@ -174,7 +190,11 @@ export default function useDates(
 
 function mapDates(
   initialDates: DatePickerInitialDates,
-  { dateFormat, isRange, shouldCorrectDate }: UseDatesOptions
+  {
+    dateFormat,
+    isRange,
+    shouldCorrectDate,
+  }: Omit<UseDatesOptions, 'isLinked'>
 ) {
   const startDate =
     typeof initialDates?.startDate !== 'undefined'
@@ -189,13 +209,20 @@ function mapDates(
         date_format: dateFormat,
       }) || undefined
 
-  const startMonth = convertStringToDate(initialDates.startMonth, {
-    date_format: dateFormat,
-  })
+  // Ensure that the calendar view displays the correct months on initial render
+  const startMonth =
+    convertStringToDate(initialDates.startMonth, {
+      date_format: dateFormat,
+    }) ??
+    startDate ??
+    new Date()
 
-  const endMonth = convertStringToDate(initialDates.endMonth, {
-    date_format: dateFormat,
-  })
+  const endMonth =
+    convertStringToDate(initialDates.endMonth, {
+      date_format: dateFormat,
+    }) ?? isRange
+      ? endDate ?? addMonths(startMonth, 1)
+      : startMonth
 
   const minDate = convertStringToDate(initialDates.minDate, {
     date_format: dateFormat,
