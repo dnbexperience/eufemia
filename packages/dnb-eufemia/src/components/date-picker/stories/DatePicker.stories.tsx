@@ -7,7 +7,6 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
-import enLocale from 'date-fns/locale/en-GB'
 import startOfMonth from 'date-fns/startOfMonth'
 import lastDayOfMonth from 'date-fns/lastDayOfMonth'
 import addDays from 'date-fns/addDays'
@@ -121,6 +120,12 @@ export const DatePickerSandbox = () => (
           on_cancel={(props) => {
             console.log('on_cancel', props)
           }}
+          on_reset={(props) => {
+            console.log('on_reset', props)
+          }}
+          show_cancel_button
+          show_reset_button
+          show_submit_button
           // status="Please select a valid date"
         />
       </Provider>
@@ -146,18 +151,18 @@ export const DatePickerSandbox = () => (
         show_input
         input_element={() => <Input value="custom value" />}
         range
-        shortcuts={[
+        shortcuts={JSON.stringify([
           {
-            title: 'Set date period',
+            title: 'Set cake',
             start_date: '1981-01-15',
             end_date: '1981-02-15',
           },
           {
-            title: 'This month',
+            title: 'This stake',
             start_date: startOfMonth(new Date()),
             end_date: lastDayOfMonth(new Date()),
           },
-        ]}
+        ])}
         // addon_element={ToggleButtons}
         // addon_element={<>Bla</>}
       />
@@ -209,7 +214,6 @@ export const DatePickerSandbox = () => (
               show_input
               align_picker="right"
               mask_placeholder="dd/mm/yyyy"
-              locale={enLocale}
               first_day="sunday"
               return_format="dd/MM/yyyy"
               date="1981-01-15"
@@ -541,17 +545,6 @@ export const GlobalStatusExample = () => {
         globalStatus={{ id: 'my-id', message: 'my message' }}
         status="Message"
       />
-    </>
-  )
-}
-
-export const LocalePropExample = () => {
-  return (
-    <>
-      <DatePicker show_input={true} locale={enLocale} />
-      {/* <Provider locale="en-GB">
-        <DatePicker show_input={true} />
-      </Provider> */}
     </>
   )
 }
