@@ -97,30 +97,30 @@ The following is an overview of all the types that the `data` prop accepts. (The
 type CONTENT = string | React.Node | (string | React.Node)[]
 
 // An array item
-type ITEM = {
+type ARRAY_OBJECT = {
   content: CONTENT
   selectedKey?: string | number
   selected_value?: string | React.Node
   suffix_value?: string | React.Node
 }
 
-// `data` as an array. A list of "ITEM" types is preferred,
+// `data` as an array. A list of "ARRAY_OBJECT" types is preferred,
 // but the "CONTENT" type can be useful for simple lists.
-type ARRAY = (CONTENT | ITEM)[]
+type ARRAY = (CONTENT | ARRAY_OBJECT)[]
 
 // `data` as an object. Can only contain the "CONTENT" type.
-// Each `key` behaves like the "ITEM"'s `selectedKey`.
-type OBJECT = Record<string, CONTENT>
+// Each `key` behaves like the "ARRAY_OBJECT"'s `selectedKey`.
+type RECORD = Record<string, CONTENT>
 
 // An object or array that represents the entire DrawerList list.
-type DATA = ARRAY | OBJECT
+type BASIC_DATA = ARRAY | RECORD
 
-// A JSON stringified object/array of the "DATA" type
+// A JSON stringified object/array of the "BASIC_DATA" type
 type JSON_DATA = string
 
-// a dunction that returns an object/array of the "DATA" type
-type FUNCTION_DATA = () => DATA
+// a dunction that returns an object/array of the "BASIC_DATA" type
+type FUNCTION_DATA = () => BASIC_DATA
 
 // The final type of the `data` prop.
-type data = DATA | FUNCTION_DATA | JSON_DATA
+type DATA = BASIC_DATA | FUNCTION_DATA | JSON_DATA
 ```

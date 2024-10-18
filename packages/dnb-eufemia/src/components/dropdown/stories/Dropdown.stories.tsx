@@ -20,7 +20,7 @@ import {
   GlobalStatus,
 } from '../..'
 import { Flex, Link } from '../../..'
-import { DrawerListDataObjectUnion } from '../../../fragments/DrawerList'
+import { DrawerListDataArray } from '../../../fragments/DrawerList'
 import { Provider } from '../../../shared'
 
 export default {
@@ -628,7 +628,7 @@ export const DropdownSandbox = () => (
   </CustomStyle>
 )
 
-let dropdownData: DrawerListDataObjectUnion[] = [
+let dropdownData: DrawerListDataArray = [
   {
     selected_value: 'Brukskonto - Kari Nordmann',
     content: (
