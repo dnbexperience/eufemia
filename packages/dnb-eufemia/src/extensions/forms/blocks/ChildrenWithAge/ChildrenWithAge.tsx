@@ -53,6 +53,9 @@ function EditContainer({
 }) {
   const tr = Form.useTranslation<Translation>()
 
+  const { getValue } = Form.useData()
+  const hasChildren = getValue('/hasChildren') === true
+
   return (
     <Card stack {...spacingProps}>
       <Lead>{tr.ChildrenWithAge.hasChildren.title}</Lead>
@@ -124,20 +127,18 @@ function EditContainer({
         </Form.Visibility>
       )}
 
-      {enableAdditionalQuestions?.includes('daycare') && (
+      {enableAdditionalQuestions?.includes('daycare') && hasChildren && (
         <Form.Visibility pathTrue="/usesDaycare" animate>
-          <Form.Visibility pathTrue="/hasChildren">
-            <Field.Currency
-              path="/daycareExpenses"
-              label={tr.ChildrenWithAge.dayCareExpenses.fieldLabel}
-              errorMessages={{
-                required: tr.ChildrenWithAge.dayCareExpenses.required,
-              }}
-              minimum={1}
-              decimalLimit={0}
-              allowNegative={false}
-            />
-          </Form.Visibility>
+          <Field.Currency
+            path="/daycareExpenses"
+            label={tr.ChildrenWithAge.dayCareExpenses.fieldLabel}
+            errorMessages={{
+              required: tr.ChildrenWithAge.dayCareExpenses.required,
+            }}
+            minimum={1}
+            decimalLimit={0}
+            allowNegative={false}
+          />
         </Form.Visibility>
       )}
 
@@ -153,9 +154,10 @@ function EditContainer({
           />
         </Form.Visibility>
       )}
-      {enableAdditionalQuestions?.includes('joint-responsibility') && (
-        <Form.Visibility pathTrue="/hasJointResponsibility" animate>
-          <Form.Visibility pathTrue="/hasChildren">
+
+      {enableAdditionalQuestions?.includes('joint-responsibility') &&
+        hasChildren && (
+          <Form.Visibility pathTrue="/hasJointResponsibility" animate>
             <Field.Currency
               path="/jointResponsibilityExpenses"
               label={
@@ -170,8 +172,7 @@ function EditContainer({
               allowNegative={false}
             />
           </Form.Visibility>
-        </Form.Visibility>
-      )}
+        )}
     </Card>
   )
 }
