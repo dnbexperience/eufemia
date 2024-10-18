@@ -250,10 +250,10 @@ export default function Provider<Data extends JsonObject>(
   const mountedFieldsRef: ContextState['mountedFieldsRef'] = useRef({})
 
   // - Snapshots
-  const snapshotsRef: ContextState['snapshotsRef'] = useRef()
-  if (!snapshotsRef.current) {
-    snapshotsRef.current = new Map()
-  }
+  const snapshotsRef: ContextState['snapshotsRef'] = useRef(new Map())
+  const existingFieldsRef: ContextState['existingFieldsRef'] = useRef(
+    new Map()
+  )
 
   // - Errors from provider validation (the whole data set)
   const hasVisibleErrorRef = useRef<Record<Path, boolean>>({})
@@ -1334,6 +1334,7 @@ export default function Provider<Data extends JsonObject>(
     valuePropsRef,
     mountedFieldsRef,
     snapshotsRef,
+    existingFieldsRef,
     formElementRef,
     isEmptyDataRef,
     fieldErrorRef,

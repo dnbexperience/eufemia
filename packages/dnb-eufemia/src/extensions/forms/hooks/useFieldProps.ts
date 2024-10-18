@@ -78,8 +78,6 @@ export type DataAttributes = {
   [property: `data-${string}`]: string | boolean | number
 }
 
-const existingFields = new Map()
-
 // Many variables are kept in refs to avoid triggering unnecessary update loops because updates using
 // useEffect depend on them (like the external `value`)
 
@@ -190,6 +188,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     errors: dataContextErrors,
     showAllErrors,
     contextErrorMessages,
+    existingFieldsRef,
   } = dataContext || {}
   const onChangeContext = dataContext?.props?.onChange
 
@@ -1552,10 +1551,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       !omitMultiplePathWarning &&
       process.env.NODE_ENV !== 'production' &&
       (hasPath || hasItemPath) &&
-      (hasPath ? !iterateItemContext : true)
+      (hasPath ? !iterateItemContext : true) &&
+      existingFieldsRef?.current
     ) {
+      const existingFields = existingFieldsRef.current
       if (existingFields.has(identifier)) {
-        warn('Path declared multiple times: times:', identifier)
+        warn('Path declared multiple times:', identifier)
       } else {
         existingFields.set(identifier, true)
         return () => {
@@ -1564,6 +1565,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       }
     }
   }, [
+    existingFieldsRef,
     hasItemPath,
     hasPath,
     identifier,
