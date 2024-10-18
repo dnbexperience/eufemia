@@ -84,6 +84,24 @@ describe('verifyFiles', () => {
     })
   })
 
+  it('returns no error message if "acceptedFileTypes" is undefined', () => {
+    const file1 = createMockFile('fileName1.png', 100, 'image/png')
+
+    const rawFiles = [{ file: file1 }]
+    const acceptedFileTypes = undefined
+
+    const files = verifyFiles(rawFiles, {
+      fileMaxSize: 1000,
+      acceptedFileTypes,
+      errorUnsupportedFile: 'error 1',
+      errorLargeFile: 'error 2',
+    })
+
+    expect(files[0]).toEqual({
+      file: file1,
+    })
+  })
+
   it('returns no error message when uploading a file of a "acceptedFileType" file extension in lower case', () => {
     const file1 = createMockFile('fileName1.png', 100, 'image/png')
 

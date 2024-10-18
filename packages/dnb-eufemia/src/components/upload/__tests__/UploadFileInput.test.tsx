@@ -159,6 +159,20 @@ describe('UploadFileInput', () => {
     expect(onInputUpload).toHaveBeenCalledWith([{ file }])
   })
 
+  it('accepts not providing acceptedFileTypes', async () => {
+    render(<UploadFileInput />, {
+      wrapper: makeWrapper({
+        acceptedFileTypes: undefined,
+      }),
+    })
+
+    const inputElement = document.querySelector(
+      '.dnb-upload__file-input'
+    ) as HTMLInputElement
+
+    expect(inputElement.accept).toBe('')
+  })
+
   it('accepts given acceptedFileTypes', async () => {
     render(<UploadFileInput />, {
       wrapper: makeWrapper({

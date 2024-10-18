@@ -53,9 +53,9 @@ export function verifyFiles(
     }
 
     if (
+      !acceptedFileTypes ||
       isArrayOfStrings(acceptedFileTypes) ||
-      acceptedFileTypes.length === 0 ||
-      !acceptedFileTypes
+      acceptedFileTypes.length === 0
     ) {
       return validateFileSize(file.size, fileMaxSize)
     } else if (isArrayOfObjects(acceptedFileTypes)) {
@@ -81,7 +81,7 @@ export function verifyFiles(
   }
 
   const handleType = (file: File) => {
-    if (acceptedFileTypes.length === 0) {
+    if (!acceptedFileTypes || acceptedFileTypes.length === 0) {
       return false
     }
 
@@ -151,6 +151,9 @@ function getAcceptedFileTypesAsListOfStrings(
     | UploadAcceptedFileTypes
     | UploadAcceptedFileTypesWithFileMaxSize
 ) {
+  if (!acceptedFileTypes) {
+    return []
+  }
   return isArrayOfStrings(acceptedFileTypes)
     ? (acceptedFileTypes as UploadAcceptedFileTypes)
     : (acceptedFileTypes as UploadAcceptedFileTypesWithFileMaxSize).map(
