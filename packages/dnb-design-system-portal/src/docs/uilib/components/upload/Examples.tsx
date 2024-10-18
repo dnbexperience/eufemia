@@ -57,6 +57,35 @@ export const UploadPrefilledFileList = () => (
   </ComponentBox>
 )
 
+export const UploadHideFileExtenstionText = () => (
+  <ComponentBox
+    data-visual-test="upload-hides-file-extension-text"
+    scope={{ useMockFiles }}
+  >
+    {() => {
+      const Component = () => {
+        const { files, setFiles } = Upload.useUpload('my-file-list')
+
+        if (files.length) {
+          console.log('files', files)
+        }
+
+        useMockFiles(setFiles, {})
+
+        return (
+          <Upload
+            acceptedFileTypes={['jpg', 'png']}
+            id="my-file-list"
+            displayFileExtensionText={false}
+          />
+        )
+      }
+
+      return <Component />
+    }}
+  </ComponentBox>
+)
+
 export const UploadBasic = () => (
   <ComponentBox data-visual-test="upload-basic">
     <Upload acceptedFileTypes={['jpg', 'png']} id="upload-basic" />
