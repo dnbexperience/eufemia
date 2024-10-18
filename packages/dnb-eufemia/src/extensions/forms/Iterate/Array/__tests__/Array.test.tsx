@@ -5,7 +5,7 @@ import * as Iterate from '../..'
 import * as DataContext from '../../../DataContext'
 import { IterateItemContext } from '../..'
 import { Field, FieldBlock, Form, Value, ValueBlock } from '../../..'
-import { FilterData } from '../../../DataContext'
+import { ContextState, FilterData } from '../../../DataContext'
 
 describe('Iterate.Array', () => {
   describe('with primitive elements', () => {
@@ -258,6 +258,167 @@ describe('Iterate.Array', () => {
       expect(inputs).toHaveLength(2)
     })
 
+    it('should update items when countPath value changes', async () => {
+      render(
+        <Form.Handler>
+          <Field.Number path="/count" defaultValue={2} />
+
+          <section>
+            <Iterate.Array path="/items" countPath="/count">
+              <Field.Number itemPath="/" />
+            </Iterate.Array>
+          </section>
+        </Form.Handler>
+      )
+
+      expect(document.querySelectorAll('section input')).toHaveLength(2)
+
+      await userEvent.type(document.querySelector('input'), '{Backspace}3')
+
+      expect(document.querySelectorAll('section input')).toHaveLength(3)
+
+      await userEvent.type(document.querySelector('input'), '{Backspace}0')
+
+      expect(document.querySelectorAll('section input')).toHaveLength(0)
+
+      await userEvent.type(document.querySelector('input'), '{Backspace}1')
+
+      expect(document.querySelectorAll('section input')).toHaveLength(1)
+    })
+
+    it('should keep data context in sync when countPath value changes', async () => {
+      const onChange = jest.fn()
+      let collectedContext: ContextState = null
+
+      render(
+        <Form.Handler onChange={onChange}>
+          <Field.Number path="/count" defaultValue={2} />
+
+          <section>
+            <Iterate.Array path="/items" countPath="/count">
+              <Field.Number itemPath="/" defaultValue={2} />
+            </Iterate.Array>
+          </section>
+
+          <DataContext.Context.Consumer>
+            {(context) => {
+              collectedContext = context
+              return null
+            }}
+          </DataContext.Context.Consumer>
+        </Form.Handler>
+      )
+
+      expect(document.querySelectorAll('section input')).toHaveLength(2)
+      expect(onChange).toHaveBeenCalledTimes(0)
+      expect(collectedContext.data).toEqual({
+        count: 2,
+        items: [2, 2],
+      })
+
+      await userEvent.type(
+        document.querySelectorAll('section input')[0],
+        '2'
+      )
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          count: 2,
+          items: [22, 2],
+        },
+        expect.anything()
+      )
+      expect(collectedContext.data).toEqual({
+        count: 2,
+        items: [22, 2],
+      })
+
+      fireEvent.change(document.querySelector('input'), {
+        target: { value: '3' },
+      })
+
+      expect(document.querySelectorAll('section input')).toHaveLength(3)
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          count: 3, // we first only change this value
+          items: [22, 2],
+        },
+        expect.anything()
+      )
+      expect(collectedContext.data).toEqual({
+        count: 3,
+        items: [22, 2, 2],
+      })
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalledTimes(3)
+        expect(onChange).toHaveBeenLastCalledWith(
+          {
+            count: 3,
+            items: [22, 2, 2],
+          },
+          expect.anything()
+        )
+      })
+
+      expect(collectedContext.data).toEqual({
+        count: 3,
+        items: [22, 2, 2],
+      })
+
+      fireEvent.change(document.querySelector('input'), {
+        target: { value: '1' },
+      })
+
+      expect(document.querySelectorAll('section input')).toHaveLength(1)
+      expect(onChange).toHaveBeenCalledTimes(4)
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          count: 1, // we first only change this value
+          items: [22, 2, 2],
+        },
+        expect.anything()
+      )
+      expect(collectedContext.data).toEqual({
+        count: 1,
+        items: [22, 2, 2],
+      })
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalledTimes(5)
+        expect(onChange).toHaveBeenLastCalledWith(
+          {
+            count: 1,
+            items: [22],
+          },
+          expect.anything()
+        )
+      })
+
+      expect(collectedContext.data).toEqual({
+        count: 1,
+        items: [22],
+      })
+    })
+
+    it('should use defaultValue from Field.Number', async () => {
+      render(
+        <Form.Handler data={{ count: 2 }}>
+          <section>
+            <Iterate.Array path="/items" countPath="/count">
+              <Field.Number itemPath="/" defaultValue={2} />
+            </Iterate.Array>
+          </section>
+        </Form.Handler>
+      )
+
+      const inputs = document.querySelectorAll('input')
+      expect(inputs).toHaveLength(2)
+      expect(inputs[0]).toHaveValue('2')
+      expect(inputs[1]).toHaveValue('2')
+    })
+
     it('should render input value defined by "countPathTransform"', () => {
       render(
         <Form.Handler data={{ count: 2 }}>
@@ -265,14 +426,35 @@ describe('Iterate.Array', () => {
             path="/items"
             countPath="/count"
             countPathTransform={({ value, index }) =>
-              Object.prototype.hasOwnProperty.call(value || {}, 'item')
-                ? value
-                : { item: index }
+              'item' in (value || {}) ? value : { item: index }
             }
           >
             <Field.Number itemPath="/item" />
           </Iterate.Array>
         </Form.Handler>
+      )
+
+      const inputs = document.querySelectorAll('input')
+      expect(inputs).toHaveLength(2)
+      expect(inputs[0]).toHaveValue('0')
+      expect(inputs[1]).toHaveValue('1')
+    })
+
+    it('should support React.StrictMode when using "countPathTransform"', () => {
+      render(
+        <React.StrictMode>
+          <Form.Handler data={{ count: 2 }}>
+            <Iterate.Array
+              path="/items"
+              countPath="/count"
+              countPathTransform={({ value, index }) =>
+                'item' in (value || {}) ? value : { item: index }
+              }
+            >
+              <Field.Number itemPath="/item" defaultValue={2} />
+            </Iterate.Array>
+          </Form.Handler>
+        </React.StrictMode>
       )
 
       const inputs = document.querySelectorAll('input')
@@ -499,7 +681,6 @@ describe('Iterate.Array', () => {
               { mem: 'D', second: '2nd' },
             ]}
           >
-            <Field.String itemPath="/" />
             {renderProp1}
             {renderProp2}
           </Iterate.Array>

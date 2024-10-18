@@ -197,15 +197,11 @@ export type InternalLocale =
   | Locale
   // more strict type definitions than string breaks applications using React Intl.
   | AnyLocale
-export type ComponentTranslationsName = keyof ContextComponents | string
-export type ComponentTranslation = string
 export type Translations =
   | Partial<Record<InternalLocale, Translation | TranslationFlat>>
   | Partial<Record<InternalLocale, FormsTranslation>>
 export type TranslationDefaultLocales = typeof defaultLocales
 export type TranslationLocale = keyof TranslationDefaultLocales
-export type TranslationKeys =
-  keyof TranslationDefaultLocales[TranslationLocale]
 export type TranslationValues =
   TranslationDefaultLocales[TranslationLocale]
 export type TranslationCustomLocales = Record<
@@ -221,9 +217,8 @@ export type Translation = DeepPartial<TranslationValues>
 /**
  * E.g. "HelpButton.title"
  */
-export type TranslationFlat = Record<
-  ComponentTranslationsName,
-  TranslationKeys | ComponentTranslation
+export type TranslationFlat = Partial<
+  Record<TranslationObjectToFlat<TranslationValues>, string>
 >
 
 export type TranslationFlatToObject<T> = T extends Record<string, unknown>
@@ -237,6 +232,12 @@ export type TranslationFlatToObject<T> = T extends Record<string, unknown>
         : T[K]
     }
   : T
+
+export type TranslationObjectToFlat<T, Prefix extends string = ''> = {
+  [K in keyof T]: T[K] extends Record<string, unknown>
+    ? TranslationObjectToFlat<T[K], `${Prefix}${K & string}.`>
+    : `${Prefix}${K & string}`
+}[keyof T]
 
 export function prepareContext<Props>(
   props: ContextProps = {}

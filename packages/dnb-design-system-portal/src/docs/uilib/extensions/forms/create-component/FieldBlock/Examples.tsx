@@ -79,6 +79,12 @@ export const Widths = () => {
           <TestElement>Contents</TestElement>
         </FieldBlock>
         <FieldBlock
+          label="Custom (affects outer block element)"
+          width="8rem"
+        >
+          <TestElement>Contents</TestElement>
+        </FieldBlock>
+        <FieldBlock
           label="Stretch (affects outer block element)"
           width="stretch"
         >
@@ -100,6 +106,12 @@ export const Widths = () => {
         <FieldBlock
           label="Large (affects contents only)"
           contentWidth="large"
+        >
+          <TestElement>Contents</TestElement>
+        </FieldBlock>
+        <FieldBlock
+          label="Custom (affects contents only)"
+          contentWidth="8rem"
         >
           <TestElement>Contents</TestElement>
         </FieldBlock>

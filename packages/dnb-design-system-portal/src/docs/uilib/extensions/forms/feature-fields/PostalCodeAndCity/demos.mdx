@@ -44,6 +44,20 @@ By using the `itemPath` property, you can iterate over an array and use the `pos
 
 <Examples.ValidationRequired />
 
+### Path Based Country
+
+The `country` property supports a field path as value. This allows you to set the `country` based on the value of another field.
+
+<Examples.SettingCountryBasedOnPath />
+
+### Non-Norwegian Postal Codes
+
+If you want to allow for a postal code that is not Norwegian, just set the `country` property to the desired country, and add your own custom validation.
+
+NB: As of today, setting `country` property to anything other than `NO` will only remove the default norwegian postal code pattern, mask, and placeholder, but not actually set the postal code pattern, mask, and placeholder for the value provided to the `country` property. This functionality will hopefully be implemented in the future.
+
+<Examples.NonNorwegianPostalCode />
+
 <VisibleWhenVisualTest>
   <Examples.LongLabel />
 </VisibleWhenVisualTest>

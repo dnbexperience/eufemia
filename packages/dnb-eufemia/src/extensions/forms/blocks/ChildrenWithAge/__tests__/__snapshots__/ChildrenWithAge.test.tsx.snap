@@ -61,9 +61,7 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
               },
               "usesDaycare": {
                 "fieldLabel": "Do you have expenses for SFO/AKS?",
-                "helpText": "State the total amount per month that you pay to Skolefritidsordningen (SFO) or Aktivitetsskolen (AKS).
-
-Kindergarten expenses are not to be included here.",
+                "helpText": "State the total amount per month that you pay to Skolefritidsordningen (SFO) or Aktivitetsskolen (AKS).{br}{br}Kindergarten expenses are not to be included here.",
                 "required": "You must state whether you have any expenses for SFO/AKS.",
               },
             },
@@ -99,9 +97,7 @@ Kindergarten expenses are not to be included here.",
               },
               "usesDaycare": {
                 "fieldLabel": "Har du/dere utgifter til SFO/AKS?",
-                "helpText": "Oppgi totalt beløp per måned som du betaler til Skolefritidsordningen (SFO) eller Aktivitetsskolen (AKS).
-
-Barnehageutgifter skal ikke tas med her.",
+                "helpText": "Oppgi totalt beløp per måned som du betaler til Skolefritidsordningen (SFO) eller Aktivitetsskolen (AKS).{br}{br}Barnehageutgifter skal ikke tas med her.",
                 "required": "Du må angi om du/dere har utgifter til SFO/AKS.",
               },
             },
@@ -169,9 +165,7 @@ Barnehageutgifter skal ikke tas med her.",
               },
               "usesDaycare": {
                 "fieldLabel": "Do you have expenses for SFO/AKS?",
-                "helpText": "State the total amount per month that you pay to Skolefritidsordningen (SFO) or Aktivitetsskolen (AKS).
-
-Kindergarten expenses are not to be included here.",
+                "helpText": "State the total amount per month that you pay to Skolefritidsordningen (SFO) or Aktivitetsskolen (AKS).{br}{br}Kindergarten expenses are not to be included here.",
                 "required": "You must state whether you have any expenses for SFO/AKS.",
               },
             },
@@ -207,9 +201,7 @@ Kindergarten expenses are not to be included here.",
               },
               "usesDaycare": {
                 "fieldLabel": "Har du/dere utgifter til SFO/AKS?",
-                "helpText": "Oppgi totalt beløp per måned som du betaler til Skolefritidsordningen (SFO) eller Aktivitetsskolen (AKS).
-
-Barnehageutgifter skal ikke tas med her.",
+                "helpText": "Oppgi totalt beløp per måned som du betaler til Skolefritidsordningen (SFO) eller Aktivitetsskolen (AKS).{br}{br}Barnehageutgifter skal ikke tas med her.",
                 "required": "Du må angi om du/dere har utgifter til SFO/AKS.",
               },
             },
@@ -226,7 +218,7 @@ Barnehageutgifter skal ikke tas med her.",
     "required": false,
     "space": {
       "bottom": 0,
-      "top": 0,
+      "top": "medium",
     },
     "translations": {
       "en-GB": {
@@ -260,9 +252,7 @@ Barnehageutgifter skal ikke tas med her.",
           },
           "usesDaycare": {
             "fieldLabel": "Do you have expenses for SFO/AKS?",
-            "helpText": "State the total amount per month that you pay to Skolefritidsordningen (SFO) or Aktivitetsskolen (AKS).
-
-Kindergarten expenses are not to be included here.",
+            "helpText": "State the total amount per month that you pay to Skolefritidsordningen (SFO) or Aktivitetsskolen (AKS).{br}{br}Kindergarten expenses are not to be included here.",
             "required": "You must state whether you have any expenses for SFO/AKS.",
           },
         },
@@ -298,18 +288,25 @@ Kindergarten expenses are not to be included here.",
           },
           "usesDaycare": {
             "fieldLabel": "Har du/dere utgifter til SFO/AKS?",
-            "helpText": "Oppgi totalt beløp per måned som du betaler til Skolefritidsordningen (SFO) eller Aktivitetsskolen (AKS).
-
-Barnehageutgifter skal ikke tas med her.",
+            "helpText": "Oppgi totalt beløp per måned som du betaler til Skolefritidsordningen (SFO) eller Aktivitetsskolen (AKS).{br}{br}Barnehageutgifter skal ikke tas med her.",
             "required": "Du må angi om du/dere har utgifter til SFO/AKS.",
           },
         },
       },
     },
+    "value": [
+      {
+        "age": 18,
+        "daycare": true,
+        "usesDaycare": true,
+      },
+      undefined,
+    ],
   },
   "countChildren": {
     "allowNegative": false,
     "decimalLimit": 0,
+    "defaultValue": 1,
     "errorMessages": {
       "exclusiveMaximum": "Verdien må være mindre enn {exclusiveMaximum}.",
       "exclusiveMinimum": "Verdien må være større enn {exclusiveMinimum}.",
@@ -368,9 +365,7 @@ Barnehageutgifter skal ikke tas med her.",
           },
           "usesDaycare": {
             "fieldLabel": "Do you have expenses for SFO/AKS?",
-            "helpText": "State the total amount per month that you pay to Skolefritidsordningen (SFO) or Aktivitetsskolen (AKS).
-
-Kindergarten expenses are not to be included here.",
+            "helpText": "State the total amount per month that you pay to Skolefritidsordningen (SFO) or Aktivitetsskolen (AKS).{br}{br}Kindergarten expenses are not to be included here.",
             "required": "You must state whether you have any expenses for SFO/AKS.",
           },
         },
@@ -406,9 +401,7 @@ Kindergarten expenses are not to be included here.",
           },
           "usesDaycare": {
             "fieldLabel": "Har du/dere utgifter til SFO/AKS?",
-            "helpText": "Oppgi totalt beløp per måned som du betaler til Skolefritidsordningen (SFO) eller Aktivitetsskolen (AKS).
-
-Barnehageutgifter skal ikke tas med her.",
+            "helpText": "Oppgi totalt beløp per måned som du betaler til Skolefritidsordningen (SFO) eller Aktivitetsskolen (AKS).{br}{br}Barnehageutgifter skal ikke tas med her.",
             "required": "Du må angi om du/dere har utgifter til SFO/AKS.",
           },
         },
@@ -462,9 +455,7 @@ Barnehageutgifter skal ikke tas med her.",
           },
           "usesDaycare": {
             "fieldLabel": "Do you have expenses for SFO/AKS?",
-            "helpText": "State the total amount per month that you pay to Skolefritidsordningen (SFO) or Aktivitetsskolen (AKS).
-
-Kindergarten expenses are not to be included here.",
+            "helpText": "State the total amount per month that you pay to Skolefritidsordningen (SFO) or Aktivitetsskolen (AKS).{br}{br}Kindergarten expenses are not to be included here.",
             "required": "You must state whether you have any expenses for SFO/AKS.",
           },
         },
@@ -500,9 +491,7 @@ Kindergarten expenses are not to be included here.",
           },
           "usesDaycare": {
             "fieldLabel": "Har du/dere utgifter til SFO/AKS?",
-            "helpText": "Oppgi totalt beløp per måned som du betaler til Skolefritidsordningen (SFO) eller Aktivitetsskolen (AKS).
-
-Barnehageutgifter skal ikke tas med her.",
+            "helpText": "Oppgi totalt beløp per måned som du betaler til Skolefritidsordningen (SFO) eller Aktivitetsskolen (AKS).{br}{br}Barnehageutgifter skal ikke tas med her.",
             "required": "Du må angi om du/dere har utgifter til SFO/AKS.",
           },
         },
@@ -536,6 +525,7 @@ exports[`ChildrenWithAge should match snapshot 2`] = `
   },
   "daycareExpenses": {
     "currency": "NOK",
+    "decimals": "0",
     "label": "Oppgi utgifter til SFO/AKS per måned",
     "path": "/daycareExpenses",
   },
@@ -549,6 +539,7 @@ exports[`ChildrenWithAge should match snapshot 2`] = `
   },
   "jointResponsibilityExpenses": {
     "currency": "NOK",
+    "decimals": "0",
     "label": "Oppgi barnebidrag per måned",
     "path": "/jointResponsibilityExpenses",
   },

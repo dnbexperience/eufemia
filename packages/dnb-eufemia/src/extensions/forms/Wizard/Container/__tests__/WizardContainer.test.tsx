@@ -1,7 +1,7 @@
 import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { wait } from '../../../../../core/jest/jestSetup'
+import { spyOnEufemiaWarn, wait } from '../../../../../core/jest/jestSetup'
 import { Field, Form, Iterate, OnSubmit, Wizard } from '../../..'
 
 import nbNO from '../../../constants/locales/nb-NO'
@@ -2296,6 +2296,8 @@ describe('Wizard.Container', () => {
     })
 
     it('should remember an entered value between step changes', async () => {
+      const log = spyOnEufemiaWarn()
+
       const onChange = jest.fn()
       const onStepChange = jest.fn()
 
@@ -2345,6 +2347,8 @@ describe('Wizard.Container', () => {
         expect.anything()
       )
       expect(document.querySelector('input')).toHaveValue('1234')
+
+      log.mockRestore()
     })
 
     it('should set defaultValue of Iterate.Array only once between step changes', async () => {

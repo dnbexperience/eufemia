@@ -13,11 +13,21 @@ breadcrumb:
 
 Change log for the Eufemia Forms extension.
 
+## v10.53
+
+- Added validation of Norwegian bankaccount numbers to [Field.BankAccountNumber](/uilib/extensions/forms/feature-fields/BankAccountNumber/).
+- Added [Form.useTranslation](/uilib/extensions/forms/Form/useTranslation/) that returns the translations for the current locale.
+- Added `renderMessage` function in [Form.useTranslation](/uilib/extensions/forms/Form/useTranslation/) to render a string with line-breaks.
+- Added console warning when a field path is declared more than one time.
+- Added `country` property in [Field.PostalCodeAndCity](/uilib/extensions/forms/feature-fields/PostalCodeAndCity/), to support different countries than only Norway.
+- Fixed UI alignments in [Block.ChildrenWithAge](/uilib/extensions/forms/blocks/ChildrenWithAge/).
+- Fixed so [Iterate.Array](/uilib/extensions/forms/Iterate/Array/) is in sync with the data context, and call `onChange` when `countPath` changes.
+
 ## v10.52
 
 - Added `transformLabel` to all `Value.*` components.
 - Added `bubbleValidation` to [Form.Isolation](/uilib/extensions/forms/Form/Isolation/) and [Iterate.PushContainer](/uilib/extensions/forms/Iterate/PushContainer/), to prevent the form from being submitted when there are fields with errors.
-- Added [createMinimumAgeValidator](/uilib/extensions/forms/feature-fields/NationalIdentityNumber/properties/#createminimumagevalidator) in [Field.NationalIdentityNumber](/uilib/extensions/forms/feature-fields/NationalIdentityNumber/) to make a customizable minimum age validator.
+- Added [createMinimumAgeValidator](/uilib/extensions/forms/feature-fields/NationalIdentityNumber/info/#createminimumagevalidator) in [Field.NationalIdentityNumber](/uilib/extensions/forms/feature-fields/NationalIdentityNumber/) to make a customizable minimum age validator.
 - Added [Form.useSnapshot](/uilib/extensions/forms/Form/useSnapshot/) hook to handle snapshots of data.
 - Added `id` to [Wizard.Step](/uilib/extensions/forms/Wizard/Step/) for when using dynamic steps with `activeWhen`.
 - Added [Iterate.ItemNo](/uilib/extensions/forms/Iterate/ItemNo/).
