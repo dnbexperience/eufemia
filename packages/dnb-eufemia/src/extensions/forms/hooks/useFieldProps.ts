@@ -89,6 +89,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     executeOnChangeRegardlessOfError = false,
     updateContextDataInSync = false,
     omitMultiplePathWarning = false,
+    forceUpdateWhenContextDataIsSet = false,
   } = {}
 ): typeof localProps & ReturnAdditional<Value> {
   const { extend } = useContext(FieldProviderContext)
@@ -1738,6 +1739,15 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         if (!Array.isArray(valueToStore)) {
           return // stop here, never use a non-array value when in "updateContextDataInSync"
         }
+
+        if (Array.isArray(existingValue)) {
+          if (valueToStore.length !== existingValue.length) {
+            skipEqualCheck = true // in order to update the items
+          }
+
+          // Keep Iterate.Array in sync with the data context
+          valueRef.current = existingValue
+        }
       }
 
       if (
@@ -1769,9 +1779,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
       // When an itemPath is given, we don't want to rerender the context on every iteration because of performance reasons.
       // We know when the last item is reached, so we can prevent rerenders during the iteration.
-      const preventUpdate =
-        updateContextDataInSync ||
-        (hasItemPath && iterateIndex < iterateArrayValue?.length - 1)
+      if (hasItemPath && iterateIndex < iterateArrayValue?.length - 1) {
+        preventUpdate = true
+      }
 
       // Update the data context when a pointer not exists,
       // but was given initially.
@@ -1831,7 +1841,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   useMemo(() => {
     if (updateContextDataInSync && !isEmptyData()) {
-      setContextData()
+      setContextData({ preventUpdate: true })
     }
   }, [isEmptyData, updateContextDataInSync, setContextData])
 
@@ -1839,7 +1849,17 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     if (!updateContextDataInSync && !isEmptyData()) {
       setContextData()
     }
-  }, [isEmptyData, updateContextDataInSync, setContextData])
+
+    // In order to render Iterate.Array with "countPath" immediately
+    if (forceUpdateWhenContextDataIsSet) {
+      forceUpdate()
+    }
+  }, [
+    forceUpdateWhenContextDataIsSet,
+    isEmptyData,
+    setContextData,
+    updateContextDataInSync,
+  ])
 
   useEffect(() => {
     if (isEmptyData()) {
