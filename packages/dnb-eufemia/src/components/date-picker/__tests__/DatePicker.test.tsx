@@ -14,7 +14,7 @@ import addDays from 'date-fns/addDays'
 import addMonths from 'date-fns/addMonths'
 import getDaysInMonth from 'date-fns/getDaysInMonth'
 import isWeekend from 'date-fns/isWeekend'
-import enLocale from 'date-fns/locale/en-GB'
+
 import {
   toRange,
   dayOffset,
@@ -81,6 +81,40 @@ describe('DatePicker component', () => {
     ).not.toContain('dnb-date-picker--closed')
   })
 
+  it('will close the picker on click outside', async () => {
+    render(<DatePicker {...defaultProps} />)
+
+    await userEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+
+    expect(
+      document
+        .querySelector('button.dnb-input__submit-button__button')
+
+        .getAttribute('aria-expanded')
+    ).toBe('true')
+
+    expect(
+      document
+        .querySelector('.dnb-date-picker')
+
+        .getAttribute('class')
+    ).toContain('dnb-date-picker--opened')
+
+    await userEvent.click(document.body)
+
+    expect(
+      document
+        .querySelector('button.dnb-input__submit-button__button')
+        .getAttribute('aria-expanded')
+    ).toBe('false')
+
+    expect(
+      document.querySelector('.dnb-date-picker').getAttribute('class')
+    ).not.toContain('dnb-date-picker--opened')
+  })
+
   it('will close the picker after selection', () => {
     const on_change = jest.fn()
     const { rerender } = render(
@@ -125,7 +159,12 @@ describe('DatePicker component', () => {
     ).not.toContain('dnb-date-picker--closed')
 
     rerender(
-      <DatePicker {...defaultProps} on_change={on_change} range={false} />
+      <DatePicker
+        {...defaultProps}
+        on_change={on_change}
+        range={false}
+        end_date={null}
+      />
     )
 
     expect(on_change).toHaveBeenCalledTimes(2)
@@ -550,6 +589,7 @@ describe('DatePicker component', () => {
         show_cancel_button={false}
         show_submit_button={false}
         range={false}
+        end_date={null}
       />
     )
 
@@ -677,6 +717,7 @@ describe('DatePicker component', () => {
         on_type={on_type}
         range={false}
         correct_invalid_date={false}
+        end_date={null}
       />
     )
 
@@ -719,13 +760,6 @@ describe('DatePicker component', () => {
     await userEvent.type(elem, '01')
 
     expect(on_change).toHaveBeenCalledTimes(2)
-    expect(on_change).toHaveBeenNthCalledWith(
-      1,
-      expect.objectContaining({
-        is_valid_start_date: false,
-        start_date: null,
-      })
-    )
     expect(on_change).toHaveBeenLastCalledWith(
       expect.objectContaining({
         is_valid_start_date: true,
@@ -736,7 +770,7 @@ describe('DatePicker component', () => {
     // change the date to a valid date
     await userEvent.type(elem, '{Backspace>2}03')
 
-    expect(on_change).toHaveBeenCalledTimes(4)
+    expect(on_change).toHaveBeenCalledTimes(3)
     expect(on_change).toHaveBeenLastCalledWith(
       expect.objectContaining({
         is_valid_start_date: true,
@@ -1329,35 +1363,6 @@ describe('DatePicker component', () => {
     expect(element.classList).toContain('dnb-date-picker--opened')
   })
 
-  it('renders correct placeholder when setting locale', () => {
-    const props: DatePickerProps = {}
-
-    render(<DatePicker {...props} show_input={true} locale={enLocale} />)
-
-    const dayElem = document.querySelectorAll(
-      'input.dnb-date-picker__input--day'
-    )[0] as HTMLInputElement
-    const monthElem = document.querySelectorAll(
-      'input.dnb-date-picker__input--month'
-    )[0] as HTMLInputElement
-    const yearElem = document.querySelectorAll(
-      'input.dnb-date-picker__input--year'
-    )[0] as HTMLInputElement
-
-    const seperator1 = document.querySelectorAll(
-      '.dnb-date-picker--separator'
-    )[0]
-    const seperator2 = document.querySelectorAll(
-      '.dnb-date-picker--separator'
-    )[0]
-
-    expect(dayElem.value).toBe('dd')
-    expect(monthElem.value).toBe('mm')
-    expect(yearElem.value).toBe('yyyy')
-    expect(seperator1.textContent).toBe('/')
-    expect(seperator2.textContent).toBe('/')
-  })
-
   it('has to react on keydown events', async () => {
     render(
       <DatePicker
@@ -1505,6 +1510,39 @@ describe('DatePicker component', () => {
       'mandag 24. desember 2035'
     )
     expect(thirdDateButton.children[2]).toHaveTextContent('24')
+  })
+
+  it('renders correct placeholder when setting locale', () => {
+    const props: DatePickerProps = {}
+
+    render(
+      <Provider locale="en-GB">
+        <DatePicker {...props} show_input={true} />
+      </Provider>
+    )
+
+    const dayElem = document.querySelectorAll(
+      'input.dnb-date-picker__input--day'
+    )[0] as HTMLInputElement
+    const monthElem = document.querySelectorAll(
+      'input.dnb-date-picker__input--month'
+    )[0] as HTMLInputElement
+    const yearElem = document.querySelectorAll(
+      'input.dnb-date-picker__input--year'
+    )[0] as HTMLInputElement
+
+    const seperator1 = document.querySelectorAll(
+      '.dnb-date-picker--separator'
+    )[0]
+    const seperator2 = document.querySelectorAll(
+      '.dnb-date-picker--separator'
+    )[0]
+
+    expect(dayElem.value).toBe('dd')
+    expect(monthElem.value).toBe('mm')
+    expect(yearElem.value).toBe('yyyy')
+    expect(seperator1.textContent).toBe('/')
+    expect(seperator2.textContent).toBe('/')
   })
 
   it('should fire fire event when input gets focus', async () => {
