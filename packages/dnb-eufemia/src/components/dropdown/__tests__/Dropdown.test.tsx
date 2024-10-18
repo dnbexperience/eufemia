@@ -732,6 +732,7 @@ describe('Dropdown component', () => {
       data: {
         __id: 0,
         content: 'English',
+        selectedKey: 'en-GB',
         selected_key: 'en-GB',
         type: 'object',
         value: 'en-GB',
@@ -750,6 +751,7 @@ describe('Dropdown component', () => {
       isTrusted: false,
       data: {
         content: 'Norsk',
+        selectedKey: 'nb-NO',
         selected_key: 'nb-NO',
         type: 'object',
         value: 'nb-NO',

@@ -5,6 +5,7 @@ showTabs: true
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { DrawerListProperties } from '@dnb/eufemia/src/fragments/drawer-list/DrawerListDocs'
+import DrawerListDataDoc from '../fragments/drawer-list/_prop-data.mdx'
 
 ## Properties
 
@@ -54,49 +55,7 @@ Should either be an index (integer) of the data array or a key – defined by `s
 
 If `data` is an object, use the object key as the `value` to define the selected item. Can be a string or integer.
 
-## Data structure
-
-```js
-// 1. as array
-const data = [
-  // Every data item can, beside "content" - contain what ever
-  {
-    // (optional) can be what ever
-    selectedKey: 'key_0',
-
-    // (optional) is show instead of "content", once selected
-    selected_value: 'Item 1 Value',
-    suffix_value: 'Addition 1',
-
-    // Item content as a string or array
-    content: 'Item 1 Content',
-  },
-
-  // more items ...
-  {
-    selectedKey: 'key_1',
-    content: ['Item 2 Value', 'Item 2 Content'],
-  },
-  {
-    selectedKey: 'key_2',
-    selected_value: 'Item 3 Value',
-    suffix_value: 'Addition 3',
-    content: ['Item 3 Content A', 'Item 3 Content B'],
-  },
-  {
-    selectedKey: 'key_3',
-    selected_value: 'Item 4 Value',
-    suffix_value: 'Addition 4',
-    content: ['Item 4 Content A', <>Custom Component</>],
-  },
-]
-
-// 2. as object
-const data = {
-  a: 'A',
-  b: 'B',
-}
-```
+<DrawerListDataDoc />
 
 ## Translations
 

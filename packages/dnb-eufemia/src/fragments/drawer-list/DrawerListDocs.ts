@@ -1,13 +1,13 @@
 import { PropertiesTableProps } from '../../shared/types'
 
 export const DrawerListProperties: PropertiesTableProps = {
-  data: {
-    doc: "The data we want to fill the list with. Provide the data as a JSON string, array, or object in the specified data structure. If you don't have to define a value, you can also send in a function which will be called once the user opens the DrawerList.",
-    type: 'string | object | function',
+  '[data](#prop-data)': {
+    doc: `The data we want to fill the list with. [Details on the type of data can be found below](#prop-data). The data can be provided as an array or object. Or as a function that returns the data (called when user opens the list), or a JSON stringified version of the data.`,
+    type: ['DATA', 'JSON.stringify(DATA)', '() => DATA'],
     status: 'required',
   },
   value: {
-    doc: 'Define a preselected data entry (index) or key inside an array item. Can be a string or integer.',
+    doc: 'Define a preselected `data` entry. In order of priority, `value` can be set to: object key (if `data` is an object), `selectedKey` prop (if `data` is an array), array index (if no `selectedKey`) or content (if `value` is a non-integer string).',
     type: ['string', 'number'],
     status: 'optional',
   },
@@ -165,7 +165,7 @@ export const DrawerListEvents: PropertiesTableProps = {
     status: 'optional',
   },
   on_select: {
-    doc: 'Will be called once the user selects an item by a click or keyboard navigation.',
+    doc: 'Will be called once the user focuses or selects an item by a click or keyboard navigation.',
     type: 'function',
     status: 'optional',
   },
@@ -178,5 +178,33 @@ export const DrawerListEvents: PropertiesTableProps = {
     doc: 'Will be called once the user presses the drawer-list again, or clicks somewhere else.',
     type: 'function',
     status: 'optional',
+  },
+}
+
+export const DrawerListItem: PropertiesTableProps = {
+  content: {
+    doc: 'Visual content in the list item',
+    type: ['string', 'React.node', '(string | React.Node)[]'],
+    status: 'optional',
+  },
+  selectedKey: {
+    doc: 'If set, can be used instead of list index to set the `value` prop',
+    type: ['string', 'number'],
+    status: 'optional',
+  },
+  selected_value: {
+    doc: 'Replaces the standard value output for selected item. Only used in some implementations (Dropdown, Autocomplete).',
+    type: ['string', 'React.Node'],
+    status: 'optional',
+  },
+  suffix_value: {
+    doc: 'Content placed to the right in the list item.',
+    type: ['string', 'React.node'],
+    status: 'optional',
+  },
+  selected_key: {
+    doc: 'Use prop `selectedKey` instead',
+    type: ['string', 'number'],
+    status: 'deprecated',
   },
 }
