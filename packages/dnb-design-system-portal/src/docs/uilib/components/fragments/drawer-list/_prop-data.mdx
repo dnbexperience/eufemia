@@ -1,0 +1,126 @@
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { DrawerListItem } from '@dnb/eufemia/src/fragments/drawer-list/DrawerListDocs'
+
+## Prop `data`
+
+Note: even if we do not cover it here, the `data` prop can also accept a function that returns `data` or a JSON string of the `data`.
+
+The `data` can be structured in two main ways: as an object, or as an array. An array is preferred as it gives you the most options.
+
+### `data` as an array
+
+```ts
+// an array can contain complex items and offers the most control
+const data = [
+  {
+    content: "Item 1",
+  },
+  {
+    content: <span>Item 2</span>
+  },
+  {
+    content: ["Item 3", "Line 2", <span>Line 3</span>]
+  },
+  {
+    content: ['Main account', '1234 12 12345'],
+    selected_value: 'Main account (605,22 kr)',
+    suffix_value: '605,22 kr',
+  },
+  {
+    content: ['Old account', <i>Closed</i>],
+    suffix_value: '0,00 kr',
+  },
+]
+
+// If you only use the `content` property, you can use it directly in the.
+// This list is identical to the one above:
+const data = [
+  "Item 1",
+  <span>Item 2</span>,
+  ["Item 3", "Line 2", <span>Line 3</span>],
+  {
+    content: ['Main account', '1234 12 12345'],
+    selected_value: 'Main account (605,22 kr)',
+    suffix_value: '605,22 kr',
+  },
+  {
+    content: ['Old account', <i>Closed</i>],
+    suffix_value: '0,00 kr',
+  },
+]
+
+const onChange = ({ data, value }) => {
+  console.log(data) // returns the item as it appears in the array
+  console.log(value) // returns the array index of the item
+}
+```
+
+Each object in the array have the following properties:
+
+<PropertiesTable props={DrawerListItem} />
+
+### `data` as an object
+
+A simpler alternative, but with less options
+
+```ts
+// Each entry can contain the same type of value as the `content` property of an the array type
+// property of an array item
+const data = {
+  first: "Item 1",,
+  second: <span>Item 2</span>,
+  last: ["Item 3", "Line 2", <span>Line 3</span>],
+}
+
+const onChange = ({ data, value }) => {
+  console.log(data) // returns an object representing the item:
+  // {
+  //   selectedKey: 'first',
+  //   value: 'first',
+  //   content: 'Item 1',
+  //   type: 'object'
+  // }
+
+  console.log(value) // returns the key ("first", "second", or "last"), instead of an index
+
+}
+
+```
+
+### `data` types overview
+
+The following is an overview of all the types that the `data` prop accepts. (These are not actual names of actual types in the library.)
+
+```ts
+// The visual content that is shown in one DrawerList item.
+// An array can be used to define multiple lines.
+type CONTENT = string | React.Node | (string | React.Node)[]
+
+// An array item
+type ITEM = {
+  content: CONTENT
+  selectedKey?: string | number
+  selected_value?: string | React.Node
+  suffix_value?: string | React.Node
+}
+
+// `data` as an array. A list of "ITEM" types is preferred,
+// but the "CONTENT" type can be useful for simple lists.
+type ARRAY = (CONTENT | ITEM)[]
+
+// `data` as an object. Can only contain the "CONTENT" type.
+// Each `key` behaves like the "ITEM"'s `selectedKey`.
+type OBJECT = Record<string, CONTENT>
+
+// An object or array that represents the entire DrawerList list.
+type DATA = ARRAY | OBJECT
+
+// A JSON stringified object/array of the "DATA" type
+type JSON_DATA = string
+
+// a dunction that returns an object/array of the "DATA" type
+type FUNCTION_DATA = () => DATA
+
+// The final type of the `data` prop.
+type data = DATA | FUNCTION_DATA | JSON_DATA
+```

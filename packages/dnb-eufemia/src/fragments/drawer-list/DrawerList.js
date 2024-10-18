@@ -577,6 +577,10 @@ ItemContent.propTypes = {
   hash: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
 }
+ItemContent.defaultProps = {
+  hash: '',
+  children: undefined,
+}
 
 DrawerList.HorizontalItem = ({ className, ...props }) => (
   <span
