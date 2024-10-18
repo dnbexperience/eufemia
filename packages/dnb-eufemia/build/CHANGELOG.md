@@ -3,6 +3,26 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.53.0](https://github.com/dnbexperience/eufemia/compare/v10.52.1...v10.53.0) (2024-10-18)
+
+
+### :bug: Bug Fixes
+
+* **Forms:** keep Iterate.Array in sync with the data context and call onChange when `countPath` changes ([#4147](https://github.com/dnbexperience/eufemia/issues/4147)) ([095ddaa](https://github.com/dnbexperience/eufemia/commit/095ddaa0965a68dbc25f151118c73841741e7a0c))
+* **Forms:** UI alignments of the ChildrenWithAge block ([#4137](https://github.com/dnbexperience/eufemia/issues/4137)) ([3db7201](https://github.com/dnbexperience/eufemia/commit/3db7201dac13422a8a79d6415634f63fa2c9371b))
+* **Upload:** handle file extensions with case insensitivity ([#4138](https://github.com/dnbexperience/eufemia/issues/4138)) ([fd9d9ba](https://github.com/dnbexperience/eufemia/commit/fd9d9ba2eb708184eb863917accc4d9838d8da91))
+
+
+### :sparkles: Features
+
+* add `renderMessage` to useTranslation hook for line-break support ([#4125](https://github.com/dnbexperience/eufemia/issues/4125)) ([5b07bec](https://github.com/dnbexperience/eufemia/commit/5b07becb992b27b4e8bced2a8c6b716efcae9bd9))
+* **Forms:** add `country` prop to Field.PostalCodeAndCity to support other countries than Norway ([#4109](https://github.com/dnbexperience/eufemia/issues/4109)) ([5095bea](https://github.com/dnbexperience/eufemia/commit/5095beadfc1d65aa87e91128792e360d804c4eff))
+* **Forms:** add `Form.useTranslation` hook ([#4123](https://github.com/dnbexperience/eufemia/issues/4123)) ([6f40922](https://github.com/dnbexperience/eufemia/commit/6f409226bf9b1f7185ab39ac895ed76431df6e05)), closes [#4121](https://github.com/dnbexperience/eufemia/issues/4121)
+* **Forms:** add support for `minItems`/`maxItems` error messages to Field.ArraySelection ([#4120](https://github.com/dnbexperience/eufemia/issues/4120)) ([29ebe55](https://github.com/dnbexperience/eufemia/commit/29ebe55a02e2e3cb957fd988493c9cb238c2396e))
+* **Forms:** add support to set a custom `width` to fields and values ([#4142](https://github.com/dnbexperience/eufemia/issues/4142)) ([07b257f](https://github.com/dnbexperience/eufemia/commit/07b257f39110fb5e4ec83906fa59077644a8550f))
+* **Forms:** add validation to Field.BankAccountNumber ([#4119](https://github.com/dnbexperience/eufemia/issues/4119)) ([f70ba3d](https://github.com/dnbexperience/eufemia/commit/f70ba3d59db7625bde9570addc06da91353fdd1b))
+* **Forms:** warn when a field path is declared more than one time ([#4127](https://github.com/dnbexperience/eufemia/issues/4127)) ([ca15887](https://github.com/dnbexperience/eufemia/commit/ca1588786b0c6f39af97a26ec41aa7acbec9d2cb))
+
 ## [10.52.1](https://github.com/dnbexperience/eufemia/compare/v10.52.0...v10.52.1) (2024-10-15)
 
 
