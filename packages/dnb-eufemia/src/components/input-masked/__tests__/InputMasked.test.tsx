@@ -739,6 +739,12 @@ describe('InputMasked component with currency_mask', () => {
     expect(document.querySelector('input').value).toBe('1 234 NOK')
   })
 
+  it('should not append a comma when entering a dot', () => {
+    render(<InputMasked value="12345,1" as_currency decimalLimit={0} />)
+
+    expect(document.querySelector('input').value).toBe('12 345 kr')
+  })
+
   it('should not show mask if placeholder is set', () => {
     const placeholderText = 'Placeholder-text'
 
