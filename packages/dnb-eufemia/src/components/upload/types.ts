@@ -54,6 +54,12 @@ export type UploadProps = {
   onFileDelete?: ({ fileItem }: { fileItem: UploadFile }) => void
 
   /**
+   * Defines if the file extension should be displayed in the file list for each file.
+   * Default: true
+   */
+  displayFileExtensionText?: boolean
+
+  /**
    * Custom text properties
    */
   title?: React.ReactNode

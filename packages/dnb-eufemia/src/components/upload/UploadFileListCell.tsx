@@ -46,6 +46,11 @@ export type UploadFileListCellProps = {
   uploadFile: UploadFile
 
   /**
+   * Wether or not to display the file extension text for the uploaded file
+   */
+  displayFileExtensionText?: boolean
+
+  /**
    * Calls onDelete when clicking the delete button
    */
   onDelete: () => void
@@ -63,6 +68,7 @@ const UploadFileListCell = ({
   onDelete,
   loadingText,
   deleteButtonText,
+  displayFileExtensionText = true,
 }: UploadFileListCellProps) => {
   const { file, errorMessage, isLoading } = uploadFile
   const hasWarning = errorMessage != null
@@ -169,13 +175,15 @@ const UploadFileListCell = ({
         >
           {file.name}
         </a>
-        <P
-          className="dnb-upload__file-cell__subtitle"
-          size="x-small"
-          top="xx-small"
-        >
-          {humanFileType}
-        </P>
+        {displayFileExtensionText && (
+          <P
+            className="dnb-upload__file-cell__subtitle"
+            size="x-small"
+            top="xx-small"
+          >
+            {humanFileType}
+          </P>
+        )}
       </div>
     )
   }
