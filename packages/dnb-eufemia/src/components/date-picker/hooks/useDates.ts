@@ -195,7 +195,7 @@ function mapDates(
       ? getDate(initialDates.startDate, dateFormat)
       : typeof initialDates?.date !== 'undefined'
       ? getDate(initialDates.date, dateFormat)
-      : null
+      : undefined
 
   const endDate = !isRange
     ? startDate
@@ -204,6 +204,7 @@ function mapDates(
       }) || undefined
 
   // Ensure that the calendar view displays the correct months on initial render
+  // month setting logic could be moved to useViews
   const startMonth =
     convertStringToDate(initialDates.startMonth, {
       date_format: dateFormat,
