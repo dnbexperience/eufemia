@@ -4681,8 +4681,10 @@ describe('useFieldProps', () => {
     it('for the "path" prop', () => {
       render(
         <React.StrictMode>
-          <Field.String path="/myPath" />
-          <Field.String path="/myPath" />
+          <Form.Handler>
+            <Field.String path="/myPath" />
+            <Field.String path="/myPath" />
+          </Form.Handler>
         </React.StrictMode>
       )
 
@@ -4704,8 +4706,10 @@ describe('useFieldProps', () => {
 
       render(
         <React.StrictMode>
-          <MockComponent />
-          <MockComponent />
+          <Form.Handler>
+            <MockComponent />
+            <MockComponent />
+          </Form.Handler>
         </React.StrictMode>
       )
 
@@ -4718,8 +4722,10 @@ describe('useFieldProps', () => {
 
       render(
         <React.StrictMode>
-          <Field.String path="/myPath" />
-          <Field.String path="/myPath" />
+          <Form.Handler>
+            <Field.String path="/myPath" />
+            <Field.String path="/myPath" />
+          </Form.Handler>
         </React.StrictMode>
       )
 
@@ -4730,10 +4736,12 @@ describe('useFieldProps', () => {
     it('for the "itemPath" prop', () => {
       render(
         <React.StrictMode>
-          <Iterate.Array value={['foo', 'bar']}>
-            <Field.String itemPath="/myPath" defaultValue="foo" />
-            <Field.String itemPath="/myPath" defaultValue="bar" />
-          </Iterate.Array>
+          <Form.Handler>
+            <Iterate.Array value={['foo', 'bar']}>
+              <Field.String itemPath="/myPath" defaultValue="foo" />
+              <Field.String itemPath="/myPath" defaultValue="bar" />
+            </Iterate.Array>
+          </Form.Handler>
         </React.StrictMode>
       )
 
@@ -4747,12 +4755,14 @@ describe('useFieldProps', () => {
     it('for the "itemPath" prop distributed in several Iterate.Array', () => {
       render(
         <React.StrictMode>
-          <Iterate.Array value={['foo']}>
-            <Field.String itemPath="/myPath" defaultValue="foo" />
-          </Iterate.Array>
-          <Iterate.Array value={['bar']}>
-            <Field.String itemPath="/myPath" defaultValue="bar" />
-          </Iterate.Array>
+          <Form.Handler>
+            <Iterate.Array value={['foo']}>
+              <Field.String itemPath="/myPath" defaultValue="foo" />
+            </Iterate.Array>
+            <Iterate.Array value={['bar']}>
+              <Field.String itemPath="/myPath" defaultValue="bar" />
+            </Iterate.Array>
+          </Form.Handler>
         </React.StrictMode>
       )
 
@@ -4766,9 +4776,11 @@ describe('useFieldProps', () => {
     it('should not warn when path is used in iterate', () => {
       render(
         <React.StrictMode>
-          <Iterate.Array value={['foo']}>
-            <Field.String path="/myPath" />
-          </Iterate.Array>
+          <Form.Handler>
+            <Iterate.Array value={['foo']}>
+              <Field.String path="/myPath" />
+            </Iterate.Array>
+          </Form.Handler>
         </React.StrictMode>
       )
 
