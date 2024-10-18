@@ -66,7 +66,7 @@ function EditContainer({
         }}
       />
 
-      <Form.Visibility pathTrue="/hasChildren" animate>
+      <Form.Visibility animate pathTrue="/hasChildren">
         <Field.Number
           path="/countChildren"
           label={tr.ChildrenWithAge.countChildren.fieldLabel}
@@ -103,8 +103,10 @@ function EditContainer({
             allowNegative={false}
           />
         </Iterate.Array>
+      </Form.Visibility>
 
-        {enableAdditionalQuestions?.includes('daycare') && (
+      {enableAdditionalQuestions?.includes('daycare') && (
+        <Form.Visibility animate pathTrue="/hasChildren">
           <Field.Boolean
             path="/usesDaycare"
             label={tr.ChildrenWithAge.usesDaycare.fieldLabel}
@@ -119,24 +121,26 @@ function EditContainer({
               ),
             }}
           />
-        )}
+        </Form.Visibility>
+      )}
 
-        {enableAdditionalQuestions?.includes('daycare') && (
-          <Form.Visibility pathTrue="/usesDaycare" animate>
-            <Field.Currency
-              path="/daycareExpenses"
-              label={tr.ChildrenWithAge.dayCareExpenses.fieldLabel}
-              errorMessages={{
-                required: tr.ChildrenWithAge.dayCareExpenses.required,
-              }}
-              minimum={1}
-              decimalLimit={0}
-              allowNegative={false}
-            />
-          </Form.Visibility>
-        )}
+      {enableAdditionalQuestions?.includes('daycare') && (
+        <Form.Visibility pathTrue="/usesDaycare" animate>
+          <Field.Currency
+            path="/daycareExpenses"
+            label={tr.ChildrenWithAge.dayCareExpenses.fieldLabel}
+            errorMessages={{
+              required: tr.ChildrenWithAge.dayCareExpenses.required,
+            }}
+            minimum={1}
+            decimalLimit={0}
+            allowNegative={false}
+          />
+        </Form.Visibility>
+      )}
 
-        {enableAdditionalQuestions?.includes('joint-responsibility') && (
+      {enableAdditionalQuestions?.includes('joint-responsibility') && (
+        <Form.Visibility animate pathTrue="/hasChildren">
           <Field.Boolean
             path="/hasJointResponsibility"
             label={tr.ChildrenWithAge.hasJointResponsibility.fieldLabel}
@@ -145,25 +149,25 @@ function EditContainer({
               required: tr.ChildrenWithAge.hasJointResponsibility.required,
             }}
           />
-        )}
-        {enableAdditionalQuestions?.includes('joint-responsibility') && (
-          <Form.Visibility pathTrue="/hasJointResponsibility" animate>
-            <Field.Currency
-              path="/jointResponsibilityExpenses"
-              label={
-                tr.ChildrenWithAge.jointResponsibilityExpenses.fieldLabel
-              }
-              errorMessages={{
-                required:
-                  tr.ChildrenWithAge.jointResponsibilityExpenses.required,
-              }}
-              minimum={1}
-              decimalLimit={0}
-              allowNegative={false}
-            />
-          </Form.Visibility>
-        )}
-      </Form.Visibility>
+        </Form.Visibility>
+      )}
+      {enableAdditionalQuestions?.includes('joint-responsibility') && (
+        <Form.Visibility pathTrue="/hasJointResponsibility" animate>
+          <Field.Currency
+            path="/jointResponsibilityExpenses"
+            label={
+              tr.ChildrenWithAge.jointResponsibilityExpenses.fieldLabel
+            }
+            errorMessages={{
+              required:
+                tr.ChildrenWithAge.jointResponsibilityExpenses.required,
+            }}
+            minimum={1}
+            decimalLimit={0}
+            allowNegative={false}
+          />
+        </Form.Visibility>
+      )}
     </Card>
   )
 }
