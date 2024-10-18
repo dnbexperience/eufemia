@@ -150,6 +150,13 @@ export const UploadSandbox = () => {
         />
         Empty acceptedFileTypes
         <Upload id="upload-example-13" acceptedFileTypes={[]} />
+        No text, no nothing, only the button and dropzone
+        <Upload
+          id="upload-example-14"
+          title={false}
+          text={false}
+          fileMaxSize={false}
+        />
       </Box>
     </Wrapper>
   )

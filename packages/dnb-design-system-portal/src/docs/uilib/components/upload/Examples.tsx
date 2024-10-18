@@ -57,6 +57,17 @@ export const UploadPrefilledFileList = () => (
   </ComponentBox>
 )
 
+export const UploadOnlyButtonAndZone = () => (
+  <ComponentBox data-visual-test="upload-only-button-and-zone">
+    <Upload
+      id="upload-only-button-and-zone"
+      title={false}
+      text={false}
+      fileMaxSize={false}
+    />
+  </ComponentBox>
+)
+
 export const UploadBasic = () => (
   <ComponentBox data-visual-test="upload-basic">
     <Upload id="upload-basic" />
