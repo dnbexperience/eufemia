@@ -112,7 +112,7 @@ function FieldBlock(props: Props) {
     children,
     ...rest
   } = Object.assign({}, sharedData.data, props)
-  const hasCustomWidth = /\d(ch|rem)$/.test(String(width))
+  const hasCustomWidth = /\d(rem)$/.test(String(width))
   const hasCustomContentWidth = /\d(rem)$/.test(String(contentWidth))
 
   const iterateItemContext = useContext(IterateElementContext)
