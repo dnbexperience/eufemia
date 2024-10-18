@@ -1,5 +1,6 @@
+import { Card } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Field, Iterate } from '@dnb/eufemia/src/extensions/forms'
+import { Field, Form, Iterate } from '@dnb/eufemia/src/extensions/forms'
 
 export const Empty = () => {
   return (
@@ -169,6 +170,36 @@ export const IterateArray = () => {
           city={{ itemPath: '/city' }}
         />
       </Iterate.Array>
+    </ComponentBox>
+  )
+}
+
+export const SettingCountryBasedOnPath = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler>
+        <Card stack>
+          <Field.SelectCountry path="/myCountry" defaultValue="NO" />
+          <Field.PostalCodeAndCity country="/myCountry" />
+        </Card>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const NonNorwegianPostalCode = () => {
+  return (
+    <ComponentBox>
+      <Field.PostalCodeAndCity
+        country="DE"
+        postalCode={{
+          pattern: '^[0-9]{5}$',
+          mask: [/\\d/, /\\d/, /\\d/, /\\d/, /\\d/],
+          placeholder: '00000',
+          width: '5.4rem',
+        }}
+        city={{ pattern: '^[a-zA-ZäöüÄÖÜß -]+$', width: 'stretch' }}
+      />
     </ComponentBox>
   )
 }
