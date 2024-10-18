@@ -23,8 +23,8 @@ import {
 } from '@testing-library/react'
 import {
   DrawerListData,
-  DrawerListDataObject,
-  DrawerListDataObjectUnion,
+  DrawerListDataArrayObject,
+  DrawerListDataArray,
 } from '../../../fragments/drawer-list'
 import { Provider } from '../../../shared'
 
@@ -42,7 +42,7 @@ const props: AutocompleteAllProps = {
   skip_portal: true,
 }
 
-const mockData: DrawerListDataObjectUnion[] = [
+const mockData: DrawerListDataArray = [
   'AA c',
   'BB cc zethx',
   { content: ['CC', 'cc'] },
@@ -385,7 +385,7 @@ describe('Autocomplete component', () => {
 
     const nodes1 = document.querySelectorAll('.dnb-sr-only')
     expect(nodes1[nodes1.length - 1].textContent).toBe('2 alternativer')
-    const content = (mockData[2] as DrawerListDataObject).content
+    const content = (mockData[2] as DrawerListDataArrayObject).content
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
         .textContent
@@ -763,7 +763,7 @@ describe('Autocomplete component', () => {
     fireEvent.change(inputElement, {
       target: { value: 'cc' },
     })
-    const content = (mockData[2] as DrawerListDataObject).content
+    const content = (mockData[2] as DrawerListDataArrayObject).content
     expect(optionElements()[0].textContent).toBe(
       (content as string[]).join('')
     )

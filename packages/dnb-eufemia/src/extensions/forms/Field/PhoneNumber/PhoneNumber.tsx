@@ -23,7 +23,7 @@ import {
 } from '../SelectCountry'
 import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
-import { DrawerListDataObject } from '../../../../fragments/DrawerList'
+import { DrawerListDataArrayItem } from '../../../../fragments/DrawerList'
 
 export type Props = FieldHelpProps &
   FieldPropsWithExtraValue<
@@ -84,7 +84,7 @@ function PhoneNumber(props: Props) {
 
   const countryCodeRef = React.useRef<Props['value']>(props?.emptyValue)
   const numberRef = React.useRef<Props['value']>(props?.emptyValue)
-  const dataRef = React.useRef<Array<DrawerListDataObject>>(null)
+  const dataRef = React.useRef<Array<DrawerListDataArrayItem>>(null)
   const langRef = React.useRef<string>(lang)
   const wasFilled = React.useRef<boolean>(false)
 
