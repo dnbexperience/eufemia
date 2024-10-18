@@ -87,6 +87,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     executeOnChangeRegardlessOfError = false,
     updateContextDataInSync = false,
     omitMultiplePathWarning = false,
+    forceUpdateWhenContextDataIsSet = false,
   } = {}
 ): typeof localProps & ReturnAdditional<Value> {
   const { extend } = useContext(FieldProviderContext)
@@ -1644,162 +1645,174 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   // Form.Visibility is an example of a logic, where a field value/defaultValue can be used to set the set state of a path,
   // where again other fields depend on it.
   const tmpTransValueRef = useRef<Record<Identifier, unknown>>({})
-  const setContextData = useCallback(() => {
-    if (!hasPath && !hasItemPath) {
-      return // stop here
-    }
+  const setContextData = useCallback(
+    ({ preventUpdate = undefined } = {}) => {
+      if (!hasPath && !hasItemPath) {
+        return // stop here
+      }
 
-    let valueToStore: Value | unknown = valueProp ?? emptyValue
+      let valueToStore: Value | unknown = valueProp ?? emptyValue
 
-    const data = wizardContext?.prerenderFieldProps
-      ? dataContext.data
-      : dataContext.internalDataRef?.current
+      const data = wizardContext?.prerenderFieldProps
+        ? dataContext.data
+        : dataContext.internalDataRef?.current
 
-    // First, look for existing data in the context
-    const hasValue = pointer.has(data, identifier) || identifier === '/'
-    const existingValue = transformers.current.transformIn(
-      identifier === '/'
-        ? data
-        : hasValue
-        ? pointer.get(data, identifier)
-        : undefined
-    )
+      // First, look for existing data in the context
+      const hasValue = pointer.has(data, identifier) || identifier === '/'
+      const existingValue = transformers.current.transformIn(
+        identifier === '/'
+          ? data
+          : hasValue
+          ? pointer.get(data, identifier)
+          : undefined
+      )
 
-    // If no data where found in the dataContext, look for shared data
-    if (
-      dataContext.id &&
-      !hasValue &&
-      typeof existingValue === 'undefined' &&
-      typeof valueToStore === 'undefined'
-    ) {
-      const sharedState = createSharedState(dataContext.id)
-      const hasValue = pointer.has(sharedState.data, identifier)
-      if (hasValue) {
-        const sharedValue = transformers.current.transformIn(
-          pointer.get(sharedState.data, identifier)
-        )
-        if (sharedValue) {
-          valueToStore = sharedValue as Value
+      // If no data where found in the dataContext, look for shared data
+      if (
+        dataContext.id &&
+        !hasValue &&
+        typeof existingValue === 'undefined' &&
+        typeof valueToStore === 'undefined'
+      ) {
+        const sharedState = createSharedState(dataContext.id)
+        const hasValue = pointer.has(sharedState.data, identifier)
+        if (hasValue) {
+          const sharedValue = transformers.current.transformIn(
+            pointer.get(sharedState.data, identifier)
+          )
+          if (sharedValue) {
+            valueToStore = sharedValue as Value
+          }
         }
       }
-    }
 
-    const hasDefaultValue =
-      typeof defaultValueRef.current !== 'undefined' &&
-      typeof valueToStore === 'undefined'
+      const hasDefaultValue =
+        typeof defaultValueRef.current !== 'undefined' &&
+        typeof valueToStore === 'undefined'
 
-    if (hasDefaultValue) {
-      valueToStore = defaultValueRef.current
-      defaultValueRef.current = undefined
-    }
+      if (hasDefaultValue) {
+        valueToStore = defaultValueRef.current
+        defaultValueRef.current = undefined
+      }
 
-    let skipEqualCheck = false
+      let skipEqualCheck = false
 
-    if (hasItemPath) {
-      if (existingValue === valueToStore) {
-        return // stop here, don't store the same value again
+      if (hasItemPath) {
+        if (existingValue === valueToStore) {
+          return // stop here, don't store the same value again
+        }
+
+        if (
+          typeof valueToStore === 'undefined' &&
+          typeof existingValue !== 'undefined'
+        ) {
+          // On the rerender (after defaultValue was set) and the data context was given, but as "undefined",
+          // then we want to use the current value (the defaultValue from the previous render),
+          // because else the comparison "valueRef.current !== existingValue" is true and we will set undefined as the new data context value.
+          valueToStore = existingValue
+        }
+
+        if (itemPath === '/') {
+          // The push container uses an object as the default value for the array.
+          // But when a root slash is used, we want to make sure the field don't gets the object.
+          if (existingValue === clearedData) {
+            valueRef.current = undefined
+          }
+
+          if (hasDefaultValue && Array.isArray(existingValue)) {
+            // Ensures support to have a field with a defaultValue and a itemPath of "/"
+            // This way, we ensure the defaultValue is actually set in the data context.
+            skipEqualCheck = true
+          }
+        }
+      }
+
+      // Used by e.g. Iterate.Array
+      if (updateContextDataInSync) {
+        // When an array is given (iterate), we don't want to overwrite the existing array
+        if (hasDefaultValue && hasValue) {
+          return // stop here, we don't want to overwrite the existing array
+        }
+
+        // React.StrictMode will come with "undefined" on the second render,
+        // because "defaultValueRef.current" was removed.
+        // But because we run "useMemo" on the first render when updateContextDataInSync is true,
+        // we have still a valid value/array.
+        if (!Array.isArray(valueToStore)) {
+          return // stop here, never use a non-array value when in "updateContextDataInSync"
+        }
+
+        if (Array.isArray(existingValue)) {
+          if (valueToStore.length !== existingValue.length) {
+            skipEqualCheck = true // in order to update the items
+          }
+
+          // Keep Iterate.Array in sync with the data context
+          valueRef.current = existingValue
+        }
       }
 
       if (
-        typeof valueToStore === 'undefined' &&
-        typeof existingValue !== 'undefined'
+        !skipEqualCheck &&
+        hasValue &&
+        (valueToStore === existingValue ||
+          // Prevents an infinite loop by skipping the update if the value hasn't changed
+          valueRef.current === existingValue)
       ) {
-        // On the rerender (after defaultValue was set) and the data context was given, but as "undefined",
-        // then we want to use the current value (the defaultValue from the previous render),
-        // because else the comparison "valueRef.current !== existingValue" is true and we will set undefined as the new data context value.
-        valueToStore = existingValue
+        return // stop here, we don't want to set same value twice
       }
 
-      if (itemPath === '/') {
-        // The push container uses an object as the default value for the array.
-        // But when a root slash is used, we want to make sure the field don't gets the object.
-        if (existingValue === clearedData) {
-          valueRef.current = undefined
-        }
-
-        if (hasDefaultValue && Array.isArray(existingValue)) {
-          // Ensures support to have a field with a defaultValue and a itemPath of "/"
-          // This way, we ensure the defaultValue is actually set in the data context.
-          skipEqualCheck = true
-        }
-      }
-    }
-
-    // Used by e.g. Iterate.Array
-    if (updateContextDataInSync) {
-      // When an array is given (iterate), we don't want to overwrite the existing array
-      if (hasDefaultValue && hasValue) {
-        return // stop here, we don't want to overwrite the existing array
+      if (
+        identifier in tmpTransValueRef.current &&
+        tmpTransValueRef.current[identifier] === valueToStore
+      ) {
+        return // stop here, avoid infinite loop
       }
 
-      // React.StrictMode will come with "undefined" on the second render,
-      // because "defaultValueRef.current" was removed.
-      // But because we run "useMemo" on the first render when updateContextDataInSync is true,
-      // we have still a valid value/array.
-      if (!Array.isArray(valueToStore)) {
-        return // stop here, never use a non-array value when in "updateContextDataInSync"
+      const transformedValue = transformers.current.transformOut(
+        valueToStore as Value,
+        transformers.current.provideAdditionalArgs(valueToStore as Value)
+      )
+      if (transformedValue !== valueToStore) {
+        // When the value got transformed, we want to update the internal value, and avoid an infinite loop
+        tmpTransValueRef.current[identifier] = valueToStore
+        valueToStore = transformedValue
       }
-    }
 
-    if (
-      !skipEqualCheck &&
-      hasValue &&
-      (valueToStore === existingValue ||
-        // Prevents an infinite loop by skipping the update if the value hasn't changed
-        valueRef.current === existingValue)
-    ) {
-      return // stop here, we don't want to set same value twice
-    }
+      // When an itemPath is given, we don't want to rerender the context on every iteration because of performance reasons.
+      // We know when the last item is reached, so we can prevent rerenders during the iteration.
+      if (hasItemPath && iterateIndex < iterateArrayValue?.length - 1) {
+        preventUpdate = true
+      }
 
-    if (
-      identifier in tmpTransValueRef.current &&
-      tmpTransValueRef.current[identifier] === valueToStore
-    ) {
-      return // stop here, avoid infinite loop
-    }
+      // Update the data context when a pointer not exists,
+      // but was given initially.
+      updateDataValueDataContext?.(identifier, valueToStore, {
+        preventUpdate,
+      })
 
-    const transformedValue = transformers.current.transformOut(
-      valueToStore as Value,
-      transformers.current.provideAdditionalArgs(valueToStore as Value)
-    )
-    if (transformedValue !== valueToStore) {
-      // When the value got transformed, we want to update the internal value, and avoid an infinite loop
-      tmpTransValueRef.current[identifier] = valueToStore
-      valueToStore = transformedValue
-    }
-
-    // When an itemPath is given, we don't want to rerender the context on every iteration because of performance reasons.
-    // We know when the last item is reached, so we can prevent rerenders during the iteration.
-    const preventUpdate =
-      updateContextDataInSync ||
-      (hasItemPath && iterateIndex < iterateArrayValue?.length - 1)
-
-    // Update the data context when a pointer not exists,
-    // but was given initially.
-    updateDataValueDataContext?.(identifier, valueToStore, {
-      preventUpdate,
-    })
-
-    if (!preventUpdate) {
-      validateDataDataContext?.()
-    }
-  }, [
-    dataContext.data,
-    dataContext.id,
-    dataContext.internalDataRef,
-    emptyValue,
-    hasItemPath,
-    hasPath,
-    identifier,
-    itemPath,
-    iterateArrayValue?.length,
-    iterateIndex,
-    updateContextDataInSync,
-    updateDataValueDataContext,
-    validateDataDataContext,
-    valueProp,
-    wizardContext?.prerenderFieldProps,
-  ])
+      if (!preventUpdate) {
+        validateDataDataContext?.()
+      }
+    },
+    [
+      dataContext.data,
+      dataContext.id,
+      dataContext.internalDataRef,
+      emptyValue,
+      hasItemPath,
+      hasPath,
+      identifier,
+      itemPath,
+      iterateArrayValue?.length,
+      iterateIndex,
+      updateContextDataInSync,
+      updateDataValueDataContext,
+      validateDataDataContext,
+      valueProp,
+      wizardContext?.prerenderFieldProps,
+    ]
+  )
 
   const isEmptyData = useCallback(
     () => {
@@ -1830,7 +1843,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   useMemo(() => {
     if (updateContextDataInSync && !isEmptyData()) {
-      setContextData()
+      setContextData({ preventUpdate: true })
     }
   }, [isEmptyData, updateContextDataInSync, setContextData])
 
@@ -1838,7 +1851,17 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     if (!updateContextDataInSync && !isEmptyData()) {
       setContextData()
     }
-  }, [isEmptyData, updateContextDataInSync, setContextData])
+
+    // In order to render Iterate.Array with "countPath" immediately
+    if (forceUpdateWhenContextDataIsSet) {
+      forceUpdate()
+    }
+  }, [
+    forceUpdateWhenContextDataIsSet,
+    isEmptyData,
+    setContextData,
+    updateContextDataInSync,
+  ])
 
   useEffect(() => {
     if (isEmptyData()) {
