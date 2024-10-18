@@ -65,8 +65,26 @@ describe('UploadFileListCell', () => {
     )
 
     const element = document.querySelector('.dnb-upload__file-cell__title')
+    const fileExtension = document.querySelector(
+      '.dnb-upload__file-cell__subtitle'
+    )
 
     expect(element.textContent).toMatch('file.dat')
+    expect(fileExtension.textContent).toMatch('DAT')
+  })
+
+  it('supports not displaying file extension text', async () => {
+    render(
+      <UploadFileListCell
+        {...defaultProps}
+        uploadFile={{ file: createMockFile('file.dat', 100, 'dat') }}
+        displayFileExtensionText={false}
+      />
+    )
+
+    expect(
+      document.querySelector('.dnb-upload__file-cell__subtitle')
+    ).not.toBeInTheDocument()
   })
 
   it('renders the no error styling', () => {

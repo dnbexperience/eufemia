@@ -7,12 +7,12 @@ export const UploadProperties: PropertiesTableProps = {
     status: 'required',
   },
   filesAmountLimit: {
-    doc: 'Defines the amount of files the user can select and upload. Defaults to 100.',
+    doc: 'Defines the amount of files the user can select and upload. Defaults to `100`.',
     type: 'number',
     status: 'optional',
   },
   fileMaxSize: {
-    doc: 'Defines the max file size of each file in MB. Use either `0` or `false` to disable. Defaults to 5 MB.',
+    doc: 'Defines the max file size of each file in MB. Use either `0` or `false` to disable. Defaults to `5`, 5 MB.',
     type: ['number', 'false'],
     status: 'optional',
   },
@@ -24,6 +24,11 @@ export const UploadProperties: PropertiesTableProps = {
   text: {
     doc: 'Custom text property. Replaces the default text.',
     type: 'string',
+    status: 'optional',
+  },
+  displayFileExtensionText: {
+    doc: 'Defines if the file extension should be displayed in the file list for each file. Defaults to `true`.',
+    type: 'boolean',
     status: 'optional',
   },
   skeleton: {

@@ -14,6 +14,7 @@ function UploadFileList() {
     loadingText,
     onFileDelete,
     onChange,
+    displayFileExtensionText,
   } = context
 
   const { files, setFiles, setInternalFiles } = useUpload(id)
@@ -50,6 +51,7 @@ function UploadFileList() {
             onDelete={onDeleteHandler}
             deleteButtonText={deleteButton}
             loadingText={loadingText}
+            displayFileExtensionText={displayFileExtensionText}
           />
         )
       })}

@@ -286,6 +286,7 @@ export const UploadFileMaxSizeBasedOnFileType = () => (
         { fileType: 'txt', fileMaxSize: 0 },
         { fileType: 'zip', fileMaxSize: 99 },
       ]}
+      displayFileExtensionText={false}
     />
   </ComponentBox>
 )
