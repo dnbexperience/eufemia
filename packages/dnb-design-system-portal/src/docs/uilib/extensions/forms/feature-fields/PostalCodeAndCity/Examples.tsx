@@ -196,7 +196,7 @@ export const NonNorwegianPostalCode = () => {
           pattern: '^[0-9]{5}$',
           mask: [/\\d/, /\\d/, /\\d/, /\\d/, /\\d/],
           placeholder: '00000',
-          width: 'medium',
+          width: '5.4rem',
         }}
         city={{ pattern: '^[a-zA-ZäöüÄÖÜß -]+$', width: 'stretch' }}
       />
