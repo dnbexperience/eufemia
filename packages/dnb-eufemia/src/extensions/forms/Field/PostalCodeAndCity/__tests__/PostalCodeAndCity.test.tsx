@@ -181,7 +181,7 @@ describe('Field.PostalCodeAndCity', () => {
   it('should support custom postal code validation', async () => {
     render(
       <Field.PostalCodeAndCity
-        country="de"
+        country="DE"
         postalCode={{
           pattern: '^[0-9]{5}$',
           mask: [/\d/, /\d/, /\d/, /\d/, /\d/],

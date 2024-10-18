@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import classnames from 'classnames'
 import { Props as FieldBlockProps } from '../../FieldBlock'
 import StringField, { Props as StringFieldProps } from '../String'
@@ -34,13 +34,6 @@ function PostalCodeAndCity(props: Props) {
     ...fieldBlockProps
   } = props
 
-  const countryValue = getSourceValue(country)
-
-  const isNorway = useMemo(
-    () => countryValue === defaultCountry,
-    [countryValue]
-  )
-
   const {
     pattern: cityPattern,
     className: cityClassName,
@@ -49,19 +42,28 @@ function PostalCodeAndCity(props: Props) {
     errorMessages: cityErrorMessages,
   } = city
 
-  const handleNorwegianDefaults = useCallback(
+  const countryValue = getSourceValue(country)
+  const handleDefaults = useCallback(
     (postalCode: StringFieldProps) => {
-      const props = { ...postalCode }
+      const props: StringFieldProps = {}
 
-      if (isNorway) {
-        props.mask = postalCode.mask ?? [/\d/, /\d/, /\d/, /\d/]
-        props.pattern = postalCode.pattern ?? '^[0-9]{4}$'
-        props.placeholder = postalCode.placeholder ?? '0000'
+      switch (countryValue) {
+        case defaultCountry:
+        case 'DK':
+        case 'CH': {
+          props.mask = [/\d/, /\d/, /\d/, /\d/]
+          props.pattern = '^[0-9]{4}$'
+          props.placeholder = '0000'
+          break
+        }
+        default:
+          props.width = '8rem'
+          break
       }
 
-      return props
+      return { ...props, ...postalCode }
     },
-    [isNorway]
+    [countryValue]
   )
 
   const {
@@ -72,7 +74,7 @@ function PostalCodeAndCity(props: Props) {
     label: postalCodeLabel,
     width: postalCodeWidth,
     errorMessages: postalCodeErrorMessages,
-  } = handleNorwegianDefaults(postalCode)
+  } = handleDefaults(postalCode)
 
   const postalCodeValidationProps = {
     mask: postalCodeMask,
