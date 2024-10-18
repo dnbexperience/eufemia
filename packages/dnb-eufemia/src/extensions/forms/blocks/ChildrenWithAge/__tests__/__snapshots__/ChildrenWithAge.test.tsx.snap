@@ -294,6 +294,14 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
         },
       },
     },
+    "value": [
+      {
+        "age": 18,
+        "daycare": true,
+        "usesDaycare": true,
+      },
+      undefined,
+    ],
   },
   "countChildren": {
     "allowNegative": false,
