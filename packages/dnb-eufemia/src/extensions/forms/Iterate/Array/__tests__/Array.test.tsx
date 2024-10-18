@@ -265,9 +265,7 @@ describe('Iterate.Array', () => {
             path="/items"
             countPath="/count"
             countPathTransform={({ value, index }) =>
-              Object.prototype.hasOwnProperty.call(value || {}, 'item')
-                ? value
-                : { item: index }
+              'item' in (value || {}) ? value : { item: index }
             }
           >
             <Field.Number itemPath="/item" />

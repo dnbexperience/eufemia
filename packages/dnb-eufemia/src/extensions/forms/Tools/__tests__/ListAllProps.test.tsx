@@ -611,11 +611,9 @@ describe('Tools.ListAllProps', () => {
           <Iterate.Array
             path="/items"
             countPath="/count"
-            countPathTransform={({ value, index }) =>
-              Object.prototype.hasOwnProperty.call(value || {}, 'item')
-                ? value
-                : { item: index }
-            }
+            countPathTransform={({ value, index }) => {
+              return 'item' in (value || {}) ? value : { item: index }
+            }}
           >
             <Field.Number
               itemPath="/item"
