@@ -326,7 +326,7 @@ function renderRadioItems({
   const createOption = (props: OptionProps, i: number) => {
     const { value, title, children, error, help, ...rest } = props
 
-    const label = title ?? children
+    const label = children ?? title
     const suffix = help ? (
       <HelpButton size="small" title={convertJsxToString(help.title)}>
         {help.content}

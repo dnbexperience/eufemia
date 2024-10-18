@@ -184,7 +184,7 @@ export function useCheckboxOrToggleOptions({
         activeData.push(props)
       }
 
-      const label = title ?? children
+      const label = children ?? title
       const suffix = help ? (
         <HelpButton size="small" title={convertJsxToString(help.title)}>
           {help.content}
