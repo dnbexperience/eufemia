@@ -86,6 +86,7 @@ export default function useDates(
         : {}
 
       // Update months based on month or start/end date changes
+      // Should be moved to useViews
       const months = {
         startMonth:
           newDates.startMonth ??
@@ -140,7 +141,7 @@ export default function useDates(
     shouldCorrectDate,
   ])
 
-  // Updated input dates based on start and end dates
+  // Updated input dates based on start and end dates, move to DatePickerInput
   useEffect(() => {
     const startDates = updateInputDates('start', dates)
     const endDates = updateInputDates('end', dates)
@@ -153,6 +154,7 @@ export default function useDates(
       ...startDates,
       ...endDates,
     }))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dates.startDate, dates.endDate])
 
   return [
