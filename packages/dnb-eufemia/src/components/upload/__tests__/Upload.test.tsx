@@ -36,6 +36,12 @@ describe('Upload', () => {
     expect(document.querySelector('.dnb-upload')).toBeInTheDocument()
   })
 
+  it('renders the component without acceptedFileTypes', () => {
+    render(<Upload {...defaultProps} acceptedFileTypes={undefined} />)
+
+    expect(document.querySelector('.dnb-upload')).toBeInTheDocument()
+  })
+
   it('renders the upload file input section', () => {
     render(<Upload {...defaultProps} />)
 
@@ -94,6 +100,18 @@ describe('Upload', () => {
       expect(
         screen.queryByText(customFormatDescription)
       ).toBeInTheDocument()
+    })
+
+    it('does not render fileTypeDescription when acceptedFileTypes is not provided', () => {
+      const acceptedFileTypes = undefined
+
+      render(
+        <Upload {...defaultProps} acceptedFileTypes={acceptedFileTypes} />
+      )
+
+      expect(
+        screen.queryByText(nb.fileTypeDescription)
+      ).not.toBeInTheDocument()
     })
 
     it('does not render fileTypeDescription when acceptedFileTypes is empty', () => {
