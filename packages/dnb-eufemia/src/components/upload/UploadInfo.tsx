@@ -48,6 +48,7 @@ const UploadInfo = () => {
     filesAmountLimit < defaultProps.filesAmountLimit
 
   const displayAcceptedFileFormatsTable =
+    !displayAcceptedFileFormatsListItem &&
     isArrayOfObjects(acceptedFileTypes)
 
   const displayDl =
