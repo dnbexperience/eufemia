@@ -21,7 +21,7 @@ export type UploadProps = {
   /**
    * list of accepted file types.
    */
-  acceptedFileTypes:
+  acceptedFileTypes?:
     | UploadAcceptedFileTypes
     | UploadAcceptedFileTypesWithFileMaxSize
 

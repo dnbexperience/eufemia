@@ -4,6 +4,8 @@ showTabs: true
 
 import {
   UploadBasic,
+  UploadOnlyButtonAndZone,
+  UploadBasicWithAcceptedFileTypes,
   UploadPrefilledFileList,
   UploadRemoveFile,
   UploadSingleFile,
@@ -20,6 +22,10 @@ import {
 ### Upload (default)
 
 <UploadBasic />
+
+### Upload with accepted file types
+
+<UploadBasicWithAcceptedFileTypes />
 
 ### 'useUpload' React Hook
 
@@ -75,3 +81,7 @@ This can also be used to manually implement more complex file max size verificat
 <VisibleWhenNotVisualTest>
   <UploadDisabledFileMaxSize />
 </VisibleWhenNotVisualTest>
+
+<VisibleWhenVisualTest>
+  <UploadOnlyButtonAndZone />
+</VisibleWhenVisualTest>

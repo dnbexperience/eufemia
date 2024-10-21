@@ -35,6 +35,13 @@ describe.each(['ui', 'sbanken'])('Upload for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match the button and dropzone', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="upload-only-button-and-zone"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match file max size based on file type table', async () => {
     const screenshot = await makeScreenshot({
       selector:

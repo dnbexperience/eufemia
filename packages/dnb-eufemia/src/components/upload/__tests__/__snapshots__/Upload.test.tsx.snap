@@ -790,6 +790,9 @@ button .dnb-form-status__text {
   position: absolute;
   visibility: hidden;
 }
+.dnb-upload__file-input-area:nth-child(1) .dnb-upload__file-input-button {
+  margin-top: 0;
+}
 .dnb-upload__file-list {
   position: relative;
   padding: 0;

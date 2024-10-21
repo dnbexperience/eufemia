@@ -69,6 +69,14 @@
     visibility: hidden;
   }
 
+  &__file-input-area {
+    &:nth-child(1) {
+      .dnb-upload__file-input-button {
+        margin-top: 0;
+      }
+    }
+  }
+
   &__file-list {
     position: relative;
 

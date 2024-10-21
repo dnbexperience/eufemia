@@ -14,7 +14,7 @@ import Td from '../table/TableTd'
 import { UploadAcceptedFileTypeObject, UploadProps } from './types'
 
 const prettifyAcceptedFileFormats = (acceptedFileTypes) =>
-  acceptedFileTypes.sort().join(', ').toUpperCase()
+  acceptedFileTypes?.sort().join(', ').toUpperCase()
 
 const UploadInfo = () => {
   const context = React.useContext(UploadContext)
@@ -41,15 +41,15 @@ const UploadInfo = () => {
   const displayAcceptedFileFormatsListItem =
     isAcceptedFileTypeListOfStrings && prettifiedAcceptedFileFormats
 
-  const displayFileMaxSizeItem =
-    isAcceptedFileTypeListOfStrings && fileMaxSize
-
   const displayFilesAmountLimitItem =
     filesAmountLimit < defaultProps.filesAmountLimit
 
   const displayAcceptedFileFormatsTable =
     !displayAcceptedFileFormatsListItem &&
     isArrayOfObjects(acceptedFileTypes)
+
+  const displayFileMaxSizeItem =
+    !displayAcceptedFileFormatsTable && fileMaxSize
 
   const displayDl =
     displayAcceptedFileFormatsListItem ||
@@ -58,11 +58,13 @@ const UploadInfo = () => {
 
   return (
     <>
-      <Lead space="0">{title}</Lead>
+      {title && <Lead space="0">{title}</Lead>}
 
-      <P top="xx-small" className="dnb-upload__text">
-        {text}
-      </P>
+      {text && (
+        <P top="xx-small" className="dnb-upload__text">
+          {text}
+        </P>
+      )}
 
       {children}
 
