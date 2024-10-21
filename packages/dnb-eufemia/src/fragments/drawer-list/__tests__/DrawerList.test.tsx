@@ -8,7 +8,7 @@ import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { act, render, screen, waitFor } from '@testing-library/react'
 import DrawerList, {
   DrawerListAllProps,
-  DrawerListDataObjectUnion,
+  DrawerListDataArray,
   DrawerListData,
 } from '../DrawerList'
 
@@ -32,7 +32,7 @@ const props: DrawerListAllProps = {
   no_animation: true,
 }
 
-const mockData: DrawerListDataObjectUnion[] = [
+const mockData: DrawerListDataArray = [
   {
     content: ['1234 56 78901', 'Brukskonto - Kari Nordmann'],
   },
@@ -185,7 +185,7 @@ describe('DrawerList component', () => {
     const { rerender } = render(
       <DrawerList
         {...props}
-        data={Object.freeze(mockData) as DrawerListDataObjectUnion}
+        data={Object.freeze(mockData) as DrawerListDataArray}
         on_select={on_select}
       />
     )
@@ -204,7 +204,7 @@ describe('DrawerList component', () => {
     rerender(
       <DrawerList
         {...props}
-        data={Object.freeze(mockData) as DrawerListDataObjectUnion}
+        data={Object.freeze(mockData) as DrawerListDataArray}
         on_select={on_select}
         opened={null}
       />
@@ -214,7 +214,7 @@ describe('DrawerList component', () => {
     rerender(
       <DrawerList
         {...props}
-        data={Object.freeze(mockData) as DrawerListDataObjectUnion}
+        data={Object.freeze(mockData) as DrawerListDataArray}
         on_select={on_select}
         opened={true}
       />

@@ -13,27 +13,30 @@ export type DrawerListWrapperElement =
   | React.ReactNode;
 export type DrawerListDefaultValue = string | number;
 export type DrawerListValue = string | number;
-export type DrawerListDataObject = {
+export type DrawerListDataObject = DrawerListDataArrayObject; // deprecated, use "DrawerListDataArrayObject"
+export type DrawerListDataArrayObject = {
   selected_value?: string | React.ReactNode;
   selectedKey?: string | number;
   selected_key?: string | number;
   suffix_value?: string | React.ReactNode;
-  content?: string | React.ReactNode | string[];
+  content?: DrawerListContent;
   search_content?: string | React.ReactNode | string[];
 };
-export type DrawerListDataObjectUnion =
-  | string
-  | React.ReactNode
-  | DrawerListDataObject;
+export type DrawerListDataObjectUnion = DrawerListDataArrayItem; // deprecated, use "DrawerListDataArrayItem"
+export type DrawerListDataArrayItem =
+  | DrawerListDataArrayObject
+  | DrawerListContent;
+export type DrawerListDataArray = DrawerListDataArrayItem[];
+export type DrawerListDataRecord = Record<string, DrawerListContent>;
+export type DrawerListDataAll = DrawerListDataRecord | DrawerListDataArray;
 export type DrawerListData =
   | string
-  | ((...args: any[]) => any)
+  | ((...args: any[]) => DrawerListDataAll)
+  | DrawerListDataAll;
+export type DrawerListContent =
+  | string
   | React.ReactNode
-  | Record<string, unknown>
-  | DrawerListDataObjectUnion[];
-export type DrawerListSelectedValue = string | React.ReactNode;
-export type DrawerListSuffixValue = string | React.ReactNode;
-export type DrawerListContent = string | React.ReactNode | string[];
+  | (string | React.ReactNode)[];
 export type DrawerListRawData =
   | any[]
   | Record<string, unknown>
@@ -108,7 +111,7 @@ export interface DrawerListProps {
    */
   default_value?: DrawerListDefaultValue;
   /**
-   * Define a preselected data entry (index) or key inside an array item. Can be a string or integer.
+   * Define a preselected `data` entry. In order of priority, `value` can be set to: object key (if `data` is an object), `selectedKey` prop (if `data` is an array), array index (if no `selectedKey`) or content (if `value` is a non-integer string).
    */
   value?: DrawerListValue;
   /**
@@ -146,12 +149,9 @@ export interface DrawerListProps {
   skip_keysearch?: boolean;
   opened?: boolean;
   /**
-   * The data we want to fill the list with. Provide the data as a JSON string, array, or object in the specified data structure. If you don't have to define a value, you can also send in a function which will be called once the user opens the DrawerList.
+   * The data we want to fill the list with. The data can be provided as an array or object. Or as a function that returns the data (called when user opens the list), or a JSON stringified version of the data.`
    */
   data?: DrawerListData;
-  selected_value?: DrawerListSelectedValue;
-  suffix_value?: DrawerListSuffixValue;
-  content?: DrawerListContent;
   prepared_data?: any[];
   raw_data?: DrawerListRawData;
   /**
@@ -188,18 +188,8 @@ export type DrawerListOptionsProps = {
 export type DrawerListItemProps = {
   children: React.ReactNode;
   selected: boolean;
-  /**
-   * Define a preselected data entry (index) or key inside an array item. Can be a string or integer.
-   */
   value: string;
-  on_click: ({
-    value
-  }: {
-    /**
-     * Define a preselected data entry (index) or key inside an array item. Can be a string or integer.
-     */
-    value: string;
-  }) => void;
+  on_click: ({ value }: { value: string }) => void;
 };
 export type DrawerListAllProps = DrawerListProps &
   SpacingProps &

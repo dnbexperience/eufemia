@@ -270,7 +270,7 @@ export const AutocompleteEvents: PropertiesTableProps = {
     status: 'optional',
   },
   on_select: {
-    doc: 'Will be called once the users selects an item by a click or keyboard navigation. Returns an object with the new selected `data` item `{ data, event, attributes, value, active_item }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data). The "active_item" property is the currently selected item by keyboard navigation',
+    doc: 'Will be called once the users focuses or selects an item by a click or keyboard navigation. Returns an object with the new selected `data` item `{ data, event, attributes, value, active_item }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data). The "active_item" property is the currently selected item by keyboard navigation',
     type: 'function',
     status: 'optional',
   },
