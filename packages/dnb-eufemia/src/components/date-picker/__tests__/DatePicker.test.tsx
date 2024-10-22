@@ -399,6 +399,42 @@ describe('DatePicker component', () => {
     expect(endYear.value).toBe('2024')
   })
 
+  it('should recieve all dates in the shortcut callback', async () => {
+    const on_shortcut_click = jest.fn()
+
+    render(
+      <DatePicker
+        no_animation
+        range
+        start_date={new Date('2024-05-17')}
+        end_date={new Date('2024-05-31')}
+        shortcuts={[
+          {
+            title: 'day',
+            date: on_shortcut_click,
+          },
+        ]}
+      />
+    )
+
+    await userEvent.click(document.querySelector('button.dnb-button'))
+
+    const shortcut = document
+      .querySelector('div.dnb-date-picker__addon')
+      .querySelector('.dnb-button--secondary')
+
+    await userEvent.click(shortcut)
+
+    expect(on_shortcut_click).toHaveBeenCalledTimes(1)
+    expect(on_shortcut_click).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        date: new Date('2024-05-17'),
+        start_date: new Date('2024-05-17'),
+        end_date: new Date('2024-05-31'),
+      })
+    )
+  })
+
   it('has two calendar views', () => {
     render(<DatePicker {...defaultProps} />)
 
