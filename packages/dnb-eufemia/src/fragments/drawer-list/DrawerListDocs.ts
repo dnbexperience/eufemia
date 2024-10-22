@@ -2,8 +2,8 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const DrawerListProperties: PropertiesTableProps = {
   '[data](#prop-data)': {
-    doc: `The data we want to fill the list with. [Details on the type of data can be found below](#prop-data). The data can be provided as an array or object. Or as a function that returns the data (called when user opens the list), or a JSON stringified version of the data.`,
-    type: ['DATA', 'JSON.stringify(DATA)', '() => DATA'],
+    doc: `The data we want to fill the list with. [Details on the type of {DATA} can be found below](#prop-data). The data can be provided as an array or object. Or as a function that returns the data (called when user opens the list).`,
+    type: ['{DATA}', '() => {DATA}'],
     status: 'required',
   },
   value: {
@@ -188,7 +188,7 @@ export const DrawerListItem: PropertiesTableProps = {
     status: 'optional',
   },
   selectedKey: {
-    doc: 'If set, can be used instead of list index to set the `value` prop',
+    doc: 'If set, can be used instead of array index by the `value` prop',
     type: ['string', 'number'],
     status: 'optional',
   },
