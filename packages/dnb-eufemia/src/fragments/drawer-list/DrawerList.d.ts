@@ -13,7 +13,8 @@ export type DrawerListWrapperElement =
   | React.ReactNode;
 export type DrawerListDefaultValue = string | number;
 export type DrawerListValue = string | number;
-export type DrawerListDataObject = DrawerListDataArrayObject; // deprecated, use "DrawerListDataArrayObject"
+/** @deprecated use "DrawerListDataArrayObject" */
+export type DrawerListDataObject = DrawerListDataArrayObject;
 export type DrawerListDataArrayObject = {
   selected_value?: string | React.ReactNode;
   selectedKey?: string | number;
@@ -22,7 +23,8 @@ export type DrawerListDataArrayObject = {
   content?: DrawerListContent;
   search_content?: string | React.ReactNode | string[];
 };
-export type DrawerListDataObjectUnion = DrawerListDataArrayItem; // deprecated, use "DrawerListDataArrayItem"
+/** @deprecated use "DrawerListDataArrayItem" */
+export type DrawerListDataObjectUnion = DrawerListDataArrayItem;
 export type DrawerListDataArrayItem =
   | DrawerListDataArrayObject
   | DrawerListContent;
