@@ -77,6 +77,7 @@ export const drawerListPropTypes = {
             PropTypes.string,
             PropTypes.number,
           ]),
+          /** @deprecated use `selectedKey` */
           selected_key: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.number,
