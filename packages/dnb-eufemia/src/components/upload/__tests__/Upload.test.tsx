@@ -556,6 +556,52 @@ describe('Upload', () => {
     ).toEqual(expect.arrayContaining(['dnb-upload__file-cell--highlight']))
   })
 
+  it('will return error when dropping a file with extension that is not accepted', async () => {
+    const id = 'not-supported-extension'
+
+    renderHook(useUpload, { initialProps: id })
+
+    render(
+      <Upload {...defaultProps} id={id} acceptedFileTypes={['jpg']} />
+    )
+
+    const getRootElement = () => document.querySelector('.dnb-upload')
+
+    const element = getRootElement()
+    const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1] },
+      })
+    )
+
+    expect(screen.queryByText(nb.errorUnsupportedFile)).toBeInTheDocument()
+  })
+
+  it('will return error when dropping a file without extension', async () => {
+    const id = 'no-extension'
+
+    renderHook(useUpload, { initialProps: id })
+
+    render(
+      <Upload {...defaultProps} id={id} acceptedFileTypes={['jpg']} />
+    )
+
+    const getRootElement = () => document.querySelector('.dnb-upload')
+
+    const element = getRootElement()
+    const file1 = createMockFile('fileName-1', 100, '')
+
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1] },
+      })
+    )
+
+    expect(screen.queryByText(nb.errorUnsupportedFile)).toBeInTheDocument()
+  })
+
   describe('useUpload', () => {
     it('calls uses the useUpload hook to store files', async () => {
       const validationFunction = jest.fn()
