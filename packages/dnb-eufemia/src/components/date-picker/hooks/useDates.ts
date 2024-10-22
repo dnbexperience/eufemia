@@ -22,7 +22,7 @@ type UseDatesOptions = {
   isLinked: boolean
   shouldCorrectDate: boolean
 }
-
+// TODO: Move to DatePickerInput
 export type DatePickerInputDates = {
   __startDay?: string
   __startMonth?: string
@@ -165,6 +165,7 @@ export default function useDates(
   ] as const
 }
 
+// TODO: Move to DatePickerInput
 function updateInputDates(type: 'start' | 'end', dates: DatePickerDates) {
   const updatedDates = {}
   const date = dates[`${type}Date`]
