@@ -2054,6 +2054,51 @@ describe('DatePicker calc', () => {
       rightPicker.querySelector('.dnb-date-picker__header__title')
     ).toHaveTextContent('november 2024')
   })
+
+  it('should remove end date from ranged input, where dates are prop controlled, when pressing backspace', async () => {
+    const Component = () => {
+      const [startDate, setStartDate] = React.useState('2024-10-10')
+      const [endDate, setEndDate] = React.useState('2024-11-21')
+
+      return (
+        <DatePicker
+          range
+          show_input
+          date={startDate}
+          start_date={startDate}
+          end_date={endDate}
+          on_change={({ date, start_date, end_date, ...rest }) => {
+            setStartDate(start_date)
+            setEndDate(end_date)
+          }}
+        />
+      )
+    }
+
+    render(<Component />)
+
+    const [startDay, startMonth, startYear, endDay, endMonth, endYear] =
+      Array.from(
+        document.querySelectorAll('.dnb-date-picker__input')
+      ) as Array<HTMLInputElement>
+
+    expect(startDay.value).toBe('10')
+    expect(startMonth.value).toBe('10')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('21')
+    expect(endMonth.value).toBe('11')
+    expect(endYear.value).toBe('2024')
+
+    await userEvent.click(endYear)
+    await userEvent.keyboard('{backspace>3}')
+
+    expect(startDay.value).toBe('10')
+    expect(startMonth.value).toBe('10')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('dd')
+    expect(endMonth.value).toBe('mm')
+    expect(endYear.value).toBe('åååå')
+  })
 })
 
 describe('DatePicker scss', () => {
