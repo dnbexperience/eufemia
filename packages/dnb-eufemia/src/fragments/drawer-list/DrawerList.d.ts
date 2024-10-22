@@ -151,7 +151,7 @@ export interface DrawerListProps {
   skip_keysearch?: boolean;
   opened?: boolean;
   /**
-   * The data we want to fill the list with. The data can be provided as an array or object. Or as a function that returns the data (called when user opens the list), or a JSON stringified version of the data.`
+   * The data we want to fill the list with. The data can be provided as an array or object. Or as a function that returns the data (called when user opens the list).
    */
   data?: DrawerListData;
   prepared_data?: any[];
