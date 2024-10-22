@@ -96,6 +96,30 @@ describe('Upload', () => {
       ).toBeInTheDocument()
     })
 
+    it('does not render text when text is false', () => {
+      render(<Upload {...defaultProps} text={false} />)
+
+      expect(screen.queryByText(nb.text)).not.toBeInTheDocument()
+    })
+
+    it('does not render text when text is empty string', () => {
+      render(<Upload {...defaultProps} text="" />)
+
+      expect(screen.queryByText(nb.text)).not.toBeInTheDocument()
+    })
+
+    it('does not render title when title is false', () => {
+      render(<Upload {...defaultProps} title={false} />)
+
+      expect(screen.queryByText(nb.title)).not.toBeInTheDocument()
+    })
+
+    it('does not render title when title is empty string', () => {
+      render(<Upload {...defaultProps} title="" />)
+
+      expect(screen.queryByText(nb.title)).not.toBeInTheDocument()
+    })
+
     it('does not render fileTypeDescription when acceptedFileTypes is empty', () => {
       const acceptedFileTypes = []
 
