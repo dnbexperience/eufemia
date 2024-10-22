@@ -314,6 +314,91 @@ describe('DatePicker component', () => {
     expect(on_change).toHaveBeenCalledTimes(2)
   })
 
+  it('must have functioning shortcuts for range pickers where dates are defined with a Date object', async () => {
+    render(
+      <DatePicker
+        no_animation
+        range
+        shortcuts={[
+          {
+            title: 'day',
+            start_date: new Date('2024-05-17'),
+          },
+          {
+            title: 'week',
+            start_date: new Date('2024-06-03'),
+            end_date: new Date('2024-06-9'),
+          },
+          {
+            title: 'month',
+            start_date: new Date('2024-07-01'),
+            end_date: new Date('2024-07-31'),
+          },
+        ]}
+      />
+    )
+
+    await userEvent.click(document.querySelector('button.dnb-button'))
+
+    const [starDay, startMonth, startYear, endDay, endMonth, endYear] =
+      Array.from(
+        document.querySelectorAll('.dnb-date-picker__input')
+      ) as Array<HTMLInputElement>
+
+    const [day, week, month] = Array.from(
+      document
+        .querySelector('div.dnb-date-picker__addon')
+        .querySelectorAll('.dnb-button--secondary')
+    )
+
+    expect(starDay.value).toBe('dd')
+    expect(startMonth.value).toBe('mm')
+    expect(startYear.value).toBe('åååå')
+    expect(endDay.value).toBe('dd')
+    expect(endMonth.value).toBe('mm')
+    expect(endYear.value).toBe('åååå')
+
+    await userEvent.click(day)
+
+    const [leftPickerTitle, rightPickerTitle] = Array.from(
+      document.querySelectorAll('label.dnb-date-picker__header__title')
+    )
+
+    expect(leftPickerTitle).toHaveTextContent('mai 2024')
+    expect(rightPickerTitle).toHaveTextContent('mai 2024')
+
+    expect(starDay.value).toBe('17')
+    expect(startMonth.value).toBe('05')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('17')
+    expect(endMonth.value).toBe('05')
+    expect(endYear.value).toBe('2024')
+
+    await userEvent.click(week)
+
+    expect(leftPickerTitle).toHaveTextContent('juni 2024')
+    expect(rightPickerTitle).toHaveTextContent('juni 2024')
+
+    expect(starDay.value).toBe('03')
+    expect(startMonth.value).toBe('06')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('09')
+    expect(endMonth.value).toBe('06')
+    expect(endYear.value).toBe('2024')
+
+    await userEvent.click(month)
+
+    expect(leftPickerTitle).toHaveTextContent('juli 2024')
+    expect(rightPickerTitle).toHaveTextContent('juli 2024')
+
+    expect(starDay.value).toBe('01')
+    expect(startMonth.value).toBe('07')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('31')
+    expect(endMonth.value).toBe('07')
+    expect(endYear.value).toBe('2024')
+  })
+
   it('has two calendar views', () => {
     render(<DatePicker {...defaultProps} />)
 
