@@ -42,6 +42,13 @@ describe.each(['ui', 'sbanken'])('Upload for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match when not providing title and text', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="upload-no-title-no-text"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe('Upload', () => {
