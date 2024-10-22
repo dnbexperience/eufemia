@@ -51,7 +51,7 @@ export const TabsSandbox = () => {
       </Box>
       <Box>
         <Tabs tabs_style="mint-green" content_style="black-3">
-          <Tabs.Content title="First">
+          <Tabs.Content title="First" key="first">
             <div>hello1</div>
           </Tabs.Content>
         </Tabs>
@@ -61,10 +61,10 @@ export const TabsSandbox = () => {
           data={[{ title: 'First', key: 1, content: <div>hello1</div> }]}
         />
         <Tabs tabs_style="mint-green" content_style="black-3">
-          <Tabs.Content title="First">
+          <Tabs.Content title="First" key="first">
             <div>hello1</div>
           </Tabs.Content>
-          <Tabs.Content title="Second">
+          <Tabs.Content title="Second" key="second">
             <div>hello2</div>
           </Tabs.Content>
         </Tabs>
@@ -84,7 +84,7 @@ export const TabsSandbox = () => {
           content_style="black-3"
           content_spacing={false}
         >
-          <Tabs.Content title="Tab 1">
+          <Tabs.Content title="Tab 1" key="first">
             <>
               Change me 1: {value}{' '}
               <Input
@@ -94,7 +94,7 @@ export const TabsSandbox = () => {
               />
             </>
           </Tabs.Content>
-          <Tabs.Content title="Tab 2">
+          <Tabs.Content title="Tab 2" key="second">
             <>
               Change me 2: {value}{' '}
               <Input
@@ -156,10 +156,14 @@ export const TabsSandbox = () => {
       </Box>
       <Box>
         <Tabs tabs_style="mint-green">
-          <Tabs.Content title="First">
+          <Tabs.Content title="First" key="first">
             <H2>First</H2>
           </Tabs.Content>
-          <Tabs.Content title={<>Second as component</>} selected>
+          <Tabs.Content
+            title={<>Second as component</>}
+            selected
+            key="second"
+          >
             <H2>Second</H2>
           </Tabs.Content>
         </Tabs>
@@ -314,7 +318,7 @@ const TabsContentUsage = () => {
         }}
       />
 
-      <Tabs.Content id="unique-tabs-id">
+      <Tabs.Content id="unique-tabs-id" key="unique-tabs-key">
         {({ key }) => {
           return <pre>{JSON.stringify({ key }, null, 2)}</pre>
         }}
