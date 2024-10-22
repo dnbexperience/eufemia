@@ -1192,14 +1192,17 @@ describe('DataContext.Provider', () => {
 
     it('should evaluate sync validation, such as required, before continue with async validation', async () => {
       const onSubmit: OnSubmit = jest.fn(async () => {
+        await wait(10)
         return { info: 'Info message' } as const
       })
       const validator = jest.fn(async (value) => {
+        await wait(10)
         if (value === 'validator-error') {
           return new Error('validator-error')
         }
       })
       const onBlurValidator = jest.fn(async (value) => {
+        await wait(10)
         if (value === 'onBlurValidator-error') {
           return new Error('onBlurValidator-error')
         }
@@ -1331,9 +1334,11 @@ describe('DataContext.Provider', () => {
 
       await userEvent.click(submitButton)
 
-      expect(onSubmit).toHaveBeenCalledTimes(1)
-      expect(onBlurValidator).toHaveBeenCalledTimes(3)
-      expect(validator).toHaveBeenCalledTimes(12)
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onBlurValidator).toHaveBeenCalledTimes(3)
+        expect(validator).toHaveBeenCalledTimes(12)
+      })
     })
 
     it('should set "formState" to "pending" when "validator" is async', async () => {

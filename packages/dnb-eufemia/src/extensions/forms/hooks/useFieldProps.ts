@@ -73,6 +73,12 @@ type PersistErrorStateMethod =
    * Remove the error, if any
    */
   | 'wipe'
+type ErrorInitiator =
+  | 'required'
+  | 'schema'
+  | 'onChangeValidator'
+  | 'onBlurValidator'
+  | 'dataContextError'
 type AsyncProcessesBuffer = {
   resolve: () => void
   validateProcesses: () => boolean
@@ -293,12 +299,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const revealErrorRef = useRef<boolean>(
     validateInitially ?? Boolean(errorProp)
   )
+
   // - Local errors are errors based on validation instructions received by
   const errorMethodRef = useRef<
     Partial<Record<PersistErrorStateMethod, Error | FormError>>
   >({})
   const localErrorRef = useRef<Error | FormError | undefined>()
-  const hasLocalErrorRef = useRef(false)
+  const localErrorInitiatorRef = useRef<ErrorInitiator>()
+
   // - Context errors are from outer contexts, like validation for this field as part of the whole data set
   const dataContextError = useMemo(() => {
     return path ? dataContextErrors?.[identifier] : undefined
@@ -316,9 +324,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     onBlurValidatorRef.current = onBlurValidator
   }, [onBlurValidator])
 
-  const schemaValidatorRef = useRef<ValidateFunction>(
-    schema ? dataContext.ajvInstance?.compile(schema) : undefined
-  )
+  const schemaValidatorRef = useRef<ValidateFunction>()
+  if (!schemaValidatorRef.current && schema) {
+    schemaValidatorRef.current = dataContext.ajvInstance?.compile(schema)
+  }
 
   // - Async behavior
   const asyncBehaviorIsEnabled = useMemo(() => {
@@ -665,6 +674,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const persistErrorState = useCallback(
     (
       method: PersistErrorStateMethod,
+      initiator: ErrorInitiator,
       errorArg: Error | FormError | undefined = undefined
     ) => {
       const error = prepareError(errorArg)
@@ -673,6 +683,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         // In case different triggers lead to validation with no changes in the result (like still no error, or the same error),
         // avoid unnecessary re-renders by letting the old error object stay in the state and skip re-rendering.
         return
+      }
+
+      if (initiator !== 'dataContextError') {
+        localErrorInitiatorRef.current = initiator
       }
 
       if (method === 'wipe') {
@@ -722,8 +736,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   )
 
   const clearErrorState = useCallback(() => {
-    persistErrorState('wipe')
-    hasLocalErrorRef.current = false
+    persistErrorState('wipe', undefined)
+    localErrorInitiatorRef.current = undefined
+    if (Array.isArray(schemaValidatorRef.current?.errors)) {
+      schemaValidatorRef.current.errors = []
+    }
   }, [persistErrorState])
 
   const removeError = useCallback(() => {
@@ -743,7 +760,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
       // Don't show the error if the value has changed in the meantime
       if (unchangedValue) {
-        persistErrorState('gracefully', result as Error)
+        persistErrorState(
+          'gracefully',
+          'onChangeValidator',
+          result as Error
+        )
 
         if (
           (validateInitially && !changedRef.current) ||
@@ -890,7 +911,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   const revealOnBlurValidatorResult = useCallback(
     ({ result }) => {
-      persistErrorState('gracefully', result as Error)
+      persistErrorState('gracefully', 'onBlurValidator', result as Error)
 
       if (isAsync(onBlurValidatorRef.current)) {
         defineAsyncProcess(undefined)
@@ -909,7 +930,16 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       overrideValue?: Value
     } = {}) => {
       if (typeof onBlurValidatorRef.current !== 'function') {
-        return
+        return // stop here
+      }
+
+      if (
+        (localErrorInitiatorRef.current === 'required' ||
+          localErrorInitiatorRef.current === 'schema') &&
+        !asyncBehaviorIsEnabled && // Has async "onChange" event
+        !isAsync(onChangeValidatorRef.current)
+      ) {
+        return // stop here
       }
 
       if (isAsync(onBlurValidatorRef.current)) {
@@ -936,6 +966,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       revealOnBlurValidatorResult({ result })
     },
     [
+      asyncBehaviorIsEnabled,
       callValidatorFnAsync,
       callValidatorFnSync,
       defineAsyncProcess,
@@ -1004,6 +1035,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     const value = valueRef.current
     changeEventResultRef.current = null
     validatedValue.current = null
+    let initiator: ErrorInitiator = null
 
     try {
       const requiredError = transformers.current.validateRequired(value, {
@@ -1013,21 +1045,24 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         error: new FormError('Field.errorRequired'),
       })
       if (requiredError instanceof Error) {
+        initiator = 'required'
         throw requiredError
       }
 
       // Validate by provided JSON Schema for this value
       if (
-        schemaValidatorRef.current &&
         value !== undefined &&
-        !schemaValidatorRef.current(value) &&
-        !prioritizeContextSchema
+        !prioritizeContextSchema &&
+        typeof schemaValidatorRef.current === 'function'
       ) {
-        const error = ajvErrorsToOneFormError(
-          schemaValidatorRef.current.errors,
-          valueRef.current
-        )
-        throw error
+        if (!schemaValidatorRef.current(value)) {
+          const error = ajvErrorsToOneFormError(
+            schemaValidatorRef.current.errors,
+            value
+          )
+          initiator = 'schema'
+          throw error
+        }
       }
 
       // Validate by provided derivative validator
@@ -1038,6 +1073,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         const { result } = await startOnChangeValidatorValidation()
 
         if (result instanceof Error) {
+          initiator = 'onChangeValidator'
           throw result
         }
       }
@@ -1051,6 +1087,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         const { result } = await callOnBlurValidator()
 
         if (result instanceof Error) {
+          initiator = 'onBlurValidator'
           throw result
         }
       }
@@ -1060,10 +1097,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       }
 
       validatedValue.current = value
-    } catch (error: unknown) {
+    } catch (error) {
       if (isProcessActive()) {
-        hasLocalErrorRef.current = true
-        persistErrorState('weak', error as Error)
+        persistErrorState('weak', initiator, error)
       }
     }
   }, [
@@ -1244,7 +1280,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       if (result?.error === null) {
         removeError()
       } else {
-        persistErrorState('gracefully', result.error)
+        persistErrorState('gracefully', 'onChangeValidator', result.error)
         revealError()
       }
     }
@@ -1659,10 +1695,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   useEffect(() => {
     // Check against the local error state,
     // so we prioritize the local error state over the context error state
-    if (!hasLocalErrorRef.current) {
+    if (!localErrorInitiatorRef.current) {
       const error = prepareError(dataContextError)
       if (error) {
-        persistErrorState('weak', error)
+        persistErrorState('weak', 'dataContextError', error)
         if (validateInitially) {
           handleError()
         }
