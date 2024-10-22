@@ -19,19 +19,10 @@ describe('Form.Section', () => {
   }: SectionProps<{ lastName: FieldNameProps }> & {
     children?: React.ReactNode
   }) => {
-    const errorMessages = {}
     return (
       <Form.Section {...props}>
-        <Field.Name.First
-          path="/firstName"
-          errorMessages={errorMessages}
-        />
-        <Field.Name.Last
-          path="/lastName"
-          required
-          minLength={2}
-          errorMessages={errorMessages}
-        />
+        <Field.Name.First path="/firstName" />
+        <Field.Name.Last path="/lastName" required minLength={2} />
         {children}
       </Form.Section>
     )
@@ -45,11 +36,10 @@ describe('Form.Section', () => {
   }> & {
     children?: React.ReactNode
   }) => {
-    const errorMessages = {}
     return (
       <Form.Section {...props}>
         <MySection path="/innerSection" />
-        <Field.String path="/otherField" errorMessages={errorMessages} />
+        <Field.String path="/otherField" />
         {children}
       </Form.Section>
     )

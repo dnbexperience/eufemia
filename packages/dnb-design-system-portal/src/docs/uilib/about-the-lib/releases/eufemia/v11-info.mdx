@@ -157,9 +157,33 @@ The `InputPassword` component has been moved to `Field.Password`, and is now a p
 
 **FormError**
 
+**validationRule**
+
+```tsx
+// From
+new FormError('Invalid value', {
+  validationRule: 'pattern',
+})
+
+// To
+new FormError('Field.errorPattern')
+```
+
 - Remove the `validationRule` parameter in favor of a translation key, like so: `new FormError('Field.errorRequired')`.
 
 **errorMessages** object
+
+```tsx
+// From
+const errorMessages = {
+  pattern: 'Show this when "pattern" fails!',
+}
+
+// To
+const errorMessages = {
+  'Field.errorPattern': 'Show this when "pattern" fails!',
+}
+```
 
 - Replace `required` with `Field.errorRequired`.
 - Replace `pattern` with `Field.errorPattern`.
@@ -173,6 +197,6 @@ The `InputPassword` component has been moved to `Field.Password`, and is now a p
 
 **useErrorMessage**
 
-- Got removed. Simply provide your error message as a object in the `errorMessages` property.
+- Got removed. Simply provide your error message as a object in the `errorMessages` property with an `useMemo` hook.
 
 _February, 6. 2024_
