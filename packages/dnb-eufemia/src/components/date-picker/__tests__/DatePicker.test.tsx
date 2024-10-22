@@ -23,7 +23,7 @@ import {
   getCalendar,
   makeDayObject,
 } from '../DatePickerCalc'
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import { Provider } from '../../../shared'
 
 describe('DatePicker component', () => {
@@ -610,6 +610,44 @@ describe('DatePicker component', () => {
 
     expect(on_submit).toHaveBeenCalled()
     expect(on_submit.mock.calls[0][0].date).toBe(date)
+  })
+
+  it('should have functioning cancel button whith range pickers', async () => {
+    render(
+      <DatePicker
+        show_input
+        range
+        start_date="2024-04-01"
+        end_date="2024-05-17"
+      />
+    )
+
+    await userEvent.click(document.querySelector('button.dnb-button'))
+
+    const [startDay, startMonth, startYear, endDay, endMonth, endYear] =
+      Array.from(
+        document.querySelectorAll('.dnb-date-picker__input')
+      ) as Array<HTMLInputElement>
+
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('04')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('17')
+    expect(endMonth.value).toBe('05')
+    expect(endYear.value).toBe('2024')
+
+    await userEvent.click(screen.getByText('Avbryt'))
+
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('04')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('17')
+    expect(endMonth.value).toBe('05')
+    expect(endYear.value).toBe('2024')
+
+    expect(
+      document.querySelector('.dnb-date-picker--opened')
+    ).not.toBeInTheDocument()
   })
 
   it('footers reset button text is set by prop reset_button_text', () => {
