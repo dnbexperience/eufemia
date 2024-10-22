@@ -13,17 +13,18 @@ export type DrawerListWrapperElement =
   | React.ReactNode;
 export type DrawerListDefaultValue = string | number;
 export type DrawerListValue = string | number;
-/** @deprecated use "DrawerListDataArrayObject" */
+/** @deprecated use `DrawerListDataArrayObject` */
 export type DrawerListDataObject = DrawerListDataArrayObject;
 export type DrawerListDataArrayObject = {
   selected_value?: string | React.ReactNode;
   selectedKey?: string | number;
+  /** @deprecated use `selectedKey` */
   selected_key?: string | number;
   suffix_value?: string | React.ReactNode;
   content?: DrawerListContent;
   search_content?: string | React.ReactNode | string[];
 };
-/** @deprecated use "DrawerListDataArrayItem" */
+/** @deprecated use `DrawerListDataArrayItem` */
 export type DrawerListDataObjectUnion = DrawerListDataArrayItem;
 export type DrawerListDataArrayItem =
   | DrawerListDataArrayObject
