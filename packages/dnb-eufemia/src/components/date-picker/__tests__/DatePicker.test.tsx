@@ -1984,6 +1984,76 @@ describe('DatePicker calc', () => {
       'dnb-date-picker--show-input',
     ])
   })
+
+  it('should display a month ahead in right picker when range is linked', async () => {
+    render(
+      <DatePicker
+        start_date="2024-10-10"
+        end_date="2024-11-21"
+        range
+        link
+      />
+    )
+
+    const [startDay, startMonth, startYear, endDay, endMonth, endYear] =
+      Array.from(
+        document.querySelectorAll('.dnb-date-picker__input')
+      ) as Array<HTMLInputElement>
+
+    expect(startDay.value).toBe('10')
+    expect(startMonth.value).toBe('10')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('21')
+    expect(endMonth.value).toBe('11')
+    expect(endYear.value).toBe('2024')
+
+    await userEvent.click(document.querySelector('button.dnb-button'))
+
+    const [leftPicker, rightPicker] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__calendar')
+    )
+
+    expect(
+      leftPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('oktober 2024')
+    expect(
+      rightPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('november 2024')
+
+    await userEvent.click(
+      screen.getByLabelText('torsdag 14. november 2024')
+    )
+
+    expect(startDay.value).toBe('14')
+    expect(startMonth.value).toBe('11')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('dd')
+    expect(endMonth.value).toBe('mm')
+    expect(endYear.value).toBe('åååå')
+
+    expect(
+      leftPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('oktober 2024')
+    expect(
+      rightPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('november 2024')
+
+    await userEvent.click(screen.getByLabelText('onsdag 2. oktober 2024'))
+
+    expect(startDay.value).toBe('02')
+    expect(startMonth.value).toBe('10')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('14')
+    expect(endMonth.value).toBe('11')
+    expect(endYear.value).toBe('2024')
+
+    expect(
+      leftPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('oktober 2024')
+    expect(
+      rightPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('november 2024')
+  })
 })
 
 describe('DatePicker scss', () => {
