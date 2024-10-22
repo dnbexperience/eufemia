@@ -199,7 +199,7 @@ function mapDates(
 
   const endDate = !isRange
     ? startDate
-    : convertStringToDate(initialDates?.endDate || initialDates?.date, {
+    : convertStringToDate(initialDates?.endDate, {
         date_format: dateFormat,
       }) || undefined
 
