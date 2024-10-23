@@ -308,6 +308,13 @@ export const handleCurrencyMask = ({ mask_options, currency_mask }) => {
 
   maskParams.suffix = ` ${fix}`
 
+  if (
+    typeof currency_mask?.allowDecimal === 'undefined' &&
+    typeof currency_mask?.decimalLimit !== 'undefined'
+  ) {
+    maskParams.allowDecimal = currency_mask.decimalLimit > 0
+  }
+
   return maskParams
 }
 

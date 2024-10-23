@@ -182,6 +182,13 @@ describe('Field.Number', () => {
         )
         expect(document.querySelector('input')).toHaveValue('1 234,56 %')
       })
+
+      it('formats with percent and decimalLimit 0', () => {
+        render(
+          <Field.Number value={1234.56789} percent decimalLimit={0} />
+        )
+        expect(document.querySelector('input')).toHaveValue('1 234 %')
+      })
     })
 
     describe('currency', () => {
@@ -195,6 +202,13 @@ describe('Field.Number', () => {
           <Field.Number value={1234.56789} currency decimalLimit={2} />
         )
         expect(document.querySelector('input')).toHaveValue('1 234,56 kr')
+      })
+
+      it('formats with currency and decimalLimit 0', () => {
+        render(
+          <Field.Number value={1234.56789} currency decimalLimit={0} />
+        )
+        expect(document.querySelector('input')).toHaveValue('1 234 kr')
       })
 
       it('formats in different locale', () => {
@@ -266,6 +280,11 @@ describe('Field.Number', () => {
       it('formats with higher decimal limit', () => {
         render(<Field.Number value={123.456} decimalLimit={4} />)
         expect(screen.getByDisplayValue('123,456')).toBeInTheDocument()
+      })
+
+      it('formats with decimal limit 0', () => {
+        render(<Field.Number value={123.456} decimalLimit={0} />)
+        expect(screen.getByDisplayValue('123')).toBeInTheDocument()
       })
     })
 

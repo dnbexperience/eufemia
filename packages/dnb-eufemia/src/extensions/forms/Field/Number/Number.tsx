@@ -307,6 +307,7 @@ function NumberComponent(props: Props) {
         mask_options,
         currency_mask: {
           currencyDisplay,
+          decimalLimit,
         },
       }
     }
