@@ -104,8 +104,6 @@ export type Props = FieldHelpProps &
      * Once the date picker gets opened, there is a focus handling to ensure good accessibility. This can be disabled with this property. Defaults to `false`.
      */
     disableAutofocus?: DatePickerProps['disable_autofocus']
-    enableKeyboardNav?: DatePickerProps['enable_keyboard_nav']
-
     /**
      * If set to `true`, a submit button will be shown. You can change the default text by using `submit_button_text="Ok"`. Defaults to `false`. If the `range` prop is `true`, then the submit button is shown.
      */
@@ -121,12 +119,10 @@ export type Props = FieldHelpProps &
     submitButtonText?: DatePickerProps['submit_button_text']
     cancelButtonText?: DatePickerProps['cancel_button_text']
     resetButtonText?: DatePickerProps['reset_button_text']
-    resetDate?: DatePickerProps['reset_date']
     /**
      * To define the first day of the week. Defaults to `monday`.
      */
     firstDay?: DatePickerProps['first_day']
-
     /**
      * Link both calendars, once to the user is navigating between months. Only meant to use if the range is set to `true`. Defaults to `false`.
      */
@@ -135,7 +131,6 @@ export type Props = FieldHelpProps &
      * Sync input values with the calendars views. Once the input values get changed, the calendar changes its views in sync. Defaults to `true`.
      */
     sync?: DatePickerProps['sync']
-
     /**
      * Gives you the possibility to inject a React element showing up over the footer. Use it to customize `shortcuts`.
      */
@@ -148,7 +143,6 @@ export type Props = FieldHelpProps &
      * To open the date-picker by default. Defaults to `false`.
      */
     opened?: boolean
-    preventClose?: DatePickerProps['prevent_close']
     noAnimation?: DatePickerProps['no_animation']
     direction?: DatePickerProps['direction']
     /**
@@ -311,7 +305,8 @@ function DateComponent(props: Props) {
   )
 }
 
-// Used to filter out DatePickerProps from the FieldProps
+// Used to filter out DatePickerProps from the FieldProps.
+// Includes DatePickerProps that are not destructured in useFieldProps
 const datePickerPropKeys = [
   'startDate',
   'endDate',
@@ -331,21 +326,16 @@ const datePickerPropKeys = [
   'onlyMonth',
   'hideLastWeek',
   'disableAutofocus',
-  'enableKeyboardNav',
   'showSubmitButton',
-  'showCancelButton',
-  'showResetButton',
   'submitButtonText',
   'cancelButtonText',
   'resetButtonText',
-  'resetDate',
   'firstDay',
   'link',
   'sync',
   'addonElement',
   'shortcuts',
   'opened',
-  'preventClose',
   'noAnimation',
   'direction',
   'alignPicker',
