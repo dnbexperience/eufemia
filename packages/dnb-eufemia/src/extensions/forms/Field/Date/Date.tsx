@@ -283,6 +283,7 @@ function DateComponent(props: Props) {
         date={value}
         disabled={disabled}
         show_input={true}
+        // Why are these default true?
         show_cancel_button={showCancelButton}
         show_reset_button={showResetButton}
         start_date={startDate}
