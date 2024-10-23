@@ -325,9 +325,11 @@ describe('ajvErrorsToOneFormError', () => {
     ]
     const formError = ajvErrorsToOneFormError(ajvErrors)
     expect(formError).toBeInstanceOf(FormError)
-    expect(formError.message).toBe(
-      'Should not be shorter than 5 characters and Should not be longer than 10 characters'
-    )
+    expect(formError.message).toBe('Multiple errors')
+    expect(formError.errors).toEqual([
+      new Error('StringField.errorMinLength'),
+      new Error('StringField.errorMaxLength'),
+    ])
   })
 })
 
