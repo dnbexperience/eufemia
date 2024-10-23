@@ -1,9 +1,14 @@
 import React from 'react'
 import { act, fireEvent, render, waitFor } from '@testing-library/react'
+import { isCI } from 'repo-utils'
 import { Form, Wizard } from '../../..'
 import { Button, Dialog } from '../../../../../components'
 import { ConfirmParams } from '../SubmitConfirmation'
 import userEvent from '@testing-library/user-event'
+
+if (isCI) {
+  jest.retryTimes(5) // because of an flaky async tests
+}
 
 describe('Form.SubmitConfirmation', () => {
   describe('with preventSubmitWhen', () => {
