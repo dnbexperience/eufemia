@@ -146,7 +146,7 @@ export default {
       title: 'Last opp dokumenter',
       text: 'Dra og slipp, eller velg hvilke filer du vil laste opp.',
       textSingular:
-        'Dra og slipp, eller velg hvilken fil du vil laste opp.',
+        'Dra og slipp eller velg hvilken fil du vil laste opp.',
       fileTypeTableCaption: 'Tillatte filformater og maks filstørrelse',
       fileTypeDescription: 'Tillatte filformater:',
       fileSizeDescription: 'Maks filstørrelse:',
