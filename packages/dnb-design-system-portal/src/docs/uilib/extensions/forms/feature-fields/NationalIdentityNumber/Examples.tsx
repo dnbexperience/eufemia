@@ -1,6 +1,6 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { createMinimumAgeValidator } from '@dnb/eufemia/src/extensions/forms/Field/NationalIdentityNumber'
-import { Field } from '@dnb/eufemia/src/extensions/forms'
+import { Field, FormError } from '@dnb/eufemia/src/extensions/forms'
 
 export const Empty = () => {
   return (
@@ -142,18 +142,16 @@ export const ValidationFunction = () => {
         const fnr = (value: string) =>
           value.length >= 11 ? { status: 'valid' } : { status: 'invalid' }
 
-        const validator = (value, { errorMessages }) => {
-          const result = fnr(value)
-          return result.status === 'invalid'
-            ? new Error(errorMessages.pattern)
-            : undefined
-        }
-
         return (
           <Field.NationalIdentityNumber
             required
             value="123"
-            onBlurValidator={validator}
+            onBlurValidator={(value) => {
+              const result = fnr(value)
+              return result.status === 'invalid'
+                ? new FormError('Field.errorPattern')
+                : undefined
+            }}
             validateInitially
           />
         )

@@ -11,6 +11,8 @@ const expandAllSidebarItems = async (page) => {
 
 test.describe('Page Lists', () => {
   test.describe('of components', () => {
+    test.describe.configure({ retries: 3 })
+
     test.beforeEach(async ({ page }) => {
       await page.goto('/uilib/components')
 

@@ -32,7 +32,6 @@ import useId from '../../../shared/helpers/useId'
 import {
   ComponentProps,
   FieldProps,
-  FormError,
   SubmitState,
   Identifier,
   FieldBlockWidth,
@@ -41,6 +40,7 @@ import type { FormLabelAllProps } from '../../../components/FormLabel'
 import SubmitIndicator from '../Form/SubmitIndicator/SubmitIndicator'
 import { createSharedState } from '../../../shared/helpers/useSharedState'
 import useTranslation from '../hooks/useTranslation'
+import { FormError } from '../utils'
 
 export const states: Array<StateTypes> = ['error', 'info', 'warning']
 

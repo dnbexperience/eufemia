@@ -1,22 +1,16 @@
 import { useContext, useMemo } from 'react'
 import {
   DefaultErrorMessages,
-  CustomErrorMessagesWithPaths,
+  GlobalErrorMessagesWithPaths,
+  Path,
 } from '../types'
 import Context from '../DataContext/Context'
 
-/**
- * Custom hook that retrieves error messages based on the provided path and error configurations.
- *
- * @param path - The path to the error messages in the configuration.
- * @param errorMessages - Custom error messages with paths.
- * @param defaultErrorMessages - Default error messages.
- * @returns An object containing the merged error messages.
- */
+/** @deprecated – can be removed in v11 */
 export default function useErrorMessage(
-  path: string,
-  errorMessages: DefaultErrorMessages | CustomErrorMessagesWithPaths,
-  defaultErrorMessages: Record<string, string>
+  path: Path,
+  errorMessages: DefaultErrorMessages | GlobalErrorMessagesWithPaths,
+  defaultErrorMessages: Record<`${string}.${string}`, string>
 ) {
   const context = useContext(Context)
 
