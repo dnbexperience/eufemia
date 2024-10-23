@@ -159,7 +159,6 @@ export type Props = FieldHelpProps &
      * Will be called right before every new calendar view gets rendered. See the example above.
      */
     onDaysRender?: DatePickerProps['on_days_render']
-
     /**
      * Will be called on every input and date picker interaction. Returns an `object`. See Returned Object below.
      */
@@ -247,6 +246,8 @@ function DateComponent(props: Props) {
     handleChange,
     setDisplayValue,
     range,
+    showCancelButton = true,
+    showResetButton = true,
     ...rest
   } = useFieldProps(preparedProps)
 
@@ -288,8 +289,8 @@ function DateComponent(props: Props) {
         date={value}
         disabled={disabled}
         show_input={true}
-        show_cancel_button={true}
-        show_reset_button={true}
+        show_cancel_button={showCancelButton}
+        show_reset_button={showResetButton}
         start_date={startDate}
         end_date={endDate}
         status={hasError ? 'error' : undefined}
@@ -310,6 +311,7 @@ function DateComponent(props: Props) {
   )
 }
 
+// Used to filter out DatePickerProps from the FieldProps
 const datePickerPropKeys = [
   'startDate',
   'endDate',
@@ -356,7 +358,6 @@ const datePickerPropKeys = [
   'onReset',
 ]
 
-// TODO: Remove when DatePickerProps is converted to camelCase
 function getDatePickerProps(props: Props) {
   const datePickerProps = Object.keys(props).reduce(
     (datePickerProps, key) => {
