@@ -1412,6 +1412,33 @@ describe('InputMasked component as_currency', () => {
     expect(document.querySelector('input').value).toBe('12 345,67 kr')
   })
 
+  it('should prevent a comma when decimalLimit=0', () => {
+    render(<InputMasked as_currency currency_mask={{ decimalLimit: 0 }} />)
+
+    const preventDefault = jest.fn()
+    const event = { preventDefault }
+
+    const newValue = '12 345'
+
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: newValue },
+      ...event,
+    })
+
+    const pressDotAndUseItAscomma = () => {
+      const keyCode = 188 // comma
+      fireEvent.keyDown(document.querySelector('input'), {
+        keyCode,
+        ...event,
+      })
+    }
+
+    pressDotAndUseItAscomma()
+    pressDotAndUseItAscomma() // try a second time
+
+    expect(document.querySelector('input').value).toBe('12 345 kr')
+  })
+
   it('should inherit currency_mask from provider', () => {
     const { rerender } = render(
       <Provider
