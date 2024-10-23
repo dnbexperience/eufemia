@@ -112,6 +112,21 @@ export const CheckboxDisabled = () => (
   </ComponentBox>
 )
 
+export const CheckboxDisabledOptions = () => (
+  <ComponentBox>
+    <Field.ArraySelection
+      value={['foo']}
+      label="Label text"
+      onChange={(value) => console.log('onChange', value)}
+    >
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" disabled />
+      <Field.Option value="baz" title="Bazz!" disabled />
+      <Field.Option value="qux" title="Quxx!" />
+    </Field.ArraySelection>
+  </ComponentBox>
+)
+
 export const CheckboxInfo = () => (
   <ComponentBox>
     <Field.ArraySelection
@@ -426,6 +441,22 @@ export const ButtonDisabled = () => (
       <Field.Option value="foo" title="Foo!" />
       <Field.Option value="bar" title="Baar!" />
       <Field.Option value="baz" title="Bazz!" />
+      <Field.Option value="qux" title="Quxx!" />
+    </Field.ArraySelection>
+  </ComponentBox>
+)
+
+export const ButtonDisabledOptions = () => (
+  <ComponentBox>
+    <Field.ArraySelection
+      variant="button"
+      value={['foo']}
+      label="Label text"
+      onChange={(value) => console.log('onChange', value)}
+    >
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" disabled />
+      <Field.Option value="baz" title="Bazz!" disabled />
       <Field.Option value="qux" title="Quxx!" />
     </Field.ArraySelection>
   </ComponentBox>
