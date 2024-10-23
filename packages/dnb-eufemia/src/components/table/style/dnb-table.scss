@@ -59,8 +59,10 @@
 
   &--outline {
     position: relative;
-    // add extra room in bottom for caption
+
+    // Add extra room (-10rem) in bottom for caption,
     // because firefox clip-path ignores caption
+    // Use "clip-path" instead of "overflow" because display=table-row does not give the expected/same result like display=block would.
     clip-path: inset(
       0 0 -10rem 0 round var(--table-outline-radius) var(
           --table-outline-radius
