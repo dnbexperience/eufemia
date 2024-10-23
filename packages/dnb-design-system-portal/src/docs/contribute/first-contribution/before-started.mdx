@@ -255,7 +255,8 @@ For a faster startup-time, you can decide what pages you need by using the envir
 ```bash
 $ filter=button yarn start
 # - or –
-$ filter="/button /input/" yarn start
+$ filter=button,/input/ yarn start # with comma
+$ filter="button /input/" yarn start # with space (needs to be quoted)
 ```
 
 And visit e.g. this page: [http://localhost:8000/uilib/components/button/](http://http://localhost:8000/uilib/components/button/)
