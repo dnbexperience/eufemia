@@ -172,7 +172,7 @@ exports.onCreatePage = ({ page, actions }) => {
     return // stop here
   }
 
-  const pages = filter.split(' ')
+  const pages = filter.split(/(,|\s)/)
 
   if (!existsInPages(page.path, pages)) {
     deletePage(page)
