@@ -249,7 +249,7 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.object,
       PropTypes.array,
     ]),
-
+    keepSelectIndexOnDataChange: PropTypes.bool,
     on_show: PropTypes.func,
     on_type: PropTypes.func,
     on_focus: PropTypes.func,
@@ -329,6 +329,7 @@ export default class Autocomplete extends React.PureComponent {
 
     className: null,
     children: null,
+    keepSelectIndexOnDataChange: false,
 
     on_show: null,
     on_hide: null,
@@ -1808,6 +1809,7 @@ class AutocompleteInstance extends React.PureComponent {
       show_all, // eslint-disable-line
       aria_live_options, // eslint-disable-line
       disable_highlighting, // eslint-disable-line
+      keepSelectIndexOnDataChange,
 
       ...attributes
     } = props
@@ -2090,6 +2092,7 @@ class AutocompleteInstance extends React.PureComponent {
                 on_key_down={this.reserveActivityHandler}
                 onMouseDown={this.reserveActivityHandler}
                 independent_width={independent_width}
+                keepSelectIndexOnDataChange={keepSelectIndexOnDataChange}
               />
             </span>
 
