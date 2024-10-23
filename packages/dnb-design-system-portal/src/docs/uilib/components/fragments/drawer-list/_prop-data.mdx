@@ -26,6 +26,7 @@ const data = [
   },
   {
     content: ['Old account', <i>Closed</i>],
+    disabled: true,
     suffix_value: '0,00 kr',
   },
 ]
@@ -43,6 +44,7 @@ const data = [
   },
   {
     content: ['Old account', <i>Closed</i>],
+    disabled: true,
     suffix_value: '0,00 kr',
   },
 ]
@@ -96,6 +98,7 @@ type CONTENT = string | React.Node | (string | React.Node)[]
 // An array item
 type ARRAY_OBJECT = {
   content: CONTENT
+  disabled?: boolean
   selectedKey?: string | number
   selected_value?: string | React.Node
   suffix_value?: string | React.Node

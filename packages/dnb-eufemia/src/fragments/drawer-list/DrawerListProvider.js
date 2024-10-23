@@ -1243,6 +1243,10 @@ export default class DrawerListProvider extends React.PureComponent {
       attributes,
     }
 
+    if (data?.disabled) {
+      return false
+    }
+
     const res = dispatchCustomElementEvent(
       this.state,
       'on_pre_change',

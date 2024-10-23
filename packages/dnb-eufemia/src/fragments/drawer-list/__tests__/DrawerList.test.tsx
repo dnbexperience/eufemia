@@ -5,7 +5,13 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import { act, render, screen, waitFor } from '@testing-library/react'
+import {
+  act,
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+} from '@testing-library/react'
 import DrawerList, {
   DrawerListAllProps,
   DrawerListDataArray,
@@ -79,6 +85,92 @@ describe('DrawerList component', () => {
     expect(
       document.querySelector('.dnb-drawer-list--opened')
     ).toBeInTheDocument()
+  })
+
+  describe('with disabled option', () => {
+    const disabledOptionProps = {
+      skip_portal: true,
+      opened: true,
+      no_animation: true,
+      data: [
+        { content: 'item 1' },
+        { disabled: true, content: 'item 2' },
+        { content: 'item 3' },
+      ],
+    }
+
+    it('has correct attributes', async () => {
+      render(<DrawerList {...disabledOptionProps} />)
+
+      const options = document.querySelectorAll('.dnb-drawer-list__option')
+      expect(options[1].getAttribute('disabled')).toEqual('')
+      expect(options[1].getAttribute('aria-disabled')).toEqual('true')
+    })
+
+    it('sends on_select events', async () => {
+      const on_select = jest.fn()
+
+      render(<DrawerList {...disabledOptionProps} on_select={on_select} />)
+
+      keydown(40) // down
+      await waitFor(() => {
+        expect(on_select).toHaveBeenCalledTimes(1)
+        expect(on_select.mock.calls[0][0].active_item).toBe(0)
+      })
+
+      keydown(40) // down
+      await waitFor(() => {
+        // on_select is called when navigating to disabled item
+        expect(on_select).toHaveBeenCalledTimes(2)
+        expect(on_select.mock.calls[1][0].active_item).toBe(1)
+        expect(on_select.mock.calls[1][0].data.disabled).toBe(true)
+      })
+
+      keydown(40) // down
+      await waitFor(() => {
+        // navigates to next item
+        expect(on_select).toHaveBeenCalledTimes(3)
+        expect(on_select.mock.calls[2][0].active_item).toBe(2)
+      })
+    })
+
+    it('can not be clicked', async () => {
+      const on_change = jest.fn()
+      const on_select = jest.fn()
+
+      render(
+        <DrawerList
+          {...disabledOptionProps}
+          on_change={on_change}
+          on_select={on_select}
+        />
+      )
+
+      keydown(40) // down
+      keydown(40) // down
+      await waitFor(() => {
+        // verify item is disabled
+        expect(on_select).toHaveBeenCalledTimes(2)
+        expect(on_select.mock.calls[1][0].active_item).toBe(1)
+        expect(on_select.mock.calls[1][0].data.disabled).toBe(true)
+      })
+
+      keydown(13) // enter
+      await waitFor(() => {
+        // on_change and on_select is not called when attempting to chose a disabled item
+        expect(on_change).toHaveBeenCalledTimes(0)
+        expect(on_select).toHaveBeenCalledTimes(2)
+      })
+
+      await fireEvent.click(
+        document.querySelectorAll('.dnb-drawer-list__option')[1]
+      )
+      await waitFor(() => {
+        // on_change and on_select is not called when attempting to click a disabled item
+        expect(on_change).toHaveBeenCalledTimes(0)
+        expect(on_select).toHaveBeenCalledTimes(2)
+      })
+    })
   })
 
   it('handles default_value correctly on forcing re-render', () => {

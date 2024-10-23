@@ -22,6 +22,7 @@ export type DrawerListDataArrayObject = {
   selected_key?: string | number;
   suffix_value?: string | React.ReactNode;
   content?: DrawerListContent;
+  disabled?: boolean;
   search_content?: string | React.ReactNode | string[];
 };
 /** @deprecated use `DrawerListDataArrayItem` */

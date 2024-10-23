@@ -90,6 +90,7 @@ export const drawerListPropTypes = {
             PropTypes.string,
             PropTypes.node,
           ]),
+          disabled: PropTypes.bool,
           content: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.node,

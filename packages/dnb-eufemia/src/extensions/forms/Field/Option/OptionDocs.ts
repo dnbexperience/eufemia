@@ -17,6 +17,11 @@ export const OptionProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  disabled: {
+    doc: 'Will disable the option .',
+    type: 'boolean',
+    status: 'optional',
+  },
   help: FieldProperties.help,
   children: {
     doc: 'Optional way to provide `title`.',
