@@ -57,6 +57,8 @@
   --drawer-list-option-inner-background: var(--color-white);
   --drawer-list-list-background: var(--color-white);
   --drawer-list-list-line-height: var(--line-height-basis);
+  --drawer-bg-disabled: var(--color-black-8);
+  --drawer-color-disabled: var(--color-black-80);
 
   display: block; // has to be block element so we can se the content
   position: relative;
@@ -242,6 +244,12 @@
     &--ignore {
       cursor: default;
       pointer-events: none;
+    }
+
+    &[disabled] {
+      --drawer-list-option-inner-background: var(--drawer-bg-disabled);
+      color: var(--drawer-color-disabled);
+      cursor: not-allowed;
     }
   }
 

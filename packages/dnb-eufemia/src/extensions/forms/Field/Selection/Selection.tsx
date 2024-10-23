@@ -40,6 +40,7 @@ export type Data = Array<{
   value: string
   title: React.ReactNode
   text?: React.ReactNode
+  disabled?: boolean
 }>
 
 export type Props = FieldHelpProps &
@@ -397,8 +398,9 @@ export function makeOptions<T = DrawerListProps['data']>(
       const title = props.children ?? props.title ?? <em>Untitled</em>
       const content = props.text ? [title, props.text] : title
       const selectedKey = String(props.value ?? '')
+      const disabled = props.disabled
 
-      return { selectedKey, content }
+      return { selectedKey, content, disabled }
     }
 
     // For other children, just show them as content
@@ -412,9 +414,10 @@ export function makeOptions<T = DrawerListProps['data']>(
 
 function renderDropdownItems(data: Data) {
   return (
-    data?.map(({ value, title, text }) => ({
+    data?.map(({ value, title, text, disabled }) => ({
       selectedKey: value,
       content: (text ? [title, text] : title) || <em>Untitled</em>,
+      disabled,
     })) || []
   )
 }

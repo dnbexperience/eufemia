@@ -187,6 +187,11 @@ export const DrawerListItem: PropertiesTableProps = {
     type: ['string', 'React.node', '(string | React.Node)[]'],
     status: 'optional',
   },
+  disabled: {
+    doc: 'Disables the list item from selection',
+    type: 'boolean',
+    status: 'optional',
+  },
   selectedKey: {
     doc: 'If set, can be used instead of array index by the `value` prop',
     type: ['string', 'number'],
