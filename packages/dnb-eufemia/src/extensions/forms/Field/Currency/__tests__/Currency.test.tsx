@@ -3,6 +3,7 @@ import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
 import { Field } from '../../..'
 import { Provider } from '../../../../../shared'
+import userEvent from '@testing-library/user-event'
 
 describe('Field.Currency', () => {
   it('defaults to "kr" and use "NOK" when locale is en-GB', () => {
@@ -122,6 +123,22 @@ describe('Field.Currency', () => {
     const input = document.querySelector('.dnb-input__input')
 
     expect(input).toHaveAttribute('inputmode', 'decimal')
+  })
+
+  it('should work with decimal limit 0', async () => {
+    render(<Field.Currency decimalLimit={0} />)
+
+    const input = document.querySelector('.dnb-input__input')
+
+    expect(input).toHaveValue('')
+
+    await userEvent.type(document.querySelector('input'), '1')
+
+    expect(input).toHaveValue('1 kr')
+
+    await userEvent.type(document.querySelector('input'), ',')
+
+    expect(input).toHaveValue('1 kr')
   })
 
   describe('ARIA', () => {
