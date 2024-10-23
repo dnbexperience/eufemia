@@ -543,6 +543,50 @@ export const AutocompleteDisabledExample = () => (
   </Wrapper>
 )
 
+export const AutocompleteDisabledOptionsExample = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="autocomplete-disabled-options">
+      <Autocomplete
+        show_submit_button
+        data={[
+          {
+            disabled: true,
+            content: (
+              <Autocomplete.HorizontalItem>
+                <IconPrimary size="medium" icon="bell" right="x-small" />
+                The Shawshank Redemption
+              </Autocomplete.HorizontalItem>
+            ),
+            year: 1994,
+          },
+          {
+            disabled: true,
+            content: ['The Godfather', 'Line with more info'],
+            year: 1972,
+          },
+          {
+            disabled: true,
+            content: [
+              'The Godfather: Part II',
+              <a key="a-1" className="dnb-anchor" href="/">
+                Anchor 1
+              </a>,
+              <a key="a-2" className="dnb-anchor" href="/">
+                Anchor 2
+              </a>,
+              'Line with more info',
+            ],
+            year: 1974,
+          },
+          { disabled: true, content: 'The Dark Knight', year: 2008 },
+        ]}
+        label="Label"
+        bottom
+      />
+    </ComponentBox>
+  </Wrapper>
+)
+
 export const AutocompleteContentAsArrayExample = () => (
   <Wrapper>
     <ComponentBox hidePreview>
