@@ -446,6 +446,26 @@ export const DropdownDisabled = () => (
   </Wrapper>
 )
 
+export const DropdownDisabledOptions = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="dropdown-disabled-options">
+      <Dropdown
+        data={[
+          {
+            content: 'Item 1 Content',
+          },
+          { content: ['Item 2 Content', '(disabled)'], disabled: true },
+          { content: ['Item 3 Content', '(disabled)'], disabled: true },
+          {
+            content: 'Item 4 Content A',
+          },
+        ]}
+        label="Label"
+      />
+    </ComponentBox>
+  </Wrapper>
+)
+
 export const DropdownDisabledTertiary = () => (
   <Wrapper>
     <ComponentBox data-visual-test="dropdown-disabled-tertiary">
