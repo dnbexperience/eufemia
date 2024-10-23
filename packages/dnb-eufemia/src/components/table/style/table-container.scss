@@ -74,7 +74,8 @@
   }
 
   .dnb-table__scroll-view {
-    // Clip the native Scrollbar as per defined by UX
+    // Clip the native Scrollbar as per defined by UX.
+    // We can't use "overflow: clip" here, because we want overflow to be auto/scroll.
     clip-path: inset(
       0 round 0 0 var(--table-outline-radius) var(--table-outline-radius)
     );
