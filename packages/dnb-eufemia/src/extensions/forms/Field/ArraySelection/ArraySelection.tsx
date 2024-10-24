@@ -30,8 +30,10 @@ type OptionProps = React.ComponentProps<
   }>
 >
 
+type OptionValue = string | number
+
 export type Props = FieldHelpProps &
-  FieldProps<Array<string | number> | undefined> & {
+  FieldProps<Array<OptionValue> | undefined> & {
     children?: React.ReactNode
     variant?: 'checkbox' | 'button' | 'checkbox-button'
     optionsLayout?: 'horizontal' | 'vertical'
@@ -75,6 +77,7 @@ function ArraySelection(props: Props) {
     emptyValue,
     htmlAttributes,
     handleChange,
+    setDisplayValue,
     children,
   } = useFieldProps(props)
 
@@ -128,8 +131,11 @@ function ArraySelection(props: Props) {
     children,
     value,
     disabled,
-    handleChange,
     hasError,
+    handleChange,
+    handleActiveData: ({ labels }) => {
+      setDisplayValue(path, labels)
+    },
   })
 
   switch (variant) {
@@ -167,6 +173,7 @@ export function useCheckboxOrToggleOptions({
   disabled,
   hasError,
   handleChange,
+  handleActiveData,
 }: {
   id: Props['id']
   path?: Props['path']
@@ -181,18 +188,19 @@ export function useCheckboxOrToggleOptions({
   disabled?: Props['disabled']
   hasError?: ReturnAdditional<Props['value']>['hasError']
   handleChange?: ReturnAdditional<Props['value']>['handleChange']
+  handleActiveData?: (item: { labels: Array<Props['children']> }) => void
 }) {
   const { setFieldProps } = useContext(DataContext)
   const optionsCount = useMemo(
     () => React.Children.count(children) + (dataList?.length || 0),
     [dataList, children]
   )
-  const collectedData = []
+  const activeData = []
 
   const createOption = useCallback(
     (props: OptionProps, i: number) => {
       const {
-        value: selected,
+        value: active,
         error,
         title,
         help,
@@ -201,8 +209,8 @@ export function useCheckboxOrToggleOptions({
         ...rest
       } = props
 
-      if (value?.includes(selected)) {
-        collectedData.push(props)
+      if (value?.includes(active)) {
+        activeData.push(props)
       }
 
       const label = title ?? children
@@ -212,10 +220,11 @@ export function useCheckboxOrToggleOptions({
           {help.content}
         </HelpButton>
       ) : undefined
+
       const handleSelect = () => {
-        const newValue = value?.includes(selected)
-          ? value.filter((value) => value !== selected)
-          : [...(value ?? []), selected]
+        const newValue = value?.includes(active)
+          ? value.filter((value) => value !== active)
+          : [...(value ?? []), active]
 
         handleChange?.(
           newValue.length === 0 ? (emptyValue as typeof value) : newValue
@@ -240,7 +249,7 @@ export function useCheckboxOrToggleOptions({
           text={variant !== 'checkbox' ? label : undefined}
           value={value}
           disabled={disabled}
-          checked={value?.includes(selected)}
+          checked={value?.includes(active)}
           status={(hasError || status) && 'error'}
           suffix={suffix}
           on_change={handleSelect}
@@ -272,8 +281,14 @@ export function useCheckboxOrToggleOptions({
     ...(mapOptions(children, { createOption }) || []).filter(Boolean),
   ]
 
+  if (handleActiveData) {
+    handleActiveData({
+      labels: activeData.map(({ title, children }) => title ?? children),
+    })
+  }
+
   if (path) {
-    setFieldProps?.(path + '/arraySelectionData', collectedData)
+    setFieldProps?.(path + '/arraySelectionData', activeData)
   }
 
   return result

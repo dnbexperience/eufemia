@@ -1,9 +1,12 @@
 import React from 'react'
 import { render, fireEvent, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { axeComponent } from '../../../../../core/jest/jestSetup'
+import DataContext from '../../../DataContext/Context'
 import { Field, FieldBlock, Form } from '../../..'
 
 describe('ArraySelection', () => {
-  describe('checkbox variant', () => {
+  describe('checkbox', () => {
     it('renders correctly', () => {
       render(
         <Field.ArraySelection>
@@ -310,10 +313,129 @@ describe('ArraySelection', () => {
         option3.querySelector('label').getAttribute('for')
       )
     })
+
+    it('should store "displayValue" in data context', async () => {
+      let dataContext = null
+
+      render(
+        <Form.Handler
+          defaultData={{
+            myList: [
+              {
+                value: 'foo',
+                title: 'Foo!',
+              },
+              {
+                value: 'bar',
+                title: 'Bar!',
+              },
+            ],
+          }}
+        >
+          <Field.ArraySelection
+            variant="checkbox"
+            path="/mySelection"
+            dataPath="/myList"
+          />
+          <DataContext.Consumer>
+            {(context) => {
+              dataContext = context
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        '/mySelection': [],
+      })
+
+      await userEvent.tab()
+      await userEvent.keyboard('{Enter}')
+
+      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        '/mySelection': ['Foo!'],
+      })
+
+      await userEvent.tab()
+      await userEvent.tab()
+      await userEvent.keyboard('{Enter}')
+
+      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        '/mySelection': ['Foo!', 'Bar!'],
+      })
+
+      await userEvent.tab()
+      await userEvent.keyboard('{Enter}')
+
+      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        '/mySelection': ['Bar!'],
+      })
+
+      await userEvent.tab()
+      await userEvent.tab()
+      await userEvent.keyboard('{Enter}')
+
+      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        '/mySelection': [],
+      })
+    })
+
+    describe('ARIA', () => {
+      it('should validate with ARIA rules', async () => {
+        const result = render(
+          <Field.ArraySelection
+            label="Label"
+            variant="checkbox"
+            required
+            validateInitially
+          >
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
+          </Field.ArraySelection>
+        )
+
+        expect(await axeComponent(result)).toHaveNoViolations()
+      })
+
+      it('should have aria-required', () => {
+        render(
+          <Field.ArraySelection variant="checkbox" required>
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
+          </Field.ArraySelection>
+        )
+
+        const [first, second] = Array.from(
+          document.querySelectorAll('input')
+        )
+        expect(first).toHaveAttribute('aria-required', 'true')
+        expect(second).toHaveAttribute('aria-required', 'true')
+      })
+
+      it('should have aria-invalid', () => {
+        render(
+          <Field.ArraySelection
+            variant="checkbox"
+            required
+            validateInitially
+          >
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
+          </Field.ArraySelection>
+        )
+
+        const [first, second] = Array.from(
+          document.querySelectorAll('input')
+        )
+        expect(first).toHaveAttribute('aria-invalid', 'true')
+        expect(second).toHaveAttribute('aria-invalid', 'true')
+      })
+    })
   })
 
   describe.each(['button', 'checkbox-button'])(
-    '%s variant',
+    '%s',
     (testVariant: 'button' | 'checkbox-button') => {
       it(`has correct elements when "${testVariant}" is provided provided`, () => {
         render(
@@ -585,6 +707,132 @@ describe('ArraySelection', () => {
         expect(
           screen.getByText('You can only select up to three')
         ).toBeInTheDocument()
+      })
+
+      it('should store "displayValue" in data context', async () => {
+        let dataContext = null
+
+        render(
+          <Form.Handler
+            defaultData={{
+              myList: [
+                {
+                  value: 'foo',
+                  title: 'Foo!',
+                },
+                {
+                  value: 'bar',
+                  title: 'Bar!',
+                },
+              ],
+            }}
+          >
+            <Field.ArraySelection
+              variant={testVariant}
+              path="/mySelection"
+              dataPath="/myList"
+            />
+            <DataContext.Consumer>
+              {(context) => {
+                dataContext = context
+                return null
+              }}
+            </DataContext.Consumer>
+          </Form.Handler>
+        )
+
+        expect(dataContext.fieldDisplayValueRef.current).toEqual({
+          '/mySelection': [],
+        })
+
+        await userEvent.tab()
+        await userEvent.keyboard('{Enter}')
+
+        expect(dataContext.fieldDisplayValueRef.current).toEqual({
+          '/mySelection': ['Foo!'],
+        })
+
+        await userEvent.tab()
+        await userEvent.tab()
+        await userEvent.keyboard('{Enter}')
+
+        expect(dataContext.fieldDisplayValueRef.current).toEqual({
+          '/mySelection': ['Foo!', 'Bar!'],
+        })
+
+        await userEvent.tab()
+        await userEvent.keyboard('{Enter}')
+
+        expect(dataContext.fieldDisplayValueRef.current).toEqual({
+          '/mySelection': ['Bar!'],
+        })
+
+        await userEvent.tab()
+        await userEvent.tab()
+        await userEvent.keyboard('{Enter}')
+
+        expect(dataContext.fieldDisplayValueRef.current).toEqual({
+          '/mySelection': [],
+        })
+      })
+
+      describe('ARIA', () => {
+        it('should validate with ARIA rules', async () => {
+          const result = render(
+            <Field.ArraySelection
+              label="Label"
+              variant={testVariant}
+              required
+              validateInitially
+            >
+              <Field.Option value="foo">Foo</Field.Option>
+              <Field.Option value="bar">Bar</Field.Option>
+            </Field.ArraySelection>
+          )
+
+          expect(
+            await axeComponent(result, {
+              rules: {
+                // Because of aria-required is not allowed on buttons – but VO still reads it
+                'aria-allowed-attr': { enabled: false },
+              },
+            })
+          ).toHaveNoViolations()
+        })
+
+        it('should have aria-required', () => {
+          render(
+            <Field.ArraySelection variant={testVariant} required>
+              <Field.Option value="foo">Foo</Field.Option>
+              <Field.Option value="bar">Bar</Field.Option>
+            </Field.ArraySelection>
+          )
+
+          const [first, second] = Array.from(
+            document.querySelectorAll('button')
+          )
+          expect(first).toHaveAttribute('aria-required', 'true')
+          expect(second).toHaveAttribute('aria-required', 'true')
+        })
+
+        it('should have aria-invalid', () => {
+          render(
+            <Field.ArraySelection
+              variant="button"
+              required
+              validateInitially
+            >
+              <Field.Option value="foo">Foo</Field.Option>
+              <Field.Option value="bar">Bar</Field.Option>
+            </Field.ArraySelection>
+          )
+
+          const [first, second] = Array.from(
+            document.querySelectorAll('button')
+          )
+          expect(first).toHaveAttribute('aria-invalid', 'true')
+          expect(second).toHaveAttribute('aria-invalid', 'true')
+        })
       })
     }
   )

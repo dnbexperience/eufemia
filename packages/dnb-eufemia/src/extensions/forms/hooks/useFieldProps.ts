@@ -202,6 +202,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     errors: dataContextErrors,
     showAllErrors,
     contextErrorMessages,
+    fieldDisplayValueRef,
     existingFieldsRef,
   } = dataContext || {}
   const onChangeContext = dataContext?.props?.onChange
@@ -1589,6 +1590,19 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   // Put props into the surrounding data context as early as possible
   setFieldPropsDataContext?.(identifier, props)
 
+  const setDisplayValue = useCallback(
+    (path: Identifier, content: React.ReactNode) => {
+      if (!path || !fieldDisplayValueRef?.current) {
+        return // stop here
+      }
+      fieldDisplayValueRef.current[path] =
+        valueRef.current === (emptyValue as unknown as Value)
+          ? undefined
+          : content
+    },
+    [emptyValue, fieldDisplayValueRef]
+  )
+
   const { activeIndex, activeIndexRef } = wizardContext || {}
   const activeIndexTmpRef = useRef(activeIndex)
   useEffect(() => {
@@ -2194,6 +2208,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     handleChange,
     updateValue,
     setChanged,
+    setDisplayValue,
     forceUpdate,
 
     /** Internal */
@@ -2217,8 +2232,9 @@ export interface ReturnAdditional<Value> {
     value: Value | unknown,
     additionalArgs?: AdditionalEventArgs
   ) => void
-  setChanged: (state: boolean) => void
   updateValue: (value: Value) => void
+  setChanged: (state: boolean) => void
+  setDisplayValue: (path: Identifier, value: React.ReactNode) => void
   forceUpdate: () => void
   hasError?: boolean
 

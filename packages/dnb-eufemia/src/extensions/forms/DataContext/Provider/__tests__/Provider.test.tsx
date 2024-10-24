@@ -355,7 +355,7 @@ describe('DataContext.Provider', () => {
       const { rerender } = render(
         <DataContext.Provider onSubmit={onSubmit}>
           <Field.String path="/foo" required minLength={3} />
-          <Form.SubmitButton>Submit</Form.SubmitButton>
+          <Form.SubmitButton />
         </DataContext.Provider>
       )
 
@@ -395,7 +395,7 @@ describe('DataContext.Provider', () => {
           onSubmit={onSubmit}
         >
           <Field.String path="/fooBar" required minLength={3} />
-          <Form.SubmitButton>Submit</Form.SubmitButton>
+          <Form.SubmitButton />
         </DataContext.Provider>
       )
 
@@ -483,7 +483,7 @@ describe('DataContext.Provider', () => {
           <DataContext.Provider onSubmit={onSubmit}>
             <Field.String path="/foo" value="Include this value" />
             <Field.String path="/bar" value="bar" />
-            <Form.SubmitButton>Submit</Form.SubmitButton>
+            <Form.SubmitButton />
           </DataContext.Provider>
         )
 
@@ -521,7 +521,7 @@ describe('DataContext.Provider', () => {
           <DataContext.Provider onSubmit={onSubmit}>
             <Field.String path="/foo" value="Skip this value" disabled />
             <Field.String path="/bar" value="bar value" />
-            <Form.SubmitButton>Submit</Form.SubmitButton>
+            <Form.SubmitButton />
           </DataContext.Provider>
         )
 
@@ -576,7 +576,7 @@ describe('DataContext.Provider', () => {
           <DataContext.Provider onSubmit={onSubmit}>
             <Field.String path="/foo" value="Include this value" />
             <Field.String path="/bar" value="bar" />
-            <Form.SubmitButton>Submit</Form.SubmitButton>
+            <Form.SubmitButton />
           </DataContext.Provider>
         )
 
@@ -628,7 +628,7 @@ describe('DataContext.Provider', () => {
           <DataContext.Provider onSubmit={onSubmit}>
             <Field.String path="/foo" value="Skip this value" disabled />
             <Field.String path="/bar" value="bar value" />
-            <Form.SubmitButton>Submit</Form.SubmitButton>
+            <Form.SubmitButton />
           </DataContext.Provider>
         )
 
@@ -709,7 +709,7 @@ describe('DataContext.Provider', () => {
               filterSubmitData={filterDataHandler}
             >
               <Field.String path="/myField" />
-              <Form.SubmitButton>Submit</Form.SubmitButton>
+              <Form.SubmitButton />
             </DataContext.Provider>
           )
         }
@@ -768,7 +768,7 @@ describe('DataContext.Provider', () => {
         render(
           <DataContext.Provider onChange={onChange}>
             <Field.String path="/myField" />
-            <Form.SubmitButton>Submit</Form.SubmitButton>
+            <Form.SubmitButton />
           </DataContext.Provider>
         )
 
@@ -906,7 +906,7 @@ describe('DataContext.Provider', () => {
           onSubmitRequest={onSubmitRequest}
         >
           <Field.Number path="/foo" minimum={3} />
-          <Form.SubmitButton>Submit</Form.SubmitButton>
+          <Form.SubmitButton />
         </DataContext.Provider>
       )
 
@@ -927,7 +927,7 @@ describe('DataContext.Provider', () => {
           onSubmitRequest={onSubmitRequest}
         >
           <Field.Number path="/fooBar" required />
-          <Form.SubmitButton>Submit</Form.SubmitButton>
+          <Form.SubmitButton />
         </DataContext.Provider>
       )
 
@@ -2132,7 +2132,7 @@ describe('DataContext.Provider', () => {
         scrollTopOnSubmit
       >
         <Field.String path="/foo" value="Value" />
-        <Form.SubmitButton>Submit</Form.SubmitButton>
+        <Form.SubmitButton />
       </DataContext.Provider>
     )
 
@@ -2160,7 +2160,7 @@ describe('DataContext.Provider', () => {
         scrollTopOnSubmit
       >
         <Field.String path="/fooBar" value="Rerendered Value" />
-        <Form.SubmitButton>Submit</Form.SubmitButton>
+        <Form.SubmitButton />
       </DataContext.Provider>
     )
 
@@ -2299,7 +2299,7 @@ describe('DataContext.Provider', () => {
             }}
             required
           />
-          <Form.SubmitButton>Submit</Form.SubmitButton>
+          <Form.SubmitButton />
         </DataContext.Provider>
       )
 
@@ -2341,7 +2341,7 @@ describe('DataContext.Provider', () => {
       render(
         <DataContext.Provider>
           <Field.String required />
-          <Form.SubmitButton>Submit</Form.SubmitButton>
+          <Form.SubmitButton />
         </DataContext.Provider>
       )
 
@@ -2840,7 +2840,7 @@ describe('DataContext.Provider', () => {
           schema={Schema}
         >
           <Field.Number path="/foo" />
-          <Form.SubmitButton>Submit</Form.SubmitButton>
+          <Form.SubmitButton />
         </DataContext.Provider>
       )
 
@@ -2862,7 +2862,7 @@ describe('DataContext.Provider', () => {
           schema={Schema}
         >
           <Field.Number path="/fooBar" required />
-          <Form.SubmitButton>Submit</Form.SubmitButton>
+          <Form.SubmitButton />
         </DataContext.Provider>
       )
 
@@ -4534,6 +4534,231 @@ describe('DataContext.Provider', () => {
       myPath: 'My Value',
     })
     expect(document.querySelector('input')).toHaveValue('foo')
+  })
+
+  it('should transform onChange value with "transformOut"', async () => {
+    const onChange = jest.fn()
+
+    render(
+      <Form.Handler
+        onChange={onChange}
+        transformOut={({ value, displayValue, label }) => {
+          return { value, displayValue, label }
+        }}
+      >
+        <Field.String
+          label="String label"
+          path="/stringField"
+          defaultValue="foo"
+        />
+
+        <Field.Selection
+          label="Selection label"
+          path="/selectionField"
+          defaultValue="foo"
+          variant="radio"
+        >
+          <Field.Option value="foo" title="Foo Value" />
+          <Field.Option value="bar" title="Bar Value" />
+        </Field.Selection>
+
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    const stringField = document.querySelector('input')
+    fireEvent.change(stringField, { target: { value: 'bar' } })
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenLastCalledWith(
+      {
+        stringField: {
+          value: 'bar',
+          label: 'String label',
+          displayValue: undefined,
+        },
+        selectionField: {
+          value: 'foo',
+          label: 'Selection label',
+          displayValue: 'Foo Value',
+        },
+      },
+      {
+        filterData: expect.any(Function),
+      }
+    )
+
+    await userEvent.tab()
+    await userEvent.tab()
+    await userEvent.keyboard('{ArrowDown}')
+
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenLastCalledWith(
+      {
+        stringField: {
+          value: 'bar',
+          label: 'String label',
+          displayValue: undefined,
+        },
+        selectionField: {
+          value: 'bar',
+          label: 'Selection label',
+          displayValue: 'Foo Value',
+        },
+      },
+      {
+        filterData: expect.any(Function),
+      }
+    )
+
+    fireEvent.change(stringField, { target: { value: 'bar 2' } })
+
+    expect(onChange).toHaveBeenCalledTimes(3)
+    expect(onChange).toHaveBeenLastCalledWith(
+      {
+        stringField: {
+          value: 'bar 2',
+          label: 'String label',
+          displayValue: undefined,
+        },
+        selectionField: {
+          value: 'bar',
+          label: 'Selection label',
+          displayValue: 'Bar Value',
+        },
+        // arraySelectionField: {
+        //   displayValue: ['Foo Value'],
+        //   label: 'ArraySelection label',
+        //   value: ['foo'],
+        // },
+        // arraySelectionField: {
+        //   displayValue: ['Bar Value'],
+        //   label: 'ArraySelection label',
+        //   value: ['bar'],
+        // },
+      },
+      {
+        filterData: expect.any(Function),
+      }
+    )
+  })
+
+  it('should transform data with "transformData"', async () => {
+    let transformedData = undefined
+    const onSubmit = jest.fn((data, { transformData }) => {
+      transformedData = transformData(
+        data,
+        ({ value, displayValue, props }) => {
+          return { value, label: props.label, displayValue }
+        }
+      )
+    })
+
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Field.String
+          label="String label"
+          path="/stringField"
+          defaultValue="foo"
+        />
+
+        <Field.Selection
+          label="Selection label"
+          path="/selectionField"
+          defaultValue="foo"
+          variant="radio"
+        >
+          <Field.Option value="foo" title="Foo Value" />
+          <Field.Option value="bar" title="Bar Value" />
+        </Field.Selection>
+
+        <Field.ArraySelection
+          label="ArraySelection label"
+          path="/arraySelectionField"
+          defaultValue={['foo']}
+          variant="checkbox"
+        >
+          <Field.Option value="foo" title="Foo Value" />
+          <Field.Option value="bar" title="Bar Value" />
+        </Field.ArraySelection>
+
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    const stringField = document.querySelector('input')
+    fireEvent.change(stringField, { target: { value: 'bar' } })
+
+    fireEvent.submit(document.querySelector('form'))
+
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(transformedData).toEqual({
+      stringField: {
+        value: 'bar',
+        label: 'String label',
+        displayValue: undefined,
+      },
+      selectionField: {
+        value: 'foo',
+        label: 'Selection label',
+        displayValue: 'Foo Value',
+      },
+      arraySelectionField: {
+        displayValue: ['Foo Value'],
+        label: 'ArraySelection label',
+        value: ['foo'],
+      },
+    })
+
+    await userEvent.tab()
+    await userEvent.tab()
+    await userEvent.keyboard('{ArrowDown}')
+
+    fireEvent.submit(document.querySelector('form'))
+
+    expect(onSubmit).toHaveBeenCalledTimes(2)
+    expect(transformedData).toEqual({
+      stringField: {
+        value: 'bar',
+        label: 'String label',
+        displayValue: undefined,
+      },
+      selectionField: {
+        value: 'bar',
+        label: 'Selection label',
+        displayValue: 'Bar Value',
+      },
+      arraySelectionField: {
+        displayValue: ['Foo Value'],
+        label: 'ArraySelection label',
+        value: ['foo'],
+      },
+    })
+
+    await userEvent.tab()
+    await userEvent.tab()
+    await userEvent.keyboard('{Enter}')
+
+    fireEvent.submit(document.querySelector('form'))
+
+    expect(onSubmit).toHaveBeenCalledTimes(3)
+    expect(transformedData).toEqual({
+      stringField: {
+        value: 'bar',
+        label: 'String label',
+        displayValue: undefined,
+      },
+      selectionField: {
+        value: 'bar',
+        label: 'Selection label',
+        displayValue: 'Bar Value',
+      },
+      arraySelectionField: {
+        displayValue: ['Foo Value', 'Bar Value'],
+        label: 'ArraySelection label',
+        value: ['foo', 'bar'],
+      },
+    })
   })
 
   describe('reduceToVisibleFields', () => {
