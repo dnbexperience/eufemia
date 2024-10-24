@@ -13,8 +13,8 @@ import {
   testDirectionObserver,
 } from '../../../fragments/drawer-list/__tests__/DrawerListTestMocks'
 import {
-  DrawerListDataObject,
-  DrawerListDataObjectUnion,
+  DrawerListDataArrayObject,
+  DrawerListDataArray,
 } from '../../../fragments/drawer-list'
 
 // use no_animation so we don't need to wait
@@ -28,7 +28,7 @@ const props: DropdownAllProps = {
   no_animation: true,
 }
 
-const mockData: DrawerListDataObjectUnion[] = [
+const mockData: DrawerListDataArray = [
   {
     selected_value: 'Brukskonto - Kari Nordmann',
     content: ['1234 56 78901', 'Brukskonto - Kari Nordmann'],
@@ -72,7 +72,9 @@ describe('Dropdown component', () => {
 
     expect(
       document.querySelector('.dnb-dropdown__text__inner').textContent
-    ).toBe((mockData[props.value] as DrawerListDataObject).selected_value)
+    ).toBe(
+      (mockData[props.value] as DrawerListDataArrayObject).selected_value
+    )
 
     keydown(32) // space
 
@@ -96,7 +98,7 @@ describe('Dropdown component', () => {
     expect(
       document.querySelector('.dnb-dropdown__text__inner').textContent
     ).toBe(
-      (mockData[(props.value as number) + 1] as DrawerListDataObject)
+      (mockData[(props.value as number) + 1] as DrawerListDataArrayObject)
         .selected_value
     )
   })
@@ -507,7 +509,7 @@ describe('Dropdown component', () => {
     rerender(<Dropdown {...props} value={value} data={mockData} />)
 
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
-      (mockData[value] as DrawerListDataObject).selected_value
+      (mockData[value] as DrawerListDataArrayObject).selected_value
     )
 
     rerender(<Dropdown {...props} value={undefined} data={mockData} />)
@@ -520,7 +522,7 @@ describe('Dropdown component', () => {
     rerender(<Dropdown {...props} value={value} data={mockData} />)
 
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
-      (mockData[value] as DrawerListDataObject).selected_value
+      (mockData[value] as DrawerListDataArrayObject).selected_value
     )
 
     rerender(<Dropdown {...props} value={null} data={mockData} />)
@@ -732,6 +734,7 @@ describe('Dropdown component', () => {
       data: {
         __id: 0,
         content: 'English',
+        selectedKey: 'en-GB',
         selected_key: 'en-GB',
         type: 'object',
         value: 'en-GB',
@@ -750,6 +753,7 @@ describe('Dropdown component', () => {
       isTrusted: false,
       data: {
         content: 'Norsk',
+        selectedKey: 'nb-NO',
         selected_key: 'nb-NO',
         type: 'object',
         value: 'nb-NO',
@@ -1071,7 +1075,7 @@ describe('Dropdown component', () => {
     expect(
       document.querySelector('.dnb-dropdown__text__inner').textContent
     ).toBe(
-      (mockData[(props.value as number) + 1] as DrawerListDataObject)
+      (mockData[(props.value as number) + 1] as DrawerListDataArrayObject)
         .selected_value
     )
   })
@@ -1080,7 +1084,9 @@ describe('Dropdown component', () => {
     render(<Dropdown {...props} data={mockData} />)
     expect(
       document.querySelector('.dnb-dropdown__text__inner').textContent
-    ).toBe((mockData[props.value] as DrawerListDataObject).selected_value)
+    ).toBe(
+      (mockData[props.value] as DrawerListDataArrayObject).selected_value
+    )
   })
 
   it('has correct selected value after new selection', () => {
@@ -1092,7 +1098,9 @@ describe('Dropdown component', () => {
 
     expect(
       document.querySelector('.dnb-dropdown__text__inner').textContent
-    ).toBe((mockData[props.value] as DrawerListDataObject).selected_value)
+    ).toBe(
+      (mockData[props.value] as DrawerListDataArrayObject).selected_value
+    )
   })
 
   it('has correct value after useEffect value state change', () => {
@@ -1111,7 +1119,9 @@ describe('Dropdown component', () => {
 
     expect(
       document.querySelector('.dnb-dropdown__text__inner').textContent
-    ).toBe((mockData[newValue] as DrawerListDataObject).selected_value)
+    ).toBe(
+      (mockData[newValue] as DrawerListDataArrayObject).selected_value
+    )
 
     open()
 

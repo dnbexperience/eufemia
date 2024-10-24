@@ -310,6 +310,7 @@ class DrawerListInstance extends React.PureComponent {
           selected: !dataItem.ignore_events && _id == selected_item,
           onClick: this.selectItemHandler,
           onKeyDown: this.preventTab,
+          disabled: dataItem.disabled,
         }
 
         if (ignoreEvents) {
@@ -468,6 +469,7 @@ DrawerList.Item = React.forwardRef((props, ref) => {
     selected, // eslint-disable-line
     active, // eslint-disable-line
     value, // eslint-disable-line
+    disabled, // eslint-disable-line
     ...rest
   } = props
 
@@ -481,6 +483,8 @@ DrawerList.Item = React.forwardRef((props, ref) => {
     role,
     tabIndex: selected ? '0' : '-1',
     'aria-selected': active,
+    disabled,
+    'aria-disabled': disabled,
   }
   if (selected) {
     params['aria-current'] = true // has best support on NVDA
@@ -523,6 +527,7 @@ DrawerList.Item.propTypes = {
   selected: PropTypes.bool,
   active: PropTypes.bool,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  disabled: PropTypes.bool,
 }
 DrawerList.Item.defaultProps = {
   role: 'option',
@@ -576,6 +581,10 @@ export function ItemContent({ hash = '', children }) {
 ItemContent.propTypes = {
   hash: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
+}
+ItemContent.defaultProps = {
+  hash: '',
+  children: undefined,
 }
 
 DrawerList.HorizontalItem = ({ className, ...props }) => (

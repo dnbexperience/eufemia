@@ -54,17 +54,16 @@
       content: '';
       position: absolute;
       z-index: 2;
-      top: auto;
+      top: 0;
       left: 0;
       right: 0;
-      bottom: 0;
+      bottom: auto;
 
       // width: 100%; // 100% width would result in no margin right
       height: var(--drawer-list-option-border-width);
 
       background-color: var(--color-mint-green-25);
     }
-
     &__item.item-nr-1 {
       font-weight: var(--font-weight-medium);
     }
@@ -197,7 +196,7 @@
     }
 
     // remove last bottom border
-    &.last-of-type:not(#{&}--focus) &__inner::before {
+    &.first-of-type:not(#{&}--focus) &__inner::before {
       content: none;
     }
 
@@ -232,6 +231,13 @@
   &--top &__option--focus.closest-to-top &__option__inner::before {
     border-radius: var(--drawer-list-options-border-radius)
       var(--drawer-list-options-border-radius) 0 0;
+  }
+
+  // disabled
+  &__option[disabled]
+    + &__option[disabled]:not(#{&}__option--focus)
+    &__option__inner::before {
+    background-color: var(--color-black-20);
   }
 
   // error status

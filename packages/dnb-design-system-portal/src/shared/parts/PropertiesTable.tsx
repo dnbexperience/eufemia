@@ -179,7 +179,7 @@ function convertToCamelCase(doc: string, keys: string[]) {
 }
 
 export function formatName(name: string): React.ReactNode | string {
-  if (name.includes('/')) {
+  if (name.includes('[')) {
     return <ReactMarkdown components={components}>{name}</ReactMarkdown>
   }
 
