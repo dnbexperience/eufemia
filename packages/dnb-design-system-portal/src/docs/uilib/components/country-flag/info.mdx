@@ -1,0 +1,25 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { CountryFlag } from '@dnb/eufemia'
+
+// Import the flag icons as CSS
+import '@dnb/eufemia/components/country-flag/style/dnb-country-flag-icons.min.css'
+
+// ... or as SASS
+import '@dnb/eufemia/components/country-flag/style/dnb-country-flag-icons.scss'
+```
+
+## Description
+
+The CountryFlag component lets you display a country flag based on a [ISO 3166-1 alpha-2 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) like `NO` for Norway.
+
+In order to use the CountryFlag component, you need to import the flag styles as CSS or SASS. The flag styles are available in the `dnb-country-flag-icons.min.css` and `dnb-country-flag-icons.scss` files. See the import example above.
+
+These style files will import the SVG flag icon via a CSS `background-image`. This way only the used flags will be loaded by the browser.
+
+For UX designers, there is the [Figma Flags Library](https://www.figma.com/design/Uc4ydRIqv0Ab4YiR6mSOZH/Eufemia---Flags), which provides a comprehensive collection of flag icons that can be used in your design projects.

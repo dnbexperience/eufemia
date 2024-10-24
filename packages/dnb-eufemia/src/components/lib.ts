@@ -21,6 +21,7 @@ import Button from './button/Button'
 import Card from './card/Card'
 import Checkbox from './checkbox/Checkbox'
 import CopyOnClick from './copy-on-click/CopyOnClick'
+import CountryFlag from './country-flag/CountryFlag'
 import DatePicker from './date-picker/DatePicker'
 import Dialog from './dialog/Dialog'
 import Drawer from './drawer/Drawer'
@@ -77,6 +78,7 @@ export {
   Card,
   Checkbox,
   CopyOnClick,
+  CountryFlag,
   DatePicker,
   Dialog,
   Drawer,
@@ -132,8 +134,9 @@ export const getComponents = () => {
     Breadcrumb,
     Button,
     Card,
-    CopyOnClick,
     Checkbox,
+    CopyOnClick,
+    CountryFlag,
     DatePicker,
     Dialog,
     Drawer,
