@@ -101,6 +101,7 @@ function Selection(props: Props) {
     layout = 'vertical',
     optionsLayout = 'vertical',
     placeholder,
+    path,
     value,
     info,
     warning,
@@ -113,6 +114,7 @@ function Selection(props: Props) {
     htmlAttributes,
     setHasFocus,
     handleChange,
+    storeDisplayValue,
     data,
     dataPath,
     children,
@@ -200,6 +202,11 @@ function Selection(props: Props) {
         children,
         dataList,
         hasError,
+        selectedHandler: ({ value: v, label }) => {
+          if (v === value) {
+            storeDisplayValue(path, label)
+          }
+        },
       })
 
       return (
@@ -228,6 +235,9 @@ function Selection(props: Props) {
       const data = renderDropdownItems(dataList)
         .concat(makeOptions(children))
         .filter(Boolean)
+      const displayValue = data.find((item) => item.selectedKey === value)
+        ?.content
+      storeDisplayValue(path, displayValue)
 
       const sharedProps: AutocompleteAllProps & DropdownAllProps = {
         id,
@@ -310,6 +320,7 @@ function renderRadioItems({
   children,
   dataList,
   hasError,
+  selectedHandler,
 }: {
   id: string
   value: Props['value']
@@ -320,6 +331,10 @@ function renderRadioItems({
   children: Props['children']
   dataList: Data
   hasError: ReturnAdditional<Props['value']>['hasError']
+  selectedHandler: (item: {
+    value: Props['value']
+    label: React.ReactNode
+  }) => void
 }) {
   const optionsCount =
     React.Children.count(children) + (dataList?.length || 0)
@@ -338,6 +353,8 @@ function renderRadioItems({
     const Component = (
       variant === 'radio' ? Radio : ToggleButton
     ) as typeof Radio & typeof ToggleButton
+
+    selectedHandler?.({ value, label })
 
     return (
       <Component
@@ -412,10 +429,12 @@ export function makeOptions<T = DrawerListProps['data']>(
 
 function renderDropdownItems(data: Data) {
   return (
-    data?.map(({ value, title, text }) => ({
-      selectedKey: value,
-      content: (text ? [title, text] : title) || <em>Untitled</em>,
-    })) || []
+    data?.map(({ value, title, text }) => {
+      return {
+        selectedKey: value,
+        content: (text ? [title, text] : title) || <em>Untitled</em>,
+      }
+    }) || []
   )
 }
 

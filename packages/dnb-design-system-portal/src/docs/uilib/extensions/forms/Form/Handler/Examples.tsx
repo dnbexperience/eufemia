@@ -9,6 +9,7 @@ import { stop as stopIcon } from '@dnb/eufemia/src/icons'
 import { Button, Card, Flex, P } from '@dnb/eufemia/src'
 import { debounceAsync } from '@dnb/eufemia/src/shared/helpers/debounce'
 import { createRequest } from '../SubmitIndicator/Examples'
+import { removeUndefinedProps } from '@dnb/eufemia/src/shared/component-helper'
 
 export const RequiredAndOptionalFields = () => {
   return (
@@ -392,6 +393,51 @@ export const FilterData = () => {
             <Output />
           </>
         )
+      }}
+    </ComponentBox>
+  )
+}
+
+export const TransformData = () => {
+  return (
+    <ComponentBox scope={{ Tools, removeUndefinedProps }}>
+      {() => {
+        const MyForm = () => {
+          const onSubmit = (data, { transformData }) => {
+            const transformedData = transformData(
+              data,
+              ({ value, displayValue, props }) => {
+                const item = { value, label: props.label, displayValue }
+                removeUndefinedProps(item)
+                return item
+              },
+            )
+
+            console.log('onSubmit', transformedData)
+          }
+
+          return (
+            <Form.Handler onSubmit={onSubmit}>
+              <Flex.Stack>
+                <Field.String label="Foo label" path="/foo" value="foo" />
+                <Field.Selection
+                  label="Bar label"
+                  path="/bar"
+                  value="bar"
+                  variant="dropdown"
+                >
+                  <Field.Option value="foo" title="Foo Value" />
+                  <Field.Option value="bar" title="Bar Value" />
+                </Field.Selection>
+                <Form.SubmitButton />
+
+                <Tools.Log />
+              </Flex.Stack>
+            </Form.Handler>
+          )
+        }
+
+        return <MyForm />
       }}
     </ComponentBox>
   )

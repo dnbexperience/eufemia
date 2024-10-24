@@ -12,7 +12,10 @@ import { spyOnEufemiaWarn, wait } from '../../../../../core/jest/jestSetup'
 import { simulateAnimationEnd } from '../../../../../components/height-animation/__tests__/HeightAnimationUtils'
 import { GlobalStatus } from '../../../../../components'
 import SharedProvider from '../../../../../shared/Provider'
-import { makeUniqueId } from '../../../../../shared/component-helper'
+import {
+  makeUniqueId,
+  removeUndefinedProps,
+} from '../../../../../shared/component-helper'
 import { debounceAsync } from '../../../../../shared/helpers/debounce'
 import {
   Form,
@@ -355,7 +358,7 @@ describe('DataContext.Provider', () => {
       const { rerender } = render(
         <DataContext.Provider onSubmit={onSubmit}>
           <Field.String path="/foo" required minLength={3} />
-          <Form.SubmitButton>Submit</Form.SubmitButton>
+          <Form.SubmitButton />
         </DataContext.Provider>
       )
 
@@ -395,7 +398,7 @@ describe('DataContext.Provider', () => {
           onSubmit={onSubmit}
         >
           <Field.String path="/fooBar" required minLength={3} />
-          <Form.SubmitButton>Submit</Form.SubmitButton>
+          <Form.SubmitButton />
         </DataContext.Provider>
       )
 
@@ -483,7 +486,7 @@ describe('DataContext.Provider', () => {
           <DataContext.Provider onSubmit={onSubmit}>
             <Field.String path="/foo" value="Include this value" />
             <Field.String path="/bar" value="bar" />
-            <Form.SubmitButton>Submit</Form.SubmitButton>
+            <Form.SubmitButton />
           </DataContext.Provider>
         )
 
@@ -521,7 +524,7 @@ describe('DataContext.Provider', () => {
           <DataContext.Provider onSubmit={onSubmit}>
             <Field.String path="/foo" value="Skip this value" disabled />
             <Field.String path="/bar" value="bar value" />
-            <Form.SubmitButton>Submit</Form.SubmitButton>
+            <Form.SubmitButton />
           </DataContext.Provider>
         )
 
@@ -576,7 +579,7 @@ describe('DataContext.Provider', () => {
           <DataContext.Provider onSubmit={onSubmit}>
             <Field.String path="/foo" value="Include this value" />
             <Field.String path="/bar" value="bar" />
-            <Form.SubmitButton>Submit</Form.SubmitButton>
+            <Form.SubmitButton />
           </DataContext.Provider>
         )
 
@@ -628,7 +631,7 @@ describe('DataContext.Provider', () => {
           <DataContext.Provider onSubmit={onSubmit}>
             <Field.String path="/foo" value="Skip this value" disabled />
             <Field.String path="/bar" value="bar value" />
-            <Form.SubmitButton>Submit</Form.SubmitButton>
+            <Form.SubmitButton />
           </DataContext.Provider>
         )
 
@@ -709,7 +712,7 @@ describe('DataContext.Provider', () => {
               filterSubmitData={filterDataHandler}
             >
               <Field.String path="/myField" />
-              <Form.SubmitButton>Submit</Form.SubmitButton>
+              <Form.SubmitButton />
             </DataContext.Provider>
           )
         }
@@ -768,7 +771,7 @@ describe('DataContext.Provider', () => {
         render(
           <DataContext.Provider onChange={onChange}>
             <Field.String path="/myField" />
-            <Form.SubmitButton>Submit</Form.SubmitButton>
+            <Form.SubmitButton />
           </DataContext.Provider>
         )
 
@@ -906,7 +909,7 @@ describe('DataContext.Provider', () => {
           onSubmitRequest={onSubmitRequest}
         >
           <Field.Number path="/foo" minimum={3} />
-          <Form.SubmitButton>Submit</Form.SubmitButton>
+          <Form.SubmitButton />
         </DataContext.Provider>
       )
 
@@ -927,7 +930,7 @@ describe('DataContext.Provider', () => {
           onSubmitRequest={onSubmitRequest}
         >
           <Field.Number path="/fooBar" required />
-          <Form.SubmitButton>Submit</Form.SubmitButton>
+          <Form.SubmitButton />
         </DataContext.Provider>
       )
 
@@ -2132,7 +2135,7 @@ describe('DataContext.Provider', () => {
         scrollTopOnSubmit
       >
         <Field.String path="/foo" value="Value" />
-        <Form.SubmitButton>Submit</Form.SubmitButton>
+        <Form.SubmitButton />
       </DataContext.Provider>
     )
 
@@ -2160,7 +2163,7 @@ describe('DataContext.Provider', () => {
         scrollTopOnSubmit
       >
         <Field.String path="/fooBar" value="Rerendered Value" />
-        <Form.SubmitButton>Submit</Form.SubmitButton>
+        <Form.SubmitButton />
       </DataContext.Provider>
     )
 
@@ -2299,7 +2302,7 @@ describe('DataContext.Provider', () => {
             }}
             required
           />
-          <Form.SubmitButton>Submit</Form.SubmitButton>
+          <Form.SubmitButton />
         </DataContext.Provider>
       )
 
@@ -2341,7 +2344,7 @@ describe('DataContext.Provider', () => {
       render(
         <DataContext.Provider>
           <Field.String required />
-          <Form.SubmitButton>Submit</Form.SubmitButton>
+          <Form.SubmitButton />
         </DataContext.Provider>
       )
 
@@ -2840,7 +2843,7 @@ describe('DataContext.Provider', () => {
           schema={Schema}
         >
           <Field.Number path="/foo" />
-          <Form.SubmitButton>Submit</Form.SubmitButton>
+          <Form.SubmitButton />
         </DataContext.Provider>
       )
 
@@ -2862,7 +2865,7 @@ describe('DataContext.Provider', () => {
           schema={Schema}
         >
           <Field.Number path="/fooBar" required />
-          <Form.SubmitButton>Submit</Form.SubmitButton>
+          <Form.SubmitButton />
         </DataContext.Provider>
       )
 
@@ -4534,6 +4537,95 @@ describe('DataContext.Provider', () => {
       myPath: 'My Value',
     })
     expect(document.querySelector('input')).toHaveValue('foo')
+  })
+
+  it('should transform onChange value with "transformOut"', () => {
+    const onChange = jest.fn()
+
+    render(
+      <Form.Handler
+        onChange={onChange}
+        transformOut={({ value, displayValue, props }) => {
+          const item = { value, label: props.label, displayValue }
+          removeUndefinedProps(item)
+          return item
+        }}
+      >
+        <Field.String label="Foo label" path="/foo" value="foo" />
+        <Field.Selection
+          label="Bar label"
+          path="/bar"
+          value="bar"
+          variant="radio"
+        >
+          <Field.Option value="foo" title="Foo Value" />
+          <Field.Option value="bar" title="Bar Value" />
+        </Field.Selection>
+
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    const input = document.querySelector('input')
+    fireEvent.change(input, { target: { value: 'baz' } })
+
+    fireEvent.submit(document.querySelector('form'))
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenLastCalledWith(
+      {
+        foo: { value: 'baz', label: 'Foo label' },
+        bar: {
+          value: 'bar',
+          label: 'Bar label',
+          displayValue: 'Bar Value',
+        },
+      },
+      {
+        filterData: expect.any(Function),
+      }
+    )
+  })
+
+  it('should transform data with "transformData"', () => {
+    let transformedData = undefined
+    const onSubmit = jest.fn((data, { transformData }) => {
+      transformedData = transformData(
+        data,
+        ({ value, displayValue, props }) => {
+          const item = { value, label: props.label, displayValue }
+          removeUndefinedProps(item)
+          return item
+        }
+      )
+    })
+
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Field.String label="Foo label" path="/foo" value="foo" />
+        <Field.Selection
+          label="Bar label"
+          path="/bar"
+          value="bar"
+          variant="dropdown"
+        >
+          <Field.Option value="foo" title="Foo Value" />
+          <Field.Option value="bar" title="Bar Value" />
+        </Field.Selection>
+
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    const input = document.querySelector('input')
+    fireEvent.change(input, { target: { value: 'baz' } })
+
+    fireEvent.submit(document.querySelector('form'))
+
+    expect(transformedData).toEqual({
+      foo: { value: 'baz', label: 'Foo label' },
+      bar: { value: 'bar', label: 'Bar label', displayValue: 'Bar Value' },
+    })
   })
 
   describe('reduceToVisibleFields', () => {

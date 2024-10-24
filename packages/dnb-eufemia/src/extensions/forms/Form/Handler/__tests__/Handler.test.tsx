@@ -648,6 +648,7 @@ describe('Form.Handler', () => {
             clearData: expect.any(Function),
             resetForm: expect.any(Function),
             filterData: expect.any(Function),
+            transformData: expect.any(Function),
             reduceToVisibleFields: expect.any(Function),
           }
         )
@@ -777,6 +778,7 @@ describe('Form.Handler', () => {
             clearData: expect.any(Function),
             resetForm: expect.any(Function),
             filterData: expect.any(Function),
+            transformData: expect.any(Function),
             reduceToVisibleFields: expect.any(Function),
           }
         )
@@ -817,6 +819,7 @@ describe('Form.Handler', () => {
             clearData: expect.any(Function),
             resetForm: expect.any(Function),
             filterData: expect.any(Function),
+            transformData: expect.any(Function),
             reduceToVisibleFields: expect.any(Function),
           }
         )

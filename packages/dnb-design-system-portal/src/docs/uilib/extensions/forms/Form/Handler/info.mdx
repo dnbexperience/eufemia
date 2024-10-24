@@ -185,6 +185,7 @@ The `onSubmit` event returns additional functions you can call:
 
 - `filterData` Filters the given/internal data set.
 - `reduceToVisibleFields` Reduces the given data set to only contain the visible fields (mounted fields).
+- `transformData` Will call the given function for each data path. The returned value will be used as the new value.
 - `resetForm` Deletes `sessionStorage` and browser stored autocomplete data.
 - `clearData` Empties the given/internal data set.
 
@@ -202,12 +203,25 @@ const MyForm = () => {
     <Form.Handler
       onSubmit={(
         data,
-        { filterData, reduceToVisibleFields, resetForm, clearData },
+        {
+          filterData,
+          reduceToVisibleFields,
+          transformData,
+          resetForm,
+          clearData,
+        },
       ) => {
         resetForm()
         clearData()
 
-        const myData = reduceToVisibleFields(filterData(myFilter))
+        const filteredData = filterData(myFilter)
+        const myData = reduceToVisibleFields(filteredData)
+        const transformed = transformData(
+          myData,
+          ({ path, value, displayValue, props }) => {
+            return 'new value'
+          },
+        )
       }}
       sessionStorageId="session-key"
     >
