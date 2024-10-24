@@ -317,28 +317,13 @@ function updateMonths({
   views: Array<CalendarView>
   isRange: boolean
 }) {
-  let startMonth = newDates.startMonth
-  let endMonth = newDates.endMonth
-
-  if (!startMonth && newDates.startDate) {
-    startMonth = newDates.startDate
-  }
-
-  if (!endMonth && newDates.endDate) {
-    endMonth = newDates.endDate
-  }
+  let startMonth = newDates.startMonth ?? newDates.startDate
+  let endMonth = newDates.endMonth ?? newDates.endDate
 
   // Make sure start and end months are synced up with calendar in range mode
   if (isRange && !isSameMonth(startMonth, endMonth)) {
-    // Make startMonth is synced up to first calendar view
-    if (views[0]?.month) {
-      startMonth = views[0].month
-    }
-
-    // Make sure endMonth is synced up to second calendar view
-    if (views[1]?.month) {
-      endMonth = views[1].month
-    }
+    startMonth = views[0]?.month
+    endMonth = views[1]?.month
   }
 
   return {
