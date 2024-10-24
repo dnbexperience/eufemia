@@ -70,6 +70,8 @@ export default function useDates(
   })
 
   // calling views here instead of DatePickerProvider, to able to sync start and end months up with calendar views
+  // TODO: Reduce to just use start/endDate or start/endMonth to reduce complexity,
+  // or only have startMonth and endMonth as props and not a state that changes
   const [views, setViews] = useViews({
     startMonth: dates.startMonth,
     startDate: dates.startDate,
@@ -315,28 +317,33 @@ function updateMonths({
   views: Array<CalendarView>
   isRange: boolean
 }) {
-  let startMonth = newDates.startMonth ?? currentDates.startMonth
-  let endMonth = newDates.endMonth ?? currentDates.endMonth
+  let startMonth = newDates.startMonth
+  let endMonth = newDates.endMonth
 
-  // Make startMonth is synced up to first calendar view
-  if (
-    !startMonth ||
-    (views[0]?.month && !isSameMonth(startMonth, views[0]?.month))
-  ) {
-    startMonth = views[0].month
+  if (!startMonth && newDates.startDate) {
+    startMonth = newDates.startDate
   }
 
-  // Make sure endMonth is synced up to second calendar view
-  if (
-    !endMonth ||
-    (views[1]?.month && !isSameMonth(endMonth, views[1]?.month))
-  ) {
-    endMonth = isRange ? views[1].month : startMonth
+  if (!endMonth && newDates.endDate) {
+    endMonth = newDates.endDate
+  }
+
+  // Make sure start and end months are synced up with calendar in range mode
+  if (isRange && !isSameMonth(startMonth, endMonth)) {
+    // Make startMonth is synced up to first calendar view
+    if (views[0]?.month) {
+      startMonth = views[0].month
+    }
+
+    // Make sure endMonth is synced up to second calendar view
+    if (views[1]?.month) {
+      endMonth = views[1].month
+    }
   }
 
   return {
-    startMonth,
-    endMonth,
+    startMonth: startMonth ?? currentDates.startMonth,
+    endMonth: endMonth ?? currentDates.endMonth,
   }
 }
 
