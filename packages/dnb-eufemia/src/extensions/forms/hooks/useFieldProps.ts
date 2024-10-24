@@ -460,46 +460,55 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const prepareError = useCallback(
     (error: Error | FormError | undefined): FormError | undefined => {
       if (error instanceof FormError) {
-        let message = error.message
-        const errorMessages = getErrorMessages()
+        const prepare = (error: FormError) => {
+          let message = error.message
+          const errorMessages = getErrorMessages()
 
-        const { ajvKeyword } = error
-        if (typeof ajvKeyword === 'string') {
-          const ajvMessage = errorMessages?.[ajvKeyword]
-          if (ajvMessage) {
-            message = ajvMessage
+          const { ajvKeyword } = error
+          if (typeof ajvKeyword === 'string') {
+            const ajvMessage = errorMessages?.[ajvKeyword]
+            if (ajvMessage) {
+              message = ajvMessage
+            }
           }
+
+          /** @deprecated – can be removed in v11 */
+          const { validationRule } = error
+          if (typeof validationRule === 'string') {
+            const ajvMessage = errorMessages?.[validationRule]
+            if (ajvMessage) {
+              message = ajvMessage
+            }
+          }
+
+          if (errorMessages[message]) {
+            // - For when the message is e.g. Field.errorRequired or Custom.key, but delivered in the `errorMessages` object
+            message = errorMessages[message]
+
+            if (error.messageValues) {
+              message = Object.entries(error.messageValues || {}).reduce(
+                (msg, [key, value]) => {
+                  return msg.replace(`{${key}}`, value)
+                },
+                message
+              )
+            }
+          } else if (message.includes('.')) {
+            // - For when the message is e.g. Field.errorRequired
+            message = formatMessage(message, error.messageValues)
+          }
+
+          error.message = message
+
+          return error
         }
 
-        /** @deprecated – can be removed in v11 */
-        const { validationRule } = error
-        if (typeof validationRule === 'string') {
-          const ajvMessage = errorMessages?.[validationRule]
-          if (ajvMessage) {
-            message = ajvMessage
-          }
+        if (Array.isArray(error.errors)) {
+          error.errors = error.errors.map(prepare)
+          return error
         }
 
-        if (errorMessages[message]) {
-          // - For when the message is e.g. Field.errorRequired or Custom.key, but delivered in the `errorMessages` object
-          message = errorMessages[message]
-
-          if (error.messageValues) {
-            message = Object.entries(error.messageValues || {}).reduce(
-              (msg, [key, value]) => {
-                return msg.replace(`{${key}}`, value)
-              },
-              message
-            )
-          }
-        } else if (message.includes('.')) {
-          // - For when the message is e.g. Field.errorRequired
-          message = formatMessage(message, error.messageValues)
-        }
-
-        error.message = message
-
-        return error
+        return prepare(error)
       }
 
       return error

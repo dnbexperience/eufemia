@@ -742,6 +742,28 @@ describe('Field.String', () => {
         })
       })
 
+      it('should list all errors with translations', () => {
+        render(
+          <Field.String
+            validateInitially
+            maxLength={3}
+            pattern="^[a-zA-Z]$"
+            value="invalid"
+          />
+        )
+
+        const firstError = nb.StringField.errorMaxLength.replace(
+          '{maxLength}',
+          '3'
+        )
+        const secondError = nb.Field.errorPattern
+
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
+        expect(screen.queryByRole('alert').textContent).toBe(
+          nb.Field.errorSummary + firstError + secondError
+        )
+      })
+
       describe('with validateInitially', () => {
         it('should show error message initially', async () => {
           render(

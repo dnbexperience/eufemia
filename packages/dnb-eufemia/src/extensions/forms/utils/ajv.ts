@@ -246,8 +246,9 @@ export function ajvErrorsToOneFormError(
     return ajvErrorToFormError(error)
   }
 
-  const errorMessages = errors?.map((error) => error.message)
-  return new FormError(errorMessages.join(' and '))
+  return new FormError('Multiple errors', {
+    errors: errors?.map((error) => ajvErrorToFormError(error)),
+  })
 }
 
 /**

@@ -20,6 +20,7 @@ type FormErrorOptions = {
   validationRule?: ValidationRule
   messageValues?: Record<string, string>
   ajvKeyword?: ErrorObject['keyword']
+  errors?: Array<Error>
 }
 
 /**
@@ -42,6 +43,11 @@ export class FormError extends Error {
    * The AJV keyword that caused the error.
    */
   ajvKeyword?: FormErrorOptions['ajvKeyword']
+
+  /**
+   * An array of errors that should be rendered in the same error message.
+   */
+  errors?: FormErrorOptions['errors']
 
   constructor(
     message: FormsTranslationFlat | string,
