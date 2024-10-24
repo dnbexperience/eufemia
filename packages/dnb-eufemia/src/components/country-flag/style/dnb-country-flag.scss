@@ -1,0 +1,56 @@
+/*
+* CountryFlag component
+*
+*/
+
+@import '../../../style/core/utilities.scss';
+
+.dnb-country-flag {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  overflow: hidden;
+  user-select: none;
+  white-space: nowrap;
+
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+
+  // Safari needs a correct CSS specificity
+  &,
+  .dnb-core-style & {
+    line-height: var(--line-height-large);
+  }
+
+  &__size {
+    &--x-small {
+      --size: 1rem;
+    }
+    &--small {
+      --size: 1.5rem;
+    }
+    &--medium {
+      --size: 2rem;
+    }
+    &--large {
+      --size: 4rem;
+    }
+    &--x-large {
+      --size: 5rem;
+    }
+  }
+
+  &__flag {
+    border-radius: 50%;
+
+    width: var(--size);
+    height: var(--size);
+  }
+
+  &__shape--square &__flag {
+    border-radius: unset;
+  }
+}
