@@ -295,7 +295,7 @@ export function getStatus(
 type OptionProps = React.ComponentProps<
   React.FC<{
     error?: Error | FormError | undefined
-    title: React.ReactNode
+    title?: React.ReactNode
     help?: HelpButtonProps
     children?: React.ReactNode
   }>
@@ -328,7 +328,7 @@ function renderRadioItems({
   const createOption = (props: OptionProps, i: number) => {
     const { error, title, help, children, ...rest } = props
 
-    const label = children ?? title
+    const label = title ?? children
     const status = getStatus(error, info, warning)
     const suffix = help ? (
       <HelpButton size="small" title={help.title}>
@@ -363,7 +363,12 @@ function renderRadioItems({
   ].filter(Boolean)
 }
 
-export function mapOptions(children: React.ReactNode, { createOption }) {
+export function mapOptions(
+  children: React.ReactNode,
+  {
+    createOption,
+  }: { createOption: (props: OptionProps, i: number) => React.ReactNode }
+) {
   return React.Children.map(
     children,
     (child: React.ReactElement<OptionProps>, i) => {
@@ -395,7 +400,7 @@ export function makeOptions<T = DrawerListProps['data']>(
 
     if (React.isValidElement(child) && child.type === OptionField) {
       const props = child.props as OptionFieldProps
-      const title = props.children ?? props.title ?? <em>Untitled</em>
+      const title = props.title ?? props.children ?? <em>Untitled</em>
       const content = props.text ? [title, props.text] : title
       const selectedKey = String(props.value ?? '')
       const disabled = props.disabled
