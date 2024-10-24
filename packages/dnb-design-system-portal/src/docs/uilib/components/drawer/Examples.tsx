@@ -103,7 +103,7 @@ export const FullDrawerExample = () => (
         />
       </Drawer.Header>
       <Drawer.Body>
-        <Tabs.Content id="unique-linked-id">
+        <Tabs.Content id="unique-linked-id" key="contentKey">
           {({ title }) => {
             return (
               <>

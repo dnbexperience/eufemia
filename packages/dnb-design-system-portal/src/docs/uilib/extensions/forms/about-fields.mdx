@@ -31,13 +31,17 @@ Here is a list of [all available fields](/uilib/extensions/forms/all-fields/).
 
 **Table of Contents**
 
-- [Base fields](#base-fields)
-- [Feature fields](#feature-fields)
-- [More info](#more-info)
-
-  - [Standardized properties](#standardized-properties)
-  - [Controlled \& Uncontrolled](#controlled--uncontrolled)
-  - [Creating custom field components](#creating-custom-field-components)
+- [About fields](#about-fields)
+  - [Base fields](#base-fields)
+  - [Feature fields](#feature-fields)
+  - [More info](#more-info)
+    - [Empty value](#empty-value)
+    - [Standardized properties](#standardized-properties)
+    - [Controlled \& Uncontrolled](#controlled--uncontrolled)
+    - [Creating custom field components](#creating-custom-field-components)
+    - [Basic field usage](#basic-field-usage)
+    - [Complete state management and local custom fields](#complete-state-management-and-local-custom-fields)
+  - [First steps](#first-steps)
 
 ## Base fields
 
@@ -57,6 +61,14 @@ On top of these, a number of [feature fields](#feature-fields) have been built t
 [Feature fields](/uilib/extensions/forms/feature-fields/) are built on top of the [base fields](#base-fields) (listed above) to add more specific features targeting a given type of data.
 
 ## More info
+
+### Empty value
+
+Every field has an `emptyValue` property that can be used to define what value should be used when the user does not enter any value.
+
+When a user removes its content from e.g. a string input field, the value will be set to the `emptyValue`.
+
+- The default `emptyValue` value is `undefined`.
 
 ### Standardized properties
 

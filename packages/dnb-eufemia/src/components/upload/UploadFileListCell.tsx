@@ -6,7 +6,6 @@ import Button from '../button/Button'
 import Icon from '../../components/Icon'
 import FormStatus from '../../components/FormStatus'
 import ProgressIndicator from '../../components/progress-indicator'
-import P from '../../elements/P'
 
 // Icons
 import {
@@ -68,7 +67,6 @@ const UploadFileListCell = ({
   const hasWarning = errorMessage != null
 
   const fileType = getFileTypeFromExtension(file)
-  const humanFileType = fileType.toUpperCase()
 
   const imageUrl = URL.createObjectURL(file)
   const cellRef = useRef<HTMLLIElement>()
@@ -169,13 +167,6 @@ const UploadFileListCell = ({
         >
           {file.name}
         </a>
-        <P
-          className="dnb-upload__file-cell__subtitle"
-          size="x-small"
-          top="xx-small"
-        >
-          {humanFileType}
-        </P>
       </div>
     )
   }

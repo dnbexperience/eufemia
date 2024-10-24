@@ -1021,7 +1021,7 @@ describe('InputMasked component as_number', () => {
 
     const elem = document.querySelector('input')
 
-    const pressDotAndUseItAscomma = ({ value }) => {
+    const pressDotAndUseItAsComma = ({ value }) => {
       const keyCode = 190 // dot
       fireEvent.keyDown(document.querySelector('input'), {
         keyCode,
@@ -1033,12 +1033,12 @@ describe('InputMasked component as_number', () => {
       })
     }
 
-    pressDotAndUseItAscomma({ value: '12 345' })
+    pressDotAndUseItAsComma({ value: '12 345' })
 
     expect(elem.value).toBe('12 345,')
 
     // try a second time from the same cursor position
-    pressDotAndUseItAscomma({ value: '12 345,' })
+    pressDotAndUseItAsComma({ value: '12 345,' })
 
     expect(elem.value).toBe('12 345,')
     expect(setSelectionRange).toHaveBeenCalledTimes(1)
@@ -1058,7 +1058,7 @@ describe('InputMasked component as_number', () => {
       ...event,
     })
 
-    const pressDotAndUseItAscomma = () => {
+    const pressDotAndUseItAsComma = () => {
       const keyCode = 188 // comma
       fireEvent.keyDown(document.querySelector('input'), {
         keyCode,
@@ -1066,8 +1066,8 @@ describe('InputMasked component as_number', () => {
       })
     }
 
-    pressDotAndUseItAscomma()
-    pressDotAndUseItAscomma() // try a second time
+    pressDotAndUseItAsComma()
+    pressDotAndUseItAsComma() // try a second time
 
     expect(document.querySelector('input').value).toBe('12 345')
   })
@@ -1083,7 +1083,7 @@ describe('InputMasked component as_number', () => {
       target: { value: newValue },
     })
 
-    const pressDotAndUseItAscomma = () => {
+    const pressDotAndUseItAsComma = () => {
       const keyCode = 188 // comma
       fireEvent.keyDown(document.querySelector('input'), {
         keyCode,
@@ -1091,8 +1091,8 @@ describe('InputMasked component as_number', () => {
       })
     }
 
-    pressDotAndUseItAscomma()
-    pressDotAndUseItAscomma() // try a second time
+    pressDotAndUseItAsComma()
+    pressDotAndUseItAsComma() // try a second time
 
     expect(document.querySelector('input').value).toBe('12 345')
   })
@@ -1381,7 +1381,11 @@ describe('InputMasked component as_currency', () => {
     expect(document.querySelector('input').value).toBe('12 345,01 kr')
 
     rerender(
-      <InputMasked value="12345.016" as_currency="NOK" number_format />
+      <InputMasked
+        value="12345.016"
+        as_currency="NOK"
+        number_format={{}}
+      />
     )
 
     expect(document.querySelector('input').value).toBe('12 345,02 kr')
@@ -1398,6 +1402,33 @@ describe('InputMasked component as_currency', () => {
       target: { value: newValue },
     })
 
+    const pressDotAndUseItAsComma = () => {
+      const keyCode = 188 // comma
+      fireEvent.keyDown(document.querySelector('input'), {
+        keyCode,
+        ...event,
+      })
+    }
+
+    pressDotAndUseItAsComma() // try a first time, without success
+    pressDotAndUseItAsComma() // try a second time, without success
+
+    expect(document.querySelector('input').value).toBe('12 345,67 kr')
+  })
+
+  it('should prevent a comma when decimalLimit=0', () => {
+    render(<InputMasked as_currency currency_mask={{ decimalLimit: 0 }} />)
+
+    const preventDefault = jest.fn()
+    const event = { preventDefault }
+
+    const newValue = '12 345'
+
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: newValue },
+      ...event,
+    })
+
     const pressDotAndUseItAscomma = () => {
       const keyCode = 188 // comma
       fireEvent.keyDown(document.querySelector('input'), {
@@ -1406,10 +1437,10 @@ describe('InputMasked component as_currency', () => {
       })
     }
 
-    pressDotAndUseItAscomma() // try a first time, without success
-    pressDotAndUseItAscomma() // try a second time, without success
+    pressDotAndUseItAscomma()
+    pressDotAndUseItAscomma() // try a second time
 
-    expect(document.querySelector('input').value).toBe('12 345,67 kr')
+    expect(document.querySelector('input').value).toBe('12 345 kr')
   })
 
   it('should inherit currency_mask from provider', () => {

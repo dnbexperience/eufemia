@@ -1,20 +1,23 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
-import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
 
 export type Props = StringFieldProps
 
 function Email(props: Props) {
-  const translations = useTranslation().Email
+  const { label, errorRequired, errorPattern } = useTranslation().Email
 
-  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.errorRequired,
-    pattern: translations.errorPattern,
-  })
+  const errorMessages = useMemo(
+    () => ({
+      'Field.errorRequired': errorRequired,
+      'Field.errorPattern': errorPattern,
+      ...props.errorMessages,
+    }),
+    [errorPattern, errorRequired, props.errorMessages]
+  )
 
   const StringFieldProps: Props = {
-    label: translations.label,
+    label,
     autoComplete: 'email',
     inputMode: 'email',
     pattern:

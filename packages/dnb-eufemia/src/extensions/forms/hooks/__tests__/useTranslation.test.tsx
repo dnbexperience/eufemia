@@ -17,7 +17,7 @@ import { extendDeep } from '../../../../shared/component-helper'
 
 describe('Form.useTranslation', () => {
   it('should default to nb-NO if no locale is specified in context', () => {
-    const { result } = renderHook(() => useTranslation(), {
+    const { result } = renderHook(useTranslation, {
       wrapper: ({ children }) => <Provider>{children}</Provider>,
     })
 
@@ -30,7 +30,7 @@ describe('Form.useTranslation', () => {
   })
 
   it('should inherit locale from shared context', () => {
-    const { result: resultGB } = renderHook(() => useTranslation(), {
+    const { result: resultGB } = renderHook(useTranslation, {
       wrapper: ({ children }) => (
         <Provider locale="en-GB">{children}</Provider>
       ),
@@ -43,7 +43,7 @@ describe('Form.useTranslation', () => {
 
     expect(resultGB.current).toEqual(gb)
 
-    const { result: resultNO } = renderHook(() => useTranslation(), {
+    const { result: resultNO } = renderHook(useTranslation, {
       wrapper: ({ children }) => (
         <Provider locale="nb-NO">{children}</Provider>
       ),

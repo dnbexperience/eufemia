@@ -34,7 +34,7 @@ export const TabsExampleContentOutside = () => (
         ]}
       />
 
-      <Tabs.Content id="unique-linked-id">
+      <Tabs.Content id="unique-linked-id" key="unique-linked-key">
         {({ key }) => {
           return <H2>{key}</H2>
         }}
@@ -68,10 +68,10 @@ export const TabsExamplePrerender = () => (
     <ComponentBox>
       <>
         <Tabs prerender content_style="info">
-          <Tabs.Content title="Tab 1">
+          <Tabs.Content title="Tab 1" key="first">
             <H2>Content 1</H2>
           </Tabs.Content>
-          <Tabs.Content title="Tab 2">
+          <Tabs.Content title="Tab 2" key="second">
             <div
               style={{
                 height: '10rem',
@@ -82,7 +82,7 @@ export const TabsExamplePrerender = () => (
               <H2>Content 2</H2>
             </div>
           </Tabs.Content>
-          <Tabs.Content title="Tab 3">
+          <Tabs.Content title="Tab 3" key="third">
             <div
               style={{
                 height: '20rem',
@@ -149,14 +149,14 @@ export const TabsExampleLeftAligned = () => (
   <Wrapper>
     <ComponentBox data-visual-test="tabs-section-styles">
       <Tabs tabs_style="info" content_style="info">
-        <Tabs.Content title="First">
+        <Tabs.Content title="First" key="first">
           <Section spacing top bottom style_type="white">
             <H2 top={0} bottom>
               First
             </H2>
           </Section>
         </Tabs.Content>
-        <Tabs.Content title="Second">
+        <Tabs.Content title="Second" key="second">
           <Section spacing top bottom style_type="white">
             <H2 top={0} bottom>
               Second
@@ -326,12 +326,12 @@ export const TabsNoBorder = () => (
   <Wrapper>
     <ComponentBox data-visual-test="tabs-no-border">
       <Tabs no_border={true}>
-        <Tabs.Content title="First">
+        <Tabs.Content title="First" key="first">
           <H2 top={0} bottom>
             First
           </H2>
         </Tabs.Content>
-        <Tabs.Content title="Second">
+        <Tabs.Content title="Second" key="second">
           <H2 top={0} bottom>
             Second
           </H2>
@@ -345,12 +345,12 @@ export const TabsNoBreakout = () => (
   <Wrapper>
     <ComponentBox data-visual-test="tabs-no-breakout">
       <Tabs breakout={false}>
-        <Tabs.Content title="First">
+        <Tabs.Content title="First" key="first">
           <H2 top={0} bottom>
             First
           </H2>
         </Tabs.Content>
-        <Tabs.Content title="Second">
+        <Tabs.Content title="Second" key="second">
           <H2 top={0} bottom>
             Second
           </H2>
@@ -364,7 +364,7 @@ export const TabsSingleChildrenReactElement = () => (
   <Wrapper>
     <ComponentBox data-visual-test="tabs-single-children-react-element">
       <Tabs>
-        <Tabs.Content title="First">
+        <Tabs.Content title="First" key="first">
           <div>hello1</div>
         </Tabs.Content>
       </Tabs>

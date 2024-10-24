@@ -205,14 +205,15 @@ export const Warning = () => {
   )
 }
 
-export const WithError = () => {
+export const WithMultipleError = () => {
   return (
-    <ComponentBox>
+    <ComponentBox data-visual-test="multiple-errors">
       <Field.String
+        label="Multiple errors"
         value="foo"
-        label="Label text"
-        onChange={(value) => console.log('onChange', value)}
-        error={new Error('This is what is wrong...')}
+        pattern="bar"
+        minLength={4}
+        validateInitially
       />
     </ComponentBox>
   )

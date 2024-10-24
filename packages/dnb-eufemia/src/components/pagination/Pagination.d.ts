@@ -150,7 +150,7 @@ export interface PaginationProps
    */
   next_title?: string;
   /**
-   * The title used in the dots. Relevant for screen-readers. Defaults to `%s flere sider`.
+   * The title used in the dots. Relevant for screen readers. Defaults to `%s flere sider`.
    */
   more_pages?: string;
   /**
@@ -337,7 +337,7 @@ interface PaginationInstanceProps extends SpacingProps {
    */
   next_title?: string;
   /**
-   * The title used in the dots. Relevant for screen-readers. Defaults to `%s flere sider`.
+   * The title used in the dots. Relevant for screen readers. Defaults to `%s flere sider`.
    */
   more_pages?: string;
   /**
@@ -516,7 +516,7 @@ interface InfinityMarkerProps extends SpacingProps {
    */
   next_title?: string;
   /**
-   * The title used in the dots. Relevant for screen-readers. Defaults to `%s flere sider`.
+   * The title used in the dots. Relevant for screen readers. Defaults to `%s flere sider`.
    */
   more_pages?: string;
   /**

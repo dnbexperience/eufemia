@@ -30,7 +30,7 @@ import FieldBoundaryProvider from '../../DataContext/FieldBoundary/FieldBoundary
 import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
 import { useArrayLimit, useSwitchContainerMode } from '../hooks'
-import { getMessage } from '../../FieldBlock'
+import { getMessagesFromError } from '../../FieldBlock'
 
 import type { ContainerMode, ElementChild, Props, Value } from './types'
 import type { Identifier } from '../../types'
@@ -362,7 +362,7 @@ function ArrayComponent(props: Props) {
         shellSpace={{ top: 0, bottom: 'medium' }}
         no_animation={false}
       >
-        {getMessage({ content: error || limitWarning })}
+        {getMessagesFromError({ content: error || limitWarning })[0]}
       </FormStatus>
     </>
   )

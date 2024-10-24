@@ -16,7 +16,6 @@ import {
   FieldPropsWithExtraValue,
 } from '../../types'
 import FieldBlock from '../../FieldBlock'
-import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
 
 export type CountryFilterSet =
@@ -51,7 +50,11 @@ export type Props = FieldHelpProps &
 
 function SelectCountry(props: Props) {
   const sharedContext = useContext(SharedContext)
-  const translations = useTranslation().SelectCountry
+  const {
+    label: defaultLabel,
+    placeholder: defaultPlaceholder,
+    errorRequired,
+  } = useTranslation().SelectCountry
   const lang = (sharedContext.locale || LOCALE).split(
     '-'
   )[0] as CountryLang
@@ -78,23 +81,23 @@ function SelectCountry(props: Props) {
     [getCountryObjectByIso]
   )
 
-  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.errorRequired,
-  })
+  const errorMessages = useMemo(
+    () => ({
+      required: errorRequired,
+    }),
+    [errorRequired]
+  )
 
-  const defaultProps: Partial<Props> = {
-    errorMessages,
-  }
   const preparedProps: Props = {
-    ...defaultProps,
+    errorMessages,
     ...props,
     provideAdditionalArgs,
   }
 
   const {
     className,
-    placeholder = translations.placeholder,
-    label = translations.label,
+    placeholder = defaultPlaceholder,
+    label = defaultLabel,
     countries: ccFilter = 'Prioritized',
     info,
     warning,

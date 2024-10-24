@@ -289,26 +289,35 @@ export const handlePercentMask = ({ props, locale, maskParams }) => {
  * @returns object maskParams
  */
 export const handleCurrencyMask = ({ mask_options, currency_mask }) => {
-  const maskParams = {
+  const givenParams = {
+    ...mask_options,
+    ...currency_mask,
+  }
+  const paramsWithDefaults = {
     showMask: true,
     placeholderChar: null,
     allowDecimal: true,
     decimalLimit: 2,
     decimalSymbol: ',',
-    ...mask_options,
-    ...currency_mask,
+    ...givenParams,
   }
 
-  const fix =
+  const suffix =
     typeof currency_mask === 'string'
       ? currency_mask
-      : typeof maskParams.currency === 'string'
-      ? maskParams.currency
+      : typeof givenParams.currency === 'string'
+      ? givenParams.currency
       : 'kr'
+  paramsWithDefaults.suffix = ` ${suffix}`
 
-  maskParams.suffix = ` ${fix}`
+  if (
+    typeof givenParams?.allowDecimal === 'undefined' &&
+    typeof givenParams?.decimalLimit === 'number'
+  ) {
+    paramsWithDefaults.allowDecimal = givenParams.decimalLimit > 0
+  }
 
-  return maskParams
+  return paramsWithDefaults
 }
 
 /**

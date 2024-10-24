@@ -21,7 +21,6 @@ import {
   CountryFilterSet,
   getCountryData,
 } from '../SelectCountry'
-import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
 import { DrawerListDataObject } from '../../../../fragments/DrawerList'
 
@@ -79,7 +78,11 @@ const defaultMask = [
 
 function PhoneNumber(props: Props) {
   const sharedContext = useContext(SharedContext)
-  const translations = useTranslation()
+  const {
+    label: defaultLabel,
+    countryCodeLabel: defaultCountryCodeLabel,
+    errorRequired,
+  } = useTranslation().PhoneNumber
   const lang = sharedContext.locale?.split('-')[0] as CountryLang
 
   const countryCodeRef = React.useRef<Props['value']>(props?.emptyValue)
@@ -88,10 +91,14 @@ function PhoneNumber(props: Props) {
   const langRef = React.useRef<string>(lang)
   const wasFilled = React.useRef<boolean>(false)
 
-  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.PhoneNumber.errorRequired,
-    pattern: translations.PhoneNumber.errorRequired,
-  })
+  const errorMessages = useMemo(
+    () => ({
+      'Field.errorRequired': errorRequired,
+      'Field.errorPattern': errorRequired,
+      ...props.errorMessages,
+    }),
+    [errorRequired, props.errorMessages]
+  )
 
   const validateRequired = useCallback(
     (value: string, { required, isChanged, error }) => {
@@ -143,7 +150,7 @@ function PhoneNumber(props: Props) {
     countryCodePlaceholder,
     placeholder,
     countryCodeLabel,
-    label = translations.PhoneNumber.label,
+    label = defaultLabel,
     numberMask,
     countries: ccFilter = 'Prioritized',
     emptyValue,
@@ -350,9 +357,7 @@ function PhoneNumber(props: Props) {
             mode="async"
             placeholder={countryCodePlaceholder}
             label_direction="vertical"
-            label={
-              countryCodeLabel ?? translations.PhoneNumber.countryCodeLabel
-            }
+            label={countryCodeLabel ?? defaultCountryCodeLabel}
             data={dataRef.current}
             value={countryCodeRef.current}
             status={hasError ? 'error' : undefined}

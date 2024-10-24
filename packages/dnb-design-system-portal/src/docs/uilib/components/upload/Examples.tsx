@@ -312,3 +312,14 @@ export const UploadDisabledFileMaxSize = () => (
     />
   </ComponentBox>
 )
+
+export const UploadNoTitleNoText = () => (
+  <ComponentBox data-visual-test="upload-no-title-no-text">
+    <Upload
+      title={false}
+      text={false}
+      acceptedFileTypes={['jpg', 'png']}
+      id="upload-no-title-no-text"
+    />
+  </ComponentBox>
+)

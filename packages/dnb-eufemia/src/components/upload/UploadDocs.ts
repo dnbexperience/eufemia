@@ -17,12 +17,12 @@ export const UploadProperties: PropertiesTableProps = {
     status: 'optional',
   },
   title: {
-    doc: 'Custom text property. Replaces the default title.',
+    doc: 'Custom text property. Replaces the default title. Can be disabled using `false`.',
     type: 'string',
     status: 'optional',
   },
   text: {
-    doc: 'Custom text property. Replaces the default text.',
+    doc: 'Custom text property. Replaces the default text. Can be disabled using `false`.',
     type: 'string',
     status: 'optional',
   },

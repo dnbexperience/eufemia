@@ -48,6 +48,7 @@ const UploadInfo = () => {
     filesAmountLimit < defaultProps.filesAmountLimit
 
   const displayAcceptedFileFormatsTable =
+    !displayAcceptedFileFormatsListItem &&
     isArrayOfObjects(acceptedFileTypes)
 
   const displayDl =
@@ -57,11 +58,13 @@ const UploadInfo = () => {
 
   return (
     <>
-      <Lead space="0">{title}</Lead>
+      {title && <Lead space="0">{title}</Lead>}
 
-      <P top="xx-small" className="dnb-upload__text">
-        {text}
-      </P>
+      {text && (
+        <P top="xx-small" className="dnb-upload__text">
+          {text}
+        </P>
+      )}
 
       {children}
 

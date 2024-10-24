@@ -22,51 +22,49 @@ render(<MyFieldComponent path="/dataSelector" />)
 Advanced usage:
 
 ```tsx
-import {
-  useFieldProps,
-  useErrorMessage,
-} from '@dnb/eufemia/extensions/forms'
+import { Form, useFieldProps } from '@dnb/eufemia/extensions/forms'
 
-const sharedContext = useContext(SharedContext)
-const tr = sharedContext?.translation.Forms
+const MyFieldComponent = (props) => {
+  const translations = Form.useTranslation().MyField
 
-const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-  // Your default error messages
-  required: tr.Field.errorRequired,
-  pattern: tr.Field.errorPattern,
-})
+  const errorMessages = React.useMemo(() => {
+    return {
+      // My default error messages
+      'Field.errorRequired': translations.myErrorMessage,
+      'MyCustom.message': translations.myCustomErrorMessage,
+      ...props.errorMessages,
+    }
+  }, [props.errorMessages])
 
-const preparedProps = {
-  errorMessages,
-  // Your component props
-  ...props,
+  const preparedProps = {
+    errorMessages,
+    // Your component props
+    ...props,
+  }
+
+  const {
+    // Return Parameters:
+    value,
+    handleChange,
+    handleFocus,
+    handleBlur,
+    htmlAttributes,
+
+    // Component Properties
+    ...rest
+  } = useFieldProps(preparedProps)
+
+  return (
+    <Input
+      value={value}
+      onChange={handleChange}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+      {...htmlAttributes}
+      {...rest}
+    />
+  )
 }
-
-const {
-  // Return Parameters:
-  value,
-  onChange,
-  onFocus,
-  onBlur,
-  error,
-  hasError,
-  isChanged,
-  setHasFocus,
-  htmlAttributes,
-
-  // Component Properties
-  ...rest
-} = useFieldProps(preparedProps)
-
-render(
-  <Input
-    value={value}
-    onChange={onChange}
-    onFocus={onFocus}
-    onBlur={onBlur}
-    {...htmlAttributes}
-  />,
-)
 ```
 
 ### Internal Properties
@@ -123,8 +121,8 @@ render(<MyField onBlurValidator={myValidator} />)
 
 #### Error
 
-- `error` object like `FormError` that includes the string to display or an object with the key `validationRule`. More info down below.
-- `errorMessages` object with your custom messages, where each key represents a `validationRule`. More info down below.
+- `error` like `new Error()` or `new FormError()` that includes a message to display. More info down below.
+- `errorMessages` object with your custom messages or translation keys, such as `'Field.errorRequired'`. More info down below.
 
 ### Return Parameters
 
@@ -147,9 +145,7 @@ It returns all of the given component properties, in addition to these:
 ```ts
 const validateRequired = (value, { emptyValue, required, isChanged }) => {
   if (required && value === emptyValue) {
-    return new FormError('This value is required', {
-      validationRule: 'required',
-    })
+    return new FormError('Field.errorRequired')
   }
 }
 
@@ -159,7 +155,7 @@ const { error, hasError } = useFieldProps({
   validateInitially: true,
   validateRequired,
   errorMessages: {
-    required: 'Show this when "required" fails.',
+    'Field.errorRequired': 'Show this when "required" fails.',
   },
 })
 ```
@@ -191,7 +187,7 @@ But when you handle errors via `useFieldProps`, you may rather provide an object
 const { error, hasError } = useFieldProps({
   required: true,
   errorMessages: {
-    required: 'Show this when "required" fails!',
+    'Field.errorRequired': 'Show this when "required" fails!',
   },
   ...componentProps,
 })
@@ -203,9 +199,7 @@ To re-use existing `errorMessages`, you can use the `FormError` constructor as w
 import { FormError } from '@dnb/eufemia/extensions/forms'
 
 // Will show the message from the errorMessages
-new FormError('Internal error message', {
-  validationRule: 'required',
-})
+new FormError('Field.errorRequired')
 ```
 
 In order to invoke an error without a change and blur event, you can use `validateInitially`:
@@ -216,7 +210,7 @@ const { error, hasError } = useFieldProps({
   required: true,
   validateInitially: true,
   errorMessages: {
-    required: 'Show this when "required" fails!',
+    'Field.errorRequired': 'Show this when "required" fails!',
   },
 })
 ```

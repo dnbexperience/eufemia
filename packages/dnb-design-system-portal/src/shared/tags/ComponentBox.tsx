@@ -17,6 +17,7 @@ import {
   Wizard,
   FieldBlock,
   Iterate,
+  FormError,
 } from '@dnb/eufemia/src/extensions/forms'
 
 if (!globalThis.ComponentBoxMemo) {
@@ -46,6 +47,7 @@ function ComponentBox(props: CodeSectionProps) {
         styled,
         React,
         Iterate,
+        FormError,
         ...scope,
       }}
       {...rest}

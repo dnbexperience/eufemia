@@ -4,8 +4,6 @@ import UploadFileListCell, {
 import { createMockFile } from './testHelpers'
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-import { UploadContext } from '../UploadContext'
-import { UploadContextProps } from '../types'
 
 global.URL.createObjectURL = jest.fn(() => 'url')
 
@@ -15,20 +13,6 @@ const defaultProps: UploadFileListCellProps = {
   onDelete: jest.fn(),
   uploadFile: { file: createMockFile('file.png', 100, 'image/png') },
   loadingText: 'loading',
-}
-
-const makeWrapper = (props = null) => {
-  const defaultContext: UploadContextProps = {
-    ...defaultProps,
-    ...props,
-  }
-  return ({ children }) => {
-    return (
-      <UploadContext.Provider value={defaultContext}>
-        {children}
-      </UploadContext.Provider>
-    )
-  }
 }
 
 describe('UploadFileListCell', () => {
@@ -81,56 +65,6 @@ describe('UploadFileListCell', () => {
 
     expect(element.className).not.toMatch('dnb-upload__file-cell--error')
     expect(element.className).toMatch('dnb-upload__file-cell')
-  })
-
-  it('renders the subtitle and uses the file mime', () => {
-    render(
-      <UploadFileListCell
-        {...defaultProps}
-        uploadFile={{ file: createMockFile('file.png', 100, 'image/png') }}
-      />
-    )
-
-    expect(screen.queryByText('PNG')).toBeInTheDocument()
-  })
-
-  it('renders the subtitle and uses the extension if mime is missing', () => {
-    render(
-      <UploadFileListCell
-        {...defaultProps}
-        uploadFile={{ file: createMockFile('file.png', 100, '') }}
-      />
-    )
-
-    expect(screen.queryByText('PNG')).toBeInTheDocument()
-  })
-
-  it('renders the subtitle with file extension when set by acceptedFileTypes', () => {
-    render(
-      <UploadFileListCell
-        {...defaultProps}
-        uploadFile={{ file: createMockFile('file.png', 100, 'image/png') }}
-      />,
-      {
-        wrapper: makeWrapper({ acceptedFileTypes: ['png'] }),
-      }
-    )
-
-    expect(screen.queryByText('PNG')).toBeInTheDocument()
-  })
-
-  it('renders the subtitle with file mime when set by acceptedFileTypes', () => {
-    render(
-      <UploadFileListCell
-        {...defaultProps}
-        uploadFile={{ file: createMockFile('file.png', 100, 'image/png') }}
-      />,
-      {
-        wrapper: makeWrapper({ acceptedFileTypes: ['image/png'] }),
-      }
-    )
-
-    expect(screen.queryByText('PNG')).toBeInTheDocument()
   })
 
   it('renders the form errorMessage warning', () => {

@@ -7,7 +7,7 @@ export default function useProcessManager() {
   const tokenRef = useRef<number>()
 
   const startProcess = useCallback(() => {
-    const processToken = Math.round(Math.random() * 1000000000)
+    const processToken = Math.floor(Math.random() * 100000)
     tokenRef.current = processToken
 
     // If another process was started after this one code can skip further steps to avoid race conditions

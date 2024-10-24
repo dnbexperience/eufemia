@@ -19,4 +19,11 @@ describe('Field.String', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match multiple errors', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="multiple-errors"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

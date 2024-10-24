@@ -20,9 +20,7 @@ const validator = async (value) => {
   // Delay the response
   const isValid = await makeRequest(value)
   if (!isValid) {
-    return new FormError('Invalid value', {
-      validationRule: 'required',
-    })
+    return new FormError('Field.errorRequired')
   }
 }
 

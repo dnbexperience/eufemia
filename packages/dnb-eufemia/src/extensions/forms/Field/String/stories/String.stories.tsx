@@ -1,5 +1,5 @@
 import React from 'react'
-import { Field, Form, Tools } from '../../..'
+import { Field, Form, FormError, Tools } from '../../..'
 import { Flex } from '../../../../../components'
 
 export default {
@@ -85,6 +85,40 @@ export function TransformObject() {
       />
 
       <Form.SubmitButton top />
+    </Form.Handler>
+  )
+}
+
+export function ErrorMessages() {
+  return (
+    <Form.Handler locale="en-GB">
+      <Flex.Stack>
+        <Field.PhoneNumber
+          value="abc"
+          validateInitially
+          validator={() => {
+            return new FormError('OrganizationNumber.errorRequired')
+          }}
+          errorMessages={{
+            'OrganizationNumber.errorRequired':
+              'Display me, instead of the default message',
+          }}
+        />
+        <Field.String
+          validateInitially
+          required
+          value="abc"
+          minLength={4}
+          // pattern="[0-9]"
+          // validator={() => {
+          //   return new FormError('OrganizationNumber.errorRequired')
+          // }}
+          // errorMessages={{
+          //   'OrganizationNumber.errorRequired':
+          //     'Display me, instead of the default message',
+          // }}
+        />
+      </Flex.Stack>
     </Form.Handler>
   )
 }

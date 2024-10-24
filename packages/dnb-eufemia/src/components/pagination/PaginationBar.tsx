@@ -39,7 +39,7 @@ export type PaginationBarProps = {
   next_title?: string
 
   /**
-   * The title used in the dots. Relevant for screen-readers. Defaults to %s flere sider.
+   * The title used in the dots. Relevant for screen readers. Defaults to %s flere sider.
    */
   more_pages?: string
 

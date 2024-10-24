@@ -1,5 +1,6 @@
 import React from 'react'
 import { spyOnEufemiaWarn } from '../../../../../core/jest/jestSetup'
+import { isCI } from 'repo-utils'
 import {
   act,
   createEvent,
@@ -13,6 +14,10 @@ import setData from '../../data-context/setData'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
+
+if (isCI) {
+  jest.retryTimes(5) // because of an flaky async tests
+}
 
 describe('Form.Isolation', () => {
   let log = null

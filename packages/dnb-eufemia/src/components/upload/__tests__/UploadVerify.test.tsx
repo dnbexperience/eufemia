@@ -146,6 +146,24 @@ describe('verifyFiles', () => {
     })
   })
 
+  it('returns error message when uploading a file without a file extension', () => {
+    const file1 = createMockFile('fileName1', 100, '')
+
+    const rawFiles = [{ file: file1 }]
+    const acceptedFileTypes = ['png']
+
+    const files = verifyFiles(rawFiles, {
+      acceptedFileTypes: acceptedFileTypes,
+      errorUnsupportedFile: 'error unsupported file',
+      errorLargeFile: 'error 2',
+    })
+
+    expect(files[0]).toEqual({
+      file: file1,
+      errorMessage: 'error unsupported file',
+    })
+  })
+
   describe('when providing max size to file type', () => {
     it('returns file size error', () => {
       const file1 = createMockFile('fileName1.png', 100000000, 'image/png')

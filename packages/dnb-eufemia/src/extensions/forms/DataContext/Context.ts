@@ -1,15 +1,14 @@
 import React from 'react'
-import { Ajv, makeAjvInstance } from '../utils/ajv'
+import { Ajv, FormError, makeAjvInstance } from '../utils'
 import {
   AllJSONSchemaVersions,
-  CustomErrorMessagesWithPaths,
+  GlobalErrorMessagesWithPaths,
   SubmitState,
   Path,
   EventStateObject,
   EventReturnWithStateObject,
   Identifier,
   FieldProps,
-  FormError,
   ValueProps,
   OnChange,
   OnSubmitParams,
@@ -118,8 +117,8 @@ export interface ContextState {
   hasErrors: () => boolean
   hasFieldState: (state: SubmitState) => boolean
   hasFieldError: (path: Path) => boolean
-  setFieldState: (path: Path, fieldState: SubmitState) => void
-  setFieldError: (path: Path, error: Error | FormError) => void
+  setFieldState?: (path: Path, fieldState: SubmitState) => void
+  setFieldError?: (path: Path, error: Error | FormError) => void
   setMountedFieldState: (path: Path, options: MountState) => void
   setFormState?: (
     state: SubmitState,
@@ -171,7 +170,7 @@ export interface ContextState {
   hasVisibleError: boolean
   formState: SubmitState
   ajvInstance: Ajv
-  contextErrorMessages: CustomErrorMessagesWithPaths
+  contextErrorMessages: GlobalErrorMessagesWithPaths
   schema: AllJSONSchemaVersions
   path?: Path
   disabled?: boolean
@@ -205,8 +204,6 @@ export const defaultContextState: ContextState = {
   hasErrors: () => false,
   hasFieldState: () => false,
   hasFieldError: () => false,
-  setFieldState: () => null,
-  setFieldError: () => null,
   ajvInstance: makeAjvInstance(),
   contextErrorMessages: undefined,
   isInsideFormElement: false,

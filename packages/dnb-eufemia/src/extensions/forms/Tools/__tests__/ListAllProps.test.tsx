@@ -23,14 +23,6 @@ describe('Tools.ListAllProps', () => {
     expect(log).toHaveBeenCalledWith({
       propsOfFields: {
         myString: {
-          errorMessages: {
-            maxLength:
-              'Verdien kan ikke være lengre enn {maxLength} tegn.',
-            minLength:
-              'Verdien kan ikke være kortere enn {minLength} tegn.',
-            pattern: 'Verdien er ugyldig.',
-            required: 'Dette feltet må fylles ut.',
-          },
           path: '/myString',
           pattern: '^[a-z]{2}[0-9]+$',
           required: true,
@@ -64,12 +56,6 @@ describe('Tools.ListAllProps', () => {
     expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
       {
         "myField": {
-          "errorMessages": {
-            "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-            "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-            "pattern": "Verdien er ugyldig.",
-            "required": "Dette feltet må fylles ut.",
-          },
           "label": "My field",
           "path": "/myField",
           "schema": {
@@ -82,12 +68,6 @@ describe('Tools.ListAllProps', () => {
         },
         "nested": {
           "myString": {
-            "errorMessages": {
-              "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-              "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-              "pattern": "Verdien er ugyldig.",
-              "required": "Dette feltet må fylles ut.",
-            },
             "minLength": 2,
             "path": "/nested/myString",
             "required": true,
@@ -119,12 +99,6 @@ describe('Tools.ListAllProps', () => {
     expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
       {
         "myField": {
-          "errorMessages": {
-            "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-            "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-            "pattern": "Verdien er ugyldig.",
-            "required": "Dette feltet må fylles ut.",
-          },
           "label": "My field",
           "path": "/myField",
           "schema": {
@@ -136,12 +110,6 @@ describe('Tools.ListAllProps', () => {
           "width": "large",
         },
         "myString": {
-          "errorMessages": {
-            "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-            "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-            "pattern": "Verdien er ugyldig.",
-            "required": "Dette feltet må fylles ut.",
-          },
           "minLength": 2,
           "path": "/myString",
           "required": true,
@@ -156,12 +124,6 @@ describe('Tools.ListAllProps', () => {
         },
         "nested": {
           "myString": {
-            "errorMessages": {
-              "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-              "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-              "pattern": "Verdien er ugyldig.",
-              "required": "Dette feltet må fylles ut.",
-            },
             "minLength": 2,
             "path": "/nested/myString",
             "required": true,
@@ -263,14 +225,6 @@ describe('Tools.ListAllProps', () => {
             "valueType": "boolean",
           },
           "myNumber": {
-            "errorMessages": {
-              "exclusiveMaximum": "Verdien må være mindre enn {exclusiveMaximum}.",
-              "exclusiveMinimum": "Verdien må være større enn {exclusiveMinimum}.",
-              "maximum": "Verdien må være maksimalt {maximum}.",
-              "minimum": "Verdien må være minst {minimum}.",
-              "multipleOf": "Verdien må være et multiplum av {multipleOf}.",
-              "required": "Dette feltet må fylles ut.",
-            },
             "path": "/myNumber",
             "schema": {
               "exclusiveMaximum": undefined,
@@ -284,12 +238,6 @@ describe('Tools.ListAllProps', () => {
             "width": "medium",
           },
           "myString": {
-            "errorMessages": {
-              "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-              "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-              "pattern": "Verdien er ugyldig.",
-              "required": "Dette feltet må fylles ut.",
-            },
             "path": "/myString",
             "schema": {
               "maxLength": undefined,
@@ -348,14 +296,6 @@ describe('Tools.ListAllProps', () => {
             "valueType": "boolean",
           },
           "myNumber": {
-            "errorMessages": {
-              "exclusiveMaximum": "Verdien må være mindre enn {exclusiveMaximum}.",
-              "exclusiveMinimum": "Verdien må være større enn {exclusiveMinimum}.",
-              "maximum": "Verdien må være maksimalt {maximum}.",
-              "minimum": "Verdien må være minst {minimum}.",
-              "multipleOf": "Verdien må være et multiplum av {multipleOf}.",
-              "required": "Dette feltet må fylles ut.",
-            },
             "exclusiveMaximum": 25,
             "exclusiveMinimum": 15,
             "maximum": 20,
@@ -375,12 +315,6 @@ describe('Tools.ListAllProps', () => {
           },
           "myObject": {
             "withString": {
-              "errorMessages": {
-                "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-                "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-                "pattern": "Verdien er ugyldig.",
-                "required": "Dette feltet må fylles ut.",
-              },
               "maxLength": 10,
               "minLength": 10,
               "path": "/myObject/withString",
@@ -395,12 +329,6 @@ describe('Tools.ListAllProps', () => {
             },
           },
           "myString": {
-            "errorMessages": {
-              "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-              "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-              "pattern": "Verdien er ugyldig.",
-              "required": "Dette feltet må fylles ut.",
-            },
             "maxLength": 5,
             "minLength": 5,
             "path": "/myString",
@@ -447,14 +375,6 @@ describe('Tools.ListAllProps', () => {
           "myObject": {
             "nested": {
               "withNumber": {
-                "errorMessages": {
-                  "exclusiveMaximum": "Verdien må være mindre enn {exclusiveMaximum}.",
-                  "exclusiveMinimum": "Verdien må være større enn {exclusiveMinimum}.",
-                  "maximum": "Verdien må være maksimalt {maximum}.",
-                  "minimum": "Verdien må være minst {minimum}.",
-                  "multipleOf": "Verdien må være et multiplum av {multipleOf}.",
-                  "required": "Dette feltet må fylles ut.",
-                },
                 "exclusiveMaximum": 25,
                 "exclusiveMinimum": 15,
                 "maximum": 20,
@@ -474,12 +394,6 @@ describe('Tools.ListAllProps', () => {
               },
             },
             "withString": {
-              "errorMessages": {
-                "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-                "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-                "pattern": "Verdien er ugyldig.",
-                "required": "Dette feltet må fylles ut.",
-              },
               "maxLength": 10,
               "minLength": 10,
               "path": "/myObject/withString",
@@ -536,14 +450,6 @@ describe('Tools.ListAllProps', () => {
           },
           "myObject": {
             "withNumber": {
-              "errorMessages": {
-                "exclusiveMaximum": "Verdien må være mindre enn {exclusiveMaximum}.",
-                "exclusiveMinimum": "Verdien må være større enn {exclusiveMinimum}.",
-                "maximum": "Verdien må være maksimalt {maximum}.",
-                "minimum": "Verdien må være minst {minimum}.",
-                "multipleOf": "Verdien må være et multiplum av {multipleOf}.",
-                "required": "Dette feltet må fylles ut.",
-              },
               "maximum": 20,
               "minimum": 10,
               "path": "/myObject/withNumber",
@@ -560,12 +466,6 @@ describe('Tools.ListAllProps', () => {
               "width": "medium",
             },
             "withString": {
-              "errorMessages": {
-                "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-                "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-                "pattern": "Verdien er ugyldig.",
-                "required": "Dette feltet må fylles ut.",
-              },
               "maxLength": 10,
               "minLength": 10,
               "path": "/myObject/withString",
@@ -580,12 +480,6 @@ describe('Tools.ListAllProps', () => {
             },
           },
           "myString": {
-            "errorMessages": {
-              "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-              "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-              "pattern": "Verdien er ugyldig.",
-              "required": "Dette feltet må fylles ut.",
-            },
             "path": "/myString",
             "required": true,
             "schema": {
@@ -634,14 +528,6 @@ describe('Tools.ListAllProps', () => {
         "items": {
           "0": {
             "item": {
-              "errorMessages": {
-                "exclusiveMaximum": "Verdien må være mindre enn {exclusiveMaximum}.",
-                "exclusiveMinimum": "Verdien må være større enn {exclusiveMinimum}.",
-                "maximum": "Verdien må være maksimalt {maximum}.",
-                "minimum": "Verdien må være minst {minimum}.",
-                "multipleOf": "Verdien må være et multiplum av {multipleOf}.",
-                "required": "Dette feltet må fylles ut.",
-              },
               "itemPath": "/item",
               "label": "My field",
               "schema": {
@@ -660,14 +546,6 @@ describe('Tools.ListAllProps', () => {
           },
           "1": {
             "item": {
-              "errorMessages": {
-                "exclusiveMaximum": "Verdien må være mindre enn {exclusiveMaximum}.",
-                "exclusiveMinimum": "Verdien må være større enn {exclusiveMinimum}.",
-                "maximum": "Verdien må være maksimalt {maximum}.",
-                "minimum": "Verdien må være minst {minimum}.",
-                "multipleOf": "Verdien må være et multiplum av {multipleOf}.",
-                "required": "Dette feltet må fylles ut.",
-              },
               "itemPath": "/item",
               "label": "My field",
               "schema": {

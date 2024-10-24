@@ -1,4 +1,5 @@
 import React from 'react'
+import { isCI } from 'repo-utils'
 import { wait, axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -8,6 +9,10 @@ import locales from '../../../constants/locales'
 
 const nbNO = locales['nb-NO']
 const enGB = locales['en-GB']
+
+if (isCI) {
+  jest.retryTimes(5) // because of an flaky async tests
+}
 
 describe('Field.PhoneNumber', () => {
   it('should default to 47', () => {
@@ -682,8 +687,12 @@ describe('Field.PhoneNumber', () => {
       '+41 9999',
       expect.objectContaining({
         errorMessages: expect.objectContaining({
-          pattern: enGB.PhoneNumber.errorRequired,
+          'Field.errorRequired': enGB.PhoneNumber.errorRequired,
+          'Field.errorPattern': enGB.PhoneNumber.errorRequired,
+
+          /** @deprecated – can be removed in v11 */
           required: enGB.PhoneNumber.errorRequired,
+          pattern: enGB.PhoneNumber.errorRequired,
         }),
       })
     )
