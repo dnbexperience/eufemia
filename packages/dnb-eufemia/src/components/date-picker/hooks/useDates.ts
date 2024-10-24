@@ -3,7 +3,7 @@ import { convertStringToDate, isDisabled } from '../DatePickerCalc'
 import isValid from 'date-fns/isValid'
 import usePreviousValue from './usePreviousValue'
 import format from 'date-fns/format'
-import { addMonths } from 'date-fns'
+import { addMonths, isSameMonth } from 'date-fns'
 
 export type DatePickerInitialDates = {
   date?: Date | string
@@ -86,15 +86,12 @@ export default function useDates(
         : {}
 
       // Update months based on month or start/end date changes
-      // Should be moved to useViews
-      const months = {
-        startMonth:
-          newDates.startMonth ??
-          (!isLinked ? newDates.startDate : dates.startMonth),
-        endMonth:
-          newDates.endMonth ??
-          (!isLinked ? newDates.endDate : dates.endMonth),
-      }
+      const months = updateMonths({
+        newDates,
+        currentDates: dates,
+        isRange,
+        isLinked,
+      })
 
       setDates((currentDates) => {
         return {
@@ -142,6 +139,7 @@ export default function useDates(
   ])
 
   // Updated input dates based on start and end dates, move to DatePickerInput
+  // TODO: Move to DatePickerInput
   useEffect(() => {
     const startDates = updateInputDates('start', dates)
     const endDates = updateInputDates('end', dates)
@@ -204,8 +202,7 @@ function mapDates(
         date_format: dateFormat,
       }) || undefined
 
-  // Ensure that the calendar view displays the correct months on initial render
-  // month setting logic could be moved to useViews
+  // Ensure that the calendar view displays the correct start and end months
   const startMonth =
     convertStringToDate(initialDates.startMonth, {
       date_format: dateFormat,
@@ -216,9 +213,9 @@ function mapDates(
   const endMonth =
     convertStringToDate(initialDates.endMonth, {
       date_format: dateFormat,
-    }) ?? isRange
-      ? endDate ?? addMonths(startMonth, 1)
-      : startMonth
+    }) ?? !isRange
+      ? startMonth
+      : endDate ?? addMonths(startMonth, 1)
 
   const minDate = convertStringToDate(initialDates.minDate, {
     date_format: dateFormat,
@@ -293,6 +290,52 @@ function correctDates({
   }
 
   return correctedDates
+}
+
+function updateMonths({
+  newDates,
+  currentDates,
+  isRange,
+  isLinked,
+}: {
+  newDates: DatePickerDates
+  currentDates: DatePickerDates
+  isRange: boolean
+  isLinked: boolean
+}) {
+  let startMonth = newDates.startMonth
+  let endMonth = newDates.endMonth
+
+  if (isRange && isSameMonth(newDates.startDate, currentDates.endMonth)) {
+    startMonth = currentDates.startMonth
+    endMonth = currentDates.endMonth
+  }
+
+  if (
+    isRange &&
+    newDates.startDate &&
+    !isSameMonth(newDates.startDate, currentDates.endMonth)
+  ) {
+    if (isLinked) {
+      startMonth = newDates.startDate
+      endMonth = addMonths(startMonth, 1)
+    } else {
+      startMonth = newDates.startDate
+    }
+  }
+
+  if (!startMonth && newDates.startDate) {
+    startMonth = newDates.startDate
+  }
+
+  if (!endMonth && newDates.endDate) {
+    endMonth = newDates.endDate
+  }
+
+  return {
+    startMonth: startMonth ?? currentDates.startMonth,
+    endMonth: endMonth ?? currentDates.endMonth,
+  }
 }
 
 function getDate(date: Date | string, dateFormat: string) {
