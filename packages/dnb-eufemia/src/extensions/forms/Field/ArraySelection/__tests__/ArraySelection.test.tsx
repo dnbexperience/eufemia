@@ -39,20 +39,20 @@ describe('ArraySelection', () => {
       ).toBe(document.querySelector('.dnb-tooltip__content').id)
     })
 
-    it('precede option children over title', async () => {
+    it('precede option title over children', async () => {
       render(
         <Field.ArraySelection>
           <Field.Option value="foo" title="title a">
             child a
           </Field.Option>
-          <Field.Option value="bar" title="title a">
+          <Field.Option value="bar" title="title b">
             child b
           </Field.Option>
         </Field.ArraySelection>
       )
       const options = document.querySelectorAll('.dnb-checkbox')
-      expect(options[0].textContent).toBe('child a')
-      expect(options[1].textContent).toBe('child b')
+      expect(options[0].textContent).toBe('title a')
+      expect(options[1].textContent).toBe('title b')
     })
 
     it('handles selection correctly', () => {
@@ -486,21 +486,21 @@ describe('ArraySelection', () => {
   describe.each(['button', 'checkbox-button'])(
     '%s',
     (testVariant: 'button' | 'checkbox-button') => {
-      it('precede option children over title', async () => {
+      it('precede option title over children', async () => {
         render(
           <Field.ArraySelection variant={testVariant}>
             <Field.Option value="foo" title="title a">
               child a
             </Field.Option>
-            <Field.Option value="bar" title="title a">
+            <Field.Option value="bar" title="title b">
               child b
             </Field.Option>
           </Field.ArraySelection>
         )
 
         const options = document.querySelectorAll('.dnb-button__text')
-        expect(options[0].textContent).toBe('child a')
-        expect(options[1].textContent).toBe('child b')
+        expect(options[0].textContent).toBe('title a')
+        expect(options[1].textContent).toBe('title b')
       })
 
       it(`has correct elements when "${testVariant}" is provided provided`, () => {

@@ -116,13 +116,13 @@ describe('variants', () => {
       expect(radioButtons[1]).toBeChecked()
     })
 
-    it('precede option children over title', async () => {
+    it('precede option title over children', async () => {
       render(
         <Field.Selection variant="radio">
           <Field.Option value="foo" title="title a">
             child a
           </Field.Option>
-          <Field.Option value="bar" title="title a">
+          <Field.Option value="bar" title="title b">
             child b
           </Field.Option>
         </Field.Selection>
@@ -130,8 +130,8 @@ describe('variants', () => {
 
       const options = document.querySelectorAll('.dnb-radio')
 
-      expect(options[0].textContent).toBe('child a')
-      expect(options[1].textContent).toBe('child b')
+      expect(options[0].textContent).toBe('title a')
+      expect(options[1].textContent).toBe('title b')
     })
 
     it('renders help', () => {
@@ -858,13 +858,13 @@ describe('variants', () => {
       expect(options[1].getAttribute('aria-selected')).toBe('false')
     })
 
-    it('precede option children over title', async () => {
+    it('precede option title over children', async () => {
       render(
         <Field.Selection variant="dropdown">
           <Field.Option value="foo" title="title a">
             child a
           </Field.Option>
-          <Field.Option value="bar" title="title a">
+          <Field.Option value="bar" title="title b">
             child b
           </Field.Option>
         </Field.Selection>
@@ -873,8 +873,8 @@ describe('variants', () => {
       open()
       const options = document.querySelectorAll('[role="option"]')
 
-      expect(options[0].textContent).toBe('child a')
-      expect(options[1].textContent).toBe('child b')
+      expect(options[0].textContent).toBe('title a')
+      expect(options[1].textContent).toBe('title b')
     })
 
     it('renders help', () => {

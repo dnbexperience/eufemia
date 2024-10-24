@@ -20,7 +20,7 @@ export default function Option({
       // eslint-disable-next-line jsx-a11y/role-has-required-aria-props
       role="option"
     >
-      {children ?? title}
+      {title ?? children}
       {text}
     </span>
   )

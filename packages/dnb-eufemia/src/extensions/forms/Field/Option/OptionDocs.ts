@@ -9,12 +9,12 @@ export const OptionProperties: PropertiesTableProps = {
   },
   title: {
     doc: 'Text title for the option.',
-    type: 'string',
+    type: ['string', 'React.Node'],
     status: 'optional',
   },
   text: {
     doc: 'Secondary text.',
-    type: 'string',
+    type: ['string', 'React.Node'],
     status: 'optional',
   },
   disabled: {
@@ -24,7 +24,7 @@ export const OptionProperties: PropertiesTableProps = {
   },
   help: FieldProperties.help,
   children: {
-    doc: 'Optional way to provide `title`.',
+    doc: 'Optional way to provide `title`. Will be ignored if `title` is used.',
     type: 'React.Node',
     status: 'optional',
   },
