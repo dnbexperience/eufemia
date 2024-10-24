@@ -449,6 +449,76 @@ describe('DatePicker component', () => {
     ).toBe(2)
   })
 
+  it('has correctly synced calendar views based on user navigation and date selection', async () => {
+    render(<DatePicker range end_date="2024-10-24" />)
+
+    await userEvent.click(document.querySelector('button.dnb-button'))
+
+    const [leftPicker, rightPicker] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__calendar')
+    )
+
+    const leftPrev = leftPicker.querySelector('.dnb-date-picker__prev')
+    const rightPrev = rightPicker.querySelector('.dnb-date-picker__prev')
+
+    expect(
+      leftPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('oktober 2024')
+    // TODO: Fix this after conversion merge
+    // The right picker should be november here, but this is a bug that exists in master/original version of DatePicker
+    expect(
+      rightPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('oktober 2024')
+
+    await userEvent.click(leftPrev)
+    await userEvent.click(leftPrev)
+    await userEvent.click(leftPrev)
+
+    expect(
+      leftPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('juli 2024')
+    expect(
+      rightPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('oktober 2024')
+
+    await userEvent.hover(screen.getByLabelText('torsdag 11. juli 2024'))
+
+    expect(
+      leftPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('juli 2024')
+    expect(
+      rightPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('oktober 2024')
+
+    await userEvent.click(rightPrev)
+    await userEvent.click(rightPrev)
+
+    expect(
+      leftPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('juli 2024')
+    expect(
+      rightPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('august 2024')
+
+    await userEvent.hover(screen.getByLabelText('tirsdag 20. august 2024'))
+
+    expect(
+      leftPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('juli 2024')
+    expect(
+      rightPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('august 2024')
+
+    await userEvent.click(screen.getByLabelText('tirsdag 20. august 2024'))
+
+    expect(
+      leftPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('juli 2024')
+    expect(
+      rightPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('august 2024')
+  })
+
   it('has a reacting start date input with valid value', () => {
     const { rerender } = render(<DatePicker {...defaultProps} />)
     const elem = document.querySelectorAll(
