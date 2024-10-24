@@ -24,7 +24,10 @@ export type FormStatusChildren =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export interface FormStatusProps
-  extends Omit<React.HTMLProps<HTMLElement>, 'ref' | 'label'>,
+  extends Omit<
+      React.HTMLProps<HTMLElement>,
+      'ref' | 'label ' | 'value' | 'onFocus' | 'onBlur'
+    >,
     SpacingProps {
   id?: string;
   /**
