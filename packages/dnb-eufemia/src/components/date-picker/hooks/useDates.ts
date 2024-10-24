@@ -4,6 +4,7 @@ import isValid from 'date-fns/isValid'
 import usePreviousValue from './usePreviousValue'
 import format from 'date-fns/format'
 import { addMonths, isSameMonth } from 'date-fns'
+import useViews, { CalendarView } from './useViews'
 
 export type DatePickerInitialDates = {
   date?: Date | string
@@ -68,6 +69,15 @@ export default function useDates(
     }),
   })
 
+  // calling views here instead of DatePickerProvider, to able to sync start and end months up with calendar views
+  const [views, setViews] = useViews({
+    startMonth: dates.startMonth,
+    startDate: dates.startDate,
+    endDate: dates.endDate,
+    endMonth: dates.endMonth,
+    isRange,
+  })
+
   const hasHadValidDate = useRef<boolean>(false)
 
   const updateDates = useCallback(
@@ -89,8 +99,8 @@ export default function useDates(
       const months = updateMonths({
         newDates,
         currentDates: dates,
+        views,
         isRange,
-        isLinked,
       })
 
       setDates((currentDates) => {
@@ -109,7 +119,7 @@ export default function useDates(
         ...correctedDates,
       })
     },
-    [dates, shouldCorrectDate, isRange, isLinked]
+    [dates, shouldCorrectDate, isRange, views]
   )
 
   // Update dates on prop change
@@ -155,12 +165,14 @@ export default function useDates(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dates.startDate, dates.endDate])
 
-  return [
+  return {
     dates,
     updateDates,
-    hasHadValidDate.current,
+    hasHadValidDate: hasHadValidDate.current,
     previousDates,
-  ] as const
+    views,
+    setViews,
+  } as const
 }
 
 // TODO: Move to DatePickerInput
@@ -202,7 +214,7 @@ function mapDates(
         date_format: dateFormat,
       }) || undefined
 
-  // Ensure that the calendar view displays the correct start and end months
+  // Ensure that the calendar view displays the correct start and end months, and to prevent date flickering bug
   const startMonth =
     convertStringToDate(initialDates.startMonth, {
       date_format: dateFormat,
@@ -295,46 +307,36 @@ function correctDates({
 function updateMonths({
   newDates,
   currentDates,
+  views,
   isRange,
-  isLinked,
 }: {
   newDates: DatePickerDates
   currentDates: DatePickerDates
+  views: Array<CalendarView>
   isRange: boolean
-  isLinked: boolean
 }) {
-  let startMonth = newDates.startMonth
-  let endMonth = newDates.endMonth
+  let startMonth = newDates.startMonth ?? currentDates.startMonth
+  let endMonth = newDates.endMonth ?? currentDates.endMonth
 
-  if (isRange && isSameMonth(newDates.startDate, currentDates.endMonth)) {
-    startMonth = currentDates.startMonth
-    endMonth = currentDates.endMonth
-  }
-
+  // Make startMonth is synced up to first calendar view
   if (
-    isRange &&
-    newDates.startDate &&
-    !isSameMonth(newDates.startDate, currentDates.endMonth)
+    !startMonth ||
+    (views[0]?.month && !isSameMonth(startMonth, views[0]?.month))
   ) {
-    if (isLinked) {
-      startMonth = newDates.startDate
-      endMonth = addMonths(startMonth, 1)
-    } else {
-      startMonth = newDates.startDate
-    }
+    startMonth = views[0].month
   }
 
-  if (!startMonth && newDates.startDate) {
-    startMonth = newDates.startDate
-  }
-
-  if (!endMonth && newDates.endDate) {
-    endMonth = newDates.endDate
+  // Make sure endMonth is synced up to second calendar view
+  if (
+    !endMonth ||
+    (views[1]?.month && !isSameMonth(endMonth, views[1]?.month))
+  ) {
+    endMonth = isRange ? views[1].month : startMonth
   }
 
   return {
-    startMonth: startMonth ?? currentDates.startMonth,
-    endMonth: endMonth ?? currentDates.endMonth,
+    startMonth,
+    endMonth,
   }
 }
 

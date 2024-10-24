@@ -18,7 +18,7 @@ import { correctV1Format, isDisabled } from './DatePickerCalc'
 import DatePickerContext, {
   DatePickerContextValues,
 } from './DatePickerContext'
-import useViews, { CalendarView } from './hooks/useViews'
+import { CalendarView } from './hooks/useViews'
 import useDates, { DatePickerDates } from './hooks/useDates'
 import useLastEventCallCache, {
   LastEventCallCache,
@@ -89,7 +89,14 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
 
   const sharedContext = useContext(SharedContext)
 
-  const [dates, updateDates, hasHadValidDate, previousDates] = useDates(
+  const {
+    dates,
+    updateDates,
+    hasHadValidDate,
+    previousDates,
+    views,
+    setViews,
+  } = useDates(
     {
       date: date,
       startDate: start_date,
@@ -106,14 +113,6 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
       shouldCorrectDate: correct_invalid_date,
     }
   )
-
-  const [views, setViews] = useViews({
-    startMonth: dates.startMonth,
-    startDate: dates.startDate,
-    endDate: dates.endDate,
-    endMonth: dates.endMonth,
-    isRange: range,
-  })
 
   const [lastEventCallCache, setLastEventCallCache] =
     useLastEventCallCache({
