@@ -326,6 +326,208 @@ describe('useFieldProps', () => {
       })
     })
 
+    describe('onBlurValidator', () => {
+      it('should not call onBlurValidator when required error is present', () => {
+        const onBlurValidator = jest.fn(
+          () => new Error('This is wrong...')
+        )
+
+        const { result } = renderHook(useFieldProps, {
+          initialProps: {
+            onBlurValidator,
+            required: true,
+          },
+        })
+
+        expect(result.current.error).toBeUndefined()
+
+        act(() => {
+          result.current.handleChange('something')
+          result.current.handleChange('')
+          result.current.handleBlur()
+        })
+
+        expect(result.current.error.message).toBe(nb.Field.errorRequired)
+
+        act(() => {
+          result.current.handleChange('something')
+          result.current.handleBlur()
+        })
+
+        expect(result.current.error.message).toBe('This is wrong...')
+      })
+
+      it('should not call onBlurValidator when pattern error is present', () => {
+        const schema: JSONSchema = {
+          type: 'string',
+          pattern: '[0-9]',
+        }
+
+        const onBlurValidator = jest.fn(
+          () => new Error('This is wrong...')
+        )
+
+        const { result } = renderHook(useFieldProps, {
+          initialProps: {
+            onBlurValidator,
+            schema,
+          },
+        })
+
+        expect(result.current.error).toBeUndefined()
+
+        act(() => {
+          result.current.handleChange('something')
+          result.current.handleBlur()
+        })
+
+        expect(result.current.error.message).toBe(nb.Field.errorPattern)
+
+        act(() => {
+          result.current.handleChange('123')
+          result.current.handleBlur()
+        })
+
+        expect(result.current.error.message).toBe('This is wrong...')
+      })
+
+      it('should always show onBlurValidator over onChangeValidator', () => {
+        const onChangeValidator = jest.fn(
+          () => new Error('Error message by onChangeValidator')
+        )
+
+        const onBlurValidator = jest.fn(
+          () => new Error('Error message by onBlurValidator')
+        )
+
+        const { result } = renderHook(useFieldProps, {
+          initialProps: {
+            validator: onChangeValidator,
+            onBlurValidator,
+          },
+        })
+
+        expect(result.current.error).toBeUndefined()
+
+        act(() => {
+          result.current.handleChange('something')
+          result.current.handleBlur()
+        })
+
+        expect(result.current.error.message).toBe(
+          'Error message by onBlurValidator'
+        )
+
+        act(() => {
+          result.current.handleChange('123')
+          result.current.handleBlur()
+        })
+
+        expect(result.current.error.message).toBe(
+          'Error message by onBlurValidator'
+        )
+      })
+
+      it('should call onBlurValidator when the error initiator is an async onChangeValidator', async () => {
+        const onBlurValidator = jest.fn(
+          () => new Error('Error message by onBlurValidator')
+        )
+        const onChangeValidator = jest.fn(
+          async () => new Error('Error message by onChangeValidator')
+        )
+
+        const { result } = renderHook(useFieldProps, {
+          initialProps: {
+            onBlurValidator,
+            validator: onChangeValidator,
+            required: true,
+          },
+        })
+
+        expect(result.current.error).toBeUndefined()
+
+        act(() => {
+          result.current.handleChange('something')
+          result.current.handleChange('')
+        })
+
+        await wait(1) // to ensure that "localErrorInitiator" is set to "required"
+
+        act(() => {
+          result.current.handleBlur()
+        })
+
+        expect(result.current.error.message).toBe(
+          'Error message by onBlurValidator'
+        )
+      })
+
+      it('should call onBlurValidator when the error initiator is an async onChange handler', async () => {
+        const onBlurValidator = jest.fn(
+          () => new Error('Error message by onBlurValidator')
+        )
+        const onChange = jest.fn(async () => null)
+
+        const { result } = renderHook(useFieldProps, {
+          initialProps: {
+            onBlurValidator,
+            onChange,
+            required: true,
+          },
+        })
+
+        expect(result.current.error).toBeUndefined()
+
+        act(() => {
+          result.current.handleChange('something')
+          result.current.handleChange('')
+        })
+
+        await wait(1) // to ensure that "localErrorInitiator" is set to "required"
+
+        act(() => {
+          result.current.handleBlur()
+        })
+
+        expect(result.current.error.message).toBe(
+          'Error message by onBlurValidator'
+        )
+      })
+
+      it('should call onBlurValidator when the error initiator is onChangeValidator and the onChangeValidator is async', async () => {
+        const onBlurValidator = jest.fn(
+          () => new Error('Error message by onBlurValidator')
+        )
+        const onChangeValidator = jest.fn(
+          async () => new Error('Error message by onChangeValidator')
+        )
+
+        const { result } = renderHook(useFieldProps, {
+          initialProps: {
+            onBlurValidator,
+            validator: onChangeValidator,
+            required: true,
+          },
+        })
+
+        expect(result.current.error).toBeUndefined()
+
+        act(() => {
+          result.current.handleChange('something')
+        })
+
+        await wait(1) // to ensure that "localErrorInitiator" is set to "required"
+
+        act(() => {
+          result.current.handleBlur()
+        })
+
+        expect(result.current.error.message).toBe(
+          'Error message by onBlurValidator'
+        )
+      })
+    })
+
     describe('with async validator', () => {
       const validateBlur = async (result, value = Date.now()) => {
         act(() => {
@@ -864,7 +1066,7 @@ describe('useFieldProps', () => {
     it('should have correct validation order', async () => {
       const schema: JSONSchema = {
         type: 'string',
-        pattern: '^(throw-on-validator)$',
+        pattern: '^(?!throw-on-schema$).*', // fail when "throw-on-schema" is given
       }
 
       const initialProps = {
@@ -881,19 +1083,18 @@ describe('useFieldProps', () => {
         schema,
 
         // Step 3.
-        validator: (value: string) => {
-          return value === 'throw-on-validator'
+        validator: async (value: string) => {
+          return value === 'throw-onChangeValidator'
             ? new Error(value)
             : undefined
         },
 
-        // Step: when ever handleChange and handleBlur is called
+        // Step: when ever handleBlur is called, and there is not error yet
         onBlurValidator: (value: string) => {
-          return value === 'throw-on-blur-validator'
+          return value === 'throw-onBlurValidator'
             ? new Error(value)
             : undefined
         },
-        value: 'throw-on-required',
         path: '/foo',
       }
 
@@ -901,48 +1102,96 @@ describe('useFieldProps', () => {
         initialProps,
       })
 
-      const validateBlur = async () => {
-        result.current.handleChange('throw-on-blur-validator')
-        result.current.handleBlur()
-
-        await waitFor(() => {
-          expect(result.current.error.message).toBe(
-            'throw-on-blur-validator'
-          )
-        })
-      }
-
-      await validateBlur()
-
+      // Try onBlurValidator
       act(() => {
-        result.current.updateValue('throw-on-required')
+        result.current.handleChange('throw-onBlurValidator')
+        result.current.handleBlur()
+      })
+      await waitFor(() => {
+        expect(result.current.error.message).toBe('throw-onBlurValidator')
       })
 
+      // Try required
+      act(() => {
+        result.current.handleChange('make change')
+        result.current.handleChange('throw-on-required')
+        result.current.handleBlur()
+      })
       await waitFor(() => {
         expect(result.current.error.message).toBe('throw-on-required')
       })
 
-      await validateBlur()
-
+      // Remove error
       act(() => {
-        result.current.updateValue('throw-on-schema')
+        result.current.handleChange(undefined)
+      })
+      await waitFor(() => {
+        expect(result.current.error).toBeUndefined()
       })
 
+      // Try onBlurValidator
+      act(() => {
+        result.current.handleChange('throw-onBlurValidator')
+        result.current.handleBlur()
+      })
+      await waitFor(() => {
+        expect(result.current.error.message).toBe('throw-onBlurValidator')
+      })
+
+      // Try schema
+      act(() => {
+        result.current.handleChange('make change')
+        result.current.handleChange('throw-on-schema')
+        result.current.handleBlur()
+      })
       await waitFor(() => {
         expect(result.current.error.message).toBe(nb.Field.errorPattern)
       })
 
-      await validateBlur()
-
+      // Remove error
       act(() => {
-        result.current.updateValue('throw-on-validator')
+        result.current.handleChange(undefined)
       })
-
       await waitFor(() => {
-        expect(result.current.error.message).toBe('throw-on-validator')
+        expect(result.current.error).toBeUndefined()
       })
 
-      await validateBlur()
+      // Try onBlurValidator
+      act(() => {
+        result.current.handleChange('throw-onBlurValidator')
+        result.current.handleBlur()
+      })
+      await waitFor(() => {
+        expect(result.current.error.message).toBe('throw-onBlurValidator')
+      })
+
+      // Remove error
+      act(() => {
+        result.current.handleChange(undefined)
+      })
+      await waitFor(() => {
+        expect(result.current.error).toBeUndefined()
+      })
+
+      // Try onChangeValidator
+      act(() => {
+        result.current.handleChange('make change')
+        result.current.handleChange('throw-onChangeValidator')
+      })
+      await waitFor(() => {
+        expect(result.current.error.message).toBe(
+          'throw-onChangeValidator'
+        )
+      })
+
+      // Try onBlurValidator
+      act(() => {
+        result.current.handleChange('throw-onBlurValidator')
+        result.current.handleBlur()
+      })
+      await waitFor(() => {
+        expect(result.current.error.message).toBe('throw-onBlurValidator')
+      })
     })
 
     describe('errorMessages', () => {
@@ -1643,7 +1892,7 @@ describe('useFieldProps', () => {
         events.push('onChangeField')
 
         if (value === 'invalid') {
-          return new Error('Error message')
+          return new Error('Error message by onChangeField')
         }
 
         return { success: 'saved' } as const
@@ -1652,7 +1901,7 @@ describe('useFieldProps', () => {
         events.push('onChangeForm')
 
         if (foo === 'invalid') {
-          return new Error('Error message')
+          return new Error('Error message by onChangeForm')
         }
 
         return { success: 'saved' } as const
@@ -1661,14 +1910,14 @@ describe('useFieldProps', () => {
         events.push('validator')
 
         if (value === 'invalid') {
-          return new Error('Error message')
+          return new Error('Error message by validator')
         }
       }
       const onBlurValidator = async (value) => {
         events.push('onBlurValidator')
 
         if (value === 'invalid') {
-          return new Error('Error message')
+          return new Error('Error message by onBlurValidator')
         }
       }
 
@@ -1687,12 +1936,14 @@ describe('useFieldProps', () => {
 
       expect(events).toEqual([])
       expect(result.current.fieldState).toBeUndefined()
+      expect(result.current.error).toBeUndefined()
 
       act(() => {
         result.current.handleChange('valid')
       })
 
       expect(result.current.fieldState).toBe('pending')
+      expect(result.current.error).toBeUndefined()
 
       await waitFor(() => {
         expect(events).toEqual([
@@ -1743,11 +1994,18 @@ describe('useFieldProps', () => {
       })
 
       expect(result.current.fieldState).toBe('pending')
+      expect(result.current.error).toBeInstanceOf(Error)
+      expect(result.current.error.message).toBe(
+        'Error message by validator'
+      )
 
       await waitFor(() => {
         expect(events).toEqual(['validator', 'onBlurValidator'])
         expect(result.current.fieldState).toBe('error')
         expect(result.current.error).toBeInstanceOf(Error)
+        expect(result.current.error.message).toBe(
+          'Error message by onBlurValidator'
+        )
       })
 
       // Reset events
@@ -1759,6 +2017,7 @@ describe('useFieldProps', () => {
 
       expect(events).toEqual(['validator'])
       expect(result.current.fieldState).toBe('pending')
+      expect(result.current.error).toBeUndefined()
 
       await waitFor(() => {
         expect(events).toEqual([
@@ -1779,6 +2038,7 @@ describe('useFieldProps', () => {
 
       expect(events).toEqual(['onBlurValidator'])
       expect(result.current.fieldState).toBe('pending')
+      expect(result.current.error).toBeUndefined()
 
       await waitFor(() => {
         expect(events).toEqual(['onBlurValidator'])
