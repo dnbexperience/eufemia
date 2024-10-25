@@ -105,6 +105,10 @@ export type Props = FieldHelpProps &
      */
     disableAutofocus?: DatePickerProps['disable_autofocus']
     /**
+     * If the input fields with the mask should be visible. Defaults to `false`.
+     */
+    show_input?: boolean
+    /**
      * If set to `true`, a submit button will be shown. You can change the default text by using `submit_button_text="Ok"`. Defaults to `false`. If the `range` prop is `true`, then the submit button is shown.
      */
     showSubmitButton?: DatePickerProps['show_submit_button']
@@ -296,7 +300,6 @@ function DateComponent(props: Props) {
         }
         range={range}
         on_change={handleChange}
-        on_reset={handleChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
         {...datePickerProps}
@@ -341,12 +344,7 @@ const datePickerPropKeys = [
   'direction',
   'alignPicker',
   'onDaysRender',
-  'onType',
-  'onShow',
-  'onHide',
-  'onSubmit',
-  'onCancel',
-  'onReset',
+  'showInput',
 ]
 
 function getDatePickerProps(props: Props) {
