@@ -348,7 +348,7 @@ const datePickerPropKeys = [
   'onDaysRender',
   'onType',
   'onShow',
-  'onHide?',
+  'onHide',
   'onSubmit',
   'onCancel',
   'onReset',
