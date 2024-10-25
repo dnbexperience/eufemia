@@ -8,7 +8,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import keycode from 'keycode'
 import Context from '../../shared/Context'
 import {
   warn,
@@ -17,6 +16,7 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent,
   extendPropsWithContextInClassComponent,
+  keycode,
 } from '../../shared/component-helper'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import {

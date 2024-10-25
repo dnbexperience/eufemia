@@ -8,7 +8,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import keycode from 'keycode'
 import {
   isTrue,
   makeUniqueId,
@@ -18,6 +17,7 @@ import {
   combineDescribedBy,
   combineLabelledBy,
   dispatchCustomElementEvent,
+  keycode,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import {

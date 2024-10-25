@@ -6,7 +6,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import keycode from 'keycode'
 import Context from '../../shared/Context'
 import {
   warn,
@@ -19,6 +18,7 @@ import {
   getPreviousSibling,
   filterProps,
   combineLabelledBy,
+  keycode,
 } from '../../shared/component-helper'
 import {
   spacingPropTypes,
