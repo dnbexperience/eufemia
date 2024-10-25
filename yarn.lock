@@ -3508,7 +3508,6 @@ __metadata:
     jest-playwright-preset: "npm:3.0.1"
     jest-raw-loader: "npm:1.0.1"
     jest-tobetype: "npm:1.2.3"
-    keycode: "npm:2.2.1"
     lint-staged: "npm:11.2.6"
     lockfile-lint: "npm:4.6.2"
     lodash.isequal: "npm:4.5.0"
@@ -14045,7 +14044,6 @@ __metadata:
     github-slugger: "npm:1.4.0"
     history: "npm:5.1.0"
     jest: "npm:29.3.1"
-    keycode: "npm:2.2.0"
     lint-staged: "npm:11.2.6"
     mdast-util-to-string: "npm:^2"
     ora: "npm:5.4.1"
@@ -22036,20 +22034,6 @@ __metadata:
   dependencies:
     lodash.kebabcase: "npm:^4.1.1"
   checksum: d3e3ecd949a751929b400afb0582c6ea69b75872046695720eb4026bef3cd43d9e4dbe4afca07054a54d3ff013a8481f1c46921c32ad898b678c2db05499aa49
-  languageName: node
-  linkType: hard
-
-"keycode@npm:2.2.0":
-  version: 2.2.0
-  resolution: "keycode@npm:2.2.0"
-  checksum: fd2c723141d335c605d800c49322fd339589af32a803dd171a25e5ff74b9e7c8532d4ea819d9250f0407ed10a1bdbeb2458b2d58606339ad96ab718414417b5c
-  languageName: node
-  linkType: hard
-
-"keycode@npm:2.2.1":
-  version: 2.2.1
-  resolution: "keycode@npm:2.2.1"
-  checksum: 049fddd666a6ce57c94f1e8fd0ad76692f4042ee2eed99801c4f41ca8749f979a05a8a092b5577c261cc750922ac29e147de2217bd705b50dc90df8324c840ad
   languageName: node
   linkType: hard
 

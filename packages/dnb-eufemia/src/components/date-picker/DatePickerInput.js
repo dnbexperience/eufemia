@@ -17,11 +17,11 @@ import classnames from 'classnames'
 import TextMask from '../input-masked/TextMask'
 import Button from '../button/Button'
 import Input, { SubmitButton } from '../input/Input'
-import keycode from 'keycode'
 import {
   warn,
   validateDOMAttributes,
   dispatchCustomElementEvent,
+  keycode,
 } from '../../shared/component-helper'
 import { convertStringToDate } from './DatePickerCalc'
 import DatePickerContext from './DatePickerContext'

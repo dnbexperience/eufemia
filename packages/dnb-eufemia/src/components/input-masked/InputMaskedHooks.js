@@ -13,12 +13,12 @@ import {
   isTrue,
   dispatchCustomElementEvent,
   extendPropsWithContext,
+  keycode,
 } from '../../shared/component-helper'
 import { safeSetSelection } from './text-mask/createTextMaskInputElement'
 
 import TextMask from './TextMask'
 import createNumberMask from './addons/createNumberMask'
-import keycode from 'keycode'
 import InputMaskedContext from './InputMaskedContext'
 
 import {

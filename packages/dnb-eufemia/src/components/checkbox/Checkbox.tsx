@@ -10,13 +10,12 @@ import React, {
   useState,
 } from 'react'
 import classnames from 'classnames'
-import keycode from 'keycode'
-
 import {
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
   extendPropsWithContext,
+  keycode,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'

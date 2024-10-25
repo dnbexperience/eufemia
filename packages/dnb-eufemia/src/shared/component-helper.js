@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import keycode from 'keycode'
+import keycode from './keycode'
 import whatInput from 'what-input'
 import {
   warn,
@@ -23,7 +23,7 @@ export {
 export { assignPropsWithContext } from './helpers/assignPropsWithContext'
 export { filterProps } from './helpers/filterProps'
 
-export { getPreviousSibling, warn }
+export { keycode, getPreviousSibling, warn }
 
 init()
 

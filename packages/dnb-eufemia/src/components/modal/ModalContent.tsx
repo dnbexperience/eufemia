@@ -5,7 +5,6 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import keycode from 'keycode'
 import {
   disableBodyScroll,
   enableBodyScroll,
@@ -19,6 +18,7 @@ import {
   combineLabelledBy,
   combineDescribedBy,
   dispatchCustomElementEvent,
+  keycode,
 } from '../../shared/component-helper'
 import ModalContext from './ModalContext'
 import { IS_IOS, IS_SAFARI, IS_MAC, isAndroid } from '../../shared/helpers'
