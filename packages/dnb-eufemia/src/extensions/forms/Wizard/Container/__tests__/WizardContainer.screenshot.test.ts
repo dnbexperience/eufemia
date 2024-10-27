@@ -36,4 +36,34 @@ describe('Wizard.Container', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match container with status message', async () => {
+    const screenshot = await makeScreenshot({
+      url,
+      pageViewport: {
+        width: 980,
+      },
+      simulateSelector:
+        '[data-visual-test="wizard-with-status-message"] .dnb-forms-next-button',
+      simulate: 'click',
+      recalculateHeightAfterSimulate: true,
+      selector: '[data-visual-test="wizard-with-status-message"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match container with status message on a small screen', async () => {
+    const screenshot = await makeScreenshot({
+      url,
+      pageViewport: {
+        width: 400,
+      },
+      simulateSelector:
+        '[data-visual-test="wizard-with-status-message"] .dnb-forms-next-button',
+      simulate: 'click',
+      recalculateHeightAfterSimulate: true,
+      selector: '[data-visual-test="wizard-with-status-message"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

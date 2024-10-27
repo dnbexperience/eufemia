@@ -50,16 +50,6 @@
     }
   }
 
-  // FormStatus as part of the Form.Handler
-  & + .dnb-form-status,
-  & + .dnb-form-status + .dnb-form-status {
-    @include allAbove(small) {
-      &:not([class*='space__left']) {
-        margin-left: var(--spacing-medium);
-      }
-    }
-  }
-
   @include allBelow('medium') {
     flex-direction: column;
     justify-content: stretch;
@@ -78,6 +68,6 @@
 @include allAbove('medium') {
   .dnb-forms-form:has(.dnb-forms-wizard-layout--sidebar)
     .dnb-forms-status {
-    margin-left: 23rem;
+    margin-left: 21.5rem;
   }
 }
