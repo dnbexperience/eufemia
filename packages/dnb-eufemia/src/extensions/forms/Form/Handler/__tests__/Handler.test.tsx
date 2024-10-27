@@ -176,30 +176,58 @@ describe('Form.Handler', () => {
     expect(formElement.getAttribute('aria-label')).toBe('Aria Label')
   })
 
-  it('string renders autocomplete from context if a path was given', () => {
-    const { rerender } = render(
-      <Form.Handler autoComplete>
-        <Field.String path="/firstName" />
-      </Form.Handler>
-    )
-    expect(
-      document.querySelector('input').getAttribute('autocomplete')
-    ).toBe('on')
-    expect(document.querySelector('input').getAttribute('name')).toBe(
-      'firstName'
-    )
+  describe('autocomplete', () => {
+    it('should set autocomplete="on" when autoComplete is false', () => {
+      const { rerender } = render(
+        <Form.Handler autoComplete>
+          <Field.String path="/firstName" />
+        </Form.Handler>
+      )
+      expect(
+        document.querySelector('input').getAttribute('autocomplete')
+      ).toBe('on')
+      expect(document.querySelector('input').getAttribute('name')).toBe(
+        'firstName'
+      )
 
-    rerender(
-      <Form.Handler autoComplete>
-        <Field.String path="/firstName" autoComplete="family-name" />
-      </Form.Handler>
-    )
-    expect(
-      document.querySelector('input').getAttribute('autocomplete')
-    ).toBe('family-name')
-    expect(document.querySelector('input').getAttribute('name')).toBe(
-      'firstName'
-    )
+      rerender(
+        <Form.Handler autoComplete>
+          <Field.String path="/firstName" autoComplete="family-name" />
+        </Form.Handler>
+      )
+      expect(
+        document.querySelector('input').getAttribute('autocomplete')
+      ).toBe('family-name')
+      expect(document.querySelector('input').getAttribute('name')).toBe(
+        'firstName'
+      )
+    })
+
+    it('should set autocomplete="off" when autoComplete is false', () => {
+      const { rerender } = render(
+        <Form.Handler autoComplete={false}>
+          <Field.String path="/firstName" />
+        </Form.Handler>
+      )
+      expect(
+        document.querySelector('input').getAttribute('autocomplete')
+      ).toBe('off')
+      expect(document.querySelector('input').getAttribute('name')).toBe(
+        'firstName'
+      )
+
+      rerender(
+        <Form.Handler autoComplete={false}>
+          <Field.String path="/firstName" autoComplete="family-name" />
+        </Form.Handler>
+      )
+      expect(
+        document.querySelector('input').getAttribute('autocomplete')
+      ).toBe('family-name')
+      expect(document.querySelector('input').getAttribute('name')).toBe(
+        'firstName'
+      )
+    })
   })
 
   it('should call HTMLFormElement.reset on "resetForm" call', () => {
