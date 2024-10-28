@@ -324,15 +324,16 @@ function updateMonths({
 
   // Make sure start and end months are synced up with calendar in range mode, and prevent both pickers showing the same month if start and end date are selected to be the same
   if (isRange) {
-    if (isSameDay(startMonth, endMonth)) {
-      if (
-        isSameMonth(startMonth, currentDates.startMonth) ||
-        isSameMonth(endMonth, currentDates.endMonth)
-      ) {
-        startMonth = startView?.month
-        endMonth = endView?.month
-      }
-    } else if (!isSameMonth(startMonth, endMonth)) {
+    // If start and end date is the same day, but changed from the previous selected months
+    if (
+      isSameDay(startMonth, endMonth) &&
+      (isSameMonth(startMonth, currentDates.startMonth) ||
+        isSameMonth(endMonth, currentDates.endMonth))
+    ) {
+      startMonth = startView?.month
+      endMonth = endView?.month
+    } // Prevent the calendar views from being set to the same month if they are different
+    else if (!isSameMonth(startMonth, endMonth)) {
       startMonth = startView?.month
       endMonth = endView?.month
     }
