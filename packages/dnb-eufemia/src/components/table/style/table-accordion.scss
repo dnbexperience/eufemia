@@ -210,16 +210,6 @@
   }
 
   &__tr__accordion-content {
-    @include IS_SAFARI_DESKTOP() {
-      &[hidden] {
-        /**
-        * By reverting the display from "none" to "block",
-        * we trick VoiceOver to not make this row as the end of the table. We still need "hidden" to get the correct number of rows (childCount).
-        */
-        display: block;
-      }
-    }
-
     &__inner {
       overflow: hidden;
       will-change: height;
