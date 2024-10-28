@@ -23,7 +23,8 @@ export type DatePickerContextValues = ContextProps &
     hasHadValidDate: boolean
     updateDates: (
       dates: DatePickerDates,
-      callback?: (dates: DatePickerDates) => void
+      callback?: (dates: DatePickerDates) => void,
+      isTriggeredByShortcut?: boolean
     ) => void
     setState?: (state: DatePickerProviderState) => void
     setViews: (views: Array<CalendarView>, callback?: () => void) => void

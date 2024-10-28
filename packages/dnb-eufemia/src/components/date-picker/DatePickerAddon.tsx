@@ -54,7 +54,7 @@ function DatePickerAddon(props: DatePickerAddonProps) {
       endDate?: Date
       event?: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
     } = {}) => {
-      updateDates({ startDate, endDate })
+      updateDates({ startDate, endDate }, undefined, true)
       callOnChangeHandler({
         startDate,
         endDate: endDate || startDate,

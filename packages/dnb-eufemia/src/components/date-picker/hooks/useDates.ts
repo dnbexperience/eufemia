@@ -3,7 +3,7 @@ import { convertStringToDate, isDisabled } from '../DatePickerCalc'
 import isValid from 'date-fns/isValid'
 import usePreviousValue from './usePreviousValue'
 import format from 'date-fns/format'
-import { addMonths, isSameDay, isSameMonth } from 'date-fns'
+import { addMonths } from 'date-fns'
 import useViews, { CalendarView } from './useViews'
 
 export type DatePickerInitialDates = {
@@ -85,7 +85,8 @@ export default function useDates(
   const updateDates = useCallback(
     (
       newDates: DatePickerDates,
-      callback?: (dates: DatePickerDates) => void
+      callback?: (dates: DatePickerDates) => void,
+      isTriggeredByShortcut?: boolean
     ) => {
       // Correct dates based on min and max date
       const correctedDates = shouldCorrectDate
@@ -104,6 +105,7 @@ export default function useDates(
         currentDates: dates,
         views,
         isRange,
+        isTriggeredByShortcut,
       })
 
       setDates((currentDates) => {
@@ -312,31 +314,23 @@ function updateMonths({
   currentDates,
   views,
   isRange,
+  isTriggeredByShortcut,
 }: {
   newDates: DatePickerDates
   currentDates: DatePickerDates
   views: Array<CalendarView>
   isRange: boolean
+  isTriggeredByShortcut: boolean
 }) {
   let startMonth = newDates.startMonth ?? newDates.startDate
   let endMonth = newDates.endMonth ?? newDates.endDate
   const [startView, endView] = views
 
   // Make sure start and end months are synced up with calendar in range mode, and prevent both pickers showing the same month if start and end date are selected to be the same
-  if (isRange) {
+  if (isRange && !isTriggeredByShortcut) {
     // If start and end date is the same day, but changed from the previous selected months
-    if (
-      isSameDay(startMonth, endMonth) &&
-      (isSameMonth(startMonth, currentDates.startMonth) ||
-        isSameMonth(endMonth, currentDates.endMonth))
-    ) {
-      startMonth = startView?.month
-      endMonth = endView?.month
-    } // Prevent the calendar views from being set to the same month if they are different
-    else if (!isSameMonth(startMonth, endMonth)) {
-      startMonth = startView?.month
-      endMonth = endView?.month
-    }
+    startMonth = startView?.month
+    endMonth = endView?.month
   }
 
   return {
