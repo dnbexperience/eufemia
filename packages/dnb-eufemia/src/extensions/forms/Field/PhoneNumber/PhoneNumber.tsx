@@ -1,4 +1,10 @@
-import React, { useMemo, useContext, useCallback } from 'react'
+import React, {
+  useMemo,
+  useContext,
+  useCallback,
+  useEffect,
+  useRef,
+} from 'react'
 import { Autocomplete, Flex } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
 import classnames from 'classnames'
@@ -37,6 +43,7 @@ export type Props = FieldHelpProps &
     numberMask?: InputMaskedProps['mask']
     pattern?: StringFieldProps['pattern']
     width?: 'large' | 'stretch'
+    inputRef?: React.RefObject<HTMLInputElement>
     omitCountryCodeField?: boolean
     onCountryCodeChange?: (value: string | undefined) => void
     onNumberChange?: (value: string | undefined) => void
@@ -85,11 +92,11 @@ function PhoneNumber(props: Props) {
   } = useTranslation().PhoneNumber
   const lang = sharedContext.locale?.split('-')[0] as CountryLang
 
-  const countryCodeRef = React.useRef<Props['value']>(props?.emptyValue)
-  const numberRef = React.useRef<Props['value']>(props?.emptyValue)
-  const dataRef = React.useRef<Array<DrawerListDataObject>>(null)
-  const langRef = React.useRef<string>(lang)
-  const wasFilled = React.useRef<boolean>(false)
+  const countryCodeRef = useRef<Props['value']>(props?.emptyValue)
+  const numberRef = useRef<Props['value']>(props?.emptyValue)
+  const dataRef = useRef<Array<DrawerListDataObject>>(null)
+  const langRef = useRef<string>(lang)
+  const wasFilled = useRef<boolean>(false)
 
   const errorMessages = useMemo(
     () => ({
@@ -122,6 +129,28 @@ function PhoneNumber(props: Props) {
     []
   )
 
+  const fromExternal = useCallback(
+    (external: string) => {
+      const [, phoneNumber] = splitValue(external)
+      if (!phoneNumber && !props.omitCountryCodeField) {
+        return countryCodeRef.current
+      }
+      return external
+    },
+    [props.omitCountryCodeField]
+  )
+
+  const toEvent = useCallback(
+    (value: string) => {
+      const [, phoneNumber] = splitValue(value)
+      if (!phoneNumber) {
+        return props.emptyValue
+      }
+      return value
+    },
+    [props.emptyValue]
+  )
+
   const schema = useMemo<AllJSONSchemaVersions>(
     () =>
       props.schema ?? {
@@ -134,17 +163,20 @@ function PhoneNumber(props: Props) {
     schema,
     errorMessages,
   }
+  const ref = useRef<HTMLInputElement>()
   const preparedProps: Props = {
     ...props,
     ...defaultProps,
     validateRequired,
     fromExternal,
     toEvent,
+    inputRef: props.inputRef ?? ref,
   }
 
   const {
     value,
     className,
+    inputRef,
     countryCodeFieldClassName,
     numberFieldClassName,
     countryCodePlaceholder,
@@ -168,26 +200,21 @@ function PhoneNumber(props: Props) {
     omitCountryCodeField,
     setHasFocus,
     handleChange,
+    setDisplayValue,
     onCountryCodeChange,
     onNumberChange,
     filterCountries,
   } = useFieldProps(preparedProps)
 
-  function fromExternal(external: string) {
-    const [, phoneNumber] = splitValue(external)
-    if (!phoneNumber && !props.omitCountryCodeField) {
-      return countryCodeRef.current
-    }
-    return external
-  }
-
-  function toEvent(value: string) {
-    const [, phoneNumber] = splitValue(value)
-    if (!phoneNumber) {
-      return emptyValue
-    }
-    return value
-  }
+  useEffect(() => {
+    const number = inputRef.current?.value
+    setDisplayValue(
+      props.path,
+      number?.length > 0
+        ? joinValue([countryCodeRef.current, number])
+        : undefined
+    )
+  }, [inputRef, props.path, setDisplayValue, value])
 
   const filter = useCallback(
     (country: CountryType) => {
@@ -264,7 +291,7 @@ function PhoneNumber(props: Props) {
     }
   }, [value, props.value, lang, updateCurrentDataSet])
 
-  const prevCountryCodeRef = React.useRef(countryCodeRef.current)
+  const prevCountryCodeRef = useRef(countryCodeRef.current)
 
   const handleCountryCodeChange = useCallback(
     ({ data }: { data: { selectedKey: string } }) => {
@@ -395,6 +422,7 @@ function PhoneNumber(props: Props) {
           onBlur={handleOnBlur}
           onChange={handleNumberChange}
           value={numberRef.current}
+          innerRef={inputRef}
           info={info}
           warning={warning}
           error={error}
