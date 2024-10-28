@@ -1,8 +1,10 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, screen } from '@testing-library/react'
+import DataContext from '../../../DataContext/Context'
 import { Props } from '../Toggle'
-import { Field, FieldBlock } from '../../..'
+import { Field, FieldBlock, Form } from '../../..'
+import userEvent from '@testing-library/user-event'
 
 describe('Field.Toggle', () => {
   it('should render with props', () => {
@@ -106,6 +108,41 @@ describe('Field.Toggle', () => {
         expect(element).toHaveAttribute('aria-pressed', 'true')
         expect(onChange).toHaveBeenCalledTimes(2)
         expect(onChange).toHaveBeenLastCalledWith('on')
+      })
+
+      it('should store "displayValue" in data context', async () => {
+        let dataContext = null
+
+        render(
+          <Form.Handler>
+            <Field.Toggle
+              path="/mySelection"
+              valueOn="on"
+              valueOff="off"
+              textOn="On!"
+              textOff="Off!"
+              variant="button"
+              defaultValue="on"
+            />
+            <DataContext.Consumer>
+              {(context) => {
+                dataContext = context
+                return null
+              }}
+            </DataContext.Consumer>
+          </Form.Handler>
+        )
+
+        expect(dataContext.fieldDisplayValueRef.current).toEqual({
+          '/mySelection': 'On!',
+        })
+
+        await userEvent.tab()
+        await userEvent.keyboard('{Enter}')
+
+        expect(dataContext.fieldDisplayValueRef.current).toEqual({
+          '/mySelection': 'Off!',
+        })
       })
 
       describe('ARIA', () => {

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import classnames from 'classnames'
 
 import { Checkbox, HelpButton, ToggleButton } from '../../../../components'
@@ -48,6 +48,7 @@ function Toggle(props: Props) {
     hasError,
     htmlAttributes,
     handleChange,
+    setDisplayValue,
   } = useFieldProps(preparedProps)
 
   const handleCheckboxChange = useCallback(
@@ -89,6 +90,13 @@ function Toggle(props: Props) {
 
   const isOn = value === valueOn
   const isOff = value === valueOff
+
+  useMemo(() => {
+    const text = isOn ? textOn : textOff
+    if (text) {
+      setDisplayValue(props.path, text)
+    }
+  }, [isOn, props.path, setDisplayValue, textOff, textOn])
 
   switch (variant) {
     default:
