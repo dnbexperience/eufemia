@@ -2153,7 +2153,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     name: props.name || props.path?.replace('/', '') || id,
     autoComplete:
       props.autoComplete ??
-      (dataContext.autoComplete === true ? 'on' : undefined),
+      (typeof dataContext.autoComplete === 'boolean'
+        ? dataContext.autoComplete
+          ? 'on'
+          : 'off'
+        : undefined),
 
     /** Documented APIs */
     id,
