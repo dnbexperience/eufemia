@@ -82,7 +82,7 @@
   }
 
   // Ensure our outline on bottom is not overlaying the scrollbar on webkit
-  // We also need to escape the "selector" because its not supported by "node-sass".
+  // We also need to escape the "selector" because it's not supported by "node-sass".
   @supports (-webkit-appearance: none) and
     (not (-moz-appearance: meterbar)) {
     &::after {

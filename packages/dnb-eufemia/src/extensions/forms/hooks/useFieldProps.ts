@@ -779,7 +779,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           (validateInitially && !changedRef.current) ||
           validateUnchanged ||
           continuousValidation ||
-          runAsync // Because its a better UX to show the error when the validation is async/delayed
+          runAsync // Because it's a better UX to show the error when the validation is async/delayed
         ) {
           // Because we first need to throw the error to be able to display it, we delay the showError call
           window.requestAnimationFrame(() => {

@@ -20,7 +20,7 @@ import { SharedAttachments } from '../../DataContext/Provider'
 
 /**
  * Deprecated, as it is supported by all major browsers and Node.js >=v18
- * So its a question of time, when we will remove this polyfill
+ * So it's a question of time, when we will remove this polyfill
  */
 import structuredClone from '@ungap/structured-clone'
 

@@ -373,7 +373,7 @@ export interface UseFieldProps<
   // - Derivatives
 
   /**
-   * Transforms the `value` before its displayed in the field (e.g. input).
+   * Transforms the `value` before it's displayed in the field (e.g. input).
    * Public API. Should not be used internally.
    */
   transformIn?: (external: unknown) => Value
@@ -504,7 +504,7 @@ export interface ValueProps<Value = unknown>
   ) => React.ReactNode
 
   /**
-   * Transforms the `value` before its displayed in the field (e.g. input).
+   * Transforms the `value` before it's displayed in the field (e.g. input).
    * Public API. Should not be used internally.
    */
   transformIn?: (external: Value | unknown) => Value | unknown

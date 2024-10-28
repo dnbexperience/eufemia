@@ -104,9 +104,9 @@ describe('Element', () => {
 
     expect(attributes).toEqual([
       'class',
-      'disabled', // because its a skeleton
-      'aria-disabled', // because its a skeleton
-      'aria-label', // because its a skeleton
+      'disabled', // because it's a skeleton
+      'aria-disabled', // because it's a skeleton
+      'aria-label', // because it's a skeleton
     ])
   })
 
