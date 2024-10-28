@@ -123,26 +123,30 @@ export function walk<T = JsonObject>(obj: T, iterator, descend = null) {
       return type === '[object Object]' || type === '[object Array]'
     }
 
-  function next(cur) {
-    if (Array.isArray(cur)) {
-      cur = cur.reduce((acc, cur, i) => {
-        acc[i] = cur
-        return acc
-      }, {})
-    }
+  next(obj, refTokens, iterator, descend)
+}
 
-    Object.keys(cur).forEach((key) => {
-      refTokens.push(String(key))
-      if (descend(cur[key])) {
-        next(cur[key])
-      } else {
-        iterator(cur[key], compile(refTokens))
-      }
-      refTokens.pop()
-    })
+function next(cur, refTokens, iterator, descend) {
+  if (Array.isArray(cur)) {
+    cur = cur.reduce((acc, cur, i) => {
+      acc[i] = cur
+      return acc
+    }, {})
   }
 
-  next(obj)
+  let res
+  for (const key in cur) {
+    refTokens.push(String(key))
+    if (descend(cur[key])) {
+      res = next(cur[key], refTokens, iterator, descend)
+    } else {
+      res = iterator(cur[key], compile(refTokens))
+    }
+    if (res === false) {
+      return false
+    }
+    refTokens.pop()
+  }
 }
 
 /**
