@@ -3,7 +3,7 @@ import { convertStringToDate, isDisabled } from '../DatePickerCalc'
 import isValid from 'date-fns/isValid'
 import usePreviousValue from './usePreviousValue'
 import format from 'date-fns/format'
-import { addMonths, isSameMonth } from 'date-fns'
+import { addMonths, isSameDay, isSameMonth } from 'date-fns'
 import useViews, { CalendarView } from './useViews'
 
 export type DatePickerInitialDates = {
@@ -87,6 +87,7 @@ export default function useDates(
       newDates: DatePickerDates,
       callback?: (dates: DatePickerDates) => void
     ) => {
+      // Correct dates based on min and max date
       const correctedDates = shouldCorrectDate
         ? correctDates({
             startDate: newDates.startDate ?? dates.startDate,
@@ -319,11 +320,20 @@ function updateMonths({
 }) {
   let startMonth = newDates.startMonth ?? newDates.startDate
   let endMonth = newDates.endMonth ?? newDates.endDate
+  const [startView, endView] = views
 
-  // Make sure start and end months are synced up with calendar in range mode
-  if (isRange && !isSameMonth(startMonth, endMonth)) {
-    startMonth = views[0]?.month
-    endMonth = views[1]?.month
+  // Make sure start and end months are synced up with calendar in range mode, and preventing that same start and end date sets both pickers to the same month
+  if (isRange) {
+    if (isSameDay(startMonth, endMonth)) {
+      if (
+        (!isSameMonth(startMonth, endMonth) &&
+          isSameMonth(startMonth, currentDates.startMonth)) ||
+        isSameMonth(endMonth, currentDates.endMonth)
+      ) {
+        startMonth = startView?.month
+        endMonth = endView?.month
+      }
+    }
   }
 
   return {
