@@ -103,7 +103,7 @@ const countries: Array<CountryType> = [
   {
     i18n: {
       en: 'Antarctica',
-      nb: 'Antarktis',
+      nb: 'Antarktika',
     },
     cdc: '672',
     iso: 'AQ',
@@ -318,8 +318,8 @@ const countries: Array<CountryType> = [
   },
   {
     i18n: {
-      en: 'British Virgin Islands',
-      nb: 'De britiske Jomfruøyene',
+      en: 'Virgin Islands (British)',
+      nb: 'De britiske Jomfruøyer',
     },
     cdc: '1-284',
     iso: 'VG',
@@ -399,8 +399,8 @@ const countries: Array<CountryType> = [
   },
   {
     i18n: {
-      en: 'Bonaire, Saint Eustatius and Saba',
-      nb: 'Bonaire, Saint Eustatius og Saba',
+      en: 'Bonaire, Sint Eustatius and Saba',
+      nb: 'Bonaire, Sint Eustatius og Saba',
     },
     cdc: '599',
     iso: 'BQ',
@@ -552,8 +552,8 @@ const countries: Array<CountryType> = [
   },
   {
     i18n: {
-      en: 'Democratic Republic of the Congo',
-      nb: 'Den demokratiske republikken Kongo',
+      en: 'Congo, the Democratic Republic',
+      nb: 'Kongo, den demokratiske republikken',
     },
     cdc: '243',
     iso: 'CD',
@@ -999,7 +999,7 @@ const countries: Array<CountryType> = [
   {
     i18n: {
       en: 'Isle of Man',
-      nb: 'Mann',
+      nb: 'Man',
     },
     cdc: '44-1624',
     iso: 'IM',
@@ -1197,7 +1197,7 @@ const countries: Array<CountryType> = [
   {
     i18n: {
       en: 'Luxembourg',
-      nb: 'Luxemburg',
+      nb: 'Luxembourg',
     },
     cdc: '352',
     iso: 'LU',
@@ -1665,8 +1665,8 @@ const countries: Array<CountryType> = [
   },
   {
     i18n: {
-      en: 'Republic of the Congo',
-      nb: 'Republikken Kongo',
+      en: 'Congo, the Republic',
+      nb: 'Kongo, republikken',
     },
     cdc: '242',
     iso: 'CG',
@@ -1674,7 +1674,7 @@ const countries: Array<CountryType> = [
   },
   {
     i18n: {
-      en: 'Reunion',
+      en: 'Réunion',
       nb: 'Réunion',
     },
     cdc: '262',
@@ -1710,8 +1710,8 @@ const countries: Array<CountryType> = [
   },
   {
     i18n: {
-      en: 'Saint Barthelemy',
-      nb: 'Saint Barthelemy',
+      en: 'Saint-Barthélemy',
+      nb: 'Saint-Barthélemy',
     },
     cdc: '590',
     iso: 'BL',
@@ -1719,8 +1719,8 @@ const countries: Array<CountryType> = [
   },
   {
     i18n: {
-      en: 'Saint Helena',
-      nb: 'Saint Helena',
+      en: 'Saint Helena, Ascension and Tristan da Cunha',
+      nb: 'Saint Helena, Ascension og Tristan da Cunha',
     },
     cdc: '290',
     iso: 'SH',
@@ -1746,8 +1746,8 @@ const countries: Array<CountryType> = [
   },
   {
     i18n: {
-      en: 'Saint Martin',
-      nb: 'Saint Martin',
+      en: 'Saint-Martin (FR)',
+      nb: 'Saint-Martin (FR)',
     },
     cdc: '590',
     iso: 'MF',
@@ -1854,8 +1854,8 @@ const countries: Array<CountryType> = [
   },
   {
     i18n: {
-      en: 'Sint Maarten',
-      nb: 'Sint Maarten',
+      en: 'Sint Maarten (NL)',
+      nb: 'Sint Maarten (NL)',
     },
     cdc: '1-721',
     iso: 'SX',
@@ -2125,8 +2125,8 @@ const countries: Array<CountryType> = [
   },
   {
     i18n: {
-      en: 'U.S. Virgin Islands',
-      nb: 'De amerikanske Jomfruøyene',
+      en: 'Virgin Islands (U.S)',
+      nb: 'De amerikanske Jomfruøyer',
     },
     cdc: '1-340',
     iso: 'VI',
@@ -2161,8 +2161,8 @@ const countries: Array<CountryType> = [
   },
   {
     i18n: {
-      en: 'United Kingdom',
-      nb: 'Storbritannia',
+      en: 'United Kingdom of Great Britain and Northern Ireland',
+      nb: 'Storbritannia og Nord-Irland',
     },
     cdc: '44',
     iso: 'GB',
@@ -2170,7 +2170,7 @@ const countries: Array<CountryType> = [
   },
   {
     i18n: {
-      en: 'United States',
+      en: 'United States of America',
       nb: 'USA',
     },
     cdc: '1',
