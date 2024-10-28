@@ -100,6 +100,7 @@ export default function usePath(props: Props = {}) {
     makePath,
     makeIteratePath,
     makeSectionPath,
+    cleanPath,
   }
 }
 

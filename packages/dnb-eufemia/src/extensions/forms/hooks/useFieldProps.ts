@@ -227,11 +227,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   const hasPath = Boolean(pathProp)
   const hasItemPath = Boolean(itemPath)
-  const { path, identifier, makeIteratePath } = usePath({
-    id,
-    path: pathProp,
-    itemPath,
-  })
+  const { path, identifier, makeIteratePath, joinPath, cleanPath } =
+    usePath({
+      id,
+      path: pathProp,
+      itemPath,
+    })
 
   const defaultValueRef = useRef(defaultValue)
   useLayoutEffect(() => {
@@ -264,34 +265,55 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       return requiredProp
     }
 
-    const paths = identifier.split('/')
-    if (paths.length > 0 && (schema || dataContext?.schema)) {
-      const requiredList = [schema?.['required']]
+    if (schema || dataContext?.schema) {
+      const paths = identifier.split('/')
+      if (paths.length > 0) {
+        const requiredInSchema = [schema?.['required']]
 
-      if (paths.length > 1) {
-        const schema = dataContext.schema
-        const schemaPath = paths.slice(0, -1).join('/properties/')
-        const schemaPart = pointer.has(schema, schemaPath)
-          ? pointer.get(schema, schemaPath)
-          : schema
+        // - Handle context schema
+        if (paths.length > 1) {
+          const schema = dataContext.schema
+          const pathWithoutLast = paths.slice(0, -1).join('/properties/')
+          const schemaPart = pointer.has(schema, pathWithoutLast)
+            ? pointer.get(schema, pathWithoutLast)
+            : schema
 
-        requiredList.push(schemaPart?.['required'])
-      }
+          const requiredSchemaList = schemaPart?.['required']
+          if (Array.isArray(requiredSchemaList)) {
+            const rootPath = pathWithoutLast.replace(/properties\//g, '')
+            const requiredList = requiredSchemaList.map((path) => {
+              path = cleanPath('/' + path)
+              return sectionPath && path.startsWith(sectionPath)
+                ? path
+                : joinPath([sectionPath || rootPath, path])
+            })
+            requiredInSchema.push(requiredList)
+          }
+        }
 
-      if (sectionPath) {
-        paths.push(sectionPath.substring(1))
-      }
-
-      const collected = requiredList.flatMap((v) => v).filter(Boolean)
-      if (
-        paths
+        const collected = requiredInSchema
+          .flatMap((value) => value)
           .filter(Boolean)
-          .some((p) => collected.some((c) => c.includes(p)))
-      ) {
-        return true
+
+        if (
+          collected.filter(Boolean).some((path) => {
+            path = cleanPath('/' + path)
+            return identifier === path || sectionPath === path
+          })
+        ) {
+          return true
+        }
       }
     }
-  }, [requiredProp, identifier, schema, dataContext.schema, sectionPath])
+  }, [
+    cleanPath,
+    dataContext.schema,
+    identifier,
+    joinPath,
+    requiredProp,
+    schema,
+    sectionPath,
+  ])
 
   // Error handling
   // - Should errors received through validation be shown initially. Assume that providing a direct prop to
