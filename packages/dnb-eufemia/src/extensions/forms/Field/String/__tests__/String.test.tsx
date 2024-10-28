@@ -8,8 +8,9 @@ import {
   fireEvent,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Provider } from '../../../../../shared'
-import * as DataContext from '../../../DataContext'
+import SharedProvider from '../../../../../shared/Provider'
+import DataContext from '../../../DataContext/Context'
+import Provider from '../../../DataContext/Provider'
 import { Field, FieldBlock, Form, FormError, Value } from '../../..'
 import sharedGB from '../../../../../shared/locales/en-GB'
 import nbNO from '../../../constants/locales/nb-NO'
@@ -244,7 +245,7 @@ describe('Field.String', () => {
       })
 
       render(
-        <DataContext.Provider
+        <Provider
           onChange={onChangeProvider}
           data={{
             myField: 'xYz',
@@ -256,7 +257,7 @@ describe('Field.String', () => {
             transformOut={transformOut}
             onChange={onChangeField}
           />
-        </DataContext.Provider>
+        </Provider>
       )
 
       const input = document.querySelector('input')
@@ -1239,9 +1240,9 @@ describe('Field.String', () => {
   describe('with data context', () => {
     it('use target path value', () => {
       render(
-        <DataContext.Provider data={{ foo: 'data-context-value' }}>
+        <Provider data={{ foo: 'data-context-value' }}>
           <Field.String path="/foo" />
-        </DataContext.Provider>
+        </Provider>
       )
       expect(
         screen.getByDisplayValue('data-context-value')
@@ -1250,9 +1251,9 @@ describe('Field.String', () => {
 
     it('prioritizes value-prop above data context value when both are given', () => {
       render(
-        <DataContext.Provider data={{ foo: 'data-context-value' }}>
+        <Provider data={{ foo: 'data-context-value' }}>
           <Field.String path="/foo" value="direct-prop" />
-        </DataContext.Provider>
+        </Provider>
       )
       expect(screen.getByDisplayValue('direct-prop')).toBeInTheDocument()
     })
@@ -1262,7 +1263,7 @@ describe('Field.String', () => {
       const dataContextOnPathChange = jest.fn()
       const inputOnChange = jest.fn()
       render(
-        <DataContext.Provider
+        <Provider
           data={{
             foo: 'FOO',
             bar: 'BAAAR',
@@ -1271,7 +1272,7 @@ describe('Field.String', () => {
           onPathChange={dataContextOnPathChange}
         >
           <Field.String path="/foo" onChange={inputOnChange} />
-        </DataContext.Provider>
+        </Provider>
       )
       const input = document.querySelector('input')
       await userEvent.type(input, 'O!')
@@ -1313,9 +1314,9 @@ describe('Field.String', () => {
 
   it('should render characterCounter', async () => {
     const { rerender } = render(
-      <Provider>
+      <SharedProvider>
         <Field.String multiline characterCounter={8} value="foo" />
-      </Provider>
+      </SharedProvider>
     )
 
     const counter = document.querySelector('.dnb-text-counter')
@@ -1331,9 +1332,9 @@ describe('Field.String', () => {
     expect(ariaLive).toHaveTextContent('2 av 8 tegn gjenstår')
 
     rerender(
-      <Provider locale="en-GB">
+      <SharedProvider locale="en-GB">
         <Field.String multiline characterCounter={8} value="foo" />
-      </Provider>
+      </SharedProvider>
     )
 
     expect(counter).toHaveTextContent('2 of 8 characters remaining')
@@ -1343,13 +1344,13 @@ describe('Field.String', () => {
     expect(ariaLive).toHaveTextContent('1 characters over the limit of 8')
 
     rerender(
-      <Provider locale="en-GB">
+      <SharedProvider locale="en-GB">
         <Field.String
           multiline
           characterCounter={{ max: 8, variant: 'up' }}
           value="foo"
         />
-      </Provider>
+      </SharedProvider>
     )
 
     expect(counter).toHaveTextContent(
@@ -1373,6 +1374,44 @@ describe('Field.String', () => {
     expect(ref.current instanceof HTMLInputElement).toBe(true)
     expect(ref.current.id).toBe(id)
     expect(ref.current.tagName).toBe('INPUT')
+  })
+
+  it('should store "displayValue" in data context', async () => {
+    let dataContext = null
+
+    render(
+      <Form.Handler>
+        <Field.String
+          path="/myValue"
+          mask={[/\d/, /\d/, /\d/, ' ', 'kr']}
+          defaultValue="123"
+        />
+        <DataContext.Consumer>
+          {(context) => {
+            dataContext = context
+            return null
+          }}
+        </DataContext.Consumer>
+      </Form.Handler>
+    )
+
+    const input = document.querySelector('input')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myValue': '123 kr',
+    })
+
+    await userEvent.type(input, '{Backspace>2}4')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myValue': '124 kr',
+    })
+
+    await userEvent.type(input, '{Backspace>5}')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myValue': undefined,
+    })
   })
 
   describe('ARIA', () => {
