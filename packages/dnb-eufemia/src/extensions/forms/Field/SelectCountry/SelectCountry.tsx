@@ -112,6 +112,7 @@ function SelectCountry(props: Props) {
     handleBlur,
     handleChange,
     updateValue,
+    setDisplayValue,
     forceUpdate,
     filterCountries,
   } = useFieldProps(preparedProps)
@@ -206,6 +207,13 @@ function SelectCountry(props: Props) {
     },
     [handleChange]
   )
+
+  useMemo(() => {
+    setDisplayValue(
+      props.path,
+      getCountryObjectByIso(value)?.i18n?.[langRef.current]
+    )
+  }, [getCountryObjectByIso, props.path, setDisplayValue, value])
 
   return (
     <FieldBlock
