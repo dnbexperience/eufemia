@@ -17,8 +17,8 @@ import { SpacingProps } from '../../../../shared/types'
 import { FormError } from '../../utils'
 
 export type UploadValue = Array<UploadFile>
-export type Props = FieldHelpProps &
-  Omit<FieldProps<UploadValue, UploadValue | undefined>, 'name'> &
+export type Props = Omit<FieldHelpProps, 'width'> &
+  Omit<FieldProps<UploadValue, UploadValue | undefined>, 'name'|'width'> &
   SpacingProps & {
     width?: Omit<FieldBlockWidth, 'medium' | 'small'>
   } & Pick<

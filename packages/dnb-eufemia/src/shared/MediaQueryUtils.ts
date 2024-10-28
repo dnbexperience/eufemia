@@ -21,11 +21,17 @@ export const defaultBreakpoints: MediaQueryBreakpoints = {
 
 export type MediaQueryCondition =
   | {
-      min?: number | string | MediaQuerySizes
-      max?: number | string | MediaQuerySizes
+      // `(string & {})` lets us both have `string` and `'small' | 'medium'` and so on.
+      // The TypeScript compiler would otherwise expand `'my string' | string` as `string`.
+      // eslint-disable-next-line @typescript-eslint/ban-types
+      min?: number | (string & {}) | MediaQuerySizes
+      // eslint-disable-next-line @typescript-eslint/ban-types
+      max?: number | (string & {}) | MediaQuerySizes
       screen?: boolean
-      minWidth?: number | string | MediaQuerySizes
-      maxWidth?: number | string | MediaQuerySizes
+      // eslint-disable-next-line @typescript-eslint/ban-types
+      minWidth?: number | (string & {}) | MediaQuerySizes
+      // eslint-disable-next-line @typescript-eslint/ban-types
+      maxWidth?: number | (string & {}) | MediaQuerySizes
       orientation?: string
       not?: boolean
       all?: boolean
