@@ -29,7 +29,7 @@
 
   @include fakeBorder(var(--color-emerald-green));
 
-  // // This is just not good – it gives the feeling that its not clickable, as the change is almost not noticeable
+  // // This is just not good – it gives the feeling that it's not clickable, as the change is almost not noticeable
   // @include hover() {
   //   @include fakeBorder(var(--color-sea-green), 0.0625rem);
   // }
