@@ -53,6 +53,19 @@ describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match a top aligned dialog', async () => {
+    const screenshot = await makeScreenshot({
+      selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="dialog-vertical-alignment"] button:first-of-type',
+      simulateAfter: { keypress: 'Escape' },
+      screenshotSelector: '.dnb-modal__content',
+      rootClassName: 'hide-page-content',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match the dialog fullscreen window', async () => {
     const screenshot = await makeScreenshot({
       selector: 'div#dnb-modal-root', // only to make sure we have a valid selector

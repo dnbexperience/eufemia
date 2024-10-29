@@ -740,6 +740,10 @@ html[data-dnb-modal-active] {
   align-items: flex-end;
   justify-content: flex-start;
 }
+.dnb-modal__vertical-alignment--top {
+  padding-top: 5vh;
+  align-items: flex-start;
+}
 .dnb-modal__overlay {
   position: fixed;
   z-index: var(--modal-z-index);

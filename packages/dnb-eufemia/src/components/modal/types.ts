@@ -255,6 +255,11 @@ export interface ModalContentProps {
   container_placement?: 'left' | 'right' | 'top' | 'bottom'
 
   /**
+   * Define the vertical alignment of the container. Can be set to `top` or `center`. Defaults to `center`.
+   */
+  vertical_alignment?: 'top' | 'center'
+
+  /**
    * Give the content wrapper a custom class name (maps to `dnb-modal__content`).
    */
   content_class?: string
