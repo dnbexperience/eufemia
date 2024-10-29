@@ -948,7 +948,7 @@ describe('Form.Section', () => {
       ).toHaveAttribute('aria-required', 'true')
     })
 
-    it('should set "required" for firstName with nested schema', () => {
+    it('should set "required" in schema with section', () => {
       const schema: JSONSchema = {
         type: 'object',
         properties: {
@@ -973,6 +973,96 @@ describe('Form.Section', () => {
       expect(
         document.querySelector('input[name="firstName"]')
       ).toHaveAttribute('aria-required', 'true')
+      expect(
+        document.querySelector('input[name="lastName"]')
+      ).toHaveAttribute('aria-required', 'true')
+    })
+
+    it('should set "required" in schema with section in nested object', () => {
+      const schema: JSONSchema = {
+        type: 'object',
+        properties: {
+          myObject: {
+            type: 'object',
+            properties: {
+              mySection: {
+                type: 'object',
+                properties: {
+                  firstName: {
+                    type: 'string',
+                  },
+                },
+                required: ['firstName'],
+              },
+            },
+          },
+        },
+      }
+
+      render(
+        <Form.Handler schema={schema}>
+          <MySection path="/myObject/mySection" />
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelector('input[name="firstName"]')
+      ).toHaveAttribute('aria-required', 'true')
+      expect(
+        document.querySelector('input[name="lastName"]')
+      ).toHaveAttribute('aria-required', 'true')
+    })
+
+    it('should set "required" in schema with section of the same name', () => {
+      const schema: JSONSchema = {
+        type: 'object',
+        properties: {
+          firstName: {
+            type: 'object',
+            properties: {
+              firstName: {
+                type: 'string',
+              },
+            },
+            required: ['firstName'],
+          },
+        },
+      }
+
+      render(
+        <Form.Handler schema={schema}>
+          <MySection path="/firstName" />
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelector('input[name="firstName"]')
+      ).toHaveAttribute('aria-required', 'true')
+      expect(
+        document.querySelector('input[name="lastName"]')
+      ).toHaveAttribute('aria-required', 'true')
+    })
+
+    it('should not set "required" for field path that matches a schema path', () => {
+      const schema: JSONSchema = {
+        type: 'object',
+        required: ['longPath_with_firstName_inside'],
+        properties: {
+          longPath_with_firstName_inside: {
+            type: 'string',
+          },
+        },
+      }
+
+      render(
+        <Form.Handler schema={schema}>
+          <MySection path="/firstName" />
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelector('input[name="firstName"]')
+      ).not.toHaveAttribute('aria-required')
       expect(
         document.querySelector('input[name="lastName"]')
       ).toHaveAttribute('aria-required', 'true')
