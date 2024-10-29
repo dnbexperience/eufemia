@@ -109,6 +109,11 @@ describe('Decimals format', () => {
         decimals: undefined,
       })
     ).toBe('-1,1234567891234568')
+
+    expect(format(null, { currency: 'non-valid value' })).toBe('null')
+    expect(format(undefined, { currency: 'non-valid value' })).toBe(
+      'undefined'
+    )
   })
 
   describe('rounding', () => {

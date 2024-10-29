@@ -486,7 +486,7 @@ const prepareMinus = (display, locale) => {
  * @returns {string} The aligned output string.
  */
 function alignCurrencySymbol(output, currencyDisplay) {
-  if (currencyDisplay === 'name') {
+  if (output && currencyDisplay === 'name') {
     output = output.replace(/(nor[^\s]+?)\s(\w+)/i, '$2')
   }
   return output
