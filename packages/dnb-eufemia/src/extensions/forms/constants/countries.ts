@@ -2161,7 +2161,7 @@ const countries: Array<CountryType> = [
   },
   {
     i18n: {
-      en: 'United Kingdom of Great Britain and Northern Ireland',
+      en: 'United Kingdom',
       nb: 'Storbritannia og Nord-Irland',
     },
     cdc: '44',
