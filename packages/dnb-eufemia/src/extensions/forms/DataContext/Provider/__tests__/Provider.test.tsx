@@ -4656,8 +4656,8 @@ describe('DataContext.Provider', () => {
     const onSubmit = jest.fn((data, { transformData }) => {
       transformedData = transformData(
         data,
-        ({ value, displayValue, props }) => {
-          return { value, label: props.label, displayValue }
+        ({ value, displayValue, label }) => {
+          return { value, displayValue, label }
         }
       )
     })
@@ -4689,8 +4689,6 @@ describe('DataContext.Provider', () => {
           <Field.Option value="foo" title="Foo Value" />
           <Field.Option value="bar" title="Bar Value" />
         </Field.ArraySelection>
-
-        <Form.SubmitButton />
       </Form.Handler>
     )
 

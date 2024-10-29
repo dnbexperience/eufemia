@@ -1092,6 +1092,8 @@ describe('Iterate.Array', () => {
               { bar: 'bar 1', foo: 'foo 1' },
               { bar: 'bar 2', foo: 'foo 2' },
             ],
+            displayValue: undefined,
+            label: undefined,
             data: {
               myList: [
                 { bar: 'bar 1', foo: 'foo 1' },
@@ -1104,6 +1106,8 @@ describe('Iterate.Array', () => {
           expect(filterDataHandler).toHaveBeenNthCalledWith(2, {
             path: '/myList/0/foo',
             value: 'foo 1',
+            displayValue: undefined,
+            label: undefined,
             data: {
               myList: [
                 { bar: 'bar 1', foo: 'foo 1' },
@@ -1118,6 +1122,8 @@ describe('Iterate.Array', () => {
           expect(filterDataHandler).toHaveBeenNthCalledWith(3, {
             path: '/myList/0/bar',
             value: 'bar 1',
+            displayValue: undefined,
+            label: undefined,
             data: {
               myList: [
                 { bar: 'bar 1', foo: 'foo 1' },
@@ -1132,6 +1138,8 @@ describe('Iterate.Array', () => {
           expect(filterDataHandler).toHaveBeenNthCalledWith(4, {
             path: '/myList/1/foo',
             value: 'foo 2',
+            displayValue: undefined,
+            label: undefined,
             data: {
               myList: [
                 { bar: 'bar 1', foo: 'foo 1' },
@@ -1144,6 +1152,8 @@ describe('Iterate.Array', () => {
           expect(filterDataHandler).toHaveBeenNthCalledWith(5, {
             path: '/myList/1/bar',
             value: 'bar 2',
+            displayValue: undefined,
+            label: undefined,
             data: {
               myList: [
                 { bar: 'bar 1', foo: 'foo 1' },
@@ -1190,6 +1200,8 @@ describe('Iterate.Array', () => {
               { bar: 'bar 1', foo: 'foo 1' },
               { bar: 'bar 2', foo: 'foo 2' },
             ],
+            displayValue: undefined,
+            label: undefined,
             data: {
               myList: [
                 { bar: 'bar 1', foo: 'foo 1' },
@@ -1202,6 +1214,8 @@ describe('Iterate.Array', () => {
           expect(filterDataHandler).toHaveBeenNthCalledWith(7, {
             path: '/myList/0/foo',
             value: 'foo 1',
+            displayValue: undefined,
+            label: undefined,
             data: {
               myList: [
                 { bar: 'bar 1', foo: 'foo 1' },
@@ -1216,6 +1230,8 @@ describe('Iterate.Array', () => {
           expect(filterDataHandler).toHaveBeenNthCalledWith(8, {
             path: '/myList/0/bar',
             value: 'bar 1',
+            displayValue: undefined,
+            label: undefined,
             data: {
               myList: [
                 { bar: 'bar 1', foo: 'foo 1' },
@@ -1230,6 +1246,8 @@ describe('Iterate.Array', () => {
           expect(filterDataHandler).toHaveBeenNthCalledWith(9, {
             path: '/myList/1/foo',
             value: 'foo 2',
+            displayValue: undefined,
+            label: undefined,
             data: {
               myList: [
                 { bar: 'bar 1', foo: 'foo 1' },
@@ -1244,6 +1262,8 @@ describe('Iterate.Array', () => {
           expect(filterDataHandler).toHaveBeenNthCalledWith(10, {
             path: '/myList/1/bar',
             value: 'bar 2',
+            displayValue: undefined,
+            label: undefined,
             data: {
               myList: [
                 { bar: 'bar 1', foo: 'foo 1' },
