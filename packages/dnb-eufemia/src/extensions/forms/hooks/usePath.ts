@@ -17,10 +17,18 @@ export default function usePath(props: Props = {}) {
   const { path: iteratePathProp, index: iterateElementIndex } =
     useContext(IterateItemContext) ?? {}
 
-  if (pathProp && !pathProp.startsWith('/')) {
+  if (
+    pathProp &&
+    typeof pathProp === 'string' &&
+    !pathProp.startsWith('/')
+  ) {
     throw new Error(`path="${pathProp}" must start with a slash`)
   }
-  if (itemPathProp && !itemPathProp.startsWith('/')) {
+  if (
+    itemPathProp &&
+    typeof itemPathProp === 'string' &&
+    !itemPathProp.startsWith('/')
+  ) {
     throw new Error(`itemPath="${itemPathProp}" must start with a slash`)
   }
 

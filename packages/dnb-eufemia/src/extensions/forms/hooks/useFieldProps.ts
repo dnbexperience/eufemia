@@ -302,7 +302,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
 
     if (schema || dataContext?.schema) {
-      const paths = identifier.split('/')
+      const paths = String(identifier).split('/')
       if (paths.length > 0) {
         const requiredInSchema = [schema?.['required']]
 
@@ -2480,7 +2480,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     ...fieldBlockProps,
 
     /** HTML Attributes */
-    name: props.name || props.path?.replace('/', '') || id,
+    name: props.name || String(props.path).replace('/', '') || id,
     autoComplete:
       props.autoComplete ??
       (typeof dataContext.autoComplete === 'boolean'
