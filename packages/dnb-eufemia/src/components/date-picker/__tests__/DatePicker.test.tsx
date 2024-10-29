@@ -648,6 +648,64 @@ describe('DatePicker component', () => {
     await userEvent.click(screen.getByLabelText('onsdag 1. januar 2025'))
   })
 
+  it('should set correct month based date selected with keyboard navigation', async () => {
+    render(<DatePicker range date="2024-10-01" />)
+
+    await userEvent.click(document.querySelector('button.dnb-button'))
+
+    const pickerTitle = document.querySelector(
+      '.dnb-date-picker__calendar .dnb-date-picker__header__title'
+    )
+
+    expect(pickerTitle).toHaveTextContent('oktober 2024')
+
+    await userEvent.keyboard('{ArrowLeft}')
+
+    expect(pickerTitle).toHaveTextContent('september 2024')
+
+    await userEvent.keyboard('{ArrowRight>32}')
+
+    expect(pickerTitle).toHaveTextContent('november 2024')
+  })
+
+  it('should set correct month based date selected with keyboard navigation in range mode', async () => {
+    render(
+      <DatePicker range start_date="2024-10-01" end_date="2024-10-02" />
+    )
+
+    await userEvent.click(document.querySelector('button.dnb-button'))
+
+    const [leftPickerTitle, rightPickerTitle] = Array.from(
+      document.querySelectorAll(
+        '.dnb-date-picker__calendar .dnb-date-picker__header__title'
+      )
+    )
+
+    expect(leftPickerTitle).toHaveTextContent('oktober 2024')
+    expect(rightPickerTitle).toHaveTextContent('oktober 2024')
+
+    await userEvent.keyboard('{ArrowLeft}')
+
+    expect(leftPickerTitle).toHaveTextContent('september 2024')
+    expect(rightPickerTitle).toHaveTextContent('oktober 2024')
+
+    await userEvent.keyboard('{ArrowRight>32}')
+
+    expect(leftPickerTitle).toHaveTextContent('november 2024')
+    expect(rightPickerTitle).toHaveTextContent('oktober 2024')
+
+    // Tab to right picker and navigate to december
+    await userEvent.keyboard('{Tab>3}{ArrowRight>62}')
+
+    expect(leftPickerTitle).toHaveTextContent('november 2024')
+    expect(rightPickerTitle).toHaveTextContent('desember 2024')
+
+    await userEvent.keyboard('{ArrowLeft>70}')
+
+    expect(leftPickerTitle).toHaveTextContent('november 2024')
+    expect(rightPickerTitle).toHaveTextContent('september 2024')
+  })
+
   it('has a reacting start date input with valid value', () => {
     const { rerender } = render(<DatePicker {...defaultProps} />)
     const elem = document.querySelectorAll(
