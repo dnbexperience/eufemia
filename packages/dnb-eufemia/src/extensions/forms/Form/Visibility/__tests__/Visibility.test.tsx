@@ -748,7 +748,7 @@ describe('Visibility', () => {
 
       render(
         <Form.Handler defaultData={{ isVisible: false }}>
-          <Field.Boolean path="/isVisible" />
+          <Field.Boolean label="Label" path="/isVisible" />
 
           <Form.Visibility
             pathTrue="/isVisible"
@@ -774,6 +774,8 @@ describe('Visibility', () => {
       expect(filterDataHandler).toHaveBeenLastCalledWith({
         path: '/isVisible',
         value: false,
+        displayValue: 'Nei',
+        label: 'Label',
         data: {
           isVisible: false,
         },
@@ -794,6 +796,8 @@ describe('Visibility', () => {
       expect(filterDataHandler).toHaveBeenLastCalledWith({
         path: '/isVisible',
         value: true,
+        displayValue: 'Ja',
+        label: 'Label',
         data: {
           isVisible: true,
         },

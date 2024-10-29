@@ -1493,6 +1493,19 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     changedRef.current = state
   }
 
+  const setDisplayValue = useCallback(
+    (path: Identifier, content: React.ReactNode) => {
+      if (!path || !fieldDisplayValueRef?.current) {
+        return // stop here
+      }
+      fieldDisplayValueRef.current[path] =
+        valueRef.current === (emptyValue as unknown as Value)
+          ? undefined
+          : content
+    },
+    [emptyValue, fieldDisplayValueRef]
+  )
+
   const handleChange = useCallback(
     async (
       argFromInput: Value | unknown,
@@ -1589,19 +1602,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   // Put props into the surrounding data context as early as possible
   setFieldPropsDataContext?.(identifier, props)
-
-  const setDisplayValue = useCallback(
-    (path: Identifier, content: React.ReactNode) => {
-      if (!path || !fieldDisplayValueRef?.current) {
-        return // stop here
-      }
-      fieldDisplayValueRef.current[path] =
-        valueRef.current === (emptyValue as unknown as Value)
-          ? undefined
-          : content
-    },
-    [emptyValue, fieldDisplayValueRef]
-  )
 
   const { activeIndex, activeIndexRef } = wizardContext || {}
   const activeIndexTmpRef = useRef(activeIndex)

@@ -115,6 +115,16 @@ describe('Form.Section', () => {
             "Field.errorPattern": "Kun bokstaver og tegn som bindestrek og mellomrom er tillatt.",
             "Field.errorRequired": "Du må fylle inn fornavn.",
           },
+          "innerRef": {
+            "current": <input
+              autocomplete="given-name"
+              class="dnb-input__input"
+              id="id-r14"
+              name="firstName"
+              type="text"
+              value=""
+            />,
+          },
           "label": "Fornavn",
           "path": "/firstName",
           "pattern": "^(?!.*[\\-\\s]{2})[\\p{L}]+([ \\-][\\p{L}]+)*$",
@@ -132,6 +142,17 @@ describe('Form.Section', () => {
           "errorMessages": {
             "Field.errorPattern": "Kun bokstaver og tegn som bindestrek og mellomrom er tillatt.",
             "Field.errorRequired": "Du må fylle inn etternavn.",
+          },
+          "innerRef": {
+            "current": <input
+              aria-required="true"
+              autocomplete="family-name"
+              class="dnb-input__input"
+              id="id-r19"
+              name="lastName"
+              type="text"
+              value=""
+            />,
           },
           "label": "Etternavn",
           "minLength": 2,

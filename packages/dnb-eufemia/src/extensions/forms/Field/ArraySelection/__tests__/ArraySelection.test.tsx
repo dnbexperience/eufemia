@@ -347,7 +347,7 @@ describe('ArraySelection', () => {
       )
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
-        '/mySelection': [],
+        '/mySelection': undefined,
       })
 
       await userEvent.tab()
@@ -377,7 +377,7 @@ describe('ArraySelection', () => {
       await userEvent.keyboard('{Enter}')
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
-        '/mySelection': [],
+        '/mySelection': undefined,
       })
     })
 
@@ -742,7 +742,7 @@ describe('ArraySelection', () => {
         )
 
         expect(dataContext.fieldDisplayValueRef.current).toEqual({
-          '/mySelection': [],
+          '/mySelection': undefined,
         })
 
         await userEvent.tab()
@@ -772,7 +772,7 @@ describe('ArraySelection', () => {
         await userEvent.keyboard('{Enter}')
 
         expect(dataContext.fieldDisplayValueRef.current).toEqual({
-          '/mySelection': [],
+          '/mySelection': undefined,
         })
       })
 

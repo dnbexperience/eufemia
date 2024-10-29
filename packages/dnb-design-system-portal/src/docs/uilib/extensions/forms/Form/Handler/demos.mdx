@@ -99,6 +99,6 @@ In this example we filter out all fields that are disabled.
 
 You can use the `transformData` method from the `onSubmit` event callback to transform the data before sending it to your server.
 
-It's possible to use the `transformOut` on the Form.Handler method to achieve the same. But performance wise, it's better to use the `transformData` method.
+It's possible to use the `transformOut` on the Form.Handler method to achieve the same. But performance wise, it's better to use the `transformData` method. This is because `transformOut` on the Form.Handler method will execute for every change, while `transformData` method from the `onSubmit` event callback only executes when submitting the form.
 
 <Examples.TransformData />

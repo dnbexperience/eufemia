@@ -598,6 +598,8 @@ describe('DataContext.Provider', () => {
         expect(filterDataHandler).toHaveBeenNthCalledWith(1, {
           path: '/foo',
           value: 'Include this value',
+          displayValue: 'Include this value',
+          label: undefined,
           data: {
             bar: 'bar',
             foo: 'Include this value',
@@ -612,6 +614,8 @@ describe('DataContext.Provider', () => {
         expect(filterDataHandler).toHaveBeenNthCalledWith(2, {
           path: '/bar',
           value: 'bar',
+          displayValue: 'bar',
+          label: undefined,
           data: {
             bar: 'bar',
             foo: 'Include this value',
@@ -652,6 +656,8 @@ describe('DataContext.Provider', () => {
         expect(filterDataHandler).toHaveBeenNthCalledWith(3, {
           path: '/foo',
           value: 'Skip this value',
+          displayValue: 'Skip this value',
+          label: undefined,
           data: {
             bar: 'bar value',
             foo: 'Skip this value',
@@ -666,6 +672,8 @@ describe('DataContext.Provider', () => {
         expect(filterDataHandler).toHaveBeenNthCalledWith(4, {
           path: '/bar',
           value: 'bar value',
+          displayValue: 'bar value',
+          label: undefined,
           data: {
             bar: 'bar value',
             foo: 'Skip this value',
@@ -3320,6 +3328,8 @@ describe('DataContext.Provider', () => {
     expect(filterDataHandler).toHaveBeenLastCalledWith({
       path: '/myField',
       value: 'foo',
+      displayValue: 'foo',
+      label: undefined,
       data: {
         myField: 'foo',
       },
@@ -3349,6 +3359,8 @@ describe('DataContext.Provider', () => {
     expect(filterDataHandler).toHaveBeenLastCalledWith({
       path: '/myField',
       value: 'bar',
+      displayValue: 'bar',
+      label: undefined,
       data: {
         myField: 'bar',
       },
@@ -4092,6 +4104,8 @@ describe('DataContext.Provider', () => {
       expect(filterDataHandler).toHaveBeenLastCalledWith({
         path: '/myField',
         value: 'foo',
+        displayValue: 'foo',
+        label: undefined,
         data: {
           myField: 'foo',
         },
@@ -4134,6 +4148,8 @@ describe('DataContext.Provider', () => {
       expect(filterDataHandler).toHaveBeenLastCalledWith({
         path: '/myField',
         value: 'bar',
+        displayValue: 'bar',
+        label: undefined,
         data: {
           myField: 'bar',
         },
@@ -4162,6 +4178,8 @@ describe('DataContext.Provider', () => {
       expect(filterDataHandler).toHaveBeenLastCalledWith({
         path: '/myField',
         value: 'bar',
+        displayValue: 'bar',
+        label: undefined,
         data: {
           myField: 'bar',
         },
@@ -4575,7 +4593,7 @@ describe('DataContext.Provider', () => {
         stringField: {
           value: 'bar',
           label: 'String label',
-          displayValue: undefined,
+          displayValue: 'foo', // is not a part of the current render cycle
         },
         selectionField: {
           value: 'foo',
@@ -4598,7 +4616,7 @@ describe('DataContext.Provider', () => {
         stringField: {
           value: 'bar',
           label: 'String label',
-          displayValue: undefined,
+          displayValue: 'bar', // now its updated
         },
         selectionField: {
           value: 'bar',
@@ -4619,23 +4637,13 @@ describe('DataContext.Provider', () => {
         stringField: {
           value: 'bar 2',
           label: 'String label',
-          displayValue: undefined,
+          displayValue: 'bar', // is not a part of the current render cycle
         },
         selectionField: {
           value: 'bar',
           label: 'Selection label',
           displayValue: 'Bar Value',
         },
-        // arraySelectionField: {
-        //   displayValue: ['Foo Value'],
-        //   label: 'ArraySelection label',
-        //   value: ['foo'],
-        // },
-        // arraySelectionField: {
-        //   displayValue: ['Bar Value'],
-        //   label: 'ArraySelection label',
-        //   value: ['bar'],
-        // },
       },
       {
         filterData: expect.any(Function),
@@ -4696,7 +4704,7 @@ describe('DataContext.Provider', () => {
       stringField: {
         value: 'bar',
         label: 'String label',
-        displayValue: undefined,
+        displayValue: 'bar',
       },
       selectionField: {
         value: 'foo',
@@ -4721,7 +4729,7 @@ describe('DataContext.Provider', () => {
       stringField: {
         value: 'bar',
         label: 'String label',
-        displayValue: undefined,
+        displayValue: 'bar',
       },
       selectionField: {
         value: 'bar',
@@ -4746,7 +4754,7 @@ describe('DataContext.Provider', () => {
       stringField: {
         value: 'bar',
         label: 'String label',
-        displayValue: undefined,
+        displayValue: 'bar',
       },
       selectionField: {
         value: 'bar',

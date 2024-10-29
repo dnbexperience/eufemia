@@ -102,6 +102,15 @@ describe('Tools.GenerateSchema', () => {
     expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
       {
         "myField": {
+          "innerRef": {
+            "current": <input
+              class="dnb-input__input"
+              id="id-rj"
+              name="myField"
+              type="text"
+              value=""
+            />,
+          },
           "label": "My field",
           "path": "/myField",
           "schema": {
@@ -114,6 +123,16 @@ describe('Tools.GenerateSchema', () => {
         },
         "nested": {
           "myString": {
+            "innerRef": {
+              "current": <input
+                aria-required="true"
+                class="dnb-input__input"
+                id="id-ro"
+                name="nested/myString"
+                type="text"
+                value="my string"
+              />,
+            },
             "minLength": 2,
             "path": "/nested/myString",
             "required": true,
@@ -145,6 +164,16 @@ describe('Tools.GenerateSchema', () => {
     expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
       {
         "myField": {
+          "innerRef": {
+            "current": <input
+              aria-required="true"
+              class="dnb-input__input"
+              id="id-rj"
+              name="myString"
+              type="text"
+              value="local value"
+            />,
+          },
           "label": "My field",
           "path": "/myField",
           "schema": {
@@ -156,6 +185,16 @@ describe('Tools.GenerateSchema', () => {
           "width": "large",
         },
         "myString": {
+          "innerRef": {
+            "current": <input
+              aria-required="true"
+              class="dnb-input__input"
+              id="id-rj"
+              name="myString"
+              type="text"
+              value="local value"
+            />,
+          },
           "minLength": 2,
           "path": "/myString",
           "required": true,
@@ -170,6 +209,9 @@ describe('Tools.GenerateSchema', () => {
         },
         "nested": {
           "myString": {
+            "innerRef": {
+              "current": null,
+            },
             "minLength": 2,
             "path": "/nested/myString",
             "required": true,
