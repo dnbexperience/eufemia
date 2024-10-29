@@ -318,7 +318,7 @@ const countries: Array<CountryType> = [
   },
   {
     i18n: {
-      en: 'Virgin Islands (British)',
+      en: 'British Virgin Islands',
       nb: 'De britiske Jomfruøyer',
     },
     cdc: '1-284',
