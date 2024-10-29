@@ -2170,7 +2170,7 @@ const countries: Array<CountryType> = [
   },
   {
     i18n: {
-      en: 'United States of America',
+      en: 'United States',
       nb: 'USA',
     },
     cdc: '1',
