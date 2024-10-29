@@ -601,7 +601,7 @@ export type OnSubmitParams = {
     options?: VisibleDataOptions
   ) => Partial<JsonObject>
 
-  /** Will call the given function for each data path. The returned value will be used as the new value. */
+  /** Will call the given function for each data path. The returned `value` will replace each data entry. It's up to you to define the shape of the value. */
   transformData: (
     data: JsonObject,
     handler: TransformData

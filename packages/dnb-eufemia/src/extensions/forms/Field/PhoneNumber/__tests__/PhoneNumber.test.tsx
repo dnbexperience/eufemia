@@ -1158,7 +1158,7 @@ describe('Field.PhoneNumber', () => {
       '/myValue': '+47 12 3​ ​​ ​​',
     })
 
-    // Open lie user would do, but without a delay
+    // Open like user would do, but without a delay
     DrawerListProvider['blurDelay'] = 0
     await userEvent.type(countryCode, '{Backspace>12}45')
     await userEvent.keyboard('{Enter}')

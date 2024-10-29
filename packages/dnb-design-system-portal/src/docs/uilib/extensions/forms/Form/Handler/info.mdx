@@ -185,7 +185,7 @@ The `onSubmit` event returns additional functions you can call:
 
 - `filterData` Filters the given/internal data set.
 - `reduceToVisibleFields` Reduces the given data set to only contain the visible fields (mounted fields).
-- `transformData` Will call the given function for each data path. The returned value will be used as the new value.
+- `transformData` Will call the given function for each data path. The returned `value` will replace each data entry. It's up to you to define the shape of the value.
 - `resetForm` Deletes `sessionStorage` and browser stored autocomplete data.
 - `clearData` Empties the given/internal data set.
 
@@ -233,7 +233,7 @@ const MyForm = () => {
 
 #### `transformData`
 
-The `transformData` function will call the given function for each data path. The returned value will be used as the new value.
+The `transformData` function will call the given function for each data path. The returned `value` will replace each data entry. It's up to you to define the shape of the value.
 
 The callback function receives the following arguments as an object:
 
@@ -244,7 +244,7 @@ The callback function receives the following arguments as an object:
 - `props` The given field properties.
 - `internal` The `internal` parameter contains `{ error: Error | undefined }` you can utilize if needed.
 
-**displayValue** will be `undefined` for most fields.
+**displayValue** can be `undefined` if a filed does not support it, or it's value is not set (`emptyValue`).
 
 - It will return the displayed/active option content for [Selection](/uilib/extensions/forms/base-fields/Selection/) fields as a string (or React.ReactNode).
 - It will return the displayed/active options content for [ArraySelection](/uilib/extensions/forms/base-fields/ArraySelection/) fields as an array that contains a string (or React.ReactNode).

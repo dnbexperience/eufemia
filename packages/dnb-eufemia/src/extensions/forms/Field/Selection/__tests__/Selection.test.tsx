@@ -1132,7 +1132,7 @@ describe('variants', () => {
         '/mySelection': 'Foo!',
       })
 
-      // Open lie user would do, but without a delay
+      // Open like user would do, but without a delay
       DrawerListProvider['blurDelay'] = 0
       await userEvent.tab()
       await userEvent.keyboard('{Enter}')
@@ -1500,7 +1500,7 @@ describe('variants', () => {
         '/mySelection': 'Foo!',
       })
 
-      // Open lie user would do, but without a delay
+      // Open like user would do, but without a delay
       DrawerListProvider['blurDelay'] = 0
       await userEvent.tab()
       await userEvent.keyboard('{Enter}')
