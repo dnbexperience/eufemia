@@ -1,6 +1,6 @@
 import React from 'react'
 import { act, fireEvent, render } from '@testing-library/react'
-import { Field, Form } from '../../..'
+import { DataContext, Field, Form } from '../../..'
 import userEvent from '@testing-library/user-event'
 
 import nbNO from '../../../constants/locales/nb-NO'
@@ -69,6 +69,40 @@ describe('Field.Slider', () => {
       simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
       expect(input).toHaveValue('820')
+    })
+
+    it('should store "displayValue" in data context', async () => {
+      let dataContext = null
+
+      render(
+        <Form.Handler
+          data={{ myValue: 400, minValue: 100, maxValue: 1000 }}
+        >
+          <Field.Slider
+            path="/myValue"
+            min="/minValue"
+            max="/maxValue"
+            numberFormat={{ currency: 'EUR' }}
+          />
+          <DataContext.Consumer>
+            {(context) => {
+              dataContext = context
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        '/myValue': '400,00 €',
+      })
+
+      await userEvent.keyboard('{Tab>3}')
+      await userEvent.type(document.activeElement, '{ArrowRight}')
+
+      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        '/myValue': '401,00 €',
+      })
     })
 
     it('should use step value from path', () => {
