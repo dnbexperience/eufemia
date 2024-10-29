@@ -103,7 +103,7 @@ const countries: Array<CountryType> = [
   {
     i18n: {
       en: 'Antarctica',
-      nb: 'Antarktika',
+      nb: 'Antarktis',
     },
     cdc: '672',
     iso: 'AQ',
