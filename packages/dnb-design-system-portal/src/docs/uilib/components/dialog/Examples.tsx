@@ -58,7 +58,7 @@ export const DialogExampleHelpButton = () => (
 export const DialogExampleVerticalAlignment = () => (
   <ComponentBox data-visual-test="dialog-vertical-alignment">
     <Dialog
-      title="Vertical alignment"
+      title="Vertical alignment top"
       verticalAlignment="top"
       triggerAttributes={{
         text: 'Vertical alignment',
