@@ -12,7 +12,7 @@ import {
   GetReturnObjectParams,
   ReturnObject,
 } from './DatePickerProvider'
-import { DatePickerInitialDates, DatePickerDates } from './hooks/useDates'
+import { DatePickerDateProps, DatePickerDates } from './hooks/useDates'
 import { CalendarView } from './hooks/useViews'
 
 export type DatePickerContextValues = ContextProps &
@@ -30,7 +30,7 @@ export type DatePickerContextValues = ContextProps &
     setViews: (views: Array<CalendarView>, callback?: () => void) => void
     callOnChangeHandler: <E>(event: DatePickerChangeEvent<E>) => void
     hidePicker: (event: DisplayPickerEvent) => void
-    previousDates: DatePickerInitialDates
+    previousDates: DatePickerDateProps
     getReturnObject: <E>(
       params: GetReturnObjectParams<E>
     ) => ReturnObject<E>

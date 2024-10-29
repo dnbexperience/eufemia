@@ -6,7 +6,7 @@ import format from 'date-fns/format'
 import { addMonths } from 'date-fns'
 import useViews, { CalendarView } from './useViews'
 
-export type DatePickerInitialDates = {
+export type DatePickerDateProps = {
   date?: Date | string
   startDate?: Date | string
   endDate?: Date | string
@@ -48,7 +48,7 @@ export type DatePickerDates = {
 } & DatePickerInputDates
 
 export default function useDates(
-  initialDates: DatePickerInitialDates,
+  dateProps: DatePickerDateProps,
   {
     dateFormat,
     isRange = false,
@@ -56,13 +56,13 @@ export default function useDates(
     shouldCorrectDate = false,
   }: UseDatesOptions
 ) {
-  const previousDates = usePreviousValue(initialDates)
+  const previousDates = usePreviousValue(dateProps)
   const [dates, setDates] = useState<DatePickerDates>({
     date:
-      previousDates.date !== initialDates.date
-        ? initialDates.date
+      previousDates.date !== dateProps.date
+        ? dateProps.date
         : previousDates.date,
-    ...mapDates(initialDates, {
+    ...mapDates(dateProps, {
       dateFormat,
       isRange,
       shouldCorrectDate,
@@ -129,14 +129,17 @@ export default function useDates(
 
   // Update dates on prop change
   useEffect(() => {
-    const hasDatePropsChanged = Object.keys(initialDates).some((date) => {
-      return initialDates[date] !== previousDates[date]
+    const hasDatePropsChanged = Object.keys(dateProps).some((date) => {
+      return dateProps[date] !== previousDates[date]
     })
 
     if (hasDatePropsChanged) {
       updateDates({
-        date: initialDates.date,
-        ...mapDates(initialDates, {
+        date:
+          previousDates.date !== dateProps.date
+            ? dateProps.date
+            : previousDates.date,
+        ...mapDates(dateProps, {
           dateFormat,
           isRange,
           shouldCorrectDate,
@@ -144,7 +147,7 @@ export default function useDates(
       })
     }
   }, [
-    initialDates,
+    dateProps,
     previousDates,
     updateDates,
     dateFormat,
@@ -199,7 +202,7 @@ function updateInputDates(type: 'start' | 'end', dates: DatePickerDates) {
 }
 
 function mapDates(
-  initialDates: DatePickerInitialDates,
+  dateProps: DatePickerDateProps,
   {
     dateFormat,
     isRange,
@@ -207,38 +210,38 @@ function mapDates(
   }: Omit<UseDatesOptions, 'isLinked'>
 ) {
   const startDate =
-    typeof initialDates?.startDate !== 'undefined'
-      ? getDate(initialDates.startDate, dateFormat)
-      : typeof initialDates?.date !== 'undefined'
-      ? getDate(initialDates.date, dateFormat)
+    typeof dateProps?.startDate !== 'undefined'
+      ? getDate(dateProps.startDate, dateFormat)
+      : typeof dateProps?.date !== 'undefined'
+      ? getDate(dateProps.date, dateFormat)
       : undefined
 
   const endDate = !isRange
     ? startDate
-    : convertStringToDate(initialDates?.endDate, {
+    : convertStringToDate(dateProps?.endDate, {
         date_format: dateFormat,
       }) || undefined
 
   // Ensure that the calendar view displays the correct start and end months, and to prevent date flickering bug
   const startMonth =
-    convertStringToDate(initialDates.startMonth, {
+    convertStringToDate(dateProps.startMonth, {
       date_format: dateFormat,
     }) ??
     startDate ??
     new Date()
 
   const endMonth =
-    convertStringToDate(initialDates.endMonth, {
+    convertStringToDate(dateProps.endMonth, {
       date_format: dateFormat,
     }) ?? !isRange
       ? startMonth
       : endDate ?? addMonths(startMonth, 1)
 
-  const minDate = convertStringToDate(initialDates.minDate, {
+  const minDate = convertStringToDate(dateProps.minDate, {
     date_format: dateFormat,
   })
 
-  const maxDate = convertStringToDate(initialDates.maxDate, {
+  const maxDate = convertStringToDate(dateProps.maxDate, {
     date_format: dateFormat,
   })
 
