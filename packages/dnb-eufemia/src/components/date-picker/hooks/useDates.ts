@@ -58,11 +58,7 @@ export default function useDates(
 ) {
   const previousDates = usePreviousValue(dateProps)
   const [dates, setDates] = useState<DatePickerDates>({
-    date:
-      previousDates.date !== dateProps.date
-        ? dateProps.date
-        : previousDates.date,
-    ...mapDates(dateProps, {
+    ...mapDates(dateProps, previousDates, {
       dateFormat,
       isRange,
       shouldCorrectDate,
@@ -135,11 +131,7 @@ export default function useDates(
 
     if (hasDatePropsChanged) {
       updateDates({
-        date:
-          previousDates.date !== dateProps.date
-            ? dateProps.date
-            : previousDates.date,
-        ...mapDates(dateProps, {
+        ...mapDates(dateProps, previousDates, {
           dateFormat,
           isRange,
           shouldCorrectDate,
@@ -203,17 +195,23 @@ function updateInputDates(type: 'start' | 'end', dates: DatePickerDates) {
 
 function mapDates(
   dateProps: DatePickerDateProps,
+  previousDates: DatePickerDateProps,
   {
     dateFormat,
     isRange,
     shouldCorrectDate,
   }: Omit<UseDatesOptions, 'isLinked'>
 ) {
+  const date =
+    previousDates.date !== dateProps.date
+      ? dateProps.date
+      : previousDates.date
+
   const startDate =
     typeof dateProps?.startDate !== 'undefined'
       ? getDate(dateProps.startDate, dateFormat)
-      : typeof dateProps?.date !== 'undefined'
-      ? getDate(dateProps.date, dateFormat)
+      : typeof date !== 'undefined'
+      ? getDate(date, dateFormat)
       : undefined
 
   const endDate = !isRange
