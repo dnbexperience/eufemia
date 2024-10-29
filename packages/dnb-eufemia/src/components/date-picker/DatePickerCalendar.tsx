@@ -430,15 +430,19 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         }
       }
 
-      updateDates(dates, () => {
-        // call after state update, so the input get's the latest state as well
-        callOnSelect({
-          event,
-          nr,
-          hidePicker: false,
-          ...dates,
-        })
-      })
+      updateDates(
+        dates,
+        () => {
+          // call after state update, so the input get's the latest state as well
+          callOnSelect({
+            event,
+            nr,
+            hidePicker: false,
+            ...dates,
+          })
+        },
+        true
+      )
 
       // and set the focus back again
       if (listRef && listRef.current) {

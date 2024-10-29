@@ -78,11 +78,12 @@ export default function useDates(
 
   const hasHadValidDate = useRef<boolean>(false)
 
+  // TODO: Update parameter to be an object, to improve readability
   const updateDates = useCallback(
     (
       newDates: DatePickerDates,
       callback?: (dates: DatePickerDates) => void,
-      isTriggeredByShortcut?: boolean
+      forceMonthChange?: boolean
     ) => {
       // Correct dates based on min and max date
       const correctedDates = shouldCorrectDate
@@ -101,7 +102,7 @@ export default function useDates(
         currentDates: dates,
         views,
         isRange,
-        isTriggeredByShortcut,
+        forceMonthChange,
       })
 
       setDates((currentDates) => {
@@ -315,20 +316,20 @@ function updateMonths({
   currentDates,
   views,
   isRange,
-  isTriggeredByShortcut,
+  forceMonthChange,
 }: {
   newDates: DatePickerDates
   currentDates: DatePickerDates
   views: Array<CalendarView>
   isRange: boolean
-  isTriggeredByShortcut: boolean
+  forceMonthChange: boolean
 }) {
   let startMonth = newDates.startMonth ?? newDates.startDate
   let endMonth = newDates.endMonth ?? newDates.endDate
   const [startView, endView] = views
 
   // Make sure start and end months are synced up with calendar in range mode, and prevent both pickers showing the same month if start and end date are selected to be the same
-  if (isRange && !isTriggeredByShortcut) {
+  if (isRange && !forceMonthChange) {
     // If start and end date is the same day, but changed from the previous selected months
     startMonth = startView?.month
     endMonth = endView?.month
