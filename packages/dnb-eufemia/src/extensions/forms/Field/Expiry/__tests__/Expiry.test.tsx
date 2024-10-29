@@ -2,7 +2,7 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { act, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Field, FieldBlock } from '../../..'
+import { DataContext, Field, FieldBlock, Form } from '../../..'
 
 describe('Field.Expiry', () => {
   beforeEach(() => {
@@ -303,6 +303,33 @@ describe('Field.Expiry', () => {
         'dnb-input__status--error'
       )
       expect(formStatusText).not.toBeInTheDocument()
+    })
+  })
+
+  it('should store "displayValue" in data context', async () => {
+    let dataContext = null
+
+    render(
+      <Form.Handler>
+        <Field.Expiry defaultValue="0835" path="/myValue" />
+        <DataContext.Consumer>
+          {(context) => {
+            dataContext = context
+            return null
+          }}
+        </DataContext.Consumer>
+      </Form.Handler>
+    )
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myValue': '08/35',
+    })
+
+    await userEvent.tab()
+    await userEvent.keyboard('1236')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myValue': '12/36',
     })
   })
 
