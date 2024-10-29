@@ -51,14 +51,8 @@ const monthHandlers: {
 function DatePickerRange(props: DatePickerRangeProps) {
   // Destructured to prevent useCallback from updating on all prop or context changes
   const { onChange, isRange, isLink } = props
-  const {
-    views,
-    setViews,
-    updateDates,
-    callOnChangeHandler,
-    startDate,
-    endDate,
-  } = useContext(DatePickerContext)
+  const { views, setViews, updateDates, callOnChangeHandler } =
+    useContext(DatePickerContext)
 
   const onNav = useCallback(
     ({ nr, type }: CalendarNavigationEvent) => {
@@ -81,18 +75,19 @@ function DatePickerRange(props: DatePickerRangeProps) {
       event: DatePickerChangeEvent<
         | React.MouseEvent<HTMLSpanElement>
         | React.KeyboardEvent<HTMLTableElement>
-      >
+      > &
+        DatePickerDates
     ) => {
       callOnChangeHandler(event)
 
       onChange?.({
         hidePicker: !isRange,
-        startDate: startDate,
-        endDate: endDate,
+        startDate: event.startDate,
+        endDate: event.endDate,
         ...event,
       })
     },
-    [endDate, startDate, isRange, onChange, callOnChangeHandler]
+    [isRange, onChange, callOnChangeHandler]
   )
 
   const onHover = useCallback(

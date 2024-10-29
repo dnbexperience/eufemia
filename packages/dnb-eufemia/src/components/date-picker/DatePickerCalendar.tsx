@@ -46,6 +46,7 @@ import DatePickerContext from './DatePickerContext'
 import { useTranslation } from '../../shared'
 import { InternalLocale } from '../../shared/Context'
 import { DatePickerChangeEvent } from './DatePickerProvider'
+import { DatePickerDates } from './hooks/useDates'
 
 export type CalendarDay = {
   date: Date
@@ -221,7 +222,8 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       event: DatePickerChangeEvent<
         | React.MouseEvent<HTMLSpanElement>
         | React.KeyboardEvent<HTMLTableElement>
-      >
+      > &
+        DatePickerDates
     ) => {
       onSelect?.(event)
     },
@@ -434,6 +436,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
           event,
           nr,
           hidePicker: false,
+          ...dates,
         })
       })
 
