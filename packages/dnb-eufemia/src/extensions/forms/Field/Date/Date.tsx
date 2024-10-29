@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useContext, useMemo } from 'react'
 import { DatePicker, HelpButton } from '../../../../components'
 import { useFieldProps } from '../../hooks'
 import {
@@ -9,9 +9,11 @@ import {
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import classnames from 'classnames'
 import FieldBlock from '../../FieldBlock'
+import SharedContext from '../../../../shared/Context'
 import { parseISO, isValid } from 'date-fns'
 import useTranslation from '../../hooks/useTranslation'
 import { DatePickerEvent } from '../../../../components/DatePicker'
+import { formatDate } from '../../Value/Date'
 
 export type Props = FieldHelpProps &
   FieldProps<string, undefined | string> & {
@@ -27,6 +29,7 @@ export type Props = FieldHelpProps &
 
 function DateComponent(props: Props) {
   const translations = useTranslation()
+  const { locale } = useContext(SharedContext)
 
   const errorMessages = useMemo(() => {
     return {
@@ -72,6 +75,7 @@ function DateComponent(props: Props) {
 
   const {
     id,
+    path,
     className,
     label,
     labelDescription,
@@ -86,6 +90,7 @@ function DateComponent(props: Props) {
     handleFocus,
     handleBlur,
     handleChange,
+    setDisplayValue,
     range,
   } = useFieldProps(preparedProps)
 
@@ -98,6 +103,12 @@ function DateComponent(props: Props) {
 
     return { startDate, endDate }
   }, [range, value])
+
+  useMemo(() => {
+    if (path && value) {
+      setDisplayValue(path, formatDate(value, { locale }))
+    }
+  }, [locale, path, setDisplayValue, value])
 
   return (
     <FieldBlock
