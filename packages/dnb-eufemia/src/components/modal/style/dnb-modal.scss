@@ -74,6 +74,11 @@ html[data-dnb-modal-active] {
     }
   }
 
+  &__vertical-alignment--top {
+    padding-top: 5vh;
+    align-items: flex-start;
+  }
+
   &__overlay {
     position: fixed;
     z-index: var(--modal-z-index);

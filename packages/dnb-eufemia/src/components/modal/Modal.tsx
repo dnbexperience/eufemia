@@ -107,6 +107,7 @@ class Modal extends React.PureComponent<
     max_width: null,
     align_content: 'left',
     container_placement: null,
+    vertical_alignment: null,
     open_state: null,
     direct_dom_return: false,
     root_id: 'root',
@@ -444,6 +445,7 @@ class Modal extends React.PureComponent<
       header_content = null,
       bar_content = null,
       bypass_invalidation_selectors = null,
+      vertical_alignment = 'center',
 
       id, // eslint-disable-line
       open_state, // eslint-disable-line
@@ -526,6 +528,7 @@ class Modal extends React.PureComponent<
               focus_selector={focus_selector}
               modal_content={modal_content}
               header_content={header_content}
+              vertical_alignment={vertical_alignment}
               bar_content={bar_content}
               bypass_invalidation_selectors={bypass_invalidation_selectors}
               close={this.close}

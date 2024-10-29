@@ -126,6 +126,16 @@ describe('Dialog', () => {
     )
   })
 
+  it('will set correct class when verticalAlignment is set to top', () => {
+    render(<Dialog verticalAlignment="top" />)
+
+    fireEvent.click(document.querySelector('button'))
+
+    expect(document.querySelector('.dnb-modal__content')).toHaveClass(
+      'dnb-modal__vertical-alignment--top'
+    )
+  })
+
   it('has to have correct role', () => {
     const { rerender } = render(
       <Dialog {...props} openState={true}>
