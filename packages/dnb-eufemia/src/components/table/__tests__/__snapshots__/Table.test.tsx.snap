@@ -715,15 +715,6 @@ html:not([data-whatinput=keyboard]) .dnb-table__tr--clickable.dnb-table__tr.dnb-
 .dnb-table__tr--clickable.dnb-table__tr--disabled .dnb-table__td__button-icon .dnb-icon {
   color: var(--table-accordion-icon-color--disabled);
 }
-@supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-  .dnb-table__tr__accordion-content[hidden] {
-    /**
-    * By reverting the display from "none" to "block",
-    * we trick VoiceOver to not make this row as the end of the table. We still need "hidden" to get the correct number of rows (childCount).
-    */
-    display: block;
-  }
-}
 .dnb-table__tr__accordion-content__inner {
   overflow: hidden;
   will-change: height;
