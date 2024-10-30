@@ -13,7 +13,7 @@ import countries, {
   type CountryType,
 } from '../../constants/countries'
 import StringField, { Props as StringFieldProps } from '../String'
-import FieldBlock from '../../FieldBlock'
+import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import {
   FieldHelpProps,
@@ -31,10 +31,13 @@ import useTranslation from '../../hooks/useTranslation'
 import { DrawerListDataObject } from '../../../../fragments/DrawerList'
 
 export type Props = FieldHelpProps &
-  FieldPropsWithExtraValue<
-    string,
-    { country: string; phone: string },
-    undefined | string
+  Omit<
+    FieldPropsWithExtraValue<
+      string,
+      { country: string; phone: string },
+      undefined | string
+    >,
+    'layout' | 'layoutOptions'
   > & {
     countryCodeFieldClassName?: string
     numberFieldClassName?: string
@@ -174,6 +177,7 @@ function PhoneNumber(props: Props) {
   }
 
   const {
+    id,
     value,
     className,
     inputRef,
@@ -364,16 +368,16 @@ function PhoneNumber(props: Props) {
 
   const isDefault = countryCodeRef.current?.includes(defaultCountryCode)
 
+  const fieldBlockProps: FieldBlockProps = {
+    id,
+    className: classnames('dnb-forms-field-phone-number', className),
+    width: omitCountryCodeField || props.width ? undefined : width,
+    label: undefined,
+    ...pickSpacingProps(props),
+  }
+
   return (
-    <FieldBlock
-      className={classnames('dnb-forms-field-phone-number', className)}
-      width={omitCountryCodeField ? undefined : width}
-      info={info}
-      warning={warning}
-      error={error}
-      disabled={disabled}
-      {...pickSpacingProps(props)}
-    >
+    <FieldBlock {...fieldBlockProps}>
       <Flex.Horizontal align="flex-end">
         {!omitCountryCodeField && (
           <Autocomplete
@@ -427,7 +431,9 @@ function PhoneNumber(props: Props) {
           warning={warning}
           error={error}
           disabled={disabled}
-          width={omitCountryCodeField ? 'medium' : 'stretch'}
+          width={
+            omitCountryCodeField ? 'medium' : props.width ?? 'stretch'
+          }
           help={help}
           required={required}
           errorMessages={errorMessages}

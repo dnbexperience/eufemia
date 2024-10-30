@@ -4,7 +4,7 @@ showTabs: true
 
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { fieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
 import { BooleanProperties } from '@dnb/eufemia/src/extensions/forms/Field/Boolean/BooleanDocs'
 
 ## Properties
@@ -15,7 +15,11 @@ import { BooleanProperties } from '@dnb/eufemia/src/extensions/forms/Field/Boole
 
 ### General properties
 
-<PropertiesTable props={fieldProperties} valueType="boolean" />
+<PropertiesTable
+  props={FieldProperties}
+  valueType="boolean"
+  omit={['layout', 'layoutOptions']}
+/>
 
 ## Translations
 

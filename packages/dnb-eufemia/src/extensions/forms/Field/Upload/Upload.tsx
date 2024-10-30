@@ -1,10 +1,13 @@
 import React, { useCallback, useEffect, useMemo } from 'react'
-import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
+import FieldBlock, {
+  Props as FieldBlockProps,
+  FieldBlockWidth,
+} from '../../FieldBlock'
 import {
   useFieldProps,
   useTranslation as useFormsTranslation,
 } from '../../hooks'
-import { FieldBlockWidth, FieldHelpProps, FieldProps } from '../../types'
+import { FieldHelpProps, FieldProps } from '../../types'
 import Upload, {
   UploadFile,
   UploadProps,
@@ -69,15 +72,10 @@ function UploadComponent(props: Props) {
     id,
     className,
     width: widthProp = 'stretch',
-    layout,
     value,
     label,
     labelDescription,
-    disabled,
     help,
-    info,
-    warning,
-    error,
     htmlAttributes,
     handleChange,
     handleFocus,
@@ -116,15 +114,10 @@ function UploadComponent(props: Props) {
 
   const width = widthProp as FieldBlockWidth
   const fieldBlockProps: FieldBlockProps = {
+    id,
     forId: id,
-    layout,
-    label,
     labelSrOnly: true,
-    info,
-    warning,
-    error,
     className,
-    disabled,
     width,
     ...pickSpacingProps(props),
   }

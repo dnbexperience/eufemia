@@ -8,9 +8,10 @@ import {
   setupPageScreenshot,
 } from '../../../../../core/jest/jestSetupScreenshots'
 
-describe('Field.String', () => {
+describe.each(['ui', 'sbanken'])('String field for %s', (themeName) => {
   setupPageScreenshot({
-    url: '/uilib/extensions/forms/base-fields/String/demos/',
+    themeName,
+    url: '/uilib/extensions/forms/base-fields/String',
   })
 
   it('have to match widths', async () => {
@@ -23,6 +24,27 @@ describe('Field.String', () => {
   it('have to match multiple errors', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="multiple-errors"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('matches horizontal layout', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="string-horizontal-layout"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('matches status messages', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="string-status"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('matches with label description', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="string-label-description"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

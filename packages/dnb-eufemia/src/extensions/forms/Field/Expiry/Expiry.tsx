@@ -3,7 +3,7 @@ import { FieldHelpProps, FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { useFieldProps } from '../../hooks'
 import classnames from 'classnames'
-import FieldBlock from '../../FieldBlock'
+import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import { MultiInputMask } from '../../../../components/input-masked'
 import type { MultiInputMaskValue } from '../../../../components/input-masked'
 import { HelpButton } from '../../../../components'
@@ -56,15 +56,12 @@ function Expiry(props: ExpiryProps) {
     path,
     className,
     label = expiryLabel,
-    error,
     hasError,
     info,
     warning,
     help,
     disabled,
     value = '',
-    labelDescription,
-    layout = 'vertical',
     htmlAttributes,
     handleFocus,
     handleBlur,
@@ -93,19 +90,16 @@ function Expiry(props: ExpiryProps) {
     ? 'info'
     : null
 
+  const fieldBlockProps: FieldBlockProps = {
+    id,
+    forId: `${id}-input-month`,
+    className: classnames('dnb-forms-field-expiry', className),
+    label,
+    ...pickSpacingProps(props),
+  }
+
   return (
-    <FieldBlock
-      className={classnames('dnb-forms-field-expiry', className)}
-      id={id}
-      forId={`${id}-input-month`}
-      label={label}
-      layout={layout}
-      labelDescription={labelDescription}
-      info={info}
-      warning={warning}
-      error={error}
-      {...pickSpacingProps(props)}
-    >
+    <FieldBlock {...fieldBlockProps}>
       <MultiInputMask
         stretch
         id={`${id}-input`}

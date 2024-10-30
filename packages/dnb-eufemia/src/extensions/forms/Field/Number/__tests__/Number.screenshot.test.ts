@@ -32,6 +32,20 @@ describe.each(['ui', 'sbanken'])('Number field for %s', (themeName) => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
+    it('matches horizontal layout', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="number-horizontal-layout"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('matches status messages', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="number-status"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
     it('matches the focus state', async () => {
       const screenshot = await makeScreenshot({
         selector:
@@ -67,6 +81,13 @@ describe.each(['ui', 'sbanken'])('Number field for %s', (themeName) => {
       const screenshot = await makeScreenshot({
         selector:
           '[data-visual-test="number-input-step-controls-error"] .dnb-forms-field-number',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('matches with label description', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="number-label-description"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })

@@ -1,6 +1,6 @@
 import { PropertiesTableProps } from '../../../shared/types'
 
-export const fieldBlockSharedProperties: PropertiesTableProps = {
+export const FieldBlockSharedProperties: PropertiesTableProps = {
   label: {
     doc: 'Field label to show above / before the input feature.',
     type: 'string',
@@ -18,6 +18,16 @@ export const fieldBlockSharedProperties: PropertiesTableProps = {
   },
   layout: {
     doc: 'Layout for the label and input. Can be `horizontal` or `vertical`.',
+    type: 'string',
+    status: 'optional',
+  },
+  layoutOptions: {
+    doc: 'Use this to set additional options for the `horizontal` layout. E.g. `{ width: "medium" }`. You can also use a custom width `{number}rem`. Instead of a width, you can use a min/max width. E.g. `{ minWidth: "6rem", maxWidth: "12rem" }`.',
+    type: 'object',
+    status: 'optional',
+  },
+  labelHeight: {
+    doc: 'Defines the height of an component (size prop), so the label can be aligned correctly. Can be `default`, `small`, `medium`, `large`.',
     type: 'string',
     status: 'optional',
   },
@@ -39,7 +49,7 @@ export const fieldBlockSharedProperties: PropertiesTableProps = {
 }
 
 export const fieldBlockProperties: PropertiesTableProps = {
-  ...fieldBlockSharedProperties,
+  ...FieldBlockSharedProperties,
   labelSize: {
     doc: 'Define one of the following [heading sizes](/uilib/elements/heading/): `medium` or `large`.',
     type: ['string', 'false'],

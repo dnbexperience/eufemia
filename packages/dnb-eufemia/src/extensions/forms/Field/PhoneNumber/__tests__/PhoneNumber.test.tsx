@@ -534,7 +534,7 @@ describe('Field.PhoneNumber', () => {
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['class'])
+    expect(attributes).toEqual(['class', 'id'])
     expect(Array.from(element.classList)).toEqual([
       'dnb-space',
       'dnb-space__top--large',
