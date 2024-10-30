@@ -3,6 +3,41 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.54.0](https://github.com/dnbexperience/eufemia/compare/v10.53.0...v10.54.0) (2024-10-30)
+
+
+### :memo: Documentation
+
+* add documentation about `emptyValue` ([#4174](https://github.com/dnbexperience/eufemia/issues/4174)) ([52457ba](https://github.com/dnbexperience/eufemia/commit/52457ba075398183220382c8ea7b092cdab9091f)), closes [#4070](https://github.com/dnbexperience/eufemia/issues/4070)
+
+
+### :bug: Bug Fixes
+
+* **Field.Number:** `decimalLimit={0}` when `currency` should work ([#4167](https://github.com/dnbexperience/eufemia/issues/4167)) ([68123ea](https://github.com/dnbexperience/eufemia/commit/68123ea1c62619fe8e8a13e0bd6faf191ae70b7f))
+* **Forms:** correct alignment of Wizard status message (error, warning, info) ([#4185](https://github.com/dnbexperience/eufemia/issues/4185)) ([a307cda](https://github.com/dnbexperience/eufemia/commit/a307cdae0c6dd287f470eed228384fdc8ec367ec))
+* **Forms:** ensure autocomplete="off" when autoComplete on Form.Handler is false ([#4184](https://github.com/dnbexperience/eufemia/issues/4184)) ([6795b9f](https://github.com/dnbexperience/eufemia/commit/6795b9f3ef62e7ee7eecd8a35d9eed311ee05475))
+* **Forms:** ensure correct sorting in Field.SelectCountry ([#4196](https://github.com/dnbexperience/eufemia/issues/4196)) ([8db7720](https://github.com/dnbexperience/eufemia/commit/8db7720a0b89870851caade482eeb5e81e017f27)), closes [#4195](https://github.com/dnbexperience/eufemia/issues/4195)
+* **Forms:** fix schema validation for required paths with matching name ([#4189](https://github.com/dnbexperience/eufemia/issues/4189)) ([04caf61](https://github.com/dnbexperience/eufemia/commit/04caf617eeadc2e6ed311b23f245c5a4e8cdf1fb)), closes [#4179](https://github.com/dnbexperience/eufemia/issues/4179)
+* **Forms:** only run onBlurValidator when no other errors are present ([#4172](https://github.com/dnbexperience/eufemia/issues/4172)) ([d2797f1](https://github.com/dnbexperience/eufemia/commit/d2797f137e4b745679af97c9c0633d461091b249)), closes [#4074](https://github.com/dnbexperience/eufemia/issues/4074)
+* **Forms:** render multiple (combined) Ajv errors with translated messages ([#4176](https://github.com/dnbexperience/eufemia/issues/4176)) ([2b62ef7](https://github.com/dnbexperience/eufemia/commit/2b62ef7284e151658e508d39c1b36762dd6aed21)), closes [#4052](https://github.com/dnbexperience/eufemia/issues/4052)
+* **Forms:** updates country names in SelectCountry ([#4187](https://github.com/dnbexperience/eufemia/issues/4187)) ([bb1b67c](https://github.com/dnbexperience/eufemia/commit/bb1b67c9d85682dfcff78e51d60285c75422ba5c))
+* **NumberFormat:** should not throw exception when providing an invalid currency ([#4192](https://github.com/dnbexperience/eufemia/issues/4192)) ([a0700cd](https://github.com/dnbexperience/eufemia/commit/a0700cdfe3fb01808d0fe22155708ec124df4662))
+* **Table:** fix visible hidden rows for additional expandable table rows ([#4188](https://github.com/dnbexperience/eufemia/issues/4188)) ([16b6101](https://github.com/dnbexperience/eufemia/commit/16b6101a02535adb0a07e290e9bb6a45659a6dcd))
+
+
+### :sparkles: Features
+
+* add CountryFlag component ([#4181](https://github.com/dnbexperience/eufemia/issues/4181)) ([76a0c47](https://github.com/dnbexperience/eufemia/commit/76a0c47a2e6df2db9e4e905a5e3119e7ed7acbb0))
+* **Dialog:** add `verticalAlignment` property with `top` alignment support ([#4190](https://github.com/dnbexperience/eufemia/issues/4190)) ([3ace8b0](https://github.com/dnbexperience/eufemia/commit/3ace8b051437ea787f342b7f4a08d17b5a4352fa))
+* **Forms:** add `onDone`, `onCancel` and `onEdit` to Form.Section containers ([#4199](https://github.com/dnbexperience/eufemia/issues/4199)) ([2f27ad0](https://github.com/dnbexperience/eufemia/commit/2f27ad0dccd8fb839044f66ec7b0ac7cd398bc7d))
+* **Forms:** add `transformData` to the onSubmit event of Form.Handler ([#4183](https://github.com/dnbexperience/eufemia/issues/4183)) ([748b604](https://github.com/dnbexperience/eufemia/commit/748b60464f2bacb66311f2bf94c2295cb0e210eb))
+* **Forms:** deprecate `useErrorMessage` hook for when creating your own fields ([#4177](https://github.com/dnbexperience/eufemia/issues/4177)) ([2ae86f2](https://github.com/dnbexperience/eufemia/commit/2ae86f2e95fe66a09977db9cd1dcfc0796d8589f)), closes [#4162](https://github.com/dnbexperience/eufemia/issues/4162)
+* **Forms:** deprecate Ajv `validationRule` in FormError and deprecate `errorMessages` keys like `pattern` in favor of Eufemia translation keys like `Field.errorPattern` ([#4162](https://github.com/dnbexperience/eufemia/issues/4162)) ([b50387a](https://github.com/dnbexperience/eufemia/commit/b50387a5ede7a2503eb73a0c9c007e3c4ecba255))
+* **Keyboard navigation:** add support for `key` property (useful for fire events like {ArrowDown} during tests) ([#4182](https://github.com/dnbexperience/eufemia/issues/4182)) ([cc1ffa8](https://github.com/dnbexperience/eufemia/commit/cc1ffa8b7cbbe5fb20b6db9e24a97697bfef6cf5))
+* **Upload:** `text` and `title` is possible to remove ([#4163](https://github.com/dnbexperience/eufemia/issues/4163)) ([b6db4a4](https://github.com/dnbexperience/eufemia/commit/b6db4a4548d565e38b59c92610ef4648c6847e9d))
+* **Upload:** removes subtitle displaying file extension ([#4156](https://github.com/dnbexperience/eufemia/issues/4156)) ([9bf9b9e](https://github.com/dnbexperience/eufemia/commit/9bf9b9e47c15417c3d2850818c048dc183b6b7af))
+* **Upload:** updates drag and drop texts in Norwegian ([#4170](https://github.com/dnbexperience/eufemia/issues/4170)) ([ad5bbec](https://github.com/dnbexperience/eufemia/commit/ad5bbecd79df422339e08b28821411e8c806ce21))
+
 ## [10.53.0](https://github.com/dnbexperience/eufemia/compare/v10.52.1...v10.53.0) (2024-10-18)
 
 
