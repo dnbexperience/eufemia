@@ -39,7 +39,7 @@ import { DatePickerEventAttributes } from './DatePicker'
 import { useTranslation } from '../../shared'
 
 export type DatePickerInputProps = Omit<
-  React.HTMLProps<HTMLElement>,
+  React.HTMLProps<HTMLInputElement>,
   | 'children'
   | 'ref'
   | 'value'
@@ -49,8 +49,6 @@ export type DatePickerInputProps = Omit<
   | 'onSubmit'
   | 'label'
 > & {
-  id?: string
-  title?: string
   selectedDateTitle?: string
   maskOrder?: string
   maskPlaceholder?: string
@@ -77,7 +75,6 @@ export type DatePickerInputProps = Omit<
    * Gives you the possibility to use a plain/vanilla `<input />` HTML element by defining it as a string `input_element="input"`, a React element, or a render function `input_element={(internalProps) => (<Return />)}`. Can also be used in circumstances where the `react-text-mask` not should be used, e.g. in testing environments. Defaults to custom masked input.
    */
   input_element?: InputInputElement
-  disabled?: boolean
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
@@ -144,7 +141,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   } = props
 
   const [focusState, setFocusState] = useState<string>('virgin')
-  const [partialDates, setpartialDates] = useState({
+  const [partialDates, setPartialDates] = useState({
     partialStartDate: '',
     partialEndDate: '',
   })
@@ -194,14 +191,14 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     ]
   )
 
-  // Used in reflist, and initatied inside object to to maintain the way of accessing mimic `this`, used in this component
+  // Used in refList, and initiated inside object to to maintain the way of accessing mimic `this`, used in this component
   // Should probably refactor at one point, or move to own hook
-  const startDayRef = useRef<HTMLInputElement>(null)
-  const startMonthRef = useRef<HTMLInputElement>(null)
-  const startYearRef = useRef<HTMLInputElement>(null)
-  const endDayRef = useRef<HTMLInputElement>(null)
-  const endMonthRef = useRef<HTMLInputElement>(null)
-  const endYearRef = useRef<HTMLInputElement>(null)
+  const startDayRef = useRef<HTMLInputElement>()
+  const startMonthRef = useRef<HTMLInputElement>()
+  const startYearRef = useRef<HTMLInputElement>()
+  const endDayRef = useRef<HTMLInputElement>()
+  const endMonthRef = useRef<HTMLInputElement>()
+  const endYearRef = useRef<HTMLInputElement>()
 
   const inputRefs = useMemo(
     () => ({
@@ -215,13 +212,12 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     []
   )
 
-  // TODO: Move to it's own hook
-  const startDayDateRef = useRef<string>(null)
-  const endDayDateRef = useRef<string>(null)
-  const startMonthDateRef = useRef<string>(null)
-  const endMonthDateRef = useRef<string>(null)
-  const startYearDateRef = useRef<string>(null)
-  const endYearDateRef = useRef<string>(null)
+  const startDayDateRef = useRef<string>()
+  const endDayDateRef = useRef<string>()
+  const startMonthDateRef = useRef<string>()
+  const endMonthDateRef = useRef<string>()
+  const startYearDateRef = useRef<string>()
+  const endYearDateRef = useRef<string>()
 
   const dateRefs = useMemo(
     () => ({
@@ -235,17 +231,17 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     []
   )
 
-  const startDateRef = useRef<Date>(null)
-  const endDateRef = useRef<Date>(null)
+  const startDateRef = useRef<Date>()
+  const endDateRef = useRef<Date>()
 
   const temporaryDates = useMemo(
     () => ({ startDate: startDateRef, endDate: endDateRef }),
     []
   )
 
-  const refList = useRef<Array<MutableRefObject<HTMLInputElement>>>(null)
+  const refList = useRef<Array<MutableRefObject<HTMLInputElement>>>()
 
-  const focusMode = useRef<string>(null)
+  const focusMode = useRef<string>()
 
   const maskList = useMemo(() => {
     const separators = maskOrder.match(separatorRexExp)
@@ -260,7 +256,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         acc.push(cur)
 
         if (separators.length > 0) {
-          // makes sure that seperators are added at the correct places and removed from array when added
+          // makes sure that separators are added at the correct places and removed from array when added
           acc.push(separators.shift())
         }
 
@@ -414,7 +410,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       const partialStartDate = startDate
       const partialEndDate = endDate
 
-      setpartialDates({
+      setPartialDates({
         partialStartDate,
         partialEndDate,
       })
@@ -575,9 +571,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           event.preventDefault()
           prepareCounting({ event, keyCode, target })
           return false
-        // Never fires
         case 'Tab':
-          // case 'backspace': // We need backspace down here
           return false
       }
 

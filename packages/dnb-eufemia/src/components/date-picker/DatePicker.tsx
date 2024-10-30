@@ -52,7 +52,7 @@ import { SkeletonShow } from '../Skeleton'
 import { GlobalStatusConfigObject } from '../GlobalStatus'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import { CalendarDay, DatePickerCalendarProps } from './DatePickerCalendar'
-import { DatePickerContextValues } from './DatePickerContext'
+import { DatePickerContextValues, DateType } from './DatePickerContext'
 import { DatePickerDates } from './hooks/useDates'
 import { useTranslation } from '../../shared'
 
@@ -63,7 +63,7 @@ export type DatePickerEventAttributes = {
   end?: string
 } & Record<string, unknown>
 
-// Takes the return object from DatePickerProiver and extends it with the event
+// Takes the return object from DatePickerProvider and extends it with the event
 export type DatePickerEvent<T> = ReturnObject<T>
 
 export type DisplayPickerEvent = (
@@ -81,40 +81,38 @@ export type DatePickerProps = Omit<
   'ref' | 'children' | 'label' | 'size' | 'onBlur' | 'onFocus' | 'start'
 > &
   SpacingProps & {
-    id?: string
-    title?: string
     /**
      * Defines the pre-filled date by either a JavaScript DateInstance or (ISO 8601) like `date="2019-05-05"`.
      */
-    date?: Date | string
+    date?: DateType
     /**
      * To set the pre-filled starting date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `mask_placeholder`.
      */
-    start_date?: Date | string
+    start_date?: DateType
     /**
      * To set the pre-filled ending date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `mask_placeholder`.
      */
-    end_date?: Date | string
+    end_date?: DateType
     /**
      * To display what month should be shown in the first calendar by default. Defaults to the `date` respective `start_date`.
      */
-    month?: Date | string
+    month?: DateType
     /**
      * To display what month should be shown in the first calendar by default. Defaults to the `date` respective `start_date`.
      */
-    start_month?: Date | string
+    start_month?: DateType
     /**
      * To display what month should be shown in the second calendar by default. Defaults to the `date` respective `start_date`.
      */
-    end_month?: Date | string
+    end_month?: DateType
     /**
      * To limit a date range to a minimum `start_date`. Defaults to `null`.
      */
-    min_date?: Date | string
+    min_date?: DateType
     /**
      * To limit a date range to a maximum `end_date`. Defaults to `null`.
      */
-    max_date?: Date | string
+    max_date?: DateType
     /**
      * Corrects the input date value to be the same as either `min_date` or `max_date`, when the user types in a date that is either before or after one of these. Defaults to `false`.
      */
@@ -271,7 +269,6 @@ export type DatePickerProps = Omit<
      * Use `right` to change the calendar alignment direction. Defaults to `left`.
      */
     align_picker?: 'auto' | 'left' | 'right'
-    class?: string
     className?: string
     /**
      * Will be called right before every new calendar view gets rendered. See the example above.
@@ -603,11 +600,9 @@ function DatePicker(externalProps: DatePickerProps) {
     only_month,
     hide_last_week,
     disable_autofocus,
-    enable_keyboard_nav, // eslint-disable-line
     hide_navigation_buttons,
     first_day,
     reset_date,
-    locale,
     link,
     sync,
     input_element,
@@ -628,28 +623,37 @@ function DatePicker(externalProps: DatePickerProps) {
     submit_button_text,
     cancel_button_text,
     reset_button_text,
-    hide_navigation: _hide_navigation, // eslint-disable-line
-    return_format: _return_format, // eslint-disable-line
-    date_format: _date_format, // eslint-disable-line
-    hide_days: _hide_days, // eslint-disable-line
-    month: _month, // eslint-disable-line
-    date: _date, // eslint-disable-line
-    start_date: _start_date, // eslint-disable-line
-    end_date: _end_date, // eslint-disable-line
-    min_date: _min_date, // eslint-disable-line
-    max_date: _max_date, // eslint-disable-line
-    correct_invalid_date: _correct_invalid_date, // eslint-disable-line
-    opened: _opened, // eslint-disable-line
-    direction: _direction, // eslint-disable-line
-    id: __id, // eslint-disable-line
+    show_reset_button,
     className,
-    class: _className,
-    show_reset_button, // eslint-disable-line
     tooltip,
-    range: _range, // eslint-disable-line
-
-    ...attributes
+    ...restProps
   } = extendedProps
+
+  let attributes = null
+
+  {
+    const {
+      locale,
+      id,
+      month,
+      date,
+      start_date,
+      end_date,
+      min_date,
+      max_date,
+      enable_keyboard_nav,
+      hide_navigation,
+      return_format,
+      date_format,
+      hide_days,
+      correct_invalid_date,
+      opened,
+      direction,
+      range,
+      ...rest
+    } = restProps
+    attributes = rest
+  }
 
   const shouldHideDays = only_month ? true : hide_days
   const shouldHideNavigation = only_month
@@ -697,22 +701,22 @@ function DatePicker(externalProps: DatePickerProps) {
       'dnb-form-component',
       size && `dnb-date-picker--${size}`,
       createSpacingClasses(props),
-      _className,
       className
     ),
     lang: context.locale,
   } as HTMLProps<HTMLSpanElement>
 
-  skeletonDOMAttributes(pickerParams, skeleton, context)
-
-  validateDOMAttributes(props, attributes)
-  validateDOMAttributes(null, submitParams)
-  validateDOMAttributes(null, pickerParams)
+  const remainingDOMProps = validateDOMAttributes(props, attributes)
+  const remainingSubmitProps = validateDOMAttributes(null, submitParams)
+  const remainingPickerProps = validateDOMAttributes(
+    null,
+    skeletonDOMAttributes(pickerParams, skeleton, context)
+  )
 
   return (
     <DatePickerProvider
       {...props}
-      attributes={attributes}
+      attributes={remainingDOMProps}
       setReturnObject={(fn) => (getReturnObject.current = fn)}
       hidePicker={hidePicker}
     >
@@ -732,7 +736,7 @@ function DatePicker(externalProps: DatePickerProps) {
         <span
           className="dnb-date-picker__inner"
           ref={innerRef}
-          {...pickerParams}
+          {...remainingPickerProps}
         >
           <AlignmentHelper />
 
@@ -771,7 +775,7 @@ function DatePicker(externalProps: DatePickerProps) {
                 status_state={status_state}
                 lang={context.locale}
                 {...attributes}
-                submitAttributes={submitParams}
+                submitAttributes={remainingSubmitProps}
                 onSubmit={togglePicker}
                 {...status_props}
               />

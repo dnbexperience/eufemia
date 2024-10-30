@@ -67,7 +67,7 @@ type CalendarLocales = {
   // eslint-disable-next-line no-unused-vars
   [locale in InternalLocale]?: Pick<Locale, 'localize' | 'formatLong'>
 }
-// Easy to acces objects containing the only (in our case) needed functions for date-fns format
+// Easy to access objects containing the only (in our case) needed functions for date-fns format
 const locales: CalendarLocales = {
   'nb-NO': { localize: nbLocalize, formatLong: nbFormatLong },
   'en-GB': { localize: enLocalize, formatLong: gbFormatLong },
@@ -377,7 +377,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       const dates: {
         startDate?: Date
         endDate?: Date
-        startMonht?: Date
+        startMonth?: Date
         endMonth?: Date
       } = {}
 

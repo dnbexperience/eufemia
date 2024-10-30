@@ -15,12 +15,15 @@ import {
 import { DatePickerDateProps, DatePickerDates } from './hooks/useDates'
 import { CalendarView } from './hooks/useViews'
 
+export type DateType = Date | string
+
 export type DatePickerContextValues = ContextProps &
   DatePickerDates & {
     props: DatePickerProps
     translation: ContextProps['translation']
     views: Array<CalendarView>
     hasHadValidDate: boolean
+    previousDates: DatePickerDateProps
     updateDates: (
       dates: DatePickerDates,
       callback?: (dates: DatePickerDates) => void
@@ -30,7 +33,6 @@ export type DatePickerContextValues = ContextProps &
     forceViewMonthChange: () => void
     callOnChangeHandler: <E>(event: DatePickerChangeEvent<E>) => void
     hidePicker: (event: DisplayPickerEvent) => void
-    previousDates: DatePickerDateProps
     getReturnObject: <E>(
       params: GetReturnObjectParams<E>
     ) => ReturnObject<E>

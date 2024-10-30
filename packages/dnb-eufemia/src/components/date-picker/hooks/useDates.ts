@@ -3,16 +3,17 @@ import { convertStringToDate, isDisabled } from '../DatePickerCalc'
 import isValid from 'date-fns/isValid'
 import format from 'date-fns/format'
 import { addMonths } from 'date-fns'
+import { DateType } from '../DatePickerContext'
 
 export type DatePickerDateProps = {
-  date?: Date | string
-  startDate?: Date | string
-  endDate?: Date | string
-  startMonth?: Date | string
-  endMonth?: Date | string
-  minDate?: Date | string
-  maxDate?: Date | string
-  hoverDate?: Date | string | null
+  date?: DateType
+  startDate?: DateType
+  endDate?: DateType
+  startMonth?: DateType
+  endMonth?: DateType
+  minDate?: DateType
+  maxDate?: DateType
+  hoverDate?: DateType | null
 }
 
 type UseDatesOptions = {
@@ -31,7 +32,7 @@ export type DatePickerInputDates = {
 }
 
 export type DatePickerDates = {
-  date?: Date | string
+  date?: DateType
   startDate?: Date
   endDate?: Date
   minDate?: Date
@@ -302,7 +303,7 @@ function updateMonths({
   }
 }
 
-function getDate(date: Date | string, dateFormat: string) {
+function getDate(date: DateType, dateFormat: string) {
   return date instanceof Date
     ? date
     : convertStringToDate(date ?? '', {
