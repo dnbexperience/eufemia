@@ -629,4 +629,75 @@ describe('EditContainer and ViewContainer', () => {
       document.querySelector('.dnb-form-status')
     ).not.toBeInTheDocument()
   })
+
+  it('should emit "onDone" event when done button is clicked', async () => {
+    const onDone = jest.fn()
+
+    render(
+      <Form.Section>
+        <Form.Section.EditContainer onDone={onDone}>
+          <Field.Name required path="/name" />
+        </Form.Section.EditContainer>
+
+        <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+      </Form.Section>
+    )
+
+    const [doneButton] = Array.from(document.querySelectorAll('button'))
+    await userEvent.click(doneButton)
+    expect(onDone).toHaveBeenCalledTimes(0)
+
+    await userEvent.type(document.querySelector('input'), 'foo')
+
+    await userEvent.click(doneButton)
+    expect(onDone).toHaveBeenCalledTimes(1)
+  })
+
+  it('should emit "onCancel" event when cancel button is clicked', async () => {
+    const onCancel = jest.fn()
+
+    render(
+      <Form.Section>
+        <Form.Section.EditContainer onCancel={onCancel}>
+          <Field.Name required path="/name" />
+        </Form.Section.EditContainer>
+
+        <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+      </Form.Section>
+    )
+
+    const [, cancelButton] = Array.from(
+      document.querySelectorAll('button')
+    )
+    await userEvent.click(cancelButton)
+    expect(onCancel).toHaveBeenCalledTimes(0)
+
+    await userEvent.type(document.querySelector('input'), 'foo')
+
+    await userEvent.click(cancelButton)
+    expect(onCancel).toHaveBeenCalledTimes(1)
+  })
+
+  it('should emit "onEdit" event when cancel button is clicked', async () => {
+    const onEdit = jest.fn()
+
+    render(
+      <Form.Section>
+        <Form.Section.EditContainer>
+          <Field.Name required path="/name" />
+        </Form.Section.EditContainer>
+
+        <Form.Section.ViewContainer onEdit={onEdit}>
+          content
+        </Form.Section.ViewContainer>
+      </Form.Section>
+    )
+
+    const [, , editButton] = Array.from(
+      document.querySelectorAll('button')
+    )
+
+    await userEvent.click(editButton)
+    expect(onEdit).toHaveBeenCalledTimes(1)
+  })
 })

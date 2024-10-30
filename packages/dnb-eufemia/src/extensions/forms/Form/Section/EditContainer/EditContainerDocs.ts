@@ -11,6 +11,16 @@ export const EditContainerProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  onDone: {
+    doc: 'Callback for the done button.',
+    type: 'Function',
+    status: 'optional',
+  },
+  onCancel: {
+    doc: 'Callback for the cancel button.',
+    type: 'Function',
+    status: 'optional',
+  },
   '[FlexVertical](/uilib/layout/flex/container/)': {
     doc: 'All Flex.Vertical properties.',
     type: 'Various',

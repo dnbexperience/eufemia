@@ -4,7 +4,12 @@ import useTranslation from '../../../hooks/useTranslation'
 import SectionContainerContext from '../containers/SectionContainerContext'
 import { edit } from '../../../../../icons'
 
-export default function ViewToolbarTools() {
+export type Props = {
+  onEdit?: () => void
+}
+
+export default function ViewToolbarTools(props: Props) {
+  const { onEdit } = props
   const sectionContainerContext = useContext(SectionContainerContext)
   const { switchContainerMode } = sectionContainerContext ?? {}
 
@@ -12,7 +17,8 @@ export default function ViewToolbarTools() {
 
   const editHandler = useCallback(() => {
     switchContainerMode?.('edit')
-  }, [switchContainerMode])
+    onEdit?.()
+  }, [onEdit, switchContainerMode])
 
   return (
     <Flex.Horizontal gap="large">

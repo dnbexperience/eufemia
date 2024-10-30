@@ -12,12 +12,13 @@ import Toolbar from '../containers/Toolbar'
 
 export type Props = {
   title?: React.ReactNode
+  onEdit?: () => void
 }
 
 export type AllProps = Props & SectionContainerProps & FlexContainerProps
 
 function ViewContainer(props: AllProps) {
-  const { children, className, title, ...restProps } = props || {}
+  const { children, className, title, onEdit, ...restProps } = props || {}
   const ariaLabel = useMemo(() => convertJsxToString(title), [title])
 
   return (
@@ -31,7 +32,7 @@ function ViewContainer(props: AllProps) {
         {title && <Lead size="basis">{title}</Lead>}
         {children}
         <Toolbar>
-          <ViewToolbarTools />
+          <ViewToolbarTools onEdit={onEdit} />
         </Toolbar>
       </Flex.Stack>
     </SectionContainer>

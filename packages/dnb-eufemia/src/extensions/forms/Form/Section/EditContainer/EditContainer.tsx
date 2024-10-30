@@ -15,12 +15,15 @@ import { Path } from '../../../types'
 
 export type Props = {
   title?: React.ReactNode
+  onDone?: () => void
+  onCancel?: () => void
 }
 
 export type AllProps = Props & SectionContainerProps & FlexContainerProps
 
 function EditContainer(props: AllProps) {
-  const { children, className, title, ...restProps } = props || {}
+  const { children, className, title, onDone, onCancel, ...restProps } =
+    props || {}
   const ariaLabel = useMemo(() => convertJsxToString(title), [title])
   const {
     containerMode,
@@ -60,7 +63,7 @@ function EditContainer(props: AllProps) {
           {title && <Lead size="basis">{title}</Lead>}
           {children}
           <Toolbar>
-            <EditToolbarTools />
+            <EditToolbarTools onDone={onDone} onCancel={onCancel} />
           </Toolbar>
         </Flex.Stack>
       </SectionContainer>

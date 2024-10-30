@@ -6,7 +6,13 @@ import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBounda
 import { check, close } from '../../../../../icons'
 import useContainerDataStore from './useContainerDataStore'
 
-export default function EditToolbarTools() {
+export type Props = {
+  onDone?: () => void
+  onCancel?: () => void
+}
+
+export default function EditToolbarTools(props: Props) {
+  const { onDone, onCancel } = props
   const { restoreOriginalData } = useContainerDataStore()
 
   const { switchContainerMode, initialContainerMode } =
@@ -33,6 +39,7 @@ export default function EditToolbarTools() {
       setShowBoundaryErrors?.(false)
       restoreOriginalData()
       switchContainerMode?.('view')
+      onCancel?.()
     }
   }, [
     hasSubmitError,
@@ -42,6 +49,7 @@ export default function EditToolbarTools() {
     hasVisibleError,
     restoreOriginalData,
     switchContainerMode,
+    onCancel,
   ])
   const doneHandler = useCallback(() => {
     if (hasError) {
@@ -53,12 +61,14 @@ export default function EditToolbarTools() {
       setShowError(false)
       setShowBoundaryErrors?.(false)
       switchContainerMode?.('view')
+      onDone?.()
     }
   }, [
-    hasVisibleError,
     hasError,
     setShowBoundaryErrors,
+    hasVisibleError,
     switchContainerMode,
+    onDone,
   ])
 
   return (
