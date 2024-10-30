@@ -54,7 +54,7 @@ function replaceUndefinedValues(
 ): unknown {
   if (typeof value === 'undefined') {
     return replaceWith
-  } else if (typeof value === 'object' && value !== replaceWith) {
+  } else if (value && typeof value === 'object' && value !== replaceWith) {
     return {
       ...value,
       ...Object.fromEntries(
