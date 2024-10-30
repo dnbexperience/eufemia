@@ -55,6 +55,19 @@ export const DialogExampleHelpButton = () => (
   </ComponentBox>
 )
 
+export const DialogExampleVerticalAlignment = () => (
+  <ComponentBox data-visual-test="dialog-vertical-alignment">
+    <Dialog
+      title="Vertical alignment top"
+      verticalAlignment="top"
+      triggerAttributes={{
+        text: 'Vertical alignment',
+      }}
+      modalContent="The Dialog component is a Modal aligned at the top of the screen. The Dialog has similar functionality to a traditional popup window and is mostly used for informational purposes."
+    />
+  </ComponentBox>
+)
+
 export const DialogExampleFullscreen = () => (
   <ComponentBox data-visual-test="dialog-fullscreen">
     <Dialog

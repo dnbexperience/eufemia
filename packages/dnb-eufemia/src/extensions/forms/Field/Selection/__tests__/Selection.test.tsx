@@ -8,6 +8,8 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import DataContext from '../../../DataContext/Context'
+import DrawerListProvider from '../../../../../fragments/drawer-list/DrawerListProvider'
 import { makeOptions } from '../Selection'
 import { Field, Form } from '../../..'
 
@@ -359,35 +361,80 @@ describe('variants', () => {
       expect(radioButtons[2]).not.toBeChecked()
 
       await userEvent.tab()
-      await userEvent.keyboard('{arrowdown}')
+      await userEvent.keyboard('{ArrowDown}')
       expect(radioButtons[0]).not.toBeChecked()
       expect(radioButtons[1]).not.toBeChecked()
       expect(radioButtons[2]).toBeChecked()
 
-      await userEvent.keyboard('{arrowdown}')
+      await userEvent.keyboard('{ArrowDown}')
       expect(radioButtons[0]).toBeChecked()
       expect(radioButtons[1]).not.toBeChecked()
       expect(radioButtons[2]).not.toBeChecked()
 
-      await userEvent.keyboard('{arrowdown}')
+      await userEvent.keyboard('{ArrowDown}')
       expect(radioButtons[0]).not.toBeChecked()
       expect(radioButtons[1]).toBeChecked()
       expect(radioButtons[2]).not.toBeChecked()
 
-      await userEvent.keyboard('{arrowup}')
+      await userEvent.keyboard('{ArrowUp}')
       expect(radioButtons[0]).toBeChecked()
       expect(radioButtons[1]).not.toBeChecked()
       expect(radioButtons[2]).not.toBeChecked()
 
-      await userEvent.keyboard('{arrowup}')
+      await userEvent.keyboard('{ArrowUp}')
       expect(radioButtons[0]).not.toBeChecked()
       expect(radioButtons[1]).not.toBeChecked()
       expect(radioButtons[2]).toBeChecked()
 
-      await userEvent.keyboard('{arrowup}')
+      await userEvent.keyboard('{ArrowUp}')
       expect(radioButtons[0]).not.toBeChecked()
       expect(radioButtons[1]).toBeChecked()
       expect(radioButtons[2]).not.toBeChecked()
+    })
+
+    it('should store "displayValue" in data context', async () => {
+      let dataContext = null
+
+      render(
+        <Form.Handler
+          defaultData={{
+            mySelection: 'foo',
+            myList: [
+              {
+                value: 'foo',
+                title: 'Foo!',
+              },
+              {
+                value: 'bar',
+                title: 'Bar!',
+              },
+            ],
+          }}
+        >
+          <Field.Selection
+            variant="radio"
+            path="/mySelection"
+            dataPath="/myList"
+          />
+          <DataContext.Consumer>
+            {(context) => {
+              dataContext = context
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        '/mySelection': 'Foo!',
+      })
+
+      await userEvent.tab()
+      await userEvent.keyboard('{ArrowDown}')
+
+      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        '/mySelection': 'Bar!',
+      })
     })
 
     describe('ARIA', () => {
@@ -686,6 +733,52 @@ describe('variants', () => {
       expect(option1).toHaveAttribute('aria-pressed', 'false')
       expect(option2).toHaveAttribute('aria-pressed', 'false')
       expect(option3).toHaveAttribute('aria-pressed', 'false')
+    })
+
+    it('should store "displayValue" in data context', async () => {
+      let dataContext = null
+
+      render(
+        <Form.Handler
+          defaultData={{
+            mySelection: 'foo',
+            myList: [
+              {
+                value: 'foo',
+                title: 'Foo!',
+              },
+              {
+                value: 'bar',
+                title: 'Bar!',
+              },
+            ],
+          }}
+        >
+          <Field.Selection
+            variant="button"
+            path="/mySelection"
+            dataPath="/myList"
+          />
+          <DataContext.Consumer>
+            {(context) => {
+              dataContext = context
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        '/mySelection': 'Foo!',
+      })
+
+      await userEvent.tab()
+      await userEvent.tab()
+      await userEvent.click(document.activeElement)
+
+      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        '/mySelection': 'Bar!',
+      })
     })
 
     describe('ARIA', () => {
@@ -1000,6 +1093,56 @@ describe('variants', () => {
       expect(option1).toHaveAttribute('aria-selected', 'false')
       expect(option2).toHaveAttribute('aria-selected', 'false')
       expect(option3).toHaveAttribute('aria-selected', 'false')
+    })
+
+    it('should store "displayValue" in data context', async () => {
+      let dataContext = null
+
+      render(
+        <Form.Handler
+          defaultData={{
+            mySelection: 'foo',
+            myList: [
+              {
+                value: 'foo',
+                title: 'Foo!',
+              },
+              {
+                value: 'bar',
+                title: 'Bar!',
+              },
+            ],
+          }}
+        >
+          <Field.Selection
+            variant="dropdown"
+            path="/mySelection"
+            dataPath="/myList"
+          />
+          <DataContext.Consumer>
+            {(context) => {
+              dataContext = context
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        '/mySelection': 'Foo!',
+      })
+
+      // Open like user would do, but without a delay
+      DrawerListProvider['blurDelay'] = 0
+      await userEvent.tab()
+      await userEvent.keyboard('{Enter}')
+      await userEvent.keyboard('{ArrowDown}')
+      await userEvent.keyboard('{Enter}')
+      DrawerListProvider['blurDelay'] = 201
+
+      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        '/mySelection': 'Bar!',
+      })
     })
 
     describe('ARIA', () => {
@@ -1318,6 +1461,56 @@ describe('variants', () => {
       expect(option1).toHaveAttribute('aria-selected', 'false')
       expect(option2).toHaveAttribute('aria-selected', 'false')
       expect(option3).toHaveAttribute('aria-selected', 'false')
+    })
+
+    it('should store "displayValue" in data context', async () => {
+      let dataContext = null
+
+      render(
+        <Form.Handler
+          defaultData={{
+            mySelection: 'foo',
+            myList: [
+              {
+                value: 'foo',
+                title: 'Foo!',
+              },
+              {
+                value: 'bar',
+                title: 'Bar!',
+              },
+            ],
+          }}
+        >
+          <Field.Selection
+            variant="autocomplete"
+            path="/mySelection"
+            dataPath="/myList"
+          />
+          <DataContext.Consumer>
+            {(context) => {
+              dataContext = context
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        '/mySelection': 'Foo!',
+      })
+
+      // Open like user would do, but without a delay
+      DrawerListProvider['blurDelay'] = 0
+      await userEvent.tab()
+      await userEvent.keyboard('{Enter}')
+      await userEvent.keyboard('{ArrowDown}')
+      await userEvent.keyboard('{Enter}')
+      DrawerListProvider['blurDelay'] = 201
+
+      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        '/mySelection': 'Bar!',
+      })
     })
 
     describe('ARIA', () => {

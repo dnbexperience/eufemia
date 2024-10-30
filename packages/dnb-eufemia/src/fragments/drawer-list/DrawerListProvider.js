@@ -7,7 +7,6 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import keycode from 'keycode'
 import Context from '../../shared/Context'
 import {
   warn,
@@ -17,6 +16,7 @@ import {
   detectOutsideClick,
   dispatchCustomElementEvent,
   getPreviousSibling,
+  keycode,
 } from '../../shared/component-helper'
 import {
   getOffsetTop,

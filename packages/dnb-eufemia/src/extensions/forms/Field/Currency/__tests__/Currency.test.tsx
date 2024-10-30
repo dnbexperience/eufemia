@@ -1,8 +1,10 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
-import { Field } from '../../..'
+import userEvent from '@testing-library/user-event'
 import { Provider } from '../../../../../shared'
+import DataContext from '../../../DataContext/Context'
+import { Field, Form } from '../../../'
 
 describe('Field.Currency', () => {
   it('defaults to "kr" and use "NOK" when locale is en-GB', () => {
@@ -122,6 +124,56 @@ describe('Field.Currency', () => {
     const input = document.querySelector('.dnb-input__input')
 
     expect(input).toHaveAttribute('inputmode', 'decimal')
+  })
+
+  it('should work with decimal limit 0', async () => {
+    render(<Field.Currency decimalLimit={0} />)
+
+    const input = document.querySelector('.dnb-input__input')
+
+    expect(input).toHaveValue('')
+
+    await userEvent.type(document.querySelector('input'), '1')
+
+    expect(input).toHaveValue('1 kr')
+
+    await userEvent.type(document.querySelector('input'), ',')
+
+    expect(input).toHaveValue('1 kr')
+  })
+
+  it('should store "displayValue" in data context', async () => {
+    let dataContext = null
+
+    render(
+      <Form.Handler>
+        <Field.Currency path="/myValue" defaultValue={123} />
+        <DataContext.Consumer>
+          {(context) => {
+            dataContext = context
+            return null
+          }}
+        </DataContext.Consumer>
+      </Form.Handler>
+    )
+
+    const input = document.querySelector('input')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myValue': '123 kr',
+    })
+
+    await userEvent.type(input, '4')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myValue': '1 234 kr',
+    })
+
+    await userEvent.type(input, '{Backspace>5}')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myValue': undefined,
+    })
   })
 
   describe('ARIA', () => {

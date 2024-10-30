@@ -1,6 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-import keycode from 'keycode'
+import keycode from '../../shared/keycode'
 import { hasSelectedText } from '../../shared/helpers'
 import Button from '../button/Button'
 import IconPrimary from '../icon/IconPrimary'

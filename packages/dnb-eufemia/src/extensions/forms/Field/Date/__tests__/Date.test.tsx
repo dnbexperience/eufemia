@@ -2,7 +2,7 @@ import React from 'react'
 import { render, waitFor, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
-import { Field, FieldBlock } from '../../..'
+import { DataContext, Field, FieldBlock, Form } from '../../..'
 
 describe('Field.Date', () => {
   it('should render with props', () => {
@@ -13,16 +13,16 @@ describe('Field.Date', () => {
   it('should show required warning', async () => {
     render(<Field.Date value="2023-12-07" required />)
 
-    const datepicker = document.querySelector('.dnb-date-picker')
+    const datePicker = document.querySelector('.dnb-date-picker')
     const [, , year]: Array<HTMLInputElement> = Array.from(
-      datepicker.querySelectorAll('.dnb-date-picker__input')
+      datePicker.querySelectorAll('.dnb-date-picker__input')
     )
 
-    expect(datepicker.classList).not.toContain(
+    expect(datePicker.classList).not.toContain(
       'dnb-date-picker__status--error'
     )
     expect(
-      datepicker.querySelector('.dnb-form-status__text')
+      datePicker.querySelector('.dnb-form-status__text')
     ).not.toBeInTheDocument()
 
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -142,6 +142,70 @@ describe('Field.Date', () => {
           expect(screen.getByRole('alert')).toBeInTheDocument()
         })
       })
+    })
+  })
+
+  it('should store "displayValue" in data context', async () => {
+    let dataContext = null
+
+    render(
+      <Form.Handler>
+        <Field.Date defaultValue="2023-10-01" path="/myValue" />
+        <DataContext.Consumer>
+          {(context) => {
+            dataContext = context
+            return null
+          }}
+        </DataContext.Consumer>
+      </Form.Handler>
+    )
+
+    const [day, , year]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    )
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myValue': '01.10.2023',
+    })
+
+    fireEvent.focus(day)
+    await userEvent.keyboard('0211')
+    await userEvent.type(year, '2024')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myValue': '02.11.2024',
+    })
+  })
+
+  it('should store "displayValue" in en-US locale', async () => {
+    let dataContext = null
+
+    render(
+      <Form.Handler locale="en-US">
+        <Field.Date defaultValue="2023-10-01" path="/myValue" />
+        <DataContext.Consumer>
+          {(context) => {
+            dataContext = context
+            return null
+          }}
+        </DataContext.Consumer>
+      </Form.Handler>
+    )
+
+    const [day, , year]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    )
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myValue': '10/01/2023',
+    })
+
+    fireEvent.focus(day)
+    await userEvent.keyboard('0211')
+    await userEvent.type(year, '2024')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myValue': '11/02/2024',
     })
   })
 

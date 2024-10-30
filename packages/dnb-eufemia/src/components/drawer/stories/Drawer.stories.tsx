@@ -124,7 +124,7 @@ export const DrawerSandbox = () => (
           />
         </Drawer.Header>
         <Drawer.Body>
-          <Tabs.Content id="unique-linked-id">
+          <Tabs.Content id="unique-linked-id" key="unique-linked-key">
             {({ title }) => {
               return (
                 <>

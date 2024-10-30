@@ -112,10 +112,18 @@ describe('Form.Section', () => {
         "firstName": {
           "autoComplete": "given-name",
           "errorMessages": {
-            "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-            "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-            "pattern": "Kun bokstaver og tegn som bindestrek og mellomrom er tillatt.",
-            "required": "Du må fylle inn fornavn.",
+            "Field.errorPattern": "Kun bokstaver og tegn som bindestrek og mellomrom er tillatt.",
+            "Field.errorRequired": "Du må fylle inn fornavn.",
+          },
+          "innerRef": {
+            "current": <input
+              autocomplete="given-name"
+              class="dnb-input__input"
+              id="id-r14"
+              name="firstName"
+              type="text"
+              value=""
+            />,
           },
           "label": "Fornavn",
           "path": "/firstName",
@@ -132,10 +140,19 @@ describe('Form.Section', () => {
         "lastName": {
           "autoComplete": "family-name",
           "errorMessages": {
-            "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-            "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-            "pattern": "Kun bokstaver og tegn som bindestrek og mellomrom er tillatt.",
-            "required": "Du må fylle inn etternavn.",
+            "Field.errorPattern": "Kun bokstaver og tegn som bindestrek og mellomrom er tillatt.",
+            "Field.errorRequired": "Du må fylle inn etternavn.",
+          },
+          "innerRef": {
+            "current": <input
+              aria-required="true"
+              autocomplete="family-name"
+              class="dnb-input__input"
+              id="id-r19"
+              name="lastName"
+              type="text"
+              value=""
+            />,
           },
           "label": "Etternavn",
           "minLength": 2,
@@ -952,7 +969,7 @@ describe('Form.Section', () => {
       ).toHaveAttribute('aria-required', 'true')
     })
 
-    it('should set "required" for firstName with nested schema', () => {
+    it('should set "required" in schema with section', () => {
       const schema: JSONSchema = {
         type: 'object',
         properties: {
@@ -977,6 +994,96 @@ describe('Form.Section', () => {
       expect(
         document.querySelector('input[name="firstName"]')
       ).toHaveAttribute('aria-required', 'true')
+      expect(
+        document.querySelector('input[name="lastName"]')
+      ).toHaveAttribute('aria-required', 'true')
+    })
+
+    it('should set "required" in schema with section in nested object', () => {
+      const schema: JSONSchema = {
+        type: 'object',
+        properties: {
+          myObject: {
+            type: 'object',
+            properties: {
+              mySection: {
+                type: 'object',
+                properties: {
+                  firstName: {
+                    type: 'string',
+                  },
+                },
+                required: ['firstName'],
+              },
+            },
+          },
+        },
+      }
+
+      render(
+        <Form.Handler schema={schema}>
+          <MySection path="/myObject/mySection" />
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelector('input[name="firstName"]')
+      ).toHaveAttribute('aria-required', 'true')
+      expect(
+        document.querySelector('input[name="lastName"]')
+      ).toHaveAttribute('aria-required', 'true')
+    })
+
+    it('should set "required" in schema with section of the same name', () => {
+      const schema: JSONSchema = {
+        type: 'object',
+        properties: {
+          firstName: {
+            type: 'object',
+            properties: {
+              firstName: {
+                type: 'string',
+              },
+            },
+            required: ['firstName'],
+          },
+        },
+      }
+
+      render(
+        <Form.Handler schema={schema}>
+          <MySection path="/firstName" />
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelector('input[name="firstName"]')
+      ).toHaveAttribute('aria-required', 'true')
+      expect(
+        document.querySelector('input[name="lastName"]')
+      ).toHaveAttribute('aria-required', 'true')
+    })
+
+    it('should not set "required" for field path that matches a schema path', () => {
+      const schema: JSONSchema = {
+        type: 'object',
+        required: ['longPath_with_firstName_inside'],
+        properties: {
+          longPath_with_firstName_inside: {
+            type: 'string',
+          },
+        },
+      }
+
+      render(
+        <Form.Handler schema={schema}>
+          <MySection path="/firstName" />
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelector('input[name="firstName"]')
+      ).not.toHaveAttribute('aria-required')
       expect(
         document.querySelector('input[name="lastName"]')
       ).toHaveAttribute('aria-required', 'true')

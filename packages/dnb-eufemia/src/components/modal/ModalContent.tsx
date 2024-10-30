@@ -5,7 +5,6 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import keycode from 'keycode'
 import {
   disableBodyScroll,
   enableBodyScroll,
@@ -19,6 +18,7 @@ import {
   combineLabelledBy,
   combineDescribedBy,
   dispatchCustomElementEvent,
+  keycode,
 } from '../../shared/component-helper'
 import ModalContext from './ModalContext'
 import { IS_IOS, IS_SAFARI, IS_MAC, isAndroid } from '../../shared/helpers'
@@ -363,6 +363,7 @@ export default class ModalContent extends React.PureComponent<
       no_animation_on_mobile = false,
       fullscreen = 'auto',
       container_placement = 'right',
+      vertical_alignment = 'center',
       close,
       content_class,
       overlay_class,
@@ -422,6 +423,7 @@ export default class ModalContent extends React.PureComponent<
         container_placement
           ? `dnb-modal__content--${container_placement || 'right'}`
           : null,
+        `dnb-modal__vertical-alignment--${vertical_alignment}`,
         getThemeClasses(this.context?.theme),
         content_class
       ),

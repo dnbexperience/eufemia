@@ -1,5 +1,4 @@
-import keycode from 'keycode'
-import { warn } from '../component-helper'
+import { warn, keycode } from '../component-helper'
 
 export class createShortcut {
   constructor() {

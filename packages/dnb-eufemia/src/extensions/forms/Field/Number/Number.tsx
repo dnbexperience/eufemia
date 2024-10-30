@@ -1,4 +1,10 @@
-import React, { useContext, useMemo, useCallback } from 'react'
+import React, {
+  useContext,
+  useMemo,
+  useCallback,
+  useEffect,
+  useRef,
+} from 'react'
 import { InputMasked, HelpButton, Button } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
 import type { InputAlign, InputSize } from '../../../../components/Input'
@@ -11,28 +17,16 @@ import {
   FieldProps,
   FieldHelpProps,
   AllJSONSchemaVersions,
-  CustomErrorMessages,
   FieldBlockWidth,
 } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { ButtonProps, ButtonSize } from '../../../../components/Button'
 import { clamp } from '../../../../components/slider/SliderHelpers'
-import useErrorMessage from '../../hooks/useErrorMessage'
-import useTranslation from '../../hooks/useTranslation'
 import DataContext from '../../DataContext/Context'
 
-interface ErrorMessages extends CustomErrorMessages {
-  required?: string
-  schema?: string
-  minimum?: string
-  maximum?: string
-  exclusiveMinimum?: string
-  exclusiveMaximum?: string
-  multipleOf?: string
-}
-
 export type Props = FieldHelpProps &
-  FieldProps<number, undefined | number, ErrorMessages> & {
+  FieldProps<number, undefined | number> & {
+    innerRef?: React.RefObject<HTMLInputElement>
     inputClassName?: string
     currency?: InputMaskedProps['as_currency']
     currencyDisplay?: 'code' | 'symbol' | 'narrowSymbol' | 'name'
@@ -66,7 +60,6 @@ function NumberComponent(props: Props) {
   const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
   const sharedContext = useContext(SharedContext)
-  const translations = useTranslation()
 
   const {
     currency,
@@ -81,15 +74,6 @@ function NumberComponent(props: Props) {
     suffix: suffixProp,
     showStepControls,
   } = props
-
-  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.Field.errorRequired,
-    minimum: translations.NumberField.errorMinimum,
-    maximum: translations.NumberField.errorMaximum,
-    exclusiveMinimum: translations.NumberField.errorExclusiveMinimum,
-    exclusiveMaximum: translations.NumberField.errorExclusiveMaximum,
-    multipleOf: translations.NumberField.errorMultipleOf,
-  })
 
   const schema = useMemo<AllJSONSchemaVersions>(
     () =>
@@ -127,22 +111,24 @@ function NumberComponent(props: Props) {
     [props.emptyValue]
   )
 
+  const ref = useRef<HTMLInputElement>()
   const preparedProps: Props = {
     valueType: 'number',
     ...props,
-    errorMessages,
     schema,
     toInput,
     fromInput,
     width:
       props.width ??
       (fieldBlockContext?.composition ? 'stretch' : 'medium'),
+    innerRef: props.innerRef ?? ref,
   }
 
   const {
     id,
     name,
     className,
+    innerRef,
     inputClassName,
     autoComplete,
     layout,
@@ -166,7 +152,12 @@ function NumberComponent(props: Props) {
     handleFocus,
     handleBlur,
     handleChange,
+    setDisplayValue,
   } = useFieldProps(preparedProps)
+
+  useEffect(() => {
+    setDisplayValue(props.path, innerRef.current?.value)
+  }, [innerRef, props.path, setDisplayValue, value])
 
   const { handleSubmit } = dataContext ?? {}
   const onKeyDownHandler = useCallback(
@@ -307,6 +298,7 @@ function NumberComponent(props: Props) {
         mask_options,
         currency_mask: {
           currencyDisplay,
+          decimalLimit,
         },
       }
     }
@@ -349,6 +341,7 @@ function NumberComponent(props: Props) {
   const inputProps = {
     id,
     name,
+    inner_ref: innerRef,
     autoComplete,
     className: classnames(
       'dnb-forms-field-number__input',

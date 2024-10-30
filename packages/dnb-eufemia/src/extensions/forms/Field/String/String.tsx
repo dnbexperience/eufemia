@@ -1,4 +1,10 @@
-import React, { useContext, useMemo, useCallback } from 'react'
+import React, {
+  useContext,
+  useMemo,
+  useCallback,
+  useEffect,
+  useRef,
+} from 'react'
 import classnames from 'classnames'
 import { HelpButton, Input, Textarea } from '../../../../components'
 import { InputProps } from '../../../../components/input/Input'
@@ -16,22 +22,12 @@ import type { TextCounterProps } from '../../../../fragments/TextCounter'
 import type {
   FieldProps,
   FieldHelpProps,
-  CustomErrorMessages,
   AllJSONSchemaVersions,
   FieldBlockWidth,
 } from '../../types'
-import useErrorMessage from '../../hooks/useErrorMessage'
-import useTranslation from '../../hooks/useTranslation'
 
-interface ErrorMessages extends CustomErrorMessages {
-  required?: string
-  schema?: string
-  minLength?: string
-  maxLength?: string
-  pattern?: string
-}
 export type Props = FieldHelpProps &
-  FieldProps<string, undefined | string, ErrorMessages> & {
+  FieldProps<string, undefined | string> & {
     // - Shared props
     multiline?: boolean
     inputClassName?: string
@@ -78,14 +74,6 @@ export type Props = FieldHelpProps &
 function StringComponent(props: Props) {
   const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
-  const translations = useTranslation()
-
-  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.Field.errorRequired,
-    minLength: translations.StringField.errorMinLength,
-    maxLength: translations.StringField.errorMaxLength,
-    pattern: translations.Field.errorPattern,
-  })
 
   const schema = useMemo<AllJSONSchemaVersions>(
     () =>
@@ -138,9 +126,9 @@ function StringComponent(props: Props) {
     [props.capitalize, transform]
   )
 
+  const ref = useRef<HTMLInputElement>()
   const preparedProps: Props = {
     ...props,
-    errorMessages,
     schema,
     fromInput,
     toEvent,
@@ -148,6 +136,7 @@ function StringComponent(props: Props) {
     width:
       props.width ??
       (fieldBlockContext?.composition ? 'stretch' : 'large'),
+    innerRef: props.innerRef ?? ref,
   }
 
   const {
@@ -201,8 +190,13 @@ function StringComponent(props: Props) {
     handleFocus,
     handleBlur,
     handleChange,
+    setDisplayValue,
     onKeyDown,
   } = useFieldProps(preparedProps)
+
+  useEffect(() => {
+    setDisplayValue(props.path, innerRef.current?.value)
+  }, [innerRef, props.path, setDisplayValue, value])
 
   const transformInstantly = useCallback(
     (value: string) => (props.capitalize ? toCapitalized(value) : value),

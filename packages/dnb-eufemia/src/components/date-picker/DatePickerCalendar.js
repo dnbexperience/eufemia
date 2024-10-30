@@ -21,7 +21,7 @@ import differenceInMonths from 'date-fns/differenceInMonths'
 import lastDayOfMonth from 'date-fns/lastDayOfMonth'
 import setDate from 'date-fns/setDate'
 
-import keycode from 'keycode'
+import keycode from '../../shared/keycode'
 import nbLocale from 'date-fns/locale/nb'
 import {
   isDisabled,

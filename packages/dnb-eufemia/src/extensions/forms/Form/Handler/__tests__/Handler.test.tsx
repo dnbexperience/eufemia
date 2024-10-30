@@ -176,30 +176,58 @@ describe('Form.Handler', () => {
     expect(formElement.getAttribute('aria-label')).toBe('Aria Label')
   })
 
-  it('string renders autocomplete from context if a path was given', () => {
-    const { rerender } = render(
-      <Form.Handler autoComplete>
-        <Field.String path="/firstName" />
-      </Form.Handler>
-    )
-    expect(
-      document.querySelector('input').getAttribute('autocomplete')
-    ).toBe('on')
-    expect(document.querySelector('input').getAttribute('name')).toBe(
-      'firstName'
-    )
+  describe('autocomplete', () => {
+    it('should set autocomplete="on" when autoComplete is false', () => {
+      const { rerender } = render(
+        <Form.Handler autoComplete>
+          <Field.String path="/firstName" />
+        </Form.Handler>
+      )
+      expect(
+        document.querySelector('input').getAttribute('autocomplete')
+      ).toBe('on')
+      expect(document.querySelector('input').getAttribute('name')).toBe(
+        'firstName'
+      )
 
-    rerender(
-      <Form.Handler autoComplete>
-        <Field.String path="/firstName" autoComplete="family-name" />
-      </Form.Handler>
-    )
-    expect(
-      document.querySelector('input').getAttribute('autocomplete')
-    ).toBe('family-name')
-    expect(document.querySelector('input').getAttribute('name')).toBe(
-      'firstName'
-    )
+      rerender(
+        <Form.Handler autoComplete>
+          <Field.String path="/firstName" autoComplete="family-name" />
+        </Form.Handler>
+      )
+      expect(
+        document.querySelector('input').getAttribute('autocomplete')
+      ).toBe('family-name')
+      expect(document.querySelector('input').getAttribute('name')).toBe(
+        'firstName'
+      )
+    })
+
+    it('should set autocomplete="off" when autoComplete is false', () => {
+      const { rerender } = render(
+        <Form.Handler autoComplete={false}>
+          <Field.String path="/firstName" />
+        </Form.Handler>
+      )
+      expect(
+        document.querySelector('input').getAttribute('autocomplete')
+      ).toBe('off')
+      expect(document.querySelector('input').getAttribute('name')).toBe(
+        'firstName'
+      )
+
+      rerender(
+        <Form.Handler autoComplete={false}>
+          <Field.String path="/firstName" autoComplete="family-name" />
+        </Form.Handler>
+      )
+      expect(
+        document.querySelector('input').getAttribute('autocomplete')
+      ).toBe('family-name')
+      expect(document.querySelector('input').getAttribute('name')).toBe(
+        'firstName'
+      )
+    })
   })
 
   it('should call HTMLFormElement.reset on "resetForm" call', () => {
@@ -648,6 +676,7 @@ describe('Form.Handler', () => {
             clearData: expect.any(Function),
             resetForm: expect.any(Function),
             filterData: expect.any(Function),
+            transformData: expect.any(Function),
             reduceToVisibleFields: expect.any(Function),
           }
         )
@@ -777,6 +806,7 @@ describe('Form.Handler', () => {
             clearData: expect.any(Function),
             resetForm: expect.any(Function),
             filterData: expect.any(Function),
+            transformData: expect.any(Function),
             reduceToVisibleFields: expect.any(Function),
           }
         )
@@ -817,6 +847,7 @@ describe('Form.Handler', () => {
             clearData: expect.any(Function),
             resetForm: expect.any(Function),
             filterData: expect.any(Function),
+            transformData: expect.any(Function),
             reduceToVisibleFields: expect.any(Function),
           }
         )
@@ -827,6 +858,17 @@ describe('Form.Handler', () => {
         'bar',
         expect.objectContaining({
           errorMessages: expect.objectContaining({
+            'Field.errorRequired': expect.any(String),
+            'Field.errorPattern': expect.any(String),
+            'StringField.errorMinLength': expect.any(String),
+            'StringField.errorMaxLength': expect.any(String),
+            'NumberField.errorMinimum': expect.any(String),
+            'NumberField.errorMaximum': expect.any(String),
+            'NumberField.errorExclusiveMinimum': expect.any(String),
+            'NumberField.errorExclusiveMaximum': expect.any(String),
+            'NumberField.errorMultipleOf': expect.any(String),
+
+            /** @deprecated – can be removed in v11 */
             maxLength: expect.any(String),
             minLength: expect.any(String),
             pattern: expect.any(String),

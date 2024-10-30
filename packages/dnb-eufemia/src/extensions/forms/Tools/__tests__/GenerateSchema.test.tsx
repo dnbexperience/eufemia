@@ -102,11 +102,14 @@ describe('Tools.GenerateSchema', () => {
     expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
       {
         "myField": {
-          "errorMessages": {
-            "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-            "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-            "pattern": "Verdien er ugyldig.",
-            "required": "Dette feltet må fylles ut.",
+          "innerRef": {
+            "current": <input
+              class="dnb-input__input"
+              id="id-rj"
+              name="myField"
+              type="text"
+              value=""
+            />,
           },
           "label": "My field",
           "path": "/myField",
@@ -120,11 +123,15 @@ describe('Tools.GenerateSchema', () => {
         },
         "nested": {
           "myString": {
-            "errorMessages": {
-              "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-              "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-              "pattern": "Verdien er ugyldig.",
-              "required": "Dette feltet må fylles ut.",
+            "innerRef": {
+              "current": <input
+                aria-required="true"
+                class="dnb-input__input"
+                id="id-ro"
+                name="nested/myString"
+                type="text"
+                value="my string"
+              />,
             },
             "minLength": 2,
             "path": "/nested/myString",
@@ -157,11 +164,15 @@ describe('Tools.GenerateSchema', () => {
     expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
       {
         "myField": {
-          "errorMessages": {
-            "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-            "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-            "pattern": "Verdien er ugyldig.",
-            "required": "Dette feltet må fylles ut.",
+          "innerRef": {
+            "current": <input
+              aria-required="true"
+              class="dnb-input__input"
+              id="id-rj"
+              name="myString"
+              type="text"
+              value="local value"
+            />,
           },
           "label": "My field",
           "path": "/myField",
@@ -174,11 +185,15 @@ describe('Tools.GenerateSchema', () => {
           "width": "large",
         },
         "myString": {
-          "errorMessages": {
-            "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-            "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-            "pattern": "Verdien er ugyldig.",
-            "required": "Dette feltet må fylles ut.",
+          "innerRef": {
+            "current": <input
+              aria-required="true"
+              class="dnb-input__input"
+              id="id-rj"
+              name="myString"
+              type="text"
+              value="local value"
+            />,
           },
           "minLength": 2,
           "path": "/myString",
@@ -194,11 +209,8 @@ describe('Tools.GenerateSchema', () => {
         },
         "nested": {
           "myString": {
-            "errorMessages": {
-              "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-              "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-              "pattern": "Verdien er ugyldig.",
-              "required": "Dette feltet må fylles ut.",
+            "innerRef": {
+              "current": null,
             },
             "minLength": 2,
             "path": "/nested/myString",

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useContext, useMemo } from 'react'
 import { DatePicker, HelpButton } from '../../../../components'
 import { useFieldProps } from '../../hooks'
 import {
@@ -9,10 +9,11 @@ import {
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import classnames from 'classnames'
 import FieldBlock from '../../FieldBlock'
+import SharedContext from '../../../../shared/Context'
 import { parseISO, isValid } from 'date-fns'
-import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
 import { DatePickerEvent } from '../../../../components/DatePicker'
+import { formatDate } from '../../Value/Date'
 
 export type Props = FieldHelpProps &
   FieldProps<string, undefined | string> & {
@@ -28,11 +29,15 @@ export type Props = FieldHelpProps &
 
 function DateComponent(props: Props) {
   const translations = useTranslation()
+  const { locale } = useContext(SharedContext)
 
-  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.Date.errorRequired,
-    pattern: translations.Field.errorRequired,
-  })
+  const errorMessages = useMemo(() => {
+    return {
+      'Field.errorRequired': translations.Date.errorRequired,
+      'Field.errorPattern': translations.Date.errorRequired,
+      ...props.errorMessages,
+    }
+  }, [props.errorMessages, translations.Date.errorRequired])
 
   const schema = useMemo<AllJSONSchemaVersions>(
     () =>
@@ -70,6 +75,7 @@ function DateComponent(props: Props) {
 
   const {
     id,
+    path,
     className,
     label,
     labelDescription,
@@ -84,6 +90,7 @@ function DateComponent(props: Props) {
     handleFocus,
     handleBlur,
     handleChange,
+    setDisplayValue,
     range,
   } = useFieldProps(preparedProps)
 
@@ -96,6 +103,12 @@ function DateComponent(props: Props) {
 
     return { startDate, endDate }
   }, [range, value])
+
+  useMemo(() => {
+    if (path && value) {
+      setDisplayValue(path, formatDate(value, { locale }))
+    }
+  }, [locale, path, setDisplayValue, value])
 
   return (
     <FieldBlock

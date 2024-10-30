@@ -8,7 +8,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import keycode from 'keycode'
 import {
   warn,
   isTrue,
@@ -22,6 +21,7 @@ import {
   convertJsxToString,
   escapeRegexChars,
   getPreviousSibling,
+  keycode,
 } from '../../shared/component-helper'
 import {
   IS_MAC,

@@ -109,6 +109,10 @@ describe('Decimals format', () => {
         decimals: undefined,
       })
     ).toBe('-1,1234567891234568')
+    expect(format(null, { currency: 'non-valid value' })).toBe('null')
+    expect(format(undefined, { currency: 'non-valid value' })).toBe(
+      'undefined'
+    )
   })
 
   describe('rounding', () => {
@@ -780,16 +784,16 @@ describe('getCurrencySymbol should', () => {
   it('default to space', () => {
     expect(getCurrencySymbol()).toBe('kr')
   })
-  it('return space when locale is nb-NO', () => {
+  it('return kr when locale is nb-NO', () => {
     expect(getCurrencySymbol('nb-NO')).toBe('kr')
   })
-  it('return space when locale is sv-SE', () => {
+  it('return NOK when locale is sv-SE', () => {
     expect(getCurrencySymbol('sv-SE')).toBe('NOK')
   })
-  it('return space when locale is en-GB', () => {
+  it('return NOK when locale is en-GB', () => {
     expect(getCurrencySymbol('en-GB')).toBe('NOK')
   })
-  it('return space when locale is en-US', () => {
+  it('return NOK when locale is en-US', () => {
     expect(getCurrencySymbol('en-US')).toBe('NOK')
   })
 })

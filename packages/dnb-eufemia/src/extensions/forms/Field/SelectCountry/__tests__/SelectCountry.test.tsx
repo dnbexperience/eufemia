@@ -1,10 +1,12 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
-import { Props } from '..'
-import { Provider } from '../../../../../shared'
-import { Field, Form, FieldBlock, Value } from '../../..'
 import userEvent from '@testing-library/user-event'
+import { Props } from '../SelectCountry'
+import { Provider } from '../../../../../shared'
+import DataContext from '../../../DataContext/Context'
+import DrawerListProvider from '../../../../../fragments/drawer-list/DrawerListProvider'
+import { Field, Form, FieldBlock, Value } from '../../..'
 
 describe('Field.SelectCountry', () => {
   it('should render with props', () => {
@@ -125,10 +127,6 @@ describe('Field.SelectCountry', () => {
 
     // open
     fireEvent.focus(inputElement)
-    fireEvent.keyDown(inputElement, {
-      key: 'Enter',
-      keyCode: 13,
-    })
 
     const liElements = document.querySelectorAll('li:not([aria-hidden])')
     expect(liElements).toHaveLength(3)
@@ -150,10 +148,6 @@ describe('Field.SelectCountry', () => {
 
     // open
     fireEvent.focus(inputElement)
-    fireEvent.keyDown(inputElement, {
-      key: 'Enter',
-      keyCode: 13,
-    })
 
     const liElements = document.querySelectorAll('li:not([aria-hidden])')
     expect(liElements.length).toBeGreaterThan(200)
@@ -162,6 +156,39 @@ describe('Field.SelectCountry', () => {
     expect(liElements[2].textContent).toBe('Danmark')
     expect(liElements[3].textContent).toBe('Finland')
     expect(liElements[4].textContent).toBe('Afghanistan')
+  })
+
+  it('should sort "AX" as last', () => {
+    const { rerender } = render(
+      <Form.Handler>
+        <Field.SelectCountry />
+      </Form.Handler>
+    )
+
+    const inputElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-select-country input'
+    )
+
+    // open
+    fireEvent.focus(inputElement)
+
+    {
+      const liElements = document.querySelectorAll('li:not([aria-hidden])')
+      expect(liElements[liElements.length - 1].textContent).toBe('Åland')
+    }
+
+    rerender(
+      <Form.Handler locale="en-GB">
+        <Field.SelectCountry />
+      </Form.Handler>
+    )
+
+    {
+      const liElements = document.querySelectorAll('li:not([aria-hidden])')
+      expect(liElements[liElements.length - 1].textContent).toBe(
+        'Åland Islands'
+      )
+    }
   })
 
   it('should show only Scandinavian countries', () => {
@@ -173,10 +200,6 @@ describe('Field.SelectCountry', () => {
 
     // open
     fireEvent.focus(inputElement)
-    fireEvent.keyDown(inputElement, {
-      key: 'Enter',
-      keyCode: 13,
-    })
 
     const liElements = document.querySelectorAll('li:not([aria-hidden])')
     expect(liElements).toHaveLength(3)
@@ -199,10 +222,6 @@ describe('Field.SelectCountry', () => {
 
     // open
     fireEvent.focus(inputElement)
-    fireEvent.keyDown(inputElement, {
-      key: 'Enter',
-      keyCode: 13,
-    })
 
     const liElements = document.querySelectorAll('li:not([aria-hidden])')
     expect(liElements).toHaveLength(2)
@@ -219,10 +238,6 @@ describe('Field.SelectCountry', () => {
 
     // open
     fireEvent.focus(inputElement)
-    fireEvent.keyDown(inputElement, {
-      key: 'Enter',
-      keyCode: 13,
-    })
 
     const liElements = document.querySelectorAll('li:not([aria-hidden])')
     expect(liElements.length).toBeGreaterThan(200)
@@ -468,6 +483,37 @@ describe('Field.SelectCountry', () => {
     expect(valueTransformIn).toHaveBeenNthCalledWith(3, 'Norge (NO)')
     expect(valueTransformIn).toHaveBeenNthCalledWith(4, 'Sveits (CH)')
     expect(valueTransformIn).toHaveBeenNthCalledWith(5, 'Sveits (CH)')
+  })
+
+  it('should store "displayValue" in data context', async () => {
+    let dataContext = null
+
+    render(
+      <Form.Handler locale="en-GB">
+        <Field.SelectCountry path="/country" defaultValue="NO" />
+        <DataContext.Consumer>
+          {(context) => {
+            dataContext = context
+            return null
+          }}
+        </DataContext.Consumer>
+      </Form.Handler>
+    )
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/country': 'Norway',
+    })
+
+    // Open like user would do, but without a delay
+    DrawerListProvider['blurDelay'] = 0
+    await userEvent.tab()
+    await userEvent.keyboard('{ArrowDown>2}')
+    await userEvent.keyboard('{Enter}')
+    DrawerListProvider['blurDelay'] = 201
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/country': 'Denmark',
+    })
   })
 
   describe('ARIA', () => {

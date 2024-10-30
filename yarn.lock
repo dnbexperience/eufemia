@@ -3491,6 +3491,7 @@ __metadata:
     eslint-plugin-react-hooks: "npm:4.5.0"
     eslint-plugin-security: "npm:1.5.0"
     figma-js: "npm:1.14.0"
+    flag-icons: "npm:7.2.3"
     fontmin: "npm:0.9.9"
     fs-extra: "npm:10.0.0"
     full-icu: "npm:1.4.0"
@@ -3508,7 +3509,6 @@ __metadata:
     jest-playwright-preset: "npm:3.0.1"
     jest-raw-loader: "npm:1.0.1"
     jest-tobetype: "npm:1.2.3"
-    keycode: "npm:2.2.1"
     lint-staged: "npm:11.2.6"
     lockfile-lint: "npm:4.6.2"
     lodash.isequal: "npm:4.5.0"
@@ -14045,7 +14045,6 @@ __metadata:
     github-slugger: "npm:1.4.0"
     history: "npm:5.1.0"
     jest: "npm:29.3.1"
-    keycode: "npm:2.2.0"
     lint-staged: "npm:11.2.6"
     mdast-util-to-string: "npm:^2"
     ora: "npm:5.4.1"
@@ -16545,6 +16544,13 @@ __metadata:
     object.pick: "npm:^1.2.0"
     parse-filepath: "npm:^1.0.1"
   checksum: 9c76fb17e9f7e3f21e65b563cf49aed944c6b257a46b04306cef8883d60e295e904f57514443e60c64874914d13557b2f464071181d8d80a37cd9d8565075b7f
+  languageName: node
+  linkType: hard
+
+"flag-icons@npm:7.2.3":
+  version: 7.2.3
+  resolution: "flag-icons@npm:7.2.3"
+  checksum: c35df4c4553541282d4f2571391c48efde4e685fb4fb4ab53d380ffa1f25abe48dfbac52284d5fa0aae91d6385c371021655cf170dd834dc4ddd3562b2c45944
   languageName: node
   linkType: hard
 
@@ -22036,20 +22042,6 @@ __metadata:
   dependencies:
     lodash.kebabcase: "npm:^4.1.1"
   checksum: d3e3ecd949a751929b400afb0582c6ea69b75872046695720eb4026bef3cd43d9e4dbe4afca07054a54d3ff013a8481f1c46921c32ad898b678c2db05499aa49
-  languageName: node
-  linkType: hard
-
-"keycode@npm:2.2.0":
-  version: 2.2.0
-  resolution: "keycode@npm:2.2.0"
-  checksum: fd2c723141d335c605d800c49322fd339589af32a803dd171a25e5ff74b9e7c8532d4ea819d9250f0407ed10a1bdbeb2458b2d58606339ad96ab718414417b5c
-  languageName: node
-  linkType: hard
-
-"keycode@npm:2.2.1":
-  version: 2.2.1
-  resolution: "keycode@npm:2.2.1"
-  checksum: 049fddd666a6ce57c94f1e8fd0ad76692f4042ee2eed99801c4f41ca8749f979a05a8a092b5577c261cc750922ac29e147de2217bd705b50dc90df8324c840ad
   languageName: node
   linkType: hard
 

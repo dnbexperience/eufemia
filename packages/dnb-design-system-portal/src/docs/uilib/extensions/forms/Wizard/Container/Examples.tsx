@@ -226,3 +226,28 @@ export const AsyncWizardContainer = () => {
     </ComponentBox>
   )
 }
+
+export const WithStatusMessage = () => {
+  return (
+    <ComponentBox data-visual-test="wizard-with-status-message">
+      <Form.Handler>
+        <Wizard.Container
+          onStepChange={async (index, mode, { preventNavigation }) => {
+            preventNavigation()
+
+            return {
+              info: 'Info message.',
+              warning: 'Warning message.',
+            }
+          }}
+        >
+          <Wizard.Step title="Step 1">
+            <Form.MainHeading>Step 1</Form.MainHeading>
+            <P>Content</P>
+            <Wizard.NextButton text="Press me to see the status message" />
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}

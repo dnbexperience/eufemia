@@ -12,10 +12,10 @@ import {
   Ajv,
   makeAjvInstance,
   ajvErrorsToFormErrors,
-} from '../../utils/ajv'
-import {
   FormError,
-  CustomErrorMessagesWithPaths,
+} from '../../utils'
+import {
+  GlobalErrorMessagesWithPaths,
   AllJSONSchemaVersions,
   FieldProps,
   SubmitState,
@@ -34,9 +34,9 @@ import FieldPropsProvider from '../../Field/Provider'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
-import { ContextProps } from '../../../../shared/Context'
+import SharedContext, { ContextProps } from '../../../../shared/Context'
 import useTranslation from '../../hooks/useTranslation'
-import Context, {
+import DataContext, {
   ContextState,
   EventListenerCall,
   FilterData,
@@ -102,7 +102,7 @@ export interface Props<Data extends JsonObject>
   /**
    * Custom error messages for the whole data set
    */
-  errorMessages?: CustomErrorMessagesWithPaths
+  errorMessages?: GlobalErrorMessagesWithPaths
   /**
    * @deprecated Use the `filterData` in the second event parameter in the `onSubmit` or `onChange` events.
    */
@@ -218,7 +218,7 @@ export default function Provider<Data extends JsonObject>(
     locale,
     translations,
     required,
-    errorMessages: contextErrorMessages,
+    errorMessages,
     isolate,
     children,
     ...rest
@@ -231,7 +231,7 @@ export default function Provider<Data extends JsonObject>(
     )
   }
 
-  const { hasContext } = useContext(Context) || {}
+  const { hasContext } = useContext(DataContext) || {}
 
   if (hasContext && !isolate) {
     throw new Error('DataContext (Form.Handler) can not be nested')
@@ -241,6 +241,7 @@ export default function Provider<Data extends JsonObject>(
   const formElementRef = useRef<HTMLFormElement>(null)
 
   // - Locale
+  const { locale: sharedLocale } = useContext(SharedContext) || {}
   const translation = useTranslation().Field
 
   // - Ajv
@@ -388,8 +389,8 @@ export default function Provider<Data extends JsonObject>(
   /**
    * Sets the error state for a specific path
    */
-  const setFieldError = useCallback(
-    (path: Path, error: Error | FormError) => {
+  const setFieldError: ContextState['setFieldError'] = useCallback(
+    (path, error) => {
       fieldErrorRef.current[path] = error
     },
     []
@@ -398,8 +399,8 @@ export default function Provider<Data extends JsonObject>(
   /**
    * Sets the field state for a specific path
    */
-  const setFieldState = useCallback(
-    (path: Path, fieldState: SubmitState) => {
+  const setFieldState: ContextState['setFieldState'] = useCallback(
+    (path, fieldState) => {
       if (fieldState !== fieldStateRef.current[path]) {
         // The state for the target value was changed
         fieldStateRef.current[path] = fieldState
@@ -413,7 +414,7 @@ export default function Provider<Data extends JsonObject>(
    * Mutate the data set based on the filterData function
    */
   const mutateDataHandler = useCallback(
-    (data: Data, filter: FilterData | TransformData, remove = false) => {
+    (data: Data, handler: TransformData | FilterData, remove = false) => {
       const mutate = (path: Path, result: boolean | unknown) => {
         if (remove) {
           if (result === false) {
@@ -428,17 +429,20 @@ export default function Provider<Data extends JsonObject>(
         }
       }
 
-      if (typeof filter === 'function') {
+      if (typeof handler === 'function') {
         Object.entries(fieldPropsRef.current).forEach(([path, props]) => {
           const exists = pointer.has(data, path)
           if (exists) {
             const value = pointer.get(data, path)
+            const displayValue = fieldDisplayValueRef.current[path]
             const internal = {
               error: fieldErrorRef.current?.[path],
             }
-            const result = filter({
+            const result = handler({
               path,
               value,
+              displayValue,
+              label: props.label,
               data: internalDataRef.current,
               props,
               internal,
@@ -448,12 +452,12 @@ export default function Provider<Data extends JsonObject>(
         })
 
         return data
-      } else if (filter) {
+      } else if (handler) {
         const runFilter = ({ path, condition }) => {
           const exists = pointer.has(data, path)
           if (exists) {
             const value = pointer.get(data, path)
-            const props = fieldPropsRef.current?.[path]
+            const props = fieldPropsRef.current[path]
             const internal = { error: fieldErrorRef.current?.[path] }
             const result =
               typeof condition === 'function'
@@ -470,7 +474,7 @@ export default function Provider<Data extends JsonObject>(
 
         const wildcardPaths = []
 
-        Object.entries(filter).forEach(([path, condition]) => {
+        Object.entries(handler).forEach(([path, condition]) => {
           if (path.includes('*')) {
             const parts = path.split(/\/\*/g)
             const exists = pointer.has(data, parts[0])
@@ -566,6 +570,9 @@ export default function Provider<Data extends JsonObject>(
     [filterDataHandler]
   )
 
+  const fieldDisplayValueRef: ContextState['fieldDisplayValueRef'] =
+    useRef({})
+
   const fieldConnectionsRef = useRef<
     Record<Path, Record<string, unknown>>
   >({})
@@ -583,13 +590,15 @@ export default function Provider<Data extends JsonObject>(
     },
     []
   )
-  const valuePropsRef = useRef<Record<Path, ValueProps<unknown>>>({})
+
+  const valuePropsRef = useRef<Record<Path, ValueProps>>({})
   const setValueProps = useCallback(
     (path: Path, props: Record<string, unknown>) => {
       valuePropsRef.current[path] = props
     },
     []
   )
+
   const hasFieldWithAsyncValidator = useCallback(() => {
     for (const path in fieldPropsRef.current) {
       if (mountedFieldsRef.current[path]?.isMounted) {
@@ -1128,7 +1137,7 @@ export default function Provider<Data extends JsonObject>(
     transformOut,
   ])
 
-  const getSubmitOptions = useCallback(() => {
+  const getSubmitParams = useCallback(() => {
     const reduceToVisibleFields: VisibleDataHandler<Data> = (
       data,
       options
@@ -1138,10 +1147,16 @@ export default function Provider<Data extends JsonObject>(
         options
       )
     }
+
+    const transformData = (data: Data, handler: TransformData) => {
+      return mutateDataHandler(data, handler) as TransformData
+    }
+
     const formElement = formElementRef.current
-    const options: OnSubmitParams = {
+    const params: OnSubmitParams = {
       filterData,
       reduceToVisibleFields,
+      transformData,
       resetForm: () => {
         formElement?.reset?.()
 
@@ -1156,7 +1171,7 @@ export default function Provider<Data extends JsonObject>(
       clearData,
     }
 
-    return options
+    return params
   }, [
     clearData,
     filterData,
@@ -1180,7 +1195,7 @@ export default function Provider<Data extends JsonObject>(
         }
 
         const data = getSubmitData()
-        const options = getSubmitOptions()
+        const options = getSubmitParams()
         let result = undefined
 
         if (isAsync(onSubmit)) {
@@ -1206,7 +1221,7 @@ export default function Provider<Data extends JsonObject>(
     })
   }, [
     getSubmitData,
-    getSubmitOptions,
+    getSubmitParams,
     handleSubmitCall,
     handleSubmitListeners,
     onSubmit,
@@ -1285,6 +1300,8 @@ export default function Provider<Data extends JsonObject>(
       : (formState === 'pending') === true
       ? true
       : undefined
+  const contextErrorMessages =
+    errorMessages?.[locale ?? sharedLocale] || errorMessages
 
   const contextValue: ContextState = {
     /** Method */
@@ -1313,7 +1330,7 @@ export default function Provider<Data extends JsonObject>(
     visibleDataHandler,
     filterDataHandler,
     getSubmitData,
-    getSubmitOptions,
+    getSubmitParams,
     addOnChangeHandler,
     setHandleSubmit,
     scrollToTop,
@@ -1330,6 +1347,7 @@ export default function Provider<Data extends JsonObject>(
     showAllErrors: showAllErrorsRef.current,
     hasVisibleError: Object.keys(hasVisibleErrorRef.current).length > 0,
     fieldConnectionsRef,
+    fieldDisplayValueRef,
     fieldPropsRef,
     valuePropsRef,
     mountedFieldsRef,
@@ -1353,7 +1371,7 @@ export default function Provider<Data extends JsonObject>(
   }
 
   return (
-    <Context.Provider value={contextValue}>
+    <DataContext.Provider value={contextValue}>
       <FieldPropsProvider
         FormStatus={
           globalStatusId
@@ -1372,7 +1390,7 @@ export default function Provider<Data extends JsonObject>(
       >
         {children}
       </FieldPropsProvider>
-    </Context.Provider>
+    </DataContext.Provider>
   )
 }
 

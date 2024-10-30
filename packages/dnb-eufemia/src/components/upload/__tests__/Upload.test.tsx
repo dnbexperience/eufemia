@@ -96,6 +96,30 @@ describe('Upload', () => {
       ).toBeInTheDocument()
     })
 
+    it('does not render text when text is false', () => {
+      render(<Upload {...defaultProps} text={false} />)
+
+      expect(screen.queryByText(nb.text)).not.toBeInTheDocument()
+    })
+
+    it('does not render text when text is empty string', () => {
+      render(<Upload {...defaultProps} text="" />)
+
+      expect(screen.queryByText(nb.text)).not.toBeInTheDocument()
+    })
+
+    it('does not render title when title is false', () => {
+      render(<Upload {...defaultProps} title={false} />)
+
+      expect(screen.queryByText(nb.title)).not.toBeInTheDocument()
+    })
+
+    it('does not render title when title is empty string', () => {
+      render(<Upload {...defaultProps} title="" />)
+
+      expect(screen.queryByText(nb.title)).not.toBeInTheDocument()
+    })
+
     it('does not render fileTypeDescription when acceptedFileTypes is empty', () => {
       const acceptedFileTypes = []
 
@@ -530,6 +554,52 @@ describe('Upload', () => {
         element.querySelectorAll('.dnb-upload__file-cell')[0].classList
       )
     ).toEqual(expect.arrayContaining(['dnb-upload__file-cell--highlight']))
+  })
+
+  it('will return error when dropping a file with extension that is not accepted', async () => {
+    const id = 'not-supported-extension'
+
+    renderHook(useUpload, { initialProps: id })
+
+    render(
+      <Upload {...defaultProps} id={id} acceptedFileTypes={['jpg']} />
+    )
+
+    const getRootElement = () => document.querySelector('.dnb-upload')
+
+    const element = getRootElement()
+    const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1] },
+      })
+    )
+
+    expect(screen.queryByText(nb.errorUnsupportedFile)).toBeInTheDocument()
+  })
+
+  it('will return error when dropping a file without extension', async () => {
+    const id = 'no-extension'
+
+    renderHook(useUpload, { initialProps: id })
+
+    render(
+      <Upload {...defaultProps} id={id} acceptedFileTypes={['jpg']} />
+    )
+
+    const getRootElement = () => document.querySelector('.dnb-upload')
+
+    const element = getRootElement()
+    const file1 = createMockFile('fileName-1', 100, '')
+
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1] },
+      })
+    )
+
+    expect(screen.queryByText(nb.errorUnsupportedFile)).toBeInTheDocument()
   })
 
   describe('useUpload', () => {

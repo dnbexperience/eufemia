@@ -32,7 +32,6 @@ import useId from '../../../shared/helpers/useId'
 import {
   ComponentProps,
   FieldProps,
-  FormError,
   SubmitState,
   Identifier,
   FieldBlockWidth,
@@ -41,6 +40,7 @@ import type { FormLabelAllProps } from '../../../components/FormLabel'
 import SubmitIndicator from '../Form/SubmitIndicator/SubmitIndicator'
 import { createSharedState } from '../../../shared/helpers/useSharedState'
 import useTranslation from '../hooks/useTranslation'
+import { FormError } from '../utils'
 
 export const states: Array<StateTypes> = ['error', 'info', 'warning']
 
@@ -283,23 +283,20 @@ function FieldBlock(props: Props) {
             return item.type === cur.type
           })
 
-          const message = getMessage(cur)
-
-          if (existing) {
-            existing.messages.push({
+          const messages = getMessagesFromError(cur).map((message) => {
+            return {
               ...cur,
               message,
-            })
+            }
+          })
+
+          if (existing) {
+            existing.messages.push(...messages)
           } else {
             acc.push({
               ...cur,
               content: undefined,
-              messages: [
-                {
-                  ...cur,
-                  message,
-                },
-              ],
+              messages,
             })
           }
 
@@ -589,13 +586,23 @@ function LabelDescription({ labelDescription, children }) {
   return <div className="dnb-forms-field-block__label">{children}</div>
 }
 
-export function getMessage(item: Partial<StateWithMessage>): StateMessage {
+export function getMessagesFromError(
+  item: Partial<StateWithMessage>
+): Array<StateMessage> {
   const { content } = item
 
-  return ((content instanceof Error && content.message) ||
-    (content instanceof FormError && content.message) ||
-    content?.toString() ||
-    content) as StateMessage
+  if (content instanceof FormError && Array.isArray(content.errors)) {
+    return content.errors.map((error) => {
+      return error.message
+    })
+  }
+
+  return [
+    ((content instanceof Error && content.message) ||
+      (content instanceof FormError && content.message) ||
+      content?.toString() ||
+      content) as StateMessage,
+  ]
 }
 
 function isFragment(fragment: React.ReactNode) {

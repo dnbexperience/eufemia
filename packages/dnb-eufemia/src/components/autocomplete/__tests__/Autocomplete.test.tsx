@@ -2915,7 +2915,7 @@ describe('Autocomplete component', () => {
         />
       )
 
-      await userEvent.type(inputElement(), '{Enter}')
+      await userEvent.type(inputElement(), '{Space}')
 
       expect(mainElement().classList).toContain('dnb-autocomplete--opened')
       expect(optionElement()).toBeInTheDocument()

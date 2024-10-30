@@ -23,14 +23,6 @@ describe('Tools.ListAllProps', () => {
     expect(log).toHaveBeenCalledWith({
       propsOfFields: {
         myString: {
-          errorMessages: {
-            maxLength:
-              'Verdien kan ikke være lengre enn {maxLength} tegn.',
-            minLength:
-              'Verdien kan ikke være kortere enn {minLength} tegn.',
-            pattern: 'Verdien er ugyldig.',
-            required: 'Dette feltet må fylles ut.',
-          },
           path: '/myString',
           pattern: '^[a-z]{2}[0-9]+$',
           required: true,
@@ -41,6 +33,9 @@ describe('Tools.ListAllProps', () => {
             type: 'string',
           },
           width: 'large',
+          innerRef: {
+            current: expect.any(Object),
+          },
         },
       },
       propsOfValues: {},
@@ -64,11 +59,14 @@ describe('Tools.ListAllProps', () => {
     expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
       {
         "myField": {
-          "errorMessages": {
-            "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-            "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-            "pattern": "Verdien er ugyldig.",
-            "required": "Dette feltet må fylles ut.",
+          "innerRef": {
+            "current": <input
+              class="dnb-input__input"
+              id="id-r8"
+              name="myField"
+              type="text"
+              value=""
+            />,
           },
           "label": "My field",
           "path": "/myField",
@@ -82,11 +80,15 @@ describe('Tools.ListAllProps', () => {
         },
         "nested": {
           "myString": {
-            "errorMessages": {
-              "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-              "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-              "pattern": "Verdien er ugyldig.",
-              "required": "Dette feltet må fylles ut.",
+            "innerRef": {
+              "current": <input
+                aria-required="true"
+                class="dnb-input__input"
+                id="id-rd"
+                name="nested/myString"
+                type="text"
+                value="my string"
+              />,
             },
             "minLength": 2,
             "path": "/nested/myString",
@@ -119,11 +121,15 @@ describe('Tools.ListAllProps', () => {
     expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
       {
         "myField": {
-          "errorMessages": {
-            "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-            "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-            "pattern": "Verdien er ugyldig.",
-            "required": "Dette feltet må fylles ut.",
+          "innerRef": {
+            "current": <input
+              aria-required="true"
+              class="dnb-input__input"
+              id="id-r8"
+              name="myString"
+              type="text"
+              value="local value"
+            />,
           },
           "label": "My field",
           "path": "/myField",
@@ -136,11 +142,15 @@ describe('Tools.ListAllProps', () => {
           "width": "large",
         },
         "myString": {
-          "errorMessages": {
-            "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-            "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-            "pattern": "Verdien er ugyldig.",
-            "required": "Dette feltet må fylles ut.",
+          "innerRef": {
+            "current": <input
+              aria-required="true"
+              class="dnb-input__input"
+              id="id-r8"
+              name="myString"
+              type="text"
+              value="local value"
+            />,
           },
           "minLength": 2,
           "path": "/myString",
@@ -156,11 +166,8 @@ describe('Tools.ListAllProps', () => {
         },
         "nested": {
           "myString": {
-            "errorMessages": {
-              "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-              "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-              "pattern": "Verdien er ugyldig.",
-              "required": "Dette feltet må fylles ut.",
+            "innerRef": {
+              "current": null,
             },
             "minLength": 2,
             "path": "/nested/myString",
@@ -263,13 +270,14 @@ describe('Tools.ListAllProps', () => {
             "valueType": "boolean",
           },
           "myNumber": {
-            "errorMessages": {
-              "exclusiveMaximum": "Verdien må være mindre enn {exclusiveMaximum}.",
-              "exclusiveMinimum": "Verdien må være større enn {exclusiveMinimum}.",
-              "maximum": "Verdien må være maksimalt {maximum}.",
-              "minimum": "Verdien må være minst {minimum}.",
-              "multipleOf": "Verdien må være et multiplum av {multipleOf}.",
-              "required": "Dette feltet må fylles ut.",
+            "innerRef": {
+              "current": <input
+                class="dnb-input__input"
+                id="id-rr"
+                inputmode="decimal"
+                name="myNumber"
+                type="text"
+              />,
             },
             "path": "/myNumber",
             "schema": {
@@ -284,11 +292,14 @@ describe('Tools.ListAllProps', () => {
             "width": "medium",
           },
           "myString": {
-            "errorMessages": {
-              "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-              "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-              "pattern": "Verdien er ugyldig.",
-              "required": "Dette feltet må fylles ut.",
+            "innerRef": {
+              "current": <input
+                class="dnb-input__input"
+                id="id-rm"
+                name="myString"
+                type="text"
+                value=""
+              />,
             },
             "path": "/myString",
             "schema": {
@@ -348,16 +359,17 @@ describe('Tools.ListAllProps', () => {
             "valueType": "boolean",
           },
           "myNumber": {
-            "errorMessages": {
-              "exclusiveMaximum": "Verdien må være mindre enn {exclusiveMaximum}.",
-              "exclusiveMinimum": "Verdien må være større enn {exclusiveMinimum}.",
-              "maximum": "Verdien må være maksimalt {maximum}.",
-              "minimum": "Verdien må være minst {minimum}.",
-              "multipleOf": "Verdien må være et multiplum av {multipleOf}.",
-              "required": "Dette feltet må fylles ut.",
-            },
             "exclusiveMaximum": 25,
             "exclusiveMinimum": 15,
+            "innerRef": {
+              "current": <input
+                class="dnb-input__input"
+                id="id-r1t"
+                inputmode="decimal"
+                name="myNumber"
+                type="text"
+              />,
+            },
             "maximum": 20,
             "minimum": 10,
             "multipleOf": 2,
@@ -375,11 +387,14 @@ describe('Tools.ListAllProps', () => {
           },
           "myObject": {
             "withString": {
-              "errorMessages": {
-                "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-                "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-                "pattern": "Verdien er ugyldig.",
-                "required": "Dette feltet må fylles ut.",
+              "innerRef": {
+                "current": <input
+                  class="dnb-input__input"
+                  id="id-r1i"
+                  name="myObject/withString"
+                  type="text"
+                  value=""
+                />,
               },
               "maxLength": 10,
               "minLength": 10,
@@ -395,11 +410,14 @@ describe('Tools.ListAllProps', () => {
             },
           },
           "myString": {
-            "errorMessages": {
-              "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-              "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-              "pattern": "Verdien er ugyldig.",
-              "required": "Dette feltet må fylles ut.",
+            "innerRef": {
+              "current": <input
+                class="dnb-input__input"
+                id="id-r1d"
+                name="myString"
+                type="text"
+                value=""
+              />,
             },
             "maxLength": 5,
             "minLength": 5,
@@ -447,16 +465,17 @@ describe('Tools.ListAllProps', () => {
           "myObject": {
             "nested": {
               "withNumber": {
-                "errorMessages": {
-                  "exclusiveMaximum": "Verdien må være mindre enn {exclusiveMaximum}.",
-                  "exclusiveMinimum": "Verdien må være større enn {exclusiveMinimum}.",
-                  "maximum": "Verdien må være maksimalt {maximum}.",
-                  "minimum": "Verdien må være minst {minimum}.",
-                  "multipleOf": "Verdien må være et multiplum av {multipleOf}.",
-                  "required": "Dette feltet må fylles ut.",
-                },
                 "exclusiveMaximum": 25,
                 "exclusiveMinimum": 15,
+                "innerRef": {
+                  "current": <input
+                    class="dnb-input__input"
+                    id="id-r28"
+                    inputmode="decimal"
+                    name="myObject/nested/withNumber"
+                    type="text"
+                  />,
+                },
                 "maximum": 20,
                 "minimum": 10,
                 "multipleOf": 2,
@@ -474,11 +493,14 @@ describe('Tools.ListAllProps', () => {
               },
             },
             "withString": {
-              "errorMessages": {
-                "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-                "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-                "pattern": "Verdien er ugyldig.",
-                "required": "Dette feltet må fylles ut.",
+              "innerRef": {
+                "current": <input
+                  class="dnb-input__input"
+                  id="id-r23"
+                  name="myObject/withString"
+                  type="text"
+                  value=""
+                />,
               },
               "maxLength": 10,
               "minLength": 10,
@@ -536,13 +558,15 @@ describe('Tools.ListAllProps', () => {
           },
           "myObject": {
             "withNumber": {
-              "errorMessages": {
-                "exclusiveMaximum": "Verdien må være mindre enn {exclusiveMaximum}.",
-                "exclusiveMinimum": "Verdien må være større enn {exclusiveMinimum}.",
-                "maximum": "Verdien må være maksimalt {maximum}.",
-                "minimum": "Verdien må være minst {minimum}.",
-                "multipleOf": "Verdien må være et multiplum av {multipleOf}.",
-                "required": "Dette feltet må fylles ut.",
+              "innerRef": {
+                "current": <input
+                  aria-required="true"
+                  class="dnb-input__input"
+                  id="id-r2u"
+                  inputmode="decimal"
+                  name="myObject/withNumber"
+                  type="text"
+                />,
               },
               "maximum": 20,
               "minimum": 10,
@@ -560,11 +584,15 @@ describe('Tools.ListAllProps', () => {
               "width": "medium",
             },
             "withString": {
-              "errorMessages": {
-                "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-                "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-                "pattern": "Verdien er ugyldig.",
-                "required": "Dette feltet må fylles ut.",
+              "innerRef": {
+                "current": <input
+                  aria-required="true"
+                  class="dnb-input__input"
+                  id="id-r2j"
+                  name="myObject/withString"
+                  type="text"
+                  value=""
+                />,
               },
               "maxLength": 10,
               "minLength": 10,
@@ -580,11 +608,15 @@ describe('Tools.ListAllProps', () => {
             },
           },
           "myString": {
-            "errorMessages": {
-              "maxLength": "Verdien kan ikke være lengre enn {maxLength} tegn.",
-              "minLength": "Verdien kan ikke være kortere enn {minLength} tegn.",
-              "pattern": "Verdien er ugyldig.",
-              "required": "Dette feltet må fylles ut.",
+            "innerRef": {
+              "current": <input
+                aria-required="true"
+                class="dnb-input__input"
+                id="id-r2e"
+                name="myString"
+                type="text"
+                value=""
+              />,
             },
             "path": "/myString",
             "required": true,
@@ -634,13 +666,20 @@ describe('Tools.ListAllProps', () => {
         "items": {
           "0": {
             "item": {
-              "errorMessages": {
-                "exclusiveMaximum": "Verdien må være mindre enn {exclusiveMaximum}.",
-                "exclusiveMinimum": "Verdien må være større enn {exclusiveMinimum}.",
-                "maximum": "Verdien må være maksimalt {maximum}.",
-                "minimum": "Verdien må være minst {minimum}.",
-                "multipleOf": "Verdien må være et multiplum av {multipleOf}.",
-                "required": "Dette feltet må fylles ut.",
+              "innerRef": {
+                "current": <input
+                  aria-valuemax="9007199254740991"
+                  aria-valuemin="-9007199254740991"
+                  aria-valuenow="0"
+                  aria-valuetext="0"
+                  class="dnb-input__input"
+                  id="id-r39"
+                  inputmode="decimal"
+                  name="id-r39"
+                  role="spinbutton"
+                  step="1"
+                  type="text"
+                />,
               },
               "itemPath": "/item",
               "label": "My field",
@@ -660,13 +699,20 @@ describe('Tools.ListAllProps', () => {
           },
           "1": {
             "item": {
-              "errorMessages": {
-                "exclusiveMaximum": "Verdien må være mindre enn {exclusiveMaximum}.",
-                "exclusiveMinimum": "Verdien må være større enn {exclusiveMinimum}.",
-                "maximum": "Verdien må være maksimalt {maximum}.",
-                "minimum": "Verdien må være minst {minimum}.",
-                "multipleOf": "Verdien må være et multiplum av {multipleOf}.",
-                "required": "Dette feltet må fylles ut.",
+              "innerRef": {
+                "current": <input
+                  aria-valuemax="9007199254740991"
+                  aria-valuemin="-9007199254740991"
+                  aria-valuenow="1"
+                  aria-valuetext="1"
+                  class="dnb-input__input"
+                  id="id-r3e"
+                  inputmode="decimal"
+                  name="id-r3e"
+                  role="spinbutton"
+                  step="1"
+                  type="text"
+                />,
               },
               "itemPath": "/item",
               "label": "My field",

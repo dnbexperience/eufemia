@@ -9,10 +9,14 @@ import React, {
 } from 'react'
 import pointer from '../utils/json-pointer'
 import { ValidateFunction } from 'ajv/dist/2020'
-import { errorChanged } from '../utils'
-import { ajvErrorsToOneFormError } from '../utils/ajv'
 import {
+  ajvErrorsToOneFormError,
+  errorChanged,
+  overwriteErrorMessagesWithGivenAjvKeys,
+  extendErrorMessagesWithTranslationMessages,
   FormError,
+} from '../utils'
+import {
   FieldPropsGeneric,
   AdditionalEventArgs,
   SubmitState,
@@ -69,6 +73,12 @@ type PersistErrorStateMethod =
    * Remove the error, if any
    */
   | 'wipe'
+type ErrorInitiator =
+  | 'required'
+  | 'schema'
+  | 'onChangeValidator'
+  | 'onBlurValidator'
+  | 'dataContextError'
 type AsyncProcessesBuffer = {
   resolve: () => void
   validateProcesses: () => boolean
@@ -161,6 +171,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const { isVisible } = useContext(VisibilityContext) || {}
 
   const translation = useTranslation()
+  const { formatMessage } = translation
+  const translationRef = useRef(translation)
+  translationRef.current = translation
 
   const transformers = useRef({
     transformIn,
@@ -189,6 +202,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     errors: dataContextErrors,
     showAllErrors,
     contextErrorMessages,
+    fieldDisplayValueRef,
     existingFieldsRef,
   } = dataContext || {}
   const onChangeContext = dataContext?.props?.onChange
@@ -214,11 +228,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   const hasPath = Boolean(pathProp)
   const hasItemPath = Boolean(itemPath)
-  const { path, identifier, makeIteratePath } = usePath({
-    id,
-    path: pathProp,
-    itemPath,
-  })
+  const { path, identifier, makeIteratePath, joinPath, cleanPath } =
+    usePath({
+      id,
+      path: pathProp,
+      itemPath,
+    })
 
   const defaultValueRef = useRef(defaultValue)
   useLayoutEffect(() => {
@@ -251,34 +266,55 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       return requiredProp
     }
 
-    const paths = identifier.split('/')
-    if (paths.length > 0 && (schema || dataContext?.schema)) {
-      const requiredList = [schema?.['required']]
+    if (schema || dataContext?.schema) {
+      const paths = identifier.split('/')
+      if (paths.length > 0) {
+        const requiredInSchema = [schema?.['required']]
 
-      if (paths.length > 1) {
-        const schema = dataContext.schema
-        const schemaPath = paths.slice(0, -1).join('/properties/')
-        const schemaPart = pointer.has(schema, schemaPath)
-          ? pointer.get(schema, schemaPath)
-          : schema
+        // - Handle context schema
+        if (paths.length > 1) {
+          const schema = dataContext.schema
+          const pathWithoutLast = paths.slice(0, -1).join('/properties/')
+          const schemaPart = pointer.has(schema, pathWithoutLast)
+            ? pointer.get(schema, pathWithoutLast)
+            : schema
 
-        requiredList.push(schemaPart?.['required'])
-      }
+          const requiredSchemaList = schemaPart?.['required']
+          if (Array.isArray(requiredSchemaList)) {
+            const rootPath = pathWithoutLast.replace(/properties\//g, '')
+            const requiredList = requiredSchemaList.map((path) => {
+              path = cleanPath('/' + path)
+              return sectionPath && path.startsWith(sectionPath)
+                ? path
+                : joinPath([sectionPath || rootPath, path])
+            })
+            requiredInSchema.push(requiredList)
+          }
+        }
 
-      if (sectionPath) {
-        paths.push(sectionPath.substring(1))
-      }
-
-      const collected = requiredList.flatMap((v) => v).filter(Boolean)
-      if (
-        paths
+        const collected = requiredInSchema
+          .flatMap((value) => value)
           .filter(Boolean)
-          .some((p) => collected.some((c) => c.includes(p)))
-      ) {
-        return true
+
+        if (
+          collected.filter(Boolean).some((path) => {
+            path = cleanPath('/' + path)
+            return identifier === path || sectionPath === path
+          })
+        ) {
+          return true
+        }
       }
     }
-  }, [requiredProp, identifier, schema, dataContext.schema, sectionPath])
+  }, [
+    cleanPath,
+    dataContext.schema,
+    identifier,
+    joinPath,
+    requiredProp,
+    schema,
+    sectionPath,
+  ])
 
   // Error handling
   // - Should errors received through validation be shown initially. Assume that providing a direct prop to
@@ -286,12 +322,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const revealErrorRef = useRef<boolean>(
     validateInitially ?? Boolean(errorProp)
   )
+
   // - Local errors are errors based on validation instructions received by
   const errorMethodRef = useRef<
     Partial<Record<PersistErrorStateMethod, Error | FormError>>
   >({})
   const localErrorRef = useRef<Error | FormError | undefined>()
-  const hasLocalErrorRef = useRef(false)
+  const localErrorInitiatorRef = useRef<ErrorInitiator>()
+
   // - Context errors are from outer contexts, like validation for this field as part of the whole data set
   const dataContextError = useMemo(() => {
     return path ? dataContextErrors?.[identifier] : undefined
@@ -309,18 +347,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     onBlurValidatorRef.current = onBlurValidator
   }, [onBlurValidator])
 
-  const schemaValidatorRef = useRef<ValidateFunction>(
-    schema ? dataContext.ajvInstance?.compile(schema) : undefined
-  )
-
-  // Needs to be placed before "prepareError"
-  const errorMessagesRef = useRef(null)
-  errorMessagesRef.current = useMemo(() => {
-    return {
-      required: translation.Field.errorRequired,
-      ...errorMessages,
-    }
-  }, [errorMessages, translation.Field.errorRequired])
+  const schemaValidatorRef = useRef<ValidateFunction>()
+  if (!schemaValidatorRef.current && schema) {
+    schemaValidatorRef.current = dataContext.ajvInstance?.compile(schema)
+  }
 
   // - Async behavior
   const asyncBehaviorIsEnabled = useMemo(() => {
@@ -394,7 +424,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const setFieldState = useCallback(
     (state: SubmitStateWithValidating) => {
       fieldStateRef.current = state
-      setFieldStateDataContext(identifier, resolveValidatingState(state))
+      setFieldStateDataContext?.(identifier, resolveValidatingState(state))
       if (!validateInitially) {
         forceUpdate()
       }
@@ -437,36 +467,79 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     showFieldErrorFieldBlock,
   ])
 
+  const getErrorMessages = useCallback(() => {
+    const messages = {
+      ...contextErrorMessages,
+      ...contextErrorMessages?.[identifier],
+      ...errorMessages,
+    }
+
+    return extendErrorMessagesWithTranslationMessages(
+      overwriteErrorMessagesWithGivenAjvKeys(messages),
+      translationRef.current
+    )
+  }, [contextErrorMessages, errorMessages, identifier])
+
   /**
    * Prepare error from validation logic with correct error messages based on props
    */
   const prepareError = useCallback(
     (error: Error | FormError | undefined): FormError | undefined => {
       if (error instanceof FormError) {
-        let message = error.message
+        const prepare = (error: FormError) => {
+          let message = error.message
+          const errorMessages = getErrorMessages()
 
-        const { validationRule } = error
-        if (typeof validationRule === 'string') {
-          const fieldMessage = errorMessagesRef.current?.[validationRule]
-          if (fieldMessage) {
-            message = fieldMessage
+          const { ajvKeyword } = error
+          if (typeof ajvKeyword === 'string') {
+            const ajvMessage = errorMessages?.[ajvKeyword]
+            if (ajvMessage) {
+              message = ajvMessage
+            }
           }
+
+          /** @deprecated – can be removed in v11 */
+          const { validationRule } = error
+          if (typeof validationRule === 'string') {
+            const ajvMessage = errorMessages?.[validationRule]
+            if (ajvMessage) {
+              message = ajvMessage
+            }
+          }
+
+          if (errorMessages[message]) {
+            // - For when the message is e.g. Field.errorRequired or Custom.key, but delivered in the `errorMessages` object
+            message = errorMessages[message]
+
+            if (error.messageValues) {
+              message = Object.entries(error.messageValues || {}).reduce(
+                (msg, [key, value]) => {
+                  return msg.replace(`{${key}}`, value)
+                },
+                message
+              )
+            }
+          } else if (message.includes('.')) {
+            // - For when the message is e.g. Field.errorRequired
+            message = formatMessage(message, error.messageValues)
+          }
+
+          error.message = message
+
+          return error
         }
 
-        const messageHasValues = Object.entries(
-          error.messageValues || {}
-        ).reduce((message, [key, value]) => {
-          return message.replace(`{${key}}`, value)
-        }, message)
+        if (Array.isArray(error.errors)) {
+          error.errors = error.errors.map(prepare)
+          return error
+        }
 
-        error.message = messageHasValues
-
-        return error
+        return prepare(error)
       }
 
       return error
     },
-    []
+    [getErrorMessages, formatMessage]
   )
 
   contextErrorRef.current = useMemo(() => {
@@ -479,12 +552,16 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
   }, [dataContextError, prepareError])
 
-  const error =
-    revealErrorRef.current ||
-    // If the error is a type error, we want to show it even if the field as not been used
-    localErrorRef.current?.['validationRule'] === 'type'
-      ? errorProp ?? localErrorRef.current ?? contextErrorRef.current
-      : undefined
+  // If the error is a type error, we want to show it even if the field as not been used
+  if (localErrorRef.current?.['ajvKeyword'] === 'type') {
+    revealErrorRef.current = true
+  }
+
+  const error = revealErrorRef.current
+    ? prepareError(errorProp) ??
+      localErrorRef.current ??
+      contextErrorRef.current
+    : undefined
 
   const hasVisibleError =
     Boolean(error) || (inFieldBlock && fieldBlockContext.hasErrorProp)
@@ -514,10 +591,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const exportValidatorsRef = useRef(exportValidators)
   exportValidatorsRef.current = exportValidators
   const additionalArgs = useMemo(() => {
-    const errorMessages = {
-      ...contextErrorMessages,
-      ...errorMessagesRef.current,
-    }
+    const errorMessages = getErrorMessages()
+
     const args: ValidatorAdditionalArgs<Value> = {
       /** @deprecated – can be removed in v11 */
       ...errorMessages,
@@ -538,7 +613,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
 
     return args
-  }, [contextErrorMessages, getValueByPath, setFieldEventListener])
+  }, [getErrorMessages, getValueByPath, setFieldEventListener])
 
   const callStackRef = useRef<Array<Validator<Value>>>([])
   const hasBeenCalledRef = useCallback((validator: Validator<Value>) => {
@@ -625,6 +700,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const persistErrorState = useCallback(
     (
       method: PersistErrorStateMethod,
+      initiator: ErrorInitiator,
       errorArg: Error | FormError | undefined = undefined
     ) => {
       const error = prepareError(errorArg)
@@ -633,6 +709,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         // In case different triggers lead to validation with no changes in the result (like still no error, or the same error),
         // avoid unnecessary re-renders by letting the old error object stay in the state and skip re-rendering.
         return
+      }
+
+      if (initiator !== 'dataContextError') {
+        localErrorInitiatorRef.current = initiator
       }
 
       if (method === 'wipe') {
@@ -657,7 +737,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       setFieldErrorBoundary?.(identifier, error)
 
       // Set the visual states
-      setFieldStateDataContext?.(identifier, error ? 'error' : undefined)
       setFieldStateFieldBlock?.({
         stateId,
         identifier,
@@ -665,25 +744,29 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         content: error,
         showInitially: Boolean(inFieldBlock && validateInitially),
       })
+      setFieldStateDataContext?.(identifier, error ? 'error' : undefined)
 
       forceUpdate()
     },
     [
-      prepareError,
-      setFieldErrorDataContext,
       identifier,
+      inFieldBlock,
+      prepareError,
       setFieldErrorBoundary,
+      setFieldErrorDataContext,
       setFieldStateDataContext,
       setFieldStateFieldBlock,
       stateId,
-      inFieldBlock,
       validateInitially,
     ]
   )
 
   const clearErrorState = useCallback(() => {
-    persistErrorState('wipe')
-    hasLocalErrorRef.current = false
+    persistErrorState('wipe', undefined)
+    localErrorInitiatorRef.current = undefined
+    if (Array.isArray(schemaValidatorRef.current?.errors)) {
+      schemaValidatorRef.current.errors = []
+    }
   }, [persistErrorState])
 
   const removeError = useCallback(() => {
@@ -703,13 +786,17 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
       // Don't show the error if the value has changed in the meantime
       if (unchangedValue) {
-        persistErrorState('gracefully', result as Error)
+        persistErrorState(
+          'gracefully',
+          'onChangeValidator',
+          result as Error
+        )
 
         if (
           (validateInitially && !changedRef.current) ||
           validateUnchanged ||
           continuousValidation ||
-          runAsync // Because its a better UX to show the error when the validation is async/delayed
+          runAsync // Because it's a better UX to show the error when the validation is async/delayed
         ) {
           // Because we first need to throw the error to be able to display it, we delay the showError call
           window.requestAnimationFrame(() => {
@@ -850,7 +937,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   const revealOnBlurValidatorResult = useCallback(
     ({ result }) => {
-      persistErrorState('gracefully', result as Error)
+      persistErrorState('gracefully', 'onBlurValidator', result as Error)
 
       if (isAsync(onBlurValidatorRef.current)) {
         defineAsyncProcess(undefined)
@@ -869,7 +956,16 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       overrideValue?: Value
     } = {}) => {
       if (typeof onBlurValidatorRef.current !== 'function') {
-        return
+        return // stop here
+      }
+
+      if (
+        (localErrorInitiatorRef.current === 'required' ||
+          localErrorInitiatorRef.current === 'schema') &&
+        !asyncBehaviorIsEnabled && // Has async "onChange" event
+        !isAsync(onChangeValidatorRef.current)
+      ) {
+        return // stop here
       }
 
       if (isAsync(onBlurValidatorRef.current)) {
@@ -896,6 +992,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       revealOnBlurValidatorResult({ result })
     },
     [
+      asyncBehaviorIsEnabled,
       callValidatorFnAsync,
       callValidatorFnSync,
       defineAsyncProcess,
@@ -964,32 +1061,34 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     const value = valueRef.current
     changeEventResultRef.current = null
     validatedValue.current = null
+    let initiator: ErrorInitiator = null
 
     try {
       const requiredError = transformers.current.validateRequired(value, {
         emptyValue,
         required: requiredProp ?? required,
         isChanged: changedRef.current,
-        error: new FormError('The value is required', {
-          validationRule: 'required',
-        }),
+        error: new FormError('Field.errorRequired'),
       })
       if (requiredError instanceof Error) {
+        initiator = 'required'
         throw requiredError
       }
 
       // Validate by provided JSON Schema for this value
       if (
-        schemaValidatorRef.current &&
         value !== undefined &&
-        !schemaValidatorRef.current(value) &&
-        !prioritizeContextSchema
+        !prioritizeContextSchema &&
+        typeof schemaValidatorRef.current === 'function'
       ) {
-        const error = ajvErrorsToOneFormError(
-          schemaValidatorRef.current.errors,
-          valueRef.current
-        )
-        throw error
+        if (!schemaValidatorRef.current(value)) {
+          const error = ajvErrorsToOneFormError(
+            schemaValidatorRef.current.errors,
+            value
+          )
+          initiator = 'schema'
+          throw error
+        }
       }
 
       // Validate by provided derivative validator
@@ -1000,6 +1099,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         const { result } = await startOnChangeValidatorValidation()
 
         if (result instanceof Error) {
+          initiator = 'onChangeValidator'
           throw result
         }
       }
@@ -1013,6 +1113,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         const { result } = await callOnBlurValidator()
 
         if (result instanceof Error) {
+          initiator = 'onBlurValidator'
           throw result
         }
       }
@@ -1022,27 +1123,26 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       }
 
       validatedValue.current = value
-    } catch (error: unknown) {
+    } catch (error) {
       if (isProcessActive()) {
-        hasLocalErrorRef.current = true
-        persistErrorState('weak', error as Error)
+        persistErrorState('weak', initiator, error)
       }
     }
   }, [
-    startProcess,
-    disabled,
-    hideError,
-    setFieldState,
+    callOnBlurValidator,
     clearErrorState,
+    disabled,
     emptyValue,
-    requiredProp,
-    required,
+    hideError,
+    persistErrorState,
     prioritizeContextSchema,
+    required,
+    requiredProp,
+    setFieldState,
+    startOnChangeValidatorValidation,
+    startProcess,
     validateInitially,
     validateUnchanged,
-    startOnChangeValidatorValidation,
-    callOnBlurValidator,
-    persistErrorState,
   ])
 
   const handleError = useCallback(() => {
@@ -1206,7 +1306,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       if (result?.error === null) {
         removeError()
       } else {
-        persistErrorState('gracefully', result.error)
+        persistErrorState('gracefully', 'onChangeValidator', result.error)
         revealError()
       }
     }
@@ -1386,6 +1486,19 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const setChanged = (state: boolean) => {
     changedRef.current = state
   }
+
+  const setDisplayValue = useCallback(
+    (path: Identifier, content: React.ReactNode) => {
+      if (!path || !fieldDisplayValueRef?.current) {
+        return // stop here
+      }
+      fieldDisplayValueRef.current[path] =
+        valueRef.current === (emptyValue as unknown as Value)
+          ? undefined
+          : content
+    },
+    [emptyValue, fieldDisplayValueRef]
+  )
 
   const handleChange = useCallback(
     async (
@@ -1621,10 +1734,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   useEffect(() => {
     // Check against the local error state,
     // so we prioritize the local error state over the context error state
-    if (!hasLocalErrorRef.current) {
+    if (!localErrorInitiatorRef.current) {
       const error = prepareError(dataContextError)
       if (error) {
-        persistErrorState('weak', error)
+        persistErrorState('weak', 'dataContextError', error)
         if (validateInitially) {
           handleError()
         }
@@ -2070,7 +2183,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     name: props.name || props.path?.replace('/', '') || id,
     autoComplete:
       props.autoComplete ??
-      (dataContext.autoComplete === true ? 'on' : undefined),
+      (typeof dataContext.autoComplete === 'boolean'
+        ? dataContext.autoComplete
+          ? 'on'
+          : 'off'
+        : undefined),
 
     /** Documented APIs */
     id,
@@ -2085,6 +2202,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     handleChange,
     updateValue,
     setChanged,
+    setDisplayValue,
     forceUpdate,
 
     /** Internal */
@@ -2108,8 +2226,9 @@ export interface ReturnAdditional<Value> {
     value: Value | unknown,
     additionalArgs?: AdditionalEventArgs
   ) => void
-  setChanged: (state: boolean) => void
   updateValue: (value: Value) => void
+  setChanged: (state: boolean) => void
+  setDisplayValue: (path: Identifier, value: React.ReactNode) => void
   forceUpdate: () => void
   hasError?: boolean
 

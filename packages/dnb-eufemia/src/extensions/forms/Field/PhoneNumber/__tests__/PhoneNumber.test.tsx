@@ -1,13 +1,20 @@
 import React from 'react'
+import { isCI } from 'repo-utils'
 import { wait, axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Provider } from '../../../../../shared'
+import SharedProvider from '../../../../../shared/Provider'
+import DataContext from '../../../DataContext/Context'
 import { Field, Form, JSONSchema } from '../../..'
 import locales from '../../../constants/locales'
+import DrawerListProvider from '../../../../../fragments/drawer-list/DrawerListProvider'
 
 const nbNO = locales['nb-NO']
 const enGB = locales['en-GB']
+
+if (isCI) {
+  jest.retryTimes(5) // because of an flaky async tests
+}
 
 describe('Field.PhoneNumber', () => {
   it('should default to 47', () => {
@@ -300,8 +307,8 @@ describe('Field.PhoneNumber', () => {
 
     expect(nordic).toHaveLength(7)
     expect(nordic[0]).toHaveTextContent('+45 Danmark')
-    expect(nordic[1]).toHaveTextContent('+298 Færøyene')
-    expect(nordic[2]).toHaveTextContent('+358 Finland')
+    expect(nordic[1]).toHaveTextContent('+358 Finland')
+    expect(nordic[2]).toHaveTextContent('+298 Færøyene')
     expect(nordic[3]).toHaveTextContent('+299 Grønland')
     expect(nordic[4]).toHaveTextContent('+354 Island')
     expect(nordic[5]).toHaveTextContent('+47 Norge')
@@ -594,9 +601,9 @@ describe('Field.PhoneNumber', () => {
 
   it('should handle simple "pattern" property', async () => {
     render(
-      <Provider locale="en-GB">
+      <SharedProvider locale="en-GB">
         <Field.PhoneNumber pattern="^\+47 [49]+" />
-      </Provider>
+      </SharedProvider>
     )
 
     const numberElement: HTMLInputElement = document.querySelector(
@@ -668,13 +675,13 @@ describe('Field.PhoneNumber', () => {
     })
 
     render(
-      <Provider locale="en-GB">
+      <SharedProvider locale="en-GB">
         <Field.PhoneNumber
           validator={validator}
           validateInitially
           value="+41 9999"
         />
-      </Provider>
+      </SharedProvider>
     )
 
     expect(validator).toHaveBeenCalledTimes(1)
@@ -682,8 +689,12 @@ describe('Field.PhoneNumber', () => {
       '+41 9999',
       expect.objectContaining({
         errorMessages: expect.objectContaining({
-          pattern: enGB.PhoneNumber.errorRequired,
+          'Field.errorRequired': enGB.PhoneNumber.errorRequired,
+          'Field.errorPattern': enGB.PhoneNumber.errorRequired,
+
+          /** @deprecated – can be removed in v11 */
           required: enGB.PhoneNumber.errorRequired,
+          pattern: enGB.PhoneNumber.errorRequired,
         }),
       })
     )
@@ -1012,9 +1023,9 @@ describe('Field.PhoneNumber', () => {
   describe('locale', () => {
     it('should change locale', () => {
       const { rerender } = render(
-        <Provider>
+        <SharedProvider>
           <Field.PhoneNumber />
-        </Provider>
+        </SharedProvider>
       )
 
       const codeElement = document.querySelector(
@@ -1031,9 +1042,9 @@ describe('Field.PhoneNumber', () => {
       expect(selectedItemElement().textContent).toBe('+47 Norge')
 
       rerender(
-        <Provider locale="en-GB">
+        <SharedProvider locale="en-GB">
           <Field.PhoneNumber />
-        </Provider>
+        </SharedProvider>
       )
 
       fireEvent.mouseDown(codeElement)
@@ -1041,9 +1052,9 @@ describe('Field.PhoneNumber', () => {
       expect(selectedItemElement().textContent).toBe('+47 Norway')
 
       rerender(
-        <Provider locale="nb-NO">
+        <SharedProvider locale="nb-NO">
           <Field.PhoneNumber />
-        </Provider>
+        </SharedProvider>
       )
 
       fireEvent.mouseDown(codeElement)
@@ -1053,9 +1064,9 @@ describe('Field.PhoneNumber', () => {
 
     it('should show search results based on locale', async () => {
       const { rerender } = render(
-        <Provider>
+        <SharedProvider>
           <Field.PhoneNumber />
-        </Provider>
+        </SharedProvider>
       )
 
       const codeElement: HTMLInputElement = document.querySelector(
@@ -1078,9 +1089,9 @@ describe('Field.PhoneNumber', () => {
       expect(currentOptions()).not.toContain('+86 Kina')
 
       rerender(
-        <Provider locale="en-GB">
+        <SharedProvider locale="en-GB">
           <Field.PhoneNumber />
-        </Provider>
+        </SharedProvider>
       )
 
       await userEvent.clear(codeElement)
@@ -1090,9 +1101,9 @@ describe('Field.PhoneNumber', () => {
       expect(currentOptions()).toContain('+86 China')
 
       rerender(
-        <Provider locale="nb-NO">
+        <SharedProvider locale="nb-NO">
           <Field.PhoneNumber />
-        </Provider>
+        </SharedProvider>
       )
 
       await userEvent.clear(codeElement)
@@ -1100,6 +1111,61 @@ describe('Field.PhoneNumber', () => {
 
       expect(currentOptions()).toContain('+56 Chile')
       expect(currentOptions()).not.toContain('+86 Kina')
+    })
+  })
+
+  it('should store "displayValue" in data context', async () => {
+    let dataContext = null
+
+    render(
+      <Form.Handler>
+        <Field.PhoneNumber path="/myValue" defaultValue="9999" />
+        <DataContext.Consumer>
+          {(context) => {
+            dataContext = context
+            return null
+          }}
+        </DataContext.Consumer>
+      </Form.Handler>
+    )
+
+    const input = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    )
+    const countryCode = document.querySelector(
+      '.dnb-forms-field-phone-number__country-code input'
+    )
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myValue': '+47 99 99 ​​ ​​',
+    })
+
+    await userEvent.type(input, '{ArrowRight>6} 8888')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myValue': '+47 99 99 88 88',
+    })
+
+    await userEvent.type(input, '{Backspace>12}')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myValue': undefined,
+    })
+
+    await userEvent.type(input, '123')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myValue': '+47 12 3​ ​​ ​​',
+    })
+
+    // Open like user would do, but without a delay
+    DrawerListProvider['blurDelay'] = 0
+    await userEvent.type(countryCode, '{Backspace>12}45')
+    await userEvent.keyboard('{Enter}')
+    DrawerListProvider['blurDelay'] = 201
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myValue': '+45 123​​​​​​​​​',
     })
   })
 

@@ -14,7 +14,6 @@ import { ReturnAdditional } from '../../hooks/useFieldProps'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import FieldBlock from '../../FieldBlock'
 import {
-  FormError,
   FieldProps,
   FieldHelpProps,
   FieldBlockWidth,
@@ -30,6 +29,7 @@ import {
   ToCamelCase,
 } from '../../../../shared/helpers/withCamelCaseProps'
 import useDataValue from '../../hooks/useDataValue'
+import { FormError } from '../../utils'
 
 type IOption = {
   title: string | React.ReactNode
@@ -101,6 +101,7 @@ function Selection(props: Props) {
     layout = 'vertical',
     optionsLayout = 'vertical',
     placeholder,
+    path,
     value,
     info,
     warning,
@@ -113,6 +114,7 @@ function Selection(props: Props) {
     htmlAttributes,
     setHasFocus,
     handleChange,
+    setDisplayValue,
     data,
     dataPath,
     children,
@@ -200,6 +202,11 @@ function Selection(props: Props) {
         children,
         dataList,
         hasError,
+        iterateOverItems: ({ value: v, label }) => {
+          if (v === value) {
+            setDisplayValue(path, label)
+          }
+        },
       })
 
       return (
@@ -228,6 +235,9 @@ function Selection(props: Props) {
       const data = renderDropdownItems(dataList)
         .concat(makeOptions(children))
         .filter(Boolean)
+      const displayValue = data.find((item) => item.selectedKey === value)
+        ?.content
+      setDisplayValue(path, displayValue)
 
       const sharedProps: AutocompleteAllProps & DropdownAllProps = {
         id,
@@ -293,6 +303,7 @@ export function getStatus(
 
 type OptionProps = React.ComponentProps<
   React.FC<{
+    value?: Props['value']
     error?: Error | FormError | undefined
     title: React.ReactNode
     help?: HelpButtonProps
@@ -302,7 +313,7 @@ type OptionProps = React.ComponentProps<
 
 function renderRadioItems({
   id,
-  value,
+  value: valueProp,
   variant,
   info,
   warning,
@@ -310,6 +321,7 @@ function renderRadioItems({
   children,
   dataList,
   hasError,
+  iterateOverItems,
 }: {
   id: string
   value: Props['value']
@@ -320,12 +332,16 @@ function renderRadioItems({
   children: Props['children']
   dataList: Data
   hasError: ReturnAdditional<Props['value']>['hasError']
+  iterateOverItems?: (item: {
+    value: Props['value']
+    label: Props['children']
+  }) => void
 }) {
   const optionsCount =
     React.Children.count(children) + (dataList?.length || 0)
 
   const createOption = (props: OptionProps, i: number) => {
-    const { error, title, help, children, ...rest } = props
+    const { value, title, children, error, help, ...rest } = props
 
     const label = title ?? children
     const status = getStatus(error, info, warning)
@@ -334,6 +350,8 @@ function renderRadioItems({
         {help.content}
       </HelpButton>
     ) : undefined
+
+    iterateOverItems?.({ value, label })
 
     const Component = (
       variant === 'radio' ? Radio : ToggleButton
@@ -345,7 +363,7 @@ function renderRadioItems({
         key={`option-${i}-${id}`}
         label={variant === 'radio' ? label : undefined}
         text={variant === 'button' ? label : undefined}
-        value={String(value ?? '')}
+        value={String(value ?? valueProp ?? '')}
         status={(hasError || status) && 'error'}
         suffix={suffix}
         {...htmlAttributes}
@@ -356,7 +374,7 @@ function renderRadioItems({
 
   return [
     ...(dataList || []).map((props, i) => {
-      return createOption(props as OptionProps, i)
+      return createOption(props, i)
     }),
     ...(mapOptions(children, { createOption }) || []),
   ].filter(Boolean)
@@ -412,10 +430,12 @@ export function makeOptions<T = DrawerListProps['data']>(
 
 function renderDropdownItems(data: Data) {
   return (
-    data?.map(({ value, title, text }) => ({
-      selectedKey: value,
-      content: (text ? [title, text] : title) || <em>Untitled</em>,
-    })) || []
+    data?.map(({ value, title, text }) => {
+      return {
+        selectedKey: value,
+        content: (text ? [title, text] : title) || <em>Untitled</em>,
+      }
+    }) || []
   )
 }
 

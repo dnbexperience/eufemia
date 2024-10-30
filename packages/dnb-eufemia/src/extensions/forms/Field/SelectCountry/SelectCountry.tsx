@@ -16,7 +16,6 @@ import {
   FieldPropsWithExtraValue,
 } from '../../types'
 import FieldBlock from '../../FieldBlock'
-import useErrorMessage from '../../hooks/useErrorMessage'
 import useTranslation from '../../hooks/useTranslation'
 
 export type CountryFilterSet =
@@ -51,7 +50,11 @@ export type Props = FieldHelpProps &
 
 function SelectCountry(props: Props) {
   const sharedContext = useContext(SharedContext)
-  const translations = useTranslation().SelectCountry
+  const {
+    label: defaultLabel,
+    placeholder: defaultPlaceholder,
+    errorRequired,
+  } = useTranslation().SelectCountry
   const lang = (sharedContext.locale || LOCALE).split(
     '-'
   )[0] as CountryLang
@@ -78,23 +81,23 @@ function SelectCountry(props: Props) {
     [getCountryObjectByIso]
   )
 
-  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: translations.errorRequired,
-  })
+  const errorMessages = useMemo(
+    () => ({
+      required: errorRequired,
+    }),
+    [errorRequired]
+  )
 
-  const defaultProps: Partial<Props> = {
-    errorMessages,
-  }
   const preparedProps: Props = {
-    ...defaultProps,
+    errorMessages,
     ...props,
     provideAdditionalArgs,
   }
 
   const {
     className,
-    placeholder = translations.placeholder,
-    label = translations.label,
+    placeholder = defaultPlaceholder,
+    label = defaultLabel,
     countries: ccFilter = 'Prioritized',
     info,
     warning,
@@ -109,6 +112,7 @@ function SelectCountry(props: Props) {
     handleBlur,
     handleChange,
     updateValue,
+    setDisplayValue,
     forceUpdate,
     filterCountries,
   } = useFieldProps(preparedProps)
@@ -204,6 +208,13 @@ function SelectCountry(props: Props) {
     [handleChange]
   )
 
+  useMemo(() => {
+    setDisplayValue(
+      props.path,
+      getCountryObjectByIso(value)?.i18n?.[langRef.current]
+    )
+  }, [getCountryObjectByIso, props.path, setDisplayValue, value])
+
   return (
     <FieldBlock
       className={classnames('dnb-forms-field-select-country', className)}
@@ -294,7 +305,7 @@ export function getCountryData({
         }
       }
 
-      return String(a[lang])?.localeCompare?.(b[lang])
+      return String(a[lang])?.localeCompare?.(b[lang], 'nb') // Always sort by nb, because åøæ (for Åland) is not in the en alphabet
     })
     .map((country) => makeObject(country, lang))
 }

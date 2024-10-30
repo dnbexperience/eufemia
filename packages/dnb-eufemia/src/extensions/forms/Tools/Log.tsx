@@ -23,7 +23,11 @@ function Log({
       innerSpace
       {...props}
     >
-      {label && <FormLabel bottom>{label}</FormLabel>}
+      {label && (
+        <FormLabel bottom>
+          <b>{label}</b>
+        </FormLabel>
+      )}
       <pre>
         {placeholder && Object.keys((logData ?? data) || {}).length === 0
           ? placeholder
@@ -50,7 +54,7 @@ function replaceUndefinedValues(
 ): unknown {
   if (typeof value === 'undefined') {
     return replaceWith
-  } else if (typeof value === 'object' && value !== replaceWith) {
+  } else if (value && typeof value === 'object' && value !== replaceWith) {
     return {
       ...value,
       ...Object.fromEntries(

@@ -11,7 +11,9 @@ import userEvent from '@testing-library/user-event'
 import { spyOnEufemiaWarn, wait } from '../../../../../core/jest/jestSetup'
 import { simulateAnimationEnd } from '../../../../../components/height-animation/__tests__/HeightAnimationUtils'
 import { GlobalStatus } from '../../../../../components'
+import SharedProvider from '../../../../../shared/Provider'
 import { makeUniqueId } from '../../../../../shared/component-helper'
+import { debounceAsync } from '../../../../../shared/helpers/debounce'
 import {
   Form,
   DataContext,
@@ -29,7 +31,6 @@ import {
   FilterData,
   FilterDataPathCondition,
 } from '../../Context'
-import { debounceAsync } from '../../../../../shared/helpers/debounce'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
@@ -354,7 +355,7 @@ describe('DataContext.Provider', () => {
       const { rerender } = render(
         <DataContext.Provider onSubmit={onSubmit}>
           <Field.String path="/foo" required minLength={3} />
-          <Form.SubmitButton>Submit</Form.SubmitButton>
+          <Form.SubmitButton />
         </DataContext.Provider>
       )
 
@@ -394,7 +395,7 @@ describe('DataContext.Provider', () => {
           onSubmit={onSubmit}
         >
           <Field.String path="/fooBar" required minLength={3} />
-          <Form.SubmitButton>Submit</Form.SubmitButton>
+          <Form.SubmitButton />
         </DataContext.Provider>
       )
 
@@ -482,7 +483,7 @@ describe('DataContext.Provider', () => {
           <DataContext.Provider onSubmit={onSubmit}>
             <Field.String path="/foo" value="Include this value" />
             <Field.String path="/bar" value="bar" />
-            <Form.SubmitButton>Submit</Form.SubmitButton>
+            <Form.SubmitButton />
           </DataContext.Provider>
         )
 
@@ -520,7 +521,7 @@ describe('DataContext.Provider', () => {
           <DataContext.Provider onSubmit={onSubmit}>
             <Field.String path="/foo" value="Skip this value" disabled />
             <Field.String path="/bar" value="bar value" />
-            <Form.SubmitButton>Submit</Form.SubmitButton>
+            <Form.SubmitButton />
           </DataContext.Provider>
         )
 
@@ -575,7 +576,7 @@ describe('DataContext.Provider', () => {
           <DataContext.Provider onSubmit={onSubmit}>
             <Field.String path="/foo" value="Include this value" />
             <Field.String path="/bar" value="bar" />
-            <Form.SubmitButton>Submit</Form.SubmitButton>
+            <Form.SubmitButton />
           </DataContext.Provider>
         )
 
@@ -597,6 +598,8 @@ describe('DataContext.Provider', () => {
         expect(filterDataHandler).toHaveBeenNthCalledWith(1, {
           path: '/foo',
           value: 'Include this value',
+          displayValue: 'Include this value',
+          label: undefined,
           data: {
             bar: 'bar',
             foo: 'Include this value',
@@ -611,6 +614,8 @@ describe('DataContext.Provider', () => {
         expect(filterDataHandler).toHaveBeenNthCalledWith(2, {
           path: '/bar',
           value: 'bar',
+          displayValue: 'bar',
+          label: undefined,
           data: {
             bar: 'bar',
             foo: 'Include this value',
@@ -627,7 +632,7 @@ describe('DataContext.Provider', () => {
           <DataContext.Provider onSubmit={onSubmit}>
             <Field.String path="/foo" value="Skip this value" disabled />
             <Field.String path="/bar" value="bar value" />
-            <Form.SubmitButton>Submit</Form.SubmitButton>
+            <Form.SubmitButton />
           </DataContext.Provider>
         )
 
@@ -651,6 +656,8 @@ describe('DataContext.Provider', () => {
         expect(filterDataHandler).toHaveBeenNthCalledWith(3, {
           path: '/foo',
           value: 'Skip this value',
+          displayValue: 'Skip this value',
+          label: undefined,
           data: {
             bar: 'bar value',
             foo: 'Skip this value',
@@ -665,6 +672,8 @@ describe('DataContext.Provider', () => {
         expect(filterDataHandler).toHaveBeenNthCalledWith(4, {
           path: '/bar',
           value: 'bar value',
+          displayValue: 'bar value',
+          label: undefined,
           data: {
             bar: 'bar value',
             foo: 'Skip this value',
@@ -708,7 +717,7 @@ describe('DataContext.Provider', () => {
               filterSubmitData={filterDataHandler}
             >
               <Field.String path="/myField" />
-              <Form.SubmitButton>Submit</Form.SubmitButton>
+              <Form.SubmitButton />
             </DataContext.Provider>
           )
         }
@@ -767,7 +776,7 @@ describe('DataContext.Provider', () => {
         render(
           <DataContext.Provider onChange={onChange}>
             <Field.String path="/myField" />
-            <Form.SubmitButton>Submit</Form.SubmitButton>
+            <Form.SubmitButton />
           </DataContext.Provider>
         )
 
@@ -905,7 +914,7 @@ describe('DataContext.Provider', () => {
           onSubmitRequest={onSubmitRequest}
         >
           <Field.Number path="/foo" minimum={3} />
-          <Form.SubmitButton>Submit</Form.SubmitButton>
+          <Form.SubmitButton />
         </DataContext.Provider>
       )
 
@@ -926,7 +935,7 @@ describe('DataContext.Provider', () => {
           onSubmitRequest={onSubmitRequest}
         >
           <Field.Number path="/fooBar" required />
-          <Form.SubmitButton>Submit</Form.SubmitButton>
+          <Form.SubmitButton />
         </DataContext.Provider>
       )
 
@@ -1191,14 +1200,17 @@ describe('DataContext.Provider', () => {
 
     it('should evaluate sync validation, such as required, before continue with async validation', async () => {
       const onSubmit: OnSubmit = jest.fn(async () => {
+        await wait(10)
         return { info: 'Info message' } as const
       })
       const validator = jest.fn(async (value) => {
+        await wait(10)
         if (value === 'validator-error') {
           return new Error('validator-error')
         }
       })
       const onBlurValidator = jest.fn(async (value) => {
+        await wait(10)
         if (value === 'onBlurValidator-error') {
           return new Error('onBlurValidator-error')
         }
@@ -1330,9 +1342,11 @@ describe('DataContext.Provider', () => {
 
       await userEvent.click(submitButton)
 
-      expect(onSubmit).toHaveBeenCalledTimes(1)
-      expect(onBlurValidator).toHaveBeenCalledTimes(3)
-      expect(validator).toHaveBeenCalledTimes(12)
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onBlurValidator).toHaveBeenCalledTimes(3)
+        expect(validator).toHaveBeenCalledTimes(12)
+      })
     })
 
     it('should set "formState" to "pending" when "validator" is async', async () => {
@@ -2126,7 +2140,7 @@ describe('DataContext.Provider', () => {
         scrollTopOnSubmit
       >
         <Field.String path="/foo" value="Value" />
-        <Form.SubmitButton>Submit</Form.SubmitButton>
+        <Form.SubmitButton />
       </DataContext.Provider>
     )
 
@@ -2154,7 +2168,7 @@ describe('DataContext.Provider', () => {
         scrollTopOnSubmit
       >
         <Field.String path="/fooBar" value="Rerendered Value" />
-        <Form.SubmitButton>Submit</Form.SubmitButton>
+        <Form.SubmitButton />
       </DataContext.Provider>
     )
 
@@ -2274,7 +2288,7 @@ describe('DataContext.Provider', () => {
             label="Field 1"
             path="/foo"
             errorMessages={{
-              required: 'Required string',
+              'Field.errorRequired': 'Required string',
             }}
             required
           />
@@ -2283,17 +2297,17 @@ describe('DataContext.Provider', () => {
             value="abc"
             minLength={5}
             errorMessages={{
-              minLength: 'Min 5 chars',
+              'StringField.errorMinLength': 'Min 5 chars',
             }}
           />
           <Field.Number
             label="Field 3"
             errorMessages={{
-              required: 'Required number',
+              'Field.errorRequired': 'Required number',
             }}
             required
           />
-          <Form.SubmitButton>Submit</Form.SubmitButton>
+          <Form.SubmitButton />
         </DataContext.Provider>
       )
 
@@ -2335,7 +2349,7 @@ describe('DataContext.Provider', () => {
       render(
         <DataContext.Provider>
           <Field.String required />
-          <Form.SubmitButton>Submit</Form.SubmitButton>
+          <Form.SubmitButton />
         </DataContext.Provider>
       )
 
@@ -2350,7 +2364,7 @@ describe('DataContext.Provider', () => {
         render(
           <DataContext.Provider
             errorMessages={{
-              pattern: 'pattern provider error',
+              'Field.errorPattern': 'Pattern provider error',
             }}
           >
             <Field.String
@@ -2363,7 +2377,7 @@ describe('DataContext.Provider', () => {
         )
 
         expect(screen.getByRole('alert')).toHaveTextContent(
-          'pattern provider error'
+          'Pattern provider error'
         )
       })
 
@@ -2371,9 +2385,9 @@ describe('DataContext.Provider', () => {
         render(
           <DataContext.Provider
             errorMessages={{
-              pattern: 'pattern provider error',
+              'Field.errorPattern': 'Pattern provider error',
               '/myKey': {
-                pattern: 'pattern provider myKey error',
+                'Field.errorPattern': 'Pattern provider myKey error',
               },
             }}
           >
@@ -2387,7 +2401,7 @@ describe('DataContext.Provider', () => {
         )
 
         expect(screen.getByRole('alert')).toHaveTextContent(
-          'pattern provider myKey error'
+          'Pattern provider myKey error'
         )
       })
 
@@ -2395,9 +2409,9 @@ describe('DataContext.Provider', () => {
         render(
           <DataContext.Provider
             errorMessages={{
-              pattern: 'pattern provider error',
+              'Field.errorPattern': 'Pattern provider error',
               '/myKey': {
-                pattern: 'pattern provider myKey error',
+                'Field.errorPattern': 'Pattern provider myKey error',
               },
             }}
           >
@@ -2407,14 +2421,14 @@ describe('DataContext.Provider', () => {
               pattern="^correct$"
               value="wrong"
               errorMessages={{
-                pattern: 'pattern field error',
+                'Field.errorPattern': 'Pattern field error',
               }}
             />
           </DataContext.Provider>
         )
 
         expect(screen.getByRole('alert')).toHaveTextContent(
-          'pattern field error'
+          'Pattern field error'
         )
       })
 
@@ -2711,13 +2725,15 @@ describe('DataContext.Provider', () => {
             <TestField
               path="/val"
               errorMessages={{
-                minLength: 'Minimum {minLength} chars.',
+                'StringField.errorMinLength': 'Minimum {minLength} chars.',
               }}
             />
           </DataContext.Provider>
         )
 
-        expect(screen.getByText('Minimum 7 chars.')).toBeInTheDocument()
+        expect(screen.getByRole('alert')).toHaveTextContent(
+          'Minimum 7 chars.'
+        )
       })
 
       describe('disabled and readOnly', () => {
@@ -2832,7 +2848,7 @@ describe('DataContext.Provider', () => {
           schema={Schema}
         >
           <Field.Number path="/foo" />
-          <Form.SubmitButton>Submit</Form.SubmitButton>
+          <Form.SubmitButton />
         </DataContext.Provider>
       )
 
@@ -2854,7 +2870,7 @@ describe('DataContext.Provider', () => {
           schema={Schema}
         >
           <Field.Number path="/fooBar" required />
-          <Form.SubmitButton>Submit</Form.SubmitButton>
+          <Form.SubmitButton />
         </DataContext.Provider>
       )
 
@@ -3068,7 +3084,7 @@ describe('DataContext.Provider', () => {
           myKey: {
             type: 'string',
             pattern: '[a-z]{1,}',
-            errorMessage: 'message in provider schema',
+            errorMessage: 'Message in provider schema',
           },
         },
       } as const
@@ -3080,7 +3096,7 @@ describe('DataContext.Provider', () => {
       )
 
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        'message in provider schema'
+        'Message in provider schema'
       )
 
       const providerSharedSchema = {
@@ -3091,8 +3107,8 @@ describe('DataContext.Provider', () => {
             minLength: 2,
             maxLength: 3,
             errorMessage: {
-              minLength: 'minLength message in provider schema',
-              maxLength: 'maxLength message in provider schema',
+              minLength: 'minLength Message in provider schema',
+              maxLength: 'maxLength Message in provider schema',
             },
           },
         },
@@ -3110,14 +3126,14 @@ describe('DataContext.Provider', () => {
       fireEvent.blur(input)
 
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        'minLength message in provider schema'
+        'minLength Message in provider schema'
       )
 
       await userEvent.type(input, '1234')
       fireEvent.blur(input)
 
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        'maxLength message in provider schema'
+        'maxLength Message in provider schema'
       )
     })
 
@@ -3142,7 +3158,7 @@ describe('DataContext.Provider', () => {
       const { rerender } = render(
         <DataContext.Provider ajvInstance={ajv}>
           <Field.String
-            schema={{ ...schema, errorMessage: 'message in schema' }}
+            schema={{ ...schema, errorMessage: 'Message in schema' }}
             path="/myKey"
             value=""
             validateInitially
@@ -3151,18 +3167,18 @@ describe('DataContext.Provider', () => {
       )
 
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        'message in schema'
+        'Message in schema'
       )
 
       rerender(
         <DataContext.Provider
           ajvInstance={ajv}
           errorMessages={{
-            notEmpty: 'message in provider',
+            notEmpty: 'Message in provider',
           }}
         >
           <Field.String
-            schema={{ ...schema, errorMessage: 'message in schema' }}
+            schema={{ ...schema, errorMessage: 'Message in schema' }}
             path="/myKey"
             value=""
             validateInitially
@@ -3171,14 +3187,14 @@ describe('DataContext.Provider', () => {
       )
 
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        'message in schema'
+        'Message in schema'
       )
 
       rerender(
         <DataContext.Provider
           ajvInstance={ajv}
           errorMessages={{
-            notEmpty: 'message in provider',
+            notEmpty: 'Message in provider',
           }}
         >
           <Field.String
@@ -3191,16 +3207,16 @@ describe('DataContext.Provider', () => {
       )
 
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        'message in provider'
+        'Message in provider'
       )
 
       rerender(
         <DataContext.Provider
           ajvInstance={ajv}
           errorMessages={{
-            notEmpty: 'message in provider',
+            notEmpty: 'Message in provider',
             '/myKey': {
-              notEmpty: 'message in provider for just one field',
+              notEmpty: 'Message in provider for just one field',
             },
           }}
         >
@@ -3214,16 +3230,16 @@ describe('DataContext.Provider', () => {
       )
 
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        'message in provider for just one field'
+        'Message in provider for just one field'
       )
 
       rerender(
         <DataContext.Provider
           ajvInstance={ajv}
           errorMessages={{
-            notEmpty: 'message in provider',
+            notEmpty: 'Message in provider',
             '/myKey': {
-              notEmpty: 'message in provider for just one field',
+              notEmpty: 'Message in provider for just one field',
             },
           }}
         >
@@ -3232,14 +3248,53 @@ describe('DataContext.Provider', () => {
             path="/myKey"
             value=""
             validateInitially
-            errorMessages={{ notEmpty: 'message for just this field' }}
+            errorMessages={{ notEmpty: 'Message for just this field' }}
           />
         </DataContext.Provider>
       )
 
       expect(screen.queryByRole('alert')).toHaveTextContent(
-        'message for just this field'
+        'Message for just this field'
       )
+    })
+
+    it('should support locale in errorMessages', () => {
+      const errorRequired = 'Display me, instead of the default message'
+
+      render(
+        <Form.Handler
+          locale="en-GB"
+          errorMessages={{
+            'en-GB': {
+              'Field.errorRequired': errorRequired,
+            },
+          }}
+        >
+          <Field.String required validateInitially />
+        </Form.Handler>
+      )
+
+      expect(screen.queryByRole('alert')).toHaveTextContent(errorRequired)
+    })
+
+    it('should support locale in errorMessages when locale is given by the shared Provider', () => {
+      const errorRequired = 'Display me, instead of the default message'
+
+      render(
+        <SharedProvider locale="en-GB">
+          <Form.Handler
+            errorMessages={{
+              'en-GB': {
+                'Field.errorRequired': errorRequired,
+              },
+            }}
+          >
+            <Field.String required validateInitially />
+          </Form.Handler>
+        </SharedProvider>
+      )
+
+      expect(screen.queryByRole('alert')).toHaveTextContent(errorRequired)
     })
   })
 
@@ -3273,6 +3328,8 @@ describe('DataContext.Provider', () => {
     expect(filterDataHandler).toHaveBeenLastCalledWith({
       path: '/myField',
       value: 'foo',
+      displayValue: 'foo',
+      label: undefined,
       data: {
         myField: 'foo',
       },
@@ -3302,6 +3359,8 @@ describe('DataContext.Provider', () => {
     expect(filterDataHandler).toHaveBeenLastCalledWith({
       path: '/myField',
       value: 'bar',
+      displayValue: 'bar',
+      label: undefined,
       data: {
         myField: 'bar',
       },
@@ -4045,6 +4104,8 @@ describe('DataContext.Provider', () => {
       expect(filterDataHandler).toHaveBeenLastCalledWith({
         path: '/myField',
         value: 'foo',
+        displayValue: 'foo',
+        label: undefined,
         data: {
           myField: 'foo',
         },
@@ -4087,6 +4148,8 @@ describe('DataContext.Provider', () => {
       expect(filterDataHandler).toHaveBeenLastCalledWith({
         path: '/myField',
         value: 'bar',
+        displayValue: 'bar',
+        label: undefined,
         data: {
           myField: 'bar',
         },
@@ -4115,6 +4178,8 @@ describe('DataContext.Provider', () => {
       expect(filterDataHandler).toHaveBeenLastCalledWith({
         path: '/myField',
         value: 'bar',
+        displayValue: 'bar',
+        label: undefined,
         data: {
           myField: 'bar',
         },
@@ -4487,6 +4552,219 @@ describe('DataContext.Provider', () => {
       myPath: 'My Value',
     })
     expect(document.querySelector('input')).toHaveValue('foo')
+  })
+
+  it('should transform onChange value with "transformOut"', async () => {
+    const onChange = jest.fn()
+
+    render(
+      <Form.Handler
+        onChange={onChange}
+        transformOut={({ value, displayValue, label }) => {
+          return { value, displayValue, label }
+        }}
+      >
+        <Field.String
+          label="String label"
+          path="/stringField"
+          defaultValue="foo"
+        />
+
+        <Field.Selection
+          label="Selection label"
+          path="/selectionField"
+          defaultValue="foo"
+          variant="radio"
+        >
+          <Field.Option value="foo" title="Foo Value" />
+          <Field.Option value="bar" title="Bar Value" />
+        </Field.Selection>
+
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    const stringField = document.querySelector('input')
+    fireEvent.change(stringField, { target: { value: 'bar' } })
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenLastCalledWith(
+      {
+        stringField: {
+          value: 'bar',
+          label: 'String label',
+          displayValue: 'foo', // is not a part of the current render cycle
+        },
+        selectionField: {
+          value: 'foo',
+          label: 'Selection label',
+          displayValue: 'Foo Value',
+        },
+      },
+      {
+        filterData: expect.any(Function),
+      }
+    )
+
+    await userEvent.tab()
+    await userEvent.tab()
+    await userEvent.keyboard('{ArrowDown}')
+
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenLastCalledWith(
+      {
+        stringField: {
+          value: 'bar',
+          label: 'String label',
+          displayValue: 'bar', // now its updated
+        },
+        selectionField: {
+          value: 'bar',
+          label: 'Selection label',
+          displayValue: 'Foo Value',
+        },
+      },
+      {
+        filterData: expect.any(Function),
+      }
+    )
+
+    fireEvent.change(stringField, { target: { value: 'bar 2' } })
+
+    expect(onChange).toHaveBeenCalledTimes(3)
+    expect(onChange).toHaveBeenLastCalledWith(
+      {
+        stringField: {
+          value: 'bar 2',
+          label: 'String label',
+          displayValue: 'bar', // is not a part of the current render cycle
+        },
+        selectionField: {
+          value: 'bar',
+          label: 'Selection label',
+          displayValue: 'Bar Value',
+        },
+      },
+      {
+        filterData: expect.any(Function),
+      }
+    )
+  })
+
+  it('should transform data with "transformData"', async () => {
+    let transformedData = undefined
+    const onSubmit = jest.fn((data, { transformData }) => {
+      transformedData = transformData(
+        data,
+        ({ value, displayValue, label }) => {
+          return { value, displayValue, label }
+        }
+      )
+    })
+
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Field.String
+          label="String label"
+          path="/stringField"
+          defaultValue="foo"
+        />
+
+        <Field.Selection
+          label="Selection label"
+          path="/selectionField"
+          defaultValue="foo"
+          variant="radio"
+        >
+          <Field.Option value="foo" title="Foo Value" />
+          <Field.Option value="bar" title="Bar Value" />
+        </Field.Selection>
+
+        <Field.ArraySelection
+          label="ArraySelection label"
+          path="/arraySelectionField"
+          defaultValue={['foo']}
+          variant="checkbox"
+        >
+          <Field.Option value="foo" title="Foo Value" />
+          <Field.Option value="bar" title="Bar Value" />
+        </Field.ArraySelection>
+      </Form.Handler>
+    )
+
+    const stringField = document.querySelector('input')
+    fireEvent.change(stringField, { target: { value: 'bar' } })
+
+    fireEvent.submit(document.querySelector('form'))
+
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(transformedData).toEqual({
+      stringField: {
+        value: 'bar',
+        label: 'String label',
+        displayValue: 'bar',
+      },
+      selectionField: {
+        value: 'foo',
+        label: 'Selection label',
+        displayValue: 'Foo Value',
+      },
+      arraySelectionField: {
+        displayValue: ['Foo Value'],
+        label: 'ArraySelection label',
+        value: ['foo'],
+      },
+    })
+
+    await userEvent.tab()
+    await userEvent.tab()
+    await userEvent.keyboard('{ArrowDown}')
+
+    fireEvent.submit(document.querySelector('form'))
+
+    expect(onSubmit).toHaveBeenCalledTimes(2)
+    expect(transformedData).toEqual({
+      stringField: {
+        value: 'bar',
+        label: 'String label',
+        displayValue: 'bar',
+      },
+      selectionField: {
+        value: 'bar',
+        label: 'Selection label',
+        displayValue: 'Bar Value',
+      },
+      arraySelectionField: {
+        displayValue: ['Foo Value'],
+        label: 'ArraySelection label',
+        value: ['foo'],
+      },
+    })
+
+    await userEvent.tab()
+    await userEvent.tab()
+    await userEvent.keyboard('{Enter}')
+
+    fireEvent.submit(document.querySelector('form'))
+
+    expect(onSubmit).toHaveBeenCalledTimes(3)
+    expect(transformedData).toEqual({
+      stringField: {
+        value: 'bar',
+        label: 'String label',
+        displayValue: 'bar',
+      },
+      selectionField: {
+        value: 'bar',
+        label: 'Selection label',
+        displayValue: 'Bar Value',
+      },
+      arraySelectionField: {
+        displayValue: ['Foo Value', 'Bar Value'],
+        label: 'ArraySelection label',
+        value: ['foo', 'bar'],
+      },
+    })
   })
 
   describe('reduceToVisibleFields', () => {

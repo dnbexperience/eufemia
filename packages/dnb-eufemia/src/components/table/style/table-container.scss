@@ -74,14 +74,15 @@
   }
 
   .dnb-table__scroll-view {
-    // Clip the native Scrollbar as per defined by UX
+    // Clip the native Scrollbar as per defined by UX.
+    // We can't use "overflow: clip" here, because we want overflow to be auto/scroll.
     clip-path: inset(
       0 round 0 0 var(--table-outline-radius) var(--table-outline-radius)
     );
   }
 
   // Ensure our outline on bottom is not overlaying the scrollbar on webkit
-  // We also need to escape the "selector" because its not supported by "node-sass".
+  // We also need to escape the "selector" because it's not supported by "node-sass".
   @supports (-webkit-appearance: none) and
     (not (-moz-appearance: meterbar)) {
     &::after {

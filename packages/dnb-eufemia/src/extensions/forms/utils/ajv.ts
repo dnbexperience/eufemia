@@ -1,11 +1,44 @@
 import ajvInstance, { ErrorObject } from 'ajv/dist/2020'
 import ajvErrors from 'ajv-errors'
 import pointer, { JsonObject } from './json-pointer'
-import { FormError, Path } from '../types'
+import { DefaultErrorMessages, Path } from '../types'
+import { FormError } from './FormError'
 import type Ajv from 'ajv/dist/2020'
+import type { FormsTranslation } from '../hooks/useTranslation'
 
 export type AjvInstance = typeof ajvInstance
 export { ajvInstance, Ajv }
+
+/**
+ * Translation table for Ajv error keywords.
+ * It represents the mapping between Ajv error keywords and their corresponding translation keys.
+ */
+const ajvErrorKeywordsTranslationTable = [
+  { ajvKey: 'required', translationKey: 'Field.errorRequired' },
+  { ajvKey: 'pattern', translationKey: 'Field.errorPattern' },
+  {
+    ajvKey: 'minLength',
+    translationKey: 'StringField.errorMinLength',
+  },
+  {
+    ajvKey: 'maxLength',
+    translationKey: 'StringField.errorMaxLength',
+  },
+  { ajvKey: 'minimum', translationKey: 'NumberField.errorMinimum' },
+  { ajvKey: 'maximum', translationKey: 'NumberField.errorMaximum' },
+  {
+    ajvKey: 'exclusiveMinimum',
+    translationKey: 'NumberField.errorExclusiveMinimum',
+  },
+  {
+    ajvKey: 'exclusiveMaximum',
+    translationKey: 'NumberField.errorExclusiveMaximum',
+  },
+  {
+    ajvKey: 'multipleOf',
+    translationKey: 'NumberField.errorMultipleOf',
+  },
+]
 
 /**
  * Creates an instance of Ajv (Another JSON Schema Validator) with optional custom instance.
@@ -104,6 +137,71 @@ export function getMessageValues(
 }
 
 /**
+ * Overwrite the internal translation messages with given messaged that uses the Ajv keywords.
+ *
+ * @deprecated – can be removed in v11
+ */
+export function overwriteErrorMessagesWithGivenAjvKeys(
+  messages: DefaultErrorMessages
+) {
+  messages = { ...messages }
+
+  ajvErrorKeywordsTranslationTable.forEach(
+    ({ ajvKey, translationKey }) => {
+      if (messages[ajvKey]) {
+        messages[translationKey] = messages[ajvKey]
+      }
+    }
+  )
+
+  return messages
+}
+
+/**
+ * Extend the error messages with relevant translation messages.
+ */
+export function extendErrorMessagesWithTranslationMessages(
+  messages: DefaultErrorMessages,
+  translation: FormsTranslation
+) {
+  messages = { ...messages }
+
+  ajvErrorKeywordsTranslationTable.forEach(
+    ({ ajvKey, translationKey }) => {
+      if (!messages[ajvKey]) {
+        const keys = translationKey.split('.')
+
+        /**
+         * For backward compatibility.
+         * Because we removed ajv keys in the fields, we now always set all the messages here instead.
+         *
+         * @deprecated – can be removed in v11
+         */
+        messages[ajvKey] =
+          messages[translationKey] ?? translation[keys[0]][keys[1]]
+
+        messages[translationKey] =
+          messages[translationKey] ?? translation[keys[0]][keys[1]]
+      }
+    }
+  )
+
+  return messages
+}
+
+/**
+ * Get the translation key from the Ajv validation rule
+ */
+export function getTranslationKeyFromValidationRule(
+  validationRule: string
+) {
+  const item = ajvErrorKeywordsTranslationTable.find(
+    ({ ajvKey }) => ajvKey === validationRule
+  )
+  return item?.translationKey
+}
+
+/**
  * Converts an AJV error object to a FormError object.
  *
  * @param ajvError - The AJV error object to convert.
@@ -114,12 +212,17 @@ export function ajvErrorToFormError(ajvError: ErrorObject): FormError {
     return new Error(ajvError.message ?? 'Unknown error')
   }
 
-  return new FormError(ajvError.message ?? 'Unknown error', {
-    validationRule: getValidationRule(ajvError),
-    // Keep the message values in the error object instead of injecting them into the message
-    // at once, since an error might be validated one place, and then get a new message before it is displayed.
-    messageValues: getMessageValues(ajvError),
-  })
+  return new FormError(
+    getTranslationKeyFromValidationRule(getValidationRule(ajvError)) ??
+      ajvError.message ??
+      'Unknown error',
+    {
+      // Keep the message values in the error object instead of injecting them into the message
+      // at once, since an error might be validated one place, and then get a new message before it is displayed.
+      messageValues: getMessageValues(ajvError),
+      ajvKeyword: ajvError.keyword,
+    }
+  )
 }
 
 /**
@@ -143,8 +246,9 @@ export function ajvErrorsToOneFormError(
     return ajvErrorToFormError(error)
   }
 
-  const errorMessages = errors?.map((error) => error.message)
-  return new FormError(errorMessages.join(' and '))
+  return new FormError('Multiple errors', {
+    errors: errors?.map((error) => ajvErrorToFormError(error)),
+  })
 }
 
 /**

@@ -18,4 +18,10 @@ export const ViewContainerProperties: PropertiesTableProps = {
   },
 }
 
-export const ViewContainerEvents: PropertiesTableProps = {}
+export const ViewContainerEvents: PropertiesTableProps = {
+  onEdit: {
+    doc: 'Callback for the edit button.',
+    type: 'Function',
+    status: 'optional',
+  },
+}

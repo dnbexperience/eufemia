@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { FieldHelpProps, FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { useFieldProps } from '../../hooks'
@@ -7,7 +7,6 @@ import FieldBlock from '../../FieldBlock'
 import { MultiInputMask } from '../../../../components/input-masked'
 import type { MultiInputMaskValue } from '../../../../components/input-masked'
 import { HelpButton } from '../../../../components'
-import useErrorMessage from '../../hooks/useErrorMessage'
 import { useTranslation as useSharedTranslation } from '../../../../shared'
 import useTranslation from '../../hooks/useTranslation'
 
@@ -30,9 +29,13 @@ function Expiry(props: ExpiryProps) {
     },
   } = useSharedTranslation()
 
-  const errorMessages = useErrorMessage(props.path, props.errorMessages, {
-    required: errorRequired,
-  })
+  const errorMessages = useMemo(
+    () => ({
+      'Field.errorRequired': errorRequired,
+      ...props.errorMessages,
+    }),
+    [errorRequired, props.errorMessages]
+  )
 
   const validateRequired = useCallback(
     (value: string, { required, error }) => {
@@ -50,6 +53,7 @@ function Expiry(props: ExpiryProps) {
 
   const {
     id,
+    path,
     className,
     label = expiryLabel,
     error,
@@ -65,12 +69,21 @@ function Expiry(props: ExpiryProps) {
     handleFocus,
     handleBlur,
     handleChange,
+    setDisplayValue,
   } = useFieldProps(preparedProps)
 
-  const expiry: ExpiryValue = {
-    month: ensureValidMonth(value?.substring(0, 2)),
-    year: value?.substring(2, 4) ?? '',
-  }
+  const expiry: ExpiryValue = useMemo(() => {
+    return {
+      month: ensureValidMonth(value?.substring(0, 2)),
+      year: value?.substring(2, 4) ?? '',
+    }
+  }, [value])
+
+  useMemo(() => {
+    if (path && expiry.month && expiry.year) {
+      setDisplayValue(path, `${expiry.month}/${expiry.year}`)
+    }
+  }, [expiry.month, expiry.year, path, setDisplayValue])
 
   const status = hasError
     ? 'error'
@@ -131,48 +144,48 @@ function Expiry(props: ExpiryProps) {
       />
     </FieldBlock>
   )
-
-  function toExpiryString(values: ExpiryValue) {
-    return Object.values(values).join('')
-  }
-
-  function ensureValidMonth(month: string) {
-    // Return empty value if no month is given
-    if (!month) {
-      return ''
-    }
-
-    const [firstMask, secondMask] = getMonthMask(month)
-
-    const firstDigit = month?.charAt(0)
-    const isFirstDigitValid = firstMask.test(firstDigit)
-
-    if (firstDigit && !isFirstDigitValid) {
-      // Return empty value if the first digit is invalid
-      return ''
-    }
-
-    const secondDigit = month?.charAt(1)
-    const isSecondDigitValid = secondMask.test(secondDigit)
-
-    if (secondDigit && !isSecondDigitValid) {
-      // Return empty value if the second digit is invalid
-      return ''
-    }
-
-    // Return given month of month value is valid
-    return month
-  }
-
-  function getMonthMask(month: string) {
-    const firstDigit = month?.charAt(0)
-
-    return [
-      /[0-1]/,
-      firstDigit === '0' || firstDigit === '' ? /[1-9]/ : /[0-2]/,
-    ]
-  }
 }
 
 Expiry._supportsEufemiaSpacingProps = true
 export default Expiry
+
+function toExpiryString(values: ExpiryValue) {
+  return Object.values(values).join('')
+}
+
+function ensureValidMonth(month: string) {
+  // Return empty value if no month is given
+  if (!month) {
+    return ''
+  }
+
+  const [firstMask, secondMask] = getMonthMask(month)
+
+  const firstDigit = month?.charAt(0)
+  const isFirstDigitValid = firstMask.test(firstDigit)
+
+  if (firstDigit && !isFirstDigitValid) {
+    // Return empty value if the first digit is invalid
+    return ''
+  }
+
+  const secondDigit = month?.charAt(1)
+  const isSecondDigitValid = secondMask.test(secondDigit)
+
+  if (secondDigit && !isSecondDigitValid) {
+    // Return empty value if the second digit is invalid
+    return ''
+  }
+
+  // Return given month of month value is valid
+  return month
+}
+
+function getMonthMask(month: string) {
+  const firstDigit = month?.charAt(0)
+
+  return [
+    /[0-1]/,
+    firstDigit === '0' || firstDigit === '' ? /[1-9]/ : /[0-2]/,
+  ]
+}

@@ -100,9 +100,11 @@ Here is a working example with code you can edit in the playground:
 You can customize the behavior of the field component. For example, you can add a custom error message:
 
 ```tsx
+import { useFieldProps } from '@dnb/eufemia/extensions/forms'
+
 useFieldProps({
   errorMessages: {
-    required: 'Show this when "required" fails.',
+    'Field.errorRequired': 'Show this when "required" fails.',
   },
 })
 ```
@@ -110,9 +112,11 @@ useFieldProps({
 or a custom `required` property validation function:
 
 ```tsx
+import { FormError } from '@dnb/eufemia/extensions/forms'
+
 const validateRequired = (value, { emptyValue, required, isChanged }) => {
   if (required && value === emptyValue) {
-    return new Error('This value is required')
+    return new FormError('Field.errorRequired')
   }
 }
 
@@ -174,10 +178,16 @@ import {
 
 const myFieldTranslations = {
   'en-GB': {
-    MyField: { label: 'My field', required: 'Custom required message' },
+    MyField: {
+      label: 'My field',
+      requiredMessage: 'Custom required message',
+    },
   },
   'nb-NO': {
-    MyField: { label: 'Mitt felt', required: 'Obligatorisk felt melding' },
+    MyField: {
+      label: 'Mitt felt',
+      requiredMessage: 'Obligatorisk felt melding',
+    },
   },
 }
 type Translation =
@@ -187,12 +197,12 @@ const MyField = (props) => {
   const translations = Form.useTranslation<Translation>(
     myFieldTranslations,
   )
-  const { label, required } = translations.MyField
+  const { label, requiredMessage } = translations.MyField
 
   const preparedProps = {
     label,
     errorMessages: {
-      required,
+      'Field.errorRequired': requiredMessage,
     },
     ...props,
   }

@@ -1,4 +1,4 @@
-import { FormError } from '../types'
+import { FormError } from './FormError'
 
 export function errorChanged(
   error1?: FormError,

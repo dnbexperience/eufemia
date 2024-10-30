@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import keycode from 'keycode'
+import keycode from './keycode'
 import whatInput from 'what-input'
 import {
   warn,
@@ -23,7 +23,7 @@ export {
 export { assignPropsWithContext } from './helpers/assignPropsWithContext'
 export { filterProps } from './helpers/filterProps'
 
-export { getPreviousSibling, warn }
+export { keycode, getPreviousSibling, warn }
 
 init()
 
@@ -134,7 +134,7 @@ export const validateDOMAttributes = (props, params) => {
     delete params.innerSpace
   }
 
-  // in case disabled is a string, it its enabled, send it in as a true (this is for web components support)
+  // in case disabled is a string, it's enabled, send it in as a true (this is for web components support)
   else if (params.disabled === 'true') {
     params.disabled = true
   }
