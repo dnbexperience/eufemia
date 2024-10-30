@@ -305,7 +305,7 @@ export function getCountryData({
         }
       }
 
-      return String(a[lang])?.localeCompare?.(b[lang])
+      return String(a[lang])?.localeCompare?.(b[lang], 'nb') // Always sort by nb, because åøæ (for Åland) is not in the en alphabet
     })
     .map((country) => makeObject(country, lang))
 }

@@ -307,8 +307,8 @@ describe('Field.PhoneNumber', () => {
 
     expect(nordic).toHaveLength(7)
     expect(nordic[0]).toHaveTextContent('+45 Danmark')
-    expect(nordic[1]).toHaveTextContent('+298 Færøyene')
-    expect(nordic[2]).toHaveTextContent('+358 Finland')
+    expect(nordic[1]).toHaveTextContent('+358 Finland')
+    expect(nordic[2]).toHaveTextContent('+298 Færøyene')
     expect(nordic[3]).toHaveTextContent('+299 Grønland')
     expect(nordic[4]).toHaveTextContent('+354 Island')
     expect(nordic[5]).toHaveTextContent('+47 Norge')
