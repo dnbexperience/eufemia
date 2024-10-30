@@ -1,4 +1,6 @@
 import React, { useCallback, useContext } from 'react'
+import { parseISO } from 'date-fns'
+import { LOCALE } from '../../../../shared/defaults'
 import StringValue, { Props as StringValueProps } from '../String'
 import useTranslation from '../../hooks/useTranslation'
 import SharedContext, { AnyLocale } from '../../../../shared/Context'
@@ -20,40 +22,7 @@ function DateComponent(props: Props) {
         return undefined
       }
 
-      // Either of the range dates can be null
-      const isRange =
-        /^(\d{4}-\d{2}-\d{2}|null|undefined)\|(\d{4}-\d{2}-\d{2}|null|undefined)$/.test(
-          value
-        )
-      const options = getOptions(variant)
-
-      if (isRange) {
-        const [startValue, endValue] = value.split('|')
-
-        const startDate = new Date(startValue)
-        const endDate = new Date(endValue)
-
-        // Stop if either date is invalid
-        if (isNaN(startDate.valueOf()) || isNaN(endDate.valueOf())) {
-          return undefined
-        }
-
-        return typeof Intl !== 'undefined'
-          ? new Intl.DateTimeFormat(locale, options).formatRange(
-              startDate,
-              endDate
-            )
-          : `${startDate.toLocaleString(
-              locale,
-              options
-            )}|${endDate.toLocaleString(locale, options)}`
-      }
-
-      const date = new Date(value)
-
-      return typeof Intl !== 'undefined'
-        ? new Intl.DateTimeFormat(locale, options).format(date)
-        : date.toLocaleString(locale, options)
+      return formatDate(value, { locale, variant })
     },
     [locale, variant]
   )
@@ -66,7 +35,53 @@ function DateComponent(props: Props) {
   return <StringValue {...stringProps} />
 }
 
-function getOptions(
+export function formatDate(
+  value: string,
+  {
+    locale = LOCALE,
+    variant = 'numeric',
+  }: {
+    locale?: string
+    variant?: Props['variant']
+  } = {}
+) {
+  // Either of the range dates can be null
+  const isRange =
+    /^(\d{4}-\d{2}-\d{2}|null|undefined)\|(\d{4}-\d{2}-\d{2}|null|undefined)$/.test(
+      value
+    )
+  const options = getOptions(variant)
+
+  if (isRange) {
+    const [startValue, endValue] = value.split('|')
+
+    const startDate = parseISO(startValue)
+    const endDate = parseISO(endValue)
+
+    // Stop if either date is invalid
+    if (isNaN(startDate.valueOf()) || isNaN(endDate.valueOf())) {
+      return undefined
+    }
+
+    return typeof Intl !== 'undefined'
+      ? new Intl.DateTimeFormat(locale, options).formatRange(
+          startDate,
+          endDate
+        )
+      : `${startDate.toLocaleString(
+          locale,
+          options
+        )}|${endDate.toLocaleString(locale, options)}`
+  }
+
+  const date = parseISO(value)
+
+  return typeof Intl !== 'undefined'
+    ? new Intl.DateTimeFormat(locale, options).format(date)
+    : date.toLocaleString(locale, options)
+}
+
+export function getOptions(
   variant: Props['variant']
 ): Intl.DateTimeFormatOptions {
   if (variant === 'numeric') {

@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useRef } from 'react'
+import React, { useCallback, useContext, useMemo, useRef } from 'react'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import {
@@ -7,6 +7,7 @@ import {
   FieldProps,
   Path,
 } from '../../types'
+import { getFormattedNumber } from '../../../../components/slider/SliderHelpers'
 import Slider, { SliderProps } from '../../../../components/Slider'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { HelpButton } from '../../../../components'
@@ -69,6 +70,7 @@ function SliderComponent(props: Props) {
 
   const {
     id,
+    path,
     step = 1,
     min = 0,
     max = 100,
@@ -82,12 +84,31 @@ function SliderComponent(props: Props) {
     error,
     hasError,
     disabled,
+    vertical,
+    reverse,
+    hideButtons,
+    multiThumbBehavior,
+    thumbTitle,
+    subtractTitle,
+    addTitle,
+    numberFormat,
+    tooltip,
+    alwaysShowTooltip,
+    extensions,
     handleChange,
     handleFocus,
     handleBlur,
+    setDisplayValue,
   } = useFieldProps(preparedProps, {
     omitMultiplePathWarning: true,
   })
+
+  useMemo(() => {
+    if (path && numberFormat) {
+      const { number } = getFormattedNumber(value, numberFormat)
+      setDisplayValue(path, number)
+    }
+  }, [numberFormat, path, setDisplayValue, value])
 
   const handleLocalChange = useCallback(
     ({ value }: { value: number | number[] }) => {
@@ -128,17 +149,17 @@ function SliderComponent(props: Props) {
     on_change: handleLocalChange,
     on_drag_start: handleFocus,
     on_drag_end: handleBlur,
-    vertical: props.vertical,
-    reverse: props.reverse,
-    hideButtons: props.hideButtons,
-    multiThumbBehavior: props.multiThumbBehavior,
-    thumbTitle: props.thumbTitle,
-    subtractTitle: props.subtractTitle,
-    addTitle: props.addTitle,
-    numberFormat: props.numberFormat,
-    tooltip: props.tooltip,
-    alwaysShowTooltip: props.alwaysShowTooltip,
-    extensions: props.extensions,
+    vertical,
+    reverse,
+    hideButtons,
+    multiThumbBehavior,
+    thumbTitle,
+    subtractTitle,
+    addTitle,
+    numberFormat,
+    tooltip,
+    alwaysShowTooltip,
+    extensions,
     stretch: true,
   }
 

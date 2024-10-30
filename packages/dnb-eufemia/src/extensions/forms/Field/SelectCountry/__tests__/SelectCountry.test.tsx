@@ -1,10 +1,12 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
-import { Props } from '..'
-import { Provider } from '../../../../../shared'
-import { Field, Form, FieldBlock, Value } from '../../..'
 import userEvent from '@testing-library/user-event'
+import { Props } from '../SelectCountry'
+import { Provider } from '../../../../../shared'
+import DataContext from '../../../DataContext/Context'
+import DrawerListProvider from '../../../../../fragments/drawer-list/DrawerListProvider'
+import { Field, Form, FieldBlock, Value } from '../../..'
 
 describe('Field.SelectCountry', () => {
   it('should render with props', () => {
@@ -468,6 +470,37 @@ describe('Field.SelectCountry', () => {
     expect(valueTransformIn).toHaveBeenNthCalledWith(3, 'Norge (NO)')
     expect(valueTransformIn).toHaveBeenNthCalledWith(4, 'Sveits (CH)')
     expect(valueTransformIn).toHaveBeenNthCalledWith(5, 'Sveits (CH)')
+  })
+
+  it('should store "displayValue" in data context', async () => {
+    let dataContext = null
+
+    render(
+      <Form.Handler locale="en-GB">
+        <Field.SelectCountry path="/country" defaultValue="NO" />
+        <DataContext.Consumer>
+          {(context) => {
+            dataContext = context
+            return null
+          }}
+        </DataContext.Consumer>
+      </Form.Handler>
+    )
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/country': 'Norway',
+    })
+
+    // Open like user would do, but without a delay
+    DrawerListProvider['blurDelay'] = 0
+    await userEvent.tab()
+    await userEvent.keyboard('{ArrowDown>2}')
+    await userEvent.keyboard('{Enter}')
+    DrawerListProvider['blurDelay'] = 201
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/country': 'Denmark',
+    })
   })
 
   describe('ARIA', () => {

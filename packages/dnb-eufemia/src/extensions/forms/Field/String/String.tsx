@@ -1,4 +1,10 @@
-import React, { useContext, useMemo, useCallback } from 'react'
+import React, {
+  useContext,
+  useMemo,
+  useCallback,
+  useEffect,
+  useRef,
+} from 'react'
 import classnames from 'classnames'
 import { HelpButton, Input, Textarea } from '../../../../components'
 import { InputProps } from '../../../../components/input/Input'
@@ -120,6 +126,7 @@ function StringComponent(props: Props) {
     [props.capitalize, transform]
   )
 
+  const ref = useRef<HTMLInputElement>()
   const preparedProps: Props = {
     ...props,
     schema,
@@ -129,6 +136,7 @@ function StringComponent(props: Props) {
     width:
       props.width ??
       (fieldBlockContext?.composition ? 'stretch' : 'large'),
+    innerRef: props.innerRef ?? ref,
   }
 
   const {
@@ -182,8 +190,13 @@ function StringComponent(props: Props) {
     handleFocus,
     handleBlur,
     handleChange,
+    setDisplayValue,
     onKeyDown,
   } = useFieldProps(preparedProps)
+
+  useEffect(() => {
+    setDisplayValue(props.path, innerRef.current?.value)
+  }, [innerRef, props.path, setDisplayValue, value])
 
   const transformInstantly = useCallback(
     (value: string) => (props.capitalize ? toCapitalized(value) : value),

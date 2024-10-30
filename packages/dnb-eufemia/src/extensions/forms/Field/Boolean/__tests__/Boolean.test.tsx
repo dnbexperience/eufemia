@@ -123,6 +123,37 @@ describe('Field.Boolean', () => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
 
+    it('should store "displayValue" in data context', async () => {
+      let dataContext = null
+
+      render(
+        <Form.Handler>
+          <Field.Boolean
+            path="/mySelection"
+            variant="button"
+            defaultValue
+          />
+          <DataContext.Consumer>
+            {(context) => {
+              dataContext = context
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        '/mySelection': 'Ja',
+      })
+
+      await userEvent.tab()
+      await userEvent.keyboard('{Enter}')
+
+      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        '/mySelection': 'Nei',
+      })
+    })
+
     describe('ARIA', () => {
       it('should validate with ARIA rules', async () => {
         const result = render(

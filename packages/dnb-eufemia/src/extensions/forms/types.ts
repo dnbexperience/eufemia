@@ -1,6 +1,10 @@
 import type { AriaAttributes } from 'react'
 import type { SpacingProps } from '../../components/space/types'
-import type { FilterData, VisibleDataOptions } from './DataContext'
+import type {
+  FilterData,
+  TransformData,
+  VisibleDataOptions,
+} from './DataContext'
 import type { JSONSchema4, JSONSchema6, JSONSchema7 } from 'json-schema'
 import type { JSONSchemaType } from 'ajv/dist/2020'
 import { JsonObject, FormError } from './utils'
@@ -597,6 +601,12 @@ export type OnSubmitParams = {
     options?: VisibleDataOptions
   ) => Partial<JsonObject>
 
+  /** Will call the given function for each data path. The returned `value` will replace each data entry. It's up to you to define the shape of the value. */
+  transformData: (
+    data: JsonObject,
+    handler: TransformData
+  ) => TransformData
+
   /** Will filter data based on the given "filterDataHandler" method */
   filterData: (filterDataHandler: FilterData) => Partial<JsonObject>
 
@@ -615,6 +625,7 @@ export type OnSubmit<Data = JsonObject> = (
   data: Data,
   {
     reduceToVisibleFields,
+    transformData,
     filterData,
     resetForm,
     clearData,

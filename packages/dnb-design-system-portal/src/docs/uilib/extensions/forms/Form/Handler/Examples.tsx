@@ -1,3 +1,4 @@
+import React from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import {
   Form,
@@ -392,6 +393,71 @@ export const FilterData = () => {
             <Output />
           </>
         )
+      }}
+    </ComponentBox>
+  )
+}
+
+export const TransformData = () => {
+  return (
+    <ComponentBox scope={{ Tools }}>
+      {() => {
+        const MyForm = () => {
+          const [submitData, setSubmitData] = React.useState({})
+          const onSubmit = (data, { transformData }) => {
+            const transformedData = transformData(
+              data,
+              ({ value, displayValue, label }) => {
+                return { value, displayValue, label }
+              },
+            )
+
+            setSubmitData(transformedData)
+            console.log('onSubmit', transformedData)
+          }
+
+          return (
+            <Form.Handler onSubmit={onSubmit}>
+              <Flex.Stack>
+                <Field.String
+                  label="Foo label"
+                  path="/myString"
+                  defaultValue="foo"
+                />
+
+                <Field.Selection
+                  label="Bar label"
+                  path="/mySelection"
+                  defaultValue="bar"
+                  variant="dropdown"
+                >
+                  <Field.Option value="foo" title="Foo Value" />
+                  <Field.Option value="bar" title="Bar Value" />
+                </Field.Selection>
+
+                <Field.ArraySelection
+                  label="Bar label"
+                  path="/myArraySelection"
+                  defaultValue={['bar']}
+                  variant="checkbox"
+                >
+                  <Field.Option value="foo" title="Foo Value" />
+                  <Field.Option value="bar" title="Bar Value" />
+                </Field.ArraySelection>
+
+                <Form.SubmitButton />
+
+                <Tools.Log
+                  label="Submit Data (press submit to update)"
+                  data={submitData}
+                />
+                <Tools.Log label="Data Context" />
+              </Flex.Stack>
+            </Form.Handler>
+          )
+        }
+
+        return <MyForm />
       }}
     </ComponentBox>
   )

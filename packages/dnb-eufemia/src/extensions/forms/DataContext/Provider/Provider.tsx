@@ -414,7 +414,7 @@ export default function Provider<Data extends JsonObject>(
    * Mutate the data set based on the filterData function
    */
   const mutateDataHandler = useCallback(
-    (data: Data, filter: FilterData | TransformData, remove = false) => {
+    (data: Data, handler: TransformData | FilterData, remove = false) => {
       const mutate = (path: Path, result: boolean | unknown) => {
         if (remove) {
           if (result === false) {
@@ -429,17 +429,20 @@ export default function Provider<Data extends JsonObject>(
         }
       }
 
-      if (typeof filter === 'function') {
+      if (typeof handler === 'function') {
         Object.entries(fieldPropsRef.current).forEach(([path, props]) => {
           const exists = pointer.has(data, path)
           if (exists) {
             const value = pointer.get(data, path)
+            const displayValue = fieldDisplayValueRef.current[path]
             const internal = {
               error: fieldErrorRef.current?.[path],
             }
-            const result = filter({
+            const result = handler({
               path,
               value,
+              displayValue,
+              label: props.label,
               data: internalDataRef.current,
               props,
               internal,
@@ -449,12 +452,12 @@ export default function Provider<Data extends JsonObject>(
         })
 
         return data
-      } else if (filter) {
+      } else if (handler) {
         const runFilter = ({ path, condition }) => {
           const exists = pointer.has(data, path)
           if (exists) {
             const value = pointer.get(data, path)
-            const props = fieldPropsRef.current?.[path]
+            const props = fieldPropsRef.current[path]
             const internal = { error: fieldErrorRef.current?.[path] }
             const result =
               typeof condition === 'function'
@@ -471,7 +474,7 @@ export default function Provider<Data extends JsonObject>(
 
         const wildcardPaths = []
 
-        Object.entries(filter).forEach(([path, condition]) => {
+        Object.entries(handler).forEach(([path, condition]) => {
           if (path.includes('*')) {
             const parts = path.split(/\/\*/g)
             const exists = pointer.has(data, parts[0])
@@ -567,6 +570,9 @@ export default function Provider<Data extends JsonObject>(
     [filterDataHandler]
   )
 
+  const fieldDisplayValueRef: ContextState['fieldDisplayValueRef'] =
+    useRef({})
+
   const fieldConnectionsRef = useRef<
     Record<Path, Record<string, unknown>>
   >({})
@@ -584,13 +590,15 @@ export default function Provider<Data extends JsonObject>(
     },
     []
   )
-  const valuePropsRef = useRef<Record<Path, ValueProps<unknown>>>({})
+
+  const valuePropsRef = useRef<Record<Path, ValueProps>>({})
   const setValueProps = useCallback(
     (path: Path, props: Record<string, unknown>) => {
       valuePropsRef.current[path] = props
     },
     []
   )
+
   const hasFieldWithAsyncValidator = useCallback(() => {
     for (const path in fieldPropsRef.current) {
       if (mountedFieldsRef.current[path]?.isMounted) {
@@ -1129,7 +1137,7 @@ export default function Provider<Data extends JsonObject>(
     transformOut,
   ])
 
-  const getSubmitOptions = useCallback(() => {
+  const getSubmitParams = useCallback(() => {
     const reduceToVisibleFields: VisibleDataHandler<Data> = (
       data,
       options
@@ -1139,10 +1147,16 @@ export default function Provider<Data extends JsonObject>(
         options
       )
     }
+
+    const transformData = (data: Data, handler: TransformData) => {
+      return mutateDataHandler(data, handler) as TransformData
+    }
+
     const formElement = formElementRef.current
-    const options: OnSubmitParams = {
+    const params: OnSubmitParams = {
       filterData,
       reduceToVisibleFields,
+      transformData,
       resetForm: () => {
         formElement?.reset?.()
 
@@ -1157,7 +1171,7 @@ export default function Provider<Data extends JsonObject>(
       clearData,
     }
 
-    return options
+    return params
   }, [
     clearData,
     filterData,
@@ -1181,7 +1195,7 @@ export default function Provider<Data extends JsonObject>(
         }
 
         const data = getSubmitData()
-        const options = getSubmitOptions()
+        const options = getSubmitParams()
         let result = undefined
 
         if (isAsync(onSubmit)) {
@@ -1207,7 +1221,7 @@ export default function Provider<Data extends JsonObject>(
     })
   }, [
     getSubmitData,
-    getSubmitOptions,
+    getSubmitParams,
     handleSubmitCall,
     handleSubmitListeners,
     onSubmit,
@@ -1316,7 +1330,7 @@ export default function Provider<Data extends JsonObject>(
     visibleDataHandler,
     filterDataHandler,
     getSubmitData,
-    getSubmitOptions,
+    getSubmitParams,
     addOnChangeHandler,
     setHandleSubmit,
     scrollToTop,
@@ -1333,6 +1347,7 @@ export default function Provider<Data extends JsonObject>(
     showAllErrors: showAllErrorsRef.current,
     hasVisibleError: Object.keys(hasVisibleErrorRef.current).length > 0,
     fieldConnectionsRef,
+    fieldDisplayValueRef,
     fieldPropsRef,
     valuePropsRef,
     mountedFieldsRef,

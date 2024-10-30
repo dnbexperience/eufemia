@@ -1,4 +1,10 @@
-import React, { useContext, useMemo, useCallback } from 'react'
+import React, {
+  useContext,
+  useMemo,
+  useCallback,
+  useEffect,
+  useRef,
+} from 'react'
 import { InputMasked, HelpButton, Button } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
 import type { InputAlign, InputSize } from '../../../../components/Input'
@@ -20,6 +26,7 @@ import DataContext from '../../DataContext/Context'
 
 export type Props = FieldHelpProps &
   FieldProps<number, undefined | number> & {
+    innerRef?: React.RefObject<HTMLInputElement>
     inputClassName?: string
     currency?: InputMaskedProps['as_currency']
     currencyDisplay?: 'code' | 'symbol' | 'narrowSymbol' | 'name'
@@ -104,6 +111,7 @@ function NumberComponent(props: Props) {
     [props.emptyValue]
   )
 
+  const ref = useRef<HTMLInputElement>()
   const preparedProps: Props = {
     valueType: 'number',
     ...props,
@@ -113,12 +121,14 @@ function NumberComponent(props: Props) {
     width:
       props.width ??
       (fieldBlockContext?.composition ? 'stretch' : 'medium'),
+    innerRef: props.innerRef ?? ref,
   }
 
   const {
     id,
     name,
     className,
+    innerRef,
     inputClassName,
     autoComplete,
     layout,
@@ -142,7 +152,12 @@ function NumberComponent(props: Props) {
     handleFocus,
     handleBlur,
     handleChange,
+    setDisplayValue,
   } = useFieldProps(preparedProps)
+
+  useEffect(() => {
+    setDisplayValue(props.path, innerRef.current?.value)
+  }, [innerRef, props.path, setDisplayValue, value])
 
   const { handleSubmit } = dataContext ?? {}
   const onKeyDownHandler = useCallback(
@@ -326,6 +341,7 @@ function NumberComponent(props: Props) {
   const inputProps = {
     id,
     name,
+    inner_ref: innerRef,
     autoComplete,
     className: classnames(
       'dnb-forms-field-number__input',

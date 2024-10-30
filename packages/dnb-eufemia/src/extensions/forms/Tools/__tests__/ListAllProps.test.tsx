@@ -33,6 +33,9 @@ describe('Tools.ListAllProps', () => {
             type: 'string',
           },
           width: 'large',
+          innerRef: {
+            current: expect.any(Object),
+          },
         },
       },
       propsOfValues: {},
@@ -56,6 +59,15 @@ describe('Tools.ListAllProps', () => {
     expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
       {
         "myField": {
+          "innerRef": {
+            "current": <input
+              class="dnb-input__input"
+              id="id-r8"
+              name="myField"
+              type="text"
+              value=""
+            />,
+          },
           "label": "My field",
           "path": "/myField",
           "schema": {
@@ -68,6 +80,16 @@ describe('Tools.ListAllProps', () => {
         },
         "nested": {
           "myString": {
+            "innerRef": {
+              "current": <input
+                aria-required="true"
+                class="dnb-input__input"
+                id="id-rd"
+                name="nested/myString"
+                type="text"
+                value="my string"
+              />,
+            },
             "minLength": 2,
             "path": "/nested/myString",
             "required": true,
@@ -99,6 +121,16 @@ describe('Tools.ListAllProps', () => {
     expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
       {
         "myField": {
+          "innerRef": {
+            "current": <input
+              aria-required="true"
+              class="dnb-input__input"
+              id="id-r8"
+              name="myString"
+              type="text"
+              value="local value"
+            />,
+          },
           "label": "My field",
           "path": "/myField",
           "schema": {
@@ -110,6 +142,16 @@ describe('Tools.ListAllProps', () => {
           "width": "large",
         },
         "myString": {
+          "innerRef": {
+            "current": <input
+              aria-required="true"
+              class="dnb-input__input"
+              id="id-r8"
+              name="myString"
+              type="text"
+              value="local value"
+            />,
+          },
           "minLength": 2,
           "path": "/myString",
           "required": true,
@@ -124,6 +166,9 @@ describe('Tools.ListAllProps', () => {
         },
         "nested": {
           "myString": {
+            "innerRef": {
+              "current": null,
+            },
             "minLength": 2,
             "path": "/nested/myString",
             "required": true,
@@ -225,6 +270,15 @@ describe('Tools.ListAllProps', () => {
             "valueType": "boolean",
           },
           "myNumber": {
+            "innerRef": {
+              "current": <input
+                class="dnb-input__input"
+                id="id-rr"
+                inputmode="decimal"
+                name="myNumber"
+                type="text"
+              />,
+            },
             "path": "/myNumber",
             "schema": {
               "exclusiveMaximum": undefined,
@@ -238,6 +292,15 @@ describe('Tools.ListAllProps', () => {
             "width": "medium",
           },
           "myString": {
+            "innerRef": {
+              "current": <input
+                class="dnb-input__input"
+                id="id-rm"
+                name="myString"
+                type="text"
+                value=""
+              />,
+            },
             "path": "/myString",
             "schema": {
               "maxLength": undefined,
@@ -298,6 +361,15 @@ describe('Tools.ListAllProps', () => {
           "myNumber": {
             "exclusiveMaximum": 25,
             "exclusiveMinimum": 15,
+            "innerRef": {
+              "current": <input
+                class="dnb-input__input"
+                id="id-r1t"
+                inputmode="decimal"
+                name="myNumber"
+                type="text"
+              />,
+            },
             "maximum": 20,
             "minimum": 10,
             "multipleOf": 2,
@@ -315,6 +387,15 @@ describe('Tools.ListAllProps', () => {
           },
           "myObject": {
             "withString": {
+              "innerRef": {
+                "current": <input
+                  class="dnb-input__input"
+                  id="id-r1i"
+                  name="myObject/withString"
+                  type="text"
+                  value=""
+                />,
+              },
               "maxLength": 10,
               "minLength": 10,
               "path": "/myObject/withString",
@@ -329,6 +410,15 @@ describe('Tools.ListAllProps', () => {
             },
           },
           "myString": {
+            "innerRef": {
+              "current": <input
+                class="dnb-input__input"
+                id="id-r1d"
+                name="myString"
+                type="text"
+                value=""
+              />,
+            },
             "maxLength": 5,
             "minLength": 5,
             "path": "/myString",
@@ -377,6 +467,15 @@ describe('Tools.ListAllProps', () => {
               "withNumber": {
                 "exclusiveMaximum": 25,
                 "exclusiveMinimum": 15,
+                "innerRef": {
+                  "current": <input
+                    class="dnb-input__input"
+                    id="id-r28"
+                    inputmode="decimal"
+                    name="myObject/nested/withNumber"
+                    type="text"
+                  />,
+                },
                 "maximum": 20,
                 "minimum": 10,
                 "multipleOf": 2,
@@ -394,6 +493,15 @@ describe('Tools.ListAllProps', () => {
               },
             },
             "withString": {
+              "innerRef": {
+                "current": <input
+                  class="dnb-input__input"
+                  id="id-r23"
+                  name="myObject/withString"
+                  type="text"
+                  value=""
+                />,
+              },
               "maxLength": 10,
               "minLength": 10,
               "path": "/myObject/withString",
@@ -450,6 +558,16 @@ describe('Tools.ListAllProps', () => {
           },
           "myObject": {
             "withNumber": {
+              "innerRef": {
+                "current": <input
+                  aria-required="true"
+                  class="dnb-input__input"
+                  id="id-r2u"
+                  inputmode="decimal"
+                  name="myObject/withNumber"
+                  type="text"
+                />,
+              },
               "maximum": 20,
               "minimum": 10,
               "path": "/myObject/withNumber",
@@ -466,6 +584,16 @@ describe('Tools.ListAllProps', () => {
               "width": "medium",
             },
             "withString": {
+              "innerRef": {
+                "current": <input
+                  aria-required="true"
+                  class="dnb-input__input"
+                  id="id-r2j"
+                  name="myObject/withString"
+                  type="text"
+                  value=""
+                />,
+              },
               "maxLength": 10,
               "minLength": 10,
               "path": "/myObject/withString",
@@ -480,6 +608,16 @@ describe('Tools.ListAllProps', () => {
             },
           },
           "myString": {
+            "innerRef": {
+              "current": <input
+                aria-required="true"
+                class="dnb-input__input"
+                id="id-r2e"
+                name="myString"
+                type="text"
+                value=""
+              />,
+            },
             "path": "/myString",
             "required": true,
             "schema": {
@@ -528,6 +666,21 @@ describe('Tools.ListAllProps', () => {
         "items": {
           "0": {
             "item": {
+              "innerRef": {
+                "current": <input
+                  aria-valuemax="9007199254740991"
+                  aria-valuemin="-9007199254740991"
+                  aria-valuenow="0"
+                  aria-valuetext="0"
+                  class="dnb-input__input"
+                  id="id-r39"
+                  inputmode="decimal"
+                  name="id-r39"
+                  role="spinbutton"
+                  step="1"
+                  type="text"
+                />,
+              },
               "itemPath": "/item",
               "label": "My field",
               "schema": {
@@ -546,6 +699,21 @@ describe('Tools.ListAllProps', () => {
           },
           "1": {
             "item": {
+              "innerRef": {
+                "current": <input
+                  aria-valuemax="9007199254740991"
+                  aria-valuemin="-9007199254740991"
+                  aria-valuenow="1"
+                  aria-valuetext="1"
+                  class="dnb-input__input"
+                  id="id-r3e"
+                  inputmode="decimal"
+                  name="id-r3e"
+                  role="spinbutton"
+                  step="1"
+                  type="text"
+                />,
+              },
               "itemPath": "/item",
               "label": "My field",
               "schema": {

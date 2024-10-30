@@ -58,6 +58,8 @@ export type FilterDataPathCondition<Data = unknown> = (
 ) => boolean | undefined
 export type FilterDataPathConditionParameters<Data = unknown> = {
   value: unknown
+  displayValue: undefined | React.ReactNode | Array<React.ReactNode>
+  label: React.ReactNode
   props: FieldProps
   data: Data
   internal: {
@@ -89,7 +91,7 @@ export interface ContextState {
   data: any
   internalDataRef?: React.MutableRefObject<any>
   /** Should the form validate data before submitting? */
-  errors?: Record<string, Error>
+  errors?: Record<Path, Error>
   /** Will set autoComplete="on" on each nested Field.String and Field.Number */
   autoComplete?: boolean
   handlePathChange: (
@@ -141,7 +143,7 @@ export interface ContextState {
     skipErrorCheck?: boolean
   }) => Promise<EventStateObject | undefined>
   getSubmitData?: () => unknown
-  getSubmitOptions?: () => OnSubmitParams
+  getSubmitParams?: () => OnSubmitParams
   setFieldEventListener?: (
     path: EventListenerCall['path'],
     type: EventListenerCall['type'],
@@ -156,8 +158,11 @@ export interface ContextState {
   ) => void
   setFieldConnection?: (path: Path, connections: FieldConnections) => void
   isEmptyDataRef?: React.MutableRefObject<boolean>
-  fieldPropsRef?: React.MutableRefObject<Record<string, FieldProps>>
-  valuePropsRef?: React.MutableRefObject<Record<string, ValueProps>>
+  fieldDisplayValueRef?: React.MutableRefObject<
+    Record<Path, React.ReactNode>
+  >
+  fieldPropsRef?: React.MutableRefObject<Record<Path, FieldProps>>
+  valuePropsRef?: React.MutableRefObject<Record<Path, ValueProps>>
   fieldConnectionsRef?: React.RefObject<Record<Path, FieldConnections>>
   mountedFieldsRef?: React.MutableRefObject<Record<Path, MountState>>
   snapshotsRef?: React.MutableRefObject<

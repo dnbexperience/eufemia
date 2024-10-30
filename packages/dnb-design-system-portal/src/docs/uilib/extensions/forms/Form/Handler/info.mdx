@@ -185,6 +185,7 @@ The `onSubmit` event returns additional functions you can call:
 
 - `filterData` Filters the given/internal data set.
 - `reduceToVisibleFields` Reduces the given data set to only contain the visible fields (mounted fields).
+- `transformData` Will call the given function for each data path. The returned `value` will replace each data entry. It's up to you to define the shape of the value.
 - `resetForm` Deletes `sessionStorage` and browser stored autocomplete data.
 - `clearData` Empties the given/internal data set.
 
@@ -202,12 +203,25 @@ const MyForm = () => {
     <Form.Handler
       onSubmit={(
         data,
-        { filterData, reduceToVisibleFields, resetForm, clearData },
+        {
+          filterData,
+          reduceToVisibleFields,
+          transformData,
+          resetForm,
+          clearData,
+        },
       ) => {
         resetForm()
         clearData()
 
-        const myData = reduceToVisibleFields(filterData(myFilter))
+        const filteredData = filterData(myFilter)
+        const myData = reduceToVisibleFields(filteredData)
+        const transformed = transformData(
+          myData,
+          ({ path, value, displayValue, label, props, internal }) => {
+            return 'new value'
+          },
+        )
       }}
       sessionStorageId="session-key"
     >
@@ -216,3 +230,22 @@ const MyForm = () => {
   )
 }
 ```
+
+#### `transformData`
+
+The `transformData` function will call the given function for each data path. The returned `value` will replace each data entry. It's up to you to define the shape of the value.
+
+The callback function receives the following arguments as an object:
+
+- `path` The path of the field.
+- `value` The value of the field.
+- `displayValue` The displayed value of the field.
+- `label` The label of the field.
+- `props` The given field properties.
+- `internal` The `internal` parameter contains `{ error: Error | undefined }` you can utilize if needed.
+
+**displayValue** can be `undefined` if a filed does not support it, or it's value is not set (`emptyValue`).
+
+Most of the fields will return the `displayValue` as a string. But there are some exceptions:
+
+- [ArraySelection](/uilib/extensions/forms/base-fields/ArraySelection/) will return the displayed/active options content as an array that contains a string (or React.ReactNode).
