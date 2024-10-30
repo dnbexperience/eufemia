@@ -480,12 +480,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     )
   }, [contextErrorMessages, errorMessages, identifier])
 
-  const loopCounterRef = useRef(0)
-  loopCounterRef.current += 1
-  if (loopCounterRef.current > 100) {
-    throw new Error('Infinity loop detected and stopped.')
-  }
-
   /**
    * Prepare error from validation logic with correct error messages based on props
    */
