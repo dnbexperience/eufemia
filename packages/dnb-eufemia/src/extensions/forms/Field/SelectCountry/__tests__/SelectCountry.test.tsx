@@ -127,10 +127,6 @@ describe('Field.SelectCountry', () => {
 
     // open
     fireEvent.focus(inputElement)
-    fireEvent.keyDown(inputElement, {
-      key: 'Enter',
-      keyCode: 13,
-    })
 
     const liElements = document.querySelectorAll('li:not([aria-hidden])')
     expect(liElements).toHaveLength(3)
@@ -152,10 +148,6 @@ describe('Field.SelectCountry', () => {
 
     // open
     fireEvent.focus(inputElement)
-    fireEvent.keyDown(inputElement, {
-      key: 'Enter',
-      keyCode: 13,
-    })
 
     const liElements = document.querySelectorAll('li:not([aria-hidden])')
     expect(liElements.length).toBeGreaterThan(200)
@@ -164,6 +156,39 @@ describe('Field.SelectCountry', () => {
     expect(liElements[2].textContent).toBe('Danmark')
     expect(liElements[3].textContent).toBe('Finland')
     expect(liElements[4].textContent).toBe('Afghanistan')
+  })
+
+  it('should sort "AX" as last', () => {
+    const { rerender } = render(
+      <Form.Handler>
+        <Field.SelectCountry />
+      </Form.Handler>
+    )
+
+    const inputElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-select-country input'
+    )
+
+    // open
+    fireEvent.focus(inputElement)
+
+    {
+      const liElements = document.querySelectorAll('li:not([aria-hidden])')
+      expect(liElements[liElements.length - 1].textContent).toBe('Åland')
+    }
+
+    rerender(
+      <Form.Handler locale="en-GB">
+        <Field.SelectCountry />
+      </Form.Handler>
+    )
+
+    {
+      const liElements = document.querySelectorAll('li:not([aria-hidden])')
+      expect(liElements[liElements.length - 1].textContent).toBe(
+        'Åland Islands'
+      )
+    }
   })
 
   it('should show only Scandinavian countries', () => {
@@ -175,10 +200,6 @@ describe('Field.SelectCountry', () => {
 
     // open
     fireEvent.focus(inputElement)
-    fireEvent.keyDown(inputElement, {
-      key: 'Enter',
-      keyCode: 13,
-    })
 
     const liElements = document.querySelectorAll('li:not([aria-hidden])')
     expect(liElements).toHaveLength(3)
@@ -201,10 +222,6 @@ describe('Field.SelectCountry', () => {
 
     // open
     fireEvent.focus(inputElement)
-    fireEvent.keyDown(inputElement, {
-      key: 'Enter',
-      keyCode: 13,
-    })
 
     const liElements = document.querySelectorAll('li:not([aria-hidden])')
     expect(liElements).toHaveLength(2)
@@ -221,10 +238,6 @@ describe('Field.SelectCountry', () => {
 
     // open
     fireEvent.focus(inputElement)
-    fireEvent.keyDown(inputElement, {
-      key: 'Enter',
-      keyCode: 13,
-    })
 
     const liElements = document.querySelectorAll('li:not([aria-hidden])')
     expect(liElements.length).toBeGreaterThan(200)
