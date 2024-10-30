@@ -11,6 +11,15 @@ export const EditContainerProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+
+  '[FlexVertical](/uilib/layout/flex/container/)': {
+    doc: 'All Flex.Vertical properties.',
+    type: 'Various',
+    status: 'optional',
+  },
+}
+
+export const EditContainerEvents: PropertiesTableProps = {
   onDone: {
     doc: 'Callback for the done button.',
     type: 'Function',
@@ -21,11 +30,4 @@ export const EditContainerProperties: PropertiesTableProps = {
     type: 'Function',
     status: 'optional',
   },
-  '[FlexVertical](/uilib/layout/flex/container/)': {
-    doc: 'All Flex.Vertical properties.',
-    type: 'Various',
-    status: 'optional',
-  },
 }
-
-export const EditContainerEvents: PropertiesTableProps = {}
