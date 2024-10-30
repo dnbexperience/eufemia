@@ -11,6 +11,11 @@ export const ViewContainerProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  onEdit: {
+    doc: 'Callback for the edit button.',
+    type: 'Function',
+    status: 'optional',
+  },
   '[FlexVertical](/uilib/layout/flex/container/)': {
     doc: 'All Flex.Vertical properties.',
     type: 'Various',
