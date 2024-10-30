@@ -1,11 +1,6 @@
 import React, { useCallback, useEffect } from 'react'
 import { Field, Form } from '../../..'
-import {
-  Button,
-  Card,
-  GlobalStatus,
-  Flex,
-} from '../../../../../components'
+import { Button, Card, GlobalStatus } from '../../../../../components'
 import { debounceAsync } from '../../../../../shared/helpers'
 
 export default {
@@ -390,39 +385,4 @@ function UseValidationComponent() {
   }, [setFieldStatus])
 
   return null
-}
-
-export function InfinityLoopStory() {
-  const MyForm = () => {
-    const [, setSubmitData] = React.useState({})
-    const onSubmit = (data, { transformData }) => {
-      const transformedData = transformData(
-        data,
-        ({ value, displayValue, label }) => {
-          return {
-            value,
-            displayValue,
-            label,
-          }
-        }
-      )
-      setSubmitData(transformedData)
-      console.log('onSubmit', transformedData)
-    }
-    return (
-      <Form.Handler onSubmit={onSubmit}>
-        <Flex.Stack>
-          <Field.Number
-            label="Field.Number"
-            path="/myNumber"
-            defaultValue={1}
-          />
-
-          <Form.SubmitButton />
-        </Flex.Stack>
-      </Form.Handler>
-    )
-  }
-
-  return <MyForm />
 }
