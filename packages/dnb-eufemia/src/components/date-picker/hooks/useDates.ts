@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { convertStringToDate, isDisabled } from '../DatePickerCalc'
 import isValid from 'date-fns/isValid'
-import usePreviousValue from './usePreviousValue'
 import format from 'date-fns/format'
 import { addMonths } from 'date-fns'
 import useViews, { CalendarView } from './useViews'
@@ -56,7 +55,7 @@ export default function useDates(
     shouldCorrectDate = false,
   }: UseDatesOptions
 ) {
-  const previousDates = usePreviousValue(dateProps)
+  const [previousDates, setPreviousDates] = useState(dateProps)
   const [dates, setDates] = useState<DatePickerDates>({
     ...mapDates(dateProps, previousDates, {
       dateFormat,
@@ -64,6 +63,22 @@ export default function useDates(
       shouldCorrectDate,
     }),
   })
+
+  const hasDatePropsChanged = Object.keys(dateProps).some((date) => {
+    return dateProps[date] !== previousDates[date]
+  })
+
+  // Update dates on prop change
+  if (hasDatePropsChanged) {
+    setDates({
+      ...mapDates(dateProps, previousDates, {
+        dateFormat,
+        isRange,
+        shouldCorrectDate,
+      }),
+    })
+    setPreviousDates(dateProps)
+  }
 
   // calling views here instead of DatePickerProvider, to able to sync start and end months up with calendar views
   // TODO: Reduce to just use start/endDate or start/endMonth to reduce complexity,
@@ -123,31 +138,6 @@ export default function useDates(
     },
     [dates, shouldCorrectDate, isRange, views]
   )
-
-  // Update dates on prop change
-  useEffect(() => {
-    const hasDatePropsChanged = Object.keys(dateProps).some((date) => {
-      return dateProps[date] !== previousDates[date]
-    })
-
-    if (hasDatePropsChanged) {
-      updateDates({
-        ...mapDates(dateProps, previousDates, {
-          dateFormat,
-          isRange,
-          shouldCorrectDate,
-        }),
-      })
-    }
-  }, [
-    dateProps,
-    previousDates,
-    updateDates,
-    dateFormat,
-    isRange,
-    isLinked,
-    shouldCorrectDate,
-  ])
 
   // Updated input dates based on start and end dates, move to DatePickerInput
   // TODO: Move to DatePickerInput
