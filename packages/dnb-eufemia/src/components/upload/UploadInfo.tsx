@@ -12,6 +12,7 @@ import Tr from '../table/TableTr'
 import Th from '../table/TableTh'
 import Td from '../table/TableTd'
 import { UploadAcceptedFileTypeObject, UploadProps } from './types'
+import Flex from '../../components/Flex'
 
 const prettifyAcceptedFileFormats = (acceptedFileTypes) =>
   acceptedFileTypes.sort().join(', ').toUpperCase()
@@ -57,19 +58,18 @@ const UploadInfo = () => {
     displayFilesAmountLimitItem
 
   return (
-    <>
-      {title && <Lead space="0">{title}</Lead>}
+    <Flex.Stack gap="small">
+      {(title || text) && (
+        <Flex.Stack gap="xx-small">
+          {title && <Lead space="0">{title}</Lead>}
 
-      {text && (
-        <P top="xx-small" className="dnb-upload__text">
-          {text}
-        </P>
+          {text && <P className="dnb-upload__text">{text}</P>}
+        </Flex.Stack>
       )}
-
       {children}
 
       {displayDl && (
-        <Dl top="small" bottom={0} layout="horizontal">
+        <Dl bottom={0} layout="horizontal">
           {displayAcceptedFileFormatsListItem && (
             <Dl.Item>
               <Dt>{fileTypeDescription}</Dt>
@@ -97,10 +97,11 @@ const UploadInfo = () => {
           )}
         </Dl>
       )}
+
       {displayAcceptedFileFormatsTable && (
         <UploadInfoAcceptedFileTypesTable />
       )}
-    </>
+    </Flex.Stack>
   )
 }
 
