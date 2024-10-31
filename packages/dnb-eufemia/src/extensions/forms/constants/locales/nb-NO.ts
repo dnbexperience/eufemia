@@ -155,6 +155,9 @@ export default {
       label: 'Postnr.',
       errorRequired: 'Du må fylle inn et postnummer.',
       errorPattern: 'Dette er ikke et gyldig postnummer (fire siffer).',
+      errorPostalCode: 'Dette er ikke et gyldig postnummer.',
+      errorPostalCodeLength:
+        'Ugyldig postnummer. Skriv inn et gyldig postnummer med 4 siffer.',
     },
     City: {
       label: 'Sted',

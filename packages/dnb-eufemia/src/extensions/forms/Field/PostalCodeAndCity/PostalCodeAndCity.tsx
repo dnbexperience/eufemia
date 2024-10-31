@@ -7,13 +7,14 @@ import { FieldHelpProps, Path } from '../../types'
 import useTranslation from '../../hooks/useTranslation'
 import useDataValue from '../../hooks/useDataValue'
 import { COUNTRY as defaultCountry } from '../../../../shared/defaults'
+import norwegianPostalCodes from '../../constants/norwegianPostalCodes'
 
 export type Props = FieldHelpProps &
   Omit<FieldBlockProps, 'children'> &
   Partial<Record<'postalCode' | 'city', StringFieldProps>> & {
     /**
      * Defines which country the postal code and city is for.
-     * Setting it to anything other than `no` will remove the default norwegian postal code pattern.
+     * Setting it to anything other than `no` will remove the default norwegian postal code pattern and validation.
      * You can also use the value of another field to define the country, by using a path value i.e. `/myCountryPath`.
      * Default: `NO`
      */
@@ -42,6 +43,25 @@ function PostalCodeAndCity(props: Props) {
     errorMessages: cityErrorMessages,
   } = city
 
+  const norwegianPostalCodeValidator = useCallback(
+    (value: string) => {
+      if (value !== undefined) {
+        const postalCodeIs4Digits = value?.length === 4
+
+        if (!postalCodeIs4Digits) {
+          return Error(translations.PostalCode.errorPostalCodeLength)
+        }
+        if (postalCodeIs4Digits && !isValidNorwegianPostalCode(value)) {
+          return Error(translations.PostalCode.errorPostalCode)
+        }
+      }
+    },
+    [
+      translations.PostalCode.errorPostalCode,
+      translations.PostalCode.errorPostalCodeLength,
+    ]
+  )
+
   const countryValue = getSourceValue(country)
   const handleDefaults = useCallback(
     (postalCode: StringFieldProps) => {
@@ -49,11 +69,17 @@ function PostalCodeAndCity(props: Props) {
 
       switch (countryValue) {
         case defaultCountry:
+          props.mask = [/\d/, /\d/, /\d/, /\d/]
+          props.pattern = undefined
+          props.placeholder = '0000'
+          props.validator = norwegianPostalCodeValidator
+          break
         case 'DK':
         case 'CH': {
           props.mask = [/\d/, /\d/, /\d/, /\d/]
           props.pattern = '^[0-9]{4}$'
           props.placeholder = '0000'
+          props.validator = undefined
           break
         }
         default:
@@ -69,6 +95,7 @@ function PostalCodeAndCity(props: Props) {
   const {
     mask: postalCodeMask,
     pattern: postalCodePattern,
+    validator: postalCodeValidator,
     placeholder: postalCodePlaceHolder,
     className: postalCodeClassName,
     label: postalCodeLabel,
@@ -80,6 +107,7 @@ function PostalCodeAndCity(props: Props) {
     mask: postalCodeMask,
     pattern: postalCodePattern,
     placeholder: postalCodePlaceHolder,
+    validator: postalCodeValidator,
   }
 
   return (
@@ -130,6 +158,10 @@ function PostalCodeAndCity(props: Props) {
       />
     </CompositionField>
   )
+}
+
+function isValidNorwegianPostalCode(digits: string) {
+  return norwegianPostalCodes.includes(digits)
 }
 
 PostalCodeAndCity._supportsSpacingProps = true
