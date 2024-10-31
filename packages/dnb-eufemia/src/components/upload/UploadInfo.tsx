@@ -97,6 +97,7 @@ const UploadInfo = () => {
           )}
         </Dl>
       )}
+
       {displayAcceptedFileFormatsTable && (
         <UploadInfoAcceptedFileTypesTable />
       )}
