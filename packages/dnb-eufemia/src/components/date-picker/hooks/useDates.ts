@@ -73,7 +73,7 @@ export default function useDates(
   // Update dates on prop change
   if (hasDatePropChanges) {
     setDates({
-      ...mapDates(dateProps, previousDates, {
+      ...mapDates({ ...dates, ...dateProps }, previousDates, {
         dateFormat,
         isRange,
         shouldCorrectDate,
