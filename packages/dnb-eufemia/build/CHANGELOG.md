@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.54.1](https://github.com/dnbexperience/eufemia/compare/v10.54.0...v10.54.1) (2024-10-31)
+
+
+### :bug: Bug Fixes
+
+* **Upload:** unnecessary spacing when not providing `title` and `text` ([#4205](https://github.com/dnbexperience/eufemia/issues/4205)) ([59845d0](https://github.com/dnbexperience/eufemia/commit/59845d0a3db0ce9a078dd0f14f3e114ff6c17acd))
+
 ## [10.54.0](https://github.com/dnbexperience/eufemia/compare/v10.53.0...v10.54.0) (2024-10-30)
 
 
