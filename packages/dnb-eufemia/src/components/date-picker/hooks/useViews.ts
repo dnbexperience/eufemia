@@ -16,7 +16,7 @@ export type UseViewsParams = ViewDates & {
 }
 
 export default function useViews({ isRange, ...dates }: UseViewsParams) {
-  const [prevDates, setPrevDates] = useState(dates)
+  const [previousDates, setPreviousDates] = useState(dates)
   const [views, setViews] = useState<Array<CalendarView>>(
     getViews({ views: undefined, ...dates, isRange })
   )
@@ -24,9 +24,9 @@ export default function useViews({ isRange, ...dates }: UseViewsParams) {
   const hasDateChanges = useMemo(
     () =>
       Object.keys(dates).some(
-        (dateType) => prevDates[dateType] !== dates[dateType]
+        (date) => previousDates[date] !== dates[date]
       ),
-    [dates, prevDates]
+    [dates, previousDates]
   )
 
   if (hasDateChanges) {
@@ -36,7 +36,7 @@ export default function useViews({ isRange, ...dates }: UseViewsParams) {
         : views[0]
       : views
     setViews(getViews({ ...dates, views: currentViews, isRange }))
-    setPrevDates(dates)
+    setPreviousDates(dates)
   }
 
   function updateViews(
