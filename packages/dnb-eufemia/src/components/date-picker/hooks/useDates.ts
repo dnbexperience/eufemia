@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { convertStringToDate, isDisabled } from '../DatePickerCalc'
 import isValid from 'date-fns/isValid'
 import format from 'date-fns/format'
@@ -62,12 +62,16 @@ export default function useDates(
     }),
   })
 
-  const hasDatePropsChanged = Object.keys(dateProps).some((date) => {
-    return dateProps[date] !== previousDates[date]
-  })
+  const hasDatePropChanges = useMemo(
+    () =>
+      Object.keys(dateProps).some((date) => {
+        return dateProps[date] !== previousDates[date]
+      }),
+    [dateProps, previousDates]
+  )
 
   // Update dates on prop change
-  if (hasDatePropsChanged) {
+  if (hasDatePropChanges) {
     setDates({
       ...mapDates(dateProps, previousDates, {
         dateFormat,
