@@ -190,16 +190,30 @@ export const SettingCountryBasedOnPath = () => {
 export const NonNorwegianPostalCode = () => {
   return (
     <ComponentBox>
-      <Field.PostalCodeAndCity
-        country="DE"
-        postalCode={{
-          pattern: '^[0-9]{5}$',
-          mask: [/\\d/, /\\d/, /\\d/, /\\d/, /\\d/],
-          placeholder: '00000',
-          width: '5.4rem',
+      <Form.Handler
+        translations={{
+          'nb-NO': {
+            'PostalCode.errorPattern':
+              'Dette er ikke et gyldig postnummer (fem siffer).',
+          },
+          'en-GB': {
+            'PostalCode.errorPattern':
+              'This is not a valid postcode (five-digits).',
+          },
         }}
-        city={{ pattern: '^[a-zA-ZäöüÄÖÜß -]+$', width: 'stretch' }}
-      />
+      >
+        <Field.PostalCodeAndCity
+          country="DE"
+          postalCode={{
+            pattern: '^[0-9]{5}$',
+            onBlurValidator: undefined,
+            mask: [/\\d/, /\\d/, /\\d/, /\\d/, /\\d/],
+            placeholder: '00000',
+            width: '5.4rem',
+          }}
+          city={{ pattern: '^[a-zA-ZäöüÄÖÜß -]+$', width: 'stretch' }}
+        />
+      </Form.Handler>
     </ComponentBox>
   )
 }

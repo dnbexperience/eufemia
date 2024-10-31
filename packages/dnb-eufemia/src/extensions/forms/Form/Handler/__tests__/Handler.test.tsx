@@ -177,7 +177,7 @@ describe('Form.Handler', () => {
   })
 
   describe('autocomplete', () => {
-    it('should set autocomplete="on" when autoComplete is false', () => {
+    it('should set autocomplete="on" when autoComplete is true', () => {
       const { rerender } = render(
         <Form.Handler autoComplete>
           <Field.String path="/firstName" />

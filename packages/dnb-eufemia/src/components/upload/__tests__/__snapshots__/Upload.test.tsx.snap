@@ -852,7 +852,7 @@ button .dnb-form-status__text {
 .dnb-upload__accepted-file-types-table.dnb-table thead th {
   font-weight: var(--font-weight-medium);
   font-size: var(--font-size-basis);
-  padding-top: var(--spacing-small);
+  padding-top: 0;
 }
 .dnb-upload__accepted-file-types-table.dnb-table thead th:first-child {
   padding-left: 0;
