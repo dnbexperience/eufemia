@@ -19,7 +19,6 @@ export type DatePickerDateProps = {
 type UseDatesOptions = {
   dateFormat: string
   isRange: boolean
-  isLinked: boolean
   shouldCorrectDate: boolean
 }
 // TODO: Move to DatePickerInput
@@ -51,7 +50,6 @@ export default function useDates(
   {
     dateFormat,
     isRange = false,
-    isLinked = false,
     shouldCorrectDate = false,
   }: UseDatesOptions
 ) {
