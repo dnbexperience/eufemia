@@ -208,6 +208,16 @@ export const WithHeadingsAndAriaLabel = () => {
   )
 }
 
+export const WithoutPadding = () => {
+  return (
+    <ComponentBox>
+      <Card innerSpace={false} align="stretch">
+        <P>no inner space</P>
+      </Card>
+    </ComponentBox>
+  )
+}
+
 export const WithNestedSection = () => {
   return (
     <ComponentBox data-visual-test="card-nested-section">
