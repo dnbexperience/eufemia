@@ -88,7 +88,7 @@ export function getCalendar(
     return calendarCache[cacheKey]
   }
 
-  // Get day of the week of the first day of month, e.gbn j. => 3
+  // Get day of the week of the first day of month, e.g. => 3
   // Add 7 days 7 to make sure it's not negative when subtracting weekStartsOn and wraps around
   const firstDay = (7 + getDay(startOfMonth(month)) - weekStartsOn) % 7
   const lastMonth = getMonth(
