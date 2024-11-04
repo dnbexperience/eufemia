@@ -159,6 +159,7 @@ const UploadFileListCell = ({
         <a
           target="_blank"
           href={imageUrl}
+          download={file.name}
           className={classnames(
             'dnb-anchor',
             'dnb-upload__file-cell__title'

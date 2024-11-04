@@ -40,6 +40,22 @@ describe('UploadFileListCell', () => {
     expect(element.className).toMatch('dnb-upload__file-cell--warning')
   })
 
+  it('renders the upload attribute', () => {
+    render(
+      <UploadFileListCell
+        {...defaultProps}
+        uploadFile={{
+          file: createMockFile('file.png', 100, 'image/png'),
+          errorMessage: 'error message',
+        }}
+      />
+    )
+
+    const element = document.querySelector('.dnb-upload__file-cell a')
+
+    expect(element).toHaveAttribute('download', 'file.png')
+  })
+
   it('supports special file extensions', async () => {
     render(
       <UploadFileListCell
