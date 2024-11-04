@@ -450,7 +450,9 @@ describe('DatePicker component', () => {
   })
 
   it('has correctly synced calendar views based on user navigation and date selection', async () => {
-    render(<DatePicker range end_date="2024-10-24" />)
+    render(
+      <DatePicker range start_date="2024-10-01" end_date="2024-10-24" />
+    )
 
     await userEvent.click(document.querySelector('button.dnb-button'))
 
