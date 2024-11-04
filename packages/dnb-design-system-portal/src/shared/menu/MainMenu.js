@@ -100,7 +100,6 @@ function MainMenu() {
               </figcaption>
             </figure>
             <SearchBarInput />
-          </div>
           <ul className={listStyle}>
             <Card
               url={items['design-system']?.url}
@@ -111,44 +110,45 @@ function MainMenu() {
                   <span
                     className={lastUpdatedStyle}
                     title="Last Change log update"
-                  >
+                    >
                     Updated: {packageJson.changelogVersion}
                   </span>
                 </>
               }
               icon={DesignSystemSvg}
-            />
+              />
             <Card
               url={items['uilib']?.url}
               title={items['uilib']?.title}
               about={items['uilib']?.description}
               icon={UilibSvg}
-            />
+              />
             <Card
               url={items['quickguide-designer']?.url}
               title={items['quickguide-designer']?.title}
               about={items['quickguide-designer']?.description}
               icon={QuickguideDesignerSvg}
-            />
+              />
             <Card
               url={items['icons']?.url}
               title={items['icons']?.title}
               about={items['icons']?.description}
               icon={IconsSvg}
-            />
+              />
             <Card
               url={items['brand']?.url}
               title={items['brand']?.title}
               about={items['brand']?.description}
               icon={BrandSvg}
-            />
+              />
             <Card
               url={items['contribute']?.url}
               title={items['contribute']?.title}
               about={items['contribute']?.description}
               icon={DevelopmentSvg}
-            />
+              />
           </ul>
+          </div>
         </>
       </div>
     </nav>
