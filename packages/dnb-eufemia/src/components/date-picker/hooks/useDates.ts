@@ -3,7 +3,6 @@ import { convertStringToDate, isDisabled } from '../DatePickerCalc'
 import isValid from 'date-fns/isValid'
 import format from 'date-fns/format'
 import { addMonths } from 'date-fns'
-import useViews, { CalendarView } from './useViews'
 
 export type DatePickerDateProps = {
   date?: Date | string
@@ -82,25 +81,12 @@ export default function useDates(
     setPreviousDates(dateProps)
   }
 
-  // calling views here instead of DatePickerProvider, to able to sync start and end months up with calendar views
-  // TODO: Reduce to just use start/endDate or start/endMonth to reduce complexity,
-  // or only have startMonth and endMonth as props and not a state that changes
-  const [views, setViews] = useViews({
-    startMonth: dates.startMonth,
-    startDate: dates.startDate,
-    endDate: dates.endDate,
-    endMonth: dates.endMonth,
-    isRange,
-  })
-
   const hasHadValidDate = useRef<boolean>(false)
 
-  // TODO: Update parameter to be an object, to improve readability
   const updateDates = useCallback(
     (
       newDates: DatePickerDates,
-      callback?: (dates: DatePickerDates) => void,
-      forceMonthChange?: boolean
+      callback?: (dates: DatePickerDates) => void
     ) => {
       // Correct dates based on min and max date
       const correctedDates = shouldCorrectDate
@@ -117,9 +103,6 @@ export default function useDates(
       const months = updateMonths({
         newDates,
         currentDates: dates,
-        views,
-        isRange,
-        forceMonthChange,
       })
 
       setDates((currentDates) => {
@@ -138,7 +121,7 @@ export default function useDates(
         ...correctedDates,
       })
     },
-    [dates, shouldCorrectDate, isRange, views]
+    [dates, shouldCorrectDate, isRange]
   )
 
   // Updated input dates based on start and end dates, move to DatePickerInput
@@ -163,8 +146,6 @@ export default function useDates(
     updateDates,
     hasHadValidDate: hasHadValidDate.current,
     previousDates,
-    views,
-    setViews,
   } as const
 }
 
@@ -306,30 +287,18 @@ function correctDates({
 function updateMonths({
   newDates,
   currentDates,
-  views,
-  isRange,
-  forceMonthChange,
 }: {
   newDates: DatePickerDates
   currentDates: DatePickerDates
-  views: Array<CalendarView>
-  isRange: boolean
-  forceMonthChange: boolean
 }) {
-  let startMonth = newDates.startMonth ?? newDates.startDate
-  let endMonth = newDates.endMonth ?? newDates.endDate
-  const [startView, endView] = views
-
-  // Make sure start and end months are synced up with calendar in range mode, and prevent both pickers showing the same month if start and end date are selected to be the same
-  if (isRange && !forceMonthChange) {
-    // If start and end date is the same day, but changed from the previous selected months
-    startMonth = startView?.month
-    endMonth = endView?.month
-  }
+  const startMonth =
+    newDates.startMonth ?? newDates.startDate ?? currentDates.startMonth
+  const endMonth =
+    newDates.endMonth ?? newDates.endDate ?? currentDates.endMonth
 
   return {
-    startMonth: startMonth ?? currentDates.startMonth,
-    endMonth: endMonth ?? currentDates.endMonth,
+    startMonth,
+    endMonth,
   }
 }
 

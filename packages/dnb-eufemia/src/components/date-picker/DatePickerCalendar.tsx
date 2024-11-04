@@ -160,6 +160,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
   const {
     updateDates,
+    forceViewMonthChange,
     startDate,
     endDate,
     hoverDate,
@@ -430,19 +431,17 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         }
       }
 
-      updateDates(
-        dates,
-        () => {
-          // call after state update, so the input get's the latest state as well
-          callOnSelect({
-            event,
-            nr,
-            hidePicker: false,
-            ...dates,
-          })
-        },
-        true
-      )
+      updateDates(dates, () => {
+        // call after state update, so the input get's the latest state as well
+        callOnSelect({
+          event,
+          nr,
+          hidePicker: false,
+          ...dates,
+        })
+      })
+
+      forceViewMonthChange()
 
       // and set the focus back again
       if (listRef && listRef.current) {
@@ -464,6 +463,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       onlyMonth,
       endMonth,
       startMonth,
+      forceViewMonthChange,
     ]
   )
 

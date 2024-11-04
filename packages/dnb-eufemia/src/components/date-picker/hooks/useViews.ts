@@ -1,12 +1,10 @@
 import addMonths from 'date-fns/addMonths'
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { DatePickerDates } from './useDates'
 
 export type CalendarView = { nr: number; month?: Date }
 
 export type ViewDates = {
-  startDate?: DatePickerDates['startDate']
-  endDate?: DatePickerDates['endDate']
   startMonth?: DatePickerDates['startMonth']
   endMonth?: DatePickerDates['endMonth']
 }
@@ -20,6 +18,8 @@ export default function useViews({ isRange, ...dates }: UseViewsParams) {
   const [views, setViews] = useState<Array<CalendarView>>(
     getViews({ views: undefined, ...dates, isRange })
   )
+
+  const forceViewChange = useRef(false)
 
   const hasDateChanges = useMemo(
     () =>
@@ -35,7 +35,13 @@ export default function useViews({ isRange, ...dates }: UseViewsParams) {
         ? views
         : views[0]
       : views
-    setViews(getViews({ ...dates, views: currentViews, isRange }))
+
+    // Maintain range views unless forced to change by shortcut or keyboard navigation
+    if (forceViewChange.current || !isRange) {
+      setViews(getViews({ ...dates, views: currentViews, isRange }))
+      forceViewChange.current = false
+    }
+
     setPreviousDates(dates)
   }
 
@@ -47,7 +53,15 @@ export default function useViews({ isRange, ...dates }: UseViewsParams) {
     cb?.()
   }
 
-  return [views, updateViews] as const
+  function forceViewMonthChange() {
+    forceViewChange.current = true
+  }
+
+  return {
+    views,
+    setViews: updateViews,
+    forceViewMonthChange,
+  } as const
 }
 
 export function getViews({
@@ -74,18 +88,19 @@ export function getViews({
 }
 
 function getMonthView(
-  { startDate, endDate, startMonth, endMonth }: ViewDates,
+  { startMonth, endMonth }: ViewDates,
   nr: CalendarView['nr']
 ) {
-  if ((startMonth || startDate) && nr === 0) {
-    return startMonth || startDate
+  if (startMonth && nr === 0) {
+    return startMonth
   }
-  if ((endMonth || endDate) && nr === 1) {
-    return endMonth || endDate
+
+  if (endMonth && nr === 1) {
+    return endMonth
   }
 
   // Here we add that default offset to every new calendar added,
   // the first will get 0, the next one 1, and so forth
-  const fallbackMonth = startMonth || startDate || new Date()
+  const fallbackMonth = startMonth || new Date()
   return addMonths(fallbackMonth, nr)
 }
