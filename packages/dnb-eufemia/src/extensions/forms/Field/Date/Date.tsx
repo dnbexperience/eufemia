@@ -28,6 +28,7 @@ export type Props = FieldHelpProps &
      * The value needs to be a string containing two dates, separated by a pipe character (`|`) i.e. (`01-09-2024|30-09-2024`) when this is set to `true`.
      * Defaults to `false`.
      */
+    // TODO: Replace with DatePickerProps when DatePickerProps is converted to camelCase
     range?: boolean
     // Adding the DatePickerProps has been done manually here, as to be able to camelCase the props, and adding the JSdoc comments
     // We could of course have joined the DatePickerProps with the Props type, but that would lead to a breaking changes for Field.Date
@@ -87,7 +88,6 @@ export type Props = FieldHelpProps &
      * If set to `true`, the navigation will be hidden. Defaults to `false`.
      */
     hideNavigation?: DatePickerProps['hide_navigation']
-    hideNavigationButtons?: DatePickerProps['hide_navigation_buttons']
     /**
      * If set to `true`, the week days will be hidden. Defaults to `false`.
      */
@@ -107,7 +107,7 @@ export type Props = FieldHelpProps &
     /**
      * If the input fields with the mask should be visible. Defaults to `false`.
      */
-    show_input?: boolean
+    showInput?: boolean
     /**
      * If set to `true`, a submit button will be shown. You can change the default text by using `submit_button_text="Ok"`. Defaults to `false`. If the `range` prop is `true`, then the submit button is shown.
      */
@@ -324,7 +324,6 @@ const datePickerPropKeys = [
   'dateFormat',
   'returnFormat',
   'hideNavigation',
-  'hideNavigationButtons',
   'hideDays',
   'onlyMonth',
   'hideLastWeek',
