@@ -1,5 +1,5 @@
 import React from 'react'
-import { Ajv, FormError, makeAjvInstance } from '../utils'
+import { Ajv, FormError, JsonObject, makeAjvInstance } from '../utils'
 import {
   AllJSONSchemaVersions,
   GlobalErrorMessagesWithPaths,
@@ -185,7 +185,7 @@ export interface ContextState {
   decoupleForm?: boolean
   hasElementRef?: React.MutableRefObject<boolean>
   restHandlerProps?: Record<string, unknown>
-  props: ProviderProps<unknown>
+  props: ProviderProps<JsonObject>
 }
 
 export const defaultContextState: ContextState = {

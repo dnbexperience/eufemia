@@ -1156,11 +1156,11 @@ export default function Provider<Data extends JsonObject>(
     }
 
     const transformData = (data: Data, handler: TransformData) => {
-      return mutateDataHandler(data, handler) as TransformData
+      return mutateDataHandler(data, handler)
     }
 
     const formElement = formElementRef.current
-    const params: OnSubmitParams = {
+    const params: OnSubmitParams<Data> = {
       filterData,
       reduceToVisibleFields,
       transformData,

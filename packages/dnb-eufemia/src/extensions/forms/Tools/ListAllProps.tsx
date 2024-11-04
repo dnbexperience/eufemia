@@ -2,19 +2,22 @@ import { isValidElement, useCallback, useContext, useRef } from 'react'
 import pointer, { JsonObject } from '../utils/json-pointer'
 import DataContext, { FilterData } from '../DataContext/Context'
 
-export type ListAllPropsReturn = {
-  propsOfFields: JsonObject
-  propsOfValues: JsonObject
+export type ListAllPropsReturn<Data> = {
+  propsOfFields: Data
+  propsOfValues: Data
 }
-export type ListAllPropsProps = {
+export type ListAllPropsProps<Data> = {
   log?: boolean
-  generateRef?: React.MutableRefObject<() => ListAllPropsReturn>
+  generateRef?: React.MutableRefObject<() => ListAllPropsReturn<Data>>
   filterData?: FilterData
   children: React.ReactNode
 }
-export type GenerateRef = ListAllPropsProps['generateRef']['current']
+export type GenerateRef<Data extends JsonObject = JsonObject> =
+  ListAllPropsProps<Data>['generateRef']['current']
 
-export default function ListAllProps(props: ListAllPropsProps) {
+export default function ListAllProps<Data extends JsonObject = JsonObject>(
+  props: ListAllPropsProps<Data>
+) {
   const { log, generateRef, filterData, children } = props || {}
   const { fieldPropsRef, valuePropsRef, data, hasContext } =
     useContext(DataContext)
@@ -71,7 +74,7 @@ export default function ListAllProps(props: ListAllPropsProps) {
       return acc
     }, {})
 
-    return { propsOfFields, propsOfValues } as ListAllPropsReturn
+    return { propsOfFields, propsOfValues } as ListAllPropsReturn<Data>
   }, [fieldPropsRef, filterData, valuePropsRef])
 
   if (hasContext) {

@@ -19,7 +19,7 @@ export type Props = FormElementProps & {
   decoupleForm?: boolean
 }
 
-type AllowedProviderContextProps = ProviderProps<unknown> &
+type AllowedProviderContextProps = ProviderProps<JsonObject> &
   Pick<Props, 'decoupleForm' | 'autoComplete' | 'disabled'> &
   Pick<ContextState, 'restHandlerProps' | 'hasElementRef'>
 

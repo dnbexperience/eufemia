@@ -20,6 +20,7 @@ import AsyncChangeExample from './Form/Handler/parts/async-change-example.mdx'
 
 - [Getting started](#getting-started)
   - [Creating forms](#creating-forms)
+  - [TypeScript support](#typescript-support)
   - [State management](#state-management)
     - [What is a JSON Pointer?](#what-is-a-json-pointer)
     - [Data handling](#data-handling)
@@ -61,6 +62,32 @@ import AsyncChangeExample from './Form/Handler/parts/async-change-example.mdx'
 To build an entire form, there are surrounding components such as form [Handler](/uilib/extensions/forms/Form/Handler) and [Wizard.Container](/uilib/extensions/forms/Wizard/Container) that make data flow and layout easier and save you a lot of extra code, without compromising flexibility.
 
 The needed styles are included in the Eufemia core package via `dnb-ui-components`.
+
+### TypeScript support
+
+You can define the TypeScript type structure for your data like so:
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+type MyDataContext = {
+  firstName?: string
+}
+
+// Method 1 of 4
+function MyForm() {
+  return (
+    <Form.Handler<MyDataContext>
+      onSubmit={(data) => {
+        // data.firstName is of type string
+        console.log(data.firstName)
+      }}
+    />
+  )
+}
+```
+
+Read more about TypeScript support and the other methods in the [Form.Handler](/uilib/extensions/forms/Form/Handler/#typescript-support) section.
 
 ### State management
 

@@ -8,7 +8,7 @@ import {
 } from '@dnb/eufemia/src/extensions/forms'
 import { Flex } from '@dnb/eufemia/src'
 
-export const TestdataSchema: JSONSchema = {
+export const TestDataSchema: JSONSchema = {
   type: 'object',
   properties: {
     requiredString: { type: 'string' },
@@ -37,7 +37,7 @@ export const TestdataSchema: JSONSchema = {
   required: ['requiredString'],
 }
 
-export interface Testdata {
+export type TestData = {
   requiredString: string
   string?: string
   number?: number
@@ -53,7 +53,7 @@ export interface Testdata {
   }>
 }
 
-export const testdata: Testdata = {
+export const testData: TestData = {
   requiredString: 'This is a text',
   string: 'String value',
   number: 123,
@@ -81,12 +81,12 @@ export const Default = () => {
       scope={{
         DataContext,
         Value,
-        testdata,
-        TestdataSchema,
+        testData,
+        TestDataSchema,
       }}
     >
       <DataContext.Provider
-        defaultData={testdata}
+        defaultData={testData}
         onChange={(data) => console.log('onChange', data)}
         onPathChange={(path, value) =>
           console.log('onPathChange', path, value)
@@ -177,13 +177,13 @@ export const ValidationWithJsonSchema = () => {
       scope={{
         DataContext,
         Value,
-        testdata,
-        TestdataSchema,
+        testData,
+        TestDataSchema,
       }}
     >
       <DataContext.Provider
-        data={testdata}
-        schema={TestdataSchema}
+        data={testData}
+        schema={TestDataSchema}
         onChange={(data) => console.log('onChange', data)}
         onPathChange={(path, value) =>
           console.log('onPathChange', path, value)

@@ -1824,7 +1824,9 @@ describe('DataContext.Provider', () => {
     })
 
     it('should show error on the field from the event return when complete', async () => {
-      const onChangeForm: OnChange = async ({ myField }) => {
+      const onChangeForm: OnChange<{ myField: string }> = async ({
+        myField,
+      }) => {
         if (myField === 'onChangeForm-error') {
           return Error('onChangeForm-error')
         }
@@ -1874,7 +1876,9 @@ describe('DataContext.Provider', () => {
     })
 
     it('should show status message on the field from the event return when complete', async () => {
-      const onChangeForm: OnChange = async ({ myField }) => {
+      const onChangeForm: OnChange<{ myField: string }> = async ({
+        myField,
+      }) => {
         if (myField === 'onChangeForm-info') {
           return { info: 'onChangeForm-info' }
         }
@@ -1926,7 +1930,9 @@ describe('DataContext.Provider', () => {
     })
 
     it('should show all status messages on the field from the event return when complete', async () => {
-      const onChangeForm: OnChange = async ({ myField }) => {
+      const onChangeForm: OnChange<{ myField: string }> = async ({
+        myField,
+      }) => {
         return {
           info: 'onChangeForm-info',
           error:
@@ -1989,7 +1995,9 @@ describe('DataContext.Provider', () => {
     })
 
     it('should fulfill async onChangeValidator before the form and field event', async () => {
-      const onChangeForm: OnChange = async ({ myField }) => {
+      const onChangeForm: OnChange<{ myField: string }> = async ({
+        myField,
+      }) => {
         return {
           info: 'onChangeForm-info',
           error:

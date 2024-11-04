@@ -562,21 +562,18 @@ export type EventReturnWithStateObjectAndSuccess =
   | Error
   | EventStateObjectWithSuccess
 
-export type OnSubmitParams = {
+export type OnSubmitParams<Data = JsonObject> = {
   /** Will remove data entries of fields that are not visible */
   reduceToVisibleFields: (
-    data: JsonObject,
+    data: Data,
     options?: VisibleDataOptions
-  ) => Partial<JsonObject>
+  ) => Partial<Data>
 
   /** Will call the given function for each data path. The returned `value` will replace each data entry. It's up to you to define the shape of the value. */
-  transformData: (
-    data: JsonObject,
-    handler: TransformData
-  ) => TransformData
+  transformData: (data: Data, handler: TransformData) => Partial<Data>
 
   /** Will filter data based on the given "filterDataHandler" method */
-  filterData: (filterDataHandler: FilterData) => Partial<JsonObject>
+  filterData: (filterDataHandler: FilterData) => Partial<Data>
 
   /** Will remove browser-side stored autocomplete data  */
   resetForm: () => void

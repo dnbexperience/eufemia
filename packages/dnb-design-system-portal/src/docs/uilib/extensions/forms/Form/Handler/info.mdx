@@ -9,7 +9,7 @@ import AsyncChangeExample from './parts/async-change-example.mdx'
 
 The `Form.Handler` is the root component of your form. It provides a HTML form element and handles the form data.
 
-```jsx
+```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
 const existingData = { firstName: 'Nora' }
@@ -23,6 +23,65 @@ function MyForm() {
       Your Form
     </Form.Handler>
   )
+}
+```
+
+### TypeScript support
+
+You can define the TypeScript type structure for your data like so:
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+type MyDataContext = {
+  firstName?: string
+}
+
+// Method #1 – without initial data
+function MyForm() {
+  return (
+    <Form.Handler<MyDataContext>
+      onSubmit={(data) => {
+        // data.firstName is of type string
+        console.log(data.firstName)
+      }}
+    />
+  )
+}
+
+// Method #2 – with data (initial values)
+const existingData: MyDataContext = {
+  firstName: 'Nora',
+}
+function MyForm() {
+  return (
+    <Form.Handler
+      defaultData={existingData}
+      onSubmit={(data) => {
+        // data.firstName is of type string
+        console.log(data.firstName)
+      }}
+    />
+  )
+}
+
+// Method #3 – type definition on the event parameter
+const submitHandler = (data: MyDataContext) => {
+  // data.firstName is of type string
+  console.log(data.firstName)
+}
+function MyForm() {
+  return <Form.Handler onSubmit={submitHandler} />
+}
+
+// Method #4 – type definition for the submit handler
+import type { OnSubmit } from '@dnb/eufemia/extensions/forms'
+const submitHandler: OnSubmit<MyDataContext> = (data) => {
+  // data.firstName is of type string
+  console.log(data.firstName)
+}
+function MyForm() {
+  return <Form.Handler onSubmit={submitHandler} />
 }
 ```
 
@@ -115,51 +174,6 @@ function MyApp() {
 ```
 
 More examples can be found in the [useData](/uilib/extensions/forms/Form/useData/) hook docs.
-
-### TypeScript support
-
-You can define the TypeScript type structure for your data like so:
-
-```tsx
-import { Form } from '@dnb/eufemia/extensions/forms'
-
-type MyDataSet = {
-  firstName?: string
-}
-
-const data: MyDataSet = {
-  firstName: 'Nora',
-}
-
-// Method #1
-function MyForm() {
-  return (
-    <Form.Handler
-      defaultData={data}
-      onSubmit={(data) => {
-        console.log(data.firstName)
-      }}
-    />
-  )
-}
-
-// Method #2
-const submitHandler = (data: MyDataSet) => {
-  console.log(data.firstName)
-}
-function MyForm() {
-  return <Form.Handler defaultData={data} onSubmit={submitHandler} />
-}
-
-// Method #3
-import type { OnSubmit } from '@dnb/eufemia/extensions/forms'
-const submitHandler: OnSubmit<MyDataSet> = (data) => {
-  console.log(data.firstName)
-}
-function MyForm() {
-  return <Form.Handler defaultData={data} onSubmit={submitHandler} />
-}
-```
 
 ## Async `onChange` and `onSubmit` event handlers
 
