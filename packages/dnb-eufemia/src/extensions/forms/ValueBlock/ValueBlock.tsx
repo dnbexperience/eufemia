@@ -43,6 +43,7 @@ function ValueBlock(props: Props) {
   const {
     className,
     label: labelProp,
+    transformLabel = (label: Props['label']) => label,
     inline,
     maxWidth = props.composition ? props.maxWidth : 'large',
     placeholder,
@@ -56,14 +57,18 @@ function ValueBlock(props: Props) {
     if (inline) {
       return null
     }
+
+    let label = labelProp
+
     if (iterateIndex !== undefined) {
-      return convertJsxToString(labelProp).replace(
+      label = convertJsxToString(labelProp).replace(
         '{itemNo}',
         String(iterateIndex + 1)
       )
     }
-    return labelProp
-  }, [inline, iterateIndex, labelProp])
+
+    return transformLabel(label, transformLabelParameters)
+  }, [inline, iterateIndex, labelProp, transformLabel])
 
   const ref = useRef<HTMLElement>(null)
   useNotInSummaryList(valueBlockContext?.composition ? null : ref, label)
@@ -205,3 +210,7 @@ function useNotInSummaryList(
 
 ValueBlock._supportsSpacingProps = true
 export default ValueBlock
+
+const transformLabelParameters = {
+  convertJsxToString,
+} as unknown as Parameters<Props['transformLabel']>[1]
