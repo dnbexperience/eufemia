@@ -157,6 +157,9 @@ export default {
       label: 'Postc.',
       errorRequired: 'You must enter a postcode.',
       errorPattern: 'This is not a valid postcode (four-digits).',
+      errorPostalCode: 'Invalid postcode',
+      errorPostalCodeLength:
+        'Invalid postcode. Enter a valid postcode with 4 digits.',
     },
     City: {
       label: 'City',

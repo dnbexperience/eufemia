@@ -97,7 +97,7 @@ describe('Field.PostalCodeAndCity', () => {
 
     await userEvent.type(code, '123')
     expect(screen.queryByRole('alert')).toHaveTextContent(
-      nb.PostalCode.errorPattern
+      nb.PostalCode.errorPostalCodeLength
     )
     expect(code).toHaveValue('123​')
 
@@ -238,6 +238,88 @@ describe('Field.PostalCodeAndCity', () => {
     await userEvent.type(postalCodeNo, '{Backspace>4}987654')
     expect(postalCodeNo).toHaveValue('9876')
     expect(postalCodeNo).toHaveAttribute('aria-placeholder', '0000')
+  })
+
+  describe('should validate Norwegian postal codes', () => {
+    const validNorwegianPostalCodes = [
+      '0048',
+      '0112',
+      '1470',
+      '2206',
+      '2656',
+      '2662',
+      '3260',
+      '4697',
+      '5365',
+      '6445',
+      '7318',
+      '8270',
+      '9262',
+      '9991',
+    ]
+
+    const invalidNorwegianPostalCodes = ['0000', '1234', '9992']
+
+    const invalidNorwegianPostalCodesTooShort = ['0', '14', '147', '9']
+
+    it.each(validNorwegianPostalCodes)(
+      'Valid norwegian postal code: %s',
+      async (postalCode) => {
+        render(
+          <Field.PostalCodeAndCity
+            postalCode={{
+              validateInitially: true,
+            }}
+          />
+        )
+
+        const [code] = Array.from(document.querySelectorAll('input'))
+
+        await userEvent.type(code, postalCode)
+        expect(code).toHaveValue(postalCode)
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      }
+    )
+
+    it.each(invalidNorwegianPostalCodes)(
+      'Invalid norwegian postal code: %s',
+      async (postalCode) => {
+        render(
+          <Field.PostalCodeAndCity
+            postalCode={{
+              validateInitially: true,
+            }}
+          />
+        )
+
+        const [code] = Array.from(document.querySelectorAll('input'))
+
+        await userEvent.type(code, postalCode)
+        expect(screen.queryByRole('alert')).toHaveTextContent(
+          nb.PostalCode.errorPostalCode
+        )
+      }
+    )
+
+    it.each(invalidNorwegianPostalCodesTooShort)(
+      'Invalid norwegian postal code: %s',
+      async (postalCode) => {
+        render(
+          <Field.PostalCodeAndCity
+            postalCode={{
+              validateInitially: true,
+            }}
+          />
+        )
+
+        const [code] = Array.from(document.querySelectorAll('input'))
+
+        await userEvent.type(code, postalCode)
+        expect(screen.queryByRole('alert')).toHaveTextContent(
+          nb.PostalCode.errorPostalCodeLength
+        )
+      }
+    )
   })
 
   describe('ARIA', () => {
