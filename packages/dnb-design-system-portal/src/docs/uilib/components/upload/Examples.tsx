@@ -304,7 +304,7 @@ export const UploadFileMaxSizeBasedOnFileTypeDisabled = () => (
 )
 
 export const UploadDisabledFileMaxSize = () => (
-  <ComponentBox>
+  <ComponentBox data-visual-test="upload-disabled-file-max-size">
     <Upload
       acceptedFileTypes={['jpg', 'pdf']}
       id="upload-disabled-file-max-size"
