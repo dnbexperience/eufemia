@@ -45,6 +45,7 @@ describe.each(['ui', 'sbanken'])('Upload for %s', (themeName) => {
 
   it('have to match disabled file max size', async () => {
     const screenshot = await makeScreenshot({
+      style: { height: '14rem' },
       selector: '[data-visual-test="upload-disabled-file-max-size"]',
     })
     expect(screenshot).toMatchImageSnapshot()
