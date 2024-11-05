@@ -208,11 +208,7 @@ describe('ChildrenWithAge', () => {
   })
 
   it('should not accept values over 1000000 as daycare expense', async () => {
-    render(
-      <ChildrenWithAge
-        enableAdditionalQuestions={['joint-responsibility', 'daycare']}
-      />
-    )
+    render(<ChildrenWithAge enableAdditionalQuestions={['daycare']} />)
 
     await userEvent.click(document.querySelectorAll('button')[0])
     await userEvent.click(document.querySelectorAll('button')[5])
