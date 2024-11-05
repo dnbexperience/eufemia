@@ -2,6 +2,10 @@
 
 .dnb-forms-field-array-selection {
   --row-gap: var(--spacing-x-small);
+  &--variant-button {
+    --row-gap: var(--spacing-small);
+  }
+
   &--options-layout-vertical &__options {
     display: flex;
     flex-flow: column;
@@ -11,9 +15,6 @@
     .dnb-forms-field-block__label {
       align-items: flex-start;
     }
-  }
-  &--variant-checkbox#{&}--layout-horizontal &__options {
-    row-gap: 0;
   }
   &--variant-button#{&}--options-layout-vertical#{&}--layout-horizontal {
     .dnb-forms-field-block__label {
@@ -30,7 +31,6 @@
 
   @include allAbove(small) {
     .dnb-forms-field-block--layout-horizontal .dnb-form-label {
-      line-height: 2.5rem;
       margin-bottom: 0;
     }
   }

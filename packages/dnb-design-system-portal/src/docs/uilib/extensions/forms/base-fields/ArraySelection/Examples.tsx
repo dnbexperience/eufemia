@@ -303,6 +303,26 @@ export const CheckboxButtonEmpty = () => (
   </ComponentBox>
 )
 
+export const CheckboxButtonHorizontalOptionsLayout = () => (
+  <ComponentBox data-visual-test="array-selection-checkbox-button-options-horizontal">
+    <Field.ArraySelection
+      label="Label text"
+      value={['bar']}
+      variant="checkbox-button"
+      optionsLayout="horizontal"
+      onChange={(values) => console.log('onChange', values)}
+    >
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+      <Field.Option value="baz" title="Bazz!" />
+      <Field.Option value="qux" title="Quxx!" />
+      <Field.Option value="quux" title="Quuux!" />
+      <Field.Option value="quuz" title="Quuuuz!" />
+      <Field.Option value="corge" title="Corge!" />
+    </Field.ArraySelection>
+  </ComponentBox>
+)
+
 export const ButtonLabel = () => (
   <ComponentBox data-visual-test="array-selection-button-options-vertical">
     <Field.ArraySelection

@@ -776,6 +776,22 @@ describe('ArraySelection', () => {
         })
       })
 
+      it('should render button element', () => {
+        render(
+          <Field.ArraySelection variant={testVariant}>
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
+          </Field.ArraySelection>
+        )
+
+        const [first, second] = Array.from(
+          document.querySelectorAll('.dnb-toggle-button')
+        )
+
+        expect(first.querySelector('.dnb-button').tagName).toBe('BUTTON')
+        expect(second.querySelector('.dnb-button').tagName).toBe('BUTTON')
+      })
+
       describe('ARIA', () => {
         it('should validate with ARIA rules', async () => {
           const result = render(
@@ -818,7 +834,7 @@ describe('ArraySelection', () => {
         it('should have aria-invalid', () => {
           render(
             <Field.ArraySelection
-              variant="button"
+              variant={testVariant}
               required
               validateInitially
             >
