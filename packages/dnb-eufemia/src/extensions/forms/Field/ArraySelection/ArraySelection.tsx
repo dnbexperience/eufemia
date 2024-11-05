@@ -144,8 +144,6 @@ function ArraySelection(props: Props) {
             value={{
               status: hasError ? 'error' : undefined,
               disabled,
-              variant:
-                variant === 'checkbox-button' ? 'checkbox' : 'default',
             }}
           >
             {options}
@@ -235,6 +233,7 @@ export function useCheckboxOrToggleOptions({
         <Component
           id={optionsCount === 1 ? id : undefined}
           key={`option-${i}-${value}`}
+          variant={variant === 'checkbox-button' ? 'checkbox' : undefined}
           className={classnames(
             `dnb-forms-field-array-selection__${
               variant === 'checkbox' ? 'checkbox' : 'button'
