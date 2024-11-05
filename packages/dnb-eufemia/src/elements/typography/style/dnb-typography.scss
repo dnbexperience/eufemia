@@ -94,6 +94,15 @@ sub {
   @include paragraphStyle();
 }
 
+/**
+ * Typography
+ * Universal set of helper classes that do not have a specific element. 
+ * The class ".dnb-t" does nothing, only it's modifiers ".dnb-t--[***]" do.
+ */
+.dnb-t {
+  @include typographyModifiers();
+}
+
 // Tables
 .dnb-table {
   b,

@@ -62,6 +62,7 @@
   small,
   strong,
   .dnb-p,
+  .dnb-t,
   .dnb-small,
   .dnb-table,
   sub,
@@ -240,13 +241,23 @@
   &--lead {
     @include typography_lead();
   }
-
-  &--medium {
-    font-weight: var(--font-weight-medium);
-  }
-
   b,
   strong {
+    font-weight: var(--font-weight-medium);
+  }
+  // is still needed for backwards compatibility when ".dnp-p" was used for all typography
+  @include typographyModifiers();
+
+  & > cite {
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-basis);
+    font-style: italic;
+  }
+}
+
+@mixin typographyModifiers() {
+  // weights
+  &--medium {
     font-weight: var(--font-weight-medium);
   }
 
@@ -254,6 +265,7 @@
     font-weight: var(--font-weight-bold);
   }
 
+  // sizes and line-heights
   &__size--xx-large {
     font-size: var(--font-size-xx-large);
     line-height: var(--line-height-xx-large);
@@ -279,23 +291,17 @@
     line-height: var(--line-height-medium);
   }
 
-  &--small ,// backwards compatibility
-   &__size--small,
-   & > small {
+  &--small, // backwards compatibility
+  &__size--small,
+  & > small {
     font-size: var(--font-size-small);
     line-height: var(--line-height-small);
   }
 
-  &--x-small ,// backwards compatibility
-   &__size--x-small {
+  &--x-small, // backwards compatibility
+  &__size--x-small {
     font-size: var(--font-size-x-small);
     line-height: var(--line-height-x-small);
-  }
-
-  & > cite {
-    font-weight: var(--font-weight-medium);
-    line-height: var(--line-height-basis);
-    font-style: italic;
   }
 }
 

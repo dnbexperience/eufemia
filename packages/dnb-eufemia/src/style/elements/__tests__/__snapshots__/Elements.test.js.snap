@@ -609,7 +609,7 @@ del .dnb-code {
  * Mainly only the margins are defined in here
  *
  */
-.dnb-lead, .dnb-h--xx-large, .dnb-h--x-large, .dnb-h--large, .dnb-h--medium, .dnb-h--basis, .dnb-h--small, .dnb-h--x-small, .dnb-core-style .dnb-lead, .dnb-core-style .dnb-h--xx-large, .dnb-core-style .dnb-h--x-large, .dnb-core-style .dnb-h--large, .dnb-core-style .dnb-h--medium, .dnb-core-style .dnb-h--basis, .dnb-core-style .dnb-h--small, .dnb-core-style .dnb-h--x-small, h1, h2, h3, h4, h5, h6, p, b, small, strong, .dnb-p, .dnb-small, .dnb-table, sub, sup {
+.dnb-lead, .dnb-h--xx-large, .dnb-h--x-large, .dnb-h--large, .dnb-h--medium, .dnb-h--basis, .dnb-h--small, .dnb-h--x-small, .dnb-core-style .dnb-lead, .dnb-core-style .dnb-h--xx-large, .dnb-core-style .dnb-h--x-large, .dnb-core-style .dnb-h--large, .dnb-core-style .dnb-h--medium, .dnb-core-style .dnb-h--basis, .dnb-core-style .dnb-h--small, .dnb-core-style .dnb-h--x-small, h1, h2, h3, h4, h5, h6, p, b, small, strong, .dnb-p, .dnb-t, .dnb-small, .dnb-table, sub, sup {
   --typography-h-default-font-family: var(--font-family-default);
   --typography-h-default-font-weight: var(--font-weight-medium);
   --typography-h-xx-large-font-size: var(--font-size-xx-large);
@@ -793,11 +793,11 @@ sub {
   font-size: var(--typography-lead-small-font-size);
   line-height: var(--typography-lead-small-line-height);
 }
-.dnb-p--medium {
-  font-weight: var(--font-weight-medium);
-}
 .dnb-p b,
 .dnb-p strong {
+  font-weight: var(--font-weight-medium);
+}
+.dnb-p--medium {
   font-weight: var(--font-weight-medium);
 }
 .dnb-p--bold {
@@ -835,6 +835,46 @@ sub {
   font-weight: var(--font-weight-medium);
   line-height: var(--line-height-basis);
   font-style: italic;
+}
+
+/**
+ * Typography
+ * Universal set of helper classes that do not have a specific element. 
+ * The class ".dnb-t" does nothing, only it's modifiers ".dnb-t--[***]" do.
+ */
+.dnb-t--medium {
+  font-weight: var(--font-weight-medium);
+}
+.dnb-t--bold {
+  font-weight: var(--font-weight-bold);
+}
+.dnb-t__size--xx-large {
+  font-size: var(--font-size-xx-large);
+  line-height: var(--line-height-xx-large);
+}
+.dnb-t__size--x-large {
+  font-size: var(--font-size-x-large);
+  line-height: var(--line-height-x-large);
+}
+.dnb-t__size--large {
+  font-size: var(--font-size-large);
+  line-height: var(--line-height-large);
+}
+.dnb-t__size--basis {
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+}
+.dnb-t__size--medium {
+  font-size: var(--font-size-medium);
+  line-height: var(--line-height-medium);
+}
+.dnb-t--small, .dnb-t__size--small, .dnb-t > small {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+.dnb-t--x-small, .dnb-t__size--x-small {
+  font-size: var(--font-size-x-small);
+  line-height: var(--line-height-x-small);
 }
 
 .dnb-table b,

@@ -60,8 +60,8 @@ describe('P element', () => {
     const element = document.querySelector('.dnb-p__size--medium')
 
     expect(Array.from(element.classList)).toEqual([
-      'dnb-p',
       'dnb-p--medium',
+      'dnb-p',
       'dnb-p__size--medium',
     ])
   })
@@ -71,9 +71,9 @@ describe('P element', () => {
     const element = document.querySelector('.dnb-p__size--small')
 
     expect(Array.from(element.classList)).toEqual([
-      'dnb-p',
       'dnb-p--medium',
       'dnb-p__size--small',
+      'dnb-p',
     ])
   })
 
@@ -81,8 +81,8 @@ describe('P element', () => {
     render(<P medium />)
     const element = document.querySelector('.dnb-p--medium')
     expect(Array.from(element.classList)).toEqual([
-      'dnb-p',
       'dnb-p--medium',
+      'dnb-p',
     ])
   })
 
@@ -90,7 +90,7 @@ describe('P element', () => {
     render(<P bold />)
     const element = document.querySelector('.dnb-p--bold')
 
-    expect(Array.from(element.classList)).toEqual(['dnb-p', 'dnb-p--bold'])
+    expect(Array.from(element.classList)).toEqual(['dnb-p--bold', 'dnb-p'])
   })
 
   it('should validate with ARIA rules as a p element', async () => {

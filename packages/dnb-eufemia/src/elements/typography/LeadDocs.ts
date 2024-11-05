@@ -1,6 +1,6 @@
 import { PropertiesTableProps } from '../../shared/types'
-import { ParagraphProperties } from './PDocs'
+import { TypographyProperties } from './TypographyDocs'
 
 export const LeadProperties: PropertiesTableProps = {
-  ...ParagraphProperties,
+  ...TypographyProperties,
 }
