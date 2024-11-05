@@ -46,7 +46,7 @@ export type UploadProps = {
   /**
    * will be called on `files` changes made by the user. Access the files with `{ files }`.
    */
-  onChange?: ({ files }: { files: UploadFile[] }) => void
+  onChange?: ({ files }: { files: Array<UploadFile> }) => void
 
   /**
    * will be called once a file gets deleted by the user. Access the deleted file with `{ fileItem }`.
@@ -80,13 +80,16 @@ export type UploadAllProps = UploadProps &
 
 export type UploadContextProps = {
   id?: string
-  onInputUpload: (files: UploadFile[]) => void
+  onInputUpload: (files: Array<UploadFileNative>) => void
 } & Partial<UploadProps>
 
 export type UploadFile = {
   file: File
-  errorMessage?: React.ReactNode
+  id: string
+  exists: boolean
   isLoading?: boolean
-  exists?: boolean
-  id?: string
+  errorMessage?: React.ReactNode
 }
+
+export type UploadFileNative = Omit<UploadFile, 'id' | 'exists'> &
+  Partial<Pick<UploadFile, 'id' | 'exists'>>

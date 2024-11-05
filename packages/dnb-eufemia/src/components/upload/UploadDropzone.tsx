@@ -9,7 +9,11 @@ import classnames from 'classnames'
 
 import HeightAnimation from '../height-animation/HeightAnimation'
 import { UploadContext } from './UploadContext'
-import type { UploadAllProps, UploadFile, UploadProps } from './types'
+import type {
+  UploadAllProps,
+  UploadFileNative,
+  UploadProps,
+} from './types'
 
 export type UploadDragEvent = React.DragEvent | DragEvent
 
@@ -28,7 +32,7 @@ export default function UploadDropzone({
   const getFiles = useCallback((event: UploadDragEvent) => {
     const fileData = event.dataTransfer
 
-    const files: UploadFile[] = []
+    const files: Array<UploadFileNative> = []
 
     Array.from(fileData.files).forEach((file) => {
       files.push({ file })

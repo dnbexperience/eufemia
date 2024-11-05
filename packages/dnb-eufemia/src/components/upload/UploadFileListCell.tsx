@@ -19,7 +19,7 @@ import {
   file_xml_medium as xml,
   file_medium as file,
 } from '../../icons'
-import { UploadFile } from './types'
+import { UploadFile, UploadFileNative } from './types'
 
 // Shared
 import { getPreviousSibling, warn } from '../../shared/component-helper'
@@ -42,7 +42,7 @@ export type UploadFileListCellProps = {
   /**
    * Uploaded file
    */
-  uploadFile: UploadFile
+  uploadFile: UploadFile | UploadFileNative
 
   /**
    * Calls onDelete when clicking the delete button
