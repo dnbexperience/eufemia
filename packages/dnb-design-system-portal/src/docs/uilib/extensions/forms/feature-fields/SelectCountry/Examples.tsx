@@ -7,43 +7,9 @@ import {
   Value,
 } from '@dnb/eufemia/src/extensions/forms'
 
-export const Empty = () => {
-  return (
-    <ComponentBox>
-      <Field.SelectCountry
-        onChange={(value, obj) => console.log('onChange', value, obj)}
-        onBlur={(value, obj) => console.log('onBlur', value, obj)}
-        onFocus={(value, obj) => console.log('onFocus', value, obj)}
-      />
-    </ComponentBox>
-  )
-}
-
-export const Placeholder = () => {
-  return (
-    <ComponentBox>
-      <Field.SelectCountry
-        placeholder="Select something...."
-        onChange={(value, obj) => console.log('onChange', value, obj)}
-      />
-    </ComponentBox>
-  )
-}
-
-export const Label = () => {
-  return (
-    <ComponentBox>
-      <Field.SelectCountry
-        label="Label text"
-        onChange={(value, obj) => console.log('onChange', value, obj)}
-      />
-    </ComponentBox>
-  )
-}
-
 export const OptionSelected = () => {
   return (
-    <ComponentBox>
+    <ComponentBox data-visual-test="select-country-vertical-layout">
       <Field.SelectCountry
         value="NO"
         onChange={(value, obj) => console.log('onChange', value, obj)}
@@ -52,13 +18,13 @@ export const OptionSelected = () => {
   )
 }
 
-export const LabelAndOptionSelected = () => {
+export const HorizontalLayout = () => {
   return (
-    <ComponentBox>
+    <ComponentBox data-visual-test="select-country-horizontal-layout">
       <Field.SelectCountry
         value="NO"
-        label="Label text"
-        onChange={(value, obj) => console.log('onChange', value, obj)}
+        layout="horizontal"
+        layoutOptions={{ width: '6rem' }}
       />
     </ComponentBox>
   )

@@ -2154,7 +2154,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     warning: !inFieldBlock ? warningRef.current : undefined,
     error: !inFieldBlock ? error : undefined,
     required,
+    label: props.label,
+    labelDescription: props.labelDescription,
     labelSuffix: props.labelSuffix,
+    layout: props.layout,
+    layoutOptions: props.layoutOptions,
 
     /** HTML Attributes */
     disabled:
@@ -2166,6 +2170,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
     /** Internal */
     fieldState: resolveValidatingState(fieldStateRef.current),
+    labelHeight:
+      typeof props['size'] === 'string' ? props['size'] : undefined, // component/field size
   }
 
   const sharedData = useSharedState('field-block-props-' + id)

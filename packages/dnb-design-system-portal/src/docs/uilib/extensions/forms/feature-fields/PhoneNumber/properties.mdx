@@ -4,20 +4,20 @@ showTabs: true
 
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { fieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
-import { phoneNumberSpecificProperties } from '@dnb/eufemia/src/extensions/forms/Field/PhoneNumber/PhoneNumberDocs'
+import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import { PhoneNumberProperties } from '@dnb/eufemia/src/extensions/forms/Field/PhoneNumber/PhoneNumberDocs'
 
 ## Properties
 
 ### Field-specific properties
 
-<PropertiesTable props={phoneNumberSpecificProperties} />
+<PropertiesTable props={PhoneNumberProperties} />
 
 ### General properties
 
 <PropertiesTable
-  props={fieldProperties}
-  omit={['layout', 'label', 'labelDescription']}
+  props={FieldProperties}
+  omit={['layout', 'layoutOptions', 'label', 'labelDescription']}
 />
 
 ## Translations

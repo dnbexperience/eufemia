@@ -63,7 +63,6 @@ const MyField = (props) => {
   const {
     id,
     value,
-    label,
     handleChange,
     handleFocus,
     handleBlur,
@@ -71,7 +70,10 @@ const MyField = (props) => {
   } = useFieldProps(props)
 
   return (
-    <FieldBlock forId={id} label={label}>
+    <FieldBlock
+      forId={id}
+      id={id} // If your field component not supports the HTML "for" attribute, you can use the "id" property instead of "forId".
+    >
       <input
         id={id}
         value={value}
@@ -84,7 +86,7 @@ const MyField = (props) => {
   )
 }
 
-render(<MyField path="/dataSelector" />)
+render(<MyField label="Label text" path="/dataSelector" />)
 ```
 
 The `useFieldProps` provides a standardized way to handle data flow, validation and error messages in a consistent manner.
@@ -190,6 +192,7 @@ const myFieldTranslations = {
     },
   },
 }
+
 type Translation =
   (typeof myFieldTranslations)[keyof typeof myFieldTranslations]
 
@@ -207,7 +210,7 @@ const MyField = (props) => {
     ...props,
   }
 
-  const { id, value, label, handleChange, handleFocus, handleBlur } =
+  const { id, value, handleChange, handleFocus, handleBlur } =
     useFieldProps(preparedProps)
 
   return (
@@ -215,7 +218,6 @@ const MyField = (props) => {
       <input
         id={id}
         value={value}
-        label={label}
         onChange={handleChange}
         onFocus={handleFocus}
         onBlur={handleBlur}

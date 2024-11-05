@@ -13,10 +13,14 @@ type NeverBooleanProps = {
   // eslint-disable-next-line no-unused-vars
   [K in keyof Partial<Omit<BooleanProps, 'dependencePaths'>>]: never
 }
-export type IndeterminateProps = FieldProps<unknown> & {
+type SharedFieldProps = Omit<
+  FieldProps<unknown>,
+  'layout' | 'layoutOptions'
+>
+export type IndeterminateProps = SharedFieldProps & {
   dependencePaths: Array<Path>
 } & NeverBooleanProps
-export type Props = FieldHelpProps & FieldProps<unknown> & BooleanProps
+export type Props = FieldHelpProps & SharedFieldProps & BooleanProps
 
 function BooleanComponent(props: Props | IndeterminateProps) {
   const { trueText, falseText, ...restProps } = props

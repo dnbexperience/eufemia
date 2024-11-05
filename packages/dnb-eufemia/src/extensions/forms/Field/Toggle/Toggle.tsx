@@ -1,9 +1,8 @@
 import React, { useCallback, useMemo } from 'react'
 import classnames from 'classnames'
-
 import { Checkbox, HelpButton, ToggleButton } from '../../../../components'
 import ButtonRow from '../../Form/ButtonRow'
-import FieldBlock from '../../FieldBlock'
+import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import { FieldHelpProps, FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
@@ -18,7 +17,9 @@ export type ToggleProps = {
   textOff?: string
 }
 
-export type Props = FieldHelpProps & FieldProps<unknown> & ToggleProps
+export type Props = FieldHelpProps &
+  Omit<FieldProps<unknown>, 'layout' | 'layoutOptions'> &
+  ToggleProps
 
 function Toggle(props: Props) {
   const translations = useTranslation().ToggleField
@@ -33,7 +34,6 @@ function Toggle(props: Props) {
     className,
     valueOn,
     valueOff,
-    layout,
     variant,
     disabled,
     label,
@@ -42,9 +42,6 @@ function Toggle(props: Props) {
     textOff,
     value,
     help,
-    info,
-    warning,
-    error,
     hasError,
     htmlAttributes,
     handleChange,
@@ -66,22 +63,11 @@ function Toggle(props: Props) {
 
   const cn = classnames('dnb-forms-field-toggle', className)
 
-  const fieldBlockPropsWithoutLabel = {
+  const fieldBlockProps: FieldBlockProps = {
     forId: id,
     className: cn,
+    disabled,
     ...pickSpacingProps(props),
-    info,
-    warning,
-    error,
-    disabled,
-  }
-
-  const fieldBlockProps = {
-    ...fieldBlockPropsWithoutLabel,
-    layout,
-    label,
-    labelDescription,
-    disabled,
   }
 
   const suffix = help ? (
@@ -102,7 +88,7 @@ function Toggle(props: Props) {
     default:
     case 'checkbox':
       return (
-        <FieldBlock {...fieldBlockPropsWithoutLabel}>
+        <FieldBlock {...fieldBlockProps} label={undefined}>
           <Checkbox
             id={id}
             className={cn}

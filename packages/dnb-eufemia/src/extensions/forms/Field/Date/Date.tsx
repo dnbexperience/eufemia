@@ -8,7 +8,7 @@ import {
 } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import classnames from 'classnames'
-import FieldBlock from '../../FieldBlock'
+import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import SharedContext from '../../../../shared/Context'
 import { parseISO, isValid } from 'date-fns'
 import useTranslation from '../../hooks/useTranslation'
@@ -78,12 +78,8 @@ function DateComponent(props: Props) {
     path,
     className,
     label,
-    labelDescription,
     value,
     help,
-    info,
-    warning,
-    error,
     hasError,
     disabled,
     htmlAttributes,
@@ -110,18 +106,15 @@ function DateComponent(props: Props) {
     }
   }, [locale, path, setDisplayValue, value])
 
+  const fieldBlockProps: FieldBlockProps = {
+    forId: id,
+    label: label ?? translations.Date.label,
+    className: classnames('dnb-forms-field-string', className),
+    ...pickSpacingProps(props),
+  }
+
   return (
-    <FieldBlock
-      className={classnames('dnb-forms-field-string', className)}
-      forId={id}
-      label={label ?? translations.Date.label}
-      labelDescription={labelDescription}
-      info={info}
-      warning={warning}
-      disabled={disabled}
-      error={error}
-      {...pickSpacingProps(props)}
-    >
+    <FieldBlock {...fieldBlockProps}>
       <DatePicker
         id={id}
         date={!range ? value : undefined}

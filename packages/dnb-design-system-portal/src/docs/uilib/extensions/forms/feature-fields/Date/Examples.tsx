@@ -1,43 +1,27 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 
-export const Empty = () => {
-  return (
-    <ComponentBox>
-      <Field.Date onChange={(value) => console.log('onChange', value)} />
-    </ComponentBox>
-  )
-}
-
-export const Placeholder = () => {
-  return (
-    <ComponentBox>
-      <Field.Date
-        placeholder="Enter a date"
-        onChange={(value) => console.log('onChange', value)}
-      />
-    </ComponentBox>
-  )
-}
-
-export const Label = () => {
-  return (
-    <ComponentBox>
-      <Field.Date
-        label="Label text"
-        onChange={(value) => console.log('onChange', value)}
-      />
-    </ComponentBox>
-  )
-}
-
 export const LabelAndValue = () => {
   return (
     <ComponentBox data-visual-test="date-label">
       <Field.Date
-        value="2023-01-16"
         label="Label text"
+        value="2023-01-16"
         onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
+export const HorizontalLayout = () => {
+  return (
+    <ComponentBox data-visual-test="date-horizontal-layout">
+      <Field.Date
+        label="Label with a long text that will wrap"
+        layout="horizontal"
+        layoutOptions={{
+          width: 'medium', // can be a rem value
+        }}
       />
     </ComponentBox>
   )
@@ -47,8 +31,8 @@ export const WithHelp = () => {
   return (
     <ComponentBox>
       <Field.Date
-        value="2023-01-16"
         label="Label text"
+        value="2023-01-16"
         help={{
           title: 'Help is available',
           content:
@@ -64,8 +48,8 @@ export const Disabled = () => {
   return (
     <ComponentBox>
       <Field.Date
-        value="2023-01-16"
         label="Label text"
+        value="2023-01-16"
         onChange={(value) => console.log('onChange', value)}
         disabled
       />
@@ -90,8 +74,8 @@ export const ValidationRequired = () => {
   return (
     <ComponentBox>
       <Field.Date
-        value="2023-01-16"
         label="Label text"
+        value="2023-01-16"
         onChange={(value) => console.log('onChange', value)}
         required
       />
@@ -102,7 +86,7 @@ export const ValidationRequired = () => {
 export const Range = () => {
   return (
     <ComponentBox>
-      <Field.Date value="2023-01-16|2023-04-01" range />
+      <Field.Date label="Label text" value="2023-01-16|2023-04-01" range />
     </ComponentBox>
   )
 }

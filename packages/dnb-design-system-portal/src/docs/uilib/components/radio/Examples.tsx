@@ -82,7 +82,11 @@ export const RadioExampleGroupStatus = () => (
 
 export const RadioExampleWithoutGroup = () => (
   <ComponentBox data-visual-test="radio-group-plain">
-    <FieldBlock label="Plain Radio group" layout="horizontal">
+    <FieldBlock
+      label="Plain Radio group"
+      layout="horizontal"
+      labelHeight="small"
+    >
       <Radio
         value="first"
         label="First"

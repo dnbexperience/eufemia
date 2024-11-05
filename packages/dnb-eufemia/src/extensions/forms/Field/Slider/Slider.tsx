@@ -1,12 +1,10 @@
 import React, { useCallback, useContext, useMemo, useRef } from 'react'
-import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
-import { useFieldProps } from '../../hooks'
-import {
+import FieldBlock, {
+  Props as FieldBlockProps,
   FieldBlockWidth,
-  FieldHelpProps,
-  FieldProps,
-  Path,
-} from '../../types'
+} from '../../FieldBlock'
+import { useFieldProps } from '../../hooks'
+import { FieldHelpProps, FieldProps, Path } from '../../types'
 import { getFormattedNumber } from '../../../../components/slider/SliderHelpers'
 import Slider, { SliderProps } from '../../../../components/Slider'
 import { pickSpacingProps } from '../../../../components/flex/utils'
@@ -75,13 +73,7 @@ function SliderComponent(props: Props) {
     min = 0,
     max = 100,
     width = 'stretch',
-    layout,
-    label,
     help,
-    labelDescription,
-    info,
-    warning,
-    error,
     hasError,
     disabled,
     vertical,
@@ -125,13 +117,6 @@ function SliderComponent(props: Props) {
 
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
-    layout,
-    label,
-    labelDescription,
-    info,
-    warning,
-    error,
-    disabled,
     width,
     ...pickSpacingProps(props),
   }
