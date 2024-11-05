@@ -54,6 +54,12 @@ export type UploadProps = {
   onFileDelete?: ({ fileItem }: { fileItem: UploadFile }) => void
 
   /**
+   * Causes the browser to treat all the linked URLs of the files as a download. How browsers treat downloads varies by browser, user settings, and other factors.
+   * Default: false
+   */
+  download?: boolean
+
+  /**
    * Custom text properties
    */
   title?: React.ReactNode

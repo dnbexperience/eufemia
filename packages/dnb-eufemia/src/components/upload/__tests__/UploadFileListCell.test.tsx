@@ -44,6 +44,7 @@ describe('UploadFileListCell', () => {
     render(
       <UploadFileListCell
         {...defaultProps}
+        download={true}
         uploadFile={{
           file: createMockFile('file.png', 100, 'image/png'),
           errorMessage: 'error message',

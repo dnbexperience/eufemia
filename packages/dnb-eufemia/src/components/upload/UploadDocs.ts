@@ -26,6 +26,11 @@ export const UploadProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  download: {
+    doc: 'Causes the browser to treat all the linked URLs of the files as a download. How browsers treat downloads varies by browser, user settings, and other factors. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   skeleton: {
     doc: 'Skeleton should be applied when loading content.',
     type: 'boolean',

@@ -50,6 +50,12 @@ export type UploadFileListCellProps = {
   onDelete: () => void
 
   /**
+   * Causes the browser to treat all the linked URLs of the files as a download. How browsers treat downloads varies by browser, user settings, and other factors.
+   * Default: false
+   */
+  download?: boolean
+
+  /**
    * Text
    */
   loadingText: React.ReactNode
@@ -62,6 +68,7 @@ const UploadFileListCell = ({
   onDelete,
   loadingText,
   deleteButtonText,
+  download,
 }: UploadFileListCellProps) => {
   const { file, errorMessage, isLoading } = uploadFile
   const hasWarning = errorMessage != null
@@ -159,7 +166,7 @@ const UploadFileListCell = ({
         <a
           target="_blank"
           href={imageUrl}
-          download={file.name}
+          download={download ? file.name : null}
           className={classnames(
             'dnb-anchor',
             'dnb-upload__file-cell__title'

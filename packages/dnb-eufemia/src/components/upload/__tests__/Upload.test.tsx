@@ -664,6 +664,32 @@ describe('Upload', () => {
       expect(fileCells.length).toBe(files.length)
     })
 
+    it('treats the linked URLs of the files as a download', async () => {
+      const files = [
+        { file: createMockFile('fileName.png', 100, 'image/png') },
+        { file: createMockFile('fileName2.png', 100, 'image/png') },
+        { file: createMockFile('fileName3.png', 100, 'image/png') },
+      ]
+
+      const id = 'random-id'
+
+      render(<Upload {...defaultProps} id={id} download={true} />)
+
+      const MockComponent = () => {
+        const { setFiles } = useUpload(id)
+
+        useEffect(() => setFiles(files), [])
+
+        return <div />
+      }
+
+      render(<MockComponent />)
+
+      expect(document.querySelectorAll('[download]').length).toBe(
+        files.length
+      )
+    })
+
     it('shows no files', async () => {
       const files = []
 
