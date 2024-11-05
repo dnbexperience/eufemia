@@ -240,7 +240,7 @@ describe('Field.PostalCodeAndCity', () => {
     expect(postalCodeNo).toHaveAttribute('aria-placeholder', '0000')
   })
 
-  it('should use value from itemPath inside iterate', async () => {
+  it('should use value from country inside iterate', async () => {
     render(
       <Form.Handler
         defaultData={{ items: [{ country: 'NO' }, { country: 'DE' }] }}
