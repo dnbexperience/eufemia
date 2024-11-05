@@ -52,6 +52,7 @@ const Upload = (localProps: UploadAllProps) => {
     fileMaxSize,
     onChange,
     onFileDelete, // eslint-disable-line
+    download, // eslint-disable-line
     title, // eslint-disable-line
     text, // eslint-disable-line
     fileTypeTableCaption, // eslint-disable-line
@@ -65,7 +66,6 @@ const Upload = (localProps: UploadAllProps) => {
     errorUnsupportedFile,
     errorAmountLimit, // eslint-disable-line
     deleteButton, // eslint-disable-line
-    download, // eslint-disable-line
     fileListAriaLabel, // eslint-disable-line
     ...props
   } = extendedProps
