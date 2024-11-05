@@ -240,6 +240,34 @@ describe('Field.PostalCodeAndCity', () => {
     expect(postalCodeNo).toHaveAttribute('aria-placeholder', '0000')
   })
 
+  it('should use value from country inside iterate', async () => {
+    render(
+      <Form.Handler
+        defaultData={{ items: [{ country: 'NO' }, { country: 'DE' }] }}
+      >
+        <Iterate.Array path="/items">
+          <Field.PostalCodeAndCity country="/country" />
+        </Iterate.Array>
+      </Form.Handler>
+    )
+
+    const [norway, germany] = Array.from(
+      document.querySelectorAll('.dnb-forms-field-postal-code-and-city')
+    )
+
+    await userEvent.type(
+      norway.querySelector('input'),
+      '{Backspace>4}987654'
+    )
+    expect(norway.querySelector('input').value).toBe('9876')
+
+    await userEvent.type(
+      germany.querySelector('input'),
+      '{Backspace>4}987654'
+    )
+    expect(germany.querySelector('input').value).toBe('987654')
+  })
+
   describe('ARIA', () => {
     const props = {
       postalCode: { required: true, validateInitially: true },
