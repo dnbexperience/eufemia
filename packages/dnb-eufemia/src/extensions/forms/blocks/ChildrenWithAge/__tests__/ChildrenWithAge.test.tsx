@@ -184,6 +184,55 @@ describe('ChildrenWithAge', () => {
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
   })
 
+  it('should not accept values over 1000000 as joint-responsibility expense', async () => {
+    render(
+      <ChildrenWithAge
+        enableAdditionalQuestions={['joint-responsibility']}
+      />
+    )
+
+    await userEvent.click(document.querySelectorAll('button')[0])
+    await userEvent.click(document.querySelectorAll('button')[4])
+    await userEvent.type(document.querySelectorAll('input')[2], '10000001')
+
+    const input = document.querySelectorAll('.dnb-input__input')[2]
+
+    fireEvent.blur(input)
+
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      nbNO['nb-NO'].NumberField.errorMaximum.replace(
+        '{maximum}',
+        '1000000'
+      )
+    )
+  })
+
+  it('should not accept values over 1000000 as daycare expense', async () => {
+    render(<ChildrenWithAge enableAdditionalQuestions={['daycare']} />)
+
+    await userEvent.click(document.querySelectorAll('button')[0])
+    await userEvent.click(document.querySelectorAll('button')[5])
+    await userEvent.type(document.querySelectorAll('input')[2], '10000001')
+
+    const input = document.querySelectorAll('.dnb-input__input')[2]
+
+    fireEvent.blur(input)
+
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      nbNO['nb-NO'].NumberField.errorMaximum.replace(
+        '{maximum}',
+        '1000000'
+      )
+    )
+
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      nbNO['nb-NO'].NumberField.errorMaximum.replace(
+        '{maximum}',
+        '1000000'
+      )
+    )
+  })
+
   it('should show summary with Nei when hasChildren changes to false', async () => {
     render(
       <Form.Handler>
