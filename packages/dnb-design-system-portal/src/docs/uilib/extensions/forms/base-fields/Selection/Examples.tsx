@@ -538,6 +538,141 @@ export const RadioNestingWithLogic = () => (
   </ComponentBox>
 )
 
+export const RadioNestingAdvanced = () => (
+  <ComponentBox>
+    <Form.Handler>
+      <Flex.Stack>
+        <Card stack>
+          <Field.Selection path="/mySelection" variant="radio">
+            <Field.Option value="first" title="First" />
+            <Form.Visibility
+              visibleWhen={{
+                path: '/mySelection',
+                hasValue: (value) => value === 'first',
+              }}
+              animate
+            >
+              <Card>
+                <Field.Number
+                  path="/firstNumber"
+                  label="First number"
+                  value={1}
+                  allowNegative={false}
+                  required
+                  exclusiveMinimum={900}
+                  exclusiveMaximum={1000}
+                />
+                <Field.String
+                  path="/firstString"
+                  label="First String"
+                  value="foo"
+                  pattern="bar"
+                  minLength={4}
+                />
+                <Field.Boolean
+                  path="/firstBoolean"
+                  label="First boolean"
+                  variant="checkbox"
+                  required
+                />
+                <Field.Selection
+                  path="/firstSelection"
+                  variant="radio"
+                  required
+                >
+                  <Field.Option value="first" title="First" />
+                </Field.Selection>
+              </Card>
+            </Form.Visibility>
+            <Field.Option value="second" title="Second" />
+            <Form.Visibility
+              visibleWhen={{
+                path: '/mySelection',
+                hasValue: (value) => value === 'second',
+              }}
+              animate
+            >
+              <Card>
+                <Field.Number
+                  path="/secondNumber"
+                  label="Second number"
+                  value={2}
+                  allowNegative={false}
+                  required
+                  exclusiveMinimum={900}
+                  exclusiveMaximum={1000}
+                />
+                <Field.String
+                  path="/secondString"
+                  label="Second String"
+                  value="foo"
+                  pattern="bar"
+                  minLength={4}
+                />
+                <Field.Boolean
+                  path="/secondBoolean"
+                  label="Second boolean"
+                  variant="checkbox"
+                  required
+                />
+                <Field.Selection
+                  path="/secondSelection"
+                  variant="radio"
+                  required
+                >
+                  <Field.Option value="first" title="First" />
+                </Field.Selection>
+              </Card>
+            </Form.Visibility>
+            <Field.Option value="third" title="Third" />
+            <Form.Visibility
+              visibleWhen={{
+                path: '/mySelection',
+                hasValue: (value) => value === 'third',
+              }}
+              animate
+            >
+              <Card>
+                <Field.Number
+                  path="/thirdNumber"
+                  label="Third number"
+                  value={3}
+                  allowNegative={false}
+                  required
+                  exclusiveMinimum={900}
+                  exclusiveMaximum={1000}
+                />
+                <Field.String
+                  path="/thirdString"
+                  label="Third String"
+                  value="foo"
+                  pattern="bar"
+                  minLength={4}
+                />
+                <Field.Boolean
+                  path="/thirdBoolean"
+                  label="Third boolean"
+                  variant="checkbox"
+                  required
+                />
+                <Field.Selection
+                  path="/thirdSelection"
+                  variant="radio"
+                  required
+                >
+                  <Field.Option value="first" title="First" />
+                </Field.Selection>
+              </Card>
+            </Form.Visibility>
+          </Field.Selection>
+        </Card>
+
+        <Form.SubmitButton text="Happy coding!" />
+      </Flex.Stack>
+    </Form.Handler>
+  </ComponentBox>
+)
+
 // - Button
 
 export const ButtonEmpty = () => (
