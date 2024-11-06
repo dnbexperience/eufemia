@@ -37,14 +37,6 @@ export type Props = FieldHelpProps &
     // Current solution is solvede this way, as the ToCamelCase type does not does not retain the JSDOC comments,
     // and hovering over the types themselves just shows all the DatePickerProp types instead of a type description
     /**
-     * To set the pre-filled starting date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `mask_placeholder`.
-     */
-    startDate?: DatePickerProps['start_date']
-    /**
-     * To set the pre-filled ending date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `mask_placeholder`.
-     */
-    endDate?: DatePickerProps['end_date']
-    /**
      * To display what month should be shown in the first calendar by default. Defaults to the `date` respective `start_date`.
      */
     month?: DatePickerProps['month']
@@ -249,6 +241,8 @@ function DateComponent(props: Props) {
     ...rest
   } = useFieldProps(preparedProps)
 
+  const datePickerProps = pickDatePickerProps(rest)
+
   const { value, startDate, endDate } = useMemo(() => {
     if (!range || !valueProp) {
       return { value: valueProp, startDate: undefined, endDate: undefined }
@@ -277,8 +271,6 @@ function DateComponent(props: Props) {
     className: classnames('dnb-forms-field-string', className),
     ...pickSpacingProps(props),
   }
-  // Could perhaps destructure all the DatePickerProps manually in useFieldProps
-  const datePickerProps = getDatePickerProps(rest)
 
   return (
     <FieldBlock {...fieldBlockProps}>
@@ -311,8 +303,6 @@ function DateComponent(props: Props) {
 // Used to filter out DatePickerProps from the FieldProps.
 // Includes DatePickerProps that are not destructured in useFieldProps
 const datePickerPropKeys = [
-  'startDate',
-  'endDate',
   'month',
   'startMonth',
   'endMonth',
@@ -352,7 +342,7 @@ const datePickerPropKeys = [
   'onReset',
 ]
 
-function getDatePickerProps(props: Props) {
+function pickDatePickerProps(props: Props) {
   const datePickerProps = Object.keys(props).reduce(
     (datePickerProps, key) => {
       if (datePickerPropKeys.includes(key)) {

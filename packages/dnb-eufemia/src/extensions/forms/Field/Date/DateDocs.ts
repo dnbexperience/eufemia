@@ -15,16 +15,6 @@ export const DateProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  startDate: {
-    doc: 'To set the pre-filled starting date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `mask_placeholder`.',
-    type: 'string',
-    status: 'optional',
-  },
-  endDate: {
-    doc: 'To set the pre-filled ending date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `mask_placeholder`.',
-    type: 'string',
-    status: 'optional',
-  },
   month: {
     doc: 'To display what month should be shown in the first calendar by default. Defaults to the `date` respective `start_date`.',
     type: 'string',
