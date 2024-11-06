@@ -540,7 +540,7 @@ export const RadioNestingWithLogic = () => (
 
 export const RadioNestingAdvanced = () => (
   <ComponentBox>
-    <Form.Handler>
+    <Form.Handler onSubmit={console.log}>
       <Flex.Stack>
         <Card stack>
           <Field.Selection path="/mySelection" variant="radio">
@@ -579,8 +579,23 @@ export const RadioNestingAdvanced = () => (
                   path="/firstSelection"
                   variant="radio"
                   required
+                  label="First selection"
                 >
                   <Field.Option value="first" title="First" />
+                  <Form.Visibility
+                    visibleWhen={{
+                      path: '/firstSelection',
+                      hasValue: (value) => value === 'first',
+                    }}
+                    animate
+                  >
+                    <Field.Number
+                      path="/firstNestedNumber"
+                      label="First nested number"
+                      required
+                    />
+                  </Form.Visibility>
+                  <Field.Option value="second" title="Second" />
                 </Field.Selection>
               </Card>
             </Form.Visibility>
@@ -618,9 +633,24 @@ export const RadioNestingAdvanced = () => (
                 <Field.Selection
                   path="/secondSelection"
                   variant="radio"
+                  label="Second selection"
                   required
                 >
                   <Field.Option value="first" title="First" />
+                  <Form.Visibility
+                    visibleWhen={{
+                      path: '/secondSelection',
+                      hasValue: (value) => value === 'first',
+                    }}
+                    animate
+                  >
+                    <Field.Number
+                      path="/secondNestedNumber"
+                      label="Second nested number"
+                      required
+                    />
+                  </Form.Visibility>
+                  <Field.Option value="second" title="Second" />
                 </Field.Selection>
               </Card>
             </Form.Visibility>
@@ -659,8 +689,23 @@ export const RadioNestingAdvanced = () => (
                   path="/thirdSelection"
                   variant="radio"
                   required
+                  label="Third selection"
                 >
                   <Field.Option value="first" title="First" />
+                  <Form.Visibility
+                    visibleWhen={{
+                      path: '/thirdSelection',
+                      hasValue: (value) => value === 'first',
+                    }}
+                    animate
+                  >
+                    <Field.Number
+                      path="/thirdNestedNumber"
+                      label="Third nested number"
+                      required
+                    />
+                  </Form.Visibility>
+                  <Field.Option value="second" title="Second" />
                 </Field.Selection>
               </Card>
             </Form.Visibility>
