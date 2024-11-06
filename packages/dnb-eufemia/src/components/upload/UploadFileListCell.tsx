@@ -50,6 +50,12 @@ export type UploadFileListCellProps = {
   onDelete: () => void
 
   /**
+   * Causes the browser to treat all listed files as downloadable instead of opening them in a new browser tab or window.
+   * Default: false
+   */
+  download?: boolean
+
+  /**
    * Text
    */
   loadingText: React.ReactNode
@@ -62,6 +68,7 @@ const UploadFileListCell = ({
   onDelete,
   loadingText,
   deleteButtonText,
+  download,
 }: UploadFileListCellProps) => {
   const { file, errorMessage, isLoading } = uploadFile
   const hasWarning = errorMessage != null
@@ -159,6 +166,7 @@ const UploadFileListCell = ({
         <a
           target="_blank"
           href={imageUrl}
+          download={download ? file.name : null}
           className={classnames(
             'dnb-anchor',
             'dnb-upload__file-cell__title'

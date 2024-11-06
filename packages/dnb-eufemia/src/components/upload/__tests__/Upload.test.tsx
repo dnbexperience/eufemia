@@ -664,6 +664,56 @@ describe('Upload', () => {
       expect(fileCells.length).toBe(files.length)
     })
 
+    it('treats all the linked URLs of the files as a download when providing download prop', async () => {
+      const files = [
+        { file: createMockFile('fileName.png', 100, 'image/png') },
+        { file: createMockFile('fileName2.png', 100, 'image/png') },
+        { file: createMockFile('fileName3.png', 100, 'image/png') },
+      ]
+
+      const id = 'random-id'
+
+      render(<Upload {...defaultProps} id={id} download={true} />)
+
+      const MockComponent = () => {
+        const { setFiles } = useUpload(id)
+
+        useEffect(() => setFiles(files), [])
+
+        return <div />
+      }
+
+      render(<MockComponent />)
+
+      expect(document.querySelectorAll('[download]').length).toBe(
+        files.length
+      )
+    })
+
+    it('does not treat linked URLs of the files as a download by default', async () => {
+      const files = [
+        { file: createMockFile('fileName.png', 100, 'image/png') },
+        { file: createMockFile('fileName2.png', 100, 'image/png') },
+        { file: createMockFile('fileName3.png', 100, 'image/png') },
+      ]
+
+      const id = 'random-id'
+
+      render(<Upload {...defaultProps} id={id} />)
+
+      const MockComponent = () => {
+        const { setFiles } = useUpload(id)
+
+        useEffect(() => setFiles(files), [])
+
+        return <div />
+      }
+
+      render(<MockComponent />)
+
+      expect(document.querySelectorAll('[download]').length).toBe(0)
+    })
+
     it('shows no files', async () => {
       const files = []
 

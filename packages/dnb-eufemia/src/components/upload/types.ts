@@ -54,6 +54,12 @@ export type UploadProps = {
   onFileDelete?: ({ fileItem }: { fileItem: UploadFile }) => void
 
   /**
+   * Causes the browser to treat all listed files as downloadable instead of opening them in a new browser tab or window.
+   * Default: false
+   */
+  download?: boolean
+
+  /**
    * Custom text properties
    */
   title?: React.ReactNode
