@@ -185,7 +185,9 @@ describe('FieldBoundaryProvider', () => {
     expect(contextRef.current.hasError).toBe(true)
     expect(contextRef.current.hasSubmitError).toBe(false)
     expect(contextRef.current.hasVisibleError).toBe(true)
-    expect(contextRef.current.showBoundaryErrors).toBe(true)
+    expect(contextRef.current.showBoundaryErrors).toEqual(
+      expect.any(Number)
+    )
 
     act(() => {
       contextRef.current.setShowBoundaryErrors?.(false)
@@ -234,5 +236,58 @@ describe('FieldBoundaryProvider', () => {
     expect(contextRef.current.hasSubmitError).toBe(false)
     expect(contextRef.current.hasVisibleError).toBe(false)
     expect(contextRef.current.errorsRef.current).toMatchObject({})
+  })
+
+  it('should set number for showBoundaryErrors as a truthy value', async () => {
+    const showBoundaryErrors = {
+      view: null,
+      edit: null,
+    }
+
+    render(
+      <Form.Section validateInitially>
+        <Form.Section.ViewContainer>
+          View Content
+          <FieldBoundaryContext.Consumer>
+            {(context) => {
+              showBoundaryErrors.view = context?.showBoundaryErrors
+              return null
+            }}
+          </FieldBoundaryContext.Consumer>
+        </Form.Section.ViewContainer>
+
+        <Form.Section.EditContainer>
+          <Field.String required validateInitially={false} />
+          <FieldBoundaryContext.Consumer>
+            {(context) => {
+              showBoundaryErrors.edit = context?.showBoundaryErrors
+              return null
+            }}
+          </FieldBoundaryContext.Consumer>
+        </Form.Section.EditContainer>
+      </Form.Section>
+    )
+
+    const blocks = document.querySelectorAll('.dnb-forms-section-block')
+    const [, editBlock] = Array.from(blocks)
+    const [doneButton] = Array.from(editBlock.querySelectorAll('button'))
+
+    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(0)
+    expect(showBoundaryErrors.view).toBe(undefined)
+    expect(showBoundaryErrors.edit).toBe(true)
+
+    await userEvent.click(doneButton)
+
+    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
+    expect(showBoundaryErrors.view).toBe(undefined)
+    expect(showBoundaryErrors.edit).toEqual(expect.any(Number))
+    const firstNumber = showBoundaryErrors.edit
+
+    await userEvent.click(doneButton)
+
+    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(2)
+    expect(showBoundaryErrors.view).toBe(undefined)
+    expect(showBoundaryErrors.edit).toEqual(expect.any(Number))
+    expect(showBoundaryErrors.edit).not.toBe(firstNumber)
   })
 })

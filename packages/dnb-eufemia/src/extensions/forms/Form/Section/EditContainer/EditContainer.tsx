@@ -6,11 +6,12 @@ import { Props as FlexContainerProps } from '../../../../../components/flex/Cont
 import { Lead } from '../../../../../elements'
 import FieldBoundaryProvider from '../../../DataContext/FieldBoundary/FieldBoundaryProvider'
 import SectionContainerContext from '../containers/SectionContainerContext'
-import EditToolbarTools from './EditToolbarTools'
+import Toolbar from '../Toolbar/Toolbar'
+import DoneButton from './DoneButton'
+import CancelButton from './CancelButton'
 import SectionContainer, {
   SectionContainerProps,
 } from '../containers/SectionContainer'
-import Toolbar from '../containers/Toolbar'
 import { Path } from '../../../types'
 
 export type Props = {
@@ -47,6 +48,10 @@ function EditContainer(props: AllProps) {
     [containerMode, initialContainerMode, switchContainerMode]
   )
 
+  const hasToolbar = React.Children.toArray(children).some((child) => {
+    return child?.['type'] === Toolbar
+  })
+
   return (
     <FieldBoundaryProvider
       showErrors={validateInitially}
@@ -62,14 +67,19 @@ function EditContainer(props: AllProps) {
         <Flex.Stack>
           {title && <Lead size="basis">{title}</Lead>}
           {children}
-          <Toolbar>
-            <EditToolbarTools onDone={onDone} onCancel={onCancel} />
-          </Toolbar>
+          {hasToolbar ? null : (
+            <Toolbar onDone={onDone} onCancel={onCancel}>
+              <DoneButton />
+              <CancelButton />
+            </Toolbar>
+          )}
         </Flex.Stack>
       </SectionContainer>
     </FieldBoundaryProvider>
   )
 }
 
+EditContainer.DoneButton = DoneButton
+EditContainer.CancelButton = CancelButton
 EditContainer._supportsSpacingProps = true
 export default EditContainer

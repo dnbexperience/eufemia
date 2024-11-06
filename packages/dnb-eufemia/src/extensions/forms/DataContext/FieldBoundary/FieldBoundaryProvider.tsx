@@ -47,6 +47,8 @@ export default function FieldBoundaryProvider(props: Props) {
   const setShowBoundaryErrors: FieldBoundaryContextState['setShowBoundaryErrors'] =
     useCallback((showBoundaryErrors) => {
       showBoundaryErrorsRef.current = showBoundaryErrors
+        ? Date.now() // in order to renew the internal dependency "showBoundaryErrors"
+        : false
       forceUpdate()
     }, [])
 

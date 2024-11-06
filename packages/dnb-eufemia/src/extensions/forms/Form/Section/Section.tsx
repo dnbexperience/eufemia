@@ -12,6 +12,7 @@ import type { ContainerMode } from './containers/SectionContainer'
 import type { Path, FieldProps, OnChange } from '../../types'
 import type { JsonObject } from '../../utils/json-pointer'
 import type { SharedFieldBlockProps } from '../../FieldBlock'
+import Toolbar from './Toolbar'
 
 export type OverwritePropsDefaults = {
   [key: Path]:
@@ -136,6 +137,7 @@ function SectionComponent(props: LocalProps) {
   )
 }
 
+SectionComponent.Toolbar = Toolbar
 SectionComponent.ViewContainer = ViewContainer
 SectionComponent.EditContainer = EditContainer
 
