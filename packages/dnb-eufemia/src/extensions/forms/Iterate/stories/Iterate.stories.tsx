@@ -1,6 +1,8 @@
 import React, { useCallback } from 'react'
 import { Field, Form, Iterate, Tools, Value, Wizard } from '../..'
 import { Card, Flex } from '../../../../components'
+import ArrayItemArea from '../Array/ArrayItemArea'
+import Toolbar from '../Toolbar'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Iterate',
@@ -318,5 +320,93 @@ export function InWizard() {
         <Tools.Log top />
       </Form.Handler>
     </React.StrictMode>
+  )
+}
+
+export const CustomContainers = () => {
+  return (
+    <>
+      <Form.Handler
+        data={{
+          owners: [
+            {
+              name: 'Bedriften AS',
+              share: 33,
+            },
+            {
+              name: 'Bedriften AS',
+              share: 66,
+            },
+          ],
+        }}
+      >
+        <Flex.Vertical>
+          <Form.MainHeading>Accounts</Form.MainHeading>
+          <Card stack>
+            <Iterate.Array path="/owners">
+              <ArrayItemArea mode="view" variant="basic">
+                <Card filled space="0" innerSpace="x-small" shrink>
+                  <Flex.Horizontal
+                    justify="space-between"
+                    align="center"
+                    right="xx-small"
+                    stretch
+                  >
+                    <Value.Composition>
+                      <Value.String itemPath="/name" />,
+                      <Value.Number itemPath="/share" /> eierandel
+                    </Value.Composition>
+                    <Toolbar hideDivider top="0">
+                      <Iterate.ViewContainer.EditButton />
+                    </Toolbar>
+                  </Flex.Horizontal>
+                </Card>
+              </ArrayItemArea>
+              <ArrayItemArea mode="edit" variant="basic">
+                <Card filled shrink>
+                  <Value.String itemPath="/name" label="Navn" />
+                  <Field.Number
+                    required
+                    itemPath="/share"
+                    label="Eierandel"
+                  />
+
+                  <Flex.Horizontal justify="space-between" stretch>
+                    <Flex.Item>
+                      <Toolbar hideDivider>
+                        <Iterate.EditContainer.DoneButton
+                          right="x-small"
+                          variant="primary"
+                          icon={null}
+                        />
+                        <Iterate.EditContainer.CancelButton />
+                      </Toolbar>
+                    </Flex.Item>
+                    <Flex.Item>
+                      <Toolbar hideDivider>
+                        <Iterate.RemoveButton />
+                      </Toolbar>
+                    </Flex.Item>
+                  </Flex.Horizontal>
+                </Card>
+              </ArrayItemArea>
+            </Iterate.Array>
+            <Iterate.PushContainer
+              path="/owners"
+              title="New owner"
+              openButton={
+                <Iterate.PushContainer.OpenButton text="Add another owner" />
+              }
+              showOpenButtonWhen={(list) => list.length > 0}
+            >
+              <Field.String itemPath="/name" />
+              <Field.Number percent itemPath="/share" defaultValue={1} />
+            </Iterate.PushContainer>
+          </Card>
+
+          <Form.SubmitButton variant="send" />
+        </Flex.Vertical>
+      </Form.Handler>
+    </>
   )
 }

@@ -48,6 +48,16 @@ describe('Toolbar', () => {
     expect(handleRemove).toHaveBeenCalledTimes(1)
   })
 
+  it('hides divider when hideDivider is true', () => {
+    render(
+      <IterateItemContext.Provider value={{}}>
+        <Toolbar hideDivider>content</Toolbar>
+      </IterateItemContext.Provider>
+    )
+
+    expect(document.querySelector('dnb-hr')).not.toBeInTheDocument()
+  })
+
   describe('to have buttons with correct text', () => {
     it('and isNew is true', () => {
       render(

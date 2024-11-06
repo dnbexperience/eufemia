@@ -8,18 +8,26 @@ import ToolbarContext from './ToolbarContext'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
 import { useTranslation } from '../../hooks'
 
+type ToolbarProps = {
+  hideDivider?: boolean
+}
+
 export type ToolbarParams = {
   index: number
   items: Array<unknown>
   value: unknown
 }
-export type Props = Omit<SpaceAllProps, 'children'> & {
-  children?: React.ReactNode | ((params: ToolbarParams) => React.ReactNode)
-}
+export type Props = ToolbarProps &
+  Omit<SpaceAllProps, 'children'> & {
+    children?:
+      | React.ReactNode
+      | ((params: ToolbarParams) => React.ReactNode)
+  }
 
 export default function Toolbar({
   children,
   className,
+  hideDivider,
   ...rest
 }: Props = {}) {
   const {
@@ -48,16 +56,14 @@ export default function Toolbar({
 
   return (
     <Space
-      top="medium"
+      top="large"
       className={classnames('dnb-forms-iterate-toolbar', className)}
       {...rest}
     >
-      <Hr space={0} />
+      {!hideDivider && <Hr space={0} />}
 
       <ToolbarContext.Provider value={{ setShowError }}>
-        <Flex.Horizontal top="x-small" gap="large">
-          {children}
-        </Flex.Horizontal>
+        <Flex.Horizontal gap="large">{children}</Flex.Horizontal>
       </ToolbarContext.Provider>
 
       <FormStatus
