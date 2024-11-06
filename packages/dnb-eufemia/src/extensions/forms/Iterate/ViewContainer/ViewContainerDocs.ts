@@ -21,7 +21,7 @@ export const ViewContainerProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  '[FlexVertical](/uilib/layout/flex/container/)': {
+  '[FlexVertical](/uilib/layout/flex/container/properties)': {
     doc: 'All Flex.Vertical properties.',
     type: 'Various',
     status: 'optional',
