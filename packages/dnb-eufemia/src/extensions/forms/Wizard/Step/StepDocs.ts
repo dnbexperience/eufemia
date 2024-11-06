@@ -26,7 +26,7 @@ export const StepProperties: PropertiesTableProps = {
     type: 'React.Node',
     status: 'required',
   },
-  '[Flex.Container](/uilib/layout/flex/container)': {
+  '[Flex.Container](/uilib/layout/flex/container/properties)': {
     doc: 'Flex.Container properties.',
     type: 'Various',
     status: 'optional',

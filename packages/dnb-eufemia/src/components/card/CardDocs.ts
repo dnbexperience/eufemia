@@ -41,12 +41,12 @@ export const CardProperties: PropertiesTableProps = {
     type: 'React.Node',
     status: 'required',
   },
-  '[Flex.Container](/uilib/layout/flex/container)': {
+  '[Flex.Container](/uilib/layout/flex/container/properties)': {
     doc: 'Flex.Container properties.',
     type: 'Various',
     status: 'optional',
   },
-  '[Flex.Item](/uilib/layout/flex/item)': {
+  '[Flex.Item](/uilib/layout/flex/item/properties)': {
     doc: 'Flex.Item properties.',
     type: 'Various',
     status: 'optional',

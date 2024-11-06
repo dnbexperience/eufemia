@@ -65,7 +65,7 @@ export const ArrayProperties: PropertiesTableProps = {
     type: ['React.ReactNode', 'function'],
     status: 'optional',
   },
-  '[Flex.Stack](/uilib/layout/flex/stack/)': {
+  '[Flex.Stack](/uilib/layout/flex/stack/properties)': {
     doc: 'All Flex.Stack properties.',
     type: 'Various',
     status: 'optional',
