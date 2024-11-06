@@ -7,7 +7,7 @@ import DoneButton from '../DoneButton'
 import nbNO from '../../../../constants/locales/nb-NO'
 import ToolbarContext from '../../Toolbar/ToolbarContext'
 
-const nb = nbNO['nb-NO'].IterateEditContainer
+const nb = nbNO['nb-NO'].SectionEditContainer
 
 describe('DoneButton', () => {
   it('calls "switchContainerMode"', () => {
