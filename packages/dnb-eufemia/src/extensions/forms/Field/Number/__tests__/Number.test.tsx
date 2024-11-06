@@ -171,6 +171,11 @@ describe('Field.Number', () => {
     })
 
     describe('percent', () => {
+      it('renders without value', () => {
+        render(<Field.Number percent />)
+        expect(document.querySelector('input')).toHaveValue('')
+      })
+
       it('formats with percent', () => {
         render(<Field.Number value={12345} percent />)
         expect(document.querySelector('input')).toHaveValue('12 345 %')
