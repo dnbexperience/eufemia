@@ -27,7 +27,7 @@ export const UploadProperties: PropertiesTableProps = {
     status: 'optional',
   },
   download: {
-    doc: 'Causes the browser to treat all the linked URLs of the files as a download. How browsers treat downloads varies by browser, user settings, and other factors. Defaults to `false`.',
+    doc: 'Causes the browser to treat all listed files as downloadable instead of opening them in a new browser tab or window. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
