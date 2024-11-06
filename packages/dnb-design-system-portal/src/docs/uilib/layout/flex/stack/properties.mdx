@@ -2,11 +2,9 @@
 showTabs: true
 ---
 
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { FlexStackProperties } from '@dnb/eufemia/src/components/flex/StackDocs'
+
 ## Properties
 
-| Property                                                  | Type     | Description                                                           |
-| --------------------------------------------------------- | -------- | --------------------------------------------------------------------- |
-| `direction`                                               | `string` | _(optional)_ Defaults to `vertical`.                                  |
-| `align`                                                   | `string` | _(optional)_ Defaults to `stretch`.                                   |
-| [Flex.Container](/uilib/layout/flex/container/properties) | Various  | _(optional)_ Flex.Container properties.                               |
-| [Space](/uilib/layout/space/properties)                   | Various  | _(optional)_ Spacing properties like `top` or `bottom` are supported. |
+<PropertiesTable props={FlexStackProperties} />
