@@ -11,7 +11,7 @@ import { ContainerMode } from '../Array'
 
 type Props = ButtonProps
 
-export default function EditToolbarTools(props: Props) {
+export default function CancelButton(props: Props) {
   const { onClick, ...rest } = props
   const {
     restoreOriginalValue,

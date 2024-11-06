@@ -38,7 +38,7 @@ describe('EditContainer', () => {
     expect(element).not.toHaveClass('dnb-height-animation--hidden')
   })
 
-  it('calls "switchContainerMode" when remove button is clicked', () => {
+  it('calls "switchContainerMode" when edit button is clicked', () => {
     const switchContainerMode = jest.fn()
 
     render(
@@ -53,7 +53,7 @@ describe('EditContainer', () => {
     expect(switchContainerMode).toHaveBeenCalledWith('view')
   })
 
-  it('calls "switchContainerMode" when remove button is clicked and isNew is true', () => {
+  it('calls "switchContainerMode" when edit button is clicked and isNew is true', () => {
     const switchContainerMode = jest.fn()
 
     render(
