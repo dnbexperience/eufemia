@@ -75,7 +75,7 @@ const Upload = (localProps: UploadAllProps) => {
     useUpload(id)
 
   const onInputUpload = useCallback(
-    (newFiles: UploadFile[]) => {
+    (newFiles: Array<UploadFile>) => {
       const mergedFiles = [
         ...files,
         ...newFiles.map((fileItem) => {
@@ -100,7 +100,10 @@ const Upload = (localProps: UploadAllProps) => {
         }
       )
 
-      const validFiles = [...verifiedFiles].slice(0, filesAmountLimit)
+      const validFiles = [...verifiedFiles].slice(
+        0,
+        filesAmountLimit
+      ) as Array<UploadFile>
 
       setFiles(validFiles)
       setInternalFiles(mergedFiles)

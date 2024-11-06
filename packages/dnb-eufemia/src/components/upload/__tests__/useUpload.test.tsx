@@ -81,7 +81,7 @@ describe('useUpload', () => {
     render(<MockComponents />)
 
     const sharedState = createSharedState<{
-      files?: UploadFile[]
+      files?: Array<UploadFile>
     }>(id)
     const sharedStateFiles = sharedState.get().files
     expect(sharedStateFiles).toEqual([mockFile])

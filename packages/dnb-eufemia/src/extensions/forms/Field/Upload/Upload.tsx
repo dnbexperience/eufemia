@@ -10,6 +10,7 @@ import {
 import { FieldHelpProps, FieldProps } from '../../types'
 import Upload, {
   UploadFile,
+  UploadFileNative,
   UploadProps,
 } from '../../../../components/Upload'
 import useUpload from '../../../../components/upload/useUpload'
@@ -19,7 +20,7 @@ import { useTranslation as useSharedTranslation } from '../../../../shared'
 import { SpacingProps } from '../../../../shared/types'
 import { FormError } from '../../utils'
 
-export type UploadValue = Array<UploadFile>
+export type UploadValue = Array<UploadFile | UploadFileNative>
 export type Props = FieldHelpProps &
   Omit<FieldProps<UploadValue, UploadValue | undefined>, 'name'> &
   SpacingProps & {
