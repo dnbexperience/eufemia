@@ -79,10 +79,21 @@ exports[`FormRow scss has to match style dependencies css 1`] = `
   margin: 0;
 }
 .dnb-form-row__fieldset, .dnb-core-style .dnb-form-row__fieldset {
-  margin: 0;
   padding: 0;
   border: none;
   width: 100%;
+}
+.dnb-form-row__fieldset:not([class*=space__top]), .dnb-core-style .dnb-form-row__fieldset:not([class*=space__top]) {
+  margin-top: 0;
+}
+.dnb-form-row__fieldset:not([class*=space__right]), .dnb-core-style .dnb-form-row__fieldset:not([class*=space__right]) {
+  margin-right: 0;
+}
+.dnb-form-row__fieldset:not([class*=space__bottom]), .dnb-core-style .dnb-form-row__fieldset:not([class*=space__bottom]) {
+  margin-bottom: 0;
+}
+.dnb-form-row__fieldset:not([class*=space__left]), .dnb-core-style .dnb-form-row__fieldset:not([class*=space__left]) {
+  margin-left: 0;
 }"
 `;
 
