@@ -5,7 +5,7 @@ import Toolbar from '../../Toolbar/Toolbar'
 import EditButton from '../EditButton'
 import nbNO from '../../../../constants/locales/nb-NO'
 
-const nb = nbNO['nb-NO'].IterateViewContainer
+const nb = nbNO['nb-NO'].SectionViewContainer
 
 describe('EditButton', () => {
   it('to have buttons with correct text', () => {
