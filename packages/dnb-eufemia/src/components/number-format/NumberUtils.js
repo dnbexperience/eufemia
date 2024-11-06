@@ -370,7 +370,10 @@ export const formatDecimals = (value, decimals, rounding, opts = {}) => {
  * @returns amount of decimals
  */
 export const countDecimals = (value, decimalSeparator = '.') => {
-  if (Math.floor(value.valueOf()) === value.valueOf()) {
+  if (
+    typeof value === 'number' &&
+    Math.floor(value.valueOf()) === value.valueOf()
+  ) {
     return 0
   }
   return String(value).split(decimalSeparator)[1]?.length || 0
