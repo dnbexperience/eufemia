@@ -20,7 +20,7 @@ $breakpoints: map.merge(
 }
 
 fieldset.dnb-forms-field-block {
-  @include fieldsetReset(true);
+  @include fieldsetReset();
 }
 
 .dnb-forms-field-block {

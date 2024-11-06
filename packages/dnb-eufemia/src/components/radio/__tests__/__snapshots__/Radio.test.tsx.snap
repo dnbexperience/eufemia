@@ -338,9 +338,20 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
   flex-grow: 1;
 }
 .dnb-radio-group fieldset {
-  margin: 0;
   padding: 0;
   border: none;
+}
+.dnb-radio-group fieldset:not([class*=space__top]) {
+  margin-top: 0;
+}
+.dnb-radio-group fieldset:not([class*=space__right]) {
+  margin-right: 0;
+}
+.dnb-radio-group fieldset:not([class*=space__bottom]) {
+  margin-bottom: 0;
+}
+.dnb-radio-group fieldset:not([class*=space__left]) {
+  margin-left: 0;
 }
 .dnb-radio-group--column .dnb-radio {
   display: flex;
