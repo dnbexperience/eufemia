@@ -1,5 +1,6 @@
 import { PropertiesTableProps } from '../../../../shared/types'
 
+// TODO: Merge with DatePickerProps after it's been camelCased
 export const DateProperties: PropertiesTableProps = {
   help: {
     doc: 'Provide a help button. Object consisting of `title` and `content`.',
@@ -186,54 +187,40 @@ export const DateProperties: PropertiesTableProps = {
   },
 }
 
+// TODO: Merge with DatePickerEvents after it's been camelCased
 export const DateEvents: PropertiesTableProps = {
-  on_change: {
-    doc: 'Will be called on a date change event. Returns an `object`. See Returned Object below.',
-    type: 'function',
-    status: 'optional',
-  },
-  on_type: {
+  onType: {
     doc: 'Will be called on every input and date picker interaction. Returns an `object`. See Returned Object below.',
     type: 'function',
     status: 'optional',
   },
-  on_submit: {
+  onSubmit: {
     doc: 'Will be called once a user presses the submit button.',
     type: 'function',
     status: 'optional',
   },
-  on_cancel: {
+  onCancel: {
     doc: 'Will be called once a user presses the cancel button.',
     type: 'function',
     status: 'optional',
   },
-  on_reset: {
+  onReset: {
     doc: 'Will be called once a user presses the reset button.',
     type: 'function',
     status: 'optional',
   },
-  on_show: {
+  onShow: {
     doc: 'Will be called once date-picker is visible.',
     type: 'function',
     status: 'optional',
   },
-  on_hide: {
+  onHide: {
     doc: 'Will be called once date-picker is hidden.',
     type: 'function',
     status: 'optional',
   },
-  on_days_render: {
+  onDaysRender: {
     doc: 'Will be called right before every new calendar view gets rendered. See the example above.',
-    type: 'function',
-    status: 'optional',
-  },
-  onFocus: {
-    doc: 'Will be called once the input gets focus.',
-    type: 'function',
-    status: 'optional',
-  },
-  onBlur: {
-    doc: 'Will be called once the input lose focus.',
     type: 'function',
     status: 'optional',
   },
