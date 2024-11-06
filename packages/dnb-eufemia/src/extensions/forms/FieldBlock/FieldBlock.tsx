@@ -88,6 +88,14 @@ export type SharedFieldBlockProps = {
    * A more discreet text displayed beside the label
    */
   labelDescription?: React.ReactNode
+  /**
+   * Width of outer block element
+   */
+  width?: FieldBlockWidth
+  /**
+   * Width of contents block, while label etc can be wider if space is available
+   */
+  contentWidth?: FieldBlockWidth
 }
 
 export type Props = SharedFieldBlockProps &
@@ -103,10 +111,6 @@ export type Props = SharedFieldBlockProps &
     labelSrOnly?: boolean
     /** Defines the layout of nested fields */
     composition?: FieldBlockContextProps['composition']
-    /** Width of outer block element */
-    width?: FieldBlockWidth
-    /** Width of contents block, while label etc can be wider if space is available */
-    contentWidth?: FieldBlockWidth
     /** For composition only: Align the contents vertically */
     align?: 'center' | 'bottom'
     /** Class name for the contents block */
@@ -117,6 +121,8 @@ export type Props = SharedFieldBlockProps &
     labelSize?: 'medium' | 'large'
     /** Defines the height of an component (size prop), so the label can be aligned correctly */
     labelHeight?: FieldBlockHorizontalLabelHeight
+    /** Disable the error summary for this field block */
+    disableStatusSummary?: boolean
     /** For internal use only */
     required?: boolean
     children?: React.ReactNode
@@ -124,7 +130,10 @@ export type Props = SharedFieldBlockProps &
 
 function FieldBlock(props: Props) {
   const dataContext = useContext(DataContext)
-  const nestedFieldBlockContext = useContext(FieldBlockContext)
+  const fieldBlockContext = useContext(FieldBlockContext)
+  const nestedFieldBlockContext = !fieldBlockContext?.disableStatusSummary
+    ? fieldBlockContext
+    : null
 
   const sharedData = createSharedState<Props>(
     'field-block-props-' + (props.id ?? props.forId)
@@ -144,6 +153,7 @@ function FieldBlock(props: Props) {
     info,
     warning,
     error: errorProp,
+    disableStatusSummary,
     fieldState,
     disabled,
     width,
@@ -523,6 +533,7 @@ function FieldBlock(props: Props) {
         fieldStateIdsRef,
         mountedFieldsRef,
         composition,
+        disableStatusSummary,
       }}
     >
       <Space

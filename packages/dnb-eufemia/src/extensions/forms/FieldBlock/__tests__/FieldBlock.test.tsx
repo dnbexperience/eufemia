@@ -880,6 +880,81 @@ describe('FieldBlock', () => {
 
     log.mockRestore()
   })
+
+  it('should summarize errors in one FormStatus components', () => {
+    const MockComponent = () => {
+      useFieldProps({
+        required: true,
+        validateInitially: true,
+      })
+
+      return null
+    }
+
+    render(
+      <FieldBlock error={new Error('Error message')}>
+        <MockComponent />
+      </FieldBlock>
+    )
+
+    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
+    expect(document.querySelector('.dnb-form-status').textContent).toBe(
+      nb.Field.errorSummary + 'Error message' + nb.Field.errorRequired
+    )
+  })
+
+  it('should summarize errors for nested FieldBlocks', () => {
+    const nested = new Error('Nested')
+    const outer = new Error('Outer')
+
+    const MockComponent = () => {
+      useFieldProps({
+        id: 'unique',
+        error: nested,
+      })
+
+      return <FieldBlock id="unique">content</FieldBlock>
+    }
+
+    render(
+      <FieldBlock error={outer}>
+        <MockComponent />
+      </FieldBlock>
+    )
+
+    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
+    expect(document.querySelector('.dnb-form-status').textContent).toBe(
+      nb.Field.errorSummary + 'Outer' + 'Nested'
+    )
+  })
+
+  it('should not summarize errors when "disableStatusSummary" is true', () => {
+    const nested = new Error('Nested')
+    const outer = new Error('Outer')
+
+    const MockComponent = () => {
+      useFieldProps({
+        id: 'unique',
+        error: nested,
+      })
+
+      return <FieldBlock id="unique">content</FieldBlock>
+    }
+
+    render(
+      <FieldBlock error={outer} disableStatusSummary>
+        <MockComponent />
+      </FieldBlock>
+    )
+
+    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(2)
+    expect(
+      document.querySelectorAll('.dnb-form-status')[0].textContent
+    ).toBe('Outer')
+    expect(
+      document.querySelectorAll('.dnb-form-status')[1].textContent
+    ).toBe('Nested')
+  })
 })
 
 function MockComponent({ label = null, id = null }) {

@@ -5,6 +5,9 @@ import { axeComponent } from '../../../../../core/jest/jestSetup'
 import DataContext from '../../../DataContext/Context'
 import { Field, FieldBlock, Form } from '../../..'
 
+import nbNO from '../../../constants/locales/nb-NO'
+const nb = nbNO['nb-NO']
+
 describe('ArraySelection', () => {
   describe('checkbox', () => {
     it('renders correctly', () => {
@@ -379,6 +382,36 @@ describe('ArraySelection', () => {
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
         '/mySelection': undefined,
       })
+    })
+
+    it('should show errors in separate FormStatus components', () => {
+      render(
+        <Field.ArraySelection
+          variant="checkbox"
+          required
+          validateInitially
+        >
+          <Field.Option value="first" title="First" />
+          <Field.Number
+            value={1}
+            exclusiveMinimum={900}
+            validateInitially
+          />
+        </Field.ArraySelection>
+      )
+
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(2)
+      const [first, second] = Array.from(
+        document.querySelectorAll('.dnb-form-status')
+      )
+
+      expect(first.textContent).toBe(nb.Field.errorRequired)
+      expect(second.textContent).toBe(
+        nb.NumberField.errorExclusiveMinimum.replace(
+          '{exclusiveMinimum}',
+          '900'
+        )
+      )
     })
 
     describe('ARIA', () => {

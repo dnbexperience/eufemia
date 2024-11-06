@@ -170,15 +170,21 @@ export const CheckboxWithHelp = () => (
 )
 
 export const CheckboxNestingWithLogic = () => (
-  <ComponentBox data-visual-test="array-selection-checkbox-nesting-logic">
-    <Form.Handler>
+  <ComponentBox
+    hideCode
+    data-visual-test="array-selection-checkbox-nesting-logic"
+  >
+    <Form.Handler onSubmit={console.log}>
       <Card stack>
-        <Field.ArraySelection label="Make a selection" path="/mySelection">
+        <Field.ArraySelection
+          label="Make a selection"
+          path="/mySelection"
+          required
+        >
           <Field.Option value="nothing" title="Nothing" />
 
           <Field.Option value="showInput" title="Show an input" />
           <Form.Visibility
-            animate
             visibleWhen={{
               path: '/mySelection',
               hasValue: (value) => {
@@ -187,10 +193,11 @@ export const CheckboxNestingWithLogic = () => (
                   : false
               },
             }}
-            compensateForGap="auto"
+            animate
+            compensateForGap="auto" // makes animation smooth
           >
             <Section variant="info" innerSpace>
-              <Field.String placeholder="Enter some value" />
+              <Field.String placeholder="Enter some value" required />
             </Section>
           </Form.Visibility>
 
@@ -199,7 +206,6 @@ export const CheckboxNestingWithLogic = () => (
             title="Show additional option"
           />
           <Form.Visibility
-            animate
             visibleWhen={{
               path: '/mySelection',
               hasValue: (value) => {
@@ -208,7 +214,8 @@ export const CheckboxNestingWithLogic = () => (
                   : false
               },
             }}
-            compensateForGap="auto"
+            animate
+            compensateForGap="auto" // makes animation smooth
           >
             <Field.Option
               value="showMeMore"
@@ -227,12 +234,14 @@ export const CheckboxNestingWithLogic = () => (
               }}
             >
               <Section variant="info" innerSpace>
-                <Field.String placeholder="Enter more info" />
+                <Field.String placeholder="Enter more info" required />
               </Section>
             </Form.Visibility>
           </Form.Visibility>
         </Field.ArraySelection>
       </Card>
+
+      <Form.SubmitButton />
     </Form.Handler>
   </ComponentBox>
 )
@@ -496,7 +505,6 @@ export const ButtonNestingWithLogic = () => (
 
           <Field.Option value="showInput" title="Show an input" />
           <Form.Visibility
-            animate
             visibleWhen={{
               path: '/mySelection',
               hasValue: (value) => {
@@ -505,7 +513,8 @@ export const ButtonNestingWithLogic = () => (
                   : false
               },
             }}
-            compensateForGap="auto"
+            animate
+            compensateForGap="auto" // makes animation smooth
           >
             <Section variant="info" innerSpace>
               <Field.String placeholder="Enter some value" />
@@ -517,7 +526,6 @@ export const ButtonNestingWithLogic = () => (
             title="Show additional option"
           />
           <Form.Visibility
-            animate
             visibleWhen={{
               path: '/mySelection',
               hasValue: (value) => {
@@ -526,7 +534,8 @@ export const ButtonNestingWithLogic = () => (
                   : false
               },
             }}
-            compensateForGap="auto"
+            animate
+            compensateForGap="auto" // makes animation smooth
           >
             <Field.Option
               value="showMeMore"

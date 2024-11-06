@@ -26,11 +26,6 @@ export const FieldBlockSharedProperties: PropertiesTableProps = {
     type: 'object',
     status: 'optional',
   },
-  labelHeight: {
-    doc: 'Defines the height of an component (size prop), so the label can be aligned correctly. Can be `default`, `small`, `medium`, `large`.',
-    type: 'string',
-    status: 'optional',
-  },
   width: {
     doc: 'Will set the width for the whole block. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.',
     type: ['string', 'false'],
@@ -48,11 +43,17 @@ export const FieldBlockSharedProperties: PropertiesTableProps = {
   },
 }
 
-export const fieldBlockProperties: PropertiesTableProps = {
+/** For internal use only */
+export const FieldBlockProperties: PropertiesTableProps = {
   ...FieldBlockSharedProperties,
   labelSize: {
     doc: 'Define one of the following [heading sizes](/uilib/elements/heading/): `medium` or `large`.',
     type: ['string', 'false'],
+    status: 'optional',
+  },
+  labelHeight: {
+    doc: 'Defines the height of an component (size prop), so the label can be aligned correctly. Can be `default`, `small`, `medium`, `large`.',
+    type: 'string',
     status: 'optional',
   },
   asFieldset: {
@@ -63,6 +64,11 @@ export const fieldBlockProperties: PropertiesTableProps = {
   align: {
     doc: '`center` or `bottom` for aligning the contents vertically. Defaults to `bottom`.',
     type: ['string', 'false'],
+    status: 'optional',
+  },
+  disableStatusSummary: {
+    doc: 'Use `true` to disable the error summary.',
+    type: 'boolean',
     status: 'optional',
   },
   composition: {

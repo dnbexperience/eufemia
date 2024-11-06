@@ -483,23 +483,24 @@ export const RadioWithAPath = () => (
 )
 
 export const RadioNestingWithLogic = () => (
-  <ComponentBox data-visual-test="selection-radio-nesting-logic">
-    <Form.Handler>
+  <ComponentBox hideCode data-visual-test="selection-radio-nesting-logic">
+    <Form.Handler onSubmit={console.log}>
       <Card stack>
         <Field.Selection
           variant="radio"
           label="Make a selection"
           path="/mySelection"
+          required
         >
           <Field.Option value="nothing" title="Nothing" />
           <Field.Option value="showInput" title="Show an input" />
           <Form.Visibility
-            animate
             visibleWhen={{ path: '/mySelection', hasValue: 'showInput' }}
-            compensateForGap="auto"
+            animate
+            compensateForGap="auto" // makes animation smooth
           >
             <Section variant="info" innerSpace>
-              <Field.String placeholder="Enter some value" />
+              <Field.String placeholder="Enter some value" required />
             </Section>
           </Form.Visibility>
           <Field.Option
@@ -507,13 +508,13 @@ export const RadioNestingWithLogic = () => (
             title="Show additional option"
           />
           <Form.Visibility
-            animate
             visibleWhen={{
               path: '/mySelection',
               hasValue: (value) =>
                 value === 'showAdditionalOption' || value === 'showMeMore',
             }}
-            compensateForGap="auto"
+            animate
+            compensateForGap="auto" // makes animation smooth
           >
             <Field.Option
               value="showMeMore"
@@ -528,192 +529,92 @@ export const RadioNestingWithLogic = () => (
               }}
             >
               <Section variant="info" innerSpace>
-                <Field.String placeholder="Enter more info" />
+                <Field.String placeholder="Enter more info" required />
               </Section>
             </Form.Visibility>
           </Form.Visibility>
         </Field.Selection>
       </Card>
+
+      <Form.SubmitButton />
     </Form.Handler>
   </ComponentBox>
 )
 
 export const RadioNestingAdvanced = () => (
-  <ComponentBox>
-    <Form.Handler onSubmit={console.log}>
-      <Flex.Stack>
-        <Card stack>
-          <Field.Selection path="/mySelection" variant="radio">
-            <Field.Option value="first" title="First" />
-            <Form.Visibility
-              visibleWhen={{
-                path: '/mySelection',
-                hasValue: (value) => value === 'first',
-              }}
-              animate
-            >
-              <Card>
-                <Field.Number
-                  path="/firstNumber"
-                  label="First number"
-                  value={1}
-                  allowNegative={false}
-                  required
-                  exclusiveMinimum={900}
-                  exclusiveMaximum={1000}
-                />
-                <Field.String
-                  path="/firstString"
-                  label="First String"
-                  value="foo"
-                  pattern="bar"
-                  minLength={4}
-                />
-                <Field.Boolean
-                  path="/firstBoolean"
-                  label="First boolean"
-                  variant="checkbox"
-                  required
-                />
-                <Field.Selection
-                  path="/firstSelection"
-                  variant="radio"
-                  required
-                  label="First selection"
+  <ComponentBox
+    hideCode
+    data-visual-test="selection-radio-advanced-nesting-logic"
+  >
+    <Form.Handler
+      defaultData={{ mySelection: 'first', firstSelection: 'first' }}
+      onSubmit={console.log}
+    >
+      <Card stack>
+        <Field.Selection path="/mySelection" variant="radio">
+          <Field.Option value="first" title="First" />
+          <Form.Visibility
+            visibleWhen={{ path: '/mySelection', hasValue: 'first' }}
+            animate
+            compensateForGap="auto" // makes animation smooth
+          >
+            <Card stack top bottom>
+              <Field.Number
+                path="/firstNumber"
+                label="First number"
+                value={1}
+                allowNegative={false}
+                required
+                exclusiveMinimum={900}
+                exclusiveMaximum={1000}
+              />
+              <Field.String
+                path="/firstString"
+                label="First String"
+                value="foo"
+                pattern="bar"
+                minLength={4}
+              />
+              <Field.Boolean
+                path="/firstBoolean"
+                label="First boolean"
+                variant="checkbox"
+                required
+              />
+              <Field.Selection
+                path="/firstSelection"
+                variant="radio"
+                required
+                label="First selection"
+              >
+                <Field.Option value="first" title="First nested" />
+                <Form.Visibility
+                  visibleWhen={{
+                    path: '/firstSelection',
+                    hasValue: 'first',
+                  }}
+                  animate
+                  compensateForGap="auto" // makes animation smooth
                 >
-                  <Field.Option value="first" title="First" />
-                  <Form.Visibility
-                    visibleWhen={{
-                      path: '/firstSelection',
-                      hasValue: (value) => value === 'first',
-                    }}
-                    animate
-                  >
+                  <Card stack top bottom>
                     <Field.Number
                       path="/firstNestedNumber"
                       label="First nested number"
                       required
                     />
-                  </Form.Visibility>
-                  <Field.Option value="second" title="Second" />
-                </Field.Selection>
-              </Card>
-            </Form.Visibility>
-            <Field.Option value="second" title="Second" />
-            <Form.Visibility
-              visibleWhen={{
-                path: '/mySelection',
-                hasValue: (value) => value === 'second',
-              }}
-              animate
-            >
-              <Card>
-                <Field.Number
-                  path="/secondNumber"
-                  label="Second number"
-                  value={2}
-                  allowNegative={false}
-                  required
-                  exclusiveMinimum={900}
-                  exclusiveMaximum={1000}
-                />
-                <Field.String
-                  path="/secondString"
-                  label="Second String"
-                  value="foo"
-                  pattern="bar"
-                  minLength={4}
-                />
-                <Field.Boolean
-                  path="/secondBoolean"
-                  label="Second boolean"
-                  variant="checkbox"
-                  required
-                />
-                <Field.Selection
-                  path="/secondSelection"
-                  variant="radio"
-                  label="Second selection"
-                  required
-                >
-                  <Field.Option value="first" title="First" />
-                  <Form.Visibility
-                    visibleWhen={{
-                      path: '/secondSelection',
-                      hasValue: (value) => value === 'first',
-                    }}
-                    animate
-                  >
-                    <Field.Number
-                      path="/secondNestedNumber"
-                      label="Second nested number"
-                      required
-                    />
-                  </Form.Visibility>
-                  <Field.Option value="second" title="Second" />
-                </Field.Selection>
-              </Card>
-            </Form.Visibility>
-            <Field.Option value="third" title="Third" />
-            <Form.Visibility
-              visibleWhen={{
-                path: '/mySelection',
-                hasValue: (value) => value === 'third',
-              }}
-              animate
-            >
-              <Card>
-                <Field.Number
-                  path="/thirdNumber"
-                  label="Third number"
-                  value={3}
-                  allowNegative={false}
-                  required
-                  exclusiveMinimum={900}
-                  exclusiveMaximum={1000}
-                />
-                <Field.String
-                  path="/thirdString"
-                  label="Third String"
-                  value="foo"
-                  pattern="bar"
-                  minLength={4}
-                />
-                <Field.Boolean
-                  path="/thirdBoolean"
-                  label="Third boolean"
-                  variant="checkbox"
-                  required
-                />
-                <Field.Selection
-                  path="/thirdSelection"
-                  variant="radio"
-                  required
-                  label="Third selection"
-                >
-                  <Field.Option value="first" title="First" />
-                  <Form.Visibility
-                    visibleWhen={{
-                      path: '/thirdSelection',
-                      hasValue: (value) => value === 'first',
-                    }}
-                    animate
-                  >
-                    <Field.Number
-                      path="/thirdNestedNumber"
-                      label="Third nested number"
-                      required
-                    />
-                  </Form.Visibility>
-                  <Field.Option value="second" title="Second" />
-                </Field.Selection>
-              </Card>
-            </Form.Visibility>
-          </Field.Selection>
-        </Card>
+                  </Card>
+                </Form.Visibility>
+                <Field.Option value="second" title="Second nested" />
+              </Field.Selection>
+            </Card>
+          </Form.Visibility>
 
-        <Form.SubmitButton text="Happy coding!" />
-      </Flex.Stack>
+          <Field.Option value="second" title="Second" />
+          <Field.Option value="third" title="Third" />
+        </Field.Selection>
+      </Card>
+
+      <Form.SubmitButton />
     </Form.Handler>
   </ComponentBox>
 )
