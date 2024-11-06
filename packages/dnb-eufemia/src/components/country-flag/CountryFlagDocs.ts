@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const CountryFlagProperties: PropertiesTableProps = {
   iso: {
-    doc: '[ISO 3166-1 alpha-2 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) representing the country, such as `NO` for Norway. Defaults to `empty` string.',
+    doc: '[ISO 3166-1 alpha-2 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) representing the country, such as `NO` for Norway. Defaults to `NO`.',
     type: 'string',
     status: 'optional',
   },
