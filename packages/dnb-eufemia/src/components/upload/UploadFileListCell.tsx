@@ -50,7 +50,7 @@ export type UploadFileListCellProps = {
   onDelete: () => void
 
   /**
-   * Causes the browser to treat all the linked URLs of the files as a download. How browsers treat downloads varies by browser, user settings, and other factors.
+   * Causes the browser to treat all listed files as downloadable instead of opening them in a new browser tab or window.
    * Default: false
    */
   download?: boolean
