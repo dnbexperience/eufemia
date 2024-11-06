@@ -8,7 +8,7 @@ import Toolbar from '../../Toolbar'
 import CancelButton from '../CancelButton'
 import nbNO from '../../../../constants/locales/nb-NO'
 
-const nb = nbNO['nb-NO'].IterateEditContainer
+const nb = nbNO['nb-NO'].SectionEditContainer
 
 describe('CancelButton', () => {
   it('calls "switchContainerMode"', () => {
