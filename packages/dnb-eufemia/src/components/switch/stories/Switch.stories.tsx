@@ -41,7 +41,7 @@ export const SwitchSandbox = () => (
       />
     </Box>
     <Box>
-      Text: <FormLabel for_id="switch">Unchecked:</FormLabel>
+      Text: <FormLabel forId="switch">Unchecked:</FormLabel>
       <Switch id="switch" checked={false} />
     </Box>
     <Box>

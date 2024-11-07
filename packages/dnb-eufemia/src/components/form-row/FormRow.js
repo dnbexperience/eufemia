@@ -248,7 +248,7 @@ export default class FormRow extends React.PureComponent {
               <FormLabel
                 className={classnames('dnb-form-row__label', label_class)}
                 id={label_id ? label_id : id + '-label'}
-                for_id={useFieldset ? null : id} // we don't use for_id, because we don't have a single element to target to
+                forId={useFieldset ? null : id} // we don't use forId, because we don't have a single element to target to
                 text={label}
                 element={useFieldset ? 'legend' : 'label'}
                 labelDirection={label_direction}

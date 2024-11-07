@@ -523,7 +523,7 @@ const DropdownStory = () => {
         <span className="dnb-p">Eros semper</span>
       </Box>
       <Box>
-        <FormLabel for_id="text-dropdown-1" text="FormLabel Label:" />
+        <FormLabel forId="text-dropdown-1" text="FormLabel Label:" />
         <Dropdown
           data={dropdownData}
           id="text-dropdown-1"
