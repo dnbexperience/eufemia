@@ -442,7 +442,7 @@ export default class ToggleButton extends React.PureComponent {
                   text={label}
                   disabled={disabled}
                   skeleton={skeleton}
-                  label_direction={label_direction}
+                  labelDirection={label_direction}
                   sr_only={label_sr_only}
                 />
               )}
