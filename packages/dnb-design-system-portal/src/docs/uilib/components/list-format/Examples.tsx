@@ -61,7 +61,6 @@ export const WithValue = () => {
           <a
             target="_blank"
             href="https://github.com/dnbexperience/eufemia"
-            className="dnb-anchor"
             rel="noopener noreferrer"
             key="github"
           >
