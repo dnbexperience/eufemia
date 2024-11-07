@@ -189,12 +189,6 @@ export const ListTypes = () => {
         variant="ul"
         listType="unstyled"
       />
-      <P>Unordered List unstyled:</P>
-      <ListFormat
-        value={['Foo', 'Bar', 'Baz']}
-        variant="ul"
-        listType="unstyled"
-      />
     </ComponentBox>
   )
 }
