@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const ListFormatProperties: PropertiesTableProps = {
   value: {
-    doc: 'The value to format.',
+    doc: 'The value to format. Can be given as `children` instead.',
     type: ['Array<React.ReactNode>'],
     status: 'optional',
   },
