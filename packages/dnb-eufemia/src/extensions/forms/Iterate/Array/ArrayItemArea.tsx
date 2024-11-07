@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useReducer, useRef } from 'react'
 import classnames from 'classnames'
-import { Flex, HeightAnimation } from '../../../../components'
+import { Card, HeightAnimation } from '../../../../components'
 import IterateItemContext, {
   IterateItemContextState,
 } from '../IterateItemContext'
@@ -182,14 +182,15 @@ function ArrayItemArea(props: Props & FlexContainerProps) {
         duration={450}
         keepInDOM // Ensure fields get mounted so they will sync with the data context
       >
-        <Flex.Stack
+        <Card
+          stack
+          innerSpace="small"
           className="dnb-forms-section-block__inner"
           {...restProps}
-          element="section"
           aria-label={ariaLabel}
         >
           {children}
-        </Flex.Stack>
+        </Card>
       </HeightAnimation>
     </ArrayItemAreaContext.Provider>
   )
