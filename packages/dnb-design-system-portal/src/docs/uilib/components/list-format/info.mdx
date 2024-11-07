@@ -1,0 +1,39 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { ListFormat } from '@dnb/eufemia'
+```
+
+## Description
+
+A ready-to-use list formatter. Use it wherever you have to display a list of strings, numbers, or React components (JSX).
+
+Good reasons for why we have this is to:
+
+- uniform the creation and formatting of lists.
+- Supports translation and localization.
+- Built on top of web standards.
+
+The component is designed to maximum display 10-20 items.
+If you need to display more items than that, consider a different design, and perhaps using [Pagination](/uilib/components/pagination) and/or [InfinityScroller](/uilib/components/pagination/infinity-scroller)
+
+## Formatting only
+
+You can use the `listFormat` function without using the React Component `ListFormat`.
+
+```ts
+import { listFormat } from '@dnb/eufemia/components/NumberFormat'
+
+return listFormat(myList, {
+  format: { type: 'disjunction' },
+  locale: 'en-US',
+})
+```
+
+See the following [demo](/uilib/components/list-format/demos/#using-listformat-function) for a more detailed example.
+
+The `listFormat` function supports an object with `{ format, locale }` as the second parameter. `format` and `locale` will accept the same values as documented in [properties](/uilib/components/list-format/properties/) of the `ListFormat` component.

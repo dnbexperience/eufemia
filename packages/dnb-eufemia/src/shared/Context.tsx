@@ -48,6 +48,7 @@ import type { ProgressIndicatorProps } from '../components/progress-indicator/ty
 import type { FormStatusProps } from '../components/FormStatus'
 import type { LogoProps } from '../components/Logo'
 import type { IconProps } from '../components/Icon'
+import type { ListFormatProps } from '../components/list-format/ListFormat'
 import type { IconPrimaryProps } from '../components/IconPrimary'
 import { SwitchProps } from '../components/Switch'
 
@@ -94,6 +95,7 @@ export type ContextComponents = {
   Icon?: Partial<IconProps>
   IconPrimary?: Partial<IconPrimaryProps>
   DatePicker?: Partial<DatePickerProps>
+  ListFormat?: Partial<ListFormatProps>
 
   Switch?: Partial<SwitchProps>
   // -- TODO: Not converted yet --
