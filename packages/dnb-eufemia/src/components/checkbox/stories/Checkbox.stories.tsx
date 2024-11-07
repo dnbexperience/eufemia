@@ -118,7 +118,7 @@ export const CheckboxSandbox = () => (
         </CustomRow>
       </Box>
       <Box>
-        <FormLabel forId="checkbox-1" label_direction="vertical" vertical>
+        <FormLabel forId="checkbox-1" vertical>
           Vertical FormLabel for a Checkbox component:
         </FormLabel>
         <Checkbox id="checkbox-1" label="Unchecked disabled" disabled />

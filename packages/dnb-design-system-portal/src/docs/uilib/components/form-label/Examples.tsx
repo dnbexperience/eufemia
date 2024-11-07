@@ -16,7 +16,7 @@ export const Default = () => (
 
 export const Vertical = () => (
   <ComponentBox data-visual-test="form-label-vertical">
-    <FormLabel for_id="alone-2" label_direction="vertical">
+    <FormLabel for_id="alone-2" vertical>
       Vertical FormLabel
     </FormLabel>
     <Checkbox id="alone-2" label="Checkbox" />

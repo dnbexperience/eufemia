@@ -575,7 +575,7 @@ class DropdownInstance extends React.PureComponent {
             id={id + '-label'}
             for_id={id}
             text={label}
-            label_direction={label_direction}
+            labelDirection={label_direction}
             sr_only={label_sr_only}
             disabled={disabled}
             skeleton={skeleton}

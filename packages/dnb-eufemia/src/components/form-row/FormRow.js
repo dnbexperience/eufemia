@@ -251,7 +251,7 @@ export default class FormRow extends React.PureComponent {
                 for_id={useFieldset ? null : id} // we don't use for_id, because we don't have a single element to target to
                 text={label}
                 element={useFieldset ? 'legend' : 'label'}
-                label_direction={label_direction}
+                labelDirection={label_direction}
                 sr_only={label_sr_only}
                 disabled={disabled}
                 skeleton={skeleton}
