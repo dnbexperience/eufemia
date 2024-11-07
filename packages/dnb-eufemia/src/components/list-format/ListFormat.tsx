@@ -33,6 +33,7 @@ export type ListFormatProps = {
     | 'circle'
     | 'disc'
     | 'square'
+    | 'unstyled'
     | undefined
 
   /**
@@ -82,7 +83,14 @@ function ListFormat(localProps: ListFormatProps) {
 
     const ListElement = variant.startsWith('ol') ? Ol : Ul
 
-    return <ListElement type={listType}>{list}</ListElement>
+    return (
+      <ListElement
+        type={listType !== 'unstyled' ? listType : null}
+        className={listType === 'unstyled' && 'dnb-unstyled-list'}
+      >
+        {list}
+      </ListElement>
+    )
   }, [format, list, locale, variant, listType])
 
   return result

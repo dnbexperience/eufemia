@@ -32,6 +32,7 @@ export const ListFormatProperties: PropertiesTableProps = {
       'circle',
       'disc',
       'square',
+      'unstyled',
       'undefined',
     ],
     status: 'optional',

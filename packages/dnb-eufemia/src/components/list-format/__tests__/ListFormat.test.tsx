@@ -163,15 +163,28 @@ describe('ListFormat', () => {
     rerender(
       <ListFormat variant="ul" listType="disc" value={[123, 456, 789]} />
     )
+    expect(list('ul')).toHaveAttribute('type', 'disc')
     expect(list('ul')).toContainHTML(
       '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
     )
-    expect(list('ul')).toHaveAttribute('type', 'disc')
 
     rerender(
       <ListFormat variant="ul" listType="square" value={[123, 456, 789]} />
     )
     expect(list('ul')).toHaveAttribute('type', 'square')
+    expect(list('ul')).toContainHTML(
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+    )
+
+    rerender(
+      <ListFormat
+        variant="ul"
+        listType="unstyled"
+        value={[123, 456, 789]}
+      />
+    )
+    expect(list('ul')).not.toHaveAttribute('type')
+    expect(list('ul')).toHaveClass('dnb-unstyled-list dnb-ul')
     expect(list('ul')).toContainHTML(
       '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
     )
@@ -250,6 +263,17 @@ describe('ListFormat', () => {
       </ListFormat>
     )
     expect(list('ul')).toHaveAttribute('type', 'square')
+    expect(list('ul')).toContainHTML(
+      '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
+    )
+
+    rerender(
+      <ListFormat variant="ul" listType="unstyled">
+        {[123, 456, 789]}
+      </ListFormat>
+    )
+    expect(list('ul')).not.toHaveAttribute('type')
+    expect(list('ul')).toHaveClass('dnb-unstyled-list dnb-ul')
     expect(list('ul')).toContainHTML(
       '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
     )
