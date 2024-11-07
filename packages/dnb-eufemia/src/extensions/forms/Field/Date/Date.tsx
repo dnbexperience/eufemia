@@ -238,6 +238,7 @@ function DateComponent(props: Props) {
     range,
     showCancelButton = true,
     showResetButton = true,
+    showInput = true,
     onReset,
     ...rest
   } = useFieldProps(preparedProps)
@@ -279,7 +280,7 @@ function DateComponent(props: Props) {
         id={id}
         date={value}
         disabled={disabled}
-        show_input={true}
+        show_input={showInput}
         show_cancel_button={showCancelButton}
         show_reset_button={showResetButton}
         start_date={startDate}
