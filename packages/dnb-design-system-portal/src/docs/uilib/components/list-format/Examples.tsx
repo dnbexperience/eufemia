@@ -6,7 +6,7 @@
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { Provider } from '@dnb/eufemia/src/shared'
-import { ListFormat, P, Badge } from '@dnb/eufemia/src'
+import { ListFormat, P, Badge, Anchor } from '@dnb/eufemia/src'
 import { listFormat } from '@dnb/eufemia/src/components/list-format/ListFormat'
 
 export const UsingListFormatFunction = () => {
@@ -24,7 +24,7 @@ export const UsingListFormatFunction = () => {
           <>C</>,
           'D',
           123,
-          <a
+          <Anchor
             target="_blank"
             href="https://github.com/dnbexperience/eufemia"
             className="dnb-anchor"
@@ -32,7 +32,7 @@ export const UsingListFormatFunction = () => {
             key="github"
           >
             Link to Eufemia's Github Repo
-          </a>,
+          </Anchor>,
           <>
             Text <Badge content="Info" variant="information" /> Text
           </>,
@@ -89,7 +89,7 @@ export const WithCustomFormat = () => {
             <>C</>,
             'D',
             123,
-            <a
+            <Anchor
               target="_blank"
               href="https://github.com/dnbexperience/eufemia"
               className="dnb-anchor"
@@ -97,7 +97,7 @@ export const WithCustomFormat = () => {
               key="github"
             >
               Link to Eufemia's Github Repo
-            </a>,
+            </Anchor>,
             <>
               Text <Badge content="Info" variant="information" /> Text
             </>,
@@ -117,7 +117,7 @@ export const Inline = () => {
         <ListFormat
           value={[
             123,
-            <a
+            <Anchor
               target="_blank"
               href="https://github.com/dnbexperience/eufemia"
               className="dnb-anchor"
@@ -125,7 +125,7 @@ export const Inline = () => {
               key="github"
             >
               Link to Eufemia's Github Repo
-            </a>,
+            </Anchor>,
             <>
               Text <Badge content="Info" variant="information" /> Text
             </>,

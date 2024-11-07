@@ -196,6 +196,18 @@ export function UndefinedExamples() {
     <>
       {listFormat(undefined)}
       <br />
+      {listFormat(null)}
+      <br />
+      {listFormat([undefined])}
+      <br />
+      {listFormat([null])}
+      <br />
+      {listFormat([false])}
+      <br />
+      {listFormat([null])}
+      <br />
+      {listFormat([])}
+      <br />
       <ListFormat variant="ol" listType="a" />
       <br />
       <ListFormat value={undefined} variant="ol" listType="a" />

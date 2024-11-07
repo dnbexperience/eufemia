@@ -77,7 +77,7 @@ function ListFormat(localProps: ListFormatProps) {
 
   const result = useMemo(() => {
     if (variant === 'text') {
-      return listFormat(list, { locale, format })
+      return listFormat(list as Array<React.ReactNode>, { locale, format })
     }
 
     const ListElement = variant.startsWith('ol') ? Ol : Ul
@@ -92,7 +92,7 @@ function ListFormat(localProps: ListFormatProps) {
 ListFormat.format = listFormat
 
 export function listFormat(
-  list: Array<React.ReactNode> | React.ReactNode,
+  list: Array<React.ReactNode>,
   {
     locale = LOCALE,
     format = {
@@ -107,6 +107,10 @@ export function listFormat(
   if (!Array.isArray(list)) {
     return list
   }
+
+  list = list.filter(function (item) {
+    return item !== undefined && item !== false && item !== null
+  })
 
   const buffer = new Map()
   const hasJSX = list.some((v) => typeof v === 'object')

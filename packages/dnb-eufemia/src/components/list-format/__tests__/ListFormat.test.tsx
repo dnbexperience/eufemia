@@ -43,15 +43,13 @@ describe('ListFormat', () => {
             rel="noopener noreferrer"
             key="github"
           >
-            Link to Eufemia's Github Repo
+            link
           </a>,
         ]}
       />
     )
 
-    expect(container).toHaveTextContent(
-      "A, B, C, D, 123 og Link to Eufemia's Github Repo"
-    )
+    expect(container).toHaveTextContent('A, B, C, D, 123 og link')
   })
 
   it('renders jsx values with keys', () => {
@@ -477,15 +475,43 @@ describe('ListFormat aria', () => {
 })
 
 describe('listFormat', () => {
-  it('accepts string values', () => {
+  it('accepts undefined', () => {
+    expect(listFormat(undefined)).toBe(undefined)
+  })
+
+  it('accepts null', () => {
+    expect(listFormat(null)).toBe(null)
+  })
+
+  it('accepts array with undefined', () => {
+    expect(listFormat([undefined])).toBe('')
+  })
+
+  it('accepts array with null', () => {
+    expect(listFormat([null])).toBe('')
+  })
+
+  it('accepts array with false', () => {
+    expect(listFormat([false])).toBe('')
+  })
+
+  it('accepts array with 0', () => {
+    expect(listFormat([0])).toBe('0')
+  })
+
+  it('accepts empty array', () => {
+    expect(listFormat([])).toBe('')
+  })
+
+  it('accepts array with string values', () => {
     expect(listFormat(['Foo', 'Bar', 'Baz'])).toBe('Foo, Bar og Baz')
   })
 
-  it('accepts number values', () => {
+  it('accepts array with number values', () => {
     expect(listFormat([123, 456, 789])).toBe('123, 456 og 789')
   })
 
-  it('accepts jsx values', () => {
+  it('accepts array with jsx values', () => {
     expect(
       listFormat([
         <>A</>,
@@ -531,7 +557,7 @@ describe('listFormat', () => {
     `)
   })
 
-  it('accepts jsx values with keys', () => {
+  it('accepts array with jsx values with keys', () => {
     expect(
       listFormat([
         <React.Fragment key="a">A</React.Fragment>,
