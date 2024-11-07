@@ -1,9 +1,6 @@
 import React, { useContext, useMemo } from 'react'
 import { LOCALE } from '../../shared/defaults'
-import {
-  convertJsxToString,
-  extendPropsWithContext,
-} from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/component-helper'
 import SharedContext, { InternalLocale } from '../../shared/Context'
 import { Li, Ol, Ul } from '../../elements'
 
@@ -58,22 +55,14 @@ function ListFormat(localProps: ListFormatProps) {
 
   const list = useMemo(() => {
     const isListVariant = variant !== 'text'
-    if (children) {
-      return isListVariant
-        ? React.Children.map(children, (child: React.ReactNode, index) => {
-            return <Li key={index}>{child}</Li>
-          })
-        : children
-    }
+
+    const valueToUse = children || value
+
     return isListVariant
-      ? value?.map((value, index) => (
-          <Li key={index}>
-            {React.isValidElement(value)
-              ? value
-              : convertJsxToString(value)}
-          </Li>
-        ))
-      : value
+      ? React.Children.map(valueToUse, (child: React.ReactNode, index) => {
+          return <Li key={index}>{child}</Li>
+        })
+      : valueToUse
   }, [value, children, variant])
 
   const result = useMemo(() => {
