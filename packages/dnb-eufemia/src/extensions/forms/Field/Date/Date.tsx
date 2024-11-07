@@ -238,6 +238,7 @@ function DateComponent(props: Props) {
     range,
     showCancelButton = true,
     showResetButton = true,
+    onReset,
     ...rest
   } = useFieldProps(preparedProps)
 
@@ -260,10 +261,10 @@ function DateComponent(props: Props) {
   }, [range, valueProp])
 
   useMemo(() => {
-    if (path && value) {
-      setDisplayValue(path, formatDate(value, { locale }))
+    if (path && valueProp) {
+      setDisplayValue(path, formatDate(valueProp, { locale }))
     }
-  }, [locale, path, setDisplayValue, value])
+  }, [locale, path, setDisplayValue, valueProp])
 
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
@@ -291,6 +292,10 @@ function DateComponent(props: Props) {
         }
         range={range}
         on_change={handleChange}
+        on_reset={(event) => {
+          handleChange(event)
+          onReset?.(event)
+        }}
         onFocus={handleFocus}
         onBlur={handleBlur}
         {...datePickerProps}
