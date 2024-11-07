@@ -110,11 +110,6 @@ export const DateProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  locale: {
-    doc: "To define the locale used in the calendar. Needs to be an `date-fns` **v2** locale object, like `import enLocale from 'date-fns/locale/en-GB'`. Defaults to `nb-NO`.",
-    type: 'object',
-    status: 'optional',
-  },
   alignPicker: {
     doc: 'Use `right` to change the calendar alignment direction. Defaults to `left`.',
     type: 'string',
@@ -128,26 +123,6 @@ export const DateProperties: PropertiesTableProps = {
   hideLastWeek: {
     doc: 'Use `true` to only show the last week in the current month if it needs to be shown. The result is that there will mainly be shows five (5) weeks (rows) instead of six (6). Defaults to `false`.',
     type: 'boolean',
-    status: 'optional',
-  },
-  stretch: {
-    doc: 'If set to `true`, then the date-picker input field will be 100% in `width`.',
-    type: 'boolean',
-    status: 'optional',
-  },
-  label: {
-    doc: 'A prepending label in sync with the date input field.',
-    type: 'string',
-    status: 'optional',
-  },
-  labelDirection: {
-    doc: 'Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`.',
-    type: 'string',
-    status: 'optional',
-  },
-  suffix: {
-    doc: 'Text describing the content of the DatePicker more than the label. You can also send in a React component, so it gets wrapped inside the DatePicker component.',
-    type: 'string',
     status: 'optional',
   },
   labelSrOnly: {
