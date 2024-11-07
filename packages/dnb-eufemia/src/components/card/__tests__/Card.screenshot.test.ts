@@ -57,6 +57,13 @@ describe.each(['ui', 'sbanken'])('Card for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match nested cards', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="layout-card-nested"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe.each(['ui', 'sbanken'])(
@@ -69,6 +76,7 @@ describe.each(['ui', 'sbanken'])(
       },
       url: '/uilib/components/card/demos',
     }
+
     it('have to match border', async () => {
       const screenshot = await makeScreenshot({
         ...params,

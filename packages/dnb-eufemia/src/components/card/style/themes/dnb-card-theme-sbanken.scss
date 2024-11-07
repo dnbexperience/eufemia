@@ -2,4 +2,9 @@
   --card-outline-color: var(--border-color, var(--sb-color-gray-light));
   --card-outline-width: 0.0625rem;
   --card-background-color: var(--sb-color-white);
+
+  // Nested Cards
+  & .dnb-card {
+    --rounded-corner: 0.375rem;
+  }
 }
