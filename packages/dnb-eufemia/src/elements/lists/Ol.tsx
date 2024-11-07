@@ -29,7 +29,6 @@ export type OlAllProps = OlProps &
   ElementProps
 
 const Ol = ({ nested, inside, outside, ...p }: OlAllProps = {}) => {
-  console.log({ ...p })
   return (
     <E
       as="ol"
