@@ -252,7 +252,7 @@ export default class FormRow extends React.PureComponent {
                 text={label}
                 element={useFieldset ? 'legend' : 'label'}
                 labelDirection={label_direction}
-                sr_only={label_sr_only}
+                srOnly={label_sr_only}
                 disabled={disabled}
                 skeleton={skeleton}
               />
