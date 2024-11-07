@@ -70,7 +70,7 @@ export const RadioButtonSandbox = () => (
     </Box>
     <Box>
       <p className="dnb-p">
-        Text: <FormLabel for_id="alone">Single Radio button:</FormLabel>
+        Text: <FormLabel forId="alone">Single Radio button:</FormLabel>
         <Radio
           id="alone"
           value="I'm alone"

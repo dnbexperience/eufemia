@@ -198,7 +198,7 @@ export const InputExampleSubmit = () => (
           console.log(event)
         }}
       >
-        <FormLabel for_id="search">Label</FormLabel>
+        <FormLabel forId="search">Label</FormLabel>
         <Flex.Horizontal align="baseline">
           <Input
             id="search"
