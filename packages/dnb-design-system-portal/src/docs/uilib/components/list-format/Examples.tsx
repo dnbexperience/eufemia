@@ -57,14 +57,14 @@ export const WithValue = () => {
           <>C</>,
           'D',
           123,
-          <a
+          <Anchor
             target="_blank"
             href="https://github.com/dnbexperience/eufemia"
             rel="noopener noreferrer"
             key="github"
           >
             Link to Eufemia's Github Repo
-          </a>,
+          </Anchor>,
           <>
             Text <Badge content="Info" variant="information" /> Text
           </>,
