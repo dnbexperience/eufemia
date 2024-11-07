@@ -242,8 +242,8 @@ export const DialogSandbox = () => (
         maxWidth="12rem"
       >
         <ProgressIndicator
-          show_label
-          label_direction="vertical"
+          showDefaultLabel
+          labelDirection="vertical"
           top="large"
           bottom="large"
           size="large"
@@ -262,8 +262,8 @@ export const DialogSandbox = () => (
         maxWidth="12rem"
       >
         <ProgressIndicator
-          show_label
-          label_direction="vertical"
+          showDefaultLabel
+          labelDirection="vertical"
           top="large"
           bottom="large"
           size="large"
