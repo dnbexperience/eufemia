@@ -503,6 +503,12 @@ describe('listFormat', () => {
     expect(listFormat([])).toBe('')
   })
 
+  it('accepts array with falsy values', () => {
+    expect(listFormat([null, undefined, false, NaN, '', 0, -0])).toBe(
+      ', 0 og 0'
+    )
+  })
+
   it('accepts array with string values', () => {
     expect(listFormat(['Foo', 'Bar', 'Baz'])).toBe('Foo, Bar og Baz')
   })

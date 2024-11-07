@@ -109,7 +109,8 @@ export function listFormat(
   }
 
   list = list.filter(function (item) {
-    return item !== undefined && item !== false && item !== null
+    const isNan = typeof item === 'number' && isNaN(item)
+    return item !== undefined && item !== false && item !== null && !isNan
   })
 
   const buffer = new Map()
