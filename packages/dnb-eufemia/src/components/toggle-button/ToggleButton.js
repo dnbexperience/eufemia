@@ -438,7 +438,7 @@ export default class ToggleButton extends React.PureComponent {
               {label && (
                 <FormLabel
                   id={id + '-label'}
-                  for_id={id}
+                  forId={id}
                   text={label}
                   disabled={disabled}
                   skeleton={skeleton}

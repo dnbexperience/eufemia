@@ -85,7 +85,7 @@ function StepIndicatorTriggerButton(
       </span>
       <FormLabel
         aria-describedby={context.sidebar_id}
-        for_id={context.sidebar_id}
+        forId={context.sidebar_id}
         className="dnb-step-indicator__label"
       >
         {label}
