@@ -111,5 +111,12 @@ describe.each(['ui', 'sbanken'])(
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
+    it('have to match nested cards', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="layout-card-nested"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
   }
 )

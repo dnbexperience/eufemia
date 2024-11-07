@@ -1,15 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import classnames from 'classnames'
 import Flex from '../flex/Flex'
 import { SectionParams, SectionProps } from '../section/Section'
 import { combineLabelledBy } from '../../shared/component-helper'
+import CardContext from './CardContext'
+import Space from '../Space'
 import useId from '../../shared/helpers/useId'
 
 import type { BasicProps as FlexContainerProps } from '../flex/Container'
 import type { BasicProps as FlexItemProps } from '../flex/Item'
 import type { SpaceTypeMedia } from '../../shared/types'
 import type { SpaceProps } from '../Space'
-import Space from '../Space'
 
 export type Props = {
   /**
@@ -33,6 +34,8 @@ export type Props = {
   Omit<React.HTMLProps<HTMLElement>, 'ref' | 'wrap' | 'size' | 'title'>
 
 function Card(props: Props) {
+  const nestedContext = useContext(CardContext)
+
   const {
     className,
     stack,
@@ -44,7 +47,7 @@ function Card(props: Props) {
     align,
     divider = 'space',
     rowGap,
-    responsive = true,
+    responsive = !nestedContext?.isNested,
     filled,
     title,
     children,
@@ -91,22 +94,24 @@ function Card(props: Props) {
 
   return (
     <Flex.Item alignSelf={alignSelf} element="section" {...params}>
-      <Flex.Container
-        direction={direction ?? 'vertical'}
-        divider={divider}
-        alignSelf={alignSelf}
-        align={stack ? 'stretch' : align}
-        wrap={!stack}
-        gap={stack ? 'medium' : (gap ?? spacing) || false}
-        rowGap={rowGap || false}
-      >
-        {title && (
-          <Space id={titleId} className="dnb-card__title">
-            {title}
-          </Space>
-        )}
-        {children}
-      </Flex.Container>
+      <CardContext.Provider value={{ isNested: true }}>
+        <Flex.Container
+          direction={direction ?? 'vertical'}
+          divider={divider}
+          alignSelf={alignSelf}
+          align={stack ? 'stretch' : align}
+          wrap={!stack}
+          gap={stack ? 'medium' : (gap ?? spacing) || false}
+          rowGap={rowGap || false}
+        >
+          {title && (
+            <Space id={titleId} className="dnb-card__title">
+              {title}
+            </Space>
+          )}
+          {children}
+        </Flex.Container>
+      </CardContext.Provider>
     </Flex.Item>
   )
 }
