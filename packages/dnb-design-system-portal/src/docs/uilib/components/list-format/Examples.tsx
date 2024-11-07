@@ -74,6 +74,33 @@ export const WithValue = () => {
   )
 }
 
+export const WithChildren = () => {
+  return (
+    <ComponentBox>
+      <ListFormat>
+        <React.Fragment key="a">A</React.Fragment>
+        <>
+          <b>B</b>
+        </>
+        <>C</>
+        <>D</>
+        123
+        <Anchor
+          target="_blank"
+          href="https://github.com/dnbexperience/eufemia"
+          rel="noopener noreferrer"
+          key="github"
+        >
+          Link to Eufemia's Github Repo
+        </Anchor>
+        <>
+          Text <Badge content="Info" variant="information" /> Text
+        </>
+      </ListFormat>
+    </ComponentBox>
+  )
+}
+
 export const WithCustomFormat = () => {
   return (
     <ComponentBox data-visual-test="list-format-custom-format">

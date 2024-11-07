@@ -58,6 +58,10 @@ function ListFormat(localProps: ListFormatProps) {
 
     const valueToUse = children || value
 
+    if (!Array.isArray(valueToUse)) {
+      return [valueToUse]
+    }
+
     return isListVariant
       ? React.Children.map(valueToUse, (child: React.ReactNode, index) => {
           return <Li key={index}>{child}</Li>
@@ -67,7 +71,7 @@ function ListFormat(localProps: ListFormatProps) {
 
   const result = useMemo(() => {
     if (variant === 'text') {
-      return listFormat(list as Array<React.ReactNode>, { locale, format })
+      return listFormat(list, { locale, format })
     }
 
     const ListElement = variant.startsWith('ol') ? Ol : Ul
