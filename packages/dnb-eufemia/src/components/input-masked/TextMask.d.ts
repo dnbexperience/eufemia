@@ -11,7 +11,8 @@ export type TextMaskInputElement =
   | React.ReactNode
   | ((...args: any[]) => any);
 export type TextMaskValue = string | number;
-export interface TextMaskProps extends React.HTMLProps<HTMLInputElement> {
+export interface TextMaskProps
+  extends Omit<React.HTMLProps<HTMLInputElement>, 'ref'> {
   mask: TextMaskMask;
   inputRef?: React.MutableRefObject<HTMLInputElement>;
   inputElement?: TextMaskInputElement;

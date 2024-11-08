@@ -25,11 +25,24 @@ import startOfDay from 'date-fns/startOfDay'
 
 import { warn } from '../../shared/component-helper'
 
+type ZeroDayIndex = 0 | 1 | 2 | 3 | 4 | 5 | 6
+
+type DateRange = { startDate: Date; endDate: Date }
+
+const calendarCache: { [isoString: string]: Date[] } = {}
+
 // Is used as DatePickerCalc
-export const makeDayObject = (
-  date,
-  { startDate, endDate, hoverDate, minDate, maxDate, month }
-) => {
+export function makeDayObject(
+  date: Date,
+  {
+    startDate,
+    endDate,
+    hoverDate,
+    minDate,
+    maxDate,
+    month,
+  }: Record<string, Date>
+) {
   const range = getRange(startDate, endDate, hoverDate)
   const isLastMonth = isSameMonth(subMonths(date, 1), month)
   const isNextMonth = isSameMonth(addMonths(date, 1), month)
@@ -55,19 +68,24 @@ export const makeDayObject = (
 }
 
 // return an array of objects with dates and extra info
-export const getCalendar = (
-  month,
+export function getCalendar(
+  month: Date,
   weekStartsOn = 0,
-  { onlyMonth = false, hideNextMonthWeek = false } = {}
-) => {
+  {
+    onlyMonth = false,
+    hideNextMonthWeek = false,
+  }: { onlyMonth?: boolean; hideNextMonthWeek?: boolean } = {}
+) {
+  const cacheKey = month.toISOString()
+
   // Get the main month
   const thisMonth = getMonth(month)
   if (onlyMonth) {
-    return (calendarCache[month] = [...thisMonth])
+    return (calendarCache[cacheKey] = [...thisMonth])
   }
 
-  if (calendarCache[month]) {
-    return calendarCache[month]
+  if (calendarCache[cacheKey]) {
+    return calendarCache[cacheKey]
   }
 
   // Get day of the week of the first day of month, e.g. => 3
@@ -90,16 +108,15 @@ export const getCalendar = (
     0,
     fillCount > -1 ? fillCount : 0
   )
-  return (calendarCache[month] = [
+  return (calendarCache[cacheKey] = [
     ...lastMonth,
     ...thisMonth,
     ...nextMonth,
   ])
 }
-const calendarCache = {}
 
 // calculates offset from Sunday, e.g. Monday is +1
-export const dayOffset = (dayName) => {
+export function dayOffset(dayName: string) {
   const week = [
     'sunday',
     'monday',
@@ -109,11 +126,13 @@ export const dayOffset = (dayName) => {
     'friday',
     'saturday',
   ]
-  return dayName ? week.indexOf(dayName.toLowerCase()) : 0
+  return (
+    dayName ? week.indexOf(dayName.toLowerCase()) : 0
+  ) as ZeroDayIndex
 }
 
 // creates a date range object and automatically swaps startDate and endDate if endDate is before startDate
-export const toRange = (startDate, endDate) => {
+export function toRange(startDate: Date, endDate: Date) {
   if (isBefore(endDate, startDate)) {
     const _startDate = startDate
     startDate = endDate
@@ -125,7 +144,7 @@ export const toRange = (startDate, endDate) => {
 // returns startDate and endDate if both dates are selected
 // otherwise uses the startDate and hoverDate
 // unless user hasn't hovered, then use start date twice
-const getRange = (startDate, endDate, hoverDate) => {
+function getRange(startDate: Date, endDate: Date, hoverDate: Date) {
   if (startDate && endDate) {
     return toRange(startDate, endDate)
   } else if (startDate && hoverDate) {
@@ -137,7 +156,7 @@ const getRange = (startDate, endDate, hoverDate) => {
 
 // returns an array of dates for each day of the current week
 // weekStartsOn is a number, use dayOffset to convert from a string
-export const getWeek = (weekStartsOn) => {
+export function getWeek(weekStartsOn?: ZeroDayIndex) {
   const startDay = startOfWeek(new Date(), { weekStartsOn })
   return Array(7)
     .fill(1)
@@ -145,10 +164,10 @@ export const getWeek = (weekStartsOn) => {
 }
 
 // returns an array of dates of the month, optionally skip x number of days
-export const getMonth = (month, skip = 0, limit) => {
+export function getMonth(month: Date, skip = 0, limit?: number) {
   const startDay = startOfMonth(month)
   let size = getDaysInMonth(month) - skip
-  size = Math.min(Math.max(parseInt(size), 0), limit > -1 ? limit : size)
+  size = Math.min(Math.max(size, 0), limit > -1 ? limit : size)
   size = size < 0 ? 0 : size
   return Array(size)
     .fill(1)
@@ -156,7 +175,11 @@ export const getMonth = (month, skip = 0, limit) => {
 }
 
 // date is between selection range
-const isWithinSelectionCalc = (date, startDate, endDate) => {
+function isWithinSelectionCalc(
+  date: Date,
+  startDate: Date,
+  endDate: Date
+) {
   const { startDate: start, endDate: end } = toRange(startDate, endDate)
   return startDate && endDate
     ? isValid(start) &&
@@ -169,7 +192,7 @@ const isWithinSelectionCalc = (date, startDate, endDate) => {
 }
 
 // date is before minDate or after maxDate
-const isDisabledCalc = (date, minDate, maxDate) => {
+function isDisabledCalc(date: Date, minDate: Date, maxDate: Date) {
   // isBefore and isAfter return false if comparison date is undefined, which is useful here in case minDate and maxDate aren't supplied
   return (
     (minDate && isBefore(date, startOfDay(minDate))) ||
@@ -179,17 +202,22 @@ const isDisabledCalc = (date, minDate, maxDate) => {
 export { isDisabledCalc as isDisabled }
 
 // date selected is start date
-const isStartDateCalc = (date, range) => {
+function isStartDateCalc(date: Date, range: DateRange) {
   return range.startDate && isSameDay(date, range.startDate)
 }
 
 // date selected is end date
-const isEndDateCalc = (date, range) => {
+function isEndDateCalc(date: Date, range: DateRange) {
   return range.endDate && isSameDay(date, range.endDate)
 }
 
 // date is between startDate (exclusive) and hoverDate (inclusive)
-const isPreviewCalc = (date, startDate, endDate, hoverDate) => {
+function isPreviewCalc(
+  date: Date,
+  startDate: Date,
+  endDate: Date,
+  hoverDate: Date
+) {
   const { startDate: start, endDate: end } = toRange(startDate, hoverDate)
   return (
     startDate &&
@@ -206,7 +234,7 @@ const isPreviewCalc = (date, startDate, endDate, hoverDate) => {
   )
 }
 
-export const correctV1Format = (date) => {
+export function correctV1Format(date: string) {
   // for backwards compatibility
   // TODO: Remove this in next major version
   if (/YYYY/.test(date) && /DD/.test(date)) {
@@ -219,11 +247,15 @@ export const correctV1Format = (date) => {
   return date
 }
 
-export const convertStringToDate = (date, { date_format = null } = {}) => {
+export function convertStringToDate(
+  date: string | Date,
+  { date_format = null }: { date_format?: string | null } = {}
+): Date {
   if (date === null) {
     return null
   }
-  let dateObject
+
+  let dateObject: Date
   dateObject = typeof date === 'string' ? parseISO(date) : toDate(date)
 
   // check one more time if we can generate a valid date
