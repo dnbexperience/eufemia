@@ -1,0 +1,44 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { ListFormat } from '@dnb/eufemia'
+```
+
+## Description
+
+A ready-to-use list formatter. Use it wherever you have to display a list of strings, numbers, or React components (JSX).
+
+Good reasons for why we have this is to:
+
+- Uniform the creation and formatting of lists.
+- Supports translation and localization.
+- Built on top of web standards.
+
+The component is designed to maximum display 10-20 items.
+If you need to display more items than that, consider a different design, and perhaps using [Pagination](/uilib/components/pagination) and/or [InfinityScroller](/uilib/components/pagination/infinity-scroller).
+
+When the `variant` property is set to `text` (default), the browser API [Intl.ListFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/ListFormat) will be used with additional React components (JSX) support.
+
+When the `variant` is set to a non-`text` variant, it uses [Lists](/uilib/elements/lists/) to render the given list.
+
+## Formatting only
+
+You can use the `listFormat` function without using the React Component `ListFormat`, to format strings, numbers, or React components (JSX) as a string. It does not return lists(ol, ul, etc).
+
+```ts
+import { listFormat } from '@dnb/eufemia/components/ListFormat'
+
+return listFormat(myList, {
+  format: { type: 'disjunction' },
+  locale: 'en-US',
+})
+```
+
+See the following [demo](/uilib/components/list-format/demos/#using-listformat-function) for a more detailed example.
+
+The `listFormat` function supports an object with `{ format, locale }` as the second parameter. `format` and `locale` will accept the same values as documented in [properties](/uilib/components/list-format/properties/) of the `ListFormat` component.
+The function does not support `variant` and `listType`, as it does not return a list, but rather return a string.
