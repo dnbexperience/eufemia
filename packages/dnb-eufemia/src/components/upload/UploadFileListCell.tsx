@@ -12,6 +12,9 @@ import ProgressIndicator from '../../components/progress-indicator'
 import {
   trash as TrashIcon,
   exclamation_medium as ExclamationIcon,
+  file_png_medium as png,
+  file_jpg_medium as jpg,
+  file_word_medium as doc,
   file_pdf_medium as pdf,
   file_xls_medium as xls,
   file_ppt_medium as ppt,
@@ -27,8 +30,15 @@ import { getPreviousSibling, warn } from '../../shared/component-helper'
 import useUpload from './useUpload'
 import { getFileTypeFromExtension } from './UploadVerify'
 
-const images = {
+// Will be deprecated - and then default to only showing the file icon,
+// and not file icon per extension type
+export const fileExtensionImages = {
+  png,
+  jpg,
   pdf,
+  doc,
+  docx: doc,
+  odt: doc,
   xls,
   ppt,
   csv,
@@ -142,14 +152,21 @@ const UploadFileListCell = ({
 
     if (!iconFileType) {
       const mimeParts = file.type.split('/')
-      iconFileType = images[mimeParts[0]] || images[mimeParts[1]]
+      iconFileType =
+        fileExtensionImages[mimeParts[0]] ||
+        fileExtensionImages[mimeParts[1]]
     }
 
-    if (!Object.prototype.hasOwnProperty.call(images, iconFileType)) {
+    if (
+      !Object.prototype.hasOwnProperty.call(
+        fileExtensionImages,
+        iconFileType
+      )
+    ) {
       iconFileType = 'file'
     }
 
-    return <Icon icon={images[iconFileType]} />
+    return <Icon icon={fileExtensionImages[iconFileType]} />
   }
 
   function getTitle() {
