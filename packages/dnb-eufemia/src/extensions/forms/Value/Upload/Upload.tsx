@@ -64,18 +64,16 @@ function Upload(props: Props) {
         )
       }) || undefined
 
-    if (typeof valueToUse === 'undefined') {
-      return undefined
+    if (valueToUse) {
+      return (
+        <ListFormat
+          value={valueToUse}
+          format={format}
+          variant={variant}
+          listType={listType}
+        />
+      )
     }
-
-    return (
-      <ListFormat
-        value={valueToUse}
-        format={format}
-        variant={variant}
-        listType={listType}
-      />
-    )
   }, [path, value, variant, listType])
 
   return (
