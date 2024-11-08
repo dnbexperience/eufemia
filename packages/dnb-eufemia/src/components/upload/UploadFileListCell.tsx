@@ -31,7 +31,7 @@ import useUpload from './useUpload'
 import { getFileTypeFromExtension } from './UploadVerify'
 
 // Will be deprecated - and then default to only showing the file icon,
-// and not file icon per extension type
+// and not file icon per file extension type
 export const fileExtensionImages = {
   png,
   jpg,
