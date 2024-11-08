@@ -1,7 +1,6 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Form, Value, Field } from '@dnb/eufemia/src/extensions/forms'
 import { Flex, Span } from '@dnb/eufemia/src'
-
 import { createMockFile } from '@dnb/eufemia/src/components/upload/__tests__/testHelpers'
 
 export const Placeholder = () => {
