@@ -34,9 +34,9 @@ export const Inline = () => {
   return (
     <ComponentBox>
       <P>
-        This is before the component
-        <Value.Date label="Label text" value="2023-01-16" inline />
-        This is after the component
+        This is before the component{' '}
+        <Value.Date label="Label text" value="2023-01-16" inline /> This is
+        after the component
       </P>
     </ComponentBox>
   )

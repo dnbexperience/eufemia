@@ -54,8 +54,8 @@ export const Inline = () => {
   return (
     <ComponentBox>
       <P>
-        <span style={{ color: 'red' }}>This is before the component</span>
-        <Value.Boolean value={true} inline />
+        <span style={{ color: 'red' }}>This is before the component</span>{' '}
+        <Value.Boolean value={true} inline />{' '}
         <span style={{ color: 'red' }}>This is after the component</span>
       </P>
     </ComponentBox>

@@ -54,9 +54,8 @@ export const Inline = () => {
   return (
     <ComponentBox>
       <P>
-        This is before the component
-        <Value.Currency value={25000} inline />
-        This is after the component
+        This is before the component{' '}
+        <Value.Currency value={25000} inline /> This is after the component
       </P>
     </ComponentBox>
   )
@@ -66,9 +65,9 @@ export const InlineAndLabel = () => {
   return (
     <ComponentBox>
       <P>
-        This is before the component
-        <Value.Currency label="Label text" value={25000} inline />
-        This is after the component
+        This is before the component{' '}
+        <Value.Currency label="Label text" value={25000} inline /> This is
+        after the component
       </P>
     </ComponentBox>
   )

@@ -17,10 +17,8 @@ export const Inline = () => {
       data-visual-test="value-block-inline"
     >
       <P>
-        this is before the value
-        <ValueBlock inline>Foo</ValueBlock>
-        <ValueBlock inline>Bar</ValueBlock>
-        this is after the value
+        this is before the value <ValueBlock inline>Foo</ValueBlock>{' '}
+        <ValueBlock inline>Bar</ValueBlock> this is after the value
       </P>
     </ComponentBox>
   )

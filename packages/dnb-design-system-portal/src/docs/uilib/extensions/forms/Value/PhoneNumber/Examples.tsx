@@ -56,9 +56,9 @@ export const Inline = () => {
   return (
     <ComponentBox>
       <P>
-        This is before the component
-        <Value.PhoneNumber value="98712345" inline />
-        This is after the component
+        This is before the component{' '}
+        <Value.PhoneNumber value="98712345" inline /> This is after the
+        component
       </P>
     </ComponentBox>
   )
