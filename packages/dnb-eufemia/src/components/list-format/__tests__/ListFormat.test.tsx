@@ -82,8 +82,9 @@ describe('ListFormat', () => {
   })
 
   it('should render different variants', () => {
+    const values = [123, 456, 789]
     const { container, rerender } = render(
-      <ListFormat variant="ol" value={[123, 456, 789]} />
+      <ListFormat variant="ol" value={values} />
     )
 
     const valueBlock = container
@@ -95,7 +96,7 @@ describe('ListFormat', () => {
     expect(ol).toContainHTML(
       '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
     )
-    rerender(<ListFormat variant="ul" value={[123, 456, 789]} />)
+    rerender(<ListFormat variant="ul" value={values} />)
 
     const ul = valueBlock.querySelector('.dnb-ul') as HTMLUListElement
 
@@ -106,7 +107,7 @@ describe('ListFormat', () => {
       '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
     )
 
-    rerender(<ListFormat variant="text" value={[123, 456, 789]} />)
+    rerender(<ListFormat variant="text" value={values} />)
 
     expect(ol).not.toBeInTheDocument()
     expect(ul).not.toBeInTheDocument()
@@ -114,8 +115,9 @@ describe('ListFormat', () => {
   })
 
   it('should render different `listTypes` using value', () => {
+    const values = [123, 456, 789]
     const { container, rerender } = render(
-      <ListFormat variant="ol" listType="a" value={[123, 456, 789]} />
+      <ListFormat variant="ol" listType="a" value={values} />
     )
 
     const valueBlock = container
@@ -128,60 +130,44 @@ describe('ListFormat', () => {
       '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
     )
 
-    rerender(
-      <ListFormat variant="ol" listType="A" value={[123, 456, 789]} />
-    )
+    rerender(<ListFormat variant="ol" listType="A" value={values} />)
     expect(list('ol')).toHaveAttribute('type', 'A')
     expect(list('ol')).toContainHTML(
       '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
     )
 
-    rerender(
-      <ListFormat variant="ol" listType="i" value={[123, 456, 789]} />
-    )
+    rerender(<ListFormat variant="ol" listType="i" value={values} />)
     expect(list('ol')).toHaveAttribute('type', 'i')
     expect(list('ol')).toContainHTML(
       '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
     )
 
-    rerender(
-      <ListFormat variant="ol" listType="I" value={[123, 456, 789]} />
-    )
+    rerender(<ListFormat variant="ol" listType="I" value={values} />)
     expect(list('ol')).toHaveAttribute('type', 'I')
     expect(list('ol')).toContainHTML(
       '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
     )
 
-    rerender(
-      <ListFormat variant="ul" listType="circle" value={[123, 456, 789]} />
-    )
+    rerender(<ListFormat variant="ul" listType="circle" value={values} />)
     expect(list('ul')).toHaveAttribute('type', 'circle')
     expect(list('ul')).toContainHTML(
       '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
     )
 
-    rerender(
-      <ListFormat variant="ul" listType="disc" value={[123, 456, 789]} />
-    )
+    rerender(<ListFormat variant="ul" listType="disc" value={values} />)
     expect(list('ul')).toHaveAttribute('type', 'disc')
     expect(list('ul')).toContainHTML(
       '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
     )
 
-    rerender(
-      <ListFormat variant="ul" listType="square" value={[123, 456, 789]} />
-    )
+    rerender(<ListFormat variant="ul" listType="square" value={values} />)
     expect(list('ul')).toHaveAttribute('type', 'square')
     expect(list('ul')).toContainHTML(
       '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
     )
 
     rerender(
-      <ListFormat
-        variant="ul"
-        listType="unstyled"
-        value={[123, 456, 789]}
-      />
+      <ListFormat variant="ul" listType="unstyled" value={values} />
     )
     expect(list('ul')).not.toHaveAttribute('type')
     expect(list('ul')).toHaveClass('dnb-unstyled-list dnb-ul')
@@ -191,9 +177,10 @@ describe('ListFormat', () => {
   })
 
   it('should render different `listTypes` using children', () => {
+    const values = [123, 456, 789]
     const { container, rerender } = render(
       <ListFormat variant="ol" listType="a">
-        {[123, 456, 789]}
+        {values}
       </ListFormat>
     )
 
@@ -209,7 +196,7 @@ describe('ListFormat', () => {
 
     rerender(
       <ListFormat variant="ol" listType="A">
-        {[123, 456, 789]}
+        {values}
       </ListFormat>
     )
     expect(list('ol')).toHaveAttribute('type', 'A')
@@ -219,7 +206,7 @@ describe('ListFormat', () => {
 
     rerender(
       <ListFormat variant="ol" listType="i">
-        {[123, 456, 789]}
+        {values}
       </ListFormat>
     )
     expect(list('ol')).toHaveAttribute('type', 'i')
@@ -229,7 +216,7 @@ describe('ListFormat', () => {
 
     rerender(
       <ListFormat variant="ol" listType="I">
-        {[123, 456, 789]}
+        {values}
       </ListFormat>
     )
     expect(list('ol')).toHaveAttribute('type', 'I')
@@ -239,7 +226,7 @@ describe('ListFormat', () => {
 
     rerender(
       <ListFormat variant="ul" listType="circle">
-        {[123, 456, 789]}
+        {values}
       </ListFormat>
     )
     expect(list('ul')).toHaveAttribute('type', 'circle')
@@ -249,7 +236,7 @@ describe('ListFormat', () => {
 
     rerender(
       <ListFormat variant="ul" listType="disc">
-        {[123, 456, 789]}
+        {values}
       </ListFormat>
     )
     expect(list('ul')).toHaveAttribute('type', 'disc')
@@ -259,7 +246,7 @@ describe('ListFormat', () => {
 
     rerender(
       <ListFormat variant="ul" listType="square">
-        {[123, 456, 789]}
+        {values}
       </ListFormat>
     )
     expect(list('ul')).toHaveAttribute('type', 'square')
@@ -269,7 +256,7 @@ describe('ListFormat', () => {
 
     rerender(
       <ListFormat variant="ul" listType="unstyled">
-        {[123, 456, 789]}
+        {values}
       </ListFormat>
     )
     expect(list('ul')).not.toHaveAttribute('type')

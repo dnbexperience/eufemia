@@ -39,8 +39,9 @@ describe('Value.ArraySelection', () => {
   })
 
   it('should render different variants', () => {
+    const values = [123, 456, 789]
     const { rerender } = render(
-      <Value.ArraySelection variant="ol" value={[123, 456, 789]} />
+      <Value.ArraySelection variant="ol" value={values} />
     )
 
     const valueBlock = document.querySelector(
@@ -54,7 +55,7 @@ describe('Value.ArraySelection', () => {
     expect(ol).toContainHTML(
       '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
     )
-    rerender(<Value.ArraySelection variant="ul" value={[123, 456, 789]} />)
+    rerender(<Value.ArraySelection variant="ul" value={values} />)
 
     const ul = valueBlock.querySelector('.dnb-ul') as HTMLUListElement
 
@@ -65,9 +66,7 @@ describe('Value.ArraySelection', () => {
       '<li class="dnb-li">123</li><li class="dnb-li">456</li><li class="dnb-li">789</li>'
     )
 
-    rerender(
-      <Value.ArraySelection variant="text" value={[123, 456, 789]} />
-    )
+    rerender(<Value.ArraySelection variant="text" value={values} />)
 
     expect(ol).not.toBeInTheDocument()
     expect(ul).not.toBeInTheDocument()
@@ -75,12 +74,9 @@ describe('Value.ArraySelection', () => {
   })
 
   it('should render different `listTypes`', () => {
+    const values = [123, 456, 789]
     const { rerender } = render(
-      <Value.ArraySelection
-        variant="ol"
-        listType="a"
-        value={[123, 456, 789]}
-      />
+      <Value.ArraySelection variant="ol" listType="a" value={values} />
     )
 
     const valueBlock = document.querySelector(
@@ -93,29 +89,17 @@ describe('Value.ArraySelection', () => {
     expect(list('ol')).toHaveAttribute('type', 'a')
 
     rerender(
-      <Value.ArraySelection
-        variant="ol"
-        listType="A"
-        value={[123, 456, 789]}
-      />
+      <Value.ArraySelection variant="ol" listType="A" value={values} />
     )
     expect(list('ol')).toHaveAttribute('type', 'A')
 
     rerender(
-      <Value.ArraySelection
-        variant="ol"
-        listType="i"
-        value={[123, 456, 789]}
-      />
+      <Value.ArraySelection variant="ol" listType="i" value={values} />
     )
     expect(list('ol')).toHaveAttribute('type', 'i')
 
     rerender(
-      <Value.ArraySelection
-        variant="ol"
-        listType="I"
-        value={[123, 456, 789]}
-      />
+      <Value.ArraySelection variant="ol" listType="I" value={values} />
     )
     expect(list('ol')).toHaveAttribute('type', 'I')
 
@@ -123,17 +107,13 @@ describe('Value.ArraySelection', () => {
       <Value.ArraySelection
         variant="ul"
         listType="circle"
-        value={[123, 456, 789]}
+        value={values}
       />
     )
     expect(list('ul')).toHaveAttribute('type', 'circle')
 
     rerender(
-      <Value.ArraySelection
-        variant="ul"
-        listType="disc"
-        value={[123, 456, 789]}
-      />
+      <Value.ArraySelection variant="ul" listType="disc" value={values} />
     )
     expect(list('ul')).toHaveAttribute('type', 'disc')
 
@@ -141,7 +121,7 @@ describe('Value.ArraySelection', () => {
       <Value.ArraySelection
         variant="ul"
         listType="square"
-        value={[123, 456, 789]}
+        value={values}
       />
     )
     expect(list('ul')).toHaveAttribute('type', 'square')
