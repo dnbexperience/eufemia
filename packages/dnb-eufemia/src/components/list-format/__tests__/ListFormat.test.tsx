@@ -83,16 +83,16 @@ describe('ListFormat', () => {
 
   it('formats array of elements the same as nested in a single fragment in value prop', () => {
     const withRootFragment = [
-      <React.Fragment>
-        <span>a</span>
-        <span>b</span>
-        <span>c</span>
+      <React.Fragment key="fragment">
+        <span key="a">a</span>
+        <span key="b">b</span>
+        <span key="c">c</span>
       </React.Fragment>,
     ]
     const withoutRootFragment = [
-      <span>a</span>,
-      <span>b</span>,
-      <span>c</span>,
+      <span key="a">a</span>,
+      <span key="b">b</span>,
+      <span key="c">c</span>,
     ]
     const { container: containerWithoutRootFragment } = render(
       <ListFormat variant="ol" value={withRootFragment} />
@@ -109,16 +109,16 @@ describe('ListFormat', () => {
 
   it('formats array of elements the same as nested in a single fragment as children', () => {
     const withRootFragment = [
-      <React.Fragment>
-        <span>a</span>
-        <span>b</span>
-        <span>c</span>
+      <React.Fragment key="fragment">
+        <span key="a">a</span>
+        <span key="b">b</span>
+        <span key="c">c</span>
       </React.Fragment>,
     ]
     const withoutRootFragment = [
-      <span>a</span>,
-      <span>b</span>,
-      <span>c</span>,
+      <span key="a">a</span>,
+      <span key="b">b</span>,
+      <span key="c">c</span>,
     ]
     const { container: containerWithoutRootFragment } = render(
       <ListFormat variant="ol">{withRootFragment}</ListFormat>
@@ -663,16 +663,16 @@ describe('listFormat', () => {
 
   it('formats array of elements the same as nested in a single fragment', () => {
     const withRootFragment = listFormat([
-      <React.Fragment key="a">
-        <span>a</span>
-        <span>b</span>
-        <span>c</span>
+      <React.Fragment key="fragment">
+        <span key="a">a</span>
+        <span key="b">b</span>
+        <span key="c">c</span>
       </React.Fragment>,
     ])
     const withoutRootFragment = listFormat([
-      <span>a</span>,
-      <span>b</span>,
-      <span>c</span>,
+      <span key="a">a</span>,
+      <span key="b">b</span>,
+      <span key="c">c</span>,
     ])
     const { container: containerWithRootFragment } = render(
       withRootFragment as any
