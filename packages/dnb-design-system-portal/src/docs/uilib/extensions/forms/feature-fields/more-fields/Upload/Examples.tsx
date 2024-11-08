@@ -1,6 +1,7 @@
 import { Flex } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
+import { createMockFile } from '@dnb/eufemia/src/components/upload/__tests__/testHelpers'
 
 export const BasicUsage = () => {
   return (
@@ -62,16 +63,6 @@ export const Customized = () => {
 }
 
 export const WithPath = () => {
-  const createMockFile = (name: string, size: number, type: string) => {
-    const file = new File([], name, { type })
-    Object.defineProperty(file, 'size', {
-      get() {
-        return size
-      },
-    })
-    return file
-  }
-
   return (
     <ComponentBox scope={{ createMockFile }}>
       <Form.Handler
