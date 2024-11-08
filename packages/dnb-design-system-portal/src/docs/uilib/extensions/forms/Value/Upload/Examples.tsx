@@ -45,23 +45,11 @@ export const WithSize = () => {
     >
       <Value.Upload
         displaySize
-        variant="ul"
-        listType="unstyled"
         value={[
           {
             file: createMockFile('fileName-1.png', 1000000, 'image/png'),
             exists: false,
             id: '1',
-          },
-          {
-            file: createMockFile('fileName-2.png', 2000000, 'image/png'),
-            exists: false,
-            id: '2',
-          },
-          {
-            file: createMockFile('fileName-3.png', 3000000, 'image/png'),
-            exists: false,
-            id: '3',
           },
         ]}
       />
@@ -79,11 +67,6 @@ export const WithDownload = () => {
             file: createMockFile('fileName-1.png', 1000000, 'image/png'),
             exists: false,
             id: '1',
-          },
-          {
-            file: createMockFile('fileName-2.png', 2000000, 'image/png'),
-            exists: false,
-            id: '2',
           },
         ]}
       />
