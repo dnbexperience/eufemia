@@ -4,11 +4,11 @@ import { convertJsxToString } from '../../../../../shared/component-helper'
 import { Flex } from '../../../../../components'
 import { Props as FlexContainerProps } from '../../../../../components/flex/Container'
 import { Lead } from '../../../../../elements'
-import ViewToolbarTools from './ViewToolbarTools'
+import Toolbar from '../Toolbar/Toolbar'
 import SectionContainer, {
   SectionContainerProps,
 } from '../containers/SectionContainer'
-import Toolbar from '../containers/Toolbar'
+import EditButton from './EditButton'
 
 export type Props = {
   title?: React.ReactNode
@@ -21,6 +21,10 @@ function ViewContainer(props: AllProps) {
   const { children, className, title, onEdit, ...restProps } = props || {}
   const ariaLabel = useMemo(() => convertJsxToString(title), [title])
 
+  const hasToolbar = React.Children.toArray(children).some((child) => {
+    return child?.['type'] === Toolbar
+  })
+
   return (
     <SectionContainer
       mode="view"
@@ -31,13 +35,15 @@ function ViewContainer(props: AllProps) {
       <Flex.Stack>
         {title && <Lead size="basis">{title}</Lead>}
         {children}
-        <Toolbar>
-          <ViewToolbarTools onEdit={onEdit} />
-        </Toolbar>
+        {hasToolbar ? null : (
+          <Toolbar onEdit={onEdit}>
+            <EditButton />
+          </Toolbar>
+        )}
       </Flex.Stack>
     </SectionContainer>
   )
 }
-
+ViewContainer.EditButton = EditButton
 ViewContainer._supportsSpacingProps = true
 export default ViewContainer

@@ -32,7 +32,9 @@ import FieldProviderContext from '../Field/Provider/FieldProviderContext'
 import { combineDescribedBy, warn } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import useUpdateEffect from '../../../shared/helpers/useUpdateEffect'
-import FieldBlockContext from '../FieldBlock/FieldBlockContext'
+import FieldBlockContext, {
+  FieldBlockContextProps,
+} from '../FieldBlock/FieldBlockContext'
 import IterateElementContext from '../Iterate/IterateItemContext'
 import SectionContext from '../Form/Section/SectionContext'
 import FieldBoundaryContext from '../DataContext/FieldBoundary/FieldBoundaryContext'
@@ -208,12 +210,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const onChangeContext = dataContext?.props?.onChange
 
   const disabled = disabledProp ?? props.readOnly
-  const inFieldBlock = Boolean(fieldBlockContext)
+  const inFieldBlock = Boolean(
+    fieldBlockContext && fieldBlockContext.disableStatusSummary !== true
+  )
   const {
     setFieldState: setFieldStateFieldBlock,
     showFieldError: showFieldErrorFieldBlock,
     mountedFieldsRef: mountedFieldsRefFieldBlock,
-  } = fieldBlockContext || {}
+  } = inFieldBlock ? fieldBlockContext : ({} as FieldBlockContextProps)
   const {
     handleChange: handleChangeIterateContext,
     index: iterateIndex,
@@ -2154,7 +2158,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     warning: !inFieldBlock ? warningRef.current : undefined,
     error: !inFieldBlock ? error : undefined,
     required,
+    label: props.label,
+    labelDescription: props.labelDescription,
     labelSuffix: props.labelSuffix,
+    layout: props.layout,
+    layoutOptions: props.layoutOptions,
 
     /** HTML Attributes */
     disabled:
@@ -2166,6 +2174,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
     /** Internal */
     fieldState: resolveValidatingState(fieldStateRef.current),
+    labelHeight:
+      typeof props['size'] === 'string' ? props['size'] : undefined, // component/field size
   }
 
   const sharedData = useSharedState('field-block-props-' + id)

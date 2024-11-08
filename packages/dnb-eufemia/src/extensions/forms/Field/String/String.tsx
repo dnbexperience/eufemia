@@ -14,7 +14,10 @@ import InputMasked, {
 import { TextareaProps } from '../../../../components/Textarea'
 import DataContext from '../../DataContext/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
-import FieldBlock from '../../FieldBlock'
+import FieldBlock, {
+  Props as FieldBlockProps,
+  FieldBlockWidth,
+} from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { toCapitalized } from '../../../../shared/component-helper'
@@ -23,7 +26,6 @@ import type {
   FieldProps,
   FieldHelpProps,
   AllJSONSchemaVersions,
-  FieldBlockWidth,
 } from '../../types'
 
 export type Props = FieldHelpProps &
@@ -145,14 +147,8 @@ function StringComponent(props: Props) {
     className,
     innerRef,
     inputClassName,
-    layout,
     placeholder,
-    label,
-    labelDescription,
     value,
-    info,
-    warning,
-    error,
     hasError,
     disabled,
     help,
@@ -242,9 +238,7 @@ function StringComponent(props: Props) {
     on_key_down: handleKeyDown,
     disabled,
     ...htmlAttributes,
-    stretch: Boolean(
-      width !== undefined || fieldBlockContext?.composition
-    ),
+    stretch: Boolean(width),
     inner_ref: innerRef,
     status: hasError ? 'error' : undefined,
     value: transformInstantly(value?.toString() ?? ''),
@@ -259,27 +253,20 @@ function StringComponent(props: Props) {
   }
 
   const inputProps: InputProps = {
-    type: type,
-    clear: clear,
-    size: size,
-    align: align,
-    selectall: selectall,
+    type,
+    clear,
+    size,
+    align,
+    selectall,
     icon: leftIcon ?? rightIcon,
     icon_position: rightIcon && !leftIcon ? 'right' : undefined,
     submit_element: submitElement,
     keep_placeholder: keepPlaceholder,
   }
 
-  const fieldBlockProps = {
-    className: classnames('dnb-forms-field-string', className),
+  const fieldBlockProps: FieldBlockProps = {
     forId: id,
-    layout,
-    label,
-    labelDescription,
-    info,
-    warning,
-    error,
-    disabled,
+    className: classnames('dnb-forms-field-string', className),
     width:
       width === 'stretch' || fieldBlockContext?.composition
         ? width

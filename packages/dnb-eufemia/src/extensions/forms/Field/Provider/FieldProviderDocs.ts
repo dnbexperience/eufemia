@@ -1,9 +1,12 @@
 import { PropertiesTableProps } from '../../../../shared/types'
-import { dataValueProperties } from '../../hooks/DataValueDocs'
+import { DataValueWritePropsProperties } from '../../hooks/DataValueWritePropsDocs'
 
 export const FieldProviderProperties: PropertiesTableProps = {
-  required: dataValueProperties.required,
-  disabled: dataValueProperties.disabled,
+  required: DataValueWritePropsProperties.required,
+  disabled: DataValueWritePropsProperties.disabled,
+  layout: DataValueWritePropsProperties.layout,
+  layoutOptions: DataValueWritePropsProperties.layoutOptions,
+  width: DataValueWritePropsProperties.width,
   locale: {
     doc: 'Locale (language) to use for all nested Eufemia components.',
     type: 'string',

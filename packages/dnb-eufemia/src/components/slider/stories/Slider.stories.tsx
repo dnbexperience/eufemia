@@ -226,7 +226,7 @@ const SliderStory = () => {
         <Flex.Horizontal align="baseline">
           <FormLabel
             id="range-slider-label"
-            for_id="range-slider"
+            forId="range-slider"
             text="Native Range Slider"
           />
           <Slider label="Label" value={5} />

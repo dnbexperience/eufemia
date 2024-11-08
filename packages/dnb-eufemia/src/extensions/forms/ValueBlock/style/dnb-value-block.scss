@@ -21,16 +21,6 @@
 
   &--inline:not([class*='__composition']) {
     display: inline-block;
-    &::before,
-    &::after {
-      content: '\00A0'; // non-breaking space
-    }
-    .dnb-forms-value-block + & {
-      &::before {
-        content: none;
-      }
-    }
-
     font-size: inherit;
   }
 

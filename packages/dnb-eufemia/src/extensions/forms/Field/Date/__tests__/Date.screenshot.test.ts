@@ -18,6 +18,13 @@ describe.each(['ui'])('Date for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match with a horizontal layout', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="date-horizontal-layout"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match with an error', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="date-error"]',

@@ -4,12 +4,13 @@ import {
   UploadContextProps,
   UploadAcceptedFileTypes,
   UploadAcceptedFileTypesWithFileMaxSize,
+  UploadFileNative,
 } from './types'
 
 export const BYTES_IN_A_MEGA_BYTE = 1048576
 
 export function verifyFiles(
-  files: UploadFile[],
+  files: Array<UploadFile | UploadFileNative>,
   context: Pick<
     UploadContextProps,
     | 'errorUnsupportedFile'

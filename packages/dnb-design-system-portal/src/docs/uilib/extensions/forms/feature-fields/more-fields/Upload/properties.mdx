@@ -4,7 +4,7 @@ showTabs: true
 
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { fieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
 import { UploadFieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/Upload/UploadDocs'
 
 ## Properties
@@ -16,9 +16,9 @@ import { UploadFieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/U
 ### General properties
 
 <PropertiesTable
-  props={fieldProperties}
+  props={FieldProperties}
   valueType={['Array<{ file, id }>']}
-  omit={['layout', 'onBlurValidator', 'contentWidth']}
+  omit={['layout', 'layoutOptions', 'onBlurValidator', 'contentWidth']}
 />
 
 ## Translations

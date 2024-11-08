@@ -5,6 +5,9 @@ import { axeComponent } from '../../../../../core/jest/jestSetup'
 import DataContext from '../../../DataContext/Context'
 import { Field, FieldBlock, Form } from '../../..'
 
+import nbNO from '../../../constants/locales/nb-NO'
+const nb = nbNO['nb-NO']
+
 describe('ArraySelection', () => {
   describe('checkbox', () => {
     it('renders correctly', () => {
@@ -379,6 +382,36 @@ describe('ArraySelection', () => {
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
         '/mySelection': undefined,
       })
+    })
+
+    it('should show errors in separate FormStatus components', () => {
+      render(
+        <Field.ArraySelection
+          variant="checkbox"
+          required
+          validateInitially
+        >
+          <Field.Option value="first" title="First" />
+          <Field.Number
+            value={1}
+            exclusiveMinimum={900}
+            validateInitially
+          />
+        </Field.ArraySelection>
+      )
+
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(2)
+      const [first, second] = Array.from(
+        document.querySelectorAll('.dnb-form-status')
+      )
+
+      expect(first.textContent).toBe(nb.Field.errorRequired)
+      expect(second.textContent).toBe(
+        nb.NumberField.errorExclusiveMinimum.replace(
+          '{exclusiveMinimum}',
+          '900'
+        )
+      )
     })
 
     describe('ARIA', () => {
@@ -776,6 +809,22 @@ describe('ArraySelection', () => {
         })
       })
 
+      it('should render button element', () => {
+        render(
+          <Field.ArraySelection variant={testVariant}>
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
+          </Field.ArraySelection>
+        )
+
+        const [first, second] = Array.from(
+          document.querySelectorAll('.dnb-toggle-button')
+        )
+
+        expect(first.querySelector('.dnb-button').tagName).toBe('BUTTON')
+        expect(second.querySelector('.dnb-button').tagName).toBe('BUTTON')
+      })
+
       describe('ARIA', () => {
         it('should validate with ARIA rules', async () => {
           const result = render(
@@ -818,7 +867,7 @@ describe('ArraySelection', () => {
         it('should have aria-invalid', () => {
           render(
             <Field.ArraySelection
-              variant="button"
+              variant={testVariant}
               required
               validateInitially
             >

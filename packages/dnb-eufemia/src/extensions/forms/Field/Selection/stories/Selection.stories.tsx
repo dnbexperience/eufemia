@@ -133,9 +133,9 @@ export function NestingWithLogic() {
 
           <Field.Option value="showInput" title="Show an input" />
           <Form.Visibility
-            animate
             visibleWhen={{ path: '/mySelection', hasValue: 'showInput' }}
-            compensateForGap="auto"
+            animate
+            compensateForGap="auto" // makes animation smooth
           >
             <Section variant="info" innerSpace>
               <Field.String placeholder="Enter some value" />
@@ -147,13 +147,13 @@ export function NestingWithLogic() {
             title="Show additional option"
           />
           <Form.Visibility
-            animate
             visibleWhen={{
               path: '/mySelection',
               hasValue: (value) =>
                 value === 'showAdditionalOption' || value === 'showMeMore',
             }}
-            compensateForGap="auto"
+            animate
+            compensateForGap="auto" // makes animation smooth
           >
             <Field.Option
               value="showMeMore"

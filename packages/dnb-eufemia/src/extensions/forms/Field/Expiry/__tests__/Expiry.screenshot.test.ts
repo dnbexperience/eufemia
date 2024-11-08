@@ -28,6 +28,13 @@ describe.each(['ui', 'sbanken'])('Expiry field for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match the horizontal layout', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="expiry-horizontal-layout"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match expiry with help button', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="expiry-with-help"]',

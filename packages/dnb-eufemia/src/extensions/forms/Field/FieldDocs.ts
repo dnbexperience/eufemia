@@ -1,17 +1,17 @@
 import { PropertiesTableProps } from '../../../shared/types'
-import { fieldBlockSharedProperties } from '../FieldBlock/FieldBlockDocs'
+import { FieldBlockSharedProperties } from '../FieldBlock/FieldBlockDocs'
 import {
-  dataValueEvents,
-  dataValueProperties,
-} from '../hooks/DataValueDocs'
+  DataValueWritePropsEvents,
+  DataValueWritePropsProperties,
+} from '../hooks/DataValueWritePropsDocs'
 
-export const fieldProperties: PropertiesTableProps = {
-  ...dataValueProperties,
-  ...fieldBlockSharedProperties,
+export const FieldProperties: PropertiesTableProps = {
+  ...DataValueWritePropsProperties,
+  ...FieldBlockSharedProperties,
 }
 
-export const fieldEvents: PropertiesTableProps = {
-  ...dataValueEvents,
+export const FieldEvents: PropertiesTableProps = {
+  ...DataValueWritePropsEvents,
 }
 
 export const getFieldEventsWithTypes = (
@@ -31,17 +31,17 @@ export const getFieldEventsWithTypes = (
   const typeString = `(${value}${add}) => void`
 
   return {
-    ...fieldEvents,
+    ...FieldEvents,
     onChange: {
-      ...fieldEvents.onChange,
+      ...FieldEvents.onChange,
       type: typeString,
     },
     onFocus: {
-      ...fieldEvents.onFocus,
+      ...FieldEvents.onFocus,
       type: typeString,
     },
     onBlur: {
-      ...fieldEvents.onBlur,
+      ...FieldEvents.onBlur,
       type: typeString,
     },
   }

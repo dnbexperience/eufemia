@@ -7,34 +7,12 @@ import {
   Value,
 } from '@dnb/eufemia/src/extensions/forms'
 
-export const Empty = () => {
-  return (
-    <ComponentBox>
-      <Field.String
-        onFocus={(value) => console.log('onFocus', value)}
-        onBlur={(value) => console.log('onBlur', value)}
-        onChange={(value) => console.log('onChange', value)}
-      />
-    </ComponentBox>
-  )
-}
-
 export const Placeholder = () => {
   return (
     <ComponentBox>
       <Field.String
-        placeholder="Enter a text..."
-        onChange={(value) => console.log('onChange', value)}
-      />
-    </ComponentBox>
-  )
-}
-
-export const Label = () => {
-  return (
-    <ComponentBox>
-      <Field.String
         label="Label text"
+        placeholder="Enter a text..."
         onChange={(value) => console.log('onChange', value)}
       />
     </ComponentBox>
@@ -46,9 +24,86 @@ export const LabelAndValue = () => {
     <ComponentBox>
       <Field.String
         label="Label text"
-        value="foo"
+        defaultValue="foo"
         onChange={(value) => console.log('onChange', value)}
       />
+    </ComponentBox>
+  )
+}
+
+export const LabelAndDescription = () => {
+  return (
+    <ComponentBox data-visual-test="string-label-description">
+      <Card stack>
+        <Field.String
+          label="Label text"
+          labelDescription="Description text"
+          placeholder="Enter a text..."
+        />
+        <Field.String
+          label="Label text"
+          labelDescription="\nDescription text with new line using \\n"
+          placeholder="Enter a text..."
+        />
+      </Card>
+    </ComponentBox>
+  )
+}
+
+export const WithStatus = () => {
+  return (
+    <ComponentBox data-visual-test="string-status">
+      <Card stack>
+        <Field.String
+          label="Label text"
+          defaultValue="foo"
+          warning="Short warning."
+          required
+        />
+        <Field.String
+          label="Label text"
+          placeholder="Enter a text..."
+          info="Aliqua eu aute id qui esse aliqua dolor in aute magna commodo anim enim et."
+          required
+        />
+        <Field.String
+          label="Label text"
+          defaultValue="foo"
+          width="small"
+          warning="Aliqua eu aute id qui esse aliqua dolor in aute magna commodo anim enim et. Velit incididunt exercitation est magna ex irure dolore nisi eiusmod ea exercitation."
+        />
+      </Card>
+    </ComponentBox>
+  )
+}
+
+export const HorizontalLayout = () => {
+  return (
+    <ComponentBox data-visual-test="string-horizontal-layout">
+      <Card stack>
+        <Field.Provider
+          layout="horizontal"
+          layoutOptions={{
+            width: 'medium', // can be a rem value
+          }}
+          placeholder="Enter a text..."
+          required
+        >
+          <Field.String label="Label text" warning="Short warning." />
+          <Field.String
+            label="Label with a long text that will wrap"
+            placeholder="Enter a text..."
+            size="medium"
+            info="Aliqua eu aute id qui esse aliqua dolor in aute magna commodo anim enim et."
+          />
+          <Field.String
+            label="Label with a long text that will wrap"
+            placeholder="Enter a text..."
+            size="large"
+            width="stretch"
+          />
+        </Field.Provider>
+      </Card>
     </ComponentBox>
   )
 }
@@ -58,7 +113,7 @@ export const WithHelp = () => {
     <ComponentBox>
       <Field.String
         label="Label text"
-        value="foo"
+        defaultValue="foo"
         help={{
           title: 'Help is available',
           content:
@@ -75,21 +130,8 @@ export const Capitalize = () => {
     <ComponentBox>
       <Field.String
         label="Label text"
-        value="foo bar"
+        defaultValue="foo bar"
         capitalize
-        onChange={(value) => console.log('onChange', value)}
-      />
-    </ComponentBox>
-  )
-}
-
-export const HorizontalLayout = () => {
-  return (
-    <ComponentBox>
-      <Field.String
-        label="Label text"
-        value="foo"
-        layout="horizontal"
         onChange={(value) => console.log('onChange', value)}
       />
     </ComponentBox>
@@ -102,31 +144,46 @@ export const Widths = () => {
       <Flex.Stack>
         <Field.String
           label="Default width (property omitted)"
-          value="foo"
+          defaultValue="foo"
         />
-        <Field.String label="Small" value="foo" width="small" />
-        <Field.String label="Medium" value="foo" width="medium" />
-        <Field.String label="Large" value="foo" width="large" />
-        <Field.String label="Custom" value="foo" width="8rem" />
-        <Field.String label="Stretch" value="foo" width="stretch" />
+        <Field.String label="Small" defaultValue="foo" width="small" />
+        <Field.String label="Medium" defaultValue="foo" width="medium" />
+        <Field.String label="Large" defaultValue="foo" width="large" />
+        <Field.String label="Custom" defaultValue="foo" width="8rem" />
+        <Field.String label="Stretch" defaultValue="foo" width="stretch" />
 
         <Field.String
           label="Default width (property omitted)"
-          value="foo"
+          defaultValue="foo"
           multiline
         />
-        <Field.String label="Small" value="foo" width="small" multiline />
+        <Field.String
+          label="Small"
+          defaultValue="foo"
+          width="small"
+          multiline
+        />
         <Field.String
           label="Medium"
-          value="foo"
+          defaultValue="foo"
           width="medium"
           multiline
         />
-        <Field.String label="Large" value="foo" width="large" multiline />
-        <Field.String label="Custom" value="foo" width="8rem" multiline />
+        <Field.String
+          label="Large"
+          defaultValue="foo"
+          width="large"
+          multiline
+        />
+        <Field.String
+          label="Custom"
+          defaultValue="foo"
+          width="8rem"
+          multiline
+        />
         <Field.String
           label="Stretch"
-          value="foo"
+          defaultValue="foo"
           width="stretch"
           multiline
         />
@@ -138,18 +195,20 @@ export const Widths = () => {
 export const Icons = () => {
   return (
     <ComponentBox>
-      <Field.String
-        label="Icon left"
-        value="foo"
-        leftIcon="check"
-        onChange={(value) => console.log('onChange', value)}
-      />
-      <Field.String
-        label="Icon right"
-        value="foo"
-        rightIcon="loupe"
-        onChange={(value) => console.log('onChange', value)}
-      />
+      <Card stack>
+        <Field.String
+          label="Icon left"
+          defaultValue="foo"
+          leftIcon="check"
+          onChange={(value) => console.log('onChange', value)}
+        />
+        <Field.String
+          label="Icon right"
+          defaultValue="foo"
+          rightIcon="loupe"
+          onChange={(value) => console.log('onChange', value)}
+        />
+      </Card>
     </ComponentBox>
   )
 }
@@ -158,7 +217,7 @@ export const Clear = () => {
   return (
     <ComponentBox>
       <Field.String
-        value="foo"
+        defaultValue="foo"
         onChange={(value) => console.log('onChange', value)}
         clear
       />
@@ -170,36 +229,10 @@ export const Disabled = () => {
   return (
     <ComponentBox>
       <Field.String
-        value="foo"
+        defaultValue="foo"
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
         disabled
-      />
-    </ComponentBox>
-  )
-}
-
-export const Info = () => {
-  return (
-    <ComponentBox>
-      <Field.String
-        value="foo"
-        label="Label text"
-        onChange={(value) => console.log('onChange', value)}
-        info="Useful information (?)"
-      />
-    </ComponentBox>
-  )
-}
-
-export const Warning = () => {
-  return (
-    <ComponentBox>
-      <Field.String
-        value="foo"
-        label="Label text"
-        onChange={(value) => console.log('onChange', value)}
-        warning="I'm warning you..."
       />
     </ComponentBox>
   )
@@ -210,7 +243,7 @@ export const WithMultipleError = () => {
     <ComponentBox data-visual-test="multiple-errors">
       <Field.String
         label="Multiple errors"
-        value="foo"
+        defaultValue="foo"
         pattern="bar"
         minLength={4}
         validateInitially
@@ -223,7 +256,7 @@ export const ValidateRequired = () => {
   return (
     <ComponentBox>
       <Field.String
-        value="foo"
+        defaultValue="foo"
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
         required
@@ -236,7 +269,7 @@ export const ValidateMinimumLength = () => {
   return (
     <ComponentBox>
       <Field.String
-        value="foo"
+        defaultValue="foo"
         label="Label text (minimum 8 characters)"
         onChange={(value) => console.log('onChange', value)}
         minLength={8}
@@ -249,7 +282,7 @@ export const ValidateMaximumLengthCustomError = () => {
   return (
     <ComponentBox>
       <Field.String
-        value="foo"
+        defaultValue="foo"
         label="Label text (maximum 8 characters)"
         onChange={(value) => console.log('onChange', value)}
         maxLength={8}
@@ -265,7 +298,7 @@ export const ValidatePattern = () => {
   return (
     <ComponentBox>
       <Field.String
-        value="foo"
+        defaultValue="foo"
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
         pattern="^foo123"
@@ -278,7 +311,7 @@ export const SynchronousExternalValidator = () => {
   return (
     <ComponentBox>
       <Field.String
-        value="foo"
+        defaultValue="foo"
         label="Label text (minimum 4 characters)"
         validator={(value) =>
           value.length < 4 ? Error('At least 4 characters') : undefined
@@ -293,7 +326,7 @@ export const AsynchronousExternalValidator = () => {
   return (
     <ComponentBox>
       <Field.String
-        value="foo"
+        defaultValue="foo"
         label="Label text (minimum 4 characters)"
         validator={(value) =>
           new Promise((resolve) =>
@@ -318,7 +351,7 @@ export const SynchronousExternalBlurValidator = () => {
   return (
     <ComponentBox>
       <Field.String
-        value="foo"
+        defaultValue="foo"
         label="Label text (minimum 4 characters)"
         onBlurValidator={(value) =>
           value.length < 4 ? Error('At least 4 characters') : undefined
@@ -333,7 +366,7 @@ export const AsynchronousExternalBlurValidator = () => {
   return (
     <ComponentBox>
       <Field.String
-        value="foo"
+        defaultValue="foo"
         label="Label text (minimum 4 characters)"
         onBlurValidator={(value) =>
           new Promise((resolve) =>
@@ -395,7 +428,7 @@ export const MultipleLabelAndValue = () => {
   return (
     <ComponentBox>
       <Field.String
-        value="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis in tempus odio, nec interdum orci. Integer vehicula ipsum et risus finibus, vitae commodo ex luctus. Nam viverra sollicitudin dictum. Vivamus maximus dignissim lorem, vitae viverra erat dapibus a."
+        defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis in tempus odio, nec interdum orci. Integer vehicula ipsum et risus finibus, vitae commodo ex luctus. Nam viverra sollicitudin dictum. Vivamus maximus dignissim lorem, vitae viverra erat dapibus a."
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
         multiline

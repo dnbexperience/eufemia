@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useMemo, useRef } from 'react'
 import classnames from 'classnames'
 import SharedContext from '../../../../shared/Context'
+import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import { LOCALE } from '../../../../shared/defaults'
 import { Autocomplete, HelpButton } from '../../../../components'
 import { pickSpacingProps } from '../../../../components/flex/utils'
@@ -10,12 +11,11 @@ import countries, {
   type CountryLang,
 } from '../../constants/countries'
 import { useFieldProps } from '../../hooks'
-import {
+import { FieldHelpProps, FieldPropsWithExtraValue } from '../../types'
+import FieldBlock, {
+  Props as FieldBlockProps,
   FieldBlockWidth,
-  FieldHelpProps,
-  FieldPropsWithExtraValue,
-} from '../../types'
-import FieldBlock from '../../FieldBlock'
+} from '../../FieldBlock'
 import useTranslation from '../../hooks/useTranslation'
 
 export type CountryFilterSet =
@@ -50,6 +50,7 @@ export type Props = FieldHelpProps &
 
 function SelectCountry(props: Props) {
   const sharedContext = useContext(SharedContext)
+  const fieldBlockContext = useContext(FieldBlockContext)
   const {
     label: defaultLabel,
     placeholder: defaultPlaceholder,
@@ -91,21 +92,22 @@ function SelectCountry(props: Props) {
   const preparedProps: Props = {
     errorMessages,
     ...props,
+    width:
+      props.width ??
+      (fieldBlockContext?.composition ? 'stretch' : 'large'),
     provideAdditionalArgs,
   }
 
   const {
+    id,
     className,
     placeholder = defaultPlaceholder,
     label = defaultLabel,
     countries: ccFilter = 'Prioritized',
-    info,
-    warning,
-    error,
     hasError,
     disabled,
     value,
-    width = 'large',
+    width,
     help,
     htmlAttributes,
     handleFocus,
@@ -215,19 +217,23 @@ function SelectCountry(props: Props) {
     )
   }, [getCountryObjectByIso, props.path, setDisplayValue, value])
 
+  const fieldBlockProps: FieldBlockProps = {
+    forId: id,
+    className: classnames('dnb-forms-field-select-country', className),
+    label,
+    width:
+      width === 'stretch' || fieldBlockContext?.composition
+        ? width
+        : undefined,
+    contentWidth: width !== false ? width : undefined,
+    ...pickSpacingProps(props),
+  }
+
   return (
-    <FieldBlock
-      className={classnames('dnb-forms-field-select-country', className)}
-      width={width}
-      info={info}
-      warning={warning}
-      error={error}
-      {...pickSpacingProps(props)}
-    >
+    <FieldBlock {...fieldBlockProps}>
       <Autocomplete
+        id={id}
         placeholder={placeholder}
-        label_direction="vertical"
-        label={label}
         input_icon={false}
         data={dataRef.current}
         value={typeof value === 'string' ? value : null}

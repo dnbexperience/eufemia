@@ -12,13 +12,11 @@ import OptionField, { Props as OptionFieldProps } from '../Option'
 import { useFieldProps } from '../../hooks'
 import { ReturnAdditional } from '../../hooks/useFieldProps'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import FieldBlock from '../../FieldBlock'
-import {
-  FieldProps,
-  FieldHelpProps,
+import FieldBlock, {
+  Props as FieldBlockProps,
   FieldBlockWidth,
-  Path,
-} from '../../types'
+} from '../../FieldBlock'
+import { FieldProps, FieldHelpProps, Path } from '../../types'
 import type { FormStatusText } from '../../../../components/FormStatus'
 import type { AutocompleteAllProps } from '../../../../components/Autocomplete'
 import type { DropdownAllProps } from '../../../../components/Dropdown'
@@ -96,9 +94,6 @@ function Selection(props: Props) {
     id,
     className,
     variant = 'dropdown',
-    label,
-    labelDescription,
-    layout = 'vertical',
     optionsLayout = 'vertical',
     placeholder,
     path,
@@ -173,16 +168,11 @@ function Selection(props: Props) {
     className
   )
 
-  const fieldBlockProps = {
+  const fieldBlockProps: FieldBlockProps = {
     forId: id,
     className: cn,
+    disableStatusSummary: true,
     ...pickSpacingProps(props),
-    info,
-    warning,
-    error,
-    layout,
-    label,
-    labelDescription,
   }
 
   switch (variant) {
@@ -212,6 +202,7 @@ function Selection(props: Props) {
       return (
         <FieldBlock
           {...fieldBlockProps}
+          labelHeight="small"
           asFieldset={React.Children.count(items) > 1}
         >
           <Component.Group

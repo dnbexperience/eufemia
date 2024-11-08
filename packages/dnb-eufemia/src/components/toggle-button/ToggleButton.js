@@ -438,12 +438,12 @@ export default class ToggleButton extends React.PureComponent {
               {label && (
                 <FormLabel
                   id={id + '-label'}
-                  for_id={id}
+                  forId={id}
                   text={label}
                   disabled={disabled}
                   skeleton={skeleton}
-                  label_direction={label_direction}
-                  sr_only={label_sr_only}
+                  labelDirection={label_direction}
+                  srOnly={label_sr_only}
                 />
               )}
               <span className="dnb-toggle-button__inner">

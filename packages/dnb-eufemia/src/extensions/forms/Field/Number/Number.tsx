@@ -7,17 +7,23 @@ import React, {
 } from 'react'
 import { InputMasked, HelpButton, Button } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
-import type { InputAlign, InputSize } from '../../../../components/Input'
+import type {
+  InputAlign,
+  InputProps,
+  InputSize,
+} from '../../../../components/Input'
 import SharedContext from '../../../../shared/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import classnames from 'classnames'
-import FieldBlock from '../../FieldBlock'
+import FieldBlock, {
+  Props as FieldBlockProps,
+  FieldBlockWidth,
+} from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import {
   FieldProps,
   FieldHelpProps,
   AllJSONSchemaVersions,
-  FieldBlockWidth,
 } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { ButtonProps, ButtonSize } from '../../../../components/Button'
@@ -131,19 +137,13 @@ function NumberComponent(props: Props) {
     innerRef,
     inputClassName,
     autoComplete,
-    layout,
     placeholder,
-    label,
-    labelDescription,
     value,
     startWith = null,
     minimum = defaultMinimum,
     maximum = defaultMaximum,
     disabled,
     htmlAttributes,
-    info,
-    warning,
-    error,
     hasError,
     help,
     size,
@@ -161,7 +161,10 @@ function NumberComponent(props: Props) {
 
   const { handleSubmit } = dataContext ?? {}
   const onKeyDownHandler = useCallback(
-    ({ event }: { event: React.KeyboardEvent<HTMLInputElement> }) => {
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      const { event } = e as unknown as {
+        event: React.KeyboardEvent<HTMLInputElement>
+      }
       if (dataContext?.props?.isolate && event.key === 'Enter') {
         handleSubmit() // So we commit the data to the outer context
         event.preventDefault?.() // And prevent the default form submit
@@ -209,7 +212,8 @@ function NumberComponent(props: Props) {
     ]
   )
 
-  const fieldBlockProps = {
+  const fieldBlockProps: FieldBlockProps = {
+    forId: id,
     className: classnames(
       'dnb-forms-field-number',
       'dnb-input__border--tokens', // Used by "dnb-input__border"
@@ -221,14 +225,6 @@ function NumberComponent(props: Props) {
       hasError && 'dnb-input__status--error', // Also used by "dnb-input__border"
       disabled && 'dnb-input--disabled' // Also used by "dnb-input__border"
     ),
-    forId: id,
-    layout,
-    label,
-    labelDescription,
-    info,
-    warning,
-    error,
-    disabled,
     width:
       (width === 'stretch' || fieldBlockContext?.composition) &&
       !showStepControls
@@ -338,7 +334,7 @@ function NumberComponent(props: Props) {
     'aria-valuetext': String(value), // without it, VO will read %
   }
 
-  const inputProps = {
+  const inputProps: InputProps = {
     id,
     name,
     inner_ref: innerRef,
@@ -360,15 +356,13 @@ function NumberComponent(props: Props) {
     disabled,
     ...htmlAttributes,
     status: hasError ? 'error' : undefined,
-    stretch: Boolean(
-      width !== undefined || fieldBlockContext?.composition
-    ),
+    stretch: Boolean(width),
     suffix:
       help && !showStepControls ? (
         <HelpButton title={help.title}>{help.content}</HelpButton>
       ) : undefined,
-    ...ariaParams,
   }
+  Object.assign(inputProps, ariaParams)
 
   if (showStepControls) {
     return (

@@ -25,6 +25,24 @@ render(
 )
 ```
 
+## Customize the Toolbar
+
+```tsx
+import { Form, Value } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Section>
+    <Form.Section.ViewContainer>
+      <Value.Name.Last itemPath="/name" />
+
+      <Form.Section.Toolbar>
+        <Form.Section.ViewContainer.EditButton />
+      </Form.Section.Toolbar>
+    </Form.Section.ViewContainer>
+  </Form.Section>,
+)
+```
+
 ## Accessibility
 
 The `ViewContainer` component has an `aria-label` attribute, which is set to the `title` property value. It uses a section element to wrap the content, which helps users with screen readers to get the needed announcement.

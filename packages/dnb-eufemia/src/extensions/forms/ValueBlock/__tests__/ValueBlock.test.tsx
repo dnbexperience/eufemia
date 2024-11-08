@@ -2,7 +2,7 @@ import React from 'react'
 import { axeComponent } from '../../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
 import ValueBlock from '../ValueBlock'
-import { Value } from '../..'
+import { Form, Value } from '../..'
 
 describe('ValueBlock', () => {
   it('renders without crashing', () => {
@@ -273,5 +273,99 @@ describe('ValueBlock', () => {
     )
 
     log.mockRestore()
+  })
+
+  describe('transformLabel', () => {
+    it('should transform label', () => {
+      const transformLabel = jest.fn((label) => label.toUpperCase())
+      render(
+        <ValueBlock
+          label="The label"
+          transformLabel={transformLabel}
+          showEmpty
+        />
+      )
+      expect(transformLabel).toHaveBeenCalledTimes(1)
+      expect(transformLabel).toHaveBeenLastCalledWith(
+        'The label',
+        expect.anything()
+      )
+      expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
+        'THE LABEL'
+      )
+    })
+
+    it('should transform label in Value.String', () => {
+      const transformLabel = jest.fn((label) => label.toUpperCase())
+      render(
+        <Form.Handler>
+          <Value.String
+            label="The label"
+            transformLabel={transformLabel}
+            showEmpty
+          />
+        </Form.Handler>
+      )
+      expect(transformLabel).toHaveBeenCalledTimes(1)
+      expect(transformLabel).toHaveBeenLastCalledWith(
+        'The label',
+        expect.anything()
+      )
+      expect(
+        document.querySelector('.dnb-forms-value-string')
+      ).toHaveTextContent('THE LABEL')
+    })
+
+    it('should transform a JSX label and return "convertJsxToString"', () => {
+      const transformLabel = jest.fn((label, { convertJsxToString }) =>
+        convertJsxToString(label).toUpperCase()
+      )
+      render(
+        <Form.Handler>
+          <Value.String
+            label={<span>The label</span>}
+            transformLabel={transformLabel}
+            showEmpty
+          />
+        </Form.Handler>
+      )
+      expect(transformLabel).toHaveBeenCalledTimes(1)
+      expect(transformLabel).toHaveBeenLastCalledWith(
+        <span>The label</span>,
+        expect.anything()
+      )
+      expect(
+        document.querySelector('.dnb-forms-value-string')
+      ).toHaveTextContent('THE LABEL')
+    })
+
+    it('should transform label using Value.Provider', () => {
+      const transformLabel = jest.fn((label) => label.toUpperCase())
+      render(
+        <Form.Handler>
+          <Value.Provider transformLabel={transformLabel}>
+            <Value.SummaryList>
+              <Value.String label="The label A" showEmpty />
+              <Value.String label="The label B" showEmpty />
+            </Value.SummaryList>
+          </Value.Provider>
+        </Form.Handler>
+      )
+
+      const [first, second] = Array.from(document.querySelectorAll('dt'))
+      expect(first).toHaveTextContent('THE LABEL A')
+      expect(second).toHaveTextContent('THE LABEL B')
+      expect(transformLabel).toHaveBeenCalledTimes(2)
+      expect(transformLabel).toHaveBeenNthCalledWith(
+        1,
+        'The label A',
+        expect.anything()
+      )
+      expect(transformLabel).toHaveBeenNthCalledWith(
+        2,
+        'The label B',
+        expect.anything()
+      )
+    })
   })
 })

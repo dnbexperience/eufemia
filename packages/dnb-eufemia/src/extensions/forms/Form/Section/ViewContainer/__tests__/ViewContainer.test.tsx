@@ -4,6 +4,7 @@ import ViewContainer from '../ViewContainer'
 import { Form } from '../../../..'
 import nbNO from '../../../../constants/locales/nb-NO'
 import SectionContainerContext from '../../containers/SectionContainerContext'
+import Toolbar from '../../Toolbar'
 
 const nb = nbNO['nb-NO'].SectionViewContainer
 
@@ -33,7 +34,7 @@ describe('ViewContainer', () => {
     expect(element).not.toHaveClass('dnb-height-animation--hidden')
   })
 
-  it('calls "switchContainerMode" when remove button is clicked', () => {
+  it('calls "switchContainerMode" when edit button is clicked', () => {
     const switchContainerMode = jest.fn()
 
     render(
@@ -110,5 +111,33 @@ describe('ViewContainer', () => {
     )
 
     expect(screen.getByText(edit)).toBeInTheDocument()
+  })
+
+  it('should render default toolbar', () => {
+    render(
+      <Form.Section>
+        <Form.Section.ViewContainer>
+          Edit Content
+        </Form.Section.ViewContainer>
+      </Form.Section>
+    )
+
+    expect(document.querySelectorAll('button')).toHaveLength(1)
+    expect(document.querySelectorAll('button')[0]).toHaveTextContent(
+      nb.editButton
+    )
+  })
+
+  it('should render custom toolbar', () => {
+    render(
+      <Form.Section>
+        <Form.Section.ViewContainer>
+          Edit Content
+          <Toolbar>no button</Toolbar>
+        </Form.Section.ViewContainer>
+      </Form.Section>
+    )
+
+    expect(document.querySelectorAll('button')).toHaveLength(0)
   })
 })

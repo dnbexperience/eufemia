@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 import { Checkbox, HelpButton, ToggleButton } from '../../../../components'
 import classnames from 'classnames'
-import FieldBlock from '../../FieldBlock'
+import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import { ReturnAdditional } from '../../hooks/useFieldProps'
 import {
@@ -65,10 +65,8 @@ function ArraySelection(props: Props) {
     variant = 'checkbox',
     layout = 'vertical',
     optionsLayout = 'vertical',
-    label,
     labelDescription,
     value,
-    error,
     hasError,
     help,
     info,
@@ -84,7 +82,7 @@ function ArraySelection(props: Props) {
   const { getValueByPath } = useDataValue()
   const dataList = dataPath ? getValueByPath(dataPath) : data
 
-  const fieldBlockProps = {
+  const fieldBlockProps: FieldBlockProps = {
     forId: id,
     className: classnames(
       'dnb-forms-field-array-selection',
@@ -96,12 +94,6 @@ function ArraySelection(props: Props) {
       className
     ),
     contentClassName: 'dnb-forms-field-array-selection__options',
-    help,
-    info,
-    warning,
-    error,
-    layout,
-    label,
     labelDescription: (
       <>
         {labelDescription}
@@ -116,6 +108,7 @@ function ArraySelection(props: Props) {
         ) : undefined}
       </>
     ),
+    disableStatusSummary: true,
     ...pickSpacingProps(props),
   }
 
@@ -140,16 +133,18 @@ function ArraySelection(props: Props) {
 
   switch (variant) {
     case 'checkbox':
-      return <FieldBlock {...fieldBlockProps}>{options}</FieldBlock>
+      return (
+        <FieldBlock {...fieldBlockProps} labelHeight="small">
+          {options}
+        </FieldBlock>
+      )
     default:
       return (
-        <FieldBlock {...fieldBlockProps}>
+        <FieldBlock {...fieldBlockProps} labelHeight="small">
           <ToggleButtonGroupContext.Provider
             value={{
               status: hasError ? 'error' : undefined,
               disabled,
-              variant:
-                variant === 'checkbox-button' ? 'checkbox' : 'default',
             }}
           >
             {options}
@@ -239,6 +234,7 @@ export function useCheckboxOrToggleOptions({
         <Component
           id={optionsCount === 1 ? id : undefined}
           key={`option-${i}-${value}`}
+          variant={variant === 'checkbox-button' ? 'checkbox' : undefined}
           className={classnames(
             `dnb-forms-field-array-selection__${
               variant === 'checkbox' ? 'checkbox' : 'button'

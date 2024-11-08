@@ -20,32 +20,72 @@ $breakpoints: map.merge(
 }
 
 fieldset.dnb-forms-field-block {
-  @include fieldsetReset(true);
+  @include fieldsetReset();
 }
 
 .dnb-forms-field-block {
   &__grid {
     display: grid;
+
+    // Vertical layout
+    grid-template-columns: minmax(
+      min-content,
+      var(--block-content-width, auto)
+    );
+    grid-template-areas:
+      'label'
+      'contents'
+      'status';
   }
 
-  &--layout-vertical &__grid {
-    @include formLabelWrap();
-  }
-
-  &--layout {
-    &-vertical {
-      grid-template-columns: auto;
-      grid-template-areas:
-        'label'
-        'contents'
-        'status';
+  &__grid#{&}--layout-vertical {
+    flex-wrap: wrap;
+    & > .dnb-form-label,
+    & > .dnb-forms-field-block__label > .dnb-form-label {
+      margin-bottom: 0.5rem;
     }
-    &-horizontal {
-      grid-template-columns: fit-content(100%) auto;
+  }
+
+  // Horizontal layout
+  &__grid#{&}--layout-horizontal {
+    @include allBelow(small) {
+      & > .dnb-form-label,
+      & > .dnb-forms-field-block__label > .dnb-form-label {
+        margin-bottom: 0.5rem;
+      }
+    }
+    @include allAbove(small) {
+      & > .dnb-form-label,
+      & > .dnb-forms-field-block__label > .dnb-form-label {
+        margin-top: var(--label-margin);
+        margin-bottom: var(--label-margin);
+      }
+      grid-template-columns:
+        minmax(
+          var(--dnb-forms-field-block-layout-width-min, min-content),
+          var(--dnb-forms-field-block-layout-width-max, max-content)
+        )
+        auto;
       grid-template-areas:
         'label contents'
-        'status status';
+        '. status';
+
+      .dnb-forms-field-block__contents {
+        align-self: end;
+      }
     }
+  }
+
+  // Align label vertically with the content (input etc.)
+  --label-margin: 0.25rem;
+  &--label-height-small {
+    --label-margin: 0;
+  }
+  &--label-height-medium {
+    --label-margin: 0.5rem;
+  }
+  &--label-height-large {
+    --label-margin: 0.7rem;
   }
 
   &--width {
@@ -85,6 +125,7 @@ fieldset.dnb-forms-field-block {
     grid-area: status;
     .dnb-form-status__shell {
       margin-top: 0.5rem; // set margin-top on shell, so we can animate the height
+      max-width: 60ch; // to enhance readability
     }
 
     @include allBelow(xx-small) {
@@ -94,6 +135,8 @@ fieldset.dnb-forms-field-block {
 
   &__contents {
     grid-area: contents;
+
+    display: flex;
     width: 100%;
 
     &--width {

@@ -530,10 +530,10 @@ export default class Textarea extends React.PureComponent {
         {label && (
           <FormLabel
             id={id + '-label'}
-            for_id={id}
+            forId={id}
             text={label}
-            label_direction={label_direction}
-            sr_only={label_sr_only}
+            labelDirection={label_direction}
+            srOnly={label_sr_only}
             disabled={disabled}
             skeleton={skeleton}
           />

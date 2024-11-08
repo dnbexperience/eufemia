@@ -6,21 +6,35 @@ import * as Examples from './Examples'
 
 ## Demos
 
-### Empty
+### Label and value
 
-<Examples.Empty />
+<Examples.LabelAndValue />
+
+### Label and description
+
+<Examples.LabelAndDescription />
+
+### With a horizontal layout
+
+This example uses [Field.Provider](/uilib/extensions/forms/feature-fields/Provider/) to set the `layout` to `horizontal` and `layoutOptions` to `{ width: 'medium' }` for all nested fields.
+
+The `width` of the horizontal label can be set to `small`, `medium`, `large` or a `rem` value.
+
+<Examples.HorizontalLayout />
 
 ### Placeholder
 
 <Examples.Placeholder />
 
-### Label
+### With a status
 
-<Examples.Label />
+This example demonstrates how the status message width adjusts according to the field width.
 
-### Label and value
+<Examples.WithStatus />
 
-<Examples.LabelAndValue />
+#### With help
+
+<Examples.WithHelp />
 
 ### Exclusive minimum and exclusive maximum
 
@@ -35,10 +49,6 @@ You can also use a function as a prefix or suffix.
 ### Alignment
 
 <Examples.Alignment />
-
-### Horizontal layout
-
-<Examples.HorizontalLayout />
 
 ### With help
 
@@ -55,18 +65,6 @@ You can also use a function as a prefix or suffix.
 ### Disabled
 
 <Examples.Disabled />
-
-### Info
-
-<Examples.Info />
-
-### Warning
-
-<Examples.Warning />
-
-### Error
-
-<Examples.WithError />
 
 ### Validation - Required
 

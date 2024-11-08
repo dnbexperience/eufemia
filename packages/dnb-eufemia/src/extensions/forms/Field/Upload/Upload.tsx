@@ -1,12 +1,16 @@
 import React, { useCallback, useEffect, useMemo } from 'react'
-import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
+import FieldBlock, {
+  Props as FieldBlockProps,
+  FieldBlockWidth,
+} from '../../FieldBlock'
 import {
   useFieldProps,
   useTranslation as useFormsTranslation,
 } from '../../hooks'
-import { FieldBlockWidth, FieldHelpProps, FieldProps } from '../../types'
+import { FieldHelpProps, FieldProps } from '../../types'
 import Upload, {
   UploadFile,
+  UploadFileNative,
   UploadProps,
 } from '../../../../components/Upload'
 import useUpload from '../../../../components/upload/useUpload'
@@ -16,7 +20,7 @@ import { useTranslation as useSharedTranslation } from '../../../../shared'
 import { SpacingProps } from '../../../../shared/types'
 import { FormError } from '../../utils'
 
-export type UploadValue = Array<UploadFile>
+export type UploadValue = Array<UploadFile | UploadFileNative>
 export type Props = FieldHelpProps &
   Omit<FieldProps<UploadValue, UploadValue | undefined>, 'name'> &
   SpacingProps & {
@@ -69,15 +73,10 @@ function UploadComponent(props: Props) {
     id,
     className,
     width: widthProp = 'stretch',
-    layout,
     value,
     label,
     labelDescription,
-    disabled,
     help,
-    info,
-    warning,
-    error,
     htmlAttributes,
     handleChange,
     handleFocus,
@@ -116,15 +115,10 @@ function UploadComponent(props: Props) {
 
   const width = widthProp as FieldBlockWidth
   const fieldBlockProps: FieldBlockProps = {
+    id,
     forId: id,
-    layout,
-    label,
     labelSrOnly: true,
-    info,
-    warning,
-    error,
     className,
-    disabled,
     width,
     ...pickSpacingProps(props),
   }

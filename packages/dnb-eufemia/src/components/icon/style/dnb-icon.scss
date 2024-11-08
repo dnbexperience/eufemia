@@ -8,7 +8,7 @@
 .dnb-icon {
   display: inline-block;
 
-  // sine we use vertical-align: top on the SVG
+  // since we use vertical-align: top on the SVG
   // we have to move center the alignment here again
   // else basic text afterwards will get aligned on top
   vertical-align: middle;

@@ -15,11 +15,11 @@ export default {
 export const FormLabelSandbox = () => (
   <Wrapper>
     <Box>
-      <FormLabel for_id="alone-1">Default horizontal FormLabel:</FormLabel>
+      <FormLabel forId="alone-1">Default horizontal FormLabel:</FormLabel>
       <Checkbox id="alone-1" label="Unchecked" />
     </Box>
     <Box>
-      <FormLabel for_id="alone-2" vertical disabled>
+      <FormLabel forId="alone-2" vertical disabled>
         Vertical FormLabel:
       </FormLabel>
       <Checkbox id="alone-2" label="Unchecked" />

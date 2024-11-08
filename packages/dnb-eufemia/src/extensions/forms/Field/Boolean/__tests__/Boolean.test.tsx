@@ -14,6 +14,13 @@ describe('Field.Boolean', () => {
       expect(screen.getByLabelText('Boolean label')).toBeInTheDocument()
     })
 
+    it('label should render only once', () => {
+      render(<Field.Boolean variant="checkbox" label="Boolean label" />)
+      expect(screen.queryAllByLabelText('Boolean label')).toHaveLength(1)
+      expect(screen.queryByText('Ja')).not.toBeInTheDocument()
+      expect(screen.queryByText('Nei')).not.toBeInTheDocument()
+    })
+
     it('renders help', () => {
       render(
         <Field.Boolean
@@ -197,6 +204,13 @@ describe('Field.Boolean', () => {
       expect(screen.getByText('Boolean label')).toBeInTheDocument()
     })
 
+    it('label should render only once', () => {
+      render(<Field.Boolean variant="button" label="Boolean label" />)
+      expect(screen.queryAllByLabelText('Boolean label')).toHaveLength(1)
+      expect(screen.getByText('Nei')).toBeInTheDocument()
+      expect(screen.queryByText('Ja')).not.toBeInTheDocument()
+    })
+
     it('renders help', () => {
       render(
         <Field.Boolean
@@ -335,6 +349,15 @@ describe('Field.Boolean', () => {
         <Field.Boolean variant="checkbox-button" label="Boolean label" />
       )
       expect(screen.getByText('Boolean label')).toBeInTheDocument()
+    })
+
+    it('label should render only once', () => {
+      render(
+        <Field.Boolean variant="checkbox-button" label="Boolean label" />
+      )
+      expect(screen.queryAllByLabelText('Boolean label')).toHaveLength(1)
+      expect(screen.queryByText('Ja')).not.toBeInTheDocument()
+      expect(screen.getByText('Nei')).toBeInTheDocument()
     })
 
     it('renders help', () => {
@@ -485,6 +508,13 @@ describe('Field.Boolean', () => {
     it('renders label', () => {
       render(<Field.Boolean variant="buttons" label="Boolean label" />)
       expect(screen.getByText('Boolean label')).toBeInTheDocument()
+    })
+
+    it('label should render only once', () => {
+      render(<Field.Boolean variant="buttons" label="Boolean label" />)
+      expect(screen.getByText('Boolean label')).toBeInTheDocument()
+      expect(screen.getByText('Ja')).toBeInTheDocument()
+      expect(screen.getByText('Nei')).toBeInTheDocument()
     })
 
     it('renders help', () => {

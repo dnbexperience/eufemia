@@ -78,6 +78,15 @@ describe('Selection', () => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
+    it('have to match selection-radio-advanced-nesting-logic', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="selection-radio-advanced-nesting-logic"]',
+        recalculateHeightAfterSimulate: true,
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
   })
 
   describe('button', () => {

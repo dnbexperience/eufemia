@@ -48,6 +48,7 @@ import type { ProgressIndicatorProps } from '../components/progress-indicator/ty
 import type { FormStatusProps } from '../components/FormStatus'
 import type { LogoProps } from '../components/Logo'
 import type { IconProps } from '../components/Icon'
+import type { ListFormatProps } from '../components/list-format/ListFormat'
 import type { IconPrimaryProps } from '../components/IconPrimary'
 import { SwitchProps } from '../components/Switch'
 
@@ -55,6 +56,7 @@ import type { FormElementProps } from './helpers/filterValidProps'
 import type { ThemeProps } from './Theme'
 import type { FormsTranslation } from '../extensions/forms/hooks/useTranslation'
 import type { DeepPartial } from './types'
+import { DatePickerProps } from '../components/DatePicker'
 
 export type ContextComponents = {
   Button?: Partial<ButtonProps>
@@ -92,6 +94,8 @@ export type ContextComponents = {
   Logo?: Partial<LogoProps>
   Icon?: Partial<IconProps>
   IconPrimary?: Partial<IconPrimaryProps>
+  DatePicker?: Partial<DatePickerProps>
+  ListFormat?: Partial<ListFormatProps>
 
   Switch?: Partial<SwitchProps>
   // -- TODO: Not converted yet --

@@ -20,7 +20,21 @@ import * as Examples from './Examples'
 
 ### Stack
 
+The Card components needs to have `stack={true}` or `align="stretch"` in order to stretch its children components.
+
+For [form components](uilib/extensions/forms/), you should use `stack={true}` to get the correct spacing.
+
 <Examples.Stack />
+
+### Nested Cards
+
+Nested cards have `responsive={false}` by default and will not behave responsive.
+
+<Examples.NestedCards />
+
+### Without padding
+
+<Examples.WithoutPadding />
 
 ### With nested Section
 

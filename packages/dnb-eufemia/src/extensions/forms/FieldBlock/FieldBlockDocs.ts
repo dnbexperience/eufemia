@@ -1,6 +1,6 @@
 import { PropertiesTableProps } from '../../../shared/types'
 
-export const fieldBlockSharedProperties: PropertiesTableProps = {
+export const FieldBlockSharedProperties: PropertiesTableProps = {
   label: {
     doc: 'Field label to show above / before the input feature.',
     type: 'string',
@@ -21,6 +21,11 @@ export const fieldBlockSharedProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  layoutOptions: {
+    doc: 'Use this to set additional options for the `horizontal` layout. E.g. `{ width: "medium" }`. You can also use a custom width `{number}rem`. Instead of a width, you can use a min/max width. E.g. `{ minWidth: "6rem", maxWidth: "12rem" }`.',
+    type: 'object',
+    status: 'optional',
+  },
   width: {
     doc: 'Will set the width for the whole block. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.',
     type: ['string', 'false'],
@@ -38,11 +43,17 @@ export const fieldBlockSharedProperties: PropertiesTableProps = {
   },
 }
 
-export const fieldBlockProperties: PropertiesTableProps = {
-  ...fieldBlockSharedProperties,
+/** For internal use only */
+export const FieldBlockProperties: PropertiesTableProps = {
+  ...FieldBlockSharedProperties,
   labelSize: {
     doc: 'Define one of the following [heading sizes](/uilib/elements/heading/): `medium` or `large`.',
     type: ['string', 'false'],
+    status: 'optional',
+  },
+  labelHeight: {
+    doc: 'Defines the height of an component (size prop), so the label can be aligned correctly. Can be `default`, `small`, `medium`, `large`.',
+    type: 'string',
     status: 'optional',
   },
   asFieldset: {
@@ -53,6 +64,11 @@ export const fieldBlockProperties: PropertiesTableProps = {
   align: {
     doc: '`center` or `bottom` for aligning the contents vertically. Defaults to `bottom`.',
     type: ['string', 'false'],
+    status: 'optional',
+  },
+  disableStatusSummary: {
+    doc: 'Use `true` to disable the error summary.',
+    type: 'boolean',
     status: 'optional',
   },
   composition: {

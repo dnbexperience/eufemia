@@ -43,6 +43,14 @@ describe.each(['ui', 'sbanken'])('Upload for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match disabled file max size', async () => {
+    const screenshot = await makeScreenshot({
+      style: { height: '14rem' },
+      selector: '[data-visual-test="upload-disabled-file-max-size"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match when not providing title and text', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-no-title-no-text"]',

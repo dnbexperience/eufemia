@@ -31,14 +31,32 @@ export const ValueOff = () => {
   )
 }
 
-export const NoValue = () => {
+export const TextOn = () => {
   return (
     <ComponentBox>
       <Field.Toggle
         valueOn="checked"
         valueOff="unchecked"
+        textOn="Text on"
+        textOff="Text off"
         variant="checkbox"
-        label="Label text"
+        value="checked"
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
+export const TextOff = () => {
+  return (
+    <ComponentBox>
+      <Field.Toggle
+        valueOn="checked"
+        valueOff="unchecked"
+        textOn="Text on"
+        textOff="Text off"
+        variant="checkbox"
+        value="unchecked"
         onChange={(value) => console.log('onChange', value)}
       />
     </ComponentBox>

@@ -56,3 +56,9 @@ By default, the Upload component accepts multiple files. You can use the propert
 Once the Upload component mounts, it also adds support for dropping files to the entire browser body.
 
 **NB:** When you have several mounted components, only the first Upload component will receive the dropped files.
+
+## The `download` property
+
+Each file item is displayed as a clickable link with its original file name, which opens the file source in a new browser tab.
+
+In some situations, it's more suitable to have each link download the file instead of opening it in a new browser tab. To achieve this, set the `download={true}` property on the Upload component.

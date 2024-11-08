@@ -50,6 +50,7 @@ describe('Node', () => {
     })
     expect(intl.format(value)).toBe('12 345 678,99 kr') // Rounds
   })
+
   it('supports setting navigator.language (JSDOM)', () => {
     expect(navigator.language).toBe(LOCALE)
   })
@@ -729,13 +730,16 @@ describe('getFallbackCurrencyDisplay should', () => {
   it('default to narrowSymbol', () => {
     expect(getFallbackCurrencyDisplay()).toBe('narrowSymbol')
   })
+
   it('return narrowSymbol when locale is nb-NO', () => {
     expect(getFallbackCurrencyDisplay('nb-NO')).toBe('narrowSymbol')
   })
+
   it('default to code on invalid locale', () => {
     const locale = 'invalid' as InternalLocale
     expect(getFallbackCurrencyDisplay(locale)).toBe('code')
   })
+
   it('default to given display', () => {
     expect(getFallbackCurrencyDisplay('nb-NO', 'name')).toBe('name')
   })
@@ -745,15 +749,19 @@ describe('getDecimalSeparator should', () => {
   it('default to comma', () => {
     expect(getDecimalSeparator()).toBe(',')
   })
+
   it('return comma when locale is nb-NO', () => {
     expect(getDecimalSeparator('nb-NO')).toBe(',')
   })
+
   it('return comma when locale is sv-SE', () => {
     expect(getDecimalSeparator('sv-SE')).toBe(',')
   })
+
   it('return dot when locale is en-GB', () => {
     expect(getDecimalSeparator('en-GB')).toBe('.')
   })
+
   it('return dot when locale is en-US', () => {
     expect(getDecimalSeparator('en-US')).toBe('.')
   })
@@ -763,18 +771,23 @@ describe('getThousandsSeparator should', () => {
   it('default to space', () => {
     expect(getThousandsSeparator()).toBe(' ')
   })
+
   it('return space when locale is nb-NO', () => {
     expect(getThousandsSeparator('nb-NO')).toBe(' ')
   })
+
   it('return space when locale is sv-SE', () => {
     expect(getThousandsSeparator('sv-SE')).toBe(' ')
   })
+
   it('return space when locale is de-DE', () => {
     expect(getThousandsSeparator('de-DE')).toBe('.')
   })
+
   it('return space when locale is en-GB', () => {
     expect(getThousandsSeparator('en-GB')).toBe(' ')
   })
+
   it('return space when locale is en-US', () => {
     expect(getThousandsSeparator('en-US')).toBe(',')
   })
@@ -784,38 +797,52 @@ describe('getCurrencySymbol should', () => {
   it('default to space', () => {
     expect(getCurrencySymbol()).toBe('kr')
   })
+
   it('return kr when locale is nb-NO', () => {
     expect(getCurrencySymbol('nb-NO')).toBe('kr')
   })
+
   it('return NOK when locale is sv-SE', () => {
     expect(getCurrencySymbol('sv-SE')).toBe('NOK')
   })
+
   it('return NOK when locale is en-GB', () => {
     expect(getCurrencySymbol('en-GB')).toBe('NOK')
   })
+
   it('return NOK when locale is en-US', () => {
     expect(getCurrencySymbol('en-US')).toBe('NOK')
   })
 })
 
 describe('countDecimals should', () => {
+  it('return 0 when falsy value is given', () => {
+    expect(countDecimals('')).toBe(0)
+    expect(countDecimals(null)).toBe(0)
+    expect(countDecimals(undefined)).toBe(0)
+  })
+
   it('return decimals count for string', () => {
     expect(countDecimals('1.2')).toBe(1)
     expect(countDecimals('1.23')).toBe(2)
     expect(countDecimals('1.01')).toBe(2)
     expect(countDecimals('1.00')).toBe(2)
   })
+
   it('return decimals count for float', () => {
     expect(countDecimals(1.2)).toBe(1)
     expect(countDecimals(1.23)).toBe(2)
     expect(countDecimals(1.01)).toBe(2)
   })
+
   it('return 0 when 1.0 is given (we can not determine better in JS)', () => {
     expect(countDecimals(1.0)).toBe(0)
   })
+
   it('return 0 when wrong decimal is given', () => {
     expect(countDecimals('1,2')).toBe(0)
   })
+
   it('allow defining other decimal separator', () => {
     const decimalSeparator = ','
     expect(countDecimals('1,2', decimalSeparator)).toBe(1)

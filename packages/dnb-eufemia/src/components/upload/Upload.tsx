@@ -52,6 +52,7 @@ const Upload = (localProps: UploadAllProps) => {
     fileMaxSize,
     onChange,
     onFileDelete, // eslint-disable-line
+    download, // eslint-disable-line
     title, // eslint-disable-line
     text, // eslint-disable-line
     fileTypeTableCaption, // eslint-disable-line
@@ -75,7 +76,7 @@ const Upload = (localProps: UploadAllProps) => {
     useUpload(id)
 
   const onInputUpload = useCallback(
-    (newFiles: UploadFile[]) => {
+    (newFiles: Array<UploadFile>) => {
       const mergedFiles = [
         ...files,
         ...newFiles.map((fileItem) => {
@@ -100,7 +101,10 @@ const Upload = (localProps: UploadAllProps) => {
         }
       )
 
-      const validFiles = [...verifiedFiles].slice(0, filesAmountLimit)
+      const validFiles = [...verifiedFiles].slice(
+        0,
+        filesAmountLimit
+      ) as Array<UploadFile>
 
       setFiles(validFiles)
       setInternalFiles(mergedFiles)

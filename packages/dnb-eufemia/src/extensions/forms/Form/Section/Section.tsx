@@ -9,16 +9,15 @@ import EditContainer from './EditContainer'
 
 import type { Props as DataContextProps } from '../../DataContext/Provider'
 import type { ContainerMode } from './containers/SectionContainer'
-import type {
-  FieldBlockProps,
-  Path,
-  FieldProps,
-  OnChange,
-} from '../../types'
+import type { Path, FieldProps, OnChange } from '../../types'
 import type { JsonObject } from '../../utils/json-pointer'
+import type { SharedFieldBlockProps } from '../../FieldBlock'
+import Toolbar from './Toolbar'
 
 export type OverwritePropsDefaults = {
-  [key: Path]: (FieldProps & FieldBlockProps) | OverwritePropsDefaults
+  [key: Path]:
+    | (FieldProps & SharedFieldBlockProps)
+    | OverwritePropsDefaults
 }
 export type SectionProps<overwriteProps = OverwritePropsDefaults> = {
   /**
@@ -138,6 +137,7 @@ function SectionComponent(props: LocalProps) {
   )
 }
 
+SectionComponent.Toolbar = Toolbar
 SectionComponent.ViewContainer = ViewContainer
 SectionComponent.EditContainer = EditContainer
 

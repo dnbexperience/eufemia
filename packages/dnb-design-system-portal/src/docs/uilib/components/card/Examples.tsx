@@ -32,6 +32,22 @@ export const Default = () => {
   )
 }
 
+export const NestedCards = () => {
+  return (
+    <ComponentBox data-visual-test="layout-card-nested">
+      <Card>
+        <P>First Card</P>
+        <Card top>
+          <P>Second Card</P>
+          <Card top>
+            <P>Third Card (for edge cases only)</P>
+          </Card>
+        </Card>
+      </Card>
+    </ComponentBox>
+  )
+}
+
 export const WithTable = () => {
   return (
     <ComponentBox data-visual-test="layout-card-table">
@@ -203,6 +219,16 @@ export const WithHeadingsAndAriaLabel = () => {
           Heading
         </Form.SubHeading>
         <P>Content inside a landmark ...</P>
+      </Card>
+    </ComponentBox>
+  )
+}
+
+export const WithoutPadding = () => {
+  return (
+    <ComponentBox>
+      <Card innerSpace={false} align="stretch">
+        <P>no inner space</P>
       </Card>
     </ComponentBox>
   )

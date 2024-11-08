@@ -6,7 +6,7 @@ import { Props } from '../SelectCountry'
 import { Provider } from '../../../../../shared'
 import DataContext from '../../../DataContext/Context'
 import DrawerListProvider from '../../../../../fragments/drawer-list/DrawerListProvider'
-import { Field, Form, FieldBlock, Value } from '../../..'
+import { Field, Form, FieldBlock, Value, Iterate } from '../../..'
 
 describe('Field.SelectCountry', () => {
   it('should render with props', () => {
@@ -281,6 +281,25 @@ describe('Field.SelectCountry', () => {
     )
 
     expect(inputElement.value).toBe('Norge')
+  })
+
+  it('should use value from itemPath inside iterate', () => {
+    render(
+      <Form.Handler
+        defaultData={{ items: [{ country: 'NO' }, { country: 'DK' }] }}
+      >
+        <Iterate.Array path="/items">
+          <Field.SelectCountry itemPath="/country" />
+        </Iterate.Array>
+      </Form.Handler>
+    )
+
+    const [norway, denmark] = Array.from(
+      document.querySelectorAll('.dnb-forms-field-select-country')
+    )
+
+    expect(norway.querySelector('input')).toHaveValue('Norge')
+    expect(denmark.querySelector('input')).toHaveValue('Danmark')
   })
 
   it('should execute validateInitially if required', () => {

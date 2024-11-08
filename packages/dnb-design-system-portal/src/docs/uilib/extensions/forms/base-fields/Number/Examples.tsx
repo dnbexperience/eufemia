@@ -1,36 +1,14 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Slider, Grid, Flex } from '@dnb/eufemia/src'
+import { Slider, Grid, Flex, Card } from '@dnb/eufemia/src'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 import React from 'react'
-
-export const Empty = () => {
-  return (
-    <ComponentBox data-visual-test="number-input">
-      <Field.Number
-        onFocus={(value) => console.log('onFocus', value)}
-        onBlur={(value) => console.log('onBlur', value)}
-        onChange={(value) => console.log('onChange', value)}
-      />
-    </ComponentBox>
-  )
-}
 
 export const Placeholder = () => {
   return (
     <ComponentBox>
       <Field.Number
-        placeholder="Enter a number"
-        onChange={(value) => console.log('onChange', value)}
-      />
-    </ComponentBox>
-  )
-}
-
-export const Label = () => {
-  return (
-    <ComponentBox>
-      <Field.Number
         label="Label text"
+        placeholder="Enter a number..."
         onChange={(value) => console.log('onChange', value)}
       />
     </ComponentBox>
@@ -41,10 +19,93 @@ export const LabelAndValue = () => {
   return (
     <ComponentBox>
       <Field.Number
-        value={420000.25}
         label="Label text"
+        defaultValue={420000.25}
         onChange={(value) => console.log('onChange', value)}
       />
+    </ComponentBox>
+  )
+}
+
+export const LabelAndDescription = () => {
+  return (
+    <ComponentBox data-visual-test="number-label-description">
+      <Card stack>
+        <Field.Number
+          label="Label text"
+          labelDescription="Description text"
+          placeholder="Enter a text..."
+        />
+        <Field.Number
+          label="Label text"
+          labelDescription="\nDescription text with new line using \\n"
+          placeholder="Enter a text..."
+        />
+      </Card>
+    </ComponentBox>
+  )
+}
+
+export const WithStatus = () => {
+  return (
+    <ComponentBox data-visual-test="number-status">
+      <Card stack>
+        <Field.Number
+          label="Label text"
+          placeholder="Enter a number..."
+          width="large"
+          warning="Short warning."
+          required
+        />
+        <Field.Number
+          label="Label text"
+          defaultValue={420000}
+          width="large"
+          info="Aliqua eu aute id qui esse aliqua dolor in aute magna commodo anim enim et."
+          required
+        />
+        <Field.Number
+          label="Label text"
+          value={1234}
+          width="small"
+          warning="Aliqua eu aute id qui esse aliqua dolor in aute magna commodo anim enim et. Velit incididunt exercitation est magna ex irure dolore nisi eiusmod ea exercitation."
+          required
+        />
+      </Card>
+    </ComponentBox>
+  )
+}
+
+export const HorizontalLayout = () => {
+  return (
+    <ComponentBox data-visual-test="number-horizontal-layout">
+      <Card stack>
+        <Field.Provider
+          layout="horizontal"
+          layoutOptions={{
+            width: 'medium', // can be a rem value
+          }}
+          required
+        >
+          <Field.Number
+            label="Label text"
+            defaultValue={420000}
+            step={10000}
+            showStepControls
+          />
+          <Field.Number
+            label="Label with a long text that will wrap"
+            placeholder="Enter a number..."
+            info="Aliqua eu aute id qui esse aliqua dolor in aute magna commodo anim enim et."
+          />
+          <Field.Number
+            label="Label with a long text that will wrap"
+            placeholder="Enter a number..."
+            size="large"
+            width="stretch"
+          />
+        </Field.Provider>
+      </Card>
     </ComponentBox>
   )
 }
@@ -53,7 +114,7 @@ export const ExclusiveMinMax = () => {
   return (
     <ComponentBox>
       <Field.Number
-        value={1000}
+        defaultValue={1000}
         label="Label text"
         allowNegative={false}
         required
@@ -70,13 +131,13 @@ export const PrefixAndSuffix = () => {
     <ComponentBox>
       <Flex.Stack>
         <Field.Number
-          value={1234}
+          defaultValue={1234}
           label="With prefix"
           prefix="prefix "
           onChange={(value) => console.log('onChange', value)}
         />
         <Field.Number
-          value={1}
+          defaultValue={1}
           label="With suffix (function)"
           suffix={(value) => (value === 1 ? ' year' : ' years')}
           onChange={(value) => console.log('onChange', value)}
@@ -89,24 +150,26 @@ export const PrefixAndSuffix = () => {
 export const Alignment = () => {
   return (
     <ComponentBox>
-      <Field.Number
-        align="center"
-        label="Center aligned (default)"
-        value={10}
-        onChange={(value) => console.log('onChange', value)}
-      />
-      <Field.Number
-        align="left"
-        label="Left aligned"
-        value={10}
-        onChange={(value) => console.log('onChange', value)}
-      />
-      <Field.Number
-        align="right"
-        label="Right aligned"
-        value={10}
-        onChange={(value) => console.log('onChange', value)}
-      />
+      <Flex.Stack>
+        <Field.Number
+          align="center"
+          label="Center aligned (default)"
+          defaultValue={10}
+          onChange={(value) => console.log('onChange', value)}
+        />
+        <Field.Number
+          align="left"
+          label="Left aligned"
+          defaultValue={10}
+          onChange={(value) => console.log('onChange', value)}
+        />
+        <Field.Number
+          align="right"
+          label="Right aligned"
+          defaultValue={10}
+          onChange={(value) => console.log('onChange', value)}
+        />
+      </Flex.Stack>
     </ComponentBox>
   )
 }
@@ -115,26 +178,13 @@ export const WithHelp = () => {
   return (
     <ComponentBox>
       <Field.Number
-        value={12345}
+        defaultValue={12345}
         label="Label text"
         help={{
           title: 'Help is available',
           content:
             'Here is what a team can do for you. . . . It allows you to help others do their best.',
         }}
-        onChange={(value) => console.log('onChange', value)}
-      />
-    </ComponentBox>
-  )
-}
-
-export const HorizontalLayout = () => {
-  return (
-    <ComponentBox>
-      <Field.Number
-        value={420000}
-        label="Label text"
-        layout="horizontal"
         onChange={(value) => console.log('onChange', value)}
       />
     </ComponentBox>
@@ -149,52 +199,56 @@ export const Widths = () => {
 
         <Field.Number
           label="Default width (property omitted)"
-          value={1234}
+          defaultValue={1234}
         />
-        <Field.Number label="Small" value={1234} width="small" />
+        <Field.Number label="Small" defaultValue={1234} width="small" />
         <Field.Number
           label="Medium (and medium size)"
-          value={1234}
+          defaultValue={1234}
           width="medium"
           size="medium"
         />
         <Field.Number
           label="Large (and large size)"
-          value={1234}
+          defaultValue={1234}
           width="large"
           size="large"
         />
-        <Field.Number label="Stretch" value={1234} width="stretch" />
+        <Field.Number
+          label="Stretch"
+          defaultValue={1234}
+          width="stretch"
+        />
         <Form.SubHeading>With step controls</Form.SubHeading>
         <Field.Number
           showStepControls
           label="Default width (property omitted)"
-          value={1234}
+          defaultValue={1234}
         />
         <Field.Number
           showStepControls
           label="Small"
-          value={1234}
+          defaultValue={1234}
           width="small"
         />
         <Field.Number
           showStepControls
           label="Medium (and medium size)"
-          value={1234}
+          defaultValue={1234}
           width="medium"
           size="medium"
         />
         <Field.Number
           showStepControls
           label="Large (and large size)"
-          value={1234}
+          defaultValue={1234}
           width="large"
           size="large"
         />
         <Field.Number
           showStepControls
           label="Stretch"
-          value={1234}
+          defaultValue={1234}
           width="stretch"
         />
       </Flex.Stack>
@@ -206,49 +260,10 @@ export const Disabled = () => {
   return (
     <ComponentBox>
       <Field.Number
-        value={135}
+        defaultValue={135}
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
         disabled
-      />
-    </ComponentBox>
-  )
-}
-
-export const Info = () => {
-  return (
-    <ComponentBox>
-      <Field.Number
-        value={135}
-        label="Label text"
-        onChange={(value) => console.log('onChange', value)}
-        info="Useful information (?)"
-      />
-    </ComponentBox>
-  )
-}
-
-export const Warning = () => {
-  return (
-    <ComponentBox>
-      <Field.Number
-        value={135}
-        label="Label text"
-        onChange={(value) => console.log('onChange', value)}
-        warning="I'm warning you..."
-      />
-    </ComponentBox>
-  )
-}
-
-export const WithError = () => {
-  return (
-    <ComponentBox>
-      <Field.Number
-        value={135}
-        label="Label text"
-        onChange={(value) => console.log('onChange', value)}
-        error={new Error('This is what is wrong...')}
       />
     </ComponentBox>
   )
@@ -258,8 +273,8 @@ export const ValidateRequired = () => {
   return (
     <ComponentBox>
       <Field.Number
-        value={123}
-        label="Remove and blur field"
+        defaultValue={123}
+        label="Label text"
         onChange={(value) => console.log('onChange', value)}
         required
       />
@@ -271,7 +286,7 @@ export const ValidateMinimum = () => {
   return (
     <ComponentBox>
       <Field.Number
-        value={300}
+        defaultValue={300}
         label="Enter a number below 250 and blur to trigger error"
         onChange={(value) => console.log('onChange', value)}
         minimum={250}
@@ -301,7 +316,7 @@ export const Percentage = () => {
     <ComponentBox>
       <Field.Number
         percent
-        value={80}
+        defaultValue={80}
         label="Percentage"
         onChange={(value) => console.log('onChange', value)}
         minimum={90}
@@ -314,13 +329,13 @@ export const ValidateMaximumCustomError = () => {
   return (
     <ComponentBox>
       <Field.Number
-        value={200}
         label="Enter a number above 250 and blur to trigger error"
-        onChange={(value) => console.log('onChange', value)}
+        defaultValue={200}
         maximum={250}
         errorMessages={{
           maximum: "You can't enter a number THAR large.. Max 250!",
         }}
+        onChange={(value) => console.log('onChange', value)}
       />
     </ComponentBox>
   )
@@ -329,11 +344,12 @@ export const ValidateMaximumCustomError = () => {
 export const WithStepControls = () => (
   <ComponentBox data-visual-test="number-input-step-controls">
     <Field.Number
+      label="Label text"
       showStepControls
       minimum={0}
       maximum={100}
       step={10}
-      value={50}
+      defaultValue={50}
     />
   </ComponentBox>
 )
@@ -341,9 +357,10 @@ export const WithStepControls = () => (
 export const WithStepControlsError = () => (
   <ComponentBox data-visual-test="number-input-step-controls-error">
     <Field.Number
+      label="Label text"
       showStepControls
       maximum={100}
-      value={150}
+      defaultValue={150}
       error={new Error('You done messed up, A-a-ron!')}
     />
   </ComponentBox>
@@ -351,7 +368,7 @@ export const WithStepControlsError = () => (
 
 export const WithStepControlsDisabled = () => (
   <ComponentBox data-visual-test="number-input-step-controls-disabled">
-    <Field.Number showStepControls disabled />
+    <Field.Number label="Label text" showStepControls disabled />
   </ComponentBox>
 )
 
@@ -375,6 +392,7 @@ export const WithSlider = () => (
               }}
             >
               <Field.Number
+                label="Label text"
                 showStepControls
                 minimum={settings.min}
                 maximum={settings.max}

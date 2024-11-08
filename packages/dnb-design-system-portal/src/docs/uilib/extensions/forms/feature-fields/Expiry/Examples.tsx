@@ -23,6 +23,20 @@ export const Label = () => {
   )
 }
 
+export const HorizontalLayout = () => {
+  return (
+    <ComponentBox data-visual-test="expiry-horizontal-layout">
+      <Field.Expiry
+        value="0835"
+        layout="horizontal"
+        layoutOptions={{
+          width: 'medium', // can be a rem value
+        }}
+      />
+    </ComponentBox>
+  )
+}
+
 export const WithHelp = () => {
   return (
     <ComponentBox data-visual-test="expiry-with-help">

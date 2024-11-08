@@ -138,7 +138,7 @@ describe('FieldBlock', () => {
 
       expect(labelElement).toBeInTheDocument()
       expect(labelElement).toHaveClass(
-        'dnb-form-label dnb-space__right--small dnb-space__top--zero dnb-space__bottom--x-small'
+        'dnb-form-label dnb-space__right--small'
       )
       expect(labelElement).toHaveTextContent('A Label Description')
     })
@@ -154,7 +154,7 @@ describe('FieldBlock', () => {
 
       expect(labelElement).toBeInTheDocument()
       expect(labelElement).toHaveClass(
-        'dnb-form-label dnb-space__right--small dnb-space__top--zero dnb-space__bottom--x-small'
+        'dnb-form-label dnb-space__right--small'
       )
       expect(labelElement).toHaveTextContent('A Label Description')
     })
@@ -172,7 +172,7 @@ describe('FieldBlock', () => {
 
       expect(labelElement).toBeInTheDocument()
       expect(labelElement).toHaveClass(
-        'dnb-form-label dnb-space__right--small dnb-space__top--zero dnb-space__bottom--x-small'
+        'dnb-form-label dnb-space__right--small'
       )
       expect(labelElement).toHaveTextContent('A Label Description')
     })
@@ -188,7 +188,7 @@ describe('FieldBlock', () => {
 
       expect(labelElement).toBeInTheDocument()
       expect(labelElement).toHaveClass(
-        'dnb-form-label dnb-space__right--small dnb-space__top--zero dnb-space__bottom--x-small'
+        'dnb-form-label dnb-space__right--small'
       )
       expect(labelElement).toHaveTextContent('')
     })
@@ -491,6 +491,96 @@ describe('FieldBlock', () => {
     )
   })
 
+  describe('layoutOptions', () => {
+    it('should support width in "layoutOptions" property', () => {
+      render(
+        <FieldBlock layoutOptions={{ width: 'medium' }}>
+          content
+        </FieldBlock>
+      )
+
+      const mainElement = document.querySelector('.dnb-forms-field-block')
+
+      expect(mainElement).toHaveStyle(
+        '--dnb-forms-field-block-layout-width-min: var(--forms-field-width--medium);'
+      )
+      expect(mainElement).toHaveStyle(
+        '--dnb-forms-field-block-layout-width-max: var(--forms-field-width--medium);'
+      )
+    })
+
+    it('should support rem value in "layoutOptions" property', () => {
+      render(
+        <FieldBlock layoutOptions={{ width: '4rem' }}>content</FieldBlock>
+      )
+
+      const mainElement = document.querySelector('.dnb-forms-field-block')
+
+      expect(mainElement).toHaveStyle(
+        '--dnb-forms-field-block-layout-width-min: 4rem;'
+      )
+      expect(mainElement).toHaveStyle(
+        '--dnb-forms-field-block-layout-width-max: 4rem;'
+      )
+    })
+
+    it('should support minWidth in "layoutOptions" property', () => {
+      const { rerender } = render(
+        <FieldBlock layoutOptions={{ minWidth: 'medium' }}>
+          content
+        </FieldBlock>
+      )
+
+      const mainElement = document.querySelector('.dnb-forms-field-block')
+
+      expect(mainElement).toHaveStyle(
+        '--dnb-forms-field-block-layout-width-min: var(--forms-field-width--medium);'
+      )
+      expect(mainElement).not.toHaveStyle(
+        '--dnb-forms-field-block-layout-width-max: var(--forms-field-width--medium);'
+      )
+
+      rerender(
+        <FieldBlock layoutOptions={{ maxWidth: 'medium' }}>
+          content
+        </FieldBlock>
+      )
+
+      expect(mainElement).not.toHaveStyle(
+        '--dnb-forms-field-block-layout-width-min: var(--forms-field-width--medium);'
+      )
+      expect(mainElement).toHaveStyle(
+        '--dnb-forms-field-block-layout-width-max: var(--forms-field-width--medium);'
+      )
+    })
+
+    it('should "layoutOptions" in Field.String', () => {
+      render(<Field.String layoutOptions={{ width: 'large' }} />)
+
+      const mainElement = document.querySelector('.dnb-forms-field-block')
+
+      expect(mainElement).toHaveStyle(
+        '--dnb-forms-field-block-layout-width-min: var(--forms-field-width--large);'
+      )
+      expect(mainElement).toHaveStyle(
+        '--dnb-forms-field-block-layout-width-max: var(--forms-field-width--large);'
+      )
+    })
+
+    it('should "layoutOptions" in Field.Number', () => {
+      render(<Field.Number layoutOptions={{ width: 'large' }} />)
+
+      const mainElement = document.querySelector('.dnb-forms-field-block')
+
+      expect(mainElement).toHaveStyle(
+        '--dnb-forms-field-block-layout-width-min: var(--forms-field-width--large);'
+      )
+      expect(mainElement).toHaveStyle(
+        '--dnb-forms-field-block-layout-width-max: var(--forms-field-width--large);'
+      )
+    })
+  })
+
   it('should support "width" property', () => {
     const { rerender } = render(
       <FieldBlock width="medium">content</FieldBlock>
@@ -532,25 +622,26 @@ describe('FieldBlock', () => {
   it('should support custom "width"', () => {
     render(<FieldBlock width="4rem">content</FieldBlock>)
 
-    const element = document.querySelector('.dnb-forms-field-block')
+    const mainElement = document.querySelector('.dnb-forms-field-block')
 
-    expect(element.classList).toContain(
+    expect(mainElement.classList).toContain(
       'dnb-forms-field-block--width-custom'
     )
-    expect(element).toHaveStyle('--dnb-forms-field-block-width: 4rem;')
+    expect(mainElement).toHaveStyle('--dnb-forms-field-block-width: 4rem;')
   })
 
   it('should support custom "contentWidth"', () => {
     render(<FieldBlock contentWidth="4rem">content</FieldBlock>)
 
-    const element = document.querySelector(
+    const mainElement = document.querySelector('.dnb-forms-field-block')
+    const contentsElement = mainElement.querySelector(
       '.dnb-forms-field-block__contents'
     )
 
-    expect(element.classList).toContain(
+    expect(contentsElement.classList).toContain(
       'dnb-forms-field-block__contents--width-custom'
     )
-    expect(element).toHaveStyle(
+    expect(mainElement).toHaveStyle(
       '--dnb-forms-field-block-content-width: 4rem;'
     )
   })
@@ -788,6 +879,81 @@ describe('FieldBlock', () => {
     )
 
     log.mockRestore()
+  })
+
+  it('should summarize errors in one FormStatus components', () => {
+    const MockComponent = () => {
+      useFieldProps({
+        required: true,
+        validateInitially: true,
+      })
+
+      return null
+    }
+
+    render(
+      <FieldBlock error={new Error('Error message')}>
+        <MockComponent />
+      </FieldBlock>
+    )
+
+    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
+    expect(document.querySelector('.dnb-form-status').textContent).toBe(
+      nb.Field.errorSummary + 'Error message' + nb.Field.errorRequired
+    )
+  })
+
+  it('should summarize errors for nested FieldBlocks', () => {
+    const nested = new Error('Nested')
+    const outer = new Error('Outer')
+
+    const MockComponent = () => {
+      useFieldProps({
+        id: 'unique',
+        error: nested,
+      })
+
+      return <FieldBlock id="unique">content</FieldBlock>
+    }
+
+    render(
+      <FieldBlock error={outer}>
+        <MockComponent />
+      </FieldBlock>
+    )
+
+    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
+    expect(document.querySelector('.dnb-form-status').textContent).toBe(
+      nb.Field.errorSummary + 'Outer' + 'Nested'
+    )
+  })
+
+  it('should not summarize errors when "disableStatusSummary" is true', () => {
+    const nested = new Error('Nested')
+    const outer = new Error('Outer')
+
+    const MockComponent = () => {
+      useFieldProps({
+        id: 'unique',
+        error: nested,
+      })
+
+      return <FieldBlock id="unique">content</FieldBlock>
+    }
+
+    render(
+      <FieldBlock error={outer} disableStatusSummary>
+        <MockComponent />
+      </FieldBlock>
+    )
+
+    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(2)
+    expect(
+      document.querySelectorAll('.dnb-form-status')[0].textContent
+    ).toBe('Outer')
+    expect(
+      document.querySelectorAll('.dnb-form-status')[1].textContent
+    ).toBe('Nested')
   })
 })
 

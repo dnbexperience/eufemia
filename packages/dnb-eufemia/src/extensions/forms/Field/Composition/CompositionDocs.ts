@@ -1,8 +1,8 @@
 import { PropertiesTableProps } from '../../../../shared/types'
-import { fieldBlockProperties } from '../../FieldBlock/FieldBlockDocs'
+import { FieldBlockProperties } from '../../FieldBlock/FieldBlockDocs'
 
 export const CompositionProperties: PropertiesTableProps = {
-  ...fieldBlockProperties,
+  ...FieldBlockProperties,
   align: {
     doc: '`center` or `bottom` for aligning the contents vertically. Defaults to `bottom`.',
     type: ['string', 'false'],

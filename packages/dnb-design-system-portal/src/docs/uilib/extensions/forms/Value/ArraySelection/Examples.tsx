@@ -97,9 +97,9 @@ export const Inline = () => {
   return (
     <ComponentBox>
       <P>
-        This is before the component
-        <Value.ArraySelection value={['Foo', 'Bar', 'Baz']} inline />
-        This is after the component
+        This is before the component{' '}
+        <Value.ArraySelection value={['Foo', 'Bar', 'Baz']} inline /> This
+        is after the component
       </P>
     </ComponentBox>
   )
@@ -124,7 +124,7 @@ export const ListVariants = () => {
 
 export const ListTypes = () => {
   return (
-    <ComponentBox>
+    <ComponentBox hideCode>
       <Value.ArraySelection
         value={['Foo', 'Bar', 'Baz']}
         label="Ordered List a"
@@ -160,6 +160,12 @@ export const ListTypes = () => {
         label="Unordered List circle"
         variant="ul"
         listType="circle"
+      />
+      <Value.ArraySelection
+        value={['Foo', 'Bar', 'Baz']}
+        label="Unordered List unstyled"
+        variant="ul"
+        listType="unstyled"
       />
     </ComponentBox>
   )

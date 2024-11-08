@@ -237,6 +237,23 @@ describe('UploadFileListCell', () => {
       expect(anchorElement.href).toMatch(mockUrl)
     })
 
+    it('renders the download attribute', () => {
+      render(
+        <UploadFileListCell
+          {...defaultProps}
+          download={true}
+          uploadFile={{
+            file: createMockFile('file.png', 100, 'image/png'),
+            errorMessage: 'error message',
+          }}
+        />
+      )
+
+      const element = document.querySelector('.dnb-upload__file-cell a')
+
+      expect(element).toHaveAttribute('download', 'file.png')
+    })
+
     it('renders without the error style', () => {
       const fileName = 'file.png'
 

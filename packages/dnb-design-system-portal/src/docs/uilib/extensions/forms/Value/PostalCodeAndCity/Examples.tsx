@@ -59,9 +59,9 @@ export const Inline = () => {
   return (
     <ComponentBox>
       <P>
-        This is before the component
-        <Value.PostalCodeAndCity value="0010 Oslo" inline />
-        This is after the component
+        This is before the component{' '}
+        <Value.PostalCodeAndCity value="0010 Oslo" inline /> This is after
+        the component
       </P>
     </ComponentBox>
   )

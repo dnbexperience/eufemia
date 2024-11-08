@@ -11,6 +11,7 @@ function UploadFileList() {
     id,
     fileListAriaLabel,
     deleteButton,
+    download,
     loadingText,
     onFileDelete,
     onChange,
@@ -50,6 +51,7 @@ function UploadFileList() {
             onDelete={onDeleteHandler}
             deleteButtonText={deleteButton}
             loadingText={loadingText}
+            download={download}
           />
         )
       })}

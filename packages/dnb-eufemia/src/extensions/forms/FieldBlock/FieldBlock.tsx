@@ -34,7 +34,6 @@ import {
   FieldProps,
   SubmitState,
   Identifier,
-  FieldBlockWidth,
 } from '../types'
 import type { FormLabelAllProps } from '../../../components/FormLabel'
 import SubmitIndicator from '../Form/SubmitIndicator/SubmitIndicator'
@@ -44,54 +43,106 @@ import { FormError } from '../utils'
 
 export const states: Array<StateTypes> = ['error', 'info', 'warning']
 
-export type Props = Pick<
-  FieldProps,
-  | keyof ComponentProps
-  | 'layout'
-  | 'label'
-  | 'labelSuffix'
-  | 'labelDescription'
-  | 'info'
-  | 'warning'
-  | 'error'
-  | 'disabled'
-> & {
-  /** The id to link a element with */
-  forId?: string
-  /** Use true if you have more than one form element */
-  asFieldset?: boolean
-  /** use `true` to make the label only readable by screen readers. */
-  labelSrOnly?: boolean
-  /** Defines the layout of nested fields */
-  composition?: FieldBlockContextProps['composition']
-  /** Width of outer block element */
+/**
+ * The width of a field block
+ */
+export type CustomWidth = `${number}rem`
+export type FieldBlockWidth =
+  | false
+  | 'small'
+  | 'medium'
+  | 'large'
+  | 'stretch'
+  | CustomWidth
+export type FieldBlockHorizontalLabelWidth =
+  | 'small'
+  | 'medium'
+  | 'large'
+  | CustomWidth
+export type FieldBlockHorizontalLabelHeight =
+  | 'default'
+  | 'small'
+  | 'medium'
+  | 'large'
+
+export type SharedFieldBlockProps = {
+  /**
+   * The layout of the field block
+   */
+  layout?: 'vertical' | 'horizontal'
+  /** Use this to set additional options for the layout */
+  layoutOptions?: {
+    width?: FieldBlockHorizontalLabelWidth
+    minWidth?: FieldBlockHorizontalLabelWidth
+    maxWidth?: FieldBlockHorizontalLabelWidth
+  }
+  /**
+   * Main label text for the field
+   */
+  label?: React.ReactNode
+  /**
+   * Will append an additional text to the label, like "(optional)" or "(recommended)"
+   */
+  labelSuffix?: React.ReactNode
+  /**
+   * A more discreet text displayed beside the label
+   */
+  labelDescription?: React.ReactNode
+  /**
+   * Width of outer block element
+   */
   width?: FieldBlockWidth
-  /** Width of contents block, while label etc can be wider if space is available */
+  /**
+   * Width of contents block, while label etc can be wider if space is available
+   */
   contentWidth?: FieldBlockWidth
-  /** For composition only: Align the contents vertically */
-  align?: 'center' | 'bottom'
-  /** Class name for the contents block */
-  contentClassName?: string
-  /** To show the SubmitIndicator during async validation */
-  fieldState?: SubmitState
-  /** Typography size */
-  labelSize?: 'medium' | 'large'
-  /** For internal use only */
-  required?: boolean
-  children?: React.ReactNode
-} & React.HTMLAttributes<HTMLDivElement>
+}
+
+export type Props = SharedFieldBlockProps &
+  Pick<
+    FieldProps,
+    keyof ComponentProps | 'info' | 'warning' | 'error' | 'disabled'
+  > & {
+    /** The id to link a element with */
+    forId?: string
+    /** Use true if you have more than one form element */
+    asFieldset?: boolean
+    /** use `true` to make the label only readable by screen readers. */
+    labelSrOnly?: boolean
+    /** Defines the layout of nested fields */
+    composition?: FieldBlockContextProps['composition']
+    /** For composition only: Align the contents vertically */
+    align?: 'center' | 'bottom'
+    /** Class name for the contents block */
+    contentClassName?: string
+    /** To show the SubmitIndicator during async validation */
+    fieldState?: SubmitState
+    /** Typography size */
+    labelSize?: 'medium' | 'large'
+    /** Defines the height of an component (size prop), so the label can be aligned correctly */
+    labelHeight?: FieldBlockHorizontalLabelHeight
+    /** Disable the error summary for this field block */
+    disableStatusSummary?: boolean
+    /** For internal use only */
+    required?: boolean
+    children?: React.ReactNode
+  } & React.HTMLAttributes<HTMLDivElement>
 
 function FieldBlock(props: Props) {
   const dataContext = useContext(DataContext)
-  const nestedFieldBlockContext = useContext(FieldBlockContext)
+  const fieldBlockContext = useContext(FieldBlockContext)
+  const nestedFieldBlockContext = !fieldBlockContext?.disableStatusSummary
+    ? fieldBlockContext
+    : null
 
   const sharedData = createSharedState<Props>(
-    'field-block-props-' + (props.forId || props.id)
+    'field-block-props-' + (props.id ?? props.forId)
   )
   const {
     className,
     forId,
     layout = 'vertical',
+    layoutOptions,
     composition,
     label: labelProp,
     labelDescription,
@@ -102,10 +153,12 @@ function FieldBlock(props: Props) {
     info,
     warning,
     error: errorProp,
+    disableStatusSummary,
     fieldState,
     disabled,
     width,
     contentWidth,
+    labelHeight,
     align,
     labelSize,
     contentClassName,
@@ -400,6 +453,7 @@ function FieldBlock(props: Props) {
     'dnb-forms-field-block',
     width &&
       `dnb-forms-field-block--width-${hasCustomWidth ? 'custom' : width}`,
+    labelHeight && `dnb-forms-field-block--label-height-${labelHeight}`,
     className
   )
   const gridClasses = classnames(
@@ -419,26 +473,41 @@ function FieldBlock(props: Props) {
     element: enableFieldset ? 'legend' : 'label',
     forId: enableFieldset ? undefined : forId,
     srOnly: labelSrOnly,
-    space: { top: 0, bottom: 'x-small' },
+    space: 0, // Use CSS for spacing, but we need to reset space for doing so
     size: labelSize,
     disabled,
   }
 
   const mainStyle = useMemo(() => {
-    if (hasCustomWidth) {
-      return {
-        '--dnb-forms-field-block-width': width,
-      } as React.CSSProperties
-    }
-  }, [hasCustomWidth, width])
+    const style: React.CSSProperties = {}
 
-  const contentsStyle = useMemo(() => {
-    if (hasCustomContentWidth) {
-      return {
-        '--dnb-forms-field-block-content-width': contentWidth,
-      } as React.CSSProperties
+    if (hasCustomWidth) {
+      style['--dnb-forms-field-block-width'] = width
     }
-  }, [contentWidth, hasCustomContentWidth])
+
+    if (hasCustomContentWidth) {
+      style['--dnb-forms-field-block-content-width'] = contentWidth
+    }
+
+    const lO = layoutOptions || {}
+    const min = getFieldWidth(lO.minWidth ?? lO.width)
+    const max = getFieldWidth(lO.maxWidth ?? lO.width)
+
+    if (typeof min === 'string') {
+      style['--dnb-forms-field-block-layout-width-min'] = min
+    }
+    if (typeof max === 'string') {
+      style['--dnb-forms-field-block-layout-width-max'] = max
+    }
+
+    return style
+  }, [
+    contentWidth,
+    hasCustomContentWidth,
+    hasCustomWidth,
+    layoutOptions,
+    width,
+  ])
 
   if (dataContext?.prerenderFieldProps) {
     return null
@@ -464,6 +533,7 @@ function FieldBlock(props: Props) {
         fieldStateIdsRef,
         mountedFieldsRef,
         composition,
+        disableStatusSummary,
       }}
     >
       <Space
@@ -488,14 +558,26 @@ function FieldBlock(props: Props) {
             )}
           </LabelDescription>
 
-          <div className="dnb-forms-field-block__status">
+          <div
+            className={classnames(
+              'dnb-forms-field-block__status',
+
+              // Handle the width of the status messages
+              contentWidth &&
+                contentWidth !== 'small' &&
+                contentWidth !== 'medium' &&
+                !(parseFloat(contentWidth) <= 11) &&
+                `dnb-forms-field-block__contents--width-${
+                  hasCustomContentWidth ? 'custom' : contentWidth
+                }`
+            )}
+          >
             <FormStatus {...statusContent?.error} />
             <FormStatus {...statusContent?.warning} />
             <FormStatus {...statusContent?.info} />
           </div>
 
           <div
-            style={contentsStyle}
             className={classnames(
               'dnb-forms-field-block__contents',
               contentWidth &&
@@ -628,3 +710,16 @@ function fragmentHasOnlyUndefinedChildren(fragment: React.ReactNode) {
 FieldBlock._supportsSpacingProps = true
 
 export default FieldBlock
+
+function getFieldWidth(width: FieldBlockHorizontalLabelWidth) {
+  switch (width) {
+    case 'small':
+      return 'var(--forms-field-width--small)'
+    case 'medium':
+      return 'var(--forms-field-width--medium)'
+    case 'large':
+      return 'var(--forms-field-width--large)'
+  }
+
+  return width
+}

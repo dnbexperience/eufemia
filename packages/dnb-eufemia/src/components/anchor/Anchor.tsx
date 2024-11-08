@@ -126,6 +126,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
   const showLaunchIcon =
     _opensNewTab &&
     !className?.includes('dnb-anchor--no-icon') &&
+    !className?.includes('dnb-anchor--no-launch-icon') &&
     !omitClass
   const showTooltip = (tooltip || _opensNewTab) && !allProps.title
 

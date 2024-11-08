@@ -141,6 +141,7 @@ function EditContainer({
                 tr.ChildrenWithAge.dayCareExpenses.required,
             }}
             minimum={1}
+            maximum={1000000}
             decimalLimit={0}
             allowNegative={false}
           />
@@ -174,6 +175,7 @@ function EditContainer({
                   tr.ChildrenWithAge.jointResponsibilityExpenses.required,
               }}
               minimum={1}
+              maximum={1000000}
               decimalLimit={0}
               allowNegative={false}
             />

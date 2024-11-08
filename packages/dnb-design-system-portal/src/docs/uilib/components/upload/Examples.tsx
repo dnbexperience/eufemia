@@ -13,7 +13,7 @@ import {
   Upload,
 } from '@dnb/eufemia/src'
 
-const createMockFile = (name: string, size: number, type: string) => {
+export function createMockFile(name: string, size: number, type: string) {
   const file = new File([], name, { type })
   Object.defineProperty(file, 'size', {
     get() {
@@ -304,7 +304,7 @@ export const UploadFileMaxSizeBasedOnFileTypeDisabled = () => (
 )
 
 export const UploadDisabledFileMaxSize = () => (
-  <ComponentBox>
+  <ComponentBox data-visual-test="upload-disabled-file-max-size">
     <Upload
       acceptedFileTypes={['jpg', 'pdf']}
       id="upload-disabled-file-max-size"

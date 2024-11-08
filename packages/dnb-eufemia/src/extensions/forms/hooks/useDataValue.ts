@@ -2,6 +2,7 @@ import { useCallback, useContext, useRef } from 'react'
 import pointer from '../utils/json-pointer'
 import { Path } from '../types'
 import DataContext, { ContextState } from '../DataContext/Context'
+import IterateItemContext from '../Iterate/IterateItemContext'
 import usePath from './usePath'
 
 export type Props<Value> = {
@@ -16,7 +17,8 @@ export default function useDataValue<Value>({
   value,
 }: Props<Value> = {}) {
   const dataContextRef = useRef<ContextState>()
-  dataContextRef.current = useContext<ContextState>(DataContext)
+  dataContextRef.current = useContext(DataContext)
+  const iterateItemContext = useContext(IterateItemContext)
 
   const { makePath, makeIteratePath } = usePath()
 
@@ -76,12 +78,16 @@ export default function useDataValue<Value>({
   const getSourceValue = useCallback(
     (source: Path | Value) => {
       if (typeof source === 'string' && isPath(source)) {
+        if (iterateItemContext) {
+          return getValueByIteratePath(source)
+        }
+
         return getValueByPath(source)
       }
 
       return source
     },
-    [getValueByPath]
+    [getValueByIteratePath, getValueByPath, iterateItemContext]
   )
 
   if (pathProp) {

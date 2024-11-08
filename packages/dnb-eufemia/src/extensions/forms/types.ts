@@ -5,6 +5,7 @@ import type {
   TransformData,
   VisibleDataOptions,
 } from './DataContext'
+import type { SharedFieldBlockProps } from './FieldBlock'
 import type { JSONSchema4, JSONSchema6, JSONSchema7 } from 'json-schema'
 import type { JSONSchemaType } from 'ajv/dist/2020'
 import { JsonObject, FormError } from './utils'
@@ -264,41 +265,6 @@ export type DataValueReadWriteComponentProps<
   DataValueReadProps<Value> &
   DataValueWriteProps<Value, EmptyValue>
 
-export type FieldBlockProps = {
-  /**
-   * The layout of the field block
-   */
-  layout?: 'horizontal' | 'vertical'
-  /**
-   * Main label text for the field
-   */
-  label?: React.ReactNode
-  /**
-   * Will append an additional text to the label, like "(optional)" or "(recommended)"
-   */
-  labelSuffix?: React.ReactNode
-  /**
-   * A more discreet text displayed beside the label
-   */
-  labelDescription?: React.ReactNode
-  /**
-   * Text showing in place of the value if no value is given
-   */
-  placeholder?: React.ReactNode
-}
-
-/**
- * The width of a field block
- */
-export type CustomWidth = `${number}rem`
-export type FieldBlockWidth =
-  | false
-  | 'small'
-  | 'medium'
-  | 'large'
-  | 'stretch'
-  | CustomWidth
-
 export interface UseFieldProps<
   Value = unknown,
   EmptyValue = undefined | unknown,
@@ -316,6 +282,10 @@ export interface UseFieldProps<
   autoComplete?:
     | HTMLInputElement['autocomplete']
     | HTMLTextAreaElement['autocomplete']
+  /**
+   * Text showing in place of the value if no value is given
+   */
+  placeholder?: React.ReactNode
 
   /**
    * NB: Undocumented for now.
@@ -434,7 +404,7 @@ export type FieldProps<
   Value = unknown,
   EmptyValue = undefined | unknown,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
-> = UseFieldProps<Value, EmptyValue, ErrorMessages> & FieldBlockProps
+> = UseFieldProps<Value, EmptyValue, ErrorMessages> & SharedFieldBlockProps
 
 export type FieldPropsGeneric<
   Value = unknown,
