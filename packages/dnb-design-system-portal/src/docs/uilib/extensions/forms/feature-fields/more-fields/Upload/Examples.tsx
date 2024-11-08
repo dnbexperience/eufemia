@@ -1,7 +1,7 @@
 import { Flex } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
-import { createMockFile } from '@dnb/eufemia/src/components/upload/__tests__/testHelpers'
+import { createMockFile } from '../../../../../../../docs/uilib/components/upload/Examples'
 
 export const BasicUsage = () => {
   return (

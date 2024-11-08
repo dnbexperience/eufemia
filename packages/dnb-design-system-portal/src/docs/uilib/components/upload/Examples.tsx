@@ -12,7 +12,16 @@ import {
   Section,
   Upload,
 } from '@dnb/eufemia/src'
-import { createMockFile } from '@dnb/eufemia/src/components/upload/__tests__/testHelpers'
+
+export function createMockFile(name: string, size: number, type: string) {
+  const file = new File([], name, { type })
+  Object.defineProperty(file, 'size', {
+    get() {
+      return size
+    },
+  })
+  return file
+}
 
 const useMockFiles = (setFiles, extend) => {
   React.useEffect(() => {
