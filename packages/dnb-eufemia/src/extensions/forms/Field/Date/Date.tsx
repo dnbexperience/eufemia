@@ -139,7 +139,6 @@ export type Props = FieldHelpProps &
      * To open the date-picker by default. Defaults to `false`.
      */
     opened?: boolean
-    noAnimation?: DatePickerProps['no_animation']
     direction?: DatePickerProps['direction']
     /**
      * Use `right` to change the calendar alignment direction. Defaults to `left`.
@@ -334,7 +333,6 @@ const datePickerPropKeys = [
   'addonElement',
   'shortcuts',
   'opened',
-  'noAnimation',
   'direction',
   'alignPicker',
   'onDaysRender',
