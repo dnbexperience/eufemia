@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react'
+import React, { Fragment, useContext, useMemo } from 'react'
 import { LOCALE } from '../../shared/defaults'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import SharedContext, { InternalLocale } from '../../shared/Context'
@@ -56,7 +56,7 @@ function ListFormat(localProps: ListFormatProps) {
   const list = useMemo(() => {
     const isListVariant = variant !== 'text'
 
-    const valueToUse = children || value
+    const valueToUse = replaceRootFragment(children) || value
 
     if (!Array.isArray(valueToUse)) {
       return [valueToUse]
@@ -67,7 +67,7 @@ function ListFormat(localProps: ListFormatProps) {
           return <Li key={index}>{child}</Li>
         })
       : valueToUse
-  }, [value, children, variant])
+  }, [value, children, variant, listType])
 
   const result = useMemo(() => {
     if (variant === 'text') {
@@ -84,7 +84,7 @@ function ListFormat(localProps: ListFormatProps) {
         {list}
       </ListElement>
     )
-  }, [format, list, locale, variant, listType])
+  }, [format, list, locale])
 
   return result
 }
@@ -109,7 +109,7 @@ export function listFormat(
     return list
   }
 
-  list = list.filter(function (item) {
+  list = replaceRootFragment(list).filter(function (item) {
     const isNan = typeof item === 'number' && isNaN(item)
     return item !== undefined && item !== false && item !== null && !isNan
   })
@@ -153,6 +153,24 @@ export function listFormat(
 
     return list.join(', ')
   }
+}
+
+function replaceRootFragment(children) {
+  if (children?.type === Fragment) {
+    return React.Children.toArray(children?.props?.children)
+  }
+  if (Array.isArray(children)) {
+    const firstChild = children[0]
+    if (
+      React.Children.count(children) === 1 &&
+      firstChild?.type === Fragment
+    ) {
+      return React.Children.toArray(firstChild?.props?.children)
+    }
+    return children
+  }
+
+  return children
 }
 
 ListFormat._supportsSpacingProps = true

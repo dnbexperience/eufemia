@@ -81,6 +81,58 @@ describe('ListFormat', () => {
     expect(container).toHaveTextContent('123, 456 eller 789')
   })
 
+  it('formats array of elements the same as nested in a single fragment in value prop', () => {
+    const withRootFragment = [
+      <React.Fragment>
+        <span>a</span>
+        <span>b</span>
+        <span>c</span>
+      </React.Fragment>,
+    ]
+    const withoutRootFragment = [
+      <span>a</span>,
+      <span>b</span>,
+      <span>c</span>,
+    ]
+    const { container: containerWithoutRootFragment } = render(
+      <ListFormat variant="ol" value={withRootFragment} />
+    )
+
+    const { container: containerWithRootFragment } = render(
+      <ListFormat variant="ol" value={withoutRootFragment} />
+    )
+
+    expect(containerWithoutRootFragment.textContent).toEqual(
+      containerWithRootFragment.textContent
+    )
+  })
+
+  it('formats array of elements the same as nested in a single fragment as children', () => {
+    const withRootFragment = [
+      <React.Fragment>
+        <span>a</span>
+        <span>b</span>
+        <span>c</span>
+      </React.Fragment>,
+    ]
+    const withoutRootFragment = [
+      <span>a</span>,
+      <span>b</span>,
+      <span>c</span>,
+    ]
+    const { container: containerWithoutRootFragment } = render(
+      <ListFormat variant="ol">{withRootFragment}</ListFormat>
+    )
+
+    const { container: containerWithRootFragment } = render(
+      <ListFormat variant="ol">{withoutRootFragment}</ListFormat>
+    )
+
+    expect(containerWithoutRootFragment.textContent).toEqual(
+      containerWithRootFragment.textContent
+    )
+  })
+
   it('should render different variants', () => {
     const values = [123, 456, 789]
     const { container, rerender } = render(
@@ -267,11 +319,17 @@ describe('ListFormat', () => {
   })
 
   it('should render different `listTypes` using children as JSX', () => {
-    const { container, rerender } = render(
-      <ListFormat variant="ol" listType="a">
+    const values = (
+      <>
         <>123</>
         <>456</>
         <>789</>
+      </>
+    )
+
+    const { container, rerender } = render(
+      <ListFormat variant="ol" listType="a">
+        {values}
       </ListFormat>
     )
 
@@ -287,9 +345,7 @@ describe('ListFormat', () => {
 
     rerender(
       <ListFormat variant="ol" listType="A">
-        <>123</>
-        <>456</>
-        <>789</>
+        {values}
       </ListFormat>
     )
     expect(list('ol')).toHaveAttribute('type', 'A')
@@ -299,9 +355,7 @@ describe('ListFormat', () => {
 
     rerender(
       <ListFormat variant="ol" listType="i">
-        <>123</>
-        <>456</>
-        <>789</>
+        {values}
       </ListFormat>
     )
     expect(list('ol')).toHaveAttribute('type', 'i')
@@ -311,9 +365,7 @@ describe('ListFormat', () => {
 
     rerender(
       <ListFormat variant="ol" listType="I">
-        <>123</>
-        <>456</>
-        <>789</>
+        {values}
       </ListFormat>
     )
     expect(list('ol')).toHaveAttribute('type', 'I')
@@ -323,9 +375,7 @@ describe('ListFormat', () => {
 
     rerender(
       <ListFormat variant="ul" listType="circle">
-        <>123</>
-        <>456</>
-        <>789</>
+        {values}
       </ListFormat>
     )
     expect(list('ul')).toHaveAttribute('type', 'circle')
@@ -335,9 +385,7 @@ describe('ListFormat', () => {
 
     rerender(
       <ListFormat variant="ul" listType="disc">
-        <>123</>
-        <>456</>
-        <>789</>
+        {values}
       </ListFormat>
     )
     expect(list('ul')).toHaveAttribute('type', 'disc')
@@ -347,9 +395,7 @@ describe('ListFormat', () => {
 
     rerender(
       <ListFormat variant="ul" listType="square">
-        <>123</>
-        <>456</>
-        <>789</>
+        {values}
       </ListFormat>
     )
     expect(list('ul')).toHaveAttribute('type', 'square')
@@ -359,11 +405,16 @@ describe('ListFormat', () => {
   })
 
   it('should render different `listTypes` using children as JSX with keys', () => {
-    const { container, rerender } = render(
-      <ListFormat variant="ol" listType="a">
+    const values = (
+      <>
         <React.Fragment key="123">123</React.Fragment>
         <React.Fragment key="456">456</React.Fragment>
         <React.Fragment key="789">789</React.Fragment>
+      </>
+    )
+    const { container, rerender } = render(
+      <ListFormat variant="ol" listType="a">
+        {values}
       </ListFormat>
     )
 
@@ -376,54 +427,42 @@ describe('ListFormat', () => {
 
     rerender(
       <ListFormat variant="ol" listType="A">
-        <React.Fragment key="123">123</React.Fragment>
-        <React.Fragment key="456">456</React.Fragment>
-        <React.Fragment key="789">789</React.Fragment>
+        {values}
       </ListFormat>
     )
     expect(list('ol')).toHaveAttribute('type', 'A')
 
     rerender(
       <ListFormat variant="ol" listType="i">
-        <React.Fragment key="123">123</React.Fragment>
-        <React.Fragment key="456">456</React.Fragment>
-        <React.Fragment key="789">789</React.Fragment>
+        {values}
       </ListFormat>
     )
     expect(list('ol')).toHaveAttribute('type', 'i')
 
     rerender(
       <ListFormat variant="ol" listType="I">
-        <React.Fragment key="123">123</React.Fragment>
-        <React.Fragment key="456">456</React.Fragment>
-        <React.Fragment key="789">789</React.Fragment>
+        {values}
       </ListFormat>
     )
     expect(list('ol')).toHaveAttribute('type', 'I')
 
     rerender(
       <ListFormat variant="ul" listType="circle">
-        <React.Fragment key="123">123</React.Fragment>
-        <React.Fragment key="456">456</React.Fragment>
-        <React.Fragment key="789">789</React.Fragment>
+        {values}
       </ListFormat>
     )
     expect(list('ul')).toHaveAttribute('type', 'circle')
 
     rerender(
       <ListFormat variant="ul" listType="disc">
-        <React.Fragment key="123">123</React.Fragment>
-        <React.Fragment key="456">456</React.Fragment>
-        <React.Fragment key="789">789</React.Fragment>
+        {values}
       </ListFormat>
     )
     expect(list('ul')).toHaveAttribute('type', 'disc')
 
     rerender(
       <ListFormat variant="ul" listType="square">
-        <React.Fragment key="123">123</React.Fragment>
-        <React.Fragment key="456">456</React.Fragment>
-        <React.Fragment key="789">789</React.Fragment>
+        {values}
       </ListFormat>
     )
     expect(list('ul')).toHaveAttribute('type', 'square')
@@ -620,6 +659,31 @@ describe('listFormat', () => {
         "",
       ]
     `)
+  })
+
+  it('formats array of elements the same as nested in a single fragment', () => {
+    const withRootFragment = listFormat([
+      <React.Fragment key="a">
+        <span>a</span>
+        <span>b</span>
+        <span>c</span>
+      </React.Fragment>,
+    ])
+    const withoutRootFragment = listFormat([
+      <span>a</span>,
+      <span>b</span>,
+      <span>c</span>,
+    ])
+    const { container: containerWithRootFragment } = render(
+      withRootFragment as any
+    )
+    const { container: containerWithoutRootFragment } = render(
+      withoutRootFragment as any
+    )
+
+    expect(containerWithRootFragment.textContent).toEqual(
+      containerWithoutRootFragment.textContent
+    )
   })
 
   it('accepts custom format', () => {
