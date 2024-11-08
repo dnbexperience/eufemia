@@ -537,8 +537,16 @@ describe('listFormat', () => {
     expect(listFormat(['Foo', 'Bar', 'Baz'])).toBe('Foo, Bar og Baz')
   })
 
+  it('accepts array with empty string values', () => {
+    expect(listFormat(['', '', ''])).toBe(',  og ')
+  })
+
   it('accepts array with number values', () => {
     expect(listFormat([123, 456, 789])).toBe('123, 456 og 789')
+  })
+
+  it('accepts array with negative number values', () => {
+    expect(listFormat([-123, -456, -789])).toBe('-123, -456 og -789')
   })
 
   it('accepts array with jsx values', () => {
