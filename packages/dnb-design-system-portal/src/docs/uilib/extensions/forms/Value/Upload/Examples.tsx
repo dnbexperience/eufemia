@@ -30,11 +30,6 @@ export const WithValue = () => {
             exists: false,
             id: '2',
           },
-          {
-            file: createMockFile('fileName-3.png', 3000000, 'image/png'),
-            exists: false,
-            id: '3',
-          },
         ]}
       />
     </ComponentBox>
@@ -91,11 +86,6 @@ export const WithDownload = () => {
             exists: false,
             id: '2',
           },
-          {
-            file: createMockFile('fileName-3.png', 3000000, 'image/png'),
-            exists: false,
-            id: '3',
-          },
         ]}
       />
     </ComponentBox>
@@ -118,11 +108,6 @@ export const WithCustomFormat = () => {
               file: createMockFile('fileName-2.png', 2000000, 'image/png'),
               exists: false,
               id: '2',
-            },
-            {
-              file: createMockFile('fileName-3.png', 3000000, 'image/png'),
-              exists: false,
-              id: '3',
             },
           ],
         }}
@@ -200,11 +185,6 @@ export const LabelAndValue = () => {
             exists: false,
             id: '2',
           },
-          {
-            file: createMockFile('fileName-3.png', 3000000, 'image/png'),
-            exists: false,
-            id: '3',
-          },
         ]}
       />
     </ComponentBox>
@@ -219,7 +199,7 @@ export const Inline = () => {
       data-visual-test="upload-value-inline"
     >
       <Span>
-        This is before the component
+        This is before the component{' '}
         <Value.Upload
           value={[
             {
@@ -234,7 +214,7 @@ export const Inline = () => {
             },
           ]}
           inline
-        />
+        />{' '}
         This is after the component
       </Span>
     </ComponentBox>
