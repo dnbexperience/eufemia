@@ -169,7 +169,6 @@ const UploadFileListCell = ({
           href={imageUrl}
           download={download ? file.name : null}
           className={classnames(
-            'dnb-anchor',
             'dnb-anchor--no-launch-icon',
             'dnb-upload__file-cell__title'
           )}
