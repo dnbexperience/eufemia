@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import classnames from 'classnames'
 
 // Components
-import Anchor from '../components/Anchor'
+import Anchor from '../../components/Anchor'
 import Button from '../button/Button'
 import Icon from '../../components/Icon'
 import FormStatus from '../../components/FormStatus'
