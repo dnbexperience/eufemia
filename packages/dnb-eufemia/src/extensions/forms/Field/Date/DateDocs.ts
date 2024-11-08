@@ -125,11 +125,6 @@ export const DateProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  labelSrOnly: {
-    doc: 'Use `true` to make the label only readable by screen readers.',
-    type: 'boolean',
-    status: 'optional',
-  },
   shortcuts: {
     doc: 'Gives you the possibility to set predefined dates and date ranges so the user can select these by one click. Define either a JSON or an object with the defined shortcuts. More info is below.',
     type: 'object',
