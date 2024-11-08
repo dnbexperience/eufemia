@@ -74,7 +74,6 @@ export const WithDownload = () => {
     <ComponentBox hideCode scope={{ createMockFile }}>
       <Value.Upload
         download
-        inline
         value={[
           {
             file: createMockFile('fileName-1.png', 1000000, 'image/png'),
