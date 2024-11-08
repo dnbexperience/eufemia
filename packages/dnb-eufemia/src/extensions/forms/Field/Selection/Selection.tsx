@@ -171,6 +171,7 @@ function Selection(props: Props) {
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
     className: cn,
+    disableStatusSummary: true,
     ...pickSpacingProps(props),
   }
 

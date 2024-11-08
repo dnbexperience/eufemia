@@ -108,6 +108,7 @@ function ArraySelection(props: Props) {
         ) : undefined}
       </>
     ),
+    disableStatusSummary: true,
     ...pickSpacingProps(props),
   }
 

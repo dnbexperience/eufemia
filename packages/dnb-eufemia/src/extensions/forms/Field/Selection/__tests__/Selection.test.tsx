@@ -13,6 +13,9 @@ import DrawerListProvider from '../../../../../fragments/drawer-list/DrawerListP
 import { makeOptions } from '../Selection'
 import { Field, Form } from '../../..'
 
+import nbNO from '../../../constants/locales/nb-NO'
+const nb = nbNO['nb-NO']
+
 describe('Selection', () => {
   it('renders selected option', () => {
     render(
@@ -1739,6 +1742,45 @@ describe('validation and error handling', () => {
     expect(first.className).toContain('dnb-toggle-button__status--error')
     expect(second.className).not.toContain(
       'dnb-toggle-button__status--error'
+    )
+  })
+
+  it('should show error under the nested field', () => {
+    render(
+      <Field.Selection variant="radio" validateInitially>
+        <Field.Option value="first" title="First" />
+        <Field.Number value={1} exclusiveMinimum={900} validateInitially />
+      </Field.Selection>
+    )
+
+    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
+    expect(document.querySelector('.dnb-form-status').textContent).toBe(
+      nb.NumberField.errorExclusiveMinimum.replace(
+        '{exclusiveMinimum}',
+        '900'
+      )
+    )
+  })
+
+  it('should show errors in separate FormStatus components', () => {
+    render(
+      <Field.Selection variant="radio" required validateInitially>
+        <Field.Option value="first" title="First" />
+        <Field.Number value={1} exclusiveMinimum={900} validateInitially />
+      </Field.Selection>
+    )
+
+    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(2)
+    const [first, second] = Array.from(
+      document.querySelectorAll('.dnb-form-status')
+    )
+
+    expect(first.textContent).toBe(nb.Field.errorRequired)
+    expect(second.textContent).toBe(
+      nb.NumberField.errorExclusiveMinimum.replace(
+        '{exclusiveMinimum}',
+        '900'
+      )
     )
   })
 })
