@@ -2,16 +2,6 @@ import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Card } from '@dnb/eufemia/src'
 import { Field, Form, Value } from '@dnb/eufemia/src/extensions/forms'
 
-function createMockFile(name: string, size: number, type: string) {
-  const file = new File([], name, { type })
-  Object.defineProperty(file, 'size', {
-    get() {
-      return size
-    },
-  })
-  return file
-}
-
 export const DefaultLayout = () => {
   return (
     <ComponentBox data-visual-test="forms-value-summary-list-default">
@@ -142,36 +132,15 @@ export function InheritVisibility() {
 
 export function InheritLabel() {
   return (
-    <ComponentBox scope={{ createMockFile }}>
+    <ComponentBox>
       <Form.Handler>
         <Card stack>
           <Field.String path="/foo" defaultValue="foo" label="foo label" />
           <Field.String path="/bar" defaultValue="bar" label="bar label" />
-          <Field.Upload
-            path="/baz"
-            defaultValue={[
-              {
-                file: createMockFile(
-                  'fileName-1.png',
-                  1000000,
-                  'image/png',
-                ),
-              },
-              {
-                file: createMockFile(
-                  'fileName-2.png',
-                  2000000,
-                  'image/png',
-                ),
-              },
-            ]}
-            label="baz label"
-          />
 
           <Value.SummaryList inheritLabel>
             <Value.String path="/foo" />
             <Value.String path="/bar" />
-            <Value.Upload path="/baz" />
           </Value.SummaryList>
         </Card>
       </Form.Handler>
