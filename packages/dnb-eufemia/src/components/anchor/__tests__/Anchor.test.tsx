@@ -117,6 +117,21 @@ describe('Anchor element', () => {
       ).not.toBeInTheDocument()
     })
 
+    it('has no "__launch-icon" class when adding class dnb-anchor--no-launch-icon', () => {
+      render(
+        <Anchor
+          href="/url"
+          target="_blank"
+          className="dnb-anchor--no-launch-icon"
+        >
+          <span>text</span>
+        </Anchor>
+      )
+      expect(
+        document.querySelector('.dnb-anchor--launch-icon')
+      ).not.toBeInTheDocument()
+    })
+
     it('has no tooltip when title was given', () => {
       render(
         <Anchor href="/url" target="_blank" title="Title">

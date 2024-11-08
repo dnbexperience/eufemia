@@ -2,6 +2,7 @@ import React, { useRef } from 'react'
 import classnames from 'classnames'
 
 // Components
+import Anchor from '../components/Anchor'
 import Button from '../button/Button'
 import Icon from '../../components/Icon'
 import FormStatus from '../../components/FormStatus'
@@ -163,18 +164,19 @@ const UploadFileListCell = ({
       </div>
     ) : (
       <div className="dnb-upload__file-cell__text-container">
-        <a
+        <Anchor
           target="_blank"
           href={imageUrl}
           download={download ? file.name : null}
           className={classnames(
             'dnb-anchor',
+            'dnb-anchor--no-launch-icon',
             'dnb-upload__file-cell__title'
           )}
           rel="noopener noreferrer"
         >
           {file.name}
-        </a>
+        </Anchor>
       </div>
     )
   }
