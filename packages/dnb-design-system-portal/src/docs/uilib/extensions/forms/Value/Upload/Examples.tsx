@@ -173,7 +173,6 @@ export const LabelAndValue = () => {
     <ComponentBox hideCode scope={{ createMockFile }}>
       <Value.Upload
         label="Label text"
-        inline
         value={[
           {
             file: createMockFile('fileName-1.png', 1000000, 'image/png'),
