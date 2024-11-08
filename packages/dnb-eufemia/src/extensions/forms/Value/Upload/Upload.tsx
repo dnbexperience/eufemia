@@ -5,7 +5,6 @@ import { ValueProps } from '../../types'
 import ValueBlock from '../../ValueBlock'
 import { Anchor } from '../../../../components'
 import Icon from '../../../../components/Icon'
-import Span from '../../../../elements/Span'
 import ListFormat, {
   ListFormatProps,
 } from '../../../../components/list-format'
@@ -48,7 +47,7 @@ function Upload(props: Props) {
         }
         const imageUrl = URL.createObjectURL(file)
         return (
-          <Span key={index}>
+          <span key={index}>
             {getIcon(file)}
             <Anchor
               target="_blank"
@@ -59,9 +58,9 @@ function Upload(props: Props) {
               left="x-small"
             >
               {file.name}
-              {getSize(displaySize, file.size)}
+              {displaySize && getSize(file.size)}
             </Anchor>
-          </Span>
+          </span>
         )
       }) || undefined
 
@@ -89,8 +88,8 @@ function Upload(props: Props) {
   )
 }
 
-function getSize(displaySize: boolean, size: number) {
-  if (!displaySize || !size) {
+function getSize(size: number) {
+  if (!size) {
     return
   }
   // Converts from b (binary) to MB (decimal)
