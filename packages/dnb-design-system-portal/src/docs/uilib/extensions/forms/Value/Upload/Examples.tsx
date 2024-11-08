@@ -41,7 +41,7 @@ export const WithSize = () => {
     <ComponentBox
       hideCode
       scope={{ createMockFile }}
-      data-visual-test="upload-value-default"
+      data-visual-test="upload-value-size"
     >
       <Value.Upload
         displaySize

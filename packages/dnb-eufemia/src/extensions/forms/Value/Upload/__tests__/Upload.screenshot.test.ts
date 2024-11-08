@@ -15,6 +15,13 @@ describe('Value.Upload', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match upload displaying size', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="upload-value-size"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to list upload inline', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-value-inline"]',
