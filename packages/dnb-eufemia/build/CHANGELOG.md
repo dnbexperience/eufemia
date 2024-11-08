@@ -3,6 +3,47 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.55.0](https://github.com/dnbexperience/eufemia/compare/v10.54.1...v10.55.0) (2024-11-08)
+
+
+### :zap: Refactoring
+
+* center cards on ultra-wide monitors and fix capitalization typo ([#4214](https://github.com/dnbexperience/eufemia/issues/4214)) ([0ec1388](https://github.com/dnbexperience/eufemia/commit/0ec1388d8a4472155206afb2320bf4320cebd552))
+
+
+### :memo: Documentation
+
+* **CountryFlag:** `iso` defaults to `NO` ([#4234](https://github.com/dnbexperience/eufemia/issues/4234)) ([cab3c32](https://github.com/dnbexperience/eufemia/commit/cab3c32419a68281a6802fdbf3dea5ffacc89349))
+* display all Value components in the Value menu ([#4231](https://github.com/dnbexperience/eufemia/issues/4231)) ([d260a9c](https://github.com/dnbexperience/eufemia/commit/d260a9cd7ade53520648dfc1d570cd2fd2b9edbe))
+
+
+### :bug: Bug Fixes
+
+* ensure components having `fieldset` inside still can use spacing ([#4236](https://github.com/dnbexperience/eufemia/issues/4236)) ([d4e4334](https://github.com/dnbexperience/eufemia/commit/d4e4334180326aa089a3e842150243a87f17354c))
+* **Forms:** add Iterate support for Field.PostalCodeAndCity when using `country` with a path ([#4215](https://github.com/dnbexperience/eufemia/issues/4215)) ([6f80ed9](https://github.com/dnbexperience/eufemia/commit/6f80ed9f83e163c203b5a5792a413870e67c24be)), closes [#4200](https://github.com/dnbexperience/eufemia/issues/4200)
+* **Forms:** ensure `Field.Number` with `percent` and without a value renders correctly ([#4230](https://github.com/dnbexperience/eufemia/issues/4230)) ([96fa2a5](https://github.com/dnbexperience/eufemia/commit/96fa2a5eaeab87f2017a33bc7414fa834a8e08f8)), closes [#4228](https://github.com/dnbexperience/eufemia/issues/4228)
+* **Forms:** fix vertical gap between Field.ArraySelection toggle buttons with checkbox variant ([#4217](https://github.com/dnbexperience/eufemia/issues/4217)) ([83f0b37](https://github.com/dnbexperience/eufemia/commit/83f0b370ac6974774ea356987a8b3e22f22cb99c))
+* **Forms:** remove extra space from Value.* components with `inline` property ([#4246](https://github.com/dnbexperience/eufemia/issues/4246)) ([8b96fd1](https://github.com/dnbexperience/eufemia/commit/8b96fd1d1c9b8be220f47d8d5027d3a7a7adf964))
+* **Forms:** should display error underneath fields when nested inside Field.Selection or Field.ArraySelection   ([#4225](https://github.com/dnbexperience/eufemia/issues/4225)) ([c0f1a02](https://github.com/dnbexperience/eufemia/commit/c0f1a0203434e9e1cb69558f209b1b38ddd4aa0d))
+* remove legacy `fieldset` reset ([#4237](https://github.com/dnbexperience/eufemia/issues/4237)) ([a2f368b](https://github.com/dnbexperience/eufemia/commit/a2f368bda20e82faac14357e206bac4cda1a5a00))
+* **Upload:** alignment when displaying single DL item ([#4210](https://github.com/dnbexperience/eufemia/issues/4210)) ([5f745f5](https://github.com/dnbexperience/eufemia/commit/5f745f581ec9ee98d7d03d6c990f56c76a681b3c))
+* **Upload:** fix `UploadFile` type to include `id` as required ([#4218](https://github.com/dnbexperience/eufemia/issues/4218)) ([b24fdfd](https://github.com/dnbexperience/eufemia/commit/b24fdfdfcfd8b169c5eb295c0c2b805754403457))
+
+
+### :sparkles: Features
+
+* **Card:** add style for nested cards ([#4244](https://github.com/dnbexperience/eufemia/issues/4244)) ([f45aa4a](https://github.com/dnbexperience/eufemia/commit/f45aa4a6cd7c2654bf40e68600ecf27641f70b52))
+* **Card:** remove `beta` badge ([#4211](https://github.com/dnbexperience/eufemia/issues/4211)) ([67a4fbd](https://github.com/dnbexperience/eufemia/commit/67a4fbd4fb4ddf43b8304b4e7f162a2d01ed1704))
+* **ChildrenWithAge:** add maximum possible value to joint-responsibility & daycare ([#4219](https://github.com/dnbexperience/eufemia/issues/4219)) ([9b9c517](https://github.com/dnbexperience/eufemia/commit/9b9c517ee82f47343319aadd0898589559e3d38e))
+* **CountryFlag:** add iso to properties table ([#4232](https://github.com/dnbexperience/eufemia/issues/4232)) ([9dc57cb](https://github.com/dnbexperience/eufemia/commit/9dc57cb6a9d9d526628147d2ee9e4efdceaff51e))
+* **DatePicker:** Convert to functional components with typescript and hooks ([#2799](https://github.com/dnbexperience/eufemia/issues/2799)) ([45687ea](https://github.com/dnbexperience/eufemia/commit/45687ea9e69c5e2575de614ce8ee09505f7b8e64))
+* **Forms:** add `layoutOptions` for enhanced horizontal label layout ([#4208](https://github.com/dnbexperience/eufemia/issues/4208)) ([8d84d97](https://github.com/dnbexperience/eufemia/commit/8d84d97a52ce193dc1849f2700761ed051425c9b))
+* **Forms:** add `transformLabel` to Value.Composition ([#4207](https://github.com/dnbexperience/eufemia/issues/4207)) ([c966bc1](https://github.com/dnbexperience/eufemia/commit/c966bc1927af8d371a6138e8d455824ebc454023))
+* **Forms:** add `Value.Upload` component ([#4233](https://github.com/dnbexperience/eufemia/issues/4233)) ([3adddac](https://github.com/dnbexperience/eufemia/commit/3adddac906848dc6f7c1648136785be845dec362))
+* **Forms:** add EditButton, CancelButton and DoneButton to Form.Section containers ([#4223](https://github.com/dnbexperience/eufemia/issues/4223)) ([092abcd](https://github.com/dnbexperience/eufemia/commit/092abcd5ad5c43b5970f191af39307d9324851f3))
+* **ListFormat:** add `ListFormat` component ([#4238](https://github.com/dnbexperience/eufemia/issues/4238)) ([63613f1](https://github.com/dnbexperience/eufemia/commit/63613f163216cb2fa99c4b83b14cb2848de9b680))
+* **Upload:** add `download` prop to enable file downloads instead of opening in a new tab ([#4213](https://github.com/dnbexperience/eufemia/issues/4213)) ([3e92934](https://github.com/dnbexperience/eufemia/commit/3e929344c5b3c00eadc8ef6adf40814b5d9ad974))
+
 ## [10.54.1](https://github.com/dnbexperience/eufemia/compare/v10.54.0...v10.54.1) (2024-10-31)
 
 
