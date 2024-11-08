@@ -49,9 +49,9 @@ export const Inline = () => {
   return (
     <ComponentBox>
       <P>
-        This is before the component
-        <Value.Email value="firstname.lastname@domain.com" inline />
-        This is after the component
+        This is before the component{' '}
+        <Value.Email value="firstname.lastname@domain.com" inline /> This
+        is after the component
       </P>
     </ComponentBox>
   )

@@ -46,8 +46,7 @@ export const Inline = () => {
   return (
     <ComponentBox>
       <P>
-        This is before the component
-        <Value.Number value={123} inline />
+        This is before the component <Value.Number value={123} inline />{' '}
         This is after the component
       </P>
     </ComponentBox>

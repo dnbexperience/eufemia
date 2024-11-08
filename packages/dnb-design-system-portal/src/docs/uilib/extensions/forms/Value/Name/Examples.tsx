@@ -55,10 +55,10 @@ export const Inline = () => {
         }}
       >
         <P>
-          This is before the component
-          <Value.Name.First path="/firstName" inline />
-          <Value.Name.Last path="/lastName" inline />
-          This is after the component
+          This is before the component{' '}
+          <Value.Name.First path="/firstName" inline />{' '}
+          <Value.Name.Last path="/lastName" inline /> This is after the
+          component
         </P>
       </Form.Handler>
     </ComponentBox>

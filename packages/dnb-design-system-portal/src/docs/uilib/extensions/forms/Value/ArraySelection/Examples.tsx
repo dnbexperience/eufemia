@@ -97,9 +97,9 @@ export const Inline = () => {
   return (
     <ComponentBox>
       <P>
-        This is before the component
-        <Value.ArraySelection value={['Foo', 'Bar', 'Baz']} inline />
-        This is after the component
+        This is before the component{' '}
+        <Value.ArraySelection value={['Foo', 'Bar', 'Baz']} inline /> This
+        is after the component
       </P>
     </ComponentBox>
   )

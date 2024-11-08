@@ -48,9 +48,9 @@ export const Inline = () => {
   return (
     <ComponentBox>
       <P>
-        This is before the component
-        <Value.SelectCountry value="NO" inline />
-        This is after the component
+        This is before the component{' '}
+        <Value.SelectCountry value="NO" inline /> This is after the
+        component
       </P>
     </ComponentBox>
   )
