@@ -89,9 +89,6 @@ function ListFormat(localProps: ListFormatProps) {
   return result
 }
 
-// Support for "ListFormat.format(list)" for non-React usage
-ListFormat.format = listFormat
-
 export function listFormat(
   list: Array<React.ReactNode>,
   {
