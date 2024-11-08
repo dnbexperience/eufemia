@@ -6,7 +6,7 @@ import React, {
   useRef,
 } from 'react'
 import classnames from 'classnames'
-import { Flex, HeightAnimation } from '../../../../../components'
+import { Card, HeightAnimation } from '../../../../../components'
 import SectionContainerContext, {
   SectionContainerContextState,
 } from './SectionContainerContext'
@@ -123,16 +123,17 @@ function SectionContainer(props: Props & FlexContainerProps) {
       duration={450}
       keepInDOM // Ensure fields get mounted so they will sync with the data context
     >
-      <Flex.Stack
+      <Card
+        stack
+        innerSpace={variant === 'basic' ? false : 'small'}
         className="dnb-forms-section-block__inner"
         {...restProps}
-        element="section"
         aria-label={ariaLabel}
         innerRef={containerRef}
         tabIndex={-1}
       >
         {children}
-      </Flex.Stack>
+      </Card>
     </HeightAnimation>
   )
 }

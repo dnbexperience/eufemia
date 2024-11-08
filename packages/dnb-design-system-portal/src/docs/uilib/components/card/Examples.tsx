@@ -32,6 +32,22 @@ export const Default = () => {
   )
 }
 
+export const NestedCards = () => {
+  return (
+    <ComponentBox data-visual-test="layout-card-nested">
+      <Card>
+        <P>First Card</P>
+        <Card top>
+          <P>Second Card</P>
+          <Card top>
+            <P>Third Card (for edge cases only)</P>
+          </Card>
+        </Card>
+      </Card>
+    </ComponentBox>
+  )
+}
+
 export const WithTable = () => {
   return (
     <ComponentBox data-visual-test="layout-card-table">
