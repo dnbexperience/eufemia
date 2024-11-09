@@ -1,19 +1,17 @@
 import React, { useCallback, useMemo } from 'react'
-import { FieldHelpProps, FieldProps } from '../../types'
+import { FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { useFieldProps } from '../../hooks'
 import classnames from 'classnames'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import { MultiInputMask } from '../../../../components/input-masked'
 import type { MultiInputMaskValue } from '../../../../components/input-masked'
-import { HelpButton } from '../../../../components'
 import { useTranslation as useSharedTranslation } from '../../../../shared'
 import useTranslation from '../../hooks/useTranslation'
 
 type ExpiryValue = MultiInputMaskValue<'month' | 'year'>
 
-export type ExpiryProps = FieldHelpProps &
-  FieldProps<string, undefined | ''>
+export type ExpiryProps = FieldProps<string, undefined | ''>
 
 function Expiry(props: ExpiryProps) {
   const {
@@ -59,7 +57,6 @@ function Expiry(props: ExpiryProps) {
     hasError,
     info,
     warning,
-    help,
     disabled,
     value = '',
     htmlAttributes,
@@ -130,11 +127,6 @@ function Expiry(props: ExpiryProps) {
             ...htmlAttributes,
           },
         ]}
-        suffix={
-          help ? (
-            <HelpButton title={help.title}>{help.content}</HelpButton>
-          ) : undefined
-        }
       />
     </FieldBlock>
   )

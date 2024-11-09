@@ -43,6 +43,7 @@ describe('Form.MainHeading', () => {
       'dnb-heading',
       'dnb-h--large',
       'dnb-forms-main-heading',
+      'dnb-card--indent',
       'custom-class',
     ])
   })

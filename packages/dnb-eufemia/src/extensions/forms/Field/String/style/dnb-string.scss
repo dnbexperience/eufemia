@@ -1,0 +1,16 @@
+@import '../../../../../style/core/utilities.scss';
+
+.dnb-forms-field-string {
+  .dnb-forms-field-block {
+    &__label {
+      align-items: baseline;
+    }
+  }
+
+  // Ensure inputs to not overflow on xx-small (defined above), but exclude e.g. Autocomplete
+  @include allBelow(xx-small) {
+    .dnb-input__shell {
+      width: 90%;
+    }
+  }
+}

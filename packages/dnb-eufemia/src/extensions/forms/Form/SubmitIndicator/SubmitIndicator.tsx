@@ -36,15 +36,17 @@ function SubmitIndicator(props: Props) {
   const key = useMemo(() => convertJsxToString(children), [children])
 
   useLayoutEffect(() => {
-    if (children && state) {
+    if (key) {
       setWillWrap(willWordWrap(childrenRef.current, '. . . '))
     }
-  }, [children, state])
+  }, [key])
 
   const params = {
     className: classnames(
       'dnb-forms-submit-indicator',
       state && `dnb-forms-submit-indicator--state-${state}`,
+      (!state || state === 'complete') &&
+        'dnb-forms-submit-indicator--standby',
       willWrap && 'dnb-forms-submit-indicator--inline-wrap',
       className
     ),
@@ -107,9 +109,14 @@ function willWordWrap(element: HTMLElement, word: string) {
 
   const { offsetHeight, innerHTML } = element
 
-  element.innerHTML += word
-  const height = element.offsetHeight
-  element.innerHTML = innerHTML
+  const clone = element.cloneNode(true) as HTMLElement
+  element.parentElement?.insertBefore(clone, element)
+
+  clone.innerHTML += word
+  const height = clone.offsetHeight
+  clone.innerHTML = innerHTML
+
+  clone.remove()
 
   return height > offsetHeight
 }

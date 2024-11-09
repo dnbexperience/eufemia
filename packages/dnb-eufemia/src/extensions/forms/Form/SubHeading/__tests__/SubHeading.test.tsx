@@ -41,6 +41,7 @@ describe('Form.SubHeading', () => {
       'dnb-heading',
       'dnb-h--medium',
       'dnb-forms-sub-heading',
+      'dnb-card--indent',
       'custom-class',
     ])
   })

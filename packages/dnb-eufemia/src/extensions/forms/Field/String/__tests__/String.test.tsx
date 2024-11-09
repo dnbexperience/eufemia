@@ -64,7 +64,7 @@ describe('Field.String', () => {
       )
       expect(
         document.querySelector('input').getAttribute('aria-describedby')
-      ).toBe(document.querySelector('.dnb-input__suffix').id)
+      ).toBe(document.querySelector('.dnb-help-button').id)
       expect(
         document
           .querySelector('.dnb-help-button')
@@ -691,6 +691,34 @@ describe('Field.String', () => {
       fireEvent.blur(input)
       expect(onBlur).toHaveBeenCalledTimes(2)
       expect(onBlur).toHaveBeenNthCalledWith(2, 'song2345')
+    })
+
+    it('should show submit indicator on async onChange', async () => {
+      const onChange = jest.fn(async () => {
+        await wait(30)
+      })
+
+      render(<Field.String label="Label" onChange={onChange} />)
+
+      const input = document.querySelector('input')
+      const indicator = document.querySelector(
+        '.dnb-forms-submit-indicator'
+      )
+
+      await userEvent.type(input, 'foo')
+
+      await waitFor(() => {
+        expect(input).not.toBeDisabled()
+        expect(indicator).toHaveClass(
+          'dnb-forms-submit-indicator--state-pending'
+        )
+      })
+      await waitFor(() => {
+        expect(input).not.toBeDisabled()
+        expect(indicator).toHaveClass(
+          'dnb-forms-submit-indicator--state-complete'
+        )
+      })
     })
   })
 

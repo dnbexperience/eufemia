@@ -137,4 +137,11 @@
       }
     }
   }
+
+  // Ensure inputs to not overflow on xx-small (defined above), but exclude e.g. Autocomplete
+  @include allBelow(xx-small) {
+    .dnb-input__shell {
+      width: 90%;
+    }
+  }
 }

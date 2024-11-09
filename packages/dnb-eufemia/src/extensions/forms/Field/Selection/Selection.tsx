@@ -1,12 +1,15 @@
 import React, { useMemo, useCallback } from 'react'
 import classnames from 'classnames'
-import { makeUniqueId } from '../../../../shared/component-helper'
+import {
+  convertJsxToString,
+  makeUniqueId,
+} from '../../../../shared/component-helper'
 import {
   ToggleButton,
   Dropdown,
   Radio,
-  HelpButton,
   Autocomplete,
+  HelpButton,
 } from '../../../../components'
 import OptionField, { Props as OptionFieldProps } from '../Option'
 import { useFieldProps } from '../../hooks'
@@ -16,11 +19,11 @@ import FieldBlock, {
   Props as FieldBlockProps,
   FieldBlockWidth,
 } from '../../FieldBlock'
-import { FieldProps, FieldHelpProps, Path } from '../../types'
+import { FieldProps, Path } from '../../types'
 import type { FormStatusText } from '../../../../components/FormStatus'
 import type { AutocompleteAllProps } from '../../../../components/Autocomplete'
 import type { DropdownAllProps } from '../../../../components/Dropdown'
-import { HelpButtonProps } from '../../../../components/HelpButton'
+import { HelpProps } from '../../../../components/help-button/HelpButtonInline'
 import { DrawerListProps } from '../../../../fragments/DrawerList'
 import {
   convertCamelCaseProps,
@@ -40,52 +43,51 @@ export type Data = Array<{
   text?: React.ReactNode
 }>
 
-export type Props = FieldHelpProps &
-  FieldProps<IOption['value']> & {
-    /**
-     * Defines the variant of the component.
-     * Default: dropdown
-     */
-    variant?: 'dropdown' | 'autocomplete' | 'radio' | 'button'
+export type Props = FieldProps<IOption['value']> & {
+  /**
+   * Defines the variant of the component.
+   * Default: dropdown
+   */
+  variant?: 'dropdown' | 'autocomplete' | 'radio' | 'button'
 
-    /**
-     * The width of the component.
-     * Default: large
-     */
-    width?: FieldBlockWidth
+  /**
+   * The width of the component.
+   * Default: large
+   */
+  width?: FieldBlockWidth
 
-    /**
-     * Defines the layout of the options for radio and button variants.
-     */
-    optionsLayout?: 'horizontal' | 'vertical'
+  /**
+   * Defines the layout of the options for radio and button variants.
+   */
+  optionsLayout?: 'horizontal' | 'vertical'
 
-    /**
-     * The path to the context data (Form.Handler).
-     * The context data object needs to have a `value` and a `title` property.
-     */
-    dataPath?: Path
+  /**
+   * The path to the context data (Form.Handler).
+   * The context data object needs to have a `value` and a `title` property.
+   */
+  dataPath?: Path
 
-    /**
-     * Data to be used for the component. The object needs to have a `value` and a `title` property.
-     * The generated options will be placed above given JSX based children.
-     */
-    data?: Data
+  /**
+   * Data to be used for the component. The object needs to have a `value` and a `title` property.
+   * The generated options will be placed above given JSX based children.
+   */
+  data?: Data
 
-    /**
-     * Autocomplete specific props
-     */
-    autocompleteProps?: ToCamelCase<AutocompleteAllProps>
+  /**
+   * Autocomplete specific props
+   */
+  autocompleteProps?: ToCamelCase<AutocompleteAllProps>
 
-    /**
-     * Dropdown specific props
-     */
-    dropdownProps?: ToCamelCase<DropdownAllProps>
+  /**
+   * Dropdown specific props
+   */
+  dropdownProps?: ToCamelCase<DropdownAllProps>
 
-    /**
-     * The content of the component.
-     */
-    children?: React.ReactNode
-  }
+  /**
+   * The content of the component.
+   */
+  children?: React.ReactNode
+}
 
 function Selection(props: Props) {
   const clearValue = useMemo(() => `clear-option-${makeUniqueId()}`, [])
@@ -94,6 +96,7 @@ function Selection(props: Props) {
     id,
     className,
     variant = 'dropdown',
+    layout = 'vertical',
     optionsLayout = 'vertical',
     placeholder,
     path,
@@ -103,7 +106,6 @@ function Selection(props: Props) {
     error,
     hasError,
     disabled,
-    help,
     emptyValue,
     width = 'large',
     htmlAttributes,
@@ -164,7 +166,8 @@ function Selection(props: Props) {
   const cn = classnames(
     'dnb-forms-field-selection',
     `dnb-forms-field-selection__variant--${variant}`,
-    `dnb-forms-field-selection__options-layout--${optionsLayout}`,
+    `dnb-forms-field-selection--layout-${layout}`,
+    `dnb-forms-field-selection--options-layout--${optionsLayout}`,
     className
   )
 
@@ -240,9 +243,6 @@ function Selection(props: Props) {
         disabled,
         ...htmlAttributes,
         data,
-        suffix: help ? (
-          <HelpButton title={help.title}>{help.content}</HelpButton>
-        ) : undefined,
         on_change: handleDropdownChange,
         on_show: handleShow,
         on_hide: handleHide,
@@ -294,11 +294,11 @@ export function getStatus(
 
 type OptionProps = React.ComponentProps<
   React.FC<{
-    value?: Props['value']
-    error?: Error | FormError | undefined
+    value: Props['value']
+    error: Error | FormError | undefined
+    help: HelpProps
     title: React.ReactNode
-    help?: HelpButtonProps
-    children?: React.ReactNode
+    children: React.ReactNode
   }>
 >
 
@@ -337,7 +337,7 @@ function renderRadioItems({
     const label = title ?? children
     const status = getStatus(error, info, warning)
     const suffix = help ? (
-      <HelpButton size="small" title={help.title}>
+      <HelpButton size="small" title={convertJsxToString(help.title)}>
         {help.content}
       </HelpButton>
     ) : undefined
@@ -365,7 +365,7 @@ function renderRadioItems({
 
   return [
     ...(dataList || []).map((props, i) => {
-      return createOption(props, i)
+      return createOption(props as OptionProps, i)
     }),
     ...(mapOptions(children, { createOption }) || []),
   ].filter(Boolean)

@@ -1,4 +1,10 @@
 /*
- * Np theme is provided
+ * Help button theme for UI
  *
  */
+
+.dnb-help-button {
+  &__content {
+    --help-button-content-background: var(--color-lavender);
+  }
+}

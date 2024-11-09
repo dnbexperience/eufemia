@@ -574,13 +574,65 @@ button.dnb-button::-moz-focus-inner {
 /*
  * HelpButton component
  *
- * TODO: Set spacing in the theme file, as theme comes later in the stack
- *
  */
+/*
+ * Utilities
+ */ /*
+* Button mixins
+*
+*/
 .dnb-help-button .dnb-button__bounding {
   transform: scale(1.5);
 }
+.dnb-help-button.dnb-help-button__inline--open {
+  --border-color: var(--color-emerald-green);
+  --border-width: 0.125rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+.dnb-help-button.dnb-help-button__inline--was-open .dnb-button__icon {
+  animation: rotate-icon-out 400ms var(--easing-default);
+}
+.dnb-help-button.dnb-help-button__inline--open .dnb-button__icon {
+  animation: rotate-icon-in 400ms var(--easing-default) forwards;
+}
+html[data-visual-test] .dnb-help-button.dnb-help-button__inline .dnb-button__icon {
+  animation: none;
+}
 
+.dnb-help-button__content .dnb-section {
+  --background-color: var(--help-button-content-background);
+  --rounded-corner--value: calc(var(--card-outline-width) + 0.5rem);
+  margin-left: calc(var(--card-outline-width) * -1);
+  margin-right: calc(var(--card-outline-width) * -1);
+}
+.dnb-help-button__content .dnb-section .dnb-p {
+  max-width: 60ch;
+  transition: transform 400ms var(--easing-default) 40ms;
+  transform: translate3d(0, -0.5rem, 0);
+}
+.dnb-help-button__content.dnb-height-animation--parallax .dnb-section .dnb-p {
+  transform: translate3d(0, 0, 0);
+}
+
+@keyframes rotate-icon-in {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(90deg);
+  }
+}
+@keyframes rotate-icon-out {
+  from {
+    opacity: 0.2;
+    transform: scale(1.1) translateY(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
 /*
  * Modal component
  *

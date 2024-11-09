@@ -16,6 +16,8 @@ exports[`Table scss has to match style dependencies css 1`] = `
  * Utilities
  */
 /*
+ * Utilities
+ */ /*
 * Button mixins
 *
 */
@@ -307,6 +309,8 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 *
 */
 /*
+ * Utilities
+ */ /*
 * Button mixins
 *
 */
@@ -329,6 +333,8 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 *
 */
 /*
+ * Utilities
+ */ /*
 * Button mixins
 *
 */
@@ -448,6 +454,8 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 *
 */
 /*
+ * Utilities
+ */ /*
 * Button mixins
 *
 */

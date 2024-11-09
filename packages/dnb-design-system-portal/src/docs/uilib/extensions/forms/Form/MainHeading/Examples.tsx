@@ -10,7 +10,7 @@ export const Default = () => {
   )
 }
 
-export const OverStack = () => {
+export const PrecedingFlexContainer = () => {
   return (
     <ComponentBox data-visual-test="layout-main-heading-over-stack">
       <Form.MainHeading>This is a main heading</Form.MainHeading>
@@ -21,11 +21,29 @@ export const OverStack = () => {
   )
 }
 
-export const OverStackWithCard = () => {
+export const PrecedingCard = () => {
   return (
-    <ComponentBox data-visual-test="layout-main-heading-over-card">
+    <ComponentBox data-visual-test="layout-main-heading-preceding-card">
       <Form.MainHeading>This is a main heading</Form.MainHeading>
+      <Card stack>
+        <P>Card contents</P>
+      </Card>
+    </ComponentBox>
+  )
+}
+
+export const WithHelpButton = () => {
+  return (
+    <ComponentBox data-visual-test="layout-main-heading-help-button">
       <Flex.Stack>
+        <Form.MainHeading
+          help={{
+            title: 'Title',
+            content: 'Content',
+          }}
+        >
+          This is a main heading
+        </Form.MainHeading>
         <Card stack>
           <P>Card contents</P>
         </Card>

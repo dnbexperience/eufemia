@@ -1,18 +1,14 @@
 import React, { useCallback, useContext, useMemo } from 'react'
-import { Checkbox, HelpButton, ToggleButton } from '../../../../components'
 import classnames from 'classnames'
+import { convertJsxToString } from '../../../../shared/component-helper'
+import { Checkbox, HelpButton, ToggleButton } from '../../../../components'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import { ReturnAdditional } from '../../hooks/useFieldProps'
-import {
-  DefaultErrorMessages,
-  FieldHelpProps,
-  FieldProps,
-  Path,
-} from '../../types'
+import { DefaultErrorMessages, FieldProps, Path } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { getStatus, mapOptions, Data } from '../Selection'
-import { HelpButtonProps } from '../../../../components/HelpButton'
+import { HelpProps } from '../../../../components/help-button/HelpButtonInline'
 import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
 import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
@@ -23,7 +19,7 @@ type OptionProps = React.ComponentProps<
     value: number | string
     error: Error | FormError | undefined
     title: React.ReactNode
-    help: HelpButtonProps
+    help: HelpProps
     className: string
     children: React.ReactNode
     handleSelect: () => void
@@ -32,28 +28,27 @@ type OptionProps = React.ComponentProps<
 
 type OptionValue = string | number
 
-export type Props = FieldHelpProps &
-  FieldProps<Array<OptionValue> | undefined> & {
-    children?: React.ReactNode
-    variant?: 'checkbox' | 'button' | 'checkbox-button'
-    optionsLayout?: 'horizontal' | 'vertical'
-    /**
-     * The path to the context data (Form.Handler).
-     * The context data object needs to have a `value` and a `title` property.
-     */
-    dataPath?: Path
+export type Props = FieldProps<Array<OptionValue> | undefined> & {
+  children?: React.ReactNode
+  variant?: 'checkbox' | 'button' | 'checkbox-button'
+  optionsLayout?: 'horizontal' | 'vertical'
+  /**
+   * The path to the context data (Form.Handler).
+   * The context data object needs to have a `value` and a `title` property.
+   */
+  dataPath?: Path
 
-    /**
-     * Data to be used for the component. The object needs to have a `value` and a `title` property.
-     * The generated options will be placed above given JSX based children.
-     */
-    data?: Data
+  /**
+   * Data to be used for the component. The object needs to have a `value` and a `title` property.
+   * The generated options will be placed above given JSX based children.
+   */
+  data?: Data
 
-    errorMessages?: DefaultErrorMessages & {
-      minItems?: string
-      maxItems?: string
-    }
+  errorMessages?: DefaultErrorMessages & {
+    minItems?: string
+    maxItems?: string
   }
+}
 
 function ArraySelection(props: Props) {
   const {
@@ -65,10 +60,8 @@ function ArraySelection(props: Props) {
     variant = 'checkbox',
     layout = 'vertical',
     optionsLayout = 'vertical',
-    labelDescription,
     value,
     hasError,
-    help,
     info,
     warning,
     disabled,
@@ -90,24 +83,11 @@ function ArraySelection(props: Props) {
         variant === 'checkbox' ? 'checkbox' : 'button'
       }`,
       `dnb-forms-field-array-selection--layout-${layout}`,
-      `dnb-forms-field-array-selection--options-layout-${optionsLayout}`,
+      `dnb-forms-field-array-selection--options-layout--${optionsLayout}`,
       className
     ),
     contentClassName: 'dnb-forms-field-array-selection__options',
-    labelDescription: (
-      <>
-        {labelDescription}
-        {help ? (
-          <HelpButton
-            size="small"
-            left={labelDescription ? 'x-small' : false}
-            title={help.title}
-          >
-            {help.content}
-          </HelpButton>
-        ) : undefined}
-      </>
-    ),
+    labelHeight: 'small',
     disableStatusSummary: true,
     ...pickSpacingProps(props),
   }
@@ -133,14 +113,10 @@ function ArraySelection(props: Props) {
 
   switch (variant) {
     case 'checkbox':
-      return (
-        <FieldBlock {...fieldBlockProps} labelHeight="small">
-          {options}
-        </FieldBlock>
-      )
+      return <FieldBlock {...fieldBlockProps}>{options}</FieldBlock>
     default:
       return (
-        <FieldBlock {...fieldBlockProps} labelHeight="small">
+        <FieldBlock {...fieldBlockProps}>
           <ToggleButtonGroupContext.Provider
             value={{
               status: hasError ? 'error' : undefined,
@@ -211,7 +187,7 @@ export function useCheckboxOrToggleOptions({
       const label = title ?? children
       const status = getStatus(error, info, warning)
       const suffix = help ? (
-        <HelpButton size="small" title={help.title}>
+        <HelpButton size="small" title={convertJsxToString(help.title)}>
           {help.content}
         </HelpButton>
       ) : undefined

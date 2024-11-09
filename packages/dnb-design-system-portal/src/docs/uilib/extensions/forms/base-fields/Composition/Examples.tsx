@@ -17,7 +17,10 @@ export const CompositionError = () => (
       width="large"
     >
       <Field.String label="Field A" width="stretch" />
-      <Field.String label="Field B with a long label" width="medium" />
+      <Field.String
+        label="Field B with a long label that wraps"
+        width="medium"
+      />
     </Field.Composition>
   </ComponentBox>
 )

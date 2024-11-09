@@ -16,6 +16,11 @@ export const FieldBlockSharedProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  help: {
+    doc: 'Provide help content for the field. Use `title` and `content`. Additionally, you can set `open` to `true` to open the inline help or `renderAs` to `dialog` to render the content in a [Dialog](/uilib/components/dialog/).',
+    type: 'object',
+    status: 'optional',
+  },
   layout: {
     doc: 'Layout for the label and input. Can be `horizontal` or `vertical`.',
     type: 'string',

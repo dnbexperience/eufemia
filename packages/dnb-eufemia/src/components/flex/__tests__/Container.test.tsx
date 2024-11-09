@@ -819,7 +819,7 @@ describe('Flex.Container', () => {
           class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
         >
           <h3
-            class="dnb-heading dnb-h--medium dnb-forms-sub-heading dnb-space__top--zero dnb-space__bottom--zero"
+            class="dnb-heading dnb-h--medium dnb-forms-sub-heading dnb-card--indent dnb-space__top--zero dnb-space__bottom--zero"
           >
             Heading
           </h3>
@@ -886,7 +886,7 @@ describe('Flex.Container', () => {
           class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
         >
           <h3
-            class="dnb-heading dnb-h--medium dnb-forms-sub-heading dnb-space__top--zero dnb-space__bottom--zero"
+            class="dnb-heading dnb-h--medium dnb-forms-sub-heading dnb-card--indent dnb-space__top--zero dnb-space__bottom--zero"
           >
             Heading
           </h3>

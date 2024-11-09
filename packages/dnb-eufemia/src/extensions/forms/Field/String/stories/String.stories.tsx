@@ -9,17 +9,17 @@ export default {
 export const String = () => {
   return (
     <Flex.Stack>
-      <Field.String label="Label" />
-      <Field.String label="Label" multiline />
+      <Field.String label="Ønsket lånebeløp" />
+      <Field.String label="Ønsket lånebeløp" multiline />
 
-      <Field.String label="Label" width="small" />
-      <Field.String label="Label" multiline width="small" />
+      <Field.String label="Ønsket lånebeløp" width="small" />
+      <Field.String label="Ønsket lånebeløp" multiline width="small" />
 
-      <Field.String label="Label" width="medium" />
-      <Field.String label="Label" multiline width="medium" />
+      <Field.String label="Ønsket lånebeløp" width="medium" />
+      <Field.String label="Ønsket lånebeløp" multiline width="medium" />
 
-      <Field.String label="Label" width="large" />
-      <Field.String label="Label" multiline width="large" />
+      <Field.String label="Ønsket lånebeløp" width="large" />
+      <Field.String label="Ønsket lånebeløp" multiline width="large" />
     </Flex.Stack>
   )
 }
@@ -34,7 +34,7 @@ export const Transform = () => {
   return (
     <Form.Handler onChange={console.log}>
       <Field.String
-        label="Label"
+        label="Ønsket lånebeløp"
         path="/myField"
         transformIn={transformIn}
         transformOut={transformOut}
@@ -57,7 +57,7 @@ export const TransformInOnFormHandler = () => {
         myPath: '',
       }}
     >
-      <Field.String label="Label" path="/myPath" />
+      <Field.String label="Ønsket lånebeløp" path="/myPath" />
       <Tools.Log />
     </Form.Handler>
   )

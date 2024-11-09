@@ -1,0 +1,166 @@
+import React, { useCallback, useContext, useEffect, useRef } from 'react'
+import classnames from 'classnames'
+import { HelpButtonProps } from './HelpButton'
+import HelpButtonInstance from './HelpButtonInstance'
+import HeightAnimation from '../HeightAnimation'
+import { useSharedState } from '../../shared/helpers/useSharedState'
+import { convertJsxToString } from '../../shared/component-helper'
+import useId from '../../shared/helpers/useId'
+import Section from '../Section'
+import { P } from '../../elements'
+import Flex from '../Flex'
+import CardContext from '../card/CardContext'
+import { SpacingProps } from '../space/types'
+import Dialog from '../Dialog'
+
+export type HelpProps = {
+  title?: React.ReactNode
+  content?: React.ReactNode
+  open?: boolean
+  renderAs?: 'inline' | 'dialog'
+}
+
+export type HelpButtonInlineProps = HelpButtonProps & {
+  contentId?: string
+  help?: HelpProps
+}
+
+export type HelpButtonInlineSharedStateDataProps = {
+  isOpen: boolean
+  isUserIntent?: boolean
+}
+export type HelpButtonInlineContentProps = SpacingProps & {
+  contentId: string
+  className?: string
+  children?: React.ReactNode
+  help?: HelpProps
+}
+
+export default function HelpButtonInline(props: HelpButtonInlineProps) {
+  const { contentId, size, icon, help, className, children, ...rest } =
+    props
+  const controlId = useId(contentId)
+
+  const { data, update } =
+    useSharedState<HelpButtonInlineSharedStateDataProps>(controlId, {
+      isOpen: help?.open ?? false,
+    })
+  const { isOpen } = data || {}
+  const wasOpenRef = useRef(undefined)
+
+  const onClickHandler = useCallback(
+    ({ event }: { event: React.MouseEvent<HTMLButtonElement> }) => {
+      event.preventDefault() // Because when used inside a FormLabel
+      update({ isOpen: !isOpen, isUserIntent: !isOpen })
+      wasOpenRef.current = !isOpen
+    },
+    [isOpen, update]
+  )
+
+  return (
+    <>
+      <HelpButtonInstance
+        id={controlId}
+        className={classnames(
+          'dnb-help-button__inline',
+          isOpen && 'dnb-help-button__inline--open',
+          typeof wasOpenRef.current === 'boolean' &&
+            'dnb-help-button__inline--was-open',
+          className
+        )}
+        title={
+          !isOpen && !wasOpenRef.current
+            ? convertJsxToString(help?.title)
+            : undefined
+        }
+        size={size ?? 'small'}
+        icon={isOpen ? 'close' : icon}
+        aria-controls={`${controlId}-content`}
+        bounding
+        on_click={onClickHandler}
+        {...rest}
+      />
+
+      {!contentId && (
+        <HelpButtonInlineContent contentId={controlId} help={help}>
+          {children}
+        </HelpButtonInlineContent>
+      )}
+    </>
+  )
+}
+
+export function HelpButtonInlineContent(
+  props: HelpButtonInlineContentProps
+) {
+  const { contentId, className, children, help: helpProp, ...rest } = props
+  const { data, update } =
+    useSharedState<HelpButtonInlineSharedStateDataProps>(contentId)
+  const { isOpen, isUserIntent } = data || {}
+  const { open, title, content, renderAs } = helpProp || {}
+
+  const innerRef = useRef<HTMLDivElement>(null)
+  const cardContext = useContext(CardContext)
+  const isInsideCard = Boolean(cardContext)
+
+  useEffect(() => {
+    if (isOpen && isUserIntent) {
+      innerRef.current?.focus({ preventScroll: true })
+    }
+  }, [isOpen, isUserIntent])
+
+  const onClose = useCallback(() => {
+    update({ isOpen: false, isUserIntent: false })
+  }, [update])
+
+  if (renderAs === 'dialog') {
+    return (
+      <Dialog
+        title={title}
+        omitTriggerButton
+        openState={isOpen ?? open}
+        onClose={onClose}
+      >
+        {content}
+        {children}
+      </Dialog>
+    )
+  }
+
+  return (
+    <HeightAnimation
+      className={classnames('dnb-help-button__content', className)}
+      open={isOpen ?? open ?? false}
+    >
+      <Section
+        id={`${contentId}-content`}
+        aria-label={convertJsxToString(title)}
+        tabIndex={-1}
+        innerRef={innerRef}
+        breakout={isInsideCard}
+        roundedCorner={!isInsideCard}
+        innerSpace={
+          isInsideCard
+            ? { top: 'small', bottom: 'medium' }
+            : {
+                top: 'small',
+                bottom: 'medium',
+                left: 'medium',
+                right: 'x-small',
+              }
+        }
+        backgroundColor="lavender"
+        {...rest}
+      >
+        <Flex.Vertical gap="x-small">
+          {title && <P medium>{title}</P>}
+          {content && <P>{content}</P>}
+        </Flex.Vertical>
+        {children}
+      </Section>
+    </HeightAnimation>
+  )
+}
+
+HelpButtonInline._supportsSpacingProps = true
+HelpButtonInlineContent._supportsSpacingProps = true

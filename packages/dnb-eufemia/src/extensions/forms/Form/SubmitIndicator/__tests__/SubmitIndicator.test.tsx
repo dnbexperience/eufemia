@@ -18,6 +18,7 @@ describe('Form.SubmitIndicator', () => {
     expect(Array.from(element.classList)).toEqual([
       'dnb-space',
       'dnb-forms-submit-indicator',
+      'dnb-forms-submit-indicator--standby',
       'custom-class',
     ])
   })
@@ -144,6 +145,24 @@ describe('Form.SubmitIndicator', () => {
     expect(element).toHaveTextContent('...')
   })
 
+  it('should remove dots when state is "complete"', async () => {
+    const { rerender } = render(<Form.SubmitIndicator state="abort" />)
+
+    const element = document.querySelector('.dnb-forms-submit-indicator')
+    expect(element).toHaveTextContent('')
+    expect(element).not.toHaveClass('dnb-forms-submit-indicator--standby')
+
+    rerender(<Form.SubmitIndicator state="success" />)
+
+    expect(element).toHaveTextContent('')
+    expect(element).not.toHaveClass('dnb-forms-submit-indicator--standby')
+
+    rerender(<Form.SubmitIndicator state="complete" />)
+
+    expect(element).toHaveTextContent('...')
+    expect(element).toHaveClass('dnb-forms-submit-indicator--standby')
+  })
+
   it('should check if a newline is needed', () => {
     Object.defineProperties(HTMLElement.prototype, {
       offsetHeight: {
@@ -210,7 +229,7 @@ describe('Form.SubmitIndicator', () => {
       </Form.SubmitIndicator>
     )
 
-    const element = document.querySelector('.dnb-forms-submit-indicator ')
+    const element = document.querySelector('.dnb-forms-submit-indicator')
     expect(element).not.toHaveClass(
       'dnb-forms-submit-indicator--inline-wrap'
     )
@@ -257,6 +276,57 @@ describe('Form.SubmitIndicator', () => {
     )
     expect(element.querySelector('span').innerHTML).toBe(
       'Text of a <b>bold</b> label 3'
+    )
+  })
+
+  it('should not remove event listeners of nested components', async () => {
+    Object.defineProperties(HTMLElement.prototype, {
+      offsetHeight: {
+        get: () => 10,
+      },
+    })
+
+    const NestedComponent = () => {
+      const [count, increment] = React.useReducer((state) => state + 1, 1)
+      return <button onClick={increment}>{count}</button>
+    }
+
+    const { rerender } = render(
+      <Form.SubmitIndicator state="pending">
+        <NestedComponent /> label 1
+      </Form.SubmitIndicator>
+    )
+
+    const element = document.querySelector('.dnb-forms-submit-indicator')
+
+    expect(element).not.toHaveClass(
+      'dnb-forms-submit-indicator--inline-wrap'
+    )
+    expect(element.querySelector('span').innerHTML).toBe(
+      '<button>1</button> label 1'
+    )
+
+    let count = 0
+    Object.defineProperties(HTMLElement.prototype, {
+      offsetHeight: {
+        get: () => {
+          count++
+          return 10 * count
+        },
+      },
+    })
+
+    rerender(
+      <Form.SubmitIndicator state="pending">
+        <NestedComponent /> label 2
+      </Form.SubmitIndicator>
+    )
+
+    await userEvent.click(document.querySelector('button'))
+
+    expect(element).toHaveClass('dnb-forms-submit-indicator--inline-wrap')
+    expect(element.querySelector('span').innerHTML).toBe(
+      '<button>2</button> label 2'
     )
   })
 

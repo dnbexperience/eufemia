@@ -17,11 +17,6 @@ export const PhoneNumberProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  help: {
-    doc: 'Provide a help button. Object consisting of `title` and `content`.',
-    type: 'object',
-    status: 'optional',
-  },
   omitCountryCodeField: {
     doc: 'If `true` is given, then everything related to country code is removed.',
     type: 'boolean',
