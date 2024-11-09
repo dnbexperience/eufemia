@@ -15,7 +15,10 @@ import { PostalCodeAndCityProperties } from '@dnb/eufemia/src/extensions/forms/F
 
 ### General properties
 
-<PropertiesTable props={FieldBlockProperties} omit={['value']} />
+<PropertiesTable
+  props={FieldBlockProperties}
+  omit={['value', 'layout', 'layoutOptions', 'label', 'labelDescription']}
+/>
 
 ## Translations
 

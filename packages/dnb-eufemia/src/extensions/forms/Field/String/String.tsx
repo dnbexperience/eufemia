@@ -6,7 +6,7 @@ import React, {
   useRef,
 } from 'react'
 import classnames from 'classnames'
-import { HelpButton, Input, Textarea } from '../../../../components'
+import { Input, Textarea } from '../../../../components'
 import { InputProps } from '../../../../components/input/Input'
 import InputMasked, {
   InputMaskedProps,
@@ -22,56 +22,51 @@ import { useFieldProps } from '../../hooks'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { toCapitalized } from '../../../../shared/component-helper'
 import type { TextCounterProps } from '../../../../fragments/TextCounter'
-import type {
-  FieldProps,
-  FieldHelpProps,
-  AllJSONSchemaVersions,
-} from '../../types'
+import type { FieldProps, AllJSONSchemaVersions } from '../../types'
 
-export type Props = FieldHelpProps &
-  FieldProps<string, undefined | string> & {
-    // - Shared props
-    multiline?: boolean
-    inputClassName?: string
-    innerRef?: React.RefObject<HTMLInputElement | HTMLTextAreaElement>
-    width?: FieldBlockWidth
-    size?: InputProps['size'] | TextareaProps['size']
-    keepPlaceholder?: InputProps['keep_placeholder']
+export type Props = FieldProps<string, undefined | string> & {
+  // - Shared props
+  multiline?: boolean
+  inputClassName?: string
+  innerRef?: React.RefObject<HTMLInputElement | HTMLTextAreaElement>
+  width?: FieldBlockWidth
+  size?: InputProps['size'] | TextareaProps['size']
+  keepPlaceholder?: InputProps['keep_placeholder']
 
-    // - Validation
-    minLength?: number
-    maxLength?: number
-    pattern?: string
+  // - Validation
+  minLength?: number
+  maxLength?: number
+  pattern?: string
 
-    // - Input props
-    type?: InputProps['type']
-    align?: InputProps['align']
-    selectall?: InputProps['selectall']
-    clear?: boolean
-    mask?: InputMaskedProps['mask']
-    leftIcon?: string
-    rightIcon?: string
-    submitElement?: InputProps['submit_element']
-    capitalize?: boolean
-    trim?: boolean
+  // - Input props
+  type?: InputProps['type']
+  align?: InputProps['align']
+  selectall?: InputProps['selectall']
+  clear?: boolean
+  mask?: InputMaskedProps['mask']
+  leftIcon?: string
+  rightIcon?: string
+  submitElement?: InputProps['submit_element']
+  capitalize?: boolean
+  trim?: boolean
 
-    // - Textarea props
-    rows?: TextareaProps['rows']
-    autoresizeMaxRows?: TextareaProps['autoresize_max_rows']
-    autoresize?: TextareaProps['autoresize']
-    characterCounter?: Omit<TextCounterProps, 'text'> | number
+  // - Textarea props
+  rows?: TextareaProps['rows']
+  autoresizeMaxRows?: TextareaProps['autoresize_max_rows']
+  autoresize?: TextareaProps['autoresize']
+  characterCounter?: Omit<TextCounterProps, 'text'> | number
 
-    // - Html props
-    autoComplete?: HTMLInputElement['autocomplete']
-    inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode']
-    autoCorrect?: React.HTMLAttributes<HTMLInputElement>['autoCorrect']
-    spellCheck?: React.HTMLAttributes<HTMLInputElement>['spellCheck']
-    autoFocus?: React.HTMLAttributes<HTMLInputElement>['autoFocus']
-    autoCapitalize?: React.HTMLAttributes<HTMLInputElement>['autoCapitalize']
+  // - Html props
+  autoComplete?: HTMLInputElement['autocomplete']
+  inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode']
+  autoCorrect?: React.HTMLAttributes<HTMLInputElement>['autoCorrect']
+  spellCheck?: React.HTMLAttributes<HTMLInputElement>['spellCheck']
+  autoFocus?: React.HTMLAttributes<HTMLInputElement>['autoFocus']
+  autoCapitalize?: React.HTMLAttributes<HTMLInputElement>['autoCapitalize']
 
-    // - Events
-    onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
-  }
+  // - Events
+  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
+}
 
 function StringComponent(props: Props) {
   const dataContext = useContext(DataContext)
@@ -151,7 +146,6 @@ function StringComponent(props: Props) {
     value,
     hasError,
     disabled,
-    help,
     multiline,
     mask,
     leftIcon,
@@ -229,9 +223,6 @@ function StringComponent(props: Props) {
     inputMode,
     className: cn,
     placeholder,
-    suffix: help ? (
-      <HelpButton title={help.title}>{help.content}</HelpButton>
-    ) : undefined,
     on_focus: handleFocus,
     on_blur: handleBlur,
     on_change: handleChange,

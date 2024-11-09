@@ -1,0 +1,125 @@
+/*
+ * HelpButton component
+ *
+ */
+
+@import '../../button/style/themes/button-mixins.scss';
+
+.dnb-help-button {
+  &.dnb-help-button__inline {
+    &--open {
+      @include buttonHoverStyle(null, null, var(--color-emerald-green));
+    }
+  }
+}
+
+.dnb-help-button__inline {
+  svg {
+    // To avoid the animations from jumping in Safari
+    will-change: transform;
+  }
+
+  svg:nth-of-type(2) {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    opacity: 0;
+  }
+
+  &--open {
+    svg:nth-of-type(1) {
+      opacity: 0;
+    }
+    svg:nth-of-type(2) {
+      animation: rotate-icon-in 400ms var(--easing-default) forwards;
+    }
+  }
+
+  &:not(#{&}--open)#{&}--was-open {
+    svg:nth-of-type(1) {
+      opacity: 0;
+      animation: animate-question 400ms var(--easing-default) 200ms
+        forwards;
+    }
+    svg:nth-of-type(2) {
+      animation: rotate-icon-out 400ms var(--easing-default) forwards;
+    }
+  }
+
+  &:not(#{&}--user-intent),
+  html[data-visual-test] & {
+    svg {
+      animation-duration: 0ms;
+    }
+  }
+
+  @keyframes rotate-icon-in {
+    from {
+      opacity: 0;
+      transform: rotate(0deg);
+    }
+    to {
+      opacity: 1;
+      transform: rotate(90deg);
+    }
+  }
+
+  @keyframes rotate-icon-out {
+    0% {
+      opacity: 1;
+      transform: rotate(90deg);
+    }
+    30% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: rotate(0deg);
+    }
+  }
+
+  @keyframes animate-question {
+    from {
+      opacity: 0;
+      transform: rotate(10deg);
+    }
+    to {
+      opacity: 1;
+      transform: rotate(0deg);
+    }
+  }
+}
+
+.dnb-help-button__content {
+  .dnb-section {
+    --background-color: var(--help-button-content-background);
+
+    // Because we don't use/need an outline, we need to add to get a wider corner radius.
+    --rounded-corner--value: calc(var(--card-outline-width) + 0.5rem);
+
+    .dnb-p {
+      max-width: 60ch; // to enhance readability;
+
+      transition: transform 400ms var(--easing-default) 40ms;
+      transform: translate3d(0, -0.5rem, 0);
+    }
+  }
+
+  :not(.dnb-card) & .dnb-section {
+    // Because no outline, we need to stretch the content to the left and right,
+    // so it is aligned on how the Card is displayed.
+    margin-left: calc(var(--card-outline-width) * -1);
+    margin-right: calc(var(--card-outline-width) * -1);
+
+    // Use a border instead of the original outline,
+    // because is has no animation artifacts.
+    border: var(--card-outline-width) solid
+      var(--help-button-content-background);
+    border-top: none;
+    border-bottom: none;
+  }
+
+  &.dnb-height-animation--parallax .dnb-section .dnb-p {
+    transform: translate3d(0, 0, 0);
+  }
+}

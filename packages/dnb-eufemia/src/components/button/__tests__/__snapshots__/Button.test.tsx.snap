@@ -567,6 +567,8 @@ exports[`Button scss has to match theme css for sbanken 1`] = `
  * Utilities
  */
 /*
+ * Utilities
+ */ /*
 * Button mixins
 *
 */
@@ -574,6 +576,8 @@ exports[`Button scss has to match theme css for sbanken 1`] = `
  * Utilities
  */
 /*
+ * Utilities
+ */ /*
 * Button mixins
 *
 */
@@ -999,6 +1003,8 @@ exports[`Button scss has to match theme css for ui 1`] = `
  * Utilities
  */
 /*
+ * Utilities
+ */ /*
 * Button mixins
 *
 */
@@ -1006,6 +1012,8 @@ exports[`Button scss has to match theme css for ui 1`] = `
  * Utilities
  */
 /*
+ * Utilities
+ */ /*
 * Button mixins
 *
 */

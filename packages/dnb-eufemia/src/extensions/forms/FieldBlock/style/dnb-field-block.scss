@@ -9,16 +9,6 @@ $breakpoints: map.merge(
   )
 );
 
-// Ensure inputs to not overflow on xx-small (defined above), but exclude e.g. Autocomplete
-.dnb-forms-field-string,
-.dnb-forms-field-number {
-  @include allBelow(xx-small) {
-    .dnb-input__shell {
-      width: 90%;
-    }
-  }
-}
-
 fieldset.dnb-forms-field-block {
   @include fieldsetReset();
 }
@@ -34,46 +24,9 @@ fieldset.dnb-forms-field-block {
     );
     grid-template-areas:
       'label'
+      'help'
       'contents'
       'status';
-  }
-
-  &__grid#{&}--layout-vertical {
-    flex-wrap: wrap;
-    & > .dnb-form-label,
-    & > .dnb-forms-field-block__label > .dnb-form-label {
-      margin-bottom: 0.5rem;
-    }
-  }
-
-  // Horizontal layout
-  &__grid#{&}--layout-horizontal {
-    @include allBelow(small) {
-      & > .dnb-form-label,
-      & > .dnb-forms-field-block__label > .dnb-form-label {
-        margin-bottom: 0.5rem;
-      }
-    }
-    @include allAbove(small) {
-      & > .dnb-form-label,
-      & > .dnb-forms-field-block__label > .dnb-form-label {
-        margin-top: var(--label-margin);
-        margin-bottom: var(--label-margin);
-      }
-      grid-template-columns:
-        minmax(
-          var(--dnb-forms-field-block-layout-width-min, min-content),
-          var(--dnb-forms-field-block-layout-width-max, max-content)
-        )
-        auto;
-      grid-template-areas:
-        'label contents'
-        '. status';
-
-      .dnb-forms-field-block__contents {
-        align-self: end;
-      }
-    }
   }
 
   // Align label vertically with the content (input etc.)
@@ -108,17 +61,97 @@ fieldset.dnb-forms-field-block {
     }
   }
 
-  // Elements
-  &__label {
-    grid-area: label;
-    display: flex;
-    flex-flow: row;
-    justify-content: space-between;
-    align-items: center;
+  --max-width: var(--forms-field-width--large);
+  &:not([class*='--content-width']) {
+    --max-width: 60ch;
   }
 
-  &__label-description {
-    margin-left: 0.3em;
+  &__label,
+  &__label.dnb-form-label {
+    grid-area: label;
+    display: flex;
+    max-width: var(--max-width); // to enhance readability
+    align-items: center;
+
+    margin-right: 0;
+
+    &__description {
+      margin-left: 0.3em;
+    }
+
+    &__content:has(+ .dnb-help-button),
+    &__description:has(+ .dnb-help-button) {
+      margin-right: 0.5rem;
+    }
+  }
+
+  &__grid#{&}--layout-vertical {
+    flex-wrap: wrap;
+    & > .dnb-form-label {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  // Horizontal layout
+  &__grid#{&}--layout-horizontal &__label {
+    margin-right: 1rem;
+  }
+  &__grid#{&}--layout-horizontal {
+    @include allBelow(small) {
+      & > .dnb-form-label {
+        margin-bottom: 0.5rem;
+      }
+    }
+    @include allAbove(small) {
+      & > .dnb-form-label,
+      & > .dnb-forms-field-block__label > .dnb-form-label {
+        margin-top: var(--label-margin);
+        margin-bottom: var(--label-margin);
+      }
+      grid-template-columns:
+        minmax(
+          var(--dnb-forms-field-block-layout-width-min, min-content),
+          var(--dnb-forms-field-block-layout-width-max, max-content)
+        )
+        auto;
+      grid-template-areas:
+        'label contents'
+        '. indicator'
+        '. status';
+
+      .dnb-forms-field-block__contents {
+        align-self: end;
+      }
+    }
+  }
+
+  &__help:has(+ #{&}__grid#{&}--layout-horizontal) {
+    @include allBelow(small) {
+      display: none;
+    }
+  }
+  &__grid#{&}--layout-horizontal &__help {
+    @include allAbove(small) {
+      display: none;
+    }
+  }
+
+  &__indicator {
+    grid-area: indicator;
+  }
+
+  &__help {
+    grid-area: help;
+    display: flex;
+    flex-flow: column;
+
+    .dnb-section {
+      margin-bottom: 1rem;
+
+      & > .dnb-p--lead {
+        margin-bottom: 0.5rem;
+      }
+    }
   }
 
   &__status {

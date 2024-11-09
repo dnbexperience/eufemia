@@ -16,6 +16,11 @@ export const FieldBlockSharedProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  help: {
+    doc: 'Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).',
+    type: 'object',
+    status: 'optional',
+  },
   layout: {
     doc: 'Layout for the label and input. Can be `horizontal` or `vertical`.',
     type: 'string',

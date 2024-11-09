@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo } from 'react'
+import classnames from 'classnames'
 import FieldBlock, {
   Props as FieldBlockProps,
   FieldBlockWidth,
@@ -7,7 +8,7 @@ import {
   useFieldProps,
   useTranslation as useFormsTranslation,
 } from '../../hooks'
-import { FieldHelpProps, FieldProps } from '../../types'
+import { FieldProps } from '../../types'
 import Upload, {
   UploadFile,
   UploadFileNative,
@@ -15,14 +16,18 @@ import Upload, {
 } from '../../../../components/Upload'
 import useUpload from '../../../../components/upload/useUpload'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import { HelpButton } from '../../../../components'
+import HelpButtonInline, {
+  HelpButtonInlineContent,
+} from '../../../../components/help-button/HelpButtonInline'
 import { useTranslation as useSharedTranslation } from '../../../../shared'
 import { SpacingProps } from '../../../../shared/types'
 import { FormError } from '../../utils'
 
 export type UploadValue = Array<UploadFile | UploadFileNative>
-export type Props = FieldHelpProps &
-  Omit<FieldProps<UploadValue, UploadValue | undefined>, 'name'> &
+export type Props = Omit<
+  FieldProps<UploadValue, UploadValue | undefined>,
+  'name'
+> &
   SpacingProps & {
     width?: Omit<FieldBlockWidth, 'medium' | 'small'>
   } & Pick<
@@ -119,8 +124,9 @@ function UploadComponent(props: Props) {
     id,
     forId: `${id}-input`,
     labelSrOnly: true,
-    className,
+    className: classnames('dnb-forms-field-upload', className),
     width,
+    help: undefined,
     ...pickSpacingProps(props),
   }
 
@@ -139,19 +145,22 @@ function UploadComponent(props: Props) {
           help ? (
             <>
               {labelDescription ?? text}
-              <HelpButton
+              <HelpButtonInline
+                contentId={`${id}-help`}
                 left={text ? 'x-small' : false}
-                title={help.title}
-              >
-                {help.content}
-              </HelpButton>
+                help={help}
+              />
             </>
           ) : (
             labelDescription ?? text
           )
         }
         {...htmlAttributes}
-      />
+      >
+        {help && (
+          <HelpButtonInlineContent contentId={`${id}-help`} help={help} />
+        )}
+      </Upload>
     </FieldBlock>
   )
 }

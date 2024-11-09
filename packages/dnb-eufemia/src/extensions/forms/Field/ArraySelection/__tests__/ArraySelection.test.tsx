@@ -131,7 +131,7 @@ describe('ArraySelection', () => {
         '.dnb-forms-field-array-selection'
       )
       expect(element).toHaveClass(
-        `dnb-forms-field-array-selection--options-layout-${optionsLayout}`
+        `dnb-forms-field-array-selection--options-layout--${optionsLayout}`
       )
     })
 

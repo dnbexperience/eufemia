@@ -24,7 +24,8 @@
   }
 
   &__textarea:not([disabled]):not(#{&}--disabled):focus ~ &__state,
-  &__textarea:not([disabled]):not(#{&}--disabled):hover ~ &__state {
+  &__textarea:not([disabled]):not(#{&}--disabled):not(.no-hover):hover
+    ~ &__state {
     --textarea-border-color: var(--textarea-border-color--hover);
     --textarea-border-width: var(--textarea-border-width--hover);
     --textarea-border-inset: ;

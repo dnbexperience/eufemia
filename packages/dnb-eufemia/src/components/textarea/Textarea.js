@@ -436,7 +436,11 @@ export default class Textarea extends React.PureComponent {
       : {}
 
     const textareaParams = {
-      className: classnames('dnb-textarea__textarea', textarea_class),
+      className: classnames(
+        'dnb-textarea__textarea',
+        'dnb-input__border',
+        textarea_class
+      ),
       role: 'textbox',
       value: hasValue ? value : '',
       id,

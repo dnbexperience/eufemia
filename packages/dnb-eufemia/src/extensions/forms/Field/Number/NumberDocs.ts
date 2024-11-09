@@ -63,11 +63,6 @@ export const numberProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  help: {
-    doc: 'Provide a help button. Object consisting of `title` and `content`.',
-    type: 'object',
-    status: 'optional',
-  },
   autoComplete: {
     doc: 'For HTML `autocomplete` attributes.',
     type: ['on', 'string'],

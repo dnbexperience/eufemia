@@ -10,6 +10,7 @@
   --upload-background--active: lightgray;
   --upload-border: gray;
   --upload-border--active: black;
+  --upload-border-width: 2px;
   --upload-list-border: black;
   --upload-icon--default: black;
   --upload-icon--warning: red;
@@ -49,8 +50,8 @@
 
   &--active &__outline {
     inset: -1px;
-    width: calc(100% + 2px);
-    height: calc(100% + 2px);
+    width: calc(100% + var(--upload-border-width));
+    height: calc(100% + var(--upload-border-width));
 
     stroke: var(--upload-border--active);
 
