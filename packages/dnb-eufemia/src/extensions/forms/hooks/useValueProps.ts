@@ -10,6 +10,7 @@ import useExternalValue from './useExternalValue'
 import usePath from './usePath'
 import DataContext from '../DataContext/Context'
 import ValueProviderContext from '../Value/Provider/ValueProviderContext'
+import SummaryListContext from '../Value/SummaryList/SummaryListContext'
 
 export type Props<Value> = ValueProps<Value>
 
@@ -21,6 +22,10 @@ export default function useValueProps<
 
   const { extend } = useContext(ValueProviderContext)
   const props = extend(localProps)
+
+  // Only to log a warning in the Value.SummaryList component
+  const { verifyChild } = useContext(SummaryListContext) || {}
+  verifyChild?.()
 
   const {
     path: pathProp,
