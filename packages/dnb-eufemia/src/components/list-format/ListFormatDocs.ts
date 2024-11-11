@@ -22,7 +22,7 @@ export const ListFormatProperties: PropertiesTableProps = {
     status: 'optional',
   },
   variant: {
-    doc: 'Defines if the value should be displayed in list format, or regular text format on one line. Defaults to `text`',
+    doc: 'Defines if the value should be displayed in list format (`ol`, `ul`) or regular text format in one line. Defaults to `text`',
     type: ['ol', 'ul', 'text'],
     status: 'optional',
   },
