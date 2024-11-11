@@ -6,7 +6,7 @@
 import React, { useCallback, useContext } from 'react'
 import type {
   DatePickerEventAttributes,
-  DatePickerProps,
+  DatePickerAllProps,
 } from './DatePicker'
 
 import isValid from 'date-fns/isValid'
@@ -24,7 +24,7 @@ import useLastEventCallCache, {
   LastEventCallCache,
 } from './hooks/useLastEventCallCache'
 
-type DatePickerProviderProps = DatePickerProps & {
+type DatePickerProviderProps = DatePickerAllProps & {
   setReturnObject: (
     func: DatePickerContextValues['getReturnObject']
   ) => DatePickerContextValues['getReturnObject']

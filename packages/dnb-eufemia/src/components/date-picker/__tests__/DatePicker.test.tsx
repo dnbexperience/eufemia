@@ -6,7 +6,7 @@
 import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import userEvent from '@testing-library/user-event'
-import DatePicker, { DatePickerProps } from '../DatePicker'
+import DatePicker, { DatePickerAllProps } from '../DatePicker'
 
 jest.setTimeout(30e3)
 
@@ -28,14 +28,14 @@ import { Provider } from '../../../shared'
 
 describe('DatePicker component', () => {
   it('renders with props as an object', () => {
-    const props: DatePickerProps = {}
+    const props: DatePickerAllProps = {}
 
     render(<DatePicker {...props} />)
     expect(document.querySelector('input')).toBeInTheDocument()
   })
 
   // for the integration tests
-  const defaultProps: DatePickerProps = {
+  const defaultProps: DatePickerAllProps = {
     no_animation: true,
     range: true,
     show_input: true,
@@ -1946,7 +1946,7 @@ describe('DatePicker component', () => {
   })
 
   it('renders correct placeholder when setting locale', () => {
-    const props: DatePickerProps = {}
+    const props: DatePickerAllProps = {}
 
     render(
       <Provider locale="en-GB">
