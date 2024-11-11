@@ -22,7 +22,7 @@ export type DlProps = {
 
 export type DlAllProps = DlProps &
   React.AllHTMLAttributes<HTMLDListElement> &
-  ElementProps
+  Omit<ElementProps, 'skeleton' | 'skeletonMethod'>
 
 const Dl = ({ direction, layout, ...props }: DlAllProps) => {
   if (layout || direction) {

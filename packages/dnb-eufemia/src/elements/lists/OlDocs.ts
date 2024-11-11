@@ -1,6 +1,6 @@
 import { PropertiesTableProps } from '../../shared/types'
 
-import { ElementProperties } from './../ElementDocs'
+import { ElementPropertiesWithoutSkeleton } from './../ElementDocs'
 
 export const OlProperties: PropertiesTableProps = {
   inside: {
@@ -18,5 +18,5 @@ export const OlProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  ...ElementProperties,
+  ...ElementPropertiesWithoutSkeleton,
 }

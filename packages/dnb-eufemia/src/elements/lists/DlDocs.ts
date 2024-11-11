@@ -1,5 +1,5 @@
 import { PropertiesTableProps } from '../../shared/types'
-import { ElementProperties } from './../ElementDocs'
+import { ElementPropertiesWithoutSkeleton } from './../ElementDocs'
 
 export const DlProperties: PropertiesTableProps = {
   layout: {
@@ -7,6 +7,5 @@ export const DlProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-
-  ...ElementProperties,
+  ...ElementPropertiesWithoutSkeleton,
 }
