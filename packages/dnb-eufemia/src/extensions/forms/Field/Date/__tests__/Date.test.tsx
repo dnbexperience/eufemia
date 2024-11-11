@@ -221,12 +221,7 @@ describe('Field.Date', () => {
 
   it('should display correct start and end month on opening the date picker', async () => {
     render(
-      <Field.Date
-        value="2024-10-01|2024-10-31"
-        startMonth="2024-01-01"
-        endMonth="2024-12-01"
-        range
-      />
+      <Field.Date startMonth="2024-01-01" endMonth="2024-12-31" range />
     )
 
     await userEvent.click(screen.getByLabelText('åpne datovelger'))
