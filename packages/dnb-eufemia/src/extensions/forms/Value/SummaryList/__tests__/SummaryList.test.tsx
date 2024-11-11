@@ -17,6 +17,50 @@ describe('Field.SummaryList', () => {
     expect(element.getAttribute('aria-label')).toBe('Aria Label')
   })
 
+  it('should warn when child is not a Value.* component', () => {
+    const log = jest.spyOn(console, 'log').mockImplementation()
+
+    render(
+      <SummaryList>
+        <Form.SubHeading>Heading</Form.SubHeading>
+        <Value.String label="Label" value="Value" />
+      </SummaryList>
+    )
+
+    expect(log).toHaveBeenCalledTimes(1)
+    expect(log).toHaveBeenLastCalledWith(
+      expect.any(String),
+      expect.stringContaining(
+        'Value.SummaryList accepts only Value.* components!'
+      )
+    )
+
+    log.mockRestore()
+  })
+
+  it('should warn when child is not a Value.* component and is inside a Fragment', () => {
+    const log = jest.spyOn(console, 'log').mockImplementation()
+
+    render(
+      <SummaryList>
+        <>
+          <Form.SubHeading>Heading</Form.SubHeading>
+          <Value.String label="Label" value="Value" />
+        </>
+      </SummaryList>
+    )
+
+    expect(log).toHaveBeenCalledTimes(1)
+    expect(log).toHaveBeenLastCalledWith(
+      expect.any(String),
+      expect.stringContaining(
+        'Value.SummaryList accepts only Value.* components!'
+      )
+    )
+
+    log.mockRestore()
+  })
+
   it('should support spacing props', () => {
     const { rerender } = render(
       <SummaryList top="x-large">Space Summary</SummaryList>
