@@ -97,7 +97,7 @@ export type Props = FieldHelpProps &
      */
     disableAutofocus?: DatePickerProps['disable_autofocus']
     /**
-     * If the input fields with the mask should be visible. Defaults to `false`.
+     * If the input fields with the mask should be visible. Defaults to `true`.
      */
     showInput?: DatePickerProps['show_input']
     /**
