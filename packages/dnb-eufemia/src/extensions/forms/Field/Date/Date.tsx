@@ -105,7 +105,7 @@ export type Props = FieldHelpProps &
      */
     showSubmitButton?: DatePickerProps['show_submit_button']
     /**
-     * If set to `true`, a cancel button will be shown. You can change the default text by using `cancel_button_text="Avbryt"` Defaults to `false`. If the `range` prop is `true`, then the cancel button is shown.
+     * If set to `true`, a cancel button will be shown. You can change the default text by using `cancel_button_text="Avbryt"` Defaults to `true`. If the `range` prop is `true`, then the cancel button is shown.
      */
     showCancelButton?: DatePickerProps['show_cancel_button']
     /**
