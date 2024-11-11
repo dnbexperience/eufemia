@@ -86,7 +86,7 @@ export const DateProperties: PropertiesTableProps = {
     status: 'optional',
   },
   showCancelButton: {
-    doc: 'If set to `true`, a cancel button will be shown. You can change the default text by using `cancel_button_text="Avbryt"` Defaults to `false`. If the `range` property is `true`, then the cancel button is shown.',
+    doc: 'If set to `true`, a cancel button will be shown. You can change the default text by using `cancel_button_text="Avbryt"` Defaults to `true`. If the `range` property is `true`, then the cancel button is shown.',
     type: 'boolean',
     status: 'optional',
   },
