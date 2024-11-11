@@ -51,7 +51,7 @@ export const DateProperties: PropertiesTableProps = {
     status: 'optional',
   },
   showInput: {
-    doc: 'If the input fields with the mask should be visible. Defaults to `false`.',
+    doc: 'If the input fields with the mask should be visible. Defaults to `true`.',
     type: 'boolean',
     status: 'optional',
   },
