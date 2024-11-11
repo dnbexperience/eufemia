@@ -138,7 +138,7 @@ export type Props = FieldHelpProps &
     /**
      * To open the date-picker by default. Defaults to `false`.
      */
-    opened?: boolean
+    opened?: DatePickerProps['opened']
     direction?: DatePickerProps['direction']
     /**
      * Use `right` to change the calendar alignment direction. Defaults to `left`.
