@@ -34,7 +34,7 @@ export type Props = FieldHelpProps &
     // We could of course have joined the DatePickerProps with the Props type, but that would lead to a breaking changes for Field.Date
     // in the future when DatePickerProps is converted to camelCase, so solved this way as of now, to mitigate that.
     // TODO: Remove when DatePickerProps is converted to camelCase
-    // Current solution is solvede this way, as the ToCamelCase type does not does not retain the JSDOC comments,
+    // Current solution is solved this way, as the ToCamelCase type does not does not retain the JSDOC comments,
     // and hovering over the types themselves just shows all the DatePickerProp types instead of a type description
     /**
      * To display what month should be shown in the first calendar by default. Defaults to the `date` respective `start_date`.
