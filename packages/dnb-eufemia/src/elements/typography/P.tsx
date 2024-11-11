@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { createContext, useContext } from 'react'
 import classnames from 'classnames'
 import { SpacingProps } from '../../components/space/types'
 import type { DynamicElement } from '../../shared/types'
@@ -24,7 +24,7 @@ export type PProps = SpacingProps &
      * Defines the Element Type, like "p"
      * Default: p
      */
-    element?: DynamicElement & 'p'
+    element?: DynamicElement | 'p'
     /**
      * Tells the component to use the medium font-weight styling dnb-p--medium defined in paragraphStyle - typography-mixins.scss. Find more details here https://eufemia.dnb.no/uilib/typography/font-weight/
      */
@@ -45,16 +45,20 @@ export type PProps = SpacingProps &
     modifier?: string
   }
 
-const P = ({
-  modifier,
-  element = 'p',
-  className,
-  medium,
-  bold,
-  size,
-  ...props
-}: PProps) => {
+function P(props: PProps) {
+  const {
+    modifier,
+    element = 'p',
+    className,
+    medium,
+    bold,
+    size,
+    children,
+    ...rest
+  } = props
+
   const allModifiers = [medium && 'medium', bold && 'bold']
+  const paragraphContext = useContext(ParagraphContext)
 
   if (modifier) {
     modifier
@@ -73,19 +77,32 @@ const P = ({
     }, '')
 
   return (
-    <E
-      as={element}
-      {...props}
-      className={classnames(
-        'dnb-p',
-        modifierString,
-        className,
-        size && `dnb-p__size--${size}`
-      )}
-    />
+    <ParagraphContext.Provider value={{ isNested: true }}>
+      <E
+        as={
+          element === 'p' && paragraphContext?.isNested ? 'span' : element
+        }
+        {...rest}
+        className={classnames(
+          'dnb-p',
+          modifierString,
+          className,
+          size && `dnb-p__size--${size}`
+        )}
+      >
+        {children}
+      </E>
+    </ParagraphContext.Provider>
   )
 }
 
 P._supportsSpacingProps = true
 
 export default P
+
+export type ParagraphContextType = {
+  isNested?: boolean
+}
+
+export const ParagraphContext =
+  createContext<ParagraphContextType>(undefined)
