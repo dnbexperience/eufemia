@@ -91,7 +91,7 @@ export const DateProperties: PropertiesTableProps = {
     status: 'optional',
   },
   showResetButton: {
-    doc: 'If set to `true`, a reset button will be shown. You can change the default text by using `reset_button_text="Tilbakestill"` Defaults to `false`.',
+    doc: 'If set to `true`, a reset button will be shown. You can change the default text by using `reset_button_text="Tilbakestill"` Defaults to `true`.',
     type: 'boolean',
     status: 'optional',
   },
