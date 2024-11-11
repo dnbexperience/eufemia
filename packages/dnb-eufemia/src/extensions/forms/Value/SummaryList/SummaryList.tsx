@@ -5,8 +5,10 @@ import SummaryListContext from './SummaryListContext'
 import Dl, { DlAllProps } from '../../../../elements/Dl'
 import ValueProvider from '../Provider/ValueProvider'
 import { ValueProps } from '../../types'
+import { useVerifyChildren } from './useVerifyChildren'
 
-export type Props = Omit<DlAllProps, 'label'> & {
+export type Props = Omit<DlAllProps, 'label' | 'children'> & {
+  children: React.ReactNode
   transformLabel?: ValueProps['transformLabel']
   inheritVisibility?: ValueProps['inheritVisibility']
   inheritLabel?: ValueProps['inheritLabel']
@@ -29,8 +31,14 @@ function SummaryList(props: Props) {
     inheritLabel,
   })
 
+  const { verifyChild } = useVerifyChildren({
+    children,
+    message: 'Value.SummaryList accepts only Value.* components!',
+    ignoreTypes: ['ValueBlock'],
+  })
+
   return (
-    <SummaryListContext.Provider value={{ layout }}>
+    <SummaryListContext.Provider value={{ layout, verifyChild }}>
       <Dl
         className={classnames('dnb-forms-summary-list', className)}
         layout={layout}

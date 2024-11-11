@@ -1,6 +1,6 @@
 import React from 'react'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
-import { Field, Form } from '../../..'
+import { DataContext, Field, Form, Wizard } from '../../..'
 import { BYTES_IN_A_MEGA_BYTE } from '../../../../../components/upload/UploadVerify'
 import { createMockFile } from '../../../../../components/upload/__tests__/testHelpers'
 
@@ -74,7 +74,6 @@ describe('Field.Upload', () => {
   it('should render files given in data context', () => {
     render(
       <Form.Handler
-        onChange={(data) => console.log('onChange', data)}
         data={{
           myFiles: [
             { file: createMockFile('fileName-1.png', 100, 'image/png') },
@@ -780,6 +779,129 @@ describe('Field.Upload', () => {
           reduceToVisibleFields: expect.any(Function),
         }
       )
+    })
+  })
+
+  describe('In Wizard', () => {
+    const previousButton = () => {
+      return document.querySelector('.dnb-forms-previous-button')
+    }
+    const nextButton = () => {
+      return document.querySelector('.dnb-forms-next-button')
+    }
+    const output = () => {
+      return document.querySelector('output')
+    }
+
+    it('should keep files between steps', async () => {
+      let dataContext: DataContext.ContextState = null
+
+      render(
+        <Form.Handler>
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Field.Upload required path="/files" />
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+
+          <DataContext.Consumer>
+            {(context) => {
+              dataContext = context
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      const element = getRootElement()
+      const file = createMockFile('fileName-1.png', 100, 'image/png')
+
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [file],
+          },
+        })
+      )
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(dataContext.internalDataRef.current.files[0].file).toBe(file)
+
+      await userEvent.click(nextButton())
+      expect(output()).toHaveTextContent('Step 2')
+      expect(dataContext.internalDataRef.current.files[0].file).toBe(file)
+
+      await userEvent.click(previousButton())
+      expect(output()).toHaveTextContent('Step 1')
+      expect(dataContext.internalDataRef.current.files[0].file).toBe(file)
+
+      await userEvent.click(nextButton())
+      expect(output()).toHaveTextContent('Step 2')
+      expect(dataContext.internalDataRef.current.files[0].file).toBe(file)
+      expect(dataContext.internalDataRef.current.files).toHaveLength(1)
+    })
+
+    it('should show required error when "required" is set', async () => {
+      render(
+        <Form.Handler>
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Field.Upload required path="/files" />
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      const element = getRootElement()
+      const file = createMockFile('fileName-1.png', 100, 'image/png')
+
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [file],
+          },
+        })
+      )
+
+      expect(output()).toHaveTextContent('Step 1')
+
+      await userEvent.click(nextButton())
+      expect(output()).toHaveTextContent('Step 2')
+
+      await userEvent.click(previousButton())
+      expect(output()).toHaveTextContent('Step 1')
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      const deleteButton = screen.queryByRole('button', {
+        name: nbShared.Upload.deleteButton,
+      })
+
+      await userEvent.click(deleteButton)
+      await userEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(
+        document.querySelector(
+          '.dnb-forms-field-block__status .dnb-form-status'
+        )
+      ).toHaveTextContent(nbForms.Upload.errorRequired)
     })
   })
 })

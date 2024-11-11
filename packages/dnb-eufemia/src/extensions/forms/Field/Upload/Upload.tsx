@@ -36,23 +36,24 @@ export type Props = FieldHelpProps &
     | 'skeleton'
   >
 
+const validateRequired = (
+  value: UploadValue,
+  { required, isChanged, error }
+) => {
+  const hasError = value?.some((file) => file.errorMessage)
+  if (hasError) {
+    return new FormError('Upload.errorInvalidFiles')
+  }
+
+  const hasFiles = value?.length > 0
+  if (required && ((!isChanged && !hasFiles) || !hasFiles)) {
+    return error
+  }
+
+  return undefined
+}
+
 function UploadComponent(props: Props) {
-  const validateRequired = useCallback(
-    (value: UploadValue, { required, isChanged, error }) => {
-      const hasError = value?.some((file) => file.errorMessage)
-      if (hasError) {
-        return new FormError('Upload.errorInvalidFiles')
-      }
-
-      if (required && (!isChanged || !(value.length > 0))) {
-        return error
-      }
-
-      return undefined
-    },
-    []
-  )
-
   const sharedTr = useSharedTranslation().Upload
   const formsTr = useFormsTranslation().Upload
 
@@ -101,7 +102,7 @@ function UploadComponent(props: Props) {
 
   useEffect(() => {
     setFiles(value)
-  }, [handleBlur, setFiles, value])
+  }, [setFiles, value])
 
   const changeHandler = useCallback(
     ({ files }: { files: UploadValue }) => {
@@ -116,7 +117,7 @@ function UploadComponent(props: Props) {
   const width = widthProp as FieldBlockWidth
   const fieldBlockProps: FieldBlockProps = {
     id,
-    forId: id,
+    forId: `${id}-input`,
     labelSrOnly: true,
     className,
     width,
