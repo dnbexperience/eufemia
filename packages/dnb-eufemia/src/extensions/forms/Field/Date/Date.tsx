@@ -109,7 +109,7 @@ export type Props = FieldHelpProps &
      */
     showCancelButton?: DatePickerProps['show_cancel_button']
     /**
-     * If set to `true`, a reset button will be shown. You can change the default text by using `reset_button_text="Tilbakestill"` Defaults to `false`.
+     * If set to `true`, a reset button will be shown. You can change the default text by using `reset_button_text="Tilbakestill"` Defaults to `true`.
      */
     showResetButton?: DatePickerProps['show_reset_button']
     submitButtonText?: DatePickerProps['submit_button_text']
