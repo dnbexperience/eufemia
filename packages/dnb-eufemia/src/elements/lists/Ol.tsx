@@ -26,15 +26,15 @@ export type OlProps = {
 
 export type OlAllProps = OlProps &
   React.AllHTMLAttributes<HTMLOListElement> &
-  ElementProps
+  Omit<ElementProps, 'skeleton' | 'skeletonMethod'>
 
-const Ol = ({ nested, inside, outside, ...p }: OlAllProps = {}) => {
+const Ol = ({ nested, inside, outside, ...props }: OlAllProps = {}) => {
   return (
     <E
       as="ol"
-      {...p}
+      {...props}
       className={classnames(
-        p.className,
+        props.className,
         nested && 'dnb-ol--nested',
         inside && 'dnb-ol--inside',
         outside && 'dnb-ol--outside'

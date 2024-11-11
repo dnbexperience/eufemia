@@ -26,15 +26,15 @@ export type UlProps = {
 
 export type UlAllProps = UlProps &
   React.AllHTMLAttributes<HTMLUListElement> &
-  ElementProps
+  Omit<ElementProps, 'skeleton' | 'skeletonMethod'>
 
-const Ul = ({ nested, inside, outside, ...p }: UlAllProps = {}) => {
+const Ul = ({ nested, inside, outside, ...props }: UlAllProps = {}) => {
   return (
     <E
       as="ul"
-      {...p}
+      {...props}
       className={classnames(
-        p.className,
+        props.className,
         nested && 'dnb-ol--nested',
         inside && 'dnb-ol--inside',
         outside && 'dnb-ol--outside'
