@@ -14,7 +14,7 @@ export type ListFormatProps = {
    */
   format?: Intl.ListFormatOptions
   /**
-   * Defines if the value should be displayed in list format or regular text format on one line.
+   * Defines if the value should be displayed in list format (`ol`, `ul`) or regular text format in one line.
    * Default: `text`
    */
   variant?: 'ol' | 'ul' | 'text'
