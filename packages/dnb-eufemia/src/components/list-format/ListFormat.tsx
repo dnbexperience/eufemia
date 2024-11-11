@@ -9,7 +9,7 @@ import classNames from 'classnames'
 
 export type ListFormatProps = {
   /**
-   * Formatting options for the value.
+   * Formatting options for the value when variant is `text`.
    * See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/ListFormat/ListFormat
    */
   format?: Intl.ListFormatOptions
