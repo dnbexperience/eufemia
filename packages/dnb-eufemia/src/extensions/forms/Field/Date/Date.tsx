@@ -99,7 +99,7 @@ export type Props = FieldHelpProps &
     /**
      * If the input fields with the mask should be visible. Defaults to `false`.
      */
-    showInput?: boolean
+    showInput?: DatePickerProps['show_input']
     /**
      * If set to `true`, a submit button will be shown. You can change the default text by using `submit_button_text="Ok"`. Defaults to `false`. If the `range` prop is `true`, then the submit button is shown.
      */
