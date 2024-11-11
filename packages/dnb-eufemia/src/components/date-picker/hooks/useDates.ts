@@ -206,9 +206,7 @@ function mapDates(
   const endMonth =
     convertStringToDate(dateProps.endMonth, {
       date_format: dateFormat,
-    }) ?? !isRange
-      ? startMonth
-      : endDate ?? addMonths(startMonth, 1)
+    }) ?? (isRange ? endDate ?? addMonths(startMonth, 1) : startMonth)
 
   const minDate = convertStringToDate(dateProps.minDate, {
     date_format: dateFormat,

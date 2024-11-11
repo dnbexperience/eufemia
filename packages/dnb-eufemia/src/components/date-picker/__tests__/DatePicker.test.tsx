@@ -1848,6 +1848,21 @@ describe('DatePicker component', () => {
     expect((yearElem as HTMLInputElement).value).toBe('2019')
   })
 
+  it('should display correct start and end month on opening the date picker', async () => {
+    render(
+      <DatePicker start_month="2024-01-01" end_month="2024-12-31" range />
+    )
+
+    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+
+    const [startMonth, endMonth] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__header__title')
+    )
+
+    expect(startMonth).toHaveTextContent('januar 2024')
+    expect(endMonth).toHaveTextContent('desember 2024')
+  })
+
   describe('size', () => {
     it('has correct small size', () => {
       render(<DatePicker {...defaultProps} size="small" />)
