@@ -3,6 +3,14 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.55.1](https://github.com/dnbexperience/eufemia/compare/v10.55.0...v10.55.1) (2024-11-11)
+
+
+### :bug: Bug Fixes
+
+* **Forms:** console log a warning when Value.SummaryList gets an invalid child ([#4249](https://github.com/dnbexperience/eufemia/issues/4249)) ([011e9eb](https://github.com/dnbexperience/eufemia/commit/011e9ebdbc2a624840d67b2ea22e1a5228b0af98))
+* **Forms:** ensure Field.Upload handles `required` logic between Wizard step changes ([#4248](https://github.com/dnbexperience/eufemia/issues/4248)) ([505dbc1](https://github.com/dnbexperience/eufemia/commit/505dbc10e15611f7b4b4b2a706b4cfde3dd4816f))
+
 ## [10.55.0](https://github.com/dnbexperience/eufemia/compare/v10.54.1...v10.55.0) (2024-11-08)
 
 
