@@ -515,6 +515,21 @@ describe('ListFormat', () => {
 
     expect(container).toHaveTextContent('Baz, Bar and Foo')
   })
+
+  it('should support spacing props', () => {
+    render(
+      <ListFormat
+        value={['Foo', 'Bar', 'Baz']}
+        variant="ol"
+        listType="a"
+        top="large"
+      />
+    )
+
+    const element = document.querySelector('.dnb-list-format')
+
+    expect(element.classList).toContain('dnb-space__top--large')
+  })
 })
 
 describe('ListFormat aria', () => {

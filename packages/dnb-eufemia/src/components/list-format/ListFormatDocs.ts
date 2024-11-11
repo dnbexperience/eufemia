@@ -1,4 +1,9 @@
 import { PropertiesTableProps } from '../../shared/types'
+import { UlProperties } from './../../elements/lists/UlDocs'
+import { OlProperties } from './../../elements/lists/OlDocs'
+
+const ListProperties = { ...UlProperties, ...OlProperties }
+const { children, ...ListPropertiesWithoutChildren } = ListProperties
 
 export const ListFormatProperties: PropertiesTableProps = {
   value: {
@@ -37,4 +42,5 @@ export const ListFormatProperties: PropertiesTableProps = {
     ],
     status: 'optional',
   },
+  ...ListPropertiesWithoutChildren,
 }

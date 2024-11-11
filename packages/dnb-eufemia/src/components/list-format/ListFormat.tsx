@@ -3,6 +3,9 @@ import { LOCALE } from '../../shared/defaults'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import SharedContext, { InternalLocale } from '../../shared/Context'
 import { Li, Ol, Ul } from '../../elements'
+import { UlAllProps } from '../../elements/Ul'
+import { OlAllProps } from '../../elements/Ol'
+import classNames from 'classnames'
 
 export type ListFormatProps = {
   /**
@@ -46,12 +49,24 @@ export type ListFormatProps = {
   children?: React.ReactNode
 }
 
-function ListFormat(localProps: ListFormatProps) {
+function ListFormat(
+  localProps: Omit<UlAllProps, 'value'> &
+    Omit<OlAllProps, 'value'> &
+    ListFormatProps
+) {
   const { locale, ListFormat } = useContext(SharedContext)
 
   // Extract additional props from global context
   const allProps = extendPropsWithContext(localProps, {}, ListFormat)
-  const { value, format, variant = 'text', listType, children } = allProps
+  const {
+    value,
+    format,
+    variant = 'text',
+    listType,
+    children,
+    className,
+    ...props
+  } = allProps
 
   const list = useMemo(() => {
     const isListVariant = variant !== 'text'
@@ -79,7 +94,12 @@ function ListFormat(localProps: ListFormatProps) {
     return (
       <ListElement
         type={listType !== 'unstyled' ? listType : null}
-        className={listType === 'unstyled' && 'dnb-unstyled-list'}
+        className={classNames(
+          'dnb-list-format',
+          listType === 'unstyled' && 'dnb-unstyled-list',
+          className
+        )}
+        {...props}
       >
         {list}
       </ListElement>
@@ -99,7 +119,7 @@ export function listFormat(
     },
   }: {
     locale?: InternalLocale
-    format?: Intl.ListFormatOptions
+    format?: ListFormatProps['format']
   } = {}
 ) {
   if (!Array.isArray(list)) {
