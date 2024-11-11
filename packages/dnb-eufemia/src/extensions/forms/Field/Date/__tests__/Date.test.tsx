@@ -331,38 +331,38 @@ describe('Field.Date', () => {
     expect(month).toHaveValue('10')
     expect(year).toHaveValue('2024')
 
-    await userEvent.click(day)
-    await userEvent.keyboard('{Backspace>2}')
+    await userEvent.dblClick(day)
+    await userEvent.keyboard('{ArrowRight>2}{Backspace>2}')
     await userEvent.keyboard('06')
 
     expect(day).toHaveValue('07')
     expect(month).toHaveValue('10')
     expect(year).toHaveValue('2024')
 
-    await userEvent.click(month)
-    await userEvent.keyboard('{Backspace>2}')
+    await userEvent.dblClick(month)
+    await userEvent.keyboard('{ArrowRight>2}{Backspace>2}')
     await userEvent.keyboard('12')
 
     expect(day).toHaveValue('07')
     expect(month).toHaveValue('10')
     expect(year).toHaveValue('2024')
 
-    await userEvent.click(year)
-    await userEvent.keyboard('{Backspace>4}')
+    await userEvent.dblClick(year)
+    await userEvent.keyboard('{ArrowRight>4}{Backspace>2}')
     await userEvent.keyboard('2026')
 
     expect(day).toHaveValue('07')
     expect(month).toHaveValue('10')
     expect(year).toHaveValue('2024')
 
-    await userEvent.click(day)
+    await userEvent.dblClick(day)
     await userEvent.keyboard('{ArrowDown>4}')
 
     expect(day).toHaveValue('07')
     expect(month).toHaveValue('10')
     expect(year).toHaveValue('2024')
 
-    await userEvent.click(month)
+    await userEvent.dblClick(month)
     await userEvent.keyboard('{ArrowDown>3}')
 
     expect(day).toHaveValue('07')
@@ -375,7 +375,7 @@ describe('Field.Date', () => {
     expect(month).toHaveValue('10')
     expect(year).toHaveValue('2024')
 
-    await userEvent.click(year)
+    await userEvent.dblClick(year)
     await userEvent.keyboard('{ArrowDown>3}')
 
     expect(day).toHaveValue('07')
