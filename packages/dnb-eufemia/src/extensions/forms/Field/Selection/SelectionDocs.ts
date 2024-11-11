@@ -47,7 +47,7 @@ export const SelectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   children: {
-    doc: 'For providing Option components.',
+    doc: 'For providing Option components, and other children.',
     type: 'React.Node',
     status: 'optional',
   },
