@@ -34,7 +34,8 @@ function SummaryList(props: Props) {
   const { verifyChild } = useVerifyChildren({
     children,
     message: 'Value.SummaryList accepts only Value.* components!',
-    ignoreTypes: ['ValueBlock'],
+    messageInfo: props,
+    ignoreTypes: ['Visibility', 'ValueBlock'],
   })
 
   return (
