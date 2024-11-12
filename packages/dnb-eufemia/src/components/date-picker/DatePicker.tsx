@@ -590,7 +590,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
     hideNavigation,
     opened: openedProp,
     endDate: endDateProp,
-  } = convertSnakeCaseProps(props)
+  } = convertSnakeCaseProps(props) // convertSnakeCaseProps - can be removed in v11
 
   const [opened, setOpened] = useState<boolean>(openedProp)
   const [hidden, setHidden] = useState(!opened)
@@ -800,9 +800,9 @@ function DatePicker(externalProps: DatePickerAllProps) {
     props,
     defaultProps,
     { skeleton: context?.skeleton },
-    convertSnakeCaseProps(context.getTranslation(props).DatePicker),
+    convertSnakeCaseProps(context.getTranslation(props).DatePicker), // convertSnakeCaseProps - can be removed in v11
     pickFormElementProps(context?.FormRow), // Deprecated – can be removed in v11
-    pickFormElementProps(context?.formElement),
+    convertSnakeCaseProps(pickFormElementProps(context?.formElement)), // Deprecated – can be removed in v11
     context.DatePicker
   )
 
