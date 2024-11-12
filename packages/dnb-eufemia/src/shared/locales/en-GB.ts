@@ -43,6 +43,7 @@ export default {
         month: 'm',
         year: 'y',
       },
+      // TODO: add firstDay
     },
     Anchor: {
       targetBlankTitle: 'Opens a new Window',

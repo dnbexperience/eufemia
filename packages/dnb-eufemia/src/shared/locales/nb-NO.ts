@@ -42,6 +42,7 @@ export default {
         month: 'm',
         year: 'å',
       },
+      // TODO: add firstDay
     },
     Anchor: {
       targetBlankTitle: 'Åpner et nytt vindu',
