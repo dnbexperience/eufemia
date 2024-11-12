@@ -55,14 +55,7 @@ import { CalendarDay, DatePickerCalendarProps } from './DatePickerCalendar'
 import { DatePickerContextValues, DateType } from './DatePickerContext'
 import { DatePickerDates } from './hooks/useDates'
 import { useTranslation } from '../../shared'
-import {
-  ToCamelCasePartial,
-  convertCamelCaseProps,
-} from '../../shared/helpers/withCamelCaseProps'
-import {
-  ToSnakeCasePartial,
-  convertSnakeCaseProps,
-} from '../../shared/helpers/withSnakeCaseProps'
+import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 import {
   TranslationsEnGB,
   TranslationsEnUS,
@@ -335,13 +328,11 @@ export type DatePickerProps = {
 }
 
 export type DatePickerAllProps = DatePickerProps &
+  SpacingProps &
   Omit<
     React.HTMLProps<HTMLElement>,
     'ref' | 'children' | 'label' | 'size' | 'onBlur' | 'onFocus' | 'start'
   >
-//  &
-// // @deprecated
-// ToCamelCasePartial<DatePickerProps>
 
 // Added to prevent type errors when destructuring the translations from props
 type DatePickerTranslations = Partial<TranslationsNbNO['DatePicker']> &
