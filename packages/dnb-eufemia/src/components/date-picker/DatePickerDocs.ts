@@ -15,32 +15,32 @@ export const DatePickerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   month: {
-    doc: 'To display what month should be shown in the first calendar by default. Defaults to the `date` respective `start_date`.',
+    doc: 'To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`.',
     type: 'string',
     status: 'optional',
   },
   startMonth: {
-    doc: 'To display what month should be shown in the first calendar by default. Defaults to the `date` respective `start_date`.',
+    doc: 'To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`.',
     type: 'string',
     status: 'optional',
   },
   endMonth: {
-    doc: 'To display what month should be shown in the second calendar by default. Defaults to the `date` respective `start_date`.',
+    doc: 'To display what month should be shown in the second calendar by default. Defaults to the `date` respective `startDate`.',
     type: 'string',
     status: 'optional',
   },
   minDate: {
-    doc: 'To limit a date range to a minimum `start_date`. Defaults to `null`.',
+    doc: 'To limit a date range to a minimum `startDate`. Defaults to `null`.',
     type: 'string',
     status: 'optional',
   },
   maxDate: {
-    doc: 'To limit a date range to a maximum `end_date`. Defaults to `null`.',
+    doc: 'To limit a date range to a maximum `endDate`. Defaults to `null`.',
     type: 'string',
     status: 'optional',
   },
   dateFormat: {
-    doc: 'Defines how the property dates (`date`, `start_date` and `end_date`) should be parsed, e.g. `yyyy/MM/dd`. Defaults to `yyyy-MM-dd`.',
+    doc: 'Defines how the property dates (`date`, `startDate` and `endDate`) should be parsed, e.g. `yyyy/MM/dd`. Defaults to `yyyy-MM-dd`.',
     type: 'string',
     status: 'optional',
   },
@@ -80,17 +80,17 @@ export const DatePickerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   showSubmitButton: {
-    doc: 'If set to `true`, a submit button will be shown. You can change the default text by using `submit_button_text="Ok"`. Defaults to `false`. If the `range` property is `true`, then the submit button is shown.',
+    doc: 'If set to `true`, a submit button will be shown. You can change the default text by using `submitButtonText="Ok"`. Defaults to `false`. If the `range` property is `true`, then the submit button is shown.',
     type: 'boolean',
     status: 'optional',
   },
   showCancelButton: {
-    doc: 'If set to `true`, a cancel button will be shown. You can change the default text by using `cancel_button_text="Avbryt"`. If the `range` property is `true`, then the cancel button is shown. Defaults to `false`',
+    doc: 'If set to `true`, a cancel button will be shown. You can change the default text by using `cancelButtonText="Avbryt"`. If the `range` property is `true`, then the cancel button is shown. Defaults to `false`',
     type: 'boolean',
     status: 'optional',
   },
   showResetButton: {
-    doc: 'If set to `true`, a reset button will be shown. You can change the default text by using `reset_button_text="Tilbakestill"`. Defaults to `false`.',
+    doc: 'If set to `true`, a reset button will be shown. You can change the default text by using `resetButtonText="Tilbakestill"`. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
@@ -140,7 +140,7 @@ export const DatePickerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   correctInvalidDate: {
-    doc: 'Corrects the input date value to be the same as either `min_date` or `max_date`, when the user types in a date that is either before or after one of these. Defaults to `false`.',
+    doc: 'Corrects the input date value to be the same as either `minDate` or `maxDate`, when the user types in a date that is either before or after one of these. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
@@ -172,7 +172,7 @@ export const DatePickerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   inputElement: {
-    doc: 'Gives you the possibility to use a plain/vanilla `<input />` HTML element by defining it as a string `input_element="input"`, a React element, or a render function `input_element={(internalProps) => (<Return />)}`. Can also be used in circumstances where the `react-text-mask` should not be used, e.g. in testing environments. Defaults to custom masked input.',
+    doc: 'Gives you the possibility to use a plain/vanilla `<input />` HTML element by defining it as a string `inputElement="input"`, a React element, or a render function `inputElement={(internalProps) => (<Return />)}`. Can also be used in circumstances where the `react-text-mask` should not be used, e.g. in testing environments. Defaults to custom masked input.',
     type: 'string | React.ReactNode | (internalProps: any) => React.ReactNode',
     status: 'optional',
   },

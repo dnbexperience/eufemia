@@ -86,7 +86,7 @@ export type DatePickerCalendarProps = Omit<
   id?: string
   nr?: number
   /**
-   * To display what month should be shown in the first calendar by default. Defaults to the `date` respective `start_date`.
+   * To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`.
    */
   month?: Date
   prevBtn?: boolean
@@ -169,9 +169,9 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     startMonth,
     endMonth,
     translation: {
-      DatePicker: { selected_month },
+      DatePicker: { selectedMonth },
     },
-    props: { on_days_render },
+    props: { onDaysRender },
   } = useContext(DatePickerContext)
 
   const {
@@ -251,8 +251,8 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         })
       )
 
-      if (on_days_render) {
-        const changedDays = on_days_render(daysFromCalendar, nr)
+      if (onDaysRender) {
+        const changedDays = onDaysRender(daysFromCalendar, nr)
         if (Array.isArray(changedDays)) {
           daysFromCalendar = changedDays
         }
@@ -271,7 +271,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       maxDate,
       minDate,
       nr,
-      on_days_render,
+      onDaysRender,
       onlyMonth,
       startDate,
     ]
@@ -293,7 +293,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
   const findValid = useCallback(
     (date: Date, keyCode: string) => {
-      if (!on_days_render) {
+      if (!onDaysRender) {
         return date
       }
 
@@ -330,7 +330,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
       return date
     },
-    [on_days_render, getDays, keyNavCalc]
+    [onDaysRender, getDays, keyNavCalc]
   )
 
   const hasReachedEnd = useCallback(
@@ -539,7 +539,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
           <label
             id={`${id}--title`}
             className="dnb-date-picker__header__title dnb-no-focus"
-            title={selected_month.replace(
+            title={selectedMonth.replace(
               /%s/,
               format(month, titleFormat, {
                 locale,
@@ -744,7 +744,7 @@ function CalendarButton({
   }
   const disabled = date && isSameMonth(month, date)
 
-  const title = tr[`${type}_month`].replace(
+  const title = tr[`${type}Month`].replace(
     /%s/,
     format(subMonths(month, 1), 'MMMM yyyy', {
       locale,

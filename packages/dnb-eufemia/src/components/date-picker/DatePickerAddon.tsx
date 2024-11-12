@@ -8,6 +8,7 @@ import { convertStringToDate } from './DatePickerCalc'
 import Button from '../button/Button'
 import DatePickerContext from './DatePickerContext'
 
+// TODO: convert shortucts properties to camelCase, constitutes a breaking change
 export type DatePickerShortcut = {
   title?: string
   date?: string | Date | ((...args: unknown[]) => Date)
