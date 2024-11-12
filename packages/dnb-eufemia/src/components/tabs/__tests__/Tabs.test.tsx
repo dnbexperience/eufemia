@@ -28,8 +28,6 @@ const contentWrapperData = {
   third: <h2>Third</h2>, // without function
 }
 
-global.console.log = jest.fn()
-
 describe('Tabs component', () => {
   it('have a "selected_key" state have to be same as prop from startup', () => {
     render(
@@ -282,7 +280,9 @@ describe('Tabs component', () => {
   })
 
   it('warns when not providing any content', () => {
+    global.console.log = jest.fn()
     render(<Tabs />)
+
     expect(global.console.log).toHaveBeenCalledTimes(1)
     expect(global.console.log).toHaveBeenCalledWith(
       '\u001b[0m\u001b[1m\u001b[38;5;23m\u001b[48;5;152mEufemia\u001b[49m\u001b[39m\u001b[22m\u001b[0m',
@@ -386,7 +386,7 @@ describe('A single Tab component', () => {
   })
 
   it('has to work with "data only" property containing a "content"', () => {
-    render(<Tabs data={tablistDataWithContent} />)
+    render(<Tabs {...props} data={tablistDataWithContent} />)
     expect(
       document
         .querySelectorAll('.dnb-tabs__button__snap')[0]
@@ -579,7 +579,7 @@ describe('A single Tab component', () => {
 
   it('has to work with "Tabs.Content" as a single children', () => {
     render(
-      <Tabs>
+      <Tabs {...props}>
         <Tabs.Content title="single title">
           <div>single</div>
         </Tabs.Content>
@@ -598,6 +598,7 @@ describe('A single Tab component', () => {
   it('has to work with a single element for data property', () => {
     render(
       <Tabs
+        {...props}
         data={[
           { title: 'single title', key: 1, content: <div>single</div> },
         ]}
@@ -617,6 +618,7 @@ describe('A single Tab component', () => {
     render(
       <React.StrictMode>
         <Tabs
+          {...props}
           data={[
             {
               title: 'First',
@@ -645,6 +647,7 @@ describe('A single Tab component', () => {
   it('should use `key` data prop if defined', () => {
     render(
       <Tabs
+        {...props}
         data={[
           {
             title: 'First',
