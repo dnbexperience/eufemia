@@ -11,9 +11,11 @@ import { warn } from '../../../../shared/helpers'
 export function useVerifyChildren({
   children,
   message,
+  messageInfo,
   ignoreTypes,
 }: {
   ignoreTypes?: Array<string>
+  messageInfo?: unknown
   children: React.ReactNode
   message: string
 }) {
@@ -27,7 +29,7 @@ export function useVerifyChildren({
     if (process.env.NODE_ENV !== 'production') {
       const count = countChildren(children, ignoreTypes)
       if (count > 0 && count > verifyCount.current) {
-        warn(message)
+        warn(message, messageInfo)
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -193,7 +193,7 @@ async function collectIconsFromFigmaDoc({
     type: 'FRAME',
   })
 
-  const controllStorageLists = []
+  const controlStorageLists = []
   const listWithNewFiles = []
   const listOfProcessedFiles = await asyncForEach(
     framesInTheCanvas,
@@ -214,14 +214,14 @@ async function collectIconsFromFigmaDoc({
         ...rest,
       })
 
-      controllStorageLists.push(files)
+      controlStorageLists.push(files)
       listWithNewFiles.push(...newFiles)
 
       return files
     }
   )
 
-  runDiffControll({ controllStorageLists })
+  runDiffControll({ controlStorageLists })
 
   return {
     listWithNewFiles,
@@ -229,7 +229,7 @@ async function collectIconsFromFigmaDoc({
   }
 }
 
-const runDiffControll = ({ controllStorageLists }) => {
+const runDiffControll = ({ controlStorageLists }) => {
   const collectDiff = []
   const sizes = Object.keys(ICON_SIZES).map((size) => `_${size}`)
   const removeSizes = (n) =>
@@ -240,12 +240,12 @@ const runDiffControll = ({ controllStorageLists }) => {
         !b.some(({ name: n }) => removeSizes(n) === removeSizes(name))
     )
 
-  controllStorageLists.forEach((cur, i, arr) => {
+  controlStorageLists.forEach((cur, i, arr) => {
     getDiff(arr[0], cur).forEach(({ size, name }) => {
       collectDiff.push({ [size]: name })
     })
   })
-  controllStorageLists.reverse().forEach((cur, i, arr) => {
+  controlStorageLists.reverse().forEach((cur, i, arr) => {
     getDiff(arr[0], cur).forEach(({ size, name }) => {
       collectDiff.push({ [size]: name })
     })

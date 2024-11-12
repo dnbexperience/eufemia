@@ -32,7 +32,8 @@ describe('Field.SummaryList', () => {
       expect.any(String),
       expect.stringContaining(
         'Value.SummaryList accepts only Value.* components!'
-      )
+      ),
+      expect.any(Object)
     )
 
     log.mockRestore()
@@ -55,7 +56,8 @@ describe('Field.SummaryList', () => {
       expect.any(String),
       expect.stringContaining(
         'Value.SummaryList accepts only Value.* components!'
-      )
+      ),
+      expect.any(Object)
     )
 
     log.mockRestore()

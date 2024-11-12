@@ -411,7 +411,7 @@ function FieldBlock(props: Props) {
         if (messages.length > 0) {
           acc[type] = {
             ...acc[type],
-            text: <CombineMessages type={type} messages={messages} />,
+            children: <CombineMessages type={type} messages={messages} />,
           }
 
           fieldStateIdsRef.current[type] = id
@@ -682,7 +682,7 @@ export function getMessagesFromError(
   return [
     ((content instanceof Error && content.message) ||
       (content instanceof FormError && content.message) ||
-      content?.toString() ||
+      (React.isValidElement(content) ? content : content?.toString()) ||
       content) as StateMessage,
   ]
 }

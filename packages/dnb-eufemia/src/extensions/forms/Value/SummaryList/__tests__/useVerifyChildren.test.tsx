@@ -1,6 +1,7 @@
 import React from 'react'
 import { render, act } from '@testing-library/react'
 import { useVerifyChildren, countChildren } from '../useVerifyChildren'
+import { Form } from '../../../'
 
 describe('useVerifyChildren', () => {
   it('should not warn when no children are provided', () => {
@@ -42,7 +43,43 @@ describe('useVerifyChildren', () => {
 
     act(() => button.click())
 
-    expect(log).toHaveBeenCalledWith(expect.any(String), 'Warning message')
+    expect(log).toHaveBeenCalledWith(
+      expect.any(String),
+      'Warning message',
+      undefined
+    )
+
+    log.mockRestore()
+  })
+
+  it('should show warning with messageInfo', () => {
+    const log = jest.spyOn(console, 'log').mockImplementation()
+    const props = { foo: 'bar' }
+
+    const TestComponent = () => {
+      const { verifyChild } = useVerifyChildren({
+        children: (
+          <>
+            <span>Child 1</span>
+            <span>Child 2</span>
+          </>
+        ),
+        message: 'Warning message',
+        messageInfo: props,
+      })
+      return <button onClick={() => verifyChild()}>Verify</button>
+    }
+
+    const { getByText } = render(<TestComponent />)
+    const button = getByText('Verify')
+
+    act(() => button.click())
+
+    expect(log).toHaveBeenCalledWith(
+      expect.any(String),
+      'Warning message',
+      props
+    )
 
     log.mockRestore()
   })
@@ -66,7 +103,60 @@ describe('useVerifyChildren', () => {
 
       verifyChild() // Call verifyChild once
 
-      return <button onClick={() => verifyChild()}>Verify</button>
+      return null
+    }
+
+    render(<TestComponent />)
+
+    expect(log).not.toHaveBeenCalled()
+
+    log.mockRestore()
+  })
+
+  it('should ignore Form.Visibility', () => {
+    const log = jest.spyOn(console, 'log').mockImplementation()
+
+    const TestComponent = () => {
+      const { verifyChild } = useVerifyChildren({
+        children: (
+          <>
+            <Form.Visibility>Child</Form.Visibility>
+            <span>Child</span>
+          </>
+        ),
+        message: 'Warning message',
+        ignoreTypes: ['Visibility'],
+      })
+
+      verifyChild() // Call verifyChild once
+
+      return null
+    }
+
+    render(<TestComponent />)
+
+    expect(log).not.toHaveBeenCalled()
+
+    log.mockRestore()
+  })
+
+  it('should ignore React.Fragment', () => {
+    const log = jest.spyOn(console, 'log').mockImplementation()
+
+    const TestComponent = () => {
+      const { verifyChild } = useVerifyChildren({
+        children: (
+          <>
+            <React.Fragment>Child</React.Fragment>
+            <span>Child</span>
+          </>
+        ),
+        message: 'Warning message',
+      })
+
+      verifyChild() // Call verifyChild once
+
+      return null
     }
 
     render(<TestComponent />)
