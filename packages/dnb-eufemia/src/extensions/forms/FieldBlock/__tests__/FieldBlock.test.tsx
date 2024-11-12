@@ -700,11 +700,53 @@ describe('FieldBlock', () => {
         expect(element).toHaveClass('dnb-height-animation--is-visible')
         expect(element).toHaveTextContent(blockInfo)
       })
+
+      it('should render the given element', () => {
+        render(
+          <FieldBlock info={<strong>{blockInfo}</strong>}>
+            content
+          </FieldBlock>
+        )
+
+        const element = document.querySelector('.dnb-form-status')
+
+        expect(element).toBeInTheDocument()
+        expect(element).toHaveClass('dnb-form-status--info')
+        expect(element).toHaveClass('dnb-height-animation--is-visible')
+        expect(element).toHaveTextContent(blockInfo)
+      })
+
+      it('should render the given React component', () => {
+        const MockComponent = () => <strong>{blockInfo}</strong>
+        render(<FieldBlock info={<MockComponent />}>content</FieldBlock>)
+
+        const element = document.querySelector('.dnb-form-status')
+
+        expect(element).toBeInTheDocument()
+        expect(element).toHaveClass('dnb-form-status--info')
+        expect(element).toHaveClass('dnb-height-animation--is-visible')
+        expect(element).toHaveTextContent(blockInfo)
+      })
     })
 
     describe('warning prop', () => {
       it('should render a FormStatus correctly', () => {
         render(<FieldBlock warning={blockWarning}>content</FieldBlock>)
+
+        const element = document.querySelector('.dnb-form-status')
+
+        expect(element).toBeInTheDocument()
+        expect(element).toHaveClass('dnb-form-status--warn')
+        expect(element).toHaveClass('dnb-height-animation--is-visible')
+        expect(element).toHaveTextContent(blockWarning)
+      })
+
+      it('should render the given element', () => {
+        render(
+          <FieldBlock warning={<strong>{blockWarning}</strong>}>
+            content
+          </FieldBlock>
+        )
 
         const element = document.querySelector('.dnb-form-status')
 
