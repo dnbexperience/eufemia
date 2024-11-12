@@ -1,42 +1,46 @@
 import { PropertiesTableProps } from '../../shared/types'
 
+const dateType = ['string', 'Date']
+
 export const DatePickerProperties: PropertiesTableProps = {
-  help: {
-    doc: 'Provide a help button. Object consisting of `title` and `content`.',
-    type: 'object',
+  date: {
+    doc: 'Defines the pre-filled date by either a JavaScript DateInstance or (ISO 8601) like `date="2019-05-05"`` and `content`.',
+    type: dateType,
     status: 'optional',
   },
-  range: {
-    doc:
-      'Defines if the Date field should support a value of two dates (starting and ending date). ' +
-      'The `value` needs to be a string containing two dates, separated by a pipe character (`|`) (`01-09-2024|30-09-2024`) when this is set to `true`. ' +
-      'Defaults to `false`.',
-    type: 'boolean',
+  startDate: {
+    doc: 'To set the pre-filled starting date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `maskPlaceholder`.',
+    type: dateType,
+    status: 'optional',
+  },
+  endDate: {
+    doc: 'To set the pre-filled ending date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `maskPlaceholder`',
+    type: dateType,
     status: 'optional',
   },
   month: {
     doc: 'To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`.',
-    type: 'string',
+    type: dateType,
     status: 'optional',
   },
   startMonth: {
     doc: 'To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`.',
-    type: 'string',
+    type: dateType,
     status: 'optional',
   },
   endMonth: {
     doc: 'To display what month should be shown in the second calendar by default. Defaults to the `date` respective `startDate`.',
-    type: 'string',
+    type: dateType,
     status: 'optional',
   },
   minDate: {
     doc: 'To limit a date range to a minimum `startDate`. Defaults to `null`.',
-    type: 'string',
+    type: dateType,
     status: 'optional',
   },
   maxDate: {
     doc: 'To limit a date range to a maximum `endDate`. Defaults to `null`.',
-    type: 'string',
+    type: dateType,
     status: 'optional',
   },
   dateFormat: {
@@ -47,6 +51,14 @@ export const DatePickerProperties: PropertiesTableProps = {
   returnFormat: {
     doc: 'Defines how the returned date, as a string, should be formatted as. Defaults to `yyyy-MM-dd`.',
     type: 'string',
+    status: 'optional',
+  },
+  range: {
+    doc:
+      'Defines if the Date field should support a value of two dates (starting and ending date). ' +
+      'The `value` needs to be a string containing two dates, separated by a pipe character (`|`) (`01-09-2024|30-09-2024`) when this is set to `true`. ' +
+      'Defaults to `false`.',
+    type: 'boolean',
     status: 'optional',
   },
   showInput: {
@@ -106,7 +118,15 @@ export const DatePickerProperties: PropertiesTableProps = {
   },
   firstDay: {
     doc: 'To define the first day of the week. Defaults to `monday`.',
-    type: 'string',
+    type: [
+      'monday',
+      'tuesday',
+      'wednesday',
+      'thursday',
+      'friday',
+      'saturday',
+      'sunday',
+    ],
     status: 'optional',
   },
   alignPicker: {
@@ -124,6 +144,31 @@ export const DatePickerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  stretch: {
+    doc: 'If set to `true`, then the date-picker input field will be 100% in `width`',
+    type: 'boolean',
+    status: 'optional',
+  },
+  label: {
+    doc: 'A prepending label in sync with the date input field.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  labelDirection: {
+    doc: ' Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`.',
+    type: ['vertical', 'horizontal'],
+    status: 'optional',
+  },
+  suffix: {
+    doc: 'Text describing the content of the DatePicker more than the label. You can also send in a React component, so it gets wrapped inside the DatePicker component.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  labelSrOnly: {
+    doc: 'Use `true` to make the label only readable by screen readers.',
+    type: 'boolean',
+    status: 'optional',
+  },
   shortcuts: {
     doc: 'Gives you the possibility to set predefined dates and date ranges so the user can select these by one click. Define either a JSON or an object with the defined shortcuts. More info is below.',
     type: 'object',
@@ -134,18 +179,11 @@ export const DatePickerProperties: PropertiesTableProps = {
     type: 'object',
     status: 'optional',
   },
-  disableAutofocus: {
-    doc: 'Once the date picker gets opened, there is a focus handling to ensure good accessibility. This can be disabled with this property. Defaults to `false`.',
-    type: 'boolean',
+  inputElement: {
+    doc: 'Gives you the possibility to use a plain/vanilla `<input />` HTML element by defining it as a string `inputElement="input"`, a React element, or a render function `inputElement={(internalProps) => (<Return />)}`. Can also be used in circumstances where the `react-text-mask` should not be used, e.g. in testing environments. Defaults to custom masked input.',
+    type: 'React.ReactNode',
     status: 'optional',
   },
-  correctInvalidDate: {
-    doc: 'Corrects the input date value to be the same as either `minDate` or `maxDate`, when the user types in a date that is either before or after one of these. Defaults to `false`.',
-    type: 'boolean',
-    status: 'optional',
-  },
-
-  // TODO: put in "correct" order
   status: {
     doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
     type: 'string | boolean',
@@ -161,19 +199,19 @@ export const DatePickerProperties: PropertiesTableProps = {
     type: 'object',
     status: 'optional',
   },
-  suffix: {
-    doc: 'Text describing the content of the DatePicker more than the label. You can also send in a React component, so it gets wrapped inside the DatePicker component.',
-    type: 'string | React.ReactNode',
-    status: 'optional',
-  },
-  labelSrOnly: {
-    doc: 'Use `true` to make the label only readable by screen readers.',
+  disableAutofocus: {
+    doc: 'Once the date picker gets opened, there is a focus handling to ensure good accessibility. This can be disabled with this property. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
-  inputElement: {
-    doc: 'Gives you the possibility to use a plain/vanilla `<input />` HTML element by defining it as a string `inputElement="input"`, a React element, or a render function `inputElement={(internalProps) => (<Return />)}`. Can also be used in circumstances where the `react-text-mask` should not be used, e.g. in testing environments. Defaults to custom masked input.',
-    type: 'string | React.ReactNode | (internalProps: any) => React.ReactNode',
+  correctInvalidDate: {
+    doc: 'Corrects the input date value to be the same as either `minDate` or `maxDate`, when the user types in a date that is either before or after one of these. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  globalStatus: {
+    doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
+    type: 'object',
     status: 'optional',
   },
   tooltip: {
@@ -196,18 +234,6 @@ export const DatePickerProperties: PropertiesTableProps = {
     type: ['string', 'object'],
     status: 'optional',
   },
-
-  // TODO: remove this
-  // | `status`                                | _(optional)_ text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.                                                                                                                                                                                                                                 |
-  // | `status_state`                          | _(optional)_ defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.                                                                                                                                                                                                                                                                |
-  // | `status_props`                          | _(optional)_ use an object to define additional FormStatus properties.                                                                                                                                                                                                                                                                                                               |
-  // | `suffix`                                | _(optional)_ text describing the content of the DatePicker more than the label. You can also send in a React component, so it gets wrapped inside the DatePicker component.                                                                                                                                                                                                          |
-  // | `label_sr_only`                         | _(optional)_ use `true` to make the label only readable by screen readers.                                                                                                                                                                                                                                                                                                           |
-  // | `input_element`                         | _(optional)_ gives you the possibility to use a plain/vanilla `<input />` HTML element by defining it as a string `input_element="input"`, a React element, or a render function `input_element={(internalProps) => (<Return />)}`. Can also be used in circumstances where the `react-text-mask` should not be used, e.g. in testing environments. Defaults to custom masked input. |
-  // | `tooltip`                               | _(optional)_ Provide a short Tooltip content that shows up on the picker button.                                                                                                                                                                                                                                                                                                     |
-  // | `skeleton`                              | _(optional)_ if set to `true`, an overlaying skeleton with animation will be shown.                                                                                                                                                                                                                                                                                                  |
-  // | `size`                                  | _(optional)_ the sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`.                                                                                                                                                                                                     |
-  // | [Space](/uilib/layout/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                                                                                                                                                                                                                                                |
 }
 
 export const DatePickerEvents: PropertiesTableProps = {
