@@ -180,7 +180,14 @@ export type DatePickerProps = {
   /**
    * To define the first day of the week. Defaults to `monday`.
    */
-  firstDay?: string
+  firstDay?:
+    | 'monday'
+    | 'tuesday'
+    | 'wednesday'
+    | 'thursday'
+    | 'friday'
+    | 'saturday'
+    | 'sunday'
   /**
    * If the date picker should support a range of two dates (starting and ending date). Defaults to `false`.
    */
