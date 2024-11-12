@@ -28,6 +28,8 @@ const contentWrapperData = {
   third: <h2>Third</h2>, // without function
 }
 
+global.console.log = jest.fn()
+
 describe('Tabs component', () => {
   it('have a "selected_key" state have to be same as prop from startup', () => {
     render(
@@ -277,6 +279,17 @@ describe('Tabs component', () => {
     const tabs = document.querySelector('.dnb-tabs__tabs')
 
     expect(tabs.className).not.toContain('--breakout')
+  })
+
+  it('warns when not providing any content', () => {
+    render(<Tabs />)
+    expect(global.console.log).toHaveBeenCalledTimes(1)
+    expect(global.console.log).toHaveBeenCalledWith(
+      '\u001b[0m\u001b[1m\u001b[38;5;23m\u001b[48;5;152mEufemia\u001b[49m\u001b[39m\u001b[22m\u001b[0m',
+      `No content was given to the Tabs component!
+Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outside of the Tabs component</Tabs.Content>
+`
+    )
   })
 })
 
