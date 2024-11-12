@@ -120,7 +120,7 @@
 
   --anchor-icon-gutter: 0.25em;
   // word-joiner character (zero-width non-breaking space) connects icon with word
-  --anchor-icon-seperator: '\2060';
+  --anchor-icon-separator: '\2060';
   --anchor-icon-position: translateY(-0.175em);
   @include anchorDefaultStyle();
 
@@ -170,7 +170,7 @@
 
   &--icon-left .dnb-icon:first-child {
     &::after {
-      content: var(--anchor-icon-seperator);
+      content: var(--anchor-icon-separator);
     }
     svg {
       margin-right: calc(var(--anchor-icon-gutter) * #{$icon-scale});
@@ -179,7 +179,7 @@
 
   &--icon-right .dnb-icon:last-child {
     &::before {
-      content: var(--anchor-icon-seperator);
+      content: var(--anchor-icon-separator);
     }
     svg {
       margin-left: calc(var(--anchor-icon-gutter) * #{$icon-scale});
