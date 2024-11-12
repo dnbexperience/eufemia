@@ -80,6 +80,8 @@ describe('Decimals format', () => {
   })
 
   it('should handle unusual cases', () => {
+    global.console.log = jest.fn()
+
     expect(format(num, { decimals: 0 })).toBe('-12 346')
     expect(format(num, { decimals: 1 })).toBe('-12 345,7')
     expect(format(num, { decimals: 2 })).toBe('-12 345,68')
@@ -114,6 +116,7 @@ describe('Decimals format', () => {
     expect(format(undefined, { currency: 'non-valid value' })).toBe(
       'undefined'
     )
+    expect(global.console.log).toHaveBeenCalledTimes(4)
   })
 
   describe('rounding', () => {
