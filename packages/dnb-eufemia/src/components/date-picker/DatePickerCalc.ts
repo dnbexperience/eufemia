@@ -251,7 +251,7 @@ export function convertStringToDate(
   date: string | Date,
   { date_format = null }: { date_format?: string | null } = {}
 ): Date {
-  if (date === null || date === undefined) {
+  if (!date) {
     return null
   }
 
