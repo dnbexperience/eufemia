@@ -251,7 +251,7 @@ button.dnb-anchor {
 :where(:not(.dnb-anchor--no-style)).dnb-anchor {
   --anchor-underline-thickness: 0.0938rem;
   --anchor-icon-gutter: 0.25em;
-  --anchor-icon-seperator: "⁠";
+  --anchor-icon-separator: "⁠";
   --anchor-icon-position: translateY(-0.175em);
   display: inline;
   padding: 0.05575em 0;
@@ -325,13 +325,13 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   display: none;
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-left .dnb-icon:first-child::after {
-  content: var(--anchor-icon-seperator);
+  content: var(--anchor-icon-separator);
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-left .dnb-icon:first-child svg {
   margin-right: calc(var(--anchor-icon-gutter) * 2);
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-right .dnb-icon:last-child::before {
-  content: var(--anchor-icon-seperator);
+  content: var(--anchor-icon-separator);
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-right .dnb-icon:last-child svg {
   margin-left: calc(var(--anchor-icon-gutter) * 2);
@@ -377,7 +377,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   :not(.dnb-anchor--no-style).dnb-anchor {
     --anchor-underline-thickness: 0.0938rem;
     --anchor-icon-gutter: 0.25em;
-    --anchor-icon-seperator: "⁠";
+    --anchor-icon-separator: "⁠";
     --anchor-icon-position: translateY(-0.175em);
     display: inline;
     padding: 0.05575em 0;
@@ -451,13 +451,13 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
     display: none;
   }
   :not(.dnb-anchor--no-style).dnb-anchor--icon-left .dnb-icon:first-child::after {
-    content: var(--anchor-icon-seperator);
+    content: var(--anchor-icon-separator);
   }
   :not(.dnb-anchor--no-style).dnb-anchor--icon-left .dnb-icon:first-child svg {
     margin-right: calc(var(--anchor-icon-gutter) * 2);
   }
   :not(.dnb-anchor--no-style).dnb-anchor--icon-right .dnb-icon:last-child::before {
-    content: var(--anchor-icon-seperator);
+    content: var(--anchor-icon-separator);
   }
   :not(.dnb-anchor--no-style).dnb-anchor--icon-right .dnb-icon:last-child svg {
     margin-left: calc(var(--anchor-icon-gutter) * 2);
@@ -610,7 +610,7 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
 }
 :where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor {
   --anchor-icon-gutter: 0.125em;
-  --anchor-icon-seperator: " ";
+  --anchor-icon-separator: " ";
 }
 :where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left, :where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right {
   text-decoration-color: var(--sb-color-green-dark);
@@ -619,13 +619,13 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
   --anchor-background-gutter-right: 0rem;
 }
 :where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left:not(.dnb-anchor--icon-right)::after {
-  content: var(--anchor-icon-seperator);
+  content: var(--anchor-icon-separator);
 }
 :where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right:not(.dnb-anchor--icon-left) {
   --anchor-background-gutter-left: 0rem;
 }
 :where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right:not(.dnb-anchor--icon-left)::before {
-  content: var(--anchor-icon-seperator);
+  content: var(--anchor-icon-separator);
 }
 :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline) {
   /* stylelint-disable-next-line scss/operator-no-unspaced */
@@ -633,7 +633,7 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
 @supports not (selector(*:where(*))) {
   :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor {
     --anchor-icon-gutter: 0.125em;
-    --anchor-icon-seperator: " ";
+    --anchor-icon-separator: " ";
   }
   :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-left, :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-right {
     text-decoration-color: var(--sb-color-green-dark);
@@ -642,13 +642,13 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
     --anchor-background-gutter-right: 0rem;
   }
   :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-left:not(.dnb-anchor--icon-right)::after {
-    content: var(--anchor-icon-seperator);
+    content: var(--anchor-icon-separator);
   }
   :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-right:not(.dnb-anchor--icon-left) {
     --anchor-background-gutter-left: 0rem;
   }
   :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-right:not(.dnb-anchor--icon-left)::before {
-    content: var(--anchor-icon-seperator);
+    content: var(--anchor-icon-separator);
   }
 }
 
@@ -702,7 +702,7 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
   }
   :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor {
     --anchor-icon-gutter: 0.125em;
-    --anchor-icon-seperator: " ";
+    --anchor-icon-separator: " ";
   }
   :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left, :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right {
     text-decoration-color: var(--sb-color-green-dark);
@@ -711,13 +711,13 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
     --anchor-background-gutter-right: 0rem;
   }
   :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left:not(.dnb-anchor--icon-right)::after {
-    content: var(--anchor-icon-seperator);
+    content: var(--anchor-icon-separator);
   }
   :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right:not(.dnb-anchor--icon-left) {
     --anchor-background-gutter-left: 0rem;
   }
   :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right:not(.dnb-anchor--icon-left)::before {
-    content: var(--anchor-icon-seperator);
+    content: var(--anchor-icon-separator);
   }
   :not(.dnb-anchor--no-style):not(.dnb-anchor--inline) {
     /* stylelint-disable-next-line scss/operator-no-unspaced */
@@ -725,7 +725,7 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
   @supports not (selector(*:where(*))) {
     :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor {
       --anchor-icon-gutter: 0.125em;
-      --anchor-icon-seperator: " ";
+      --anchor-icon-separator: " ";
     }
     :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-left, :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-right {
       text-decoration-color: var(--sb-color-green-dark);
@@ -734,13 +734,13 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
       --anchor-background-gutter-right: 0rem;
     }
     :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-left:not(.dnb-anchor--icon-right)::after {
-      content: var(--anchor-icon-seperator);
+      content: var(--anchor-icon-separator);
     }
     :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-right:not(.dnb-anchor--icon-left) {
       --anchor-background-gutter-left: 0rem;
     }
     :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-right:not(.dnb-anchor--icon-left)::before {
-      content: var(--anchor-icon-seperator);
+      content: var(--anchor-icon-separator);
     }
   }
 }

@@ -399,7 +399,7 @@ describe('DatePicker component', () => {
     expect(endYear.value).toBe('2024')
   })
 
-  it('should recieve all dates in the shortcut callback', async () => {
+  it('should receive all dates in the shortcut callback', async () => {
     const on_shortcut_click = jest.fn()
 
     render(
@@ -907,7 +907,7 @@ describe('DatePicker component', () => {
     expect(on_submit.mock.calls[0][0].date).toBe(date)
   })
 
-  it('should have functioning cancel button whith range pickers', async () => {
+  it('should have functioning cancel button with range pickers', async () => {
     render(
       <DatePicker
         show_input
@@ -1964,18 +1964,18 @@ describe('DatePicker component', () => {
       'input.dnb-date-picker__input--year'
     )[0] as HTMLInputElement
 
-    const seperator1 = document.querySelectorAll(
+    const separator1 = document.querySelectorAll(
       '.dnb-date-picker--separator'
     )[0]
-    const seperator2 = document.querySelectorAll(
+    const separator2 = document.querySelectorAll(
       '.dnb-date-picker--separator'
     )[0]
 
     expect(dayElem.value).toBe('dd')
     expect(monthElem.value).toBe('mm')
     expect(yearElem.value).toBe('yyyy')
-    expect(seperator1.textContent).toBe('/')
-    expect(seperator2.textContent).toBe('/')
+    expect(separator1.textContent).toBe('/')
+    expect(separator2.textContent).toBe('/')
   })
 
   it('should fire fire event when input gets focus', async () => {

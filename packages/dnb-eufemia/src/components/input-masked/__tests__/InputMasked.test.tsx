@@ -1429,7 +1429,7 @@ describe('InputMasked component as_currency', () => {
       ...event,
     })
 
-    const pressDotAndUseItAscomma = () => {
+    const pressDotAndUseItAsComma = () => {
       const keyCode = 188 // comma
       fireEvent.keyDown(document.querySelector('input'), {
         keyCode,
@@ -1437,8 +1437,8 @@ describe('InputMasked component as_currency', () => {
       })
     }
 
-    pressDotAndUseItAscomma()
-    pressDotAndUseItAscomma() // try a second time
+    pressDotAndUseItAsComma()
+    pressDotAndUseItAsComma() // try a second time
 
     expect(document.querySelector('input').value).toBe('12 345 kr')
   })

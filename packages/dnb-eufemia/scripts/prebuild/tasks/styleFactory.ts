@@ -169,9 +169,9 @@ const runFactory = async ({
 
   const content = searchGlob
     .reduce((acc, source) => {
-      const seperator = '/src/'
+      const separator = '/src/'
       const from =
-        source.substring(0, source.indexOf(seperator)) + seperator
+        source.substring(0, source.indexOf(separator)) + separator
       const relativeSource = '../' + path.relative(from, source)
       acc.push(importContent({ relativeSource }))
 
