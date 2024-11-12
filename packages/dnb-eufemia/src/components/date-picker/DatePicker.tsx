@@ -535,7 +535,14 @@ export type DatePickerAllProps = DatePickerProps &
   SpacingProps &
   Omit<
     React.HTMLProps<HTMLElement>,
-    'ref' | 'children' | 'label' | 'size' | 'onBlur' | 'onFocus' | 'start'
+    | 'ref'
+    | 'children'
+    | 'label'
+    | 'size'
+    | 'onChange'
+    | 'onBlur'
+    | 'onFocus'
+    | 'start'
   >
 
 // Added to prevent type errors when destructuring the translations from props
@@ -883,6 +890,8 @@ function DatePicker(externalProps: DatePickerAllProps) {
       placeholderCharacters,
       prevMonth,
       prevYear,
+      endMonth,
+      startMonth,
 
       ...rest
     } = restProps as DatePickerAllProps & DatePickerTranslations
