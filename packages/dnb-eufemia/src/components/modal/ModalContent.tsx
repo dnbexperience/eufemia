@@ -256,7 +256,21 @@ export default class ModalContent extends React.PureComponent<
             focusElement?.select?.()
 
             const noH1Elem = elem.querySelector('h1, h2, h3')
-            if (noH1Elem?.tagName !== 'H1') {
+            // Check if there's a header in a Drawer.Header
+            const noH1ElemInDrawerHeader = elem.parentElement
+              ?.querySelector('.dnb-drawer__header')
+              ?.querySelector('h1, h2, h3')
+
+            // Check if there's a header in a Dialog.Header
+            const noH1ElemInDialogHeader = elem.parentElement
+              ?.querySelector('.dnb-dialog__header')
+              ?.querySelector('h1, h2, h3')
+
+            if (
+              noH1Elem?.tagName !== 'H1' &&
+              noH1ElemInDrawerHeader?.tagName !== 'H1' &&
+              noH1ElemInDialogHeader?.tagName !== 'H1'
+            ) {
               warn('A Dialog or Drawer needs a h1 as its first element!')
             }
           } catch (e) {

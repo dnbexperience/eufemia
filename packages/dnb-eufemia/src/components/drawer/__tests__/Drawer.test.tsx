@@ -64,7 +64,6 @@ describe('Drawer', () => {
   it('will close by using callback method', async () => {
     const on_close = jest.fn()
     const on_open = jest.fn()
-
     render(
       <Drawer
         noAnimation={true}
@@ -73,7 +72,10 @@ describe('Drawer', () => {
         hideCloseButton
       >
         {({ close }) => (
-          <Button id="close-me" text="close" on_click={close} />
+          <>
+            <h1>title</h1>
+            <Button id="close-me" text="close" on_click={close} />
+          </>
         )}
       </Drawer>
     )
@@ -104,7 +106,7 @@ describe('Drawer', () => {
           <>
             <Drawer.Navigation>Drawer.Navigation</Drawer.Navigation>
             <Drawer.Header>
-              Drawer.Header
+              <h1>Drawer.Header</h1>
               <Button id="close-me" on_click={close} />
             </Drawer.Header>
             <Drawer.Body>Drawer.Body</Drawer.Body>
@@ -240,6 +242,7 @@ describe('Drawer', () => {
       <Drawer
         {...props}
         id="modal-first"
+        title="modal-first"
         onOpen={on_open.first}
         onClose={on_close.first}
       >
@@ -247,6 +250,7 @@ describe('Drawer', () => {
         <Drawer
           {...props}
           id="modal-second"
+          title="modal-second"
           onOpen={on_open.second}
           onClose={on_close.second}
         >
@@ -254,6 +258,7 @@ describe('Drawer', () => {
           <Drawer
             {...props}
             id="modal-third"
+            title="modal-third"
             onOpen={on_open.third}
             onClose={on_close.third}
           >
@@ -452,7 +457,9 @@ describe('Drawer', () => {
 
 describe('Drawer aria', () => {
   it('should validate with ARIA rules as a drawer', async () => {
-    const Comp = render(<Drawer {...props} openState={true} />)
+    const Comp = render(
+      <Drawer {...props} openState={true} title="title" />
+    )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
