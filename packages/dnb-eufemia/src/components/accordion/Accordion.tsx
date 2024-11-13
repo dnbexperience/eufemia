@@ -79,7 +79,7 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
      */
     prerender?: boolean
     /**
-     * If set to `true` the accordion component will not re-render its content – can be useful for widgets you don&#39;t have control of storing the temporary state during an interaction.
+     * If set to `true` the accordion component will not re-render its content – can be useful for components you don&#39;t have control of storing the temporary state during an interaction.
      */
     prevent_rerender?: boolean
     /**
