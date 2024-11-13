@@ -23,7 +23,7 @@ function Expiry(props: ExpiryProps) {
 
   const {
     DatePicker: {
-      placeholder_characters: placeholders,
+      placeholderCharacters: placeholders,
       month: monthLabel,
       year: yearLabel,
     },
