@@ -38,18 +38,18 @@ export const DatePickerRange = () => (
   >
     <DatePicker
       label="DatePicker"
-      start_date="2019-04-01"
-      end_date="2019-05-17"
+      startDate="2019-04-01"
+      endDate="2019-05-17"
       range={true}
-      show_input={true}
-      on_change={({ start_date, end_date }) => {
-        console.log('on_change', start_date, end_date)
+      showInput={true}
+      onChange={({ start_date, end_date }) => {
+        console.log('onChange', start_date, end_date)
       }}
-      on_submit={({ start_date, end_date }) => {
-        console.log('on_submit', start_date, end_date)
+      onSubmit={({ start_date, end_date }) => {
+        console.log('onSubmit', start_date, end_date)
       }}
-      on_cancel={({ start_date, end_date }) => {
-        console.log('on_cancel', start_date, end_date)
+      onCancel={({ start_date, end_date }) => {
+        console.log('onCancel', start_date, end_date)
       }}
       onBlur={({
         start_date,
@@ -96,14 +96,14 @@ export const DatePickerWithInput = () => (
     <DatePicker
       label="DatePicker"
       date={new Date()}
-      show_input={true}
-      show_cancel_button={true}
-      show_reset_button={true}
-      on_change={({ date }) => {
-        console.log('on_change', date)
+      showInput={true}
+      showCancelButton={true}
+      showResetButton={true}
+      onChange={({ date }) => {
+        console.log('onChange', date)
       }}
-      on_cancel={({ date }) => {
-        console.log('on_cancel', date)
+      onCancel={({ date }) => {
+        console.log('onCancel', date)
       }}
       onBlur={({ date }) => {
         console.log('onBlur', date)
@@ -118,12 +118,12 @@ export const DatePickerTrigger = () => (
       <DatePicker
         label="DatePicker"
         date="2019-05-05"
-        return_format="dd-MM-yyyy"
-        on_change={({ date }) => {
-          console.log('on_change', date)
+        returnFormat="dd-MM-yyyy"
+        onChange={({ date }) => {
+          console.log('onChange', date)
         }}
-        on_show={({ date }) => {
-          console.log('on_show', date)
+        onShow={({ date }) => {
+          console.log('onShow', date)
         }}
         onBlur={({ start_date, end_date }) => {
           console.log('onBlur', start_date, end_date)
@@ -138,17 +138,17 @@ export const DatePickerHiddenNav = () => (
     <DatePicker
       label="DatePicker"
       date="2022/05/05"
-      min_date="2022/05/01"
-      max_date="2022/05/17"
-      date_format="yyyy/MM/dd"
-      return_format="dd/MM/yyyy"
-      hide_navigation={true}
-      hide_days={true}
-      on_change={({ date }) => {
-        console.log('on_change', date)
+      minDate="2022/05/01"
+      maxDate="2022/05/17"
+      dateFormat="yyyy/MM/dd"
+      returnFormat="dd/MM/yyyy"
+      hideNavigation={true}
+      hideDays={true}
+      onChange={({ date }) => {
+        console.log('onChange', date)
       }}
-      on_hide={({ date }) => {
-        console.log('on_hide', date)
+      onHide={({ date }) => {
+        console.log('onHide', date)
       }}
       onBlur={({ date }) => {
         console.log('onBlur', date)
@@ -162,8 +162,8 @@ export const DatePickerMonthOnly = () => (
     <DatePicker
       label="DatePicker"
       date="05/02/2019"
-      date_format="MM/dd/yyyy"
-      only_month={true}
+      dateFormat="MM/dd/yyyy"
+      onlyMonth={true}
     />
   </ComponentBox>
 )
@@ -173,9 +173,9 @@ export const DatePickerStatusMessage = () => (
     <DatePicker
       label="DatePicker"
       date={new Date()}
-      show_input={true}
+      showInput={true}
       status="Please select a valid date"
-      status_state="info"
+      statusState="info"
     />
   </ComponentBox>
 )
@@ -185,7 +185,7 @@ export const DatePickerSuffix = () => (
     <DatePicker
       label="DatePicker"
       date={new Date()}
-      show_input
+      showInput
       suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
     />
   </ComponentBox>
@@ -194,7 +194,7 @@ export const DatePickerSuffix = () => (
 export const DatePickerLinked = () => (
   <Wrapper>
     <ComponentBox data-visual-test="date-picker-input">
-      <DatePicker label="DatePicker" range link show_input />
+      <DatePicker label="DatePicker" range link showInput />
     </ComponentBox>
   </Wrapper>
 )
@@ -205,7 +205,7 @@ export const DatePickerNoInputStatus = () => (
       <DatePicker
         label="DatePicker"
         date="2019-05-05"
-        hide_navigation={true}
+        hideNavigation={true}
         status="Please select a valid date"
       />
     </ComponentBox>
@@ -218,8 +218,8 @@ export const DatePickerErrorMessage = () => (
       <DatePicker
         label="DatePicker"
         date="2019-05-05"
-        show_input={true}
-        show_submit_button={true}
+        showInput={true}
+        showSubmitButton={true}
         stretch={true}
         status={
           <span>
@@ -236,7 +236,7 @@ export const DatePickerErrorStatus = () => (
     <DatePicker
       label="DatePicker"
       date={new Date()}
-      hide_navigation={true}
+      hideNavigation={true}
       status="error"
     />
   </ComponentBox>
@@ -247,11 +247,11 @@ export const DatePickerCalendar = () => (
     <ComponentBox data-visual-test="date-picker-calendar">
       <DatePicker
         opened={true}
-        prevent_close={true}
-        disable_autofocus={true}
+        preventClose={true}
+        disableAutofocus={true}
         range={true}
-        start_date="2019-05-05"
-        end_date="2019-06-05"
+        startDate="2019-05-05"
+        endDate="2019-06-05"
       />
     </ComponentBox>
   </Wrapper>
@@ -261,30 +261,30 @@ export const DatePickerScreenshotTestSizes = () => {
   return (
     <Wrapper>
       <ComponentBox data-visual-test="date-picker-sizes">
-        <Provider formElement={{ label_direction: 'vertical' }}>
+        <Provider formElement={{ labelDirection: 'vertical' }}>
           <Flex.Vertical>
             <DatePicker
               label="DatePicker"
               date={new Date('2022/06/10')}
-              show_input={true}
+              showInput={true}
             />
             <DatePicker
               size="small"
               label="DatePicker"
               date={new Date('2022/06/10')}
-              show_input={true}
+              showInput={true}
             />
             <DatePicker
               size="medium"
               label="DatePicker"
               date={new Date('2022/06/10')}
-              show_input={true}
+              showInput={true}
             />
             <DatePicker
               size="large"
               label="DatePicker"
               date={new Date('2022/06/10')}
-              show_input={true}
+              showInput={true}
             />
           </Flex.Vertical>
         </Provider>
@@ -297,10 +297,10 @@ export const DatePickerScreenshotTestDisabled = () => {
   return (
     <Wrapper>
       <ComponentBox data-visual-test="date-picker-disabled">
-        <Provider formElement={{ label_direction: 'vertical' }}>
+        <Provider formElement={{ labelDirection: 'vertical' }}>
           <Flex.Vertical>
             <DatePicker disabled />
-            <DatePicker show_input={true} disabled />
+            <DatePicker showInput={true} disabled />
           </Flex.Vertical>
         </Provider>
       </ComponentBox>
@@ -349,7 +349,7 @@ export const DatePickerDateFnsRange = () => (
 export const DatePickerDateFnsRangeIsWeekend = () => (
   <ComponentBox scope={{ isWeekend }} hidePreview>
     <DatePicker
-      on_days_render={(days, calendarNumber = 0) => {
+      onDaysRender={(days, calendarNumber = 0) => {
         return days.map((dayObject) => {
           if (isWeekend(dayObject.date)) {
             dayObject.isInactive = true
@@ -365,10 +365,10 @@ export const DatePickerDateFnsRangeIsWeekend = () => (
 export const DatePickerCorrectInvalidDate = () => (
   <ComponentBox>
     <DatePicker
-      show_input
-      min_date="2024-11-01"
-      max_date="2024-12-31"
-      correct_invalid_date
+      showInput
+      minDate="2024-11-01"
+      maxDate="2024-12-31"
+      correctInvalidDate
     />
   </ComponentBox>
 )
