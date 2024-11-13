@@ -4,7 +4,7 @@ const dateType = ['string', 'Date']
 
 export const DatePickerProperties: PropertiesTableProps = {
   date: {
-    doc: 'Defines the pre-filled date by either a JavaScript DateInstance or (ISO 8601) like `date="2019-05-05"`` and `content`.',
+    doc: 'Defines the pre-filled date by either a JavaScript DateInstance or (ISO 8601) like `date="2019-05-05"` and `content`.',
     type: dateType,
     status: 'optional',
   },
