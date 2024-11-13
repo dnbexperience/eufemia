@@ -67,7 +67,7 @@ export const AccordionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   prevent_rerender: {
-    doc: "If set to `true` the accordion component will not re-render its content – can be useful for widgets you don't have control of storing the temporary state during an interaction.",
+    doc: "If set to `true` the accordion component will not re-render its content – can be useful for components you don't have control of storing the temporary state during an interaction.",
     type: 'boolean',
     status: 'optional',
   },
