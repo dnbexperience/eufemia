@@ -418,12 +418,6 @@ export const toCamelCase = (s) =>
       ''
     )
 
-// TODO: Test if this solution is faster
-// const toCamelCase = (str) =>
-//   str.replace(/([-_][a-z])/g, (group) =>
-//     group.toUpperCase().replace('-', '').replace('_', '')
-//   )
-
 // transform my_component to MyComponent
 export const toPascalCase = (s) =>
   s
