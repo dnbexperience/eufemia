@@ -329,7 +329,7 @@ export type DatePickerProps = {
    */
   onBlur?: (event: DatePickerEvent<React.FocusEvent<HTMLElement>>) => void
 }
-
+// Can be removed in v11
 type DatePickerDeprecatedProps = {
   /**
    * @deprecated use `startDate` instead.
