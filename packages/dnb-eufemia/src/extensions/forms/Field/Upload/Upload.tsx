@@ -34,7 +34,9 @@ export type Props = FieldHelpProps &
     | 'fileMaxSize'
     | 'onFileDelete'
     | 'skeleton'
-  >
+  > & {
+    asyncFileHandler?: (newFiles: UploadValue) => Promise<UploadValue>
+  }
 
 const validateRequired = (
   value: UploadValue,
@@ -51,6 +53,13 @@ const validateRequired = (
   }
 
   return undefined
+}
+
+const updateFileLoadingState = (
+  files: UploadValue,
+  isLoading: boolean
+) => {
+  return files.map((file) => ({ ...file, isLoading }))
 }
 
 function UploadComponent(props: Props) {
@@ -82,6 +91,7 @@ function UploadComponent(props: Props) {
     handleChange,
     handleFocus,
     handleBlur,
+    asyncFileHandler,
     ...rest
   } = useFieldProps(preparedProps, {
     executeOnChangeRegardlessOfError: true,
@@ -98,20 +108,53 @@ function UploadComponent(props: Props) {
     onFileDelete,
   } = rest
 
-  const { setFiles } = useUpload(id)
+  const { files: fileContext, setFiles } = useUpload(id)
 
   useEffect(() => {
     setFiles(value)
   }, [setFiles, value])
+
+  const handleChangeAsync = useCallback(
+    async (files: UploadValue) => {
+      // Filter out existing files
+      const existingFileIds = fileContext?.map((file) => file.id) || []
+      const newFiles = files.filter(
+        (file) => !existingFileIds.includes(file.id)
+      )
+
+      if (newFiles.length > 0) {
+        // Set loading
+        setFiles([
+          ...fileContext,
+          ...updateFileLoadingState(newFiles, true),
+        ])
+
+        const uploadedFiles = updateFileLoadingState(
+          await asyncFileHandler(newFiles),
+          false
+        )
+
+        handleChange([...fileContext, ...uploadedFiles])
+      } else {
+        handleChange(files)
+      }
+    },
+    [fileContext, asyncFileHandler, setFiles, updateFileLoadingState]
+  )
 
   const changeHandler = useCallback(
     ({ files }: { files: UploadValue }) => {
       // Prevents the form-status from showing up
       handleBlur()
       handleFocus()
-      handleChange(files)
+
+      if (asyncFileHandler) {
+        handleChangeAsync(files)
+      } else {
+        handleChange(files)
+      }
     },
-    [handleBlur, handleChange, handleFocus]
+    [handleBlur, handleChange, handleFocus, asyncFileHandler, fileContext]
   )
 
   const width = widthProp as FieldBlockWidth
