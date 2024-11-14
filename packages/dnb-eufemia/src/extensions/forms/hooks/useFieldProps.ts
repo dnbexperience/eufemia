@@ -488,7 +488,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
    * Prepare error from validation logic with correct error messages based on props
    */
   const prepareError = useCallback(
-    (error: Error | FormError | undefined): FormError | undefined => {
+    (error: FieldPropsGeneric<Value>['error']): FormError | undefined => {
       if (error instanceof FormError) {
         const prepare = (error: FormError) => {
           let message = error.message
@@ -541,7 +541,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         return prepare(error)
       }
 
-      return error
+      return error as FormError
     },
     [getErrorMessages, formatMessage]
   )
@@ -2249,4 +2249,16 @@ export interface ReturnAdditional<Value> {
 
 function resolveValidatingState(state: SubmitStateWithValidating) {
   return state === 'validating' ? 'pending' : state
+}
+
+export function checkForError(
+  potentialErrors: Array<
+    | FieldPropsGeneric['error']
+    | FieldPropsGeneric['warning']
+    | FieldPropsGeneric['info']
+  >
+) {
+  return potentialErrors.some((error) => {
+    return error instanceof Error || error instanceof FormError
+  })
 }

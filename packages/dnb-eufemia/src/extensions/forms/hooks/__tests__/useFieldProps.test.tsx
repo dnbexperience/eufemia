@@ -13,6 +13,7 @@ import { Context, ContextState, Provider } from '../../DataContext'
 import WizardContext from '../../Wizard/Context'
 import Field, {
   FieldBlock,
+  FieldPropsGeneric,
   Form,
   FormError,
   Iterate,
@@ -26,6 +27,10 @@ import { useSharedState } from '../../../../shared/helpers/useSharedState'
 
 import nbNO from '../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
+
+function getError(error: FieldPropsGeneric['error']) {
+  return error as Error | FormError
+}
 
 describe('useFieldProps', () => {
   it('should call external onChange based change callbacks', () => {
@@ -347,14 +352,18 @@ describe('useFieldProps', () => {
           result.current.handleBlur()
         })
 
-        expect(result.current.error.message).toBe(nb.Field.errorRequired)
+        expect(getError(result.current.error).message).toBe(
+          nb.Field.errorRequired
+        )
 
         act(() => {
           result.current.handleChange('something')
           result.current.handleBlur()
         })
 
-        expect(result.current.error.message).toBe('This is wrong...')
+        expect(getError(result.current.error).message).toBe(
+          'This is wrong...'
+        )
       })
 
       it('should not call onBlurValidator when pattern error is present', () => {
@@ -381,14 +390,18 @@ describe('useFieldProps', () => {
           result.current.handleBlur()
         })
 
-        expect(result.current.error.message).toBe(nb.Field.errorPattern)
+        expect(getError(result.current.error).message).toBe(
+          nb.Field.errorPattern
+        )
 
         act(() => {
           result.current.handleChange('123')
           result.current.handleBlur()
         })
 
-        expect(result.current.error.message).toBe('This is wrong...')
+        expect(getError(result.current.error).message).toBe(
+          'This is wrong...'
+        )
       })
 
       it('should always show onBlurValidator over onChangeValidator', () => {
@@ -414,7 +427,7 @@ describe('useFieldProps', () => {
           result.current.handleBlur()
         })
 
-        expect(result.current.error.message).toBe(
+        expect(getError(result.current.error).message).toBe(
           'Error message by onBlurValidator'
         )
 
@@ -423,7 +436,7 @@ describe('useFieldProps', () => {
           result.current.handleBlur()
         })
 
-        expect(result.current.error.message).toBe(
+        expect(getError(result.current.error).message).toBe(
           'Error message by onBlurValidator'
         )
       })
@@ -457,7 +470,7 @@ describe('useFieldProps', () => {
           result.current.handleBlur()
         })
 
-        expect(result.current.error.message).toBe(
+        expect(getError(result.current.error).message).toBe(
           'Error message by onBlurValidator'
         )
       })
@@ -489,7 +502,7 @@ describe('useFieldProps', () => {
           result.current.handleBlur()
         })
 
-        expect(result.current.error.message).toBe(
+        expect(getError(result.current.error).message).toBe(
           'Error message by onBlurValidator'
         )
       })
@@ -522,7 +535,7 @@ describe('useFieldProps', () => {
           result.current.handleBlur()
         })
 
-        expect(result.current.error.message).toBe(
+        expect(getError(result.current.error).message).toBe(
           'Error message by onBlurValidator'
         )
       })
@@ -907,7 +920,7 @@ describe('useFieldProps', () => {
 
       expect(result.current.info).toBe('Info message')
       expect(result.current.warning).toBe('Warning message')
-      expect(result.current.error.message).toBe('Error message')
+      expect(getError(result.current.error).message).toBe('Error message')
     })
 
     it('should validate schema', async () => {
@@ -979,7 +992,7 @@ describe('useFieldProps', () => {
 
       await waitFor(() => {
         expect(result.current.error).toBeInstanceOf(Error)
-        expect(result.current.error.message).toBe(
+        expect(getError(result.current.error).message).toBe(
           'The field value (invalid) type must be number'
         )
       })
@@ -1011,7 +1024,7 @@ describe('useFieldProps', () => {
 
       await waitFor(() => {
         expect(result.current.error).toBeInstanceOf(Error)
-        expect(result.current.error.message).toBe(
+        expect(getError(result.current.error).message).toBe(
           'The field value (invalid) type must be number'
         )
       })
@@ -1045,7 +1058,7 @@ describe('useFieldProps', () => {
 
       await waitFor(() => {
         expect(result.current.error).toBeInstanceOf(Error)
-        expect(result.current.error.message).toBe(
+        expect(getError(result.current.error).message).toBe(
           'The field value (123) type must be string'
         )
       })
@@ -1108,7 +1121,9 @@ describe('useFieldProps', () => {
         result.current.handleBlur()
       })
       await waitFor(() => {
-        expect(result.current.error.message).toBe('throw-onBlurValidator')
+        expect(getError(result.current.error).message).toBe(
+          'throw-onBlurValidator'
+        )
       })
 
       // Try required
@@ -1118,7 +1133,9 @@ describe('useFieldProps', () => {
         result.current.handleBlur()
       })
       await waitFor(() => {
-        expect(result.current.error.message).toBe('throw-on-required')
+        expect(getError(result.current.error).message).toBe(
+          'throw-on-required'
+        )
       })
 
       // Remove error
@@ -1135,7 +1152,9 @@ describe('useFieldProps', () => {
         result.current.handleBlur()
       })
       await waitFor(() => {
-        expect(result.current.error.message).toBe('throw-onBlurValidator')
+        expect(getError(result.current.error).message).toBe(
+          'throw-onBlurValidator'
+        )
       })
 
       // Try schema
@@ -1145,7 +1164,9 @@ describe('useFieldProps', () => {
         result.current.handleBlur()
       })
       await waitFor(() => {
-        expect(result.current.error.message).toBe(nb.Field.errorPattern)
+        expect(getError(result.current.error).message).toBe(
+          nb.Field.errorPattern
+        )
       })
 
       // Remove error
@@ -1162,7 +1183,9 @@ describe('useFieldProps', () => {
         result.current.handleBlur()
       })
       await waitFor(() => {
-        expect(result.current.error.message).toBe('throw-onBlurValidator')
+        expect(getError(result.current.error).message).toBe(
+          'throw-onBlurValidator'
+        )
       })
 
       // Remove error
@@ -1179,7 +1202,7 @@ describe('useFieldProps', () => {
         result.current.handleChange('throw-onChangeValidator')
       })
       await waitFor(() => {
-        expect(result.current.error.message).toBe(
+        expect(getError(result.current.error).message).toBe(
           'throw-onChangeValidator'
         )
       })
@@ -1190,7 +1213,9 @@ describe('useFieldProps', () => {
         result.current.handleBlur()
       })
       await waitFor(() => {
-        expect(result.current.error.message).toBe('throw-onBlurValidator')
+        expect(getError(result.current.error).message).toBe(
+          'throw-onBlurValidator'
+        )
       })
     })
 
@@ -1207,7 +1232,9 @@ describe('useFieldProps', () => {
           })
         )
         expect(result.current.error).toBeInstanceOf(Error)
-        expect(result.current.error.message).toBe('Show this message')
+        expect(getError(result.current.error).message).toBe(
+          'Show this message'
+        )
       })
 
       it('should update error message given via errorMessages', () => {
@@ -1225,7 +1252,9 @@ describe('useFieldProps', () => {
           },
         })
         expect(result.current.error).toBeInstanceOf(Error)
-        expect(result.current.error.message).toBe('Show this message')
+        expect(getError(result.current.error).message).toBe(
+          'Show this message'
+        )
 
         rerender({
           ...props,
@@ -1234,7 +1263,9 @@ describe('useFieldProps', () => {
           },
         })
 
-        expect(result.current.error.message).toBe('Update the message')
+        expect(getError(result.current.error).message).toBe(
+          'Update the message'
+        )
       })
 
       /**
@@ -1252,7 +1283,9 @@ describe('useFieldProps', () => {
           })
         )
         expect(result.current.error).toBeInstanceOf(Error)
-        expect(result.current.error.message).toBe('Show this message')
+        expect(getError(result.current.error).message).toBe(
+          'Show this message'
+        )
       })
     })
 
@@ -1306,7 +1339,9 @@ describe('useFieldProps', () => {
 
       await waitFor(() => {
         expect(result.current.error).toBeInstanceOf(Error)
-        expect(result.current.error.message).toBe('Show this message')
+        expect(getError(result.current.error).message).toBe(
+          'Show this message'
+        )
       })
 
       act(() => {
@@ -1767,7 +1802,9 @@ describe('useFieldProps', () => {
       expect(events).toEqual(['onBlurValidator'])
 
       await waitFor(() => {
-        expect(result.current.error.message).toBe('Error message')
+        expect(getError(result.current.error).message).toBe(
+          'Error message'
+        )
         expect(result.current.fieldState).toBe('complete')
       })
 
@@ -1780,7 +1817,9 @@ describe('useFieldProps', () => {
       expect(events).toEqual(['onBlurValidator'])
 
       await waitFor(() => {
-        expect(result.current.error.message).toBe('Error message')
+        expect(getError(result.current.error).message).toBe(
+          'Error message'
+        )
         expect(result.current.fieldState).toBe('complete')
         expect(events).toEqual(['onBlurValidator'])
       })
@@ -1995,7 +2034,7 @@ describe('useFieldProps', () => {
 
       expect(result.current.fieldState).toBe('pending')
       expect(result.current.error).toBeInstanceOf(Error)
-      expect(result.current.error.message).toBe(
+      expect(getError(result.current.error).message).toBe(
         'Error message by validator'
       )
 
@@ -2003,7 +2042,7 @@ describe('useFieldProps', () => {
         expect(events).toEqual(['validator', 'onBlurValidator'])
         expect(result.current.fieldState).toBe('error')
         expect(result.current.error).toBeInstanceOf(Error)
-        expect(result.current.error.message).toBe(
+        expect(getError(result.current.error).message).toBe(
           'Error message by onBlurValidator'
         )
       })
@@ -2160,7 +2199,9 @@ describe('useFieldProps', () => {
       await waitFor(() => {
         expect(events).toEqual(['validator'])
         expect(result.current.fieldState).toBe('error')
-        expect(result.current.error.message).toBe('Error in validator')
+        expect(getError(result.current.error).message).toBe(
+          'Error in validator'
+        )
       })
 
       // Reset events
@@ -2188,7 +2229,7 @@ describe('useFieldProps', () => {
           'onBlurValidator',
         ])
         expect(result.current.fieldState).toBe('error')
-        expect(result.current.error.message).toBe(
+        expect(getError(result.current.error).message).toBe(
           'Error in onBlurValidator'
         )
       })
@@ -2207,7 +2248,9 @@ describe('useFieldProps', () => {
       await waitFor(() => {
         expect(events).toEqual(['validator', 'onChangeForm'])
         expect(result.current.fieldState).toBe('error')
-        expect(result.current.error.message).toBe('Error in onChangeForm')
+        expect(getError(result.current.error).message).toBe(
+          'Error in onChangeForm'
+        )
       })
 
       // Reset events
@@ -2228,7 +2271,9 @@ describe('useFieldProps', () => {
           'onChangeField',
         ])
         expect(result.current.fieldState).toBe('error')
-        expect(result.current.error.message).toBe('Error in onChangeField')
+        expect(getError(result.current.error).message).toBe(
+          'Error in onChangeField'
+        )
       })
 
       // Reset events
@@ -2254,7 +2299,7 @@ describe('useFieldProps', () => {
           'onBlurValidator',
         ])
         expect(result.current.fieldState).toBe('error')
-        expect(result.current.error.message).toBe(
+        expect(getError(result.current.error).message).toBe(
           'Error in onBlurValidator'
         )
       })
@@ -2288,7 +2333,9 @@ describe('useFieldProps', () => {
       await waitFor(() => {
         expect(result.current.info).toBe('Info message')
         expect(result.current.warning).toBe('Warning message')
-        expect(result.current.error.message).toBe('Error message')
+        expect(getError(result.current.error).message).toBe(
+          'Error message'
+        )
       })
     })
   })

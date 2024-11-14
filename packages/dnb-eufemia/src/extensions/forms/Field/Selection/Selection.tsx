@@ -10,7 +10,7 @@ import {
 } from '../../../../components'
 import OptionField, { Props as OptionFieldProps } from '../Option'
 import { useFieldProps } from '../../hooks'
-import { ReturnAdditional } from '../../hooks/useFieldProps'
+import { checkForError, ReturnAdditional } from '../../hooks/useFieldProps'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import FieldBlock, {
   Props as FieldBlockProps,
@@ -222,7 +222,6 @@ function Selection(props: Props) {
 
     case 'autocomplete':
     case 'dropdown': {
-      const status = getStatus(error, info, warning)
       const data = renderDropdownItems(dataList)
         .concat(makeOptions(children))
         .filter(Boolean)
@@ -236,7 +235,8 @@ function Selection(props: Props) {
         portal_class: 'dnb-forms-field-selection__portal',
         title: placeholder,
         value: String(value ?? ''),
-        status: (hasError || status) && 'error',
+        status:
+          (hasError || checkForError([error, info, warning])) && 'error',
         disabled,
         ...htmlAttributes,
         data,
@@ -274,22 +274,6 @@ function Selection(props: Props) {
       )
     }
   }
-}
-
-export function getStatus(
-  error: Error | FormError | undefined,
-  info: React.ReactNode,
-  warning: React.ReactNode
-) {
-  return (
-    error?.message ??
-    ((warning instanceof Error && warning.message) ||
-      (warning instanceof FormError && warning.message) ||
-      warning?.toString() ||
-      (info instanceof Error && info.message) ||
-      (info instanceof FormError && info.message) ||
-      info?.toString())
-  )
 }
 
 type OptionProps = React.ComponentProps<
@@ -335,7 +319,6 @@ function renderRadioItems({
     const { value, title, children, error, help, ...rest } = props
 
     const label = title ?? children
-    const status = getStatus(error, info, warning)
     const suffix = help ? (
       <HelpButton size="small" title={help.title}>
         {help.content}
@@ -355,7 +338,9 @@ function renderRadioItems({
         label={variant === 'radio' ? label : undefined}
         text={variant === 'button' ? label : undefined}
         value={String(value ?? valueProp ?? '')}
-        status={(hasError || status) && 'error'}
+        status={
+          (hasError || checkForError([error, info, warning])) && 'error'
+        }
         suffix={suffix}
         {...htmlAttributes}
         {...rest}

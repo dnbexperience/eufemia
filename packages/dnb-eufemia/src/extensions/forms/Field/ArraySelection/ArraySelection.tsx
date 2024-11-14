@@ -3,7 +3,7 @@ import { Checkbox, HelpButton, ToggleButton } from '../../../../components'
 import classnames from 'classnames'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
-import { ReturnAdditional } from '../../hooks/useFieldProps'
+import { checkForError, ReturnAdditional } from '../../hooks/useFieldProps'
 import {
   DefaultErrorMessages,
   FieldHelpProps,
@@ -11,7 +11,7 @@ import {
   Path,
 } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import { getStatus, mapOptions, Data } from '../Selection'
+import { mapOptions, Data } from '../Selection'
 import { HelpButtonProps } from '../../../../components/HelpButton'
 import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
 import DataContext from '../../DataContext/Context'
@@ -209,7 +209,6 @@ export function useCheckboxOrToggleOptions({
       }
 
       const label = title ?? children
-      const status = getStatus(error, info, warning)
       const suffix = help ? (
         <HelpButton size="small" title={help.title}>
           {help.content}
@@ -246,7 +245,9 @@ export function useCheckboxOrToggleOptions({
           value={value}
           disabled={disabled}
           checked={value?.includes(active)}
-          status={(hasError || status) && 'error'}
+          status={
+            (hasError || checkForError([error, info, warning])) && 'error'
+          }
           suffix={suffix}
           on_change={handleSelect}
           {...htmlAttributes}
