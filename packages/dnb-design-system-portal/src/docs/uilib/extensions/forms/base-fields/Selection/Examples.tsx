@@ -154,12 +154,10 @@ export const DropdownDisabledOptions = () => (
     {() => {
       const Example = () => {
         return (
-          <>
-            <Field.Selection label="Label text">
-              <Field.Option value="foo" title="Foo!" disabled />
-              <Field.Option value="bar" title="Baar!" />
-            </Field.Selection>
-          </>
+          <Field.Selection label="Label text">
+            <Field.Option value="foo" title="Foo!" disabled />
+            <Field.Option value="bar" title="Baar!" />
+          </Field.Selection>
         )
       }
 
@@ -453,12 +451,10 @@ export const RadioDisabledOptions = () => (
     {() => {
       const Example = () => {
         return (
-          <>
-            <Field.Selection label="Label text" variant="radio">
-              <Field.Option value="foo" title="Foo!" disabled />
-              <Field.Option value="bar" title="Baar!" />
-            </Field.Selection>
-          </>
+          <Field.Selection label="Label text" variant="radio">
+            <Field.Option value="foo" title="Foo!" disabled />
+            <Field.Option value="bar" title="Baar!" />
+          </Field.Selection>
         )
       }
 
@@ -732,12 +728,10 @@ export const ButtonDisabledOptions = () => (
     {() => {
       const Example = () => {
         return (
-          <>
-            <Field.Selection label="Label text" variant="button">
-              <Field.Option value="foo" title="Foo!" disabled />
-              <Field.Option value="bar" title="Baar!" />
-            </Field.Selection>
-          </>
+          <Field.Selection label="Label text" variant="button">
+            <Field.Option value="foo" title="Foo!" disabled />
+            <Field.Option value="bar" title="Baar!" />
+          </Field.Selection>
         )
       }
 
