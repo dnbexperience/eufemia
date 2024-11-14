@@ -61,7 +61,7 @@ render(<Field.Upload value={files} />)
 
 ## About the `asyncFileHandler` property
 
-The `asyncFileHandler` is an asynchronous callback function that takes newly added files as a parameter and returns a promise containing the processed files. The component will automatically handle loading states during the upload process. This feature is useful for tasks like uploading files to a virus checker, which returns a new file ID if the file passes the check. To indicate a failed upload, set the `errorMessage` on the specific file object with the desired message to display next to the file in the upload list.
+The `asyncFileHandler` is an asynchronous handler function that takes newly added files as a parameter and returns a promise containing the processed files. The component will automatically handle loading states during the upload process. This feature is useful for tasks like uploading files to a virus checker, which returns a new file ID if the file passes the check. To indicate a failed upload, set the `errorMessage` on the specific file object with the desired message to display next to the file in the upload list.
 
 ```js
 async function virusCheck(newFiles) {
