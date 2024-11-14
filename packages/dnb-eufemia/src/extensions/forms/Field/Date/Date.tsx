@@ -95,12 +95,14 @@ function DateComponent(props: Props) {
       return { value: valueProp, startDate: undefined, endDate: undefined }
     }
 
-    const [startDate, endDate] = valueProp.split('|')
+    const [startDate, endDate] = valueProp
+      .split('|')
+      .map((value) => (/(undefined|null)/.test(value) ? undefined : value))
 
     return {
       value: undefined,
-      startDate: convertNullOrUndefinedString(startDate),
-      endDate: convertNullOrUndefinedString(endDate),
+      startDate,
+      endDate,
     }
   }, [range, valueProp])
 
@@ -143,18 +145,6 @@ function DateComponent(props: Props) {
       />
     </FieldBlock>
   )
-}
-
-function convertNullOrUndefinedString(value: string) {
-  if (value === 'undefined') {
-    return undefined
-  }
-
-  if (value === 'null') {
-    return null
-  }
-
-  return value
 }
 
 DateComponent._supportsSpacingProps = true
