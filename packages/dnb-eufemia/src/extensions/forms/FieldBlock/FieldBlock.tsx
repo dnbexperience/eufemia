@@ -26,7 +26,6 @@ import { Ul, Li } from '../../../elements'
 import {
   convertJsxToString,
   findElementInChildren,
-  warn,
 } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import {
@@ -526,12 +525,6 @@ function FieldBlock(props: Props) {
     return null
   }
 
-  if (fieldState && typeof label === 'undefined') {
-    warn(
-      'Provide a label when using an async validator or onChange event.'
-    )
-  }
-
   const hasLabelDescription = isFragment(labelDescription)
     ? fragmentHasChildren(labelDescription) &&
       !fragmentHasOnlyUndefinedChildren(labelDescription)
@@ -569,10 +562,7 @@ function FieldBlock(props: Props) {
         <div className={gridClasses}>
           {(label || labelDescription || hasHelp) && (
             <FormLabel {...labelProps}>
-              <SubmitIndicator
-                state={fieldState}
-                className="vertical-indicator"
-              >
+              <span>
                 {label && (
                   <span className="dnb-forms-field-block__label__content">
                     {label}
@@ -588,7 +578,7 @@ function FieldBlock(props: Props) {
                 {hasHelp && (
                   <HelpButtonInline contentId={`${id}-help`} help={help} />
                 )}
-              </SubmitIndicator>
+              </span>
             </FormLabel>
           )}
 
@@ -632,12 +622,10 @@ function FieldBlock(props: Props) {
             {children}
           </div>
 
-          {layout === 'horizontal' && label && (
-            <SubmitIndicator
-              state={fieldState}
-              className="horizontal-indicator"
-            />
-          )}
+          <SubmitIndicator
+            state={fieldState}
+            className="dnb-forms-field-block__indicator dnb-forms-submit-indicator--inline-wrap"
+          />
         </div>
       </Space>
     </FieldBlockContext.Provider>

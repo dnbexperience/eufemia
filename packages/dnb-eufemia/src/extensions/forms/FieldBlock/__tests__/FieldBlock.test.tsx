@@ -882,49 +882,6 @@ describe('FieldBlock', () => {
     })
   })
 
-  it('should warn when formStatus is given, but no label', async () => {
-    const log = jest.spyOn(console, 'log').mockImplementation()
-
-    const asyncValidator = async () => {
-      return null
-    }
-
-    const { rerender } = render(
-      <Form.Handler>
-        <Field.String
-          label="Has a label"
-          value="bar"
-          path="/foo"
-          validator={asyncValidator}
-        />
-        <Form.SubmitButton />
-      </Form.Handler>
-    )
-
-    const buttonElement = document.querySelector('button')
-
-    await userEvent.click(buttonElement)
-
-    expect(log).toHaveBeenCalledTimes(0)
-
-    rerender(
-      <Form.Handler>
-        <Field.String value="bar" path="/foo" validator={asyncValidator} />
-        <Form.SubmitButton />
-      </Form.Handler>
-    )
-
-    await userEvent.click(buttonElement)
-
-    expect(log).toHaveBeenLastCalledWith(
-      expect.any(String),
-      expect.any(String),
-      'Provide a label when using an async validator or onChange event.'
-    )
-
-    log.mockRestore()
-  })
-
   it('should summarize errors in one FormStatus components', () => {
     const MockComponent = () => {
       useFieldProps({
