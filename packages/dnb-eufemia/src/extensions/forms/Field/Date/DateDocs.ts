@@ -57,7 +57,7 @@ export const DateProperties: PropertiesTableProps = {
   },
   ...datePickerProperties,
 }
-// Filter out the events that are handeled by `useFieldProps`
+// Filter out the events that are handled by `useFieldProps`
 const { onChange, onBlur, onFocus, ...datePickerEvents } = DatePickerEvents
 
 export const DateEvents = datePickerEvents
