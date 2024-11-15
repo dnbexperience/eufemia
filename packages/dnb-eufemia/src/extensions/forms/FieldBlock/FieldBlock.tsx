@@ -531,14 +531,6 @@ function FieldBlock(props: Props) {
     : labelDescription
   const hasHelp = help?.title || help?.content
 
-  const helpNode = (
-    <HelpButtonInlineContent
-      contentId={`${id}-help`}
-      className="dnb-forms-field-block__help"
-      help={help}
-    />
-  )
-
   return (
     <FieldBlockContext.Provider
       value={{
@@ -557,8 +549,6 @@ function FieldBlock(props: Props) {
         className={mainClasses}
         {...rest}
       >
-        {hasHelp && layout === 'horizontal' && helpNode}
-
         <div className={gridClasses}>
           {(label || labelDescription || hasHelp) && (
             <FormLabel {...labelProps}>
@@ -582,7 +572,13 @@ function FieldBlock(props: Props) {
             </FormLabel>
           )}
 
-          {hasHelp && helpNode}
+          {hasHelp && (
+            <HelpButtonInlineContent
+              contentId={`${id}-help`}
+              className="dnb-forms-field-block__help"
+              help={help}
+            />
+          )}
 
           <div
             className={classnames(

@@ -117,23 +117,13 @@ fieldset.dnb-forms-field-block {
         auto;
       grid-template-areas:
         'label contents'
+        'help help'
         '. indicator'
         '. status';
 
       .dnb-forms-field-block__contents {
         align-self: end;
       }
-    }
-  }
-
-  &__help:has(+ #{&}__grid#{&}--layout-horizontal) {
-    @include allBelow(small) {
-      display: none;
-    }
-  }
-  &__grid#{&}--layout-horizontal &__help {
-    @include allAbove(small) {
-      display: none;
     }
   }
 
@@ -151,6 +141,14 @@ fieldset.dnb-forms-field-block {
 
       & > .dnb-p--lead {
         margin-bottom: 0.5rem;
+      }
+    }
+  }
+  &__grid#{&}--layout-horizontal &__help {
+    @include allAbove(small) {
+      .dnb-section {
+        margin-top: 0.5rem;
+        margin-bottom: 0;
       }
     }
   }

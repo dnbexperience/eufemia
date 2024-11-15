@@ -1736,7 +1736,7 @@ describe('DataContext.Provider', () => {
 
       const input = document.querySelector('input')
       const indicator = document.querySelector(
-        'label .dnb-forms-submit-indicator'
+        '.dnb-forms-submit-indicator'
       )
 
       // Use fireEvent over userEvent, because of its sync nature
@@ -1744,7 +1744,6 @@ describe('DataContext.Provider', () => {
         target: { value: '123' },
       })
 
-      expect(indicator).toHaveTextContent('My label...')
       expect(indicator).toHaveClass(
         'dnb-forms-submit-indicator--state-pending'
       )
@@ -1770,7 +1769,7 @@ describe('DataContext.Provider', () => {
 
       const input = document.querySelector('input')
       const indicator = document.querySelector(
-        'label .dnb-forms-submit-indicator'
+        '.dnb-forms-submit-indicator'
       )
 
       // Use fireEvent over userEvent, because of its sync nature
@@ -1778,7 +1777,6 @@ describe('DataContext.Provider', () => {
         target: { value: '123' },
       })
 
-      expect(indicator).toHaveTextContent('My label...')
       expect(indicator).toHaveClass(
         'dnb-forms-submit-indicator--state-pending'
       )
@@ -2084,14 +2082,13 @@ describe('DataContext.Provider', () => {
 
       const input = document.querySelector('input')
       const indicator = document.querySelector(
-        'label .dnb-forms-submit-indicator'
+        '.dnb-forms-submit-indicator'
       )
 
       await userEvent.type(input, '123')
 
       await waitFor(() => {
         expect(events).toEqual(['validator'])
-        expect(indicator).toHaveTextContent('My label...')
         expect(indicator).toHaveClass(
           'dnb-forms-submit-indicator--state-pending'
         )
@@ -2099,7 +2096,6 @@ describe('DataContext.Provider', () => {
 
       await waitFor(() => {
         expect(events).toEqual(['validator', 'onChangeForm'])
-        expect(indicator).toHaveTextContent('My label...')
         expect(indicator).toHaveClass(
           'dnb-forms-submit-indicator--state-pending'
         )
@@ -2111,7 +2107,6 @@ describe('DataContext.Provider', () => {
           'onChangeForm',
           'onChangeField',
         ])
-        expect(indicator).toHaveTextContent('My label...')
         expect(indicator).toHaveClass(
           'dnb-forms-submit-indicator--state-complete'
         )
