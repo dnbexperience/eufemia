@@ -237,6 +237,11 @@ export const DatePickerProperties: PropertiesTableProps = {
 }
 
 export const DatePickerEvents: PropertiesTableProps = {
+  onChange: {
+    doc: 'Will be called on a date change event. Returns an object. See Returned Object below.',
+    type: 'function',
+    status: 'optional',
+  },
   onType: {
     doc: 'Will be called on every input and date picker interaction. Returns an `object`. See Returned Object below.',
     type: 'function',
@@ -269,6 +274,16 @@ export const DatePickerEvents: PropertiesTableProps = {
   },
   onDaysRender: {
     doc: 'Will be called right before every new calendar view gets rendered. See the example above.',
+    type: 'function',
+    status: 'optional',
+  },
+  onFocus: {
+    doc: 'Will be called once the input gets focus.',
+    type: 'function',
+    status: 'optional',
+  },
+  onBlur: {
+    doc: 'Will be called once the input lose focus.',
     type: 'function',
     status: 'optional',
   },
