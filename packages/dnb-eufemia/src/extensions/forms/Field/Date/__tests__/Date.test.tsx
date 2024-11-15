@@ -185,6 +185,38 @@ describe('Field.Date', () => {
     })
   })
 
+  it('should store "displayValue" in en-US locale', async () => {
+    let dataContext = null
+
+    render(
+      <Form.Handler locale="en-US">
+        <Field.Date defaultValue="2023-10-01" path="/myValue" />
+        <DataContext.Consumer>
+          {(context) => {
+            dataContext = context
+            return null
+          }}
+        </DataContext.Consumer>
+      </Form.Handler>
+    )
+
+    const [day, , year]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    )
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myValue': '10/01/2023',
+    })
+
+    fireEvent.focus(day)
+    await userEvent.keyboard('0211')
+    await userEvent.type(year, '2024')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myValue': '11/02/2024',
+    })
+  })
+
   // TODO: Add test for month, sync and hideLastWeek prop when it's working again
 
   it('should display correct start and end month on opening the date picker', async () => {
@@ -921,38 +953,6 @@ describe('Field.Date', () => {
         isWithinSelection: false,
       })
     )
-  })
-
-  it('should store "displayValue" in en-US locale', async () => {
-    let dataContext = null
-
-    render(
-      <Form.Handler locale="en-US">
-        <Field.Date defaultValue="2023-10-01" path="/myValue" />
-        <DataContext.Consumer>
-          {(context) => {
-            dataContext = context
-            return null
-          }}
-        </DataContext.Consumer>
-      </Form.Handler>
-    )
-
-    const [day, , year]: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
-    )
-
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myValue': '10/01/2023',
-    })
-
-    fireEvent.focus(day)
-    await userEvent.keyboard('0211')
-    await userEvent.type(year, '2024')
-
-    expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myValue': '11/02/2024',
-    })
   })
 
   describe('ARIA', () => {
