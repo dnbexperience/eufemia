@@ -5,7 +5,7 @@ import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { DataContext, Field, FieldBlock, Form } from '../../..'
 
 describe('Field.Date', () => {
-  it('should render with props', () => {
+  it('should render without props', () => {
     render(<Field.Date />)
     expect(screen.getByLabelText('Dato')).toBeInTheDocument()
   })
@@ -126,7 +126,9 @@ describe('Field.Date', () => {
 
     describe('with validateUnchanged', () => {
       it('should show error message when blurring without any changes', async () => {
-        jest.spyOn(console, 'log').mockImplementationOnce(jest.fn()) // because of the invalid date
+        // Because of the invalid date
+        const log = jest.spyOn(console, 'log').mockImplementation()
+
         render(
           <Field.Date
             value="2023-12-0"
@@ -134,13 +136,19 @@ describe('Field.Date', () => {
             validateUnchanged
           />
         )
+
         const input = document.querySelector('input')
+
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
         input.focus()
         fireEvent.blur(input)
+
         await waitFor(() => {
           expect(screen.getByRole('alert')).toBeInTheDocument()
         })
+
+        log.mockRestore()
       })
     })
   })
