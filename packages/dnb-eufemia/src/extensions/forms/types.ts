@@ -302,7 +302,7 @@ export interface UseFieldProps<
   // - Used by useFieldProps and FieldBlock
   info?: React.ReactNode
   warning?: React.ReactNode
-  error?: Error | FormError
+  error?: Error | FormError | Array<Error | FormError>
 
   // - Validation
   required?: boolean

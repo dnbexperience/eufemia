@@ -20,6 +20,16 @@ export const String = () => {
 
       <Field.String label="Label" width="large" />
       <Field.String label="Label" multiline width="large" />
+
+      <Field.String
+        label="Label"
+        error={[
+          new Error('Error message A'),
+          new Error('Error message B'),
+        ]}
+        warning={['Warning message A', 'Warning message B']}
+        info={['Info message A', 'Info message B']}
+      />
     </Flex.Stack>
   )
 }

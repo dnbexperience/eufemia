@@ -679,10 +679,20 @@ export function getMessagesFromError(
     })
   }
 
+  if (Array.isArray(content)) {
+    return content.map((content) => {
+      return content instanceof FormError || content instanceof Error
+        ? content.message
+        : content
+    })
+  }
+
+  if (content instanceof FormError || content instanceof Error) {
+    return [content.message as StateMessage]
+  }
+
   return [
-    ((content instanceof Error && content.message) ||
-      (content instanceof FormError && content.message) ||
-      (React.isValidElement(content) ? content : content?.toString()) ||
+    ((React.isValidElement(content) ? content : content?.toString()) ||
       content) as StateMessage,
   ]
 }

@@ -1493,6 +1493,17 @@ describe('Field.String', () => {
       expect(ids[0]).toHaveClass('dnb-form-status--info')
       expect(ids[0]).toHaveTextContent('Info message')
     })
+
+    it('should render array in ul with title', () => {
+      const firstInfo = 'Info message A'
+      const secondInfo = 'Info message B'
+
+      render(<Field.String info={[firstInfo, secondInfo]} />)
+
+      expect(document.querySelector('.dnb-form-status').textContent).toBe(
+        nb.Field.stateSummary + firstInfo + secondInfo
+      )
+    })
   })
 
   describe('warning prop', () => {
@@ -1507,6 +1518,17 @@ describe('Field.String', () => {
       expect(ids[0]).toBeInTheDocument()
       expect(ids[0]).toHaveClass('dnb-form-status--warn')
       expect(ids[0]).toHaveTextContent('Warning message')
+    })
+
+    it('should render array in ul with title', () => {
+      const firstWarning = 'Warning message A'
+      const secondWarning = 'Warning message B'
+
+      render(<Field.String warning={[firstWarning, secondWarning]} />)
+
+      expect(screen.queryByRole('alert').textContent).toBe(
+        nb.Field.stateSummary + firstWarning + secondWarning
+      )
     })
   })
 
@@ -1524,6 +1546,21 @@ describe('Field.String', () => {
       expect(status).toBeInTheDocument()
       expect(status).toHaveClass('dnb-form-status--error')
       expect(status).toHaveTextContent('Error message')
+    })
+
+    it('should render array in ul with title', () => {
+      const firstError = 'Error message A'
+      const secondError = 'Error message B'
+
+      render(
+        <Field.String
+          error={[new Error(firstError), new Error(secondError)]}
+        />
+      )
+
+      expect(screen.queryByRole('alert').textContent).toBe(
+        nb.Field.errorSummary + firstError + secondError
+      )
     })
   })
 
