@@ -23,26 +23,27 @@ export default {
       year: 'Year',
       start: 'from',
       end: 'to',
-      selected_date: 'Selected date: %s',
-      selected_month: 'Selected month %s',
-      selected_year: 'Selected year %s',
-      next_month: 'Next month %s',
-      prev_month: 'Previous month %s',
-      next_year: 'Next year %s',
-      prev_year: 'Previous year %s',
-      open_picker_text: 'Open date picker',
-      mask_order: 'dd/mm/yyyy',
-      mask_placeholder: 'dd/mm/yyyy', // have to be same setup as "mask" - but can be like: dd/mm/åååå
-      date_format: 'yyyy-MM-dd', // in v1 of date-fns we were more flexible in terms of the format
-      return_format: 'yyyy-MM-dd', // used in date-fns v1: YYYY-MM-DD
-      submit_button_text: 'OK',
-      cancel_button_text: 'Cancel',
-      reset_button_text: 'Reset',
-      placeholder_characters: {
+      selectedDate: 'Selected date: %s',
+      selectedMonth: 'Selected month %s',
+      selectedYear: 'Selected year %s',
+      nextMonth: 'Next month %s',
+      prevMonth: 'Previous month %s',
+      nextYear: 'Next year %s',
+      prevYear: 'Previous year %s',
+      openPickerText: 'Open date picker',
+      maskOrder: 'dd/mm/yyyy',
+      maskPlaceholder: 'dd/mm/yyyy', // have to be same setup as "mask" - but can be like: dd/mm/åååå
+      dateFormat: 'yyyy-MM-dd', // in v1 of date-fns we were more flexible in terms of the format
+      returnFormat: 'yyyy-MM-dd', // used in date-fns v1: YYYY-MM-DD
+      submitButtonText: 'OK',
+      cancelButtonText: 'Cancel',
+      resetButtonText: 'Reset',
+      placeholderCharacters: {
         day: 'd',
         month: 'm',
         year: 'y',
       },
+      // TODO: add firstDay
     },
     Anchor: {
       targetBlankTitle: 'Opens a new Window',

@@ -6,7 +6,7 @@
 import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import userEvent from '@testing-library/user-event'
-import DatePicker, { DatePickerProps } from '../DatePicker'
+import DatePicker, { DatePickerAllProps } from '../DatePicker'
 
 jest.setTimeout(30e3)
 
@@ -28,25 +28,25 @@ import { Provider } from '../../../shared'
 
 describe('DatePicker component', () => {
   it('renders with props as an object', () => {
-    const props: DatePickerProps = {}
+    const props: DatePickerAllProps = {}
 
     render(<DatePicker {...props} />)
     expect(document.querySelector('input')).toBeInTheDocument()
   })
 
   // for the integration tests
-  const defaultProps: DatePickerProps = {
-    no_animation: true,
+  const defaultProps: DatePickerAllProps = {
+    noAnimation: true,
     range: true,
-    show_input: true,
+    showInput: true,
     date: '1970-01-01T00:00:00.000Z',
-    start_date: '2019-01-01T00:00:00.000Z',
-    end_date: '2019-02-15T00:00:00.000Z',
+    startDate: '2019-01-01T00:00:00.000Z',
+    endDate: '2019-02-15T00:00:00.000Z',
   }
 
   it('has a disabled attribute, once we set disabled to true', () => {
-    const { rerender } = render(<DatePicker show_input />)
-    rerender(<DatePicker show_input disabled={true} />)
+    const { rerender } = render(<DatePicker showInput />)
+    rerender(<DatePicker showInput disabled={true} />)
     expect(document.querySelectorAll('input')[0]).toHaveAttribute(
       'disabled'
     )
@@ -116,9 +116,9 @@ describe('DatePicker component', () => {
   })
 
   it('will close the picker after selection', () => {
-    const on_change = jest.fn()
+    const onChange = jest.fn()
     const { rerender } = render(
-      <DatePicker {...defaultProps} on_change={on_change} />
+      <DatePicker {...defaultProps} onChange={onChange} />
     )
 
     fireEvent.click(
@@ -142,17 +142,17 @@ describe('DatePicker component', () => {
     expect(startLabel).toBe('torsdag 10. januar 2019')
     expect(endLabel).toBe('fredag 15. februar 2019')
 
-    expect(on_change).not.toHaveBeenCalled()
+    expect(onChange).not.toHaveBeenCalled()
 
     fireEvent.click(startButton)
-    expect(on_change).toHaveBeenCalledTimes(1)
-    expect(on_change.mock.calls[0][0].start_date).toBe('2019-01-10')
-    expect(on_change.mock.calls[0][0].end_date).toBe(null)
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange.mock.calls[0][0].start_date).toBe('2019-01-10')
+    expect(onChange.mock.calls[0][0].end_date).toBe(null)
 
     fireEvent.click(endButton)
-    expect(on_change).toHaveBeenCalledTimes(2)
-    expect(on_change.mock.calls[1][0].start_date).toBe('2019-01-10')
-    expect(on_change.mock.calls[1][0].end_date).toBe('2019-02-15')
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onChange.mock.calls[1][0].start_date).toBe('2019-01-10')
+    expect(onChange.mock.calls[1][0].end_date).toBe('2019-02-15')
 
     expect(
       document.querySelector('.dnb-date-picker').classList
@@ -161,13 +161,13 @@ describe('DatePicker component', () => {
     rerender(
       <DatePicker
         {...defaultProps}
-        on_change={on_change}
+        onChange={onChange}
         range={false}
-        end_date={null}
+        endDate={null}
       />
     )
 
-    expect(on_change).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenCalledTimes(2)
 
     const singleTd = document.querySelectorAll(
       'td.dnb-date-picker__day'
@@ -179,10 +179,10 @@ describe('DatePicker component', () => {
 
     fireEvent.click(singleButton)
 
-    expect(on_change).toHaveBeenCalledTimes(3)
-    expect(on_change.mock.calls[2][0].date).toBe('2019-01-11')
-    expect(on_change.mock.calls[2][0].start_date).toBe(undefined)
-    expect(on_change.mock.calls[2][0].end_date).toBe(undefined)
+    expect(onChange).toHaveBeenCalledTimes(3)
+    expect(onChange.mock.calls[2][0].date).toBe('2019-01-11')
+    expect(onChange.mock.calls[2][0].start_date).toBe(undefined)
+    expect(onChange.mock.calls[2][0].end_date).toBe(undefined)
 
     expect(
       document.querySelector('.dnb-date-picker').getAttribute('class')
@@ -190,14 +190,14 @@ describe('DatePicker component', () => {
   })
 
   it('will close the picker on reset', () => {
-    const on_reset = jest.fn()
+    const onReset = jest.fn()
 
     render(
       <DatePicker
         date="1981-01-15"
-        show_reset_button
-        show_input
-        on_reset={on_reset}
+        showResetButton
+        showInput
+        onReset={onReset}
       />
     )
 
@@ -215,17 +215,17 @@ describe('DatePicker component', () => {
 
     fireEvent.click(resetButton)
 
-    expect(on_reset).toHaveBeenCalledTimes(1)
-    expect(on_reset.mock.calls[0][0].date).toBe(null)
+    expect(onReset).toHaveBeenCalledTimes(1)
+    expect(onReset.mock.calls[0][0].date).toBe(null)
 
     expect(
       document.querySelector('.dnb-date-picker').getAttribute('class')
     ).not.toContain('dnb-date-picker--opened')
   })
 
-  it('will render the result of "on_days_render"', () => {
+  it('will render the result of "onDaysRender"', () => {
     const customClassName = 'dnb-date-picker__day--weekend'
-    const on_days_render = jest.fn((days) => {
+    const onDaysRender = jest.fn((days) => {
       return days.map((dateObject) => {
         if (isWeekend(dateObject.date)) {
           dateObject.isInactive = true
@@ -238,9 +238,9 @@ describe('DatePicker component', () => {
     render(
       <DatePicker
         {...defaultProps}
-        on_days_render={on_days_render}
+        onDaysRender={onDaysRender}
         range={false}
-        end_date={null}
+        endDate={null}
       />
     )
 
@@ -252,9 +252,9 @@ describe('DatePicker component', () => {
       document.querySelector('.dnb-date-picker').getAttribute('class')
     ).toContain('dnb-date-picker--opened')
 
-    expect(on_days_render).toHaveBeenCalledTimes(1)
-    expect(on_days_render.mock.calls[0][0].length).toBe(42)
-    expect((on_days_render.mock as any).calls[0][1]).toBe(0)
+    expect(onDaysRender).toHaveBeenCalledTimes(1)
+    expect(onDaysRender.mock.calls[0][0].length).toBe(42)
+    expect((onDaysRender.mock as any).calls[0][1]).toBe(0)
 
     const singleTd = document.querySelectorAll(
       'td.dnb-date-picker__day'
@@ -268,11 +268,11 @@ describe('DatePicker component', () => {
   })
 
   it('has to work with shortcuts', () => {
-    const on_change = jest.fn()
+    const onChange = jest.fn()
     render(
       <DatePicker
-        no_animation
-        on_change={on_change}
+        noAnimation
+        onChange={onChange}
         shortcuts={[
           { title: 'Set date', date: '2020-05-23' },
           { title: 'Set date', close_on_select: true, date: '2020-04-23' },
@@ -295,7 +295,7 @@ describe('DatePicker component', () => {
     expect(
       document.querySelector('.dnb-date-picker--opened')
     ).toBeInTheDocument()
-    expect(on_change).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(1)
 
     // Now, test "close_on_select"
     fireEvent.click(
@@ -311,13 +311,13 @@ describe('DatePicker component', () => {
     expect(
       document.querySelector('.dnb-date-picker--opened')
     ).not.toBeInTheDocument()
-    expect(on_change).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenCalledTimes(2)
   })
 
   it('must have functioning shortcuts for range pickers where dates are defined with a Date object', async () => {
     render(
       <DatePicker
-        no_animation
+        noAnimation
         range
         shortcuts={[
           {
@@ -400,18 +400,18 @@ describe('DatePicker component', () => {
   })
 
   it('should receive all dates in the shortcut callback', async () => {
-    const on_shortcut_click = jest.fn()
+    const onShortcutClick = jest.fn()
 
     render(
       <DatePicker
-        no_animation
+        noAnimation
         range
-        start_date={new Date('2024-05-17')}
-        end_date={new Date('2024-05-31')}
+        startDate={new Date('2024-05-17')}
+        endDate={new Date('2024-05-31')}
         shortcuts={[
           {
             title: 'day',
-            date: on_shortcut_click,
+            date: onShortcutClick,
           },
         ]}
       />
@@ -425,8 +425,8 @@ describe('DatePicker component', () => {
 
     await userEvent.click(shortcut)
 
-    expect(on_shortcut_click).toHaveBeenCalledTimes(1)
-    expect(on_shortcut_click).toHaveBeenLastCalledWith(
+    expect(onShortcutClick).toHaveBeenCalledTimes(1)
+    expect(onShortcutClick).toHaveBeenLastCalledWith(
       expect.objectContaining({
         date: new Date('2024-05-17'),
         start_date: new Date('2024-05-17'),
@@ -451,7 +451,7 @@ describe('DatePicker component', () => {
 
   it('has correctly synced calendar views based on user navigation and date selection', async () => {
     render(
-      <DatePicker range start_date="2024-10-01" end_date="2024-10-24" />
+      <DatePicker range startDate="2024-10-01" endDate="2024-10-24" />
     )
 
     await userEvent.click(document.querySelector('button.dnb-button'))
@@ -523,7 +523,7 @@ describe('DatePicker component', () => {
 
   it('should not set the month pickers to same month when `startDate` and `endDate` are set to same day in range mode', async () => {
     render(
-      <DatePicker range start_date="2024-10-24" end_date="2024-11-24" />
+      <DatePicker range startDate="2024-10-24" endDate="2024-11-24" />
     )
 
     await userEvent.click(document.querySelector('button.dnb-button'))
@@ -587,7 +587,7 @@ describe('DatePicker component', () => {
 
   it('should not set the month pickers to same month when `startDate` and `endDate` are set to same month in range mode', async () => {
     render(
-      <DatePicker range start_date="2024-10-24" end_date="2024-11-24" />
+      <DatePicker range startDate="2024-10-24" endDate="2024-11-24" />
     )
 
     await userEvent.click(document.querySelector('button.dnb-button'))
@@ -672,7 +672,7 @@ describe('DatePicker component', () => {
 
   it('should set correct month based date selected with keyboard navigation in range mode', async () => {
     render(
-      <DatePicker range start_date="2024-10-01" end_date="2024-10-02" />
+      <DatePicker range startDate="2024-10-01" endDate="2024-10-02" />
     )
 
     await userEvent.click(document.querySelector('button.dnb-button'))
@@ -722,7 +722,7 @@ describe('DatePicker component', () => {
     rerender(
       <DatePicker
         {...defaultProps}
-        on_change={({ start_date }) => {
+        onChange={({ start_date }) => {
           changedStartDate = start_date
         }}
       />
@@ -744,10 +744,10 @@ describe('DatePicker component', () => {
     rerender(
       <DatePicker
         {...defaultProps}
-        on_change={({ start_date }) => {
+        onChange={({ start_date }) => {
           changedStartDate = start_date
         }}
-        start_date="2019-01-03"
+        startDate="2019-01-03"
       />
     )
     expect(elem.value).toBe('03')
@@ -760,16 +760,16 @@ describe('DatePicker component', () => {
     rerender(
       <DatePicker
         {...defaultProps}
-        on_change={({ start_date }) => {
+        onChange={({ start_date }) => {
           changedStartDate = start_date
         }}
-        start_date={defaultProps.start_date}
+        startDate={defaultProps.startDate}
       />
     )
   })
 
   it('will set highlight class on fields with a number value', async () => {
-    render(<DatePicker show_input />)
+    render(<DatePicker showInput />)
 
     const [day, month, year] = Array.from(
       document.querySelectorAll('input')
@@ -818,9 +818,9 @@ describe('DatePicker component', () => {
   })
 
   it('footer buttons work properly', () => {
-    const on_submit = jest.fn()
-    const on_cancel = jest.fn()
-    const on_reset = jest.fn()
+    const onSubmit = jest.fn()
+    const onCancel = jest.fn()
+    const onReset = jest.fn()
 
     const date = '2020-10-20'
 
@@ -828,13 +828,13 @@ describe('DatePicker component', () => {
       <DatePicker
         date={date}
         opened
-        no_animation
-        show_reset_button
-        show_cancel_button
-        show_submit_button
-        on_submit={on_submit}
-        on_cancel={on_cancel}
-        on_reset={on_reset}
+        noAnimation
+        showResetButton
+        showCancelButton
+        showSubmitButton
+        onSubmit={onSubmit}
+        onCancel={onCancel}
+        onReset={onReset}
       />
     )
 
@@ -864,8 +864,8 @@ describe('DatePicker component', () => {
 
     fireEvent.click(resetElem)
 
-    expect(on_reset).toHaveBeenCalled()
-    expect(on_reset.mock.calls[0][0].date).toBe(null)
+    expect(onReset).toHaveBeenCalled()
+    expect(onReset.mock.calls[0][0].date).toBe(null)
 
     expect(
       (
@@ -885,8 +885,8 @@ describe('DatePicker component', () => {
       ).value
     ).toBe('2020')
 
-    expect(on_cancel).toHaveBeenCalled()
-    expect(on_cancel.mock.calls[0][0].date).toBe(date)
+    expect(onCancel).toHaveBeenCalled()
+    expect(onCancel.mock.calls[0][0].date).toBe(date)
 
     fireEvent.click(
       document
@@ -903,17 +903,17 @@ describe('DatePicker component', () => {
       ).value
     ).toBe('2020')
 
-    expect(on_submit).toHaveBeenCalled()
-    expect(on_submit.mock.calls[0][0].date).toBe(date)
+    expect(onSubmit).toHaveBeenCalled()
+    expect(onSubmit.mock.calls[0][0].date).toBe(date)
   })
 
   it('should have functioning cancel button with range pickers', async () => {
     render(
       <DatePicker
-        show_input
+        showInput
         range
-        start_date="2024-04-01"
-        end_date="2024-05-17"
+        startDate="2024-04-01"
+        endDate="2024-05-17"
       />
     )
 
@@ -945,25 +945,25 @@ describe('DatePicker component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('footers reset button text is set by prop reset_button_text', () => {
-    const reset_button_text = 'custom reset button text'
+  it('footers reset button text is set by prop resetButtonText', () => {
+    const resetButtonText = 'custom reset button text'
 
     render(
       <DatePicker
         opened
-        no_animation
-        show_reset_button
-        reset_button_text={reset_button_text}
+        noAnimation
+        showResetButton
+        resetButtonText={resetButtonText}
       />
     )
 
     const resetElem = document.querySelector('button[data-testid="reset"]')
     expect(resetElem).toBeInTheDocument()
-    expect(resetElem.textContent).toMatch(reset_button_text)
+    expect(resetElem.textContent).toMatch(resetButtonText)
   })
 
-  it('footer is rendered when show_reset_button is provided', () => {
-    render(<DatePicker opened no_animation show_reset_button />)
+  it('footer is rendered when showResetButton is provided', () => {
+    render(<DatePicker opened noAnimation showResetButton />)
 
     const datePickerFooter = document.querySelector(
       '.dnb-date-picker__footer'
@@ -971,8 +971,8 @@ describe('DatePicker component', () => {
     expect(datePickerFooter).toBeInTheDocument()
   })
 
-  it('footer is rendered when show_cancel_button is provided', () => {
-    render(<DatePicker opened no_animation show_cancel_button />)
+  it('footer is rendered when showCancelButton is provided', () => {
+    render(<DatePicker opened noAnimation showCancelButton />)
 
     const datePickerFooter = document.querySelector(
       '.dnb-date-picker__footer'
@@ -980,8 +980,8 @@ describe('DatePicker component', () => {
     expect(datePickerFooter).toBeInTheDocument()
   })
 
-  it('footer is rendered when show_submit_button is provided', () => {
-    render(<DatePicker opened no_animation show_submit_button />)
+  it('footer is rendered when showSubmitButton is provided', () => {
+    render(<DatePicker opened noAnimation showSubmitButton />)
 
     const datePickerFooter = document.querySelector(
       '.dnb-date-picker__footer'
@@ -990,7 +990,7 @@ describe('DatePicker component', () => {
   })
 
   it('footer is rendered when range is provided', () => {
-    render(<DatePicker opened no_animation range />)
+    render(<DatePicker opened noAnimation range />)
 
     const datePickerFooter = document.querySelector(
       '.dnb-date-picker__footer'
@@ -1002,12 +1002,12 @@ describe('DatePicker component', () => {
     render(
       <DatePicker
         opened
-        no_animation
-        show_reset_button={false}
-        show_cancel_button={false}
-        show_submit_button={false}
+        noAnimation
+        showResetButton={false}
+        showCancelButton={false}
+        showSubmitButton={false}
         range={false}
-        end_date={null}
+        endDate={null}
       />
     )
 
@@ -1018,7 +1018,7 @@ describe('DatePicker component', () => {
   })
 
   it('has a working month correction', () => {
-    render(<DatePicker show_input />)
+    render(<DatePicker showInput />)
 
     const dayElem = document.querySelectorAll(
       'input.dnb-date-picker__input--day'
@@ -1052,17 +1052,17 @@ describe('DatePicker component', () => {
   })
 
   it('has a working min and max date limitation', () => {
-    const on_type = jest.fn()
-    const on_change = jest.fn()
+    const onType = jest.fn()
+    const onChange = jest.fn()
 
     const { rerender } = render(
       <DatePicker
         {...defaultProps}
-        min_date="2019-01-02"
-        max_date="2019-02-04"
-        start_date="2019-01-02T00:00:00.000Z"
-        on_change={on_change}
-        on_type={on_type}
+        minDate="2019-01-02"
+        maxDate="2019-02-04"
+        startDate="2019-01-02T00:00:00.000Z"
+        onChange={onChange}
+        onType={onType}
       />
     )
     const startElem = document.querySelectorAll(
@@ -1080,33 +1080,33 @@ describe('DatePicker component', () => {
       target: { value: '01' },
     })
 
-    expect(on_change).toHaveBeenCalledTimes(1)
-    expect(on_change.mock.calls[0][0].is_valid_start_date).toBe(false)
-    expect(on_type.mock.calls[0][0].is_valid_start_date).toBe(false)
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange.mock.calls[0][0].is_valid_start_date).toBe(false)
+    expect(onType.mock.calls[0][0].is_valid_start_date).toBe(false)
 
     // change the date to a valid date
     fireEvent.change(startElem, {
       target: { value: '03' },
     })
 
-    expect(on_change).toHaveBeenCalledTimes(2)
-    expect(on_change.mock.calls[1][0].is_valid_start_date).toBe(true)
-    expect(on_type.mock.calls[1][0].is_valid_start_date).toBe(true)
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onChange.mock.calls[1][0].is_valid_start_date).toBe(true)
+    expect(onType.mock.calls[1][0].is_valid_start_date).toBe(true)
 
     // change the date to a valid date
     fireEvent.change(endElem, {
       target: { value: '05' },
     })
 
-    expect(on_change.mock.calls[2][0].start_date).toBe('2019-01-03')
-    expect(on_change.mock.calls[2][0].end_date).toBe('2019-02-05')
-    expect(on_change.mock.calls[2][0].is_valid_start_date).toBe(true)
-    expect(on_change.mock.calls[2][0].is_valid_end_date).toBe(false)
+    expect(onChange.mock.calls[2][0].start_date).toBe('2019-01-03')
+    expect(onChange.mock.calls[2][0].end_date).toBe('2019-02-05')
+    expect(onChange.mock.calls[2][0].is_valid_start_date).toBe(true)
+    expect(onChange.mock.calls[2][0].is_valid_end_date).toBe(false)
 
-    expect(on_type.mock.calls[2][0].start_date).toBe('2019-01-03')
-    expect(on_type.mock.calls[2][0].end_date).toBe('2019-02-05')
-    expect(on_type.mock.calls[2][0].is_valid_start_date).toBe(true)
-    expect(on_type.mock.calls[2][0].is_valid_end_date).toBe(false)
+    expect(onType.mock.calls[2][0].start_date).toBe('2019-01-03')
+    expect(onType.mock.calls[2][0].end_date).toBe('2019-02-05')
+    expect(onType.mock.calls[2][0].is_valid_start_date).toBe(true)
+    expect(onType.mock.calls[2][0].is_valid_end_date).toBe(false)
 
     fireEvent.click(document.querySelector('button'))
 
@@ -1122,20 +1122,20 @@ describe('DatePicker component', () => {
       document.querySelectorAll('.dnb-date-picker__day button')[2]
     ).not.toHaveAttribute('disabled')
 
-    expect(on_change.mock.calls[2][0].date).toBe(undefined)
-    expect(on_change.mock.calls[2][0].is_valid).toBe(undefined)
+    expect(onChange.mock.calls[2][0].date).toBe(undefined)
+    expect(onChange.mock.calls[2][0].is_valid).toBe(undefined)
 
     rerender(
       <DatePicker
         {...defaultProps}
-        min_date="2019-01-02"
-        max_date="2019-02-04"
-        start_date="2019-01-02T00:00:00.000Z"
-        on_change={on_change}
-        on_type={on_type}
+        minDate="2019-01-02"
+        maxDate="2019-02-04"
+        startDate="2019-01-02T00:00:00.000Z"
+        onChange={onChange}
+        onType={onType}
         range={false}
-        correct_invalid_date={false}
-        end_date={null}
+        correctInvalidDate={false}
+        endDate={null}
       />
     )
 
@@ -1144,27 +1144,27 @@ describe('DatePicker component', () => {
       target: { value: '01' },
     })
 
-    expect(on_change.mock.calls[3][0].is_valid_start_date).toBe(undefined)
-    expect(on_change.mock.calls[3][0].is_valid_end_date).toBe(undefined)
-    expect(on_change.mock.calls[3][0].is_valid).toBe(false)
+    expect(onChange.mock.calls[3][0].is_valid_start_date).toBe(undefined)
+    expect(onChange.mock.calls[3][0].is_valid_end_date).toBe(undefined)
+    expect(onChange.mock.calls[3][0].is_valid).toBe(false)
 
     fireEvent.change(startElem, {
       target: { value: '03' },
     })
 
-    expect(on_change.mock.calls[4][0].date).toBe('2019-01-03')
-    expect(on_change.mock.calls[4][0].is_valid).toBe(true)
+    expect(onChange.mock.calls[4][0].date).toBe('2019-01-03')
+    expect(onChange.mock.calls[4][0].is_valid).toBe(true)
   })
   it('has to auto-correct invalid min/max dates', async () => {
-    const on_change = jest.fn()
+    const onChange = jest.fn()
 
     render(
       <DatePicker
         {...defaultProps}
-        on_change={on_change}
-        correct_invalid_date={true}
-        min_date="2019-01-02"
-        max_date="2019-03-01"
+        onChange={onChange}
+        correctInvalidDate={true}
+        minDate="2019-01-02"
+        maxDate="2019-03-01"
       />
     )
     const elem = document.querySelectorAll(
@@ -1177,8 +1177,8 @@ describe('DatePicker component', () => {
     // change the date to something invalid
     await userEvent.type(elem, '01')
 
-    expect(on_change).toHaveBeenCalledTimes(2)
-    expect(on_change).toHaveBeenLastCalledWith(
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenLastCalledWith(
       expect.objectContaining({
         is_valid_start_date: true,
         start_date: '2019-01-02',
@@ -1188,8 +1188,8 @@ describe('DatePicker component', () => {
     // change the date to a valid date
     await userEvent.type(elem, '{Backspace>2}03')
 
-    expect(on_change).toHaveBeenCalledTimes(3)
-    expect(on_change).toHaveBeenLastCalledWith(
+    expect(onChange).toHaveBeenCalledTimes(3)
+    expect(onChange).toHaveBeenLastCalledWith(
       expect.objectContaining({
         is_valid_start_date: true,
         start_date: '2019-01-03',
@@ -1197,18 +1197,18 @@ describe('DatePicker component', () => {
     )
   })
 
-  it('has valid on_type and on_change event calls', () => {
-    const on_type = jest.fn()
-    const on_change = jest.fn()
+  it('has valid on_type and onChange event calls', () => {
+    const onType = jest.fn()
+    const onChange = jest.fn()
 
     render(
       <DatePicker
         id="date-picker-id"
-        no_animation={true}
+        noAnimation={true}
         range={true}
-        show_input={true}
-        on_type={on_type}
-        on_change={on_change}
+        showInput={true}
+        onType={onType}
+        onChange={onChange}
       />
     )
 
@@ -1242,15 +1242,15 @@ describe('DatePicker component', () => {
     }) => {
       // by default we have the start day
       expect(dayElem.value).toBe('dd')
-      expect(on_type).toHaveBeenCalledTimes(typeIndex)
+      expect(onType).toHaveBeenCalledTimes(typeIndex)
 
       // change the day
       fireEvent.change(dayElem, {
         target: { value: '03' },
       })
       expect(dayElem.value).toBe('03')
-      expect(on_type).toHaveBeenCalledTimes(typeIndex + 1)
-      expect(on_type.mock.calls[typeIndex][0][`${type}_date`]).toBe(
+      expect(onType).toHaveBeenCalledTimes(typeIndex + 1)
+      expect(onType.mock.calls[typeIndex][0][`${type}_date`]).toBe(
         'yyyy-mm-03'
       )
 
@@ -1261,30 +1261,30 @@ describe('DatePicker component', () => {
         target: { value: '01' },
       })
       expect(monthElem.value).toBe('01')
-      expect(on_type).toHaveBeenCalledTimes(typeIndex + 1)
+      expect(onType).toHaveBeenCalledTimes(typeIndex + 1)
       expect(
-        on_type.mock.calls[typeIndex][0][`is_valid_${type}_date`]
+        onType.mock.calls[typeIndex][0][`is_valid_${type}_date`]
       ).toBe(false)
-      expect(on_type.mock.calls[typeIndex][0][`${type}_date`]).toBe(
+      expect(onType.mock.calls[typeIndex][0][`${type}_date`]).toBe(
         'yyyy-01-03'
       )
-      expect(on_change).toHaveBeenCalledTimes(changeIndex)
+      expect(onChange).toHaveBeenCalledTimes(changeIndex)
 
       // change the year halfway
       fireEvent.change(yearElem, {
         target: { value: '202' },
       })
       expect(yearElem.value).toBe('202å')
-      expect(on_type).toHaveBeenCalledTimes(typeIndex + 2)
-      expect(on_change).toHaveBeenCalledTimes(changeIndex)
+      expect(onType).toHaveBeenCalledTimes(typeIndex + 2)
+      expect(onChange).toHaveBeenCalledTimes(changeIndex)
 
       // change the year
       fireEvent.change(yearElem, {
         target: { value: '2020' },
       })
       expect(yearElem.value).toBe('2020')
-      expect(on_type).toHaveBeenCalledTimes(typeIndex + 3)
-      expect(on_change).toHaveBeenCalledTimes(changeIndex + 1)
+      expect(onType).toHaveBeenCalledTimes(typeIndex + 3)
+      expect(onChange).toHaveBeenCalledTimes(changeIndex + 1)
     }
 
     testInteraction({
@@ -1308,13 +1308,7 @@ describe('DatePicker component', () => {
 
   it('has correct css classes on range selection', () => {
     render(
-      <DatePicker
-        id="date-picker-id"
-        no_animation
-        range
-        opened
-        show_input
-      />
+      <DatePicker id="date-picker-id" noAnimation range opened showInput />
     )
 
     const FirstCalendar = document.querySelectorAll(
@@ -1450,7 +1444,7 @@ describe('DatePicker component', () => {
     let outerState
     const on_change = jest.fn(({ date }) => (outerState = date))
     const { rerender } = render(
-      <DatePicker on_change={on_change} show_input date="2019-02-01" />
+      <DatePicker onChange={on_change} showInput date="2019-02-01" />
     )
 
     function changeState() {
@@ -1463,7 +1457,7 @@ describe('DatePicker component', () => {
       })
       // Siulate prop update, like a state update would do
       rerender(
-        <DatePicker on_change={on_change} show_input date={outerState} />
+        <DatePicker onChange={on_change} showInput date={outerState} />
       )
 
       expect(
@@ -1476,7 +1470,7 @@ describe('DatePicker component', () => {
 
       // 2. change the date by prop
       rerender(
-        <DatePicker on_change={on_change} show_input date="2019-02-01" />
+        <DatePicker onChange={on_change} showInput date="2019-02-01" />
       )
 
       expect(
@@ -1498,19 +1492,19 @@ describe('DatePicker component', () => {
   it('will reset on setting value to null', () => {
     const { rerender } = render(
       <DatePicker
-        show_input
+        showInput
         range
-        start_date={defaultProps.start_date}
-        end_date={defaultProps.end_date}
+        startDate={defaultProps.startDate}
+        endDate={defaultProps.endDate}
       />
     )
 
     rerender(
       <DatePicker
-        show_input
+        showInput
         range
-        start_date={null}
-        end_date={defaultProps.end_date}
+        startDate={null}
+        endDate={defaultProps.endDate}
       />
     )
     expect(
@@ -1529,7 +1523,7 @@ describe('DatePicker component', () => {
     ).toBe('15')
 
     rerender(
-      <DatePicker show_input range start_date={null} end_date={null} />
+      <DatePicker showInput range startDate={null} endDate={null} />
     )
     expect(
       (
@@ -1543,10 +1537,10 @@ describe('DatePicker component', () => {
   it('has a reacting end date input with valid value', () => {
     const { rerender } = render(
       <DatePicker
-        show_input
+        showInput
         range
-        start_date={defaultProps.start_date}
-        end_date={defaultProps.end_date}
+        startDate={defaultProps.startDate}
+        endDate={defaultProps.endDate}
       />
     )
     const elem = document.querySelectorAll(
@@ -1560,11 +1554,11 @@ describe('DatePicker component', () => {
     let changedStartDate = null
     rerender(
       <DatePicker
-        show_input
+        showInput
         range
-        start_date={null}
-        end_date={defaultProps.end_date}
-        on_change={({ end_date }) => {
+        startDate={null}
+        endDate={defaultProps.endDate}
+        onChange={({ end_date }) => {
           changedStartDate = end_date
         }}
       />
@@ -1587,11 +1581,11 @@ describe('DatePicker component', () => {
     // test prop change to make sure getDerivedStateFromProps works
     rerender(
       <DatePicker
-        show_input
+        showInput
         range
-        start_date={null}
-        end_date="2019-02-17"
-        on_change={({ end_date }) => {
+        startDate={null}
+        endDate="2019-02-17"
+        onChange={({ end_date }) => {
           changedStartDate = end_date
         }}
       />
@@ -1605,11 +1599,11 @@ describe('DatePicker component', () => {
 
     rerender(
       <DatePicker
-        show_input
+        showInput
         range
-        start_date={defaultProps.start_date}
-        end_date="2019-02-17"
-        on_change={({ end_date }) => {
+        startDate={defaultProps.start_date}
+        endDate="2019-02-17"
+        onChange={({ end_date }) => {
           changedStartDate = end_date
         }}
       />
@@ -1628,10 +1622,10 @@ describe('DatePicker component', () => {
   it('is displaying correct month', () => {
     render(
       <DatePicker
-        show_input
+        showInput
         range
-        start_date={defaultProps.start_date}
-        end_date={defaultProps.end_date}
+        startDate={defaultProps.startDate}
+        endDate={defaultProps.endDate}
       />
     )
 
@@ -1680,10 +1674,10 @@ describe('DatePicker component', () => {
       <DatePicker
         id="custom-id"
         label={label}
-        show_input
+        showInput
         range
-        start_date={defaultProps.start_date}
-        end_date={defaultProps.end_date}
+        startDate={defaultProps.startDate}
+        endDate={defaultProps.endDate}
       />
     )
 
@@ -1698,7 +1692,7 @@ describe('DatePicker component', () => {
         id="custom-id"
         label="Input Label"
         range
-        start_date={defaultProps.start_date}
+        startDate={defaultProps.startDate}
       />
     )
 
@@ -1734,10 +1728,10 @@ describe('DatePicker component', () => {
       <DatePicker
         id="custom-id"
         label="Input Label"
-        show_input
+        showInput
         range
-        start_date={defaultProps.start_date}
-        end_date={defaultProps.end_date}
+        startDate={defaultProps.startDate}
+        endDate={defaultProps.endDate}
       />
     )
 
@@ -1757,14 +1751,14 @@ describe('DatePicker component', () => {
     expect(document.activeElement).toBe(tableElement)
   })
 
-  it('should not set focus when disable_autofocus is set', () => {
+  it('should not set focus when disableAutofocus is set', () => {
     render(
       <DatePicker
         id="custom-id"
         label="Input Label"
-        show_input
-        disable_autofocus
-        start_date={defaultProps.start_date}
+        showInput
+        disableAutofocus
+        startDate={defaultProps.startDate}
       />
     )
 
@@ -1784,10 +1778,10 @@ describe('DatePicker component', () => {
   it('has to react on keydown events', async () => {
     render(
       <DatePicker
-        show_input
+        showInput
         range
-        start_date={defaultProps.start_date}
-        end_date={defaultProps.end_date}
+        startDate={defaultProps.startDate}
+        endDate={defaultProps.endDate}
         id="unique-id"
       />
     )
@@ -1850,7 +1844,7 @@ describe('DatePicker component', () => {
 
   it('should display correct start and end month on opening the date picker', async () => {
     render(
-      <DatePicker start_month="2024-01-01" end_month="2024-12-31" range />
+      <DatePicker startMonth="2024-01-01" endMonth="2024-12-31" range />
     )
 
     await userEvent.click(screen.getByLabelText('åpne datovelger'))
@@ -1885,9 +1879,7 @@ describe('DatePicker component', () => {
   })
 
   it('should display the correct date in calendar when date prop changes', async () => {
-    const { rerender } = render(
-      <DatePicker date="2023-01-01" show_input />
-    )
+    const { rerender } = render(<DatePicker date="2023-01-01" showInput />)
 
     function getDateElements() {
       const title: HTMLLabelElement = document.querySelector(
@@ -1916,7 +1908,7 @@ describe('DatePicker component', () => {
     )
     expect(firstDateButton.children[2]).toHaveTextContent('1')
 
-    rerender(<DatePicker date="2024-05-17" show_input />)
+    rerender(<DatePicker date="2024-05-17" showInput />)
 
     await userEvent.click(inputButton)
 
@@ -1930,7 +1922,7 @@ describe('DatePicker component', () => {
     )
     expect(secondDateButton.children[2]).toHaveTextContent('17')
 
-    rerender(<DatePicker date="2035-12-24" show_input />)
+    rerender(<DatePicker date="2035-12-24" showInput />)
 
     await userEvent.click(inputButton)
 
@@ -1946,11 +1938,11 @@ describe('DatePicker component', () => {
   })
 
   it('renders correct placeholder when setting locale', () => {
-    const props: DatePickerProps = {}
+    const props: DatePickerAllProps = {}
 
     render(
       <Provider locale="en-GB">
-        <DatePicker {...props} show_input={true} />
+        <DatePicker {...props} showInput={true} />
       </Provider>
     )
 
@@ -1980,7 +1972,7 @@ describe('DatePicker component', () => {
 
   it('should fire fire event when input gets focus', async () => {
     const onFocus = jest.fn()
-    render(<DatePicker show_input onFocus={onFocus} date="2024-01-05" />)
+    render(<DatePicker showInput onFocus={onFocus} date="2024-01-05" />)
 
     const [firstInput, secondInput]: Array<HTMLInputElement> = Array.from(
       document.querySelectorAll('.dnb-input__input')
@@ -2015,7 +2007,7 @@ describe('DatePicker component', () => {
 
   it('should fire blur event when input loses focus', async () => {
     const onBlur = jest.fn()
-    render(<DatePicker show_input onBlur={onBlur} date="2024-01-05" />)
+    render(<DatePicker showInput onBlur={onBlur} date="2024-01-05" />)
 
     const [firstInput, secondInput]: Array<HTMLInputElement> = Array.from(
       document.querySelectorAll('.dnb-input__input')
@@ -2053,7 +2045,7 @@ describe('DatePicker component', () => {
 
   it('should fire blur event with partially typed dates when input loses focus', async () => {
     const onBlur = jest.fn()
-    render(<DatePicker show_input onBlur={onBlur} date="" />)
+    render(<DatePicker showInput onBlur={onBlur} date="" />)
 
     const [firstInput, secondInput]: Array<HTMLInputElement> = Array.from(
       document.querySelectorAll('.dnb-input__input')
@@ -2098,7 +2090,7 @@ describe('DatePicker component', () => {
   it('should have todays date enabled in calendar if minDate is today', async () => {
     const minDate = new Date()
 
-    render(<DatePicker min_date={minDate} />)
+    render(<DatePicker minDate={minDate} />)
 
     const button = document.querySelector(
       '.dnb-input__submit-element > button'
@@ -2224,7 +2216,7 @@ describe('DatePicker calc', () => {
   })
 
   it('should support spacing props', () => {
-    render(<DatePicker top="2rem" show_input />)
+    render(<DatePicker top="2rem" showInput />)
 
     const element = document.querySelector('.dnb-date-picker')
 
@@ -2239,8 +2231,8 @@ describe('DatePicker calc', () => {
 
   it('should inherit formElement vertical label', () => {
     render(
-      <Provider formElement={{ label_direction: 'vertical' }}>
-        <DatePicker label="Label" show_input />
+      <Provider formElement={{ labelDirection: 'vertical' }}>
+        <DatePicker label="Label" showInput />
       </Provider>
     )
 
@@ -2261,12 +2253,7 @@ describe('DatePicker calc', () => {
 
   it('should display a month ahead in right picker when range is linked', async () => {
     render(
-      <DatePicker
-        start_date="2024-10-10"
-        end_date="2024-11-21"
-        range
-        link
-      />
+      <DatePicker startDate="2024-10-10" endDate="2024-11-21" range link />
     )
 
     const [startDay, startMonth, startYear, endDay, endMonth, endYear] =
@@ -2337,11 +2324,11 @@ describe('DatePicker calc', () => {
       return (
         <DatePicker
           range
-          show_input
+          showInput
           date={startDate}
-          start_date={startDate}
-          end_date={endDate}
-          on_change={({ date, start_date, end_date, ...rest }) => {
+          startDate={startDate}
+          endDate={endDate}
+          onChange={({ start_date, end_date }) => {
             setStartDate(start_date)
             setEndDate(end_date)
           }}
@@ -2391,9 +2378,7 @@ describe('DatePicker scss', () => {
 
 describe('Custom text for buttons', () => {
   it('should show custom text for submit button', () => {
-    render(
-      <DatePicker submit_button_text="Yes" show_submit_button opened />
-    )
+    render(<DatePicker submitButtonText="Yes" showSubmitButton opened />)
 
     expect(
       document.querySelector('[data-testid="submit"]  .dnb-button__text')
@@ -2402,9 +2387,7 @@ describe('Custom text for buttons', () => {
   })
 
   it('should show custom text for cancel button', () => {
-    render(
-      <DatePicker cancel_button_text="No" show_cancel_button opened />
-    )
+    render(<DatePicker cancelButtonText="No" showCancelButton opened />)
 
     expect(
       document.querySelector('[data-testid="cancel"]  .dnb-button__text')
@@ -2413,9 +2396,7 @@ describe('Custom text for buttons', () => {
   })
 
   it('should show custom text for reset button', () => {
-    render(
-      <DatePicker reset_button_text="Maybe" show_reset_button opened />
-    )
+    render(<DatePicker resetButtonText="Maybe" showResetButton opened />)
 
     expect(
       document.querySelector('[data-testid="reset"]  .dnb-button__text')
@@ -2424,7 +2405,7 @@ describe('Custom text for buttons', () => {
   })
 
   it('should support tabIndex for button and input', () => {
-    render(<DatePicker tabIndex={-1} show_input />)
+    render(<DatePicker tabIndex={-1} showInput />)
 
     const button = document.querySelector('button')
     const [day, month, year] = Array.from(
@@ -2462,9 +2443,9 @@ describe('DatePicker ARIA', () => {
       <DatePicker
         range={true}
         opened={true}
-        disable_autofocus={true}
-        start_date="2019-05-05"
-        end_date="2019-06-05"
+        disableAutofocus={true}
+        startDate="2019-05-05"
+        endDate="2019-06-05"
       />
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
@@ -2475,10 +2456,10 @@ describe('DatePicker ARIA', () => {
       <DatePicker
         range={true}
         opened={true}
-        show_input={true}
-        disable_autofocus={true}
-        start_date="2019-05-05"
-        end_date="2019-06-05"
+        showInput={true}
+        disableAutofocus={true}
+        startDate="2019-05-05"
+        endDate="2019-06-05"
       />
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()

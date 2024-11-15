@@ -66,15 +66,15 @@ export type DatePickerInputProps = Omit<
   /**
    * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
    */
-  status_state?: FormStatusState
+  statusState?: FormStatusState
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: FormStatusProps
+  statusProps?: FormStatusProps
   /**
    * Gives you the possibility to use a plain/vanilla `<input />` HTML element by defining it as a string `input_element="input"`, a React element, or a render function `input_element={(internalProps) => (<Return />)}`. Can also be used in circumstances where the `react-text-mask` not should be used, e.g. in testing environments. Defaults to custom masked input.
    */
-  input_element?: InputInputElement
+  inputElement?: InputInputElement
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
@@ -106,7 +106,7 @@ const defaultProps: DatePickerInputProps = {
   maskOrder: 'dd/mm/yyyy',
   maskPlaceholder: 'dd/mm/åååå',
   separatorRexExp: /[-/ ]/g,
-  status_state: 'error',
+  statusState: 'error',
   opened: false,
 }
 
@@ -127,15 +127,15 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     onSubmit, // eslint-disable-line
     selectedDateTitle, // eslint-disable-line
     showInput, // eslint-disable-line
-    input_element,
+    inputElement,
     lang,
     disabled,
     skeleton,
     opened,
     size,
     status,
-    status_state,
-    status_props,
+    statusState,
+    statusProps,
 
     ...attributes
   } = props
@@ -159,7 +159,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     __endYear,
     startDate,
     endDate,
-    props: { on_type, label },
+    props: { onType, label },
   } = useContext(DatePickerContext)
 
   const translation = useTranslation().DatePicker
@@ -301,7 +301,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
         for (index; index < possibleFormats.length; ++index) {
           date = convertStringToDate(success, {
-            date_format: possibleFormats[index],
+            dateFormat: possibleFormats[index],
           })
 
           if (date) {
@@ -455,9 +455,9 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         }
       }
 
-      on_type?.({ ...returnObject })
+      onType?.({ ...returnObject })
     },
-    [isRange, dateRefs, getReturnObject, inputDates, on_type]
+    [isRange, dateRefs, getReturnObject, inputDates, onType]
   )
 
   const prepareCounting = useCallback(
@@ -759,7 +759,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         const isRangeLabel = isRange ? `${translation[mode]} ` : ''
 
         if (!separatorRexExp.test(value)) {
-          if (!input_element) {
+          if (!inputElement) {
             element = {
               ...element,
               onKeyDown: onKeyDownHandler,
@@ -775,8 +775,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
           // this makes it possible to use a vanilla <input /> like: input_element="input"
           const DateField =
-            input_element && React.isValidElement(input_element)
-              ? input_element.type
+            inputElement && React.isValidElement(inputElement)
+              ? inputElement.type
               : InputElement
 
           const inputSizeClassName =
@@ -894,7 +894,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     },
     [
       id,
-      input_element,
+      inputElement,
       isRange,
       size,
       translation,
@@ -941,8 +941,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   const formatDate = useMemo(
     () =>
       selectedDateTitle
-        ? `${selectedDateTitle}, ${translation.open_picker_text}`
-        : translation.open_picker_text,
+        ? `${selectedDateTitle}, ${translation.openPickerText}`
+        : translation.openPickerText,
     [selectedDateTitle, translation]
   )
 
@@ -967,18 +967,18 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         id={`${id}__input`}
         input_state={disabled ? 'disabled' : focusState}
         input_element={
-          input_element && typeof input_element !== 'string'
-            ? typeof input_element === 'function'
-              ? input_element(props)
-              : input_element
+          inputElement && typeof inputElement !== 'string'
+            ? typeof inputElement === 'function'
+              ? inputElement(props)
+              : inputElement
             : renderInputElement
         }
         disabled={disabled || skeleton}
         skeleton={skeleton}
         size={size}
         status={!opened ? status : null}
-        status_state={status_state}
-        {...status_props}
+        status_state={statusState}
+        {...statusProps}
         submit_element={
           <SubmitElement
             id={id}
@@ -992,14 +992,14 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
             title={title}
             size={size}
             status={status}
-            status_state={status_state}
+            status_state={statusState}
             type="button"
             icon="calendar"
             variant="secondary"
             on_submit={onSubmit}
             on_click={onSubmit}
             {...submitAttributes}
-            {...status_props}
+            {...statusProps}
           />
         }
         lang={lang}

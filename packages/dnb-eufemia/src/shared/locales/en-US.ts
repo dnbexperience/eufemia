@@ -7,13 +7,13 @@ export default {
     ...enGB,
     DatePicker: {
       ...enGB.DatePicker,
-      mask_order: 'mm/dd/yyyy',
-      mask_placeholder: 'mm/dd/yyyy', // have to be same setup as "mask" - but can be like: mm/dd/åååå
-      first_day: 'sunday',
+      maskOrder: 'mm/dd/yyyy',
+      maskPlaceholder: 'mm/dd/yyyy', // have to be same setup as "mask" - but can be like: mm/dd/åååå
+      firstDay: 'sunday',
     },
   } satisfies typeof enGB & {
     DatePicker: {
-      first_day: string
+      firstDay: string
     }
   },
 }

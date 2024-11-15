@@ -44,16 +44,16 @@ function DatePickerFooter({
   } = useContext(DatePickerContext)
 
   const {
-    show_reset_button,
-    show_cancel_button,
-    show_submit_button,
-    date_format,
+    showResetButton,
+    showCancelButton,
+    showSubmitButton,
+    dateFormat,
   } = contextProps
 
   const {
-    submit_button_text: submit_button_text_translation,
-    cancel_button_text: cancel_button_text_translation,
-    reset_button_text: reset_button_text_translation,
+    submitButtonText: submitButtonTextTranslation,
+    cancelButtonText: cancelButtonTextTranslation,
+    resetButtonText: resetButtonTextTranslation,
   } = useTranslation().DatePicker
 
   const onSubmitHandler = useCallback(
@@ -71,17 +71,17 @@ function DatePickerFooter({
 
       const startDate = previousDates.startDate
         ? convertStringToDate(previousDates.startDate, {
-            date_format,
+            dateFormat,
           })
         : previousDates.date
         ? convertStringToDate(previousDates.date, {
-            date_format,
+            dateFormat,
           })
         : null
 
       const endDate = previousDates.endDate
         ? convertStringToDate(previousDates.endDate, {
-            date_format,
+            dateFormat,
           })
         : startDate
 
@@ -95,7 +95,7 @@ function DatePickerFooter({
         }
       )
     },
-    [date_format, updateDates, previousDates, onCancel]
+    [dateFormat, updateDates, previousDates, onCancel]
   )
 
   const onResetHandler = useCallback(
@@ -120,27 +120,27 @@ function DatePickerFooter({
 
   if (
     !isRange &&
-    !show_submit_button &&
-    !show_cancel_button &&
-    !show_reset_button
+    !showSubmitButton &&
+    !showCancelButton &&
+    !showResetButton
   ) {
     return <></>
   }
 
   return (
     <div className="dnb-date-picker__footer">
-      {((isRange || show_submit_button) && (
+      {((isRange || showSubmitButton) && (
         <Button
-          text={submitButtonText || submit_button_text_translation}
+          text={submitButtonText || submitButtonTextTranslation}
           onClick={onSubmitHandler}
           data-testid="submit"
         />
       )) || <span />}
 
       <span>
-        {(show_reset_button && (
+        {(showResetButton && (
           <Button
-            text={resetButtonText || reset_button_text_translation}
+            text={resetButtonText || resetButtonTextTranslation}
             icon="reset"
             icon_position="left"
             variant="tertiary"
@@ -150,9 +150,9 @@ function DatePickerFooter({
           />
         )) || <span />}
 
-        {((isRange || show_cancel_button) && (
+        {((isRange || showCancelButton) && (
           <Button
-            text={cancelButtonText || cancel_button_text_translation}
+            text={cancelButtonText || cancelButtonTextTranslation}
             icon="close"
             icon_position="left"
             variant="tertiary"

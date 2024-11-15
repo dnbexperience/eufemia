@@ -56,7 +56,7 @@ import type { FormElementProps } from './helpers/filterValidProps'
 import type { ThemeProps } from './Theme'
 import type { FormsTranslation } from '../extensions/forms/hooks/useTranslation'
 import type { DeepPartial } from './types'
-import { DatePickerProps } from '../components/DatePicker'
+import { DatePickerAllProps } from '../components/DatePicker'
 
 export type ContextComponents = {
   Button?: Partial<ButtonProps>
@@ -94,7 +94,7 @@ export type ContextComponents = {
   Logo?: Partial<LogoProps>
   Icon?: Partial<IconProps>
   IconPrimary?: Partial<IconPrimaryProps>
-  DatePicker?: Partial<DatePickerProps>
+  DatePicker?: Partial<DatePickerAllProps>
   ListFormat?: Partial<ListFormatProps>
 
   Switch?: Partial<SwitchProps>
