@@ -5,7 +5,7 @@ import {
 } from '../../../../components/date-picker/DatePickerDocs'
 import { PropertiesTableProps } from '../../../../shared/types'
 
-// Filter out properties that are handeled by `useFieldProps` or has a different default value
+// Filter out properties that are handled by `useFieldProps` or has a different default value
 const {
   showCancelButton,
   showResetButton,
