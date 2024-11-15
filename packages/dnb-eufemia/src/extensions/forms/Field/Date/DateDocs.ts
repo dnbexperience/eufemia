@@ -5,7 +5,7 @@ import {
 } from '../../../../components/date-picker/DatePickerDocs'
 import { PropertiesTableProps } from '../../../../shared/types'
 
-// Filter out properties that are handeled by `useFieldProps` or has a different default value
+// Filter out properties that are handled by `useFieldProps` or has a different default value
 const {
   showCancelButton,
   showResetButton,
@@ -57,7 +57,7 @@ export const DateProperties: PropertiesTableProps = {
   },
   ...datePickerProperties,
 }
-// Filter out the events that are handeled by `useFieldProps`
+// Filter out the events that are handled by `useFieldProps`
 const { onChange, onBlur, onFocus, ...datePickerEvents } = DatePickerEvents
 
 export const DateEvents = datePickerEvents
