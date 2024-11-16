@@ -31,12 +31,6 @@ export type HelpButtonInlineSharedStateDataProps = {
   isUserIntent?: boolean
   buttonRef?: React.RefObject<HTMLButtonElement>
 }
-export type HelpButtonInlineContentProps = SpacingProps & {
-  contentId: string
-  className?: string
-  children?: React.ReactNode
-  help?: HelpProps
-}
 
 export default function HelpButtonInline(props: HelpButtonInlineProps) {
   const { contentId, size, help, className, children, ...rest } = props
@@ -94,10 +88,25 @@ export default function HelpButtonInline(props: HelpButtonInlineProps) {
   )
 }
 
+export type HelpButtonInlineContentProps = SpacingProps & {
+  contentId: string
+  className?: string
+  children?: React.ReactNode
+  help?: HelpProps
+  breakout?: boolean
+}
+
 export function HelpButtonInlineContent(
   props: HelpButtonInlineContentProps
 ) {
-  const { contentId, className, children, help: helpProp, ...rest } = props
+  const {
+    contentId,
+    className,
+    children,
+    help: helpProp,
+    breakout = true,
+    ...rest
+  } = props
   const { data, update } =
     useSharedState<HelpButtonInlineSharedStateDataProps>(contentId)
   const { isOpen, isUserIntent, buttonRef } = data || {}
@@ -105,7 +114,7 @@ export function HelpButtonInlineContent(
 
   const innerRef = useRef<HTMLDivElement>(null)
   const cardContext = useContext(CardContext)
-  const isInsideCard = Boolean(cardContext)
+  const isInsideCard = Boolean(cardContext) && breakout
 
   useEffect(() => {
     if (isOpen && isUserIntent) {

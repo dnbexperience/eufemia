@@ -98,28 +98,42 @@ fieldset.dnb-forms-field-block {
     margin-right: 1rem;
   }
   &__grid#{&}--layout-horizontal {
+    & > .dnb-form-label {
+      margin-top: var(--label-margin);
+      margin-bottom: var(--label-margin);
+    }
+
     @include allBelow(small) {
       & > .dnb-form-label {
-        margin-bottom: 0.5rem;
+        margin-bottom: calc(var(--label-margin) + 0.5rem);
       }
     }
     @include allAbove(small) {
-      & > .dnb-form-label,
-      & > .dnb-forms-field-block__label > .dnb-form-label {
-        margin-top: var(--label-margin);
-        margin-bottom: var(--label-margin);
-      }
       grid-template-columns:
         minmax(
           var(--dnb-forms-field-block-layout-width-min, min-content),
           var(--dnb-forms-field-block-layout-width-max, max-content)
         )
         auto;
+
+      // When stretching the "help" over two columns,
+      // it influences the "label" width when shown,
+      // and there is not layoutOptions defined.
       grid-template-areas:
         'label contents'
-        'help help'
+        '. help'
         '. indicator'
         '. status';
+
+      .dnb-help-button__content {
+        --help-button-indent-width: 0;
+
+        // Align to how the FormStatus looks
+        .dnb-section {
+          --rounded-corner: 0.25rem;
+          align-self: flex-start; // Do not stretch the content
+        }
+      }
 
       .dnb-forms-field-block__contents {
         align-self: end;

@@ -664,6 +664,9 @@ button.dnb-button::-moz-focus-inner {
   }
 }
 
+.dnb-help-button__content {
+  --help-button-indent-width: var(--card-outline-width);
+}
 .dnb-help-button__content .dnb-section {
   --background-color: var(--help-button-content-background);
   --rounded-corner--value: calc(var(--card-outline-width) + 0.5rem);
@@ -674,9 +677,9 @@ button.dnb-button::-moz-focus-inner {
   transform: translate3d(0, -0.5rem, 0);
 }
 :not(.dnb-card) .dnb-help-button__content .dnb-section {
-  margin-left: calc(var(--card-outline-width) * -1);
-  margin-right: calc(var(--card-outline-width) * -1);
-  border: var(--card-outline-width) solid var(--help-button-content-background);
+  margin-left: calc(var(--help-button-indent-width) * -1);
+  margin-right: calc(var(--help-button-indent-width) * -1);
+  border: var(--help-button-indent-width) solid var(--help-button-content-background);
   border-top: none;
   border-bottom: none;
 }
