@@ -433,7 +433,7 @@ function PhoneNumber(props: Props) {
           width={
             omitCountryCodeField ? 'medium' : props.width ?? 'stretch'
           }
-          help={help}
+          help={{ ...help, breakout: false }}
           required={required}
           errorMessages={errorMessages}
           validateInitially={validateInitially}

@@ -577,7 +577,10 @@ function FieldBlock(props: Props) {
               contentId={`${id}-help`}
               className="dnb-forms-field-block__help"
               help={help}
-              breakout={layout !== 'horizontal'}
+              breakout={
+                layout === 'vertical' &&
+                !nestedFieldBlockContext?.composition
+              }
             />
           )}
 

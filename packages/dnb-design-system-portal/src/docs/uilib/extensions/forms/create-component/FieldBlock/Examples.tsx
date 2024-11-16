@@ -396,3 +396,43 @@ export const InlineHelpButtonHorizontalLabel = () => {
     </ComponentBox>
   )
 }
+
+export const InlineHelpButtonCompositionFields = () => {
+  return (
+    <ComponentBox data-visual-test="forms-field-block-help-button-composition-fields">
+      <Card stack>
+        <Field.Composition label="Field.Composition" width="large">
+          <Field.String
+            width="medium"
+            label="Label"
+            help={{
+              title: 'Hva betyr lånebeløp? ',
+              content: 'Dette er hvor mye du har tenkt å låne totalt.',
+            }}
+          />
+          <Field.String
+            width="stretch"
+            label="Label"
+            help={{
+              title: 'Hva betyr lånebeløp? ',
+              content: 'Dette er hvor mye du har tenkt å låne totalt.',
+            }}
+          />
+        </Field.Composition>
+        <Field.PostalCodeAndCity
+          help={{
+            title: 'Hva betyr lånebeløp? ',
+            content: 'Dette er hvor mye du har tenkt å låne totalt.',
+          }}
+        />
+        <Field.PhoneNumber
+          help={{
+            open: true,
+            title: 'Hva betyr lånebeløp? ',
+            content: 'Dette er hvor mye du har tenkt å låne totalt.',
+          }}
+        />
+      </Card>
+    </ComponentBox>
+  )
+}

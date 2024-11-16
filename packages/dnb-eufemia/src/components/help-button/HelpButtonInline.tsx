@@ -17,8 +17,11 @@ import { question as QuestionIcon, close as CloseIcon } from '../../icons'
 export type HelpProps = {
   title?: React.ReactNode
   content?: React.ReactNode
-  open?: boolean
   renderAs?: 'inline' | 'dialog'
+  /** Only for the "inline" variant */
+  open?: boolean
+  /** Only for the "inline" variant */
+  breakout?: boolean
 }
 
 export type HelpButtonInlineProps = HelpButtonProps & {
@@ -110,11 +113,18 @@ export function HelpButtonInlineContent(
   const { data, update } =
     useSharedState<HelpButtonInlineSharedStateDataProps>(contentId)
   const { isOpen, isUserIntent, buttonRef } = data || {}
-  const { open, title, content, renderAs } = helpProp || {}
+  const {
+    open,
+    title,
+    content,
+    renderAs,
+    breakout: breakoutProp = true,
+  } = helpProp || {}
 
   const innerRef = useRef<HTMLDivElement>(null)
   const cardContext = useContext(CardContext)
-  const isInsideCard = Boolean(cardContext) && breakout
+  const breakoutFromLayout =
+    Boolean(cardContext) && breakout && breakoutProp
 
   useEffect(() => {
     if (isOpen && isUserIntent) {
@@ -166,10 +176,10 @@ export function HelpButtonInlineContent(
         tabIndex={-1}
         innerRef={innerRef}
         onKeyDown={keydownHandler}
-        breakout={isInsideCard}
-        roundedCorner={!isInsideCard}
+        breakout={breakoutFromLayout}
+        roundedCorner={!breakoutFromLayout}
         innerSpace={
-          isInsideCard
+          breakoutFromLayout
             ? { top: 'small', bottom: 'medium' }
             : {
                 top: 'small',
