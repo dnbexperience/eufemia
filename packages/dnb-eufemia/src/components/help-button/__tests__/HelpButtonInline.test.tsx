@@ -28,13 +28,58 @@ describe('HelpButtonInline', () => {
   it('should toggle open state when Space key gets pressed', async () => {
     render(<HelpButtonInline help={{ title: 'Help title' }} />)
 
-    const button = document.querySelector('button')
+    expect(document.body).toHaveFocus()
 
-    await userEvent.type(button, '{Space}')
-    expect(button).toHaveClass('dnb-help-button__inline--open')
+    await userEvent.tab()
+    expect(document.querySelector('button')).toHaveFocus()
 
-    await userEvent.type(button, '{Space}')
-    expect(button).not.toHaveClass('dnb-help-button__inline--open')
+    await userEvent.type(document.querySelector('button'), '{Space}')
+    await waitFor(() => {
+      expect(document.querySelector('section')).toHaveFocus()
+    })
+
+    await userEvent.keyboard('{Space}')
+    await waitFor(() => {
+      expect(document.querySelector('button')).toHaveFocus()
+    })
+  })
+
+  it('should toggle open state when Enter key gets pressed', async () => {
+    render(<HelpButtonInline help={{ title: 'Help title' }} />)
+
+    expect(document.body).toHaveFocus()
+
+    await userEvent.tab()
+    expect(document.querySelector('button')).toHaveFocus()
+
+    await userEvent.keyboard('{Enter}')
+    await waitFor(() => {
+      expect(document.querySelector('section')).toHaveFocus()
+    })
+
+    await userEvent.keyboard('{Enter}')
+    await waitFor(() => {
+      expect(document.querySelector('button')).toHaveFocus()
+    })
+  })
+
+  it('should set focus on the button when closing with Escape key', async () => {
+    render(<HelpButtonInline help={{ title: 'Help title' }} />)
+
+    expect(document.body).toHaveFocus()
+
+    await userEvent.tab()
+    expect(document.querySelector('button')).toHaveFocus()
+
+    await userEvent.keyboard('{Enter}')
+    await waitFor(() => {
+      expect(document.querySelector('section')).toHaveFocus()
+    })
+
+    await userEvent.keyboard('{Escape}')
+    await waitFor(() => {
+      expect(document.querySelector('button')).toHaveFocus()
+    })
   })
 
   it('should close when Escape key on the button gets pressed', async () => {
@@ -161,7 +206,7 @@ describe('HelpButtonInline', () => {
   })
 
   it('should set focus on the content when open', async () => {
-    render(<HelpButtonInline help={{ title: 'Dialog Title' }} />)
+    render(<HelpButtonInline help={{ title: 'Help title' }} />)
 
     expect(document.body).toHaveFocus()
 
@@ -185,27 +230,8 @@ describe('HelpButtonInline', () => {
     })
   })
 
-  it('should set focus on the button when closing with Escape key', async () => {
-    render(<HelpButtonInline help={{ title: 'Dialog Title' }} />)
-
-    expect(document.body).toHaveFocus()
-
-    await userEvent.tab()
-    expect(document.querySelector('button')).toHaveFocus()
-
-    await userEvent.keyboard('{Enter}')
-    await waitFor(() => {
-      expect(document.querySelector('section')).toHaveFocus()
-    })
-
-    await userEvent.keyboard('{Escape}')
-    expect(document.querySelector('button')).toHaveFocus()
-  })
-
   it('should not set focus on the content when open is true', async () => {
-    render(
-      <HelpButtonInline help={{ open: true, title: 'Dialog Title' }} />
-    )
+    render(<HelpButtonInline help={{ open: true, title: 'Help title' }} />)
 
     expect(document.body).toHaveFocus()
 

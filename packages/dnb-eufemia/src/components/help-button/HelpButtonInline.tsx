@@ -138,13 +138,24 @@ export function HelpButtonInlineContent(
     update({ isOpen: false, isUserIntent: false })
   }, [update])
 
-  const keydownHandler = useCallback(
-    (event) => {
-      switch (event.code) {
-        case 'Escape':
-          onClose()
-          buttonRef.current?.focus()
-          break
+  const onKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLButtonElement>) => {
+      if (event.currentTarget === event.target) {
+        // Firefox returns a whitespace (" ") on event.key when pressing space,
+        // therefore using .trim() can help normalize this.
+        // While userEvent.keyboard('{Space}') might return 'Unknown' on event.code,
+        // making a direct comparison less reliable across all platforms.
+        switch (event.key.trim() || event.code) {
+          case 'Enter':
+          case 'Space':
+          case 'Escape':
+            event.preventDefault()
+            window.requestAnimationFrame(() => {
+              onClose()
+              buttonRef.current?.focus()
+            })
+            break
+        }
       }
     },
     [buttonRef, onClose]
@@ -175,7 +186,7 @@ export function HelpButtonInlineContent(
         className="dnb-no-focus"
         tabIndex={-1}
         innerRef={innerRef}
-        onKeyDown={keydownHandler}
+        onKeyDown={onKeyDown}
         breakout={breakoutFromLayout}
         roundedCorner={!breakoutFromLayout}
         innerSpace={
