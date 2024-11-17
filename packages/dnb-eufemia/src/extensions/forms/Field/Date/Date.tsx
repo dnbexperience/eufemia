@@ -17,28 +17,28 @@ import {
 // `range`, `showInput`, `showCancelButton` and `showResetButton` are not picked from the `DatePickerProps`
 // Since they require `Field.Date` specific comments, due to them having different default values
 export type Props = FieldProps<string, undefined | string> & {
-    // Validation
-    pattern?: string
-    /**
-     * Defines if the Date field should support a value of two dates (starting and ending date).
-     * The value needs to be a string containing two dates, separated by a pipe character (`|`) i.e. (`01-09-2024|30-09-2024`) when this is set to `true`.
-     * Defaults to `false`.
-     */
-    range?: DatePickerProps['range']
-    /**
-     * If the input fields with the mask should be visible. Defaults to `true`.
-     */
-    showInput?: DatePickerProps['showInput']
+  // Validation
+  pattern?: string
+  /**
+   * Defines if the Date field should support a value of two dates (starting and ending date).
+   * The value needs to be a string containing two dates, separated by a pipe character (`|`) i.e. (`01-09-2024|30-09-2024`) when this is set to `true`.
+   * Defaults to `false`.
+   */
+  range?: DatePickerProps['range']
+  /**
+   * If the input fields with the mask should be visible. Defaults to `true`.
+   */
+  showInput?: DatePickerProps['showInput']
 
-    /**
-     * If set to `true`, a cancel button will be shown. You can change the default text by using `cancel_button_text="Avbryt"` Defaults to `true`. If the `range` prop is `true`, then the cancel button is shown.
-     */
-    showCancelButton?: DatePickerProps['showCancelButton']
-    /**
-     * If set to `true`, a reset button will be shown. You can change the default text by using `reset_button_text="Tilbakestill"` Defaults to `true`.
-     */
-    showResetButton?: DatePickerProps['showResetButton']
-  } & Pick<
+  /**
+   * If set to `true`, a cancel button will be shown. You can change the default text by using `cancel_button_text="Avbryt"` Defaults to `true`. If the `range` prop is `true`, then the cancel button is shown.
+   */
+  showCancelButton?: DatePickerProps['showCancelButton']
+  /**
+   * If set to `true`, a reset button will be shown. You can change the default text by using `reset_button_text="Tilbakestill"` Defaults to `true`.
+   */
+  showResetButton?: DatePickerProps['showResetButton']
+} & Pick<
     DatePickerProps,
     | 'month'
     | 'startMonth'
