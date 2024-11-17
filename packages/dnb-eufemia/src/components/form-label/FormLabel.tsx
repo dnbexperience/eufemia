@@ -140,16 +140,46 @@ export default function FormLabel(localProps: FormLabelAllProps) {
       forElem?.closest('.dnb-input__border')
 
     if (target) {
-      const enter = () => target.classList.add('hover')
-      const leave = () => target.classList.remove('hover')
-
       const elem = ref.current
+
+      const buttonEnter = () => {
+        target.classList.add('no-hover')
+        leave()
+      }
+      const buttonLeave = () => {
+        target.classList.remove('no-hover')
+        enter()
+      }
+
+      const enter = () => {
+        target.classList.add('hover')
+
+        // Remove the style from interactive elements (e.g. HelpButton)
+        const button = elem.querySelector('button')
+        button?.addEventListener?.('mouseenter', buttonEnter, {
+          once: true,
+        })
+        button?.addEventListener?.('mouseleave', buttonLeave, {
+          once: true,
+        })
+      }
+      const leave = () => {
+        target.classList.remove('hover')
+
+        elem
+          .querySelector('button')
+          ?.removeEventListener?.('mouseenter', buttonEnter)
+      }
+
       elem?.addEventListener?.('mouseenter', enter)
       elem?.addEventListener?.('mouseleave', leave)
 
       return () => {
         elem?.removeEventListener?.('mouseenter', enter)
         elem?.removeEventListener?.('mouseleave', leave)
+        elem
+          .querySelector('button')
+          ?.removeEventListener?.('mouseleave', buttonLeave)
       }
     }
   }, [forId, ref])

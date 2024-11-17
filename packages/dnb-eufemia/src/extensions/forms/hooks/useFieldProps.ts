@@ -1397,7 +1397,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         } else {
           await setEventResult(null)
         }
-      } else {
+      } else if (onChangeContext || !asyncBehaviorIsEnabled) {
         setEventResult(
           handlePathChangeDataContext?.(
             identifier
@@ -1575,6 +1575,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           eventName: 'onChange',
           additionalArgs,
         })
+
         setEventResult(onChange?.apply(this, args))
       }
 
@@ -2152,6 +2153,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
   }
 
+  const help = props.help
+  if (help?.title || help?.content) {
+    htmlAttributes['aria-describedby'] = combineDescribedBy(
+      htmlAttributes,
+      `${id}-help`
+    )
+  }
+
   const fieldBlockProps = {
     /** Documented APIs */
     info: !inFieldBlock ? infoRef.current : undefined,
@@ -2163,6 +2172,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     labelSuffix: props.labelSuffix,
     layout: props.layout,
     layoutOptions: props.layoutOptions,
+    help: props.help,
 
     /** HTML Attributes */
     disabled:

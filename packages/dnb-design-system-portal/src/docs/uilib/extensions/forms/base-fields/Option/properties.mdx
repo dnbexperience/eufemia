@@ -2,11 +2,9 @@
 showTabs: true
 ---
 
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { OptionProperties } from '@dnb/eufemia/src/extensions/forms/Field/Option/OptionDocs'
+
 ## Properties
 
-| Property   | Type                 | Description                                   |
-| ---------- | -------------------- | --------------------------------------------- |
-| `value`    | `string` or `number` | _(optional)_ Value for this option.           |
-| `title`    | `string`             | _(optional)_ Text title for the option.       |
-| `text`     | `string`             | _(optional)_ Secondary text.                  |
-| `children` | `React.Node`         | _(optional)_ Optional way to provide `title`. |
+<PropertiesTable props={OptionProperties} />

@@ -34,7 +34,7 @@ describe('Field.Boolean', () => {
       )
       expect(
         document.querySelector('input').getAttribute('aria-describedby')
-      ).toBe(document.querySelector('.dnb-checkbox__suffix').id)
+      ).toBe(document.querySelector('.dnb-help-button').id)
       expect(
         document
           .querySelector('.dnb-help-button')
@@ -219,12 +219,14 @@ describe('Field.Boolean', () => {
         />
       )
       expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
-      expect(document.querySelector('button')).toHaveAttribute(
-        'aria-describedby'
-      )
       expect(
-        document.querySelector('button').getAttribute('aria-describedby')
-      ).toBe(document.querySelector('.dnb-toggle-button__suffix').id)
+        document.querySelector('.dnb-toggle-button__button')
+      ).toHaveAttribute('aria-describedby')
+      expect(
+        document
+          .querySelector('.dnb-toggle-button__button')
+          .getAttribute('aria-describedby')
+      ).toBe(document.querySelector('.dnb-help-button').id)
       expect(
         document
           .querySelector('.dnb-help-button')
@@ -368,12 +370,14 @@ describe('Field.Boolean', () => {
         />
       )
       expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
-      expect(document.querySelector('button')).toHaveAttribute(
-        'aria-describedby'
-      )
       expect(
-        document.querySelector('button').getAttribute('aria-describedby')
-      ).toBe(document.querySelector('.dnb-toggle-button__suffix').id)
+        document.querySelector('.dnb-toggle-button__button')
+      ).toHaveAttribute('aria-describedby')
+      expect(
+        document
+          .querySelector('.dnb-toggle-button__button')
+          .getAttribute('aria-describedby')
+      ).toBe(document.querySelector('.dnb-help-button').id)
       expect(
         document
           .querySelector('.dnb-help-button')

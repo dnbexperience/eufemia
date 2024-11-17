@@ -16,7 +16,14 @@ export function NestingWithLogic() {
           path="/mySelection"
           // defaultValue={['showInput']}
         >
-          <Field.Option value="nothing" title="Nothing" />
+          <Field.Option
+            value="nothing"
+            title="Nothing"
+            help={{
+              title: 'Help title',
+              content: 'Help content',
+            }}
+          />
 
           <Field.Option value="showInput" title="Show an input" />
           <Form.Visibility

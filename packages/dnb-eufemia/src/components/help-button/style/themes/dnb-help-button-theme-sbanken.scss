@@ -1,0 +1,10 @@
+/*
+ * Help button theme for Sbanken
+ *
+ */
+
+.dnb-help-button {
+  &__content {
+    --help-button-content-background: var(--sb-color-green);
+  }
+}

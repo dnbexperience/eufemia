@@ -427,13 +427,6 @@ export type FieldPropsWithExtraValue<
 > &
   DataValueWriteProps<Value, EmptyValue, ExtraValue>
 
-export interface FieldHelpProps {
-  help?: {
-    title?: string
-    content?: React.ReactNode
-  }
-}
-
 export interface ValueProps<Value = unknown>
   extends DataValueReadComponentProps<Value> {
   /**

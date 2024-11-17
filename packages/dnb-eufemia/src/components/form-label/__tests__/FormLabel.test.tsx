@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import FormLabel from '../FormLabel'
 import Input from '../../input/Input'
 import { Provider } from '../../../shared'
@@ -305,6 +305,101 @@ describe('FormLabel component', () => {
       </>
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+
+  describe('hover handling', () => {
+    it('should set hover class when hovered', () => {
+      render(
+        <>
+          <FormLabel forId="input" />
+          <input type="text" id="input" className="dnb-input__border" />
+        </>
+      )
+
+      const label = document.querySelector('label')
+      const input = document.querySelector('input')
+      expect(input).not.toHaveClass('hover')
+
+      fireEvent.mouseEnter(label)
+      expect(input).toHaveClass('hover')
+
+      fireEvent.mouseLeave(label)
+      expect(input).not.toHaveClass('hover')
+    })
+
+    it('should not set hover class when "dnb-input__border" is not present', () => {
+      render(
+        <>
+          <FormLabel forId="input" />
+          <input type="text" id="input" />
+        </>
+      )
+
+      const label = document.querySelector('label')
+      const input = document.querySelector('input')
+      expect(input).not.toHaveClass('hover')
+
+      fireEvent.mouseEnter(label)
+      expect(input).not.toHaveClass('hover')
+    })
+
+    it('should remove hover class when hovering on a button inside the label', () => {
+      render(
+        <>
+          <FormLabel forId="input">
+            <button>Button</button>
+          </FormLabel>
+          <input type="text" id="input" className="dnb-input__border" />
+        </>
+      )
+
+      const label = document.querySelector('label')
+      const input = document.querySelector('input')
+      const button = document.querySelector('button')
+      expect(input).not.toHaveClass('hover')
+
+      fireEvent.mouseEnter(label)
+      expect(input).toHaveClass('hover')
+
+      fireEvent.mouseEnter(button)
+      expect(input).not.toHaveClass('hover')
+
+      fireEvent.mouseLeave(button)
+      expect(input).toHaveClass('hover')
+
+      fireEvent.mouseLeave(label)
+      expect(input).not.toHaveClass('hover')
+    })
+
+    it('should remove events from label and button when unmounting', () => {
+      const { unmount } = render(
+        <>
+          <FormLabel forId="input">
+            <button>Button</button>
+          </FormLabel>
+          <input type="text" id="input" className="dnb-input__border" />
+        </>
+      )
+
+      const label = document.querySelector('label')
+      const input = document.querySelector('input')
+      const button = document.querySelector('button')
+      expect(input).not.toHaveClass('hover')
+
+      fireEvent.mouseEnter(label)
+      expect(input).toHaveClass('hover')
+
+      fireEvent.mouseEnter(button)
+      expect(input).not.toHaveClass('hover')
+
+      unmount()
+
+      // When emitting these events, "hover" would normally be set.
+      fireEvent.mouseEnter(label)
+      expect(input).not.toHaveClass('hover')
+      fireEvent.mouseLeave(button)
+      expect(input).not.toHaveClass('hover')
+    })
   })
 })
 

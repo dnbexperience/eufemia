@@ -13,9 +13,6 @@ beforeEach(() => {
     if (
       !String(args[1]).includes(
         'You may wrap Wizard.Container in Form.Handler'
-      ) &&
-      !String(args[1]).includes(
-        'Provide a label when using an async validator or onChange event'
       )
     ) {
       log(...args)

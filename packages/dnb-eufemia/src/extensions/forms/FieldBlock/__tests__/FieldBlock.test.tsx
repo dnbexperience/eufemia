@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, waitFor } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import { Input } from '../../../../components'
 import FieldBlock from '../FieldBlock'
 import userEvent from '@testing-library/user-event'
@@ -181,7 +181,9 @@ describe('FieldBlock', () => {
       render(<FieldBlock labelDescription={<></>}>content</FieldBlock>)
 
       expect(
-        document.querySelector('.dnb-forms-field-block__label-description')
+        document.querySelector(
+          '.dnb-forms-field-block__label__description'
+        )
       ).toBeNull()
 
       const labelElement = document.querySelector('label')
@@ -880,49 +882,6 @@ describe('FieldBlock', () => {
     })
   })
 
-  it('should warn when formStatus is given, but no label', async () => {
-    const log = jest.spyOn(console, 'log').mockImplementation()
-
-    const asyncValidator = async () => {
-      return null
-    }
-
-    const { rerender } = render(
-      <Form.Handler>
-        <Field.String
-          label="Has a label"
-          value="bar"
-          path="/foo"
-          validator={asyncValidator}
-        />
-        <Form.SubmitButton />
-      </Form.Handler>
-    )
-
-    const buttonElement = document.querySelector('button')
-
-    await userEvent.click(buttonElement)
-
-    expect(log).toHaveBeenCalledTimes(0)
-
-    rerender(
-      <Form.Handler>
-        <Field.String value="bar" path="/foo" validator={asyncValidator} />
-        <Form.SubmitButton />
-      </Form.Handler>
-    )
-
-    await userEvent.click(buttonElement)
-
-    expect(log).toHaveBeenLastCalledWith(
-      expect.any(String),
-      expect.any(String),
-      'Provide a label when using an async validator or onChange event.'
-    )
-
-    log.mockRestore()
-  })
-
   it('should summarize errors in one FormStatus components', () => {
     const MockComponent = () => {
       useFieldProps({
@@ -996,6 +955,193 @@ describe('FieldBlock', () => {
     expect(
       document.querySelectorAll('.dnb-form-status')[1].textContent
     ).toBe('Nested')
+  })
+
+  describe('help', () => {
+    it('should render content when open is true', async () => {
+      render(
+        <FieldBlock
+          label="Label"
+          help={{
+            open: true,
+            title: 'Help title',
+            content: '\nHelp content',
+          }}
+        >
+          <MockComponent />
+        </FieldBlock>
+      )
+
+      const element = document.querySelector('.dnb-help-button__content')
+      expect(element).toBeInTheDocument()
+      expect(element.textContent).toBe('Help title\nHelp content')
+    })
+
+    it('should open on click', async () => {
+      render(
+        <FieldBlock
+          label="Label"
+          help={{
+            title: 'Help title',
+            content: '\nHelp content',
+          }}
+        >
+          <MockComponent />
+        </FieldBlock>
+      )
+
+      fireEvent.click(document.querySelector('button'))
+
+      const element = document.querySelector('.dnb-help-button__content')
+      expect(element).toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-help-button__content')
+      ).toHaveTextContent('Help title Help content')
+    })
+
+    it('should close on click', async () => {
+      render(
+        <FieldBlock
+          label="Label"
+          help={{
+            title: 'Help title',
+            content: '\nHelp content',
+          }}
+        >
+          <MockComponent />
+        </FieldBlock>
+      )
+
+      fireEvent.click(document.querySelector('button'))
+
+      {
+        const element = document.querySelector('.dnb-help-button__content')
+        expect(element).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-help-button__content')
+        ).toHaveTextContent('Help title Help content')
+      }
+
+      fireEvent.click(document.querySelector('button'))
+
+      const element = document.querySelector('.dnb-help-button__content')
+      expect(element).not.toBeInTheDocument()
+    })
+
+    it('should have correct id', async () => {
+      render(
+        <FieldBlock
+          id="unique"
+          label="Label"
+          help={{
+            open: true,
+            title: 'Help title',
+            content: '\nHelp content',
+          }}
+        >
+          <MockComponent />
+        </FieldBlock>
+      )
+
+      {
+        const element = document.querySelector('.dnb-help-button__content')
+        expect(element).toBeInTheDocument()
+        expect(document.querySelector('button').getAttribute('id')).toBe(
+          'unique-help'
+        )
+      }
+      {
+        const element = document.querySelector('.dnb-help-button__content')
+        expect(element).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-section').getAttribute('id')
+        ).toBe('unique-help-content')
+      }
+    })
+
+    it('should have aria-controls', async () => {
+      render(
+        <FieldBlock
+          id="unique"
+          label="Label"
+          help={{
+            open: true,
+            title: 'Help title',
+            content: '\nHelp content',
+          }}
+        >
+          <MockComponent />
+        </FieldBlock>
+      )
+
+      const element = document.querySelector('.dnb-help-button__content')
+      expect(element).toBeInTheDocument()
+      expect(
+        document.querySelector('button').getAttribute('aria-controls')
+      ).toBe('unique-help-content')
+    })
+
+    describe('title', () => {
+      it('should render correctly', async () => {
+        render(
+          <FieldBlock
+            label="Label"
+            help={{
+              title: 'Help title',
+            }}
+          >
+            <MockComponent />
+          </FieldBlock>
+        )
+
+        await userEvent.click(document.querySelector('button'))
+
+        const element = document.querySelector('.dnb-section')
+        expect(element).toBeInTheDocument()
+        expect(element.textContent).toBe('Help title')
+      })
+
+      it('should render correctly with content', async () => {
+        render(
+          <FieldBlock
+            label="Label"
+            help={{
+              title: 'Help title',
+              content: '\nHelp content',
+            }}
+          >
+            <MockComponent />
+          </FieldBlock>
+        )
+
+        await userEvent.click(document.querySelector('button'))
+
+        const element = document.querySelector('.dnb-help-button__content')
+        expect(element).toBeInTheDocument()
+        expect(element.textContent).toBe('Help title\nHelp content')
+      })
+    })
+
+    describe('content', () => {
+      it('should render correctly', async () => {
+        render(
+          <FieldBlock
+            label="Label"
+            help={{
+              content: 'Help content',
+            }}
+          >
+            <MockComponent />
+          </FieldBlock>
+        )
+
+        await userEvent.click(document.querySelector('button'))
+
+        const element = document.querySelector('.dnb-help-button__content')
+        expect(element).toBeInTheDocument()
+        expect(element.textContent).toBe('Help content')
+      })
+    })
   })
 })
 

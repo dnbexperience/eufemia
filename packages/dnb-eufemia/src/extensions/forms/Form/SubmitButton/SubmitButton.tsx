@@ -53,11 +53,7 @@ function SubmitButton(props: Props) {
     >
       {content}
 
-      <SubmitIndicator
-        state={
-          showIndicator ? 'pending' : formState // will be enabled in a follow-up PR
-        }
-      />
+      <SubmitIndicator state={showIndicator ? 'pending' : formState} />
     </Button>
   )
 }

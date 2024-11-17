@@ -3,13 +3,16 @@ import classnames from 'classnames'
 import { Props as FieldBlockProps } from '../../FieldBlock'
 import StringField, { Props as StringFieldProps } from '../String'
 import CompositionField from '../Composition'
-import { FieldHelpProps, Path } from '../../types'
+import { Path } from '../../types'
 import useTranslation from '../../hooks/useTranslation'
 import useDataValue from '../../hooks/useDataValue'
 import { COUNTRY as defaultCountry } from '../../../../shared/defaults'
+import { HelpProps } from '../../../../components/help-button/HelpButtonInline'
 
-export type Props = FieldHelpProps &
-  Omit<FieldBlockProps, 'children'> &
+export type Props = Pick<
+  FieldBlockProps,
+  'error' | 'warning' | 'info' | 'width' | 'className'
+> &
   Partial<Record<'postalCode' | 'city', StringFieldProps>> & {
     /**
      * Defines which country the postal code and city is for.
@@ -17,8 +20,8 @@ export type Props = FieldHelpProps &
      * You can also use the value of another field to define the country, by using a path value i.e. `/myCountryPath`.
      * Default: `NO`
      */
-    // Add type for all country codes?
     country?: Path | string
+    help?: HelpProps
   }
 
 function PostalCodeAndCity(props: Props) {
@@ -111,6 +114,7 @@ function PostalCodeAndCity(props: Props) {
       />
 
       <StringField
+        help={help}
         {...city}
         className={classnames(
           'dnb-forms-field-postal-code-and-city__city',
@@ -126,7 +130,6 @@ function PostalCodeAndCity(props: Props) {
         trim
         width={cityWidth ?? 'stretch'}
         autoComplete="address-level2"
-        help={help}
       />
     </CompositionField>
   )

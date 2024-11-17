@@ -36,6 +36,10 @@ export function Upload() {
           onChange={(e) => {
             console.log('local onChange', e)
           }}
+          help={{
+            title: 'Help title',
+            content: 'Help content',
+          }}
         />
 
         <Form.SubmitButton />

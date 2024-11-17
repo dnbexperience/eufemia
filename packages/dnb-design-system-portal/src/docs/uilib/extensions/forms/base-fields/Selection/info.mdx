@@ -6,17 +6,37 @@ showTabs: true
 
 `Field.Selection` is a component for selecting between options using a dropdown or similar user experiences.
 
-[Field.Option](/uilib/extensions/forms/base-fields/Option/) is a related component.
-
 There is a corresponding [Value.Selection](/uilib/extensions/forms/Value/Selection) component.
+
+The [Field.Option](/uilib/extensions/forms/base-fields/Option/) is a related component.
 
 ```tsx
 import { Field } from '@dnb/eufemia/extensions/forms'
+
 render(
   <Field.Selection placeholder="Select something...">
     <Field.Option value="foo" title="Foo!" />
     <Field.Option value="bar" title="Baar!" />
   </Field.Selection>,
+)
+```
+
+You can also use the `dataPath` property to provide the data to the component:
+
+```jsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Handler
+    data={{
+      myDataPath: [
+        { title: 'Foo!', value: 'foo' },
+        { title: 'Bar!', value: 'bar' },
+      ],
+    }}
+  >
+    <Field.Selection dataPath="/myDataPath" />
+  </Form.Handler>,
 )
 ```
 

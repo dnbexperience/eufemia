@@ -26,7 +26,6 @@ import { Ul, Li } from '../../../elements'
 import {
   convertJsxToString,
   findElementInChildren,
-  warn,
 } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import {
@@ -36,6 +35,10 @@ import {
   Identifier,
 } from '../types'
 import type { FormLabelAllProps } from '../../../components/FormLabel'
+import HelpButtonInline, {
+  HelpButtonInlineContent,
+  HelpProps,
+} from '../../../components/help-button/HelpButtonInline'
 import SubmitIndicator from '../Form/SubmitIndicator/SubmitIndicator'
 import { createSharedState } from '../../../shared/helpers/useSharedState'
 import useTranslation from '../hooks/useTranslation'
@@ -96,6 +99,10 @@ export type SharedFieldBlockProps = {
    * Width of contents block, while label etc can be wider if space is available
    */
   contentWidth?: FieldBlockWidth
+  /**
+   * Provide help content for the field.
+   */
+  help?: HelpProps
 }
 
 export type Props = SharedFieldBlockProps &
@@ -135,9 +142,8 @@ function FieldBlock(props: Props) {
     ? fieldBlockContext
     : null
 
-  const sharedData = createSharedState<Props>(
-    'field-block-props-' + (props.id ?? props.forId)
-  )
+  const id = useId(props.id ?? props.forId)
+  const sharedData = createSharedState<Props>('field-block-props-' + id)
   const {
     className,
     forId,
@@ -148,6 +154,7 @@ function FieldBlock(props: Props) {
     labelDescription,
     labelSuffix,
     labelSrOnly,
+    help,
     asFieldset,
     required,
     info,
@@ -453,6 +460,10 @@ function FieldBlock(props: Props) {
     'dnb-forms-field-block',
     width &&
       `dnb-forms-field-block--width-${hasCustomWidth ? 'custom' : width}`,
+    contentWidth &&
+      `dnb-forms-field-block--content-width-${
+        hasCustomContentWidth ? 'custom' : contentWidth
+      }`,
     labelHeight && `dnb-forms-field-block--label-height-${labelHeight}`,
     className
   )
@@ -470,6 +481,7 @@ function FieldBlock(props: Props) {
   })
 
   const labelProps: FormLabelAllProps = {
+    className: 'dnb-forms-field-block__label',
     element: enableFieldset ? 'legend' : 'label',
     forId: enableFieldset ? undefined : forId,
     srOnly: labelSrOnly,
@@ -513,16 +525,11 @@ function FieldBlock(props: Props) {
     return null
   }
 
-  if (fieldState && typeof label === 'undefined') {
-    warn(
-      'Provide a label when using an async validator or onChange event.'
-    )
-  }
-
   const hasLabelDescription = isFragment(labelDescription)
     ? fragmentHasChildren(labelDescription) &&
       !fragmentHasOnlyUndefinedChildren(labelDescription)
     : labelDescription
+  const hasHelp = help?.title || help?.content
 
   return (
     <FieldBlockContext.Provider
@@ -543,20 +550,39 @@ function FieldBlock(props: Props) {
         {...rest}
       >
         <div className={gridClasses}>
-          <LabelDescription labelDescription={labelDescription}>
-            {(label || labelDescription) && (
-              <FormLabel {...labelProps}>
-                <SubmitIndicator state={fieldState}>
-                  {label}
-                  {hasLabelDescription && (
-                    <span className="dnb-forms-field-block__label-description">
-                      {labelDescription}
-                    </span>
-                  )}
-                </SubmitIndicator>
-              </FormLabel>
-            )}
-          </LabelDescription>
+          {(label || labelDescription || hasHelp) && (
+            <FormLabel {...labelProps}>
+              <span>
+                {label && (
+                  <span className="dnb-forms-field-block__label__content">
+                    {label}
+                  </span>
+                )}
+
+                {hasLabelDescription && (
+                  <span className="dnb-forms-field-block__label__description">
+                    {labelDescription}
+                  </span>
+                )}
+
+                {hasHelp && (
+                  <HelpButtonInline contentId={`${id}-help`} help={help} />
+                )}
+              </span>
+            </FormLabel>
+          )}
+
+          {hasHelp && (
+            <HelpButtonInlineContent
+              contentId={`${id}-help`}
+              className="dnb-forms-field-block__help"
+              help={help}
+              breakout={
+                layout === 'vertical' &&
+                !nestedFieldBlockContext?.composition
+              }
+            />
+          )}
 
           <div
             className={classnames(
@@ -595,6 +621,11 @@ function FieldBlock(props: Props) {
           >
             {children}
           </div>
+
+          <SubmitIndicator
+            state={fieldState}
+            className="dnb-forms-field-block__indicator dnb-forms-submit-indicator--inline-wrap"
+          />
         </div>
       </Space>
     </FieldBlockContext.Provider>
@@ -659,13 +690,6 @@ function CombineMessages({
       </Ul>
     </>
   )
-}
-
-function LabelDescription({ labelDescription, children }) {
-  if (!labelDescription) {
-    return children ?? null
-  }
-  return <div className="dnb-forms-field-block__label">{children}</div>
 }
 
 export function getMessagesFromError(
