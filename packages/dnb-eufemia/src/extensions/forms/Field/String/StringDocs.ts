@@ -57,11 +57,6 @@ export const stringProperties: PropertiesTableProps = {
     type: ['string', 'false'],
     status: 'optional',
   },
-  help: {
-    doc: 'Provide a help button. Object consisting of title and content.',
-    type: 'object',
-    status: 'optional',
-  },
 
   // - Input props
   size: inputProperties.size,

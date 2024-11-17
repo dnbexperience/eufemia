@@ -18,17 +18,17 @@ export const DataValueWritePropsProperties: PropertiesTableProps = {
   },
   info: {
     doc: 'Info message shown below / after the field.',
-    type: 'React.Node',
+    type: ['React.Node', 'Array<React.Node>'],
     status: 'optional',
   },
   warning: {
     doc: 'Warning message shown below / after the field.',
-    type: 'React.Node',
+    type: ['React.Node', 'Array<React.Node>'],
     status: 'optional',
   },
   error: {
     doc: 'Error message shown below / after the field.',
-    type: 'Error',
+    type: ['Error', 'FormError', 'Array<Error | FormError>'],
     status: 'optional',
   },
   disabled: {

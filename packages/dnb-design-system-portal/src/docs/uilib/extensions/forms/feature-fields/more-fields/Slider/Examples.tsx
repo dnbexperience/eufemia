@@ -145,3 +145,25 @@ export const PathValues = () => {
     </ComponentBox>
   )
 }
+
+export const WithHelp = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler
+        defaultData={{
+          myValue: 50,
+        }}
+      >
+        <Field.Slider
+          label="Slider"
+          help={{
+            title: 'Help is available',
+            content:
+              'Take the time to help other people without expecting a reward or gratitude is definitely important in living an optimistic life.',
+          }}
+          path="/myValue"
+        />
+      </Form.Handler>
+    </ComponentBox>
+  )
+}

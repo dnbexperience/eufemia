@@ -6,11 +6,6 @@ export const NationalIdentityNumberProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  help: {
-    doc: 'Provide a help button. Object consisting of `title` and `content`.',
-    type: 'object',
-    status: 'optional',
-  },
   onBlurValidator: {
     doc: 'Custom validator function that is triggered when the user leaves a field (e.g., blurring a text input or closing a dropdown). The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }. Defaults to validation of the identification number(national identity numbers and D numbers), using `dnrAndFnrValidator`. Can be disabled using `false`.',
     type: 'function',

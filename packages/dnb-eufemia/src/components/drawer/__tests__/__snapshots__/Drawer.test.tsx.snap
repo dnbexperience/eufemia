@@ -582,9 +582,112 @@ button.dnb-button::-moz-focus-inner {
 /*
  * HelpButton component
  *
- * TODO: Set spacing in the theme file, as theme comes later in the stack
+ */
+/*
+ * Utilities
+ */ /*
+* Button mixins
+*
+*/
+/*
+ * HelpButton component
  *
  */
+/*
+ * Utilities
+ */ /*
+* Button mixins
+*
+*/
+.dnb-help-button.dnb-help-button__inline--open {
+  --border-color: var(--color-emerald-green);
+  --border-width: 0.125rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+
+.dnb-help-button__inline svg {
+  will-change: transform;
+}
+.dnb-help-button__inline svg:nth-of-type(2) {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  opacity: 0;
+}
+.dnb-help-button__inline--open svg:nth-of-type(1) {
+  opacity: 0;
+}
+.dnb-help-button__inline--open svg:nth-of-type(2) {
+  animation: rotate-icon-in 400ms var(--easing-default) forwards;
+}
+.dnb-help-button__inline:not(.dnb-help-button__inline--open).dnb-help-button__inline--was-open svg:nth-of-type(1) {
+  opacity: 0;
+  animation: animate-question 400ms var(--easing-default) 200ms forwards;
+}
+.dnb-help-button__inline:not(.dnb-help-button__inline--open).dnb-help-button__inline--was-open svg:nth-of-type(2) {
+  animation: rotate-icon-out 400ms var(--easing-default) forwards;
+}
+.dnb-help-button__inline:not(.dnb-help-button__inline--user-intent) svg, html[data-visual-test] .dnb-help-button__inline svg {
+  animation-duration: 0ms;
+}
+@keyframes rotate-icon-in {
+  from {
+    opacity: 0;
+    transform: rotate(0deg);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(90deg);
+  }
+}
+@keyframes rotate-icon-out {
+  0% {
+    opacity: 1;
+    transform: rotate(90deg);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(0deg);
+  }
+}
+@keyframes animate-question {
+  from {
+    opacity: 0;
+    transform: rotate(10deg);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0deg);
+  }
+}
+
+.dnb-help-button__content {
+  --help-button-indent-width: var(--card-outline-width);
+}
+.dnb-help-button__content .dnb-section {
+  --background-color: var(--help-button-content-background);
+  --rounded-corner--value: calc(var(--card-outline-width) + 0.5rem);
+}
+.dnb-help-button__content .dnb-section .dnb-p {
+  max-width: 60ch;
+  transition: transform 400ms var(--easing-default) 40ms;
+  transform: translate3d(0, -0.5rem, 0);
+}
+:not(.dnb-card) .dnb-help-button__content .dnb-section {
+  margin-left: calc(var(--help-button-indent-width) * -1);
+  margin-right: calc(var(--help-button-indent-width) * -1);
+  border: var(--help-button-indent-width) solid var(--help-button-content-background);
+  border-top: none;
+  border-bottom: none;
+}
+.dnb-help-button__content.dnb-height-animation--parallax .dnb-section .dnb-p {
+  transform: translate3d(0, 0, 0);
+}
+
 .dnb-help-button .dnb-button__bounding {
   transform: scale(1.5);
 }

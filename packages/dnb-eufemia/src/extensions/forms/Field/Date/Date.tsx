@@ -1,11 +1,7 @@
 import React, { useCallback, useContext, useMemo } from 'react'
-import { DatePicker, HelpButton } from '../../../../components'
+import { DatePicker } from '../../../../components'
 import { useFieldProps } from '../../hooks'
-import {
-  FieldProps,
-  FieldHelpProps,
-  AllJSONSchemaVersions,
-} from '../../types'
+import { FieldProps, AllJSONSchemaVersions } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import classnames from 'classnames'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
@@ -20,8 +16,7 @@ import {
 
 // `range`, `showInput`, `showCancelButton` and `showResetButton` are not picked from the `DatePickerProps`
 // Since they require `Field.Date` specific comments, due to them having different default values
-export type Props = FieldHelpProps &
-  FieldProps<string, undefined | string> & {
+export type Props = FieldProps<string, undefined | string> & {
     // Validation
     pattern?: string
     /**
@@ -133,7 +128,6 @@ function DateComponent(props: Props) {
     className,
     label,
     value: valueProp,
-    help,
     hasError,
     disabled,
     htmlAttributes,
@@ -192,11 +186,6 @@ function DateComponent(props: Props) {
         startDate={startDate}
         endDate={endDate}
         status={hasError ? 'error' : undefined}
-        suffix={
-          help ? (
-            <HelpButton title={help.title}>{help.content}</HelpButton>
-          ) : undefined
-        }
         range={range}
         onChange={handleChange}
         onReset={(event) => {

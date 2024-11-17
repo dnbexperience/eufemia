@@ -16,6 +16,8 @@ exports[`Tabs scss has to match style dependencies css 1`] = `
  * Utilities
  */
 /*
+ * Utilities
+ */ /*
 * Button mixins
 *
 */
@@ -347,6 +349,8 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
  * Utilities
  */
 /*
+ * Utilities
+ */ /*
 * Button mixins
 *
 */

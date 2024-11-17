@@ -7,16 +7,10 @@
       margin: 0;
     }
   }
+}
 
-  &:has(+ .dnb-flex-stack > .dnb-card, + .dnb-card) {
-    &:not([class*='space__left']) {
-      @include allAbove(small) {
-        margin-left: var(--spacing-medium);
-      }
-    }
-
-    &:not([class*='space__bottom']) {
-      margin-bottom: var(--spacing-small);
-    }
+.dnb-forms-main-heading + .dnb-help-button__content {
+  .dnb-section {
+    margin-top: 1rem;
   }
 }

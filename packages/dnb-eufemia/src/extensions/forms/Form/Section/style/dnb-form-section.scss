@@ -13,6 +13,9 @@
 
     &--variant-basic {
       --border-color: transparent;
+      .dnb-card {
+        --card-outline-color: transparent;
+      }
     }
 
     &__inner {

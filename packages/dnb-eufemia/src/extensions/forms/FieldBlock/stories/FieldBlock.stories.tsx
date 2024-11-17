@@ -3,6 +3,7 @@ import FieldBlock from '../FieldBlock'
 import Input from '../../../../components/Input'
 import { useFieldProps } from '../../hooks'
 import { Field, Form } from '../..'
+import { Anchor, Card, Flex } from '../../../../components'
 
 export default {
   title: 'Eufemia/Extensions/Forms/FieldBlock',
@@ -107,5 +108,162 @@ export function CompositionErrors() {
         </FieldBlock>
       </Form.Handler>
     </>
+  )
+}
+
+export const WithInlineHelp = () => {
+  return (
+    <Flex.Stack>
+      <Form.MainHeading
+        help={{
+          // open: true,
+          renderAs: 'dialog',
+          title: 'Hva betyr kredittopplysninger?',
+          content:
+            'Lorem ipsum dolor sit amet consectetur. Interdum elementum sit purus aliquam. Ultrices senectus sit in augue ultrices hendrerit magna eget congue.',
+        }}
+      >
+        Kredittopplysninger
+      </Form.MainHeading>
+      <Form.SubHeading
+        help={{
+          title: 'Hva betyr lånebeløp?',
+          content: 'Dette er hvor mye du har tenkt å låne totalt.',
+        }}
+      >
+        Subheading
+      </Form.SubHeading>
+
+      <Field.String
+        label="Ønsket lånebeløp"
+        help={{
+          open: true,
+          title: 'Hva betyr lånebeløp?',
+          content: (
+            <>
+              Dette er hvor mye du har tenkt å låne{' '}
+              <Anchor href="#test">totalt</Anchor>.
+            </>
+          ),
+        }}
+        onChange={async () => {
+          await new Promise((resolve) => setTimeout(resolve, 1000))
+        }}
+      />
+      <Field.String
+        label="Ønsket lånebeløp"
+        multiline
+        help={{
+          title: 'Hva betyr lånebeløp?',
+          content: 'Dette er hvor mye du har tenkt å låne totalt.',
+        }}
+      />
+
+      <Field.String
+        label="Ønsket lånebeløp"
+        labelDescription="Description Nisi ad ullamco ut anim proident sint eiusmod."
+        help={{
+          title: 'Hva betyr lånebeløp?',
+          content: 'Dette er hvor mye du har tenkt å låne totalt.',
+        }}
+        onChange={async () => {
+          await new Promise((resolve) => setTimeout(resolve, 1000))
+        }}
+      />
+      <Field.String
+        label="Ønsket lånebeløp"
+        labelDescription="Description"
+        multiline
+        help={{
+          title: 'Hva betyr lånebeløp?',
+          content: 'Dette er hvor mye du har tenkt å låne totalt.',
+        }}
+      />
+
+      <Form.MainHeading
+        help={{
+          title: 'Hva betyr kredittopplysninger?',
+          content:
+            'Lorem ipsum dolor sit amet consectetur. Interdum elementum sit purus aliquam. Ultrices senectus sit in augue ultrices hendrerit magna eget congue.',
+        }}
+      >
+        Kredittopplysninger
+      </Form.MainHeading>
+
+      <Card stack>
+        <Field.String
+          label="Ønsket lånebeløp"
+          labelDescription={'\nDescription'}
+          help={{
+            title: 'Hva betyr lånebeløp?',
+            content: 'Dette er hvor mye du har tenkt å låne totalt.',
+          }}
+          onChange={async () => {
+            await new Promise((resolve) => setTimeout(resolve, 1000))
+          }}
+        />
+        <Field.String
+          label="Ønsket lånebeløp"
+          labelDescription={'\nDescription'}
+          multiline
+          help={{
+            title: 'Hva betyr lånebeløp?',
+            content: 'Dette er hvor mye du har tenkt å låne totalt.',
+          }}
+        />
+      </Card>
+
+      <Form.SubHeading
+        help={{
+          title: 'Hva betyr lånebeløp?',
+          content: 'Dette er hvor mye du har tenkt å låne totalt.',
+        }}
+      >
+        Subheading
+      </Form.SubHeading>
+
+      <Card stack>
+        <Field.String
+          label="Ønsket lånebeløp"
+          layout="horizontal"
+          help={{
+            title: 'Hva betyr lånebeløp?',
+            content: 'Dette er hvor mye du har tenkt å låne totalt.',
+          }}
+          info="Info message"
+          onChange={async () => {
+            await new Promise((resolve) => setTimeout(resolve, 1000))
+          }}
+        />
+        <Field.String
+          label="Ønsket lånebeløp"
+          layout="horizontal"
+          layoutOptions={{ width: '8rem' }}
+          help={{
+            title: 'Hva betyr lånebeløp?',
+            content: 'Dette er hvor mye du har tenkt å låne totalt.',
+          }}
+          info="Info message"
+          onChange={async () => {
+            await new Promise((resolve) => setTimeout(resolve, 1000))
+          }}
+        />
+        <Field.String
+          label="Ønsket lånebeløp"
+          layout="horizontal"
+          layoutOptions={{ width: '8rem' }}
+          multiline
+          rows={3}
+          help={{
+            title: 'Hva betyr lånebeløp?',
+            content: 'Dette er hvor mye du har tenkt å låne totalt.',
+          }}
+          info="Info message"
+          onChange={async () => {
+            await new Promise((resolve) => setTimeout(resolve, 1000))
+          }}
+        />
+      </Card>
+    </Flex.Stack>
   )
 }

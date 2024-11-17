@@ -5,7 +5,7 @@ import {
   TestElement,
   Form,
 } from '@dnb/eufemia/src/extensions/forms'
-import { Flex, Slider } from '@dnb/eufemia/src'
+import { Anchor, Card, Flex, Slider } from '@dnb/eufemia/src'
 
 export const Default = () => {
   return (
@@ -224,6 +224,215 @@ export const CombineErrorMessages = () => {
           validateInitially
         />
       </Field.Composition>
+    </ComponentBox>
+  )
+}
+
+export const InlineHelpButtonVerticalLabel = () => {
+  return (
+    <ComponentBox data-visual-test="forms-field-block-help-button-vertical-label">
+      <Flex.Stack>
+        <Field.String
+          label="Ønsket lånebeløp"
+          help={{
+            title: 'Hva betyr lånebeløp?',
+            content: (
+              <>
+                Dette er hvor mye du har tenkt å låne{' '}
+                <Anchor href="#test">totalt</Anchor>.
+              </>
+            ),
+          }}
+          onChange={async () => {
+            await new Promise((resolve) => setTimeout(resolve, 1000))
+          }}
+        />
+        <Field.String
+          label="Ønsket lånebeløp"
+          multiline
+          rows={3}
+          help={{
+            title: 'Hva betyr lånebeløp?',
+            content: 'Dette er hvor mye du har tenkt å låne totalt.',
+          }}
+        />
+      </Flex.Stack>
+    </ComponentBox>
+  )
+}
+
+export const InlineHelpButtonLabelDescription = () => {
+  return (
+    <ComponentBox data-visual-test="forms-field-block-help-button-label-description">
+      <Flex.Stack>
+        <Field.String
+          label="Ønsket lånebeløp"
+          labelDescription="Description Nisi ad ullamco ut anim proident sint eiusmod."
+          help={{
+            title: 'Hva betyr lånebeløp?',
+            content: 'Dette er hvor mye du har tenkt å låne totalt.',
+          }}
+          onChange={async () => {
+            await new Promise((resolve) => setTimeout(resolve, 1000))
+          }}
+        />
+        <Field.String
+          label="Ønsket lånebeløp"
+          labelDescription="Description"
+          multiline
+          rows={3}
+          help={{
+            open: true,
+            title: 'Hva betyr lånebeløp?',
+            content: 'Dette er hvor mye du har tenkt å låne totalt.',
+          }}
+        />
+      </Flex.Stack>
+    </ComponentBox>
+  )
+}
+
+export const InlineHelpButtonHTML = () => {
+  return (
+    <ComponentBox data-visual-test="forms-field-block-help-button-html">
+      <Flex.Stack>
+        <Field.String
+          label={<strong>Ønsket lånebeløp</strong>}
+          labelDescription={
+            <span>
+              <br />
+              Label description with a <Anchor>Anchor</Anchor>
+            </span>
+          }
+          help={{
+            open: true,
+            title: <strong>Help title</strong>,
+            content: (
+              <>
+                Help content with a <Anchor>Anchor</Anchor>.
+              </>
+            ),
+          }}
+          onChange={async () => {
+            await new Promise((resolve) => setTimeout(resolve, 1000))
+          }}
+        />
+      </Flex.Stack>
+    </ComponentBox>
+  )
+}
+
+export const InlineHelpButtonVerticalLabelDescription = () => {
+  return (
+    <ComponentBox data-visual-test="forms-field-block-help-button-vertical-label-description">
+      <Card stack>
+        <Field.String
+          label="Ønsket lånebeløp"
+          labelDescription={'\\nDescription'}
+          help={{
+            title: 'Hva betyr lånebeløp?',
+            content: 'Dette er hvor mye du har tenkt å låne totalt.',
+          }}
+          onChange={async () => {
+            await new Promise((resolve) => setTimeout(resolve, 1000))
+          }}
+        />
+        <Field.String
+          label="Ønsket lånebeløp"
+          labelDescription={'\\nDescription'}
+          multiline
+          rows={3}
+          help={{
+            open: true,
+            title: 'Hva betyr lånebeløp?',
+            content: 'Dette er hvor mye du har tenkt å låne totalt.',
+          }}
+        />
+      </Card>
+    </ComponentBox>
+  )
+}
+
+export const InlineHelpButtonHorizontalLabel = () => {
+  return (
+    <ComponentBox data-visual-test="forms-field-block-help-button-horizontal-label">
+      <Card stack>
+        <Field.String
+          label="Ønsket lånebeløp"
+          layout="horizontal"
+          help={{
+            open: true,
+            title: 'Hva betyr lånebeløp?',
+            content: 'Dette er hvor mye du har tenkt å låne totalt.',
+          }}
+          info="Info message"
+          onChange={async () => {
+            await new Promise((resolve) => setTimeout(resolve, 1000))
+          }}
+        />
+        <Field.String
+          label="Ønsket lånebeløp"
+          layout="horizontal"
+          layoutOptions={{ width: '8rem' }}
+          help={{
+            title: 'Hva betyr lånebeløp?',
+            content: 'Dette er hvor mye du har tenkt å låne totalt.',
+          }}
+          info="Info message"
+        />
+        <Field.String
+          label="Ønsket lånebeløp"
+          layout="horizontal"
+          layoutOptions={{ width: '8rem' }}
+          multiline
+          rows={3}
+          help={{
+            title: 'Hva betyr lånebeløp?',
+            content: 'Dette er hvor mye du har tenkt å låne totalt.',
+          }}
+          info="Info message"
+        />
+      </Card>
+    </ComponentBox>
+  )
+}
+
+export const InlineHelpButtonCompositionFields = () => {
+  return (
+    <ComponentBox data-visual-test="forms-field-block-help-button-composition-fields">
+      <Card stack>
+        <Field.Composition label="Field.Composition" width="large">
+          <Field.String
+            width="medium"
+            label="Label"
+            help={{
+              title: 'Hva betyr lånebeløp? ',
+              content: 'Dette er hvor mye du har tenkt å låne totalt.',
+            }}
+          />
+          <Field.String
+            width="stretch"
+            label="Label"
+            help={{
+              title: 'Hva betyr lånebeløp? ',
+              content: 'Dette er hvor mye du har tenkt å låne totalt.',
+            }}
+          />
+        </Field.Composition>
+        <Field.PostalCodeAndCity
+          help={{
+            title: 'Hva betyr lånebeløp? ',
+            content: 'Dette er hvor mye du har tenkt å låne totalt.',
+          }}
+        />
+        <Field.PhoneNumber
+          help={{
+            open: true,
+            title: 'Hva betyr lånebeløp? ',
+            content: 'Dette er hvor mye du har tenkt å låne totalt.',
+          }}
+        />
+      </Card>
     </ComponentBox>
   )
 }

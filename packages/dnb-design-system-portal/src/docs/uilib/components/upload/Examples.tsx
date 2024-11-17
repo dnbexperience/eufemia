@@ -12,6 +12,7 @@ import {
   Section,
   Upload,
 } from '@dnb/eufemia/src'
+import { UploadValue } from '@dnb/eufemia/src/extensions/forms/Field/Upload'
 
 export function createMockFile(name: string, size: number, type: string) {
   const file = new File([], name, { type })
@@ -32,6 +33,46 @@ const useMockFiles = (setFiles, extend) => {
       },
     ])
   }, [])
+}
+
+export async function mockAsyncFileUpload(
+  newFiles: UploadValue,
+): Promise<UploadValue> {
+  const promises = newFiles.map(async (file, index) => {
+    const formData = new FormData()
+    formData.append('file', file.file, file.file.name)
+
+    await new Promise((resolve) =>
+      setTimeout(resolve, Math.floor(Math.random() * 2000) + 1000),
+    )
+
+    const mockResponse = {
+      ok: (index + 2) % 2 === 0, // Every other request will fail
+      json: async () => ({
+        server_generated_id: `${file.file.name}_${crypto.randomUUID()}`,
+      }),
+    }
+
+    return await Promise.resolve(mockResponse)
+      .then((res) => {
+        if (res.ok) return res.json()
+        throw new Error('Unable to upload this file')
+      })
+      .then((data) => {
+        return {
+          ...file,
+          id: data.server_generated_id,
+        }
+      })
+      .catch((error) => {
+        return {
+          ...file,
+          errorMessage: error.message,
+        }
+      })
+  })
+
+  return await Promise.all(promises)
 }
 
 export const UploadPrefilledFileList = () => (

@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo } from 'react'
+import classnames from 'classnames'
 import FieldBlock, {
   Props as FieldBlockProps,
   FieldBlockWidth,
@@ -7,7 +8,7 @@ import {
   useFieldProps,
   useTranslation as useFormsTranslation,
 } from '../../hooks'
-import { FieldHelpProps, FieldProps } from '../../types'
+import { FieldProps } from '../../types'
 import Upload, {
   UploadFile,
   UploadFileNative,
@@ -15,14 +16,18 @@ import Upload, {
 } from '../../../../components/Upload'
 import useUpload from '../../../../components/upload/useUpload'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import { HelpButton } from '../../../../components'
+import HelpButtonInline, {
+  HelpButtonInlineContent,
+} from '../../../../components/help-button/HelpButtonInline'
 import { useTranslation as useSharedTranslation } from '../../../../shared'
 import { SpacingProps } from '../../../../shared/types'
 import { FormError } from '../../utils'
 
 export type UploadValue = Array<UploadFile | UploadFileNative>
-export type Props = FieldHelpProps &
-  Omit<FieldProps<UploadValue, UploadValue | undefined>, 'name'> &
+export type Props = Omit<
+  FieldProps<UploadValue, UploadValue | undefined>,
+  'name'
+> &
   SpacingProps & {
     width?: Omit<FieldBlockWidth, 'medium' | 'small'>
   } & Pick<
@@ -34,7 +39,9 @@ export type Props = FieldHelpProps &
     | 'fileMaxSize'
     | 'onFileDelete'
     | 'skeleton'
-  >
+  > & {
+    asyncFileHandler?: (newFiles: UploadValue) => Promise<UploadValue>
+  }
 
 const validateRequired = (
   value: UploadValue,
@@ -51,6 +58,13 @@ const validateRequired = (
   }
 
   return undefined
+}
+
+const updateFileLoadingState = (
+  files: UploadValue,
+  isLoading: boolean
+) => {
+  return files.map((file) => ({ ...file, isLoading }))
 }
 
 function UploadComponent(props: Props) {
@@ -82,6 +96,7 @@ function UploadComponent(props: Props) {
     handleChange,
     handleFocus,
     handleBlur,
+    asyncFileHandler,
     ...rest
   } = useFieldProps(preparedProps, {
     executeOnChangeRegardlessOfError: true,
@@ -98,20 +113,53 @@ function UploadComponent(props: Props) {
     onFileDelete,
   } = rest
 
-  const { setFiles } = useUpload(id)
+  const { files: fileContext, setFiles } = useUpload(id)
 
   useEffect(() => {
     setFiles(value)
   }, [setFiles, value])
+
+  const handleChangeAsync = useCallback(
+    async (files: UploadValue) => {
+      // Filter out existing files
+      const existingFileIds = fileContext?.map((file) => file.id) || []
+      const newFiles = files.filter(
+        (file) => !existingFileIds.includes(file.id)
+      )
+
+      if (newFiles.length > 0) {
+        // Set loading
+        setFiles([
+          ...fileContext,
+          ...updateFileLoadingState(newFiles, true),
+        ])
+
+        const uploadedFiles = updateFileLoadingState(
+          await asyncFileHandler(newFiles),
+          false
+        )
+
+        handleChange([...fileContext, ...uploadedFiles])
+      } else {
+        handleChange(files)
+      }
+    },
+    [fileContext, asyncFileHandler, setFiles, updateFileLoadingState]
+  )
 
   const changeHandler = useCallback(
     ({ files }: { files: UploadValue }) => {
       // Prevents the form-status from showing up
       handleBlur()
       handleFocus()
-      handleChange(files)
+
+      if (asyncFileHandler) {
+        handleChangeAsync(files)
+      } else {
+        handleChange(files)
+      }
     },
-    [handleBlur, handleChange, handleFocus]
+    [handleBlur, handleChange, handleFocus, asyncFileHandler, fileContext]
   )
 
   const width = widthProp as FieldBlockWidth
@@ -119,8 +167,9 @@ function UploadComponent(props: Props) {
     id,
     forId: `${id}-input`,
     labelSrOnly: true,
-    className,
+    className: classnames('dnb-forms-field-upload', className),
     width,
+    help: undefined,
     ...pickSpacingProps(props),
   }
 
@@ -139,19 +188,22 @@ function UploadComponent(props: Props) {
           help ? (
             <>
               {labelDescription ?? text}
-              <HelpButton
+              <HelpButtonInline
+                contentId={`${id}-help`}
                 left={text ? 'x-small' : false}
-                title={help.title}
-              >
-                {help.content}
-              </HelpButton>
+                help={help}
+              />
             </>
           ) : (
             labelDescription ?? text
           )
         }
         {...htmlAttributes}
-      />
+      >
+        {help && (
+          <HelpButtonInlineContent contentId={`${id}-help`} help={help} />
+        )}
+      </Upload>
     </FieldBlock>
   )
 }

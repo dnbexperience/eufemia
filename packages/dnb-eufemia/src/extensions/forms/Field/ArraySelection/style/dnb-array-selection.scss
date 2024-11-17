@@ -6,23 +6,23 @@
     --row-gap: var(--spacing-small);
   }
 
-  &--options-layout-vertical &__options {
+  &--options-layout--vertical &__options {
     display: flex;
     flex-flow: column;
     row-gap: var(--row-gap);
   }
-  &--options-layout-vertical#{&}--layout-horizontal {
+  &--options-layout--vertical#{&}--layout-horizontal {
     .dnb-forms-field-block__label {
       align-items: flex-start;
     }
   }
-  &--variant-button#{&}--options-layout-vertical#{&}--layout-horizontal {
+  &--variant-button#{&}--options-layout--vertical#{&}--layout-horizontal {
     .dnb-forms-field-block__label {
       line-height: 2.5rem;
     }
   }
 
-  &--options-layout-horizontal &__options {
+  &--options-layout--horizontal &__options {
     display: flex;
     flex-flow: row wrap;
     column-gap: var(--spacing-small);

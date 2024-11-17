@@ -1736,7 +1736,7 @@ describe('DataContext.Provider', () => {
 
       const input = document.querySelector('input')
       const indicator = document.querySelector(
-        'label .dnb-forms-submit-indicator'
+        '.dnb-forms-submit-indicator'
       )
 
       // Use fireEvent over userEvent, because of its sync nature
@@ -1744,7 +1744,6 @@ describe('DataContext.Provider', () => {
         target: { value: '123' },
       })
 
-      expect(indicator).toHaveTextContent('My label...')
       expect(indicator).toHaveClass(
         'dnb-forms-submit-indicator--state-pending'
       )
@@ -1770,7 +1769,7 @@ describe('DataContext.Provider', () => {
 
       const input = document.querySelector('input')
       const indicator = document.querySelector(
-        'label .dnb-forms-submit-indicator'
+        '.dnb-forms-submit-indicator'
       )
 
       // Use fireEvent over userEvent, because of its sync nature
@@ -1778,7 +1777,6 @@ describe('DataContext.Provider', () => {
         target: { value: '123' },
       })
 
-      expect(indicator).toHaveTextContent('My label...')
       expect(indicator).toHaveClass(
         'dnb-forms-submit-indicator--state-pending'
       )
@@ -2059,15 +2057,15 @@ describe('DataContext.Provider', () => {
       const events = []
 
       const validator = debounceAsync(async () => {
-        await wait(1)
+        await wait(101)
         events.push('validator')
       })
       const onChangeForm: OnChange = async () => {
-        await wait(2)
+        await wait(102)
         events.push('onChangeForm')
       }
       const onChangeField: OnChangeValue = async () => {
-        await wait(3)
+        await wait(103)
         events.push('onChangeField')
       }
 
@@ -2079,26 +2077,15 @@ describe('DataContext.Provider', () => {
             onChange={onChangeField}
             validator={validator}
           />
-          <Form.SubmitButton />
         </DataContext.Provider>
       )
 
       const input = document.querySelector('input')
       const indicator = document.querySelector(
-        'label .dnb-forms-submit-indicator'
+        '.dnb-forms-submit-indicator'
       )
 
-      // Use fireEvent over userEvent, because of its sync nature
-      fireEvent.change(input, {
-        target: { value: '123' },
-      })
-
-      await waitFor(() => {
-        expect(indicator).toHaveTextContent('My label...')
-        expect(indicator).toHaveClass(
-          'dnb-forms-submit-indicator--state-pending'
-        )
-      })
+      await userEvent.type(input, '123')
 
       await waitFor(() => {
         expect(events).toEqual(['validator'])

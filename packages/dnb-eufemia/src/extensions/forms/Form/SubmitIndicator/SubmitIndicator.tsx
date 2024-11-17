@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 import classnames from 'classnames'
 import { Icon, Space, Tooltip } from '../../../../components'
 import type { SpaceProps } from '../../../../components/Space'
@@ -35,11 +35,20 @@ function SubmitIndicator(props: Props) {
   const [willWrap, setWillWrap] = useState(false)
   const key = useMemo(() => convertJsxToString(children), [children])
 
+  const recalculate = useCallback(() => {
+    setWillWrap(willWordWrap(childrenRef.current, '. . . '))
+  }, [childrenRef])
+
   useLayoutEffect(() => {
-    if (children && state) {
-      setWillWrap(willWordWrap(childrenRef.current, '. . . '))
+    if (key) {
+      recalculate()
+
+      window.addEventListener('resize', recalculate)
+      return () => {
+        window.removeEventListener('resize', recalculate)
+      }
     }
-  }, [children, state])
+  }, [key, recalculate])
 
   const params = {
     className: classnames(
@@ -58,7 +67,9 @@ function SubmitIndicator(props: Props) {
           'aria-busy': true,
           'aria-label': translation.ProgressIndicator.indicator_label,
         }
-      : {}
+      : {
+          'aria-hidden': true,
+        }
 
   const dot = <b>.</b>
   const indicator = (
@@ -107,9 +118,14 @@ function willWordWrap(element: HTMLElement, word: string) {
 
   const { offsetHeight, innerHTML } = element
 
-  element.innerHTML += word
-  const height = element.offsetHeight
-  element.innerHTML = innerHTML
+  const clone = element.cloneNode(true) as HTMLElement
+  element.parentElement?.insertBefore(clone, element)
+
+  clone.innerHTML += word
+  const height = clone.offsetHeight
+  clone.innerHTML = innerHTML
+
+  clone.remove()
 
   return height > offsetHeight
 }

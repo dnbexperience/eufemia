@@ -1,8 +1,10 @@
-.dnb-card {
+:root {
   --card-outline-color: var(--border-color, var(--color-lavender));
   --card-outline-width: 0.25rem;
   --card-background-color: var(--color-white);
+}
 
+.dnb-card {
   // Nested Cards
   & .dnb-card {
     --card-outline-color: var(--color-black-8);

@@ -1,7 +1,11 @@
 import { Flex } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
-import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
-import { createMockFile } from '../../../../../../../docs/uilib/components/upload/Examples'
+import { Field, Form, Tools } from '@dnb/eufemia/src/extensions/forms'
+import {
+  createMockFile,
+  mockAsyncFileUpload,
+} from '../../../../../../../docs/uilib/components/upload/Examples'
+import useUpload from '@dnb/eufemia/src/components/upload/useUpload'
 
 export const BasicUsage = () => {
   return (
@@ -75,6 +79,39 @@ export const WithPath = () => {
       >
         <Field.Upload path="/myFiles" />
       </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const WithAsyncFileHandler = () => {
+  return (
+    <ComponentBox scope={{ mockAsyncFileUpload, useUpload, Tools }}>
+      {() => {
+        const MyForm = () => {
+          return (
+            <Form.Handler onSubmit={async (form) => console.log(form)}>
+              <Flex.Stack>
+                <Field.Upload
+                  id="async_upload_context_id"
+                  path="/attachments"
+                  labelDescription="Upload multiple files at once to see the upload error message. This demo has been set up so that every other file in a batch will fail."
+                  asyncFileHandler={mockAsyncFileUpload}
+                  required
+                />
+                <Form.SubmitButton />
+              </Flex.Stack>
+              <Output />
+            </Form.Handler>
+          )
+        }
+
+        const Output = () => {
+          const { files } = useUpload('async_upload_context_id')
+          return <Tools.Log data={files} top />
+        }
+
+        return <MyForm />
+      }}
     </ComponentBox>
   )
 }

@@ -31,11 +31,6 @@ const {
 // `range`, `showInput`, `showCancelButton` and `showResetButton` inherit from `DatePickerProperties`
 // Since they require `Field.Date` specific documentation, due to them having different default values
 export const DateProperties: PropertiesTableProps = {
-  help: {
-    doc: 'Provide a help button. Object consisting of `title` and `content`.',
-    type: 'object',
-    status: 'optional',
-  },
   range: {
     ...range,
     doc:
