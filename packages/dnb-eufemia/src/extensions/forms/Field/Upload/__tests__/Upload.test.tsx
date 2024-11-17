@@ -7,6 +7,7 @@ import { createMockFile } from '../../../../../components/upload/__tests__/testH
 import nbNOForms from '../../../constants/locales/nb-NO'
 import nbNOShared from '../../../../../shared/locales/nb-NO'
 import userEvent from '@testing-library/user-event'
+import { UploadValue } from '../Upload'
 
 const nbForms = nbNOForms['nb-NO']
 const nbShared = nbNOShared['nb-NO']
@@ -902,6 +903,129 @@ describe('Field.Upload', () => {
           '.dnb-forms-field-block__status .dnb-form-status'
         )
       ).toHaveTextContent(nbForms.Upload.errorRequired)
+    })
+
+    it('should handle displaying error from asyncFileHandler', async () => {
+      const file = createMockFile('fileName-1.png', 100, 'image/png')
+
+      const asyncValidatorResolvingWithErrorMessage = () =>
+        new Promise<UploadValue>((resolve) =>
+          setTimeout(
+            () =>
+              resolve([
+                {
+                  file,
+                  id: 'internal-id',
+                  exists: false,
+                  errorMessage: 'customError',
+                },
+              ]),
+            1
+          )
+        )
+
+      const asyncFileHandlerFnError = jest.fn(
+        asyncValidatorResolvingWithErrorMessage
+      )
+
+      render(<Field.Upload asyncFileHandler={asyncFileHandlerFnError} />)
+
+      const element = getRootElement()
+
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [file],
+          },
+        })
+      )
+
+      await waitFor(() => {
+        // Wait for since it's processed asynchronously
+        expect(asyncFileHandlerFnError).toHaveBeenCalledTimes(1)
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('customError')
+      })
+    })
+
+    it('should handle displaying success from asyncFileHandler', async () => {
+      const file = createMockFile('fileName-1.png', 100, 'image/png')
+
+      const asyncValidatorResolvingWithSuccess = () =>
+        new Promise<UploadValue>((resolve) =>
+          setTimeout(
+            () =>
+              resolve([
+                {
+                  file,
+                  id: 'server_generated_id',
+                  exists: false,
+                },
+              ]),
+            1
+          )
+        )
+
+      const asyncFileHandlerFnSuccess = jest.fn(
+        asyncValidatorResolvingWithSuccess
+      )
+
+      render(<Field.Upload asyncFileHandler={asyncFileHandlerFnSuccess} />)
+
+      const element = getRootElement()
+
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [file],
+          },
+        })
+      )
+
+      await waitFor(() => {
+        // Wait for since it's processed asynchronously
+        expect(asyncFileHandlerFnSuccess).toHaveBeenCalledTimes(1)
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
+    })
+
+    it('should display spinner when loading asyncFileHandler', async () => {
+      const file = createMockFile('fileName-1.png', 100, 'image/png')
+
+      const asyncValidatorResolvingWithSuccess = () =>
+        new Promise<UploadValue>(() => jest.fn())
+
+      render(
+        <Field.Upload
+          asyncFileHandler={asyncValidatorResolvingWithSuccess}
+        />
+      )
+
+      const element = getRootElement()
+
+      expect(
+        screen.queryByText(nbShared.Upload.loadingText)
+      ).not.toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-progress-indicator')
+      ).not.toBeInTheDocument()
+
+      await waitFor(() => {
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [file],
+          },
+        })
+        expect(
+          screen.getByText(nbShared.Upload.loadingText)
+        ).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-progress-indicator')
+        ).toBeInTheDocument()
+      })
     })
   })
 })
