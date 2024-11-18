@@ -4408,6 +4408,10 @@ describe('useFieldProps', () => {
           </Form.Handler>
         )
 
+        expect(
+          document.querySelector('.dnb-forms-submit-indicator')
+        ).toHaveClass('dnb-forms-submit-indicator--state-pending')
+
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
         })
@@ -4581,7 +4585,7 @@ describe('useFieldProps', () => {
       })
 
       describe('validateInitially', () => {
-        it('should not show error message initially', async () => {
+        it('should show error message initially', async () => {
           const validator = jest.fn(validatorFn)
 
           render(
@@ -4597,7 +4601,9 @@ describe('useFieldProps', () => {
             </Form.Handler>
           )
 
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+          })
         })
 
         it('should not show error message while typing', async () => {
@@ -4620,7 +4626,7 @@ describe('useFieldProps', () => {
             document.querySelectorAll('input')
           )
 
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
 
           await userEvent.type(inputWithRefValue, '{Backspace}')
 
@@ -4680,9 +4686,7 @@ describe('useFieldProps', () => {
 
           await userEvent.type(inputWithRefValue, '3')
 
-          await waitFor(() => {
-            expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-          })
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
         })
       })
 
