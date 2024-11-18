@@ -290,6 +290,11 @@ export type MessageTypes<Value> =
   | UseFieldProps<Value>['warning']
   | UseFieldProps<Value>['error']
 
+export type ConnectorProps<Value = unknown> = Pick<
+  UseFieldProps<Value>,
+  'onChange' | 'onBlurValidator'
+>
+
 export interface UseFieldProps<
   Value = unknown,
   EmptyValue = undefined | unknown,
@@ -432,6 +437,8 @@ export interface UseFieldProps<
    * For internal use only.
    */
   valueType?: string | number | boolean | Array<string | number | boolean>
+
+  connector?: ConnectorProps<Value>
 }
 
 export type FieldProps<
