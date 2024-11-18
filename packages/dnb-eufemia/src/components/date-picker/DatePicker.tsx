@@ -8,6 +8,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react'
@@ -56,11 +57,6 @@ import { DatePickerContextValues, DateType } from './DatePickerContext'
 import { DatePickerDates } from './hooks/useDates'
 import { useTranslation } from '../../shared'
 import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
-import {
-  TranslationsEnGB,
-  TranslationsEnUS,
-  TranslationsNbNO,
-} from '../../shared/locales'
 
 export type DatePickerEventAttributes = {
   day?: string
@@ -546,11 +542,6 @@ export type DatePickerAllProps = DatePickerProps &
     | 'start'
   >
 
-// Added to prevent type errors when destructuring the translations from props
-type DatePickerTranslations = Partial<TranslationsNbNO['DatePicker']> &
-  Partial<TranslationsEnGB['DatePicker']> &
-  Partial<TranslationsEnUS['DatePicker']>
-
 const defaultProps: DatePickerProps = {
   maskOrder: 'dd/mm/yyyy',
   maskPlaceholder: 'dd/mm/åååå', // have to be same setup as "mask" - but can be like
@@ -851,53 +842,10 @@ function DatePicker(externalProps: DatePickerAllProps) {
     ...restProps
   } = extendedProps
 
-  let attributes = null
-
-  {
-    const {
-      locale,
-      id,
-      month,
-      date,
-      startDate,
-      endDate,
-      minDate,
-      maxDate,
-      enableKeyboardNav,
-      hideNavigation,
-      returnFormat,
-      dateFormat,
-      hideDays,
-      correctInvalidDate,
-      opened,
-      direction,
-      range,
-      showInput,
-      noAnimation,
-      onDaysRender,
-      onShow,
-      onType,
-      onHide,
-      showSubmitButton,
-      showCancelButton,
-      // These translations needs to be filtered out here, since the validateDOMAttributes
-      // is unable to filter out the translation props after they have been camelCased
-      selectedDate,
-      selectedMonth,
-      selectedYear,
-      nextMonth,
-      nextYear,
-      openPickerText,
-      placeholderCharacters,
-      prevMonth,
-      prevYear,
-      endMonth,
-      startMonth,
-
-      ...rest
-    } = restProps as DatePickerAllProps & DatePickerTranslations
-    attributes = rest
-  }
+  const attributes = useMemo(
+    () => filterOutNonAttributes(restProps),
+    [restProps]
+  )
 
   const shouldHideDays = onlyMonth ? true : hideDays
   const shouldHideNavigation = onlyMonth
@@ -1084,6 +1032,55 @@ function DatePicker(externalProps: DatePickerAllProps) {
       </span>
     </DatePickerProvider>
   )
+}
+
+const NonAttributes = [
+  'locale',
+  'id',
+  'month',
+  'date',
+  'startDate',
+  'endDate',
+  'minDate',
+  'maxDate',
+  'enableKeyboardNav',
+  'hideNavigation',
+  'returnFormat',
+  'dateFormat',
+  'hideDays',
+  'correctInvalidDate',
+  'opened',
+  'direction',
+  'range',
+  'showInput',
+  'noAnimation',
+  'onDaysRender',
+  'onShow',
+  'onType',
+  'onHide',
+  'showSubmitButton',
+  'showCancelButton',
+  'selectedDate',
+  'selectedMonth',
+  'selectedYear',
+  'nextMonth',
+  'nextYear',
+  'openPickerText',
+  'placeholderCharacters',
+  'prevMonth',
+  'prevYear',
+  'endMonth',
+  'startMonth',
+  'alignPicker',
+]
+
+function filterOutNonAttributes(props: DatePickerProps) {
+  return Object.keys(props).reduce((attributes, key) => {
+    if (!NonAttributes.includes(key)) {
+      attributes[key] = props[key]
+    }
+    return attributes
+  }, {})
 }
 
 export default DatePicker

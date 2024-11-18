@@ -8,9 +8,14 @@ import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import SharedContext from '../../../../shared/Context'
 import { parseISO, isValid } from 'date-fns'
 import useTranslation from '../../hooks/useTranslation'
-import { DatePickerEvent } from '../../../../components/DatePicker'
 import { formatDate } from '../../Value/Date'
+import {
+  DatePickerEvent,
+  DatePickerProps,
+} from '../../../../components/DatePicker'
 
+// `range`, `showInput`, `showCancelButton` and `showResetButton` are not picked from the `DatePickerProps`
+// Since they require `Field.Date` specific comments, due to them having different default values
 export type Props = FieldProps<string, undefined | string> & {
   // Validation
   pattern?: string
@@ -19,8 +24,57 @@ export type Props = FieldProps<string, undefined | string> & {
    * The value needs to be a string containing two dates, separated by a pipe character (`|`) i.e. (`01-09-2024|30-09-2024`) when this is set to `true`.
    * Defaults to `false`.
    */
-  range?: boolean
-}
+  range?: DatePickerProps['range']
+  /**
+   * If the input fields with the mask should be visible. Defaults to `true`.
+   */
+  showInput?: DatePickerProps['showInput']
+
+  /**
+   * If set to `true`, a cancel button will be shown. You can change the default text by using `cancel_button_text="Avbryt"` Defaults to `true`. If the `range` prop is `true`, then the cancel button is shown.
+   */
+  showCancelButton?: DatePickerProps['showCancelButton']
+  /**
+   * If set to `true`, a reset button will be shown. You can change the default text by using `reset_button_text="Tilbakestill"` Defaults to `true`.
+   */
+  showResetButton?: DatePickerProps['showResetButton']
+} & Pick<
+    DatePickerProps,
+    | 'month'
+    | 'startMonth'
+    | 'endMonth'
+    | 'minDate'
+    | 'maxDate'
+    | 'correctInvalidDate'
+    | 'maskOrder'
+    | 'maskPlaceholder'
+    | 'dateFormat'
+    | 'returnFormat'
+    | 'hideNavigation'
+    | 'hideDays'
+    | 'onlyMonth'
+    | 'hideLastWeek'
+    | 'disableAutofocus'
+    | 'showSubmitButton'
+    | 'submitButtonText'
+    | 'cancelButtonText'
+    | 'resetButtonText'
+    | 'firstDay'
+    | 'link'
+    | 'sync'
+    | 'addonElement'
+    | 'shortcuts'
+    | 'opened'
+    | 'direction'
+    | 'alignPicker'
+    | 'onDaysRender'
+    | 'onType'
+    | 'onShow'
+    | 'onHide'
+    | 'onSubmit'
+    | 'onCancel'
+    | 'onReset'
+  >
 
 function DateComponent(props: Props) {
   const translations = useTranslation()
@@ -82,7 +136,14 @@ function DateComponent(props: Props) {
     handleChange,
     setDisplayValue,
     range,
+    showCancelButton = true,
+    showResetButton = true,
+    showInput = true,
+    onReset,
+    ...rest
   } = useFieldProps(preparedProps)
+
+  const datePickerProps = pickDatePickerProps(rest)
 
   const { value, startDate, endDate } = useMemo(() => {
     if (!range || !valueProp) {
@@ -101,10 +162,10 @@ function DateComponent(props: Props) {
   }, [range, valueProp])
 
   useMemo(() => {
-    if (path && value) {
-      setDisplayValue(path, formatDate(value, { locale }))
+    if (path && valueProp) {
+      setDisplayValue(path, formatDate(valueProp, { locale }))
     }
-  }, [locale, path, setDisplayValue, value])
+  }, [locale, path, setDisplayValue, valueProp])
 
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
@@ -119,21 +180,81 @@ function DateComponent(props: Props) {
         id={id}
         date={value}
         disabled={disabled}
-        show_input={true}
-        show_cancel_button={true}
-        show_reset_button={true}
-        start_date={startDate}
-        end_date={endDate}
+        showInput={showInput}
+        showCancelButton={showCancelButton}
+        showResetButton={showResetButton}
+        startDate={startDate}
+        endDate={endDate}
         status={hasError ? 'error' : undefined}
         range={range}
-        on_change={handleChange}
-        on_reset={handleChange}
+        onChange={handleChange}
+        onReset={(event) => {
+          handleChange(event)
+          onReset?.(event)
+        }}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        {...datePickerProps}
         {...htmlAttributes}
       />
     </FieldBlock>
   )
+}
+
+// Used to filter out DatePickerProps from the FieldProps.
+// Includes DatePickerProps that are not destructured in useFieldProps
+const datePickerPropKeys = [
+  'month',
+  'startMonth',
+  'endMonth',
+  'minDate',
+  'maxDate',
+  'correctInvalidDate',
+  'maskOrder',
+  'maskPlaceholder',
+  'dateFormat',
+  'returnFormat',
+  'hideNavigation',
+  'hideDays',
+  'onlyMonth',
+  'hideLastWeek',
+  'disableAutofocus',
+  'showSubmitButton',
+  'submitButtonText',
+  'cancelButtonText',
+  'resetButtonText',
+  'firstDay',
+  'link',
+  'sync',
+  'addonElement',
+  'shortcuts',
+  'opened',
+  'direction',
+  'alignPicker',
+  'onDaysRender',
+  'showInput',
+  'onDaysRender',
+  'onType',
+  'onShow',
+  'onHide',
+  'onSubmit',
+  'onCancel',
+  'onReset',
+]
+
+function pickDatePickerProps(props: Props) {
+  const datePickerProps = Object.keys(props).reduce(
+    (datePickerProps, key) => {
+      if (datePickerPropKeys.includes(key)) {
+        datePickerProps[key] = props[key]
+      }
+
+      return datePickerProps
+    },
+    {}
+  )
+
+  return datePickerProps
 }
 
 DateComponent._supportsSpacingProps = true
