@@ -34,13 +34,14 @@ function P(props: PProps) {
   const {
     remainingModifiers,
     element = 'p',
+    className,
     ...rest
   } = handleDeprecatedProps(props)
 
   const paragraphContext = useContext(ParagraphContext)
 
-  const modifierClasses = remainingModifiers.reduce((acc, cur) => {
-    // only .dnb-p--lead or .dnb-p--bold remain as supported modifiers
+  const modifierString = remainingModifiers.reduce((acc, cur) => {
+    // only .dnb-p--lead remain as supported modifiers
     return `${acc} dnb-p--${cur}`
   }, '')
 
@@ -50,7 +51,7 @@ function P(props: PProps) {
         element={
           element === 'p' && paragraphContext?.isNested ? 'span' : element
         }
-        className={classnames('dnb-p', modifierClasses)}
+        className={classnames('dnb-p', modifierString, className)}
         {...rest}
       />
     </ParagraphContext.Provider>

@@ -45,6 +45,17 @@ describe('P element', () => {
     expect(element.tagName).toBe('STRONG')
   })
 
+  it('can set className', () => {
+    render(<P className="my-class" modifier="my-modifier" />)
+    const element = document.querySelector('.dnb-p')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-p',
+      'dnb-p--my-modifier',
+      'my-class',
+    ])
+  })
+
   it('has correct size when size is defined', () => {
     render(<P size="large" />)
     const element = document.querySelector('.dnb-t__size--large')

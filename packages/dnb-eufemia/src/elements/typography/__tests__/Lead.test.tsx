@@ -9,7 +9,7 @@ describe('Lead', () => {
       '.dnb-p--lead'
     ) as HTMLParagraphElement
 
-    expect(Array.from(element.classList)).toEqual(['dnb-p--lead', 'dnb-p'])
+    expect(Array.from(element.classList)).toEqual(['dnb-p', 'dnb-p--lead'])
   })
 
   it('should forward HTML attributes', () => {
@@ -47,9 +47,9 @@ describe('Lead', () => {
     ) as HTMLParagraphElement
 
     expect(Array.from(element.classList)).toEqual([
+      'dnb-p',
       'dnb-p--lead',
       'custom-class',
-      'dnb-p',
     ])
   })
 
