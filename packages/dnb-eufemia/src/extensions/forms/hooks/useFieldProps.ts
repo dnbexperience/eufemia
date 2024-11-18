@@ -488,7 +488,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
    * Prepare error from validation logic with correct error messages based on props
    */
   const prepareError = useCallback(
-    (error: Error | FormError | undefined): FormError | undefined => {
+    (error: FieldPropsGeneric<Value>['error']): FormError | undefined => {
       if (error instanceof FormError) {
         const prepare = (error: FormError) => {
           let message = error.message
@@ -541,7 +541,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         return prepare(error)
       }
 
-      return error
+      return error as FormError
     },
     [getErrorMessages, formatMessage]
   )
@@ -1397,7 +1397,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         } else {
           await setEventResult(null)
         }
-      } else {
+      } else if (onChangeContext || !asyncBehaviorIsEnabled) {
         setEventResult(
           handlePathChangeDataContext?.(
             identifier
@@ -1575,6 +1575,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           eventName: 'onChange',
           additionalArgs,
         })
+
         setEventResult(onChange?.apply(this, args))
       }
 
@@ -2152,6 +2153,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
   }
 
+  const help = props.help
+  if (help?.title || help?.content) {
+    htmlAttributes['aria-describedby'] = combineDescribedBy(
+      htmlAttributes,
+      `${id}-help`
+    )
+  }
+
   const fieldBlockProps = {
     /** Documented APIs */
     info: !inFieldBlock ? infoRef.current : undefined,
@@ -2163,6 +2172,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     labelSuffix: props.labelSuffix,
     layout: props.layout,
     layoutOptions: props.layoutOptions,
+    help: props.help,
 
     /** HTML Attributes */
     disabled:
@@ -2249,4 +2259,16 @@ export interface ReturnAdditional<Value> {
 
 function resolveValidatingState(state: SubmitStateWithValidating) {
   return state === 'validating' ? 'pending' : state
+}
+
+export function checkForError(
+  potentialErrors: Array<
+    | FieldPropsGeneric['error']
+    | FieldPropsGeneric['warning']
+    | FieldPropsGeneric['info']
+  >
+) {
+  return potentialErrors.some((error) => {
+    return error instanceof Error || error instanceof FormError
+  })
 }

@@ -1,4 +1,5 @@
 import { PropertiesTableProps } from '../../../../shared/types'
+import { FieldProperties } from '../FieldDocs'
 
 export const PostalCodeAndCityProperties: PropertiesTableProps = {
   country: {
@@ -20,9 +21,5 @@ export const PostalCodeAndCityProperties: PropertiesTableProps = {
     type: 'object',
     status: 'required',
   },
-  help: {
-    doc: 'Provide a help button. Object consisting of `title` and `content`.',
-    type: 'object',
-    status: 'optional',
-  },
+  help: FieldProperties.help,
 }

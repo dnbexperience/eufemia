@@ -192,30 +192,28 @@ function mapDates(
   const endDate = !isRange
     ? startDate
     : convertStringToDate(dateProps?.endDate, {
-        date_format: dateFormat,
+        dateFormat,
       }) || undefined
 
   // Ensure that the calendar view displays the correct start and end months, and to prevent date flickering bug
   const startMonth =
     convertStringToDate(dateProps.startMonth, {
-      date_format: dateFormat,
+      dateFormat,
     }) ??
     startDate ??
     new Date()
 
   const endMonth =
     convertStringToDate(dateProps.endMonth, {
-      date_format: dateFormat,
-    }) ?? !isRange
-      ? startMonth
-      : endDate ?? addMonths(startMonth, 1)
+      dateFormat: dateFormat,
+    }) ?? (isRange ? endDate ?? addMonths(startMonth, 1) : startMonth)
 
   const minDate = convertStringToDate(dateProps.minDate, {
-    date_format: dateFormat,
+    dateFormat,
   })
 
   const maxDate = convertStringToDate(dateProps.maxDate, {
-    date_format: dateFormat,
+    dateFormat,
   })
 
   const hasValidStartDate = isValid(startDate)
@@ -274,7 +272,7 @@ function correctDates({
   }
   if (isDisabled(endDate, minDate, maxDate)) {
     // state.endDate is only used by the input if range is set to true.
-    // this is done to make max_date correction work if the input is not a range and only max_date is defined.
+    // this is done to make maxDate correction work if the input is not a range and only maxDate is defined.
     if (!isRange && !minDate) {
       correctedDates['startDate'] = maxDate
     } else {
@@ -307,7 +305,7 @@ function getDate(date: DateType, dateFormat: string) {
   return date instanceof Date
     ? date
     : convertStringToDate(date ?? '', {
-        date_format: dateFormat,
+        dateFormat,
       })
 }
 

@@ -153,19 +153,26 @@ export const CreateComposedFieldComponent = () => {
     >
       {() => {
         const MyComposedField = (props) => {
-          const birthYear = useFieldProps({
+          const {
+            id,
+            value,
+            hasError,
+            handleChange,
+            handleFocus,
+            handleBlur,
+          } = useFieldProps({
             path: '/birthYear',
           })
 
           const handleBirthYearChange = React.useCallback(
             (sliderData) => {
-              birthYear.handleChange(sliderData.value)
+              handleChange(sliderData.value)
             },
-            [birthYear],
+            [handleChange],
           )
 
           return (
-            <FieldBlock label={props.label ?? 'Name and age'}>
+            <FieldBlock id={id} label={props.label ?? 'Name and age'}>
               <Flex.Horizontal>
                 <Field.Name.First
                   path="/firstName"
@@ -184,11 +191,11 @@ export const CreateComposedFieldComponent = () => {
                     step={1}
                     label="Birth year"
                     label_direction="vertical"
-                    value={parseFloat(String(birthYear.value))}
+                    value={parseFloat(String(value))}
                     on_change={handleBirthYearChange}
-                    on_drag_start={birthYear.handleFocus}
-                    on_drag_end={birthYear.handleBlur}
-                    status={birthYear.error?.message}
+                    on_drag_start={handleFocus}
+                    on_drag_end={handleBlur}
+                    status={hasError}
                     tooltip
                   />
                 </FieldBlock>

@@ -6,6 +6,7 @@
 import React, { useCallback, useContext } from 'react'
 import type {
   DatePickerEventAttributes,
+  DatePickerAllProps,
   DatePickerProps,
 } from './DatePicker'
 
@@ -24,7 +25,7 @@ import useLastEventCallCache, {
   LastEventCallCache,
 } from './hooks/useLastEventCallCache'
 
-type DatePickerProviderProps = DatePickerProps & {
+type DatePickerProviderProps = DatePickerAllProps & {
   setReturnObject: (
     func: DatePickerContextValues['getReturnObject']
   ) => DatePickerContextValues['getReturnObject']
@@ -42,6 +43,8 @@ export type DatePickerChangeEvent<E> = DatePickerDates & {
 export type GetReturnObjectParams<E> = DatePickerDates & {
   event?: E
 }
+
+// TODO: convert properties on event handler return objects to camelCase, constitutes a breaking change
 export type ReturnObject<E> = {
   event?: E
   attributes?: Record<string, unknown>
@@ -60,8 +63,8 @@ export type DatePickerProviderState = DatePickerDates &
   Array<CalendarView> &
   LastEventCallCache
 
-const defaultProps = {
-  return_format: 'yyyy-MM-dd', // used in date-fns v1: YYYY-MM-DD
+const defaultProps: Partial<DatePickerProps> = {
+  returnFormat: 'yyyy-MM-dd', // used in date-fns v1: YYYY-MM-DD
 }
 
 function DatePickerProvider(externalProps: DatePickerProviderProps) {
@@ -69,19 +72,19 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
 
   const {
     date,
-    start_date,
-    end_date,
-    start_month,
-    end_month,
-    min_date,
-    max_date,
-    date_format,
+    startDate,
+    endDate,
+    startMonth,
+    endMonth,
+    minDate,
+    maxDate,
+    dateFormat,
     range,
-    correct_invalid_date,
+    correctInvalidDate,
     attributes,
-    return_format,
+    returnFormat: returnFormatProp,
     children,
-    on_change,
+    onChange,
     setReturnObject,
     hidePicker,
   } = props
@@ -90,18 +93,18 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
 
   const { dates, updateDates, hasHadValidDate, previousDates } = useDates(
     {
-      date: date,
-      startDate: start_date,
-      endDate: end_date,
-      startMonth: start_month,
-      endMonth: end_month,
-      minDate: min_date,
-      maxDate: max_date,
+      date,
+      startDate,
+      endDate,
+      startMonth,
+      endMonth,
+      minDate,
+      maxDate,
     },
     {
-      dateFormat: date_format,
+      dateFormat: dateFormat,
       isRange: range,
-      shouldCorrectDate: correct_invalid_date,
+      shouldCorrectDate: correctInvalidDate,
     }
   )
 
@@ -125,10 +128,10 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
         ...rest,
       }
 
-      const returnFormat = correctV1Format(return_format)
+      const returnFormat = correctV1Format(returnFormatProp)
       const startDateIsValid = Boolean(startDate && isValid(startDate))
       const endDateIsValid = Boolean(endDate && isValid(endDate))
-      const hasMinOrMaxDates = min_date || max_date
+      const hasMinOrMaxDates = minDate || maxDate
 
       const returnObject: ReturnObject<E> = {
         event,
@@ -175,7 +178,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
             : startDateIsValid,
       }
     },
-    [dates, views, attributes, max_date, min_date, range, return_format]
+    [dates, views, attributes, maxDate, minDate, range, returnFormatProp]
   )
 
   const callOnChangeHandler = useCallback(
@@ -191,7 +194,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
         return // stop here
       }
 
-      on_change?.(getReturnObject({ ...dates, ...event }))
+      onChange?.(getReturnObject({ ...dates, ...event }))
 
       setLastEventCallCache({
         startDate: event.startDate,
@@ -201,7 +204,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
     [
       getReturnObject,
       dates,
-      on_change,
+      onChange,
       lastEventCallCache,
       setLastEventCallCache,
     ]

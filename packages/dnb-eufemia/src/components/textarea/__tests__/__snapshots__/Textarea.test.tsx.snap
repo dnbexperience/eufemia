@@ -401,7 +401,7 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
   background-color: var(--color-mint-green);
   text-shadow: none;
 }
-.dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):focus ~ .dnb-textarea__state, .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state {
+.dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):focus ~ .dnb-textarea__state, .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):not(.no-hover):hover ~ .dnb-textarea__state {
   --textarea-border-color: var(--textarea-border-color--hover);
   --textarea-border-width: var(--textarea-border-width--hover);
   --textarea-border-inset: ;

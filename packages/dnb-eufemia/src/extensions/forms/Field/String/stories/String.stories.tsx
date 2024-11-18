@@ -20,6 +20,16 @@ export const String = () => {
 
       <Field.String label="Label" width="large" />
       <Field.String label="Label" multiline width="large" />
+
+      <Field.String
+        label="Label"
+        error={[
+          new Error('Error message A'),
+          new Error('Error message B'),
+        ]}
+        warning={['Warning message A', 'Warning message B']}
+        info={['Info message A', 'Info message B']}
+      />
     </Flex.Stack>
   )
 }
@@ -34,7 +44,7 @@ export const Transform = () => {
   return (
     <Form.Handler onChange={console.log}>
       <Field.String
-        label="Label"
+        label="Ønsket lånebeløp"
         path="/myField"
         transformIn={transformIn}
         transformOut={transformOut}
@@ -57,7 +67,7 @@ export const TransformInOnFormHandler = () => {
         myPath: '',
       }}
     >
-      <Field.String label="Label" path="/myPath" />
+      <Field.String label="Ønsket lånebeløp" path="/myPath" />
       <Tools.Log />
     </Form.Handler>
   )

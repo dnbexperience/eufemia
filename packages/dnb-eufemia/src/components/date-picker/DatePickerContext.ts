@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { DatePickerProps, DisplayPickerEvent } from './DatePicker'
+import { DatePickerAllProps, DisplayPickerEvent } from './DatePicker'
 import { ContextProps } from '../../shared/Context'
 import {
   DatePickerChangeEvent,
@@ -19,7 +19,7 @@ export type DateType = Date | string
 
 export type DatePickerContextValues = ContextProps &
   DatePickerDates & {
-    props: DatePickerProps
+    props: DatePickerAllProps
     translation: ContextProps['translation']
     views: Array<CalendarView>
     hasHadValidDate: boolean

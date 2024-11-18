@@ -72,6 +72,15 @@ export const WithStatus = () => {
           width="small"
           warning="Aliqua eu aute id qui esse aliqua dolor in aute magna commodo anim enim et. Velit incididunt exercitation est magna ex irure dolore nisi eiusmod ea exercitation."
         />
+        <Field.String
+          label="Label text"
+          error={[
+            new Error('Error message A'),
+            new Error('Error message B'),
+          ]}
+          warning={['Warning message A', 'Warning message B']}
+          info={['Info message A', 'Info message B']}
+        />
       </Card>
     </ComponentBox>
   )

@@ -21,11 +21,6 @@ export const SelectionProperties: PropertiesTableProps = {
     type: ['string', 'false'],
     status: 'optional',
   },
-  help: {
-    doc: 'Provide a help button. Object consisting of `title` and `content`.',
-    type: 'object',
-    status: 'optional',
-  },
   data: {
     doc: 'Data to be used for the component. The object needs to have a `value` and a `title` property. Provide the Dropdown or Autocomplete data in the format documented here: [Dropdown](/uilib/components/dropdown) and [Autocomplete](/uilib/components/autocomplete) documentation.',
     type: 'array',
@@ -47,7 +42,7 @@ export const SelectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   children: {
-    doc: 'For providing Option components.',
+    doc: 'For providing Option components, and other children.',
     type: 'React.Node',
     status: 'optional',
   },

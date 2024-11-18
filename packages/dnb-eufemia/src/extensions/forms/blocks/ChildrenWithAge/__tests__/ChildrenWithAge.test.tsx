@@ -101,9 +101,9 @@ describe('ChildrenWithAge', () => {
 
     await userEvent.click(document.querySelector('button'))
 
-    const countChildrenFieldBlock = screen.queryByText(
-      translationsNO.ChildrenWithAge.countChildren.fieldLabel
-    ).parentElement.parentElement.parentElement
+    const countChildrenFieldBlock = screen
+      .queryByText(translationsNO.ChildrenWithAge.countChildren.fieldLabel)
+      .closest('.dnb-forms-field-block') as HTMLElement
 
     expect(
       within(countChildrenFieldBlock).getByTitle('Reduser (0)')
@@ -122,12 +122,14 @@ describe('ChildrenWithAge', () => {
     await userEvent.click(document.querySelector('button'))
     await userEvent.type(document.querySelector('input'), '1')
 
-    const childrenAgeFieldBlock = screen.queryByText(
-      translationsNO.ChildrenWithAge.childrenAge.fieldLabel.replace(
-        '{itemNo}',
-        '1'
+    const childrenAgeFieldBlock = screen
+      .queryByText(
+        translationsNO.ChildrenWithAge.childrenAge.fieldLabel.replace(
+          '{itemNo}',
+          '1'
+        )
       )
-    ).parentElement.parentElement.parentElement
+      .closest('.dnb-forms-field-block') as HTMLElement
 
     expect(
       within(childrenAgeFieldBlock).queryByRole('Reduser')

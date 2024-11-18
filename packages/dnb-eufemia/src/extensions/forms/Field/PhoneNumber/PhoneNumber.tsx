@@ -16,7 +16,6 @@ import StringField, { Props as StringFieldProps } from '../String'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import {
-  FieldHelpProps,
   FieldPropsWithExtraValue,
   AllJSONSchemaVersions,
 } from '../../types'
@@ -30,43 +29,42 @@ import {
 import useTranslation from '../../hooks/useTranslation'
 import { DrawerListDataObject } from '../../../../fragments/DrawerList'
 
-export type Props = FieldHelpProps &
-  Omit<
-    FieldPropsWithExtraValue<
-      string,
-      { country: string; phone: string },
-      undefined | string
-    >,
-    'layout' | 'layoutOptions'
-  > & {
-    countryCodeFieldClassName?: string
-    numberFieldClassName?: string
-    countryCodePlaceholder?: string
-    countryCodeLabel?: string
-    numberMask?: InputMaskedProps['mask']
-    pattern?: StringFieldProps['pattern']
-    width?: 'large' | 'stretch'
-    inputRef?: React.RefObject<HTMLInputElement>
-    omitCountryCodeField?: boolean
-    onCountryCodeChange?: (value: string | undefined) => void
-    onNumberChange?: (value: string | undefined) => void
+export type Props = Omit<
+  FieldPropsWithExtraValue<
+    string,
+    { country: string; phone: string },
+    undefined | string
+  >,
+  'layout' | 'layoutOptions'
+> & {
+  countryCodeFieldClassName?: string
+  numberFieldClassName?: string
+  countryCodePlaceholder?: string
+  countryCodeLabel?: string
+  numberMask?: InputMaskedProps['mask']
+  pattern?: StringFieldProps['pattern']
+  width?: 'large' | 'stretch'
+  inputRef?: React.RefObject<HTMLInputElement>
+  omitCountryCodeField?: boolean
+  onCountryCodeChange?: (value: string | undefined) => void
+  onNumberChange?: (value: string | undefined) => void
 
-    /**
-     * Defines the countries to filter. Can be `Scandinavia`, `Nordic`, `Europe` or `Prioritized`.
-     * Defaults to `Prioritized`.
-     */
-    countries?: CountryFilterSet
+  /**
+   * Defines the countries to filter. Can be `Scandinavia`, `Nordic`, `Europe` or `Prioritized`.
+   * Defaults to `Prioritized`.
+   */
+  countries?: CountryFilterSet
 
-    /**
-     * Use this prop to filter out certain countries. The function receives the country object and should return a boolean. Returning `false` will omit the country.
-     */
-    filterCountries?: (country: CountryType) => boolean
+  /**
+   * Use this prop to filter out certain countries. The function receives the country object and should return a boolean. Returning `false` will omit the country.
+   */
+  filterCountries?: (country: CountryType) => boolean
 
-    /**
-     * For internal testing purposes
-     */
-    noAnimation?: boolean
-  }
+  /**
+   * For internal testing purposes
+   */
+  noAnimation?: boolean
+}
 
 // Important for the default value to be defined here, and not after the useFieldProps call, to avoid the UI jumping
 // back to +47 once the user empty the field so handleChange send out undefined.
@@ -373,6 +371,7 @@ function PhoneNumber(props: Props) {
     className: classnames('dnb-forms-field-phone-number', className),
     width: omitCountryCodeField || props.width ? undefined : width,
     label: undefined,
+    help: undefined,
     ...pickSpacingProps(props),
   }
 
@@ -434,7 +433,7 @@ function PhoneNumber(props: Props) {
           width={
             omitCountryCodeField ? 'medium' : props.width ?? 'stretch'
           }
-          help={help}
+          help={{ ...help, breakout: false }}
           required={required}
           errorMessages={errorMessages}
           validateInitially={validateInitially}

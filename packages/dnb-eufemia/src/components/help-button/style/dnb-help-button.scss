@@ -1,9 +1,10 @@
 /*
  * HelpButton component
  *
- * TODO: Set spacing in the theme file, as theme comes later in the stack
- *
  */
+
+@import '../../button/style/themes/button-mixins.scss';
+@import './dnb-help-button-inline.scss';
 
 .dnb-help-button {
   & .dnb-button__bounding {

@@ -888,6 +888,50 @@ describe('Upload', () => {
         screen.queryByText(`error message ${fileMaxSize}`)
       ).not.toBeInTheDocument()
     })
+
+    it('can set custom error messages with setFiles', async () => {
+      const MockComponent = () => {
+        const { setFiles } = useUpload('upload-error-message')
+
+        return (
+          <Upload
+            acceptedFileTypes={['jpg', 'png']}
+            id="upload-error-message"
+            onChange={({ files: internalFiles }) => {
+              setFiles(
+                internalFiles.map((fileItem) => {
+                  const fileNameTooBig = fileItem?.file?.name?.length > 5
+                  return {
+                    ...fileItem,
+                    errorMessage: fileNameTooBig
+                      ? 'file length is more than 5'
+                      : null,
+                  }
+                })
+              )
+            }}
+          />
+        )
+      }
+
+      render(<MockComponent />)
+
+      const inputElement = document.querySelector(
+        '.dnb-upload__file-input'
+      )
+
+      const file = createMockFile('fileName-1.png', 100, 'image/png')
+
+      await waitFor(() =>
+        fireEvent.change(inputElement, {
+          target: { files: [file] },
+        })
+      )
+
+      expect(
+        screen.queryByText(`file length is more than 5`)
+      ).toBeInTheDocument()
+    })
   })
 
   describe('events', () => {

@@ -12,10 +12,5 @@ export const currencyProperties: PropertiesTableProps = {
     type: ['code', 'symbol', 'narrowSymbol', 'name'],
     status: 'optional',
   },
-  help: {
-    doc: 'Provide a help button. Object consisting of `title` and `content`.',
-    type: 'object',
-    status: 'optional',
-  },
   ...numberProperties,
 }

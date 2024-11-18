@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import SharedContext from '../../../../shared/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import { LOCALE } from '../../../../shared/defaults'
-import { Autocomplete, HelpButton } from '../../../../components'
+import { Autocomplete } from '../../../../components'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import countries, {
   prioritizedCountries,
@@ -11,7 +11,7 @@ import countries, {
   type CountryLang,
 } from '../../constants/countries'
 import { useFieldProps } from '../../hooks'
-import { FieldHelpProps, FieldPropsWithExtraValue } from '../../types'
+import { FieldPropsWithExtraValue } from '../../types'
 import FieldBlock, {
   Props as FieldBlockProps,
   FieldBlockWidth,
@@ -24,29 +24,32 @@ export type CountryFilterSet =
   | 'Europe'
   | 'Prioritized'
 
-export type Props = FieldHelpProps &
-  FieldPropsWithExtraValue<string, CountryType, undefined | string> & {
-    /**
-     * Lists only the countries you want to show. Can be `Scandinavia`, `Nordic`, `Europe` or `Prioritized`.
-     * Defaults to `Prioritized`.
-     */
-    countries?: CountryFilterSet
+export type Props = FieldPropsWithExtraValue<
+  string,
+  CountryType,
+  undefined | string
+> & {
+  /**
+   * Lists only the countries you want to show. Can be `Scandinavia`, `Nordic`, `Europe` or `Prioritized`.
+   * Defaults to `Prioritized`.
+   */
+  countries?: CountryFilterSet
 
-    /**
-     * Use this prop to filter out certain countries. The function receives the country object and should return a boolean. Returning `false` will omit the country.
-     */
-    filterCountries?: (country: CountryType) => boolean
+  /**
+   * Use this prop to filter out certain countries. The function receives the country object and should return a boolean. Returning `false` will omit the country.
+   */
+  filterCountries?: (country: CountryType) => boolean
 
-    /**
-     * For internal testing purposes
-     */
-    noAnimation?: boolean
+  /**
+   * For internal testing purposes
+   */
+  noAnimation?: boolean
 
-    /**
-     * The width of the component.
-     */
-    width?: FieldBlockWidth
-  }
+  /**
+   * The width of the component.
+   */
+  width?: FieldBlockWidth
+}
 
 function SelectCountry(props: Props) {
   const sharedContext = useContext(SharedContext)
@@ -108,7 +111,6 @@ function SelectCountry(props: Props) {
     disabled,
     value,
     width,
-    help,
     htmlAttributes,
     handleFocus,
     handleBlur,
@@ -247,11 +249,6 @@ function SelectCountry(props: Props) {
         status={hasError ? 'error' : undefined}
         show_submit_button
         keep_selection
-        suffix={
-          help ? (
-            <HelpButton title={help.title}>{help.content}</HelpButton>
-          ) : undefined
-        }
         autoComplete="country-name"
         no_animation={props.noAnimation}
         {...htmlAttributes}

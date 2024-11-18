@@ -239,7 +239,7 @@ export function correctV1Format(date: string) {
   // TODO: Remove this in next major version
   if (/YYYY/.test(date) && /DD/.test(date)) {
     warn(
-      'You are using "YYYY-MM-DD" as the date_format or return_format? Please use "yyyy-MM-dd" instead!'
+      'You are using "YYYY-MM-DD" as the dateFormat or returnFormat? Please use "yyyy-MM-dd" instead!'
     )
     date = date.replace(/DD/, 'dd').replace(/YYYY/, 'yyyy')
   }
@@ -249,9 +249,9 @@ export function correctV1Format(date: string) {
 
 export function convertStringToDate(
   date: string | Date,
-  { date_format = null }: { date_format?: string | null } = {}
+  { dateFormat = null }: { dateFormat?: string | null } = {}
 ): Date {
-  if (date === null) {
+  if (!date) {
     return null
   }
 
@@ -259,9 +259,9 @@ export function convertStringToDate(
   dateObject = typeof date === 'string' ? parseISO(date) : toDate(date)
 
   // check one more time if we can generate a valid date
-  if (typeof date === 'string' && date_format && !isValid(dateObject)) {
-    date_format = correctV1Format(date_format)
-    dateObject = parse(date, date_format, new Date())
+  if (typeof date === 'string' && dateFormat && !isValid(dateObject)) {
+    dateFormat = correctV1Format(dateFormat)
+    dateObject = parse(date, dateFormat, new Date())
   }
 
   // rather return null than an invalid date

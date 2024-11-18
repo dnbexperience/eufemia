@@ -207,6 +207,7 @@ describe('Password component', () => {
       'dnb-forms-field-block',
       'dnb-forms-field-string',
       'dnb-forms-field-password',
+      'dnb-forms-field-block--content-width-large',
     ])
   })
 

@@ -69,29 +69,29 @@ const ChangeLocale = () => {
 export const DatePickerSandbox = () => (
   <Wrapper>
     <Box>
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <DatePicker
           label="Linked Range DatePicker:"
-          // label_direction="vertical"
-          // start_date={new Date()}
-          start_date="2019-01-15"
-          // start_date="2020-11-01"
-          end_date="2020-11-02"
-          // min_date="2020-10-28"
-          // max_date="2020-11-03"
+          // labelDirection="vertical"
+          // startDate={new Date()}
+          startDate="2019-01-15"
+          // startDate="2020-11-01"
+          endDate="2020-11-02"
+          // minDate="2020-10-28"
+          // maxDate="2020-11-03"
           range={true}
           // link={true}
           // sync={false}
           // opened={true}
-          show_input={true}
-          on_show={(props) => {
-            console.log('on_show', props)
+          showInput={true}
+          onShow={(props) => {
+            console.log('onShow', props)
           }}
-          on_days_render={(
+          onDaysRender={(
             days
             // , nr
           ) => {
-            // console.log('on_days_render', nr, days)
+            // console.log('onDaysRender', nr, days)
 
             return days.map((dateObject) => {
               // console.log('dateObject', dateObject)
@@ -105,27 +105,27 @@ export const DatePickerSandbox = () => (
               return dateObject
             })
           }}
-          on_hide={(props) => {
-            console.log('on_hide', props)
+          onHide={(props) => {
+            console.log('onHide', props)
           }}
-          on_change={(props) => {
-            console.log('on_change', props)
+          onChange={(props) => {
+            console.log('onChange', props)
           }}
-          on_type={(props) => {
-            console.log('on_type', props)
+          onType={(props) => {
+            console.log('onType', props)
           }}
-          on_submit={(props) => {
-            console.log('on_submit', props)
+          onSubmit={(props) => {
+            console.log('onSubmit', props)
           }}
-          on_cancel={(props) => {
-            console.log('on_cancel', props)
+          onCancel={(props) => {
+            console.log('onCancel', props)
           }}
-          on_reset={(props) => {
-            console.log('on_reset', props)
+          onReset={(props) => {
+            console.log('onReset', props)
           }}
-          show_cancel_button
-          show_reset_button
-          show_submit_button
+          showCancelButton
+          showResetButton
+          showSubmitButton
           // status="Please select a valid date"
         />
       </Provider>
@@ -133,11 +133,11 @@ export const DatePickerSandbox = () => (
     <Box>
       <DatePicker
         // opened
-        show_input
-        show_submit_button
-        show_cancel_button
-        enable_keyboard_nav
-        input_element={<Input value="custom value" />}
+        showInput
+        showSubmitButton
+        showCancelButton
+        enableKeyboardNav
+        inputElement={<Input value="custom value" />}
         shortcuts={[
           { title: 'Set date', date: '2019-11-15' },
           {
@@ -148,8 +148,8 @@ export const DatePickerSandbox = () => (
         right
       />
       <DatePicker
-        show_input
-        input_element={() => <Input value="custom value" />}
+        showInput
+        inputElement={() => <Input value="custom value" />}
         range
         shortcuts={JSON.stringify([
           {
@@ -163,8 +163,8 @@ export const DatePickerSandbox = () => (
             end_date: lastDayOfMonth(new Date()),
           },
         ])}
-        // addon_element={ToggleButtons}
-        // addon_element={<>Bla</>}
+        // addonElement={ToggleButtons}
+        // addonElement={<>Bla</>}
       />
     </Box>
     <Box>
@@ -178,7 +178,7 @@ export const DatePickerSandbox = () => (
     <Box>
       <Scrollbar>
         <ScrollbarInner>
-          <DatePicker label="Date Picker 1:" show_input />
+          <DatePicker label="Date Picker 1:" showInput />
         </ScrollbarInner>
       </Scrollbar>
     </Box>
@@ -186,14 +186,14 @@ export const DatePickerSandbox = () => (
       <DatePicker
         label="Date Picker with reset:"
         date="1981-01-15"
-        show_input
-        show_reset_button
+        showInput
+        showResetButton
       />
     </Box>
     <Box>
       <Provider
         formElement={{
-          label_direction: 'vertical',
+          labelDirection: 'vertical',
         }}
       >
         <FieldBlock label="Legend:">
@@ -206,35 +206,35 @@ export const DatePickerSandbox = () => (
             />
             <DatePicker
               label="Date Picker 2:"
-              align_picker="right"
+              alignPicker="right"
               date={new Date()}
             />
             <DatePicker
               label="Date Picker 3:"
-              show_input
-              align_picker="right"
-              mask_placeholder="dd/mm/yyyy"
-              first_day="sunday"
-              return_format="dd/MM/yyyy"
+              showInput
+              alignPicker="right"
+              maskPlaceholder="dd/mm/yyyy"
+              firstDay="sunday"
+              returnFormat="dd/MM/yyyy"
               date="1981-01-15"
               data-foo="bar"
-              on_show={(props) => {
+              onShow={(props) => {
                 console.log(
-                  'on_show',
+                  'onShow',
                   // props,
                   props.event
                 )
               }}
-              on_hide={(props) => {
+              onHide={(props) => {
                 console.log(
-                  'on_hide',
+                  'onHide',
                   // props,
                   props.event
                 )
               }}
-              on_change={(props) => {
+              onChange={(props) => {
                 console.log(
-                  'on_change',
+                  'onChange',
                   // props,
                   props.event
                 )
@@ -242,22 +242,22 @@ export const DatePickerSandbox = () => (
             />
             <DatePicker
               label="Hidden Nav:"
-              show_input
+              showInput
               // date="2019/05/05"
-              // start_date="05/05/2019"
-              hide_navigation={true}
-              hide_days={true}
-              submit_button_text="OK"
-              cancel_button_text="Cancel"
-              date_format="dd/MM/yyyy"
+              // startDate="05/05/2019"
+              hideNavigation={true}
+              hideDays={true}
+              submitButtonText="OK"
+              cancelButtonText="Cancel"
+              dateFormat="dd/MM/yyyy"
               range={true}
-              // return_format="dd/MM/yyyy"
-              return_format="yyyy/MM/dd"
-              on_change={({ date }) => {
-                console.log('on_change', date)
+              // returnFormat="dd/MM/yyyy"
+              returnFormat="yyyy/MM/dd"
+              onChange={({ date }) => {
+                console.log('onChange', date)
               }}
-              // on_hide={({ date }) => {
-              //   console.log('on_hide', date)
+              // onHide={({ date }) => {
+              //   console.log('onHide', date)
               // }}
               shortcuts={[
                 {
@@ -295,21 +295,21 @@ export const DatePickerSandbox = () => (
     <Box>
       <DatePicker
         label="Range DatePicker:"
-        // start_date="2019-05-01"
-        // end_date="2019-06-17"
-        // min_date="2019-05-02"
-        // max_date="2019-06-15"
+        // startDate="2019-05-01"
+        // endDate="2019-06-17"
+        // minDate="2019-05-02"
+        // maxDate="2019-06-15"
         range={true}
         opened={false}
-        show_input={true}
-        on_change={(props) => {
-          console.log('on_change', props)
+        showInput={true}
+        onChange={(props) => {
+          console.log('onChange', props)
         }}
-        on_submit={(props) => {
-          console.log('on_submit', props)
+        onSubmit={(props) => {
+          console.log('onSubmit', props)
         }}
-        on_cancel={(props) => {
-          console.log('on_cancel', props)
+        onCancel={(props) => {
+          console.log('onCancel', props)
         }}
       />
     </Box>
@@ -317,11 +317,11 @@ export const DatePickerSandbox = () => (
       <DatePicker
         label="Default DatePicker with Input:"
         date="2019-05-05"
-        show_input={true}
-        // show_submit_button={true}
-        show_cancel_button={true}
-        on_change={(props) => {
-          console.log('on_change', props)
+        showInput={true}
+        // showSubmitButton={true}
+        showCancelButton={true}
+        onChange={(props) => {
+          console.log('onChange', props)
         }}
       />
     </Box>
@@ -329,68 +329,68 @@ export const DatePickerSandbox = () => (
       <DatePicker
         label="Hidden Nav:"
         date="2019-05-05"
-        hide_navigation={true}
-        hide_days={true}
+        hideNavigation={true}
+        hideDays={true}
       />
     </Box>
     <Box>
       <DatePicker
         label="Show month only:"
         date="2019-02-05"
-        // hide_navigation_buttons={true}
-        only_month={true}
+        // hideNavigationButtons={true}
+        onlyMonth={true}
       />
     </Box>
     <Box>
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <Flex.Vertical>
           <Input label="Input Default" />
           <DatePicker
             label="DatePicker Default"
             date={new Date()}
-            show_input={true}
+            showInput={true}
           />
           <Input label="Input Default" />
         </Flex.Vertical>
       </Provider>
     </Box>
     <Box>
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <Flex.Vertical>
           <Input size="small" label="Input Small" />
           <DatePicker
             size="small"
             label="DatePicker Small"
             date={new Date()}
-            show_input={true}
+            showInput={true}
           />
           <Input size="small" label="Input Small" />
         </Flex.Vertical>
       </Provider>
     </Box>
     <Box>
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <Flex.Vertical>
           <Input size="medium" label="Input Medium" />
           <DatePicker
             size="medium"
             label="DatePicker Medium"
             date={new Date()}
-            show_input={true}
+            showInput={true}
           />
           <Input size="medium" label="Input Medium" />
         </Flex.Vertical>
       </Provider>
     </Box>
     <Box>
-      <Provider formElement={{ label_direction: 'vertical' }}>
+      <Provider formElement={{ labelDirection: 'vertical' }}>
         <Flex.Vertical>
           <Input size="large" label="Input Large" />
           <DatePicker
             size="large"
             label="DatePicker Large"
             date={new Date()}
-            show_input={true}
+            showInput={true}
           />
           <Input size="large" label="Input Large" />
         </Flex.Vertical>
@@ -422,26 +422,26 @@ const CustomDate = () => {
       <DatePicker
         right
         range
-        min_date="2019-09-28"
-        max_date="2019-10-17"
+        minDate="2019-09-28"
+        maxDate="2019-10-17"
         date={startDate}
         label="Min max DatePicker:"
-        show_input
-        start_date={startDate}
-        end_date={endDate}
-        on_change={({ date, start_date, end_date, ...rest }) => {
-          console.log('on_change', date, start_date, end_date, rest)
+        showInput
+        startDate={startDate}
+        endDate={endDate}
+        onChange={({ date, start_date, end_date, ...rest }) => {
+          console.log('onChange', date, start_date, end_date, rest)
           setStartDate(start_date)
           setEndDate(end_date)
         }}
-        // return_format="yyyy-MM-dd"
+        // returnFormat="yyyy-MM-dd"
         status={errorStatus}
       />
       <Button
         right
         text="Change"
         variant="secondary"
-        on_click={() => {
+        onClick={() => {
           setStartDate('2019-03-15')
           setEndDate('2019-04-15')
         }}
@@ -449,7 +449,7 @@ const CustomDate = () => {
       <Button
         right
         text="Reset"
-        on_click={() => {
+        onClick={() => {
           // setStartDate(undefined)
           // setEndDate(undefined)
           setStartDate(null)
@@ -459,7 +459,7 @@ const CustomDate = () => {
       <Button
         right
         text="Error"
-        on_click={() => {
+        onClick={() => {
           errorStatus
             ? setErrorStatus('')
             : setErrorStatus('Please select a valid date')
@@ -494,22 +494,22 @@ const CustomDate = () => {
 //         right
 //         range
 //         label="Default DatePicker:"
-//         show_input
-//         start_date={startDate}
-//         end_date={endDate}
-//         on_change={({ start_date, end_date }) => {
+//         showInput
+//         startDate={startDate}
+//         endDate={endDate}
+//         onChange={({ start_date, end_date }) => {
 //           console.log('on_change', start_date, end_date)
 //           setStartDate(start_date)
 //           setEndDate(end_date)
 //         }}
-//         // return_format="yyyy-MM-dd"
+//         // returnFormat="yyyy-MM-dd"
 //         status={errorStatus}
 //       />
 //       <Button
 //         right
 //         text="Change"
 //         variant="secondary"
-//         on_click={() => {
+//         onClick={() => {
 //           setStartDate('2019-03-15')
 //           setEndDate('2019-04-15')
 //         }}
@@ -517,7 +517,7 @@ const CustomDate = () => {
 //       <Button
 //         right
 //         text="Reset"
-//         on_click={() => {
+//         onClick={() => {
 //           setStartDate(null)
 //           setEndDate(null)
 //         }}
@@ -525,7 +525,7 @@ const CustomDate = () => {
 //       <Button
 //         right
 //         text="Error"
-//         on_click={() => {
+//         onClick={() => {
 //           setErrorStatus('Please select a valid date')
 //         }}
 //       />

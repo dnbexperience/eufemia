@@ -20,6 +20,11 @@ export const PostalCodeAndCity = () => {
           'Flere feil (test) som går over flere linjer og som aldrig slutter'
         )
       }
+      help={{
+        title: 'Help is available',
+        content:
+          'Somewhere along the way, we must learn that there is nothing greater than to do something for others.',
+      }}
     />
   )
 }

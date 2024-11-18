@@ -302,7 +302,7 @@ export interface UseFieldProps<
   // - Used by useFieldProps and FieldBlock
   info?: React.ReactNode
   warning?: React.ReactNode
-  error?: Error | FormError
+  error?: Error | FormError | Array<Error | FormError>
 
   // - Validation
   required?: boolean
@@ -426,13 +426,6 @@ export type FieldPropsWithExtraValue<
   keyof DataValueWriteProps
 > &
   DataValueWriteProps<Value, EmptyValue, ExtraValue>
-
-export interface FieldHelpProps {
-  help?: {
-    title?: string
-    content?: React.ReactNode
-  }
-}
 
 export interface ValueProps<Value = unknown>
   extends DataValueReadComponentProps<Value> {

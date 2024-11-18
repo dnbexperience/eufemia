@@ -91,11 +91,11 @@ export default async function convertSvgToJsx({
       } icons with ${icons.length / sizes.length} in total)`
     )
 
-    await controllRoutine(icons)
+    await controlRoutine(icons)
   })
 }
 
-const controllRoutine = async (icons: TransformedIcons) => {
+const controlRoutine = async (icons: TransformedIcons) => {
   const sizes = Object.values(ICON_SIZES).filter(({ suffix }) =>
     Boolean(suffix)
   )

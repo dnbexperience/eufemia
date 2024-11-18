@@ -4,11 +4,10 @@ import FieldBlock, {
   FieldBlockWidth,
 } from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
-import { FieldHelpProps, FieldProps, Path } from '../../types'
+import { FieldProps, Path } from '../../types'
 import { getFormattedNumber } from '../../../../components/slider/SliderHelpers'
 import Slider, { SliderProps } from '../../../../components/Slider'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import { HelpButton } from '../../../../components'
 import DataContext, { ContextState } from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
 
@@ -17,30 +16,29 @@ export type SliderVisibilityEvent = React.MouseEvent<HTMLButtonElement> & {
 }
 
 export type SliderValue = number | Array<number>
-export type Props = FieldHelpProps &
-  FieldProps<SliderValue> & {
-    /**
-     * Define an array with JSON Pointers for multiple thumb buttons.
-     */
-    paths?: Array<Path>
-    step?: SliderProps['step'] | Path
-    min?: SliderProps['min'] | Path
-    max?: SliderProps['max'] | Path
-    vertical?: SliderProps['vertical']
-    reverse?: SliderProps['reverse']
-    hideButtons?: SliderProps['hideButtons']
-    multiThumbBehavior?: SliderProps['multiThumbBehavior']
-    thumbTitle?: SliderProps['thumbTitle']
-    subtractTitle?: SliderProps['subtractTitle']
-    addTitle?: SliderProps['addTitle']
-    numberFormat?: SliderProps['numberFormat']
-    tooltip?: SliderProps['tooltip']
-    alwaysShowTooltip?: SliderProps['alwaysShowTooltip']
-    extensions?: SliderProps['extensions']
+export type Props = FieldProps<SliderValue> & {
+  /**
+   * Define an array with JSON Pointers for multiple thumb buttons.
+   */
+  paths?: Array<Path>
+  step?: SliderProps['step'] | Path
+  min?: SliderProps['min'] | Path
+  max?: SliderProps['max'] | Path
+  vertical?: SliderProps['vertical']
+  reverse?: SliderProps['reverse']
+  hideButtons?: SliderProps['hideButtons']
+  multiThumbBehavior?: SliderProps['multiThumbBehavior']
+  thumbTitle?: SliderProps['thumbTitle']
+  subtractTitle?: SliderProps['subtractTitle']
+  addTitle?: SliderProps['addTitle']
+  numberFormat?: SliderProps['numberFormat']
+  tooltip?: SliderProps['tooltip']
+  alwaysShowTooltip?: SliderProps['alwaysShowTooltip']
+  extensions?: SliderProps['extensions']
 
-    /** Styling */
-    width?: FieldBlockWidth
-  }
+  /** Styling */
+  width?: FieldBlockWidth
+}
 
 function SliderComponent(props: Props) {
   const dataContextRef = useRef<ContextState>()
@@ -73,7 +71,6 @@ function SliderComponent(props: Props) {
     min = 0,
     max = 100,
     width = 'stretch',
-    help,
     hasError,
     disabled,
     vertical,
@@ -128,9 +125,6 @@ function SliderComponent(props: Props) {
     max,
     disabled,
     status: hasError ? 'error' : undefined,
-    suffix: help ? (
-      <HelpButton title={help.title}>{help.content}</HelpButton>
-    ) : undefined,
     on_change: handleLocalChange,
     on_drag_start: handleFocus,
     on_drag_end: handleBlur,

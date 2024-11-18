@@ -1,10 +1,10 @@
 import React, { useCallback, useMemo } from 'react'
 import classnames from 'classnames'
-import { Checkbox, HelpButton, ToggleButton } from '../../../../components'
+import { Checkbox, ToggleButton } from '../../../../components'
 import ButtonRow from '../../Form/ButtonRow'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
-import { FieldHelpProps, FieldProps } from '../../types'
+import { FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
 import useTranslation from '../../hooks/useTranslation'
@@ -17,8 +17,7 @@ export type ToggleProps = {
   textOff?: string
 }
 
-export type Props = FieldHelpProps &
-  Omit<FieldProps<unknown>, 'layout' | 'layoutOptions'> &
+export type Props = Omit<FieldProps<unknown>, 'layout' | 'layoutOptions'> &
   ToggleProps
 
 function Toggle(props: Props) {
@@ -37,11 +36,9 @@ function Toggle(props: Props) {
     variant,
     disabled,
     label,
-    labelDescription,
     textOn,
     textOff,
     value,
-    help,
     hasError,
     htmlAttributes,
     handleChange,
@@ -70,10 +67,6 @@ function Toggle(props: Props) {
     ...pickSpacingProps(props),
   }
 
-  const suffix = help ? (
-    <HelpButton title={help.title}>{help.content}</HelpButton>
-  ) : undefined
-
   const isOn = value === valueOn
   const isOff = value === valueOff
 
@@ -101,7 +94,6 @@ function Toggle(props: Props) {
             checked={isOn}
             disabled={disabled}
             status={hasError ? 'error' : undefined}
-            suffix={suffix}
             onChange={handleCheckboxChange}
             {...htmlAttributes}
           />
@@ -120,7 +112,6 @@ function Toggle(props: Props) {
             checked={isOn}
             disabled={disabled}
             status={hasError ? 'error' : undefined}
-            suffix={suffix}
             value={value ? 'true' : 'false'}
             on_change={handleCheckboxChange}
             {...htmlAttributes}
@@ -129,24 +120,7 @@ function Toggle(props: Props) {
       )
     case 'buttons':
       return (
-        <FieldBlock
-          {...fieldBlockProps}
-          asFieldset
-          labelDescription={
-            <>
-              {labelDescription}
-              {help ? (
-                <HelpButton
-                  size="small"
-                  left={labelDescription ? 'x-small' : false}
-                  title={help.title}
-                >
-                  {help.content}
-                </HelpButton>
-              ) : undefined}
-            </>
-          }
-        >
+        <FieldBlock {...fieldBlockProps} asFieldset>
           <ButtonRow bottom="x-small">
             <ToggleButtonGroupContext.Provider
               value={{
@@ -184,7 +158,6 @@ function Toggle(props: Props) {
             checked={isOn}
             disabled={disabled}
             status={hasError ? 'error' : undefined}
-            suffix={suffix}
             value={value ? 'true' : 'false'}
             on_change={handleCheckboxChange}
             {...htmlAttributes}

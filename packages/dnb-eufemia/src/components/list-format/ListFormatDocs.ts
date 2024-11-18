@@ -1,4 +1,9 @@
 import { PropertiesTableProps } from '../../shared/types'
+import { UlProperties } from './../../elements/lists/UlDocs'
+import { OlProperties } from './../../elements/lists/OlDocs'
+
+const ListProperties = { ...UlProperties, ...OlProperties }
+const { children, ...ListPropertiesWithoutChildren } = ListProperties
 
 export const ListFormatProperties: PropertiesTableProps = {
   value: {
@@ -12,12 +17,12 @@ export const ListFormatProperties: PropertiesTableProps = {
     status: 'optional',
   },
   format: {
-    doc: 'Formatting options for the value. See the [Intl.ListFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/ListFormat/ListFormat) documentation.',
+    doc: 'Formatting options for the value when variant is `text`. See the [Intl.ListFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/ListFormat/ListFormat) documentation.',
     type: 'Intl.ListFormatOptions',
     status: 'optional',
   },
   variant: {
-    doc: 'Defines if the value should be displayed in list format, or regular text format on one line. Defaults to `text`',
+    doc: 'Defines if the value should be displayed in list format (`ol`, `ul`) or regular text format in one line. Defaults to `text`',
     type: ['ol', 'ul', 'text'],
     status: 'optional',
   },
@@ -37,4 +42,5 @@ export const ListFormatProperties: PropertiesTableProps = {
     ],
     status: 'optional',
   },
+  ...ListPropertiesWithoutChildren,
 }

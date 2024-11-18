@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useRef,
 } from 'react'
-import { InputMasked, HelpButton, Button } from '../../../../components'
+import { InputMasked, Button } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
 import type {
   InputAlign,
@@ -20,44 +20,39 @@ import FieldBlock, {
   FieldBlockWidth,
 } from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
-import {
-  FieldProps,
-  FieldHelpProps,
-  AllJSONSchemaVersions,
-} from '../../types'
+import { FieldProps, AllJSONSchemaVersions } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import { ButtonProps, ButtonSize } from '../../../../components/Button'
 import { clamp } from '../../../../components/slider/SliderHelpers'
 import DataContext from '../../DataContext/Context'
 
-export type Props = FieldHelpProps &
-  FieldProps<number, undefined | number> & {
-    innerRef?: React.RefObject<HTMLInputElement>
-    inputClassName?: string
-    currency?: InputMaskedProps['as_currency']
-    currencyDisplay?: 'code' | 'symbol' | 'narrowSymbol' | 'name'
-    percent?: InputMaskedProps['as_percent']
-    mask?: InputMaskedProps['mask']
-    step?: number
-    startWith?: number
-    // Formatting
-    decimalLimit?: number
-    allowNegative?: boolean
-    disallowLeadingZeroes?: boolean
-    prefix?: string | ((value: number) => string)
-    suffix?: string | ((value: number) => string)
-    // Validation
-    minimum?: number // aka greater than or equal to
-    maximum?: number // aka less than or equal to
-    exclusiveMinimum?: number // aka greater than
-    exclusiveMaximum?: number // aka less than
-    multipleOf?: number
-    // Styling
-    size?: InputSize
-    width?: FieldBlockWidth
-    align?: InputAlign
-    showStepControls?: boolean
-  }
+export type Props = FieldProps<number, undefined | number> & {
+  innerRef?: React.RefObject<HTMLInputElement>
+  inputClassName?: string
+  currency?: InputMaskedProps['as_currency']
+  currencyDisplay?: 'code' | 'symbol' | 'narrowSymbol' | 'name'
+  percent?: InputMaskedProps['as_percent']
+  mask?: InputMaskedProps['mask']
+  step?: number
+  startWith?: number
+  // Formatting
+  decimalLimit?: number
+  allowNegative?: boolean
+  disallowLeadingZeroes?: boolean
+  prefix?: string | ((value: number) => string)
+  suffix?: string | ((value: number) => string)
+  // Validation
+  minimum?: number // aka greater than or equal to
+  maximum?: number // aka less than or equal to
+  exclusiveMinimum?: number // aka greater than
+  exclusiveMaximum?: number // aka less than
+  multipleOf?: number
+  // Styling
+  size?: InputSize
+  width?: FieldBlockWidth
+  align?: InputAlign
+  showStepControls?: boolean
+}
 
 const defaultMinimum = Number.MIN_SAFE_INTEGER
 const defaultMaximum = Number.MAX_SAFE_INTEGER
@@ -145,7 +140,6 @@ function NumberComponent(props: Props) {
     disabled,
     htmlAttributes,
     hasError,
-    help,
     size,
     width,
     align,
@@ -357,10 +351,6 @@ function NumberComponent(props: Props) {
     ...htmlAttributes,
     status: hasError ? 'error' : undefined,
     stretch: Boolean(width),
-    suffix:
-      help && !showStepControls ? (
-        <HelpButton title={help.title}>{help.content}</HelpButton>
-      ) : undefined,
   }
   Object.assign(inputProps, ariaParams)
 
@@ -372,11 +362,6 @@ function NumberComponent(props: Props) {
           <InputMasked {...inputProps} />
           {<Button {...increaseProps} />}
         </span>
-        {help && (
-          <HelpButton left="x-small" title={help.title}>
-            {help.content}
-          </HelpButton>
-        )}
       </FieldBlock>
     )
   }
