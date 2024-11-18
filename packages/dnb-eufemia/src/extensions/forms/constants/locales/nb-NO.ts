@@ -177,6 +177,7 @@ export default {
     },
     PostalCodeAndCity: {
       label: 'Postnummer og sted',
+      invalidCode: 'Ugyldig postnummer.',
     },
     PostalCode: {
       label: 'Postnr.',

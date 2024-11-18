@@ -1,0 +1,85 @@
+---
+showTabs: true
+---
+
+import { supportedCountries } from '@dnb/eufemia/src/extensions/forms/Connectors/Bring/postalCode'
+
+## Description
+
+The `Bring` connector allows you to use the [Bring API](https://developer.bring.com/api/) to verify a postal code and autocomplete a city name or street name.
+
+## PostalCode API
+
+Here is an example of how to use the Bring [Postal Code API](https://developer.bring.com/api/postal-code/) to connect the [PostalCodeAndCity](/uilib/extensions/forms/feature-fields/PostalCodeAndCity/) field to a form.
+
+First, create a context with the config:
+
+```tsx
+import { Connectors, Field, Form } from '@dnb/eufemia/extensions/forms'
+
+const { withConfig } = Connectors.createContext({
+  fetchConfig: {
+    url: (value, { country }) => {
+      return `[YOUR-API-URL]/${value}`
+    },
+  },
+})
+```
+
+`[YOUR-API-URL]` is the URL of your own API endpoint that proxies the Bring API with a token.
+
+### Supported countries
+
+The Bring API for PostalCode supports the following countries:
+
+{supportedCountries.join(', ')}
+
+#### To verify a postal code
+
+Use the context to create the `onChangeValidator` validator.
+
+```tsx
+const onChangeValidator = withConfig(
+  Connectors.Bring.postalCode.onChangeValidator,
+)
+
+function MyForm() {
+  return (
+    <Form.Handler>
+      <Field.PostalCodeAndCity
+        postalCode={{
+          path: '/postalCode',
+          onChangeValidator,
+        }}
+      />
+    </Form.Handler>
+  )
+}
+```
+
+#### To autocomplete a city name
+
+Use the context to create the `onChange` event handler.
+
+```tsx
+const onChange = withConfig(Connectors.Bring.postalCode.onChange, {
+  cityPath: '/city',
+})
+
+function MyForm() {
+  return (
+    <Form.Handler>
+      <Field.PostalCodeAndCity
+        postalCode={{
+          path: '/postalCode',
+          onChange,
+        }}
+        city={{
+          path: '/city',
+        }}
+      />
+      <Form.SubmitButton />
+    </Form.Handler>
+  )
+}
+```

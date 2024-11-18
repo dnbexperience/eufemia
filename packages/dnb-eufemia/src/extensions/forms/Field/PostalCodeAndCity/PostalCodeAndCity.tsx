@@ -143,6 +143,7 @@ function PostalCodeAndCity(props: Props) {
         inputClassName="dnb-forms-field-postal-code-and-city__postal-code-input"
         inputMode="numeric"
         autoComplete="postal-code"
+        data-country={country}
       />
 
       <StringField

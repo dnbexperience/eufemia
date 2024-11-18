@@ -179,7 +179,8 @@ export default {
         'You have not entered a mobile number. You can still use this number if it is correct.',
     },
     PostalCodeAndCity: {
-      label: 'Postal code and city',
+      label: 'Postcode and city', // Use British English
+      invalidCode: 'Invalid postal code.',
     },
     PostalCode: {
       label: 'Postc.',
