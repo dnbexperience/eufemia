@@ -3,6 +3,29 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.56.0](https://github.com/dnbexperience/eufemia/compare/v10.55.1...v10.56.0) (2024-11-18)
+
+
+### :bug: Bug Fixes
+
+* **DatePicker:** ensure that `endMonth` does not fallback to `startMonth` when `endMonth` prop is defined ([#4254](https://github.com/dnbexperience/eufemia/issues/4254)) ([5281257](https://github.com/dnbexperience/eufemia/commit/5281257c6240f57061bbe1d17ce1ea80434097ea))
+* **Forms:** render given elements to `warning` and `info` properties ([#4261](https://github.com/dnbexperience/eufemia/issues/4261)) ([d60de25](https://github.com/dnbexperience/eufemia/commit/d60de2515b7286dc47724c5cd8f387d6069c29d5))
+
+
+### :zap: Refactoring
+
+* **DatePicker:** convert properties to camel case and deprecate those with snake case ([#4273](https://github.com/dnbexperience/eufemia/issues/4273)) ([a69a8aa](https://github.com/dnbexperience/eufemia/commit/a69a8aa8101eb497606e68649533511548f53258))
+
+
+### :sparkles: Features
+
+* **Field.Date:** add DatePickerProps ([#4160](https://github.com/dnbexperience/eufemia/issues/4160)) ([6a3765b](https://github.com/dnbexperience/eufemia/commit/6a3765b09f6f357c66d0f15b81627aee903c04a3))
+* **Forms:** add `asyncFileHandler` to Field.Upload to support async file handling during upload ([#4281](https://github.com/dnbexperience/eufemia/issues/4281)) ([030a09c](https://github.com/dnbexperience/eufemia/commit/030a09cc5a58f83f64ffaa9f3d189aa37509fadb))
+* **Forms:** add inline HelpButton to all Field.* components as default (with option to open in Dialog) ([#4282](https://github.com/dnbexperience/eufemia/issues/4282)) ([e869a60](https://github.com/dnbexperience/eufemia/commit/e869a6018e808735b70ce092419de5c23729ce8d))
+* **Forms:** add support for multiple info, warning and error messages given by an array ([#4284](https://github.com/dnbexperience/eufemia/issues/4284)) ([78f2fe8](https://github.com/dnbexperience/eufemia/commit/78f2fe8316670d47783758164acaa0da58f09e94))
+* **ListFormat:** adds spacing properties ([#4255](https://github.com/dnbexperience/eufemia/issues/4255)) ([c72d999](https://github.com/dnbexperience/eufemia/commit/c72d999bd8a433803a2042d3161d037ddd44627a))
+* **Paragraph:** handle nested paragraphs (to be `span`'s) ([#4251](https://github.com/dnbexperience/eufemia/issues/4251)) ([ca3bbde](https://github.com/dnbexperience/eufemia/commit/ca3bbde4c0ef1a5191bb646da862b1dfe3c01ab4))
+
 ## [10.55.1](https://github.com/dnbexperience/eufemia/compare/v10.55.0...v10.55.1) (2024-11-11)
 
 
