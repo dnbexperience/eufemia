@@ -18,7 +18,6 @@
 }
 
 @include typography.typographySelectors() {
-  --typography-h-default-font-family: var(--sb-font-family-headings);
   --typography-h-xx-large-weight: var(--font-weight-regular);
   --typography-h-x-large-weight: var(--font-weight-regular);
   --typography-h-large-small-font-size: var(--sb-font-size-medium--plus);

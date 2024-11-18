@@ -6,6 +6,7 @@
 :root {
   // Typography Family
   --font-family-default: 'DNB', sans-serif;
+  --font-family-heading: var(--font-family-default);
   --font-family-monospace: 'DNBMono', 'Menlo', 'Consolas', 'Roboto Mono',
     'Ubuntu Monospace', 'Noto Mono', 'Oxygen Mono', 'Liberation Mono',
     monospace;

@@ -610,7 +610,6 @@ del .dnb-code {
  *
  */
 .dnb-lead, .dnb-h--xx-large, .dnb-h--x-large, .dnb-h--large, .dnb-h--medium, .dnb-h--basis, .dnb-h--small, .dnb-h--x-small, .dnb-core-style .dnb-lead, .dnb-core-style .dnb-h--xx-large, .dnb-core-style .dnb-h--x-large, .dnb-core-style .dnb-h--large, .dnb-core-style .dnb-h--medium, .dnb-core-style .dnb-h--basis, .dnb-core-style .dnb-h--small, .dnb-core-style .dnb-h--x-small, h1, h2, h3, h4, h5, h6, p, b, small, strong, .dnb-p, .dnb-t, .dnb-small, .dnb-table, sub, sup {
-  --typography-h-default-font-family: var(--font-family-default);
   --typography-h-default-font-weight: var(--font-weight-medium);
   --typography-h-xx-large-font-size: var(--font-size-xx-large);
   --typography-h-xx-large-line-height: var(--line-height-xx-large);
@@ -672,7 +671,7 @@ del .dnb-code {
 .dnb-core-style .dnb-h--small,
 .dnb-core-style .dnb-h--x-small {
   padding: 0;
-  font-family: var(--typography-h-default-font-family);
+  font-family: var(--font-family-heading);
 }
 .dnb-lead:not([class*=dnb-space]),
 .dnb-h--xx-large:not([class*=dnb-space]),
