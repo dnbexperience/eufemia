@@ -1159,4 +1159,56 @@ describe('Field.Upload', () => {
       })
     })
   })
+
+  it('should handle a mix of successful and failed files in asyncFileHandler', async () => {
+    const successFile = createMockFile('successFile.png', 100, 'image/png')
+    const failFile = createMockFile('failFile.png', 100, 'image/png')
+
+    const asyncValidatorWithMixedResults = () =>
+      new Promise<UploadValue>((resolve) =>
+        setTimeout(
+          () =>
+            resolve([
+              {
+                file: successFile,
+                id: 'server_generated_id',
+                exists: false,
+              },
+              {
+                file: failFile,
+                id: 'internal_id_fail',
+                exists: false,
+                errorMessage: 'Failed to process',
+              },
+            ]),
+          1
+        )
+      )
+
+    const asyncFileHandlerFn = jest.fn(asyncValidatorWithMixedResults)
+
+    render(<Field.Upload asyncFileHandler={asyncFileHandlerFn} />)
+
+    const element = getRootElement()
+
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [successFile, failFile],
+        },
+      })
+    )
+
+    await waitFor(() => {
+      expect(asyncFileHandlerFn).toHaveBeenCalledTimes(1)
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(2)
+      expect(screen.queryByText('successFile.png')).toBeInTheDocument()
+      expect(screen.queryByText('failFile.png')).toBeInTheDocument()
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        'Failed to process'
+      )
+    })
+  })
 })
