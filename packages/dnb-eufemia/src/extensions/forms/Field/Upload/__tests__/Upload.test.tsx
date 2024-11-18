@@ -1027,5 +1027,136 @@ describe('Field.Upload', () => {
         ).toBeInTheDocument()
       })
     })
+
+    it('should add new files from asyncFileHandler', async () => {
+      const fileExisting = createMockFile(
+        'fileName-existing.png',
+        100,
+        'image/png'
+      )
+      const newFile1 = createMockFile(
+        'fileName-new-1.png',
+        100,
+        'image/png'
+      )
+      const newFile2 = createMockFile(
+        'fileName-new-2.png',
+        100,
+        'image/png'
+      )
+
+      const asyncValidatorResolvingWithSuccess = () =>
+        new Promise<UploadValue>((resolve) =>
+          setTimeout(
+            () =>
+              resolve([
+                {
+                  file: newFile1,
+                  id: 'server_generated_id_1',
+                  exists: false,
+                },
+                {
+                  file: newFile2,
+                  id: 'server_generated_id_2',
+                  exists: false,
+                },
+              ]),
+            1
+          )
+        )
+
+      const asyncFileHandlerFnSuccess = jest.fn(
+        asyncValidatorResolvingWithSuccess
+      )
+
+      render(
+        <Field.Upload
+          asyncFileHandler={asyncFileHandlerFnSuccess}
+          value={[{ file: fileExisting }]}
+        />
+      )
+
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(1)
+      expect(
+        screen.queryByText('fileName-existing.png')
+      ).toBeInTheDocument()
+      expect(
+        screen.queryByText('fileName-new-1.png')
+      ).not.toBeInTheDocument()
+      expect(
+        screen.queryByText('fileName-new-2.png')
+      ).not.toBeInTheDocument()
+
+      const element = getRootElement()
+
+      await waitFor(() => {
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [newFile1, newFile2],
+          },
+        })
+        expect(
+          document.querySelectorAll('.dnb-upload__file-cell').length
+        ).toBe(3)
+        expect(
+          screen.queryByText('fileName-existing.png')
+        ).toBeInTheDocument()
+        expect(
+          screen.queryByText('fileName-new-1.png')
+        ).toBeInTheDocument()
+        expect(
+          screen.queryByText('fileName-new-2.png')
+        ).toBeInTheDocument()
+      })
+    })
+
+    it('should not add existing file using asyncFileHandler', async () => {
+      const file = createMockFile('fileName.png', 100, 'image/png')
+
+      const asyncValidatorResolvingWithSuccess = () =>
+        new Promise<UploadValue>((resolve) =>
+          setTimeout(
+            () =>
+              resolve([
+                {
+                  file,
+                },
+              ]),
+            1
+          )
+        )
+
+      const asyncFileHandlerFnSuccess = jest.fn(
+        asyncValidatorResolvingWithSuccess
+      )
+
+      render(
+        <Field.Upload
+          asyncFileHandler={asyncFileHandlerFnSuccess}
+          value={[{ file }]}
+        />
+      )
+
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(1)
+      expect(screen.queryByText('fileName.png')).toBeInTheDocument()
+
+      const element = getRootElement()
+
+      await waitFor(() => {
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [file],
+          },
+        })
+        expect(
+          document.querySelectorAll('.dnb-upload__file-cell').length
+        ).toBe(1)
+        expect(screen.queryByText('fileName.png')).toBeInTheDocument()
+      })
+    })
   })
 })
