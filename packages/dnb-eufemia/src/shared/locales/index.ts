@@ -3,7 +3,7 @@ import nbNO from './nb-NO'
 import enUS from './en-US'
 import enGB from './en-GB'
 
-const locales = { ...nbNO, ...enUS ...enGB }
+const locales = { ...nbNO, ...enUS, ...enGB }
 
 export type TranslationsNbNO = (typeof locales)['nb-NO']
 export type TranslationsEnUS = (typeof locales)['en-US']
