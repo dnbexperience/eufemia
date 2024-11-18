@@ -9,49 +9,53 @@ import Span from '../Span'
 import { render } from '@testing-library/react'
 
 describe('Span element', () => {
-  it('has correct size when size is defined', () => {
+  it('size also sets line-height when not defined', () => {
     render(<Span size="large" />)
     const element = document.querySelector('.dnb-t__size--large')
 
     expect(Array.from(element.classList)).toEqual([
+      'dnb-t__line--large',
       'dnb-t__size--large',
       'dnb-span',
     ])
   })
-  it('has correct style when size and a modifier is defined', () => {
-    render(<Span size="medium" modifier="medium" />)
-    const element = document.querySelector('.dnb-t__size--medium')
+  it('sets only line-height when size is not defined', () => {
+    render(<Span line="large" />)
+    const element = document.querySelector('.dnb-t__line--large')
 
     expect(Array.from(element.classList)).toEqual([
-      'dnb-t--medium',
-      'dnb-t__size--medium',
+      'dnb-t__line--large',
       'dnb-span',
     ])
   })
   it('has correct style when several modifiers are defined', () => {
-    render(<Span modifier="medium small" />)
+    render(
+      <Span
+        size="small"
+        line="xx-large"
+        align="center"
+        family="monospace"
+        weight="medium"
+        decoration="underline"
+      />
+    )
     const element = document.querySelector('.dnb-t__size--small')
 
     expect(Array.from(element.classList)).toEqual([
-      'dnb-t--medium',
+      'dnb-t__line--xx-large',
       'dnb-t__size--small',
+      'dnb-t__align--center',
+      'dnb-t__family--monospace',
+      'dnb-t__weight--medium',
+      'dnb-t__decoration--underline',
       'dnb-span',
     ])
   })
   it('has correct style when medium is set to true', () => {
-    render(<Span medium />)
-    const element = document.querySelector('.dnb-t--medium')
+    render(<Span weight="bold" />)
+    const element = document.querySelector('.dnb-t__weight--bold')
     expect(Array.from(element.classList)).toEqual([
-      'dnb-t--medium',
-      'dnb-span',
-    ])
-  })
-  it('has correct style when bold is set to true', () => {
-    render(<Span bold />)
-    const element = document.querySelector('.dnb-t--bold')
-
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-t--bold',
+      'dnb-t__weight--bold',
       'dnb-span',
     ])
   })

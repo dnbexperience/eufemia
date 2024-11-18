@@ -14,6 +14,77 @@ const Case = styled.span`
   padding: 0.25rem 0;
 `
 
+export function ParagraphWeightModifiers() {
+  return (
+    <ComponentBox hideCode data-visual-test="paragraph-modifiers">
+      <P>Default paragraph</P>
+      <P weight="regular">Regular weight paragraph (same as default)</P>
+      <P weight="medium">Medium weight paragraph</P>
+    </ComponentBox>
+  )
+}
+export function ParagraphSizeModifiers() {
+  return (
+    <ComponentBox hideCode data-visual-test="paragraph-modifiers">
+      <P size="x-small">x-small paragraph</P>
+      <P size="small">small paragraph</P>
+      <P size="medium">medium paragraph</P>
+      <P size="basis">basis paragraph (same as default)</P>
+      <P size="large">large paragraph</P>
+      <P size="x-large">x-large paragraph</P>
+      <P size="xx-large">xx-large paragraph</P>
+    </ComponentBox>
+  )
+}
+export function ParagraphAlignmentModifiers() {
+  return (
+    <ComponentBox hideCode data-visual-test="paragraph-modifiers">
+      <P align="right">Right aligned paragraph</P>
+      <P align="center">Center aligned paragraph</P>
+      <P align="left">Left aligned paragraph</P>
+    </ComponentBox>
+  )
+}
+export function ParagraphFamilyModifiers() {
+  return (
+    <ComponentBox hideCode data-visual-test="paragraph-modifiers">
+      <P family="basis">Basis family paragraph (same as default)</P>
+      <P family="heading">
+        Heading family paragraph (only different on some themes)
+      </P>
+      <P family="monospace">Monospace family paragraph</P>
+    </ComponentBox>
+  )
+}
+
+export function ParagraphLineHeightModifiers() {
+  return (
+    <ComponentBox hideCode data-visual-test="paragraph-modifiers">
+      <P line="x-small">x-small line-height paragraph</P>
+      <P line="small">small line-height paragraph</P>
+      <P line="medium">medium line-height paragraph</P>
+      <P line="basis">basis line-height paragraph (same as default)</P>
+      <P line="large">large line-height paragraph</P>
+      <P line="x-large">x-large line-height paragraph</P>
+      <P line="xx-large">xx-large line-height paragraph</P>
+    </ComponentBox>
+  )
+}
+export function ParagraphAdditionalModifiers() {
+  return (
+    <ComponentBox
+      hideCode
+      data-visual-test="paragraph-additional-modifiers"
+    >
+      <div>
+        <P weight="bold">Bold weight paragraph</P>
+        <P decoration="underline">Underline paragraph</P>
+        <P decoration="italic">Italic paragraph</P>
+      </div>
+    </ComponentBox>
+  )
+}
+
 export function ParagraphDefault() {
   return (
     <ComponentBox
@@ -89,8 +160,6 @@ export function ParagraphSmall() {
           <Case>
             <strong>Strong paragraph (medium weight)</strong>
           </Case>
-          {/* <i>Italic paragraph</i> */}
-          {/* <u>Underline paragraph</u> */}
           <Case>Numbers 0123456789</Case>
           <Case>
             <code className="dnb-code">Code paragraph</code>
@@ -168,22 +237,6 @@ export function ParagraphAdditional() {
           Text <sub>Subscript</sub>
         </Case>
       </P>
-    </ComponentBox>
-  )
-}
-
-export function ParagraphModifiers() {
-  return (
-    <ComponentBox data-visual-test="paragraph-modifiers">
-      <div>
-        <P>Default paragraph</P>
-        <P modifier="medium">Medium weight paragraph</P>
-        <P size="small">Small paragraph</P>
-        <P modifier="small medium">Small paragraph with medium weight</P>
-        {/* (Bold is currently not supported by DNB UX) */}
-        {/* <P modifier="bold">Bold weight paragraph</P> */}
-        {/* <P modifier="small bold">Small paragraph with bold weight</P> */}
-      </div>
     </ComponentBox>
   )
 }

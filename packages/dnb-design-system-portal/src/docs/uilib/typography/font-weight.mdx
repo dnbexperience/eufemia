@@ -1,6 +1,6 @@
 ---
 title: 'Font Weights'
-order: 1
+order: 2
 redirect_from:
   - /uilib/typography/font-weights
 ---
@@ -13,11 +13,11 @@ For details about what values Typographic elements do use, have a look at the [F
 
 ## Eufemia has three (3) font-weights
 
-| Type                                                       | Custom Property         | CSS Classname      |
-| ---------------------------------------------------------- | ----------------------- | ------------------ |
-| <span className="dnb-typo-regular">Regular (normal)</span> | `--font-weight-regular` | `dnb-typo-regular` |
-| <span className="dnb-typo-medium">Medium (500)</span>      | `--font-weight-medium`  | `dnb-typo-medium`  |
-| <span className="dnb-typo-bold">Bold (600)</span>          | `--font-weight-bold`    | `dnb-typo-bold`    |
+| Type                                                             | CSS variable / property | CSS Classname             |
+| ---------------------------------------------------------------- | ----------------------- | ------------------------- |
+| <span className="dnb-t__weight--regular">Regular (normal)</span> | `--font-weight-regular` | `.dnb-t__weight--regular` |
+| <span className="dnb-t__weight--medium">Medium (500)</span>      | `--font-weight-medium`  | `.dnb-t__weight--medium`  |
+| <span className="dnb-t__weight--bold">Bold (600)</span>          | `--font-weight-bold`    | `.dnb-t__weight--bold`    |
 
 ### How to use the weights (CSS)
 
@@ -47,9 +47,9 @@ p {
 
 ```html
 <!-- Example usage of Weights in Markup -->
-<h3 class="dnb-typo-regular">Heading</h3>
-<p class="dnb-typo-medium">Paragraph</p>
-<span class="dnb-typo-bold">Third Tag</span>
+<h3 class="dnb-t__weight--regular">Heading</h3>
+<p class="dnb-t__weight--medium">Paragraph</p>
+<span class="dnb-t__weight--bold">Third Tag</span>
 ```
 
 ## Examples

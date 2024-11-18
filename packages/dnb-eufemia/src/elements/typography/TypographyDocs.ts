@@ -6,24 +6,50 @@ export const TypographyProperties: PropertiesTableProps = {
     type: ['HTMLElement', 'string'],
     status: 'optional',
   },
-  medium: {
-    doc: 'Tells the component to use the medium font-weight styling `dnb-p--medium`. More details [here](/uilib/typography/font-weight).',
-    type: 'boolean',
-    status: 'optional',
-  },
-  bold: {
-    doc: 'Tells the component to use the bold font-weight styling class `dnb-p--bold`. More details [here](/uilib/typography/font-weight).',
-    type: 'boolean',
-    status: 'optional',
-  },
   size: {
-    doc: 'Sets the font size based on the following sizes:  `x-small`, `small`, `basis`, `medium`, `large`, `x-large` or `xx-large`.',
-    type: 'string',
+    doc: 'Sets the font size, also sets the line-height if `line` prop is not set.',
+    type: [
+      `'x-small'`,
+      `'small'`,
+      `'basis'`,
+      `'medium'`,
+      `'large'`,
+      `'x-large'`,
+      `'xx-large'`,
+    ],
     status: 'optional',
   },
-  modifier: {
-    doc: 'String containing a combination of modifiers, used to set both font-size and weight in one property. e.g. `x-small bold` would make the paragraph extra small and bold.',
-    type: 'string',
+  line: {
+    doc: 'Sets the line height, will use same value as `size` if not set.',
+    type: [
+      `'x-small'`,
+      `'small'`,
+      `'basis'`,
+      `'medium'`,
+      `'large'`,
+      `'x-large'`,
+      `'xx-large'`,
+    ],
+    status: 'optional',
+  },
+  align: {
+    doc: 'Sets the text alignment.',
+    type: [`'center'`, `'left'`, `'right'`],
+    status: 'optional',
+  },
+  family: {
+    doc: 'Sets the font family.',
+    type: [`'basis'`, `'heading'`, `'monospace'`],
+    status: 'optional',
+  },
+  weight: {
+    doc: 'Sets the font weight.',
+    type: [`'regular'`, `'medium'`],
+    status: 'optional',
+  },
+  decoration: {
+    doc: 'Sets the font decoration.',
+    type: [`'italic'`, `'underline'`],
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {

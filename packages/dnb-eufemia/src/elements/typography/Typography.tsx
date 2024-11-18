@@ -18,6 +18,11 @@ export type TypographySize =
   | 'x-large'
   | 'xx-large'
 
+export type TypographyAlign = 'center' | 'left' | 'right'
+export type TypographyFamily = 'basis' | 'heading' | 'monospace'
+export type TypographyWeight = 'regular' | 'medium' | 'bold'
+export type TypographyDecoration = 'italic' | 'underline'
+
 export type TypographyProps<
   ElementType extends HTMLElement = HTMLElement,
 > = SpacingProps &
@@ -27,71 +32,58 @@ export type TypographyProps<
      */
     element?: DynamicElement
     /**
-     * Tells the component to use the medium font-weight styling dnb-p--medium defined in paragraphStyle - typography-mixins.scss. Find more details here https://eufemia.dnb.no/uilib/typography/font-weight/
-     */
-    medium?: boolean
-    /**
-     * Tells the component to use the bold font-weight styling dnb-p--bold defined in paragraphStyle - typography-mixins.scss. Find more details here https://eufemia.dnb.no/uilib/typography/font-weight/
-     */
-    bold?: boolean
-    /**
-     * Sets the font size based on size classes defined in paragraphStyle - typography-mixins.scss. For more detailed information go here: https://eufemia.dnb.no/uilib/typography/font-size/
+     * Sets the font size, also sets the line-height if `line` prop is not set
      */
     size?: TypographySize
     /**
-     * A string containing a combination of modifiers, used to set both font-size and weight in one property. e.g. "x-small bold" would make the paragraph extra small and bold.
-     * Works as a flexible alternative to setting the medium, bold and size props.
-     * List of modifiers can be found at https://eufemia.dnb.no/uilib/typography/font-size/ and https://eufemia.dnb.no/uilib/typography/font-weight/
+     * Sets the line height, will use same value as `size` if not set.
      */
-    modifier?: string
+    line?: TypographySize
+    /**
+     * Sets the text alignment
+     */
+    align?: TypographyAlign
+    /**
+     * Sets the font family
+     */
+    family?: TypographyFamily
+    /**
+     * Sets the font weight
+     */
+    weight?: TypographyWeight
+    /**
+     * Sets the font decoration
+     */
+    decoration?: TypographyDecoration
   }
 
 type TypographyInternalProps = {
   innerRef?: React.RefObject<HTMLElement> | React.ForwardedRef<unknown>
-  /**
-   * Replaces the base class of typography styles. Only used for "dnb-p".
-   *
-   * Default: "dnb-t"
-   */
-  modifierClassName?: string
 }
 
 const Typography = ({
-  modifier,
   element = 'p',
   className,
-  modifierClassName = 'dnb-t',
-  medium,
-  bold,
   size,
+  line,
+  align,
+  family,
+  weight,
+  decoration,
   ...props
 }: TypographyProps & TypographyInternalProps) => {
-  const allModifiers = [medium && 'medium', bold && 'bold']
-
-  if (modifier) {
-    modifier
-      .split(/\s/g)
-      .forEach((modifier) => allModifiers.push(modifier))
-  }
-
-  const modifierClasses = allModifiers
-    .filter(Boolean)
-    .reduce((acc, cur) => {
-      if (['x-small', 'small'].includes(cur)) {
-        return `${acc} ${modifierClassName}__size--${cur}`
-      }
-
-      return `${acc} ${modifierClassName}--${cur}`
-    }, '')
-
   return (
     <E
       as={element}
       {...props}
       className={classnames(
-        modifierClasses,
         className,
-        size && `${modifierClassName}__size--${size}`
+        size && `dnb-t__size--${size}`,
+        align && `dnb-t__align--${align}`,
+        family && `dnb-t__family--${family}`,
+        weight && `dnb-t__weight--${weight}`,
+        decoration && `dnb-t__decoration--${decoration}`,
+        (line || size) && `dnb-t__line--${line || size}`
       )}
     />
   )

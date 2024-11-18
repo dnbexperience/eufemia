@@ -13,14 +13,14 @@ export function SpanBasic() {
     <ComponentBox data-visual-test="span-basic">
       <P>
         Here is a paragraph with a <Span size="x-small">x-small</Span> word
-        and some <Span medium>medium weight text</Span> in it.
+        and some <Span weight="medium">medium weight text</Span> in it.
       </P>
       <H4>
         Heading 4 with <Span size="x-large">x-large</Span> word
       </H4>
 
       <Anchor href="/">
-        Anchor with <Span medium>medium weight</Span> words
+        Anchor with <Span weight="medium">medium weight</Span> words
       </Anchor>
     </ComponentBox>
   )
@@ -32,15 +32,13 @@ export function SpanModifiers() {
       <div>
         <Span>Default span</Span>
         <br />
-        <Span modifier="medium">Medium weight span</Span>
+        <Span weight="medium">Medium weight span</Span>
         <br />
-        <Span size="small">Small span</Span>
+        <Span size="basis">Basis size span</Span>
         <br />
-        <Span modifier="small medium">Small span with medium weight</Span>
-        <br />
-        {/* (Bold is currently not supported by DNB UX) */}
-        {/* <Span modifier="bold">Bold weight span</Span> */}
-        {/* <Span modifier="small bold">Small span with bold weight</Span> */}
+        <Span weight="medium" size="x-small">
+          X-small span with medium weight
+        </Span>
       </div>
     </ComponentBox>
   )

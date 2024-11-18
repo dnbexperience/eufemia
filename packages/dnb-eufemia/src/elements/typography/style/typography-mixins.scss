@@ -62,7 +62,6 @@
   small,
   strong,
   .dnb-p,
-  .dnb-t,
   .dnb-small,
   .dnb-table,
   sub,
@@ -246,7 +245,12 @@
     font-weight: var(--font-weight-medium);
   }
   // is still needed for backwards compatibility when ".dnp-p" was used for all typography
-  @include typographyModifiers();
+  @include paragraphDeprecated();
+
+  & > small {
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-small);
+  }
 
   & > cite {
     font-weight: var(--font-weight-medium);
@@ -255,7 +259,8 @@
   }
 }
 
-@mixin typographyModifiers() {
+// should use the .dnb-t classes instead
+@mixin paragraphDeprecated() {
   // weights
   &--medium {
     font-weight: var(--font-weight-medium);
@@ -292,8 +297,7 @@
   }
 
   &--small, // backwards compatibility
-  &__size--small,
-  & > small {
+  &__size--small {
     font-size: var(--font-size-small);
     line-height: var(--line-height-small);
   }

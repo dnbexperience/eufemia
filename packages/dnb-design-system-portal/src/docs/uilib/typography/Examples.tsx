@@ -35,25 +35,25 @@ export function FontWeightExample() {
       {/* Regular */}
       <FontUsageExample
         font_family="DNB Regular"
-        typo_class="dnb-typo-regular"
+        typo_class="dnb-t__weight--regular"
       />
 
       {/* Medium */}
       <FontUsageExample
         font_family="DNB Medium"
-        typo_class="dnb-typo-medium"
+        typo_class="dnb-t__weight--medium"
       />
 
       {/* Bold */}
       <FontUsageExample
         font_family="DNB Bold"
-        typo_class="dnb-typo-bold"
+        typo_class="dnb-t__weight--bold"
       />
 
       {/* Mono Regular */}
       <FontUsageExample
         font_family="DNB Mono Regular"
-        typo_class="dnb-typo-mono-regular"
+        typo_class="dnb-t__weight--regular dnb-t__family--monospace"
       />
     </Wrapper>
   )

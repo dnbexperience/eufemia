@@ -3,28 +3,75 @@ showTabs: true
 ---
 
 import {
+  ParagraphWeightModifiers,
+  ParagraphSizeModifiers,
+  ParagraphAlignmentModifiers,
+  ParagraphFamilyModifiers,
+  ParagraphLineHeightModifiers,
+  ParagraphAdditionalModifiers,
   ParagraphDefault,
   ParagraphSmall,
   ParagraphAdditional,
   ParagraphRegressionTests,
-  ParagraphModifiers,
 } from 'Docs/uilib/elements/paragraph/Examples'
 
 ## Demos
 
 ### Paragraphs modifiers
 
-<ParagraphModifiers />
+These are the standard available modifiers for paragraph typography:
 
-### Paragraphs `basis` sized
+- [Weight](#weight)
+- [Size](#size)
+- [Alignment](#alignment)
+- [Font family](#font-family)
+- [Line height](#line-height)
+
+As well as some [other modifiers](#other-modifiers).
+
+#### Weight
+
+<ParagraphWeightModifiers />
+
+#### Size
+
+Also automatically sets the matching line-height (`line` prop).
+
+<ParagraphSizeModifiers />
+
+#### Alignment
+
+<ParagraphAlignmentModifiers />
+
+#### Font family
+
+<ParagraphFamilyModifiers />
+
+#### Line height
+
+Line-height will be set automatically based on the `size` props, but can also be set seperately if needed.
+
+<ParagraphLineHeightModifiers />
+
+#### Other modifiers
+
+Although bold, italic and underline are not a standard part of the Eufemia design system for typography (in particular, "medium" should be used instead of "bold"), we still include them as an option for convenience. And there are also cases where an accessibility case can be made for their use.
+
+<ParagraphAdditionalModifiers />
+
+### Children tag styling
+
+Paragraph also adds some default styling to child typography HTML elements. Like `<b>` or `<strong>`.
+
+#### Paragraphs `basis` sized
 
 <ParagraphDefault />
 
-#### Paragraph `small` sized
+##### Paragraph `small` sized
 
 <ParagraphSmall />
 
-#### Additional Paragraph formatting (not defined yet)
+##### Additional Paragraph formatting (not defined yet)
 
 <ParagraphAdditional />
 

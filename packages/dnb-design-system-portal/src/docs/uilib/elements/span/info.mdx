@@ -10,7 +10,10 @@ import { Span } from '@dnb/eufemia/elements'
 
 ## Description
 
-`<Span>` are inline elements. They share typography props (for size and weight) with the [Paragraph component](/uilib/elements/paragraph).
-Unlike `<P>`, the `<Span>` component does not modify anything by default.
+Spans are inline-elements, used to define parts of text content.
 
-Since `<Span>` is an inline element, it's easier to modify parts of text than it is with `<P>`.
+Span does not define any default styling, if no props are set, it will just be a regular inline `<span>` element.
+
+### Typography CSS classes
+
+Both Span and the [Paragraph](uilib/elements/paragraph/) component have the same typography props that uses the [typography helper classes](uilib/typography/helper-classes/).

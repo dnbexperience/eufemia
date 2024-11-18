@@ -1,6 +1,6 @@
 import { PropertiesTableProps } from '../../shared/types'
-import { TypographyProperties } from './TypographyDocs'
+import { ParagraphProperties } from './PDocs'
 
 export const IngressProperties: PropertiesTableProps = {
-  ...TypographyProperties,
+  ...ParagraphProperties,
 }
