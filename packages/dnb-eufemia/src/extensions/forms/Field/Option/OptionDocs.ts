@@ -8,7 +8,7 @@ export const OptionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   title: {
-    doc: 'Title for the option. (Overrides `children`)',
+    doc: 'Title for the option. Overrides `children`.',
     type: ['string', 'React.Node'],
     status: 'optional',
   },
@@ -24,7 +24,7 @@ export const OptionProperties: PropertiesTableProps = {
   },
   help: FieldProperties.help,
   children: {
-    doc: 'Optional way to provide `title`. (Will be ignored if `title` is used.)',
+    doc: 'Optional way to provide `title`. Will be ignored if `title` is used.',
     type: 'React.Node',
     status: 'optional',
   },

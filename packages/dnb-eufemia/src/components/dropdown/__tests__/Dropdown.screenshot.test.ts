@@ -39,7 +39,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
   it('have to match disabled options', async () => {
     const screenshot = await makeScreenshot({
       style: {
-        'padding-bottom': '18rem',
+        'padding-bottom': '14rem',
       },
       selector: '[data-visual-test="dropdown-disabled-options"]',
       simulate: 'click',

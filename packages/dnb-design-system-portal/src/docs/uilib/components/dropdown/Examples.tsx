@@ -454,8 +454,8 @@ export const DropdownDisabledOptions = () => (
           {
             content: 'Item 1 Content',
           },
-          { content: ['Item 2 Content', '(disabled)'], disabled: true },
-          { content: ['Item 3 Content', '(disabled)'], disabled: true },
+          { content: 'Item 2 Content', disabled: true },
+          { content: 'Item 3 Content', disabled: true },
           {
             content: 'Item 4 Content A',
           },
