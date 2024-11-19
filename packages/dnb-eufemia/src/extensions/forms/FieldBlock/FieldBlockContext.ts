@@ -1,5 +1,5 @@
 import React from 'react'
-import type { FieldProps, Identifier } from '../types'
+import type { FieldProps, Identifier, SubmitState } from '../types'
 
 export type FieldErrorIdsRef = Record<StateTypes, string>
 export type MountedFieldsRef = Record<Identifier, boolean>
@@ -35,7 +35,7 @@ export type StatusContent = {
 }
 
 export type FieldBlockContextProps = {
-  setFieldState?: ({
+  setBlockRecord?: ({
     identifier,
     type,
     stateId,
@@ -43,6 +43,7 @@ export type FieldBlockContextProps = {
     showInitially,
     show,
   }: StateBasis) => void
+  setFieldState?: (identifier: Identifier, fieldState: SubmitState) => void
   showFieldError?: (identifier: Identifier, showError: boolean) => void
   hasErrorProp?: boolean
   composition?: true

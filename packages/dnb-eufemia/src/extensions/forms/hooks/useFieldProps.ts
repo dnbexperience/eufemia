@@ -214,6 +214,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     fieldBlockContext && fieldBlockContext.disableStatusSummary !== true
   )
   const {
+    setBlockRecord,
     setFieldState: setFieldStateFieldBlock,
     showFieldError: showFieldErrorFieldBlock,
     mountedFieldsRef: mountedFieldsRefFieldBlock,
@@ -402,13 +403,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   const runPool = useCallback(async (cb = null) => {
     for (const key in eventPool.current) {
-      if (!eventPool.current[key] || eventPool.current[key].pending) {
+      if (!eventPool.current[key]) {
         continue
       }
 
       const { fn, runAsync } = eventPool.current[key] || {}
       if (fn) {
-        eventPool.current[key].pending = true
         eventPool.current[key] = null
 
         if (runAsync) {
@@ -429,11 +429,18 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     (state: SubmitStateWithValidating) => {
       fieldStateRef.current = state
       setFieldStateDataContext?.(identifier, resolveValidatingState(state))
+      setFieldStateFieldBlock?.(identifier, resolveValidatingState(state))
+
       if (!validateInitially) {
         forceUpdate()
       }
     },
-    [setFieldStateDataContext, identifier, validateInitially]
+    [
+      setFieldStateDataContext,
+      identifier,
+      setFieldStateFieldBlock,
+      validateInitially,
+    ]
   )
 
   const revealError = useCallback(() => {
@@ -766,7 +773,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       setFieldErrorBoundary?.(identifier, error)
 
       // Set the visual states
-      setFieldStateFieldBlock?.({
+      setBlockRecord?.({
         stateId,
         identifier,
         type: 'error',
@@ -784,7 +791,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       setFieldErrorBoundary,
       setFieldErrorDataContext,
       setFieldStateDataContext,
-      setFieldStateFieldBlock,
+      setBlockRecord,
       stateId,
       validateInitially,
     ]
@@ -2072,21 +2079,21 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   // Set the error in the field block context if this field is inside a field block
   useEffect(() => {
     if (inFieldBlock) {
-      setFieldStateFieldBlock?.({
+      setBlockRecord?.({
         identifier,
         type: 'error',
         content: errorProp,
         showInitially: true,
         show: true,
       })
-      setFieldStateFieldBlock?.({
+      setBlockRecord?.({
         identifier,
         type: 'warning',
         content: warning,
         showInitially: true,
         show: true,
       })
-      setFieldStateFieldBlock?.({
+      setBlockRecord?.({
         identifier,
         type: 'info',
         content: info,
@@ -2108,7 +2115,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     inFieldBlock,
     info,
     mountedFieldsRefFieldBlock,
-    setFieldStateFieldBlock,
+    setBlockRecord,
     warning,
   ])
 
