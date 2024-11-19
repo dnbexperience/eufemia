@@ -20,7 +20,7 @@ import { SubmitButton } from '../../input/Input'
 import { format } from '../../number-format/NumberUtils'
 import {
   DrawerListData,
-  DrawerListDataObjectUnion,
+  DrawerListDataArray,
 } from '../../../fragments/DrawerList'
 
 export default {
@@ -856,7 +856,7 @@ const WideStyle = styled.div`
 export function DataSuffix() {
   const { locale } = React.useContext(Context)
   const ban = format(21001234567, { ban: true, locale }) as string
-  const numbers: DrawerListDataObjectUnion[] = [
+  const numbers: DrawerListDataArray = [
     {
       selected_value: `Brukskonto (${ban})`,
       suffix_value: (

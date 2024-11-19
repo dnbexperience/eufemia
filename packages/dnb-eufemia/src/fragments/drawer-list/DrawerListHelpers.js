@@ -77,6 +77,7 @@ export const drawerListPropTypes = {
             PropTypes.string,
             PropTypes.number,
           ]),
+          /** @deprecated use `selectedKey` */
           selected_key: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.number,
@@ -89,6 +90,7 @@ export const drawerListPropTypes = {
             PropTypes.string,
             PropTypes.node,
           ]),
+          disabled: PropTypes.bool,
           content: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.node,
@@ -290,6 +292,7 @@ export const normalizeData = (props) => {
     const list = []
     for (const key in data) {
       list.push({
+        selectedKey: key,
         selected_key: key,
         value: key,
         content: data[key],
@@ -327,13 +330,16 @@ export const getCurrentIndex = (value, data) => {
     return data?.findIndex((cur) => parseCurrentValue(cur) === value)
   }
   // 2. if "selectedKey" is given in data, we now handle it as a value, and not an index.
-  else if (selectedKeyExists()) {
-    return data?.findIndex(
+  if (selectedKeyExists()) {
+    const index = data?.findIndex(
       (cur) => String(parseCurrentValue(cur)) === String(value)
     )
+    if (index > -1) {
+      return index
+    }
   }
-  // 3. if is numeric, handle it as a index.
-  else if (!isNaN(parseFloat(value))) {
+  // 3. if is numeric, and no matching "selectedKey", handle it as a index.
+  if (!isNaN(parseFloat(value))) {
     return value
   }
 
@@ -346,6 +352,7 @@ export const getCurrentIndex = (value, data) => {
       }
       if (
         typeof data[i]?.selectedKey !== 'undefined' ||
+        typeof data[i]?.selected_key !== 'undefined' ||
         data[i]?.type === 'object'
       ) {
         return true
@@ -398,7 +405,7 @@ export const getCurrentData = (item_index, data) => {
   data = (data && data.find(({ __id }) => __id == item_index)) || null
 
   if (data && data.__isTransformed) {
-    data = parseCurrentValue(data)
+    return data.content
   }
 
   return data

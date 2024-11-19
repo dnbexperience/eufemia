@@ -36,6 +36,20 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match disabled options', async () => {
+    const screenshot = await makeScreenshot({
+      style: {
+        'padding-bottom': '14rem',
+      },
+      selector: '[data-visual-test="dropdown-disabled-options"]',
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="dropdown-disabled-options"] .dnb-dropdown__trigger',
+      simulateAfter: { keypress: 'Escape' },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match tertiary variant disabled state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="dropdown-disabled-tertiary"]',

@@ -126,6 +126,31 @@ export const DrawerListExampleDefault = () => (
   </Wrapper>
 )
 
+export const DrawerListExampleDisabled = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="drawer-list-disabled">
+      <DrawerList
+        skip_portal
+        opened
+        prevent_close
+        data={[
+          {
+            content: 'Item 1',
+          },
+          {
+            content: 'Item 2, disabled',
+            disabled: true,
+          },
+          {
+            content: 'Item 3',
+          },
+        ]}
+        observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
+      />
+    </ComponentBox>
+  </Wrapper>
+)
+
 export const DrawerListExampleSingleItem = () => (
   <Wrapper>
     <ComponentBox scope={{ data }} data-visual-test="drawer-list-events">

@@ -99,26 +99,6 @@ describe('Selection', () => {
     // getByText instead of getByPlaceholderText since eufemia adds placeholder as tag, not placeholder-attribute
     expect(screen.getByText('Select something')).toBeInTheDocument()
   })
-
-  it('precede option children over title', async () => {
-    render(
-      <Field.Selection>
-        <Field.Option value="foo" title="title a">
-          child a
-        </Field.Option>
-        <Field.Option value="bar" title="title a">
-          child b
-        </Field.Option>
-      </Field.Selection>
-    )
-
-    const selectionButton = document.querySelector('button')
-    await userEvent.click(selectionButton)
-    const options = document.querySelectorAll('.dnb-drawer-list__option')
-
-    expect(options[0].textContent).toBe('child a')
-    expect(options[1].textContent).toBe('child b')
-  })
 })
 
 describe('variants', () => {
@@ -134,6 +114,24 @@ describe('variants', () => {
       expect(radioButtons.length).toEqual(2)
       expect(radioButtons[0]).not.toBeChecked()
       expect(radioButtons[1]).toBeChecked()
+    })
+
+    it('precede option title over children', async () => {
+      render(
+        <Field.Selection variant="radio">
+          <Field.Option value="foo" title="title a">
+            child a
+          </Field.Option>
+          <Field.Option value="bar" title="title b">
+            child b
+          </Field.Option>
+        </Field.Selection>
+      )
+
+      const options = document.querySelectorAll('.dnb-radio')
+
+      expect(options[0].textContent).toBe('title a')
+      expect(options[1].textContent).toBe('title b')
     })
 
     it('renders help', () => {
@@ -858,6 +856,25 @@ describe('variants', () => {
       expect(options.length).toEqual(2)
       expect(options[0].getAttribute('aria-selected')).toBe('false')
       expect(options[1].getAttribute('aria-selected')).toBe('false')
+    })
+
+    it('precede option title over children', async () => {
+      render(
+        <Field.Selection variant="dropdown">
+          <Field.Option value="foo" title="title a">
+            child a
+          </Field.Option>
+          <Field.Option value="bar" title="title b">
+            child b
+          </Field.Option>
+        </Field.Selection>
+      )
+
+      open()
+      const options = document.querySelectorAll('[role="option"]')
+
+      expect(options[0].textContent).toBe('title a')
+      expect(options[1].textContent).toBe('title b')
     })
 
     it('renders help', () => {

@@ -8,18 +8,23 @@ export const OptionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   title: {
-    doc: 'Text title for the option.',
-    type: 'string',
+    doc: 'Title for the option. Overrides `children`.',
+    type: ['string', 'React.Node'],
     status: 'optional',
   },
   text: {
     doc: 'Secondary text.',
-    type: 'string',
+    type: ['string', 'React.Node'],
+    status: 'optional',
+  },
+  disabled: {
+    doc: 'Will disable the option.',
+    type: 'boolean',
     status: 'optional',
   },
   help: FieldProperties.help,
   children: {
-    doc: 'Optional way to provide `title`.',
+    doc: 'Optional way to provide `title`. Will be ignored if `title` is used.',
     type: 'React.Node',
     status: 'optional',
   },

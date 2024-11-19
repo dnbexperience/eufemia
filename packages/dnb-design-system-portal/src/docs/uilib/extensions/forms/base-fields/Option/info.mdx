@@ -4,7 +4,12 @@ showTabs: true
 
 ## Description
 
-`Field.Option` is a part for building selection inputs with Field.Select.
+`Field.Option` is a pseudo-component that is used by parent components to configure options. It has no use on it's own. How it renders, and what extra props it accepts, are defined by the parent.
+
+### Used in:
+
+- [Field.ArraySelection](/uilib/extensions/forms/base-fields/ArraySelection/)
+- [Field.Selection](/uilib/extensions/forms/base-fields/Selection/)
 
 ```tsx
 import { Field } from '@dnb/eufemia/extensions/forms'

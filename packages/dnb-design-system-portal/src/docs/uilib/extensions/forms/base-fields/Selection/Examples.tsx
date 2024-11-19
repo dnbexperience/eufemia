@@ -149,6 +149,23 @@ export const DropdownDisabled = () => (
   </ComponentBox>
 )
 
+export const DropdownDisabledOptions = () => (
+  <ComponentBox>
+    {() => {
+      const Example = () => {
+        return (
+          <Field.Selection label="Label text">
+            <Field.Option value="foo" title="Foo!" disabled />
+            <Field.Option value="bar" title="Baar!" />
+          </Field.Selection>
+        )
+      }
+
+      return <Example />
+    }}
+  </ComponentBox>
+)
+
 export const DropdownError = () => (
   <ComponentBox>
     <Field.Selection
@@ -429,6 +446,23 @@ export const RadioDisabled = () => (
   </ComponentBox>
 )
 
+export const RadioDisabledOptions = () => (
+  <ComponentBox>
+    {() => {
+      const Example = () => {
+        return (
+          <Field.Selection label="Label text" variant="radio">
+            <Field.Option value="foo" title="Foo!" disabled />
+            <Field.Option value="bar" title="Baar!" />
+          </Field.Selection>
+        )
+      }
+
+      return <Example />
+    }}
+  </ComponentBox>
+)
+
 export const RadioError = () => (
   <ComponentBox>
     <Field.Selection
@@ -686,6 +720,23 @@ export const ButtonDisabled = () => (
       <Field.Option value="foo" title="Foo!" />
       <Field.Option value="bar" title="Baar!" />
     </Field.Selection>
+  </ComponentBox>
+)
+
+export const ButtonDisabledOptions = () => (
+  <ComponentBox>
+    {() => {
+      const Example = () => {
+        return (
+          <Field.Selection label="Label text" variant="button">
+            <Field.Option value="foo" title="Foo!" disabled />
+            <Field.Option value="bar" title="Baar!" />
+          </Field.Selection>
+        )
+      }
+
+      return <Example />
+    }}
   </ComponentBox>
 )
 

@@ -120,6 +120,21 @@ describe.each(['ui', 'sbanken'])('Autocomplete for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match disabled options', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="autocomplete-disabled-options"]',
+      simulateSelector:
+        '[data-visual-test="autocomplete-disabled-options"] .dnb-autocomplete .dnb-input',
+      waitAfterSimulateSelector:
+        '[data-visual-test="autocomplete-disabled-options"] .dnb-autocomplete--opened',
+      simulate: 'click',
+      style: {
+        height: '25rem',
+      },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match autocomplete opened list', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="autocomplete-opened"]',
