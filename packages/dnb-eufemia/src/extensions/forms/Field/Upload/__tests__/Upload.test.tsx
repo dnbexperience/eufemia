@@ -905,7 +905,51 @@ describe('Field.Upload', () => {
       ).toHaveTextContent(nbForms.Upload.errorRequired)
     })
 
-    it('should handle displaying error from asyncFileHandler', async () => {
+    it('should handle displaying error from fileHandler with sync function', async () => {
+      const fileValid = createMockFile('1.png', 100, 'image/png')
+      const fileInValid = createMockFile('invalid.png', 100, 'image/png')
+
+      const syncFileHandlerFnError = function mockSyncFileUpload(
+        newFiles: UploadValue
+      ) {
+        return newFiles.map((file) => {
+          if (file.file.name.length > 5) {
+            file.errorMessage = 'File length is too long'
+          }
+          return file
+        })
+      }
+
+      render(<Field.Upload fileHandler={syncFileHandlerFnError} />)
+
+      const element = getRootElement()
+
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [fileValid],
+          },
+        })
+      )
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [fileInValid],
+          },
+        })
+      )
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        'File length is too long'
+      )
+    })
+
+    it('should handle displaying error from fileHandler with async function', async () => {
       const file = createMockFile('fileName-1.png', 100, 'image/png')
 
       const asyncValidatorResolvingWithErrorMessage = () =>
@@ -928,7 +972,7 @@ describe('Field.Upload', () => {
         asyncValidatorResolvingWithErrorMessage
       )
 
-      render(<Field.Upload asyncFileHandler={asyncFileHandlerFnError} />)
+      render(<Field.Upload fileHandler={asyncFileHandlerFnError} />)
 
       const element = getRootElement()
 
@@ -949,7 +993,7 @@ describe('Field.Upload', () => {
       })
     })
 
-    it('should handle displaying success from asyncFileHandler', async () => {
+    it('should handle displaying success from fileHandler with async function', async () => {
       const file = createMockFile('fileName-1.png', 100, 'image/png')
 
       const asyncValidatorResolvingWithSuccess = () =>
@@ -971,7 +1015,7 @@ describe('Field.Upload', () => {
         asyncValidatorResolvingWithSuccess
       )
 
-      render(<Field.Upload asyncFileHandler={asyncFileHandlerFnSuccess} />)
+      render(<Field.Upload fileHandler={asyncFileHandlerFnSuccess} />)
 
       const element = getRootElement()
 
@@ -992,16 +1036,14 @@ describe('Field.Upload', () => {
       })
     })
 
-    it('should display spinner when loading asyncFileHandler', async () => {
+    it('should display spinner when loading fileHandler with async function', async () => {
       const file = createMockFile('fileName-1.png', 100, 'image/png')
 
       const asyncValidatorResolvingWithSuccess = () =>
         new Promise<UploadValue>(() => jest.fn())
 
       render(
-        <Field.Upload
-          asyncFileHandler={asyncValidatorResolvingWithSuccess}
-        />
+        <Field.Upload fileHandler={asyncValidatorResolvingWithSuccess} />
       )
 
       const element = getRootElement()
@@ -1028,7 +1070,7 @@ describe('Field.Upload', () => {
       })
     })
 
-    it('should add new files from asyncFileHandler', async () => {
+    it('should add new files from fileHandler with async function', async () => {
       const fileExisting = createMockFile(
         'fileName-existing.png',
         100,
@@ -1071,7 +1113,7 @@ describe('Field.Upload', () => {
 
       render(
         <Field.Upload
-          asyncFileHandler={asyncFileHandlerFnSuccess}
+          fileHandler={asyncFileHandlerFnSuccess}
           value={[{ file: fileExisting }]}
         />
       )
@@ -1112,7 +1154,7 @@ describe('Field.Upload', () => {
       })
     })
 
-    it('should not add existing file using asyncFileHandler', async () => {
+    it('should not add existing file using fileHandler with async function', async () => {
       const file = createMockFile('fileName.png', 100, 'image/png')
 
       const asyncValidatorResolvingWithSuccess = () =>
@@ -1134,7 +1176,7 @@ describe('Field.Upload', () => {
 
       render(
         <Field.Upload
-          asyncFileHandler={asyncFileHandlerFnSuccess}
+          fileHandler={asyncFileHandlerFnSuccess}
           value={[{ file }]}
         />
       )
@@ -1160,7 +1202,7 @@ describe('Field.Upload', () => {
     })
   })
 
-  it('should handle a mix of successful and failed files in asyncFileHandler', async () => {
+  it('should handle a mix of successful and failed files in fileHandler with async function', async () => {
     const successFile = createMockFile('successFile.png', 100, 'image/png')
     const failFile = createMockFile('failFile.png', 100, 'image/png')
 
@@ -1187,7 +1229,7 @@ describe('Field.Upload', () => {
 
     const asyncFileHandlerFn = jest.fn(asyncValidatorWithMixedResults)
 
-    render(<Field.Upload asyncFileHandler={asyncFileHandlerFn} />)
+    render(<Field.Upload fileHandler={asyncFileHandlerFn} />)
 
     const element = getRootElement()
 
