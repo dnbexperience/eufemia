@@ -109,7 +109,7 @@ export const WithAsyncFileHandler = () => {
         ): Promise<UploadValue> {
           const updatedFiles: UploadValue = []
 
-          for (const [index, file] of Object.entries(newFiles)) {
+          for (const [, file] of Object.entries(newFiles)) {
             const formData = new FormData()
             formData.append('file', file.file, file.file.name)
 
