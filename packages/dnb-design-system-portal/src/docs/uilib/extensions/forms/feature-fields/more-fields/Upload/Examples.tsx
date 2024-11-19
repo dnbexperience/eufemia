@@ -115,3 +115,43 @@ export const WithAsyncFileHandler = () => {
     </ComponentBox>
   )
 }
+
+export const CustomizedErrorMessage = () => (
+  <ComponentBox data-visual-test="upload-remove-files">
+    {() => {
+      const Component = () => {
+        const { setFiles } = Field.Upload.useUpload('upload-error-message')
+
+        return (
+          <Form.Handler onSubmit={(data) => console.log('onSubmit', data)}>
+            <Flex.Stack>
+              <Field.Upload
+                path="/myFiles"
+                required
+                acceptedFileTypes={['jpg', 'png']}
+                id="upload-error-message"
+                onChange={(internalFiles) => {
+                  setFiles(
+                    internalFiles.map((fileItem) => {
+                      const fileNameTooLong =
+                        fileItem?.file?.name?.length > 5
+                      return {
+                        ...fileItem,
+                        errorMessage: fileNameTooLong
+                          ? 'file length is more than 5'
+                          : null,
+                      }
+                    }),
+                  )
+                }}
+              />
+              <Form.SubmitButton />
+            </Flex.Stack>
+          </Form.Handler>
+        )
+      }
+
+      return <Component />
+    }}
+  </ComponentBox>
+)

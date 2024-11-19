@@ -1211,4 +1211,51 @@ describe('Field.Upload', () => {
       )
     })
   })
+
+  it.only('should set custom error messages onChange using setFiles', async () => {
+    const file = createMockFile('fileName-existing.png', 100, 'image/png')
+
+    const Component = () => {
+      const { setFiles } = Field.Upload.useUpload('upload-error-message')
+
+      return (
+        <Field.Upload
+          acceptedFileTypes={['jpg', 'png']}
+          id="upload-error-message"
+          onChange={(internalFiles) => {
+            setFiles(
+              internalFiles.map((fileItem) => {
+                return {
+                  ...fileItem,
+                  errorMessage: 'my custom error message',
+                }
+              })
+            )
+          }}
+        />
+      )
+    }
+
+    render(<Component />)
+
+    expect(
+      screen.queryByText('my custom error message')
+    ).not.toBeInTheDocument()
+
+    const element = getRootElement()
+
+    await waitFor(() => {
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
+    })
+
+    await waitFor(() => {
+      expect(
+        screen.queryByText('my custom error message')
+      ).toBeInTheDocument()
+    })
+  })
 })

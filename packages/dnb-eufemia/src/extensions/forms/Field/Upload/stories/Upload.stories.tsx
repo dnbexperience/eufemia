@@ -47,3 +47,38 @@ export function Upload() {
     </Form.Handler>
   )
 }
+
+export function UploadWithCustomError() {
+  const Component = () => {
+    const { setFiles } = Field.Upload.useUpload('upload-error-message')
+
+    return (
+      <Form.Handler onSubmit={(data) => console.log('onSubmit', data)}>
+        <Flex.Stack>
+          <Field.Upload
+            path="/myFiles"
+            required
+            acceptedFileTypes={['jpg', 'png']}
+            id="upload-error-message"
+            onChange={(internalFiles) => {
+              setFiles(
+                internalFiles.map((fileItem) => {
+                  console.log(fileItem)
+                  const fileNameTooLong = fileItem?.file?.name?.length > 5
+                  return {
+                    ...fileItem,
+                    errorMessage: fileNameTooLong
+                      ? 'file length is more than 5'
+                      : null,
+                  }
+                })
+              )
+            }}
+          />
+          <Form.SubmitButton />
+        </Flex.Stack>
+      </Form.Handler>
+    )
+  }
+  return <Component />
+}

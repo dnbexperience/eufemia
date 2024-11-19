@@ -24,6 +24,7 @@ function useUpload(id: string): useUploadReturn {
 
   const setFiles = useCallback(
     (files: Array<UploadFile>) => {
+      console.log('setting files')
       extend({ files })
     },
     [extend]

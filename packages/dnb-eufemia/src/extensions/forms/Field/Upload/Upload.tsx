@@ -47,6 +47,8 @@ const validateRequired = (
   value: UploadValue,
   { required, isChanged, error }
 ) => {
+  console.log('validateRequired')
+  console.log(value)
   const hasError = value?.some((file) => file.errorMessage)
   if (hasError) {
     return new FormError('Upload.errorInvalidFiles')
@@ -116,7 +118,7 @@ function UploadComponent(props: Props) {
   const { files: fileContext, setFiles } = useUpload(id)
 
   useEffect(() => {
-    setFiles(value)
+    validateRequired(value)
   }, [setFiles, value])
 
   const handleChangeAsync = useCallback(
@@ -210,4 +212,5 @@ function UploadComponent(props: Props) {
 
 export default UploadComponent
 
+UploadComponent.useUpload = Upload.useUpload
 UploadComponent._supportsSpacingProps = true
