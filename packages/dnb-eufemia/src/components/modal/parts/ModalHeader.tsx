@@ -33,7 +33,8 @@ export interface ModalHeaderProps extends Omit<SectionProps, 'children'> {
   title_class?: string
 
   /**
-   * Font size of the title (maps to `dnb-p--<size>`)
+   * Font size of the title (maps to `dnb-h--<size>`)
+   * Default is `large`
    */
   size?: 'medium' | 'large' | 'x-large' | 'xx-large'
 }

@@ -66,7 +66,9 @@ export const ProgressIndicatorCircularLabelInsideExample = () => (
       labelDirection="inside"
       data-visual-test="progress-indicator-label-inside"
     >
-      <span className="dnb-p dnb-p--bold dnb-p__size--small">{72}%</span>
+      <span className="dnb-p dnb-t__weight--bold dnb-t__size--small">
+        {72}%
+      </span>
     </ProgressIndicator>
   </ComponentBox>
 )
@@ -360,7 +362,7 @@ const StyledLabel = styled.span`
 `
 const MyCustomLabel = ({ children, ...rest }) => (
   <StyledLabel
-    className="dnb-p dnb-p--medium dnb-p__size--small"
+    className="dnb-p dnb-t__weight--medium dnb-t__size--small"
     {...rest}
   >
     {children}

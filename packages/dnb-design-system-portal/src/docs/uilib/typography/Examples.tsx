@@ -91,7 +91,7 @@ export function TypographyVariants() {
           fabellas senserit inciderint vim.
         </P>
         <Code top="large">Text basis (Medium)</Code>
-        <P modifier="medium" space={0}>
+        <P weight="medium" space={0}>
           Lorem ipsum dolor sit amet, sint quodsi concludaturque nam ei,
           appetere oporteat eam te. Vel in deleniti sensibus, officiis
           menandri efficiantur no cum. Per et habemus gubergren. Mundi
@@ -107,7 +107,7 @@ export function TypographyVariants() {
           fabellas senserit inciderint vim.
         </P>
         <Code top="large">Text small (Medium)</Code>
-        <P size="small" modifier="medium" space={0}>
+        <P size="small" weight="medium" space={0}>
           Lorem ipsum dolor sit amet, sint quodsi concludaturque nam ei,
           appetere oporteat eam te. Vel in deleniti sensibus, officiis
           menandri efficiantur no cum. Per et habemus gubergren. Mundi
@@ -119,7 +119,7 @@ export function TypographyVariants() {
           Lorem ipsum dolor sit amet, sint quodsi concludaturque nam ei.
         </P>
         <Code top="large">Text x-small (Medium)</Code>
-        <P size="x-small" modifier="medium" space={0}>
+        <P size="x-small" weight="medium" space={0}>
           Lorem ipsum dolor sit amet, sint quodsi concludaturque nam ei.
         </P>
       </div>

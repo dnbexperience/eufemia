@@ -12,12 +12,12 @@ export type PSize = TypographySize
 
 export type PProps = TypographyProps<HTMLParagraphElement> & {
   /**
-   * Tells the component to use the medium font-weight styling dnb-p--medium defined in paragraphStyle - typography-mixins.scss. Find more details here https://eufemia.dnb.no/uilib/typography/font-weight/
+   * Tells the component to use the medium font-weight styling dnb-t__weight--medium defined in paragraphStyle - typography-mixins.scss. Find more details here https://eufemia.dnb.no/uilib/typography/font-weight/
    * @deprecated use the `weight` prop instead
    */
   medium?: boolean
   /**
-   * Tells the component to use the bold font-weight styling dnb-p--bold defined in paragraphStyle - typography-mixins.scss. Find more details here https://eufemia.dnb.no/uilib/typography/font-weight/
+   * Tells the component to use the bold font-weight styling dnb-t__weight--bold defined in paragraphStyle - typography-mixins.scss. Find more details here https://eufemia.dnb.no/uilib/typography/font-weight/
    * @deprecated use the `weight` prop instead
    */
   bold?: boolean
@@ -40,10 +40,15 @@ function P(props: PProps) {
 
   const paragraphContext = useContext(ParagraphContext)
 
-  const modifierString = remainingModifiers.reduce((acc, cur) => {
-    // only .dnb-p--lead remain as supported modifiers
-    return `${acc} dnb-p--${cur}`
-  }, '')
+  const deprecatedModifierString = remainingModifiers.reduce(
+    (acc, cur) => {
+      // This entire string could possibly be deprecated. There are no remaining modifiers
+      // that should be supported, but technically this allows for any class "dnb-p--[modifier]".
+      // But "dnb-p--lead" is the only class that we have, and it's not supposed to be added here.
+      return `${acc} dnb-p--${cur}`
+    },
+    ''
+  )
 
   return (
     <ParagraphContext.Provider value={{ isNested: true }}>
@@ -51,7 +56,11 @@ function P(props: PProps) {
         element={
           element === 'p' && paragraphContext?.isNested ? 'span' : element
         }
-        className={classnames('dnb-p', modifierString, className)}
+        className={classnames(
+          'dnb-p',
+          deprecatedModifierString,
+          className
+        )}
         {...rest}
       />
     </ParagraphContext.Provider>
@@ -88,7 +97,7 @@ const handleDeprecatedProps = ({
     } else if (['bold'].includes(cur)) {
       oldWeight = 'bold'
     } else {
-      // only .dnb-p--lead really remains as supported modifier
+      // There should never be anything here unless it's a custom modifier.
       return true
     }
     return false

@@ -9,7 +9,7 @@ The default font family for all web applications is the `DNB` font.
 ## DNB Regular
 
 <TypographyBox>
-  <p className="dnb-p dnb-t__weight--regular dnd-t__family-basis">
+  <p className="dnb-p dnb-t__weight--regular dnd-t__family--default">
     Here is a paragraph with some nonsense lipsum text. Contrary to popular
     belief, Lorem Ipsum passage, and going through the cites of the word in
     classical literature, discovered the undoubtable source. Lorem Ipsum
@@ -21,7 +21,7 @@ The default font family for all web applications is the `DNB` font.
 ## DNB Medium
 
 <TypographyBox>
-  <p className="dnb-p dnb-t__weight--medium dnd-t__family-basis">
+  <p className="dnb-p dnb-t__weight--medium dnd-t__family--default">
     Here is a paragraph with some nonsense lipsum text. Contrary to popular
     belief, Lorem Ipsum passage, and going through the cites of the word in
     classical literature, discovered the undoubtable source. Lorem Ipsum
@@ -32,8 +32,10 @@ The default font family for all web applications is the `DNB` font.
 
 ## DNB Bold
 
+**NB!** bold is generally not used, use medium, unless there is a specific unique use case.
+
 <TypographyBox>
-  <p className="dnb-p dnb-t__weight--bold dnd-t__family-basis">
+  <p className="dnb-p dnb-t__weight--bold dnd-t__family--default">
     Here is a paragraph with some nonsense lipsum text. Contrary to popular
     belief, Lorem Ipsum passage, and going through the cites of the word in
     classical literature, discovered the undoubtable source. Lorem Ipsum
@@ -54,6 +56,7 @@ The default font family for all web applications is the `DNB` font.
   </p>
 </TypographyBox>
 </VisibilityByTheme>
+
 <VisibilityByTheme visible="sbanken">
 
 The default font family for all web applications is `Roboto`, however for headlines and some other items we use `Maison Neue`.
@@ -61,13 +64,27 @@ The default font family for all web applications is `Roboto`, however for headli
 ### Maison Neue
 
 <TypographyBox>
-  <H3>This is a headline in Maison Neue</H3>
+  <p className="dnb-p dnb-t__size--large dnb-t__line--large dnb-t__family--heading">
+    This is a paragraph using the headline font Maison Neue
+  </p>
 </TypographyBox>
 
 ### Roboto regular
 
 <TypographyBox>
-  <p className="dnb-p dnb-t__weight--regular dnd-t__family-basis">
+  <p className="dnb-p dnb-t__weight--regular dnd-t__family--default">
+    Here is a paragraph with some nonsense lipsum text. Contrary to popular
+    belief, Lorem Ipsum passage, and going through the cites of the word in
+    classical literature, discovered the undoubtable source. Lorem Ipsum
+    comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et
+    Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC.
+  </p>
+</TypographyBox>
+
+## Roboto Medium
+
+<TypographyBox>
+  <p className="dnb-p dnb-t__weight--medium dnd-t__family--default">
     Here is a paragraph with some nonsense lipsum text. Contrary to popular
     belief, Lorem Ipsum passage, and going through the cites of the word in
     classical literature, discovered the undoubtable source. Lorem Ipsum
@@ -78,8 +95,10 @@ The default font family for all web applications is `Roboto`, however for headli
 
 ### Roboto bold
 
+**NB!** bold is generally not used, use medium, unless there is a specific unique use case.
+
 <TypographyBox>
-  <p className="dnb-p dnb-typo-bold dnd-t__family-basis">
+  <p className="dnb-p dnb-t__weight--bold dnd-t__family--default">
     Here is a paragraph with some nonsense lipsum text. Contrary to popular
     belief, Lorem Ipsum passage, and going through the cites of the word in
     classical literature, discovered the undoubtable source. Lorem Ipsum

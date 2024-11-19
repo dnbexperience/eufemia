@@ -51,11 +51,11 @@ export function SpanRegressionTests() {
       <div>
         <Span {...props}>{size}</Span>
         <br />
-        <Span medium {...props}>
+        <Span weight="medium" {...props}>
           {size} - Weight medium
         </Span>
         <br />
-        <Span bold {...props}>
+        <Span weight="bold" {...props}>
           {size} - Weight bold
         </Span>
       </div>

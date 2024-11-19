@@ -65,7 +65,7 @@
   &__align--center {
     text-align: center;
   }
-  &__align-left {
+  &__align--left {
     text-align: left;
   }
   &__align--right {
@@ -83,11 +83,11 @@
     font-family: var(--font-family-monospace);
   }
 
-  // italic / underline
-  &__decoration--italic {
-    text-decoration: italic;
-  }
+  // underline / italic
   &__decoration--underline {
     text-decoration: underline;
+  }
+  &__slant--italic {
+    font-style: italic;
   }
 }

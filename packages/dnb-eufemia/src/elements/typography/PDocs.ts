@@ -9,7 +9,7 @@ export const ParagraphProperties: PropertiesTableProps = {
     status: 'deprecated',
   },
   bold: {
-    doc: 'Tells the component to use the bold font-weight styling class `dnb-p--bold`. More details [here](/uilib/typography/font-weight).',
+    doc: 'Tells the component to use the bold font-weight styling class `dnb-t__weight--bold`. More details [here](/uilib/typography/font-weight).',
     type: 'boolean',
     status: 'deprecated',
   },

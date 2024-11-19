@@ -79,7 +79,7 @@ export function ParagraphAdditionalModifiers() {
       <div>
         <P weight="bold">Bold weight paragraph</P>
         <P decoration="underline">Underline paragraph</P>
-        <P decoration="italic">Italic paragraph</P>
+        <P slant="italic">Italic paragraph</P>
       </div>
     </ComponentBox>
   )
@@ -249,10 +249,10 @@ export function ParagraphRegressionTests() {
         <P {...props}>
           <Case>{size}</Case>
         </P>
-        <P medium {...props}>
+        <P weight="medium" {...props}>
           <Case>{size} - Weight medium</Case>
         </P>
-        <P bold {...props}>
+        <P weight="bold" {...props}>
           <Case>{size} - Weight bold</Case>
         </P>
       </>

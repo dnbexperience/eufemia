@@ -899,7 +899,7 @@ sub {
 .dnb-t__align--center {
   text-align: center;
 }
-.dnb-t__align-left {
+.dnb-t__align--left {
   text-align: left;
 }
 .dnb-t__align--right {
@@ -914,11 +914,11 @@ sub {
 .dnb-t__family--monospace {
   font-family: var(--font-family-monospace);
 }
-.dnb-t__decoration--italic {
-  text-decoration: italic;
-}
 .dnb-t__decoration--underline {
   text-decoration: underline;
+}
+.dnb-t__slant--italic {
+  font-style: italic;
 }
 
 .dnb-table b,

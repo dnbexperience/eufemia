@@ -21,7 +21,8 @@ export type TypographySize =
 export type TypographyAlign = 'center' | 'left' | 'right'
 export type TypographyFamily = 'basis' | 'heading' | 'monospace'
 export type TypographyWeight = 'regular' | 'medium' | 'bold'
-export type TypographyDecoration = 'italic' | 'underline'
+export type TypographyDecoration = 'underline'
+export type TypographySlant = 'italic'
 
 export type TypographyProps<
   ElementType extends HTMLElement = HTMLElement,
@@ -55,6 +56,10 @@ export type TypographyProps<
      * Sets the font decoration
      */
     decoration?: TypographyDecoration
+    /**
+     * Sets the font style
+     */
+    slant?: TypographySlant
   }
 
 type TypographyInternalProps = {
@@ -70,6 +75,7 @@ const Typography = ({
   family,
   weight,
   decoration,
+  slant,
   ...props
 }: TypographyProps & TypographyInternalProps) => {
   return (
@@ -83,6 +89,7 @@ const Typography = ({
         family && `dnb-t__family--${family}`,
         weight && `dnb-t__weight--${weight}`,
         decoration && `dnb-t__decoration--${decoration}`,
+        slant && `dnb-t__slant--${slant}`,
         (line || size) && `dnb-t__line--${line || size}`
       )}
     />
