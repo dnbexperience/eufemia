@@ -3,28 +3,17 @@ import { Flex } from '../../../../../components'
 import useUpload from '../../../../../components/upload/useUpload'
 import { createRequest } from '../../../Form/Handler/stories/FormHandler.stories'
 import { UploadValue } from '../Upload'
-// import { createMockFile } from '../../../../../components/upload/__tests__/testHelpers'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Upload',
 }
 
 export function Upload() {
-  // const { setFiles } = OriginalUpload.useUpload('unique-id')
-
-  // React.useEffect(() => {
-  //   setFiles([
-  // { file: createMockFile('fileName-1.png', 100, 'image/png') },
-  //   ])
-  // }, [setFiles])
-
   return (
     <Form.Handler
       top
       defaultData={{
-        myFiles: [
-          // { file: createMockFile('fileName-1.png', 100, 'image/png') },
-        ],
+        myFiles: [],
       }}
       onChange={(data) => {
         console.log('global onChange', data)
@@ -49,15 +38,6 @@ export function Upload() {
       </Flex.Stack>
     </Form.Handler>
   )
-}
-
-function mockSyncFileUpload(newFiles: UploadValue) {
-  return newFiles.map((file) => {
-    if (file.file.name.length > 5) {
-      file.errorMessage = 'File length is too long'
-    }
-    return file
-  })
 }
 
 async function mockAsyncFileUpload__withoutPromises(
@@ -112,7 +92,7 @@ export const WithAsyncFileHandler = () => {
           id="async_upload_context_id"
           path="/attachments"
           labelDescription="Upload multiple files at once to see the upload error message. This demo has been set up so that every other file in a batch will fail."
-          fileHandler={mockSyncFileUpload}
+          fileHandler={mockAsyncFileUpload__withoutPromises}
           required
         />
         <Form.SubmitButton />
