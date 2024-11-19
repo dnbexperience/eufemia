@@ -59,9 +59,10 @@ The `value` property represents an array with an object described above:
 render(<Field.Upload value={files} />)
 ```
 
-## About the `asyncFileHandler` property
+## About the `fileHandler` property
 
-The `asyncFileHandler` is an asynchronous handler function that takes newly added files as a parameter and returns a promise containing the processed files. The component will automatically handle loading states during the upload process. This feature is useful for tasks like uploading files to a virus checker, which returns a new file ID if the file passes the check. To indicate a failed upload, set the `errorMessage` on the specific file object with the desired message to display next to the file in the upload list.
+The `fileHandler` is a handler function that supports both an asynchronous and synchronous function. It takes newly added files as a parameter and returns processed files (a promise when asynchronous).
+The component will automatically handle asynchronous loading states during the upload process. This feature is useful for tasks like uploading files to a virus checker, which returns a new file ID if the file passes the check. To indicate a failed upload, set the `errorMessage` on the specific file object with the desired message to display next to the file in the upload list.
 
 ```js
 async function virusCheck(newFiles) {
