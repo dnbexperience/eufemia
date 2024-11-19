@@ -914,7 +914,7 @@ describe('Field.Upload', () => {
       ) {
         return newFiles.map((file) => {
           if (file.file.name.length > 5) {
-            file.errorMessage = 'File length is too long'
+            file.errorMessage = 'File name is too long'
           }
           return file
         })
@@ -945,7 +945,7 @@ describe('Field.Upload', () => {
       )
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        'File length is too long'
+        'File name is too long'
       )
     })
 
