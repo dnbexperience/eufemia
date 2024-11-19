@@ -178,7 +178,6 @@ export const WithSyncFileHandler = () => {
         }
 
         function mockSyncFileUpload(newFiles: UploadValue) {
-          console.log(newFiles)
           return newFiles.map((file) => {
             if (file.file.name.length > 5) {
               file.errorMessage = 'File length is too long'
