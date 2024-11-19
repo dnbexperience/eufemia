@@ -40,7 +40,9 @@ export type Props = Omit<
     | 'onFileDelete'
     | 'skeleton'
   > & {
-    asyncFileHandler?: (newFiles: UploadValue) => Promise<UploadValue>
+    fileHandler?: (
+      newFiles: UploadValue
+    ) => UploadValue | Promise<UploadValue>
   }
 
 const validateRequired = (
@@ -62,7 +64,7 @@ const validateRequired = (
 
 const updateFileLoadingState = (
   files: UploadValue,
-  isLoading: boolean
+  { isLoading } = { isLoading: true }
 ) => {
   return files.map((file) => ({ ...file, isLoading }))
 }
@@ -96,7 +98,7 @@ function UploadComponent(props: Props) {
     handleChange,
     handleFocus,
     handleBlur,
-    asyncFileHandler,
+    fileHandler,
     ...rest
   } = useFieldProps(preparedProps, {
     executeOnChangeRegardlessOfError: true,
@@ -131,20 +133,21 @@ function UploadComponent(props: Props) {
         // Set loading
         setFiles([
           ...fileContext,
-          ...updateFileLoadingState(newFiles, true),
+          ...updateFileLoadingState(newFiles, { isLoading: true }),
         ])
 
         const uploadedFiles = updateFileLoadingState(
-          await asyncFileHandler(newFiles),
-          false
+          await fileHandler(newFiles),
+          { isLoading: false }
         )
 
+        // Set error, if any
         handleChange([...fileContext, ...uploadedFiles])
       } else {
         handleChange(files)
       }
     },
-    [fileContext, asyncFileHandler, setFiles, updateFileLoadingState]
+    [fileContext, setFiles, fileHandler, handleChange]
   )
 
   const changeHandler = useCallback(
@@ -153,13 +156,13 @@ function UploadComponent(props: Props) {
       handleBlur()
       handleFocus()
 
-      if (asyncFileHandler) {
+      if (fileHandler) {
         handleChangeAsync(files)
       } else {
         handleChange(files)
       }
     },
-    [handleBlur, handleChange, handleFocus, asyncFileHandler, fileContext]
+    [handleBlur, handleFocus, fileHandler, handleChangeAsync, handleChange]
   )
 
   const width = widthProp as FieldBlockWidth
