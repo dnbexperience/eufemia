@@ -157,6 +157,9 @@ export default function Icon(localProps: IconAllProps) {
 }
 
 export function getIconNameFromComponent(icon: IconProps['icon']): string {
+  if (React.isValidElement(icon) && icon?.type) {
+    icon = icon?.type as IconType
+  }
   const name = typeof icon === 'function' ? icon.name : String(icon)
   if (/^data:image\//.test(name)) {
     return null
