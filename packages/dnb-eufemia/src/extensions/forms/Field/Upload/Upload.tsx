@@ -64,7 +64,7 @@ const validateRequired = (
 
 const updateFileLoadingState = (
   files: UploadValue,
-  { isLoading } = { isLoading: true }
+  { isLoading } = { isLoading: false }
 ) => {
   return files.map((file) => ({ ...file, isLoading }))
 }
