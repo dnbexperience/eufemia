@@ -16,7 +16,7 @@ const Case = styled.span`
 
 export function ParagraphWeightModifiers() {
   return (
-    <ComponentBox hideCode data-visual-test="paragraph-modifiers">
+    <ComponentBox hideCode data-visual-test="paragraph-modifiers-weight">
       <P>Default paragraph</P>
       <P weight="regular">Regular weight paragraph (same as default)</P>
       <P weight="medium">Medium weight paragraph</P>
@@ -25,7 +25,7 @@ export function ParagraphWeightModifiers() {
 }
 export function ParagraphSizeModifiers() {
   return (
-    <ComponentBox hideCode data-visual-test="paragraph-modifiers">
+    <ComponentBox hideCode data-visual-test="paragraph-modifiers-size">
       <P size="x-small">x-small paragraph</P>
       <P size="small">small paragraph</P>
       <P size="medium">medium paragraph</P>
@@ -38,7 +38,7 @@ export function ParagraphSizeModifiers() {
 }
 export function ParagraphAlignmentModifiers() {
   return (
-    <ComponentBox hideCode data-visual-test="paragraph-modifiers">
+    <ComponentBox hideCode data-visual-test="paragraph-modifiers-align">
       <P align="right">Right aligned paragraph</P>
       <P align="center">Center aligned paragraph</P>
       <P align="left">Left aligned paragraph</P>
@@ -47,7 +47,7 @@ export function ParagraphAlignmentModifiers() {
 }
 export function ParagraphFamilyModifiers() {
   return (
-    <ComponentBox hideCode data-visual-test="paragraph-modifiers">
+    <ComponentBox hideCode data-visual-test="paragraph-modifiers-family">
       <P family="basis">Basis family paragraph (same as default)</P>
       <P family="heading">
         Heading family paragraph (only different on some themes)
@@ -59,7 +59,7 @@ export function ParagraphFamilyModifiers() {
 
 export function ParagraphLineHeightModifiers() {
   return (
-    <ComponentBox hideCode data-visual-test="paragraph-modifiers">
+    <ComponentBox hideCode data-visual-test="paragraph-modifiers-line">
       <P line="x-small">x-small line-height paragraph</P>
       <P line="small">small line-height paragraph</P>
       <P line="medium">medium line-height paragraph</P>
@@ -72,10 +72,7 @@ export function ParagraphLineHeightModifiers() {
 }
 export function ParagraphAdditionalModifiers() {
   return (
-    <ComponentBox
-      hideCode
-      data-visual-test="paragraph-additional-modifiers"
-    >
+    <ComponentBox hideCode data-visual-test="paragraph-modifiers-other">
       <div>
         <P weight="bold">Bold weight paragraph</P>
         <P decoration="underline">Underline paragraph</P>
