@@ -636,7 +636,7 @@ function groupNavItems(navItems: NavItem[], location: Location) {
     // Define item object reference in hashmap
     hashmap[itemId] = hashItem
 
-    // Add all toplevel heading object references to topLevelHeadings array
+    // Add all top level heading object references to topLevelHeadings array
     // so that we wont have to loop through the array a second time to sort out top level headings
     if (item.level === 1) {
       topLevelHeadings.push(hashmap[itemId])
