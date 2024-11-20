@@ -1,4 +1,5 @@
 import React from 'react'
+import { wait } from '../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { Input } from '../../../../components'
 import FieldBlock from '../FieldBlock'
@@ -955,6 +956,99 @@ describe('FieldBlock', () => {
     expect(
       document.querySelectorAll('.dnb-form-status')[1].textContent
     ).toBe('Nested')
+  })
+
+  describe('fieldState', () => {
+    it('should show indicator when fieldState is set to pending', async () => {
+      render(
+        <FieldBlock fieldState="pending">
+          <MockComponent />
+        </FieldBlock>
+      )
+
+      const elements = document.querySelectorAll(
+        '.dnb-forms-submit-indicator'
+      )
+      expect(elements).toHaveLength(1)
+      expect(elements[0]).toHaveClass(
+        'dnb-forms-submit-indicator--state-pending'
+      )
+    })
+
+    it('should show indicator two (2) times when nested', async () => {
+      render(
+        <FieldBlock fieldState="pending">
+          <FieldBlock fieldState="pending">content</FieldBlock>
+        </FieldBlock>
+      )
+
+      const elements = document.querySelectorAll(
+        '.dnb-forms-submit-indicator'
+      )
+      expect(elements).toHaveLength(2)
+      expect(elements[0]).toHaveClass(
+        'dnb-forms-submit-indicator--state-pending'
+      )
+      expect(elements[1]).toHaveClass(
+        'dnb-forms-submit-indicator--state-pending'
+      )
+    })
+
+    it('should show indicator two (2) times when nested with useFieldProps', async () => {
+      const onChange = jest.fn(async () => {
+        await wait(10)
+        return null
+      })
+      const MockComponent = () => {
+        const { id, handleChange } = useFieldProps({
+          onChange,
+        })
+
+        return (
+          <FieldBlock id={id}>
+            <input type="text" onChange={handleChange} />
+          </FieldBlock>
+        )
+      }
+
+      render(
+        <FieldBlock>
+          <MockComponent />
+        </FieldBlock>
+      )
+
+      const elements = document.querySelectorAll(
+        '.dnb-forms-submit-indicator'
+      )
+      expect(elements).toHaveLength(2)
+
+      expect(elements[0].className).not.toContain(
+        'dnb-forms-submit-indicator--state-'
+      )
+      expect(elements[1].className).not.toContain(
+        'dnb-forms-submit-indicator--state-'
+      )
+
+      await userEvent.type(document.querySelector('input'), '1')
+
+      expect(elements[0]).toHaveClass(
+        'dnb-forms-submit-indicator--state-pending'
+      )
+      expect(elements[1]).toHaveClass(
+        'dnb-forms-submit-indicator--state-pending'
+      )
+
+      await waitFor(() => {
+        expect(elements[0]).toHaveClass(
+          'dnb-forms-submit-indicator--state-complete'
+        )
+      })
+      await waitFor(() => {
+        expect(elements[1]).toHaveClass(
+          'dnb-forms-submit-indicator--state-complete'
+        )
+      })
+    })
   })
 
   describe('help', () => {

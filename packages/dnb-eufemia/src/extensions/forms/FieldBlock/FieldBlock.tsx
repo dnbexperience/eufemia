@@ -181,6 +181,7 @@ function FieldBlock(props: Props) {
   const blockId = useId(props.id)
   const [wasUpdated, forceUpdate] = useReducer(() => ({}), {})
   const mountedFieldsRef = useRef<MountedFieldsRef>({})
+  const fieldStateRef = useRef<SubmitState>(null)
   const stateRecordRef = useRef<StateRecord>({})
   const fieldStateIdsRef = useRef<FieldErrorIdsRef>(null)
   const contentsRef = useRef<HTMLDivElement>(null)
@@ -254,11 +255,11 @@ function FieldBlock(props: Props) {
     }
   }, [])
 
-  const setFieldState = useCallback(
+  const setBlockRecord = useCallback(
     (props: StateBasis) => {
       if (nestedFieldBlockContext) {
         // If this FieldBlock is inside another one, forward the call to the outer one
-        nestedFieldBlockContext.setFieldState(props)
+        nestedFieldBlockContext.setBlockRecord(props)
         return
       }
 
@@ -267,6 +268,17 @@ function FieldBlock(props: Props) {
       forceUpdate()
     },
     [nestedFieldBlockContext, setInternalRecord]
+  )
+
+  const setFieldState = useCallback(
+    (identifier: Identifier, fieldState: SubmitState) => {
+      if (fieldState !== fieldStateRef.current) {
+        fieldStateRef.current = fieldState
+
+        forceUpdate()
+      }
+    },
+    []
   )
 
   const showFieldError = useCallback(
@@ -465,6 +477,11 @@ function FieldBlock(props: Props) {
         hasCustomContentWidth ? 'custom' : contentWidth
       }`,
     labelHeight && `dnb-forms-field-block--label-height-${labelHeight}`,
+    composition && 'dnb-forms-field-block__composition',
+    composition &&
+      `dnb-forms-field-block__composition--${
+        composition === true ? 'horizontal' : composition
+      }`,
     className
   )
   const gridClasses = classnames(
@@ -534,6 +551,7 @@ function FieldBlock(props: Props) {
   return (
     <FieldBlockContext.Provider
       value={{
+        setBlockRecord,
         setFieldState,
         showFieldError,
         hasErrorProp: Boolean(errorProp),
@@ -611,10 +629,6 @@ function FieldBlock(props: Props) {
                   hasCustomContentWidth ? 'custom' : contentWidth
                 }`,
               align && `dnb-forms-field-block__contents--align-${align}`,
-              composition &&
-                `dnb-forms-field-block__contents__composition--${
-                  composition === true ? 'horizontal' : composition
-                }`,
               contentClassName
             )}
             ref={contentsRef}
@@ -623,7 +637,7 @@ function FieldBlock(props: Props) {
           </div>
 
           <SubmitIndicator
-            state={fieldState}
+            state={fieldState ?? fieldStateRef.current}
             className="dnb-forms-field-block__indicator dnb-forms-submit-indicator--inline-wrap"
           />
         </div>
