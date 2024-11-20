@@ -7,6 +7,8 @@ import React from 'react'
 import styled from '@emotion/styled'
 import ComponentBox from '../../../shared/tags/ComponentBox'
 import { Code, H4, Lead, P } from '@dnb/eufemia/src'
+import { useTheme } from '@dnb/eufemia/shared'
+
 import { TypographyBox } from '../../../shared/parts/TypographyBox'
 
 const Wrapper = styled.div`
@@ -29,7 +31,38 @@ const FontUsageExample = ({ typo_class, font_family }) => (
   </TypographyBox>
 )
 
-export function FontWeightExample() {
+export function FontWeightByThemeExample() {
+  const theme = useTheme()
+
+  if (theme?.name === 'sbanken') {
+    return (
+      <Wrapper>
+        {/* Regular */}
+        <FontUsageExample
+          font_family="Roboto Regular"
+          typo_class="dnb-t__weight--regular"
+        />
+
+        {/* Medium */}
+        <FontUsageExample
+          font_family="Roboto Medium"
+          typo_class="dnb-t__weight--medium"
+        />
+
+        {/* Bold */}
+        <FontUsageExample
+          font_family="Roboto Bold"
+          typo_class="dnb-t__weight--bold"
+        />
+
+        {/* Mono Regular */}
+        <FontUsageExample
+          font_family="Monospace Regular"
+          typo_class="dnb-t__weight--regular dnb-t__family--monospace"
+        />
+      </Wrapper>
+    )
+  }
   return (
     <Wrapper>
       {/* Regular */}

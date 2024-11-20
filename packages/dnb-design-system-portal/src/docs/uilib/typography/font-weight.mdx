@@ -5,19 +5,23 @@ redirect_from:
   - /uilib/typography/font-weights
 ---
 
-import { FontWeightExample } from 'Docs/uilib/typography/Examples'
+import { FontWeightByThemeExample } from 'Docs/uilib/typography/Examples'
+import { GetPropValue, GetPropAsPx } from './_helpers.tsx'
+import ChangeStyleTheme from '../../../core/ChangeStyleTheme'
 
-# Font Weights
+# Font Weights for <VisibilityByTheme.Name />
+
+<ChangeStyleTheme label="Change the brand:" bottom="large" />
 
 For details about what values Typographic elements do use, have a look at the [Fonts & Typography](/quickguide-designer/fonts#typographic-elements) documentation.
 
 ## Eufemia has three (3) font-weights
 
-| Type                                                             | CSS variable / property | CSS Classname             |
-| ---------------------------------------------------------------- | ----------------------- | ------------------------- |
-| <span className="dnb-t__weight--regular">Regular (normal)</span> | `--font-weight-regular` | `.dnb-t__weight--regular` |
-| <span className="dnb-t__weight--medium">Medium (500)</span>      | `--font-weight-medium`  | `.dnb-t__weight--medium`  |
-| <span className="dnb-t__weight--bold">Bold (600)</span>          | `--font-weight-bold`    | `.dnb-t__weight--bold`    |
+| Type                                                                                              | CSS variable / property | CSS Classname             |
+| ------------------------------------------------------------------------------------------------- | ----------------------- | ------------------------- |
+| <span className="dnb-t__weight--regular">Regular ({GetPropValue('--font-weight-regular')})</span> | `--font-weight-regular` | `.dnb-t__weight--regular` |
+| <span className="dnb-t__weight--medium">Medium ({GetPropValue('--font-weight-medium')})</span>    | `--font-weight-medium`  | `.dnb-t__weight--medium`  |
+| <span className="dnb-t__weight--bold">Bold ({GetPropValue('--font-weight-bold')})</span>          | `--font-weight-bold`    | `.dnb-t__weight--bold`    |
 
 ### How to use the weights (CSS)
 
@@ -34,7 +38,7 @@ p {
 
 /* I am Bold */
 p {
-  font-weight: var(--font-weight-bold); /* 600 */
+  font-weight: var(--font-weight-bold); /* 600 (in Ui theme) */
 }
 
 /* This will result in loading the Bold Font */
@@ -52,6 +56,6 @@ p {
 <span class="dnb-t__weight--bold">Third Tag</span>
 ```
 
-## Examples
+## <VisibilityByTheme.Name /> weight examples
 
-<FontWeightExample />
+<FontWeightByThemeExample />
