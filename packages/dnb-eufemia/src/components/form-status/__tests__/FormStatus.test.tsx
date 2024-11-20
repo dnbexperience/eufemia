@@ -41,6 +41,16 @@ describe('FormStatus component', () => {
     ).toContain('max-width: 30rem;')
   })
 
+  it('should have correct icon label', () => {
+    render(<Input status="Error message" status_state="error" />)
+    expect(
+      document.querySelector('[role="presentation"]')
+    ).toHaveAttribute('data-testid', 'ErrorIcon icon')
+    expect(
+      document.querySelector('.dnb-form-status__text')
+    ).toHaveTextContent('Error message')
+  })
+
   it('should re-calculate max-width', () => {
     const { rerender } = render(
       <Input style={{ width: '10rem' }} status="status message" />
