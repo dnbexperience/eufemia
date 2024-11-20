@@ -58,7 +58,7 @@ const useLayoutEffect =
 
 type SubmitStateWithValidating = SubmitState | 'validating'
 type AsyncProcesses =
-  | 'validator'
+  | 'onChangeValidator'
   | 'onBlurValidator'
   | 'onChangeLocal'
   | 'onChangeContext'
@@ -855,7 +855,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
 
     if (isAsync(onChangeValidatorRef.current)) {
-      defineAsyncProcess('validator')
+      defineAsyncProcess('onChangeValidator')
       setFieldState('validating')
       hideError()
     }
@@ -1370,7 +1370,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         name: 'onChangeContext',
         waitFor: [
           {
-            processName: 'validator',
+            processName: 'onChangeValidator',
             withStates: ['validating', 'error'],
             hasValue: valueRef.current,
           },
@@ -1541,7 +1541,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
               name: 'onChangeLocal',
               waitFor: [
                 {
-                  processName: 'validator',
+                  processName: 'onChangeValidator',
                   withStates: ['validating', 'error'],
                   hasValue: args[0],
                 },
