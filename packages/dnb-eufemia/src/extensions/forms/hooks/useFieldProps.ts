@@ -581,12 +581,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       validateUnchanged ||
       continuousValidation
     ) {
-      if (onChangeValidatorRef.current) {
-        runOnChangeValidator()
-      }
+      runOnChangeValidator()
     }
 
-    if (localErrorRef.current && onBlurValidatorRef.current) {
+    if (localErrorRef.current) {
       runOnBlurValidator()
     }
   })
