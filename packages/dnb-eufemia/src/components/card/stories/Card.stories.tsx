@@ -6,7 +6,7 @@
 import React from 'react'
 
 import { Field, Form } from '../../../extensions/forms'
-import { Card, Flex, Grid } from '../../'
+import { Card, Flex, Grid, Section, Space } from '../../'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import { H2, P } from '../../../elements'
 
@@ -188,5 +188,33 @@ export const WithGrid = () => {
         </Card>
       </Grid.Container>
     </div>
+  )
+}
+
+export const WithOutset = () => {
+  return (
+    <Space space="large">
+      <Flex.Vertical>
+        <Form.MainHeading>Main heading</Form.MainHeading>
+        <Card stack outset>
+          <P>Card content</P>
+          <Card>
+            <P>Nested card</P>
+          </Card>
+        </Card>
+        <Form.SubmitButton />
+      </Flex.Vertical>
+
+      <Section
+        top
+        roundedCorner
+        outline
+        outset={{ small: false, medium: true, large: true }}
+        innerSpace="medium"
+        backgroundColor="transparent"
+      >
+        <P>Nested card</P>
+      </Section>
+    </Space>
   )
 }

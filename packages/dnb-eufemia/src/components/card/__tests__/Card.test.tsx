@@ -131,6 +131,7 @@ describe('Card', () => {
     expect(element).toHaveClass('dnb-flex-item--align-self-stretch')
     expect(container).toHaveClass('dnb-flex-container--align-stretch')
     expect(container).toHaveClass('dnb-flex-container--align-self-stretch')
+    expect(container).toHaveClass('dnb-flex-container--spacing-medium')
   })
 
   it('should set align="stretch" classes', () => {
@@ -329,6 +330,55 @@ describe('Card', () => {
     rerender(<Card innerSpace={0} />)
 
     expect(element.getAttribute('style')).not.toContain('--space-')
+  })
+
+  it('should support "outset"', () => {
+    const { rerender } = render(<Card outset />)
+
+    const element = document.querySelector('.dnb-card')
+
+    expect(element).toHaveStyle('--outset--small: 0')
+    expect(element).toHaveStyle('--outset--medium: 1')
+    expect(element).toHaveStyle('--outset--large: 1')
+
+    rerender(
+      <Card
+        outset={{
+          small: true,
+          medium: false,
+          large: false,
+        }}
+      />
+    )
+
+    expect(element).toHaveStyle('--outset--small: 1')
+    expect(element).toHaveStyle('--outset--medium: 0')
+    expect(element).toHaveStyle('--outset--large: 0')
+
+    rerender(<Card outset={false} />)
+
+    expect(element).toHaveStyle('--outset--small: 0')
+    expect(element).toHaveStyle('--outset--medium: 0')
+    expect(element).toHaveStyle('--outset--large: 0')
+  })
+
+  it('should not allow "outset" on nested cards', () => {
+    render(
+      <Card outset>
+        <Card outset />
+      </Card>
+    )
+
+    const firstCard = document.querySelector('.dnb-card')
+    const secondCard = firstCard.querySelector('.dnb-card')
+
+    expect(firstCard).toHaveStyle('--outset--small: 0')
+    expect(firstCard).toHaveStyle('--outset--medium: 1')
+    expect(firstCard).toHaveStyle('--outset--large: 1')
+
+    expect(secondCard).toHaveStyle('--outset--small: 0')
+    expect(secondCard).toHaveStyle('--outset--medium: 0')
+    expect(secondCard).toHaveStyle('--outset--large: 0')
   })
 
   it('should support "responsive" of false', () => {
