@@ -289,7 +289,7 @@ describe('Field.OrganizationNumber', () => {
           value={invalidOrgNo}
           validateInitially
           validate={false}
-          validator={customValidator}
+          onChangeValidator={customValidator}
           onBlurValidator={false}
         />
       </Form.Handler>
@@ -326,7 +326,7 @@ describe('Field.OrganizationNumber', () => {
           value={invalidOrgNo}
           validateInitially
           validate={false}
-          validator={customValidator}
+          onChangeValidator={customValidator}
           onBlurValidator={false}
         />
       </Form.Handler>

@@ -80,8 +80,8 @@ All properties are optional and can be used as needed. These properties can be p
 
 - `required` if true, it will call `validateRequired` for validation.
 - `schema` or `pattern` for JSON schema validation powered by [ajv](https://ajv.js.org/).
-- `validator` your custom validation function. It will run on every keystroke. Can be an async function. Use it together with [debounceAsync](/uilib/helpers/functions/#debounce).
-- `onBlurValidator` your custom validation function. It will run on a `handleBlur()` call. Use it over `validator` for validations with side-effects. Can be an async function.
+- `onChangeValidator` your custom validation function. It will run on every keystroke. Can be an async function. Use it together with [debounceAsync](/uilib/helpers/functions/#debounce).
+- `onBlurValidator` your custom validation function. It will run on a `handleBlur()` call. Use it over `onChangeValidator` for validations with side-effects. Can be an async function.
 - `validateRequired` does allow you to provide a custom logic for how the `required` property should validate. See example down below.
 - `validateInitially` in order to show an error without a change and blur event. Used for rare cases.
 - `validateUnchanged` in order to validate without a change and blur event. Used for rare cases.
@@ -166,7 +166,8 @@ During validation, the different APIs do have a prioritization order and will st
 
 1. `required` property
 1. `schema` property (including `pattern`)
-1. `validator` property
+1. `onChangeValidator` property
+1. `onBlurValidator` property (Is this correct tobias?)
 
 ### Error handling
 

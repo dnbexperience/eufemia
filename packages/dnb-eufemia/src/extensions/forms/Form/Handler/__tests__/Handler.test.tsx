@@ -544,7 +544,7 @@ describe('Form.Handler', () => {
       expect(inputElement).toBeDisabled()
     })
 
-    it('should not disable form elements during on async validator handling', async () => {
+    it('should not disable form elements during an async validator handling', async () => {
       const onSubmit = async () => null
       const asyncValidator = async () => {
         return null
@@ -568,7 +568,7 @@ describe('Form.Handler', () => {
 
       rerender(
         <Form.Handler onSubmit={onSubmit}>
-          <Field.String value="Value" validator={asyncValidator} />
+          <Field.String value="Value" onChangeValidator={asyncValidator} />
           <Form.SubmitButton />
         </Form.Handler>
       )
@@ -772,7 +772,7 @@ describe('Form.Handler', () => {
       })
     })
 
-    it('should call onSubmit and onSubmitComplete with async validator', async () => {
+    it('should call onSubmit and onSubmitComplete with async onChangeValidator', async () => {
       const onSubmit: OnSubmit = jest.fn()
       const onSubmitComplete = jest.fn()
 
@@ -788,7 +788,7 @@ describe('Form.Handler', () => {
           <Field.String
             value="bar"
             path="/foo"
-            validator={asyncValidator}
+            onChangeValidator={asyncValidator}
           />
           <Form.SubmitButton />
         </Form.Handler>
@@ -819,7 +819,7 @@ describe('Form.Handler', () => {
       })
     })
 
-    it('should not call async validator when field is not mounted anymore', async () => {
+    it('should not call async onChangeValidator when field is not mounted anymore', async () => {
       const onSubmit: OnSubmit = jest.fn()
       const asyncValidator = jest.fn(async () => {
         return null
@@ -830,7 +830,7 @@ describe('Form.Handler', () => {
           <Field.String
             value="bar"
             path="/foo"
-            validator={asyncValidator}
+            onChangeValidator={asyncValidator}
           />
           <Form.SubmitButton />
         </Form.Handler>

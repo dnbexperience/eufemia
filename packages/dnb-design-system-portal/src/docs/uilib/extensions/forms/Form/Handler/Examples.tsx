@@ -157,7 +157,7 @@ export const AsyncChangeAndValidation = () => {
                   label='Type "valid" to validate the field'
                   path="/myField"
                   required
-                  validator={validator}
+                  onChangeValidator={validator}
                   onChange={onChangeField}
                   autoComplete="off"
                 />

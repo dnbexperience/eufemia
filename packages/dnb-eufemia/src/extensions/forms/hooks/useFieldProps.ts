@@ -121,7 +121,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     onBlur,
     onChange,
     onBlurValidator,
+    // Deprecated – can be removed in v11
     validator,
+    onChangeValidator = validator,
     exportValidators,
     schema,
     validateInitially,
@@ -343,10 +345,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     dataContextError
   )
 
-  const onChangeValidatorRef = useRef(validator)
+  const onChangeValidatorRef = useRef(onChangeValidator)
   useUpdateEffect(() => {
-    onChangeValidatorRef.current = validator
-  }, [validator])
+    onChangeValidatorRef.current = onChangeValidator
+  }, [onChangeValidator]) // Tobias, will this still work? now that we do onChangeValidator = validator?
   const onBlurValidatorRef = useRef(onBlurValidator)
   useUpdateEffect(() => {
     onBlurValidatorRef.current = onBlurValidator
@@ -386,7 +388,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   }
 
   const eventPool = useRef({
-    validator: null,
+    onChangeValidator: null,
     onBlurValidator: null,
     onChangeContext: null,
     onChangeLocal: null,
@@ -1488,7 +1490,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       }
 
       addToPool(
-        'validator',
+        'onChangeValidator',
         validateValue,
         isAsync(onChangeValidatorRef.current)
       )
@@ -2051,7 +2053,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
 
     addToPool(
-      'validator',
+      'onChangeValidator',
       startOnChangeValidatorValidation,
       isAsync(onChangeValidatorRef.current)
     )

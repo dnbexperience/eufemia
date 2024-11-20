@@ -135,7 +135,7 @@ export function AdvancedForm() {
             label="Field A (onBlurValidator)"
             path="/fieldA"
             onBlurValidator={firstValidator}
-            // validator={firstValidator}
+            // onChangeValidator={firstValidator}
             // continuousValidation
             // validateInitially
             // validateUnchanged
@@ -152,10 +152,10 @@ export function AdvancedForm() {
               onBlurValidator={secondValidator}
             />
             <Field.String
-              label="Field C (validator)"
+              label="Field C (onChangeValidator)"
               width="stretch"
               path="/fieldC"
-              validator={thirdValidator}
+              onChangeValidator={thirdValidator}
               // validateInitially
               // required
             />
@@ -273,7 +273,7 @@ export function SimpleForm() {
           value="vali"
           label="Name"
           path="/myField1"
-          validator={secondValidator}
+          onChangeValidator={secondValidator}
           onBlurValidator={thirdValidator}
           onChange={onFieldChange}
         />

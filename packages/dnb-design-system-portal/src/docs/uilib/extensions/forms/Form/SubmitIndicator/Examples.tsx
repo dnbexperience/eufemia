@@ -60,7 +60,7 @@ export const AsyncChangeBehavior = () => {
                 path="/myField1"
                 label="Label (with async validation)"
                 placeholder="Write something ..."
-                validator={delay}
+                onChangeValidator={delay}
               />
               <FieldBlock width="medium">
                 <Field.String

@@ -42,7 +42,7 @@ import AsyncChangeExample from './Form/Handler/parts/async-change-example.mdx'
     - [required](#required)
     - [pattern](#pattern)
     - [schema](#schema)
-    - [onBlurValidator and validator](#onblurvalidator-and-validator)
+    - [onBlurValidator and onChangeValidator](#onblurvalidator-and-onchangevalidator)
       - [Connect with another field](#connect-with-another-field)
       - [Async validation](#async-validation)
       - [Async validator with debounce](#async-validator-with-debounce)
@@ -390,13 +390,13 @@ More info about the async change behavior in the form [Handler](/uilib/extension
 
 #### Async field validation
 
-A similar indicator behavior will occur when using async functions for field validation, such as `validator` or `onBlurValidation`, your form will exhibit async behavior. This means that the validation needs to be successfully completed before the form can be submitted.
+A similar indicator behavior will occur when using async functions for field validation, such as `onChangeValidator` or `onBlurValidation`, your form will exhibit async behavior. This means that the validation needs to be successfully completed before the form can be submitted.
 
 ### Validation and error handling
 
 Every field component has a built-in validation that is based on the type of data it handles. This validation is automatically applied to the field when the user interacts with it. The validation is also applied when the user submits the form.
 
-In addition, you can add your own validation to a field component. This is done by adding a `required`, `pattern`, `schema` or `validator` property.
+In addition, you can add your own validation to a field component. This is done by adding a `required`, `pattern`, `schema`, `onChangeValidator` or `onBlurValidation` property.
 
 Fields which have the `disabled` property or the `readOnly` property, will skip validation.
 
@@ -487,9 +487,9 @@ const schema = {
 <Field.PhoneNumber schema={schema} />
 ```
 
-#### onBlurValidator and validator
+#### onBlurValidator and onChangeValidator
 
-The `onBlurValidator` and `validator` properties accepts a function that takes the current value of the field as an argument and returns an error message if the value is invalid:
+The `onBlurValidator` and `onChangeValidator` properties accepts a function that takes the current value of the field as an argument and returns an error message if the value is invalid:
 
 ```tsx
 const onChangeValidator = (value) => {
@@ -498,14 +498,14 @@ const onChangeValidator = (value) => {
     return new Error('Invalid value message')
   }
 }
-render(<Field.PhoneNumber validator={onChangeValidator} />)
+render(<Field.PhoneNumber onChangeValidator={onChangeValidator} />)
 ```
 
 You can find more info about error messages in the [error messages](/uilib/extensions/forms/Form/error-messages/) docs.
 
 ##### Connect with another field
 
-You can also use the `connectWithPath` function to connect the validator to another field. This allows you to rerun the validator function once the value of the connected field changes:
+You can also use the `connectWithPath` function to connect the `onChangeValidator` to another field. This allows you to rerun the validator function once the value of the connected field changes:
 
 ```tsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
@@ -523,15 +523,15 @@ render(
     <Field.Number path="/myReference" defaultValue={2} />
 
     <Field.Number
-      path="/withValidator"
+      path="/withOnChangeValidator"
       defaultValue={2}
-      validator={onChangeValidator} // NB: You may use "onBlurValidator" depending on use case.
+      onChangeValidator={onChangeValidator} // NB: You may use "onBlurValidator" depending on use case.
     />
   </Form.Handler>,
 )
 ```
 
-By default, the validator function will only run when the "/withValidator" field is changed. When the error message is shown, it will update the message with the new value of the "/myReference" field.
+By default, the `onChangeValidator` function will only run when the "/withOnChangeValidator" field is changed. When the error message is shown, it will update the message with the new value of the "/myReference" field.
 
 You can also change this behavior for testing purposes by using the following properties:
 
@@ -576,7 +576,7 @@ const onChangeValidator = debounceAsync(async function myValidator(value) {
     return error
   }
 })
-render(<Field.PhoneNumber validator={onChangeValidator} />)
+render(<Field.PhoneNumber onChangeValidator={onChangeValidator} />)
 ```
 
 ### Localization and translation

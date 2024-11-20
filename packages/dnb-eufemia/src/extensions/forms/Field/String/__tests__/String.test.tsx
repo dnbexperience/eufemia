@@ -917,20 +917,20 @@ describe('Field.String', () => {
       })
     })
 
-    describe('validation using a synchronous external validator function', () => {
-      it('should show error returned by validator', async () => {
-        const validator = jest.fn(syncValidatorReturningError)
+    describe('validation using a synchronous external onChangeValidator function', () => {
+      it('should show error returned by onChangeValidator', async () => {
+        const onChangeValidator = jest.fn(syncValidatorReturningError)
         render(
           <Field.String
             value="abc"
-            validator={validator}
+            onChangeValidator={onChangeValidator}
             validateInitially
           />
         )
         await waitFor(() => {
           // Wait for since external validators are processed asynchronously
-          expect(validator).toHaveBeenCalledTimes(1)
-          expect(validator).toHaveBeenNthCalledWith(
+          expect(onChangeValidator).toHaveBeenCalledTimes(1)
+          expect(onChangeValidator).toHaveBeenNthCalledWith(
             1,
             'abc',
             expect.anything()
@@ -945,18 +945,18 @@ describe('Field.String', () => {
         fireEvent.blur(input)
 
         await waitFor(() => {
-          expect(validator).toHaveBeenCalledTimes(4)
-          expect(validator).toHaveBeenNthCalledWith(
+          expect(onChangeValidator).toHaveBeenCalledTimes(4)
+          expect(onChangeValidator).toHaveBeenNthCalledWith(
             2,
             'abcd',
             expect.anything()
           )
-          expect(validator).toHaveBeenNthCalledWith(
+          expect(onChangeValidator).toHaveBeenNthCalledWith(
             3,
             'abcde',
             expect.anything()
           )
-          expect(validator).toHaveBeenNthCalledWith(
+          expect(onChangeValidator).toHaveBeenNthCalledWith(
             4,
             'abcdef',
             expect.anything()
@@ -967,12 +967,12 @@ describe('Field.String', () => {
         })
       })
 
-      it('should not show error when validator returns undefined', async () => {
-        const validator = jest.fn(syncValidatorReturningUndefined)
+      it('should not show error when onChangeValidator returns undefined', async () => {
+        const onChangeValidator = jest.fn(syncValidatorReturningUndefined)
         render(
           <Field.String
             value="abc"
-            validator={validator}
+            onChangeValidator={onChangeValidator}
             validateInitially
           />
         )
@@ -982,20 +982,20 @@ describe('Field.String', () => {
       })
     })
 
-    describe('validation using an asynchronous external validator function', () => {
-      it('should show error returned by validator', async () => {
-        const validator = jest.fn(asyncValidatorResolvingWithError)
+    describe('validation using an asynchronous external onChangeValidator function', () => {
+      it('should show error returned by onChangeValidator', async () => {
+        const onChangeValidator = jest.fn(asyncValidatorResolvingWithError)
         render(
           <Field.String
             value="abc"
-            validator={validator}
+            onChangeValidator={onChangeValidator}
             validateInitially
           />
         )
         await waitFor(() => {
           // Wait for since external validators are processed asynchronously
-          expect(validator).toHaveBeenCalledTimes(1)
-          expect(validator).toHaveBeenNthCalledWith(
+          expect(onChangeValidator).toHaveBeenCalledTimes(1)
+          expect(onChangeValidator).toHaveBeenNthCalledWith(
             1,
             'abc',
             expect.anything()
@@ -1012,18 +1012,18 @@ describe('Field.String', () => {
           fireEvent.blur(input)
         })
 
-        expect(validator).toHaveBeenCalledTimes(4)
-        expect(validator).toHaveBeenNthCalledWith(
+        expect(onChangeValidator).toHaveBeenCalledTimes(4)
+        expect(onChangeValidator).toHaveBeenNthCalledWith(
           2,
           'abcd',
           expect.anything()
         )
-        expect(validator).toHaveBeenNthCalledWith(
+        expect(onChangeValidator).toHaveBeenNthCalledWith(
           3,
           'abcde',
           expect.anything()
         )
-        expect(validator).toHaveBeenNthCalledWith(
+        expect(onChangeValidator).toHaveBeenNthCalledWith(
           4,
           'abcdef',
           expect.anything()
@@ -1033,12 +1033,14 @@ describe('Field.String', () => {
         ).toBeInTheDocument()
       })
 
-      it('should not show error when validator returns undefined', async () => {
-        const validator = jest.fn(asyncValidatorResolvingWithUndefined)
+      it('should not show error when onChangeValidator returns undefined', async () => {
+        const onChangeValidator = jest.fn(
+          asyncValidatorResolvingWithUndefined
+        )
         render(
           <Field.String
             value="foo"
-            validator={validator}
+            onChangeValidator={onChangeValidator}
             validateInitially
           />
         )
@@ -1050,19 +1052,19 @@ describe('Field.String', () => {
     })
 
     describe('validation using a synchronous external onBlurValidator function', () => {
-      it('should show error returned by validator', async () => {
-        const validator = jest.fn(syncValidatorReturningError)
+      it('should show error returned by onBlurValidator', async () => {
+        const onBlurValidator = jest.fn(syncValidatorReturningError)
         render(
           <Field.String
             value="abc"
-            onBlurValidator={validator}
+            onBlurValidator={onBlurValidator}
             validateInitially
           />
         )
 
         await waitFor(() => {
           // Wait for since external validators are processed asynchronously
-          expect(validator).toHaveBeenCalledTimes(1)
+          expect(onBlurValidator).toHaveBeenCalledTimes(1)
           expect(screen.queryByRole('alert')).toBeInTheDocument()
         })
         const input = document.querySelector('input')
@@ -1071,13 +1073,13 @@ describe('Field.String', () => {
 
         await waitFor(() => {
           // Wait for since external validators are processed asynchronously
-          expect(validator).toHaveBeenCalledTimes(2)
-          expect(validator).toHaveBeenNthCalledWith(
+          expect(onBlurValidator).toHaveBeenCalledTimes(2)
+          expect(onBlurValidator).toHaveBeenNthCalledWith(
             1,
             'abc',
             expect.anything()
           )
-          expect(validator).toHaveBeenNthCalledWith(
+          expect(onBlurValidator).toHaveBeenNthCalledWith(
             2,
             'abcdef',
             expect.anything()
@@ -1089,12 +1091,12 @@ describe('Field.String', () => {
         })
       })
 
-      it('should not show error when validator returns undefined', async () => {
-        const validator = jest.fn(syncValidatorReturningUndefined)
+      it('should not show error when onBlurValidator returns undefined', async () => {
+        const onBlurValidator = jest.fn(syncValidatorReturningUndefined)
         render(
           <Field.String
             value="abc"
-            onBlurValidator={validator}
+            onBlurValidator={onBlurValidator}
             validateInitially
           />
         )
@@ -1108,19 +1110,19 @@ describe('Field.String', () => {
     })
 
     describe('validation using an asynchronous external onBlurValidator function', () => {
-      it('should show error returned by validator', async () => {
-        const validator = jest.fn(asyncValidatorResolvingWithError)
+      it('should show error returned by onBlurValidator', async () => {
+        const onBlurValidator = jest.fn(asyncValidatorResolvingWithError)
         render(
           <Field.String
             value="abc"
-            onBlurValidator={validator}
+            onBlurValidator={onBlurValidator}
             validateInitially
           />
         )
 
         await waitFor(() => {
           // Wait for since external validators are processed asynchronously
-          expect(validator).toHaveBeenCalledTimes(1)
+          expect(onBlurValidator).toHaveBeenCalledTimes(1)
           expect(screen.queryByRole('alert')).toBeInTheDocument()
         })
         const input = document.querySelector('input')
@@ -1129,13 +1131,13 @@ describe('Field.String', () => {
 
         await waitFor(() => {
           // Wait for since external validators are processed asynchronously
-          expect(validator).toHaveBeenCalledTimes(2)
-          expect(validator).toHaveBeenNthCalledWith(
+          expect(onBlurValidator).toHaveBeenCalledTimes(2)
+          expect(onBlurValidator).toHaveBeenNthCalledWith(
             1,
             'abc',
             expect.anything()
           )
-          expect(validator).toHaveBeenNthCalledWith(
+          expect(onBlurValidator).toHaveBeenNthCalledWith(
             2,
             'abcdef',
             expect.anything()
@@ -1147,12 +1149,14 @@ describe('Field.String', () => {
         })
       })
 
-      it('should not show error when validator returns undefined', async () => {
-        const validator = jest.fn(asyncValidatorResolvingWithUndefined)
+      it('should not show error when onBlurValidator returns undefined', async () => {
+        const onBlurValidator = jest.fn(
+          asyncValidatorResolvingWithUndefined
+        )
         render(
           <Field.String
             value="abc"
-            onBlurValidator={validator}
+            onBlurValidator={onBlurValidator}
             validateInitially
           />
         )
@@ -1234,7 +1238,7 @@ describe('Field.String', () => {
         ).toBe('At least 4.')
       })
 
-      it('should provide error message to the validator', async () => {
+      it('should provide error message to the onBlurValidator', async () => {
         let collectDeprecatedMessage = null
         let collectCustomMessage = null
         const customMessage = 'Your custom error message'

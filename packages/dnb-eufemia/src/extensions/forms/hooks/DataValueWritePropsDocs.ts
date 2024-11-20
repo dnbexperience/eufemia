@@ -76,7 +76,7 @@ export const DataValueWritePropsProperties: PropertiesTableProps = {
     type: 'object',
     status: 'optional',
   },
-  validator: {
+  onChangeValidator: {
     doc: 'Custom validator function that is triggered on every change done by the user. The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }.',
     type: 'function',
     status: 'optional',

@@ -52,7 +52,7 @@ export const ArrayProperties: PropertiesTableProps = {
     type: 'unknown',
     status: 'optional',
   },
-  validator: DataValueWritePropsProperties.validator,
+  onChangeValidator: DataValueWritePropsProperties.onChangeValidator,
   validateInitially: DataValueWritePropsProperties.validateInitially,
   continuousValidation: DataValueWritePropsProperties.continuousValidation,
   containerMode: {

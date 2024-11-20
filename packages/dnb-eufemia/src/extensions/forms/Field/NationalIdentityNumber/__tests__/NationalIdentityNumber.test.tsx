@@ -136,7 +136,7 @@ describe('Field.NationalIdentityNumber', () => {
 
   it('should validate given function', async () => {
     const text = 'Custom Error message'
-    const validator = jest.fn((value) => {
+    const onChangeValidator = jest.fn((value) => {
       return value.length < 4 ? new Error(text) : undefined
     })
 
@@ -144,13 +144,13 @@ describe('Field.NationalIdentityNumber', () => {
       <Field.NationalIdentityNumber
         value="123"
         required
-        validator={validator}
+        onChangeValidator={onChangeValidator}
         validateInitially
       />
     )
 
     await waitFor(() => {
-      expect(validator).toHaveBeenCalledTimes(1)
+      expect(onChangeValidator).toHaveBeenCalledTimes(1)
     })
 
     const element = document.querySelector('.dnb-form-status')
@@ -160,19 +160,19 @@ describe('Field.NationalIdentityNumber', () => {
   })
 
   it('should contain errorMessages as second parameter', () => {
-    const validator = jest.fn()
+    const onChangeValidator = jest.fn()
 
     render(
       <Field.NationalIdentityNumber
         value="123"
         required
-        validator={validator}
+        onChangeValidator={onChangeValidator}
         validateInitially
       />
     )
 
-    expect(validator).toHaveBeenCalledTimes(1)
-    expect(validator).toHaveBeenCalledWith(
+    expect(onChangeValidator).toHaveBeenCalledTimes(1)
+    expect(onChangeValidator).toHaveBeenCalledWith(
       '123',
       expect.objectContaining({
         errorMessages: expect.objectContaining({
@@ -313,7 +313,7 @@ describe('Field.NationalIdentityNumber', () => {
     expect(screen.queryByRole('alert')).toBeNull()
   })
 
-  it('should not validate custom validator when validate false', async () => {
+  it('should not validate custom onChangeValidator when validate false', async () => {
     const customValidator: Validator<string> = (value) => {
       if (value?.length < 4) {
         return new Error('My error')
@@ -324,7 +324,7 @@ describe('Field.NationalIdentityNumber', () => {
       <Field.NationalIdentityNumber
         value="123"
         required
-        validator={customValidator}
+        onChangeValidator={customValidator}
         validateInitially
         validate={false}
       />
@@ -333,7 +333,7 @@ describe('Field.NationalIdentityNumber', () => {
     expect(screen.queryByRole('alert')).toBeNull()
   })
 
-  it('should not validate extended validator when validate false', async () => {
+  it('should not validate extended onChangeValidator when validate false', async () => {
     const invalidFnrBornInApril = '29040112345'
 
     const bornInApril = (value: string) => value.substring(2, 4) === '04'
@@ -352,7 +352,7 @@ describe('Field.NationalIdentityNumber', () => {
         value={invalidFnrBornInApril}
         validateInitially
         validate={false}
-        validator={customValidator}
+        onChangeValidator={customValidator}
       />
     )
 
@@ -507,7 +507,7 @@ describe('Field.NationalIdentityNumber', () => {
     )
   })
 
-  describe('should extend validation using custom validator', () => {
+  describe('should extend validation using custom onChangeValidator', () => {
     const validFnrNumApril = ['14046512368', '10042223293']
     const validDNumApril = ['51041678171']
 
@@ -542,7 +542,7 @@ describe('Field.NationalIdentityNumber', () => {
     it.each(validIds)('Valid identity number: %s', async (fnrNum) => {
       render(
         <Field.NationalIdentityNumber
-          validator={customValidator}
+          onChangeValidator={customValidator}
           validateInitially
           value={fnrNum}
         />
@@ -554,7 +554,7 @@ describe('Field.NationalIdentityNumber', () => {
     it.each(invalidIds)('Invalid identity number: %s', async (id) => {
       render(
         <Field.NationalIdentityNumber
-          validator={customValidator}
+          onChangeValidator={customValidator}
           validateInitially
           value={id}
         />
@@ -571,7 +571,7 @@ describe('Field.NationalIdentityNumber', () => {
     it.each(invalidDNumApril)('Invalid D number: %s', async (dNum) => {
       render(
         <Field.NationalIdentityNumber
-          validator={customValidator}
+          onChangeValidator={customValidator}
           validateInitially
           value={dNum}
         />
@@ -588,7 +588,7 @@ describe('Field.NationalIdentityNumber', () => {
     it.each(invalidDNumTooShort)('Invalid D number: %s', async (dNum) => {
       render(
         <Field.NationalIdentityNumber
-          validator={customValidator}
+          onChangeValidator={customValidator}
           validateInitially
           value={dNum}
         />
@@ -607,7 +607,7 @@ describe('Field.NationalIdentityNumber', () => {
       async (fnr) => {
         render(
           <Field.NationalIdentityNumber
-            validator={customValidator}
+            onChangeValidator={customValidator}
             validateInitially
             value={fnr}
           />
@@ -627,7 +627,7 @@ describe('Field.NationalIdentityNumber', () => {
       async (fnr) => {
         render(
           <Field.NationalIdentityNumber
-            validator={customValidator}
+            onChangeValidator={customValidator}
             validateInitially
             value={fnr}
           />

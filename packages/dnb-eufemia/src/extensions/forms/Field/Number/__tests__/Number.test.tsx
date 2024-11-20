@@ -548,29 +548,32 @@ describe('Field.Number', () => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
     })
 
-    it('should call validator with validateInitially', async () => {
-      const validator = jest.fn(() => {
+    it('should call onChangeValidator with validateInitially', async () => {
+      const onChangeValidator = jest.fn(() => {
         return new Error('Validator message')
       })
 
       render(
         <Field.Number
-          validator={validator}
+          onChangeValidator={onChangeValidator}
           defaultValue={123}
           validateInitially
         />
       )
 
-      expect(validator).toHaveBeenCalledTimes(1)
-      expect(validator).toHaveBeenCalledWith(123, expect.anything())
+      expect(onChangeValidator).toHaveBeenCalledTimes(1)
+      expect(onChangeValidator).toHaveBeenCalledWith(
+        123,
+        expect.anything()
+      )
 
       await waitFor(() => {
         expect(screen.queryByRole('alert')).toBeInTheDocument()
       })
     })
 
-    it('should call validator on form submit', async () => {
-      const validator = jest.fn(() => {
+    it('should call onChangeValidator on form submit', async () => {
+      const onChangeValidator = jest.fn(() => {
         return new Error('Validator message')
       })
 
@@ -578,7 +581,7 @@ describe('Field.Number', () => {
         <Form.Handler>
           <Field.Number
             path="/myNumber"
-            validator={validator}
+            onChangeValidator={onChangeValidator}
             defaultValue={123}
           />
         </Form.Handler>
@@ -586,8 +589,11 @@ describe('Field.Number', () => {
 
       fireEvent.submit(document.querySelector('form'))
 
-      expect(validator).toHaveBeenCalledTimes(1)
-      expect(validator).toHaveBeenCalledWith(123, expect.anything())
+      expect(onChangeValidator).toHaveBeenCalledTimes(1)
+      expect(onChangeValidator).toHaveBeenCalledWith(
+        123,
+        expect.anything()
+      )
 
       await waitFor(() => {
         expect(screen.queryByRole('alert')).toBeInTheDocument()

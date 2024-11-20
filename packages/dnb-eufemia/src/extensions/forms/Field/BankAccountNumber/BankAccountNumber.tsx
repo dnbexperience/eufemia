@@ -46,7 +46,9 @@ function BankAccountNumber(props: Props) {
   const {
     validate = true,
     omitMask,
+    // Deprecated – can be removed in v11
     validator,
+    onChangeValidator = validator,
     onBlurValidator = bankAccountNumberValidator,
     label: labelProp,
     width,
@@ -97,7 +99,7 @@ function BankAccountNumber(props: Props) {
     mask,
     width: width ?? 'medium',
     inputMode: 'numeric',
-    validator: validate ? validator : undefined,
+    onChangeValidator: validate ? onChangeValidator : undefined,
     onBlurValidator: validate ? onBlurValidatorToUse : undefined,
     exportValidators: { bankAccountNumberValidator },
   }

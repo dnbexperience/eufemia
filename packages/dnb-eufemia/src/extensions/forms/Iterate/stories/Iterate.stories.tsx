@@ -184,7 +184,7 @@ export const InitialOpen = () => {
               path="/countries"
               // defaultValue={['NO']}
               defaultValue={[null]}
-              validator={(arrayValue) => {
+              onChangeValidator={(arrayValue) => {
                 const findFirstDuplication = (arr) =>
                   arr.findIndex((e, i) => arr.indexOf(e) !== i)
 
@@ -228,7 +228,7 @@ export const WithArrayValidator = () => {
     <Form.Handler>
       <Iterate.Array
         path="/items"
-        validator={(arrayValue) => {
+        onChangeValidator={(arrayValue) => {
           if (!(arrayValue?.length > 0)) {
             return new Error('You need at least one item')
           }

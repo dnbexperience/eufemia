@@ -51,34 +51,34 @@ export function ValidatorsUndefinedFalse() {
   return (
     <Wrapper>
       <Field.NationalIdentityNumber
-        validator={undefined}
+        onChangeValidator={undefined}
         onBlurValidator={false}
       />
       <Field.NationalIdentityNumber
-        validator={undefined}
+        onChangeValidator={undefined}
         onBlurValidator={false}
         value="123"
       />
       <Field.NationalIdentityNumber
-        validator={undefined}
+        onChangeValidator={undefined}
         onBlurValidator={false}
         value="12345678901"
       />
       <h2>Validate Initially:</h2>
       <Field.NationalIdentityNumber
         validateInitially
-        validator={undefined}
+        onChangeValidator={undefined}
         onBlurValidator={false}
       />
       <Field.NationalIdentityNumber
         validateInitially
-        validator={undefined}
+        onChangeValidator={undefined}
         onBlurValidator={false}
         value="123"
       />
       <Field.NationalIdentityNumber
         validateInitially
-        validator={undefined}
+        onChangeValidator={undefined}
         onBlurValidator={false}
         value="12345678901"
       />
@@ -175,34 +175,34 @@ export function NationalIdentityNumberValidator() {
     <Wrapper>
       <Field.NationalIdentityNumber
         onBlurValidator={false}
-        validator={myFnrValidator}
+        onChangeValidator={myFnrValidator}
       />
       <Field.NationalIdentityNumber
         onBlurValidator={false}
-        validator={myFnrValidator}
+        onChangeValidator={myFnrValidator}
         value="12345678901"
       />
       <Field.NationalIdentityNumber
         onBlurValidator={false}
-        validator={myFnrValidator}
+        onChangeValidator={myFnrValidator}
         value="42345678901"
       />
       <h2>Validate Initially:</h2>
       <Field.NationalIdentityNumber
         validateInitially
         onBlurValidator={false}
-        validator={myFnrValidator}
+        onChangeValidator={myFnrValidator}
       />
       <Field.NationalIdentityNumber
         validateInitially
         onBlurValidator={false}
-        validator={myFnrValidator}
+        onChangeValidator={myFnrValidator}
         value="12345678901"
       />
       <Field.NationalIdentityNumber
         validateInitially
         onBlurValidator={false}
-        validator={myFnrValidator}
+        onChangeValidator={myFnrValidator}
         value="42345678901"
       />
     </Wrapper>
@@ -245,34 +245,34 @@ export function DNumberValidator() {
     <Wrapper>
       <Field.NationalIdentityNumber
         onBlurValidator={false}
-        validator={myDnrValidator}
+        onChangeValidator={myDnrValidator}
       />
       <Field.NationalIdentityNumber
         onBlurValidator={false}
-        validator={myDnrValidator}
+        onChangeValidator={myDnrValidator}
         value="12345678901"
       />
       <Field.NationalIdentityNumber
         onBlurValidator={false}
-        validator={myDnrValidator}
+        onChangeValidator={myDnrValidator}
         value="42345678901"
       />
       <h2>Validate Initially:</h2>
       <Field.NationalIdentityNumber
         validateInitially
         onBlurValidator={false}
-        validator={myDnrValidator}
+        onChangeValidator={myDnrValidator}
       />
       <Field.NationalIdentityNumber
         validateInitially
         onBlurValidator={false}
-        validator={myDnrValidator}
+        onChangeValidator={myDnrValidator}
         value="12345678901"
       />
       <Field.NationalIdentityNumber
         validateInitially
         onBlurValidator={false}
-        validator={myDnrValidator}
+        onChangeValidator={myDnrValidator}
         value="42345678901"
       />
     </Wrapper>
@@ -342,67 +342,67 @@ export function AdultValidator() {
     <Wrapper>
       <Field.NationalIdentityNumber
         onBlurValidator={false}
-        validator={myAdultValidator}
+        onChangeValidator={myAdultValidator}
       />
       <Field.NationalIdentityNumber
         onBlurValidator={false}
-        validator={myAdultValidator}
+        onChangeValidator={myAdultValidator}
         value="123"
       />
       <Field.NationalIdentityNumber
         onBlurValidator={false}
-        validator={myAdultValidator}
+        onChangeValidator={myAdultValidator}
         value="12345678901"
       />
       <Field.NationalIdentityNumber
         onBlurValidator={false}
-        validator={myAdultValidator}
+        onChangeValidator={myAdultValidator}
         value="42345678901"
       />
       <Field.NationalIdentityNumber
         onBlurValidator={false}
-        validator={myAdultValidator}
+        onChangeValidator={myAdultValidator}
         value="29082499936"
       />
       <Field.NationalIdentityNumber
         onBlurValidator={false}
-        validator={myAdultValidator}
+        onChangeValidator={myAdultValidator}
         value="44011957371"
       />
       <h2>Validate Initially:</h2>
       <Field.NationalIdentityNumber
         validateInitially
         onBlurValidator={false}
-        validator={myAdultValidator}
+        onChangeValidator={myAdultValidator}
       />
       <Field.NationalIdentityNumber
         validateInitially
         onBlurValidator={false}
-        validator={myAdultValidator}
+        onChangeValidator={myAdultValidator}
         value="123"
       />
       <Field.NationalIdentityNumber
         validateInitially
         onBlurValidator={false}
-        validator={myAdultValidator}
+        onChangeValidator={myAdultValidator}
         value="12345678901"
       />
       <Field.NationalIdentityNumber
         validateInitially
         onBlurValidator={false}
-        validator={myAdultValidator}
+        onChangeValidator={myAdultValidator}
         value="42345678901"
       />
       <Field.NationalIdentityNumber
         validateInitially
         onBlurValidator={false}
-        validator={myAdultValidator}
+        onChangeValidator={myAdultValidator}
         value="29082499936"
       />
       <Field.NationalIdentityNumber
         validateInitially
         onBlurValidator={false}
-        validator={myAdultValidator}
+        onChangeValidator={myAdultValidator}
         value="44011957371"
       />
     </Wrapper>
@@ -464,56 +464,56 @@ export function AdultValidatorAndDefaultValidator() {
   return (
     <Wrapper>
       <Field.NationalIdentityNumber
-        validator={myAdultFnrDnrValidator}
+        onChangeValidator={myAdultFnrDnrValidator}
         onBlurValidator={false}
       />
       <Field.NationalIdentityNumber
-        validator={myAdultFnrDnrValidator}
+        onChangeValidator={myAdultFnrDnrValidator}
         onBlurValidator={false}
         value="12345678901"
       />
       <Field.NationalIdentityNumber
-        validator={myAdultFnrDnrValidator}
+        onChangeValidator={myAdultFnrDnrValidator}
         onBlurValidator={false}
         value="42345678901"
       />
       <Field.NationalIdentityNumber
-        validator={myAdultFnrDnrValidator}
+        onChangeValidator={myAdultFnrDnrValidator}
         onBlurValidator={false}
         value="29082499936"
       />
       <Field.NationalIdentityNumber
-        validator={myAdultFnrDnrValidator}
+        onChangeValidator={myAdultFnrDnrValidator}
         onBlurValidator={false}
         value="44011957371"
       />
       <h2>Validate Initially:</h2>
       <Field.NationalIdentityNumber
         validateInitially
-        validator={myAdultFnrDnrValidator}
+        onChangeValidator={myAdultFnrDnrValidator}
         onBlurValidator={false}
       />
       <Field.NationalIdentityNumber
         validateInitially
-        validator={myAdultFnrDnrValidator}
+        onChangeValidator={myAdultFnrDnrValidator}
         onBlurValidator={false}
         value="12345678901"
       />
       <Field.NationalIdentityNumber
         validateInitially
-        validator={myAdultFnrDnrValidator}
+        onChangeValidator={myAdultFnrDnrValidator}
         onBlurValidator={false}
         value="42345678901"
       />
       <Field.NationalIdentityNumber
         validateInitially
-        validator={myAdultFnrDnrValidator}
+        onChangeValidator={myAdultFnrDnrValidator}
         onBlurValidator={false}
         value="29082499936"
       />
       <Field.NationalIdentityNumber
         validateInitially
-        validator={myAdultFnrDnrValidator}
+        onChangeValidator={myAdultFnrDnrValidator}
         onBlurValidator={false}
         value="44011957371"
       />
@@ -525,56 +525,56 @@ export function CustomValidatorFunction() {
   return (
     <Wrapper>
       <Field.NationalIdentityNumber
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
         onBlurValidator={false}
       />
       <Field.NationalIdentityNumber
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
         onBlurValidator={false}
         value="12345678901"
       />
       <Field.NationalIdentityNumber
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
         onBlurValidator={false}
         value="42345678901"
       />
       <Field.NationalIdentityNumber
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
         onBlurValidator={false}
         value="29082499936"
       />
       <Field.NationalIdentityNumber
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
         onBlurValidator={false}
         value="44011957371"
       />
       <h2>Validate Initially:</h2>
       <Field.NationalIdentityNumber
         validateInitially
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
         onBlurValidator={false}
       />
       <Field.NationalIdentityNumber
         validateInitially
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
         onBlurValidator={false}
         value="12345678901"
       />
       <Field.NationalIdentityNumber
         validateInitially
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
         onBlurValidator={false}
         value="42345678901"
       />
       <Field.NationalIdentityNumber
         validateInitially
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
         onBlurValidator={false}
         value="29082499936"
       />
       <Field.NationalIdentityNumber
         validateInitially
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
         onBlurValidator={false}
         value="44011957371"
       />
@@ -643,56 +643,56 @@ export function CustomValidatorFunctionReturnArray() {
   return (
     <Wrapper>
       <Field.NationalIdentityNumber
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
         onBlurValidator={false}
       />
       <Field.NationalIdentityNumber
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
         onBlurValidator={false}
         value="12345678901"
       />
       <Field.NationalIdentityNumber
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
         onBlurValidator={false}
         value="42345678901"
       />
       <Field.NationalIdentityNumber
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
         onBlurValidator={false}
         value="321"
       />
       <Field.NationalIdentityNumber
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
         onBlurValidator={false}
         value="123"
       />
       <h2>Validate Initially:</h2>
       <Field.NationalIdentityNumber
         validateInitially
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
         onBlurValidator={false}
       />
       <Field.NationalIdentityNumber
         validateInitially
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
         onBlurValidator={false}
         value="12345678901"
       />
       <Field.NationalIdentityNumber
         validateInitially
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
         onBlurValidator={false}
         value="42345678901"
       />
       <Field.NationalIdentityNumber
         validateInitially
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
         onBlurValidator={false}
         value="321"
       />
       <Field.NationalIdentityNumber
         validateInitially
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
         onBlurValidator={false}
         value="123"
       />

@@ -178,13 +178,13 @@ export const AsyncWizardContainer = () => {
                 <Card stack>
                   <Field.String
                     label="Required field with async validator"
-                    validator={validator1}
+                    onChangeValidator={validator1}
                     path="/field1"
                     required
                   />
                   <Field.String
                     label="Field with async validator"
-                    validator={validator2}
+                    onChangeValidator={validator2}
                     path="/field2"
                   />
                 </Card>
