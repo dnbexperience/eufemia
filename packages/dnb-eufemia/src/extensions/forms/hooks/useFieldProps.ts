@@ -992,6 +992,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       }
 
       revealOnBlurValidatorResult({ result })
+
+      return { result }
     },
     [
       asyncBehaviorIsEnabled,
@@ -1112,7 +1114,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         validateInitially &&
         !changedRef.current
       ) {
-        const { result } = await callOnBlurValidator()
+        const { result } = await startOnBlurValidatorProcess()
 
         if (result instanceof Error) {
           initiator = 'onBlurValidator'
@@ -1131,7 +1133,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       }
     }
   }, [
-    callOnBlurValidator,
     clearErrorState,
     disabled,
     emptyValue,
@@ -1141,6 +1142,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     required,
     requiredProp,
     setFieldState,
+    startOnBlurValidatorProcess,
     startOnChangeValidatorValidation,
     startProcess,
     validateInitially,
