@@ -49,7 +49,12 @@ export const TypographyProperties: PropertiesTableProps = {
   },
   decoration: {
     doc: 'Sets the font decoration.',
-    type: [`'italic'`, `'underline'`],
+    type: `'underline'`,
+    status: 'optional',
+  },
+  slant: {
+    doc: 'Sets the font style.',
+    type: `'italic'`,
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {
