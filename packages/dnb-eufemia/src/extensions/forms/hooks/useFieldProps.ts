@@ -482,8 +482,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     if (
       errorMessages &&
       cache.extendedErrorMessages &&
-      Object.values(cache.errorMessages || {}).join() ===
-        Object.values(errorMessages || {}).join()
+      // We compare the "errorMessages" object with the cached version.
+      // Ideally, this comparison would be unnecessary when using useMemo, as documented.
+      // However, to safeguard against potential infinite loops, we perform this comparison.
+      // Why can this happen? Because the "errorMessages" object is a reference, and when provided without useMemo,
+      // it will come in as a new object every time it is used, so combinedErrorMessages as a hook dependency will be updated.
+      // Using array.join('') is approximately twice as fast as concatenating strings in a loop.
+      Object.values(cache.errorMessages || {}).join('') ===
+        Object.values(errorMessages || {}).join('')
     ) {
       return cache.extendedErrorMessages
     }
