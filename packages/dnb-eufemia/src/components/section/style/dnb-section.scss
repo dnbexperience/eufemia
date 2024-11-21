@@ -75,10 +75,10 @@
 
     &::before {
       margin-left: calc(
-        var(--padding-left, var(--spacing-medium)) * -1 * var(--outset)
+        var(--outset-left, var(--padding-left)) * -1 * var(--outset)
       );
       margin-right: calc(
-        var(--padding-right, var(--spacing-medium)) * -1 * var(--outset)
+        var(--outset-right, var(--padding-right)) * -1 * var(--outset)
       );
 
       // Because of the margin usage, we need to inherit the background color.
