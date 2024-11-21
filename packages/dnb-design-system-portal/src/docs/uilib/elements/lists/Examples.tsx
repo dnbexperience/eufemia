@@ -52,6 +52,34 @@ export const DefinitionListHorizontalExample = () => (
   </ComponentBox>
 )
 
+export const DefinitionListHorizontalExampleWithoutDtValue = () => (
+  <ComponentBox
+    hideCode
+    data-visual-test="lists-dl-horizontal-without-dt-value"
+  >
+    <Dl layout="horizontal">
+      <Dl.Item>
+        <Dt>Term 1</Dt>
+        <Dd>Description 1</Dd>
+      </Dl.Item>
+      <Dl.Item>
+        <Dt></Dt>
+        <Dd>Description 2</Dd>
+      </Dl.Item>
+      <Dl.Item>
+        <Dt>
+          A term with several words lorem dolor sit amet consectetur
+          adipiscing
+        </Dt>
+        <Dd>
+          Description with several words lorem nulla mi posuere cubilia vel
+          vulputate
+        </Dd>
+      </Dl.Item>
+    </Dl>
+  </ComponentBox>
+)
+
 export const DefinitionListGridExample = () => (
   <ComponentBox hideCode data-visual-test="lists-dl-grid">
     <Dl layout="grid">

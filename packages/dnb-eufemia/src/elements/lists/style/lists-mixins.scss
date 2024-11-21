@@ -162,6 +162,10 @@
         margin-top: 0;
         margin-right: calc(var(--column-gap) - 0.5rem);
         max-width: var(--dt-max-width);
+
+        &:empty {
+          display: contents;
+        }
       }
 
       & dd {
