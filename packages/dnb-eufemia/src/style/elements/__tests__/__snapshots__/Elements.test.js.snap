@@ -497,6 +497,9 @@ del .dnb-code {
     margin-right: calc(var(--column-gap) - 0.5rem);
     max-width: var(--dt-max-width);
   }
+  .dnb-dl__layout--horizontal dt:empty {
+    display: contents;
+  }
   .dnb-dl__layout--horizontal dd {
     width: var(--dd-max-width);
     align-self: end;
