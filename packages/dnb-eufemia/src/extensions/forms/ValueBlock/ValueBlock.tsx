@@ -164,6 +164,7 @@ function ValueBlock(props: Props) {
             element="strong" // enhance a11y: https://www.w3.org/WAI/WCAG21/Techniques/html/H49
             className="dnb-forms-value-block__label"
             labelDirection={inline ? 'horizontal' : 'vertical'}
+            srOnly={labelSrOnly}
           >
             {label}
           </FormLabel>
