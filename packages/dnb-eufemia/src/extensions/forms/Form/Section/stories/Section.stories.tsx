@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { Field, Form, JSONSchema, SectionProps, Value } from '../../..'
-import { Card, Flex } from '../../../../../components'
+import { Flex } from '../../../../../components'
 import { Props as FieldNameProps } from '../../../Field/Name'
 
 export default {
@@ -169,10 +169,10 @@ export const NestedSections = () => {
   const MySection = (props: SectionProps) => {
     return (
       <Form.Section {...props}>
-        <Card stack>
+        <Form.Card>
           <MyNameSection path="/name" />
           <MyAddressSection path="/address" required />
-        </Card>
+        </Form.Card>
       </Form.Section>
     )
   }
@@ -228,7 +228,7 @@ export function EditViewContainer() {
         },
       }}
     >
-      <Card stack>
+      <Form.Card>
         <Form.SubHeading>Your account</Form.SubHeading>
         <Form.Section
           path="/nestedPath"
@@ -240,7 +240,7 @@ export function EditViewContainer() {
           <ViewContainer />
         </Form.Section>
         <Form.SubmitButton />
-      </Card>
+      </Form.Card>
     </Form.Handler>
   )
 }
@@ -276,13 +276,13 @@ export function OpenWhenFieldValidationError() {
         },
       }}
     >
-      <Card stack>
+      <Form.Card>
         <Form.SubHeading>Your account</Form.SubHeading>
         <Form.Section path="/nestedPath" required validateInitially>
           <MyEditContainer />
           <MyViewContainer />
         </Form.Section>
-      </Card>
+      </Form.Card>
       <Form.SubmitButton />
     </Form.Handler>
   )

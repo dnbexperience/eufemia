@@ -1,5 +1,4 @@
 import React from 'react'
-import { Card } from '../../../components'
 import { Field, Form, Wizard, Value, Tools } from '..'
 import { Provider } from '../../../../shared'
 
@@ -38,7 +37,7 @@ export function PizzaDemo() {
           <Wizard.Step title="Which pizza do you want?">
             <Form.MainHeading>Which pizza do you want?</Form.MainHeading>
 
-            <Card stack>
+            <Form.Card>
               <Form.SubHeading>Your Pizza</Form.SubHeading>
               <Field.Selection
                 variant="button"
@@ -50,9 +49,9 @@ export function PizzaDemo() {
                 <Field.Option value="margarita" title="Margarita" />
                 <Field.Option value="parma" title="Parma" />
               </Field.Selection>
-            </Card>
+            </Form.Card>
 
-            <Card stack>
+            <Form.Card>
               <Form.SubHeading>Allergies</Form.SubHeading>
               <Field.Boolean
                 label="Do you have any allergies?"
@@ -68,7 +67,7 @@ export function PizzaDemo() {
                   required // only if visible 👌
                 />
               </Form.Visibility>
-            </Card>
+            </Form.Card>
 
             <Wizard.Buttons />
           </Wizard.Step>
@@ -76,14 +75,14 @@ export function PizzaDemo() {
           <Wizard.Step title="Delivery address">
             <Form.MainHeading>Delivery address</Form.MainHeading>
 
-            <Card stack>
+            <Form.Card>
               <Form.SubHeading>Your name</Form.SubHeading>
 
               <Field.Name.First path="/firstName" required />
               <Field.Name.Last path="/lastName" required />
-            </Card>
+            </Form.Card>
 
-            <Card stack>
+            <Form.Card>
               <Form.SubHeading>Your address</Form.SubHeading>
 
               <Field.Composition label="Address" width="large">
@@ -105,7 +104,7 @@ export function PizzaDemo() {
                 postalCode={{ required: true, path: '/postalCode' }}
                 city={{ required: true, path: '/city' }}
               />
-            </Card>
+            </Form.Card>
 
             <Wizard.Buttons />
           </Wizard.Step>
@@ -113,16 +112,16 @@ export function PizzaDemo() {
           <Wizard.Step title={summaryTitle}>
             <Form.MainHeading>Summary</Form.MainHeading>
 
-            <Card stack>
+            <Form.Card>
               <Value.String label="My flavour" path="/flavour" />
               <Value.Boolean
                 label="I have allergies"
                 path="/hasAllergies"
               />
               <Value.String label="My allergies" path="/allergies" />
-            </Card>
+            </Form.Card>
 
-            <Card stack>
+            <Form.Card>
               <Form.SubHeading>Deliver address</Form.SubHeading>
 
               <Value.Composition>
@@ -139,7 +138,7 @@ export function PizzaDemo() {
                 <Value.String path="/postalCode" />
                 <Value.String path="/city" />
               </Value.Composition>
-            </Card>
+            </Form.Card>
 
             <Form.ButtonRow>
               <Wizard.Buttons />

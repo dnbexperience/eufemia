@@ -1,6 +1,6 @@
 import React from 'react'
 import { Field, Form, Value, Wizard } from '..'
-import { Flex, Card } from '../../../components'
+import { Flex } from '../../../components'
 
 export default {
   title: 'Eufemia/Extensions/Forms/FieldAndValueVisibility',
@@ -31,7 +31,7 @@ export const ValueVisibility = () => {
     // onSubmit={(data) => console.log('onSubmit', data)}
     >
       <LogVisibleData />
-      <Card stack>
+      <Form.Card>
         <button type="button" onClick={increment}>
           {count}
         </button>
@@ -72,7 +72,7 @@ export const ValueVisibility = () => {
         <Value.Selection inheritLabel inheritVisibility path="/myValue" />
 
         <Form.SubmitButton />
-      </Card>
+      </Form.Card>
     </Form.Handler>
   )
 }
