@@ -1,23 +1,29 @@
 ---
 title: 'Line Height'
-order: 3
+order: 4
 ---
 
-# Line Height
+import { GetPropValue, GetPropAsPx } from './_helpers.tsx'
+import ChangeStyleTheme from '../../../core/ChangeStyleTheme'
+
+# Line Height for <VisibilityByTheme.Name />
+
+<ChangeStyleTheme label="Change the brand:" bottom="large" />
 
 For details about what values Typographic elements do use, have a look at the [Fonts & Typography](/quickguide-designer/fonts#typographic-elements) documentation.
 
 ## Default `line-height` **rem** table
 
-| Pixel | Type      | Rem          | Custom Property         |
-| ----- | --------- | ------------ | ----------------------- |
-| 18px  | `x-small` | **1.125rem** | `--line-height-x-small` |
-| 20px  | `small`   | **1.25rem**  | `--line-height-small`   |
-| 24px  | `basis`   | **1.5rem**   | `--line-height-basis`   |
-| 28px  | `lead`    | **1.75rem**  | `--line-height-lead`    |
-| 32px  | `medium`  | **2rem**     | `--line-height-medium`  |
-| 40px  | `large`   | **2.5rem**   | `--line-height-large`   |
-| 56px  | `x-large` | **3.5rem**   | `--line-height-x-large` |
+| Pixel                                   | Type       | Rem                                          | CSS variable / property  | CSS Classname                   | Info                             |
+| --------------------------------------- | ---------- | -------------------------------------------- | ------------------------ | ------------------------------- | -------------------------------- |
+| {GetPropAsPx('--line-height-x-small')}  | `x-small`  | **{GetPropValue('--line-height-x-small')}**  | `--line-height-x-small`  | `.dnb-t__line-height--x-small`  |                                  |
+| {GetPropAsPx('--line-height-small')}    | `small`    | **{GetPropValue('--line-height-small')}**    | `--line-height-small`    | `.dnb-t__line-height--small`    |                                  |
+| {GetPropAsPx('--line-height-basis')}    | `basis`    | **{GetPropValue('--line-height-basis')}**    | `--line-height-basis`    | `.dnb-t__line-height--basis`    |                                  |
+| {GetPropAsPx('--line-height-lead')}     | `lead`     | **{GetPropValue('--line-height-lead')}**     | `--line-height-lead`     | `.dnb-t__line-height--lead`     | Unique line-height for `<Lead>`. |
+| {GetPropAsPx('--line-height-medium')}   | `medium`   | **{GetPropValue('--line-height-medium')}**   | `--line-height-medium`   | `.dnb-t__line-height--medium`   |                                  |
+| {GetPropAsPx('--line-height-large')}    | `large`    | **{GetPropValue('--line-height-large')}**    | `--line-height-large`    | `.dnb-t__line-height--large`    |                                  |
+| {GetPropAsPx('--line-height-x-large')}  | `x-large`  | **{GetPropValue('--line-height-x-large')}**  | `--line-height-x-large`  | `.dnb-t__line-height--x-large`  |                                  |
+| {GetPropAsPx('--line-height-xx-large')} | `xx-large` | **{GetPropValue('--line-height-xx-large')}** | `--line-height-xx-large` | `.dnb-t__line-height--xx-large` | Same as `x-large`                |
 
 ### Code Editor Extensions
 
@@ -25,18 +31,18 @@ You may be interested to install an [Eufemia code editor extension](/uilib/helpe
 
 ## Additional `line-height` **em** table
 
-| Pixel | Type           | Em          | Custom Property              | Info   |
-| ----- | -------------- | ----------- | ---------------------------- | ------ |
-| 16px  | `xx-small--em` | **1em**     | `--line-height-xx-small--em` |        |
-| 24px  | `basis--em`    | **1.333em** | `--line-height-basis--em`    | **\*** |
+| Pixel | Type           | Em                                               | Custom Property              | Info   |
+| ----- | -------------- | ------------------------------------------------ | ---------------------------- | ------ |
+| 16px  | `xx-small--em` | **{GetPropValue('--line-height-xx-small--em')}** | `--line-height-xx-small--em` |        |
+| 24px  | `basis--em`    | **{GetPropValue('--line-height-basis--em')}**    | `--line-height-basis--em`    | **\*** |
 
-**\*** If we sum 1.33333333333\*18 we get 24. Browsers do round CSS values, so we do not need all the decimal numbers for now.
+**\*** For example: if we sum 1.33333333333\*18 we get 24. Browsers do round CSS values, so we do not need all the decimal numbers for now.
 
 ### How to use the line heights (CSS)
 
 ```css
 /* I have a default height */
 .dnb-p {
-  line-height: var(--line-height-basis); /* 1.5rem = 24px */
+  line-height: var(--line-height-basis); /* 1.5rem = 24px (in Ui theme) */
 }
 ```

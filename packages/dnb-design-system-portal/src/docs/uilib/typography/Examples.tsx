@@ -7,6 +7,8 @@ import React from 'react'
 import styled from '@emotion/styled'
 import ComponentBox from '../../../shared/tags/ComponentBox'
 import { Code, H4, Lead, P } from '@dnb/eufemia/src'
+import { useTheme } from '@dnb/eufemia/shared'
+
 import { TypographyBox } from '../../../shared/parts/TypographyBox'
 
 const Wrapper = styled.div`
@@ -29,31 +31,62 @@ const FontUsageExample = ({ typo_class, font_family }) => (
   </TypographyBox>
 )
 
-export function FontWeightExample() {
+export function FontWeightByThemeExample() {
+  const theme = useTheme()
+
+  if (theme?.name === 'sbanken') {
+    return (
+      <Wrapper>
+        {/* Regular */}
+        <FontUsageExample
+          font_family="Roboto Regular"
+          typo_class="dnb-t__weight--regular"
+        />
+
+        {/* Medium */}
+        <FontUsageExample
+          font_family="Roboto Medium"
+          typo_class="dnb-t__weight--medium"
+        />
+
+        {/* Bold */}
+        <FontUsageExample
+          font_family="Roboto Bold"
+          typo_class="dnb-t__weight--bold"
+        />
+
+        {/* Mono Regular */}
+        <FontUsageExample
+          font_family="Monospace Regular"
+          typo_class="dnb-t__weight--regular dnb-t__family--monospace"
+        />
+      </Wrapper>
+    )
+  }
   return (
     <Wrapper>
       {/* Regular */}
       <FontUsageExample
         font_family="DNB Regular"
-        typo_class="dnb-typo-regular"
+        typo_class="dnb-t__weight--regular"
       />
 
       {/* Medium */}
       <FontUsageExample
         font_family="DNB Medium"
-        typo_class="dnb-typo-medium"
+        typo_class="dnb-t__weight--medium"
       />
 
       {/* Bold */}
       <FontUsageExample
         font_family="DNB Bold"
-        typo_class="dnb-typo-bold"
+        typo_class="dnb-t__weight--bold"
       />
 
       {/* Mono Regular */}
       <FontUsageExample
         font_family="DNB Mono Regular"
-        typo_class="dnb-typo-mono-regular"
+        typo_class="dnb-t__weight--regular dnb-t__family--monospace"
       />
     </Wrapper>
   )
@@ -91,7 +124,7 @@ export function TypographyVariants() {
           fabellas senserit inciderint vim.
         </P>
         <Code top="large">Text basis (Medium)</Code>
-        <P modifier="medium" space={0}>
+        <P weight="medium" space={0}>
           Lorem ipsum dolor sit amet, sint quodsi concludaturque nam ei,
           appetere oporteat eam te. Vel in deleniti sensibus, officiis
           menandri efficiantur no cum. Per et habemus gubergren. Mundi
@@ -107,7 +140,7 @@ export function TypographyVariants() {
           fabellas senserit inciderint vim.
         </P>
         <Code top="large">Text small (Medium)</Code>
-        <P size="small" modifier="medium" space={0}>
+        <P size="small" weight="medium" space={0}>
           Lorem ipsum dolor sit amet, sint quodsi concludaturque nam ei,
           appetere oporteat eam te. Vel in deleniti sensibus, officiis
           menandri efficiantur no cum. Per et habemus gubergren. Mundi
@@ -119,7 +152,7 @@ export function TypographyVariants() {
           Lorem ipsum dolor sit amet, sint quodsi concludaturque nam ei.
         </P>
         <Code top="large">Text x-small (Medium)</Code>
-        <P size="x-small" modifier="medium" space={0}>
+        <P size="x-small" weight="medium" space={0}>
           Lorem ipsum dolor sit amet, sint quodsi concludaturque nam ei.
         </P>
       </div>

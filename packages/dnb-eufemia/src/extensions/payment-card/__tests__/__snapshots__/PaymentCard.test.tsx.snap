@@ -21,7 +21,7 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
  */
 :root {
   --sb-font-family-default: "Roboto", "Helvetica", "Arial", sans-serif;
-  --sb-font-family-headings: "MaisonNeueHeadings", "Roboto", "Helvetica",
+  --sb-font-family-heading: "MaisonNeueHeadings", "Roboto", "Helvetica",
     "Arial", sans-serif;
   --sb-font-weight-default: normal;
   --sb-font-weight-basis: normal;

@@ -1,23 +1,29 @@
 ---
 title: 'Font Size'
-order: 2
+order: 3
 ---
 
-# Font Size
+import { GetPropValue, GetPropAsPx } from './_helpers.tsx'
+import ChangeStyleTheme from '../../../core/ChangeStyleTheme'
 
-For details about what values Typographic elements do use, have a look at the [Fonts & Typography](/quickguide-designer/fonts#typographic-elements) documentation.
+# Font Size for <VisibilityByTheme.Name />
+
+<ChangeStyleTheme label="Change the brand:" bottom="large" />
+
+For details about what values Typographic elements do use, have a look at the
+[Fonts & Typography](/quickguide-designer/fonts#typographic-elements) documentation.
 
 ## Default `font-size` **rem** table
 
-| Pixel | Type       | Rem          | Custom Property        | Info                            |
-| ----- | ---------- | ------------ | ---------------------- | ------------------------------- |
-| 14px  | `x-small`  | **0.875rem** | `--font-size-x-small`  | Do not use for texts            |
-| 16px  | `small`    | **1rem**     | `--font-size-small`    | [Fallback](#fallback-font-size) |
-| 18px  | `basis`    | **1.125rem** | `--font-size-basis`    | Default size                    |
-| 20px  | `medium`   | **1.25rem**  | `--font-size-medium`   |                                 |
-| 26px  | `large`    | **1.625rem** | `--font-size-large`    |                                 |
-| 34px  | `x-large`  | **2.125rem** | `--font-size-x-large`  |                                 |
-| 48px  | `xx-large` | **3rem**     | `--font-size-xx-large` |                                 |
+| Pixel                                 | Type       | Rem                                        | CSS variable / property | CSS Classname            | Info                            |
+| ------------------------------------- | ---------- | ------------------------------------------ | ----------------------- | ------------------------ | ------------------------------- |
+| {GetPropAsPx('--font-size-x-small')}  | `x-small`  | **{GetPropValue('--font-size-x-small')}**  | `--font-size-x-small`   | `.dnb-t__size--x-small`  | Do not use for texts            |
+| {GetPropAsPx('--font-size-small')}    | `small`    | **{GetPropValue('--font-size-small')}**    | `--font-size-small`     | `.dnb-t__size--small`    | [Fallback](#fallback-font-size) |
+| {GetPropAsPx('--font-size-basis')}    | `basis`    | **{GetPropValue('--font-size-basis')}**    | `--font-size-basis`     | `.dnb-t__size--basis`    | Default size                    |
+| {GetPropAsPx('--font-size-medium')}   | `medium`   | **{GetPropValue('--font-size-medium')}**   | `--font-size-medium`    | `.dnb-t__size--medium`   |                                 |
+| {GetPropAsPx('--font-size-large')}    | `large`    | **{GetPropValue('--font-size-large')}**    | `--font-size-large`     | `.dnb-t__size--large`    |                                 |
+| {GetPropAsPx('--font-size-x-large')}  | `x-large`  | **{GetPropValue('--font-size-x-large')}**  | `--font-size-x-large`   | `.dnb-t__size--x-large`  |                                 |
+| {GetPropAsPx('--font-size-xx-large')} | `xx-large` | **{GetPropValue('--font-size-xx-large')}** | `--font-size-xx-large`  | `.dnb-t__size--xx-large` |                                 |
 
 ### Code Editor Extensions
 
@@ -25,16 +31,16 @@ You may be interested to install an [Eufemia code editor extension](/uilib/helpe
 
 ## Additional `font-size` **em** table
 
-| Pixel | Type        | Em      | Custom Property         | Info |
-| ----- | ----------- | ------- | ----------------------- | ---- |
-| 16px  | `basis--em` | **1em** | `--font-size-basis--em` |      |
+| Pixel | Type        | Em                                          | Custom Property         | Info |
+| ----- | ----------- | ------------------------------------------- | ----------------------- | ---- |
+| 16px  | `basis--em` | **{GetPropValue('--font-size-basis--em')}** | `--font-size-basis--em` |      |
 
 ## How to use the sizes (CSS)
 
 ```css
 /* I have a default size */
 .dnb-p {
-  font-size: var(--font-size-basis); /* 1.125 = 18px */
+  font-size: var(--font-size-basis); /* 1.125rem = 18px (in Ui theme) */
 }
 ```
 

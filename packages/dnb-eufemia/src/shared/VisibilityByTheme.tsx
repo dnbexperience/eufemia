@@ -61,3 +61,16 @@ export default function VisibilityByTheme({
     })
   }
 }
+
+VisibilityByTheme.Name = function ThemeName() {
+  const theme = useTheme()
+  if (theme.isEiendom) {
+    return 'Eiendom'
+  }
+  if (theme.isSbanken) {
+    return 'Sbanken'
+  }
+  if (theme.isUi) {
+    return 'DNB'
+  }
+}

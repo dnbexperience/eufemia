@@ -13,11 +13,15 @@
   font-style: normal;
 }
 
-// For backwards compatibility
-.dnb-typo-medium,
-.dnb-typo-bold {
+.dnb-typo-medium {
   font-family: var(--sb-font-family-default);
   font-weight: var(--sb-font-weight-medium);
+  font-style: normal;
+}
+
+.dnb-typo-bold {
+  font-family: var(--sb-font-family-default);
+  font-weight: var(--sb-font-weight-bold);
   font-style: normal;
 }
 

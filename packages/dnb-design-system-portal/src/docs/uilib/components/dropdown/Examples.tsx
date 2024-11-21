@@ -250,11 +250,11 @@ export const DropdownDirections = () => {
           data={[
             ['Vertical', 'alignment'],
             <>
-              <P modifier="medium">Vertical</P>
+              <P weight="medium">Vertical</P>
               <P>alignment</P>
             </>,
             <Dropdown.HorizontalItem key="item-1">
-              <P modifier="medium" right="x-small">
+              <P weight="medium" right="x-small">
                 Horizontal
               </P>
               <P>alignment</P>

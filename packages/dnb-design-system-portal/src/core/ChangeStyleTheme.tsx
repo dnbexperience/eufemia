@@ -7,7 +7,7 @@ import {
   setTheme,
 } from 'gatsby-plugin-eufemia-theme-handler'
 
-export default function ChangeStyleTheme({ label = null } = {}) {
+export default function ChangeStyleTheme({ label = null, ...rest } = {}) {
   const themes = getThemes()
   const { name } = getTheme()
   const { update } = React.useContext(Context)
@@ -31,6 +31,7 @@ export default function ChangeStyleTheme({ label = null } = {}) {
           update({ skeleton: false })
         })
       }}
+      {...rest}
     />
   )
 }

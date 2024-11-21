@@ -75,11 +75,11 @@ test.describe('Typography for UI', () => {
   })
 
   test('bold text should have correct font-weight', async ({ page }) => {
-    await page.waitForSelector('.typography-box > .dnb-typo-bold', {
+    await page.waitForSelector('.typography-box > .dnb-t__weight--bold', {
       state: 'attached',
     })
     const element = page
-      .locator('.typography-box > .dnb-typo-bold')
+      .locator('.typography-box > .dnb-t__weight--bold')
       .first()
     await expect(element).toHaveCSS('font-weight', '600')
   })
@@ -162,11 +162,14 @@ test.describe('Typography for Sbanken', () => {
   })
 
   test('bold text should have correct font-weight', async ({ page }) => {
-    await page.waitForSelector('.typography-box > .dnb-typo-bold', {
-      state: 'attached',
-    })
+    await page.waitForSelector(
+      '.typography-box > .dnb-t__weight--medium',
+      {
+        state: 'attached',
+      },
+    )
     const element = page
-      .locator('.typography-box > .dnb-typo-bold')
+      .locator('.typography-box > .dnb-t__weight--medium')
       .first()
     await expect(element).toHaveCSS('font-weight', '500')
   })

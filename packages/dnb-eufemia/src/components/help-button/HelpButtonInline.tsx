@@ -203,7 +203,7 @@ export function HelpButtonInlineContent(
         {...rest}
       >
         <Flex.Vertical gap="x-small">
-          {title && <P medium>{title}</P>}
+          {title && <P weight="medium">{title}</P>}
           {content && <P>{content}</P>}
         </Flex.Vertical>
         {children}
