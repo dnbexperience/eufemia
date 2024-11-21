@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Card, Flex } from '@dnb/eufemia/src'
+import { Flex } from '@dnb/eufemia/src'
 import {
   Form,
   Field,
@@ -35,7 +35,7 @@ export const BecomeCorporateCustomer = () => {
                 <Wizard.Step title="Bedriftsopplysninger">
                   <Form.MainHeading>Bedriftsopplysninger</Form.MainHeading>
 
-                  <Card stack>
+                  <Form.Card>
                     <Field.OrganizationNumber
                       path="/companyOrganizationNumber"
                       required
@@ -85,9 +85,9 @@ export const BecomeCorporateCustomer = () => {
                       label="Etableringsland"
                       required
                     />
-                  </Card>
+                  </Form.Card>
 
-                  <Card stack>
+                  <Form.Card>
                     <Field.PhoneNumber
                       path="/phoneNumber"
                       label="Telefon/mobilnummer"
@@ -98,7 +98,7 @@ export const BecomeCorporateCustomer = () => {
                       path="/website"
                       label="Nettstedsadresse (valgfritt)"
                     />
-                  </Card>
+                  </Form.Card>
 
                   <Wizard.Buttons />
                 </Wizard.Step>
@@ -106,13 +106,13 @@ export const BecomeCorporateCustomer = () => {
                 <Wizard.Step title="Kontaktperson">
                   <Form.MainHeading>Profile</Form.MainHeading>
 
-                  <Card stack>
+                  <Form.Card>
                     <Form.SubHeading>More information</Form.SubHeading>
 
                     <Field.NationalIdentityNumber path="/ssn" />
                     <Field.Email path="/email" />
                     <Field.PhoneNumber path="/phone" />
-                  </Card>
+                  </Form.Card>
 
                   <Wizard.Buttons />
                 </Wizard.Step>
@@ -140,7 +140,7 @@ export const BecomeCorporateCustomer = () => {
                 <Wizard.Step title="Oppsummering">
                   <Form.MainHeading>Profile</Form.MainHeading>
 
-                  <Card stack>
+                  <Form.Card>
                     <Flex.Container>
                       <Value.String path="/firstName" />
                       <Value.String path="/lastName" />
@@ -149,7 +149,7 @@ export const BecomeCorporateCustomer = () => {
                     <Value.NationalIdentityNumber path="/ssn" />
                     <Value.Email path="/email" />
                     <Value.PhoneNumber path="/phone" />
-                  </Card>
+                  </Form.Card>
 
                   <Form.ButtonRow>
                     <Wizard.Buttons />
@@ -195,7 +195,7 @@ export function PizzaDemo() {
                       Which pizza do you want?
                     </Form.MainHeading>
 
-                    <Card stack>
+                    <Form.Card>
                       <Form.SubHeading>Your Pizza</Form.SubHeading>
                       <Field.Selection
                         variant="button"
@@ -213,9 +213,9 @@ export function PizzaDemo() {
                         />
                         <Field.Option value="parma" title="Parma" />
                       </Field.Selection>
-                    </Card>
+                    </Form.Card>
 
-                    <Card stack>
+                    <Form.Card>
                       <Form.SubHeading>Allergies</Form.SubHeading>
                       <Field.Boolean
                         label="Do you have any allergies?"
@@ -231,7 +231,7 @@ export function PizzaDemo() {
                           required // only if visible 👌
                         />
                       </Form.Visibility>
-                    </Card>
+                    </Form.Card>
 
                     <Wizard.Buttons />
                   </Wizard.Step>
@@ -239,13 +239,13 @@ export function PizzaDemo() {
                   <Wizard.Step title="Delivery address">
                     <Form.MainHeading>Delivery address</Form.MainHeading>
 
-                    <Card stack>
+                    <Form.Card>
                       <Form.SubHeading>Your name</Form.SubHeading>
                       <Field.Name.First path="/firstName" required />
                       <Field.Name.Last path="/lastName" required />
-                    </Card>
+                    </Form.Card>
 
-                    <Card stack>
+                    <Form.Card>
                       <Form.SubHeading>Your address</Form.SubHeading>
 
                       <Field.Composition width="large">
@@ -270,7 +270,7 @@ export function PizzaDemo() {
                         }}
                         city={{ required: true, path: '/city' }}
                       />
-                    </Card>
+                    </Form.Card>
 
                     <Wizard.Buttons />
                   </Wizard.Step>
@@ -278,7 +278,7 @@ export function PizzaDemo() {
                   <Wizard.Step title={summaryTitle}>
                     <Form.MainHeading>Summary</Form.MainHeading>
 
-                    <Card stack>
+                    <Form.Card>
                       <Value.SummaryList>
                         <Value.String label="My flavour" path="/flavour" />
                         <Value.Boolean
@@ -290,9 +290,9 @@ export function PizzaDemo() {
                           path="/allergies"
                         />
                       </Value.SummaryList>
-                    </Card>
+                    </Form.Card>
 
-                    <Card stack>
+                    <Form.Card>
                       <Value.SummaryList layout="grid">
                         <Value.Name.First path="/firstName" />
                         <Value.Name.Last path="/lastName" />
@@ -306,7 +306,7 @@ export function PizzaDemo() {
                         />
                         <Value.String label="City" path="/city" />
                       </Value.SummaryList>
-                    </Card>
+                    </Form.Card>
 
                     <Form.ButtonRow>
                       <Wizard.Buttons />

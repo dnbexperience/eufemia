@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
-import { Card } from '@dnb/eufemia/src'
+
 import { Field, Form, Value } from '@dnb/eufemia/src/extensions/forms'
 
 export const ViewAndEditContainer = () => {
@@ -35,7 +35,7 @@ export const ViewAndEditContainer = () => {
               },
             }}
           >
-            <Card stack>
+            <Form.Card>
               <Form.SubHeading>Your account</Form.SubHeading>
               <Form.Section
                 path="/nestedPath"
@@ -45,7 +45,7 @@ export const ViewAndEditContainer = () => {
                 <MyEditContainer />
                 <MyViewContainer />
               </Form.Section>
-            </Card>
+            </Form.Card>
             <Form.SubmitButton />
           </Form.Handler>
         )

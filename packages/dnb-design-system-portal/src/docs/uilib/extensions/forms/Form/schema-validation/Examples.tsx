@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Card, Flex } from '@dnb/eufemia/src'
+import { Flex } from '@dnb/eufemia/src'
 import { Form, Field, Iterate } from '@dnb/eufemia/src/extensions/forms'
 import { trash as TrashIcon } from '@dnb/eufemia/src/icons'
 
@@ -26,12 +26,12 @@ export const DataSetSchema = () => {
           required: ['name', 'address'],
         }}
       >
-        <Card gap="small" bottom="small">
+        <Form.Card gap="small" bottom="small">
           <Form.MainHeading>Company information</Form.MainHeading>
 
           <Field.String path="/name" label="Name" />
           <Field.String path="/address" label="Address" />
-        </Card>
+        </Form.Card>
 
         <Form.SubmitButton />
       </Form.Handler>
@@ -62,7 +62,7 @@ export const IfRuleSchema = () => {
           else: { required: ['name'] },
         }}
       >
-        <Card gap="small" bottom="small">
+        <Form.Card gap="small">
           <Form.MainHeading>Customer information</Form.MainHeading>
 
           <Field.String path="/name" label="Name" />
@@ -74,7 +74,7 @@ export const IfRuleSchema = () => {
             path="/companyName"
             labelDescription="Company name (required for corporate customers)"
           />
-        </Card>
+        </Form.Card>
 
         <Form.SubmitButton />
       </Form.Handler>
@@ -149,14 +149,14 @@ export const DependantListSchema = () => {
       >
         <Flex.Vertical gap="small">
           <Form.MainHeading>Customer information</Form.MainHeading>
-          <Card gap="small">
+          <Form.Card gap="small">
             <Field.String path="/name" label="Name" />
             <Field.Email path="/email" label="E-mail" />
             <Field.PhoneNumber path="/phone" label="Phone number" />
-          </Card>
+          </Form.Card>
 
           <Form.MainHeading>Accounts</Form.MainHeading>
-          <Card gap="small">
+          <Form.Card gap="small">
             <Form.SubHeading>Standard accounts</Form.SubHeading>
 
             <Iterate.Array path="/accounts">
@@ -189,7 +189,7 @@ export const DependantListSchema = () => {
               label="Account number"
             />
             <Field.String path="/bsuAccount/alias" label="Alias" />
-          </Card>
+          </Form.Card>
 
           <Form.SubmitButton />
         </Flex.Vertical>

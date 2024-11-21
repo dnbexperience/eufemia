@@ -1,6 +1,6 @@
 import React from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Card, Flex, HeightAnimation, P } from '@dnb/eufemia/src'
+import { Flex, HeightAnimation, P } from '@dnb/eufemia/src'
 import {
   Field,
   Form,
@@ -239,11 +239,11 @@ export const FilterData = () => {
                   filterData={filterDataPaths}
                   animate
                 >
-                  <Card>
+                  <Form.Card>
                     <P>
                       Result: <Value.String path="/myString" inline />
                     </P>
-                  </Card>
+                  </Form.Card>
                 </Form.Visibility>
               </Flex.Stack>
 
@@ -268,7 +268,7 @@ export function InheritVisibility() {
   return (
     <ComponentBox>
       <Form.Handler>
-        <Card stack>
+        <Form.Card>
           <Field.Boolean
             variant="button"
             path="/isVisible"
@@ -288,7 +288,7 @@ export function InheritVisibility() {
               </Value.SummaryList>
             </HeightAnimation>
           </Value.Provider>
-        </Card>
+        </Form.Card>
       </Form.Handler>
     </ComponentBox>
   )
@@ -298,7 +298,7 @@ export function VisibilityOnValidation() {
   return (
     <ComponentBox>
       <Form.Handler>
-        <Card stack>
+        <Form.Card>
           <Field.Name.First path="/foo" required />
 
           <Form.Visibility
@@ -310,7 +310,7 @@ export function VisibilityOnValidation() {
           >
             <Value.Name.First path="/foo" />
           </Form.Visibility>
-        </Card>
+        </Form.Card>
       </Form.Handler>
     </ComponentBox>
   )

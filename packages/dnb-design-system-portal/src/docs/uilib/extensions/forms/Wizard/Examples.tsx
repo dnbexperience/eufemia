@@ -1,7 +1,7 @@
 import React from 'react'
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
 import { Form, Wizard } from '@dnb/eufemia/src/extensions/forms'
-import { Card, P } from '@dnb/eufemia/src'
+import { P } from '@dnb/eufemia/src'
 
 export const IntroExample = () => {
   return (
@@ -20,16 +20,16 @@ export const IntroExample = () => {
               >
                 <Wizard.Step title="Step 1">
                   <Form.MainHeading>Heading</Form.MainHeading>
-                  <Card stack>
+                  <Form.Card>
                     <P>Step 1</P>
-                  </Card>
+                  </Form.Card>
                   <Wizard.Buttons />
                 </Wizard.Step>
                 <Wizard.Step title="Step 2">
                   <Form.MainHeading>Heading</Form.MainHeading>
-                  <Card stack>
+                  <Form.Card>
                     <P>Step 2</P>
-                  </Card>
+                  </Form.Card>
                   <Wizard.Buttons />
                 </Wizard.Step>
               </Wizard.Container>

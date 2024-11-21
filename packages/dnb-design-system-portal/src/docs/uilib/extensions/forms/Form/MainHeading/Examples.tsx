@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Card, Flex, P } from '@dnb/eufemia/src'
+import { Flex, P } from '@dnb/eufemia/src'
 import { Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
@@ -25,9 +25,9 @@ export const AboveCard = () => {
   return (
     <ComponentBox data-visual-test="layout-main-heading-above-card">
       <Form.MainHeading>This is a main heading</Form.MainHeading>
-      <Card stack>
+      <Form.Card>
         <P>Card contents</P>
-      </Card>
+      </Form.Card>
     </ComponentBox>
   )
 }
@@ -44,9 +44,9 @@ export const WithHelpButton = () => {
         >
           This is a main heading
         </Form.MainHeading>
-        <Card stack>
+        <Form.Card>
           <P>Card contents</P>
-        </Card>
+        </Form.Card>
       </Flex.Stack>
     </ComponentBox>
   )

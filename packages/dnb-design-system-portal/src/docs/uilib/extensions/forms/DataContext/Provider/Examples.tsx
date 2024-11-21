@@ -6,7 +6,7 @@ import {
   Value,
   JSONSchema,
 } from '@dnb/eufemia/src/extensions/forms'
-import { Card, Flex } from '@dnb/eufemia/src'
+import { Flex } from '@dnb/eufemia/src'
 
 export const TestdataSchema: JSONSchema = {
   type: 'object',
@@ -102,7 +102,7 @@ export const Default = () => {
         sessionStorageId="provider-example-1"
       >
         <Flex.Stack>
-          <Card stack>
+          <Form.Card>
             <Flex.Vertical divider="line" gap="small">
               <Field.String
                 path="/requiredString"
@@ -164,7 +164,7 @@ export const Default = () => {
                 <Form.SubmitButton />
               </Form.ButtonRow>
             </Flex.Vertical>
-          </Card>
+          </Form.Card>
         </Flex.Stack>
       </DataContext.Provider>
     </ComponentBox>
@@ -192,7 +192,7 @@ export const ValidationWithJsonSchema = () => {
         onSubmitRequest={() => console.log('onSubmitRequest')}
       >
         <Flex.Stack>
-          <Card stack>
+          <Form.Card>
             <Flex.Vertical divider="line" gap="small">
               <Field.String
                 path="/requiredString"
@@ -252,7 +252,7 @@ export const ValidationWithJsonSchema = () => {
                 <Form.SubmitButton />
               </Form.ButtonRow>
             </Flex.Vertical>
-          </Card>
+          </Form.Card>
         </Flex.Stack>
       </DataContext.Provider>
     </ComponentBox>

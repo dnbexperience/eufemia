@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Card } from '@dnb/eufemia/src'
+
 import { Field, Form, Iterate } from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
@@ -15,7 +15,7 @@ export const Default = () => {
               }}
               id="myForm"
             >
-              <Card stack>
+              <Form.Card>
                 <Iterate.Array
                   path="/myList"
                   placeholder={<>Empty list</>}
@@ -34,7 +34,7 @@ export const Default = () => {
                   pushValue={'Item ' + String(count('/myList') + 1)}
                   text="Add new item"
                 />
-              </Card>
+              </Form.Card>
             </Form.Handler>
           )
         }

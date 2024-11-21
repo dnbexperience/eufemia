@@ -231,7 +231,7 @@ export const WithNestedSection = () => {
   return (
     <ComponentBox data-visual-test="card-nested-section">
       <Flex.Stack>
-        <Form.Card gap="x-small" align="stretch">
+        <Card gap="x-small" align="stretch">
           <Form.SubHeading>Card with a nested Section</Form.SubHeading>
           <Section
             variant="info"
@@ -239,9 +239,9 @@ export const WithNestedSection = () => {
           >
             <Field.String width="medium" label="In nested Section" />
           </Section>
-        </Form.Card>
+        </Card>
 
-        <Form.Card innerSpace="x-large" stack>
+        <Card innerSpace="x-large" stack>
           <Section
             variant="info"
             innerSpace={{ top: 'small', bottom: 'medium' }}
@@ -251,9 +251,9 @@ export const WithNestedSection = () => {
               label="Card with a 'x-large' inner space"
             />
           </Section>
-        </Form.Card>
+        </Card>
 
-        <Form.Card innerSpace={false} align="stretch">
+        <Card innerSpace={false} align="stretch">
           <P>no inner space</P>
           <Section innerSpace backgroundColor="var(--card-outline-color)">
             <Field.String
@@ -262,7 +262,7 @@ export const WithNestedSection = () => {
             />
           </Section>
           <P>no inner space</P>
-        </Form.Card>
+        </Card>
       </Flex.Stack>
     </ComponentBox>
   )

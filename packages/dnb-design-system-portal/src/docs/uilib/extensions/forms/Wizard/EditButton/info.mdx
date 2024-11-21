@@ -16,11 +16,11 @@ render(
   <Form.Handler>
     <Wizard.Layout>
       <Wizard.Step title="Summary">
-        <Card stack>
+        <Form.Card>
           <Value.Name.First path="/firstName" />
           <Hr />
           <Wizard.EditButton toStep={2} />
-        </Card>
+        </Form.Card>
       </Wizard.Step>
     </Wizard.Layout>
   </Form.Handler>,

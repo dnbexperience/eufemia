@@ -1,13 +1,13 @@
 import React from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Card } from '@dnb/eufemia/src'
+
 import { Field, Form, Value } from '@dnb/eufemia/src/extensions/forms'
 
 export function InheritVisibility() {
   return (
     <ComponentBox>
       <Form.Handler>
-        <Card stack>
+        <Form.Card>
           <Field.Boolean
             variant="button"
             path="/isVisible"
@@ -25,7 +25,7 @@ export function InheritVisibility() {
               <Value.Name.First path="/bar" />
             </Value.SummaryList>
           </Value.Provider>
-        </Card>
+        </Form.Card>
       </Form.Handler>
     </ComponentBox>
   )

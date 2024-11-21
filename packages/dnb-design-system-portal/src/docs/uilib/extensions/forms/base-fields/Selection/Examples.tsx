@@ -1,6 +1,6 @@
 import * as React from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Button, Card, Flex, Section } from '@dnb/eufemia/src'
+import { Button, Flex, Section } from '@dnb/eufemia/src'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 
 // - Dropdown
@@ -519,7 +519,7 @@ export const RadioWithAPath = () => (
 export const RadioNestingWithLogic = () => (
   <ComponentBox hideCode data-visual-test="selection-radio-nesting-logic">
     <Form.Handler onSubmit={console.log}>
-      <Card stack>
+      <Form.Card>
         <Field.Selection
           variant="radio"
           label="Make a selection"
@@ -568,7 +568,7 @@ export const RadioNestingWithLogic = () => (
             </Form.Visibility>
           </Form.Visibility>
         </Field.Selection>
-      </Card>
+      </Form.Card>
 
       <Form.SubmitButton />
     </Form.Handler>
@@ -584,7 +584,7 @@ export const RadioNestingAdvanced = () => (
       defaultData={{ mySelection: 'first', firstSelection: 'first' }}
       onSubmit={console.log}
     >
-      <Card stack>
+      <Form.Card>
         <Field.Selection path="/mySelection" variant="radio">
           <Field.Option value="first" title="First" />
           <Form.Visibility
@@ -592,7 +592,7 @@ export const RadioNestingAdvanced = () => (
             animate
             compensateForGap="auto" // makes animation smooth
           >
-            <Card stack top bottom>
+            <Form.Card top bottom>
               <Field.Number
                 path="/firstNumber"
                 label="First number"
@@ -630,23 +630,23 @@ export const RadioNestingAdvanced = () => (
                   animate
                   compensateForGap="auto" // makes animation smooth
                 >
-                  <Card stack top bottom>
+                  <Form.Card top bottom>
                     <Field.Number
                       path="/firstNestedNumber"
                       label="First nested number"
                       required
                     />
-                  </Card>
+                  </Form.Card>
                 </Form.Visibility>
                 <Field.Option value="second" title="Second nested" />
               </Field.Selection>
-            </Card>
+            </Form.Card>
           </Form.Visibility>
 
           <Field.Option value="second" title="Second" />
           <Field.Option value="third" title="Third" />
         </Field.Selection>
-      </Card>
+      </Form.Card>
 
       <Form.SubmitButton />
     </Form.Handler>
@@ -796,7 +796,7 @@ export const ButtonWithAPath = () => (
 export const ButtonNestingWithLogic = () => (
   <ComponentBox data-visual-test="selection-button-nesting-logic">
     <Form.Handler>
-      <Card stack>
+      <Form.Card>
         <Field.Selection
           variant="button"
           label="Make a selection"
@@ -844,7 +844,7 @@ export const ButtonNestingWithLogic = () => (
             </Form.Visibility>
           </Form.Visibility>
         </Field.Selection>
-      </Card>
+      </Form.Card>
     </Form.Handler>
   </ComponentBox>
 )

@@ -1,4 +1,3 @@
-import { Card } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Field, Form, Iterate } from '@dnb/eufemia/src/extensions/forms'
 
@@ -178,10 +177,10 @@ export const SettingCountryBasedOnPath = () => {
   return (
     <ComponentBox>
       <Form.Handler>
-        <Card stack>
+        <Form.Card>
           <Field.SelectCountry path="/myCountry" defaultValue="NO" />
           <Field.PostalCodeAndCity country="/myCountry" />
-        </Card>
+        </Form.Card>
       </Form.Handler>
     </ComponentBox>
   )
