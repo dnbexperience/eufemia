@@ -164,7 +164,7 @@
         max-width: var(--dt-max-width);
 
         &:empty {
-          display: contents;
+          margin-right: 0;
         }
       }
 

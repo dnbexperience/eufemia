@@ -498,7 +498,7 @@ del .dnb-code {
     max-width: var(--dt-max-width);
   }
   .dnb-dl__layout--horizontal dt:empty {
-    display: contents;
+    margin-right: 0;
   }
   .dnb-dl__layout--horizontal dd {
     width: var(--dd-max-width);
