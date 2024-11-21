@@ -35,8 +35,11 @@ html {
   background: #fff;
 }
 
-[data-visual-test]:has(.dnb-section[style*='--outset']) {
-  @media (min-width: 25em) {
+[data-visual-test]:has(
+    .dnb-section[style*='--outset--medium: 1'],
+    .dnb-section[style*='--outset--large: 1']
+  ) {
+  @media (min-width: 40em) {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
   }
