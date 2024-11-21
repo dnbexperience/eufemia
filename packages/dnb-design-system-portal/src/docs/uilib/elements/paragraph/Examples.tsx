@@ -60,13 +60,15 @@ export function ParagraphFamilyModifiers() {
 export function ParagraphLineHeightModifiers() {
   return (
     <ComponentBox hideCode data-visual-test="paragraph-modifiers-line">
-      <P line="x-small">x-small line-height paragraph</P>
-      <P line="small">small line-height paragraph</P>
-      <P line="medium">medium line-height paragraph</P>
-      <P line="basis">basis line-height paragraph (same as default)</P>
-      <P line="large">large line-height paragraph</P>
-      <P line="x-large">x-large line-height paragraph</P>
-      <P line="xx-large">xx-large line-height paragraph</P>
+      <P lineHeight="x-small">x-small line-height paragraph</P>
+      <P lineHeight="small">small line-height paragraph</P>
+      <P lineHeight="medium">medium line-height paragraph</P>
+      <P lineHeight="basis">
+        basis line-height paragraph (same as default)
+      </P>
+      <P lineHeight="large">large line-height paragraph</P>
+      <P lineHeight="x-large">x-large line-height paragraph</P>
+      <P lineHeight="xx-large">xx-large line-height paragraph</P>
     </ComponentBox>
   )
 }

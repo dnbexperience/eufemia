@@ -62,7 +62,7 @@ describe('P element', () => {
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-p',
-      'dnb-t__line--large',
+      'dnb-t__line-height--large',
       'dnb-t__size--large',
     ])
   })
@@ -81,7 +81,7 @@ describe('P element', () => {
     render(
       <P
         size="small"
-        line="xx-large"
+        lineHeight="xx-large"
         align="center"
         family="monospace"
         weight="medium"
@@ -92,7 +92,7 @@ describe('P element', () => {
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-p',
-      'dnb-t__line--xx-large',
+      'dnb-t__line-height--xx-large',
       'dnb-t__size--small',
       'dnb-t__align--center',
       'dnb-t__family--monospace',
@@ -123,7 +123,7 @@ describe('P element', () => {
 
       expect(Array.from(element.classList)).toEqual([
         'dnb-p',
-        'dnb-t__line--medium',
+        'dnb-t__line-height--medium',
         'dnb-t__size--medium',
         'dnb-t__weight--medium',
       ])
@@ -134,7 +134,7 @@ describe('P element', () => {
 
       expect(Array.from(element.classList)).toEqual([
         'dnb-p',
-        'dnb-t__line--small',
+        'dnb-t__line-height--small',
         'dnb-t__size--small',
         'dnb-t__weight--medium',
       ])
@@ -145,7 +145,7 @@ describe('P element', () => {
 
       expect(Array.from(element.classList)).toEqual([
         'dnb-p',
-        'dnb-t__line--x-small',
+        'dnb-t__line-height--x-small',
         'dnb-t__size--x-small',
         'dnb-t__weight--bold',
       ])

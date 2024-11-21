@@ -14,17 +14,17 @@ describe('Span element', () => {
     const element = document.querySelector('.dnb-t__size--large')
 
     expect(Array.from(element.classList)).toEqual([
-      'dnb-t__line--large',
+      'dnb-t__line-height--large',
       'dnb-t__size--large',
       'dnb-span',
     ])
   })
   it('sets only line-height when size is not defined', () => {
-    render(<Span line="large" />)
-    const element = document.querySelector('.dnb-t__line--large')
+    render(<Span lineHeight="large" />)
+    const element = document.querySelector('.dnb-t__line-height--large')
 
     expect(Array.from(element.classList)).toEqual([
-      'dnb-t__line--large',
+      'dnb-t__line-height--large',
       'dnb-span',
     ])
   })
@@ -32,7 +32,7 @@ describe('Span element', () => {
     render(
       <Span
         size="small"
-        line="xx-large"
+        lineHeight="xx-large"
         align="center"
         family="monospace"
         weight="medium"
@@ -42,7 +42,7 @@ describe('Span element', () => {
     const element = document.querySelector('.dnb-t__size--small')
 
     expect(Array.from(element.classList)).toEqual([
-      'dnb-t__line--xx-large',
+      'dnb-t__line-height--xx-large',
       'dnb-t__size--small',
       'dnb-t__align--center',
       'dnb-t__family--monospace',

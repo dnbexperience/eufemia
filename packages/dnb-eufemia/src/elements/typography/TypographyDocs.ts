@@ -7,7 +7,7 @@ export const TypographyProperties: PropertiesTableProps = {
     status: 'optional',
   },
   size: {
-    doc: 'Sets the font size, also sets the line-height if `line` prop is not set.',
+    doc: 'Sets the font size, also sets the line-height if `lineHeight` prop is not set.',
     type: [
       `'x-small'`,
       `'small'`,
@@ -19,7 +19,7 @@ export const TypographyProperties: PropertiesTableProps = {
     ],
     status: 'optional',
   },
-  line: {
+  lineHeight: {
     doc: 'Sets the line height, will use same value as `size` if not set.',
     type: [
       `'x-small'`,

@@ -39,7 +39,7 @@ export type TypographyProps<
     /**
      * Sets the line height, will use same value as `size` if not set.
      */
-    line?: TypographySize
+    lineHeight?: TypographySize
     /**
      * Sets the text alignment
      */
@@ -70,7 +70,7 @@ const Typography = ({
   element = 'p',
   className,
   size,
-  line,
+  lineHeight,
   align,
   family,
   weight,
@@ -90,7 +90,7 @@ const Typography = ({
         weight && `dnb-t__weight--${weight}`,
         decoration && `dnb-t__decoration--${decoration}`,
         slant && `dnb-t__slant--${slant}`,
-        (line || size) && `dnb-t__line--${line || size}`
+        (lineHeight || size) && `dnb-t__line-height--${lineHeight || size}`
       )}
     />
   )
