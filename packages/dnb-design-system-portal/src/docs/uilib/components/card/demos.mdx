@@ -20,9 +20,9 @@ import * as Examples from './Examples'
 
 ### Stack
 
-The Card components needs to have `stack={true}` or `align="stretch"` in order to stretch its children components.
+When `stack` is set to `true`, the Card will add a gap between its children and stretch them to the full.
 
-For [form components](uilib/extensions/forms/), you should use `stack={true}` to get the correct spacing.
+For [form components](uilib/extensions/forms/), you should [Form.Card](/uilib/extensions/forms/Form/Card/) instead of the original Card component.
 
 <Examples.Stack />
 
@@ -34,6 +34,7 @@ Nested cards have `responsive={false}` by default and will not behave responsive
 
 ## With `outset`
 
+When using `outset`, the Card will break out of the layout container.
 On small screens (mobile) the outset is removed.
 
 <Examples.WithOutset />

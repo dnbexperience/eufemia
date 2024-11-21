@@ -141,6 +141,7 @@
   }
 }
 
+// Deprecated – can be removed in v11 (its handled by the outset prop)
 .dnb-card--auto-indent:has(
   + .dnb-card:not([style*='--outset']),
   + * + .dnb-card:not([style*='--outset']),/* e.g. one paragraph */

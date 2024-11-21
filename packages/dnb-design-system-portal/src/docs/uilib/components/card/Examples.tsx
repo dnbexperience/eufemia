@@ -275,14 +275,14 @@ export const WithOutset = () => {
   return (
     <ComponentBox data-visual-test="layout-card-outset">
       <Flex.Vertical>
-        <Form.MainHeading>Main heading</Form.MainHeading>
+        <Form.MainHeading>I'm left aligned</Form.MainHeading>
         <Card stack outset>
           <P>Card content</P>
           <Card>
             <P>Nested card</P>
           </Card>
         </Card>
-        <Form.SubmitButton />
+        <Form.SubmitButton text="I'm also left aligned" />
       </Flex.Vertical>
     </ComponentBox>
   )
