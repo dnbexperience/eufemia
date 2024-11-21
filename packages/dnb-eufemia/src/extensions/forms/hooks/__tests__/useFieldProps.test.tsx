@@ -5423,7 +5423,7 @@ describe('useFieldProps', () => {
     })
 
     describe('connectWithPath', () => {
-      const validatorFn: UseFieldProps<number>['onChangeValidator'] = (
+      const onBlurValidatorFn: UseFieldProps<number>['onBlurValidator'] = (
         num,
         { connectWithPath }
       ) => {
@@ -5435,7 +5435,7 @@ describe('useFieldProps', () => {
       }
 
       it('should show onBlurValidator error on form submit', async () => {
-        const onBlurValidator = jest.fn(validatorFn)
+        const onBlurValidator = jest.fn(onBlurValidatorFn)
 
         render(
           <Form.Handler>
@@ -5470,7 +5470,7 @@ describe('useFieldProps', () => {
       })
 
       it('should update error message on input change', async () => {
-        const onBlurValidator = jest.fn(validatorFn)
+        const onBlurValidator = jest.fn(onBlurValidatorFn)
 
         render(
           <Form.Handler>
@@ -5510,7 +5510,7 @@ describe('useFieldProps', () => {
       })
 
       it('should hide error message when validation is successful', async () => {
-        const onBlurValidator = jest.fn(validatorFn)
+        const onBlurValidator = jest.fn(onBlurValidatorFn)
 
         render(
           <Form.Handler>
@@ -5550,7 +5550,7 @@ describe('useFieldProps', () => {
       })
 
       it('should keep error message hidden during ref input change', async () => {
-        const onBlurValidator = jest.fn(validatorFn)
+        const onBlurValidator = jest.fn(onBlurValidatorFn)
 
         render(
           <Form.Handler>
@@ -5589,7 +5589,7 @@ describe('useFieldProps', () => {
 
       describe('validateInitially', () => {
         it('should show error message initially', async () => {
-          const onBlurValidator = jest.fn(validatorFn)
+          const onBlurValidator = jest.fn(onBlurValidatorFn)
 
           render(
             <Form.Handler>
@@ -5610,7 +5610,7 @@ describe('useFieldProps', () => {
         })
 
         it('should not show error message while typing', async () => {
-          const onBlurValidator = jest.fn(validatorFn)
+          const onBlurValidator = jest.fn(onBlurValidatorFn)
 
           render(
             <Form.Handler>
@@ -5643,7 +5643,7 @@ describe('useFieldProps', () => {
 
       describe('validateUnchanged', () => {
         it('should not show error message initially', async () => {
-          const onBlurValidator = jest.fn(validatorFn)
+          const onBlurValidator = jest.fn(onBlurValidatorFn)
 
           render(
             <Form.Handler>
@@ -5662,7 +5662,7 @@ describe('useFieldProps', () => {
         })
 
         it('should not show error message while typing', async () => {
-          const onBlurValidator = jest.fn(validatorFn)
+          const onBlurValidator = jest.fn(onBlurValidatorFn)
 
           render(
             <Form.Handler>
@@ -5695,7 +5695,7 @@ describe('useFieldProps', () => {
 
       describe('continuousValidation', () => {
         it('should show not show error message initially', async () => {
-          const onBlurValidator = jest.fn(validatorFn)
+          const onBlurValidator = jest.fn(onBlurValidatorFn)
 
           render(
             <Form.Handler>
