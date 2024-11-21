@@ -59,12 +59,16 @@ export const DefinitionListHorizontalExampleWithoutDtValue = () => (
   >
     <Dl layout="horizontal">
       <Dl.Item>
-        <Dt>Term 1</Dt>
+        <Dt></Dt>
         <Dd>Description 1</Dd>
       </Dl.Item>
       <Dl.Item>
-        <Dt></Dt>
+        <Dt>Term 2</Dt>
         <Dd>Description 2</Dd>
+      </Dl.Item>
+      <Dl.Item>
+        <Dt></Dt>
+        <Dd>Description 3</Dd>
       </Dl.Item>
       <Dl.Item>
         <Dt>
@@ -75,6 +79,10 @@ export const DefinitionListHorizontalExampleWithoutDtValue = () => (
           Description with several words lorem nulla mi posuere cubilia vel
           vulputate
         </Dd>
+      </Dl.Item>
+      <Dl.Item>
+        <Dt></Dt>
+        <Dd>Description 4</Dd>
       </Dl.Item>
     </Dl>
   </ComponentBox>
