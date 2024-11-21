@@ -116,7 +116,12 @@ function ValueBlock(props: Props) {
           value={{ ...summaryListContext, isNested: true }}
         >
           <Item>
-            <Dt className="dnb-forms-value-block__label">
+            <Dt
+              className={classnames(
+                'dnb-forms-value-block__label',
+                !label && 'dnb-sr-only'
+              )}
+            >
               {label && <strong>{label}</strong>}
             </Dt>
             <Dd

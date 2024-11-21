@@ -35,4 +35,13 @@ describe('Field.SummaryList', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match without a label', async () => {
+    const screenshot = await makeScreenshot({
+      style: { width: '6rem' },
+      selector:
+        '[data-visual-test="forms-value-summary-horizontal-empty-label"] ',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

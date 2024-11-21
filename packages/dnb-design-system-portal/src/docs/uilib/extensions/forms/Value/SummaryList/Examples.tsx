@@ -147,3 +147,13 @@ export function InheritLabel() {
     </ComponentBox>
   )
 }
+
+export const HorizontalLayoutWithoutLabel = () => (
+  <ComponentBox data-visual-test="forms-value-summary-horizontal-empty-label">
+    <Value.SummaryList layout="horizontal">
+      <Value.String value="foo" label="Foo" />
+      <Value.String value="bar" />
+      <Value.String value="baz" label="Baz" />
+    </Value.SummaryList>
+  </ComponentBox>
+)
