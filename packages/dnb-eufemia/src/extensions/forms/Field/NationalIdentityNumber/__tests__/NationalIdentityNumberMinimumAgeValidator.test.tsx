@@ -186,13 +186,13 @@ describe('Field.NationalIdentityNumber with minimumAgeValidator', () => {
     const invalidDnums = ['69020112345', '690']
     const invalidFnrs = ['29020112345', '290']
 
-    describe('when provided as the only validator validation function', () => {
+    describe('when provided as the onChangeValidator function', () => {
       it.each(validIds)(
         'Identity number is 18 years or older : %s',
         async (validId) => {
           render(
             <Field.NationalIdentityNumber
-              validator={myMinimum18YearsValidator}
+              onChangeValidator={myMinimum18YearsValidator}
               onBlurValidator={false}
               validateInitially
               value={validId}
@@ -210,7 +210,7 @@ describe('Field.NationalIdentityNumber with minimumAgeValidator', () => {
         async (invalidId) => {
           render(
             <Field.NationalIdentityNumber
-              validator={myMinimum18YearsValidator}
+              onChangeValidator={myMinimum18YearsValidator}
               onBlurValidator={false}
               validateInitially
               value={invalidId}
@@ -264,14 +264,16 @@ describe('Field.NationalIdentityNumber with minimumAgeValidator', () => {
       )
     })
 
-    describe('when extending the dnrAndFnrValidator as validator', () => {
+    describe('when extending the dnrAndFnrValidator as onChangeValidator', () => {
       it.each(validIds)(
         'Identity number is 18 years or older : %s',
         async (validId) => {
           render(
             <Field.NationalIdentityNumber
               onBlurValidator={false}
-              validator={extendingDnrAndFnrValidatorWithMin18Validator}
+              onChangeValidator={
+                extendingDnrAndFnrValidatorWithMin18Validator
+              }
               validateInitially
               value={validId}
             />
@@ -289,7 +291,9 @@ describe('Field.NationalIdentityNumber with minimumAgeValidator', () => {
           render(
             <Field.NationalIdentityNumber
               onBlurValidator={false}
-              validator={extendingDnrAndFnrValidatorWithMin18Validator}
+              onChangeValidator={
+                extendingDnrAndFnrValidatorWithMin18Validator
+              }
               validateInitially
               value={invalidId}
             />
@@ -309,7 +313,9 @@ describe('Field.NationalIdentityNumber with minimumAgeValidator', () => {
           render(
             <Field.NationalIdentityNumber
               onBlurValidator={false}
-              validator={extendingDnrAndFnrValidatorWithMin18Validator}
+              onChangeValidator={
+                extendingDnrAndFnrValidatorWithMin18Validator
+              }
               validateInitially
               value={invalidDnum}
             />
@@ -329,7 +335,9 @@ describe('Field.NationalIdentityNumber with minimumAgeValidator', () => {
           render(
             <Field.NationalIdentityNumber
               onBlurValidator={false}
-              validator={extendingDnrAndFnrValidatorWithMin18Validator}
+              onChangeValidator={
+                extendingDnrAndFnrValidatorWithMin18Validator
+              }
               validateInitially
               value={invalidFnr}
             />
@@ -428,14 +436,14 @@ describe('Field.NationalIdentityNumber with minimumAgeValidator', () => {
       )
     })
 
-    describe('when extending the dnrValidator as validator', () => {
+    describe('when extending the dnrValidator as onChangeValidator', () => {
       it.each(dnr18YearsOldAndOlder)(
         'D number is 18 years or older : %s',
         async (validDnum) => {
           render(
             <Field.NationalIdentityNumber
               onBlurValidator={false}
-              validator={extendingDnrValidatorWithMin18Validator}
+              onChangeValidator={extendingDnrValidatorWithMin18Validator}
               validateInitially
               value={validDnum}
             />
@@ -453,7 +461,7 @@ describe('Field.NationalIdentityNumber with minimumAgeValidator', () => {
           render(
             <Field.NationalIdentityNumber
               onBlurValidator={false}
-              validator={extendingDnrValidatorWithMin18Validator}
+              onChangeValidator={extendingDnrValidatorWithMin18Validator}
               validateInitially
               value={invalidDnum}
             />
@@ -473,7 +481,7 @@ describe('Field.NationalIdentityNumber with minimumAgeValidator', () => {
           render(
             <Field.NationalIdentityNumber
               onBlurValidator={false}
-              validator={extendingDnrValidatorWithMin18Validator}
+              onChangeValidator={extendingDnrValidatorWithMin18Validator}
               validateInitially
               value={invalidDnum}
             />
@@ -547,14 +555,14 @@ describe('Field.NationalIdentityNumber with minimumAgeValidator', () => {
       })
     })
 
-    describe('when extending the fnrValidator as validator', () => {
+    describe('when extending the fnrValidator as onChangeValidator', () => {
       it.each(fnr18YearsOldAndOlder)(
         'Identity number(fnr) is 18 years or older : %s',
         async (validFnr) => {
           render(
             <Field.NationalIdentityNumber
               onBlurValidator={false}
-              validator={extendingFnrValidatorWithMin18Validator}
+              onChangeValidator={extendingFnrValidatorWithMin18Validator}
               validateInitially
               value={validFnr}
             />
@@ -572,7 +580,7 @@ describe('Field.NationalIdentityNumber with minimumAgeValidator', () => {
           render(
             <Field.NationalIdentityNumber
               onBlurValidator={false}
-              validator={extendingFnrValidatorWithMin18Validator}
+              onChangeValidator={extendingFnrValidatorWithMin18Validator}
               validateInitially
               value={invalidFnr}
             />
@@ -592,7 +600,7 @@ describe('Field.NationalIdentityNumber with minimumAgeValidator', () => {
           render(
             <Field.NationalIdentityNumber
               onBlurValidator={false}
-              validator={extendingFnrValidatorWithMin18Validator}
+              onChangeValidator={extendingFnrValidatorWithMin18Validator}
               validateInitially
               value={invalidFnr}
             />

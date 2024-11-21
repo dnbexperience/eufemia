@@ -669,23 +669,23 @@ describe('Field.PhoneNumber', () => {
     expect(document.querySelector('[role="alert"]')).toBeInTheDocument()
   })
 
-  it('should handle "validator" property with country code', async () => {
-    const validator = jest.fn(() => {
+  it('should handle "onChangeValidator" property with country code', async () => {
+    const onChangeValidator = jest.fn(() => {
       return new Error('some error')
     })
 
     render(
       <SharedProvider locale="en-GB">
         <Field.PhoneNumber
-          validator={validator}
+          onChangeValidator={onChangeValidator}
           validateInitially
           value="+41 9999"
         />
       </SharedProvider>
     )
 
-    expect(validator).toHaveBeenCalledTimes(1)
-    expect(validator).toHaveBeenCalledWith(
+    expect(onChangeValidator).toHaveBeenCalledTimes(1)
+    expect(onChangeValidator).toHaveBeenCalledWith(
       '+41 9999',
       expect.objectContaining({
         errorMessages: expect.objectContaining({

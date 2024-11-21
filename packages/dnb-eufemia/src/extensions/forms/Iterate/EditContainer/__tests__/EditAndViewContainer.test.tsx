@@ -86,7 +86,7 @@ describe('EditContainer and ViewContainer', () => {
           <Iterate.EditContainer>
             <Field.String
               itemPath="/"
-              validator={(value) => {
+              onChangeValidator={(value) => {
                 if (value === '01') {
                   return new Error('error')
                 }

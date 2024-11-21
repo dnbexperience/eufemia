@@ -92,8 +92,10 @@ function NationalIdentityNumber(props: Props) {
   const {
     validate = true,
     omitMask,
-    onBlurValidator = dnrAndFnrValidator,
+    // Deprecated – can be removed in v11
     validator,
+    onChangeValidator = validator,
+    onBlurValidator = dnrAndFnrValidator,
     width,
     label: labelProp,
   } = props
@@ -129,7 +131,7 @@ function NationalIdentityNumber(props: Props) {
     mask,
     width: width ?? 'medium',
     inputMode: 'numeric',
-    validator: validate ? validator : undefined,
+    onChangeValidator: validate ? onChangeValidator : undefined,
     onBlurValidator: validate ? onBlurValidatorToUse : undefined,
     exportValidators: {
       dnrValidator,

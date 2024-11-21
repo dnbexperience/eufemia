@@ -46,7 +46,7 @@ export const CreateBasicFieldComponent = () => {
           const preparedProps = {
             label: 'What is the secret of this field?',
             fromInput,
-            validator: (value) => {
+            onChangeValidator: (value) => {
               if (value === 'secret') {
                 return new Error('Do not reveal the secret!')
               }

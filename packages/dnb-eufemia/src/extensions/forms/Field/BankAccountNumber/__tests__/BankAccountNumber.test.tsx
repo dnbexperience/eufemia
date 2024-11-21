@@ -28,6 +28,57 @@ describe('Field.BankAccountNumber', () => {
     expect(input).toHaveAttribute('inputmode', 'numeric')
   })
 
+  // Deprecated – can be removed in v11
+  it('should validate given function as validator', async () => {
+    const text = 'Custom Error message'
+    const validator = jest.fn((value) => {
+      return value.length < 4 ? new Error(text) : undefined
+    })
+
+    render(
+      <Field.BankAccountNumber
+        value="123"
+        required
+        validator={validator}
+        validateInitially
+      />
+    )
+
+    await waitFor(() => {
+      expect(validator).toHaveBeenCalledTimes(1)
+    })
+
+    const element = document.querySelector('.dnb-form-status')
+
+    expect(element).toBeInTheDocument()
+    expect(element.textContent).toBe(text)
+  })
+
+  it('should validate given function as onChangeValidator', async () => {
+    const text = 'Custom Error message'
+    const onChangeValidator = jest.fn((value) => {
+      return value.length < 4 ? new Error(text) : undefined
+    })
+
+    render(
+      <Field.BankAccountNumber
+        value="123"
+        required
+        onChangeValidator={onChangeValidator}
+        validateInitially
+      />
+    )
+
+    await waitFor(() => {
+      expect(onChangeValidator).toHaveBeenCalledTimes(1)
+    })
+
+    const element = document.querySelector('.dnb-form-status')
+
+    expect(element).toBeInTheDocument()
+    expect(element.textContent).toBe(text)
+  })
+
   describe('should validate Norwegian bank account numbers', () => {
     const validBankAccountNumbers = [
       '52440407897',

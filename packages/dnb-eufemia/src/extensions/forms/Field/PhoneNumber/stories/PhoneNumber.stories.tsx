@@ -16,7 +16,7 @@ const makeRequest = async (value) => {
   })
 }
 
-const validator = async (value) => {
+const onChangeValidator = async (value) => {
   // Delay the response
   const isValid = await makeRequest(value)
   if (!isValid) {
@@ -36,7 +36,7 @@ export function PhoneNumber() {
       <Flex.Stack>
         <Field.PhoneNumber
           required
-          validator={validator}
+          onChangeValidator={onChangeValidator}
           // pattern="^\+41 [1]\d{2}$"
           validateInitially
           path="/phone"

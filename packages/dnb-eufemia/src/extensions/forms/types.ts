@@ -307,7 +307,9 @@ export interface UseFieldProps<
   // - Validation
   required?: boolean
   schema?: AllJSONSchemaVersions<Value>
+  /** @deprecated Use `onChangeValidator` instead */
   validator?: Validator<Value>
+  onChangeValidator?: Validator<Value>
   onBlurValidator?: Validator<Value>
   exportValidators?: Record<string, Validator<Value>>
   validateRequired?: (

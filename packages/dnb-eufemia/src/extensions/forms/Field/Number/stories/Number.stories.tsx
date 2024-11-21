@@ -45,8 +45,8 @@ export const Number = () => {
 }
 
 export const WithFreshValidator = () => {
-  const validator: UseFieldProps<number>['validator'] = useCallback(
-    (num, { connectWithPath }) => {
+  const validator: UseFieldProps<number>['onChangeValidator'] =
+    useCallback((num, { connectWithPath }) => {
       const { getValue } = connectWithPath('/refValue')
       const amount = getValue()
       // console.log('amount', amount, amount >= num)
@@ -56,9 +56,7 @@ export const WithFreshValidator = () => {
       if (num === undefined) {
         return new Error(`No amount was given`)
       }
-    },
-    []
-  )
+    }, [])
 
   return (
     <Form.Handler
@@ -73,12 +71,12 @@ export const WithFreshValidator = () => {
         <Field.Number
           label="Num"
           // onBlurValidator={validator}
-          validator={validator}
+          onChangeValidator={validator}
           defaultValue={2}
           // validateInitially
           // continuousValidation
           // validateUnchanged
-          path="/myNumberWithValidator"
+          path="/myNumberWithOnChangeValidator"
         />
 
         <Form.SubmitButton />

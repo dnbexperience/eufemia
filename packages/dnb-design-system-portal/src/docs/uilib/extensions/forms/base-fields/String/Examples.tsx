@@ -316,13 +316,13 @@ export const ValidatePattern = () => {
   )
 }
 
-export const SynchronousExternalValidator = () => {
+export const SynchronousExternalChangeValidator = () => {
   return (
     <ComponentBox>
       <Field.String
         defaultValue="foo"
         label="Label text (minimum 4 characters)"
-        validator={(value) =>
+        onChangeValidator={(value) =>
           value.length < 4 ? Error('At least 4 characters') : undefined
         }
         onChange={(value) => console.log('onChange', value)}
@@ -331,13 +331,13 @@ export const SynchronousExternalValidator = () => {
   )
 }
 
-export const AsynchronousExternalValidator = () => {
+export const AsynchronousExternalChangeValidator = () => {
   return (
     <ComponentBox>
       <Field.String
         defaultValue="foo"
         label="Label text (minimum 4 characters)"
-        validator={(value) =>
+        onChangeValidator={(value) =>
           new Promise((resolve) =>
             setTimeout(
               () =>

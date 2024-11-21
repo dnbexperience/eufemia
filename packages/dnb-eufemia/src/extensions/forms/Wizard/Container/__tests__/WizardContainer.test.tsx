@@ -281,9 +281,9 @@ describe('Wizard.Container', () => {
   })
 
   it('should support navigating back and forth with async validators', async () => {
-    const validator = async (value: string) => {
+    const onChangeValidator = async (value: string) => {
       if (value !== 'valid') {
-        return new Error('validator-error')
+        return new Error('onChangeValidator-error')
       }
     }
 
@@ -300,7 +300,7 @@ describe('Wizard.Container', () => {
           <Field.String
             path="/foo"
             required
-            validator={validator}
+            onChangeValidator={onChangeValidator}
             onBlurValidator={onBlurValidator}
           />
           <Wizard.PreviousButton />
@@ -337,7 +337,7 @@ describe('Wizard.Container', () => {
 
     expect(output()).toHaveTextContent('Step 1')
     expect(screen.queryByRole('alert')).toHaveTextContent(
-      'validator-error'
+      'onChangeValidator-error'
     )
 
     fireEvent.blur(input())
@@ -372,7 +372,7 @@ describe('Wizard.Container', () => {
 
     expect(output()).toHaveTextContent('Step 1')
     expect(screen.queryByRole('alert')).toHaveTextContent(
-      'validator-error'
+      'onChangeValidator-error'
     )
 
     fireEvent.blur(input())
@@ -1336,14 +1336,17 @@ describe('Wizard.Container', () => {
       })
     })
 
-    it('should handle async validator', async () => {
+    it('should handle async onChangeValidator', async () => {
       const asyncValidator = async () => null
 
       render(
         <Wizard.Container>
           <Wizard.Step title="Step 1">
             <output>Step 1</output>
-            <Field.String value="Value" validator={asyncValidator} />
+            <Field.String
+              value="Value"
+              onChangeValidator={asyncValidator}
+            />
             <Form.ButtonRow>
               <Wizard.PreviousButton />
               <Wizard.NextButton />
@@ -1389,7 +1392,7 @@ describe('Wizard.Container', () => {
       })
     })
 
-    it('should handle async validator with error', async () => {
+    it('should handle async onChangeValidator with error', async () => {
       const asyncValidator = async (value: string) => {
         if (value !== 'valid') {
           return new Error('Error message')
@@ -1400,7 +1403,7 @@ describe('Wizard.Container', () => {
         <Wizard.Container>
           <Wizard.Step title="Step 1">
             <output>Step 1</output>
-            <Field.String validator={asyncValidator} />
+            <Field.String onChangeValidator={asyncValidator} />
             <Form.ButtonRow>
               <Wizard.PreviousButton />
               <Wizard.NextButton />

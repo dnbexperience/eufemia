@@ -443,7 +443,7 @@ export const InitialOpenWithToolbarVariant = () => {
                   <Iterate.Array
                     path="/countries"
                     defaultValue={[null]}
-                    validator={(arrayValue) => {
+                    onChangeValidator={(arrayValue) => {
                       const findFirstDuplication = (arr) =>
                         arr.findIndex((e, i) => arr.indexOf(e) !== i)
 
@@ -535,7 +535,7 @@ export const WithArrayValidator = () => {
         <Card stack>
           <Iterate.Array
             path="/items"
-            validator={(arrayValue) => {
+            onChangeValidator={(arrayValue) => {
               if (!(arrayValue && arrayValue.length > 1)) {
                 return new Error('You need at least two items')
               }

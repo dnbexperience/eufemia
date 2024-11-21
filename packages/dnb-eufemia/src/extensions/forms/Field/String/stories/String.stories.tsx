@@ -106,7 +106,7 @@ export function ErrorMessages() {
         <Field.PhoneNumber
           value="abc"
           validateInitially
-          validator={() => {
+          onChangeValidator={() => {
             return new FormError('OrganizationNumber.errorRequired')
           }}
           errorMessages={{
@@ -120,7 +120,7 @@ export function ErrorMessages() {
           value="abc"
           minLength={4}
           // pattern="[0-9]"
-          // validator={() => {
+          // onChangeValidator={() => {
           //   return new FormError('OrganizationNumber.errorRequired')
           // }}
           // errorMessages={{

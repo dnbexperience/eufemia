@@ -188,14 +188,14 @@ export function AsyncStepChange() {
         <Wizard.Step title="Step 1">
           <Card stack>
             <Field.String
-              label="Required field with async validator"
-              validator={validator1}
+              label="Required field with async onChangeValidator"
+              onChangeValidator={validator1}
               path="/field1"
               required
             />
             <Field.String
-              label="Field with async validator"
-              validator={validator2}
+              label="Field with async onChangeValidator"
+              onChangeValidator={validator2}
               path="/field2"
             />
           </Card>
