@@ -16,6 +16,11 @@ export const ValueProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  labelSrOnly: {
+    doc: 'Use `true` to make the label only readable by screen readers.',
+    type: 'boolean',
+    status: 'optional',
+  },
   transformLabel: {
     doc: 'Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is a object containing the `convertJsxToString` function.',
     type: 'function',
