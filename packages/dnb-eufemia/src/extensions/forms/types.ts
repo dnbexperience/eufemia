@@ -436,6 +436,9 @@ export interface ValueProps<Value = unknown>
    */
   label?: React.ReactNode
 
+  /** Use `true` to make the label only readable by screen readers. */
+  labelSrOnly?: boolean
+
   /**
    * Use `true` to inherit the label from a visible (rendered) field with the same path.
    */

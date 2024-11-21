@@ -7,7 +7,10 @@ import ValueProvider from '../Provider/ValueProvider'
 import { ValueProps } from '../../types'
 import { useVerifyChildren } from './useVerifyChildren'
 
-export type Props = Omit<DlAllProps, 'label' | 'children'> & {
+export type Props = Omit<
+  DlAllProps,
+  'label' | 'labelSrOnly' | 'children'
+> & {
   children: React.ReactNode
   transformLabel?: ValueProps['transformLabel']
   inheritVisibility?: ValueProps['inheritVisibility']

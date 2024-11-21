@@ -69,6 +69,18 @@ describe('ValueBlock', () => {
     expect(element).toHaveClass('dnb-forms-value-block--max-width-medium')
   })
 
+  it('should set dnb-sr-only class when labelSrOnly is true', () => {
+    render(
+      <ValueBlock label="Label" labelSrOnly>
+        content
+      </ValueBlock>
+    )
+
+    const element = document.querySelector('.dnb-form-label')
+    expect(element).toHaveClass('dnb-sr-only')
+    expect(element).toHaveTextContent('Label')
+  })
+
   it('should put children in a wrapper element "__content"', () => {
     render(<ValueBlock>content</ValueBlock>)
 
