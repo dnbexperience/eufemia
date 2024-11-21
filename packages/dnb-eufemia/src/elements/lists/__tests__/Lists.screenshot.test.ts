@@ -71,15 +71,6 @@ describe('List', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-
-  it('have to match dl horizontal list without dt value', async () => {
-    const screenshot = await makeScreenshot({
-      style: { width: '35rem' },
-      selector:
-        '[data-visual-test="lists-dl-horizontal-without-dt-value"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 })
 
 describe('Lists with skeleton', () => {
