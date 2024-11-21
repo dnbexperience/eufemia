@@ -4417,19 +4417,17 @@ describe('useFieldProps', () => {
     })
 
     describe('connectWithPath', () => {
-      const validatorFn: UseFieldProps<number>['onChangeValidator'] = (
-        num,
-        { connectWithPath }
-      ) => {
-        const amount = connectWithPath('/refValue').getValue()
+      const onChangeValidatorFn: UseFieldProps<number>['onChangeValidator'] =
+        (num, { connectWithPath }) => {
+          const amount = connectWithPath('/refValue').getValue()
 
-        if (amount >= num) {
-          return new Error(`The amount should be greater than ${amount}`)
+          if (amount >= num) {
+            return new Error(`The amount should be greater than ${amount}`)
+          }
         }
-      }
 
       it('should show onChangeValidator error on form submit', async () => {
-        const onChangeValidator = jest.fn(validatorFn)
+        const onChangeValidator = jest.fn(onChangeValidatorFn)
 
         render(
           <Form.Handler>
@@ -4463,7 +4461,7 @@ describe('useFieldProps', () => {
       })
 
       it('should update error message on input change', async () => {
-        const onChangeValidator = jest.fn(validatorFn)
+        const onChangeValidator = jest.fn(onChangeValidatorFn)
 
         render(
           <Form.Handler>
@@ -4502,7 +4500,7 @@ describe('useFieldProps', () => {
       })
 
       it('should hide error message when validation is successful', async () => {
-        const onChangeValidator = jest.fn(validatorFn)
+        const onChangeValidator = jest.fn(onChangeValidatorFn)
 
         render(
           <Form.Handler>
@@ -4545,7 +4543,7 @@ describe('useFieldProps', () => {
       })
 
       it('should keep error message hidden after validation is successful and another input change', async () => {
-        const onChangeValidator = jest.fn(validatorFn)
+        const onChangeValidator = jest.fn(onChangeValidatorFn)
 
         render(
           <Form.Handler>
@@ -4587,7 +4585,7 @@ describe('useFieldProps', () => {
 
       describe('validateInitially', () => {
         it('should show error message initially', async () => {
-          const onChangeValidator = jest.fn(validatorFn)
+          const onChangeValidator = jest.fn(onChangeValidatorFn)
 
           render(
             <Form.Handler>
@@ -4611,7 +4609,7 @@ describe('useFieldProps', () => {
         })
 
         it('should not show error message after it was hidden while typing', async () => {
-          const onChangeValidator = jest.fn(validatorFn)
+          const onChangeValidator = jest.fn(onChangeValidatorFn)
 
           render(
             <Form.Handler>
@@ -4649,7 +4647,7 @@ describe('useFieldProps', () => {
 
       describe('validateUnchanged', () => {
         it('should show error message initially', async () => {
-          const onChangeValidator = jest.fn(validatorFn)
+          const onChangeValidator = jest.fn(onChangeValidatorFn)
 
           render(
             <Form.Handler>
@@ -4673,7 +4671,7 @@ describe('useFieldProps', () => {
         })
 
         it('should hide and show error message while typing', async () => {
-          const onChangeValidator = jest.fn(validatorFn)
+          const onChangeValidator = jest.fn(onChangeValidatorFn)
 
           render(
             <Form.Handler>
@@ -4716,7 +4714,7 @@ describe('useFieldProps', () => {
 
       describe('continuousValidation', () => {
         it('should show not show error message initially', async () => {
-          const onChangeValidator = jest.fn(validatorFn)
+          const onChangeValidator = jest.fn(onChangeValidatorFn)
 
           render(
             <Form.Handler>
@@ -4735,7 +4733,7 @@ describe('useFieldProps', () => {
         })
 
         it('should hide and show error message while typing', async () => {
-          const onChangeValidator = jest.fn(validatorFn)
+          const onChangeValidator = jest.fn(onChangeValidatorFn)
 
           render(
             <Form.Handler>
