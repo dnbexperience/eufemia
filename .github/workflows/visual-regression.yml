@@ -14,7 +14,11 @@ on:
       - '!alpha'
   pull_request:
     branches:
-      - 'main'
+      - 'portal'
+      - 'release'
+      - 'beta'
+      - 'alpha'
+      - 'next'
     types: [opened]
 
 concurrency:
