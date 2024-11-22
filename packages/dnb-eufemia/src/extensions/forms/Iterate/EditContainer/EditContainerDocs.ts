@@ -12,7 +12,7 @@ export const EditContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   variant: {
-    doc: 'Defines the variant of the container. Can be `outline` or `basic`. Defaults to `outline`.',
+    doc: 'Defines the variant of the container. Can be `outline`, `filled` or `basic`. Defaults to `outline`.',
     type: 'string',
     status: 'optional',
   },
@@ -22,7 +22,7 @@ export const EditContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   toolbarVariant: {
-    doc: 'Use variants to render the toolbar differently. Currently there is only the `minimumOneItem` variant. See the info section for more info.',
+    doc: 'Use variants to render the toolbar differently. Currently there are the `minimumOneItem` and `custom` variants. See the info section for more info.',
     type: 'string',
     status: 'optional',
   },

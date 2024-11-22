@@ -25,6 +25,30 @@ describe('Iterate.Array', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match filled view container', async () => {
+    const screenshot = await makeScreenshot({
+      url,
+      selector:
+        '[data-visual-test="filled-view-and-edit-container"] .dnb-forms-section-view-block',
+    })
+
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match filled edit container', async () => {
+    const screenshot = await makeScreenshot({
+      url,
+      selector: '[data-visual-test="filled-view-and-edit-container"]',
+      screenshotSelector:
+        '[data-visual-test="filled-view-and-edit-container"] .dnb-forms-section-edit-block',
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="filled-view-and-edit-container"] button',
+      recalculateHeightAfterSimulate: true,
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match view container', async () => {
     const screenshot = await makeScreenshot({
       url,
@@ -38,11 +62,13 @@ describe('Iterate.Array', () => {
     const screenshot = await makeScreenshot({
       url,
       selector: '[data-visual-test="view-and-edit-container"]',
-      screenshotSelector: '.dnb-forms-section-edit-block',
+      screenshotSelector:
+        '[data-visual-test="view-and-edit-container"] .dnb-forms-section-edit-block',
       waitAfterSimulate: 100,
       simulate: 'click',
       simulateSelector:
-        '[data-visual-test="view-and-edit-container"] .dnb-forms-iterate-open-button',
+        '[data-visual-test="view-and-edit-container"] button',
+      recalculateHeightAfterSimulate: true,
     })
     expect(screenshot).toMatchImageSnapshot()
   })

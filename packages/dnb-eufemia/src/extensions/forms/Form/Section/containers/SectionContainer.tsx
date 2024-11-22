@@ -19,7 +19,7 @@ export type SectionContainerProps = {
    * Defines the variant of the ViewContainer or EditContainer. Can be `outline`.
    * Defaults to `outline`.
    */
-  variant?: 'outline' | 'basic'
+  variant?: 'outline' | 'basic' | 'filled'
 }
 
 export type Props = {
@@ -126,6 +126,7 @@ function SectionContainer(props: Props & FlexContainerProps) {
       <Card
         stack
         innerSpace={variant === 'basic' ? false : 'small'}
+        filled={variant === 'filled'}
         className="dnb-forms-section-block__inner"
         {...restProps}
         aria-label={ariaLabel}
