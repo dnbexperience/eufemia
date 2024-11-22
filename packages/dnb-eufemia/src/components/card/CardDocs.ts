@@ -1,4 +1,5 @@
 import { PropertiesTableProps } from '../../shared/types'
+import { SectionProperties } from '../section/SectionDocs'
 
 export const CardProperties: PropertiesTableProps = {
   stack: {
@@ -21,6 +22,7 @@ export const CardProperties: PropertiesTableProps = {
     type: 'React.Node',
     status: 'optional',
   },
+  outset: SectionProperties.outset,
   responsive: {
     doc: 'Define if the card should behave responsive. Defaults to `true`.',
     type: 'boolean',
