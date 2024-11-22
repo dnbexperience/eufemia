@@ -3,6 +3,19 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.57.1](https://github.com/dnbexperience/eufemia/compare/v10.57.0...v10.57.1) (2024-11-22)
+
+
+### :repeat: CI
+
+* only run GitHub Actions on git commits ([#4327](https://github.com/dnbexperience/eufemia/issues/4327)) ([8a07477](https://github.com/dnbexperience/eufemia/commit/8a07477954de68a0e2b16306cb9bfdd707b36499))
+
+
+### :bug: Bug Fixes
+
+* **CountryFlag:** include flag icons in repo instead of via dependency ([#4324](https://github.com/dnbexperience/eufemia/issues/4324)) ([69dc60a](https://github.com/dnbexperience/eufemia/commit/69dc60a9a58141e5939b1bd8b78c9f9b87035823)), closes [#4307](https://github.com/dnbexperience/eufemia/issues/4307)
+* **Forms:** ensure Form.Card supports spacing props ([#4328](https://github.com/dnbexperience/eufemia/issues/4328)) ([f981b42](https://github.com/dnbexperience/eufemia/commit/f981b4233bec7997da6c142490cbbbedd6be19aa))
+
 ## [10.57.0](https://github.com/dnbexperience/eufemia/compare/v10.56.0...v10.57.0) (2024-11-22)
 
 
