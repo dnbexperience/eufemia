@@ -69,7 +69,7 @@ export type ButtonProps = {
    */
   type?: string;
   /**
-   * Title of the button. Optional, but should always be included because of accessibility.
+   * Required if there is no text in the button. If `text` and `children` are undefined, setting the `title` property will automatically set `aria-label` with the same value.
    */
   title?: React.ReactNode;
   /**
@@ -127,7 +127,7 @@ export type ButtonProps = {
    */
   rel?: string;
   /**
-   * Use this prop only if you are using a router Link component as the `element` that uses the `to` property to declare the navigation url.
+   * Use this property only if you are using a router Link component as the `element` that uses the `to` property to declare the navigation url.
    */
   to?: ButtonTo;
   /**
@@ -153,9 +153,6 @@ export type ButtonProps = {
   disabled?: boolean;
   inner_ref?: React.Ref;
   className?: string;
-  /**
-   * @deprecated – use className instead. Will be removed in v11.
-   */
   class?: string;
   innerRef?: any;
   /**

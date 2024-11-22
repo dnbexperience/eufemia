@@ -3,6 +3,10 @@ import { render } from '@testing-library/react'
 import { Form } from '../../..'
 
 describe('Form.Card', () => {
+  it('should have constant of _supportsSpacingProps', () => {
+    expect(Form.Card['_supportsSpacingProps']).toBe(true)
+  })
+
   it('should set "outset" by default', () => {
     const { rerender } = render(<Form.Card />)
 

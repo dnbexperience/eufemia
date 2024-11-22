@@ -1,6 +1,5 @@
 import { Field, Form, Tools } from '../../..'
 import { Flex } from '../../../../../components'
-import useUpload from '../../../../../components/upload/useUpload'
 import { createRequest } from '../../../Form/Handler/stories/FormHandler.stories'
 import { UploadValue } from '../Upload'
 
@@ -80,10 +79,6 @@ async function mockAsyncFileUpload__withoutPromises(
   return updatedFiles
 }
 
-const Output = () => {
-  const { files } = useUpload('async_upload_context_id')
-  return <Tools.Log data={files} top />
-}
 export const WithAsyncFileHandler = () => {
   return (
     <Form.Handler onSubmit={async (form) => console.log(form)}>
@@ -96,8 +91,8 @@ export const WithAsyncFileHandler = () => {
           required
         />
         <Form.SubmitButton />
+        <Tools.Log />
       </Flex.Stack>
-      <Output />
     </Form.Handler>
   )
 }

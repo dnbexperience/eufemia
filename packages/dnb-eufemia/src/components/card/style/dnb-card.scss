@@ -88,6 +88,7 @@
       &::before {
         top: var(--outline-width); // align background and outline
         z-index: 0;
+        background-color: transparent; // because we inherit the background-color when "outset" is set – but we don't want that in this case
       }
     }
   }

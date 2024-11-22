@@ -88,7 +88,7 @@ export interface FormStatusProps
    */
   role?: string;
   /**
-   * Use it to set an inner margin. It supports the same props as `space`. Useful for animation.
+   * Use it to set an inner margin. It supports the same properties as `space`. Useful for animation.
    */
   shellSpace?: SpaceTypeAll;
   className?: string;
@@ -132,7 +132,6 @@ export interface MarketingIconProps {
   title?: string;
 }
 export declare const MarketingIcon: React.FC<MarketingIconProps>;
-
 export type FormStatusIconTypes =
   | typeof ErrorIcon
   | typeof WarnIcon

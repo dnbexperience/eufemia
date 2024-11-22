@@ -33,9 +33,6 @@ export type TabsChildren =
 export interface TabsProps
   extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
-  /**
-   * defines the data structure to load as a JSON. e.g. `[{title: '...', content: 'Current tab', key: '...', hash: '...'}]`
-   */
   data?: TabsData;
   /**
    * the content to render. Can be a function, returning the current tab content `(key) => ('Current tab')`, a React Component or an object with the keys and content `{key1: 'Current tab'}`.

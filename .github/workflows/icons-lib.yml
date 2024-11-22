@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - 'icon*/**'
-  pull_request:
-    branches:
-      - 'icon*/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
