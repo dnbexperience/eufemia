@@ -1,5 +1,4 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-
 import { Field, Form, Iterate } from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {

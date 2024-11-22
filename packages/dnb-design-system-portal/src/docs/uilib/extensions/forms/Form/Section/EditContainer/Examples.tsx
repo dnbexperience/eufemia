@@ -1,5 +1,4 @@
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
-
 import { Field, Form, Value } from '@dnb/eufemia/src/extensions/forms'
 
 export const ViewAndEditContainer = () => {
