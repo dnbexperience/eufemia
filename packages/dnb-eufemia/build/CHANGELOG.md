@@ -3,6 +3,34 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.57.0](https://github.com/dnbexperience/eufemia/compare/v10.56.0...v10.57.0) (2024-11-22)
+
+
+### :memo: Documentation
+
+* **Field.Upload:** adds `asyncFileHandler` property ([#4288](https://github.com/dnbexperience/eufemia/issues/4288)) ([fb09758](https://github.com/dnbexperience/eufemia/commit/fb09758333ed979b00019688fa120871548281f8))
+* **Field.Upload:** adds asyncFileHandler property ([7ccdabd](https://github.com/dnbexperience/eufemia/commit/7ccdabdf81c8a0a9d01d4062067a29b2ea834b48))
+
+
+### :bug: Bug Fixes
+
+* **Forms:** align Value.SummaryList when Value.* has no label ([#4311](https://github.com/dnbexperience/eufemia/issues/4311)) ([b6621c2](https://github.com/dnbexperience/eufemia/commit/b6621c286b03ee20e627a6f2b505cae4a2715a64))
+* **Forms:** ensure fields inside composition share submit indicator ([#4309](https://github.com/dnbexperience/eufemia/issues/4309)) ([e726e20](https://github.com/dnbexperience/eufemia/commit/e726e20283c8770db79e183cccacfa65da533c7f))
+* **Forms:** safeguard errorMessages to avoid infinite loops when not wrapped in useMemo ([#4305](https://github.com/dnbexperience/eufemia/issues/4305)) ([f14bacc](https://github.com/dnbexperience/eufemia/commit/f14bacc798e583e7ba917be9a89c75375d23c655))
+* **Forms:** show indicator with async onBlurValidator call when `validateInitially` is used ([#4303](https://github.com/dnbexperience/eufemia/issues/4303)) ([c585491](https://github.com/dnbexperience/eufemia/commit/c585491618fa504d4762d5f947ff05c1c73f3c24))
+* **Icon:** ensure icon name is rendered as `data-testid` ([#4304](https://github.com/dnbexperience/eufemia/issues/4304)) ([235b823](https://github.com/dnbexperience/eufemia/commit/235b823f3daeca826594a5ea29a23e83e8636b1c))
+
+
+### :sparkles: Features
+
+* **Card, Section:** add `outset` property for moderate layout breakout ([#4317](https://github.com/dnbexperience/eufemia/issues/4317)) ([6008d9a](https://github.com/dnbexperience/eufemia/commit/6008d9a521116754b193a22dac6c2d15142c1897))
+* **DrawerList, Dropdown, Autocomplete, Field.Selection, Field.ArraySelection:** disabled options ([#4154](https://github.com/dnbexperience/eufemia/issues/4154)) ([8786d5d](https://github.com/dnbexperience/eufemia/commit/8786d5d59c349cb13e2f2fb851417a39a4d89b8d))
+* **Field.Upload:** adds support for async and sync fn in `fileHandler` ([#4294](https://github.com/dnbexperience/eufemia/issues/4294)) ([2cc816a](https://github.com/dnbexperience/eufemia/commit/2cc816ae92c536b1b87c6a216a2b0c3555e40a58))
+* **Forms:** add `Form.Card` with different default appearance than Card (use `Form.Card` in forms instead of Card) ([#4318](https://github.com/dnbexperience/eufemia/issues/4318)) ([7bbc0ca](https://github.com/dnbexperience/eufemia/commit/7bbc0ca48afe745df51b0a63357f120b0c66d3f6))
+* **Forms:** add `labelSrOnly` to Value.* components ([#4319](https://github.com/dnbexperience/eufemia/issues/4319)) ([46f68ae](https://github.com/dnbexperience/eufemia/commit/46f68aebe829083f6062b1ed31514026f0c103da)), closes [#4311](https://github.com/dnbexperience/eufemia/issues/4311)
+* **Forms:** deprecate `validator` in favor of `onChangeValidator` ([#4314](https://github.com/dnbexperience/eufemia/issues/4314)) ([5a06b2e](https://github.com/dnbexperience/eufemia/commit/5a06b2e68f4f2ce71f743dff9e849cadf8c9b4ac))
+* **Typography:** add general `.dnb-t` helper classes and add typography props to Span ([#4235](https://github.com/dnbexperience/eufemia/issues/4235)) ([9dfe66d](https://github.com/dnbexperience/eufemia/commit/9dfe66d8bba5dda147f7d66e9b3f757ff4cb17eb))
+
 ## [10.56.0](https://github.com/dnbexperience/eufemia/compare/v10.55.1...v10.56.0) (2024-11-18)
 
 
