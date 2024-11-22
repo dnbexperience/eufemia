@@ -1,4 +1,3 @@
-import { Card } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import {
   Field,
@@ -114,7 +113,7 @@ export function TransformInAndOut() {
         const MyForm = () => {
           return (
             <Form.Handler onSubmit={console.log}>
-              <Card stack>
+              <Form.Card>
                 <Field.SelectCountry
                   path="/country"
                   transformIn={transformIn}
@@ -131,7 +130,7 @@ export function TransformInAndOut() {
 
                 <Form.SubHeading>Data Context</Form.SubHeading>
                 <Tools.Log />
-              </Card>
+              </Form.Card>
               <Form.SubmitButton />
             </Form.Handler>
           )

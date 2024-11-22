@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Card } from '@dnb/eufemia/src'
+import { Button } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import {
   Field,
@@ -81,7 +81,7 @@ export const UndoRedo = () => {
 
           return (
             <>
-              <Card stack>
+              <Form.Card>
                 <Form.Snapshot name="my-snapshot-slice">
                   <Field.String
                     path="/foo"
@@ -90,7 +90,7 @@ export const UndoRedo = () => {
                   />
                 </Form.Snapshot>
                 <Field.String path="/bar" label="Will stay" />
-              </Card>
+              </Form.Card>
 
               <Form.ButtonRow>
                 <Button variant="secondary" onClick={undoHandler}>

@@ -66,8 +66,8 @@ exports[`Section scss has to match style dependencies css 1`] = `
   padding-right: calc(var(--padding-right) * (1 - var(--outset)));
 }
 .dnb-section[style*="--outset"]::before {
-  margin-left: calc(var(--padding-left, var(--spacing-medium)) * -1 * var(--outset));
-  margin-right: calc(var(--padding-right, var(--spacing-medium)) * -1 * var(--outset));
+  margin-left: calc(var(--outset-left, var(--padding-left)) * -1 * var(--outset));
+  margin-right: calc(var(--outset-right, var(--padding-right)) * -1 * var(--outset));
   background-color: inherit;
 }
 @media screen and (max-width: 60em) {

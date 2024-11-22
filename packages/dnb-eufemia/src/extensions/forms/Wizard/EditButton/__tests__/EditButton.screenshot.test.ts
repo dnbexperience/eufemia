@@ -9,6 +9,10 @@ describe('EditButton', () => {
       style: {
         width: '20rem',
       },
+      wrapperStyle: {
+        'padding-left': '2.5rem',
+        'padding-right': '2.5rem',
+      },
       selector:
         '[data-visual-test="wizard-edit-button"] .dnb-forms-wizard-layout__contents',
     })

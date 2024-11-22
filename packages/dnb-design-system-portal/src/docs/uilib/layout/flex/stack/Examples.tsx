@@ -47,11 +47,11 @@ export const WithCard = () => {
   return (
     <ComponentBox data-visual-test="flex-stack-card-stack">
       <Flex.Stack>
-        <Card stack>
+        <Card gap="medium">
           <P>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</P>
           <P>Aliquam at felis rutrum, luctus dui at, bibendum ipsum.</P>
         </Card>
-        <Card stack>
+        <Card gap="medium">
           <P>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</P>
           <P>Aliquam at felis rutrum, luctus dui at, bibendum ipsum.</P>
         </Card>
@@ -65,7 +65,7 @@ export const WithCardAndHeading = () => {
     <ComponentBox data-visual-test="flex-stack-card-heading">
       <Flex.Stack>
         <Form.MainHeading>Main heading</Form.MainHeading>
-        <Card stack>
+        <Card gap="medium">
           <P>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</P>
           <P>Aliquam at felis rutrum, luctus dui at, bibendum ipsum.</P>
         </Card>
@@ -80,7 +80,7 @@ export const WithCardAndHeadings = () => {
       <Flex.Stack>
         <Form.MainHeading>Main heading</Form.MainHeading>
         <Form.SubHeading>Sub heading</Form.SubHeading>
-        <Card stack>
+        <Card gap="medium">
           <P>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</P>
           <P>Aliquam at felis rutrum, luctus dui at, bibendum ipsum.</P>
         </Card>

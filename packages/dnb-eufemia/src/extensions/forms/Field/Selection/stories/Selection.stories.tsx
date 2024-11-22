@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Section } from '../../../../../components'
+import { Section } from '../../../../../components'
 import { Field, Form } from '../../..'
 
 export default {
@@ -8,7 +8,7 @@ export default {
 
 export function Selection() {
   return (
-    <Card stack>
+    <Form.Card>
       <Field.Selection
         label="Label"
         required
@@ -55,13 +55,13 @@ export function Selection() {
         />
         <Field.Option value="bar" title="Baar!" />
       </Field.Selection>
-    </Card>
+    </Form.Card>
   )
 }
 
 export function Autocomplete() {
   return (
-    <Card stack>
+    <Form.Card>
       <Field.Selection
         label="Label"
         required
@@ -80,13 +80,13 @@ export function Autocomplete() {
         <Field.Option value="foo" title="Foo!" />
         <Field.Option value="bar" title="Baar!" />
       </Field.Selection>
-    </Card>
+    </Form.Card>
   )
 }
 
 export function HelpButton() {
   return (
-    <Card stack>
+    <Form.Card>
       <Field.Selection
         label="Label"
         variant="button"
@@ -113,14 +113,14 @@ export function HelpButton() {
           }}
         />
       </Field.Selection>
-    </Card>
+    </Form.Card>
   )
 }
 
 export function NestingWithLogic() {
   return (
     <Form.Handler>
-      <Card stack>
+      <Form.Card>
         <Field.Selection
           variant="radio"
           // variant="button"
@@ -173,7 +173,7 @@ export function NestingWithLogic() {
             </Form.Visibility>
           </Form.Visibility>
         </Field.Selection>
-      </Card>
+      </Form.Card>
     </Form.Handler>
   )
 }

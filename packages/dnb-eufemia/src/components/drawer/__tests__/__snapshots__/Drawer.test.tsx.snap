@@ -678,11 +678,12 @@ button.dnb-button::-moz-focus-inner {
   transform: translate3d(0, -0.5rem, 0);
 }
 :not(.dnb-card) .dnb-help-button__content .dnb-section {
-  margin-left: calc(var(--help-button-indent-width) * -1);
-  margin-right: calc(var(--help-button-indent-width) * -1);
-  border: var(--help-button-indent-width) solid var(--help-button-content-background);
-  border-top: none;
-  border-bottom: none;
+  --outset-left: calc(
+    var(--spacing-medium) + var(--help-button-indent-width)
+  );
+  --outset-right: calc(
+    var(--spacing-medium) + var(--help-button-indent-width)
+  );
 }
 .dnb-help-button__content.dnb-height-animation--parallax .dnb-section .dnb-p {
   transform: translate3d(0, 0, 0);

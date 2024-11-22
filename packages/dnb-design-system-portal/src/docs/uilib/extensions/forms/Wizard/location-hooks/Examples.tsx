@@ -1,6 +1,6 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { navigate, useLocation } from '@reach/router'
-import { Card, P } from '@dnb/eufemia/src'
+import { P } from '@dnb/eufemia/src'
 import { Form, Wizard } from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
@@ -24,9 +24,9 @@ export const Default = () => {
         const MyStep = ({ title }) => {
           return (
             <Wizard.Step title={title}>
-              <Card stack>
+              <Form.Card>
                 <P>Contents of {title}</P>
-              </Card>
+              </Form.Card>
               <Wizard.Buttons />
             </Wizard.Step>
           )
@@ -62,9 +62,9 @@ export const ReachRouter = () => {
         const MyStep = ({ title }) => {
           return (
             <Wizard.Step title={title}>
-              <Card stack>
+              <Form.Card>
                 <P>Contents of {title}</P>
-              </Card>
+              </Form.Card>
               <Wizard.Buttons />
             </Wizard.Step>
           )

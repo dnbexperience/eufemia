@@ -1,5 +1,4 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Card } from '@dnb/eufemia/src'
 import { Field, Form, Value } from '@dnb/eufemia/src/extensions/forms'
 
 export const DefaultLayout = () => {
@@ -11,14 +10,14 @@ export const DefaultLayout = () => {
           lastName: 'Doe',
         }}
       >
-        <Card stack>
+        <Form.Card>
           <Form.SubHeading>Subheading</Form.SubHeading>
 
           <Value.SummaryList>
             <Value.Name.First path="/firstName" />
             <Value.Name.Last path="/lastName" />
           </Value.SummaryList>
-        </Card>
+        </Form.Card>
       </Form.Handler>
     </ComponentBox>
   )
@@ -33,14 +32,14 @@ export const GridLayout = () => {
           lastName: 'Doe',
         }}
       >
-        <Card stack>
+        <Form.Card>
           <Form.SubHeading>Subheading</Form.SubHeading>
 
           <Value.SummaryList layout="grid">
             <Value.Name.First path="/firstName" />
             <Value.Name.Last path="/lastName" />
           </Value.SummaryList>
-        </Card>
+        </Form.Card>
       </Form.Handler>
     </ComponentBox>
   )
@@ -55,14 +54,14 @@ export const HorizontalLayout = () => {
           lastName: 'Doe',
         }}
       >
-        <Card stack>
+        <Form.Card>
           <Form.SubHeading>Subheading</Form.SubHeading>
 
           <Value.SummaryList layout="horizontal">
             <Value.Name.First path="/firstName" />
             <Value.Name.Last path="/lastName" />
           </Value.SummaryList>
-        </Card>
+        </Form.Card>
       </Form.Handler>
     </ComponentBox>
   )
@@ -81,7 +80,7 @@ export const CombinedLayout = () => {
           city: 'Oslo',
         }}
       >
-        <Card stack>
+        <Form.Card>
           <Form.SubHeading>Subheading</Form.SubHeading>
 
           <Value.SummaryList>
@@ -98,7 +97,7 @@ export const CombinedLayout = () => {
               <Value.String path="/city" />
             </Value.Composition>
           </Value.SummaryList>
-        </Card>
+        </Form.Card>
       </Form.Handler>
     </ComponentBox>
   )
@@ -108,7 +107,7 @@ export function InheritVisibility() {
   return (
     <ComponentBox>
       <Form.Handler>
-        <Card stack>
+        <Form.Card>
           <Field.Boolean
             variant="button"
             path="/isVisible"
@@ -124,7 +123,7 @@ export function InheritVisibility() {
             <Value.Name.First path="/foo" />
             <Value.Name.First path="/bar" />
           </Value.SummaryList>
-        </Card>
+        </Form.Card>
       </Form.Handler>
     </ComponentBox>
   )
@@ -134,7 +133,7 @@ export function InheritLabel() {
   return (
     <ComponentBox>
       <Form.Handler>
-        <Card stack>
+        <Form.Card>
           <Field.String path="/foo" defaultValue="foo" label="foo label" />
           <Field.String path="/bar" defaultValue="bar" label="bar label" />
 
@@ -142,14 +141,14 @@ export function InheritLabel() {
             <Value.String path="/foo" />
             <Value.String path="/bar" />
           </Value.SummaryList>
-        </Card>
+        </Form.Card>
       </Form.Handler>
     </ComponentBox>
   )
 }
 
 export const HorizontalLayoutWithoutLabel = () => (
-  <ComponentBox data-visual-test="forms-value-summary-horizontal-empty-label">
+  <ComponentBox data-visual-test="forms-value-summary-empty-label">
     <Value.SummaryList layout="horizontal">
       <Value.String value="foo" label="Foo" />
       <Value.String value="bar" />

@@ -1,4 +1,4 @@
-import { Card, P } from '@dnb/eufemia/src'
+import { P } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Form, Wizard } from '@dnb/eufemia/src/extensions/forms'
 
@@ -9,9 +9,9 @@ export const Default = () => {
         const Step = ({ title }) => {
           return (
             <Wizard.Step title={title}>
-              <Card>
+              <Form.Card>
                 <P>Contents of {title}</P>
-              </Card>
+              </Form.Card>
               <Wizard.Buttons />
             </Wizard.Step>
           )

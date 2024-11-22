@@ -1,5 +1,5 @@
 import { Field, Form, Value } from '../../..'
-import { Card, HeightAnimation } from '../../../../../components'
+import { HeightAnimation } from '../../../../../components'
 
 export default {
   title: 'Eufemia/Extensions/Forms/ValueProvider',
@@ -8,7 +8,7 @@ export default {
 export function ValueProvider() {
   return (
     <Form.Handler>
-      <Card stack>
+      <Form.Card>
         <Field.Boolean
           variant="button"
           path="/isVisible"
@@ -28,7 +28,7 @@ export function ValueProvider() {
             </Value.SummaryList>
           </Value.Provider>
         </HeightAnimation>
-      </Card>
+      </Form.Card>
     </Form.Handler>
   )
 }

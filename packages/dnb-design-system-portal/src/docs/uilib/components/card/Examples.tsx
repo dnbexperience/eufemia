@@ -5,7 +5,6 @@ import {
   Flex,
   Grid,
   H2,
-  Hr,
   P,
   Section,
   Table,
@@ -172,10 +171,8 @@ export const Stack = () => {
   return (
     <ComponentBox data-visual-test="layout-card-stack">
       <Card stack>
-        <Field.String label="Label" value="Value" />
-        <Field.String label="Label" value="Value" />
-        <Hr />
-        <Form.SubmitButton />
+        <P>Stacked content</P>
+        <P>Stacked content</P>
       </Card>
     </ComponentBox>
   )
@@ -184,12 +181,12 @@ export const Stack = () => {
 export const VerticalFields = () => {
   return (
     <ComponentBox>
-      <Card>
+      <Form.Card>
         <Flex.Vertical>
           <Field.String label="Label" value="Value" />
           <Field.String label="Label" value="Value" />
         </Flex.Vertical>
-      </Card>
+      </Form.Card>
     </ComponentBox>
   )
 }
@@ -197,12 +194,12 @@ export const VerticalFields = () => {
 export const HorizontalFields = () => {
   return (
     <ComponentBox>
-      <Card>
+      <Form.Card>
         <Flex.Horizontal>
           <Field.String label="Label" value="Value" width="small" />
           <Field.String label="Label" value="Value" width="stretch" />
         </Flex.Horizontal>
-      </Card>
+      </Form.Card>
     </ComponentBox>
   )
 }
@@ -275,14 +272,14 @@ export const WithOutset = () => {
   return (
     <ComponentBox data-visual-test="layout-card-outset">
       <Flex.Vertical>
-        <Form.MainHeading>Main heading</Form.MainHeading>
+        <Form.MainHeading>I'm left aligned</Form.MainHeading>
         <Card stack outset>
           <P>Card content</P>
           <Card>
             <P>Nested card</P>
           </Card>
         </Card>
-        <Form.SubmitButton />
+        <Form.SubmitButton text="I'm also left aligned" />
       </Flex.Vertical>
     </ComponentBox>
   )

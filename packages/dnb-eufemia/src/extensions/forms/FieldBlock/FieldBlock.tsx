@@ -599,6 +599,7 @@ function FieldBlock(props: Props) {
                 layout === 'vertical' &&
                 !nestedFieldBlockContext?.composition
               }
+              outset={layout !== 'horizontal'}
             />
           )}
 

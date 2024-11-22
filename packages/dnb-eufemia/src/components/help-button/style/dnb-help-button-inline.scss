@@ -109,17 +109,12 @@
   --help-button-indent-width: var(--card-outline-width);
 
   :not(.dnb-card) & .dnb-section {
-    // Because no outline, we need to stretch the content to the left and right,
-    // so it is aligned on how the Card is displayed.
-    margin-left: calc(var(--help-button-indent-width) * -1);
-    margin-right: calc(var(--help-button-indent-width) * -1);
-
-    // Use a border instead of the original outline,
-    // because is has no animation artifacts.
-    border: var(--help-button-indent-width) solid
-      var(--help-button-content-background);
-    border-top: none;
-    border-bottom: none;
+    --outset-left: calc(
+      var(--spacing-medium) + var(--help-button-indent-width)
+    );
+    --outset-right: calc(
+      var(--spacing-medium) + var(--help-button-indent-width)
+    );
   }
 
   &.dnb-height-animation--parallax .dnb-section .dnb-p {

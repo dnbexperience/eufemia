@@ -1,4 +1,4 @@
-import { Button, Card, Flex, FormLabel } from '@dnb/eufemia/src'
+import { Button, Flex, FormLabel } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Field, FieldBlock, Form } from '@dnb/eufemia/src/extensions/forms'
 import { debounceAsync } from '@dnb/eufemia/src/shared/helpers/debounce'
@@ -26,13 +26,13 @@ export const AsyncSubmitBehavior = () => {
 
         return (
           <Form.Handler onSubmit={delay}>
-            <Card stack>
+            <Form.Card>
               <Field.String path="/myField" label="Short label" />
               <Form.ButtonRow>
                 <Form.SubmitButton />
                 <Button variant="tertiary">Cancel</Button>
               </Form.ButtonRow>
-            </Card>
+            </Form.Card>
           </Form.Handler>
         )
       }}
@@ -55,7 +55,7 @@ export const AsyncChangeBehavior = () => {
 
         return (
           <Form.Handler onSubmit={delay} onChange={delay}>
-            <Card stack>
+            <Form.Card>
               <Field.String
                 path="/myField1"
                 label="Label (with async validation)"
@@ -73,7 +73,7 @@ export const AsyncChangeBehavior = () => {
                 <Form.SubmitButton />
                 <Button variant="tertiary">Cancel</Button>
               </Form.ButtonRow>
-            </Card>
+            </Form.Card>
           </Form.Handler>
         )
       }}

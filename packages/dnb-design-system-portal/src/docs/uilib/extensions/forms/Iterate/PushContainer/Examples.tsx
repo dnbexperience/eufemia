@@ -6,7 +6,7 @@ import {
   Value,
 } from '@dnb/eufemia/src/extensions/forms'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Card, Flex } from '@dnb/eufemia/src'
+import { Flex } from '@dnb/eufemia/src'
 import React from 'react'
 
 export { ViewAndEditContainer } from '../Array/Examples'
@@ -79,14 +79,14 @@ export const InitiallyOpen = () => {
               <Flex.Stack>
                 <Form.MainHeading>Accounts</Form.MainHeading>
 
-                <Card stack>
+                <Form.Card>
                   <Iterate.Array path="/accounts">
                     <MyViewItem />
                     <MyEditItem />
                   </Iterate.Array>
 
                   <CreateNewEntry />
-                </Card>
+                </Form.Card>
 
                 <Form.SubmitButton variant="send" />
               </Flex.Stack>
@@ -244,18 +244,18 @@ export const IsolatedData = () => {
           <Form.Handler>
             <Form.MainHeading>Representatives</Form.MainHeading>
             <Flex.Stack>
-              <Card stack>
+              <Form.Card>
                 <Iterate.Array path="/representatives">
                   <RepresentativesView />
                   <RepresentativesEdit />
                 </Iterate.Array>
                 <RepresentativesCreateNew />
-              </Card>
+              </Form.Card>
 
-              <Card stack>
+              <Form.Card>
                 <Form.SubHeading>Data Context</Form.SubHeading>
                 <Tools.Log placeholder="-" />
-              </Card>
+              </Form.Card>
             </Flex.Stack>
           </Form.Handler>
         )

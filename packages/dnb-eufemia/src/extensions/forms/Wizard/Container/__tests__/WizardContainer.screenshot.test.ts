@@ -8,6 +8,10 @@ describe('Wizard.Container', () => {
       pageViewport: {
         width: 700,
       },
+      wrapperStyle: {
+        'padding-left': '2.5rem',
+        'padding-right': '2.5rem',
+      },
       selector:
         '[data-visual-test="wizard-layout-card-border"] .dnb-forms-wizard-layout__contents',
     })

@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Card, Flex, Table, Td, Th, Tr } from '@dnb/eufemia/src'
+import { Flex, Table, Td, Th, Tr } from '@dnb/eufemia/src'
 import {
   Iterate,
   Field,
@@ -179,7 +179,7 @@ export const ArrayFromFormHandler = () => {
         <Flex.Stack>
           <Form.MainHeading>Avengers</Form.MainHeading>
 
-          <Card stack>
+          <Form.Card>
             <Iterate.Array
               path="/avengers"
               onChange={(value) => console.log('Iterate/onChange', value)}
@@ -215,7 +215,7 @@ export const ArrayFromFormHandler = () => {
               path="/avengers"
               pushValue={{}}
             />
-          </Card>
+          </Form.Card>
         </Flex.Stack>
       </Form.Handler>
     </ComponentBox>
@@ -298,14 +298,14 @@ export const ViewAndEditContainer = () => {
               <Flex.Stack>
                 <Form.MainHeading>Accounts</Form.MainHeading>
 
-                <Card stack>
+                <Form.Card>
                   <Iterate.Array path="/accounts">
                     <MyViewItem />
                     <MyEditItem />
                   </Iterate.Array>
 
                   <CreateNewEntry />
-                </Card>
+                </Form.Card>
 
                 <Form.SubmitButton variant="send" />
               </Flex.Stack>
@@ -375,7 +375,7 @@ export const InitiallyOpen = () => {
       <Form.Handler required>
         <Wizard.Container>
           <Wizard.Step>
-            <Card stack>
+            <Form.Card>
               <Iterate.Array path="/myList" defaultValue={[{}]}>
                 <Iterate.ViewContainer>
                   <Value.String label="Item {itemNo}" itemPath="/foo" />
@@ -395,7 +395,7 @@ export const InitiallyOpen = () => {
                 variant="tertiary"
                 pushValue={{}}
               />
-            </Card>
+            </Form.Card>
 
             <Wizard.Buttons />
           </Wizard.Step>
@@ -439,7 +439,7 @@ export const InitialOpenWithToolbarVariant = () => {
               <Flex.Stack>
                 <Form.MainHeading>Statsborgerskap</Form.MainHeading>
 
-                <Card stack>
+                <Form.Card>
                   <Iterate.Array
                     path="/countries"
                     defaultValue={[null]}
@@ -479,7 +479,7 @@ export const InitialOpenWithToolbarVariant = () => {
                     pushValue={null}
                     text="Legg til flere statsborgerskap"
                   />
-                </Card>
+                </Form.Card>
 
                 <Form.SubmitButton variant="send" />
 
@@ -532,7 +532,7 @@ export const WithArrayValidator = () => {
         defaultData={{ items: ['foo'] }}
         onSubmit={async () => console.log('onSubmit')}
       >
-        <Card stack>
+        <Form.Card>
           <Iterate.Array
             path="/items"
             onChangeValidator={(arrayValue) => {
@@ -560,7 +560,7 @@ export const WithArrayValidator = () => {
             text="Add"
           />
           <Form.SubmitButton />
-        </Card>
+        </Form.Card>
       </Form.Handler>
     </ComponentBox>
   )

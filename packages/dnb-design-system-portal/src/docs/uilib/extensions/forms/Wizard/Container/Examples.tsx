@@ -8,7 +8,7 @@ import {
   Value,
   Wizard,
 } from '@dnb/eufemia/src/extensions/forms'
-import { Card, P } from '@dnb/eufemia/src'
+import { P } from '@dnb/eufemia/src'
 
 export const Default = () => {
   return (
@@ -26,12 +26,12 @@ export const Default = () => {
         const Step1 = () => (
           <Wizard.Step title="Step 1">
             <Form.MainHeading>Heading</Form.MainHeading>
-            <Card stack>
+            <Form.Card>
               <P>Contents</P>
-            </Card>
-            <Card stack>
+            </Form.Card>
+            <Form.Card>
               <P>Contents</P>
-            </Card>
+            </Form.Card>
 
             <Wizard.Buttons />
           </Wizard.Step>
@@ -40,12 +40,12 @@ export const Default = () => {
         const Step2 = () => (
           <Wizard.Step title="Step 2">
             <Form.MainHeading>Heading</Form.MainHeading>
-            <Card stack>
+            <Form.Card>
               <P>Contents</P>
-            </Card>
-            <Card stack>
+            </Form.Card>
+            <Form.Card>
               <P>Contents</P>
-            </Card>
+            </Form.Card>
 
             <Wizard.Buttons />
           </Wizard.Step>
@@ -57,7 +57,7 @@ export const Default = () => {
           return (
             <Wizard.Step title={summaryTitle}>
               <Form.MainHeading>Summary</Form.MainHeading>
-              <Card stack>
+              <Form.Card>
                 <Form.SubHeading>Deliver address</Form.SubHeading>
 
                 <Value.SummaryList layout="grid">
@@ -76,7 +76,7 @@ export const Default = () => {
                 </Value.SummaryList>
 
                 <Wizard.EditButton toStep={1} />
-              </Card>
+              </Form.Card>
 
               <Form.ButtonRow>
                 <Wizard.Buttons />
@@ -175,7 +175,7 @@ export const AsyncWizardContainer = () => {
           const Step1 = () => {
             return (
               <Wizard.Step title="Step 1">
-                <Card stack>
+                <Form.Card>
                   <Field.String
                     label="Required field with async validator"
                     onChangeValidator={validator1}
@@ -187,7 +187,7 @@ export const AsyncWizardContainer = () => {
                     onChangeValidator={validator2}
                     path="/field2"
                   />
-                </Card>
+                </Form.Card>
 
                 <Wizard.Buttons />
               </Wizard.Step>
@@ -199,9 +199,9 @@ export const AsyncWizardContainer = () => {
               <Wizard.Step title="Step 2">
                 <Form.MainHeading>Heading</Form.MainHeading>
 
-                <Card stack>
+                <Form.Card>
                   <P>Contents of step 2</P>
-                </Card>
+                </Form.Card>
 
                 <Form.ButtonRow>
                   <Wizard.Buttons />

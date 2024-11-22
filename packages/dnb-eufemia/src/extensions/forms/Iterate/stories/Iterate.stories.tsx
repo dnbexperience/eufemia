@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { Field, Form, Iterate, Tools, Value, Wizard } from '../..'
-import { Card, Flex } from '../../../../components'
+import { Flex } from '../../../../components'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Iterate',
@@ -17,7 +17,7 @@ export const AnimatedContainer = () => {
         id="myForm"
       >
         <Iterate.Count path="/myList" />
-        <Card top>
+        <Form.Card top>
           <Iterate.Array path="/myList" placeholder={<>Empty list</>}>
             <Iterate.AnimatedContainer title="Title {itemNo}">
               <Field.String label="Label" itemPath="/" />
@@ -34,7 +34,7 @@ export const AnimatedContainer = () => {
             text="Add new item"
             top
           />
-        </Card>
+        </Form.Card>
       </Form.Handler>
 
       <Iterate.Array
@@ -120,13 +120,13 @@ export const ViewAndEditContainer = () => {
         <Flex.Vertical>
           <Form.MainHeading>Accounts</Form.MainHeading>
 
-          <Card stack>
+          <Form.Card>
             <Iterate.Array path="/accounts" limit={2}>
               <MyViewItem />
               <MyEditItem />
             </Iterate.Array>
             <CreateNewEntry />
-          </Card>
+          </Form.Card>
 
           <Form.SubmitButton variant="send" />
         </Flex.Vertical>
@@ -178,7 +178,7 @@ export const InitialOpen = () => {
         <Flex.Stack>
           <Form.MainHeading>Statsborgerskap</Form.MainHeading>
 
-          <Card align="stretch">
+          <Form.Card align="stretch">
             <Iterate.Array
               limit={2}
               path="/countries"
@@ -207,7 +207,7 @@ export const InitialOpen = () => {
               pushValue={null}
               text="Legg til flere statsborgerskap"
             />
-          </Card>
+          </Form.Card>
 
           <Form.SubmitButton variant="send" />
 
@@ -272,7 +272,7 @@ export function InWizard() {
       <Form.Handler required>
         <Wizard.Container>
           <Wizard.Step>
-            <Card stack>
+            <Form.Card>
               <Iterate.Array path="/myList" defaultValue={[{}]}>
                 <Iterate.ViewContainer>
                   <Value.String label="Item {itemNo}" itemPath="/foo" />
@@ -292,7 +292,7 @@ export function InWizard() {
                 variant="tertiary"
                 pushValue={{}}
               />
-            </Card>
+            </Form.Card>
 
             <Wizard.Buttons />
           </Wizard.Step>

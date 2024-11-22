@@ -1,6 +1,5 @@
-import { Card } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Field } from '@dnb/eufemia/src/extensions/forms'
+import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const Empty = () => {
   return (
@@ -168,9 +167,9 @@ export const LongLabel = () => {
 export const InCard = () => {
   return (
     <ComponentBox data-visual-test="phone-number-in-card">
-      <Card stack>
+      <Form.Card>
         <Field.PhoneNumber />
-      </Card>
+      </Form.Card>
     </ComponentBox>
   )
 }

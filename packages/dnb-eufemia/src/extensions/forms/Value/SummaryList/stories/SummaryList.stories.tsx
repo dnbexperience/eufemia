@@ -1,5 +1,5 @@
 import { Field, Form, Value } from '../../..'
-import { Card, Flex } from '../../../../../components'
+import { Flex } from '../../../../../components'
 import { P } from '../../../../../elements'
 
 export default {
@@ -33,7 +33,7 @@ export function SummaryList() {
 function ContactInformationView() {
   return (
     <>
-      <Card stack>
+      <Form.Card>
         <Form.SubHeading>Subheading</Form.SubHeading>
 
         <Value.SummaryList layout="horizontal">
@@ -45,7 +45,7 @@ function ContactInformationView() {
           <Value.Name.First value="FirstName" />
           <Value.Name.Last value="LastName" />
         </Value.SummaryList>
-      </Card>
+      </Form.Card>
 
       <Form.Section.ViewContainer top title="Subheading">
         <Value.SummaryList layout="horizontal">

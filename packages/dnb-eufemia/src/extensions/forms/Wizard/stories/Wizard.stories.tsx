@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { P } from '../../../../elements'
-import { Button, Card } from '../../../../components'
+import { Button } from '../../../../components'
 import Field, { Form, Wizard } from '../../Forms'
 import { createRequest } from '../../Form/Handler/stories/FormHandler.stories'
 import { debounceAsync } from '../../../../shared/helpers'
@@ -186,7 +186,7 @@ export function AsyncStepChange() {
         // variant="drawer"
       >
         <Wizard.Step title="Step 1">
-          <Card stack>
+          <Form.Card>
             <Field.String
               label="Required field with async onChangeValidator"
               onChangeValidator={validator1}
@@ -198,7 +198,7 @@ export function AsyncStepChange() {
               onChangeValidator={validator2}
               path="/field2"
             />
-          </Card>
+          </Form.Card>
           <Form.ButtonRow>
             <Wizard.Buttons />
             <Button variant="secondary" onClick={() => setActiveIndex(1)}>
@@ -209,9 +209,9 @@ export function AsyncStepChange() {
         </Wizard.Step>
 
         <Wizard.Step title="Step 2">
-          <Card stack>
+          <Form.Card>
             <Field.String label="Field 3" path="/field3" required />
-          </Card>
+          </Form.Card>
           <Form.ButtonRow>
             <Wizard.Buttons />
             <Form.SubmitButton />
@@ -226,11 +226,11 @@ function RouterWizardContainer() {
   const Step1 = () => {
     return (
       <Wizard.Step>
-        <Card stack>
+        <Form.Card>
           <P>foo</P>
           <P>bar</P>
           <Field.String />
-        </Card>
+        </Form.Card>
         <Wizard.Buttons />
       </Wizard.Step>
     )

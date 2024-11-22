@@ -3,7 +3,7 @@ import FieldBlock from '../FieldBlock'
 import Input from '../../../../components/Input'
 import { useFieldProps } from '../../hooks'
 import { Field, Form } from '../..'
-import { Anchor, Card, Flex } from '../../../../components'
+import { Anchor, Flex } from '../../../../components'
 
 export default {
   title: 'Eufemia/Extensions/Forms/FieldBlock',
@@ -190,7 +190,7 @@ export const WithInlineHelp = () => {
         Kredittopplysninger
       </Form.MainHeading>
 
-      <Card stack>
+      <Form.Card>
         <Field.String
           label="Ønsket lånebeløp"
           labelDescription={'\nDescription'}
@@ -211,7 +211,7 @@ export const WithInlineHelp = () => {
             content: 'Dette er hvor mye du har tenkt å låne totalt.',
           }}
         />
-      </Card>
+      </Form.Card>
 
       <Form.SubHeading
         help={{
@@ -222,7 +222,7 @@ export const WithInlineHelp = () => {
         Subheading
       </Form.SubHeading>
 
-      <Card stack>
+      <Form.Card>
         <Field.String
           label="Ønsket lånebeløp"
           layout="horizontal"
@@ -263,7 +263,7 @@ export const WithInlineHelp = () => {
             await new Promise((resolve) => setTimeout(resolve, 1000))
           }}
         />
-      </Card>
+      </Form.Card>
     </Flex.Stack>
   )
 }

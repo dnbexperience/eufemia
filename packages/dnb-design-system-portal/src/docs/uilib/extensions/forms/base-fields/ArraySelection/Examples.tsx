@@ -1,4 +1,4 @@
-import { Card, Section } from '@dnb/eufemia/src'
+import { Flex, Section } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 
@@ -190,73 +190,75 @@ export const CheckboxNestingWithLogic = () => (
     data-visual-test="array-selection-checkbox-nesting-logic"
   >
     <Form.Handler onSubmit={console.log}>
-      <Card stack>
-        <Field.ArraySelection
-          label="Make a selection"
-          path="/mySelection"
-          required
-        >
-          <Field.Option value="nothing" title="Nothing" />
-
-          <Field.Option value="showInput" title="Show an input" />
-          <Form.Visibility
-            visibleWhen={{
-              path: '/mySelection',
-              hasValue: (value) => {
-                return Array.isArray(value)
-                  ? value.includes('showInput')
-                  : false
-              },
-            }}
-            animate
-            compensateForGap="auto" // makes animation smooth
+      <Flex.Stack>
+        <Form.Card>
+          <Field.ArraySelection
+            label="Make a selection"
+            path="/mySelection"
+            required
           >
-            <Section variant="info" innerSpace>
-              <Field.String placeholder="Enter some value" required />
-            </Section>
-          </Form.Visibility>
+            <Field.Option value="nothing" title="Nothing" />
 
-          <Field.Option
-            value="showAdditionalOption"
-            title="Show additional option"
-          />
-          <Form.Visibility
-            visibleWhen={{
-              path: '/mySelection',
-              hasValue: (value) => {
-                return Array.isArray(value)
-                  ? value.includes('showAdditionalOption')
-                  : false
-              },
-            }}
-            animate
-            compensateForGap="auto" // makes animation smooth
-          >
-            <Field.Option
-              value="showMeMore"
-              title="Show even more"
-              bottom="x-small"
-            />
+            <Field.Option value="showInput" title="Show an input" />
             <Form.Visibility
-              animate
               visibleWhen={{
                 path: '/mySelection',
                 hasValue: (value) => {
                   return Array.isArray(value)
-                    ? value.includes('showMeMore')
+                    ? value.includes('showInput')
                     : false
                 },
               }}
+              animate
+              compensateForGap="auto" // makes animation smooth
             >
               <Section variant="info" innerSpace>
-                <Field.String placeholder="Enter more info" required />
+                <Field.String placeholder="Enter some value" required />
               </Section>
             </Form.Visibility>
-          </Form.Visibility>
-        </Field.ArraySelection>
-      </Card>
 
-      <Form.SubmitButton />
+            <Field.Option
+              value="showAdditionalOption"
+              title="Show additional option"
+            />
+            <Form.Visibility
+              visibleWhen={{
+                path: '/mySelection',
+                hasValue: (value) => {
+                  return Array.isArray(value)
+                    ? value.includes('showAdditionalOption')
+                    : false
+                },
+              }}
+              animate
+              compensateForGap="auto" // makes animation smooth
+            >
+              <Field.Option
+                value="showMeMore"
+                title="Show even more"
+                bottom="x-small"
+              />
+              <Form.Visibility
+                animate
+                visibleWhen={{
+                  path: '/mySelection',
+                  hasValue: (value) => {
+                    return Array.isArray(value)
+                      ? value.includes('showMeMore')
+                      : false
+                  },
+                }}
+              >
+                <Section variant="info" innerSpace>
+                  <Field.String placeholder="Enter more info" required />
+                </Section>
+              </Form.Visibility>
+            </Form.Visibility>
+          </Field.ArraySelection>
+        </Form.Card>
+
+        <Form.SubmitButton />
+      </Flex.Stack>
     </Form.Handler>
   </ComponentBox>
 )
@@ -526,7 +528,7 @@ export const ButtonWithHelp = () => (
 export const ButtonNestingWithLogic = () => (
   <ComponentBox data-visual-test="array-selection-button-nesting-logic">
     <Form.Handler>
-      <Card stack>
+      <Form.Card>
         <Field.ArraySelection
           variant="button"
           label="Make a selection"
@@ -590,7 +592,7 @@ export const ButtonNestingWithLogic = () => (
             </Form.Visibility>
           </Form.Visibility>
         </Field.ArraySelection>
-      </Card>
+      </Form.Card>
     </Form.Handler>
   </ComponentBox>
 )

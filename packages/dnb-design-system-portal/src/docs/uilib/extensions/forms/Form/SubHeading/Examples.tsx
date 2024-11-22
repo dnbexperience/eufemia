@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Card, Flex, P } from '@dnb/eufemia/src'
+import { Flex, P } from '@dnb/eufemia/src'
 import { Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const TextOnly = () => {
@@ -33,12 +33,12 @@ export const PrecedingFlexContainer = () => {
 export const InsideCard = () => {
   return (
     <ComponentBox data-visual-test="layout-sub-heading-inside-card">
-      <Card stack>
+      <Form.Card>
         <Flex.Stack>
           <Form.SubHeading>This is a sub heading</Form.SubHeading>
           <P>Card contents</P>
         </Flex.Stack>
-      </Card>
+      </Form.Card>
     </ComponentBox>
   )
 }
@@ -47,9 +47,9 @@ export const AboveCard = () => {
   return (
     <ComponentBox data-visual-test="layout-sub-heading-above-card">
       <Form.SubHeading>This is a sub heading</Form.SubHeading>
-      <Card stack>
+      <Form.Card>
         <P>Card contents</P>
-      </Card>
+      </Form.Card>
     </ComponentBox>
   )
 }
@@ -76,9 +76,9 @@ export const WithHelpButton = () => {
         >
           This is a sub heading
         </Form.SubHeading>
-        <Card stack>
+        <Form.Card>
           <P>Card contents</P>
-        </Card>
+        </Form.Card>
       </Flex.Stack>
     </ComponentBox>
   )

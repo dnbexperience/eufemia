@@ -31,12 +31,12 @@ import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
 const Step1 = () => (
   <Wizard.Step title="Step 1">
     <Form.MainHeading>Heading</Form.MainHeading>
-    <Card stack>
+    <Form.Card>
       <P>Contents</P>
-    </Card>
-    <Card stack>
+    </Form.Card>
+    <Form.Card>
       <P>Contents</P>
-    </Card>
+    </Form.Card>
 
     <Wizard.Buttons />
   </Wizard.Step>
@@ -60,12 +60,12 @@ import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
 
 const Step2 = () => (
   <Flex.Stack>
-    <Card stack>
+    <Form.Card>
       <P>Contents</P>
-    </Card>
-    <Card stack>
+    </Form.Card>
+    <Form.Card>
       <P>Contents</P>
-    </Card>
+    </Form.Card>
 
     <Wizard.Buttons />
   </Flex.Stack>
@@ -98,9 +98,9 @@ import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
 const MyStep = () => {
   const { setActiveIndex, activeIndex } = Wizard.useStep()
   return (
-    <Card stack>
+    <Form.Card>
       <Button onClick={() => setActiveIndex(1)}>Go to step 2</Button>
-    </Card>
+    </Form.Card>
   )
 }
 

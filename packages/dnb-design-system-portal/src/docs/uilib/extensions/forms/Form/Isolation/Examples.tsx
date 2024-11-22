@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Card, Flex, HeightAnimation } from '@dnb/eufemia/src'
+import { Flex, HeightAnimation } from '@dnb/eufemia/src'
 import { Field, Form, Tools } from '@dnb/eufemia/src/extensions/forms'
 import React from 'react'
 
@@ -53,7 +53,7 @@ export const CommitHandleRef = () => {
                   contactPersons: [{ title: 'Hanne', value: 'hanne' }],
                 }}
               >
-                <Card stack>
+                <Form.Card>
                   <Form.SubHeading>Ny hovedkontaktperson</Form.SubHeading>
 
                   <HeightAnimation>
@@ -89,7 +89,7 @@ export const CommitHandleRef = () => {
                     </Flex.Stack>
                   </Form.Isolation>
                   <Tools.Log />
-                </Card>
+                </Form.Card>
               </Form.Handler>
 
               <button
@@ -122,7 +122,7 @@ export const TransformCommitData = () => {
                 mySelection: 'hanne',
               }}
             >
-              <Card stack>
+              <Form.Card>
                 <Form.SubHeading>
                   Legg til ny hovedkontaktperson
                 </Form.SubHeading>
@@ -177,7 +177,7 @@ export const TransformCommitData = () => {
                     </Form.Isolation>
                   </Flex.Stack>
                 </Form.Visibility>
-              </Card>
+              </Form.Card>
             </Form.Handler>
           )
         }
