@@ -22,6 +22,8 @@ export type HelpProps = {
   open?: boolean
   /** Only for the "inline" variant */
   breakout?: boolean
+  /** Only for the "inline" variant */
+  outset?: boolean
 }
 
 export type HelpButtonInlineProps = HelpButtonProps & {
@@ -97,6 +99,7 @@ export type HelpButtonInlineContentProps = SpacingProps & {
   children?: React.ReactNode
   help?: HelpProps
   breakout?: boolean
+  outset?: boolean
 }
 
 export function HelpButtonInlineContent(
@@ -108,6 +111,7 @@ export function HelpButtonInlineContent(
     children,
     help: helpProp,
     breakout = true,
+    outset = true,
     ...rest
   } = props
   const { data, update } =
@@ -119,12 +123,14 @@ export function HelpButtonInlineContent(
     content,
     renderAs,
     breakout: breakoutProp = true,
+    outset: outsetProp = true,
   } = helpProp || {}
 
   const innerRef = useRef<HTMLDivElement>(null)
   const cardContext = useContext(CardContext)
   const breakoutFromLayout =
     Boolean(cardContext) && breakout && breakoutProp
+  const outsetFromLayout = outset && outsetProp
 
   useEffect(() => {
     if (isOpen && isUserIntent) {
@@ -187,6 +193,7 @@ export function HelpButtonInlineContent(
         tabIndex={-1}
         innerRef={innerRef}
         onKeyDown={onKeyDown}
+        outset={outsetFromLayout}
         breakout={breakoutFromLayout}
         roundedCorner={!breakoutFromLayout}
         innerSpace={
@@ -203,7 +210,7 @@ export function HelpButtonInlineContent(
         {...rest}
       >
         <Flex.Vertical gap="x-small">
-          {title && <P medium>{title}</P>}
+          {title && <P weight="medium">{title}</P>}
           {content && <P>{content}</P>}
         </Flex.Vertical>
         {children}

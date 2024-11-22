@@ -58,7 +58,7 @@ const useLayoutEffect =
 
 type SubmitStateWithValidating = SubmitState | 'validating'
 type AsyncProcesses =
-  | 'validator'
+  | 'onChangeValidator'
   | 'onBlurValidator'
   | 'onChangeLocal'
   | 'onChangeContext'
@@ -121,7 +121,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     onBlur,
     onChange,
     onBlurValidator,
+    // Deprecated – can be removed in v11
     validator,
+    onChangeValidator = validator,
     exportValidators,
     schema,
     validateInitially,
@@ -214,6 +216,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     fieldBlockContext && fieldBlockContext.disableStatusSummary !== true
   )
   const {
+    setBlockRecord,
     setFieldState: setFieldStateFieldBlock,
     showFieldError: showFieldErrorFieldBlock,
     mountedFieldsRef: mountedFieldsRefFieldBlock,
@@ -342,10 +345,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     dataContextError
   )
 
-  const onChangeValidatorRef = useRef(validator)
+  const onChangeValidatorRef = useRef(onChangeValidator)
   useUpdateEffect(() => {
-    onChangeValidatorRef.current = validator
-  }, [validator])
+    onChangeValidatorRef.current = onChangeValidator
+  }, [onChangeValidator]) // Tobias, will this still work? now that we do onChangeValidator = validator?
   const onBlurValidatorRef = useRef(onBlurValidator)
   useUpdateEffect(() => {
     onBlurValidatorRef.current = onBlurValidator
@@ -385,7 +388,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   }
 
   const eventPool = useRef({
-    validator: null,
+    onChangeValidator: null,
     onBlurValidator: null,
     onChangeContext: null,
     onChangeLocal: null,
@@ -402,13 +405,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   const runPool = useCallback(async (cb = null) => {
     for (const key in eventPool.current) {
-      if (!eventPool.current[key] || eventPool.current[key].pending) {
+      if (!eventPool.current[key]) {
         continue
       }
 
       const { fn, runAsync } = eventPool.current[key] || {}
       if (fn) {
-        eventPool.current[key].pending = true
         eventPool.current[key] = null
 
         if (runAsync) {
@@ -429,11 +431,18 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     (state: SubmitStateWithValidating) => {
       fieldStateRef.current = state
       setFieldStateDataContext?.(identifier, resolveValidatingState(state))
+      setFieldStateFieldBlock?.(identifier, resolveValidatingState(state))
+
       if (!validateInitially) {
         forceUpdate()
       }
     },
-    [setFieldStateDataContext, identifier, validateInitially]
+    [
+      setFieldStateDataContext,
+      identifier,
+      setFieldStateFieldBlock,
+      validateInitially,
+    ]
   )
 
   const revealError = useCallback(() => {
@@ -471,17 +480,47 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     showFieldErrorFieldBlock,
   ])
 
-  const getErrorMessages = useCallback(() => {
+  const errorMessagesCacheRef = useRef({
+    errorMessages: null,
+    extendedErrorMessages: null,
+  })
+  const combinedErrorMessages = useMemo(() => {
+    // Compare the error messages with the previous ones,
+    // in case "errorMessages" is not wrapped in useMemo.
+    const cache = errorMessagesCacheRef.current
+    if (
+      errorMessages &&
+      cache.extendedErrorMessages &&
+      // We compare the "errorMessages" object with the cached version.
+      // Ideally, this comparison would be unnecessary when using useMemo, as documented.
+      // However, to safeguard against potential infinite loops, we perform this comparison.
+      // Why can this happen? Because the "errorMessages" object is a reference, and when provided without useMemo,
+      // it will come in as a new object every time it is used, so combinedErrorMessages as a hook dependency will be updated.
+      // Using array.join('') is approximately twice as fast as concatenating strings in a loop.
+      Object.values(cache.errorMessages || {}).join('') ===
+        Object.values(errorMessages || {}).join('')
+    ) {
+      return cache.extendedErrorMessages
+    }
+
     const messages = {
       ...contextErrorMessages,
       ...contextErrorMessages?.[identifier],
       ...errorMessages,
     }
 
-    return extendErrorMessagesWithTranslationMessages(
-      overwriteErrorMessagesWithGivenAjvKeys(messages),
-      translationRef.current
-    )
+    const extendedErrorMessages =
+      extendErrorMessagesWithTranslationMessages(
+        overwriteErrorMessagesWithGivenAjvKeys(messages),
+        translationRef.current
+      )
+
+    errorMessagesCacheRef.current = {
+      errorMessages,
+      extendedErrorMessages,
+    }
+
+    return extendedErrorMessages
   }, [contextErrorMessages, errorMessages, identifier])
 
   /**
@@ -492,11 +531,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       if (error instanceof FormError) {
         const prepare = (error: FormError) => {
           let message = error.message
-          const errorMessages = getErrorMessages()
 
           const { ajvKeyword } = error
           if (typeof ajvKeyword === 'string') {
-            const ajvMessage = errorMessages?.[ajvKeyword]
+            const ajvMessage = combinedErrorMessages?.[ajvKeyword]
             if (ajvMessage) {
               message = ajvMessage
             }
@@ -505,15 +543,15 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           /** @deprecated – can be removed in v11 */
           const { validationRule } = error
           if (typeof validationRule === 'string') {
-            const ajvMessage = errorMessages?.[validationRule]
+            const ajvMessage = combinedErrorMessages?.[validationRule]
             if (ajvMessage) {
               message = ajvMessage
             }
           }
 
-          if (errorMessages[message]) {
+          if (combinedErrorMessages?.[message]) {
             // - For when the message is e.g. Field.errorRequired or Custom.key, but delivered in the `errorMessages` object
-            message = errorMessages[message]
+            message = combinedErrorMessages?.[message]
 
             if (error.messageValues) {
               message = Object.entries(error.messageValues || {}).reduce(
@@ -543,7 +581,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
       return error as FormError
     },
-    [getErrorMessages, formatMessage]
+    [combinedErrorMessages, formatMessage]
   )
 
   contextErrorRef.current = useMemo(() => {
@@ -581,12 +619,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       validateUnchanged ||
       continuousValidation
     ) {
-      if (onChangeValidatorRef.current) {
-        runOnChangeValidator()
-      }
+      runOnChangeValidator()
     }
 
-    if (localErrorRef.current && onBlurValidatorRef.current) {
+    if (localErrorRef.current) {
       runOnBlurValidator()
     }
   })
@@ -595,13 +631,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const exportValidatorsRef = useRef(exportValidators)
   exportValidatorsRef.current = exportValidators
   const additionalArgs = useMemo(() => {
-    const errorMessages = getErrorMessages()
-
     const args: ValidatorAdditionalArgs<Value> = {
       /** @deprecated – can be removed in v11 */
-      ...errorMessages,
+      ...combinedErrorMessages,
 
-      errorMessages,
+      errorMessages: combinedErrorMessages,
       validators: exportValidatorsRef.current,
       connectWithPath: (path) => {
         setFieldEventListener?.(
@@ -617,7 +651,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
 
     return args
-  }, [getErrorMessages, getValueByPath, setFieldEventListener])
+  }, [combinedErrorMessages, getValueByPath, setFieldEventListener])
 
   const callStackRef = useRef<Array<Validator<Value>>>([])
   const hasBeenCalledRef = useCallback((validator: Validator<Value>) => {
@@ -741,7 +775,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       setFieldErrorBoundary?.(identifier, error)
 
       // Set the visual states
-      setFieldStateFieldBlock?.({
+      setBlockRecord?.({
         stateId,
         identifier,
         type: 'error',
@@ -759,7 +793,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       setFieldErrorBoundary,
       setFieldErrorDataContext,
       setFieldStateDataContext,
-      setFieldStateFieldBlock,
+      setBlockRecord,
       stateId,
       validateInitially,
     ]
@@ -855,7 +889,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
 
     if (isAsync(onChangeValidatorRef.current)) {
-      defineAsyncProcess('validator')
+      defineAsyncProcess('onChangeValidator')
       setFieldState('validating')
       hideError()
     }
@@ -994,6 +1028,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       }
 
       revealOnBlurValidatorResult({ result })
+
+      return { result }
     },
     [
       asyncBehaviorIsEnabled,
@@ -1114,7 +1150,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         validateInitially &&
         !changedRef.current
       ) {
-        const { result } = await callOnBlurValidator()
+        const { result } = await startOnBlurValidatorProcess()
 
         if (result instanceof Error) {
           initiator = 'onBlurValidator'
@@ -1133,7 +1169,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       }
     }
   }, [
-    callOnBlurValidator,
     clearErrorState,
     disabled,
     emptyValue,
@@ -1143,6 +1178,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     required,
     requiredProp,
     setFieldState,
+    startOnBlurValidatorProcess,
     startOnChangeValidatorValidation,
     startProcess,
     validateInitially,
@@ -1370,7 +1406,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         name: 'onChangeContext',
         waitFor: [
           {
-            processName: 'validator',
+            processName: 'onChangeValidator',
             withStates: ['validating', 'error'],
             hasValue: valueRef.current,
           },
@@ -1454,7 +1490,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       }
 
       addToPool(
-        'validator',
+        'onChangeValidator',
         validateValue,
         isAsync(onChangeValidatorRef.current)
       )
@@ -1541,7 +1577,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
               name: 'onChangeLocal',
               waitFor: [
                 {
-                  processName: 'validator',
+                  processName: 'onChangeValidator',
                   withStates: ['validating', 'error'],
                   hasValue: args[0],
                 },
@@ -2017,7 +2053,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
 
     addToPool(
-      'validator',
+      'onChangeValidator',
       startOnChangeValidatorValidation,
       isAsync(onChangeValidatorRef.current)
     )
@@ -2045,21 +2081,21 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   // Set the error in the field block context if this field is inside a field block
   useEffect(() => {
     if (inFieldBlock) {
-      setFieldStateFieldBlock?.({
+      setBlockRecord?.({
         identifier,
         type: 'error',
         content: errorProp,
         showInitially: true,
         show: true,
       })
-      setFieldStateFieldBlock?.({
+      setBlockRecord?.({
         identifier,
         type: 'warning',
         content: warning,
         showInitially: true,
         show: true,
       })
-      setFieldStateFieldBlock?.({
+      setBlockRecord?.({
         identifier,
         type: 'info',
         content: info,
@@ -2081,7 +2117,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     inFieldBlock,
     info,
     mountedFieldsRefFieldBlock,
-    setFieldStateFieldBlock,
+    setBlockRecord,
     warning,
   ])
 

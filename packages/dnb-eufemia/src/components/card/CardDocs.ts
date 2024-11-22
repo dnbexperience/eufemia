@@ -1,6 +1,11 @@
 import { PropertiesTableProps } from '../../shared/types'
 
 export const CardProperties: PropertiesTableProps = {
+  outset: {
+    doc: 'True to break out negatively on larger screens. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   stack: {
     doc: 'True to stack the sub components with lines between. The `spacing` will default to `medium`.',
     type: 'boolean',

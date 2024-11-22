@@ -67,8 +67,28 @@
     --breakout: var(--breakout--on);
   }
 
+  &[style*='--outset'] {
+    &.dnb-space[style]:not(.dnb-card) {
+      padding-left: calc(var(--padding-left) * calc(1 - var(--outset)));
+      padding-right: calc(var(--padding-right) * calc(1 - var(--outset)));
+    }
+
+    &::before {
+      margin-left: calc(
+        var(--outset-left, var(--padding-left)) * -1 * var(--outset)
+      );
+      margin-right: calc(
+        var(--outset-right, var(--padding-right)) * -1 * var(--outset)
+      );
+
+      // Because of the margin usage, we need to inherit the background color.
+      background-color: inherit;
+    }
+  }
+
   @include allBelow(medium) {
     --breakout: var(--breakout--small, var(--breakout--fallback));
+    --outset: var(--outset--small, var(--outset--fallback));
     --background-color--value: var(--background-color--small);
     --text-color--value: var(--text-color--small);
     --outline-color: var(--outline-color--small);
@@ -80,6 +100,7 @@
   }
   @include allBetween(small, medium) {
     --breakout: var(--breakout--medium, var(--breakout--fallback));
+    --outset: var(--outset--medium, var(--outset--fallback));
     --background-color--value: var(--background-color--medium);
     --text-color--value: var(--text-color--medium);
     --outline-color: var(--outline-color--medium);
@@ -91,6 +112,7 @@
   }
   @include allAbove(medium) {
     --breakout: var(--breakout--large, var(--breakout--fallback));
+    --outset: var(--outset--large, var(--outset--fallback));
     --background-color--value: var(--background-color--large);
     --text-color--value: var(--text-color--large);
     --outline-color: var(--outline-color--large);

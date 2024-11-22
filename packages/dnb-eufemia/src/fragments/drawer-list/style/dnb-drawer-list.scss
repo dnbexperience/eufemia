@@ -57,6 +57,9 @@
   --drawer-list-option-inner-background: var(--color-white);
   --drawer-list-list-background: var(--color-white);
   --drawer-list-list-line-height: var(--line-height-basis);
+  // Disabled option
+  --drawer-list-option-disabled-background: var(--color-white);
+  --drawer-list-option-disabled-color: var(--color-black-20);
 
   display: block; // has to be block element so we can se the content
   position: relative;
@@ -242,6 +245,14 @@
     &--ignore {
       cursor: default;
       pointer-events: none;
+    }
+
+    &[disabled] {
+      --drawer-list-option-inner-background: var(
+        --drawer-list-option-disabled-background
+      );
+      color: var(--drawer-list-option-disabled-color);
+      cursor: not-allowed;
     }
   }
 

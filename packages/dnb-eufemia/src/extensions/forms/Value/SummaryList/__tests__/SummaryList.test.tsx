@@ -17,6 +17,27 @@ describe('Field.SummaryList', () => {
     expect(element.getAttribute('aria-label')).toBe('Aria Label')
   })
 
+  it('should have dnb-sr-only class when no label is given', () => {
+    render(
+      <SummaryList>
+        <Value.String value="Value" />
+      </SummaryList>
+    )
+    expect(document.querySelector('dt')).toHaveClass('dnb-sr-only')
+  })
+
+  it('should set dnb-sr-only class when labelSrOnly is true', () => {
+    render(
+      <Value.SummaryList>
+        <Value.String label="Label" labelSrOnly showEmpty />
+      </Value.SummaryList>
+    )
+
+    const element = document.querySelector('dt')
+    expect(element).toHaveClass('dnb-sr-only')
+    expect(element).toHaveTextContent('Label')
+  })
+
   it('should warn when child is not a Value.* component', () => {
     const log = jest.spyOn(console, 'log').mockImplementation()
 

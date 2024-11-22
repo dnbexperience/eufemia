@@ -2,7 +2,7 @@
 
 export default {
   '--sb-font-family-default': '"Roboto", "Helvetica", "Arial", sans-serif',
-  '--sb-font-family-headings': '"MaisonNeueHeadings", "Roboto", "Helvetica",',
+  '--sb-font-family-heading': '"MaisonNeueHeadings", "Roboto", "Helvetica",',
   '--sb-font-weight-default': 'normal',
   '--sb-font-weight-basis': 'normal',
   '--sb-font-weight-regular': 'normal',
@@ -94,6 +94,7 @@ export default {
   '--color-emerald-green-25': '#c4d4d6',
   '--color-emerald-green-10': '#e8eeef',
   '--font-family-default': 'var(--sb-font-family-default)',
+  '--font-family-heading': 'var(--sb-font-family-heading)',
   '--font-family-monospace': '"DNBMono", "Menlo", "Consolas", "Roboto Mono",',
   '--font-weight-default': 'normal',
   '--font-weight-basis': 'normal',

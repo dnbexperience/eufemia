@@ -307,7 +307,9 @@ export interface UseFieldProps<
   // - Validation
   required?: boolean
   schema?: AllJSONSchemaVersions<Value>
+  /** @deprecated Use `onChangeValidator` instead */
   validator?: Validator<Value>
+  onChangeValidator?: Validator<Value>
   onBlurValidator?: Validator<Value>
   exportValidators?: Record<string, Validator<Value>>
   validateRequired?: (
@@ -433,6 +435,9 @@ export interface ValueProps<Value = unknown>
    * Field label to show above the data value.
    */
   label?: React.ReactNode
+
+  /** Use `true` to make the label only readable by screen readers. */
+  labelSrOnly?: boolean
 
   /**
    * Use `true` to inherit the label from a visible (rendered) field with the same path.

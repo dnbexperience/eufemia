@@ -610,7 +610,6 @@ del .dnb-code {
  *
  */
 .dnb-lead, .dnb-h--xx-large, .dnb-h--x-large, .dnb-h--large, .dnb-h--medium, .dnb-h--basis, .dnb-h--small, .dnb-h--x-small, .dnb-core-style .dnb-lead, .dnb-core-style .dnb-h--xx-large, .dnb-core-style .dnb-h--x-large, .dnb-core-style .dnb-h--large, .dnb-core-style .dnb-h--medium, .dnb-core-style .dnb-h--basis, .dnb-core-style .dnb-h--small, .dnb-core-style .dnb-h--x-small, h1, h2, h3, h4, h5, h6, p, b, small, strong, .dnb-p, .dnb-small, .dnb-table, sub, sup {
-  --typography-h-default-font-family: var(--font-family-default);
   --typography-h-default-font-weight: var(--font-weight-medium);
   --typography-h-xx-large-font-size: var(--font-size-xx-large);
   --typography-h-xx-large-line-height: var(--line-height-xx-large);
@@ -672,7 +671,7 @@ del .dnb-code {
 .dnb-core-style .dnb-h--small,
 .dnb-core-style .dnb-h--x-small {
   padding: 0;
-  font-family: var(--typography-h-default-font-family);
+  font-family: var(--font-family-heading);
 }
 .dnb-lead:not([class*=dnb-space]),
 .dnb-h--xx-large:not([class*=dnb-space]),
@@ -793,11 +792,11 @@ sub {
   font-size: var(--typography-lead-small-font-size);
   line-height: var(--typography-lead-small-line-height);
 }
-.dnb-p--medium {
-  font-weight: var(--font-weight-medium);
-}
 .dnb-p b,
 .dnb-p strong {
+  font-weight: var(--font-weight-medium);
+}
+.dnb-p--medium {
   font-weight: var(--font-weight-medium);
 }
 .dnb-p--bold {
@@ -823,7 +822,7 @@ sub {
   font-size: var(--font-size-medium);
   line-height: var(--line-height-medium);
 }
-.dnb-p--small, .dnb-p__size--small, .dnb-p > small {
+.dnb-p--small, .dnb-p__size--small {
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
 }
@@ -831,9 +830,94 @@ sub {
   font-size: var(--font-size-x-small);
   line-height: var(--line-height-x-small);
 }
+.dnb-p > small {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
 .dnb-p > cite {
   font-weight: var(--font-weight-medium);
   line-height: var(--line-height-basis);
+  font-style: italic;
+}
+
+/*
+ * Typography
+ * Universal set of helper classes that do not have a specific element. 
+ * The class ".dnb-t" does nothing, only it's modifiers ".dnb-t__[***]" do.
+ */
+.dnb-t__size--xx-large {
+  font-size: var(--font-size-xx-large);
+}
+.dnb-t__size--x-large {
+  font-size: var(--font-size-x-large);
+}
+.dnb-t__size--large {
+  font-size: var(--font-size-large);
+}
+.dnb-t__size--medium {
+  font-size: var(--font-size-medium);
+}
+.dnb-t__size--basis {
+  font-size: var(--font-size-basis);
+}
+.dnb-t__size--small {
+  font-size: var(--font-size-small);
+}
+.dnb-t__size--x-small {
+  font-size: var(--font-size-x-small);
+}
+.dnb-t__line-height--xx-large {
+  line-height: var(--line-height-xx-large);
+}
+.dnb-t__line-height--x-large {
+  line-height: var(--line-height-x-large);
+}
+.dnb-t__line-height--large {
+  line-height: var(--line-height-large);
+}
+.dnb-t__line-height--medium {
+  line-height: var(--line-height-medium);
+}
+.dnb-t__line-height--basis {
+  line-height: var(--line-height-basis);
+}
+.dnb-t__line-height--small {
+  line-height: var(--line-height-small);
+}
+.dnb-t__line-height--x-small {
+  line-height: var(--line-height-x-small);
+}
+.dnb-t__weight--regular {
+  font-weight: var(--font-weight-regular);
+}
+.dnb-t__weight--medium {
+  font-weight: var(--font-weight-medium);
+}
+.dnb-t__weight--bold {
+  font-weight: var(--font-weight-bold);
+}
+.dnb-t__align--center {
+  text-align: center;
+}
+.dnb-t__align--left {
+  text-align: left;
+}
+.dnb-t__align--right {
+  text-align: right;
+}
+.dnb-t__family--default {
+  font-family: var(--font-family-default);
+}
+.dnb-t__family--heading {
+  font-family: var(--font-family-heading);
+}
+.dnb-t__family--monospace {
+  font-family: var(--font-family-monospace);
+}
+.dnb-t__decoration--underline {
+  text-decoration: underline;
+}
+.dnb-t__slant--italic {
   font-style: italic;
 }
 

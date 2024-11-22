@@ -1,6 +1,6 @@
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Input, Slider, Card, Flex, NumberFormat } from '@dnb/eufemia/src'
+import { Input, Slider, Flex, NumberFormat } from '@dnb/eufemia/src'
 import {
   Form,
   Field,
@@ -46,7 +46,7 @@ export const CreateBasicFieldComponent = () => {
           const preparedProps = {
             label: 'What is the secret of this field?',
             fromInput,
-            validator: (value) => {
+            onChangeValidator: (value) => {
               if (value === 'secret') {
                 return new Error('Do not reveal the secret!')
               }
@@ -110,7 +110,7 @@ export const GettingStarted = () => {
             >
               <Flex.Stack>
                 <Form.MainHeading>Bedrift</Form.MainHeading>
-                <Card stack>
+                <Form.Card>
                   <Field.Name.Company path="/companyName" required />
                   <Field.OrganizationNumber
                     path="/companyOrganizationNumber"
@@ -127,7 +127,7 @@ export const GettingStarted = () => {
                     />
                     <Field.Option value="other" title="Annet" />
                   </Field.Selection>
-                </Card>
+                </Form.Card>
                 <Form.ButtonRow>
                   <Form.SubmitButton />
                 </Form.ButtonRow>
@@ -229,7 +229,7 @@ export const BaseFieldComponents = () => {
         Value,
       }}
     >
-      <Card stack>
+      <Form.Card>
         <Field.String
           label="Text field"
           value="Lorem Ipsum"
@@ -245,7 +245,7 @@ export const BaseFieldComponents = () => {
           value={true}
           onChange={(value) => console.log('onChange', value)}
         />
-      </Card>
+      </Form.Card>
     </ComponentBox>
   )
 }
@@ -257,13 +257,13 @@ export const FeatureFields = () => {
         Value,
       }}
     >
-      <Card stack>
+      <Form.Card>
         <Field.String label="Fornavn" value="John" />
         <Field.String label="Etternavn" value="Smith" />
         <Field.NationalIdentityNumber value="20058512345" />
         <Field.Email value="john@smith.email" />
         <Field.PhoneNumber value="+47 98765432" />
-      </Card>
+      </Form.Card>
     </ComponentBox>
   )
 }
@@ -278,20 +278,20 @@ export const LayoutComponents = () => {
       <Flex.Stack>
         <Form.MainHeading>Profile</Form.MainHeading>
 
-        <Card stack>
+        <Form.Card>
           <Form.SubHeading>Name</Form.SubHeading>
 
           <Field.String label="Fornavn" value="John" />
           <Field.String label="Etternavn" value="Smith" />
-        </Card>
+        </Form.Card>
 
-        <Card stack>
+        <Form.Card>
           <Form.SubHeading>More information</Form.SubHeading>
 
           <Field.NationalIdentityNumber value="20058512345" />
           <Field.Email value="john@smith.email" />
           <Field.PhoneNumber value="+47 98765432" />
-        </Card>
+        </Form.Card>
       </Flex.Stack>
     </ComponentBox>
   )
@@ -322,12 +322,12 @@ export const VisibilityBasedOnData = () => {
         <Flex.Stack>
           <Form.MainHeading>Profile</Form.MainHeading>
 
-          <Card stack>
+          <Form.Card>
             <Form.SubHeading>Name</Form.SubHeading>
 
             <Field.String path="/firstName" label="Fornavn" />
             <Field.String path="/lastName" label="Etternavn" />
-          </Card>
+          </Form.Card>
 
           <Field.Boolean
             path="/advanced"
@@ -336,13 +336,13 @@ export const VisibilityBasedOnData = () => {
           />
           <Form.Visibility pathTrue="/advanced">
             <Flex.Stack>
-              <Card stack>
+              <Form.Card>
                 <Form.SubHeading>More information</Form.SubHeading>
 
                 <Field.NationalIdentityNumber value="20058512345" />
                 <Field.Email value="john@smith.email" />
                 <Field.PhoneNumber value="+47 98765432" />
-              </Card>
+              </Form.Card>
             </Flex.Stack>
           </Form.Visibility>
         </Flex.Stack>
@@ -374,7 +374,7 @@ export const UsingFormHandler = () => {
       >
         <Form.MainHeading>Profile</Form.MainHeading>
 
-        <Card stack>
+        <Form.Card>
           <Field.String path="/firstName" label="Fornavn" />
           <Field.String path="/lastName" label="Etternavn" />
           <Field.NationalIdentityNumber path="/ssn" />
@@ -384,7 +384,7 @@ export const UsingFormHandler = () => {
           <Form.ButtonRow>
             <Form.SubmitButton />
           </Form.ButtonRow>
-        </Card>
+        </Form.Card>
       </Form.Handler>
     </ComponentBox>
   )
@@ -413,13 +413,13 @@ export const Validation = () => {
       >
         <Form.MainHeading>Profile</Form.MainHeading>
 
-        <Card stack>
+        <Form.Card>
           <Field.String path="/firstName" label="Fornavn" required />
           <Field.String path="/lastName" label="Etternavn" required />
           <Field.NationalIdentityNumber path="/ssn" validateInitially />
           <Field.Email path="/email" validateInitially />
           <Field.PhoneNumber path="/phone" validateInitially />
-        </Card>
+        </Form.Card>
       </Form.Handler>
     </ComponentBox>
   )
@@ -454,7 +454,7 @@ export const UsingWizard = () => {
                 <Wizard.Step title="Name">
                   <Form.MainHeading>Profile</Form.MainHeading>
 
-                  <Card stack>
+                  <Form.Card>
                     <Form.SubHeading>Name</Form.SubHeading>
 
                     <Field.String
@@ -467,7 +467,7 @@ export const UsingWizard = () => {
                       label="Etternavn"
                       required
                     />
-                  </Card>
+                  </Form.Card>
 
                   <Wizard.Buttons />
                 </Wizard.Step>
@@ -475,13 +475,13 @@ export const UsingWizard = () => {
                 <Wizard.Step title="More information">
                   <Form.MainHeading>Profile</Form.MainHeading>
 
-                  <Card stack>
+                  <Form.Card>
                     <Form.SubHeading>More information</Form.SubHeading>
 
                     <Field.NationalIdentityNumber path="/ssn" />
                     <Field.Email path="/email" />
                     <Field.PhoneNumber path="/phone" />
-                  </Card>
+                  </Form.Card>
 
                   <Wizard.Buttons />
                 </Wizard.Step>
@@ -489,7 +489,7 @@ export const UsingWizard = () => {
                 <Wizard.Step title={summaryTitle}>
                   <Form.MainHeading>Profile</Form.MainHeading>
 
-                  <Card stack>
+                  <Form.Card>
                     <Value.SummaryList layout="grid">
                       <Value.String path="/firstName" label="Fornavn" />
                       <Value.String path="/lastName" label="Etternavn" />
@@ -498,7 +498,7 @@ export const UsingWizard = () => {
                       <Value.Email path="/email" />
                       <Value.PhoneNumber path="/phone" />
                     </Value.SummaryList>
-                  </Card>
+                  </Form.Card>
 
                   <Form.ButtonRow>
                     <Wizard.Buttons />
@@ -550,13 +550,13 @@ export const UsingFormSection = () => {
               },
             }}
           >
-            <Card stack>
+            <Form.Card>
               <Form.SubHeading>Your account</Form.SubHeading>
               <Form.Section path="/nestedPath" required>
                 <MyEditContainer />
                 <MyViewContainer />
               </Form.Section>
-            </Card>
+            </Form.Card>
             <Form.SubmitButton />
           </Form.Handler>
         )
@@ -641,14 +641,14 @@ export const UsingIterate = () => {
               <Flex.Vertical>
                 <Form.MainHeading>Accounts</Form.MainHeading>
 
-                <Card stack>
+                <Form.Card>
                   <Iterate.Array path="/accounts">
                     <MyViewItem />
                     <MyEditItem />
                   </Iterate.Array>
 
                   <CreateNewEntry />
-                </Card>
+                </Form.Card>
 
                 <Form.SubmitButton variant="send" />
               </Flex.Vertical>
@@ -676,7 +676,7 @@ export const Transformers = () => {
 
           return (
             <Form.Handler onChange={console.log}>
-              <Card stack>
+              <Form.Card>
                 <Field.String
                   width="medium"
                   label="Input value"
@@ -687,7 +687,7 @@ export const Transformers = () => {
                 />
 
                 <Value.String label="Output value" path="/myField" />
-              </Card>
+              </Form.Card>
             </Form.Handler>
           )
         }
@@ -710,7 +710,7 @@ export const QuickStart = () => {
               onChange={console.log}
               onSubmit={console.log}
             >
-              <Card stack>
+              <Form.Card>
                 <Field.Name.Company path="/companyName" required />
                 <Field.OrganizationNumber
                   path="/companyOrganizationNumber"
@@ -740,7 +740,7 @@ export const QuickStart = () => {
                     required
                   />
                 </Form.Visibility>
-              </Card>
+              </Form.Card>
             </Form.Handler>
           )
         }

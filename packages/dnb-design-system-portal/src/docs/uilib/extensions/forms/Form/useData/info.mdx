@@ -265,6 +265,6 @@ function ComponentB() {
 
 **tl;dr:** the `useData` hook returns unvalidated data.
 
-When you use an async `onChange` or `validator` event handler on a field, it will delay the "submitted" value, because of its async nature.
+When you use an async `onChange`, `onChangeValidator` or `onBlurValidator` event handler on a field, it will delay the "submitted" value, because of its async nature.
 
 That means, if you want to access the value of a field immediately, you can use the `useData` hook for that, as it always returns unvalidated data, in sync.

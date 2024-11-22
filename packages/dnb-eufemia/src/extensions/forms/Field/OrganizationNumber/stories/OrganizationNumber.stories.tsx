@@ -98,34 +98,34 @@ export function OrganizationNumberValidator() {
     <Wrapper>
       <Field.OrganizationNumber
         onBlurValidator={false}
-        validator={myOrganizationNumberValidator}
+        onChangeValidator={myOrganizationNumberValidator}
       />
       <Field.OrganizationNumber
         onBlurValidator={false}
-        validator={myOrganizationNumberValidator}
+        onChangeValidator={myOrganizationNumberValidator}
         value="123123123"
       />
       <Field.OrganizationNumber
         onBlurValidator={false}
-        validator={myOrganizationNumberValidator}
+        onChangeValidator={myOrganizationNumberValidator}
         value="321321321"
       />
       <h2>Validate Initially:</h2>
       <Field.OrganizationNumber
         onBlurValidator={false}
         validateInitially
-        validator={myOrganizationNumberValidator}
+        onChangeValidator={myOrganizationNumberValidator}
       />
       <Field.OrganizationNumber
         validateInitially
         onBlurValidator={false}
-        validator={myOrganizationNumberValidator}
+        onChangeValidator={myOrganizationNumberValidator}
         value="123123123"
       />
       <Field.OrganizationNumber
         validateInitially
         onBlurValidator={false}
-        validator={myOrganizationNumberValidator}
+        onChangeValidator={myOrganizationNumberValidator}
         value="321321321"
       />
     </Wrapper>
@@ -141,34 +141,34 @@ export function CustomValidator() {
     <Wrapper>
       <Field.OrganizationNumber
         onBlurValidator={false}
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
       />
       <Field.OrganizationNumber
         onBlurValidator={false}
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
         value="123"
       />
       <Field.OrganizationNumber
         onBlurValidator={false}
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
         value="321321321"
       />
       <h2>Validate Initially:</h2>
       <Field.OrganizationNumber
         validateInitially
         onBlurValidator={false}
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
       />
       <Field.OrganizationNumber
         validateInitially
         onBlurValidator={false}
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
         value="123"
       />
       <Field.OrganizationNumber
         validateInitially
         onBlurValidator={false}
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
         value="321321321"
       />
     </Wrapper>
@@ -223,34 +223,34 @@ export function CustomValidatorReturnArray() {
     <Wrapper>
       <Field.OrganizationNumber
         onBlurValidator={false}
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
       />
       <Field.OrganizationNumber
         onBlurValidator={false}
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
         value="123"
       />
       <Field.OrganizationNumber
         onBlurValidator={false}
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
         value="321321321"
       />
       <h2>Validate Initially:</h2>
       <Field.OrganizationNumber
         validateInitially
         onBlurValidator={false}
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
       />
       <Field.OrganizationNumber
         validateInitially
         onBlurValidator={false}
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
         value="123"
       />
       <Field.OrganizationNumber
         validateInitially
         onBlurValidator={false}
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
         value="321321321"
       />
     </Wrapper>
@@ -307,19 +307,22 @@ export function StringValidatorSimple() {
 
   return (
     <Wrapper>
-      <Field.String validator={simpleValidator} />
-      <Field.String validator={simpleValidator} value="123" />
-      <Field.String validator={simpleValidator} value="321" />
+      <Field.String onChangeValidator={simpleValidator} />
+      <Field.String onChangeValidator={simpleValidator} value="123" />
+      <Field.String onChangeValidator={simpleValidator} value="321" />
       <h2>Validate Initially:</h2>
-      <Field.String validateInitially validator={simpleValidator} />
       <Field.String
         validateInitially
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
+      />
+      <Field.String
+        validateInitially
+        onChangeValidator={simpleValidator}
         value="123"
       />
       <Field.String
         validateInitially
-        validator={simpleValidator}
+        onChangeValidator={simpleValidator}
         value="321"
       />
     </Wrapper>

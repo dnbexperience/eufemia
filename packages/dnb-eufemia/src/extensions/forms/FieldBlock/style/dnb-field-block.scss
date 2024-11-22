@@ -169,6 +169,7 @@ fieldset.dnb-forms-field-block {
 
   &__status {
     grid-area: status;
+
     .dnb-form-status__shell {
       margin-top: 0.5rem; // set margin-top on shell, so we can animate the height
       max-width: 60ch; // to enhance readability
@@ -204,31 +205,42 @@ fieldset.dnb-forms-field-block {
         }
       }
     }
+  }
 
-    &__composition {
-      &--vertical {
-        display: flex;
-        flex-flow: column;
-        row-gap: var(--spacing-small);
+  &__composition--vertical &__contents {
+    display: flex;
+    flex-flow: column;
+    row-gap: var(--spacing-x-small);
+  }
+
+  &__composition--horizontal &__contents {
+    display: flex;
+    flex-flow: row;
+    column-gap: var(--spacing-small);
+
+    @include allAbove(x-small) {
+      align-items: flex-end; // To support fields with labels of different size
+
+      &[class*='align-center'] {
+        align-items: center; // To support fields without labels, but different heights
       }
+    }
+    @include allBelow(x-small) {
+      row-gap: var(--spacing-x-small);
+      flex-flow: column;
+    }
+  }
 
-      &--horizontal {
-        display: flex;
-        flex-flow: row;
-        column-gap: var(--spacing-small);
-
-        @include allAbove(x-small) {
-          align-items: flex-end; // To support fields with labels of different size
-
-          &[class*='align-center'] {
-            align-items: center; // To support fields without labels, but different heights
-          }
-        }
-        @include allBelow(x-small) {
-          row-gap: var(--spacing-x-small);
-          flex-flow: column;
-        }
-      }
+  // Because we want to hide / show the indicator responsively,
+  // we render both, but hide the one we don't want to show.
+  @include allBelow(x-small) {
+    &__composition > &__grid > .dnb-forms-submit-indicator {
+      display: none;
+    }
+  }
+  @include allAbove(x-small) {
+    &__composition > &__grid > &__contents .dnb-forms-submit-indicator {
+      display: none;
     }
   }
 }

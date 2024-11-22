@@ -1,6 +1,5 @@
 import React from 'react'
 import { Field, Form, Iterate, Value, Wizard } from '../..'
-import { Card } from '../../../../components'
 import { Lead } from '../../../../elements'
 import { Translation, translations } from './ChildrenWithAgeTranslations'
 import type { SectionProps } from '../../Form/Section'
@@ -57,7 +56,7 @@ function EditContainer({
   const hasChildren = getValue('/hasChildren') === true
 
   return (
-    <Card stack {...spacingProps}>
+    <Form.Card {...spacingProps}>
       <Lead>{tr.ChildrenWithAge.hasChildren.title}</Lead>
 
       <Field.Boolean
@@ -181,7 +180,7 @@ function EditContainer({
             />
           </Form.Visibility>
         )}
-    </Card>
+    </Form.Card>
   )
 }
 
@@ -194,7 +193,7 @@ function SummaryContainer({
   const tr = Form.useTranslation<Translation>()
 
   return (
-    <Card stack {...spacingProps}>
+    <Form.Card {...spacingProps}>
       {<Lead>{tr.ChildrenWithAge.hasChildren.title}</Lead>}
 
       <Value.SummaryList>
@@ -252,7 +251,7 @@ function SummaryContainer({
       {typeof toWizardStep === 'number' ? (
         <Wizard.EditButton toStep={toWizardStep} />
       ) : null}
-    </Card>
+    </Form.Card>
   )
 }
 

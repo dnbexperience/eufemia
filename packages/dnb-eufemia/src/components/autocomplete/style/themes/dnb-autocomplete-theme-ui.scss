@@ -53,7 +53,7 @@
     font-weight: var(--font-weight-basis);
   }
 
-  &__item:nth-of-type(n + 2) {
+  &:not([disabled]) .dnb-drawer-list__option__item:nth-of-type(n + 2) {
     color: var(--color-black-55);
   }
 
@@ -63,7 +63,7 @@
 }
 
 .dnb-autocomplete__root
-  .dnb-drawer-list__option--selected
+  .dnb-drawer-list__option--selected:not([disabled])
   .dnb-drawer-list__option__item:nth-of-type(n + 2) {
   color: var(--color-white);
 }

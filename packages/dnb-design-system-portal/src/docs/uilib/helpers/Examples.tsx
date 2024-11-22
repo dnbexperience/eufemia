@@ -100,7 +100,7 @@ export function Selection() {
   return (
     <Wrapper className="dnb-spacing">
       <ComponentBox hideCode data-visual-test="helper-selection">
-        <p className="dnb-selection dnb-p__size--basis">
+        <p className="dnb-selection dnb-t__size--basis">
           If you select a part of this text, you will see the selection
           highlight is green.
         </p>

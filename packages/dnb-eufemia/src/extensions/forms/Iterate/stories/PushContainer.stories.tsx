@@ -1,6 +1,6 @@
 import React, { useLayoutEffect } from 'react'
 import { Field, Form, Iterate, Tools, Value } from '../..'
-import { Card, Flex } from '../../../../components'
+import { Flex } from '../../../../components'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Iterate/PushContainer',
@@ -27,13 +27,13 @@ export const ComplexPushContainer = () => {
   return (
     <Form.Handler>
       <Form.MainHeading>Representatives</Form.MainHeading>
-      <Card stack>
+      <Form.Card>
         <Iterate.Array path="/representatives">
           <RepresentativesView />
           <RepresentativesEdit />
         </Iterate.Array>
         <RepresentativesCreateNew />
-      </Card>
+      </Form.Card>
       <Tools.Log />
     </Form.Handler>
   )

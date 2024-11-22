@@ -42,7 +42,9 @@ function OrganizationNumber(props: Props) {
   const {
     validate = true,
     omitMask,
+    // Deprecated – can be removed in v11
     validator,
+    onChangeValidator = validator,
     onBlurValidator = organizationNumberValidator,
     label: labelProp,
     width,
@@ -67,7 +69,7 @@ function OrganizationNumber(props: Props) {
     mask,
     width: width ?? 'medium',
     inputMode: 'numeric',
-    validator: validate ? validator : undefined,
+    onChangeValidator: validate ? onChangeValidator : undefined,
     onBlurValidator: validate ? onBlurValidatorToUse : undefined,
     exportValidators: { organizationNumberValidator },
   }

@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Slider, Grid, Flex, Card } from '@dnb/eufemia/src'
+import { Slider, Grid, Flex } from '@dnb/eufemia/src'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 import React from 'react'
 
@@ -30,7 +30,7 @@ export const LabelAndValue = () => {
 export const LabelAndDescription = () => {
   return (
     <ComponentBox data-visual-test="number-label-description">
-      <Card stack>
+      <Form.Card>
         <Field.Number
           label="Label text"
           labelDescription="Description text"
@@ -41,7 +41,7 @@ export const LabelAndDescription = () => {
           labelDescription="\nDescription text with new line using \\n"
           placeholder="Enter a text..."
         />
-      </Card>
+      </Form.Card>
     </ComponentBox>
   )
 }
@@ -49,7 +49,7 @@ export const LabelAndDescription = () => {
 export const WithStatus = () => {
   return (
     <ComponentBox data-visual-test="number-status">
-      <Card stack>
+      <Form.Card>
         <Field.Number
           label="Label text"
           placeholder="Enter a number..."
@@ -71,7 +71,7 @@ export const WithStatus = () => {
           warning="Aliqua eu aute id qui esse aliqua dolor in aute magna commodo anim enim et. Velit incididunt exercitation est magna ex irure dolore nisi eiusmod ea exercitation."
           required
         />
-      </Card>
+      </Form.Card>
     </ComponentBox>
   )
 }
@@ -79,7 +79,7 @@ export const WithStatus = () => {
 export const HorizontalLayout = () => {
   return (
     <ComponentBox data-visual-test="number-horizontal-layout">
-      <Card stack>
+      <Form.Card>
         <Field.Provider
           layout="horizontal"
           layoutOptions={{
@@ -105,7 +105,7 @@ export const HorizontalLayout = () => {
             width="stretch"
           />
         </Field.Provider>
-      </Card>
+      </Form.Card>
     </ComponentBox>
   )
 }

@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Card, Flex, P } from '@dnb/eufemia/src'
+import { Flex, P } from '@dnb/eufemia/src'
 import {
   Field,
   Form,
@@ -26,10 +26,10 @@ export const NestedPathSection = () => {
         const MyNameSection = (props: SectionProps) => {
           return (
             <Form.Section {...props}>
-              <Card stack>
+              <Form.Card>
                 <Field.Name.First path="/firstName" />
                 <Field.Name.Last path="/lastName" />
-              </Card>
+              </Form.Card>
             </Form.Section>
           )
         }
@@ -87,13 +87,13 @@ export const ViewAndEditContainer = () => {
               },
             }}
           >
-            <Card stack>
+            <Form.Card>
               <Form.SubHeading>Your account</Form.SubHeading>
               <Form.Section path="/nestedPath" required>
                 <MyEditContainer />
                 <MyViewContainer />
               </Form.Section>
-            </Card>
+            </Form.Card>
             <Form.SubmitButton />
           </Form.Handler>
         )
@@ -136,13 +136,13 @@ export const ViewAndEditContainerValidation = () => {
               },
             }}
           >
-            <Card stack>
+            <Form.Card>
               <Form.SubHeading>Your account</Form.SubHeading>
               <Form.Section path="/nestedPath" required validateInitially>
                 <MyEditContainer />
                 <MyViewContainer />
               </Form.Section>
-            </Card>
+            </Form.Card>
             <Form.SubmitButton />
           </Form.Handler>
         )
@@ -188,13 +188,13 @@ export const BasicViewAndEditContainer = () => {
               },
             }}
           >
-            <Card stack>
+            <Form.Card>
               <Form.SubHeading>Your account</Form.SubHeading>
               <Form.Section path="/nestedPath" required>
                 <MyEditContainer />
                 <MyViewContainer />
               </Form.Section>
-            </Card>
+            </Form.Card>
             <Form.SubmitButton />
           </Form.Handler>
         )
@@ -210,7 +210,7 @@ export const OverwriteProps = () => {
         const MyNameSection = (props) => {
           return (
             <Form.Section {...props}>
-              <Card stack>
+              <Form.Card>
                 <Field.Composition width="large">
                   <Field.Name.First path="/firstName" />
                   <Field.Name.Last
@@ -219,7 +219,7 @@ export const OverwriteProps = () => {
                     minLength={10}
                   />
                 </Field.Composition>
-              </Card>
+              </Form.Card>
             </Form.Section>
           )
         }
@@ -262,12 +262,12 @@ export const AllFieldsRequired = () => {
         const MyNameSection = (props: SectionProps) => {
           return (
             <Form.Section {...props}>
-              <Card stack>
+              <Form.Card>
                 <Field.Composition width="large">
                   <Field.Name.First path="/firstName" />
                   <Field.Name.Last path="/lastName" />
                 </Field.Composition>
-              </Card>
+              </Form.Card>
             </Form.Section>
           )
         }
@@ -307,7 +307,7 @@ export const SchemaSupport = () => {
         const MyNameSection = (props: SectionProps) => {
           return (
             <Form.Section {...props}>
-              <Card stack>
+              <Form.Card>
                 <Field.Composition width="large">
                   <Field.Name.First path="/firstName" />
                   <Field.Name.Last
@@ -316,7 +316,7 @@ export const SchemaSupport = () => {
                     minLength={10}
                   />
                 </Field.Composition>
-              </Card>
+              </Form.Card>
             </Form.Section>
           )
         }
@@ -368,7 +368,7 @@ export const WithVisibility = () => {
         const MySection = ({ children, ...props }) => {
           return (
             <Form.Section {...props}>
-              <Card stack>
+              <Form.Card>
                 <Field.Boolean
                   label="Are you sure?"
                   variant="buttons"
@@ -396,7 +396,7 @@ export const WithVisibility = () => {
                 </Form.Visibility>
 
                 {children}
-              </Card>
+              </Form.Card>
 
               <Tools.Log />
             </Form.Section>
@@ -463,11 +463,11 @@ export const NestedSections = () => {
         function MySection(props: SectionProps) {
           return (
             <Form.Section {...props}>
-              <Card stack>
+              <Form.Card>
                 <MyNameSection path="/name" />
                 <MyAddressSection path="/address" />
                 <MyValueSection />
-              </Card>
+              </Form.Card>
             </Form.Section>
           )
         }

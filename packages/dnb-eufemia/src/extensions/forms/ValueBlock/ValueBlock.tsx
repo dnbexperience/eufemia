@@ -43,6 +43,7 @@ function ValueBlock(props: Props) {
   const {
     className,
     label: labelProp,
+    labelSrOnly,
     transformLabel = (label: Props['label']) => label,
     inline,
     maxWidth = props.composition ? props.maxWidth : 'large',
@@ -116,7 +117,12 @@ function ValueBlock(props: Props) {
           value={{ ...summaryListContext, isNested: true }}
         >
           <Item>
-            <Dt className="dnb-forms-value-block__label">
+            <Dt
+              className={classnames(
+                'dnb-forms-value-block__label',
+                (!label || labelSrOnly) && 'dnb-sr-only'
+              )}
+            >
               {label && <strong>{label}</strong>}
             </Dt>
             <Dd
@@ -158,6 +164,7 @@ function ValueBlock(props: Props) {
             element="strong" // enhance a11y: https://www.w3.org/WAI/WCAG21/Techniques/html/H49
             className="dnb-forms-value-block__label"
             labelDirection={inline ? 'horizontal' : 'vertical'}
+            srOnly={labelSrOnly}
           >
             {label}
           </FormLabel>

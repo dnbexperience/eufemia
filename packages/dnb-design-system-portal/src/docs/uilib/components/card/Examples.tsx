@@ -5,7 +5,6 @@ import {
   Flex,
   Grid,
   H2,
-  Hr,
   P,
   Section,
   Table,
@@ -17,15 +16,11 @@ import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
   return (
-    <ComponentBox>
-      <Card data-visual-test="layout-card-border">
+    <ComponentBox data-visual-test="layout-card-border">
+      <Card>
         <P>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
           cursus pharetra elit in bibendum.
-        </P>
-        <P>
-          Praesent nunc ipsum, convallis eget convallis gravida, vehicula
-          vitae metus.
         </P>
       </Card>
     </ComponentBox>
@@ -35,11 +30,11 @@ export const Default = () => {
 export const NestedCards = () => {
   return (
     <ComponentBox data-visual-test="layout-card-nested">
-      <Card>
+      <Card stack>
         <P>First Card</P>
-        <Card top>
+        <Card stack>
           <P>Second Card</P>
-          <Card top>
+          <Card stack>
             <P>Third Card (for edge cases only)</P>
           </Card>
         </Card>
@@ -176,10 +171,8 @@ export const Stack = () => {
   return (
     <ComponentBox data-visual-test="layout-card-stack">
       <Card stack>
-        <Field.String label="Label" value="Value" />
-        <Field.String label="Label" value="Value" />
-        <Hr />
-        <Form.SubmitButton />
+        <P>Stacked content</P>
+        <P>Stacked content</P>
       </Card>
     </ComponentBox>
   )
@@ -188,12 +181,12 @@ export const Stack = () => {
 export const VerticalFields = () => {
   return (
     <ComponentBox>
-      <Card>
+      <Form.Card>
         <Flex.Vertical>
           <Field.String label="Label" value="Value" />
           <Field.String label="Label" value="Value" />
         </Flex.Vertical>
-      </Card>
+      </Form.Card>
     </ComponentBox>
   )
 }
@@ -201,12 +194,12 @@ export const VerticalFields = () => {
 export const HorizontalFields = () => {
   return (
     <ComponentBox>
-      <Card>
+      <Form.Card>
         <Flex.Horizontal>
           <Field.String label="Label" value="Value" width="small" />
           <Field.String label="Label" value="Value" width="stretch" />
         </Flex.Horizontal>
-      </Card>
+      </Form.Card>
     </ComponentBox>
   )
 }
@@ -271,6 +264,23 @@ export const WithNestedSection = () => {
           <P>no inner space</P>
         </Card>
       </Flex.Stack>
+    </ComponentBox>
+  )
+}
+
+export const WithOutset = () => {
+  return (
+    <ComponentBox data-visual-test="layout-card-outset">
+      <Flex.Vertical>
+        <Form.MainHeading>I'm left aligned</Form.MainHeading>
+        <Card stack outset>
+          <P>Card content</P>
+          <Card>
+            <P>Nested card</P>
+          </Card>
+        </Card>
+        <Form.SubmitButton text="I'm also left aligned" />
+      </Flex.Vertical>
     </ComponentBox>
   )
 }

@@ -250,11 +250,11 @@ export const DropdownDirections = () => {
           data={[
             ['Vertical', 'alignment'],
             <>
-              <P modifier="medium">Vertical</P>
+              <P weight="medium">Vertical</P>
               <P>alignment</P>
             </>,
             <Dropdown.HorizontalItem key="item-1">
-              <P modifier="medium" right="x-small">
+              <P weight="medium" right="x-small">
                 Horizontal
               </P>
               <P>alignment</P>
@@ -442,6 +442,26 @@ export const DropdownDisabled = () => (
   <Wrapper>
     <ComponentBox scope={{ data }} data-visual-test="dropdown-disabled">
       <Dropdown disabled data={['Disabled Dropdown']} label="Label" />
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const DropdownDisabledOptions = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="dropdown-disabled-options">
+      <Dropdown
+        data={[
+          {
+            content: 'Item 1 Content',
+          },
+          { content: 'Item 2 Content', disabled: true },
+          { content: 'Item 3 Content', disabled: true },
+          {
+            content: 'Item 4 Content A',
+          },
+        ]}
+        label="Label"
+      />
     </ComponentBox>
   </Wrapper>
 )

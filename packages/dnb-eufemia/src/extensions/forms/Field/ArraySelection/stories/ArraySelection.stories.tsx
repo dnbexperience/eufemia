@@ -1,4 +1,4 @@
-import { Card, Section } from '../../../../../components'
+import { Section } from '../../../../../components'
 import { Field, Form } from '../../..'
 
 export default {
@@ -8,7 +8,7 @@ export default {
 export function NestingWithLogic() {
   return (
     <Form.Handler>
-      <Card stack>
+      <Form.Card>
         <Field.ArraySelection
           // variant="checkbox"
           // variant="button"
@@ -74,7 +74,7 @@ export function NestingWithLogic() {
             </Form.Visibility>
           </Form.Visibility>
         </Field.ArraySelection>
-      </Card>
+      </Form.Card>
     </Form.Handler>
   )
 }
@@ -93,7 +93,7 @@ export function SelectUpToThree() {
   ]
 
   return (
-    <Card stack>
+    <Form.Card>
       <Field.ArraySelection
         label={
           <>
@@ -118,6 +118,6 @@ export function SelectUpToThree() {
           maxItems: 'You can only select up to three',
         }}
       />
-    </Card>
+    </Form.Card>
   )
 }

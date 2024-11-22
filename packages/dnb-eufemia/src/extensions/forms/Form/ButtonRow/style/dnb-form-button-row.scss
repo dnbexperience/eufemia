@@ -7,19 +7,27 @@
   gap: var(--spacing-small);
 }
 
-.dnb-card + .dnb-forms-button-row,
-.dnb-card + .dnb-button--primary {
-  &:not([class*='space__top']) {
-    margin-top: var(--spacing-small);
+.dnb-card {
+  & + .dnb-forms-button-row,
+  & + .dnb-button--primary {
+    &:not([class*='space__top']) {
+      margin-top: var(--spacing-small);
 
-    .dnb-button[class*='space__top'] {
-      margin-top: 0;
+      .dnb-button[class*='space__top'] {
+        margin-top: 0;
+      }
     }
   }
+}
 
-  @include allAbove(small) {
-    &:not([class*='space__left']) {
-      margin-left: var(--spacing-medium);
+// Deprecated – can be removed in v11 (its handled by the outset prop)
+.dnb-card:not([style*='--outset']) {
+  & + .dnb-forms-button-row,
+  & + .dnb-button--primary {
+    @include allAbove(small) {
+      &:not([class*='space__left']) {
+        margin-left: var(--spacing-medium);
+      }
     }
   }
 }

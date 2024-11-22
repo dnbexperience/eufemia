@@ -71,6 +71,12 @@ export type SectionProps = {
   breakout?: boolean | ResponsiveProp<boolean>
 
   /**
+   * Define if the Card should break out negatively on larger screens. You can not use `breakout` and `outset` together.
+   * Defaults to `false`
+   */
+  outset?: boolean | ResponsiveProp<boolean>
+
+  /**
    * Define if the section should have rounded corners. Defaults to `false`.
    */
   roundedCorner?: boolean | ResponsiveProp<boolean>
@@ -152,7 +158,8 @@ export function SectionParams(
 
   const {
     variant,
-    breakout = true,
+    breakout = !props.outset,
+    outset,
     roundedCorner,
     textColor,
     backgroundColor,
@@ -188,6 +195,7 @@ export function SectionParams(
         'breakout',
         (value) => `var(--breakout--${value ? 'on' : 'off'})`
       ),
+      ...computeStyle(outset, 'outset', (value) => (value ? '1' : '0')),
       ...computeStyle(
         roundedCorner,
         'rounded-corner',

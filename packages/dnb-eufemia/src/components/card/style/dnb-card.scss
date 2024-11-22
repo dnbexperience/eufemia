@@ -114,9 +114,19 @@
     align-self: flex-start;
   }
 
-  // Nested Cards
-  & .dnb-card {
-    --outline-width: 0.125rem;
+  &[style*='--outset'] {
+    &.dnb-space[style]:not(.dnb-card) {
+      padding-left: calc(var(--padding-left) * calc(1 - var(--outset)));
+      padding-right: calc(var(--padding-right) * calc(1 - var(--outset)));
+    }
+    &.dnb-card > .dnb-flex-container {
+      margin-left: calc(
+        var(--padding-left, var(--spacing-medium)) * -1 * var(--outset)
+      );
+      margin-right: calc(
+        var(--padding-right, var(--spacing-medium)) * -1 * var(--outset)
+      );
+    }
   }
 }
 
@@ -126,13 +136,21 @@
   + * + * + .dnb-card,/* e.g. two paragraphs */
   + .dnb-help-button__content + .dnb-section + .dnb-card
 ) {
+  &:not([class*='space__bottom']) {
+    margin-bottom: var(--spacing-small);
+  }
+}
+
+// Deprecated – can be removed in v11 (its handled by the outset prop)
+.dnb-card--auto-indent:has(
+  + .dnb-card:not([style*='--outset']),
+  + * + .dnb-card:not([style*='--outset']),/* e.g. one paragraph */
+  + * + * + .dnb-card:not([style*='--outset']),/* e.g. two paragraphs */
+  + .dnb-help-button__content + .dnb-section + .dnb-card:not([style*='--outset'])
+) {
   &:not([class*='space__left']) {
     @include allAbove(small) {
       margin-left: var(--spacing-medium);
     }
-  }
-
-  &:not([class*='space__bottom']) {
-    margin-bottom: var(--spacing-small);
   }
 }

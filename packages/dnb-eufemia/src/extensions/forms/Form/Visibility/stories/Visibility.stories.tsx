@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { Field, Form, Value } from '../../..'
-import { Flex, Section, Card } from '../../../../../components'
+import { Flex, Section } from '../../../../../components'
 import { P, Ul, Li } from '../../../../../elements'
 
 export default {
@@ -185,7 +185,7 @@ export const wrappingVisibilityInFragmentAllVisible = () => {
         visible: true,
       }}
     >
-      <Card stack>
+      <Form.Card>
         <Form.SubHeading>Test heading</Form.SubHeading>
         <>
           <Form.Visibility
@@ -211,7 +211,7 @@ export const wrappingVisibilityInFragmentAllVisible = () => {
             <P>text</P>
           </Form.Visibility>
         </>
-      </Card>
+      </Form.Card>
     </Form.Handler>
   )
 }
@@ -224,7 +224,7 @@ export const wrappingVisibilityInFragmentAllHidden = () => {
         visible: false,
       }}
     >
-      <Card stack>
+      <Form.Card>
         <Form.SubHeading>Test heading</Form.SubHeading>
         <>
           <Form.Visibility
@@ -250,7 +250,7 @@ export const wrappingVisibilityInFragmentAllHidden = () => {
             <P>text</P>
           </Form.Visibility>
         </>
-      </Card>
+      </Form.Card>
     </Form.Handler>
   )
 }
@@ -267,7 +267,7 @@ export const wrappingVisibilityInFragments2Hidden = () => {
         visible5: true,
       }}
     >
-      <Card stack>
+      <Form.Card>
         <Form.SubHeading>Test heading</Form.SubHeading>
         <>
           <Form.Visibility
@@ -298,7 +298,7 @@ export const wrappingVisibilityInFragments2Hidden = () => {
             <P>text</P>
           </Form.Visibility>
         </>
-      </Card>
+      </Form.Card>
     </Form.Handler>
   )
 }
@@ -315,7 +315,7 @@ export const wrappingVisibilityInFragments3Hidden = () => {
         visible5: false,
       }}
     >
-      <Card stack>
+      <Form.Card>
         <Form.SubHeading>Test heading</Form.SubHeading>
         <>
           <Form.Visibility
@@ -346,7 +346,7 @@ export const wrappingVisibilityInFragments3Hidden = () => {
             <P>text</P>
           </Form.Visibility>
         </>
-      </Card>
+      </Form.Card>
     </Form.Handler>
   )
 }
@@ -363,7 +363,7 @@ export const wrappingVisibilityInFragment = () => {
         visible5: false,
       }}
     >
-      <Card stack>
+      <Form.Card>
         <>
           <Form.SubHeading>Test heading</Form.SubHeading>
           <>
@@ -448,7 +448,7 @@ export const wrappingVisibilityInFragment = () => {
           />
           <P>Text that should appear underneath</P>
         </>
-      </Card>
+      </Form.Card>
     </Form.Handler>
   )
 }
@@ -461,7 +461,7 @@ export const wrappingSingleVisibilityInRootFragment = () => {
         visible1: false,
       }}
     >
-      <Card stack>
+      <Form.Card>
         <>
           <Form.Visibility
             visibleWhen={{ path: '/visible1', hasValue: true }}
@@ -469,7 +469,7 @@ export const wrappingSingleVisibilityInRootFragment = () => {
             <P>text</P>
           </Form.Visibility>
         </>
-      </Card>
+      </Form.Card>
     </Form.Handler>
   )
 }
@@ -477,7 +477,7 @@ export const wrappingSingleVisibilityInRootFragment = () => {
 export function VisibilityOnValidation() {
   return (
     <Form.Handler>
-      <Card stack>
+      <Form.Card>
         <Field.Name.First path="/foo" required />
 
         <Form.Visibility
@@ -489,7 +489,7 @@ export function VisibilityOnValidation() {
         >
           <Value.Name.First path="/foo" />
         </Form.Visibility>
-      </Card>
+      </Form.Card>
     </Form.Handler>
   )
 }

@@ -24,7 +24,7 @@ export type Props = Omit<
     limit?: number
     countPath?: Path
     countPathLimit?: number
-    validator?: Validator<Value>
+    onChangeValidator?: Validator<Value>
     withoutFlex?: boolean
     animate?: boolean
     placeholder?: React.ReactNode

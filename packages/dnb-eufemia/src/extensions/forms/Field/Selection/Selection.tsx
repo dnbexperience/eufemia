@@ -41,6 +41,7 @@ export type Data = Array<{
   value: string
   title: React.ReactNode
   text?: React.ReactNode
+  disabled?: boolean
 }>
 
 export type Props = FieldProps<IOption['value']> & {
@@ -364,7 +365,12 @@ function renderRadioItems({
   ].filter(Boolean)
 }
 
-export function mapOptions(children: React.ReactNode, { createOption }) {
+export function mapOptions(
+  children: React.ReactNode,
+  {
+    createOption,
+  }: { createOption: (props: OptionProps, i: number) => React.ReactNode }
+) {
   return React.Children.map(
     children,
     (child: React.ReactElement<OptionProps>, i) => {
@@ -396,11 +402,12 @@ export function makeOptions<T = DrawerListProps['data']>(
 
     if (React.isValidElement(child) && child.type === OptionField) {
       const props = child.props as OptionFieldProps
-      const title = props.children ?? props.title ?? <em>Untitled</em>
+      const title = props.title ?? props.children ?? <em>Untitled</em>
       const content = props.text ? [title, props.text] : title
       const selectedKey = String(props.value ?? '')
+      const disabled = props.disabled
 
-      return { selectedKey, content }
+      return { selectedKey, content, disabled }
     }
 
     // For other children, just show them as content
@@ -414,10 +421,11 @@ export function makeOptions<T = DrawerListProps['data']>(
 
 function renderDropdownItems(data: Data) {
   return (
-    data?.map(({ value, title, text }) => {
+    data?.map(({ value, title, text, disabled }) => {
       return {
         selectedKey: value,
         content: (text ? [title, text] : title) || <em>Untitled</em>,
+        disabled,
       }
     }) || []
   )

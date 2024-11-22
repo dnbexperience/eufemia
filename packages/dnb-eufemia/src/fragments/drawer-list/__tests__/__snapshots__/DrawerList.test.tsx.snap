@@ -30,6 +30,8 @@ exports[`DrawerList scss has to match style dependencies css 1`] = `
   --drawer-list-option-inner-background: var(--color-white);
   --drawer-list-list-background: var(--color-white);
   --drawer-list-list-line-height: var(--line-height-basis);
+  --drawer-list-option-disabled-background: var(--color-white);
+  --drawer-list-option-disabled-color: var(--color-black-20);
   display: block;
   position: relative;
   width: inherit;
@@ -185,6 +187,13 @@ html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options, .dnb-
 .dnb-drawer-list__option--ignore {
   cursor: default;
   pointer-events: none;
+}
+.dnb-drawer-list__option[disabled] {
+  --drawer-list-option-inner-background: var(
+    --drawer-list-option-disabled-background
+  );
+  color: var(--drawer-list-option-disabled-color);
+  cursor: not-allowed;
 }
 .dnb-drawer-list__triangle {
   position: absolute;

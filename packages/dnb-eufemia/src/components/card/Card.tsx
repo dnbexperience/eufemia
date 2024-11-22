@@ -28,6 +28,7 @@ export type Props = {
    */
   filled?: boolean
 } & FlexContainerProps &
+  Pick<SectionProps, 'outset'> &
   FlexItemProps & {
     stack?: boolean
   } & SpaceProps &
@@ -49,6 +50,7 @@ function Card(props: Props) {
     rowGap,
     responsive = !nestedContext?.isNested,
     filled,
+    outset,
     title,
     children,
     ...rest
@@ -79,6 +81,11 @@ function Card(props: Props) {
       filled && 'dnb-card--filled'
     ),
     breakout: responsive ? trueWhenSmall : false,
+    outset: nestedContext?.isNested
+      ? false
+      : outset === true
+      ? falseWhenSmall
+      : outset,
     roundedCorner: responsive ? falseWhenSmall : true,
     outline: '--outline-card-color',
     innerSpace:

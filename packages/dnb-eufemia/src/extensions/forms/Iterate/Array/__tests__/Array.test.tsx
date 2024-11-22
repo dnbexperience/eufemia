@@ -504,9 +504,9 @@ describe('Iterate.Array', () => {
     })
   })
 
-  describe('validator', () => {
-    it('should validate validator initially (validateInitially)', async () => {
-      const validator = jest.fn((arrayValue) => {
+  describe('onChangeValidator', () => {
+    it('should validate onChangeValidator initially (validateInitially)', async () => {
+      const onChangeValidator = jest.fn((arrayValue) => {
         if (arrayValue.length === 2) {
           return new Error('Error message')
         }
@@ -520,7 +520,7 @@ describe('Iterate.Array', () => {
         >
           <Iterate.Array
             path="/items"
-            validator={validator}
+            onChangeValidator={onChangeValidator}
             validateInitially
           >
             <Field.String itemPath="/" />
@@ -529,8 +529,8 @@ describe('Iterate.Array', () => {
         </Form.Handler>
       )
 
-      expect(validator).toHaveBeenCalledTimes(1)
-      expect(validator).toHaveBeenCalledWith(
+      expect(onChangeValidator).toHaveBeenCalledTimes(1)
+      expect(onChangeValidator).toHaveBeenCalledWith(
         ['foo', 'bar'],
         expect.anything()
       )
@@ -546,8 +546,8 @@ describe('Iterate.Array', () => {
 
       fireEvent.click(document.querySelector('button'))
 
-      expect(validator).toHaveBeenCalledTimes(2)
-      expect(validator).toHaveBeenCalledWith(
+      expect(onChangeValidator).toHaveBeenCalledTimes(2)
+      expect(onChangeValidator).toHaveBeenCalledWith(
         ['foo', 'bar', 'baz'],
         expect.anything()
       )
@@ -559,8 +559,8 @@ describe('Iterate.Array', () => {
       })
     })
 
-    it('should validate validator on form submit', async () => {
-      const validator = jest.fn((arrayValue) => {
+    it('should validate onChangeValidator on form submit', async () => {
+      const onChangeValidator = jest.fn((arrayValue) => {
         if (arrayValue.length === 2) {
           return new Error('Error message')
         }
@@ -572,20 +572,23 @@ describe('Iterate.Array', () => {
             items: ['foo', 'bar'],
           }}
         >
-          <Iterate.Array path="/items" validator={validator}>
+          <Iterate.Array
+            path="/items"
+            onChangeValidator={onChangeValidator}
+          >
             <Field.String itemPath="/" />
           </Iterate.Array>
           <Iterate.PushButton path="/items" pushValue="baz" />
         </Form.Handler>
       )
 
-      expect(validator).toHaveBeenCalledTimes(0)
+      expect(onChangeValidator).toHaveBeenCalledTimes(0)
 
       const form = document.querySelector('form')
       fireEvent.submit(form)
 
-      expect(validator).toHaveBeenCalledTimes(1)
-      expect(validator).toHaveBeenCalledWith(
+      expect(onChangeValidator).toHaveBeenCalledTimes(1)
+      expect(onChangeValidator).toHaveBeenCalledWith(
         ['foo', 'bar'],
         expect.anything()
       )
@@ -601,8 +604,8 @@ describe('Iterate.Array', () => {
 
       fireEvent.click(document.querySelector('button'))
 
-      expect(validator).toHaveBeenCalledTimes(2)
-      expect(validator).toHaveBeenCalledWith(
+      expect(onChangeValidator).toHaveBeenCalledTimes(2)
+      expect(onChangeValidator).toHaveBeenCalledWith(
         ['foo', 'bar', 'baz'],
         expect.anything()
       )
@@ -618,7 +621,7 @@ describe('Iterate.Array', () => {
       const findFirstDuplication = (arr) =>
         arr.findIndex((e, i) => arr.indexOf(e) !== i)
 
-      const validator = jest.fn((arrayValue) => {
+      const onChangeValidator = jest.fn((arrayValue) => {
         const index = findFirstDuplication(arrayValue)
         if (index > -1) {
           const value = arrayValue[index]
@@ -628,7 +631,10 @@ describe('Iterate.Array', () => {
 
       render(
         <Form.Handler data={{ items: [null, 'foo'] }}>
-          <Iterate.Array path="/items" validator={validator}>
+          <Iterate.Array
+            path="/items"
+            onChangeValidator={onChangeValidator}
+          >
             <Field.String itemPath="/" />
           </Iterate.Array>
         </Form.Handler>

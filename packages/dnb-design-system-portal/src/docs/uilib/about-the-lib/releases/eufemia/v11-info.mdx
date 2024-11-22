@@ -148,6 +148,8 @@ The `InputPassword` component has been moved to `Field.Password`, and is now a p
 - replace `useError` with `useValidation`.
 - replace Form.Iterate label variable `{itemNr}` with `{itemNo}`.
 - replace `Form.FieldProps` with `Field.Provider`.
+- replace `<Card stack>...</Card>` with `<Form.Card>...</Form.Card>`.
+- replace `<Card>...</Card>` with `<Form.Card>...</Form.Card>`.
 
 ## NumberFormat
 
@@ -198,5 +200,10 @@ const errorMessages = {
 **useErrorMessage**
 
 - Got removed. Simply provide your error message as a object in the `errorMessages` property with an `useMemo` hook.
+
+## DrawerList
+
+- replace type `DrawerListDataObjectUnion` with `DrawerListDataArrayItem`.
+- replace type `DrawerListDataObject` with `DrawerListDataArrayObject`.
 
 _February, 6. 2024_

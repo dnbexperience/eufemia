@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Card, Flex } from '@dnb/eufemia/src'
+import { Flex } from '@dnb/eufemia/src'
 import {
   Field,
   Form,
@@ -34,7 +34,7 @@ export const LabelAndValue = () => {
 export const LabelAndDescription = () => {
   return (
     <ComponentBox data-visual-test="string-label-description">
-      <Card stack>
+      <Form.Card>
         <Field.String
           label="Label text"
           labelDescription="Description text"
@@ -45,7 +45,7 @@ export const LabelAndDescription = () => {
           labelDescription="\nDescription text with new line using \\n"
           placeholder="Enter a text..."
         />
-      </Card>
+      </Form.Card>
     </ComponentBox>
   )
 }
@@ -53,7 +53,7 @@ export const LabelAndDescription = () => {
 export const WithStatus = () => {
   return (
     <ComponentBox data-visual-test="string-status">
-      <Card stack>
+      <Form.Card>
         <Field.String
           label="Label text"
           defaultValue="foo"
@@ -81,7 +81,7 @@ export const WithStatus = () => {
           warning={['Warning message A', 'Warning message B']}
           info={['Info message A', 'Info message B']}
         />
-      </Card>
+      </Form.Card>
     </ComponentBox>
   )
 }
@@ -89,7 +89,7 @@ export const WithStatus = () => {
 export const HorizontalLayout = () => {
   return (
     <ComponentBox data-visual-test="string-horizontal-layout">
-      <Card stack>
+      <Form.Card>
         <Field.Provider
           layout="horizontal"
           layoutOptions={{
@@ -112,7 +112,7 @@ export const HorizontalLayout = () => {
             width="stretch"
           />
         </Field.Provider>
-      </Card>
+      </Form.Card>
     </ComponentBox>
   )
 }
@@ -204,7 +204,7 @@ export const Widths = () => {
 export const Icons = () => {
   return (
     <ComponentBox>
-      <Card stack>
+      <Form.Card>
         <Field.String
           label="Icon left"
           defaultValue="foo"
@@ -217,7 +217,7 @@ export const Icons = () => {
           rightIcon="loupe"
           onChange={(value) => console.log('onChange', value)}
         />
-      </Card>
+      </Form.Card>
     </ComponentBox>
   )
 }
@@ -316,13 +316,13 @@ export const ValidatePattern = () => {
   )
 }
 
-export const SynchronousExternalValidator = () => {
+export const SynchronousExternalChangeValidator = () => {
   return (
     <ComponentBox>
       <Field.String
         defaultValue="foo"
         label="Label text (minimum 4 characters)"
-        validator={(value) =>
+        onChangeValidator={(value) =>
           value.length < 4 ? Error('At least 4 characters') : undefined
         }
         onChange={(value) => console.log('onChange', value)}
@@ -331,13 +331,13 @@ export const SynchronousExternalValidator = () => {
   )
 }
 
-export const AsynchronousExternalValidator = () => {
+export const AsynchronousExternalChangeValidator = () => {
   return (
     <ComponentBox>
       <Field.String
         defaultValue="foo"
         label="Label text (minimum 4 characters)"
-        validator={(value) =>
+        onChangeValidator={(value) =>
           new Promise((resolve) =>
             setTimeout(
               () =>
@@ -476,7 +476,7 @@ export function TransformInAndOut() {
         const MyForm = () => {
           return (
             <Form.Handler onSubmit={console.log}>
-              <Card stack>
+              <Form.Card>
                 <Field.String
                   label="String field"
                   path="/myValue"
@@ -495,7 +495,7 @@ export function TransformInAndOut() {
 
                 <Form.SubHeading>Data Context</Form.SubHeading>
                 <Tools.Log />
-              </Card>
+              </Form.Card>
               <Form.SubmitButton />
             </Form.Handler>
           )

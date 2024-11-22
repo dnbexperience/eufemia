@@ -90,3 +90,11 @@ export const Range = () => {
     </ComponentBox>
   )
 }
+
+export const AutoClose = () => {
+  return (
+    <ComponentBox>
+      <Field.Date label="Automatically Close" showCancelButton={false} />
+    </ComponentBox>
+  )
+}

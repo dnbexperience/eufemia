@@ -24,16 +24,14 @@ describe.each(['ui', 'sbanken'])('DrawerList for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  if (themeName === 'sbanken') {
-    it('have to match the sbanken drawer-list', async () => {
-      const screenshot = await makeScreenshot({
-        style: {
-          width: '14rem',
-        },
-        selector:
-          '[data-visual-test="drawer-list"] .dnb-drawer-list__list',
-      })
-      expect(screenshot).toMatchImageSnapshot()
+  it('have to match the disabled option', async () => {
+    const screenshot = await makeScreenshot({
+      style: {
+        width: '14rem',
+        'padding-top': '3rem',
+      },
+      selector: '[data-visual-test="drawer-list-disabled"]',
     })
-  }
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

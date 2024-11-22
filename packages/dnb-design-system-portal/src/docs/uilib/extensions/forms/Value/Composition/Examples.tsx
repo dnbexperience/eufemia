@@ -1,4 +1,3 @@
-import { Card } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Form, Value } from '@dnb/eufemia/src/extensions/forms'
 
@@ -57,7 +56,7 @@ export const WithSummaryList = () => {
           city: 'Oslo',
         }}
       >
-        <Card stack>
+        <Form.Card>
           <Form.SubHeading>Subheading</Form.SubHeading>
 
           <Value.SummaryList>
@@ -76,7 +75,7 @@ export const WithSummaryList = () => {
               <Value.String path="/city" />
             </Value.Composition>
           </Value.SummaryList>
-        </Card>
+        </Form.Card>
       </Form.Handler>
     </ComponentBox>
   )
@@ -95,7 +94,7 @@ export const WithSummaryListGridLayout = () => {
           city: 'Oslo',
         }}
       >
-        <Card stack>
+        <Form.Card>
           <Form.SubHeading>Subheading</Form.SubHeading>
 
           <Value.SummaryList layout="grid">
@@ -112,7 +111,7 @@ export const WithSummaryListGridLayout = () => {
               <Value.String path="/city" />
             </Value.Composition>
           </Value.SummaryList>
-        </Card>
+        </Form.Card>
       </Form.Handler>
     </ComponentBox>
   )

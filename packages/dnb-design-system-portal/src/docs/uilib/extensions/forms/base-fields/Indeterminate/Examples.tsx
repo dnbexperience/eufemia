@@ -1,4 +1,4 @@
-import { Card, Flex } from '@dnb/eufemia/src'
+import { Flex } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 
@@ -6,7 +6,7 @@ export const MixedIndeterminateDependence = () => {
   return (
     <ComponentBox>
       <Form.Handler onChange={console.log}>
-        <Card stack>
+        <Form.Card>
           <Field.Indeterminate
             label="Indeterminate"
             dependencePaths={['/child1', '/child2', '/child3']}
@@ -28,7 +28,7 @@ export const MixedIndeterminateDependence = () => {
             valueOn="on"
             valueOff="off"
           />
-        </Card>
+        </Form.Card>
 
         <Form.SubmitButton />
       </Form.Handler>
@@ -44,7 +44,7 @@ export const PropagateIndeterminateDependence = () => {
           const { data } = Form.useData()
           return (
             <>
-              <Card stack>
+              <Form.Card>
                 <Field.Selection label="Propagate to" path="/propagate">
                   <Field.Option value="checked">Checked</Field.Option>
                   <Field.Option value="unchecked">Unchecked</Field.Option>
@@ -72,7 +72,7 @@ export const PropagateIndeterminateDependence = () => {
                   valueOn="on"
                   valueOff="off"
                 />
-              </Card>
+              </Form.Card>
             </>
           )
         }
@@ -104,7 +104,7 @@ export const NestedIndeterminateDependence = () => {
   return (
     <ComponentBox>
       <Form.Handler onChange={console.log}>
-        <Card stack>
+        <Form.Card>
           <Field.Indeterminate
             label="1"
             path="/p1"
@@ -131,7 +131,7 @@ export const NestedIndeterminateDependence = () => {
               />
             </Flex.Stack>
           </Flex.Stack>
-        </Card>
+        </Form.Card>
       </Form.Handler>
     </ComponentBox>
   )

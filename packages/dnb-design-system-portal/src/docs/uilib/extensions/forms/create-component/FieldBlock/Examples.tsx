@@ -5,7 +5,7 @@ import {
   TestElement,
   Form,
 } from '@dnb/eufemia/src/extensions/forms'
-import { Anchor, Card, Flex, Slider } from '@dnb/eufemia/src'
+import { Anchor, Flex, Slider } from '@dnb/eufemia/src'
 
 export const Default = () => {
   return (
@@ -325,7 +325,7 @@ export const InlineHelpButtonHTML = () => {
 export const InlineHelpButtonVerticalLabelDescription = () => {
   return (
     <ComponentBox data-visual-test="forms-field-block-help-button-vertical-label-description">
-      <Card stack>
+      <Form.Card>
         <Field.String
           label="Ønsket lånebeløp"
           labelDescription={'\\nDescription'}
@@ -348,7 +348,7 @@ export const InlineHelpButtonVerticalLabelDescription = () => {
             content: 'Dette er hvor mye du har tenkt å låne totalt.',
           }}
         />
-      </Card>
+      </Form.Card>
     </ComponentBox>
   )
 }
@@ -356,7 +356,7 @@ export const InlineHelpButtonVerticalLabelDescription = () => {
 export const InlineHelpButtonHorizontalLabel = () => {
   return (
     <ComponentBox data-visual-test="forms-field-block-help-button-horizontal-label">
-      <Card stack>
+      <Form.Card>
         <Field.String
           label="Ønsket lånebeløp"
           layout="horizontal"
@@ -392,7 +392,7 @@ export const InlineHelpButtonHorizontalLabel = () => {
           }}
           info="Info message"
         />
-      </Card>
+      </Form.Card>
     </ComponentBox>
   )
 }
@@ -400,7 +400,7 @@ export const InlineHelpButtonHorizontalLabel = () => {
 export const InlineHelpButtonCompositionFields = () => {
   return (
     <ComponentBox data-visual-test="forms-field-block-help-button-composition-fields">
-      <Card stack>
+      <Form.Card>
         <Field.Composition label="Field.Composition" width="large">
           <Field.String
             width="medium"
@@ -432,7 +432,7 @@ export const InlineHelpButtonCompositionFields = () => {
             content: 'Dette er hvor mye du har tenkt å låne totalt.',
           }}
         />
-      </Card>
+      </Form.Card>
     </ComponentBox>
   )
 }

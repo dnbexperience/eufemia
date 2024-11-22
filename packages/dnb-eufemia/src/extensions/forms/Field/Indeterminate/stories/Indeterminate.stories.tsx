@@ -1,6 +1,5 @@
 import React from 'react'
 import Field, { Form } from '../../../Forms'
-import { Card } from '../../../../../components'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Indeterminate',
@@ -9,7 +8,7 @@ export default {
 export function WithToggle() {
   return (
     <Form.Handler onSubmit={console.log}>
-      <Card stack>
+      <Form.Card>
         <Field.Indeterminate
           dependencePaths={['/checkbox1', '/checkbox2', '/checkbox3']}
           label="Indeterminate"
@@ -31,7 +30,7 @@ export function WithToggle() {
           valueOn="on"
           valueOff="off"
         />
-      </Card>
+      </Form.Card>
 
       <Form.SubmitButton />
     </Form.Handler>

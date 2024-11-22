@@ -603,7 +603,10 @@ export default function Provider<Data extends JsonObject>(
     for (const path in fieldPropsRef.current) {
       if (mountedFieldsRef.current[path]?.isMounted) {
         const props = fieldPropsRef.current[path]
-        if (isAsync(props.validator) || isAsync(props.onBlurValidator)) {
+        if (
+          isAsync(props.onChangeValidator) ||
+          isAsync(props.onBlurValidator)
+        ) {
           return true
         }
       }

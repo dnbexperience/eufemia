@@ -189,6 +189,7 @@ export default class Autocomplete extends React.PureComponent {
               PropTypes.string,
               PropTypes.number,
             ]),
+            /** @deprecated use `selectedKey` */
             selected_key: PropTypes.oneOfType([
               PropTypes.string,
               PropTypes.number,

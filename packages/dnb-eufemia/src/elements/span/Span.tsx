@@ -4,13 +4,12 @@
  */
 
 import React from 'react'
-import { SpacingProps } from '../../components/space/types'
-import E from '../Element'
+import Typography, { TypographyProps } from '../typography/Typography'
 
-type SpanProps = SpacingProps & React.HTMLAttributes<HTMLElement>
+type SpanProps = TypographyProps<HTMLSpanElement>
 
 const Span = React.forwardRef((props: SpanProps, ref) => (
-  <E as="span" innerRef={ref} {...props} />
+  <Typography element="span" innerRef={ref} {...props} />
 ))
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment

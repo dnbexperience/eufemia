@@ -1082,7 +1082,7 @@ describe('DataContext.Provider', () => {
       expect(onSubmit).toHaveBeenCalledTimes(1)
     })
 
-    describe('should evaluate long validator and onBlurValidator before continue with async onSubmit', () => {
+    describe('should evaluate long onChangeValidator and onBlurValidator before continue with async onSubmit', () => {
       let eventsStart = []
       let eventsEnd = []
 
@@ -1110,12 +1110,12 @@ describe('DataContext.Provider', () => {
         eventsEnd.push('onChangeField')
       }
 
-      const validator = async () => {
-        eventsStart.push('validator')
+      const onChangeValidator = async () => {
+        eventsStart.push('onChangeValidator')
 
         await wait(10)
 
-        eventsEnd.push('validator')
+        eventsEnd.push('onChangeValidator')
       }
 
       const onBlurValidator = async () => {
@@ -1135,7 +1135,7 @@ describe('DataContext.Provider', () => {
             <Field.String
               value="vali"
               path="/myField"
-              validator={validator}
+              onChangeValidator={onChangeValidator}
               onBlurValidator={onBlurValidator}
               onChange={onChangeField}
             />
@@ -1152,7 +1152,7 @@ describe('DataContext.Provider', () => {
 
         await waitFor(() => {
           expect(eventsStart).toEqual([
-            'validator',
+            'onChangeValidator',
             'onChangeForm',
             'onChangeField',
           ])
@@ -1168,7 +1168,7 @@ describe('DataContext.Provider', () => {
             <Field.String
               value="vali"
               path="/myField"
-              validator={validator}
+              onChangeValidator={onChangeValidator}
               onBlurValidator={onBlurValidator}
               onChange={onChangeField}
             />
@@ -1186,12 +1186,12 @@ describe('DataContext.Provider', () => {
         await wait(100)
 
         expect(eventsStart).toEqual([
-          'validator',
+          'onChangeValidator',
           'onBlurValidator',
           'onSubmit',
         ])
         expect(eventsEnd).toEqual([
-          'validator',
+          'onChangeValidator',
           'onBlurValidator',
           'onSubmit',
         ])
@@ -1203,10 +1203,10 @@ describe('DataContext.Provider', () => {
         await wait(10)
         return { info: 'Info message' } as const
       })
-      const validator = jest.fn(async (value) => {
+      const onChangeValidator = jest.fn(async (value) => {
         await wait(10)
-        if (value === 'validator-error') {
-          return new Error('validator-error')
+        if (value === 'onChangeValidator-error') {
+          return new Error('onChangeValidator-error')
         }
       })
       const onBlurValidator = jest.fn(async (value) => {
@@ -1220,7 +1220,7 @@ describe('DataContext.Provider', () => {
         <DataContext.Provider onSubmit={onSubmit}>
           <Field.String
             path="/foo"
-            validator={validator}
+            onChangeValidator={onChangeValidator}
             onBlurValidator={onBlurValidator}
             required
           />
@@ -1250,12 +1250,12 @@ describe('DataContext.Provider', () => {
       await waitFor(() => {
         expect(onSubmit).toHaveBeenCalledTimes(0)
         expect(onBlurValidator).toHaveBeenCalledTimes(0)
-        expect(validator).toHaveBeenCalledTimes(0)
+        expect(onChangeValidator).toHaveBeenCalledTimes(0)
       })
 
       // Use fireEvent over userEvent, because of its sync nature
       fireEvent.change(input, {
-        target: { value: 'validator-error' },
+        target: { value: 'onChangeValidator-error' },
       })
 
       await waitFor(() => {
@@ -1266,13 +1266,13 @@ describe('DataContext.Provider', () => {
         const status = document.querySelector(
           '.dnb-forms-field-block .dnb-form-status'
         )
-        expect(status).toHaveTextContent('validator-error')
+        expect(status).toHaveTextContent('onChangeValidator-error')
       })
 
       await waitFor(() => {
         expect(onSubmit).toHaveBeenCalledTimes(0)
         expect(onBlurValidator).toHaveBeenCalledTimes(0)
-        expect(validator).toHaveBeenCalledTimes(1)
+        expect(onChangeValidator).toHaveBeenCalledTimes(1)
       })
 
       // Use fireEvent over userEvent, because of its sync nature
@@ -1294,7 +1294,7 @@ describe('DataContext.Provider', () => {
       await waitFor(() => {
         expect(onSubmit).toHaveBeenCalledTimes(0)
         expect(onBlurValidator).toHaveBeenCalledTimes(0)
-        expect(validator).toHaveBeenCalledTimes(2)
+        expect(onChangeValidator).toHaveBeenCalledTimes(2)
       })
 
       // Use fireEvent over userEvent, because of its sync nature
@@ -1309,7 +1309,7 @@ describe('DataContext.Provider', () => {
       await waitFor(() => {
         expect(onSubmit).toHaveBeenCalledTimes(0)
         expect(onBlurValidator).toHaveBeenCalledTimes(1)
-        expect(validator).toHaveBeenCalledTimes(2)
+        expect(onChangeValidator).toHaveBeenCalledTimes(2)
       })
 
       await userEvent.click(submitButton)
@@ -1317,7 +1317,7 @@ describe('DataContext.Provider', () => {
       await waitFor(() => {
         expect(onSubmit).toHaveBeenCalledTimes(0)
         expect(onBlurValidator).toHaveBeenCalledTimes(1)
-        expect(validator).toHaveBeenCalledTimes(2)
+        expect(onChangeValidator).toHaveBeenCalledTimes(2)
       })
 
       await waitFor(() => {
@@ -1345,20 +1345,20 @@ describe('DataContext.Provider', () => {
       await waitFor(() => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onBlurValidator).toHaveBeenCalledTimes(3)
-        expect(validator).toHaveBeenCalledTimes(12)
+        expect(onChangeValidator).toHaveBeenCalledTimes(12)
       })
     })
 
-    it('should set "formState" to "pending" when "validator" is async', async () => {
+    it('should set "formState" to "pending" when "onChangeValidator" is async', async () => {
       const result = createRef<ContextState>()
-      const validator = async () => {
+      const onChangeValidator = async () => {
         return new Error('My error')
       }
 
       const { rerender } = render(
         <DataContext.Provider>
           <UseContext result={result} />
-          <Field.String validator={validator} />
+          <Field.String onChangeValidator={onChangeValidator} />
           <Form.SubmitButton />
         </DataContext.Provider>
       )
@@ -1375,14 +1375,14 @@ describe('DataContext.Provider', () => {
         expect(result.current.formState).toBeUndefined()
       })
 
-      const syncValidator = () => {
+      const syncOnChangeValidator = () => {
         return new Error('My error')
       }
 
       rerender(
         <DataContext.Provider>
           <UseContext result={result} />
-          <Field.String validator={syncValidator} />
+          <Field.String onChangeValidator={syncOnChangeValidator} />
           <Form.SubmitButton />
         </DataContext.Provider>
       )
@@ -1496,7 +1496,7 @@ describe('DataContext.Provider', () => {
         .fn()
         .mockImplementation(async () => null)
 
-      const validator = debounceAsync(async (value) => {
+      const onChangeValidator = debounceAsync(async (value) => {
         await wait(400)
         if (value === 'invalid') {
           return Error('My error')
@@ -1508,7 +1508,7 @@ describe('DataContext.Provider', () => {
           <Field.String
             label="Label"
             path="/foo"
-            validator={validator}
+            onChangeValidator={onChangeValidator}
             required
           />
           <Form.SubmitButton />
@@ -1593,7 +1593,7 @@ describe('DataContext.Provider', () => {
       })
     })
 
-    it('should emit onChange only when validator is evaluated successfully', async () => {
+    it('should emit onChange only when onChangeValidator is evaluated successfully', async () => {
       const onChangeContext = jest.fn().mockImplementation(async () => {
         await wait(10)
       })
@@ -1601,25 +1601,27 @@ describe('DataContext.Provider', () => {
         await wait(10)
       })
 
-      const validator = jest.fn().mockImplementation(async (value) => {
-        /**
-         * It seems that this test on CI fails during way slower performance.
-         * The higher timeout is to ensure the typed value will be handle by the async revalidation, even the value was valid when continue typing.
-         *
-         * The slower the performance, the higher the timeout needs to be.
-         */
-        await wait(60)
-        if (value !== 'valid') {
-          return Error(`value: ${value}`)
-        }
-      })
+      const onChangeValidator = jest
+        .fn()
+        .mockImplementation(async (value) => {
+          /**
+           * It seems that this test on CI fails during way slower performance.
+           * The higher timeout is to ensure the typed value will be handle by the async revalidation, even the value was valid when continue typing.
+           *
+           * The slower the performance, the higher the timeout needs to be.
+           */
+          await wait(60)
+          if (value !== 'valid') {
+            return Error(`value: ${value}`)
+          }
+        })
 
       render(
         <DataContext.Provider onChange={onChangeContext}>
           <Field.String
             label="Label"
             path="/foo"
-            validator={validator}
+            onChangeValidator={onChangeValidator}
             onChange={onChangeField}
             required
           />
@@ -1986,7 +1988,7 @@ describe('DataContext.Provider', () => {
       })
     })
 
-    it('should fulfill async validator before the form and field event', async () => {
+    it('should fulfill async onChangeValidator before the form and field event', async () => {
       const onChangeForm: OnChange = async ({ myField }) => {
         return {
           info: 'onChangeForm-info',
@@ -2003,7 +2005,7 @@ describe('DataContext.Provider', () => {
             Error('onChangeField-error'),
         }
       }
-      const validator = debounceAsync(async (value) => {
+      const onChangeValidator = debounceAsync(async (value) => {
         if (value === 'invalid') {
           return Error('My error')
         }
@@ -2015,7 +2017,7 @@ describe('DataContext.Provider', () => {
             label="My label"
             path="/myField"
             onChange={onChangeField}
-            validator={validator}
+            onChangeValidator={onChangeValidator}
           />
           <Form.SubmitButton />
         </DataContext.Provider>
@@ -2056,9 +2058,9 @@ describe('DataContext.Provider', () => {
     it('should show indicator during all async operations', async () => {
       const events = []
 
-      const validator = debounceAsync(async () => {
+      const onChangeValidator = debounceAsync(async () => {
         await wait(101)
-        events.push('validator')
+        events.push('onChangeValidator')
       })
       const onChangeForm: OnChange = async () => {
         await wait(102)
@@ -2075,7 +2077,7 @@ describe('DataContext.Provider', () => {
             label="My label"
             path="/myField"
             onChange={onChangeField}
-            validator={validator}
+            onChangeValidator={onChangeValidator}
           />
         </DataContext.Provider>
       )
@@ -2088,14 +2090,14 @@ describe('DataContext.Provider', () => {
       await userEvent.type(input, '123')
 
       await waitFor(() => {
-        expect(events).toEqual(['validator'])
+        expect(events).toEqual(['onChangeValidator'])
         expect(indicator).toHaveClass(
           'dnb-forms-submit-indicator--state-pending'
         )
       })
 
       await waitFor(() => {
-        expect(events).toEqual(['validator', 'onChangeForm'])
+        expect(events).toEqual(['onChangeValidator', 'onChangeForm'])
         expect(indicator).toHaveClass(
           'dnb-forms-submit-indicator--state-pending'
         )
@@ -2103,7 +2105,7 @@ describe('DataContext.Provider', () => {
 
       await waitFor(() => {
         expect(events).toEqual([
-          'validator',
+          'onChangeValidator',
           'onChangeForm',
           'onChangeField',
         ])
@@ -3976,7 +3978,7 @@ describe('DataContext.Provider', () => {
         await wait(10)
       })
 
-      const validator = jest.fn(async (value) => {
+      const onChangeValidator = jest.fn(async (value) => {
         await wait(10)
         if (value !== 123) {
           return new Error('Invalid')
@@ -3994,7 +3996,7 @@ describe('DataContext.Provider', () => {
               path="/count"
               label={data?.count}
               onChange={onChange}
-              validator={validator}
+              onChangeValidator={onChangeValidator}
             />
             <output>{JSON.stringify(data)}</output>
           </DataContext.Provider>
@@ -4020,8 +4022,11 @@ describe('DataContext.Provider', () => {
 
       await waitFor(() => {
         expect(onChange).toHaveBeenCalledTimes(0)
-        expect(validator).toHaveBeenCalledTimes(1)
-        expect(validator).toHaveBeenLastCalledWith(12, expect.anything())
+        expect(onChangeValidator).toHaveBeenCalledTimes(1)
+        expect(onChangeValidator).toHaveBeenLastCalledWith(
+          12,
+          expect.anything()
+        )
       })
 
       fireEvent.change(input, {
@@ -4032,8 +4037,11 @@ describe('DataContext.Provider', () => {
 
       expect(onChange).toHaveBeenCalledTimes(0)
       expect(onChange).toHaveBeenCalledTimes(0)
-      expect(validator).toHaveBeenCalledTimes(2)
-      expect(validator).toHaveBeenLastCalledWith(123, expect.anything())
+      expect(onChangeValidator).toHaveBeenCalledTimes(2)
+      expect(onChangeValidator).toHaveBeenLastCalledWith(
+        123,
+        expect.anything()
+      )
 
       // executed in sync and unvalidated
       expect(onDataChange).toHaveBeenCalledTimes(4)
@@ -4043,8 +4051,11 @@ describe('DataContext.Provider', () => {
         expect(onChange).toHaveBeenCalledTimes(1)
         expect(onChange).toHaveBeenLastCalledWith(123)
 
-        expect(validator).toHaveBeenCalledTimes(2)
-        expect(validator).toHaveBeenLastCalledWith(123, expect.anything())
+        expect(onChangeValidator).toHaveBeenCalledTimes(2)
+        expect(onChangeValidator).toHaveBeenLastCalledWith(
+          123,
+          expect.anything()
+        )
       })
     })
 

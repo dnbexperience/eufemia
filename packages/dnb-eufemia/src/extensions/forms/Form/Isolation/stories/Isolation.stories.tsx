@@ -1,6 +1,6 @@
 import React from 'react'
 import { Field, Form } from '../../..'
-import { Card, Flex, HeightAnimation } from '../../../../../components'
+import { Flex, HeightAnimation } from '../../../../../components'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Isolation',
@@ -115,7 +115,7 @@ export const TransformOnCommit = () => {
         mySelection: 'other',
       }}
     >
-      <Card stack>
+      <Form.Card>
         <Form.SubHeading>Legg til ny hovedkontaktperson</Form.SubHeading>
 
         <HeightAnimation>
@@ -165,7 +165,7 @@ export const TransformOnCommit = () => {
             </Form.Isolation>
           </Flex.Stack>
         </Form.Visibility>
-      </Card>
+      </Form.Card>
     </Form.Handler>
   )
 }

@@ -27,7 +27,7 @@ import {
   getCountryData,
 } from '../SelectCountry'
 import useTranslation from '../../hooks/useTranslation'
-import { DrawerListDataObject } from '../../../../fragments/DrawerList'
+import { DrawerListDataArrayItem } from '../../../../fragments/DrawerList'
 
 export type Props = Omit<
   FieldPropsWithExtraValue<
@@ -95,7 +95,7 @@ function PhoneNumber(props: Props) {
 
   const countryCodeRef = useRef<Props['value']>(props?.emptyValue)
   const numberRef = useRef<Props['value']>(props?.emptyValue)
-  const dataRef = useRef<Array<DrawerListDataObject>>(null)
+  const dataRef = useRef<Array<DrawerListDataArrayItem>>(null)
   const langRef = useRef<string>(lang)
   const wasFilled = useRef<boolean>(false)
 
@@ -433,7 +433,7 @@ function PhoneNumber(props: Props) {
           width={
             omitCountryCodeField ? 'medium' : props.width ?? 'stretch'
           }
-          help={{ ...help, breakout: false }}
+          help={{ ...help, breakout: false, outset: false }}
           required={required}
           errorMessages={errorMessages}
           validateInitially={validateInitially}

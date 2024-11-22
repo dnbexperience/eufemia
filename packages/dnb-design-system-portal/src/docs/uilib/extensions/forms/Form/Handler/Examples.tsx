@@ -7,7 +7,7 @@ import {
   Tools,
 } from '@dnb/eufemia/src/extensions/forms'
 import { stop as stopIcon } from '@dnb/eufemia/src/icons'
-import { Button, Card, Flex, P } from '@dnb/eufemia/src'
+import { Button, Flex, P } from '@dnb/eufemia/src'
 import { debounceAsync } from '@dnb/eufemia/src/shared/helpers/debounce'
 import { createRequest } from '../SubmitIndicator/Examples'
 
@@ -15,7 +15,7 @@ export const RequiredAndOptionalFields = () => {
   return (
     <ComponentBox data-visual-test="required-and-optional-fields">
       <Form.Handler required>
-        <Card stack>
+        <Form.Card>
           <Field.Email path="/email" required={false} />
           <Field.String
             path="/custom"
@@ -25,7 +25,7 @@ export const RequiredAndOptionalFields = () => {
           />
           <Field.Currency path="/amount" label="Amount" />
           <Form.SubmitButton />
-        </Card>
+        </Form.Card>
       </Form.Handler>
     </ComponentBox>
   )
@@ -37,12 +37,12 @@ export const AsyncSubmit = () => {
       <Form.Handler
         onSubmit={async (data) => console.log('onSubmit', data)}
       >
-        <Card stack>
+        <Form.Card>
           <Field.Email path="/email" />
           <Form.ButtonRow>
             <Form.SubmitButton />
           </Form.ButtonRow>
-        </Card>
+        </Form.Card>
       </Form.Handler>
     </ComponentBox>
   )
@@ -73,9 +73,9 @@ export const AsyncSubmitComplete = () => {
       >
         <Flex.Stack>
           <Form.MainHeading>Heading</Form.MainHeading>
-          <Card>
+          <Form.Card>
             <Value.String label="Summary" path="/myField" />
-          </Card>
+          </Form.Card>
           <Form.ButtonRow>
             <Form.SubmitButton />
           </Form.ButtonRow>
@@ -157,7 +157,7 @@ export const AsyncChangeAndValidation = () => {
                   label='Type "valid" to validate the field'
                   path="/myField"
                   required
-                  validator={validator}
+                  onChangeValidator={validator}
                   onChange={onChangeField}
                   autoComplete="off"
                 />
@@ -196,13 +196,13 @@ export const SessionStorage = () => {
         }}
         sessionStorageId="session-key"
       >
-        <Card stack>
+        <Form.Card>
           <Field.String label="Name" path="/name" />
           <Field.Email path="/email" />
           <Form.ButtonRow>
             <Form.SubmitButton />
           </Form.ButtonRow>
-        </Card>
+        </Form.Card>
       </Form.Handler>
     </ComponentBox>
   )
@@ -218,14 +218,14 @@ export const Autofill = () => {
         <Flex.Stack>
           <Form.MainHeading>Delivery address</Form.MainHeading>
 
-          <Card stack>
+          <Form.Card>
             <Form.SubHeading>Your name</Form.SubHeading>
 
             <Field.Name.First path="/firstName" required />
             <Field.Name.Last path="/lastName" required />
-          </Card>
+          </Form.Card>
 
-          <Card stack>
+          <Form.Card>
             <Form.SubHeading>Your address</Form.SubHeading>
 
             <Field.Composition width="large">
@@ -247,14 +247,14 @@ export const Autofill = () => {
               postalCode={{ required: true, path: '/postalCode' }}
               city={{ required: true, path: '/city' }}
             />
-          </Card>
+          </Form.Card>
 
-          <Card stack>
+          <Form.Card>
             <P>More information about this form.</P>
             <Form.ButtonRow>
               <Form.SubmitButton />
             </Form.ButtonRow>
-          </Card>
+          </Form.Card>
         </Flex.Stack>
       </Form.Handler>
     </ComponentBox>
@@ -281,7 +281,7 @@ export const Locale = () => {
               locale={data?.locale}
               translations={myTranslations}
             >
-              <Card stack>
+              <Form.Card>
                 <Field.PhoneNumber />
 
                 <Field.Selection
@@ -292,7 +292,7 @@ export const Locale = () => {
                   <Field.Option value="nb-NO">Norsk</Field.Option>
                   <Field.Option value="en-GB">English</Field.Option>
                 </Field.Selection>
-              </Card>
+              </Form.Card>
             </Form.Handler>
           )
         }

@@ -64,6 +64,16 @@ describe.each(['ui', 'sbanken'])('Card for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match outset', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="layout-card-outset"]',
+      wrapperStyle: {
+        padding: '2rem',
+      },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe.each(['ui', 'sbanken'])(
@@ -114,7 +124,16 @@ describe.each(['ui', 'sbanken'])(
 
     it('have to match nested cards', async () => {
       const screenshot = await makeScreenshot({
+        ...params,
         selector: '[data-visual-test="layout-card-nested"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match outset', async () => {
+      const screenshot = await makeScreenshot({
+        ...params,
+        selector: '[data-visual-test="layout-card-outset"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })

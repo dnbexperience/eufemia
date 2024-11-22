@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import classnames from 'classnames'
 import { Props as FieldBlockProps } from '../../FieldBlock'
 import StringField, { Props as StringFieldProps } from '../String'
@@ -79,12 +79,6 @@ function PostalCodeAndCity(props: Props) {
     errorMessages: postalCodeErrorMessages,
   } = handleDefaults(postalCode)
 
-  const postalCodeValidationProps = {
-    mask: postalCodeMask,
-    pattern: postalCodePattern,
-    placeholder: postalCodePlaceHolder,
-  }
-
   return (
     <CompositionField
       className={classnames(
@@ -96,17 +90,26 @@ function PostalCodeAndCity(props: Props) {
     >
       <StringField
         {...postalCode}
-        {...postalCodeValidationProps}
         className={classnames(
           'dnb-forms-field-postal-code-and-city__postal-code',
           postalCodeClassName
         )}
         label={postalCodeLabel ?? translations.PostalCode.label}
-        errorMessages={{
-          'Field.errorRequired': translations.PostalCode.errorRequired,
-          'Field.errorPattern': translations.PostalCode.errorPattern,
-          ...postalCodeErrorMessages,
-        }}
+        mask={postalCodeMask}
+        pattern={postalCodePattern}
+        placeholder={postalCodePlaceHolder}
+        errorMessages={useMemo(
+          () => ({
+            'Field.errorRequired': translations.PostalCode.errorRequired,
+            'Field.errorPattern': translations.PostalCode.errorPattern,
+            ...postalCodeErrorMessages,
+          }),
+          [
+            postalCodeErrorMessages,
+            translations.PostalCode.errorPattern,
+            translations.PostalCode.errorRequired,
+          ]
+        )}
         width={postalCodeWidth ?? false}
         inputClassName="dnb-forms-field-postal-code-and-city__postal-code-input"
         inputMode="numeric"
@@ -121,11 +124,18 @@ function PostalCodeAndCity(props: Props) {
           cityClassName
         )}
         label={cityLabel ?? translations.City.label}
-        errorMessages={{
-          'Field.errorRequired': translations.City.errorRequired,
-          'Field.errorPattern': translations.City.errorPattern,
-          ...cityErrorMessages,
-        }}
+        errorMessages={useMemo(
+          () => ({
+            'Field.errorRequired': translations.City.errorRequired,
+            'Field.errorPattern': translations.City.errorPattern,
+            ...cityErrorMessages,
+          }),
+          [
+            cityErrorMessages,
+            translations.City.errorPattern,
+            translations.City.errorRequired,
+          ]
+        )}
         pattern={cityPattern ?? '^[A-Za-zÆØÅæøå -]+$'}
         trim
         width={cityWidth ?? 'stretch'}

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react'
 import { Field, Form } from '../../..'
-import { Button, Card, GlobalStatus } from '../../../../../components'
+import { Button, GlobalStatus } from '../../../../../components'
 import { debounceAsync } from '../../../../../shared/helpers'
 
 export default {
@@ -128,14 +128,14 @@ export function AdvancedForm() {
     <>
       <Form.Handler onSubmit={submitHandler} data={initialData}>
         <Form.MainHeading>MainHeading</Form.MainHeading>
-        <Card stack>
+        <Form.Card>
           <Form.SubHeading>SubHeading</Form.SubHeading>
 
           <Field.String
             label="Field A (onBlurValidator)"
             path="/fieldA"
             onBlurValidator={firstValidator}
-            // validator={firstValidator}
+            // onChangeValidator={firstValidator}
             // continuousValidation
             // validateInitially
             // validateUnchanged
@@ -152,10 +152,10 @@ export function AdvancedForm() {
               onBlurValidator={secondValidator}
             />
             <Field.String
-              label="Field C (validator)"
+              label="Field C (onChangeValidator)"
               width="stretch"
               path="/fieldC"
-              validator={thirdValidator}
+              onChangeValidator={thirdValidator}
               // validateInitially
               // required
             />
@@ -166,7 +166,7 @@ export function AdvancedForm() {
             path="/fieldD"
             required
           />
-        </Card>
+        </Form.Card>
 
         <Form.ButtonRow>
           <Form.SubmitButton />
@@ -179,9 +179,9 @@ export function AdvancedForm() {
         </Form.ButtonRow>
       </Form.Handler>
 
-      <Card top>
+      <Form.Card top>
         <Options />
-      </Card>
+      </Form.Card>
     </>
   )
 }
@@ -268,12 +268,12 @@ export function SimpleForm() {
       onSubmitRequest={onSubmitRequest}
       onSubmitComplete={onSubmitComplete}
     >
-      <Card stack>
+      <Form.Card>
         <Field.String
           value="vali"
           label="Name"
           path="/myField1"
-          validator={secondValidator}
+          onChangeValidator={secondValidator}
           onBlurValidator={thirdValidator}
           onChange={onFieldChange}
         />
@@ -282,7 +282,7 @@ export function SimpleForm() {
           path="/myField2"
           onChange={onFieldChange}
         />
-      </Card>
+      </Form.Card>
       <Form.ButtonRow>
         <Form.SubmitButton />
       </Form.ButtonRow>
@@ -302,12 +302,12 @@ const delay = debounceAsync(async function () {
 export function SubmitIndicator() {
   return (
     <Form.Handler onSubmit={delay}>
-      <Card stack>
+      <Form.Card>
         <Field.String path="/myField" label="Label" />
         <Form.ButtonRow>
           <Form.SubmitButton />
         </Form.ButtonRow>
-      </Card>
+      </Form.Card>
     </Form.Handler>
   )
 }
@@ -319,7 +319,7 @@ export function GlobalStatusStory() {
 
       <Form.Handler id="my-form" onSubmit={delay}>
         <Form.MainHeading>Heading</Form.MainHeading>
-        <Card stack>
+        <Form.Card>
           <Field.String
             path="/myField"
             label="Label"
@@ -329,7 +329,7 @@ export function GlobalStatusStory() {
           <Form.ButtonRow>
             <Form.SubmitButton />
           </Form.ButtonRow>
-        </Card>
+        </Form.Card>
       </Form.Handler>
     </>
   )
