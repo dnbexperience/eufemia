@@ -1,6 +1,9 @@
 /*
 * Import all flag icons (SVG) via CSS
-* Source: flag-icons/css/flag-icons.css
+* 
+* License: MIT
+* Repo: https://github.com/lipis/flag-icons
+* Source: https://github.com/lipis/flag-icons/blob/main/css/flag-icons.css
 * 
 * Theatrically, we could use the flag-icons package to import the flags (@import '../../../../assets/css/flag-icons.css'),
 * but since we only use the 1x1 flag icons, we want to use the CSS instead.
