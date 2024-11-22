@@ -1,6 +1,7 @@
 import pointer from '../../utils/json-pointer'
 import {
   SharedStateId,
+  createReferenceKey,
   createSharedState,
 } from '../../../../shared/helpers/useSharedState'
 import { SharedAttachments } from '../../DataContext/Provider'
@@ -23,7 +24,7 @@ export default function getData<Data>(
 ): SetDataReturn<Data> {
   const sharedState = createSharedState(id)
   const sharedAttachments = createSharedState<SharedAttachments<Data>>(
-    id + '-attachments'
+    createReferenceKey(id, 'attachments')
   )
 
   const data = sharedState.get() as Data

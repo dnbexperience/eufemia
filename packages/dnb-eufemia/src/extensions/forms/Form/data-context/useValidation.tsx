@@ -1,6 +1,7 @@
 import { useCallback, useContext, useMemo } from 'react'
 import {
   SharedStateId,
+  createReferenceKey,
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
 import DataContext, { ContextState } from '../../DataContext/Context'
@@ -19,7 +20,7 @@ export default function useValidation(
 ): UseDataReturn {
   const { data } = useSharedState<
     UseDataReturn & SharedAttachments<unknown>
-  >(id + '-attachments')
+  >(createReferenceKey(id, 'attachments'))
 
   const fallback = useCallback(() => false, [])
 
@@ -62,7 +63,7 @@ type UseConnectionsSharedState = {
 
 function useConnections(id: SharedStateId = undefined) {
   const { get } = useSharedState<UseConnectionsSharedState>(
-    id + '-attachments'
+    createReferenceKey(id, 'attachments')
   )
 
   const dataContext = useContext(DataContext)

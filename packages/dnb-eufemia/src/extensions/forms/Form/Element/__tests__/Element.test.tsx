@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
 import { Form, DataContext, Field } from '../../..'
@@ -150,5 +151,18 @@ describe('Form.Element', () => {
 
     expect(attributes).toEqual(['class', 'aria-label'])
     expect(formElement.getAttribute('aria-label')).toBe('Aria Label')
+  })
+
+  it('should ensure that only a string can be set as the id', () => {
+    const myId = () => null
+    render(
+      // @ts-expect-error
+      <Form.Element id={myId}>
+        <Form.SubmitButton>Submit</Form.SubmitButton>
+      </Form.Element>
+    )
+
+    const formElement = document.querySelector('form')
+    expect(formElement).not.toHaveAttribute('id')
   })
 })

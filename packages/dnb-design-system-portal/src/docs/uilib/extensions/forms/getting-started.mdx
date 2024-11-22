@@ -128,9 +128,11 @@ Here is an example of how to use these methods:
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
+const myFormId = 'unique-id' // or a function, object or React Context reference
+
 function MyForm() {
   return (
-    <Form.Handler id="unique-id">
+    <Form.Handler id={myFormId}>
       <MyComponent />
     </Form.Handler>
   )
@@ -145,15 +147,15 @@ function MyComponent() {
     data,
     filterData,
     reduceToVisibleFields,
-  } = Form.useData() // optionally provide an id (unique-id)
+  } = Form.useData() // optionally provide an id or reference
 }
 
 // You can also use the setData:
-Form.setData('unique-id', { companyName: 'DNB' })
+Form.setData(myFormId, { companyName: 'DNB' })
 
 // ... and the getData – method when ever you need to:
 const { getValue, data, filterData, reduceToVisibleFields } =
-  Form.getData('unique-id')
+  Form.getData(myFormId)
 ```
 
 - `getValue` will return the value of the given path.

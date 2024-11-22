@@ -42,7 +42,7 @@ render(
 
 ## Usage
 
-You can use the `Form.useData` hook with or without an `id` (string) property, which is optional and can be used to link the data to a specific [Form.Handler](/uilib/extensions/forms/Form/Handler/) component.
+You can use the `Form.useData` hook with or without an `id` (string, function, object or React Context as the reference) property, which is optional and can be used to link the data to a specific [Form.Handler](/uilib/extensions/forms/Form/Handler/) component.
 
 ### Without an `id` property
 
@@ -66,7 +66,7 @@ function Component() {
 
 ### With an `id` property
 
-While in this example, "Component" is outside the `Form.Handler` context, but linked together via the `id` (string) property:
+While in this example, "Component" is outside the `Form.Handler` context, but linked together via the `id` (string, function, object or React Context as the reference) property:
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
