@@ -91,15 +91,14 @@ export const WithAsyncFileHandler = () => {
             <Form.Handler onSubmit={async (form) => console.log(form)}>
               <Flex.Stack>
                 <Field.Upload
-                  id="async_upload_context_id"
                   path="/attachments"
                   labelDescription="Upload multiple files at once to see the upload error message. This demo has been set up so that every other file in a batch will fail."
                   fileHandler={mockAsyncFileUpload}
                   required
                 />
                 <Form.SubmitButton />
+                <Tools.Log />
               </Flex.Stack>
-              <Output />
             </Form.Handler>
           )
         }
@@ -145,11 +144,6 @@ export const WithAsyncFileHandler = () => {
           return updatedFiles
         }
 
-        const Output = () => {
-          const { files } = useUpload('async_upload_context_id')
-          return <Tools.Log data={files} top />
-        }
-
         return <MyForm />
       }}
     </ComponentBox>
@@ -165,14 +159,13 @@ export const WithSyncFileHandler = () => {
             <Form.Handler onSubmit={async (form) => console.log(form)}>
               <Flex.Stack>
                 <Field.Upload
-                  id="sync_upload_context_id"
                   path="/myattachments"
                   fileHandler={mockSyncFileUpload}
                   required
                 />
                 <Form.SubmitButton />
+                <Tools.Log />
               </Flex.Stack>
-              <Output />
             </Form.Handler>
           )
         }
@@ -184,11 +177,6 @@ export const WithSyncFileHandler = () => {
             }
             return file
           })
-        }
-
-        const Output = () => {
-          const { files } = useUpload('sync_upload_context_id')
-          return <Tools.Log data={files} top />
         }
 
         return <MyForm />
