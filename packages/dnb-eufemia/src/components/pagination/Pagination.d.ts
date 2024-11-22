@@ -35,7 +35,6 @@ type PaginationIndicatorElement =
   | ((...args: any[]) => any)
   | string;
 type PaginationChildren = React.ReactNode | ((...args: any[]) => any);
-
 type LoadButtonProps =
   | (() => React.ReactNode)
   | {
@@ -48,7 +47,6 @@ type LoadButtonProps =
        */
       iconPosition: ButtonIconPosition;
     };
-
 export interface PaginationProps
   extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
@@ -158,12 +156,11 @@ export interface PaginationProps
    */
   is_loading_text?: string;
   /**
-   * Used during infinity mode. If `use_load_button` is set to true, then a button is show on the bottom. If the `startup_page` is higher than 1. Defaults to `Vis mer innhold`.
-   * @deprecated use `loadButtonProps.text` instead
+   * Used during infinity mode. If `use_load_button` is set to `true`, then a button is show on the bottom. If the `startup_page` is higher than 1. Defaults to `Vis mer innhold`.
    */
   load_button_text?: string;
   /**
-   * Used to set loadButton text and icon aligment. Accepts a function returning a ReactNode too, so you can replace the button with your own component.
+   * Used to set load button text and icon alignment. Accepts a function returning a ReactNode too, so you can replace the button with your own component.
    */
   loadButton?: LoadButtonProps;
   className?: string;
@@ -237,7 +234,6 @@ type PaginationInstanceIndicatorElement =
 type PaginationInstanceChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
-
 interface PaginationInstanceProps extends SpacingProps {
   /**
    * The page shown in the very beginning. If `current_page` is set, then it may not make too much sense to set this as well.

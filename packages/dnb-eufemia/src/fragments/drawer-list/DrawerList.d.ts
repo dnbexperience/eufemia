@@ -19,7 +19,6 @@ export type DrawerListDataArrayObject = {
   [customProperty: string]: unknown;
   selected_value?: string | React.ReactNode;
   selectedKey?: string | number;
-  /** @deprecated use `selectedKey` */
   selected_key?: string | number;
   suffix_value?: string | React.ReactNode;
   content?: DrawerListContent;
@@ -153,9 +152,6 @@ export interface DrawerListProps {
    */
   skip_keysearch?: boolean;
   opened?: boolean;
-  /**
-   * The data we want to fill the list with. The data can be provided as an array or object. Or as a function that returns the data (called when user opens the list).
-   */
   data?: DrawerListData;
   prepared_data?: any[];
   raw_data?: DrawerListRawData;
@@ -193,8 +189,18 @@ export type DrawerListOptionsProps = {
 export type DrawerListItemProps = {
   children: React.ReactNode;
   selected: boolean;
+  /**
+   * Define a preselected `data` entry. In order of priority, `value` can be set to: object key (if `data` is an object), `selectedKey` prop (if `data` is an array), array index (if no `selectedKey`) or content (if `value` is a non-integer string).
+   */
   value: string;
-  on_click: ({ value }: { value: string }) => void;
+  on_click: ({
+    value
+  }: {
+    /**
+     * Define a preselected `data` entry. In order of priority, `value` can be set to: object key (if `data` is an object), `selectedKey` prop (if `data` is an array), array index (if no `selectedKey`) or content (if `value` is a non-integer string).
+     */
+    value: string;
+  }) => void;
 };
 export type DrawerListAllProps = DrawerListProps &
   SpacingProps &

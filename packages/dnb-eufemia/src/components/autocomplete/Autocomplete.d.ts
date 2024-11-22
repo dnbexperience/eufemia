@@ -147,7 +147,7 @@ export interface AutocompleteProps {
   status_props?: FormStatusProps;
   status_no_animation?: boolean;
   /**
-   * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
+   * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
    */
   globalStatus?: GlobalStatusConfigObject;
   /**
@@ -163,7 +163,7 @@ export interface AutocompleteProps {
    */
   disable_highlighting?: boolean;
   /**
-   * Use `true` to show a Autocomplete button to toggle the <a href="/uilib/components/fragments/drawer-list">DrawerList</a>. Defaults to `false`.
+   * Use `true` to show a Autocomplete button to toggle the [DrawerList](/uilib/components/fragments/drawer-list). Defaults to `false`.
    */
   show_submit_button?: boolean;
   /**
