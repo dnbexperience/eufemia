@@ -3491,7 +3491,6 @@ __metadata:
     eslint-plugin-react-hooks: "npm:4.5.0"
     eslint-plugin-security: "npm:1.5.0"
     figma-js: "npm:1.14.0"
-    flag-icons: "npm:7.2.3"
     fontmin: "npm:0.9.9"
     fs-extra: "npm:10.0.0"
     full-icu: "npm:1.4.0"
@@ -16544,13 +16543,6 @@ __metadata:
     object.pick: "npm:^1.2.0"
     parse-filepath: "npm:^1.0.1"
   checksum: 9c76fb17e9f7e3f21e65b563cf49aed944c6b257a46b04306cef8883d60e295e904f57514443e60c64874914d13557b2f464071181d8d80a37cd9d8565075b7f
-  languageName: node
-  linkType: hard
-
-"flag-icons@npm:7.2.3":
-  version: 7.2.3
-  resolution: "flag-icons@npm:7.2.3"
-  checksum: c35df4c4553541282d4f2571391c48efde4e685fb4fb4ab53d380ffa1f25abe48dfbac52284d5fa0aae91d6385c371021655cf170dd834dc4ddd3562b2c45944
   languageName: node
   linkType: hard
 
