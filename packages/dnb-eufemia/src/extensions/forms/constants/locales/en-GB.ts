@@ -33,6 +33,7 @@ export default {
     },
     RemoveButton: {
       text: 'Remove',
+      confirmRemoveText: 'Are you sure you want to delete this?',
     },
     SectionViewContainer: {
       editButton: 'Edit',

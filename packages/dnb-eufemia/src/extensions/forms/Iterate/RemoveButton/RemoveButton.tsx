@@ -1,6 +1,6 @@
 import React, { useCallback, useContext } from 'react'
 import classnames from 'classnames'
-import { Button } from '../../../../components'
+import { Button, Dialog } from '../../../../components'
 import { ButtonProps } from '../../../../components/Button'
 import IterateItemContext from '../IterateItemContext'
 import { useTranslation } from '../../hooks'
@@ -12,7 +12,9 @@ import {
 import { trash } from '../../../../icons'
 
 export type Props = ButtonProps &
-  DataValueReadWriteComponentProps<unknown[]>
+  DataValueReadWriteComponentProps<unknown[]> & {
+    confirmRemove?: boolean
+  }
 
 function RemoveButton(props: Props) {
   const iterateItemContext = useContext(IterateItemContext)
@@ -22,7 +24,7 @@ function RemoveButton(props: Props) {
     throw new Error('RemoveButton must be inside an Iterate.Array')
   }
 
-  const { text, children, className, ...restProps } = props
+  const { text, children, className, confirmRemove, ...restProps } = props
   const buttonProps = omitDataValueReadWriteProps(restProps)
   const translation = useTranslation().RemoveButton
   const textContent = text || children || translation.text
@@ -38,20 +40,36 @@ function RemoveButton(props: Props) {
     }
   }, [handleRemove, handleRemoveItem])
 
+  const triggerAttributes: ButtonProps = {
+    className: classnames(
+      'dnb-forms-iterate-remove-element-button',
+      className
+    ),
+    text: textContent,
+    variant: textContent ? 'tertiary' : 'secondary',
+    icon: trash,
+    icon_position: 'left',
+    ...buttonProps,
+  }
+
+  if (confirmRemove) {
+    return (
+      <Dialog
+        variant="confirmation"
+        triggerAttributes={triggerAttributes}
+        onConfirm={handleClick}
+      >
+        {translation.confirmRemoveText}
+      </Dialog>
+    )
+  }
+
   return (
     <Button
-      className={classnames(
-        'dnb-forms-iterate-remove-element-button',
-        className
-      )}
-      variant={textContent ? 'tertiary' : 'secondary'}
-      icon={trash}
-      icon_position="left"
+      {...triggerAttributes}
       on_click={handleClick}
       {...buttonProps}
-    >
-      {textContent}
-    </Button>
+    />
   )
 }
 

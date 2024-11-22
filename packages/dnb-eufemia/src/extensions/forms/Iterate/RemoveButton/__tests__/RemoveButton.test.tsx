@@ -1,5 +1,6 @@
 import React from 'react'
 import { render, fireEvent, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import IterateItemContext from '../../IterateItemContext'
 import RemoveButton from '../RemoveButton'
 import nbNO from '../../../constants/locales/nb-NO'
@@ -15,6 +16,10 @@ describe('RemoveButton', () => {
       {children}
     </IterateItemContext.Provider>
   )
+
+  afterEach(() => {
+    handleRemove.mockReset()
+  })
 
   it('should call handleRemove when clicked inside an Iterate element', () => {
     render(<RemoveButton>Remove Button</RemoveButton>, { wrapper })
@@ -119,5 +124,33 @@ describe('RemoveButton', () => {
     )
 
     expect(screen.getByText(remove)).toBeInTheDocument()
+  })
+
+  describe('confirmRemove', () => {
+    it('should show Dialog before removing', async () => {
+      render(<RemoveButton confirmRemove />, { wrapper })
+
+      await userEvent.click(document.querySelector('button'))
+
+      expect(handleRemove).toHaveBeenCalledTimes(0)
+
+      await userEvent.click(
+        document.querySelector(
+          '.dnb-dialog__inner button.dnb-button--primary'
+        )
+      )
+
+      expect(handleRemove).toHaveBeenCalledTimes(1)
+    })
+
+    it('should show Dialog with translation before removing', async () => {
+      render(<RemoveButton confirmRemove />, { wrapper })
+
+      await userEvent.click(document.querySelector('button'))
+
+      expect(
+        document.querySelector('.dnb-dialog__inner')
+      ).toHaveTextContent(nb.confirmRemoveText)
+    })
   })
 })
