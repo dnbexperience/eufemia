@@ -100,6 +100,7 @@ export {
   InfoCard,
   Input,
   InputMasked,
+  ListFormat,
   Logo,
   Modal,
   NumberFormat,

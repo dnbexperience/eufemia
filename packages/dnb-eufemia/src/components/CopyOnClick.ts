@@ -5,7 +5,7 @@
  */
 
 /**
- * Library Index copy to autogenerate all the components and extensions
+ * Library Index copy-on-click to autogenerate all the components and extensions
  * Used by "prepareCopyOnClicks"
  */
 
