@@ -7,4 +7,6 @@ function Card(props: CardProps) {
   return <CardInstance stack outset {...props} />
 }
 
+Card._supportsSpacingProps = true
+
 export default Card
