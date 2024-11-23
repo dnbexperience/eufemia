@@ -205,7 +205,7 @@ export const ArrayFromFormHandler = () => {
                 </Field.Composition>
 
                 <Iterate.Toolbar>
-                  <Iterate.RemoveButton confirmRemove />
+                  <Iterate.RemoveButton confirm />
                 </Iterate.Toolbar>
               </Iterate.AnimatedContainer>
             </Iterate.Array>
