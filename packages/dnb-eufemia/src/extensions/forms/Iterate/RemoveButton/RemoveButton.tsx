@@ -33,13 +33,18 @@ function RemoveButton(props: Props) {
   const elementBlockContext = useContext(ArrayItemAreaContext)
   const { handleRemoveItem } = elementBlockContext || {}
 
-  const handleClick = useCallback(() => {
-    if (handleRemoveItem) {
-      handleRemoveItem?.()
-    } else {
-      handleRemove?.()
-    }
-  }, [handleRemove, handleRemoveItem])
+  const handleClick = useCallback(
+    ({ close }) => {
+      close?.()
+
+      if (handleRemoveItem) {
+        handleRemoveItem?.()
+      } else {
+        handleRemove?.()
+      }
+    },
+    [handleRemove, handleRemoveItem]
+  )
 
   const triggerAttributes: ButtonProps = {
     className: classnames(
@@ -57,11 +62,10 @@ function RemoveButton(props: Props) {
     return (
       <Dialog
         variant="confirmation"
+        title={translation.confirmRemoveText}
         triggerAttributes={triggerAttributes}
         onConfirm={handleClick}
-      >
-        {translation.confirmRemoveText}
-      </Dialog>
+      />
     )
   }
 
