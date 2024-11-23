@@ -126,9 +126,9 @@ describe('RemoveButton', () => {
     expect(screen.getByText(remove)).toBeInTheDocument()
   })
 
-  describe('confirmRemove', () => {
+  describe('showConfirmDialog', () => {
     it('should show Dialog before removing', async () => {
-      render(<RemoveButton confirmRemove />, { wrapper })
+      render(<RemoveButton showConfirmDialog />, { wrapper })
 
       await userEvent.click(document.querySelector('button'))
 
@@ -144,7 +144,7 @@ describe('RemoveButton', () => {
     })
 
     it('should show Dialog with translation before removing', async () => {
-      render(<RemoveButton confirmRemove />, { wrapper })
+      render(<RemoveButton showConfirmDialog />, { wrapper })
 
       await userEvent.click(document.querySelector('button'))
 

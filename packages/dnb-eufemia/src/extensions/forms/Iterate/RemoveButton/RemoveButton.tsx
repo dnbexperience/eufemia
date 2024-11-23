@@ -13,7 +13,7 @@ import { trash } from '../../../../icons'
 
 export type Props = ButtonProps &
   DataValueReadWriteComponentProps<unknown[]> & {
-    confirmRemove?: boolean
+    showConfirmDialog?: boolean
   }
 
 function RemoveButton(props: Props) {
@@ -24,7 +24,8 @@ function RemoveButton(props: Props) {
     throw new Error('RemoveButton must be inside an Iterate.Array')
   }
 
-  const { text, children, className, confirmRemove, ...restProps } = props
+  const { text, children, className, showConfirmDialog, ...restProps } =
+    props
   const buttonProps = omitDataValueReadWriteProps(restProps)
   const translation = useTranslation().RemoveButton
   const textContent = text || children || translation.text
@@ -52,7 +53,7 @@ function RemoveButton(props: Props) {
     ...buttonProps,
   }
 
-  if (confirmRemove) {
+  if (showConfirmDialog) {
     return (
       <Dialog
         variant="confirmation"

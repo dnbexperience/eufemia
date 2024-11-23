@@ -205,7 +205,7 @@ export const ArrayFromFormHandler = () => {
                 </Field.Composition>
 
                 <Iterate.Toolbar>
-                  <Iterate.RemoveButton confirm />
+                  <Iterate.RemoveButton showConfirmDialog />
                 </Iterate.Toolbar>
               </Iterate.AnimatedContainer>
             </Iterate.Array>
@@ -549,7 +549,7 @@ export const WithArrayValidator = () => {
                 width="medium"
                 size="medium"
               />
-              <Iterate.RemoveButton confirmRemove />
+              <Iterate.RemoveButton showConfirmDialog />
             </Flex.Horizontal>
           </Iterate.Array>
 
@@ -594,7 +594,7 @@ export const FilledViewAndEditContainer = () => {
                   <Iterate.EditContainer.CancelButton />
                 </Flex.Horizontal>
                 <Iterate.ViewContainer.RemoveButton
-                  confirmRemove
+                  showConfirmDialog
                   left={false}
                 />
               </Flex.Horizontal>
