@@ -231,16 +231,16 @@ You may check out an [interactive example](/uilib/extensions/forms/Form/useData/
 For filtering data during form submit (`onSubmit`), you can use the `filterData` method given as a parameter to the `onSubmit` event callback:
 
 ```tsx
-const onSubmit = (data, { filterData }) => {
-  // Same method as in the previous example
-  const filteredDataA = filterData(filterDataPaths)
-  const filteredDataB = filterData(filterDataHandler)
-  console.log(filteredDataA)
-  console.log(filteredDataB)
-}
-
 render(
-  <Form.Handler onSubmit={onSubmit}>
+  <Form.Handler
+    onSubmit={(data, { filterData }) => {
+      // Same method as in the previous example
+      const filteredDataA = filterData(filterDataPaths)
+      const filteredDataB = filterData(filterDataHandler)
+      console.log(filteredDataA)
+      console.log(filteredDataB)
+    }}
+  >
     <Field.String path="/foo" />
   </Form.Handler>,
 )
@@ -428,7 +428,7 @@ Eufemia Forms will easily link up with the [GlobalStatus](/uilib/components/glob
 ```tsx
 <GlobalStatus />
 
-<Form.Handler >
+<Form.Handler>
   My Form
 </Form.Handler>
 ```

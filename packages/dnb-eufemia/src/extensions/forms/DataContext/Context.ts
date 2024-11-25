@@ -181,8 +181,10 @@ export interface ContextState {
   disabled?: boolean
   required?: boolean
   submitState: Partial<EventStateObject>
-  isInsideFormElement?: boolean
   prerenderFieldProps?: boolean
+  decoupleFormElement?: boolean
+  hasElementRef?: React.MutableRefObject<boolean>
+  restHandlerProps?: Record<string, unknown>
   props: ProviderProps<unknown>
 }
 
@@ -211,7 +213,6 @@ export const defaultContextState: ContextState = {
   hasFieldError: () => false,
   ajvInstance: makeAjvInstance(),
   contextErrorMessages: undefined,
-  isInsideFormElement: false,
   props: null,
 }
 

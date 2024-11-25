@@ -1160,4 +1160,84 @@ describe('Form.Handler', () => {
       expect(document.body).toHaveTextContent('content')
     })
   })
+
+  describe('decoupleFormElement', () => {
+    it('should contain one form element', () => {
+      render(
+        <Form.Handler decoupleFormElement>
+          <Form.Element>content</Form.Element>
+        </Form.Handler>
+      )
+
+      const formElements = document.querySelectorAll('form')
+      expect(formElements).toHaveLength(1)
+    })
+
+    it('should call onSubmit when form is submitted', () => {
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler decoupleFormElement onSubmit={onSubmit}>
+          <Form.Element>content</Form.Element>
+        </Form.Handler>
+      )
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+    })
+
+    it('should spread rest props to form element', () => {
+      render(
+        <Form.Handler decoupleFormElement aria-label="Aria Label">
+          <Form.Element>content</Form.Element>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('form')).toHaveAttribute(
+        'aria-label',
+        'Aria Label'
+      )
+    })
+
+    it('should overwrite rest props from handler', () => {
+      render(
+        <Form.Handler decoupleFormElement aria-label="Aria Label">
+          <Form.Element aria-label="Overwrite">content</Form.Element>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('form')).toHaveAttribute(
+        'aria-label',
+        'Overwrite'
+      )
+    })
+
+    it('should render form element inside wrapper', () => {
+      render(
+        <Form.Handler decoupleFormElement>
+          <div className="wrapper">
+            <Form.Element>content</Form.Element>
+          </div>
+        </Form.Handler>
+      )
+
+      const formElements = document.querySelectorAll('.wrapper > form')
+      expect(formElements).toHaveLength(1)
+    })
+
+    it('should warn when no form element is found', () => {
+      const log = jest.spyOn(global.console, 'log').mockImplementation()
+
+      render(<Form.Handler decoupleFormElement>content</Form.Handler>)
+
+      expect(log).toHaveBeenCalledTimes(1)
+      expect(log).toHaveBeenCalledWith(
+        expect.any(String),
+        'Please include a Form.Element when using decoupleFormElement!'
+      )
+
+      log.mockRestore()
+    })
+  })
 })

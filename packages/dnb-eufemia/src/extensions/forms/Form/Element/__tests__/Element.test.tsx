@@ -56,7 +56,11 @@ describe('Form.Element', () => {
       { foo: 'Value' },
       expect.anything()
     )
+
     expect(onSubmitElement).toHaveBeenCalledTimes(1)
+    expect(onSubmitElement).toHaveBeenCalledWith(
+      expect.objectContaining({ type: 'submit', target: inputElement })
+    )
 
     fireEvent.click(buttonElement)
 
@@ -65,8 +69,8 @@ describe('Form.Element', () => {
       { foo: 'Value' },
       expect.anything()
     )
-    expect(onSubmitElement).toHaveBeenCalledTimes(2)
 
+    expect(onSubmitElement).toHaveBeenCalledTimes(2)
     expect(onSubmitElement).toHaveBeenCalledWith(
       expect.objectContaining({ type: 'submit', target: inputElement })
     )

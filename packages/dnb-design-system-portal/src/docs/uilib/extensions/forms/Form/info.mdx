@@ -6,14 +6,30 @@ showTabs: true
 
 `Form` provides the main forms-helpers including data provider and event handling.
 
-```jsx
+```tsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
-render(
-  <Form.Handler data={existingData} onSubmit={submitHandler}>
-    <Field.Email path="/email" />
-    <Form.ButtonRow>
-      <Form.SubmitButton />
-    </Form.ButtonRow>
-  </Form.Handler>,
-)
+
+const existingData = {
+  email: 'name@email.no',
+}
+
+function MyForm() {
+  return (
+    <Form.Handler
+      defaultData={existingData}
+      onSubmit={async (data) => {
+        await makeRequest(data)
+      }}
+    >
+      <Form.MainHeading>Heading</Form.MainHeading>
+      <Form.Card>
+        <Field.Email path="/email" />
+      </Form.Card>
+
+      <Form.ButtonRow>
+        <Form.SubmitButton />
+      </Form.ButtonRow>
+    </Form.Handler>
+  )
+}
 ```

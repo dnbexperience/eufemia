@@ -32,16 +32,16 @@ function SubmitButton(props: Props) {
   const {
     formState,
     handleSubmit,
-    isInsideFormElement,
+    hasElementRef,
     props: dataContextProps,
   } = useContext(DataContext) || {}
   const { isolate } = dataContextProps || {}
 
   const onClickHandler = useCallback(() => {
-    if (!isInsideFormElement) {
+    if (!hasElementRef?.current) {
       handleSubmit?.()
     }
-  }, [isInsideFormElement, handleSubmit])
+  }, [hasElementRef, handleSubmit])
 
   return (
     <Button
