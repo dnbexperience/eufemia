@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Flex, Table, Td, Th, Tr } from '@dnb/eufemia/src'
+import { Avatar, Flex, Table, Td, Th, Tr } from '@dnb/eufemia/src'
 import {
   Iterate,
   Field,
@@ -562,6 +562,138 @@ export const WithArrayValidator = () => {
           <Form.SubmitButton />
         </Form.Card>
       </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const FilledViewAndEditContainer = () => {
+  return (
+    <ComponentBox
+      data-visual-test="filled-view-and-edit-container"
+      hideCode
+    >
+      {() => {
+        const MyEditItemForm = () => {
+          return (
+            <Flex.Stack>
+              <Field.Name.First itemPath="/firstName" required />
+              <Field.Name.Last itemPath="/lastName" required />
+            </Flex.Stack>
+          )
+        }
+
+        const EditItemToolbar = () => {
+          return (
+            <Iterate.Toolbar>
+              <Flex.Horizontal
+                justify="space-between"
+                style={{ width: '100%' }}
+              >
+                <Flex.Horizontal gap="large">
+                  <Iterate.EditContainer.DoneButton />
+                  <Iterate.EditContainer.CancelButton />
+                </Flex.Horizontal>
+                <Iterate.ViewContainer.RemoveButton left={false} />
+              </Flex.Horizontal>
+            </Iterate.Toolbar>
+          )
+        }
+
+        const MyEditItem = (props) => {
+          return (
+            <Iterate.EditContainer
+              variant="filled"
+              toolbarVariant="custom"
+              toolbar={<EditItemToolbar />}
+              {...props}
+            >
+              <ValueWithAvatar />
+              <MyEditItemForm />
+            </Iterate.EditContainer>
+          )
+        }
+
+        const CreateNewEntry = () => {
+          return (
+            <Iterate.PushContainer
+              path="/accounts"
+              title="New account holder"
+              variant="filled"
+              openButton={
+                <Iterate.PushContainer.OpenButton text="Add another account" />
+              }
+              showOpenButtonWhen={(list) => list.length > 0}
+            >
+              <MyEditItemForm />
+            </Iterate.PushContainer>
+          )
+        }
+
+        const ValueWithAvatar = () => {
+          const { value } = Iterate.useItem()
+          const firstName = String(value['firstName'] || '')
+          return (
+            <Flex.Horizontal align="center">
+              <Avatar.Group label={firstName}>
+                <Avatar>{firstName.substring(0, 1).toUpperCase()}</Avatar>
+              </Avatar.Group>
+              <Value.String itemPath="/firstName" />
+            </Flex.Horizontal>
+          )
+        }
+
+        const MyViewItem = () => {
+          return (
+            <Iterate.ViewContainer
+              variant="filled"
+              toolbarVariant="custom"
+              toolbar={<></>}
+            >
+              <Flex.Horizontal align="center" justify="space-between">
+                <ValueWithAvatar />
+
+                <Iterate.Toolbar>
+                  <Iterate.ViewContainer.EditButton />
+                </Iterate.Toolbar>
+              </Flex.Horizontal>
+            </Iterate.ViewContainer>
+          )
+        }
+
+        return (
+          <Form.Handler
+            data={{
+              accounts: [
+                {
+                  firstName:
+                    'Tony with long name that maybe will wrap over to a new line',
+                  lastName: 'Last',
+                },
+                {
+                  firstName: 'Maria',
+                  lastName: 'Last',
+                },
+              ],
+            }}
+            onSubmit={(data) => console.log('onSubmit', data)}
+            onSubmitRequest={() => console.log('onSubmitRequest')}
+          >
+            <Flex.Vertical>
+              <Form.MainHeading>Accounts</Form.MainHeading>
+
+              <Form.Card>
+                <Iterate.Array path="/accounts" limit={2}>
+                  <MyViewItem />
+                  <MyEditItem />
+                </Iterate.Array>
+                <CreateNewEntry />
+              </Form.Card>
+
+              <Form.SubmitButton variant="send" />
+            </Flex.Vertical>
+          </Form.Handler>
+        )
+      }}
     </ComponentBox>
   )
 }

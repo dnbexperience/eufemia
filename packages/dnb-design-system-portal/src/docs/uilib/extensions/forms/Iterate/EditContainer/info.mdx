@@ -55,8 +55,9 @@ You can get the internal item object by using the `Iterate.useItem` hook.
 import { Iterate, Field, Value } from '@dnb/eufemia/extensions/forms'
 
 const MyItemForm = () => {
-  const item = Iterate.useItem()
-  console.log('index:', item.index)
+  // TypeScript type inference
+  const item = Iterate.useItem<{ foo: string }>()
+  console.log('My item:', item.index, item.value.foo)
 
   return <Field.String itemPath="/" />
 }

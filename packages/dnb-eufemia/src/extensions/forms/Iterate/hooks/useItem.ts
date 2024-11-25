@@ -1,7 +1,16 @@
 import { useContext } from 'react'
-import IterateItemContext from '../IterateItemContext'
+import IterateItemContext, {
+  IterateItemContextState,
+} from '../IterateItemContext'
 
-export default function useItem() {
+export type UseItemReturn<Value = unknown> = Omit<
+  IterateItemContextState,
+  'value'
+> & {
+  value: Value
+}
+
+export default function useItem<Value = unknown>() {
   const item = useContext(IterateItemContext)
-  return item
+  return item as UseItemReturn<Value>
 }

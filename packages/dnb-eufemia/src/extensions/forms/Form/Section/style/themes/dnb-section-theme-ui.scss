@@ -1,0 +1,8 @@
+.dnb-forms-section {
+  &-block {
+    &--variant-filled &__inner {
+      --space: var(--spacing-small);
+      background-color: var(--color-lavender);
+    }
+  }
+}

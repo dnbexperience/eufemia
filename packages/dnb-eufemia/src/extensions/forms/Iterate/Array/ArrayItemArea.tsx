@@ -15,10 +15,11 @@ const useLayoutEffect =
 
 export type ArrayItemAreaProps = {
   /**
-   * Defines the variant of the ViewContainer, EditContainer or PushContainer. Can be `outline` or `basic`.
+   * Defines the variant of the ViewContainer, EditContainer or PushContainer. Can be `outline`, `filled` or `basic`.
    * Defaults to `outline`.
    */
-  variant?: 'outline' | 'basic'
+  variant?: 'outline' | 'basic' | 'filled'
+  toolbarVariant?: 'minimumOneItem' | 'custom'
 }
 
 export type Props = {
@@ -40,6 +41,7 @@ function ArrayItemArea(props: Props & FlexContainerProps) {
     children,
     openDelay = 100,
     variant = 'outline',
+    toolbarVariant,
     ...restProps
   } = props
 
@@ -168,7 +170,9 @@ function ArrayItemArea(props: Props & FlexContainerProps) {
   }, [handleRemove, index, setOpenState])
 
   return (
-    <ArrayItemAreaContext.Provider value={{ handleRemoveItem }}>
+    <ArrayItemAreaContext.Provider
+      value={{ handleRemoveItem, variant, toolbarVariant }}
+    >
       <HeightAnimation
         className={classnames(
           'dnb-forms-section-block',
@@ -184,7 +188,8 @@ function ArrayItemArea(props: Props & FlexContainerProps) {
       >
         <Card
           stack
-          innerSpace="small"
+          filled={variant === 'filled'}
+          innerSpace={variant === 'basic' ? false : 'small'}
           className="dnb-forms-section-block__inner"
           {...restProps}
           aria-label={ariaLabel}
