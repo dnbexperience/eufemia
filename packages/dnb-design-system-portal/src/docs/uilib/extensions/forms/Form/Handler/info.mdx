@@ -28,14 +28,14 @@ function MyForm() {
 
 ## Decoupling the form element
 
-For more flexibility, you can decouple the form element from the form context by using the `decoupleFormElement` property. It is recommended to use the `Form.Element` to wrap your rest of your form:
+For more flexibility, you can decouple the form element from the form context by using the `decoupleForm` property. It is recommended to use the `Form.Element` to wrap your rest of your form:
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
 function MyApp() {
   return (
-    <Form.Handler decoupleFormElement>
+    <Form.Handler decoupleForm>
       <AppRelatedThings>
         <Form.Element>
           <Form.MainHeading>Heading</Form.MainHeading>
