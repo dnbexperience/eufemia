@@ -18,6 +18,14 @@ describe('Form.Card', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match outset when used in wizard', async () => {
+    const screenshot = await makeScreenshot({
+      url,
+      selector: '[data-visual-test="forms-card-in-wizard"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe.each(['ui', 'sbanken'])(
