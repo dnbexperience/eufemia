@@ -590,26 +590,22 @@ export const formatPhone = (number, locale = null) => {
 
   switch (locale) {
     default: {
-      // cleanup
-      number = String(number).replace(/[^+0-9]/g, '')
-
       let code = ''
-      if (
-        number.length > 8 &&
-        number.substring(0, 2) !== '00' &&
-        !number.startsWith('+')
-      ) {
-        number = '+' + number
-      }
+      number = String(number)
+        .replace(/^(00|\+)47([^\s])/, '+47 $2') // Edge case for when a Norwegian number is given without a space after the country code
+        .replace(/^00/, '+')
 
       if (number[0] === '+') {
-        code = number.substring(0, 3) + ' '
-        number = number.substring(3)
-      } else if (number.substring(0, 2) === '00') {
-        code = number.substring(0, 4) + ' '
-        number = number.substring(4)
+        const codeAndNumber = number.match(
+          /^\+([\d-]{1,8})\s{0,2}([\d-]{1,20})$/
+        )
+        if (codeAndNumber) {
+          code = `+${codeAndNumber[1]} `
+          number = codeAndNumber[2]
+        }
       }
-      code = code.replace(/^00/, '+')
+
+      number = number.replace(/[^+0-9]/g, '')
       const length = number.length
 
       // get 800 22 222
