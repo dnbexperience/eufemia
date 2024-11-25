@@ -1,7 +1,8 @@
 .dnb-forms-wizard-layout {
   &__contents {
     .dnb-card {
-      // something with this adds outline
+      // Change the default outline color to match the StepIndicator v2.
+      // This is deprecated and can be removed when the StepIndicator v3 (without a sidebar) is released.
       --card-outline-color: var(--color-pistachio);
     }
   }

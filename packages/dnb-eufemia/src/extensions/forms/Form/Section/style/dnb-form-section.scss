@@ -38,7 +38,8 @@
 
     &--variant-basic {
       --border-color: transparent;
-      .dnb-card {
+      .dnb-card,
+      .dnb-card & .dnb-card {
         --card-outline-color: transparent;
       }
     }
