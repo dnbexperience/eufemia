@@ -23,10 +23,14 @@ render(
 )
 ```
 
+## Data handling
+
 The form data can be handled outside of the form. This is useful if you want to use the form data in other components:
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
+
+const myFormId = 'unique-id' // or a function, object or React Context reference
 
 function MyForm() {
   const {
@@ -37,9 +41,9 @@ function MyForm() {
     data,
     filterData,
     reduceToVisibleFields,
-  } = Form.useData('unique')
+  } = Form.useData(myFormId)
 
-  return <Form.Handler id="unique">...</Form.Handler>
+  return <Form.Handler id={myFormId}>...</Form.Handler>
 }
 ```
 

@@ -77,11 +77,13 @@ render(
 And call it as a function as well (id is required):
 
 ```tsx
+const myFormId = 'unique-id' // or a function, object or React Context reference
+
 function MyForm() {
-  const count = Iterate.count({ id: 'myForm', path: '/myList' })
+  const count = Iterate.count({ id: myFormId, path: '/myList' })
 
   return (
-    <Form.Handler id="myForm" data={{ myList: ['foo', 'bar'] }}>
+    <Form.Handler id={myFormId} data={{ myList: ['foo', 'bar'] }}>
       <MyComponent />
     </Form.Handler>
   )

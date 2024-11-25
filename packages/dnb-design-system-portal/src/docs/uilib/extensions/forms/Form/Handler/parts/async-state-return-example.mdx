@@ -3,6 +3,8 @@ In all async operations, you can simply return an error object to display it in 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
+const myFormId = 'unique-id' // or a function, object or React Context reference
+
 // Async function
 const onSubmit = async (data) => {
   try {
@@ -12,7 +14,7 @@ const onSubmit = async (data) => {
     })
     const data = await response.json()
 
-    Form.setData('unique-id', data) // Whatever you want to do with the data
+    Form.setData(myFormId, data) // Whatever you want to do with the data
   } catch (error) {
     return error // Will display the error message in the form
   }
@@ -32,7 +34,7 @@ const onSubmit = async (data) => {
 
 function Component() {
   return (
-    <Form.Handler id="unique-id" onSubmit={onSubmit}>
+    <Form.Handler id={myFormId} onSubmit={onSubmit}>
       ...
     </Form.Handler>
   )

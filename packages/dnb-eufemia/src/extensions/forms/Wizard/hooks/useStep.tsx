@@ -3,15 +3,18 @@ import WizardContext, {
   OnStepChange,
   WizardContextState,
 } from '../Context/WizardContext'
-import { Identifier } from '../../types'
-import { useSharedState } from '../../../../shared/helpers/useSharedState'
+import {
+  SharedStateId,
+  createReferenceKey,
+  useSharedState,
+} from '../../../../shared/helpers/useSharedState'
 
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
 const useLayoutEffect =
   typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
 export default function useStep(
-  id: Identifier = null,
+  id: SharedStateId = null,
   { onStepChange }: { onStepChange?: OnStepChange } = {}
 ) {
   const setFormError = useCallback(() => null, [])
@@ -26,7 +29,7 @@ export default function useStep(
   const sharedDataRef =
     useRef<ReturnType<typeof useSharedState<WizardContextState>>>(null)
   sharedDataRef.current = useSharedState<WizardContextState>(
-    id ? id + '-wizard' : undefined
+    id ? createReferenceKey(id, 'wizard') : undefined
   )
 
   useLayoutEffect(() => {
