@@ -71,17 +71,19 @@ While in this example, "Component" is outside the `Form.Handler` context, but li
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
+const myFormId = 'unique-id' // or a function, object or React Context reference
+
 function MyForm() {
   return (
     <>
-      <Form.Handler id="unique">...</Form.Handler>
+      <Form.Handler id={myFormId}>...</Form.Handler>
       <Component />
     </>
   )
 }
 
 function Component() {
-  const { data } = Form.useData('unique')
+  const { data } = Form.useData(myFormId)
 }
 ```
 
@@ -136,15 +138,17 @@ With the `set` method, you can extend the data set. Existing data paths will be 
 ```jsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
 
+const myFormId = 'unique-id' // or a function, object or React Context reference
+
 function MyForm() {
-  const { data, set } = Form.useData('unique')
+  const { data, set } = Form.useData(myFormId)
 
   useEffect(() => {
     set({ foo: 'bar' })
   }, [])
 
   return (
-    <Form.Handler id="unique">
+    <Form.Handler id={myFormId}>
       <Field.String path="/foo" />
     </Form.Handler>
   )
@@ -211,12 +215,14 @@ const filterDataHandler = ({ path, value, data, props, internal }) => {
   }
 }
 
+const myFormId = 'unique-id' // or a function, object or React Context reference
+
 const MyForm = () => {
-  const { filterData } = Form.useData('my-form')
+  const { filterData } = Form.useData(myFormId)
   const filteredData = filterData(filterDataHandler)
 
   return (
-    <Form.Handler id="my-form">
+    <Form.Handler id={myFormId}>
       <Field.String path="/foo" data-exclude-field />
     </Form.Handler>
   )
@@ -238,22 +244,23 @@ You decide where and when you want to provide the initial `data` to the form. It
 ```jsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
 
+const myFormId = 'unique-id' // or a function, object or React Context reference
 const initialData = { foo: 'bar' }
 
 function MyForm() {
   return (
-    <Form.Handler id="unique" data={initialData}>
+    <Form.Handler id={myFormId} data={initialData}>
       <Field.String path="/foo" />
     </Form.Handler>
   )
 }
 
 function ComponentA() {
-  Form.useData('unique', { foo: 'bar' })
+  Form.useData(myFormId, { foo: 'bar' })
 }
 
 function ComponentB() {
-  const { set } = Form.useData('unique')
+  const { set } = Form.useData(myFormId)
 
   useEffect(() => {
     set({ foo: 'bar' })

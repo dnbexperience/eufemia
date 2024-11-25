@@ -30,6 +30,7 @@ import DataContext, {
 import Handler from '../../Form/Handler/Handler'
 import {
   SharedStateReturn,
+  createReferenceKey,
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
 import useHandleLayoutEffect from './useHandleLayoutEffect'
@@ -146,7 +147,7 @@ function WizardContainer(props: Props) {
       >
     >()
   sharedStateRef.current = useSharedState<WizardContextState>(
-    hasContext && id ? id + '-wizard' : undefined
+    hasContext && id ? createReferenceKey(id, 'wizard') : undefined
   )
 
   // Store the current state of showAllErrors

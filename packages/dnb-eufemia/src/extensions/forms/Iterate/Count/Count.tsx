@@ -1,7 +1,8 @@
 import { useCallback } from 'react'
 import pointer from '../../utils/json-pointer'
-import { Identifier, Path } from '../../types'
+import { Path } from '../../types'
 import { useData, getData } from '../../Form'
+import { SharedStateId } from '../../../../shared/helpers/useSharedState'
 
 export type Props = {
   /**
@@ -12,7 +13,7 @@ export type Props = {
   /**
    * A Form.Handler or DataContext `id` for when called outside of the context.
    */
-  id?: Identifier
+  id?: SharedStateId
 
   /**
    * A filter function to filter the data before counting.
@@ -45,7 +46,7 @@ export function count(props: Props) {
   return countData(data, props)
 }
 
-export function useCount(id: Identifier = undefined) {
+export function useCount(id: SharedStateId = undefined) {
   const { data } = useData(id)
 
   const count = useCallback(

@@ -90,17 +90,19 @@ While in this example, "Component" is outside the `Form.Handler` context, but li
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
+const myFormId = 'unique-id' // or a function, object or React Context reference
+
 function MyForm() {
   return (
     <>
-      <Form.Handler id="unique">...</Form.Handler>
+      <Form.Handler id={myFormId}>...</Form.Handler>
       <Component />
     </>
   )
 }
 
 function Component() {
-  const { createSnapshot, revertSnapshot } = Form.useSnapshot('unique')
+  const { createSnapshot, revertSnapshot } = Form.useSnapshot(myFormId)
 }
 ```
 
