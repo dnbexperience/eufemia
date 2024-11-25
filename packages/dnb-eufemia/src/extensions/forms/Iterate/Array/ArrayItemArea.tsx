@@ -165,8 +165,8 @@ function ArrayItemArea(props: Props & FlexContainerProps) {
       //
     }
     isRemoving.current = true
-    handleRemove?.({ keepItems: true })
     setOpenState(false)
+    handleRemove?.({ keepItems: true })
   }, [handleRemove, index, setOpenState])
 
   return (
