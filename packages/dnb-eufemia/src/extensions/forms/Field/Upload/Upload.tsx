@@ -118,7 +118,11 @@ function UploadComponent(props: Props) {
   const { files: fileContext, setFiles } = useUpload(id)
 
   useEffect(() => {
-    setFiles(value)
+    // Files stored in session storage will not have a property (due to serialization).
+    const hasInvalidFiles = value?.some(({ file }) => !file?.name)
+    if (!hasInvalidFiles) {
+      setFiles(value)
+    }
   }, [setFiles, value])
 
   const handleChangeAsync = useCallback(
