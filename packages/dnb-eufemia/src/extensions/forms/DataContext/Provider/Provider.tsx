@@ -33,7 +33,11 @@ import { debounce } from '../../../../shared/helpers'
 import FieldPropsProvider from '../../Field/Provider'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
 import { isAsync } from '../../../../shared/helpers/isAsync'
-import { useSharedState } from '../../../../shared/helpers/useSharedState'
+import {
+  SharedStateId,
+  createReferenceKey,
+  useSharedState,
+} from '../../../../shared/helpers/useSharedState'
 import SharedContext, { ContextProps } from '../../../../shared/Context'
 import useTranslation from '../../hooks/useTranslation'
 import DataContext, {
@@ -74,7 +78,7 @@ export interface Props<Data extends JsonObject>
   /**
    * Unique ID to communicate with the hook Form.useData
    */
-  id?: string
+  id?: SharedStateId
   /**
    * Unique ID to connect with a GlobalStatus
    */
@@ -618,10 +622,10 @@ export default function Provider<Data extends JsonObject>(
   // - Shared state
   const sharedData = useSharedState<Data>(id)
   const sharedAttachments = useSharedState<SharedAttachments<Data>>(
-    id + '-attachments'
+    createReferenceKey(id, 'attachments')
   )
   const sharedDataContext = useSharedState<ContextState>(
-    id + '-data-context'
+    createReferenceKey(id, 'data-context')
   )
 
   const setSharedData = sharedData.set

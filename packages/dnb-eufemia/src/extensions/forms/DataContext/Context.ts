@@ -7,7 +7,6 @@ import {
   Path,
   EventStateObject,
   EventReturnWithStateObject,
-  Identifier,
   FieldProps,
   ValueProps,
   OnChange,
@@ -15,6 +14,7 @@ import {
 } from '../types'
 import { Props as ProviderProps } from './Provider'
 import { SnapshotName } from '../Form/Snapshot'
+import { SharedStateId } from '../../../shared/helpers/useSharedState'
 
 export type MountState = {
   isPreMounted?: boolean
@@ -85,7 +85,7 @@ export type FieldConnections = {
 }
 
 export interface ContextState {
-  id?: Identifier
+  id?: SharedStateId
   hasContext: boolean
   /** The dataset for the form / form wizard */
   data: any

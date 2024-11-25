@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { createContext } from 'react'
 import { renderHook, act, render, fireEvent } from '@testing-library/react'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import { Field, Form, Wizard } from '../../..'
@@ -124,6 +124,89 @@ describe('Form.useData', () => {
     expect(result.current.data).toEqual({ key: 'changed value' })
   })
 
+  it('should get data with a string as the id', () => {
+    const { result } = renderHook(() => useData(identifier), {
+      wrapper: ({ children }) => (
+        <>
+          <Provider id={identifier}>
+            <Field.String path="/foo" defaultValue="foo" />
+            <Field.String path="/bar" defaultValue="bar" />
+          </Provider>
+
+          {children}
+        </>
+      ),
+    })
+
+    expect(result.current.data).toEqual({
+      foo: 'foo',
+      bar: 'bar',
+    })
+  })
+
+  it('should get data with a function reference as the id', () => {
+    const myId = () => null
+    const { result } = renderHook(() => useData(myId), {
+      wrapper: ({ children }) => (
+        <>
+          <Provider id={myId}>
+            <Field.String path="/foo" defaultValue="foo" />
+            <Field.String path="/bar" defaultValue="bar" />
+          </Provider>
+
+          {children}
+        </>
+      ),
+    })
+
+    expect(result.current.data).toEqual({
+      foo: 'foo',
+      bar: 'bar',
+    })
+  })
+
+  it('should get data with an object reference as the id', () => {
+    const myId = {}
+    const { result } = renderHook(() => useData(myId), {
+      wrapper: ({ children }) => (
+        <>
+          <Provider id={myId}>
+            <Field.String path="/foo" defaultValue="foo" />
+            <Field.String path="/bar" defaultValue="bar" />
+          </Provider>
+
+          {children}
+        </>
+      ),
+    })
+
+    expect(result.current.data).toEqual({
+      foo: 'foo',
+      bar: 'bar',
+    })
+  })
+
+  it('should get data with a React Context as the id', () => {
+    const myId = createContext(null)
+    const { result } = renderHook(() => useData(myId), {
+      wrapper: ({ children }) => (
+        <>
+          <Provider id={myId}>
+            <Field.String path="/foo" defaultValue="foo" />
+            <Field.String path="/bar" defaultValue="bar" />
+          </Provider>
+
+          {children}
+        </>
+      ),
+    })
+
+    expect(result.current.data).toEqual({
+      foo: 'foo',
+      bar: 'bar',
+    })
+  })
+
   describe('remove', () => {
     it('should remove the data', () => {
       const { result } = renderHook(() => useData(), {
@@ -160,6 +243,35 @@ describe('Form.useData', () => {
             <Field.String path="/bar" defaultValue="bar" />
             {children}
           </Provider>
+        ),
+      })
+
+      expect(result.current.data).toEqual({
+        foo: 'foo',
+        bar: 'bar',
+      })
+
+      act(() => {
+        result.current.remove('/foo')
+      })
+
+      expect(result.current.data).toEqual({
+        bar: 'bar',
+      })
+      expect(result.current.data).not.toHaveProperty('foo')
+    })
+
+    it('should remove data with handler id', () => {
+      const { result } = renderHook(() => useData(identifier), {
+        wrapper: ({ children }) => (
+          <>
+            <Provider id={identifier}>
+              <Field.String path="/foo" defaultValue="foo" />
+              <Field.String path="/bar" defaultValue="bar" />
+            </Provider>
+
+            {children}
+          </>
         ),
       })
 
@@ -225,40 +337,71 @@ describe('Form.useData', () => {
     expect(result.current.data).toEqual({ key: 'changed value' })
   })
 
-  it('should sync two hooks by using "update"', () => {
-    const props = { key: 'value' }
+  describe('update', () => {
+    it('should sync two hooks by using "update"', () => {
+      const props = { key: 'value' }
 
-    const { result: A } = renderHook(() => useData(identifier))
-    const { result: B } = renderHook(() => useData(identifier, props))
+      const { result: A } = renderHook(() => useData(identifier))
+      const { result: B } = renderHook(() => useData(identifier, props))
 
-    expect(A.current.data).toEqual({ key: 'value' })
-    expect(B.current.data).toEqual({ key: 'value' })
+      expect(A.current.data).toEqual({ key: 'value' })
+      expect(B.current.data).toEqual({ key: 'value' })
 
-    act(() => {
-      B.current.update('/key', (value) => {
-        return 'changed ' + value
+      act(() => {
+        B.current.update('/key', (value) => {
+          return 'changed ' + value
+        })
+      })
+
+      expect(A.current.data).toEqual({ key: 'changed value' })
+      expect(B.current.data).toEqual({ key: 'changed value' })
+    })
+
+    it('should support update without a function', () => {
+      const props = { key: 'value' }
+
+      const { result: A } = renderHook(() => useData(identifier))
+      const { result: B } = renderHook(() => useData(identifier, props))
+
+      expect(A.current.data).toEqual({ key: 'value' })
+      expect(B.current.data).toEqual({ key: 'value' })
+
+      act(() => {
+        B.current.update('/key', 'new value')
+      })
+
+      expect(A.current.data).toEqual({ key: 'new value' })
+      expect(B.current.data).toEqual({ key: 'new value' })
+    })
+
+    it('should update data with handler id', () => {
+      const { result } = renderHook(() => useData(identifier), {
+        wrapper: ({ children }) => (
+          <>
+            <Provider id={identifier}>
+              <Field.String path="/foo" defaultValue="foo" />
+              <Field.String path="/bar" defaultValue="bar" />
+            </Provider>
+
+            {children}
+          </>
+        ),
+      })
+
+      expect(result.current.data).toEqual({
+        foo: 'foo',
+        bar: 'bar',
+      })
+
+      act(() => {
+        result.current.update('/foo', 'updated')
+      })
+
+      expect(result.current.data).toEqual({
+        foo: 'updated',
+        bar: 'bar',
       })
     })
-
-    expect(A.current.data).toEqual({ key: 'changed value' })
-    expect(B.current.data).toEqual({ key: 'changed value' })
-  })
-
-  it('should support update without a function', () => {
-    const props = { key: 'value' }
-
-    const { result: A } = renderHook(() => useData(identifier))
-    const { result: B } = renderHook(() => useData(identifier, props))
-
-    expect(A.current.data).toEqual({ key: 'value' })
-    expect(B.current.data).toEqual({ key: 'value' })
-
-    act(() => {
-      B.current.update('/key', 'new value')
-    })
-
-    expect(A.current.data).toEqual({ key: 'new value' })
-    expect(B.current.data).toEqual({ key: 'new value' })
   })
 
   it('should rerender when shared state calls "set"', () => {
