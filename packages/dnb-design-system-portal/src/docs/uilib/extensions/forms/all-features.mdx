@@ -56,7 +56,7 @@ const submitHandler = async (data) => {
 
 function Component() {
   return (
-    <Form.Handler data={existingData} onSubmit={submitHandler}>
+    <Form.Handler defaultData={existingData} onSubmit={submitHandler}>
       <Field.Email path="/email" />
       <Value.Date path="/date" />
       <Form.SubmitButton />

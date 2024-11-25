@@ -7,32 +7,57 @@ import AsyncChangeExample from './parts/async-change-example.mdx'
 
 ## Description
 
-The `Form.Handler` component provides a HTML form element.
+The `Form.Handler` is the root component of your form. It provides a HTML form element and handles the form data.
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
-render(
-  <Form.Handler
-    data={existingData}
-    onChange={...}
-    onSubmit={...}
-  >
-    Your Form
-  </Form.Handler>,
-)
+const existingData = { firstName: 'Nora' }
+
+function MyForm() {
+  return (
+    <Form.Handler
+      defaultData={existingData}
+      onSubmit={...}
+    >
+      Your Form
+    </Form.Handler>
+  )
+}
+```
+
+## Decoupling the form element
+
+For more flexibility, you can decouple the form element from the form context by using the `decoupleFormElement` property. It is recommended to use the `Form.Element` to wrap your rest of your form:
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function MyApp() {
+  return (
+    <Form.Handler decoupleFormElement>
+      <AppRelatedThings>
+        <Form.Element>
+          <Form.MainHeading>Heading</Form.MainHeading>
+          <Form.Card>
+            <Field.Email />
+          </Form.Card>
+          <Form.SubmitButton />
+        </Form.Element>
+      </AppRelatedThings>
+    </Form.Handler>
+  )
+}
 ```
 
 ## Data handling
 
-The form data can be handled outside of the form. This is useful if you want to use the form data in other components:
+You can access, mutate and filter data inside of the form context by using the `Form.useData` hook:
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
-const myFormId = 'unique-id' // or a function, object or React Context reference
-
-function MyForm() {
+function MyComponent() {
   const {
     getValue,
     update,
@@ -41,9 +66,18 @@ function MyForm() {
     data,
     filterData,
     reduceToVisibleFields,
-  } = Form.useData(myFormId)
+  } = Form.useData()
 
-  return <Form.Handler id={myFormId}>...</Form.Handler>
+  return <>...</>
+}
+
+function MyApp() {
+  return (
+    <>
+      <Form.Handler>...</Form.Handler>
+      <MyComponent />
+    </>
+  )
 }
 ```
 
@@ -54,6 +88,31 @@ function MyForm() {
 - `data` will return the whole dataset (unvalidated).
 - `filterData` will filter the data based on your own logic.
 - `reduceToVisibleFields` will reduce the given data set to only contain the visible fields (mounted fields).
+
+### Using a form ID
+
+The form data can be handled outside of the form. This is useful if you want to use the form data in other components:
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+const myFormId = 'unique-id' // or a function, object or React Context reference
+
+function MyComponent() {
+  const { data } = Form.useData(myFormId)
+
+  return <>...</>
+}
+
+function MyApp() {
+  return (
+    <>
+      <Form.Handler id={myFormId}>...</Form.Handler>
+      <MyComponent />
+    </>
+  )
+}
+```
 
 More examples can be found in the [useData](/uilib/extensions/forms/Form/useData/) hook docs.
 
@@ -76,7 +135,7 @@ const data: MyDataSet = {
 function MyForm() {
   return (
     <Form.Handler
-      data={data}
+      defaultData={data}
       onSubmit={(data) => {
         console.log(data.firstName)
       }}
@@ -89,7 +148,7 @@ const submitHandler = (data: MyDataSet) => {
   console.log(data.firstName)
 }
 function MyForm() {
-  return <Form.Handler data={data} onSubmit={submitHandler} />
+  return <Form.Handler defaultData={data} onSubmit={submitHandler} />
 }
 
 // Method #3
@@ -98,7 +157,7 @@ const submitHandler: OnSubmit<MyDataSet> = (data) => {
   console.log(data.firstName)
 }
 function MyForm() {
-  return <Form.Handler data={data} onSubmit={submitHandler} />
+  return <Form.Handler defaultData={data} onSubmit={submitHandler} />
 }
 ```
 
