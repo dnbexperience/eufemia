@@ -417,6 +417,7 @@ function ListItem({
         </div>
         {hasSubheadings && (
           <HeightAnimation
+            animate={isAccordion === true}
             element="ul"
             open={isExpanded}
             onAnimationEnd={(state) => {
@@ -433,7 +434,6 @@ function ListItem({
           </HeightAnimation>
         )}
       </li>
-      {/* Currently not nesting list items with an <ul/> inside <li/> as it breaks the styling for the time being */}
     </>
   )
 }
