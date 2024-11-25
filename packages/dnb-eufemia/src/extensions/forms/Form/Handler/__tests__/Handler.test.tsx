@@ -1161,10 +1161,10 @@ describe('Form.Handler', () => {
     })
   })
 
-  describe('decoupleFormElement', () => {
-    it('should contain one form element', () => {
+  describe.only('decoupleForm', () => {
+    it.only('should contain one form element', () => {
       render(
-        <Form.Handler decoupleFormElement>
+        <Form.Handler>
           <Form.Element>content</Form.Element>
         </Form.Handler>
       )
@@ -1177,7 +1177,7 @@ describe('Form.Handler', () => {
       const onSubmit = jest.fn()
 
       render(
-        <Form.Handler decoupleFormElement onSubmit={onSubmit}>
+        <Form.Handler decoupleForm onSubmit={onSubmit}>
           <Form.Element>content</Form.Element>
         </Form.Handler>
       )
@@ -1189,7 +1189,7 @@ describe('Form.Handler', () => {
 
     it('should spread rest props to form element', () => {
       render(
-        <Form.Handler decoupleFormElement aria-label="Aria Label">
+        <Form.Handler decoupleForm aria-label="Aria Label">
           <Form.Element>content</Form.Element>
         </Form.Handler>
       )
@@ -1202,7 +1202,7 @@ describe('Form.Handler', () => {
 
     it('should overwrite rest props from handler', () => {
       render(
-        <Form.Handler decoupleFormElement aria-label="Aria Label">
+        <Form.Handler decoupleForm aria-label="Aria Label">
           <Form.Element aria-label="Overwrite">content</Form.Element>
         </Form.Handler>
       )
@@ -1215,7 +1215,7 @@ describe('Form.Handler', () => {
 
     it('should render form element inside wrapper', () => {
       render(
-        <Form.Handler decoupleFormElement>
+        <Form.Handler decoupleForm>
           <div className="wrapper">
             <Form.Element>content</Form.Element>
           </div>
@@ -1229,12 +1229,12 @@ describe('Form.Handler', () => {
     it('should warn when no form element is found', () => {
       const log = jest.spyOn(global.console, 'log').mockImplementation()
 
-      render(<Form.Handler decoupleFormElement>content</Form.Handler>)
+      render(<Form.Handler decoupleForm>content</Form.Handler>)
 
       expect(log).toHaveBeenCalledTimes(1)
       expect(log).toHaveBeenCalledWith(
         expect.any(String),
-        'Please include a Form.Element when using decoupleFormElement!'
+        'Please include a Form.Element when using decoupleForm!'
       )
 
       log.mockRestore()

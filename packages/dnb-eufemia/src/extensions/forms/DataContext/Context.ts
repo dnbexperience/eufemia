@@ -182,7 +182,7 @@ export interface ContextState {
   required?: boolean
   submitState: Partial<EventStateObject>
   prerenderFieldProps?: boolean
-  decoupleFormElement?: boolean
+  decoupleForm?: boolean
   hasElementRef?: React.MutableRefObject<boolean>
   restHandlerProps?: Record<string, unknown>
   props: ProviderProps<unknown>

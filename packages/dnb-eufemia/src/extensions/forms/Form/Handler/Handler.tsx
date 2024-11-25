@@ -16,11 +16,11 @@ export type Props = FormElementProps & {
   /**
    * Will decouple the form element from rendering
    */
-  decoupleFormElement?: boolean
+  decoupleForm?: boolean
 }
 
 type AllowedProviderContextProps = ProviderProps<unknown> &
-  Pick<Props, 'decoupleFormElement' | 'autoComplete' | 'disabled'> &
+  Pick<Props, 'decoupleForm' | 'autoComplete' | 'disabled'> &
   Pick<ContextState, 'restHandlerProps' | 'hasElementRef'>
 
 const allowedProviderContextProps: Array<
@@ -51,21 +51,21 @@ const allowedProviderContextProps: Array<
   'autoComplete',
   'disabled',
   'required',
-  'decoupleFormElement',
+  'decoupleForm',
   'restHandlerProps',
 ]
 
 export default function FormHandler<Data extends JsonObject>(
   props: ProviderProps<Data> & Omit<Props, keyof ProviderProps<Data>>
 ) {
-  const { decoupleFormElement, children } = props
+  const { decoupleForm, children } = props
 
   const hasElementRef = useRef(false)
   useEffect(() => {
-    if (decoupleFormElement && !hasElementRef.current) {
-      warn('Please include a Form.Element when using decoupleFormElement!')
+    if (decoupleForm && !hasElementRef.current) {
+      warn('Please include a Form.Element when using decoupleForm!')
     }
-  }, [decoupleFormElement])
+  }, [decoupleForm])
 
   const providerProps = {
     hasElementRef,
@@ -86,11 +86,7 @@ export default function FormHandler<Data extends JsonObject>(
 
   return (
     <DataContextProvider {...providerProps}>
-      {decoupleFormElement ? (
-        children
-      ) : (
-        <FormElement>{children}</FormElement>
-      )}
+      {decoupleForm ? children : <FormElement>{children}</FormElement>}
     </DataContextProvider>
   )
 }
