@@ -1650,7 +1650,7 @@ const countries: Array<CountryType> = [
       en: 'Puerto Rico',
       nb: 'Puerto Rico',
     },
-    cdc: '1-787, 1-939',
+    cdc: '1-787',
     iso: 'PR',
     continent: 'North America',
   },
