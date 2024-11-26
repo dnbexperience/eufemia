@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { convertStringToDate, isDisabled } from '../DatePickerCalc'
 import isValid from 'date-fns/isValid'
 import format from 'date-fns/format'
-import { addMonths } from 'date-fns'
+import { addMonths, isSameDay } from 'date-fns'
 import { DateType } from '../DatePickerContext'
 
 export type DatePickerDateProps = {
@@ -65,20 +65,41 @@ export default function useDates(
   const hasDatePropChanges = useMemo(
     () =>
       Object.keys(dateProps).some((date) => {
-        return dateProps[date] !== previousDates[date]
+        const dateProp = dateProps[date]
+        const previousDate = previousDates[date]
+
+        const convertedDateProp = convertStringToDate(dateProp, {
+          dateFormat,
+        })
+        const convertedPreviousDare = convertStringToDate(previousDate, {
+          dateFormat,
+        })
+
+        if (
+          convertedDateProp instanceof Date &&
+          convertedPreviousDare instanceof Date
+        ) {
+          return !isSameDay(
+            convertStringToDate(dateProp, { dateFormat }),
+            convertStringToDate(previousDate, { dateFormat })
+          )
+        }
+
+        return dateProp !== previousDate
       }),
-    [dateProps, previousDates]
+    [dateProps, previousDates, dateFormat]
   )
 
   // Update dates on prop change
   if (hasDatePropChanges) {
-    setDates({
-      ...mapDates({ ...dates, ...dateProps }, previousDates, {
-        dateFormat,
-        isRange,
-        shouldCorrectDate,
-      }),
+    const updatedDates = updateDatesBasedOnProps({
+      dateProps,
+      previousDates,
+      dateFormat,
+      isRange,
     })
+
+    setDates((currentDates) => ({ ...currentDates, ...updatedDates }))
     setPreviousDates(dateProps)
   }
 
@@ -250,6 +271,80 @@ function mapDates(
       : null,
     __endYear: hasValidEndDate ? format(dates.endDate, 'yyyy') : null,
   }
+}
+
+function updateDatesBasedOnProps({
+  dateProps,
+  previousDates,
+  dateFormat,
+  isRange,
+}) {
+  const dates = {}
+
+  if (dateProps.date !== previousDates.date) {
+    dates['date'] = dateProps.date
+
+    if (!dateProps.startDate) {
+      dates['startDate'] = getDate(dateProps.date, dateFormat) ?? undefined
+    }
+
+    if (!dateProps.startMonth) {
+      dates['startMonth'] =
+        convertStringToDate(dateProps.date, {
+          dateFormat,
+        }) ?? undefined
+    }
+
+    // Set endDate and endMonth to undefined if not in range mode, to prevent weird calendar and input behaviour
+    if (!isRange) {
+      dates['endDate'] = undefined
+      dates['endMonth'] = undefined
+    }
+  }
+
+  if (dateProps.startDate !== previousDates.startDate) {
+    dates['startDate'] =
+      getDate(dateProps.startDate, dateFormat) ?? undefined
+  }
+
+  if (dateProps.endDate !== previousDates.endDate) {
+    dates['endDate'] =
+      convertStringToDate(dateProps.endDate, {
+        dateFormat,
+      }) ?? undefined
+  }
+
+  if (dateProps.startMonth !== previousDates.startMonth) {
+    dates['startMonth'] =
+      convertStringToDate(dateProps.startMonth, {
+        dateFormat,
+      }) ??
+      dates['startDate'] ??
+      undefined
+  }
+
+  if (dateProps.endMonth !== previousDates.endMonth) {
+    dates['endMonth'] =
+      convertStringToDate(dateProps.endMonth, {
+        dateFormat: dateFormat,
+      }) ?? undefined
+  }
+
+  if (dateProps.minDate !== previousDates.minDate) {
+    dates['minDate'] =
+      convertStringToDate(dateProps.minDate, {
+        dateFormat,
+      }) ?? undefined
+  }
+
+  if (dateProps.maxDate !== previousDates.maxDate) {
+    dates['maxDate'] =
+      convertStringToDate(dateProps.maxDate, {
+        dateFormat,
+      }) ?? undefined
+  }
+
+  return dates
 }
 
 function correctDates({
