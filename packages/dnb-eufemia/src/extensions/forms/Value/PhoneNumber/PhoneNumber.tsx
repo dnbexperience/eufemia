@@ -1,9 +1,6 @@
 import React, { useCallback } from 'react'
 import StringValue, { Props as StringValueProps } from '../String'
-import {
-  format,
-  cleanNumber,
-} from '../../../../components/number-format/NumberUtils'
+import { format } from '../../../../components/number-format/NumberUtils'
 import useTranslation from '../../hooks/useTranslation'
 
 export type Props = StringValueProps
@@ -15,7 +12,8 @@ function PhoneNumber(props: Props) {
     props.label ?? (props.inline ? undefined : translations.label)
 
   const toInput = useCallback((value) => {
-    return format(cleanNumber(value), {
+    // We can't use the "cleanNumber" function here, because we need to keep the country code separate from the number
+    return format(value, {
       phone: true,
     }).toString()
   }, [])
