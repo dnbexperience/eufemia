@@ -4,6 +4,7 @@
  */
 
 import { mockClipboard } from '../../../core/jest/jestSetup'
+import countries from '../../../extensions/forms/constants/countries'
 import { InternalLocale } from '../../../shared/Context'
 import { LOCALE } from '../../../shared/defaults'
 import * as helpers from '../../../shared/helpers'
@@ -941,22 +942,34 @@ describe('formatPhone', () => {
     expect(number).toBe('12 34 56 78')
   })
 
-  it('should format a phone number with country code', () => {
-    const result = formatPhone('+4712345678')
-    expect(result.number).toBe('+47 12 34 56 78')
-    expect(result.aria).toBe('+47 12 34 56 78')
+  it('should format a phone number with single country code', () => {
+    const result = formatPhone('+1 23456789')
+    expect(result.number).toBe('+1 23 45 67 89')
+    expect(result.aria).toBe('+1 23 45 67 89')
+  })
+
+  it('should format a phone number with three country code digits', () => {
+    const result = formatPhone('+358 23456789')
+    expect(result.number).toBe('+358 23 45 67 89')
+    expect(result.aria).toBe('+358 23 45 67 89')
+  })
+
+  it('should format a phone number with slash in country code', () => {
+    const result = formatPhone('+44-1534 12345678')
+    expect(result.number).toBe('+44 (1534) 12 34 56 78')
+    expect(result.aria).toBe('+44 (1534) 12 34 56 78')
+  })
+
+  it('should format a long number with', () => {
+    const result = formatPhone('+123456 123456789123456789')
+    expect(result.number).toBe('+123456 12 34 56 78 91 23 45 67 89')
+    expect(result.aria).toBe('+123456 12 34 56 78 91 23 45 67 89')
   })
 
   it('should format a phone number without country code', () => {
     const result = formatPhone('12345678')
     expect(result.number).toBe('12 34 56 78')
     expect(result.aria).toBe('12 34 56 78')
-  })
-
-  it('should format a phone number with leading 00 country code', () => {
-    const result = formatPhone('004712345678')
-    expect(result.number).toBe('+47 12 34 56 78')
-    expect(result.aria).toBe('+47 12 34 56 78')
   })
 
   it('should format a short phone number', () => {
@@ -972,9 +985,9 @@ describe('formatPhone', () => {
   })
 
   it('should handle invalid characters in phone number', () => {
-    const result = formatPhone('+47-123-456-78')
-    expect(result.number).toBe('+47 12 34 56 78')
-    expect(result.aria).toBe('+47 12 34 56 78')
+    const result = formatPhone('+123 123-456-78')
+    expect(result.number).toBe('+123 12 34 56 78')
+    expect(result.aria).toBe('+123 12 34 56 78')
   })
 
   it('should handle empty input', () => {
@@ -993,5 +1006,45 @@ describe('formatPhone', () => {
     const result = formatPhone(undefined)
     expect(result.number).toBe('')
     expect(result.aria).toBe('')
+  })
+
+  it.each(countries.map(({ cdc, i18n }) => [`${i18n.en}`, cdc]))(
+    'should handle %s country code',
+    (_, cdc) => {
+      const result = formatPhone(`+${cdc} 12345678`)
+
+      if (cdc.includes('-')) {
+        cdc = cdc.replace(/([\d]{1,2})-([\d]{1,6})/, '$1 ($2)')
+      }
+
+      expect(result.number).toBe(`+${cdc} 12 34 56 78`)
+      expect(result.aria).toBe(`+${cdc} 12 34 56 78`)
+    }
+  )
+
+  describe('Norway', () => {
+    it('should format a the country code without space', () => {
+      const result = formatPhone('+4712345678')
+      expect(result.number).toBe('+47 12 34 56 78')
+      expect(result.aria).toBe('+47 12 34 56 78')
+    })
+
+    it('should format the country code without + or 00', () => {
+      const result = formatPhone('4712345678')
+      expect(result.number).toBe('+47 12 34 56 78')
+      expect(result.aria).toBe('+47 12 34 56 78')
+    })
+
+    it('should format the country code with 00', () => {
+      const result = formatPhone('004712345678')
+      expect(result.number).toBe('+47 12 34 56 78')
+      expect(result.aria).toBe('+47 12 34 56 78')
+    })
+
+    it('should format the country code with +', () => {
+      const result = formatPhone('+47 12345678')
+      expect(result.number).toBe('+47 12 34 56 78')
+      expect(result.aria).toBe('+47 12 34 56 78')
+    })
   })
 })
