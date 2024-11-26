@@ -315,9 +315,7 @@ function updateDatesBasedOnProps({
     dates['startMonth'] =
       convertStringToDate(dateProps.startMonth, {
         dateFormat,
-      }) ??
-      dates['startDate'] ??
-      undefined
+      }) ?? undefined
   }
 
   if (dateProps.endMonth !== previousDates.endMonth) {
