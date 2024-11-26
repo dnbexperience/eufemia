@@ -1253,4 +1253,57 @@ describe('Field.Upload', () => {
       )
     })
   })
+
+  it('should not set files from session storage if they are invalid', async () => {
+    const file = createMockFile('fileName.png', 100, 'image/png')
+
+    const { unmount } = render(
+      <Form.Handler sessionStorageId="session-storage-id">
+        <Field.Upload path="/myFiles" />
+      </Form.Handler>
+    )
+
+    const element = getRootElement()
+
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
+    )
+
+    expect(
+      document.querySelectorAll('.dnb-upload__file-cell').length
+    ).toBe(1)
+
+    let dataContext = null
+
+    // Don't rerender, but render again to make sure the files are not set
+    unmount()
+    render(
+      <Form.Handler sessionStorageId="session-storage-id">
+        <Field.Upload path="/myFiles" />
+        <DataContext.Consumer>
+          {(context) => {
+            dataContext = context
+            return null
+          }}
+        </DataContext.Consumer>
+      </Form.Handler>
+    )
+
+    expect(dataContext.internalDataRef.current.myFiles).toEqual([
+      {
+        exists: false,
+        file: {},
+        id: expect.any(String),
+      },
+    ])
+    const [title] = Array.from(document.querySelectorAll('p'))
+    expect(title).toHaveTextContent(nbShared.Upload.title)
+    expect(
+      document.querySelectorAll('.dnb-upload__file-cell').length
+    ).toBe(0)
+  })
 })
