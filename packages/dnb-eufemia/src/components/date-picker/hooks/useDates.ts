@@ -71,18 +71,15 @@ export default function useDates(
         const convertedDateProp = convertStringToDate(dateProp, {
           dateFormat,
         })
-        const convertedPreviousDare = convertStringToDate(previousDate, {
+        const convertedPreviousDate = convertStringToDate(previousDate, {
           dateFormat,
         })
 
         if (
           convertedDateProp instanceof Date &&
-          convertedPreviousDare instanceof Date
+          convertedPreviousDate instanceof Date
         ) {
-          return !isSameDay(
-            convertStringToDate(dateProp, { dateFormat }),
-            convertStringToDate(previousDate, { dateFormat })
-          )
+          return !isSameDay(convertedDateProp, convertedPreviousDate)
         }
 
         return dateProp !== previousDate
