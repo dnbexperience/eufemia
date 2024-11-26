@@ -261,11 +261,6 @@ export const format = (
       currencyDisplay: 'name',
     })
     aria = enhanceSR(cleanedNumber, aria, locale) // also calls prepareMinus
-
-    // get only the currency name
-    // const num = aria.replace(/([^0-9])+$/g, '')
-    // const name = aria.replace(num, '')
-    // aria = cleanedNumber + name
   } else {
     handleCompactBeforeDisplay({ value, locale, compact, decimals, opts })
 
@@ -592,12 +587,14 @@ export const formatPhone = (number, locale = null) => {
     default: {
       let code = ''
       number = String(number)
-        .replace(/^(00|\+)47([^\s])/, '+47 $2') // Edge case for when a Norwegian number is given without a space after the country code
+        // Edge case for when a Norwegian number is given without a space after the country code
+        .replace(/^(00|\+|)47([^\s])/, '+47 $2')
         .replace(/^00/, '+')
 
-      if (number[0] === '+') {
+      if (number.substring(0, 1) === '+') {
         const codeAndNumber = number.match(
-          /^\+([\d-]{1,8})\s{0,2}([\d-]{1,20})$/
+          // Split the number into the country code and the rest of the number
+          /^\+([\d-]{1,8})\s{0,2}([\d\s-]{1,20})$/
         )
         if (codeAndNumber) {
           code = `+${codeAndNumber[1]} `
@@ -605,30 +602,35 @@ export const formatPhone = (number, locale = null) => {
         }
       }
 
-      number = number.replace(/[^+0-9]/g, '')
+      number = number.replace(/[^+\d]/g, '')
       const length = number.length
 
-      // get 800 22 222
-      if (length === 8 && number[0] === '8') {
+      // Get 800 22 222
+      if (length === 8 && number.substring(0, 1) === '8') {
         display =
           code +
           number
-            .split(/([0-9]{3})([0-9]{2})/)
+            .split(/([\d]{3})([\d]{2})/)
             .filter((s) => s)
             .join(' ')
       } else {
-        // get 02000
+        // Get 02000
         if (length < 6) {
           display = code + number
         } else {
-          // get 6 or 8 formatting
+          if (code.includes('-')) {
+            // Convert +12-3456 to +12 (3456)
+            code = code.replace(/(\+[\d]{1,2})-([\d]{1,6})/, '$1 ($2)')
+          }
+
+          // Get 6 or 8 formatting
           display =
             code +
             number
               .split(
                 length === 6
-                  ? /^(\+[0-9]{2})|([0-9]{3})/
-                  : /^(\+[0-9]{2})|([0-9]{2})/
+                  ? /^(\+[\d]{2})|([\d]{3})/
+                  : /^(\+[\d]{2})|([\d]{2})/
               )
               .filter((s) => s)
               .join(' ')
@@ -638,7 +640,7 @@ export const formatPhone = (number, locale = null) => {
       aria =
         code +
         number
-          .split(/([0-9]{2})/)
+          .split(/([\d]{2})/)
           .filter((s) => s)
           .join(' ')
     }
@@ -667,7 +669,7 @@ export const formatBAN = (number, locale = null) => {
 
   switch (locale) {
     default: {
-      // get 2000 12 34567
+      // Get 2000 12 34567
       display = number
         .split(/([0-9]{4})([0-9]{2})([0-9]{1,})/)
         .filter((s) => s)
@@ -703,7 +705,7 @@ export const formatORG = (number, locale = null) => {
 
   switch (locale) {
     default: {
-      // get 123 456 789
+      // Get 123 456 789
       display = number
         .split(/([0-9]{3})/)
         .filter((s) => s)
@@ -739,7 +741,7 @@ export const formatNIN = (number, locale = null) => {
 
   switch (locale) {
     default: {
-      // get 180892 12345
+      // Get 180892 12345
       display = number
         .split(/([0-9]{6})/)
         .filter((s) => s)
