@@ -234,7 +234,7 @@
 
     &__expand-button {
       align-self: center;
-      margin-right: 0.5rem;
+      margin-right: 1rem;
       &:hover {
         background-color: white;
         outline: 1px solid currentcolor;
@@ -255,7 +255,7 @@
         }
 
         > .dnb-sidebar-menu__item .dnb-sidebar-menu__expand-button {
-          margin-right: 0.25rem;
+          margin-right: 0.75rem;
         }
       }
     }
