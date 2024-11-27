@@ -69,15 +69,20 @@
 
 @mixin htmlDefault() {
   html {
+    font-size: 100%;
+
     &:not([data-visual-test]) {
       scroll-behavior: smooth;
     }
-    font-size: 100%;
 
     // IS_SAFARI_MOBILE
     @supports (-webkit-touch-callout: none) {
       @supports (font: -apple-system-body) {
+        // Use "-apple-system-body" so Safari uses the font-size of the OS.
         font: -apple-system-body; /* stylelint-disable-line */
+
+        // Recalculates the font size to be "18px" instead of "19.125px"
+        --font-size-modifier: 0.9411765;
       }
     }
   }

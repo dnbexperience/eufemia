@@ -19,15 +19,16 @@
   --font-weight-bold: 600;
 
   // Typography Sizes
-  --font-size-x-small: 0.875rem; // 14px
-  --font-size-small: 1rem; // 16px
-  --font-size-basis: 1.125rem; // 18px
-  --font-size-basis--em: 1em; // 16px
-  --font-size-lead: var(--font-size-medium); // 20px
-  --font-size-medium: 1.25rem; // 20px
-  --font-size-large: 1.625rem; // 26px
-  --font-size-x-large: 2.125rem; // 34px
-  --font-size-xx-large: 3rem; // 48px
+  --mod: var(--font-size-modifier, 1);
+  --font-size-x-small: calc(0.875rem * var(--mod)); // 14px
+  --font-size-small: calc(1rem * var(--mod)); // 16px
+  --font-size-basis: calc(1.125rem * var(--mod)); // 18px
+  --font-size-basis--em: calc(1em * var(--mod)); // 16px
+  --font-size-lead: calc(var(--font-size-medium) * var(--mod)); // 20px
+  --font-size-medium: calc(1.25rem * var(--mod)); // 20px
+  --font-size-large: calc(1.625rem * var(--mod)); // 26px
+  --font-size-x-large: calc(2.125rem * var(--mod)); // 34px
+  --font-size-xx-large: calc(3rem * var(--mod)); // 48px
 
   // Typography Line heights
   --line-height-xx-small--em: 1em; // 16px
