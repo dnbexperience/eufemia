@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useState } from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import userEvent from '@testing-library/user-event'
 import DatePicker, { DatePickerAllProps } from '../DatePicker'
@@ -221,6 +221,264 @@ describe('DatePicker component', () => {
     expect(
       document.querySelector('.dnb-date-picker').getAttribute('class')
     ).not.toContain('dnb-date-picker--opened')
+  })
+
+  it('should delete input content one number at a time when date is prop controlled', async () => {
+    const Component = () => {
+      const [date, setDate] = useState('2024-05-17')
+
+      return (
+        <DatePicker
+          showInput
+          date={date}
+          onChange={({ date }) => setDate(date)}
+        />
+      )
+    }
+
+    render(<Component />)
+
+    const [day, month, year]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('input.dnb-input__input')
+    )
+
+    expect(day.value).toBe('17')
+    expect(month.value).toBe('05')
+    expect(year.value).toBe('2024')
+
+    await userEvent.click(year)
+    await userEvent.keyboard('{ArrowRight>4}{backspace}')
+
+    expect(day.value).toBe('17')
+    expect(month.value).toBe('05')
+    expect(year.value).toBe('202å')
+
+    await userEvent.keyboard('{backspace}')
+
+    expect(day.value).toBe('17')
+    expect(month.value).toBe('05')
+    expect(year.value).toBe('20åå')
+
+    await userEvent.keyboard('{backspace}')
+
+    expect(day.value).toBe('17')
+    expect(month.value).toBe('05')
+    expect(year.value).toBe('2ååå')
+
+    await userEvent.keyboard('{backspace}')
+
+    expect(day.value).toBe('17')
+    expect(month.value).toBe('05')
+    expect(year.value).toBe('åååå')
+
+    await userEvent.keyboard('{backspace>2}')
+
+    expect(day.value).toBe('17')
+    expect(month.value).toBe('0m')
+    expect(year.value).toBe('åååå')
+
+    await userEvent.keyboard('{backspace}')
+
+    expect(day.value).toBe('17')
+    expect(month.value).toBe('mm')
+    expect(year.value).toBe('åååå')
+
+    await userEvent.keyboard('{backspace>2}')
+
+    expect(day.value).toBe('1d')
+    expect(month.value).toBe('mm')
+    expect(year.value).toBe('åååå')
+
+    await userEvent.keyboard('{backspace}')
+
+    expect(day.value).toBe('dd')
+    expect(month.value).toBe('mm')
+    expect(year.value).toBe('åååå')
+  })
+
+  it('should delete input content one number at a time when date is prop controlled and in ranged mode', async () => {
+    const Component = () => {
+      const [startDate, setStartDate] = useState('2024-05-01')
+      const [endDate, setEndDate] = useState('2025-06-30')
+
+      return (
+        <DatePicker
+          showInput
+          range
+          startDate={startDate}
+          endDate={endDate}
+          onChange={({ start_date, end_date }) => {
+            setStartDate(start_date)
+            setEndDate(end_date)
+          }}
+        />
+      )
+    }
+
+    render(<Component />)
+
+    const [
+      startDay,
+      startMonth,
+      startYear,
+      endDay,
+      endMonth,
+      endYear,
+    ]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('input.dnb-input__input')
+    )
+
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('05')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('30')
+    expect(endMonth.value).toBe('06')
+    expect(endYear.value).toBe('2025')
+
+    await userEvent.click(endYear)
+    await userEvent.keyboard('{ArrowRight>4}{backspace}')
+
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('05')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('30')
+    expect(endMonth.value).toBe('06')
+    expect(endYear.value).toBe('202å')
+
+    await userEvent.keyboard('{backspace}')
+
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('05')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('30')
+    expect(endMonth.value).toBe('06')
+    expect(endYear.value).toBe('20åå')
+
+    await userEvent.keyboard('{backspace}')
+
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('05')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('30')
+    expect(endMonth.value).toBe('06')
+    expect(endYear.value).toBe('2ååå')
+
+    await userEvent.keyboard('{backspace}')
+
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('05')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('30')
+    expect(endMonth.value).toBe('06')
+    expect(endYear.value).toBe('åååå')
+
+    await userEvent.keyboard('{backspace>2}')
+
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('05')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('30')
+    expect(endMonth.value).toBe('0m')
+    expect(endYear.value).toBe('åååå')
+
+    await userEvent.keyboard('{backspace}')
+
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('05')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('30')
+    expect(endMonth.value).toBe('mm')
+    expect(endYear.value).toBe('åååå')
+
+    await userEvent.keyboard('{backspace>2}')
+
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('05')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('3d')
+    expect(endMonth.value).toBe('mm')
+    expect(endYear.value).toBe('åååå')
+
+    await userEvent.keyboard('{backspace}')
+
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('05')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('dd')
+    expect(endMonth.value).toBe('mm')
+    expect(endYear.value).toBe('åååå')
+
+    await userEvent.keyboard('{backspace>2}')
+
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('05')
+    expect(startYear.value).toBe('202å')
+    expect(endDay.value).toBe('dd')
+    expect(endMonth.value).toBe('mm')
+    expect(endYear.value).toBe('åååå')
+
+    await userEvent.keyboard('{backspace}')
+
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('05')
+    expect(startYear.value).toBe('20åå')
+    expect(endDay.value).toBe('dd')
+    expect(endMonth.value).toBe('mm')
+    expect(endYear.value).toBe('åååå')
+
+    await userEvent.keyboard('{backspace}')
+
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('05')
+    expect(startYear.value).toBe('2ååå')
+    expect(endDay.value).toBe('dd')
+    expect(endMonth.value).toBe('mm')
+    expect(endYear.value).toBe('åååå')
+
+    await userEvent.keyboard('{backspace}')
+
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('05')
+    expect(startYear.value).toBe('åååå')
+    expect(endDay.value).toBe('dd')
+    expect(endMonth.value).toBe('mm')
+    expect(endYear.value).toBe('åååå')
+
+    await userEvent.keyboard('{backspace>2}')
+
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('0m')
+    expect(startYear.value).toBe('åååå')
+    expect(endDay.value).toBe('dd')
+    expect(endMonth.value).toBe('mm')
+    expect(endYear.value).toBe('åååå')
+
+    await userEvent.keyboard('{backspace}')
+
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('mm')
+    expect(startYear.value).toBe('åååå')
+    expect(endDay.value).toBe('dd')
+    expect(endMonth.value).toBe('mm')
+    expect(endYear.value).toBe('åååå')
+
+    await userEvent.keyboard('{backspace>2}')
+
+    expect(startDay.value).toBe('0d')
+    expect(startMonth.value).toBe('mm')
+    expect(startYear.value).toBe('åååå')
+    expect(endDay.value).toBe('dd')
+    expect(endMonth.value).toBe('mm')
+    expect(endYear.value).toBe('åååå')
+
+    await userEvent.keyboard('{backspace}')
+
+    expect(startDay.value).toBe('dd')
+    expect(startMonth.value).toBe('mm')
+    expect(startYear.value).toBe('åååå')
+    expect(endDay.value).toBe('dd')
+    expect(endMonth.value).toBe('mm')
+    expect(endYear.value).toBe('åååå')
   })
 
   it('will render the result of "onDaysRender"', () => {
@@ -2314,51 +2572,6 @@ describe('DatePicker calc', () => {
     expect(
       rightPicker.querySelector('.dnb-date-picker__header__title')
     ).toHaveTextContent('november 2024')
-  })
-
-  it('should remove end date from ranged input, where dates are prop controlled, when pressing backspace', async () => {
-    const Component = () => {
-      const [startDate, setStartDate] = React.useState('2024-10-10')
-      const [endDate, setEndDate] = React.useState('2024-11-21')
-
-      return (
-        <DatePicker
-          range
-          showInput
-          date={startDate}
-          startDate={startDate}
-          endDate={endDate}
-          onChange={({ start_date, end_date }) => {
-            setStartDate(start_date)
-            setEndDate(end_date)
-          }}
-        />
-      )
-    }
-
-    render(<Component />)
-
-    const [startDay, startMonth, startYear, endDay, endMonth, endYear] =
-      Array.from(
-        document.querySelectorAll('.dnb-date-picker__input')
-      ) as Array<HTMLInputElement>
-
-    expect(startDay.value).toBe('10')
-    expect(startMonth.value).toBe('10')
-    expect(startYear.value).toBe('2024')
-    expect(endDay.value).toBe('21')
-    expect(endMonth.value).toBe('11')
-    expect(endYear.value).toBe('2024')
-
-    await userEvent.click(endYear)
-    await userEvent.keyboard('{backspace>3}')
-
-    expect(startDay.value).toBe('10')
-    expect(startMonth.value).toBe('10')
-    expect(startYear.value).toBe('2024')
-    expect(endDay.value).toBe('dd')
-    expect(endMonth.value).toBe('mm')
-    expect(endYear.value).toBe('åååå')
   })
 })
 
