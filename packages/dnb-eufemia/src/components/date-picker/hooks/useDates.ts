@@ -285,8 +285,14 @@ function updateDatesBasedOnProps({
   previousDates,
   dateFormat,
   isRange,
+}: {
+  dateProps: DatePickerDateProps
+  previousDateProps: DatePickerDateProps
+  previousDates: DatePickerDates
+  dateFormat: UseDatesOptions['dateFormat']
+  isRange: UseDatesOptions['isRange']
 }) {
-  const dates = {}
+  const dates: DatePickerDates = {}
 
   const startDate = getStartDate(dateProps, previousDateProps)
 
@@ -295,27 +301,25 @@ function updateDatesBasedOnProps({
     typeof startDate !== 'undefined' &&
     startDate !== previousDates.startDate
   ) {
-    dates['startDate'] =
+    dates.startDate =
       convertStringToDate(startDate, {
         dateFormat,
       }) || undefined
 
-    dates['startMonth'] =
+    dates.startMonth =
       convertStringToDate(startDate, {
         dateFormat,
       }) || undefined
-
-    if (!isRange) {
-      dates['endDate'] = dates['startDate']
-    }
   }
 
-  if (
+  if (!isRange) {
+    dates.endDate = dates.startDate
+  } else if (
     typeof dateProps.endDate !== 'undefined' &&
     isRange &&
     dateProps.endDate !== previousDates.endDate
   ) {
-    dates['endDate'] =
+    dates.endDate =
       convertStringToDate(dateProps.endDate, {
         dateFormat,
       }) || undefined
@@ -326,7 +330,7 @@ function updateDatesBasedOnProps({
     typeof dateProps.startMonth !== 'undefined' &&
     dateProps.startMonth !== previousDateProps.startMonth
   ) {
-    dates['startMonth'] = convertStringToDate(dateProps.startMonth, {
+    dates.startMonth = convertStringToDate(dateProps.startMonth, {
       dateFormat,
     })
   }
@@ -334,7 +338,7 @@ function updateDatesBasedOnProps({
     typeof dateProps.endMonth !== 'undefined' &&
     dateProps.endMonth !== previousDateProps.endMonth
   ) {
-    dates['endMonth'] = convertStringToDate(previousDates.endMonth, {
+    dates.endMonth = convertStringToDate(previousDates.endMonth, {
       dateFormat,
     })
   }
@@ -344,7 +348,7 @@ function updateDatesBasedOnProps({
     typeof dateProps.minDate !== 'undefined' &&
     dateProps.minDate !== previousDateProps.minDate
   ) {
-    dates['minDate'] = convertStringToDate(dateProps.minDate, {
+    dates.minDate = convertStringToDate(dateProps.minDate, {
       dateFormat,
     })
   }
@@ -352,7 +356,7 @@ function updateDatesBasedOnProps({
     typeof dateProps.maxDate !== 'undefined' &&
     dateProps.maxDate !== previousDateProps.maxDate
   ) {
-    dates['maxDate'] = convertStringToDate(dateProps.maxDate, {
+    dates.maxDate = convertStringToDate(dateProps.maxDate, {
       dateFormat,
     })
   }
@@ -417,18 +421,22 @@ function getDate(date: DateType, dateFormat: string) {
       })
 }
 
-function getStartDate(dateProps, previousDateProps) {
-  if (
-    typeof dateProps.date !== 'undefined' &&
-    dateProps.date !== previousDateProps.date
-  ) {
-    return dateProps.date
-  }
+function getStartDate(
+  dateProps: DatePickerDateProps,
+  previousDateProps: DatePickerDateProps
+) {
   if (
     typeof dateProps.startDate !== 'undefined' &&
     dateProps.startDate !== previousDateProps.startDate
   ) {
     return dateProps.startDate
+  }
+
+  if (
+    typeof dateProps.date !== 'undefined' &&
+    dateProps.date !== previousDateProps.date
+  ) {
+    return dateProps.date
   }
 
   return undefined
