@@ -223,7 +223,7 @@ describe('DatePicker component', () => {
     ).not.toContain('dnb-date-picker--opened')
   })
 
-  it('should delete input content one number at a time when `date` is prop controlled', async () => {
+  it('should delete input content one number at a time when `date` is "prop controlled"', async () => {
     const Component = () => {
       const [date, setDate] = useState('2024-05-17')
 
