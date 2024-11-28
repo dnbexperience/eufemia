@@ -296,7 +296,7 @@ describe('DatePicker component', () => {
     expect(year.value).toBe('åååå')
   })
 
-  it('should delete input content one number at a time when `startDate` and `endDate` is prop controlled and in ranged mode', async () => {
+  it('should delete input content one number at a time when `startDate` and `endDate` is "prop controlled" and in ranged mode', async () => {
     const Component = () => {
       const [startDate, setStartDate] = useState('2024-05-01')
       const [endDate, setEndDate] = useState('2025-06-30')
