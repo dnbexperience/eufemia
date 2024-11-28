@@ -288,22 +288,9 @@ function updateDatesBasedOnProps({
 }) {
   const dates = {}
 
-  let startDate = undefined
+  const startDate = getStartDate(dateProps, previousDateProps)
 
   // Handle startDate/endDate
-  if (
-    typeof dateProps.date !== 'undefined' &&
-    dateProps.date !== previousDateProps.date
-  ) {
-    startDate = dateProps.date
-  }
-  if (
-    typeof dateProps.startDate !== 'undefined' &&
-    dateProps.startDate !== previousDateProps.startDate
-  ) {
-    startDate = dateProps.startDate
-  }
-
   if (
     typeof startDate !== 'undefined' &&
     startDate !== previousDates.startDate
@@ -428,6 +415,23 @@ function getDate(date: DateType, dateFormat: string) {
     : convertStringToDate(date ?? '', {
         dateFormat,
       })
+}
+
+function getStartDate(dateProps, previousDateProps) {
+  if (
+    typeof dateProps.date !== 'undefined' &&
+    dateProps.date !== previousDateProps.date
+  ) {
+    return dateProps.date
+  }
+  if (
+    typeof dateProps.startDate !== 'undefined' &&
+    dateProps.startDate !== previousDateProps.startDate
+  ) {
+    return dateProps.startDate
+  }
+
+  return undefined
 }
 
 export function pad(date: string, size: number) {
