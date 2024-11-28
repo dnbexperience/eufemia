@@ -174,7 +174,7 @@ export default function useDates(
     dates,
     updateDates,
     hasHadValidDate: hasHadValidDate.current,
-    previousDates: previousDateProps,
+    previousDateProps,
   } as const
 }
 
