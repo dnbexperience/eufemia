@@ -90,7 +90,7 @@ export default function useDates(
 
   // Update dates on prop change
   if (hasDatePropChanges) {
-    const updatedDates = updateDatesBasedOnProps({
+    const derivedDates = deriveDatesFromProps({
       dates,
       dateProps,
       previousDateProps,
@@ -98,7 +98,7 @@ export default function useDates(
       isRange,
     })
 
-    setDates((currentDates) => ({ ...currentDates, ...updatedDates }))
+    setDates((currentDates) => ({ ...currentDates, ...derivedDates }))
     setPreviousDateProps(dateProps)
   }
 
@@ -268,7 +268,7 @@ function mapDates(
   }
 }
 
-function updateDatesBasedOnProps({
+function deriveDatesFromProps({
   dates,
   dateProps,
   previousDateProps,
@@ -281,25 +281,25 @@ function updateDatesBasedOnProps({
   dateFormat: UseDatesOptions['dateFormat']
   isRange: UseDatesOptions['isRange']
 }) {
-  const updatedDates: DatePickerDates = {}
+  const derivedDates: DatePickerDates = {}
 
   const startDate = getStartDate(dateProps, previousDateProps)
 
   // Handle updates related to date and startDate changes when not in range mode
   if (typeof startDate !== 'undefined' && startDate !== dates.startDate) {
-    updatedDates.startDate =
+    derivedDates.startDate =
       convertStringToDate(startDate, {
         dateFormat,
       }) || undefined
 
     // Set endDate and startMonth to startDate if not in range mode
     if (!isRange) {
-      updatedDates.startMonth =
+      derivedDates.startMonth =
         convertStringToDate(startDate, {
           dateFormat,
         }) || undefined
 
-      updatedDates.endDate = updatedDates.startDate
+      derivedDates.endDate = derivedDates.startDate
     }
   }
 
@@ -309,7 +309,7 @@ function updateDatesBasedOnProps({
     typeof dateProps.endDate !== 'undefined' &&
     dateProps.endDate !== dates.endDate
   ) {
-    updatedDates.endDate =
+    derivedDates.endDate =
       convertStringToDate(dateProps.endDate, {
         dateFormat,
       }) || undefined
@@ -320,7 +320,7 @@ function updateDatesBasedOnProps({
     typeof dateProps.startMonth !== 'undefined' &&
     dateProps.startMonth !== previousDateProps.startMonth
   ) {
-    updatedDates.startMonth = convertStringToDate(dateProps.startMonth, {
+    derivedDates.startMonth = convertStringToDate(dateProps.startMonth, {
       dateFormat,
     })
   }
@@ -328,7 +328,7 @@ function updateDatesBasedOnProps({
     typeof dateProps.endMonth !== 'undefined' &&
     dateProps.endMonth !== previousDateProps.endMonth
   ) {
-    updatedDates.endMonth = convertStringToDate(dateProps.endMonth, {
+    derivedDates.endMonth = convertStringToDate(dateProps.endMonth, {
       dateFormat,
     })
   }
@@ -338,7 +338,7 @@ function updateDatesBasedOnProps({
     typeof dateProps.minDate !== 'undefined' &&
     dateProps.minDate !== previousDateProps.minDate
   ) {
-    updatedDates.minDate = convertStringToDate(dateProps.minDate, {
+    derivedDates.minDate = convertStringToDate(dateProps.minDate, {
       dateFormat,
     })
   }
@@ -346,12 +346,12 @@ function updateDatesBasedOnProps({
     typeof dateProps.maxDate !== 'undefined' &&
     dateProps.maxDate !== previousDateProps.maxDate
   ) {
-    updatedDates.maxDate = convertStringToDate(dateProps.maxDate, {
+    derivedDates.maxDate = convertStringToDate(dateProps.maxDate, {
       dateFormat,
     })
   }
 
-  return updatedDates
+  return derivedDates
 }
 
 function correctDates({
