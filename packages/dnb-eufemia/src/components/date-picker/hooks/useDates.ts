@@ -53,7 +53,8 @@ export default function useDates(
     shouldCorrectDate = false,
   }: UseDatesOptions
 ) {
-  const [previousDates, setPreviousDates] = useState(dateProps)
+  const [previousDates, setPreviousDates] = useState({})
+  const [previousDateProps, setPreviousDateProps] = useState(dateProps)
   const [dates, setDates] = useState<DatePickerDates>({
     ...mapDates(dateProps, previousDates, {
       dateFormat,
@@ -66,7 +67,7 @@ export default function useDates(
     () =>
       Object.keys(dateProps).some((date) => {
         const dateProp = dateProps[date]
-        const previousDate = previousDates[date]
+        const previousDate = previousDateProps[date]
 
         const convertedDateProp = convertStringToDate(dateProp, {
           dateFormat,
@@ -74,7 +75,8 @@ export default function useDates(
         const convertedPreviousDate = convertStringToDate(previousDate, {
           dateFormat,
         })
-
+        // Make sure that same dates does not trigger a change
+        // i.e. 2021-01-01 and new Date('2021-01-01')
         if (
           convertedDateProp instanceof Date &&
           convertedPreviousDate instanceof Date
@@ -84,20 +86,21 @@ export default function useDates(
 
         return dateProp !== previousDate
       }),
-    [dateProps, previousDates, dateFormat]
+    [dateProps, previousDateProps, dateFormat]
   )
 
   // Update dates on prop change
   if (hasDatePropChanges) {
     const updatedDates = updateDatesBasedOnProps({
       dateProps,
+      previousDateProps,
       previousDates,
       dateFormat,
       isRange,
     })
 
     setDates((currentDates) => ({ ...currentDates, ...updatedDates }))
-    setPreviousDates(dateProps)
+    setPreviousDateProps(dateProps)
   }
 
   const hasHadValidDate = useRef<boolean>(false)
@@ -133,6 +136,13 @@ export default function useDates(
         }
       })
 
+      setPreviousDates((currentPreviousDates) => ({
+        ...currentPreviousDates,
+        ...newDates,
+        ...months,
+        ...correctedDates,
+      }))
+
       callback?.({
         ...dates,
         ...newDates,
@@ -146,8 +156,8 @@ export default function useDates(
   // Updated input dates based on start and end dates, move to DatePickerInput
   // TODO: Move to DatePickerInput
   useEffect(() => {
-    const startDates = updateInputDates('start', dates)
-    const endDates = updateInputDates('end', dates)
+    const startDates = updateInputDates('start', dates.startDate)
+    const endDates = updateInputDates('end', dates.endDate)
 
     hasHadValidDate.current =
       isValid(dates.startDate) || isValid(dates.endDate)
@@ -164,14 +174,13 @@ export default function useDates(
     dates,
     updateDates,
     hasHadValidDate: hasHadValidDate.current,
-    previousDates,
+    previousDates: previousDateProps,
   } as const
 }
 
 // TODO: Move to DatePickerInput
-function updateInputDates(type: 'start' | 'end', dates: DatePickerDates) {
+function updateInputDates(type: 'start' | 'end', date: Date | undefined) {
   const updatedDates = {}
-  const date = dates[`${type}Date`]
 
   if (isValid(date)) {
     updatedDates[`__${type}Day`] = pad(format(date, 'dd'), 2)
@@ -272,71 +281,93 @@ function mapDates(
 
 function updateDatesBasedOnProps({
   dateProps,
+  previousDateProps,
   previousDates,
   dateFormat,
   isRange,
 }) {
   const dates = {}
 
-  if (dateProps.date !== previousDates.date) {
-    dates['date'] = dateProps.date
+  let startDate = undefined
 
-    if (!dateProps.startDate) {
-      dates['startDate'] = getDate(dateProps.date, dateFormat) ?? undefined
-    }
-
-    if (!dateProps.startMonth) {
-      dates['startMonth'] =
-        convertStringToDate(dateProps.date, {
-          dateFormat,
-        }) ?? undefined
-    }
-
-    // Set endDate and endMonth to undefined if not in range mode, to prevent weird calendar and input behaviour
-    if (!isRange) {
-      dates['endDate'] = undefined
-      dates['endMonth'] = undefined
-    }
+  // Handle startDate/endDate
+  if (
+    typeof dateProps.date !== 'undefined' &&
+    dateProps.date !== previousDateProps.date
+  ) {
+    startDate = dateProps.date
+  }
+  if (
+    typeof dateProps.startDate !== 'undefined' &&
+    dateProps.startDate !== previousDateProps.startDate
+  ) {
+    startDate = dateProps.startDate
   }
 
-  if (dateProps.startDate !== previousDates.startDate) {
+  if (
+    typeof startDate !== 'undefined' &&
+    startDate !== previousDates.startDate
+  ) {
     dates['startDate'] =
-      getDate(dateProps.startDate, dateFormat) ?? undefined
+      convertStringToDate(startDate, {
+        dateFormat,
+      }) || undefined
+
+    dates['startMonth'] =
+      convertStringToDate(startDate, {
+        dateFormat,
+      }) || undefined
+
+    if (!isRange) {
+      dates['endDate'] = dates['startDate']
+    }
   }
 
-  if (dateProps.endDate !== previousDates.endDate) {
+  if (
+    typeof dateProps.endDate !== 'undefined' &&
+    isRange &&
+    dateProps.endDate !== previousDates.endDate
+  ) {
     dates['endDate'] =
       convertStringToDate(dateProps.endDate, {
         dateFormat,
-      }) ?? undefined
+      }) || undefined
   }
 
-  if (dateProps.startMonth !== previousDates.startMonth) {
-    dates['startMonth'] =
-      convertStringToDate(dateProps.startMonth, {
-        dateFormat,
-      }) ?? undefined
+  // Handle startMonth/endMonth
+  if (
+    typeof dateProps.startMonth !== 'undefined' &&
+    dateProps.startMonth !== previousDateProps.startMonth
+  ) {
+    dates['startMonth'] = convertStringToDate(dateProps.startMonth, {
+      dateFormat,
+    })
+  }
+  if (
+    typeof dateProps.endMonth !== 'undefined' &&
+    dateProps.endMonth !== previousDateProps.endMonth
+  ) {
+    dates['endMonth'] = convertStringToDate(previousDates.endMonth, {
+      dateFormat,
+    })
   }
 
-  if (dateProps.endMonth !== previousDates.endMonth) {
-    dates['endMonth'] =
-      convertStringToDate(dateProps.endMonth, {
-        dateFormat: dateFormat,
-      }) ?? undefined
+  // Handle minDate/maxDate
+  if (
+    typeof dateProps.minDate !== 'undefined' &&
+    dateProps.minDate !== previousDateProps.minDate
+  ) {
+    dates['minDate'] = convertStringToDate(dateProps.minDate, {
+      dateFormat,
+    })
   }
-
-  if (dateProps.minDate !== previousDates.minDate) {
-    dates['minDate'] =
-      convertStringToDate(dateProps.minDate, {
-        dateFormat,
-      }) ?? undefined
-  }
-
-  if (dateProps.maxDate !== previousDates.maxDate) {
-    dates['maxDate'] =
-      convertStringToDate(dateProps.maxDate, {
-        dateFormat,
-      }) ?? undefined
+  if (
+    typeof dateProps.maxDate !== 'undefined' &&
+    dateProps.maxDate !== previousDateProps.maxDate
+  ) {
+    dates['maxDate'] = convertStringToDate(dateProps.maxDate, {
+      dateFormat,
+    })
   }
 
   return dates
