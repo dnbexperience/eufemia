@@ -296,7 +296,7 @@ function updateDatesBasedOnProps({
 
   const startDate = getStartDate(dateProps, previousDateProps)
 
-  // Handle startDate/endDate
+  // Handle updates related to date and startDate changes when not in range mode
   if (
     typeof startDate !== 'undefined' &&
     startDate !== previousDates.startDate
@@ -306,17 +306,21 @@ function updateDatesBasedOnProps({
         dateFormat,
       }) || undefined
 
-    dates.startMonth =
-      convertStringToDate(startDate, {
-        dateFormat,
-      }) || undefined
+    // Set endDate and startMonth to startDate if not in range mode
+    if (!isRange) {
+      dates.startMonth =
+        convertStringToDate(startDate, {
+          dateFormat,
+        }) || undefined
+
+      dates.endDate = dates.startDate
+    }
   }
 
-  if (!isRange) {
-    dates.endDate = dates.startDate
-  } else if (
-    typeof dateProps.endDate !== 'undefined' &&
+  // update endDate based on endDate prop if in range mode
+  if (
     isRange &&
+    typeof dateProps.endDate !== 'undefined' &&
     dateProps.endDate !== previousDates.endDate
   ) {
     dates.endDate =
@@ -425,6 +429,7 @@ function getStartDate(
   dateProps: DatePickerDateProps,
   previousDateProps: DatePickerDateProps
 ) {
+  // priortize startDate over date if provided
   if (
     typeof dateProps.startDate !== 'undefined' &&
     dateProps.startDate !== previousDateProps.startDate
