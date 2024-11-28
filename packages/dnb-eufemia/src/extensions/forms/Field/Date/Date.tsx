@@ -147,7 +147,11 @@ function DateComponent(props: Props) {
 
   const { value, startDate, endDate } = useMemo(() => {
     if (!range || !valueProp) {
-      return { value: valueProp ?? null, startDate: null, endDate: null }
+      return {
+        value: valueProp ?? null,
+        startDate: undefined,
+        endDate: undefined,
+      }
     }
 
     const [startDate, endDate] = valueProp
@@ -155,7 +159,7 @@ function DateComponent(props: Props) {
       .map((value) => (/(undefined|null)/.test(value) ? null : value))
 
     return {
-      value: null,
+      value: undefined,
       startDate,
       endDate,
     }
