@@ -42,10 +42,12 @@ function MyForm() {
   return (
     <Form.Handler<MyDataContext>
       onSubmit={(data) => {
-        // data.firstName is of type string
+        // "firstName" is of type string
         console.log(data.firstName)
       }}
-    />
+    >
+      ...
+    </Form.Handler>
   )
 }
 
@@ -58,31 +60,39 @@ function MyForm() {
     <Form.Handler
       defaultData={existingData}
       onSubmit={(data) => {
-        // data.firstName is of type string
+        // "firstName" is of type string
         console.log(data.firstName)
       }}
-    />
+    >
+      ...
+    </Form.Handler>
   )
 }
 
 // Method #3 – type definition on the event parameter
 const submitHandler = (data: MyDataContext) => {
-  // data.firstName is of type string
+  // "firstName" is of type string
   console.log(data.firstName)
 }
 function MyForm() {
-  return <Form.Handler onSubmit={submitHandler} />
+  return <Form.Handler onSubmit={submitHandler}>...</Form.Handler>
 }
 
 // Method #4 – type definition for the submit handler
 import type { OnSubmit } from '@dnb/eufemia/extensions/forms'
 const submitHandler: OnSubmit<MyDataContext> = (data) => {
-  // data.firstName is of type string
+  // "firstName" is of type string
   console.log(data.firstName)
 }
 function MyForm() {
-  return <Form.Handler onSubmit={submitHandler} />
+  return <Form.Handler onSubmit={submitHandler}>...</Form.Handler>
 }
+```
+
+To disable types you can:
+
+```tsx
+<Form.Handler<any>>...</Form.Handler>
 ```
 
 ## Decoupling the form element

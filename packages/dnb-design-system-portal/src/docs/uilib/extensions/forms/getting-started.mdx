@@ -74,20 +74,25 @@ type MyDataContext = {
   firstName?: string
 }
 
-// Method 1 of 4
 function MyForm() {
   return (
     <Form.Handler<MyDataContext>
       onSubmit={(data) => {
-        // data.firstName is of type string
-        console.log(data.firstName)
+        console.log(data.firstName) // "firstName" is of type string
       }}
-    />
+    >
+      <MyComponent />
+    </Form.Handler>
   )
+}
+
+const MyComponent = () => {
+  const { data } = Form.useData<MyDataContext>()
+  return data.firstName
 }
 ```
 
-Read more about TypeScript support and the other methods in the [Form.Handler](/uilib/extensions/forms/Form/Handler/#typescript-support) section.
+Read more about TypeScript support and the other methods in the [Form.Handler](/uilib/extensions/forms/Form/Handler/#typescript-support) section or in the [Form.useData](/uilib/extensions/forms/Form/useData/#typescript-support) hook docs.
 
 ### State management
 
@@ -148,7 +153,7 @@ How do I handle complex data logic?
 
 You can show or hide parts of your form based on your own logic. This is done by using the [Visibility](/uilib/extensions/forms/Form/Visibility/) component (yes, it even can animate the visibility).
 
-And you can access and modify your form data with [useData](/uilib/extensions/forms/Form/useData/) or [getData](/uilib/extensions/forms/Form/getData/) or even [setData](/uilib/extensions/forms/Form/setData/).
+And you can access and modify your form data with [Form.useData](/uilib/extensions/forms/Form/useData/) or [getData](/uilib/extensions/forms/Form/getData/) or even [setData](/uilib/extensions/forms/Form/setData/).
 
 Here is an example of how to use these methods:
 
@@ -193,7 +198,7 @@ const { getValue, data, filterData, reduceToVisibleFields } =
 - `filterData` will filter the data based on your own logic.
 - `reduceToVisibleFields` will reduce the given data set to only contain the visible fields (mounted fields).
 
-As you can see in the code above, you can even handle the state outside the `Form.Handler` context. You find more details on this topic in the [useData](/uilib/extensions/forms/Form/useData/) documentation.
+As you can see in the code above, you can even handle the state outside the `Form.Handler` context. You find more details on this topic in the [Form.useData](/uilib/extensions/forms/Form/useData/) documentation.
 
 <Examples.GettingStarted />
 
@@ -210,9 +215,9 @@ When submitting data to the server, you might want to exclude data that has been
 
 In this section we will show how to filter out some data based on your own logic. You can filter data by any given criteria. This is done by utilizing the `filterData` method from e.g.:
 
-- [useData](/uilib/extensions/forms/Form/useData/#filter-data) hook.
-- [getData](/uilib/extensions/forms/Form/getData/#filter-data) method.
-- [Visibility](/uilib/extensions/forms/Form/Visibility/#filter-data) component.
+- [Form.useData](/uilib/extensions/forms/Form/useData/#filter-data) hook.
+- [Form.getData](/uilib/extensions/forms/Form/getData/#filter-data) method.
+- [Form.Visibility](/uilib/extensions/forms/Form/Visibility/#filter-data) component.
 
 You can provide either a function handler or an object with the paths (JSON Pointer) you want to filter out.
 
