@@ -9,14 +9,16 @@ With the `Form.setData` method, you can manage your form data outside of the for
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
+const myFormId = 'unique-id' // or a function, object or React Context reference
+
 Form.setData('unique', { foo: 'bar' })
 
 function Component() {
-  return <Form.Handler id="unique">...</Form.Handler>
+  return <Form.Handler id={myFormId}>...</Form.Handler>
 }
 ```
 
-You link them together via the `id` (string) property.
+You link them together via the `id` (string, function, object or React Context as the reference) property.
 
 Related helpers:
 

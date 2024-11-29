@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { P } from '@dnb/eufemia/src'
+import { Flex, P } from '@dnb/eufemia/src'
 import { Value } from '@dnb/eufemia/src/extensions/forms'
 
 export const Empty = () => {
@@ -45,9 +45,11 @@ export const LabelAndValue = () => {
 export const InternationalSuffix = () => {
   return (
     <ComponentBox>
-      <Value.PhoneNumber label="Label text" value="+47 98712345" />
-      <Value.PhoneNumber label="Label text" value="+886 0998472751" />
-      <Value.PhoneNumber label="Label text" value="+1-868 6758288" />
+      <Flex.Stack>
+        <Value.PhoneNumber label="Label text" value="+47 98712345" />
+        <Value.PhoneNumber label="Label text" value="+886 0998472751" />
+        <Value.PhoneNumber label="Label text" value="+1-868 6758288" />
+      </Flex.Stack>
     </ComponentBox>
   )
 }

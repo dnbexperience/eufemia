@@ -1,8 +1,9 @@
 import React from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { Flex } from '../../../../../components'
 import IterateItemContext from '../../IterateItemContext'
 import { Field, Form, Iterate, Value } from '../../..'
-import userEvent from '@testing-library/user-event'
 import nbNO from '../../../constants/locales/nb-NO'
 
 const tr = {
@@ -738,59 +739,211 @@ describe('EditContainer and ViewContainer', () => {
     }
   })
 
-  it('should render toolbarVariant="minimumOneItem" with correct buttons', () => {
-    const { rerender } = render(
-      <Iterate.Array value={['foo']}>
-        <Iterate.ViewContainer toolbarVariant="minimumOneItem">
-          View Content
-        </Iterate.ViewContainer>
-        <Iterate.EditContainer toolbarVariant="minimumOneItem">
-          Edit Content
-        </Iterate.EditContainer>
-      </Iterate.Array>
-    )
-
-    {
-      const elements = document.querySelectorAll(
-        '.dnb-forms-iterate__element'
+  describe('toolbarVariant', () => {
+    it('should render toolbarVariant="minimumOneItem" with correct buttons', () => {
+      const { rerender } = render(
+        <Iterate.Array value={['foo']}>
+          <Iterate.ViewContainer toolbarVariant="minimumOneItem">
+            View Content
+          </Iterate.ViewContainer>
+          <Iterate.EditContainer toolbarVariant="minimumOneItem">
+            Edit Content
+          </Iterate.EditContainer>
+        </Iterate.Array>
       )
-      expect(elements).toHaveLength(1)
 
-      const [firstElement] = Array.from(elements)
+      {
+        const elements = document.querySelectorAll(
+          '.dnb-forms-iterate__element'
+        )
+        expect(elements).toHaveLength(1)
+
+        const [firstElement] = Array.from(elements)
+        const [viewBlock, editBlock] = Array.from(
+          firstElement.querySelectorAll('.dnb-forms-section-block')
+        )
+        expect(editBlock.querySelectorAll('button')).toHaveLength(0)
+        expect(viewBlock.querySelectorAll('button')).toHaveLength(1)
+        expect(viewBlock.querySelectorAll('button')[0]).toHaveTextContent(
+          tr.viewContainer.editButton
+        )
+      }
+
+      rerender(
+        <Iterate.Array value={['foo', 'bar']}>
+          <Iterate.ViewContainer toolbarVariant="minimumOneItem">
+            View Content
+          </Iterate.ViewContainer>
+          <Iterate.EditContainer toolbarVariant="minimumOneItem">
+            Edit Content
+          </Iterate.EditContainer>
+        </Iterate.Array>
+      )
+
+      {
+        const elements = document.querySelectorAll(
+          '.dnb-forms-iterate__element'
+        )
+        expect(elements).toHaveLength(2)
+
+        const [firstElement] = Array.from(elements)
+        const [viewBlock, editBlock] = Array.from(
+          firstElement.querySelectorAll('.dnb-forms-section-block')
+        )
+        expect(editBlock.querySelectorAll('button')).toHaveLength(2)
+        expect(viewBlock.querySelectorAll('button')).toHaveLength(2)
+      }
+    })
+
+    it('should render toolbarVariant="custom" without a toolbar', () => {
+      render(
+        <Iterate.Array value={['foo']}>
+          <Iterate.ViewContainer toolbarVariant="custom">
+            View Content
+          </Iterate.ViewContainer>
+          <Iterate.EditContainer toolbarVariant="custom">
+            Edit Content
+          </Iterate.EditContainer>
+        </Iterate.Array>
+      )
+
       const [viewBlock, editBlock] = Array.from(
-        firstElement.querySelectorAll('.dnb-forms-section-block')
+        document
+          .querySelector('.dnb-forms-iterate__element')
+          .querySelectorAll('.dnb-forms-section-block')
       )
       expect(editBlock.querySelectorAll('button')).toHaveLength(0)
-      expect(viewBlock.querySelectorAll('button')).toHaveLength(1)
-      expect(viewBlock.querySelectorAll('button')[0]).toHaveTextContent(
-        tr.viewContainer.editButton
+      expect(viewBlock.querySelectorAll('button')).toHaveLength(0)
+    })
+
+    it('should render toolbarVariant="custom" should default toolbar', () => {
+      render(
+        <Iterate.Array value={['foo']}>
+          <Iterate.ViewContainer toolbarVariant="custom">
+            View Content
+          </Iterate.ViewContainer>
+          <Iterate.EditContainer toolbarVariant="custom">
+            Edit Content
+          </Iterate.EditContainer>
+        </Iterate.Array>
       )
-    }
 
-    rerender(
-      <Iterate.Array value={['foo', 'bar']}>
-        <Iterate.ViewContainer toolbarVariant="minimumOneItem">
-          View Content
-        </Iterate.ViewContainer>
-        <Iterate.EditContainer toolbarVariant="minimumOneItem">
-          Edit Content
-        </Iterate.EditContainer>
-      </Iterate.Array>
-    )
-
-    {
-      const elements = document.querySelectorAll(
-        '.dnb-forms-iterate__element'
-      )
-      expect(elements).toHaveLength(2)
-
-      const [firstElement] = Array.from(elements)
       const [viewBlock, editBlock] = Array.from(
-        firstElement.querySelectorAll('.dnb-forms-section-block')
+        document
+          .querySelector('.dnb-forms-iterate__element')
+          .querySelectorAll('.dnb-forms-section-block')
       )
-      expect(editBlock.querySelectorAll('button')).toHaveLength(2)
-      expect(viewBlock.querySelectorAll('button')).toHaveLength(2)
-    }
+      expect(editBlock.querySelectorAll('button')).toHaveLength(0)
+      expect(viewBlock.querySelectorAll('button')).toHaveLength(0)
+    })
+
+    it('should render toolbarVariant="custom" with correct spacing', () => {
+      render(
+        <Iterate.Array value={['foo']}>
+          <Iterate.ViewContainer toolbarVariant="custom">
+            View Content
+            <Flex.Horizontal>
+              <Iterate.Toolbar>
+                <Iterate.ViewContainer.EditButton />
+              </Iterate.Toolbar>
+            </Flex.Horizontal>
+          </Iterate.ViewContainer>
+          <Iterate.EditContainer toolbarVariant="custom">
+            Edit Content
+            <Flex.Horizontal>
+              <Iterate.Toolbar>
+                <Iterate.EditContainer.DoneButton />
+              </Iterate.Toolbar>
+            </Flex.Horizontal>
+          </Iterate.EditContainer>
+        </Iterate.Array>
+      )
+
+      const [viewBlock, editBlock] = Array.from(
+        document
+          .querySelector('.dnb-forms-iterate__element')
+          .querySelectorAll('.dnb-forms-section-block')
+      )
+
+      expect(editBlock.querySelectorAll('button')).toHaveLength(1)
+      expect(viewBlock.querySelectorAll('button')).toHaveLength(1)
+
+      const viewToolbars = viewBlock.querySelectorAll(
+        '.dnb-forms-iterate-toolbar'
+      )
+      const editToolbars = editBlock.querySelectorAll(
+        '.dnb-forms-iterate-toolbar'
+      )
+
+      expect(viewToolbars).toHaveLength(1)
+      expect(editToolbars).toHaveLength(1)
+
+      const viewToolbar = viewToolbars[0]
+      expect(viewToolbar).toHaveClass('dnb-space__top--zero')
+      expect(viewToolbar).toHaveClass('dnb-space__right--small')
+      expect(viewToolbar).toHaveClass('dnb-space__left--zero')
+
+      const editToolbar = editToolbars[0]
+      expect(editToolbar).toHaveClass('dnb-space__top--zero')
+      expect(editToolbar).toHaveClass('dnb-space__right--small')
+      expect(editToolbar).toHaveClass('dnb-space__left--zero')
+
+      const viewSpace = viewToolbars[0].querySelector('.dnb-space')
+      expect(viewSpace).toHaveClass('dnb-space__top--zero')
+      expect(viewSpace).toHaveClass('dnb-flex-container--row-gap-small')
+
+      const editSpace = editToolbars[0].querySelector('.dnb-space')
+      expect(editSpace).toHaveClass('dnb-space__top--zero')
+      expect(editSpace).toHaveClass('dnb-flex-container--row-gap-small')
+    })
+
+    it('should render toolbarVariant="custom" without a hr', () => {
+      render(
+        <Iterate.Array value={['foo']}>
+          <Iterate.ViewContainer toolbarVariant="custom">
+            View Content
+            <Flex.Horizontal>
+              <Iterate.Toolbar>
+                <Iterate.ViewContainer.EditButton />
+              </Iterate.Toolbar>
+            </Flex.Horizontal>
+          </Iterate.ViewContainer>
+          <Iterate.EditContainer toolbarVariant="custom">
+            Edit Content
+            <Flex.Horizontal>
+              <Iterate.Toolbar>
+                <Iterate.EditContainer.DoneButton />
+              </Iterate.Toolbar>
+            </Flex.Horizontal>
+          </Iterate.EditContainer>
+        </Iterate.Array>
+      )
+
+      const [viewBlock, editBlock] = Array.from(
+        document
+          .querySelector('.dnb-forms-iterate__element')
+          .querySelectorAll('.dnb-forms-section-block')
+      )
+
+      expect(editBlock.querySelectorAll('button')).toHaveLength(1)
+      expect(viewBlock.querySelectorAll('button')).toHaveLength(1)
+
+      const viewToolbars = viewBlock.querySelectorAll(
+        '.dnb-forms-iterate-toolbar'
+      )
+      const editToolbars = editBlock.querySelectorAll(
+        '.dnb-forms-iterate-toolbar'
+      )
+
+      expect(viewToolbars).toHaveLength(1)
+      expect(editToolbars).toHaveLength(1)
+
+      const viewToolbar = viewToolbars[0]
+      const editToolbar = editToolbars[0]
+
+      expect(viewToolbar.querySelectorAll('hr')).toHaveLength(0)
+      expect(editToolbar.querySelectorAll('hr')).toHaveLength(0)
+    })
   })
 
   it('should validate on submit', () => {
@@ -988,5 +1141,47 @@ describe('EditContainer and ViewContainer', () => {
 
     expect(containerMode[0]).toBe('edit')
     expect(containerMode[1]).toBe('edit')
+  })
+
+  it('should set correct class for variant "basic"', () => {
+    render(
+      <Iterate.Array path="/" defaultValue={[null]}>
+        <Iterate.ViewContainer variant="basic">
+          View Content
+        </Iterate.ViewContainer>
+        <Iterate.EditContainer variant="basic">
+          <Field.String itemPath="/" required />
+        </Iterate.EditContainer>
+      </Iterate.Array>
+    )
+
+    const [viewBlock, editBlock] = Array.from(
+      document.querySelectorAll('.dnb-forms-section-block')
+    )
+    expect(viewBlock).toHaveClass('dnb-forms-section-block--variant-basic')
+    expect(editBlock).toHaveClass('dnb-forms-section-block--variant-basic')
+  })
+
+  it('should set correct class for variant "filled"', () => {
+    render(
+      <Iterate.Array path="/" defaultValue={[null]}>
+        <Iterate.ViewContainer variant="filled">
+          View Content
+        </Iterate.ViewContainer>
+        <Iterate.EditContainer variant="filled">
+          <Field.String itemPath="/" required />
+        </Iterate.EditContainer>
+      </Iterate.Array>
+    )
+
+    const [viewBlock, editBlock] = Array.from(
+      document.querySelectorAll('.dnb-forms-section-block')
+    )
+    expect(viewBlock).toHaveClass(
+      'dnb-forms-section-block--variant-filled'
+    )
+    expect(editBlock).toHaveClass(
+      'dnb-forms-section-block--variant-filled'
+    )
   })
 })

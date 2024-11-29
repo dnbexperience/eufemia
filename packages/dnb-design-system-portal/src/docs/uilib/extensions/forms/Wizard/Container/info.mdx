@@ -117,17 +117,19 @@ const MyForm = () => {
 }
 ```
 
-When using the `useStep` hook outside of the `Wizard.Container` context, you need to provide an unique `id` (string):
+When using the `useStep` hook outside of the `Wizard.Container` context, you need to provide an unique `id` (string, function, object or React Context as the reference):
 
 ```tsx
 import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
 
+const myContainerId = 'unique-id' // or a function, object or React Context reference
+
 const MyForm = () => {
-  const { setActiveIndex, activeIndex } = Wizard.useStep('unique-id')
+  const { setActiveIndex, activeIndex } = Wizard.useStep(myContainerId)
 
   return (
     <Form.Handler>
-      <Wizard.Container id="unique-id">
+      <Wizard.Container id={myContainerId}>
         <Wizard.Step>
           <Button onClick={() => setActiveIndex(0)}>Step 1</Button>
         </Wizard.Step>

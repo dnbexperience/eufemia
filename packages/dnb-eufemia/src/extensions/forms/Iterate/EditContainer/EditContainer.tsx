@@ -31,10 +31,11 @@ export type Props = {
    * An alternative toolbar to be shown in the EditContainer.
    */
   toolbar?: React.ReactNode
+
   /**
    * The variant of the toolbar.
    */
-  toolbarVariant?: 'minimumOneItem'
+  toolbarVariant?: ArrayItemAreaProps['toolbarVariant']
 }
 
 export type AllProps = Props & FlexContainerProps & ArrayItemAreaProps
@@ -59,13 +60,15 @@ export default function EditContainer(props: AllProps) {
       toolbar={
         hasToolbar
           ? null
-          : toolbarElement ?? (
+          : toolbarElement ??
+            (toolbarVariant !== 'custom' && (
               <Toolbar>
                 <DoneButton />
                 <CancelButton />
               </Toolbar>
-            )
+            ))
       }
+      toolbarVariant={toolbarVariant}
       {...rest}
     >
       {children}
@@ -85,6 +88,7 @@ export function EditContainerWithoutToolbar(
     title,
     titleWhenNew,
     toolbar,
+    toolbarVariant,
     ...restProps
   } = props || {}
 
@@ -103,6 +107,7 @@ export function EditContainerWithoutToolbar(
       mode="edit"
       className={classnames('dnb-forms-section-edit-block', className)}
       ariaLabel={convertJsxToString(itemTitle)}
+      toolbarVariant={toolbarVariant}
       {...restProps}
     >
       {itemTitle && <Lead size="basis">{itemTitle}</Lead>}

@@ -33,7 +33,11 @@ import { debounce } from '../../../../shared/helpers'
 import FieldPropsProvider from '../../Field/Provider'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
 import { isAsync } from '../../../../shared/helpers/isAsync'
-import { useSharedState } from '../../../../shared/helpers/useSharedState'
+import {
+  SharedStateId,
+  createReferenceKey,
+  useSharedState,
+} from '../../../../shared/helpers/useSharedState'
 import SharedContext, { ContextProps } from '../../../../shared/Context'
 import useTranslation from '../../hooks/useTranslation'
 import DataContext, {
@@ -69,122 +73,122 @@ export type SharedAttachments<Data = unknown> = {
   fieldConnectionsRef?: ContextState['fieldConnectionsRef']
 }
 
-export interface Props<Data extends JsonObject>
-  extends IsolationProviderProps<Data> {
-  /**
-   * Unique ID to communicate with the hook Form.useData
-   */
-  id?: string
-  /**
-   * Unique ID to connect with a GlobalStatus
-   */
-  globalStatusId?: string
-  /**
-   * Source data, will be used instead of defaultData, and leading to updates if changed after mount
-   */
-  data?: Data
-  /**
-   * Default source data, only used if no other source is available, and not leading to updates if changed after mount
-   */
-  defaultData?: Data
-  /**
-   * Empty data, used to clear the data set.
-   */
-  emptyData?: unknown
-  /**
-   * JSON Schema to validate the data against.
-   */
-  schema?: AllJSONSchemaVersions<Data>
-  /**
-   * Custom Ajv instance, if you want to use your own
-   */
-  ajvInstance?: Ajv
-  /**
-   * Custom error messages for the whole data set
-   */
-  errorMessages?: GlobalErrorMessagesWithPaths
-  /**
-   * @deprecated Use the `filterData` in the second event parameter in the `onSubmit` or `onChange` events.
-   */
-  filterSubmitData?: FilterData
-  /**
-   * Transform the data context (internally as well) based on your criteria: `({ path, value, data, props, internal }) => 'new value'`. It will iterate on each data entry (/path).
-   */
-  transformIn?: TransformData
-  /**
-   * Mutate the data before it enters onSubmit or onChange based on your criteria: `({ path, value, data, props, internal }) => 'new value'`. It will iterate on each data entry (/path).
-   */
-  transformOut?: TransformData
-  /**
-   * Change handler for the whole data set.
-   * You can provide an async function to show an indicator on the current label during a field change.
-   */
-  onChange?: OnChange<Data>
-  /**
-   * Change handler for each value
-   */
-  onPathChange?: (
-    path: Path,
-    value: unknown
-  ) =>
-    | EventReturnWithStateObject
-    | void
-    | Promise<EventReturnWithStateObject | void>
-  /**
-   * Will emit on a form submit – if validation has passed.
-   * You can provide an async function to shows a submit indicator during submit. All form elements will be disabled during the submit.
-   */
-  onSubmit?: OnSubmit<Data>
-  /**
-   * Submit was requested, but data was invalid
-   */
-  onSubmitRequest?: () => void
-  /**
-   * Will be called when the onSubmit is finished and had not errors
-   */
-  onSubmitComplete?: (
-    data: Data,
+export type Props<Data extends JsonObject> =
+  IsolationProviderProps<Data> & {
     /**
-     * The result of the onSubmit function
+     * Unique ID to communicate with the hook Form.useData
      */
-    result: unknown
-  ) =>
-    | EventReturnWithStateObject
-    | void
-    | Promise<EventReturnWithStateObject | void>
-  /**
-   * Minimum time to display the submit indicator.
-   */
-  minimumAsyncBehaviorTime?: number
-  /**
-   * The maximum time to display the submit indicator before it changes back to normal. In case something went wrong during submission.
-   */
-  asyncSubmitTimeout?: number
-  /**
-   * Scroll to top on submit
-   */
-  scrollTopOnSubmit?: boolean
-  /**
-   * Key for caching the data in session storage
-   */
-  sessionStorageId?: string
-  /**
-   * Locale to use for all nested Eufemia components
-   */
-  locale?: ContextProps['locale']
-  /**
-   * Provide your own translations. Use the same format as defined in the translation files
-   */
-  translations?: ContextProps['translations']
-  /**
-   * Make all fields required
-   */
-  required?: boolean
-  /**
-   * The children of the context provider
-   */
-  children: React.ReactNode
-}
+    id?: SharedStateId
+    /**
+     * Unique ID to connect with a GlobalStatus
+     */
+    globalStatusId?: string
+    /**
+     * Source data, will be used instead of defaultData, and leading to updates if changed after mount
+     */
+    data?: Data
+    /**
+     * Default source data, only used if no other source is available, and not leading to updates if changed after mount
+     */
+    defaultData?: Data
+    /**
+     * Empty data, used to clear the data set.
+     */
+    emptyData?: unknown
+    /**
+     * JSON Schema to validate the data against.
+     */
+    schema?: AllJSONSchemaVersions<Data>
+    /**
+     * Custom Ajv instance, if you want to use your own
+     */
+    ajvInstance?: Ajv
+    /**
+     * Custom error messages for the whole data set
+     */
+    errorMessages?: GlobalErrorMessagesWithPaths
+    /**
+     * @deprecated Use the `filterData` in the second event parameter in the `onSubmit` or `onChange` events.
+     */
+    filterSubmitData?: FilterData
+    /**
+     * Transform the data context (internally as well) based on your criteria: `({ path, value, data, props, internal }) => 'new value'`. It will iterate on each data entry (/path).
+     */
+    transformIn?: TransformData
+    /**
+     * Mutate the data before it enters onSubmit or onChange based on your criteria: `({ path, value, data, props, internal }) => 'new value'`. It will iterate on each data entry (/path).
+     */
+    transformOut?: TransformData
+    /**
+     * Change handler for the whole data set.
+     * You can provide an async function to show an indicator on the current label during a field change.
+     */
+    onChange?: OnChange<Data>
+    /**
+     * Change handler for each value
+     */
+    onPathChange?: (
+      path: Path,
+      value: unknown
+    ) =>
+      | EventReturnWithStateObject
+      | void
+      | Promise<EventReturnWithStateObject | void>
+    /**
+     * Will emit on a form submit – if validation has passed.
+     * You can provide an async function to shows a submit indicator during submit. All form elements will be disabled during the submit.
+     */
+    onSubmit?: OnSubmit<Data>
+    /**
+     * Submit was requested, but data was invalid
+     */
+    onSubmitRequest?: () => void
+    /**
+     * Will be called when the onSubmit is finished and had not errors
+     */
+    onSubmitComplete?: (
+      data: Data,
+      /**
+       * The result of the onSubmit function
+       */
+      result: unknown
+    ) =>
+      | EventReturnWithStateObject
+      | void
+      | Promise<EventReturnWithStateObject | void>
+    /**
+     * Minimum time to display the submit indicator.
+     */
+    minimumAsyncBehaviorTime?: number
+    /**
+     * The maximum time to display the submit indicator before it changes back to normal. In case something went wrong during submission.
+     */
+    asyncSubmitTimeout?: number
+    /**
+     * Scroll to top on submit
+     */
+    scrollTopOnSubmit?: boolean
+    /**
+     * Key for caching the data in session storage
+     */
+    sessionStorageId?: string
+    /**
+     * Locale to use for all nested Eufemia components
+     */
+    locale?: ContextProps['locale']
+    /**
+     * Provide your own translations. Use the same format as defined in the translation files
+     */
+    translations?: ContextProps['translations']
+    /**
+     * Make all fields required
+     */
+    required?: boolean
+    /**
+     * The children of the context provider
+     */
+    children: React.ReactNode
+  }
 
 const isArrayJsonPointer = /^\/\d+(\/|$)/
 
@@ -618,10 +622,10 @@ export default function Provider<Data extends JsonObject>(
   // - Shared state
   const sharedData = useSharedState<Data>(id)
   const sharedAttachments = useSharedState<SharedAttachments<Data>>(
-    id + '-attachments'
+    createReferenceKey(id, 'attachments')
   )
   const sharedDataContext = useSharedState<ContextState>(
-    id + '-data-context'
+    createReferenceKey(id, 'data-context')
   )
 
   const setSharedData = sharedData.set
@@ -1152,11 +1156,11 @@ export default function Provider<Data extends JsonObject>(
     }
 
     const transformData = (data: Data, handler: TransformData) => {
-      return mutateDataHandler(data, handler) as TransformData
+      return mutateDataHandler(data, handler)
     }
 
     const formElement = formElementRef.current
-    const params: OnSubmitParams = {
+    const params: OnSubmitParams<Data> = {
       filterData,
       reduceToVisibleFields,
       transformData,

@@ -1367,7 +1367,10 @@ describe('Form.Isolation', () => {
         data={{ existing: 'data', persons: [{ name: 'John' }] }}
         onChange={onChange}
       >
-        <Form.Isolation
+        <Form.Isolation<{
+          persons: Array<{ name: string }>
+          newPerson: Array<{ name: string }>
+        }>
           transformOnCommit={(isolatedData, handlerData) => {
             return {
               ...handlerData,

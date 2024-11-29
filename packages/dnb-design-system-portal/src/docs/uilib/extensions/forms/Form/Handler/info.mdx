@@ -7,28 +7,126 @@ import AsyncChangeExample from './parts/async-change-example.mdx'
 
 ## Description
 
-The `Form.Handler` component provides a HTML form element.
+The `Form.Handler` is the root component of your form. It provides a HTML form element and handles the form data.
 
-```jsx
+```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
-render(
-  <Form.Handler
-    data={existingData}
-    onChange={...}
-    onSubmit={...}
-  >
-    Your Form
-  </Form.Handler>,
-)
-```
-
-The form data can be handled outside of the form. This is useful if you want to use the form data in other components:
-
-```jsx
-import { Form } from '@dnb/eufemia/extensions/forms'
+const existingData = { firstName: 'Nora' }
 
 function MyForm() {
+  return (
+    <Form.Handler
+      defaultData={existingData}
+      onSubmit={...}
+    >
+      Your Form
+    </Form.Handler>
+  )
+}
+```
+
+### TypeScript support
+
+You can define the TypeScript type structure for your data like so:
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+type MyDataContext = {
+  firstName?: string
+}
+
+// Method #1 – without initial data
+function MyForm() {
+  return (
+    <Form.Handler<MyDataContext>
+      onSubmit={(data) => {
+        // "firstName" is of type string
+        console.log(data.firstName)
+      }}
+    >
+      ...
+    </Form.Handler>
+  )
+}
+
+// Method #2 – with data (initial values)
+const existingData: MyDataContext = {
+  firstName: 'Nora',
+}
+function MyForm() {
+  return (
+    <Form.Handler
+      defaultData={existingData}
+      onSubmit={(data) => {
+        // "firstName" is of type string
+        console.log(data.firstName)
+      }}
+    >
+      ...
+    </Form.Handler>
+  )
+}
+
+// Method #3 – type definition on the event parameter
+const submitHandler = (data: MyDataContext) => {
+  // "firstName" is of type string
+  console.log(data.firstName)
+}
+function MyForm() {
+  return <Form.Handler onSubmit={submitHandler}>...</Form.Handler>
+}
+
+// Method #4 – type definition for the submit handler
+import type { OnSubmit } from '@dnb/eufemia/extensions/forms'
+const submitHandler: OnSubmit<MyDataContext> = (data) => {
+  // "firstName" is of type string
+  console.log(data.firstName)
+}
+function MyForm() {
+  return <Form.Handler onSubmit={submitHandler}>...</Form.Handler>
+}
+```
+
+To disable types you can:
+
+```tsx
+<Form.Handler<any>>...</Form.Handler>
+```
+
+## Decoupling the form element
+
+For more flexibility, you can decouple the form element from the form context by using the `decoupleForm` property. It is recommended to use the `Form.Element` to wrap your rest of your form:
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function MyApp() {
+  return (
+    <Form.Handler decoupleForm>
+      <AppRelatedThings>
+        <Form.Element>
+          <Form.MainHeading>Heading</Form.MainHeading>
+          <Form.Card>
+            <Field.Email />
+          </Form.Card>
+          <Form.SubmitButton />
+        </Form.Element>
+      </AppRelatedThings>
+    </Form.Handler>
+  )
+}
+```
+
+## Data handling
+
+You can access, mutate and filter data inside of the form context by using the `Form.useData` hook:
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function MyComponent() {
   const {
     getValue,
     update,
@@ -37,9 +135,18 @@ function MyForm() {
     data,
     filterData,
     reduceToVisibleFields,
-  } = Form.useData('unique')
+  } = Form.useData()
 
-  return <Form.Handler id="unique">...</Form.Handler>
+  return <>...</>
+}
+
+function MyApp() {
+  return (
+    <>
+      <Form.Handler>...</Form.Handler>
+      <MyComponent />
+    </>
+  )
 }
 ```
 
@@ -51,52 +158,32 @@ function MyForm() {
 - `filterData` will filter the data based on your own logic.
 - `reduceToVisibleFields` will reduce the given data set to only contain the visible fields (mounted fields).
 
-More examples can be found in the [useData](/uilib/extensions/forms/Form/useData/) hook docs.
+### Using a form ID
 
-### TypeScript support
+The form data can be handled outside of the form. This is useful if you want to use the form data in other components:
 
-You can define the TypeScript type structure for your data like so:
-
-```tsx
+```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
-type MyDataSet = {
-  firstName?: string
+const myFormId = 'unique-id' // or a function, object or React Context reference
+
+function MyComponent() {
+  const { data } = Form.useData(myFormId)
+
+  return <>...</>
 }
 
-const data: MyDataSet = {
-  firstName: 'Nora',
-}
-
-// Method #1
-function MyForm() {
+function MyApp() {
   return (
-    <Form.Handler
-      data={data}
-      onSubmit={(data) => {
-        console.log(data.firstName)
-      }}
-    />
+    <>
+      <Form.Handler id={myFormId}>...</Form.Handler>
+      <MyComponent />
+    </>
   )
 }
-
-// Method #2
-const submitHandler = (data: MyDataSet) => {
-  console.log(data.firstName)
-}
-function MyForm() {
-  return <Form.Handler data={data} onSubmit={submitHandler} />
-}
-
-// Method #3
-import type { OnSubmit } from '@dnb/eufemia/extensions/forms'
-const submitHandler: OnSubmit<MyDataSet> = (data) => {
-  console.log(data.firstName)
-}
-function MyForm() {
-  return <Form.Handler data={data} onSubmit={submitHandler} />
-}
 ```
+
+More examples can be found in the [useData](/uilib/extensions/forms/Form/useData/) hook docs.
 
 ## Async `onChange` and `onSubmit` event handlers
 

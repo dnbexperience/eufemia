@@ -42,6 +42,37 @@ export function MyForm(props) {
 }
 ```
 
+## TypeScript support
+
+You can define the TypeScript type structure for your data like so:
+
+```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+type IsolationData = {
+  persons: Array<{ name: string }>
+  newPerson: Array<{ name: string }>
+}
+
+function MyForm() {
+  return (
+    <Form.Isolation<IsolationData>
+      onCommit={(data) => {
+        data // <-- is of type IsolationData
+      }}
+      transformOnCommit={(isolatedData, handlerData) => {
+        return {
+          ...handlerData,
+          persons: [...handlerData.persons, isolatedData.newPerson],
+        }
+      }}
+    >
+      ...
+    </Form.Isolation>
+  )
+}
+```
+
 ## Commit the data to the form
 
 You can either use the `Form.Isolation.CommitButton` or provide a custom ref handler you can use (call) when you want to commit the data to the `Form.Handler` context:
@@ -111,7 +142,7 @@ render(
 
 ## Clear data from isolated fields
 
-You can clear the isolation by calling `Form.clearData` with the `id` of the form.
+You can clear the isolation by calling `clearData`:
 
 ```jsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
@@ -120,9 +151,8 @@ function MyForm() {
   return (
     <Form.Handler>
       <Form.Isolation
-        id="my-isolated-data"
-        onCommit={() => {
-          Form.clearData('my-isolated-data')
+        onCommit={(data, { clearData }) => {
+          clearData()
         }}
       >
         <Field.String path="/isolated" />

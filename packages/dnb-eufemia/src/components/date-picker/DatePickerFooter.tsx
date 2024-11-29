@@ -39,7 +39,7 @@ function DatePickerFooter({
 }: DatePickerFooterProps) {
   const {
     updateDates,
-    previousDates,
+    previousDateProps,
     props: contextProps,
   } = useContext(DatePickerContext)
 
@@ -69,18 +69,18 @@ function DatePickerFooter({
         args.event.persist()
       }
 
-      const startDate = previousDates.startDate
-        ? convertStringToDate(previousDates.startDate, {
+      const startDate = previousDateProps.startDate
+        ? convertStringToDate(previousDateProps.startDate, {
             dateFormat,
           })
-        : previousDates.date
-        ? convertStringToDate(previousDates.date, {
+        : previousDateProps.date
+        ? convertStringToDate(previousDateProps.date, {
             dateFormat,
           })
         : null
 
-      const endDate = previousDates.endDate
-        ? convertStringToDate(previousDates.endDate, {
+      const endDate = previousDateProps.endDate
+        ? convertStringToDate(previousDateProps.endDate, {
             dateFormat,
           })
         : startDate
@@ -95,7 +95,7 @@ function DatePickerFooter({
         }
       )
     },
-    [dateFormat, updateDates, previousDates, onCancel]
+    [dateFormat, updateDates, previousDateProps, onCancel]
   )
 
   const onResetHandler = useCallback(

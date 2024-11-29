@@ -16,14 +16,16 @@ export type Props = {
    * The title of the ViewContainer.
    */
   title?: React.ReactNode
+
   /**
    * An alternative toolbar to be shown in the ViewContainer.
    */
   toolbar?: React.ReactNode
+
   /**
    * The variant of the toolbar.
    */
-  toolbarVariant?: 'minimumOneItem'
+  toolbarVariant?: ArrayItemAreaProps['toolbarVariant']
 }
 
 export type AllProps = Props & FlexContainerProps & ArrayItemAreaProps
@@ -62,6 +64,7 @@ function ViewContainer(props: AllProps) {
       mode="view"
       ariaLabel={convertJsxToString(itemTitle)}
       className={classnames('dnb-forms-section-view-block', className)}
+      toolbarVariant={toolbarVariant}
       {...restProps}
     >
       <Flex.Stack>
@@ -69,12 +72,13 @@ function ViewContainer(props: AllProps) {
         {children}
         {hasToolbar
           ? null
-          : toolbarElement ?? (
+          : toolbarElement ??
+            (toolbarVariant !== 'custom' && (
               <Toolbar>
                 <EditButton />
                 <RemoveButton />
               </Toolbar>
-            )}
+            ))}
       </Flex.Stack>
     </ArrayItemArea>
   )

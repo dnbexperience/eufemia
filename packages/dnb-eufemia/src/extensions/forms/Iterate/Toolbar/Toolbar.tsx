@@ -6,6 +6,7 @@ import { SpaceAllProps } from '../../../../components/Space'
 import IterateItemContext from '../IterateItemContext'
 import ToolbarContext from './ToolbarContext'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
+import ArrayItemAreaContext from '../Array/ArrayItemAreaContext'
 import { useTranslation } from '../../hooks'
 
 export type ToolbarParams = {
@@ -27,6 +28,7 @@ export default function Toolbar({
     value,
     arrayValue: items,
   } = useContext(IterateItemContext) || {}
+  const { toolbarVariant } = useContext(ArrayItemAreaContext) || {}
   const { errorInContainer } = useTranslation().IterateEditContainer
   const { hasError, hasVisibleError } =
     useContext(FieldBoundaryContext) || {}
@@ -48,14 +50,17 @@ export default function Toolbar({
 
   return (
     <Space
-      top="medium"
+      top={toolbarVariant === 'custom' ? false : 'medium'}
       className={classnames('dnb-forms-iterate-toolbar', className)}
       {...rest}
     >
-      <Hr space={0} />
+      {toolbarVariant !== 'custom' && <Hr space={0} />}
 
       <ToolbarContext.Provider value={{ setShowError }}>
-        <Flex.Horizontal top="x-small" gap="large">
+        <Flex.Horizontal
+          top={toolbarVariant === 'custom' ? false : 'x-small'}
+          gap="large"
+        >
           {children}
         </Flex.Horizontal>
       </ToolbarContext.Provider>

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useCallback, useContext } from 'react'
 import classNames from 'classnames'
 import Button from '../../button/Button'
 import Space from '../../space/Space'
@@ -71,6 +71,25 @@ const DialogAction = ({
   const { close } = useContext(ModalContext)
   let childrenWithCloseFunc: Array<React.ReactChild>
 
+  const onConfirmHandler = useCallback(
+    (event) => {
+      dispatchCustomElementEvent({ onConfirm }, 'onConfirm', {
+        event,
+        close,
+      })
+    },
+    [close, onConfirm]
+  )
+  const onDeclineHandler = useCallback(
+    (event) => {
+      dispatchCustomElementEvent({ onDecline }, 'onDecline', {
+        event,
+        close,
+      })
+    },
+    [close, onDecline]
+  )
+
   if (children) {
     childrenWithCloseFunc = React.Children.map(children, (child) => {
       if (child.type === Button) {
@@ -105,12 +124,7 @@ const DialogAction = ({
         <Button
           text={declineText || translation?.Dialog?.declineText}
           variant="secondary"
-          onClick={(event) => {
-            dispatchCustomElementEvent({ onDecline }, 'onDecline', {
-              event,
-              close,
-            })
-          }}
+          onClick={onDeclineHandler}
           size={ButtonContext?.size || 'large'}
         />
       )}
@@ -118,12 +132,7 @@ const DialogAction = ({
         <Button
           text={confirmText || translation?.Dialog?.confirmText}
           variant="primary"
-          onClick={(event) => {
-            dispatchCustomElementEvent({ onConfirm }, 'onConfirm', {
-              event,
-              close,
-            })
-          }}
+          onClick={onConfirmHandler}
           size={ButtonContext?.size || 'large'}
         />
       )}

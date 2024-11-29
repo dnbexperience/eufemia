@@ -26,20 +26,22 @@ function MyForm() {
 }
 ```
 
-You can also connect the hook with the `Wizard.Container` via an `id` (string). This lets you render the hook outside of the context:
+You can also connect the hook with the `Wizard.Container` via an `id` (string, function, object or React Context as the reference). This lets you render the hook outside of the context:
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
+const myContainerId = 'unique-id' // or a function, object or React Context reference
+
 function Sidecar() {
-  const { activeIndex, setActiveIndex } = Wizard.useStep('unique-id')
+  const { activeIndex, setActiveIndex } = Wizard.useStep(myContainerId)
 }
 
 function MyForm() {
   return (
     <Form.Handler>
       <Sidecar />
-      <Wizard.Container id="unique-id">...</Wizard.Container>
+      <Wizard.Container id={myContainerId}>...</Wizard.Container>
     </Form.Handler>
   )
 }

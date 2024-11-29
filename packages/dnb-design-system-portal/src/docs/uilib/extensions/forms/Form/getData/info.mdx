@@ -9,13 +9,15 @@ With the `Form.getData` method, you can manage your form data outside of the for
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
+const myFormId = 'unique-id' // or a function, object or React Context reference
+
 function Component() {
-  return <Form.Handler id="unique-id">...</Form.Handler>
+  return <Form.Handler id={myFormId}>...</Form.Handler>
 }
 
 // Later, when there is data available
 const { getValue, data, filterData, reduceToVisibleFields } =
-  Form.getData('unique-id')
+  Form.getData(myFormId)
 ```
 
 - `getValue` will return the value of the given path.
@@ -23,7 +25,7 @@ const { getValue, data, filterData, reduceToVisibleFields } =
 - `filterData` will filter the data based on your own logic.
 - `reduceToVisibleFields` will reduce the given data set to only contain the visible fields (mounted fields).
 
-You link them together via the `id` (string) property.
+You link them together via the `id` (string, function, object or React Context as the reference) property.
 
 TypeScript support:
 
@@ -44,9 +46,11 @@ You can use the `reduceToVisibleFields` function to get only the data of visible
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
+const myFormId = 'unique-id' // or a function, object or React Context reference
+
 const MyForm = () => {
   return (
-    <Form.Handler id="unique-id">
+    <Form.Handler id={myFormId}>
       <Form.Visibility pathTrue="/isVisible">
         <Field.String path="/foo" />
       </Form.Visibility>
@@ -55,7 +59,7 @@ const MyForm = () => {
 }
 
 // Later, when there is data available
-const { data, reduceToVisibleFields } = Form.getData('unique-id')
+const { data, reduceToVisibleFields } = Form.getData(myFormId)
 const visibleData = reduceToVisibleFields(data)
 ```
 
@@ -77,9 +81,11 @@ The callback function should return a `boolean` or `undefined`. Return `false` t
 It returns the filtered form data.
 
 ```tsx
+const myFormId = 'unique-id' // or a function, object or React Context reference
+
 const MyForm = () => {
   return (
-    <Form.Handler id="unique-id">
+    <Form.Handler id={myFormId}>
       <Field.String path="/foo" disabled />
     </Form.Handler>
   )
@@ -92,6 +98,6 @@ const filterDataHandler = ({ path, value, data, props, internal }) => {
 }
 
 // Later, when there is data available
-const { filterData } = Form.getData('unique-id')
+const { filterData } = Form.getData(myFormId)
 const filteredData = filterData(filterDataHandler)
 ```

@@ -19,7 +19,10 @@ export type OverwritePropsDefaults = {
     | (FieldProps & SharedFieldBlockProps)
     | OverwritePropsDefaults
 }
-export type SectionProps<overwriteProps = OverwritePropsDefaults> = {
+export type SectionProps<
+  overwriteProps = OverwritePropsDefaults,
+  Data extends JsonObject = JsonObject,
+> = {
   /**
    * Path to the section.
    * When defined, fields inside the section will get this path as a prefix of their own path.
@@ -55,15 +58,18 @@ export type SectionProps<overwriteProps = OverwritePropsDefaults> = {
    */
   errorPrioritization?: SectionContextState['errorPrioritization']
 } & Pick<
-  DataContextProps<JsonObject>,
+  DataContextProps<Data>,
   'data' | 'defaultData' | 'onChange' | 'translations'
 >
 
-export type LocalProps = SectionProps & {
-  children: React.ReactNode
-}
+export type LocalProps<overwriteProps = OverwritePropsDefaults> =
+  SectionProps<overwriteProps> & {
+    children: React.ReactNode
+  }
 
-function SectionComponent(props: LocalProps) {
+function SectionComponent<overwriteProps = OverwritePropsDefaults>(
+  props: LocalProps<overwriteProps>
+) {
   const {
     path,
     overwriteProps,
@@ -108,12 +114,14 @@ function SectionComponent(props: LocalProps) {
     )
   }
 
+  const sectionProps = props as SectionProps
+
   return (
     <SectionContext.Provider
       value={{
         path: identifier,
         errorPrioritization,
-        props,
+        props: sectionProps,
       }}
     >
       <SectionContainerProvider

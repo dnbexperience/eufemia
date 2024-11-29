@@ -635,7 +635,17 @@ describe('Tools.ListAllProps', () => {
   })
 
   it('should filter out React elements', () => {
-    const generateRef = React.createRef<GenerateRef>()
+    const generateRef = React.createRef<
+      GenerateRef<{
+        items: {
+          children: {
+            type: {
+              name: string
+            }
+          }
+        }
+      }>
+    >()
 
     render(
       <Form.Handler data={{ count: 2 }}>

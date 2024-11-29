@@ -45,22 +45,24 @@ function Component() {
 }
 ```
 
-Or by linking the hook together with the form by using the `id` (string) property:
+Or by linking the hook together with the form by using the `id` (string, function, object or React Context as the reference) property:
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
+const myFormId = 'unique-id' // or a function, object or React Context reference
+
 function MyForm() {
   return (
     <>
-      <Form.Handler id="unique">...</Form.Handler>
+      <Form.Handler id={myFormId}>...</Form.Handler>
       <Component />
     </>
   )
 }
 
 function Component() {
-  const { hasErrors, hasFieldError } = Form.useValidation('unique')
+  const { hasErrors, hasFieldError } = Form.useValidation(myFormId)
 }
 ```
 
@@ -69,10 +71,12 @@ Or by using it in the form component itself:
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
-function MyForm() {
-  const { hasErrors } = Form.useValidation('unique')
+const myFormId = 'unique-id' // or a function, object or React Context reference
 
-  return <Form.Handler id="unique">...</Form.Handler>
+function MyForm() {
+  const { hasErrors } = Form.useValidation(myFormId)
+
+  return <Form.Handler id={myFormId}>...</Form.Handler>
 }
 ```
 
@@ -83,14 +87,16 @@ You can also report a form error that gets displayed on the bottom of the form b
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
+const myFormId = 'unique-id' // or a function, object or React Context reference
+
 function MyForm() {
-  const { setFormError } = Form.useValidation('unique')
+  const { setFormError } = Form.useValidation(myFormId)
 
   useEffect(() => {
     setFormError('This is a global form error')
   }, [])
 
-  return <Form.Handler id="unique">...</Form.Handler>
+  return <Form.Handler id={myFormId}>...</Form.Handler>
 }
 ```
 
@@ -101,12 +107,14 @@ You can also use the `setFieldStatus` method to report field status. This will u
 ```jsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
 
+const myFormId = 'unique-id' // or a function, object or React Context reference
+
 function Component() {
-  const { setFieldStatus } = Form.useValidation('unique')
+  const { setFieldStatus } = Form.useValidation(myFormId)
 
   return (
     <Form.Handler
-      id="unique"
+      id={myFormId}
       onSubmit={async () => {
         // Report a field status
         setFieldStatus('/path/to/field', {

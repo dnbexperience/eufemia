@@ -12,20 +12,22 @@ import useMountEffect from './useMountEffect'
 const useLayoutEffect =
   typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
-export type SharedStateId = string
+export type SharedStateId =
+  | string
+  | (() => void)
+  | Promise<() => void>
+  | React.Context<any>
+  | Record<string, unknown>
 
 /**
  * Custom hook that provides shared state functionality.
- *
- * @template Data - The type of data stored in the shared state.
- * @param {SharedStateId} id - The identifier for the shared state.
- * @param {Data} initialData - The initial data for the shared state.
- * @param {Function} onChange - Optional callback function to be called when the shared state is set from another instance/component.
- * @returns {Object} - An object containing the shared state data, update function, extend function, and set function.
  */
 export function useSharedState<Data>(
-  id: SharedStateId,
+  /** The identifier for the shared state. */
+  id: SharedStateId | undefined,
+  /** The initial data for the shared state. */
   initialData: Data = undefined,
+  /** Optional callback function to be called when the shared state is set from another instance/component. */
   onChange = null
 ) {
   const [, forceUpdate] = useReducer(() => ({}), {})
@@ -53,7 +55,7 @@ export function useSharedState<Data>(
   }, [id, initialData])
   const sharedAttachment = useMemo(() => {
     if (id) {
-      return createSharedState(id + '-oc', { onChange })
+      return createSharedState(createReferenceKey(id, 'oc'), { onChange })
     }
   }, [id, onChange])
 
@@ -141,26 +143,27 @@ interface SharedStateInstance<Data> extends SharedStateReturn<Data> {
   hadInitialData: boolean
 }
 
-const sharedStates: Record<SharedStateId, SharedStateInstance<any>> = {}
+const sharedStates: Map<
+  SharedStateId,
+  SharedStateInstance<any>
+> = new Map()
 
 /**
  * Creates a shared state instance with the specified ID and initial data.
- * @template Data The type of data stored in the shared state.
- * @param id The ID of the shared state.
- * @param initialData The initial data for the shared state.
- * @returns The created shared state instance.
  */
 export function createSharedState<Data>(
+  /** The identifier for the shared state. */
   id: SharedStateId,
+  /** The initial data for the shared state. */
   initialData?: Data
 ): SharedStateInstance<Data> {
-  if (!sharedStates[id]) {
+  if (!sharedStates.get(id)) {
     let subscribers: Subscriber[] = []
 
-    const get = () => sharedStates[id].data
+    const get = () => sharedStates.get(id).data
 
     const set = (newData: Partial<Data>) => {
-      sharedStates[id].data = { ...newData }
+      sharedStates.get(id).data = { ...newData }
     }
 
     const update = (newData: Partial<Data>) => {
@@ -169,7 +172,10 @@ export function createSharedState<Data>(
     }
 
     const extend = (newData: Data) => {
-      sharedStates[id].data = { ...sharedStates[id].data, ...newData }
+      sharedStates.get(id).data = {
+        ...sharedStates.get(id).data,
+        ...newData,
+      }
       sync()
     }
 
@@ -187,7 +193,7 @@ export function createSharedState<Data>(
       subscribers.forEach((subscriber) => subscriber())
     }
 
-    sharedStates[id] = {
+    sharedStates.set(id, {
       data: undefined,
       get,
       set,
@@ -196,17 +202,36 @@ export function createSharedState<Data>(
       subscribe,
       unsubscribe,
       hadInitialData: Boolean(initialData),
-    } as SharedStateInstance<Data>
+    } as SharedStateInstance<Data>)
 
     if (initialData) {
       extend(initialData)
     }
   } else if (
-    sharedStates[id].data === undefined &&
+    sharedStates.get(id).data === undefined &&
     initialData !== undefined
   ) {
-    sharedStates[id].data = { ...initialData }
+    sharedStates.get(id).data = { ...initialData }
   }
 
-  return sharedStates[id]
+  return sharedStates.get(id)
 }
+
+/**
+ * Creates a reference key for the shared state.
+ * You can pass any JavaScript instance as the reference.
+ */
+export function createReferenceKey(ref1, ref2) {
+  if (!cache.has(ref1)) {
+    cache.set(ref1, new Map())
+  }
+
+  const innerMap = cache.get(ref1)
+
+  if (!innerMap.has(ref2)) {
+    innerMap.set(ref2, {})
+  }
+
+  return innerMap.get(ref2)
+}
+const cache = new Map()

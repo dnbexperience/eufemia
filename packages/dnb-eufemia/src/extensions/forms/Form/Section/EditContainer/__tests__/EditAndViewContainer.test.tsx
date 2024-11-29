@@ -559,7 +559,7 @@ describe('EditContainer and ViewContainer', () => {
     )
   })
 
-  it('should set variant to "basic" when variant is set to "basic"', async () => {
+  it('should set correct class for variant "basic"', () => {
     render(
       <Form.Section>
         <Form.Section.ViewContainer variant="basic">
@@ -577,6 +577,30 @@ describe('EditContainer and ViewContainer', () => {
     )
     expect(viewBlock).toHaveClass('dnb-forms-section-block--variant-basic')
     expect(editBlock).toHaveClass('dnb-forms-section-block--variant-basic')
+  })
+
+  it('should set correct class for variant "filled"', () => {
+    render(
+      <Form.Section>
+        <Form.Section.ViewContainer variant="filled">
+          View Content
+        </Form.Section.ViewContainer>
+
+        <Form.Section.EditContainer variant="filled">
+          Edit Content
+        </Form.Section.EditContainer>
+      </Form.Section>
+    )
+
+    const [viewBlock, editBlock] = Array.from(
+      document.querySelectorAll('.dnb-forms-section-block')
+    )
+    expect(viewBlock).toHaveClass(
+      'dnb-forms-section-block--variant-filled'
+    )
+    expect(editBlock).toHaveClass(
+      'dnb-forms-section-block--variant-filled'
+    )
   })
 
   it('should validate on done button click', async () => {

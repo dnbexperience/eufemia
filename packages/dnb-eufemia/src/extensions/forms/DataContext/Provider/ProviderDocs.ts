@@ -13,7 +13,7 @@ export const ProviderProperties: PropertiesTableProps = {
   },
   id: {
     doc: 'Unique id for connecting Form.Handler and helper tools such as Form.useData.',
-    type: 'string',
+    type: ['string', 'Function', 'Object', 'React.Context'],
     status: 'optional',
   },
   schema: {

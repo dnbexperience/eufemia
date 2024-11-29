@@ -1,9 +1,15 @@
 import { renderHook, act } from '@testing-library/react'
 import { makeUniqueId } from '../../component-helper'
-import { useSharedState, createSharedState } from '../useSharedState'
+import {
+  useSharedState,
+  createSharedState,
+  SharedStateId,
+  createReferenceKey,
+} from '../useSharedState'
+import { createContext } from 'react'
 
 describe('useSharedState', () => {
-  let identifier: string
+  let identifier: SharedStateId
 
   beforeEach(() => {
     identifier = makeUniqueId()
@@ -45,6 +51,50 @@ describe('useSharedState', () => {
       sharedState.update({ test: 'changed' })
     })
     expect(result.current.data).toEqual({ test: 'changed' })
+  })
+
+  it('should update the shared state with a function reference as id', () => {
+    const identifier = () => null
+    const { result } = renderHook(() =>
+      useSharedState(identifier, { test: 'initial' })
+    )
+    act(() => {
+      result.current.update({ test: 'updated' })
+    })
+    expect(result.current.data).toEqual({ test: 'updated' })
+  })
+
+  it('should update the shared state with an async function reference as id', () => {
+    const identifier = async () => null
+    const { result } = renderHook(() =>
+      useSharedState(identifier, { test: 'initial' })
+    )
+    act(() => {
+      result.current.update({ test: 'updated' })
+    })
+    expect(result.current.data).toEqual({ test: 'updated' })
+  })
+
+  it('should update the shared state with an object reference as id', () => {
+    const identifier = {}
+    const { result } = renderHook(() =>
+      useSharedState(identifier, { test: 'initial' })
+    )
+    act(() => {
+      result.current.update({ test: 'updated' })
+    })
+    expect(result.current.data).toEqual({ test: 'updated' })
+  })
+
+  it('should update the shared state with a React context reference as id', () => {
+    const identifier = createContext(null)
+    const { result } = renderHook(() =>
+      useSharedState(identifier, { test: 'initial' })
+    )
+    act(() => {
+      result.current.update({ test: 'updated' })
+    })
+    expect(result.current.data).toEqual({ test: 'updated' })
   })
 
   it('should unsubscribe from the shared state when the component unmounts', () => {
@@ -169,5 +219,68 @@ describe('useSharedState', () => {
 
     expect(resultA.current.data).toEqual({ foo: 'baz' })
     expect(resultB.current.data).toEqual({ foo: 'baz' })
+  })
+})
+
+describe('createReferenceKey', () => {
+  it('should return the same object for the same references', () => {
+    const ref1 = {}
+    const ref2 = () => null
+
+    const key1 = createReferenceKey(ref1, ref2)
+    const key2 = createReferenceKey(ref1, ref2)
+
+    expect(key1).toBe(key2)
+  })
+
+  it('should return the same object for the same string references', () => {
+    const ref1 = {}
+    const ref2 = 'unique'
+
+    const key1 = createReferenceKey(ref1, ref2)
+    const key2 = createReferenceKey(ref1, ref2)
+
+    expect(key1).toBe(key2)
+  })
+
+  it('should return different objects for different references', () => {
+    const ref1 = {}
+    const ref2 = {}
+    const ref3 = {}
+
+    const key1 = createReferenceKey(ref1, ref2)
+    const key2 = createReferenceKey(ref1, ref3)
+
+    expect(key1).not.toBe(key2)
+  })
+
+  it('should return different objects for different first references', () => {
+    const ref1 = {}
+    const ref2 = {}
+    const ref3 = {}
+
+    const key1 = createReferenceKey(ref1, ref2)
+    const key2 = createReferenceKey(ref3, ref2)
+
+    expect(key1).not.toBe(key2)
+  })
+
+  it('should cache the combined reference', () => {
+    const ref1 = {}
+    const ref2 = () => null
+
+    const key1 = createReferenceKey(ref1, ref2)
+    const key2 = createReferenceKey(ref1, ref2)
+
+    expect(key1).toBe(key2)
+  })
+
+  it('should create a new reference if it does not exist', () => {
+    const ref1 = {}
+    const ref2 = {}
+
+    const key1 = createReferenceKey(ref1, ref2)
+
+    expect(key1).toBeDefined()
   })
 })

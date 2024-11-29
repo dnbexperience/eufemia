@@ -138,7 +138,10 @@ export const TransformOnCommit = () => {
           <Flex.Stack>
             <Form.SubHeading>Ny hovedkontaktperson</Form.SubHeading>
 
-            <Form.Isolation
+            <Form.Isolation<{
+              newPerson: { title: string }
+              contactPersons: Array<{ title: string; value: string }>
+            }>
               transformOnCommit={(isolatedData, handlerData) => {
                 return {
                   ...handlerData,

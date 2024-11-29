@@ -11,13 +11,6 @@
       flex-direction: column;
     }
 
-    &--variant-basic {
-      --border-color: transparent;
-      .dnb-card {
-        --card-outline-color: transparent;
-      }
-    }
-
     &__inner {
       flex: 1;
       outline: none; // for JavaSCript focus
@@ -41,6 +34,19 @@
       .dnb-dl .dnb-dd {
         margin-bottom: 0;
       }
+    }
+
+    &--variant-basic {
+      --border-color: transparent;
+      .dnb-card,
+      .dnb-card & .dnb-card {
+        --card-outline-color: transparent;
+      }
+    }
+
+    &--variant-filled &__inner {
+      --space: var(--spacing-small);
+      background-color: var(--color-lavender);
     }
 
     &--no-animation &__inner {

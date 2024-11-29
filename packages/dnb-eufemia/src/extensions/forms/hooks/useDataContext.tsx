@@ -1,6 +1,7 @@
 import { useCallback, useContext } from 'react'
 import {
   SharedStateId,
+  createReferenceKey,
   useSharedState,
 } from '../../../shared/helpers/useSharedState'
 import DataContext, { ContextState } from '../DataContext/Context'
@@ -10,7 +11,7 @@ export default function useDataContext(id: SharedStateId = undefined): {
   getContext: () => ContextState
 } {
   const sharedDataContext = useSharedState<ContextState>(
-    id + '-data-context'
+    createReferenceKey(id, 'data-context')
   )
 
   const dataContext = useContext(DataContext)

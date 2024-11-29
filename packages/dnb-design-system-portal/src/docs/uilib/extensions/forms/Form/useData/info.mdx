@@ -42,7 +42,17 @@ render(
 
 ## Usage
 
-You can use the `Form.useData` hook with or without an `id` (string) property, which is optional and can be used to link the data to a specific [Form.Handler](/uilib/extensions/forms/Form/Handler/) component.
+You can use the `Form.useData` hook with or without an `id` (string, function, object or React Context as the reference) property, which is optional and can be used to link the data to a specific [Form.Handler](/uilib/extensions/forms/Form/Handler/) component.
+
+### TypeScript support
+
+You can define the TypeScript type structure for your data like so:
+
+```tsx
+type Data = { foo: string }
+
+const { data } = Form.useData<Data>()
+```
 
 ### Without an `id` property
 
@@ -66,35 +76,28 @@ function Component() {
 
 ### With an `id` property
 
-While in this example, "Component" is outside the `Form.Handler` context, but linked together via the `id` (string) property:
+While in this example, "Component" is outside the `Form.Handler` context, but linked together via the `id` (string, function, object or React Context as the reference) property:
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
+const myFormId = 'unique-id' // or a function, object or React Context reference
+
 function MyForm() {
   return (
     <>
-      <Form.Handler id="unique">...</Form.Handler>
+      <Form.Handler id={myFormId}>...</Form.Handler>
       <Component />
     </>
   )
 }
 
 function Component() {
-  const { data } = Form.useData('unique')
+  const { data } = Form.useData(myFormId)
 }
 ```
 
 This is beneficial when you need to utilize the form data in other places within your application.
-
-### TypeScript support
-
-You can define the TypeScript type structure for your data like so:
-
-```tsx
-type Data = { foo: string }
-const { data } = Form.useData<Data>('unique')
-```
 
 ### Select a single value
 
@@ -136,15 +139,17 @@ With the `set` method, you can extend the data set. Existing data paths will be 
 ```jsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
 
+const myFormId = 'unique-id' // or a function, object or React Context reference
+
 function MyForm() {
-  const { data, set } = Form.useData('unique')
+  const { data, set } = Form.useData(myFormId)
 
   useEffect(() => {
     set({ foo: 'bar' })
   }, [])
 
   return (
-    <Form.Handler id="unique">
+    <Form.Handler id={myFormId}>
       <Field.String path="/foo" />
     </Form.Handler>
   )
@@ -211,12 +216,14 @@ const filterDataHandler = ({ path, value, data, props, internal }) => {
   }
 }
 
+const myFormId = 'unique-id' // or a function, object or React Context reference
+
 const MyForm = () => {
-  const { filterData } = Form.useData('my-form')
+  const { filterData } = Form.useData(myFormId)
   const filteredData = filterData(filterDataHandler)
 
   return (
-    <Form.Handler id="my-form">
+    <Form.Handler id={myFormId}>
       <Field.String path="/foo" data-exclude-field />
     </Form.Handler>
   )
@@ -238,22 +245,23 @@ You decide where and when you want to provide the initial `data` to the form. It
 ```jsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
 
+const myFormId = 'unique-id' // or a function, object or React Context reference
 const initialData = { foo: 'bar' }
 
 function MyForm() {
   return (
-    <Form.Handler id="unique" data={initialData}>
+    <Form.Handler id={myFormId} data={initialData}>
       <Field.String path="/foo" />
     </Form.Handler>
   )
 }
 
 function ComponentA() {
-  Form.useData('unique', { foo: 'bar' })
+  Form.useData(myFormId, { foo: 'bar' })
 }
 
 function ComponentB() {
-  const { set } = Form.useData('unique')
+  const { set } = Form.useData(myFormId)
 
   useEffect(() => {
     set({ foo: 'bar' })

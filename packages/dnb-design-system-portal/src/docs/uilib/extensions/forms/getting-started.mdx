@@ -20,6 +20,7 @@ import AsyncChangeExample from './Form/Handler/parts/async-change-example.mdx'
 
 - [Getting started](#getting-started)
   - [Creating forms](#creating-forms)
+  - [TypeScript support](#typescript-support)
   - [State management](#state-management)
     - [What is a JSON Pointer?](#what-is-a-json-pointer)
     - [Data handling](#data-handling)
@@ -61,6 +62,37 @@ import AsyncChangeExample from './Form/Handler/parts/async-change-example.mdx'
 To build an entire form, there are surrounding components such as form [Handler](/uilib/extensions/forms/Form/Handler) and [Wizard.Container](/uilib/extensions/forms/Wizard/Container) that make data flow and layout easier and save you a lot of extra code, without compromising flexibility.
 
 The needed styles are included in the Eufemia core package via `dnb-ui-components`.
+
+### TypeScript support
+
+You can define the TypeScript type structure for your data like so:
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+type MyDataContext = {
+  firstName?: string
+}
+
+function MyForm() {
+  return (
+    <Form.Handler<MyDataContext>
+      onSubmit={(data) => {
+        console.log(data.firstName) // "firstName" is of type string
+      }}
+    >
+      <MyComponent />
+    </Form.Handler>
+  )
+}
+
+const MyComponent = () => {
+  const { data } = Form.useData<MyDataContext>()
+  return data.firstName
+}
+```
+
+Read more about TypeScript support and the other methods in the [Form.Handler](/uilib/extensions/forms/Form/Handler/#typescript-support) section or in the [Form.useData](/uilib/extensions/forms/Form/useData/#typescript-support) hook docs.
 
 ### State management
 
@@ -121,16 +153,18 @@ How do I handle complex data logic?
 
 You can show or hide parts of your form based on your own logic. This is done by using the [Visibility](/uilib/extensions/forms/Form/Visibility/) component (yes, it even can animate the visibility).
 
-And you can access and modify your form data with [useData](/uilib/extensions/forms/Form/useData/) or [getData](/uilib/extensions/forms/Form/getData/) or even [setData](/uilib/extensions/forms/Form/setData/).
+And you can access and modify your form data with [Form.useData](/uilib/extensions/forms/Form/useData/) or [getData](/uilib/extensions/forms/Form/getData/) or even [setData](/uilib/extensions/forms/Form/setData/).
 
 Here is an example of how to use these methods:
 
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
+const myFormId = 'unique-id' // or a function, object or React Context reference
+
 function MyForm() {
   return (
-    <Form.Handler id="unique-id">
+    <Form.Handler id={myFormId}>
       <MyComponent />
     </Form.Handler>
   )
@@ -145,15 +179,15 @@ function MyComponent() {
     data,
     filterData,
     reduceToVisibleFields,
-  } = Form.useData() // optionally provide an id (unique-id)
+  } = Form.useData() // optionally provide an id or reference
 }
 
 // You can also use the setData:
-Form.setData('unique-id', { companyName: 'DNB' })
+Form.setData(myFormId, { companyName: 'DNB' })
 
 // ... and the getData – method when ever you need to:
 const { getValue, data, filterData, reduceToVisibleFields } =
-  Form.getData('unique-id')
+  Form.getData(myFormId)
 ```
 
 - `getValue` will return the value of the given path.
@@ -164,7 +198,7 @@ const { getValue, data, filterData, reduceToVisibleFields } =
 - `filterData` will filter the data based on your own logic.
 - `reduceToVisibleFields` will reduce the given data set to only contain the visible fields (mounted fields).
 
-As you can see in the code above, you can even handle the state outside the `Form.Handler` context. You find more details on this topic in the [useData](/uilib/extensions/forms/Form/useData/) documentation.
+As you can see in the code above, you can even handle the state outside the `Form.Handler` context. You find more details on this topic in the [Form.useData](/uilib/extensions/forms/Form/useData/) documentation.
 
 <Examples.GettingStarted />
 
@@ -181,9 +215,9 @@ When submitting data to the server, you might want to exclude data that has been
 
 In this section we will show how to filter out some data based on your own logic. You can filter data by any given criteria. This is done by utilizing the `filterData` method from e.g.:
 
-- [useData](/uilib/extensions/forms/Form/useData/#filter-data) hook.
-- [getData](/uilib/extensions/forms/Form/getData/#filter-data) method.
-- [Visibility](/uilib/extensions/forms/Form/Visibility/#filter-data) component.
+- [Form.useData](/uilib/extensions/forms/Form/useData/#filter-data) hook.
+- [Form.getData](/uilib/extensions/forms/Form/getData/#filter-data) method.
+- [Form.Visibility](/uilib/extensions/forms/Form/Visibility/#filter-data) component.
 
 You can provide either a function handler or an object with the paths (JSON Pointer) you want to filter out.
 
@@ -229,16 +263,16 @@ You may check out an [interactive example](/uilib/extensions/forms/Form/useData/
 For filtering data during form submit (`onSubmit`), you can use the `filterData` method given as a parameter to the `onSubmit` event callback:
 
 ```tsx
-const onSubmit = (data, { filterData }) => {
-  // Same method as in the previous example
-  const filteredDataA = filterData(filterDataPaths)
-  const filteredDataB = filterData(filterDataHandler)
-  console.log(filteredDataA)
-  console.log(filteredDataB)
-}
-
 render(
-  <Form.Handler onSubmit={onSubmit}>
+  <Form.Handler
+    onSubmit={(data, { filterData }) => {
+      // Same method as in the previous example
+      const filteredDataA = filterData(filterDataPaths)
+      const filteredDataB = filterData(filterDataHandler)
+      console.log(filteredDataA)
+      console.log(filteredDataB)
+    }}
+  >
     <Field.String path="/foo" />
   </Form.Handler>,
 )
@@ -426,7 +460,7 @@ Eufemia Forms will easily link up with the [GlobalStatus](/uilib/components/glob
 ```tsx
 <GlobalStatus />
 
-<Form.Handler >
+<Form.Handler>
   My Form
 </Form.Handler>
 ```

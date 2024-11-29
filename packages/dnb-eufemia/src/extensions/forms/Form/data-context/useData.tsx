@@ -8,6 +8,7 @@ import {
 import pointer, { JsonObject } from '../../utils/json-pointer'
 import {
   SharedStateId,
+  createReferenceKey,
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
@@ -89,7 +90,7 @@ export default function useData<Data = JsonObject>(
   )
 
   sharedAttachmentsRef.current = useSharedState<SharedAttachments<Data>>(
-    id + '-attachments',
+    createReferenceKey(id, 'attachments'),
     { rerenderUseDataHook: forceUpdate }
   )
 

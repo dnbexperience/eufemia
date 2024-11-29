@@ -19,6 +19,52 @@ const nb = nbNO['nb-NO']
 const en = enGB['en-GB']
 
 describe('Form.Handler', () => {
+  it('should support types given to the Form.Handler', () => {
+    let value = null
+
+    type MyDataContext = {
+      firstName?: string
+    }
+
+    render(
+      <Form.Handler<MyDataContext>
+        onSubmit={(data) => {
+          value = data.firstName
+        }}
+      >
+        <Field.String path="/firstName" value="Value" />
+      </Form.Handler>
+    )
+
+    fireEvent.submit(document.querySelector('form'))
+    expect(value).toBe('Value')
+  })
+
+  it('should support types given to the data prop', () => {
+    let value = null
+
+    type MyDataContext = {
+      firstName?: string
+    }
+    const data: MyDataContext = {
+      firstName: 'Value',
+    }
+
+    render(
+      <Form.Handler
+        data={data}
+        onSubmit={(data) => {
+          value = data.firstName
+        }}
+      >
+        <Field.String path="/firstName" />
+      </Form.Handler>
+    )
+
+    fireEvent.submit(document.querySelector('form'))
+    expect(value).toBe('Value')
+  })
+
   it('should call "onSubmit"', () => {
     const onSubmit: OnSubmit = jest.fn()
 
@@ -1158,6 +1204,86 @@ describe('Form.Handler', () => {
 
       render(<Form.Handler schema={schema}>content</Form.Handler>)
       expect(document.body).toHaveTextContent('content')
+    })
+  })
+
+  describe('decoupleForm', () => {
+    it('should contain one form element', () => {
+      render(
+        <Form.Handler decoupleForm>
+          <Form.Element>content</Form.Element>
+        </Form.Handler>
+      )
+
+      const formElements = document.querySelectorAll('form')
+      expect(formElements).toHaveLength(1)
+    })
+
+    it('should call onSubmit when form is submitted', () => {
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler decoupleForm onSubmit={onSubmit}>
+          <Form.Element>content</Form.Element>
+        </Form.Handler>
+      )
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+    })
+
+    it('should spread rest props to form element', () => {
+      render(
+        <Form.Handler decoupleForm aria-label="Aria Label">
+          <Form.Element>content</Form.Element>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('form')).toHaveAttribute(
+        'aria-label',
+        'Aria Label'
+      )
+    })
+
+    it('should overwrite rest props from handler', () => {
+      render(
+        <Form.Handler decoupleForm aria-label="Aria Label">
+          <Form.Element aria-label="Overwrite">content</Form.Element>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('form')).toHaveAttribute(
+        'aria-label',
+        'Overwrite'
+      )
+    })
+
+    it('should render form element inside wrapper', () => {
+      render(
+        <Form.Handler decoupleForm>
+          <div className="wrapper">
+            <Form.Element>content</Form.Element>
+          </div>
+        </Form.Handler>
+      )
+
+      const formElements = document.querySelectorAll('.wrapper > form')
+      expect(formElements).toHaveLength(1)
+    })
+
+    it('should warn when no form element is found', () => {
+      const log = jest.spyOn(global.console, 'log').mockImplementation()
+
+      render(<Form.Handler decoupleForm>content</Form.Handler>)
+
+      expect(log).toHaveBeenCalledTimes(1)
+      expect(log).toHaveBeenCalledWith(
+        expect.any(String),
+        'Please include a Form.Element when using decoupleForm!'
+      )
+
+      log.mockRestore()
     })
   })
 })
