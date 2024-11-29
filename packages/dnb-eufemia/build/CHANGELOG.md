@@ -3,6 +3,25 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.58.0](https://github.com/dnbexperience/eufemia/compare/v10.57.1...v10.58.0) (2024-11-29)
+
+
+### :sparkles: Features
+
+* **Forms:** add `showConfirmDialog` to Iterate.RemoveButton ([#4330](https://github.com/dnbexperience/eufemia/issues/4330)) ([76bddf0](https://github.com/dnbexperience/eufemia/commit/76bddf0adb7e673c608526de2e6f70195a98a8fd))
+* **Forms:** add `variant="filled"` and `toolbarVariant="custom"` to Iterate.EditContainer and Iterate.ViewContainer ([#4329](https://github.com/dnbexperience/eufemia/issues/4329)) ([b2b9eef](https://github.com/dnbexperience/eufemia/commit/b2b9eef82084185fdc693dba9320f95383aba7e2))
+* **Forms:** add support for using a function references instead of a string based id ([#4331](https://github.com/dnbexperience/eufemia/issues/4331)) ([a6e3bc3](https://github.com/dnbexperience/eufemia/commit/a6e3bc31009dd3f3af944b2fd6657b036fe5cbf0))
+* **Forms:** enhance typing and add docs on how to deal with TypeScript types ([#4343](https://github.com/dnbexperience/eufemia/issues/4343)) ([10b199b](https://github.com/dnbexperience/eufemia/commit/10b199bfab4a040bd39e12a06df74385286d7c66))
+* **Forms:** introduce `decoupleForm` prop to Form.Handler ([#4332](https://github.com/dnbexperience/eufemia/issues/4332)) ([0b02b6e](https://github.com/dnbexperience/eufemia/commit/0b02b6e84687c8e44f44a935c009e1c8e5c42519))
+
+
+### :bug: Bug Fixes
+
+* **DatePicker:** make sure the picker and input only reacts to the props that have changed ([#4342](https://github.com/dnbexperience/eufemia/issues/4342)) ([4cd52a3](https://github.com/dnbexperience/eufemia/commit/4cd52a3ac3e4c1e53332de7d920e104a68d87d7f))
+* **Forms.Card:** remove outline when variant="basic" on Section containers when used in Wizard ([#4336](https://github.com/dnbexperience/eufemia/issues/4336)) ([ebad212](https://github.com/dnbexperience/eufemia/commit/ebad212df87cf2cd207fc18d885ff5b7b6e3d0fc))
+* **forms:** add `sessionStorageId` support to Field.Upload with empty file list rendering ([#4339](https://github.com/dnbexperience/eufemia/issues/4339)) ([d02a0af](https://github.com/dnbexperience/eufemia/commit/d02a0afa838e3eb0816d0d8a9d026f707c692c1a))
+* **NumberFormat:** improve regex for parsing phone numbers with country codes ([#4340](https://github.com/dnbexperience/eufemia/issues/4340)) ([96613ed](https://github.com/dnbexperience/eufemia/commit/96613ed769d80bcd0d51fed6e739ef0c405a3cd6)), closes [#4337](https://github.com/dnbexperience/eufemia/issues/4337)
+
 ## [10.57.1](https://github.com/dnbexperience/eufemia/compare/v10.57.0...v10.57.1) (2024-11-22)
 
 
