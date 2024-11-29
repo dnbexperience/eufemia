@@ -247,49 +247,49 @@ describe('DatePicker component', () => {
     expect(year.value).toBe('2024')
 
     await userEvent.click(year)
-    await userEvent.keyboard('{ArrowRight>4}{backspace}')
+    await userEvent.keyboard('{ArrowRight>4}{Backspace}')
 
     expect(day.value).toBe('17')
     expect(month.value).toBe('05')
     expect(year.value).toBe('202å')
 
-    await userEvent.keyboard('{backspace}')
+    await userEvent.keyboard('{Backspace}')
 
     expect(day.value).toBe('17')
     expect(month.value).toBe('05')
     expect(year.value).toBe('20åå')
 
-    await userEvent.keyboard('{backspace}')
+    await userEvent.keyboard('{Backspace}')
 
     expect(day.value).toBe('17')
     expect(month.value).toBe('05')
     expect(year.value).toBe('2ååå')
 
-    await userEvent.keyboard('{backspace}')
+    await userEvent.keyboard('{Backspace}')
 
     expect(day.value).toBe('17')
     expect(month.value).toBe('05')
     expect(year.value).toBe('åååå')
 
-    await userEvent.keyboard('{backspace>2}')
+    await userEvent.keyboard('{Backspace>2}')
 
     expect(day.value).toBe('17')
     expect(month.value).toBe('0m')
     expect(year.value).toBe('åååå')
 
-    await userEvent.keyboard('{backspace}')
+    await userEvent.keyboard('{Backspace}')
 
     expect(day.value).toBe('17')
     expect(month.value).toBe('mm')
     expect(year.value).toBe('åååå')
 
-    await userEvent.keyboard('{backspace>2}')
+    await userEvent.keyboard('{Backspace>2}')
 
     expect(day.value).toBe('1d')
     expect(month.value).toBe('mm')
     expect(year.value).toBe('åååå')
 
-    await userEvent.keyboard('{backspace}')
+    await userEvent.keyboard('{Backspace}')
 
     expect(day.value).toBe('dd')
     expect(month.value).toBe('mm')
@@ -336,7 +336,7 @@ describe('DatePicker component', () => {
     expect(endYear.value).toBe('2025')
 
     await userEvent.click(endYear)
-    await userEvent.keyboard('{ArrowRight>4}{backspace}')
+    await userEvent.keyboard('{ArrowRight>4}{Backspace}')
 
     expect(startDay.value).toBe('01')
     expect(startMonth.value).toBe('05')
@@ -345,7 +345,7 @@ describe('DatePicker component', () => {
     expect(endMonth.value).toBe('06')
     expect(endYear.value).toBe('202å')
 
-    await userEvent.keyboard('{backspace}')
+    await userEvent.keyboard('{Backspace}')
 
     expect(startDay.value).toBe('01')
     expect(startMonth.value).toBe('05')
@@ -354,7 +354,7 @@ describe('DatePicker component', () => {
     expect(endMonth.value).toBe('06')
     expect(endYear.value).toBe('20åå')
 
-    await userEvent.keyboard('{backspace}')
+    await userEvent.keyboard('{Backspace}')
 
     expect(startDay.value).toBe('01')
     expect(startMonth.value).toBe('05')
@@ -363,7 +363,7 @@ describe('DatePicker component', () => {
     expect(endMonth.value).toBe('06')
     expect(endYear.value).toBe('2ååå')
 
-    await userEvent.keyboard('{backspace}')
+    await userEvent.keyboard('{Backspace}')
 
     expect(startDay.value).toBe('01')
     expect(startMonth.value).toBe('05')
@@ -372,7 +372,7 @@ describe('DatePicker component', () => {
     expect(endMonth.value).toBe('06')
     expect(endYear.value).toBe('åååå')
 
-    await userEvent.keyboard('{backspace>2}')
+    await userEvent.keyboard('{Backspace>2}')
 
     expect(startDay.value).toBe('01')
     expect(startMonth.value).toBe('05')
@@ -381,7 +381,7 @@ describe('DatePicker component', () => {
     expect(endMonth.value).toBe('0m')
     expect(endYear.value).toBe('åååå')
 
-    await userEvent.keyboard('{backspace}')
+    await userEvent.keyboard('{Backspace}')
 
     expect(startDay.value).toBe('01')
     expect(startMonth.value).toBe('05')
@@ -390,7 +390,7 @@ describe('DatePicker component', () => {
     expect(endMonth.value).toBe('mm')
     expect(endYear.value).toBe('åååå')
 
-    await userEvent.keyboard('{backspace>2}')
+    await userEvent.keyboard('{Backspace>2}')
 
     expect(startDay.value).toBe('01')
     expect(startMonth.value).toBe('05')
@@ -399,7 +399,7 @@ describe('DatePicker component', () => {
     expect(endMonth.value).toBe('mm')
     expect(endYear.value).toBe('åååå')
 
-    await userEvent.keyboard('{backspace}')
+    await userEvent.keyboard('{Backspace}')
 
     expect(startDay.value).toBe('01')
     expect(startMonth.value).toBe('05')
@@ -408,7 +408,7 @@ describe('DatePicker component', () => {
     expect(endMonth.value).toBe('mm')
     expect(endYear.value).toBe('åååå')
 
-    await userEvent.keyboard('{backspace>2}')
+    await userEvent.keyboard('{Backspace>2}')
 
     expect(startDay.value).toBe('01')
     expect(startMonth.value).toBe('05')
@@ -417,7 +417,7 @@ describe('DatePicker component', () => {
     expect(endMonth.value).toBe('mm')
     expect(endYear.value).toBe('åååå')
 
-    await userEvent.keyboard('{backspace}')
+    await userEvent.keyboard('{Backspace}')
 
     expect(startDay.value).toBe('01')
     expect(startMonth.value).toBe('05')
@@ -426,7 +426,7 @@ describe('DatePicker component', () => {
     expect(endMonth.value).toBe('mm')
     expect(endYear.value).toBe('åååå')
 
-    await userEvent.keyboard('{backspace}')
+    await userEvent.keyboard('{Backspace}')
 
     expect(startDay.value).toBe('01')
     expect(startMonth.value).toBe('05')
@@ -435,7 +435,7 @@ describe('DatePicker component', () => {
     expect(endMonth.value).toBe('mm')
     expect(endYear.value).toBe('åååå')
 
-    await userEvent.keyboard('{backspace}')
+    await userEvent.keyboard('{Backspace}')
 
     expect(startDay.value).toBe('01')
     expect(startMonth.value).toBe('05')
@@ -444,7 +444,7 @@ describe('DatePicker component', () => {
     expect(endMonth.value).toBe('mm')
     expect(endYear.value).toBe('åååå')
 
-    await userEvent.keyboard('{backspace>2}')
+    await userEvent.keyboard('{Backspace>2}')
 
     expect(startDay.value).toBe('01')
     expect(startMonth.value).toBe('0m')
@@ -453,7 +453,7 @@ describe('DatePicker component', () => {
     expect(endMonth.value).toBe('mm')
     expect(endYear.value).toBe('åååå')
 
-    await userEvent.keyboard('{backspace}')
+    await userEvent.keyboard('{Backspace}')
 
     expect(startDay.value).toBe('01')
     expect(startMonth.value).toBe('mm')
@@ -462,7 +462,7 @@ describe('DatePicker component', () => {
     expect(endMonth.value).toBe('mm')
     expect(endYear.value).toBe('åååå')
 
-    await userEvent.keyboard('{backspace>2}')
+    await userEvent.keyboard('{Backspace>2}')
 
     expect(startDay.value).toBe('0d')
     expect(startMonth.value).toBe('mm')
@@ -471,7 +471,7 @@ describe('DatePicker component', () => {
     expect(endMonth.value).toBe('mm')
     expect(endYear.value).toBe('åååå')
 
-    await userEvent.keyboard('{backspace}')
+    await userEvent.keyboard('{Backspace}')
 
     expect(startDay.value).toBe('dd')
     expect(startMonth.value).toBe('mm')
