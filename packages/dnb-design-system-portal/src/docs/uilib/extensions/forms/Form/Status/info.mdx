@@ -1,0 +1,56 @@
+---
+showTabs: true
+hideInMenu: true
+---
+
+## Description
+
+`Form.Status` displays a status message that is fully covering the available space and can be used to show success as a receipt or error messages.
+
+## Usage
+
+By default the given children will be shown.
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Handler>
+    <Form.Status>visible content</Form.Status>
+  </Form.Handler>,
+)
+```
+
+## Showing the success or error message
+
+You can show the success or error message by using the `Form.Status.setStatus` method:
+
+```tsx
+Form.Status.setStatus(id, 'success')
+// or
+Form.Status.setStatus(id, 'error')
+```
+
+You can call it whenever you need to show the success message. Here is an example of how to use it:
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+// myFormId can be anything, as long as it's a unique instance
+const myFormId = () => null
+
+render(
+  <Form.Handler
+    id={myFormId}
+    onSubmit={async () => {
+      Form.Status.setStatus(myFormId, 'success')
+    }}
+  >
+    <Form.Status>content</Form.Status>
+  </Form.Handler>,
+)
+```
+
+## Accessibility
+
+The component will manage focus handling, which is important for screen readers and users using keyboard navigation.

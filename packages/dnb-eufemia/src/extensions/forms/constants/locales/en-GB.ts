@@ -35,6 +35,17 @@ export default {
       text: 'Remove',
       confirmRemoveText: 'Are you sure you want to delete this?',
     },
+    StatusSuccess: {
+      title: 'Thank you',
+      description: 'We have received your information.',
+      buttonText: 'Back to homepage',
+    },
+    StatusError: {
+      title: 'Something went wrong',
+      description: 'We were unable to submit the form.',
+      retryButton: 'Try again',
+      cancelButton: 'Back',
+    },
     SectionViewContainer: {
       editButton: 'Edit',
     },

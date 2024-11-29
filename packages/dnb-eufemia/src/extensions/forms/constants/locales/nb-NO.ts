@@ -34,6 +34,17 @@ export default {
       text: 'Fjern',
       confirmRemoveText: 'Er du sikker på at du vil slette dette?',
     },
+    StatusSuccess: {
+      title: 'Takk skal du ha',
+      description: 'Vi har mottatt din informasjon.',
+      buttonText: 'Tilbake til forsiden',
+    },
+    StatusError: {
+      title: 'Noe gikk galt',
+      description: 'Vi klarte ikke å sende inn skjemaet.',
+      retryButton: 'Prøv igjen',
+      cancelButton: 'Tilbake',
+    },
     SectionViewContainer: {
       editButton: 'Endre',
     },
