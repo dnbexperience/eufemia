@@ -19,6 +19,52 @@ const nb = nbNO['nb-NO']
 const en = enGB['en-GB']
 
 describe('Form.Handler', () => {
+  it('should support types given to the Form.Handler', () => {
+    let value = null
+
+    type MyDataContext = {
+      firstName?: string
+    }
+
+    render(
+      <Form.Handler<MyDataContext>
+        onSubmit={(data) => {
+          value = data.firstName
+        }}
+      >
+        <Field.String path="/firstName" value="Value" />
+      </Form.Handler>
+    )
+
+    fireEvent.submit(document.querySelector('form'))
+    expect(value).toBe('Value')
+  })
+
+  it('should support types given to the data prop', () => {
+    let value = null
+
+    type MyDataContext = {
+      firstName?: string
+    }
+    const data: MyDataContext = {
+      firstName: 'Value',
+    }
+
+    render(
+      <Form.Handler
+        data={data}
+        onSubmit={(data) => {
+          value = data.firstName
+        }}
+      >
+        <Field.String path="/firstName" />
+      </Form.Handler>
+    )
+
+    fireEvent.submit(document.querySelector('form'))
+    expect(value).toBe('Value')
+  })
+
   it('should call "onSubmit"', () => {
     const onSubmit: OnSubmit = jest.fn()
 

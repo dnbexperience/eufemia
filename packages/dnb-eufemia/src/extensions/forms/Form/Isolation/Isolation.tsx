@@ -30,7 +30,7 @@ import type { OnCommit, Path } from '../../types'
  */
 import structuredClone from '@ungap/structured-clone'
 
-export type IsolationProviderProps<Data> = {
+export type IsolationProviderProps<Data extends JsonObject> = {
   /**
    * Form.Isolation: Will be called when the isolated context is committed.
    */
@@ -44,10 +44,7 @@ export type IsolationProviderProps<Data> = {
    * It will receive the data from the isolated context and the data from the outer context.
    * You can use this to transform the data before it is committed.
    */
-  transformOnCommit?: (
-    isolatedData: JsonObject,
-    handlerData: JsonObject
-  ) => unknown
+  transformOnCommit?: (isolatedData: Data, handlerData: Data) => JsonObject
   /**
    * Prevent the form from being submitted when there are fields with errors inside the Form.Isolation.
    */
@@ -62,7 +59,7 @@ export type IsolationProviderProps<Data> = {
   isolate?: boolean
 }
 
-export type IsolationProps<Data> = Omit<
+export type IsolationProps<Data extends JsonObject> = Omit<
   ProviderProps<Data>,
   | 'onSubmit'
   | 'onSubmitRequest'

@@ -44,6 +44,16 @@ render(
 
 You can use the `Form.useData` hook with or without an `id` (string, function, object or React Context as the reference) property, which is optional and can be used to link the data to a specific [Form.Handler](/uilib/extensions/forms/Form/Handler/) component.
 
+### TypeScript support
+
+You can define the TypeScript type structure for your data like so:
+
+```tsx
+type Data = { foo: string }
+
+const { data } = Form.useData<Data>()
+```
+
 ### Without an `id` property
 
 Here "Component" is rendered inside the `Form.Handler` component and does not need an `id` property to access the form data:
@@ -88,15 +98,6 @@ function Component() {
 ```
 
 This is beneficial when you need to utilize the form data in other places within your application.
-
-### TypeScript support
-
-You can define the TypeScript type structure for your data like so:
-
-```tsx
-type Data = { foo: string }
-const { data } = Form.useData<Data>('unique')
-```
 
 ### Select a single value
 

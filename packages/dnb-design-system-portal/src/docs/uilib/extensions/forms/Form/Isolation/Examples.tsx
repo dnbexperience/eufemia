@@ -66,14 +66,17 @@ export const CommitHandleRef = () => {
                   <Form.Isolation
                     commitHandleRef={commitHandleRef}
                     transformOnCommit={(isolatedData, handlerData) => {
-                      const value =
-                        isolatedData.newPerson.title.toLowerCase()
+                      // Because of missing TypeScript support
+                      const contactPersons = handlerData['contactPersons']
+                      const newPerson = isolatedData['newPerson']
+
+                      const value = newPerson.title.toLowerCase()
                       const transformedData = {
                         ...handlerData,
                         contactPersons: [
-                          ...handlerData.contactPersons,
+                          ...contactPersons,
                           {
-                            ...isolatedData.newPerson,
+                            ...newPerson,
                             value,
                           },
                         ],
@@ -151,14 +154,18 @@ export const TransformCommitData = () => {
 
                     <Form.Isolation
                       transformOnCommit={(isolatedData, handlerData) => {
+                        // Because of missing TypeScript support
+                        const contactPersons =
+                          handlerData['contactPersons']
+                        const newPerson = isolatedData['newPerson']
+
                         return {
                           ...handlerData,
                           contactPersons: [
-                            ...handlerData.contactPersons,
+                            ...contactPersons,
                             {
-                              ...isolatedData.newPerson,
-                              value:
-                                isolatedData.newPerson.title.toLowerCase(),
+                              ...newPerson,
+                              value: newPerson.title.toLowerCase(),
                             },
                           ],
                         }

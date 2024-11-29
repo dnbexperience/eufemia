@@ -60,7 +60,7 @@ function RepresentativesEdit() {
 }
 
 function ExistingPersonDetails() {
-  const { data, getValue } = Form.useData()
+  const { data, getValue } = Form.useData<{ selectedPerson: string }>()
   const person = getValue(data.selectedPerson)?.data || {}
 
   return (
@@ -89,7 +89,7 @@ function NewPersonDetails() {
 }
 
 function PushContainerContent() {
-  const { data, update } = Form.useData()
+  const { data, update } = Form.useData<{ selectedPerson: string }>()
 
   // Clear the PushContainer data when the selected person is "other",
   // so the fields do not inherit existing data.

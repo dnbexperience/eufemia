@@ -6,6 +6,7 @@ import SharedProvider from '../../../../shared/Provider'
 import { ContextProps } from '../../../../shared/Context'
 import useFieldProvider from './useFieldProvider'
 import { FieldProps, Path } from '../../types'
+import { JsonObject } from '../../utils'
 
 export type FieldProviderProps = FieldProps & {
   children: React.ReactNode
@@ -13,12 +14,12 @@ export type FieldProviderProps = FieldProps & {
   /**
    * Locale to use for all nested Eufemia components
    */
-  locale?: DataContextProps<unknown>['locale']
+  locale?: DataContextProps<JsonObject>['locale']
 
   /**
    * Provide your own translations. Use the same format as defined in the translation files
    */
-  translations?: DataContextProps<unknown>['translations']
+  translations?: DataContextProps<JsonObject>['translations']
 
   /** For internal use only */
   overwriteProps?: {

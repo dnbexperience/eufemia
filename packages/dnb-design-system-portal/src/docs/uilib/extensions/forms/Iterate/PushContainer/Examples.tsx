@@ -143,7 +143,7 @@ export const IsolatedData = () => {
 
         function ExistingPersonDetails() {
           const { data, getValue } = Form.useData()
-          const person = getValue(data.selectedPerson)?.data || {}
+          const person = getValue(data['selectedPerson'])?.data || {}
 
           return (
             <Flex.Stack>
@@ -172,14 +172,15 @@ export const IsolatedData = () => {
 
         function PushContainerContent() {
           const { data, update } = Form.useData()
+          const selectedPerson = data['selectedPerson'] // Because of missing TypeScript support
 
           // Clear the PushContainer data when the selected person is "other",
           // so the fields do not inherit existing data.
           React.useLayoutEffect(() => {
-            if (data.selectedPerson === 'other') {
+            if (selectedPerson === 'other') {
               update('/pushContainerItems/0', {})
             }
-          }, [data.selectedPerson, update])
+          }, [selectedPerson, update])
 
           return (
             <Flex.Stack>
