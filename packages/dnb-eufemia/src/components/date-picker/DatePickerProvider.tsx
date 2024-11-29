@@ -91,22 +91,23 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
 
   const sharedContext = useContext(SharedContext)
 
-  const { dates, updateDates, hasHadValidDate, previousDates } = useDates(
-    {
-      date,
-      startDate,
-      endDate,
-      startMonth,
-      endMonth,
-      minDate,
-      maxDate,
-    },
-    {
-      dateFormat: dateFormat,
-      isRange: range,
-      shouldCorrectDate: correctInvalidDate,
-    }
-  )
+  const { dates, updateDates, hasHadValidDate, previousDateProps } =
+    useDates(
+      {
+        date,
+        startDate,
+        endDate,
+        startMonth,
+        endMonth,
+        minDate,
+        maxDate,
+      },
+      {
+        dateFormat: dateFormat,
+        isRange: range,
+        shouldCorrectDate: correctInvalidDate,
+      }
+    )
 
   const { views, setViews, forceViewMonthChange } = useViews({
     startMonth: dates.startMonth,
@@ -225,7 +226,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
         hidePicker: hidePicker,
         props,
         ...dates,
-        previousDates,
+        previousDateProps,
         hasHadValidDate,
         views,
         setViews,
