@@ -6,13 +6,13 @@ import FieldPropsProvider from '../../Field/Provider'
 import SectionContainerProvider from './containers/SectionContainerProvider'
 import ViewContainer from './ViewContainer'
 import EditContainer from './EditContainer'
+import Toolbar from './Toolbar'
 
 import type { Props as DataContextProps } from '../../DataContext/Provider'
 import type { ContainerMode } from './containers/SectionContainer'
 import type { Path, FieldProps, OnChange } from '../../types'
 import type { JsonObject } from '../../utils/json-pointer'
 import type { SharedFieldBlockProps } from '../../FieldBlock'
-import Toolbar from './Toolbar'
 
 export type OverwritePropsDefaults = {
   [key: Path]:
