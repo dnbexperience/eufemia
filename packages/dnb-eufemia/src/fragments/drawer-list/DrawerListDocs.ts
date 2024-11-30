@@ -146,6 +146,11 @@ export const DrawerListProperties: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
+  keepSelectIndexOnDataChange: {
+    doc: 'Determines if the selection index should be retained between `data` changes or not. Defaults to `false`',
+    type: 'boolean',
+    status: 'optional',
+  },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
