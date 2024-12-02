@@ -12,6 +12,8 @@ import {
   Section,
   Upload,
 } from '@dnb/eufemia/src'
+import { createRequest } from '../../extensions/forms/Form/SubmitIndicator/Examples'
+import { UploadFile } from '@dnb/eufemia/src/components/Upload'
 
 export function createMockFile(name: string, size: number, type: string) {
   const file = new File([], name, { type })
@@ -321,5 +323,42 @@ export const UploadNoTitleNoText = () => (
       acceptedFileTypes={['jpg', 'png']}
       id="upload-no-title-no-text"
     />
+  </ComponentBox>
+)
+
+export const UploadOnFileDelete = () => (
+  <ComponentBox
+    data-visual-test="upload-on-file-delete"
+    scope={{ createRequest }}
+  >
+    {() => {
+      async function mockAsyncFileRemoval({ fileItem }) {
+        const request = createRequest()
+
+        try {
+          console.log(
+            'making API request to remove: ' + fileItem.file.name,
+          )
+          await request(3000) // Simulate a request
+          const mockResponse = {
+            successful_removal: false, // Fails to remove the file
+          }
+
+          if (!mockResponse.successful_removal) {
+            throw new Error('Unable to remove this file')
+          }
+        } catch (error) {
+          throw error
+        }
+      }
+
+      return (
+        <Upload
+          onFileDelete={mockAsyncFileRemoval}
+          acceptedFileTypes={['jpg', 'png']}
+          id="upload-on-file-delete"
+        />
+      )
+    }}
   </ComponentBox>
 )

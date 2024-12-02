@@ -3,6 +3,7 @@ import { UploadFile } from './types'
 import { UploadContext } from './UploadContext'
 import UploadFileListCell from './UploadFileListCell'
 import useUpload from './useUpload'
+import { isAsync } from '../../shared/helpers/isAsync'
 
 function UploadFileList() {
   const context = React.useContext(UploadContext)
@@ -23,23 +24,68 @@ function UploadFileList() {
     return null
   }
 
+  const removeFile = (fileToBeRemoved, files) => {
+    return files.filter(
+      (fileListElement) => fileListElement.file != fileToBeRemoved.file
+    )
+  }
+
+  const updateFile = (fileToBeUpdated, props, files) => {
+    return files.map((fileListElement) =>
+      fileListElement.id === fileToBeUpdated.id
+        ? {
+            ...fileListElement,
+            ...props,
+          }
+        : fileListElement
+    )
+  }
+
+  const updateFiles = (files) => {
+    setFiles(files)
+    setInternalFiles(files)
+
+    if (typeof onChange === 'function') {
+      onChange({ files })
+    }
+  }
+
+  const handleDeleteAsync = async (uploadFile, files) => {
+    updateFiles(
+      updateFile(
+        uploadFile,
+        { isLoading: true, errorMessage: undefined },
+        files
+      )
+    )
+
+    try {
+      await onFileDelete({ fileItem: uploadFile })
+      updateFiles(removeFile(uploadFile, files))
+    } catch (error) {
+      updateFiles(
+        updateFile(
+          uploadFile,
+          { isLoading: false, errorMessage: error.message },
+          files
+        )
+      )
+    }
+  }
+
   return (
     <ul className="dnb-upload__file-list" aria-label={fileListAriaLabel}>
       {files.map((uploadFile: UploadFile, index: number) => {
-        const onDeleteHandler = () => {
+        const onDeleteHandler = async () => {
           if (typeof onFileDelete === 'function') {
-            onFileDelete({ fileItem: uploadFile })
-          }
-
-          const cleanedFiles = files.filter(
-            (fileListElement) => fileListElement.file != uploadFile.file
-          )
-
-          setFiles(cleanedFiles)
-          setInternalFiles(cleanedFiles)
-
-          if (typeof onChange === 'function') {
-            onChange({ files: cleanedFiles })
+            if (isAsync(onFileDelete)) {
+              handleDeleteAsync(uploadFile, files)
+            } else {
+              onFileDelete({ fileItem: uploadFile })
+              updateFiles(removeFile(uploadFile, files))
+            }
+          } else {
+            updateFiles(removeFile(uploadFile, files))
           }
         }
 
