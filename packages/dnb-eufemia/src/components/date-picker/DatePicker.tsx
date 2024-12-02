@@ -976,7 +976,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                 />
                 <DatePickerPortal
                   show={!hidden}
-                  targetElement={innerRef.current}
+                  targetElementRef={innerRef}
                 >
                   <DatePickerRange
                     id={id}
