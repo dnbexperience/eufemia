@@ -13,7 +13,6 @@ import {
   Upload,
 } from '@dnb/eufemia/src'
 import { createRequest } from '../../extensions/forms/Form/SubmitIndicator/Examples'
-import { UploadFile } from '@dnb/eufemia/src/components/Upload'
 
 export function createMockFile(name: string, size: number, type: string) {
   const file = new File([], name, { type })
@@ -335,11 +334,9 @@ export const UploadOnFileDelete = () => (
       async function mockAsyncFileRemoval({ fileItem }) {
         const request = createRequest()
 
+        console.log('making API request to remove: ' + fileItem.file.name)
+        await request(3000) // Simulate a request
         try {
-          console.log(
-            'making API request to remove: ' + fileItem.file.name,
-          )
-          await request(3000) // Simulate a request
           const mockResponse = {
             successful_removal: false, // Fails to remove the file
           }
