@@ -3,6 +3,19 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.59.0](https://github.com/dnbexperience/eufemia/compare/v10.58.0...v10.59.0) (2024-12-02)
+
+
+### :sparkles: Features
+
+* **Upload:** disabling delete button when loading ([cca3388](https://github.com/dnbexperience/eufemia/commit/cca33886c6a556df516d839a051a3ce70186ac5f))
+
+
+### :bug: Bug Fixes
+
+* **FormLabel:** unhandled runtime error, elem is null ([#4354](https://github.com/dnbexperience/eufemia/issues/4354)) ([a3414f1](https://github.com/dnbexperience/eufemia/commit/a3414f17f5b4225dbb07cf41c058a0c0cb3802a7)), closes [/github.com/dnbexperience/eufemia/pull/4354/files#diff-f476207b8a837f2c0dea83ca374c5d383bcd895b0f6f10e033e12d7c0a7a3f84R142](https://github.com/dnbexperience//github.com/dnbexperience/eufemia/pull/4354/files/issues/diff-f476207b8a837f2c0dea83ca374c5d383bcd895b0f6f10e033e12d7c0a7a3f84R142)
+* **Upload:** disabling delete button when loading ([#4348](https://github.com/dnbexperience/eufemia/issues/4348)) ([85445b4](https://github.com/dnbexperience/eufemia/commit/85445b484f3b7eb85c07f4e396c9514a80275055))
+
 ## [10.58.0](https://github.com/dnbexperience/eufemia/compare/v10.57.1...v10.58.0) (2024-11-29)
 
 
