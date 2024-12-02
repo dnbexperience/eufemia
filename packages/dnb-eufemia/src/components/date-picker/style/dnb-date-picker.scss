@@ -523,3 +523,12 @@
     opacity: 0;
   }
 }
+
+.dnb-datepicker__portal {
+  position: absolute;
+  z-index: 1000;
+
+  --date-picker-input-height: 2rem;
+  --date-picker-day-width: 2rem;
+  --date-picker-day-horizontal-spacing: 4px;
+}

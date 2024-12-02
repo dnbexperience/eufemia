@@ -57,6 +57,7 @@ import { DatePickerContextValues, DateType } from './DatePickerContext'
 import { DatePickerDates } from './hooks/useDates'
 import { useTranslation } from '../../shared'
 import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
+import DatePickerPortal from './DatePickerPortal'
 
 export type DatePickerEventAttributes = {
   day?: string
@@ -974,45 +975,46 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   className="dnb-date-picker__triangle"
                   ref={triangleRef}
                 />
-                {!hidden && (
-                  <>
-                    <DatePickerRange
-                      id={id}
-                      firstDayOfWeek={firstDay}
-                      resetDate={resetDate}
-                      isRange={range}
-                      isLink={link}
-                      isSync={sync}
-                      hideDays={shouldHideDays}
-                      hideNav={shouldHideNavigation}
-                      views={
-                        hideNavigationButtons
-                          ? [{ nextBtn: false, prevBtn: false }]
-                          : null
-                      }
-                      onlyMonth={onlyMonth}
-                      hideNextMonthWeek={hideLastWeek}
-                      noAutoFocus={disableAutofocus}
-                      onChange={onPickerChange}
-                      locale={context.locale}
+                <DatePickerPortal
+                  show={!hidden}
+                  targetElement={innerRef.current}
+                >
+                  <DatePickerRange
+                    id={id}
+                    firstDayOfWeek={firstDay}
+                    resetDate={resetDate}
+                    isRange={range}
+                    isLink={link}
+                    isSync={sync}
+                    hideDays={shouldHideDays}
+                    hideNav={shouldHideNavigation}
+                    views={
+                      hideNavigationButtons
+                        ? [{ nextBtn: false, prevBtn: false }]
+                        : null
+                    }
+                    onlyMonth={onlyMonth}
+                    hideNextMonthWeek={hideLastWeek}
+                    noAutoFocus={disableAutofocus}
+                    onChange={onPickerChange}
+                    locale={context.locale}
+                  />
+                  {(addonElement || shortcuts) && (
+                    <DatePickerAddon
+                      renderElement={addonElement}
+                      shortcuts={shortcuts}
                     />
-                    {(addonElement || shortcuts) && (
-                      <DatePickerAddon
-                        renderElement={addonElement}
-                        shortcuts={shortcuts}
-                      />
-                    )}
-                    <DatePickerFooter
-                      isRange={range}
-                      onSubmit={onSubmitHandler}
-                      onCancel={onCancelHandler}
-                      onReset={onResetHandler}
-                      submitButtonText={submitButtonText}
-                      cancelButtonText={cancelButtonText}
-                      resetButtonText={resetButtonText}
-                    />
-                  </>
-                )}
+                  )}
+                  <DatePickerFooter
+                    isRange={range}
+                    onSubmit={onSubmitHandler}
+                    onCancel={onCancelHandler}
+                    onReset={onResetHandler}
+                    submitButtonText={submitButtonText}
+                    cancelButtonText={cancelButtonText}
+                    resetButtonText={resetButtonText}
+                  />
+                </DatePickerPortal>
               </span>
             </span>
             {suffix && (
