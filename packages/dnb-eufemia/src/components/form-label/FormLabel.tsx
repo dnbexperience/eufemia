@@ -139,7 +139,7 @@ export default function FormLabel(localProps: FormLabelAllProps) {
       forElem?.closest('.dnb-input__border--root') ||
       forElem?.closest('.dnb-input__border')
 
-    if (target) {
+    if (target && ref.current) {
       const elem = ref.current
 
       const buttonEnter = () => {
@@ -166,20 +166,21 @@ export default function FormLabel(localProps: FormLabelAllProps) {
       const leave = () => {
         target.classList.remove('hover')
 
-        elem
-          .querySelector('button')
-          ?.removeEventListener?.('mouseenter', buttonEnter)
+        const button = elem.querySelector('button')
+        button?.removeEventListener?.('mouseenter', buttonEnter)
       }
 
-      elem?.addEventListener?.('mouseenter', enter)
-      elem?.addEventListener?.('mouseleave', leave)
+      elem.addEventListener('mouseenter', enter)
+      elem.addEventListener('mouseleave', leave)
 
       return () => {
-        elem?.removeEventListener?.('mouseenter', enter)
-        elem?.removeEventListener?.('mouseleave', leave)
-        elem
-          .querySelector('button')
-          ?.removeEventListener?.('mouseleave', buttonLeave)
+        if (elem) {
+          elem.removeEventListener('mouseenter', enter)
+          elem.removeEventListener('mouseleave', leave)
+
+          const button = elem.querySelector('button')
+          button?.removeEventListener?.('mouseleave', buttonLeave)
+        }
       }
     }
   }, [forId, ref])
