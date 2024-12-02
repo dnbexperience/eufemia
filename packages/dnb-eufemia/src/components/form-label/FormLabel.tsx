@@ -171,12 +171,12 @@ export default function FormLabel(localProps: FormLabelAllProps) {
           ?.removeEventListener?.('mouseenter', buttonEnter)
       }
 
-      elem?.addEventListener?.('mouseenter', enter)
-      elem?.addEventListener?.('mouseleave', leave)
+      elem.addEventListener?.('mouseenter', enter)
+      elem.addEventListener?.('mouseleave', leave)
 
       return () => {
-        elem?.removeEventListener?.('mouseenter', enter)
-        elem?.removeEventListener?.('mouseleave', leave)
+        elem.removeEventListener?.('mouseenter', enter)
+        elem.removeEventListener?.('mouseleave', leave)
         elem
           .querySelector('button')
           ?.removeEventListener?.('mouseleave', buttonLeave)
