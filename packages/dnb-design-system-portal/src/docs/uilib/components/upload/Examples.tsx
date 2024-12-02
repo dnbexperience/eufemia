@@ -332,11 +332,12 @@ export const UploadOnFileDelete = () => (
   >
     {() => {
       async function mockAsyncFileRemoval({ fileItem }) {
-        const request = createRequest()
-
-        console.log('making API request to remove: ' + fileItem.file.name)
-        await request(3000) // Simulate a request
         try {
+          const request = createRequest()
+          console.log(
+            'making API request to remove: ' + fileItem.file.name,
+          )
+          await request(3000) // Simulate a request
           const mockResponse = {
             successful_removal: false, // Fails to remove the file
           }
