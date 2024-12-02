@@ -76,6 +76,7 @@ export type Props = {
   animate?: boolean
   /** Keep the content in the DOM, even if it's not visible */
   keepInDOM?: boolean
+  /** Callback when the content is visible. Only for when `animate` is true. */
   onOpen?: HeightAnimationProps['onOpen']
   /** To compensate for CSS gap between the rows, so animation does not jump during the animation. Provide a CSS unit or `auto`. Defaults to `null`. */
   compensateForGap?: HeightAnimationProps['compensateForGap']
