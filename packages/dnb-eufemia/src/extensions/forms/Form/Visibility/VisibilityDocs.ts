@@ -61,6 +61,11 @@ export const VisibilityProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  onOpen: {
+    doc: 'Callback when the content is visible. Only for when `animate` is true.',
+    type: 'function',
+    status: 'optional',
+  },
   compensateForGap: {
     doc: 'To compensate for CSS gap between the rows, so animation does not jump during the animation. Provide a CSS unit or `auto`. Defaults to `null`.',
     type: 'string',
