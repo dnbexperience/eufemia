@@ -322,6 +322,21 @@ describe('UploadFileListCell', () => {
       ).toBeInTheDocument()
     })
 
+    it('renders the delete button as disabled when loading state', () => {
+      render(
+        <UploadFileListCell
+          {...defaultProps}
+          uploadFile={{
+            file: createMockFile('file.png', 100, 'image/png'),
+            isLoading: true,
+          }}
+        />
+      )
+      const element = screen.getByRole('button')
+
+      expect(element).toHaveAttribute('disabled')
+    })
+
     it('does not render the loading state when not loading', () => {
       render(
         <UploadFileListCell

@@ -131,6 +131,7 @@ const UploadFileListCell = ({
             variant="tertiary"
             onClick={onDeleteHandler}
             icon_position="left"
+            disabled={isLoading}
           >
             {deleteButtonText}
           </Button>
