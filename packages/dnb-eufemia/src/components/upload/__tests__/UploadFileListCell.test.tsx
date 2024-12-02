@@ -334,7 +334,7 @@ describe('UploadFileListCell', () => {
       )
       const element = screen.getByRole('button')
 
-      expect(element).toHaveAttribute('disabled')
+      expect(element).toBeDisabled()
     })
 
     it('does not render the loading state when not loading', () => {
