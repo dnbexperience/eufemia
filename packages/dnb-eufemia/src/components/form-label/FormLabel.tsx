@@ -139,7 +139,7 @@ export default function FormLabel(localProps: FormLabelAllProps) {
       forElem?.closest('.dnb-input__border--root') ||
       forElem?.closest('.dnb-input__border')
 
-    if (target) {
+    if (target && ref.current) {
       const elem = ref.current
 
       const buttonEnter = () => {
