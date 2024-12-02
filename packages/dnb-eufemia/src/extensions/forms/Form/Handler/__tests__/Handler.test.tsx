@@ -1286,4 +1286,41 @@ describe('Form.Handler', () => {
       log.mockRestore()
     })
   })
+
+  describe('wrapper', () => {
+    it('should render a custom wrapper', () => {
+      render(
+        <Form.Handler
+          wrapper={({ children }) => (
+            <div className="wrapper">{children}</div>
+          )}
+        >
+          content
+        </Form.Handler>
+      )
+
+      expect(document.body).toHaveTextContent('content')
+      expect(document.querySelector('.wrapper')).toBeInTheDocument()
+    })
+
+    it('should render multiple custom wrappers', () => {
+      render(
+        <Form.Handler
+          wrapper={[
+            ({ children }) => <div className="wrapper1">{children}</div>,
+            ({ children }) => <div className="wrapper2">{children}</div>,
+          ]}
+        >
+          content
+        </Form.Handler>
+      )
+
+      expect(document.body).toHaveTextContent('content')
+      expect(document.querySelector('.wrapper1')).toBeInTheDocument()
+      expect(document.querySelector('.wrapper2')).toBeInTheDocument()
+      expect(
+        document.querySelector('.wrapper1 > .wrapper2')
+      ).toBeInTheDocument()
+    })
+  })
 })

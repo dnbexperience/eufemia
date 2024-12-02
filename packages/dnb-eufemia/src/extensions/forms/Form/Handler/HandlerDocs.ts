@@ -21,6 +21,11 @@ export const HandlerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  wrapper: {
+    doc: 'A wrapper component to wrap the form element. You can provide an array of components to wrap the form. Use it instead of wrapping your form with multiple providers.',
+    type: ['ReactNode', 'Array<ReactNode>'],
+    status: 'optional',
+  },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
