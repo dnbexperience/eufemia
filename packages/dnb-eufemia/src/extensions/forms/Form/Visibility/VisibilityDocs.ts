@@ -61,7 +61,7 @@ export const VisibilityProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  onOpen: {
+  onVisible: {
     doc: 'Callback when the content is visible. Only for when `animate` is true.',
     type: 'function',
     status: 'optional',
