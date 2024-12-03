@@ -326,10 +326,7 @@ export const UploadNoTitleNoText = () => (
 )
 
 export const UploadOnFileDelete = () => (
-  <ComponentBox
-    data-visual-test="upload-on-file-delete"
-    scope={{ createRequest }}
-  >
+  <ComponentBox scope={{ createRequest }}>
     {() => {
       async function mockAsyncFileRemoval({ fileItem }) {
         const request = createRequest()
