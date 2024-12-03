@@ -968,7 +968,7 @@ describe('Upload', () => {
     })
 
     it('will call onFileDelete when file gets removed', async () => {
-      const id = 'onFileDelete'
+      const id = 'onFileDelete-sync'
       const onFileDelete = jest.fn()
 
       render(
@@ -998,8 +998,41 @@ describe('Upload', () => {
       })
     })
 
-    it('will call onFileDelete with async function when file gets removed successfully', async () => {
-      const id = 'onFileDelete'
+    it('will display loading state when onFileDelete is async function', async () => {
+      const id = 'onFileDelete-async'
+      const onFileDelete = jest.fn(async () => {
+        await wait(1)
+      })
+
+      render(
+        <Upload {...defaultProps} id={id} onFileDelete={onFileDelete} />
+      )
+
+      const inputElement = document.querySelector(
+        '.dnb-upload__file-input'
+      )
+      const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+      await waitFor(() =>
+        fireEvent.change(inputElement, {
+          target: { files: [file1] },
+        })
+      )
+
+      const deleteButton = screen.queryByRole('button', {
+        name: nb.deleteButton,
+      })
+
+      await waitFor(() => {
+        fireEvent.click(deleteButton)
+        expect(
+          document.querySelector('.dnb-progress-indicator')
+        ).toBeInTheDocument()
+      })
+    })
+
+    it('will call onFileDelete when async function succeed', async () => {
+      const id = 'onFileDelete-async-success'
       const onFileDelete = jest.fn(async () => {
         await wait(1)
       })
@@ -1037,8 +1070,8 @@ describe('Upload', () => {
       })
     })
 
-    it('will call onFileDelete with async function when file gets removed unsuccessfully', async () => {
-      const id = 'onFileDelete'
+    it('will call onFileDelete when async function fails', async () => {
+      const id = 'onFileDelete-async-fail'
       const onFileDelete = jest.fn(async () => {
         await wait(1)
 
@@ -1076,6 +1109,37 @@ describe('Upload', () => {
           },
         })
       })
+    })
+
+    it('will display error message when async onFileDelete function fails', async () => {
+      const id = 'onFileDelete-async-fail-error-message'
+      const onFileDelete = jest.fn(async () => {
+        await wait(1)
+
+        throw new Error('My remove file message error')
+      })
+
+      render(
+        <Upload {...defaultProps} id={id} onFileDelete={onFileDelete} />
+      )
+
+      const inputElement = document.querySelector(
+        '.dnb-upload__file-input'
+      )
+      const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+      await waitFor(() =>
+        fireEvent.change(inputElement, {
+          target: { files: [file1] },
+        })
+      )
+
+      const deleteButton = screen.queryByRole('button', {
+        name: nb.deleteButton,
+      })
+
+      await waitFor(() => fireEvent.click(deleteButton))
+
       expect(
         screen.queryByText('My remove file message error')
       ).toBeInTheDocument()
