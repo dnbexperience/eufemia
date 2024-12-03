@@ -610,6 +610,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
     useRef<DatePickerContextValues['getReturnObject']>()
   const hideTimeout = useRef<NodeJS.Timeout>()
   const outsideClick = useRef<DetectOutsideClickClass>()
+  const portalRef = useRef<HTMLDivElement>()
 
   const translation = useTranslation().DatePicker
 
@@ -665,7 +666,11 @@ function DatePicker(externalProps: DatePickerAllProps) {
 
   const setOutsideClickHandler = useCallback(() => {
     outsideClick.current = detectOutsideClick(
-      innerRef.current,
+      // Sending in portalRef, instead of portalRef.current,
+      // as that would lead to the ignoreElement being null/undefined,
+      // since the portal has not been rendered yet,
+      // causing the calendar to close when clicking on the calendar itself
+      [innerRef.current, portalRef],
       ({ event }: { event: MouseEvent | KeyboardEvent }) => {
         hidePicker({ ...event, focusOnHide: event?.['code'] })
       }
@@ -977,6 +982,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                 />
                 <DatePickerPortal
                   show={!hidden}
+                  portalRef={portalRef}
                   targetElementRef={innerRef}
                 >
                   <DatePickerRange

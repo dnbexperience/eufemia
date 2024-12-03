@@ -1,14 +1,15 @@
-import { set } from 'date-fns'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 
 type DatePickerPortalProps = React.HTMLProps<HTMLDivElement> & {
   show?: boolean
+  portalRef?: React.RefObject<HTMLDivElement>
   targetElementRef?: React.RefObject<HTMLElement>
 }
 
 export default function DatePickerPortal({
   show = false,
+  portalRef,
   targetElementRef,
   children,
 }: DatePickerPortalProps) {
@@ -24,23 +25,42 @@ export default function DatePickerPortal({
     }
   }, [targetElementRef, targetElement])
 
-  const scrollY = window.scrollY
-  const scrollX = window.scrollX
+  const { top, left } = getPosition(targetElement)
 
-  const rect = targetElement?.getBoundingClientRect()
-
-  return targetElement && show
+  return show
     ? createPortal(
-        <span
+        <div
           className="dnb-datepicker__portal"
           style={{
-            top: `${rect?.top + scrollY}px`,
-            left: `${rect?.left + scrollX}px`,
+            top,
+            left,
           }}
+          ref={portalRef}
         >
           {children}
-        </span>,
+        </div>,
         document.body
       )
     : null
+}
+
+function getPosition(targetElement: HTMLElement) {
+  if (!targetElement) {
+    return { top: '0', left: '0' }
+  }
+
+  const rect = targetElement?.getBoundingClientRect()
+
+  const scrollY = window.scrollY
+  const scrollX = window.scrollX
+
+  const offsetY = rect.height
+
+  return {
+    top: `${rect.top + offsetY + scrollY}px`,
+    left: `${rect.left + scrollX}px`,
+  }
+}
+function userRef<T>() {
+  throw new Error('Function not implemented.')
 }
