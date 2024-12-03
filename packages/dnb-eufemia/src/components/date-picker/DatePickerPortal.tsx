@@ -61,6 +61,3 @@ function getPosition(targetElement: HTMLElement) {
     left: `${rect.left + scrollX}px`,
   }
 }
-function userRef<T>() {
-  throw new Error('Function not implemented.')
-}
