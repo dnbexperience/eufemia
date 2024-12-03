@@ -108,6 +108,18 @@
     @include closeDatePicker();
   }
 
+  &__portal {
+    // make variables available inside the portal
+    --date-picker-input-height: 2rem;
+    --date-picker-day-width: 2rem;
+    --date-picker-day-horizontal-spacing: 4px;
+
+    position: absolute;
+    z-index: 1000;
+
+    background-color: var(--color-white);
+  }
+
   // stylelint-disable-next-line
   &__input,
   .dnb-input__input#{&}__input,
@@ -522,15 +534,4 @@
   to {
     opacity: 0;
   }
-}
-
-.dnb-datepicker__portal {
-  position: absolute;
-  z-index: 1000;
-
-  background-color: var(--color-white);
-
-  --date-picker-input-height: 2rem;
-  --date-picker-day-width: 2rem;
-  --date-picker-day-horizontal-spacing: 4px;
 }
