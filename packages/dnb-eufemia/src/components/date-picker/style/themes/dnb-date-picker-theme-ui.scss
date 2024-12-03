@@ -28,6 +28,12 @@
     background-color: var(--color-white);
   }
 
+  &__portal {
+    @include defaultDropShadow();
+    border-radius: 0.25rem;
+    background-color: var(--color-white);
+  }
+
   &__addon,
   &__calendar {
     // border
