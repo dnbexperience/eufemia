@@ -3879,6 +3879,14 @@ html[data-visual-test] .dnb-date-picker--opened .dnb-date-picker__container, .dn
 html[data-visual-test] .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container, .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container--no-animation {
   animation: date-picker-slide-up 1ms ease-out 1 forwards;
 }
+.dnb-date-picker__portal {
+  --date-picker-input-height: 2rem;
+  --date-picker-day-width: 2rem;
+  --date-picker-day-horizontal-spacing: 4px;
+  position: absolute;
+  z-index: 1000;
+  background-color: var(--color-white);
+}
 .dnb-date-picker__input,
 .dnb-date-picker .dnb-input__input.dnb-date-picker__input, .dnb-core-style .dnb-date-picker__input {
   display: inline-block;
@@ -4264,6 +4272,11 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
   color: var(--color-black);
 }
 .dnb-date-picker__container {
+  box-shadow: var(--shadow-default);
+  border-radius: 0.25rem;
+  background-color: var(--color-white);
+}
+.dnb-date-picker__portal {
   box-shadow: var(--shadow-default);
   border-radius: 0.25rem;
   background-color: var(--color-white);
