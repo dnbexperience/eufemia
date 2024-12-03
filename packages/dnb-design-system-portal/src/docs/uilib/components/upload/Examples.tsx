@@ -339,7 +339,7 @@ export const UploadOnFileDelete = () => (
           )
           await request(3000) // Simulate a request
           const mockResponse = {
-            successful_removal: false, // Fails to remove the file
+            successful_removal: Math.random() < 0.5, // Randomly fails to remove the file
           }
 
           if (!mockResponse.successful_removal) {
