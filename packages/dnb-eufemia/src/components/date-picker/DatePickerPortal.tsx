@@ -30,7 +30,7 @@ export default function DatePickerPortal({
   return show
     ? createPortal(
         <div
-          className="dnb-datepicker__portal"
+          className="dnb-date-picker__portal"
           style={{
             top,
             left,
