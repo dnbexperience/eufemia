@@ -437,27 +437,51 @@ describe('Visibility', () => {
     `)
   })
 
-  it('should have "height-animation" wrapper when animate is true', async () => {
-    render(
-      <Provider data={{ myPath: 'checked' }}>
-        <Visibility
-          visibleWhen={{
-            path: '/myPath',
-            hasValue: 'checked',
-          }}
-          animate
-        >
+  describe('animate', () => {
+    it('should have "height-animation" wrapper when animate is true', async () => {
+      render(
+        <Provider data={{ myPath: 'checked' }}>
+          <Visibility
+            visibleWhen={{
+              path: '/myPath',
+              hasValue: 'checked',
+            }}
+            animate
+          >
+            Child
+          </Visibility>
+        </Provider>
+      )
+
+      const element = document.querySelector('.dnb-height-animation')
+
+      expect(element).toBeInTheDocument()
+      expect(element).toHaveClass(
+        'dnb-space dnb-height-animation dnb-height-animation--is-in-dom dnb-height-animation--parallax'
+      )
+    })
+
+    it('should call onVisible when animation is done', async () => {
+      const onVisible = jest.fn()
+
+      const { rerender } = render(
+        <Visibility visible={false} onVisible={onVisible} animate>
           Child
         </Visibility>
-      </Provider>
-    )
+      )
 
-    const element = document.querySelector('.dnb-height-animation')
+      expect(onVisible).toHaveBeenCalledTimes(1)
+      expect(onVisible).toHaveBeenLastCalledWith(false)
 
-    expect(element).toBeInTheDocument()
-    expect(element).toHaveClass(
-      'dnb-space dnb-height-animation dnb-height-animation--is-in-dom dnb-height-animation--parallax'
-    )
+      rerender(
+        <Visibility visible={true} onVisible={onVisible} animate>
+          Child
+        </Visibility>
+      )
+
+      expect(onVisible).toHaveBeenCalledTimes(2)
+      expect(onVisible).toHaveBeenLastCalledWith(true)
+    })
   })
 
   it('should use given "element"', () => {
