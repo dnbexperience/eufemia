@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { UploadFile } from './types'
 import { UploadContext } from './UploadContext'
 import UploadFileListCell from './UploadFileListCell'
@@ -20,18 +20,27 @@ function UploadFileList() {
 
   const { files, setFiles, setInternalFiles } = useUpload(id)
 
+  const filesRef = useRef(null)
+
+  useEffect(() => {
+    filesRef.current = files
+  }, [files])
+
   if (files === null || files.length < 1) {
     return null
   }
 
-  const removeFile = (fileToBeRemoved, files) => {
-    return files.filter(
+  const removeFile = (fileToBeRemoved: UploadFile) => {
+    return filesRef.current.filter(
       (fileListElement) => fileListElement.file != fileToBeRemoved.file
     )
   }
 
-  const updateFile = (fileToBeUpdated, props, files) => {
-    return files.map((fileListElement) =>
+  const updateFile = (
+    fileToBeUpdated: UploadFile,
+    props: Partial<UploadFile>
+  ) => {
+    return filesRef.current.map((fileListElement) =>
       fileListElement.id === fileToBeUpdated.id
         ? {
             ...fileListElement,
@@ -41,34 +50,32 @@ function UploadFileList() {
     )
   }
 
-  const updateFiles = (files) => {
-    setFiles(files)
-    setInternalFiles(files)
+  const updateFiles = (updatedFiles: UploadFile[]) => {
+    setFiles(updatedFiles)
+    setInternalFiles(updatedFiles)
 
     if (typeof onChange === 'function') {
-      onChange({ files })
+      onChange({ files: updatedFiles })
     }
   }
 
-  const handleDeleteAsync = async (uploadFile, files) => {
+  const handleDeleteAsync = async (uploadFile: UploadFile) => {
     updateFiles(
-      updateFile(
-        uploadFile,
-        { isLoading: true, errorMessage: undefined },
-        files
-      )
+      updateFile(uploadFile, {
+        isLoading: true,
+        errorMessage: null,
+      })
     )
 
     try {
       await onFileDelete({ fileItem: uploadFile })
-      updateFiles(removeFile(uploadFile, files))
+      updateFiles(removeFile(uploadFile))
     } catch (error) {
       updateFiles(
-        updateFile(
-          uploadFile,
-          { isLoading: false, errorMessage: error.message },
-          files
-        )
+        updateFile(uploadFile, {
+          isLoading: false,
+          errorMessage: error.message,
+        })
       )
     }
   }
@@ -79,13 +86,13 @@ function UploadFileList() {
         const onDeleteHandler = async () => {
           if (typeof onFileDelete === 'function') {
             if (isAsync(onFileDelete)) {
-              handleDeleteAsync(uploadFile, files)
+              handleDeleteAsync(uploadFile)
             } else {
               onFileDelete({ fileItem: uploadFile })
-              updateFiles(removeFile(uploadFile, files))
+              updateFiles(removeFile(uploadFile))
             }
           } else {
-            updateFiles(removeFile(uploadFile, files))
+            updateFiles(removeFile(uploadFile))
           }
         }
 
