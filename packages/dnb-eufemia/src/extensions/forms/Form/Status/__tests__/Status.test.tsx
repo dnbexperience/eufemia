@@ -60,6 +60,50 @@ describe('Form.Status', () => {
     expect(retryButton).toHaveTextContent(nb.retryButton)
   })
 
+  it('should accept custom buttonHref', () => {
+    const formId = {}
+
+    render(
+      <Form.Handler id={formId}>
+        <Form.Status
+          success={{
+            buttonHref: 'http://custom',
+          }}
+        >
+          content
+        </Form.Status>
+      </Form.Handler>
+    )
+
+    act(() => {
+      Form.Status.setStatus(formId, 'success')
+    })
+
+    const anchor = document.querySelector('a')
+    expect(anchor).toHaveAttribute('href', 'http://custom')
+  })
+
+  it('should disable href when buttonClickHandler is given', () => {
+    const formId = {}
+    const buttonClickHandler = jest.fn()
+
+    render(
+      <Form.Handler id={formId}>
+        <Form.Status success={{ buttonClickHandler }}>content</Form.Status>
+      </Form.Handler>
+    )
+
+    act(() => {
+      Form.Status.setStatus(formId, 'success')
+    })
+
+    const button = document.querySelector('button')
+    fireEvent.click(button)
+
+    expect(button).not.toHaveAttribute('href')
+    expect(buttonClickHandler).toHaveBeenCalledTimes(1)
+  })
+
   it('should render success with custom text', () => {
     const formId = {}
 

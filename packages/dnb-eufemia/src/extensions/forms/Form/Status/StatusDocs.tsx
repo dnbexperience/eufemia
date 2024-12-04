@@ -16,6 +16,16 @@ export const StatusSuccessProperties: PropertiesTableProps = {
     type: 'React.Node',
     status: 'optional',
   },
+  buttonHref: {
+    doc: 'The href of the button.',
+    type: 'string',
+    status: 'optional',
+  },
+  buttonClickHandler: {
+    doc: 'The click handler of the button.',
+    type: 'function',
+    status: 'optional',
+  },
   '[Section](/uilib/components/section/properties)': {
     doc: 'All Section properties.',
     type: 'various',

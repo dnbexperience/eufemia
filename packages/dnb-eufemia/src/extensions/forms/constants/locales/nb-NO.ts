@@ -40,8 +40,9 @@ export default {
       buttonText: 'Tilbake til forsiden',
     },
     StatusError: {
-      title: 'Noe gikk galt',
-      description: 'Vi klarte ikke å sende inn skjemaet.',
+      title: 'Beklager, noe gikk galt',
+      description:
+        'Prov igjen eller ta kontakt med oss om feilen vedstår.',
       retryButton: 'Prøv igjen',
       cancelButton: 'Tilbake',
     },

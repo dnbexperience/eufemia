@@ -41,8 +41,8 @@ export default {
       buttonText: 'Back to homepage',
     },
     StatusError: {
-      title: 'Something went wrong',
-      description: 'We were unable to submit the form.',
+      title: 'Sorry, something went wrong',
+      description: 'Please try again or contact us.',
       retryButton: 'Try again',
       cancelButton: 'Back',
     },

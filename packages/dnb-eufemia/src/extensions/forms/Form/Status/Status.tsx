@@ -1,10 +1,12 @@
-import React, { useCallback, useContext, useEffect, useRef } from 'react'
+import React, { useCallback, useContext, useRef } from 'react'
 import classnames from 'classnames'
 import Visibility from '../Visibility'
 import DataContext from '../../DataContext/Context'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
+import useMounted from '../../../../shared/helpers/useMounted'
 import setStatus, { Status } from './setStatus'
 import { Button, Flex, Section } from '../../../../components'
+import { HeightAnimationAllProps } from '../../../../components/HeightAnimation'
 import { P } from '../../../../elements'
 import { useTranslation } from '../../hooks'
 import MainHeading from '../MainHeading'
@@ -16,6 +18,7 @@ export type Props = {
     description?: React.ReactNode
     buttonText?: React.ReactNode
     buttonHref?: string
+    buttonClickHandler?: () => void
   }
   error?: {
     title?: React.ReactNode
@@ -41,20 +44,17 @@ function StatusContainer(props: Props) {
   }>(id)
   const { activeStatus } = data || {}
 
-  // To ensure we not animate on first render.
-  // When there are several Examples rendered at the same time,
-  // the first one will animate on the first render.
-  const animateRef = useRef(undefined)
-  useEffect(() => {
-    animateRef.current = true
-  }, [])
-
+  const mountedRef = useMounted()
   const innerRef = useRef<HTMLDivElement>(null)
-  const onVisible = useCallback(() => {
-    if (animateRef.current) {
-      innerRef.current.focus?.()
-    }
-  }, [])
+  const onAnimationEnd: HeightAnimationAllProps['onAnimationEnd'] =
+    useCallback(
+      (state) => {
+        if (mountedRef.current && state === 'opened') {
+          innerRef.current.focus?.()
+        }
+      },
+      [mountedRef]
+    )
 
   // To keep the content visible while hiding it with the HightAnimation
   const currentStatusRef = useRef<Status>()
@@ -86,7 +86,8 @@ function StatusContainer(props: Props) {
       title,
       description,
       buttonText,
-      buttonHref = '/',
+      buttonHref,
+      buttonClickHandler,
     } = success || {}
 
     statusContent = (
@@ -98,11 +99,12 @@ function StatusContainer(props: Props) {
         <Flex.Stack gap="large">
           <MainHeading>{title ?? tr.title}</MainHeading>
           <P>{description ?? tr.description}</P>
-          {buttonHref && (
-            <Button href={buttonHref}>
-              {buttonText ?? tr.buttonText}
-            </Button>
-          )}
+          <Button
+            href={buttonClickHandler ? undefined : buttonHref ?? '/'}
+            on_click={buttonClickHandler}
+          >
+            {buttonText ?? tr.buttonText}
+          </Button>
         </Flex.Stack>
       </Section>
     )
@@ -143,16 +145,16 @@ function StatusContainer(props: Props) {
     >
       <Visibility
         visible={statusContentIsVisible}
-        onVisible={onVisible}
-        animate={animateRef.current}
+        onAnimationEnd={onAnimationEnd}
+        animate
       >
         {statusContent}
       </Visibility>
 
       <Visibility
         visible={childrenAreVisible}
-        onVisible={onVisible}
-        animate={animateRef.current}
+        onAnimationEnd={onAnimationEnd}
+        animate
         keepInDOM
       >
         {children}

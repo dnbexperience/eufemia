@@ -1,4 +1,4 @@
-import { Field, Form } from '../../..'
+import { Field, Form, Wizard } from '../../..'
 import { Button } from '../../../../../components'
 
 export default {
@@ -37,5 +37,30 @@ export function BothStatuses() {
       <br />
       ----- Content ----
     </>
+  )
+}
+
+export function InWizard() {
+  return (
+    <Form.Handler
+      id="test"
+      onSubmit={(data) => {
+        console.log('data', data)
+        Form.Status.setStatus('test', 'success')
+      }}
+    >
+      <Form.Status>
+        <Wizard.Container>
+          <Wizard.Step title="Step 1">
+            <Field.String path="/someInfo" label="Some information" />
+            <Wizard.NextButton />
+          </Wizard.Step>
+          <Wizard.Step title="Step 2">
+            <Field.String path="/more" label="More information" />
+            <Form.SubmitButton />
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Status>
+    </Form.Handler>
   )
 }
