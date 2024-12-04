@@ -609,7 +609,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
     useRef<DatePickerContextValues['getReturnObject']>()
   const hideTimeout = useRef<NodeJS.Timeout>()
   const outsideClick = useRef<DetectOutsideClickClass>()
-  const portalRef = useRef<HTMLDivElement>()
+  const pickerContainerRef = useRef<HTMLDivElement>()
 
   const translation = useTranslation().DatePicker
 
@@ -669,7 +669,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
       // as that would lead to the ignoreElement being null/undefined,
       // since the portal has not been rendered yet,
       // causing the calendar to close when clicking on the calendar itself
-      [innerRef.current, portalRef],
+      [innerRef.current, pickerContainerRef],
       ({ event }: { event: MouseEvent | KeyboardEvent }) => {
         hidePicker({ ...event, focusOnHide: event?.['code'] })
       }
@@ -712,11 +712,17 @@ function DatePicker(externalProps: DatePickerAllProps) {
 
       onShow?.({ ...getReturnObject.current(event) })
 
-      setTrianglePosition()
       setOutsideClickHandler()
     },
-    [setTrianglePosition, setOutsideClickHandler, onShow]
+    [setOutsideClickHandler, onShow]
   )
+
+  // Make sure the triangle is positioned correctly after the picker is shown
+  useEffect(() => {
+    if (!hidden) {
+      setTrianglePosition()
+    }
+  }, [hidden, setTrianglePosition])
 
   // React to opened prop changes
   useEffect(() => {
@@ -901,6 +907,14 @@ function DatePicker(externalProps: DatePickerAllProps) {
     lang: context.locale,
   } as HTMLProps<HTMLSpanElement>
 
+  const portalClassNames = classnames(
+    opened && 'dnb-date-picker__portal--opened',
+    hidden && 'dnb-date-picker__portal--hidden',
+    showInput && 'dnb-date-picker__portal--show-input',
+    alignPicker && `dnb-date-picker__portal--${alignPicker}`,
+    size && `dnb-date-picker--${size}`
+  )
+
   const remainingDOMProps = validateDOMAttributes(props, attributes)
   const remainingSubmitProps = validateDOMAttributes(null, submitParams)
   const remainingPickerProps = validateDOMAttributes(
@@ -974,16 +988,21 @@ function DatePicker(externalProps: DatePickerAllProps) {
                 onSubmit={togglePicker}
                 {...statusProps}
               />
-              <span className="dnb-date-picker__container">
+
+              <DatePickerPortal
+                className={portalClassNames}
+                show={!hidden}
+                alignment={alignPicker}
+                targetElementRef={innerRef}
+              >
                 <span
-                  className="dnb-date-picker__triangle"
-                  ref={triangleRef}
-                />
-                <DatePickerPortal
-                  show={!hidden}
-                  portalRef={portalRef}
-                  targetElementRef={innerRef}
+                  className="dnb-date-picker__container"
+                  ref={pickerContainerRef}
                 >
+                  <span
+                    className="dnb-date-picker__triangle"
+                    ref={triangleRef}
+                  />
                   <DatePickerRange
                     id={id}
                     firstDayOfWeek={firstDay}
@@ -1019,8 +1038,8 @@ function DatePicker(externalProps: DatePickerAllProps) {
                     cancelButtonText={cancelButtonText}
                     resetButtonText={resetButtonText}
                   />
-                </DatePickerPortal>
-              </span>
+                </span>
+              </DatePickerPortal>
             </span>
             {suffix && (
               <Suffix
