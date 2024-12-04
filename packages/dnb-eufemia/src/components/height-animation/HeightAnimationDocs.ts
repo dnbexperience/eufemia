@@ -60,7 +60,7 @@ export const HeightAnimationEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onAnimationStart: {
-    doc: 'Is called when animation has started. The first parameter is a string, depending on the state. It can be `opening`, `closing` or `adjusting`.',
+    doc: 'Is called when animation has started. The first parameter is a string. Depending on the state, the value can be `opening`, `closing` or `adjusting`.',
     type: 'function',
     status: 'optional',
   },
