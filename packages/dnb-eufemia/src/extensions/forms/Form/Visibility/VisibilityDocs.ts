@@ -1,4 +1,5 @@
 import { PropertiesTableProps } from '../../../../shared/types'
+import { HeightAnimationEvents } from '../../../../components/height-animation/HeightAnimationDocs'
 
 export const VisibilityProperties: PropertiesTableProps = {
   visibleWhen: {
@@ -61,11 +62,6 @@ export const VisibilityProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  onVisible: {
-    doc: 'Callback when the content is visible. Only for when `animate` is true.',
-    type: 'function',
-    status: 'optional',
-  },
   compensateForGap: {
     doc: 'To compensate for CSS gap between the rows, so animation does not jump during the animation. Provide a CSS unit or `auto`. Defaults to `null`.',
     type: 'string',
@@ -91,4 +87,13 @@ export const VisibilityProperties: PropertiesTableProps = {
     type: 'React.Node',
     status: 'required',
   },
+}
+
+export const VisibilityEvents: PropertiesTableProps = {
+  onVisible: {
+    doc: 'Callback for when the content gets visible. Returns a boolean as the first parameter.',
+    type: 'function',
+    status: 'optional',
+  },
+  onAnimationEnd: HeightAnimationEvents.onAnimationEnd,
 }
