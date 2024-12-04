@@ -92,7 +92,7 @@ export const VisibilityProperties: PropertiesTableProps = {
 export const VisibilityEvents: PropertiesTableProps = {
   onVisible: {
     doc: 'Callback for when the content gets visible. Returns a boolean as the first parameter.',
-    type: 'function',
+    type: HeightAnimationEvents.onOpen.type,
     status: 'optional',
   },
   onAnimationEnd: HeightAnimationEvents.onAnimationEnd,
