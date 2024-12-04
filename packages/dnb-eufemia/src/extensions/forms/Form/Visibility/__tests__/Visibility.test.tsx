@@ -1,5 +1,5 @@
 import React from 'react'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { FilterData, Provider } from '../../../DataContext'
 import Visibility from '../Visibility'
@@ -437,50 +437,155 @@ describe('Visibility', () => {
     `)
   })
 
-  describe('animate', () => {
-    it('should have "height-animation" wrapper when animate is true', async () => {
-      render(
-        <Provider data={{ myPath: 'checked' }}>
-          <Visibility
-            visibleWhen={{
-              path: '/myPath',
-              hasValue: 'checked',
-            }}
-            animate
-          >
-            Child
-          </Visibility>
-        </Provider>
-      )
+  it('should have "height-animation" wrapper when animate is true', async () => {
+    render(
+      <Provider data={{ myPath: 'checked' }}>
+        <Visibility
+          visibleWhen={{
+            path: '/myPath',
+            hasValue: 'checked',
+          }}
+          animate
+        >
+          Child
+        </Visibility>
+      </Provider>
+    )
 
-      const element = document.querySelector('.dnb-height-animation')
+    const element = document.querySelector('.dnb-height-animation')
 
-      expect(element).toBeInTheDocument()
-      expect(element).toHaveClass(
-        'dnb-space dnb-height-animation dnb-height-animation--is-in-dom dnb-height-animation--parallax'
-      )
-    })
+    expect(element).toBeInTheDocument()
+    expect(element).toHaveClass(
+      'dnb-space dnb-height-animation dnb-height-animation--is-in-dom dnb-height-animation--parallax'
+    )
+  })
 
-    it('should call onVisible when animation is done', async () => {
+  describe('events', () => {
+    it('should not call onVisible initially', async () => {
       const onVisible = jest.fn()
 
-      const { rerender } = render(
-        <Visibility visible={false} onVisible={onVisible} animate>
-          Child
-        </Visibility>
+      render(
+        <Form.Handler
+          defaultData={{
+            toggleValue: false,
+          }}
+        >
+          <Field.Boolean path="/toggleValue" />
+          <Form.Visibility pathTrue="/toggleValue" onVisible={onVisible}>
+            content
+          </Form.Visibility>
+        </Form.Handler>
       )
+
+      const checkbox = document.querySelector('input[type="checkbox"]')
+
+      expect(onVisible).toHaveBeenCalledTimes(0)
+
+      await userEvent.click(checkbox)
 
       expect(onVisible).toHaveBeenCalledTimes(1)
-      expect(onVisible).toHaveBeenLastCalledWith(false)
+      expect(onVisible).toHaveBeenLastCalledWith(true)
+    })
 
-      rerender(
-        <Visibility visible={true} onVisible={onVisible} animate>
-          Child
-        </Visibility>
+    it('should call onVisible when visible again', async () => {
+      const onVisible = jest.fn()
+
+      render(
+        <Form.Handler
+          defaultData={{
+            toggleValue: false,
+          }}
+        >
+          <Field.Boolean path="/toggleValue" />
+          <Form.Visibility pathTrue="/toggleValue" onVisible={onVisible}>
+            content
+          </Form.Visibility>
+        </Form.Handler>
       )
 
-      expect(onVisible).toHaveBeenCalledTimes(2)
+      const checkbox = document.querySelector('input[type="checkbox"]')
+
+      expect(onVisible).toHaveBeenCalledTimes(0)
+
+      await userEvent.click(checkbox)
+      expect(onVisible).toHaveBeenCalledTimes(1)
       expect(onVisible).toHaveBeenLastCalledWith(true)
+
+      await userEvent.click(checkbox)
+      expect(onVisible).toHaveBeenCalledTimes(2)
+      expect(onVisible).toHaveBeenLastCalledWith(false)
+    })
+
+    it('should call onAnimationEnd when animation is done', async () => {
+      const onAnimationEnd = jest.fn()
+
+      render(
+        <Form.Handler
+          defaultData={{
+            toggleValue: false,
+          }}
+        >
+          <Field.Boolean path="/toggleValue" />
+          <Form.Visibility
+            pathTrue="/toggleValue"
+            onAnimationEnd={onAnimationEnd}
+            animate
+          >
+            content
+          </Form.Visibility>
+        </Form.Handler>
+      )
+
+      const checkbox = document.querySelector('input[type="checkbox"]')
+
+      expect(onAnimationEnd).toHaveBeenCalledTimes(0)
+
+      await userEvent.click(checkbox)
+      await waitFor(() => {
+        expect(onAnimationEnd).toHaveBeenCalledTimes(1)
+        expect(onAnimationEnd).toHaveBeenLastCalledWith('opened')
+      })
+
+      await userEvent.click(checkbox)
+      await waitFor(() => {
+        expect(onAnimationEnd).toHaveBeenLastCalledWith('closed')
+      })
+
+      await userEvent.click(checkbox)
+      await waitFor(() => {
+        expect(onAnimationEnd).toHaveBeenLastCalledWith('opened')
+      })
+    })
+
+    it('should not call onAnimationEnd when "animation" is false', async () => {
+      const onAnimationEnd = jest.fn()
+
+      render(
+        <Form.Handler
+          defaultData={{
+            toggleValue: false,
+          }}
+        >
+          <Field.Boolean path="/toggleValue" />
+          <Form.Visibility
+            pathTrue="/toggleValue"
+            onAnimationEnd={onAnimationEnd}
+            animate
+          >
+            content
+          </Form.Visibility>
+        </Form.Handler>
+      )
+
+      const checkbox = document.querySelector('input[type="checkbox"]')
+
+      expect(onAnimationEnd).toHaveBeenCalledTimes(0)
+
+      await userEvent.click(checkbox)
+
+      expect(() => {
+        expect(onAnimationEnd).toHaveBeenCalledTimes(0)
+      }).toNeverResolve()
     })
   })
 

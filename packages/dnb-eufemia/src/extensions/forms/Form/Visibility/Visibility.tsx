@@ -1,17 +1,18 @@
-import React, { AriaAttributes } from 'react'
+import React, { AriaAttributes, useCallback } from 'react'
 
 import { warn } from '../../../../shared/helpers'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
+import useMounted from '../../../../shared/helpers/useMounted'
 import HeightAnimation, {
-  HeightAnimationProps,
+  HeightAnimationAllProps,
 } from '../../../../components/HeightAnimation'
 import FieldProvider from '../../Field/Provider'
 import useVisibility from './useVisibility'
+import VisibilityContext from './VisibilityContext'
 
 import type { Path, UseFieldProps } from '../../types'
 import type { DataAttributes } from '../../hooks/useFieldProps'
 import { FilterData } from '../../DataContext'
-import VisibilityContext from './VisibilityContext'
 
 export type VisibleWhen =
   | {
@@ -76,13 +77,15 @@ export type Props = {
   animate?: boolean
   /** Keep the content in the DOM, even if it's not visible */
   keepInDOM?: boolean
-  /** Callback when the content is visible. Only for when `animate` is true. */
-  onVisible?: HeightAnimationProps['onOpen']
+  /** Callback for when the content gets visible. */
+  onVisible?: HeightAnimationAllProps['onOpen']
+  /** Callback for when animation has ended */
+  onAnimationEnd?: HeightAnimationAllProps['onAnimationEnd']
   /** To compensate for CSS gap between the rows, so animation does not jump during the animation. Provide a CSS unit or `auto`. Defaults to `null`. */
-  compensateForGap?: HeightAnimationProps['compensateForGap']
+  compensateForGap?: HeightAnimationAllProps['compensateForGap']
   /** When visibility is hidden, and `keepInDOM` is true, pass these props to the children */
   fieldPropsWhenHidden?: UseFieldProps & DataAttributes & AriaAttributes
-  element?: HeightAnimationProps['element']
+  element?: HeightAnimationAllProps['element']
   children: React.ReactNode
 
   /** @deprecated Use `visibleWhen` instead */
@@ -106,6 +109,7 @@ function Visibility({
   inferData,
   filterData,
   onVisible,
+  onAnimationEnd,
   animate,
   keepInDOM,
   compensateForGap,
@@ -144,6 +148,16 @@ function Visibility({
       {children}
     </VisibilityContext.Provider>
   )
+  const mountedRef = useMounted()
+
+  const onOpen: HeightAnimationAllProps['onOpen'] = useCallback(
+    (state) => {
+      if (mountedRef.current) {
+        onVisible?.(state)
+      }
+    },
+    [mountedRef, onVisible]
+  )
 
   if (animate) {
     const props = !open ? fieldPropsWhenHidden : null
@@ -151,7 +165,8 @@ function Visibility({
     return (
       <HeightAnimation
         open={open}
-        onOpen={onVisible}
+        onAnimationEnd={onAnimationEnd}
+        onOpen={onOpen}
         keepInDOM={Boolean(keepInDOM)}
         className="dnb-forms-visibility"
         compensateForGap={compensateForGap}
@@ -160,6 +175,10 @@ function Visibility({
         <FieldProvider {...props}>{content}</FieldProvider>
       </HeightAnimation>
     )
+  }
+
+  if (mountedRef.current) {
+    onVisible?.(open)
   }
 
   if (keepInDOM) {
