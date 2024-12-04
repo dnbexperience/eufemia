@@ -65,7 +65,7 @@ export const HeightAnimationEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onAnimationEnd: {
-    doc: 'Is called when animation is done and the full height is reached. The first parameter is a string, depending on the state. It can be `opened`, `closed` or `adjusted`.',
+    doc: 'Is called when animation is done and the full height is reached. The first parameter is a string. Depending on the state, the value can be `opened`, `closed` or `adjusted`.',
     type: 'function',
     status: 'optional',
   },
