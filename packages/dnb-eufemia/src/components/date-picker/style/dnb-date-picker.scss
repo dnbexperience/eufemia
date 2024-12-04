@@ -74,52 +74,6 @@
     top: var(--date-picker-input-height);
   }
 
-  &--small &__container {
-    top: 1.5rem; // --input-height--small;
-  }
-  &--medium &__container {
-    top: 2.5rem; // --input-height--medium;
-  }
-  &--large &__container {
-    top: 3rem; // --input-height--large;
-  }
-
-  &--show-input &__container {
-    left: 0;
-  }
-
-  // alignment
-  &--right &__container {
-    left: auto;
-    right: -1rem;
-  }
-  &--show-input#{&}--right &__container {
-    left: auto;
-    right: 0;
-  }
-
-  &--opened &__container {
-    @include openDatePicker();
-  }
-  &--hidden &__container {
-    @include datePickerClosed();
-  }
-  &:not(#{&}--opened) &__container {
-    @include closeDatePicker();
-  }
-
-  &__portal {
-    // make variables available inside the portal
-    --date-picker-input-height: 2rem;
-    --date-picker-day-width: 2rem;
-    --date-picker-day-horizontal-spacing: 4px;
-
-    position: absolute;
-    z-index: 1000;
-
-    background-color: var(--color-white);
-  }
-
   // stylelint-disable-next-line
   &__input,
   .dnb-input__input#{&}__input,
@@ -429,11 +383,6 @@
     }
   }
 
-  &--right &__triangle {
-    left: auto;
-    right: 0;
-  }
-
   .rtl {
     direction: rtl;
 
@@ -533,5 +482,55 @@
   }
   to {
     opacity: 0;
+  }
+}
+
+.dnb-date-picker__portal {
+  // make variables available inside the portal
+  --date-picker-input-height: 2rem;
+  --date-picker-day-width: 2rem;
+  --date-picker-day-horizontal-spacing: 4px;
+
+  position: absolute;
+  left: 0;
+  z-index: 1000;
+
+  &--small .dnb-date-picker__container {
+    top: 1.5rem; // --input-height--small;
+  }
+  &--medium .dnb-date-picker__container {
+    top: 2.5rem; // --input-height--medium;
+  }
+  &--large .dnb-date-picker__container {
+    top: 3rem; // --input-height--large;
+  }
+
+  &--show-input .dnb-date-picker__container {
+    left: 0;
+  }
+
+  // alignment
+  &--right .dnb-date-picker__container {
+    left: auto;
+    right: -1rem;
+  }
+  &--show-input#{&}--right .dnb-date-picker__container {
+    left: auto;
+    right: 0;
+  }
+
+  &--opened .dnb-date-picker__container {
+    @include openDatePicker();
+  }
+  &--hidden .dnb-date-picker__container {
+    @include datePickerClosed();
+  }
+  &:not(#{&}--opened) .dnb-date-picker__container {
+    @include closeDatePicker();
+  }
+
+  &--right .dnb-date-picker__triangle {
+    left: auto;
+    right: 0;
   }
 }
