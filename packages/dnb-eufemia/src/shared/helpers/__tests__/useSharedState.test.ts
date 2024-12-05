@@ -220,6 +220,37 @@ describe('useSharedState', () => {
     expect(resultA.current.data).toEqual({ foo: 'baz' })
     expect(resultB.current.data).toEqual({ foo: 'baz' })
   })
+
+  it('should sync all hooks, except the one that is set to "preventSyncOfSameInstance"', () => {
+    const { result: resultA } = renderHook(() =>
+      useSharedState(identifier)
+    )
+    const { result: resultB } = renderHook(() =>
+      useSharedState(identifier)
+    )
+
+    expect(resultA.current.data).toEqual(undefined)
+    expect(resultB.current.data).toEqual(undefined)
+
+    act(() => {
+      resultA.current.update({ foo: 'bar' })
+    })
+
+    expect(resultA.current.data).toEqual({ foo: 'bar' })
+    expect(resultB.current.data).toEqual({ foo: 'bar' })
+
+    act(() => {
+      // If "preventSyncOfSameInstance" is set to true,
+      // then the "resultA" will not be synced, so resultA will still have "bar".
+      resultB.current.update(
+        { foo: 'baz' },
+        { preventSyncOfSameInstance: true }
+      )
+    })
+
+    expect(resultA.current.data).toEqual({ foo: 'bar' })
+    expect(resultB.current.data).toEqual({ foo: 'baz' })
+  })
 })
 
 describe('createReferenceKey', () => {

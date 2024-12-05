@@ -362,9 +362,9 @@ function WizardContainer(props: Props) {
   // - Handle shared state
   useLayoutEffect(() => {
     if (id && hasContext) {
-      sharedStateRef.current?.extend?.(providerValue)
+      sharedStateRef.current.extend(providerValue)
     }
-  }, [id, providerValue]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [hasContext, id, providerValue])
 
   useLayoutEffect(() => {
     updateTitlesRef.current?.()

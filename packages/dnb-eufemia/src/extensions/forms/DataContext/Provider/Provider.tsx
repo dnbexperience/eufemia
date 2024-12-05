@@ -718,7 +718,7 @@ export default function Provider<Data extends JsonObject>(
       (Array.isArray(internalDataRef.current) ? [] : clearedData)) as Data
 
     if (id) {
-      setSharedData?.(internalDataRef.current)
+      setSharedData(internalDataRef.current)
     }
 
     forceUpdate()
@@ -731,29 +731,28 @@ export default function Provider<Data extends JsonObject>(
 
   useLayoutEffect(() => {
     // Set the shared state, if initialData was given
-    if (id && initialData && !sharedData.data) {
-      extendSharedData?.(initialData)
+    if (id) {
+      if (initialData && !sharedData.data) {
+        extendSharedData(initialData, { preventSyncOfSameInstance: true })
+      }
     }
   }, [id, initialData, extendSharedData, sharedData.data])
 
-  useMemo(() => {
-    executeAjvValidator()
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [internalDataRef.current]) // run validation when internal data has changed
-
   useLayoutEffect(() => {
     if (id) {
-      extendAttachment?.({
-        visibleDataHandler,
-        filterDataHandler,
-        hasErrors,
-        hasFieldError,
-        setShowAllErrors,
-        setSubmitState,
-        clearData,
-        fieldConnectionsRef,
-      })
+      extendAttachment(
+        {
+          visibleDataHandler,
+          filterDataHandler,
+          hasErrors,
+          hasFieldError,
+          setShowAllErrors,
+          setSubmitState,
+          clearData,
+          fieldConnectionsRef,
+        },
+        { preventSyncOfSameInstance: true }
+      )
       if (filterSubmitData) {
         rerenderUseDataHook?.()
       }
@@ -770,7 +769,14 @@ export default function Provider<Data extends JsonObject>(
     setShowAllErrors,
     setSubmitState,
     clearData,
+    extendSharedData,
   ])
+
+  useMemo(() => {
+    executeAjvValidator()
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [internalDataRef.current]) // run validation when internal data has changed
 
   const storeInSession = useMemo(() => {
     return debounce(
@@ -795,7 +801,7 @@ export default function Provider<Data extends JsonObject>(
 
       if (id) {
         // Will ensure that Form.getData() gets the correct data
-        extendSharedData?.(newData)
+        extendSharedData(newData, { preventSyncOfSameInstance: true })
         if (filterSubmitData) {
           rerenderUseDataHook?.()
         }
