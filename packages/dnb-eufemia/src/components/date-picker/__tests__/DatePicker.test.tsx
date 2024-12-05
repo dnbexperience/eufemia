@@ -2651,7 +2651,7 @@ describe('Custom text for buttons', () => {
 })
 
 describe('DatePickerPortal', () => {
-  it('should attatch portal to document body on mount, and detatch on unmount', async () => {
+  it('should attach portal to document body on mount, and detach on unmount', async () => {
     render(<DatePicker />)
 
     const inputButton = screen.getByLabelText('åpne datovelger')
