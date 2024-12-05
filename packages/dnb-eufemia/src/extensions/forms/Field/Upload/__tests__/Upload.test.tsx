@@ -1154,6 +1154,84 @@ describe('Field.Upload', () => {
       })
     })
 
+    it.only('should add new files from fileHandler with async function with multiple actions', async () => {
+      const newFile1 = createMockFile(
+        'fileName-new-1.png',
+        100,
+        'image/png'
+      )
+      const newFile2 = createMockFile(
+        'fileName-new-2.png',
+        100,
+        'image/png'
+      )
+      const newFile3 = createMockFile(
+        'fileName-new-3.png',
+        100,
+        'image/png'
+      )
+      const files = { newFile1, newFile2, newFile3 }
+
+      const asyncValidatorResolvingWithSuccess = (id) =>
+        new Promise<UploadValue>((resolve) =>
+          setTimeout(
+            () =>
+              resolve([
+                {
+                  file: files[`newFile${id}`],
+                  id: 'server_generated_id_' + id,
+                  exists: false,
+                },
+              ]),
+            1
+          )
+        )
+
+      const asyncFileHandlerFnSuccess = jest
+        .fn(asyncValidatorResolvingWithSuccess)
+        .mockReturnValueOnce(asyncValidatorResolvingWithSuccess(1))
+        .mockReturnValueOnce(asyncValidatorResolvingWithSuccess(2))
+        .mockReturnValueOnce(asyncValidatorResolvingWithSuccess(3))
+
+      render(<Field.Upload fileHandler={asyncFileHandlerFnSuccess} />)
+
+      const element = getRootElement()
+
+      await waitFor(() => {
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [newFile1],
+          },
+        })
+
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [newFile2],
+          },
+        })
+
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [newFile3],
+          },
+        })
+
+        expect(
+          document.querySelectorAll('.dnb-upload__file-cell').length
+        ).toBe(3)
+
+        expect(
+          screen.queryByText('fileName-new-1.png')
+        ).toBeInTheDocument()
+        expect(
+          screen.queryByText('fileName-new-2.png')
+        ).toBeInTheDocument()
+        expect(
+          screen.queryByText('fileName-new-3.png')
+        ).toBeInTheDocument()
+      })
+    })
+
     it('should not add existing file using fileHandler with async function', async () => {
       const file = createMockFile('fileName.png', 100, 'image/png')
 
