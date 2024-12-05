@@ -2652,6 +2652,30 @@ describe('Custom text for buttons', () => {
   })
 })
 
+describe('DatePickerPortal', () => {
+  it('should attatch portal to document body on mount, and detatch on unmount', async () => {
+    render(<DatePicker />)
+
+    const inputButton = screen.getByLabelText('åpne datovelger')
+
+    expect(
+      document.body.querySelector('.dnb-date-picker__portal')
+    ).not.toBeInTheDocument()
+
+    await userEvent.click(inputButton)
+
+    expect(
+      document.body.querySelector('.dnb-date-picker__portal')
+    ).toBeInTheDocument()
+
+    await userEvent.click(inputButton)
+
+    expect(
+      document.body.querySelector('.dnb-date-picker__portal')
+    ).not.toBeInTheDocument()
+  })
+})
+
 describe('DatePicker ARIA', () => {
   it('should validate', async () => {
     const Comp = render(
