@@ -117,7 +117,7 @@ function UploadComponent(props: Props) {
 
   const { files: fileContext, setFiles } = useUpload(id)
 
-  const filesRef = useRef(null)
+  const filesRef = useRef<Array<UploadFile>>()
 
   useEffect(() => {
     filesRef.current = fileContext
