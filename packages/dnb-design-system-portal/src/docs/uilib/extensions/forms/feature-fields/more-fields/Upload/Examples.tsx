@@ -121,6 +121,8 @@ export const WithAsyncFileHandler = () => {
                 json: async () => ({
                   server_generated_id:
                     file.file.name + '_' + crypto.randomUUID(),
+                  server_generated_href:
+                    'https://eufemia.dnb.no/images/avatars/1501870.jpg',
                 }),
               }
 
@@ -132,6 +134,7 @@ export const WithAsyncFileHandler = () => {
               updatedFiles.push({
                 ...file,
                 id: data.server_generated_id,
+                href: data.server_generated_href,
               })
             } catch (error) {
               updatedFiles.push({

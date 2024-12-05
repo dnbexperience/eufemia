@@ -45,13 +45,13 @@ function Upload(props: Props) {
         if (!file) {
           return
         }
-        const imageUrl = URL.createObjectURL(file)
+        const fileUrl = URL.createObjectURL(file)
         return (
           <span key={index}>
             {getIcon(file)}
             <Anchor
               target="_blank"
-              href={imageUrl}
+              href={fileUrl}
               download={download ? file.name : null}
               rel="noopener noreferrer"
               className="dnb-anchor--no-launch-icon"

@@ -81,12 +81,12 @@ const UploadFileListCell = ({
   deleteButtonText,
   download,
 }: UploadFileListCellProps) => {
-  const { file, errorMessage, isLoading } = uploadFile
+  const { file, errorMessage, isLoading, href } = uploadFile
   const hasWarning = errorMessage != null
 
   const fileType = getFileTypeFromExtension(file)
 
-  const imageUrl = URL.createObjectURL(file)
+  const fileUrl = href || URL.createObjectURL(file)
   const cellRef = useRef<HTMLLIElement>()
   const exists = useExistsHighlight(id, file)
 
@@ -184,7 +184,7 @@ const UploadFileListCell = ({
       <div className="dnb-upload__file-cell__text-container">
         <Anchor
           target="_blank"
-          href={imageUrl}
+          href={fileUrl}
           download={download ? file.name : null}
           className={classnames(
             'dnb-anchor--no-launch-icon',

@@ -217,7 +217,7 @@ describe('UploadFileListCell', () => {
       expect(screen.queryByText(fileName)).toBeInTheDocument()
     })
 
-    it('renders the anchor href', () => {
+    it('renders the default anchor href', () => {
       const fileName = 'file.png'
       const mockUrl = 'mock-url'
 
@@ -235,6 +235,25 @@ describe('UploadFileListCell', () => {
         fileName
       ) as HTMLAnchorElement
       expect(anchorElement.href).toMatch(mockUrl)
+    })
+
+    it('renders a custom anchor href', () => {
+      const fileName = 'file.png'
+      const fileHref = 'https://eufemia.dnb.no/images/avatars/1501870.jpg'
+
+      render(
+        <UploadFileListCell
+          {...defaultProps}
+          uploadFile={{
+            file: createMockFile(fileName, 100, 'image/png'),
+            href: fileHref,
+          }}
+        />
+      )
+      const anchorElement = screen.queryByText(
+        fileName
+      ) as HTMLAnchorElement
+      expect(anchorElement.href).toMatch(fileHref)
     })
 
     it('renders the download attribute', () => {

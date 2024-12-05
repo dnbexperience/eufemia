@@ -323,3 +323,38 @@ export const UploadNoTitleNoText = () => (
     />
   </ComponentBox>
 )
+
+export const UploadCustomHref = () => (
+  <ComponentBox>
+    {() => {
+      const Component = () => {
+        const { setFiles } = Upload.useUpload('upload-custom-href')
+
+        useMockFiles(setFiles, {
+          href: 'https://eufemia.dnb.no/dnb/android-chrome-192x192.png',
+        })
+
+        return (
+          <>
+            <Upload
+              acceptedFileTypes={['jpg', 'png']}
+              id="upload-custom-href"
+              onChange={({ files }) => {
+                setFiles(
+                  files.map((file) => {
+                    return {
+                      ...file,
+                      href: 'https://eufemia.dnb.no/images/avatars/1501870.jpg',
+                    }
+                  }),
+                )
+              }}
+            />
+          </>
+        )
+      }
+
+      return <Component />
+    }}
+  </ComponentBox>
+)
