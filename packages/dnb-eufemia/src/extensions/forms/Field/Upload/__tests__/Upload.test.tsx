@@ -1154,7 +1154,7 @@ describe('Field.Upload', () => {
       })
     })
 
-    it.only('should add new files from fileHandler with async function with multiple actions', async () => {
+    it('should add new files from fileHandler with async function with multiple actions', async () => {
       const newFile1 = createMockFile(
         'fileName-new-1.png',
         100,
