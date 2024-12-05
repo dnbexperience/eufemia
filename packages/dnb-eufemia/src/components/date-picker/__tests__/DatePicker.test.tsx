@@ -2662,15 +2662,19 @@ describe('DatePickerPortal', () => {
 
     await userEvent.click(inputButton)
 
-    expect(
-      document.body.querySelector('.dnb-date-picker__portal')
-    ).toBeInTheDocument()
+    await waitFor(() =>
+      expect(
+        document.body.querySelector('.dnb-date-picker__portal')
+      ).toBeInTheDocument()
+    )
 
     await userEvent.click(inputButton)
 
-    expect(
-      document.body.querySelector('.dnb-date-picker__portal')
-    ).not.toBeInTheDocument()
+    await waitFor(() =>
+      expect(
+        document.body.querySelector('.dnb-date-picker__portal')
+      ).not.toBeInTheDocument()
+    )
   })
 })
 
