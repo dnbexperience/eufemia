@@ -119,15 +119,6 @@ exports.createPages = async (params) => {
   await createRedirects(params)
 }
 
-exports.onPreBootstrap = async (params) => {
-  // Copy the fonts folder
-  const { program } = params.store.getState()
-  const publicDir = path.join(program.directory, 'public', 'fonts')
-  const rootPath = path.dirname(require.resolve('@dnb/eufemia'))
-  const src = path.resolve(rootPath, 'assets', 'fonts')
-  await copyDirectory(src, publicDir)
-}
-
 exports.onPostBuild = async (params) => {
   await createRedirects(params)
 
@@ -138,6 +129,13 @@ exports.onPostBuild = async (params) => {
         .join('\n')}\n\n`,
     )
   }
+
+  // Copy the fonts folder
+  const { program } = params.store.getState()
+  const publicDir = path.join(program.directory, 'public', 'fonts')
+  const rootPath = path.dirname(require.resolve('@dnb/eufemia'))
+  const src = path.resolve(rootPath, 'assets', 'fonts')
+  await copyDirectory(src, publicDir)
 }
 
 const deletedPages = []
