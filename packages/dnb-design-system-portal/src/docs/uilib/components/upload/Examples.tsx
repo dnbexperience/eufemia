@@ -325,7 +325,7 @@ export const UploadNoTitleNoText = () => (
 )
 
 export const UploadCustomHref = () => (
-  <ComponentBox>
+  <ComponentBox scope={{ useMockFiles }}>
     {() => {
       const Component = () => {
         const { setFiles } = Upload.useUpload('upload-custom-href')
