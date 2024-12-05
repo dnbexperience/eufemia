@@ -40,17 +40,22 @@ export function BothStatuses() {
   )
 }
 
-export function InWizard() {
+export function WithAWizard() {
   return (
     <Form.Handler
       id="test"
-      onSubmit={(data) => {
-        console.log('data', data)
+      onSubmit={async (data) => {
+        await new Promise((r) => setTimeout(r, 1000))
         Form.Status.setStatus('test', 'success')
+        console.log('data', data)
       }}
     >
       <Form.Status>
-        <Wizard.Container>
+        <Wizard.Container
+          onStepChange={async () => {
+            await new Promise((r) => setTimeout(r, 1000))
+          }}
+        >
           <Wizard.Step title="Step 1">
             <Field.String path="/someInfo" label="Some information" />
             <Wizard.NextButton />
