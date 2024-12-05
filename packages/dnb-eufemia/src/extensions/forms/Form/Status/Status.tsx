@@ -5,7 +5,12 @@ import DataContext from '../../DataContext/Context'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
 import useMounted from '../../../../shared/helpers/useMounted'
 import setStatus, { Status } from './setStatus'
-import { Button, Flex, Section } from '../../../../components'
+import {
+  Button,
+  Flex,
+  HeightAnimation,
+  Section,
+} from '../../../../components'
 import { HeightAnimationAllProps } from '../../../../components/HeightAnimation'
 import { P } from '../../../../elements'
 import { useTranslation } from '../../hooks'
@@ -37,7 +42,7 @@ function StatusContainer(props: Props) {
 
   const translations = useTranslation()
 
-  const { id } = useContext(DataContext) || {}
+  const { id, formState } = useContext(DataContext) || {}
 
   const { data } = useSharedState<{
     activeStatus?: Status
@@ -120,7 +125,13 @@ function StatusContainer(props: Props) {
       >
         <Flex.Stack gap="large">
           <MainHeading>{title ?? tr.title}</MainHeading>
-          <P>{description ?? tr.description}</P>
+          <HeightAnimation>
+            <P>
+              {formState === 'pending'
+                ? tr.retryingText
+                : description ?? tr.description}
+            </P>
+          </HeightAnimation>
           <Flex.Horizontal>
             <Button variant="secondary" onClick={onCancelHandler}>
               {cancelButton ?? tr.cancelButton}

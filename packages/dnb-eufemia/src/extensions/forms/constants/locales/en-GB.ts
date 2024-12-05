@@ -43,8 +43,9 @@ export default {
     StatusError: {
       title: 'Sorry, something went wrong',
       description: 'Please try again or contact us.',
-      retryButton: 'Try again',
       cancelButton: 'Back',
+      retryButton: 'Try again',
+      retryingText: 'Retrying...',
     },
     SectionViewContainer: {
       editButton: 'Edit',

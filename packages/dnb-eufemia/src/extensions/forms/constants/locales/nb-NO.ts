@@ -43,8 +43,9 @@ export default {
       title: 'Beklager, noe gikk galt',
       description:
         'Prov igjen eller ta kontakt med oss om feilen vedstår.',
-      retryButton: 'Prøv igjen',
       cancelButton: 'Tilbake',
+      retryButton: 'Prøv igjen',
+      retryingText: 'Prøver på nytt...',
     },
     SectionViewContainer: {
       editButton: 'Endre',
