@@ -273,7 +273,7 @@ describe('UploadFileListCell', () => {
       )
     })
 
-    it('executes onClick event when anchor is clicked', () => {
+    it('executes onClick event when button is clicked', () => {
       const onClick = jest.fn()
 
       render(
