@@ -265,6 +265,11 @@ export type DataValueReadWriteComponentProps<
   DataValueReadProps<Value> &
   DataValueWriteProps<Value, EmptyValue>
 
+export type ConnectorProps<Value = unknown> = Pick<
+  UseFieldProps<Value>,
+  'onChange' | 'onBlurValidator'
+>
+
 export interface UseFieldProps<
   Value = unknown,
   EmptyValue = undefined | unknown,
@@ -400,6 +405,8 @@ export interface UseFieldProps<
    * For internal use only.
    */
   valueType?: string | number | boolean | Array<string | number | boolean>
+
+  connector?: ConnectorProps<Value>
 }
 
 export type FieldProps<
