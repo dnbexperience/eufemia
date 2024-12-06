@@ -5,7 +5,7 @@ hideInMenu: true
 
 ## Description
 
-`Form.Status` displays a status message that is fully covering the available space and can be used to show success as a receipt or error messages.
+`Form.InfoOverlay` displays a status message that is fully covering the available space and can be used to show success as a receipt or error messages.
 
 ## Usage
 
@@ -16,19 +16,19 @@ import { Form } from '@dnb/eufemia/extensions/forms'
 
 render(
   <Form.Handler>
-    <Form.Status>visible content</Form.Status>
+    <Form.InfoOverlay>visible content</Form.InfoOverlay>
   </Form.Handler>,
 )
 ```
 
 ## Showing the success or error message
 
-You can show the success or error message by using the `Form.Status.setStatus` method:
+You can show the success or error message by using the `Form.InfoOverlay.setContent` method:
 
 ```tsx
-Form.Status.setStatus(id, 'success')
+Form.InfoOverlay.setContent(id, 'success')
 // or
-Form.Status.setStatus(id, 'error')
+Form.InfoOverlay.setContent(id, 'error')
 ```
 
 You can call it whenever you need to show the success message. Here is an example of how to use it:
@@ -43,10 +43,10 @@ render(
   <Form.Handler
     id={myFormId}
     onSubmit={async () => {
-      Form.Status.setStatus(myFormId, 'success')
+      Form.InfoOverlay.setContent(myFormId, 'success')
     }}
   >
-    <Form.Status>content</Form.Status>
+    <Form.InfoOverlay>content</Form.InfoOverlay>
   </Form.Handler>,
 )
 ```

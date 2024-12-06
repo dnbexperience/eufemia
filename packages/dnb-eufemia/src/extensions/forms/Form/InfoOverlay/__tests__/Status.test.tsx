@@ -3,14 +3,14 @@ import { act, fireEvent, render } from '@testing-library/react'
 import nbNO from '../../../constants/locales/nb-NO'
 import { Form } from '../../..'
 
-describe('Form.Status', () => {
+describe('Form.InfoOverlay', () => {
   it('should render success with correct text', () => {
-    const nb = nbNO['nb-NO'].StatusSuccess
+    const nb = nbNO['nb-NO'].InfoOverlaySuccess
     const formId = {}
 
     render(
       <Form.Handler id={formId}>
-        <Form.Status>content</Form.Status>
+        <Form.InfoOverlay>content</Form.InfoOverlay>
       </Form.Handler>
     )
 
@@ -18,7 +18,7 @@ describe('Form.Status', () => {
     expect(document.querySelector('p')).toBeNull()
 
     act(() => {
-      Form.Status.setStatus(formId, 'success')
+      Form.InfoOverlay.setContent(formId, 'success')
     })
 
     expect(document.querySelector('h2')).toHaveTextContent(nb.title)
@@ -33,12 +33,12 @@ describe('Form.Status', () => {
   })
 
   it('should render error with correct text', async () => {
-    const nb = nbNO['nb-NO'].StatusError
+    const nb = nbNO['nb-NO'].InfoOverlayError
     const formId = {}
 
     render(
       <Form.Handler id={formId}>
-        <Form.Status>content</Form.Status>
+        <Form.InfoOverlay>content</Form.InfoOverlay>
       </Form.Handler>
     )
 
@@ -46,7 +46,7 @@ describe('Form.Status', () => {
     expect(document.querySelector('p')).toBeNull()
 
     act(() => {
-      Form.Status.setStatus(formId, 'error')
+      Form.InfoOverlay.setContent(formId, 'error')
     })
 
     expect(document.querySelector('h2')).toHaveTextContent(nb.title)
@@ -65,18 +65,18 @@ describe('Form.Status', () => {
 
     render(
       <Form.Handler id={formId}>
-        <Form.Status
+        <Form.InfoOverlay
           success={{
             buttonHref: 'http://custom',
           }}
         >
           content
-        </Form.Status>
+        </Form.InfoOverlay>
       </Form.Handler>
     )
 
     act(() => {
-      Form.Status.setStatus(formId, 'success')
+      Form.InfoOverlay.setContent(formId, 'success')
     })
 
     const anchor = document.querySelector('a')
@@ -89,12 +89,14 @@ describe('Form.Status', () => {
 
     render(
       <Form.Handler id={formId}>
-        <Form.Status success={{ buttonClickHandler }}>content</Form.Status>
+        <Form.InfoOverlay success={{ buttonClickHandler }}>
+          content
+        </Form.InfoOverlay>
       </Form.Handler>
     )
 
     act(() => {
-      Form.Status.setStatus(formId, 'success')
+      Form.InfoOverlay.setContent(formId, 'success')
     })
 
     const button = document.querySelector('button')
@@ -109,7 +111,7 @@ describe('Form.Status', () => {
 
     render(
       <Form.Handler id={formId}>
-        <Form.Status
+        <Form.InfoOverlay
           success={{
             title: 'Custom title',
             description: 'Custom description',
@@ -117,7 +119,7 @@ describe('Form.Status', () => {
           }}
         >
           content
-        </Form.Status>
+        </Form.InfoOverlay>
       </Form.Handler>
     )
 
@@ -125,7 +127,7 @@ describe('Form.Status', () => {
     expect(document.querySelector('p')).toBeNull()
 
     act(() => {
-      Form.Status.setStatus(formId, 'success')
+      Form.InfoOverlay.setContent(formId, 'success')
     })
 
     expect(document.querySelector('h2')).toHaveTextContent('Custom title')
@@ -146,7 +148,7 @@ describe('Form.Status', () => {
 
     render(
       <Form.Handler id={formId}>
-        <Form.Status
+        <Form.InfoOverlay
           error={{
             title: 'Custom title',
             description: 'Custom description',
@@ -155,7 +157,7 @@ describe('Form.Status', () => {
           }}
         >
           content
-        </Form.Status>
+        </Form.InfoOverlay>
       </Form.Handler>
     )
 
@@ -163,7 +165,7 @@ describe('Form.Status', () => {
     expect(document.querySelector('p')).toBeNull()
 
     act(() => {
-      Form.Status.setStatus(formId, 'error')
+      Form.InfoOverlay.setContent(formId, 'error')
     })
 
     expect(document.querySelector('h2')).toHaveTextContent('Custom title')
@@ -184,9 +186,9 @@ describe('Form.Status', () => {
 
     render(
       <Form.Handler id={formId}>
-        <Form.Status>
+        <Form.InfoOverlay>
           <output>content</output>
-        </Form.Status>
+        </Form.InfoOverlay>
       </Form.Handler>
     )
 
@@ -194,7 +196,7 @@ describe('Form.Status', () => {
     expect(document.querySelector('output')).toHaveTextContent('content')
 
     act(() => {
-      Form.Status.setStatus(formId, 'success')
+      Form.InfoOverlay.setContent(formId, 'success')
     })
 
     expect(document.querySelector('h2')).toBeInTheDocument()
@@ -206,16 +208,16 @@ describe('Form.Status', () => {
 
     render(
       <Form.Handler id={formId}>
-        <Form.Status>
+        <Form.InfoOverlay>
           <output>content</output>
-        </Form.Status>
+        </Form.InfoOverlay>
       </Form.Handler>
     )
 
     expect(document.querySelector('body')).toHaveFocus()
 
     act(() => {
-      Form.Status.setStatus(formId, 'success')
+      Form.InfoOverlay.setContent(formId, 'success')
     })
 
     expect(
@@ -224,7 +226,7 @@ describe('Form.Status', () => {
 
     act(() => {
       document.querySelector('body').focus()
-      Form.Status.setStatus(formId, undefined)
+      Form.InfoOverlay.setContent(formId, undefined)
     })
 
     expect(document.querySelector('.dnb-forms-status')).toHaveFocus()
@@ -234,7 +236,7 @@ describe('Form.Status', () => {
 
     act(() => {
       document.querySelector('body').focus()
-      Form.Status.setStatus(formId, 'success')
+      Form.InfoOverlay.setContent(formId, 'success')
     })
 
     expect(
@@ -254,14 +256,14 @@ describe('Form.Status', () => {
 
     render(
       <Form.Handler id={formId}>
-        <Form.Status>
+        <Form.InfoOverlay>
           <output>content</output>
-        </Form.Status>
+        </Form.InfoOverlay>
       </Form.Handler>
     )
 
     act(() => {
-      Form.Status.setStatus(formId, 'error')
+      Form.InfoOverlay.setContent(formId, 'error')
     })
 
     expect(document.querySelector('.dnb-forms-status')).toHaveClass(
@@ -286,14 +288,14 @@ describe('Form.Status', () => {
 
     render(
       <Form.Handler id={formId}>
-        <Form.Status onCancel={onCancel}>
+        <Form.InfoOverlay onCancel={onCancel}>
           <output>content</output>
-        </Form.Status>
+        </Form.InfoOverlay>
       </Form.Handler>
     )
 
     act(() => {
-      Form.Status.setStatus(formId, 'error')
+      Form.InfoOverlay.setContent(formId, 'error')
     })
 
     expect(document.querySelector('.dnb-forms-status')).toHaveClass(

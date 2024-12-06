@@ -14,10 +14,10 @@ export function BothStatuses() {
         onSubmit={async () => {
           await new Promise((r) => setTimeout(r, 1000)) // Simulate a request
 
-          Form.Status.setStatus(formId, 'success')
+          Form.InfoOverlay.setContent(formId, 'success')
         }}
       >
-        <Form.Status>
+        <Form.InfoOverlay>
           <Form.Card>
             <Field.Email />
             <Form.ButtonRow>
@@ -25,14 +25,14 @@ export function BothStatuses() {
               <Button
                 variant="secondary"
                 onClick={() => {
-                  Form.Status.setStatus(formId, 'error')
+                  Form.InfoOverlay.setContent(formId, 'error')
                 }}
               >
                 Show error
               </Button>
             </Form.ButtonRow>
           </Form.Card>
-        </Form.Status>
+        </Form.InfoOverlay>
       </Form.Handler>
       <br />
       ----- Content ----
@@ -43,14 +43,14 @@ export function BothStatuses() {
 export function WithAWizard() {
   return (
     <Form.Handler
-      id="test"
+      id="unique-id"
       onSubmit={async (data) => {
         await new Promise((r) => setTimeout(r, 1000))
-        Form.Status.setStatus('test', 'success')
+        Form.InfoOverlay.setContent('unique-id', 'success')
         console.log('data', data)
       }}
     >
-      <Form.Status>
+      <Form.InfoOverlay>
         <Wizard.Container
           onStepChange={async () => {
             await new Promise((r) => setTimeout(r, 1000))
@@ -65,7 +65,7 @@ export function WithAWizard() {
             <Form.SubmitButton />
           </Wizard.Step>
         </Wizard.Container>
-      </Form.Status>
+      </Form.InfoOverlay>
     </Form.Handler>
   )
 }

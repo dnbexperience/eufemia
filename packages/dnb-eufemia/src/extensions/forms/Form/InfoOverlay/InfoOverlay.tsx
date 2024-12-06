@@ -4,7 +4,7 @@ import Visibility from '../Visibility'
 import DataContext from '../../DataContext/Context'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
 import useMounted from '../../../../shared/helpers/useMounted'
-import setStatus, { Status } from './setStatus'
+import setContent, { Status } from './setContent'
 import {
   Button,
   Flex,
@@ -36,7 +36,7 @@ export type Props = {
   className?: string
 }
 
-function StatusContainer(props: Props) {
+function InfoOverlay(props: Props) {
   const { success, error, onCancel, className, children, ...restProps } =
     props
 
@@ -69,7 +69,7 @@ function StatusContainer(props: Props) {
 
   const onCancelHandler = useCallback(() => {
     if (id) {
-      setStatus(id, undefined)
+      setContent(id, undefined)
     }
     onCancel?.()
   }, [id, onCancel])
@@ -86,7 +86,7 @@ function StatusContainer(props: Props) {
   let statusContent = null
 
   if (currentStatusRef.current === 'success') {
-    const tr = translations.StatusSuccess
+    const tr = translations.InfoOverlaySuccess
     const {
       title,
       description,
@@ -114,7 +114,7 @@ function StatusContainer(props: Props) {
       </Section>
     )
   } else if (currentStatusRef.current === 'error') {
-    const tr = translations.StatusError
+    const tr = translations.InfoOverlayError
     const { title, description, cancelButton, retryButton } = error || {}
 
     statusContent = (
@@ -174,7 +174,7 @@ function StatusContainer(props: Props) {
   )
 }
 
-StatusContainer.setStatus = setStatus
-StatusContainer._supportsSpacingProps = true
+InfoOverlay.setContent = setContent
+InfoOverlay._supportsSpacingProps = true
 
-export default StatusContainer
+export default InfoOverlay

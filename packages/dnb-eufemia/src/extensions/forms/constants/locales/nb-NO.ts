@@ -34,15 +34,15 @@ export default {
       text: 'Fjern',
       confirmRemoveText: 'Er du sikker på at du vil slette dette?',
     },
-    StatusSuccess: {
+    InfoOverlaySuccess: {
       title: 'Takk skal du ha',
       description: 'Vi har mottatt din informasjon.',
       buttonText: 'Tilbake til forsiden',
     },
-    StatusError: {
+    InfoOverlayError: {
       title: 'Beklager, noe gikk galt',
       description:
-        'Prov igjen eller ta kontakt med oss om feilen vedstår.',
+        'Prøv igjen eller ta kontakt med oss om feilen vedstår.',
       cancelButton: 'Tilbake',
       retryButton: 'Prøv igjen',
       retryingText: 'Prøver på nytt...',

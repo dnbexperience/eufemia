@@ -1,6 +1,6 @@
 import { PropertiesTableProps } from '../../../../shared/types'
 
-export const StatusSuccessProperties: PropertiesTableProps = {
+export const InfoOverlaySuccessProperties: PropertiesTableProps = {
   title: {
     doc: 'The title of the component.',
     type: 'React.Node',
@@ -33,7 +33,7 @@ export const StatusSuccessProperties: PropertiesTableProps = {
   },
 }
 
-export const StatusErrorProperties: PropertiesTableProps = {
+export const InfoOverlayErrorProperties: PropertiesTableProps = {
   title: {
     doc: 'The title of the component.',
     type: 'React.Node',

@@ -18,10 +18,10 @@ export const ErrorMessage = () => {
             onSubmit={async () => {
               await request(1000) // Simulate a request
 
-              Form.Status.setStatus(myFormId, 'error')
+              Form.InfoOverlay.setContent(myFormId, 'error')
             }}
           >
-            <Form.Status>
+            <Form.InfoOverlay>
               <Form.Card>
                 <Field.Email />
                 <Form.ButtonRow>
@@ -29,14 +29,14 @@ export const ErrorMessage = () => {
                   <Button
                     variant="secondary"
                     onClick={() => {
-                      Form.Status.setStatus(myFormId, 'error')
+                      Form.InfoOverlay.setContent(myFormId, 'error')
                     }}
                   >
                     Show error
                   </Button>
                 </Form.ButtonRow>
               </Form.Card>
-            </Form.Status>
+            </Form.InfoOverlay>
           </Form.Handler>
         )
       }}
@@ -57,15 +57,15 @@ export const SuccessMessage = () => {
             onSubmit={async () => {
               await request(1000) // Simulate a request
 
-              Form.Status.setStatus(myFormId, 'success')
+              Form.InfoOverlay.setContent(myFormId, 'success')
             }}
           >
-            <Form.Status>
+            <Form.InfoOverlay>
               <Form.Card>
                 <Field.Email />
                 <Form.SubmitButton variant="send" />
               </Form.Card>
-            </Form.Status>
+            </Form.InfoOverlay>
           </Form.Handler>
         )
       }}
@@ -86,10 +86,10 @@ export const WithAWizard = () => {
             id={myFormId}
             onSubmit={async () => {
               await request(1000)
-              Form.Status.setStatus(myFormId, 'success')
+              Form.InfoOverlay.setContent(myFormId, 'success')
             }}
           >
-            <Form.Status>
+            <Form.InfoOverlay>
               <Wizard.Container
                 onStepChange={async () => {
                   await request(1000)
@@ -111,7 +111,7 @@ export const WithAWizard = () => {
                   <Form.SubmitButton variant="send" />
                 </Wizard.Step>
               </Wizard.Container>
-            </Form.Status>
+            </Form.InfoOverlay>
           </Form.Handler>
         )
       }}
