@@ -393,3 +393,31 @@ export const ListTypes = () => {
     </ComponentBox>
   )
 }
+
+export const OnFileClick = () => {
+  return (
+    <ComponentBox hideCode scope={{ createMockFile }}>
+      <Value.Upload
+        label="Label text"
+        value={[
+          {
+            file: createMockFile('35217511.jpg', 1000000, 'image/png'),
+            exists: false,
+            id: '1',
+          },
+          {
+            file: createMockFile('1501870.jpg', 2000000, 'image/png'),
+            exists: false,
+            id: '2',
+          },
+        ]}
+        onFileClick={({ fileItem }) => {
+          window.open(
+            'https://eufemia.dnb.no/images/avatars/' + fileItem.file.name,
+            '_blank',
+          )
+        }}
+      />
+    </ComponentBox>
+  )
+}
