@@ -74,6 +74,40 @@
     top: var(--date-picker-input-height);
   }
 
+  &--small &__container {
+    top: 1.5rem; // --input-height--small;
+  }
+  &--medium &__container {
+    top: 2.5rem; // --input-height--medium;
+  }
+  &--large &__container {
+    top: 3rem; // --input-height--large;
+  }
+
+  &--show-input &__container {
+    left: 0;
+  }
+
+  // alignment
+  &--right &__container {
+    left: auto;
+    right: -1rem;
+  }
+  &--show-input#{&}--right &__container {
+    left: auto;
+    right: 0;
+  }
+
+  &--opened &__container {
+    @include openDatePicker();
+  }
+  &--hidden &__container {
+    @include datePickerClosed();
+  }
+  &:not(#{&}--opened) &__container {
+    @include closeDatePicker();
+  }
+
   // stylelint-disable-next-line
   &__input,
   .dnb-input__input#{&}__input,
@@ -381,6 +415,11 @@
       border: 1px solid var(--color-black-border);
       background-color: var(--color-white);
     }
+  }
+
+  &--right &__triangle {
+    left: auto;
+    right: 0;
   }
 
   .rtl {

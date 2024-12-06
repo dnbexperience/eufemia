@@ -271,6 +271,10 @@ export type DatePickerProps = {
    * Use `right` to change the calendar alignment direction. Defaults to `left`.
    */
   alignPicker?: 'auto' | 'left' | 'right'
+  /**
+   * If set to `true`, the calendar will not be rendered inside a react portal. Defaults to `false`.
+   */
+  skipPortal?: boolean
   className?: string
   /**
    * Will be called right before every new calendar view gets rendered. See the example above.
@@ -569,6 +573,7 @@ const defaultProps: DatePickerProps = {
   opened: false,
   noAnimation: false,
   direction: 'auto',
+  skipPortal: false,
 }
 
 function DatePicker(externalProps: DatePickerAllProps) {
@@ -852,6 +857,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
     showResetButton,
     className,
     tooltip,
+    skipPortal,
     ...restProps
   } = extendedProps
 
@@ -990,57 +996,59 @@ function DatePicker(externalProps: DatePickerAllProps) {
                 {...statusProps}
               />
 
-              <DatePickerPortal
-                className={portalClassNames}
-                show={!hidden}
-                alignment={alignPicker}
-                targetElementRef={innerRef}
-              >
-                <span
-                  className="dnb-date-picker__container"
-                  ref={pickerContainerRef}
+              {!hidden && (
+                <DatePickerPortal
+                  className={portalClassNames}
+                  alignment={alignPicker}
+                  skipPortal={skipPortal}
+                  targetElementRef={innerRef}
                 >
                   <span
-                    className="dnb-date-picker__triangle"
-                    ref={triangleRef}
-                  />
-                  <DatePickerRange
-                    id={id}
-                    firstDayOfWeek={firstDay}
-                    resetDate={resetDate}
-                    isRange={range}
-                    isLink={link}
-                    isSync={sync}
-                    hideDays={shouldHideDays}
-                    hideNav={shouldHideNavigation}
-                    views={
-                      hideNavigationButtons
-                        ? [{ nextBtn: false, prevBtn: false }]
-                        : null
-                    }
-                    onlyMonth={onlyMonth}
-                    hideNextMonthWeek={hideLastWeek}
-                    noAutoFocus={disableAutofocus}
-                    onChange={onPickerChange}
-                    locale={context.locale}
-                  />
-                  {(addonElement || shortcuts) && (
-                    <DatePickerAddon
-                      renderElement={addonElement}
-                      shortcuts={shortcuts}
+                    className="dnb-date-picker__container"
+                    ref={pickerContainerRef}
+                  >
+                    <span
+                      className="dnb-date-picker__triangle"
+                      ref={triangleRef}
                     />
-                  )}
-                  <DatePickerFooter
-                    isRange={range}
-                    onSubmit={onSubmitHandler}
-                    onCancel={onCancelHandler}
-                    onReset={onResetHandler}
-                    submitButtonText={submitButtonText}
-                    cancelButtonText={cancelButtonText}
-                    resetButtonText={resetButtonText}
-                  />
-                </span>
-              </DatePickerPortal>
+                    <DatePickerRange
+                      id={id}
+                      firstDayOfWeek={firstDay}
+                      resetDate={resetDate}
+                      isRange={range}
+                      isLink={link}
+                      isSync={sync}
+                      hideDays={shouldHideDays}
+                      hideNav={shouldHideNavigation}
+                      views={
+                        hideNavigationButtons
+                          ? [{ nextBtn: false, prevBtn: false }]
+                          : null
+                      }
+                      onlyMonth={onlyMonth}
+                      hideNextMonthWeek={hideLastWeek}
+                      noAutoFocus={disableAutofocus}
+                      onChange={onPickerChange}
+                      locale={context.locale}
+                    />
+                    {(addonElement || shortcuts) && (
+                      <DatePickerAddon
+                        renderElement={addonElement}
+                        shortcuts={shortcuts}
+                      />
+                    )}
+                    <DatePickerFooter
+                      isRange={range}
+                      onSubmit={onSubmitHandler}
+                      onCancel={onCancelHandler}
+                      onReset={onResetHandler}
+                      submitButtonText={submitButtonText}
+                      cancelButtonText={cancelButtonText}
+                      resetButtonText={resetButtonText}
+                    />
+                  </span>
+                </DatePickerPortal>
+              )}
             </span>
             {suffix && (
               <Suffix
