@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { createPortal } from 'react-dom'
+import ReactDOM from 'react-dom'
 import { DatePickerProps } from './DatePicker'
 
 type DatePickerPortalProps = React.HTMLProps<HTMLDivElement> & {
@@ -26,7 +26,7 @@ export default function DatePickerPortal({
   return (
     position &&
     (!skipPortal
-      ? createPortal(
+      ? ReactDOM.createPortal(
           <div
             className={`${'dnb-date-picker__portal'} ${className}`}
             style={position}
