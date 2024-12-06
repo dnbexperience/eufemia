@@ -156,7 +156,7 @@ export default {
       fileSizeContent: '%size MB',
       buttonText: 'Choose files',
       buttonTextSingular: 'Choose file',
-      loadingText: 'Uploading',
+      loadingText: 'Loading',
       errorLargeFile:
         'The file you are trying to upload is too big, the maximum size supported is %size MB.',
       errorAmountLimit:

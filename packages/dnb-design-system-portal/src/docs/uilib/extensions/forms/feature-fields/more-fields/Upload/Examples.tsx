@@ -184,3 +184,32 @@ export const WithSyncFileHandler = () => {
     </ComponentBox>
   )
 }
+
+export const WithAsyncOnFileDelete = () => {
+  return (
+    <ComponentBox scope={{ createRequest }}>
+      {() => {
+        async function mockAsyncFileRemoval({ fileItem }) {
+          const request = createRequest()
+          console.log(
+            'making API request to remove: ' + fileItem.file.name,
+          )
+          await request(3000) // Simulate a request
+          const mockResponse = {
+            successful_removal: Math.random() < 0.5, // Randomly fails to remove the file
+          }
+          if (!mockResponse.successful_removal) {
+            throw new Error('Unable to remove this file')
+          }
+        }
+
+        return (
+          <Field.Upload
+            onFileDelete={mockAsyncFileRemoval}
+            acceptedFileTypes={['jpg', 'png']}
+          />
+        )
+      }}
+    </ComponentBox>
+  )
+}

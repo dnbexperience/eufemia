@@ -155,7 +155,7 @@ export default {
       fileSizeContent: '%size MB',
       buttonText: 'Velg filer',
       buttonTextSingular: 'Velg fil',
-      loadingText: 'Laster opp',
+      loadingText: 'Laster',
       errorLargeFile:
         'Filen du prøver å laste opp er for stor, den maksimale støttede størrelsen er %size MB.',
       errorAmountLimit:

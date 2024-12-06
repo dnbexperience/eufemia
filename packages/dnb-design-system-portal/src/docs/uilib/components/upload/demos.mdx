@@ -14,6 +14,7 @@ import {
   UploadFileMaxSizeBasedOnFileType,
   UploadFileMaxSizeBasedOnFileTypeDisabled,
   UploadNoTitleNoText,
+  UploadOnFileDeleteAsync,
 } from 'Docs/uilib/components/upload/Examples'
 
 ## Demos
@@ -22,7 +23,7 @@ import {
 
 <UploadBasic />
 
-### 'useUpload' React Hook
+### `useUpload` React Hook
 
 By using the `Upload.useUpload` you can remove or add files or the status displayed in the component.
 
@@ -78,3 +79,7 @@ This can also be used to manually implement more complex file max size verificat
 ### Upload without title and text
 
 <UploadNoTitleNoText />
+
+### Upload with async `onFileDelete`
+
+<UploadOnFileDeleteAsync />
