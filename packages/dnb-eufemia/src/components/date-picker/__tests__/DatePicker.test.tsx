@@ -2678,6 +2678,21 @@ describe('DatePickerPortal', () => {
       ).not.toBeInTheDocument()
     )
   })
+
+  it('should contain calendar views when mounted', async () => {
+    render(<DatePicker />)
+
+    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+
+    const portal = document.body.querySelector('.dnb-date-picker__portal')
+
+    expect(
+      portal.querySelector('.dnb-date-picker__views')
+    ).toBeInTheDocument()
+    expect(
+      portal.querySelector('.dnb-date-picker__calendar')
+    ).toBeInTheDocument()
+  })
 })
 
 describe('DatePicker ARIA', () => {
@@ -2689,6 +2704,7 @@ describe('DatePicker ARIA', () => {
         disableAutofocus={true}
         startDate="2019-05-05"
         endDate="2019-06-05"
+        skipPortal
       />
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
@@ -2703,6 +2719,7 @@ describe('DatePicker ARIA', () => {
         disableAutofocus={true}
         startDate="2019-05-05"
         endDate="2019-06-05"
+        skipPortal
       />
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
