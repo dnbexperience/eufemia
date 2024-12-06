@@ -34,6 +34,19 @@ export default {
       text: 'Fjern',
       confirmRemoveText: 'Er du sikker på at du vil slette dette?',
     },
+    InfoOverlaySuccess: {
+      title: 'Takk skal du ha',
+      description: 'Vi har mottatt din informasjon.',
+      buttonText: 'Tilbake til forsiden',
+    },
+    InfoOverlayError: {
+      title: 'Beklager, noe gikk galt',
+      description:
+        'Prøv igjen eller ta kontakt med oss om feilen vedstår.',
+      cancelButton: 'Tilbake',
+      retryButton: 'Prøv igjen',
+      retryingText: 'Prøver på nytt...',
+    },
     SectionViewContainer: {
       editButton: 'Endre',
     },

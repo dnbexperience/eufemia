@@ -14,7 +14,7 @@ import {
 } from '@dnb/eufemia/src'
 import { Provider } from '@dnb/eufemia/src/shared'
 
-export const GlobalStatusError = () => (
+export const GlobalInfoOverlayError = () => (
   <ComponentBox data-visual-test="global-status">
     <GlobalStatus
       title="Custom Title"
@@ -66,7 +66,7 @@ export const GlobalStatusWarning = () => (
   </ComponentBox>
 )
 
-export const GlobalStatusSuccess = () => (
+export const GlobalInfoOverlaySuccess = () => (
   <ComponentBox>
     <GlobalStatus
       state="success"

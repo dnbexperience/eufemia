@@ -2,7 +2,7 @@ import UploadFileListCell, {
   UploadFileListCellProps,
 } from '../UploadFileListCell'
 import { createMockFile } from './testHelpers'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
 
 global.URL.createObjectURL = jest.fn(() => 'url')
@@ -272,6 +272,27 @@ describe('UploadFileListCell', () => {
         'dnb-upload__file-cell--error'
       )
     })
+
+    it('executes onClick event when button is clicked', () => {
+      const onClick = jest.fn()
+
+      render(
+        <UploadFileListCell
+          {...defaultProps}
+          uploadFile={{
+            file: createMockFile('file.png', 100, 'image/png'),
+          }}
+          onClick={onClick}
+        />
+      )
+      const element = document.querySelector(
+        '.dnb-upload__file-cell button'
+      )
+
+      fireEvent.click(element)
+
+      expect(onClick).toHaveBeenCalledTimes(1)
+    })
   })
 
   describe('Delete Button', () => {
@@ -320,6 +341,25 @@ describe('UploadFileListCell', () => {
       expect(
         document.querySelector('.dnb-progress-indicator')
       ).toBeInTheDocument()
+    })
+
+    it('executes onDelete event when delete button is clicked', () => {
+      const onDelete = jest.fn()
+
+      render(
+        <UploadFileListCell
+          {...defaultProps}
+          uploadFile={{
+            file: createMockFile('file.png', 100, 'image/png'),
+          }}
+          onDelete={onDelete}
+        />
+      )
+      const element = screen.getByRole('button')
+
+      fireEvent.click(element)
+
+      expect(onDelete).toHaveBeenCalledTimes(1)
     })
 
     it('renders the delete button as disabled when loading state', () => {

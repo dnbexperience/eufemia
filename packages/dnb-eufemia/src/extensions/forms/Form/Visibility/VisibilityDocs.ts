@@ -1,4 +1,5 @@
 import { PropertiesTableProps } from '../../../../shared/types'
+import { HeightAnimationEvents } from '../../../../components/height-animation/HeightAnimationDocs'
 
 export const VisibilityProperties: PropertiesTableProps = {
   visibleWhen: {
@@ -86,4 +87,13 @@ export const VisibilityProperties: PropertiesTableProps = {
     type: 'React.Node',
     status: 'required',
   },
+}
+
+export const VisibilityEvents: PropertiesTableProps = {
+  onVisible: {
+    doc: 'Callback for when the content gets visible. Returns a boolean as the first parameter.',
+    type: HeightAnimationEvents.onOpen.type,
+    status: 'optional',
+  },
+  onAnimationEnd: HeightAnimationEvents.onAnimationEnd,
 }

@@ -51,7 +51,20 @@ export type UploadProps = {
   /**
    * will be called once a file gets deleted by the user. Access the deleted file with `{ fileItem }`.
    */
-  onFileDelete?: ({ fileItem }: { fileItem: UploadFile }) => void
+  onFileDelete?: ({
+    fileItem,
+  }: {
+    fileItem: UploadFile
+  }) => void | Promise<void>
+
+  /**
+   * Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`.
+   */
+  onFileClick?: ({
+    fileItem,
+  }: {
+    fileItem: UploadFile
+  }) => void | Promise<void>
 
   /**
    * Causes the browser to treat all listed files as downloadable instead of opening them in a new browser tab or window.

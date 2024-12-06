@@ -61,6 +61,11 @@ export type UploadFileListCellProps = {
   onDelete: () => void
 
   /**
+   * Calls onClick when clicking the file name
+   */
+  onClick?: () => void
+
+  /**
    * Causes the browser to treat all listed files as downloadable instead of opening them in a new browser tab or window.
    * Default: false
    */
@@ -77,6 +82,7 @@ const UploadFileListCell = ({
   id,
   uploadFile,
   onDelete,
+  onClick,
   loadingText,
   deleteButtonText,
   download,
@@ -182,18 +188,31 @@ const UploadFileListCell = ({
       </div>
     ) : (
       <div className="dnb-upload__file-cell__text-container">
-        <Anchor
-          target="_blank"
-          href={imageUrl}
-          download={download ? file.name : null}
-          className={classnames(
-            'dnb-anchor--no-launch-icon',
-            'dnb-upload__file-cell__title'
-          )}
-          rel="noopener noreferrer"
-        >
-          {file.name}
-        </Anchor>
+        {onClick ? (
+          <Button
+            variant="tertiary"
+            className={classnames(
+              'dnb-anchor--no-launch-icon',
+              'dnb-upload__file-cell__title'
+            )}
+            onClick={onClick}
+          >
+            {file.name}
+          </Button>
+        ) : (
+          <Anchor
+            target="_blank"
+            href={imageUrl}
+            download={download ? file.name : null}
+            className={classnames(
+              'dnb-anchor--no-launch-icon',
+              'dnb-upload__file-cell__title'
+            )}
+            rel="noopener noreferrer"
+          >
+            {file.name}
+          </Anchor>
+        )}
       </div>
     )
   }

@@ -12,6 +12,7 @@ import {
   Section,
   Upload,
 } from '@dnb/eufemia/src'
+import { createRequest } from '../../extensions/forms/Form/SubmitIndicator/Examples'
 
 export function createMockFile(name: string, size: number, type: string) {
   const file = new File([], name, { type })
@@ -321,5 +322,77 @@ export const UploadNoTitleNoText = () => (
       acceptedFileTypes={['jpg', 'png']}
       id="upload-no-title-no-text"
     />
+  </ComponentBox>
+)
+
+export const UploadOnFileDeleteAsync = () => (
+  <ComponentBox scope={{ createRequest }}>
+    {() => {
+      async function mockAsyncFileRemoval({ fileItem }) {
+        const request = createRequest()
+        console.log('making API request to remove: ' + fileItem.file.name)
+        await request(3000) // Simulate a request
+        const mockResponse = {
+          successful_removal: Math.random() < 0.5, // Randomly fails to remove the file
+        }
+        if (!mockResponse.successful_removal) {
+          throw new Error('Unable to remove this file')
+        }
+      }
+
+      return (
+        <Upload
+          onFileDelete={mockAsyncFileRemoval}
+          acceptedFileTypes={['jpg', 'png']}
+          id="upload-on-file-delete"
+        />
+      )
+    }}
+  </ComponentBox>
+)
+
+export const UploadOnFileClick = () => (
+  <ComponentBox
+    scope={{ createMockFile }}
+    data-visual-test="upload-on-file-click"
+  >
+    {() => {
+      const Component = () => {
+        const { setFiles } = Upload.useUpload('upload-on-file-click')
+
+        React.useEffect(() => {
+          setFiles([
+            {
+              file: createMockFile('1501870.jpg', 123, 'image/png'),
+            },
+          ])
+        }, [])
+
+        async function mockAsyncFileFetching({ fileItem }) {
+          const request = createRequest()
+          console.log(
+            'making API request to fetch the url of the file: ' +
+              fileItem.file.name,
+          )
+          await request(2000) // Simulate a request
+          window.open(
+            'https://eufemia.dnb.no/images/avatars/' + fileItem.file.name,
+            '_blank',
+          )
+        }
+
+        return (
+          <>
+            <Upload
+              acceptedFileTypes={['jpg', 'png']}
+              id="upload-on-file-click"
+              onFileClick={mockAsyncFileFetching}
+            />
+          </>
+        )
+      }
+
+      return <Component />
+    }}
   </ComponentBox>
 )

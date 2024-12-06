@@ -31,16 +31,24 @@ export function useSharedState<Data>(
   onChange = null
 ) {
   const [, forceUpdate] = useReducer(() => ({}), {})
-  const hasMounted = useMounted()
+  const hasMountedRef = useMounted()
   const waitForMountedRef = useRef(false)
+  const instanceRef = useRef({})
 
   const forceRerender = useCallback(() => {
-    if (hasMounted.current) {
+    if (hasMountedRef.current) {
       forceUpdate()
     } else {
       waitForMountedRef.current = true
     }
-  }, [hasMounted])
+  }, [hasMountedRef])
+
+  const shouldSync = useCallback((fn: () => void) => {
+    // Do not rerender the "same component", when the hook is used. Only other subscribers will rerender.
+    if (instanceRef.current === fn?.['ref']) {
+      return false
+    }
+  }, [])
 
   useMountEffect(() => {
     if (waitForMountedRef.current) {
@@ -50,16 +58,20 @@ export function useSharedState<Data>(
 
   const sharedState = useMemo(() => {
     if (id) {
-      return createSharedState<Data>(id, initialData)
+      return createSharedState<Data>(id, initialData, { shouldSync })
     }
-  }, [id, initialData])
+  }, [id, initialData, shouldSync])
   const sharedAttachment = useMemo(() => {
     if (id) {
-      return createSharedState(createReferenceKey(id, 'oc'), { onChange })
+      return createSharedState(
+        createReferenceKey(id, 'oc'),
+        { onChange },
+        { shouldSync }
+      )
     }
-  }, [id, onChange])
+  }, [id, onChange, shouldSync])
 
-  const sync = useCallback(
+  const syncAttachment = useCallback(
     (newData: Data) => {
       if (id) {
         sharedAttachment.data?.onChange?.(newData)
@@ -69,32 +81,38 @@ export function useSharedState<Data>(
   )
 
   const update = useCallback(
-    (newData: Data) => {
+    (newData: Data, opts?: Options) => {
       if (id) {
-        sharedState.update(newData)
+        sharedState.update(newData, opts)
       }
     },
     [id, sharedState]
   )
 
+  const get = useCallback(() => {
+    if (id) {
+      return sharedState?.get?.()
+    }
+  }, [id, sharedState])
+
   const set = useCallback(
     (newData: Data) => {
       if (id) {
         sharedState.set(newData)
-        sync(newData)
+        syncAttachment(newData)
       }
     },
-    [id, sharedState, sync]
+    [id, sharedState, syncAttachment]
   )
 
   const extend = useCallback(
-    (newData: Data) => {
+    (newData: Data, opts?: Options) => {
       if (id) {
-        sharedState.extend(newData)
-        sync(newData)
+        sharedState.extend(newData, opts)
+        syncAttachment(newData)
       }
     },
-    [id, sharedState, sync]
+    [id, sharedState, syncAttachment]
   )
 
   useLayoutEffect(() => {
@@ -102,6 +120,7 @@ export function useSharedState<Data>(
       return
     }
 
+    forceRerender['ref'] = instanceRef.current
     sharedState.subscribe(forceRerender)
 
     return () => {
@@ -117,13 +136,12 @@ export function useSharedState<Data>(
   }, [id, onChange, sharedAttachment])
 
   return {
-    get: sharedState?.get,
+    get,
     data: sharedState?.get?.() as Data,
     hadInitialData: sharedState?.hadInitialData,
     update,
     set,
     extend,
-    sync,
   }
 }
 
@@ -133,8 +151,8 @@ export interface SharedStateReturn<Data = undefined> {
   data: Data
   get: () => Data
   set: (newData: Partial<Data>) => void
-  extend: (newData: Partial<Data>) => void
-  update: (newData: Partial<Data>) => void
+  extend: (newData: Partial<Data>, opts?: Options) => void
+  update: (newData: Partial<Data>, opts?: Options) => void
 }
 
 interface SharedStateInstance<Data> extends SharedStateReturn<Data> {
@@ -148,6 +166,10 @@ const sharedStates: Map<
   SharedStateInstance<any>
 > = new Map()
 
+type Options = {
+  preventSyncOfSameInstance?: boolean
+}
+
 /**
  * Creates a shared state instance with the specified ID and initial data.
  */
@@ -155,10 +177,26 @@ export function createSharedState<Data>(
   /** The identifier for the shared state. */
   id: SharedStateId,
   /** The initial data for the shared state. */
-  initialData?: Data
+  initialData?: Data,
+  /** Optional configuration options. */
+  {
+    /** A function that returns true if the component should be rerendered. */
+    shouldSync = null,
+  } = {}
 ): SharedStateInstance<Data> {
   if (!sharedStates.get(id)) {
     let subscribers: Subscriber[] = []
+
+    const sync = (opts: Options = {}) => {
+      subscribers.forEach((subscriber) => {
+        const syncNow = opts.preventSyncOfSameInstance
+          ? shouldSync?.(subscriber) !== false
+          : true
+        if (syncNow) {
+          subscriber()
+        }
+      })
+    }
 
     const get = () => sharedStates.get(id).data
 
@@ -166,17 +204,17 @@ export function createSharedState<Data>(
       sharedStates.get(id).data = { ...newData }
     }
 
-    const update = (newData: Partial<Data>) => {
+    const update = (newData: Partial<Data>, opts?: Options) => {
       set(newData)
-      sync()
+      sync(opts)
     }
 
-    const extend = (newData: Data) => {
+    const extend = (newData: Data, opts?: Options) => {
       sharedStates.get(id).data = {
         ...sharedStates.get(id).data,
         ...newData,
       }
-      sync()
+      sync(opts)
     }
 
     const subscribe = (subscriber: Subscriber) => {
@@ -187,10 +225,6 @@ export function createSharedState<Data>(
 
     const unsubscribe = (subscriber: Subscriber) => {
       subscribers = subscribers.filter((sub) => sub !== subscriber)
-    }
-
-    const sync = () => {
-      subscribers.forEach((subscriber) => subscriber())
     }
 
     sharedStates.set(id, {

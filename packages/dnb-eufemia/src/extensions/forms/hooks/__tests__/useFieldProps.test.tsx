@@ -1102,7 +1102,7 @@ describe('useFieldProps', () => {
             : undefined
         },
 
-        // Step: when ever handleBlur is called, and there is not error yet
+        // Step: whenever handleBlur is called, and there is not error yet
         onBlurValidator: (value: string) => {
           return value === 'throw-onBlurValidator'
             ? new Error(value)

@@ -52,6 +52,7 @@ const Upload = (localProps: UploadAllProps) => {
     fileMaxSize,
     onChange,
     onFileDelete, // eslint-disable-line
+    onFileClick, // eslint-disable-line
     download, // eslint-disable-line
     title, // eslint-disable-line
     text, // eslint-disable-line

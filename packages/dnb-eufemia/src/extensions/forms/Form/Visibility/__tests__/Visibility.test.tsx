@@ -1,5 +1,5 @@
 import React from 'react'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { FilterData, Provider } from '../../../DataContext'
 import Visibility from '../Visibility'
@@ -458,6 +458,135 @@ describe('Visibility', () => {
     expect(element).toHaveClass(
       'dnb-space dnb-height-animation dnb-height-animation--is-in-dom dnb-height-animation--parallax'
     )
+  })
+
+  describe('events', () => {
+    it('should not call onVisible initially', async () => {
+      const onVisible = jest.fn()
+
+      render(
+        <Form.Handler
+          defaultData={{
+            toggleValue: false,
+          }}
+        >
+          <Field.Boolean path="/toggleValue" />
+          <Form.Visibility pathTrue="/toggleValue" onVisible={onVisible}>
+            content
+          </Form.Visibility>
+        </Form.Handler>
+      )
+
+      const checkbox = document.querySelector('input[type="checkbox"]')
+
+      expect(onVisible).toHaveBeenCalledTimes(0)
+
+      await userEvent.click(checkbox)
+
+      expect(onVisible).toHaveBeenCalledTimes(1)
+      expect(onVisible).toHaveBeenLastCalledWith(true)
+    })
+
+    it('should call onVisible when visible again', async () => {
+      const onVisible = jest.fn()
+
+      render(
+        <Form.Handler
+          defaultData={{
+            toggleValue: false,
+          }}
+        >
+          <Field.Boolean path="/toggleValue" />
+          <Form.Visibility pathTrue="/toggleValue" onVisible={onVisible}>
+            content
+          </Form.Visibility>
+        </Form.Handler>
+      )
+
+      const checkbox = document.querySelector('input[type="checkbox"]')
+
+      expect(onVisible).toHaveBeenCalledTimes(0)
+
+      await userEvent.click(checkbox)
+      expect(onVisible).toHaveBeenCalledTimes(1)
+      expect(onVisible).toHaveBeenLastCalledWith(true)
+
+      await userEvent.click(checkbox)
+      expect(onVisible).toHaveBeenCalledTimes(2)
+      expect(onVisible).toHaveBeenLastCalledWith(false)
+    })
+
+    it('should call onAnimationEnd when animation is done', async () => {
+      const onAnimationEnd = jest.fn()
+
+      render(
+        <Form.Handler
+          defaultData={{
+            toggleValue: false,
+          }}
+        >
+          <Field.Boolean path="/toggleValue" />
+          <Form.Visibility
+            pathTrue="/toggleValue"
+            onAnimationEnd={onAnimationEnd}
+            animate
+          >
+            content
+          </Form.Visibility>
+        </Form.Handler>
+      )
+
+      const checkbox = document.querySelector('input[type="checkbox"]')
+
+      expect(onAnimationEnd).toHaveBeenCalledTimes(0)
+
+      await userEvent.click(checkbox)
+      await waitFor(() => {
+        expect(onAnimationEnd).toHaveBeenCalledTimes(1)
+        expect(onAnimationEnd).toHaveBeenLastCalledWith('opened')
+      })
+
+      await userEvent.click(checkbox)
+      await waitFor(() => {
+        expect(onAnimationEnd).toHaveBeenLastCalledWith('closed')
+      })
+
+      await userEvent.click(checkbox)
+      await waitFor(() => {
+        expect(onAnimationEnd).toHaveBeenLastCalledWith('opened')
+      })
+    })
+
+    it('should not call onAnimationEnd when "animation" is false', async () => {
+      const onAnimationEnd = jest.fn()
+
+      render(
+        <Form.Handler
+          defaultData={{
+            toggleValue: false,
+          }}
+        >
+          <Field.Boolean path="/toggleValue" />
+          <Form.Visibility
+            pathTrue="/toggleValue"
+            onAnimationEnd={onAnimationEnd}
+            animate
+          >
+            content
+          </Form.Visibility>
+        </Form.Handler>
+      )
+
+      const checkbox = document.querySelector('input[type="checkbox"]')
+
+      expect(onAnimationEnd).toHaveBeenCalledTimes(0)
+
+      await userEvent.click(checkbox)
+
+      expect(() => {
+        expect(onAnimationEnd).toHaveBeenCalledTimes(0)
+      }).toNeverResolve()
+    })
   })
 
   it('should use given "element"', () => {
