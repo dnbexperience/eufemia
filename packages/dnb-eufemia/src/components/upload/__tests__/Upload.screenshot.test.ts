@@ -57,6 +57,13 @@ describe.each(['ui', 'sbanken'])('Upload for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match anchor looks when displaying a button', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="upload-on-file-click"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe('Upload', () => {

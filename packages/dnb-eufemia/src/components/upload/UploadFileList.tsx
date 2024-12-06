@@ -15,6 +15,7 @@ function UploadFileList() {
     download,
     loadingText,
     onFileDelete,
+    onFileClick,
     onChange,
   } = context
 
@@ -96,12 +97,19 @@ function UploadFileList() {
           }
         }
 
+        const onFileClickHandler = () => {
+          if (typeof onFileClick === 'function') {
+            onFileClick({ fileItem: uploadFile })
+          }
+        }
+
         return (
           <UploadFileListCell
             key={index}
             id={id}
             uploadFile={uploadFile}
             onDelete={onDeleteHandler}
+            onClick={onFileClick && onFileClickHandler}
             deleteButtonText={deleteButton}
             loadingText={loadingText}
             download={download}

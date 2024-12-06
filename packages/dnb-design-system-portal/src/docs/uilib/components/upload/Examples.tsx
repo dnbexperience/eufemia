@@ -350,3 +350,42 @@ export const UploadOnFileDeleteAsync = () => (
     }}
   </ComponentBox>
 )
+
+export const UploadOnFileClick = () => (
+  <ComponentBox
+    scope={{ createMockFile }}
+    data-visual-test="upload-on-file-click"
+  >
+    {() => {
+      const Component = () => {
+        const { setFiles } = Upload.useUpload('upload-on-file-click')
+
+        React.useEffect(() => {
+          setFiles([
+            {
+              file: createMockFile('1501870.jpg', 123, 'image/png'),
+            },
+          ])
+        }, [])
+
+        return (
+          <>
+            <Upload
+              acceptedFileTypes={['jpg', 'png']}
+              id="upload-on-file-click"
+              onFileClick={({ fileItem }) => {
+                window.open(
+                  'https://eufemia.dnb.no/images/avatars/' +
+                    fileItem.file.name,
+                  '_blank',
+                )
+              }}
+            />
+          </>
+        )
+      }
+
+      return <Component />
+    }}
+  </ComponentBox>
+)
