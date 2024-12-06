@@ -81,6 +81,21 @@ function UploadFileList() {
     }
   }
 
+  const handleFileClickAsync = async (uploadFile: UploadFile) => {
+    updateFiles(
+      updateFile(uploadFile, {
+        isLoading: true,
+      })
+    )
+
+    await onFileClick({ fileItem: uploadFile })
+    updateFiles(
+      updateFile(uploadFile, {
+        isLoading: false,
+      })
+    )
+  }
+
   return (
     <ul className="dnb-upload__file-list" aria-label={fileListAriaLabel}>
       {files.map((uploadFile: UploadFile, index: number) => {
@@ -97,9 +112,13 @@ function UploadFileList() {
           }
         }
 
-        const onFileClickHandler = () => {
+        const onFileClickHandler = async () => {
           if (typeof onFileClick === 'function') {
-            onFileClick({ fileItem: uploadFile })
+            if (isAsync(onFileClick)) {
+              handleFileClickAsync(uploadFile)
+            } else {
+              onFileClick({ fileItem: uploadFile })
+            }
           }
         }
 

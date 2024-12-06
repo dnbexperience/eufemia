@@ -106,6 +106,19 @@ export const AsyncEverything = () => {
     await request(3000) // Simulate a request
   }
 
+  async function mockAsyncOnFileClick({ fileItem }) {
+    const request = createRequest()
+    console.log(
+      'making API request to fetch the url of the file: ' +
+        fileItem.file.name
+    )
+    await request(3000) // Simulate a request
+    window.open(
+      'https://eufemia.dnb.no/images/avatars/1501870.jpg',
+      '_blank'
+    )
+  }
+
   async function mockAsyncFileUpload(
     newFiles: UploadValue
   ): Promise<UploadValue> {
@@ -145,6 +158,7 @@ export const AsyncEverything = () => {
       <Flex.Stack>
         <Field.Upload
           onFileDelete={mockAsyncFileRemoval}
+          onFileClick={mockAsyncOnFileClick}
           fileHandler={mockAsyncFileUpload}
           id="upload-example-async"
           acceptedFileTypes={acceptedFileTypes}
