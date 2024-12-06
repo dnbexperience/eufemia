@@ -1006,7 +1006,8 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
   max-height: 100vh;
   overflow: hidden;
 }
-.dnb-dialog .dnb-scroll-view {
+.dnb-dialog > .dnb-scroll-view {
+  height: 100%;
   max-height: 90vh;
 }
 .dnb-dialog__inner {
