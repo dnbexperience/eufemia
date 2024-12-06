@@ -1154,6 +1154,91 @@ describe('Field.Upload', () => {
       })
     })
 
+    it('should add new files from fileHandler with async function with multiple actions', async () => {
+      const newFile = (fileId) => {
+        return createMockFile(`${fileId}.png`, 100, 'image/png')
+      }
+
+      const files = [
+        newFile(0),
+        newFile(1),
+        newFile(2),
+        newFile(3),
+        newFile(4),
+        newFile(5),
+      ]
+
+      const asyncValidatorResolvingWithSuccess = (id) =>
+        new Promise<UploadValue>((resolve) =>
+          setTimeout(
+            () =>
+              resolve([
+                {
+                  file: files[id],
+                  id: 'server_generated_id_' + id,
+                  exists: false,
+                },
+              ]),
+            1
+          )
+        )
+
+      const asyncValidatorNeverResolving = () =>
+        new Promise<UploadValue>(() => undefined)
+
+      const asyncFileHandlerFnSuccess = jest
+        .fn(asyncValidatorResolvingWithSuccess)
+        .mockReturnValueOnce(asyncValidatorResolvingWithSuccess(0))
+        .mockReturnValueOnce(asyncValidatorNeverResolving())
+        .mockReturnValueOnce(asyncValidatorResolvingWithSuccess(2))
+        .mockReturnValueOnce(asyncValidatorNeverResolving())
+
+      render(<Field.Upload fileHandler={asyncFileHandlerFnSuccess} />)
+
+      const element = getRootElement()
+
+      await waitFor(() => {
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [files[0]],
+          },
+        })
+
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [files[1], files[3], files[4]],
+          },
+        })
+
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [files[2]],
+          },
+        })
+
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [files[5]],
+          },
+        })
+
+        expect(
+          document.querySelectorAll('.dnb-upload__file-cell').length
+        ).toBe(6)
+
+        expect(screen.queryByText('0.png')).toBeInTheDocument()
+        expect(screen.queryByText('1.png')).not.toBeInTheDocument()
+        expect(screen.queryByText('2.png')).toBeInTheDocument()
+        expect(screen.queryByText('3.png')).not.toBeInTheDocument()
+        expect(screen.queryByText('4.png')).not.toBeInTheDocument()
+        expect(screen.queryByText('5.png')).not.toBeInTheDocument()
+
+        expect(
+          document.querySelectorAll('.dnb-progress-indicator').length
+        ).toBe(4)
+      })
+    })
+
     it('should not add existing file using fileHandler with async function', async () => {
       const file = createMockFile('fileName.png', 100, 'image/png')
 
