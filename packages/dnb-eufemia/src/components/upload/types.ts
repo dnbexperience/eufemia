@@ -58,6 +58,11 @@ export type UploadProps = {
   }) => void | Promise<void>
 
   /**
+   * will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`.
+   */
+  onFileClick?: ({ fileItem }: { fileItem: UploadFile }) => void
+
+  /**
    * Causes the browser to treat all listed files as downloadable instead of opening them in a new browser tab or window.
    * Default: false
    */
