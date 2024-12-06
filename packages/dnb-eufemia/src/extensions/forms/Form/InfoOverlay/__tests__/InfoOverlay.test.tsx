@@ -10,7 +10,7 @@ describe('Form.InfoOverlay', () => {
 
     render(
       <Form.Handler id={formId}>
-        <Form.InfoOverlay>content</Form.InfoOverlay>
+        <Form.InfoOverlay>fallback content</Form.InfoOverlay>
       </Form.Handler>
     )
 
@@ -38,7 +38,7 @@ describe('Form.InfoOverlay', () => {
 
     render(
       <Form.Handler id={formId}>
-        <Form.InfoOverlay>content</Form.InfoOverlay>
+        <Form.InfoOverlay>fallback content</Form.InfoOverlay>
       </Form.Handler>
     )
 
@@ -70,7 +70,7 @@ describe('Form.InfoOverlay', () => {
             buttonHref: 'http://custom',
           }}
         >
-          content
+          fallback content
         </Form.InfoOverlay>
       </Form.Handler>
     )
@@ -90,7 +90,7 @@ describe('Form.InfoOverlay', () => {
     render(
       <Form.Handler id={formId}>
         <Form.InfoOverlay success={{ buttonClickHandler }}>
-          content
+          fallback content
         </Form.InfoOverlay>
       </Form.Handler>
     )
@@ -118,7 +118,7 @@ describe('Form.InfoOverlay', () => {
             buttonText: 'Custom button text',
           }}
         >
-          content
+          fallback content
         </Form.InfoOverlay>
       </Form.Handler>
     )
@@ -156,7 +156,7 @@ describe('Form.InfoOverlay', () => {
             retryButton: 'Custom retry',
           }}
         >
-          content
+          fallback content
         </Form.InfoOverlay>
       </Form.Handler>
     )
@@ -203,6 +203,98 @@ describe('Form.InfoOverlay', () => {
     expect(document.querySelector('output')).toHaveTextContent('content')
   })
 
+  it('should support "id" prop', () => {
+    const formId = {}
+
+    render(
+      <Form.InfoOverlay id={formId}>fallback content</Form.InfoOverlay>
+    )
+
+    const element = document.querySelector('.dnb-forms-info-overlay')
+    expect(element).not.toHaveTextContent('custom content')
+
+    act(() => {
+      Form.InfoOverlay.setContent(formId, 'custom content')
+    })
+    expect(element).toHaveTextContent('custom content')
+  })
+
+  it('"id" prop should take precedence over Form.Handler id', () => {
+    const formId = {}
+
+    render(
+      <Form.Handler id="other-id">
+        <Form.InfoOverlay id={formId}>fallback content</Form.InfoOverlay>
+      </Form.Handler>
+    )
+
+    const element = document.querySelector('.dnb-forms-info-overlay')
+    expect(element).not.toHaveTextContent('custom content')
+
+    act(() => {
+      Form.InfoOverlay.setContent(formId, 'custom content')
+    })
+    expect(element).toHaveTextContent('custom content')
+  })
+
+  it('"setContent" should take precedence over content prop', () => {
+    const formId = {}
+
+    render(
+      <Form.InfoOverlay id={formId} content="other content">
+        never shown
+      </Form.InfoOverlay>
+    )
+
+    const element = document.querySelector('.dnb-forms-info-overlay')
+    expect(element).toHaveTextContent('other content')
+
+    act(() => {
+      Form.InfoOverlay.setContent(formId, 'custom content')
+    })
+    expect(element).toHaveTextContent('custom content')
+  })
+
+  it('should support "content" prop', () => {
+    render(
+      <Form.InfoOverlay content="custom content">
+        never shown
+      </Form.InfoOverlay>
+    )
+
+    const element = document.querySelector('.dnb-forms-info-overlay')
+    expect(element).toHaveTextContent('custom content')
+  })
+
+  it('should not set class of "--*"', () => {
+    render(
+      <Form.InfoOverlay content="custom content">
+        never shown
+      </Form.InfoOverlay>
+    )
+
+    const element = document.querySelector('.dnb-forms-info-overlay')
+    expect(element.className).toBe('dnb-forms-info-overlay dnb-no-focus')
+  })
+
+  it('should set class of "--success"', () => {
+    render(
+      <Form.InfoOverlay content="success">never shown</Form.InfoOverlay>
+    )
+
+    const element = document.querySelector('.dnb-forms-info-overlay')
+    expect(element).toHaveClass('dnb-forms-info-overlay--success')
+  })
+
+  it('should set class of "--error"', () => {
+    render(
+      <Form.InfoOverlay content="error">never shown</Form.InfoOverlay>
+    )
+
+    const element = document.querySelector('.dnb-forms-info-overlay')
+    expect(element).toHaveClass('dnb-forms-info-overlay--error')
+  })
+
   it('should handle focus', () => {
     const formId = {}
 
@@ -221,7 +313,7 @@ describe('Form.InfoOverlay', () => {
     })
 
     expect(
-      document.querySelector('.dnb-forms-status--success')
+      document.querySelector('.dnb-forms-info-overlay--success')
     ).toHaveFocus()
 
     act(() => {
@@ -229,10 +321,10 @@ describe('Form.InfoOverlay', () => {
       Form.InfoOverlay.setContent(formId, undefined)
     })
 
-    expect(document.querySelector('.dnb-forms-status')).toHaveFocus()
-    expect(document.querySelector('.dnb-forms-status')).not.toHaveClass(
-      'dnb-forms-status--success'
-    )
+    expect(document.querySelector('.dnb-forms-info-overlay')).toHaveFocus()
+    expect(
+      document.querySelector('.dnb-forms-info-overlay')
+    ).not.toHaveClass('dnb-forms-info-overlay--success')
 
     act(() => {
       document.querySelector('body').focus()
@@ -240,15 +332,14 @@ describe('Form.InfoOverlay', () => {
     })
 
     expect(
-      document.querySelector('.dnb-forms-status--success')
+      document.querySelector('.dnb-forms-info-overlay--success')
     ).toHaveFocus()
-    expect(document.querySelector('.dnb-forms-status')).toHaveClass(
+    expect(document.querySelector('.dnb-forms-info-overlay')).toHaveClass(
       'dnb-no-focus'
     )
-    expect(document.querySelector('.dnb-forms-status')).toHaveAttribute(
-      'tabindex',
-      '-1'
-    )
+    expect(
+      document.querySelector('.dnb-forms-info-overlay')
+    ).toHaveAttribute('tabindex', '-1')
   })
 
   it('should show content when cancel button is clicked', () => {
@@ -266,8 +357,8 @@ describe('Form.InfoOverlay', () => {
       Form.InfoOverlay.setContent(formId, 'error')
     })
 
-    expect(document.querySelector('.dnb-forms-status')).toHaveClass(
-      'dnb-forms-status--error'
+    expect(document.querySelector('.dnb-forms-info-overlay')).toHaveClass(
+      'dnb-forms-info-overlay--error'
     )
 
     const buttons = document.querySelectorAll('button')
@@ -277,9 +368,9 @@ describe('Form.InfoOverlay', () => {
 
     fireEvent.click(backButton)
 
-    expect(document.querySelector('.dnb-forms-status')).not.toHaveClass(
-      'dnb-forms-status--error'
-    )
+    expect(
+      document.querySelector('.dnb-forms-info-overlay')
+    ).not.toHaveClass('dnb-forms-info-overlay--error')
   })
 
   it('should call onCancel when clicking on cancel button', () => {
@@ -298,8 +389,8 @@ describe('Form.InfoOverlay', () => {
       Form.InfoOverlay.setContent(formId, 'error')
     })
 
-    expect(document.querySelector('.dnb-forms-status')).toHaveClass(
-      'dnb-forms-status--error'
+    expect(document.querySelector('.dnb-forms-info-overlay')).toHaveClass(
+      'dnb-forms-info-overlay--error'
     )
     expect(onCancel).not.toHaveBeenCalled()
 

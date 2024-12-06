@@ -2,7 +2,7 @@ import { Field, Form, Wizard } from '../../..'
 import { Button } from '../../../../../components'
 
 export default {
-  title: 'Eufemia/Extensions/Forms/Status',
+  title: 'Eufemia/Extensions/Forms/InfoOverlay',
 }
 
 export function BothStatuses() {

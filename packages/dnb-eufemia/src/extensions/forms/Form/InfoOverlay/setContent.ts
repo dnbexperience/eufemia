@@ -3,9 +3,16 @@ import {
   createSharedState,
 } from '../../../../shared/helpers/useSharedState'
 
-export type Status = 'success' | 'error' | undefined
+export type InfoOverlayContent =
+  | 'success'
+  | 'error'
+  | React.ReactNode
+  | undefined
 
-export default function setStatus(id: SharedStateId, status: Status) {
+export default function setContent(
+  id: SharedStateId,
+  content: InfoOverlayContent
+) {
   const sharedState = createSharedState(id)
-  sharedState.extend({ activeStatus: status })
+  sharedState.extend({ content })
 }

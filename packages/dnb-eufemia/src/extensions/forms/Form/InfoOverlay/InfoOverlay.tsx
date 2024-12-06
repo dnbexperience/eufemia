@@ -2,9 +2,12 @@ import React, { useCallback, useContext, useRef } from 'react'
 import classnames from 'classnames'
 import Visibility from '../Visibility'
 import DataContext from '../../DataContext/Context'
-import { useSharedState } from '../../../../shared/helpers/useSharedState'
+import {
+  SharedStateId,
+  useSharedState,
+} from '../../../../shared/helpers/useSharedState'
 import useMounted from '../../../../shared/helpers/useMounted'
-import setContent, { Status } from './setContent'
+import setContent, { InfoOverlayContent } from './setContent'
 import {
   Button,
   Flex,
@@ -18,6 +21,15 @@ import MainHeading from '../MainHeading'
 import SubmitButton from '../SubmitButton'
 
 export type Props = {
+  /**
+   * The content to show.
+   * If not given, the children will be shown.
+   * Can be `success`, `error` or a custom content.
+   */
+  content?: InfoOverlayContent
+  onCancel?: () => void
+
+  /** Predefined content */
   success?: {
     title?: React.ReactNode
     description?: React.ReactNode
@@ -25,30 +37,40 @@ export type Props = {
     buttonHref?: string
     buttonClickHandler?: () => void
   }
+  /** Predefined content */
   error?: {
     title?: React.ReactNode
     description?: React.ReactNode
     retryButton?: React.ReactNode
     cancelButton?: React.ReactNode
   }
-  onCancel?: () => void
+
+  // Various props
+  id?: SharedStateId
   children: React.ReactNode
   className?: string
 }
 
 function InfoOverlay(props: Props) {
-  const { success, error, onCancel, className, children, ...restProps } =
-    props
+  const { id: idProp, formState } = useContext(DataContext)
 
-  const translations = useTranslation()
-
-  const { id, formState } = useContext(DataContext) || {}
+  const {
+    id = idProp,
+    content: contentProp,
+    success,
+    error,
+    onCancel,
+    className,
+    children,
+    ...restProps
+  } = props
 
   const { data } = useSharedState<{
-    activeStatus?: Status
+    content?: InfoOverlayContent
   }>(id)
-  const { activeStatus } = data || {}
+  const { content = contentProp } = data || {}
 
+  const translations = useTranslation()
   const mountedRef = useMounted()
   const innerRef = useRef<HTMLDivElement>(null)
   const onAnimationEnd: HeightAnimationAllProps['onAnimationEnd'] =
@@ -62,9 +84,9 @@ function InfoOverlay(props: Props) {
     )
 
   // To keep the content visible while hiding it with the HightAnimation
-  const currentStatusRef = useRef<Status>()
-  if (activeStatus) {
-    currentStatusRef.current = activeStatus
+  const currentContentRef = useRef<InfoOverlayContent>()
+  if (content) {
+    currentContentRef.current = content
   }
 
   const onCancelHandler = useCallback(() => {
@@ -75,17 +97,17 @@ function InfoOverlay(props: Props) {
   }, [id, onCancel])
 
   const childrenAreVisible =
-    typeof activeStatus !== 'undefined'
-      ? !(activeStatus === activeStatus)
-      : undefined
+    typeof content !== 'undefined' ? !(content === content) : undefined
   const statusContentIsVisible =
-    typeof activeStatus !== 'undefined'
-      ? activeStatus === activeStatus
-      : false
+    typeof content !== 'undefined' ? content === content : false
+  const status =
+    typeof content === 'string' && !content.includes(' ')
+      ? content
+      : undefined
 
-  let statusContent = null
+  let statusContent = content
 
-  if (currentStatusRef.current === 'success') {
+  if (currentContentRef.current === 'success') {
     const tr = translations.InfoOverlaySuccess
     const {
       title,
@@ -113,7 +135,7 @@ function InfoOverlay(props: Props) {
         </Flex.Stack>
       </Section>
     )
-  } else if (currentStatusRef.current === 'error') {
+  } else if (currentContentRef.current === 'error') {
     const tr = translations.InfoOverlayError
     const { title, description, cancelButton, retryButton } = error || {}
 
@@ -146,8 +168,8 @@ function InfoOverlay(props: Props) {
   return (
     <div
       className={classnames(
-        'dnb-forms-status',
-        activeStatus && `dnb-forms-status--${activeStatus}`,
+        'dnb-forms-info-overlay',
+        status && `dnb-forms-info-overlay--${status}`,
         'dnb-no-focus',
         className
       )}
