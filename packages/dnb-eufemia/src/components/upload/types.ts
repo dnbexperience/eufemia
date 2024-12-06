@@ -58,7 +58,7 @@ export type UploadProps = {
   }) => void | Promise<void>
 
   /**
-   * will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`.
+   * Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`.
    */
   onFileClick?: ({ fileItem }: { fileItem: UploadFile }) => void
 
