@@ -1184,7 +1184,7 @@ describe('Field.Upload', () => {
         )
 
       const asyncValidatorNeverResolving = () =>
-        new Promise<UploadValue>(() => {})
+        new Promise<UploadValue>(() => undefined)
 
       const asyncFileHandlerFnSuccess = jest
         .fn(asyncValidatorResolvingWithSuccess)
