@@ -38,6 +38,7 @@ export type Props = Omit<
     | 'filesAmountLimit'
     | 'fileMaxSize'
     | 'onFileDelete'
+    | 'onFileClick'
     | 'skeleton'
   > & {
     fileHandler?: (
@@ -113,6 +114,7 @@ function UploadComponent(props: Props) {
     fileMaxSize = 5,
     skeleton,
     onFileDelete,
+    onFileClick,
   } = rest
 
   const { files: fileContext, setFiles } = useUpload(id)
@@ -207,6 +209,7 @@ function UploadComponent(props: Props) {
         skeleton={skeleton}
         onChange={changeHandler}
         onFileDelete={onFileDelete}
+        onFileClick={onFileClick}
         title={label ?? title}
         text={
           help ? (
