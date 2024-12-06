@@ -723,7 +723,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
     [setOutsideClickHandler, onShow]
   )
 
-  // Make sure the triangle is positioned correctly after the picker is shown
+  // Make sure the triangle is positioned correctly after calendar is mounted
   useEffect(() => {
     if (!hidden) {
       setTrianglePosition()
