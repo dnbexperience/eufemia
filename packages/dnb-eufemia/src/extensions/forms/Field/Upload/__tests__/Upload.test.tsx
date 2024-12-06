@@ -72,6 +72,24 @@ describe('Field.Upload', () => {
     expect(text).toHaveTextContent('My Text')
   })
 
+  it('should support onFileClick event', () => {
+    const onFileClick = jest.fn()
+    render(
+      <Field.Upload
+        onFileClick={onFileClick}
+        value={[
+          { file: createMockFile('fileName-1.png', 100, 'image/png') },
+        ]}
+      />
+    )
+
+    const element = document.querySelector('.dnb-upload__file-cell button')
+
+    fireEvent.click(element)
+
+    expect(onFileClick).toHaveBeenCalledTimes(1)
+  })
+
   it('should render files given in data context', () => {
     render(
       <Form.Handler
