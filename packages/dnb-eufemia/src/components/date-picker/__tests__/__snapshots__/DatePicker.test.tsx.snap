@@ -3841,6 +3841,44 @@ button .dnb-form-status__text {
   left: -1rem;
   top: var(--date-picker-input-height);
 }
+.dnb-date-picker--small .dnb-date-picker__container {
+  top: 1.5rem;
+}
+.dnb-date-picker--medium .dnb-date-picker__container {
+  top: 2.5rem;
+}
+.dnb-date-picker--large .dnb-date-picker__container {
+  top: 3rem;
+}
+.dnb-date-picker--show-input .dnb-date-picker__container {
+  left: 0;
+}
+.dnb-date-picker--right .dnb-date-picker__container {
+  left: auto;
+  right: -1rem;
+}
+.dnb-date-picker--show-input.dnb-date-picker--right .dnb-date-picker__container {
+  left: auto;
+  right: 0;
+}
+.dnb-date-picker--opened .dnb-date-picker__container {
+  z-index: 100;
+}
+.dnb-date-picker--opened .dnb-date-picker__container:not(.dnb-date-picker--opened .dnb-date-picker__container--no-animation) {
+  animation: date-picker-slide-down 200ms ease-out 1 forwards;
+}
+html[data-visual-test] .dnb-date-picker--opened .dnb-date-picker__container, .dnb-date-picker--opened .dnb-date-picker__container--no-animation {
+  animation: date-picker-slide-down 1ms ease-out 1 forwards;
+}
+.dnb-date-picker--hidden .dnb-date-picker__container {
+  display: none;
+}
+.dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container:not(.dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container--no-animation) {
+  animation: date-picker-slide-up 150ms ease-out 1 forwards;
+}
+html[data-visual-test] .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container, .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container--no-animation {
+  animation: date-picker-slide-up 1ms ease-out 1 forwards;
+}
 .dnb-date-picker__input,
 .dnb-date-picker .dnb-input__input.dnb-date-picker__input, .dnb-core-style .dnb-date-picker__input {
   display: inline-block;
@@ -4099,6 +4137,10 @@ html[data-whatinput=keyboard] .dnb-date-picker table.dnb-no-focus:focus {
   transform: translateY(60%) rotate(45deg);
   border: 1px solid var(--color-black-border);
   background-color: var(--color-white);
+}
+.dnb-date-picker--right .dnb-date-picker__triangle {
+  left: auto;
+  right: 0;
 }
 .dnb-date-picker .rtl {
   direction: rtl;
