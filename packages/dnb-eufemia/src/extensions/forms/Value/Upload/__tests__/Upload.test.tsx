@@ -1,5 +1,5 @@
 import React from 'react'
-import { screen, render } from '@testing-library/react'
+import { screen, render, fireEvent } from '@testing-library/react'
 import { Value, Form } from '../../..'
 import { createMockFile } from '../../../../../components/upload/__tests__/testHelpers'
 
@@ -337,6 +337,30 @@ describe('Value.Upload', () => {
         />
       )
       expect(screen.queryByText(fileName)).toBeInTheDocument()
+    })
+
+    it('executes onFileClick event when button is clicked', () => {
+      const fileName = 'file.png'
+      const onFileClick = jest.fn()
+
+      render(
+        <Value.Upload
+          onFileClick={onFileClick}
+          value={[
+            {
+              file: createMockFile(fileName, 100, 'image/png'),
+              exists: false,
+              id: '1',
+            },
+          ]}
+        />
+      )
+      const buttonElement = screen.queryByText(
+        fileName
+      ) as HTMLAnchorElement
+      fireEvent.click(buttonElement)
+
+      expect(onFileClick).toHaveBeenCalledTimes(1)
     })
 
     it('renders the anchor href', () => {
