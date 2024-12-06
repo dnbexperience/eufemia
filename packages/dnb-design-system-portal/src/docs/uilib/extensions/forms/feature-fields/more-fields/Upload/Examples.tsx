@@ -213,3 +213,41 @@ export const WithAsyncOnFileDelete = () => {
     </ComponentBox>
   )
 }
+
+export const WithAsyncOnFileClick = () => {
+  return (
+    <ComponentBox scope={{ createRequest, createMockFile }}>
+      {() => {
+        async function mockAsyncFileClick({ fileItem }) {
+          const request = createRequest()
+          console.log(
+            'making API request to fetch the url of the file: ' +
+              fileItem.file.name,
+          )
+          await request(2000) // Simulate a request
+          window.open(
+            'https://eufemia.dnb.no/images/avatars/' + fileItem.file.name,
+            '_blank',
+          )
+        }
+
+        return (
+          <Form.Handler
+            data={{
+              myFiles: [
+                {
+                  file: createMockFile('1501870.jpg', 100, 'image/png'),
+                },
+              ],
+            }}
+          >
+            <Field.Upload
+              path="/myFiles"
+              onFileClick={mockAsyncFileClick}
+            />
+          </Form.Handler>
+        )
+      }}
+    </ComponentBox>
+  )
+}

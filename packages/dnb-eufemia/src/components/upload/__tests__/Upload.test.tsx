@@ -967,6 +967,75 @@ describe('Upload', () => {
       expect(onChange).toHaveBeenCalledWith({ files: [] })
     })
 
+    it('will call onFileClick when file gets clicked', async () => {
+      const id = 'onFileClick-sync'
+      const onFileClick = jest.fn()
+
+      render(
+        <Upload {...defaultProps} id={id} onFileClick={onFileClick} />
+      )
+
+      const inputElement = document.querySelector(
+        '.dnb-upload__file-input'
+      )
+
+      const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+      await waitFor(() =>
+        fireEvent.change(inputElement, {
+          target: { files: [file1] },
+        })
+      )
+
+      const fileButton = document.querySelector(
+        '.dnb-upload__file-cell button'
+      )
+
+      await waitFor(() => fireEvent.click(fileButton))
+
+      expect(onFileClick).toHaveBeenCalledTimes(1)
+      expect(onFileClick).toHaveBeenCalledWith({
+        fileItem: {
+          file: file1,
+          id: expect.any(String),
+          exists: false,
+        },
+      })
+    })
+
+    it('will display loading state when onFileClick is async function', async () => {
+      const id = 'onFileClick-async'
+      const onFileClick = jest.fn(async () => {
+        await wait(1)
+      })
+
+      render(
+        <Upload {...defaultProps} id={id} onFileDelete={onFileClick} />
+      )
+
+      const inputElement = document.querySelector(
+        '.dnb-upload__file-input'
+      )
+      const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+      await waitFor(() =>
+        fireEvent.change(inputElement, {
+          target: { files: [file1] },
+        })
+      )
+
+      const fileButton = document.querySelector(
+        '.dnb-upload__file-cell button'
+      )
+
+      await waitFor(() => {
+        fireEvent.click(fileButton)
+        expect(
+          document.querySelector('.dnb-progress-indicator')
+        ).toBeInTheDocument()
+      })
+    })
+
     it('will call onFileDelete when file gets removed', async () => {
       const id = 'onFileDelete-sync'
       const onFileDelete = jest.fn()
