@@ -67,7 +67,7 @@
 
 @include allAbove('medium') {
   .dnb-forms-form:has(.dnb-forms-wizard-layout--sidebar)
-    .dnb-forms-status {
+    .dnb-forms-form__status-message {
     margin-left: 21.5rem;
   }
 }
