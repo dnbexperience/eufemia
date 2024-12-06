@@ -35,6 +35,10 @@ export function mockImplementationForDirectionObserver() {
 }
 
 export async function testDirectionObserver() {
+  Object.defineProperty(HTMLElement.prototype, 'offsetHeight', {
+    value: 0,
+  })
+
   // the setDirectionObserver fn is changing this
   expect(
     document.querySelector('.dnb-drawer-list--bottom')

@@ -236,6 +236,7 @@ export default class DrawerListProvider extends React.PureComponent {
       on_resize,
       page_offset,
       observer_element,
+      direction: directionProp,
     } = this.props
 
     // const skipPortal = isTrue(skip_portal)
@@ -260,6 +261,22 @@ export default class DrawerListProvider extends React.PureComponent {
     const spaceToTopOffset = 2 * 16
     const spaceToBottomOffset = 2 * 16
     const elem = this.state.wrapper_element || this._refRoot.current
+    const getSpaceToBottom = ({ rootElem, pageYOffset }) => {
+      const spaceToBottom =
+        rootElem.clientHeight -
+        (getOffsetTop(elem) + elem.offsetHeight) +
+        pageYOffset
+
+      const html = document.documentElement
+      if (spaceToBottom < customMinHeight && rootElem !== html) {
+        return getSpaceToBottom({
+          rootElem: html,
+          pageYOffset,
+        })
+      }
+
+      return spaceToBottom
+    }
 
     const renderDirection = () => {
       try {
@@ -268,30 +285,33 @@ export default class DrawerListProvider extends React.PureComponent {
 
         const pageYOffset = !isNaN(parseFloat(page_offset))
           ? parseFloat(page_offset)
-          : rootElem.scrollTop /* pageYOffset */
+          : rootElem.scrollTop
         const spaceToTop =
           getOffsetTop(elem) + elem.offsetHeight - pageYOffset
-        const spaceToBottom =
-          rootElem.clientHeight /* innerHeight */ -
-          (getOffsetTop(elem) + elem.offsetHeight) +
-          pageYOffset
+        const spaceToBottom = getSpaceToBottom({ rootElem, pageYOffset })
 
         const direction =
-          Math.max(spaceToBottom - directionOffset, directionOffset) <
-            customMinHeight && spaceToTop > customMinHeight
+          directionProp && directionProp !== 'auto'
+            ? directionProp
+            : Math.max(spaceToBottom - directionOffset, directionOffset) <
+                customMinHeight && spaceToTop > customMinHeight
             ? 'top'
             : 'bottom'
 
         // make sure we never get higher than we have defined in CSS
         let max_height = customMaxHeight
         if (!(max_height > 0)) {
-          max_height =
-            direction === 'top'
-              ? spaceToTop -
-                ((this.state.wrapper_element || this._refRoot.current)
-                  .offsetHeight || 0) -
-                spaceToTopOffset
-              : spaceToBottom - spaceToBottomOffset
+          if (direction === 'top') {
+            max_height =
+              spaceToTop -
+              ((this.state.wrapper_element || this._refRoot.current)
+                .offsetHeight || 0) -
+              spaceToTopOffset
+          }
+
+          if (direction === 'bottom') {
+            max_height = spaceToBottom - spaceToBottomOffset
+          }
 
           // get the view port height, like in CSS
           let vh = 0
