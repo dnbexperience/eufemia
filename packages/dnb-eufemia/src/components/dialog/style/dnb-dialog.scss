@@ -28,7 +28,8 @@
   max-height: 100vh;
   overflow: hidden;
 
-  .dnb-scroll-view {
+  & > .dnb-scroll-view {
+    height: 100%; // ensure a Dropdown opens with the full height
     max-height: 90vh; // make it scrollable
   }
 
