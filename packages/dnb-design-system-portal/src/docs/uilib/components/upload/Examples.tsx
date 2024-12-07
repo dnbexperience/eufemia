@@ -24,21 +24,10 @@ export function createMockFile(name: string, size: number, type: string) {
   return file
 }
 
-const useMockFiles = (setFiles, extend) => {
-  React.useEffect(() => {
-    setFiles([
-      {
-        file: createMockFile('fileName.png', 123, 'image/png'),
-        ...extend,
-      },
-    ])
-  }, [])
-}
-
 export const UploadPrefilledFileList = () => (
   <ComponentBox
     data-visual-test="upload-file-list"
-    scope={{ useMockFiles }}
+    scope={{ createMockFile }}
   >
     {() => {
       const Component = () => {
@@ -48,7 +37,14 @@ export const UploadPrefilledFileList = () => (
           console.log('files', files)
         }
 
-        useMockFiles(setFiles, { errorMessage: 'This is no real file!' })
+        React.useEffect(() => {
+          setFiles([
+            {
+              file: createMockFile('fileName.png', 123, 'image/png'),
+              errorMessage: 'This is no real file!',
+            },
+          ])
+        }, [])
 
         return <Upload acceptedFileTypes={['jpg', 'png']} id="file-list" />
       }
@@ -157,14 +153,21 @@ export const UploadRemoveFile = () => (
 
 export const UploadIsLoading = () => (
   <ComponentBox
-    scope={{ useMockFiles }}
     data-visual-test="upload-is-loading"
+    scope={{ createMockFile }}
   >
     {() => {
       const Component = () => {
         const { files, setFiles } = Upload.useUpload('upload-is-loading')
 
-        useMockFiles(setFiles, { isLoading: true })
+        React.useEffect(() => {
+          setFiles([
+            {
+              file: createMockFile('fileName.png', 123, 'image/png'),
+              isLoading: true,
+            },
+          ])
+        }, [])
 
         return (
           <>
