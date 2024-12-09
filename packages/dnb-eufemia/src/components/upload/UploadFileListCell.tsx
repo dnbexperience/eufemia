@@ -190,6 +190,7 @@ const UploadFileListCell = ({
       <div className="dnb-upload__file-cell__text-container">
         {onClick ? (
           <Button
+            icon={false}
             variant="tertiary"
             className={classnames('dnb-upload__file-cell__title')}
             onClick={onClick}
