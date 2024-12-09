@@ -40,6 +40,7 @@ export type Props = Omit<
     | 'onFileDelete'
     | 'onFileClick'
     | 'skeleton'
+    | 'download'
   > & {
     fileHandler?: (
       newFiles: UploadValue
