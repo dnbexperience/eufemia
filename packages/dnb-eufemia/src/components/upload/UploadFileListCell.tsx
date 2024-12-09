@@ -189,7 +189,6 @@ const UploadFileListCell = ({
     ) : (
       <div className="dnb-upload__file-cell__text-container">
         <UploadFileLink
-          left="small"
           text={file.name}
           href={imageUrl}
           download={download}
