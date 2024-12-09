@@ -1,4 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react'
 import ReactDOM from 'react-dom'
 import { DatePickerProps } from './DatePicker'
 
@@ -17,9 +22,32 @@ export default function DatePickerPortal({
 }: DatePickerPortalProps) {
   const [position, setPosition] = useState({})
 
+  const positionTimeout = React.useRef(null)
+
   useEffect(() => {
     if (targetElementRef.current) {
       setPosition(getPosition(targetElementRef.current, alignment))
+    }
+  }, [])
+
+  const setPositionAtResize = useCallback(() => {
+    if (targetElementRef.current) {
+      setPosition(getPosition(targetElementRef.current, alignment))
+    }
+
+    clearTimeout(positionTimeout.current)
+    positionTimeout.current = setTimeout(() => {
+      if (targetElementRef.current) {
+        setPosition(getPosition(targetElementRef.current, alignment))
+      }
+    }, 200)
+  }, [alignment, targetElementRef])
+
+  useLayoutEffect(() => {
+    window.addEventListener('resize', setPositionAtResize)
+
+    return () => {
+      window.removeEventListener('resize', setPositionAtResize)
     }
   }, [])
 
