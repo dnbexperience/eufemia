@@ -534,6 +534,8 @@
   left: 0;
   z-index: 1000;
 
+  line-height: var(--date-picker-input-height);
+
   &--small .dnb-date-picker__container {
     top: 1.5rem; // --input-height--small;
   }
