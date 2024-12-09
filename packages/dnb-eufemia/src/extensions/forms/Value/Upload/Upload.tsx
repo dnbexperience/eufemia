@@ -3,25 +3,23 @@ import classnames from 'classnames'
 import { useValueProps } from '../../hooks'
 import { ValueProps } from '../../types'
 import ValueBlock from '../../ValueBlock'
-import { Anchor } from '../../../../components'
+import { Anchor, Button } from '../../../../components'
 import Icon from '../../../../components/Icon'
 import ListFormat, {
   ListFormatProps,
 } from '../../../../components/list-format'
-import type {
-  UploadFile,
-  UploadProps,
-} from '../../../../components/upload/types'
+import type { UploadFile } from '../../../../components/upload/types'
 import { fileExtensionImages } from '../../../../components/upload/UploadFileListCell'
 import {
   BYTES_IN_A_MEGA_BYTE,
   getFileTypeFromExtension,
 } from '../../../../components/upload/UploadVerify'
+import { Props as FieldUploadProps } from '../../Field/Upload/Upload'
 import { format } from '../../../../components/number-format/NumberUtils'
 
 export type Props = ValueProps<Array<UploadFile>> &
   Omit<ListFormatProps, 'value'> &
-  Pick<UploadProps, 'download'> & {
+  Pick<FieldUploadProps, 'download' | 'onFileClick'> & {
     displaySize?: boolean
   }
 
@@ -35,6 +33,7 @@ function Upload(props: Props) {
     listType,
     download = false,
     displaySize = false,
+    onFileClick,
     ...rest
   } = useValueProps(props)
 
@@ -45,21 +44,40 @@ function Upload(props: Props) {
         if (!file) {
           return
         }
+        const onFileClickHandler = () => {
+          if (typeof onFileClick === 'function') {
+            onFileClick({ fileItem: uploadFile })
+          }
+        }
+
         const imageUrl = URL.createObjectURL(file)
         return (
           <span key={index}>
             {getIcon(file)}
-            <Anchor
-              target="_blank"
-              href={imageUrl}
-              download={download ? file.name : null}
-              rel="noopener noreferrer"
-              className="dnb-anchor--no-launch-icon"
-              left="x-small"
-            >
-              {file.name}
-              {displaySize && getSize(file.size)}
-            </Anchor>
+            {onFileClick ? (
+              <Button
+                size="small"
+                variant="tertiary"
+                className={classnames('dnb-upload__file-cell__title')}
+                onClick={onFileClickHandler}
+                left="x-small"
+              >
+                {file.name}
+                {displaySize && getSize(file.size)}
+              </Button>
+            ) : (
+              <Anchor
+                target="_blank"
+                href={imageUrl}
+                download={download ? file.name : null}
+                rel="noopener noreferrer"
+                className="dnb-anchor--no-launch-icon"
+                left="x-small"
+              >
+                {file.name}
+                {displaySize && getSize(file.size)}
+              </Anchor>
+            )}
           </span>
         )
       }) || undefined
