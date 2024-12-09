@@ -355,9 +355,9 @@ describe('Value.Upload', () => {
           ]}
         />
       )
-      const buttonElement = screen.queryByText(
-        fileName
-      ) as HTMLAnchorElement
+
+      const buttonElement = document.querySelector('dnb-button')
+
       fireEvent.click(buttonElement)
 
       expect(onFileClick).toHaveBeenCalledTimes(1)
