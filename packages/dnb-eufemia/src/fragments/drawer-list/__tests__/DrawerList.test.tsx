@@ -472,17 +472,6 @@ describe('DrawerList component', () => {
     expect(
       document.querySelector(`.dnb-drawer-list--${directionBottom}`)
     ).toBeInTheDocument()
-
-    expect(
-      document
-        .querySelector('.dnb-drawer-list__options')
-        .getAttribute('style')
-    ).toBe('max-height: 33.5rem;')
-  })
-
-  it('has working direction observer', async () => {
-    render(<DrawerList {...props} data={mockData} />)
-    await testDirectionObserver()
   })
 
   it('will call on_hide after "esc" key', async () => {
@@ -494,7 +483,7 @@ describe('DrawerList component', () => {
       Array.from(document.querySelector('span.dnb-drawer-list').classList)
     ).toEqual([
       'dnb-drawer-list',
-      'dnb-drawer-list--top',
+      'dnb-drawer-list--bottom',
       'dnb-drawer-list--opened',
       'dnb-drawer-list--triangle-position-left',
       'dnb-drawer-list--left',
@@ -512,7 +501,7 @@ describe('DrawerList component', () => {
         )
       ).toEqual([
         'dnb-drawer-list',
-        'dnb-drawer-list--top',
+        'dnb-drawer-list--bottom',
         'dnb-drawer-list--hidden',
         'dnb-drawer-list--triangle-position-left',
         'dnb-drawer-list--left',
@@ -652,6 +641,84 @@ describe('DrawerList component', () => {
     keydown(27) // esc
     expect(on_hide.mock.calls.length).toBe(1)
     expect(on_hide.mock.calls[0][0].attributes).toMatchObject(params)
+  })
+
+  describe('height calculation', () => {
+    it('has given max-height when max_height is set', () => {
+      render(<DrawerList {...props} data={mockData} max_height={10} />)
+
+      expect(
+        document
+          .querySelector('.dnb-drawer-list__options')
+          .getAttribute('style')
+      ).toBe('max-height: 10rem;')
+    })
+
+    it('has correct max-height with direction top', () => {
+      jest
+        .spyOn(document.documentElement, 'clientHeight', 'get')
+        .mockImplementationOnce(() => 100)
+
+      let count = 0
+      Object.defineProperty(HTMLElement.prototype, 'offsetHeight', {
+        get() {
+          if (this.classList.contains('dnb-drawer-list__root')) {
+            count++
+            switch (count) {
+              case 1:
+                return 300
+              default:
+                return 200
+            }
+          }
+        },
+      })
+
+      const directionTop = 'top'
+      render(
+        <DrawerList {...props} data={mockData} direction={directionTop} />
+      )
+
+      expect(
+        document
+          .querySelector('.dnb-drawer-list__options')
+          .getAttribute('style')
+      ).toBe('max-height: 4rem;')
+    })
+
+    it('has correct max-height with direction bottom', () => {
+      jest
+        .spyOn(document.documentElement, 'clientHeight', 'get')
+        .mockImplementationOnce(() => 300)
+
+      Object.defineProperty(HTMLElement.prototype, 'offsetHeight', {
+        configurable: true,
+        get() {
+          if (this.classList.contains('dnb-drawer-list__root')) {
+            return 200
+          }
+        },
+      })
+
+      const directionTop = 'bottom'
+
+      render(
+        <DrawerList {...props} data={mockData} direction={directionTop} />
+      )
+
+      expect(
+        document
+          .querySelector('.dnb-drawer-list__options')
+          .getAttribute('style')
+      ).toBe('max-height: 4rem;')
+    })
+  })
+
+  describe('direction observer', () => {
+    it('should results in correct direction', async () => {
+      render(<DrawerList {...props} data={mockData} />)
+      await testDirectionObserver()
+    })
   })
 })
 

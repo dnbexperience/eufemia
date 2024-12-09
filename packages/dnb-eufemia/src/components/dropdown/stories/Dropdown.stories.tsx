@@ -19,9 +19,10 @@ import {
   Drawer,
   GlobalStatus,
 } from '../..'
-import { Flex, Link } from '../../..'
+import { Dialog, Flex, Link } from '../../..'
 import { DrawerListDataArray } from '../../../fragments/DrawerList'
 import { Provider } from '../../../shared'
+import { Field, Form } from '../../../extensions/forms'
 
 export default {
   title: 'Eufemia/Components/Dropdown',
@@ -1002,5 +1003,44 @@ export const GlobalStatusExample = () => {
         status="Message"
       />
     </>
+  )
+}
+
+export function InDialog() {
+  const list = Array(30).fill('Content')
+  return (
+    <Dialog
+      alignContent="left"
+      maxWidth="35rem"
+      title="Ny melding"
+      openState
+      noAnimation
+    >
+      <Form.Handler>
+        <Flex.Stack>
+          <Field.Selection
+            data={list}
+            label="Hva gjelder henvendelsen?"
+            dropdownProps={{
+              title: 'Velg fra liste',
+              direction: 'bottom',
+            }}
+          />
+
+          <Field.Selection
+            data={list}
+            label="Emne"
+            dropdownProps={{
+              title: 'Velg fra liste',
+              direction: 'bottom',
+            }}
+          />
+
+          <Dialog.Action innerSpace={{ top: 'small' }}>
+            <Form.SubmitButton />
+          </Dialog.Action>
+        </Flex.Stack>
+      </Form.Handler>
+    </Dialog>
   )
 }
