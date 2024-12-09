@@ -54,13 +54,15 @@ function replaceUndefinedValues(
 ): unknown {
   if (typeof value === 'undefined') {
     return replaceWith
+  } else if (Array.isArray(value)) {
+    return value.map((item) => replaceUndefinedValues(item, replaceWith))
   } else if (value && typeof value === 'object' && value !== replaceWith) {
     return {
       ...value,
       ...Object.fromEntries(
         Object.entries(value).map(([k, v]) => [
           k,
-          replaceUndefinedValues(v),
+          replaceUndefinedValues(v, replaceWith),
         ])
       ),
     }
