@@ -4248,6 +4248,7 @@ html[data-whatinput=keyboard] .dnb-date-picker table.dnb-no-focus:focus {
   position: absolute;
   left: 0;
   z-index: 1000;
+  line-height: var(--date-picker-input-height);
 }
 .dnb-date-picker__portal--small .dnb-date-picker__container {
   top: 1.5rem;
