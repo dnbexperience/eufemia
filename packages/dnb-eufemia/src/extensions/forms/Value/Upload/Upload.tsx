@@ -56,6 +56,7 @@ function Upload(props: Props) {
             {getIcon(file)}
             {onFileClick ? (
               <Button
+                icon={false}
                 size="small"
                 variant="tertiary"
                 className={classnames('dnb-upload__file-cell__title')}

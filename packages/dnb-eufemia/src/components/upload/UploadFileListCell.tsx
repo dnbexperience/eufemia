@@ -189,7 +189,7 @@ const UploadFileListCell = ({
     ) : (
       <div className="dnb-upload__file-cell__text-container">
         {onClick ? (
-          <Button variant="tertiary" onClick={onClick}>
+          <Button icon={false} variant="tertiary" onClick={onClick}>
             {file.name}
           </Button>
         ) : (
