@@ -189,11 +189,7 @@ const UploadFileListCell = ({
     ) : (
       <div className="dnb-upload__file-cell__text-container">
         {onClick ? (
-          <Button
-            variant="tertiary"
-            className={classnames('dnb-upload__file-cell__title')}
-            onClick={onClick}
-          >
+          <Button variant="tertiary" onClick={onClick}>
             {file.name}
           </Button>
         ) : (
@@ -201,10 +197,7 @@ const UploadFileListCell = ({
             target="_blank"
             href={imageUrl}
             download={download ? file.name : null}
-            className={classnames(
-              'dnb-anchor--no-launch-icon',
-              'dnb-upload__file-cell__title'
-            )}
+            className="dnb-anchor--no-launch-icon"
             rel="noopener noreferrer"
           >
             {file.name}
