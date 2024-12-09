@@ -356,7 +356,7 @@ describe('Value.Upload', () => {
         />
       )
 
-      const buttonElement = document.querySelector('dnb-button')
+      const buttonElement = document.querySelector('.dnb-button')
 
       fireEvent.click(buttonElement)
 
