@@ -356,7 +356,7 @@ export const UploadOnFileDeleteAsync = () => (
 
 export const UploadOnFileClick = () => (
   <ComponentBox
-    scope={{ createMockFile }}
+    scope={{ createMockFile, createRequest }}
     data-visual-test="upload-on-file-click"
   >
     {() => {

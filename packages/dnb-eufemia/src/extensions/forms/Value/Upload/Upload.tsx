@@ -3,7 +3,6 @@ import classnames from 'classnames'
 import { useValueProps } from '../../hooks'
 import { ValueProps } from '../../types'
 import ValueBlock from '../../ValueBlock'
-import { Anchor, Button } from '../../../../components'
 import Icon from '../../../../components/Icon'
 import ListFormat, {
   ListFormatProps,
@@ -16,6 +15,7 @@ import {
 } from '../../../../components/upload/UploadVerify'
 import { Props as FieldUploadProps } from '../../Field/Upload/Upload'
 import { format } from '../../../../components/number-format/NumberUtils'
+import { UploadFileLink } from '../../../../components/upload/UploadFileListLink'
 
 export type Props = ValueProps<Array<UploadFile>> &
   Omit<ListFormatProps, 'value'> &
@@ -51,34 +51,21 @@ function Upload(props: Props) {
         }
 
         const imageUrl = URL.createObjectURL(file)
+
+        const text =
+          file.name + (displaySize ? ' ' + getSize(file.size) : '')
+
         return (
           <span key={index}>
             {getIcon(file)}
-            {onFileClick ? (
-              <Button
-                icon={false}
-                size="small"
-                variant="tertiary"
-                className={classnames('dnb-upload__file-cell__title')}
-                onClick={onFileClickHandler}
-                left="x-small"
-              >
-                {file.name}
-                {displaySize && getSize(file.size)}
-              </Button>
-            ) : (
-              <Anchor
-                target="_blank"
-                href={imageUrl}
-                download={download ? file.name : null}
-                rel="noopener noreferrer"
-                className="dnb-anchor--no-launch-icon"
-                left="x-small"
-              >
-                {file.name}
-                {displaySize && getSize(file.size)}
-              </Anchor>
-            )}
+
+            <UploadFileLink
+              left="x-small"
+              text={text}
+              href={imageUrl}
+              download={download}
+              onClick={onFileClick && onFileClickHandler}
+            />
           </span>
         )
       }) || undefined

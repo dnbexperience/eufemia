@@ -2,7 +2,6 @@ import React, { useRef } from 'react'
 import classnames from 'classnames'
 
 // Components
-import Anchor from '../../components/Anchor'
 import Button from '../button/Button'
 import Icon from '../../components/Icon'
 import FormStatus from '../../components/FormStatus'
@@ -29,6 +28,7 @@ import { UploadFile, UploadFileNative } from './types'
 import { getPreviousSibling, warn } from '../../shared/component-helper'
 import useUpload from './useUpload'
 import { getFileTypeFromExtension } from './UploadVerify'
+import UploadFileLink from './UploadFileListLink'
 
 // Will be deprecated - and then default to only showing the file icon,
 // and not file icon per file extension type
@@ -188,21 +188,13 @@ const UploadFileListCell = ({
       </div>
     ) : (
       <div className="dnb-upload__file-cell__text-container">
-        {onClick ? (
-          <Button icon={false} variant="tertiary" onClick={onClick}>
-            {file.name}
-          </Button>
-        ) : (
-          <Anchor
-            target="_blank"
-            href={imageUrl}
-            download={download ? file.name : null}
-            className="dnb-anchor--no-launch-icon"
-            rel="noopener noreferrer"
-          >
-            {file.name}
-          </Anchor>
-        )}
+        <UploadFileLink
+          left="small"
+          text={file.name}
+          href={imageUrl}
+          download={download}
+          onClick={onClick}
+        />
       </div>
     )
   }
