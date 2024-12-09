@@ -48,7 +48,9 @@ describe('UploadFileListCell', () => {
       />
     )
 
-    const element = document.querySelector('.dnb-upload__file-cell__title')
+    const element = document.querySelector(
+      '.dnb-upload__file-cell__text-container a'
+    )
 
     expect(element.textContent).toMatch('file.dat')
   })
