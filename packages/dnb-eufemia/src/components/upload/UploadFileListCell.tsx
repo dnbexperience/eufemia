@@ -197,7 +197,7 @@ const UploadFileListCell = ({
             target="_blank"
             href={imageUrl}
             download={download ? file.name : null}
-            className={classnames('dnb-anchor--no-launch-icon')}
+            className="dnb-anchor--no-launch-icon"
             rel="noopener noreferrer"
           >
             {file.name}
