@@ -101,11 +101,14 @@ export function TransformInAndOut() {
   return (
     <ComponentBox scope={{ Tools }}>
       {() => {
+        // From the Field (internal value) to the data context or event parameter
         const transformOut = (value, country) => {
           if (value) {
             return country
           }
         }
+
+        // To the Field (from e.g. defaultValue)
         const transformIn = (country) => {
           return country?.iso
         }

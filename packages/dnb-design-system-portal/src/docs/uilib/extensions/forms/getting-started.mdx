@@ -284,20 +284,20 @@ You may check out an [interactive example](/uilib/extensions/forms/Form/Handler/
 
 #### Transforming data
 
-Each [field](/uilib/extensions/forms/all-fields/) and [value](/uilib/extensions/forms/Value/) component supports transformer functions. These functions allow you to transform a value before it is processed into the form data object and vice versa:
+Each [Field.\*](/uilib/extensions/forms/all-fields/) and [Value.\*](/uilib/extensions/forms/Value/) component supports transformer functions.
+
+These functions allow you to manipulate the field value to a different format than it uses internally and vice versa.
 
 ```tsx
 <Field.String
   path="/myField"
-  transformIn={transformIn}
   transformOut={transformOut}
+  transformIn={transformIn}
 />
 ```
 
-This allows you to show a value in a different format than it is stored in the form data object.
-
-- `transformIn` (in to the field or value) transforms the internal value before it is displayed.
-- `transformOut` (out of the field) transforms the internal value before it gets forwarded to the data context or returned as e.g. the `onChange` value parameter.
+- `transformOut` (out of the `Field.*` component) transforms the internal value before it gets forwarded to the data context or returned as e.g. the `onChange` value parameter.
+- `transformIn` (in to the `Field.*` or `Value.*` component) transforms the external value before it is displayed and used internally.
 
 <Examples.Transformers />
 
@@ -311,14 +311,18 @@ You can achieve this by using the `transformIn` and `transformOut` functions:
 
 ```tsx
 import { Field } from '@dnb/eufemia/extensions/forms'
+import type { CountryType } from '@dnb/eufemia/extensions/forms/Field/SelectCountry'
 
-const transformOut = (value, country) => {
-  if (value) {
+// From the Field (internal value) to the data context or event parameter
+const transformOut = (internal, country) => {
+  if (internal) {
     return country
   }
 }
-const transformIn = (country) => {
-  return country?.iso
+
+// To the Field (from e.g. defaultValue)
+const transformIn = (external: CountryType) => {
+  return external?.iso || 'NO'
 }
 
 const MyForm = () => {

@@ -34,9 +34,9 @@ export default function useValueProps<
     defaultValue,
     inheritVisibility,
     inheritLabel,
-    transformIn = (value: Value) => value,
-    toInput = (value: Value) => value,
-    fromExternal = (value: Value) => value,
+    transformIn = (external: unknown) => external as Value,
+    toInput = (internal: Value) => internal,
+    fromExternal = (external: Value) => external,
   } = props
 
   const transformers = useRef({

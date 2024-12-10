@@ -2639,7 +2639,7 @@ describe('useFieldProps', () => {
     it('should call "transformOut" initially when "defaultValue" is given', () => {
       const transformOut = jest.fn((v) => v + 1)
       const transformIn = jest.fn((v) => v - 1)
-      const defaultValue = 1
+      const defaultValue = 2
 
       const { result } = renderHook(
         () =>
@@ -2657,6 +2657,7 @@ describe('useFieldProps', () => {
       })
       expect(result.current.value).toEqual(1)
       expect(transformOut).toHaveBeenCalledTimes(1)
+      expect(transformIn).toHaveBeenCalledTimes(3)
     })
 
     it('should call "transformIn" and "transformOut" after "fromInput" and "toInput"', () => {

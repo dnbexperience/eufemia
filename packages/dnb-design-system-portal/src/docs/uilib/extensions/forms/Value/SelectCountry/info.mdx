@@ -27,16 +27,21 @@ const MyComponent = () => {
 
 ### TransformIn and TransformOut
 
-You can use the `transformIn` and `transformOut` to transform the value before it gets displayed in the field and before it gets sent to the form. The second parameter is the country object. You may have a look at the demo below to see how it works.
+You can use the `transformIn` and `transformOut` to transform the value before it gets displayed in the field and before it gets sent to the form context. The second parameter is the country object. You may have a look at the demo below to see how it works.
 
 ```tsx
-const transformOut = (value, country) => {
-  if (value) {
-    return `${country.name} (${value})`
+import type { CountryType } from '@dnb/eufemia/extensions/forms/Field/SelectCountry'
+
+// From the Field (internal value) to the data context or event parameter
+const transformOut = (internal: string, country: CountryType) => {
+  if (internal) {
+    return `${country.name} (${internal})`
   }
 }
-const transformIn = (value) => {
-  return String(value).match(/\((.*)\)/)?.[1]
+
+// To the Field (from e.g. defaultValue)
+const transformIn = (external: unknown) => {
+  return String(external).match(/\((.*)\)/)?.[1] || 'NO'
 }
 ```
 

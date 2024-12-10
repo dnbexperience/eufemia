@@ -1,5 +1,6 @@
 import { Field, Form, Tools } from '../../..'
 import { Flex } from '../../../../../components'
+import { UploadFileNative } from '../../../../../components/Upload'
 import { createRequest } from '../../../Form/Handler/stories/FormHandler.stories'
 import { UploadValue } from '../Upload'
 
@@ -163,6 +164,71 @@ export const AsyncEverything = () => {
           id="upload-example-async"
           acceptedFileTypes={acceptedFileTypes}
         />
+      </Flex.Stack>
+    </Form.Handler>
+  )
+}
+
+interface DocumentMetadata {
+  id: string
+  fileName: string
+}
+
+const defaultValue = [
+  {
+    id: '1234',
+    fileName: 'myFile.pdf',
+  },
+] satisfies DocumentMetadata[] as unknown as UploadValue
+
+const filesCache = new Map<string, File>()
+
+// To the Field (from e.g. defaultValue)
+const transformIn = (external?: DocumentMetadata[]) => {
+  return (
+    external?.map(({ id, fileName }) => {
+      const file: File = filesCache.get(id) || new File([], fileName)
+
+      return { id, file } satisfies UploadFileNative
+    }) || []
+  )
+}
+
+// From the Field (internal value) to the data context or event parameter
+const transformOut = (internal?: UploadValue) => {
+  return (
+    internal?.map(({ id, file }) => {
+      if (!filesCache.has(id)) {
+        filesCache.set(id, file)
+      }
+
+      return { id, fileName: file.name } satisfies DocumentMetadata
+    }) || []
+  )
+}
+
+export function TransformInAndOut() {
+  return (
+    <Form.Handler
+    // defaultData={{
+    //   documents: defaultValue,
+    // }}
+    >
+      <Flex.Stack>
+        <Field.Upload
+          label="Label"
+          placeholder="This is a Field"
+          path="/documents"
+          transformIn={transformIn}
+          transformOut={transformOut}
+          defaultValue={defaultValue}
+          onFileClick={({ fileItem }) => {
+            console.log('onFileClick', fileItem)
+          }}
+        />
+
+        <Form.SubmitButton />
+        <Tools.Log />
       </Flex.Stack>
     </Form.Handler>
   )

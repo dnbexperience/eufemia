@@ -6,7 +6,7 @@ export default {
   title: 'Eufemia/Extensions/Forms/String',
 }
 
-export const String = () => {
+export const StringExample = () => {
   return (
     <Flex.Stack>
       <Field.String label="Label" />
@@ -35,11 +35,11 @@ export const String = () => {
 }
 
 export const Transform = () => {
-  const transformIn = (value) => {
-    return value?.toUpperCase()
+  const transformIn = (external: unknown) => {
+    return String(external)?.toUpperCase()
   }
-  const transformOut = (value) => {
-    return value?.toLowerCase()
+  const transformOut = (internal: string) => {
+    return internal?.toLowerCase()
   }
   return (
     <Form.Handler onChange={console.log}>

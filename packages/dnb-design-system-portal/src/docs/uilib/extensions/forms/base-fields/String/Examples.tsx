@@ -466,10 +466,16 @@ export function TransformInAndOut() {
   return (
     <ComponentBox scope={{ Tools }}>
       {() => {
+        // From the Field (internal value) to the data context or event parameter
         const transformOut = (value) => {
           return { value, foo: 'bar' }
         }
+
+        // To the Field (from e.g. defaultValue)
         const transformIn = (data) => {
+          if (typeof data === 'string') {
+            return data
+          }
           return data?.value
         }
 

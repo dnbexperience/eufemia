@@ -129,8 +129,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     validateInitially,
     validateUnchanged,
     continuousValidation,
-    transformIn = (value: Value) => value,
-    transformOut = (value: Value) => value,
+    transformIn = (external: unknown) => external as Value,
+    transformOut = (internal: Value) => internal,
     toInput = (value: Value) => value,
     fromInput = (value: Value) => value,
     toEvent = (value: Value) => value,
@@ -248,16 +248,17 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     defaultValueRef.current = defaultValue
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  const externalValue =
-    transformers.current.transformIn(
-      useExternalValue<Value>({
-        path,
-        itemPath,
-        value: valueProp,
-        transformers,
-        emptyValue,
-      })
-    ) ?? defaultValueRef.current
+  const tmpValue = useExternalValue<Value>({
+    path,
+    itemPath,
+    value: valueProp,
+    transformers,
+    emptyValue,
+  })
+  const externalValueDeps = tmpValue
+  const externalValue = transformers.current.transformIn(
+    tmpValue ?? defaultValueRef.current
+  )
 
   // Many variables are kept in refs to avoid triggering unnecessary update loops because updates using
   // useEffect depend on them (like the external `value`)
@@ -1761,7 +1762,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       valueRef.current = externalValue
       externalValueDidChangeRef.current = true
     }
-  }, [externalValue, hasItemPath])
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [externalValueDeps, hasItemPath])
 
   useUpdateEffect(() => {
     // Error or removed error for this field from the surrounding data context (by path)
@@ -1770,7 +1773,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       validateValue()
       forceUpdate()
     }
-  }, [externalValue]) // Keep "externalValue" in the dependency list, so it will be updated when it changes
+  }, [externalValueDeps]) // Keep "externalValue" in the dependency list, so it will be updated when it changes
 
   useEffect(() => {
     // Check against the local error state,
@@ -1813,13 +1816,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
       // First, look for existing data in the context
       const hasValue = pointer.has(data, identifier) || identifier === '/'
-      const existingValue = transformers.current.transformIn(
+      const existingValue =
         identifier === '/'
           ? data
           : hasValue
           ? pointer.get(data, identifier)
           : undefined
-      )
 
       // If no data where found in the dataContext, look for shared data
       if (
@@ -1831,9 +1833,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         const sharedState = createSharedState(dataContext.id)
         const hasValue = pointer.has(sharedState.data, identifier)
         if (hasValue) {
-          const sharedValue = transformers.current.transformIn(
-            pointer.get(sharedState.data, identifier)
-          )
+          const sharedValue = pointer.get(sharedState.data, identifier)
           if (sharedValue) {
             valueToStore = sharedValue as Value
           }
@@ -1845,6 +1845,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         typeof valueToStore === 'undefined'
 
       if (hasDefaultValue) {
+        // Set the default value if it's not set yet.
+        // This takes precedence over the valueToStore.
         valueToStore = defaultValueRef.current
         defaultValueRef.current = undefined
       }
@@ -1902,8 +1904,19 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           }
 
           // Keep Iterate.Array in sync with the data context
-          valueRef.current = existingValue
+          valueRef.current = existingValue as Value
         }
+      }
+
+      // When an Array or Object is used as the value,
+      // and the field uses transformIn, the instance may have been changed.
+      // The "valueToStore" can be undefined,
+      // we then need to ensure we don't overwrite the existing data context value with "undefined".
+      if (
+        typeof valueToStore === 'undefined' &&
+        typeof existingValue !== 'undefined'
+      ) {
+        valueToStore = existingValue
       }
 
       if (
@@ -1923,9 +1936,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         return // stop here, avoid infinite loop
       }
 
+      const valueIn = transformers.current.transformIn(valueToStore)
       const transformedValue = transformers.current.transformOut(
-        valueToStore as Value,
-        transformers.current.provideAdditionalArgs(valueToStore as Value)
+        valueIn,
+        transformers.current.provideAdditionalArgs(valueIn as Value)
       )
       if (transformedValue !== valueToStore) {
         // When the value got transformed, we want to update the internal value, and avoid an infinite loop
@@ -1981,7 +1995,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     [
       dataContext.internalDataRef,
       dataContext.props?.emptyData,
-      externalValue, // ensure to include "externalValue" in order to properly remove errors
+      externalValueDeps, // ensure to include "externalValue" in order to properly remove errors
     ]
   )
 

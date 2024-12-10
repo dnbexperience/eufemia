@@ -391,11 +391,11 @@ describe('Field.SelectCountry', () => {
         return `${country.name} (${value})`
       }
     })
-    const transformIn = jest.fn((value) => {
-      return String(value).match(/\((.*)\)/)?.[1]
+    const transformIn = jest.fn((external) => {
+      return String(external).match(/\((.*)\)/)?.[1] || external
     })
-    const valueTransformIn = jest.fn((value) => {
-      return String(value).match(/\((.*)\)/)?.[1]
+    const valueTransformIn = jest.fn((internal) => {
+      return String(internal).match(/\((.*)\)/)?.[1]
     })
 
     const onSubmit = jest.fn()
@@ -434,7 +434,7 @@ describe('Field.SelectCountry', () => {
     }
 
     expect(transformOut).toHaveBeenCalledTimes(1)
-    expect(transformIn).toHaveBeenCalledTimes(4)
+    expect(transformIn).toHaveBeenCalledTimes(3)
     expect(valueTransformIn).toHaveBeenCalledTimes(2)
 
     const firstItemElement = () =>
@@ -452,7 +452,7 @@ describe('Field.SelectCountry', () => {
     )
 
     expect(transformOut).toHaveBeenCalledTimes(1)
-    expect(transformIn).toHaveBeenCalledTimes(5)
+    expect(transformIn).toHaveBeenCalledTimes(4)
     expect(valueTransformIn).toHaveBeenCalledTimes(3)
 
     expect(input).toHaveValue('Norge')
@@ -468,7 +468,7 @@ describe('Field.SelectCountry', () => {
     expect(value).toHaveTextContent('Sveits')
 
     expect(transformOut).toHaveBeenCalledTimes(4)
-    expect(transformIn).toHaveBeenCalledTimes(8)
+    expect(transformIn).toHaveBeenCalledTimes(6)
     expect(valueTransformIn).toHaveBeenCalledTimes(4)
 
     fireEvent.submit(form)
@@ -479,7 +479,7 @@ describe('Field.SelectCountry', () => {
     )
 
     expect(transformOut).toHaveBeenCalledTimes(4)
-    expect(transformIn).toHaveBeenCalledTimes(9)
+    expect(transformIn).toHaveBeenCalledTimes(7)
     expect(valueTransformIn).toHaveBeenCalledTimes(5)
 
     expect(transformOut).toHaveBeenNthCalledWith(1, 'NO', NO)
@@ -487,21 +487,134 @@ describe('Field.SelectCountry', () => {
     expect(transformOut).toHaveBeenNthCalledWith(3, 'CH', CH)
     expect(transformOut).toHaveBeenNthCalledWith(4, 'CH', CH)
 
-    expect(transformIn).toHaveBeenNthCalledWith(1, undefined)
-    expect(transformIn).toHaveBeenNthCalledWith(2, undefined)
+    expect(transformIn).toHaveBeenNthCalledWith(1, 'NO')
+    expect(transformIn).toHaveBeenNthCalledWith(2, 'NO')
     expect(transformIn).toHaveBeenNthCalledWith(3, 'Norge (NO)')
     expect(transformIn).toHaveBeenNthCalledWith(4, 'Norge (NO)')
     expect(transformIn).toHaveBeenNthCalledWith(5, 'Norge (NO)')
-    expect(transformIn).toHaveBeenNthCalledWith(6, 'Norge (NO)')
+    expect(transformIn).toHaveBeenNthCalledWith(6, 'Sveits (CH)')
     expect(transformIn).toHaveBeenNthCalledWith(7, 'Sveits (CH)')
-    expect(transformIn).toHaveBeenNthCalledWith(8, 'Sveits (CH)')
-    expect(transformIn).toHaveBeenNthCalledWith(9, 'Sveits (CH)')
 
     expect(valueTransformIn).toHaveBeenNthCalledWith(1, undefined)
     expect(valueTransformIn).toHaveBeenNthCalledWith(2, 'Norge (NO)')
     expect(valueTransformIn).toHaveBeenNthCalledWith(3, 'Norge (NO)')
     expect(valueTransformIn).toHaveBeenNthCalledWith(4, 'Sveits (CH)')
     expect(valueTransformIn).toHaveBeenNthCalledWith(5, 'Sveits (CH)')
+  })
+
+  it('should support "transformIn" and "transformOut" when value is given by the data context', async () => {
+    const transformOut = jest.fn((value, country) => {
+      if (value) {
+        return `${country.name} (${value})`
+      }
+    })
+    const transformIn = jest.fn((external) => {
+      return String(external).match(/\((.*)\)/)?.[1]
+    })
+    const valueTransformIn = jest.fn((internal) => {
+      return String(internal).match(/\((.*)\)/)?.[1]
+    })
+
+    const onSubmit = jest.fn()
+
+    render(
+      <Form.Handler
+        onSubmit={onSubmit}
+        defaultData={{ country: 'Norge (NO)' }}
+      >
+        <Field.SelectCountry
+          path="/country"
+          transformIn={transformIn}
+          transformOut={transformOut}
+        />
+
+        <Value.SelectCountry
+          path="/country"
+          transformIn={valueTransformIn}
+        />
+      </Form.Handler>
+    )
+
+    const NO = {
+      cdc: '47',
+      continent: 'Europe',
+      i18n: { en: 'Norway', nb: 'Norge' },
+      iso: 'NO',
+      name: 'Norge',
+      regions: ['Scandinavia', 'Nordic'],
+    }
+
+    const CH = {
+      cdc: '41',
+      continent: 'Europe',
+      i18n: { en: 'Switzerland', nb: 'Sveits' },
+      iso: 'CH',
+      name: 'Sveits',
+    }
+
+    expect(transformOut).toHaveBeenCalledTimes(0)
+    expect(transformIn).toHaveBeenCalledTimes(1)
+    expect(valueTransformIn).toHaveBeenCalledTimes(1)
+
+    const firstItemElement = () =>
+      document.querySelectorAll('li.dnb-drawer-list__option')[0]
+
+    const form = document.querySelector('form')
+    const input = document.querySelector('input')
+    const value = document.querySelector('.dnb-forms-value-block__content')
+
+    fireEvent.submit(form)
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenLastCalledWith(
+      { country: 'Norge (NO)' },
+      expect.anything()
+    )
+
+    expect(transformOut).toHaveBeenCalledTimes(0)
+    expect(transformIn).toHaveBeenCalledTimes(2)
+    expect(valueTransformIn).toHaveBeenCalledTimes(2)
+
+    expect(input).toHaveValue('Norge')
+    expect(value).toHaveTextContent('Norge')
+
+    await userEvent.type(input, '{Backspace>10}Sveits')
+    await waitFor(() => {
+      expect(firstItemElement()).toBeInTheDocument()
+    })
+    await userEvent.click(firstItemElement())
+
+    expect(input).toHaveValue('Sveits')
+    expect(value).toHaveTextContent('Sveits')
+
+    expect(transformOut).toHaveBeenCalledTimes(3)
+    expect(transformIn).toHaveBeenCalledTimes(4)
+    expect(valueTransformIn).toHaveBeenCalledTimes(3)
+
+    fireEvent.submit(form)
+    expect(onSubmit).toHaveBeenCalledTimes(2)
+    expect(onSubmit).toHaveBeenLastCalledWith(
+      { country: 'Sveits (CH)' },
+      expect.anything()
+    )
+
+    expect(transformOut).toHaveBeenCalledTimes(3)
+    expect(transformIn).toHaveBeenCalledTimes(5)
+    expect(valueTransformIn).toHaveBeenCalledTimes(4)
+
+    expect(transformOut).toHaveBeenNthCalledWith(1, 'NO', NO)
+    expect(transformOut).toHaveBeenNthCalledWith(2, 'CH', CH)
+    expect(transformOut).toHaveBeenNthCalledWith(3, 'CH', CH)
+
+    expect(transformIn).toHaveBeenNthCalledWith(1, 'Norge (NO)')
+    expect(transformIn).toHaveBeenNthCalledWith(2, 'Norge (NO)')
+    expect(transformIn).toHaveBeenNthCalledWith(3, 'Norge (NO)')
+    expect(transformIn).toHaveBeenNthCalledWith(4, 'Sveits (CH)')
+    expect(transformIn).toHaveBeenNthCalledWith(5, 'Sveits (CH)')
+
+    expect(valueTransformIn).toHaveBeenNthCalledWith(1, 'Norge (NO)')
+    expect(valueTransformIn).toHaveBeenNthCalledWith(2, 'Norge (NO)')
+    expect(valueTransformIn).toHaveBeenNthCalledWith(3, 'Sveits (CH)')
+    expect(valueTransformIn).toHaveBeenNthCalledWith(4, 'Sveits (CH)')
   })
 
   it('should store "displayValue" in data context', async () => {
