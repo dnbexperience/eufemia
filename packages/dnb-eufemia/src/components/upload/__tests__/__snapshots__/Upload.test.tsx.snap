@@ -818,13 +818,13 @@ button .dnb-form-status__text {
 }
 .dnb-upload__file-cell__content {
   display: flex;
-  flex-direction: row;
+  column-gap: var(--spacing-small);
   justify-content: space-between;
   align-items: center;
 }
 .dnb-upload__file-cell__content__left {
   display: flex;
-  flex-direction: row;
+  column-gap: var(--spacing-small);
   align-items: center;
 }
 .dnb-upload__file-cell__content__left .dnb-icon {
@@ -839,7 +839,6 @@ button .dnb-form-status__text {
 .dnb-upload__file-cell__text-container {
   display: flex;
   flex-direction: column;
-  margin-left: var(--spacing-small);
 }
 .dnb-upload__file-cell__text-container--loading {
   font-size: var(--font-size-basis);
