@@ -60,12 +60,12 @@ export const HeightAnimationEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onAnimationStart: {
-    doc: 'Is called when animation has started.',
+    doc: 'Is called when animation has started. The first parameter is a string. Depending on the state, the value can be `opening`, `closing` or `adjusting`.',
     type: 'function',
     status: 'optional',
   },
   onAnimationEnd: {
-    doc: 'Is called when animation is done and the full height is reached.',
+    doc: 'Is called when animation is done and the full height is reached. The first parameter is a string. Depending on the state, the value can be `opened`, `closed` or `adjusted`.',
     type: 'function',
     status: 'optional',
   },

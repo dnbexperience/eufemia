@@ -3,6 +3,7 @@
  *
  */
 
+const fs = require('fs').promises
 const path = require('path')
 const { isCI } = require('repo-utils')
 const { init } = require('./scripts/version.js')
@@ -128,6 +129,13 @@ exports.onPostBuild = async (params) => {
         .join('\n')}\n\n`,
     )
   }
+
+  // Copy the fonts folder
+  const { program } = params.store.getState()
+  const publicDir = path.join(program.directory, 'public', 'fonts')
+  const rootPath = path.dirname(require.resolve('@dnb/eufemia'))
+  const src = path.resolve(rootPath, 'assets', 'fonts')
+  await copyDirectory(src, publicDir)
 }
 
 const deletedPages = []
@@ -310,5 +318,22 @@ exports.onCreateDevServer = (params) => {
         .map((page) => `├ http://localhost:8000${page}`)
         .join('\n')}\n`,
     )
+  }
+}
+
+async function copyDirectory(src, dest) {
+  await fs.mkdir(dest, { recursive: true })
+
+  const entries = await fs.readdir(src, { withFileTypes: true })
+
+  for await (const entry of entries) {
+    const srcPath = path.join(src, entry.name)
+    const destPath = path.join(dest, entry.name)
+
+    if (entry.isDirectory()) {
+      await copyDirectory(srcPath, destPath)
+    } else {
+      await fs.copyFile(srcPath, destPath)
+    }
   }
 }

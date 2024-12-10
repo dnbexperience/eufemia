@@ -236,6 +236,7 @@ export default class DrawerListProvider extends React.PureComponent {
       on_resize,
       page_offset,
       observer_element,
+      direction: directionProp,
     } = this.props
 
     // const skipPortal = isTrue(skip_portal)
@@ -260,60 +261,86 @@ export default class DrawerListProvider extends React.PureComponent {
     const spaceToTopOffset = 2 * 16
     const spaceToBottomOffset = 2 * 16
     const elem = this.state.wrapper_element || this._refRoot.current
+    const getSpaceToBottom = ({ rootElem, pageYOffset }) => {
+      const spaceToBottom =
+        rootElem.clientHeight -
+        (getOffsetTop(elem) + elem.offsetHeight) +
+        pageYOffset
 
-    const renderDirection = () => {
-      try {
-        // make calculation for both direction and height
-        const rootElem = customElem || document.documentElement
+      const html = document.documentElement
+      if (spaceToBottom < customMinHeight && rootElem !== html) {
+        return getSpaceToBottom({
+          rootElem: html,
+          pageYOffset,
+        })
+      }
 
-        const pageYOffset = !isNaN(parseFloat(page_offset))
-          ? parseFloat(page_offset)
-          : rootElem.scrollTop /* pageYOffset */
-        const spaceToTop =
-          getOffsetTop(elem) + elem.offsetHeight - pageYOffset
-        const spaceToBottom =
-          rootElem.clientHeight /* innerHeight */ -
-          (getOffsetTop(elem) + elem.offsetHeight) +
-          pageYOffset
+      return spaceToBottom
+    }
 
-        const direction =
+    const calculateMaxHeight = () => {
+      // make calculation for both direction and height
+      const rootElem = customElem || document.documentElement
+
+      const pageYOffset = !isNaN(parseFloat(page_offset))
+        ? parseFloat(page_offset)
+        : rootElem.scrollTop
+      const spaceToTop =
+        getOffsetTop(elem) + elem.offsetHeight - pageYOffset
+      const spaceToBottom = getSpaceToBottom({ rootElem, pageYOffset })
+
+      let direction = directionProp
+      if (!direction || direction === 'auto') {
+        direction =
           Math.max(spaceToBottom - directionOffset, directionOffset) <
             customMinHeight && spaceToTop > customMinHeight
             ? 'top'
             : 'bottom'
+      }
 
-        // make sure we never get higher than we have defined in CSS
-        let max_height = customMaxHeight
-        if (!(max_height > 0)) {
-          max_height =
-            direction === 'top'
-              ? spaceToTop -
-                ((this.state.wrapper_element || this._refRoot.current)
-                  .offsetHeight || 0) -
-                spaceToTopOffset
-              : spaceToBottom - spaceToBottomOffset
-
-          // get the view port height, like in CSS
-          let vh = 0
-          if (typeof window.visualViewport !== 'undefined') {
-            vh = window.visualViewport.height
-          } else {
-            vh = Math.max(
-              document.documentElement.clientHeight,
-              window.innerHeight || 0
-            )
-          }
-
-          // like defined in CSS
-          vh = vh * (isScrollable ? 0.7 : 0.9)
-
-          if (max_height > vh) {
-            max_height = vh
-          }
-
-          // convert px to rem
-          max_height = roundToNearest(max_height, 8) / 16
+      // make sure we never get higher than we have defined in CSS
+      let maxHeight = customMaxHeight
+      if (!(maxHeight > 0)) {
+        if (direction === 'top') {
+          maxHeight =
+            spaceToTop -
+            ((this.state.wrapper_element || this._refRoot.current)
+              .offsetHeight || 0) -
+            spaceToTopOffset
         }
+
+        if (direction === 'bottom') {
+          maxHeight = spaceToBottom - spaceToBottomOffset
+        }
+
+        // get the view port height, like in CSS
+        let vh = 0
+        if (typeof window.visualViewport !== 'undefined') {
+          vh = window.visualViewport.height
+        } else {
+          vh = Math.max(
+            document.documentElement.clientHeight,
+            window.innerHeight || 0
+          )
+        }
+
+        // like defined in CSS
+        vh = vh * (isScrollable ? 0.7 : 0.9)
+
+        if (maxHeight > vh) {
+          maxHeight = vh
+        }
+
+        // convert px to rem
+        maxHeight = roundToNearest(maxHeight, 8) / 16
+      }
+
+      return { direction, maxHeight }
+    }
+
+    const renderDirection = () => {
+      try {
+        const { direction, maxHeight: max_height } = calculateMaxHeight()
 
         // update the states
         if (this.props.direction === 'auto') {

@@ -1,0 +1,111 @@
+---
+showTabs: true
+hideInMenu: true
+---
+
+## Description
+
+`Form.InfoOverlay` is used to display an informational message that fully covers the available space. It can show a custom message or content, a `success` message as a receipt, or an `error` message to indicate an issue.
+
+## Usage
+
+By default the given children will be shown.
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Handler>
+    <Form.InfoOverlay>visible content</Form.InfoOverlay>
+  </Form.Handler>,
+)
+```
+
+## Display a message
+
+There are two ways to display a message:
+
+- Using the `Form.InfoOverlay.setContent` method.
+- Using the `content` prop.
+
+### Using the `Form.InfoOverlay.setContent` method
+
+You can show the success or error message by using the `Form.InfoOverlay.setContent` method:
+
+```tsx
+Form.InfoOverlay.setContent(myId, <>info content</>)
+// or
+Form.InfoOverlay.setContent(myId, 'success')
+// or
+Form.InfoOverlay.setContent(myId, 'error')
+```
+
+And render the component with an `id` prop:
+
+```tsx
+<Form.InfoOverlay id={myId}>content</Form.InfoOverlay>
+```
+
+You can call it whenever you need to show the success message. Here is an example of how to use it.
+
+**Note:** the `id` prop is inherited from the `Form.Handler` component in this example.
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+// myFormId can be anything, as long as it's a unique instance
+const myFormId = () => null
+
+render(
+  <Form.Handler
+    id={myFormId}
+    onSubmit={async () => {
+      // 1. Send the request
+
+      // 2. Show the success message
+      Form.InfoOverlay.setContent(myFormId, 'success')
+    }}
+  >
+    <Form.InfoOverlay>fallback content</Form.InfoOverlay>
+  </Form.Handler>,
+)
+```
+
+### Using the `content` prop
+
+You can show the success or error message by using the `content` prop:
+
+```tsx
+<Form.InfoOverlay content={<>info content</>}>fallback content</Form.InfoOverlay>
+<Form.InfoOverlay content="success">fallback content</Form.InfoOverlay>
+<Form.InfoOverlay content="error">fallback content</Form.InfoOverlay>
+```
+
+## Customization of the `success` and `error` messages
+
+You can customize the `success` and `error` messages by using the `success` and `error` props.
+
+```tsx
+<Form.InfoOverlay
+  success={{
+    title: 'Custom title',
+    description: 'Custom description',
+    buttonText: 'Custom button text',
+    buttonHref: 'http://custom',
+    buttonClickHandler: () => {},
+  }}
+  error={{
+    title: 'Custom title',
+    description: 'Custom description',
+    cancelButton: 'Custom cancel',
+    retryButton: 'Custom retry',
+    retryingText: 'Custom retrying text',
+  }}
+>
+  fallback content
+</Form.InfoOverlay>
+```
+
+## Accessibility
+
+The component will manage focus handling, which is important for screen readers and users using keyboard navigation.

@@ -3,10 +3,10 @@ showTabs: true
 ---
 
 import {
-  GlobalStatusError,
+  GlobalInfoOverlayError,
   GlobalStatusInfo,
   GlobalStatusWarning,
-  GlobalStatusSuccess,
+  GlobalInfoOverlaySuccess,
   GlobalStatusUpdate,
   GlobalStatusCoupling,
   GlobalStatusAddRemoveItems,
@@ -19,7 +19,7 @@ import {
 
 **NB:** Keep in mind, the `items` are handled automatically by all form components! This is just an example of how to define the content manually.
 
-<GlobalStatusError />
+<GlobalInfoOverlayError />
 
 ### GlobalStatus displaying info status
 
@@ -31,7 +31,7 @@ import {
 
 ### GlobalStatus displaying success status
 
-<GlobalStatusSuccess />
+<GlobalInfoOverlaySuccess />
 
 ### To showcase the automated coupling between **FormStatus** and **GlobalStatus**
 

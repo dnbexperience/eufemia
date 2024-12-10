@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import classnames from 'classnames'
 import FieldBlock, {
   Props as FieldBlockProps,
@@ -38,7 +38,9 @@ export type Props = Omit<
     | 'filesAmountLimit'
     | 'fileMaxSize'
     | 'onFileDelete'
+    | 'onFileClick'
     | 'skeleton'
+    | 'download'
   > & {
     fileHandler?: (
       newFiles: UploadValue
@@ -113,9 +115,16 @@ function UploadComponent(props: Props) {
     fileMaxSize = 5,
     skeleton,
     onFileDelete,
+    onFileClick,
   } = rest
 
   const { files: fileContext, setFiles } = useUpload(id)
+
+  const filesRef = useRef<Array<UploadFile>>()
+
+  useEffect(() => {
+    filesRef.current = fileContext
+  }, [fileContext])
 
   useEffect(() => {
     // Files stored in session storage will not have a property (due to serialization).
@@ -126,10 +135,10 @@ function UploadComponent(props: Props) {
   }, [setFiles, value])
 
   const handleChangeAsync = useCallback(
-    async (files: UploadValue) => {
+    async (existingFiles: UploadValue) => {
       // Filter out existing files
       const existingFileIds = fileContext?.map((file) => file.id) || []
-      const newFiles = files.filter(
+      const newFiles = existingFiles.filter(
         (file) => !existingFileIds.includes(file.id)
       )
 
@@ -140,15 +149,26 @@ function UploadComponent(props: Props) {
           ...updateFileLoadingState(newFiles, { isLoading: true }),
         ])
 
-        const uploadedFiles = updateFileLoadingState(
-          await fileHandler(newFiles),
-          { isLoading: false }
+        const incomingFiles = await fileHandler(newFiles)
+
+        const uploadedFiles = updateFileLoadingState(incomingFiles, {
+          isLoading: false,
+        })
+
+        const indexOfFirstNewFile = filesRef.current.findIndex(
+          ({ id }) => id === newFiles[0].id
         )
 
+        const updatedFiles = [
+          ...filesRef.current.slice(0, indexOfFirstNewFile),
+          ...uploadedFiles,
+          ...filesRef.current.slice(indexOfFirstNewFile + newFiles.length),
+        ]
+
         // Set error, if any
-        handleChange([...fileContext, ...uploadedFiles])
+        handleChange(updatedFiles)
       } else {
-        handleChange(files)
+        handleChange(existingFiles)
       }
     },
     [fileContext, setFiles, fileHandler, handleChange]
@@ -190,6 +210,7 @@ function UploadComponent(props: Props) {
         skeleton={skeleton}
         onChange={changeHandler}
         onFileDelete={onFileDelete}
+        onFileClick={onFileClick}
         title={label ?? title}
         text={
           help ? (

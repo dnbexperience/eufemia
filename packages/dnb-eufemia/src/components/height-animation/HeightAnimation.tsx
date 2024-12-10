@@ -48,7 +48,7 @@ export type HeightAnimationProps = {
 
 export type HeightAnimationAllProps = HeightAnimationProps &
   SpacingProps &
-  Omit<React.HTMLProps<HTMLElement>, 'ref'>
+  Omit<React.HTMLProps<HTMLElement>, 'ref' | 'onAnimationEnd'>
 
 function HeightAnimation({
   open = true,

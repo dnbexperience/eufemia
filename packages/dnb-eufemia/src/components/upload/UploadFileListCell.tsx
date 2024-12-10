@@ -2,7 +2,6 @@ import React, { useRef } from 'react'
 import classnames from 'classnames'
 
 // Components
-import Anchor from '../../components/Anchor'
 import Button from '../button/Button'
 import Icon from '../../components/Icon'
 import FormStatus from '../../components/FormStatus'
@@ -29,6 +28,7 @@ import { UploadFile, UploadFileNative } from './types'
 import { getPreviousSibling, warn } from '../../shared/component-helper'
 import useUpload from './useUpload'
 import { getFileTypeFromExtension } from './UploadVerify'
+import UploadFileLink from './UploadFileListLink'
 
 // Will be deprecated - and then default to only showing the file icon,
 // and not file icon per file extension type
@@ -61,6 +61,11 @@ export type UploadFileListCellProps = {
   onDelete: () => void
 
   /**
+   * Calls onClick when clicking the file name
+   */
+  onClick?: () => void
+
+  /**
    * Causes the browser to treat all listed files as downloadable instead of opening them in a new browser tab or window.
    * Default: false
    */
@@ -77,6 +82,7 @@ const UploadFileListCell = ({
   id,
   uploadFile,
   onDelete,
+  onClick,
   loadingText,
   deleteButtonText,
   download,
@@ -182,18 +188,12 @@ const UploadFileListCell = ({
       </div>
     ) : (
       <div className="dnb-upload__file-cell__text-container">
-        <Anchor
-          target="_blank"
+        <UploadFileLink
+          text={file.name}
           href={imageUrl}
-          download={download ? file.name : null}
-          className={classnames(
-            'dnb-anchor--no-launch-icon',
-            'dnb-upload__file-cell__title'
-          )}
-          rel="noopener noreferrer"
-        >
-          {file.name}
-        </Anchor>
+          download={download}
+          onClick={onClick}
+        />
       </div>
     )
   }
