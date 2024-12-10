@@ -136,6 +136,9 @@
 
       margin-left: var(--spacing-small);
 
+      // To have a gap between the text and the delete button
+      padding-right: var(--spacing-small);
+
       &--loading {
         font-size: var(--font-size-basis);
       }
