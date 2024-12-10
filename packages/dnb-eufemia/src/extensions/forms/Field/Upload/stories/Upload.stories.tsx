@@ -1,5 +1,9 @@
 import { Field, Form, Tools } from '../../..'
 import { Flex } from '../../../../../components'
+import {
+  UploadFile,
+  UploadFileNative,
+} from '../../../../../components/Upload'
 import { createRequest } from '../../../Form/Handler/stories/FormHandler.stories'
 import { UploadValue } from '../Upload'
 
@@ -163,6 +167,84 @@ export const AsyncEverything = () => {
           id="upload-example-async"
           acceptedFileTypes={acceptedFileTypes}
         />
+      </Flex.Stack>
+    </Form.Handler>
+  )
+}
+
+interface DocumentMetadata {
+  id: string
+  type: string
+  fileName: string
+}
+
+const filesStorage = new Map<string, UploadFile | UploadFileNative>()
+
+/** To the Field's value */
+function transformIn(value?: unknown) {
+  const items = value as DocumentMetadata[]
+
+  return (items?.map((item) => {
+    const file: File =
+      item['file'] ||
+      (filesStorage.has(item.id)
+        ? filesStorage.get(item.id)
+        : new File([], item.fileName, { type: 'images/png' }))
+
+    return {
+      id: item.id,
+      file,
+    }
+  }) || []) as UploadValue
+}
+
+/** To the DataContext */
+function transformOut(value?: unknown) {
+  const files = value as UploadValue
+
+  return (
+    files?.map((item) => {
+      if (!filesStorage.has(item.id)) {
+        filesStorage.set(item.id, item)
+      }
+
+      const file = item?.file
+      return {
+        id: item.id,
+        type: file?.type || 'Unknown',
+        fileName: file?.name || 'Unknown',
+      }
+    }) || []
+  )
+}
+
+const defaultValue = [
+  {
+    id: '16eaa778-a29f-4d10-95e9-6b5b728182e8',
+    type: 'images/png',
+    fileName: 'myFile.pdf',
+  },
+]
+
+export function TransformInAndOut() {
+  return (
+    <Form.Handler
+    // defaultData={{
+    //   documents: defaultValue,
+    // }}
+    >
+      <Flex.Stack>
+        <Field.Upload
+          label="Label"
+          placeholder="This is a Field"
+          transformIn={transformIn}
+          transformOut={transformOut}
+          path="/documents"
+          defaultValue={defaultValue as unknown as UploadValue}
+        />
+
+        <Form.SubmitButton />
+        <Tools.Log />
       </Flex.Stack>
     </Form.Handler>
   )

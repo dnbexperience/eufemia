@@ -272,7 +272,7 @@ describe('Field.String', () => {
       await userEvent.type(input, '{Backspace>3}aBc')
 
       expect(input).toHaveValue('ABC')
-      expect(transformIn).toHaveBeenCalledTimes(16)
+      expect(transformIn).toHaveBeenCalledTimes(18)
       expect(transformIn).toHaveBeenLastCalledWith('abc')
       expect(transformOut).toHaveBeenCalledTimes(13)
       expect(transformOut).toHaveBeenLastCalledWith('ABc', undefined)
@@ -287,7 +287,7 @@ describe('Field.String', () => {
       await userEvent.type(input, '{Backspace>3}EfG')
 
       expect(input).toHaveValue('EFG')
-      expect(transformIn).toHaveBeenCalledTimes(29)
+      expect(transformIn).toHaveBeenCalledTimes(32)
       expect(transformIn).toHaveBeenLastCalledWith('efg')
       expect(transformOut).toHaveBeenCalledTimes(25)
       expect(transformOut).toHaveBeenLastCalledWith('EFG', undefined)
@@ -305,6 +305,9 @@ describe('Field.String', () => {
         return { value, foo: 'bar' }
       })
       const transformIn = jest.fn((data) => {
+        if (typeof data === 'string') {
+          return data
+        }
         return data?.value
       })
       const valueTransformIn = jest.fn((data) => {
@@ -332,6 +335,8 @@ describe('Field.String', () => {
 
       const form = document.querySelector('form')
       const input = document.querySelector('input')
+
+      expect(input).toHaveValue('A')
 
       fireEvent.submit(form)
       expect(onSubmit).toHaveBeenCalledTimes(1)
@@ -396,8 +401,8 @@ describe('Field.String', () => {
       )
       expect(transformOut).toHaveBeenNthCalledWith(6, 'B', undefined)
 
-      expect(transformIn).toHaveBeenNthCalledWith(1, undefined)
-      expect(transformIn).toHaveBeenNthCalledWith(2, undefined)
+      expect(transformIn).toHaveBeenNthCalledWith(1, 'A')
+      expect(transformIn).toHaveBeenNthCalledWith(2, 'A')
       expect(transformIn).toHaveBeenNthCalledWith(3, {
         foo: 'bar',
         value: 'A',

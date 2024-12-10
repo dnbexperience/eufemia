@@ -248,16 +248,15 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     defaultValueRef.current = defaultValue
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  const externalValue =
-    transformers.current.transformIn(
-      useExternalValue<Value>({
-        path,
-        itemPath,
-        value: valueProp,
-        transformers,
-        emptyValue,
-      })
-    ) ?? defaultValueRef.current
+  const externalValueDeps =
+    useExternalValue<Value>({
+      path,
+      itemPath,
+      value: valueProp,
+      transformers,
+      emptyValue,
+    }) ?? defaultValueRef.current
+  const externalValue = transformers.current.transformIn(externalValueDeps)
 
   // Many variables are kept in refs to avoid triggering unnecessary update loops because updates using
   // useEffect depend on them (like the external `value`)
@@ -1758,10 +1757,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const externalValueDidChangeRef = useRef(false)
   useLayoutEffect(() => {
     if (valueRef.current !== externalValue) {
-      valueRef.current = externalValue
+      valueRef.current = transformers.current.transformIn(externalValue)
       externalValueDidChangeRef.current = true
     }
-  }, [externalValue, hasItemPath])
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [externalValueDeps, hasItemPath])
 
   useUpdateEffect(() => {
     // Error or removed error for this field from the surrounding data context (by path)
@@ -1770,7 +1771,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       validateValue()
       forceUpdate()
     }
-  }, [externalValue]) // Keep "externalValue" in the dependency list, so it will be updated when it changes
+  }, [externalValueDeps]) // Keep "externalValue" in the dependency list, so it will be updated when it changes
 
   useEffect(() => {
     // Check against the local error state,
@@ -1813,13 +1814,30 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
       // First, look for existing data in the context
       const hasValue = pointer.has(data, identifier) || identifier === '/'
-      const existingValue = transformers.current.transformIn(
+      const contextValue =
         identifier === '/'
           ? data
           : hasValue
           ? pointer.get(data, identifier)
           : undefined
-      )
+      const existingValue =
+        // Only transform when there is a value
+        (
+          identifier === '/' || hasValue
+            ? transformers.current.transformIn(contextValue)
+            : contextValue
+        ) as Value
+
+      const hasDefaultValue =
+        typeof defaultValueRef.current !== 'undefined' &&
+        typeof valueToStore === 'undefined'
+
+      if (hasDefaultValue) {
+        valueToStore = transformers.current.transformIn(
+          defaultValueRef.current
+        )
+        defaultValueRef.current = undefined
+      }
 
       // If no data where found in the dataContext, look for shared data
       if (
@@ -1838,15 +1856,20 @@ export default function useFieldProps<Value, EmptyValue, Props>(
             valueToStore = sharedValue as Value
           }
         }
-      }
-
-      const hasDefaultValue =
-        typeof defaultValueRef.current !== 'undefined' &&
-        typeof valueToStore === 'undefined'
-
-      if (hasDefaultValue) {
-        valueToStore = defaultValueRef.current
-        defaultValueRef.current = undefined
+      } else {
+        // When an Array or Object is used as the value,
+        // and the field uses transformIn, the instance may have been changed.
+        // The "valueToStore" can be undefined,
+        // we then need to ensure we don't overwrite the existing data context value with "undefined".
+        if (
+          typeof valueToStore === 'undefined' &&
+          typeof existingValue !== 'undefined'
+          // &&
+          // isArrayOrObject(valueRef.current) &&
+          // isArrayOrObject(existingValue)
+        ) {
+          valueToStore = existingValue
+        }
       }
 
       let skipEqualCheck = false
@@ -1981,7 +2004,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     [
       dataContext.internalDataRef,
       dataContext.props?.emptyData,
-      externalValue, // ensure to include "externalValue" in order to properly remove errors
+      externalValueDeps, // ensure to include "externalValue" in order to properly remove errors
     ]
   )
 

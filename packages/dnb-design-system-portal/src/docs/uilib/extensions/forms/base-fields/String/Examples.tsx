@@ -470,6 +470,9 @@ export function TransformInAndOut() {
           return { value, foo: 'bar' }
         }
         const transformIn = (data) => {
+          if (typeof data === 'string') {
+            return data
+          }
           return data?.value
         }
 
