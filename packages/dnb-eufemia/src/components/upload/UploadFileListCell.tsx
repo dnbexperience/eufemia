@@ -105,7 +105,7 @@ const UploadFileListCell = ({
       ).querySelector(
         '.dnb-upload__file-input-button'
       ) as HTMLButtonElement
-      focusElement.focus()
+      focusElement.focus({ preventScroll: true })
     } catch (e) {
       warn(e)
     }
