@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useCallback, useRef } from 'react'
 import classnames from 'classnames'
 
 // Components
@@ -25,7 +25,7 @@ import {
 import { UploadFile, UploadFileNative } from './types'
 
 // Shared
-import { getPreviousSibling, warn } from '../../shared/component-helper'
+import { getPreviousSibling } from '../../shared/component-helper'
 import useUpload from './useUpload'
 import { getFileTypeFromExtension } from './UploadVerify'
 import UploadFileLink from './UploadFileListLink'
@@ -96,26 +96,20 @@ const UploadFileListCell = ({
   const cellRef = useRef<HTMLLIElement>()
   const exists = useExistsHighlight(id, file)
 
-  const handleDisappearFocus = () => {
-    try {
-      const cellElement = cellRef.current
-      const focusElement = getPreviousSibling(
-        '.dnb-upload',
-        cellElement
-      ).querySelector(
-        '.dnb-upload__file-input-button'
-      ) as HTMLButtonElement
-      focusElement.focus()
-    } catch (e) {
-      warn(e)
-    }
-  }
+  const handleDisappearFocus = useCallback(() => {
+    const cellElement = cellRef.current
+    const focusElement = getPreviousSibling(
+      '.dnb-upload',
+      cellElement
+    )?.querySelector('.dnb-upload__file-input-button') as HTMLButtonElement
+    focusElement?.focus({ preventScroll: true })
+  }, [cellRef])
 
-  const onDeleteHandler = () => {
+  const onDeleteHandler = useCallback(() => {
     handleDisappearFocus()
 
     onDelete()
-  }
+  }, [handleDisappearFocus, onDelete])
 
   return (
     <li
