@@ -3,6 +3,34 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.60.0](https://github.com/dnbexperience/eufemia/compare/v10.59.0...v10.60.0) (2024-12-10)
+
+
+### :memo: Documentation
+
+* **Upload:** adds `exists` to file object ([#4346](https://github.com/dnbexperience/eufemia/issues/4346)) ([52f8b2f](https://github.com/dnbexperience/eufemia/commit/52f8b2f39b1e28146ede475cf8c543c5a83db4e8))
+* **Upload:** adds exists to docs ([b6baa64](https://github.com/dnbexperience/eufemia/commit/b6baa64c8c9d81711f312dd8ad73e90b8041fe2d))
+
+
+### :sparkles: Features
+
+* **Field.Upload:** add `onFileClick` event ([#4369](https://github.com/dnbexperience/eufemia/issues/4369)) ([c892eec](https://github.com/dnbexperience/eufemia/commit/c892eec134346375c2591f0e513023c4c5179e0f))
+* **Forms:** add `Form.InfoOverlay` to display error, success (receipt), or custom messages to users ([#4357](https://github.com/dnbexperience/eufemia/issues/4357)) ([9dd8402](https://github.com/dnbexperience/eufemia/commit/9dd8402e366aa4008617cdffc15a1278dbe7afc5))
+* **Forms:** add `onAnimationEnd` property to Form.Visibility ([#4356](https://github.com/dnbexperience/eufemia/issues/4356)) ([87728b4](https://github.com/dnbexperience/eufemia/commit/87728b4b350cf7a03d467fe2d672d98a8ec2af1e)), closes [#4350](https://github.com/dnbexperience/eufemia/issues/4350)
+* **Forms:** add `onVisible` property to Form.Visibility ([#4350](https://github.com/dnbexperience/eufemia/issues/4350)) ([41306d8](https://github.com/dnbexperience/eufemia/commit/41306d8003a00aa32b420130936e904b1650b260))
+* host fonts in the public directory ([#4359](https://github.com/dnbexperience/eufemia/issues/4359)) ([e6e08b2](https://github.com/dnbexperience/eufemia/commit/e6e08b2948c7099f3432083a82ee2fd338324d43))
+* **Upload:** add support for async `onFileClick` event ([#4370](https://github.com/dnbexperience/eufemia/issues/4370)) ([82588c1](https://github.com/dnbexperience/eufemia/commit/82588c18384ecaa49c3225150387fbcf0c881a51))
+* **Upload:** adds `onFileClick` event ([#4365](https://github.com/dnbexperience/eufemia/issues/4365)) ([c5abd0e](https://github.com/dnbexperience/eufemia/commit/c5abd0e846d783736df014b6351b4d836e501842))
+* **Upload:** adds support for async `onFileDelete` ([#4351](https://github.com/dnbexperience/eufemia/issues/4351)) ([f41e42d](https://github.com/dnbexperience/eufemia/commit/f41e42d73e231b30c1c1133e7b97c28f203b78f6))
+* **Value.Upload:** add `onFileClick` event ([#4367](https://github.com/dnbexperience/eufemia/issues/4367)) ([56e9caf](https://github.com/dnbexperience/eufemia/commit/56e9caf0ef42f725a9477cdc26cb30966c47410f))
+
+
+### :bug: Bug Fixes
+
+* **Dropdown:** enhance height calcilation and add support for strict `direction="bottom"` usage, including when used in a Dialog component ([#4368](https://github.com/dnbexperience/eufemia/issues/4368)) ([32b7b5b](https://github.com/dnbexperience/eufemia/commit/32b7b5bbf9fbd44593b068a5eeee179e22159d5a))
+* **Field.Upload:** handling of multiple async file uploads ([#4360](https://github.com/dnbexperience/eufemia/issues/4360)) ([5cb1518](https://github.com/dnbexperience/eufemia/commit/5cb15186ef60f4633fff0c9512252857d1c4073a))
+* **Forms:** avoid unnecessary rerenders in Form.Handler ([#4363](https://github.com/dnbexperience/eufemia/issues/4363)) ([7de5e49](https://github.com/dnbexperience/eufemia/commit/7de5e49f3465c17d2f222385c891a82d23c133fe)), closes [#4357](https://github.com/dnbexperience/eufemia/issues/4357)
+
 ## [10.59.0](https://github.com/dnbexperience/eufemia/compare/v10.58.0...v10.59.0) (2024-12-02)
 
 
