@@ -1014,13 +1014,7 @@ export const TypesExample = () => {
 
   const myData: MyInterface[] = []
 
-  return (
-    <Dropdown
-      title="Default"
-      data={myData}
-      status="Message"
-    />
-  )
+  return <Dropdown data={myData} />
 }
 
 export function InDialog() {
