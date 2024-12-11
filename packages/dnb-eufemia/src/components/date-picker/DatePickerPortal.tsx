@@ -30,7 +30,7 @@ export default function DatePickerPortal({
     }
   }, [])
 
-  const setPositionAtResize = useCallback(() => {
+  const setPositionDebounce = useCallback(() => {
     if (targetElementRef.current) {
       setPosition(getPosition(targetElementRef.current, alignment))
     }
@@ -44,10 +44,16 @@ export default function DatePickerPortal({
   }, [alignment, targetElementRef])
 
   useLayoutEffect(() => {
-    window.addEventListener('resize', setPositionAtResize)
+    if (!skipPortal) {
+      window.addEventListener('resize', setPositionDebounce)
+      window.addEventListener('scroll', setPositionDebounce)
+    }
 
     return () => {
-      window.removeEventListener('resize', setPositionAtResize)
+      if (!skipPortal) {
+        window.removeEventListener('resize', setPositionDebounce)
+        window.removeEventListener('scroll', setPositionDebounce)
+      }
     }
   }, [])
 
