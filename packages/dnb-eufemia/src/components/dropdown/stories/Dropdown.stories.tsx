@@ -1018,7 +1018,6 @@ export const TypesExample = () => {
     <Dropdown
       title="Default"
       data={myData}
-      globalStatus={{ id: 'my-id', message: 'my message' }}
       status="Message"
     />
   )
