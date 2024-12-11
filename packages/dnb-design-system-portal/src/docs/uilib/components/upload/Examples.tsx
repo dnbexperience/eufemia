@@ -44,7 +44,7 @@ export const UploadPrefilledFileList = () => (
               errorMessage: 'This is no real file!',
             },
           ])
-        }, [])
+        }, [setFiles])
 
         return <Upload acceptedFileTypes={['jpg', 'png']} id="file-list" />
       }
@@ -128,7 +128,7 @@ export const UploadRemoveFile = () => (
 
               reader.readAsDataURL(file)
             })
-          }, [files])
+          }, [files, images])
 
           return (
             <Section aria-label="List of chosen images">
@@ -368,8 +368,15 @@ export const UploadOnFileClick = () => (
             {
               file: createMockFile('1501870.jpg', 123, 'image/png'),
             },
+            {
+              file: createMockFile(
+                'file-name-that-is-very-long-and-has-letters.png',
+                123,
+                'image/png',
+              ),
+            },
           ])
-        }, [])
+        }, [setFiles])
 
         async function mockAsyncFileFetching({ fileItem }) {
           const request = createRequest()
@@ -385,13 +392,11 @@ export const UploadOnFileClick = () => (
         }
 
         return (
-          <>
-            <Upload
-              acceptedFileTypes={['jpg', 'png']}
-              id="upload-on-file-click"
-              onFileClick={mockAsyncFileFetching}
-            />
-          </>
+          <Upload
+            acceptedFileTypes={['jpg', 'png']}
+            id="upload-on-file-click"
+            onFileClick={mockAsyncFileFetching}
+          />
         )
       }
 

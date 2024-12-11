@@ -1006,6 +1006,17 @@ export const GlobalStatusExample = () => {
   )
 }
 
+export const TypesExample = () => {
+  interface MyInterface {
+    content: string
+    selected_key: string
+  }
+
+  const myData: MyInterface[] = []
+
+  return <Dropdown data={myData} />
+}
+
 export function InDialog() {
   const list = Array(30).fill('Content')
   return (

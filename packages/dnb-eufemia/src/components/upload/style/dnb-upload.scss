@@ -106,14 +106,14 @@
 
     &__content {
       display: flex;
-      flex-direction: row;
+      column-gap: var(--spacing-small);
 
       justify-content: space-between;
       align-items: center;
 
       &__left {
         display: flex;
-        flex-direction: row;
+        column-gap: var(--spacing-small);
         align-items: center;
 
         .dnb-icon {
@@ -133,8 +133,6 @@
     &__text-container {
       display: flex;
       flex-direction: column;
-
-      margin-left: var(--spacing-small);
 
       &--loading {
         font-size: var(--font-size-basis);
