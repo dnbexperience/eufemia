@@ -574,4 +574,15 @@
     left: auto;
     right: 0;
   }
+
+  table {
+    position: relative;
+    z-index: 1; // to make sure we show the focus ring over the header line on top
+
+    margin: 0;
+
+    &.dnb-no-focus:focus {
+      @include focusRing();
+    }
+  }
 }

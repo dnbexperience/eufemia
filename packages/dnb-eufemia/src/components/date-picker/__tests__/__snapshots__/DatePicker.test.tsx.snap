@@ -4291,6 +4291,20 @@ html[data-visual-test] .dnb-date-picker__portal:not(.dnb-date-picker__portal--op
 .dnb-date-picker__portal--right .dnb-date-picker__triangle {
   left: auto;
   right: 0;
+}
+.dnb-date-picker__portal table {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+}
+.dnb-date-picker__portal table.dnb-no-focus:focus {
+  outline: none;
+}
+html[data-whatinput=keyboard] .dnb-date-picker__portal table.dnb-no-focus:focus {
+  --border-color: var(--focus-ring-color);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
 }"
 `;
 
