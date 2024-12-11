@@ -118,13 +118,13 @@ function UploadComponent(props: Props) {
     onFileClick,
   } = rest
 
-  const { files: fileContext, setFiles } = useUpload(id)
+  const { files, setFiles } = useUpload(id)
 
   const filesRef = useRef<Array<UploadFile>>()
 
   useEffect(() => {
-    filesRef.current = fileContext
-  }, [fileContext])
+    filesRef.current = files
+  }, [files])
 
   useEffect(() => {
     // Files stored in session storage will not have a property (due to serialization).
@@ -137,7 +137,8 @@ function UploadComponent(props: Props) {
   const handleChangeAsync = useCallback(
     async (existingFiles: UploadValue) => {
       // Filter out existing files
-      const existingFileIds = fileContext?.map((file) => file.id) || []
+      const existingFileIds =
+        filesRef.current?.map((file) => file.id) || []
       const newFiles = existingFiles.filter(
         (file) => !existingFileIds.includes(file.id)
       )
@@ -145,7 +146,7 @@ function UploadComponent(props: Props) {
       if (newFiles.length > 0) {
         // Set loading
         setFiles([
-          ...fileContext,
+          ...filesRef.current,
           ...updateFileLoadingState(newFiles, { isLoading: true }),
         ])
 
@@ -171,7 +172,7 @@ function UploadComponent(props: Props) {
         handleChange(existingFiles)
       }
     },
-    [fileContext, setFiles, fileHandler, handleChange]
+    [files, setFiles, fileHandler, handleChange]
   )
 
   const changeHandler = useCallback(

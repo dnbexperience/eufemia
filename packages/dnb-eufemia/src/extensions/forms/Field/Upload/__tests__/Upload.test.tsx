@@ -8,6 +8,7 @@ import nbNOForms from '../../../constants/locales/nb-NO'
 import nbNOShared from '../../../../../shared/locales/nb-NO'
 import userEvent from '@testing-library/user-event'
 import { UploadValue } from '../Upload'
+import { wait } from '../../../../../core/jest/jestSetup'
 
 const nbForms = nbNOForms['nb-NO']
 const nbShared = nbNOShared['nb-NO']
@@ -88,6 +89,32 @@ describe('Field.Upload', () => {
     fireEvent.click(element)
 
     expect(onFileClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('should display spinner for an async onFileClick event', async () => {
+    const onFileClick = jest.fn(async () => {
+      await wait(1)
+    })
+
+    render(
+      <Field.Upload
+        onFileClick={onFileClick}
+        value={[
+          { file: createMockFile('fileName-1.png', 100, 'image/png') },
+        ]}
+      />
+    )
+
+    const fileButton = document.querySelector(
+      '.dnb-upload__file-cell button'
+    )
+
+    await waitFor(() => {
+      fireEvent.click(fileButton)
+      expect(
+        document.querySelector('.dnb-progress-indicator')
+      ).toBeInTheDocument()
+    })
   })
 
   it('should render files given in data context', () => {
@@ -1254,6 +1281,97 @@ describe('Field.Upload', () => {
         expect(
           document.querySelectorAll('.dnb-progress-indicator').length
         ).toBe(4)
+      })
+    })
+
+    it('should add new files from fileHandler with async function while removing file', async () => {
+      const asyncOnFileDelete = jest.fn(async () => {
+        await wait(1)
+      })
+
+      const newFile = (fileId) => {
+        return createMockFile(`${fileId}.png`, 100, 'image/png')
+      }
+
+      const filesFirstUpload = [newFile(0)]
+
+      const filesSecondUpload = [newFile(1)]
+
+      const asyncValidatorResolvingWithSuccess = (files) =>
+        new Promise<UploadValue>((resolve) =>
+          setTimeout(() => {
+            const filesToResolve = files.map((file, i) => {
+              return {
+                file: file,
+                id: 'server_generated_id_' + i,
+                exists: false,
+              }
+            })
+            resolve(filesToResolve)
+          }, 1)
+        )
+
+      const asyncFileHandlerFnSuccess = jest
+        .fn(asyncValidatorResolvingWithSuccess)
+        .mockReturnValueOnce(
+          asyncValidatorResolvingWithSuccess(filesFirstUpload)
+        )
+        .mockReturnValueOnce(
+          asyncValidatorResolvingWithSuccess(filesSecondUpload)
+        )
+
+      render(
+        <Field.Upload
+          onFileDelete={asyncOnFileDelete}
+          fileHandler={asyncFileHandlerFnSuccess}
+        />
+      )
+
+      const element = getRootElement()
+
+      await waitFor(() => {
+        // upload the first file
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: filesFirstUpload,
+          },
+        })
+      })
+
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('.dnb-upload__file-cell').length
+        ).toBe(1)
+      })
+
+      await waitFor(() => {
+        // upload the second file
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: filesSecondUpload,
+          },
+        })
+      })
+
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('.dnb-upload__file-cell').length
+        ).toBe(2)
+      })
+
+      await waitFor(() => {
+        // delete the first file
+        fireEvent.click(
+          document
+            .querySelectorAll('.dnb-upload__file-cell')[0]
+            .querySelector('button')
+        )
+      })
+
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('.dnb-upload__file-cell').length
+        ).toBe(1)
       })
     })
 
