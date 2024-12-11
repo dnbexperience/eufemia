@@ -301,7 +301,7 @@ describe('UploadFileListCell', () => {
     it('renders the delete button', () => {
       render(<UploadFileListCell {...defaultProps} />)
 
-      const element = screen.getByRole('button')
+      const element = document.querySelector('button')
 
       expect(element).toBeInTheDocument()
     })
@@ -316,7 +316,7 @@ describe('UploadFileListCell', () => {
         />
       )
 
-      const element = screen.getByRole('button')
+      const element = document.querySelector('button')
 
       expect(element.textContent).toMatch(deleteButtonText)
     })
@@ -324,7 +324,7 @@ describe('UploadFileListCell', () => {
     it('renders button as tertiary', () => {
       render(<UploadFileListCell {...defaultProps} />)
 
-      const element = screen.getByRole('button')
+      const element = document.querySelector('button')
 
       expect(element.className).toMatch('dnb-button--tertiary')
     })
@@ -357,7 +357,7 @@ describe('UploadFileListCell', () => {
           onDelete={onDelete}
         />
       )
-      const element = screen.getByRole('button')
+      const element = document.querySelector('button')
 
       fireEvent.click(element)
 
@@ -374,7 +374,7 @@ describe('UploadFileListCell', () => {
           }}
         />
       )
-      const element = screen.getByRole('button')
+      const element = document.querySelector('button')
 
       expect(element).toBeDisabled()
     })
@@ -393,6 +393,46 @@ describe('UploadFileListCell', () => {
       expect(
         document.querySelector('.dnb-progress-indicator')
       ).not.toBeInTheDocument()
+    })
+
+    it('should set focus when clicking the delete button', () => {
+      const MockComponent = () => {
+        return (
+          <div className="dnb-upload">
+            <UploadFileListCell
+              {...defaultProps}
+              uploadFile={{
+                file: createMockFile('file.png', 100, 'image/png'),
+              }}
+            />
+            <button className="dnb-upload__file-input-button">
+              Mock button
+            </button>
+          </div>
+        )
+      }
+      const { rerender } = render(<MockComponent />)
+
+      const removeButton = document.querySelector('button')
+      const uploadButton = document.querySelector(
+        '.dnb-upload__file-input-button'
+      )
+
+      expect(document.body).toHaveFocus()
+
+      fireEvent.click(removeButton)
+      expect(uploadButton).toHaveFocus()
+
+      const focus = jest.fn()
+      jest
+        .spyOn(HTMLElement.prototype, 'focus')
+        .mockImplementationOnce(focus)
+
+      rerender(<MockComponent />)
+
+      fireEvent.click(removeButton)
+      expect(focus).toHaveBeenCalledTimes(1)
+      expect(focus).toHaveBeenCalledWith({ preventScroll: true })
     })
   })
 })
