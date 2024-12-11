@@ -3,6 +3,17 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.60.1](https://github.com/dnbexperience/eufemia/compare/v10.60.0...v10.60.1) (2024-12-11)
+
+
+### :bug: Bug Fixes
+
+* **Dropdown:** correct 'data' type to support interface-based types ([#4383](https://github.com/dnbexperience/eufemia/issues/4383)) ([461e258](https://github.com/dnbexperience/eufemia/commit/461e2583511888ac015a22258461f9f8cc3c0a27))
+* **Forms:** ensure Tools.Log formats arrays with square brackets ([#4384](https://github.com/dnbexperience/eufemia/issues/4384)) ([7905694](https://github.com/dnbexperience/eufemia/commit/7905694e75d1eaa14600d07166d1d738f9ad6073))
+* **Upload:** add gap between file and remove button ([#4382](https://github.com/dnbexperience/eufemia/issues/4382)) ([04c1f6a](https://github.com/dnbexperience/eufemia/commit/04c1f6aabd2abc7bc7b0fe5d4ccac1fd32f2cf53))
+* **Upload:** avoid scrolling when removing file from list ([#4380](https://github.com/dnbexperience/eufemia/issues/4380)) ([43a64d4](https://github.com/dnbexperience/eufemia/commit/43a64d4c02912dd8f286806f9ad3acc10dcb36f6))
+* **Upload:** handling of multiple async events ([#4378](https://github.com/dnbexperience/eufemia/issues/4378)) ([fd1fef9](https://github.com/dnbexperience/eufemia/commit/fd1fef9c97f5128fa7094f9620e524d18345b6e2))
+
 ## [10.60.0](https://github.com/dnbexperience/eufemia/compare/v10.59.0...v10.60.0) (2024-12-10)
 
 
