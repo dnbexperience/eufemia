@@ -125,7 +125,7 @@ function UploadFileItem(
     }
   }
 
-  const imageUrl = URL.createObjectURL(file)
+  const imageUrl = file?.size > 0 ? URL.createObjectURL(file) : null
 
   const text = file.name + (displaySize ? ' ' + getSize(file.size) : '')
   const isLoading = fileIsLoading || loading
