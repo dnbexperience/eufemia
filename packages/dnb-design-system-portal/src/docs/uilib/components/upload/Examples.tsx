@@ -367,6 +367,7 @@ export const UploadOnFileClick = () => (
           setFiles([
             {
               file: createMockFile('1501870.jpg', 123, 'image/png'),
+              id: '1',
             },
             {
               file: createMockFile(
@@ -374,6 +375,7 @@ export const UploadOnFileClick = () => (
                 123,
                 'image/png',
               ),
+              id: '2',
             },
           ])
         }, [setFiles])

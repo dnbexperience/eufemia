@@ -237,6 +237,7 @@ export const WithAsyncOnFileClick = () => {
               myFiles: [
                 {
                   file: createMockFile('1501870.jpg', 100, 'image/png'),
+                  id: '1',
                 },
               ],
             }}
