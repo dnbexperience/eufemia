@@ -54,6 +54,12 @@ import * as Examples from './Examples'
 
 <Examples.OnFileClick />
 
+### Display files as non-clickable
+
+When file size is 0 or not given (`new File([], name, { type })`), the file is displayed as a span instead of an anchor. How ever, when `onFileClick` is given, the file will be clickable as a button.
+
+<Examples.DisplayFileAsNonClickable />
+
 <VisibleWhenVisualTest>
   <Examples.LabelAndValueOnFileClick />
   <Examples.ListVariantsOnFileClick />
