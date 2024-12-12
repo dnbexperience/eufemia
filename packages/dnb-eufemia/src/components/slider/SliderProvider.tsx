@@ -159,7 +159,7 @@ export function SliderProvider(localProps: SliderAllProps) {
       return
     }
 
-    let numberValue = roundValue(rawValue, step)
+    let numberValue = roundValue(rawValue, { step, min, max })
     let multiValues: ValueTypes = numberValue
 
     if (numberValue >= min) {

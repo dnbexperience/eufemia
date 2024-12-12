@@ -162,6 +162,90 @@ describe('Slider component', () => {
     )
   })
 
+  describe('min', () => {
+    it('should respect min value', () => {
+      const onChange = jest.fn()
+
+      render(<Slider min={50} value={60} onChange={onChange} />)
+
+      simulateMouseMove({ pageX: 60, width: 100 })
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({ value: 80 })
+      )
+
+      simulateMouseMove({ pageX: -10, width: 100 })
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({ value: 50 })
+      )
+    })
+
+    it('should respect min value with too large "step"', () => {
+      const onChange = jest.fn()
+
+      render(<Slider min={5} step={10} value={50} onChange={onChange} />)
+
+      simulateMouseMove({ pageX: 0, width: 100 })
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({ value: 5 })
+      )
+    })
+  })
+
+  describe('max', () => {
+    it('should respect max value value', () => {
+      const onChange = jest.fn()
+
+      render(<Slider max={200} onChange={onChange} />)
+
+      simulateMouseMove({ pageX: 210, width: 100 })
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({ value: 200 })
+      )
+    })
+
+    it('should respect "step" that do not divide with max', () => {
+      const onChange = jest.fn()
+
+      render(<Slider step={3} max={100} onChange={onChange} />)
+
+      simulateMouseMove({ pageX: 100, width: 100 })
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({ value: 100 })
+      )
+    })
+
+    it('should respect max value with too large "step"', () => {
+      const onChange = jest.fn()
+
+      render(<Slider max={105} step={10} value={50} onChange={onChange} />)
+
+      simulateMouseMove({ pageX: 100, width: 100 })
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({ value: 105 })
+      )
+    })
+
+    it('should respect max value with too large "step" and large number', () => {
+      const onChange = jest.fn()
+
+      render(
+        <Slider max={2040} step={100} value={1000} onChange={onChange} />
+      )
+
+      simulateMouseMove({ pageX: 100, width: 100 })
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({ value: 2040 })
+      )
+    })
+  })
+
   describe('Tooltip', () => {
     const IS_TEST = globalThis.IS_TEST
     beforeEach(() => {
@@ -346,7 +430,6 @@ describe('Slider component', () => {
     it('should render marker in horizontal direction', () => {
       const { rerender } = render(
         <Slider
-          {...props}
           extensions={{ marker: { instance: SliderMarker, value: 30 } }}
         />
       )
@@ -359,7 +442,7 @@ describe('Slider component', () => {
       )
       expect(markerElement).toHaveAttribute('style', 'left: 30%;')
 
-      rerender(<Slider {...props} />)
+      rerender(<Slider />)
 
       expect(sliderElement.innerHTML).not.toContain('dnb-slider__marker')
     })
@@ -367,7 +450,6 @@ describe('Slider component', () => {
     it('should render marker in vertical direction', () => {
       const { rerender } = render(
         <Slider
-          {...props}
           extensions={{ marker: { instance: SliderMarker, value: 30 } }}
           vertical
         />
@@ -381,7 +463,7 @@ describe('Slider component', () => {
       )
       expect(markerElement).toHaveAttribute('style', 'top: 70%;')
 
-      rerender(<Slider {...props} />)
+      rerender(<Slider />)
 
       expect(sliderElement.innerHTML).not.toContain('dnb-slider__marker')
     })
@@ -389,7 +471,6 @@ describe('Slider component', () => {
     it('should have html attributes to make it accessible', () => {
       const { rerender } = render(
         <Slider
-          {...props}
           extensions={{ marker: { instance: SliderMarker, value: 30 } }}
         />
       )
@@ -404,7 +485,6 @@ describe('Slider component', () => {
 
       rerender(
         <Slider
-          {...props}
           extensions={{ marker: { instance: SliderMarker, value: 120 } }}
         />
       )
@@ -415,7 +495,7 @@ describe('Slider component', () => {
 
     it('shows Tooltip with info', async () => {
       const marker = { instance: SliderMarker, value: 30 }
-      render(<Slider {...props} extensions={{ marker }} />)
+      render(<Slider extensions={{ marker }} />)
 
       const sliderElement = document.querySelector('.dnb-slider')
       const markerElement = sliderElement.querySelector(
@@ -437,7 +517,7 @@ describe('Slider component', () => {
         value: 30,
         text: 'Here is the text',
       }
-      render(<Slider {...props} extensions={{ marker }} />)
+      render(<Slider extensions={{ marker }} />)
 
       const sliderElement = document.querySelector('.dnb-slider')
       const markerElement = sliderElement.querySelector(
@@ -456,7 +536,7 @@ describe('Slider component', () => {
   it('has events that return a correct value', () => {
     const onChange = jest.fn()
 
-    render(<Slider {...props} onChange={onChange} />)
+    render(<Slider onChange={onChange} />)
 
     simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
@@ -484,7 +564,6 @@ describe('Slider component', () => {
 
     render(
       <Slider
-        {...props}
         onChange={onChange}
         numberFormat={{ currency: true, decimals: 1 }}
       />
@@ -520,7 +599,7 @@ describe('Slider component', () => {
   it('will not emit onChange with same value twice', () => {
     const onChange = jest.fn()
 
-    render(<Slider {...props} onChange={onChange} />)
+    render(<Slider onChange={onChange} />)
 
     simulateMouseMove({ pageX: 80, width: 100, height: 10 })
     simulateMouseMove({ pageX: 80, width: 100, height: 10 })
@@ -530,7 +609,7 @@ describe('Slider component', () => {
   })
 
   it('should not have type=button', () => {
-    render(<Slider {...props} />)
+    render(<Slider />)
     expect(
       document.querySelector('.dnb-slider__thumb .dnb-button')
     ).not.toHaveAttribute('type')
