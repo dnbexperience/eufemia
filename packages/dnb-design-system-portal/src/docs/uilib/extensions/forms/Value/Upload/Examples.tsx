@@ -1,8 +1,17 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Form, Value, Field } from '@dnb/eufemia/src/extensions/forms'
 import { Flex, Span } from '@dnb/eufemia/src'
-import { createMockFile } from '../../../../../../docs/uilib/components/upload/Examples'
 import { createRequest } from '../../Form/SubmitIndicator/Examples'
+
+function createMockFile(name: string, size: number, type: string) {
+  const file = new File([], name, { type })
+  Object.defineProperty(file, 'size', {
+    get() {
+      return size
+    },
+  })
+  return file
+}
 
 export const Placeholder = () => {
   return (
