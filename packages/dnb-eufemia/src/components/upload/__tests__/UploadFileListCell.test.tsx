@@ -223,6 +223,7 @@ describe('UploadFileListCell', () => {
       const fileName = 'file.png'
       const mockUrl = 'mock-url'
 
+      const originalCreateObjectURL = global.URL.createObjectURL
       global.URL.createObjectURL = jest.fn().mockReturnValueOnce(mockUrl)
 
       render(
@@ -237,6 +238,8 @@ describe('UploadFileListCell', () => {
         fileName
       ) as HTMLAnchorElement
       expect(anchorElement.href).toMatch(mockUrl)
+
+      global.URL.createObjectURL = originalCreateObjectURL
     })
 
     it('renders the download attribute', () => {
