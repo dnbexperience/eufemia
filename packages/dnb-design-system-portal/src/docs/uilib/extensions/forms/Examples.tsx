@@ -429,7 +429,7 @@ export const UsingWizard = () => {
   return (
     <ComponentBox>
       {() => {
-        const MyForm = () => {
+        function MyForm() {
           // Routers like "react-router" are supported as well
           Wizard.useQueryLocator('my-wizard')
           const { summaryTitle } = Form.useLocale().Step
@@ -622,7 +622,7 @@ export const UsingIterate = () => {
           )
         }
 
-        const MyForm = () => {
+        function MyForm() {
           return (
             <Form.Handler
               data={{
@@ -700,26 +700,29 @@ export const Transformers = () => {
 
 export const QuickStart = () => {
   return (
-    <ComponentBox>
+    <ComponentBox hideCode>
       {() => {
-        const MyForm = () => {
-          const existingData = { companyName: 'DNB' }
+        const existingData = { companyName: 'DNB' }
+
+        function MyForm() {
           return (
             <Form.Handler
               defaultData={existingData}
-              onChange={console.log}
-              onSubmit={console.log}
+              onSubmit={async (data) => console.log('onSubmit', data)}
+              required
             >
+              <Form.MainHeading>Quick start</Form.MainHeading>
+
               <Form.Card>
-                <Field.Name.Company path="/companyName" required />
-                <Field.OrganizationNumber
-                  path="/companyOrganizationNumber"
-                  required
-                />
+                <Field.Name.Company path="/companyName" />
+
+                <Field.OrganizationNumber path="/companyOrganizationNumber" />
+
                 <Field.Selection
                   path="/postalAddressSelect"
                   label="Ønsket sted for tilsendt post"
                   variant="radio"
+                  required={false}
                 >
                   <Field.Option
                     value="companyAddress"
@@ -727,6 +730,7 @@ export const QuickStart = () => {
                   />
                   <Field.Option value="other" title="Annet" />
                 </Field.Selection>
+
                 <Form.Visibility
                   visibleWhen={{
                     path: '/postalAddressSelect',
@@ -737,10 +741,10 @@ export const QuickStart = () => {
                   <Field.String
                     path="/postalAddress"
                     label="Sted for tilsendt post"
-                    required
                   />
                 </Form.Visibility>
               </Form.Card>
+              <Form.SubmitButton variant="send" />
             </Form.Handler>
           )
         }
