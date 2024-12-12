@@ -2,16 +2,7 @@ import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Form, Value, Field } from '@dnb/eufemia/src/extensions/forms'
 import { Flex, Span } from '@dnb/eufemia/src'
 import { createRequest } from '../../Form/SubmitIndicator/Examples'
-
-function createMockFile(name: string, size: number, type: string) {
-  const file = new File([], name, { type })
-  Object.defineProperty(file, 'size', {
-    get() {
-      return size
-    },
-  })
-  return file
-}
+import { createMockFile } from '../../../../../../docs/uilib/components/upload/Examples'
 
 export const Placeholder = () => {
   return (
@@ -500,44 +491,55 @@ export const ListTypes = () => {
   )
 }
 
-export const OnFileClick = () => (
-  <ComponentBox hideCode scope={{ createMockFile, createRequest }}>
-    {() => {
-      const Component = () => {
-        async function mockAsyncFileFetching({ fileItem }) {
-          const request = createRequest()
-          console.log(
-            'making API request to fetch the url of the file: ' +
-              fileItem.file.name,
-          )
-          await request(2000) // Simulate a request
-          window.open(
-            'https://eufemia.dnb.no/images/avatars/' + fileItem.file.name,
-            '_blank',
+export const OnFileClick = () => {
+  return (
+    <ComponentBox scope={{ createMockFile, createRequest }}>
+      {() => {
+        function Component() {
+          async function mockAsyncFileFetching({ fileItem }) {
+            const request = createRequest()
+            console.log(
+              'making API request to fetch the url of the file: ' +
+                fileItem.file.name,
+            )
+            await request(2000) // Simulate a request
+            window.open(
+              'https://eufemia.dnb.no/images/avatars/' +
+                fileItem.file.name,
+              '_blank',
+            )
+          }
+
+          return (
+            <Value.Upload
+              label="Label text"
+              value={[
+                {
+                  file: createMockFile(
+                    '35217511.jpg',
+                    1000000,
+                    'image/png',
+                  ),
+                  exists: false,
+                  id: '1',
+                },
+                {
+                  file: createMockFile(
+                    '1501870.jpg',
+                    2000000,
+                    'image/png',
+                  ),
+                  exists: false,
+                  id: '2',
+                },
+              ]}
+              onFileClick={mockAsyncFileFetching}
+            />
           )
         }
 
-        return (
-          <Value.Upload
-            label="Label text"
-            value={[
-              {
-                file: createMockFile('35217511.jpg', 1000000, 'image/png'),
-                exists: false,
-                id: '1',
-              },
-              {
-                file: createMockFile('1501870.jpg', 2000000, 'image/png'),
-                exists: false,
-                id: '2',
-              },
-            ]}
-            onFileClick={mockAsyncFileFetching}
-          />
-        )
-      }
-
-      return <Component />
-    }}
-  </ComponentBox>
-)
+        return <Component />
+      }}
+    </ComponentBox>
+  )
+}
