@@ -1413,6 +1413,7 @@ describe('DatePicker component', () => {
     expect(onChange.mock.calls[4][0].date).toBe('2019-01-03')
     expect(onChange.mock.calls[4][0].is_valid).toBe(true)
   })
+
   it('has to auto-correct invalid min/max dates', async () => {
     const onChange = jest.fn()
 
@@ -1453,6 +1454,31 @@ describe('DatePicker component', () => {
         start_date: '2019-01-03',
       })
     )
+  })
+
+  it('has to auto-correct invalid date based on min date', async () => {
+    render(
+      <DatePicker
+        {...defaultProps}
+        date="2022-01-01"
+        correctInvalidDate
+        minDate="2024-12-12"
+      />
+    )
+
+    const dayElem = document.querySelectorAll(
+      'input.dnb-date-picker__input--day'
+    )[0] as HTMLInputElement
+    const monthElem = document.querySelectorAll(
+      'input.dnb-date-picker__input--month'
+    )[0] as HTMLInputElement
+    const yearElem = document.querySelectorAll(
+      'input.dnb-date-picker__input--year'
+    )[0] as HTMLInputElement
+
+    expect(dayElem.value).toBe('12')
+    expect(monthElem.value).toBe('12')
+    expect(yearElem.value).toBe('2024')
   })
 
   it('has valid on_type and onChange event calls', () => {

@@ -231,9 +231,6 @@ function mapDates(
     dateFormat,
   })
 
-  const hasValidStartDate = isValid(startDate)
-  const hasValidEndDate = isValid(endDate)
-
   const correctedDates = shouldCorrectDate
     ? correctDates({ startDate, endDate, minDate, maxDate, isRange })
     : {}
@@ -248,6 +245,9 @@ function mapDates(
     maxDate,
     ...correctedDates,
   }
+
+  const hasValidStartDate = isValid(dates.startDate)
+  const hasValidEndDate = isValid(dates.endDate)
 
   return {
     ...dates,
