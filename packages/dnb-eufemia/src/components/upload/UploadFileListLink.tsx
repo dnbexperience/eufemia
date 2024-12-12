@@ -36,6 +36,7 @@ const UploadFileButton = (props: UploadFileButtonProps) => {
   const spacingClasses = createSpacingClasses(props)
   return (
     <Button
+      size="small"
       icon={false}
       variant="tertiary"
       onClick={onClick}

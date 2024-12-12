@@ -29,6 +29,7 @@ import { getPreviousSibling } from '../../shared/component-helper'
 import useUpload from './useUpload'
 import { getFileTypeFromExtension } from './UploadVerify'
 import UploadFileLink from './UploadFileListLink'
+import { ProgressIndicatorAllProps } from '../progress-indicator/types'
 
 // Will be deprecated - and then default to only showing the file icon,
 // and not file icon per file extension type
@@ -90,8 +91,6 @@ const UploadFileListCell = ({
   const { file, errorMessage, isLoading } = uploadFile
   const hasWarning = errorMessage != null
 
-  const fileType = getFileTypeFromExtension(file)
-
   const imageUrl = URL.createObjectURL(file)
   const cellRef = useRef<HTMLLIElement>()
   const exists = useExistsHighlight(id, file)
@@ -122,7 +121,7 @@ const UploadFileListCell = ({
     >
       <div className="dnb-upload__file-cell__content">
         <div className="dnb-upload__file-cell__content__left">
-          {getIcon()}
+          {getFileIcon(file, { isLoading }, hasWarning)}
           {getTitle()}
         </div>
         <div>
@@ -141,34 +140,6 @@ const UploadFileListCell = ({
       {getWarning()}
     </li>
   )
-
-  function getIcon() {
-    if (isLoading) {
-      return <ProgressIndicator />
-    }
-
-    if (hasWarning) return <Icon icon={ExclamationIcon} />
-
-    let iconFileType = fileType
-
-    if (!iconFileType) {
-      const mimeParts = file.type.split('/')
-      iconFileType =
-        fileExtensionImages[mimeParts[0]] ||
-        fileExtensionImages[mimeParts[1]]
-    }
-
-    if (
-      !Object.prototype.hasOwnProperty.call(
-        fileExtensionImages,
-        iconFileType
-      )
-    ) {
-      iconFileType = 'file'
-    }
-
-    return <Icon icon={fileExtensionImages[iconFileType]} />
-  }
 
   function getTitle() {
     return isLoading ? (
@@ -225,4 +196,43 @@ function useExistsHighlight(id: string, file: File) {
   }, [file, internalFiles])
 
   return exists
+}
+
+export function getFileIcon(
+  file: File,
+  loading?: {
+    isLoading: UploadFile['isLoading']
+    size?: ProgressIndicatorAllProps['size']
+  },
+  hasWarning?: boolean
+) {
+  if (loading?.isLoading) {
+    return <ProgressIndicator size={loading?.size ?? 'default'} />
+  }
+
+  if (hasWarning) return <Icon icon={ExclamationIcon} />
+
+  if (!file) {
+    return
+  }
+
+  let iconFileType = getFileTypeFromExtension(file)
+
+  if (!iconFileType) {
+    const mimeParts = file.type.split('/')
+    iconFileType =
+      fileExtensionImages[mimeParts[0]] ||
+      fileExtensionImages[mimeParts[1]]
+  }
+
+  if (
+    !Object.prototype.hasOwnProperty.call(
+      fileExtensionImages,
+      iconFileType
+    )
+  ) {
+    iconFileType = 'file'
+  }
+
+  return <Icon icon={fileExtensionImages[iconFileType]} />
 }

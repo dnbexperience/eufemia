@@ -2,6 +2,7 @@ import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Form, Value, Field } from '@dnb/eufemia/src/extensions/forms'
 import { Flex, Span } from '@dnb/eufemia/src'
 import { createMockFile } from '../../../../../../docs/uilib/components/upload/Examples'
+import { createRequest } from '../../Form/SubmitIndicator/Examples'
 
 export const Placeholder = () => {
   return (
@@ -152,7 +153,11 @@ export const Label = () => {
 
 export const LabelAndValue = () => {
   return (
-    <ComponentBox hideCode scope={{ createMockFile }}>
+    <ComponentBox
+      hideCode
+      scope={{ createMockFile }}
+      data-visual-test="upload-value-label-and-value"
+    >
       <Value.Upload
         label="Label text"
         value={[
@@ -164,6 +169,36 @@ export const LabelAndValue = () => {
           {
             file: createMockFile('fileName-2.png', 2000000, 'image/png'),
             exists: false,
+            id: '2',
+          },
+        ]}
+      />
+    </ComponentBox>
+  )
+}
+
+export const LabelAndValueOnFileClick = () => {
+  return (
+    <ComponentBox
+      hideCode
+      scope={{ createMockFile }}
+      data-visual-test="upload-value-label-and-value-on-file-click"
+    >
+      <Value.Upload
+        onFileClick={() => {
+          console.log('Clicked on file')
+        }}
+        label="Label text"
+        value={[
+          {
+            file: createMockFile('fileName-1.png', 1000000, 'image/png'),
+            exists: false,
+            id: '1',
+          },
+          {
+            file: createMockFile('fileName-2.png', 2000000, 'image/png'),
+            exists: false,
+            isLoading: true,
             id: '2',
           },
         ]}
@@ -246,6 +281,68 @@ export const ListVariants = () => {
             file: createMockFile('fileName-3.png', 3000000, 'image/png'),
             exists: false,
             id: '3',
+          },
+        ]}
+        label="Unordered List"
+        variant="ul"
+      />
+    </ComponentBox>
+  )
+}
+
+export const ListVariantsOnFileClick = () => {
+  return (
+    <ComponentBox
+      scope={{ createMockFile }}
+      data-visual-test="upload-value-lists-on-file-click"
+      hideCode
+    >
+      <Value.Upload
+        onFileClick={() => {
+          console.log('Clicked on file')
+        }}
+        value={[
+          {
+            file: createMockFile('fileName-1.png', 1000000, 'image/png'),
+            exists: false,
+            isLoading: true,
+            id: '1',
+          },
+          {
+            file: createMockFile('fileName-2.png', 2000000, 'image/png'),
+            exists: false,
+            id: '2',
+          },
+          {
+            file: createMockFile('fileName-3.png', 3000000, 'image/png'),
+            exists: false,
+            id: '3',
+          },
+        ]}
+        label="Ordered List"
+        variant="ol"
+      />
+      <Value.Upload
+        onFileClick={() => {
+          console.log('Clicked on file')
+        }}
+        value={[
+          {
+            file: createMockFile('fileName-1.png', 1000000, 'image/png'),
+            exists: false,
+            id: '1',
+          },
+          {
+            file: createMockFile('fileName-2.png', 2000000, 'image/png'),
+            exists: false,
+            id: '2',
+            isLoading: true,
+          },
+          {
+            file: createMockFile('fileName-3.png', 3000000, 'image/png'),
+            exists: false,
+            id: '3',
+            isLoading: true,
           },
         ]}
         label="Unordered List"
@@ -394,30 +491,44 @@ export const ListTypes = () => {
   )
 }
 
-export const OnFileClick = () => {
-  return (
-    <ComponentBox hideCode scope={{ createMockFile }}>
-      <Value.Upload
-        label="Label text"
-        value={[
-          {
-            file: createMockFile('35217511.jpg', 1000000, 'image/png'),
-            exists: false,
-            id: '1',
-          },
-          {
-            file: createMockFile('1501870.jpg', 2000000, 'image/png'),
-            exists: false,
-            id: '2',
-          },
-        ]}
-        onFileClick={({ fileItem }) => {
+export const OnFileClick = () => (
+  <ComponentBox hideCode scope={{ createMockFile, createRequest }}>
+    {() => {
+      const Component = () => {
+        async function mockAsyncFileFetching({ fileItem }) {
+          const request = createRequest()
+          console.log(
+            'making API request to fetch the url of the file: ' +
+              fileItem.file.name,
+          )
+          await request(2000) // Simulate a request
           window.open(
             'https://eufemia.dnb.no/images/avatars/' + fileItem.file.name,
             '_blank',
           )
-        }}
-      />
-    </ComponentBox>
-  )
-}
+        }
+
+        return (
+          <Value.Upload
+            label="Label text"
+            value={[
+              {
+                file: createMockFile('35217511.jpg', 1000000, 'image/png'),
+                exists: false,
+                id: '1',
+              },
+              {
+                file: createMockFile('1501870.jpg', 2000000, 'image/png'),
+                exists: false,
+                id: '2',
+              },
+            ]}
+            onFileClick={mockAsyncFileFetching}
+          />
+        )
+      }
+
+      return <Component />
+    }}
+  </ComponentBox>
+)

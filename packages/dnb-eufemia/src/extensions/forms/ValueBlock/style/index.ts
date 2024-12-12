@@ -3,4 +3,4 @@
  *
  */
 
-import './dnb-value.scss'
+import './dnb-value-block.scss'
