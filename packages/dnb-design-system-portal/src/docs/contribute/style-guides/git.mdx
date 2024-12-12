@@ -13,11 +13,27 @@ Version numbers are handled automatically by using [semantic-release](https://gi
 
 ## Commit Messages
 
-Make sure to decorate your **commit messages** with either [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#summary) or [simple-commit-message](https://github.com/bahmutov/simple-commit-message):
+For consistency, please write commit messages in the **imperative mood**.
 
-- `fix: an example fix message` as the subject
-- `feat: this is a new feature` as the subject
-- `e.g. feat: message` + `BREAKING CHANGE:` in the footer of the commit. See example below.
+A clear and concise commit message helps others understand the purpose of the commit and makes it easier to search through the history for specific changes.
+
+### Why the Imperative Mood?
+
+The imperative mood matches the implied "command" to the codebase. Think of the message as completing the phrase: _"This commit will..."_. For example:
+
+- **"Fix bug"** (instead of "Fixed bug")
+- **"Add feature"** (instead of "Added feature")
+- **"Refactor code"** (instead of "Refactored code")
+
+This convention helps maintain consistency and clarity across the Eufemia codebase.
+
+### Decorate your commit messages
+
+Make sure to **decorate** your commit messages with either [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#summary) or [simple-commit-message](https://github.com/bahmutov/simple-commit-message):
+
+- `fix: fix message` as the subject
+- `feat: feature message` as the subject
+- For a major change: `feat: message` + `BREAKING CHANGE:` in the footer of the commit. See example below.
 
 If you are working on a single component update, you can use a decoration and a scope in parenthesis:
 
