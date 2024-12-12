@@ -56,7 +56,9 @@ function SliderComponent(props: Props) {
     [getSourceValue]
   )
 
-  const value = getValues(props.paths ?? props.path ?? props.value)
+  const value = getValues(
+    props.paths ?? props.path ?? props.value ?? props.defaultValue
+  )
   const preparedProps = {
     ...props,
     step: getSourceValue(props.step),
