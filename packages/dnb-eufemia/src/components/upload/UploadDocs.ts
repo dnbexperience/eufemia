@@ -2,9 +2,9 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const UploadProperties: PropertiesTableProps = {
   id: {
-    doc: 'Unique id used with the useUpload hook to manage the files.',
+    doc: 'Unique id used with the useUpload hook to manage the files. Needed when wanting to connect with the useUpload hook.',
     type: ['string', 'Function', 'Object', 'React.Context'],
-    status: 'required',
+    status: 'optional',
   },
   acceptedFileTypes: {
     doc: 'List of accepted file types. Either as string or [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype). When providing a list of [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype), the accepted file types will be presented in a table(see [example](/uilib/components/upload/demos/#upload-with-file-max-size-based-on-file-type)).',

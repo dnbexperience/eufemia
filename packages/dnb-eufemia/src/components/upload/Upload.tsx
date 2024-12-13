@@ -9,6 +9,7 @@ import {
   extendPropsWithContext,
   makeUniqueId,
 } from '../../shared/component-helper'
+import useId from '../../shared/helpers/useId'
 
 // Internal
 import UploadFileInput from './UploadFileInput'
@@ -44,7 +45,7 @@ const Upload = (localProps: UploadAllProps) => {
   )
 
   const {
-    id,
+    id: idProp,
     skeleton,
     className,
     acceptedFileTypes,
@@ -72,6 +73,8 @@ const Upload = (localProps: UploadAllProps) => {
   } = extendedProps
 
   const spacingClasses = createSpacingClasses(props)
+
+  const id = useId(idProp)
 
   const { files, setFiles, setInternalFiles, getExistingFile } =
     useUpload(id)

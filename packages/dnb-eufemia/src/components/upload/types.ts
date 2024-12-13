@@ -17,7 +17,7 @@ export type UploadProps = {
   /**
    * unique id used with the useUpload hook to manage the files
    */
-  id: SharedStateId
+  id?: SharedStateId
 
   /**
    * list of accepted file types.
