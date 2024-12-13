@@ -13,6 +13,18 @@ breadcrumb:
 
 Change log for the Eufemia Forms extension.
 
+## v10.61
+
+- Added support for async `onFileClick` in [Value.Upload](/uilib/extensions/forms/Value/Upload/).
+- Fixed so `transformIn` and `transformOut` supports changed array and object instances.
+- Fixed issue where label did not stretch when providing `width="stretch"` in [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) which is used in most `Field.*` components.
+
+## v10.60.1
+
+- Fixed so there's a gap between file and remove button in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+- Fixed so there's no scrolling when removing file in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+- Fixed handling of multiple chained async actions using `fileHandler`, `onFileClick`, and `onFileDelete` in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+
 ## v10.60
 
 - Added [Form.InfoOverlay](/uilib/extensions/forms/Form/InfoOverlay/) to display error, success (receipt), or custom messages to users.

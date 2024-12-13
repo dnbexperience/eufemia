@@ -56,7 +56,7 @@ export const UploadPrefilledFileList = () => (
 
 export const UploadBasic = () => (
   <ComponentBox data-visual-test="upload-basic">
-    <Upload acceptedFileTypes={['jpg', 'png']} id="upload-basic" />
+    <Upload acceptedFileTypes={['jpg', 'png']} />
   </ComponentBox>
 )
 
@@ -88,14 +88,12 @@ export const UploadRemoveFile = () => (
   <ComponentBox data-visual-test="upload-remove-files">
     {() => {
       const Component = () => {
-        const { files, setFiles } = Upload.useUpload('upload-remove-files')
+        const myUploadId = 'unique-id' // or a function, object or React Context reference.
+        const { files, setFiles } = Upload.useUpload(myUploadId) // id is needed when wanting to connect with the useUpload hook.
 
         return (
           <>
-            <Upload
-              acceptedFileTypes={['jpg', 'png']}
-              id="upload-remove-files"
-            />
+            <Upload acceptedFileTypes={['jpg', 'png']} id={myUploadId} />
 
             <Button
               top="small"
@@ -269,7 +267,6 @@ export const UploadFileMaxSizeBasedOnFileType = () => (
     hideCode
   >
     <Upload
-      id="upload-file-max-size-based-on-file-format"
       fileMaxSize={99}
       acceptedFileTypes={[
         { fileType: 'jpg', fileMaxSize: 1 },
@@ -297,7 +294,6 @@ export const UploadFileMaxSizeBasedOnFileType = () => (
 export const UploadFileMaxSizeBasedOnFileTypeDisabled = () => (
   <ComponentBox>
     <Upload
-      id="upload-file-max-size-based-on-file-format-disabled"
       acceptedFileTypes={[
         { fileType: 'jpg', fileMaxSize: 0 },
         { fileType: 'doc', fileMaxSize: false },
@@ -309,11 +305,7 @@ export const UploadFileMaxSizeBasedOnFileTypeDisabled = () => (
 
 export const UploadDisabledFileMaxSize = () => (
   <ComponentBox data-visual-test="upload-disabled-file-max-size">
-    <Upload
-      acceptedFileTypes={['jpg', 'pdf']}
-      id="upload-disabled-file-max-size"
-      fileMaxSize={false}
-    />
+    <Upload acceptedFileTypes={['jpg', 'pdf']} fileMaxSize={false} />
   </ComponentBox>
 )
 
@@ -323,7 +315,6 @@ export const UploadNoTitleNoText = () => (
       title={false}
       text={false}
       acceptedFileTypes={['jpg', 'png']}
-      id="upload-no-title-no-text"
     />
   </ComponentBox>
 )
@@ -347,7 +338,6 @@ export const UploadOnFileDeleteAsync = () => (
         <Upload
           onFileDelete={mockAsyncFileRemoval}
           acceptedFileTypes={['jpg', 'png']}
-          id="upload-on-file-delete"
         />
       )
     }}
@@ -367,6 +357,7 @@ export const UploadOnFileClick = () => (
           setFiles([
             {
               file: createMockFile('1501870.jpg', 123, 'image/png'),
+              id: '1',
             },
             {
               file: createMockFile(
@@ -374,6 +365,7 @@ export const UploadOnFileClick = () => (
                 123,
                 'image/png',
               ),
+              id: '2',
             },
           ])
         }, [setFiles])

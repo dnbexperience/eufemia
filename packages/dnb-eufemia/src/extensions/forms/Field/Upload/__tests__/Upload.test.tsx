@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import { DataContext, Field, Form, Wizard } from '../../..'
 import { BYTES_IN_A_MEGA_BYTE } from '../../../../../components/upload/UploadVerify'
@@ -7,7 +7,7 @@ import { createMockFile } from '../../../../../components/upload/__tests__/testH
 import nbNOForms from '../../../constants/locales/nb-NO'
 import nbNOShared from '../../../../../shared/locales/nb-NO'
 import userEvent from '@testing-library/user-event'
-import { UploadValue } from '../Upload'
+import { UploadFileNative, UploadValue } from '../Upload'
 import { wait } from '../../../../../core/jest/jestSetup'
 
 const nbForms = nbNOForms['nb-NO']
@@ -1526,5 +1526,156 @@ describe('Field.Upload', () => {
     expect(
       document.querySelectorAll('.dnb-upload__file-cell').length
     ).toBe(0)
+  })
+
+  describe('transformIn and transformOut', () => {
+    type DocumentMetadata = {
+      id: string
+      fileName: string
+    }
+
+    const defaultValue = [
+      {
+        id: '1234',
+        fileName: 'myFile.pdf',
+      },
+    ] satisfies DocumentMetadata[] as unknown as UploadValue
+
+    const filesCache = new Map<string, File>()
+
+    // To the Field (from e.g. defaultValue)
+    const transformIn = (external?: DocumentMetadata[]) => {
+      return (
+        external?.map(({ id, fileName }) => {
+          const file: File = filesCache.get(id) || new File([], fileName)
+
+          return { id, file } satisfies UploadFileNative
+        }) || []
+      )
+    }
+
+    // From the Field (internal value) to the data context or event parameter
+    const transformOut = (internal?: UploadValue) => {
+      return (
+        internal?.map(({ id, file }) => {
+          if (!filesCache.has(id)) {
+            filesCache.set(id, file)
+          }
+
+          return { id, fileName: file.name } satisfies DocumentMetadata
+        }) || []
+      )
+    }
+
+    let dataContext = null
+    function LogContext() {
+      dataContext = useContext(DataContext.Context).data
+      return null
+    }
+
+    it('should render files given in data context', async () => {
+      render(
+        <Form.Handler
+          defaultData={{
+            documents: defaultValue,
+          }}
+        >
+          <Field.Upload
+            path="/documents"
+            transformIn={transformIn}
+            transformOut={transformOut}
+          />
+          <LogContext />
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(1)
+      expect(dataContext).toEqual({
+        documents: [
+          {
+            id: '1234',
+            fileName: 'myFile.pdf',
+          },
+        ],
+      })
+
+      const file = createMockFile('secondFile.png', 100, 'image/png')
+      await waitFor(() => {
+        fireEvent.drop(document.querySelector('input'), {
+          dataTransfer: {
+            files: [file],
+          },
+        })
+      })
+
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(2)
+      expect(dataContext).toEqual({
+        documents: [
+          {
+            id: '1234',
+            fileName: 'myFile.pdf',
+          },
+          {
+            id: expect.any(String),
+            fileName: 'secondFile.png',
+          },
+        ],
+      })
+    })
+
+    it('should render files given by defaultValue', async () => {
+      render(
+        <Form.Handler>
+          <Field.Upload
+            path="/documents"
+            transformIn={transformIn}
+            transformOut={transformOut}
+            defaultValue={defaultValue}
+          />
+          <LogContext />
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(1)
+      expect(dataContext).toEqual({
+        documents: [
+          {
+            id: '1234',
+            fileName: 'myFile.pdf',
+          },
+        ],
+      })
+
+      const file = createMockFile('secondFile.png', 100, 'image/png')
+      await waitFor(() => {
+        fireEvent.drop(document.querySelector('input'), {
+          dataTransfer: {
+            files: [file],
+          },
+        })
+      })
+
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(2)
+      expect(dataContext).toEqual({
+        documents: [
+          {
+            id: '1234',
+            fileName: 'myFile.pdf',
+          },
+          {
+            id: expect.any(String),
+            fileName: 'secondFile.png',
+          },
+        ],
+      })
+    })
   })
 })

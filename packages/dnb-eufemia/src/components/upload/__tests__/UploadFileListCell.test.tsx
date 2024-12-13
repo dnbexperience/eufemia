@@ -206,6 +206,52 @@ describe('UploadFileListCell', () => {
     })
   })
 
+  it('renders a span when file size is 0', () => {
+    const fileName = 'file.png'
+
+    render(
+      <UploadFileListCell
+        {...defaultProps}
+        uploadFile={{ file: createMockFile(fileName, 0, 'image/png') }}
+      />
+    )
+    expect(screen.queryByText(fileName).tagName).toBe('SPAN')
+    expect(screen.queryByText(fileName)).toHaveClass('dnb-span')
+  })
+
+  it('renders a span when file size is not given', () => {
+    const fileName = 'file.png'
+
+    render(
+      <UploadFileListCell
+        {...defaultProps}
+        uploadFile={{
+          file: createMockFile(fileName, undefined, 'image/png'),
+        }}
+      />
+    )
+    expect(screen.queryByText(fileName).tagName).toBe('SPAN')
+    expect(screen.queryByText(fileName)).toHaveClass('dnb-span')
+  })
+
+  it('renders a button when file size is invalid, but onClick is given', () => {
+    const fileName = 'file.png'
+
+    render(
+      <UploadFileListCell
+        {...defaultProps}
+        uploadFile={{
+          file: createMockFile(fileName, undefined, 'image/png'),
+        }}
+        onClick={jest.fn()}
+      />
+    )
+
+    expect(screen.queryByText(fileName).parentElement.tagName).toBe(
+      'BUTTON'
+    )
+  })
+
   describe('File Anchor', () => {
     it('renders the anchor', () => {
       const fileName = 'file.png'
@@ -216,13 +262,14 @@ describe('UploadFileListCell', () => {
           uploadFile={{ file: createMockFile(fileName, 100, 'image/png') }}
         />
       )
-      expect(screen.queryByText(fileName)).toBeInTheDocument()
+      expect(screen.queryByText(fileName).tagName).toBe('A')
     })
 
     it('renders the anchor href', () => {
       const fileName = 'file.png'
       const mockUrl = 'mock-url'
 
+      const originalCreateObjectURL = global.URL.createObjectURL
       global.URL.createObjectURL = jest.fn().mockReturnValueOnce(mockUrl)
 
       render(
@@ -237,6 +284,8 @@ describe('UploadFileListCell', () => {
         fileName
       ) as HTMLAnchorElement
       expect(anchorElement.href).toMatch(mockUrl)
+
+      global.URL.createObjectURL = originalCreateObjectURL
     })
 
     it('renders the download attribute', () => {

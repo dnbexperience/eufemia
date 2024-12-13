@@ -21,7 +21,6 @@ const en = enGB['en-GB'].Upload
 global.URL.createObjectURL = jest.fn(() => 'url')
 
 const defaultProps: UploadAllProps = {
-  id: 'id',
   acceptedFileTypes: ['png'],
 }
 
@@ -932,6 +931,68 @@ describe('Upload', () => {
         screen.queryByText(`file length is more than 5`)
       ).toBeInTheDocument()
     })
+
+    it('keeps files in shared state when providing id', async () => {
+      const files = [
+        createMockFile('fileName1.png', 100, 'image/png'),
+        createMockFile('fileName2.png', 200, 'image/png'),
+      ]
+
+      const id = 'random-id-unmount'
+
+      const { unmount } = render(<Upload {...defaultProps} id={id} />)
+
+      const inputElement = document.querySelector(
+        '.dnb-upload__file-input'
+      )
+      await waitFor(() =>
+        fireEvent.change(inputElement, {
+          target: { files },
+        })
+      )
+
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(2)
+
+      unmount()
+
+      render(<Upload {...defaultProps} id={id} />)
+
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(2)
+    })
+
+    it('removes files when unmounting when not providing id', async () => {
+      const files = [
+        createMockFile('fileName1.png', 100, 'image/png'),
+        createMockFile('fileName2.png', 200, 'image/png'),
+      ]
+
+      const { unmount } = render(<Upload {...defaultProps} />)
+
+      const inputElement = document.querySelector(
+        '.dnb-upload__file-input'
+      )
+      await waitFor(() =>
+        fireEvent.change(inputElement, {
+          target: { files },
+        })
+      )
+
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(2)
+
+      unmount()
+
+      render(<Upload {...defaultProps} />)
+
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(0)
+    })
   })
 
   describe('events', () => {
@@ -1017,10 +1078,11 @@ describe('Upload', () => {
         '.dnb-upload__file-input'
       )
       const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+      const file2 = createMockFile('fileName-2.png', 200, 'image/png')
 
       await waitFor(() =>
         fireEvent.change(inputElement, {
-          target: { files: [file1] },
+          target: { files: [file1, file2] },
         })
       )
 
@@ -1031,8 +1093,46 @@ describe('Upload', () => {
       await waitFor(() => {
         fireEvent.click(fileButton)
         expect(
-          document.querySelector('.dnb-progress-indicator')
-        ).toBeInTheDocument()
+          document.querySelectorAll('.dnb-progress-indicator').length
+        ).toBe(1)
+      })
+    })
+
+    it('will display loading state when async onFileClick fn when files do not have id', async () => {
+      const files = [
+        { file: createMockFile('fileName1.png', 100, 'image/png') },
+        { file: createMockFile('fileName2.png', 100, 'image/png') },
+        { file: createMockFile('fileName3.png', 100, 'image/png') },
+      ]
+
+      const id = 'onFileClick-async-no-id'
+      const onFileClick = jest.fn(async () => {
+        await wait(1)
+      })
+
+      render(
+        <Upload {...defaultProps} id={id} onFileClick={onFileClick} />
+      )
+
+      const MockComponent = () => {
+        const { setFiles } = useUpload(id)
+
+        useEffect(() => setFiles(files), [])
+
+        return <div />
+      }
+
+      render(<MockComponent />)
+
+      const fileButton = document.querySelector(
+        '.dnb-upload__file-cell button'
+      )
+
+      await waitFor(() => {
+        fireEvent.click(fileButton)
+        expect(
+          document.querySelectorAll('.dnb-progress-indicator').length
+        ).toBe(1)
       })
     })
 

@@ -23,6 +23,7 @@ import { useTranslation as useSharedTranslation } from '../../../../shared'
 import { SpacingProps } from '../../../../shared/types'
 import { FormError } from '../../utils'
 
+export type { UploadFile, UploadFileNative }
 export type UploadValue = Array<UploadFile | UploadFileNative>
 export type Props = Omit<
   FieldProps<UploadValue, UploadValue | undefined>,

@@ -1,18 +1,25 @@
 import React from 'react'
-
+import classNames from 'classnames'
 import Anchor from '../../components/Anchor'
 import Button from '../button/Button'
+import Span from '../../elements/Span'
 import { SpacingProps } from '../space/types'
 import { createSpacingClasses } from '../space/SpacingUtils'
-import classNames from 'classnames'
 
 export type UploadFileLinkProps = UploadFileAnchorProps &
   UploadFileButtonProps
 
 export const UploadFileLink = (props: UploadFileLinkProps) => {
   const { onClick, text, href, download, ...rest } = props
-  if (onClick)
+
+  if (!onClick && !href) {
+    return <Span {...rest}>{text}</Span>
+  }
+
+  if (onClick) {
     return <UploadFileButton text={text} onClick={onClick} {...rest} />
+  }
+
   return (
     <UploadFileAnchor
       text={text}
@@ -36,6 +43,7 @@ const UploadFileButton = (props: UploadFileButtonProps) => {
   const spacingClasses = createSpacingClasses(props)
   return (
     <Button
+      size="small"
       icon={false}
       variant="tertiary"
       onClick={onClick}

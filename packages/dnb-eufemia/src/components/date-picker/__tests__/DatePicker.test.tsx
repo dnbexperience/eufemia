@@ -1278,15 +1278,9 @@ describe('DatePicker component', () => {
   it('has a working month correction', () => {
     render(<DatePicker showInput />)
 
-    const dayElem = document.querySelectorAll(
-      'input.dnb-date-picker__input--day'
-    )[0]
-    const monthElem = document.querySelectorAll(
-      'input.dnb-date-picker__input--month'
-    )[0]
-    const yearElem = document.querySelectorAll(
-      'input.dnb-date-picker__input--year'
-    )[0]
+    const [dayElem, monthElem, yearElem] = Array.from(
+      document.querySelectorAll('input.dnb-date-picker__input')
+    )
 
     // change the date
     const day = '01'
@@ -1304,9 +1298,9 @@ describe('DatePicker component', () => {
     })
 
     // then check the new input value
-    expect((dayElem as HTMLInputElement).value).toBe(day)
-    expect((monthElem as HTMLInputElement).value).toBe(month)
-    expect((yearElem as HTMLInputElement).value).toBe(year)
+    expect(dayElem).toHaveValue(day)
+    expect(monthElem).toHaveValue(month)
+    expect(yearElem).toHaveValue(year)
   })
 
   it('has a working min and max date limitation', () => {
@@ -1331,7 +1325,7 @@ describe('DatePicker component', () => {
     )[1]
 
     // by default we have the start day
-    expect((startElem as HTMLInputElement).value).toBe('02')
+    expect(startElem).toHaveValue('02')
 
     // change to invalid date
     fireEvent.change(startElem, {
@@ -1413,6 +1407,7 @@ describe('DatePicker component', () => {
     expect(onChange.mock.calls[4][0].date).toBe('2019-01-03')
     expect(onChange.mock.calls[4][0].is_valid).toBe(true)
   })
+
   it('has to auto-correct invalid min/max dates', async () => {
     const onChange = jest.fn()
 
@@ -1430,7 +1425,7 @@ describe('DatePicker component', () => {
     )[0]
 
     // by default we have the corrected start day
-    expect((elem as HTMLInputElement).value).toBe('02')
+    expect(elem).toHaveValue('02')
 
     // change the date to something invalid
     await userEvent.type(elem, '01')
@@ -1453,6 +1448,25 @@ describe('DatePicker component', () => {
         start_date: '2019-01-03',
       })
     )
+  })
+
+  it('has to auto-correct invalid date based on min date', async () => {
+    render(
+      <DatePicker
+        {...defaultProps}
+        date="2022-01-01"
+        correctInvalidDate
+        minDate="2024-12-12"
+      />
+    )
+
+    const [dayElem, monthElem, yearElem] = Array.from(
+      document.querySelectorAll('input.dnb-date-picker__input')
+    )
+
+    expect(dayElem).toHaveValue('12')
+    expect(monthElem).toHaveValue('12')
+    expect(yearElem).toHaveValue('2024')
   })
 
   it('has valid on_type and onChange event calls', () => {
@@ -1499,14 +1513,14 @@ describe('DatePicker component', () => {
       type,
     }) => {
       // by default we have the start day
-      expect(dayElem.value).toBe('dd')
+      expect(dayElem).toHaveValue('dd')
       expect(onType).toHaveBeenCalledTimes(typeIndex)
 
       // change the day
       fireEvent.change(dayElem, {
         target: { value: '03' },
       })
-      expect(dayElem.value).toBe('03')
+      expect(dayElem).toHaveValue('03')
       expect(onType).toHaveBeenCalledTimes(typeIndex + 1)
       expect(onType.mock.calls[typeIndex][0][`${type}_date`]).toBe(
         'yyyy-mm-03'
@@ -1518,7 +1532,7 @@ describe('DatePicker component', () => {
       fireEvent.change(monthElem, {
         target: { value: '01' },
       })
-      expect(monthElem.value).toBe('01')
+      expect(monthElem).toHaveValue('01')
       expect(onType).toHaveBeenCalledTimes(typeIndex + 1)
       expect(
         onType.mock.calls[typeIndex][0][`is_valid_${type}_date`]
@@ -1532,7 +1546,7 @@ describe('DatePicker component', () => {
       fireEvent.change(yearElem, {
         target: { value: '202' },
       })
-      expect(yearElem.value).toBe('202å')
+      expect(yearElem).toHaveValue('202å')
       expect(onType).toHaveBeenCalledTimes(typeIndex + 2)
       expect(onChange).toHaveBeenCalledTimes(changeIndex)
 
@@ -1540,7 +1554,7 @@ describe('DatePicker component', () => {
       fireEvent.change(yearElem, {
         target: { value: '2020' },
       })
-      expect(yearElem.value).toBe('2020')
+      expect(yearElem).toHaveValue('2020')
       expect(onType).toHaveBeenCalledTimes(typeIndex + 3)
       expect(onChange).toHaveBeenCalledTimes(changeIndex + 1)
     }
@@ -1707,7 +1721,7 @@ describe('DatePicker component', () => {
 
     function changeState() {
       const elem = document.querySelectorAll('input.dnb-input__input')[0]
-      expect((elem as HTMLInputElement).value).toBe('01')
+      expect(elem).toHaveValue('01')
 
       // 1. change the date with event
       fireEvent.change(elem, {
@@ -1806,7 +1820,7 @@ describe('DatePicker component', () => {
     )[1]
 
     // by default we have the start day
-    expect((elem as HTMLInputElement).value).toBe('15')
+    expect(elem).toHaveValue('15')
 
     // listen to changes
     let changedStartDate = null
@@ -1831,7 +1845,7 @@ describe('DatePicker component', () => {
     })
 
     // then check the new input value
-    expect((elem as HTMLInputElement).value).toBe(value)
+    expect(elem).toHaveValue(value)
 
     // and the event fired value
     expect(changedStartDate).toBe(`2019-02-${value}`)
@@ -1848,7 +1862,7 @@ describe('DatePicker component', () => {
         }}
       />
     )
-    expect((elem as HTMLInputElement).value).toBe('17')
+    expect(elem).toHaveValue('17')
 
     // reset the value
     fireEvent.change(elem, {
@@ -2044,15 +2058,9 @@ describe('DatePicker component', () => {
       />
     )
 
-    const dayElem = document.querySelectorAll(
-      'input.dnb-date-picker__input--day'
-    )[0] as HTMLInputElement
-    const monthElem = document.querySelectorAll(
-      'input.dnb-date-picker__input--month'
-    )[0]
-    const yearElem = document.querySelectorAll(
-      'input.dnb-date-picker__input--year'
-    )[0]
+    const [dayElem, monthElem, yearElem] = Array.from(
+      document.querySelectorAll('input.dnb-date-picker__input')
+    ) as Array<HTMLInputElement>
 
     // set the cursor to the end of the input
     dayElem.setSelectionRange(2, 2)
@@ -2069,10 +2077,10 @@ describe('DatePicker component', () => {
     )
 
     // also test the key up to change the value on the month input
-    expect((monthElem as HTMLInputElement).value).toBe('01')
+    expect(monthElem).toHaveValue('01')
     fireEvent.keyDown(monthElem, { key: 'Up', keyCode: 38 })
 
-    expect((monthElem as HTMLInputElement).value).toBe('02')
+    expect(monthElem).toHaveValue('02')
 
     // and simulate a left keydown
     fireEvent.keyDown(monthElem, { key: 'Left', keyCode: 37 })
@@ -2086,18 +2094,18 @@ describe('DatePicker component', () => {
     )
 
     // also test the key up to change the value on the day input
-    expect((dayElem as HTMLInputElement).value).toBe('01')
+    expect(dayElem).toHaveValue('01')
     fireEvent.keyDown(dayElem, { key: 'Up', keyCode: 38 })
 
-    expect((dayElem as HTMLInputElement).value).toBe('02')
+    expect(dayElem).toHaveValue('02')
 
     // also test the key up to change the value on the year input
-    expect((yearElem as HTMLInputElement).value).toBe('2019')
+    expect(yearElem).toHaveValue('2019')
     fireEvent.keyDown(yearElem, { key: 'Up', keyCode: 38 })
-    expect((yearElem as HTMLInputElement).value).toBe('2020')
+    expect(yearElem).toHaveValue('2020')
     fireEvent.keyDown(yearElem, { key: 'Down', keyCode: 40 })
 
-    expect((yearElem as HTMLInputElement).value).toBe('2019')
+    expect(yearElem).toHaveValue('2019')
   })
 
   it('should display correct start and end month on opening the date picker', async () => {
@@ -2204,15 +2212,9 @@ describe('DatePicker component', () => {
       </Provider>
     )
 
-    const dayElem = document.querySelectorAll(
-      'input.dnb-date-picker__input--day'
-    )[0] as HTMLInputElement
-    const monthElem = document.querySelectorAll(
-      'input.dnb-date-picker__input--month'
-    )[0] as HTMLInputElement
-    const yearElem = document.querySelectorAll(
-      'input.dnb-date-picker__input--year'
-    )[0] as HTMLInputElement
+    const [dayElem, monthElem, yearElem] = Array.from(
+      document.querySelectorAll('input.dnb-date-picker__input')
+    )
 
     const separator1 = document.querySelectorAll(
       '.dnb-date-picker--separator'
@@ -2221,9 +2223,9 @@ describe('DatePicker component', () => {
       '.dnb-date-picker--separator'
     )[0]
 
-    expect(dayElem.value).toBe('dd')
-    expect(monthElem.value).toBe('mm')
-    expect(yearElem.value).toBe('yyyy')
+    expect(dayElem).toHaveValue('dd')
+    expect(monthElem).toHaveValue('mm')
+    expect(yearElem).toHaveValue('yyyy')
     expect(separator1.textContent).toBe('/')
     expect(separator2.textContent).toBe('/')
   })

@@ -23,6 +23,7 @@ export type CountryFilterSet =
   | 'Nordic'
   | 'Europe'
   | 'Prioritized'
+export type { CountryType }
 
 export type Props = FieldPropsWithExtraValue<
   string,

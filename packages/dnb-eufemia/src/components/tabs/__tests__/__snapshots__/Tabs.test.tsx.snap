@@ -311,6 +311,9 @@ html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus .dnb-ta
   height: 0 !important;
   overflow: hidden;
 }
+.dnb-tabs__cached--hidden * {
+  height: 0 !important;
+}
 html[data-visual-test] .dnb-tabs .dnb-tabs__cached, html[data-visual-test] .dnb-tabs .dnb-tabs__button, html[data-visual-test] .dnb-tabs .dnb-tabs__button__snap, html[data-visual-test] .dnb-tabs .dnb-tabs__scroll-nav-button {
   transition: none !important;
 }

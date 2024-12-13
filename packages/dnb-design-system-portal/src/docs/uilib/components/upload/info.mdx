@@ -22,7 +22,8 @@ The Upload component should be used in scenarios where the user has to upload an
 
 ```jsx
 function YourComponent() {
-  const { files, setFiles } = Upload.useUpload('unique-id')
+  const myUploadId = 'unique-id' // or a function, object or React Context reference
+  const { files, setFiles } = Upload.useUpload(myUploadId)
 
   React.useEffect(() => {
     setFiles(
@@ -35,7 +36,7 @@ function YourComponent() {
     )
   }, [fileNameFromBackend])
 
-  return <Upload id="unique-id" />
+  return <Upload id={myUploadId} />
 }
 ```
 

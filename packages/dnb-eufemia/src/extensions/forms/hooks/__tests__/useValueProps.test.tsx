@@ -14,7 +14,7 @@ describe('useValueProps', () => {
     it('should prepare value', () => {
       const value = 1
 
-      const transformIn = (value) => value + 1
+      const transformIn = (external: unknown) => Number(external) + 1
       const { result } = renderHook(() =>
         useValueProps({ value, transformIn })
       )
@@ -40,7 +40,7 @@ describe('useValueProps', () => {
     it('should prepare value from context', () => {
       const path = '/contextValue'
 
-      const transformIn = (value) => value + 1
+      const transformIn = (external: unknown) => Number(external) + 1
       const { result } = renderHook(
         () => useValueProps({ path, transformIn }),
         {

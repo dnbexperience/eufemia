@@ -263,7 +263,7 @@ describe('Field.String', () => {
       const input = document.querySelector('input')
 
       expect(input).toHaveValue('XYZ')
-      expect(transformIn).toHaveBeenCalledTimes(2)
+      expect(transformIn).toHaveBeenCalledTimes(1)
       expect(transformIn).toHaveBeenLastCalledWith('xYz')
       expect(transformOut).toHaveBeenCalledTimes(0)
       expect(onChangeProvider).toHaveBeenCalledTimes(0)
@@ -272,7 +272,7 @@ describe('Field.String', () => {
       await userEvent.type(input, '{Backspace>3}aBc')
 
       expect(input).toHaveValue('ABC')
-      expect(transformIn).toHaveBeenCalledTimes(16)
+      expect(transformIn).toHaveBeenCalledTimes(9)
       expect(transformIn).toHaveBeenLastCalledWith('abc')
       expect(transformOut).toHaveBeenCalledTimes(13)
       expect(transformOut).toHaveBeenLastCalledWith('ABc', undefined)
@@ -287,7 +287,7 @@ describe('Field.String', () => {
       await userEvent.type(input, '{Backspace>3}EfG')
 
       expect(input).toHaveValue('EFG')
-      expect(transformIn).toHaveBeenCalledTimes(29)
+      expect(transformIn).toHaveBeenCalledTimes(16)
       expect(transformIn).toHaveBeenLastCalledWith('efg')
       expect(transformOut).toHaveBeenCalledTimes(25)
       expect(transformOut).toHaveBeenLastCalledWith('EFG', undefined)
@@ -305,6 +305,9 @@ describe('Field.String', () => {
         return { value, foo: 'bar' }
       })
       const transformIn = jest.fn((data) => {
+        if (typeof data === 'string') {
+          return data
+        }
         return data?.value
       })
       const valueTransformIn = jest.fn((data) => {
@@ -327,11 +330,13 @@ describe('Field.String', () => {
       )
 
       expect(transformOut).toHaveBeenCalledTimes(1)
-      expect(transformIn).toHaveBeenCalledTimes(4)
+      expect(transformIn).toHaveBeenCalledTimes(3)
       expect(valueTransformIn).toHaveBeenCalledTimes(2)
 
       const form = document.querySelector('form')
       const input = document.querySelector('input')
+
+      expect(input).toHaveValue('A')
 
       fireEvent.submit(form)
       expect(onSubmit).toHaveBeenCalledTimes(1)
@@ -346,7 +351,7 @@ describe('Field.String', () => {
       )
 
       expect(transformOut).toHaveBeenCalledTimes(1)
-      expect(transformIn).toHaveBeenCalledTimes(5)
+      expect(transformIn).toHaveBeenCalledTimes(4)
       expect(valueTransformIn).toHaveBeenCalledTimes(3)
 
       expect(input).toHaveValue('A')
@@ -362,7 +367,7 @@ describe('Field.String', () => {
       ).toHaveTextContent('B')
 
       expect(transformOut).toHaveBeenCalledTimes(6)
-      expect(transformIn).toHaveBeenCalledTimes(9)
+      expect(transformIn).toHaveBeenCalledTimes(6)
       expect(valueTransformIn).toHaveBeenCalledTimes(5)
 
       fireEvent.submit(form)
@@ -378,7 +383,7 @@ describe('Field.String', () => {
       )
 
       expect(transformOut).toHaveBeenCalledTimes(6)
-      expect(transformIn).toHaveBeenCalledTimes(10)
+      expect(transformIn).toHaveBeenCalledTimes(7)
       expect(valueTransformIn).toHaveBeenCalledTimes(6)
 
       expect(transformOut).toHaveBeenNthCalledWith(1, 'A', undefined)
@@ -396,8 +401,8 @@ describe('Field.String', () => {
       )
       expect(transformOut).toHaveBeenNthCalledWith(6, 'B', undefined)
 
-      expect(transformIn).toHaveBeenNthCalledWith(1, undefined)
-      expect(transformIn).toHaveBeenNthCalledWith(2, undefined)
+      expect(transformIn).toHaveBeenNthCalledWith(1, 'A')
+      expect(transformIn).toHaveBeenNthCalledWith(2, 'A')
       expect(transformIn).toHaveBeenNthCalledWith(3, {
         foo: 'bar',
         value: 'A',
@@ -408,25 +413,13 @@ describe('Field.String', () => {
       })
       expect(transformIn).toHaveBeenNthCalledWith(5, {
         foo: 'bar',
-        value: 'A',
+        value: undefined,
       })
       expect(transformIn).toHaveBeenNthCalledWith(6, {
         foo: 'bar',
-        value: undefined,
+        value: 'B',
       })
       expect(transformIn).toHaveBeenNthCalledWith(7, {
-        foo: 'bar',
-        value: undefined,
-      })
-      expect(transformIn).toHaveBeenNthCalledWith(8, {
-        foo: 'bar',
-        value: 'B',
-      })
-      expect(transformIn).toHaveBeenNthCalledWith(9, {
-        foo: 'bar',
-        value: 'B',
-      })
-      expect(transformIn).toHaveBeenNthCalledWith(10, {
         foo: 'bar',
         value: 'B',
       })

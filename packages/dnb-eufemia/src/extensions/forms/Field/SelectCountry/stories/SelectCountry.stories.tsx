@@ -24,13 +24,13 @@ export function SelectCountry() {
   )
 }
 
-const transformOut = (value, country: CountryType) => {
-  if (value) {
-    return `${country.name} (${value})`
+const transformOut = (internal: string, country: CountryType) => {
+  if (internal) {
+    return `${country.name} (${internal})`
   }
 }
-const transformIn = (value) => {
-  return String(value).match(/\((.*)\)/)?.[1]
+const transformIn = (external: unknown) => {
+  return String(external).match(/\((.*)\)/)?.[1] || 'NO'
 }
 
 export function Transform() {

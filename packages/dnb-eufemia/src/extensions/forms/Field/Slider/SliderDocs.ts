@@ -5,7 +5,7 @@ export const SliderFieldProperties: PropertiesTableProps = {
   paths: {
     doc: 'Define an array with JSON Pointer paths for multiple thumb buttons.',
     type: 'Array<string>',
-    status: 'required',
+    status: 'optional',
   },
   min: SliderProperties.min,
   max: SliderProperties.max,
