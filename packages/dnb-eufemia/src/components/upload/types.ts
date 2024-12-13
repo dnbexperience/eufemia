@@ -1,6 +1,7 @@
 import React from 'react'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import type { LocaleProps, SpacingProps } from '../../shared/types'
+import type { SharedStateId } from '../../shared/helpers/useSharedState'
 
 export type UploadAcceptedFileTypes = string[]
 
@@ -16,7 +17,7 @@ export type UploadProps = {
   /**
    * unique id used with the useUpload hook to manage the files
    */
-  id: string
+  id: SharedStateId
 
   /**
    * list of accepted file types.

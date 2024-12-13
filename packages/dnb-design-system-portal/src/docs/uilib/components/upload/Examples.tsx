@@ -56,7 +56,17 @@ export const UploadPrefilledFileList = () => (
 
 export const UploadBasic = () => (
   <ComponentBox data-visual-test="upload-basic">
-    <Upload acceptedFileTypes={['jpg', 'png']} id="upload-basic" />
+    {() => {
+      const Component = () => {
+        const myUploadId = 'unique-id' // or a function, object or React Context reference
+
+        return (
+          <Upload acceptedFileTypes={['jpg', 'png']} id={myUploadId} />
+        )
+      }
+
+      return <Component />
+    }}
   </ComponentBox>
 )
 
