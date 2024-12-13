@@ -548,3 +548,14 @@ export const GlobalStatusExample = () => {
     </>
   )
 }
+
+export const CorrectInvalidDateExample = () => {
+  return (
+    <DatePicker
+      show_input
+      date="2022-01-01"
+      correctInvalidDate
+      minDate={new Date()}
+    />
+  )
+}
