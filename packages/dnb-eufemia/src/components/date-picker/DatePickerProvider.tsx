@@ -49,7 +49,7 @@ export type ReturnObject<E> = {
   event?: E
   attributes?: Record<string, unknown>
   days_between?: number
-  date?: string
+  date?: string | null
   start_date?: string
   end_date?: string
   is_valid?: boolean
