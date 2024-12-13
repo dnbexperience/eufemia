@@ -3,10 +3,9 @@ import classnames from 'classnames'
 import { Props as FieldBlockProps } from '../../FieldBlock'
 import StringField, { Props as StringFieldProps } from '../String'
 import CompositionField from '../Composition'
-import { ConnectorProps, Path } from '../../types'
+import { Path } from '../../types'
 import useTranslation from '../../hooks/useTranslation'
 import useDataValue from '../../hooks/useDataValue'
-import useConnector from '../../hooks/useConnector'
 import { COUNTRY as defaultCountry } from '../../../../shared/defaults'
 import { HelpProps } from '../../../../components/help-button/HelpButtonInline'
 
@@ -23,7 +22,6 @@ export type Props = Pick<
      */
     country?: Path | string
     help?: HelpProps
-    connector?: Record<'postalCode' | 'city', ConnectorProps<string>>
   }
 
 function PostalCodeAndCity(props: Props) {
@@ -36,15 +34,8 @@ function PostalCodeAndCity(props: Props) {
     help,
     width = 'large',
     country = defaultCountry,
-    connector,
     ...fieldBlockProps
   } = props
-
-  const postalCodeConnector = useConnector<string>(
-    connector?.postalCode,
-    props
-  )
-  const cityConnector = useConnector<string>(connector?.city, props)
 
   const {
     pattern: cityPattern,
@@ -107,8 +98,6 @@ function PostalCodeAndCity(props: Props) {
         mask={postalCodeMask}
         pattern={postalCodePattern}
         placeholder={postalCodePlaceHolder}
-        onChange={postalCodeConnector?.onChange}
-        onBlurValidator={postalCodeConnector?.onBlurValidator}
         errorMessages={useMemo(
           () => ({
             'Field.errorRequired': translations.PostalCode.errorRequired,
@@ -135,8 +124,6 @@ function PostalCodeAndCity(props: Props) {
           cityClassName
         )}
         label={cityLabel ?? translations.City.label}
-        onChange={cityConnector?.onChange}
-        onBlurValidator={cityConnector?.onBlurValidator}
         errorMessages={useMemo(
           () => ({
             'Field.errorRequired': translations.City.errorRequired,
