@@ -5,6 +5,7 @@ import {
   createSharedState,
   SharedStateId,
   createReferenceKey,
+  useWeakSharedState,
 } from '../useSharedState'
 import { createContext } from 'react'
 
@@ -108,30 +109,6 @@ describe('useSharedState', () => {
     })
 
     expect(result.current.data).toEqual({ test: 'initial' })
-  })
-
-  it('should delete the shared state when all components have been unmounted', () => {
-    const identifier = {}
-
-    const { unmount: unmountA } = renderHook(() =>
-      useSharedState(identifier, { test: 'initial' })
-    )
-    const { unmount: unmountB } = renderHook(() =>
-      useSharedState(identifier)
-    )
-
-    const getStateOf = (identifier) => {
-      return createSharedState(identifier).get()
-    }
-
-    expect(getStateOf(identifier)).toEqual({ test: 'initial' })
-    expect(getStateOf(identifier)).toEqual({ test: 'initial' })
-
-    unmountA()
-    unmountB()
-
-    expect(getStateOf(identifier)).toEqual(undefined)
-    expect(getStateOf(identifier)).toEqual(undefined)
   })
 
   it('should return undefined data when no ID is given', () => {
@@ -273,6 +250,56 @@ describe('useSharedState', () => {
 
     expect(resultA.current.data).toEqual({ foo: 'bar' })
     expect(resultB.current.data).toEqual({ foo: 'baz' })
+  })
+})
+
+describe('useWeakSharedState', () => {
+  it('should delete the shared state when all components have been unmounted', () => {
+    const identifier = {}
+
+    const { unmount: unmountA } = renderHook(() =>
+      useWeakSharedState(identifier, { test: 'initial' })
+    )
+    const { unmount: unmountB } = renderHook(() =>
+      useWeakSharedState(identifier)
+    )
+
+    const getStateOf = (identifier) => {
+      return createSharedState(identifier).get()
+    }
+
+    expect(getStateOf(identifier)).toEqual({ test: 'initial' })
+    expect(getStateOf(identifier)).toEqual({ test: 'initial' })
+
+    unmountA()
+    unmountB()
+
+    expect(getStateOf(identifier)).toEqual(undefined)
+    expect(getStateOf(identifier)).toEqual(undefined)
+  })
+
+  it('when not using weak, should not delete the shared state when all components have been unmounted', () => {
+    const identifier = {}
+
+    const { unmount: unmountA } = renderHook(() =>
+      useSharedState(identifier, { test: 'initial' })
+    )
+    const { unmount: unmountB } = renderHook(() =>
+      useSharedState(identifier)
+    )
+
+    const getStateOf = (identifier) => {
+      return createSharedState(identifier).get()
+    }
+
+    expect(getStateOf(identifier)).toEqual({ test: 'initial' })
+    expect(getStateOf(identifier)).toEqual({ test: 'initial' })
+
+    unmountA()
+    unmountB()
+
+    expect(getStateOf(identifier)).toEqual({ test: 'initial' })
+    expect(getStateOf(identifier)).toEqual({ test: 'initial' })
   })
 })
 

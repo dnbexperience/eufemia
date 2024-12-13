@@ -20,7 +20,7 @@ export type SharedStateId =
   | Record<string, unknown>
 
 /**
- * Custom hook that provides shared state functionality.
+ * The shared state will be deleted when all components have been unmounted.
  */
 export function useWeakSharedState<
   Data,
@@ -45,7 +45,10 @@ export function useSharedState<Data>(
   /** Optional callback function to be called when the shared state is set from another instance/component. */
   onChange = null,
   /** Optional configuration options. */
-  { weak = false } = {}
+  {
+    /** When set to `true`, the shared state will be deleted when all components have been unmounted. */
+    weak = false,
+  } = {}
 ) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const hasMountedRef = useMounted()
