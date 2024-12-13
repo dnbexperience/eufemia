@@ -508,7 +508,7 @@ export const OnFileClick = () => {
             id: '2',
           },
         ]}
-        onFileClick={async function ({ fileItem }) {
+        onFileClick={async ({ fileItem }) => {
           const request = createRequest()
           console.log(
             'making API request to fetch the url of the file: ' +
