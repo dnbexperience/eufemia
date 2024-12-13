@@ -21,7 +21,6 @@ const en = enGB['en-GB'].Upload
 global.URL.createObjectURL = jest.fn(() => 'url')
 
 const defaultProps: UploadAllProps = {
-  id: 'id',
   acceptedFileTypes: ['png'],
 }
 
@@ -931,6 +930,68 @@ describe('Upload', () => {
       expect(
         screen.queryByText(`file length is more than 5`)
       ).toBeInTheDocument()
+    })
+
+    it('keeps files in shared state when providing id', async () => {
+      const files = [
+        createMockFile('fileName1.png', 100, 'image/png'),
+        createMockFile('fileName2.png', 200, 'image/png'),
+      ]
+
+      const id = 'random-id-unmount'
+
+      const { unmount } = render(<Upload {...defaultProps} id={id} />)
+
+      const inputElement = document.querySelector(
+        '.dnb-upload__file-input'
+      )
+      await waitFor(() =>
+        fireEvent.change(inputElement, {
+          target: { files },
+        })
+      )
+
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(2)
+
+      unmount()
+
+      render(<Upload {...defaultProps} id={id} />)
+
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(2)
+    })
+
+    it('removes files when unmounting when not providing id', async () => {
+      const files = [
+        createMockFile('fileName1.png', 100, 'image/png'),
+        createMockFile('fileName2.png', 200, 'image/png'),
+      ]
+
+      const { unmount } = render(<Upload {...defaultProps} />)
+
+      const inputElement = document.querySelector(
+        '.dnb-upload__file-input'
+      )
+      await waitFor(() =>
+        fireEvent.change(inputElement, {
+          target: { files },
+        })
+      )
+
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(2)
+
+      unmount()
+
+      render(<Upload {...defaultProps} />)
+
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(0)
     })
   })
 
