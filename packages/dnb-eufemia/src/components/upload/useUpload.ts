@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react'
 import { useSharedState } from '../../shared/helpers/useSharedState'
-import type { UploadFile, UploadFileNative } from './types'
+import type { UploadFile, UploadFileNative, UploadProps } from './types'
 
 export type useUploadReturn = {
   files: Array<UploadFile>
@@ -16,7 +16,7 @@ export type useUploadReturn = {
 /**
  * Use together with Upload with the same id to manage the files from outside the component.
  */
-function useUpload(id: string): useUploadReturn {
+function useUpload(id: UploadProps['id']): useUploadReturn {
   const { data, extend } = useSharedState<{
     files?: Array<UploadFile>
     internalFiles?: Array<UploadFile>

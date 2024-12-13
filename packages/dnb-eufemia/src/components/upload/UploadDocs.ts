@@ -3,7 +3,7 @@ import { PropertiesTableProps } from '../../shared/types'
 export const UploadProperties: PropertiesTableProps = {
   id: {
     doc: 'Unique id used with the useUpload hook to manage the files.',
-    type: 'string',
+    type: ['string', 'Function', 'Object', 'React.Context'],
     status: 'required',
   },
   acceptedFileTypes: {
