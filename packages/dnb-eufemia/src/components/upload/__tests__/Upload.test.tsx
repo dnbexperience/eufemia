@@ -941,22 +941,26 @@ describe('Upload', () => {
 
       const id = 'random-id-unmount'
 
-      const { unmount } = render(<Upload {...defaultProps} id={id} />)
+      const { unmount: unmountA } = render(
+        <Upload {...defaultProps} id={id} />
+      )
+
       const MockComponent = () => {
         const { setFiles } = useUpload(id)
 
-        useEffect(() => setFiles(files), [])
+        useEffect(() => setFiles(files), [setFiles])
 
         return <div />
       }
 
-      render(<MockComponent />)
+      const { unmount: unmountB } = render(<MockComponent />)
 
       expect(
         document.querySelectorAll('.dnb-upload__file-cell').length
       ).toBe(2)
 
-      unmount()
+      unmountA()
+      unmountB()
 
       render(<Upload {...defaultProps} id={id} />)
 
