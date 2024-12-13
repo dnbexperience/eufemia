@@ -309,6 +309,11 @@
 
     height: 0 !important;
     overflow: hidden;
+
+    // Ensure the content is always hidden when "prerender" is set
+    * {
+      height: 0 !important;
+    }
   }
 
   /* stylelint-disable */
