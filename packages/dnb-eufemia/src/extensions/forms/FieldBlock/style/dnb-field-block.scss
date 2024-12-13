@@ -46,7 +46,7 @@ fieldset.dnb-forms-field-block {
     &-stretch {
       flex-grow: 1;
       .dnb-forms-field-block__label.dnb-form-label {
-        max-width: none;
+        max-width: auto;
       }
     }
     @include allAbove(x-small) {
