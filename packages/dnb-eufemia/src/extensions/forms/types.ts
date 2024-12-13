@@ -437,8 +437,6 @@ export interface UseFieldProps<
    * For internal use only.
    */
   valueType?: string | number | boolean | Array<string | number | boolean>
-
-  connector?: ConnectorProps<Value>
 }
 
 export type FieldProps<
