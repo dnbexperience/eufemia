@@ -1,7 +1,8 @@
 import React from 'react'
-import { screen, render, fireEvent } from '@testing-library/react'
+import { screen, render, fireEvent, waitFor } from '@testing-library/react'
 import { Value, Form } from '../../..'
 import { createMockFile } from '../../../../../components/upload/__tests__/testHelpers'
+import { wait } from '../../../../../core/jest/jestSetup'
 
 global.URL.createObjectURL = jest.fn(() => 'url')
 
@@ -361,6 +362,53 @@ describe('Value.Upload', () => {
       fireEvent.click(buttonElement)
 
       expect(onFileClick).toHaveBeenCalledTimes(1)
+    })
+
+    it('should display spinner when async onFileClick event', async () => {
+      const onFileClick = jest.fn(async () => {
+        await wait(1)
+      })
+
+      render(
+        <Value.Upload
+          onFileClick={onFileClick}
+          value={[
+            {
+              file: createMockFile('fileName', 100, 'image/png'),
+              exists: false,
+              id: '1',
+            },
+          ]}
+        />
+      )
+
+      const buttonElement = document.querySelector('.dnb-button')
+
+      await waitFor(() => {
+        fireEvent.click(buttonElement)
+        expect(
+          document.querySelector('.dnb-progress-indicator')
+        ).toBeInTheDocument()
+      })
+    })
+
+    it('should display spinner when file is loading', async () => {
+      render(
+        <Value.Upload
+          value={[
+            {
+              file: createMockFile('fileName', 100, 'image/png'),
+              exists: false,
+              id: '1',
+              isLoading: true,
+            },
+          ]}
+        />
+      )
+
+      expect(
+        document.querySelector('.dnb-progress-indicator')
+      ).toBeInTheDocument()
     })
 
     it('renders the anchor href', () => {
