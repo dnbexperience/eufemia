@@ -57,4 +57,12 @@ describe('Value.Upload', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match files as non-clickable', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="upload-value-display-file-as-non-clickable"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

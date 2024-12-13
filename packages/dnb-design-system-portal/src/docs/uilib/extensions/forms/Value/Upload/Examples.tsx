@@ -524,3 +524,29 @@ export const OnFileClick = () => {
     </ComponentBox>
   )
 }
+
+export const DisplayFileAsNonClickable = () => {
+  return (
+    <ComponentBox
+      hideCode
+      scope={{ createMockFile }}
+      data-visual-test="upload-value-display-file-as-non-clickable"
+    >
+      <Value.Upload
+        label="Label text"
+        value={[
+          {
+            file: createMockFile('35217511.jpg', 0, 'image/png'),
+            exists: false,
+            id: '1',
+          },
+          {
+            file: createMockFile('1501870.jpg', undefined, 'image/png'),
+            exists: false,
+            id: '2',
+          },
+        ]}
+      />
+    </ComponentBox>
+  )
+}

@@ -91,7 +91,7 @@ const UploadFileListCell = ({
   const { file, errorMessage, isLoading } = uploadFile
   const hasWarning = errorMessage != null
 
-  const imageUrl = URL.createObjectURL(file)
+  const imageUrl = file?.size > 0 ? URL.createObjectURL(file) : null
   const cellRef = useRef<HTMLLIElement>()
   const exists = useExistsHighlight(id, file)
 

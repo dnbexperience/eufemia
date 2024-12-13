@@ -322,6 +322,24 @@ describe('Value.Upload', () => {
     })
   })
 
+  it('renders a span when file size is 0', () => {
+    const fileName = 'file.png'
+
+    render(
+      <Value.Upload
+        value={[
+          {
+            file: createMockFile(fileName, 0, 'image/png'),
+            exists: false,
+            id: '1',
+          },
+        ]}
+      />
+    )
+    expect(screen.queryByText(fileName).tagName).toBe('SPAN')
+    expect(screen.queryByText(fileName)).toHaveClass('dnb-span')
+  })
+
   describe('File Anchor', () => {
     it('renders the anchor', () => {
       const fileName = 'file.png'
@@ -337,7 +355,7 @@ describe('Value.Upload', () => {
           ]}
         />
       )
-      expect(screen.queryByText(fileName)).toBeInTheDocument()
+      expect(screen.queryByText(fileName).tagName).toBe('A')
     })
 
     it('executes onFileClick event when button is clicked', () => {
@@ -415,6 +433,7 @@ describe('Value.Upload', () => {
       const fileName = 'file.png'
       const mockUrl = 'mock-url'
 
+      const originalCreateObjectURL = global.URL.createObjectURL
       global.URL.createObjectURL = jest.fn().mockReturnValueOnce(mockUrl)
 
       render(
@@ -432,6 +451,8 @@ describe('Value.Upload', () => {
         fileName
       ) as HTMLAnchorElement
       expect(anchorElement.href).toMatch(mockUrl)
+
+      global.URL.createObjectURL = originalCreateObjectURL
     })
 
     it('renders the download attribute', () => {
