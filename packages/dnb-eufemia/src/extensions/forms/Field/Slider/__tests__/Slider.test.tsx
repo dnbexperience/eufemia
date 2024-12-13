@@ -35,6 +35,20 @@ describe('Field.Slider', () => {
       expect(parseFloat(getButtonHelper().value)).toBe(value + 10)
     })
 
+    it('with "defaultValue"', () => {
+      const value = 70
+
+      render(
+        <Form.Handler>
+          <Field.Slider defaultValue={value} />
+        </Form.Handler>
+      )
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(parseFloat(getButtonHelper().value)).toBe(value)
+    })
+
     it('with "path"', () => {
       render(
         <Form.Handler data={{ myValue: 30 }}>
