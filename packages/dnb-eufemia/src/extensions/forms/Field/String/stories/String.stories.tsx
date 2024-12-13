@@ -7,7 +7,7 @@ export default {
 }
 export const StringAndLabelStretch = () => {
   return (
-    <Form.Card stack>
+    <Form.Card>
       <Form.SubHeading>Subheading</Form.SubHeading>
       <Field.String
         help={{ title: 'Help title', content: 'Help content' }}
