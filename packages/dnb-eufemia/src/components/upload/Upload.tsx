@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import classnames from 'classnames'
 
 // Shared
@@ -75,6 +75,12 @@ const Upload = (localProps: UploadAllProps) => {
 
   const { files, setFiles, setInternalFiles, getExistingFile } =
     useUpload(id)
+
+  useEffect(() => {
+    return () => {
+      setFiles([])
+    }
+  }, [])
 
   const onInputUpload = useCallback(
     (newFiles: Array<UploadFile>) => {

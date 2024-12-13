@@ -154,3 +154,7 @@ export const UploadSandbox = () => {
     </Wrapper>
   )
 }
+
+export const UploadSimple = () => {
+  return <Upload id="upload-simple-example" acceptedFileTypes={['pdf']} />
+}
