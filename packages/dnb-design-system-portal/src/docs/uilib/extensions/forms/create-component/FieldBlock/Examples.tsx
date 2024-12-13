@@ -85,7 +85,7 @@ export const Widths = () => {
           <TestElement>Contents</TestElement>
         </FieldBlock>
         <FieldBlock
-          label="Stretch (affects outer block element)"
+          label="Stretch (affects outer block element) this label is long to validate that this stretches full width as well when width property has value stretch."
           width="stretch"
         >
           <TestElement>Contents</TestElement>
