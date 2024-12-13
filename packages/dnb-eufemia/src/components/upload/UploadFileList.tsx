@@ -41,14 +41,21 @@ function UploadFileList() {
     fileToBeUpdated: UploadFile,
     props: Partial<UploadFile>
   ) => {
-    return filesRef.current.map((fileListElement) =>
-      fileListElement.id === fileToBeUpdated.id
+    return filesRef.current.map((fileListElement: UploadFile) => {
+      const idIsSame =
+        fileListElement.id && fileListElement.id === fileToBeUpdated.id
+
+      const fileNameIsSame =
+        fileListElement?.file?.name &&
+        fileListElement?.file?.name === fileToBeUpdated?.file?.name
+
+      return idIsSame || fileNameIsSame
         ? {
             ...fileListElement,
             ...props,
           }
         : fileListElement
-    )
+    })
   }
 
   const updateFiles = (updatedFiles: UploadFile[]) => {
