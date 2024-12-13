@@ -3,6 +3,34 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.61.0](https://github.com/dnbexperience/eufemia/compare/v10.60.1...v10.61.0) (2024-12-13)
+
+
+### :memo: Documentation
+
+* add guidelines for writing commit messages to the contribution guide ([#4389](https://github.com/dnbexperience/eufemia/issues/4389)) ([34eff0e](https://github.com/dnbexperience/eufemia/commit/34eff0ec0ee3e33258a0234ce3fb7de6899c26fe))
+* **Upload:** add `id` property ([#4401](https://github.com/dnbexperience/eufemia/issues/4401)) ([56d4956](https://github.com/dnbexperience/eufemia/commit/56d49567a6707ee0511b65dbd1782d2cf77e7d99))
+
+
+### :sparkles: Features
+
+* **Forms:** add missing support for `defaultValue` for Field.Slider ([#4394](https://github.com/dnbexperience/eufemia/issues/4394)) ([701ab66](https://github.com/dnbexperience/eufemia/commit/701ab66244f2e4d9ad977901d310cb54db681928))
+* **Logo:** update sbanken logo ([#4379](https://github.com/dnbexperience/eufemia/issues/4379)) ([069ae1a](https://github.com/dnbexperience/eufemia/commit/069ae1ac580ba8246be1a67afbc814782d5eb1a8))
+* **Upload:** make `id` property as optional ([#4405](https://github.com/dnbexperience/eufemia/issues/4405)) ([0c58973](https://github.com/dnbexperience/eufemia/commit/0c589739fcf959284f1c4c82ba7ed1556e036aef))
+* **Value.Upload:** add async `onFileClick` event ([#4397](https://github.com/dnbexperience/eufemia/issues/4397)) ([be1c21c](https://github.com/dnbexperience/eufemia/commit/be1c21c69860e1504e325bc3f8d22a50800a9cd5))
+
+
+### :bug: Bug Fixes
+
+* **DatePicker:** add `null` as possible date type as return value ([#4407](https://github.com/dnbexperience/eufemia/issues/4407)) ([363e0b5](https://github.com/dnbexperience/eufemia/commit/363e0b5a8db456da9ea2d350462d0008bad63603))
+* **DatePicker:** throw error when `date` is invalid ([#4396](https://github.com/dnbexperience/eufemia/issues/4396)) ([f977ebc](https://github.com/dnbexperience/eufemia/commit/f977ebc496733fbc0a7ed15cce6de5b6420330cc))
+* **FieldBlock:** remove max-width for label when width stretch ([#4406](https://github.com/dnbexperience/eufemia/issues/4406)) ([20c02d4](https://github.com/dnbexperience/eufemia/commit/20c02d42c7ccf9b804bc516960aa3d473da54c7e))
+* **Forms:** enhance transformIn and transformOut to support changed array and object instances ([#4392](https://github.com/dnbexperience/eufemia/issues/4392)) ([ae4648a](https://github.com/dnbexperience/eufemia/commit/ae4648a4fe2df217854127bc2bb6eee2668f193e)), closes [#4366](https://github.com/dnbexperience/eufemia/issues/4366)
+* **Slider:** ensure `min` and `max` value is respected when `step` doesn't fit exactly ([#4395](https://github.com/dnbexperience/eufemia/issues/4395)) ([2c00b0c](https://github.com/dnbexperience/eufemia/commit/2c00b0ca0b8411522a66c68458a2ba1b5785d022))
+* **Tabs:** ensure cached content never takes up visual space ([#4399](https://github.com/dnbexperience/eufemia/issues/4399)) ([360aacc](https://github.com/dnbexperience/eufemia/commit/360aacc0357adbd336d8382ee2ef05e12cdda90e))
+* **Upload:** display files without anchor when their size is not given ([#4390](https://github.com/dnbexperience/eufemia/issues/4390)) ([70df7c8](https://github.com/dnbexperience/eufemia/commit/70df7c843c05dba9c34f04ea0e09501b9a17a545))
+* **Upload:** display spinner in async `onFileClick` without file `id` ([#4393](https://github.com/dnbexperience/eufemia/issues/4393)) ([b743d6e](https://github.com/dnbexperience/eufemia/commit/b743d6ed4430d604240c2b8bf8651e9673cfffca))
+
 ## [10.60.1](https://github.com/dnbexperience/eufemia/compare/v10.60.0...v10.60.1) (2024-12-11)
 
 
