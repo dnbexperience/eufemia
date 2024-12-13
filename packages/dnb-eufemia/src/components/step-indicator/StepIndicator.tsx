@@ -6,13 +6,15 @@
 import React from 'react'
 
 import StepIndicatorSidebar from './StepIndicatorSidebar'
+import classnames from 'classnames'
+import { createSpacingClasses } from '../space/SpacingHelper'
 
 import StepIndicatorModal from './StepIndicatorModal'
 import {
   StepIndicatorContextValues,
   StepIndicatorProvider,
 } from './StepIndicatorContext'
-
+import Card from '../../components/card/Card'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import type {
@@ -156,13 +158,23 @@ function StepIndicator({
 
   return (
     <StepIndicatorProvider {...props} sidebar_id={sidebarId}>
-      <div className="dnb-step-indicator-wrapper">
+      <Card
+        outset
+        stack
+        className={classnames(
+          'dnb-step-indicator-wrapper',
+          createSpacingClasses(restOfProps)
+        )}
+      >
         <StepIndicatorModal />
-      </div>
+      </Card>
     </StepIndicatorProvider>
   )
 }
 
+/**
+ * @deprecated StepIndicator.Sidebar variant is no longer supported
+ */
 StepIndicator.Sidebar = StepIndicatorSidebar
 
 StepIndicator._supportsSpacingProps = true

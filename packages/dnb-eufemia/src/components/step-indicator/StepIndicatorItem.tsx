@@ -330,14 +330,6 @@ export function StepItemWrapper({
 }: StepItemWrapperProps) {
   return (
     <span className="dnb-step-indicator__item-content">
-      {!hide_numbers && (
-        <span
-          aria-hidden // because we provide the hidden aria-describedby
-          className="dnb-step-indicator__item-content__number"
-        >
-          {number}.
-        </span>
-      )}
       <span className="dnb-step-indicator__item-content__wrapper">
         <span className="dnb-step-indicator__item-content__text">
           {children}

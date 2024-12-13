@@ -35,7 +35,6 @@ function StepIndicatorList() {
     className: classnames(
       'dnb-step-indicator',
       createSkeletonClass('font', skeleton),
-      context.hasSidebar && createSpacingClasses(context),
       context.className
     ),
   }

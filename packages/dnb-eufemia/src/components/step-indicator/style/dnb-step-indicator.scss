@@ -6,25 +6,11 @@
 @import '../../../style/core/utilities.scss';
 
 .dnb-step-indicator__sidebar {
-  @media screen and (min-width: 50.1em) {
-    max-width: 20rem;
-    margin-right: var(--spacing-x-large);
-
-    .dnb-step-indicator__item {
-      min-width: 320px;
-    }
-  }
-
-  // To avoid layout shift during SSR hydration
-  // we hide the sidebar with skeleton on small screens
-  &--ssr-skeleton {
-    @media screen and (max-width: 50.1em) {
-      visibility: hidden;
-      overflow: hidden;
-      width: 0;
-      height: 5.5rem; // the height of the modal button + label + margin
-    }
-  }
+  display: none;
+}
+.dnb-step-indicator-wrapper {
+  --padding-top: 0;
+  --padding-bottom: 0;
 }
 
 .dnb-step-indicator-wrapper .dnb-step-indicator {
@@ -37,34 +23,33 @@
 
     list-style: none;
   }
-
   &__trigger {
     // Is needed to make ensure the button stays on top during height animation
     display: flex;
-    flex-direction: column;
+    flex-wrap: nowrap;
   }
-
+  &__label {
+    white-space: nowrap;
+  }
   &__trigger__button,
   &__item .dnb-button {
+    line-height: normal;
+    padding-left: 0;
     overflow: hidden; // only needed when text is large and it overflows during animation (from small to large)
 
     .dnb-button__text {
       text-align: left;
+      margin: 0;
     }
-
-    &.dnb-button--has-icon .dnb-button__text {
-      margin-right: 1rem;
+    .dnb-button__icon {
+      --button-icon-margin-top: 0.25rem;
     }
-
     .dnb-button__alignment {
       order: 2;
     }
 
     justify-content: space-between;
     border-radius: 0.25rem;
-  }
-  &__trigger button#{&}__trigger__button {
-    margin-top: 0.5rem;
   }
 
   &__item {
@@ -83,23 +68,6 @@
       .dnb-button:not(.dnb-step-indicator__button__status)
       .dnb-button__icon {
       opacity: 0;
-    }
-  }
-
-  &__item-content {
-    display: flex;
-    flex-wrap: nowrap;
-
-    padding: 0.5rem 0;
-
-    &__number {
-      padding-right: 0.5rem;
-      white-space: nowrap;
-    }
-
-    &__wrapper {
-      display: flex;
-      flex-direction: column;
     }
   }
 

@@ -37,7 +37,6 @@ const filterAttributes = Object.keys(stepIndicatorDefaultProps)
     'sidebarIsVisible',
     'mainTitle',
     'stepsLabel',
-    'stepsLabelExtended',
     'listOfReachedSteps',
     'setActiveStep',
     'activeStep',
@@ -90,7 +89,6 @@ export type StepIndicatorProviderStates = {
   listOfReachedSteps: number[]
   countSteps: number
   stepsLabel: string
-  stepsLabelExtended: string
   filterAttributes: string[]
   setActiveStep: React.Dispatch<React.SetStateAction<number>>
   sidebarIsVisible: boolean
@@ -196,9 +194,6 @@ export function StepIndicatorProvider({
         data,
         countSteps,
         stepsLabel: updateStepTitle(globalContext.step_title),
-        stepsLabelExtended: updateStepTitle(
-          globalContext.step_title_extended
-        ),
       },
       // Functions
       {

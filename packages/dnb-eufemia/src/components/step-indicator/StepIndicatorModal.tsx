@@ -11,10 +11,12 @@ import React, {
   useState,
 } from 'react'
 import ReactDOM from 'react-dom'
-import Drawer from '../drawer/Drawer'
+import Section from '../section/Section'
+import Space from '../space/Space'
 import StepIndicatorTriggerButton from './StepIndicatorTriggerButton'
 import StepIndicatorList from './StepIndicatorList'
 import StepIndicatorContext from './StepIndicatorContext'
+import { HeightAnimation } from '../lib'
 
 function StepIndicatorModal() {
   const context = useContext(StepIndicatorContext)
@@ -52,27 +54,38 @@ function StepIndicatorModal() {
 
   return (
     <>
-      <StepIndicatorTriggerButton
-        on_click={context.openHandler}
-        inner_ref={triggerRef}
-      />
-      <Drawer
-        id={context.sidebar_id}
-        title={context.overview_title}
-        omitTriggerButton
-        openState={context.openState}
-        onOpen={context.openHandler}
-        onClose={closeHandler}
+      <Section
+        backgroundColor="var(--color-black-3)"
+        innerSpace={{
+          top: 'small',
+          bottom: 'small',
+        }}
       >
-        <Drawer.Body styleType="white">
-          <div className="dnb-step-indicator-wrapper">
-            <p className="dnb-p dnb-step-indicator__label">
-              {context.stepsLabelExtended}
-            </p>
-            <StepIndicatorList />
-          </div>
-        </Drawer.Body>
-      </Drawer>
+        <StepIndicatorTriggerButton
+          onClick={() => {
+            if (context.openState) {
+              closeHandler()
+            } else {
+              context.openHandler()
+            }
+          }}
+          inner_ref={triggerRef}
+        />
+      </Section>
+      <HeightAnimation
+        open={context.openState}
+        onOpen={(state) => {
+          if (state) {
+            context.openHandler()
+          } else {
+            closeHandler()
+          }
+        }}
+      >
+        <Space innerSpace={{ top: 'small' }}>
+          <StepIndicatorList />
+        </Space>
+      </HeightAnimation>
     </>
   )
 }

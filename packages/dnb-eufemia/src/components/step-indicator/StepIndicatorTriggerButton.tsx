@@ -6,7 +6,8 @@
 import classnames from 'classnames'
 import React, { useContext, useRef } from 'react'
 import Button, { ButtonProps } from '../button/Button'
-import chevron_icon from '../../icons/chevron_right_medium'
+import chevron_down from '../../icons/chevron_down'
+import chevron_up from '../../icons/chevron_up'
 import {
   validateDOMAttributes,
   combineDescribedBy,
@@ -27,14 +28,12 @@ export type StepIndicatorTriggerButtonProps = ButtonProps & {
    */
   sidebar_id?: string
   className?: string
-  inner_ref?: React.RefObject<HTMLElement>
+  inner_ref?: React.RefObject<HTMLAnchorElement>
 }
 function StepIndicatorTriggerButton(
   props: StepIndicatorTriggerButtonProps
 ) {
   const context = useContext(StepIndicatorContext)
-
-  const buttonRef = useRef(props?.inner_ref || null)
 
   const item = context.data[context.activeStep || 0]
   const label = context.stepsLabel
@@ -48,8 +47,7 @@ function StepIndicatorTriggerButton(
     ...contextWithoutData,
     className: classnames(
       'dnb-step-indicator__trigger',
-      createSkeletonClass('font', context.skeleton),
-      createSpacingClasses(context)
+      createSkeletonClass('font', context.skeleton)
     ),
     'aria-live': 'polite',
   } as React.HTMLProps<HTMLElement>
@@ -85,29 +83,24 @@ function StepIndicatorTriggerButton(
       </span>
       <FormLabel
         aria-describedby={context.sidebar_id}
-        forId={context.sidebar_id}
         className="dnb-step-indicator__label"
+        right="x-small"
       >
         {label}
       </FormLabel>
       <Button
         {...buttonParams}
-        id={context.sidebar_id}
         wrap
-        stretch
-        variant="secondary"
-        icon={chevron_icon}
-        icon_size="medium"
+        variant="tertiary"
+        icon={context.openState ? chevron_up : chevron_down}
         icon_position="right"
-        inner_ref={buttonRef}
+        inner_ref={props.inner_ref}
       >
         <StepItemWrapper
           number={(context.activeStep || 0) + 1}
           hide_numbers={context.hide_numbers}
         >
-          <HeightAnimation>
-            {(typeof item === 'string' ? item : item && item.title) || ''}
-          </HeightAnimation>
+          {(typeof item === 'string' ? item : item && item.title) || ''}
         </StepItemWrapper>
       </Button>
     </div>
