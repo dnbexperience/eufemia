@@ -44,9 +44,7 @@ describe('useSharedState', () => {
     const { result } = renderHook(() =>
       useSharedState(identifier, { test: 'initial' })
     )
-    const sharedState = createSharedState(identifier, {
-      test: 'initial',
-    })
+    const sharedState = createSharedState(identifier)
     act(() => {
       sharedState.update({ test: 'changed' })
     })
@@ -101,14 +99,39 @@ describe('useSharedState', () => {
     const { result, unmount } = renderHook(() =>
       useSharedState(identifier, { test: 'initial' })
     )
-    const sharedState = createSharedState(identifier, {
-      test: 'initial',
-    })
+    const sharedState = createSharedState(identifier)
+
     unmount()
+
     act(() => {
       sharedState.update({ test: 'unmounted' })
     })
+
     expect(result.current.data).toEqual({ test: 'initial' })
+  })
+
+  it('should delete the shared state when all components have been unmounted', () => {
+    const identifier = {}
+
+    const { unmount: unmountA } = renderHook(() =>
+      useSharedState(identifier, { test: 'initial' })
+    )
+    const { unmount: unmountB } = renderHook(() =>
+      useSharedState(identifier)
+    )
+
+    const getStateOf = (identifier) => {
+      return createSharedState(identifier).get()
+    }
+
+    expect(getStateOf(identifier)).toEqual({ test: 'initial' })
+    expect(getStateOf(identifier)).toEqual({ test: 'initial' })
+
+    unmountA()
+    unmountB()
+
+    expect(getStateOf(identifier)).toEqual(undefined)
+    expect(getStateOf(identifier)).toEqual(undefined)
   })
 
   it('should return undefined data when no ID is given', () => {

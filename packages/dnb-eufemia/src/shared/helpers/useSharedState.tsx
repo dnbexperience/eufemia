@@ -22,13 +22,30 @@ export type SharedStateId =
 /**
  * Custom hook that provides shared state functionality.
  */
+export function useWeakSharedState<
+  Data,
+> /** The identifier for the shared state. */(
+  id: SharedStateId | undefined,
+  /** The initial data for the shared state. */
+  initialData: Data = undefined,
+  /** Optional callback function to be called when the shared state is set from another instance/component. */
+  onChange = null
+) {
+  return useSharedState<Data>(id, initialData, onChange, { weak: true })
+}
+
+/**
+ * Custom hook that provides shared state functionality.
+ */
 export function useSharedState<Data>(
   /** The identifier for the shared state. */
   id: SharedStateId | undefined,
   /** The initial data for the shared state. */
   initialData: Data = undefined,
   /** Optional callback function to be called when the shared state is set from another instance/component. */
-  onChange = null
+  onChange = null,
+  /** Optional configuration options. */
+  { weak = false } = {}
 ) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const hasMountedRef = useMounted()
@@ -125,8 +142,12 @@ export function useSharedState<Data>(
 
     return () => {
       sharedState.unsubscribe(forceRerender)
+
+      if (weak && sharedState.subscribersRef.current.length === 0) {
+        sharedState.update(undefined)
+      }
     }
-  }, [forceRerender, id, onChange, sharedState])
+  }, [forceRerender, id, onChange, sharedState, weak])
 
   useEffect(() => {
     // Set the onChange function in case it is not set yet
@@ -153,6 +174,7 @@ export interface SharedStateReturn<Data = undefined> {
   set: (newData: Partial<Data>) => void
   extend: (newData: Partial<Data>, opts?: Options) => void
   update: (newData: Partial<Data>, opts?: Options) => void
+  subscribersRef?: { current: Subscriber[] }
 }
 
 interface SharedStateInstance<Data> extends SharedStateReturn<Data> {
@@ -185,10 +207,12 @@ export function createSharedState<Data>(
   } = {}
 ): SharedStateInstance<Data> {
   if (!sharedStates.get(id)) {
-    let subscribers: Subscriber[] = []
+    const subscribersRef = {
+      current: [] as Subscriber[],
+    }
 
     const sync = (opts: Options = {}) => {
-      subscribers.forEach((subscriber) => {
+      subscribersRef.current.forEach((subscriber) => {
         const syncNow = opts.preventSyncOfSameInstance
           ? shouldSync?.(subscriber) !== false
           : true
@@ -201,7 +225,8 @@ export function createSharedState<Data>(
     const get = () => sharedStates.get(id).data
 
     const set = (newData: Partial<Data>) => {
-      sharedStates.get(id).data = { ...newData }
+      sharedStates.get(id).data =
+        newData === undefined ? undefined : { ...newData }
     }
 
     const update = (newData: Partial<Data>, opts?: Options) => {
@@ -218,13 +243,15 @@ export function createSharedState<Data>(
     }
 
     const subscribe = (subscriber: Subscriber) => {
-      if (!subscribers.includes(subscriber)) {
-        subscribers.push(subscriber)
+      if (!subscribersRef.current.includes(subscriber)) {
+        subscribersRef.current.push(subscriber)
       }
     }
 
     const unsubscribe = (subscriber: Subscriber) => {
-      subscribers = subscribers.filter((sub) => sub !== subscriber)
+      subscribersRef.current = subscribersRef.current.filter(
+        (sub) => sub !== subscriber
+      )
     }
 
     sharedStates.set(id, {
@@ -236,6 +263,7 @@ export function createSharedState<Data>(
       subscribe,
       unsubscribe,
       hadInitialData: Boolean(initialData),
+      subscribersRef,
     } as SharedStateInstance<Data>)
 
     if (initialData) {
