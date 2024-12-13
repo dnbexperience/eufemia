@@ -529,7 +529,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
             <CalendarButton
               type="prev"
               nr={nr}
-              date={null}
+              date={minDate}
               month={month}
               locale={locale}
               showButton={prevBtn}
