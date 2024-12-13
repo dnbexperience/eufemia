@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import { Upload } from '../..'
 
@@ -155,6 +155,26 @@ export const UploadSandbox = () => {
   )
 }
 
-export const UploadSimple = () => {
-  return <Upload id="upload-simple-example" acceptedFileTypes={['pdf']} />
+function MyUploadComponent(props) {
+  const id = useRef({}).current
+  return <Upload id={props.id ?? id} {...props} />
+}
+
+export function Unmount() {
+  const [count, setCount] = useState(0)
+  // const { files } = Upload.useUpload('my-id')
+  // console.log('files', files)
+  return (
+    <>
+      <button onClick={() => setCount((count) => count + 1)}>
+        Count {count}
+      </button>
+      {count % 2 ? (
+        <MyUploadComponent
+          id="my-id" //
+          acceptedFileTypes={['png']}
+        />
+      ) : null}
+    </>
+  )
 }
