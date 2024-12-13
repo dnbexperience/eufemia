@@ -5,6 +5,31 @@ import { Flex } from '../../../../../components'
 export default {
   title: 'Eufemia/Extensions/Forms/String',
 }
+export const StringAndLabelStretch = () => {
+  return (
+    <Form.Card stack>
+      <Form.SubHeading>Subheading</Form.SubHeading>
+      <Field.String
+        help={{ title: 'Help title', content: 'Help content' }}
+        path="/moreInfo"
+        label="Her kan du gi oss andre opplysninger som du tror kan være relevante for søknaden. Ønsker du for eksempel fastrente eller rammelån, kan du skrive det her."
+        multiline
+        autoresize
+        maxLength={250}
+        characterCounter={{
+          max: 250,
+          variant: 'down',
+        }}
+      />
+      <Field.Number
+        label="Her kan du gi oss andre opplysninger som du tror kan være relevante for søknaden. Ønsker du for eksempel fastrente eller rammelån, kan du skrive det her."
+        placeholder="Enter a number..."
+        size="large"
+        width="stretch"
+      />
+    </Form.Card>
+  )
+}
 
 export const String = () => {
   return (

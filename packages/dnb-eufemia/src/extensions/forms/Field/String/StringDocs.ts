@@ -53,7 +53,7 @@ export const stringProperties: PropertiesTableProps = {
     status: 'optional',
   },
   width: {
-    doc: '`false` for no width (use browser default), small, medium or large for predefined standard widths, stretch for fill available width.',
+    doc: '`false` for no width (use browser default), small, medium or large for predefined standard widths, stretch to fill available width.',
     type: ['string', 'false'],
     status: 'optional',
   },
