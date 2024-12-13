@@ -18,9 +18,6 @@ export const percentToValue = (
   return num
 }
 
-export const roundToStep = (number: number, step: number) =>
-  Math.round(number / step) * step
-
 export const getOffset = (node: HTMLElement) => {
   const { pageYOffset, pageXOffset } =
     typeof window !== 'undefined'
@@ -66,10 +63,21 @@ export const calculatePercent = (
 export const clamp = (value: number, min = 0, max = 100) =>
   Math.min(Math.max(value, min), max)
 
-export const roundValue = (value: number, step: number) => {
-  return step > 0
-    ? roundToStep(value, step)
-    : parseFloat(parseFloat(String(value)).toFixed(3))
+export const roundValue = (
+  value: number,
+  { step, min, max }: { step: number; min: number; max: number }
+) => {
+  if (step > 0) {
+    if (value >= max) {
+      return max
+    }
+    if (value <= min) {
+      return min
+    }
+    return Math.round(value / step) * step
+  }
+
+  return parseFloat(parseFloat(String(value)).toFixed(3))
 }
 
 export const createMockDiv = ({ width, height }) => {
