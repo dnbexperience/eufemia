@@ -24,9 +24,10 @@ import AsyncChangeExample from './Form/Handler/parts/async-change-example.mdx'
   - [State management](#state-management)
     - [What is a JSON Pointer?](#what-is-a-json-pointer)
     - [Data handling](#data-handling)
-    - [Visible data](#visible-data)
     - [Filter data](#filter-data)
       - [Filter data during submit](#filter-data-during-submit)
+        - [The `reduceToVisibleFields` method](#the-reducetovisiblefields-method)
+        - [The `filterData` method](#the-filterdata-method)
     - [Transforming data](#transforming-data)
       - [Complex objects in the data context](#complex-objects-in-the-data-context)
   - [Async form handling](#async-form-handling)
@@ -202,15 +203,6 @@ As you can see in the code above, you can even handle the state outside the `For
 
 <Examples.GettingStarted />
 
-#### Visible data
-
-User entered data will always be stored internally in the data context, even if a [Field](/uilib/extensions/forms/all-fields/) is temporarily shown (mounted/unmounted).
-
-When submitting data to the server, you might want to exclude data that has been hidden (unmounted) by the user. You have two built-in options to achieve this:
-
-- You can use the `reduceToVisibleFields` function to get only the data of visible (mounted) fields. Check out the [example](/uilib/extensions/forms/Form/Handler/demos/#visible-data) in the demo section.
-- Or you may use the `filterData` function to filter your data. More details in the next section.
-
 #### Filter data
 
 In this section we will show how to filter out some data based on your own logic. You can filter data by any given criteria. This is done by utilizing the `filterData` method from e.g.:
@@ -260,7 +252,17 @@ You may check out an [interactive example](/uilib/extensions/forms/Form/useData/
 
 ##### Filter data during submit
 
-For filtering data during form submit (`onSubmit`), you can use the `filterData` method given as a parameter to the `onSubmit` event callback:
+When submitting data to the server, you might want to exclude data that has been hidden (unmounted) by the user. You have two built-in options to achieve this:
+
+User entered data will always be stored internally in the data context, even if a [Field](/uilib/extensions/forms/all-fields/) is temporarily shown (mounted/unmounted).
+
+###### The `reduceToVisibleFields` method
+
+You can use the `reduceToVisibleFields` function to get only the data of visible (mounted) fields. Check out the [example](/uilib/extensions/forms/Form/Handler/demos/#visible-data) in the demo section.
+
+###### The `filterData` method
+
+For filtering data during form submit you can use the `filterData` method given as a parameter to the `onSubmit` ([Form.Handler](/uilib/extensions/forms/Form/Handler/)) event callback:
 
 ```tsx
 render(
@@ -277,8 +279,6 @@ render(
   </Form.Handler>,
 )
 ```
-
-- [Form.Handler](/uilib/extensions/forms/Form/Handler/)
 
 You may check out an [interactive example](/uilib/extensions/forms/Form/Handler/demos/#filter-your-data) of how to filter data during the submit event.
 
