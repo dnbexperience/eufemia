@@ -932,6 +932,38 @@ describe('Upload', () => {
         screen.queryByText(`file length is more than 5`)
       ).toBeInTheDocument()
     })
+
+    it('removes files when unmounting', () => {
+      const files = [
+        { file: createMockFile('fileName1.png', 100, 'image/png') },
+        { file: createMockFile('fileName2.png', 200, 'image/png') },
+      ]
+
+      const id = 'random-id-unmount'
+
+      const { unmount } = render(<Upload {...defaultProps} id={id} />)
+      const MockComponent = () => {
+        const { setFiles } = useUpload(id)
+
+        useEffect(() => setFiles(files), [])
+
+        return <div />
+      }
+
+      render(<MockComponent />)
+
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(2)
+
+      unmount()
+
+      render(<Upload {...defaultProps} id={id} />)
+
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(0)
+    })
   })
 
   describe('events', () => {
