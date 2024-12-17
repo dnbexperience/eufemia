@@ -182,10 +182,8 @@ export const VerticalFields = () => {
   return (
     <ComponentBox>
       <Form.Card>
-        <Flex.Vertical>
-          <Field.String label="Label" value="Value" />
-          <Field.String label="Label" value="Value" />
-        </Flex.Vertical>
+        <Field.String label="Label" value="Value" />
+        <Field.String label="Label" value="Value" />
       </Form.Card>
     </ComponentBox>
   )
