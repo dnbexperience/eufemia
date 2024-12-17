@@ -6,6 +6,16 @@ export const SubmitIndicatorProperties: PropertiesTableProps = {
     type: 'string',
     status: 'required',
   },
+  showLabel: {
+    doc: 'If `true`, the label will be shown.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  label: {
+    doc: 'Provide a label that will be shown next to the indicator.',
+    type: 'string',
+    status: 'optional',
+  },
   children: {
     doc: 'If content is provided, the component will try to find out if the indicator needs to be put on a new row or not. This way it will animate the height nicely.',
     type: 'React.Node',
