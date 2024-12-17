@@ -1014,8 +1014,8 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
 @media screen and (max-width: 40em) {
   .dnb-drawer {
     width: 100vw;
-    min-width: auto;
-    max-width: auto;
+    min-width: none;
+    max-width: none;
   }
 }
 @media screen and (max-width: 40em) {
