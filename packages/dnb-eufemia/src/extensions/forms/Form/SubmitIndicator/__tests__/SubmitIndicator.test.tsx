@@ -3,8 +3,8 @@ import { render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Form } from '../../..'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
+import locales from '../../../constants/locales'
 
-import locales from '../../../../../shared/locales'
 const nbNO = locales['nb-NO']
 
 describe('Form.SubmitIndicator', () => {
@@ -118,10 +118,43 @@ describe('Form.SubmitIndicator', () => {
       '.dnb-forms-submit-indicator__content'
     )
 
-    expect(dots).toHaveAttribute(
-      'aria-label',
-      nbNO.ProgressIndicator.indicator_label
+    expect(dots).toHaveAttribute('aria-label', nbNO.SubmitIndicator.label)
+  })
+
+  it('should have aria-label with custom label', () => {
+    render(<Form.SubmitIndicator state="pending" label="Custom label" />)
+
+    const dots = document.querySelector(
+      '.dnb-forms-submit-indicator__content'
     )
+
+    expect(dots).toHaveAttribute('aria-label', 'Custom label')
+  })
+
+  it('should render when showLabel is true', () => {
+    render(<Form.SubmitIndicator state="pending" showLabel />)
+
+    const label = document.querySelector(
+      '.dnb-forms-submit-indicator__label'
+    )
+
+    expect(label).toHaveTextContent(nbNO.SubmitIndicator.label)
+  })
+
+  it('should render custom label', () => {
+    render(
+      <Form.SubmitIndicator
+        state="pending"
+        label="Custom label"
+        showLabel
+      />
+    )
+
+    const label = document.querySelector(
+      '.dnb-forms-submit-indicator__label'
+    )
+
+    expect(label).toHaveTextContent('Custom label')
   })
 
   it('should set class with given state', () => {
