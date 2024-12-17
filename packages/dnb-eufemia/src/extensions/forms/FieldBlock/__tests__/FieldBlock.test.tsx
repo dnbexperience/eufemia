@@ -975,7 +975,7 @@ describe('FieldBlock', () => {
       )
     })
 
-    it('should show indicator with an label when fieldState is set to pending', async () => {
+    it('should show indicator with a label when fieldState is set to pending', async () => {
       render(
         <FieldBlock fieldState="pending">
           <MockComponent />
