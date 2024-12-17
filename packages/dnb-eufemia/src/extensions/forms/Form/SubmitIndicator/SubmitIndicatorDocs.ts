@@ -7,7 +7,7 @@ export const SubmitIndicatorProperties: PropertiesTableProps = {
     status: 'required',
   },
   showLabel: {
-    doc: 'If `true`, the label will be shown.',
+    doc: 'If `true`, the label will be shown. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
