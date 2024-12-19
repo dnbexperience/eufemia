@@ -6,6 +6,15 @@ showTabs: true
 
 With the `Form.setData` method, you can manage your form data outside of the form itself. This is beneficial when you need to utilize the form data in other places within your application:
 
+Related helpers:
+
+- [getData](/uilib/extensions/forms/Form/getData/)
+- [useData](/uilib/extensions/forms/Form/useData/)
+
+## Replace the whole data set
+
+When a value is given to the `setData` function, the whole data set will be replaced.
+
 ```jsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
@@ -13,14 +22,41 @@ const myFormId = 'unique-id' // or a function, object or React Context reference
 
 Form.setData('unique', { foo: 'bar' })
 
-function Component() {
-  return <Form.Handler id={myFormId}>...</Form.Handler>
+function MyForm() {
+  return (
+    <Form.Handler id={myFormId}>
+      <Field.String path="/foo" />
+    </Form.Handler>
+  )
 }
 ```
 
-You link them together via the `id` (string, function, object or React Context as the reference) property.
+## Update a single value
 
-Related helpers:
+You can use the `update` function to update the data.
 
-- [getData](/uilib/extensions/forms/Form/getData/)
-- [useData](/uilib/extensions/forms/Form/useData/)
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+const myFormId = 'unique-id' // or a function, object or React Context reference
+const { update } = Form.setData(myFormId)
+
+function MyForm() {
+  return (
+    <Form.Handler id={myFormId}>
+      <Field.Number path="/foo" defaultValue={0} />
+    </Form.Handler>
+  )
+}
+
+// Call "update" with the path and the new value.
+update('/foo', 1)
+
+// Or with a function that gives you the current value, if any.
+update('/foo', (value) => {
+  if (typeof value === 'number') {
+    return value + 1
+  }
+  return 1
+})
+```

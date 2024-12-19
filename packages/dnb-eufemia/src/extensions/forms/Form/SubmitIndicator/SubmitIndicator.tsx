@@ -1,14 +1,13 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import classnames from 'classnames'
-import { Icon, Space, Tooltip } from '../../../../components'
+import { Space } from '../../../../components'
 import type { SpaceProps } from '../../../../components/Space'
-import { check } from '../../../../icons'
 import type { SubmitState } from '../../types'
 import {
   omitSpacingProps,
   pickSpacingProps,
 } from '../../../../components/flex/utils'
-import { useTranslation } from '../../../../shared'
+import useTranslation from '../../hooks/useTranslation'
 import { convertJsxToString } from '../../../../shared/component-helper'
 
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
@@ -17,20 +16,23 @@ const useLayoutEffect =
 
 export type Props = {
   state: SubmitState
+  label?: React.ReactNode
+  showLabel?: boolean
   className?: string
-  successLabel?: string
   children?: React.ReactNode
 } & SpaceProps
 
 function SubmitIndicator(props: Props) {
+  const translation = useTranslation()
+
   const {
     className,
     children,
     state,
-    successLabel = 'Saved',
+    showLabel,
+    label = translation.SubmitIndicator.label,
     ...rest
   } = props
-  const translation = useTranslation()
   const childrenRef = useRef<HTMLSpanElement>(null)
   const [willWrap, setWillWrap] = useState(false)
   const key = useMemo(() => convertJsxToString(children), [children])
@@ -65,7 +67,7 @@ function SubmitIndicator(props: Props) {
       ? {
           role: 'status',
           'aria-busy': true,
-          'aria-label': translation.ProgressIndicator.indicator_label,
+          'aria-label': convertJsxToString(label),
         }
       : {
           'aria-hidden': true,
@@ -78,16 +80,8 @@ function SubmitIndicator(props: Props) {
       {...ariaAttributes}
       {...omitSpacingProps(rest)}
     >
-      {state === 'success' && (
-        <Tooltip
-          targetElement={
-            <span>
-              <Icon icon={check} />
-            </span>
-          }
-        >
-          {successLabel}
-        </Tooltip>
+      {showLabel && (
+        <span className="dnb-forms-submit-indicator__label">{label}</span>
       )}
       {state && state !== 'success' && state !== 'abort' && (
         <>

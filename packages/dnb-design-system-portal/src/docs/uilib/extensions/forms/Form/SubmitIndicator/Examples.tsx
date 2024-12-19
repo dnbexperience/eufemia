@@ -128,3 +128,13 @@ export const WithinOtherComponents = () => {
     </ComponentBox>
   )
 }
+
+export const WithinALabel = () => {
+  return (
+    <ComponentBox data-visual-test="submit-indicator-with-label">
+      <Form.Handler>
+        <Form.SubmitIndicator state="pending" showLabel />
+      </Form.Handler>
+    </ComponentBox>
+  )
+}

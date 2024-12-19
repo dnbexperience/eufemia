@@ -684,6 +684,40 @@ describe('Autocomplete component', () => {
     ).toBe(mockData[3])
   })
 
+  it('has correct options when using search_numbers, and searching with æøå', () => {
+    const mockData = [
+      ['Åge Ørn Ærlig', format('12345678901')],
+      ["Andrè Ørjåsæter O'Neill", format('12345678901')],
+    ] as DrawerListData
+
+    render(
+      <Autocomplete
+        data={mockData}
+        search_numbers
+        show_submit_button
+        {...mockProps}
+      />
+    )
+
+    toggle()
+
+    fireEvent.change(document.querySelector('.dnb-input__input'), {
+      target: { value: 'Åge Ørn Ærlig' },
+    })
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option')[0]
+        .textContent
+    ).toBe('Åge Ørn Ærlig12 345 678 901')
+
+    fireEvent.change(document.querySelector('.dnb-input__input'), {
+      target: { value: "Andrè Ørjåsæter O'Neill" },
+    })
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option')[0]
+        .textContent
+    ).toBe("Andrè Ørjåsæter O'Neill12 345 678 901")
+  })
+
   it('has correct options when using search_numbers and search_in_word_index=1', () => {
     const mockData = ['100.222.333,40', '123456', '100 222 444,50']
 

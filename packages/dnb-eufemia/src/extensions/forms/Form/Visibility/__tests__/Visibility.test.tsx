@@ -570,7 +570,7 @@ describe('Visibility', () => {
           <Form.Visibility
             pathTrue="/toggleValue"
             onAnimationEnd={onAnimationEnd}
-            animate
+            animate={false}
           >
             content
           </Form.Visibility>
@@ -583,8 +583,8 @@ describe('Visibility', () => {
 
       await userEvent.click(checkbox)
 
-      expect(() => {
-        expect(onAnimationEnd).toHaveBeenCalledTimes(0)
+      await expect(() => {
+        expect(onAnimationEnd).toHaveBeenCalledTimes(1)
       }).toNeverResolve()
     })
   })

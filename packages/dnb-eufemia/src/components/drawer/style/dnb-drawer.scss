@@ -39,8 +39,8 @@
 
   @include allBelow(small) {
     width: 100vw;
-    min-width: auto;
-    max-width: auto;
+    min-width: none;
+    max-width: none;
   }
 
   @include defaultDropShadow();
