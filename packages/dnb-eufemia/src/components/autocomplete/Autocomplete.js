@@ -1474,7 +1474,7 @@ class AutocompleteInstance extends React.PureComponent {
 
               if (searchNumbers) {
                 word.split('').forEach((char) => {
-                  if (/[\d\wÆØÅæøå]/.test(char)) {
+                  if (/[\p{L}\p{N}]/u.test(char)) {
                     segment = segment.replace(
                       new RegExp(`(${char})`, 'gi'),
                       `${strS}$1${strE}`
