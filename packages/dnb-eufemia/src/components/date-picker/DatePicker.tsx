@@ -57,6 +57,7 @@ import { DatePickerContextValues, DateType } from './DatePickerContext'
 import { DatePickerDates } from './hooks/useDates'
 import { useTranslation } from '../../shared'
 import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
+import DatePickerPortal from './DatePickerPortal'
 
 export type DatePickerEventAttributes = {
   day?: string
@@ -270,6 +271,10 @@ export type DatePickerProps = {
    * Use `right` to change the calendar alignment direction. Defaults to `left`.
    */
   alignPicker?: 'auto' | 'left' | 'right'
+  /**
+   * If set to `true`, the calendar will not be rendered inside a react portal. Defaults to `false`.
+   */
+  skipPortal?: boolean
   className?: string
   /**
    * Will be called right before every new calendar view gets rendered. See the example above.
@@ -567,6 +572,7 @@ const defaultProps: DatePickerProps = {
   opened: false,
   noAnimation: false,
   direction: 'auto',
+  skipPortal: false,
 }
 
 function DatePicker(externalProps: DatePickerAllProps) {
@@ -608,6 +614,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
     useRef<DatePickerContextValues['getReturnObject']>()
   const hideTimeout = useRef<NodeJS.Timeout>()
   const outsideClick = useRef<DetectOutsideClickClass>()
+  const calendarContainerRef = useRef<HTMLDivElement>()
 
   const translation = useTranslation().DatePicker
 
@@ -663,7 +670,11 @@ function DatePicker(externalProps: DatePickerAllProps) {
 
   const setOutsideClickHandler = useCallback(() => {
     outsideClick.current = detectOutsideClick(
-      innerRef.current,
+      // Sending in portalRef, instead of portalRef.current,
+      // as that would lead to the ignoreElement being null/undefined,
+      // since the portal has not been rendered yet,
+      // causing the calendar to close when clicking on the calendar itself
+      [innerRef.current, calendarContainerRef],
       ({ event }: { event: MouseEvent | KeyboardEvent }) => {
         hidePicker({ ...event, focusOnHide: event?.['code'] })
       }
@@ -706,11 +717,17 @@ function DatePicker(externalProps: DatePickerAllProps) {
 
       onShow?.({ ...getReturnObject.current(event) })
 
-      setTrianglePosition()
       setOutsideClickHandler()
     },
-    [setTrianglePosition, setOutsideClickHandler, onShow]
+    [setOutsideClickHandler, onShow]
   )
+
+  // Make sure the triangle is positioned correctly after calendar is mounted
+  useEffect(() => {
+    if (!hidden) {
+      setTrianglePosition()
+    }
+  }, [hidden, setTrianglePosition])
 
   // React to opened prop changes
   useEffect(() => {
@@ -839,6 +856,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
     showResetButton,
     className,
     tooltip,
+    skipPortal,
     ...restProps
   } = extendedProps
 
@@ -894,6 +912,14 @@ function DatePicker(externalProps: DatePickerAllProps) {
     ),
     lang: context.locale,
   } as HTMLProps<HTMLSpanElement>
+
+  const portalClassNames = classnames(
+    opened && 'dnb-date-picker__portal--opened',
+    hidden && 'dnb-date-picker__portal--hidden',
+    showInput && 'dnb-date-picker__portal--show-input',
+    alignPicker && `dnb-date-picker__portal--${alignPicker}`,
+    size && `dnb-date-picker--${size}`
+  )
 
   const remainingDOMProps = validateDOMAttributes(props, attributes)
   const remainingSubmitProps = validateDOMAttributes(null, submitParams)
@@ -968,13 +994,22 @@ function DatePicker(externalProps: DatePickerAllProps) {
                 onSubmit={togglePicker}
                 {...statusProps}
               />
-              <span className="dnb-date-picker__container">
-                <span
-                  className="dnb-date-picker__triangle"
-                  ref={triangleRef}
-                />
-                {!hidden && (
-                  <>
+
+              {!hidden && (
+                <DatePickerPortal
+                  className={portalClassNames}
+                  alignment={alignPicker}
+                  skipPortal={skipPortal}
+                  targetElementRef={innerRef}
+                >
+                  <span
+                    className="dnb-date-picker__container"
+                    ref={calendarContainerRef}
+                  >
+                    <span
+                      className="dnb-date-picker__triangle"
+                      ref={triangleRef}
+                    />
                     <DatePickerRange
                       id={id}
                       firstDayOfWeek={firstDay}
@@ -1010,9 +1045,9 @@ function DatePicker(externalProps: DatePickerAllProps) {
                       cancelButtonText={cancelButtonText}
                       resetButtonText={resetButtonText}
                     />
-                  </>
-                )}
-              </span>
+                  </span>
+                </DatePickerPortal>
+              )}
             </span>
             {suffix && (
               <Suffix
@@ -1072,6 +1107,7 @@ const NonAttributes = [
   'endMonth',
   'startMonth',
   'alignPicker',
+  'preventClose',
 ]
 
 function filterOutNonAttributes(props: DatePickerProps) {
