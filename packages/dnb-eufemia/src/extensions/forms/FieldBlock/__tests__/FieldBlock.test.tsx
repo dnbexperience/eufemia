@@ -975,6 +975,17 @@ describe('FieldBlock', () => {
       )
     })
 
+    it('should show indicator with a label when fieldState is set to pending', async () => {
+      render(
+        <FieldBlock fieldState="pending">
+          <MockComponent />
+        </FieldBlock>
+      )
+
+      const element = document.querySelector('.dnb-forms-submit-indicator')
+      expect(element).toHaveTextContent(nb.SubmitIndicator.label)
+    })
+
     it('should show indicator two (2) times when nested', async () => {
       render(
         <FieldBlock fieldState="pending">

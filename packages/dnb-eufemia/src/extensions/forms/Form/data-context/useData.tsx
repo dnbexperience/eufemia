@@ -33,11 +33,11 @@ type PathImpl<T, P extends string> = P extends `${infer Key}/${infer Rest}`
     : never
   : T[P & keyof T]
 
-type PathType<T, P extends string> = P extends `/${infer Rest}`
+export type PathType<T, P extends string> = P extends `/${infer Rest}`
   ? PathImpl<T, Rest>
   : never
 
-type UseDataReturnUpdate<Data> = <P extends Path>(
+export type UseDataReturnUpdate<Data> = <P extends Path>(
   path: P,
   value: ((value: PathType<Data, P>) => unknown) | unknown
 ) => void

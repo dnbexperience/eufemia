@@ -25,6 +25,7 @@ describe('getData', () => {
 
     const { data } = getData<Data>(identifier)
     expect(data).toEqual({ foo: 'bar' })
+    expect(data.foo satisfies string).toBe('bar')
   })
 
   it('should be able to get data from form after render', () => {
@@ -131,81 +132,85 @@ describe('getData', () => {
     expect(getData(identifier).getValue('/does-not-exist')).toBeUndefined()
   })
 
-  it('should provide filterData handler', () => {
-    type Data = { foo: string }
+  describe('filterData', () => {
+    it('should provide filterData handler', () => {
+      type Data = { foo: string }
 
-    const filterDataHandler = jest.fn(({ props }) => {
-      if (props.disabled === true) {
-        return false
-      }
-    })
+      const filterDataHandler = jest.fn(({ props }) => {
+        if (props.disabled === true) {
+          return false
+        }
+      })
 
-    render(
-      <Form.Handler id={identifier}>
-        <Field.String path="/foo" value="foo" disabled />
-        <Field.String path="/bar" value="baz" />
-      </Form.Handler>
-    )
+      render(
+        <Form.Handler id={identifier}>
+          <Field.String path="/foo" defaultValue="foo" disabled />
+          <Field.String path="/bar" defaultValue="baz" />
+        </Form.Handler>
+      )
 
-    const { data, filterData } = getData<Data>(identifier)
+      const { data, filterData } = getData<Data>(identifier)
 
-    expect(data).toEqual({
-      foo: 'foo',
-      bar: 'baz',
-    })
+      expect(data).toEqual({
+        foo: 'foo',
+        bar: 'baz',
+      })
 
-    expect(filterData(filterDataHandler)).toEqual({
-      bar: 'baz',
+      expect(filterData(filterDataHandler)).toEqual({
+        bar: 'baz',
+      })
     })
   })
 
-  it('should provide reduceToVisibleFields handler', () => {
-    type Data = { foo: string }
+  describe('reduceToVisibleFields', () => {
+    it('should provide reduceToVisibleFields handler', () => {
+      type Data = { foo: string }
 
-    const { rerender } = render(
-      <Form.Handler id={identifier}>
-        <Form.Visibility visible={true}>
-          <Field.String path="/foo" value="foo" />
-        </Form.Visibility>
+      const { rerender } = render(
+        <Form.Handler id={identifier}>
+          <Form.Visibility visible={true}>
+            <Field.String path="/foo" defaultValue="foo" />
+          </Form.Visibility>
 
-        <Field.String path="/bar" value="baz" />
-      </Form.Handler>
-    )
+          <Field.String path="/bar" defaultValue="baz" />
+        </Form.Handler>
+      )
 
-    const { data, reduceToVisibleFields } = getData<Data>(identifier)
+      const { data, reduceToVisibleFields } = getData<Data>(identifier)
 
-    expect(data).toEqual({
-      foo: 'foo',
-      bar: 'baz',
-    })
+      expect(data).toEqual({
+        foo: 'foo',
+        bar: 'baz',
+      })
 
-    rerender(
-      <Form.Handler id={identifier}>
-        <Form.Visibility visible={false}>
-          <Field.String path="/foo" value="foo" />
-        </Form.Visibility>
+      rerender(
+        <Form.Handler id={identifier}>
+          <Form.Visibility visible={false}>
+            <Field.String path="/foo" defaultValue="foo" />
+          </Form.Visibility>
 
-        <Field.String path="/bar" value="baz" />
-      </Form.Handler>
-    )
+          <Field.String path="/bar" defaultValue="baz" />
+        </Form.Handler>
+      )
 
-    expect(reduceToVisibleFields(data)).toEqual({
-      bar: 'baz',
-    })
+      expect(reduceToVisibleFields(data)).toEqual({
+        bar: 'baz',
+      })
 
-    rerender(
-      <Form.Handler id={identifier}>
-        <Form.Visibility visible={true}>
-          <Field.String path="/foo" value="foo" />
-        </Form.Visibility>
+      rerender(
+        <Form.Handler id={identifier}>
+          <Form.Visibility visible={true}>
+            <Field.String path="/foo" defaultValue="foo" />
+          </Form.Visibility>
 
-        <Field.String path="/bar" value="baz" />
-      </Form.Handler>
-    )
+          <Field.String path="/bar" defaultValue="baz" />
+        </Form.Handler>
+      )
 
-    expect(reduceToVisibleFields(data)).toEqual({
-      foo: 'foo',
-      bar: 'baz',
+      expect(reduceToVisibleFields(data)).toEqual({
+        foo: 'foo',
+        bar: 'baz',
+      })
     })
   })
 })

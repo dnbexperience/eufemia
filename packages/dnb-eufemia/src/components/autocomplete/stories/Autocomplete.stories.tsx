@@ -53,6 +53,21 @@ export const SearchNumbers = () => {
   )
 }
 
+export const SearchNumbersNonAlphaNumericChars = () => {
+  return (
+    <Autocomplete
+      label="Label:"
+      data={[
+        ['Edgar Wuckert', '1234.56.78901'],
+        ['Megan Abshire Jr.', '1234 56 78901'],
+        ['Åge Ørn Ærlig', '12345678901'],
+        ["Andrè O'Neill", '12345678901'],
+      ]}
+      search_numbers
+    />
+  )
+}
+
 const accounts = [
   { selectedKey: 1, content: 'A' },
   { selectedKey: 2, content: 'B' },

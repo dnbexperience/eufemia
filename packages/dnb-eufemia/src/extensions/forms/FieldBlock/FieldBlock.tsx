@@ -639,6 +639,7 @@ function FieldBlock(props: Props) {
 
           <SubmitIndicator
             state={fieldState ?? fieldStateRef.current}
+            showLabel
             className="dnb-forms-field-block__indicator dnb-forms-submit-indicator--inline-wrap"
           />
         </div>

@@ -15,6 +15,9 @@ export default {
       text: 'Send',
       sendText: 'Send inn',
     },
+    SubmitIndicator: {
+      label: 'Under arbeid',
+    },
     Isolation: {
       commitButtonText: 'Legg til',
     },
