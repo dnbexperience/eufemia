@@ -84,3 +84,23 @@ export const WithFreshValidator = () => {
     </Form.Handler>
   )
 }
+
+export const OnChangeValidatorWithConnectWithPath = () => {
+  const onChangeValidator = (amount: number, { connectWithPath }) => {
+    const { getValue: getMaximum } = connectWithPath('/maximum')
+
+    if (amount > (getMaximum() || 0)) return Error('Cannot exceed maximum')
+    else return undefined
+  }
+
+  return (
+    <Flex.Stack space="large">
+      <Field.Number label="Maximum" path="/maximum" />
+      <Field.Number
+        label="Amount"
+        path="/amount"
+        onChangeValidator={onChangeValidator}
+      />
+    </Flex.Stack>
+  )
+}

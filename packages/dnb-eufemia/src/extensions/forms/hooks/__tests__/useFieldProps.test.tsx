@@ -3482,6 +3482,35 @@ describe('useFieldProps', () => {
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
+        // Make a change to the ref input
+        await userEvent.type(inputWithRefValue, '3')
+
+        expect(screen.queryByRole('alert')).toHaveTextContent(
+          'The amount should be greater than 23'
+        )
+      })
+
+      it('should update error message on input change after submitting', async () => {
+        const validator = jest.fn(validatorFn)
+
+        render(
+          <Form.Handler>
+            <Field.Number path="/refValue" defaultValue={2} />
+
+            <Field.Number
+              path="/myNumberWithValidator"
+              defaultValue={2}
+              validator={validator}
+            />
+          </Form.Handler>
+        )
+
+        const [inputWithRefValue] = Array.from(
+          document.querySelectorAll('input')
+        )
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
         // Show error message
         fireEvent.submit(document.querySelector('form'))
 
@@ -4462,6 +4491,35 @@ describe('useFieldProps', () => {
       })
 
       it('should update error message on input change', async () => {
+        const onChangeValidator = jest.fn(onChangeValidatorFn)
+
+        render(
+          <Form.Handler>
+            <Field.Number path="/refValue" defaultValue={2} />
+
+            <Field.Number
+              path="/myNumberWithOnChangeValidator"
+              defaultValue={2}
+              onChangeValidator={onChangeValidator}
+            />
+          </Form.Handler>
+        )
+
+        const [inputWithRefValue] = Array.from(
+          document.querySelectorAll('input')
+        )
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+        // Make a change to the ref input
+        await userEvent.type(inputWithRefValue, '3')
+
+        expect(screen.queryByRole('alert')).toHaveTextContent(
+          'The amount should be greater than 23'
+        )
+      })
+
+      it('should update error message on input change after submitting', async () => {
         const onChangeValidator = jest.fn(onChangeValidatorFn)
 
         render(
