@@ -1,4 +1,4 @@
-import { Field, Form, Value } from '../../..'
+import { Connectors, Field, Form, Value } from '../../..'
 
 export default {
   title: 'Eufemia/Extensions/Forms/PostalCodeAndCity',
@@ -48,5 +48,58 @@ export function PostalCodeAndCityCountryCodeSelection() {
         />
       </Form.Handler>
     </>
+  )
+}
+
+// 1. Create a context with the config
+const { withConfig, handlerId } = Connectors.createContext({
+  fetchConfig: {
+    headers: {
+      'X-Mybring-API-Uid': '',
+      'X-Mybring-API-Key': '',
+    },
+  },
+})
+
+// 2. Use the context to create the onBlurValidator and onChange functions
+const onBlurValidator = withConfig(
+  Connectors.Bring.postalCode.onBlurValidator
+)
+
+// Should we name "onChange" to "autocompleteOnChange" or something like that?
+const onChange = withConfig(Connectors.Bring.postalCode.onChange, {
+  cityPath: '/city', // or targetPath?
+})
+
+export function PostalCodeAPI_Draft() {
+  return (
+    <Form.Handler
+      id={handlerId}
+      // defaultData={{ postalCode: '000', city: 'Oslo' }}
+      onSubmit={async (data) => {
+        await new Promise((resolve) => setTimeout(resolve, 3000))
+        console.log('onSubmit', data)
+      }}
+    >
+      <Form.Card>
+        <Field.PostalCodeAndCity
+          postalCode={{
+            path: '/postalCode',
+            onChange,
+            onBlurValidator,
+            // validateInitially: true,
+          }}
+          city={{
+            path: '/city',
+            // onChange: async (value) => {
+            //   await new Promise((resolve) => setTimeout(resolve, 2000))
+            //   console.log('onChange', value)
+            //   return { success: 'saved' }
+            // },
+          }}
+        />
+      </Form.Card>
+      <Form.SubmitButton />
+    </Form.Handler>
   )
 }
