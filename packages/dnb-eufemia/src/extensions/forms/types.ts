@@ -13,6 +13,7 @@ import {
   FormsTranslationFlat,
   FormsTranslationLocale,
 } from './hooks/useTranslation'
+import { GetValueByPath } from './hooks/useDataValue'
 
 export type * from 'json-schema'
 export type JSONSchema = JSONSchema7
@@ -265,6 +266,22 @@ export type DataValueReadWriteComponentProps<
   DataValueReadProps<Value> &
   DataValueWriteProps<Value, EmptyValue>
 
+export type MessageRenderMode = 'initially' | 'continuously' | 'always'
+export type MessagePropParams<Value> = {
+  renderMode: (mode: MessageRenderMode) => void
+  getValueByPath: GetValueByPath<Value>
+  getFieldByPath: (path: Path) => {
+    props: FieldProps
+  }
+}
+export type MessageProp<Value, T> =
+  | T
+  | ((value: Value, options: MessagePropParams<Value>) => T)
+export type MessageTypes<Value> =
+  | UseFieldProps<Value>['info']
+  | UseFieldProps<Value>['warning']
+  | UseFieldProps<Value>['error']
+
 export interface UseFieldProps<
   Value = unknown,
   EmptyValue = undefined | unknown,
@@ -300,9 +317,9 @@ export interface UseFieldProps<
   props?: Record<string, unknown>
 
   // - Used by useFieldProps and FieldBlock
-  info?: React.ReactNode
-  warning?: React.ReactNode
-  error?: Error | FormError | Array<Error | FormError>
+  info?: MessageProp<Value, React.ReactNode | Array<React.ReactNode>>
+  warning?: MessageProp<Value, React.ReactNode | Array<React.ReactNode>>
+  error?: MessageProp<Value, Error | FormError | Array<Error | FormError>>
 
   // - Validation
   required?: boolean
