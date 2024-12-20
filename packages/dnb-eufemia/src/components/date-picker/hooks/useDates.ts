@@ -415,7 +415,7 @@ function getStartDate(
   dateProps: DatePickerDateProps,
   previousDateProps: DatePickerDateProps
 ) {
-  // priortize startDate over date if provided
+  // prioritize startDate over date if provided
   if (
     typeof dateProps.startDate !== 'undefined' &&
     dateProps.startDate !== previousDateProps.startDate
