@@ -207,11 +207,13 @@ describe('Field.Upload', () => {
               file: file1,
               id: expect.any(String),
               exists: expect.any(Boolean),
+              name: 'fileName-1.png',
             },
             {
               file: file2,
               id: expect.any(String),
               exists: expect.any(Boolean),
+              name: 'fileName-2.png',
             },
           ],
         },
@@ -256,6 +258,7 @@ describe('Field.Upload', () => {
               file: file1,
               exists: false,
               id: expect.anything(),
+              name: 'fileName-1.png',
             },
             {
               errorMessage: nbShared.Upload.errorLargeFile.replace(
@@ -265,6 +268,7 @@ describe('Field.Upload', () => {
               file: file2,
               exists: false,
               id: expect.anything(),
+              name: 'fileName-2.png',
             },
           ],
         },
@@ -276,6 +280,7 @@ describe('Field.Upload', () => {
           file: file1,
           exists: false,
           id: expect.anything(),
+          name: 'fileName-1.png',
         },
         {
           errorMessage: nbShared.Upload.errorLargeFile.replace(
@@ -285,6 +290,7 @@ describe('Field.Upload', () => {
           file: file2,
           exists: false,
           id: expect.anything(),
+          name: 'fileName-2.png',
         },
       ])
 
@@ -310,6 +316,7 @@ describe('Field.Upload', () => {
               file: file1,
               exists: false,
               id: expect.anything(),
+              name: 'fileName-1.png',
             },
           ],
         },
@@ -353,6 +360,7 @@ describe('Field.Upload', () => {
               exists: false,
               file: file1,
               id: expect.any(String),
+              name: 'fileName-1.png',
             }),
           ],
         },
@@ -399,6 +407,7 @@ describe('Field.Upload', () => {
               exists: false,
               file: file1,
               id: expect.any(String),
+              name: 'fileName-1.png',
             }),
           ],
         },
@@ -468,6 +477,7 @@ describe('Field.Upload', () => {
               file: file1,
               exists: false,
               id: expect.anything(),
+              name: 'fileName-1.png',
             },
           ],
         },
@@ -734,6 +744,7 @@ describe('Field.Upload', () => {
               file: file1,
               exists: false,
               id: expect.anything(),
+              name: 'fileName-1.png',
             },
           ],
         },
@@ -1475,7 +1486,7 @@ describe('Field.Upload', () => {
     })
   })
 
-  it('should not set files from session storage if they are invalid', async () => {
+  it('should recreate files from session storage', async () => {
     const file = createMockFile('fileName.png', 100, 'image/png')
 
     const { unmount } = render(
@@ -1517,15 +1528,16 @@ describe('Field.Upload', () => {
     expect(dataContext.internalDataRef.current.myFiles).toEqual([
       {
         exists: false,
-        file: {},
+        file: new File([], 'fileName.png'),
         id: expect.any(String),
+        name: 'fileName.png',
       },
     ])
     const [title] = Array.from(document.querySelectorAll('p'))
     expect(title).toHaveTextContent(nbShared.Upload.title)
     expect(
       document.querySelectorAll('.dnb-upload__file-cell').length
-    ).toBe(0)
+    ).toBe(1)
   })
 
   describe('transformIn and transformOut', () => {
