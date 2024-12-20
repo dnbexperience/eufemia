@@ -3,6 +3,25 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.62.0](https://github.com/dnbexperience/eufemia/compare/v10.61.0...v10.62.0) (2024-12-20)
+
+
+### :repeat: CI
+
+* upgrade playwright ([#4413](https://github.com/dnbexperience/eufemia/issues/4413)) ([27f2106](https://github.com/dnbexperience/eufemia/commit/27f21062f06bd8f55817cf54ae2a088e9aa3a97a))
+
+
+### :sparkles: Features
+
+* **Forms:** add `label` and `showLabel` prop to Form.SubmitIndicator ([#4409](https://github.com/dnbexperience/eufemia/issues/4409)) ([95af6e3](https://github.com/dnbexperience/eufemia/commit/95af6e3c18f4e3142110395171cdf62ad48b735a))
+* **Forms:** add `update` method to `Form.setData` ([#4416](https://github.com/dnbexperience/eufemia/issues/4416)) ([d2f5c23](https://github.com/dnbexperience/eufemia/commit/d2f5c238300f22821d0a25f17d064f501c23d26c))
+* **Forms:** show a label along the indicator for async field processes ([#4410](https://github.com/dnbexperience/eufemia/issues/4410)) ([885ae0d](https://github.com/dnbexperience/eufemia/commit/885ae0d9a29dda2e1a7c2d69800c3572495d5dc5)), closes [#4409](https://github.com/dnbexperience/eufemia/issues/4409)
+
+
+### :bug: Bug Fixes
+
+* **Autocomplete:** support query with unicodes when using `search_numbers` ([#4419](https://github.com/dnbexperience/eufemia/issues/4419)) ([f19b7da](https://github.com/dnbexperience/eufemia/commit/f19b7dad6f2443a814abe3d945a2b3d077c9a0c2))
+
 ## [10.61.0](https://github.com/dnbexperience/eufemia/compare/v10.60.1...v10.61.0) (2024-12-13)
 
 
