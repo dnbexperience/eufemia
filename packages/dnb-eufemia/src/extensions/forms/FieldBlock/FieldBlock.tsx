@@ -498,6 +498,7 @@ function FieldBlock(props: Props) {
   })
 
   const labelProps: FormLabelAllProps = {
+    id: `${id}-label`,
     className: 'dnb-forms-field-block__label',
     element: enableFieldset ? 'legend' : 'label',
     forId: enableFieldset ? undefined : forId,

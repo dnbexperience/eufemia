@@ -1,7 +1,7 @@
-import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Slider, Grid, Flex } from '@dnb/eufemia/src'
-import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 import React from 'react'
+import ComponentBox from '../../../../../../shared/tags/ComponentBox'
+import { Slider, Grid, Flex, Anchor } from '@dnb/eufemia/src'
+import { Field, Form, FormError } from '@dnb/eufemia/src/extensions/forms'
 
 export const Placeholder = () => {
   return (
@@ -421,3 +421,88 @@ export const WithSlider = () => (
     }}
   </ComponentBox>
 )
+
+export const ConditionalInfo = () => {
+  return (
+    <ComponentBox scope={{ FormError }}>
+      {() => {
+        const conditionalInfo = (
+          maximum: number,
+          { renderMode, getValueByPath, getFieldByPath },
+        ) => {
+          renderMode('initially') // Your can also use 'continuously' or 'always'
+
+          const amount = getValueByPath('/amount')
+          const { props } = getFieldByPath('/amount')
+
+          if (maximum < amount && props) {
+            const anchor = (
+              <Anchor
+                href="#"
+                onClick={(event) => {
+                  event.preventDefault()
+                  const el = document.getElementById(props.id + '-label')
+                  el?.scrollIntoView()
+                }}
+              >
+                {props.label}
+              </Anchor>
+            )
+
+            return (
+              <>
+                Remember to adjust the {anchor} to be {maximum} or lower.
+              </>
+            )
+          }
+        }
+        const onBlurValidator = (amount: number, { connectWithPath }) => {
+          const { getValue: getMaximum } = connectWithPath('/maximum')
+
+          if (amount > getMaximum()) {
+            return new FormError('NumberField.errorMaximum', {
+              messageValues: {
+                maximum: getMaximum(),
+              },
+            })
+          }
+        }
+        return (
+          <Form.Handler
+            defaultData={{
+              maximum: 4,
+              amount: 5,
+            }}
+          >
+            <Form.Card>
+              <Field.Number
+                label="Maximum for amount"
+                labelDescription={
+                  <>
+                    <br />
+                    Defines the maximum amount possible to be entered.
+                  </>
+                }
+                path="/maximum"
+                info={conditionalInfo}
+              />
+              <Field.Number
+                label="Amount"
+                labelDescription={
+                  <>
+                    <br />
+                    Should be same or lower than maximum.
+                  </>
+                }
+                path="/amount"
+                onBlurValidator={onBlurValidator}
+              />
+            </Form.Card>
+
+            <Form.SubmitButton />
+          </Form.Handler>
+        )
+      }}
+    </ComponentBox>
+  )
+}
