@@ -1,16 +1,32 @@
 @import '../../../../../style/core/utilities.scss';
 
 .dnb-forms-submit-indicator {
+  --padding-left: 0.5em;
+  --font-animation: font-size var(--font-animation-duration, 400ms)
+    var(--easing-default);
+  --opacity-animation: opacity var(--opacity-animation-duration, 0ms)
+    var(--easing-default) var(--opacity-animation-delay, 0ms);
+
+  &:has(&__label) {
+    --font-animation-duration: 400ms;
+    --opacity-animation-duration: 400ms;
+    --opacity-animation-delay: 250ms;
+  }
+
   display: inline;
 
-  --padding-left: 0.5em;
+  &__label {
+    padding: 0.5em 0;
+  }
 
   &__content {
+    align-items: center;
     font-size: 0;
+    opacity: 0;
     line-height: 1em;
 
-    will-change: font-size;
-    transition: font-size 800ms var(--easing-default);
+    will-change: font-size opacity;
+    transition: var(--font-animation), var(--opacity-animation);
 
     b {
       padding-left: 0.125em;
@@ -37,28 +53,14 @@
       html[data-visual-test] & {
         animation: none;
       }
+
+      font-weight: var(--font-weight-bold);
     }
   }
 
   &--state-pending &__content {
     font-size: 1em;
-    font-weight: var(--font-weight-bold);
-  }
-  &--state-success &__content {
-    font-size: 1em;
-
-    .dnb-icon {
-      padding-left: var(--padding-left);
-      color: var(--color-success-green);
-    }
-    .dnb-icon--default {
-      font-size: 1em;
-    }
-
-    &__label {
-      font-size: var(--font-size-small);
-      padding-left: calc(var(--padding-left) * 2);
-    }
+    opacity: 1;
   }
   &--inline-wrap &__content {
     display: flex;

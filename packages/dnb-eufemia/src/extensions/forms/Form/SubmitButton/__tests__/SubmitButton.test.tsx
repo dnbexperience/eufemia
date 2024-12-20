@@ -219,7 +219,7 @@ describe('Form.SubmitButton', () => {
     expect(indicatorContentElement).toHaveAttribute('role', 'status')
     expect(indicatorContentElement).toHaveAttribute(
       'aria-label',
-      'Vennligst vent ...'
+      nb.SubmitIndicator.label
     )
   })
 

@@ -1353,7 +1353,7 @@ class AutocompleteInstance extends React.PureComponent {
         .filter(({ word, wordIndex }) => {
           if (searchNumbers) {
             // Remove all other chars, except numbers, so we can compare
-            word = word.replace(/[^\d\w]/g, '')
+            word = word.replace(/[^\p{L}\p{N}]+/gu, '')
           } else {
             // To ensure we escape regex chars
             word = escapeRegexChars(word)
@@ -1474,7 +1474,7 @@ class AutocompleteInstance extends React.PureComponent {
 
               if (searchNumbers) {
                 word.split('').forEach((char) => {
-                  if (/[\d\w]/.test(char)) {
+                  if (/[\p{L}\p{N}]/u.test(char)) {
                     segment = segment.replace(
                       new RegExp(`(${char})`, 'gi'),
                       `${strS}$1${strE}`
