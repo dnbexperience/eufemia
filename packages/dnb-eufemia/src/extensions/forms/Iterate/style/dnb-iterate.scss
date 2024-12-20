@@ -4,9 +4,4 @@
   &__element {
     outline: none; // for JavaSCript focus
   }
-
-  & > &__element:has(> .dnb-forms-section-block) {
-    // To make Animation not jump, we add "margin-bottom" in the inner element
-    margin-top: 0;
-  }
 }
