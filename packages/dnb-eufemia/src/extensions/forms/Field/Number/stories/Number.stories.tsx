@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
-import { Field, Form, UseFieldProps } from '../../..'
-import { Flex } from '../../../../../components'
+import { Field, Form, FormError, UseFieldProps } from '../../..'
+import { Anchor, Flex } from '../../../../../components'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Number',
@@ -81,6 +81,86 @@ export const WithFreshValidator = () => {
 
         <Form.SubmitButton />
       </Flex.Stack>
+    </Form.Handler>
+  )
+}
+
+export const ConditionalInfo = () => {
+  const conditionalInfo = (
+    maximum: number,
+    { renderMode, getValueByPath, getFieldByPath }
+  ) => {
+    renderMode('initially')
+    // renderMode('continuously')
+    // renderMode('always')
+
+    const amount = getValueByPath('/amount')
+    const { props } = getFieldByPath('/amount')
+
+    if (maximum < amount && props) {
+      const anchor = (
+        <Anchor
+          href={`#${props?.id}-label`}
+          onClick={(event: React.MouseEvent<HTMLAnchorElement>) => {
+            event.preventDefault()
+            const el = document.getElementById(`${props.id}-label`)
+            el?.scrollIntoView()
+          }}
+        >
+          {props?.label}
+        </Anchor>
+      )
+
+      return (
+        <>
+          Remember to adjust the {anchor} to be {maximum} or lower.{' '}
+        </>
+      )
+    }
+  }
+  const onBlurValidator = (amount: number, { connectWithPath }) => {
+    const { getValue: getMaximum } = connectWithPath('/maximum')
+
+    if (amount > getMaximum()) {
+      return new FormError('NumberField.errorMaximum', {
+        messageValues: {
+          maximum: getMaximum(),
+        },
+      })
+    }
+  }
+  return (
+    <Form.Handler
+      defaultData={{
+        maximum: 4,
+        amount: 5,
+      }}
+    >
+      <Form.Card>
+        <Field.Number
+          label="Maximum for amount"
+          labelDescription={
+            '\nDefines the maximum amount possible to be entered.'
+          }
+          path="/maximum"
+          // defaultValue={4}
+          info={conditionalInfo}
+          // warning={conditionalInfo}
+          // validateInitially
+          // validateUnchanged
+          // continuousValidation
+        />
+        <Field.Number
+          label="Amount"
+          labelDescription={'\nShould be same or lower than maximum.'}
+          path="/amount"
+          // defaultValue={5}
+          onBlurValidator={onBlurValidator}
+          // validateInitially
+        />
+      </Form.Card>
+
+      <Form.SubmitButton />
     </Form.Handler>
   )
 }
