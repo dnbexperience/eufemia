@@ -98,6 +98,7 @@ function UploadComponent(props: Props) {
     errorMessages,
     validateRequired,
     fromInput,
+    toInput: transformFiles,
     ...props,
   }
 
@@ -140,17 +141,7 @@ function UploadComponent(props: Props) {
   }, [files])
 
   useEffect(() => {
-    if (Array.isArray(value)) {
-      setFiles(
-        value.map((item) => {
-          if (item.file && !(item.file instanceof File)) {
-            // To support session storage, we recreated the file blob.
-            item['file'] = new File([], item['name'])
-          }
-          return item
-        })
-      )
-    }
+    setFiles(value)
   }, [setFiles, value])
 
   const handleChangeAsync = useCallback(
@@ -259,3 +250,21 @@ function UploadComponent(props: Props) {
 export default UploadComponent
 
 UploadComponent._supportsSpacingProps = true
+
+export function transformFiles(value: UploadValue) {
+  if (Array.isArray(value)) {
+    if (value.length === 0) {
+      return undefined
+    }
+
+    value.map((item) => {
+      if (item.file && !(item.file instanceof File)) {
+        // To support session storage, we recreated the file blob.
+        item['file'] = new File([], item['name'])
+      }
+      return item
+    })
+  }
+
+  return value
+}
