@@ -36,22 +36,33 @@ export default function useExternalValue<Value>(props: Props<Value>) {
     if (inIterate && itemPath) {
       // This field is inside an iterate, and has a pointer from the base of the element being iterated
       if (itemPath === '/') {
-        return iterateElementValue ?? emptyValue
+        return (
+          transformers?.current?.fromExternal?.(
+            iterateElementValue as Value
+          ) ?? emptyValue
+        )
       }
 
       if (pointer.has(iterateElementValue, itemPath)) {
-        return pointer.get(iterateElementValue, itemPath) ?? emptyValue
+        return (
+          transformers?.current?.fromExternal?.(
+            pointer.get(iterateElementValue, itemPath) as Value
+          ) ?? emptyValue
+        )
       }
     }
 
     if (data && path) {
       // There is a surrounding data context and a path for where in the source to find the data
       if (path === '/') {
-        return data ?? emptyValue
+        return transformers?.current?.fromExternal?.(data) ?? emptyValue
       }
 
       if (pointer.has(data, path)) {
-        return pointer.get(data, path) ?? emptyValue
+        return (
+          transformers?.current?.fromExternal?.(pointer.get(data, path)) ??
+          emptyValue
+        )
       }
     }
 

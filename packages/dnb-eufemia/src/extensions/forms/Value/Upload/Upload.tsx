@@ -9,7 +9,10 @@ import ListFormat, {
 import type { UploadFile } from '../../../../components/upload/types'
 import { getFileIcon } from '../../../../components/upload/UploadFileListCell'
 import { BYTES_IN_A_MEGA_BYTE } from '../../../../components/upload/UploadVerify'
-import { Props as FieldUploadProps } from '../../Field/Upload/Upload'
+import {
+  Props as FieldUploadProps,
+  transformFiles,
+} from '../../Field/Upload/Upload'
 import { format } from '../../../../components/number-format/NumberUtils'
 import { UploadFileLink } from '../../../../components/upload/UploadFileListLink'
 import { isAsync } from '../../../../shared/helpers/isAsync'
@@ -21,8 +24,12 @@ export type Props = ValueProps<Array<UploadFile>> &
   }
 
 function Upload(props: Props) {
+  const preparedProps = {
+    fromExternal: transformFiles,
+    ...props,
+  }
+
   const {
-    path,
     value,
     format,
     className,
@@ -32,7 +39,7 @@ function Upload(props: Props) {
     displaySize = false,
     onFileClick,
     ...rest
-  } = useValueProps(props)
+  } = useValueProps(preparedProps)
 
   const list = useMemo(() => {
     const valueToUse =
@@ -62,7 +69,15 @@ function Upload(props: Props) {
         />
       )
     }
-  }, [path, value, variant, listType])
+  }, [
+    value,
+    download,
+    displaySize,
+    onFileClick,
+    format,
+    variant,
+    listType,
+  ])
 
   return (
     <ValueBlock

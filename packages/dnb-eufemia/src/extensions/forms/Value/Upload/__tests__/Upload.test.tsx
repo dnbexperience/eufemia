@@ -1,6 +1,6 @@
 import React from 'react'
 import { screen, render, fireEvent, waitFor } from '@testing-library/react'
-import { Value, Form } from '../../..'
+import { Value, Form, DataContext, Field } from '../../..'
 import { createMockFile } from '../../../../../components/upload/__tests__/testHelpers'
 import { wait } from '../../../../../core/jest/jestSetup'
 
@@ -35,14 +35,23 @@ describe('Value.Upload', () => {
     ).toHaveTextContent('foo.png, bar.png og baz.png')
   })
 
-  it('renders empty array of file values', () => {
+  it('does not render empty array of file values', () => {
     render(<Value.Upload value={[]} />)
 
     expect(
-      document.querySelector(
-        '.dnb-forms-value-upload .dnb-forms-value-block__content'
-      )
+      document.querySelector('.dnb-forms-value-upload')
+    ).not.toBeInTheDocument()
+  })
+
+  it('renders when value is empty but showEmpty is true', () => {
+    render(<Value.Upload value={[]} showEmpty />)
+
+    expect(
+      document.querySelector('.dnb-forms-value-upload')
     ).toHaveTextContent('')
+    expect(
+      document.querySelector('.dnb-forms-value-block__content')
+    ).not.toBeInTheDocument()
   })
 
   it('renders array of falsy values', () => {
@@ -53,6 +62,67 @@ describe('Value.Upload', () => {
         '.dnb-forms-value-upload .dnb-forms-value-block__content'
       )
     ).toHaveTextContent('')
+  })
+
+  it('should recreate files from session storage', async () => {
+    const file = createMockFile('fileName.png', 100, 'image/png')
+
+    const { unmount } = render(
+      <Form.Handler sessionStorageId="session-storage-id">
+        <Field.Upload path="/myFiles" />
+        <Value.Upload path="/myFiles" />
+      </Form.Handler>
+    )
+
+    expect(
+      document.querySelector('.dnb-forms-value-upload')
+    ).not.toBeInTheDocument()
+
+    const element = document.querySelector('.dnb-upload')
+
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
+    )
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-upload .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('fileName.png')
+
+    let dataContext = null
+
+    // Don't rerender, but render again to make sure the files are not set
+    unmount()
+    render(
+      <Form.Handler sessionStorageId="session-storage-id">
+        <Value.Upload path="/myFiles" />
+        <DataContext.Consumer>
+          {(context) => {
+            dataContext = context
+            return null
+          }}
+        </DataContext.Consumer>
+      </Form.Handler>
+    )
+
+    expect(dataContext.internalDataRef.current.myFiles).toEqual([
+      {
+        exists: false,
+        file: new File([], 'fileName.png'),
+        id: expect.any(String),
+        name: 'fileName.png',
+      },
+    ])
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-upload .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('fileName.png')
   })
 
   it('renders custom format', () => {
