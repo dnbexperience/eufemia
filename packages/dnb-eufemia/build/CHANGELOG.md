@@ -3,6 +3,14 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.62.1](https://github.com/dnbexperience/eufemia/compare/v10.62.0...v10.62.1) (2024-12-27)
+
+
+### :bug: Bug Fixes
+
+* **Forms:** add support for `sessionStorageId` in Field.Upload ([#4424](https://github.com/dnbexperience/eufemia/issues/4424)) ([a8dfc52](https://github.com/dnbexperience/eufemia/commit/a8dfc5299b9b0446704c93af8b7e2d67e5dafaba)), closes [#4339](https://github.com/dnbexperience/eufemia/issues/4339)
+* **Forms:** correct font-size of non-clickable Field.Upload item ([#4425](https://github.com/dnbexperience/eufemia/issues/4425)) ([74423d6](https://github.com/dnbexperience/eufemia/commit/74423d64c2ed0bc15d2326f6bb096830253cc920))
+
 ## [10.62.0](https://github.com/dnbexperience/eufemia/compare/v10.61.0...v10.62.0) (2024-12-20)
 
 
