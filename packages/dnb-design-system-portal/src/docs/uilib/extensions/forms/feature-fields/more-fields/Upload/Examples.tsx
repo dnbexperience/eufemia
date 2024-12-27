@@ -1,6 +1,11 @@
 import { Flex } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
-import { Field, Form, Tools } from '@dnb/eufemia/src/extensions/forms'
+import {
+  Field,
+  Form,
+  Tools,
+  Value,
+} from '@dnb/eufemia/src/extensions/forms'
 import { createMockFile } from '../../../../../../../docs/uilib/components/upload/Examples'
 import useUpload from '@dnb/eufemia/src/components/upload/useUpload'
 import { UploadValue } from '@dnb/eufemia/src/extensions/forms/Field/Upload'
@@ -249,6 +254,30 @@ export const WithAsyncOnFileClick = () => {
           </Form.Handler>
         )
       }}
+    </ComponentBox>
+  )
+}
+
+export function SessionStorage() {
+  return (
+    <ComponentBox>
+      <Form.Handler sessionStorageId="documents">
+        <Flex.Stack>
+          <Form.Card>
+            <Field.Upload path="/documents" />
+            <Value.Upload
+              path="/documents"
+              label="Uploaded files"
+              placeholder="No files uploaded."
+              variant="ol"
+              showEmpty
+            />
+          </Form.Card>
+
+          <Form.SubmitButton />
+          <Tools.Log />
+        </Flex.Stack>
+      </Form.Handler>
     </ComponentBox>
   )
 }

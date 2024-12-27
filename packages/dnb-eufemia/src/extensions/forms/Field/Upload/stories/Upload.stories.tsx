@@ -1,4 +1,4 @@
-import { Field, Form, Tools } from '../../..'
+import { Field, Form, Tools, Value } from '../../..'
 import { Flex } from '../../../../../components'
 import { UploadFileNative } from '../../../../../components/Upload'
 import { createRequest } from '../../../Form/Handler/stories/FormHandler.stories'
@@ -216,8 +216,6 @@ export function TransformInAndOut() {
     >
       <Flex.Stack>
         <Field.Upload
-          label="Label"
-          placeholder="This is a Field"
           path="/documents"
           transformIn={transformIn}
           transformOut={transformOut}
@@ -226,6 +224,28 @@ export function TransformInAndOut() {
             console.log('onFileClick', fileItem)
           }}
         />
+
+        <Form.SubmitButton />
+        <Tools.Log />
+      </Flex.Stack>
+    </Form.Handler>
+  )
+}
+
+export function SessionStorage() {
+  return (
+    <Form.Handler sessionStorageId="documents">
+      <Flex.Stack>
+        <Form.Card>
+          <Field.Upload path="/documents" />
+          <Value.Upload
+            path="/documents"
+            label="Uploaded files"
+            placeholder="No files uploaded."
+            variant="ol"
+            showEmpty
+          />
+        </Form.Card>
 
         <Form.SubmitButton />
         <Tools.Log />

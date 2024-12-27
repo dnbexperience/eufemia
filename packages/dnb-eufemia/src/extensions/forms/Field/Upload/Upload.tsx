@@ -83,9 +83,22 @@ function UploadComponent(props: Props) {
     [formsTr.errorRequired]
   )
 
+  const fromInput = useCallback((value: UploadValue) => {
+    value.forEach((item, index) => {
+      value[index] = item
+
+      // Store the name in the value, to support session storage (serialization)
+      value[index]['name'] = item['name'] || item.file?.name
+    })
+
+    return value
+  }, [])
+
   const preparedProps = {
     errorMessages,
     validateRequired,
+    fromInput,
+    toInput: transformFiles,
     ...props,
   }
 
@@ -128,11 +141,7 @@ function UploadComponent(props: Props) {
   }, [files])
 
   useEffect(() => {
-    // Files stored in session storage will not have a property (due to serialization).
-    const hasInvalidFiles = value?.some(({ file }) => !file?.name)
-    if (!hasInvalidFiles) {
-      setFiles(value)
-    }
+    setFiles(value)
   }, [setFiles, value])
 
   const handleChangeAsync = useCallback(
@@ -173,7 +182,7 @@ function UploadComponent(props: Props) {
         handleChange(existingFiles)
       }
     },
-    [files, setFiles, fileHandler, handleChange]
+    [setFiles, fileHandler, handleChange]
   )
 
   const changeHandler = useCallback(
@@ -241,3 +250,21 @@ function UploadComponent(props: Props) {
 export default UploadComponent
 
 UploadComponent._supportsSpacingProps = true
+
+export function transformFiles(value: UploadValue) {
+  if (Array.isArray(value)) {
+    if (value.length === 0) {
+      return undefined
+    }
+
+    value.map((item) => {
+      if (item?.file && !(item.file instanceof File)) {
+        // To support session storage, we recreated the file blob.
+        item['file'] = new File([], item['name'])
+      }
+      return item
+    })
+  }
+
+  return value
+}
