@@ -539,6 +539,7 @@ export type DatePickerAllProps = DatePickerProps &
     | 'onBlur'
     | 'onFocus'
     | 'onSubmit'
+    | 'onReset'
     | 'start'
   >
 
