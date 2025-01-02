@@ -50,8 +50,8 @@ export type ReturnObject<E> = {
   attributes?: Record<string, unknown>
   days_between?: number
   date?: string | null
-  start_date?: string
-  end_date?: string
+  start_date?: string | null
+  end_date?: string | null
   is_valid?: boolean
   is_valid_start_date?: boolean
   is_valid_end_date?: boolean
