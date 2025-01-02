@@ -3,6 +3,14 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.62.2](https://github.com/dnbexperience/eufemia/compare/v10.62.1...v10.62.2) (2025-01-02)
+
+
+### :bug: Bug Fixes
+
+* **DatePicker:** add `null` as possible start_date and end_date value ([#4428](https://github.com/dnbexperience/eufemia/issues/4428)) ([260551c](https://github.com/dnbexperience/eufemia/commit/260551ccd4077d2ab7e5ecfc8ce5d685c98b1fb2))
+* **DatePicker:** removes @types/react's type for `onReset` ([#4429](https://github.com/dnbexperience/eufemia/issues/4429)) ([a248ace](https://github.com/dnbexperience/eufemia/commit/a248ace980f74a9efc404e5b47799e1b85ed18c4))
+
 ## [10.62.1](https://github.com/dnbexperience/eufemia/compare/v10.62.0...v10.62.1) (2024-12-27)
 
 
