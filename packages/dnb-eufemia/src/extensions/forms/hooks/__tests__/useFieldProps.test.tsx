@@ -284,30 +284,6 @@ describe('useFieldProps', () => {
   })
 
   describe('with local validation', () => {
-    it('should return error when onChangeValidator callback returns error', async () => {
-      const { result, rerender } = renderHook(useFieldProps, {
-        initialProps: {
-          onChangeValidator: () => new Error('This is wrong...'),
-          value: 'foo',
-          validateInitially: true,
-        },
-      })
-
-      await waitFor(() => {
-        expect(result.current.error).toBeInstanceOf(Error)
-      })
-
-      rerender({
-        onChangeValidator: () => undefined,
-        value: 'bar',
-        validateInitially: true,
-      })
-
-      await waitFor(() => {
-        expect(result.current.error).toBeUndefined()
-      })
-    })
-
     it('should not return error when validateInitially is set to false', async () => {
       const { result } = renderHook(useFieldProps, {
         initialProps: {
@@ -328,572 +304,6 @@ describe('useFieldProps', () => {
 
       await waitFor(() => {
         expect(result.current.error).toBeInstanceOf(Error)
-      })
-    })
-
-    describe('onBlurValidator', () => {
-      it('should not call onBlurValidator when required error is present', () => {
-        const onBlurValidator = jest.fn(
-          () => new Error('This is wrong...')
-        )
-
-        const { result } = renderHook(useFieldProps, {
-          initialProps: {
-            onBlurValidator,
-            required: true,
-          },
-        })
-
-        expect(result.current.error).toBeUndefined()
-
-        act(() => {
-          result.current.handleChange('something')
-          result.current.handleChange('')
-          result.current.handleBlur()
-        })
-
-        expect(getError(result.current.error).message).toBe(
-          nb.Field.errorRequired
-        )
-
-        act(() => {
-          result.current.handleChange('something')
-          result.current.handleBlur()
-        })
-
-        expect(getError(result.current.error).message).toBe(
-          'This is wrong...'
-        )
-      })
-
-      it('should not call onBlurValidator when pattern error is present', () => {
-        const schema: JSONSchema = {
-          type: 'string',
-          pattern: '[0-9]',
-        }
-
-        const onBlurValidator = jest.fn(
-          () => new Error('This is wrong...')
-        )
-
-        const { result } = renderHook(useFieldProps, {
-          initialProps: {
-            onBlurValidator,
-            schema,
-          },
-        })
-
-        expect(result.current.error).toBeUndefined()
-
-        act(() => {
-          result.current.handleChange('something')
-          result.current.handleBlur()
-        })
-
-        expect(getError(result.current.error).message).toBe(
-          nb.Field.errorPattern
-        )
-
-        act(() => {
-          result.current.handleChange('123')
-          result.current.handleBlur()
-        })
-
-        expect(getError(result.current.error).message).toBe(
-          'This is wrong...'
-        )
-      })
-
-      it('should always show onBlurValidator over onChangeValidator', () => {
-        const onChangeValidator = jest.fn(
-          () => new Error('Error message by onChangeValidator')
-        )
-
-        const onBlurValidator = jest.fn(
-          () => new Error('Error message by onBlurValidator')
-        )
-
-        const { result } = renderHook(useFieldProps, {
-          initialProps: {
-            onChangeValidator,
-            onBlurValidator,
-          },
-        })
-
-        expect(result.current.error).toBeUndefined()
-
-        act(() => {
-          result.current.handleChange('something')
-          result.current.handleBlur()
-        })
-
-        expect(getError(result.current.error).message).toBe(
-          'Error message by onBlurValidator'
-        )
-
-        act(() => {
-          result.current.handleChange('123')
-          result.current.handleBlur()
-        })
-
-        expect(getError(result.current.error).message).toBe(
-          'Error message by onBlurValidator'
-        )
-      })
-
-      it('should call onBlurValidator when the error initiator is an async onChangeValidator', async () => {
-        const onBlurValidator = jest.fn(
-          () => new Error('Error message by onBlurValidator')
-        )
-        const onChangeValidator = jest.fn(
-          async () => new Error('Error message by onChangeValidator')
-        )
-
-        const { result } = renderHook(useFieldProps, {
-          initialProps: {
-            onBlurValidator,
-            onChangeValidator,
-            required: true,
-          },
-        })
-
-        expect(result.current.error).toBeUndefined()
-
-        act(() => {
-          result.current.handleChange('something')
-          result.current.handleChange('')
-        })
-
-        await wait(1) // to ensure that "localErrorInitiator" is set to "required"
-
-        act(() => {
-          result.current.handleBlur()
-        })
-
-        expect(getError(result.current.error).message).toBe(
-          'Error message by onBlurValidator'
-        )
-      })
-
-      it('should call onBlurValidator when the error initiator is an async onChange handler', async () => {
-        const onBlurValidator = jest.fn(
-          () => new Error('Error message by onBlurValidator')
-        )
-        const onChange = jest.fn(async () => null)
-
-        const { result } = renderHook(useFieldProps, {
-          initialProps: {
-            onBlurValidator,
-            onChange,
-            required: true,
-          },
-        })
-
-        expect(result.current.error).toBeUndefined()
-
-        act(() => {
-          result.current.handleChange('something')
-          result.current.handleChange('')
-        })
-
-        await wait(1) // to ensure that "localErrorInitiator" is set to "required"
-
-        act(() => {
-          result.current.handleBlur()
-        })
-
-        expect(getError(result.current.error).message).toBe(
-          'Error message by onBlurValidator'
-        )
-      })
-
-      it('should call onBlurValidator when the error initiator is onChangeValidator and the onChangeValidator is async', async () => {
-        const onBlurValidator = jest.fn(
-          () => new Error('Error message by onBlurValidator')
-        )
-        const onChangeValidator = jest.fn(
-          async () => new Error('Error message by onChangeValidator')
-        )
-
-        const { result } = renderHook(useFieldProps, {
-          initialProps: {
-            onBlurValidator,
-            onChangeValidator,
-            required: true,
-          },
-        })
-
-        expect(result.current.error).toBeUndefined()
-
-        act(() => {
-          result.current.handleChange('something')
-        })
-
-        await wait(1) // to ensure that "localErrorInitiator" is set to "required"
-
-        act(() => {
-          result.current.handleBlur()
-        })
-
-        expect(getError(result.current.error).message).toBe(
-          'Error message by onBlurValidator'
-        )
-      })
-    })
-
-    describe('with async onChangeValidator', () => {
-      const validateBlur = async (result, value = Date.now()) => {
-        act(() => {
-          result.current.handleChange(String(value))
-          result.current.handleBlur()
-        })
-      }
-
-      it('should set fieldState', async () => {
-        const onChangeValidator = async () => {
-          await wait(1)
-
-          return null
-        }
-
-        const { result, rerender } = renderHook(useFieldProps, {
-          initialProps: {
-            onChangeValidator,
-            value: '',
-          },
-        })
-
-        expect(result.current.fieldState).toBeUndefined()
-        expect(result.current.error).toBeUndefined()
-        expect(result.current.disabled).toBeUndefined()
-
-        await validateBlur(result)
-
-        expect(result.current.fieldState).toBe('pending')
-        expect(result.current.error).toBeUndefined()
-        expect(result.current.disabled).toBeUndefined()
-
-        await waitFor(() => {
-          expect(result.current.fieldState).toBe('complete')
-          expect(result.current.error).toBeUndefined()
-          expect(result.current.disabled).toBeUndefined()
-        })
-
-        rerender({
-          onChangeValidator,
-          value: '456',
-        })
-
-        expect(result.current.fieldState).toBe('pending')
-        expect(result.current.error).toBeUndefined()
-        expect(result.current.disabled).toBeUndefined()
-
-        await waitFor(() => {
-          expect(result.current.fieldState).toBe('complete')
-          expect(result.current.error).toBeUndefined()
-          expect(result.current.disabled).toBeUndefined()
-        })
-      })
-
-      it('should set fieldState and disabled in SharedState', async () => {
-        let count = 0
-        const validator = async () => {
-          await wait(1)
-
-          count++
-
-          if (count > 2) {
-            return new Error('Error message')
-          }
-
-          return null
-        }
-
-        const { result, rerender } = renderHook(useFieldProps, {
-          initialProps: {
-            onChangeValidator: validator,
-            onBlurValidator: undefined,
-            value: '',
-            info: 'Info message',
-            warning: 'Warning message',
-          },
-        })
-        const id = result.current.id
-        const { result: sharedResult } = renderHook(() =>
-          useSharedState<{
-            disabled: boolean
-            error: Error
-            fieldState: SubmitState
-            info: string
-            warning: string
-          }>('field-block-props-' + id)
-        )
-        expect(sharedResult.current.data).toEqual({
-          disabled: undefined,
-          error: undefined,
-          fieldState: undefined,
-          info: 'Info message',
-          warning: 'Warning message',
-        })
-
-        expect(result.current.fieldState).toBeUndefined()
-        expect(result.current.error).toBeUndefined()
-        expect(result.current.disabled).toBeUndefined()
-
-        await validateBlur(result)
-
-        expect(result.current.fieldState).toBe('pending')
-        expect(result.current.error).toBeUndefined()
-        expect(result.current.disabled).toBeUndefined()
-        expect(sharedResult.current.get().fieldState).toBe('pending')
-        expect(sharedResult.current.get().error).toBeUndefined()
-        expect(sharedResult.current.get().disabled).toBeUndefined()
-
-        await waitFor(() => {
-          expect(result.current.fieldState).toBe('complete')
-          expect(result.current.error).toBeUndefined()
-          expect(result.current.disabled).toBeUndefined()
-          expect(sharedResult.current.get().fieldState).toBe('complete')
-          expect(sharedResult.current.get().error).toBeUndefined()
-          expect(sharedResult.current.get().disabled).toBeUndefined()
-        })
-
-        rerender({
-          onChangeValidator: validator,
-          onBlurValidator: undefined,
-          value: '456',
-          info: 'Info message changed',
-          warning: 'Warning message changed',
-        })
-
-        expect(sharedResult.current.get()).toEqual({
-          disabled: undefined,
-          error: undefined,
-          fieldState: 'pending',
-          info: 'Info message changed',
-          warning: 'Warning message changed',
-        })
-
-        expect(result.current.fieldState).toBe('pending')
-        expect(result.current.error).toBeUndefined()
-        expect(result.current.disabled).toBeUndefined()
-        expect(sharedResult.current.get().fieldState).toBe('pending')
-        expect(sharedResult.current.get().error).toBeUndefined()
-        expect(sharedResult.current.get().disabled).toBeUndefined()
-
-        await waitFor(() => {
-          expect(result.current.fieldState).toBe('complete')
-          expect(result.current.error).toBeUndefined()
-          expect(result.current.disabled).toBeUndefined()
-          expect(sharedResult.current.get().fieldState).toBe('complete')
-          expect(sharedResult.current.get().error).toBeUndefined()
-          expect(sharedResult.current.get().disabled).toBeUndefined()
-        })
-
-        rerender({
-          onChangeValidator: undefined,
-          onBlurValidator: validator,
-          value: '456',
-          info: 'Info message changed',
-          warning: 'Warning message changed',
-        })
-
-        await validateBlur(result)
-
-        expect(result.current.fieldState).toBe('pending')
-        expect(result.current.error).toBeUndefined()
-        expect(result.current.disabled).toBeTruthy()
-        expect(sharedResult.current.get().fieldState).toBe('pending')
-        expect(sharedResult.current.get().error).toBeUndefined()
-        expect(sharedResult.current.get().disabled).toBeTruthy()
-
-        await waitFor(() => {
-          expect(result.current.fieldState).toBe('error')
-          expect(result.current.error).toBeInstanceOf(Error)
-          expect(result.current.disabled).toBeUndefined()
-          expect(sharedResult.current.get().fieldState).toBe('error')
-          expect(sharedResult.current.get().error).toBeInstanceOf(Error)
-          expect(sharedResult.current.get().disabled).toBeUndefined()
-
-          expect(sharedResult.current.get()).toEqual({
-            disabled: undefined,
-            error: new Error('Error message'),
-            fieldState: 'error',
-            info: 'Info message changed',
-            warning: 'Warning message changed',
-          })
-        })
-      })
-
-      it('should set fieldState to error for async onChangeValidator', async () => {
-        const onChangeValidator = async () => {
-          await wait(1)
-
-          return new Error('Error message')
-        }
-
-        const { result, rerender } = renderHook(useFieldProps, {
-          initialProps: {
-            onChangeValidator,
-            value: '',
-          },
-        })
-
-        expect(result.current.fieldState).toBeUndefined()
-        expect(result.current.error).toBeUndefined()
-
-        await validateBlur(result)
-
-        expect(result.current.fieldState).toBe('pending')
-        expect(result.current.error).toBeUndefined()
-
-        await waitFor(() => {
-          expect(result.current.fieldState).toBe('error')
-          expect(result.current.error).toBeInstanceOf(Error)
-        })
-
-        rerender({
-          onChangeValidator,
-          value: '456',
-        })
-
-        expect(result.current.fieldState).toBe('pending')
-        expect(result.current.error).toBeUndefined()
-
-        await waitFor(() => {
-          expect(result.current.fieldState).toBe('error')
-          expect(result.current.error).toBeInstanceOf(Error)
-        })
-      })
-
-      it('should set fieldState to error for async onBlurValidator', async () => {
-        const onBlurValidator = async () => {
-          await wait(1)
-
-          return new Error('Error message')
-        }
-
-        const { result, rerender } = renderHook(useFieldProps, {
-          initialProps: {
-            onBlurValidator,
-            value: '',
-          },
-        })
-
-        expect(result.current.fieldState).toBeUndefined()
-        expect(result.current.error).toBeUndefined()
-
-        await validateBlur(result)
-
-        expect(result.current.fieldState).toBe('pending')
-        expect(result.current.error).toBeUndefined()
-
-        await waitFor(() => {
-          expect(result.current.fieldState).toBe('error')
-          expect(result.current.error).toBeInstanceOf(Error)
-        })
-
-        rerender({
-          onBlurValidator,
-          value: '456',
-        })
-
-        expect(result.current.fieldState).toBe('error')
-        expect(result.current.error).toBeUndefined()
-
-        await validateBlur(result)
-
-        expect(result.current.fieldState).toBe('pending')
-        expect(result.current.error).toBeUndefined()
-
-        await waitFor(() => {
-          expect(result.current.fieldState).toBe('error')
-          expect(result.current.error).toBeInstanceOf(Error)
-        })
-      })
-
-      it('should return disable=true during async onBlurValidator validation', async () => {
-        const onBlurValidator = async () => {
-          await wait(1)
-
-          return null
-        }
-
-        const { result, rerender } = renderHook(useFieldProps, {
-          initialProps: {
-            onBlurValidator,
-            value: '',
-          },
-        })
-
-        expect(result.current.fieldState).toBeUndefined()
-        expect(result.current.disabled).toBeUndefined()
-
-        await validateBlur(result)
-
-        expect(result.current.fieldState).toBe('pending')
-        expect(result.current.disabled).toBeTruthy()
-
-        await waitFor(() => {
-          expect(result.current.fieldState).toBe('complete')
-          expect(result.current.disabled).toBeUndefined()
-        })
-
-        rerender({
-          onBlurValidator,
-          value: '456',
-        })
-
-        expect(result.current.fieldState).toBe('complete')
-        expect(result.current.disabled).toBeUndefined()
-
-        await validateBlur(result)
-
-        expect(result.current.fieldState).toBe('pending')
-        expect(result.current.disabled).toBeTruthy()
-
-        await waitFor(() => {
-          expect(result.current.fieldState).toBe('complete')
-          expect(result.current.disabled).toBeUndefined()
-        })
-      })
-
-      it('should hide fieldState error when disabled', async () => {
-        const onChangeValidator = async () => {
-          await wait(1)
-
-          return new Error('Error message')
-        }
-
-        const { result, rerender } = renderHook(useFieldProps, {
-          initialProps: {
-            onChangeValidator,
-            value: '',
-            disabled: undefined,
-          },
-        })
-
-        expect(result.current.fieldState).toBeUndefined()
-        expect(result.current.error).toBeUndefined()
-
-        await validateBlur(result)
-
-        expect(result.current.fieldState).toBe('pending')
-        expect(result.current.error).toBeUndefined()
-
-        await waitFor(() => {
-          expect(result.current.fieldState).toBe('error')
-          expect(result.current.error).toBeInstanceOf(Error)
-        })
-
-        rerender({
-          onChangeValidator,
-          value: '456',
-          disabled: true,
-        })
-
-        expect(result.current.fieldState).toBeUndefined()
-        expect(result.current.error).toBeUndefined()
       })
     })
 
@@ -4374,6 +3784,294 @@ describe('useFieldProps', () => {
   })
 
   describe('onChangeValidator', () => {
+    it('should return error when onChangeValidator callback returns error', async () => {
+      const { result, rerender } = renderHook(useFieldProps, {
+        initialProps: {
+          onChangeValidator: () => new Error('This is wrong...'),
+          value: 'foo',
+          validateInitially: true,
+        },
+      })
+
+      await waitFor(() => {
+        expect(result.current.error).toBeInstanceOf(Error)
+      })
+
+      rerender({
+        onChangeValidator: () => undefined,
+        value: 'bar',
+        validateInitially: true,
+      })
+
+      await waitFor(() => {
+        expect(result.current.error).toBeUndefined()
+      })
+    })
+
+    describe('with async onChangeValidator', () => {
+      const validateBlur = async (result, value = Date.now()) => {
+        act(() => {
+          result.current.handleChange(String(value))
+          result.current.handleBlur()
+        })
+      }
+
+      it('should set fieldState', async () => {
+        const onChangeValidator = async () => {
+          await wait(1)
+
+          return null
+        }
+
+        const { result, rerender } = renderHook(useFieldProps, {
+          initialProps: {
+            onChangeValidator,
+            value: '',
+          },
+        })
+
+        expect(result.current.fieldState).toBeUndefined()
+        expect(result.current.error).toBeUndefined()
+        expect(result.current.disabled).toBeUndefined()
+
+        await validateBlur(result)
+
+        expect(result.current.fieldState).toBe('pending')
+        expect(result.current.error).toBeUndefined()
+        expect(result.current.disabled).toBeUndefined()
+
+        await waitFor(() => {
+          expect(result.current.fieldState).toBe('complete')
+          expect(result.current.error).toBeUndefined()
+          expect(result.current.disabled).toBeUndefined()
+        })
+
+        rerender({
+          onChangeValidator,
+          value: '456',
+        })
+
+        expect(result.current.fieldState).toBe('pending')
+        expect(result.current.error).toBeUndefined()
+        expect(result.current.disabled).toBeUndefined()
+
+        await waitFor(() => {
+          expect(result.current.fieldState).toBe('complete')
+          expect(result.current.error).toBeUndefined()
+          expect(result.current.disabled).toBeUndefined()
+        })
+      })
+
+      it('should set fieldState and disabled in SharedState', async () => {
+        let count = 0
+        const validator = async () => {
+          await wait(1)
+
+          count++
+
+          if (count > 2) {
+            return new Error('Error message')
+          }
+
+          return null
+        }
+
+        const { result, rerender } = renderHook(useFieldProps, {
+          initialProps: {
+            onChangeValidator: validator,
+            onBlurValidator: undefined,
+            value: '',
+            info: 'Info message',
+            warning: 'Warning message',
+          },
+        })
+        const id = result.current.id
+        const { result: sharedResult } = renderHook(() =>
+          useSharedState<{
+            disabled: boolean
+            error: Error
+            fieldState: SubmitState
+            info: string
+            warning: string
+          }>('field-block-props-' + id)
+        )
+        expect(sharedResult.current.data).toEqual({
+          disabled: undefined,
+          error: undefined,
+          fieldState: undefined,
+          info: 'Info message',
+          warning: 'Warning message',
+        })
+
+        expect(result.current.fieldState).toBeUndefined()
+        expect(result.current.error).toBeUndefined()
+        expect(result.current.disabled).toBeUndefined()
+
+        await validateBlur(result)
+
+        expect(result.current.fieldState).toBe('pending')
+        expect(result.current.error).toBeUndefined()
+        expect(result.current.disabled).toBeUndefined()
+        expect(sharedResult.current.get().fieldState).toBe('pending')
+        expect(sharedResult.current.get().error).toBeUndefined()
+        expect(sharedResult.current.get().disabled).toBeUndefined()
+
+        await waitFor(() => {
+          expect(result.current.fieldState).toBe('complete')
+          expect(result.current.error).toBeUndefined()
+          expect(result.current.disabled).toBeUndefined()
+          expect(sharedResult.current.get().fieldState).toBe('complete')
+          expect(sharedResult.current.get().error).toBeUndefined()
+          expect(sharedResult.current.get().disabled).toBeUndefined()
+        })
+
+        rerender({
+          onChangeValidator: validator,
+          onBlurValidator: undefined,
+          value: '456',
+          info: 'Info message changed',
+          warning: 'Warning message changed',
+        })
+
+        expect(sharedResult.current.get()).toEqual({
+          disabled: undefined,
+          error: undefined,
+          fieldState: 'pending',
+          info: 'Info message changed',
+          warning: 'Warning message changed',
+        })
+
+        expect(result.current.fieldState).toBe('pending')
+        expect(result.current.error).toBeUndefined()
+        expect(result.current.disabled).toBeUndefined()
+        expect(sharedResult.current.get().fieldState).toBe('pending')
+        expect(sharedResult.current.get().error).toBeUndefined()
+        expect(sharedResult.current.get().disabled).toBeUndefined()
+
+        await waitFor(() => {
+          expect(result.current.fieldState).toBe('complete')
+          expect(result.current.error).toBeUndefined()
+          expect(result.current.disabled).toBeUndefined()
+          expect(sharedResult.current.get().fieldState).toBe('complete')
+          expect(sharedResult.current.get().error).toBeUndefined()
+          expect(sharedResult.current.get().disabled).toBeUndefined()
+        })
+
+        rerender({
+          onChangeValidator: undefined,
+          onBlurValidator: validator,
+          value: '456',
+          info: 'Info message changed',
+          warning: 'Warning message changed',
+        })
+
+        await validateBlur(result)
+
+        expect(result.current.fieldState).toBe('pending')
+        expect(result.current.error).toBeUndefined()
+        expect(result.current.disabled).toBeTruthy()
+        expect(sharedResult.current.get().fieldState).toBe('pending')
+        expect(sharedResult.current.get().error).toBeUndefined()
+        expect(sharedResult.current.get().disabled).toBeTruthy()
+
+        await waitFor(() => {
+          expect(result.current.fieldState).toBe('error')
+          expect(result.current.error).toBeInstanceOf(Error)
+          expect(result.current.disabled).toBeUndefined()
+          expect(sharedResult.current.get().fieldState).toBe('error')
+          expect(sharedResult.current.get().error).toBeInstanceOf(Error)
+          expect(sharedResult.current.get().disabled).toBeUndefined()
+
+          expect(sharedResult.current.get()).toEqual({
+            disabled: undefined,
+            error: new Error('Error message'),
+            fieldState: 'error',
+            info: 'Info message changed',
+            warning: 'Warning message changed',
+          })
+        })
+      })
+
+      it('should set fieldState to error for async onChangeValidator', async () => {
+        const onChangeValidator = async () => {
+          await wait(1)
+
+          return new Error('Error message')
+        }
+
+        const { result, rerender } = renderHook(useFieldProps, {
+          initialProps: {
+            onChangeValidator,
+            value: '',
+          },
+        })
+
+        expect(result.current.fieldState).toBeUndefined()
+        expect(result.current.error).toBeUndefined()
+
+        await validateBlur(result)
+
+        expect(result.current.fieldState).toBe('pending')
+        expect(result.current.error).toBeUndefined()
+
+        await waitFor(() => {
+          expect(result.current.fieldState).toBe('error')
+          expect(result.current.error).toBeInstanceOf(Error)
+        })
+
+        rerender({
+          onChangeValidator,
+          value: '456',
+        })
+
+        expect(result.current.fieldState).toBe('pending')
+        expect(result.current.error).toBeUndefined()
+
+        await waitFor(() => {
+          expect(result.current.fieldState).toBe('error')
+          expect(result.current.error).toBeInstanceOf(Error)
+        })
+      })
+
+      it('should hide fieldState error when disabled', async () => {
+        const onChangeValidator = async () => {
+          await wait(1)
+
+          return new Error('Error message')
+        }
+
+        const { result, rerender } = renderHook(useFieldProps, {
+          initialProps: {
+            onChangeValidator,
+            value: '',
+            disabled: undefined,
+          },
+        })
+
+        expect(result.current.fieldState).toBeUndefined()
+        expect(result.current.error).toBeUndefined()
+
+        await validateBlur(result)
+
+        expect(result.current.fieldState).toBe('pending')
+        expect(result.current.error).toBeUndefined()
+
+        await waitFor(() => {
+          expect(result.current.fieldState).toBe('error')
+          expect(result.current.error).toBeInstanceOf(Error)
+        })
+
+        rerender({
+          onChangeValidator,
+          value: '456',
+          disabled: true,
+        })
+
+        expect(result.current.fieldState).toBeUndefined()
+        expect(result.current.error).toBeUndefined()
+      })
+    })
+
     describe('validateInitially', () => {
       it('should show error message initially', async () => {
         const onChangeValidator = jest.fn(() => {
@@ -5818,6 +5516,210 @@ describe('useFieldProps', () => {
       })
     })
 
+    it('should not call onBlurValidator when required error is present', () => {
+      const onBlurValidator = jest.fn(() => new Error('This is wrong...'))
+
+      const { result } = renderHook(useFieldProps, {
+        initialProps: {
+          onBlurValidator,
+          required: true,
+        },
+      })
+
+      expect(result.current.error).toBeUndefined()
+
+      act(() => {
+        result.current.handleChange('something')
+        result.current.handleChange('')
+        result.current.handleBlur()
+      })
+
+      expect(getError(result.current.error).message).toBe(
+        nb.Field.errorRequired
+      )
+
+      act(() => {
+        result.current.handleChange('something')
+        result.current.handleBlur()
+      })
+
+      expect(getError(result.current.error).message).toBe(
+        'This is wrong...'
+      )
+    })
+
+    it('should not call onBlurValidator when pattern error is present', () => {
+      const schema: JSONSchema = {
+        type: 'string',
+        pattern: '[0-9]',
+      }
+
+      const onBlurValidator = jest.fn(() => new Error('This is wrong...'))
+
+      const { result } = renderHook(useFieldProps, {
+        initialProps: {
+          onBlurValidator,
+          schema,
+        },
+      })
+
+      expect(result.current.error).toBeUndefined()
+
+      act(() => {
+        result.current.handleChange('something')
+        result.current.handleBlur()
+      })
+
+      expect(getError(result.current.error).message).toBe(
+        nb.Field.errorPattern
+      )
+
+      act(() => {
+        result.current.handleChange('123')
+        result.current.handleBlur()
+      })
+
+      expect(getError(result.current.error).message).toBe(
+        'This is wrong...'
+      )
+    })
+
+    it('should always show onBlurValidator over onChangeValidator', () => {
+      const onChangeValidator = jest.fn(
+        () => new Error('Error message by onChangeValidator')
+      )
+
+      const onBlurValidator = jest.fn(
+        () => new Error('Error message by onBlurValidator')
+      )
+
+      const { result } = renderHook(useFieldProps, {
+        initialProps: {
+          onChangeValidator,
+          onBlurValidator,
+        },
+      })
+
+      expect(result.current.error).toBeUndefined()
+
+      act(() => {
+        result.current.handleChange('something')
+        result.current.handleBlur()
+      })
+
+      expect(getError(result.current.error).message).toBe(
+        'Error message by onBlurValidator'
+      )
+
+      act(() => {
+        result.current.handleChange('123')
+        result.current.handleBlur()
+      })
+
+      expect(getError(result.current.error).message).toBe(
+        'Error message by onBlurValidator'
+      )
+    })
+
+    it('should call onBlurValidator when the error initiator is an async onChangeValidator', async () => {
+      const onBlurValidator = jest.fn(
+        () => new Error('Error message by onBlurValidator')
+      )
+      const onChangeValidator = jest.fn(
+        async () => new Error('Error message by onChangeValidator')
+      )
+
+      const { result } = renderHook(useFieldProps, {
+        initialProps: {
+          onBlurValidator,
+          onChangeValidator,
+          required: true,
+        },
+      })
+
+      expect(result.current.error).toBeUndefined()
+
+      act(() => {
+        result.current.handleChange('something')
+        result.current.handleChange('')
+      })
+
+      await wait(1) // to ensure that "localErrorInitiator" is set to "required"
+
+      act(() => {
+        result.current.handleBlur()
+      })
+
+      expect(getError(result.current.error).message).toBe(
+        'Error message by onBlurValidator'
+      )
+    })
+
+    it('should call onBlurValidator when the error initiator is an async onChange handler', async () => {
+      const onBlurValidator = jest.fn(
+        () => new Error('Error message by onBlurValidator')
+      )
+      const onChange = jest.fn(async () => null)
+
+      const { result } = renderHook(useFieldProps, {
+        initialProps: {
+          onBlurValidator,
+          onChange,
+          required: true,
+        },
+      })
+
+      expect(result.current.error).toBeUndefined()
+
+      act(() => {
+        result.current.handleChange('something')
+        result.current.handleChange('')
+      })
+
+      await wait(1) // to ensure that "localErrorInitiator" is set to "required"
+
+      act(() => {
+        result.current.handleBlur()
+      })
+
+      expect(getError(result.current.error).message).toBe(
+        'Error message by onBlurValidator'
+      )
+    })
+
+    it('should call onBlurValidator when the error initiator is onChangeValidator and the onChangeValidator is async', async () => {
+      const onBlurValidator = jest.fn(
+        () => new Error('Error message by onBlurValidator')
+      )
+      const onChangeValidator = jest.fn(
+        async () => new Error('Error message by onChangeValidator')
+      )
+
+      const { result } = renderHook(useFieldProps, {
+        initialProps: {
+          onBlurValidator,
+          onChangeValidator,
+          required: true,
+        },
+      })
+
+      expect(result.current.error).toBeUndefined()
+
+      act(() => {
+        result.current.handleChange('something')
+      })
+
+      await wait(1) // to ensure that "localErrorInitiator" is set to "required"
+
+      act(() => {
+        result.current.handleBlur()
+      })
+
+      expect(getError(result.current.error).message).toBe(
+        'Error message by onBlurValidator'
+      )
+    })
+
     it('should show error when validateInitially is set to true', async () => {
       const exportedValidator = jest.fn(() => {
         return Error('Error message')
@@ -5844,6 +5746,105 @@ describe('useFieldProps', () => {
         expect(
           document.querySelector('.dnb-form-status')
         ).toBeInTheDocument()
+      })
+    })
+
+    const validateBlur = async (result, value = Date.now()) => {
+      act(() => {
+        result.current.handleChange(String(value))
+        result.current.handleBlur()
+      })
+    }
+
+    it('should set fieldState to error for async onBlurValidator', async () => {
+      const onBlurValidator = async () => {
+        await wait(1)
+
+        return new Error('Error message')
+      }
+
+      const { result, rerender } = renderHook(useFieldProps, {
+        initialProps: {
+          onBlurValidator,
+          value: '',
+        },
+      })
+
+      expect(result.current.fieldState).toBeUndefined()
+      expect(result.current.error).toBeUndefined()
+
+      await validateBlur(result)
+
+      expect(result.current.fieldState).toBe('pending')
+      expect(result.current.error).toBeUndefined()
+
+      await waitFor(() => {
+        expect(result.current.fieldState).toBe('error')
+        expect(result.current.error).toBeInstanceOf(Error)
+      })
+
+      rerender({
+        onBlurValidator,
+        value: '456',
+      })
+
+      expect(result.current.fieldState).toBe('error')
+      expect(result.current.error).toBeUndefined()
+
+      await validateBlur(result)
+
+      expect(result.current.fieldState).toBe('pending')
+      expect(result.current.error).toBeUndefined()
+
+      await waitFor(() => {
+        expect(result.current.fieldState).toBe('error')
+        expect(result.current.error).toBeInstanceOf(Error)
+      })
+    })
+
+    it('should return disable=true during async onBlurValidator validation', async () => {
+      const onBlurValidator = async () => {
+        await wait(1)
+
+        return null
+      }
+
+      const { result, rerender } = renderHook(useFieldProps, {
+        initialProps: {
+          onBlurValidator,
+          value: '',
+        },
+      })
+
+      expect(result.current.fieldState).toBeUndefined()
+      expect(result.current.disabled).toBeUndefined()
+
+      await validateBlur(result)
+
+      expect(result.current.fieldState).toBe('pending')
+      expect(result.current.disabled).toBeTruthy()
+
+      await waitFor(() => {
+        expect(result.current.fieldState).toBe('complete')
+        expect(result.current.disabled).toBeUndefined()
+      })
+
+      rerender({
+        onBlurValidator,
+        value: '456',
+      })
+
+      expect(result.current.fieldState).toBe('complete')
+      expect(result.current.disabled).toBeUndefined()
+
+      await validateBlur(result)
+
+      expect(result.current.fieldState).toBe('pending')
+      expect(result.current.disabled).toBeTruthy()
+
+      await waitFor(() => {
+        expect(result.current.fieldState).toBe('complete')
+        expect(result.current.disabled).toBeUndefined()
       })
     })
   })
