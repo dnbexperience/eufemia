@@ -109,4 +109,21 @@ describe('UploadFileListLink', () => {
       expect(element).toHaveClass('dnb-space__top--large')
     })
   })
+
+  describe('as non-clickable', () => {
+    const props = { ...defaultProps, href: undefined, onClick: undefined }
+
+    it('renders the span with a dnb-p class', () => {
+      render(<UploadFileLink {...props} />)
+      expect(document.querySelector('span')).toHaveClass('dnb-p')
+    })
+
+    it('forwards HTML attributes', () => {
+      render(<UploadFileLink {...props} data-testid="test" />)
+      expect(document.querySelector('span')).toHaveAttribute(
+        'data-testid',
+        'test'
+      )
+    })
+  })
 })
