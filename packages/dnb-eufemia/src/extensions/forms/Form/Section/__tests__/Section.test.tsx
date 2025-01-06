@@ -115,6 +115,7 @@ describe('Form.Section', () => {
             "Field.errorPattern": "Kun bokstaver og tegn som bindestrek og mellomrom er tillatt.",
             "Field.errorRequired": "Du må fylle inn fornavn.",
           },
+          "id": "id-r1b",
           "innerRef": {
             "current": <input
               autocomplete="given-name"
@@ -143,6 +144,7 @@ describe('Form.Section', () => {
             "Field.errorPattern": "Kun bokstaver og tegn som bindestrek og mellomrom er tillatt.",
             "Field.errorRequired": "Du må fylle inn etternavn.",
           },
+          "id": "id-r1h",
           "innerRef": {
             "current": <input
               aria-required="true"

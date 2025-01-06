@@ -102,6 +102,7 @@ describe('Tools.GenerateSchema', () => {
     expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
       {
         "myField": {
+          "id": "id-rm",
           "innerRef": {
             "current": <input
               class="dnb-input__input"
@@ -123,6 +124,7 @@ describe('Tools.GenerateSchema', () => {
         },
         "nested": {
           "myString": {
+            "id": "id-rs",
             "innerRef": {
               "current": <input
                 aria-required="true"
@@ -164,6 +166,7 @@ describe('Tools.GenerateSchema', () => {
     expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
       {
         "myField": {
+          "id": "id-rm",
           "innerRef": {
             "current": <input
               aria-required="true"
@@ -185,6 +188,7 @@ describe('Tools.GenerateSchema', () => {
           "width": "large",
         },
         "myString": {
+          "id": "id-rm",
           "innerRef": {
             "current": <input
               aria-required="true"
@@ -209,6 +213,7 @@ describe('Tools.GenerateSchema', () => {
         },
         "nested": {
           "myString": {
+            "id": "id-rs",
             "innerRef": {
               "current": null,
             },

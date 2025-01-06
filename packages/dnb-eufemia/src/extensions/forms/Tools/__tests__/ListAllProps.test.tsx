@@ -23,6 +23,7 @@ describe('Tools.ListAllProps', () => {
     expect(log).toHaveBeenCalledWith({
       propsOfFields: {
         myString: {
+          id: expect.any(String),
           path: '/myString',
           pattern: '^[a-z]{2}[0-9]+$',
           required: true,
@@ -59,6 +60,7 @@ describe('Tools.ListAllProps', () => {
     expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
       {
         "myField": {
+          "id": "id-r9",
           "innerRef": {
             "current": <input
               class="dnb-input__input"
@@ -80,6 +82,7 @@ describe('Tools.ListAllProps', () => {
         },
         "nested": {
           "myString": {
+            "id": "id-rf",
             "innerRef": {
               "current": <input
                 aria-required="true"
@@ -121,6 +124,7 @@ describe('Tools.ListAllProps', () => {
     expect(generateRef.current().propsOfFields).toMatchInlineSnapshot(`
       {
         "myField": {
+          "id": "id-r9",
           "innerRef": {
             "current": <input
               aria-required="true"
@@ -142,6 +146,7 @@ describe('Tools.ListAllProps', () => {
           "width": "large",
         },
         "myString": {
+          "id": "id-r9",
           "innerRef": {
             "current": <input
               aria-required="true"
@@ -166,6 +171,7 @@ describe('Tools.ListAllProps', () => {
         },
         "nested": {
           "myString": {
+            "id": "id-rf",
             "innerRef": {
               "current": null,
             },
@@ -262,6 +268,7 @@ describe('Tools.ListAllProps', () => {
       {
         "propsOfFields": {
           "myBoolean": {
+            "id": "id-r15",
             "path": "/myBoolean",
             "textOff": "Nei",
             "textOn": "Ja",
@@ -270,6 +277,7 @@ describe('Tools.ListAllProps', () => {
             "valueType": "boolean",
           },
           "myNumber": {
+            "id": "id-rv",
             "innerRef": {
               "current": <input
                 class="dnb-input__input"
@@ -292,6 +300,7 @@ describe('Tools.ListAllProps', () => {
             "width": "medium",
           },
           "myString": {
+            "id": "id-rp",
             "innerRef": {
               "current": <input
                 class="dnb-input__input"
@@ -311,6 +320,7 @@ describe('Tools.ListAllProps', () => {
             "width": "large",
           },
           "myToggle": {
+            "id": "id-r1c",
             "path": "/myToggle",
             "valueOff": "unchecked",
             "valueOn": "checked",
@@ -351,6 +361,7 @@ describe('Tools.ListAllProps', () => {
       {
         "propsOfFields": {
           "myBoolean": {
+            "id": "id-r20",
             "path": "/myBoolean",
             "textOff": "Nei",
             "textOn": "Ja",
@@ -361,6 +372,7 @@ describe('Tools.ListAllProps', () => {
           "myNumber": {
             "exclusiveMaximum": 25,
             "exclusiveMinimum": 15,
+            "id": "id-r27",
             "innerRef": {
               "current": <input
                 class="dnb-input__input"
@@ -387,6 +399,7 @@ describe('Tools.ListAllProps', () => {
           },
           "myObject": {
             "withString": {
+              "id": "id-r1q",
               "innerRef": {
                 "current": <input
                   class="dnb-input__input"
@@ -410,6 +423,7 @@ describe('Tools.ListAllProps', () => {
             },
           },
           "myString": {
+            "id": "id-r1k",
             "innerRef": {
               "current": <input
                 class="dnb-input__input"
@@ -467,6 +481,7 @@ describe('Tools.ListAllProps', () => {
               "withNumber": {
                 "exclusiveMaximum": 25,
                 "exclusiveMinimum": 15,
+                "id": "id-r2k",
                 "innerRef": {
                   "current": <input
                     class="dnb-input__input"
@@ -493,6 +508,7 @@ describe('Tools.ListAllProps', () => {
               },
             },
             "withString": {
+              "id": "id-r2e",
               "innerRef": {
                 "current": <input
                   class="dnb-input__input"
@@ -548,6 +564,7 @@ describe('Tools.ListAllProps', () => {
       {
         "propsOfFields": {
           "myBoolean": {
+            "id": "id-r37",
             "path": "/myBoolean",
             "required": true,
             "textOff": "Nei",
@@ -558,6 +575,7 @@ describe('Tools.ListAllProps', () => {
           },
           "myObject": {
             "withNumber": {
+              "id": "id-r3e",
               "innerRef": {
                 "current": <input
                   aria-required="true"
@@ -584,6 +602,7 @@ describe('Tools.ListAllProps', () => {
               "width": "medium",
             },
             "withString": {
+              "id": "id-r31",
               "innerRef": {
                 "current": <input
                   aria-required="true"
@@ -608,6 +627,7 @@ describe('Tools.ListAllProps', () => {
             },
           },
           "myString": {
+            "id": "id-r2r",
             "innerRef": {
               "current": <input
                 aria-required="true"
@@ -676,6 +696,7 @@ describe('Tools.ListAllProps', () => {
         "items": {
           "0": {
             "item": {
+              "id": "id-r3q",
               "innerRef": {
                 "current": <input
                   aria-valuemax="9007199254740991"
@@ -709,6 +730,7 @@ describe('Tools.ListAllProps', () => {
           },
           "1": {
             "item": {
+              "id": "id-r40",
               "innerRef": {
                 "current": <input
                   aria-valuemax="9007199254740991"
@@ -741,6 +763,7 @@ describe('Tools.ListAllProps', () => {
             },
           },
           "countPath": "/count",
+          "id": "id-r3m",
           "path": "/items",
           "required": false,
           "value": [
