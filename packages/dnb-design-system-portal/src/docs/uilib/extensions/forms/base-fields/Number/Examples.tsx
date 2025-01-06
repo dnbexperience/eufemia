@@ -430,7 +430,7 @@ export const ConditionalInfo = () => {
           maximum: number,
           { renderMode, getValueByPath, getFieldByPath },
         ) => {
-          renderMode('initially') // Your can also use 'continuously' or 'always'
+          renderMode('initially') // (Optional) Your can use, 'initially', 'continuously' or 'always'
 
           const amount = getValueByPath('/amount')
           const { props } = getFieldByPath('/amount')
@@ -472,6 +472,9 @@ export const ConditionalInfo = () => {
             defaultData={{
               maximum: 4,
               amount: 5,
+            }}
+            onSubmit={async (data) => {
+              console.log('onSubmit', data)
             }}
           >
             <Form.Card>
