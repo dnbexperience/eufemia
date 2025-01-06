@@ -86,13 +86,11 @@ export const WithFreshValidator = () => {
 }
 
 export const ConditionalInfo = () => {
-  const conditionalInfo = (
+  const conditionalInfo: UseFieldProps<number>['info'] = (
     maximum: number,
     { renderMode, getValueByPath, getFieldByPath }
   ) => {
-    renderMode('initially')
-    // renderMode('continuously')
-    // renderMode('always')
+    renderMode('interactive') // Can also be 'initially' or 'continuously'
 
     const amount = getValueByPath('/amount')
     const { props } = getFieldByPath('/amount')
@@ -118,13 +116,16 @@ export const ConditionalInfo = () => {
       )
     }
   }
-  const onBlurValidator = (amount: number, { connectWithPath }) => {
+  const onBlurValidator: UseFieldProps<number>['onBlurValidator'] = (
+    amount: number,
+    { connectWithPath }
+  ) => {
     const { getValue: getMaximum } = connectWithPath('/maximum')
 
     if (amount > getMaximum()) {
       return new FormError('NumberField.errorMaximum', {
         messageValues: {
-          maximum: getMaximum(),
+          maximum: String(getMaximum()),
         },
       })
     }

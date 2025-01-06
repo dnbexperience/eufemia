@@ -430,7 +430,7 @@ export const ConditionalInfo = () => {
           maximum: number,
           { renderMode, getValueByPath, getFieldByPath },
         ) => {
-          renderMode('initially') // (Optional) Your can use, 'initially', 'continuously' or 'always'
+          renderMode('interactive')
 
           const amount = getValueByPath('/amount')
           const { props } = getFieldByPath('/amount')

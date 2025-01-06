@@ -266,7 +266,11 @@ export type DataValueReadWriteComponentProps<
   DataValueReadProps<Value> &
   DataValueWriteProps<Value, EmptyValue>
 
-export type MessageRenderMode = 'initially' | 'continuously' | 'always'
+export type MessageRenderMode =
+  | 'interactive' // It will show the message only when the field is blurred (onBlur).
+  | 'initially' // It will show the message initially, and later like 'interactive'.
+  | 'continuously' // It will show the message initially and on every change.
+  | 'always' // It will show the message always. This is the default behavior.
 export type MessagePropParams<Value> = {
   renderMode: (mode: MessageRenderMode) => void
   getValueByPath: GetValueByPath<Value>

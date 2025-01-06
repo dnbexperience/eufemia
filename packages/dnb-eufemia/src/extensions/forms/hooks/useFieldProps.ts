@@ -368,9 +368,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
         if (
           // Remove the message if, if it gets update from outside to have no message anymore
-          !isInternalRerenderRef.current &&
-          messageCacheRef.current.message &&
-          !msg
+          (!isInternalRerenderRef.current &&
+            messageCacheRef.current.message &&
+            !msg) ||
+          !currentMode // The default mode is 'always'
         ) {
           currentMode = 'always'
         }
