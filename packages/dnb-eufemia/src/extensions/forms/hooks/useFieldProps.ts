@@ -106,12 +106,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     forceUpdateWhenContextDataIsSet = false,
   } = {}
 ): typeof localProps & ReturnAdditional<Value> {
-  const id = useId(localProps.id)
   const { extend } = useContext(FieldProviderContext)
-  const props = useMemo(
-    () => ({ ...extend(localProps), id }),
-    [extend, localProps, id]
-  )
+  const props = extend(localProps)
 
   const {
     path: pathProp,
@@ -173,6 +169,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     isInternalRerenderRef.current = salt
   }, [salt])
   const { startProcess } = useProcessManager()
+  const id = useId(props.id)
   const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
   const iterateItemContext = useContext(IterateElementContext)
