@@ -277,6 +277,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const changedRef = useRef<boolean>()
   const hasFocusRef = useRef<boolean>()
 
+  // - Should errors received through validation be shown initially. Assume that providing a direct prop to
+  // the component means it is supposed to be shown initially.
+  const revealErrorRef = useRef<boolean>(null)
+
   const required = useMemo(() => {
     if (typeof requiredProp !== 'undefined') {
       return requiredProp
@@ -434,12 +438,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     infoProp
   )
 
-  // Error handling
-  // - Should errors received through validation be shown initially. Assume that providing a direct prop to
-  // the component means it is supposed to be shown initially.
-  const revealErrorRef = useRef<boolean>(
-    validateInitially ?? Boolean(error)
-  )
+  if (revealErrorRef.current === null) {
+    revealErrorRef.current = validateInitially ?? Boolean(errorProp)
+  }
 
   // - Local errors are errors based on validation instructions received by
   const errorMethodRef = useRef<

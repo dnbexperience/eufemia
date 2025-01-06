@@ -143,11 +143,197 @@ describe('Field.Number', () => {
       )
     })
 
-    it('renders error', () => {
-      render(<Field.Number error={new Error('This is what went wrong')} />)
-      expect(
-        screen.getByText('This is what went wrong')
-      ).toBeInTheDocument()
+    describe('error', () => {
+      it('renders error', () => {
+        render(
+          <Field.Number error={new Error('This is what went wrong')} />
+        )
+        expect(
+          screen.getByText('This is what went wrong')
+        ).toBeInTheDocument()
+      })
+
+      it('renders error given as a function', () => {
+        render(
+          <Field.Number
+            error={() => new Error('This is what went wrong')}
+          />
+        )
+        expect(
+          screen.getByText('This is what went wrong')
+        ).toBeInTheDocument()
+      })
+
+      it('renders error given as a function with value', () => {
+        render(
+          <Field.Number
+            error={(value) =>
+              new Error('This is what went wrong ' + value)
+            }
+            value={123}
+          />
+        )
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('This is what went wrong 123')
+      })
+
+      describe('renderMode', () => {
+        it('interactive: renders error when field gets blurred', async () => {
+          render(
+            <Field.Number
+              error={(value, { renderMode }) => {
+                renderMode('interactive')
+
+                return new Error('This is what went wrong ' + value)
+              }}
+            />
+          )
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).not.toBeInTheDocument()
+
+          await userEvent.type(document.querySelector('input'), '123')
+          await userEvent.tab()
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('This is what went wrong 123')
+
+          await userEvent.type(document.querySelector('input'), '4')
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('This is what went wrong 1234')
+        })
+
+        it('initially: renders error when field gets blurred', async () => {
+          render(
+            <Field.Number
+              emptyValue={0}
+              error={(value, { renderMode }) => {
+                renderMode('initially')
+
+                if (value === 123) {
+                  return undefined
+                }
+
+                return new Error('This is what went wrong ' + value)
+              }}
+            />
+          )
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('This is what went wrong 0')
+
+          await userEvent.type(document.querySelector('input'), '123')
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('This is what went wrong 12')
+
+          await userEvent.tab()
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).not.toBeInTheDocument()
+
+          await userEvent.type(document.querySelector('input'), '4')
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).not.toBeInTheDocument()
+
+          await userEvent.tab()
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('This is what went wrong 1234')
+        })
+
+        it('continuously: renders error when field gets blurred', async () => {
+          render(
+            <Field.Number
+              emptyValue={0}
+              error={(value, { renderMode }) => {
+                renderMode('continuously')
+
+                if (value === 123) {
+                  return undefined
+                }
+
+                return new Error('This is what went wrong ' + value)
+              }}
+            />
+          )
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('This is what went wrong 0')
+
+          await userEvent.type(document.querySelector('input'), '12')
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('This is what went wrong 12')
+
+          await userEvent.type(document.querySelector('input'), '3')
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).not.toBeInTheDocument()
+
+          await userEvent.type(document.querySelector('input'), '4')
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('This is what went wrong 1234')
+        })
+      })
+    })
+
+    describe('warning', () => {
+      it('renders warning', () => {
+        render(<Field.Number warning={'This is what went wrong'} />)
+        expect(
+          screen.getByText('This is what went wrong')
+        ).toBeInTheDocument()
+      })
+
+      it('renders warning given as a function', () => {
+        render(
+          <Field.Number
+            warning={(value) => 'This is what went wrong ' + value}
+            value={123}
+          />
+        )
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('This is what went wrong 123')
+      })
+    })
+
+    describe('info', () => {
+      it('renders info', () => {
+        render(<Field.Number info={'This is what went wrong'} />)
+        expect(
+          screen.getByText('This is what went wrong')
+        ).toBeInTheDocument()
+      })
+
+      it('renders info given as a function', () => {
+        render(
+          <Field.Number
+            info={(value) => 'This is what went wrong ' + value}
+            value={123}
+          />
+        )
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('This is what went wrong 123')
+      })
     })
 
     it('shows error border', () => {

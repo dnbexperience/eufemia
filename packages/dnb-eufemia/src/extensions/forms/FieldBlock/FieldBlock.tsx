@@ -309,8 +309,17 @@ function FieldBlock(props: Props) {
     [nestedFieldBlockContext]
   )
 
+  const hasStateRecord = useCallback(
+    (state: StateTypes) => {
+      return stateRecordRef.current[blockId]?.some(
+        (item) => item.type === state
+      )
+    },
+    [blockId]
+  )
+
   const statusContent = useMemo(() => {
-    if (typeof errorProp !== 'undefined') {
+    if (typeof errorProp !== 'undefined' || hasStateRecord('error')) {
       setInternalRecord({
         identifier: blockId,
         showInitially: hasInitiallyErrorProp,
@@ -319,7 +328,7 @@ function FieldBlock(props: Props) {
       })
     }
 
-    if (typeof warning !== 'undefined') {
+    if (typeof warning !== 'undefined' || hasStateRecord('warning')) {
       setInternalRecord({
         identifier: blockId,
         showInitially: true,
@@ -328,7 +337,7 @@ function FieldBlock(props: Props) {
       })
     }
 
-    if (typeof info !== 'undefined') {
+    if (typeof info !== 'undefined' || hasStateRecord('info')) {
       setInternalRecord({
         identifier: blockId,
         showInitially: true,
