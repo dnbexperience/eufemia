@@ -10,7 +10,6 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
         "errorMessages": {
           "Field.errorRequired": "Du må skrive inn alder på barnet.",
         },
-        "id": "id-rg4",
         "innerRef": {
           "current": <input
             aria-placeholder="0"
@@ -121,7 +120,6 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
         "errorMessages": {
           "Field.errorRequired": "Du må skrive inn alder på barnet.",
         },
-        "id": "id-rga",
         "innerRef": {
           "current": <input
             aria-placeholder="0"
@@ -228,7 +226,6 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
     "animate": true,
     "countPath": "/countChildren",
     "countPathLimit": 20,
-    "id": "id-rg0",
     "path": "/children",
     "required": false,
     "space": {
@@ -326,7 +323,6 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
       "Field.errorRequired": "Du må skrive inn antall barn.",
       "NumberField.errorMinimum": "Du må skrive inn antall barn.",
     },
-    "id": "id-rfp",
     "innerRef": {
       "current": <input
         aria-required="true"
@@ -442,7 +438,6 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
     "errorMessages": {
       "Field.errorRequired": "Du må angi om du har barn under 18 år eller ikke.",
     },
-    "id": "id-rfi",
     "label": "Har du/dere barn under 18 år?",
     "path": "/hasChildren",
     "required": true,
