@@ -426,47 +426,6 @@ export const ConditionalInfo = () => {
   return (
     <ComponentBox scope={{ FormError }}>
       {() => {
-        const conditionalInfo = (
-          maximum: number,
-          { renderMode, getValueByPath, getFieldByPath },
-        ) => {
-          renderMode('interactive')
-
-          const amount = getValueByPath('/amount')
-          const { props } = getFieldByPath('/amount')
-
-          if (maximum < amount && props) {
-            const anchor = (
-              <Anchor
-                href="#"
-                onClick={(event) => {
-                  event.preventDefault()
-                  const el = document.getElementById(props.id + '-label')
-                  el?.scrollIntoView()
-                }}
-              >
-                {props.label}
-              </Anchor>
-            )
-
-            return (
-              <>
-                Remember to adjust the {anchor} to be {maximum} or lower.
-              </>
-            )
-          }
-        }
-        const onBlurValidator = (amount: number, { connectWithPath }) => {
-          const { getValue: getMaximum } = connectWithPath('/maximum')
-
-          if (amount > getMaximum()) {
-            return new FormError('NumberField.errorMaximum', {
-              messageValues: {
-                maximum: getMaximum(),
-              },
-            })
-          }
-        }
         return (
           <Form.Handler
             defaultData={{
@@ -487,7 +446,37 @@ export const ConditionalInfo = () => {
                   </>
                 }
                 path="/maximum"
-                info={conditionalInfo}
+                info={(
+                  maximum: number,
+                  { renderMode, getValueByPath, getFieldByPath },
+                ) => {
+                  renderMode('interactive')
+
+                  const amount = getValueByPath('/amount')
+                  const { props, id } = getFieldByPath('/amount')
+
+                  if (maximum < amount && props) {
+                    const anchor = (
+                      <Anchor
+                        href={'#' + id + '-label'}
+                        onClick={(event) => {
+                          event.preventDefault()
+                          const el = document.getElementById(id + '-label')
+                          el?.scrollIntoView()
+                        }}
+                      >
+                        {props.label}
+                      </Anchor>
+                    )
+
+                    return (
+                      <>
+                        Remember to adjust the {anchor} to be {maximum} or
+                        lower.
+                      </>
+                    )
+                  }
+                }}
               />
               <Field.Number
                 label="Amount"
@@ -498,7 +487,18 @@ export const ConditionalInfo = () => {
                   </>
                 }
                 path="/amount"
-                onBlurValidator={onBlurValidator}
+                onBlurValidator={(amount: number, { connectWithPath }) => {
+                  const { getValue: getMaximum } =
+                    connectWithPath('/maximum')
+
+                  if (amount > getMaximum()) {
+                    return new FormError('NumberField.errorMaximum', {
+                      messageValues: {
+                        maximum: String(getMaximum()),
+                      },
+                    })
+                  }
+                }}
               />
             </Form.Card>
 

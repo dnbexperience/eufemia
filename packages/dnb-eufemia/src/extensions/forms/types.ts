@@ -276,6 +276,7 @@ export type MessagePropParams<Value> = {
   getValueByPath: GetValueByPath<Value>
   getFieldByPath: (path: Path) => {
     props: FieldProps
+    id: Identifier
   }
 }
 export type MessageProp<Value, T> =

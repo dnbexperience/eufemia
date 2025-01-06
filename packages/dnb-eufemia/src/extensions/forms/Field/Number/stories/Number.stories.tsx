@@ -90,18 +90,18 @@ export const ConditionalInfo = () => {
     maximum: number,
     { renderMode, getValueByPath, getFieldByPath }
   ) => {
-    renderMode('interactive') // Can also be 'initially' or 'continuously'
+    renderMode('initially') // Can also be 'initially' or 'continuously'
 
     const amount = getValueByPath('/amount')
-    const { props } = getFieldByPath('/amount')
+    const { props, id } = getFieldByPath('/amount')
 
     if (maximum < amount && props) {
       const anchor = (
         <Anchor
-          href={`#${props?.id}-label`}
+          href={`#${id}-label`}
           onClick={(event: React.MouseEvent<HTMLAnchorElement>) => {
             event.preventDefault()
-            const el = document.getElementById(`${props.id}-label`)
+            const el = document.getElementById(`${id}-label`)
             el?.scrollIntoView()
           }}
         >

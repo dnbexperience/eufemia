@@ -336,9 +336,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     useCallback(
       (path) => {
         const props = fieldPropsRef.current?.[path]
-        return { props }
+        return { props, id }
       },
-      [fieldPropsRef]
+      [fieldPropsRef, id]
     )
 
   const messageCacheRef = useRef<{
