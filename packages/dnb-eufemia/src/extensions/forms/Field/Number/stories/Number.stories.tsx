@@ -91,7 +91,7 @@ export const ConditionalInfo = () => {
     { visibleWhen, getValueByPath, getFieldByPath }
   ) => {
     if (maximum < getValueByPath('/amount')) {
-      visibleWhen('continuously')
+      visibleWhen('initially')
 
       const { props, id } = getFieldByPath('/amount')
 
@@ -122,8 +122,7 @@ export const ConditionalInfo = () => {
     amount: number,
     { connectWithPath }
   ) => {
-    const { getValue: getMaximum } = connectWithPath('/maximum')
-    const maximum = getMaximum()
+    const maximum = connectWithPath('/maximum').getValue()
 
     if (amount > maximum) {
       return new FormError('NumberField.errorMaximum', {

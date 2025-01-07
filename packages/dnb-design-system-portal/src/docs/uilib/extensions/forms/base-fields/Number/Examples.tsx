@@ -490,9 +490,7 @@ export const ConditionalInfo = () => {
                 path="/amount"
                 required
                 onBlurValidator={(amount: number, { connectWithPath }) => {
-                  const { getValue: getMaximum } =
-                    connectWithPath('/maximum')
-                  const maximum = getMaximum()
+                  const maximum = connectWithPath('/maximum').getValue()
 
                   if (amount > maximum) {
                     return new FormError('NumberField.errorMaximum', {

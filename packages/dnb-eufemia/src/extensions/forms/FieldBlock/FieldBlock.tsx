@@ -179,7 +179,7 @@ function FieldBlock(props: Props) {
   const { index: iterateIndex } = iterateItemContext ?? {}
 
   const blockId = useId(props.id)
-  const [wasUpdated, forceUpdate] = useReducer(() => ({}), {})
+  const [salt, forceUpdate] = useReducer(() => ({}), {})
   const mountedFieldsRef = useRef<MountedFieldsRef>({})
   const fieldStateRef = useRef<SubmitState>(null)
   const stateRecordRef = useRef<StateRecord>({})
@@ -309,17 +309,8 @@ function FieldBlock(props: Props) {
     [nestedFieldBlockContext]
   )
 
-  const hasStateRecord = useCallback(
-    (state: StateTypes) => {
-      return stateRecordRef.current[blockId]?.some(
-        (item) => item.type === state
-      )
-    },
-    [blockId]
-  )
-
   const statusContent = useMemo(() => {
-    if (typeof errorProp !== 'undefined' || hasStateRecord('error')) {
+    if (typeof errorProp !== 'undefined') {
       setInternalRecord({
         identifier: blockId,
         showInitially: hasInitiallyErrorProp,
@@ -328,7 +319,7 @@ function FieldBlock(props: Props) {
       })
     }
 
-    if (typeof warning !== 'undefined' || hasStateRecord('warning')) {
+    if (typeof warning !== 'undefined') {
       setInternalRecord({
         identifier: blockId,
         showInitially: true,
@@ -337,7 +328,7 @@ function FieldBlock(props: Props) {
       })
     }
 
-    if (typeof info !== 'undefined' || hasStateRecord('info')) {
+    if (typeof info !== 'undefined') {
       setInternalRecord({
         identifier: blockId,
         showInitially: true,
@@ -449,21 +440,18 @@ function FieldBlock(props: Props) {
       }
 
       return acc
-    }, {}) as StatusContent
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, salt) as StatusContent
   }, [
     errorProp,
-    hasStateRecord,
     warning,
     info,
+    salt,
     setInternalRecord,
     blockId,
     hasInitiallyErrorProp,
     props.id,
     forId,
     label,
-    wasUpdated, // wasUpdated is needed to get the current errors
   ])
 
   // Handle the error prop from outside

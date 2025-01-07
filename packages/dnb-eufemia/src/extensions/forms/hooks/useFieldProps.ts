@@ -365,6 +365,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           getFieldByPath,
         })
 
+        if (msg === undefined) {
+          messageCacheRef.current.message = undefined
+          return null // hide the message
+        }
+
         const isError =
           msg instanceof Error ||
           msg instanceof FormError ||
@@ -426,6 +431,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     },
     [getFieldByPath, getValueByPath]
   )
+
   const error = executeMessage<
     Error | FormError | Array<Error | FormError>
   >(errorProp)
@@ -713,6 +719,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     ? prepareError(error) ??
       localErrorRef.current ??
       contextErrorRef.current
+    : error === null
+    ? null
     : undefined
 
   const hasVisibleError =

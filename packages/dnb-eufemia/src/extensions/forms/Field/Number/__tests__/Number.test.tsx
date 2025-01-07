@@ -248,11 +248,13 @@ describe('Field.Number', () => {
             document.querySelector('.dnb-form-status')
           ).not.toBeInTheDocument()
 
+          await userEvent.type(input, '4')
+
           expect(
             document.querySelector('.dnb-form-status')
           ).not.toBeInTheDocument()
 
-          await userEvent.type(input, '4')
+          await userEvent.tab()
 
           expect(
             document.querySelector('.dnb-form-status')
@@ -264,7 +266,6 @@ describe('Field.Number', () => {
             document.querySelector('.dnb-form-status')
           ).not.toBeInTheDocument()
 
-          await userEvent.tab()
           await userEvent.type(input, '4')
 
           expect(
