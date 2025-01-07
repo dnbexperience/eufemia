@@ -36,6 +36,9 @@ function Component() {
   // Report a form error
   setFormError(new Error('This is a global form error'))
 
+  // Clear the form error with a null or undefined value
+  setFormError(null)
+
   // Show a field error
   setFieldStatus('/path/to/field', {
     error: new Error('This is a field error'),

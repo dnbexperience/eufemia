@@ -137,15 +137,6 @@ describe('useValidation', () => {
         'Error message changed'
       )
       expect(result.current.hasErrors()).toBe(false)
-
-      act(() => {
-        result.current.setFormError(undefined)
-      })
-
-      await waitFor(() => {
-        expect(document.querySelector('.dnb-form-status')).toBeNull()
-        expect(result.current.hasErrors()).toBe(false)
-      })
     })
 
     it('should handle the setFormError method without an identifier', async () => {
@@ -172,6 +163,54 @@ describe('useValidation', () => {
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
         'Error message'
       )
+    })
+
+    it('should remove the setFormError when the value is null', async () => {
+      render(<Form.Handler id={identifier}>content</Form.Handler>)
+
+      const { result } = renderHook(() => useValidation(identifier))
+
+      act(() => {
+        result.current.setFormError(new Error('Error message'))
+      })
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        'Error message'
+      )
+      expect(result.current.hasErrors()).toBe(false)
+
+      act(() => {
+        result.current.setFormError(null)
+      })
+
+      await waitFor(() => {
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+        expect(result.current.hasErrors()).toBe(false)
+      })
+    })
+
+    it('should remove the setFormError when the value is undefined', async () => {
+      render(<Form.Handler id={identifier}>content</Form.Handler>)
+
+      const { result } = renderHook(() => useValidation(identifier))
+
+      act(() => {
+        result.current.setFormError(new Error('Error message'))
+      })
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        'Error message'
+      )
+      expect(result.current.hasErrors()).toBe(false)
+
+      act(() => {
+        result.current.setFormError(undefined)
+      })
+
+      await waitFor(() => {
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+        expect(result.current.hasErrors()).toBe(false)
+      })
     })
   })
 
