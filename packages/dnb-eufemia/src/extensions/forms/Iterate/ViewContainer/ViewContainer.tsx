@@ -1,7 +1,6 @@
 import React, { useContext, useMemo } from 'react'
 import classnames from 'classnames'
 import { convertJsxToString } from '../../../../shared/component-helper'
-import { Flex } from '../../../../components'
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
 import { Lead } from '../../../../elements'
 import ArrayItemArea, { ArrayItemAreaProps } from '../Array/ArrayItemArea'
@@ -67,19 +66,17 @@ function ViewContainer(props: AllProps) {
       toolbarVariant={toolbarVariant}
       {...restProps}
     >
-      <Flex.Stack>
-        {itemTitle && <Lead size="basis">{itemTitle}</Lead>}
-        {children}
-        {hasToolbar
-          ? null
-          : toolbarElement ??
-            (toolbarVariant !== 'custom' && (
-              <Toolbar>
-                <EditButton />
-                <RemoveButton />
-              </Toolbar>
-            ))}
-      </Flex.Stack>
+      {itemTitle && <Lead size="basis">{itemTitle}</Lead>}
+      {children}
+      {hasToolbar
+        ? null
+        : toolbarElement ??
+          (toolbarVariant !== 'custom' && (
+            <Toolbar>
+              <EditButton />
+              <RemoveButton />
+            </Toolbar>
+          ))}
     </ArrayItemArea>
   )
 }
