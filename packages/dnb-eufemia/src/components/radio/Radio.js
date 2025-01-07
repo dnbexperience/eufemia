@@ -251,6 +251,7 @@ export default class Radio extends React.PureComponent {
     if (this.context.onChange) {
       this.context.onChange({
         value,
+        event,
       })
     }
     dispatchCustomElementEvent(this, 'on_change', {
