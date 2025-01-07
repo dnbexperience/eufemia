@@ -30,10 +30,12 @@ describe('Radio group component', () => {
     fireEvent.click(document.querySelectorAll('input')[0])
     expect(my_event.mock.calls.length).toBe(1)
     expect(my_event.mock.calls[0][0].value).toBe('first')
+    expect(my_event.mock.calls[0][0].event).toBeType('object')
 
     fireEvent.click(document.querySelectorAll('input')[1])
     expect(my_event.mock.calls.length).toBe(2)
     expect(my_event.mock.calls[1][0].value).toBe('second')
+    expect(my_event.mock.calls[1][0].event).toBeType('object')
   })
 
   it('will disable a single button within a group', () => {
