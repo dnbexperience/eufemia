@@ -35,6 +35,16 @@ describe('Iterate.Array', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match view container with line divider', async () => {
+    const screenshot = await makeScreenshot({
+      url,
+      selector:
+        '[data-visual-test="view-and-edit-container-with-line-divider"]',
+    })
+
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match filled edit container', async () => {
     const screenshot = await makeScreenshot({
       url,
