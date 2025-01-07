@@ -3,6 +3,14 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.62.3](https://github.com/dnbexperience/eufemia/compare/v10.62.2...v10.62.3) (2025-01-07)
+
+
+### :bug: Bug Fixes
+
+* **Radio.Group:** add `event` to `on_change`'s return object ([#4434](https://github.com/dnbexperience/eufemia/issues/4434)) ([c6572a3](https://github.com/dnbexperience/eufemia/commit/c6572a3c133540885b3df0d1508cfb1efe8f8246))
+* **Radio.Group:** add event to on_change return object ([ab5238c](https://github.com/dnbexperience/eufemia/commit/ab5238c2bbfc088664a4f667f20b87ff801385fd))
+
 ## [10.62.2](https://github.com/dnbexperience/eufemia/compare/v10.62.1...v10.62.2) (2025-01-02)
 
 
