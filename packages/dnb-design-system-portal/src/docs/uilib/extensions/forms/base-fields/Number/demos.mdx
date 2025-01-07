@@ -82,12 +82,12 @@ You can also use a function as a prefix or suffix.
 
 You can provide a function to the `info`, `warning` or `error` props that returns a message based on your conditions.
 
-Optionally, use the `renderMode` to control when the message is shown:
+Optionally, use the `visibleWhen` modifier function to control when the message is shown:
 
-- `interactive` – The **preferred** UX behavior. It will show the message only when the field is blurred (onBlur).
-- `initially` – It will show the message initially, and later like `interactive`.
-- `continuously` – It will show the message initially and on every change.
-- `always` – The **default** behavior. It will show the message always.
+- `onBlur` – The **preferred** UX behavior. It will show the message only when the field is blurred (onBlur).
+- `initially` – It will show the message initially, and later like `onBlur`.
+- `continuously` – It will show the message on every change.
+- `always` – Same as `initially` and `continuously` together.
 
 <Examples.ConditionalInfo />
 

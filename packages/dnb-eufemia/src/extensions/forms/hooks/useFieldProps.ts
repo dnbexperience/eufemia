@@ -28,7 +28,7 @@ import {
   MessageProp,
   MessageTypes,
   MessagePropParams,
-  MessageRenderMode,
+  MessageVisibleWhen,
 } from '../types'
 import { Context as DataContext, ContextState } from '../DataContext'
 import { clearedData } from '../DataContext/Provider/Provider'
@@ -352,15 +352,15 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const executeMessage = useCallback(
     <T extends MessageTypes<Value>>(message: MessageProp<Value, T>): T => {
       if (typeof message === 'function') {
-        let currentMode: MessageRenderMode = undefined
-        const renderMode: MessagePropParams<Value>['renderMode'] = (
+        let currentMode: MessageVisibleWhen = undefined
+        const visibleWhen: MessagePropParams<Value>['visibleWhen'] = (
           mode
         ) => {
           currentMode = mode
         }
 
         const msg = message(valueRef.current, {
-          renderMode,
+          visibleWhen,
           getValueByPath,
           getFieldByPath,
         })
@@ -371,7 +371,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           (Array.isArray(msg) && checkForError(msg))
 
         if (
-          // Remove the message if, if it gets update from outside to have no message anymore
+          // Remove the message if it gets update from outside to have no message anymore
           (!isInternalRerenderRef.current &&
             messageCacheRef.current.message &&
             !msg) ||
@@ -393,9 +393,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
             // Ensure to only update the message when component did re-render internally
             isInternalRerenderRef.current ||
             currentMode === 'always' ||
-            (!messageCacheRef.current.isSet &&
-              (currentMode === 'initially' ||
-                currentMode === 'continuously'))
+            (!messageCacheRef.current.isSet && currentMode === 'initially')
           ) {
             if (msg) {
               messageCacheRef.current.isSet = true

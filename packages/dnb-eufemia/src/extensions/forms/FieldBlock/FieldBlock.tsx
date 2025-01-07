@@ -453,12 +453,16 @@ function FieldBlock(props: Props) {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    info,
-    warning,
     errorProp,
-    nestedFieldBlockContext,
+    hasStateRecord,
+    warning,
+    info,
     setInternalRecord,
     blockId,
+    hasInitiallyErrorProp,
+    props.id,
+    forId,
+    label,
     wasUpdated, // wasUpdated is needed to get the current errors
   ])
 

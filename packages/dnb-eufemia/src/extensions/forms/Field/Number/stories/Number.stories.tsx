@@ -88,15 +88,14 @@ export const WithFreshValidator = () => {
 export const ConditionalInfo = () => {
   const conditionalInfo: UseFieldProps<number>['info'] = (
     maximum: number,
-    { renderMode, getValueByPath, getFieldByPath }
+    { visibleWhen, getValueByPath, getFieldByPath }
   ) => {
-    renderMode('initially') // Can also be 'initially' or 'continuously'
+    if (maximum < getValueByPath('/amount')) {
+      visibleWhen('continuously')
 
-    const amount = getValueByPath('/amount')
-    const { props, id } = getFieldByPath('/amount')
+      const { props, id } = getFieldByPath('/amount')
 
-    if (maximum < amount && props) {
-      const anchor = (
+      const anchor = props && (
         <Anchor
           href={`#${id}-label`}
           onClick={(event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -110,26 +109,29 @@ export const ConditionalInfo = () => {
       )
 
       return (
-        <>
-          Remember to adjust the {anchor} to be {maximum} or lower.{' '}
-        </>
+        anchor && (
+          <>
+            Remember to adjust the {anchor} to be {maximum} or lower.
+          </>
+        )
       )
     }
   }
+
   const onBlurValidator: UseFieldProps<number>['onBlurValidator'] = (
     amount: number,
     { connectWithPath }
   ) => {
     const { getValue: getMaximum } = connectWithPath('/maximum')
+    const maximum = getMaximum()
 
-    if (amount > getMaximum()) {
+    if (amount > maximum) {
       return new FormError('NumberField.errorMaximum', {
-        messageValues: {
-          maximum: String(getMaximum()),
-        },
+        messageValues: { maximum: String(maximum) },
       })
     }
   }
+
   return (
     <Form.Handler
       defaultData={{
@@ -144,6 +146,7 @@ export const ConditionalInfo = () => {
             '\nDefines the maximum amount possible to be entered.'
           }
           path="/maximum"
+          required
           // defaultValue={4}
           info={conditionalInfo}
           // warning={conditionalInfo}
@@ -155,6 +158,7 @@ export const ConditionalInfo = () => {
           label="Amount"
           labelDescription={'\nShould be same or lower than maximum.'}
           path="/amount"
+          required
           // defaultValue={5}
           onBlurValidator={onBlurValidator}
           // validateInitially

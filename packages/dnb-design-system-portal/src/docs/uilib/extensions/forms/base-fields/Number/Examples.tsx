@@ -446,17 +446,16 @@ export const ConditionalInfo = () => {
                   </>
                 }
                 path="/maximum"
+                required
                 info={(
-                  maximum: number,
-                  { renderMode, getValueByPath, getFieldByPath },
+                  maximum,
+                  { visibleWhen, getValueByPath, getFieldByPath },
                 ) => {
-                  renderMode('interactive')
+                  if (maximum < getValueByPath('/amount')) {
+                    visibleWhen('onBlur')
 
-                  const amount = getValueByPath('/amount')
-                  const { props, id } = getFieldByPath('/amount')
-
-                  if (maximum < amount && props) {
-                    const anchor = (
+                    const { props, id } = getFieldByPath('/amount')
+                    const anchor = props?.label && (
                       <Anchor
                         href={'#' + id + '-label'}
                         onClick={(event) => {
@@ -470,10 +469,12 @@ export const ConditionalInfo = () => {
                     )
 
                     return (
-                      <>
-                        Remember to adjust the {anchor} to be {maximum} or
-                        lower.
-                      </>
+                      anchor && (
+                        <>
+                          Remember to adjust the {anchor} to be {maximum}{' '}
+                          or lower.
+                        </>
+                      )
                     )
                   }
                 }}
@@ -487,14 +488,16 @@ export const ConditionalInfo = () => {
                   </>
                 }
                 path="/amount"
+                required
                 onBlurValidator={(amount: number, { connectWithPath }) => {
                   const { getValue: getMaximum } =
                     connectWithPath('/maximum')
+                  const maximum = getMaximum()
 
-                  if (amount > getMaximum()) {
+                  if (amount > maximum) {
                     return new FormError('NumberField.errorMaximum', {
                       messageValues: {
-                        maximum: String(getMaximum()),
+                        maximum: String(maximum),
                       },
                     })
                   }
