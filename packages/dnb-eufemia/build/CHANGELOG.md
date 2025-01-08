@@ -3,6 +3,15 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.62.4](https://github.com/dnbexperience/eufemia/compare/v10.62.3...v10.62.4) (2025-01-08)
+
+
+### :bug: Bug Fixes
+
+* **Card:** prioritize `gap` property over `stack` spacing ([#4437](https://github.com/dnbexperience/eufemia/issues/4437)) ([18e7391](https://github.com/dnbexperience/eufemia/commit/18e7391f08fb1383ac8631784533f24e52f3a6a7))
+* **Forms:** ensure `setFormError` from Form.useValidation accepts undefined or null as a value ([#4438](https://github.com/dnbexperience/eufemia/issues/4438)) ([a06b0ed](https://github.com/dnbexperience/eufemia/commit/a06b0ede447423d9ca0a9968a77f69a41840a9ad))
+* **Iterate:** display divider line when `divider="line"` ([#4422](https://github.com/dnbexperience/eufemia/issues/4422)) ([9227a36](https://github.com/dnbexperience/eufemia/commit/9227a3633ad9039f38c7fa83deadc404f6798afa))
+
 ## [10.62.3](https://github.com/dnbexperience/eufemia/compare/v10.62.2...v10.62.3) (2025-01-07)
 
 
