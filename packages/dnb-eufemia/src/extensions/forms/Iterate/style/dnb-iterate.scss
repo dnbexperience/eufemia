@@ -2,11 +2,34 @@
 
 .dnb-forms-iterate {
   &__element {
-    outline: none; // for JavaSCript focus
+    outline: none; // Because of JavaScript focus management (tabIndex)
+  }
+
+  &:has(.dnb-forms-iterate__element.dnb-space__top--small) {
+    --block-gap: var(--spacing-small);
+  }
+  &:has(.dnb-forms-iterate__element.dnb-space__top--medium) {
+    --block-gap: var(--spacing-medium);
+  }
+  &:has(.dnb-forms-iterate__element.dnb-space__top--large) {
+    --block-gap: var(--spacing-large);
   }
 
   & > &__element:has(> .dnb-forms-section-block) {
-    // To make Animation not jump, we add "margin-bottom" in the inner element
+    // To make animation not jump,
+    // we reset the margin-top and ...
     margin-top: 0;
+    .dnb-forms-section-block__inner {
+      // ... add "margin-bottom" in the inner element (.dnb-forms-section-block__inner).
+      margin-bottom: var(--block-gap, var(--spacing-large));
+    }
+
+    // To align the divider to the above margin swap.
+    &:has(~ .dnb-forms-iterate__element) {
+      & ~ .dnb-hr {
+        margin-top: 0;
+        margin-bottom: var(--block-gap);
+      }
+    }
   }
 }

@@ -171,7 +171,12 @@ function ArrayItemArea(props: Props & FlexContainerProps) {
 
   return (
     <ArrayItemAreaContext.Provider
-      value={{ handleRemoveItem, variant, toolbarVariant }}
+      value={{
+        handleRemoveItem,
+        variant,
+        toolbarVariant,
+        divider: restProps.divider,
+      }}
     >
       <HeightAnimation
         className={classnames(

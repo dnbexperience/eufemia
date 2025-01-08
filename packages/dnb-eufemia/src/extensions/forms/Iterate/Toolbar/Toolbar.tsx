@@ -28,7 +28,8 @@ export default function Toolbar({
     value,
     arrayValue: items,
   } = useContext(IterateItemContext) || {}
-  const { toolbarVariant } = useContext(ArrayItemAreaContext) || {}
+  const { toolbarVariant, divider } =
+    useContext(ArrayItemAreaContext) || {}
   const { errorInContainer } = useTranslation().IterateEditContainer
   const { hasError, hasVisibleError } =
     useContext(FieldBoundaryContext) || {}
@@ -54,7 +55,9 @@ export default function Toolbar({
       className={classnames('dnb-forms-iterate-toolbar', className)}
       {...rest}
     >
-      {toolbarVariant !== 'custom' && <Hr space={0} />}
+      {toolbarVariant !== 'custom' && divider !== 'line' && (
+        <Hr space={0} />
+      )}
 
       <ToolbarContext.Provider value={{ setShowError }}>
         <Flex.Horizontal
