@@ -2,11 +2,9 @@
 showTabs: true
 ---
 
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { SubHeadingProperties } from '@dnb/eufemia/src/extensions/forms/Form/SubHeading/SubHeadingDocs'
+
 ## Properties
 
-| Property                                | Type         | Description                                                                                                                                                                                                                                                                                                                                                                                                            |
-| --------------------------------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `level`                                 | `number`     | _(optional)_ Define a specific level value to ensure correct level hierarchy. Defaults to 3.                                                                                                                                                                                                                                                                                                                           |
-| `help`                                  | `object`     | _(optional)_ Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content). |
-| `children`                              | `React.Node` | _(optional)_ Heading text / contents.                                                                                                                                                                                                                                                                                                                                                                                  |
-| [Space](/uilib/layout/space/properties) | Various      | _(optional)_ Spacing properties like `top` or `bottom` are supported.                                                                                                                                                                                                                                                                                                                                                  |
+<PropertiesTable props={SubHeadingProperties} />
