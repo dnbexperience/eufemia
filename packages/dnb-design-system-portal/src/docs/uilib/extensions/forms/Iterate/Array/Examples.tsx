@@ -298,7 +298,7 @@ export const ViewAndEditContainer = () => {
               <Flex.Stack>
                 <Form.MainHeading>Accounts</Form.MainHeading>
 
-                <Form.Card>
+                <Form.Card gap={false}>
                   <Iterate.Array path="/accounts">
                     <MyViewItem />
                     <MyEditItem />
@@ -681,19 +681,80 @@ export const FilledViewAndEditContainer = () => {
             onSubmit={(data) => console.log('onSubmit', data)}
             onSubmitRequest={() => console.log('onSubmitRequest')}
           >
-            <Flex.Vertical>
+            <Flex.Stack>
               <Form.MainHeading>Accounts</Form.MainHeading>
 
-              <Form.Card>
+              <Form.Card gap={false}>
                 <Iterate.Array path="/accounts" limit={2}>
                   <MyViewItem />
                   <MyEditItem />
                 </Iterate.Array>
+
                 <CreateNewEntry />
               </Form.Card>
 
               <Form.SubmitButton variant="send" />
-            </Flex.Vertical>
+            </Flex.Stack>
+          </Form.Handler>
+        )
+      }}
+    </ComponentBox>
+  )
+}
+export const ViewAndEditContainerWithLineDivider = () => {
+  return (
+    <ComponentBox
+      data-visual-test="view-and-edit-container-with-line-divider"
+      hideCode
+    >
+      {() => {
+        const MyEditItem = () => {
+          return (
+            <Iterate.EditContainer variant="basic" divider="line">
+              <Field.Name.First itemPath="/firstName" required />
+              <Field.Name.Last itemPath="/lastName" required />
+            </Iterate.EditContainer>
+          )
+        }
+
+        const MyViewItem = () => {
+          return (
+            <Iterate.ViewContainer variant="basic" divider="line">
+              <Value.Name.First itemPath="/firstName" />
+              <Value.Name.Last itemPath="/lastName" />
+            </Iterate.ViewContainer>
+          )
+        }
+
+        return (
+          <Form.Handler
+            data={{
+              accounts: [
+                {
+                  firstName: 'Tony',
+                  lastName: 'Last',
+                },
+                {
+                  firstName: 'Maria',
+                  lastName: 'Last',
+                },
+              ],
+            }}
+            onSubmit={(data) => console.log('onSubmit', data)}
+            onSubmitRequest={() => console.log('onSubmitRequest')}
+          >
+            <Flex.Stack>
+              <Form.MainHeading>Accounts</Form.MainHeading>
+
+              <Form.Card>
+                <Iterate.Array path="/accounts" divider="line">
+                  <MyViewItem />
+                  <MyEditItem />
+                </Iterate.Array>
+              </Form.Card>
+
+              <Form.SubmitButton variant="send" />
+            </Flex.Stack>
           </Form.Handler>
         )
       }}

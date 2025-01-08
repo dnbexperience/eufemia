@@ -173,6 +173,7 @@ function PushContainer(props: AllProps) {
         <IterateArray
           path="/pushContainerItems"
           containerMode={showOpenButton ? 'view' : 'edit'}
+          withoutFlex
         >
           <NewContainer
             title={title}

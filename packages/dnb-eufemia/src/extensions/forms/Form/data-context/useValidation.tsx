@@ -7,11 +7,12 @@ import {
 import DataContext, { ContextState } from '../../DataContext/Context'
 import { SharedAttachments } from '../../DataContext/Provider'
 import { EventStateObject, Path } from '../../types'
+import { FormError } from '../../utils'
 
 type UseDataReturn = {
   hasErrors: ContextState['hasErrors']
   hasFieldError: ContextState['hasFieldError']
-  setFormError: (error: Error) => void
+  setFormError: (error: Error | FormError | undefined | null) => void
   setFieldStatus: (path: Path, status: EventStateObject) => void
 }
 

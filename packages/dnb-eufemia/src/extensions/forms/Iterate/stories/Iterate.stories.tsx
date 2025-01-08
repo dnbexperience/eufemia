@@ -320,3 +320,27 @@ export function InWizard() {
     </React.StrictMode>
   )
 }
+
+export const DisplayDividerWhenUsingContainer = () => (
+  <Form.Handler>
+    <Flex.Stack>
+      <Form.Card>
+        <Form.SubHeading>
+          Displaying divider line when using container
+        </Form.SubHeading>
+        <Iterate.Array path="/list" divider="line">
+          <Iterate.ViewContainer
+            variant="basic"
+            toolbarVariant="custom"
+            divider="line"
+          >
+            <Value.String label="Something" itemPath="/something" />
+          </Iterate.ViewContainer>
+          <Iterate.EditContainer variant="basic" divider="line">
+            <Field.String label="Something" itemPath="/something" />
+          </Iterate.EditContainer>
+        </Iterate.Array>
+      </Form.Card>
+    </Flex.Stack>
+  </Form.Handler>
+)
