@@ -115,13 +115,13 @@ describe('PushContainer', () => {
 
     expect(
       document.querySelectorAll('.dnb-forms-iterate__element')
-    ).toHaveLength(1)
+    ).toHaveLength(0)
 
     await userEvent.click(button)
 
     expect(
       document.querySelectorAll('.dnb-forms-iterate__element')
-    ).toHaveLength(2)
+    ).toHaveLength(1)
     expect(
       document.querySelector('.dnb-forms-section-edit-block')
     ).toHaveAttribute('aria-hidden', 'true')

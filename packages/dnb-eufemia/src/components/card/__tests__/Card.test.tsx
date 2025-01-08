@@ -31,7 +31,7 @@ describe('Card', () => {
 
     const element = document.querySelector('.dnb-card')
 
-    expect(element.classList).toContain('dnb-space__top--large')
+    expect(element).toHaveClass('dnb-space__top--large')
 
     rerender(
       <Card top="x-large">
@@ -40,7 +40,7 @@ describe('Card', () => {
       </Card>
     )
 
-    expect(element.classList).toContain('dnb-space__top--x-large')
+    expect(element).toHaveClass('dnb-space__top--x-large')
   })
 
   it('should contain given classes', () => {
@@ -90,6 +90,17 @@ describe('Card', () => {
 
     const element = document.querySelector('.dnb-flex-container')
     expect(element).not.toHaveClass('dnb-flex-container--wrap')
+  })
+
+  it('should prioritize gap over stack spacing', () => {
+    render(
+      <Card stack gap="large">
+        content
+      </Card>
+    )
+
+    const element = document.querySelector('.dnb-flex-container')
+    expect(element).toHaveClass('dnb-flex-container--spacing-large')
   })
 
   it('should stack children divided by space', () => {
