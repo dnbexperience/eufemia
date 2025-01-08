@@ -13,18 +13,7 @@
 
     &__inner {
       flex: 1;
-      outline: none; // for JavaSCript focus
-
-      margin-bottom: var(--space);
-      &:has(.dnb-flex-container--spacing-small) {
-        --space: var(--spacing-small);
-      }
-      &:has(.dnb-flex-container--spacing-medium) {
-        --space: var(--spacing-medium);
-      }
-      &:has(.dnb-flex-container--spacing-large) {
-        --space: var(--spacing-large);
-      }
+      outline: none; // Because of JavaScript focus management (tabIndex)
 
       transition:
         transform 400ms var(--easing-default) 50ms,
