@@ -641,7 +641,7 @@ export const UsingIterate = () => {
               <Flex.Vertical>
                 <Form.MainHeading>Accounts</Form.MainHeading>
 
-                <Form.Card>
+                <Form.Card gap={false}>
                   <Iterate.Array path="/accounts">
                     <MyViewItem />
                     <MyEditItem />

@@ -108,7 +108,7 @@ function Card(props: Props) {
           alignSelf={alignSelf}
           align={stack ? 'stretch' : align}
           wrap={!stack}
-          gap={stack ? 'medium' : (gap ?? spacing) || false}
+          gap={gap ?? spacing ?? (stack ? 'medium' : false)}
           rowGap={rowGap || false}
         >
           {title && (

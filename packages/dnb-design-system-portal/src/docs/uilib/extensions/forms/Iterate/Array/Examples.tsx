@@ -298,7 +298,7 @@ export const ViewAndEditContainer = () => {
               <Flex.Stack>
                 <Form.MainHeading>Accounts</Form.MainHeading>
 
-                <Form.Card>
+                <Form.Card gap={false}>
                   <Iterate.Array path="/accounts">
                     <MyViewItem />
                     <MyEditItem />
@@ -684,11 +684,12 @@ export const FilledViewAndEditContainer = () => {
             <Flex.Vertical>
               <Form.MainHeading>Accounts</Form.MainHeading>
 
-              <Form.Card>
+              <Form.Card gap={false}>
                 <Iterate.Array path="/accounts" limit={2}>
                   <MyViewItem />
                   <MyEditItem />
                 </Iterate.Array>
+
                 <CreateNewEntry />
               </Form.Card>
 
