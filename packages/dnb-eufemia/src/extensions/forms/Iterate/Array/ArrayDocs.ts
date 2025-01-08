@@ -54,7 +54,7 @@ export const ArrayProperties: PropertiesTableProps = {
   },
   onChangeValidator: DataValueWritePropsProperties.onChangeValidator,
   validateInitially: DataValueWritePropsProperties.validateInitially,
-  continuousValidation: DataValueWritePropsProperties.continuousValidation,
+  validateContinuously: DataValueWritePropsProperties.validateContinuously,
   containerMode: {
     doc: 'Defines the container mode for all nested containers. Can be `view`, `edit` or `auto`. When using `auto`, it will automatically open if there is an error in the container. When a new item is added, the item before it will change to `view` mode, if it had no validation errors. Defaults to `auto`.',
     type: 'string',

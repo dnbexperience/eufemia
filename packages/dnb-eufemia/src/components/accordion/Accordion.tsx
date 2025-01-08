@@ -446,7 +446,7 @@ export type GroupProps = AccordionProps & {
    * Default: `single`
    */
   /**
-   * @deprecated – Replaced with expandBehavior, expandBehaviour can be removed in v11
+   * @deprecated – Replaced with expandBehavior, expandBehaviour can be removed in v11.
    */
   expandBehaviour?: 'single' | 'multiple'
   /**

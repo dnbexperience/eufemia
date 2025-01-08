@@ -41,7 +41,7 @@ This document provides a set of best practices to follow when creating forms for
 
 - The `tab` (Tab) key should be used to navigate between form fields. It should NOT trigger validation.
 - Required fields should have `aria-required="true"` attribute. Use the `required` property for that.
-- Validation should be triggered on `submit` events and on `blur` – if the user has made changes. In some cases, it is appreciated to trigger validation on `change` events. This behavior can be changed if needed by using `validateInitially`, `validateUnchanged` and `continuousValidation`. More info about these properties can be found in the [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) documentation.
+- Validation should be triggered on `submit` events and on `blur` – if the user has made changes. In some cases, it is appreciated to trigger validation on `change` events. This behavior can be changed if needed by using `validateInitially`, `validateUnchanged` and `validateContinuously`. More info about these properties can be found in the [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) documentation.
 
 ```jsx
 <Field.String

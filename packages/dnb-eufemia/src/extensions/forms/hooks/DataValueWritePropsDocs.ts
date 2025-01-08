@@ -66,7 +66,7 @@ export const DataValueWritePropsProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  continuousValidation: {
+  validateContinuously: {
     doc: 'Set to `true` to show validation based errors continuously while writing, not just when blurring the field.',
     type: 'boolean',
     status: 'optional',

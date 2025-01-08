@@ -74,7 +74,7 @@ export const WithFreshValidator = () => {
           onChangeValidator={validator}
           defaultValue={2}
           // validateInitially
-          // continuousValidation
+          // validateContinuously
           // validateUnchanged
           path="/myNumberWithOnChangeValidator"
         />

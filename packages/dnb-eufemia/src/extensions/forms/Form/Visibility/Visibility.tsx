@@ -26,12 +26,20 @@ export type VisibleWhen =
   | {
       path: Path
       isValid: boolean
+      /**
+       * @deprecated – Replaced with validateContinuously, continuousValidation can be removed in v11.
+       */
       continuousValidation?: boolean
+      validateContinuously?: boolean
     }
   | {
       itemPath: Path
       isValid: boolean
+      /**
+       * @deprecated – Replaced with validateContinuously, continuousValidation can be removed in v11.
+       */
       continuousValidation?: boolean
+      validateContinuously?: boolean
     }
 
   /**

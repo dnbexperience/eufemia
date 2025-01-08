@@ -136,7 +136,7 @@ export function AdvancedForm() {
             path="/fieldA"
             onBlurValidator={firstValidator}
             // onChangeValidator={firstValidator}
-            // continuousValidation
+            // validateContinuously
             // validateInitially
             // validateUnchanged
           />
