@@ -128,7 +128,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     schema,
     validateInitially,
     validateUnchanged,
+    // Deprecated – can be removed in v11
     continuousValidation,
+    validateContinuously = continuousValidation,
     transformIn = (external: unknown) => external as Value,
     transformOut = (internal: Value) => internal,
     toInput = (value: Value) => value,
@@ -618,7 +620,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     if (
       localErrorRef.current ||
       validateUnchanged ||
-      continuousValidation
+      validateContinuously
     ) {
       runOnChangeValidator()
     }
@@ -834,7 +836,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         if (
           (validateInitially && !changedRef.current) ||
           validateUnchanged ||
-          continuousValidation ||
+          validateContinuously ||
           runAsync // Because it's a better UX to show the error when the validation is async/delayed
         ) {
           // Because we first need to throw the error to be able to display it, we delay the showError call
@@ -856,7 +858,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       }
     },
     [
-      continuousValidation,
+      validateContinuously,
       defineAsyncProcess,
       persistErrorState,
       revealError,
@@ -1188,18 +1190,18 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   const handleError = useCallback(() => {
     if (
-      continuousValidation ||
-      (continuousValidation !== false && !hasFocusRef.current)
+      validateContinuously ||
+      (validateContinuously !== false && !hasFocusRef.current)
     ) {
       // When there is a change to the value without there having been any focus callback beforehand, it is likely
       // to believe that the blur callback will not be called either, which would trigger the display of the error.
-      // The error is therefore displayed immediately (unless instructed not to with continuousValidation set to false).
+      // The error is therefore displayed immediately (unless instructed not to with validateContinuously set to false).
       revealError()
     } else {
       // When changing the value, hide errors to avoid annoying the user before they are finished filling in that value
       hideError()
     }
-  }, [continuousValidation, hideError, revealError])
+  }, [continuousValidation, validateContinuously, hideError, revealError])
 
   const getEventArgs = useCallback(
     ({

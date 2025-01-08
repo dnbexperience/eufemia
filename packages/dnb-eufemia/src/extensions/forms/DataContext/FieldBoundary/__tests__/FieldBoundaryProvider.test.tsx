@@ -238,6 +238,45 @@ describe('FieldBoundaryProvider', () => {
     expect(contextRef.current.errorsRef.current).toMatchObject({})
   })
 
+  it('should set error in context with validateContinuously', async () => {
+    const contextRef: React.MutableRefObject<FieldBoundaryContextState> =
+      React.createRef()
+
+    const Contexts = ({ children }) => {
+      contextRef.current = useContext(FieldBoundaryContext)
+      return <>{children}</>
+    }
+
+    render(
+      <Provider>
+        <FieldBoundaryProvider>
+          <Contexts>
+            <Field.String required path="/bar" validateContinuously />
+            <Form.SubmitButton />
+          </Contexts>
+        </FieldBoundaryProvider>
+      </Provider>
+    )
+
+    await userEvent.click(document.querySelector('button'))
+
+    expect(contextRef.current.hasError).toBe(true)
+    expect(contextRef.current.hasSubmitError).toBe(true)
+    expect(contextRef.current.hasVisibleError).toBe(true)
+    expect(contextRef.current.errorsRef.current).toMatchObject({
+      '/bar': true,
+    })
+
+    const inputElement = document.querySelector('input')
+    await userEvent.type(inputElement, 'b')
+    await userEvent.click(document.querySelector('button'))
+
+    expect(contextRef.current.hasError).toBe(false)
+    expect(contextRef.current.hasSubmitError).toBe(false)
+    expect(contextRef.current.hasVisibleError).toBe(false)
+    expect(contextRef.current.errorsRef.current).toMatchObject({})
+  })
+
   it('should set number for showBoundaryErrors as a truthy value', async () => {
     const showBoundaryErrors = {
       view: null,

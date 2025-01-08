@@ -340,7 +340,14 @@ export interface UseFieldProps<
   /**
    * Should validation be done while writing, not just when blurring the field?
    */
+  /**
+   * @deprecated – Replaced with validateContinuously, continuousValidation can be removed in v11.
+   */
   continuousValidation?: boolean
+  /**
+   * Should validation be done while writing, not just when blurring the field?
+   */
+  validateContinuously?: boolean
   /**
    * Provide custom error messages for the field
    */
