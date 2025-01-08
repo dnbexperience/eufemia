@@ -4,6 +4,7 @@ import IterateItemContext from '../../IterateItemContext'
 import Toolbar from '../Toolbar'
 import nbNO from '../../../constants/locales/nb-NO'
 import RemoveButton from '../../RemoveButton'
+import ArrayItemAreaContext from '../../Array/ArrayItemAreaContext'
 
 const nb = nbNO['nb-NO'].RemoveButton
 
@@ -18,6 +19,32 @@ describe('Toolbar', () => {
     expect(
       document.querySelector('.dnb-forms-iterate-toolbar')
     ).toHaveClass('dnb-space__top--large')
+  })
+
+  it('should render Hr by default', () => {
+    render(<Toolbar>content</Toolbar>)
+
+    expect(document.querySelector('.dnb-hr')).toBeInTheDocument()
+  })
+
+  it('should not render Hr when toolbarVariant is custom', () => {
+    render(
+      <ArrayItemAreaContext.Provider value={{ toolbarVariant: 'custom' }}>
+        <Toolbar>content</Toolbar>
+      </ArrayItemAreaContext.Provider>
+    )
+
+    expect(document.querySelector('.dnb-hr')).not.toBeInTheDocument()
+  })
+
+  it('should not render Hr when divider is line', () => {
+    render(
+      <ArrayItemAreaContext.Provider value={{ divider: 'line' }}>
+        <Toolbar>content</Toolbar>
+      </ArrayItemAreaContext.Provider>
+    )
+
+    expect(document.querySelector('.dnb-hr')).not.toBeInTheDocument()
   })
 
   it('has no buttons/tools by default', () => {
