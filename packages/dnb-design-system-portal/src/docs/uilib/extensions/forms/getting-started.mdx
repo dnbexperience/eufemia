@@ -66,29 +66,31 @@ The needed styles are included in the Eufemia core package via `dnb-ui-component
 
 ### TypeScript support
 
-You can define the TypeScript type structure for your data like so:
+You can define the TypeScript type structure for your form data. This will help you to get better code completion and type checking.
+
+**NB:** Use `type` instead of `interface` for the type definition.
 
 ```tsx
-import { Form } from '@dnb/eufemia/extensions/forms'
+import { Form, OnSubmit } from '@dnb/eufemia/extensions/forms'
 
-type MyDataContext = {
+type MyData = {
   firstName?: string
+}
+
+const submitHandler: OnSubmit<MyData> = (data) => {
+  console.log(data.firstName satisfies string)
 }
 
 function MyForm() {
   return (
-    <Form.Handler<MyDataContext>
-      onSubmit={(data) => {
-        console.log(data.firstName) // "firstName" is of type string
-      }}
-    >
+    <Form.Handler<MyData> onSubmit={submitHandler}>
       <MyComponent />
     </Form.Handler>
   )
 }
 
 const MyComponent = () => {
-  const { data } = Form.useData<MyDataContext>()
+  const { data } = Form.useData<MyData>()
   return data.firstName
 }
 ```
