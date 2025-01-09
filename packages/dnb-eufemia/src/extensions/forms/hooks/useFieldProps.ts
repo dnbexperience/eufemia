@@ -28,7 +28,6 @@ import {
   MessageProp,
   MessageTypes,
   MessagePropParams,
-  ShowMessage,
 } from '../types'
 import { Context as DataContext, ContextState } from '../DataContext'
 import { clearedData } from '../DataContext/Provider/Provider'
@@ -336,31 +335,44 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     sectionPath,
   ])
 
-  const getFieldByPath: MessagePropParams<Value>['getFieldByPath'] =
-    useCallback(
-      (path) => {
-        const props = fieldPropsRef.current?.[path]
-        return { props, id }
-      },
-      [fieldPropsRef, id]
-    )
+  const getFieldByPath: MessagePropParams<
+    Value,
+    unknown
+  >['getFieldByPath'] = useCallback(
+    (path) => {
+      const props = fieldPropsRef.current?.[path]
+      return { props, id }
+    },
+    [fieldPropsRef, id]
+  )
 
   const messageCacheRef = useRef<{
     isSet: boolean
     message: MessageTypes<Value>
   }>({ isSet: false, message: undefined })
   const executeMessage = useCallback(
-    <T extends MessageTypes<Value>>(message: MessageProp<Value, T>): T => {
+    <ReturnValue extends MessageTypes<Value>>(
+      message: MessageProp<Value, ReturnValue>
+    ): ReturnValue => {
       if (typeof message === 'function') {
-        let currentMode: ShowMessage = undefined
-        const showMessage: MessagePropParams<Value>['showMessage'] = (
-          mode
-        ) => {
-          currentMode = mode
-        }
+        const ALWAYS = 4
+        const INITIALLY = 8
+        const CONTINUOUSLY = 16
+        let currentMode = ALWAYS
 
         const msg = message(valueRef.current, {
-          showMessage,
+          interactive: (callback, options) => {
+            currentMode &= ~ALWAYS
+
+            if (options?.showInitially) {
+              currentMode |= INITIALLY
+            }
+            if (options?.showContinuously) {
+              currentMode |= CONTINUOUSLY
+            }
+
+            return callback()
+          },
           getValueByPath,
           getFieldByPath,
         })
@@ -376,20 +388,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           (Array.isArray(msg) && checkForError(msg))
 
         if (
-          // Remove the message if it gets update from outside to have no message anymore
-          (!isInternalRerenderRef.current &&
-            messageCacheRef.current.message &&
-            !msg) ||
-          !currentMode // The default mode is 'always'
-        ) {
-          currentMode = 'always'
-        }
-
-        if (
-          (!messageCacheRef.current.isSet &&
-            currentMode === 'initially') ||
-          currentMode === 'continuously' ||
-          currentMode === 'always' ||
+          (!messageCacheRef.current.isSet && currentMode & INITIALLY) ||
+          currentMode & (CONTINUOUSLY | ALWAYS) ||
           hasFocusRef.current === false ||
           // Ensure we don't remove the message when the value is e.g. empty string
           messageCacheRef.current.message
@@ -397,8 +397,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           if (
             // Ensure to only update the message when component did re-render internally
             isInternalRerenderRef.current ||
-            currentMode === 'always' ||
-            (!messageCacheRef.current.isSet && currentMode === 'initially')
+            currentMode & (CONTINUOUSLY | ALWAYS) ||
+            (!messageCacheRef.current.isSet && currentMode & INITIALLY)
           ) {
             if (msg) {
               messageCacheRef.current.isSet = true
@@ -406,14 +406,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
             if (
               msg ||
               !hasFocusRef.current ||
-              currentMode === 'continuously' ||
-              currentMode === 'always'
+              currentMode & (CONTINUOUSLY | ALWAYS)
             ) {
               messageCacheRef.current.message = msg
             }
           }
 
-          message = messageCacheRef.current.message as T
+          message = messageCacheRef.current.message as ReturnValue
 
           if (isError && message) {
             revealErrorRef.current = true
@@ -1320,7 +1319,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       // When changing the value, hide errors to avoid annoying the user before they are finished filling in that value
       hideError()
     }
-  }, [continuousValidation, validateContinuously, hideError, revealError])
+  }, [validateContinuously, hideError, revealError])
 
   const getEventArgs = useCallback(
     ({

@@ -82,12 +82,46 @@ You can also use a function as a prefix or suffix.
 
 You can provide a function to the `info`, `warning` or `error` props that returns a message based on your conditions.
 
-Optionally, use the `showMessage` modifier function to control when the message is shown:
+```tsx
+<Field.String
+  info={(value) => {
+    if (value === '123') {
+      return 'The value is 123'
+    }
+  }}
+/>
+```
 
-- `onBlur` – The **preferred** UX behavior. It will show the message only when the field is blurred (onBlur).
-- `initially` – It will show the message initially, and later like `onBlur`.
-- `continuously` – It will show and update the message on every field value change.
-- `always` – Same as `initially` and `continuously` together.
+Optionally, use the `interactive` higher order function to show the message only when the field got changed (onChange) and blurred (onBlur).
+
+```tsx
+<Field.String
+  info={(value, { interactive }) => {
+    if (value === '123') {
+      // Show this message only when the field got changed and blurred.
+      return interactive(() => 'The value is 123')
+    }
+  }}
+/>
+```
+
+You can also pass options to the `interactive` function:
+
+- `showInitially` – Display the message when the field is first rendered.
+- `showContinuously` – Continuously update and show the message on every field change.
+
+```tsx
+<Field.String
+  info={(value, { interactive }) => {
+    if (value === '123') {
+      // Show this message only when the field got changed and blurred.
+      return interactive(() => 'The value is 123', {
+        showInitially: true,
+      })
+    }
+  }}
+/>
+```
 
 <Examples.ConditionalInfo />
 

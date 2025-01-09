@@ -449,33 +449,35 @@ export const ConditionalInfo = () => {
                 required
                 info={(
                   maximum,
-                  { showMessage, getValueByPath, getFieldByPath },
+                  { interactive, getValueByPath, getFieldByPath },
                 ) => {
                   if (maximum < getValueByPath('/amount')) {
-                    showMessage('onBlur')
-
-                    const { props, id } = getFieldByPath('/amount')
-                    const anchor = props?.label && (
-                      <Anchor
-                        href={'#' + id + '-label'}
-                        onClick={(event) => {
-                          event.preventDefault()
-                          const el = document.getElementById(id + '-label')
-                          el?.scrollIntoView()
-                        }}
-                      >
-                        {props.label}
-                      </Anchor>
-                    )
-
-                    return (
-                      anchor && (
-                        <>
-                          Remember to adjust the {anchor} to be {maximum}{' '}
-                          or lower.
-                        </>
+                    return interactive(() => {
+                      const { props, id } = getFieldByPath('/amount')
+                      const anchor = props?.label && (
+                        <Anchor
+                          href={'#' + id + '-label'}
+                          onClick={(event) => {
+                            event.preventDefault()
+                            const el = document.getElementById(
+                              id + '-label',
+                            )
+                            el?.scrollIntoView()
+                          }}
+                        >
+                          {props.label}
+                        </Anchor>
                       )
-                    )
+
+                      return (
+                        anchor && (
+                          <>
+                            Remember to adjust the {anchor} to be {maximum}{' '}
+                            or lower.
+                          </>
+                        )
+                      )
+                    })
                   }
                 }}
               />

@@ -178,14 +178,14 @@ describe('Field.Number', () => {
         ).toHaveTextContent('This is what went wrong 123')
       })
 
-      describe('showMessage', () => {
-        it('onBlur: renders error when field gets blurred', async () => {
+      describe('interactive', () => {
+        it('renders error when field gets blurred', async () => {
           render(
             <Field.Number
-              error={(value, { showMessage }) => {
-                showMessage('onBlur')
-
-                return new Error('This is what went wrong ' + value)
+              error={(value, { interactive }) => {
+                return interactive(() => {
+                  return new Error('This is what went wrong ' + value)
+                })
               }}
             />
           )
@@ -208,18 +208,21 @@ describe('Field.Number', () => {
           ).toHaveTextContent('This is what went wrong 1234')
         })
 
-        it('initially: renders error when field gets blurred', async () => {
+        it('showInitially: renders error when field gets blurred', async () => {
           render(
             <Field.Number
               emptyValue={0}
-              error={(value, { showMessage }) => {
-                showMessage('initially')
+              error={(value, { interactive }) => {
+                return interactive(
+                  () => {
+                    if (value === 123) {
+                      return undefined
+                    }
 
-                if (value === 123) {
-                  return undefined
-                }
-
-                return new Error('This is what went wrong ' + value)
+                    return new Error('This is what went wrong ' + value)
+                  },
+                  { showInitially: true }
+                )
               }}
             />
           )
@@ -284,14 +287,19 @@ describe('Field.Number', () => {
           render(
             <Field.Number
               emptyValue={0}
-              error={(value, { showMessage }) => {
-                showMessage('continuously')
+              error={(value, { interactive }) => {
+                return interactive(
+                  () => {
+                    if (value === 123) {
+                      return undefined
+                    }
 
-                if (value === 123) {
-                  return undefined
-                }
-
-                return new Error('This is what went wrong ' + value)
+                    return new Error('This is what went wrong ' + value)
+                  },
+                  {
+                    showContinuously: true,
+                  }
+                )
               }}
             />
           )

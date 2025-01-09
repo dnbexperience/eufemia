@@ -266,22 +266,26 @@ export type DataValueReadWriteComponentProps<
   DataValueReadProps<Value> &
   DataValueWriteProps<Value, EmptyValue>
 
-export type ShowMessage =
-  | 'onBlur' // It will show the message only when the field is blurred (onBlur).
-  | 'initially' // It will show the message initially, and later like 'onBlur'.
-  | 'continuously' // It will show the message on every change.
-  | 'always' // Same as `initially` and `continuously` together.
-export type MessagePropParams<Value> = {
-  showMessage: (mode: ShowMessage) => void
+export type MessagePropParams<Value, ReturnValue> = {
+  interactive: (
+    callback: () => ReturnValue | void,
+    options?: {
+      showInitially?: boolean
+      showContinuously?: boolean
+    }
+  ) => ReturnValue
   getValueByPath: GetValueByPath<Value>
   getFieldByPath: (path: Path) => {
     props: FieldProps
     id: Identifier
   }
 }
-export type MessageProp<Value, T> =
-  | T
-  | ((value: Value, options: MessagePropParams<Value>) => T)
+export type MessageProp<Value, ReturnValue> =
+  | ReturnValue
+  | ((
+      value: Value,
+      options: MessagePropParams<Value, ReturnValue>
+    ) => ReturnValue)
 export type MessageTypes<Value> =
   | UseFieldProps<Value>['info']
   | UseFieldProps<Value>['warning']
