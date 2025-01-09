@@ -88,10 +88,10 @@ export const WithFreshValidator = () => {
 export const ConditionalInfo = () => {
   const conditionalInfo: UseFieldProps<number>['info'] = (
     maximum: number,
-    { visibleWhen, getValueByPath, getFieldByPath }
+    { showMessage, getValueByPath, getFieldByPath }
   ) => {
     if (maximum < getValueByPath('/amount')) {
-      visibleWhen('initially')
+      showMessage('initially')
 
       const { props, id } = getFieldByPath('/amount')
 

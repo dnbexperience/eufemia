@@ -266,13 +266,13 @@ export type DataValueReadWriteComponentProps<
   DataValueReadProps<Value> &
   DataValueWriteProps<Value, EmptyValue>
 
-export type MessageVisibleWhen =
+export type ShowMessage =
   | 'onBlur' // It will show the message only when the field is blurred (onBlur).
   | 'initially' // It will show the message initially, and later like 'onBlur'.
   | 'continuously' // It will show the message on every change.
-  | 'always' // Same as `initially` and `continuously` together
+  | 'always' // Same as `initially` and `continuously` together.
 export type MessagePropParams<Value> = {
-  visibleWhen: (mode: MessageVisibleWhen) => void
+  showMessage: (mode: ShowMessage) => void
   getValueByPath: GetValueByPath<Value>
   getFieldByPath: (path: Path) => {
     props: FieldProps

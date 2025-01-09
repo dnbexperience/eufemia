@@ -178,12 +178,12 @@ describe('Field.Number', () => {
         ).toHaveTextContent('This is what went wrong 123')
       })
 
-      describe('visibleWhen', () => {
+      describe('showMessage', () => {
         it('onBlur: renders error when field gets blurred', async () => {
           render(
             <Field.Number
-              error={(value, { visibleWhen }) => {
-                visibleWhen('onBlur')
+              error={(value, { showMessage }) => {
+                showMessage('onBlur')
 
                 return new Error('This is what went wrong ' + value)
               }}
@@ -212,8 +212,8 @@ describe('Field.Number', () => {
           render(
             <Field.Number
               emptyValue={0}
-              error={(value, { visibleWhen }) => {
-                visibleWhen('initially')
+              error={(value, { showMessage }) => {
+                showMessage('initially')
 
                 if (value === 123) {
                   return undefined
@@ -284,8 +284,8 @@ describe('Field.Number', () => {
           render(
             <Field.Number
               emptyValue={0}
-              error={(value, { visibleWhen }) => {
-                visibleWhen('continuously')
+              error={(value, { showMessage }) => {
+                showMessage('continuously')
 
                 if (value === 123) {
                   return undefined

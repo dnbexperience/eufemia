@@ -17,17 +17,17 @@ export const DataValueWritePropsProperties: PropertiesTableProps = {
     status: 'optional',
   },
   info: {
-    doc: 'Info message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ visibleWhen, getValueByPath, getFieldByPath }`. You can call `visibleWhen` with `onBlur`, `initially`, or `conditionally`.',
+    doc: 'Info message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ showMessage, getValueByPath, getFieldByPath }`. You can call `showMessage` with `onBlur`, `initially`, or `conditionally`.',
     type: ['React.Node', 'Array<React.Node>', 'function'],
     status: 'optional',
   },
   warning: {
-    doc: 'Warning message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ visibleWhen, getValueByPath, getFieldByPath }`. You can call `visibleWhen` with `onBlur`, `initially`, or `conditionally`.',
+    doc: 'Warning message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ showMessage, getValueByPath, getFieldByPath }`. You can call `showMessage` with `onBlur`, `initially`, or `conditionally`.',
     type: ['React.Node', 'Array<React.Node>', 'function'],
     status: 'optional',
   },
   error: {
-    doc: 'Error message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ visibleWhen, getValueByPath, getFieldByPath }`. You can call `visibleWhen` with `onBlur`, `initially`, or `conditionally`.',
+    doc: 'Error message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ showMessage, getValueByPath, getFieldByPath }`. You can call `showMessage` with `onBlur`, `initially`, or `conditionally`.',
     type: ['Error', 'FormError', 'Array<Error | FormError>', 'function'],
     status: 'optional',
   },

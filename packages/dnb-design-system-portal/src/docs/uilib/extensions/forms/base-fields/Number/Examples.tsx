@@ -449,10 +449,10 @@ export const ConditionalInfo = () => {
                 required
                 info={(
                   maximum,
-                  { visibleWhen, getValueByPath, getFieldByPath },
+                  { showMessage, getValueByPath, getFieldByPath },
                 ) => {
                   if (maximum < getValueByPath('/amount')) {
-                    visibleWhen('onBlur')
+                    showMessage('onBlur')
 
                     const { props, id } = getFieldByPath('/amount')
                     const anchor = props?.label && (

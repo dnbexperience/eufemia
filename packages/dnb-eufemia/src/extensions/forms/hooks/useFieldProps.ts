@@ -28,7 +28,7 @@ import {
   MessageProp,
   MessageTypes,
   MessagePropParams,
-  MessageVisibleWhen,
+  ShowMessage,
 } from '../types'
 import { Context as DataContext, ContextState } from '../DataContext'
 import { clearedData } from '../DataContext/Provider/Provider'
@@ -352,15 +352,15 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const executeMessage = useCallback(
     <T extends MessageTypes<Value>>(message: MessageProp<Value, T>): T => {
       if (typeof message === 'function') {
-        let currentMode: MessageVisibleWhen = undefined
-        const visibleWhen: MessagePropParams<Value>['visibleWhen'] = (
+        let currentMode: ShowMessage = undefined
+        const showMessage: MessagePropParams<Value>['showMessage'] = (
           mode
         ) => {
           currentMode = mode
         }
 
         const msg = message(valueRef.current, {
-          visibleWhen,
+          showMessage,
           getValueByPath,
           getFieldByPath,
         })
