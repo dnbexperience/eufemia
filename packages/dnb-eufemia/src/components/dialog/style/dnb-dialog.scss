@@ -25,12 +25,10 @@
   -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
   background: var(--dialog-background);
 
-  max-height: 100vh;
   overflow: hidden;
 
   & > .dnb-scroll-view {
     height: 100%; // ensure a Dropdown opens with the full height
-    max-height: 90vh; // make it scrollable
   }
 
   &__inner {
@@ -38,6 +36,7 @@
     display: flex;
     flex-direction: column;
 
+    // For fullscreen support
     width: 100%;
     height: 100%;
   }

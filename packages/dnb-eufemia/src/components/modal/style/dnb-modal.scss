@@ -20,21 +20,24 @@ html[data-dnb-modal-active] {
 
 #dnb-modal-root {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
+
+  // For fullscreen support
+  width: 100%;
+  height: 100%;
 }
 
 .dnb-modal {
   &__content {
     position: fixed;
-    top: 0;
-    left: 0;
+    inset: 0;
     z-index: calc(var(--modal-z-index) + 1);
 
     display: flex;
     align-items: center;
     justify-content: center;
-    max-width: 100vw;
+
+    // For fullscreen support
     width: 100%;
     height: 100%;
 
@@ -52,11 +55,6 @@ html[data-dnb-modal-active] {
     &--fullscreen {
       align-items: flex-start;
       justify-content: flex-start;
-    }
-
-    // Is this used?
-    &--fullscreen &__content {
-      height: auto;
     }
 
     &--left,
@@ -85,6 +83,7 @@ html[data-dnb-modal-active] {
     left: 0;
     top: 0;
 
+    // For fullscreen support
     width: 100%;
     height: 100%;
   }
@@ -113,6 +112,10 @@ html[data-dnb-modal-active] {
   &-root__inner {
     position: relative;
     z-index: calc(var(--modal-z-index) + 1);
+
+    // For fullscreen support
+    width: 100%;
+    height: 100%;
   }
   &-root__inner ~ &-root__inner {
     z-index: calc(var(--modal-z-index) + 2);

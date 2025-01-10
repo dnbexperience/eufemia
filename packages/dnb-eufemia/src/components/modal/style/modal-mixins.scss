@@ -5,10 +5,7 @@
 
 @mixin modalFullscreen() {
   width: 100%;
-  max-width: 100%; // Safari needs % instead of vw when font-size is larger.
-
-  height: 100vh; // For backwards compatibility
-  height: 100dvh; // For Safari full height
+  height: 100%;
 
   border-radius: 0;
   box-shadow: none;
