@@ -1679,7 +1679,7 @@ class AutocompleteInstance extends React.PureComponent {
       this.setInputValue(inputValue)
     }
 
-    if (typeof args.data.render === 'function') {
+    if (typeof args.data?.render === 'function') {
       delete args.data.render
     }
 
