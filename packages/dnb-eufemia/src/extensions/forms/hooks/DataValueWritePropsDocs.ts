@@ -17,17 +17,17 @@ export const DataValueWritePropsProperties: PropertiesTableProps = {
     status: 'optional',
   },
   info: {
-    doc: "Info message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ interactive, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `interactive` function with a callback and some options: `interactive(() => 'Your message', { showInitially: true, showContinuously: true })`",
+    doc: "Info message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ interactive, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `interactive` function with a callback and with options: `interactive(() => 'Your message', { showInitially: true })`",
     type: ['React.Node', 'Array<React.Node>', 'function'],
     status: 'optional',
   },
   warning: {
-    doc: "Warning message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ interactive, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `interactive` function with a callback and some options: `interactive(() => 'Your message', { showInitially: true, showContinuously: true })`",
+    doc: "Warning message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ interactive, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `interactive` function with a callback and with options: `interactive(() => 'Your message', { showInitially: true })`",
     type: ['React.Node', 'Array<React.Node>', 'function'],
     status: 'optional',
   },
   error: {
-    doc: "Error message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ interactive, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `interactive` function with a callback and some options: `interactive(() => 'Your message', { showInitially: true, showContinuously: true })`",
+    doc: "Error message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ interactive, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `interactive` function with a callback and with options: `interactive(() => 'Your message', { showInitially: true })`",
     type: ['Error', 'FormError', 'Array<Error | FormError>', 'function'],
     status: 'optional',
   },

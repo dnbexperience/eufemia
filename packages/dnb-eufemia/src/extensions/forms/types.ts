@@ -271,7 +271,6 @@ export type MessagePropParams<Value, ReturnValue> = {
     callback: () => ReturnValue | void,
     options?: {
       showInitially?: boolean
-      showContinuously?: boolean
     }
   ) => ReturnValue
   getValueByPath: GetValueByPath<Value>

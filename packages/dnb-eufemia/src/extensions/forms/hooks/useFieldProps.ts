@@ -361,7 +361,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       if (typeof message === 'function') {
         const ALWAYS = 4
         const INITIALLY = 8
-        const CONTINUOUSLY = 16
+
         let currentMode = ALWAYS
 
         const msg = message(valueRef.current, {
@@ -370,9 +370,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
             if (options?.showInitially) {
               currentMode |= INITIALLY
-            }
-            if (options?.showContinuously) {
-              currentMode |= CONTINUOUSLY
             }
 
             return callback()
@@ -393,7 +390,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
         if (
           (!messageCacheRef.current.isSet && currentMode & INITIALLY) ||
-          currentMode & (CONTINUOUSLY | ALWAYS) ||
+          currentMode & ALWAYS ||
           hasFocusRef.current === false ||
           // Ensure we don't remove the message when the value is e.g. empty string
           messageCacheRef.current.message
@@ -401,17 +398,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           if (
             // Ensure to only update the message when component did re-render internally
             isInternalRerenderRef.current ||
-            currentMode & (CONTINUOUSLY | ALWAYS) ||
+            currentMode & ALWAYS ||
             (!messageCacheRef.current.isSet && currentMode & INITIALLY)
           ) {
             if (msg) {
               messageCacheRef.current.isSet = true
             }
-            if (
-              msg ||
-              !hasFocusRef.current ||
-              currentMode & (CONTINUOUSLY | ALWAYS)
-            ) {
+            if (msg || !hasFocusRef.current || currentMode & ALWAYS) {
               messageCacheRef.current.message = msg
             }
           }

@@ -208,6 +208,43 @@ describe('Field.Number', () => {
           ).toHaveTextContent('This is what went wrong 1234')
         })
 
+        it('renders message conditionally on every value change', async () => {
+          render(
+            <Field.Number
+              emptyValue={0}
+              error={(value) => {
+                if (value === 123) {
+                  return undefined
+                }
+
+                return new Error('This is what went wrong ' + value)
+              }}
+            />
+          )
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('This is what went wrong 0')
+
+          await userEvent.type(document.querySelector('input'), '12')
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('This is what went wrong 12')
+
+          await userEvent.type(document.querySelector('input'), '3')
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).not.toBeInTheDocument()
+
+          await userEvent.type(document.querySelector('input'), '4')
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('This is what went wrong 1234')
+        })
+
         it('showInitially: renders message initially', async () => {
           render(
             <Field.Number
@@ -281,50 +318,6 @@ describe('Field.Number', () => {
           expect(
             document.querySelector('.dnb-form-status')
           ).toHaveTextContent('This is what went wrong 12345')
-        })
-
-        it('showContinuously: renders message on every value change', async () => {
-          render(
-            <Field.Number
-              emptyValue={0}
-              error={(value, { interactive }) => {
-                return interactive(
-                  () => {
-                    if (value === 123) {
-                      return undefined
-                    }
-
-                    return new Error('This is what went wrong ' + value)
-                  },
-                  {
-                    showContinuously: true,
-                  }
-                )
-              }}
-            />
-          )
-
-          expect(
-            document.querySelector('.dnb-form-status')
-          ).toHaveTextContent('This is what went wrong 0')
-
-          await userEvent.type(document.querySelector('input'), '12')
-
-          expect(
-            document.querySelector('.dnb-form-status')
-          ).toHaveTextContent('This is what went wrong 12')
-
-          await userEvent.type(document.querySelector('input'), '3')
-
-          expect(
-            document.querySelector('.dnb-form-status')
-          ).not.toBeInTheDocument()
-
-          await userEvent.type(document.querySelector('input'), '4')
-
-          expect(
-            document.querySelector('.dnb-form-status')
-          ).toHaveTextContent('This is what went wrong 1234')
         })
       })
     })

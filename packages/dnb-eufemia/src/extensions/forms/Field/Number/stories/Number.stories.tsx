@@ -90,6 +90,31 @@ export const ConditionalInfo = () => {
     maximum: number,
     { interactive, getValueByPath, getFieldByPath }
   ) => {
+    // if (maximum < getValueByPath('/amount')) {
+    //   const { props, id } = getFieldByPath('/amount')
+
+    //   const anchor = props && (
+    //     <Anchor
+    //       href={`#${id}-label`}
+    //       onClick={(event: React.MouseEvent<HTMLAnchorElement>) => {
+    //         event.preventDefault()
+    //         const el = document.getElementById(`${id}-label`)
+    //         el?.scrollIntoView()
+    //       }}
+    //     >
+    //       {props?.label}
+    //     </Anchor>
+    //   )
+
+    //   return (
+    //     anchor && (
+    //       <>
+    //         Remember to adjust the {anchor} to be {maximum} or lower.
+    //       </>
+    //     )
+    //   )
+    // }
+
     return interactive(
       () => {
         if (maximum < getValueByPath('/amount')) {
@@ -119,7 +144,6 @@ export const ConditionalInfo = () => {
       },
       {
         showInitially: true,
-        // showContinuously: true,
       }
     )
   }
