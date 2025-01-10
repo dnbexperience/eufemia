@@ -10,7 +10,7 @@ import AutoLinkHeader from './AutoLinkHeader'
 import { tabsWrapperStyle } from './Tabbar.module.scss'
 import { Link } from './Anchor'
 
-export const defaultTabs = [
+export const defaultTabsValue = [
   { title: 'Info', key: '/info' },
   { title: 'Demos', key: '/demos' },
   { title: 'Properties', key: '/properties' },
@@ -34,7 +34,7 @@ export default function Tabbar({
   hideTabs,
   rootPath,
   tabs,
-  defaultTabs,
+  defaultTabs = defaultTabsValue,
   children,
 }: TabbarProps) {
   const [wasFullscreen, setFullscreen] = React.useState(
@@ -150,9 +150,6 @@ export default function Tabbar({
   )
 }
 
-Tabbar.defaultProps = {
-  defaultTabs,
-}
 Tabbar.ContentWrapper = (props) => (
   <Tabs.ContentWrapper id="tabbar" content_spacing={false} {...props} />
 )

@@ -287,8 +287,8 @@ export default class FormRow extends React.PureComponent {
 }
 
 const Fieldset = ({
-  useFieldset,
-  children,
+  useFieldset = false,
+  children = null,
   className = null,
   ...props
 }) => {
@@ -317,11 +317,6 @@ Fieldset.propTypes = {
   children: PropTypes.node,
   useFieldset: PropTypes.bool,
   className: PropTypes.string,
-}
-Fieldset.defaultProps = {
-  children: null,
-  useFieldset: false,
-  className: null,
 }
 
 FormRow._supportsSpacingProps = true
