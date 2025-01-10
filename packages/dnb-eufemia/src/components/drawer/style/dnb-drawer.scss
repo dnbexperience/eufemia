@@ -30,7 +30,6 @@
   --drawer-spacing-minus: -2rem; // should reflect --spacing-large
 
   position: relative;
-  max-height: 100vh;
 
   @include modalFullscreen();
   width: var(--drawer-width);
@@ -100,7 +99,7 @@
   // Container placement
   &--top,
   &--bottom {
-    max-width: 100%; // Edge/IE overflow fix
+    max-width: 100%; // Safari needs % instead of vw when font-size is larger.
     width: 100vw;
     height: 40vh;
 
