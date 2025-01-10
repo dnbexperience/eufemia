@@ -204,7 +204,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     validateData: validateDataDataContext,
     setFieldState: setFieldStateDataContext,
     setFieldError: setFieldErrorDataContext,
-    setFieldProps: setFieldPropsDataContext,
+    setFieldInternals: setFieldInternalsDataContext,
     setFieldConnection: setFieldConnectionDataContext,
     setVisibleError: setVisibleErrorDataContext,
     setMountedFieldState: setMountedFieldStateDataContext,
@@ -214,7 +214,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     contextErrorMessages,
     fieldDisplayValueRef,
     existingFieldsRef,
-    fieldPropsRef,
+    fieldInternalsRef,
   } = dataContext || {}
   const onChangeContext = dataContext?.props?.onChange
 
@@ -340,10 +340,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     unknown
   >['getFieldByPath'] = useCallback(
     (path) => {
-      const props = fieldPropsRef.current?.[path]
-      return { props, id }
+      return (
+        fieldInternalsRef.current?.[path] || {
+          props: undefined,
+          id: undefined,
+        }
+      )
     },
-    [fieldPropsRef, id]
+    [fieldInternalsRef]
   )
 
   const messageCacheRef = useRef<{
@@ -1754,7 +1758,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const handleBlur = useCallback(() => setHasFocus(false), [setHasFocus])
 
   // Put props into the surrounding data context as early as possible
-  setFieldPropsDataContext?.(identifier, props)
+  setFieldInternalsDataContext?.(identifier, props, id)
 
   const { activeIndex, activeIndexRef } = wizardContext || {}
   const activeIndexTmpRef = useRef(activeIndex)

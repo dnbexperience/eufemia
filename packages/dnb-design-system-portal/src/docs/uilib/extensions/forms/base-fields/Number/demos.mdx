@@ -96,7 +96,7 @@ Optionally, use the `interactive` higher order function to show the message only
 
 ```tsx
 <Field.String
-  info={(value, { interactive }) => {
+  info={(value, { interactive, getValueByPath, getFieldByPath }) => {
     if (value === '123') {
       // Show this message only when the field got changed and blurred.
       return interactive(() => 'The value is 123')
@@ -112,7 +112,7 @@ You can also pass options to the `interactive` function:
 
 ```tsx
 <Field.String
-  info={(value, { interactive }) => {
+  info={(value, { interactive, getValueByPath, getFieldByPath }) => {
     if (value === '123') {
       // Show this message only when the field got changed and blurred.
       return interactive(() => 'The value is 123', {

@@ -161,7 +161,7 @@ export function useCheckboxOrToggleOptions({
   handleChange?: ReturnAdditional<Props['value']>['handleChange']
   handleActiveData?: (item: { labels: Array<Props['children']> }) => void
 }) {
-  const { setFieldProps } = useContext(DataContext)
+  const { setFieldInternals } = useContext(DataContext)
   const optionsCount = useMemo(
     () => React.Children.count(children) + (dataList?.length || 0),
     [dataList, children]
@@ -261,7 +261,7 @@ export function useCheckboxOrToggleOptions({
   }
 
   if (path) {
-    setFieldProps?.(path + '/arraySelectionData', activeData)
+    setFieldInternals?.(path + '/arraySelectionData', activeData)
   }
 
   return result

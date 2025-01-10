@@ -179,7 +179,7 @@ describe('Field.Number', () => {
       })
 
       describe('interactive', () => {
-        it('renders error when field gets blurred', async () => {
+        it('renders message when field gets blurred', async () => {
           render(
             <Field.Number
               error={(value, { interactive }) => {
@@ -208,7 +208,7 @@ describe('Field.Number', () => {
           ).toHaveTextContent('This is what went wrong 1234')
         })
 
-        it('showInitially: renders error when field gets blurred', async () => {
+        it('showInitially: renders message initially', async () => {
           render(
             <Field.Number
               emptyValue={0}
@@ -283,7 +283,7 @@ describe('Field.Number', () => {
           ).toHaveTextContent('This is what went wrong 12345')
         })
 
-        it('continuously: renders error when field gets blurred', async () => {
+        it('showContinuously: renders message on every value change', async () => {
           render(
             <Field.Number
               emptyValue={0}
@@ -348,6 +348,36 @@ describe('Field.Number', () => {
           document.querySelector('.dnb-form-status')
         ).toHaveTextContent('This is what went wrong 123')
       })
+
+      describe('getValueByPath', () => {
+        it('renders message with value from other path', async () => {
+          render(
+            <Form.Handler
+              data={{
+                foo: 123,
+                bar: 456,
+              }}
+            >
+              <Field.Number
+                path="/foo"
+                warning={(value, { getValueByPath }) => {
+                  return String(value) + getValueByPath('/bar')
+                }}
+              />
+            </Form.Handler>
+          )
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('123456')
+
+          await userEvent.type(document.querySelector('input'), '0')
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('1230456')
+        })
+      })
     })
 
     describe('info', () => {
@@ -368,6 +398,56 @@ describe('Field.Number', () => {
         expect(
           document.querySelector('.dnb-form-status')
         ).toHaveTextContent('This is what went wrong 123')
+      })
+
+      it('renders summarized messages given by an array from a function return', async () => {
+        render(
+          <Field.Number
+            info={() => {
+              return ['Foo', 'Bar']
+            }}
+          />
+        )
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(nb.Field.stateSummary + 'FooBar')
+      })
+
+      describe('getFieldByPath', () => {
+        it('renders message with value from other path', async () => {
+          render(
+            <Form.Handler>
+              <Field.Number
+                path="/foo"
+                defaultValue={123}
+                info={(value, { getFieldByPath }) => {
+                  const field = getFieldByPath('/bar')
+                  const props = field.props
+                  const id = field.id
+
+                  if (props) {
+                    const label = props.label
+                    return JSON.stringify({ value, id, label })
+                  }
+                }}
+                id="foo"
+              />
+
+              <Field.Number path="/bar" label="Bar Label" id="bar-id" />
+            </Form.Handler>
+          )
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent(
+            JSON.stringify({
+              value: 123,
+              id: 'bar-id',
+              label: 'Bar Label',
+            })
+          )
+        })
       })
     })
 

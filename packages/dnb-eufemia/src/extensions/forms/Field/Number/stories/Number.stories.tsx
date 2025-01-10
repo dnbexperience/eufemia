@@ -90,9 +90,9 @@ export const ConditionalInfo = () => {
     maximum: number,
     { interactive, getValueByPath, getFieldByPath }
   ) => {
-    if (maximum < getValueByPath('/amount')) {
-      return interactive(
-        () => {
+    return interactive(
+      () => {
+        if (maximum < getValueByPath('/amount')) {
           const { props, id } = getFieldByPath('/amount')
 
           const anchor = props && (
@@ -115,13 +115,13 @@ export const ConditionalInfo = () => {
               </>
             )
           )
-        },
-        {
-          showInitially: true,
-          // showContinuously: true,
         }
-      )
-    }
+      },
+      {
+        showInitially: true,
+        // showContinuously: true,
+      }
+    )
   }
 
   const onBlurValidator: UseFieldProps<number>['onBlurValidator'] = (
