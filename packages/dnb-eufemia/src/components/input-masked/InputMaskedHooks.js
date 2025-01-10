@@ -239,7 +239,7 @@ export const useInputElement = () => {
         inputRef={ref}
         inputElement={inputElementRef.current}
         pipe={pipe}
-        mask={mask || []}
+        mask={mask || createNumberMask()}
         showMask={showMask}
         guide={showGuide}
         keepCharPositions={keepCharPositions}
