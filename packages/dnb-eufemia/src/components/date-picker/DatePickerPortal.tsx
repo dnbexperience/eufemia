@@ -22,7 +22,7 @@ export default function DatePickerPortal({
 }: DatePickerPortalProps) {
   const [position, setPosition] = useState({})
 
-  const positionTimeout = React.useRef(null)
+  const positionTimeout = useRef<NodeJS.Timeout>()
 
   useEffect(() => {
     if (targetElementRef.current) {
