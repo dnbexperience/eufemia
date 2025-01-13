@@ -88,7 +88,7 @@ export const WithFreshValidator = () => {
 export const ConditionalInfo = () => {
   const conditionalInfo: UseFieldProps<number>['info'] = (
     maximum: number,
-    { interactive, getValueByPath, getFieldByPath }
+    { conditionally, getValueByPath, getFieldByPath }
   ) => {
     // if (maximum < getValueByPath('/amount')) {
     //   const { props, id } = getFieldByPath('/amount')
@@ -115,7 +115,7 @@ export const ConditionalInfo = () => {
     //   )
     // }
 
-    return interactive(
+    return conditionally(
       () => {
         if (maximum < getValueByPath('/amount')) {
           const { props, id } = getFieldByPath('/amount')

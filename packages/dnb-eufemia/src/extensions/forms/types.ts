@@ -267,7 +267,7 @@ export type DataValueReadWriteComponentProps<
   DataValueWriteProps<Value, EmptyValue>
 
 export type MessagePropParams<Value, ReturnValue> = {
-  interactive: (
+  conditionally: (
     callback: () => ReturnValue | void,
     options?: {
       showInitially?: boolean

@@ -92,29 +92,29 @@ You can provide a function to the `info`, `warning` or `error` props that return
 />
 ```
 
-Optionally, use the `interactive` higher order function to show the message only when the field got changed (onChange) and blurred (onBlur).
+Optionally, use the `conditionally` higher order function to show the message only when the field got changed (onChange) and blurred (onBlur).
 
 ```tsx
 <Field.String
-  info={(value, { interactive, getValueByPath, getFieldByPath }) => {
+  info={(value, { conditionally, getValueByPath, getFieldByPath }) => {
     if (value === '123') {
       // Show this message only when the field got changed and blurred.
-      return interactive(() => 'The value is 123')
+      return conditionally(() => 'The value is 123')
     }
   }}
 />
 ```
 
-You can also pass options to the `interactive` function:
+You can also pass options to the `conditionally` function:
 
 - `showInitially` – Display the message when the field is first rendered.
 
 ```tsx
 <Field.String
-  info={(value, { interactive, getValueByPath, getFieldByPath }) => {
+  info={(value, { conditionally, getValueByPath, getFieldByPath }) => {
     if (value === '123') {
       // Show this message only when the field got changed and blurred.
-      return interactive(() => 'The value is 123', {
+      return conditionally(() => 'The value is 123', {
         showInitially: true,
       })
     }

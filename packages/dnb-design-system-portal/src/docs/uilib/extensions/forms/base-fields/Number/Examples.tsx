@@ -449,9 +449,9 @@ export const ConditionalInfo = () => {
                 required
                 info={(
                   maximum,
-                  { interactive, getValueByPath, getFieldByPath },
+                  { conditionally, getValueByPath, getFieldByPath },
                 ) => {
-                  return interactive(() => {
+                  return conditionally(() => {
                     if (maximum < getValueByPath('/amount')) {
                       const { props, id } = getFieldByPath('/amount')
                       const anchor = props?.label && (

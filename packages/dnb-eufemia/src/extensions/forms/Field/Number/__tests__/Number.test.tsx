@@ -178,12 +178,12 @@ describe('Field.Number', () => {
         ).toHaveTextContent('This is what went wrong 123')
       })
 
-      describe('interactive', () => {
+      describe('conditionally', () => {
         it('renders message when field gets blurred', async () => {
           render(
             <Field.Number
-              error={(value, { interactive }) => {
-                return interactive(() => {
+              error={(value, { conditionally }) => {
+                return conditionally(() => {
                   return new Error('This is what went wrong ' + value)
                 })
               }}
@@ -249,8 +249,8 @@ describe('Field.Number', () => {
           render(
             <Field.Number
               emptyValue={0}
-              error={(value, { interactive }) => {
-                return interactive(
+              error={(value, { conditionally }) => {
+                return conditionally(
                   () => {
                     if (value === 123) {
                       return undefined

@@ -365,7 +365,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         let currentMode = ALWAYS
 
         const msg = message(valueRef.current, {
-          interactive: (callback, options) => {
+          conditionally: (callback, options) => {
             currentMode &= ~ALWAYS
 
             if (options?.showInitially) {
