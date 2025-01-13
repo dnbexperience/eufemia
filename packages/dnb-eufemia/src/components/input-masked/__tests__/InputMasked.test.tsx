@@ -917,6 +917,22 @@ describe('InputMasked component as_percent', () => {
   })
 })
 
+describe('InputMasked component without any properties', () => {
+  it('defaults to number mask', () => {
+    const newValue = '1'
+
+    render(<InputMasked />)
+
+    expect(document.querySelector('input').value).toBe('')
+
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: newValue },
+    })
+
+    expect(document.querySelector('input').value).toBe(newValue)
+  })
+})
+
 describe('InputMasked component as_number', () => {
   it('should create a "number_mask" accordingly the defined properties', () => {
     const { rerender } = render(
