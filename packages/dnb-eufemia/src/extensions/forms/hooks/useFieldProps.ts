@@ -28,6 +28,7 @@ import {
   MessageProp,
   MessageTypes,
   MessagePropParams,
+  UseFieldProps,
 } from '../types'
 import { Context as DataContext, ContextState } from '../DataContext'
 import { clearedData } from '../DataContext/Provider/Provider'
@@ -428,15 +429,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     [getFieldByPath, getValueByPath]
   )
 
-  const error = executeMessage<
-    Error | FormError | Array<Error | FormError>
-  >(errorProp)
-  const warning = executeMessage<React.ReactNode | Array<React.ReactNode>>(
-    warningProp
-  )
-  const info = executeMessage<React.ReactNode | Array<React.ReactNode>>(
-    infoProp
-  )
+  const error = executeMessage<UseFieldProps['error']>(errorProp)
+  const warning = executeMessage<UseFieldProps['warning']>(warningProp)
+  const info = executeMessage<UseFieldProps['info']>(infoProp)
 
   if (revealErrorRef.current === null) {
     revealErrorRef.current = validateInitially ?? Boolean(errorProp)
@@ -2249,8 +2244,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     warning,
   ])
 
-  const infoRef = useRef<React.ReactNode>(info)
-  const warningRef = useRef<React.ReactNode>(warning)
+  const infoRef = useRef<UseFieldProps['info']>(info)
+  const warningRef = useRef<UseFieldProps['warning']>(warning)
   if (typeof info !== 'undefined') {
     infoRef.current = info
   }
