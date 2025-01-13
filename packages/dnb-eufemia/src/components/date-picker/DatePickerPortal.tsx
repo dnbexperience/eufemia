@@ -43,7 +43,7 @@ export default function DatePickerPortal({
     }, 200)
   }, [alignment, targetElementRef])
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!skipPortal) {
       window.addEventListener('resize', setPositionDebounce)
       window.addEventListener('scroll', setPositionDebounce)
