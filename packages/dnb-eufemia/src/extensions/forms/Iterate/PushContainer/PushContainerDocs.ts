@@ -27,6 +27,11 @@ export const PushContainerProperties: PropertiesTableProps = {
     type: 'object',
     status: 'optional',
   },
+  required: {
+    doc: 'If the fields inside the container are required.',
+    type: 'boolean',
+    status: 'optional',
+  },
   bubbleValidation: {
     doc: 'Prevent the form from being submitted when there are fields with errors inside the PushContainer.',
     type: 'boolean',

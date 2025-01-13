@@ -188,6 +188,50 @@ describe('PushContainer', () => {
     )
   })
 
+  it('should support "required" prop', async () => {
+    render(
+      <Form.Handler>
+        <Iterate.PushContainer path="/entries" required>
+          <Field.Name.Last itemPath="/name" />
+        </Iterate.PushContainer>
+      </Form.Handler>
+    )
+
+    const input = document.querySelector('input')
+    const button = document.querySelector('button')
+
+    expect(input).toHaveValue('')
+
+    await userEvent.click(button)
+
+    expect(input).toHaveValue('')
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+      nb.LastName.errorRequired
+    )
+  })
+
+  it('should inherit "required" from DataContext', async () => {
+    render(
+      <Form.Handler required>
+        <Iterate.PushContainer path="/entries">
+          <Field.Name.Last itemPath="/name" />
+        </Iterate.PushContainer>
+      </Form.Handler>
+    )
+
+    const input = document.querySelector('input')
+    const button = document.querySelector('button')
+
+    expect(input).toHaveValue('')
+
+    await userEvent.click(button)
+
+    expect(input).toHaveValue('')
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+      nb.LastName.errorRequired
+    )
+  })
+
   it('should render the "title"', () => {
     render(
       <Iterate.PushContainer path="/entries" title="New entry">
