@@ -918,7 +918,7 @@ describe('InputMasked component as_percent', () => {
 })
 
 describe('InputMasked component without any properties', () => {
-  it('should accept inputs', async () => {
+  it('defaults to number mask', () => {
     const newValue = '1'
 
     render(<InputMasked />)
