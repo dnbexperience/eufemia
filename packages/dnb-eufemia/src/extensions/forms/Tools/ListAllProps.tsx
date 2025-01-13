@@ -19,7 +19,7 @@ export default function ListAllProps<Data extends JsonObject = JsonObject>(
   props: ListAllPropsProps<Data>
 ) {
   const { log, generateRef, filterData, children } = props || {}
-  const { fieldPropsRef, valuePropsRef, data, hasContext } =
+  const { fieldInternalsRef, valueInternalsRef, data, hasContext } =
     useContext(DataContext)
 
   const dataRef = useRef<JsonObject>({})
@@ -27,8 +27,8 @@ export default function ListAllProps<Data extends JsonObject = JsonObject>(
 
   const generate = useCallback(() => {
     const propsOfFields = Object.entries(
-      fieldPropsRef?.current || {}
-    ).reduce((acc, [path, props]) => {
+      fieldInternalsRef?.current || {}
+    ).reduce((acc, [path, { props }]) => {
       if (path.startsWith('/')) {
         const propertyValue = {}
 
@@ -51,8 +51,8 @@ export default function ListAllProps<Data extends JsonObject = JsonObject>(
     }, {})
 
     const propsOfValues = Object.entries(
-      valuePropsRef?.current || {}
-    ).reduce((acc, [path, props]) => {
+      valueInternalsRef?.current || {}
+    ).reduce((acc, [path, { props }]) => {
       if (path.startsWith('/')) {
         const propertyValue = {}
 
@@ -75,7 +75,7 @@ export default function ListAllProps<Data extends JsonObject = JsonObject>(
     }, {})
 
     return { propsOfFields, propsOfValues } as ListAllPropsReturn<Data>
-  }, [fieldPropsRef, filterData, valuePropsRef])
+  }, [fieldInternalsRef, filterData, valueInternalsRef])
 
   if (hasContext) {
     if (log) {

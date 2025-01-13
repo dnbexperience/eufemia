@@ -179,7 +179,7 @@ function FieldBlock(props: Props) {
   const { index: iterateIndex } = iterateItemContext ?? {}
 
   const blockId = useId(props.id)
-  const [wasUpdated, forceUpdate] = useReducer(() => ({}), {})
+  const [salt, forceUpdate] = useReducer(() => ({}), {})
   const mountedFieldsRef = useRef<MountedFieldsRef>({})
   const fieldStateRef = useRef<SubmitState>(null)
   const stateRecordRef = useRef<StateRecord>({})
@@ -440,17 +440,18 @@ function FieldBlock(props: Props) {
       }
 
       return acc
-    }, {}) as StatusContent
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, salt) as StatusContent
   }, [
-    info,
-    warning,
     errorProp,
-    nestedFieldBlockContext,
+    warning,
+    info,
+    salt,
     setInternalRecord,
     blockId,
-    wasUpdated, // wasUpdated is needed to get the current errors
+    hasInitiallyErrorProp,
+    props.id,
+    forId,
+    label,
   ])
 
   // Handle the error prop from outside
@@ -498,6 +499,7 @@ function FieldBlock(props: Props) {
   })
 
   const labelProps: FormLabelAllProps = {
+    id: `${id}-label`,
     className: 'dnb-forms-field-block__label',
     element: enableFieldset ? 'legend' : 'label',
     forId: enableFieldset ? undefined : forId,

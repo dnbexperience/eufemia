@@ -12,18 +12,18 @@ export type Props = ValueProps<string> & {
 }
 
 function Selection(props: Props) {
-  const { fieldPropsRef } = useContext(Context) || {}
+  const { fieldInternalsRef } = useContext(Context) || {}
   const { path, dataPath, value, ...rest } = useValueProps(props)
   const { getValueByPath } = useDataValue()
 
   const valueToDisplay = useMemo<string | undefined>(() => {
-    const fieldProp = fieldPropsRef?.current?.[path]
+    const fieldProp = fieldInternalsRef?.current?.[path]?.props
 
     if (path || dataPath) {
       let list = getValueByPath(dataPath)?.map?.((props) => ({ props }))
 
       if (!list) {
-        list = fieldProp?.['children'] as Array<
+        list = fieldProp?.children as Array<
           Omit<JSX.Element, 'props'> & { props: Data[number] }
         >
       }
@@ -35,7 +35,7 @@ function Selection(props: Props) {
     }
 
     return value
-  }, [dataPath, fieldPropsRef, getValueByPath, path, value])
+  }, [dataPath, fieldInternalsRef, getValueByPath, path, value])
 
   return <StringValue value={valueToDisplay} path={path} {...rest} />
 }

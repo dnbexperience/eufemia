@@ -12,7 +12,7 @@ import ListFormat, {
 export type Props = ValueProps<Array<number | string>> & ListFormatProps
 
 function ArraySelection(props: Props) {
-  const { fieldPropsRef } = useContext(Context) || {}
+  const { fieldInternalsRef } = useContext(Context) || {}
   const {
     path,
     value,
@@ -27,9 +27,9 @@ function ArraySelection(props: Props) {
     let valueToUse = value
 
     if (path) {
-      const data = fieldPropsRef?.current?.[
+      const data = fieldInternalsRef?.current?.[
         path + '/arraySelectionData'
-      ] as Array<{
+      ]?.props as unknown as Array<{
         value: string
         title: string | React.ReactNode
       }>
@@ -50,7 +50,7 @@ function ArraySelection(props: Props) {
         listType={listType}
       />
     )
-  }, [fieldPropsRef, path, value, variant, listType])
+  }, [fieldInternalsRef, path, value, variant, listType])
 
   return (
     <ValueBlock
