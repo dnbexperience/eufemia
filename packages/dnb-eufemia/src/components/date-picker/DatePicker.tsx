@@ -724,7 +724,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
   )
 
   // Make sure the triangle is positioned correctly after calendar is mounted
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!hidden) {
       setTrianglePosition()
     }
