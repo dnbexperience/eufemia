@@ -101,7 +101,7 @@ var CodeEditor = (props) => {
     code: origCode,
     className,
     style,
-    tabMode,
+    tabMode="indentation",
     theme: origTheme,
     prism,
     language,
@@ -173,9 +173,6 @@ var CodeEditor = (props) => {
       )
     }
   ) });
-};
-CodeEditor.defaultProps = {
-  tabMode: "indentation"
 };
 var Editor_default = CodeEditor;
 
