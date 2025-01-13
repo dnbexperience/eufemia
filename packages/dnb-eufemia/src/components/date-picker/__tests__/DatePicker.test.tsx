@@ -2693,6 +2693,22 @@ describe('DatePickerPortal', () => {
       portal.querySelector('.dnb-date-picker__calendar')
     ).toBeInTheDocument()
   })
+
+  it('should skip portal when "skipPortal" is true', async () => {
+    render(<DatePicker skipPortal />)
+
+    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+
+    // dnb-date-picker__container is a direct descendant of dnb-date-picker__shell when portal is skipped
+    expect(
+      document.querySelector(
+        '.dnb-date-picker__shell > .dnb-date-picker__container'
+      )
+    ).toBeInTheDocument()
+    expect(
+      document.body.querySelector('.dnb-date-picker__portal')
+    ).not.toBeInTheDocument()
+  })
 })
 
 describe('DatePicker ARIA', () => {
