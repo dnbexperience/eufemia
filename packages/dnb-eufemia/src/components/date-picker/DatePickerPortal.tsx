@@ -2,11 +2,11 @@ import React, {
   useCallback,
   useEffect,
   useLayoutEffect,
-  useRef,
   useState,
 } from 'react'
 import ReactDOM from 'react-dom'
 import { DatePickerProps } from './DatePicker'
+import { debounce } from '../../shared/helpers'
 
 type DatePickerPortalProps = React.HTMLProps<HTMLDivElement> & {
   skipPortal?: DatePickerProps['skipPortal']
@@ -23,8 +23,6 @@ export default function DatePickerPortal({
 }: DatePickerPortalProps) {
   const [position, setPosition] = useState({})
 
-  const positionTimeout = useRef<NodeJS.Timeout>()
-
   useLayoutEffect(() => {
     if (targetElementRef.current) {
       setPosition(getPosition(targetElementRef.current, alignment))
@@ -32,16 +30,13 @@ export default function DatePickerPortal({
   }, [])
 
   const setPositionDebounce = useCallback(() => {
-    if (targetElementRef.current) {
-      setPosition(getPosition(targetElementRef.current, alignment))
-    }
-
-    clearTimeout(positionTimeout.current)
-    positionTimeout.current = setTimeout(() => {
+    const debounced = debounce(() => {
       if (targetElementRef.current) {
         setPosition(getPosition(targetElementRef.current, alignment))
       }
     }, 200)
+
+    debounced()
   }, [alignment, targetElementRef])
 
   useEffect(() => {
