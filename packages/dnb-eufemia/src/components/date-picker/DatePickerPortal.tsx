@@ -50,7 +50,7 @@ export default function DatePickerPortal({
         window.removeEventListener('scroll', setPositionDebounce)
       }
     }
-  }, [])
+  }, [setPositionDebounce, skipPortal])
 
   return (
     position &&
