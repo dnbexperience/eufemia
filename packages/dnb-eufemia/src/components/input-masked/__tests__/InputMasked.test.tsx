@@ -549,7 +549,7 @@ describe('InputMasked component', () => {
 
   it('should show placeholder with both value null and undefined', () => {
     const { rerender } = render(
-      <InputMasked value={undefined} placeholder="AA" />
+      <InputMasked placeholder="AA" value={undefined} />
     )
 
     expect(
