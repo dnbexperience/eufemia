@@ -19,7 +19,7 @@ export default function DatePickerPortal({
 
   const positionTimeout = useRef<NodeJS.Timeout>()
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (targetElementRef.current) {
       setPosition(getPosition(targetElementRef.current, alignment))
     }
