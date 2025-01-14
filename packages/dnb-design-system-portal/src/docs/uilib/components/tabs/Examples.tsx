@@ -184,7 +184,7 @@ export const TabsExampleHorizontallyAligned = () => (
         flex-shrink: 0;
       `
       const RightArea = styled.div`
-        /* Ensure the tabbar is hidden outside this area */
+        /* Ensure the tab bar is hidden outside this area */
         overflow: hidden;
 
         /* Ensure the focus ring is visible! (because of overflow: hidden) */

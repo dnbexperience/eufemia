@@ -7,7 +7,7 @@ import React from 'react'
 import { Button, Tabs } from '@dnb/eufemia/src/components'
 import { fullscreen as fullscreenIcon } from '@dnb/eufemia/src/icons'
 import AutoLinkHeader from './AutoLinkHeader'
-import { tabsWrapperStyle } from './Tabbar.module.scss'
+import { tabsWrapperStyle } from './TabBar.module.scss'
 import { Link } from './Anchor'
 
 export const defaultTabsValue = [
@@ -28,7 +28,7 @@ type TabbarProps = {
   children?: React.ReactNode
 }
 
-export default function Tabbar({
+export default function TabBar({
   location,
   title,
   hideTabs,
@@ -102,14 +102,14 @@ export default function Tabbar({
   ].join('')
 
   return (
-    <div className="dnb-tabbar dnb-tabs">
+    <div className="dnb-tab-bar dnb-tabs">
       {title && (
         <AutoLinkHeader className="dnb-no-focus" level={1} skip_correction>
           {title}
         </AutoLinkHeader>
       )}
       <Tabs
-        id="tabbar"
+        id="tab-bar"
         tab_element={Link}
         data={preparedTabs}
         selected_key={selectedKey}
@@ -150,6 +150,6 @@ export default function Tabbar({
   )
 }
 
-Tabbar.ContentWrapper = (props) => (
-  <Tabs.ContentWrapper id="tabbar" content_spacing={false} {...props} />
+TabBar.ContentWrapper = (props) => (
+  <Tabs.ContentWrapper id="tab-bar" content_spacing={false} {...props} />
 )
