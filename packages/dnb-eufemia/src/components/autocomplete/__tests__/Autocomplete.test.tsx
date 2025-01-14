@@ -2132,7 +2132,7 @@ describe('Autocomplete component', () => {
     expect(on_change.mock.calls[0][0].data).toBe('BB cc zethx')
   })
 
-  it('will not open drawer-list when open_on_focus is set to true and data is empty', () => {
+  it('will not open drawer-list when open_on_focus is set to true and data is not valid', () => {
     const on_focus = jest.fn()
     const on_change = jest.fn()
 
@@ -2141,7 +2141,6 @@ describe('Autocomplete component', () => {
         open_on_focus={true}
         on_focus={on_focus}
         on_change={on_change}
-        data={mockData}
         {...mockProps}
       />
     )
