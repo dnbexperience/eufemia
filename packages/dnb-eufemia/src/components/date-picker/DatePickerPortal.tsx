@@ -15,7 +15,6 @@ type DatePickerPortalProps = React.HTMLProps<HTMLDivElement> & {
 }
 
 export default function DatePickerPortal({
-  className,
   skipPortal,
   alignment,
   targetElementRef,
@@ -57,10 +56,7 @@ export default function DatePickerPortal({
     position &&
     (!skipPortal
       ? ReactDOM.createPortal(
-          <div
-            className={`${'dnb-date-picker__portal'} ${className}`}
-            style={position}
-          >
+          <div className="dnb-date-picker__portal" style={position}>
             {children}
           </div>,
           document.body
