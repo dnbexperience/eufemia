@@ -31,6 +31,7 @@ import {
   escapeRegexChars,
   removeUndefinedProps,
 } from '../component-helper'
+import userEvent from '@testing-library/user-event'
 
 beforeAll(() => {
   window.PointerEvent = new CustomEvent('ontouchstart')
@@ -146,6 +147,39 @@ describe('"detectOutsideClick" should', () => {
       mockedEvent: jest.fn(),
       calledTimes: 3,
     })
+  })
+
+  it('should support react refs as ignore element', async () => {
+    // Set PointerEvent to undefined to prevent the await keyword from failing this test
+    // Is there perhaps a better way to handle this?
+    window.PointerEvent = undefined
+
+    const ignoreElementRef = React.createRef()
+    const wrapperElementRef = React.createRef()
+    const onSuccess = jest.fn()
+
+    const Component = () => {
+      detectOutsideClick(ignoreElementRef, onSuccess)
+      return (
+        <div ref={wrapperElementRef}>
+          <div ref={ignoreElementRef} />
+        </div>
+      )
+    }
+
+    render(<Component />)
+
+    await userEvent.click(ignoreElementRef.current)
+    expect(onSuccess).toHaveBeenCalledTimes(0)
+
+    await userEvent.click(wrapperElementRef.current)
+    expect(onSuccess).toHaveBeenCalledTimes(1)
+
+    await userEvent.click(ignoreElementRef.current)
+    expect(onSuccess).toHaveBeenCalledTimes(1)
+
+    await userEvent.click(wrapperElementRef.current)
+    expect(onSuccess).toHaveBeenCalledTimes(2)
   })
 })
 
