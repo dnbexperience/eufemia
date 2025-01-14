@@ -5,7 +5,7 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Anchor, Blockquote } from '@dnb/eufemia/src'
+import { Anchor, Blockquote, Code } from '@dnb/eufemia/src'
 
 export const BlockquoteDefaultExample = () => (
   <ComponentBox hideCode>
@@ -52,6 +52,15 @@ export const BlockquoteTransparentOnTopExample = () => (
       Dis leo aliquam neque aptent nascetur metus ad ut eu Choro{' '}
       <Anchor href="/uilib/elements#blockquote">vivendum tractatos</Anchor>{' '}
       ei quo.
+    </Blockquote>
+  </ComponentBox>
+)
+
+export const BlockquoteWithCodeExample = () => (
+  <ComponentBox hideCode>
+    <Blockquote data-visual-test="blockquote-with-code">
+      <Code>display</Code> and <Code>background-color</Code> are CSS
+      properties
     </Blockquote>
   </ComponentBox>
 )
