@@ -91,6 +91,9 @@ exports[`Elements scss has to match style dependencies css 1`] = `
 .dnb-blockquote .dnb-anchor {
   font-size: inherit;
 }
+.dnb-blockquote .dnb-code {
+  color: var(--color-black-80);
+}
 
 .dnb-spacing .dnb-blockquote:not([class*=dnb-space__top]) {
   margin-top: 0;
