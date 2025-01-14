@@ -82,7 +82,7 @@ export interface TabsProps
   /**
    * Only used internally for TabBar navigation when clicking next or previous buttons.
    */
-  on_open_tab_navigation_fn?: (...args: any[]) => any;
+  onOpenTabNavigationFn?: (...args: any[]) => any;
   /**
    * If set to `true`, the Tabs content will pre-render all contents. The visibility will be handled by using the `hidden` and `aria-hidden` HTML attributes. Defaults to `false`.
    */

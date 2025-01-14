@@ -90,7 +90,7 @@ export default class Tabs extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
     ]),
-    on_open_tab_navigation_fn: PropTypes.func,
+    onOpenTabNavigationFn: PropTypes.func,
     prerender: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     prevent_rerender: PropTypes.oneOfType([
       PropTypes.string,
@@ -129,7 +129,7 @@ export default class Tabs extends React.PureComponent {
     tabs_spacing: null,
     no_border: false,
     nav_button_edge: false,
-    on_open_tab_navigation_fn: null,
+    onOpenTabNavigationFn: null,
     prerender: false,
     prevent_rerender: false,
     scroll: null,
@@ -820,11 +820,11 @@ export default class Tabs extends React.PureComponent {
     )
 
     if (
-      this.props.on_open_tab_navigation_fn &&
+      this.props.onOpenTabNavigationFn &&
       typeof window !== 'undefined'
     ) {
       try {
-        this.props.on_open_tab_navigation_fn(selected_key)
+        this.props.onOpenTabNavigationFn(selected_key)
       } catch (e) {
         warn('Tabs Error:', e)
       }
