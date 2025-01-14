@@ -4224,6 +4224,15 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
 .dnb-date-picker__fieldset:not([class*=space__left]), .dnb-core-style .dnb-date-picker__fieldset:not([class*=space__left]) {
   margin-left: 0;
 }
+.dnb-date-picker__portal {
+  --date-picker-input-height: 2rem;
+  --date-picker-day-width: 2rem;
+  --date-picker-day-horizontal-spacing: 4px;
+  position: absolute;
+  left: 0;
+  z-index: var(--modal-z-index10);
+  line-height: var(--date-picker-input-height);
+}
 
 @keyframes date-picker-slide-down {
   from {

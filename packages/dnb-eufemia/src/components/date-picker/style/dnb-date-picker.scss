@@ -505,6 +505,20 @@
   .dnb-core-style &__fieldset {
     @include fieldsetReset();
   }
+
+  &__portal {
+    // make variables available inside the portal
+    --date-picker-input-height: 2rem;
+    --date-picker-day-width: 2rem;
+    --date-picker-day-horizontal-spacing: 4px;
+
+    position: absolute;
+    left: 0;
+    // Over modal, but below tooltip
+    z-index: var(--modal-z-index + 10);
+
+    line-height: var(--date-picker-input-height);
+  }
 }
 
 @keyframes date-picker-slide-down {
