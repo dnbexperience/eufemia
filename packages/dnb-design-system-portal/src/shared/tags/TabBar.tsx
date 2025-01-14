@@ -111,7 +111,7 @@ export default function TabBar({
       )}
       <Tabs
         id="tab-bar"
-        on_open_tab_navigation_fn={navigate}
+        onOpenTabNavigationFn={navigate}
         tab_element={Link}
         data={preparedTabs}
         selected_key={selectedKey}
