@@ -13,10 +13,12 @@ import Autocomplete from '../../autocomplete/Autocomplete'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { Provider } from '../../../shared'
 import { P } from '../../../elements'
+import { Icon } from '../../../components'
 import {
   initializeTestSetup,
   simulateAnimationEnd,
 } from '../../height-animation/__tests__/HeightAnimationUtils'
+import { confetti_medium as ConfettiIcon } from '../../../icons'
 
 const text = 'text'
 const items = [
@@ -917,6 +919,33 @@ describe('GlobalStatus component', () => {
 
     rerender(<GlobalStatus state="warning" />)
     expect(element.classList).toContain('dnb-global-status--warning')
+  })
+
+  it('should support removing icon', () => {
+    render(
+      <GlobalStatus
+        icon={<Icon icon={null} show={true} no_animation={true} />}
+      />
+    )
+
+    expect(document.querySelector('.dnb-icon')).not.toBeInTheDocument()
+  })
+
+  it('should support setting icon as Icon', () => {
+    render(
+      <GlobalStatus
+        icon={
+          <Icon icon={ConfettiIcon} data-testid="custom-icon-testid" />
+        }
+        show={true}
+        no_animation={true}
+      />
+    )
+
+    expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
+    expect(
+      document.querySelector('span.dnb-icon').getAttribute('data-testid')
+    ).toBe('custom-icon-testid')
   })
 
   it('should validate with ARIA rules', async () => {
