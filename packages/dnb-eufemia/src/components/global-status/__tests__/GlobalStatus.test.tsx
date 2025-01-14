@@ -922,7 +922,9 @@ describe('GlobalStatus component', () => {
   })
 
   it('should support removing icon', () => {
-    render(<GlobalStatus icon={null} show={true} no_animation={true} />)
+    render(
+      <GlobalStatus icon={null} show no_animation hide_close_button />
+    )
 
     expect(document.querySelector('.dnb-icon')).not.toBeInTheDocument()
   })
@@ -933,8 +935,9 @@ describe('GlobalStatus component', () => {
         icon={
           <Icon icon={ConfettiIcon} data-testid="custom-icon-testid" />
         }
-        show={true}
-        no_animation={true}
+        show
+        no_animation
+        hide_close_button
       />
     )
 
