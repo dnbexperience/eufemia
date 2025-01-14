@@ -61,6 +61,61 @@ describe('Iterate.Array', () => {
       ])
     })
 
+    it('should support a function callback as the children prop', async () => {
+      const onChange = jest.fn()
+      const callback = jest.fn(() => {
+        return <Field.String itemPath="/" />
+      })
+
+      const data = ['one', 'two', 'three']
+
+      render(
+        <Iterate.Array value={data} onChange={onChange}>
+          {callback}
+        </Iterate.Array>
+      )
+
+      const fields = document.querySelectorAll('input')
+      expect(fields).toHaveLength(3)
+      const [fieldOne, fieldTwo, fieldThree] = Array.from(fields)
+
+      expect(fieldOne).toHaveDisplayValue('one')
+      expect(fieldTwo).toHaveDisplayValue('two')
+      expect(fieldThree).toHaveDisplayValue('three')
+
+      expect(callback).toHaveBeenCalledTimes(3)
+      expect(callback).toHaveBeenNthCalledWith(
+        1,
+        'one',
+        0,
+        expect.arrayContaining([
+          expect.objectContaining({
+            arrayValue: data,
+          }),
+        ])
+      )
+      expect(callback).toHaveBeenNthCalledWith(
+        2,
+        'two',
+        1,
+        expect.arrayContaining([
+          expect.objectContaining({
+            arrayValue: data,
+          }),
+        ])
+      )
+      expect(callback).toHaveBeenNthCalledWith(
+        3,
+        'three',
+        2,
+        expect.arrayContaining([
+          expect.objectContaining({
+            arrayValue: data,
+          }),
+        ])
+      )
+    })
+
     describe('placeholder', () => {
       it('should show placeholder when value is undefined', () => {
         const renderProp = jest.fn()
@@ -667,9 +722,24 @@ describe('Iterate.Array', () => {
         )
 
         expect(renderProp).toHaveBeenCalledTimes(3)
-        expect(renderProp).toHaveBeenNthCalledWith(1, 'first', 0)
-        expect(renderProp).toHaveBeenNthCalledWith(2, 'second', 1)
-        expect(renderProp).toHaveBeenNthCalledWith(3, 'third', 2)
+        expect(renderProp).toHaveBeenNthCalledWith(
+          1,
+          'first',
+          0,
+          expect.any(Array)
+        )
+        expect(renderProp).toHaveBeenNthCalledWith(
+          2,
+          'second',
+          1,
+          expect.any(Array)
+        )
+        expect(renderProp).toHaveBeenNthCalledWith(
+          3,
+          'third',
+          2,
+          expect.any(Array)
+        )
       })
     })
 
@@ -693,23 +763,55 @@ describe('Iterate.Array', () => {
         )
 
         expect(renderProp1).toHaveBeenCalledTimes(4)
-        expect(renderProp1).toHaveBeenNthCalledWith(1, { mem: 'A' }, 0)
-        expect(renderProp1).toHaveBeenNthCalledWith(2, { mem: 'B' }, 1)
-        expect(renderProp1).toHaveBeenNthCalledWith(3, { mem: 'C' }, 2)
+        expect(renderProp1).toHaveBeenNthCalledWith(
+          1,
+          { mem: 'A' },
+          0,
+          expect.any(Array)
+        )
+        expect(renderProp1).toHaveBeenNthCalledWith(
+          2,
+          { mem: 'B' },
+          1,
+          expect.any(Array)
+        )
+        expect(renderProp1).toHaveBeenNthCalledWith(
+          3,
+          { mem: 'C' },
+          2,
+          expect.any(Array)
+        )
         expect(renderProp1).toHaveBeenNthCalledWith(
           4,
           { mem: 'D', second: '2nd' },
-          3
+          3,
+          expect.any(Array)
         )
 
         expect(renderProp2).toHaveBeenCalledTimes(4)
-        expect(renderProp2).toHaveBeenNthCalledWith(1, { mem: 'A' }, 0)
-        expect(renderProp2).toHaveBeenNthCalledWith(2, { mem: 'B' }, 1)
-        expect(renderProp2).toHaveBeenNthCalledWith(3, { mem: 'C' }, 2)
+        expect(renderProp2).toHaveBeenNthCalledWith(
+          1,
+          { mem: 'A' },
+          0,
+          expect.any(Array)
+        )
+        expect(renderProp2).toHaveBeenNthCalledWith(
+          2,
+          { mem: 'B' },
+          1,
+          expect.any(Array)
+        )
+        expect(renderProp2).toHaveBeenNthCalledWith(
+          3,
+          { mem: 'C' },
+          2,
+          expect.any(Array)
+        )
         expect(renderProp2).toHaveBeenNthCalledWith(
           4,
           { mem: 'D', second: '2nd' },
-          3
+          3,
+          expect.any(Array)
         )
       })
     })
