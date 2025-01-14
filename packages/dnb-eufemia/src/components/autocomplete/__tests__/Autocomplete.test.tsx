@@ -2147,7 +2147,7 @@ describe('Autocomplete component', () => {
     )
 
     fireEvent.focus(document.querySelector('input'))
-    expect(on_focus).toHaveBeenCalledTimes(0)
+    expect(on_focus).toHaveBeenCalledTimes(1)
 
     expect(
       document.querySelector('.dnb-autocomplete').classList
