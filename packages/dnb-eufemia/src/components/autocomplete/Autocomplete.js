@@ -1083,7 +1083,6 @@ class AutocompleteInstance extends React.PureComponent {
     }
 
     if (isTrue(open_on_focus)) {
-      console.log('der')
       this.setHidden()
     }
 
