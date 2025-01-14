@@ -922,11 +922,7 @@ describe('GlobalStatus component', () => {
   })
 
   it('should support removing icon', () => {
-    render(
-      <GlobalStatus
-        icon={<Icon icon={null} show={true} no_animation={true} />}
-      />
-    )
+    render(<GlobalStatus icon={null} show={true} no_animation={true} />)
 
     expect(document.querySelector('.dnb-icon')).not.toBeInTheDocument()
   })
