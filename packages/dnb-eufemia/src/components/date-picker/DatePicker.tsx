@@ -915,11 +915,13 @@ function DatePicker(externalProps: DatePickerAllProps) {
     lang: context.locale,
   } as HTMLProps<HTMLSpanElement>
 
-  const portalClassNames = classnames(
-    opened && 'dnb-date-picker__portal--opened',
-    hidden && 'dnb-date-picker__portal--hidden',
-    showInput && 'dnb-date-picker__portal--show-input',
-    alignPicker && `dnb-date-picker__portal--${alignPicker}`,
+  const containerClassNames = classnames(
+    'dnb-date-picker__container',
+    opened && 'dnb-date-picker__container--opened',
+    !opened && 'dnb-date-picker__container--closed',
+    hidden && 'dnb-date-picker__container--hidden',
+    showInput && 'dnb-date-picker__container--show-input',
+    alignPicker && `dnb-date-picker__container--${alignPicker}`,
     size && `dnb-date-picker--${size}`
   )
 
@@ -999,13 +1001,12 @@ function DatePicker(externalProps: DatePickerAllProps) {
 
               {!hidden && (
                 <DatePickerPortal
-                  className={portalClassNames}
                   alignment={alignPicker}
                   skipPortal={skipPortal}
                   targetElementRef={innerRef}
                 >
                   <span
-                    className="dnb-date-picker__container"
+                    className={containerClassNames}
                     ref={calendarContainerRef}
                   >
                     <span
