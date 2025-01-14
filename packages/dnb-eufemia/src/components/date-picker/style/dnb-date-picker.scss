@@ -30,6 +30,58 @@
   display: none;
 }
 
+@mixin sharedDatePickerContainerStyles() {
+  &--small .dnb-date-picker__container {
+    top: 1.5rem; // --input-height--small;
+  }
+  &--medium .dnb-date-picker__container {
+    top: 2.5rem; // --input-height--medium;
+  }
+  &--large .dnb-date-picker__container {
+    top: 3rem; // --input-height--large;
+  }
+
+  &--show-input .dnb-date-picker__container {
+    left: 0;
+  }
+
+  // alignment
+  &--right .dnb-date-picker__container {
+    left: auto;
+    right: -1rem;
+  }
+  &--show-input#{&}--right .dnb-date-picker__container {
+    left: auto;
+    right: 0;
+  }
+
+  &--opened .dnb-date-picker__container {
+    @include openDatePicker();
+  }
+  &--hidden .dnb-date-picker__container {
+    @include datePickerClosed();
+  }
+  &:not(#{&}--opened) .dnb-date-picker__container {
+    @include closeDatePicker();
+  }
+
+  &--right .dnb-date-picker__triangle {
+    left: auto;
+    right: 0;
+  }
+
+  table {
+    position: relative;
+    z-index: 1; // to make sure we show the focus ring over the header line on top
+
+    margin: 0;
+
+    &.dnb-no-focus:focus {
+      @include focusRing();
+    }
+  }
+}
+
 .dnb-date-picker {
   --date-picker-input-height: 2rem;
   --date-picker-day-width: 2rem;
@@ -74,39 +126,7 @@
     top: var(--date-picker-input-height);
   }
 
-  &--small &__container {
-    top: 1.5rem; // --input-height--small;
-  }
-  &--medium &__container {
-    top: 2.5rem; // --input-height--medium;
-  }
-  &--large &__container {
-    top: 3rem; // --input-height--large;
-  }
-
-  &--show-input &__container {
-    left: 0;
-  }
-
-  // alignment
-  &--right &__container {
-    left: auto;
-    right: -1rem;
-  }
-  &--show-input#{&}--right &__container {
-    left: auto;
-    right: 0;
-  }
-
-  &--opened &__container {
-    @include openDatePicker();
-  }
-  &--hidden &__container {
-    @include datePickerClosed();
-  }
-  &:not(#{&}--opened) &__container {
-    @include closeDatePicker();
-  }
+  @include sharedDatePickerContainerStyles();
 
   // stylelint-disable-next-line
   &__input,
@@ -310,17 +330,6 @@
     list-style: none;
   }
 
-  table {
-    position: relative;
-    z-index: 1; // to make sure we show the focus ring over the header line on top
-
-    margin: 0;
-
-    &.dnb-no-focus:focus {
-      @include focusRing();
-    }
-  }
-
   &__day,
   &__labels__day {
     display: flex;
@@ -415,11 +424,6 @@
       border: 1px solid var(--color-black-border);
       background-color: var(--color-white);
     }
-  }
-
-  &--right &__triangle {
-    left: auto;
-    right: 0;
   }
 
   .rtl {
@@ -537,53 +541,5 @@
 
   line-height: var(--date-picker-input-height);
 
-  &--small .dnb-date-picker__container {
-    top: 1.5rem; // --input-height--small;
-  }
-  &--medium .dnb-date-picker__container {
-    top: 2.5rem; // --input-height--medium;
-  }
-  &--large .dnb-date-picker__container {
-    top: 3rem; // --input-height--large;
-  }
-
-  &--show-input .dnb-date-picker__container {
-    left: 0;
-  }
-
-  // alignment
-  &--right .dnb-date-picker__container {
-    left: auto;
-    right: -1rem;
-  }
-  &--show-input#{&}--right .dnb-date-picker__container {
-    left: auto;
-    right: 0;
-  }
-
-  &--opened .dnb-date-picker__container {
-    @include openDatePicker();
-  }
-  &--hidden .dnb-date-picker__container {
-    @include datePickerClosed();
-  }
-  &:not(#{&}--opened) .dnb-date-picker__container {
-    @include closeDatePicker();
-  }
-
-  &--right .dnb-date-picker__triangle {
-    left: auto;
-    right: 0;
-  }
-
-  table {
-    position: relative;
-    z-index: 1; // to make sure we show the focus ring over the header line on top
-
-    margin: 0;
-
-    &.dnb-no-focus:focus {
-      @include focusRing();
-    }
-  }
+  @include sharedDatePickerContainerStyles();
 }
