@@ -55,15 +55,15 @@ export function PostalCodeAndCityCountryCodeSelection() {
 const { withConfig, handlerId } = Connectors.createContext({
   fetchConfig: {
     headers: {
-      'X-Mybring-API-Uid': '',
-      'X-Mybring-API-Key': '',
+      'X-Mybring-API-Uid': 'email',
+      'X-Mybring-API-Key': 'token',
     },
   },
 })
 
-// 2. Use the context to create the onBlurValidator and onChange functions
-const onBlurValidator = withConfig(
-  Connectors.Bring.postalCode.onBlurValidator
+// 2. Use the context to create the onChangeValidator and onChange functions
+const onChangeValidator = withConfig(
+  Connectors.Bring.postalCode.onChangeValidator
 )
 
 // Should we name "onChange" to "autocompleteOnChange" or something like that?
@@ -86,16 +86,18 @@ export function PostalCodeAPI_Draft() {
           postalCode={{
             path: '/postalCode',
             onChange,
-            onBlurValidator,
+            onChangeValidator,
             // validateInitially: true,
           }}
           city={{
             path: '/city',
-            // onChange: async (value) => {
-            //   await new Promise((resolve) => setTimeout(resolve, 2000))
-            //   console.log('onChange', value)
-            //   return { success: 'saved' }
-            // },
+            // readOnly: true,
+            onChange: async (value) => {
+              console.log('value', value)
+              // await new Promise((resolve) => setTimeout(resolve, 2000))
+              // console.log('onChange', value)
+              // return { success: 'saved' }
+            },
           }}
         />
       </Form.Card>

@@ -7,7 +7,7 @@ export type HandlerConfig = {
 }
 
 async function fetchData(value: string, generalConfig: GeneralConfig) {
-  // Mock API response
+  // - Mock API response
   // await new Promise((resolve) => setTimeout(resolve, 800))
   // const mockData = {
   //   city: 'Vollen',
@@ -35,7 +35,6 @@ export function onChange(
     if (typeof value === 'string' && value.length >= 4) {
       try {
         const data = await fetchData(value, generalConfig)
-        // console.log('onChange', generalConfig, handlerConfig, value, data)
 
         const { city } = data.postal_codes[0] || {}
         if (handlerConfig?.cityPath) {
@@ -49,13 +48,12 @@ export function onChange(
   }
 }
 
-export function onBlurValidator(
+export function onChangeValidator(
   generalConfig: GeneralConfig
-): UseFieldProps<string>['onBlurValidator'] {
-  return async function onBlurValidator(value) {
+): UseFieldProps<string>['onChangeValidator'] {
+  return async function onChangeValidator(value) {
     try {
       const data = await fetchData(value, generalConfig)
-      // console.log('onBlurValidator', generalConfig, value, data)
 
       if (data.postal_codes?.[0]?.postal_code !== value) {
         return new Error('💁‍♂️ Feil i postnummeret')
