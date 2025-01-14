@@ -532,7 +532,8 @@
 
   position: absolute;
   left: 0;
-  z-index: 1000;
+  // Over modal, but below tooltip
+  z-index: var(--modal-z-index + 10);
 
   line-height: var(--date-picker-input-height);
 
