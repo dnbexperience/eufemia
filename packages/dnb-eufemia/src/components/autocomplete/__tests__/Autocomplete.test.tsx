@@ -2132,6 +2132,28 @@ describe('Autocomplete component', () => {
     expect(on_change.mock.calls[0][0].data).toBe('BB cc zethx')
   })
 
+  it('will not open drawer-list when open_on_focus is set to true and data is empty', () => {
+    const on_focus = jest.fn()
+    const on_change = jest.fn()
+
+    render(
+      <Autocomplete
+        open_on_focus={true}
+        on_focus={on_focus}
+        on_change={on_change}
+        data={mockData}
+        {...mockProps}
+      />
+    )
+
+    fireEvent.focus(document.querySelector('input'))
+    expect(on_focus).toHaveBeenCalledTimes(0)
+
+    expect(
+      document.querySelector('.dnb-autocomplete').classList
+    ).not.toContain('dnb-autocomplete--opened')
+  })
+
   it('will prevent close if false gets returned from on_hide event', () => {
     let preventClose = false
     const on_hide = jest.fn(() => !preventClose)
