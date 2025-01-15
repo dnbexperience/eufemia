@@ -1,7 +1,7 @@
-import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Slider, Grid, Flex } from '@dnb/eufemia/src'
-import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 import React from 'react'
+import ComponentBox from '../../../../../../shared/tags/ComponentBox'
+import { Slider, Grid, Flex, Anchor } from '@dnb/eufemia/src'
+import { Field, Form, FormError } from '@dnb/eufemia/src/extensions/forms'
 
 export const Placeholder = () => {
   return (
@@ -421,3 +421,94 @@ export const WithSlider = () => (
     }}
   </ComponentBox>
 )
+
+export const ConditionalInfo = () => {
+  return (
+    <ComponentBox scope={{ FormError }}>
+      {() => {
+        return (
+          <Form.Handler
+            defaultData={{
+              maximum: 4,
+              amount: 5,
+            }}
+            onSubmit={async (data) => {
+              console.log('onSubmit', data)
+            }}
+          >
+            <Form.Card>
+              <Field.Number
+                label="Maximum for amount"
+                labelDescription={
+                  <>
+                    <br />
+                    Defines the maximum amount possible to be entered.
+                  </>
+                }
+                path="/maximum"
+                required
+                info={(
+                  maximum,
+                  { conditionally, getValueByPath, getFieldByPath },
+                ) => {
+                  return conditionally(() => {
+                    if (maximum < getValueByPath('/amount')) {
+                      const { props, id } = getFieldByPath('/amount')
+                      const anchor = props?.label && (
+                        <Anchor
+                          href={'#' + id + '-label'}
+                          onClick={(event) => {
+                            event.preventDefault()
+                            const el = document.getElementById(
+                              id + '-label',
+                            )
+                            el?.scrollIntoView()
+                          }}
+                        >
+                          {props.label}
+                        </Anchor>
+                      )
+
+                      return (
+                        anchor && (
+                          <>
+                            Remember to adjust the {anchor} to be {maximum}{' '}
+                            or lower.
+                          </>
+                        )
+                      )
+                    }
+                  })
+                }}
+              />
+              <Field.Number
+                label="Amount"
+                labelDescription={
+                  <>
+                    <br />
+                    Should be same or lower than maximum.
+                  </>
+                }
+                path="/amount"
+                required
+                onBlurValidator={(amount: number, { connectWithPath }) => {
+                  const maximum = connectWithPath('/maximum').getValue()
+
+                  if (amount > maximum) {
+                    return new FormError('NumberField.errorMaximum', {
+                      messageValues: {
+                        maximum: String(maximum),
+                      },
+                    })
+                  }
+                }}
+              />
+            </Form.Card>
+
+            <Form.SubmitButton />
+          </Form.Handler>
+        )
+      }}
+    </ComponentBox>
+  )
+}

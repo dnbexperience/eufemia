@@ -27,6 +27,10 @@ export function TypeNumber() {
   return <InputMasked label="Number:" as_currency value="12" />
 }
 
+export function NoProps() {
+  return <InputMasked label="what" />
+}
+
 export function Sandbox() {
   const [locale, setLocale] = React.useState<InternalLocale>('nb-NO')
   return (

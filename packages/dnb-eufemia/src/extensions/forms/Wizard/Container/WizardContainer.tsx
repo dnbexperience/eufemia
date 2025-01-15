@@ -583,7 +583,8 @@ function WizardPortal({ children }) {
 }
 
 function PrerenderFieldPropsProvider({ children }) {
-  const { data, setFieldProps, updateDataValue } = useContext(DataContext)
+  const { data, setFieldInternals, updateDataValue } =
+    useContext(DataContext)
 
   return (
     <DataContext.Provider
@@ -592,7 +593,7 @@ function PrerenderFieldPropsProvider({ children }) {
 
         // Only update the props and the data value
         data,
-        setFieldProps,
+        setFieldInternals,
         updateDataValue,
         prerenderFieldProps: true,
         hasContext: true,

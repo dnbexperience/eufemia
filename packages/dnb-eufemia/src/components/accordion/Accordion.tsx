@@ -435,9 +435,6 @@ function Accordion({
     </Context.Consumer>
   )
 }
-// TEMPORARY SOLUTION (defaultProps will be deprecated at one point). Needs to replacement with default prop parameters for example "({expanded: null})"
-// Only solved this way to prevent tests from failing, for when expanded is undefined instead of null
-Accordion.defaultProps = accordionDefaultProps
 
 export type GroupProps = AccordionProps & {
   allow_close_all?: boolean
@@ -446,7 +443,7 @@ export type GroupProps = AccordionProps & {
    * Default: `single`
    */
   /**
-   * @deprecated – Replaced with expandBehavior, expandBehaviour can be removed in v11
+   * @deprecated – Replaced with expandBehavior, expandBehaviour can be removed in v11.
    */
   expandBehaviour?: 'single' | 'multiple'
   /**

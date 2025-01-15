@@ -92,6 +92,9 @@
   .dnb-anchor {
     font-size: inherit;
   }
+  .dnb-code {
+    color: var(--color-black-80);
+  }
 }
 
 @mixin blockquoteTag() {

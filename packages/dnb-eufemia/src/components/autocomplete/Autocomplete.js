@@ -980,7 +980,7 @@ class AutocompleteInstance extends React.PureComponent {
     const { open_on_focus, keep_value_and_selection } = this.props
 
     if (!this.state.hasFocus) {
-      if (isTrue(open_on_focus)) {
+      if (isTrue(open_on_focus) && this.hasValidData()) {
         const { value } = event.target
         this.setVisibleByContext({ value })
       } else {
@@ -1679,7 +1679,7 @@ class AutocompleteInstance extends React.PureComponent {
       this.setInputValue(inputValue)
     }
 
-    if (typeof args.data.render === 'function') {
+    if (typeof args.data?.render === 'function') {
       delete args.data.render
     }
 

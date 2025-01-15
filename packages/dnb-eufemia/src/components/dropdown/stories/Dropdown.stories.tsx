@@ -727,7 +727,12 @@ const dropdownDataScrollable = [
 const Flag = () => <>COUNTRY FLAG</> // These <> are Fragments, like React.Fragment
 
 // This component populates the dropdown and handles the reset if, and only if, the value is undefined
-function CurrencySelector({ currencies, onChange, value, ...props }) {
+function CurrencySelector({
+  currencies,
+  onChange,
+  value = null,
+  ...props
+}) {
   let itemIndex = currencies.indexOf(value)
   itemIndex = itemIndex > -1 ? itemIndex : null
   return (
@@ -758,9 +763,6 @@ CurrencySelector.propTypes = {
   value: PropTypes.string,
   currencies: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired,
-}
-CurrencySelector.defaultProps = {
-  value: null,
 }
 
 function DropdownStatesSync() {

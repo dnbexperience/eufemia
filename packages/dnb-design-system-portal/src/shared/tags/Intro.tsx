@@ -13,7 +13,7 @@ import { startPageTransition } from './Transition'
 import { Link } from './Anchor'
 
 const ref = React.createRef<HTMLDivElement>()
-const Intro = ({ children }) => {
+const Intro = ({ children = undefined }) => {
   React.useEffect(() => {
     const onKeyDownHandler = (e) => {
       if (/textarea|input/i.test(document.activeElement.tagName)) {
@@ -53,9 +53,8 @@ const Intro = ({ children }) => {
 Intro.propTypes = {
   children: PropTypes.node.isRequired,
 }
-Intro.defaultProps = {}
 
-export const IntroFooter = ({ href, text }) => (
+export const IntroFooter = ({ href = undefined, text = undefined }) => (
   <Space top no_collapse className={footerStyle}>
     <Global
       styles={css`
@@ -79,7 +78,6 @@ IntroFooter.propTypes = {
   href: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
 }
-IntroFooter.defaultProps = {}
 
 export const Next = (props) => (
   <>

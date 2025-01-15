@@ -7,10 +7,11 @@ import React from 'react'
 import { Button, Tabs } from '@dnb/eufemia/src/components'
 import { fullscreen as fullscreenIcon } from '@dnb/eufemia/src/icons'
 import AutoLinkHeader from './AutoLinkHeader'
-import { tabsWrapperStyle } from './Tabbar.module.scss'
+import { tabsWrapperStyle } from './TabBar.module.scss'
 import { Link } from './Anchor'
+import { navigate } from 'gatsby'
 
-export const defaultTabs = [
+export const defaultTabsValue = [
   { title: 'Info', key: '/info' },
   { title: 'Demos', key: '/demos' },
   { title: 'Properties', key: '/properties' },
@@ -28,13 +29,13 @@ type TabbarProps = {
   children?: React.ReactNode
 }
 
-export default function Tabbar({
+export default function TabBar({
   location,
   title,
   hideTabs,
   rootPath,
   tabs,
-  defaultTabs,
+  defaultTabs = defaultTabsValue,
   children,
 }: TabbarProps) {
   const [wasFullscreen, setFullscreen] = React.useState(
@@ -102,14 +103,15 @@ export default function Tabbar({
   ].join('')
 
   return (
-    <div className="dnb-tabbar dnb-tabs">
+    <div className="dnb-tab-bar dnb-tabs">
       {title && (
         <AutoLinkHeader className="dnb-no-focus" level={1} skip_correction>
           {title}
         </AutoLinkHeader>
       )}
       <Tabs
-        id="tabbar"
+        id="tab-bar"
+        onOpenTabNavigationFn={navigate}
         tab_element={Link}
         data={preparedTabs}
         selected_key={selectedKey}
@@ -150,9 +152,6 @@ export default function Tabbar({
   )
 }
 
-Tabbar.defaultProps = {
-  defaultTabs,
-}
-Tabbar.ContentWrapper = (props) => (
-  <Tabs.ContentWrapper id="tabbar" content_spacing={false} {...props} />
+TabBar.ContentWrapper = (props) => (
+  <Tabs.ContentWrapper id="tab-bar" content_spacing={false} {...props} />
 )

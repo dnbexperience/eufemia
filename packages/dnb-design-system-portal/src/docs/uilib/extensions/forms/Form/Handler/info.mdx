@@ -28,22 +28,23 @@ function MyForm() {
 
 ### TypeScript support
 
-You can define the TypeScript type structure for your data like so:
+You can define the TypeScript type structure for your form data. This will help you to get better code completion and type checking.
+
+**NB:** Use `type` instead of `interface` for the type definition.
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
 
-type MyDataContext = {
+type MyData = {
   firstName?: string
 }
 
 // Method #1 – without initial data
 function MyForm() {
   return (
-    <Form.Handler<MyDataContext>
+    <Form.Handler<MyData>
       onSubmit={(data) => {
-        // "firstName" is of type string
-        console.log(data.firstName)
+        console.log(data.firstName satisfies string)
       }}
     >
       ...
@@ -52,7 +53,7 @@ function MyForm() {
 }
 
 // Method #2 – with data (initial values)
-const existingData: MyDataContext = {
+const existingData: MyData = {
   firstName: 'Nora',
 }
 function MyForm() {
@@ -60,8 +61,7 @@ function MyForm() {
     <Form.Handler
       defaultData={existingData}
       onSubmit={(data) => {
-        // "firstName" is of type string
-        console.log(data.firstName)
+        console.log(data.firstName satisfies string)
       }}
     >
       ...
@@ -69,23 +69,26 @@ function MyForm() {
   )
 }
 
-// Method #3 – type definition on the event parameter
-const submitHandler = (data: MyDataContext) => {
-  // "firstName" is of type string
-  console.log(data.firstName)
+// Method #3 – type definition for the submit handler
+import type { OnSubmit } from '@dnb/eufemia/extensions/forms'
+const submitHandler: OnSubmit<MyData> = (data) => {
+  console.log(data.firstName satisfies string)
 }
 function MyForm() {
   return <Form.Handler onSubmit={submitHandler}>...</Form.Handler>
 }
 
-// Method #4 – type definition for the submit handler
-import type { OnSubmit } from '@dnb/eufemia/extensions/forms'
-const submitHandler: OnSubmit<MyDataContext> = (data) => {
-  // "firstName" is of type string
-  console.log(data.firstName)
-}
+// Method #4 – type definition on the event parameter
 function MyForm() {
-  return <Form.Handler onSubmit={submitHandler}>...</Form.Handler>
+  return (
+    <Form.Handler
+      onSubmit={(data: MyData) => {
+        console.log(data.firstName satisfies string)
+      }}
+    >
+      ...
+    </Form.Handler>
+  )
 }
 ```
 

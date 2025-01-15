@@ -267,6 +267,45 @@ describe('ToggleButton component', () => {
     ])
   })
 
+  describe('size', () => {
+    it('should support small size', () => {
+      render(<ToggleButton icon="question" size="small" />)
+      const button = document.querySelector('button')
+      const icon = document.querySelector('.dnb-icon')
+      expect(button.classList).toContain('dnb-button--size-small')
+      expect(button.classList).not.toContain('dnb-button--icon-size-small')
+      expect(icon.classList).toContain('dnb-icon--default')
+    })
+
+    it('should support medium size', () => {
+      render(<ToggleButton icon="question" size="medium" />)
+      const button = document.querySelector('button')
+      const icon = document.querySelector('.dnb-icon')
+      expect(button.classList).toContain('dnb-button--size-medium')
+      expect(button.classList).not.toContain(
+        'dnb-button--icon-size-medium'
+      )
+      expect(icon.classList).toContain('dnb-icon--default')
+    })
+
+    it('has size set to medium when button size is default', () => {
+      render(<ToggleButton icon="question" size="default" />)
+      const button = document.querySelector('button')
+      const icon = document.querySelector('.dnb-icon')
+      expect(button.classList).toContain('dnb-button--icon-size-medium')
+      expect(icon.classList).toContain('dnb-icon--medium')
+    })
+
+    it('has medium icon if button size is large', () => {
+      render(<ToggleButton text="Button" size="large" icon="question" />)
+      const button = document.querySelector('button')
+      const icon = document.querySelector('.dnb-icon')
+      // size "large
+      expect(button.classList).toContain('dnb-button--size-large')
+      expect(icon.classList).toContain('dnb-icon--default')
+    })
+  })
+
   it('should validate with ARIA rules', async () => {
     const Comp = render(<ToggleButton {...props} />)
 

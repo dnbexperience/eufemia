@@ -698,7 +698,8 @@ describe('Field.String', () => {
         '.dnb-forms-submit-indicator'
       )
 
-      await userEvent.type(input, 'foo')
+      // Use fireEvent over userEvent to avoid async related delays
+      fireEvent.change(input, { target: { value: 'foo' } })
 
       await waitFor(() => {
         expect(input).not.toBeDisabled()

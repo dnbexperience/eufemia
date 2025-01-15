@@ -25,6 +25,10 @@ import {
   ValidatorAdditionalArgs,
   Validator,
   Identifier,
+  MessageProp,
+  MessageTypes,
+  MessagePropParams,
+  UseFieldProps,
 } from '../types'
 import { Context as DataContext, ContextState } from '../DataContext'
 import { clearedData } from '../DataContext/Provider/Provider'
@@ -113,8 +117,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     emptyValue,
     required: requiredProp,
     disabled: disabledProp,
-    info,
-    warning,
+    info: infoProp,
+    warning: warningProp,
     error: errorProp,
     errorMessages,
     onFocus,
@@ -128,7 +132,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     schema,
     validateInitially,
     validateUnchanged,
+    // Deprecated – can be removed in v11
     continuousValidation,
+    validateContinuously = continuousValidation,
     transformIn = (external: unknown) => external as Value,
     transformOut = (internal: Value) => internal,
     toInput = (value: Value) => value,
@@ -174,6 +180,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     useContext(SnapshotContext) || {}
   const { isVisible } = useContext(VisibilityContext) || {}
 
+  const { getValueByPath } = useDataValue()
   const translation = useTranslation()
   const { formatMessage } = translation
   const translationRef = useRef(translation)
@@ -198,7 +205,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     validateData: validateDataDataContext,
     setFieldState: setFieldStateDataContext,
     setFieldError: setFieldErrorDataContext,
-    setFieldProps: setFieldPropsDataContext,
+    setFieldInternals: setFieldInternalsDataContext,
     setFieldConnection: setFieldConnectionDataContext,
     setVisibleError: setVisibleErrorDataContext,
     setMountedFieldState: setMountedFieldStateDataContext,
@@ -208,6 +215,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     contextErrorMessages,
     fieldDisplayValueRef,
     existingFieldsRef,
+    fieldInternalsRef,
   } = dataContext || {}
   const onChangeContext = dataContext?.props?.onChange
 
@@ -269,6 +277,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const changedRef = useRef<boolean>()
   const hasFocusRef = useRef<boolean>()
 
+  // - Should errors received through validation be shown initially. Assume that providing a direct prop to
+  // the component means it is supposed to be shown initially.
+  const revealErrorRef = useRef<boolean>(null)
+
   const required = useMemo(() => {
     if (typeof requiredProp !== 'undefined') {
       return requiredProp
@@ -324,12 +336,106 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     sectionPath,
   ])
 
-  // Error handling
-  // - Should errors received through validation be shown initially. Assume that providing a direct prop to
-  // the component means it is supposed to be shown initially.
-  const revealErrorRef = useRef<boolean>(
-    validateInitially ?? Boolean(errorProp)
+  const getFieldByPath: MessagePropParams<
+    Value,
+    unknown
+  >['getFieldByPath'] = useCallback(
+    (path) => {
+      return (
+        fieldInternalsRef.current?.[path] || {
+          props: undefined,
+          id: undefined,
+        }
+      )
+    },
+    [fieldInternalsRef]
   )
+
+  const messageCacheRef = useRef<{
+    isSet: boolean
+    message: MessageTypes<Value>
+  }>({ isSet: false, message: undefined })
+  const executeMessage = useCallback(
+    <ReturnValue extends MessageTypes<Value>>(
+      message: MessageProp<Value, ReturnValue>
+    ): ReturnValue => {
+      if (typeof message === 'function') {
+        const ALWAYS = 4
+        const INITIALLY = 8
+
+        let currentMode = ALWAYS
+
+        const msg = message(valueRef.current, {
+          conditionally: (callback, options) => {
+            currentMode &= ~ALWAYS
+
+            if (options?.showInitially) {
+              currentMode |= INITIALLY
+            }
+
+            return callback()
+          },
+          getValueByPath,
+          getFieldByPath,
+        })
+
+        if (msg === undefined) {
+          messageCacheRef.current.message = undefined
+          return null // hide the message
+        }
+
+        const isError =
+          msg instanceof Error ||
+          msg instanceof FormError ||
+          (Array.isArray(msg) && checkForError(msg))
+
+        if (
+          (!messageCacheRef.current.isSet && currentMode & INITIALLY) ||
+          currentMode & ALWAYS ||
+          hasFocusRef.current === false ||
+          // Ensure we don't remove the message when the value is e.g. empty string
+          messageCacheRef.current.message
+        ) {
+          if (
+            // Ensure to only update the message when component did re-render internally
+            isInternalRerenderRef.current ||
+            currentMode & ALWAYS ||
+            (!messageCacheRef.current.isSet && currentMode & INITIALLY)
+          ) {
+            if (msg) {
+              messageCacheRef.current.isSet = true
+            }
+            if (msg || !hasFocusRef.current || currentMode & ALWAYS) {
+              messageCacheRef.current.message = msg
+            }
+          }
+
+          message = messageCacheRef.current.message as ReturnValue
+
+          if (isError && message) {
+            revealErrorRef.current = true
+          }
+
+          if (!isError && !message) {
+            return null // hide the message
+          }
+        } else {
+          return undefined // no message
+        }
+      }
+
+      return message
+    },
+    [getFieldByPath, getValueByPath]
+  )
+
+  const error = executeMessage<UseFieldProps['error']>(errorProp)
+  const warning = executeMessage<UseFieldProps['warning']>(warningProp)
+  const info = executeMessage<UseFieldProps['info']>(infoProp)
+
+  if (revealErrorRef.current === null) {
+    revealErrorRef.current = validateInitially ?? Boolean(errorProp)
+  }
 
   // - Local errors are errors based on validation instructions received by
   const errorMethodRef = useRef<
@@ -600,25 +706,28 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     revealErrorRef.current = true
   }
 
-  const error = revealErrorRef.current
-    ? prepareError(errorProp) ??
+  const bufferedError = revealErrorRef.current
+    ? prepareError(error) ??
       localErrorRef.current ??
       contextErrorRef.current
+    : error === null
+    ? null
     : undefined
 
   const hasVisibleError =
-    Boolean(error) || (inFieldBlock && fieldBlockContext.hasErrorProp)
+    Boolean(bufferedError) ||
+    (inFieldBlock && fieldBlockContext.hasErrorProp)
   const hasError = useCallback(() => {
     return Boolean(
-      errorProp ?? localErrorRef.current ?? contextErrorRef.current
+      error ?? localErrorRef.current ?? contextErrorRef.current
     )
-  }, [errorProp])
+  }, [error])
 
   const connectWithPathListenerRef = useRef(async () => {
     if (
       localErrorRef.current ||
       validateUnchanged ||
-      continuousValidation
+      validateContinuously
     ) {
       runOnChangeValidator()
     }
@@ -628,7 +737,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
   })
 
-  const { getValueByPath } = useDataValue()
   const exportValidatorsRef = useRef(exportValidators)
   exportValidatorsRef.current = exportValidators
   const additionalArgs = useMemo(() => {
@@ -808,11 +916,15 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
   }, [persistErrorState])
 
+  const setChanged = useCallback((state: boolean) => {
+    changedRef.current = state
+  }, [])
+
   const removeError = useCallback(() => {
-    changedRef.current = false
+    setChanged(false)
     hideError()
     clearErrorState()
-  }, [clearErrorState, hideError])
+  }, [clearErrorState, hideError, setChanged])
 
   const validatorCacheRef = useRef({
     onChangeValidator: null,
@@ -834,7 +946,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         if (
           (validateInitially && !changedRef.current) ||
           validateUnchanged ||
-          continuousValidation ||
+          validateContinuously ||
           runAsync // Because it's a better UX to show the error when the validation is async/delayed
         ) {
           // Because we first need to throw the error to be able to display it, we delay the showError call
@@ -856,7 +968,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       }
     },
     [
-      continuousValidation,
+      validateContinuously,
       defineAsyncProcess,
       persistErrorState,
       revealError,
@@ -1188,18 +1300,18 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   const handleError = useCallback(() => {
     if (
-      continuousValidation ||
-      (continuousValidation !== false && !hasFocusRef.current)
+      validateContinuously ||
+      (validateContinuously !== false && !hasFocusRef.current)
     ) {
       // When there is a change to the value without there having been any focus callback beforehand, it is likely
       // to believe that the blur callback will not be called either, which would trigger the display of the error.
-      // The error is therefore displayed immediately (unless instructed not to with continuousValidation set to false).
+      // The error is therefore displayed immediately (unless instructed not to with validateContinuously set to false).
       revealError()
     } else {
       // When changing the value, hide errors to avoid annoying the user before they are finished filling in that value
       hideError()
     }
-  }, [continuousValidation, hideError, revealError])
+  }, [validateContinuously, hideError, revealError])
 
   const getEventArgs = useCallback(
     ({
@@ -1524,10 +1636,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     ]
   )
 
-  const setChanged = (state: boolean) => {
-    changedRef.current = state
-  }
-
   const setDisplayValue = useCallback(
     (path: Identifier, content: React.ReactNode) => {
       if (!path || !fieldDisplayValueRef?.current) {
@@ -1556,7 +1664,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       }
 
       // Must be set before validation
-      changedRef.current = true
+      setChanged(true)
 
       if (asyncBehaviorIsEnabled) {
         hideError()
@@ -1619,17 +1727,18 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       await runPool()
     },
     [
+      addToPool,
       asyncBehaviorIsEnabled,
+      defineAsyncProcess,
+      getEventArgs,
+      hasError,
+      hideError,
       onChange,
       runPool,
-      hideError,
-      updateValue,
-      addToPool,
-      getEventArgs,
-      yieldAsyncProcess,
-      defineAsyncProcess,
-      hasError,
+      setChanged,
       setEventResult,
+      updateValue,
+      yieldAsyncProcess,
     ]
   )
 
@@ -1637,7 +1746,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const handleBlur = useCallback(() => setHasFocus(false), [setHasFocus])
 
   // Put props into the surrounding data context as early as possible
-  setFieldPropsDataContext?.(identifier, props)
+  setFieldInternalsDataContext?.(identifier, props, id)
 
   const { activeIndex, activeIndexRef } = wizardContext || {}
   const activeIndexTmpRef = useRef(activeIndex)
@@ -2003,11 +2112,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   useLayoutEffect(() => {
     if (isEmptyData()) {
       defaultValueRef.current = defaultValue
-      changedRef.current = false
+      setChanged(false)
       hideError()
       clearErrorState()
     }
-  }, [clearErrorState, defaultValue, hideError, isEmptyData])
+  }, [clearErrorState, defaultValue, hideError, isEmptyData, setChanged])
 
   useMemo(() => {
     if (updateContextDataInSync && !isEmptyData()) {
@@ -2098,7 +2207,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       setBlockRecord?.({
         identifier,
         type: 'error',
-        content: errorProp,
+        content: error,
         showInitially: true,
         show: true,
       })
@@ -2126,7 +2235,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       }
     }
   }, [
-    errorProp,
+    error,
     identifier,
     inFieldBlock,
     info,
@@ -2135,13 +2244,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     warning,
   ])
 
-  const infoRef = useRef<React.ReactNode>(info)
-  const warningRef = useRef<React.ReactNode>(warning)
-  useUpdateEffect(() => {
+  const infoRef = useRef<UseFieldProps['info']>(info)
+  const warningRef = useRef<UseFieldProps['warning']>(warning)
+  if (typeof info !== 'undefined') {
     infoRef.current = info
+  }
+  if (typeof warning !== 'undefined') {
     warningRef.current = warning
-    forceUpdate()
-  }, [info, warning])
+  }
 
   const connections = useMemo(() => {
     return {
@@ -2163,8 +2273,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     )
   }, [props])
 
-  if (error) {
-    htmlAttributes['aria-invalid'] = error ? 'true' : 'false'
+  if (bufferedError) {
+    htmlAttributes['aria-invalid'] = bufferedError ? 'true' : 'false'
   }
   if (required) {
     htmlAttributes['aria-required'] = 'true'
@@ -2182,7 +2292,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       htmlAttributes['aria-describedby'] = combineDescribedBy(
         htmlAttributes,
         [
-          error && stateIds.error,
+          bufferedError && stateIds.error,
           warning && stateIds.warning,
           info && stateIds.info,
         ].filter(Boolean)
@@ -2190,7 +2300,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
   } else {
     const ids = [
-      (error || errorProp) && `${id}-form-status--error`,
+      (bufferedError || error) && `${id}-form-status--error`,
       warning && `${id}-form-status--warning`,
       info && `${id}-form-status--info`,
     ].filter(Boolean)
@@ -2215,7 +2325,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     /** Documented APIs */
     info: !inFieldBlock ? infoRef.current : undefined,
     warning: !inFieldBlock ? warningRef.current : undefined,
-    error: !inFieldBlock ? error : undefined,
+    error: !inFieldBlock ? bufferedError : undefined,
     required,
     label: props.label,
     labelDescription: props.labelDescription,

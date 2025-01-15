@@ -29,7 +29,3 @@ AlignmentHelper.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
 }
-AlignmentHelper.defaultProps = {
-  children: null,
-  className: null,
-}

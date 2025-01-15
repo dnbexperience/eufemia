@@ -79,7 +79,10 @@ export interface TabsProps
    * If set to `true`, the navigation icons will have a straight border at their outside. This feature is meant to be used when the Tabs component goes all the way to the browser window. Defaults to `false`.
    */
   nav_button_edge?: boolean;
-  use_hash?: boolean;
+  /**
+   * Only used internally for TabBar navigation when clicking next or previous buttons.
+   */
+  onOpenTabNavigationFn?: (...args: any[]) => any;
   /**
    * If set to `true`, the Tabs content will pre-render all contents. The visibility will be handled by using the `hidden` and `aria-hidden` HTML attributes. Defaults to `false`.
    */

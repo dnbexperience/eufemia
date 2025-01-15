@@ -1287,3 +1287,97 @@ describe('Form.Handler', () => {
     })
   })
 })
+
+describe('Form.Handler TypeScript type validation', () => {
+  describe('for the OnSubmit type', () => {
+    it('should correctly support a named type', () => {
+      type MyInterface = {
+        foo: string
+      }
+
+      const submitHandler: OnSubmit<MyInterface> = (data) => {
+        data.foo satisfies string
+      }
+
+      render(<Form.Handler onSubmit={submitHandler}>...</Form.Handler>)
+    })
+
+    it('should correctly support an array type', () => {
+      type MyInterface = Array<string>
+
+      const submitHandler: OnSubmit<MyInterface> = (data) => {
+        data satisfies Array<string>
+      }
+
+      render(<Form.Handler onSubmit={submitHandler}>...</Form.Handler>)
+    })
+
+    it('should throw a type error when interface is used', () => {
+      interface MyInterface {
+        foo: string
+      }
+
+      const submitHandler: OnSubmit<MyInterface> = (data) => {
+        data.foo satisfies string
+      }
+
+      render(
+        <Form.Handler
+          // @ts-expect-error
+          onSubmit={submitHandler}
+        >
+          ...
+        </Form.Handler>
+      )
+    })
+  })
+
+  describe('for direct type annotation', () => {
+    it('should correctly support a named type', () => {
+      type MyInterface = {
+        foo: string
+      }
+
+      render(
+        <Form.Handler<MyInterface>
+          onSubmit={(data) => {
+            data.foo satisfies string
+          }}
+        >
+          ...
+        </Form.Handler>
+      )
+    })
+
+    it('should correctly support an array type', () => {
+      type MyInterface = Array<string>
+
+      render(
+        <Form.Handler<MyInterface>
+          onSubmit={(data) => {
+            data satisfies Array<string>
+          }}
+        >
+          ...
+        </Form.Handler>
+      )
+    })
+
+    it('should throw a type error when interface is used', () => {
+      interface MyInterface {
+        foo: string
+      }
+
+      render(
+        // @ts-expect-error
+        <Form.Handler<MyInterface>
+          onSubmit={(data) => {
+            data.foo satisfies string
+          }}
+        >
+          ...
+        </Form.Handler>
+      )
+    })
+  })
+})

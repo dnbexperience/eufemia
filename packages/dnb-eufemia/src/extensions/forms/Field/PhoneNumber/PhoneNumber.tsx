@@ -198,6 +198,7 @@ function PhoneNumber(props: Props) {
     required,
     validateInitially,
     continuousValidation,
+    validateContinuously,
     validateUnchanged,
     omitCountryCodeField,
     setHasFocus,
@@ -437,7 +438,9 @@ function PhoneNumber(props: Props) {
           required={required}
           errorMessages={errorMessages}
           validateInitially={validateInitially}
-          continuousValidation={continuousValidation}
+          validateContinuously={
+            continuousValidation || validateContinuously
+          }
           validateUnchanged={validateUnchanged}
           inputMode="tel"
         />

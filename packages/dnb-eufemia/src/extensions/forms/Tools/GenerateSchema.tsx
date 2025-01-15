@@ -31,15 +31,15 @@ export const schemaParams = [
 
 export default function GenerateSchema(props: GenerateSchemaProps) {
   const { generateRef, filterData, log, children } = props || {}
-  const { fieldPropsRef, valuePropsRef, data, hasContext } =
+  const { fieldInternalsRef, valueInternalsRef, data, hasContext } =
     useContext(DataContext)
 
   const dataRef = useRef<JsonObject>({})
   dataRef.current = data
 
   const generate = useCallback(() => {
-    const schema = Object.entries(fieldPropsRef?.current || {}).reduce(
-      (acc, [path, props]) => {
+    const schema = Object.entries(fieldInternalsRef?.current || {}).reduce(
+      (acc, [path, { props }]) => {
         if (path.startsWith('/')) {
           const objectKey = path.substring(1)
 
@@ -113,8 +113,8 @@ export default function GenerateSchema(props: GenerateSchemaProps) {
     )
 
     const propsOfFields = Object.entries(
-      fieldPropsRef?.current || {}
-    ).reduce((acc, [path, props]) => {
+      fieldInternalsRef?.current || {}
+    ).reduce((acc, [path, { props }]) => {
       if (path.startsWith('/')) {
         const propertyValue = {}
 
@@ -134,8 +134,8 @@ export default function GenerateSchema(props: GenerateSchemaProps) {
     }, {})
 
     const propsOfValues = Object.entries(
-      valuePropsRef?.current || {}
-    ).reduce((acc, [path, props]) => {
+      valueInternalsRef?.current || {}
+    ).reduce((acc, [path, { props }]) => {
       if (path.startsWith('/')) {
         const propertyValue = {}
 
@@ -164,7 +164,7 @@ export default function GenerateSchema(props: GenerateSchemaProps) {
       propsOfFields,
       propsOfValues,
     } as GenerateSchemaReturn
-  }, [fieldPropsRef, filterData, valuePropsRef])
+  }, [fieldInternalsRef, filterData, valueInternalsRef])
 
   if (hasContext) {
     if (log) {

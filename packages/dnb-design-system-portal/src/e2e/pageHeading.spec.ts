@@ -15,19 +15,19 @@ test.describe('Page Heading', () => {
     expect(h1Count).toBe(1)
 
     const firstElementTagName = await page.$eval(
-      '#tabbar-content > *',
+      '#tab-bar-content > *',
       (element) => element.tagName,
     )
     expect(firstElementTagName).toBe('H1')
 
     const secondElementTagName = await page.$eval(
-      '#tabbar-content > h1 ~ p ~ *',
+      '#tab-bar-content > h1 ~ p ~ *',
       (element) => element.tagName,
     )
     expect(secondElementTagName).toBe('H2')
 
     const thirdElementTagName = await page.$eval(
-      '#tabbar-content > h1 ~ p ~ *',
+      '#tab-bar-content > h1 ~ p ~ *',
       (element) => element.tagName,
     )
     expect(thirdElementTagName).toBe('H2')
@@ -38,7 +38,7 @@ test.describe('Page Heading', () => {
     )
 
     const reRenderedElementTagName = await page.$eval(
-      '#tabbar-content > h1 ~ p ~ *',
+      '#tab-bar-content > h1 ~ p ~ *',
       (element) => element.tagName,
     )
     expect(reRenderedElementTagName).toBe('H2')
