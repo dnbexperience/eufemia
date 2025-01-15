@@ -2652,6 +2652,65 @@ describe('Custom text for buttons', () => {
   })
 })
 
+describe('DatePickerPortal', () => {
+  it('should attach portal to document body on mount, and detach on unmount', async () => {
+    render(<DatePicker />)
+
+    const inputButton = screen.getByLabelText('åpne datovelger')
+
+    expect(
+      document.body.querySelector('.dnb-date-picker__portal')
+    ).not.toBeInTheDocument()
+
+    await userEvent.click(inputButton)
+
+    await waitFor(() =>
+      expect(
+        document.body.querySelector('.dnb-date-picker__portal')
+      ).toBeInTheDocument()
+    )
+
+    await userEvent.click(inputButton)
+
+    await waitFor(() =>
+      expect(
+        document.body.querySelector('.dnb-date-picker__portal')
+      ).not.toBeInTheDocument()
+    )
+  })
+
+  it('should contain calendar views when mounted', async () => {
+    render(<DatePicker />)
+
+    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+
+    const portal = document.body.querySelector('.dnb-date-picker__portal')
+
+    expect(
+      portal.querySelector('.dnb-date-picker__views')
+    ).toBeInTheDocument()
+    expect(
+      portal.querySelector('.dnb-date-picker__calendar')
+    ).toBeInTheDocument()
+  })
+
+  it('should skip portal when "skipPortal" is true', async () => {
+    render(<DatePicker skipPortal />)
+
+    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+
+    // dnb-date-picker__container is a direct descendant of dnb-date-picker__shell when portal is skipped
+    expect(
+      document.querySelector(
+        '.dnb-date-picker__shell > .dnb-date-picker__container'
+      )
+    ).toBeInTheDocument()
+    expect(
+      document.body.querySelector('.dnb-date-picker__portal')
+    ).not.toBeInTheDocument()
+  })
+})
+
 describe('DatePicker ARIA', () => {
   it('should validate', async () => {
     const Comp = render(
@@ -2661,6 +2720,7 @@ describe('DatePicker ARIA', () => {
         disableAutofocus={true}
         startDate="2019-05-05"
         endDate="2019-06-05"
+        skipPortal
       />
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
@@ -2675,6 +2735,7 @@ describe('DatePicker ARIA', () => {
         disableAutofocus={true}
         startDate="2019-05-05"
         endDate="2019-06-05"
+        skipPortal
       />
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
