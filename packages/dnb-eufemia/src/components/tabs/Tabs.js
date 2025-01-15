@@ -90,7 +90,7 @@ export default class Tabs extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
     ]),
-    use_hash: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    onOpenTabNavigationFn: PropTypes.func,
     prerender: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     prevent_rerender: PropTypes.oneOfType([
       PropTypes.string,
@@ -129,7 +129,7 @@ export default class Tabs extends React.PureComponent {
     tabs_spacing: null,
     no_border: false,
     nav_button_edge: false,
-    use_hash: false,
+    onOpenTabNavigationFn: null,
     prerender: false,
     prevent_rerender: false,
     scroll: null,
@@ -301,18 +301,6 @@ export default class Tabs extends React.PureComponent {
       props.selected_key,
       data
     )
-
-    // check if we have to open a different tab
-    if (props.use_hash && typeof window !== 'undefined') {
-      try {
-        const useHashKey = String(window.location.hash).replace('#', '')
-        if (useHashKey && String(useHashKey).length > 0) {
-          selected_key = Tabs.getSelectedKeyOrFallback(useHashKey, data)
-        }
-      } catch (e) {
-        // do nothing
-      }
-    }
 
     const lastPosition = this.getLastPosition()
     this.state = {
@@ -831,13 +819,12 @@ export default class Tabs extends React.PureComponent {
       this.getEventArgs({ event, selected_key })
     )
 
-    if (this.props.use_hash && typeof window !== 'undefined') {
+    if (
+      this.props.onOpenTabNavigationFn &&
+      typeof window !== 'undefined'
+    ) {
       try {
-        window.history.replaceState(
-          undefined,
-          undefined,
-          `#${selected_key}`
-        )
+        this.props.onOpenTabNavigationFn(selected_key)
       } catch (e) {
         warn('Tabs Error:', e)
       }
