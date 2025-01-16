@@ -28,6 +28,11 @@ export type Props = {
   title?: React.ReactNode
 
   /**
+   * If the fields inside the container are required.
+   */
+  required?: boolean
+
+  /**
    * The button to open container.
    */
   openButton?: React.ReactNode
@@ -77,6 +82,8 @@ export type Props = {
 export type AllProps = Props & SpacingProps & ArrayItemAreaProps
 
 function PushContainer(props: AllProps) {
+  const requiredInherited = useContext(DataContext)?.required
+
   const {
     data: dataProp,
     defaultData: defaultDataProp,
@@ -84,6 +91,7 @@ function PushContainer(props: AllProps) {
     bubbleValidation,
     path,
     title,
+    required = requiredInherited,
     children,
     openButton,
     showOpenButtonWhen,
@@ -150,6 +158,7 @@ function PushContainer(props: AllProps) {
     <Isolation
       data={data}
       defaultData={defaultData}
+      required={required}
       emptyData={emptyData}
       bubbleValidation={bubbleValidation}
       commitHandleRef={commitHandleRef}
