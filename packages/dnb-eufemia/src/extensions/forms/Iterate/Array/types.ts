@@ -1,4 +1,9 @@
-import { Path, UseFieldProps, Validator } from '../../types'
+import {
+  DefaultErrorMessages,
+  Path,
+  UseFieldProps,
+  Validator,
+} from '../../types'
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
 import { IterateItemContextState } from '../IterateItemContext'
 
@@ -35,5 +40,10 @@ export type Props = Omit<
     animate?: boolean
     placeholder?: React.ReactNode
     containerMode?: ContainerMode
+    required?: boolean
+    errorMessages?: DefaultErrorMessages
     countPathTransform?: (params: { value: any; index: number }) => any
+
+    // internal
+    validateValue?: () => void
   }

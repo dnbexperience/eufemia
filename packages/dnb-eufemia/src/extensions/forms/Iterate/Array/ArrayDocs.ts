@@ -12,6 +12,11 @@ export const ArrayProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  required: {
+    doc: "If the array is required. It does not automatically inherit the `required` property in the same way that `Field.*` components do. You may provide a custom error message to give the user a more useful message than the default one: `errorMessages={{ 'Field.errorRequired': 'Custom message' }}`",
+    type: 'boolean',
+    status: 'optional',
+  },
   limit: {
     doc: 'Limit the number of rendered items to iterate over. Defaults to `undefined`.',
     type: 'number',
@@ -52,14 +57,14 @@ export const ArrayProperties: PropertiesTableProps = {
     type: 'unknown',
     status: 'optional',
   },
-  onChangeValidator: DataValueWritePropsProperties.onChangeValidator,
-  validateInitially: DataValueWritePropsProperties.validateInitially,
-  validateContinuously: DataValueWritePropsProperties.validateContinuously,
   containerMode: {
     doc: 'Defines the container mode for all nested containers. Can be `view`, `edit` or `auto`. When using `auto`, it will automatically open if there is an error in the container. When a new item is added, the item before it will change to `view` mode, if it had no validation errors. Defaults to `auto`.',
     type: 'string',
     status: 'optional',
   },
+  onChangeValidator: DataValueWritePropsProperties.onChangeValidator,
+  validateInitially: DataValueWritePropsProperties.validateInitially,
+  validateContinuously: DataValueWritePropsProperties.validateContinuously,
   children: {
     doc: 'React.Node or a function so you can get the current value as the first function parameter, and the index as the second parameter as well as the array of internal items as the third parameter.',
     type: ['React.ReactNode', 'function'],

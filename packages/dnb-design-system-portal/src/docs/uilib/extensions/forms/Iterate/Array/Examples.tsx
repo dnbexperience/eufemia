@@ -761,3 +761,32 @@ export const ViewAndEditContainerWithLineDivider = () => {
     </ComponentBox>
   )
 }
+
+export const Required = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler>
+        <Form.Card>
+          <Iterate.Array
+            path="/items"
+            required
+            errorMessages={{
+              'Field.errorRequired': 'Custom message',
+            }}
+            validateInitially
+          >
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+
+          <Iterate.PushButton
+            path="/items"
+            pushValue="baz"
+            text="Add item to hide error"
+          />
+        </Form.Card>
+
+        <Form.SubmitButton />
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
