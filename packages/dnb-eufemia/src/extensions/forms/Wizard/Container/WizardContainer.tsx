@@ -74,8 +74,12 @@ export type Props = ComponentProps & {
 
   /**
    * The sidebar variant.
+   * @deprecated there is only one variant available. This props has no effect
    */
   variant?: 'sidebar' | 'drawer'
+  /**
+   * @deprecated there is no longer a sidebar. This prop does nothing.
+   */
   sidebarId?: string
 
   /**
@@ -124,8 +128,6 @@ function WizardContainer(props: Props) {
     prerenderFieldProps = true,
     keepInDOM,
     validationMode,
-    variant = 'sidebar',
-    sidebarId,
     ...rest
   } = props
 
@@ -546,7 +548,7 @@ function WizardContainer(props: Props) {
       <Space
         className={classnames(
           'dnb-forms-wizard-layout',
-          `dnb-forms-wizard-layout--${variant}`,
+          `dnb-forms-wizard-layout--drawer`,
           className
         )}
         innerRef={elementRef}
@@ -554,10 +556,9 @@ function WizardContainer(props: Props) {
       >
         <DisplaySteps
           mode={mode}
-          variant={variant}
+          variant="drawer"
           noAnimation={noAnimation}
           handleChange={handleChange}
-          sidebarId={sidebarId}
         />
 
         <div className="dnb-forms-wizard-layout__contents">
