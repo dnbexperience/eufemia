@@ -308,7 +308,7 @@ function ArrayComponent(props: Props) {
 
           const renderChildren = (elementChild: ElementChild) => {
             return typeof elementChild === 'function'
-              ? elementChild(value, index)
+              ? elementChild(value, index, arrayItems)
               : elementChild
           }
 
