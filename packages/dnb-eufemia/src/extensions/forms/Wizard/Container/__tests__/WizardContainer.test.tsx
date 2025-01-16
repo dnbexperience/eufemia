@@ -1583,9 +1583,6 @@ describe('Wizard.Container', () => {
 
   it('should scroll to top on step change', async () => {
     const scrollIntoViewMock = jest.fn()
-    const scrollMock = jest
-      .spyOn(window.HTMLElement.prototype, 'scrollIntoView')
-      .mockImplementation(scrollIntoViewMock)
 
     render(
       <Wizard.Container>
@@ -1602,6 +1599,13 @@ describe('Wizard.Container', () => {
         </Wizard.Step>
       </Wizard.Container>
     )
+
+    const scrollMock = jest
+      .spyOn(
+        document.querySelector('.dnb-forms-wizard-layout'),
+        'scrollIntoView'
+      )
+      .mockImplementation(scrollIntoViewMock)
 
     expect(scrollIntoViewMock).toHaveBeenCalledTimes(0)
 

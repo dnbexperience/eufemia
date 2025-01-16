@@ -1,6 +1,9 @@
 import { useCallback, useEffect, useRef } from 'react'
 
-export default function useHandleLayoutEffect({ stepElementRef }) {
+export default function useHandleLayoutEffect({
+  elementRef,
+  stepElementRef,
+}) {
   const isInteractionRef = useRef(false)
 
   useEffect(() => {
@@ -32,9 +35,9 @@ export default function useHandleLayoutEffect({ stepElementRef }) {
 
   const scrollToTop = useCallback(() => {
     action(() => {
-      stepElementRef.current?.scrollIntoView?.()
+      elementRef.current?.scrollIntoView?.()
     })
-  }, [action, stepElementRef])
+  }, [action, elementRef])
 
   return { setFocus, scrollToTop, isInteractionRef }
 }
