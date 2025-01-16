@@ -236,6 +236,7 @@ function SelectCountry(props: Props) {
     <FieldBlock {...fieldBlockProps}>
       <Autocomplete
         id={id}
+        mode="async"
         placeholder={placeholder}
         input_icon={false}
         data={dataRef.current}
