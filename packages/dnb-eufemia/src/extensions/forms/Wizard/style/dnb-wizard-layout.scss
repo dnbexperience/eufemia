@@ -6,6 +6,7 @@
   column-gap: var(--spacing-x-large);
 
   &--drawer {
+    // make this default styling, no need for modifier anymore
     flex-direction: column;
     justify-content: stretch;
     align-items: stretch;
@@ -61,6 +62,7 @@
   }
 
   .dnb-step-indicator__sidebar {
+    // deprecate
     margin-right: 0;
   }
 }
@@ -68,6 +70,7 @@
 @include allAbove('medium') {
   .dnb-forms-form:has(.dnb-forms-wizard-layout--sidebar)
     .dnb-forms-form__status-message {
+    // deprecate
     margin-left: 21.5rem;
   }
 }
