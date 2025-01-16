@@ -648,6 +648,20 @@ describe('Field.SelectCountry', () => {
     })
   })
 
+  it('should support "defaultValue" with "itemPath" inside a PushContainer with without opening the drawer', async () => {
+    render(
+      <Form.Handler>
+        <Iterate.PushContainer path="/persons">
+          <Field.SelectCountry itemPath="/" defaultValue="NO" />
+        </Iterate.PushContainer>
+      </Form.Handler>
+    )
+
+    expect(
+      document.querySelector('.dnb-drawer-list__option')
+    ).not.toBeInTheDocument()
+  })
+
   describe('ARIA', () => {
     it('should validate with ARIA rules', async () => {
       const result = render(
