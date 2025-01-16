@@ -3,7 +3,7 @@ import { useTranslation } from '../../../shared'
 import { DatePickerDates } from './useDates'
 import { isAfter, isBefore } from 'date-fns'
 
-export default function useMinMaxDateValidation({
+export default function useDateLimitValidation({
   minDate,
   maxDate,
   endDate,
