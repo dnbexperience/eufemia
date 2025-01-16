@@ -6,25 +6,11 @@
 @import '../../../style/core/utilities.scss';
 
 .dnb-step-indicator__sidebar {
-  @media screen and (min-width: 50.1em) {
-    max-width: 20rem;
-    margin-right: var(--spacing-x-large);
-
-    .dnb-step-indicator__item {
-      min-width: 320px;
-    }
-  }
-
-  // To avoid layout shift during SSR hydration
-  // we hide the sidebar with skeleton on small screens
-  &--ssr-skeleton {
-    @media screen and (max-width: 50.1em) {
-      visibility: hidden;
-      overflow: hidden;
-      width: 0;
-      height: 5.5rem; // the height of the modal button + label + margin
-    }
-  }
+  display: none;
+}
+.dnb-step-indicator-wrapper {
+  --padding-top: 0;
+  --padding-bottom: 0;
 }
 
 .dnb-step-indicator-wrapper .dnb-step-indicator {
@@ -37,76 +23,129 @@
 
     list-style: none;
   }
-
   &__trigger {
     // Is needed to make ensure the button stays on top during height animation
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
   }
-
-  &__trigger__button,
-  &__item .dnb-button {
-    overflow: hidden; // only needed when text is large and it overflows during animation (from small to large)
-
+  &__label {
+    font-size: var(--font-size-basis);
+    white-space: nowrap;
+  }
+  &__trigger__button {
+    line-height: inherit;
     .dnb-button__text {
       text-align: left;
+      margin: 0;
+      transform: none;
     }
-
-    &.dnb-button--has-icon .dnb-button__text {
-      margin-right: 1rem;
+    .dnb-button__icon {
+      --button-icon-margin-top: 0.25rem;
     }
-
     .dnb-button__alignment {
       order: 2;
     }
-
-    justify-content: space-between;
-    border-radius: 0.25rem;
-  }
-  &__trigger button#{&}__trigger__button {
-    margin-top: 0.5rem;
   }
 
   &__item {
-    margin-bottom: 1rem;
+    &__wrapper {
+      display: flex;
+      gap: 1rem;
+      padding-bottom: 1rem;
+      position: relative;
+      white-space: nowrap;
 
-    .dnb-button__icon {
-      opacity: 1;
-      transition: opacity 1400ms ease-in-out;
-
-      html[data-visual-test] & {
-        transition-duration: 1ms !important;
+      &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        height: 100%;
+        width: 1px;
+        background-color: var(--color-black-20);
+        top: 0.25rem;
+        left: 0.71875rem;
       }
     }
 
-    &:not(.dnb-step-indicator__item--visited)
-      .dnb-button:not(.dnb-step-indicator__button__status)
-      .dnb-button__icon {
-      opacity: 0;
+    &__bullet {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 1.5rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      z-index: 0;
+      border-radius: 50%;
+
+      &--check,
+      &--empty,
+      &--current {
+        background-color: var(--color-pistachio);
+        border-width: 0.0625rem;
+        border-style: solid;
+        border-color: transparent;
+      }
+
+      &--check {
+        color: var(--color-success-green);
+        border-color: var(--color-success-green);
+      }
+
+      &--empty {
+        color: var(--color-black-20);
+        background-color: var(--color-white);
+        border-color: var(--color-black-20);
+      }
+
+      &--current {
+        border-width: 0.1875rem;
+        border-color: var(--color-black-80);
+      }
     }
-  }
 
-  &__item-content {
-    display: flex;
-    flex-wrap: nowrap;
-
-    padding: 0.5rem 0;
-
-    &__number {
-      padding-right: 0.5rem;
+    &__text {
+      font-size: var(--font-size-basis);
       white-space: nowrap;
     }
 
-    &__wrapper {
-      display: flex;
-      flex-direction: column;
+    &__number {
+      vertical-align: top;
+    }
+
+    &__icon {
+      opacity: 1;
+      transition: opacity 400ms ease-in-out;
+
+      &--hidden {
+        opacity: 0;
+        transition-timing-function: ease-out;
+      }
+    }
+
+    &:last-child .dnb-step-indicator__item__wrapper {
+      &::before {
+        display: none;
+      }
+    }
+
+    html[data-visual-test] & {
+      .dnb-step-indicator__item__icon {
+        transition-duration: 1ms !important;
+      }
     }
   }
 
-  &__button__status .dnb-step-indicator__item-content {
-    &__status {
-      color: var(--color-black-80);
-      font-size: var(--font-size-x-small);
+  &__button {
+    padding: 0;
+    white-space: normal;
+    line-height: inherit;
+    text-align: left;
+
+    &--has-status .dnb-step-indicator__item-content {
+      &__status {
+        color: var(--color-black-80);
+        font-size: var(--font-size-x-small);
+      }
     }
   }
 }

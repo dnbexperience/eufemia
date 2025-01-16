@@ -12,9 +12,9 @@ export const WizardContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   variant: {
-    doc: 'Sets the StepIndicator to be either `sidebar` or `drawer`. Defaults to `sidebar`.',
+    doc: 'There is no variants. This prop does nothing. Old docs: Sets the StepIndicator to be either `sidebar` or `drawer`. Defaults to `sidebar`.',
     type: 'string',
-    status: 'optional',
+    status: 'deprecated',
   },
   omitScrollManagement: {
     doc: 'True to omit scroll management.',
@@ -27,9 +27,9 @@ export const WizardContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   sidebarId: {
-    doc: 'Sets the id for `<StepIndicator.Sidebar />` Inherited from StepIndicator.',
+    doc: 'There is no longer any sidebar. This prop does nothing. Old docs: Sets the id for `<StepIndicator.Sidebar />` Inherited from StepIndicator.',
     type: 'string',
-    status: 'required',
+    status: 'deprecated',
   },
   noAnimation: {
     doc: 'Determines if the height animation for step items and the drawer button will run. Inherited from StepIndicator. Defaults to `true`.',

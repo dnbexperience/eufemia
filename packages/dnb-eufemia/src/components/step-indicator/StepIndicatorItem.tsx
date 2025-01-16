@@ -10,9 +10,9 @@ import {
   makeUniqueId,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
-import HeightAnimation from '../height-animation/HeightAnimation'
-import Button, { ButtonProps } from '../button/Button'
+import Anchor, { AnchorAllProps } from '../anchor/Anchor'
 import Icon, { IconIcon } from '../icon/Icon'
+import IconPrimary from '../icon/IconPrimary'
 import { WarnIcon, InfoIcon, ErrorIcon } from '../form-status/FormStatus'
 import StepIndicatorContext from './StepIndicatorContext'
 import { stepIndicatorDefaultProps } from './StepIndicatorProps'
@@ -137,13 +137,11 @@ function StepIndicatorItem({
 
   const {
     mode,
-    filterAttributes,
     activeStep,
     countSteps,
     listOfReachedSteps,
-    hide_numbers,
+    hide_numbers = stepIndicatorDefaultProps.hide_numbers,
     on_item_render,
-    sidebar_id,
     step_title,
   } = context
 
@@ -155,19 +153,13 @@ function StepIndicatorItem({
     inactive,
     disabled,
     status,
-    status_state,
+    status_state = 'warn',
 
     on_render,
     on_click, // eslint-disable-line
 
     ...attributes
   } = props
-
-  Object.keys(attributes).forEach((key) => {
-    if (filterAttributes.includes(key)) {
-      delete attributes[key]
-    }
-  })
 
   const hasPassedAndIsCurrent =
     mode === 'loose' ||
@@ -181,7 +173,7 @@ function StepIndicatorItem({
 
   const isVisited = currentItemNum < activeStep
 
-  const id = `${sidebar_id || makeUniqueId()}-${currentItemNum}`
+  const id = `${makeUniqueId()}-${currentItemNum}`
   const ariaLabel = step_title
     ?.replace('%step', String(currentItemNum + 1))
     .replace('%count', String(countSteps))
@@ -189,13 +181,7 @@ function StepIndicatorItem({
   const isCurrent = currentItemNum === activeStep
 
   let element = (
-    <StepItemWrapper
-      number={currentItemNum + 1}
-      hide_numbers={hide_numbers}
-      status={status}
-    >
-      {title}
-    </StepItemWrapper>
+    <StepItemWrapper status={status}>{title}</StepItemWrapper>
   ) as React.ReactNode
 
   const callbackProps = {
@@ -214,7 +200,6 @@ function StepIndicatorItem({
 
   const itemParams = {} as HTMLProps<HTMLLIElement>
   const buttonParams = {
-    icon: 'check',
     status,
     status_state,
     'aria-describedby': id,
@@ -229,7 +214,7 @@ function StepIndicatorItem({
   }
 
   if (isNavigatable && !isInactive) {
-    buttonParams.onClick = ({ event }: never) =>
+    buttonParams.onClick = (event: never) =>
       onClickHandler({
         event,
         item: props,
@@ -238,10 +223,14 @@ function StepIndicatorItem({
   }
 
   if (!buttonParams.onClick) {
-    buttonParams.element = 'span'
-    buttonParams.type = ''
-    buttonParams.on_click = undefined
+    buttonParams.onClick = undefined
     isInactive = true
+  }
+
+  const stateIcons: Record<StepIndicatorStatusState, IconIcon> = {
+    info: InfoIcon,
+    error: ErrorIcon,
+    warn: WarnIcon,
   }
 
   return (
@@ -255,7 +244,52 @@ function StepIndicatorItem({
         itemParams.className
       )}
     >
-      <StepItemButton {...buttonParams}>{element}</StepItemButton>
+      <div
+        className={classnames(
+          'dnb-step-indicator__item__wrapper',
+          !status &&
+            isVisited &&
+            'dnb-step-indicator__item__wrapper--check'
+        )}
+      >
+        <span
+          className={classnames(
+            'dnb-step-indicator__item__bullet',
+            isCurrent
+              ? 'dnb-step-indicator__item__bullet--current'
+              : !status &&
+                  (isVisited
+                    ? 'dnb-step-indicator__item__bullet--check'
+                    : 'dnb-step-indicator__item__bullet--empty')
+          )}
+        >
+          {status && !isCurrent ? (
+            <Icon
+              icon={stateIcons[status_state] || stateIcons.warn}
+              className="dnb-step-indicator__item__icon"
+              size="medium"
+              inheritColor={false}
+            />
+          ) : (
+            <IconPrimary
+              icon="check"
+              className={classnames(
+                'dnb-step-indicator__item__icon',
+                !isVisited && 'dnb-step-indicator__item__icon--hidden'
+              )}
+              size="small" // TODO: should be 0.875rem
+            />
+          )}
+        </span>
+        <div className="dnb-step-indicator__item__text">
+          {!hide_numbers && (
+            <span className="dnb-step-indicator__item__number">
+              {currentItemNum + 1}.{' '}
+            </span>
+          )}
+          <StepItemButton {...buttonParams}>{element}</StepItemButton>
+        </div>
+      </div>
       <span id={id} aria-hidden className="dnb-sr-only">
         {ariaLabel}
       </span>
@@ -263,81 +297,49 @@ function StepIndicatorItem({
   )
 }
 
-export type StepItemButtonProps = Omit<ButtonProps, 'status_state'> & {
-  status_state?: StepIndicatorStatusState
-}
+export type StepItemButtonProps = AnchorAllProps &
+  Pick<StepIndicatorItemProps, 'status' | 'status_state'>
 
 export function StepItemButton({
   children,
   className,
   status,
-  status_state,
-  inner_ref,
+  status_state = 'warn',
+  innerRef,
   ...props
 }: StepItemButtonProps) {
-  const icons: Record<StepIndicatorStatusState, IconIcon> = {
-    info: InfoIcon,
-    error: ErrorIcon,
-    warn: WarnIcon,
-  }
-
-  if (status) {
-    props.icon = (
-      <Icon
-        icon={icons[status_state] || icons.warn}
-        className="dnb-button__icon"
-        size="medium"
-        inherit_color={false}
-      />
-    )
-  }
+  const notClickable = !props.onClick
 
   return (
-    <Button
+    <Anchor
+      element={notClickable ? 'span' : 'button'}
+      type={notClickable ? undefined : 'button'}
       className={classnames(
         className,
-        status && 'dnb-step-indicator__button__status',
-        status && `dnb-step-indicator__button__status--${status_state}`
+        'dnb-step-indicator__button',
+        status &&
+          `dnb-step-indicator__button--has-status dnb-step-indicator__button--${status_state}`
       )}
-      wrap
-      stretch
-      variant="secondary"
-      icon_size="medium"
-      icon_position="right"
-      inner_ref={inner_ref}
+      noStyle={notClickable}
+      innerRef={innerRef}
       {...props}
     >
-      <HeightAnimation>{children}</HeightAnimation>
-    </Button>
+      {children}
+    </Anchor>
   )
 }
 
 export type StepItemWrapperProps = React.HTMLProps<HTMLElement> & {
   children?: React.ReactNode
-  number?: number
-  /**
-   * Define whether to show automatically counted numbers or not. Defaults to `false`.
-   */
-  hide_numbers?: boolean
   status?: string | React.ReactNode
 }
 
 export function StepItemWrapper({
   children,
-  number,
-  hide_numbers = stepIndicatorDefaultProps.hide_numbers,
   status,
 }: StepItemWrapperProps) {
   return (
     <span className="dnb-step-indicator__item-content">
-      {!hide_numbers && (
-        <span
-          aria-hidden // because we provide the hidden aria-describedby
-          className="dnb-step-indicator__item-content__number"
-        >
-          {number}.
-        </span>
-      )}
       <span className="dnb-step-indicator__item-content__wrapper">
         <span className="dnb-step-indicator__item-content__text">
           {children}

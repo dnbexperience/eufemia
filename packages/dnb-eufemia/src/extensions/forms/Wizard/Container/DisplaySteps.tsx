@@ -9,7 +9,7 @@ export function DisplaySteps({
   variant,
   noAnimation,
   handleChange,
-  sidebarId,
+  sidebarId = undefined, // deprecated
 }) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const {
@@ -52,7 +52,7 @@ export function DisplaySteps({
 
   return (
     <aside className="dnb-forms-wizard-layout__indicator">
-      <StepIndicator.Sidebar sidebar_id={sidebar_id} />
+      <StepIndicator.Sidebar sidebar_id={sidebar_id} /> {/* deprecated */}
       <StepIndicator
         bottom
         current_step={activeIndexRef.current}
@@ -68,7 +68,7 @@ export function DisplaySteps({
         mode={mode}
         no_animation={noAnimation}
         on_change={handleChange}
-        sidebar_id={sidebar_id}
+        sidebar_id={sidebar_id} // deprecated
         triggerButtonProps={getTriggerStatus()}
       />
     </aside>

@@ -57,10 +57,33 @@
     margin-bottom: 0.5rem;
   }
 
-  &__button__status {
-    &.dnb-button--secondary {
-      color: var(--sb-color-text);
-      background-color: var(--sb-color-yellow-light-3);
+  &__button {
+    &--has-status {
+      &.dnb-button--secondary {
+        color: var(--sb-color-text);
+        background-color: var(--sb-color-yellow-light-3);
+      }
+
+      .dnb-button__icon {
+        align-self: flex-start;
+        margin-top: 1rem;
+        margin-right: 0.25rem;
+      }
+
+      .dnb-step-indicator__item-content {
+        &__number,
+        &__status {
+          font-weight: var(--font-weight-basis);
+        }
+
+        &__status {
+          margin-top: 0.5rem;
+
+          font-size: var(--font-size-x-small);
+          line-height: var(--font-size-basis);
+          color: var(--color-black-80);
+        }
+      }
     }
 
     &--error.dnb-button--secondary {
@@ -71,27 +94,6 @@
     &--info.dnb-button--secondary {
       color: var(--sb-color-text);
       background-color: var(--sb-color-violet-light-4);
-    }
-
-    .dnb-button__icon {
-      align-self: flex-start;
-      margin-top: 1rem;
-      margin-right: 0.25rem;
-    }
-
-    .dnb-step-indicator__item-content {
-      &__number,
-      &__status {
-        font-weight: var(--font-weight-basis);
-      }
-
-      &__status {
-        margin-top: 0.5rem;
-
-        font-size: var(--font-size-x-small);
-        line-height: var(--font-size-basis);
-        color: var(--color-black-80);
-      }
     }
   }
 }
