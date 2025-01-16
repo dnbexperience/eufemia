@@ -9,9 +9,11 @@ import { add } from '../../../../icons'
 import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
 import { convertJsxToString } from '../../../../shared/component-helper'
+import { usePath } from '../../hooks'
 
 export type Props = ButtonProps & {
   path?: Path
+  itemPath?: Path
   pushValue: unknown | ((value: unknown) => void)
 
   /**
@@ -25,10 +27,28 @@ function PushButton(props: Props) {
   const iterateItemContext = useContext(IterateItemContext)
   const { handlePush } = iterateItemContext ?? {}
 
-  const { pushValue, className, path, text, children, ...restProps } =
-    props
+  const {
+    pushValue,
+    className,
+    path,
+    itemPath: itemPathProp,
+    text,
+    children,
+    ...restProps
+  } = props
   const buttonProps = omitDataValueReadWriteProps(restProps)
-  const arrayValue = useDataValue().getValueByPath(path)
+
+  // Support for "itemPath"
+  const { joinPath } = usePath()
+  const itemPath =
+    itemPathProp &&
+    joinPath([
+      iterateItemContext.path,
+      String(iterateItemContext.index),
+      itemPathProp,
+    ])
+
+  const arrayValue = useDataValue().getValueByPath(path || itemPath)
 
   const { hasReachedLimit, setShowStatus } = useArrayLimit(path)
 
@@ -47,12 +67,15 @@ function PushButton(props: Props) {
     const newValue =
       typeof pushValue === 'function' ? pushValue(arrayValue) : pushValue
 
-    if (handlePush) {
+    if (handlePush && !itemPath) {
       // Inside an Iterate element - make the change through the Iterate component
       handlePush(newValue)
     } else {
       // If not inside an iterate, it could still manipulate a source data set through useFieldProps
-      await handlePathChange?.(path, [...(arrayValue ?? []), newValue])
+      await handlePathChange?.(path || itemPath, [
+        ...(arrayValue ?? []),
+        newValue,
+      ])
     }
 
     setTimeout(() => {
@@ -60,6 +83,7 @@ function PushButton(props: Props) {
     }, 100) // UX improvement because of the "openDelay"
   }, [
     arrayValue,
+    itemPath,
     handlePathChange,
     handlePush,
     hasReachedLimit,
