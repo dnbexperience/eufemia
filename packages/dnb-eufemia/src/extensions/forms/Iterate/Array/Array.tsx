@@ -9,7 +9,7 @@ import React, {
 } from 'react'
 import classnames from 'classnames'
 import pointer from '../../utils/json-pointer'
-import { useFieldProps, usePath } from '../../hooks'
+import { useFieldProps } from '../../hooks'
 import { makeUniqueId } from '../../../../shared/component-helper'
 import { Flex, FormStatus, HeightAnimation } from '../../../../components'
 import { Span } from '../../../../elements'
@@ -30,7 +30,11 @@ import ValueBlockContext from '../../ValueBlock/ValueBlockContext'
 import FieldBoundaryProvider from '../../DataContext/FieldBoundary/FieldBoundaryProvider'
 import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
-import { useArrayLimit, useSwitchContainerMode } from '../hooks'
+import {
+  useArrayLimit,
+  useItemPath,
+  useSwitchContainerMode,
+} from '../hooks'
 import { getMessagesFromError } from '../../FieldBlock'
 
 import type { ContainerMode, ElementChild, Props, Value } from './types'
@@ -55,21 +59,10 @@ function ArrayComponent(props: Props) {
     countPathLimit = Infinity,
   } = props || {}
 
-  // Support for "itemPath"
-  const nestedIterateItemContext = useContext(IterateItemContext)
-  const { joinPath } = usePath()
-  const nestedIteratePath =
-    itemPathProp && nestedIterateItemContext
-      ? joinPath([
-          nestedIterateItemContext.path,
-          String(nestedIterateItemContext.index),
-          itemPathProp,
-        ])
-      : undefined
-
   const dataContext = useContext(DataContext)
   const summaryListContext = useContext(SummaryListContext)
   const valueBlockContext = useContext(ValueBlockContext)
+  const nestedIteratePath = useItemPath(itemPathProp)
   const { setLimitProps, error: limitWarning } = useArrayLimit(
     pathProp || nestedIteratePath
   )

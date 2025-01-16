@@ -1,4 +1,5 @@
 import React, { useCallback, useContext, useEffect, useRef } from 'react'
+import classnames from 'classnames'
 import { Button } from '../../../../components'
 import useTranslation from '../../hooks/useTranslation'
 import IterateItemContext from '../IterateItemContext'
@@ -11,6 +12,7 @@ import { ButtonProps } from '../../../../components/Button'
 type Props = ButtonProps
 
 export default function DoneButton(props: Props) {
+  const { className, ...restProps } = props
   const { switchContainerMode, containerMode, arrayValue, index } =
     useContext(IterateItemContext) || {}
   const { hasError, hasVisibleError, setShowBoundaryErrors } =
@@ -57,10 +59,11 @@ export default function DoneButton(props: Props) {
   return (
     <Button
       variant="tertiary"
+      className={classnames('dnb-push-container__done-button', className)}
       icon={check}
       icon_position="left"
       on_click={doneHandler}
-      {...props}
+      {...restProps}
     >
       {doneButton}
     </Button>

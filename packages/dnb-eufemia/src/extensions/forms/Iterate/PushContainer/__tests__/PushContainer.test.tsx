@@ -1059,4 +1059,64 @@ describe('PushContainer', () => {
       expect(document.querySelector('.dnb-form-status')).toBeNull()
     })
   })
+
+  describe('itemPath', () => {
+    it('should add item to the correct array', async () => {
+      let collectedData = null
+
+      render(
+        <Form.Handler
+          data={{
+            outer: [{ inner: [] }],
+          }}
+        >
+          <Iterate.Array path="/outer">
+            <Iterate.Array itemPath="/inner">
+              <Field.String itemPath="/" />
+              <Iterate.RemoveButton />
+            </Iterate.Array>
+
+            <Iterate.PushContainer itemPath="/inner">
+              <Field.String itemPath="/" defaultValue="bar" />
+            </Iterate.PushContainer>
+          </Iterate.Array>
+
+          <DataContext.Consumer>
+            {(context) => {
+              collectedData = context.data
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      expect(collectedData).toEqual({
+        outer: [{ inner: [] }],
+      })
+
+      await userEvent.click(
+        document.querySelector('.dnb-push-container__done-button')
+      )
+
+      expect(collectedData).toEqual({
+        outer: [{ inner: ['bar'] }],
+      })
+
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate-remove-element-button')
+      )
+
+      expect(collectedData).toEqual({
+        outer: [{ inner: [] }],
+      })
+
+      await userEvent.click(
+        document.querySelector('.dnb-push-container__done-button')
+      )
+
+      expect(collectedData).toEqual({
+        outer: [{ inner: ['bar'] }],
+      })
+    })
+  })
 })

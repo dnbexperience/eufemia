@@ -4,6 +4,7 @@ import { ContainerMode } from '../Array'
 
 type PushContainerContext = {
   path: Path
+  itemPath: Path
   entries?: Array<unknown>
   commitHandleRef: React.MutableRefObject<() => void>
   switchContainerMode?: (mode: ContainerMode) => void
