@@ -1,0 +1,21 @@
+@mixin spaceVerticalReset() {
+  &:not([class*='space__top']) {
+    margin-top: 0;
+  }
+  &:not([class*='space__bottom']) {
+    margin-bottom: 0;
+  }
+}
+@mixin spaceHorizontalReset() {
+  &:not([class*='space__left']) {
+    margin-left: 0;
+  }
+  &:not([class*='space__right']) {
+    margin-right: 0;
+  }
+}
+
+@mixin spaceReset() {
+  @include spaceVerticalReset();
+  @include spaceHorizontalReset();
+}

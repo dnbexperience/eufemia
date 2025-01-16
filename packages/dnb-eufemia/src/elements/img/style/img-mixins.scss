@@ -3,7 +3,7 @@
  *
  */
 
-@import '../../../style/core/utilities.scss';
+@import '../../../components/space/style/space-mixins.scss';
 
 @mixin imageStyle() {
   position: relative;

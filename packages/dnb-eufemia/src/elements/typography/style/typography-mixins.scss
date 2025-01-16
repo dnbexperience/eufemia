@@ -1,5 +1,5 @@
 @use '../../../style/elements/ui-spacing.scss';
-@import '../../../style/core/utilities.scss';
+@import '../../../components/space/style/space-mixins.scss';
 
 // includes all classes, tags, etc. needed for "global" typography rules (like css variables)
 @mixin typographySelectors() {

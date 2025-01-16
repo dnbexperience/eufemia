@@ -1,5 +1,5 @@
 @use '../../../style/elements/ui-spacing.scss';
-@import '../../../style/core/utilities.scss';
+@import '../../../components/space/style/space-mixins.scss';
 
 @mixin blockquoteStyle() {
   --blockquote-padding-top: 2rem;

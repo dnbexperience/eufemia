@@ -1,5 +1,5 @@
 @use '../../../style/elements/ui-spacing.scss';
-@import '../../../style/core/utilities.scss';
+@import '../../../components/space/style/space-mixins.scss';
 
 @mixin codeStyle() {
   $code-scale: 0.875;
