@@ -39,8 +39,17 @@ exports[`Elements scss has to match style dependencies css 1`] = `
   border-radius: 1rem;
   position: relative;
 }
-.dnb-blockquote:not([class*=dnb-space]) {
-  margin: 0;
+.dnb-blockquote:not([class*=space__top]) {
+  margin-top: 0;
+}
+.dnb-blockquote:not([class*=space__bottom]) {
+  margin-bottom: 0;
+}
+.dnb-blockquote:not([class*=space__left]) {
+  margin-left: 0;
+}
+.dnb-blockquote:not([class*=space__right]) {
+  margin-right: 0;
 }
 .dnb-blockquote::before {
   content: "";
@@ -156,8 +165,17 @@ del .dnb-code {
   font-size: inherit;
   font-family: var(--font-family-monospace);
 }
-.dnb-pre:not([class*=dnb-space]) {
-  margin: 0;
+.dnb-pre:not([class*=space__top]) {
+  margin-top: 0;
+}
+.dnb-pre:not([class*=space__bottom]) {
+  margin-bottom: 0;
+}
+.dnb-pre:not([class*=space__left]) {
+  margin-left: 0;
+}
+.dnb-pre:not([class*=space__right]) {
+  margin-right: 0;
 }
 .dnb-pre pre {
   padding: 1rem;
@@ -203,8 +221,17 @@ del .dnb-code {
   border: 0;
   --thickness: calc(var(--hr-thickness, 0.0625rem) + var(--modifier, 0px));
 }
-.dnb-hr:not([class*=dnb-space]) {
-  margin: 0;
+.dnb-hr:not([class*=space__top]) {
+  margin-top: 0;
+}
+.dnb-hr:not([class*=space__bottom]) {
+  margin-bottom: 0;
+}
+.dnb-hr:not([class*=space__left]) {
+  margin-left: 0;
+}
+.dnb-hr:not([class*=space__right]) {
+  margin-right: 0;
 }
 .dnb-hr::after {
   content: "";
@@ -254,8 +281,17 @@ del .dnb-code {
   text-align: center;
   align-items: center;
 }
-.dnb-img:not([class*=dnb-space]) {
-  margin: 0;
+.dnb-img:not([class*=space__top]) {
+  margin-top: 0;
+}
+.dnb-img:not([class*=space__bottom]) {
+  margin-bottom: 0;
+}
+.dnb-img:not([class*=space__left]) {
+  margin-left: 0;
+}
+.dnb-img:not([class*=space__right]) {
+  margin-right: 0;
 }
 .dnb-img img,
 .dnb-img figcaption {
@@ -327,8 +363,17 @@ del .dnb-code {
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
 }
-.dnb-ul:not([class*=dnb-space]) {
-  margin: 0;
+.dnb-ul:not([class*=space__top]) {
+  margin-top: 0;
+}
+.dnb-ul:not([class*=space__bottom]) {
+  margin-bottom: 0;
+}
+.dnb-ul:not([class*=space__left]) {
+  margin-left: 0;
+}
+.dnb-ul:not([class*=space__right]) {
+  margin-right: 0;
 }
 .dnb-ul:not([class*=dnb-space__left]) {
   padding-left: 2rem;
@@ -369,8 +414,17 @@ del .dnb-code {
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
 }
-.dnb-ol:not([class*=dnb-space]) {
-  margin: 0;
+.dnb-ol:not([class*=space__top]) {
+  margin-top: 0;
+}
+.dnb-ol:not([class*=space__bottom]) {
+  margin-bottom: 0;
+}
+.dnb-ol:not([class*=space__left]) {
+  margin-left: 0;
+}
+.dnb-ol:not([class*=space__right]) {
+  margin-right: 0;
 }
 .dnb-ol:not([class*=dnb-space__left]) {
   padding-left: 2rem;
@@ -581,8 +635,17 @@ del .dnb-code {
 .dnb-unstyled-list {
   list-style-type: none;
 }
-.dnb-unstyled-list:not([class*=dnb-space]) {
-  margin: 0;
+.dnb-unstyled-list:not([class*=space__top]) {
+  margin-top: 0;
+}
+.dnb-unstyled-list:not([class*=space__bottom]) {
+  margin-bottom: 0;
+}
+.dnb-unstyled-list:not([class*=space__left]) {
+  margin-left: 0;
+}
+.dnb-unstyled-list:not([class*=space__right]) {
+  margin-right: 0;
 }
 .dnb-unstyled-list:not([class*=dnb-space__left]) {
   padding-left: 0;
@@ -676,23 +739,77 @@ del .dnb-code {
   padding: 0;
   font-family: var(--font-family-heading);
 }
-.dnb-lead:not([class*=dnb-space]),
-.dnb-h--xx-large:not([class*=dnb-space]),
-.dnb-h--x-large:not([class*=dnb-space]),
-.dnb-h--large:not([class*=dnb-space]),
-.dnb-h--medium:not([class*=dnb-space]),
-.dnb-h--basis:not([class*=dnb-space]),
-.dnb-h--small:not([class*=dnb-space]),
-.dnb-h--x-small:not([class*=dnb-space]),
-.dnb-core-style .dnb-lead:not([class*=dnb-space]),
-.dnb-core-style .dnb-h--xx-large:not([class*=dnb-space]),
-.dnb-core-style .dnb-h--x-large:not([class*=dnb-space]),
-.dnb-core-style .dnb-h--large:not([class*=dnb-space]),
-.dnb-core-style .dnb-h--medium:not([class*=dnb-space]),
-.dnb-core-style .dnb-h--basis:not([class*=dnb-space]),
-.dnb-core-style .dnb-h--small:not([class*=dnb-space]),
-.dnb-core-style .dnb-h--x-small:not([class*=dnb-space]) {
-  margin: 0;
+.dnb-lead:not([class*=space__top]),
+.dnb-h--xx-large:not([class*=space__top]),
+.dnb-h--x-large:not([class*=space__top]),
+.dnb-h--large:not([class*=space__top]),
+.dnb-h--medium:not([class*=space__top]),
+.dnb-h--basis:not([class*=space__top]),
+.dnb-h--small:not([class*=space__top]),
+.dnb-h--x-small:not([class*=space__top]),
+.dnb-core-style .dnb-lead:not([class*=space__top]),
+.dnb-core-style .dnb-h--xx-large:not([class*=space__top]),
+.dnb-core-style .dnb-h--x-large:not([class*=space__top]),
+.dnb-core-style .dnb-h--large:not([class*=space__top]),
+.dnb-core-style .dnb-h--medium:not([class*=space__top]),
+.dnb-core-style .dnb-h--basis:not([class*=space__top]),
+.dnb-core-style .dnb-h--small:not([class*=space__top]),
+.dnb-core-style .dnb-h--x-small:not([class*=space__top]) {
+  margin-top: 0;
+}
+.dnb-lead:not([class*=space__bottom]),
+.dnb-h--xx-large:not([class*=space__bottom]),
+.dnb-h--x-large:not([class*=space__bottom]),
+.dnb-h--large:not([class*=space__bottom]),
+.dnb-h--medium:not([class*=space__bottom]),
+.dnb-h--basis:not([class*=space__bottom]),
+.dnb-h--small:not([class*=space__bottom]),
+.dnb-h--x-small:not([class*=space__bottom]),
+.dnb-core-style .dnb-lead:not([class*=space__bottom]),
+.dnb-core-style .dnb-h--xx-large:not([class*=space__bottom]),
+.dnb-core-style .dnb-h--x-large:not([class*=space__bottom]),
+.dnb-core-style .dnb-h--large:not([class*=space__bottom]),
+.dnb-core-style .dnb-h--medium:not([class*=space__bottom]),
+.dnb-core-style .dnb-h--basis:not([class*=space__bottom]),
+.dnb-core-style .dnb-h--small:not([class*=space__bottom]),
+.dnb-core-style .dnb-h--x-small:not([class*=space__bottom]) {
+  margin-bottom: 0;
+}
+.dnb-lead:not([class*=space__left]),
+.dnb-h--xx-large:not([class*=space__left]),
+.dnb-h--x-large:not([class*=space__left]),
+.dnb-h--large:not([class*=space__left]),
+.dnb-h--medium:not([class*=space__left]),
+.dnb-h--basis:not([class*=space__left]),
+.dnb-h--small:not([class*=space__left]),
+.dnb-h--x-small:not([class*=space__left]),
+.dnb-core-style .dnb-lead:not([class*=space__left]),
+.dnb-core-style .dnb-h--xx-large:not([class*=space__left]),
+.dnb-core-style .dnb-h--x-large:not([class*=space__left]),
+.dnb-core-style .dnb-h--large:not([class*=space__left]),
+.dnb-core-style .dnb-h--medium:not([class*=space__left]),
+.dnb-core-style .dnb-h--basis:not([class*=space__left]),
+.dnb-core-style .dnb-h--small:not([class*=space__left]),
+.dnb-core-style .dnb-h--x-small:not([class*=space__left]) {
+  margin-left: 0;
+}
+.dnb-lead:not([class*=space__right]),
+.dnb-h--xx-large:not([class*=space__right]),
+.dnb-h--x-large:not([class*=space__right]),
+.dnb-h--large:not([class*=space__right]),
+.dnb-h--medium:not([class*=space__right]),
+.dnb-h--basis:not([class*=space__right]),
+.dnb-h--small:not([class*=space__right]),
+.dnb-h--x-small:not([class*=space__right]),
+.dnb-core-style .dnb-lead:not([class*=space__right]),
+.dnb-core-style .dnb-h--xx-large:not([class*=space__right]),
+.dnb-core-style .dnb-h--x-large:not([class*=space__right]),
+.dnb-core-style .dnb-h--large:not([class*=space__right]),
+.dnb-core-style .dnb-h--medium:not([class*=space__right]),
+.dnb-core-style .dnb-h--basis:not([class*=space__right]),
+.dnb-core-style .dnb-h--small:not([class*=space__right]),
+.dnb-core-style .dnb-h--x-small:not([class*=space__right]) {
+  margin-right: 0;
 }
 .dnb-lead .dnb-icon--default,
 .dnb-h--xx-large .dnb-icon--default,
