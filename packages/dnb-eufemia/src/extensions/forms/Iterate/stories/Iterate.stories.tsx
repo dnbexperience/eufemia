@@ -1,5 +1,13 @@
 import React, { useCallback } from 'react'
-import { Field, Form, Iterate, Tools, Value, Wizard } from '../..'
+import {
+  Field,
+  Form,
+  Iterate,
+  Tools,
+  Value,
+  ValueBlock,
+  Wizard,
+} from '../..'
 import { Flex } from '../../../../components'
 
 export default {
@@ -23,7 +31,7 @@ export const AnimatedContainer = () => {
               <Field.String label="Label" itemPath="/" />
 
               <Iterate.Toolbar>
-                <Iterate.RemoveButton />
+                <Iterate.RemoveButton showConfirmDialog />
               </Iterate.Toolbar>
             </Iterate.AnimatedContainer>
           </Iterate.Array>
@@ -357,6 +365,134 @@ export function IterateRequired() {
       </Iterate.Array>
       <Iterate.PushButton path="/items" pushValue="baz" />
       <Form.SubmitButton />
+    </Form.Handler>
+  )
+}
+
+function EditPerson() {
+  return (
+    <Flex.Stack>
+      <Field.Name.Last
+        itemPath="/name"
+        // validateInitially
+      />
+
+      {/* <FieldBlock label="Citizenship's" asFieldset> */}
+      <Iterate.Array
+        fieldLabel="Citizenship's"
+        // label="Citizenship's"
+        itemPath="/citizenships"
+        animate
+        required
+        errorMessages={{
+          'Field.errorRequired': 'At least one citizenship is required.',
+        }}
+        // validateInitially
+      >
+        <Flex.Horizontal align="center">
+          <Field.SelectCountry
+            label={false}
+            itemPath="/"
+            // defaultValue="NO"
+          />
+          <Iterate.RemoveButton
+          // showConfirmDialog
+          />
+        </Flex.Horizontal>
+      </Iterate.Array>
+      {/* </FieldBlock> */}
+
+      <Iterate.PushContainer
+        // required
+        itemPath="/citizenships"
+        // bubbleValidation
+        openButton={
+          <Iterate.PushContainer.OpenButton
+            top
+            text="Add another citizenship"
+            variant="tertiary"
+          />
+        }
+        showOpenButtonWhen={(list) => list.length > 0}
+        // showOpenButtonWhen={(list) => true}
+        toolbar={
+          <Iterate.Toolbar>
+            <Iterate.EditContainer.DoneButton text="Add citizenship" />
+          </Iterate.Toolbar>
+        }
+        // defaultData="NO"
+      >
+        <Field.SelectCountry
+          label="New citizenship"
+          itemPath="/"
+          // defaultValue="NO"
+          // required
+        />
+      </Iterate.PushContainer>
+    </Flex.Stack>
+  )
+}
+
+export function IterateInIterate() {
+  return (
+    <Form.Handler
+      required
+      defaultData={{
+        persons: [
+          {
+            name: 'Tony',
+            citizenships: ['NO', 'SE'],
+          },
+        ],
+      }}
+    >
+      <Flex.Stack>
+        <Iterate.Array
+          path="/persons"
+          containerMode="edit" //
+        >
+          <Iterate.ViewContainer title="Persons">
+            <Value.SummaryList>
+              <Value.Name.Last itemPath="/name" />
+
+              <ValueBlock label="Citizenship's">
+                <Iterate.Array itemPath="/citizenships">
+                  <Value.SelectCountry inline label={false} itemPath="/" />
+                </Iterate.Array>
+              </ValueBlock>
+            </Value.SummaryList>
+
+            <Iterate.Toolbar>
+              <Iterate.ViewContainer.EditButton />
+              <Iterate.ViewContainer.RemoveButton showConfirmDialog />
+            </Iterate.Toolbar>
+          </Iterate.ViewContainer>
+
+          <Iterate.EditContainer title="Edit person">
+            <EditPerson />
+          </Iterate.EditContainer>
+        </Iterate.Array>
+
+        {/* <Iterate.PushContainer
+          // required
+          path="/persons"
+          // bubbleValidation // Ensure the form knows about the error
+          title="New person"
+          openButton={
+            <Iterate.PushContainer.OpenButton
+              text="Add new person"
+              variant="tertiary"
+            />
+          }
+          // showOpenButtonWhen={(list) => list.length > 0}
+        >
+          <EditPerson />
+        </Iterate.PushContainer> */}
+
+        <Form.SubmitButton text="Save" />
+
+        <Tools.Log />
+      </Flex.Stack>
     </Form.Handler>
   )
 }
