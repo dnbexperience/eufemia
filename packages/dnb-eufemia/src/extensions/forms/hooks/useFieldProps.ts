@@ -39,7 +39,7 @@ import useUpdateEffect from '../../../shared/helpers/useUpdateEffect'
 import FieldBlockContext, {
   FieldBlockContextProps,
 } from '../FieldBlock/FieldBlockContext'
-import IterateItemContext from '../Iterate/IterateItemContext'
+import IterateElementContext from '../Iterate/IterateItemContext'
 import SectionContext from '../Form/Section/SectionContext'
 import FieldBoundaryContext from '../DataContext/FieldBoundary/FieldBoundaryContext'
 import VisibilityContext from '../Form/Visibility/VisibilityContext'
@@ -172,7 +172,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const id = useId(props.id)
   const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
-  const iterateItemContext = useContext(IterateItemContext)
+  const iterateItemContext = useContext(IterateElementContext)
   const sectionContext = useContext(SectionContext)
   const fieldBoundaryContext = useContext(FieldBoundaryContext)
   const wizardContext = useContext(WizardContext)
@@ -233,6 +233,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     handleChange: handleChangeIterateContext,
     index: iterateIndex,
     arrayValue: iterateArrayValue,
+    nestedIteratePath,
   } = iterateItemContext || {}
   const { path: sectionPath, errorPrioritization } = sectionContext || {}
   const {
@@ -1922,13 +1923,17 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         ? dataContext.data
         : dataContext.internalDataRef?.current
 
+      const storePath = nestedIteratePath
+        ? makeIteratePath(itemPath, nestedIteratePath)
+        : identifier
+
       // First, look for existing data in the context
-      const hasValue = pointer.has(data, identifier) || identifier === '/'
+      const hasValue = pointer.has(data, storePath) || storePath === '/'
       const existingValue =
-        identifier === '/'
+        storePath === '/'
           ? data
           : hasValue
-          ? pointer.get(data, identifier)
+          ? pointer.get(data, storePath)
           : undefined
 
       // If no data where found in the dataContext, look for shared data
@@ -1939,9 +1944,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         typeof valueToStore === 'undefined'
       ) {
         const sharedState = createSharedState(dataContext.id)
-        const hasValue = pointer.has(sharedState.data, identifier)
+        const hasValue = pointer.has(sharedState.data, storePath)
         if (hasValue) {
-          const sharedValue = pointer.get(sharedState.data, identifier)
+          const sharedValue = pointer.get(sharedState.data, storePath)
           if (sharedValue) {
             valueToStore = sharedValue as Value
           }
@@ -2038,8 +2043,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       }
 
       if (
-        identifier in tmpTransValueRef.current &&
-        tmpTransValueRef.current[identifier] === valueToStore
+        storePath in tmpTransValueRef.current &&
+        tmpTransValueRef.current[storePath] === valueToStore
       ) {
         return // stop here, avoid infinite loop
       }
@@ -2051,19 +2056,23 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       )
       if (transformedValue !== valueToStore) {
         // When the value got transformed, we want to update the internal value, and avoid an infinite loop
-        tmpTransValueRef.current[identifier] = valueToStore
+        tmpTransValueRef.current[storePath] = valueToStore
         valueToStore = transformedValue
       }
 
       // When an itemPath is given, we don't want to rerender the context on every iteration because of performance reasons.
       // We know when the last item is reached, so we can prevent rerenders during the iteration.
-      if (hasItemPath && iterateIndex < iterateArrayValue?.length - 1) {
+      if (
+        hasItemPath &&
+        !nestedIteratePath && // Ensure we still rerender when nestedIteratePath is set
+        iterateIndex < iterateArrayValue?.length - 1
+      ) {
         preventUpdate = true
       }
 
       // Update the data context when a pointer not exists,
       // but was given initially.
-      updateDataValueDataContext?.(identifier, valueToStore, {
+      updateDataValueDataContext?.(storePath, valueToStore, {
         preventUpdate,
       })
 
@@ -2082,6 +2091,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       itemPath,
       iterateArrayValue?.length,
       iterateIndex,
+      makeIteratePath,
+      nestedIteratePath,
       updateContextDataInSync,
       updateDataValueDataContext,
       validateDataDataContext,

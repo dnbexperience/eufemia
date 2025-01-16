@@ -62,6 +62,9 @@ describe('usePath', () => {
         </Iterate.Array>
       ),
     })
+    expect(result.current.identifier).toBe(
+      `${iteratePath}/${iterateElementIndex}${itemPath}`
+    )
     expect(result.current.path).toBe(
       `${iteratePath}/${iterateElementIndex}${itemPath}`
     )
@@ -133,5 +136,24 @@ describe('usePath', () => {
     const { result } = renderHook(() => usePath({ path, id }))
     expect(result.current.identifier).toBe(id)
     expect(result.current.path).toBe(path)
+  })
+
+  describe('makeIteratePath', () => {
+    it('should support nested itemPath', () => {
+      const path = '/path'
+      const iteratePath = '/iteratePath'
+      const itemPath = '/itemPath'
+      const iterateElementIndex = 0
+      const { result } = renderHook(() => usePath({ path, itemPath }), {
+        wrapper: ({ children }) => (
+          <Iterate.Array path={iteratePath} value={['outer']}>
+            {children}
+          </Iterate.Array>
+        ),
+      })
+      expect(result.current.makeIteratePath(itemPath, iteratePath)).toBe(
+        `${iteratePath}/${iterateElementIndex}${itemPath}`
+      )
+    })
   })
 })

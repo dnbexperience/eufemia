@@ -12,6 +12,11 @@ export const ArrayProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  itemPath: {
+    doc: 'A path (JSON Pointer) to nested array items.',
+    type: 'string',
+    status: 'optional',
+  },
   required: {
     doc: "If the array is required. It does not automatically inherit the `required` property in the same way that `Field.*` components do. You may provide a custom error message to give the user a more useful message than the default one: `errorMessages={{ 'Field.errorRequired': 'Custom message' }}`",
     type: 'boolean',

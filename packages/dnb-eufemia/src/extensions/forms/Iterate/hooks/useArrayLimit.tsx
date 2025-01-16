@@ -9,7 +9,7 @@ type SharedState = {
   total?: number
 }
 
-export default function useArrayLimit({ path }: { path: Path }) {
+export default function useArrayLimit(path: Path) {
   const sharedState = useSharedState<SharedState>(path + '-iterate-limit')
   const { set, update, extend, data } = sharedState || {}
   const { limit, total, show } = data || {}

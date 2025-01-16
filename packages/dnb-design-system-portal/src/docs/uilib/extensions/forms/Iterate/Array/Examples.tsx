@@ -794,3 +794,23 @@ export const Required = () => {
     </ComponentBox>
   )
 }
+
+export const NestedIterate = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler
+        data={{
+          outer: [{ inner: ['foo', 'bar'] }],
+        }}
+      >
+        <Iterate.Array path="/outer">
+          <Iterate.Array itemPath="/inner">
+            <Field.String label="Item {itemNo}" itemPath="/" />
+          </Iterate.Array>
+        </Iterate.Array>
+
+        <Tools.Log />
+      </Form.Handler>
+    </ComponentBox>
+  )
+}

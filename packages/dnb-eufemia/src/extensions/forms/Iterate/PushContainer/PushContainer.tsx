@@ -114,9 +114,7 @@ function PushContainer(props: AllProps) {
     useDataValue<Array<unknown>>(path)
 
   const { setNextContainerMode } = useSwitchContainerMode(path)
-  const { hasReachedLimit, setShowStatus } = useArrayLimit({
-    path,
-  })
+  const { hasReachedLimit, setShowStatus } = useArrayLimit(path)
   const cancelHandler = useCallback(() => {
     if (hasReachedLimit) {
       setShowStatus(false)
