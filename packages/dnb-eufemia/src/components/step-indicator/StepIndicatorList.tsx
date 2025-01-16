@@ -5,80 +5,69 @@
 
 import React, { useContext } from 'react'
 import classnames from 'classnames'
-import {
-  combineLabelledBy,
-  validateDOMAttributes,
-} from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import Space from '../space/Space'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
+import HeightAnimation from '../height-animation/HeightAnimation'
 import StepIndicatorItem from './StepIndicatorItem'
 import StepIndicatorContext from './StepIndicatorContext'
 
 function StepIndicatorList() {
-  const context = useContext(StepIndicatorContext)
-
   const {
     mode,
-    filterAttributes,
     skeleton,
-    data,
+    openState,
+    openHandler,
+    closeHandler,
     countSteps,
-    sidebar_id,
-    ...rest
-  } = context
+    data,
+  } = useContext(StepIndicatorContext)
+  const Element = mode === 'static' ? 'div' : 'nav'
 
-  const params = {
-    sidebar_id,
-    className: classnames(
-      'dnb-step-indicator',
-      createSkeletonClass('font', skeleton),
-      context.hasSidebar && createSpacingClasses(context),
-      context.className
-    ),
-  }
-
-  const listParams = {
-    className: 'dnb-step-indicator__list',
-  }
-
-  const Element = mode === 'static' || !context.hasSidebar ? 'div' : 'nav'
-
-  const ariaLabelledbyValue = combineLabelledBy(rest, params.sidebar_id)
-
-  if (Element === 'nav') {
-    params['aria-labelledby'] = ariaLabelledbyValue
-  } else {
-    listParams['aria-labelledby'] = ariaLabelledbyValue
-  }
-
-  Object.keys(params).forEach((key) => {
-    if (filterAttributes.includes(key)) {
-      delete params[key]
-    }
-  })
-
+  const params = {}
   skeletonDOMAttributes(params, skeleton)
-
-  validateDOMAttributes(context, params)
-
   return (
-    <Element {...params}>
-      {countSteps > 0 && (
-        <ol {...listParams}>
-          {data.map((itemData, i) => {
-            const item =
-              typeof itemData === 'string' ? { title: itemData } : itemData
+    <HeightAnimation
+      open={openState}
+      onOpen={(state) => {
+        if (state) {
+          openHandler()
+        } else {
+          closeHandler()
+        }
+      }}
+    >
+      <Space innerSpace={{ top: 'small' }}>
+        <Element
+          {...params}
+          className={classnames(
+            'dnb-step-indicator',
+            createSkeletonClass('font', skeleton)
+          )}
+        >
+          {countSteps > 0 && (
+            <ol className="dnb-step-indicator__list">
+              {data.map((itemData, i) => {
+                const item =
+                  typeof itemData === 'string'
+                    ? { title: itemData }
+                    : itemData
 
-            return (
-              <StepIndicatorItem key={i} currentItemNum={i} {...item} />
-            )
-          })}
-        </ol>
-      )}
-    </Element>
+                return (
+                  <StepIndicatorItem
+                    key={i}
+                    currentItemNum={i}
+                    {...item}
+                  />
+                )
+              })}
+            </ol>
+          )}
+        </Element>
+      </Space>
+    </HeightAnimation>
   )
 }
 
