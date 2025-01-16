@@ -180,6 +180,24 @@ describe('Iterate.Array', () => {
           document.querySelector('.dnb-forms-section')
         ).toHaveTextContent('Placeholder text')
       })
+
+      it('should render span when placeholder is a string', () => {
+        const list = []
+
+        render(
+          <Iterate.Array value={list} placeholder="Placeholder text">
+            content
+          </Iterate.Array>
+        )
+
+        expect(document.querySelectorAll('.dnb-span')).toHaveLength(1)
+        expect(document.querySelector('.dnb-span')).toHaveTextContent(
+          'Placeholder text'
+        )
+        expect(document.querySelector('.dnb-span')).toHaveClass(
+          'dnb-t__size--small'
+        )
+      })
     })
 
     describe('label', () => {
