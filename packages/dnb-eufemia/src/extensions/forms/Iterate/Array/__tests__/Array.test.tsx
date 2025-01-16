@@ -1653,7 +1653,8 @@ describe('Iterate.Array', () => {
       expect(container.querySelector('.dnb-flex-container')).toBeNull()
       expect(log).toHaveBeenCalledWith(
         expect.any(String),
-        'Value components as siblings should be wrapped inside a Value.SummaryList!'
+        'Value components as siblings should be wrapped inside a Value.SummaryList:',
+        { itemPath: '/', label: '', path: undefined }
       )
 
       log.mockRestore()
