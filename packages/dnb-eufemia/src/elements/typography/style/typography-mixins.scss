@@ -1,4 +1,5 @@
 @use '../../../style/elements/ui-spacing.scss';
+@import '../../../style/core/utilities.scss';
 
 // includes all classes, tags, etc. needed for "global" typography rules (like css variables)
 @mixin typographySelectors() {
@@ -92,9 +93,7 @@
 @mixin headingDefaults() {
   padding: 0;
 
-  &:not([class*='dnb-space']) {
-    margin: 0;
-  }
+  @include spaceReset();
 
   font-family: var(--font-family-heading);
 

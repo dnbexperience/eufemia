@@ -1,4 +1,5 @@
 @use '../../../style/elements/ui-spacing.scss';
+@import '../../../style/core/utilities.scss';
 
 @mixin hrStyle() {
   position: relative;
@@ -8,9 +9,7 @@
 
   display: flow-root; // avoid margin collapsing on Safari
 
-  &:not([class*='dnb-space']) {
-    margin: 0;
-  }
+  @include spaceReset();
 
   border: 0;
 

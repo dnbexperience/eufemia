@@ -1,4 +1,5 @@
 @use '../../../style/elements/ui-spacing.scss';
+@import '../../../style/core/utilities.scss';
 
 @mixin codeStyle() {
   $code-scale: 0.875;
@@ -27,9 +28,7 @@
   display: block;
   overflow: auto;
 
-  &:not([class*='dnb-space']) {
-    margin: 0;
-  }
+  @include spaceReset();
   padding: 1rem;
 
   border-radius: 0.5rem;

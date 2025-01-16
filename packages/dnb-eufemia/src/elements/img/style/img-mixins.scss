@@ -3,6 +3,8 @@
  *
  */
 
+@import '../../../style/core/utilities.scss';
+
 @mixin imageStyle() {
   position: relative;
   z-index: 2;
@@ -35,9 +37,7 @@
   display: inline-flex;
   flex-direction: column;
 
-  &:not([class*='dnb-space']) {
-    margin: 0;
-  }
+  @include spaceReset();
   padding: 0;
 
   text-align: center; // works on Chrome – hides the alt text
