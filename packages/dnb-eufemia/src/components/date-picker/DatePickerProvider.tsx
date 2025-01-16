@@ -24,6 +24,7 @@ import useDates, { DatePickerDates } from './hooks/useDates'
 import useLastEventCallCache, {
   LastEventCallCache,
 } from './hooks/useLastEventCallCache'
+import useMinMaxDateValidation from './hooks/useMinMaxDateValidation'
 
 type DatePickerProviderProps = DatePickerAllProps & {
   setReturnObject: (
@@ -108,6 +109,11 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
         shouldCorrectDate: correctInvalidDate,
       }
     )
+
+  const minMaxDateValidationMessage = useMinMaxDateValidation({
+    ...dates,
+    isRange: range,
+  })
 
   const { views, setViews, forceViewMonthChange } = useViews({
     startMonth: dates.startMonth,
@@ -228,6 +234,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
         ...dates,
         previousDateProps,
         hasHadValidDate,
+        minMaxDateValidationMessage,
         views,
         setViews,
         forceViewMonthChange,

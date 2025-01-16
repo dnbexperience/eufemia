@@ -1073,6 +1073,10 @@ const NonAttributes = [
   'endMonth',
   'startMonth',
   'alignPicker',
+  'errorDateIsBeforeMinDate',
+  'errorDateIsAfterMaxDate',
+  'errorStartDateIsBeforeMinDate',
+  'errorEndDateIsAfterMaxDate',
 ]
 
 function filterOutNonAttributes(props: DatePickerProps) {
