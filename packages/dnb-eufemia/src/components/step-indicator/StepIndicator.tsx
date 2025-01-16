@@ -4,10 +4,13 @@
  */
 
 import React from 'react'
+import classnames from 'classnames'
 
+import { createSpacingClasses } from '../space/SpacingHelper'
+import Card from '../Card'
+import StepIndicatorTriggerButton from './StepIndicatorTriggerButton'
 import StepIndicatorSidebar from './StepIndicatorSidebar'
-
-import StepIndicatorModal from './StepIndicatorModal'
+import StepIndicatorList from './StepIndicatorList'
 import {
   StepIndicatorContextValues,
   StepIndicatorProvider,
@@ -20,8 +23,7 @@ import type {
   StepItemWrapper,
 } from './StepIndicatorItem'
 import { stepIndicatorDefaultProps } from './StepIndicatorProps'
-import useId from '../../shared/helpers/useId'
-import { StepIndicatorTriggerButtonProps } from './StepIndicatorTriggerButton'
+import type { StepIndicatorTriggerButtonProps } from './StepIndicatorTriggerButton'
 
 export type StepIndicatorMode = 'static' | 'strict' | 'loose'
 export type StepIndicatorDataItem = Pick<
@@ -59,6 +61,7 @@ export type StepIndicatorProps = Omit<
   SpacingProps & {
     /**
      * <em>(required with `<StepIndicator.Sidebar />`)</em> a unique string-based ID in order to bind together the main component and the sidebar (`<StepIndicator.Sidebar />`). Both have to get the same ID.
+     * @deprecated StepIndicator.Sidebar variant is no longer supported
      */
     sidebar_id?: string
     /**
@@ -88,6 +91,7 @@ export type StepIndicatorProps = Omit<
      * `%step` is used to place the current step into the text
      * `%count` is used to place the step total into the text
      *  Defaults to `You are on step %step of %count`
+     * @deprecated only `step_title`is used
      */
     step_title_extended?: string
     /**
@@ -159,17 +163,25 @@ function StepIndicator({
     ...restOfProps,
   }
 
-  const sidebarId = useId(props.sidebar_id)
-
   return (
-    <StepIndicatorProvider {...props} sidebar_id={sidebarId}>
-      <div className="dnb-step-indicator-wrapper">
-        <StepIndicatorModal />
-      </div>
+    <StepIndicatorProvider {...props}>
+      <Card
+        align="stretch"
+        className={classnames(
+          'dnb-step-indicator-wrapper',
+          createSpacingClasses(restOfProps)
+        )}
+      >
+        <StepIndicatorTriggerButton />
+        <StepIndicatorList />
+      </Card>
     </StepIndicatorProvider>
   )
 }
 
+/**
+ * @deprecated StepIndicator.Sidebar variant is no longer supported
+ */
 StepIndicator.Sidebar = StepIndicatorSidebar
 
 StepIndicator._supportsSpacingProps = true
