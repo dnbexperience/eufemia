@@ -221,6 +221,21 @@ function IsolationProvider<Data extends JsonObject>(
     onClearProp?.()
   }, [onClearProp])
 
+  const setShowAllErrorsNested = useCallback((showAllErrors: boolean) => {
+    dataContextRef.current?.setShowAllErrors?.(showAllErrors)
+  }, [])
+
+  if (
+    bubbleValidation &&
+    !outerContext?.addSetShowAllErrorsRef?.current?.includes(
+      setShowAllErrorsNested
+    )
+  ) {
+    outerContext.addSetShowAllErrorsRef?.current.push(
+      setShowAllErrorsNested
+    )
+  }
+
   const providerProps: IsolationProps<Data> = {
     ...props,
     [defaultData ? 'defaultData' : 'data']: internalDataRef.current,
@@ -251,21 +266,26 @@ function IsolationProvider<Data extends JsonObject>(
   )
 }
 
-function BubbleValidation({ outerContext }) {
+function BubbleValidation({
+  outerContext,
+}: {
+  outerContext: ContextState
+}) {
   const { setMountedFieldState, setFieldError } = outerContext || {}
-  const dataContext = useContext(DataContext)
+  const errors = useContext(DataContext).hasErrors()
 
   const id = useId()
   useEffect(() => {
     const path = `/${id}`
-    const errors = dataContext.hasErrors()
+
     if (errors) {
       setMountedFieldState?.(path, {
         isMounted: true,
       })
     }
+
     setFieldError?.(path, errors ? new Error('Form.Isolation') : undefined)
-  }, [dataContext, id, setFieldError, setMountedFieldState])
+  }, [errors, id, setFieldError, setMountedFieldState])
 
   return null
 }
