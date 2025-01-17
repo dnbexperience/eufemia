@@ -1,4 +1,11 @@
-import React, { useCallback, useContext, useMemo, useRef } from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+} from 'react'
 import Isolation from '../../Form/Isolation'
 import PushContainerContext from './PushContainerContext'
 import IterateItemContext from '../IterateItemContext'
@@ -82,6 +89,7 @@ export type Props = {
 export type AllProps = Props & SpacingProps & ArrayItemAreaProps
 
 function PushContainer(props: AllProps) {
+  const [, forceUpdate] = useReducer(() => ({}), {})
   const requiredInherited = useContext(DataContext)?.required
 
   const {
@@ -101,6 +109,7 @@ function PushContainer(props: AllProps) {
 
   const commitHandleRef = useRef<() => void>()
   const switchContainerModeRef = useRef<(mode: ContainerMode) => void>()
+  const containerModeRef = useRef<ContainerMode>()
   const { value: entries = [], moveValueToPath } =
     useDataValue<Array<unknown>>(path)
 
@@ -159,7 +168,9 @@ function PushContainer(props: AllProps) {
       defaultData={defaultData}
       required={required}
       emptyData={emptyData}
-      bubbleValidation={bubbleValidation}
+      bubbleValidation={
+        containerModeRef.current === 'view' ? false : bubbleValidation
+      }
       commitHandleRef={commitHandleRef}
       transformOnCommit={({ pushContainerItems }) => {
         return moveValueToPath(path, [...entries, ...pushContainerItems])
@@ -189,6 +200,8 @@ function PushContainer(props: AllProps) {
             switchContainerModeRef={switchContainerModeRef}
             showOpenButton={showOpenButton}
             cancelHandler={cancelHandler}
+            containerModeRef={containerModeRef}
+            rerenderPushContainer={forceUpdate}
             {...rest}
           >
             {children}
@@ -205,11 +218,19 @@ function NewContainer({
   showOpenButton,
   switchContainerModeRef,
   cancelHandler,
+  containerModeRef,
+  rerenderPushContainer,
   children,
   ...rest
 }) {
   const { containerMode, switchContainerMode } =
     useContext(IterateItemContext) || {}
+  containerModeRef.current = containerMode
+
+  useEffect(() => {
+    rerenderPushContainer()
+  }, [containerMode, rerenderPushContainer])
+
   switchContainerModeRef.current = switchContainerMode
   const { createButton } = useTranslation().IteratePushContainer
   const { clearData } = useContext(DataContext) || {}

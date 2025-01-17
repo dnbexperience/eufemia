@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Field, Form, Iterate } from '../../..'
+import { Field, Form, Iterate, Wizard } from '../../..'
 import { Div } from '../../../../../elements'
 import DataContext from '../../../DataContext/Context'
 
@@ -162,6 +162,69 @@ describe('PushContainer', () => {
       ).not.toBeInTheDocument()
 
       fireEvent.submit(form)
+    })
+
+    it('should not prevent Wizard navigation when no error messages are present', async () => {
+      render(
+        <Form.Handler>
+          <Wizard.Container>
+            <Wizard.Step>
+              <output>Step 1</output>
+
+              <Iterate.PushContainer
+                path="/myList"
+                bubbleValidation
+                openButton={
+                  <Iterate.PushContainer.OpenButton id="open-button" />
+                }
+                showOpenButtonWhen={() => true}
+              >
+                <Field.String itemPath="/foo" required />
+              </Iterate.PushContainer>
+
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step>
+              <output>Step 2</output>
+
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      const previousButton = () => {
+        return document.querySelector('.dnb-forms-previous-button')
+      }
+      const nextButton = () => {
+        return document.querySelector('.dnb-forms-next-button')
+      }
+      const output = () => {
+        return document.querySelector('output')
+      }
+
+      expect(output()).toHaveTextContent('Step 1')
+
+      await userEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 2')
+
+      await userEvent.click(previousButton())
+
+      expect(output()).toHaveTextContent('Step 1')
+
+      await userEvent.click(document.querySelector('#open-button'))
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      await userEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
     })
   })
 
