@@ -1219,7 +1219,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     try {
       const requiredError = transformers.current.validateRequired(value, {
         emptyValue,
-        required: requiredProp ?? required,
+        required,
         isChanged: changedRef.current,
         error: new FormError('Field.errorRequired'),
       })
@@ -1289,7 +1289,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     persistErrorState,
     prioritizeContextSchema,
     required,
-    requiredProp,
     setFieldState,
     startOnBlurValidatorProcess,
     startOnChangeValidatorValidation,
@@ -2383,6 +2382,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     updateValue,
     setChanged,
     setDisplayValue,
+    validateValue,
     forceUpdate,
 
     /** Internal */

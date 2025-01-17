@@ -7,6 +7,9 @@ import { IterateItemContext } from '../..'
 import { Field, FieldBlock, Form, Value, ValueBlock } from '../../..'
 import { ContextState, FilterData } from '../../../DataContext'
 
+import nbNO from '../../../constants/locales/nb-NO'
+const nb = nbNO['nb-NO']
+
 describe('Iterate.Array', () => {
   describe('with primitive elements', () => {
     it('should distribute values and receive callbacks', async () => {
@@ -559,6 +562,110 @@ describe('Iterate.Array', () => {
     })
   })
 
+  describe('required', () => {
+    it('should show required error on initial render', () => {
+      render(
+        <Form.Handler>
+          <Iterate.Array path="/items" required validateInitially>
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Field.errorRequired
+      )
+    })
+
+    it('should not inherit required from parent', () => {
+      render(
+        <Form.Handler required>
+          <Iterate.Array path="/items" validateInitially>
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should support custom error messages', () => {
+      render(
+        <Form.Handler>
+          <Iterate.Array
+            path="/items"
+            required
+            errorMessages={{
+              'Field.errorRequired': 'Custom message',
+            }}
+            validateInitially
+          >
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        'Custom message'
+      )
+    })
+
+    it('should show required error on submit', () => {
+      render(
+        <Form.Handler>
+          <Iterate.Array path="/items" required>
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Field.errorRequired
+      )
+    })
+
+    it('should show and hide required error', async () => {
+      render(
+        <Form.Handler>
+          <Iterate.Array path="/items" required>
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+          <Iterate.PushButton path="/items" pushValue="baz" />
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Field.errorRequired
+      )
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Field.errorRequired
+      )
+
+      await userEvent.click(document.querySelector('button'))
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
+    })
+  })
+
   describe('onChangeValidator', () => {
     it('should validate onChangeValidator initially (validateInitially)', async () => {
       const onChangeValidator = jest.fn((arrayValue) => {
@@ -601,7 +708,7 @@ describe('Iterate.Array', () => {
 
       fireEvent.click(document.querySelector('button'))
 
-      expect(onChangeValidator).toHaveBeenCalledTimes(2)
+      expect(onChangeValidator).toHaveBeenCalledTimes(3)
       expect(onChangeValidator).toHaveBeenCalledWith(
         ['foo', 'bar', 'baz'],
         expect.anything()
@@ -659,7 +766,7 @@ describe('Iterate.Array', () => {
 
       fireEvent.click(document.querySelector('button'))
 
-      expect(onChangeValidator).toHaveBeenCalledTimes(2)
+      expect(onChangeValidator).toHaveBeenCalledTimes(3)
       expect(onChangeValidator).toHaveBeenCalledWith(
         ['foo', 'bar', 'baz'],
         expect.anything()
