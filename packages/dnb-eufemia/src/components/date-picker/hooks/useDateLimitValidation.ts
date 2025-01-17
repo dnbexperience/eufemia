@@ -19,14 +19,14 @@ export default function useDateLimitValidation({
 
   const validationMessage = useMemo<string | undefined>(() => {
     if (isBefore(startDate, minDate)) {
-      return translation.errorDateIsBeforeMinDate.replace(
+      return translation.errorMinDate.replace(
         '%s',
         minDate.toLocaleDateString()
       )
     }
 
     if (isAfter(startDate, maxDate)) {
-      return translation.errorDateIsAfterMaxDate.replace(
+      return translation.errorMaxDate.replace(
         '%s',
         maxDate.toLocaleDateString()
       )
