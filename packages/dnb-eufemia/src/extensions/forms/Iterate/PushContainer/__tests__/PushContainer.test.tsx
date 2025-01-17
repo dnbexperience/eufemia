@@ -44,6 +44,24 @@ describe('PushContainer', () => {
     )
   })
 
+  it('should show errors when pressing commit button', async () => {
+    render(
+      <Form.Handler>
+        <Iterate.Array path="/entries">...</Iterate.Array>
+
+        <Iterate.PushContainer path="/entries">
+          <Field.String itemPath="/name" required />
+        </Iterate.PushContainer>
+      </Form.Handler>
+    )
+
+    await userEvent.click(document.querySelector('button'))
+
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+      nb.Field.errorRequired
+    )
+  })
+
   describe('bubbleValidation', () => {
     it('should prevent the form from submitting as long as there are errors', async () => {
       const onSubmitRequest = jest.fn()
@@ -72,17 +90,23 @@ describe('PushContainer', () => {
       const commitButton = document.querySelector('button')
 
       await userEvent.click(commitButton)
-      fireEvent.submit(form)
 
+      expect(onCommit).toHaveBeenCalledTimes(0)
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
         nb.Field.errorRequired
       )
 
+      fireEvent.submit(form)
+
       expect(onSubmit).toHaveBeenCalledTimes(0)
       expect(onSubmitRequest).toHaveBeenCalledTimes(1)
-      expect(onCommit).toHaveBeenCalledTimes(0)
 
       await userEvent.type(input, 'Tony')
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
       fireEvent.submit(form)
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
@@ -91,6 +115,53 @@ describe('PushContainer', () => {
 
       await userEvent.click(commitButton)
       expect(onCommit).toHaveBeenCalledTimes(1)
+    })
+
+    it('should not show errors when submitting the form when bubbleValidation is false', async () => {
+      render(
+        <Form.Handler>
+          <Iterate.Array path="/entries">...</Iterate.Array>
+
+          <Iterate.PushContainer path="/entries" bubbleValidation={false}>
+            <Field.String itemPath="/name" required />
+          </Iterate.PushContainer>
+        </Form.Handler>
+      )
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should show errors when submitting the form', async () => {
+      render(
+        <Form.Handler>
+          <Iterate.Array path="/entries">...</Iterate.Array>
+
+          <Iterate.PushContainer path="/entries" bubbleValidation>
+            <Field.String itemPath="/name" required />
+          </Iterate.PushContainer>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const form = document.querySelector('form')
+
+      fireEvent.submit(form)
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Field.errorRequired
+      )
+
+      await userEvent.type(input, 'Tony')
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      fireEvent.submit(form)
     })
   })
 

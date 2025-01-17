@@ -101,11 +101,10 @@ function PushContainer(props: AllProps) {
 
   const commitHandleRef = useRef<() => void>()
   const switchContainerModeRef = useRef<(mode: ContainerMode) => void>()
-  const { value: entries = [], moveValueToPath } = useDataValue<
-    Array<unknown>
-  >({ path })
+  const { value: entries = [], moveValueToPath } =
+    useDataValue<Array<unknown>>(path)
 
-  const { setNextContainerMode } = useSwitchContainerMode({ path })
+  const { setNextContainerMode } = useSwitchContainerMode(path)
   const { hasReachedLimit, setShowStatus } = useArrayLimit({
     path,
   })

@@ -12,10 +12,10 @@ export type Props<Value> = {
 
 export type GetValueByPath<Value = unknown> = <T = Value>(path: Path) => T
 
-export default function useDataValue<Value>({
-  path: pathProp,
-  value,
-}: Props<Value> = {}) {
+export default function useDataValue<Value>(
+  pathProp?: Path | undefined,
+  value?: Value
+) {
   const dataContextRef = useRef<ContextState>()
   dataContextRef.current = useContext(DataContext)
   const iterateItemContext = useContext(IterateItemContext)
@@ -50,15 +50,17 @@ export default function useDataValue<Value>({
     [get, makeIteratePath]
   )
 
-  const moveValueToPath = useCallback(<T>(path: Path, value: T): T => {
-    if (path !== '/' && isPath(path)) {
-      const obj = {}
-      pointer.set(obj, path, value)
-      return obj as T
-    }
+  const moveValueToPath = useCallback(
+    <T>(path: Path, value: T, object = {}): T => {
+      if (path !== '/' && isPath(path)) {
+        pointer.set(object, path, value)
+        return object as T
+      }
 
-    return value
-  }, [])
+      return value
+    },
+    []
+  )
 
   const getData = useCallback(
     (path: Path, options?: { includeCurrentPath?: boolean }) => {

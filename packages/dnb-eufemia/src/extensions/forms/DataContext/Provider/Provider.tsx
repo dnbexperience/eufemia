@@ -265,10 +265,14 @@ export default function Provider<Data extends JsonObject>(
   // - Errors from provider validation (the whole data set)
   const hasVisibleErrorRef = useRef<Record<Path, boolean>>({})
   const errorsRef = useRef<Record<Path, FormError> | undefined>()
+  const addSetShowAllErrorsRef = useRef<
+    Array<(showAllErrors: boolean) => void>
+  >([])
   const showAllErrorsRef = useRef<boolean>(false)
   const setShowAllErrors = useCallback((showAllErrors: boolean) => {
     showAllErrorsRef.current = showAllErrors
     forceUpdate()
+    addSetShowAllErrorsRef.current.forEach((fn) => fn?.(showAllErrors))
   }, [])
   const setVisibleError = useCallback((path: Path, hasError: boolean) => {
     if (hasError) {
@@ -1369,6 +1373,7 @@ export default function Provider<Data extends JsonObject>(
     errors: errorsRef.current,
     showAllErrors: showAllErrorsRef.current,
     hasVisibleError: Object.keys(hasVisibleErrorRef.current).length > 0,
+    addSetShowAllErrorsRef,
     fieldConnectionsRef,
     fieldDisplayValueRef,
     fieldInternalsRef,

@@ -172,6 +172,9 @@ export interface ContextState {
   ) => void
   setFieldConnection?: (path: Path, connections: FieldConnections) => void
   isEmptyDataRef?: React.MutableRefObject<boolean>
+  addSetShowAllErrorsRef?: React.MutableRefObject<
+    Array<(showAllErrors: boolean) => void>
+  >
   fieldDisplayValueRef?: React.MutableRefObject<
     Record<Path, React.ReactNode>
   >

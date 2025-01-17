@@ -29,17 +29,14 @@ function PushButton(props: Props) {
     props
   const buttonProps = omitDataValueReadWriteProps(restProps)
   const arrayValue = useDataValue().getValueByPath(path)
-  const { hasReachedLimit, setShowStatus } = useArrayLimit({
-    path,
-  })
+
+  const { hasReachedLimit, setShowStatus } = useArrayLimit({ path })
 
   if (arrayValue !== undefined && !Array.isArray(arrayValue)) {
     throw new Error('PushButton received a non-array value')
   }
 
-  const { setLastItemContainerMode } = useSwitchContainerMode({
-    path,
-  })
+  const { setLastItemContainerMode } = useSwitchContainerMode(path)
 
   const handleClick = useCallback(async () => {
     if (hasReachedLimit) {

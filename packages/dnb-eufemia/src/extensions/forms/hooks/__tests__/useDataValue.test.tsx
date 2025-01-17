@@ -7,16 +7,14 @@ import { Iterate } from '../..'
 describe('useDataValue', () => {
   describe('getValue', () => {
     it('should return given value when no path is provided', () => {
-      const { result } = renderHook(() =>
-        useDataValue({ value: 'Test Value' })
-      )
+      const { result } = renderHook(() => useDataValue('Test Value'))
 
       expect(result.current.value).toBe('Test Value')
     })
 
     it('should return undefined value when incorrect path is provided', () => {
       const { result } = renderHook(() =>
-        useDataValue({ path: '/example/path', value: 'Test Value' })
+        useDataValue('/example/path', 'Test Value')
       )
 
       expect(result.current.value).toBeUndefined()
@@ -24,7 +22,7 @@ describe('useDataValue', () => {
 
     it('should return the correct value when path is provided', () => {
       const { result } = renderHook(
-        () => useDataValue({ path: '/example/path', value: 'Test Value' }),
+        () => useDataValue('/example/path', 'Test Value'),
         {
           wrapper: (props) => (
             <Provider
@@ -40,7 +38,7 @@ describe('useDataValue', () => {
 
     it('should return undefined when path is not found', () => {
       const { result } = renderHook(() =>
-        useDataValue({ path: '/nonexistent/path' })
+        useDataValue('/nonexistent/path')
       )
 
       expect(result.current.value).toBeUndefined()
