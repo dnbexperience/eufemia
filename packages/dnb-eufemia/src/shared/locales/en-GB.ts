@@ -40,8 +40,10 @@ export default {
       resetButtonText: 'Reset',
       errorMinDate: 'The date cannot be before %s',
       errorMaxDate: 'The date cannot be after %s',
-      errorRangeMinDate: 'Start date cannot be before %s',
-      errorRangeMaxDate: 'End date cannot be after %s',
+      errorRangeStartDateMinDate: 'Start date cannot be before %s',
+      errorRangeStartDateMaxDate: 'Start date cannot be after %s',
+      errorRangeEndDateMinDate: 'End date cannot be before %s',
+      errorRangeEndDateMaxDate: 'End date cannot be after %s',
       placeholderCharacters: {
         day: 'd',
         month: 'm',
