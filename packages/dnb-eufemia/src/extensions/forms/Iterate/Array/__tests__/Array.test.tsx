@@ -577,6 +577,20 @@ describe('Iterate.Array', () => {
       )
     })
 
+    it('should not inherit required from parent', () => {
+      render(
+        <Form.Handler required>
+          <Iterate.Array path="/items" validateInitially>
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+    })
+
     it('should support custom error messages', () => {
       render(
         <Form.Handler>
