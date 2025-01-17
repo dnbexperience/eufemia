@@ -23,6 +23,7 @@ export type DatePickerContextValues = ContextProps &
     translation: ContextProps['translation']
     views: Array<CalendarView>
     hasHadValidDate: boolean
+    dateLimitValidationMessage: string | undefined
     previousDateProps: DatePickerDateProps
     updateDates: (
       dates: DatePickerDates,

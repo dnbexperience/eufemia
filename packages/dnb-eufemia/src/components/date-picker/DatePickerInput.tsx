@@ -150,6 +150,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     updateDates,
     callOnChangeHandler,
     hasHadValidDate,
+    dateLimitValidationMessage,
     getReturnObject,
     __startDay,
     __startMonth,
@@ -959,6 +960,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     submitAttributes.innerRef = submitAttributes.ref
     submitAttributes.ref = null
   }
+
+  console.log('dateLimitValidationMessage', dateLimitValidationMessage)
 
   return (
     <fieldset className="dnb-date-picker__fieldset" lang={lang}>

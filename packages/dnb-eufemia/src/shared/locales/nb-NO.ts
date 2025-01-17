@@ -37,6 +37,12 @@ export default {
       submitButtonText: 'Ok',
       cancelButtonText: 'Avbryt',
       resetButtonText: 'Tilbakestill',
+      errorMinDate: 'Datoen kan ikke være før %s',
+      errorMaxDate: 'Datoen kan ikke være etter %s',
+      errorRangeStartDateMinDate: 'Startdato kan ikke være før %s',
+      errorRangeStartDateMaxDate: 'Startdato kan ikke være etter %s',
+      errorRangeEndDateMinDate: 'Sluttdato kan ikke være etter %s',
+      errorRangeEndDateMaxDate: 'Sluttdato kan ikke være etter %s',
       placeholderCharacters: {
         day: 'd',
         month: 'm',

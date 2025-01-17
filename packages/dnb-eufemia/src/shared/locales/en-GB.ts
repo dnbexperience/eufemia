@@ -38,6 +38,12 @@ export default {
       submitButtonText: 'OK',
       cancelButtonText: 'Cancel',
       resetButtonText: 'Reset',
+      errorMinDate: 'The date cannot be before %s',
+      errorMaxDate: 'The date cannot be after %s',
+      errorRangeStartDateMinDate: 'Start date cannot be before %s',
+      errorRangeStartDateMaxDate: 'Start date cannot be after %s',
+      errorRangeEndDateMinDate: 'End date cannot be before %s',
+      errorRangeEndDateMaxDate: 'End date cannot be after %s',
       placeholderCharacters: {
         day: 'd',
         month: 'm',
