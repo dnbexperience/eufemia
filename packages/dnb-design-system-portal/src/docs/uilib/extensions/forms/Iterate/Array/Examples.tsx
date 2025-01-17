@@ -776,7 +776,10 @@ export const Required = () => {
             }}
             validateInitially
           >
-            <Field.String itemPath="/" />
+            <Flex.Horizontal>
+              <Field.String itemPath="/" />
+              <Iterate.RemoveButton />
+            </Flex.Horizontal>
           </Iterate.Array>
 
           <Iterate.PushButton
