@@ -769,6 +769,7 @@ export const Required = () => {
         <Form.Card>
           <Iterate.Array
             path="/items"
+            animate
             required
             errorMessages={{
               'Field.errorRequired': 'Custom message',
