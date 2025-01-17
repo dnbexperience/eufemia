@@ -7,6 +7,13 @@ import { Field, Form, Iterate, OnSubmit, Wizard } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
+const expandStepIndicator = async () => {
+  await fireEvent.click(
+    document.querySelector(
+      'button.dnb-step-indicator__trigger__button--collapsed'
+    )
+  )
+}
 const log = global.console.log
 beforeEach(() => {
   global.console.log = jest.fn((...args) => {
@@ -41,7 +48,7 @@ describe('Wizard.Container', () => {
     return document.querySelector('output')
   }
 
-  it('should have "strict" mode as the default mode', () => {
+  it('should have "strict" mode as the default mode', async () => {
     render(
       <Wizard.Container>
         <Wizard.Step title="Step 1">
@@ -53,12 +60,14 @@ describe('Wizard.Container', () => {
       </Wizard.Container>
     )
 
+    await expandStepIndicator()
+
     const [firstStep, secondStep] = Array.from(
       document.querySelectorAll('.dnb-step-indicator__item')
     )
 
-    expect(firstStep.querySelector('.dnb-button').tagName).toBe('BUTTON')
-    expect(secondStep.querySelector('.dnb-button').tagName).toBe('SPAN')
+    expect(firstStep.querySelector('.dnb-anchor').tagName).toBe('BUTTON')
+    expect(secondStep.querySelector('.dnb-anchor').tagName).toBe('SPAN')
   })
 
   it('should call event listener "onStepChange"', async () => {
@@ -78,11 +87,11 @@ describe('Wizard.Container', () => {
       </Wizard.Container>
     )
 
-    const [firstStep, secondStep] = Array.from(
+    await expandStepIndicator()
+    const secondStep = Array.from(
       document.querySelectorAll('.dnb-step-indicator__item')
-    )
-
-    await userEvent.click(secondStep.querySelector('.dnb-button'))
+    )[1]
+    await userEvent.click(secondStep.querySelector('.dnb-anchor'))
     expect(output()).toHaveTextContent('Step 2')
     expect(onStepChange).toHaveBeenCalledTimes(1)
     expect(onStepChange).toHaveBeenLastCalledWith(
@@ -91,7 +100,11 @@ describe('Wizard.Container', () => {
       expect.anything()
     )
 
-    await userEvent.click(firstStep.querySelector('.dnb-button'))
+    await expandStepIndicator()
+    const firstStep = Array.from(
+      document.querySelectorAll('.dnb-step-indicator__item')
+    )[0]
+    await userEvent.click(firstStep.querySelector('.dnb-anchor'))
     expect(output()).toHaveTextContent('Step 1')
     expect(onStepChange).toHaveBeenCalledTimes(2)
     expect(onStepChange).toHaveBeenLastCalledWith(
@@ -183,11 +196,12 @@ describe('Wizard.Container', () => {
       </Wizard.Container>
     )
 
-    const [firstStep, secondStep] = Array.from(
+    await expandStepIndicator()
+    const secondStep = Array.from(
       document.querySelectorAll('.dnb-step-indicator__item')
-    )
+    )[1]
 
-    await userEvent.click(secondStep.querySelector('.dnb-button'))
+    await userEvent.click(secondStep.querySelector('.dnb-anchor'))
     expect(output()).toHaveTextContent('Step 2')
     expect(onStepChange).toHaveBeenCalledTimes(1)
     expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
@@ -196,7 +210,11 @@ describe('Wizard.Container', () => {
       preventNavigation: expect.any(Function),
     })
 
-    await userEvent.click(firstStep.querySelector('.dnb-button'))
+    await expandStepIndicator()
+    const firstStep = Array.from(
+      document.querySelectorAll('.dnb-step-indicator__item')
+    )[0]
+    await userEvent.click(firstStep.querySelector('.dnb-anchor'))
     expect(output()).toHaveTextContent('Step 1')
     expect(onStepChange).toHaveBeenCalledTimes(2)
     expect(onStepChange).toHaveBeenLastCalledWith(0, 'previous', {
@@ -514,9 +532,11 @@ describe('Wizard.Container', () => {
       </Wizard.Container>
     )
 
-    const [firstStep, secondStep] = Array.from(
+    await expandStepIndicator()
+
+    let secondStep = Array.from(
       document.querySelectorAll('.dnb-step-indicator__item')
-    )
+    )[1]
 
     expect(output()).toHaveTextContent('Step 1')
     expect(screen.queryByRole('alert')).toBeNull()
@@ -535,7 +555,10 @@ describe('Wizard.Container', () => {
       expect(output()).toHaveTextContent('Step 2')
       expect(screen.queryByRole('alert')).toBeInTheDocument()
     })
-
+    await expandStepIndicator()
+    const firstStep = Array.from(
+      document.querySelectorAll('.dnb-step-indicator__item')
+    )[0]
     await userEvent.click(firstStep.querySelector('button'))
 
     await waitFor(() => {
@@ -543,6 +566,11 @@ describe('Wizard.Container', () => {
       expect(screen.queryByRole('alert')).toBeNull()
     })
 
+    await expandStepIndicator()
+
+    secondStep = Array.from(
+      document.querySelectorAll('.dnb-step-indicator__item')
+    )[1]
     await userEvent.click(secondStep.querySelector('button'))
 
     await waitFor(() => {
@@ -647,7 +675,7 @@ describe('Wizard.Container', () => {
   })
 
   describe('dynamic steps', () => {
-    it('should not render inactive steps', () => {
+    it('should not render inactive steps', async () => {
       render(
         <Wizard.Container mode="loose">
           <Wizard.Step title="Step 1" active={false}>
@@ -661,12 +689,15 @@ describe('Wizard.Container', () => {
       )
 
       expect(output()).toHaveTextContent('Step 2')
+
+      await expandStepIndicator()
+
       expect(
         document.querySelectorAll('.dnb-step-indicator__item')
       ).toHaveLength(1)
     })
 
-    it('should render dynamically enabled steps', () => {
+    it('should render dynamically enabled steps', async () => {
       const { rerender } = render(
         <Wizard.Container mode="loose">
           <Wizard.Step title="Step 1" active={false}>
@@ -681,8 +712,13 @@ describe('Wizard.Container', () => {
 
       expect(output()).toHaveTextContent('Step 2')
       expect(
-        document.querySelector('.dnb-step-indicator')
+        document.querySelector('.dnb-step-indicator-wrapper')
       ).toHaveTextContent('Steg 1 av 1')
+      expect(
+        document.querySelector('.dnb-step-indicator__trigger__button')
+      ).toHaveTextContent('Step 2')
+
+      await expandStepIndicator()
       expect(
         document.querySelectorAll('.dnb-step-indicator__item')
       ).toHaveLength(1)
@@ -702,8 +738,12 @@ describe('Wizard.Container', () => {
 
       expect(output()).toHaveTextContent('Step 1')
       expect(
-        document.querySelector('.dnb-step-indicator')
+        document.querySelector('.dnb-step-indicator-wrapper')
       ).toHaveTextContent('Steg 2 av 2')
+      expect(
+        document.querySelector('.dnb-step-indicator__trigger__button')
+      ).toHaveTextContent('Step 1')
+
       expect(
         document.querySelectorAll('.dnb-step-indicator__item')
       ).toHaveLength(2)
@@ -723,8 +763,12 @@ describe('Wizard.Container', () => {
 
       expect(output()).toHaveTextContent('Step 2')
       expect(
-        document.querySelector('.dnb-step-indicator')
+        document.querySelector('.dnb-step-indicator-wrapper')
       ).toHaveTextContent('Steg 1 av 1')
+      expect(
+        document.querySelector('.dnb-step-indicator__trigger__button')
+      ).toHaveTextContent('Step 2')
+
       expect(
         document.querySelectorAll('.dnb-step-indicator__item')
       ).toHaveLength(1)
@@ -744,8 +788,11 @@ describe('Wizard.Container', () => {
 
       expect(output()).toBeNull()
       expect(
-        document.querySelector('.dnb-step-indicator')
-      ).toHaveTextContent('')
+        document.querySelector('.dnb-step-indicator-wrapper')
+      ).toHaveTextContent('Steg 1 av 1')
+      expect(
+        document.querySelector('.dnb-step-indicator__trigger__button')
+      ).toHaveTextContent('‌')
       expect(
         document.querySelectorAll('.dnb-step-indicator__item')
       ).toHaveLength(0)
@@ -793,6 +840,7 @@ describe('Wizard.Container', () => {
       render(<MyForm />)
 
       expect(output()).toHaveTextContent('Step 1')
+      await expandStepIndicator()
       expect(
         document.querySelectorAll('.dnb-step-indicator__item')
       ).toHaveLength(2)
@@ -817,7 +865,7 @@ describe('Wizard.Container', () => {
       expect(nextButton()).toBeInTheDocument()
     })
 
-    it('should not render inactive steps based on paths and activeWhen', () => {
+    it('should not render inactive steps based on paths and activeWhen', async () => {
       render(
         <Form.Handler
           data={{
@@ -838,14 +886,14 @@ describe('Wizard.Container', () => {
           </Wizard.Container>
         </Form.Handler>
       )
-
+      await expandStepIndicator()
       expect(output()).toHaveTextContent('Step 2')
       expect(
         document.querySelectorAll('.dnb-step-indicator__item')
       ).toHaveLength(1)
     })
 
-    it('should render inactive steps based on paths and activeWhen with hasValue', () => {
+    it('should render inactive steps based on paths and activeWhen with hasValue', async () => {
       render(
         <Form.Handler defaultData={{ enabledStep: 'group-1' }}>
           <Wizard.Container mode="loose">
@@ -867,7 +915,7 @@ describe('Wizard.Container', () => {
           </Wizard.Container>
         </Form.Handler>
       )
-
+      await expandStepIndicator()
       expect(output()).toHaveTextContent('Step 1')
       expect(
         document.querySelectorAll('.dnb-step-indicator__item')
@@ -916,13 +964,14 @@ describe('Wizard.Container', () => {
         </Form.Handler>
       )
 
+      await expandStepIndicator()
       const [groupOne, groupTwo] = Array.from(
         document.querySelectorAll('.dnb-toggle-button button')
       )
 
       expect(output()).toHaveTextContent('Step 2')
       expect(
-        document.querySelector('.dnb-step-indicator')
+        document.querySelector('.dnb-step-indicator-wrapper')
       ).toHaveTextContent('Steg 1 av 1')
       expect(
         document.querySelectorAll('.dnb-step-indicator__item')
@@ -934,7 +983,7 @@ describe('Wizard.Container', () => {
 
       expect(output()).toHaveTextContent('Step 1')
       expect(
-        document.querySelector('.dnb-step-indicator')
+        document.querySelector('.dnb-step-indicator-wrapper')
       ).toHaveTextContent('Steg 1 av 2')
       expect(
         document.querySelectorAll('.dnb-step-indicator__item')
@@ -946,7 +995,7 @@ describe('Wizard.Container', () => {
 
       expect(output()).toHaveTextContent('Step 2')
       expect(
-        document.querySelector('.dnb-step-indicator')
+        document.querySelector('.dnb-step-indicator-wrapper')
       ).toHaveTextContent('Steg 1 av 1')
       expect(
         document.querySelectorAll('.dnb-step-indicator__item')
@@ -960,8 +1009,8 @@ describe('Wizard.Container', () => {
 
       expect(output()).toBeNull()
       expect(
-        document.querySelector('.dnb-step-indicator')
-      ).toHaveTextContent('')
+        document.querySelector('.dnb-step-indicator__trigger__button')
+      ).toHaveTextContent('‌')
       expect(
         document.querySelectorAll('.dnb-step-indicator__item')
       ).toHaveLength(0)
@@ -1232,11 +1281,11 @@ describe('Wizard.Container', () => {
         </Wizard.Container>
       )
 
-      const [firstStep, secondStep] = Array.from(
+      await expandStepIndicator()
+      const secondStep = Array.from(
         document.querySelectorAll('.dnb-step-indicator__item')
-      )
-
-      await userEvent.click(secondStep.querySelector('.dnb-button'))
+      )[1]
+      await userEvent.click(secondStep.querySelector('.dnb-anchor'))
       expect(output()).toHaveTextContent('Step 2')
       expect(onStepChange).toHaveBeenCalledTimes(1)
       expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
@@ -1245,7 +1294,11 @@ describe('Wizard.Container', () => {
         preventNavigation: expect.any(Function),
       })
 
-      await userEvent.click(firstStep.querySelector('.dnb-button'))
+      await expandStepIndicator()
+      const firstStep = Array.from(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      )[0]
+      await userEvent.click(firstStep.querySelector('.dnb-anchor'))
       expect(output()).toHaveTextContent('Step 1')
       expect(onStepChange).toHaveBeenCalledTimes(2)
       expect(onStepChange).toHaveBeenLastCalledWith(0, 'previous', {
@@ -1620,18 +1673,22 @@ describe('Wizard.Container', () => {
     await waitFor(() => {
       expect(scrollIntoViewMock).toHaveBeenCalledTimes(2)
     })
-
-    const [firstStep, secondStep] = Array.from(
+    await expandStepIndicator()
+    const secondStep = Array.from(
       document.querySelectorAll('.dnb-step-indicator__item')
-    )
+    )[1]
 
-    await userEvent.click(secondStep.querySelector('.dnb-button'))
+    await userEvent.click(secondStep.querySelector('.dnb-anchor'))
     expect(output()).toHaveTextContent('Step 2')
     await waitFor(() => {
       expect(scrollIntoViewMock).toHaveBeenCalledTimes(3)
     })
+    await expandStepIndicator()
 
-    await userEvent.click(firstStep.querySelector('.dnb-button'))
+    const firstStep = Array.from(
+      document.querySelectorAll('.dnb-step-indicator__item')
+    )[0]
+    await userEvent.click(firstStep.querySelector('.dnb-anchor'))
     expect(output()).toHaveTextContent('Step 1')
     await waitFor(() => {
       expect(scrollIntoViewMock).toHaveBeenCalledTimes(4)
@@ -1673,16 +1730,22 @@ describe('Wizard.Container', () => {
     await waitFor(() => {
       expect(scrollIntoViewMock).toHaveBeenCalledTimes(0)
     })
+    await expandStepIndicator()
 
-    const [firstStep, secondStep] = Array.from(
+    const secondStep = Array.from(
       document.querySelectorAll('.dnb-step-indicator__item')
-    )
-
-    await userEvent.click(secondStep.querySelector('.dnb-button'))
+    )[1]
+    await userEvent.click(secondStep.querySelector('.dnb-anchor'))
     expect(output()).toHaveTextContent('Step 2')
     expect(scrollIntoViewMock).toHaveBeenCalledTimes(0)
 
-    await userEvent.click(firstStep.querySelector('.dnb-button'))
+    await expandStepIndicator()
+
+    const firstStep = Array.from(
+      document.querySelectorAll('.dnb-step-indicator__item')
+    )[0]
+
+    await userEvent.click(firstStep.querySelector('.dnb-anchor'))
     expect(output()).toHaveTextContent('Step 1')
     expect(scrollIntoViewMock).toHaveBeenCalledTimes(0)
 
@@ -1907,6 +1970,7 @@ describe('Wizard.Container', () => {
       </Form.Handler>
     )
 
+    await expandStepIndicator()
     const [stepA, stepB, stepC] = Array.from(
       document.querySelectorAll('.dnb-step-indicator__item')
     )
@@ -2413,3 +2477,5 @@ describe('Wizard.Container', () => {
     })
   })
 })
+
+// TODO: how sohuld empty list be handled? When active={`false`} on all steps The original with sidebar would show nothing, but without sidebar (and on mobile) it would show the stepIndicator button with no content.

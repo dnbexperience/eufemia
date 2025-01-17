@@ -21,6 +21,10 @@ describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
   it('have to match statuses', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="step-indicator-statuses"]',
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="step-indicator-statuses"] .dnb-step-indicator__trigger__button',
+      recalculateHeightAfterSimulate: true,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -28,6 +32,10 @@ describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
   it('have to match loose mode', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="step-indicator-loose"]',
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="step-indicator-loose"] .dnb-step-indicator__trigger__button',
+      recalculateHeightAfterSimulate: true,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -35,9 +43,19 @@ describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
   it('have to match loose mode after click simulation', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="step-indicator-loose"]',
-      simulateSelector:
-        '[data-visual-test="step-indicator-loose"] .dnb-step-indicator__item:nth-of-type(3) button',
-      simulate: 'click',
+      simulate: [
+        {
+          action: 'click',
+          selector:
+            '[data-visual-test="step-indicator-loose"] .dnb-step-indicator__item:nth-of-type(3) button',
+        },
+        {
+          action: 'click',
+          selector:
+            '[data-visual-test="step-indicator-loose"] .dnb-step-indicator__trigger__button',
+        },
+      ],
+      recalculateHeightAfterSimulate: true,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -45,6 +63,10 @@ describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
   it('have to match strict mode', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="step-indicator-strict"]',
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="step-indicator-strict"] .dnb-step-indicator__trigger__button',
+      recalculateHeightAfterSimulate: true,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -52,9 +74,19 @@ describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
   it('have to match strict mode after click simulation', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="step-indicator-strict"]',
-      simulateSelector:
-        '[data-visual-test="step-indicator-strict"] .dnb-step-indicator__item:nth-of-type(1) button',
-      simulate: 'click',
+      simulate: [
+        {
+          action: 'click',
+          selector:
+            '[data-visual-test="step-indicator-strict"] .dnb-step-indicator__item:nth-of-type(1) button',
+        },
+        {
+          action: 'click',
+          selector:
+            '[data-visual-test="step-indicator-strict"] .dnb-step-indicator__trigger__button',
+        },
+      ],
+      recalculateHeightAfterSimulate: true,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -65,8 +97,7 @@ describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
       simulateSelector:
         '[data-visual-test="step-indicator-static"] .dnb-step-indicator__trigger__button',
       simulate: 'click',
-      screenshotSelector: '.dnb-modal__content',
-      rootClassName: 'hide-page-content',
+      recalculateHeightAfterSimulate: true,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -99,12 +130,11 @@ describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
 
   it('have to match strict mode for small screens after click simulation', async () => {
     const screenshot = await makeScreenshot({
-      selector: 'div#dnb-modal-root',
+      selector: '[data-visual-test="step-indicator-strict"]',
       simulateSelector:
         '[data-visual-test="step-indicator-strict"] .dnb-step-indicator__trigger__button',
       simulate: 'click',
-      screenshotSelector: '.dnb-modal__content',
-      rootClassName: 'hide-page-content',
+      recalculateHeightAfterSimulate: true,
     })
     expect(screenshot).toMatchImageSnapshot()
   })

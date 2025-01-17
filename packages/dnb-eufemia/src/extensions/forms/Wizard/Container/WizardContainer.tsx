@@ -72,8 +72,12 @@ export type Props = ComponentProps & {
 
   /**
    * The sidebar variant.
+   * @deprecated there is only one variant available. This props has no effect
    */
   variant?: 'sidebar' | 'drawer'
+  /**
+   * @deprecated there is no longer a sidebar. This prop does nothing.
+   */
   sidebarId?: string
 
   /**
@@ -110,8 +114,6 @@ function WizardContainer(props: Props) {
     children,
     noAnimation = true,
     prerenderFieldProps = true,
-    variant = 'sidebar',
-    sidebarId,
     ...rest
   } = props
 
@@ -400,7 +402,7 @@ function WizardContainer(props: Props) {
       <Space
         className={classnames(
           'dnb-forms-wizard-layout',
-          `dnb-forms-wizard-layout--${variant}`,
+          `dnb-forms-wizard-layout--drawer`,
           className
         )}
         innerRef={elementRef}
@@ -408,10 +410,9 @@ function WizardContainer(props: Props) {
       >
         <DisplaySteps
           mode={mode}
-          variant={variant}
+          variant="drawer"
           noAnimation={noAnimation}
           handleChange={handleChange}
-          sidebarId={sidebarId}
         />
 
         <div className="dnb-forms-wizard-layout__contents">
@@ -433,7 +434,7 @@ function DisplaySteps({
   variant,
   noAnimation,
   handleChange,
-  sidebarId,
+  sidebarId = undefined, // deprecated
 }) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const { id, activeIndexRef, stepsRef, updateTitlesRef } =
@@ -442,12 +443,13 @@ function DisplaySteps({
     forceUpdate()
   }
 
+  // deprecated
   const sidebar_id =
     variant === 'drawer' && !sidebarId ? undefined : sidebarId ?? id
 
   return (
     <aside className="dnb-forms-wizard-layout__indicator">
-      <StepIndicator.Sidebar sidebar_id={sidebar_id} />
+      <StepIndicator.Sidebar sidebar_id={sidebar_id} /> {/* deprecated */}
       <StepIndicator
         bottom
         current_step={activeIndexRef.current}
@@ -455,7 +457,7 @@ function DisplaySteps({
         mode={mode}
         no_animation={noAnimation}
         on_change={handleChange}
-        sidebar_id={sidebar_id}
+        sidebar_id={sidebar_id} // deprecated
       />
     </aside>
   )
