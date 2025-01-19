@@ -50,7 +50,7 @@ function ArraySelection(props: Props) {
         listType={listType}
       />
     )
-  }, [fieldInternalsRef, path, value, variant, listType])
+  }, [value, path, format, variant, listType, fieldInternalsRef])
 
   return (
     <ValueBlock
