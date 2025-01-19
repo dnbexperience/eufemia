@@ -12,6 +12,7 @@ import pointer from '../../utils/json-pointer'
 import { useFieldProps } from '../../hooks'
 import { makeUniqueId } from '../../../../shared/component-helper'
 import { Flex, FormStatus, HeightAnimation } from '../../../../components'
+import { Span } from '../../../../elements'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
@@ -331,52 +332,58 @@ function ArrayComponent(props: Props) {
   }
 
   const arrayElements =
-    arrayValue === emptyValue || props?.value?.length === 0
-      ? placeholder
-      : arrayItems.map((itemProps) => {
-          const { id, value, index } = itemProps
-          const elementRef = (innerRefs.current[id] =
-            innerRefs.current[id] || createRef<HTMLDivElement>())
+    arrayValue === emptyValue || props?.value?.length === 0 ? (
+      typeof placeholder === 'string' ? (
+        <Span size="small">{placeholder}</Span>
+      ) : (
+        placeholder
+      )
+    ) : (
+      arrayItems.map((itemProps) => {
+        const { id, value, index } = itemProps
+        const elementRef = (innerRefs.current[id] =
+          innerRefs.current[id] || createRef<HTMLDivElement>())
 
-          const renderChildren = (elementChild: ElementChild) => {
-            return typeof elementChild === 'function'
-              ? elementChild(value, index, arrayItems)
-              : elementChild
-          }
+        const renderChildren = (elementChild: ElementChild) => {
+          return typeof elementChild === 'function'
+            ? elementChild(value, index, arrayItems)
+            : elementChild
+        }
 
-          const contextValue = {
-            ...itemProps,
-            elementRef,
-          }
+        const contextValue = {
+          ...itemProps,
+          elementRef,
+        }
 
-          const content = Array.isArray(children)
-            ? children.map((child) => renderChildren(child))
-            : renderChildren(children)
+        const content = Array.isArray(children)
+          ? children.map((child) => renderChildren(child))
+          : renderChildren(children)
 
-          if (omitFlex) {
-            return (
-              <IterateItemContext.Provider
-                key={`element-${id}`}
-                value={contextValue}
-              >
-                <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
-              </IterateItemContext.Provider>
-            )
-          }
-
+        if (omitFlex) {
           return (
-            <Flex.Item
-              className="dnb-forms-iterate__element"
-              tabIndex={-1}
-              innerRef={elementRef}
+            <IterateItemContext.Provider
               key={`element-${id}`}
+              value={contextValue}
             >
-              <IterateItemContext.Provider value={contextValue}>
-                <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
-              </IterateItemContext.Provider>
-            </Flex.Item>
+              <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
+            </IterateItemContext.Provider>
           )
-        })
+        }
+
+        return (
+          <Flex.Item
+            className="dnb-forms-iterate__element"
+            tabIndex={-1}
+            innerRef={elementRef}
+            key={`element-${id}`}
+          >
+            <IterateItemContext.Provider value={contextValue}>
+              <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
+            </IterateItemContext.Provider>
+          </Flex.Item>
+        )
+      })
+    )
 
   const content = omitFlex ? (
     arrayElements
