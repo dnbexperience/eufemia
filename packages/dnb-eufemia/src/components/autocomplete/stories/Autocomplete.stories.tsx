@@ -13,6 +13,7 @@ import {
   IconPrimary,
   Button,
   GlobalStatus,
+  Input,
 } from '../..'
 import { Anchor, Li, Ol, P, Section, Space } from '../../../'
 import { Context, Provider } from '../../../shared'
@@ -1011,5 +1012,27 @@ export const AsyncSearchExample = () => {
         <P top>Value from on_change: {onChangeValue || '–'}</P>
       </Space>
     </Section>
+  )
+}
+
+export const EmptyDataExample = () => {
+  return <Autocomplete />
+}
+
+export const OpenOnFocusEmptyDataExample = () => {
+  return (
+    <>
+      <Autocomplete open_on_focus />
+      <Input />
+    </>
+  )
+}
+
+export const OpenedEmptyDataExample = () => {
+  return (
+    <>
+      <Autocomplete opened />
+      <Input />
+    </>
   )
 }

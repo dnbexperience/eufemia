@@ -240,8 +240,8 @@ describe('ValueBlock', () => {
     expect(log).toHaveBeenCalledTimes(1)
     expect(log).toHaveBeenLastCalledWith(
       expect.any(String),
-      'Value components as siblings should be wrapped inside a Value.SummaryList!',
-      'Value B'
+      'Value components as siblings should be wrapped inside a Value.SummaryList:',
+      { itemPath: undefined, label: 'Value B', path: undefined }
     )
 
     render(<ValueBlock>Value</ValueBlock>)
@@ -257,7 +257,8 @@ describe('ValueBlock', () => {
     expect(log).toHaveBeenCalledTimes(3)
     expect(log).toHaveBeenLastCalledWith(
       expect.any(String),
-      'Value components as siblings should be wrapped inside a Value.SummaryList!'
+      'Value components as siblings should be wrapped inside a Value.SummaryList:',
+      { itemPath: undefined, label: undefined, path: undefined }
     )
 
     render(
@@ -280,8 +281,8 @@ describe('ValueBlock', () => {
     expect(log).toHaveBeenCalledTimes(4)
     expect(log).toHaveBeenLastCalledWith(
       expect.any(String),
-      'Value components as siblings should be wrapped inside a Value.SummaryList!',
-      'Composition label'
+      'Value components as siblings should be wrapped inside a Value.SummaryList:',
+      { itemPath: undefined, label: 'Composition label', path: undefined }
     )
 
     log.mockRestore()

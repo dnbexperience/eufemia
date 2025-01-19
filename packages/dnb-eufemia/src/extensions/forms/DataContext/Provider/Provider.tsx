@@ -17,7 +17,6 @@ import {
 import {
   GlobalErrorMessagesWithPaths,
   AllJSONSchemaVersions,
-  FieldProps,
   SubmitState,
   Path,
   EventStateObject,
@@ -43,12 +42,15 @@ import useTranslation from '../../hooks/useTranslation'
 import DataContext, {
   ContextState,
   EventListenerCall,
+  FieldInternalsRef,
+  ValueInternalsRef,
   FilterData,
   FilterDataHandler,
   HandleSubmitCallback,
   MountState,
   TransformData,
   VisibleDataHandler,
+  FieldInternalsRefProps,
 } from '../Context'
 
 /**
@@ -263,10 +265,14 @@ export default function Provider<Data extends JsonObject>(
   // - Errors from provider validation (the whole data set)
   const hasVisibleErrorRef = useRef<Record<Path, boolean>>({})
   const errorsRef = useRef<Record<Path, FormError> | undefined>()
+  const addSetShowAllErrorsRef = useRef<
+    Array<(showAllErrors: boolean) => void>
+  >([])
   const showAllErrorsRef = useRef<boolean>(false)
   const setShowAllErrors = useCallback((showAllErrors: boolean) => {
     showAllErrorsRef.current = showAllErrors
     forceUpdate()
+    addSetShowAllErrorsRef.current.forEach((fn) => fn?.(showAllErrors))
   }, [])
   const setVisibleError = useCallback((path: Path, hasError: boolean) => {
     if (hasError) {
@@ -434,26 +440,28 @@ export default function Provider<Data extends JsonObject>(
       }
 
       if (typeof handler === 'function') {
-        Object.entries(fieldPropsRef.current).forEach(([path, props]) => {
-          const exists = pointer.has(data, path)
-          if (exists) {
-            const value = pointer.get(data, path)
-            const displayValue = fieldDisplayValueRef.current[path]
-            const internal = {
-              error: fieldErrorRef.current?.[path],
+        Object.entries(fieldInternalsRef.current).forEach(
+          ([path, { props }]) => {
+            const exists = pointer.has(data, path)
+            if (exists) {
+              const value = pointer.get(data, path)
+              const displayValue = fieldDisplayValueRef.current[path]
+              const internal = {
+                error: fieldErrorRef.current?.[path],
+              }
+              const result = handler({
+                path,
+                value,
+                displayValue,
+                label: props.label,
+                data: internalDataRef.current,
+                props,
+                internal,
+              })
+              mutate(path, result)
             }
-            const result = handler({
-              path,
-              value,
-              displayValue,
-              label: props.label,
-              data: internalDataRef.current,
-              props,
-              internal,
-            })
-            mutate(path, result)
           }
-        })
+        )
 
         return data
       } else if (handler) {
@@ -461,7 +469,7 @@ export default function Provider<Data extends JsonObject>(
           const exists = pointer.has(data, path)
           if (exists) {
             const value = pointer.get(data, path)
-            const props = fieldPropsRef.current[path]
+            const props = fieldInternalsRef.current[path]?.props
             const internal = { error: fieldErrorRef.current?.[path] }
             const result =
               typeof condition === 'function'
@@ -587,29 +595,35 @@ export default function Provider<Data extends JsonObject>(
     []
   )
 
-  const fieldPropsRef = useRef<Record<Path, FieldProps>>({})
-  const setFieldProps = useCallback(
-    (path: Path, props: Record<string, unknown>) => {
-      fieldPropsRef.current[path] = props
+  const fieldInternalsRef = useRef<FieldInternalsRef>({})
+  const setFieldInternals = useCallback(
+    (path: Path, props: FieldInternalsRefProps, id: string) => {
+      fieldInternalsRef.current[path] = Object.assign(
+        fieldInternalsRef.current[path] || {},
+        { props, id }
+      )
     },
     []
   )
 
-  const valuePropsRef = useRef<Record<Path, ValueProps>>({})
-  const setValueProps = useCallback(
-    (path: Path, props: Record<string, unknown>) => {
-      valuePropsRef.current[path] = props
+  const valueInternalsRef = useRef<ValueInternalsRef>({})
+  const setValueInternals = useCallback(
+    (path: Path, props: ValueProps) => {
+      valueInternalsRef.current[path] = Object.assign(
+        valueInternalsRef.current[path] || {},
+        { props }
+      )
     },
     []
   )
 
   const hasFieldWithAsyncValidator = useCallback(() => {
-    for (const path in fieldPropsRef.current) {
+    for (const path in fieldInternalsRef.current) {
       if (mountedFieldsRef.current[path]?.isMounted) {
-        const props = fieldPropsRef.current[path]
+        const props = fieldInternalsRef.current[path]?.props
         if (
-          isAsync(props.onChangeValidator) ||
-          isAsync(props.onBlurValidator)
+          isAsync(props?.onChangeValidator) ||
+          isAsync(props?.onBlurValidator)
         ) {
           return true
         }
@@ -1331,8 +1345,8 @@ export default function Provider<Data extends JsonObject>(
     setFieldState,
     setFieldError,
     setFieldConnection,
-    setFieldProps,
-    setValueProps,
+    setFieldInternals,
+    setValueInternals,
     hasErrors,
     hasFieldError,
     hasFieldState,
@@ -1359,10 +1373,11 @@ export default function Provider<Data extends JsonObject>(
     errors: errorsRef.current,
     showAllErrors: showAllErrorsRef.current,
     hasVisibleError: Object.keys(hasVisibleErrorRef.current).length > 0,
+    addSetShowAllErrorsRef,
     fieldConnectionsRef,
     fieldDisplayValueRef,
-    fieldPropsRef,
-    valuePropsRef,
+    fieldInternalsRef,
+    valueInternalsRef,
     mountedFieldsRef,
     snapshotsRef,
     existingFieldsRef,

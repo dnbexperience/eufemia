@@ -54,11 +54,35 @@ Since `Iterate.Array` renders its children once per item, the field components i
 
 If field components inside `Iterate.Array` are given an `itemPath` property, this will look for values based on the array item being the root of the structure, even if the array often comes from a surrounding data set. This means that you do not need to think about which index the field should point to, because it is handled by `Iterate.Array` internally. You can look at the individual item as its own structure.
 
-### 2. Render properties
+### 2. Function callback as children (render prop)
 
-If you want to be able to provide values to the individual field component directly instead of pointing to them with paths, you can give `Iterate.Array` a render property. It works a bit like an array-map call. The render function receives the value of the item as the first argument, and the index of which item you are on as the second.
+If you want to be able to provide values to the individual field component directly instead of pointing to them with paths, you can give `Iterate.Array` a render property. It works a bit like an array-map call. The render function provides the value of the item as the first argument, the index of which item you are on as the second, and the internal array as the third.
 
-Examples of both the use of `itemPath` and Render Props in `Iterate.Array` can be found on [demos](/uilib/extensions/forms/Iterate/Array/demos).
+```tsx
+render(
+  <Iterate.Array path="/listOfHeroes">
+    {(itemValue, itemIndex, internalArray) => {
+      return <Field.Name.Last itemPath="/name" />
+    }}
+  </Iterate.Array>,
+)
+```
+
+You can also get the index by using the `useItem` hook:
+
+```tsx
+const MyItem = () => {
+  const { index } = Iterate.useItem()
+
+  return <Field.Name.Last itemPath="/name" />
+}
+
+render(
+  <Iterate.Array path="/listOfHeroes">
+    <MyItem />
+  </Iterate.Array>,
+)
+```
 
 ## The item number in labels
 

@@ -32,9 +32,7 @@ const globalCache: Record<
  * You can use the hook outside of the Iterate component, and it will communicate with the items inside the Iterate component.
  * Therefore, it is imported and used in both e.g. the EditContainer and e.g. the PushButton.
  */
-export default function useSwitchContainerMode({
-  path,
-}: { path?: Path } = {}) {
+export default function useSwitchContainerMode(path?: Path) {
   const nextContainerModeRef = useRef()
   const { hasError } = useContext(FieldBoundaryContext) || {}
   const iterateItemContext = useContext(IterateItemContext)

@@ -100,7 +100,7 @@ export function EditContainerWithoutToolbar(
     )
   }, [index, title, titleWhenNew, wasNew])
 
-  useSwitchContainerMode({ path })
+  useSwitchContainerMode(path)
 
   return (
     <ArrayItemArea

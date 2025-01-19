@@ -11,7 +11,10 @@ import {
   Input,
   Section,
   ToggleButton,
+  Icon,
 } from '@dnb/eufemia/src'
+import { confetti_medium } from '@dnb/eufemia/src/icons'
+
 import { Provider } from '@dnb/eufemia/src/shared'
 
 export const GlobalInfoOverlayError = () => (
@@ -77,6 +80,22 @@ export const GlobalInfoOverlaySuccess = () => (
       no_animation={true}
       omit_set_focus={true}
       id="demo-6"
+    />
+  </ComponentBox>
+)
+
+export const GlobalInfoCustomIcon = () => (
+  <ComponentBox
+    scope={{ confetti_medium }}
+    data-visual-test="global-status-icon"
+  >
+    <GlobalStatus
+      icon={<Icon icon={confetti_medium} />}
+      show={true}
+      autoscroll={false}
+      no_animation={true}
+      omit_set_focus={true}
+      id="demo-icon"
     />
   </ComponentBox>
 )

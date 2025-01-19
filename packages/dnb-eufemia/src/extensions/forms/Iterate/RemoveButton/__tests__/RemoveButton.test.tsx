@@ -5,6 +5,7 @@ import IterateItemContext from '../../IterateItemContext'
 import RemoveButton from '../RemoveButton'
 import nbNO from '../../../constants/locales/nb-NO'
 import { Form } from '../../..'
+import ArrayItemAreaContext from '../../Array/ArrayItemAreaContext'
 
 const nb = nbNO['nb-NO'].RemoveButton
 
@@ -124,6 +125,62 @@ describe('RemoveButton', () => {
     )
 
     expect(screen.getByText(remove)).toBeInTheDocument()
+  })
+
+  it('should call "handleRemoveItem" from ArrayItemAreaContext when given', async () => {
+    const handleRemoveItem = jest.fn()
+    const handleRemove = jest.fn()
+
+    render(
+      <ArrayItemAreaContext.Provider
+        value={{
+          handleRemoveItem,
+        }}
+      >
+        <RemoveButton />
+      </ArrayItemAreaContext.Provider>,
+      {
+        wrapper: ({ children }) => (
+          <IterateItemContext.Provider value={{ handleRemove }}>
+            {children}
+          </IterateItemContext.Provider>
+        ),
+      }
+    )
+
+    await userEvent.click(document.querySelector('button'))
+
+    expect(handleRemoveItem).toHaveBeenCalledTimes(1)
+    expect(handleRemove).toHaveBeenCalledTimes(0)
+  })
+
+  it('should not call "handleRemoveItem" when itemPath was given', async () => {
+    const handleRemoveItem = jest.fn()
+    const handleRemove = jest.fn()
+
+    render(
+      <ArrayItemAreaContext.Provider
+        value={{
+          handleRemoveItem,
+        }}
+      >
+        <RemoveButton />
+      </ArrayItemAreaContext.Provider>,
+      {
+        wrapper: ({ children }) => (
+          <IterateItemContext.Provider
+            value={{ handleRemove, itemPath: '/itemPath' }}
+          >
+            {children}
+          </IterateItemContext.Provider>
+        ),
+      }
+    )
+
+    await userEvent.click(document.querySelector('button'))
+
+    expect(handleRemoveItem).toHaveBeenCalledTimes(0)
+    expect(handleRemove).toHaveBeenCalledTimes(1)
   })
 
   describe('showConfirmDialog', () => {

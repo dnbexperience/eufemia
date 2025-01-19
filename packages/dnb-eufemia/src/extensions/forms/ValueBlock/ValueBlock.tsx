@@ -12,7 +12,7 @@ import { FormLabel } from '../../../components'
 import SummaryListContext from '../Value/SummaryList/SummaryListContext'
 import ValueBlockContext from './ValueBlockContext'
 import DataContext from '../DataContext/Context'
-import { ValueProps } from '../types'
+import { Path, ValueProps } from '../types'
 import { pickSpacingProps } from '../../../components/flex/utils'
 import IterateElementContext from '../Iterate/IterateItemContext'
 import { convertJsxToString } from '../../../shared/component-helper'
@@ -43,6 +43,8 @@ function ValueBlock(props: Props) {
   const {
     className,
     label: labelProp,
+    path,
+    itemPath,
     labelSrOnly,
     transformLabel = (label: Props['label']) => label,
     inline,
@@ -72,7 +74,12 @@ function ValueBlock(props: Props) {
   }, [inline, iterateIndex, labelProp, transformLabel])
 
   const ref = useRef<HTMLElement>(null)
-  useNotInSummaryList(valueBlockContext?.composition ? null : ref, label)
+  useNotInSummaryList(
+    valueBlockContext?.composition ? null : ref,
+    label,
+    path,
+    itemPath
+  )
 
   const hide =
     prerenderFieldProps ||
@@ -189,7 +196,9 @@ function ValueBlock(props: Props) {
 
 function useNotInSummaryList(
   ref: React.RefObject<HTMLElement>,
-  label?: React.ReactNode
+  label?: React.ReactNode,
+  path?: Path,
+  itemPath?: Path
 ) {
   useEffect(() => {
     if (ref?.current) {
@@ -203,8 +212,8 @@ function useNotInSummaryList(
           warn.apply(
             warn,
             [
-              'Value components as siblings should be wrapped inside a Value.SummaryList!',
-              label,
+              'Value components as siblings should be wrapped inside a Value.SummaryList:',
+              { label, path, itemPath },
             ].filter(Boolean)
           )
         }
@@ -212,7 +221,7 @@ function useNotInSummaryList(
         //
       }
     }
-  }, [label, ref])
+  }, [itemPath, label, path, ref])
 }
 
 ValueBlock._supportsSpacingProps = true

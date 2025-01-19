@@ -7,6 +7,7 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 import Blockquote from '../Blockquote'
+import { Code } from '../..'
 
 const CustomStyles = styled.div`
   a {
@@ -59,6 +60,12 @@ export const BlockquoteSandbox = () => (
         deterruisset per
         <cite>Cite Reference</cite>
         <figcaption>Figcaption Reference</figcaption>
+      </Blockquote>
+    </Box>
+    <Box>
+      <Blockquote data-visual-test="blockquote-with-code">
+        <Code>display</Code> and <Code>background-color</Code> are CSS
+        properties
       </Blockquote>
     </Box>
   </Wrapper>

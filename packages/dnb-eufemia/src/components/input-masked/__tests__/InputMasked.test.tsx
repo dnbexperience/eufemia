@@ -549,7 +549,7 @@ describe('InputMasked component', () => {
 
   it('should show placeholder with both value null and undefined', () => {
     const { rerender } = render(
-      <InputMasked value={undefined} placeholder="AA" />
+      <InputMasked placeholder="AA" value={undefined} />
     )
 
     expect(
@@ -914,6 +914,22 @@ describe('InputMasked component as_percent', () => {
     )
 
     expect(document.querySelector('input').value).toBe('12 345,678 %')
+  })
+})
+
+describe('InputMasked component without any properties', () => {
+  it('defaults to number mask', () => {
+    const newValue = '1'
+
+    render(<InputMasked />)
+
+    expect(document.querySelector('input').value).toBe('')
+
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: newValue },
+    })
+
+    expect(document.querySelector('input').value).toBe(newValue)
   })
 })
 

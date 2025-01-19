@@ -42,7 +42,7 @@ export const inputMaskedProperties: PropertiesTableProps = {
     status: 'optional',
   },
   mask: {
-    doc: 'A mask can be defined both as a [RegExp style of characters](https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme) or a callback function. Example below.',
+    doc: 'A mask can be defined both as a [RegExp style of characters](https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme) or a callback function. Example below. Defaults to number mask.',
     type: ['RegExp', 'function'],
     status: 'optional',
   },

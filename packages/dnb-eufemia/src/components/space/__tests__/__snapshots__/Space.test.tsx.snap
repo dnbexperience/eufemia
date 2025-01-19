@@ -559,16 +559,16 @@ exports[`Space scss has to match style dependencies css 1`] = `
 .dnb-space__left--xx-large-x2.dnb-space__left--x-large {
   margin-left: calc(var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-x-large));
 }
-.dnb-space__reset:not([class*=dnb-space__top]) {
+.dnb-space__reset:not([class*=space__top]) {
   margin-top: 0;
 }
-.dnb-space__reset:not([class*=dnb-space__bottom]) {
+.dnb-space__reset:not([class*=space__bottom]) {
   margin-bottom: 0;
 }
-.dnb-space__reset:not([class*=dnb-space__left]) {
+.dnb-space__reset:not([class*=space__left]) {
   margin-left: 0;
 }
-.dnb-space__reset:not([class*=dnb-space__right]) {
+.dnb-space__reset:not([class*=space__right]) {
   margin-right: 0;
 }
 .dnb-space[style*="--space-t-"] {

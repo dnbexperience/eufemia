@@ -42,7 +42,7 @@ if (isCI) {
 }
 
 function TestField(props: StringFieldProps) {
-  return <Field.String {...props} validateInitially continuousValidation />
+  return <Field.String {...props} validateInitially validateContinuously />
 }
 
 describe('DataContext.Provider', () => {
@@ -2892,7 +2892,7 @@ describe('DataContext.Provider', () => {
       log.mockRestore()
     })
 
-    it('should revalidate with provided schema based on changes in external data', () => {
+    it('should revalidate with provided schema based on changes in external data using deprecated continuousValidation', () => {
       const log = jest.spyOn(console, 'error').mockImplementation()
 
       const schema: JSONSchema = {
@@ -2947,7 +2947,7 @@ describe('DataContext.Provider', () => {
       log.mockRestore()
     })
 
-    it('should revalidate correctly based on changes in provided schema', () => {
+    it('should revalidate correctly based on changes in provided schema using deprecated continuousValidation', () => {
       const log = jest.spyOn(console, 'error').mockImplementation()
 
       const schema1: JSONSchema = {
@@ -3010,6 +3010,124 @@ describe('DataContext.Provider', () => {
       log.mockRestore()
     })
 
+    it('should revalidate with provided schema based on changes in external data', () => {
+      const log = jest.spyOn(console, 'error').mockImplementation()
+
+      const schema: JSONSchema = {
+        type: 'object',
+        properties: {
+          myKey: {
+            type: 'string',
+          },
+        },
+      }
+      const validData = {
+        myKey: 'some-value',
+      }
+      const invalidData = {
+        myKey: 123,
+      }
+      const { rerender } = render(
+        <DataContext.Provider schema={schema} data={validData}>
+          <Field.String
+            path="/myKey"
+            validateInitially
+            validateContinuously
+          />
+        </DataContext.Provider>
+      )
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+      rerender(
+        <DataContext.Provider schema={schema} data={invalidData}>
+          <Field.String
+            path="/myKey"
+            validateInitially
+            validateContinuously
+          />
+        </DataContext.Provider>
+      )
+
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+
+      rerender(
+        <DataContext.Provider schema={schema} data={validData}>
+          <Field.String
+            path="/myKey"
+            validateInitially
+            validateContinuously
+          />
+        </DataContext.Provider>
+      )
+
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+      log.mockRestore()
+    })
+
+    it('should revalidate correctly based on changes in provided schema', () => {
+      const log = jest.spyOn(console, 'error').mockImplementation()
+
+      const schema1: JSONSchema = {
+        type: 'object',
+        properties: {
+          myKey: {
+            type: 'number',
+          },
+        },
+      }
+      const schema2: JSONSchema = {
+        type: 'object',
+        properties: {
+          myKey: {
+            type: 'string',
+          },
+        },
+      }
+      const data = {
+        myKey: 'some-value',
+      }
+      const { rerender } = render(
+        <DataContext.Provider schema={schema1} defaultData={data}>
+          <Field.String
+            path="/myKey"
+            validateInitially
+            validateContinuously
+          />
+        </DataContext.Provider>
+      )
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(screen.queryByRole('alert')).toHaveTextContent(
+        'The field at path="/myKey" value (some-value) type must be number'
+      )
+
+      rerender(
+        <DataContext.Provider schema={schema2} defaultData={data}>
+          <Field.String
+            path="/myKey"
+            validateInitially
+            validateContinuously
+          />
+        </DataContext.Provider>
+      )
+
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+      rerender(
+        <DataContext.Provider schema={schema1} defaultData={data}>
+          <Field.String
+            path="/myKey"
+            validateInitially
+            validateContinuously
+          />
+        </DataContext.Provider>
+      )
+
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+
+      log.mockRestore()
+    })
+
     it('should accept custom ajv instance', async () => {
       const ajv = new Ajv({
         strict: true,
@@ -3041,7 +3159,7 @@ describe('DataContext.Provider', () => {
             path="/myKey"
             value="1"
             validateInitially
-            continuousValidation
+            validateContinuously
           />
         </DataContext.Provider>
       )

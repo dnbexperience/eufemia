@@ -393,14 +393,14 @@ Button.defaultProps = {
 }
 
 function Content({
-  title,
-  content,
-  custom_content,
-  icon,
-  icon_size,
-  bounding,
-  skeleton,
-  isIconOnly,
+  title = null,
+  content = null,
+  custom_content = null,
+  icon = null,
+  icon_size = 'default',
+  bounding = null,
+  skeleton = null,
+  isIconOnly = null,
 }) {
   return (
     <>
@@ -479,17 +479,6 @@ Content.propTypes = {
   bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   skeleton: PropTypes.bool,
   isIconOnly: PropTypes.bool,
-}
-
-Content.defaultProps = {
-  custom_content: null,
-  title: null,
-  content: null,
-  icon: null,
-  icon_size: 'default',
-  bounding: null,
-  skeleton: null,
-  isIconOnly: null,
 }
 
 Button._formElement = true

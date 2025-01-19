@@ -344,3 +344,19 @@ export const DisplayDividerWhenUsingContainer = () => (
     </Flex.Stack>
   </Form.Handler>
 )
+
+export function IterateRequired() {
+  return (
+    <Form.Handler
+    // data={{
+    //   items: ['foo', 'bar'],
+    // }}
+    >
+      <Iterate.Array path="/items" required>
+        <Field.String itemPath="/" />
+      </Iterate.Array>
+      <Iterate.PushButton path="/items" pushValue="baz" />
+      <Form.SubmitButton />
+    </Form.Handler>
+  )
+}

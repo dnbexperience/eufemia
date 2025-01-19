@@ -7,14 +7,14 @@ import React from 'react'
 import { MDXProvider } from '@mdx-js/react'
 import { graphql, useStaticQuery } from 'gatsby'
 import Layout from '../shared/parts/Layout'
-import Tabbar from '../shared/tags/Tabbar'
+import TabBar from '../shared/tags/TabBar'
 import { Link } from '../shared/tags/Anchor'
 import tags from '../shared/tags'
 import { resetLevels } from '@dnb/eufemia/src/components/Heading'
 import { setPortalHeadData, usePortalHead } from './PortalHead'
 import { Breadcrumb } from '@dnb/eufemia/src'
 
-const ContentWrapper = Tabbar.ContentWrapper
+const ContentWrapper = TabBar.ContentWrapper
 
 type Frontmatter = {
   title: string
@@ -157,8 +157,8 @@ export default function PortalLayout(props: PortalLayoutProps) {
       )}
 
       {currentFm.showTabs && (
-        <Tabbar
-          key="tabbar"
+        <TabBar
+          key="tab-bar"
           location={location}
           rootPath={rootPath}
           title={fmData.title}

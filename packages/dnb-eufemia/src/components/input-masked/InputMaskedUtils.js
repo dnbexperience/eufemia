@@ -65,7 +65,12 @@ export const correctNumberValue = ({
   locale,
   maskParams,
 }) => {
-  let value = props.value === null ? null : String(props.value)
+  let value =
+    props.value === null
+      ? null
+      : props.value === undefined
+      ? undefined
+      : String(props.value)
 
   if (isNaN(parseFloat(value))) {
     return value

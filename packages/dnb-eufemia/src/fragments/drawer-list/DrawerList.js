@@ -409,10 +409,10 @@ DrawerList.Options = React.memo(
   React.forwardRef((props, ref) => {
     const {
       children,
-      className,
+      className = null,
       triangleRef = null,
-      cache_hash, // eslint-disable-line
-      showFocusRing,
+      cache_hash = null, // eslint-disable-line
+      showFocusRing = false,
       ...rest
     } = props
 
@@ -451,24 +451,18 @@ DrawerList.Options.propTypes = {
   className: PropTypes.string,
   triangleRef: PropTypes.object,
 }
-DrawerList.Options.defaultProps = {
-  cache_hash: null,
-  showFocusRing: false,
-  className: null,
-  triangleRef: null,
-}
 
 // DrawerList Item
 DrawerList.Item = React.forwardRef((props, ref) => {
   const {
-    role, // eslint-disable-line
-    hash, // eslint-disable-line
+    role = 'option', // eslint-disable-line
+    hash = '', // eslint-disable-line
     children, // eslint-disable-line
-    className, // eslint-disable-line
-    on_click, // eslint-disable-line
+    className = null, // eslint-disable-line
+    on_click = null, // eslint-disable-line
     selected, // eslint-disable-line
-    active, // eslint-disable-line
-    value, // eslint-disable-line
+    active = null, // eslint-disable-line
+    value = null, // eslint-disable-line
     disabled, // eslint-disable-line
     ...rest
   } = props
@@ -529,17 +523,8 @@ DrawerList.Item.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   disabled: PropTypes.bool,
 }
-DrawerList.Item.defaultProps = {
-  role: 'option',
-  hash: '',
-  className: null,
-  on_click: null,
-  selected: null,
-  active: null,
-  value: null,
-}
 
-export function ItemContent({ hash = '', children }) {
+export function ItemContent({ hash = '', children = undefined }) {
   let content = null
 
   if (Array.isArray(children.content || children)) {
@@ -582,12 +567,8 @@ ItemContent.propTypes = {
   hash: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
 }
-ItemContent.defaultProps = {
-  hash: '',
-  children: undefined,
-}
 
-DrawerList.HorizontalItem = ({ className, ...props }) => (
+DrawerList.HorizontalItem = ({ className = null, ...props }) => (
   <span
     className={classnames([
       'dnb-drawer-list__option__item dnb-drawer-list__option__item--horizontal',
@@ -598,9 +579,6 @@ DrawerList.HorizontalItem = ({ className, ...props }) => (
 )
 DrawerList.HorizontalItem.propTypes = {
   className: PropTypes.string,
-}
-DrawerList.HorizontalItem.defaultProps = {
-  className: null,
 }
 
 class OnMounted extends React.PureComponent {

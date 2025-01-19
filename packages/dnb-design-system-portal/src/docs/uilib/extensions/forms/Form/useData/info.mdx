@@ -46,12 +46,17 @@ You can use the `Form.useData` hook with or without an `id` (string, function, o
 
 ### TypeScript support
 
-You can define the TypeScript type structure for your data like so:
+You can define the TypeScript type structure for your form data. This will help you to get better code completion and type checking.
+
+**NB:** Use `type` instead of `interface` for the type definition.
 
 ```tsx
-type Data = { foo: string }
+type MyData = { firstName: string }
 
-const { data } = Form.useData<Data>()
+const MyComponent = () => {
+  const { data } = Form.useData<MyData>()
+  return data.firstName
+}
 ```
 
 ### Without an `id` property

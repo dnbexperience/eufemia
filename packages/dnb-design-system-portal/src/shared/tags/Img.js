@@ -4,14 +4,14 @@ import classnames from 'classnames'
 import { Img as Image } from '@dnb/eufemia/src'
 
 const Img = ({
-  className,
-  alt,
-  src,
-  children,
-  size,
-  width,
-  height,
-  caption,
+  className = null,
+  alt = null,
+  src = null,
+  children = null,
+  size = null,
+  width = null,
+  height = null,
+  caption = null,
   ...rest
 }) => {
   if (size === 'auto') {
@@ -46,16 +46,6 @@ Img.propTypes = {
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   caption: PropTypes.string,
-}
-Img.defaultProps = {
-  className: null,
-  caption: null,
-  alt: null,
-  src: null,
-  size: null,
-  height: null,
-  width: null,
-  children: null,
 }
 
 export default Img

@@ -83,6 +83,20 @@ export type HandleSubmitCallback = ({
 export type FieldConnections = {
   setEventResult?: (status: EventStateObject) => void
 }
+export type FieldInternalsRefProps =
+  | (FieldProps & { children: unknown })
+  | undefined
+export type FieldInternalsRef = Record<
+  Path,
+  {
+    props: FieldInternalsRefProps
+    id: string | undefined
+  }
+>
+export type ValueInternalsRef = Record<
+  Path,
+  { props: ValueProps | undefined }
+>
 
 export interface ContextState {
   id?: SharedStateId
@@ -150,19 +164,22 @@ export interface ContextState {
     callback: EventListenerCall['callback']
   ) => void
   setVisibleError?: (path: Path, hasError: boolean) => void
-  setFieldProps?: (path: Path, props: unknown) => void
-  setValueProps?: (path: Path, props: unknown) => void
+  setFieldInternals?: (path: Path, props: unknown, id?: string) => void
+  setValueInternals?: (path: Path, props: unknown) => void
   setHandleSubmit?: (
     callback: HandleSubmitCallback,
     params?: { remove?: boolean }
   ) => void
   setFieldConnection?: (path: Path, connections: FieldConnections) => void
   isEmptyDataRef?: React.MutableRefObject<boolean>
+  addSetShowAllErrorsRef?: React.MutableRefObject<
+    Array<(showAllErrors: boolean) => void>
+  >
   fieldDisplayValueRef?: React.MutableRefObject<
     Record<Path, React.ReactNode>
   >
-  fieldPropsRef?: React.MutableRefObject<Record<Path, FieldProps>>
-  valuePropsRef?: React.MutableRefObject<Record<Path, ValueProps>>
+  fieldInternalsRef?: React.MutableRefObject<FieldInternalsRef>
+  valueInternalsRef?: React.MutableRefObject<ValueInternalsRef>
   fieldConnectionsRef?: React.RefObject<Record<Path, FieldConnections>>
   mountedFieldsRef?: React.MutableRefObject<Record<Path, MountState>>
   snapshotsRef?: React.MutableRefObject<

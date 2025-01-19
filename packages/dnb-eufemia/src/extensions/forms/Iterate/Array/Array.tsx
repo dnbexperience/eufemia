@@ -12,6 +12,7 @@ import pointer from '../../utils/json-pointer'
 import { useFieldProps } from '../../hooks'
 import { makeUniqueId } from '../../../../shared/component-helper'
 import { Flex, FormStatus, HeightAnimation } from '../../../../components'
+import { Span } from '../../../../elements'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
@@ -46,15 +47,21 @@ export type * from './types'
 function ArrayComponent(props: Props) {
   const [salt, forceUpdate] = useReducer(() => ({}), {})
 
+  const {
+    path: pathProp,
+    countPath,
+    countPathTransform,
+    countPathLimit = Infinity,
+  } = props || {}
+
   const dataContext = useContext(DataContext)
   const summaryListContext = useContext(SummaryListContext)
   const valueBlockContext = useContext(ValueBlockContext)
   const { setLimitProps, error: limitWarning } = useArrayLimit({
-    path: props.path,
+    path: pathProp,
   })
 
   const { getValueByPath } = useDataValue()
-  const { countPath, countPathLimit = Infinity } = props
   const getCountValue = useCallback(() => {
     if (!countPath) {
       return -1
@@ -72,11 +79,19 @@ function ArrayComponent(props: Props) {
   }, [countPath, countPathLimit, getValueByPath])
   const countValue = getCountValue()
 
-  const preparedProps = useMemo(() => {
-    const { path, countPath, countPathTransform } = props
+  const validateRequired = useCallback(
+    (value: Value, { emptyValue, required, error }) => {
+      return required &&
+        (!value || value?.length === 0 || value === emptyValue)
+        ? error
+        : undefined
+    },
+    []
+  )
 
+  const preparedProps = useMemo(() => {
     if (countPath) {
-      const arrayValue = getValueByPath(path)
+      const arrayValue = getValueByPath(pathProp)
       const newValue = []
       for (let i = 0, l = countValue; i < l; i++) {
         const value = arrayValue?.[i]
@@ -89,13 +104,26 @@ function ArrayComponent(props: Props) {
 
       return {
         required: false,
+        validateRequired,
         ...props,
         value: newValue,
       }
     }
 
-    return { required: false, ...props }
-  }, [countValue, getValueByPath, props])
+    return {
+      required: false,
+      validateRequired,
+      ...props,
+    }
+  }, [
+    countPath,
+    countPathTransform,
+    countValue,
+    getValueByPath,
+    pathProp,
+    props,
+    validateRequired,
+  ])
 
   const {
     path,
@@ -110,6 +138,7 @@ function ArrayComponent(props: Props) {
     handleChange,
     setChanged,
     onChange,
+    validateValue,
     children,
   } = useFieldProps(preparedProps, {
     // To ensure the defaultValue set on the Iterate.Array is set in the data context,
@@ -140,11 +169,6 @@ function ArrayComponent(props: Props) {
     // Update inside the useEffect, to support React.StrictMode
     valueCountRef.current = arrayValue || []
   }, [arrayValue])
-
-  useMountEffect(() => {
-    // To ensure the validator is called when a new item is added
-    setChanged(true)
-  })
 
   const idsRef = useRef<Array<Identifier>>([])
   const isNewRef = useRef<Record<string, boolean>>({})
@@ -275,6 +299,15 @@ function ArrayComponent(props: Props) {
     }
   }, [total, limit, setLimitProps])
 
+  useUpdateEffect(() => {
+    validateValue()
+  }, [total, validateValue])
+
+  useMountEffect(() => {
+    // To ensure the validator is called when a new item is added
+    setChanged(true)
+  })
+
   // - Call the onChange callback when a new element is added without calling "handlePush"
   useMemo(() => {
     const last = arrayItems?.[arrayItems.length - 1]
@@ -299,52 +332,58 @@ function ArrayComponent(props: Props) {
   }
 
   const arrayElements =
-    arrayValue === emptyValue || props?.value?.length === 0
-      ? placeholder
-      : arrayItems.map((itemProps) => {
-          const { id, value, index } = itemProps
-          const elementRef = (innerRefs.current[id] =
-            innerRefs.current[id] || createRef<HTMLDivElement>())
+    arrayValue === emptyValue || props?.value?.length === 0 ? (
+      typeof placeholder === 'string' ? (
+        <Span size="small">{placeholder}</Span>
+      ) : (
+        placeholder
+      )
+    ) : (
+      arrayItems.map((itemProps) => {
+        const { id, value, index } = itemProps
+        const elementRef = (innerRefs.current[id] =
+          innerRefs.current[id] || createRef<HTMLDivElement>())
 
-          const renderChildren = (elementChild: ElementChild) => {
-            return typeof elementChild === 'function'
-              ? elementChild(value, index)
-              : elementChild
-          }
+        const renderChildren = (elementChild: ElementChild) => {
+          return typeof elementChild === 'function'
+            ? elementChild(value, index, arrayItems)
+            : elementChild
+        }
 
-          const contextValue = {
-            ...itemProps,
-            elementRef,
-          }
+        const contextValue = {
+          ...itemProps,
+          elementRef,
+        }
 
-          const content = Array.isArray(children)
-            ? children.map((child) => renderChildren(child))
-            : renderChildren(children)
+        const content = Array.isArray(children)
+          ? children.map((child) => renderChildren(child))
+          : renderChildren(children)
 
-          if (omitFlex) {
-            return (
-              <IterateItemContext.Provider
-                key={`element-${id}`}
-                value={contextValue}
-              >
-                <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
-              </IterateItemContext.Provider>
-            )
-          }
-
+        if (omitFlex) {
           return (
-            <Flex.Item
-              className="dnb-forms-iterate__element"
-              tabIndex={-1}
-              innerRef={elementRef}
+            <IterateItemContext.Provider
               key={`element-${id}`}
+              value={contextValue}
             >
-              <IterateItemContext.Provider value={contextValue}>
-                <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
-              </IterateItemContext.Provider>
-            </Flex.Item>
+              <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
+            </IterateItemContext.Provider>
           )
-        })
+        }
+
+        return (
+          <Flex.Item
+            className="dnb-forms-iterate__element"
+            tabIndex={-1}
+            innerRef={elementRef}
+            key={`element-${id}`}
+          >
+            <IterateItemContext.Provider value={contextValue}>
+              <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
+            </IterateItemContext.Provider>
+          </Flex.Item>
+        )
+      })
+    )
 
   const content = omitFlex ? (
     arrayElements

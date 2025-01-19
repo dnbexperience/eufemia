@@ -710,5 +710,86 @@ describe('FieldBlock', () => {
         nb.StringField.errorMinLength.replace('{minLength}', '6')
       )
     })
+
+    it('should validate error continuously when validateContinuously is given', async () => {
+      const schema: JSONSchema = {
+        type: 'object',
+        properties: {
+          first: {
+            type: 'string',
+            minLength: 3,
+          },
+          last: {
+            type: 'string',
+            minLength: 6,
+          },
+        },
+      }
+
+      render(
+        <Form.Handler schema={schema}>
+          <Field.Composition>
+            <Field.String
+              path="/first"
+              value="f"
+              validateInitially
+              validateContinuously
+            />
+            <Field.String
+              path="/last"
+              value="l"
+              validateInitially
+              validateContinuously
+            />
+          </Field.Composition>
+        </Form.Handler>
+      )
+
+      const [first, last] = Array.from(document.querySelectorAll('input'))
+      const statusMessages = document.querySelectorAll('.dnb-form-status')
+      expect(statusMessages).toHaveLength(1)
+
+      const statusMessage = statusMessages[0]
+
+      expect(statusMessage).toHaveTextContent(
+        nb.StringField.errorMinLength.replace('{minLength}', '3')
+      )
+      expect(statusMessage).toHaveTextContent(
+        nb.StringField.errorMinLength.replace('{minLength}', '6')
+      )
+
+      await userEvent.type(first, 'i')
+
+      expect(statusMessage).toHaveTextContent(
+        nb.StringField.errorMinLength.replace('{minLength}', '3')
+      )
+
+      await userEvent.type(first, 'rst')
+
+      expect(statusMessage).not.toHaveTextContent(
+        nb.StringField.errorMinLength.replace('{minLength}', '3')
+      )
+      expect(statusMessage).toHaveTextContent(
+        nb.StringField.errorMinLength.replace('{minLength}', '6')
+      )
+
+      await userEvent.type(last, 'ast name')
+
+      expect(statusMessage).not.toHaveTextContent(
+        nb.StringField.errorMinLength.replace('{minLength}', '3')
+      )
+      expect(statusMessage).not.toHaveTextContent(
+        nb.StringField.errorMinLength.replace('{minLength}', '6')
+      )
+
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(0)
+
+      await userEvent.type(last, '{Backspace>4}')
+
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.StringField.errorMinLength.replace('{minLength}', '6')
+      )
+    })
   })
 })

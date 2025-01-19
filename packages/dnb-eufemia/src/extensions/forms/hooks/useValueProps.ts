@@ -56,12 +56,12 @@ export default function useValueProps<
     }) ?? defaultValue
 
   const {
-    fieldPropsRef,
+    fieldInternalsRef,
     mountedFieldsRef,
-    setValueProps,
+    setValueInternals,
     setFieldEventListener,
   } = useContext(DataContext) || {}
-  setValueProps?.(path, props)
+  setValueInternals?.(path, props)
 
   useEffect(() => {
     if (inheritLabel || inheritVisibility) {
@@ -94,7 +94,9 @@ export default function useValueProps<
 
   const label =
     props.label ??
-    (inheritLabel ? fieldPropsRef?.current?.[path]?.label : undefined)
+    (inheritLabel
+      ? fieldInternalsRef?.current?.[path]?.props?.label
+      : undefined)
 
   return { ...props, label, value }
 }

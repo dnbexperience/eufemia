@@ -23,7 +23,7 @@ const MySection = (props: SectionProps<{ lastName?: FieldNameProps }>) => {
             // required
             // value="x"
             // minLength={4}
-            // continuousValidation
+            // validateContinuously
             // validateInitially
           />
         </Field.Composition>

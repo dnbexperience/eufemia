@@ -137,7 +137,3 @@ StickyMenuBar.propTypes = {
   hideSidebarToggleButton: PropTypes.bool,
   preventBarVisibility: PropTypes.bool,
 }
-StickyMenuBar.defaultProps = {
-  hideSidebarToggleButton: false,
-  preventBarVisibility: false,
-}
