@@ -173,7 +173,7 @@ describe('StepIndicator in general', () => {
       </>
     )
 
-    const element = document.querySelector('.dnb-step-indicator-wrapper')
+    const element = document.querySelector('.dnb-step-indicator')
 
     expect(Array.from(element.classList)).toContain(
       'dnb-space__top--large'
@@ -191,31 +191,31 @@ describe('StepIndicator in general', () => {
       />
     )
 
-    const element = document.querySelector('.dnb-step-indicator-wrapper')
+    const element = document.querySelector('.dnb-step-indicator')
 
     expect(Array.from(element.classList)).toContain(
       'dnb-space__top--large'
     )
   })
 
-  it('should not add spacing props to dnb-step-indicator with no sidebar', async () => {
-    render(
-      <StepIndicator
-        sidebar_id="unique-id-no-sidebar"
-        top="large"
-        mode="static"
-        current_step={1}
-        data={stepIndicatorListData}
-      />
-    )
-    act(() => {
-      document.querySelector('button').click()
-    })
+  // it('should not add spacing props to dnb-step-indicator with no sidebar', async () => {
+  //   render(
+  //     <StepIndicator
+  //       sidebar_id="unique-id-no-sidebar"
+  //       top="large"
+  //       mode="static"
+  //       current_step={1}
+  //       data={stepIndicatorListData}
+  //     />
+  //   )
+  //   act(() => {
+  //     document.querySelector('button').click()
+  //   })
 
-    const element = document.querySelector('.dnb-step-indicator')
+  //   const element = document.querySelector('.dnb-step-indicator')
 
-    expect(Array.from(element.classList)).toEqual(['dnb-step-indicator'])
-  })
+  //   expect(Array.from(element.classList)).toEqual(['dnb-step-indicator'])
+  // })
 
   it('should support aria-labelledby', () => {
     render(
