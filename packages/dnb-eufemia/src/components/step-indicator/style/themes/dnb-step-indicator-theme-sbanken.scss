@@ -5,7 +5,7 @@
 
 @import '../../../../style/core/utilities.scss';
 
-.dnb-step-indicator-wrapper .dnb-step-indicator {
+.dnb-step-indicator {
   &__item {
     .dnb-button {
       --border-color: var(--sb-color-gray-light);
@@ -39,7 +39,7 @@
       }
     }
 
-    &--inactive.dnb-step-indicator__item--current {
+    &--inactive#{&}--current {
       .dnb-button {
         &.dnb-button--secondary,
         &.dnb-button--secondary:hover,

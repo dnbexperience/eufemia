@@ -571,52 +571,50 @@ button.dnb-button::-moz-focus-inner {
 /*
  * Utilities
  */
-.dnb-step-indicator__sidebar {
-  display: none;
-}
-
-.dnb-step-indicator-wrapper {
+.dnb-step-indicator {
   --padding-top: 0;
   --padding-bottom: 0;
 }
-
-.dnb-step-indicator-wrapper .dnb-step-indicator__list {
+.dnb-step-indicator__sidebar {
+  display: none;
+}
+.dnb-step-indicator__list {
   display: flex;
   flex-direction: column;
   padding: 0;
   margin: 0;
   list-style: none;
 }
-.dnb-step-indicator-wrapper .dnb-step-indicator__trigger {
+.dnb-step-indicator__trigger {
   display: flex;
   flex-wrap: wrap;
 }
-.dnb-step-indicator-wrapper .dnb-step-indicator__label {
+.dnb-step-indicator__label {
   font-size: var(--font-size-basis);
   white-space: nowrap;
 }
-.dnb-step-indicator-wrapper .dnb-step-indicator__trigger__button {
+.dnb-step-indicator__trigger__button {
   line-height: inherit;
 }
-.dnb-step-indicator-wrapper .dnb-step-indicator__trigger__button .dnb-button__text {
+.dnb-step-indicator__trigger__button .dnb-button__text {
   text-align: left;
   margin: 0;
   transform: none;
 }
-.dnb-step-indicator-wrapper .dnb-step-indicator__trigger__button .dnb-button__icon {
+.dnb-step-indicator__trigger__button .dnb-button__icon {
   --button-icon-margin-top: 0.25rem;
 }
-.dnb-step-indicator-wrapper .dnb-step-indicator__trigger__button .dnb-button__alignment {
+.dnb-step-indicator__trigger__button .dnb-button__alignment {
   order: 2;
 }
-.dnb-step-indicator-wrapper .dnb-step-indicator__item__wrapper {
+.dnb-step-indicator__item__wrapper {
   display: flex;
   gap: 1rem;
   padding-bottom: 1rem;
   position: relative;
   white-space: nowrap;
 }
-.dnb-step-indicator-wrapper .dnb-step-indicator__item__wrapper::before {
+.dnb-step-indicator__item__wrapper::before {
   content: "";
   display: block;
   position: absolute;
@@ -626,7 +624,7 @@ button.dnb-button::-moz-focus-inner {
   top: 0.25rem;
   left: 0.71875rem;
 }
-.dnb-step-indicator-wrapper .dnb-step-indicator__item__bullet {
+.dnb-step-indicator__item__bullet {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -636,53 +634,55 @@ button.dnb-button::-moz-focus-inner {
   z-index: 0;
   border-radius: 50%;
 }
-.dnb-step-indicator-wrapper .dnb-step-indicator__item__bullet--check, .dnb-step-indicator-wrapper .dnb-step-indicator__item__bullet--empty, .dnb-step-indicator-wrapper .dnb-step-indicator__item__bullet--current {
+.dnb-step-indicator__item__bullet--check, .dnb-step-indicator__item__bullet--empty, .dnb-step-indicator__item__bullet--current {
   background-color: var(--color-pistachio);
   border-width: 0.0625rem;
   border-style: solid;
   border-color: transparent;
 }
-.dnb-step-indicator-wrapper .dnb-step-indicator__item__bullet--check {
+.dnb-step-indicator__item__bullet--check {
   color: var(--color-success-green);
   border-color: var(--color-success-green);
 }
-.dnb-step-indicator-wrapper .dnb-step-indicator__item__bullet--empty {
+.dnb-step-indicator__item__bullet--empty {
   color: var(--color-black-20);
   background-color: var(--color-white);
   border-color: var(--color-black-20);
 }
-.dnb-step-indicator-wrapper .dnb-step-indicator__item__bullet--current {
+.dnb-step-indicator__item__bullet--current {
   border-width: 0.1875rem;
   border-color: var(--color-black-80);
 }
-.dnb-step-indicator-wrapper .dnb-step-indicator__item__text {
+.dnb-step-indicator__item__text {
   font-size: var(--font-size-basis);
   white-space: nowrap;
 }
-.dnb-step-indicator-wrapper .dnb-step-indicator__item__number {
+.dnb-step-indicator__item__number {
   vertical-align: top;
 }
-.dnb-step-indicator-wrapper .dnb-step-indicator__item__icon {
+.dnb-step-indicator__item__icon {
   opacity: 1;
   transition: opacity 400ms ease-in-out;
 }
-.dnb-step-indicator-wrapper .dnb-step-indicator__item__icon--hidden {
+.dnb-step-indicator__item__icon--hidden {
   opacity: 0;
   transition-timing-function: ease-out;
 }
-.dnb-step-indicator-wrapper .dnb-step-indicator__item:last-child .dnb-step-indicator__item__wrapper::before {
+.dnb-step-indicator__item:last-child .dnb-step-indicator__item__wrapper::before {
   display: none;
 }
-html[data-visual-test] .dnb-step-indicator-wrapper .dnb-step-indicator__item .dnb-step-indicator__item__icon {
+html[data-visual-test] .dnb-step-indicator__item__icon {
   transition-duration: 1ms !important;
 }
-.dnb-step-indicator-wrapper .dnb-step-indicator__button {
-  padding: 0;
+.dnb-step-indicator__button {
   white-space: normal;
-  line-height: inherit;
   text-align: left;
 }
-.dnb-step-indicator-wrapper .dnb-step-indicator__button--has-status .dnb-step-indicator__item-content__status {
+.dnb-step-indicator__button.dnb-anchor {
+  padding: 0;
+  line-height: inherit;
+}
+.dnb-step-indicator__button--has-status .dnb-step-indicator__item-content__status {
   color: var(--color-black-80);
   font-size: var(--font-size-x-small);
 }"
@@ -696,19 +696,19 @@ exports[`StepIndicator scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-.dnb-step-indicator-wrapper .dnb-step-indicator__item--current .dnb-button {
+.dnb-step-indicator__item--current .dnb-button {
   font-weight: var(--font-weight-medium);
   --border-color: var(--color-sea-green);
   --border-width: 0.125rem;
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-.dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive .dnb-button {
+.dnb-step-indicator__item--inactive .dnb-button {
   cursor: text;
   pointer-events: initial;
   user-select: initial;
 }
-.dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary, .dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:active {
+.dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary, .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:active {
   color: var(--color-black-80);
   background-color: var(--color-white);
   --border-color: var(--color-black-20);
@@ -716,37 +716,37 @@ exports[`StepIndicator scss have to match default theme snapshot 1`] = `
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-.dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary, .dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:active {
+.dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary, .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:active {
   --border-color: var(--color-black-80);
   --border-width: 0.125rem;
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-html[data-whatinput=keyboard] .dnb-step-indicator-wrapper .dnb-step-indicator__item--current .dnb-button:not([disabled], :active, :hover):focus {
+html[data-whatinput=keyboard] .dnb-step-indicator__item--current .dnb-button:not([disabled], :active, :hover):focus {
   color: var(--color-emerald-green);
   background-color: var(--color-mint-green);
 }
-.dnb-step-indicator-wrapper .dnb-step-indicator__button--has-status.dnb-button--secondary {
+.dnb-step-indicator__button--has-status.dnb-button--secondary {
   background-color: var(--color-sand-yellow);
 }
-.dnb-step-indicator-wrapper .dnb-step-indicator__button--has-status .dnb-button__icon {
+.dnb-step-indicator__button--has-status .dnb-button__icon {
   align-self: flex-start;
   margin-top: 1rem;
   margin-right: 0.25rem;
 }
-.dnb-step-indicator-wrapper .dnb-step-indicator__button--has-status .dnb-step-indicator__item-content__number, .dnb-step-indicator-wrapper .dnb-step-indicator__button--has-status .dnb-step-indicator__item-content__status {
+.dnb-step-indicator__button--has-status .dnb-step-indicator__item-content__number, .dnb-step-indicator__button--has-status .dnb-step-indicator__item-content__status {
   font-weight: var(--font-weight-basis);
 }
-.dnb-step-indicator-wrapper .dnb-step-indicator__button--has-status .dnb-step-indicator__item-content__status {
+.dnb-step-indicator__button--has-status .dnb-step-indicator__item-content__status {
   margin-top: 0.5rem;
   font-size: var(--font-size-x-small);
   line-height: var(--font-size-basis);
   color: var(--color-black-80);
 }
-.dnb-step-indicator-wrapper .dnb-step-indicator__button--error.dnb-button--secondary {
+.dnb-step-indicator__button--error.dnb-button--secondary {
   background-color: var(--color-fire-red-8);
 }
-.dnb-step-indicator-wrapper .dnb-step-indicator__button--info.dnb-button--secondary {
+.dnb-step-indicator__button--info.dnb-button--secondary {
   background-color: var(--color-pistachio);
 }"
 `;
