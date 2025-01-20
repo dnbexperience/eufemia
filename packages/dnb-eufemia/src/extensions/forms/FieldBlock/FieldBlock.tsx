@@ -20,7 +20,7 @@ import FieldBlockContext, {
   StateBasis,
 } from './FieldBlockContext'
 import DataContext from '../DataContext/Context'
-import IterateElementContext from '../Iterate/IterateItemContext'
+import IterateItemContext from '../Iterate/IterateItemContext'
 import { Space, FormLabel, FormStatus } from '../../../components'
 import { Ul, Li } from '../../../elements'
 import {
@@ -175,7 +175,7 @@ function FieldBlock(props: Props) {
   const hasCustomWidth = /\d(rem)$/.test(String(width))
   const hasCustomContentWidth = /\d(rem)$/.test(String(contentWidth))
 
-  const iterateItemContext = useContext(IterateElementContext)
+  const iterateItemContext = useContext(IterateItemContext)
   const { index: iterateIndex } = iterateItemContext ?? {}
 
   const blockId = useId(props.id)

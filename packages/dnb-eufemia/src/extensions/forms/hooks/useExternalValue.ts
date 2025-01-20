@@ -2,7 +2,7 @@ import { useContext, useMemo } from 'react'
 import pointer from '../utils/json-pointer'
 import { FieldProps, Path } from '../types'
 import DataContext from '../DataContext/Context'
-import IterateElementContext from '../Iterate/IterateItemContext'
+import IterateItemContext from '../Iterate/IterateItemContext'
 
 export type Props<Value> = {
   path?: Path | undefined
@@ -23,7 +23,7 @@ export default function useExternalValue<Value>(props: Props<Value>) {
     emptyValue = undefined,
   } = props
   const { data } = useContext(DataContext) || {}
-  const iterateItemContext = useContext(IterateElementContext)
+  const iterateItemContext = useContext(IterateItemContext)
   const inIterate = Boolean(iterateItemContext)
   const { value: iterateElementValue } = iterateItemContext || {}
 

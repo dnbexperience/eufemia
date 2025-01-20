@@ -2,7 +2,7 @@ import { useCallback, useContext, useMemo } from 'react'
 import { Path } from '../types'
 import useId from '../../../shared/helpers/useId'
 import SectionContext from '../Form/Section/SectionContext'
-import IterateElementContext from '../Iterate/IterateItemContext'
+import IterateItemContext from '../Iterate/IterateItemContext'
 
 export type Props = {
   id?: string
@@ -15,7 +15,7 @@ export default function usePath(props: Props = {}) {
   const id = useId(props.id)
   const { path: sectionPath } = useContext(SectionContext) ?? {}
   const { path: iteratePathProp, index: iterateElementIndex } =
-    useContext(IterateElementContext) ?? {}
+    useContext(IterateItemContext) ?? {}
 
   if (pathProp && !pathProp.startsWith('/')) {
     throw new Error(`path="${pathProp}" must start with a slash`)

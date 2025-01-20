@@ -14,7 +14,7 @@ import ValueBlockContext from './ValueBlockContext'
 import DataContext from '../DataContext/Context'
 import { Path, ValueProps } from '../types'
 import { pickSpacingProps } from '../../../components/flex/utils'
-import IterateElementContext from '../Iterate/IterateItemContext'
+import IterateItemContext from '../Iterate/IterateItemContext'
 import { convertJsxToString } from '../../../shared/component-helper'
 
 /**
@@ -38,7 +38,7 @@ function ValueBlock(props: Props) {
   const summaryListContext = useContext(SummaryListContext)
   const valueBlockContext = useContext(ValueBlockContext)
   const { prerenderFieldProps } = useContext(DataContext) || {}
-  const { index: iterateIndex } = useContext(IterateElementContext) || {}
+  const { index: iterateIndex } = useContext(IterateItemContext) || {}
 
   const {
     className,

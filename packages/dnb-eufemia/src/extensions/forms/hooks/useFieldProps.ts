@@ -39,7 +39,7 @@ import useUpdateEffect from '../../../shared/helpers/useUpdateEffect'
 import FieldBlockContext, {
   FieldBlockContextProps,
 } from '../FieldBlock/FieldBlockContext'
-import IterateElementContext from '../Iterate/IterateItemContext'
+import IterateItemContext from '../Iterate/IterateItemContext'
 import SectionContext from '../Form/Section/SectionContext'
 import FieldBoundaryContext from '../DataContext/FieldBoundary/FieldBoundaryContext'
 import VisibilityContext from '../Form/Visibility/VisibilityContext'
@@ -172,7 +172,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const id = useId(props.id)
   const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
-  const iterateItemContext = useContext(IterateElementContext)
+  const iterateItemContext = useContext(IterateItemContext)
   const sectionContext = useContext(SectionContext)
   const fieldBoundaryContext = useContext(FieldBoundaryContext)
   const wizardContext = useContext(WizardContext)
