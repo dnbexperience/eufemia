@@ -2,7 +2,7 @@ import React from 'react'
 import { renderHook } from '@testing-library/react'
 import useExternalValue from '../useExternalValue'
 import { DataContext } from '../..'
-import IterateElementContext from '../../Iterate/IterateItemContext'
+import IterateItemContext from '../../Iterate/IterateItemContext'
 
 describe('useExternalValue', () => {
   const transformers = {
@@ -55,13 +55,13 @@ describe('useExternalValue', () => {
   describe('with iterate context', () => {
     it('should return iterate element value when itemPath is "/"', () => {
       const wrapper = ({ children }) => (
-        <IterateElementContext.Provider
+        <IterateItemContext.Provider
           value={{
             value: 'iterate-value',
           }}
         >
           {children}
-        </IterateElementContext.Provider>
+        </IterateItemContext.Provider>
       )
 
       const { result } = renderHook(
@@ -78,7 +78,7 @@ describe('useExternalValue', () => {
 
     it('should return value from iterate element using itemPath', () => {
       const wrapper = ({ children }) => (
-        <IterateElementContext.Provider
+        <IterateItemContext.Provider
           value={{
             value: {
               nested: 'nested-value',
@@ -86,7 +86,7 @@ describe('useExternalValue', () => {
           }}
         >
           {children}
-        </IterateElementContext.Provider>
+        </IterateItemContext.Provider>
       )
 
       const { result } = renderHook(
@@ -109,7 +109,7 @@ describe('useExternalValue', () => {
       }
 
       const wrapper = ({ children }) => (
-        <IterateElementContext.Provider
+        <IterateItemContext.Provider
           value={{
             value: {
               nested: 'nested-value',
@@ -117,7 +117,7 @@ describe('useExternalValue', () => {
           }}
         >
           {children}
-        </IterateElementContext.Provider>
+        </IterateItemContext.Provider>
       )
 
       const { result } = renderHook(
@@ -234,13 +234,13 @@ describe('useExternalValue', () => {
 
   it('should handle priority order: value > iterate > data context', () => {
     const wrapper = ({ children }) => (
-      <IterateElementContext.Provider
+      <IterateItemContext.Provider
         value={{
           value: 'iterate-value',
         }}
       >
         {children}
-      </IterateElementContext.Provider>
+      </IterateItemContext.Provider>
     )
 
     const { result } = renderHook(
