@@ -157,16 +157,18 @@ function StepIndicator({
 
   return (
     <StepIndicatorProvider {...props}>
-      <Card
-        align="stretch"
-        className={classnames(
-          'dnb-step-indicator-wrapper',
-          createSpacingClasses(restOfProps)
-        )}
-      >
-        <StepIndicatorTriggerButton />
-        <StepIndicatorList />
-      </Card>
+      <div className="dnb-step-indicator-wrapper">
+        <Card
+          align="stretch"
+          className={classnames(
+            'dnb-step-indicator',
+            createSpacingClasses(restOfProps)
+          )}
+        >
+          <StepIndicatorTriggerButton />
+          <StepIndicatorList />
+        </Card>
+      </div>
     </StepIndicatorProvider>
   )
 }
