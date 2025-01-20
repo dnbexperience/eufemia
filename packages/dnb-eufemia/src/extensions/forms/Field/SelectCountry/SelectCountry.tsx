@@ -284,7 +284,7 @@ export function getCountryData({
     }
   },
 }: GetCountryData = {}) {
-  return countries
+  const sortedCountries = countries
     .filter((country) => {
       if (typeof filter === 'function') {
         return filter(country)
@@ -312,6 +312,12 @@ export function getCountryData({
       return String(a[lang])?.localeCompare?.(b[lang], 'nb') // Always sort by nb, because åøæ (for Åland) is not in the en alphabet
     })
     .map((country) => makeObject(country, lang))
+
+  if (sortedCountries.length === 0) {
+    return undefined
+  }
+
+  return sortedCountries
 }
 
 export function countryFilter(
