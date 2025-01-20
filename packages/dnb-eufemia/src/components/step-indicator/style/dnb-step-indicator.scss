@@ -5,15 +5,14 @@
 
 @import '../../../style/core/utilities.scss';
 
-.dnb-step-indicator__sidebar {
-  display: none;
-}
-.dnb-step-indicator-wrapper {
+.dnb-step-indicator {
   --padding-top: 0;
   --padding-bottom: 0;
-}
 
-.dnb-step-indicator-wrapper .dnb-step-indicator {
+  &__sidebar {
+    display: none;
+  }
+
   &__list {
     display: flex;
     flex-direction: column;
@@ -122,25 +121,24 @@
       }
     }
 
-    &:last-child .dnb-step-indicator__item__wrapper {
+    &:last-child &__wrapper {
       &::before {
         display: none;
       }
     }
 
-    html[data-visual-test] & {
-      .dnb-step-indicator__item__icon {
-        transition-duration: 1ms !important;
-      }
+    html[data-visual-test] &__icon {
+      transition-duration: 1ms !important;
     }
   }
 
   &__button {
-    padding: 0;
     white-space: normal;
-    line-height: inherit;
     text-align: left;
-
+    &.dnb-anchor {
+      padding: 0;
+      line-height: inherit;
+    }
     &--has-status .dnb-step-indicator__item-content {
       &__status {
         color: var(--color-black-80);
