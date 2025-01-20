@@ -14,35 +14,26 @@
   }
 
   &__list {
-    display: flex;
-    flex-direction: column;
-
     padding: 0;
     margin: 0;
 
     list-style: none;
   }
+
   &__trigger {
     // Is needed to make ensure the button stays on top during height animation
     display: flex;
     flex-wrap: wrap;
   }
-  &__label {
-    font-size: var(--font-size-basis);
-    white-space: nowrap;
-  }
+
   &__trigger__button {
     line-height: inherit;
     .dnb-button__text {
-      text-align: left;
       margin: 0;
       transform: none;
     }
     .dnb-button__icon {
       --button-icon-margin-top: 0.25rem;
-    }
-    .dnb-button__alignment {
-      order: 2;
     }
   }
 
@@ -52,14 +43,13 @@
       gap: 1rem;
       padding-bottom: 1rem;
       position: relative;
-      white-space: nowrap;
 
       &::before {
         content: '';
         display: block;
         position: absolute;
         height: 100%;
-        width: 1px;
+        width: 0.0625rem;
         background-color: var(--color-black-20);
         top: 0.25rem;
         left: 0.71875rem;
