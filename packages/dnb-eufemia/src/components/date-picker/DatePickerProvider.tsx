@@ -20,11 +20,10 @@ import DatePickerContext, {
   DatePickerContextValues,
 } from './DatePickerContext'
 import useViews, { CalendarView } from './hooks/useViews'
-import useDates, { DatePickerDates } from './hooks/useDates'
+import { DatePickerDateProps, DatePickerDates } from './hooks/useDates'
 import useLastEventCallCache, {
   LastEventCallCache,
 } from './hooks/useLastEventCallCache'
-import useDateLimitValidation from './hooks/useDateLimitValidation'
 
 type DatePickerProviderProps = DatePickerAllProps & {
   setReturnObject: (
@@ -33,6 +32,10 @@ type DatePickerProviderProps = DatePickerAllProps & {
   hidePicker?: DatePickerContextValues['hidePicker']
   attributes?: DatePickerEventAttributes
   children: React.ReactNode
+  dates: DatePickerDates
+  previousDateProps: DatePickerDateProps
+  updateDates: (dates: DatePickerDates) => void
+  hasHadValidDate: boolean
 }
 
 export type DatePickerChangeEvent<E> = DatePickerDates & {
@@ -72,16 +75,11 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
   const props = { ...defaultProps, ...externalProps }
 
   const {
-    date,
-    startDate,
-    endDate,
-    startMonth,
-    endMonth,
-    minDate,
-    maxDate,
-    dateFormat,
+    dates,
+    updateDates,
+    hasHadValidDate,
+    previousDateProps,
     range,
-    correctInvalidDate,
     attributes,
     returnFormat: returnFormatProp,
     children,
@@ -91,29 +89,6 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
   } = props
 
   const sharedContext = useContext(SharedContext)
-
-  const { dates, updateDates, hasHadValidDate, previousDateProps } =
-    useDates(
-      {
-        date,
-        startDate,
-        endDate,
-        startMonth,
-        endMonth,
-        minDate,
-        maxDate,
-      },
-      {
-        dateFormat: dateFormat,
-        isRange: range,
-        shouldCorrectDate: correctInvalidDate,
-      }
-    )
-
-  const dateLimitValidationMessage = useDateLimitValidation({
-    ...dates,
-    isRange: range,
-  })
 
   const { views, setViews, forceViewMonthChange } = useViews({
     startMonth: dates.startMonth,
@@ -138,7 +113,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
       const returnFormat = correctV1Format(returnFormatProp)
       const startDateIsValid = Boolean(startDate && isValid(startDate))
       const endDateIsValid = Boolean(endDate && isValid(endDate))
-      const hasMinOrMaxDates = minDate || maxDate
+      const hasMinOrMaxDates = dates.minDate || dates.maxDate
 
       const returnObject: ReturnObject<E> = {
         event,
@@ -185,7 +160,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
             : startDateIsValid,
       }
     },
-    [dates, views, attributes, maxDate, minDate, range, returnFormatProp]
+    [dates, views, attributes, range, returnFormatProp]
   )
 
   const callOnChangeHandler = useCallback(
@@ -234,7 +209,6 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
         ...dates,
         previousDateProps,
         hasHadValidDate,
-        dateLimitValidationMessage,
         views,
         setViews,
         forceViewMonthChange,
