@@ -284,7 +284,7 @@ function StepIndicatorItem({
         <div className="dnb-step-indicator__item__text">
           {!hide_numbers && (
             <span className="dnb-step-indicator__item__number">
-              {currentItemNum + 1}.{' '}
+              {`${currentItemNum + 1}. `}
             </span>
           )}
           <StepItemButton {...buttonParams}>{element}</StepItemButton>
