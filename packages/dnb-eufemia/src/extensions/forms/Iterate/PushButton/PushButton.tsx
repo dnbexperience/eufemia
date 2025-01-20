@@ -30,7 +30,7 @@ function PushButton(props: Props) {
   const buttonProps = omitDataValueReadWriteProps(restProps)
   const arrayValue = useDataValue().getValueByPath(path)
 
-  const { hasReachedLimit, setShowStatus } = useArrayLimit({ path })
+  const { hasReachedLimit, setShowStatus } = useArrayLimit(path)
 
   if (arrayValue !== undefined && !Array.isArray(arrayValue)) {
     throw new Error('PushButton received a non-array value')

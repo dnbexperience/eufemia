@@ -1896,6 +1896,239 @@ describe('Iterate.Array', () => {
     })
   })
 
+  describe('itemPath', () => {
+    it('should iterate over the values given in data context', () => {
+      const onSubmit = jest.fn()
+      let collectedContext = null
+
+      render(
+        <Form.Handler
+          onSubmit={onSubmit}
+          data={{
+            outer: [{ inner: ['value 1', 'value 2'] }],
+          }}
+        >
+          <Iterate.Array path="/outer">
+            <Iterate.Array itemPath="/inner">
+              <Field.String itemPath="/" />
+            </Iterate.Array>
+          </Iterate.Array>
+
+          <DataContext.Consumer>
+            {(context) => {
+              collectedContext = context
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      const [first, second] = Array.from(
+        document.querySelectorAll('input')
+      )
+
+      expect(first).toHaveValue('value 1')
+      expect(second).toHaveValue('value 2')
+
+      expect(collectedContext.data).toEqual({
+        outer: [{ inner: ['value 1', 'value 2'] }],
+      })
+
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        {
+          outer: [{ inner: ['value 1', 'value 2'] }],
+        },
+        expect.anything()
+      )
+    })
+
+    it('should iterate over the values given as defaultValue', () => {
+      const onSubmit = jest.fn()
+      let collectedContext = null
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Iterate.Array
+            path="/outer"
+            defaultValue={[{ inner: ['value 1', 'value 2'] }]}
+          >
+            <Iterate.Array itemPath="/inner">
+              <Field.String itemPath="/" />
+            </Iterate.Array>
+          </Iterate.Array>
+
+          <DataContext.Consumer>
+            {(context) => {
+              collectedContext = context
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      const [first, second] = Array.from(
+        document.querySelectorAll('input')
+      )
+
+      expect(first).toHaveValue('value 1')
+      expect(second).toHaveValue('value 2')
+
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        {
+          outer: [{ inner: ['value 1', 'value 2'] }],
+        },
+        expect.anything()
+      )
+      expect(collectedContext.data).toEqual({
+        outer: [{ inner: ['value 1', 'value 2'] }],
+      })
+    })
+
+    it('should iterate over the values given as defaultValue (nested)', () => {
+      const onSubmit = jest.fn()
+      let collectedContext = null
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Iterate.Array path="/outer" defaultValue={[{}]}>
+            <Iterate.Array
+              itemPath="/inner"
+              defaultValue={['value 1', 'value 2']}
+            >
+              <Field.String itemPath="/" />
+            </Iterate.Array>
+          </Iterate.Array>
+
+          <DataContext.Consumer>
+            {(context) => {
+              collectedContext = context
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      const [first, second] = Array.from(
+        document.querySelectorAll('input')
+      )
+
+      expect(first).toHaveValue('value 1')
+      expect(second).toHaveValue('value 2')
+
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        {
+          outer: [{ inner: ['value 1', 'value 2'] }],
+        },
+        expect.anything()
+      )
+      expect(collectedContext.data).toEqual({
+        outer: [{ inner: ['value 1', 'value 2'] }],
+      })
+    })
+
+    it('should update data context on changes', async () => {
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler
+          onSubmit={onSubmit}
+          data={{
+            outer: [{ inner: ['value 1', 'value 2'] }],
+          }}
+        >
+          <Iterate.Array path="/outer">
+            <Iterate.Array itemPath="/inner">
+              <Field.String itemPath="/" />
+            </Iterate.Array>
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      const [first, second] = Array.from(
+        document.querySelectorAll('input')
+      )
+
+      expect(first).toHaveValue('value 1')
+      expect(second).toHaveValue('value 2')
+
+      await userEvent.type(first, '{Backspace}foo')
+      await userEvent.type(second, '{Backspace}bar')
+
+      expect(first).toHaveValue('value foo')
+      expect(second).toHaveValue('value bar')
+
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        {
+          outer: [{ inner: ['value foo', 'value bar'] }],
+        },
+        expect.anything()
+      )
+    })
+
+    it('should support "defaultValue" on fields inside nested iterate', () => {
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler
+          onSubmit={onSubmit}
+          data={{
+            outer: [{ inner: [undefined, null, 'something'] }],
+          }}
+        >
+          <Iterate.Array path="/outer">
+            <Iterate.Array itemPath="/inner">
+              {(value, index) => {
+                return (
+                  <Field.String
+                    itemPath="/"
+                    defaultValue={`default value ${index + 1}`}
+                  />
+                )
+              }}
+            </Iterate.Array>
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      const [first, second, third] = Array.from(
+        document.querySelectorAll('input')
+      )
+
+      expect(first).toHaveValue('default value 1')
+      expect(second).toHaveValue('default value 2')
+      expect(third).toHaveValue('something')
+
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        {
+          outer: [
+            { inner: ['default value 1', 'default value 2', 'something'] },
+          ],
+        },
+        expect.anything()
+      )
+    })
+  })
+
   it('should contain tabindex of -1', () => {
     render(<Iterate.Array value={['one']}>content</Iterate.Array>)
 

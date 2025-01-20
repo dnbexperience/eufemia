@@ -32,6 +32,7 @@ export type Props = Omit<
   > & {
     children: ElementChild | Array<ElementChild>
     path?: Path
+    itemPath?: Path
     limit?: number
     countPath?: Path
     countPathLimit?: number

@@ -13,7 +13,8 @@ function Log({
   label?: React.ReactNode
   placeholder?: React.ReactNode
 }) {
-  const { data } = useContext(DataContext)
+  const { internalDataRef } = useContext(DataContext)
+  const data = internalDataRef?.current
 
   return (
     <Section

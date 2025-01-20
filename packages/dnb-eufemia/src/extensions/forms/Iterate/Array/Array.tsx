@@ -9,7 +9,7 @@ import React, {
 } from 'react'
 import classnames from 'classnames'
 import pointer from '../../utils/json-pointer'
-import { useFieldProps } from '../../hooks'
+import { useFieldProps, usePath } from '../../hooks'
 import { makeUniqueId } from '../../../../shared/component-helper'
 import { Flex, FormStatus, HeightAnimation } from '../../../../components'
 import { Span } from '../../../../elements'
@@ -49,17 +49,30 @@ function ArrayComponent(props: Props) {
 
   const {
     path: pathProp,
+    itemPath: itemPathProp,
     countPath,
     countPathTransform,
     countPathLimit = Infinity,
   } = props || {}
 
+  // Support for "itemPath"
+  const nestedIterateItemContext = useContext(IterateItemContext)
+  const { joinPath } = usePath()
+  const nestedIteratePath =
+    itemPathProp && nestedIterateItemContext
+      ? joinPath([
+          nestedIterateItemContext.path,
+          String(nestedIterateItemContext.index),
+          itemPathProp,
+        ])
+      : undefined
+
   const dataContext = useContext(DataContext)
   const summaryListContext = useContext(SummaryListContext)
   const valueBlockContext = useContext(ValueBlockContext)
-  const { setLimitProps, error: limitWarning } = useArrayLimit({
-    path: pathProp,
-  })
+  const { setLimitProps, error: limitWarning } = useArrayLimit(
+    pathProp || nestedIteratePath
+  )
 
   const { getValueByPath } = useDataValue()
   const getCountValue = useCallback(() => {
@@ -127,6 +140,7 @@ function ArrayComponent(props: Props) {
 
   const {
     path,
+    itemPath,
     value: arrayValue,
     limit,
     error,
@@ -222,6 +236,7 @@ function ArrayComponent(props: Props) {
       const itemContext: IterateItemContextState = {
         id,
         path,
+        itemPath,
         value,
         index,
         arrayValue,
@@ -231,6 +246,7 @@ function ArrayComponent(props: Props) {
         previousContainerMode: modesRef.current[id].previous,
         initialContainerMode: containerMode || 'auto',
         modeOptions: modesRef.current[id].options,
+        nestedIteratePath,
         switchContainerMode: (mode, options = {}) => {
           modesRef.current[id].previous = modesRef.current[id].current
           modesRef.current[id].current = mode
@@ -290,7 +306,15 @@ function ArrayComponent(props: Props) {
 
     // In order to update "valueWhileClosingRef" we need to have "salt" in the deps array
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [salt, arrayValue, limit, path, handleChange])
+  }, [
+    salt,
+    arrayValue,
+    limit,
+    path,
+    itemPath,
+    nestedIteratePath,
+    handleChange,
+  ])
 
   const total = arrayItems.length
   useEffect(() => {
