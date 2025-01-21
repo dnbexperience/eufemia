@@ -93,13 +93,23 @@
       }
     }
 
-    &__text {
-      font-size: var(--font-size-basis);
-      white-space: nowrap;
-    }
+    &-content {
+      display: flex;
 
-    &__number {
-      vertical-align: top;
+      &__number {
+        font-size: var(--font-size-basis);
+        white-space: nowrap;
+        margin-right: 0.5rem;
+      }
+
+      &__wrapper {
+        display: flex;
+        flex-direction: column;
+      }
+
+      &__text {
+        font-size: var(--font-size-basis);
+      }
     }
 
     &__icon {
@@ -129,12 +139,6 @@
     &.dnb-anchor {
       padding: 0;
       line-height: inherit;
-    }
-    &--has-status .dnb-step-indicator__item-content {
-      &__status {
-        color: var(--color-black-80);
-        font-size: var(--font-size-x-small);
-      }
     }
   }
 }

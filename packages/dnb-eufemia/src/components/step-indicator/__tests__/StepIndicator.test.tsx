@@ -266,7 +266,8 @@ describe('StepIndicator in general', () => {
     )
     expandStepList()
     expect(
-      document.querySelector('.dnb-step-indicator__item__text').textContent
+      document.querySelector('.dnb-step-indicator__item-content')
+        .textContent
     ).toEqual('Step A')
   })
 })
@@ -321,7 +322,7 @@ describe('StepIndicator in loose mode', () => {
     expect(
       document.querySelector('li.dnb-step-indicator__item--current')
         .textContent
-    ).toContain('2. Step BSteg 2 av 4')
+    ).toContain('2.Step BSteg 2 av 4')
 
     simulateSmallScreen()
 
@@ -468,7 +469,7 @@ describe('StepIndicator in loose mode', () => {
     expect(
       document.querySelector('li.dnb-step-indicator__item--current')
         .textContent
-    ).toContain('3. Step CSteg 3 av 3')
+    ).toContain('3.Step CSteg 3 av 3')
 
     const data2 = [
       {
@@ -488,7 +489,7 @@ describe('StepIndicator in loose mode', () => {
     expect(
       document.querySelector('li.dnb-step-indicator__item--current')
         .textContent
-    ).toContain('2. Step BSteg 2 av 3')
+    ).toContain('2.Step BSteg 2 av 3')
   })
 
   it('should react on current_step prop change', () => {
@@ -515,7 +516,7 @@ describe('StepIndicator in loose mode', () => {
     expect(
       document.querySelector('li.dnb-step-indicator__item--current')
         .textContent
-    ).toContain('3. Step CSteg 3 av 4')
+    ).toContain('3.Step CSteg 3 av 4')
   })
 
   it('should render button when no Sidebar was found', () => {

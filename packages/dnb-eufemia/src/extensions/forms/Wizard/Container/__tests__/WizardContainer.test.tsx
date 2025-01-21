@@ -2636,6 +2636,12 @@ describe('Wizard.Container', () => {
     )
 
     expect(
+      document.querySelector('.dnb-step-indicator__trigger__button')
+    ).toHaveTextContent('Title missing')
+
+    expandStepIndicator()
+
+    expect(
       document.querySelector('.dnb-step-indicator__item-content__text')
     ).toHaveTextContent('Title missing')
   })

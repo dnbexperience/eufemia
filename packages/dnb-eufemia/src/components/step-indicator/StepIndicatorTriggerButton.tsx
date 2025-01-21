@@ -17,7 +17,6 @@ import {
 } from '../../shared/component-helper'
 import FormLabel from '../form-label/FormLabel'
 import StepIndicatorContext from './StepIndicatorContext'
-import { StepItemWrapper } from './StepIndicatorItem'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -126,10 +125,7 @@ function StepIndicatorTriggerButton({
             icon={openState ? chevron_up : chevron_down}
             icon_position="right"
           >
-            <StepItemWrapper>
-              {(typeof item === 'string' ? item : item && item.title) ||
-                ''}
-            </StepItemWrapper>
+            {(typeof item === 'string' ? item : item && item.title) || ''}
           </Button>
         </div>
       </HeightAnimation>
