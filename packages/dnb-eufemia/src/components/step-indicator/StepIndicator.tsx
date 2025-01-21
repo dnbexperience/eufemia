@@ -47,9 +47,12 @@ export type StepIndicatorMouseEvent = {
 }
 
 export type StepIndicatorRenderCallback = {
+  /** A component that will render the item with the correct props. */
   StepItem: typeof StepItemWrapper
+  /** Element that was originally going to be rendered */
   element: React.ReactNode
-  attributes: React.HTMLProps<HTMLElement>
+  /** @deprecated has no valid values */
+  attributes?: React.HTMLProps<HTMLElement>
   props: StepIndicatorItemProps
   context: StepIndicatorContextValues
 }

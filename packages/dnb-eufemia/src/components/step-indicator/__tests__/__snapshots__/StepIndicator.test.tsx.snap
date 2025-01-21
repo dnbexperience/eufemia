@@ -643,12 +643,20 @@ button.dnb-button::-moz-focus-inner {
   border-width: 0.1875rem;
   border-color: var(--color-black-80);
 }
-.dnb-step-indicator__item__text {
+.dnb-step-indicator__item-content {
+  display: flex;
+}
+.dnb-step-indicator__item-content__number {
   font-size: var(--font-size-basis);
   white-space: nowrap;
+  margin-right: 0.5rem;
 }
-.dnb-step-indicator__item__number {
-  vertical-align: top;
+.dnb-step-indicator__item-content__wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.dnb-step-indicator__item-content__text {
+  font-size: var(--font-size-basis);
 }
 .dnb-step-indicator__item__icon {
   opacity: 1;
@@ -671,10 +679,6 @@ html[data-visual-test] .dnb-step-indicator__item__icon {
 .dnb-step-indicator__button.dnb-anchor {
   padding: 0;
   line-height: inherit;
-}
-.dnb-step-indicator__button--has-status .dnb-step-indicator__item-content__status {
-  color: var(--color-black-80);
-  font-size: var(--font-size-x-small);
 }"
 `;
 
