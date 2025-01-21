@@ -24,6 +24,7 @@
     // Is needed to make ensure the button stays on top during height animation
     display: flex;
     flex-wrap: wrap;
+    align-items: flex-start;
   }
 
   &__trigger__button {

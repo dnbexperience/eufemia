@@ -7,7 +7,7 @@ import classnames from 'classnames'
 import React, { useContext } from 'react'
 import Button, { ButtonProps } from '../button/Button'
 import Section from '../section/Section'
-
+import HeightAnimation from '../height-animation/HeightAnimation'
 import chevron_down from '../../icons/chevron_down'
 import chevron_up from '../../icons/chevron_up'
 import {
@@ -98,38 +98,41 @@ function StepIndicatorTriggerButton({
         bottom: 'small',
       }}
     >
-      <div {...(triggerParams as React.HTMLProps<HTMLDivElement>)}>
-        <span className="dnb-sr-only" id={id + '-overview'}>
-          {overview_title}
-        </span>
-        <FormLabel
-          aria-describedby={id}
-          forId={id}
-          className="dnb-step-indicator__label"
-          right="x-small"
-        >
-          {label}
-        </FormLabel>
-        <Button
-          {...buttonParams}
-          onClick={() => {
-            if (openState) {
-              closeHandler()
-            } else {
-              openHandler()
-            }
-          }}
-          id={id}
-          wrap
-          variant="tertiary"
-          icon={openState ? chevron_up : chevron_down}
-          icon_position="right"
-        >
-          <StepItemWrapper>
-            {(typeof item === 'string' ? item : item && item.title) || ''}
-          </StepItemWrapper>
-        </Button>
-      </div>
+      <HeightAnimation>
+        <div {...(triggerParams as React.HTMLProps<HTMLDivElement>)}>
+          <span className="dnb-sr-only" id={id + '-overview'}>
+            {overview_title}
+          </span>
+          <FormLabel
+            aria-describedby={id}
+            forId={id}
+            className="dnb-step-indicator__label"
+            right="x-small"
+          >
+            {label}
+          </FormLabel>
+          <Button
+            {...buttonParams}
+            onClick={() => {
+              if (openState) {
+                closeHandler()
+              } else {
+                openHandler()
+              }
+            }}
+            id={id}
+            wrap
+            variant="tertiary"
+            icon={openState ? chevron_up : chevron_down}
+            icon_position="right"
+          >
+            <StepItemWrapper>
+              {(typeof item === 'string' ? item : item && item.title) ||
+                ''}
+            </StepItemWrapper>
+          </Button>
+        </div>
+      </HeightAnimation>
     </Section>
   )
 }

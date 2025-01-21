@@ -49,11 +49,6 @@ describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
           selector:
             '[data-visual-test="step-indicator-loose"] .dnb-step-indicator__item:nth-of-type(3) button',
         },
-        {
-          action: 'click',
-          selector:
-            '[data-visual-test="step-indicator-loose"] .dnb-step-indicator__trigger__button',
-        },
       ],
       recalculateHeightAfterSimulate: true,
     })
@@ -79,11 +74,6 @@ describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
           action: 'click',
           selector:
             '[data-visual-test="step-indicator-strict"] .dnb-step-indicator__item:nth-of-type(1) button',
-        },
-        {
-          action: 'click',
-          selector:
-            '[data-visual-test="step-indicator-strict"] .dnb-step-indicator__trigger__button',
         },
       ],
       recalculateHeightAfterSimulate: true,
