@@ -63,6 +63,12 @@ export type Props = FieldProps<IOption['value']> & {
   optionsLayout?: 'horizontal' | 'vertical'
 
   /**
+   * Transform the displayed selection for Dropdown and Autocomplete variant.
+   * Use it to display a different value than the one in the data set.
+   */
+  transformSelection?: (props: OptionFieldProps) => React.ReactNode
+
+  /**
    * The path to the context data (Form.Handler).
    * The context data object needs to have a `value` and a `title` property.
    */
@@ -113,6 +119,7 @@ function Selection(props: Props) {
     setHasFocus,
     handleChange,
     setDisplayValue,
+    transformSelection,
     data,
     dataPath,
     children,
@@ -226,8 +233,8 @@ function Selection(props: Props) {
 
     case 'autocomplete':
     case 'dropdown': {
-      const data = renderDropdownItems(dataList)
-        .concat(makeOptions(children))
+      const data = renderDropdownItems(dataList, transformSelection)
+        .concat(makeOptions(children, transformSelection))
         .filter(Boolean)
       const displayValue = data.find((item) => item.selectedKey === value)
         ?.content
@@ -393,7 +400,8 @@ export function mapOptions(
 }
 
 export function makeOptions<T = DrawerListProps['data']>(
-  children: React.ReactNode
+  children: React.ReactNode,
+  transformSelection?: Props['transformSelection']
 ): T {
   return React.Children.map(children, (child) => {
     if (child?.['props']?.children?.type === OptionField) {
@@ -404,10 +412,13 @@ export function makeOptions<T = DrawerListProps['data']>(
       const props = child.props as OptionFieldProps
       const title = props.title ?? props.children ?? <em>Untitled</em>
       const content = props.text ? [title, props.text] : title
+      const selected_value = transformSelection
+        ? transformSelection(props)
+        : undefined
       const selectedKey = String(props.value ?? '')
       const disabled = props.disabled
 
-      return { selectedKey, content, disabled }
+      return { selectedKey, selected_value, content, disabled }
     }
 
     // For other children, just show them as content
@@ -419,12 +430,19 @@ export function makeOptions<T = DrawerListProps['data']>(
   }) as T
 }
 
-function renderDropdownItems(data: Data) {
+function renderDropdownItems(
+  data: Data,
+  transformSelection?: Props['transformSelection']
+) {
   return (
-    data?.map(({ value, title, text, disabled }) => {
+    data?.map((props) => {
+      const { value, title, text, disabled } = props
       return {
         selectedKey: value,
         content: (text ? [title, text] : title) || <em>Untitled</em>,
+        selected_value: transformSelection
+          ? transformSelection(props)
+          : undefined,
         disabled,
       }
     }) || []

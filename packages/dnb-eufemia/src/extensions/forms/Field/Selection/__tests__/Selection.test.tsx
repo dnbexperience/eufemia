@@ -30,6 +30,67 @@ describe('Selection', () => {
     expect(screen.queryByText('Foo')).not.toBeInTheDocument()
   })
 
+  it('renders selected option with a text property', () => {
+    render(
+      <Field.Selection value="bar">
+        <Field.Option value="foo" title="Foo!" text="Text" />
+        <Field.Option value="bar" title="Bar!" text="Text" />
+      </Field.Selection>
+    )
+    expect(
+      document.querySelector('.dnb-dropdown__text__inner')
+    ).toHaveTextContent('Bar! Text')
+  })
+
+  it('renders selected option with the "transformSelection" return', () => {
+    render(
+      <Field.Selection
+        value="bar"
+        transformSelection={(item) => item.title}
+      >
+        <Field.Option value="foo" title="Foo!" text="Text" />
+        <Field.Option value="bar" title="Bar!" text="Text" />
+      </Field.Selection>
+    )
+    expect(
+      document.querySelector('.dnb-dropdown__text__inner').textContent
+    ).toBe('Bar!')
+  })
+
+  it('renders selected data context with the "transformSelection" return', () => {
+    render(
+      <Form.Handler
+        defaultData={{
+          mySelection: 'bar',
+          myList: [
+            {
+              value: 'foo',
+              title: 'Foo!',
+              text: 'Text',
+            },
+            {
+              value: 'bar',
+              title: 'Bar!',
+              text: 'Text',
+            },
+          ],
+        }}
+      >
+        <Field.Selection
+          path="/mySelection"
+          dataPath="/myList"
+          transformSelection={(item) => item.title}
+        >
+          <Field.Option value="foo" title="Foo" text="Text" />
+          <Field.Option value="bar" title="Bar" text="Text" />
+        </Field.Selection>
+      </Form.Handler>
+    )
+    expect(
+      document.querySelector('.dnb-dropdown__text__inner').textContent
+    ).toBe('Bar!')
+  })
+
   it('renders selected option with number values', () => {
     render(
       <Field.Selection value="20">
@@ -290,8 +351,8 @@ describe('variants', () => {
         <Form.Handler
           data={{
             myList: [
-              { value: 'foo', title: 'Foo!' },
-              { value: 'bar', title: 'Bar!' },
+              { value: 'foo', title: 'Foo!', text: 'Text' },
+              { value: 'bar', title: 'Bar!', text: 'Text' },
             ],
             mySelection: 'bar',
           }}
@@ -343,6 +404,38 @@ describe('variants', () => {
       expect(option1.querySelector('input').id).not.toBe(
         option3.querySelector('label').getAttribute('for')
       )
+    })
+
+    it('should support "dataPath" with title and text property', () => {
+      render(
+        <Form.Handler
+          data={{
+            myList: [
+              { value: 'foo', title: 'Foo!', text: 'Text' },
+              { value: 'bar', title: 'Bar!', text: 'Text' },
+            ],
+            mySelection: 'bar',
+          }}
+        >
+          <Field.Selection
+            variant="dropdown"
+            path="/mySelection"
+            dataPath="/myList"
+          >
+            <Field.Option value="baz">Baz!</Field.Option>
+          </Field.Selection>
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelector('.dnb-dropdown__text__inner')
+      ).toHaveTextContent('Bar! Text')
+
+      fireEvent.click(document.querySelector('.dnb-dropdown__trigger'))
+
+      const options = document.querySelectorAll('[role="option"]')
+      expect(options[0]).toHaveTextContent('Foo!')
+      expect(options[1]).toHaveTextContent('Bar!')
     })
 
     it('should support keyboard navigation to select an option', async () => {

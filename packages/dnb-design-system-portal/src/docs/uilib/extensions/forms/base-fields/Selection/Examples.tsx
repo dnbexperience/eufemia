@@ -42,17 +42,22 @@ export const DropdownLabel = () => (
   </ComponentBox>
 )
 
-export const DropdownOptionSelected = () => (
-  <ComponentBox>
-    <Field.Selection
-      value="bar"
-      onChange={(value) => console.log('onChange', value)}
-    >
-      <Field.Option value="foo" title="Foo!" />
-      <Field.Option value="bar" title="Baar!" />
-    </Field.Selection>
-  </ComponentBox>
-)
+export function DropdownTransformSelection() {
+  return (
+    <ComponentBox>
+      <Field.Selection
+        label="Label"
+        value="bar"
+        transformSelection={({ title }) => {
+          return title
+        }}
+      >
+        <Field.Option value="foo" title="Foo!" text="Additional text" />
+        <Field.Option value="bar" title="Baar!" text="Additional text" />
+      </Field.Selection>
+    </ComponentBox>
+  )
+}
 
 export const DropdownLabelAndOptionSelected = () => (
   <ComponentBox data-visual-test="selection-dropdown-default">
