@@ -145,7 +145,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
       <E
         as={as}
         id={id}
-        internalClass={as === 'button' ? 'dnb-anchor' : undefined}
+        internalClass={as !== 'button'}
         className={classnames(
           omitClass !== true &&
             classnames(
