@@ -125,10 +125,6 @@ function StepIndicatorItem({
 
       if (context.activeStep !== currentItemNum) {
         context.setActiveStep(currentItemNum)
-        if (typeof context.onChangeState === 'function') {
-          context.onChangeState()
-        }
-
         dispatchCustomElementEvent(context, 'on_change', params)
       }
     },
