@@ -13,7 +13,11 @@ import {
 import Anchor, { AnchorAllProps } from '../anchor/Anchor'
 import Icon, { IconIcon } from '../icon/Icon'
 import IconPrimary from '../icon/IconPrimary'
-import { WarnIcon, InfoIcon, ErrorIcon } from '../form-status/FormStatus'
+import FormStatus, {
+  WarnIcon,
+  InfoIcon,
+  ErrorIcon,
+} from '../form-status/FormStatus'
 import StepIndicatorContext from './StepIndicatorContext'
 import { stepIndicatorDefaultProps } from './StepIndicatorProps'
 import {
@@ -153,8 +157,6 @@ function StepIndicatorItem({
 
     on_render,
     on_click, // eslint-disable-line
-
-    ...attributes
   } = props
 
   const hasPassedAndIsCurrent =
@@ -177,13 +179,14 @@ function StepIndicatorItem({
   const isCurrent = currentItemNum === activeStep
 
   let element = (
-    <StepItemWrapper status={status}>{title}</StepItemWrapper>
+    <StepItemWrapper>{title}</StepItemWrapper>
   ) as React.ReactNode
 
+  // TODO: should we deprecate this entire thing?
   const callbackProps = {
     StepItem: StepItemWrapper,
     element,
-    attributes,
+    attributes: {}, // deprecated in v11
     props,
     context,
   }
@@ -277,13 +280,30 @@ function StepIndicatorItem({
             />
           )}
         </span>
-        <div className="dnb-step-indicator__item__text">
+        <div className="dnb-step-indicator__item-content">
           {!hide_numbers && (
-            <span className="dnb-step-indicator__item__number">
-              {`${currentItemNum + 1}. `}
+            <span className="dnb-step-indicator__item-content__number">
+              {`${currentItemNum + 1}.`}
             </span>
           )}
-          <StepItemButton {...buttonParams}>{element}</StepItemButton>
+          <div className="dnb-step-indicator__item-content__wrapper">
+            <StepItemButton
+              {...buttonParams}
+              className="dnb-step-indicator__item-content__text"
+            >
+              {element}
+            </StepItemButton>
+            {status && (
+              <FormStatus
+                top
+                state={status_state}
+                variant="outlined"
+                className="dnb-step-indicator__item-content__status"
+              >
+                {status}
+              </FormStatus>
+            )}
+          </div>
         </div>
       </div>
       <span id={id} aria-hidden className="dnb-sr-only">
@@ -326,28 +346,18 @@ export function StepItemButton({
 }
 
 export type StepItemWrapperProps = React.HTMLProps<HTMLElement> & {
+  /** Content inside the step button */
   children?: React.ReactNode
+  /** @deprecated can only change the render of content inside the button */
+  number?: number
+  /** @deprecated can only hide numbers in main component */
+  hide_numbers?: boolean
+  /** @deprecated can only change the render of content inside the button */
   status?: string | React.ReactNode
 }
 
-export function StepItemWrapper({
-  children,
-  status,
-}: StepItemWrapperProps) {
-  return (
-    <span className="dnb-step-indicator__item-content">
-      <span className="dnb-step-indicator__item-content__wrapper">
-        <span className="dnb-step-indicator__item-content__text">
-          {children}
-        </span>
-        {status && (
-          <span className="dnb-step-indicator__item-content__status">
-            {status}
-          </span>
-        )}
-      </span>
-    </span>
-  )
+export function StepItemWrapper({ children }: StepItemWrapperProps) {
+  return <>{children}</>
 }
 
 export default StepIndicatorItem
