@@ -3,6 +3,7 @@ import { useTranslation } from '../../../shared'
 import { DatePickerDates } from './useDates'
 import { format, isAfter, isBefore } from 'date-fns'
 import { DatePickerProps } from '../DatePicker'
+import { Li, Ul } from '../../../elements'
 
 export default function useDateLimitValidation({
   minDate,
@@ -42,39 +43,56 @@ export default function useDateLimitValidation({
       }
     }
 
-    let validationMessage = ''
+    const messages = []
 
     if (isBefore(startDate, minDate)) {
-      validationMessage += translation.errorRangeStartDateMinDate.replace(
-        /%s/,
-        format(minDate, dateFormat)
+      messages.push(
+        translation.errorRangeStartDateMinDate.replace(
+          /%s/,
+          format(minDate, dateFormat)
+        )
       )
     }
 
     if (isAfter(startDate, maxDate)) {
-      validationMessage += translation.errorRangeStartDateMaxDate.replace(
-        /%s/,
-        format(maxDate, dateFormat)
+      messages.push(
+        translation.errorRangeStartDateMaxDate.replace(
+          /%s/,
+          format(maxDate, dateFormat)
+        )
       )
     }
 
     if (isBefore(endDate, minDate)) {
-      validationMessage += translation.errorRangeEndDateMinDate.replace(
-        /%s/,
-        format(minDate, dateFormat)
+      messages.push(
+        translation.errorRangeEndDateMinDate.replace(
+          /%s/,
+          format(minDate, dateFormat)
+        )
       )
     }
 
     if (isAfter(endDate, maxDate)) {
-      validationMessage += translation.errorRangeEndDateMaxDate.replace(
-        /%s/,
-        format(maxDate, dateFormat)
+      messages.push(
+        translation.errorRangeEndDateMaxDate.replace(
+          /%s/,
+          format(maxDate, dateFormat)
+        )
       )
-
-      return validationMessage || undefined
     }
 
-    return undefined
+    return messages.length > 1 ? (
+      <>
+        {translation.errorSummary}
+        <Ul>
+          {messages.map((status, i) => {
+            return <Li key={i}>{status}</Li>
+          })}
+        </Ul>
+      </>
+    ) : (
+      messages[0] || undefined
+    )
   }, [
     startDate,
     endDate,
