@@ -37,6 +37,7 @@ export default {
       submitButtonText: 'Ok',
       cancelButtonText: 'Avbryt',
       resetButtonText: 'Tilbakestill',
+      errorSummary: 'Feil som må rettes:',
       errorMinDate: 'Valgt dato må være etter %s',
       errorMaxDate: 'Valgt dato må være før %s',
       errorRangeStartDateMinDate: 'Valgt startdato må være etter %s',
