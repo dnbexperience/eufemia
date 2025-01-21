@@ -3,11 +3,7 @@ import type { GlobalStatusConfigObject } from '../GlobalStatus';
 import type { IconIcon, IconSize } from '../Icon';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps, SpaceTypeAll } from '../space/types';
-export type FormStatusText =
-  | string
-  | boolean
-  | ((...args: any[]) => any)
-  | React.ReactNode;
+export type FormStatusText = React.ReactNode;
 export type FormStatusState =
   | boolean
   | string
