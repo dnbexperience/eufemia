@@ -108,9 +108,10 @@ describe('Wizard.Container', () => {
     )
 
     await expandStepIndicator()
-    const secondStep = Array.from(
+    const [firstStep, secondStep] = Array.from(
       document.querySelectorAll('.dnb-step-indicator__item')
-    )[1]
+    )
+
     await userEvent.click(secondStep.querySelector('.dnb-anchor'))
     expect(output()).toHaveTextContent('Step 2')
     expect(onStepChange).toHaveBeenCalledTimes(1)
@@ -120,10 +121,6 @@ describe('Wizard.Container', () => {
       expect.anything()
     )
 
-    await expandStepIndicator()
-    const firstStep = Array.from(
-      document.querySelectorAll('.dnb-step-indicator__item')
-    )[0]
     await userEvent.click(firstStep.querySelector('.dnb-anchor'))
     expect(output()).toHaveTextContent('Step 1')
     expect(onStepChange).toHaveBeenCalledTimes(2)
@@ -217,9 +214,9 @@ describe('Wizard.Container', () => {
     )
 
     await expandStepIndicator()
-    const secondStep = Array.from(
+    const [firstStep, secondStep] = Array.from(
       document.querySelectorAll('.dnb-step-indicator__item')
-    )[1]
+    )
 
     await userEvent.click(secondStep.querySelector('.dnb-anchor'))
     expect(output()).toHaveTextContent('Step 2')
@@ -230,10 +227,6 @@ describe('Wizard.Container', () => {
       preventNavigation: expect.any(Function),
     })
 
-    await expandStepIndicator()
-    const firstStep = Array.from(
-      document.querySelectorAll('.dnb-step-indicator__item')
-    )[0]
     await userEvent.click(firstStep.querySelector('.dnb-anchor'))
     expect(output()).toHaveTextContent('Step 1')
     expect(onStepChange).toHaveBeenCalledTimes(2)
@@ -1669,9 +1662,10 @@ describe('Wizard.Container', () => {
       )
 
       await expandStepIndicator()
-      const secondStep = Array.from(
+
+      const [firstStep, secondStep] = Array.from(
         document.querySelectorAll('.dnb-step-indicator__item')
-      )[1]
+      )
       await userEvent.click(secondStep.querySelector('.dnb-anchor'))
       expect(output()).toHaveTextContent('Step 2')
       expect(onStepChange).toHaveBeenCalledTimes(1)
@@ -1681,10 +1675,6 @@ describe('Wizard.Container', () => {
         preventNavigation: expect.any(Function),
       })
 
-      await expandStepIndicator()
-      const firstStep = Array.from(
-        document.querySelectorAll('.dnb-step-indicator__item')
-      )[0]
       await userEvent.click(firstStep.querySelector('.dnb-anchor'))
       expect(output()).toHaveTextContent('Step 1')
       expect(onStepChange).toHaveBeenCalledTimes(2)
@@ -2070,7 +2060,6 @@ describe('Wizard.Container', () => {
     await waitFor(() => {
       expect(scrollIntoViewMock).toHaveBeenCalledTimes(3)
     })
-    await expandStepIndicator()
 
     const firstStep = Array.from(
       document.querySelectorAll('.dnb-step-indicator__item')
@@ -2119,18 +2108,12 @@ describe('Wizard.Container', () => {
     })
     await expandStepIndicator()
 
-    const secondStep = Array.from(
+    const [firstStep, secondStep] = Array.from(
       document.querySelectorAll('.dnb-step-indicator__item')
-    )[1]
+    )
     await userEvent.click(secondStep.querySelector('.dnb-anchor'))
     expect(output()).toHaveTextContent('Step 2')
     expect(scrollIntoViewMock).toHaveBeenCalledTimes(0)
-
-    await expandStepIndicator()
-
-    const firstStep = Array.from(
-      document.querySelectorAll('.dnb-step-indicator__item')
-    )[0]
 
     await userEvent.click(firstStep.querySelector('.dnb-anchor'))
     expect(output()).toHaveTextContent('Step 1')
@@ -2624,13 +2607,9 @@ describe('Wizard.Container', () => {
         </Wizard.Container>
       )
       await expandStepIndicator()
-
-      let secondStep = Array.from(
+      const [firstStep, secondStep] = Array.from(
         document.querySelectorAll('.dnb-step-indicator__item')
-      )[1]
-      // const [firstStep, secondStep] = Array.from(
-      //   document.querySelectorAll('.dnb-step-indicator__item')
-      // )
+      )
 
       expect(output()).toHaveTextContent('Step 1')
       expect(document.querySelector('.dnb-form-status')).toBeNull()
@@ -2651,21 +2630,13 @@ describe('Wizard.Container', () => {
           document.querySelector('.dnb-form-status')
         ).toBeInTheDocument()
       })
-      await expandStepIndicator()
-      const firstStep = Array.from(
-        document.querySelectorAll('.dnb-step-indicator__item')
-      )[0]
       await userEvent.click(firstStep.querySelector('button'))
 
       await waitFor(() => {
         expect(output()).toHaveTextContent('Step 1')
         expect(document.querySelector('.dnb-form-status')).toBeNull()
       })
-      await expandStepIndicator()
 
-      secondStep = Array.from(
-        document.querySelectorAll('.dnb-step-indicator__item')
-      )[1]
       await userEvent.click(secondStep.querySelector('button'))
 
       await waitFor(() => {
