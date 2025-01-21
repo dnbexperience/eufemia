@@ -15,11 +15,15 @@ Change log for the Eufemia Forms extension.
 
 ## v10.63.0
 
+- Added showing field errors during submit inside [Iterate.PushContainer](/uilib/extensions/forms/Iterate/PushContainer/) when `bubbleValidation` is `true`.
 - Added support for conditional function based `info`, `warning` and `error` properties to all `Field.*`.
 - Added support for `required` property to [Iterate.PushContainer](/uilib/extensions/forms/Iterate/PushContainer/).
 - Added support for `required` property to [Iterate.Array](/uilib/extensions/forms/Iterate/Array/).
+- Added support for `itemPath` property to [Iterate.Array](/uilib/extensions/forms/Iterate/Array/).
 - Added the internal array as a third parameter to the callback function’s children in [Iterate.Array](/uilib/extensions/forms/Iterate/Array/).
 - Fixed so wizard step changes scroll so the [Wizard(StepIndicator)](/uilib/extensions/forms/Wizard/) is included at the top.
+- Fixed so [Field.SelectCountry](/uilib/extensions/forms/feature-fields/SelectCountry/) don't open when `defaultValue` is given.
+- Fixed inactive [Iterate.PushContainer](/uilib/extensions/forms/Iterate/PushContainer/) blocking [Wizard](/uilib/extensions/forms/Wizard/) navigation when `bubbleValidation` is `true`.
 - Deprecated `continuousValidation` in favor of `validateContinuously` in all `Field.*` components and `Form.Visibility`.
 
 ## v10.62.4
