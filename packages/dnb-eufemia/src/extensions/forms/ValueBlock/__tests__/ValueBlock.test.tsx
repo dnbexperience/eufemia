@@ -204,6 +204,84 @@ describe('ValueBlock', () => {
         document.querySelector('.dnb-forms-value-block__label strong')
       ).toBeInTheDocument()
     })
+
+    it('should render HeightAnimation inside dt and dd when animate is true', () => {
+      render(
+        <Value.SummaryList>
+          <Value.String label="Label" value="First field" />
+
+          <Form.Visibility pathUndefined="/undefined" animate>
+            <Value.String label="Label" value="Second field" />
+          </Form.Visibility>
+        </Value.SummaryList>
+      )
+
+      const element = document.querySelector('.dnb-forms-summary-list')
+
+      const firstChild = element.children[0]
+      const secondChild = element.children[1]
+      const thirdChild = element.children[2]
+      const fourthChild = element.children[3]
+
+      expect(
+        firstChild.querySelector('.dnb-height-animation')
+      ).not.toBeInTheDocument()
+      expect(
+        secondChild.querySelector('.dnb-height-animation')
+      ).not.toBeInTheDocument()
+
+      expect(
+        thirdChild.querySelector('.dnb-height-animation')
+      ).toBeInTheDocument()
+      expect(
+        fourthChild.querySelector('.dnb-height-animation')
+      ).toBeInTheDocument()
+
+      expect(element.tagName).toBe('DL')
+      expect(firstChild.tagName).toBe('DT')
+      expect(secondChild.tagName).toBe('DD')
+      expect(thirdChild.tagName).toBe('DT')
+      expect(fourthChild.tagName).toBe('DD')
+    })
+
+    it('should render div inside dt and dd when keepInDOM is true', () => {
+      render(
+        <Value.SummaryList>
+          <Value.String label="Label" value="First field" />
+
+          <Form.Visibility pathUndefined="/undefined" keepInDOM>
+            <Value.String label="Label" value="Second field" />
+          </Form.Visibility>
+        </Value.SummaryList>
+      )
+
+      const element = document.querySelector('.dnb-forms-summary-list')
+
+      const firstChild = element.children[0]
+      const secondChild = element.children[1]
+      const thirdChild = element.children[2]
+      const fourthChild = element.children[3]
+
+      expect(
+        firstChild.querySelector('.dnb-forms-visibility')
+      ).not.toBeInTheDocument()
+      expect(
+        secondChild.querySelector('.dnb-forms-visibility')
+      ).not.toBeInTheDocument()
+
+      expect(
+        thirdChild.querySelector('.dnb-forms-visibility')
+      ).toBeInTheDocument()
+      expect(
+        fourthChild.querySelector('.dnb-forms-visibility')
+      ).toBeInTheDocument()
+
+      expect(element.tagName).toBe('DL')
+      expect(firstChild.tagName).toBe('DT')
+      expect(secondChild.tagName).toBe('DD')
+      expect(thirdChild.tagName).toBe('DT')
+      expect(fourthChild.tagName).toBe('DD')
+    })
   })
 
   it('renders support gap', () => {

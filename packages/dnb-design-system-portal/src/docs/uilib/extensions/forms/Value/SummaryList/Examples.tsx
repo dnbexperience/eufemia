@@ -1,5 +1,6 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Field, Form, Value } from '@dnb/eufemia/src/extensions/forms'
+import { Flex } from '@dnb/eufemia/src/components'
 
 export const DefaultLayout = () => {
   return (
@@ -156,3 +157,29 @@ export const HorizontalLayoutWithoutLabel = () => (
     </Value.SummaryList>
   </ComponentBox>
 )
+
+export function AnimatedVisibility() {
+  return (
+    <ComponentBox>
+      <Form.Handler>
+        <Flex.Stack>
+          <Field.Boolean
+            label="Make second field visible when toggled"
+            path="/toggleValue"
+            variant="checkbox"
+          />
+
+          <Form.Card>
+            <Value.SummaryList>
+              <Value.String label="Label" value="First field" />
+
+              <Form.Visibility pathTrue="/toggleValue" animate>
+                <Value.String label="Label" value="Second field" />
+              </Form.Visibility>
+            </Value.SummaryList>
+          </Form.Card>
+        </Flex.Stack>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}

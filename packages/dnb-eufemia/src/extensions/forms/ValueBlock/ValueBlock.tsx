@@ -16,6 +16,8 @@ import { Path, ValueProps } from '../types'
 import { pickSpacingProps } from '../../../components/flex/utils'
 import IterateItemContext from '../Iterate/IterateItemContext'
 import { convertJsxToString } from '../../../shared/component-helper'
+import VisibilityContext from '../Form/Visibility/VisibilityContext'
+import Visibility from '../Form/Visibility/Visibility'
 
 /**
  * Props are documented in ValueDocs.ts
@@ -130,7 +132,9 @@ function ValueBlock(props: Props) {
                 (!label || labelSrOnly) && 'dnb-sr-only'
               )}
             >
-              {label && <strong>{label}</strong>}
+              <VisibilityWrapper>
+                {label && <strong>{label}</strong>}
+              </VisibilityWrapper>
             </Dt>
             <Dd
               className={classnames(
@@ -141,13 +145,15 @@ function ValueBlock(props: Props) {
                 compositionClass
               )}
             >
-              {children ? (
-                <span className={defaultClass}>{children}</span>
-              ) : (
-                <span className="dnb-forms-value-block__placeholder">
-                  {placeholder}
-                </span>
-              )}
+              <VisibilityWrapper>
+                {children ? (
+                  <span className={defaultClass}>{children}</span>
+                ) : (
+                  <span className="dnb-forms-value-block__placeholder">
+                    {placeholder}
+                  </span>
+                )}
+              </VisibilityWrapper>
             </Dd>
           </Item>
         </SummaryListContext.Provider>
@@ -230,3 +236,13 @@ export default ValueBlock
 const transformLabelParameters = {
   convertJsxToString,
 } as unknown as Parameters<Props['transformLabel']>[1]
+
+function VisibilityWrapper({ children }) {
+  const visibilityContext = useContext(VisibilityContext)
+
+  if (visibilityContext) {
+    return <Visibility {...visibilityContext.props}>{children}</Visibility>
+  }
+
+  return children
+}
