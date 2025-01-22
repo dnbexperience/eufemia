@@ -1057,3 +1057,20 @@ export function InDialog() {
     </Dialog>
   )
 }
+
+export const HyphenationExample = () => {
+  return (
+    <>
+      <Dropdown
+        opened
+        skip_portal
+        hyphenation="auto"
+        data={[
+          [
+            'The longest word in the Oxford English Dictionary is the 45-letter pneumonoultramicroscopicsilicovolcanoconiosis, which refers to a form of lung disease. (hyphenation="auto")',
+          ],
+        ]}
+      />
+    </>
+  )
+}
