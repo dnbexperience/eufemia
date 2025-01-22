@@ -22,6 +22,10 @@
   color: inherit;
 
   border-radius: 0.1875em;
+
+  & .dnb-anchor {
+    font-size: inherit;
+  }
 }
 
 @mixin preStyle() {

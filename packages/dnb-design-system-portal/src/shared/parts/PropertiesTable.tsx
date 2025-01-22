@@ -19,6 +19,7 @@ const StyledTable = styled(Table)`
 const colorValue = 'var(--color-success-green)'
 const colorString = 'var(--color-fire-red)'
 const colorType = 'var(--color-violet)'
+const colorPrimitive = 'var(--color-success-green)'
 const colorUndefined = 'var(--color-black-55)'
 
 export const FormattedCode = ({
@@ -42,20 +43,24 @@ export const FormattedCode = ({
         break // add prop name styling at a future date with color 'var(--color-indigo)'
       }
       case 'type': {
-        style.color = children.startsWith(`'`) ? colorString : colorType
-        // falls through
+        style.color = isString(children)
+          ? colorString
+          : isPrimitive(children)
+          ? colorPrimitive
+          : colorType
+        style.background = 'none'
+        style.boxShadow = 'none'
+        break
       }
       case 'value': {
-        style.color = children.startsWith(`'`)
+        style.color = isString(children)
           ? colorString
           : children === 'undefined' || children === 'null'
           ? colorUndefined
           : colorValue
-        // falls through
-      }
-      default: {
         style.background = 'none'
         style.boxShadow = 'none'
+        break
       }
     }
   }
@@ -168,6 +173,29 @@ export default function PropertiesTable({
       </StyledTable>
     </Table.ScrollView>
   )
+}
+
+function isString(str: string) {
+  return ["'", '"', '`'].includes(str.substring(0, 1))
+}
+
+function isPrimitive(type: string) {
+  return [
+    'boolean',
+    'number',
+    'bigint',
+    'string',
+    'symbol',
+    'object',
+  ].includes(typeWithoutArray(type))
+}
+function typeWithoutArray(type: string) {
+  if (type.endsWith('[]')) {
+    return type.slice(0, -2)
+  } else if (type.startsWith('Array<') && type.endsWith('>')) {
+    return type.slice(6, -1)
+  }
+  return type
 }
 
 // Replace existing properties inside a string. Use the keys from the props object to find and replace the values
