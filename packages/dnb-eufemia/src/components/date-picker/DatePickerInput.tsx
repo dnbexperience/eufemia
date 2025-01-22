@@ -308,7 +308,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
             break
           }
         }
-        console.log('possibleFormats', possibleFormats)
+
         const mode =
           focusMode.current === 'start' ? 'startDate' : 'endDate'
 
