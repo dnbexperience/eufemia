@@ -18,6 +18,7 @@ import {
   DatePickerScreenshotTestSizes,
   DatePickerScreenshotTestDisabled,
   DatePickerCorrectInvalidDate,
+  DatePickerDateLimitValidation,
 } from 'Docs/uilib/components/date-picker/Examples'
 import ChangeLocale from 'dnb-design-system-portal/src/core/ChangeLocale'
 
@@ -97,6 +98,12 @@ import enUS from '@dnb/eufemia/shared/locales/en-US'
 ### DatePicker with error status
 
 <DatePickerErrorStatus />
+
+### DatePicker with date limit validation
+
+The DatePicker will automatically display an error message if the selected date or dates are outside the given date limits.
+
+<DatePickerDateLimitValidation />
 
 ### Opened DatePicker
 
