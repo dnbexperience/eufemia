@@ -38,13 +38,6 @@ export default {
       submitButtonText: 'OK',
       cancelButtonText: 'Cancel',
       resetButtonText: 'Reset',
-      errorSummary: 'Please correct the following errors:',
-      errorMinDate: 'Chosen date must be after %s',
-      errorMaxDate: 'Chosen date must be before %s',
-      errorRangeStartDateMinDate: 'Chosen start date must be after %s',
-      errorRangeStartDateMaxDate: 'Chosen start date must be before %s',
-      errorRangeEndDateMinDate: 'Chosen end date must be after %s',
-      errorRangeEndDateMaxDate: 'Chosen end date must be before %s',
       placeholderCharacters: {
         day: 'd',
         month: 'm',
