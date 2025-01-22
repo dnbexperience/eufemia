@@ -83,7 +83,7 @@
     }
 
     // higher than modal --modal-z-index:
-    z-index: calc(var(--modal-z-index) + 200);
+    z-index: calc(var(--modal-z-index, 3200) + 200);
 
     &--fixed {
       position: fixed;
