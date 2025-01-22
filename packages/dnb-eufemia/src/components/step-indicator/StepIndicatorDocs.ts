@@ -8,7 +8,7 @@ export const StepIndicatorProperties: PropertiesTableProps = {
   },
   data: {
     doc: 'Defines the data/steps showing up in a JavaScript Array or JSON format like `[{title,is_current}]`. See the below for properties of `STEP_DATA`.',
-    type: 'Array<STEP_ITEM>',
+    type: ['[Step Item](#step-item-properties)[]', 'string[]'],
     status: 'required',
   },
   current_step: {
