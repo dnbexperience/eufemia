@@ -4230,7 +4230,7 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
   --date-picker-day-horizontal-spacing: 4px;
   position: absolute;
   left: 0;
-  z-index: var(--modal-z-index10);
+  z-index: calc(var(--modal-z-index) + 10);
   line-height: var(--date-picker-input-height);
 }
 
