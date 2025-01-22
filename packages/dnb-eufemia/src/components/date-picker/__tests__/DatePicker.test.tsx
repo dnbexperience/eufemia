@@ -25,6 +25,11 @@ import {
 } from '../DatePickerCalc'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import { Provider } from '../../../shared'
+import nbNO from '../../../shared/locales/nb-NO'
+import enGB from '../../../shared/locales/en-GB'
+
+const nb = nbNO['nb-NO'].DatePicker
+const en = enGB['en-GB'].DatePicker
 
 describe('DatePicker component', () => {
   it('renders with props as an object', () => {
@@ -1408,6 +1413,342 @@ describe('DatePicker component', () => {
     expect(onChange.mock.calls[4][0].is_valid).toBe(true)
   })
 
+  it('should display error message if `date` is before `minDate`', async () => {
+    const minDate = '2025-01-01'
+
+    render(<DatePicker minDate={minDate} date={minDate} showInput />)
+
+    const day = document.querySelector(
+      '.dnb-date-picker__input--day'
+    ) as HTMLInputElement
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).not.toBeInTheDocument()
+
+    await userEvent.click(day)
+    await userEvent.keyboard('{ArrowDown}')
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).toBeInTheDocument()
+
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      nb.errorMinDate.replace(/%s/, minDate)
+    )
+  })
+
+  it('should display error message if `date` is after `maxDate`', async () => {
+    const maxDate = '2025-01-31'
+
+    render(<DatePicker maxDate={maxDate} date={maxDate} showInput />)
+
+    const day = document.querySelector(
+      '.dnb-date-picker__input--day'
+    ) as HTMLInputElement
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).not.toBeInTheDocument()
+
+    await userEvent.click(day)
+    await userEvent.keyboard('{ArrowUp}')
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).toBeInTheDocument()
+
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      nb.errorMaxDate.replace(/%s/, maxDate)
+    )
+  })
+
+  it('should display error message if `startDate` is before `minDate`', async () => {
+    const minDate = '2025-01-01'
+
+    render(
+      <DatePicker minDate={minDate} startDate={minDate} range showInput />
+    )
+
+    const [startDay] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input--day')
+    ) as Array<HTMLInputElement>
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).not.toBeInTheDocument()
+
+    await userEvent.click(startDay)
+    await userEvent.keyboard('{ArrowDown}')
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).toBeInTheDocument()
+
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      nb.errorRangeStartDateMinDate.replace(/%s/, minDate)
+    )
+  })
+
+  it('should display error message if `startDate` is after `maxDate`', async () => {
+    const maxDate = '2025-01-31'
+
+    render(
+      <DatePicker maxDate={maxDate} startDate={maxDate} range showInput />
+    )
+
+    const [startDay] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input--day')
+    ) as Array<HTMLInputElement>
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).not.toBeInTheDocument()
+
+    await userEvent.click(startDay)
+    await userEvent.keyboard('{ArrowUp}')
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).toBeInTheDocument()
+
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      nb.errorRangeStartDateMaxDate.replace(/%s/, maxDate)
+    )
+  })
+
+  it('should display error message if `endDate` is before `minDate`', async () => {
+    const minDate = '2025-01-01'
+
+    render(
+      <DatePicker minDate={minDate} endDate={minDate} range showInput />
+    )
+
+    const [, endDay] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input--day')
+    ) as Array<HTMLInputElement>
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).not.toBeInTheDocument()
+
+    await userEvent.click(endDay)
+    await userEvent.keyboard('{ArrowDown}')
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).toBeInTheDocument()
+
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      nb.errorRangeEndDateMinDate.replace(/%s/, minDate)
+    )
+  })
+
+  it('should display error message if `endDate` is after `maxDate`', async () => {
+    const maxDate = '2025-01-31'
+
+    render(
+      <DatePicker maxDate={maxDate} endDate={maxDate} range showInput />
+    )
+
+    const [, endDay] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input--day')
+    ) as Array<HTMLInputElement>
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).not.toBeInTheDocument()
+
+    await userEvent.click(endDay)
+    await userEvent.keyboard('{ArrowUp}')
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).toBeInTheDocument()
+
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      nb.errorRangeEndDateMaxDate.replace(/%s/, maxDate)
+    )
+  })
+
+  it('should display error messages if `startDate` and `endDate` date is outside of limits in `range` mode', async () => {
+    const minDate = '2025-01-01'
+    const maxDate = '2025-01-31'
+
+    render(
+      <DatePicker
+        startDate={minDate}
+        minDate={minDate}
+        endDate={maxDate}
+        maxDate={maxDate}
+        range
+        showInput
+      />
+    )
+
+    const [startDay, startMonth, , endDay, endMonth] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    ) as Array<HTMLInputElement>
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).not.toBeInTheDocument()
+
+    // Focus on day inputs and select out of limit dates
+    await userEvent.click(startDay)
+    await userEvent.keyboard('{ArrowDown}')
+    await userEvent.click(endDay)
+    await userEvent.keyboard('{ArrowUp}')
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).toBeInTheDocument()
+
+    const statusText = document.querySelector('.dnb-form-status__text')
+    const messages = () =>
+      Array.from(
+        statusText.querySelectorAll('.dnb-li')
+      ) as Array<HTMLLIElement>
+
+    expect(statusText).toHaveTextContent(nb.errorSummary)
+
+    expect(messages()[0]).toHaveTextContent(
+      nb.errorRangeStartDateMinDate.replace(/%s/, minDate)
+    )
+    expect(messages()[1]).toHaveTextContent(
+      nb.errorRangeEndDateMaxDate.replace(/%s/, maxDate)
+    )
+
+    await userEvent.click(startMonth)
+    await userEvent.keyboard('{ArrowUp>2}')
+
+    expect(messages()[0]).toHaveTextContent(
+      nb.errorRangeStartDateMaxDate.replace(/%s/, maxDate)
+    )
+    expect(messages()[1]).toHaveTextContent(
+      nb.errorRangeEndDateMaxDate.replace(/%s/, maxDate)
+    )
+
+    await userEvent.click(endMonth)
+    await userEvent.keyboard('{ArrowDown>2}')
+
+    expect(messages()[0]).toHaveTextContent(
+      nb.errorRangeStartDateMaxDate.replace(/%s/, maxDate)
+    )
+    expect(messages()[1]).toHaveTextContent(
+      nb.errorRangeEndDateMinDate.replace(/%s/, minDate)
+    )
+
+    await userEvent.click(startMonth)
+    await userEvent.keyboard('{ArrowDown>2}')
+
+    expect(messages()[0]).toHaveTextContent(
+      nb.errorRangeStartDateMinDate.replace(/%s/, minDate)
+    )
+    expect(messages()[1]).toHaveTextContent(
+      nb.errorRangeEndDateMinDate.replace(/%s/, minDate)
+    )
+
+    await userEvent.click(startMonth)
+    await userEvent.keyboard('{ArrowUp}')
+    await userEvent.click(endMonth)
+    await userEvent.keyboard('{ArrowUp}')
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).not.toBeInTheDocument()
+  })
+
+  it('should validate date limits based on `date` prop', async () => {
+    const minDate = '2025-01-01'
+    const maxDate = '2025-01-31'
+
+    // Test min date
+    const { rerender } = render(
+      <DatePicker date="2024-12-31" minDate={minDate} />
+    )
+
+    const day = document.querySelector(
+      '.dnb-date-picker__input--day'
+    ) as HTMLInputElement
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).toBeInTheDocument()
+
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      nb.errorMinDate.replace(/%s/, minDate)
+    )
+
+    await userEvent.click(day)
+    await userEvent.keyboard('{ArrowUp}')
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).not.toBeInTheDocument()
+
+    // Test max date
+    rerender(<DatePicker date="2025-02-01" maxDate={maxDate} />)
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).toBeInTheDocument()
+
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      nb.errorMaxDate.replace(/%s/, maxDate)
+    )
+
+    await userEvent.click(day)
+    await userEvent.keyboard('{ArrowDown}')
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).not.toBeInTheDocument()
+  })
+
+  it('should validate date limits based on `startDate` and `endDate` props', async () => {
+    const minDate = '2025-01-01'
+    const maxDate = '2025-01-31'
+
+    render(
+      <DatePicker
+        startDate="2024-12-31"
+        minDate={minDate}
+        endDate="2025-02-01"
+        maxDate={maxDate}
+        range
+      />
+    )
+
+    const [startDay, endDay] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input--day')
+    ) as Array<HTMLInputElement>
+
+    const [startDayError, endDayError] = Array.from(
+      document.querySelectorAll('.dnb-li')
+    ) as Array<HTMLLIElement>
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).toBeInTheDocument()
+
+    expect(startDayError).toHaveTextContent(
+      nb.errorRangeStartDateMinDate.replace(/%s/, minDate)
+    )
+    expect(endDayError).toHaveTextContent(
+      nb.errorRangeEndDateMaxDate.replace(/%s/, maxDate)
+    )
+
+    await userEvent.click(startDay)
+    await userEvent.keyboard('{ArrowUp}')
+    await userEvent.click(endDay)
+    await userEvent.keyboard('{ArrowDown}')
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).not.toBeInTheDocument()
+  })
+
   it('has to auto-correct invalid min/max dates', async () => {
     const onChange = jest.fn()
 
@@ -1447,6 +1788,113 @@ describe('DatePicker component', () => {
         is_valid_start_date: true,
         start_date: '2019-01-03',
       })
+    )
+  })
+
+  it('should display date limit error messages based on locale', async () => {
+    const minDate = '2025-01-01'
+    const maxDate = '2025-01-31'
+
+    const { rerender } = render(
+      <Provider locale="en-GB">
+        <DatePicker
+          date={minDate}
+          minDate={minDate}
+          maxDate={maxDate}
+          showInput
+        />
+      </Provider>
+    )
+
+    const [day, month] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    )
+
+    await userEvent.click(day)
+    await userEvent.keyboard('{ArrowDown}')
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).toBeInTheDocument()
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      en.errorMinDate.replace(/%s/, minDate)
+    )
+
+    await userEvent.click(month)
+    await userEvent.keyboard('{ArrowUp>2}')
+
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      en.errorMaxDate.replace(/%s/, maxDate)
+    )
+
+    rerender(
+      <Provider locale="en-GB">
+        <DatePicker
+          startDate={minDate}
+          minDate={minDate}
+          endDate={maxDate}
+          maxDate={maxDate}
+          range
+          showInput
+        />
+      </Provider>
+    )
+
+    const [, startMonth, , , endMonth] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    ) as Array<HTMLInputElement>
+
+    await userEvent.click(startMonth)
+    await userEvent.keyboard('{ArrowDown}')
+    await userEvent.click(endMonth)
+    await userEvent.keyboard('{ArrowUp}')
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).toBeInTheDocument()
+
+    const messages = () =>
+      Array.from(
+        document.querySelectorAll('.dnb-form-status--error .dnb-li')
+      ) as Array<HTMLLIElement>
+
+    expect(screen.getByRole('alert')).toHaveTextContent(en.errorSummary)
+
+    expect(messages()[0]).toHaveTextContent(
+      en.errorRangeStartDateMinDate.replace(/%s/, minDate)
+    )
+    expect(messages()[1]).toHaveTextContent(
+      en.errorRangeEndDateMaxDate.replace(/%s/, maxDate)
+    )
+
+    await userEvent.click(startMonth)
+    await userEvent.keyboard('{ArrowUp>2}')
+
+    expect(messages()[0]).toHaveTextContent(
+      en.errorRangeStartDateMaxDate.replace(/%s/, maxDate)
+    )
+    expect(messages()[1]).toHaveTextContent(
+      en.errorRangeEndDateMaxDate.replace(/%s/, maxDate)
+    )
+
+    await userEvent.click(endMonth)
+    await userEvent.keyboard('{ArrowDown>2}')
+
+    expect(messages()[0]).toHaveTextContent(
+      en.errorRangeStartDateMaxDate.replace(/%s/, maxDate)
+    )
+    expect(messages()[1]).toHaveTextContent(
+      en.errorRangeEndDateMinDate.replace(/%s/, minDate)
+    )
+
+    await userEvent.click(startMonth)
+    await userEvent.keyboard('{ArrowDown>2}')
+
+    expect(messages()[0]).toHaveTextContent(
+      en.errorRangeStartDateMinDate.replace(/%s/, minDate)
+    )
+    expect(messages()[1]).toHaveTextContent(
+      en.errorRangeEndDateMinDate.replace(/%s/, minDate)
     )
   })
 
