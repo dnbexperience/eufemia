@@ -5,6 +5,11 @@ import { format, isAfter, isBefore } from 'date-fns'
 import { DatePickerProps } from '../DatePicker'
 import { Li, Ul } from '../../../elements'
 
+type DateLimitValidation = {
+  status: DatePickerProps['status']
+  statusState: DatePickerProps['statusState']
+}
+
 export default function useDateLimitValidation({
   minDate,
   maxDate,
@@ -21,25 +26,35 @@ export default function useDateLimitValidation({
 }) {
   const translation = useTranslation().DatePicker
 
-  const validationMessage = useMemo<string | undefined>(() => {
+  const validationMessage = useMemo<
+    DateLimitValidation | undefined
+  >(() => {
     if (!minDate && !maxDate) {
       return undefined
     }
 
+    const statusState = 'error'
+
     // Handle non range validation
     if (!isRange) {
       if (isBefore(startDate, minDate)) {
-        return translation.errorMinDate.replace(
-          /%s/,
-          format(minDate, dateFormat)
-        )
+        return {
+          status: translation.errorMinDate.replace(
+            /%s/,
+            format(minDate, dateFormat)
+          ),
+          statusState,
+        }
       }
 
       if (isAfter(startDate, maxDate)) {
-        return translation.errorMaxDate.replace(
-          /%s/,
-          format(maxDate, dateFormat)
-        )
+        return {
+          status: translation.errorMaxDate.replace(
+            /%s/,
+            format(maxDate, dateFormat)
+          ),
+          statusState,
+        }
       }
     }
 
@@ -81,18 +96,12 @@ export default function useDateLimitValidation({
       )
     }
 
-    return messages.length > 1 ? (
-      <>
-        {translation.errorSummary}
-        <Ul>
-          {messages.map((status, i) => {
-            return <Li key={i}>{status}</Li>
-          })}
-        </Ul>
-      </>
-    ) : (
-      messages[0] || undefined
-    )
+    const status =
+      messages.length > 1
+        ? combineErrorMessages(translation.errorRangeTitle, messages)
+        : messages[0]
+
+    return status ? { status, statusState } : undefined
   }, [
     startDate,
     endDate,
@@ -104,4 +113,20 @@ export default function useDateLimitValidation({
   ])
 
   return validationMessage
+}
+
+export function combineErrorMessages(
+  title: string,
+  messages: React.ReactNode[]
+) {
+  return (
+    <>
+      {title}
+      <Ul>
+        {messages.map((status, i) => {
+          return <Li key={i}>{status}</Li>
+        })}
+      </Ul>
+    </>
+  )
 }
