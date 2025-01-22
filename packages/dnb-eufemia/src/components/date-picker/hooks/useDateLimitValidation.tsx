@@ -4,10 +4,17 @@ import { DatePickerDates } from './useDates'
 import { format, isAfter, isBefore } from 'date-fns'
 import { DatePickerProps } from '../DatePicker'
 import { Li, Ul } from '../../../elements'
+import { enGB, nb } from 'date-fns/locale'
+import { ProviderProps } from '../../../shared/Provider'
 
 type DateLimitValidation = {
   status: DatePickerProps['status']
   statusState: DatePickerProps['statusState']
+}
+
+const locales = {
+  'nb-NO': nb,
+  'en-GB': enGB,
 }
 
 export default function useDateLimitValidation({
@@ -16,15 +23,17 @@ export default function useDateLimitValidation({
   endDate,
   startDate,
   isRange,
-  dateFormat,
+  localeKey = 'nbNO',
 }: Pick<
   DatePickerDates,
   'startDate' | 'endDate' | 'minDate' | 'maxDate'
 > & {
   isRange: DatePickerProps['range']
-  dateFormat: DatePickerProps['dateFormat']
+  localeKey: ProviderProps['locale']
 }) {
   const translation = useTranslation().DatePicker
+  const dateFormat = 'PPP'
+  const locale = locales[localeKey]
 
   const validationMessage = useMemo<
     DateLimitValidation | undefined
@@ -41,7 +50,7 @@ export default function useDateLimitValidation({
         return {
           status: translation.errorMinDate.replace(
             /%s/,
-            format(minDate, dateFormat)
+            format(minDate, dateFormat, { locale })
           ),
           statusState,
         }
@@ -51,7 +60,7 @@ export default function useDateLimitValidation({
         return {
           status: translation.errorMaxDate.replace(
             /%s/,
-            format(maxDate, dateFormat)
+            format(maxDate, dateFormat, { locale })
           ),
           statusState,
         }
@@ -64,7 +73,7 @@ export default function useDateLimitValidation({
       messages.push(
         translation.errorRangeStartDateMinDate.replace(
           /%s/,
-          format(minDate, dateFormat)
+          format(minDate, dateFormat, { locale })
         )
       )
     }
@@ -73,7 +82,7 @@ export default function useDateLimitValidation({
       messages.push(
         translation.errorRangeStartDateMaxDate.replace(
           /%s/,
-          format(maxDate, dateFormat)
+          format(maxDate, dateFormat, { locale })
         )
       )
     }
@@ -82,7 +91,7 @@ export default function useDateLimitValidation({
       messages.push(
         translation.errorRangeEndDateMinDate.replace(
           /%s/,
-          format(minDate, dateFormat)
+          format(minDate, dateFormat, { locale })
         )
       )
     }
@@ -91,7 +100,7 @@ export default function useDateLimitValidation({
       messages.push(
         translation.errorRangeEndDateMaxDate.replace(
           /%s/,
-          format(maxDate, dateFormat)
+          format(maxDate, dateFormat, { locale })
         )
       )
     }
@@ -102,15 +111,7 @@ export default function useDateLimitValidation({
         : messages[0]
 
     return status ? { status, statusState } : undefined
-  }, [
-    startDate,
-    endDate,
-    minDate,
-    maxDate,
-    isRange,
-    dateFormat,
-    translation,
-  ])
+  }, [startDate, endDate, minDate, maxDate, isRange, translation, locale])
 
   return validationMessage
 }
