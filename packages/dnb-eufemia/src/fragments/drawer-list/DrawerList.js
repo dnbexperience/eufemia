@@ -163,6 +163,7 @@ class DrawerListInstance extends React.PureComponent {
       list_class,
       ignore_events,
       options_render,
+      hyphenation,
       className,
       cache_hash: _cache_hash, // eslint-disable-line
       wrapper_element: _wrapper_element, // eslint-disable-line
@@ -325,7 +326,11 @@ class DrawerListInstance extends React.PureComponent {
         }
 
         return (
-          <DrawerList.Item key={hash} {...liParams}>
+          <DrawerList.Item
+            key={hash}
+            hyphenation={dataItem.hyphenation || hyphenation}
+            {...liParams}
+          >
             {dataItem}
           </DrawerList.Item>
         )
@@ -456,6 +461,7 @@ DrawerList.Options.propTypes = {
 DrawerList.Item = React.forwardRef((props, ref) => {
   const {
     role = 'option', // eslint-disable-line
+    hyphenation = null, // eslint-disable-line
     hash = '', // eslint-disable-line
     children, // eslint-disable-line
     className = null, // eslint-disable-line
@@ -502,7 +508,9 @@ DrawerList.Item = React.forwardRef((props, ref) => {
   return (
     <li {...params} {...rest} ref={ref} key={'li' + hash}>
       <span className="dnb-drawer-list__option__inner">
-        <ItemContent hash={hash}>{children}</ItemContent>
+        <ItemContent hash={hash} hyphenation={hyphenation}>
+          {children}
+        </ItemContent>
       </span>
     </li>
   )
@@ -511,6 +519,7 @@ DrawerList.Item.displayName = 'DrawerList.Item'
 DrawerList.Item.propTypes = {
   role: PropTypes.string,
   hash: PropTypes.string,
+  hyphenation: PropTypes.oneOf(['none', 'auto', 'manual']),
   children: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.func,
@@ -524,13 +533,18 @@ DrawerList.Item.propTypes = {
   disabled: PropTypes.bool,
 }
 
-export function ItemContent({ hash = '', children = undefined }) {
+export function ItemContent({
+  hash = '',
+  children = undefined,
+  hyphenation = null,
+}) {
   let content = null
 
   if (Array.isArray(children.content || children)) {
     content = (children.content || children).map((item, n) => (
       <DrawerListOptionItem
         key={hash + n}
+        hyphenation={hyphenation}
         className={`item-nr-${n + 1}`} // "item-nr" is used by CSS
       >
         {children.render ? children.render(item, hash + n) : item}
@@ -541,11 +555,17 @@ export function ItemContent({ hash = '', children = undefined }) {
       ? children.render(children.content, hash, children)
       : children.content
     if (content) {
-      content = <DrawerListOptionItem>{content}</DrawerListOptionItem>
+      content = (
+        <DrawerListOptionItem hyphenation={hyphenation}>
+          {content}
+        </DrawerListOptionItem>
+      )
     }
   } else {
     content = children && (
-      <DrawerListOptionItem>{children}</DrawerListOptionItem>
+      <DrawerListOptionItem hyphenation={hyphenation}>
+        {children}
+      </DrawerListOptionItem>
     )
   }
 
@@ -553,7 +573,10 @@ export function ItemContent({ hash = '', children = undefined }) {
     <>
       {content}
 
-      <DrawerListOptionItem className="dnb-drawer-list__option__suffix">
+      <DrawerListOptionItem
+        className="dnb-drawer-list__option__suffix"
+        hyphenation={hyphenation}
+      >
         {children.suffix_value}
       </DrawerListOptionItem>
     </>
@@ -569,11 +592,17 @@ ItemContent.propTypes = {
 function DrawerListOptionItem({
   children = undefined,
   className = null,
+  hyphenation = null,
   ...props
 }) {
   return (
     <span
-      className={classnames(['dnb-drawer-list__option__item', className])}
+      className={classnames([
+        'dnb-drawer-list__option__item',
+        hyphenation &&
+          `dnb-drawer-list__option__item--hyphenation-${hyphenation}`,
+        className,
+      ])}
       {...props}
     >
       {children}
@@ -581,8 +610,13 @@ function DrawerListOptionItem({
   )
 }
 
-DrawerList.HorizontalItem = ({ className = null, ...props }) => (
+DrawerList.HorizontalItem = ({
+  className = null,
+  hyphenation = null,
+  ...props
+}) => (
   <DrawerListOptionItem
+    hyphenation={hyphenation}
     className={classnames([
       'dnb-drawer-list__option__item--horizontal',
       className,

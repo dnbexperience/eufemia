@@ -139,6 +139,89 @@ const DrawerStory = () => {
   )
 }
 
+export const DrawerListHyphenation = () => {
+  return (
+    <Wrapper>
+      <Box>
+        <DrawerList opened skip_portal>
+          <DrawerList.Options>
+            <DrawerList.Item
+              key="A"
+              selected={false}
+              value="A"
+              on_click={({ value }) => {
+                console.log('on_click', value)
+              }}
+              hyphenation="none"
+            >
+              The longest word in the Oxford English Dictionary is the
+              45-letter pneumonoultramicroscopicsilicovolcanoconiosis,
+              which refers to a form of lung disease. (hyphenation="none")
+            </DrawerList.Item>
+            <DrawerList.Item
+              key="B"
+              selected={false}
+              value="B"
+              on_click={({ value }) => {
+                console.log('on_click', value)
+              }}
+              hyphenation="manual"
+            >
+              The longest word in the Oxford English Dictionary is the
+              45-letter pneumonoultramicroscopicsilicovolcanoconiosis,
+              which refers to a form of lung disease.
+              (hyphenation="manual")
+            </DrawerList.Item>
+            <DrawerList.Item
+              key="C"
+              selected={false}
+              value="C"
+              on_click={({ value }) => {
+                console.log('on_click', value)
+              }}
+              hyphenation="auto"
+            >
+              The longest word in the Oxford English Dictionary is the
+              45-letter pneumonoultramicroscopicsilicovolcanoconiosis,
+              which refers to a form of lung disease. (hyphenation="auto")
+            </DrawerList.Item>
+          </DrawerList.Options>
+        </DrawerList>
+      </Box>
+    </Wrapper>
+  )
+}
+
+export const DrawerListHyphenationData = () => {
+  return (
+    <Wrapper>
+      <Box>
+        <DrawerList
+          opened
+          skip_portal
+          data={[
+            {
+              hyphenation: 'none',
+              content:
+                'The longest word in the Oxford English Dictionary is the 45-letter pneumonoultramicroscopicsilicovolcanoconiosis, which refers to a form of lung disease. (hyphenation="none")',
+            },
+            {
+              hyphenation: 'manual',
+              content:
+                'The longest word in the Oxford English Dictionary is the 45-letter pneumonoultramicroscopicsilicovolcanoconiosis, which refers to a form of lung disease. (hyphenation="manual")',
+            },
+            {
+              hyphenation: 'auto',
+              content:
+                'The longest word in the Oxford English Dictionary is the 45-letter pneumonoultramicroscopicsilicovolcanoconiosis, which refers to a form of lung disease. (hyphenation="auto")',
+            },
+          ]}
+        />
+      </Box>
+    </Wrapper>
+  )
+}
+
 export const DrawerSandbox = () => (
   <CustomStyle>
     <DrawerStory />

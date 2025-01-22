@@ -229,6 +229,18 @@
 
         font-size: inherit;
       }
+
+      &--hyphenation {
+        &-none {
+          hyphens: none;
+        }
+        &-auto {
+          hyphens: auto;
+        }
+        &-manual {
+          hyphens: manual;
+        }
+      }
     }
 
     &__suffix {

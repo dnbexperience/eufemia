@@ -96,6 +96,11 @@ export const DrawerListProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  hyphenation: {
+    doc: 'Defines how words should be hyphenated when text of an item wraps across multiple lines. Can be `none`, `manual` or `auto`. For further information, see [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/hyphens).',
+    type: 'string',
+    status: 'optional',
+  },
   no_scroll_animation: {
     doc: 'To disable scrolling animation.',
     type: 'boolean',

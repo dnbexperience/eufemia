@@ -474,6 +474,172 @@ describe('DrawerList component', () => {
     ).toBeInTheDocument()
   })
 
+  it('has correct hyphenation prop', () => {
+    const longTextData = [
+      "It's either pneumonoultramicroscopicsilicovolcanoconiosis, or a bad cough.",
+    ]
+
+    const { rerender } = render(
+      <DrawerList {...props} data={longTextData} hyphenation="auto" />
+    )
+
+    expect(
+      document.querySelector('span.dnb-drawer-list__option__item')
+        .classList
+    ).toContain('dnb-drawer-list__option__item--hyphenation-auto')
+
+    rerender(
+      <DrawerList {...props} data={[longTextData]} hyphenation="manual" />
+    )
+    expect(
+      document.querySelector('span.dnb-drawer-list__option__item')
+        .classList
+    ).toContain('dnb-drawer-list__option__item--hyphenation-manual')
+
+    rerender(
+      <DrawerList {...props} data={longTextData} hyphenation="none" />
+    )
+    expect(
+      document.querySelector('span.dnb-drawer-list__option__item')
+        .classList
+    ).toContain('dnb-drawer-list__option__item--hyphenation-none')
+  })
+
+  it('has correct hyphenation prop using data object', () => {
+    const content = [
+      "It's either pneumonoultramicroscopicsilicovolcanoconiosis, or a bad cough.",
+    ]
+
+    const { rerender } = render(
+      <DrawerList
+        {...props}
+        data={[
+          {
+            content,
+            hyphenation: 'auto',
+          },
+        ]}
+      />
+    )
+
+    expect(
+      document.querySelector('span.dnb-drawer-list__option__item')
+        .classList
+    ).toContain('dnb-drawer-list__option__item--hyphenation-auto')
+
+    rerender(
+      <DrawerList
+        {...props}
+        data={[
+          {
+            content,
+            hyphenation: 'manual',
+          },
+        ]}
+      />
+    )
+    expect(
+      document.querySelector('span.dnb-drawer-list__option__item')
+        .classList
+    ).toContain('dnb-drawer-list__option__item--hyphenation-manual')
+
+    rerender(
+      <DrawerList
+        {...props}
+        data={[
+          {
+            content,
+            hyphenation: 'none',
+          },
+        ]}
+      />
+    )
+    expect(
+      document.querySelector('span.dnb-drawer-list__option__item')
+        .classList
+    ).toContain('dnb-drawer-list__option__item--hyphenation-none')
+
+    rerender(
+      <DrawerList
+        {...props}
+        hyphenation="auto"
+        data={[
+          {
+            content,
+            hyphenation: 'none',
+          },
+        ]}
+      />
+    )
+    expect(
+      document.querySelector('span.dnb-drawer-list__option__item')
+        .classList
+    ).toContain('dnb-drawer-list__option__item--hyphenation-none')
+  })
+
+  it('has correct hyphenation prop using DrawerList.Item', () => {
+    const content = [
+      "It's either pneumonoultramicroscopicsilicovolcanoconiosis, or a bad cough.",
+    ]
+
+    const drawerListItemProps = {
+      key: 'A',
+      selected: false,
+      value: 'A',
+      on_click: ({ value }) => console.log('on_click:', value),
+      children: content,
+    }
+
+    const { rerender } = render(
+      <DrawerList {...props}>
+        <DrawerList.Options>
+          <DrawerList.Item {...drawerListItemProps} hyphenation="auto" />
+        </DrawerList.Options>
+      </DrawerList>
+    )
+
+    expect(
+      document.querySelector('span.dnb-drawer-list__option__item')
+        .classList
+    ).toContain('dnb-drawer-list__option__item--hyphenation-auto')
+
+    rerender(
+      <DrawerList {...props}>
+        <DrawerList.Options>
+          <DrawerList.Item {...drawerListItemProps} hyphenation="manual" />
+        </DrawerList.Options>
+      </DrawerList>
+    )
+    expect(
+      document.querySelector('span.dnb-drawer-list__option__item')
+        .classList
+    ).toContain('dnb-drawer-list__option__item--hyphenation-manual')
+
+    rerender(
+      <DrawerList {...props}>
+        <DrawerList.Options>
+          <DrawerList.Item {...drawerListItemProps} hyphenation="none" />
+        </DrawerList.Options>
+      </DrawerList>
+    )
+    expect(
+      document.querySelector('span.dnb-drawer-list__option__item')
+        .classList
+    ).toContain('dnb-drawer-list__option__item--hyphenation-none')
+
+    rerender(
+      <DrawerList {...props} hyphenation="auto">
+        <DrawerList.Options>
+          <DrawerList.Item {...drawerListItemProps} hyphenation="none" />
+        </DrawerList.Options>
+      </DrawerList>
+    )
+    expect(
+      document.querySelector('span.dnb-drawer-list__option__item')
+        .classList
+    ).toContain('dnb-drawer-list__option__item--hyphenation-none')
+  })
+
   it('will call on_hide after "esc" key', async () => {
     const on_hide = jest.fn()
 

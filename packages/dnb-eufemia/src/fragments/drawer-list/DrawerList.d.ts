@@ -1,6 +1,7 @@
 import * as React from 'react';
 import type { SpacingProps } from '../../shared/types';
 export type DrawerListDirection = 'auto' | 'top' | 'bottom';
+export type DrawerListHyphenation = 'none' | 'manual' | 'auto';
 export type DrawerListSize = 'default' | 'small' | 'medium' | 'large';
 export type DrawerListAlignDrawer = 'left' | 'right';
 export type DrawerListOptionsRender =
@@ -75,6 +76,10 @@ export interface DrawerListProps {
    * Defines the direction of how the drawer-list shows the options list. Can be 'bottom' or 'top'. Defaults to 'auto'.
    */
   direction?: DrawerListDirection;
+  /**
+   * Defines how words should be hyphenated when text of an item wraps across multiple lines. Can be `none`, `manual` or `auto`. For further information, see [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/hyphens).
+   */
+  hyphenation?: DrawerListHyphenation;
   size?: DrawerListSize;
   /**
    * Defines the minimum height (in `rem`) of the options list.
@@ -201,6 +206,10 @@ export type DrawerListItemProps = {
      */
     value: string;
   }) => void;
+  /**
+   * Defines how words should be hyphenated when text of an item wraps across multiple lines. Can be `none`, `manual` or `auto`. For further information, see [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/hyphens).
+   */
+  hyphenation?: DrawerListHyphenation;
 };
 export type DrawerListAllProps = DrawerListProps &
   SpacingProps &

@@ -230,6 +230,7 @@ export default class Autocomplete extends React.PureComponent {
     keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    hyphenation: PropTypes.oneOf(['none', 'auto', 'manual']),
     stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     portal_class: PropTypes.string,
@@ -320,6 +321,7 @@ export default class Autocomplete extends React.PureComponent {
     keep_open: false,
     opened: null,
     disabled: null,
+    hyphenation: null,
     stretch: null,
     skeleton: null,
     portal_class: null,
@@ -1788,6 +1790,7 @@ class AutocompleteInstance extends React.PureComponent {
       input_ref, // eslint-disable-line
       className,
       disabled,
+      hyphenation,
       stretch,
       skeleton,
       triangle_position,
@@ -2080,6 +2083,7 @@ class AutocompleteInstance extends React.PureComponent {
                 align_drawer={align_autocomplete}
                 fixed_position={fixed_position}
                 disabled={disabled}
+                hyphenation={hyphenation}
                 max_height={max_height}
                 direction={direction}
                 size={size}

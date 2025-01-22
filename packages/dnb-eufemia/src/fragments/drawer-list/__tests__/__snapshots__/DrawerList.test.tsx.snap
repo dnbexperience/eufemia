@@ -176,6 +176,15 @@ html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options, .dnb-
   word-break: break-word;
   font-size: inherit;
 }
+.dnb-drawer-list__option__item--hyphenation-none {
+  hyphens: none;
+}
+.dnb-drawer-list__option__item--hyphenation-auto {
+  hyphens: auto;
+}
+.dnb-drawer-list__option__item--hyphenation-manual {
+  hyphens: manual;
+}
 @media screen and (min-width: 40.00625em) {
   .dnb-drawer-list__option__suffix {
     grid-column: 2;

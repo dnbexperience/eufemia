@@ -155,6 +155,7 @@ export default class Dropdown extends React.PureComponent {
     keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    hyphenation: PropTypes.oneOf(['none', 'auto', 'manual']),
     stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
@@ -216,6 +217,7 @@ export default class Dropdown extends React.PureComponent {
     keep_open: false,
     opened: false,
     disabled: null,
+    hyphenation: null,
     stretch: null,
     skeleton: null,
 
@@ -458,6 +460,7 @@ class DropdownInstance extends React.PureComponent {
       default_value,
       className,
       disabled,
+      hyphenation,
       stretch,
       skeleton,
       variant,
@@ -673,6 +676,7 @@ class DropdownInstance extends React.PureComponent {
                 fixed_position={fixed_position}
                 enable_body_lock={enable_body_lock}
                 disabled={disabled}
+                hyphenation={hyphenation}
                 max_height={max_height}
                 direction={direction}
                 size={size}

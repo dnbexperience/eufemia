@@ -126,6 +126,26 @@ export const DrawerListExampleDefault = () => (
   </Wrapper>
 )
 
+export const DrawerListExampleHyphenationAuto = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="drawer-list-hyphenation-auto">
+      <DrawerList
+        skip_portal
+        opened
+        hyphenation="auto"
+        prevent_close
+        data={[
+          'They may be very large, like pneumonoultramicroscopicsilicovolcanoconiosis, a 45-letter hippopotomonstrosesquipedalian word for black lung disease.',
+          'The longest word in the Oxford English Dictionary is the 45-letter pneumonoultramicroscopicsilicovolcanoconiosis, which refers to a form of lung disease.',
+          'According to the Oxford English Dictionary the longest word in the language is pneumonoultramicroscopicsilicovolcanoconiosis, with 45 letters.',
+          'Well-known for its extreme length, 45 letters, is pneumonoultramicroscopicsilicovolcanoconiosis This is the longest solidly-spelled word in the dictionary.',
+        ]}
+        observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
+      />
+    </ComponentBox>
+  </Wrapper>
+)
+
 export const DrawerListExampleDisabled = () => (
   <Wrapper>
     <ComponentBox data-visual-test="drawer-list-disabled">

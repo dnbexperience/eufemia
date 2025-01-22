@@ -100,6 +100,8 @@ The following is an overview of all the types that the `data` prop accepts. (The
 // The visual content that is shown in one DrawerList item.
 // An array can be used to define multiple lines.
 type CONTENT = string | React.Node | (string | React.Node)[]
+// Defines how words should be hyphenated when text of an item wraps across multiple lines, see https://developer.mozilla.org/en-US/docs/Web/CSS/hyphens.
+type HYPHENATION = 'none' | 'manual' | 'auto';
 
 // An array item
 type ARRAY_OBJECT = {
@@ -108,6 +110,7 @@ type ARRAY_OBJECT = {
   selectedKey?: string | number
   selected_value?: string | React.Node
   suffix_value?: string | React.Node
+  hyphenation?: HYPHENATION
 }
 
 // `data` as an array. A list of "ARRAY_OBJECT" types is preferred,
