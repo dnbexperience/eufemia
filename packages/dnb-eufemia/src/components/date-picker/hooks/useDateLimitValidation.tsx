@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from '../../../shared'
 import { DatePickerDates } from './useDates'
 import { format, isAfter, isBefore } from 'date-fns'
@@ -98,7 +98,7 @@ export default function useDateLimitValidation({
 
     const status =
       messages.length > 1
-        ? combineErrorMessages(translation.errorRangeTitle, messages)
+        ? combineErrorMessages(translation.errorSummary, messages)
         : messages[0]
 
     return status ? { status, statusState } : undefined
