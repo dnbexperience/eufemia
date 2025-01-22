@@ -534,17 +534,19 @@ export function ItemContent({ hash = '', children = undefined }) {
         className={`item-nr-${n + 1}`} // "item-nr" is used by CSS
       >
         {children.render ? children.render(item, hash + n) : item}
-      </DrawerListItem>
+      </DrawerListOptionItem>
     ))
   } else if (Object.prototype.hasOwnProperty.call(children, 'content')) {
     content = children.render
       ? children.render(children.content, hash, children)
       : children.content
     if (content) {
-      content = <DrawerListOptionItem>{content}</DrawerListItem>
+      content = <DrawerListOptionItem>{content}</DrawerListOptionItem>
     }
   } else {
-    content = children && <DrawerListOptionItem>{children}</DrawerListItem>
+    content = children && (
+      <DrawerListOptionItem>{children}</DrawerListOptionItem>
+    )
   }
 
   return Object.prototype.hasOwnProperty.call(children, 'suffix_value') ? (
@@ -553,7 +555,7 @@ export function ItemContent({ hash = '', children = undefined }) {
 
       <DrawerListOptionItem className="dnb-drawer-list__option__suffix">
         {children.suffix_value}
-      </DrawerListItem>
+      </DrawerListOptionItem>
     </>
   ) : (
     content
