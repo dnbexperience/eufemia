@@ -529,25 +529,23 @@ export function ItemContent({ hash = '', children = undefined }) {
 
   if (Array.isArray(children.content || children)) {
     content = (children.content || children).map((item, n) => (
-      <span
+      <DrawerListOptionItem
         key={hash + n}
-        className={`dnb-drawer-list__option__item item-nr-${n + 1}`} // "item-nr" is used by CSS
+        className={`item-nr-${n + 1}`} // "item-nr" is used by CSS
       >
         {children.render ? children.render(item, hash + n) : item}
-      </span>
+      </DrawerListOptionItem>
     ))
   } else if (Object.prototype.hasOwnProperty.call(children, 'content')) {
     content = children.render
       ? children.render(children.content, hash, children)
       : children.content
     if (content) {
-      content = (
-        <span className="dnb-drawer-list__option__item">{content}</span>
-      )
+      content = <DrawerListOptionItem>{content}</DrawerListOptionItem>
     }
   } else {
     content = children && (
-      <span className="dnb-drawer-list__option__item">{children}</span>
+      <DrawerListOptionItem>{children}</DrawerListOptionItem>
     )
   }
 
@@ -555,9 +553,9 @@ export function ItemContent({ hash = '', children = undefined }) {
     <>
       {content}
 
-      <span className="dnb-drawer-list__option__item dnb-drawer-list__option__suffix">
+      <DrawerListOptionItem className="dnb-drawer-list__option__suffix">
         {children.suffix_value}
-      </span>
+      </DrawerListOptionItem>
     </>
   ) : (
     content
@@ -568,15 +566,31 @@ ItemContent.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
 }
 
+function DrawerListOptionItem({
+  children = undefined,
+  className = null,
+  ...props
+}) {
+  return (
+    <span
+      className={classnames(['dnb-drawer-list__option__item', className])}
+      {...props}
+    >
+      {children}
+    </span>
+  )
+}
+
 DrawerList.HorizontalItem = ({ className = null, ...props }) => (
-  <span
+  <DrawerListOptionItem
     className={classnames([
-      'dnb-drawer-list__option__item dnb-drawer-list__option__item--horizontal',
+      'dnb-drawer-list__option__item--horizontal',
       className,
     ])}
     {...props}
   />
 )
+
 DrawerList.HorizontalItem.propTypes = {
   className: PropTypes.string,
 }
