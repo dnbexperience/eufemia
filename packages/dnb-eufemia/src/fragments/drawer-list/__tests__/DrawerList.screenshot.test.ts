@@ -28,7 +28,6 @@ describe.each(['ui', 'sbanken'])('DrawerList for %s', (themeName) => {
     const screenshot = await makeScreenshot({
       style: {
         width: '14rem',
-        'padding-top': '3rem',
       },
       selector: '[data-visual-test="drawer-list-disabled"]',
     })
