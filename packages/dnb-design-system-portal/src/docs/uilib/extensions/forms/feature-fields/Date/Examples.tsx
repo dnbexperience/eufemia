@@ -1,3 +1,4 @@
+import Provider from '@dnb/eufemia/src/shared/Provider'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 
@@ -96,5 +97,20 @@ export const AutoClose = () => {
     <ComponentBox>
       <Field.Date label="Automatically Close" showCancelButton={false} />
     </ComponentBox>
+  )
+}
+
+export const DatePickerDateLimitValidation = () => {
+  return (
+    <Provider locale="en-GB">
+      <ComponentBox>
+        <Field.Date
+          value="2024-12-31|2025-02-01"
+          minDate="2025-01-01"
+          maxDate="2025-01-31"
+          range
+        />
+      </ComponentBox>
+    </Provider>
   )
 }

@@ -373,20 +373,3 @@ export const DatePickerCorrectInvalidDate = () => (
     />
   </ComponentBox>
 )
-
-export const DatePickerDateLimitValidation = () => {
-  return (
-    <Provider locale="en-GB">
-      <ComponentBox>
-        <DatePicker
-          startDate="2024-12-31"
-          endDate="2025-02-01"
-          minDate="2025-01-01"
-          maxDate="2025-01-31"
-          showInput
-          range
-        />
-      </ComponentBox>
-    </Provider>
-  )
-}
