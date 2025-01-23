@@ -728,199 +728,212 @@ describe('DrawerList component', () => {
 
     const content = [longTextData]
 
+    const drawerListItemProps = {
+      key: 'A',
+      selected: false,
+      value: 'A',
+      on_click: ({ value }) => console.log('on_click:', value),
+      children: content,
+    }
+
     describe('hyphens', () => {
-      it('has correct prop using DrawerList', () => {
-        const { rerender } = render(
-          <DrawerList
-            {...props}
-            data={longTextData}
-            overflowingTextOptions={{ hyphens: 'auto' }}
-          />
-        )
+      describe('sets correct class using DrawerList for value', () => {
+        it('auto', () => {
+          render(
+            <DrawerList
+              {...props}
+              data={longTextData}
+              overflowingTextOptions={{ hyphens: 'auto' }}
+            />
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain('dnb-drawer-list__option__item--hyphens-auto')
+        })
 
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--hyphens-auto')
+        it('manual', () => {
+          render(
+            <DrawerList
+              {...props}
+              data={[longTextData]}
+              overflowingTextOptions={{ hyphens: 'manual' }}
+            />
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain('dnb-drawer-list__option__item--hyphens-manual')
+        })
 
-        rerender(
-          <DrawerList
-            {...props}
-            data={[longTextData]}
-            overflowingTextOptions={{ hyphens: 'manual' }}
-          />
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--hyphens-manual')
-
-        rerender(
-          <DrawerList
-            {...props}
-            data={longTextData}
-            overflowingTextOptions={{ hyphens: 'none' }}
-          />
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--hyphens-none')
+        it('none', () => {
+          render(
+            <DrawerList
+              {...props}
+              data={longTextData}
+              overflowingTextOptions={{ hyphens: 'none' }}
+            />
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain('dnb-drawer-list__option__item--hyphens-none')
+        })
       })
 
-      it('has correct prop using data object', () => {
-        const content = [
-          "It's either pneumonoultramicroscopicsilicovolcanoconiosis, or a bad cough.",
-        ]
+      describe('sets correct class using data object for value', () => {
+        it('auto', () => {
+          render(
+            <DrawerList
+              {...props}
+              data={[
+                {
+                  content,
+                  overflowingTextOptions: { hyphens: 'auto' },
+                },
+              ]}
+            />
+          )
 
-        const { rerender } = render(
-          <DrawerList
-            {...props}
-            data={[
-              {
-                content,
-                overflowingTextOptions: { hyphens: 'auto' },
-              },
-            ]}
-          />
-        )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain('dnb-drawer-list__option__item--hyphens-auto')
+        })
 
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--hyphens-auto')
+        it('manual', () => {
+          render(
+            <DrawerList
+              {...props}
+              data={[
+                {
+                  content,
+                  overflowingTextOptions: { hyphens: 'manual' },
+                },
+              ]}
+            />
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain('dnb-drawer-list__option__item--hyphens-manual')
+        })
 
-        rerender(
-          <DrawerList
-            {...props}
-            data={[
-              {
-                content,
-                overflowingTextOptions: { hyphens: 'manual' },
-              },
-            ]}
-          />
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--hyphens-manual')
+        it('none', () => {
+          render(
+            <DrawerList
+              {...props}
+              data={[
+                {
+                  content,
+                  overflowingTextOptions: { hyphens: 'none' },
+                },
+              ]}
+            />
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain('dnb-drawer-list__option__item--hyphens-none')
+        })
 
-        rerender(
-          <DrawerList
-            {...props}
-            data={[
-              {
-                content,
-                overflowingTextOptions: { hyphens: 'none' },
-              },
-            ]}
-          />
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--hyphens-none')
-
-        rerender(
-          <DrawerList
-            {...props}
-            overflowingTextOptions={{ hyphens: 'auto' }}
-            data={[
-              {
-                content,
-                overflowingTextOptions: { hyphens: 'none' },
-              },
-            ]}
-          />
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--hyphens-none')
+        it('uses prop from data', () => {
+          render(
+            <DrawerList
+              {...props}
+              overflowingTextOptions={{ hyphens: 'auto' }}
+              data={[
+                {
+                  content,
+                  overflowingTextOptions: { hyphens: 'none' },
+                },
+              ]}
+            />
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain('dnb-drawer-list__option__item--hyphens-none')
+        })
       })
 
-      it('has correct prop using DrawerList.Item', () => {
-        const content = [
-          "It's either pneumonoultramicroscopicsilicovolcanoconiosis, or a bad cough.",
-        ]
+      describe('sets correct class using DrawerList.Item for value', () => {
+        it('auto', () => {
+          render(
+            <DrawerList {...props}>
+              <DrawerList.Options>
+                <DrawerList.Item
+                  {...drawerListItemProps}
+                  overflowingTextOptions={{ hyphens: 'auto' }}
+                />
+              </DrawerList.Options>
+            </DrawerList>
+          )
 
-        const drawerListItemProps = {
-          key: 'A',
-          selected: false,
-          value: 'A',
-          on_click: ({ value }) => console.log('on_click:', value),
-          children: content,
-        }
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain('dnb-drawer-list__option__item--hyphens-auto')
+        })
 
-        const { rerender } = render(
-          <DrawerList {...props}>
-            <DrawerList.Options>
-              <DrawerList.Item
-                {...drawerListItemProps}
-                overflowingTextOptions={{ hyphens: 'auto' }}
-              />
-            </DrawerList.Options>
-          </DrawerList>
-        )
+        it('manual', () => {
+          render(
+            <DrawerList {...props}>
+              <DrawerList.Options>
+                <DrawerList.Item
+                  {...drawerListItemProps}
+                  overflowingTextOptions={{ hyphens: 'manual' }}
+                />
+              </DrawerList.Options>
+            </DrawerList>
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain('dnb-drawer-list__option__item--hyphens-manual')
+        })
 
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--hyphens-auto')
+        it('none', () => {
+          render(
+            <DrawerList {...props}>
+              <DrawerList.Options>
+                <DrawerList.Item
+                  {...drawerListItemProps}
+                  overflowingTextOptions={{ hyphens: 'none' }}
+                />
+              </DrawerList.Options>
+            </DrawerList>
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain('dnb-drawer-list__option__item--hyphens-none')
+        })
 
-        rerender(
-          <DrawerList {...props}>
-            <DrawerList.Options>
-              <DrawerList.Item
-                {...drawerListItemProps}
-                overflowingTextOptions={{ hyphens: 'manual' }}
-              />
-            </DrawerList.Options>
-          </DrawerList>
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--hyphens-manual')
-
-        rerender(
-          <DrawerList {...props}>
-            <DrawerList.Options>
-              <DrawerList.Item
-                {...drawerListItemProps}
-                overflowingTextOptions={{ hyphens: 'none' }}
-              />
-            </DrawerList.Options>
-          </DrawerList>
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--hyphens-none')
-
-        rerender(
-          <DrawerList
-            {...props}
-            overflowingTextOptions={{ hyphens: 'auto' }}
-          >
-            <DrawerList.Options>
-              <DrawerList.Item
-                {...drawerListItemProps}
-                overflowingTextOptions={{ hyphens: 'none' }}
-              />
-            </DrawerList.Options>
-          </DrawerList>
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--hyphens-none')
+        it('uses prop from DrawerList.Item', () => {
+          render(
+            <DrawerList
+              {...props}
+              overflowingTextOptions={{ hyphens: 'auto' }}
+            >
+              <DrawerList.Options>
+                <DrawerList.Item
+                  {...drawerListItemProps}
+                  overflowingTextOptions={{ hyphens: 'none' }}
+                />
+              </DrawerList.Options>
+            </DrawerList>
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain('dnb-drawer-list__option__item--hyphens-none')
+        })
       })
     })
 
     describe('wordBreak', () => {
-      describe('has correct prop in DrawerList using prop', () => {
+      describe('sets correct class using DrawerList for value', () => {
         it('normal', () => {
           render(
             <DrawerList
@@ -986,348 +999,366 @@ describe('DrawerList component', () => {
         })
       })
 
-      it('has correct wordBreak prop using data object', () => {
-        const content = [
-          "It's either pneumonoultramicroscopicsilicovolcanoconiosis, or a bad cough.",
-        ]
+      describe('sets correct class using data object for value', () => {
+        it('normal', () => {
+          render(
+            <DrawerList
+              {...props}
+              data={[
+                {
+                  content,
+                  overflowingTextOptions: { wordBreak: 'normal' },
+                },
+              ]}
+            />
+          )
 
-        const { rerender } = render(
-          <DrawerList
-            {...props}
-            data={[
-              {
-                content,
-                overflowingTextOptions: { wordBreak: 'normal' },
-              },
-            ]}
-          />
-        )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain('dnb-drawer-list__option__item--word-break-normal')
+        })
 
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--word-break-normal')
+        it('break-all', () => {
+          render(
+            <DrawerList
+              {...props}
+              data={[
+                {
+                  content,
+                  overflowingTextOptions: { wordBreak: 'break-all' },
+                },
+              ]}
+            />
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain(
+            'dnb-drawer-list__option__item--word-break-break-all'
+          )
+        })
 
-        rerender(
-          <DrawerList
-            {...props}
-            data={[
-              {
-                content,
-                overflowingTextOptions: { wordBreak: 'break-all' },
-              },
-            ]}
-          />
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--word-break-break-all')
+        it('keep-all', () => {
+          render(
+            <DrawerList
+              {...props}
+              data={[
+                {
+                  content,
+                  overflowingTextOptions: { wordBreak: 'keep-all' },
+                },
+              ]}
+            />
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain('dnb-drawer-list__option__item--word-break-keep-all')
+        })
 
-        rerender(
-          <DrawerList
-            {...props}
-            data={[
-              {
-                content,
-                overflowingTextOptions: { wordBreak: 'keep-all' },
-              },
-            ]}
-          />
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--word-break-keep-all')
+        it('break-word', () => {
+          render(
+            <DrawerList
+              {...props}
+              data={[
+                {
+                  content,
+                  overflowingTextOptions: { wordBreak: 'break-word' },
+                },
+              ]}
+            />
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain(
+            'dnb-drawer-list__option__item--word-break-break-word'
+          )
+        })
 
-        rerender(
-          <DrawerList
-            {...props}
-            data={[
-              {
-                content,
-                overflowingTextOptions: { wordBreak: 'break-word' },
-              },
-            ]}
-          />
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--word-break-break-word')
-
-        rerender(
-          <DrawerList
-            {...props}
-            overflowingTextOptions={{ wordBreak: 'normal' }}
-            data={[
-              {
-                content,
-                overflowingTextOptions: { wordBreak: 'break-all' },
-              },
-            ]}
-          />
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--word-break-break-all')
+        it('uses prop from data', () => {
+          render(
+            <DrawerList
+              {...props}
+              overflowingTextOptions={{ wordBreak: 'normal' }}
+              data={[
+                {
+                  content,
+                  overflowingTextOptions: { wordBreak: 'break-all' },
+                },
+              ]}
+            />
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain(
+            'dnb-drawer-list__option__item--word-break-break-all'
+          )
+        })
       })
 
-      it('has correct wordBreak prop using DrawerList.Item', () => {
-        const content = [
-          "It's either pneumonoultramicroscopicsilicovolcanoconiosis, or a bad cough.",
-        ]
+      describe('sets correct class using DrawerList.Item for value', () => {
+        it('normal', () => {
+          render(
+            <DrawerList {...props}>
+              <DrawerList.Options>
+                <DrawerList.Item
+                  {...drawerListItemProps}
+                  overflowingTextOptions={{ wordBreak: 'normal' }}
+                />
+              </DrawerList.Options>
+            </DrawerList>
+          )
 
-        const drawerListItemProps = {
-          key: 'A',
-          selected: false,
-          value: 'A',
-          on_click: ({ value }) => console.log('on_click:', value),
-          children: content,
-        }
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain('dnb-drawer-list__option__item--word-break-normal')
+        })
 
-        const { rerender } = render(
-          <DrawerList {...props}>
-            <DrawerList.Options>
-              <DrawerList.Item
-                {...drawerListItemProps}
-                overflowingTextOptions={{ wordBreak: 'normal' }}
-              />
-            </DrawerList.Options>
-          </DrawerList>
-        )
+        it('break-all', () => {
+          render(
+            <DrawerList {...props}>
+              <DrawerList.Options>
+                <DrawerList.Item
+                  {...drawerListItemProps}
+                  overflowingTextOptions={{ wordBreak: 'break-all' }}
+                />
+              </DrawerList.Options>
+            </DrawerList>
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain(
+            'dnb-drawer-list__option__item--word-break-break-all'
+          )
+        })
 
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--word-break-normal')
+        it('keep-all', () => {
+          render(
+            <DrawerList {...props}>
+              <DrawerList.Options>
+                <DrawerList.Item
+                  {...drawerListItemProps}
+                  overflowingTextOptions={{ wordBreak: 'keep-all' }}
+                />
+              </DrawerList.Options>
+            </DrawerList>
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain('dnb-drawer-list__option__item--word-break-keep-all')
+        })
 
-        rerender(
-          <DrawerList {...props}>
-            <DrawerList.Options>
-              <DrawerList.Item
-                {...drawerListItemProps}
-                overflowingTextOptions={{ wordBreak: 'break-all' }}
-              />
-            </DrawerList.Options>
-          </DrawerList>
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--word-break-break-all')
+        it('break-word', () => {
+          render(
+            <DrawerList {...props}>
+              <DrawerList.Options>
+                <DrawerList.Item
+                  {...drawerListItemProps}
+                  overflowingTextOptions={{ wordBreak: 'break-word' }}
+                />
+              </DrawerList.Options>
+            </DrawerList>
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain(
+            'dnb-drawer-list__option__item--word-break-break-word'
+          )
+        })
 
-        rerender(
-          <DrawerList {...props}>
-            <DrawerList.Options>
-              <DrawerList.Item
-                {...drawerListItemProps}
-                overflowingTextOptions={{ wordBreak: 'keep-all' }}
-              />
-            </DrawerList.Options>
-          </DrawerList>
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--word-break-keep-all')
-
-        rerender(
-          <DrawerList {...props}>
-            <DrawerList.Options>
-              <DrawerList.Item
-                {...drawerListItemProps}
-                overflowingTextOptions={{ wordBreak: 'break-word' }}
-              />
-            </DrawerList.Options>
-          </DrawerList>
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--word-break-break-word')
-
-        rerender(
-          <DrawerList
-            {...props}
-            overflowingTextOptions={{ wordBreak: 'normal' }}
-          >
-            <DrawerList.Options>
-              <DrawerList.Item
-                {...drawerListItemProps}
-                overflowingTextOptions={{ wordBreak: 'break-all' }}
-              />
-            </DrawerList.Options>
-          </DrawerList>
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--word-break-break-all')
+        it('uses prop from DrawerList.Item', () => {
+          render(
+            <DrawerList
+              {...props}
+              overflowingTextOptions={{ wordBreak: 'normal' }}
+            >
+              <DrawerList.Options>
+                <DrawerList.Item
+                  {...drawerListItemProps}
+                  overflowingTextOptions={{ wordBreak: 'break-all' }}
+                />
+              </DrawerList.Options>
+            </DrawerList>
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain(
+            'dnb-drawer-list__option__item--word-break-break-all'
+          )
+        })
       })
     })
 
     describe('textOverflow', () => {
-      it('has correct prop using DrawerList', () => {
-        const { rerender } = render(
-          <DrawerList
-            {...props}
-            data={longTextData}
-            overflowingTextOptions={{ textOverflow: 'clip' }}
-          />
-        )
+      describe('sets correct class using DrawerList for value', () => {
+        it('clip', () => {
+          render(
+            <DrawerList
+              {...props}
+              data={longTextData}
+              overflowingTextOptions={{ textOverflow: 'clip' }}
+            />
+          )
 
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--text-overflow-clip')
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain('dnb-drawer-list__option__item--text-overflow-clip')
+        })
 
-        rerender(
-          <DrawerList
-            {...props}
-            data={[longTextData]}
-            overflowingTextOptions={{ textOverflow: 'ellipsis' }}
-          />
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain(
-          'dnb-drawer-list__option__item--text-overflow-ellipsis'
-        )
+        it('ellipsis', () => {
+          render(
+            <DrawerList
+              {...props}
+              data={[longTextData]}
+              overflowingTextOptions={{ textOverflow: 'ellipsis' }}
+            />
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain(
+            'dnb-drawer-list__option__item--text-overflow-ellipsis'
+          )
+        })
       })
 
-      it('has correct prop using data object', () => {
-        const content = [
-          "It's either pneumonoultramicroscopicsilicovolcanoconiosis, or a bad cough.",
-        ]
+      describe('sets correct class using data object for value', () => {
+        it('clip', () => {
+          render(
+            <DrawerList
+              {...props}
+              data={[
+                {
+                  content,
+                  overflowingTextOptions: { textOverflow: 'clip' },
+                },
+              ]}
+            />
+          )
 
-        const { rerender } = render(
-          <DrawerList
-            {...props}
-            data={[
-              {
-                content,
-                overflowingTextOptions: { textOverflow: 'clip' },
-              },
-            ]}
-          />
-        )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain('dnb-drawer-list__option__item--text-overflow-clip')
+        })
 
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--text-overflow-clip')
+        it('ellipsis', () => {
+          render(
+            <DrawerList
+              {...props}
+              data={[
+                {
+                  content,
+                  overflowingTextOptions: { textOverflow: 'ellipsis' },
+                },
+              ]}
+            />
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain(
+            'dnb-drawer-list__option__item--text-overflow-ellipsis'
+          )
+        })
 
-        rerender(
-          <DrawerList
-            {...props}
-            data={[
-              {
-                content,
-                overflowingTextOptions: { textOverflow: 'ellipsis' },
-              },
-            ]}
-          />
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain(
-          'dnb-drawer-list__option__item--text-overflow-ellipsis'
-        )
-
-        rerender(
-          <DrawerList
-            {...props}
-            overflowingTextOptions={{ textOverflow: 'clip' }}
-            data={[
-              {
-                content,
-                overflowingTextOptions: { textOverflow: 'ellipsis' },
-              },
-            ]}
-          />
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain(
-          'dnb-drawer-list__option__item--text-overflow-ellipsis'
-        )
+        it('uses prop from data', () => {
+          render(
+            <DrawerList
+              {...props}
+              overflowingTextOptions={{ textOverflow: 'clip' }}
+              data={[
+                {
+                  content,
+                  overflowingTextOptions: {
+                    textOverflow: 'ellipsis',
+                  },
+                },
+              ]}
+            />
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain(
+            'dnb-drawer-list__option__item--text-overflow-ellipsis'
+          )
+        })
       })
 
-      it('has correct prop using DrawerList.Item', () => {
-        const content = [
-          "It's either pneumonoultramicroscopicsilicovolcanoconiosis, or a bad cough.",
-        ]
+      describe('sets correct class using DrawerList.Item for value', () => {
+        it('clip', () => {
+          render(
+            <DrawerList {...props}>
+              <DrawerList.Options>
+                <DrawerList.Item
+                  {...drawerListItemProps}
+                  overflowingTextOptions={{ textOverflow: 'clip' }}
+                />
+              </DrawerList.Options>
+            </DrawerList>
+          )
 
-        const drawerListItemProps = {
-          key: 'A',
-          selected: false,
-          value: 'A',
-          on_click: ({ value }) => console.log('on_click:', value),
-          children: content,
-        }
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain('dnb-drawer-list__option__item--text-overflow-clip')
+        })
 
-        const { rerender } = render(
-          <DrawerList {...props}>
-            <DrawerList.Options>
-              <DrawerList.Item
-                {...drawerListItemProps}
-                overflowingTextOptions={{ textOverflow: 'clip' }}
-              />
-            </DrawerList.Options>
-          </DrawerList>
-        )
+        it('ellipsis', () => {
+          render(
+            <DrawerList {...props}>
+              <DrawerList.Options>
+                <DrawerList.Item
+                  {...drawerListItemProps}
+                  overflowingTextOptions={{ textOverflow: 'ellipsis' }}
+                />
+              </DrawerList.Options>
+            </DrawerList>
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain(
+            'dnb-drawer-list__option__item--text-overflow-ellipsis'
+          )
+        })
 
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--text-overflow-clip')
-
-        rerender(
-          <DrawerList {...props}>
-            <DrawerList.Options>
-              <DrawerList.Item
-                {...drawerListItemProps}
-                overflowingTextOptions={{ textOverflow: 'ellipsis' }}
-              />
-            </DrawerList.Options>
-          </DrawerList>
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain(
-          'dnb-drawer-list__option__item--text-overflow-ellipsis'
-        )
-
-        rerender(
-          <DrawerList
-            {...props}
-            overflowingTextOptions={{ textOverflow: 'clip' }}
-          >
-            <DrawerList.Options>
-              <DrawerList.Item
-                {...drawerListItemProps}
-                overflowingTextOptions={{ textOverflow: 'ellipsis' }}
-              />
-            </DrawerList.Options>
-          </DrawerList>
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain(
-          'dnb-drawer-list__option__item--text-overflow-ellipsis'
-        )
+        it('uses prop from DrawerList.Item', () => {
+          render(
+            <DrawerList
+              {...props}
+              overflowingTextOptions={{ textOverflow: 'clip' }}
+            >
+              <DrawerList.Options>
+                <DrawerList.Item
+                  {...drawerListItemProps}
+                  overflowingTextOptions={{ textOverflow: 'ellipsis' }}
+                />
+              </DrawerList.Options>
+            </DrawerList>
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain(
+            'dnb-drawer-list__option__item--text-overflow-ellipsis'
+          )
+        })
       })
     })
 
     describe('overflow', () => {
-      describe('has correct prop in DrawerList using prop', () => {
+      describe('sets correct class using DrawerList for value', () => {
         it('visible', () => {
           render(
             <DrawerList
@@ -1399,7 +1430,7 @@ describe('DrawerList component', () => {
         })
       })
 
-      describe('has correct prop using data object prop', () => {
+      describe('sets correct class using data object for value', () => {
         it('visible', () => {
           render(
             <DrawerList
@@ -1511,324 +1542,338 @@ describe('DrawerList component', () => {
         })
       })
 
-      it('has correct prop using DrawerList.Item', () => {
-        const content = [
-          "It's either pneumonoultramicroscopicsilicovolcanoconiosis, or a bad cough.",
-        ]
+      describe('sets correct class using DrawerList.Item for value', () => {
+        it('visible', () => {
+          render(
+            <DrawerList {...props}>
+              <DrawerList.Options>
+                <DrawerList.Item
+                  {...drawerListItemProps}
+                  overflowingTextOptions={{ overflow: 'visible' }}
+                />
+              </DrawerList.Options>
+            </DrawerList>
+          )
 
-        const drawerListItemProps = {
-          key: 'A',
-          selected: false,
-          value: 'A',
-          on_click: ({ value }) => console.log('on_click:', value),
-          children: content,
-        }
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain('dnb-drawer-list__option__item--overflow-visible')
+        })
 
-        const { rerender } = render(
-          <DrawerList {...props}>
-            <DrawerList.Options>
-              <DrawerList.Item
-                {...drawerListItemProps}
-                overflowingTextOptions={{ overflow: 'visible' }}
-              />
-            </DrawerList.Options>
-          </DrawerList>
-        )
+        it('hidden', () => {
+          render(
+            <DrawerList {...props}>
+              <DrawerList.Options>
+                <DrawerList.Item
+                  {...drawerListItemProps}
+                  overflowingTextOptions={{ overflow: 'hidden' }}
+                />
+              </DrawerList.Options>
+            </DrawerList>
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain('dnb-drawer-list__option__item--overflow-hidden')
+        })
 
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--overflow-visible')
+        it('clip', () => {
+          render(
+            <DrawerList {...props}>
+              <DrawerList.Options>
+                <DrawerList.Item
+                  {...drawerListItemProps}
+                  overflowingTextOptions={{ overflow: 'clip' }}
+                />
+              </DrawerList.Options>
+            </DrawerList>
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain('dnb-drawer-list__option__item--overflow-clip')
+        })
 
-        rerender(
-          <DrawerList {...props}>
-            <DrawerList.Options>
-              <DrawerList.Item
-                {...drawerListItemProps}
-                overflowingTextOptions={{ overflow: 'hidden' }}
-              />
-            </DrawerList.Options>
-          </DrawerList>
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--overflow-hidden')
+        it('scroll', () => {
+          render(
+            <DrawerList {...props}>
+              <DrawerList.Options>
+                <DrawerList.Item
+                  {...drawerListItemProps}
+                  overflowingTextOptions={{ overflow: 'scroll' }}
+                />
+              </DrawerList.Options>
+            </DrawerList>
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain('dnb-drawer-list__option__item--overflow-scroll')
+        })
 
-        rerender(
-          <DrawerList {...props}>
-            <DrawerList.Options>
-              <DrawerList.Item
-                {...drawerListItemProps}
-                overflowingTextOptions={{ overflow: 'clip' }}
-              />
-            </DrawerList.Options>
-          </DrawerList>
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--overflow-clip')
+        it('auto', () => {
+          render(
+            <DrawerList {...props}>
+              <DrawerList.Options>
+                <DrawerList.Item
+                  {...drawerListItemProps}
+                  overflowingTextOptions={{ overflow: 'auto' }}
+                />
+              </DrawerList.Options>
+            </DrawerList>
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain('dnb-drawer-list__option__item--overflow-auto')
+        })
 
-        rerender(
-          <DrawerList {...props}>
-            <DrawerList.Options>
-              <DrawerList.Item
-                {...drawerListItemProps}
-                overflowingTextOptions={{ overflow: 'scroll' }}
-              />
-            </DrawerList.Options>
-          </DrawerList>
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--overflow-scroll')
-
-        rerender(
-          <DrawerList {...props}>
-            <DrawerList.Options>
-              <DrawerList.Item
-                {...drawerListItemProps}
-                overflowingTextOptions={{ overflow: 'auto' }}
-              />
-            </DrawerList.Options>
-          </DrawerList>
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--overflow-auto')
-
-        rerender(
-          <DrawerList
-            {...props}
-            overflowingTextOptions={{ overflow: 'visible' }}
-          >
-            <DrawerList.Options>
-              <DrawerList.Item
-                {...drawerListItemProps}
-                overflowingTextOptions={{ overflow: 'hidden' }}
-              />
-            </DrawerList.Options>
-          </DrawerList>
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--overflow-hidden')
+        it('uses prop from DrawerList.Item', () => {
+          render(
+            <DrawerList
+              {...props}
+              overflowingTextOptions={{ overflow: 'visible' }}
+            >
+              <DrawerList.Options>
+                <DrawerList.Item
+                  {...drawerListItemProps}
+                  overflowingTextOptions={{ overflow: 'hidden' }}
+                />
+              </DrawerList.Options>
+            </DrawerList>
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain('dnb-drawer-list__option__item--overflow-hidden')
+        })
       })
     })
 
     describe('overflowWrap', () => {
-      it('has correct prop using DrawerList', () => {
-        const { rerender } = render(
-          <DrawerList
-            {...props}
-            data={longTextData}
-            overflowingTextOptions={{ overflowWrap: 'normal' }}
-          />
-        )
+      describe('sets correct class using DrawerList for value', () => {
+        it('normal', () => {
+          render(
+            <DrawerList
+              {...props}
+              data={longTextData}
+              overflowingTextOptions={{ overflowWrap: 'normal' }}
+            />
+          )
 
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--overflow-wrap-normal')
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain(
+            'dnb-drawer-list__option__item--overflow-wrap-normal'
+          )
+        })
 
-        rerender(
-          <DrawerList
-            {...props}
-            data={[longTextData]}
-            overflowingTextOptions={{ overflowWrap: 'break-word' }}
-          />
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain(
-          'dnb-drawer-list__option__item--overflow-wrap-break-word'
-        )
+        it('break-word', () => {
+          render(
+            <DrawerList
+              {...props}
+              data={[longTextData]}
+              overflowingTextOptions={{ overflowWrap: 'break-word' }}
+            />
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain(
+            'dnb-drawer-list__option__item--overflow-wrap-break-word'
+          )
+        })
 
-        rerender(
-          <DrawerList
-            {...props}
-            data={longTextData}
-            overflowingTextOptions={{ overflowWrap: 'anywhere' }}
-          />
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain(
-          'dnb-drawer-list__option__item--overflow-wrap-anywhere'
-        )
+        it('anywhere', () => {
+          render(
+            <DrawerList
+              {...props}
+              data={longTextData}
+              overflowingTextOptions={{ overflowWrap: 'anywhere' }}
+            />
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain(
+            'dnb-drawer-list__option__item--overflow-wrap-anywhere'
+          )
+        })
       })
 
-      it('has correct prop using data object', () => {
-        const content = [
-          "It's either pneumonoultramicroscopicsilicovolcanoconiosis, or a bad cough.",
-        ]
+      describe('sets correct class using data object for value', () => {
+        it('normal', () => {
+          render(
+            <DrawerList
+              {...props}
+              data={[
+                {
+                  content,
+                  overflowingTextOptions: { overflowWrap: 'normal' },
+                },
+              ]}
+            />
+          )
 
-        const { rerender } = render(
-          <DrawerList
-            {...props}
-            data={[
-              {
-                content,
-                overflowingTextOptions: { overflowWrap: 'normal' },
-              },
-            ]}
-          />
-        )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain(
+            'dnb-drawer-list__option__item--overflow-wrap-normal'
+          )
+        })
 
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--overflow-wrap-normal')
+        it('break-word', () => {
+          render(
+            <DrawerList
+              {...props}
+              data={[
+                {
+                  content,
+                  overflowingTextOptions: { overflowWrap: 'break-word' },
+                },
+              ]}
+            />
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain(
+            'dnb-drawer-list__option__item--overflow-wrap-break-word'
+          )
+        })
 
-        rerender(
-          <DrawerList
-            {...props}
-            data={[
-              {
-                content,
-                overflowingTextOptions: { overflowWrap: 'break-word' },
-              },
-            ]}
-          />
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain(
-          'dnb-drawer-list__option__item--overflow-wrap-break-word'
-        )
+        it('anywhere', () => {
+          render(
+            <DrawerList
+              {...props}
+              data={[
+                {
+                  content,
+                  overflowingTextOptions: { overflowWrap: 'anywhere' },
+                },
+              ]}
+            />
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain(
+            'dnb-drawer-list__option__item--overflow-wrap-anywhere'
+          )
+        })
 
-        rerender(
-          <DrawerList
-            {...props}
-            data={[
-              {
-                content,
-                overflowingTextOptions: { overflowWrap: 'anywhere' },
-              },
-            ]}
-          />
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain(
-          'dnb-drawer-list__option__item--overflow-wrap-anywhere'
-        )
-
-        rerender(
-          <DrawerList
-            {...props}
-            overflowingTextOptions={{ overflowWrap: 'normal' }}
-            data={[
-              {
-                content,
-                overflowingTextOptions: { overflowWrap: 'anywhere' },
-              },
-            ]}
-          />
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain(
-          'dnb-drawer-list__option__item--overflow-wrap-anywhere'
-        )
+        it('uses prop from data', () => {
+          render(
+            <DrawerList
+              {...props}
+              overflowingTextOptions={{ overflowWrap: 'normal' }}
+              data={[
+                {
+                  content,
+                  overflowingTextOptions: { overflowWrap: 'anywhere' },
+                },
+              ]}
+            />
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain(
+            'dnb-drawer-list__option__item--overflow-wrap-anywhere'
+          )
+        })
       })
 
-      it('has correct prop using DrawerList.Item', () => {
-        const content = [
-          "It's either pneumonoultramicroscopicsilicovolcanoconiosis, or a bad cough.",
-        ]
+      describe('sets correct class using DrawerList.Item for value', () => {
+        it('normal', () => {
+          render(
+            <DrawerList {...props}>
+              <DrawerList.Options>
+                <DrawerList.Item
+                  {...drawerListItemProps}
+                  overflowingTextOptions={{ overflowWrap: 'normal' }}
+                />
+              </DrawerList.Options>
+            </DrawerList>
+          )
 
-        const drawerListItemProps = {
-          key: 'A',
-          selected: false,
-          value: 'A',
-          on_click: ({ value }) => console.log('on_click:', value),
-          children: content,
-        }
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain(
+            'dnb-drawer-list__option__item--overflow-wrap-normal'
+          )
+        })
 
-        const { rerender } = render(
-          <DrawerList {...props}>
-            <DrawerList.Options>
-              <DrawerList.Item
-                {...drawerListItemProps}
-                overflowingTextOptions={{ overflowWrap: 'normal' }}
-              />
-            </DrawerList.Options>
-          </DrawerList>
-        )
+        it('break-word', () => {
+          render(
+            <DrawerList {...props}>
+              <DrawerList.Options>
+                <DrawerList.Item
+                  {...drawerListItemProps}
+                  overflowingTextOptions={{ overflowWrap: 'break-word' }}
+                />
+              </DrawerList.Options>
+            </DrawerList>
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain(
+            'dnb-drawer-list__option__item--overflow-wrap-break-word'
+          )
+        })
 
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain('dnb-drawer-list__option__item--overflow-wrap-normal')
+        it('anywhere', () => {
+          render(
+            <DrawerList {...props}>
+              <DrawerList.Options>
+                <DrawerList.Item
+                  {...drawerListItemProps}
+                  overflowingTextOptions={{ overflowWrap: 'anywhere' }}
+                />
+              </DrawerList.Options>
+            </DrawerList>
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain(
+            'dnb-drawer-list__option__item--overflow-wrap-anywhere'
+          )
+        })
 
-        rerender(
-          <DrawerList {...props}>
-            <DrawerList.Options>
-              <DrawerList.Item
-                {...drawerListItemProps}
-                overflowingTextOptions={{ overflowWrap: 'break-word' }}
-              />
-            </DrawerList.Options>
-          </DrawerList>
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain(
-          'dnb-drawer-list__option__item--overflow-wrap-break-word'
-        )
-
-        rerender(
-          <DrawerList {...props}>
-            <DrawerList.Options>
-              <DrawerList.Item
-                {...drawerListItemProps}
-                overflowingTextOptions={{ overflowWrap: 'anywhere' }}
-              />
-            </DrawerList.Options>
-          </DrawerList>
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain(
-          'dnb-drawer-list__option__item--overflow-wrap-anywhere'
-        )
-
-        rerender(
-          <DrawerList
-            {...props}
-            overflowingTextOptions={{ overflowWrap: 'normal' }}
-          >
-            <DrawerList.Options>
-              <DrawerList.Item
-                {...drawerListItemProps}
-                overflowingTextOptions={{ overflowWrap: 'anywhere' }}
-              />
-            </DrawerList.Options>
-          </DrawerList>
-        )
-        expect(
-          document.querySelector('span.dnb-drawer-list__option__item')
-            .classList
-        ).toContain(
-          'dnb-drawer-list__option__item--overflow-wrap-anywhere'
-        )
+        it('uses prop from DrawerList.Item', () => {
+          render(
+            <DrawerList
+              {...props}
+              overflowingTextOptions={{ overflowWrap: 'normal' }}
+            >
+              <DrawerList.Options>
+                <DrawerList.Item
+                  {...drawerListItemProps}
+                  overflowingTextOptions={{
+                    overflowWrap: 'anywhere',
+                  }}
+                />
+              </DrawerList.Options>
+            </DrawerList>
+          )
+          expect(
+            document.querySelector('span.dnb-drawer-list__option__item')
+              .classList
+          ).toContain(
+            'dnb-drawer-list__option__item--overflow-wrap-anywhere'
+          )
+        })
       })
     })
 
     describe('combination of options', () => {
-      it('has correct prop using DrawerList', () => {
+      it('sets correct classes using DrawerList', () => {
         render(
           <DrawerList
             {...props}
@@ -1865,7 +1910,7 @@ describe('DrawerList component', () => {
         ).toContain('dnb-drawer-list__option__item--overflow-wrap-normal')
       })
 
-      it('has correct prop using data object', () => {
+      it('sets correct classes using data object', () => {
         const { rerender } = render(
           <DrawerList
             {...props}
@@ -1945,19 +1990,7 @@ describe('DrawerList component', () => {
         ).toContain('dnb-drawer-list__option__item--overflow-wrap-normal')
       })
 
-      it('has correct prop using DrawerList.Item', () => {
-        const content = [
-          "It's either pneumonoultramicroscopicsilicovolcanoconiosis, or a bad cough.",
-        ]
-
-        const drawerListItemProps = {
-          key: 'A',
-          selected: false,
-          value: 'A',
-          on_click: ({ value }) => console.log('on_click:', value),
-          children: content,
-        }
-
+      it('sets correct classes using DrawerList.Item', () => {
         const { rerender } = render(
           <DrawerList {...props}>
             <DrawerList.Options>
