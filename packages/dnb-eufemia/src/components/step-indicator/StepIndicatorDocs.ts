@@ -36,6 +36,11 @@ export const StepIndicatorProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  expandedInitially: {
+    doc: 'Set to `true` to have the list be expanded initially. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   on_item_render: {
     doc: 'Callback function whose return is rendered inside each step instead of the default render. Has to return a React Node. Receives parameter `{ StepItem, element, attributes, props, context }`, where `props` also includes all props from the step object (like `title` or `status`) and the `<StepItem>` is a component that can be used to wrap your returned content.',
     type: 'function',

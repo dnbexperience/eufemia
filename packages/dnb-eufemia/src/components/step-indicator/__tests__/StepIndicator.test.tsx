@@ -270,6 +270,25 @@ describe('StepIndicator in general', () => {
         .textContent
     ).toEqual('Step A')
   })
+
+  it('start expanded with expandedInitially', () => {
+    render(
+      <>
+        <StepIndicator
+          mode="loose"
+          expandedInitially
+          data={stepIndicatorListData}
+        />
+      </>
+    )
+    expect(
+      document.querySelector('button.dnb-step-indicator__trigger__button')
+    ).toHaveClass('dnb-step-indicator__trigger__button--expanded')
+
+    expect(
+      document.querySelectorAll('li.dnb-step-indicator__item')
+    ).toHaveLength(4)
+  })
 })
 
 describe('StepIndicator in loose mode', () => {

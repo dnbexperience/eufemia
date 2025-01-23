@@ -87,7 +87,10 @@ export type Props = ComponentProps & {
    * If set to `true`, the wizard will not animate the steps.
    */
   noAnimation?: boolean
-
+  /**
+   * Set to `true` to have the list be expanded initially. Defaults to `false`.
+   */
+  expandedInitially?: boolean
   /**
    * If set to `true`, the wizard pre-render all steps so the props of each field is available in the data context.
    * Defaults to `true`.
@@ -121,6 +124,7 @@ function WizardContainer(props: Props) {
     onStepChange,
     children,
     noAnimation = true,
+    expandedInitially = false,
     prerenderFieldProps = true,
     validationMode,
     ...rest
@@ -434,6 +438,7 @@ function WizardContainer(props: Props) {
           mode={mode}
           variant="drawer"
           noAnimation={noAnimation}
+          expandedInitially={expandedInitially}
           handleChange={handleChange}
         />
 
@@ -456,6 +461,7 @@ function DisplaySteps({
   variant,
   noAnimation,
   handleChange,
+  expandedInitially,
   sidebarId = undefined, // deprecated
 }) {
   const [, forceUpdate] = useReducer(() => ({}), {})
@@ -480,6 +486,7 @@ function DisplaySteps({
         )}
         mode={mode}
         no_animation={noAnimation}
+        expandedInitially={expandedInitially}
         on_change={handleChange}
         sidebar_id={sidebar_id} // deprecated
       />
