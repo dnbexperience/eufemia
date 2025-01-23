@@ -46,6 +46,11 @@ export const WizardContainerProperties: PropertiesTableProps = {
     type: ['bypassOnNavigation'],
     status: 'optional',
   },
+  expandedInitially: {
+    doc: 'Set to `true` to have the list be expanded initially. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   children: {
     doc: 'Contents (Step components).',
     type: 'React.Node',

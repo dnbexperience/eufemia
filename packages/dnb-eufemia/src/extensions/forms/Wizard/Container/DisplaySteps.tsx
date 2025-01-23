@@ -9,6 +9,7 @@ export function DisplaySteps({
   variant,
   noAnimation,
   handleChange,
+  expandedInitially,
   sidebarId = undefined, // deprecated
 }) {
   const [, forceUpdate] = useReducer(() => ({}), {})
@@ -63,6 +64,7 @@ export function DisplaySteps({
         )}
         mode={mode}
         no_animation={noAnimation}
+        expandedInitially={expandedInitially}
         on_change={handleChange}
         sidebar_id={sidebar_id} // deprecated
         triggerButtonProps={getTriggerStatus()}
