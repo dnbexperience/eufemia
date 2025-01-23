@@ -131,11 +131,14 @@ export type StepIndicatorProps = Omit<
       current_step,
       currentStep,
     }: StepIndicatorMouseEvent) => void
-
     /**
      * If set to `true`, the height animation on the step items and the drawer button will be omitted. Defaults to `false`.
      */
     no_animation?: boolean
+    /**
+     * Set to `true` to have the list be expanded initially. Defaults to `false`.
+     */
+    expandedInitially?: boolean
     skeleton?: SkeletonShow
     className?: string
     children?: React.ReactNode
@@ -147,6 +150,7 @@ function StepIndicator({
   current_step = stepIndicatorDefaultProps.current_step,
   hide_numbers = stepIndicatorDefaultProps.hide_numbers,
   no_animation = stepIndicatorDefaultProps.no_animation,
+  expandedInitially = stepIndicatorDefaultProps.expandedInitially,
   ...restOfProps
 }: StepIndicatorProps) {
   const props = {
@@ -155,6 +159,7 @@ function StepIndicator({
     current_step,
     hide_numbers,
     no_animation,
+    expandedInitially,
     ...restOfProps,
   }
 
