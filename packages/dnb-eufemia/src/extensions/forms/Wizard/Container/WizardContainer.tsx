@@ -118,7 +118,7 @@ function WizardContainer(props: Props) {
     omitFocusManagement,
     onStepChange,
     children,
-    noAnimation = true,
+    noAnimation = false,
     expandedInitially = false,
     prerenderFieldProps = true,
     ...rest
