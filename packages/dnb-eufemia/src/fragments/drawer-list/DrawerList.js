@@ -627,7 +627,7 @@ function DrawerListOptionItem({
   const {
     hyphens = null,
     wordBreak = null,
-    textOverflow = null,
+    textOverflow = 'ellipsis',
     overflow = null,
     overflowWrap = null,
   } = overflowingTextOptions || {}

@@ -161,7 +161,6 @@ html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options, .dnb-
 }
 .dnb-drawer-list__option__item {
   display: block;
-  text-overflow: ellipsis;
   grid-column: 1;
 }
 .dnb-drawer-list__option__item--horizontal {

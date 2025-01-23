@@ -209,7 +209,6 @@
 
     &__item {
       display: block;
-      text-overflow: ellipsis;
 
       // Place all items in the first column, but underneath
       grid-column: 1;
@@ -241,6 +240,7 @@
           hyphens: manual;
         }
       }
+
       &--word-break {
         &-normal {
           word-break: normal;
@@ -255,6 +255,7 @@
           word-break: break-word;
         }
       }
+
       &--text-overflow {
         &-clip {
           text-overflow: clip;
@@ -263,6 +264,7 @@
           text-overflow: ellipsis;
         }
       }
+
       &--overflow {
         &-visible {
           overflow: visible;
@@ -280,6 +282,7 @@
           overflow: auto;
         }
       }
+
       &--overflow-wrap {
         &-normal {
           overflow-wrap: normal;
