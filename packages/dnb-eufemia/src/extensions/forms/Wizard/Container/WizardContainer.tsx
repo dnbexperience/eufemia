@@ -87,7 +87,10 @@ export type Props = ComponentProps & {
    * If set to `true`, the wizard will not animate the steps.
    */
   noAnimation?: boolean
-
+  /**
+   * Set to `true` to have the list be expanded initially. Defaults to `false`.
+   */
+  expandedInitially?: boolean
   /**
    * If set to `true`, the wizard will not unmount the steps when navigating back and forth.
    */
@@ -126,6 +129,7 @@ function WizardContainer(props: Props) {
     onStepChange,
     children,
     noAnimation = true,
+    expandedInitially = false,
     prerenderFieldProps = true,
     keepInDOM,
     validationMode,
@@ -600,6 +604,7 @@ function WizardContainer(props: Props) {
           mode={mode}
           variant="drawer"
           noAnimation={noAnimation}
+          expandedInitially={expandedInitially}
           handleChange={handleChange}
         />
 
