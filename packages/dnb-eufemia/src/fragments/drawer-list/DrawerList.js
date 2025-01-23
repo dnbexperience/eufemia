@@ -163,7 +163,7 @@ class DrawerListInstance extends React.PureComponent {
       list_class,
       ignore_events,
       options_render,
-      hyphenation,
+      overflowingTextOptions,
       className,
       cache_hash: _cache_hash, // eslint-disable-line
       wrapper_element: _wrapper_element, // eslint-disable-line
@@ -328,7 +328,9 @@ class DrawerListInstance extends React.PureComponent {
         return (
           <DrawerList.Item
             key={hash}
-            hyphenation={dataItem.hyphenation || hyphenation}
+            overflowingTextOptions={
+              dataItem.overflowingTextOptions || overflowingTextOptions
+            }
             {...liParams}
           >
             {dataItem}
@@ -461,7 +463,7 @@ DrawerList.Options.propTypes = {
 DrawerList.Item = React.forwardRef((props, ref) => {
   const {
     role = 'option', // eslint-disable-line
-    hyphenation = null, // eslint-disable-line
+    overflowingTextOptions = null, // eslint-disable-line
     hash = '', // eslint-disable-line
     children, // eslint-disable-line
     className = null, // eslint-disable-line
@@ -508,7 +510,10 @@ DrawerList.Item = React.forwardRef((props, ref) => {
   return (
     <li {...params} {...rest} ref={ref} key={'li' + hash}>
       <span className="dnb-drawer-list__option__inner">
-        <ItemContent hash={hash} hyphenation={hyphenation}>
+        <ItemContent
+          hash={hash}
+          overflowingTextOptions={overflowingTextOptions}
+        >
           {children}
         </ItemContent>
       </span>
@@ -519,7 +524,27 @@ DrawerList.Item.displayName = 'DrawerList.Item'
 DrawerList.Item.propTypes = {
   role: PropTypes.string,
   hash: PropTypes.string,
-  hyphenation: PropTypes.oneOf(['none', 'auto', 'manual']),
+  overflowingTextOptions: PropTypes.shape({
+    hyphens: PropTypes.oneOf(['none', 'auto', 'manual']),
+    wordBreak: PropTypes.oneOf([
+      'normal',
+      'break-all',
+      'keep-all',
+      'break-word',
+    ]),
+    textOverflow: PropTypes.oneOfType([
+      PropTypes.oneOf(['clip', 'ellipsis']),
+      PropTypes.string,
+    ]),
+    overflow: PropTypes.oneOf([
+      'visible',
+      'hidden',
+      'clip',
+      'scroll',
+      'auto',
+    ]),
+    overflowWrap: PropTypes.oneOf(['normal', 'break-word', 'anywhere']),
+  }),
   children: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.func,
@@ -536,7 +561,7 @@ DrawerList.Item.propTypes = {
 export function ItemContent({
   hash = '',
   children = undefined,
-  hyphenation = null,
+  overflowingTextOptions = null,
 }) {
   let content = null
 
@@ -544,7 +569,7 @@ export function ItemContent({
     content = (children.content || children).map((item, n) => (
       <DrawerListOptionItem
         key={hash + n}
-        hyphenation={hyphenation}
+        overflowingTextOptions={overflowingTextOptions}
         className={`item-nr-${n + 1}`} // "item-nr" is used by CSS
       >
         {children.render ? children.render(item, hash + n) : item}
@@ -556,14 +581,18 @@ export function ItemContent({
       : children.content
     if (content) {
       content = (
-        <DrawerListOptionItem hyphenation={hyphenation}>
+        <DrawerListOptionItem
+          overflowingTextOptions={overflowingTextOptions}
+        >
           {content}
         </DrawerListOptionItem>
       )
     }
   } else {
     content = children && (
-      <DrawerListOptionItem hyphenation={hyphenation}>
+      <DrawerListOptionItem
+        overflowingTextOptions={overflowingTextOptions}
+      >
         {children}
       </DrawerListOptionItem>
     )
@@ -575,7 +604,7 @@ export function ItemContent({
 
       <DrawerListOptionItem
         className="dnb-drawer-list__option__suffix"
-        hyphenation={hyphenation}
+        overflowingTextOptions={overflowingTextOptions}
       >
         {children.suffix_value}
       </DrawerListOptionItem>
@@ -592,15 +621,29 @@ ItemContent.propTypes = {
 function DrawerListOptionItem({
   children = undefined,
   className = null,
-  hyphenation = null,
+  overflowingTextOptions = null,
   ...props
 }) {
+  const {
+    hyphens = null,
+    wordBreak = null,
+    textOverflow = null,
+    overflow = null,
+    overflowWrap = null,
+  } = overflowingTextOptions || {}
+
   return (
     <span
       className={classnames([
         'dnb-drawer-list__option__item',
-        hyphenation &&
-          `dnb-drawer-list__option__item--hyphenation-${hyphenation}`,
+        hyphens && `dnb-drawer-list__option__item--hyphens-${hyphens}`,
+        wordBreak &&
+          `dnb-drawer-list__option__item--word-break-${wordBreak}`,
+        textOverflow &&
+          `dnb-drawer-list__option__item--text-overflow-${textOverflow}`,
+        overflow && `dnb-drawer-list__option__item--overflow-${overflow}`,
+        overflowWrap &&
+          `dnb-drawer-list__option__item--overflow-wrap-${overflowWrap}`,
         className,
       ])}
       {...props}
@@ -612,11 +655,11 @@ function DrawerListOptionItem({
 
 DrawerList.HorizontalItem = ({
   className = null,
-  hyphenation = null,
+  overflowingTextOptions = null,
   ...props
 }) => (
   <DrawerListOptionItem
-    hyphenation={hyphenation}
+    overflowingTextOptions={overflowingTextOptions}
     className={classnames([
       'dnb-drawer-list__option__item--horizontal',
       className,

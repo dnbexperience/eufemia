@@ -1037,13 +1037,13 @@ export const OpenedEmptyDataExample = () => {
   )
 }
 
-export const HyphenationExample = () => {
+export const HyphensExample = () => {
   return (
     <>
       <Autocomplete
         opened
         skip_portal
-        hyphenation="auto"
+        overflowingTextOptions={{ hyphens: 'auto' }}
         data={[
           [
             'The longest word in the Oxford English Dictionary is the 45-letter pneumonoultramicroscopicsilicovolcanoconiosis, which refers to a form of lung disease. (hyphenation="auto")',

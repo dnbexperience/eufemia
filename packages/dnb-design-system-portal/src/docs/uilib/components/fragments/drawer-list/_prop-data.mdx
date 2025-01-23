@@ -100,8 +100,24 @@ The following is an overview of all the types that the `data` prop accepts. (The
 // The visual content that is shown in one DrawerList item.
 // An array can be used to define multiple lines.
 type CONTENT = string | React.Node | (string | React.Node)[]
+// Provides various ways in which overflowing text can be managed.
+type OVERFLOWING_TEXT_OPTIONS = {
+  hyphens?: HYPHENS,
+  wordBreak?: WORD_BREAK,
+  textOverflow?: TEXT_OVERFLOW,
+  overflow?: OVERFLOW,
+  overflowWrap?: OVERFLOW_WRAP
+}
 // Defines how words should be hyphenated when text of an item wraps across multiple lines, see https://developer.mozilla.org/en-US/docs/Web/CSS/hyphens.
-type HYPHENATION = 'none' | 'manual' | 'auto';
+type HYPHENS = 'none' | 'manual' | 'auto';
+// Sets whether line breaks appear wherever the text would otherwise overflow its content box, see https://developer.mozilla.org/en-US/docs/Web/CSS/word-break.
+type WORD_BREAK = 'normal' | 'break-all' | 'keep-all' | 'break-word';
+// Sets how hidden overflow content is signaled to users. It can be clipped, display an ellipsis (…), or display a custom string, see https://developer.mozilla.org/en-US/docs/Web/CSS/text-overflow.
+type TEXT_OVERFLOW = 'clip' | 'ellipsis' | string;
+// Sets the desired behavior when content does not fit in the element's padding box (overflows) in the horizontal and/or vertical direction, see https://developer.mozilla.org/en-US/docs/Web/CSS/overflow.
+type OVERFLOW = 'visible' | 'hidden' | 'clip' | 'scroll' | 'auto';
+// Sets whether the browser should insert line breaks within an otherwise unbreakable string to prevent text from overflowing its line box. see https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-wrap.
+type OVERFLOW_WRAP = 'normal' | 'break-word' | anywhere;
 
 // An array item
 type ARRAY_OBJECT = {
@@ -110,7 +126,7 @@ type ARRAY_OBJECT = {
   selectedKey?: string | number
   selected_value?: string | React.Node
   suffix_value?: string | React.Node
-  hyphenation?: HYPHENATION
+  overflowingTextOptions?: OVERFLOWING_TEXT_OPTIONS
 }
 
 // `data` as an array. A list of "ARRAY_OBJECT" types is preferred,

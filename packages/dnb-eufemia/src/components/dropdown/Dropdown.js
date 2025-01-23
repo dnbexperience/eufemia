@@ -155,7 +155,24 @@ export default class Dropdown extends React.PureComponent {
     keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    hyphenation: PropTypes.oneOf(['none', 'auto', 'manual']),
+    overflowingTextOptions: PropTypes.shape({
+      hyphens: PropTypes.oneOf(['none', 'auto', 'manual']),
+      wordBreak: PropTypes.oneOf([
+        'normal',
+        'break-all',
+        'keep-all',
+        'break-word',
+      ]),
+      textOverflow: PropTypes.oneOf(['clip', 'ellipsis']),
+      overflow: PropTypes.oneOf([
+        'visible',
+        'hidden',
+        'clip',
+        'scroll',
+        'auto',
+      ]),
+      overflowWrap: PropTypes.oneOf(['normal', 'break-word', 'anywhere']),
+    }),
     stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
@@ -217,7 +234,7 @@ export default class Dropdown extends React.PureComponent {
     keep_open: false,
     opened: false,
     disabled: null,
-    hyphenation: null,
+    overflowingTextOptions: null,
     stretch: null,
     skeleton: null,
 
@@ -460,7 +477,7 @@ class DropdownInstance extends React.PureComponent {
       default_value,
       className,
       disabled,
-      hyphenation,
+      overflowingTextOptions,
       stretch,
       skeleton,
       variant,
@@ -676,7 +693,7 @@ class DropdownInstance extends React.PureComponent {
                 fixed_position={fixed_position}
                 enable_body_lock={enable_body_lock}
                 disabled={disabled}
-                hyphenation={hyphenation}
+                overflowingTextOptions={overflowingTextOptions}
                 max_height={max_height}
                 direction={direction}
                 size={size}

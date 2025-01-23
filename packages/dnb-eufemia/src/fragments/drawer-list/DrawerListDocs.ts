@@ -96,9 +96,9 @@ export const DrawerListProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  hyphenation: {
-    doc: 'Defines how words should be hyphenated when text of an item wraps across multiple lines. Can be `none`, `manual` or `auto`. For further information, see [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/hyphens).',
-    type: 'string',
+  overflowingTextOptions: {
+    doc: 'Provides various ways in which overflowing text can be managed, by using the properties `hyphens`, `wordBreak`, `textOverflow`, `overflow` and `overflowWrap`. For further information, [see data types overview](#data-types-overview).',
+    type: 'object',
     status: 'optional',
   },
   no_scroll_animation: {

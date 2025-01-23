@@ -1,7 +1,42 @@
 import * as React from 'react';
 import type { SpacingProps } from '../../shared/types';
 export type DrawerListDirection = 'auto' | 'top' | 'bottom';
-export type DrawerListHyphenation = 'none' | 'manual' | 'auto';
+/**
+ * Defines how words should be hyphenated when text of an item wraps across multiple lines. Can be `none`, `manual` or `auto`. For further information, see https://developer.mozilla.org/en-US/docs/Web/CSS/hyphens.
+ */
+export type DrawerListHyphens = 'none' | 'manual' | 'auto';
+/**
+ * Sets whether line breaks appear wherever the text would otherwise overflow its content box, see https://developer.mozilla.org/en-US/docs/Web/CSS/word-break.
+ */
+export type DrawerListWordBreak =
+  | 'normal'
+  | 'break-all'
+  | 'keep-all'
+  | 'break-word';
+/**
+ * Sets how hidden overflow content is signaled to users. It can be clipped, display an ellipsis (…), or display a custom string, see https://developer.mozilla.org/en-US/docs/Web/CSS/text-overflow.
+ */
+export type DrawerListTextOverflow = 'clip' | 'ellipsis' | string;
+/**
+ * Sets the desired behavior when content does not fit in the element's padding box (overflows) in the horizontal and/or vertical direction, see https://developer.mozilla.org/en-US/docs/Web/CSS/overflow.
+ */
+export type DrawerListOverflow =
+  | 'visible'
+  | 'hidden'
+  | 'clip'
+  | 'scroll'
+  | 'auto';
+/**
+ * Sets whether the browser should insert line breaks within an otherwise unbreakable string to prevent text from overflowing its line box. see https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-wrap.
+ */
+export type DrawerListOverflowWrap = 'normal' | 'break-word' | 'anywhere';
+export type DrawerListOverflowingTextOptions = {
+  hyphens?: DrawerListHyphens;
+  wordBreak?: DrawerListWordBreak;
+  textOverflow?: DrawerListTextOverflow;
+  overflow?: DrawerListOverflow;
+  overflowWrap?: DrawerListOverflowWrap;
+};
 export type DrawerListSize = 'default' | 'small' | 'medium' | 'large';
 export type DrawerListAlignDrawer = 'left' | 'right';
 export type DrawerListOptionsRender =
@@ -77,9 +112,9 @@ export interface DrawerListProps {
    */
   direction?: DrawerListDirection;
   /**
-   * Defines how words should be hyphenated when text of an item wraps across multiple lines. Can be `none`, `manual` or `auto`. For further information, see [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/hyphens).
+   * Provides various ways in which overflowing text can be managed, by using the properties `hyphens`, `wordBreak`, `textOverflow`, `overflow` and `overflowWrap`.
    */
-  hyphenation?: DrawerListHyphenation;
+  overflowingTextOptions?: DrawerListOverflowingTextOptions;
   size?: DrawerListSize;
   /**
    * Defines the minimum height (in `rem`) of the options list.
@@ -207,9 +242,9 @@ export type DrawerListItemProps = {
     value: string;
   }) => void;
   /**
-   * Defines how words should be hyphenated when text of an item wraps across multiple lines. Can be `none`, `manual` or `auto`. For further information, see [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/hyphens).
+   * Provides various ways in which overflowing text can be managed, by using the properties `hyphens`, `wordBreak`, `textOverflow`, `overflow` and `overflowWrap`.
    */
-  hyphenation?: DrawerListHyphenation;
+  overflowingTextOptions?: DrawerListOverflowingTextOptions;
 };
 export type DrawerListAllProps = DrawerListProps &
   SpacingProps &

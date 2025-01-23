@@ -176,14 +176,56 @@ html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options, .dnb-
   word-break: break-word;
   font-size: inherit;
 }
-.dnb-drawer-list__option__item--hyphenation-none {
+.dnb-drawer-list__option__item--hyphens-none {
   hyphens: none;
 }
-.dnb-drawer-list__option__item--hyphenation-auto {
+.dnb-drawer-list__option__item--hyphens-auto {
   hyphens: auto;
 }
-.dnb-drawer-list__option__item--hyphenation-manual {
+.dnb-drawer-list__option__item--hyphens-manual {
   hyphens: manual;
+}
+.dnb-drawer-list__option__item--word-break-normal {
+  word-break: normal;
+}
+.dnb-drawer-list__option__item--word-break-break-all {
+  word-break: break-all;
+}
+.dnb-drawer-list__option__item--word-break-keep-all {
+  word-break: keep-all;
+}
+.dnb-drawer-list__option__item--word-break-break-word {
+  word-break: break-word;
+}
+.dnb-drawer-list__option__item--text-overflow-clip {
+  text-overflow: clip;
+}
+.dnb-drawer-list__option__item--text-overflow-ellipsis {
+  text-overflow: ellipsis;
+}
+.dnb-drawer-list__option__item--overflow-visible {
+  overflow: visible;
+}
+.dnb-drawer-list__option__item--overflow-hidden {
+  overflow: hidden;
+}
+.dnb-drawer-list__option__item--overflow-clip {
+  overflow: clip;
+}
+.dnb-drawer-list__option__item--overflow-scroll {
+  overflow: scroll;
+}
+.dnb-drawer-list__option__item--overflow-auto {
+  overflow: auto;
+}
+.dnb-drawer-list__option__item--overflow-wrap-normal {
+  overflow-wrap: normal;
+}
+.dnb-drawer-list__option__item--overflow-wrap-break-word {
+  overflow-wrap: break-word;
+}
+.dnb-drawer-list__option__item--overflow-wrap-anywhere {
+  overflow-wrap: anywhere;
 }
 @media screen and (min-width: 40.00625em) {
   .dnb-drawer-list__option__suffix {

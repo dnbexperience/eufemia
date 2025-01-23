@@ -152,7 +152,7 @@ export const DrawerListHyphenation = () => {
               on_click={({ value }) => {
                 console.log('on_click', value)
               }}
-              hyphenation="none"
+              overflowingTextOptions={{ hyphens: 'none' }}
             >
               The longest word in the Oxford English Dictionary is the
               45-letter pneumonoultramicroscopicsilicovolcanoconiosis,
@@ -165,7 +165,7 @@ export const DrawerListHyphenation = () => {
               on_click={({ value }) => {
                 console.log('on_click', value)
               }}
-              hyphenation="manual"
+              overflowingTextOptions={{ hyphens: 'manual' }}
             >
               The longest word in the Oxford English Dictionary is the
               45-letter pneumonoultramicroscopicsilicovolcanoconiosis,
@@ -179,7 +179,7 @@ export const DrawerListHyphenation = () => {
               on_click={({ value }) => {
                 console.log('on_click', value)
               }}
-              hyphenation="auto"
+              overflowingTextOptions={{ hyphens: 'auto' }}
             >
               The longest word in the Oxford English Dictionary is the
               45-letter pneumonoultramicroscopicsilicovolcanoconiosis,

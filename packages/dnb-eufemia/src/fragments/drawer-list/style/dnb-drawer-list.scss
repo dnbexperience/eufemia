@@ -230,7 +230,7 @@
         font-size: inherit;
       }
 
-      &--hyphenation {
+      &--hyphens {
         &-none {
           hyphens: none;
         }
@@ -239,6 +239,56 @@
         }
         &-manual {
           hyphens: manual;
+        }
+      }
+      &--word-break {
+        &-normal {
+          word-break: normal;
+        }
+        &-break-all {
+          word-break: break-all;
+        }
+        &-keep-all {
+          word-break: keep-all;
+        }
+        &-break-word {
+          word-break: break-word;
+        }
+      }
+      &--text-overflow {
+        &-clip {
+          text-overflow: clip;
+        }
+        &-ellipsis {
+          text-overflow: ellipsis;
+        }
+      }
+      &--overflow {
+        &-visible {
+          overflow: visible;
+        }
+        &-hidden {
+          overflow: hidden;
+        }
+        &-clip {
+          overflow: clip;
+        }
+        &-scroll {
+          overflow: scroll;
+        }
+        &-auto {
+          overflow: auto;
+        }
+      }
+      &--overflow-wrap {
+        &-normal {
+          overflow-wrap: normal;
+        }
+        &-break-word {
+          overflow-wrap: break-word;
+        }
+        &-anywhere {
+          overflow-wrap: anywhere;
         }
       }
     }

@@ -126,13 +126,13 @@ export const DrawerListExampleDefault = () => (
   </Wrapper>
 )
 
-export const DrawerListExampleHyphenationAuto = () => (
+export const DrawerListExampleHyphensAuto = () => (
   <Wrapper>
-    <ComponentBox data-visual-test="drawer-list-hyphenation-auto">
+    <ComponentBox data-visual-test="drawer-list-hyphens-auto">
       <DrawerList
         skip_portal
         opened
-        hyphenation="auto"
+        overflowingTextOptions={{ hyphens: 'auto' }}
         prevent_close
         data={[
           'They may be very large, like pneumonoultramicroscopicsilicovolcanoconiosis, a 45-letter hippopotomonstrosesquipedalian word for black lung disease.',
