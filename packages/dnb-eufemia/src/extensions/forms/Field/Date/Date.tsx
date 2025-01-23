@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo } from 'react'
+import React, { useCallback, useContext, useMemo, useState } from 'react'
 import { DatePicker } from '../../../../components'
 import { useFieldProps } from '../../hooks'
 import { FieldProps, AllJSONSchemaVersions } from '../../types'
@@ -6,17 +6,23 @@ import { pickSpacingProps } from '../../../../components/flex/utils'
 import classnames from 'classnames'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import SharedContext from '../../../../shared/Context'
-import { parseISO, isValid } from 'date-fns'
+import { parseISO, isValid, isBefore, isAfter, format } from 'date-fns'
 import useTranslation from '../../hooks/useTranslation'
 import { formatDate } from '../../Value/Date'
 import {
   DatePickerEvent,
   DatePickerProps,
 } from '../../../../components/DatePicker'
+import nb from 'date-fns/locale/nb'
+import enGB from 'date-fns/locale/en-GB'
+import { convertStringToDate } from '../../../../components/date-picker/DatePickerCalc'
+import locales from '../../constants/locales'
+import { ProviderProps } from '../../../../shared/Provider'
+import { FormError } from '../../utils'
 
 // `range`, `showInput`, `showCancelButton` and `showResetButton` are not picked from the `DatePickerProps`
 // Since they require `Field.Date` specific comments, due to them having different default values
-export type Props = FieldProps<string, undefined | string> & {
+export type DateProps = FieldProps<string, undefined | string> & {
   // Validation
   pattern?: string
   /**
@@ -76,17 +82,40 @@ export type Props = FieldProps<string, undefined | string> & {
     | 'onReset'
   >
 
-function DateComponent(props: Props) {
-  const translations = useTranslation()
+function DateComponent(props: DateProps) {
+  const translations = useTranslation().Date
   const { locale } = useContext(SharedContext)
+
+  const [dateLimitErrors, setDateLimitErrors] = useState<Array<Error>>(
+    validateDateLimit({
+      value: props.value,
+      minDate: props.minDate,
+      maxDate: props.maxDate,
+      isRange: props.range,
+      localeKey: locale,
+      translations,
+    })
+  )
+
+  const error = useMemo(() => {
+    const errors: Array<Error | FormError> = [...dateLimitErrors]
+
+    if (Array.isArray(props.error)) {
+      errors.push(...props.error)
+    } else if (props.error) {
+      errors.push(props.error as Error | FormError)
+    }
+
+    return errors
+  }, [dateLimitErrors, props.error])
 
   const errorMessages = useMemo(() => {
     return {
-      'Field.errorRequired': translations.Date.errorRequired,
-      'Field.errorPattern': translations.Date.errorRequired,
+      'Field.errorRequired': translations.errorRequired,
+      'Field.errorPattern': translations.errorRequired,
       ...props.errorMessages,
     }
-  }, [props.errorMessages, translations.Date.errorRequired])
+  }, [props.errorMessages, translations.errorRequired])
 
   const schema = useMemo<AllJSONSchemaVersions>(
     () =>
@@ -108,10 +137,11 @@ function DateComponent(props: Props) {
     []
   )
 
-  const preparedProps: Props = {
+  const preparedProps: DateProps = {
     ...props,
     errorMessages,
     schema,
+    error,
     fromInput: ({
       date,
       start_date,
@@ -120,6 +150,21 @@ function DateComponent(props: Props) {
       return range ? `${start_date}|${end_date}` : date
     },
     validateRequired,
+    onBlurValidator: (value) => {
+      // Ideally onBlurValidator should allow for return an array of Error objects
+      // (makes the message easier to read for humans)
+      // So hopefully this as a temporary solution
+      setDateLimitErrors(
+        validateDateLimit({
+          value: value,
+          minDate: props.minDate,
+          maxDate: props.maxDate,
+          isRange: range,
+          localeKey: locale,
+          translations,
+        })
+      )
+    },
   }
 
   const {
@@ -141,6 +186,8 @@ function DateComponent(props: Props) {
     showResetButton = true,
     showInput = true,
     onReset,
+    minDate,
+    maxDate,
     ...rest
   } = useFieldProps(preparedProps)
 
@@ -156,13 +203,12 @@ function DateComponent(props: Props) {
       }
     }
 
-    const [startDate, endDate] = valueProp
-      .split('|')
-      // Assign to null if falsy value, to properly clear input values
-      .map((value) => (/(undefined|null)/.test(value) ? null : value))
+    const [startDate, endDate] = parseRangeValue({
+      value: valueProp,
+    })
 
     return {
-      value: undefined,
+      date: undefined,
       startDate,
       endDate,
     }
@@ -176,7 +222,7 @@ function DateComponent(props: Props) {
 
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
-    label: label ?? translations.Date.label,
+    label: label ?? translations.label,
     className: classnames('dnb-forms-field-string', className),
     ...pickSpacingProps(props),
   }
@@ -192,6 +238,8 @@ function DateComponent(props: Props) {
         showResetButton={showResetButton}
         startDate={startDate}
         endDate={endDate}
+        minDate={minDate}
+        maxDate={maxDate}
         status={hasError ? 'error' : undefined}
         range={range}
         onChange={handleChange}
@@ -206,6 +254,126 @@ function DateComponent(props: Props) {
       />
     </FieldBlock>
   )
+}
+
+function parseRangeValue({ value }: { value: DateProps['value'] }) {
+  return (
+    value
+      .split('|')
+      // Assign to null if falsy value, to properly clear input values
+      .map((value) => (/(undefined|null)/.test(value) ? null : value))
+  )
+}
+
+const dateFnslocales = {
+  'nb-NO': nb,
+  'en-GB': enGB,
+}
+
+function validateDateLimit({
+  value,
+  isRange,
+  localeKey,
+  translations,
+  ...params
+}: {
+  value: DateProps['value']
+  minDate: DateProps['minDate']
+  maxDate: DateProps['maxDate']
+  isRange: DateProps['range']
+  localeKey: ProviderProps['locale']
+  translations: (typeof locales)['nb-NO']['Date']
+}) {
+  if (!params.minDate && !params.maxDate) {
+    return []
+  }
+
+  const [startDateParsed, endDateParsed] = parseRangeValue({
+    value,
+  })
+
+  const minDate = convertStringToDate(params.minDate)
+  const maxDate = convertStringToDate(params.maxDate)
+  const startDate = convertStringToDate(startDateParsed)
+  const endDate = convertStringToDate(endDateParsed)
+
+  const locale = dateFnslocales[localeKey]
+  const dateFormat = 'PPP'
+
+  // Handle non range validation
+  if (!isRange) {
+    if (isBefore(startDate, minDate)) {
+      return [
+        new Error(
+          translations.errorMinDate.replace(
+            /%s/,
+            format(minDate, dateFormat, { locale })
+          )
+        ),
+      ]
+    }
+
+    if (isAfter(startDate, maxDate)) {
+      return [
+        new Error(
+          translations.errorMaxDate.replace(
+            /%s/,
+            format(maxDate, dateFormat, { locale })
+          )
+        ),
+      ]
+    }
+
+    return []
+  }
+
+  const messages: Array<Error> = []
+
+  if (isBefore(startDate, minDate)) {
+    messages.push(
+      new Error(
+        translations.errorRangeStartDateMinDate.replace(
+          /%s/,
+          format(minDate, dateFormat, { locale })
+        )
+      )
+    )
+  }
+
+  if (isAfter(startDate, maxDate)) {
+    messages.push(
+      new Error(
+        translations.errorRangeStartDateMaxDate.replace(
+          /%s/,
+          format(maxDate, dateFormat, { locale })
+        )
+      )
+    )
+  }
+
+  if (isBefore(endDate, minDate)) {
+    messages.push(
+      new Error(
+        translations.errorRangeEndDateMinDate.replace(
+          /%s/,
+          format(minDate, dateFormat, { locale })
+        )
+      )
+    )
+  }
+
+  if (isAfter(endDate, maxDate)) {
+    messages.push(
+      new Error(
+        translations.errorRangeEndDateMaxDate.replace(
+          /%s/,
+          format(maxDate, dateFormat, { locale })
+        )
+      )
+    )
+  }
+
+  return messages
 }
 
 // Used to filter out DatePickerProps from the FieldProps.
@@ -249,7 +417,7 @@ const datePickerPropKeys = [
   'onReset',
 ]
 
-function pickDatePickerProps(props: Props) {
+function pickDatePickerProps(props: DateProps) {
   const datePickerProps = Object.keys(props).reduce(
     (datePickerProps, key) => {
       if (datePickerPropKeys.includes(key)) {
