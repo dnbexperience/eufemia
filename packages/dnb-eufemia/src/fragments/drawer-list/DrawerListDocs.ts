@@ -97,7 +97,7 @@ export const DrawerListProperties: PropertiesTableProps = {
     status: 'optional',
   },
   overflowingTextOptions: {
-    doc: 'Provides various ways in which overflowing text can be managed, by using the properties `hyphens`, `wordBreak`, `textOverflow`, `overflow` and `overflowWrap`. For further information, [see data types overview](#data-types-overview).',
+    doc: 'Provides various ways in which overflowing text in options can be managed, by using the properties `hyphens`, `wordBreak`, `textOverflow`, `overflow` and `overflowWrap`. For further information, [see data types overview](#data-types-overview).',
     type: 'object',
     status: 'optional',
   },

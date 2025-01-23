@@ -112,7 +112,7 @@ export interface DrawerListProps {
    */
   direction?: DrawerListDirection;
   /**
-   * Provides various ways in which overflowing text can be managed, by using the properties `hyphens`, `wordBreak`, `textOverflow`, `overflow` and `overflowWrap`.
+   * Provides various ways in which overflowing text in options can be managed, by using the properties `hyphens`, `wordBreak`, `textOverflow`, `overflow` and `overflowWrap`.
    */
   overflowingTextOptions?: DrawerListOverflowingTextOptions;
   size?: DrawerListSize;
@@ -242,7 +242,7 @@ export type DrawerListItemProps = {
     value: string;
   }) => void;
   /**
-   * Provides various ways in which overflowing text can be managed, by using the properties `hyphens`, `wordBreak`, `textOverflow`, `overflow` and `overflowWrap`.
+   * Provides various ways in which overflowing text in options can be managed, by using the properties `hyphens`, `wordBreak`, `textOverflow`, `overflow` and `overflowWrap`.
    */
   overflowingTextOptions?: DrawerListOverflowingTextOptions;
 };
