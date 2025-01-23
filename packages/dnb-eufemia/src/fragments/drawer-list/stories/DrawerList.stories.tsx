@@ -139,7 +139,7 @@ const DrawerStory = () => {
   )
 }
 
-export const DrawerListHyphenation = () => {
+export const DrawerListHyphens = () => {
   return (
     <Wrapper>
       <Box>
@@ -156,7 +156,7 @@ export const DrawerListHyphenation = () => {
             >
               The longest word in the Oxford English Dictionary is the
               45-letter pneumonoultramicroscopicsilicovolcanoconiosis,
-              which refers to a form of lung disease. (hyphenation="none")
+              which refers to a form of lung disease. (hyphens="none")
             </DrawerList.Item>
             <DrawerList.Item
               key="B"
@@ -169,8 +169,7 @@ export const DrawerListHyphenation = () => {
             >
               The longest word in the Oxford English Dictionary is the
               45-letter pneumonoultramicroscopicsilicovolcanoconiosis,
-              which refers to a form of lung disease.
-              (hyphenation="manual")
+              which refers to a form of lung disease. (hyphens="manual")
             </DrawerList.Item>
             <DrawerList.Item
               key="C"
@@ -183,7 +182,7 @@ export const DrawerListHyphenation = () => {
             >
               The longest word in the Oxford English Dictionary is the
               45-letter pneumonoultramicroscopicsilicovolcanoconiosis,
-              which refers to a form of lung disease. (hyphenation="auto")
+              which refers to a form of lung disease. (hyphens="auto")
             </DrawerList.Item>
           </DrawerList.Options>
         </DrawerList>
@@ -192,7 +191,7 @@ export const DrawerListHyphenation = () => {
   )
 }
 
-export const DrawerListHyphenationData = () => {
+export const DrawerListHyphensData = () => {
   return (
     <Wrapper>
       <Box>
@@ -201,19 +200,21 @@ export const DrawerListHyphenationData = () => {
           skip_portal
           data={[
             {
-              hyphenation: 'none',
+              overflowingTextOptions: { hyphens: 'none' },
               content:
-                'The longest word in the Oxford English Dictionary is the 45-letter pneumonoultramicroscopicsilicovolcanoconiosis, which refers to a form of lung disease. (hyphenation="none")',
+                'The longest word in the Oxford English Dictionary is the 45-letter pneumonoultramicroscopicsilicovolcanoconiosis, which refers to a form of lung disease. (hyphens="none")',
             },
             {
-              hyphenation: 'manual',
+              overflowingTextOptions: { hyphens: 'manual' },
+
               content:
-                'The longest word in the Oxford English Dictionary is the 45-letter pneumonoultramicroscopicsilicovolcanoconiosis, which refers to a form of lung disease. (hyphenation="manual")',
+                'The longest word in the Oxford English Dictionary is the 45-letter pneumonoultramicroscopicsilicovolcanoconiosis, which refers to a form of lung disease. (hyphens="manual")',
             },
             {
-              hyphenation: 'auto',
+              overflowingTextOptions: { hyphens: 'auto' },
+
               content:
-                'The longest word in the Oxford English Dictionary is the 45-letter pneumonoultramicroscopicsilicovolcanoconiosis, which refers to a form of lung disease. (hyphenation="auto")',
+                'The longest word in the Oxford English Dictionary is the 45-letter pneumonoultramicroscopicsilicovolcanoconiosis, which refers to a form of lung disease. (hyphens="auto")',
             },
           ]}
         />

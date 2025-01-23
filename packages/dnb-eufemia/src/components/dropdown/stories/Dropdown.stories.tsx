@@ -1067,7 +1067,7 @@ export const HyphensExample = () => {
         overflowingTextOptions={{ hyphens: 'auto' }}
         data={[
           [
-            'The longest word in the Oxford English Dictionary is the 45-letter pneumonoultramicroscopicsilicovolcanoconiosis, which refers to a form of lung disease. (hyphenation="auto")',
+            'The longest word in the Oxford English Dictionary is the 45-letter pneumonoultramicroscopicsilicovolcanoconiosis, which refers to a form of lung disease. (hyphens="auto")',
           ],
         ]}
       />
