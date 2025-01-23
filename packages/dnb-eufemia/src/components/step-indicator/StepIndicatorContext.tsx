@@ -92,7 +92,9 @@ export function StepIndicatorProvider(props: StepIndicatorProviderProps) {
     return props.data || []
   }, [props])
 
-  const [openState, setOpenState] = useState<boolean>(false)
+  const [openState, setOpenState] = useState<boolean>(
+    props.expandedInitially
+  )
 
   const openHandler = useCallback(() => {
     setOpenState(true)

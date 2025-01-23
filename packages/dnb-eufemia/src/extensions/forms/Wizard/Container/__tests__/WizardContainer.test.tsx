@@ -91,6 +91,28 @@ describe('Wizard.Container', () => {
     expect(secondStep.querySelector('.dnb-anchor').tagName).toBe('SPAN')
   })
 
+  it('start expanded with expandedInitially', () => {
+    render(
+      <>
+        <Wizard.Container expandedInitially>
+          <Wizard.Step title="Step 1">
+            <Wizard.NextButton />
+          </Wizard.Step>
+          <Wizard.Step title="Step 2">
+            <Wizard.PreviousButton />
+          </Wizard.Step>
+        </Wizard.Container>
+      </>
+    )
+    expect(
+      document.querySelector('button.dnb-step-indicator__trigger__button')
+    ).toHaveClass('dnb-step-indicator__trigger__button--expanded')
+
+    expect(
+      document.querySelectorAll('li.dnb-step-indicator__item')
+    ).toHaveLength(2)
+  })
+
   it('should call event listener "onStepChange"', async () => {
     const onStepChange = jest.fn()
 
