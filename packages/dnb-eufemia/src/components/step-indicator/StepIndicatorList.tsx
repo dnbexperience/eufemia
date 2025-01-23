@@ -23,6 +23,7 @@ function StepIndicatorList() {
     closeHandler,
     countSteps,
     data,
+    no_animation,
   } = useContext(StepIndicatorContext)
   const Element = mode === 'static' ? 'div' : 'nav'
 
@@ -30,6 +31,7 @@ function StepIndicatorList() {
   skeletonDOMAttributes(params, skeleton)
   return (
     <HeightAnimation
+      animate={!no_animation}
       open={openState}
       onOpen={(state) => {
         if (state) {

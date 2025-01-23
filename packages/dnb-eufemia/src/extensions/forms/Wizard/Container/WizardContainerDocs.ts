@@ -22,7 +22,7 @@ export const WizardContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   noAnimation: {
-    doc: 'Determines if the height animation for step items and the drawer button will run. Inherited from StepIndicator. Defaults to `true`.',
+    doc: 'If set to `true`, the height animation on step change and list expansion will be omitted. Inherited from StepIndicator. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },

@@ -46,6 +46,7 @@ function StepIndicatorTriggerButton({
     openHandler,
     skeleton,
     filterAttributes,
+    no_animation,
   } = contextWithoutData
 
   const item = data[activeStep || 0]
@@ -97,7 +98,7 @@ function StepIndicatorTriggerButton({
         bottom: 'small',
       }}
     >
-      <HeightAnimation>
+      <HeightAnimation animate={!no_animation}>
         <div {...(triggerParams as React.HTMLProps<HTMLDivElement>)}>
           <span className="dnb-sr-only" id={id + '-overview'}>
             {overview_title}

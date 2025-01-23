@@ -32,7 +32,7 @@ export const StepIndicatorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   no_animation: {
-    doc: 'If set to `true`, the height animation on the step items and the drawer button will be omitted. Defaults to `false`.',
+    doc: 'If set to `true`, the height animation on step change and list expansion will be omitted. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
