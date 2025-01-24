@@ -135,7 +135,7 @@ describe('CancelButton', () => {
     expect(setShowBoundaryErrors).toHaveBeenCalledWith(false)
   })
 
-  it('should call "setShowError=true" when hasError and hasVisibleError is true and initialContainerMode is "auto"', () => {
+  it('should call "setShowError=false" when hasError and hasVisibleError is true and initialContainerMode is "auto"', () => {
     const setShowError = jest.fn()
     const setShowBoundaryErrors = jest.fn()
 
@@ -164,9 +164,9 @@ describe('CancelButton', () => {
 
     fireEvent.click(document.querySelector('button'))
     expect(setShowError).toHaveBeenCalledTimes(1)
-    expect(setShowError).toHaveBeenCalledWith(true)
+    expect(setShowError).toHaveBeenCalledWith(false)
     expect(setShowBoundaryErrors).toHaveBeenCalledTimes(1)
-    expect(setShowBoundaryErrors).toHaveBeenCalledWith(true)
+    expect(setShowBoundaryErrors).toHaveBeenCalledWith(false)
   })
 
   it('should call "setShowError=false" when hasError is false and hasVisibleError is true', () => {

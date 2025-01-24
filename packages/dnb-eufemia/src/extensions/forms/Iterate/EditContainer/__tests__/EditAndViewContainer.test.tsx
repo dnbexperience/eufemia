@@ -552,11 +552,15 @@ describe('EditContainer and ViewContainer', () => {
 
     await userEvent.click(cancelButton)
 
-    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
 
     await userEvent.click(editButton)
 
-    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
 
     await userEvent.click(doneButton)
 
@@ -983,9 +987,7 @@ describe('EditContainer and ViewContainer', () => {
       document.querySelector('.dnb-form-status')
     ).not.toBeInTheDocument()
 
-    const [doneButton, cancelButton] = Array.from(
-      document.querySelectorAll('button')
-    )
+    const [doneButton] = Array.from(document.querySelectorAll('button'))
     const input = document.querySelector('input')
     fireEvent.submit(input)
 
@@ -1005,7 +1007,7 @@ describe('EditContainer and ViewContainer', () => {
       expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(0)
     })
 
-    await userEvent.click(cancelButton)
+    await userEvent.click(doneButton)
 
     // Expect 2, because we already have an error in the field
     expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(2)

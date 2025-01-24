@@ -265,7 +265,7 @@ describe('EditContainer and ViewContainer', () => {
       ).toHaveTextContent(nb.SectionEditContainer.errorInSection)
     })
 
-    it('the cancel button should not cancel the edit mode', async () => {
+    it('the cancel button should cancel the edit mode', async () => {
       let containerMode = null
 
       const ContextConsumer = () => {
@@ -300,9 +300,13 @@ describe('EditContainer and ViewContainer', () => {
 
       await userEvent.click(cancelButton)
 
-      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(3)
+      await waitFor(() => {
+        expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(
+          0
+        )
+      })
 
-      expect(containerMode).toBe('edit')
+      expect(containerMode).toBe('view')
     })
   })
 
@@ -635,7 +639,7 @@ describe('EditContainer and ViewContainer', () => {
     expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
     expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
 
-    await userEvent.click(cancelButton)
+    await userEvent.click(doneButton)
 
     expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(2)
 
@@ -694,12 +698,12 @@ describe('EditContainer and ViewContainer', () => {
       document.querySelectorAll('button')
     )
     await userEvent.click(cancelButton)
-    expect(onCancel).toHaveBeenCalledTimes(0)
+    expect(onCancel).toHaveBeenCalledTimes(1)
 
     await userEvent.type(document.querySelector('input'), 'foo')
 
     await userEvent.click(cancelButton)
-    expect(onCancel).toHaveBeenCalledTimes(1)
+    expect(onCancel).toHaveBeenCalledTimes(2)
   })
 
   it('should emit "onEdit" event when cancel button is clicked', async () => {
