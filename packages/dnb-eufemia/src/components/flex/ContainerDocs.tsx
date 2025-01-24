@@ -51,7 +51,7 @@ export const FlexContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   gap: {
-    doc: 'How much space between child items. Can define both horizontal and vertical spacing depending on layout. Can also be `false` for no spacing.',
+    doc: 'How much space between child items. Defines either horizontal and vertical spacing depending on layout. Can also be `false` for no spacing.',
     type: [
       `'xx-small'`,
       `'x-small'`,
@@ -66,7 +66,7 @@ export const FlexContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   rowGap: {
-    doc: 'Used to set a different space between rows than the `gap` prop. Use `false` for no row gap.',
+    doc: 'How much space between wrapped rows when direction is horizontal. Use `false` for no row gap. Has no effect when direction is vertical.',
     type: [
       `'xx-small'`,
       `'x-small'`,
@@ -77,7 +77,7 @@ export const FlexContainerProperties: PropertiesTableProps = {
       `'xx-large'`,
       'false',
     ],
-    defaultValue: 'undefined',
+    defaultValue: `'small'`,
     status: 'optional',
   },
   element: {

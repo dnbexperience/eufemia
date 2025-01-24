@@ -109,7 +109,7 @@ function Card(props: Props) {
           align={stack ? 'stretch' : align}
           wrap={!stack}
           gap={gap ?? spacing ?? (stack ? 'medium' : false)}
-          rowGap={rowGap}
+          rowGap={rowGap || false}
         >
           {title && (
             <Space id={titleId} className="dnb-card__title">

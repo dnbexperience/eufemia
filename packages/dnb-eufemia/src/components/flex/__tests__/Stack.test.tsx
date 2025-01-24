@@ -37,6 +37,7 @@ describe('Flex.Stack', () => {
     expect(Array.from(element.classList)).toEqual([
       'dnb-space',
       'dnb-flex-container',
+      'dnb-flex-container--row-gap-off',
       'dnb-flex-stack',
       'custom-class',
       'dnb-flex-container--direction-vertical',

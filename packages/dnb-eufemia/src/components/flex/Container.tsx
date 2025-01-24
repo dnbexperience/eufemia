@@ -105,21 +105,17 @@ function FlexContainer(props: Props) {
     direction = 'horizontal',
     wrap = true,
     sizeCount = 12,
-    rowGap,
+    rowGap = 'small',
     justify = 'flex-start',
     align = 'flex-start',
     alignSelf,
     divider = 'space',
-    gap = 'small',
+    gap: spacing = 'small',
     breakpoints,
     queries,
     ...rest
   } = handleDeprecatedProps(props)
 
-  const spacing =
-    (direction === 'vertical' && rowGap !== undefined
-      ? false
-      : undefined) ?? gap
   const childrenArray = replaceRootFragment(wrapChildren(props, children))
   const hasHeading = childrenArray.some((child, i) => {
     const previousChild = childrenArray?.[i - 1]
@@ -218,18 +214,12 @@ function FlexContainer(props: Props) {
 
   const n = 'dnb-flex-container'
   const getRowGapClass = useCallback(() => {
-    if (rowGap === false) {
-      return `${n}--row-gap-off`
-    }
-
-    if (typeof rowGap === 'string') {
+    if (rowGap !== false && direction === 'horizontal') {
       return `${n}--row-gap-${rowGap}`
     }
 
-    if (spacing && direction === 'horizontal') {
-      return `${n}--row-gap-${spacing}`
-    }
-  }, [direction, rowGap, spacing])
+    return `${n}--row-gap-off`
+  }, [rowGap, direction])
 
   const cn = classnames(
     'dnb-flex-container',
