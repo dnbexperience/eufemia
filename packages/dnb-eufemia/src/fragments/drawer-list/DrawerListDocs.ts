@@ -17,17 +17,17 @@ export const DrawerListProperties: PropertiesTableProps = {
     status: 'optional',
   },
   triangle_position: {
-    doc: "Position of the arrow icon/triangle inside the drawer-list. Set to 'left' or 'right'. Defaults to 'left' if not set.",
+    doc: 'Position of the arrow icon/triangle inside the drawer-list. Set to `left` or `right`. Defaults to `left` if not set.',
     type: 'string',
     status: 'optional',
   },
   direction: {
-    doc: "Defines the direction of how the drawer-list shows the options list. Can be 'bottom' or 'top'. Defaults to 'auto'.",
+    doc: 'Defines the direction of how the drawer-list shows the options list. Can be `bottom` or `top`. Defaults to `auto`.',
     type: 'string',
     status: 'optional',
   },
   label_direction: {
-    doc: "The direction of the label. If set to 'horizontal', the label will be positioned horizontally next to the input element. If set to 'vertical', the label will be positioned vertically above the input element.",
+    doc: 'The direction of the label. If set to `horizontal`, the label will be positioned horizontally next to the input element. If set to `vertical`, the label will be positioned vertically above the input element.',
     type: 'string',
     status: 'optional',
   },
@@ -77,7 +77,7 @@ export const DrawerListProperties: PropertiesTableProps = {
     status: 'optional',
   },
   align_drawer: {
-    doc: "Use 'right' to change the options alignment direction. Makes only sense to use in combination with `prevent_selection` or `more_menu` - or if an independent width is used.",
+    doc: 'Use `right` to change the options alignment direction. Makes only sense to use in combination with `prevent_selection` or `more_menu` - or if an independent width is used.',
     type: 'string',
     status: 'optional',
   },
