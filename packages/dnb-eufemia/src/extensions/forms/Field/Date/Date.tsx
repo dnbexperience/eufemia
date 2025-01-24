@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo, useState } from 'react'
+import React, { useCallback, useContext, useMemo } from 'react'
 import { DatePicker } from '../../../../components'
 import { useFieldProps } from '../../hooks'
 import { FieldProps, AllJSONSchemaVersions } from '../../types'
@@ -7,7 +7,9 @@ import classnames from 'classnames'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import SharedContext from '../../../../shared/Context'
 import { parseISO, isValid, isBefore, isAfter, format } from 'date-fns'
-import useTranslation from '../../hooks/useTranslation'
+import useTranslation, {
+  FormsTranslation,
+} from '../../hooks/useTranslation'
 import { formatDate } from '../../Value/Date'
 import {
   DatePickerEvent,
@@ -16,9 +18,8 @@ import {
 import nb from 'date-fns/locale/nb'
 import enGB from 'date-fns/locale/en-GB'
 import { convertStringToDate } from '../../../../components/date-picker/DatePickerCalc'
-import locales from '../../constants/locales'
 import { ProviderProps } from '../../../../shared/Provider'
-import { FormError } from '../../utils'
+import { listFormat } from '../../../../components/list-format'
 
 // `range`, `showInput`, `showCancelButton` and `showResetButton` are not picked from the `DatePickerProps`
 // Since they require `Field.Date` specific comments, due to them having different default values
@@ -86,29 +87,6 @@ function DateComponent(props: DateProps) {
   const translations = useTranslation().Date
   const { locale } = useContext(SharedContext)
 
-  const [dateLimitErrors, setDateLimitErrors] = useState<Array<Error>>(
-    validateDateLimit({
-      value: props.value,
-      minDate: props.minDate,
-      maxDate: props.maxDate,
-      isRange: props.range,
-      localeKey: locale,
-      translations,
-    })
-  )
-
-  const error = useMemo(() => {
-    const errors: Array<Error | FormError> = [...dateLimitErrors]
-
-    if (Array.isArray(props.error)) {
-      errors.push(...props.error)
-    } else if (props.error) {
-      errors.push(props.error as Error | FormError)
-    }
-
-    return errors
-  }, [dateLimitErrors, props.error])
-
   const errorMessages = useMemo(() => {
     return {
       'Field.errorRequired': translations.errorRequired,
@@ -136,12 +114,25 @@ function DateComponent(props: DateProps) {
     },
     []
   )
+  const dateLimitValidator = useCallback(
+    (value: string) => {
+      return validateDateLimit({
+        value: value,
+        minDate: props.minDate,
+        maxDate: props.maxDate,
+        isRange: props.range,
+        localeKey: locale,
+        translations,
+      })
+    },
+    [props.minDate, props.maxDate, props.range, locale, translations]
+  )
 
   const preparedProps: DateProps = {
     ...props,
     errorMessages,
     schema,
-    error,
+    // error,
     fromInput: ({
       date,
       start_date,
@@ -150,21 +141,8 @@ function DateComponent(props: DateProps) {
       return range ? `${start_date}|${end_date}` : date
     },
     validateRequired,
-    onBlurValidator: (value) => {
-      // Ideally onBlurValidator should allow for return an array of Error objects
-      // (makes the message easier to read for humans)
-      // So hopefully this as a temporary solution
-      setDateLimitErrors(
-        validateDateLimit({
-          value: value,
-          minDate: props.minDate,
-          maxDate: props.maxDate,
-          isRange: range,
-          localeKey: locale,
-          translations,
-        })
-      )
-    },
+    onBlurValidator: dateLimitValidator,
+    exportValidators: { dateLimitValidator },
   }
 
   const {
@@ -282,10 +260,10 @@ function validateDateLimit({
   maxDate: DateProps['maxDate']
   isRange: DateProps['range']
   localeKey: ProviderProps['locale']
-  translations: (typeof locales)['nb-NO']['Date']
+  translations: FormsTranslation['Date']
 }) {
   if (!params.minDate && !params.maxDate) {
-    return []
+    return
   }
 
   const [startDateParsed, endDateParsed] = parseRangeValue({
@@ -303,77 +281,67 @@ function validateDateLimit({
   // Handle non range validation
   if (!isRange) {
     if (isBefore(startDate, minDate)) {
-      return [
-        new Error(
-          translations.errorMinDate.replace(
-            /%s/,
-            format(minDate, dateFormat, { locale })
-          )
-        ),
-      ]
-    }
-
-    if (isAfter(startDate, maxDate)) {
-      return [
-        new Error(
-          translations.errorMaxDate.replace(
-            /%s/,
-            format(maxDate, dateFormat, { locale })
-          )
-        ),
-      ]
-    }
-
-    return []
-  }
-
-  const messages: Array<Error> = []
-
-  if (isBefore(startDate, minDate)) {
-    messages.push(
-      new Error(
-        translations.errorRangeStartDateMinDate.replace(
+      return new Error(
+        translations.errorMinDate.replace(
           /%s/,
           format(minDate, dateFormat, { locale })
         )
+      )
+    }
+
+    if (isAfter(startDate, maxDate)) {
+      return new Error(
+        translations.errorMaxDate.replace(
+          /%s/,
+          format(maxDate, dateFormat, { locale })
+        )
+      )
+    }
+
+    return
+  }
+
+  const messages: Array<string> = []
+
+  if (isBefore(startDate, minDate)) {
+    messages.push(
+      translations.errorRangeStartDateMinDate.replace(
+        /%s/,
+        format(minDate, dateFormat, { locale })
       )
     )
   }
 
   if (isAfter(startDate, maxDate)) {
     messages.push(
-      new Error(
-        translations.errorRangeStartDateMaxDate.replace(
-          /%s/,
-          format(maxDate, dateFormat, { locale })
-        )
+      translations.errorRangeStartDateMaxDate.replace(
+        /%s/,
+        format(maxDate, dateFormat, { locale })
       )
     )
   }
 
   if (isBefore(endDate, minDate)) {
     messages.push(
-      new Error(
-        translations.errorRangeEndDateMinDate.replace(
-          /%s/,
-          format(minDate, dateFormat, { locale })
-        )
+      translations.errorRangeEndDateMinDate.replace(
+        /%s/,
+        format(minDate, dateFormat, { locale })
       )
     )
   }
 
   if (isAfter(endDate, maxDate)) {
     messages.push(
-      new Error(
-        translations.errorRangeEndDateMaxDate.replace(
-          /%s/,
-          format(maxDate, dateFormat, { locale })
-        )
+      translations.errorRangeEndDateMaxDate.replace(
+        /%s/,
+        format(maxDate, dateFormat, { locale })
       )
     )
   }
 
-  return messages
+  if (messages.length > 0) {
+    return new Error(listFormat(messages, { locale: localeKey }) as string)
+  }
 }
 
 // Used to filter out DatePickerProps from the FieldProps.
