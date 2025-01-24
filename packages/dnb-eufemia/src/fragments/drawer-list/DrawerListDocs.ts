@@ -12,7 +12,7 @@ export const DrawerListProperties: PropertiesTableProps = {
     status: 'optional',
   },
   default_value: {
-    doc: 'Define a startup value or handle a re-render without handling the state during the re-render by yourself. Defaults to null.',
+    doc: 'Define a startup value or handle a re-render without handling the state during the re-render by yourself. Defaults to `null`.',
     type: 'number',
     status: 'optional',
   },
