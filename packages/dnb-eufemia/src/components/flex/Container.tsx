@@ -27,7 +27,8 @@ type Gap =
 export type BasicProps = {
   direction?: 'horizontal' | 'vertical'
   wrap?: boolean
-  rowGap?: 'small' | 'medium' | 'large' | boolean
+  /** value `true` is deprecated, use `undefined` instead */
+  rowGap?: Gap | true
   sizeCount?: number
   justify?:
     | 'flex-start'
@@ -82,6 +83,18 @@ export function pickFlexContainerProps<T extends Props>(
     ),
   }
 }
+function handleDeprecatedProps({
+  spacing,
+  gap,
+  rowGap,
+  ...rest
+}: Props): Omit<Props, 'spacing'> & { rowGap?: Gap } {
+  return {
+    ...rest,
+    rowGap: rowGap === true ? undefined : rowGap,
+    gap: spacing ?? gap,
+  }
+}
 
 function FlexContainer(props: Props) {
   const {
@@ -97,14 +110,16 @@ function FlexContainer(props: Props) {
     align = 'flex-start',
     alignSelf,
     divider = 'space',
-    gap,
-    spacing: spacingProp,
+    gap = 'small',
     breakpoints,
     queries,
     ...rest
-  } = props
+  } = handleDeprecatedProps(props)
 
-  const spacing = spacingProp ?? gap ?? 'small'
+  const spacing =
+    (direction === 'vertical' && rowGap !== undefined
+      ? false
+      : undefined) ?? gap
   const childrenArray = replaceRootFragment(wrapChildren(props, children))
   const hasHeading = childrenArray.some((child, i) => {
     const previousChild = childrenArray?.[i - 1]
@@ -207,21 +222,14 @@ function FlexContainer(props: Props) {
       return `${n}--row-gap-off`
     }
 
-    if (
-      rowGap === true ||
-      (!rowGap && wrap && direction === 'horizontal')
-    ) {
-      return `${n}--row-gap-small`
-    }
-
-    if (hasSizeProp && spacing) {
-      return `${n}--row-gap-${spacing}`
-    }
-
-    if (rowGap) {
+    if (typeof rowGap === 'string') {
       return `${n}--row-gap-${rowGap}`
     }
-  }, [direction, hasSizeProp, rowGap, spacing, wrap])
+
+    if (spacing && direction === 'horizontal') {
+      return `${n}--row-gap-${spacing}`
+    }
+  }, [direction, rowGap, spacing])
 
   const cn = classnames(
     'dnb-flex-container',

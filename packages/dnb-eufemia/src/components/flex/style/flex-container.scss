@@ -91,6 +91,12 @@
   &--row-gap-off {
     --gap: 0;
   }
+  &--row-gap-xx-small {
+    --gap: var(--spacing-xx-small);
+  }
+  &--row-gap-x-small {
+    --gap: var(--spacing-x-small);
+  }
   &--row-gap-small {
     --gap: var(--spacing-small);
   }
@@ -99,6 +105,12 @@
   }
   &--row-gap-large {
     --gap: var(--spacing-large);
+  }
+  &--row-gap-x-large {
+    --gap: var(--spacing-x-large);
+  }
+  &--row-gap-xx-large {
+    --gap: var(--spacing-xx-large);
   }
 
   &__hr.dnb-hr {
