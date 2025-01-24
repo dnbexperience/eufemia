@@ -106,7 +106,7 @@ export const DrawerListExampleOnlyToVisualize = () => (
 
 export const DrawerListExampleDefault = () => (
   <Wrapper>
-    <ComponentBox scope={{ data }} data-visual-test="drawer-list-default">
+    <ComponentBox scope={{ data }}>
       <DrawerList
         skip_portal
         opened
@@ -153,7 +153,7 @@ export const DrawerListExampleDisabled = () => (
 
 export const DrawerListExampleSingleItem = () => (
   <Wrapper>
-    <ComponentBox scope={{ data }} data-visual-test="drawer-list-events">
+    <ComponentBox scope={{ data }}>
       {() => {
         const CustomComponent = () => (
           <CustomComponentInner
@@ -213,7 +213,7 @@ export const DrawerListExampleSingleItem = () => (
 
 export const DrawerListExampleMarkup = () => (
   <Wrapper>
-    <ComponentBox data-visual-test="drawer-items">
+    <ComponentBox>
       {() => {
         const list = [{ value: 'A' }, { value: 'B' }, { value: 'C' }]
         const CustomWidth = styled(DrawerList)`
