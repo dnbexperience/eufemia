@@ -34,6 +34,8 @@ export type Props = Omit<
     path?: Path
     itemPath?: Path
     limit?: number
+    fieldLabel?: React.ReactNode
+    valueLabel?: React.ReactNode
     countPath?: Path
     countPathLimit?: number
     onChangeValidator?: Validator<Value>

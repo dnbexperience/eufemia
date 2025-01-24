@@ -255,11 +255,12 @@ function FieldBlock(props: Props) {
     }
   }, [])
 
+  const setBlockRecordNested = nestedFieldBlockContext?.setBlockRecord
   const setBlockRecord = useCallback(
     (props: StateBasis) => {
-      if (nestedFieldBlockContext) {
+      if (setBlockRecordNested) {
         // If this FieldBlock is inside another one, forward the call to the outer one
-        nestedFieldBlockContext.setBlockRecord(props)
+        setBlockRecordNested(props)
         return
       }
 
@@ -267,7 +268,7 @@ function FieldBlock(props: Props) {
 
       forceUpdate()
     },
-    [nestedFieldBlockContext, setInternalRecord]
+    [setBlockRecordNested, setInternalRecord]
   )
 
   const setFieldState = useCallback(

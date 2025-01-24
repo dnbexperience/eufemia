@@ -57,6 +57,16 @@ export const ArrayProperties: PropertiesTableProps = {
     type: 'React.Node',
     status: 'optional',
   },
+  fieldLabel: {
+    doc: 'A label that looks like a `Field.*` label. Semantically it will be a fieldset with a legend.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  valueLabel: {
+    doc: 'A label that looks like a `Value.*` label.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
   emptyValue: {
     doc: 'Will be used to compare the value in order to show the placeholder.',
     type: 'unknown',

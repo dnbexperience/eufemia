@@ -11,7 +11,13 @@ import classnames from 'classnames'
 import pointer from '../../utils/json-pointer'
 import { useFieldProps, usePath } from '../../hooks'
 import { makeUniqueId } from '../../../../shared/component-helper'
-import { Flex, FormStatus, HeightAnimation } from '../../../../components'
+import {
+  Flex,
+  FormLabel,
+  FormStatus,
+  HeightAnimation,
+  Space,
+} from '../../../../components'
 import { Span } from '../../../../elements'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
@@ -94,15 +100,28 @@ function ArrayComponent(props: Props) {
 
   const validateRequired = useCallback(
     (value: Value, { emptyValue, required, error }) => {
-      return required &&
+      // if (props.validateInitially) {
+      //   console.log('validateRequired', props.validateInitially, value)
+      // }
+      if (
+        required &&
         (!value || value?.length === 0 || value === emptyValue)
-        ? error
-        : undefined
+      ) {
+        return error
+      }
     },
     []
   )
 
   const preparedProps = useMemo(() => {
+    const shared = {
+      required: false,
+      // validateUnchanged: true,
+      // validateContinuously: true,
+      inFieldBlock: false, // To ensure validation is handled without being sent down to the FieldBlock.
+      validateRequired,
+    }
+
     if (countPath) {
       const arrayValue = getValueByPath(pathProp)
       const newValue = []
@@ -116,16 +135,14 @@ function ArrayComponent(props: Props) {
       }
 
       return {
-        required: false,
-        validateRequired,
+        ...shared,
         ...props,
         value: newValue,
       }
     }
 
     return {
-      required: false,
-      validateRequired,
+      ...shared,
       ...props,
     }
   }, [
@@ -145,6 +162,8 @@ function ArrayComponent(props: Props) {
     limit,
     error,
     withoutFlex,
+    fieldLabel,
+    valueLabel,
     emptyValue,
     placeholder,
     containerMode,
@@ -342,16 +361,16 @@ function ArrayComponent(props: Props) {
     }
   }, [arrayValue, arrayItems, onChange])
 
+  const spaceProps = pickSpacingProps(props)
   const flexProps: FlexContainerProps & {
     innerRef: FlexContainerAllProps['innerRef']
   } = {
     className: classnames(
       'dnb-forms-iterate',
-      'dnb-forms-section',
+      'dnb-forms-section', // To support containers
       props?.className
     ),
     ...pickFlexContainerProps(props as FlexContainerProps),
-    ...pickSpacingProps(props),
     innerRef: containerRef,
   }
 
@@ -409,26 +428,75 @@ function ArrayComponent(props: Props) {
       })
     )
 
-  const content = omitFlex ? (
+  const contentWithFlex = omitFlex ? (
     arrayElements
   ) : (
-    <Flex.Stack {...flexProps}>{arrayElements}</Flex.Stack>
+    <Flex.Stack
+      {...flexProps}
+      {...(fieldLabel || valueLabel ? null : spaceProps)}
+    >
+      {arrayElements}
+    </Flex.Stack>
+  )
+
+  const contentWithHeightAnimation = animate ? (
+    <HeightAnimation>{contentWithFlex}</HeightAnimation>
+  ) : (
+    contentWithFlex
   )
 
   return (
-    <>
-      {animate ? <HeightAnimation>{content}</HeightAnimation> : content}
+    <RenderWithLabel
+      fieldLabel={fieldLabel}
+      valueLabel={valueLabel}
+      {...spaceProps}
+    >
+      {contentWithHeightAnimation}
 
       <FormStatus
         show={Boolean(error || limitWarning)}
         state={!error && limitWarning ? 'warning' : undefined}
-        shellSpace={{ top: 0, bottom: 'medium' }}
         no_animation={false}
       >
         {getMessagesFromError({ content: error || limitWarning })[0]}
       </FormStatus>
-    </>
+    </RenderWithLabel>
   )
+}
+
+type RenderWithLabelProps = {
+  fieldLabel?: Props['fieldLabel']
+  valueLabel?: Props['valueLabel']
+  className?: string
+  children: React.ReactNode
+}
+
+function RenderWithLabel(props: RenderWithLabelProps) {
+  const { fieldLabel, valueLabel, className, children, ...rest } = props
+
+  if (fieldLabel || valueLabel) {
+    return (
+      <Space
+        className={classnames('dnb-forms-field-block', className)}
+        element={fieldLabel ? 'fieldset' : 'span'}
+        {...rest}
+      >
+        {(fieldLabel || valueLabel) && (
+          <FormLabel
+            className="dnb-forms-field-block__label"
+            element={fieldLabel ? 'legend' : 'strong'}
+            bottom="x-small"
+          >
+            {fieldLabel ?? valueLabel}
+          </FormLabel>
+        )}
+
+        {children}
+      </Space>
+    )
+  }
+
+  return children
 }
 
 ArrayComponent._supportsSpacingProps = true

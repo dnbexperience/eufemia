@@ -147,14 +147,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     ) => additionalArgs,
     fromExternal = (value: Value) => value,
     validateRequired = (value, { emptyValue, required, error }) => {
-      const res =
+      if (
         required &&
         ((value as unknown) === emptyValue ||
           (typeof emptyValue === 'undefined' && value === ''))
-          ? error
-          : undefined
-
-      return res
+      ) {
+        return error
+      }
     },
   } = props
 
@@ -221,7 +220,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   const disabled = disabledProp ?? props.readOnly
   const inFieldBlock = Boolean(
-    fieldBlockContext && fieldBlockContext.disableStatusSummary !== true
+    props.inFieldBlock ??
+      (fieldBlockContext &&
+        fieldBlockContext.disableStatusSummary !== true)
   )
   const {
     setBlockRecord,
@@ -563,9 +564,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     if (!revealErrorRef.current) {
       revealErrorRef.current = true
       showFieldErrorFieldBlock?.(identifier, true)
-      setVisibleErrorBoundary?.(identifier, !!localErrorRef.current)
-      setVisibleErrorDataContext?.(identifier, !!localErrorRef.current)
     }
+
+    setVisibleErrorBoundary?.(identifier, !!localErrorRef.current)
+    setVisibleErrorDataContext?.(identifier, !!localErrorRef.current)
   }, [
     identifier,
     setVisibleErrorDataContext,
@@ -2394,6 +2396,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     setChanged,
     setDisplayValue,
     validateValue,
+    revealError,
     forceUpdate,
 
     /** Internal */

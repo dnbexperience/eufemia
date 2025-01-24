@@ -432,6 +432,7 @@ export interface UseFieldProps<
    * For internal use only.
    */
   valueType?: string | number | boolean | Array<string | number | boolean>
+  inFieldBlock?: boolean
 }
 
 export type FieldProps<
