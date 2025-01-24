@@ -1141,7 +1141,7 @@ describe('Field.PhoneNumber', () => {
     })
 
     fireEvent.focus(input)
-    await userEvent.type(input, '{ArrowRight>5}8888')
+    await userEvent.type(input, '{ArrowRight>6} 8888')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
       '/myValue': '+47 99 99 88 88',
