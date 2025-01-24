@@ -180,9 +180,15 @@ function isString(str: string) {
 }
 
 function isPrimitive(type: string) {
-  return ['boolean', 'number', 'bigint', 'string', 'symbol'].includes(
-    typeWithoutArray(type),
-  )
+  return [
+    'boolean',
+    'true',
+    'false',
+    'number',
+    'bigint',
+    'string',
+    'symbol',
+  ].includes(typeWithoutArray(type))
 }
 
 function typeWithoutArray(type: string) {
