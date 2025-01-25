@@ -45,7 +45,7 @@ describe('CancelButton', () => {
     expect(button).toHaveTextContent(nb.cancelButton)
   })
 
-  it('should not call "setShowError" when hasSubmitError is true and hasVisibleError is false', () => {
+  it('should call "setShowError" when hasSubmitError is true and hasVisibleError is false', () => {
     const setShowError = jest.fn()
     const setShowBoundaryErrors = jest.fn()
 
@@ -72,12 +72,12 @@ describe('CancelButton', () => {
     )
 
     fireEvent.click(document.querySelector('button'))
-    expect(setShowError).toHaveBeenCalledTimes(0)
+    expect(setShowError).toHaveBeenCalledTimes(1)
     expect(setShowBoundaryErrors).toHaveBeenCalledTimes(1)
-    expect(setShowBoundaryErrors).toHaveBeenCalledWith(true)
+    expect(setShowBoundaryErrors).toHaveBeenCalledWith(false)
   })
 
-  it('should call "setShowError=true" when hasSubmitError and hasVisibleError is true', () => {
+  it('should call "setShowError=false" when hasSubmitError and hasVisibleError is true', () => {
     const setShowError = jest.fn()
     const setShowBoundaryErrors = jest.fn()
 
@@ -105,12 +105,12 @@ describe('CancelButton', () => {
 
     fireEvent.click(document.querySelector('button'))
     expect(setShowError).toHaveBeenCalledTimes(1)
-    expect(setShowError).toHaveBeenCalledWith(true)
+    expect(setShowError).toHaveBeenCalledWith(false)
     expect(setShowBoundaryErrors).toHaveBeenCalledTimes(1)
-    expect(setShowBoundaryErrors).toHaveBeenCalledWith(true)
+    expect(setShowBoundaryErrors).toHaveBeenCalledWith(false)
   })
 
-  it('should call "setShowError=true" when hasError and hasVisibleError is true and initialContainerMode is "auto"', () => {
+  it('should call "setShowError=false" when hasError and hasVisibleError is true and initialContainerMode is "auto"', () => {
     const setShowError = jest.fn()
     const setShowBoundaryErrors = jest.fn()
 
@@ -139,9 +139,9 @@ describe('CancelButton', () => {
 
     fireEvent.click(document.querySelector('button'))
     expect(setShowError).toHaveBeenCalledTimes(1)
-    expect(setShowError).toHaveBeenCalledWith(true)
+    expect(setShowError).toHaveBeenCalledWith(false)
     expect(setShowBoundaryErrors).toHaveBeenCalledTimes(1)
-    expect(setShowBoundaryErrors).toHaveBeenCalledWith(true)
+    expect(setShowBoundaryErrors).toHaveBeenCalledWith(false)
   })
 
   it('should call "setShowError=false" when hasSubmitError is false and hasVisibleError is true', () => {
