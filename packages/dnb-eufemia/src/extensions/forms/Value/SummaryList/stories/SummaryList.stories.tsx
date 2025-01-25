@@ -70,3 +70,27 @@ function ContactInformationEdit() {
     </Form.Section.EditContainer>
   )
 }
+
+export function AnimatedVisibility() {
+  return (
+    <Form.Handler>
+      <Flex.Stack>
+        <Field.Boolean
+          label="Make second field visible when toggled"
+          path="/toggleValue"
+          variant="checkbox"
+        />
+
+        <Form.Card>
+          <Value.SummaryList>
+            <Value.String label="Label" value="First field" />
+
+            <Form.Visibility pathTrue="/toggleValue" animate>
+              <Value.String label="Label" value="Second field" />
+            </Form.Visibility>
+          </Value.SummaryList>
+        </Form.Card>
+      </Flex.Stack>
+    </Form.Handler>
+  )
+}

@@ -3,6 +3,7 @@ import { render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import SummaryList from '../SummaryList'
 import { Field, Form, Value } from '../../..'
+import { axeComponent } from '../../../../../core/jest/jestSetup'
 
 describe('Field.SummaryList', () => {
   it('should forward HTML attributes', () => {
@@ -254,6 +255,72 @@ describe('Field.SummaryList', () => {
 
       expect(labelFoo).toHaveTextContent('FOO LABEL')
       expect(labelBar).toHaveTextContent('BAR LABEL')
+    })
+  })
+
+  describe('with Visibility', () => {
+    it('should preserve the semantic structure of the dl element', async () => {
+      render(
+        <Form.Handler>
+          <Field.Boolean
+            label="Make second field visible when toggled"
+            path="/toggleValue"
+            variant="checkbox"
+          />
+
+          <Value.SummaryList>
+            <Value.String label="Label" value="First field" />
+
+            <Form.Visibility pathTrue="/toggleValue" animate>
+              <Value.String label="Label" value="Second field" />
+            </Form.Visibility>
+          </Value.SummaryList>
+        </Form.Handler>
+      )
+
+      const checkbox = document.querySelector('input')
+      const element = document.querySelector('.dnb-forms-summary-list')
+
+      const firstChild = element.children[0]
+      const secondChild = element.children[1]
+      const thirdChild = element.children[2]
+      const fourthChild = element.children[3]
+
+      expect(element.tagName).toBe('DL')
+
+      expect(firstChild.textContent).toBe('Label')
+      expect(secondChild.textContent).toBe('First field')
+      expect(thirdChild.textContent).toBe('')
+      expect(fourthChild.textContent).toBe('')
+
+      expect(firstChild.tagName).toBe('DT')
+      expect(secondChild.tagName).toBe('DD')
+      expect(thirdChild.tagName).toBe('DT')
+      expect(fourthChild.tagName).toBe('DD')
+
+      await userEvent.click(checkbox)
+
+      expect(firstChild.textContent).toBe('Label')
+      expect(secondChild.textContent).toBe('First field')
+      expect(thirdChild.textContent).toBe('Label')
+      expect(fourthChild.textContent).toBe('Second field')
+
+      expect(firstChild.tagName).toBe('DT')
+      expect(secondChild.tagName).toBe('DD')
+      expect(thirdChild.tagName).toBe('DT')
+      expect(fourthChild.tagName).toBe('DD')
+
+      expect(await axeComponent(element)).toHaveNoViolations()
+
+      await userEvent.click(checkbox)
+
+      expect(firstChild.textContent).toBe('Label')
+      expect(secondChild.textContent).toBe('First field')
+
+      await waitFor(() => {
+        expect(thirdChild.textContent).toBe('')
+        expect(fourthChild.textContent).toBe('')
+      })
     })
   })
 })

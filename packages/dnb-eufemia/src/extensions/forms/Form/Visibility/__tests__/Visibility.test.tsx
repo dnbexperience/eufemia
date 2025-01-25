@@ -2,6 +2,7 @@ import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { FilterData, Provider } from '../../../DataContext'
+import SummaryListContext from '../../../Value/SummaryList/SummaryListContext'
 import Visibility from '../Visibility'
 import useVisibility from '../useVisibility'
 import { Field, Form, Iterate } from '../../..'
@@ -1167,5 +1168,39 @@ describe('Visibility', () => {
       fireEvent.blur(document.querySelector('input'))
       expect(collectResult).toEqual([false, false, false, true])
     })
+  })
+
+  it('should render without additional wrapper when inside SummaryListContext', async () => {
+    const { container, rerender } = render(
+      <SummaryListContext.Provider value={{ isNested: false }}>
+        <Form.Visibility animate pathFalsy="/myField">
+          Child
+        </Form.Visibility>
+      </SummaryListContext.Provider>
+    )
+
+    expect(container.innerHTML).toMatchInlineSnapshot(`"Child"`)
+
+    rerender(
+      <SummaryListContext.Provider value={{ isNested: true }}>
+        <Form.Visibility animate pathFalsy="/myField">
+          Child
+        </Form.Visibility>
+      </SummaryListContext.Provider>
+    )
+
+    expect(document.querySelector('.dnb-forms-visibility')).toHaveClass(
+      'dnb-height-animation'
+    )
+
+    rerender(
+      <SummaryListContext.Provider value={{ isNested: false }}>
+        <Form.Visibility animate pathFalsy="/myField">
+          Child
+        </Form.Visibility>
+      </SummaryListContext.Provider>
+    )
+
+    expect(container.innerHTML).toMatchInlineSnapshot(`"Child"`)
   })
 })
