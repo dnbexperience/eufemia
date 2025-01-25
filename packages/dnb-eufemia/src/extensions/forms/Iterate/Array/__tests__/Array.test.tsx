@@ -670,10 +670,6 @@ describe('Iterate.Array', () => {
         nb.Field.errorRequired
       )
 
-      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Field.errorRequired
-      )
-
       await userEvent.click(document.querySelector('button'))
 
       await waitFor(() => {
@@ -681,6 +677,71 @@ describe('Iterate.Array', () => {
           document.querySelector('.dnb-form-status')
         ).not.toBeInTheDocument()
       })
+    })
+
+    it('should report error to FieldBlock initially', async () => {
+      render(
+        <Form.Handler>
+          <FieldBlock asFieldset>
+            <Iterate.Array path="/items" required validateInitially>
+              <Field.String itemPath="/" />
+            </Iterate.Array>
+          </FieldBlock>
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelector(
+          '.dnb-forms-field-block__status > .dnb-form-status'
+        )
+      ).toHaveTextContent(nb.Field.errorRequired)
+    })
+
+    it('should show and hide error message user interaction', async () => {
+      render(
+        <Form.Handler
+          defaultData={{
+            items: ['foo', 'bar'],
+          }}
+        >
+          <FieldBlock asFieldset>
+            <Iterate.Array path="/items" required>
+              <Field.String itemPath="/" />
+              <Iterate.RemoveButton />
+            </Iterate.Array>
+          </FieldBlock>
+          <Iterate.PushButton path="/items" pushValue="baz" />
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      await userEvent.click(document.querySelector('button'))
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      await userEvent.click(document.querySelector('button'))
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Field.errorRequired
+      )
+
+      // Add a new item
+      await userEvent.click(document.querySelector('button'))
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
     })
   })
 
@@ -1089,7 +1150,6 @@ describe('Iterate.Array', () => {
             <Form.Handler onSubmit={onSubmit}>
               <Iterate.Array path="/myList" defaultValue={[null]}>
                 <Field.String itemPath="/" defaultValue="foo" />
-                <Iterate.RemoveButton />
               </Iterate.Array>
             </Form.Handler>
           </React.StrictMode>

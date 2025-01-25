@@ -104,6 +104,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     updateContextDataInSync = false,
     omitMultiplePathWarning = false,
     forceUpdateWhenContextDataIsSet = false,
+
+    /**
+     * When set to true, errors will always be reported downwards to FieldBlock.
+     * This is useful for when not dealing with blur/focus, like in Iterate.Array.
+     */
+    alwaysRevealError = false,
   } = {}
 ): typeof localProps & ReturnAdditional<Value> {
   const { extend } = useContext(FieldProviderContext)
@@ -147,14 +153,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     ) => additionalArgs,
     fromExternal = (value: Value) => value,
     validateRequired = (value, { emptyValue, required, error }) => {
-      const res =
+      if (
         required &&
         ((value as unknown) === emptyValue ||
           (typeof emptyValue === 'undefined' && value === ''))
-          ? error
-          : undefined
-
-      return res
+      ) {
+        return error
+      }
     },
   } = props
 
@@ -560,18 +565,19 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       return // stop here
     }
 
-    if (!revealErrorRef.current) {
+    if (!revealErrorRef.current || alwaysRevealError) {
       revealErrorRef.current = true
       showFieldErrorFieldBlock?.(identifier, true)
       setVisibleErrorBoundary?.(identifier, !!localErrorRef.current)
       setVisibleErrorDataContext?.(identifier, !!localErrorRef.current)
     }
   }, [
-    identifier,
-    setVisibleErrorDataContext,
-    setVisibleErrorBoundary,
-    showFieldErrorFieldBlock,
     validateInitially,
+    alwaysRevealError,
+    showFieldErrorFieldBlock,
+    identifier,
+    setVisibleErrorBoundary,
+    setVisibleErrorDataContext,
   ])
 
   const hideError = useCallback(() => {
@@ -2394,6 +2400,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     setChanged,
     setDisplayValue,
     validateValue,
+    revealError,
     forceUpdate,
 
     /** Internal */
