@@ -35,7 +35,7 @@ import structuredClone from '@ungap/structured-clone'
 
 type OnlyPath = {
   /**
-   * The path to the array to add the new item to.
+   * The path to the array, to add the new item to.
    */
   path: Path
 
