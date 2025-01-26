@@ -75,7 +75,7 @@ describe('FieldBoundaryProvider', () => {
       hasError: true,
       hasSubmitError: true,
       hasVisibleError: true,
-      showBoundaryErrors: false,
+      showBoundaryErrors: undefined,
       setFieldError: expect.any(Function),
       setVisibleError: expect.any(Function),
       setShowBoundaryErrors: expect.any(Function),
@@ -84,7 +84,7 @@ describe('FieldBoundaryProvider', () => {
     expect(contextRef.current.hasError).toBe(true)
     expect(contextRef.current.hasSubmitError).toBe(true)
     expect(contextRef.current.hasVisibleError).toBe(true)
-    expect(contextRef.current.showBoundaryErrors).toBe(false)
+    expect(contextRef.current.showBoundaryErrors).toBe(undefined)
     expect(contextRef.current.errorsRef.current).toMatchObject({
       'id-r0': true,
     })
@@ -119,7 +119,7 @@ describe('FieldBoundaryProvider', () => {
     expect(contextRef.current.hasError).toBe(true)
     expect(contextRef.current.hasSubmitError).toBe(true)
     expect(contextRef.current.hasVisibleError).toBe(true)
-    expect(contextRef.current.showBoundaryErrors).toBe(false)
+    expect(contextRef.current.showBoundaryErrors).toBe(undefined)
     expect(contextRef.current.errorsRef.current).toMatchObject({
       '/bar': true,
     })
@@ -167,7 +167,7 @@ describe('FieldBoundaryProvider', () => {
     expect(contextRef.current.hasError).toBe(false)
     expect(contextRef.current.hasSubmitError).toBe(false)
     expect(contextRef.current.hasVisibleError).toBe(false)
-    expect(contextRef.current.showBoundaryErrors).toBe(false)
+    expect(contextRef.current.showBoundaryErrors).toBe(undefined)
 
     rerender(
       <Provider>
@@ -234,7 +234,7 @@ describe('FieldBoundaryProvider', () => {
 
     expect(contextRef.current.hasError).toBe(false)
     expect(contextRef.current.hasSubmitError).toBe(false)
-    expect(contextRef.current.hasVisibleError).toBe(false)
+    expect(contextRef.current.hasVisibleError).toBe(true)
     expect(contextRef.current.errorsRef.current).toMatchObject({})
   })
 
@@ -273,7 +273,7 @@ describe('FieldBoundaryProvider', () => {
 
     expect(contextRef.current.hasError).toBe(false)
     expect(contextRef.current.hasSubmitError).toBe(false)
-    expect(contextRef.current.hasVisibleError).toBe(false)
+    expect(contextRef.current.hasVisibleError).toBe(true)
     expect(contextRef.current.errorsRef.current).toMatchObject({})
   })
 

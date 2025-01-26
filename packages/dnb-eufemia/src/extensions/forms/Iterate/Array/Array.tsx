@@ -94,15 +94,22 @@ function ArrayComponent(props: Props) {
 
   const validateRequired = useCallback(
     (value: Value, { emptyValue, required, error }) => {
-      return required &&
+      if (
+        required &&
         (!value || value?.length === 0 || value === emptyValue)
-        ? error
-        : undefined
+      ) {
+        return error
+      }
     },
     []
   )
 
   const preparedProps = useMemo(() => {
+    const shared = {
+      required: false,
+      validateRequired,
+    }
+
     if (countPath) {
       const arrayValue = getValueByPath(pathProp)
       const newValue = []
@@ -116,16 +123,14 @@ function ArrayComponent(props: Props) {
       }
 
       return {
-        required: false,
-        validateRequired,
+        ...shared,
         ...props,
         value: newValue,
       }
     }
 
     return {
-      required: false,
-      validateRequired,
+      ...shared,
       ...props,
     }
   }, [
@@ -160,6 +165,7 @@ function ArrayComponent(props: Props) {
     updateContextDataInSync: true,
     omitMultiplePathWarning: true,
     forceUpdateWhenContextDataIsSet: Boolean(countPath),
+    alwaysRevealError: true,
   })
 
   // - Call onChange on the data context, if the count value changes
@@ -347,7 +353,7 @@ function ArrayComponent(props: Props) {
   } = {
     className: classnames(
       'dnb-forms-iterate',
-      'dnb-forms-section',
+      'dnb-forms-section', // To support containers
       props?.className
     ),
     ...pickFlexContainerProps(props as FlexContainerProps),
