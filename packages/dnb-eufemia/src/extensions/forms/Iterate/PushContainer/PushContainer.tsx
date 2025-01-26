@@ -39,7 +39,7 @@ type OnlyPath = {
    */
   path: Path
 
-  /** The sub path to the array to add the new item to. */
+  /** The sub path to the array, to add the new item to. */
   itemPath?: Path
 }
 
