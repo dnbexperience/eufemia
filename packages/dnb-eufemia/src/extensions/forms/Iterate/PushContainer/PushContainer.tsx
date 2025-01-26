@@ -45,7 +45,7 @@ type OnlyPath = {
 
 type OnlyItemPath = {
   /**
-   * The path to the array to add the new item to.
+   * The path to the array, to add the new item to.
    */
   path?: Path
 
