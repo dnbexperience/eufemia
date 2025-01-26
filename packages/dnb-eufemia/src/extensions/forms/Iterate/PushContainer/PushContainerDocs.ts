@@ -8,7 +8,7 @@ export const PushContainerProperties: PropertiesTableProps = {
     status: 'required',
   },
   itemPath: {
-    doc: 'The path to the item in a nested array to add the new item to.',
+    doc: 'The path to the item in a nested array, to add the new item to.',
     type: 'string',
     status: 'optional',
   },
