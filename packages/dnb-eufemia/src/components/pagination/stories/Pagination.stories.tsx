@@ -352,7 +352,7 @@ function PaginationRender() {
   )
 }
 
-function PaginationBarSpacing() {
+export function PaginationBarSpacing() {
   return (
     <Section>
       <Pagination
