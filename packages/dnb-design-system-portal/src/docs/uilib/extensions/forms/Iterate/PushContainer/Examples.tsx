@@ -1,3 +1,6 @@
+import React from 'react'
+import ComponentBox from '../../../../../../shared/tags/ComponentBox'
+import { Flex } from '@dnb/eufemia/src'
 import {
   Field,
   Form,
@@ -5,9 +8,6 @@ import {
   Tools,
   Value,
 } from '@dnb/eufemia/src/extensions/forms'
-import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Flex } from '@dnb/eufemia/src'
-import React from 'react'
 
 export { ViewAndEditContainer } from '../Array/Examples'
 
