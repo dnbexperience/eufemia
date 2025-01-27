@@ -354,7 +354,7 @@ interface PaginationInstanceProps extends SpacingProps {
    */
   loadButton?: LoadButtonProps;
   /**
-   * Used to set spacing for the pagination bar.
+   * Used to set spacing for the pagination bar. Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`. See property [space](/uilib/layout/space/properties). 
    */
   paginationBarSpace?: SpaceTypeAll;
   /**
