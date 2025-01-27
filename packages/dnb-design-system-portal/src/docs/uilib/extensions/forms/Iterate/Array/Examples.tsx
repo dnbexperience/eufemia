@@ -824,7 +824,7 @@ export const NestedIterateWithPushContainer = () => {
       hideCode
     >
       {() => {
-        const EditPerson = () => {
+        function EditPerson() {
           return (
             <Flex.Stack>
               <Field.Name.Last itemPath="/name" />
