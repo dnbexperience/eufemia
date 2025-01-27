@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { Field, Form, Value } from '../../..'
+import { Field, Form, Iterate, Value } from '../../..'
 import { Flex, Section } from '../../../../../components'
 import { P, Ul, Li } from '../../../../../elements'
 
@@ -490,6 +490,64 @@ export function VisibilityOnValidation() {
           <Value.Name.First path="/foo" />
         </Form.Visibility>
       </Form.Card>
+    </Form.Handler>
+  )
+}
+
+export function VisibilityInIterate() {
+  return (
+    <Form.Handler
+      defaultData={{
+        // pushContainerItems: [
+        //   {
+        //     goHide: undefined,
+        //   },
+        // ],
+        myArray: [
+          {
+            goHide: undefined,
+          },
+        ],
+      }}
+    >
+      {/* <Iterate.Array path="/myArray">
+        <Form.Visibility withinIterate pathDefined="/goHide">
+          <Field.String label="I'm visible when /iExist is undefined via pathUndefined! But /iExist is defined so I should not be visible?" />
+        </Form.Visibility>
+      </Iterate.Array> */}
+
+      <Iterate.PushContainer
+        top
+        path="/myArray"
+        // isolatedData={{ goHide: true }}
+        defaultData={{ goHide: undefined }}
+      >
+        {/* <Field.String itemPath="/iExist" label="My path is /iExist" /> */}
+        <Form.Visibility withinIterate pathDefined="/goHide">
+          <Field.String label="I'm visible when /iExist is undefined via pathUndefined! But /iExist is defined so I should not be visible?" />
+        </Form.Visibility>
+        {/* We should show a field here, but it's not shown: */}
+        {/* <Form.Visibility pathDefined="/iExist">
+          <Field.String label="I'm visible when /iExist is defined via pathDefined! And /iExist is defined so I should be visible?" />
+        </Form.Visibility> */}
+        {/* And the next Visibility is seemingly not triggered, probably
+        because /goHide is not defined, and visibleWhen only works on
+        defined paths (which makes sense). */}
+        {/* <Form.Visibility
+          visibleWhen={{
+            // path: '/goHide',
+            itemPath: '/goHide',
+            hasValue: (val) => {
+              console.log(
+                "🌟 this is never logged? Can't use visibleWhen to check a undefined item path."
+              )
+              return val === undefined
+            },
+          }}
+        >
+          <Field.String label="I'm visible when /goHide is undefined via visibleWhen! :( ..." />
+        </Form.Visibility> */}
+      </Iterate.PushContainer>
     </Form.Handler>
   )
 }
