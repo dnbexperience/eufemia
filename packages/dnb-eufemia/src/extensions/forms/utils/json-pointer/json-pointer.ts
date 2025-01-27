@@ -62,6 +62,9 @@ export function set<T = JsonObject>(
         obj[tok] = {}
       }
     }
+    if (Object.isFrozen(obj[tok])) {
+      obj[tok] = { ...obj[tok] }
+    }
     obj = obj[tok] as T
   }
 
