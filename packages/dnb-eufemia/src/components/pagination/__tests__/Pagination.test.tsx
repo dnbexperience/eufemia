@@ -645,6 +645,23 @@ describe('Infinity scroller', () => {
     )
   })
 
+  it('should support pagination bar space prop', () => {
+    render(<Pagination paginationBarSpace="2rem" {...props} />)
+
+    const element = document.querySelector('.dnb-pagination__bar')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['class'])
+    expect(Array.from(element.classList)).toEqual(
+      expect.arrayContaining([
+        'dnb-pagination__bar',
+        'dnb-space__top--large',
+      ])
+    )
+  })
+
   it('should support InfinityMarker from createPagination', async () => {
     let resetInfinityHandler
 
