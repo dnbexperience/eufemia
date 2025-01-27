@@ -42,53 +42,74 @@ describe('Selection', () => {
     ).toHaveTextContent('Bar! Text')
   })
 
-  it('renders selected option with the "transformSelection" return', () => {
-    render(
-      <Field.Selection
-        value="bar"
-        transformSelection={(item) => item.title}
-      >
-        <Field.Option value="foo" title="Foo!" text="Text" />
-        <Field.Option value="bar" title="Bar!" text="Text" />
-      </Field.Selection>
-    )
-    expect(
-      document.querySelector('.dnb-dropdown__text__inner').textContent
-    ).toBe('Bar!')
-  })
-
-  it('renders selected data context with the "transformSelection" return', () => {
-    render(
-      <Form.Handler
-        defaultData={{
-          mySelection: 'bar',
-          myList: [
-            {
-              value: 'foo',
-              title: 'Foo!',
-              text: 'Text',
-            },
-            {
-              value: 'bar',
-              title: 'Bar!',
-              text: 'Text',
-            },
-          ],
-        }}
-      >
+  describe('transformSelection', () => {
+    it('renders selected option with the "transformSelection" return', () => {
+      render(
         <Field.Selection
-          path="/mySelection"
-          dataPath="/myList"
+          value="bar"
           transformSelection={(item) => item.title}
         >
-          <Field.Option value="foo" title="Foo" text="Text" />
-          <Field.Option value="bar" title="Bar" text="Text" />
+          <Field.Option value="foo" title="Foo!" text="Text" />
+          <Field.Option value="bar" title="Bar!" text="Text" />
         </Field.Selection>
-      </Form.Handler>
-    )
-    expect(
-      document.querySelector('.dnb-dropdown__text__inner').textContent
-    ).toBe('Bar!')
+      )
+      expect(
+        document.querySelector('.dnb-dropdown__text__inner').textContent
+      ).toBe('Bar!')
+    })
+
+    it('renders selected option with the "transformSelection" return using "children"', () => {
+      render(
+        <Field.Selection
+          value="bar"
+          transformSelection={(item) => item.children}
+        >
+          <Field.Option value="foo" text="Text">
+            Foo!
+          </Field.Option>
+          <Field.Option value="bar" text="Text">
+            Bar!
+          </Field.Option>
+        </Field.Selection>
+      )
+      expect(
+        document.querySelector('.dnb-dropdown__text__inner').textContent
+      ).toBe('Bar!')
+    })
+
+    it('renders selected data context with the "transformSelection" return', () => {
+      render(
+        <Form.Handler
+          defaultData={{
+            mySelection: 'bar',
+            myList: [
+              {
+                value: 'foo',
+                title: 'Foo!',
+                text: 'Text',
+              },
+              {
+                value: 'bar',
+                title: 'Bar!',
+                text: 'Text',
+              },
+            ],
+          }}
+        >
+          <Field.Selection
+            path="/mySelection"
+            dataPath="/myList"
+            transformSelection={(item) => item.title}
+          >
+            <Field.Option value="foo" title="Foo" text="Text" />
+            <Field.Option value="bar" title="Bar" text="Text" />
+          </Field.Selection>
+        </Form.Handler>
+      )
+      expect(
+        document.querySelector('.dnb-dropdown__text__inner').textContent
+      ).toBe('Bar!')
+    })
   })
 
   it('renders selected option with number values', () => {
