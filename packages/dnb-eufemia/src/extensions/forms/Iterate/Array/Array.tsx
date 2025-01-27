@@ -62,9 +62,9 @@ function ArrayComponent(props: Props) {
   const dataContext = useContext(DataContext)
   const summaryListContext = useContext(SummaryListContext)
   const valueBlockContext = useContext(ValueBlockContext)
-  const nestedIteratePath = useItemPath(itemPathProp)
+  const { absolutePath } = useItemPath(itemPathProp)
   const { setLimitProps, error: limitWarning } = useArrayLimit(
-    pathProp || nestedIteratePath
+    pathProp || absolutePath
   )
 
   const { getValueByPath } = useDataValue()
@@ -245,7 +245,7 @@ function ArrayComponent(props: Props) {
         previousContainerMode: modesRef.current[id].previous,
         initialContainerMode: containerMode || 'auto',
         modeOptions: modesRef.current[id].options,
-        nestedIteratePath,
+        absolutePath,
         switchContainerMode: (mode, options = {}) => {
           modesRef.current[id].previous = modesRef.current[id].current
           modesRef.current[id].current = mode
@@ -305,15 +305,7 @@ function ArrayComponent(props: Props) {
 
     // In order to update "valueWhileClosingRef" we need to have "salt" in the deps array
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    salt,
-    arrayValue,
-    limit,
-    path,
-    itemPath,
-    nestedIteratePath,
-    handleChange,
-  ])
+  }, [salt, arrayValue, limit, path, itemPath, absolutePath, handleChange])
 
   const total = arrayItems.length
   useEffect(() => {

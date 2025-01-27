@@ -34,16 +34,16 @@ function PushButton(props: Props) {
     pushValue,
     className,
     path,
-    itemPath: itemPathProp,
+    itemPath,
     text,
     children,
     ...restProps
   } = props
   const buttonProps = omitDataValueReadWriteProps(restProps)
 
-  const itemPath = useItemPath(itemPathProp)
+  const { absolutePath } = useItemPath(itemPath)
 
-  const arrayValue = useDataValue().getValueByPath(path || itemPath)
+  const arrayValue = useDataValue().getValueByPath(path || absolutePath)
 
   const { hasReachedLimit, setShowStatus } = useArrayLimit(path)
 
@@ -62,12 +62,12 @@ function PushButton(props: Props) {
     const newValue =
       typeof pushValue === 'function' ? pushValue(arrayValue) : pushValue
 
-    if (handlePush && !itemPath) {
+    if (handlePush && !absolutePath) {
       // Inside an Iterate element - make the change through the Iterate component
       handlePush(newValue)
     } else {
       // If not inside an iterate, it could still manipulate a source data set through useFieldProps
-      await handlePathChange?.(path || itemPath, [
+      await handlePathChange?.(path || absolutePath, [
         ...(arrayValue ?? []),
         newValue,
       ])
@@ -78,7 +78,7 @@ function PushButton(props: Props) {
     }, 100) // UX improvement because of the "openDelay"
   }, [
     arrayValue,
-    itemPath,
+    absolutePath,
     handlePathChange,
     handlePush,
     hasReachedLimit,

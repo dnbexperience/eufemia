@@ -7,7 +7,7 @@ export default function useItemPath(itemPath: Path) {
   const { joinPath } = usePath()
   const iterateItemContext = useContext(IterateItemContext)
 
-  return (
+  const absolutePath =
     itemPath &&
     iterateItemContext &&
     joinPath([
@@ -15,5 +15,6 @@ export default function useItemPath(itemPath: Path) {
       String(iterateItemContext.index),
       itemPath,
     ])
-  )
+
+  return { absolutePath }
 }

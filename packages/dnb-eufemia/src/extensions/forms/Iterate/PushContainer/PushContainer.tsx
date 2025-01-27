@@ -19,8 +19,8 @@ import { OnCommit, Path } from '../../types'
 import { SpacingProps } from '../../../../shared/types'
 import {
   useArrayLimit,
-  useSwitchContainerMode,
   useItemPath,
+  useSwitchContainerMode,
 } from '../hooks'
 import Toolbar from '../Toolbar'
 import { useTranslation } from '../../hooks'
@@ -33,27 +33,27 @@ import { clearedData } from '../../DataContext/Provider'
  */
 import structuredClone from '@ungap/structured-clone'
 
-type OnlyPath = {
+type OnlyPathRequired = {
   /**
-   * The path to the array, to add the new item to.
+   * The path to the array to add the new item to.
    */
   path: Path
 
-  /** The sub path to the array, to add the new item to. */
+  /** The sub path to the array to add the new item to. */
   itemPath?: Path
 }
 
-type OnlyItemPath = {
+type OnlyItemPathRequired = {
   /**
-   * The path to the array, to add the new item to.
+   * The path to the array to add the new item to.
    */
   path?: Path
 
-  /** The sub path to the array, to add the new item to. */
+  /** The sub path to the array to add the new item to. */
   itemPath: Path
 }
 
-export type Props = (OnlyPath | OnlyItemPath) & {
+export type Props = (OnlyPathRequired | OnlyItemPathRequired) & {
   /**
    * The title of the container.
    */
@@ -123,7 +123,7 @@ function PushContainer(props: AllProps) {
     isolatedData,
     bubbleValidation,
     path,
-    itemPath: itemPathProp,
+    itemPath,
     title,
     required = requiredInherited,
     children,
@@ -133,8 +133,7 @@ function PushContainer(props: AllProps) {
     ...rest
   } = props
 
-  const itemPath = useItemPath(itemPathProp)
-
+  const { absolutePath } = useItemPath(itemPath)
   const commitHandleRef = useRef<() => void>()
   const switchContainerModeRef = useRef<(mode: ContainerMode) => void>()
   const containerModeRef = useRef<ContainerMode>()
@@ -144,9 +143,11 @@ function PushContainer(props: AllProps) {
     getValueByPath,
   } = useDataValue<Array<unknown>>(path || itemPath)
 
-  const { setNextContainerMode } = useSwitchContainerMode(path || itemPath)
+  const { setNextContainerMode } = useSwitchContainerMode(
+    path || absolutePath
+  )
   const { hasReachedLimit, setShowStatus } = useArrayLimit(
-    path || itemPath
+    path || absolutePath
   )
   const cancelHandler = useCallback(() => {
     if (hasReachedLimit) {
@@ -206,9 +207,9 @@ function PushContainer(props: AllProps) {
       commitHandleRef={commitHandleRef}
       transformOnCommit={({ pushContainerItems }) => {
         return moveValueToPath(
-          path || itemPath,
+          path || absolutePath,
           [...entries, ...pushContainerItems],
-          itemPath ? structuredClone(getValueByPath('/')) : {}
+          absolutePath ? structuredClone(getValueByPath('/')) : {}
         )
       }}
       onCommit={(data, options) => {
