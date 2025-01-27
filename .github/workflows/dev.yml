@@ -1,0 +1,80 @@
+name: Dev
+
+on:
+  push:
+    branches:
+      - '**'
+      - '!**--skip-ci'
+      - '!**--visual-reports'
+      - '!wip/**'
+      - '!experiments/**'
+  pull_request:
+    branches:
+      - 'portal'
+      - 'release'
+      - 'beta'
+      - 'alpha'
+      - 'next'
+    types: [opened]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  GH_EMAIL: ${{ secrets.GH_EMAIL }}
+  GH_NAME: ${{ secrets.GH_NAME }}
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
+  FIGMA_ICONS_FILE: ${{ secrets.FIGMA_ICONS_FILE }}
+
+jobs:
+  publish:
+    name: Publish
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 20
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: 'package.json'
+
+      - name: Use node_modules cache
+        uses: actions/cache@v4
+        id: modules-cache
+        with:
+          path: '**/node_modules'
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-
+
+      - name: Install dependencies
+        if: steps.modules-cache.outputs.cache-hit != 'true'
+        run: yarn install --immutable
+
+      - name: Build
+        run: yarn workspace @dnb/eufemia build:ci
+
+      - name: Publish to Stackblitz
+        run: npx pkg-pr-new publish --compact './packages/dnb-eufemia/build' --template './packages/eufemia-starter'
+
+      - name: Slack
+        uses: 8398a7/action-slack@v3
+        with:
+          channel: '#eufemia-dev'
+          status: ${{ job.status }}
+          fields: author,ref,workflow,job,took
+          job_name: Publish to Stackblitz
+          github_base_url: https://github.com/
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+        if: ${{ always() && !github.event.pull_request.head.repo.fork }}
+        continue-on-error: true
