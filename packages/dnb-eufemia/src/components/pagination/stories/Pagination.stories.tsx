@@ -351,3 +351,43 @@ function PaginationRender() {
     </Section>
   )
 }
+
+function PaginationBarSpacing() {
+  return (
+    <Section>
+      <Pagination
+        paginationBarSpace={{
+          top: 'x-large',
+          right: 'large',
+          bottom: 'small small',
+          left: 'x-small x-small small',
+        }}
+        page_count={888}
+        current_page={4}
+        on_change={({ pageNumber }) => {
+          console.log('on_change:', pageNumber)
+        }}
+      />
+      <Pagination
+        paginationBarSpace={{
+          left: 'xx-large',
+        }}
+        page_count={888}
+        current_page={4}
+        on_change={({ pageNumber }) => {
+          console.log('on_change:', pageNumber)
+        }}
+      />
+      <Pagination
+        paginationBarSpace={{
+          left: true,
+        }}
+        page_count={888}
+        current_page={4}
+        on_change={({ pageNumber }) => {
+          console.log('on_change:', pageNumber)
+        }}
+      />
+    </Section>
+  )
+}

@@ -163,6 +163,10 @@ export interface PaginationProps
    * Used to set load button text and icon alignment. Accepts a function returning a ReactNode too, so you can replace the button with your own component.
    */
   loadButton?: LoadButtonProps;
+  /**
+   * Used to set spacing for the pagination bar.
+   */
+  paginationBarSpace?: SpaceTypeAll;
   className?: string;
   /**
    * The given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.
@@ -350,6 +354,10 @@ interface PaginationInstanceProps extends SpacingProps {
    */
   loadButton?: LoadButtonProps;
   /**
+   * Used to set spacing for the pagination bar.
+   */
+  paginationBarSpace?: SpaceTypeAll;
+  /**
    * The given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.
    */
   children?: PaginationInstanceChildren;
@@ -528,6 +536,10 @@ interface InfinityMarkerProps extends SpacingProps {
    * Used to set loadButton text and icon aligment. Accepts a function returning a ReactNode too, so you can replace the button with your own component.
    */
   loadButton?: LoadButtonProps;
+  /**
+   * Used to set spacing for the pagination bar.
+   */
+  paginationBarSpace?: SpaceTypeAll;
   className?: string;
   /**
    * The given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.
