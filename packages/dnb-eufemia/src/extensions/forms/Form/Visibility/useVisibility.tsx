@@ -21,6 +21,18 @@ export default function useVisibility(props?: Partial<Props>) {
   const propsRef = useRef(props)
   propsRef.current = props
 
+  const { withinIterate } = props || {}
+  const makeLocalPath = useCallback(
+    (path: Path) => {
+      if (withinIterate) {
+        return makeIteratePath(path)
+      }
+
+      return makePath(path)
+    },
+    [makeIteratePath, makePath, withinIterate]
+  )
+
   const check = useCallback(
     (
       {
@@ -102,10 +114,13 @@ export default function useVisibility(props?: Partial<Props>) {
         }
       }
 
-      if (pathDefined && !pointer.has(data, makePath(pathDefined))) {
+      if (pathDefined && !pointer.has(data, makeLocalPath(pathDefined))) {
         return false
       }
-      if (pathUndefined && pointer.has(data, makePath(pathUndefined))) {
+      if (
+        pathUndefined &&
+        pointer.has(data, makeLocalPath(pathUndefined))
+      ) {
         return false
       }
 
@@ -115,19 +130,22 @@ export default function useVisibility(props?: Partial<Props>) {
         }
       }
 
-      if (pathTrue && getValue(makePath(pathTrue)) !== true) {
+      if (pathTrue && getValue(makeLocalPath(pathTrue)) !== true) {
         return false
       }
-      if (pathFalse && getValue(makePath(pathFalse)) !== false) {
+      if (pathFalse && getValue(makeLocalPath(pathFalse)) !== false) {
         return false
       }
       if (
         pathTruthy &&
-        Boolean(getValue(makePath(pathTruthy))) === false
+        Boolean(getValue(makeLocalPath(pathTruthy))) === false
       ) {
         return false
       }
-      if (pathFalsy && Boolean(getValue(makePath(pathFalsy))) === true) {
+      if (
+        pathFalsy &&
+        Boolean(getValue(makeLocalPath(pathFalsy))) === true
+      ) {
         return false
       }
       if (inferData && !inferData(data)) {
@@ -135,7 +153,7 @@ export default function useVisibility(props?: Partial<Props>) {
       }
 
       // Deprecated can be removed in v11
-      if (pathValue && getValue(makePath(pathValue)) !== whenValue) {
+      if (pathValue && getValue(makeLocalPath(pathValue)) !== whenValue) {
         return false
       }
 
@@ -144,8 +162,9 @@ export default function useVisibility(props?: Partial<Props>) {
     [
       filterDataHandler,
       originalData,
-      makePath,
+      makeLocalPath,
       makeIteratePath,
+      makePath,
       mountedFieldsRef,
       hasFieldError,
     ]

@@ -159,7 +159,7 @@ describe('Visibility', () => {
 
   describe('inferData', () => {
     it('renders children when infer-function returns true', () => {
-      // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const inferData = jest.fn((data) => true)
       render(
         <Provider data={{ foo: 'bar' }}>
@@ -980,6 +980,384 @@ describe('Visibility', () => {
 
       expect(screen.queryByText('has filter')).not.toBeInTheDocument()
       expect(screen.getByText('has no filter')).toBeInTheDocument()
+    })
+  })
+})
+
+describe('withinIterate', () => {
+  it('renders children when no props is given', () => {
+    render(
+      <Iterate.Array value={[{ foo: 'bar' }]}>
+        <Visibility withinIterate>Child</Visibility>
+      </Iterate.Array>
+    )
+    expect(screen.getByText('Child')).toBeInTheDocument()
+  })
+
+  describe('visibility', () => {
+    it('renders children when visible is true', () => {
+      render(
+        <Iterate.Array value={[{ foo: 'bar' }]}>
+          <Visibility withinIterate visible={true}>
+            Child
+          </Visibility>
+        </Iterate.Array>
+      )
+      expect(screen.getByText('Child')).toBeInTheDocument()
+    })
+
+    it('does not render children when visible is false', () => {
+      render(
+        <Iterate.Array value={[{ foo: 'bar' }]}>
+          <Visibility withinIterate visible={false}>
+            Child
+          </Visibility>
+        </Iterate.Array>
+      )
+      expect(screen.queryByText('Child')).not.toBeInTheDocument()
+    })
+  })
+
+  describe('pathDefined', () => {
+    it('renders children when target path is defined', () => {
+      render(
+        <Provider data={{ myList: [{ isDefined: 'foo' }] }}>
+          <Iterate.Array path="/myList">
+            <Visibility withinIterate pathDefined="/isDefined">
+              Child
+            </Visibility>
+          </Iterate.Array>
+        </Provider>
+      )
+      expect(screen.getByText('Child')).toBeInTheDocument()
+    })
+
+    it('does not render children when target path is not defined', () => {
+      render(
+        <Provider data={{ myList: [{ isDefined: 'foo' }] }}>
+          <Iterate.Array path="/myList">
+            <Visibility withinIterate pathDefined="/notDefined">
+              Child
+            </Visibility>
+          </Iterate.Array>
+        </Provider>
+      )
+      expect(screen.queryByText('Child')).not.toBeInTheDocument()
+    })
+  })
+
+  describe('pathUndefined', () => {
+    it('renders children when target path is defined', () => {
+      render(
+        <Provider data={{ myList: [{ isDefined: 'foo' }] }}>
+          <Iterate.Array path="/myList">
+            <Visibility withinIterate pathUndefined="/isDefined">
+              Child
+            </Visibility>
+          </Iterate.Array>
+        </Provider>
+      )
+      expect(screen.queryByText('Child')).not.toBeInTheDocument()
+    })
+
+    it('does not render children when target path is not defined', () => {
+      render(
+        <Provider data={{ myList: [{ isDefined: 'foo' }] }}>
+          <Iterate.Array path="/myList">
+            <Visibility withinIterate pathUndefined="/notDefined">
+              Child
+            </Visibility>
+          </Iterate.Array>
+        </Provider>
+      )
+      expect(screen.getByText('Child')).toBeInTheDocument()
+    })
+  })
+
+  describe('pathTruthy', () => {
+    it('renders children when target path is truthy', () => {
+      render(
+        <Provider data={{ myList: [{ isTruthy: 'value' }] }}>
+          <Iterate.Array path="/myList">
+            <Visibility withinIterate pathTruthy="/isTruthy">
+              Child
+            </Visibility>
+          </Iterate.Array>
+        </Provider>
+      )
+      expect(screen.getByText('Child')).toBeInTheDocument()
+    })
+
+    it('does not render children when target path is not truthy', () => {
+      render(
+        <Provider data={{ myList: [{ isFalsy: null }] }}>
+          <Iterate.Array path="/myList">
+            <Visibility withinIterate pathTruthy="/isFalsy">
+              Child
+            </Visibility>
+          </Iterate.Array>
+        </Provider>
+      )
+      expect(screen.queryByText('Child')).not.toBeInTheDocument()
+    })
+
+    it('does not render children when target path is not defined', () => {
+      render(
+        <Provider data={{ myList: [{ isFalse: false }] }}>
+          <Iterate.Array path="/myList">
+            <Visibility withinIterate pathTruthy="/isNotDefined">
+              Child
+            </Visibility>
+          </Iterate.Array>
+        </Provider>
+      )
+      expect(screen.queryByText('Child')).not.toBeInTheDocument()
+    })
+  })
+
+  describe('pathFalsy', () => {
+    it('renders children when target path is falsy', () => {
+      render(
+        <Provider data={{ myList: [{ isFalsy: null }] }}>
+          <Iterate.Array path="/myList">
+            <Visibility withinIterate pathFalsy="/isFalsy">
+              Child
+            </Visibility>
+          </Iterate.Array>
+        </Provider>
+      )
+      expect(screen.getByText('Child')).toBeInTheDocument()
+    })
+
+    it('renders children when target path is not defined', () => {
+      render(
+        <Provider data={{ myList: [{ isFalse: false }] }}>
+          <Iterate.Array path="/myList">
+            <Visibility withinIterate pathFalsy="/isNotDefined">
+              Child
+            </Visibility>
+          </Iterate.Array>
+        </Provider>
+      )
+      expect(screen.getByText('Child')).toBeInTheDocument()
+    })
+
+    it('does not render children when target path is not falsy', () => {
+      render(
+        <Provider data={{ myList: [{ isTruthy: 'value' }] }}>
+          <Iterate.Array path="/myList">
+            <Visibility withinIterate pathFalsy="/isTruthy">
+              Child
+            </Visibility>
+          </Iterate.Array>
+        </Provider>
+      )
+      expect(screen.queryByText('Child')).not.toBeInTheDocument()
+    })
+  })
+
+  describe('inferData', () => {
+    it('renders children when infer-function returns true', () => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const inferData = jest.fn((data) => true)
+      render(
+        <Provider data={{ myList: [{ foo: 'bar' }] }}>
+          <Iterate.Array path="/myList">
+            <Visibility withinIterate inferData={inferData}>
+              Child
+            </Visibility>
+          </Iterate.Array>
+        </Provider>
+      )
+      expect(screen.getByText('Child')).toBeInTheDocument()
+    })
+
+    it('does not render children when infer-function return false', () => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const inferData = jest.fn((data) => false)
+      render(
+        <Provider data={{ myList: [{ foo: 'bar' }] }}>
+          <Iterate.Array path="/myList">
+            <Visibility withinIterate inferData={inferData}>
+              Child
+            </Visibility>
+          </Iterate.Array>
+        </Provider>
+      )
+      expect(screen.queryByText('Child')).not.toBeInTheDocument()
+      expect(inferData).toHaveBeenCalledTimes(1)
+      expect(inferData).toHaveBeenLastCalledWith({
+        myList: [{ foo: 'bar' }],
+      })
+    })
+  })
+
+  describe('pathValue', () => {
+    it('renders children when target path and value matches', () => {
+      render(
+        <Provider data={{ myList: [{ myPath: 'checked' }] }}>
+          <Iterate.Array path="/myList">
+            <Visibility
+              withinIterate
+              pathValue="/myPath"
+              whenValue="checked"
+            >
+              Child
+            </Visibility>
+          </Iterate.Array>
+        </Provider>
+      )
+      expect(screen.getByText('Child')).toBeInTheDocument()
+    })
+
+    it('does not render children when target path not not value matches', () => {
+      render(
+        <Provider data={{ myList: [{ myPath: 'checked' }] }}>
+          <Iterate.Array path="/myList">
+            <Visibility
+              withinIterate
+              pathValue="/myPath"
+              whenValue="not-checked"
+            >
+              Child
+            </Visibility>
+          </Iterate.Array>
+        </Provider>
+      )
+      expect(screen.queryByText('Child')).toBeNull()
+    })
+  })
+
+  describe('visibleWhen', () => {
+    it('should render children when hasValue matches', () => {
+      render(
+        <Provider data={{ myList: [{ myPath: 'foo' }] }}>
+          <Iterate.Array path="/myList">
+            <Visibility
+              withinIterate // is not needed, because we use itemPath
+              visibleWhen={{ itemPath: '/myPath', hasValue: 'foo' }}
+            >
+              Child
+            </Visibility>
+          </Iterate.Array>
+        </Provider>
+      )
+      expect(screen.getByText('Child')).toBeInTheDocument()
+    })
+
+    it('should not render children when hasValue not matches', () => {
+      render(
+        <Provider data={{ myList: [{ myPath: 'foo' }] }}>
+          <Iterate.Array path="/myList">
+            <Visibility
+              withinIterate // is not needed, because we use itemPath
+              visibleWhen={{ itemPath: '/myPath', hasValue: 'bar' }}
+            >
+              Child
+            </Visibility>
+          </Iterate.Array>
+        </Provider>
+      )
+      expect(screen.queryByText('Child')).not.toBeInTheDocument()
+    })
+
+    it('should not render children when path not matches', () => {
+      render(
+        <Provider data={{ myList: [{ myPath: 'foo' }] }}>
+          <Iterate.Array path="/myList">
+            <Visibility
+              withinIterate // is not needed, because we use itemPath
+              visibleWhen={{
+                itemPath: '/nonExistingPath',
+                hasValue: 'foo',
+              }}
+            >
+              Child
+            </Visibility>
+          </Iterate.Array>
+        </Provider>
+      )
+      expect(screen.queryByText('Child')).not.toBeInTheDocument()
+    })
+
+    it('should render children when withValue matches', () => {
+      const log = jest.spyOn(console, 'warn').mockImplementation()
+
+      render(
+        <Provider data={{ myList: [{ myPath: 'foo' }] }}>
+          <Iterate.Array path="/myList">
+            <Visibility
+              withinIterate // is not needed, because we use itemPath
+              visibleWhen={{
+                itemPath: '/myPath',
+                withValue: (value) => value === 'foo',
+              }}
+            >
+              Child
+            </Visibility>
+          </Iterate.Array>
+        </Provider>
+      )
+      expect(screen.getByText('Child')).toBeInTheDocument()
+
+      log.mockRestore()
+    })
+
+    it('should not render children when withValue does not match', () => {
+      const log = jest.spyOn(console, 'warn').mockImplementation()
+
+      render(
+        <Provider data={{ myList: [{ myPath: 'foo' }] }}>
+          <Iterate.Array path="/myList">
+            <Visibility
+              withinIterate // is not needed, because we use itemPath
+              visibleWhen={{
+                itemPath: '/myPath',
+                withValue: (value) => value === 'bar',
+              }}
+            >
+              Child
+            </Visibility>
+          </Iterate.Array>
+        </Provider>
+      )
+      expect(screen.queryByText('Child')).not.toBeInTheDocument()
+
+      log.mockRestore()
+    })
+  })
+
+  describe('visibleWhenNot', () => {
+    it('should render children when hasValue matches', () => {
+      render(
+        <Provider data={{ myList: [{ myPath: 'foo' }] }}>
+          <Iterate.Array path="/myList">
+            <Visibility
+              withinIterate // is not needed, because we use itemPath
+              visibleWhenNot={{ itemPath: '/myPath', hasValue: 'foo' }}
+            >
+              Child
+            </Visibility>
+          </Iterate.Array>
+        </Provider>
+      )
+      expect(screen.queryByText('Child')).not.toBeInTheDocument()
+    })
+
+    it('should not render children when hasValue not matches', () => {
+      render(
+        <Provider data={{ myList: [{ myPath: 'foo' }] }}>
+          <Iterate.Array path="/myList">
+            <Visibility
+              withinIterate // is not needed, because we use itemPath
+              visibleWhenNot={{ itemPath: '/myPath', hasValue: 'bar' }}
+            >
+              Child
+            </Visibility>
+          </Iterate.Array>
+        </Provider>
+      )
+      expect(screen.getByText('Child')).toBeInTheDocument()
     })
   })
 
