@@ -319,5 +319,167 @@ describe('PushButton', () => {
         outer: [{ inner: ['bar'] }],
       })
     })
+
+    it('should add item within PushContainer to the correct array', async () => {
+      let outerData = null
+      let pushContainerData = null
+
+      render(
+        <Form.Handler>
+          <Iterate.Array path="/outer">
+            <Iterate.EditContainer>
+              <Iterate.Array itemPath="/inner">
+                <Field.String itemPath="/" />
+              </Iterate.Array>
+            </Iterate.EditContainer>
+          </Iterate.Array>
+
+          <Iterate.PushContainer path="/outer">
+            <Iterate.Array itemPath="/inner">
+              <Field.String itemPath="/" />
+            </Iterate.Array>
+
+            <Iterate.PushButton itemPath="/inner" pushValue="new value" />
+
+            <DataContext.Consumer>
+              {(context) => {
+                pushContainerData = context.data
+                return null
+              }}
+            </DataContext.Consumer>
+          </Iterate.PushContainer>
+
+          <DataContext.Consumer>
+            {(context) => {
+              outerData = context.data
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      expect(outerData).toEqual(undefined)
+      expect(pushContainerData).toEqual({
+        pushContainerItems: [{}],
+      })
+
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate-push-button')
+      )
+
+      expect(outerData).toEqual(undefined)
+      expect(pushContainerData).toEqual({
+        pushContainerItems: [
+          {
+            inner: ['new value'],
+          },
+        ],
+      })
+
+      await userEvent.click(
+        document.querySelector('.dnb-push-container__done-button')
+      )
+
+      expect(outerData).toEqual({ outer: [{ inner: ['new value'] }] })
+      expect(pushContainerData).toEqual({
+        pushContainerItems: [{}],
+      })
+    })
+
+    it('should stay in edit mode when pushing new item (with changed items beforehand)', async () => {
+      let outerData = null
+
+      let containerModeOfFirstItem = null
+
+      const ContainerModeConsumer = () => {
+        const context = React.useContext(IterateItemContext)
+        if (context.index === 0) {
+          containerModeOfFirstItem = context.containerMode
+        }
+
+        return null
+      }
+
+      render(
+        <Form.Handler
+          defaultData={{
+            outer: [{ inner: ['new value'] }],
+          }}
+        >
+          <Iterate.Array path="/outer">
+            <Iterate.ViewContainer>
+              <Iterate.Array itemPath="/inner">content</Iterate.Array>
+            </Iterate.ViewContainer>
+
+            <Iterate.EditContainer>
+              <Iterate.Array itemPath="/inner">
+                <Field.String itemPath="/" />
+              </Iterate.Array>
+
+              <Iterate.PushButton
+                itemPath="/inner"
+                pushValue="new value"
+              />
+            </Iterate.EditContainer>
+
+            <ContainerModeConsumer />
+          </Iterate.Array>
+
+          <Iterate.PushContainer path="/outer">
+            content
+          </Iterate.PushContainer>
+
+          <DataContext.Consumer>
+            {(context) => {
+              outerData = context.data
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      expect(containerModeOfFirstItem).toEqual('view')
+      expect(outerData).toEqual({
+        outer: [
+          {
+            inner: ['new value'],
+          },
+        ],
+      })
+
+      await userEvent.click(
+        document.querySelectorAll('.dnb-push-container__done-button')[1]
+      )
+
+      expect(outerData).toEqual({
+        outer: [
+          {
+            inner: ['new value'],
+          },
+          {},
+        ],
+      })
+
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate-push-button')
+      )
+
+      expect(containerModeOfFirstItem).toEqual('view')
+
+      await userEvent.click(
+        document.querySelector('.dnb-push-container__edit-button')
+      )
+
+      expect(containerModeOfFirstItem).toEqual('edit')
+
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate-push-button')
+      )
+
+      await expect(() => {
+        expect(containerModeOfFirstItem).toEqual('view')
+      }).toNeverResolve()
+      expect(containerModeOfFirstItem).toEqual('edit')
+    })
   })
 })

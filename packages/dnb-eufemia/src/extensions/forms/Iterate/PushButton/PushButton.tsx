@@ -73,9 +73,11 @@ function PushButton(props: Props) {
       ])
     }
 
-    setTimeout(() => {
-      setLastItemContainerMode('view')
-    }, 100) // UX improvement because of the "openDelay"
+    if (!absolutePath) {
+      setTimeout(() => {
+        setLastItemContainerMode('view')
+      }, 100) // UX improvement because of the "openDelay"
+    }
   }, [
     arrayValue,
     absolutePath,

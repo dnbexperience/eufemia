@@ -16,6 +16,7 @@ export default function EditButton() {
   return (
     <Button
       variant="tertiary"
+      className="dnb-push-container__edit-button"
       icon={edit}
       icon_position="left"
       on_click={editHandler}
