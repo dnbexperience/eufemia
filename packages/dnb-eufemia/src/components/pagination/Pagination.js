@@ -93,7 +93,7 @@ const paginationPropTypes = {
   is_loading_text: PropTypes.string,
   load_button_text: PropTypes.string,
   loadButton: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-  paginationBarSpace: spacingPropTypes.space,
+  barSpace: spacingPropTypes.space,
 
   ...spacingPropTypes,
 
@@ -128,7 +128,7 @@ const paginationDefaultProps = {
   is_loading_text: null,
   load_button_text: null,
   loadButton: null,
-  paginationBarSpace: null,
+  barSpace: null,
   startup_count: 1,
   parallel_load_count: 1,
   place_maker_before_content: false,
@@ -185,7 +185,7 @@ class PaginationInstance extends React.PureComponent {
       align,
       children,
       className,
-      paginationBarSpace,
+      barSpace,
 
       disabled: _disabled, // eslint-disable-line
       skeleton: _skeleton, // eslint-disable-line
@@ -225,10 +225,7 @@ class PaginationInstance extends React.PureComponent {
 
       return (
         <div {...mainParams}>
-          <PaginationBar
-            contentRef={this._contentRef}
-            space={paginationBarSpace}
-          >
+          <PaginationBar contentRef={this._contentRef} space={barSpace}>
             {children}
           </PaginationBar>
           {items.length > 0 && (

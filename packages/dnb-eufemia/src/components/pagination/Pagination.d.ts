@@ -166,7 +166,7 @@ export interface PaginationProps
   /**
    * Used to set spacing for the pagination bar. Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`. See property [space](/uilib/layout/space/properties).
    */
-  paginationBarSpace?: SpaceTypeAll;
+  barSpace?: SpaceTypeAll;
   className?: string;
   /**
    * The given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.
@@ -356,7 +356,7 @@ interface PaginationInstanceProps extends SpacingProps {
   /**
    * Used to set spacing for the pagination bar. Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`. See property [space](/uilib/layout/space/properties).
    */
-  paginationBarSpace?: SpaceTypeAll;
+  barSpace?: SpaceTypeAll;
   /**
    * The given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.
    */
@@ -539,7 +539,7 @@ interface InfinityMarkerProps extends SpacingProps {
   /**
    * Used to set spacing for the pagination bar. Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`. See property [space](/uilib/layout/space/properties).
    */
-  paginationBarSpace?: SpaceTypeAll;
+  barSpace?: SpaceTypeAll;
   className?: string;
   /**
    * The given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.

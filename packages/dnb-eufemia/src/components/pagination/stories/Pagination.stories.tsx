@@ -356,7 +356,7 @@ export function PaginationBarSpacing() {
   return (
     <Section>
       <Pagination
-        paginationBarSpace={{
+        barSpace={{
           top: 'x-large',
           right: 'large',
           bottom: 'small small',
@@ -369,7 +369,7 @@ export function PaginationBarSpacing() {
         }}
       />
       <Pagination
-        paginationBarSpace={{
+        barSpace={{
           left: 'xx-large',
         }}
         page_count={888}
@@ -379,7 +379,7 @@ export function PaginationBarSpacing() {
         }}
       />
       <Pagination
-        paginationBarSpace={{
+        barSpace={{
           left: true,
         }}
         page_count={888}
