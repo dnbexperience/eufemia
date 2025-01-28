@@ -748,7 +748,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   exportValidatorsRef.current = exportValidators
   const additionalArgs = useMemo(() => {
     const args: ValidatorAdditionalArgs<Value> = {
-      /** @deprecated – can be removed in v11 */
+      /** Deprecated – can be removed in v11 */
       ...combinedErrorMessages,
 
       errorMessages: combinedErrorMessages,

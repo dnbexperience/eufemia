@@ -42,7 +42,7 @@ export type ValidatorReturnAsync<Value> =
   | Promise<ValidatorReturnSync<Value>>
 export type Validator<Value, ErrorMessages = DefaultErrorMessages> = (
   value: Value,
-  additionalArgs?: ValidatorAdditionalArgs<Value, ErrorMessages>
+  additionalArgs: ValidatorAdditionalArgs<Value, ErrorMessages>
 ) => ValidatorReturnAsync<Value>
 export type ValidatorAdditionalArgs<
   Value,
@@ -62,7 +62,7 @@ export type ValidatorAdditionalArgs<
   /**
    * Returns the validators from the { exportValidators } object.
    */
-  validators: Record<string, Validator<Value>>
+  validators: Record<string, Validator<Value>> | undefined
 } & {
   /** @deprecated use the error messages from the { errorMessages } object instead. */
   pattern?: string
