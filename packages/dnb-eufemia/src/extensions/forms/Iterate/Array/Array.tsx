@@ -245,7 +245,7 @@ function ArrayComponent(props: Props) {
         previousContainerMode: modesRef.current[id].previous,
         initialContainerMode: containerMode || 'auto',
         modeOptions: modesRef.current[id].options,
-        absolutePath,
+        nestedIteratePath: absolutePath,
         switchContainerMode: (mode, options = {}) => {
           modesRef.current[id].previous = modesRef.current[id].current
           modesRef.current[id].current = mode

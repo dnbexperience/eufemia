@@ -39,6 +39,7 @@ import useUpdateEffect from '../../../shared/helpers/useUpdateEffect'
 import FieldBlockContext, {
   FieldBlockContextProps,
 } from '../FieldBlock/FieldBlockContext'
+import useItemPath from '../Iterate/hooks/useItemPath'
 import IterateElementContext from '../Iterate/IterateItemContext'
 import SectionContext from '../Form/Section/SectionContext'
 import FieldBoundaryContext from '../DataContext/FieldBoundary/FieldBoundaryContext'
@@ -238,7 +239,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     handleChange: handleChangeIterateContext,
     index: iterateIndex,
     arrayValue: iterateArrayValue,
-    absolutePath,
+    nestedIteratePath,
   } = iterateItemContext || {}
   const { path: sectionPath, errorPrioritization } = sectionContext || {}
   const {
@@ -1642,18 +1643,21 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     ]
   )
 
-  const setDisplayValue = useCallback(
-    (path: Identifier, content: React.ReactNode) => {
-      if (!path || !fieldDisplayValueRef?.current) {
-        return // stop here
-      }
-      fieldDisplayValueRef.current[path] =
-        valueRef.current === (emptyValue as unknown as Value)
-          ? undefined
-          : content
-    },
-    [emptyValue, fieldDisplayValueRef]
-  )
+  const { absolutePath } = useItemPath(itemPath)
+  const setDisplayValue: ReturnAdditional<Value>['setDisplayValue'] =
+    useCallback(
+      (content, fieldPath = itemPath ? absolutePath : path) => {
+        if (!fieldPath || !fieldDisplayValueRef?.current) {
+          return // stop here
+        }
+
+        fieldDisplayValueRef.current[fieldPath] =
+          valueRef.current === (emptyValue as unknown as Value)
+            ? undefined
+            : content
+      },
+      [absolutePath, emptyValue, fieldDisplayValueRef, itemPath, path]
+    )
 
   const handleChange = useCallback(
     async (
@@ -1929,8 +1933,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         ? dataContext.data
         : dataContext.internalDataRef?.current
 
-      const storePath = absolutePath
-        ? makeIteratePath(itemPath, absolutePath)
+      const storePath = nestedIteratePath
+        ? makeIteratePath(itemPath, nestedIteratePath)
         : identifier
 
       // First, look for existing data in the context
@@ -2070,7 +2074,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       // We know when the last item is reached, so we can prevent rerenders during the iteration.
       if (
         hasItemPath &&
-        !absolutePath && // Ensure we still rerender when absolutePath is set
+        !nestedIteratePath && // Ensure we still rerender when absolutePath is set
         iterateIndex < iterateArrayValue?.length - 1
       ) {
         preventUpdate = true
@@ -2098,7 +2102,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       iterateArrayValue?.length,
       iterateIndex,
       makeIteratePath,
-      absolutePath,
+      nestedIteratePath,
       updateContextDataInSync,
       updateDataValueDataContext,
       validateDataDataContext,
@@ -2426,7 +2430,7 @@ export interface ReturnAdditional<Value> {
   ) => void
   updateValue: (value: Value) => void
   setChanged: (state: boolean) => void
-  setDisplayValue: (path: Identifier, value: React.ReactNode) => void
+  setDisplayValue: (value: React.ReactNode, path?: Identifier) => void
   forceUpdate: () => void
   hasError?: boolean
 

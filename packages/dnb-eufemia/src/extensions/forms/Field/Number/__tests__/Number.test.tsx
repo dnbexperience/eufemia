@@ -8,7 +8,14 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Field, FieldBlock, Form, JSONSchema } from '../../..'
+import {
+  DataContext,
+  Field,
+  FieldBlock,
+  Form,
+  Iterate,
+  JSONSchema,
+} from '../../..'
 import { Provider } from '../../../../../shared'
 import nbNO from '../../../constants/locales/nb-NO'
 
@@ -1207,6 +1214,82 @@ describe('Field.Number', () => {
         { myValue: 0 },
         expect.anything()
       )
+    })
+  })
+
+  it('should store "displayValue" in data context', async () => {
+    let dataContext = null
+
+    render(
+      <Form.Handler>
+        <Field.Number path="/myValue" defaultValue={123} />
+        <DataContext.Consumer>
+          {(context) => {
+            dataContext = context
+            return null
+          }}
+        </DataContext.Consumer>
+      </Form.Handler>
+    )
+
+    const input = document.querySelector('input')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myValue': '123',
+    })
+
+    await userEvent.type(input, '{Backspace>2}4')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myValue': '14',
+    })
+
+    await userEvent.type(input, '{Backspace>5}')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myValue': undefined,
+    })
+  })
+
+  it('should store "displayValue" when inside iterate', async () => {
+    let dataContext = null
+
+    render(
+      <Form.Handler
+        defaultData={{ myArray: [{ myValue: 123 }, { myValue: 456 }] }}
+      >
+        <Iterate.Array path="/myArray">
+          <Field.Number label="Item no. {itemNo}" itemPath="/myValue" />
+        </Iterate.Array>
+
+        <DataContext.Consumer>
+          {(context) => {
+            dataContext = context
+            return null
+          }}
+        </DataContext.Consumer>
+      </Form.Handler>
+    )
+
+    const input = document.querySelector('input')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myArray/0/myValue': '123',
+      '/myArray/1/myValue': '456',
+    })
+
+    await userEvent.type(input, '{Backspace>2}4')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myArray/0/myValue': '14',
+      '/myArray/1/myValue': '456',
+    })
+
+    await userEvent.type(input, '{Backspace>5}')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myArray/0/myValue': undefined,
+      '/myArray/1/myValue': '456',
     })
   })
 })

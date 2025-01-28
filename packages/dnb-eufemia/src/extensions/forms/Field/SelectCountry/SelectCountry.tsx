@@ -104,6 +104,8 @@ function SelectCountry(props: Props) {
 
   const {
     id,
+    path,
+    itemPath,
     className,
     placeholder = defaultPlaceholder,
     label = defaultLabel,
@@ -214,11 +216,12 @@ function SelectCountry(props: Props) {
   )
 
   useMemo(() => {
-    setDisplayValue(
-      props.path,
-      getCountryObjectByIso(value)?.i18n?.[langRef.current]
-    )
-  }, [getCountryObjectByIso, props.path, setDisplayValue, value])
+    if (path || itemPath) {
+      setDisplayValue(
+        getCountryObjectByIso(value)?.i18n?.[langRef.current]
+      )
+    }
+  }, [getCountryObjectByIso, itemPath, path, setDisplayValue, value])
 
   const fieldBlockProps: FieldBlockProps = {
     forId: id,

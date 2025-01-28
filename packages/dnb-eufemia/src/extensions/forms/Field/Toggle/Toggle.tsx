@@ -73,9 +73,9 @@ function Toggle(props: Props) {
   useMemo(() => {
     const text = isOn ? textOn : textOff
     if (text) {
-      setDisplayValue(props.path, text)
+      setDisplayValue(text)
     }
-  }, [isOn, props.path, setDisplayValue, textOff, textOn])
+  }, [isOn, setDisplayValue, textOff, textOn])
 
   const { label, labelSuffix, required } = props
   const labelWithItemNo = useIterateItemNo({

@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import IterateItemContext from '../IterateItemContext'
-import { usePath } from '../../hooks'
+import usePath from '../../hooks/usePath'
 import type { Path } from '../../types'
 
 export default function useItemPath(itemPath: Path) {

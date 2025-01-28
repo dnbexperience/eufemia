@@ -125,6 +125,7 @@ function DateComponent(props: Props) {
   const {
     id,
     path,
+    itemPath,
     className,
     label,
     value: valueProp,
@@ -168,10 +169,10 @@ function DateComponent(props: Props) {
   }, [range, valueProp])
 
   useMemo(() => {
-    if (path && valueProp) {
-      setDisplayValue(path, formatDate(valueProp, { locale }))
+    if ((path || itemPath) && valueProp) {
+      setDisplayValue(formatDate(valueProp, { locale }))
     }
-  }, [locale, path, setDisplayValue, valueProp])
+  }, [itemPath, locale, path, setDisplayValue, valueProp])
 
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
