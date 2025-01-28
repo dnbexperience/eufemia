@@ -20,7 +20,6 @@ import FieldBlockContext, {
   StateBasis,
 } from './FieldBlockContext'
 import DataContext from '../DataContext/Context'
-import IterateItemContext from '../Iterate/IterateItemContext'
 import { Space, FormLabel, FormStatus } from '../../../components'
 import { Ul, Li } from '../../../elements'
 import {
@@ -43,6 +42,7 @@ import SubmitIndicator from '../Form/SubmitIndicator/SubmitIndicator'
 import { createSharedState } from '../../../shared/helpers/useSharedState'
 import useTranslation from '../hooks/useTranslation'
 import { FormError } from '../utils'
+import { useIterateItemNo } from '../Iterate/ItemNo/useIterateNo'
 
 export const states: Array<StateTypes> = ['error', 'info', 'warning']
 
@@ -175,9 +175,6 @@ function FieldBlock(props: Props) {
   const hasCustomWidth = /\d(rem)$/.test(String(width))
   const hasCustomContentWidth = /\d(rem)$/.test(String(contentWidth))
 
-  const iterateItemContext = useContext(IterateItemContext)
-  const { index: iterateIndex } = iterateItemContext ?? {}
-
   const blockId = useId(props.id)
   const [salt, forceUpdate] = useReducer(() => ({}), {})
   const mountedFieldsRef = useRef<MountedFieldsRef>({})
@@ -189,46 +186,11 @@ function FieldBlock(props: Props) {
     return Boolean(errorProp)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const { optionalLabelSuffix } = useTranslation().Field
-  const labelSuffixText = useMemo(() => {
-    if (required === false || typeof labelSuffix !== 'undefined') {
-      return labelSuffix ?? optionalLabelSuffix
-    }
-    return ''
-  }, [required, labelSuffix, optionalLabelSuffix])
-
-  const label = useMemo(() => {
-    let content = labelProp
-
-    if (iterateIndex !== undefined) {
-      content = convertJsxToString(labelProp).replace(
-        '{itemNo}',
-        String(iterateIndex + 1)
-      )
-    }
-
-    if (labelSuffixText) {
-      if (convertJsxToString(content).includes(optionalLabelSuffix)) {
-        return content
-      }
-
-      if (typeof content === 'string') {
-        return content + ' ' + labelSuffixText
-      }
-
-      if (React.isValidElement(content)) {
-        return (
-          <>
-            {content}
-            {' '}
-            {labelSuffixText}
-          </>
-        )
-      }
-    }
-
-    return content
-  }, [iterateIndex, labelProp, labelSuffixText, optionalLabelSuffix])
+  const label = useIterateItemNo({
+    label: labelProp,
+    labelSuffix,
+    required,
+  })
 
   const setInternalRecord = useCallback((props: StateBasis) => {
     const { stateId, identifier, type } = props
