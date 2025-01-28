@@ -119,7 +119,7 @@ describe('Form.Section', () => {
             "current": <input
               autocomplete="given-name"
               class="dnb-input__input"
-              id="id-r1b"
+              id="id-r1i"
               name="firstName"
               type="text"
               value=""
@@ -148,7 +148,7 @@ describe('Form.Section', () => {
               aria-required="true"
               autocomplete="family-name"
               class="dnb-input__input"
-              id="id-r1h"
+              id="id-r1p"
               name="lastName"
               type="text"
               value=""
