@@ -40,7 +40,7 @@ export const UsingCommitButton = () => {
 
 export const CommitHandleRef = () => {
   return (
-    <ComponentBox scope={{ Tools }}>
+    <ComponentBox>
       {() => {
         const MyForm = () => {
           const commitHandleRef = React.useRef(null)

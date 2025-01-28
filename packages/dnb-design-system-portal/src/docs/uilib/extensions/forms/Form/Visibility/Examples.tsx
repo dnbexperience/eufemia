@@ -119,7 +119,7 @@ export const BasedOnContext = () => {
 
 export const NestedExample = () => {
   return (
-    <ComponentBox scope={{ Tools }}>
+    <ComponentBox>
       {() => {
         const filterDataHandler = ({ props }) =>
           !props['data-exclude-field']
@@ -188,7 +188,7 @@ export const NestedExample = () => {
 
 export const FilterData = () => {
   return (
-    <ComponentBox scope={{ Tools }}>
+    <ComponentBox>
       {() => {
         const filterDataPaths = {
           '/isVisible': false,

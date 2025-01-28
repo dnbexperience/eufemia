@@ -371,7 +371,7 @@ export const WithVisibility = () => {
 
 export const InitiallyOpen = () => {
   return (
-    <ComponentBox scope={{ Iterate, Tools }}>
+    <ComponentBox scope={{ Iterate }}>
       <Form.Handler required>
         <Wizard.Container>
           <Wizard.Step>
@@ -426,7 +426,7 @@ export const InitiallyOpen = () => {
 
 export const InitialOpenWithToolbarVariant = () => {
   return (
-    <ComponentBox scope={{ Iterate, Tools }}>
+    <ComponentBox scope={{ Iterate }}>
       {() => {
         const MyForm = () => {
           const { getCountryNameByIso } = Value.SelectCountry.useCountry()

@@ -89,7 +89,7 @@ export const WithPath = () => {
 
 export const WithAsyncFileHandler = () => {
   return (
-    <ComponentBox scope={{ createRequest, useUpload, Tools }}>
+    <ComponentBox scope={{ createRequest, useUpload }}>
       {() => {
         const MyForm = () => {
           return (
@@ -157,7 +157,7 @@ export const WithAsyncFileHandler = () => {
 
 export const WithSyncFileHandler = () => {
   return (
-    <ComponentBox scope={{ createRequest, useUpload, Tools }}>
+    <ComponentBox scope={{ createRequest, useUpload }}>
       {() => {
         const MyForm = () => {
           return (
@@ -260,7 +260,7 @@ export const WithAsyncOnFileClick = () => {
 
 export function SessionStorage() {
   return (
-    <ComponentBox scope={{ Tools }}>
+    <ComponentBox>
       <Form.Handler sessionStorageId="documents">
         <Flex.Stack>
           <Form.Card>

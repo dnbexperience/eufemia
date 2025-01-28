@@ -363,7 +363,7 @@ export const SchemaSupport = () => {
 
 export const WithVisibility = () => {
   return (
-    <ComponentBox scope={{ Tools }}>
+    <ComponentBox>
       {() => {
         const MySection = ({ children, ...props }) => {
           return (

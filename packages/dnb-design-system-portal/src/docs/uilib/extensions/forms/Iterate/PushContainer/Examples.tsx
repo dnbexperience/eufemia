@@ -102,7 +102,7 @@ export const InitiallyOpen = () => {
 
 export const IsolatedData = () => {
   return (
-    <ComponentBox scope={{ Tools }}>
+    <ComponentBox>
       {() => {
         const formData = {
           persons: [
