@@ -19,8 +19,9 @@ import Context from '../../shared/Context'
 import Button from '../button/Button'
 import IconPrimary from '../icon-primary/IconPrimary'
 import styleProperties from '../../style/themes/theme-ui/properties'
-import { LocaleProps } from '../../shared/types'
+import { LocaleProps, SpaceTypeAll } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
+import { createSpacingClasses } from '../space/SpacingUtils'
 
 export type PaginationBarProps = {
   /**
@@ -54,6 +55,8 @@ export type PaginationBarProps = {
   children?: React.ReactNode | (() => React.ReactNode)
 
   skeleton: SkeletonShow
+
+  space?: SpaceTypeAll
 }
 
 export type PaginationBarAllProps = PaginationBarProps &
@@ -76,6 +79,7 @@ const defaultProps = {
   more_pages: null,
   contentRef: null,
   children: null,
+  space: null,
 }
 
 const PaginationBar = (localProps: PaginationBarAllProps) => {
@@ -87,7 +91,9 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     context.pagination
   ) as PaginationBarProps & PaginationBarContext
 
-  const { currentPage, pageCount, disabled, skeleton } = props
+  const { currentPage, pageCount, disabled, skeleton, space } = props
+
+  const spacingClasses = createSpacingClasses({ space })
 
   // because of accessibility
   const focusPage = () => {
@@ -180,7 +186,8 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
       ref={paginationBarRef}
       className={classnames(
         'dnb-pagination__bar',
-        pageCount >= 8 && 'dnb-pagination--many-pages'
+        pageCount >= 8 && 'dnb-pagination--many-pages',
+        spacingClasses
       )}
     >
       <div className="dnb-pagination__bar__wrapper">
