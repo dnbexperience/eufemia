@@ -97,7 +97,7 @@ export type Props = {
   element?: HeightAnimationAllProps['element']
   children: React.ReactNode
 
-  /** For internal use only */
+  /** For internal use only. Used by "Iterate.Visibility" */
   withinIterate?: boolean
 
   /** @deprecated Use `visibleWhen` instead */
