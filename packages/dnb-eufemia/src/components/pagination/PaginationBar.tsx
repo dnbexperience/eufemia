@@ -79,6 +79,7 @@ const defaultProps = {
   more_pages: null,
   contentRef: null,
   children: null,
+  space: null,
 }
 
 const PaginationBar = (localProps: PaginationBarAllProps) => {
@@ -90,9 +91,9 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     context.pagination
   ) as PaginationBarProps & PaginationBarContext
 
-  const { currentPage, pageCount, disabled, skeleton } = props
+  const { currentPage, pageCount, disabled, skeleton, space } = props
 
-  const spacingClasses = createSpacingClasses(props)
+  const spacingClasses = createSpacingClasses(space)
 
   // because of accessibility
   const focusPage = () => {
