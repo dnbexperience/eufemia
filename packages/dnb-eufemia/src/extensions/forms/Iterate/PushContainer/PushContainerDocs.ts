@@ -7,6 +7,11 @@ export const PushContainerProperties: PropertiesTableProps = {
     type: 'string',
     status: 'required',
   },
+  itemPath: {
+    doc: 'The path to the item in a nested array, to add the new item to.',
+    type: 'string',
+    status: 'optional',
+  },
   title: {
     doc: 'The title of the container.',
     type: 'React.Node',

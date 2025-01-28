@@ -1059,4 +1059,142 @@ describe('PushContainer', () => {
       expect(document.querySelector('.dnb-form-status')).toBeNull()
     })
   })
+
+  describe('itemPath', () => {
+    it('should add item to the correct array', async () => {
+      let collectedData = null
+
+      render(
+        <Form.Handler
+          data={{
+            outer: [{ inner: [] }],
+          }}
+        >
+          <Iterate.Array path="/outer">
+            <Iterate.Array itemPath="/inner">
+              <Field.String itemPath="/" />
+              <Iterate.RemoveButton />
+            </Iterate.Array>
+
+            <Iterate.PushContainer itemPath="/inner">
+              <Field.String itemPath="/" defaultValue="bar" />
+            </Iterate.PushContainer>
+          </Iterate.Array>
+
+          <DataContext.Consumer>
+            {(context) => {
+              collectedData = context.data
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      expect(collectedData).toEqual({
+        outer: [{ inner: [] }],
+      })
+
+      await userEvent.click(
+        document.querySelector('.dnb-push-container__done-button')
+      )
+
+      expect(collectedData).toEqual({
+        outer: [{ inner: ['bar'] }],
+      })
+
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate-remove-element-button')
+      )
+
+      expect(collectedData).toEqual({
+        outer: [{ inner: [] }],
+      })
+
+      await userEvent.click(
+        document.querySelector('.dnb-push-container__done-button')
+      )
+
+      expect(collectedData).toEqual({
+        outer: [{ inner: ['bar'] }],
+      })
+    })
+
+    it('should use itemPath to determine the initial amount of items when "showOpenButtonWhen" is used', async () => {
+      render(
+        <Form.Handler
+          data={{
+            outer: [{ inner: ['existing item'] }],
+          }}
+        >
+          <Iterate.Array path="/outer">
+            <Iterate.Array itemPath="/inner">
+              <Field.String itemPath="/" />
+            </Iterate.Array>
+
+            <Iterate.PushContainer
+              itemPath="/inner"
+              openButton={<Iterate.PushContainer.OpenButton />}
+              showOpenButtonWhen={() => true}
+            >
+              <Field.String itemPath="/" />
+            </Iterate.PushContainer>
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelector('.dnb-forms-iterate-open-button')
+      ).toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-forms-section-block')
+      ).toHaveClass('dnb-height-animation--hidden')
+
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate-open-button')
+      )
+
+      expect(
+        document.querySelector('.dnb-forms-section-block')
+      ).toHaveClass('dnb-height-animation--is-visible')
+    })
+
+    it('should show PushContainer based on the amount of items', async () => {
+      render(
+        <Form.Handler
+          data={{
+            outer: [{ inner: ['existing item'] }],
+          }}
+        >
+          <Iterate.Array path="/outer">
+            <Iterate.Array itemPath="/inner">
+              <Field.String itemPath="/" />
+              <Iterate.RemoveButton />
+            </Iterate.Array>
+
+            <Iterate.PushContainer
+              itemPath="/inner"
+              openButton={<Iterate.PushContainer.OpenButton />}
+              showOpenButtonWhen={(list) => list.length > 0}
+            >
+              <Field.String itemPath="/" />
+            </Iterate.PushContainer>
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelector('.dnb-forms-section-block')
+      ).toHaveClass('dnb-height-animation--hidden')
+
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate-remove-element-button')
+      )
+
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
+      expect(
+        document.querySelector('.dnb-forms-section-block')
+      ).toHaveClass('dnb-height-animation--is-visible')
+    })
+  })
 })

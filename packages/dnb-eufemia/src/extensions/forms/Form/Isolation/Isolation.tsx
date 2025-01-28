@@ -107,6 +107,10 @@ function IsolationProvider<Data extends JsonObject>(
         localDataRef.current = {}
       }
 
+      // Depending on the usage, we can get a path like so: "/pushContainerItems/0/somePath"
+      // where "somePath" is a frozen object. In order to still be able to modify it,
+      // pointer.set will unfreeze the object and then modify it. (Object.isFrozen(obj[tok]))
+
       pointer.set(localDataRef.current, path, value)
 
       if (pathSection) {

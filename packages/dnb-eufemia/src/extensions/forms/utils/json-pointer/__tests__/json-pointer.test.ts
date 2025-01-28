@@ -130,6 +130,15 @@ describe('json-pointer', () => {
       expect(obj['first-level']).toBe('expected')
     })
 
+    it('should work on frozen objects', () => {
+      const obj = {
+        frozen: Object.freeze({}),
+      }
+
+      set(obj, '/frozen/first-level', 'expected')
+      expect(obj['frozen']['first-level']).toBe('expected')
+    })
+
     it('should work on first level with tokens', () => {
       const obj = {
         existing: 'bla',

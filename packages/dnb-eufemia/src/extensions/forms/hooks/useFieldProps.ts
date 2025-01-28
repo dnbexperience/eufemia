@@ -238,7 +238,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     handleChange: handleChangeIterateContext,
     index: iterateIndex,
     arrayValue: iterateArrayValue,
-    nestedIteratePath,
+    absolutePath,
   } = iterateItemContext || {}
   const { path: sectionPath, errorPrioritization } = sectionContext || {}
   const {
@@ -1929,8 +1929,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         ? dataContext.data
         : dataContext.internalDataRef?.current
 
-      const storePath = nestedIteratePath
-        ? makeIteratePath(itemPath, nestedIteratePath)
+      const storePath = absolutePath
+        ? makeIteratePath(itemPath, absolutePath)
         : identifier
 
       // First, look for existing data in the context
@@ -2070,7 +2070,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       // We know when the last item is reached, so we can prevent rerenders during the iteration.
       if (
         hasItemPath &&
-        !nestedIteratePath && // Ensure we still rerender when nestedIteratePath is set
+        !absolutePath && // Ensure we still rerender when absolutePath is set
         iterateIndex < iterateArrayValue?.length - 1
       ) {
         preventUpdate = true
@@ -2098,7 +2098,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       iterateArrayValue?.length,
       iterateIndex,
       makeIteratePath,
-      nestedIteratePath,
+      absolutePath,
       updateContextDataInSync,
       updateDataValueDataContext,
       validateDataDataContext,
