@@ -260,7 +260,7 @@ export const WithAsyncOnFileClick = () => {
 
 export function SessionStorage() {
   return (
-    <ComponentBox>
+    <ComponentBox scope={{ Tools }}>
       <Form.Handler sessionStorageId="documents">
         <Flex.Stack>
           <Form.Card>
