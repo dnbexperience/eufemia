@@ -342,7 +342,7 @@ export const VisibleData = () => {
 
 export const FilterData = () => {
   return (
-    <ComponentBox scope={{ Tools }}>
+    <ComponentBox>
       {() => {
         const id = 'my-form'
         const filterDataHandler = ({ props }) => !props.disabled
@@ -400,7 +400,7 @@ export const FilterData = () => {
 
 export const TransformData = () => {
   return (
-    <ComponentBox scope={{ Tools }}>
+    <ComponentBox>
       {() => {
         const MyForm = () => {
           const [submitData, setSubmitData] = React.useState({})

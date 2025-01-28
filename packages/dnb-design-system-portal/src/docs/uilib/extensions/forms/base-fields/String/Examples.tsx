@@ -464,7 +464,7 @@ export const MultipleWithHelp = () => {
 
 export function TransformInAndOut() {
   return (
-    <ComponentBox scope={{ Tools }}>
+    <ComponentBox>
       {() => {
         // From the Field (internal value) to the data context or event parameter
         const transformOut = (value) => {

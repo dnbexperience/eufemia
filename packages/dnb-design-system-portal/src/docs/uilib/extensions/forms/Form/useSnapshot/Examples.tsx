@@ -56,7 +56,7 @@ export const InWizard = () => {
 
 export const UndoRedo = () => {
   return (
-    <ComponentBox scope={{ Tools }}>
+    <ComponentBox>
       {() => {
         const MyComponent = () => {
           const { createSnapshot, applySnapshot } = Form.useSnapshot()
