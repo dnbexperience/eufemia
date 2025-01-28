@@ -8,6 +8,7 @@ import { FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
 import useTranslation from '../../hooks/useTranslation'
+import { useIterateItemNo } from '../../Iterate/ItemNo/useIItemNo'
 
 export type ToggleProps = {
   valueOn: unknown
@@ -35,7 +36,6 @@ function Toggle(props: Props) {
     valueOff,
     variant,
     disabled,
-    label,
     textOn,
     textOff,
     value,
@@ -77,6 +77,13 @@ function Toggle(props: Props) {
     }
   }, [isOn, props.path, setDisplayValue, textOff, textOn])
 
+  const { label, labelSuffix, required } = props
+  const labelWithItemNo = useIterateItemNo({
+    label,
+    labelSuffix,
+    required,
+  })
+
   switch (variant) {
     default:
     case 'checkbox':
@@ -86,7 +93,7 @@ function Toggle(props: Props) {
             id={id}
             className={cn}
             label={
-              label ??
+              labelWithItemNo ??
               (isOn
                 ? textOn ?? translations.yes
                 : textOff ?? translations.no)

@@ -3,7 +3,7 @@ import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, screen } from '@testing-library/react'
 import DataContext from '../../../DataContext/Context'
 import { Props } from '../Toggle'
-import { Field, FieldBlock, Form } from '../../..'
+import { Field, FieldBlock, Form, Iterate } from '../../..'
 import userEvent from '@testing-library/user-event'
 
 describe('Field.Toggle', () => {
@@ -808,6 +808,22 @@ describe('Field.Toggle', () => {
 
         const checkbox = document.querySelector('input')
         expect(checkbox).toHaveAttribute('aria-invalid', 'true')
+      })
+
+      it('should should support {itemNo} in label', async () => {
+        render(
+          <Iterate.Array value={['foo', 'bar']}>
+            <Field.Toggle
+              label="Label {itemNo}"
+              valueOn="on"
+              valueOff="off"
+              variant="checkbox"
+            />
+          </Iterate.Array>
+        )
+
+        expect(screen.getByText('Label 1')).toBeInTheDocument()
+        expect(screen.getByText('Label 2')).toBeInTheDocument()
       })
     })
   })
