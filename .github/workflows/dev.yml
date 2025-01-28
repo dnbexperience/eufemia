@@ -63,8 +63,8 @@ jobs:
       - name: Build
         run: yarn workspace @dnb/eufemia build:ci
 
-      - name: Publish to Stackblitz
-        run: npx pkg-pr-new publish --compact './packages/dnb-eufemia/build' --template './packages/eufemia-starter'
+      - name: Publish to StackBlitz
+        run: npx pkg-pr-new publish --compact './packages/dnb-eufemia/build' --template './packages/eufemia-starter/*' --packageManager=yarn
 
       - name: Slack
         uses: 8398a7/action-slack@v3
@@ -72,7 +72,7 @@ jobs:
           channel: '#eufemia-dev'
           status: ${{ job.status }}
           fields: author,ref,workflow,job,took
-          job_name: Publish to Stackblitz
+          job_name: Publish to StackBlitz
           github_base_url: https://github.com/
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
