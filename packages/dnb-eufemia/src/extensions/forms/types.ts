@@ -33,9 +33,11 @@ export { JSONSchemaType }
 
 export type ValidatorReturnSync<Value> =
   | Error
+  | FormError
   | undefined
   | void
   | Array<Validator<Value>>
+  | Array<Error | FormError>
 
 export type ValidatorReturnAsync<Value> =
   | ValidatorReturnSync<Value>
