@@ -93,7 +93,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
 
   const { currentPage, pageCount, disabled, skeleton, space } = props
 
-  const spacingClasses = createSpacingClasses(space)
+  const spacingClasses = createSpacingClasses({ space })
 
   // because of accessibility
   const focusPage = () => {
