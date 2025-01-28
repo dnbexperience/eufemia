@@ -170,21 +170,41 @@ export const DrawerListExampleInlineStyling = () => (
               console.log('on_click')
             }}
           >
-            item 1
+            Item 1
           </DrawerList.Item>
           <DrawerList.HorizontalItem
             style={{ color: 'green' }}
-            key="A"
+            key="B"
             selected={false}
-            value="A"
+            value="B"
             on_click={() => {
               console.log('on_click')
             }}
           >
-            item 2
+            Item 2
           </DrawerList.HorizontalItem>
         </DrawerList.Options>
       </DrawerList>
+      <DrawerList
+        skip_portal
+        opened
+        prevent_close
+        data={[
+          {
+            selected_key: 'A',
+            selected_value: 'A',
+            content: 'Item 1',
+            style: { color: 'red' },
+          },
+          {
+            selected_key: 'B',
+            selected_value: 'B',
+            content: 'Item 2',
+            style: { color: 'green' },
+          },
+        ]}
+        observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
+      />
     </ComponentBox>
   </Wrapper>
 )
