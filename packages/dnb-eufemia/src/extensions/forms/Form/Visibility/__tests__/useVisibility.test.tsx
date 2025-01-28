@@ -74,7 +74,7 @@ describe('useVisibility', () => {
   })
 
   describe('pathUndefined', () => {
-    it('renders children when target path is defined', () => {
+    it('does not render children when target path is not defined', () => {
       const { result } = renderHook(
         () =>
           useVisibility({
@@ -89,7 +89,7 @@ describe('useVisibility', () => {
       expect(result.current.check()).toBe(false)
     })
 
-    it('does not render children when target path is not defined', () => {
+    it('renders children when target path is defined', () => {
       const { result } = renderHook(
         () =>
           useVisibility({

@@ -80,7 +80,7 @@ describe('Visibility', () => {
   })
 
   describe('pathUndefined', () => {
-    it('renders children when target path is defined', () => {
+    it('does not render children when target path is not defined', () => {
       render(
         <Provider data={{ isDefined: 'foo' }}>
           <Visibility pathUndefined="/isDefined">Child</Visibility>
@@ -89,7 +89,7 @@ describe('Visibility', () => {
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
 
-    it('does not render children when target path is not defined', () => {
+    it('renders children when target path is defined', () => {
       render(
         <Provider data={{ isDefined: 'foo' }}>
           <Visibility pathUndefined="/notDefined">Child</Visibility>
@@ -1047,7 +1047,7 @@ describe('withinIterate', () => {
   })
 
   describe('pathUndefined', () => {
-    it('renders children when target path is defined', () => {
+    it('does not render children when target path is not defined', () => {
       render(
         <Provider data={{ myList: [{ isDefined: 'foo' }] }}>
           <Iterate.Array path="/myList">
@@ -1060,7 +1060,7 @@ describe('withinIterate', () => {
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
 
-    it('does not render children when target path is not defined', () => {
+    it('renders children when target path is defined', () => {
       render(
         <Provider data={{ myList: [{ isDefined: 'foo' }] }}>
           <Iterate.Array path="/myList">
