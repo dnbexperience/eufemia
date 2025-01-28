@@ -1210,6 +1210,49 @@ describe('Field.Upload', () => {
       })
     })
 
+    it('should not execute fileHandler function when new files are not valid', async () => {
+      const newFile1 = createMockFile(
+        'fileName-new-1.png',
+        2000000,
+        'image/png'
+      )
+
+      const asyncValidatorResolving = () =>
+        new Promise<UploadValue>((resolve) =>
+          setTimeout(() => resolve([]), 1)
+        )
+
+      const asyncFileHandlerFn = jest.fn(asyncValidatorResolving)
+
+      render(
+        <Field.Upload fileMaxSize={1} fileHandler={asyncFileHandlerFn} />
+      )
+
+      const element = getRootElement()
+
+      await waitFor(() => {
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [newFile1],
+          },
+        })
+
+        expect(asyncFileHandlerFn).not.toHaveBeenCalled()
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+
+        expect(
+          document.querySelectorAll('.dnb-upload__file-cell').length
+        ).toBe(1)
+
+        expect(
+          screen.queryByText('fileName-new-1.png')
+        ).toBeInTheDocument()
+      })
+    })
+
     it('should add new files from fileHandler with async function with multiple actions', async () => {
       const newFile = (fileId) => {
         return createMockFile(`${fileId}.png`, 100, 'image/png')
