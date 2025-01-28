@@ -8,7 +8,7 @@ import { FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
 import useTranslation from '../../hooks/useTranslation'
-import { useIterateItemNo } from '../../Iterate/ItemNo/useIterateNo'
+import { useIterateItemNo } from '../../Iterate/ItemNo/useIItemNo'
 
 export type ToggleProps = {
   valueOn: unknown
