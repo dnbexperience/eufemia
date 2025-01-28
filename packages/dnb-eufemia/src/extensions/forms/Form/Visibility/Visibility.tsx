@@ -97,6 +97,9 @@ export type Props = {
   element?: HeightAnimationAllProps['element']
   children: React.ReactNode
 
+  /** For internal use only. Used by "Iterate.Visibility" */
+  withinIterate?: boolean
+
   /** @deprecated Use `visibleWhen` instead */
   pathValue?: string
   /** @deprecated Use `visibleWhen` instead */
@@ -124,6 +127,7 @@ function Visibility(props: Props) {
     keepInDOM,
     compensateForGap,
     fieldPropsWhenHidden,
+    withinIterate,
     children,
     ...rest
   } = props
@@ -136,6 +140,7 @@ function Visibility(props: Props) {
 
   const { check } = useVisibility({
     visible,
+    withinIterate,
     pathDefined,
     pathUndefined,
     pathTruthy,
