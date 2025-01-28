@@ -151,6 +151,44 @@ export const DrawerListExampleDisabled = () => (
   </Wrapper>
 )
 
+export const DrawerListExampleInlineStyling = () => (
+  <Wrapper>
+    <ComponentBox>
+      <DrawerList
+        skip_portal
+        opened
+        prevent_close
+        observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
+      >
+        <DrawerList.Options>
+          <DrawerList.Item
+            style={{ color: 'red' }}
+            key="A"
+            selected={false}
+            value="A"
+            on_click={() => {
+              console.log('on_click')
+            }}
+          >
+            item 1
+          </DrawerList.Item>
+          <DrawerList.HorizontalItem
+            style={{ color: 'green' }}
+            key="A"
+            selected={false}
+            value="A"
+            on_click={() => {
+              console.log('on_click')
+            }}
+          >
+            item 2
+          </DrawerList.HorizontalItem>
+        </DrawerList.Options>
+      </DrawerList>
+    </ComponentBox>
+  </Wrapper>
+)
+
 export const DrawerListExampleSingleItem = () => (
   <Wrapper>
     <ComponentBox scope={{ data }}>

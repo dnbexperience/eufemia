@@ -24,6 +24,7 @@ export type DrawerListDataArrayObject = {
   content?: DrawerListContent;
   disabled?: boolean;
   search_content?: string | React.ReactNode | string[];
+  style?: React.CSSProperties;
 };
 /** @deprecated use `DrawerListDataArrayItem` */
 export type DrawerListDataObjectUnion = DrawerListDataArrayItem;
@@ -201,7 +202,7 @@ export type DrawerListItemProps = {
      */
     value: string;
   }) => void;
-};
+} & Omit<React.HTMLProps<HTMLElement>, 'children'>;
 export type DrawerListAllProps = DrawerListProps &
   SpacingProps &
   Omit<
@@ -215,6 +216,7 @@ export default class DrawerList extends React.Component<
   static defaultProps: object;
   static Options: (props: DrawerListOptionsProps) => JSX.Element;
   static Item: (props: DrawerListItemProps) => JSX.Element;
+  static HorizontalItem: (props: DrawerListItemProps) => JSX.Element;
   render(): JSX.Element;
 }
 export type ItemContentChildren =
