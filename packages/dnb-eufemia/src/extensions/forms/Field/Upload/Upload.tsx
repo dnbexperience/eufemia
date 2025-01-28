@@ -65,13 +65,6 @@ const validateRequired = (
   return undefined
 }
 
-const updateFileLoadingState = (
-  files: UploadValue,
-  { isLoading } = { isLoading: false }
-) => {
-  return files.map((file) => ({ ...file, isLoading }))
-}
-
 function UploadComponent(props: Props) {
   const sharedTr = useSharedTranslation().Upload
   const formsTr = useFormsTranslation().Upload
@@ -145,25 +138,39 @@ function UploadComponent(props: Props) {
   }, [setFiles, value])
 
   const handleChangeAsync = useCallback(
-    async (existingFiles: UploadValue) => {
+    async (files: UploadValue) => {
       // Filter out existing files
       const existingFileIds =
         filesRef.current?.map((file) => file.id) || []
-      const newFiles = existingFiles.filter(
+      const newFiles = files.filter(
         (file) => !existingFileIds.includes(file.id)
       )
+      const newValidFiles = newFiles.filter((file) => !file.errorMessage)
 
-      if (newFiles.length > 0) {
+      if (newValidFiles.length > 0) {
         // Set loading
-        setFiles([
-          ...filesRef.current,
-          ...updateFileLoadingState(newFiles, { isLoading: true }),
-        ])
+        const newFilesLoading = newFiles.map((file) => ({
+          ...file,
+          isLoading: !file.errorMessage,
+        }))
+        setFiles([...filesRef.current, ...newFilesLoading])
 
-        const incomingFiles = await fileHandler(newFiles)
-
-        const uploadedFiles = updateFileLoadingState(incomingFiles, {
-          isLoading: false,
+        const incomingFiles = await fileHandler(newValidFiles)
+        // merge incoming files into existing order of newFiles.
+        incomingFiles.forEach((file) => {
+          const incomingFileObj = {
+            ...file,
+            isLoading: false,
+          }
+          const foundIndex = newFilesLoading.findIndex(
+            (newFile) => newFile.isLoading
+          )
+          if (foundIndex >= 0) {
+            newFilesLoading[foundIndex] = incomingFileObj
+          } else {
+            // if there's more files incoming than there's files loading (edge case), add them to end of array.
+            newFilesLoading.push(incomingFileObj)
+          }
         })
 
         const indexOfFirstNewFile = filesRef.current.findIndex(
@@ -172,14 +179,14 @@ function UploadComponent(props: Props) {
 
         const updatedFiles = [
           ...filesRef.current.slice(0, indexOfFirstNewFile),
-          ...uploadedFiles,
+          ...newFilesLoading,
           ...filesRef.current.slice(indexOfFirstNewFile + newFiles.length),
         ]
 
         // Set error, if any
         handleChange(updatedFiles)
       } else {
-        handleChange(existingFiles)
+        handleChange(files)
       }
     },
     [setFiles, fileHandler, handleChange]
