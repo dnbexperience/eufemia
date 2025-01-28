@@ -232,6 +232,75 @@ export function TransformInAndOut() {
   )
 }
 
+export function FileHandlerWithPathError() {
+  const delay = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms))
+
+  async function uploadFilesWithMockError(newFiles: UploadValue) {
+    const updatedFiles: UploadValue = []
+    for (const [, file] of Object.entries(newFiles)) {
+      try {
+        await delay(1500)
+        throw Error('Something went wrong here')
+      } catch (error) {
+        updatedFiles.push({
+          ...file,
+          errorMessage:
+            error instanceof Error
+              ? error.message
+              : 'Something went wrong',
+        })
+      }
+    }
+    return updatedFiles
+  }
+
+  function transformIn(external?: unknown) {
+    const files = external as any
+    return (
+      files?.map(
+        (file) =>
+          ({
+            id: file.id,
+            file: new File([], file.fileName),
+          }) satisfies UploadFileNative
+      ) || []
+    )
+  }
+
+  function transformOut(upload?: UploadValue) {
+    return upload?.map((file) => ({
+      id: file.id,
+      fileName: file.file?.name,
+    }))
+  }
+
+  return (
+    <Form.Handler
+      defaultData={{
+        documents: [
+          {
+            id: '16eaa778-a29f-4d10-95e9-6b5b728182e8',
+            fileName: 'myFile.pdf',
+          },
+        ],
+        documents2: [],
+      }}
+    >
+      <Field.Upload
+        path="/documents"
+        fileHandler={uploadFilesWithMockError}
+        transformIn={transformIn}
+        transformOut={transformOut}
+      />
+      <Field.Upload
+        path="/documents2"
+        fileHandler={uploadFilesWithMockError}
+      />
+    </Form.Handler>
+  )
+}
+
 export function SessionStorage() {
   return (
     <Form.Handler sessionStorageId="documents">
