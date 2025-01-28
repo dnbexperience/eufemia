@@ -180,7 +180,9 @@ function UploadComponent(props: Props) {
         const updatedFiles = [
           ...filesRef.current.slice(0, indexOfFirstNewFile),
           ...newFilesLoading,
-          ...filesRef.current.slice(indexOfFirstNewFile + newFiles.length),
+          ...filesRef.current.slice(
+            indexOfFirstNewFile + newFilesLoading.length
+          ),
         ]
 
         // Set error, if any
