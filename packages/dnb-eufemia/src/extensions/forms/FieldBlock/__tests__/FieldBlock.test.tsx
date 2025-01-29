@@ -776,7 +776,7 @@ describe('FieldBlock', () => {
     })
 
     describe('summarize errors', () => {
-      it('should summarize errors in one FormStatus components', () => {
+      it('should summarize errors in one FormStatus component', () => {
         const MockComponent = () => {
           useFieldProps({
             required: true,
