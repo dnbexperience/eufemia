@@ -17,6 +17,7 @@ import {
   Form,
   FormError,
   Iterate,
+  Validator,
   Value,
 } from '../../..'
 import sharedGB from '../../../../../shared/locales/en-GB'
@@ -920,7 +921,9 @@ describe('Field.String', () => {
 
     describe('validation using a synchronous external onChangeValidator function', () => {
       it('should show error returned by onChangeValidator', async () => {
-        const onChangeValidator = jest.fn(syncValidatorReturningError)
+        const onChangeValidator: Validator<string> = jest.fn(
+          syncValidatorReturningError
+        )
         render(
           <Field.String
             value="abc"
@@ -969,7 +972,9 @@ describe('Field.String', () => {
       })
 
       it('should not show error when onChangeValidator returns undefined', async () => {
-        const onChangeValidator = jest.fn(syncValidatorReturningUndefined)
+        const onChangeValidator: Validator<string> = jest.fn(
+          syncValidatorReturningUndefined
+        )
         render(
           <Field.String
             value="abc"
@@ -985,7 +990,9 @@ describe('Field.String', () => {
 
     describe('validation using an asynchronous external onChangeValidator function', () => {
       it('should show error returned by onChangeValidator', async () => {
-        const onChangeValidator = jest.fn(asyncValidatorResolvingWithError)
+        const onChangeValidator: Validator<string> = jest.fn(
+          asyncValidatorResolvingWithError
+        )
         render(
           <Field.String
             value="abc"
@@ -1035,7 +1042,7 @@ describe('Field.String', () => {
       })
 
       it('should not show error when onChangeValidator returns undefined', async () => {
-        const onChangeValidator = jest.fn(
+        const onChangeValidator: Validator<string> = jest.fn(
           asyncValidatorResolvingWithUndefined
         )
         render(
@@ -1054,7 +1061,9 @@ describe('Field.String', () => {
 
     describe('validation using a synchronous external onBlurValidator function', () => {
       it('should show error returned by onBlurValidator', async () => {
-        const onBlurValidator = jest.fn(syncValidatorReturningError)
+        const onBlurValidator: Validator<string> = jest.fn(
+          syncValidatorReturningError
+        )
         render(
           <Field.String
             value="abc"
@@ -1093,7 +1102,9 @@ describe('Field.String', () => {
       })
 
       it('should not show error when onBlurValidator returns undefined', async () => {
-        const onBlurValidator = jest.fn(syncValidatorReturningUndefined)
+        const onBlurValidator: Validator<string> = jest.fn(
+          syncValidatorReturningUndefined
+        )
         render(
           <Field.String
             value="abc"
@@ -1112,7 +1123,9 @@ describe('Field.String', () => {
 
     describe('validation using an asynchronous external onBlurValidator function', () => {
       it('should show error returned by onBlurValidator', async () => {
-        const onBlurValidator = jest.fn(asyncValidatorResolvingWithError)
+        const onBlurValidator: Validator<string> = jest.fn(
+          asyncValidatorResolvingWithError
+        )
         render(
           <Field.String
             value="abc"
@@ -1151,7 +1164,7 @@ describe('Field.String', () => {
       })
 
       it('should not show error when onBlurValidator returns undefined', async () => {
-        const onBlurValidator = jest.fn(
+        const onBlurValidator: Validator<string> = jest.fn(
           asyncValidatorResolvingWithUndefined
         )
         render(
