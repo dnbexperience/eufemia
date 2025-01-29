@@ -573,7 +573,7 @@ You can find more info about error messages in the [error messages](/uilib/exten
 
 ##### Connect with another field
 
-You can also use the `connectWithPath` function to connect the validator (`onChangeValidator` and `onBlurValidator`) to another field. This allows you to rerun the validator function once the value of the connected field changes:
+You can also use the `connectWithPath` (or `connectWithItemPath` for within [Iterate.Array](/uilib/extensions/forms/Iterate/Array/)) function to connect the validator (`onChangeValidator` and `onBlurValidator`) to another field. This allows you to rerun the validator function once the value of the connected field changes:
 
 ```tsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'

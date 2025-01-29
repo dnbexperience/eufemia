@@ -2784,7 +2784,7 @@ describe('useFieldProps', () => {
   })
 
   // Deprecated – can be removed in v11
-  describe('validator', () => {
+  describe('validator (deprecated)', () => {
     describe('validateInitially', () => {
       it('should show error message initially', async () => {
         const validator = jest.fn(() => {
@@ -3019,7 +3019,7 @@ describe('useFieldProps', () => {
           })
         })
 
-        it('should not show error message after it was hidden while typing', async () => {
+        it('should show error message continuously when using onChangeValidator', async () => {
           const validator = jest.fn(validatorFn)
 
           render(
@@ -3052,7 +3052,7 @@ describe('useFieldProps', () => {
 
           await userEvent.type(inputWithRefValue, '3')
 
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
         })
       })
 
@@ -4372,7 +4372,7 @@ describe('useFieldProps', () => {
           })
         })
 
-        it('should not show error message after it was hidden while typing', async () => {
+        it('should show error message continuously when using onChangeValidator', async () => {
           const onChangeValidator = jest.fn(onChangeValidatorFn)
 
           render(
@@ -4405,7 +4405,7 @@ describe('useFieldProps', () => {
 
           await userEvent.type(inputWithRefValue, '3')
 
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
         })
       })
 
@@ -4574,6 +4574,474 @@ describe('useFieldProps', () => {
                 onChangeValidator={onChangeValidator}
                 validateContinuously
               />
+            </Form.Handler>
+          )
+
+          const [inputWithRefValue] = Array.from(
+            document.querySelectorAll('input')
+          )
+
+          // Show error message
+          fireEvent.submit(document.querySelector('form'))
+
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(screen.queryByRole('alert')).toHaveTextContent(
+              'The amount should be greater than 2'
+            )
+          })
+
+          await userEvent.type(inputWithRefValue, '{Backspace}')
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+          await userEvent.type(inputWithRefValue, '3')
+
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(screen.queryByRole('alert')).toHaveTextContent(
+              'The amount should be greater than 3'
+            )
+          })
+        })
+      })
+    })
+
+    describe('connectWithItemPath', () => {
+      const onChangeValidatorFn: UseFieldProps<number>['onChangeValidator'] =
+        (num, { connectWithItemPath }) => {
+          const amount = connectWithItemPath('/refValue').getValue()
+
+          if (amount >= num) {
+            return new Error(`The amount should be greater than ${amount}`)
+          }
+        }
+
+      it('should show onChangeValidator error on form submit', async () => {
+        const onChangeValidator = jest.fn(onChangeValidatorFn)
+
+        render(
+          <Form.Handler
+            defaultData={{
+              myList: [
+                {
+                  refValue: 2,
+                  myNumberWithOnChangeValidator: 2,
+                },
+              ],
+            }}
+          >
+            <Iterate.Array path="/myList">
+              <Field.Number itemPath="/refValue" />
+
+              <Field.Number
+                itemPath="/myNumberWithOnChangeValidator"
+                onChangeValidator={onChangeValidator}
+              />
+            </Iterate.Array>
+          </Form.Handler>
+        )
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+        fireEvent.submit(document.querySelector('form'))
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          expect(screen.queryByRole('alert')).toHaveTextContent(
+            'The amount should be greater than 2'
+          )
+        })
+        expect(onChangeValidator).toHaveBeenCalledTimes(1)
+        expect(onChangeValidator).toHaveBeenLastCalledWith(
+          2,
+          expect.objectContaining({
+            connectWithPath: expect.any(Function),
+          })
+        )
+      })
+
+      it('should update error message on input change', async () => {
+        const onChangeValidator = jest.fn(onChangeValidatorFn)
+
+        render(
+          <Form.Handler
+            defaultData={{
+              myList: [{ refValue: 2, myNumberWithOnChangeValidator: 2 }],
+            }}
+          >
+            <Iterate.Array path="/myList">
+              <Field.Number itemPath="/refValue" />
+
+              <Field.Number
+                itemPath="/myNumberWithOnChangeValidator"
+                onChangeValidator={onChangeValidator}
+              />
+            </Iterate.Array>
+          </Form.Handler>
+        )
+
+        const [inputWithRefValue] = Array.from(
+          document.querySelectorAll('input')
+        )
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+        // Show error message
+        fireEvent.submit(document.querySelector('form'))
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          expect(screen.queryByRole('alert')).toHaveTextContent(
+            'The amount should be greater than 2'
+          )
+        })
+
+        // Make a change to the ref input
+        await userEvent.type(inputWithRefValue, '2')
+
+        expect(screen.queryByRole('alert')).toHaveTextContent(
+          'The amount should be greater than 22'
+        )
+      })
+
+      it('should hide error message when validation is successful', async () => {
+        const onChangeValidator = jest.fn(onChangeValidatorFn)
+
+        render(
+          <Form.Handler
+            defaultData={{
+              myList: [{ refValue: 2, myNumberWithOnChangeValidator: 2 }],
+            }}
+          >
+            <Iterate.Array path="/myList">
+              <Field.Number itemPath="/refValue" />
+
+              <Field.Number
+                itemPath="/myNumberWithOnChangeValidator"
+                onChangeValidator={onChangeValidator}
+              />
+            </Iterate.Array>
+          </Form.Handler>
+        )
+
+        const [inputWithRefValue] = Array.from(
+          document.querySelectorAll('input')
+        )
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+        // Show error message
+        fireEvent.submit(document.querySelector('form'))
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          expect(screen.queryByRole('alert')).toHaveTextContent(
+            'The amount should be greater than 2'
+          )
+        })
+
+        await userEvent.type(inputWithRefValue, '{Backspace}')
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        expect(onChangeValidator).toHaveBeenCalledTimes(2)
+        expect(onChangeValidator).toHaveBeenLastCalledWith(
+          2,
+          expect.objectContaining({
+            connectWithPath: expect.any(Function),
+          })
+        )
+      })
+
+      it('should keep error message hidden after validation is successful and another input change', async () => {
+        const onChangeValidator = jest.fn(onChangeValidatorFn)
+
+        render(
+          <Form.Handler
+            defaultData={{
+              myList: [{ refValue: 2, myNumberWithOnChangeValidator: 2 }],
+            }}
+          >
+            <Iterate.Array path="/myList">
+              <Field.Number itemPath="/refValue" />
+
+              <Field.Number
+                itemPath="/myNumberWithOnChangeValidator"
+                onChangeValidator={onChangeValidator}
+              />
+            </Iterate.Array>
+          </Form.Handler>
+        )
+
+        const [inputWithRefValue] = Array.from(
+          document.querySelectorAll('input')
+        )
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+        // Show error message
+        fireEvent.submit(document.querySelector('form'))
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          expect(screen.queryByRole('alert')).toHaveTextContent(
+            'The amount should be greater than 2'
+          )
+        })
+
+        await userEvent.type(inputWithRefValue, '{Backspace}')
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        expect(onChangeValidator).toHaveBeenCalledTimes(2)
+
+        await userEvent.type(inputWithRefValue, '2')
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      })
+
+      describe('validateInitially', () => {
+        it('should show error message initially', async () => {
+          const onChangeValidator = jest.fn(onChangeValidatorFn)
+
+          render(
+            <Form.Handler defaultData={{ myArray: [{}] }}>
+              <Iterate.Array path="/myArray">
+                <Field.Number itemPath="/refValue" defaultValue={2} />
+
+                <Field.Number
+                  itemPath="/myNumberWithOnChangeValidator"
+                  defaultValue={2}
+                  onChangeValidator={onChangeValidator}
+                  validateInitially
+                />
+              </Iterate.Array>
+            </Form.Handler>
+          )
+
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(screen.queryByRole('alert')).toHaveTextContent(
+              'The amount should be greater than 2'
+            )
+          })
+        })
+
+        it('should show error message continuously when using onChangeValidator', async () => {
+          const onChangeValidator = jest.fn(onChangeValidatorFn)
+
+          render(
+            <Form.Handler defaultData={{ myArray: [{}] }}>
+              <Iterate.Array path="/myArray">
+                <Field.Number itemPath="/refValue" defaultValue={2} />
+
+                <Field.Number
+                  itemPath="/myNumberWithOnChangeValidator"
+                  defaultValue={2}
+                  onChangeValidator={onChangeValidator}
+                  validateInitially
+                />
+              </Iterate.Array>
+            </Form.Handler>
+          )
+
+          const [inputWithRefValue] = Array.from(
+            document.querySelectorAll('input')
+          )
+
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(screen.queryByRole('alert')).toHaveTextContent(
+              'The amount should be greater than 2'
+            )
+          })
+
+          await userEvent.type(inputWithRefValue, '{Backspace}')
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+          await userEvent.type(inputWithRefValue, '3')
+
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+        })
+      })
+
+      describe('validateUnchanged', () => {
+        it('should show error message initially', async () => {
+          const onChangeValidator = jest.fn(onChangeValidatorFn)
+
+          render(
+            <Form.Handler defaultData={{ myList: [{}] }}>
+              <Iterate.Array path="/myList">
+                <Field.Number itemPath="/refValue" defaultValue={2} />
+
+                <Field.Number
+                  itemPath="/myNumberWithOnChangeValidator"
+                  defaultValue={2}
+                  onChangeValidator={onChangeValidator}
+                  validateUnchanged
+                />
+              </Iterate.Array>
+            </Form.Handler>
+          )
+
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(screen.queryByRole('alert')).toHaveTextContent(
+              'The amount should be greater than 2'
+            )
+          })
+        })
+
+        it('should hide and show error message while typing', async () => {
+          const onChangeValidator = jest.fn(onChangeValidatorFn)
+
+          render(
+            <Form.Handler defaultData={{ myList: [{}] }}>
+              <Iterate.Array path="/myList">
+                <Field.Number itemPath="/refValue" defaultValue={2} />
+
+                <Field.Number
+                  itemPath="/myNumberWithOnChangeValidator"
+                  defaultValue={2}
+                  onChangeValidator={onChangeValidator}
+                  validateUnchanged
+                />
+              </Iterate.Array>
+            </Form.Handler>
+          )
+
+          const [inputWithRefValue] = Array.from(
+            document.querySelectorAll('input')
+          )
+
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(screen.queryByRole('alert')).toHaveTextContent(
+              'The amount should be greater than 2'
+            )
+          })
+
+          await userEvent.type(inputWithRefValue, '{Backspace}')
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+          await userEvent.type(inputWithRefValue, '3')
+
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(screen.queryByRole('alert')).toHaveTextContent(
+              'The amount should be greater than 3'
+            )
+          })
+        })
+      })
+
+      describe('continuousValidation', () => {
+        it('should show not show error message initially', async () => {
+          const onChangeValidator = jest.fn(onChangeValidatorFn)
+
+          render(
+            <Form.Handler defaultData={{ myList: [{}] }}>
+              <Iterate.Array path="/myList">
+                <Field.Number itemPath="/refValue" defaultValue={2} />
+
+                <Field.Number
+                  itemPath="/myNumberWithOnChangeValidator"
+                  defaultValue={2}
+                  onChangeValidator={onChangeValidator}
+                  continuousValidation
+                />
+              </Iterate.Array>
+            </Form.Handler>
+          )
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        })
+
+        it('should hide and show error message while typing', async () => {
+          const onChangeValidator = jest.fn(onChangeValidatorFn)
+
+          render(
+            <Form.Handler defaultData={{ myList: [{}] }}>
+              <Iterate.Array path="/myList">
+                <Field.Number itemPath="/refValue" defaultValue={2} />
+
+                <Field.Number
+                  itemPath="/myNumberWithOnChangeValidator"
+                  defaultValue={2}
+                  onChangeValidator={onChangeValidator}
+                  continuousValidation
+                />
+              </Iterate.Array>
+            </Form.Handler>
+          )
+
+          const [inputWithRefValue] = Array.from(
+            document.querySelectorAll('input')
+          )
+
+          // Show error message
+          fireEvent.submit(document.querySelector('form'))
+
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(screen.queryByRole('alert')).toHaveTextContent(
+              'The amount should be greater than 2'
+            )
+          })
+
+          await userEvent.type(inputWithRefValue, '{Backspace}')
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+          await userEvent.type(inputWithRefValue, '3')
+
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(screen.queryByRole('alert')).toHaveTextContent(
+              'The amount should be greater than 3'
+            )
+          })
+        })
+      })
+
+      describe('validateContinuously', () => {
+        it('should show not show error message initially', async () => {
+          const onChangeValidator = jest.fn(onChangeValidatorFn)
+
+          render(
+            <Form.Handler defaultData={{ myList: [{}] }}>
+              <Iterate.Array path="/myList">
+                <Field.Number itemPath="/refValue" defaultValue={2} />
+
+                <Field.Number
+                  itemPath="/myNumberWithOnChangeValidator"
+                  defaultValue={2}
+                  onChangeValidator={onChangeValidator}
+                  validateContinuously
+                />
+              </Iterate.Array>
+            </Form.Handler>
+          )
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        })
+
+        it('should hide and show error message while typing', async () => {
+          const onChangeValidator = jest.fn(onChangeValidatorFn)
+
+          render(
+            <Form.Handler defaultData={{ myList: [{}] }}>
+              <Iterate.Array path="/myList">
+                <Field.Number itemPath="/refValue" defaultValue={2} />
+
+                <Field.Number
+                  itemPath="/myNumberWithOnChangeValidator"
+                  defaultValue={2}
+                  onChangeValidator={onChangeValidator}
+                  validateContinuously
+                />
+              </Iterate.Array>
             </Form.Handler>
           )
 
@@ -5555,6 +6023,360 @@ describe('useFieldProps', () => {
                 onBlurValidator={onBlurValidator}
                 validateContinuously
               />
+            </Form.Handler>
+          )
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        })
+      })
+    })
+
+    describe('connectWithItemPath', () => {
+      const onBlurValidatorFn: UseFieldProps<number>['onBlurValidator'] = (
+        num,
+        { connectWithItemPath }
+      ) => {
+        const amount = connectWithItemPath('/refValue').getValue()
+
+        if (amount >= num) {
+          return new Error(`The amount should be greater than ${amount}`)
+        }
+      }
+
+      it('should show onBlurValidator error on form submit', async () => {
+        const onBlurValidator = jest.fn(onBlurValidatorFn)
+
+        render(
+          <Form.Handler
+            defaultData={{
+              myList: [{}],
+            }}
+          >
+            <Iterate.Array path="/myList">
+              <Field.Number itemPath="/refValue" defaultValue={2} />
+
+              <Field.Number
+                itemPath="/myNumberWithOnBlurValidator"
+                defaultValue={2}
+                onBlurValidator={onBlurValidator}
+              />
+            </Iterate.Array>
+          </Form.Handler>
+        )
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+        fireEvent.submit(document.querySelector('form'))
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          expect(screen.queryByRole('alert')).toHaveTextContent(
+            'The amount should be greater than 2'
+          )
+        })
+
+        expect(onBlurValidator).toHaveBeenCalledTimes(1)
+        expect(onBlurValidator).toHaveBeenLastCalledWith(
+          2,
+          expect.objectContaining({
+            connectWithPath: expect.any(Function),
+          })
+        )
+      })
+
+      it('should update error message on input change', async () => {
+        const onBlurValidator = jest.fn(onBlurValidatorFn)
+
+        render(
+          <Form.Handler
+            defaultData={{
+              myList: [{}],
+            }}
+          >
+            <Iterate.Array path="/myList">
+              <Field.Number itemPath="/refValue" defaultValue={12} />
+
+              <Field.Number
+                itemPath="/myNumberWithOnBlurValidator"
+                defaultValue={1}
+                onBlurValidator={onBlurValidator}
+              />
+            </Iterate.Array>
+          </Form.Handler>
+        )
+
+        const [inputWithRefValue, inputWithOnBlurValidator] = Array.from(
+          document.querySelectorAll('input')
+        )
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+        // Make a change to the input with the validator
+        await userEvent.type(inputWithOnBlurValidator, '2')
+        fireEvent.blur(inputWithOnBlurValidator)
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          expect(screen.queryByRole('alert')).toHaveTextContent(
+            'The amount should be greater than 12'
+          )
+        })
+
+        // Make a change to the ref input
+        await userEvent.type(inputWithRefValue, '3')
+
+        expect(screen.queryByRole('alert')).toHaveTextContent(
+          'The amount should be greater than 123'
+        )
+      })
+
+      it('should hide error message when validation is successful', async () => {
+        const onBlurValidator = jest.fn(onBlurValidatorFn)
+
+        render(
+          <Form.Handler
+            defaultData={{
+              myList: [{}],
+            }}
+          >
+            <Iterate.Array path="/myList">
+              <Field.Number itemPath="/refValue" defaultValue={2} />
+
+              <Field.Number
+                itemPath="/myNumberWithOnBlurValidator"
+                defaultValue={2}
+                onBlurValidator={onBlurValidator}
+              />
+            </Iterate.Array>
+          </Form.Handler>
+        )
+
+        const [inputWithRefValue] = Array.from(
+          document.querySelectorAll('input')
+        )
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+        // Show error message
+        fireEvent.submit(document.querySelector('form'))
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+        })
+
+        await userEvent.type(inputWithRefValue, '{Backspace}')
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        expect(onBlurValidator).toHaveBeenCalledTimes(2)
+        expect(onBlurValidator).toHaveBeenLastCalledWith(
+          2,
+          expect.objectContaining({
+            connectWithPath: expect.any(Function),
+          })
+        )
+      })
+
+      it('should keep error message hidden during ref input change', async () => {
+        const onBlurValidator = jest.fn(onBlurValidatorFn)
+
+        render(
+          <Form.Handler
+            defaultData={{
+              myList: [{}],
+            }}
+          >
+            <Iterate.Array path="/myList">
+              <Field.Number itemPath="/refValue" defaultValue={2} />
+
+              <Field.Number
+                itemPath="/myNumberWithOnBlurValidator"
+                defaultValue={2}
+                onBlurValidator={onBlurValidator}
+              />
+            </Iterate.Array>
+          </Form.Handler>
+        )
+
+        const [inputWithRefValue] = Array.from(
+          document.querySelectorAll('input')
+        )
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+        // Show error message
+        fireEvent.submit(document.querySelector('form'))
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+        })
+
+        await userEvent.type(inputWithRefValue, '{Backspace}')
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        expect(onBlurValidator).toHaveBeenCalledTimes(2)
+
+        await userEvent.type(inputWithRefValue, '2')
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      })
+
+      describe('validateInitially', () => {
+        it('should show error message initially', async () => {
+          const onBlurValidator = jest.fn(onBlurValidatorFn)
+
+          render(
+            <Form.Handler defaultData={{ myArray: [{}] }}>
+              <Iterate.Array path="/myArray">
+                <Field.Number itemPath="/refValue" defaultValue={2} />
+
+                <Field.Number
+                  itemPath="/myNumberWithOnBlurValidator"
+                  defaultValue={2}
+                  onBlurValidator={onBlurValidator}
+                  validateInitially
+                />
+              </Iterate.Array>
+            </Form.Handler>
+          )
+
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+          })
+        })
+
+        it('should not show error message while typing', async () => {
+          const onBlurValidator = jest.fn(onBlurValidatorFn)
+
+          render(
+            <Form.Handler
+              defaultData={{
+                myList: [{}],
+              }}
+            >
+              <Iterate.Array path="/myList">
+                <Field.Number itemPath="/refValue" defaultValue={2} />
+
+                <Field.Number
+                  itemPath="/myNumberWithOnBlurValidator"
+                  defaultValue={2}
+                  onBlurValidator={onBlurValidator}
+                  validateInitially
+                />
+              </Iterate.Array>
+            </Form.Handler>
+          )
+
+          const [inputWithRefValue] = Array.from(
+            document.querySelectorAll('input')
+          )
+
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+
+          await userEvent.type(inputWithRefValue, '{Backspace}')
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+          await userEvent.type(inputWithRefValue, '3')
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        })
+      })
+
+      describe('validateUnchanged', () => {
+        it('should not show error message initially', async () => {
+          const onBlurValidator = jest.fn(onBlurValidatorFn)
+
+          render(
+            <Form.Handler defaultData={{ myArray: [{}] }}>
+              <Iterate.Array path="/myArray">
+                <Field.Number itemPath="/refValue" defaultValue={2} />
+
+                <Field.Number
+                  itemPath="/myNumberWithOnBlurValidator"
+                  defaultValue={2}
+                  onBlurValidator={onBlurValidator}
+                  validateUnchanged
+                />
+              </Iterate.Array>
+            </Form.Handler>
+          )
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        })
+
+        it('should not show error message while typing', async () => {
+          const onBlurValidator = jest.fn(onBlurValidatorFn)
+
+          render(
+            <Form.Handler defaultData={{ myArray: [{}] }}>
+              <Iterate.Array path="/myArray">
+                <Field.Number itemPath="/refValue" defaultValue={2} />
+
+                <Field.Number
+                  itemPath="/myNumberWithOnBlurValidator"
+                  defaultValue={2}
+                  onBlurValidator={onBlurValidator}
+                  validateUnchanged
+                />
+              </Iterate.Array>
+            </Form.Handler>
+          )
+
+          const [inputWithRefValue] = Array.from(
+            document.querySelectorAll('input')
+          )
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+          await userEvent.type(inputWithRefValue, '{Backspace}')
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+          await userEvent.type(inputWithRefValue, '3')
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        })
+      })
+
+      describe('continuousValidation', () => {
+        it('should show not show error message initially', async () => {
+          const onBlurValidator = jest.fn(onBlurValidatorFn)
+
+          render(
+            <Form.Handler defaultData={{ myArray: [{}] }}>
+              <Iterate.Array>
+                <Field.Number itemPath="/refValue" defaultValue={2} />
+
+                <Field.Number
+                  itemPath="/myNumberWithOnBlurValidator"
+                  defaultValue={2}
+                  onBlurValidator={onBlurValidator}
+                  continuousValidation
+                />
+              </Iterate.Array>
+            </Form.Handler>
+          )
+
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        })
+      })
+
+      describe('validateContinuously', () => {
+        it('should show not show error message initially', async () => {
+          const onBlurValidator = jest.fn(onBlurValidatorFn)
+
+          render(
+            <Form.Handler defaultData={{ myArray: [{}] }}>
+              <Iterate.Array path="/myArray">
+                <Field.Number itemPath="/refValue" defaultValue={2} />
+
+                <Field.Number
+                  itemPath="/myNumberWithOnBlurValidator"
+                  defaultValue={2}
+                  onBlurValidator={onBlurValidator}
+                  validateContinuously
+                />
+              </Iterate.Array>
             </Form.Handler>
           )
 
