@@ -13,18 +13,28 @@ breadcrumb:
 
 Change log for the Eufemia Forms extension.
 
+Get more [details about releases](/uilib/releases) or have a look on all [release notes on GitHub](https://github.com/dnbexperience/eufemia/releases).
+
 ## v10.63.0
 
 - Added support for nesting [Iterate.Array](/uilib/extensions/forms/Iterate/Array/) inside of [Iterate.Array](/uilib/extensions/forms/Iterate/Array/).
 - Added showing field errors during submit inside [Iterate.PushContainer](/uilib/extensions/forms/Iterate/PushContainer/) when `bubbleValidation` is `true`.
 - Added support for conditional function based `info`, `warning` and `error` properties to all `Field.*`.
+- Added [Iterate.Visibility](/uilib/extensions/forms/Iterate/Visibility/) to be used within [Iterate.Array](/uilib/extensions/forms/Iterate/Array/) (relative paths).
 - Added support for `transformSelection` property to [Field.Selection](/uilib/extensions/forms/base-fields/Selection/).
 - Added support for `required` property to [Iterate.PushContainer](/uilib/extensions/forms/Iterate/PushContainer/).
 - Added support for `required` property to [Iterate.Array](/uilib/extensions/forms/Iterate/Array/).
 - Added support for `itemPath` property to [Iterate.Array](/uilib/extensions/forms/Iterate/Array/).
+- Added support for inline `style` property to options in [Field.Selection](/uilib/extensions/forms/base-fields/Selection/).
+- Added support for arrays with errors for `onChangeValidator` and `onBlurValidator`.
+- Added support for property `connectWithItemPath` to `onBlurValidator` and `onChangeValidator` to be used within [Iterate](/uilib/extensions/forms/Iterate).
 - Added the internal array as a third parameter to the callback function’s children in [Iterate.Array](/uilib/extensions/forms/Iterate/Array/).
+- Added `displayValue` and `label` to `transformData` from fields inside [Iterate](/uilib/extensions/forms/Iterate).
 - Fixed so wizard step changes scroll so the [Wizard(StepIndicator)](/uilib/extensions/forms/Wizard/) is included at the top.
 - Fixed so [Field.SelectCountry](/uilib/extensions/forms/feature-fields/SelectCountry/) don't open when `defaultValue` is given.
+- Fixed typing of `connectWithPath` in validators.
+- Fixed so `fileHandler` will not execute when validation errors in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+- Fixed so `{itemNo}` in `label` will work in [Field.Toggle](/uilib/extensions/forms/base-fields/Toggle/).
 - Fixed inactive [Iterate.PushContainer](/uilib/extensions/forms/Iterate/PushContainer/) blocking [Wizard](/uilib/extensions/forms/Wizard/) navigation when `bubbleValidation` is `true`.
 - Fixed animation for [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) when used inside [Value.SummaryList](/uilib/extensions/forms/Value/SummaryList/).
 - Deprecated `continuousValidation` in favor of `validateContinuously` in all `Field.*` components and [Form.Visibility](/uilib/extensions/forms/Form/Visibility/).
