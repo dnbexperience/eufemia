@@ -1279,6 +1279,41 @@ describe('variants', () => {
       })
     })
 
+    it('should support inline styling using Field.Option', () => {
+      render(
+        <Field.Selection variant="dropdown">
+          <Field.Option value="foo" style={{ color: 'red' }}>
+            Foo
+          </Field.Option>
+        </Field.Selection>
+      )
+
+      open()
+
+      const option = document.querySelector('[role="option"]')
+      expect(option.getAttribute('style')).toBe('color: red;')
+    })
+
+    it('should support inline styling using data', () => {
+      render(
+        <Field.Selection
+          variant="dropdown"
+          data={[
+            {
+              title: 'Foo',
+              value: 'foo',
+              style: { color: 'red' },
+            },
+          ]}
+        />
+      )
+
+      open()
+
+      const option = document.querySelector('[role="option"]')
+      expect(option.getAttribute('style')).toBe('color: red;')
+    })
+
     describe('ARIA', () => {
       it('should validate with ARIA rules', async () => {
         const result = render(
@@ -1645,6 +1680,41 @@ describe('variants', () => {
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
         '/mySelection': 'Bar!',
       })
+    })
+
+    it('should support inline styling using Field.Option', () => {
+      render(
+        <Field.Selection variant="autocomplete">
+          <Field.Option value="foo" style={{ color: 'red' }}>
+            Foo
+          </Field.Option>
+        </Field.Selection>
+      )
+
+      open()
+
+      const option = document.querySelector('[role="option"]')
+      expect(option.getAttribute('style')).toBe('color: red;')
+    })
+
+    it('should support inline styling using data', () => {
+      render(
+        <Field.Selection
+          variant="autocomplete"
+          data={[
+            {
+              title: 'Foo',
+              value: 'foo',
+              style: { color: 'red' },
+            },
+          ]}
+        />
+      )
+
+      open()
+
+      const option = document.querySelector('[role="option"]')
+      expect(option.getAttribute('style')).toBe('color: red;')
     })
 
     describe('ARIA', () => {
