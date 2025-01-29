@@ -185,22 +185,32 @@ export const DrawerListExampleInlineStyling = () => (
           </DrawerList.HorizontalItem>
         </DrawerList.Options>
       </DrawerList>
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const DrawerListExampleInlineStylingData = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="drawer-list-inline-style">
       <DrawerList
         skip_portal
         opened
         prevent_close
         data={[
           {
-            selected_key: 'A',
-            selected_value: 'A',
-            content: 'Item 1',
-            style: { color: 'red' },
+            content:
+              'They may be very large, like pneumonoultramicroscopicsilicovolcanoconiosis, a 45-letter hippopotomonstrosesquipedalian word for black lung disease.',
+            style: { hyphens: 'auto', color: 'red' },
           },
           {
-            selected_key: 'B',
-            selected_value: 'B',
-            content: 'Item 2',
-            style: { color: 'green' },
+            content:
+              'The longest word in the Oxford English Dictionary is the 45-letter pneumonoultramicroscopicsilicovolcanoconiosis, which refers to a form of lung disease.',
+            style: { hyphens: 'none', color: 'green' },
+          },
+          {
+            content:
+              'According to the Oxford English Dictionary the longest word in the language is pneumonoultramicroscopicsilicovolcanoconiosis, with 45 letters.',
+            style: { hyphens: 'manual', color: 'blue' },
           },
         ]}
         observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
