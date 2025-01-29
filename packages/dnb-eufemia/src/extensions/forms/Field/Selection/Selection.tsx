@@ -435,7 +435,6 @@ function renderDropdownItems(
   data: Data,
   transformSelection?: Props['transformSelection']
 ) {
-  console.log(data)
   return (
     data?.map((props) => {
       const { value, title, text, disabled, style } = props
