@@ -3,6 +3,58 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.63.0](https://github.com/dnbexperience/eufemia/compare/v10.62.4...v10.63.0) (2025-01-29)
+
+
+### :memo: Documentation
+
+* **DrawerList:** fix dead link to data prop ([#4489](https://github.com/dnbexperience/eufemia/issues/4489)) ([612634f](https://github.com/dnbexperience/eufemia/commit/612634f29627c10e9a5b5eb9c1d8186c7f22af8e))
+* **DrawerList:** minor doc improvement ([#4490](https://github.com/dnbexperience/eufemia/issues/4490)) ([ef3a816](https://github.com/dnbexperience/eufemia/commit/ef3a8161a0f61ac18da0ed89ef7ca709f4db6823))
+* **Extensions:** extend description ([#4456](https://github.com/dnbexperience/eufemia/issues/4456)) ([ffa0453](https://github.com/dnbexperience/eufemia/commit/ffa0453be160db9993b207b7db871f344e9308dd))
+* **Form.MainHeading, Form.SubHeading:** add `help` property to properties tabs ([#4442](https://github.com/dnbexperience/eufemia/issues/4442)) ([2148916](https://github.com/dnbexperience/eufemia/commit/21489163a1875da6b4bb9dd2d76663f45bf97e9b))
+* **Forms:** improve documentation on TypeScript type handling ([#4444](https://github.com/dnbexperience/eufemia/issues/4444)) ([b7639cb](https://github.com/dnbexperience/eufemia/commit/b7639cb258f99cd0644897fa98c4e0406a584c74)), closes [#4443](https://github.com/dnbexperience/eufemia/issues/4443)
+* **GlobalStatus:** add example on how to add custom icon ([#4457](https://github.com/dnbexperience/eufemia/issues/4457)) ([f434a8e](https://github.com/dnbexperience/eufemia/commit/f434a8eec5a454b4ec572ac29920fc9e7d06d1f8))
+
+
+### :bug: Bug Fixes
+
+* **Autocomplete:** does not fail when clicking show all button ([#4445](https://github.com/dnbexperience/eufemia/issues/4445)) ([744781b](https://github.com/dnbexperience/eufemia/commit/744781b611473b87acb45d7c2d4cc9fba6270fa3))
+* **Autocomplete:** focus issue when no valid data ([#4458](https://github.com/dnbexperience/eufemia/issues/4458)) ([1f2bba1](https://github.com/dnbexperience/eufemia/commit/1f2bba18aca1de8482eaa7ed6eff99a79386dac6))
+* **Blockquote:** contrast font color of code as child ([#4453](https://github.com/dnbexperience/eufemia/issues/4453)) ([9dfd6b4](https://github.com/dnbexperience/eufemia/commit/9dfd6b49eaf4d1c4db07bfed16fdb4b8d55409f0))
+* **Field.Upload:** prevent `fileHandler` to run when it is validation errors  ([#4506](https://github.com/dnbexperience/eufemia/issues/4506)) ([feb0217](https://github.com/dnbexperience/eufemia/commit/feb02175246435211d0086b89ccf8dc4ffff4afc))
+* **Forms:** add animation support to Form.Visibility when used inside Value.SummaryList ([#4482](https://github.com/dnbexperience/eufemia/issues/4482)) ([c547f1a](https://github.com/dnbexperience/eufemia/commit/c547f1a4f97c52b02721c97494ee7a8d17f8fe6e))
+* **Forms:** don't open Field.SelectCountry when `defaultValue` was given ([#4477](https://github.com/dnbexperience/eufemia/issues/4477)) ([e9bc230](https://github.com/dnbexperience/eufemia/commit/e9bc23027ad417de112e450af663f8176a4eb177))
+* **Forms:** ensure `connectWithPath` type is given ([#4501](https://github.com/dnbexperience/eufemia/issues/4501)) ([64e7b41](https://github.com/dnbexperience/eufemia/commit/64e7b416723e60ea7bf54b474970f64e0dd58b22))
+* **Forms:** ensure Field.Toggle supports iterate `{itemNo}` in label ([#4507](https://github.com/dnbexperience/eufemia/issues/4507)) ([dbbfa49](https://github.com/dnbexperience/eufemia/commit/dbbfa49a9ad6761cc31a58ac58fbfd99048ddf2b))
+* **Forms:** ensure wizard step changes scroll so the StepIndicator is included at the top ([#4464](https://github.com/dnbexperience/eufemia/issues/4464)) ([352ad63](https://github.com/dnbexperience/eufemia/commit/352ad63a805f757ed3177b070489e93e65d9f0f0))
+* **Forms:** provide `displayValue` and `label` to `transformData` from fields inside Iterate ([#4510](https://github.com/dnbexperience/eufemia/issues/4510)) ([f22b4c3](https://github.com/dnbexperience/eufemia/commit/f22b4c39893a12d2c3524f53c40589574d308ffa))
+* **HeightAnimation:** ensure height does not lock during animation when nested ([#4493](https://github.com/dnbexperience/eufemia/issues/4493)) ([93974b5](https://github.com/dnbexperience/eufemia/commit/93974b5abeb5325decd06865cd971fe438e49e50))
+* **InputMasked:** should work without any properties ([#4446](https://github.com/dnbexperience/eufemia/issues/4446)) ([2efc623](https://github.com/dnbexperience/eufemia/commit/2efc62315ee800b1b8b410f2d1c2b3d15494eb6d))
+* refactor defaultProps to ES6 default parameters ([#4448](https://github.com/dnbexperience/eufemia/issues/4448)) ([34d109e](https://github.com/dnbexperience/eufemia/commit/34d109ef2e3cac9e0669c6970c15a69964a2ce2f)), closes [#4447](https://github.com/dnbexperience/eufemia/issues/4447)
+* **Spacing:** ensure HTML elements like h1 use always a spacing reset ([#4463](https://github.com/dnbexperience/eufemia/issues/4463)) ([5ff0126](https://github.com/dnbexperience/eufemia/commit/5ff01263091dec747134976a67686913e673b6d3))
+* **ToggleButton:** add type for the `size` property ([#4459](https://github.com/dnbexperience/eufemia/issues/4459)) ([33ca39c](https://github.com/dnbexperience/eufemia/commit/33ca39c3bb9ff47e7c735bb9fe9dd7d94ab38546))
+
+
+### :sparkles: Features
+
+* **DatePicker:** render calendar in a react portal ([#4347](https://github.com/dnbexperience/eufemia/issues/4347)) ([e5de516](https://github.com/dnbexperience/eufemia/commit/e5de51649105c5307f1eb53eec9c308a5d4f4305))
+* **Forms:** add `connectWithItemPath` to `onBlurValidator` and `onChangeValidator` to be used within Iterate ([#4518](https://github.com/dnbexperience/eufemia/issues/4518)) ([321550f](https://github.com/dnbexperience/eufemia/commit/321550f704767553b16b19a53f977a744e01eae2))
+* **Forms:** add `itemPath` property support to `Iterate.Array` ([#4479](https://github.com/dnbexperience/eufemia/issues/4479)) ([0cc8ff6](https://github.com/dnbexperience/eufemia/commit/0cc8ff6f96715affed5221e9e575c81ae9f1ab2c)), closes [#4417](https://github.com/dnbexperience/eufemia/issues/4417)
+* **Forms:** add `itemPath` property support to `Iterate.PushButton` and `Iterate.PushContainer` ([#4499](https://github.com/dnbexperience/eufemia/issues/4499)) ([673d55c](https://github.com/dnbexperience/eufemia/commit/673d55c435d49869f8f675f29090df9a14a46e55)), closes [#4417](https://github.com/dnbexperience/eufemia/issues/4417)
+* **Forms:** add `Iterate.Visibility` to be used within `Iterate.Array` (relative paths) ([#4502](https://github.com/dnbexperience/eufemia/issues/4502)) ([68e96f8](https://github.com/dnbexperience/eufemia/commit/68e96f85a3ddec766b3b6ad4dfa8d7037037a77d))
+* **Forms:** add `transformSelection` to Field.Selection ([#4481](https://github.com/dnbexperience/eufemia/issues/4481)) ([430a373](https://github.com/dnbexperience/eufemia/commit/430a373a685f3998fbaddfa0d669bfce7981ecdc))
+* **Forms:** add support for `required` property to `Iterate.Array` ([#4470](https://github.com/dnbexperience/eufemia/issues/4470)) ([ef6485b](https://github.com/dnbexperience/eufemia/commit/ef6485bfd9e250f1b03799fcd21de38fc9e8dae9))
+* **Forms:** add support for `required` property to Iterate.PushContainer ([#4467](https://github.com/dnbexperience/eufemia/issues/4467)) ([28479bc](https://github.com/dnbexperience/eufemia/commit/28479bc9e5452dc152730edd2a5794d9902334a1))
+* **Forms:** add support for arrays with errors for `onChangeValidator` and `onBlurValidator` ([#4511](https://github.com/dnbexperience/eufemia/issues/4511)) ([2fe99aa](https://github.com/dnbexperience/eufemia/commit/2fe99aa7dd54fc9bc7ce7898c61344c32dc6e762)), closes [#4469](https://github.com/dnbexperience/eufemia/issues/4469)
+* **Forms:** add support for conditional function based `info`, `warning` and `error` props to all `Field.*` components ([#4421](https://github.com/dnbexperience/eufemia/issues/4421)) ([ad13e23](https://github.com/dnbexperience/eufemia/commit/ad13e235d119fc28b693d8eb702a2203cbdbf375))
+* **Forms:** add support for inline `style` to `Field.Option` when used inside `Field.Selection` ([#4515](https://github.com/dnbexperience/eufemia/issues/4515)) ([3801d1e](https://github.com/dnbexperience/eufemia/commit/3801d1e8474ea018c6a5380454cd11d4ad8c012b))
+* **Forms:** deprecate `continuousValidation` in favor of `validateContinuously` ([#4441](https://github.com/dnbexperience/eufemia/issues/4441)) ([b6c3dad](https://github.com/dnbexperience/eufemia/commit/b6c3dadea922fe59db0a74c6ca6778183ef48ebd))
+* **Forms:** during submit, show field errors inside `Iterate.PushContainer` when `bubbleValidation` is true ([#4471](https://github.com/dnbexperience/eufemia/issues/4471)) ([95f8d76](https://github.com/dnbexperience/eufemia/commit/95f8d762006f7ba55ebd56df1f73ba275fe5020e))
+* **Forms:** ensure Form.Iterate and Form.Section containers close when cancel button is pressed ([#4494](https://github.com/dnbexperience/eufemia/issues/4494)) ([f25f44a](https://github.com/dnbexperience/eufemia/commit/f25f44ab963fea1d6fafa9bfa9e5386911cff641))
+* **Forms:** fix inactive `Iterate.PushContainer` blocking Wizard navigation when `bubbleValidation` is true ([#4473](https://github.com/dnbexperience/eufemia/issues/4473)) ([fa881d5](https://github.com/dnbexperience/eufemia/commit/fa881d5077a5016adffe26887d6de770ea85e817)), closes [#4460](https://github.com/dnbexperience/eufemia/issues/4460)
+* **Forms:** provide the internal array as a third parameter to the callback function’s children in `Iterate.Array` ([#4466](https://github.com/dnbexperience/eufemia/issues/4466)) ([938f3c8](https://github.com/dnbexperience/eufemia/commit/938f3c842a90f8f48580db0272dd576d66472931))
+* **Pagination:** add `barSpace` prop to set spacing only on the bar ([#4500](https://github.com/dnbexperience/eufemia/issues/4500)) ([ab77e62](https://github.com/dnbexperience/eufemia/commit/ab77e62c06e63560383f0c5fea8251c98c9c3a71))
+
 ## [10.62.4](https://github.com/dnbexperience/eufemia/compare/v10.62.3...v10.62.4) (2025-01-08)
 
 
