@@ -62,6 +62,12 @@ export type ValidatorAdditionalArgs<
   connectWithPath: (path: Path) => { getValue: () => Value }
 
   /**
+   * Connects the validator to another field within an Iterate.Array.
+   * This allows you to rerun the validator function once the value of the connected field changes.
+   */
+  connectWithItemPath: (path: Path) => { getValue: () => Value }
+
+  /**
    * Returns the validators from the { exportValidators } object.
    */
   validators: Record<string, Validator<Value>> | undefined

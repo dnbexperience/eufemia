@@ -39,7 +39,6 @@ import useUpdateEffect from '../../../shared/helpers/useUpdateEffect'
 import FieldBlockContext, {
   FieldBlockContextProps,
 } from '../FieldBlock/FieldBlockContext'
-import useItemPath from '../Iterate/hooks/useItemPath'
 import IterateElementContext from '../Iterate/IterateItemContext'
 import SectionContext from '../Form/Section/SectionContext'
 import FieldBoundaryContext from '../DataContext/FieldBoundary/FieldBoundaryContext'
@@ -732,18 +731,24 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   }, [error])
 
   const connectWithPathListenerRef = useRef(async () => {
-    if (
-      localErrorRef.current ||
-      validateUnchanged ||
-      validateContinuously
-    ) {
-      runOnChangeValidator()
-    }
-
-    if (localErrorRef.current) {
-      runOnBlurValidator()
-    }
+    runOnChangeValidator()
+    runOnBlurValidator()
   })
+
+  const handleConnectWithPath = useCallback(
+    (path: Identifier) => {
+      setFieldEventListener?.(
+        path,
+        'onPathChange',
+        connectWithPathListenerRef.current
+      )
+
+      return {
+        getValue: () => getValueByPath(path),
+      }
+    },
+    [getValueByPath, setFieldEventListener]
+  )
 
   const exportValidatorsRef = useRef(exportValidators)
   exportValidatorsRef.current = exportValidators
@@ -755,20 +760,15 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       errorMessages: combinedErrorMessages,
       validators: exportValidatorsRef.current,
       connectWithPath: (path) => {
-        setFieldEventListener?.(
-          path,
-          'onPathChange',
-          connectWithPathListenerRef.current
-        )
-
-        return {
-          getValue: () => getValueByPath(path),
-        }
+        return handleConnectWithPath(path)
+      },
+      connectWithItemPath: (itemPath) => {
+        return handleConnectWithPath(makeIteratePath(itemPath))
       },
     }
 
     return args
-  }, [combinedErrorMessages, getValueByPath, setFieldEventListener])
+  }, [combinedErrorMessages, handleConnectWithPath, makeIteratePath])
 
   const callStackRef = useRef<Array<Validator<Value>>>([])
   const hasBeenCalledRef = useCallback((validator: Validator<Value>) => {
@@ -1621,8 +1621,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
       valueRef.current = transformedValue
 
-      if (hasPath) {
-        handlePathChangeUnvalidatedDataContext(identifier, contextValue)
+      if (hasPath || itemPath) {
+        handlePathChangeUnvalidatedDataContext(
+          nestedIteratePath || identifier,
+          contextValue
+        )
       }
 
       if (itemPath) {
@@ -1666,10 +1669,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     ]
   )
 
-  const { absolutePath } = useItemPath(itemPath)
   const setDisplayValue: ReturnAdditional<Value>['setDisplayValue'] =
     useCallback(
-      (content, fieldPath = itemPath ? absolutePath : path) => {
+      (content, fieldPath = itemPath ? identifier : path) => {
         if (!fieldPath || !fieldDisplayValueRef?.current) {
           return // stop here
         }
@@ -1679,7 +1681,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
             ? undefined
             : content
       },
-      [absolutePath, emptyValue, fieldDisplayValueRef, itemPath, path]
+      [identifier, emptyValue, fieldDisplayValueRef, itemPath, path]
     )
 
   const handleChange = useCallback(
