@@ -42,6 +42,7 @@ export type Data = Array<{
   title: React.ReactNode
   text?: React.ReactNode
   disabled?: boolean
+  style?: React.CSSProperties
 }>
 
 export type Props = FieldProps<IOption['value']> & {
@@ -416,8 +417,9 @@ export function makeOptions<T = DrawerListProps['data']>(
         : undefined
       const selectedKey = String(props.value ?? '')
       const disabled = props.disabled
+      const style = props.style
 
-      return { selectedKey, selected_value, content, disabled }
+      return { selectedKey, selected_value, content, disabled, style }
     }
 
     // For other children, just show them as content
@@ -433,9 +435,10 @@ function renderDropdownItems(
   data: Data,
   transformSelection?: Props['transformSelection']
 ) {
+  console.log(data)
   return (
     data?.map((props) => {
-      const { value, title, text, disabled } = props
+      const { value, title, text, disabled, style } = props
       return {
         selectedKey: value,
         content: (text ? [title, text] : title) || <em>Untitled</em>,
@@ -443,6 +446,7 @@ function renderDropdownItems(
           ? transformSelection(props)
           : undefined,
         disabled,
+        style,
       }
     }) || []
   )
