@@ -42,7 +42,7 @@ exports[`DrawerList scss has to match style dependencies css 1`] = `
 .dnb-drawer-list__portal__style {
   position: absolute;
   transition: all 300ms var(--easing-default);
-  z-index: 3200;
+  z-index: calc(var(--modal-z-index, 3200) + 200);
 }
 html[data-visual-test] .dnb-drawer-list__portal__style {
   transition: none !important;

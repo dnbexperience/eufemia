@@ -5,7 +5,7 @@ import { Flex } from '@dnb/eufemia/src'
 
 export function HasErrors() {
   return (
-    <ComponentBox scope={{ Tools }}>
+    <ComponentBox>
       {() => {
         const Component = () => {
           const { data } = Form.useData('default-id', {

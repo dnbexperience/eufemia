@@ -66,46 +66,92 @@
     height: inherit;
   }
 
+  &__triangle {
+    pointer-events: none;
+
+    position: absolute;
+    top: calc(1px + 1px - var(--date-picker-input-height) / 2);
+    left: 0;
+    right: auto;
+    margin: 0 1.5rem;
+
+    width: calc(var(--date-picker-input-height) / 2);
+    height: calc(var(--date-picker-input-height) / 2);
+
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      width: calc(var(--date-picker-input-height) / 2);
+      height: calc(var(--date-picker-input-height) / 2);
+      transform: translateY(60%) rotate(45deg);
+
+      border: 1px solid var(--color-black-border);
+      background-color: var(--color-white);
+    }
+  }
+
   &__container {
     position: absolute;
     display: block;
     z-index: 3;
     left: -1rem;
     top: var(--date-picker-input-height);
-  }
 
-  &--small &__container {
-    top: 1.5rem; // --input-height--small;
-  }
-  &--medium &__container {
-    top: 2.5rem; // --input-height--medium;
-  }
-  &--large &__container {
-    top: 3rem; // --input-height--large;
-  }
+    &--small {
+      top: 1.5rem; // --input-height--small;
+    }
+    &--medium {
+      top: 2.5rem; // --input-height--medium;
+    }
+    &--large {
+      top: 3rem; // --input-height--large;
+    }
 
-  &--show-input &__container {
-    left: 0;
-  }
+    &--show-input {
+      left: 0;
+    }
 
-  // alignment
-  &--right &__container {
-    left: auto;
-    right: -1rem;
-  }
-  &--show-input#{&}--right &__container {
-    left: auto;
-    right: 0;
-  }
+    // alignment
+    &--right {
+      left: auto;
+      right: -1rem;
+    }
+    &--show-input#{&}--right {
+      left: auto;
+      right: 0;
+    }
 
-  &--opened &__container {
-    @include openDatePicker();
-  }
-  &--hidden &__container {
-    @include datePickerClosed();
-  }
-  &:not(#{&}--opened) &__container {
-    @include closeDatePicker();
+    &--opened {
+      @include openDatePicker();
+    }
+    &--hidden {
+      @include datePickerClosed();
+    }
+
+    &--closed {
+      @include closeDatePicker();
+    }
+
+    &--right .dnb-date-picker__triangle {
+      left: auto;
+      right: 0;
+    }
+
+    table {
+      position: relative;
+      z-index: 1; // to make sure we show the focus ring over the header line on top
+
+      margin: 0;
+
+      &.dnb-no-focus:focus {
+        @include focusRing();
+      }
+    }
   }
 
   // stylelint-disable-next-line
@@ -310,17 +356,6 @@
     list-style: none;
   }
 
-  table {
-    position: relative;
-    z-index: 1; // to make sure we show the focus ring over the header line on top
-
-    margin: 0;
-
-    &.dnb-no-focus:focus {
-      @include focusRing();
-    }
-  }
-
   &__day,
   &__labels__day {
     display: flex;
@@ -386,40 +421,6 @@
     &--start-date#{&}--end-date::after {
       content: none;
     }
-  }
-
-  &__triangle {
-    pointer-events: none;
-
-    position: absolute;
-    top: calc(1px + 1px - var(--date-picker-input-height) / 2);
-    left: 0;
-    right: auto;
-    margin: 0 1.5rem;
-
-    width: calc(var(--date-picker-input-height) / 2);
-    height: calc(var(--date-picker-input-height) / 2);
-
-    overflow: hidden;
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-
-      width: calc(var(--date-picker-input-height) / 2);
-      height: calc(var(--date-picker-input-height) / 2);
-      transform: translateY(60%) rotate(45deg);
-
-      border: 1px solid var(--color-black-border);
-      background-color: var(--color-white);
-    }
-  }
-
-  &--right &__triangle {
-    left: auto;
-    right: 0;
   }
 
   .rtl {
@@ -503,6 +504,20 @@
   &__fieldset,
   .dnb-core-style &__fieldset {
     @include fieldsetReset();
+  }
+
+  &__portal {
+    // make variables available inside the portal
+    --date-picker-input-height: 2rem;
+    --date-picker-day-width: 2rem;
+    --date-picker-day-horizontal-spacing: 4px;
+
+    position: absolute;
+    left: 0;
+    // Over modal, but below tooltip
+    z-index: calc(var(--modal-z-index) + 10);
+
+    line-height: var(--date-picker-input-height);
   }
 }
 

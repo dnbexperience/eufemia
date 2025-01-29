@@ -252,6 +252,7 @@ export const DatePickerCalendar = () => (
         range={true}
         startDate="2019-05-05"
         endDate="2019-06-05"
+        skipPortal
       />
     </ComponentBox>
   </Wrapper>

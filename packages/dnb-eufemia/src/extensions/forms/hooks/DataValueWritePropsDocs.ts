@@ -17,18 +17,18 @@ export const DataValueWritePropsProperties: PropertiesTableProps = {
     status: 'optional',
   },
   info: {
-    doc: 'Info message shown below / after the field.',
-    type: ['React.Node', 'Array<React.Node>'],
+    doc: "Info message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
+    type: ['React.Node', 'Array<React.Node>', 'function'],
     status: 'optional',
   },
   warning: {
-    doc: 'Warning message shown below / after the field.',
-    type: ['React.Node', 'Array<React.Node>'],
+    doc: "Warning message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
+    type: ['React.Node', 'Array<React.Node>', 'function'],
     status: 'optional',
   },
   error: {
-    doc: 'Error message shown below / after the field.',
-    type: ['Error', 'FormError', 'Array<Error | FormError>'],
+    doc: "Error message shown below / after the field. When provided as a function, the function will be called with the current value as argument. The second parameter is an object with `{ conditionally, getValueByPath, getFieldByPath }`. To show the message first after the user has interacted with the field, you can call and return `conditionally` function with a callback and with options: `conditionally(() => 'Your message', { showInitially: true })`",
+    type: ['Error', 'FormError', 'Array<Error | FormError>', 'function'],
     status: 'optional',
   },
   disabled: {
@@ -66,7 +66,7 @@ export const DataValueWritePropsProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  continuousValidation: {
+  validateContinuously: {
     doc: 'Set to `true` to show validation based errors continuously while writing, not just when blurring the field.',
     type: 'boolean',
     status: 'optional',
@@ -77,12 +77,12 @@ export const DataValueWritePropsProperties: PropertiesTableProps = {
     status: 'optional',
   },
   onChangeValidator: {
-    doc: 'Custom validator function that is triggered on every change done by the user. The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }.',
+    doc: 'Custom validator function where you can return `undefined`, `Error`, `FormError` or an Array with either several other validators or several `Error` or `FormError`. It is triggered on every change done by the user. The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }.',
     type: 'function',
     status: 'optional',
   },
   onBlurValidator: {
-    doc: 'Custom validator function that is triggered when the user leaves a field (e.g., blurring a text input or closing a dropdown). The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }.',
+    doc: 'Custom validator function where you can return `undefined`, `Error`, `FormError` or an Array with either several other validators or several `Error` or `FormError`. It is triggered when the user leaves a field (e.g., blurring a text input or closing a dropdown). The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }.',
     type: 'function',
     status: 'optional',
   },

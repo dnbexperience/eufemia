@@ -12,7 +12,7 @@ export type Props = {
 }
 
 export default function FieldBoundaryProvider(props: Props) {
-  const { showErrors = false, onPathError = null, children } = props
+  const { showErrors = undefined, onPathError = null, children } = props
   const [, forceUpdate] = useReducer(() => ({}), {})
   const { showAllErrors } = useContext(DataContext)
 

@@ -6,6 +6,10 @@ showTabs: true
 
 The `Form.Visibility` component allows you to conditionally show or hide components based on the state of data or field validation. You can either provide the values directly via properties or let it read data from a surrounding [Form.Handler](/uilib/extensions/forms/Form/Handler). This enables dynamic visibility control based on the paths it points to.
 
+### Iterate.Visibility
+
+You can also use the [Iterate.Visibility](/uilib/extensions/forms/Iterate/Visibility/) component to target relative paths (`itemPath`) within an [Iterate.Array](/uilib/extensions/forms/Iterate/Array/) component.
+
 ### Data driven visibility
 
 There are several [properties](/uilib/extensions/forms/Form/Visibility/properties/) you can use to control visibility, such as `pathDefined`, `pathTruthy`, `pathTrue` etc.
@@ -67,7 +71,7 @@ render(
 )
 ```
 
-To prevent visibility changes during user interactions like typing, it shows the children first when the field both has no errors and has lost focus (blurred). You can use the `continuousValidation: true` property to immediately show the children when the field has no errors.
+To prevent visibility changes during user interactions like typing, it shows the children first when the field both has no errors and has lost focus (blurred). You can use the `validateContinuously: true` property to immediately show the children when the field has no errors.
 
 ## Accessibility
 

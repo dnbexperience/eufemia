@@ -1435,14 +1435,14 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
 .dnb-radio-group fieldset:not([class*=space__top]) {
   margin-top: 0;
 }
-.dnb-radio-group fieldset:not([class*=space__right]) {
-  margin-right: 0;
-}
 .dnb-radio-group fieldset:not([class*=space__bottom]) {
   margin-bottom: 0;
 }
 .dnb-radio-group fieldset:not([class*=space__left]) {
   margin-left: 0;
+}
+.dnb-radio-group fieldset:not([class*=space__right]) {
+  margin-right: 0;
 }
 .dnb-radio-group--column .dnb-radio {
   display: flex;
@@ -1744,14 +1744,14 @@ button .dnb-form-status__text {
 .dnb-toggle-button-group fieldset:not([class*=space__top]) {
   margin-top: 0;
 }
-.dnb-toggle-button-group fieldset:not([class*=space__right]) {
-  margin-right: 0;
-}
 .dnb-toggle-button-group fieldset:not([class*=space__bottom]) {
   margin-bottom: 0;
 }
 .dnb-toggle-button-group fieldset:not([class*=space__left]) {
   margin-left: 0;
+}
+.dnb-toggle-button-group fieldset:not([class*=space__right]) {
+  margin-right: 0;
 }
 .dnb-toggle-button-group--column .dnb-toggle-button {
   display: flex;

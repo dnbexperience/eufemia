@@ -8,7 +8,14 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Field, FieldBlock, Form, JSONSchema } from '../../..'
+import {
+  DataContext,
+  Field,
+  FieldBlock,
+  Form,
+  Iterate,
+  JSONSchema,
+} from '../../..'
 import { Provider } from '../../../../../shared'
 import nbNO from '../../../constants/locales/nb-NO'
 
@@ -143,11 +150,305 @@ describe('Field.Number', () => {
       )
     })
 
-    it('renders error', () => {
-      render(<Field.Number error={new Error('This is what went wrong')} />)
-      expect(
-        screen.getByText('This is what went wrong')
-      ).toBeInTheDocument()
+    describe('error', () => {
+      it('renders error', () => {
+        render(
+          <Field.Number error={new Error('This is what went wrong')} />
+        )
+        expect(
+          screen.getByText('This is what went wrong')
+        ).toBeInTheDocument()
+      })
+
+      it('renders error given as a function', () => {
+        render(
+          <Field.Number
+            error={() => new Error('This is what went wrong')}
+          />
+        )
+        expect(
+          screen.getByText('This is what went wrong')
+        ).toBeInTheDocument()
+      })
+
+      it('renders error given as a function with value', () => {
+        render(
+          <Field.Number
+            error={(value) =>
+              new Error('This is what went wrong ' + value)
+            }
+            value={123}
+          />
+        )
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('This is what went wrong 123')
+      })
+
+      describe('conditionally', () => {
+        it('renders message when field gets blurred', async () => {
+          render(
+            <Field.Number
+              error={(value, { conditionally }) => {
+                return conditionally(() => {
+                  return new Error('This is what went wrong ' + value)
+                })
+              }}
+            />
+          )
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).not.toBeInTheDocument()
+
+          await userEvent.type(document.querySelector('input'), '123')
+          await userEvent.tab()
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('This is what went wrong 123')
+
+          await userEvent.type(document.querySelector('input'), '4')
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('This is what went wrong 1234')
+        })
+
+        it('renders message conditionally on every value change', async () => {
+          render(
+            <Field.Number
+              emptyValue={0}
+              error={(value) => {
+                if (value === 123) {
+                  return undefined
+                }
+
+                return new Error('This is what went wrong ' + value)
+              }}
+            />
+          )
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('This is what went wrong 0')
+
+          await userEvent.type(document.querySelector('input'), '12')
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('This is what went wrong 12')
+
+          await userEvent.type(document.querySelector('input'), '3')
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).not.toBeInTheDocument()
+
+          await userEvent.type(document.querySelector('input'), '4')
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('This is what went wrong 1234')
+        })
+
+        it('showInitially: renders message initially', async () => {
+          render(
+            <Field.Number
+              emptyValue={0}
+              error={(value, { conditionally }) => {
+                return conditionally(
+                  () => {
+                    if (value === 123) {
+                      return undefined
+                    }
+
+                    return new Error('This is what went wrong ' + value)
+                  },
+                  { showInitially: true }
+                )
+              }}
+            />
+          )
+
+          const input = document.querySelector('input')
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('This is what went wrong 0')
+
+          await userEvent.type(input, '1')
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('This is what went wrong 1')
+
+          await userEvent.type(input, '2')
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('This is what went wrong 12')
+
+          await userEvent.type(input, '3')
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).not.toBeInTheDocument()
+
+          await userEvent.type(input, '4')
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).not.toBeInTheDocument()
+
+          await userEvent.tab()
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('This is what went wrong 1234')
+
+          await userEvent.type(input, '{Backspace}')
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).not.toBeInTheDocument()
+
+          await userEvent.type(input, '4')
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).not.toBeInTheDocument()
+
+          await userEvent.type(input, '5')
+          await userEvent.tab()
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('This is what went wrong 12345')
+        })
+      })
+    })
+
+    describe('warning', () => {
+      it('renders warning', () => {
+        render(<Field.Number warning={'This is what went wrong'} />)
+        expect(
+          screen.getByText('This is what went wrong')
+        ).toBeInTheDocument()
+      })
+
+      it('renders warning given as a function', () => {
+        render(
+          <Field.Number
+            warning={(value) => 'This is what went wrong ' + value}
+            value={123}
+          />
+        )
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('This is what went wrong 123')
+      })
+
+      describe('getValueByPath', () => {
+        it('renders message with value from other path', async () => {
+          render(
+            <Form.Handler
+              data={{
+                foo: 123,
+                bar: 456,
+              }}
+            >
+              <Field.Number
+                path="/foo"
+                warning={(value, { getValueByPath }) => {
+                  return String(value) + getValueByPath('/bar')
+                }}
+              />
+            </Form.Handler>
+          )
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('123456')
+
+          await userEvent.type(document.querySelector('input'), '0')
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('1230456')
+        })
+      })
+    })
+
+    describe('info', () => {
+      it('renders info', () => {
+        render(<Field.Number info={'This is what went wrong'} />)
+        expect(
+          screen.getByText('This is what went wrong')
+        ).toBeInTheDocument()
+      })
+
+      it('renders info given as a function', () => {
+        render(
+          <Field.Number
+            info={(value) => 'This is what went wrong ' + value}
+            value={123}
+          />
+        )
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('This is what went wrong 123')
+      })
+
+      it('renders summarized messages given by an array from a function return', async () => {
+        render(
+          <Field.Number
+            info={() => {
+              return ['Foo', 'Bar']
+            }}
+          />
+        )
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(nb.Field.stateSummary + 'FooBar')
+      })
+
+      describe('getFieldByPath', () => {
+        it('renders message with value from other path', async () => {
+          render(
+            <Form.Handler>
+              <Field.Number
+                path="/foo"
+                defaultValue={123}
+                info={(value, { getFieldByPath }) => {
+                  const field = getFieldByPath('/bar')
+                  const props = field.props
+                  const id = field.id
+
+                  if (props) {
+                    const label = props.label
+                    return JSON.stringify({ value, id, label })
+                  }
+                }}
+                id="foo"
+              />
+
+              <Field.Number path="/bar" label="Bar Label" id="bar-id" />
+            </Form.Handler>
+          )
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent(
+            JSON.stringify({
+              value: 123,
+              id: 'bar-id',
+              label: 'Bar Label',
+            })
+          )
+        })
+      })
     })
 
     it('shows error border', () => {
@@ -913,6 +1214,82 @@ describe('Field.Number', () => {
         { myValue: 0 },
         expect.anything()
       )
+    })
+  })
+
+  it('should store "displayValue" in data context', async () => {
+    let dataContext = null
+
+    render(
+      <Form.Handler>
+        <Field.Number path="/myValue" defaultValue={123} />
+        <DataContext.Consumer>
+          {(context) => {
+            dataContext = context
+            return null
+          }}
+        </DataContext.Consumer>
+      </Form.Handler>
+    )
+
+    const input = document.querySelector('input')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myValue': '123',
+    })
+
+    await userEvent.type(input, '{Backspace>2}4')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myValue': '14',
+    })
+
+    await userEvent.type(input, '{Backspace>5}')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myValue': undefined,
+    })
+  })
+
+  it('should store "displayValue" when inside iterate', async () => {
+    let dataContext = null
+
+    render(
+      <Form.Handler
+        defaultData={{ myArray: [{ myValue: 123 }, { myValue: 456 }] }}
+      >
+        <Iterate.Array path="/myArray">
+          <Field.Number label="Item no. {itemNo}" itemPath="/myValue" />
+        </Iterate.Array>
+
+        <DataContext.Consumer>
+          {(context) => {
+            dataContext = context
+            return null
+          }}
+        </DataContext.Consumer>
+      </Form.Handler>
+    )
+
+    const input = document.querySelector('input')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myArray/0/myValue': '123',
+      '/myArray/1/myValue': '456',
+    })
+
+    await userEvent.type(input, '{Backspace>2}4')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myArray/0/myValue': '14',
+      '/myArray/1/myValue': '456',
+    })
+
+    await userEvent.type(input, '{Backspace>5}')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myArray/0/myValue': undefined,
+      '/myArray/1/myValue': '456',
     })
   })
 })

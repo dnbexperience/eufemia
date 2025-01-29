@@ -42,6 +42,7 @@ export type Data = Array<{
   title: React.ReactNode
   text?: React.ReactNode
   disabled?: boolean
+  style?: React.CSSProperties
 }>
 
 export type Props = FieldProps<IOption['value']> & {
@@ -61,6 +62,12 @@ export type Props = FieldProps<IOption['value']> & {
    * Defines the layout of the options for radio and button variants.
    */
   optionsLayout?: 'horizontal' | 'vertical'
+
+  /**
+   * Transform the displayed selection for Dropdown and Autocomplete variant.
+   * Use it to display a different value than the one in the data set.
+   */
+  transformSelection?: (props: OptionFieldProps) => React.ReactNode
 
   /**
    * The path to the context data (Form.Handler).
@@ -100,7 +107,6 @@ function Selection(props: Props) {
     layout = 'vertical',
     optionsLayout = 'vertical',
     placeholder,
-    path,
     value,
     info,
     warning,
@@ -113,6 +119,7 @@ function Selection(props: Props) {
     setHasFocus,
     handleChange,
     setDisplayValue,
+    transformSelection,
     data,
     dataPath,
     children,
@@ -198,7 +205,7 @@ function Selection(props: Props) {
         hasError,
         iterateOverItems: ({ value: v, label }) => {
           if (v === value) {
-            setDisplayValue(path, label)
+            setDisplayValue(label)
           }
         },
       })
@@ -226,12 +233,12 @@ function Selection(props: Props) {
 
     case 'autocomplete':
     case 'dropdown': {
-      const data = renderDropdownItems(dataList)
-        .concat(makeOptions(children))
+      const data = renderDropdownItems(dataList, transformSelection)
+        .concat(makeOptions(children, transformSelection))
         .filter(Boolean)
       const displayValue = data.find((item) => item.selectedKey === value)
         ?.content
-      setDisplayValue(path, displayValue)
+      setDisplayValue(displayValue)
 
       const sharedProps: AutocompleteAllProps & DropdownAllProps = {
         id,
@@ -393,7 +400,8 @@ export function mapOptions(
 }
 
 export function makeOptions<T = DrawerListProps['data']>(
-  children: React.ReactNode
+  children: React.ReactNode,
+  transformSelection?: Props['transformSelection']
 ): T {
   return React.Children.map(children, (child) => {
     if (child?.['props']?.children?.type === OptionField) {
@@ -404,10 +412,14 @@ export function makeOptions<T = DrawerListProps['data']>(
       const props = child.props as OptionFieldProps
       const title = props.title ?? props.children ?? <em>Untitled</em>
       const content = props.text ? [title, props.text] : title
+      const selected_value = transformSelection
+        ? transformSelection(props)
+        : undefined
       const selectedKey = String(props.value ?? '')
       const disabled = props.disabled
+      const style = props.style
 
-      return { selectedKey, content, disabled }
+      return { selectedKey, selected_value, content, disabled, style }
     }
 
     // For other children, just show them as content
@@ -419,13 +431,21 @@ export function makeOptions<T = DrawerListProps['data']>(
   }) as T
 }
 
-function renderDropdownItems(data: Data) {
+function renderDropdownItems(
+  data: Data,
+  transformSelection?: Props['transformSelection']
+) {
   return (
-    data?.map(({ value, title, text, disabled }) => {
+    data?.map((props) => {
+      const { value, title, text, disabled, style } = props
       return {
         selectedKey: value,
         content: (text ? [title, text] : title) || <em>Untitled</em>,
+        selected_value: transformSelection
+          ? transformSelection(props)
+          : undefined,
         disabled,
+        style,
       }
     }) || []
   )

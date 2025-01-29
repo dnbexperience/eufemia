@@ -451,6 +451,7 @@ export default class FormStatus extends React.PureComponent {
 }
 
 export const ErrorIcon = (props) => {
+  const { title = 'error' } = props || {}
   const isSbankenTheme = useTheme()?.name === 'sbanken'
   const fill = isSbankenTheme
     ? properties.sbanken['--sb-color-magenta']
@@ -461,7 +462,7 @@ export const ErrorIcon = (props) => {
 
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
-      {props && props.title && <title>{props.title}</title>}
+      <title>{title}</title>
       <path
         d="M23.625 17.864A3.547 3.547 0 0120.45 23H3.548a3.546 3.546 0 01-3.172-5.136l8.45-14.902a3.548 3.548 0 016.347 0l8.452 14.902z"
         fill={fill}
@@ -483,11 +484,9 @@ export const ErrorIcon = (props) => {
 ErrorIcon.propTypes = {
   title: PropTypes.string,
 }
-ErrorIcon.defaultProps = {
-  title: 'error',
-}
 
 export const WarnIcon = (props) => {
+  const { title = 'error' } = props || {}
   const isSbankenTheme = useTheme()?.name === 'sbanken'
   const fill = isSbankenTheme
     ? properties.sbanken['--sb-color-yellow-dark']
@@ -498,7 +497,7 @@ export const WarnIcon = (props) => {
 
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
-      {props && props.title && <title>{props.title}</title>}
+      <title>{title}</title>
       <path
         d="M23.625 17.864A3.547 3.547 0 0120.45 23H3.548a3.546 3.546 0 01-3.172-5.136l8.45-14.902a3.548 3.548 0 016.347 0l8.452 14.902z"
         fill={fill}
@@ -520,11 +519,9 @@ export const WarnIcon = (props) => {
 WarnIcon.propTypes = {
   title: PropTypes.string,
 }
-WarnIcon.defaultProps = {
-  title: 'error',
-}
 
 export const InfoIcon = (props) => {
+  const { title = 'info' } = props || {}
   const isSbankenTheme = useTheme()?.name === 'sbanken'
   let fill = isSbankenTheme
     ? properties.sbanken['--sb-color-violet-light']
@@ -541,7 +538,7 @@ export const InfoIcon = (props) => {
 
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
-      {props && props.title && <title>{props.title}</title>}
+      <title>{title}</title>
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -561,14 +558,10 @@ export const InfoIcon = (props) => {
 }
 InfoIcon.propTypes = {
   title: PropTypes.string,
-  state: PropTypes.string,
-}
-InfoIcon.defaultProps = {
-  title: 'info',
-  state: 'info',
 }
 
 export const MarketingIcon = (props) => {
+  const { title = 'marketing' } = props || {}
   const isSbankenTheme = useTheme()?.name === 'sbanken'
   const fill = isSbankenTheme
     ? properties.sbanken['--sb-color-violet-light']
@@ -582,7 +575,7 @@ export const MarketingIcon = (props) => {
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      {props && props.title && <title>{props.title}</title>}
+      <title>{title}</title>
       <path
         d="M6 15.25H4.5c-2.042 0-3.75-1.707-3.75-3.75S2.458 7.75 4.5 7.75H6v7.5ZM7.5 15.25c4.801 0 8.846 1.897 12.75 4.5V3.25c-3.904 2.603-7.949 4.5-12.75 4.5v7.5ZM23.25 10a.75.75 0 0 0-1.5 0h1.5Zm-1.5 3a.75.75 0 0 0 1.5 0h-1.5ZM8.483 21.043a.75.75 0 1 0 1.034-1.086l-1.034 1.086ZM21.75 10v3h1.5v-3h-1.5ZM6 15.25a8.058 8.058 0 0 0 2.483 5.793l1.034-1.086A6.559 6.559 0 0 1 7.5 15.25H6Z"
         fill={fill}
@@ -592,9 +585,6 @@ export const MarketingIcon = (props) => {
 }
 MarketingIcon.propTypes = {
   title: PropTypes.string,
-}
-MarketingIcon.defaultProps = {
-  title: 'marketing',
 }
 
 export function setMaxWidthToElement({

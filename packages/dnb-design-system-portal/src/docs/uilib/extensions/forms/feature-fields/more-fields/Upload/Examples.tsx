@@ -89,7 +89,7 @@ export const WithPath = () => {
 
 export const WithAsyncFileHandler = () => {
   return (
-    <ComponentBox scope={{ createRequest, useUpload, Tools }}>
+    <ComponentBox scope={{ createRequest, useUpload }}>
       {() => {
         const MyForm = () => {
           return (
@@ -157,7 +157,7 @@ export const WithAsyncFileHandler = () => {
 
 export const WithSyncFileHandler = () => {
   return (
-    <ComponentBox scope={{ createRequest, useUpload, Tools }}>
+    <ComponentBox scope={{ createRequest, useUpload }}>
       {() => {
         const MyForm = () => {
           return (

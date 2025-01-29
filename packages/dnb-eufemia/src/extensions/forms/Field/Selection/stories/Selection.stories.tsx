@@ -177,3 +177,20 @@ export function NestingWithLogic() {
     </Form.Handler>
   )
 }
+
+export function TransformSelection() {
+  return (
+    <Form.Card>
+      <Field.Selection
+        label="Label"
+        value="bar"
+        transformSelection={({ title }) => {
+          return title
+        }}
+      >
+        <Field.Option value="foo" title="Foo!" text="Additional text" />
+        <Field.Option value="bar" title="Baar!" text="Additional text" />
+      </Field.Selection>
+    </Form.Card>
+  )
+}

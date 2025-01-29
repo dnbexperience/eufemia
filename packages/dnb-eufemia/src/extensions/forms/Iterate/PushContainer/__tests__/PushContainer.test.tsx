@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Field, Form, Iterate } from '../../..'
+import { Field, Form, Iterate, Wizard } from '../../..'
 import { Div } from '../../../../../elements'
 import DataContext from '../../../DataContext/Context'
 
@@ -44,6 +44,24 @@ describe('PushContainer', () => {
     )
   })
 
+  it('should show errors when pressing commit button', async () => {
+    render(
+      <Form.Handler>
+        <Iterate.Array path="/entries">...</Iterate.Array>
+
+        <Iterate.PushContainer path="/entries">
+          <Field.String itemPath="/name" required />
+        </Iterate.PushContainer>
+      </Form.Handler>
+    )
+
+    await userEvent.click(document.querySelector('button'))
+
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+      nb.Field.errorRequired
+    )
+  })
+
   describe('bubbleValidation', () => {
     it('should prevent the form from submitting as long as there are errors', async () => {
       const onSubmitRequest = jest.fn()
@@ -72,17 +90,23 @@ describe('PushContainer', () => {
       const commitButton = document.querySelector('button')
 
       await userEvent.click(commitButton)
-      fireEvent.submit(form)
 
+      expect(onCommit).toHaveBeenCalledTimes(0)
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
         nb.Field.errorRequired
       )
 
+      fireEvent.submit(form)
+
       expect(onSubmit).toHaveBeenCalledTimes(0)
       expect(onSubmitRequest).toHaveBeenCalledTimes(1)
-      expect(onCommit).toHaveBeenCalledTimes(0)
 
       await userEvent.type(input, 'Tony')
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
       fireEvent.submit(form)
 
       expect(onSubmit).toHaveBeenCalledTimes(1)
@@ -91,6 +115,116 @@ describe('PushContainer', () => {
 
       await userEvent.click(commitButton)
       expect(onCommit).toHaveBeenCalledTimes(1)
+    })
+
+    it('should not show errors when submitting the form when bubbleValidation is false', async () => {
+      render(
+        <Form.Handler>
+          <Iterate.Array path="/entries">...</Iterate.Array>
+
+          <Iterate.PushContainer path="/entries" bubbleValidation={false}>
+            <Field.String itemPath="/name" required />
+          </Iterate.PushContainer>
+        </Form.Handler>
+      )
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should show errors when submitting the form', async () => {
+      render(
+        <Form.Handler>
+          <Iterate.Array path="/entries">...</Iterate.Array>
+
+          <Iterate.PushContainer path="/entries" bubbleValidation>
+            <Field.String itemPath="/name" required />
+          </Iterate.PushContainer>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const form = document.querySelector('form')
+
+      fireEvent.submit(form)
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Field.errorRequired
+      )
+
+      await userEvent.type(input, 'Tony')
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      fireEvent.submit(form)
+    })
+
+    it('should not prevent Wizard navigation when no error messages are present', async () => {
+      render(
+        <Form.Handler>
+          <Wizard.Container>
+            <Wizard.Step>
+              <output>Step 1</output>
+
+              <Iterate.PushContainer
+                path="/myList"
+                bubbleValidation
+                openButton={
+                  <Iterate.PushContainer.OpenButton id="open-button" />
+                }
+                showOpenButtonWhen={() => true}
+              >
+                <Field.String itemPath="/foo" required />
+              </Iterate.PushContainer>
+
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step>
+              <output>Step 2</output>
+
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      const previousButton = () => {
+        return document.querySelector('.dnb-forms-previous-button')
+      }
+      const nextButton = () => {
+        return document.querySelector('.dnb-forms-next-button')
+      }
+      const output = () => {
+        return document.querySelector('output')
+      }
+
+      expect(output()).toHaveTextContent('Step 1')
+
+      await userEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 2')
+
+      await userEvent.click(previousButton())
+
+      expect(output()).toHaveTextContent('Step 1')
+
+      await userEvent.click(document.querySelector('#open-button'))
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      await userEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
     })
   })
 
@@ -171,6 +305,50 @@ describe('PushContainer', () => {
       <Form.Handler>
         <Iterate.PushContainer path="/entries">
           <Field.Name.Last itemPath="/name" required />
+        </Iterate.PushContainer>
+      </Form.Handler>
+    )
+
+    const input = document.querySelector('input')
+    const button = document.querySelector('button')
+
+    expect(input).toHaveValue('')
+
+    await userEvent.click(button)
+
+    expect(input).toHaveValue('')
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+      nb.LastName.errorRequired
+    )
+  })
+
+  it('should support "required" prop', async () => {
+    render(
+      <Form.Handler>
+        <Iterate.PushContainer path="/entries" required>
+          <Field.Name.Last itemPath="/name" />
+        </Iterate.PushContainer>
+      </Form.Handler>
+    )
+
+    const input = document.querySelector('input')
+    const button = document.querySelector('button')
+
+    expect(input).toHaveValue('')
+
+    await userEvent.click(button)
+
+    expect(input).toHaveValue('')
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+      nb.LastName.errorRequired
+    )
+  })
+
+  it('should inherit "required" from DataContext', async () => {
+    render(
+      <Form.Handler required>
+        <Iterate.PushContainer path="/entries">
+          <Field.Name.Last itemPath="/name" />
         </Iterate.PushContainer>
       </Form.Handler>
     )
@@ -879,6 +1057,144 @@ describe('PushContainer', () => {
 
     await waitFor(() => {
       expect(document.querySelector('.dnb-form-status')).toBeNull()
+    })
+  })
+
+  describe('itemPath', () => {
+    it('should add item to the correct array', async () => {
+      let collectedData = null
+
+      render(
+        <Form.Handler
+          data={{
+            outer: [{ inner: [] }],
+          }}
+        >
+          <Iterate.Array path="/outer">
+            <Iterate.Array itemPath="/inner">
+              <Field.String itemPath="/" />
+              <Iterate.RemoveButton />
+            </Iterate.Array>
+
+            <Iterate.PushContainer itemPath="/inner">
+              <Field.String itemPath="/" defaultValue="bar" />
+            </Iterate.PushContainer>
+          </Iterate.Array>
+
+          <DataContext.Consumer>
+            {(context) => {
+              collectedData = context.data
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      expect(collectedData).toEqual({
+        outer: [{ inner: [] }],
+      })
+
+      await userEvent.click(
+        document.querySelector('.dnb-push-container__done-button')
+      )
+
+      expect(collectedData).toEqual({
+        outer: [{ inner: ['bar'] }],
+      })
+
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate-remove-element-button')
+      )
+
+      expect(collectedData).toEqual({
+        outer: [{ inner: [] }],
+      })
+
+      await userEvent.click(
+        document.querySelector('.dnb-push-container__done-button')
+      )
+
+      expect(collectedData).toEqual({
+        outer: [{ inner: ['bar'] }],
+      })
+    })
+
+    it('should use itemPath to determine the initial amount of items when "showOpenButtonWhen" is used', async () => {
+      render(
+        <Form.Handler
+          data={{
+            outer: [{ inner: ['existing item'] }],
+          }}
+        >
+          <Iterate.Array path="/outer">
+            <Iterate.Array itemPath="/inner">
+              <Field.String itemPath="/" />
+            </Iterate.Array>
+
+            <Iterate.PushContainer
+              itemPath="/inner"
+              openButton={<Iterate.PushContainer.OpenButton />}
+              showOpenButtonWhen={() => true}
+            >
+              <Field.String itemPath="/" />
+            </Iterate.PushContainer>
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelector('.dnb-forms-iterate-open-button')
+      ).toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-forms-section-block')
+      ).toHaveClass('dnb-height-animation--hidden')
+
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate-open-button')
+      )
+
+      expect(
+        document.querySelector('.dnb-forms-section-block')
+      ).toHaveClass('dnb-height-animation--is-visible')
+    })
+
+    it('should show PushContainer based on the amount of items', async () => {
+      render(
+        <Form.Handler
+          data={{
+            outer: [{ inner: ['existing item'] }],
+          }}
+        >
+          <Iterate.Array path="/outer">
+            <Iterate.Array itemPath="/inner">
+              <Field.String itemPath="/" />
+              <Iterate.RemoveButton />
+            </Iterate.Array>
+
+            <Iterate.PushContainer
+              itemPath="/inner"
+              openButton={<Iterate.PushContainer.OpenButton />}
+              showOpenButtonWhen={(list) => list.length > 0}
+            >
+              <Field.String itemPath="/" />
+            </Iterate.PushContainer>
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelector('.dnb-forms-section-block')
+      ).toHaveClass('dnb-height-animation--hidden')
+
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate-remove-element-button')
+      )
+
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
+      expect(
+        document.querySelector('.dnb-forms-section-block')
+      ).toHaveClass('dnb-height-animation--is-visible')
     })
   })
 })

@@ -106,7 +106,7 @@ export const DrawerListExampleOnlyToVisualize = () => (
 
 export const DrawerListExampleDefault = () => (
   <Wrapper>
-    <ComponentBox scope={{ data }} data-visual-test="drawer-list-default">
+    <ComponentBox scope={{ data }}>
       <DrawerList
         skip_portal
         opened
@@ -151,9 +151,77 @@ export const DrawerListExampleDisabled = () => (
   </Wrapper>
 )
 
+export const DrawerListExampleInlineStyling = () => (
+  <Wrapper>
+    <ComponentBox>
+      <DrawerList
+        skip_portal
+        opened
+        prevent_close
+        observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
+      >
+        <DrawerList.Options>
+          <DrawerList.Item
+            style={{ color: 'red' }}
+            key="A"
+            selected={false}
+            value="A"
+            on_click={() => {
+              console.log('on_click')
+            }}
+          >
+            Item 1
+          </DrawerList.Item>
+          <DrawerList.HorizontalItem
+            style={{ color: 'green' }}
+            key="B"
+            selected={false}
+            value="B"
+            on_click={() => {
+              console.log('on_click')
+            }}
+          >
+            Item 2
+          </DrawerList.HorizontalItem>
+        </DrawerList.Options>
+      </DrawerList>
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const DrawerListExampleInlineStylingData = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="drawer-list-inline-style">
+      <DrawerList
+        skip_portal
+        opened
+        prevent_close
+        data={[
+          {
+            content:
+              'They may be very large, like pneumonoultramicroscopicsilicovolcanoconiosis, a 45-letter hippopotomonstrosesquipedalian word for black lung disease.',
+            style: { hyphens: 'auto', color: 'red' },
+          },
+          {
+            content:
+              'The longest word in the Oxford English Dictionary is the 45-letter pneumonoultramicroscopicsilicovolcanoconiosis, which refers to a form of lung disease.',
+            style: { hyphens: 'none', color: 'green' },
+          },
+          {
+            content:
+              'According to the Oxford English Dictionary the longest word in the language is pneumonoultramicroscopicsilicovolcanoconiosis, with 45 letters.',
+            style: { hyphens: 'manual', color: 'blue' },
+          },
+        ]}
+        observer_element=".dnb-live-preview" // prevents direction to change when scrolling in this example
+      />
+    </ComponentBox>
+  </Wrapper>
+)
+
 export const DrawerListExampleSingleItem = () => (
   <Wrapper>
-    <ComponentBox scope={{ data }} data-visual-test="drawer-list-events">
+    <ComponentBox scope={{ data }}>
       {() => {
         const CustomComponent = () => (
           <CustomComponentInner
@@ -213,7 +281,7 @@ export const DrawerListExampleSingleItem = () => (
 
 export const DrawerListExampleMarkup = () => (
   <Wrapper>
-    <ComponentBox data-visual-test="drawer-items">
+    <ComponentBox>
       {() => {
         const list = [{ value: 'A' }, { value: 'B' }, { value: 'C' }]
         const CustomWidth = styled(DrawerList)`

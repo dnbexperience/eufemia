@@ -41,7 +41,7 @@ test.describe('Page Lists', () => {
 
       await expect(
         page.locator(
-          '#tabbar-content h2:has(a[href*="/uilib/components/"]:not([aria-hidden]))',
+          '#tab-bar-content h2:has(a[href*="/uilib/components/"]:not([aria-hidden]))',
         ),
       ).toHaveCount(listLength)
     })
@@ -72,7 +72,7 @@ test.describe('Page Lists', () => {
 
       await expect(
         page.locator(
-          '#tabbar-content h2:has(a[href*="/uilib/extensions/"]:not([aria-hidden]))',
+          '#tab-bar-content h2:has(a[href*="/uilib/extensions/"]:not([aria-hidden]))',
         ),
       ).toHaveCount(listLength)
     })
@@ -102,7 +102,7 @@ test.describe('Page Lists', () => {
         .count()
       await expect(
         page.locator(
-          '#tabbar-content ul li:has(a[href*="/uilib/elements/"]:not([aria-hidden]))',
+          '#tab-bar-content ul li:has(a[href*="/uilib/elements/"]:not([aria-hidden]))',
         ),
       ).toHaveCount(listLength)
     })

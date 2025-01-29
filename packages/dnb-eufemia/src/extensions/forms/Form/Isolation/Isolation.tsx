@@ -107,6 +107,10 @@ function IsolationProvider<Data extends JsonObject>(
         localDataRef.current = {}
       }
 
+      // Depending on the usage, we can get a path like so: "/pushContainerItems/0/somePath"
+      // where "somePath" is a frozen object. In order to still be able to modify it,
+      // pointer.set will unfreeze the object and then modify it. (Object.isFrozen(obj[tok]))
+
       pointer.set(localDataRef.current, path, value)
 
       if (pathSection) {
@@ -221,6 +225,21 @@ function IsolationProvider<Data extends JsonObject>(
     onClearProp?.()
   }, [onClearProp])
 
+  const setShowAllErrorsNested = useCallback((showAllErrors: boolean) => {
+    dataContextRef.current?.setShowAllErrors?.(showAllErrors)
+  }, [])
+
+  if (
+    bubbleValidation &&
+    !outerContext?.addSetShowAllErrorsRef?.current?.includes(
+      setShowAllErrorsNested
+    )
+  ) {
+    outerContext.addSetShowAllErrorsRef?.current.push(
+      setShowAllErrorsNested
+    )
+  }
+
   const providerProps: IsolationProps<Data> = {
     ...props,
     [defaultData ? 'defaultData' : 'data']: internalDataRef.current,
@@ -251,21 +270,33 @@ function IsolationProvider<Data extends JsonObject>(
   )
 }
 
-function BubbleValidation({ outerContext }) {
+function BubbleValidation({
+  outerContext,
+}: {
+  outerContext: ContextState
+}) {
   const { setMountedFieldState, setFieldError } = outerContext || {}
-  const dataContext = useContext(DataContext)
+  const errors = useContext(DataContext).hasErrors()
 
   const id = useId()
   useEffect(() => {
     const path = `/${id}`
-    const errors = dataContext.hasErrors()
+
     if (errors) {
       setMountedFieldState?.(path, {
         isMounted: true,
       })
     }
+
     setFieldError?.(path, errors ? new Error('Form.Isolation') : undefined)
-  }, [dataContext, id, setFieldError, setMountedFieldState])
+
+    return () => {
+      setFieldError?.(path, undefined)
+      setMountedFieldState?.(path, {
+        isMounted: false,
+      })
+    }
+  }, [errors, id, setFieldError, setMountedFieldState])
 
   return null
 }

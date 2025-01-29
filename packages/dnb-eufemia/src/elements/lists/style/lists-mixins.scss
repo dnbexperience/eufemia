@@ -5,6 +5,7 @@
 
 @use '../../../style/elements/ui-spacing.scss';
 @import '../../../style/core/utilities.scss';
+@import '../../../components/space/style/space-mixins.scss';
 
 @mixin listDefaults() {
   & ul,
@@ -42,9 +43,7 @@
 }
 
 @mixin ulStyle() {
-  &:not([class*='dnb-space']) {
-    margin: 0;
-  }
+  @include spaceReset();
 
   padding: 0;
   &:not([class*='dnb-space__left']) {
@@ -277,9 +276,7 @@
 @mixin unstyledList() {
   list-style-type: none;
 
-  &:not([class*='dnb-space']) {
-    margin: 0;
-  }
+  @include spaceReset();
   &:not([class*='dnb-space__left']) {
     padding-left: 0;
   }

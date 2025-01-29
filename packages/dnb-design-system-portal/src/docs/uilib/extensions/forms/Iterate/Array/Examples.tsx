@@ -7,6 +7,8 @@ import {
   Form,
   Tools,
   Wizard,
+  ValueBlock,
+  FieldBlock,
 } from '@dnb/eufemia/src/extensions/forms'
 export { Default as AnimatedContainer } from '../AnimatedContainer/Examples'
 
@@ -371,7 +373,7 @@ export const WithVisibility = () => {
 
 export const InitiallyOpen = () => {
   return (
-    <ComponentBox scope={{ Iterate, Tools }}>
+    <ComponentBox scope={{ Iterate }}>
       <Form.Handler required>
         <Wizard.Container>
           <Wizard.Step>
@@ -426,7 +428,7 @@ export const InitiallyOpen = () => {
 
 export const InitialOpenWithToolbarVariant = () => {
   return (
-    <ComponentBox scope={{ Iterate, Tools }}>
+    <ComponentBox scope={{ Iterate }}>
       {() => {
         const MyForm = () => {
           const { getCountryNameByIso } = Value.SelectCountry.useCountry()
@@ -754,6 +756,179 @@ export const ViewAndEditContainerWithLineDivider = () => {
               </Form.Card>
 
               <Form.SubmitButton variant="send" />
+            </Flex.Stack>
+          </Form.Handler>
+        )
+      }}
+    </ComponentBox>
+  )
+}
+
+export const Required = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler>
+        <Form.Card>
+          <Iterate.Array
+            path="/items"
+            animate
+            required
+            errorMessages={{
+              'Field.errorRequired': 'Custom message',
+            }}
+            validateInitially
+          >
+            <Flex.Horizontal>
+              <Field.String itemPath="/" />
+              <Iterate.RemoveButton />
+            </Flex.Horizontal>
+          </Iterate.Array>
+
+          <Iterate.PushButton
+            path="/items"
+            pushValue="baz"
+            text="Add item to hide error"
+          />
+        </Form.Card>
+
+        <Form.SubmitButton />
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const NestedIterate = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler
+        data={{
+          outer: [{ inner: ['foo', 'bar'] }],
+        }}
+      >
+        <Iterate.Array path="/outer">
+          <Iterate.Array itemPath="/inner">
+            <Field.String label="Item {itemNo}" itemPath="/" />
+          </Iterate.Array>
+        </Iterate.Array>
+
+        <Tools.Log />
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const NestedIterateWithPushContainer = () => {
+  return (
+    <ComponentBox
+      scope={{ Iterate, Tools, ValueBlock, FieldBlock }}
+      hideCode
+    >
+      {() => {
+        function EditPerson() {
+          return (
+            <Flex.Stack>
+              <Field.Name.Last itemPath="/name" />
+
+              <FieldBlock label="Citizenship's" asFieldset>
+                <Iterate.Array
+                  itemPath="/citizenships"
+                  animate
+                  required
+                  errorMessages={{
+                    'Field.errorRequired':
+                      'At least one citizenship is required.',
+                  }}
+                >
+                  <Flex.Horizontal align="center">
+                    <Field.SelectCountry label={false} itemPath="/" />
+                    <Iterate.RemoveButton />
+                  </Flex.Horizontal>
+                </Iterate.Array>
+              </FieldBlock>
+
+              <Iterate.PushContainer
+                itemPath="/citizenships"
+                openButton={
+                  <Iterate.PushContainer.OpenButton
+                    top
+                    text="Add another citizenship"
+                    variant="tertiary"
+                  />
+                }
+                showOpenButtonWhen={(list) => list.length > 0}
+                toolbar={
+                  <Iterate.Toolbar>
+                    <Iterate.EditContainer.DoneButton text="Add citizenship" />
+                  </Iterate.Toolbar>
+                }
+              >
+                <Field.SelectCountry
+                  label="New citizenship"
+                  itemPath="/"
+                />
+              </Iterate.PushContainer>
+            </Flex.Stack>
+          )
+        }
+
+        return (
+          <Form.Handler
+            required
+            onSubmit={(data) => console.log('onSubmit', data)}
+          >
+            <Flex.Stack>
+              <Iterate.PushContainer
+                path="/persons"
+                title="New person"
+                openButton={
+                  <Iterate.PushContainer.OpenButton
+                    text="Add new person"
+                    variant="tertiary"
+                  />
+                }
+                showOpenButtonWhen={(list) => list.length > 0}
+              >
+                <EditPerson />
+              </Iterate.PushContainer>
+
+              <Iterate.Array
+                path="/persons"
+                required
+                errorMessages={{
+                  required: 'Please add at least one person.',
+                }}
+              >
+                <Iterate.ViewContainer title="Persons">
+                  <Value.SummaryList>
+                    <Value.Name.Last itemPath="/name" />
+
+                    <ValueBlock label="Citizenship's">
+                      <Iterate.Array itemPath="/citizenships">
+                        <Value.SelectCountry
+                          inline
+                          label={false}
+                          itemPath="/"
+                        />
+                      </Iterate.Array>
+                    </ValueBlock>
+                  </Value.SummaryList>
+
+                  <Iterate.Toolbar>
+                    <Iterate.ViewContainer.EditButton />
+                    <Iterate.ViewContainer.RemoveButton
+                      showConfirmDialog
+                    />
+                  </Iterate.Toolbar>
+                </Iterate.ViewContainer>
+
+                <Iterate.EditContainer title="Edit person">
+                  <EditPerson />
+                </Iterate.EditContainer>
+              </Iterate.Array>
+
+              <Form.SubmitButton text="Save" />
+
+              <Tools.Log />
             </Flex.Stack>
           </Form.Handler>
         )

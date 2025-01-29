@@ -7,6 +7,9 @@ import { IterateItemContext } from '../..'
 import { Field, FieldBlock, Form, Value, ValueBlock } from '../../..'
 import { ContextState, FilterData } from '../../../DataContext'
 
+import nbNO from '../../../constants/locales/nb-NO'
+const nb = nbNO['nb-NO']
+
 describe('Iterate.Array', () => {
   describe('with primitive elements', () => {
     it('should distribute values and receive callbacks', async () => {
@@ -59,6 +62,61 @@ describe('Iterate.Array', () => {
         'two',
         'threethree',
       ])
+    })
+
+    it('should support a function callback as the children prop', async () => {
+      const onChange = jest.fn()
+      const callback = jest.fn(() => {
+        return <Field.String itemPath="/" />
+      })
+
+      const data = ['one', 'two', 'three']
+
+      render(
+        <Iterate.Array value={data} onChange={onChange}>
+          {callback}
+        </Iterate.Array>
+      )
+
+      const fields = document.querySelectorAll('input')
+      expect(fields).toHaveLength(3)
+      const [fieldOne, fieldTwo, fieldThree] = Array.from(fields)
+
+      expect(fieldOne).toHaveDisplayValue('one')
+      expect(fieldTwo).toHaveDisplayValue('two')
+      expect(fieldThree).toHaveDisplayValue('three')
+
+      expect(callback).toHaveBeenCalledTimes(3)
+      expect(callback).toHaveBeenNthCalledWith(
+        1,
+        'one',
+        0,
+        expect.arrayContaining([
+          expect.objectContaining({
+            arrayValue: data,
+          }),
+        ])
+      )
+      expect(callback).toHaveBeenNthCalledWith(
+        2,
+        'two',
+        1,
+        expect.arrayContaining([
+          expect.objectContaining({
+            arrayValue: data,
+          }),
+        ])
+      )
+      expect(callback).toHaveBeenNthCalledWith(
+        3,
+        'three',
+        2,
+        expect.arrayContaining([
+          expect.objectContaining({
+            arrayValue: data,
+          }),
+        ])
+      )
     })
 
     describe('placeholder', () => {
@@ -121,6 +179,24 @@ describe('Iterate.Array', () => {
         expect(
           document.querySelector('.dnb-forms-section')
         ).toHaveTextContent('Placeholder text')
+      })
+
+      it('should render span when placeholder is a string', () => {
+        const list = []
+
+        render(
+          <Iterate.Array value={list} placeholder="Placeholder text">
+            content
+          </Iterate.Array>
+        )
+
+        expect(document.querySelectorAll('.dnb-span')).toHaveLength(1)
+        expect(document.querySelector('.dnb-span')).toHaveTextContent(
+          'Placeholder text'
+        )
+        expect(document.querySelector('.dnb-span')).toHaveClass(
+          'dnb-t__size--small'
+        )
       })
     })
 
@@ -504,6 +580,171 @@ describe('Iterate.Array', () => {
     })
   })
 
+  describe('required', () => {
+    it('should show required error on initial render', () => {
+      render(
+        <Form.Handler>
+          <Iterate.Array path="/items" required validateInitially>
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Field.errorRequired
+      )
+    })
+
+    it('should not inherit required from parent', () => {
+      render(
+        <Form.Handler required>
+          <Iterate.Array path="/items" validateInitially>
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should support custom error messages', () => {
+      render(
+        <Form.Handler>
+          <Iterate.Array
+            path="/items"
+            required
+            errorMessages={{
+              'Field.errorRequired': 'Custom message',
+            }}
+            validateInitially
+          >
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        'Custom message'
+      )
+    })
+
+    it('should show required error on submit', () => {
+      render(
+        <Form.Handler>
+          <Iterate.Array path="/items" required>
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Field.errorRequired
+      )
+    })
+
+    it('should show and hide required error', async () => {
+      render(
+        <Form.Handler>
+          <Iterate.Array path="/items" required>
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+          <Iterate.PushButton path="/items" pushValue="baz" />
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Field.errorRequired
+      )
+
+      await userEvent.click(document.querySelector('button'))
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
+    })
+
+    it('should report error to FieldBlock initially', async () => {
+      render(
+        <Form.Handler>
+          <FieldBlock asFieldset>
+            <Iterate.Array path="/items" required validateInitially>
+              <Field.String itemPath="/" />
+            </Iterate.Array>
+          </FieldBlock>
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelector(
+          '.dnb-forms-field-block__status > .dnb-form-status'
+        )
+      ).toHaveTextContent(nb.Field.errorRequired)
+    })
+
+    it('should show and hide error message user interaction', async () => {
+      render(
+        <Form.Handler
+          defaultData={{
+            items: ['foo', 'bar'],
+          }}
+        >
+          <FieldBlock asFieldset>
+            <Iterate.Array path="/items" required>
+              <Field.String itemPath="/" />
+              <Iterate.RemoveButton />
+            </Iterate.Array>
+          </FieldBlock>
+          <Iterate.PushButton path="/items" pushValue="baz" />
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      await userEvent.click(document.querySelector('button'))
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      await userEvent.click(document.querySelector('button'))
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Field.errorRequired
+      )
+
+      // Add a new item
+      await userEvent.click(document.querySelector('button'))
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+    })
+  })
+
   describe('onChangeValidator', () => {
     it('should validate onChangeValidator initially (validateInitially)', async () => {
       const onChangeValidator = jest.fn((arrayValue) => {
@@ -546,7 +787,7 @@ describe('Iterate.Array', () => {
 
       fireEvent.click(document.querySelector('button'))
 
-      expect(onChangeValidator).toHaveBeenCalledTimes(2)
+      expect(onChangeValidator).toHaveBeenCalledTimes(3)
       expect(onChangeValidator).toHaveBeenCalledWith(
         ['foo', 'bar', 'baz'],
         expect.anything()
@@ -604,7 +845,7 @@ describe('Iterate.Array', () => {
 
       fireEvent.click(document.querySelector('button'))
 
-      expect(onChangeValidator).toHaveBeenCalledTimes(2)
+      expect(onChangeValidator).toHaveBeenCalledTimes(3)
       expect(onChangeValidator).toHaveBeenCalledWith(
         ['foo', 'bar', 'baz'],
         expect.anything()
@@ -667,9 +908,24 @@ describe('Iterate.Array', () => {
         )
 
         expect(renderProp).toHaveBeenCalledTimes(3)
-        expect(renderProp).toHaveBeenNthCalledWith(1, 'first', 0)
-        expect(renderProp).toHaveBeenNthCalledWith(2, 'second', 1)
-        expect(renderProp).toHaveBeenNthCalledWith(3, 'third', 2)
+        expect(renderProp).toHaveBeenNthCalledWith(
+          1,
+          'first',
+          0,
+          expect.any(Array)
+        )
+        expect(renderProp).toHaveBeenNthCalledWith(
+          2,
+          'second',
+          1,
+          expect.any(Array)
+        )
+        expect(renderProp).toHaveBeenNthCalledWith(
+          3,
+          'third',
+          2,
+          expect.any(Array)
+        )
       })
     })
 
@@ -693,23 +949,55 @@ describe('Iterate.Array', () => {
         )
 
         expect(renderProp1).toHaveBeenCalledTimes(4)
-        expect(renderProp1).toHaveBeenNthCalledWith(1, { mem: 'A' }, 0)
-        expect(renderProp1).toHaveBeenNthCalledWith(2, { mem: 'B' }, 1)
-        expect(renderProp1).toHaveBeenNthCalledWith(3, { mem: 'C' }, 2)
+        expect(renderProp1).toHaveBeenNthCalledWith(
+          1,
+          { mem: 'A' },
+          0,
+          expect.any(Array)
+        )
+        expect(renderProp1).toHaveBeenNthCalledWith(
+          2,
+          { mem: 'B' },
+          1,
+          expect.any(Array)
+        )
+        expect(renderProp1).toHaveBeenNthCalledWith(
+          3,
+          { mem: 'C' },
+          2,
+          expect.any(Array)
+        )
         expect(renderProp1).toHaveBeenNthCalledWith(
           4,
           { mem: 'D', second: '2nd' },
-          3
+          3,
+          expect.any(Array)
         )
 
         expect(renderProp2).toHaveBeenCalledTimes(4)
-        expect(renderProp2).toHaveBeenNthCalledWith(1, { mem: 'A' }, 0)
-        expect(renderProp2).toHaveBeenNthCalledWith(2, { mem: 'B' }, 1)
-        expect(renderProp2).toHaveBeenNthCalledWith(3, { mem: 'C' }, 2)
+        expect(renderProp2).toHaveBeenNthCalledWith(
+          1,
+          { mem: 'A' },
+          0,
+          expect.any(Array)
+        )
+        expect(renderProp2).toHaveBeenNthCalledWith(
+          2,
+          { mem: 'B' },
+          1,
+          expect.any(Array)
+        )
+        expect(renderProp2).toHaveBeenNthCalledWith(
+          3,
+          { mem: 'C' },
+          2,
+          expect.any(Array)
+        )
         expect(renderProp2).toHaveBeenNthCalledWith(
           4,
           { mem: 'D', second: '2nd' },
-          3
+          3,
+          expect.any(Array)
         )
       })
     })
@@ -862,7 +1150,6 @@ describe('Iterate.Array', () => {
             <Form.Handler onSubmit={onSubmit}>
               <Iterate.Array path="/myList" defaultValue={[null]}>
                 <Field.String itemPath="/" defaultValue="foo" />
-                <Iterate.RemoveButton />
               </Iterate.Array>
             </Form.Handler>
           </React.StrictMode>
@@ -1062,8 +1349,8 @@ describe('Iterate.Array', () => {
                   { foo: 'foo 2', bar: 'bar 2' },
                 ]}
               >
-                <Field.String itemPath="/foo" />
-                <Field.String itemPath="/bar" />
+                <Field.String label="Label" itemPath="/foo" />
+                <Field.String label="Label" itemPath="/bar" />
               </Iterate.Array>
 
               <Form.SubmitButton>Submit</Form.SubmitButton>
@@ -1112,8 +1399,8 @@ describe('Iterate.Array', () => {
           expect(filterDataHandler).toHaveBeenNthCalledWith(2, {
             path: '/myList/0/foo',
             value: 'foo 1',
-            displayValue: undefined,
-            label: undefined,
+            displayValue: 'foo 1',
+            label: 'Label',
             data: {
               myList: [
                 { bar: 'bar 1', foo: 'foo 1' },
@@ -1128,8 +1415,8 @@ describe('Iterate.Array', () => {
           expect(filterDataHandler).toHaveBeenNthCalledWith(3, {
             path: '/myList/0/bar',
             value: 'bar 1',
-            displayValue: undefined,
-            label: undefined,
+            displayValue: 'bar 1',
+            label: 'Label',
             data: {
               myList: [
                 { bar: 'bar 1', foo: 'foo 1' },
@@ -1144,8 +1431,8 @@ describe('Iterate.Array', () => {
           expect(filterDataHandler).toHaveBeenNthCalledWith(4, {
             path: '/myList/1/foo',
             value: 'foo 2',
-            displayValue: undefined,
-            label: undefined,
+            displayValue: 'foo 2',
+            label: 'Label',
             data: {
               myList: [
                 { bar: 'bar 1', foo: 'foo 1' },
@@ -1158,8 +1445,8 @@ describe('Iterate.Array', () => {
           expect(filterDataHandler).toHaveBeenNthCalledWith(5, {
             path: '/myList/1/bar',
             value: 'bar 2',
-            displayValue: undefined,
-            label: undefined,
+            displayValue: 'bar 2',
+            label: 'Label',
             data: {
               myList: [
                 { bar: 'bar 1', foo: 'foo 1' },
@@ -1182,8 +1469,8 @@ describe('Iterate.Array', () => {
                   { foo: 'foo 2', bar: 'bar 2' },
                 ]}
               >
-                <Field.String itemPath="/foo" disabled />
-                <Field.String itemPath="/bar" />
+                <Field.String label="Label" itemPath="/foo" disabled />
+                <Field.String label="Label" itemPath="/bar" />
               </Iterate.Array>
 
               <Form.SubmitButton>Submit</Form.SubmitButton>
@@ -1220,8 +1507,8 @@ describe('Iterate.Array', () => {
           expect(filterDataHandler).toHaveBeenNthCalledWith(7, {
             path: '/myList/0/foo',
             value: 'foo 1',
-            displayValue: undefined,
-            label: undefined,
+            displayValue: 'foo 1',
+            label: 'Label',
             data: {
               myList: [
                 { bar: 'bar 1', foo: 'foo 1' },
@@ -1236,8 +1523,8 @@ describe('Iterate.Array', () => {
           expect(filterDataHandler).toHaveBeenNthCalledWith(8, {
             path: '/myList/0/bar',
             value: 'bar 1',
-            displayValue: undefined,
-            label: undefined,
+            displayValue: 'bar 1',
+            label: 'Label',
             data: {
               myList: [
                 { bar: 'bar 1', foo: 'foo 1' },
@@ -1252,8 +1539,8 @@ describe('Iterate.Array', () => {
           expect(filterDataHandler).toHaveBeenNthCalledWith(9, {
             path: '/myList/1/foo',
             value: 'foo 2',
-            displayValue: undefined,
-            label: undefined,
+            displayValue: 'foo 2',
+            label: 'Label',
             data: {
               myList: [
                 { bar: 'bar 1', foo: 'foo 1' },
@@ -1268,8 +1555,8 @@ describe('Iterate.Array', () => {
           expect(filterDataHandler).toHaveBeenNthCalledWith(10, {
             path: '/myList/1/bar',
             value: 'bar 2',
-            displayValue: undefined,
-            label: undefined,
+            displayValue: 'bar 2',
+            label: 'Label',
             data: {
               myList: [
                 { bar: 'bar 1', foo: 'foo 1' },
@@ -1551,7 +1838,8 @@ describe('Iterate.Array', () => {
       expect(container.querySelector('.dnb-flex-container')).toBeNull()
       expect(log).toHaveBeenCalledWith(
         expect.any(String),
-        'Value components as siblings should be wrapped inside a Value.SummaryList!'
+        'Value components as siblings should be wrapped inside a Value.SummaryList:',
+        { itemPath: '/', label: '', path: undefined }
       )
 
       log.mockRestore()
@@ -1662,6 +1950,239 @@ describe('Iterate.Array', () => {
       expect(onSubmit).toHaveBeenLastCalledWith(
         {
           myList: ['default value 1', 'default value 2', 'something'],
+        },
+        expect.anything()
+      )
+    })
+  })
+
+  describe('itemPath', () => {
+    it('should iterate over the values given in data context', () => {
+      const onSubmit = jest.fn()
+      let collectedContext = null
+
+      render(
+        <Form.Handler
+          onSubmit={onSubmit}
+          data={{
+            outer: [{ inner: ['value 1', 'value 2'] }],
+          }}
+        >
+          <Iterate.Array path="/outer">
+            <Iterate.Array itemPath="/inner">
+              <Field.String itemPath="/" />
+            </Iterate.Array>
+          </Iterate.Array>
+
+          <DataContext.Consumer>
+            {(context) => {
+              collectedContext = context
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      const [first, second] = Array.from(
+        document.querySelectorAll('input')
+      )
+
+      expect(first).toHaveValue('value 1')
+      expect(second).toHaveValue('value 2')
+
+      expect(collectedContext.data).toEqual({
+        outer: [{ inner: ['value 1', 'value 2'] }],
+      })
+
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        {
+          outer: [{ inner: ['value 1', 'value 2'] }],
+        },
+        expect.anything()
+      )
+    })
+
+    it('should iterate over the values given as defaultValue', () => {
+      const onSubmit = jest.fn()
+      let collectedContext = null
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Iterate.Array
+            path="/outer"
+            defaultValue={[{ inner: ['value 1', 'value 2'] }]}
+          >
+            <Iterate.Array itemPath="/inner">
+              <Field.String itemPath="/" />
+            </Iterate.Array>
+          </Iterate.Array>
+
+          <DataContext.Consumer>
+            {(context) => {
+              collectedContext = context
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      const [first, second] = Array.from(
+        document.querySelectorAll('input')
+      )
+
+      expect(first).toHaveValue('value 1')
+      expect(second).toHaveValue('value 2')
+
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        {
+          outer: [{ inner: ['value 1', 'value 2'] }],
+        },
+        expect.anything()
+      )
+      expect(collectedContext.data).toEqual({
+        outer: [{ inner: ['value 1', 'value 2'] }],
+      })
+    })
+
+    it('should iterate over the values given as defaultValue (nested)', () => {
+      const onSubmit = jest.fn()
+      let collectedContext = null
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Iterate.Array path="/outer" defaultValue={[{}]}>
+            <Iterate.Array
+              itemPath="/inner"
+              defaultValue={['value 1', 'value 2']}
+            >
+              <Field.String itemPath="/" />
+            </Iterate.Array>
+          </Iterate.Array>
+
+          <DataContext.Consumer>
+            {(context) => {
+              collectedContext = context
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      const [first, second] = Array.from(
+        document.querySelectorAll('input')
+      )
+
+      expect(first).toHaveValue('value 1')
+      expect(second).toHaveValue('value 2')
+
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        {
+          outer: [{ inner: ['value 1', 'value 2'] }],
+        },
+        expect.anything()
+      )
+      expect(collectedContext.data).toEqual({
+        outer: [{ inner: ['value 1', 'value 2'] }],
+      })
+    })
+
+    it('should update data context on changes', async () => {
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler
+          onSubmit={onSubmit}
+          data={{
+            outer: [{ inner: ['value 1', 'value 2'] }],
+          }}
+        >
+          <Iterate.Array path="/outer">
+            <Iterate.Array itemPath="/inner">
+              <Field.String itemPath="/" />
+            </Iterate.Array>
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      const [first, second] = Array.from(
+        document.querySelectorAll('input')
+      )
+
+      expect(first).toHaveValue('value 1')
+      expect(second).toHaveValue('value 2')
+
+      await userEvent.type(first, '{Backspace}foo')
+      await userEvent.type(second, '{Backspace}bar')
+
+      expect(first).toHaveValue('value foo')
+      expect(second).toHaveValue('value bar')
+
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        {
+          outer: [{ inner: ['value foo', 'value bar'] }],
+        },
+        expect.anything()
+      )
+    })
+
+    it('should support "defaultValue" on fields inside nested iterate', () => {
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler
+          onSubmit={onSubmit}
+          data={{
+            outer: [{ inner: [undefined, null, 'something'] }],
+          }}
+        >
+          <Iterate.Array path="/outer">
+            <Iterate.Array itemPath="/inner">
+              {(value, index) => {
+                return (
+                  <Field.String
+                    itemPath="/"
+                    defaultValue={`default value ${index + 1}`}
+                  />
+                )
+              }}
+            </Iterate.Array>
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      const [first, second, third] = Array.from(
+        document.querySelectorAll('input')
+      )
+
+      expect(first).toHaveValue('default value 1')
+      expect(second).toHaveValue('default value 2')
+      expect(third).toHaveValue('something')
+
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        {
+          outer: [
+            { inner: ['default value 1', 'default value 2', 'something'] },
+          ],
         },
         expect.anything()
       )

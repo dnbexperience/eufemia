@@ -104,7 +104,7 @@ export function WithoutFormHandler() {
 
 export function FilterData() {
   return (
-    <ComponentBox scope={{ Tools }}>
+    <ComponentBox>
       {() => {
         const filterDataPaths = {
           '/isVisible': false,

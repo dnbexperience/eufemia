@@ -130,6 +130,7 @@ function WizardContainer(props: Props) {
   const activeIndexRef = useRef<StepIndex>(initialActiveIndex)
   const totalStepsRef = useRef<number>(NaN)
   const errorOnStepRef = useRef<Record<StepIndex, boolean>>({})
+  const elementRef = useRef<HTMLElement>()
   const stepElementRef = useRef<HTMLElement>()
   const preventNextStepRef = useRef(false)
   const stepsRef = useRef<Steps>({})
@@ -190,9 +191,7 @@ function WizardContainer(props: Props) {
   )
 
   const { setFocus, scrollToTop, isInteractionRef } =
-    useHandleLayoutEffect({
-      stepElementRef,
-    })
+    useHandleLayoutEffect({ elementRef, stepElementRef })
 
   const executeLayoutAnimationRef = useRef<() => void>()
   useStepAnimation({
@@ -404,6 +403,7 @@ function WizardContainer(props: Props) {
           `dnb-forms-wizard-layout--${variant}`,
           className
         )}
+        innerRef={elementRef}
         {...rest}
       >
         <DisplaySteps
@@ -583,7 +583,8 @@ function WizardPortal({ children }) {
 }
 
 function PrerenderFieldPropsProvider({ children }) {
-  const { data, setFieldProps, updateDataValue } = useContext(DataContext)
+  const { data, setFieldInternals, updateDataValue } =
+    useContext(DataContext)
 
   return (
     <DataContext.Provider
@@ -592,7 +593,7 @@ function PrerenderFieldPropsProvider({ children }) {
 
         // Only update the props and the data value
         data,
-        setFieldProps,
+        setFieldInternals,
         updateDataValue,
         prerenderFieldProps: true,
         hasContext: true,

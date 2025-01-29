@@ -20,7 +20,6 @@ import FieldBlockContext, {
   StateBasis,
 } from './FieldBlockContext'
 import DataContext from '../DataContext/Context'
-import IterateElementContext from '../Iterate/IterateItemContext'
 import { Space, FormLabel, FormStatus } from '../../../components'
 import { Ul, Li } from '../../../elements'
 import {
@@ -43,6 +42,7 @@ import SubmitIndicator from '../Form/SubmitIndicator/SubmitIndicator'
 import { createSharedState } from '../../../shared/helpers/useSharedState'
 import useTranslation from '../hooks/useTranslation'
 import { FormError } from '../utils'
+import { useIterateItemNo } from '../Iterate/ItemNo/useIItemNo'
 
 export const states: Array<StateTypes> = ['error', 'info', 'warning']
 
@@ -175,11 +175,8 @@ function FieldBlock(props: Props) {
   const hasCustomWidth = /\d(rem)$/.test(String(width))
   const hasCustomContentWidth = /\d(rem)$/.test(String(contentWidth))
 
-  const iterateItemContext = useContext(IterateElementContext)
-  const { index: iterateIndex } = iterateItemContext ?? {}
-
   const blockId = useId(props.id)
-  const [wasUpdated, forceUpdate] = useReducer(() => ({}), {})
+  const [salt, forceUpdate] = useReducer(() => ({}), {})
   const mountedFieldsRef = useRef<MountedFieldsRef>({})
   const fieldStateRef = useRef<SubmitState>(null)
   const stateRecordRef = useRef<StateRecord>({})
@@ -189,46 +186,11 @@ function FieldBlock(props: Props) {
     return Boolean(errorProp)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const { optionalLabelSuffix } = useTranslation().Field
-  const labelSuffixText = useMemo(() => {
-    if (required === false || typeof labelSuffix !== 'undefined') {
-      return labelSuffix ?? optionalLabelSuffix
-    }
-    return ''
-  }, [required, labelSuffix, optionalLabelSuffix])
-
-  const label = useMemo(() => {
-    let content = labelProp
-
-    if (iterateIndex !== undefined) {
-      content = convertJsxToString(labelProp).replace(
-        '{itemNo}',
-        String(iterateIndex + 1)
-      )
-    }
-
-    if (labelSuffixText) {
-      if (convertJsxToString(content).includes(optionalLabelSuffix)) {
-        return content
-      }
-
-      if (typeof content === 'string') {
-        return content + ' ' + labelSuffixText
-      }
-
-      if (React.isValidElement(content)) {
-        return (
-          <>
-            {content}
-            {' '}
-            {labelSuffixText}
-          </>
-        )
-      }
-    }
-
-    return content
-  }, [iterateIndex, labelProp, labelSuffixText, optionalLabelSuffix])
+  const label = useIterateItemNo({
+    label: labelProp,
+    labelSuffix,
+    required,
+  })
 
   const setInternalRecord = useCallback((props: StateBasis) => {
     const { stateId, identifier, type } = props
@@ -255,11 +217,12 @@ function FieldBlock(props: Props) {
     }
   }, [])
 
+  const setBlockRecordNested = nestedFieldBlockContext?.setBlockRecord
   const setBlockRecord = useCallback(
     (props: StateBasis) => {
-      if (nestedFieldBlockContext) {
+      if (setBlockRecordNested) {
         // If this FieldBlock is inside another one, forward the call to the outer one
-        nestedFieldBlockContext.setBlockRecord(props)
+        setBlockRecordNested(props)
         return
       }
 
@@ -267,7 +230,7 @@ function FieldBlock(props: Props) {
 
       forceUpdate()
     },
-    [nestedFieldBlockContext, setInternalRecord]
+    [setBlockRecordNested, setInternalRecord]
   )
 
   const setFieldState = useCallback(
@@ -440,17 +403,18 @@ function FieldBlock(props: Props) {
       }
 
       return acc
-    }, {}) as StatusContent
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, salt) as StatusContent
   }, [
-    info,
-    warning,
     errorProp,
-    nestedFieldBlockContext,
+    warning,
+    info,
+    salt,
     setInternalRecord,
     blockId,
-    wasUpdated, // wasUpdated is needed to get the current errors
+    hasInitiallyErrorProp,
+    props.id,
+    forId,
+    label,
   ])
 
   // Handle the error prop from outside
@@ -498,6 +462,7 @@ function FieldBlock(props: Props) {
   })
 
   const labelProps: FormLabelAllProps = {
+    id: `${id}-label`,
     className: 'dnb-forms-field-block__label',
     element: enableFieldset ? 'legend' : 'label',
     forId: enableFieldset ? undefined : forId,

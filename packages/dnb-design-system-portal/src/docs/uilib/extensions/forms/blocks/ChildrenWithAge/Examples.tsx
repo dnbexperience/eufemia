@@ -31,7 +31,7 @@ export const ChildrenWithAge = (props) => {
 
 export const ChildrenWithAgeWizard = (props) => {
   return (
-    <ComponentBox scope={{ Tools, Blocks, props }}>
+    <ComponentBox scope={{ Blocks, props }}>
       {() => {
         const MyForm = () => {
           const myTranslations = {
@@ -197,7 +197,7 @@ export const ChildrenWithAgePrefilledYes = () => {
   return (
     <ComponentBox
       data-visual-test="children-with-age-prefilled"
-      scope={{ Tools, Blocks }}
+      scope={{ Blocks }}
     >
       <Form.Handler
         data={{
@@ -238,7 +238,7 @@ export const ChildrenWithAgeSummaryMultipleNoAnswers = () => {
   return (
     <ComponentBox
       data-visual-test="children-with-age-summary-multiple-no-answers"
-      scope={{ Tools, Blocks, multipleChildrenNoJointAndDaycare }}
+      scope={{ Blocks, multipleChildrenNoJointAndDaycare }}
     >
       <Blocks.ChildrenWithAge
         data={multipleChildrenNoJointAndDaycare}
@@ -274,7 +274,7 @@ export const ChildrenWithAgeSummaryMultipleChildren = () => {
   return (
     <ComponentBox
       data-visual-test="children-with-age-summary-multiple-children"
-      scope={{ Tools, Blocks, multipleChildren }}
+      scope={{ Blocks, multipleChildren }}
     >
       <Blocks.ChildrenWithAge
         data={multipleChildren}
@@ -296,7 +296,7 @@ export const ChildrenWithAgeSummaryNoChildren = () => {
   return (
     <ComponentBox
       data-visual-test="children-with-age-summary-no-children"
-      scope={{ Tools, Blocks, noChildren }}
+      scope={{ Blocks, noChildren }}
     >
       <Blocks.ChildrenWithAge data={noChildren} />
       <Blocks.ChildrenWithAge mode="summary" data={noChildren} />
@@ -327,7 +327,7 @@ export const ChildrenWithAgeSummaryNoChildrenAfterFilledOutData = () => {
   return (
     <ComponentBox
       data-visual-test="children-with-age-summary-previously-filled-out-data"
-      scope={{ Tools, Blocks, noChildren }}
+      scope={{ Blocks, noChildren }}
     >
       <Blocks.ChildrenWithAge
         data={noChildren}

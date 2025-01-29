@@ -18,7 +18,7 @@ export type Props = ButtonProps &
 
 function RemoveButton(props: Props) {
   const iterateItemContext = useContext(IterateItemContext)
-  const { handleRemove } = iterateItemContext || {}
+  const { handleRemove, itemPath } = iterateItemContext || {}
 
   if (!iterateItemContext) {
     throw new Error('RemoveButton must be inside an Iterate.Array')
@@ -30,20 +30,21 @@ function RemoveButton(props: Props) {
   const translation = useTranslation().RemoveButton
   const textContent = text || children || translation.text
 
-  const elementBlockContext = useContext(ArrayItemAreaContext)
-  const { handleRemoveItem } = elementBlockContext || {}
+  const arrayItemAreaContext = useContext(ArrayItemAreaContext)
+  const { handleRemoveItem } = arrayItemAreaContext || {}
 
   const handleClick = useCallback(
     ({ close }) => {
       close?.()
 
-      if (handleRemoveItem) {
-        handleRemoveItem?.()
+      // - Don't call handleRemoveItem when itemPath is given to support nested arrays
+      if (handleRemoveItem && !itemPath) {
+        handleRemoveItem()
       } else {
         handleRemove?.()
       }
     },
-    [handleRemove, handleRemoveItem]
+    [handleRemove, handleRemoveItem, itemPath]
   )
 
   const triggerAttributes: ButtonProps = {

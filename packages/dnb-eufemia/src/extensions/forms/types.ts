@@ -13,6 +13,7 @@ import {
   FormsTranslationFlat,
   FormsTranslationLocale,
 } from './hooks/useTranslation'
+import { GetValueByPath } from './hooks/useDataValue'
 
 export type * from 'json-schema'
 export type JSONSchema = JSONSchema7
@@ -32,16 +33,18 @@ export { JSONSchemaType }
 
 export type ValidatorReturnSync<Value> =
   | Error
+  | FormError
   | undefined
   | void
   | Array<Validator<Value>>
+  | Array<Error | FormError>
 
 export type ValidatorReturnAsync<Value> =
   | ValidatorReturnSync<Value>
   | Promise<ValidatorReturnSync<Value>>
 export type Validator<Value, ErrorMessages = DefaultErrorMessages> = (
   value: Value,
-  additionalArgs?: ValidatorAdditionalArgs<Value, ErrorMessages>
+  additionalArgs: ValidatorAdditionalArgs<Value, ErrorMessages>
 ) => ValidatorReturnAsync<Value>
 export type ValidatorAdditionalArgs<
   Value,
@@ -59,9 +62,15 @@ export type ValidatorAdditionalArgs<
   connectWithPath: (path: Path) => { getValue: () => Value }
 
   /**
+   * Connects the validator to another field within an Iterate.Array.
+   * This allows you to rerun the validator function once the value of the connected field changes.
+   */
+  connectWithItemPath: (path: Path) => { getValue: () => Value }
+
+  /**
    * Returns the validators from the { exportValidators } object.
    */
-  validators: Record<string, Validator<Value>>
+  validators: Record<string, Validator<Value>> | undefined
 } & {
   /** @deprecated use the error messages from the { errorMessages } object instead. */
   pattern?: string
@@ -265,6 +274,30 @@ export type DataValueReadWriteComponentProps<
   DataValueReadProps<Value> &
   DataValueWriteProps<Value, EmptyValue>
 
+export type MessagePropParams<Value, ReturnValue> = {
+  conditionally: (
+    callback: () => ReturnValue | void,
+    options?: {
+      showInitially?: boolean
+    }
+  ) => ReturnValue
+  getValueByPath: GetValueByPath<Value>
+  getFieldByPath: (path: Path) => {
+    props: FieldProps
+    id: Identifier
+  }
+}
+export type MessageProp<Value, ReturnValue> =
+  | ReturnValue
+  | ((
+      value: Value,
+      options: MessagePropParams<Value, ReturnValue>
+    ) => ReturnValue)
+export type MessageTypes<Value> =
+  | UseFieldProps<Value>['info']
+  | UseFieldProps<Value>['warning']
+  | UseFieldProps<Value>['error']
+
 export interface UseFieldProps<
   Value = unknown,
   EmptyValue = undefined | unknown,
@@ -300,9 +333,9 @@ export interface UseFieldProps<
   props?: Record<string, unknown>
 
   // - Used by useFieldProps and FieldBlock
-  info?: React.ReactNode
-  warning?: React.ReactNode
-  error?: Error | FormError | Array<Error | FormError>
+  info?: MessageProp<Value, React.ReactNode | Array<React.ReactNode>>
+  warning?: MessageProp<Value, React.ReactNode | Array<React.ReactNode>>
+  error?: MessageProp<Value, Error | FormError | Array<Error | FormError>>
 
   // - Validation
   required?: boolean
@@ -340,7 +373,14 @@ export interface UseFieldProps<
   /**
    * Should validation be done while writing, not just when blurring the field?
    */
+  /**
+   * @deprecated – Replaced with validateContinuously, continuousValidation can be removed in v11.
+   */
   continuousValidation?: boolean
+  /**
+   * Should validation be done while writing, not just when blurring the field?
+   */
+  validateContinuously?: boolean
   /**
    * Provide custom error messages for the field
    */

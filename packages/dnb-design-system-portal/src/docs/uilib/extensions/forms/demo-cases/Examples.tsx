@@ -12,7 +12,7 @@ import ComponentBox from '../../../../../shared/tags/ComponentBox'
 
 export const BecomeCorporateCustomer = () => {
   return (
-    <ComponentBox hideCode scope={{ Tools }}>
+    <ComponentBox hideCode>
       {() => {
         const Output = () => {
           const { data } = Form.useData('example-form', {
@@ -176,7 +176,7 @@ export const BecomeCorporateCustomer = () => {
 
 export function PizzaDemo() {
   return (
-    <ComponentBox hideCode scope={{ Tools }}>
+    <ComponentBox hideCode>
       {() => {
         const MyForm = () => {
           // Routers like "react-router" are supported as well

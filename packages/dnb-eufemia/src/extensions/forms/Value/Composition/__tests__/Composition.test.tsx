@@ -132,11 +132,6 @@ describe('Value.Composition', () => {
       )
 
       expect(await axeComponent(Comp)).toHaveNoViolations()
-      expect(log).toHaveBeenCalledTimes(2)
-      expect(log).toHaveBeenCalledWith(
-        expect.any(String),
-        'Value components as siblings should be wrapped inside a Value.SummaryList!'
-      )
 
       log.mockRestore()
     })

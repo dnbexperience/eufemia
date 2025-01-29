@@ -12,10 +12,12 @@ import { FormLabel } from '../../../components'
 import SummaryListContext from '../Value/SummaryList/SummaryListContext'
 import ValueBlockContext from './ValueBlockContext'
 import DataContext from '../DataContext/Context'
-import { ValueProps } from '../types'
+import { Path, ValueProps } from '../types'
 import { pickSpacingProps } from '../../../components/flex/utils'
-import IterateElementContext from '../Iterate/IterateItemContext'
+import IterateItemContext from '../Iterate/IterateItemContext'
 import { convertJsxToString } from '../../../shared/component-helper'
+import VisibilityContext from '../Form/Visibility/VisibilityContext'
+import Visibility from '../Form/Visibility/Visibility'
 
 /**
  * Props are documented in ValueDocs.ts
@@ -38,11 +40,13 @@ function ValueBlock(props: Props) {
   const summaryListContext = useContext(SummaryListContext)
   const valueBlockContext = useContext(ValueBlockContext)
   const { prerenderFieldProps } = useContext(DataContext) || {}
-  const { index: iterateIndex } = useContext(IterateElementContext) || {}
+  const { index: iterateIndex } = useContext(IterateItemContext) || {}
 
   const {
     className,
     label: labelProp,
+    path,
+    itemPath,
     labelSrOnly,
     transformLabel = (label: Props['label']) => label,
     inline,
@@ -72,7 +76,12 @@ function ValueBlock(props: Props) {
   }, [inline, iterateIndex, labelProp, transformLabel])
 
   const ref = useRef<HTMLElement>(null)
-  useNotInSummaryList(valueBlockContext?.composition ? null : ref, label)
+  useNotInSummaryList(
+    valueBlockContext?.composition ? null : ref,
+    label,
+    path,
+    itemPath
+  )
 
   const hide =
     prerenderFieldProps ||
@@ -123,7 +132,9 @@ function ValueBlock(props: Props) {
                 (!label || labelSrOnly) && 'dnb-sr-only'
               )}
             >
-              {label && <strong>{label}</strong>}
+              <VisibilityWrapper>
+                {label && <strong>{label}</strong>}
+              </VisibilityWrapper>
             </Dt>
             <Dd
               className={classnames(
@@ -134,13 +145,15 @@ function ValueBlock(props: Props) {
                 compositionClass
               )}
             >
-              {children ? (
-                <span className={defaultClass}>{children}</span>
-              ) : (
-                <span className="dnb-forms-value-block__placeholder">
-                  {placeholder}
-                </span>
-              )}
+              <VisibilityWrapper>
+                {children ? (
+                  <span className={defaultClass}>{children}</span>
+                ) : (
+                  <span className="dnb-forms-value-block__placeholder">
+                    {placeholder}
+                  </span>
+                )}
+              </VisibilityWrapper>
             </Dd>
           </Item>
         </SummaryListContext.Provider>
@@ -189,7 +202,9 @@ function ValueBlock(props: Props) {
 
 function useNotInSummaryList(
   ref: React.RefObject<HTMLElement>,
-  label?: React.ReactNode
+  label?: React.ReactNode,
+  path?: Path,
+  itemPath?: Path
 ) {
   useEffect(() => {
     if (ref?.current) {
@@ -203,8 +218,8 @@ function useNotInSummaryList(
           warn.apply(
             warn,
             [
-              'Value components as siblings should be wrapped inside a Value.SummaryList!',
-              label,
+              'Value components as siblings should be wrapped inside a Value.SummaryList:',
+              { label, path, itemPath },
             ].filter(Boolean)
           )
         }
@@ -212,7 +227,7 @@ function useNotInSummaryList(
         //
       }
     }
-  }, [label, ref])
+  }, [itemPath, label, path, ref])
 }
 
 ValueBlock._supportsSpacingProps = true
@@ -221,3 +236,13 @@ export default ValueBlock
 const transformLabelParameters = {
   convertJsxToString,
 } as unknown as Parameters<Props['transformLabel']>[1]
+
+function VisibilityWrapper({ children }) {
+  const visibilityContext = useContext(VisibilityContext)
+
+  if (visibilityContext) {
+    return <Visibility {...visibilityContext.props}>{children}</Visibility>
+  }
+
+  return children
+}

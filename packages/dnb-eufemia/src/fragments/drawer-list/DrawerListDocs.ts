@@ -1,8 +1,8 @@
 import { PropertiesTableProps } from '../../shared/types'
 
 export const DrawerListProperties: PropertiesTableProps = {
-  '[data](#prop-data)': {
-    doc: `The data we want to fill the list with. [Details on the type of {DATA} can be found below](#prop-data). The data can be provided as an array or object. Or as a function that returns the data (called when user opens the list).`,
+  '[data](#the-data-property)': {
+    doc: `The data we want to fill the list with. [Details on the type of {DATA} can be found below](#the-data-property). The data can be provided as an array or object. Or as a function that returns the data (called when user opens the list).`,
     type: ['{DATA}', '() => {DATA}'],
     status: 'required',
   },
@@ -12,7 +12,7 @@ export const DrawerListProperties: PropertiesTableProps = {
     status: 'optional',
   },
   default_value: {
-    doc: 'Define a startup value or handle a re-render without handling the state during the re-render by yourself. Defaults to null.',
+    doc: 'Define a startup value or handle a re-render without handling the state during the re-render by yourself. Defaults to `null`.',
     type: 'number',
     status: 'optional',
   },

@@ -104,6 +104,8 @@ function SelectCountry(props: Props) {
 
   const {
     id,
+    path,
+    itemPath,
     className,
     placeholder = defaultPlaceholder,
     label = defaultLabel,
@@ -214,11 +216,12 @@ function SelectCountry(props: Props) {
   )
 
   useMemo(() => {
-    setDisplayValue(
-      props.path,
-      getCountryObjectByIso(value)?.i18n?.[langRef.current]
-    )
-  }, [getCountryObjectByIso, props.path, setDisplayValue, value])
+    if (path || itemPath) {
+      setDisplayValue(
+        getCountryObjectByIso(value)?.i18n?.[langRef.current]
+      )
+    }
+  }, [getCountryObjectByIso, itemPath, path, setDisplayValue, value])
 
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
@@ -284,7 +287,7 @@ export function getCountryData({
     }
   },
 }: GetCountryData = {}) {
-  return countries
+  const sortedCountries = countries
     .filter((country) => {
       if (typeof filter === 'function') {
         return filter(country)
@@ -312,6 +315,12 @@ export function getCountryData({
       return String(a[lang])?.localeCompare?.(b[lang], 'nb') // Always sort by nb, because åøæ (for Åland) is not in the en alphabet
     })
     .map((country) => makeObject(country, lang))
+
+  if (sortedCountries.length === 0) {
+    return undefined
+  }
+
+  return sortedCountries
 }
 
 export function countryFilter(

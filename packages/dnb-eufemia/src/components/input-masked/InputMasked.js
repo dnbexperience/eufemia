@@ -30,7 +30,7 @@ const InputMasked = (props) => {
   const contextAndProps = React.useMemo(() => {
     return extendPropsWithContext(
       props,
-      InputMasked.defaultProps,
+      defaultProps,
       context?.InputMasked
     )
   }, [context?.InputMasked, props])
@@ -89,7 +89,7 @@ InputMasked.propTypes = {
   ...inputPropTypes,
 }
 
-InputMasked.defaultProps = {
+const defaultProps = {
   ...Input.defaultProps,
 
   mask: null,

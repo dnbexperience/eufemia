@@ -7,6 +7,11 @@ export const PushContainerProperties: PropertiesTableProps = {
     type: 'string',
     status: 'required',
   },
+  itemPath: {
+    doc: 'The path to the item in a nested array, to add the new item to.',
+    type: 'string',
+    status: 'optional',
+  },
   title: {
     doc: 'The title of the container.',
     type: 'React.Node',
@@ -25,6 +30,11 @@ export const PushContainerProperties: PropertiesTableProps = {
   isolatedData: {
     doc: 'Provide additional data that will be put into the root of the isolated data context (parallel to `/pushContainerItems/0`).',
     type: 'object',
+    status: 'optional',
+  },
+  required: {
+    doc: 'If the fields inside the container are required.',
+    type: 'boolean',
     status: 'optional',
   },
   bubbleValidation: {

@@ -30,7 +30,7 @@ import {
 } from '@dnb/eufemia/src/shared/helpers'
 import PortalToolsMenu from './PortalToolsMenu'
 import { navStyle } from './SidebarMenu.module.scss'
-import { defaultTabs } from '../tags/Tabbar'
+import { defaultTabsValue } from '../tags/TabBar'
 
 const showAlwaysMenuItems = [] // like "uilib" something like that
 
@@ -722,7 +722,7 @@ function checkIfActiveItem(
       // In addition, because we show the info.mdx without /info
       // we don't want the "parent" to be marked as active as well.
       // So we get tabs and check for that state as well
-      const found = (tabs || defaultTabs).some(({ key }) => {
+      const found = (tabs || defaultTabsValue).some(({ key }) => {
         return '/' + lastSlug === key
       })
 

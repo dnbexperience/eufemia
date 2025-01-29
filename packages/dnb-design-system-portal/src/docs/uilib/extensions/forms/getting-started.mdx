@@ -39,6 +39,8 @@ import AsyncChangeExample from './Form/Handler/parts/async-change-example.mdx'
     - [onChange and autosave](#onchange-and-autosave)
     - [Async field validation](#async-field-validation)
   - [Validation and error handling](#validation-and-error-handling)
+    - [Validation and the user experience (UX)](#validation-and-the-user-experience-ux)
+    - [Validation order](#validation-order)
     - [Error messages](#error-messages)
     - [Summary for errors](#summary-for-errors)
     - [required](#required)
@@ -48,6 +50,8 @@ import AsyncChangeExample from './Form/Handler/parts/async-change-example.mdx'
       - [Connect with another field](#connect-with-another-field)
       - [Async validation](#async-validation)
       - [Async validator with debounce](#async-validator-with-debounce)
+    - [error](#error)
+  - [Conditionally display messages](#conditionally-display-messages)
   - [Localization and translation](#localization-and-translation)
     - [Customize translations](#customize-translations)
     - [How to customize translations in a form](#how-to-customize-translations-in-a-form)
@@ -66,29 +70,31 @@ The needed styles are included in the Eufemia core package via `dnb-ui-component
 
 ### TypeScript support
 
-You can define the TypeScript type structure for your data like so:
+You can define the TypeScript type structure for your form data. This will help you to get better code completion and type checking.
+
+**NB:** Use `type` instead of `interface` for the type definition.
 
 ```tsx
-import { Form } from '@dnb/eufemia/extensions/forms'
+import { Form, OnSubmit } from '@dnb/eufemia/extensions/forms'
 
-type MyDataContext = {
+type MyData = {
   firstName?: string
+}
+
+const submitHandler: OnSubmit<MyData> = (data) => {
+  console.log(data.firstName satisfies string)
 }
 
 function MyForm() {
   return (
-    <Form.Handler<MyDataContext>
-      onSubmit={(data) => {
-        console.log(data.firstName) // "firstName" is of type string
-      }}
-    >
+    <Form.Handler<MyData> onSubmit={submitHandler}>
       <MyComponent />
     </Form.Handler>
   )
 }
 
 const MyComponent = () => {
-  const { data } = Form.useData<MyDataContext>()
+  const { data } = Form.useData<MyData>()
   return data.firstName
 }
 ```
@@ -440,6 +446,30 @@ Fields which have the `disabled` property or the `readOnly` property, will skip 
 
 For monitoring and setting your form errors, you can use the [useValidation](/uilib/extensions/forms/Form/useValidation) hook.
 
+#### Validation and the user experience (UX)
+
+Eufemia Forms provides a built-in validation system that is based on the type of data it handles. This validation is automatically applied to the field when the user interacts with it. The validation is also applied when the user submits the form.
+
+In general, the validation is based on the following principles:
+
+- Trust the user and assume they are doing their best.
+- Avoid interrupting the user while they are entering data.
+- Provide clear and concise error messages, ending with a period.
+
+The validation system is flexible and can be customized to fit your specific needs. You can add your own validation to a field component by using the `required`, `pattern`, `schema`, `onChangeValidator` or `onBlurValidation` property.
+
+#### Validation order
+
+If there are multiple errors, they will be shown in a specific order, and only the first error in that order will appear.
+
+The validation order is as follows:
+
+1. `required`
+2. `error` (with `conditionally`)
+3. `schema` (including `pattern`)
+4. `onChangeValidator`
+5. `onBlurValidator`
+
 #### Error messages
 
 Eufemia Forms comes with built-in error messages. But you can also customize and override these messages by using the `errorMessages` property both on [fields](/uilib/extensions/forms/all-fields/) (field level) and on the [Form.Handler](/uilib/extensions/forms/Form/Handler/) (global level).
@@ -543,7 +573,7 @@ You can find more info about error messages in the [error messages](/uilib/exten
 
 ##### Connect with another field
 
-You can also use the `connectWithPath` function to connect the validator (`onChangeValidator` and `onBlurValidator`) to another field. This allows you to rerun the validator function once the value of the connected field changes:
+You can also use the `connectWithPath` (or `connectWithItemPath` for within [Iterate.Array](/uilib/extensions/forms/Iterate/Array/)) function to connect the validator (`onChangeValidator` and `onBlurValidator`) to another field. This allows you to rerun the validator function once the value of the connected field changes:
 
 ```tsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
@@ -574,7 +604,7 @@ By default, the `onChangeValidator` function will only run when the "/withOnChan
 You can also change this behavior for testing purposes by using the following properties:
 
 - `validateInitially` will run the validation initially.
-- `continuousValidation` will run the validation on every change, including when the connected field changes.
+- `validateContinuously` will run the validation on every change, including when the connected field changes.
 - `validateUnchanged` will validate without any changes made by the user, including when the connected field changes.
 
 ##### Async validation
@@ -616,6 +646,44 @@ const onChangeValidator = debounceAsync(async function myValidator(value) {
 })
 render(<Field.PhoneNumber onChangeValidator={onChangeValidator} />)
 ```
+
+#### error
+
+The `error` property is a controlled error message that is always displayed by default. However, you can provide a function to conditionally change this behavior based on specific requirements.
+
+Using this `conditional` function, the error message will only be shown after the user interacts with the field — for instance, after they change its value and move focus away (blur). This allows you to display error messages dynamically, ensuring they appear only when the field's value is invalid and the user has engaged with it.
+
+```tsx
+render(
+  <Field.Number
+    error={(value, { conditionally }) => {
+      if (value === 123) {
+        return conditionally(() => new Error('Invalid value'))
+      }
+    }}
+  />,
+)
+```
+
+### Conditionally display messages
+
+You can provide a function to the `info`, `warning` and `error` properties.
+
+```tsx
+render(
+  <Field.Number
+    info={(value, { conditionally }) => {
+      if (value === 123) {
+        return conditionally(() => <>Invalid value</>)
+      }
+    }}
+  />,
+)
+```
+
+**NB:** When using `error` and returning a React.Node, the error message will be shown, but it will not trigger the error state of the form. So the form can be submitted, even if the field looks invalid.
+
+More info about it in the [Field.Number](/uilib/extensions/forms/base-fields/Number/) component.
 
 ### Localization and translation
 

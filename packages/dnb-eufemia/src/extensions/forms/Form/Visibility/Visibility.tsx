@@ -1,4 +1,4 @@
-import React, { AriaAttributes, useCallback } from 'react'
+import React, { AriaAttributes, useCallback, useContext } from 'react'
 
 import { warn } from '../../../../shared/helpers'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
@@ -9,6 +9,7 @@ import HeightAnimation, {
 import FieldProvider from '../../Field/Provider'
 import useVisibility from './useVisibility'
 import VisibilityContext from './VisibilityContext'
+import SummaryListContext from '../../Value/SummaryList/SummaryListContext'
 
 import type { Path, UseFieldProps } from '../../types'
 import type { DataAttributes } from '../../hooks/useFieldProps'
@@ -26,12 +27,20 @@ export type VisibleWhen =
   | {
       path: Path
       isValid: boolean
+      /**
+       * @deprecated – Replaced with validateContinuously, continuousValidation can be removed in v11.
+       */
       continuousValidation?: boolean
+      validateContinuously?: boolean
     }
   | {
       itemPath: Path
       isValid: boolean
+      /**
+       * @deprecated – Replaced with validateContinuously, continuousValidation can be removed in v11.
+       */
       continuousValidation?: boolean
+      validateContinuously?: boolean
     }
 
   /**
@@ -88,35 +97,41 @@ export type Props = {
   element?: HeightAnimationAllProps['element']
   children: React.ReactNode
 
+  /** For internal use only. Used by "Iterate.Visibility" */
+  withinIterate?: boolean
+
   /** @deprecated Use `visibleWhen` instead */
   pathValue?: string
   /** @deprecated Use `visibleWhen` instead */
   whenValue?: unknown
 }
 
-function Visibility({
-  visible,
-  pathDefined,
-  pathUndefined,
-  pathTruthy,
-  pathFalsy,
-  pathTrue,
-  pathFalse,
-  pathValue,
-  whenValue,
-  visibleWhen,
-  visibleWhenNot,
-  inferData,
-  filterData,
-  onVisible,
-  onAnimationEnd,
-  animate,
-  keepInDOM,
-  compensateForGap,
-  fieldPropsWhenHidden,
-  children,
-  ...rest
-}: Props) {
+function Visibility(props: Props) {
+  const {
+    visible,
+    pathDefined,
+    pathUndefined,
+    pathTruthy,
+    pathFalsy,
+    pathTrue,
+    pathFalse,
+    pathValue,
+    whenValue,
+    visibleWhen,
+    visibleWhenNot,
+    inferData,
+    filterData,
+    onVisible,
+    onAnimationEnd,
+    animate,
+    keepInDOM,
+    compensateForGap,
+    fieldPropsWhenHidden,
+    withinIterate,
+    children,
+    ...rest
+  } = props
+
   useMountEffect(() => {
     if (fieldPropsWhenHidden && !keepInDOM) {
       warn('Using "fieldPropsWhenHidden" requires "keepInDOM" to be true.')
@@ -125,6 +140,7 @@ function Visibility({
 
   const { check } = useVisibility({
     visible,
+    withinIterate,
     pathDefined,
     pathUndefined,
     pathTruthy,
@@ -143,6 +159,7 @@ function Visibility({
     <VisibilityContext.Provider
       value={{
         isVisible: open,
+        props,
       }}
     >
       {children}
@@ -159,9 +176,19 @@ function Visibility({
     [mountedRef, onVisible]
   )
 
-  if (animate) {
-    const props = !open ? fieldPropsWhenHidden : null
+  const summaryListContext = useContext(SummaryListContext)
+  const providerProps = !open ? fieldPropsWhenHidden : null
 
+  if (
+    (animate || keepInDOM) &&
+    summaryListContext &&
+    !summaryListContext.isNested
+  ) {
+    // Handle the animation inside the SummaryList
+    return <FieldProvider {...providerProps}>{content}</FieldProvider>
+  }
+
+  if (animate) {
     return (
       <HeightAnimation
         open={open}
@@ -172,7 +199,7 @@ function Visibility({
         compensateForGap={compensateForGap}
         {...rest}
       >
-        <FieldProvider {...props}>{content}</FieldProvider>
+        <FieldProvider {...providerProps}>{content}</FieldProvider>
       </HeightAnimation>
     )
   }
@@ -182,10 +209,9 @@ function Visibility({
   }
 
   if (keepInDOM) {
-    const props = !open ? fieldPropsWhenHidden : null
     return (
       <span className="dnb-forms-visibility" hidden={!open}>
-        <FieldProvider {...props}>{content}</FieldProvider>
+        <FieldProvider {...providerProps}>{content}</FieldProvider>
       </span>
     )
   }

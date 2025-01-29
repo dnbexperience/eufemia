@@ -17,13 +17,11 @@ export default function CancelButton(props: Props) {
     restoreOriginalValue,
     switchContainerMode,
     containerMode,
-    initialContainerMode,
     arrayValue,
     isNew,
     index,
   } = useContext(IterateItemContext) || {}
-  const { hasError, hasVisibleError, setShowBoundaryErrors } =
-    useContext(FieldBoundaryContext) || {}
+  const { setShowBoundaryErrors } = useContext(FieldBoundaryContext) || {}
   const { setShowError } = useContext(ToolbarContext) || {}
 
   const { cancelButton, removeButton } =
@@ -42,22 +40,12 @@ export default function CancelButton(props: Props) {
   const cancelHandler = useCallback(
     ({ event }: { event: React.MouseEvent<HTMLButtonElement> }) => {
       onClick?.(event)
-      if (hasError && initialContainerMode === 'auto') {
-        setShowBoundaryErrors?.(true)
-        if (hasVisibleError) {
-          setShowError(true)
-        }
-      } else {
-        restoreOriginalValue?.(valueBackupRef.current)
-        setShowError(false)
-        setShowBoundaryErrors?.(false)
-        switchContainerMode?.('view')
-      }
+      restoreOriginalValue?.(valueBackupRef.current)
+      setShowError(false)
+      setShowBoundaryErrors?.(false)
+      switchContainerMode?.('view')
     },
     [
-      hasError,
-      hasVisibleError,
-      initialContainerMode,
       onClick,
       restoreOriginalValue,
       setShowBoundaryErrors,

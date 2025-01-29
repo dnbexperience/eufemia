@@ -3314,14 +3314,14 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
 .dnb-radio-group fieldset:not([class*=space__top]) {
   margin-top: 0;
 }
-.dnb-radio-group fieldset:not([class*=space__right]) {
-  margin-right: 0;
-}
 .dnb-radio-group fieldset:not([class*=space__bottom]) {
   margin-bottom: 0;
 }
 .dnb-radio-group fieldset:not([class*=space__left]) {
   margin-left: 0;
+}
+.dnb-radio-group fieldset:not([class*=space__right]) {
+  margin-right: 0;
 }
 .dnb-radio-group--column .dnb-radio {
   display: flex;
@@ -3623,14 +3623,14 @@ button .dnb-form-status__text {
 .dnb-toggle-button-group fieldset:not([class*=space__top]) {
   margin-top: 0;
 }
-.dnb-toggle-button-group fieldset:not([class*=space__right]) {
-  margin-right: 0;
-}
 .dnb-toggle-button-group fieldset:not([class*=space__bottom]) {
   margin-bottom: 0;
 }
 .dnb-toggle-button-group fieldset:not([class*=space__left]) {
   margin-left: 0;
+}
+.dnb-toggle-button-group fieldset:not([class*=space__right]) {
+  margin-right: 0;
 }
 .dnb-toggle-button-group--column .dnb-toggle-button {
   display: flex;
@@ -3834,6 +3834,28 @@ button .dnb-form-status__text {
   white-space: nowrap;
   height: inherit;
 }
+.dnb-date-picker__triangle {
+  pointer-events: none;
+  position: absolute;
+  top: calc(2px - var(--date-picker-input-height) / 2);
+  left: 0;
+  right: auto;
+  margin: 0 1.5rem;
+  width: calc(var(--date-picker-input-height) / 2);
+  height: calc(var(--date-picker-input-height) / 2);
+  overflow: hidden;
+}
+.dnb-date-picker__triangle::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(var(--date-picker-input-height) / 2);
+  height: calc(var(--date-picker-input-height) / 2);
+  transform: translateY(60%) rotate(45deg);
+  border: 1px solid var(--color-black-border);
+  background-color: var(--color-white);
+}
 .dnb-date-picker__container {
   position: absolute;
   display: block;
@@ -3841,43 +3863,61 @@ button .dnb-form-status__text {
   left: -1rem;
   top: var(--date-picker-input-height);
 }
-.dnb-date-picker--small .dnb-date-picker__container {
+.dnb-date-picker__container--small {
   top: 1.5rem;
 }
-.dnb-date-picker--medium .dnb-date-picker__container {
+.dnb-date-picker__container--medium {
   top: 2.5rem;
 }
-.dnb-date-picker--large .dnb-date-picker__container {
+.dnb-date-picker__container--large {
   top: 3rem;
 }
-.dnb-date-picker--show-input .dnb-date-picker__container {
+.dnb-date-picker__container--show-input {
   left: 0;
 }
-.dnb-date-picker--right .dnb-date-picker__container {
+.dnb-date-picker__container--right {
   left: auto;
   right: -1rem;
 }
-.dnb-date-picker--show-input.dnb-date-picker--right .dnb-date-picker__container {
+.dnb-date-picker__container--show-input.dnb-date-picker__container--right {
   left: auto;
   right: 0;
 }
-.dnb-date-picker--opened .dnb-date-picker__container {
+.dnb-date-picker__container--opened {
   z-index: 100;
 }
-.dnb-date-picker--opened .dnb-date-picker__container:not(.dnb-date-picker--opened .dnb-date-picker__container--no-animation) {
+.dnb-date-picker__container--opened:not(.dnb-date-picker__container--opened--no-animation) {
   animation: date-picker-slide-down 200ms ease-out 1 forwards;
 }
-html[data-visual-test] .dnb-date-picker--opened .dnb-date-picker__container, .dnb-date-picker--opened .dnb-date-picker__container--no-animation {
+html[data-visual-test] .dnb-date-picker__container--opened, .dnb-date-picker__container--opened--no-animation {
   animation: date-picker-slide-down 1ms ease-out 1 forwards;
 }
-.dnb-date-picker--hidden .dnb-date-picker__container {
+.dnb-date-picker__container--hidden {
   display: none;
 }
-.dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container:not(.dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container--no-animation) {
+.dnb-date-picker__container--closed:not(.dnb-date-picker__container--closed--no-animation) {
   animation: date-picker-slide-up 150ms ease-out 1 forwards;
 }
-html[data-visual-test] .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container, .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container--no-animation {
+html[data-visual-test] .dnb-date-picker__container--closed, .dnb-date-picker__container--closed--no-animation {
   animation: date-picker-slide-up 1ms ease-out 1 forwards;
+}
+.dnb-date-picker__container--right .dnb-date-picker__triangle {
+  left: auto;
+  right: 0;
+}
+.dnb-date-picker__container table {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+}
+.dnb-date-picker__container table.dnb-no-focus:focus {
+  outline: none;
+}
+html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:focus {
+  --border-color: var(--focus-ring-color);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
 }
 .dnb-date-picker__input,
 .dnb-date-picker .dnb-input__input.dnb-date-picker__input, .dnb-core-style .dnb-date-picker__input {
@@ -4049,20 +4089,6 @@ html[data-visual-test] .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-
   padding: 0;
   list-style: none;
 }
-.dnb-date-picker table {
-  position: relative;
-  z-index: 1;
-  margin: 0;
-}
-.dnb-date-picker table.dnb-no-focus:focus {
-  outline: none;
-}
-html[data-whatinput=keyboard] .dnb-date-picker table.dnb-no-focus:focus {
-  --border-color: var(--focus-ring-color);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
 .dnb-date-picker__day, .dnb-date-picker__labels__day {
   display: flex;
   flex-basis: 14.2857142857%;
@@ -4115,32 +4141,6 @@ html[data-whatinput=keyboard] .dnb-date-picker table.dnb-no-focus:focus {
 }
 .dnb-date-picker__day--start-date.dnb-date-picker__day--end-date::after {
   content: none;
-}
-.dnb-date-picker__triangle {
-  pointer-events: none;
-  position: absolute;
-  top: calc(2px - var(--date-picker-input-height) / 2);
-  left: 0;
-  right: auto;
-  margin: 0 1.5rem;
-  width: calc(var(--date-picker-input-height) / 2);
-  height: calc(var(--date-picker-input-height) / 2);
-  overflow: hidden;
-}
-.dnb-date-picker__triangle::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: calc(var(--date-picker-input-height) / 2);
-  height: calc(var(--date-picker-input-height) / 2);
-  transform: translateY(60%) rotate(45deg);
-  border: 1px solid var(--color-black-border);
-  background-color: var(--color-white);
-}
-.dnb-date-picker--right .dnb-date-picker__triangle {
-  left: auto;
-  right: 0;
 }
 .dnb-date-picker .rtl {
   direction: rtl;
@@ -4215,14 +4215,23 @@ html[data-whatinput=keyboard] .dnb-date-picker table.dnb-no-focus:focus {
 .dnb-date-picker__fieldset:not([class*=space__top]), .dnb-core-style .dnb-date-picker__fieldset:not([class*=space__top]) {
   margin-top: 0;
 }
-.dnb-date-picker__fieldset:not([class*=space__right]), .dnb-core-style .dnb-date-picker__fieldset:not([class*=space__right]) {
-  margin-right: 0;
-}
 .dnb-date-picker__fieldset:not([class*=space__bottom]), .dnb-core-style .dnb-date-picker__fieldset:not([class*=space__bottom]) {
   margin-bottom: 0;
 }
 .dnb-date-picker__fieldset:not([class*=space__left]), .dnb-core-style .dnb-date-picker__fieldset:not([class*=space__left]) {
   margin-left: 0;
+}
+.dnb-date-picker__fieldset:not([class*=space__right]), .dnb-core-style .dnb-date-picker__fieldset:not([class*=space__right]) {
+  margin-right: 0;
+}
+.dnb-date-picker__portal {
+  --date-picker-input-height: 2rem;
+  --date-picker-day-width: 2rem;
+  --date-picker-day-horizontal-spacing: 4px;
+  position: absolute;
+  left: 0;
+  z-index: calc(var(--modal-z-index) + 10);
+  line-height: var(--date-picker-input-height);
 }
 
 @keyframes date-picker-slide-down {

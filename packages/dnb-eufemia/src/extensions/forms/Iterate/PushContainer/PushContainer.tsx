@@ -1,4 +1,11 @@
-import React, { useCallback, useContext, useMemo, useRef } from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+} from 'react'
 import Isolation from '../../Form/Isolation'
 import PushContainerContext from './PushContainerContext'
 import IterateItemContext from '../IterateItemContext'
@@ -10,22 +17,52 @@ import OpenButton from './OpenButton'
 import { Flex, HeightAnimation } from '../../../../components'
 import { OnCommit, Path } from '../../types'
 import { SpacingProps } from '../../../../shared/types'
-import { useArrayLimit, useSwitchContainerMode } from '../hooks'
+import {
+  useArrayLimit,
+  useItemPath,
+  useSwitchContainerMode,
+} from '../hooks'
 import Toolbar from '../Toolbar'
 import { useTranslation } from '../../hooks'
 import { ArrayItemAreaProps } from '../Array/ArrayItemArea'
 import { clearedData } from '../../DataContext/Provider'
 
-export type Props = {
+/**
+ * Deprecated, as it is supported by all major browsers and Node.js >=v18
+ * So it's a question of time, when we will remove this polyfill
+ */
+import structuredClone from '@ungap/structured-clone'
+
+type OnlyPathRequired = {
   /**
    * The path to the array to add the new item to.
    */
   path: Path
 
+  /** The sub path to the array to add the new item to. */
+  itemPath?: Path
+}
+
+type OnlyItemPathRequired = {
+  /**
+   * The path to the array to add the new item to.
+   */
+  path?: Path
+
+  /** The sub path to the array to add the new item to. */
+  itemPath: Path
+}
+
+export type Props = (OnlyPathRequired | OnlyItemPathRequired) & {
   /**
    * The title of the container.
    */
   title?: React.ReactNode
+
+  /**
+   * If the fields inside the container are required.
+   */
+  required?: boolean
 
   /**
    * The button to open container.
@@ -77,13 +114,18 @@ export type Props = {
 export type AllProps = Props & SpacingProps & ArrayItemAreaProps
 
 function PushContainer(props: AllProps) {
+  const [, forceUpdate] = useReducer(() => ({}), {})
+  const requiredInherited = useContext(DataContext)?.required
+
   const {
     data: dataProp,
     defaultData: defaultDataProp,
     isolatedData,
     bubbleValidation,
     path,
+    itemPath,
     title,
+    required = requiredInherited,
     children,
     openButton,
     showOpenButtonWhen,
@@ -91,16 +133,22 @@ function PushContainer(props: AllProps) {
     ...rest
   } = props
 
+  const { absolutePath } = useItemPath(itemPath)
   const commitHandleRef = useRef<() => void>()
   const switchContainerModeRef = useRef<(mode: ContainerMode) => void>()
-  const { value: entries = [], moveValueToPath } = useDataValue<
-    Array<unknown>
-  >({ path })
+  const containerModeRef = useRef<ContainerMode>()
+  const {
+    value: entries = [],
+    moveValueToPath,
+    getValueByPath,
+  } = useDataValue<Array<unknown>>(path || itemPath)
 
-  const { setNextContainerMode } = useSwitchContainerMode({ path })
-  const { hasReachedLimit, setShowStatus } = useArrayLimit({
-    path,
-  })
+  const { setNextContainerMode } = useSwitchContainerMode(
+    path || absolutePath
+  )
+  const { hasReachedLimit, setShowStatus } = useArrayLimit(
+    path || absolutePath
+  )
   const cancelHandler = useCallback(() => {
     if (hasReachedLimit) {
       setShowStatus(false)
@@ -110,6 +158,7 @@ function PushContainer(props: AllProps) {
   const showOpenButton = showOpenButtonWhen?.(entries)
   const newItemContextProps: PushContainerContext = {
     path,
+    itemPath,
     entries,
     commitHandleRef,
     switchContainerMode: switchContainerModeRef.current,
@@ -150,11 +199,18 @@ function PushContainer(props: AllProps) {
     <Isolation
       data={data}
       defaultData={defaultData}
+      required={required}
       emptyData={emptyData}
-      bubbleValidation={bubbleValidation}
+      bubbleValidation={
+        containerModeRef.current === 'view' ? false : bubbleValidation
+      }
       commitHandleRef={commitHandleRef}
       transformOnCommit={({ pushContainerItems }) => {
-        return moveValueToPath(path, [...entries, ...pushContainerItems])
+        return moveValueToPath(
+          path || absolutePath,
+          [...entries, ...pushContainerItems],
+          absolutePath ? structuredClone(getValueByPath('/')) : {}
+        )
       }}
       onCommit={(data, options) => {
         const { clearData, preventCommit } = options
@@ -181,6 +237,8 @@ function PushContainer(props: AllProps) {
             switchContainerModeRef={switchContainerModeRef}
             showOpenButton={showOpenButton}
             cancelHandler={cancelHandler}
+            containerModeRef={containerModeRef}
+            rerenderPushContainer={forceUpdate}
             {...rest}
           >
             {children}
@@ -197,11 +255,19 @@ function NewContainer({
   showOpenButton,
   switchContainerModeRef,
   cancelHandler,
+  containerModeRef,
+  rerenderPushContainer,
   children,
   ...rest
 }) {
   const { containerMode, switchContainerMode } =
     useContext(IterateItemContext) || {}
+  containerModeRef.current = containerMode
+
+  useEffect(() => {
+    rerenderPushContainer()
+  }, [containerMode, rerenderPushContainer])
+
   switchContainerModeRef.current = switchContainerMode
   const { createButton } = useTranslation().IteratePushContainer
   const { clearData } = useContext(DataContext) || {}

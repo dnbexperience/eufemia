@@ -221,10 +221,6 @@ const defaultCard = (productCode) => ({
 StatusOverlay.propTypes = {
   cardStatus: PropTypes.string.isRequired,
   translations: PropTypes.object.isRequired,
-  skeleton: PropTypes.bool,
-}
-StatusOverlay.defaultProps = {
-  skeleton: false,
 }
 
 const BlockingOverlay = ({ cardStatus, text }, skeleton) => {
@@ -295,17 +291,13 @@ NormalCard.propTypes = {
   cardNumber: PropTypes.string.isRequired,
   translations: PropTypes.object.isRequired,
 }
-NormalCard.defaultProps = {
-  id: null,
-  skeleton: null,
-}
 
 function NormalCard({
   data,
   cardStatus,
   cardNumber,
-  id,
-  skeleton,
+  id = null,
+  skeleton = null,
   translations,
 }) {
   return (
@@ -348,11 +340,7 @@ function NormalCard({
           />
         </div>
       </div>
-      <StatusOverlay
-        skeleton={skeleton}
-        cardStatus={cardStatus}
-        translations={translations}
-      />
+      <StatusOverlay cardStatus={cardStatus} translations={translations} />
     </div>
   )
 }

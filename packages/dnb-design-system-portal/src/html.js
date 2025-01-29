@@ -20,8 +20,8 @@ const mainColor = properties['--color-sea-green']
 export default class HTML extends React.PureComponent {
   render() {
     const {
-      htmlAttributes,
-      bodyAttributes,
+      htmlAttributes = null,
+      bodyAttributes = null,
       headComponents,
       preBodyComponents,
       postBodyComponents,
@@ -93,8 +93,4 @@ HTML.propTypes = {
   preBodyComponents: PropTypes.array.isRequired,
   body: PropTypes.string.isRequired,
   postBodyComponents: PropTypes.array.isRequired,
-}
-HTML.defaultProps = {
-  htmlAttributes: null,
-  bodyAttributes: null,
 }

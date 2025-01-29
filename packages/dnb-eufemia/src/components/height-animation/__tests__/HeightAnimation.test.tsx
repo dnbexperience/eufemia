@@ -379,6 +379,84 @@ describe('HeightAnimation', () => {
   })
 })
 
+describe('stopOuterAnimations', () => {
+  it('should stop outer height animation by adding the --stop className', async () => {
+    globalThis.readjustTime = 1
+
+    const { rerender } = render(
+      <HeightAnimation className="outer">
+        <HeightAnimation className="inner">123</HeightAnimation>
+      </HeightAnimation>
+    )
+
+    expect(
+      document.querySelectorAll('.dnb-height-animation')
+    ).toHaveLength(2)
+
+    const innerElement = document.querySelector(
+      '.dnb-height-animation .dnb-height-animation'
+    )
+
+    mockHeight(100, innerElement)
+    mockHeight(200, innerElement)
+
+    rerender(
+      <HeightAnimation className="outer">
+        <HeightAnimation className="inner">456</HeightAnimation>
+      </HeightAnimation>
+    )
+
+    expect(
+      document.querySelector('.dnb-height-animation--stop')
+    ).toHaveClass('outer')
+
+    runAnimation()
+
+    expect(
+      document.querySelector('.dnb-height-animation--stop')
+    ).not.toBeInTheDocument()
+  })
+
+  it('should not animate when outer height animation has --stop className', async () => {
+    globalThis.readjustTime = 1
+
+    const { rerender } = render(
+      <HeightAnimation open={false}>123</HeightAnimation>
+    )
+
+    expect(
+      document.querySelector('.dnb-height-animation')
+    ).not.toBeInTheDocument()
+
+    rerender(<HeightAnimation open>123</HeightAnimation>)
+
+    runAnimation()
+
+    expect(getElement()).toBeInTheDocument()
+    expect(getElement()).toHaveAttribute('style', '')
+
+    mockHeight(100)
+    mockHeight(200)
+
+    rerender(<HeightAnimation open>456</HeightAnimation>)
+
+    rerender(
+      <HeightAnimation open className="dnb-height-animation--stop">
+        789
+      </HeightAnimation>
+    )
+
+    nextAnimationFrame()
+    expect(getElement()).toHaveAttribute('style', '')
+
+    nextAnimationFrame()
+    expect(getElement()).toHaveAttribute('style', '')
+
+    simulateAnimationEnd()
+    expect(getElement()).toHaveAttribute('style', '')
+  })
+})
+
 describe('HeightAnimation without initializeTestSetup()', () => {
   beforeEach(() => {
     globalThis.IS_TEST = false

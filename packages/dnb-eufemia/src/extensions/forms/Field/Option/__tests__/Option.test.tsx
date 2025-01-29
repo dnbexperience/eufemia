@@ -8,9 +8,8 @@ describe('Field.Option', () => {
   const props: Props = {}
 
   it('should render with props', () => {
-    render(<Field.Option {...props} />)
-    const option = document.querySelector('[role="option"]')
-    expect(option).toBeInTheDocument()
+    const { container } = render(<Field.Option {...props} />)
+    expect(container).toBeEmptyDOMElement()
   })
 
   describe('ARIA', () => {

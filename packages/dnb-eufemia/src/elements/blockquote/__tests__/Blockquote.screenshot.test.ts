@@ -49,6 +49,14 @@ describe.each(['ui', 'sbanken'])('Blockquote for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match "blockquote" with code as child', async () => {
+    const screenshot = await makeScreenshot({
+      style,
+      selector: '[data-visual-test="blockquote-with-code"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe.each(['sbanken'])('Blockquote on mobile for %s', (themeName) => {

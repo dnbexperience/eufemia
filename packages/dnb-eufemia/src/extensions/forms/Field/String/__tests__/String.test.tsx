@@ -11,7 +11,15 @@ import userEvent from '@testing-library/user-event'
 import SharedProvider from '../../../../../shared/Provider'
 import DataContext from '../../../DataContext/Context'
 import Provider from '../../../DataContext/Provider'
-import { Field, FieldBlock, Form, FormError, Value } from '../../..'
+import {
+  Field,
+  FieldBlock,
+  Form,
+  FormError,
+  Iterate,
+  Validator,
+  Value,
+} from '../../..'
 import sharedGB from '../../../../../shared/locales/en-GB'
 import nbNO from '../../../constants/locales/nb-NO'
 
@@ -698,7 +706,8 @@ describe('Field.String', () => {
         '.dnb-forms-submit-indicator'
       )
 
-      await userEvent.type(input, 'foo')
+      // Use fireEvent over userEvent to avoid async related delays
+      fireEvent.change(input, { target: { value: 'foo' } })
 
       await waitFor(() => {
         expect(input).not.toBeDisabled()
@@ -912,7 +921,9 @@ describe('Field.String', () => {
 
     describe('validation using a synchronous external onChangeValidator function', () => {
       it('should show error returned by onChangeValidator', async () => {
-        const onChangeValidator = jest.fn(syncValidatorReturningError)
+        const onChangeValidator: Validator<string> = jest.fn(
+          syncValidatorReturningError
+        )
         render(
           <Field.String
             value="abc"
@@ -961,7 +972,9 @@ describe('Field.String', () => {
       })
 
       it('should not show error when onChangeValidator returns undefined', async () => {
-        const onChangeValidator = jest.fn(syncValidatorReturningUndefined)
+        const onChangeValidator: Validator<string> = jest.fn(
+          syncValidatorReturningUndefined
+        )
         render(
           <Field.String
             value="abc"
@@ -977,7 +990,9 @@ describe('Field.String', () => {
 
     describe('validation using an asynchronous external onChangeValidator function', () => {
       it('should show error returned by onChangeValidator', async () => {
-        const onChangeValidator = jest.fn(asyncValidatorResolvingWithError)
+        const onChangeValidator: Validator<string> = jest.fn(
+          asyncValidatorResolvingWithError
+        )
         render(
           <Field.String
             value="abc"
@@ -1027,7 +1042,7 @@ describe('Field.String', () => {
       })
 
       it('should not show error when onChangeValidator returns undefined', async () => {
-        const onChangeValidator = jest.fn(
+        const onChangeValidator: Validator<string> = jest.fn(
           asyncValidatorResolvingWithUndefined
         )
         render(
@@ -1046,7 +1061,9 @@ describe('Field.String', () => {
 
     describe('validation using a synchronous external onBlurValidator function', () => {
       it('should show error returned by onBlurValidator', async () => {
-        const onBlurValidator = jest.fn(syncValidatorReturningError)
+        const onBlurValidator: Validator<string> = jest.fn(
+          syncValidatorReturningError
+        )
         render(
           <Field.String
             value="abc"
@@ -1085,7 +1102,9 @@ describe('Field.String', () => {
       })
 
       it('should not show error when onBlurValidator returns undefined', async () => {
-        const onBlurValidator = jest.fn(syncValidatorReturningUndefined)
+        const onBlurValidator: Validator<string> = jest.fn(
+          syncValidatorReturningUndefined
+        )
         render(
           <Field.String
             value="abc"
@@ -1104,7 +1123,9 @@ describe('Field.String', () => {
 
     describe('validation using an asynchronous external onBlurValidator function', () => {
       it('should show error returned by onBlurValidator', async () => {
-        const onBlurValidator = jest.fn(asyncValidatorResolvingWithError)
+        const onBlurValidator: Validator<string> = jest.fn(
+          asyncValidatorResolvingWithError
+        )
         render(
           <Field.String
             value="abc"
@@ -1143,7 +1164,7 @@ describe('Field.String', () => {
       })
 
       it('should not show error when onBlurValidator returns undefined', async () => {
-        const onBlurValidator = jest.fn(
+        const onBlurValidator: Validator<string> = jest.fn(
           asyncValidatorResolvingWithUndefined
         )
         render(
@@ -1436,6 +1457,52 @@ describe('Field.String', () => {
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
       '/myValue': undefined,
+    })
+  })
+
+  it('should store "displayValue" when inside iterate', async () => {
+    let dataContext = null
+
+    render(
+      <Form.Handler
+        defaultData={{ myArray: [{ myValue: '123' }, { myValue: '456' }] }}
+      >
+        <Iterate.Array path="/myArray">
+          <Field.String
+            label="Item no. {itemNo}"
+            itemPath="/myValue"
+            mask={[/\d/, /\d/, /\d/, ' ', 'kr']}
+          />
+        </Iterate.Array>
+
+        <DataContext.Consumer>
+          {(context) => {
+            dataContext = context
+            return null
+          }}
+        </DataContext.Consumer>
+      </Form.Handler>
+    )
+
+    const input = document.querySelector('input')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myArray/0/myValue': '123 kr',
+      '/myArray/1/myValue': '456 kr',
+    })
+
+    await userEvent.type(input, '{Backspace>2}4')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myArray/0/myValue': '124 kr',
+      '/myArray/1/myValue': '456 kr',
+    })
+
+    await userEvent.type(input, '{Backspace>5}')
+
+    expect(dataContext.fieldDisplayValueRef.current).toEqual({
+      '/myArray/0/myValue': undefined,
+      '/myArray/1/myValue': '456 kr',
     })
   })
 

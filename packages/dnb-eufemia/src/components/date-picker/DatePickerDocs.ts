@@ -134,6 +134,11 @@ export const DatePickerProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  skipPortal: {
+    doc: ' If set to `true`, the calendar will not be rendered inside a react portal. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   onlyMonth: {
     doc: 'Use `true` to only show the defined month. Disables the month navigation possibility. Defaults to `false`.',
     type: 'boolean',

@@ -1,16 +1,28 @@
 @import '../../../../style/core/utilities.scss';
 
-.dnb-forms-summary-list.dnb-dl:not(.dnb-dl__layout--horizontal) {
-  & .dnb-dt,
-  & > .dnb-dd > .dnb-dl,
-  &:not([class*='dnb-space']) > .dnb-dd > .dnb-dl {
-    margin: 0;
-  }
+.dnb-forms-summary-list.dnb-dl {
+  &:not(.dnb-dl__layout--horizontal) {
+    & .dnb-dt,
+    & > .dnb-dd > .dnb-dl,
+    &:not([class*='dnb-space']) > .dnb-dd > .dnb-dl {
+      margin: 0;
+    }
 
-  &:not(.dnb-dl__layout--grid) > .dnb-dd {
-    margin-bottom: var(--spacing-medium);
-    &:last-of-type {
-      margin-bottom: 0;
+    .dnb-dt:empty,
+    .dnb-dd:empty {
+      display: none;
+    }
+
+    &:not(.dnb-dl__layout--grid) > .dnb-dd {
+      margin-bottom: var(--spacing-medium);
+
+      // Add support for using animated Form.Visibility in a SummaryList (VisibilityWrapper).
+      transition: margin-bottom 300ms var(--easing-default);
+
+      &:last-of-type,
+      &:has(~ .dnb-dt:empty ~ .dnb-dd:empty) {
+        margin-bottom: 0;
+      }
     }
   }
 }

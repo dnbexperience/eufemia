@@ -78,6 +78,56 @@ You can also use a function as a prefix or suffix.
 
 <Examples.ValidateMaximumCustomError />
 
+### Displaying messages - Conditional info message
+
+You can provide a function to the `info`, `warning` or `error` props that returns a message based on your conditions.
+
+```tsx
+<Field.String
+  info={(value) => {
+    if (value === '123') {
+      return 'The value is 123'
+    }
+  }}
+/>
+```
+
+Optionally, use the `conditionally` higher order function to show the message only when the field got changed (onChange) and blurred (onBlur).
+
+```tsx
+<Field.String
+  info={(value, { conditionally, getValueByPath, getFieldByPath }) => {
+    if (value === '123') {
+      // Show this message only when the field got changed and blurred.
+      return conditionally(() => 'The value is 123')
+    }
+  }}
+/>
+```
+
+You can also pass options to the `conditionally` function:
+
+- `showInitially` – display the message when the field is first rendered.
+
+```tsx
+<Field.String
+  info={(value, { conditionally, getValueByPath, getFieldByPath }) => {
+    if (value === '123') {
+      // Show this message only when the field got changed and blurred.
+      return conditionally(() => 'The value is 123', {
+        showInitially: true,
+      })
+    }
+  }}
+/>
+```
+
+Down below you can see an example of how to use the `conditionally` function. There are two input fields which depend on each other. Here we use `info` to show a message when the value of the first field is too low. While we use an error message when the value of the second field is more than what the first field has. The `info` on the first field will only be shown when the user has changed the value and blurred the field.
+
+Read more about [validation and the user experience](/uilib/extensions/forms/getting-started/#validation-and-the-user-experience-ux).
+
+<Examples.ConditionalInfo />
+
 ### Percentage
 
 <Examples.Percentage />

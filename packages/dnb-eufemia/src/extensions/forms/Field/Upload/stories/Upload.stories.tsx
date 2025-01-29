@@ -253,3 +253,32 @@ export function SessionStorage() {
     </Form.Handler>
   )
 }
+
+export function FileSizeErrorWithFileHandler() {
+  const delay = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms))
+
+  async function uploadFilesWithMockError(newFiles: UploadValue) {
+    const updatedFiles: UploadValue = []
+    for (const [, file] of Object.entries(newFiles)) {
+      await delay(2000)
+      updatedFiles.push({
+        ...file,
+        id: crypto.randomUUID(), // id generated on server
+      })
+    }
+    return updatedFiles
+  }
+
+  return (
+    <Form.Handler
+      defaultData={{
+        documents: [],
+      }}
+    >
+      <Flex.Stack>
+        <Field.Upload fileHandler={uploadFilesWithMockError} />
+      </Flex.Stack>
+    </Form.Handler>
+  )
+}

@@ -10,35 +10,18 @@ import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBounda
 export default function CancelButton() {
   const { onCancel, setShowError } = useContext(ToolbarContext) || {}
   const { restoreOriginalData } = useContainerDataStore()
-  const { switchContainerMode, initialContainerMode } =
-    useContext(SectionContainerContext) || {}
-  const {
-    hasVisibleError,
-    hasSubmitError,
-    hasError,
-    setShowBoundaryErrors,
-  } = useContext(FieldBoundaryContext) || {}
+  const { switchContainerMode } = useContext(SectionContainerContext) || {}
+  const { setShowBoundaryErrors } = useContext(FieldBoundaryContext) || {}
 
   const translation = useTranslation().SectionEditContainer
 
   const cancelHandler = useCallback(() => {
-    if (hasSubmitError || (initialContainerMode === 'auto' && hasError)) {
-      setShowBoundaryErrors?.(true)
-      if (hasVisibleError) {
-        setShowError(true)
-      }
-    } else {
-      setShowError(false)
-      setShowBoundaryErrors?.(false)
-      restoreOriginalData()
-      switchContainerMode?.('view')
-      onCancel?.()
-    }
+    setShowError(false)
+    setShowBoundaryErrors?.(false)
+    restoreOriginalData()
+    switchContainerMode?.('view')
+    onCancel?.()
   }, [
-    hasError,
-    hasSubmitError,
-    hasVisibleError,
-    initialContainerMode,
     onCancel,
     restoreOriginalData,
     setShowBoundaryErrors,

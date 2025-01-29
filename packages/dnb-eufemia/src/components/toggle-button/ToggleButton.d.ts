@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { ButtonIconPosition } from '../Button';
+import type { ButtonIconPosition, ButtonSize } from '../Button';
 import type { FormLabelLabelDirection } from '../FormLabel';
 import type {
   FormStatusProps,
@@ -24,7 +24,7 @@ export type ToggleButtonValue =
 export type ToggleButtonAttributes = string | Record<string, unknown>;
 export type ToggleButtonChildren = string | ((...args: any[]) => any);
 export interface ToggleButtonProps
-  extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
+  extends Omit<React.HTMLProps<HTMLButtonElement>, 'ref'>,
     SpacingProps {
   /**
    * <em>(required)</em> the text shown in the ToggleButton.
@@ -77,6 +77,10 @@ export interface ToggleButtonProps
    * <em>(required)</em> defines the `value` as a string. Use it to get the value during the `on_change` event listener callback in the "ToggleButtonGroup".
    */
   value?: ToggleButtonValue;
+  /**
+   * The size of the toggle button. For now there is `small`, `medium`, `default` and `large`.
+   */
+  size?: ButtonSize;
   /**
    * Icon to be included in the toggle button.
    */
