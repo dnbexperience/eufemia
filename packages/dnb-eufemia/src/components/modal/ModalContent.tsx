@@ -22,7 +22,11 @@ import {
 } from '../../shared/component-helper'
 import ModalContext from './ModalContext'
 import { IS_IOS, IS_SAFARI, IS_MAC, isAndroid } from '../../shared/helpers'
-import { ModalContentProps } from './types'
+import {
+  CloseHandlerParams,
+  ModalContentProps,
+  TriggeredBy,
+} from './types'
 import {
   getListOfModalRoots,
   getModalRoot,
@@ -34,8 +38,6 @@ import { Context } from '../../shared'
 import { ContextProps } from '../../shared/Context'
 
 interface ModalContentState {
-  triggeredBy: string
-  triggeredByEvent: Event
   color: string
 }
 
@@ -53,7 +55,7 @@ export default class ModalContent extends React.PureComponent<
   ModalContentProps,
   ModalContentState
 > {
-  state = { triggeredBy: null, triggeredByEvent: null, color: null }
+  state = { color: null }
 
   _contentRef: React.RefObject<HTMLElement>
   _scrollRef: React.RefObject<HTMLElement>
@@ -64,6 +66,9 @@ export default class ModalContent extends React.PureComponent<
   _androidFocusTimeout: NodeJS.Timeout
   _ii: InteractionInvalidation
   _iiLocal: InteractionInvalidation
+  _triggeredBy: TriggeredBy
+  _triggeredByEvent: React.SyntheticEvent
+  _isControlled = false
 
   static contextType = Context
 
@@ -74,6 +79,9 @@ export default class ModalContent extends React.PureComponent<
     this._contentRef = this.props.content_ref || React.createRef()
     this._scrollRef = this.props.scroll_ref || React.createRef()
     this._overlayClickRef = React.createRef()
+    if (this.props.modalContentCloseRef) {
+      this.props.modalContentCloseRef.current = this.setModalContentState
+    }
 
     // NB: The ""._id" is used in the __modalStack as "last._id"
     this._id = props.id
@@ -111,12 +119,37 @@ export default class ModalContent extends React.PureComponent<
     } else {
       this._lockTimeout = setTimeout(this.lockBody, timeoutDuration * 1.2) // a little over --modal-animation-duration
     }
+
+    this.setIsControlled()
   }
 
   componentWillUnmount() {
     clearTimeout(this._focusTimeout)
     clearTimeout(this._lockTimeout)
     this.removeLocks()
+  }
+
+  setIsControlled() {
+    const { open_state } = this.props
+    if (typeof open_state !== 'undefined' && open_state !== null) {
+      this._isControlled = true
+    }
+  }
+
+  componentDidUpdate() {
+    this.setIsControlled()
+  }
+
+  wasOpenedManually() {
+    if (this._triggeredBy) {
+      return true
+    }
+
+    if (this._isControlled) {
+      return true
+    }
+
+    return false
   }
 
   lockBody = () => {
@@ -182,13 +215,14 @@ export default class ModalContent extends React.PureComponent<
 
     this.removeAndroidFocusHelper()
 
-    const id = this.props.id
-    const { triggeredBy, triggeredByEvent } = this.state
-    dispatchCustomElementEvent(this, 'on_close', {
-      id,
-      event: triggeredByEvent,
-      triggeredBy: triggeredBy || 'unmount',
-    })
+    if (this.wasOpenedManually()) {
+      const id = this.props.id
+      dispatchCustomElementEvent(this, 'on_close', {
+        id,
+        event: this._triggeredByEvent,
+        triggeredBy: this._triggeredBy || 'unmount',
+      })
+    }
 
     if (typeof document !== 'undefined') {
       document.removeEventListener('keydown', this.onKeyDownHandler)
@@ -349,13 +383,26 @@ export default class ModalContent extends React.PureComponent<
     }
   }
 
-  closeModalContent(event, { triggeredBy, ...params }) {
+  setModalContentState = (
+    event: React.SyntheticEvent,
+    { triggeredBy }: CloseHandlerParams
+  ) => {
+    this._triggeredBy = triggeredBy
+    this._triggeredByEvent = event
+  }
+
+  closeModalContent(
+    event,
+    {
+      triggeredBy,
+      ...params
+    }: CloseHandlerParams & { ifIsLatest?: boolean }
+  ) {
     event?.persist?.()
-    this.setState({ triggeredBy, triggeredByEvent: event }, () => {
-      this.props.close(event, {
-        triggeredBy,
-        ...params,
-      })
+
+    this.props.close(event, {
+      triggeredBy,
+      ...params,
     })
   }
 
