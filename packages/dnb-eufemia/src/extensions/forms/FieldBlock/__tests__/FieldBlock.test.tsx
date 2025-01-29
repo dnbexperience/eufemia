@@ -10,7 +10,7 @@ import {
   runAnimation,
   simulateAnimationEnd,
 } from '../../../../components/height-animation/__tests__/HeightAnimationUtils'
-import { Field, Form } from '../..'
+import { Field, Form, Validator } from '../..'
 import nbNO from '../../constants/locales/nb-NO'
 import enGB from '../../constants/locales/en-GB'
 
@@ -775,6 +775,191 @@ describe('FieldBlock', () => {
       })
     })
 
+    describe('summarize errors', () => {
+      it('should summarize errors in one FormStatus component', () => {
+        const MockComponent = () => {
+          useFieldProps({
+            required: true,
+            validateInitially: true,
+          })
+
+          return null
+        }
+
+        render(
+          <FieldBlock error={new Error('Error message')}>
+            <MockComponent />
+          </FieldBlock>
+        )
+
+        expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(
+          1
+        )
+        expect(
+          document.querySelector('.dnb-form-status').textContent
+        ).toBe(
+          nb.Field.errorSummary + 'Error message' + nb.Field.errorRequired
+        )
+      })
+
+      it('should summarize errors for nested FieldBlocks', () => {
+        const nested = new Error('Nested')
+        const outer = new Error('Outer')
+
+        const MockComponent = () => {
+          useFieldProps({
+            id: 'unique',
+            error: nested,
+          })
+
+          return <FieldBlock id="unique">content</FieldBlock>
+        }
+
+        render(
+          <FieldBlock error={outer}>
+            <MockComponent />
+          </FieldBlock>
+        )
+
+        expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(
+          1
+        )
+        expect(
+          document.querySelector('.dnb-form-status').textContent
+        ).toBe(nb.Field.errorSummary + 'Outer' + 'Nested')
+      })
+
+      it('should not summarize errors when "disableStatusSummary" is true', () => {
+        const nested = new Error('Nested')
+        const outer = new Error('Outer')
+
+        const MockComponent = () => {
+          useFieldProps({
+            id: 'unique',
+            error: nested,
+          })
+
+          return <FieldBlock id="unique">content</FieldBlock>
+        }
+
+        render(
+          <FieldBlock error={outer} disableStatusSummary>
+            <MockComponent />
+          </FieldBlock>
+        )
+
+        expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(
+          2
+        )
+        expect(
+          document.querySelectorAll('.dnb-form-status')[0].textContent
+        ).toBe('Outer')
+        expect(
+          document.querySelectorAll('.dnb-form-status')[1].textContent
+        ).toBe('Nested')
+      })
+
+      it('should summarize errors when returned in onChangeValidator', () => {
+        const onChangeValidator: Validator<string> = jest.fn(() => {
+          return [
+            new Error('Error message one'),
+            new Error('Error message two'),
+          ]
+        })
+
+        render(
+          <Field.String
+            value="abc"
+            onChangeValidator={onChangeValidator}
+            validateInitially
+          />
+        )
+
+        expect(
+          document.querySelector('.dnb-form-status').textContent
+        ).toBe(
+          nb.Field.errorSummary + 'Error message one' + 'Error message two'
+        )
+      })
+
+      it('should summarize errors when returned in onBlurValidator', () => {
+        const onBlurValidator: Validator<string> = jest.fn(() => {
+          return [
+            new Error('Error message one'),
+            new Error('Error message two'),
+          ]
+        })
+
+        render(
+          <Field.String
+            value="abc"
+            onBlurValidator={onBlurValidator}
+            validateInitially
+          />
+        )
+
+        expect(
+          document.querySelector('.dnb-form-status').textContent
+        ).toBe(
+          nb.Field.errorSummary + 'Error message one' + 'Error message two'
+        )
+      })
+
+      it('should summarize errors when returned in async onChangeValidator', async () => {
+        const onChangeValidator: Validator<string> = jest.fn(async () => {
+          return [
+            new Error('Error message one'),
+            new Error('Error message two'),
+          ]
+        })
+
+        render(
+          <Field.String
+            value="abc"
+            onChangeValidator={onChangeValidator}
+            validateInitially
+          />
+        )
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status').textContent
+          ).toBe(
+            nb.Field.errorSummary +
+              'Error message one' +
+              'Error message two'
+          )
+        })
+      })
+
+      it('should summarize errors when returned in async onBlurValidator', async () => {
+        const onBlurValidator: Validator<string> = jest.fn(async () => {
+          return [
+            new Error('Error message one'),
+            new Error('Error message two'),
+          ]
+        })
+
+        render(
+          <Field.String
+            value="abc"
+            onBlurValidator={onBlurValidator}
+            validateInitially
+          />
+        )
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status').textContent
+          ).toBe(
+            nb.Field.errorSummary +
+              'Error message one' +
+              'Error message two'
+          )
+        })
+      })
+    })
+
     describe('FormStatus with animation', () => {
       initializeTestSetup()
 
@@ -881,81 +1066,6 @@ describe('FieldBlock', () => {
 
       expect(status).toHaveAttribute('id', 'unique-form-status--error')
     })
-  })
-
-  it('should summarize errors in one FormStatus components', () => {
-    const MockComponent = () => {
-      useFieldProps({
-        required: true,
-        validateInitially: true,
-      })
-
-      return null
-    }
-
-    render(
-      <FieldBlock error={new Error('Error message')}>
-        <MockComponent />
-      </FieldBlock>
-    )
-
-    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
-    expect(document.querySelector('.dnb-form-status').textContent).toBe(
-      nb.Field.errorSummary + 'Error message' + nb.Field.errorRequired
-    )
-  })
-
-  it('should summarize errors for nested FieldBlocks', () => {
-    const nested = new Error('Nested')
-    const outer = new Error('Outer')
-
-    const MockComponent = () => {
-      useFieldProps({
-        id: 'unique',
-        error: nested,
-      })
-
-      return <FieldBlock id="unique">content</FieldBlock>
-    }
-
-    render(
-      <FieldBlock error={outer}>
-        <MockComponent />
-      </FieldBlock>
-    )
-
-    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
-    expect(document.querySelector('.dnb-form-status').textContent).toBe(
-      nb.Field.errorSummary + 'Outer' + 'Nested'
-    )
-  })
-
-  it('should not summarize errors when "disableStatusSummary" is true', () => {
-    const nested = new Error('Nested')
-    const outer = new Error('Outer')
-
-    const MockComponent = () => {
-      useFieldProps({
-        id: 'unique',
-        error: nested,
-      })
-
-      return <FieldBlock id="unique">content</FieldBlock>
-    }
-
-    render(
-      <FieldBlock error={outer} disableStatusSummary>
-        <MockComponent />
-      </FieldBlock>
-    )
-
-    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(2)
-    expect(
-      document.querySelectorAll('.dnb-form-status')[0].textContent
-    ).toBe('Outer')
-    expect(
-      document.querySelectorAll('.dnb-form-status')[1].textContent
-    ).toBe('Nested')
   })
 
   describe('fieldState', () => {

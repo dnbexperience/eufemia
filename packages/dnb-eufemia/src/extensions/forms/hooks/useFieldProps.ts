@@ -789,14 +789,27 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       const result = await validator(value, additionalArgs)
 
       if (Array.isArray(result)) {
-        for (const validator of result) {
-          if (!hasBeenCalledRef(validator)) {
-            const result = await callValidatorFnAsync(validator, value)
+        const errors = []
+
+        for (const validatorOrError of result) {
+          if (validatorOrError instanceof Error) {
+            errors.push(validatorOrError)
+          } else if (!hasBeenCalledRef(validatorOrError)) {
+            const result = await callValidatorFnAsync(
+              validatorOrError,
+              value
+            )
             if (result instanceof Error) {
               callStackRef.current = []
               return result
             }
           }
+        }
+
+        if (errors.length > 0) {
+          return new FormError('Error', {
+            errors,
+          })
         }
 
         callStackRef.current = []
@@ -830,14 +843,24 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           })
         }
 
-        for (const validator of result) {
-          if (!hasBeenCalledRef(validator)) {
-            const result = callValidatorFnSync(validator, value)
+        const errors = []
+
+        for (const validatorOrError of result) {
+          if (validatorOrError instanceof Error) {
+            errors.push(validatorOrError)
+          } else if (!hasBeenCalledRef(validatorOrError)) {
+            const result = callValidatorFnSync(validatorOrError, value)
             if (result instanceof Error) {
               callStackRef.current = []
               return result
             }
           }
+        }
+
+        if (errors.length > 0) {
+          return new FormError('Error', {
+            errors,
+          })
         }
 
         callStackRef.current = []
@@ -856,7 +879,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     (
       method: PersistErrorStateMethod,
       initiator: ErrorInitiator,
-      errorArg: Error | FormError | undefined = undefined
+      errorArg:
+        | Error
+        | FormError
+        | Array<Error | FormError>
+        | undefined = undefined
     ) => {
       const error = prepareError(errorArg)
 
@@ -945,11 +972,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
       // Don't show the error if the value has changed in the meantime
       if (unchangedValue) {
-        persistErrorState(
-          'gracefully',
-          'onChangeValidator',
-          result as Error
-        )
+        persistErrorState('gracefully', 'onChangeValidator', result)
 
         if (
           (validateInitially && !changedRef.current) ||
@@ -1096,7 +1119,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   const revealOnBlurValidatorResult = useCallback(
     ({ result }) => {
-      persistErrorState('gracefully', 'onBlurValidator', result as Error)
+      persistErrorState('gracefully', 'onBlurValidator', result)
 
       if (isAsync(onBlurValidatorRef.current)) {
         defineAsyncProcess(undefined)
