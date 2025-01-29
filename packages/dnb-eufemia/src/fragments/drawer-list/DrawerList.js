@@ -311,6 +311,7 @@ class DrawerListInstance extends React.PureComponent {
           onClick: this.selectItemHandler,
           onKeyDown: this.preventTab,
           disabled: dataItem.disabled,
+          style: dataItem.style,
         }
 
         if (ignoreEvents) {

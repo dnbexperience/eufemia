@@ -720,6 +720,80 @@ describe('DrawerList component', () => {
       await testDirectionObserver()
     })
   })
+
+  describe('inline style', () => {
+    it('sets correct styling using data object', () => {
+      render(
+        <DrawerList
+          {...props}
+          data={[
+            {
+              content: 'content',
+              style: { hyphens: 'auto' },
+            },
+          ]}
+        />
+      )
+
+      expect(
+        document
+          .querySelector('li.dnb-drawer-list__option')
+          .getAttribute('style')
+      ).toBe('hyphens: auto;')
+    })
+
+    it('sets correct style using DrawerList.Item', () => {
+      render(
+        <DrawerList {...props}>
+          <DrawerList.Options>
+            <DrawerList.Item
+              style={{ hyphens: 'auto' }}
+              key="A"
+              selected={false}
+              value="A"
+              on_click={() => {
+                console.log('on_click')
+              }}
+            >
+              Content
+            </DrawerList.Item>
+          </DrawerList.Options>
+        </DrawerList>
+      )
+
+      expect(
+        document
+          .querySelector('li.dnb-drawer-list__option')
+          .getAttribute('style')
+      ).toBe('hyphens: auto;')
+    })
+
+    it('sets correct style using DrawerList.HorizontalItem', () => {
+      render(
+        <DrawerList {...props}>
+          <DrawerList.Options>
+            <DrawerList.HorizontalItem
+              style={{ hyphens: 'auto' }}
+              key="A"
+              selected={false}
+              value="A"
+              on_click={() => {
+                console.log('on_click')
+              }}
+            >
+              Content
+            </DrawerList.HorizontalItem>
+          </DrawerList.Options>
+        </DrawerList>
+      )
+
+      expect(
+        document
+          .querySelector('span.dnb-drawer-list__option__item')
+          .getAttribute('style')
+      ).toBe('hyphens: auto;')
+    })
+  })
 })
 
 describe('DrawerList markup', () => {
