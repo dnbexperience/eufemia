@@ -52,6 +52,7 @@ function Expiry(props: ExpiryProps) {
   const {
     id,
     path,
+    itemPath,
     className,
     label = expiryLabel,
     hasError,
@@ -74,10 +75,10 @@ function Expiry(props: ExpiryProps) {
   }, [value])
 
   useMemo(() => {
-    if (path && expiry.month && expiry.year) {
-      setDisplayValue(path, `${expiry.month}/${expiry.year}`)
+    if ((path || itemPath) && expiry.month && expiry.year) {
+      setDisplayValue(`${expiry.month}/${expiry.year}`)
     }
-  }, [expiry.month, expiry.year, path, setDisplayValue])
+  }, [expiry.month, expiry.year, itemPath, path, setDisplayValue])
 
   const status = hasError
     ? 'error'

@@ -176,6 +176,8 @@ function PhoneNumber(props: Props) {
 
   const {
     id,
+    path,
+    itemPath,
     value,
     className,
     inputRef,
@@ -210,14 +212,15 @@ function PhoneNumber(props: Props) {
   } = useFieldProps(preparedProps)
 
   useEffect(() => {
-    const number = inputRef.current?.value
-    setDisplayValue(
-      props.path,
-      number?.length > 0
-        ? joinValue([countryCodeRef.current, number])
-        : undefined
-    )
-  }, [inputRef, props.path, setDisplayValue, value])
+    if (path || itemPath) {
+      const number = inputRef.current?.value
+      setDisplayValue(
+        number?.length > 0
+          ? joinValue([countryCodeRef.current, number])
+          : undefined
+      )
+    }
+  }, [inputRef, itemPath, path, setDisplayValue, value])
 
   const filter = useCallback(
     (country: CountryType) => {

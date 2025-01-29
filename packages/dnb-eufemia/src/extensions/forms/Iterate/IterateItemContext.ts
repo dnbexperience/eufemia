@@ -14,7 +14,7 @@ export interface IterateItemContextState {
   isNew?: boolean
   path?: Path
   itemPath?: Path
-  absolutePath?: Path
+  nestedIteratePath?: Path
   arrayValue?: Array<unknown>
   containerMode?: ContainerMode
   previousContainerMode?: ContainerMode

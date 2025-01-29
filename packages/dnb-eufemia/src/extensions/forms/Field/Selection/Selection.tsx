@@ -106,7 +106,6 @@ function Selection(props: Props) {
     layout = 'vertical',
     optionsLayout = 'vertical',
     placeholder,
-    path,
     value,
     info,
     warning,
@@ -205,7 +204,7 @@ function Selection(props: Props) {
         hasError,
         iterateOverItems: ({ value: v, label }) => {
           if (v === value) {
-            setDisplayValue(path, label)
+            setDisplayValue(label)
           }
         },
       })
@@ -238,7 +237,7 @@ function Selection(props: Props) {
         .filter(Boolean)
       const displayValue = data.find((item) => item.selectedKey === value)
         ?.content
-      setDisplayValue(path, displayValue)
+      setDisplayValue(displayValue)
 
       const sharedProps: AutocompleteAllProps & DropdownAllProps = {
         id,

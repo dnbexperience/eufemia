@@ -1349,8 +1349,8 @@ describe('Iterate.Array', () => {
                   { foo: 'foo 2', bar: 'bar 2' },
                 ]}
               >
-                <Field.String itemPath="/foo" />
-                <Field.String itemPath="/bar" />
+                <Field.String label="Label" itemPath="/foo" />
+                <Field.String label="Label" itemPath="/bar" />
               </Iterate.Array>
 
               <Form.SubmitButton>Submit</Form.SubmitButton>
@@ -1399,8 +1399,8 @@ describe('Iterate.Array', () => {
           expect(filterDataHandler).toHaveBeenNthCalledWith(2, {
             path: '/myList/0/foo',
             value: 'foo 1',
-            displayValue: undefined,
-            label: undefined,
+            displayValue: 'foo 1',
+            label: 'Label',
             data: {
               myList: [
                 { bar: 'bar 1', foo: 'foo 1' },
@@ -1415,8 +1415,8 @@ describe('Iterate.Array', () => {
           expect(filterDataHandler).toHaveBeenNthCalledWith(3, {
             path: '/myList/0/bar',
             value: 'bar 1',
-            displayValue: undefined,
-            label: undefined,
+            displayValue: 'bar 1',
+            label: 'Label',
             data: {
               myList: [
                 { bar: 'bar 1', foo: 'foo 1' },
@@ -1431,8 +1431,8 @@ describe('Iterate.Array', () => {
           expect(filterDataHandler).toHaveBeenNthCalledWith(4, {
             path: '/myList/1/foo',
             value: 'foo 2',
-            displayValue: undefined,
-            label: undefined,
+            displayValue: 'foo 2',
+            label: 'Label',
             data: {
               myList: [
                 { bar: 'bar 1', foo: 'foo 1' },
@@ -1445,8 +1445,8 @@ describe('Iterate.Array', () => {
           expect(filterDataHandler).toHaveBeenNthCalledWith(5, {
             path: '/myList/1/bar',
             value: 'bar 2',
-            displayValue: undefined,
-            label: undefined,
+            displayValue: 'bar 2',
+            label: 'Label',
             data: {
               myList: [
                 { bar: 'bar 1', foo: 'foo 1' },
@@ -1469,8 +1469,8 @@ describe('Iterate.Array', () => {
                   { foo: 'foo 2', bar: 'bar 2' },
                 ]}
               >
-                <Field.String itemPath="/foo" disabled />
-                <Field.String itemPath="/bar" />
+                <Field.String label="Label" itemPath="/foo" disabled />
+                <Field.String label="Label" itemPath="/bar" />
               </Iterate.Array>
 
               <Form.SubmitButton>Submit</Form.SubmitButton>
@@ -1507,8 +1507,8 @@ describe('Iterate.Array', () => {
           expect(filterDataHandler).toHaveBeenNthCalledWith(7, {
             path: '/myList/0/foo',
             value: 'foo 1',
-            displayValue: undefined,
-            label: undefined,
+            displayValue: 'foo 1',
+            label: 'Label',
             data: {
               myList: [
                 { bar: 'bar 1', foo: 'foo 1' },
@@ -1523,8 +1523,8 @@ describe('Iterate.Array', () => {
           expect(filterDataHandler).toHaveBeenNthCalledWith(8, {
             path: '/myList/0/bar',
             value: 'bar 1',
-            displayValue: undefined,
-            label: undefined,
+            displayValue: 'bar 1',
+            label: 'Label',
             data: {
               myList: [
                 { bar: 'bar 1', foo: 'foo 1' },
@@ -1539,8 +1539,8 @@ describe('Iterate.Array', () => {
           expect(filterDataHandler).toHaveBeenNthCalledWith(9, {
             path: '/myList/1/foo',
             value: 'foo 2',
-            displayValue: undefined,
-            label: undefined,
+            displayValue: 'foo 2',
+            label: 'Label',
             data: {
               myList: [
                 { bar: 'bar 1', foo: 'foo 1' },
@@ -1555,8 +1555,8 @@ describe('Iterate.Array', () => {
           expect(filterDataHandler).toHaveBeenNthCalledWith(10, {
             path: '/myList/1/bar',
             value: 'bar 2',
-            displayValue: undefined,
-            label: undefined,
+            displayValue: 'bar 2',
+            label: 'Label',
             data: {
               myList: [
                 { bar: 'bar 1', foo: 'foo 1' },

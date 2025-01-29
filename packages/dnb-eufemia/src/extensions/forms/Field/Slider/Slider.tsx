@@ -69,6 +69,7 @@ function SliderComponent(props: Props) {
   const {
     id,
     path,
+    itemPath,
     step = 1,
     min = 0,
     max = 100,
@@ -95,11 +96,11 @@ function SliderComponent(props: Props) {
   })
 
   useMemo(() => {
-    if (path && numberFormat) {
+    if ((path || itemPath) && numberFormat) {
       const { number } = getFormattedNumber(value, numberFormat)
-      setDisplayValue(path, number)
+      setDisplayValue(number)
     }
-  }, [numberFormat, path, setDisplayValue, value])
+  }, [itemPath, numberFormat, path, setDisplayValue, value])
 
   const handleLocalChange = useCallback(
     ({ value }: { value: number | number[] }) => {

@@ -150,8 +150,8 @@ function NumberComponent(props: Props) {
   } = useFieldProps(preparedProps)
 
   useEffect(() => {
-    setDisplayValue(props.path, innerRef.current?.value)
-  }, [innerRef, props.path, setDisplayValue, value])
+    setDisplayValue(innerRef.current?.value)
+  }, [innerRef, setDisplayValue, value])
 
   const { handleSubmit } = dataContext ?? {}
   const onKeyDownHandler = useCallback(

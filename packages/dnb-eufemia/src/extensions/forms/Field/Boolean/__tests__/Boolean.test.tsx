@@ -2,7 +2,7 @@ import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { screen, render, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { DataContext, Field, Form } from '../../..'
+import { DataContext, Field, Form, Iterate } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 
 const nb = nbNO['nb-NO']
@@ -158,6 +158,46 @@ describe('Field.Boolean', () => {
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
         '/mySelection': 'Nei',
+      })
+    })
+
+    it('should store "displayValue" when inside iterate', async () => {
+      let dataContext = null
+
+      render(
+        <Form.Handler
+          defaultData={{
+            myArray: [{ mySelection: true }, { mySelection: true }],
+          }}
+        >
+          <Iterate.Array path="/myArray">
+            <Field.Boolean
+              itemPath="/mySelection"
+              variant="button"
+              defaultValue
+            />
+          </Iterate.Array>
+
+          <DataContext.Consumer>
+            {(context) => {
+              dataContext = context
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        '/myArray/0/mySelection': 'Ja',
+        '/myArray/1/mySelection': 'Ja',
+      })
+
+      await userEvent.tab()
+      await userEvent.keyboard('{Enter}')
+
+      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        '/myArray/0/mySelection': 'Nei',
+        '/myArray/1/mySelection': 'Ja',
       })
     })
 

@@ -107,7 +107,7 @@ function ArraySelection(props: Props) {
     hasError,
     handleChange,
     handleActiveData: ({ labels }) => {
-      setDisplayValue(path, labels)
+      setDisplayValue(labels)
     },
   })
 

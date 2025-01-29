@@ -185,8 +185,8 @@ function StringComponent(props: Props) {
   } = useFieldProps(preparedProps)
 
   useEffect(() => {
-    setDisplayValue(props.path, innerRef.current?.value)
-  }, [innerRef, props.path, setDisplayValue, value])
+    setDisplayValue(innerRef.current?.value)
+  }, [innerRef, setDisplayValue, value])
 
   const transformInstantly = useCallback(
     (value: string) => (props.capitalize ? toCapitalized(value) : value),
