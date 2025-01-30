@@ -8335,14 +8335,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:18.2.13":
-  version: 18.2.13
-  resolution: "@types/react@npm:18.2.13"
+"@types/react@npm:18.2.21":
+  version: 18.2.21
+  resolution: "@types/react@npm:18.2.21"
   dependencies:
     "@types/prop-types": "npm:*"
     "@types/scheduler": "npm:*"
     csstype: "npm:^3.0.2"
-  checksum: 80812af6710c3ae54793c32a808534311c423595be8f412870ca841c5bae4ad183d8593cfbd53a5fde80042442fd7537868e7e36a2347f6227eb73d9a0cdfb1a
+  checksum: 7b315e2b14da1cd895719ba957fd71a0a8a35300fd76689d0268ed9afd8065a56b4fdcd1306871e3e16706dd3ecd706a846af74caca8fcad88052469cf0d83a1
   languageName: node
   linkType: hard
 
@@ -14025,7 +14025,7 @@ __metadata:
     "@mdx-js/react": "npm:2.3.0"
     "@playwright/test": "npm:1.49.1"
     "@types/json-schema": "npm:7.0.12"
-    "@types/react": "npm:18.2.13"
+    "@types/react": "npm:18.2.21"
     "@types/react-dom": "npm:18.2.6"
     "@typescript-eslint/parser": "npm:5.60.0"
     algoliasearch: "npm:4.12.0"
