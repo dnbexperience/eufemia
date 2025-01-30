@@ -221,7 +221,7 @@ async function collectIconsFromFigmaDoc({
     }
   )
 
-  runDiffControll({ controlStorageLists })
+  runDiffControl({ controlStorageLists })
 
   return {
     listWithNewFiles,
@@ -229,7 +229,7 @@ async function collectIconsFromFigmaDoc({
   }
 }
 
-const runDiffControll = ({ controlStorageLists }) => {
+const runDiffControl = ({ controlStorageLists }) => {
   const collectDiff = []
   const sizes = Object.keys(ICON_SIZES).map((size) => `_${size}`)
   const removeSizes = (n) =>
