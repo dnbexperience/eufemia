@@ -561,8 +561,6 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      open()
-
       const option = document.querySelector('[role="radio"]')
       expect(option.getAttribute('style')).toBe('color: red;')
     })
@@ -580,8 +578,6 @@ describe('variants', () => {
           ]}
         />
       )
-
-      open()
 
       const option = document.querySelector('[role="radio"]')
       expect(option.getAttribute('style')).toBe('color: red;')
@@ -940,8 +936,6 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      open()
-
       const option = document.querySelector('button')
       expect(option.getAttribute('style')).toBe('color: red;')
     })
@@ -959,8 +953,6 @@ describe('variants', () => {
           ]}
         />
       )
-
-      open()
 
       const option = document.querySelector('button')
       expect(option.getAttribute('style')).toBe('color: red;')
@@ -1023,7 +1015,7 @@ describe('variants', () => {
   })
 
   describe('dropdown', () => {
-    const open = () =>
+    const openDropdown = () =>
       fireEvent.click(document.querySelector('.dnb-dropdown__trigger'))
 
     it('has no selected value by default', () => {
@@ -1034,7 +1026,7 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      open()
+      openDropdown()
 
       const options = document.querySelectorAll('[role="option"]')
       expect(options.length).toEqual(2)
@@ -1054,7 +1046,8 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      open()
+      openDropdown()
+
       const options = document.querySelectorAll('[role="option"]')
 
       expect(options[0].textContent).toBe('title a')
@@ -1103,7 +1096,7 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      open()
+      openDropdown()
 
       const options = document.querySelectorAll('[role="option"]')
       expect(options.length).toEqual(2)
@@ -1126,7 +1119,7 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      open()
+      openDropdown()
 
       const options = document.querySelectorAll('[role="option"]')
       expect(options.length).toEqual(2)
@@ -1143,7 +1136,7 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      open()
+      openDropdown()
 
       expect(document.querySelectorAll('[role="option"]')).toHaveLength(2)
 
@@ -1201,7 +1194,7 @@ describe('variants', () => {
       const title = document.querySelector('.dnb-dropdown')
       expect(title).toHaveTextContent('Foo!')
 
-      open()
+      openDropdown()
 
       const options = Array.from(
         document.querySelectorAll('[role="option"]')
@@ -1242,7 +1235,7 @@ describe('variants', () => {
         </Form.Handler>
       )
 
-      open()
+      openDropdown()
 
       const options = Array.from(
         document.querySelectorAll('[role="option"]')
@@ -1280,7 +1273,7 @@ describe('variants', () => {
         </Form.Handler>
       )
 
-      open()
+      openDropdown()
 
       const options = Array.from(
         document.querySelectorAll('[role="option"]')
@@ -1358,7 +1351,7 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      open()
+      openDropdown()
 
       const option = document.querySelector('[role="option"]')
       expect(option.getAttribute('style')).toBe('color: red;')
@@ -1378,7 +1371,7 @@ describe('variants', () => {
         />
       )
 
-      open()
+      openDropdown()
 
       const option = document.querySelector('[role="option"]')
       expect(option.getAttribute('style')).toBe('color: red;')
@@ -1398,7 +1391,7 @@ describe('variants', () => {
           </Field.Selection>
         )
 
-        open()
+        openDropdown()
 
         expect(
           await axeComponent(result, {
@@ -1421,7 +1414,7 @@ describe('variants', () => {
 
         const button = document.querySelector('button')
 
-        open()
+        openDropdown()
 
         expect(button).toHaveAttribute('aria-required', 'true')
       })
@@ -1434,7 +1427,7 @@ describe('variants', () => {
           </Field.Selection>
         )
 
-        open()
+        openDropdown()
 
         const buttonElement = document.querySelector('button')
         expect(buttonElement).toHaveAttribute('aria-invalid', 'true')
@@ -1443,7 +1436,7 @@ describe('variants', () => {
   })
 
   describe('autocomplete', () => {
-    const open = () => {
+    const openAutocomplete = () => {
       fireEvent.focus(document.querySelector('.dnb-input__input'))
       fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
     }
@@ -1456,7 +1449,7 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      open()
+      openAutocomplete()
 
       const options = document.querySelectorAll('[role="option"]')
       expect(options.length).toEqual(2)
@@ -1504,7 +1497,7 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      open()
+      openAutocomplete()
 
       const options = document.querySelectorAll('[role="option"]')
       expect(options.length).toEqual(2)
@@ -1527,7 +1520,7 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      open()
+      openAutocomplete()
 
       const options = document.querySelectorAll('[role="option"]')
       expect(options.length).toEqual(2)
@@ -1544,7 +1537,7 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      open()
+      openAutocomplete()
 
       expect(document.querySelectorAll('[role="option"]')).toHaveLength(2)
 
@@ -1604,7 +1597,7 @@ describe('variants', () => {
       const input = document.querySelector('input')
       expect(input).toHaveValue('Foo!')
 
-      open()
+      openAutocomplete()
 
       const options = Array.from(
         document.querySelectorAll('[role="option"]')
@@ -1645,7 +1638,7 @@ describe('variants', () => {
         </Form.Handler>
       )
 
-      open()
+      openAutocomplete()
 
       const options = Array.from(
         document.querySelectorAll('[role="option"]')
@@ -1683,7 +1676,7 @@ describe('variants', () => {
         </Form.Handler>
       )
 
-      open()
+      openAutocomplete()
 
       const options = Array.from(
         document.querySelectorAll('[role="option"]')
@@ -1761,7 +1754,7 @@ describe('variants', () => {
         </Field.Selection>
       )
 
-      open()
+      openAutocomplete()
 
       const option = document.querySelector('[role="option"]')
       expect(option.getAttribute('style')).toBe('color: red;')
@@ -1781,7 +1774,7 @@ describe('variants', () => {
         />
       )
 
-      open()
+      openAutocomplete()
 
       const option = document.querySelector('[role="option"]')
       expect(option.getAttribute('style')).toBe('color: red;')
@@ -1801,7 +1794,7 @@ describe('variants', () => {
           </Field.Selection>
         )
 
-        open()
+        openAutocomplete()
 
         expect(
           await axeComponent(result, {
@@ -1824,7 +1817,7 @@ describe('variants', () => {
 
         const button = document.querySelector('input')
 
-        open()
+        openAutocomplete()
 
         expect(button).toHaveAttribute('aria-required', 'true')
       })
@@ -1841,7 +1834,7 @@ describe('variants', () => {
           </Field.Selection>
         )
 
-        open()
+        openAutocomplete()
 
         const buttonElement = document.querySelector('input')
         expect(buttonElement).toHaveAttribute('aria-invalid', 'true')
