@@ -79,6 +79,8 @@ import bus_medium from './dnb/bus_medium'
 import calculator from './dnb/calculator'
 import calculator_medium from './dnb/calculator_medium'
 import calendar from './dnb/calendar'
+import calendar_add from './dnb/calendar_add'
+import calendar_add_medium from './dnb/calendar_add_medium'
 import calendar_cancel from './dnb/calendar_cancel'
 import calendar_cancel_medium from './dnb/calendar_cancel_medium'
 import calendar_medium from './dnb/calendar_medium'
@@ -176,6 +178,8 @@ import digipass_private from './dnb/digipass_private'
 import digipass_private_medium from './dnb/digipass_private_medium'
 import digipost from './dnb/digipost'
 import digipost_medium from './dnb/digipost_medium'
+import digitpass_private_corporate from './dnb/digitpass_private_corporate'
+import digitpass_private_corporate_medium from './dnb/digitpass_private_corporate_medium'
 import dismiss_keyboard from './dnb/dismiss_keyboard'
 import dismiss_keyboard_medium from './dnb/dismiss_keyboard_medium'
 import dog from './dnb/dog'
@@ -262,6 +266,8 @@ import funds_out from './dnb/funds_out'
 import funds_out_medium from './dnb/funds_out_medium'
 import globe from './dnb/globe'
 import globe_medium from './dnb/globe_medium'
+import goal from './dnb/goal'
+import goal_medium from './dnb/goal_medium'
 import grabber from './dnb/grabber'
 import grabber_medium from './dnb/grabber_medium'
 import graph_decrease from './dnb/graph_decrease'
@@ -314,6 +320,8 @@ import insurance from './dnb/insurance'
 import insurance_medium from './dnb/insurance_medium'
 import investment_account from './dnb/investment_account'
 import investment_account_medium from './dnb/investment_account_medium'
+import investor from './dnb/investor'
+import investor_medium from './dnb/investor_medium'
 import keyfigures from './dnb/keyfigures'
 import keyfigures_medium from './dnb/keyfigures_medium'
 import kid_number from './dnb/kid_number'
@@ -326,6 +334,8 @@ import launch from './dnb/launch'
 import launch_medium from './dnb/launch_medium'
 import layout_card from './dnb/layout_card'
 import layout_card_medium from './dnb/layout_card_medium'
+import layout_grid from './dnb/layout_grid'
+import layout_grid_medium from './dnb/layout_grid_medium'
 import leaf from './dnb/leaf'
 import leaf_medium from './dnb/leaf_medium'
 import lightbulb from './dnb/lightbulb'
@@ -472,6 +482,8 @@ import shield_lock_medium from './dnb/shield_lock_medium'
 import shield_medium from './dnb/shield_medium'
 import shopping_cart from './dnb/shopping_cart'
 import shopping_cart_medium from './dnb/shopping_cart_medium'
+import show_pin from './dnb/show_pin'
+import show_pin_medium from './dnb/show_pin_medium'
 import snowmobile from './dnb/snowmobile'
 import snowmobile_medium from './dnb/snowmobile_medium'
 import sort from './dnb/sort'
@@ -496,6 +508,8 @@ import support from './dnb/support'
 import support_medium from './dnb/support_medium'
 import swap from './dnb/swap'
 import swap_medium from './dnb/swap_medium'
+import table from './dnb/table'
+import table_medium from './dnb/table_medium'
 import tag from './dnb/tag'
 import tag_medium from './dnb/tag_medium'
 import teenager from './dnb/teenager'
@@ -629,6 +643,8 @@ export {
   calculator,
   calculator_medium,
   calendar,
+  calendar_add,
+  calendar_add_medium,
   calendar_cancel,
   calendar_cancel_medium,
   calendar_medium,
@@ -726,6 +742,8 @@ export {
   digipass_private_medium,
   digipost,
   digipost_medium,
+  digitpass_private_corporate,
+  digitpass_private_corporate_medium,
   dismiss_keyboard,
   dismiss_keyboard_medium,
   dog,
@@ -812,6 +830,8 @@ export {
   funds_out_medium,
   globe,
   globe_medium,
+  goal,
+  goal_medium,
   grabber,
   grabber_medium,
   graph_decrease,
@@ -864,6 +884,8 @@ export {
   insurance_medium,
   investment_account,
   investment_account_medium,
+  investor,
+  investor_medium,
   keyfigures,
   keyfigures_medium,
   kid_number,
@@ -876,6 +898,8 @@ export {
   launch_medium,
   layout_card,
   layout_card_medium,
+  layout_grid,
+  layout_grid_medium,
   leaf,
   leaf_medium,
   lightbulb,
@@ -1022,6 +1046,8 @@ export {
   shield_medium,
   shopping_cart,
   shopping_cart_medium,
+  show_pin,
+  show_pin_medium,
   snowmobile,
   snowmobile_medium,
   sort,
@@ -1046,6 +1072,8 @@ export {
   support_medium,
   swap,
   swap_medium,
+  table,
+  table_medium,
   tag,
   tag_medium,
   teenager,

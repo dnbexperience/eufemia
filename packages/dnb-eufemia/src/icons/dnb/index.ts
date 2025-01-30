@@ -79,6 +79,8 @@ import bus_medium from './bus_medium'
 import calculator from './calculator'
 import calculator_medium from './calculator_medium'
 import calendar from './calendar'
+import calendar_add from './calendar_add'
+import calendar_add_medium from './calendar_add_medium'
 import calendar_cancel from './calendar_cancel'
 import calendar_cancel_medium from './calendar_cancel_medium'
 import calendar_medium from './calendar_medium'
@@ -176,6 +178,8 @@ import digipass_private from './digipass_private'
 import digipass_private_medium from './digipass_private_medium'
 import digipost from './digipost'
 import digipost_medium from './digipost_medium'
+import digitpass_private_corporate from './digitpass_private_corporate'
+import digitpass_private_corporate_medium from './digitpass_private_corporate_medium'
 import dismiss_keyboard from './dismiss_keyboard'
 import dismiss_keyboard_medium from './dismiss_keyboard_medium'
 import dog from './dog'
@@ -262,6 +266,8 @@ import funds_out from './funds_out'
 import funds_out_medium from './funds_out_medium'
 import globe from './globe'
 import globe_medium from './globe_medium'
+import goal from './goal'
+import goal_medium from './goal_medium'
 import grabber from './grabber'
 import grabber_medium from './grabber_medium'
 import graph_decrease from './graph_decrease'
@@ -314,6 +320,8 @@ import insurance from './insurance'
 import insurance_medium from './insurance_medium'
 import investment_account from './investment_account'
 import investment_account_medium from './investment_account_medium'
+import investor from './investor'
+import investor_medium from './investor_medium'
 import keyfigures from './keyfigures'
 import keyfigures_medium from './keyfigures_medium'
 import kid_number from './kid_number'
@@ -326,6 +334,8 @@ import launch from './launch'
 import launch_medium from './launch_medium'
 import layout_card from './layout_card'
 import layout_card_medium from './layout_card_medium'
+import layout_grid from './layout_grid'
+import layout_grid_medium from './layout_grid_medium'
 import leaf from './leaf'
 import leaf_medium from './leaf_medium'
 import lightbulb from './lightbulb'
@@ -472,6 +482,8 @@ import shield_lock_medium from './shield_lock_medium'
 import shield_medium from './shield_medium'
 import shopping_cart from './shopping_cart'
 import shopping_cart_medium from './shopping_cart_medium'
+import show_pin from './show_pin'
+import show_pin_medium from './show_pin_medium'
 import snowmobile from './snowmobile'
 import snowmobile_medium from './snowmobile_medium'
 import sort from './sort'
@@ -496,6 +508,8 @@ import support from './support'
 import support_medium from './support_medium'
 import swap from './swap'
 import swap_medium from './swap_medium'
+import table from './table'
+import table_medium from './table_medium'
 import tag from './tag'
 import tag_medium from './tag_medium'
 import teenager from './teenager'
@@ -629,6 +643,8 @@ export {
   calculator,
   calculator_medium,
   calendar,
+  calendar_add,
+  calendar_add_medium,
   calendar_cancel,
   calendar_cancel_medium,
   calendar_medium,
@@ -726,6 +742,8 @@ export {
   digipass_private_medium,
   digipost,
   digipost_medium,
+  digitpass_private_corporate,
+  digitpass_private_corporate_medium,
   dismiss_keyboard,
   dismiss_keyboard_medium,
   dog,
@@ -812,6 +830,8 @@ export {
   funds_out_medium,
   globe,
   globe_medium,
+  goal,
+  goal_medium,
   grabber,
   grabber_medium,
   graph_decrease,
@@ -864,6 +884,8 @@ export {
   insurance_medium,
   investment_account,
   investment_account_medium,
+  investor,
+  investor_medium,
   keyfigures,
   keyfigures_medium,
   kid_number,
@@ -876,6 +898,8 @@ export {
   launch_medium,
   layout_card,
   layout_card_medium,
+  layout_grid,
+  layout_grid_medium,
   leaf,
   leaf_medium,
   lightbulb,
@@ -1022,6 +1046,8 @@ export {
   shield_medium,
   shopping_cart,
   shopping_cart_medium,
+  show_pin,
+  show_pin_medium,
   snowmobile,
   snowmobile_medium,
   sort,
@@ -1046,6 +1072,8 @@ export {
   support_medium,
   swap,
   swap_medium,
+  table,
+  table_medium,
   tag,
   tag_medium,
   teenager,
