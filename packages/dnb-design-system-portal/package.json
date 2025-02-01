@@ -36,6 +36,7 @@
     "test:e2e:portal:watch": "playwright test --ui",
     "test:screenshots": "yarn workspace @dnb/eufemia test:screenshots",
     "test:screenshots:ci": "start-server-and-test serve http://localhost:8000 'yarn workspace @dnb/eufemia test:screenshots:ci'",
+    "test:screenshots:ci:update": "start-server-and-test serve http://localhost:8000 'yarn workspace @dnb/eufemia test:screenshots:ci:update'",
     "test:staged": "jest --bail --findRelatedTests ",
     "test:types": "tsc --noEmit",
     "test:types:watch": "tsc --noEmit --watch",

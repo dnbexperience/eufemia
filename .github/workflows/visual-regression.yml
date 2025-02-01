@@ -37,6 +37,7 @@ env:
   ALGOLIA_SEARCH_KEY: ${{ secrets.ALGOLIA_SEARCH_KEY }}
   ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
   RUN_POST_BUILD: ${{ startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/heads/v') }}
+  RUN_VISUAL_TEST: ${{ !startsWith(github.ref, 'refs/heads/icon') }}
 
 jobs:
   visual-regression:
@@ -91,9 +92,11 @@ jobs:
         run: yarn workspace @dnb/eufemia postbuild:ci
 
       - name: Build portal
+        if: env.RUN_VISUAL_TEST == 'true'
         run: yarn workspace dnb-design-system-portal build:visual-test
 
       - name: Run visual tests
+        if: env.RUN_VISUAL_TEST == 'true'
         run: yarn workspace dnb-design-system-portal test:screenshots:ci
 
       - uses: actions/upload-artifact@v4
