@@ -230,8 +230,11 @@ function WizardContainer(props: Props) {
 
         const id = stepsRef.current[index]?.id
         if (id) {
-          const previousId = stepsRef.current[previousIndex]?.id
           Object.assign(options, { id })
+        }
+
+        const previousId = stepsRef.current[previousIndex]?.id
+        if (previousId) {
           Object.assign(options.previousStep, { id: previousId })
         }
 
