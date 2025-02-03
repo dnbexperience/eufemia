@@ -72,6 +72,8 @@ export type SharedAttachments<Data = unknown> = {
   setSubmitState?: ContextState['setSubmitState']
   rerenderUseDataHook?: () => void
   clearData?: () => void
+  updateDataValue?: ContextState['updateDataValue']
+  setData?: ContextState['setData']
   fieldConnectionsRef?: ContextState['fieldConnectionsRef']
 }
 
@@ -765,40 +767,6 @@ export default function Provider<Data extends JsonObject>(
     }
   }, [id, initialData, extendSharedData, sharedData.data])
 
-  useLayoutEffect(() => {
-    if (id) {
-      extendAttachment(
-        {
-          visibleDataHandler,
-          filterDataHandler,
-          hasErrors,
-          hasFieldError,
-          setShowAllErrors,
-          setSubmitState,
-          clearData,
-          fieldConnectionsRef,
-        },
-        { preventSyncOfSameInstance: true }
-      )
-      if (filterSubmitData) {
-        rerenderUseDataHook?.()
-      }
-    }
-  }, [
-    extendAttachment,
-    visibleDataHandler,
-    filterDataHandler,
-    filterSubmitData,
-    hasErrors,
-    hasFieldError,
-    id,
-    rerenderUseDataHook,
-    setShowAllErrors,
-    setSubmitState,
-    clearData,
-    extendSharedData,
-  ])
-
   useMemo(() => {
     executeAjvValidator()
 
@@ -1314,6 +1282,44 @@ export default function Provider<Data extends JsonObject>(
       forceUpdate()
     }
   }, [schema, validateData, forceUpdate])
+
+  useLayoutEffect(() => {
+    if (id) {
+      extendAttachment(
+        {
+          visibleDataHandler,
+          filterDataHandler,
+          hasErrors,
+          hasFieldError,
+          setShowAllErrors,
+          setSubmitState,
+          clearData,
+          setData,
+          updateDataValue,
+          fieldConnectionsRef,
+        },
+        { preventSyncOfSameInstance: true }
+      )
+      if (filterSubmitData) {
+        rerenderUseDataHook?.()
+      }
+    }
+  }, [
+    extendAttachment,
+    visibleDataHandler,
+    filterDataHandler,
+    filterSubmitData,
+    hasErrors,
+    hasFieldError,
+    id,
+    rerenderUseDataHook,
+    setShowAllErrors,
+    setSubmitState,
+    clearData,
+    setData,
+    extendSharedData,
+    updateDataValue,
+  ])
 
   const onTimeout = useCallback(() => {
     setFormState(undefined)

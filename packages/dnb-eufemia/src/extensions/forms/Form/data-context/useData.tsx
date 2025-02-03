@@ -12,6 +12,7 @@ import {
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
+import { useConnections } from './useValidation'
 import type { Path } from '../../types'
 import DataContext, {
   FilterData,
@@ -59,6 +60,7 @@ type UseDataReturn<Data> = {
   update: UseDataReturnUpdate<Data>
   remove: (path: Path) => void
   getValue: UseDataReturnGetValue<Data>
+  clearField: (path: Path, emptyValue?: unknown) => void
   filterData: UseDataReturnFilterData<Data>
   reduceToVisibleFields: UseDataReturnVisibleData<Data>
 }
@@ -108,8 +110,15 @@ export default function useData<Data = JsonObject>(
       dataContext.filterDataHandler
   }
 
-  const updateDataValue = dataContext?.updateDataValue
-  const setData = dataContext?.setData
+  const updateDataValue =
+    sharedAttachmentsRef.current.data?.updateDataValue ||
+    (!id && dataContext?.updateDataValue)
+  const setData =
+    sharedAttachmentsRef.current.data?.setData ||
+    (!id && dataContext?.setData)
+  const setShowAllErrors =
+    sharedAttachmentsRef.current.data?.setShowAllErrors ||
+    (!id && dataContext?.setShowAllErrors)
 
   const set = useCallback(
     (newData: Data) => {
@@ -148,6 +157,20 @@ export default function useData<Data = JsonObject>(
       }
     },
     [id, updateDataValue]
+  )
+
+  const { getFieldConnections } = useConnections(id)
+  const clearField = useCallback<UseDataReturn<Data>['clearField']>(
+    (path, value = undefined) => {
+      const connections = getFieldConnections()
+      connections?.[path]?.setEventResult?.({ error: undefined })
+
+      const emptyValue = connections?.[path]?.emptyValue
+      update(path, value ?? emptyValue)
+
+      setShowAllErrors(false)
+    },
+    [getFieldConnections, setShowAllErrors, update]
   )
 
   const remove = useCallback<UseDataReturn<Data>['remove']>(
@@ -224,6 +247,7 @@ export default function useData<Data = JsonObject>(
       update,
       set,
       getValue,
+      clearField,
       reduceToVisibleFields,
       filterData,
     }),
@@ -233,6 +257,7 @@ export default function useData<Data = JsonObject>(
       update,
       set,
       getValue,
+      clearField,
       reduceToVisibleFields,
       filterData,
     ]

@@ -44,12 +44,20 @@ export default function useValidation(
 
   // Field status
   const { getFieldConnections } = useConnections(id)
+  const setShowAllErrors =
+    data?.setShowAllErrors ||
+    (!id && context?.setShowAllErrors) ||
+    fallback
   const setFieldStatus = useCallback(
     (path: Path, status: EventStateObject) => {
       const connections = getFieldConnections()
       connections?.[path]?.setEventResult?.(status)
+
+      if ('error' in (status || {}) && !status.error) {
+        setShowAllErrors(false)
+      }
     },
-    [getFieldConnections]
+    [getFieldConnections, setShowAllErrors]
   )
 
   return useMemo(
@@ -62,7 +70,7 @@ type UseConnectionsSharedState = {
   fieldConnectionsRef: ContextState['fieldConnectionsRef']
 }
 
-function useConnections(id: SharedStateId = undefined) {
+export function useConnections(id: SharedStateId = undefined) {
   const { get } = useSharedState<UseConnectionsSharedState>(
     createReferenceKey(id, 'attachments')
   )

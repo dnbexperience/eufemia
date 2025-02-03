@@ -82,6 +82,7 @@ export type HandleSubmitCallback = ({
 }) => void
 export type FieldConnections = {
   setEventResult?: (status: EventStateObject) => void
+  emptyValue?: unknown
 }
 export type FieldInternalsRefProps =
   | (FieldProps & { children: unknown })

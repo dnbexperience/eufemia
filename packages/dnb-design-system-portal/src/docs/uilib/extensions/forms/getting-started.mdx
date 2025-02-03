@@ -185,6 +185,7 @@ function MyComponent() {
     set,
     data,
     filterData,
+    clearField,
     reduceToVisibleFields,
   } = Form.useData() // optionally provide an id or reference
 }
@@ -203,6 +204,7 @@ const { getValue, data, filterData, reduceToVisibleFields } =
 - `set` will set the whole dataset.
 - `data` will return the whole dataset (unvalidated).
 - `filterData` will filter the data based on your own logic.
+- `clearField` will set `emptyValue` as the value of the given path and clear the error state.
 - `reduceToVisibleFields` will reduce the given data set to only contain the visible fields (mounted fields).
 
 As you can see in the code above, you can even handle the state outside the `Form.Handler` context. You find more details on this topic in the [Form.useData](/uilib/extensions/forms/Form/useData/) documentation.

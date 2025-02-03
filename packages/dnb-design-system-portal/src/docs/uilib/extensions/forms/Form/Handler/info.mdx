@@ -137,6 +137,7 @@ function MyComponent() {
     set,
     data,
     filterData,
+    clearField,
     reduceToVisibleFields,
   } = Form.useData()
 
@@ -159,6 +160,7 @@ function MyApp() {
 - `set` will set the whole dataset.
 - `data` will return the whole dataset (unvalidated).
 - `filterData` will filter the data based on your own logic.
+- `clearField` will set `emptyValue` as the value of the given path and clear the error state.
 - `reduceToVisibleFields` will reduce the given data set to only contain the visible fields (mounted fields).
 
 ### Using a form ID
