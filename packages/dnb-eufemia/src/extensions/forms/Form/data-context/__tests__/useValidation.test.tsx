@@ -255,6 +255,11 @@ describe('useValidation', () => {
   })
 
   describe('setFieldStatus', () => {
+    it('should not throw when no id is given', () => {
+      const { result } = renderHook(useValidation)
+      result.current.setFieldStatus('/path', { error: null })
+    })
+
     describe('with an identifier', () => {
       it('should set and remove a field error', async () => {
         const onSubmit = jest.fn()
@@ -468,6 +473,43 @@ describe('useValidation', () => {
           const [info] = Array.from(statuses)
           expect(info).toHaveTextContent('Show me again')
         })
+      })
+
+      it('should handle the setFormError method outside of the form context', async () => {
+        const myId = () => null
+        const onSubmit = jest.fn()
+
+        const MockComponent = () => {
+          const { setFieldStatus } = useValidation(myId)
+
+          return (
+            <Form.Handler id={myId} onSubmit={onSubmit}>
+              <Field.String
+                label="My field"
+                path="/myField"
+                onChange={(value) => {
+                  if (value === 'error') {
+                    setFieldStatus('/myField', {
+                      error: new Error('Error message'),
+                    })
+                  }
+                }}
+              />
+            </Form.Handler>
+          )
+        }
+
+        render(<MockComponent />)
+
+        await userEvent.type(document.querySelector('input'), 'error')
+
+        fireEvent.submit(document.querySelector('form'))
+
+        expect(onSubmit).toHaveBeenCalledTimes(0)
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
       })
     })
   })
