@@ -51,8 +51,8 @@ export type StepIndicatorRenderCallback = {
   StepItem: typeof StepItemWrapper
   /** Element that was originally going to be rendered */
   element: React.ReactNode
-  /** @deprecated has no valid values */
-  attributes?: React.HTMLProps<HTMLElement>
+  /** @deprecated never has values */
+  attributes: React.HTMLProps<HTMLElement>
   props: StepIndicatorItemProps
   context: StepIndicatorContextValues
 }
