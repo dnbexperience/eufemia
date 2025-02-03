@@ -43,6 +43,7 @@ export const mockHeight = (
   element.setAttribute('data-height', String(height))
 }
 
+// Will be overwritten when using "initializeTestSetup"
 export let nextAnimationFrame = () => null
 export const runAnimation = () => {
   nextAnimationFrame()

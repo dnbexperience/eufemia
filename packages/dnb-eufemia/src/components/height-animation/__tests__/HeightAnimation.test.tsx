@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import HeightAnimation from '../HeightAnimation'
 import HeightAnimationInstance from '../HeightAnimationInstance'
 import {
@@ -10,6 +10,7 @@ import {
   runAnimation,
   simulateAnimationEnd,
 } from './HeightAnimationUtils'
+import { wait } from '../../../core/jest/jestSetup'
 
 describe('HeightAnimation', () => {
   initializeTestSetup()
@@ -400,6 +401,9 @@ describe('stopOuterAnimations', () => {
     mockHeight(100, innerElement)
     mockHeight(200, innerElement)
 
+    // To ensure the "dnb-height-animation--stop" className is set after rerender
+    await wait(10)
+
     rerender(
       <HeightAnimation className="outer">
         <HeightAnimation className="inner">456</HeightAnimation>
@@ -412,9 +416,11 @@ describe('stopOuterAnimations', () => {
 
     runAnimation()
 
-    expect(
-      document.querySelector('.dnb-height-animation--stop')
-    ).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-height-animation--stop')
+      ).not.toBeInTheDocument()
+    })
   })
 
   it('should not animate when outer height animation has --stop className', async () => {

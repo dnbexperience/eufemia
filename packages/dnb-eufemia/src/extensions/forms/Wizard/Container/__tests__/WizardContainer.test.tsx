@@ -268,16 +268,25 @@ describe('Wizard.Container', () => {
 
     await waitFor(() => {
       expect(output()).toHaveTextContent('Step 2')
+    })
+
+    await waitFor(() => {
       expect(screen.queryByRole('alert')).toBeInTheDocument()
     })
 
     await userEvent.type(document.querySelector('input'), 'foo')
+
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeNull()
+    })
+
     await userEvent.click(nextButton())
 
     await waitFor(() => {
       expect(output()).toHaveTextContent('Step 3')
-      expect(screen.queryByRole('alert')).toBeNull()
     })
+
+    expect(screen.queryByRole('alert')).toBeNull()
   })
 
   it('should support navigating back and forth with async validators', async () => {
@@ -2069,6 +2078,7 @@ describe('Wizard.Container', () => {
         fooStep3: undefined,
       })
 
+      await wait(100)
       await userEvent.type(document.querySelector('input'), ' changed')
 
       expect(onChange).toHaveBeenCalledTimes(8)
