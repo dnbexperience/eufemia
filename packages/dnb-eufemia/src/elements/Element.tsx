@@ -31,9 +31,9 @@ export type ElementProps = {
   skeleton?: SkeletonShow
   skeletonMethod?: SkeletonMethods
   /**
-   * As a string: replaces the default tag class `dnb-{TAG_NAME}` wich a different class.
+   * As a string: replaces the default tag class `dnb-{TAG_NAME}` wich a different class. Empty string does the same as default `undefined`
    *
-   * As a boolean: set it to `false` to disable the default tag class. `true` does the same as `undefined`
+   * As a boolean: set it to `false` to disable the default tag class. `true` does the same as default `undefined`
    *
    * Default: `undefined`
    */
@@ -76,8 +76,11 @@ function ElementInstance(localProps: ElementAllProps) {
   const attributes = rest as Attributes
 
   const tagClass =
-    (internalClass === true ? undefined : internalClass) ??
-    (typeof Tag === 'string' ? `dnb-${Tag}` : '')
+    internalClass === false
+      ? ''
+      : (internalClass === true ? undefined : internalClass) ||
+        (typeof Tag === 'string' ? `dnb-${Tag}` : '')
+
   const internalClassName = classnames(
     !new RegExp(`${tagClass}(\\s|$)`).test(String(className)) && tagClass,
     className,
