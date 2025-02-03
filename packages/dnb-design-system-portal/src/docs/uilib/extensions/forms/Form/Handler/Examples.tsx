@@ -408,7 +408,9 @@ export const TransformData = () => {
             const transformedData = transformData(
               data,
               ({ value, displayValue, label }) => {
-                return { value, displayValue, label }
+                if (!Array.isArray(value)) {
+                  return { value, displayValue, label }
+                }
               },
             )
 
