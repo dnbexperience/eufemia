@@ -23,6 +23,7 @@ import {
   OnChange,
   DataValueWriteProps,
   OnSubmit,
+  Iterate,
 } from '../../../'
 import { isCI } from 'repo-utils'
 import { Props as StringFieldProps } from '../../../Field/String'
@@ -4880,6 +4881,70 @@ describe('DataContext.Provider', () => {
         label: 'ArraySelection label',
         value: ['foo', 'bar'],
       },
+    })
+  })
+
+  it('should transform data with "transformData" from fields inside Iterate', async () => {
+    let transformedData = undefined
+    const onSubmit = jest.fn((data, { transformData }) => {
+      transformedData = transformData(
+        data,
+        ({ value, displayValue, label }) => {
+          if (!Array.isArray(value)) {
+            return { value, displayValue, label }
+          }
+        }
+      )
+    })
+
+    render(
+      <Form.Handler
+        onSubmit={onSubmit}
+        defaultData={{
+          accounts: [null],
+        }}
+      >
+        <Iterate.Array path="/accounts">
+          <Field.String
+            label="Bar label"
+            itemPath="/fooPath"
+            defaultValue="foo value"
+          />
+        </Iterate.Array>
+      </Form.Handler>
+    )
+
+    fireEvent.submit(document.querySelector('form'))
+
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(transformedData).toEqual({
+      accounts: [
+        {
+          fooPath: {
+            displayValue: 'foo value',
+            label: 'Bar label',
+            value: 'foo value',
+          },
+        },
+      ],
+    })
+
+    const stringField = document.querySelector('input')
+    fireEvent.change(stringField, { target: { value: 'bar value' } })
+
+    fireEvent.submit(document.querySelector('form'))
+
+    expect(onSubmit).toHaveBeenCalledTimes(2)
+    expect(transformedData).toEqual({
+      accounts: [
+        {
+          fooPath: {
+            displayValue: 'bar value',
+            label: 'Bar label',
+            value: 'bar value',
+          },
+        },
+      ],
     })
   })
 

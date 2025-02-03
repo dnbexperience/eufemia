@@ -339,3 +339,35 @@ The callback function receives the following arguments as an object:
 Most of the fields will return the `displayValue` as a string. But there are some exceptions:
 
 - [ArraySelection](/uilib/extensions/forms/base-fields/ArraySelection/) will return the displayed/active options content as an array that contains a string (or React.ReactNode).
+
+##### `displayValue` from fields inside Iterate.Array
+
+When using the `Iterate.Array` component, you may check if the current entry is an array. This way you ensure you never transform the array itself, but only the values from the fields inside the array.
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+const MyForm = () => {
+  return (
+    <Form.Handler
+      onSubmit={(data, { transformData }) => {
+        const transformedData = transformData(
+          data,
+          ({ value, displayValue, label }) => {
+            if (!Array.isArray(value)) {
+              return { value, displayValue, label }
+            }
+          },
+        )
+      }}
+    >
+      <Form.Card>
+        <Iterate.Array path="/myArray">
+          <Field.String itemPath="/" label="My label" />
+        </Iterate.Array>
+      </Form.Card>
+      <Form.SubmitButton />
+    </Form.Handler>
+  )
+}
+```
