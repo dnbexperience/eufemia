@@ -111,6 +111,14 @@ export default function useData<Data = JsonObject>(
   const updateDataValue = dataContext?.updateDataValue
   const setData = dataContext?.setData
 
+  const getExistingData = useCallback(() => {
+    return structuredClone(
+      sharedAttachmentsRef.current?.data?.internalDataRef?.current ||
+        sharedDataRef.current.data ||
+        {}
+    ) as Data & JsonObject
+  }, [])
+
   const set = useCallback(
     (newData: Data) => {
       if (id) {
@@ -124,9 +132,7 @@ export default function useData<Data = JsonObject>(
 
   const update = useCallback<UseDataReturnUpdate<Data>>(
     (path, value = undefined) => {
-      const existingData = structuredClone(
-        sharedDataRef.current.data || {}
-      ) as Data & JsonObject
+      const existingData = getExistingData()
       const existingValue = pointer.has(existingData, path)
         ? pointer.get(existingData, path)
         : undefined
@@ -143,18 +149,16 @@ export default function useData<Data = JsonObject>(
         if (id) {
           sharedDataRef.current.extend(existingData)
         } else {
-          updateDataValue(path, newValue)
+          updateDataValue?.(path, newValue)
         }
       }
     },
-    [id, updateDataValue]
+    [getExistingData, id, updateDataValue]
   )
 
   const remove = useCallback<UseDataReturn<Data>['remove']>(
     (path) => {
-      const existingData = structuredClone(
-        sharedDataRef.current.data || {}
-      ) as Data & JsonObject
+      const existingData = getExistingData()
 
       if (pointer.has(existingData, path)) {
         // Remove existing data
@@ -164,11 +168,11 @@ export default function useData<Data = JsonObject>(
         if (id) {
           sharedDataRef.current.set(existingData)
         } else {
-          updateDataValue(path, undefined)
+          setData?.(existingData)
         }
       }
     },
-    [id, updateDataValue]
+    [getExistingData, id, setData]
   )
 
   const reduceToVisibleFields = useCallback<
