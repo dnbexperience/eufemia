@@ -3,6 +3,16 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.63.2](https://github.com/dnbexperience/eufemia/compare/v10.63.1...v10.63.2) (2025-02-04)
+
+
+### :bug: Bug Fixes
+
+* **Dialog:** prevent `onClose` event from firing in StrictMode when opening a new dialog ([#4525](https://github.com/dnbexperience/eufemia/issues/4525)) ([d24c0d3](https://github.com/dnbexperience/eufemia/commit/d24c0d35bd3fc83a81b4037b883423e0c4a1fc65))
+* **Forms:** always revalidate on submit when data context changes ([#4532](https://github.com/dnbexperience/eufemia/issues/4532)) ([e0692d6](https://github.com/dnbexperience/eufemia/commit/e0692d633f629ec958b2ec4d187e3533b21d113d))
+* **Forms:** ensure `setFieldStatus` by useValidation does not throw when used without id ([#4529](https://github.com/dnbexperience/eufemia/issues/4529)) ([1a92512](https://github.com/dnbexperience/eufemia/commit/1a9251205b2b2914500ef93864bb1a37e159e8b0))
+* **Forms:** ensure `update('/path', undefined)` does not show error message ([#4531](https://github.com/dnbexperience/eufemia/issues/4531)) ([2dfd44a](https://github.com/dnbexperience/eufemia/commit/2dfd44acb00bdbb9512916e8d3d767cfa9f5d53e))
+
 ## [10.63.1](https://github.com/dnbexperience/eufemia/compare/v10.63.0...v10.63.1) (2025-02-04)
 
 
