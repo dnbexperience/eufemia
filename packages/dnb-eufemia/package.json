@@ -84,7 +84,7 @@
     "test:postbuild": "yarn jest ./postbuild.test.ts --ci --testPathIgnorePatterns=[]",
     "test:screenshots": "yarn jest --config=./jest.config.screenshots.js --maxWorkers=1 --detectOpenHandles --testPathPattern ",
     "test:screenshots:ci": "yarn jest --config=./jest.config.screenshots.js --ci --bail --maxWorkers=1",
-    "test:screenshots:ci:update": "yarn test:screenshots:ci --maxWorkers=1 --updateSnapshot",
+    "test:screenshots:ci:update": "yarn test:screenshots:ci --updateSnapshot",
     "test:screenshots:reset": "find . -name '*.snap.png' -type f|xargs rm -f && yarn test:screenshots",
     "test:screenshots:update": "yarn jest --config=./jest.config.screenshots.js --maxWorkers=1 --updateSnapshot --testPathPattern ",
     "test:screenshots:watch": "JEST_IMAGE_SNAPSHOT_TRACK_OBSOLETE=1 jest --config=./jest.config.screenshots.js --watchAll --detectOpenHandles --testPathPattern ",

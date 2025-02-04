@@ -21,7 +21,7 @@ jobs:
   process-icons:
     name: Fetch and Build Icons
 
-    runs-on: ubuntu-latest
+    runs-on: macos-15
 
     timeout-minutes: 60
 
@@ -48,67 +48,46 @@ jobs:
         if: steps.modules-cache.outputs.cache-hit != 'true'
         run: yarn install --immutable
 
+      - name: Use Playwright cache
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: |
+            ~/Library/Caches/ms-playwright
+            ~/.cache/ms-playwright
+            %USERPROFILE%\AppData\Local\ms-playwright
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
+      - run: yarn workspace @dnb/eufemia playwright install --with-deps firefox
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+      - run: yarn workspace @dnb/eufemia playwright install-deps firefox
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+
       - name: Icons fetch and prebuild
         run: yarn workspace @dnb/eufemia prebuild:figma:ci
 
-      - name: Prebuild Library
-        run: yarn workspace @dnb/eufemia prebuild:ci
-
       - name: Test prebuild
-        run: yarn workspace @dnb/eufemia test:update
+        run: yarn workspace @dnb/eufemia test:update --timeout=30000
 
       - name: Build portal
         run: yarn workspace dnb-design-system-portal build:visual-test
 
-      - name: Store portal artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: portal-build-artifact
-          path: ./packages/dnb-design-system-portal/public
-
-      - name: Commit icons
-        run: yarn workspace @dnb/eufemia postbuild:commit
-
-  visual-test:
-    needs: process-icons
-    name: Run visual e2e-test for icons
-
-    runs-on: macos-latest
-
-    timeout-minutes: 60
-
-    steps:
-      - name: Git checkout
-        uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: 'package.json'
-
-      - name: Use yarn cache
-        uses: actions/cache@v4
-        id: yarn-cache
-        with:
-          path: ./.yarn/cache
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-deps-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-deps-
-
-      - name: Install dependencies
-        run: yarn install --immutable
-
-      - name: Re-store portal artifacts
-        uses: actions/download-artifact@v4.1.7
-        with:
-          name: portal-build-artifact
-          path: ./packages/dnb-design-system-portal/public
-
       - name: Run visual tests
-        run: yarn workspace dnb-design-system-portal test:screenshots:ci
+        run: yarn workspace dnb-design-system-portal test:screenshots:ci:update
 
-      - name: Commit updated snapshots
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: visual-test-artifact
+          path: |
+            ./packages/dnb-eufemia/src/**/*.snap-diff.png
+            ./packages/dnb-eufemia/jest-visual-diff-report/*
+
+      - name: Run visual tests info
+        if: failure()
+        run: echo '\n\n👉 Download the diff files as a ZIP file. \nIt is called "visual-test-artifact" and you find it in the test "Summary" under "Artifacts".\n\n\n'
+
+      - name: Commit icons and updated snapshots
+        if: success()
         run: yarn workspace @dnb/eufemia postbuild:commit
 
       - name: Slack

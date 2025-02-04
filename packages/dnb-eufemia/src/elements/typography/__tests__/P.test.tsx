@@ -106,7 +106,7 @@ describe('P element', () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
-  describe('deprecated behaviour', () => {
+  describe('deprecated behavior', () => {
     it('can set className and modifier', () => {
       render(<P className="my-class" modifier="my-modifier" />)
       const element = document.querySelector('.dnb-p')

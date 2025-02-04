@@ -17,7 +17,7 @@ export const PostalCodeAndCity = () => {
       }}
       error={
         new Error(
-          'Flere feil (test) som går over flere linjer og som aldrig slutter'
+          'Flere feil (test) som går over flere linjer og som aldri slutter'
         )
       }
       help={{

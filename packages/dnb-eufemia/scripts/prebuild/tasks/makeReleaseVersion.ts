@@ -15,6 +15,10 @@ import { log } from '../../lib'
 export async function makeReleaseVersion() {
   const branchName = getBranchName()
 
+  if (branchName.startsWith('icons/')) {
+    return // stop here
+  }
+
   let version = null
 
   if (releaseBranches.includes(branchName)) {

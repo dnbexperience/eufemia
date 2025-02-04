@@ -424,8 +424,13 @@ export default function Provider<Data extends JsonObject>(
    * Mutate the data set based on the filterData function
    */
   const mutateDataHandler = useCallback(
-    (data: Data, handler: TransformData | FilterData, remove = false) => {
-      const mutate = (path: Path, result: boolean | unknown) => {
+    (
+      data: Data,
+      handler: TransformData | FilterData,
+      { remove = false, mutate = true } = {}
+    ) => {
+      const freshData = {} as Data
+      const mutateEntry = (path: Path, result: boolean | unknown) => {
         if (remove) {
           if (result === false) {
             data = structuredClone(data)
@@ -433,8 +438,12 @@ export default function Provider<Data extends JsonObject>(
           }
         } else {
           if (typeof result !== 'undefined') {
-            data = structuredClone(data)
-            pointer.set(data, path, result)
+            if (mutate) {
+              data = structuredClone(data)
+              pointer.set(data, path, result)
+            } else {
+              pointer.set(freshData, path, result)
+            }
           }
         }
       }
@@ -458,10 +467,14 @@ export default function Provider<Data extends JsonObject>(
                 props,
                 internal,
               })
-              mutate(path, result)
+              mutateEntry(path, result)
             }
           }
         )
+
+        if (!mutate) {
+          return freshData
+        }
 
         return data
       } else if (handler) {
@@ -480,7 +493,7 @@ export default function Provider<Data extends JsonObject>(
                     internal,
                   })
                 : condition
-            mutate(path, result)
+            mutateEntry(path, result)
           }
         }
 
@@ -567,7 +580,7 @@ export default function Provider<Data extends JsonObject>(
   const filterDataHandler = useCallback(
     (data: Data, filter: FilterData) => {
       if (filter) {
-        return mutateDataHandler(data, filter, true)
+        return mutateDataHandler(data, filter, { remove: true })
       }
 
       return data
@@ -1176,7 +1189,7 @@ export default function Provider<Data extends JsonObject>(
     }
 
     const transformData = (data: Data, handler: TransformData) => {
-      return mutateDataHandler(data, handler)
+      return mutateDataHandler(data, handler, { mutate: false })
     }
 
     const formElement = formElementRef.current
