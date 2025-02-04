@@ -16,11 +16,18 @@ const StyledTable = styled(Table)`
   }
 `
 
-const colorValue = 'var(--color-success-green)'
-const colorString = 'var(--color-fire-red)'
-const colorType = 'var(--color-violet)'
-const colorPrimitive = 'var(--color-success-green)'
-const colorUndefined = 'var(--color-black-55)'
+const colors = {
+  type: {
+    default: 'var(--color-success-green)',
+    primitive: 'var(--color-success-green)',
+    string: 'var(--color-fire-red)',
+  },
+  value: {
+    default: 'var(--color-success-green)',
+    undefined: 'var(--color-black-55)',
+    string: 'var(--color-fire-red)',
+  },
+}
 
 export const FormattedCode = ({
   variant,
@@ -44,20 +51,20 @@ export const FormattedCode = ({
       }
       case 'type': {
         style.color = isString(children)
-          ? colorString
+          ? colors.type.string
           : isPrimitive(children)
-          ? colorPrimitive
-          : colorType
+          ? colors.type.primitive
+          : colors.type.default
         style.background = 'none'
         style.boxShadow = 'none'
         break
       }
       case 'value': {
         style.color = isString(children)
-          ? colorString
+          ? colors.value.string
           : children === 'undefined' || children === 'null'
-          ? colorUndefined
-          : colorValue
+          ? colors.value.undefined
+          : colors.value.default
         style.background = 'none'
         style.boxShadow = 'none'
         break
