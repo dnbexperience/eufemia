@@ -22,6 +22,23 @@ beforeEach(() => {
   window.__modalStack = undefined
 })
 
+const log = global.console.log
+beforeEach(() => {
+  global.console.log = jest.fn((...args) => {
+    if (
+      !String(args[1]).includes(
+        'A Dialog or Drawer needs a h1 as its first element!'
+      )
+    ) {
+      log(...args)
+    }
+  })
+})
+afterEach(() => {
+  global.console.log = log
+  jest.resetAllMocks()
+})
+
 describe('Drawer', () => {
   it('will run bodyScrollLock with disableBodyScroll', () => {
     render(

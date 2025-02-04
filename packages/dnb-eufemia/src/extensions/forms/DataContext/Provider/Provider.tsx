@@ -268,9 +268,9 @@ export default function Provider<Data extends JsonObject>(
   const addSetShowAllErrorsRef = useRef<
     Array<(showAllErrors: boolean) => void>
   >([])
-  const showAllErrorsRef = useRef<boolean>(false)
+  const showAllErrorsRef = useRef<number | boolean>(false)
   const setShowAllErrors = useCallback((showAllErrors: boolean) => {
-    showAllErrorsRef.current = showAllErrors
+    showAllErrorsRef.current = showAllErrors ? Date.now() : showAllErrors
     forceUpdate()
     addSetShowAllErrorsRef.current.forEach((fn) => fn?.(showAllErrors))
   }, [])
@@ -1420,7 +1420,7 @@ export default function Provider<Data extends JsonObject>(
                 globalStatus: {
                   id: globalStatusId,
                   title: translation.errorSummaryTitle,
-                  show: showAllErrorsRef.current,
+                  show: Boolean(showAllErrorsRef.current),
                 },
               }
             : undefined

@@ -146,6 +146,9 @@ del .dnb-code {
 .dnb-code:not([class*=dnb-space]) {
   margin: calc(-0.25em / 0.875) 0;
 }
+.dnb-code .dnb-anchor {
+  font-size: inherit;
+}
 
 .dnb-pre {
   display: block;

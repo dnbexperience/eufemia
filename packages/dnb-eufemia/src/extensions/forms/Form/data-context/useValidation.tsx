@@ -75,7 +75,7 @@ function useConnections(id: SharedStateId = undefined) {
     const connections =
       attachments?.fieldConnectionsRef || (!id && fieldConnectionsRef)
 
-    return connections.current
+    return connections?.current
   }, [fieldConnectionsRef, get, id])
 
   return useMemo(() => ({ getFieldConnections }), [getFieldConnections])

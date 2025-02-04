@@ -10,7 +10,7 @@ import {
 import userEvent from '@testing-library/user-event'
 import { spyOnEufemiaWarn, wait } from '../../../../../core/jest/jestSetup'
 import { simulateAnimationEnd } from '../../../../../components/height-animation/__tests__/HeightAnimationUtils'
-import { GlobalStatus } from '../../../../../components'
+import { Button, GlobalStatus } from '../../../../../components'
 import SharedProvider from '../../../../../shared/Provider'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import { debounceAsync } from '../../../../../shared/helpers/debounce'
@@ -3411,6 +3411,72 @@ describe('DataContext.Provider', () => {
       )
 
       expect(screen.queryByRole('alert')).toHaveTextContent(errorRequired)
+    })
+
+    it('should use a random number as the value of "showAllErrors" when setShowAllErrors with true is called', async () => {
+      let dataContext = null
+
+      const MockComponent = () => {
+        const { setShowAllErrors } = useContext(DataContext.Context)
+
+        return (
+          <>
+            <Button
+              id="show"
+              onClick={() => {
+                setShowAllErrors(true)
+              }}
+            />
+            <Button
+              id="hide"
+              onClick={() => {
+                setShowAllErrors(false)
+              }}
+            />
+
+            <DataContext.Consumer>
+              {(context) => {
+                dataContext = context
+                return null
+              }}
+            </DataContext.Consumer>
+          </>
+        )
+      }
+
+      render(
+        <Form.Handler>
+          <MockComponent />
+        </Form.Handler>
+      )
+
+      expect(dataContext).toMatchObject({ showAllErrors: false })
+
+      fireEvent.submit(document.querySelector('form'))
+      expect(dataContext).toMatchObject({
+        showAllErrors: false,
+      })
+
+      await userEvent.click(document.querySelector('button#show'))
+
+      fireEvent.submit(document.querySelector('form'))
+      expect(dataContext).toMatchObject({
+        showAllErrors: expect.any(Number),
+      })
+
+      await userEvent.click(document.querySelector('button#hide'))
+
+      fireEvent.submit(document.querySelector('form'))
+      expect(dataContext).toMatchObject({
+        showAllErrors: false,
+      })
+
+      await userEvent.click(document.querySelector('button#show'))
+
+      fireEvent.submit(document.querySelector('form'))
+      expect(dataContext).toMatchObject({
+        showAllErrors: expect.any(Number),
+      })
     })
   })
 

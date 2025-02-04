@@ -1,5 +1,15 @@
 | Events                                | Description                                                                                                                                                                                                                                                                          |
 | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `onOpen` / `on_open`                  | _(optional)_ This event gets triggered once the modal shows up. Returns the modal id: `{ id }`.                                                                                                                                                                                      |
-| `onClose` / `on_close`                | _(optional)_ this event gets triggered once the modal gets closed. Returns the modal id: `{ id, event, triggeredBy }`.                                                                                                                                                               |
+| `onClose` / `on_close`                | _(optional)_ this event gets triggered once the modal gets closed. Returns the modal id: `{ id, event, triggeredBy }`. More info about the `triggeredBy` down below.                                                                                                                 |
 | `onClosePrevent` / `on_close_prevent` | _(optional)_ this event gets triggered once the user tries to close the modal, but `prevent_close` is set to **true**. Returns a callback `close` you can call to trigger the close mechanism. More details below. Returns the modal id: `{ id, event, close: Method, triggeredBy }` |
+
+## `triggeredBy`
+
+The `triggeredBy` property is given when the `onClose` or the `onClosePrevent` event is triggered. It can contain one of the following values:
+
+- `button`: The close button that triggered the event.
+- `handler`: The `close` handler given by the function (as the content/children).
+- `keyboard`: The escape key that triggered the event.
+- `overlay`: The overlay element that triggered the event.
+- `unmount`: The unmount event that triggered the `openState` prop change.
