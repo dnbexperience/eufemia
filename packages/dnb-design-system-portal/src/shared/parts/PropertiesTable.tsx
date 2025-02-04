@@ -16,10 +16,18 @@ const StyledTable = styled(Table)`
   }
 `
 
-const colorValue = 'var(--color-success-green)'
-const colorString = 'var(--color-fire-red)'
-const colorType = 'var(--color-violet)'
-const colorUndefined = 'var(--color-black-55)'
+const colors = {
+  type: {
+    default: 'var(--color-success-green)',
+    primitive: 'var(--color-success-green)',
+    string: 'var(--color-fire-red)',
+  },
+  value: {
+    default: 'var(--color-success-green)',
+    undefined: 'var(--color-black-55)',
+    string: 'var(--color-fire-red)',
+  },
+}
 
 export const FormattedCode = ({
   variant,
@@ -42,20 +50,24 @@ export const FormattedCode = ({
         break // add prop name styling at a future date with color 'var(--color-indigo)'
       }
       case 'type': {
-        style.color = children.startsWith(`'`) ? colorString : colorType
-        // falls through
-      }
-      case 'value': {
-        style.color = children.startsWith(`'`)
-          ? colorString
-          : children === 'undefined' || children === 'null'
-          ? colorUndefined
-          : colorValue
-        // falls through
-      }
-      default: {
+        style.color = isString(children)
+          ? colors.type.string
+          : isPrimitive(children)
+          ? colors.type.primitive
+          : colors.type.default
         style.background = 'none'
         style.boxShadow = 'none'
+        break
+      }
+      case 'value': {
+        style.color = isString(children)
+          ? colors.value.string
+          : children === 'undefined' || children === 'null'
+          ? colors.value.undefined
+          : colors.value.default
+        style.background = 'none'
+        style.boxShadow = 'none'
+        break
       }
     }
   }
@@ -168,6 +180,31 @@ export default function PropertiesTable({
       </StyledTable>
     </Table.ScrollView>
   )
+}
+
+function isString(str: string) {
+  return ["'", '"', '`'].includes(str.substring(0, 1))
+}
+
+function isPrimitive(type: string) {
+  return [
+    'boolean',
+    'true',
+    'false',
+    'number',
+    'bigint',
+    'string',
+    'symbol',
+  ].includes(typeWithoutArray(type))
+}
+
+function typeWithoutArray(type: string) {
+  if (type.endsWith('[]')) {
+    return type.slice(0, -2)
+  } else if (type.startsWith('Array<') && type.endsWith('>')) {
+    return type.slice(6, -1)
+  }
+  return type
 }
 
 // Replace existing properties inside a string. Use the keys from the props object to find and replace the values
