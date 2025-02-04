@@ -267,7 +267,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     itemPath,
     value: valueProp,
     transformers,
-    emptyValue,
+    emptyValue: defaultValue ? undefined : emptyValue,
   })
   const externalValueDeps = tmpValue
   const externalValue = transformers.current.transformIn(
@@ -1662,6 +1662,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       onChangeContext,
       runPool,
       handlePathChangeUnvalidatedDataContext,
+      nestedIteratePath,
       identifier,
       handleChangeIterateContext,
       makeIteratePath,
@@ -1914,10 +1915,18 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     // Error or removed error for this field from the surrounding data context (by path)
     if (externalValueDidChangeRef.current) {
       externalValueDidChangeRef.current = false
+
+      // Hide error when the external value has changed, but is the same as the empty value.
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      if (!validateContinuously && valueRef.current === emptyValue) {
+        hideError()
+      }
+
       validateValue()
       forceUpdate()
     }
-  }, [externalValueDeps]) // Keep "externalValue" in the dependency list, so it will be updated when it changes
+  }, [externalValueDeps, emptyValue, validateContinuously]) // Keep "externalValue" in the dependency list, so it will be updated when it changes
 
   useEffect(() => {
     // Check against the local error state,
@@ -1952,7 +1961,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         return // stop here
       }
 
-      let valueToStore: Value | unknown = valueProp ?? emptyValue
+      let valueToStore: Value | unknown = valueProp
 
       const data = wizardContext?.prerenderFieldProps
         ? dataContext.data
@@ -1997,6 +2006,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         // This takes precedence over the valueToStore.
         valueToStore = defaultValueRef.current
         defaultValueRef.current = undefined
+      } else if (!hasValue && typeof valueToStore === 'undefined') {
+        valueToStore = emptyValue
       }
 
       let skipEqualCheck = false

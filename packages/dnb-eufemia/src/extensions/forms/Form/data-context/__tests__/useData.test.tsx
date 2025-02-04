@@ -1,11 +1,12 @@
 import React, { createContext } from 'react'
 import { renderHook, act, render, fireEvent } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { makeUniqueId } from '../../../../../shared/component-helper'
-import { Field, Form, Wizard } from '../../..'
+import { Button } from '../../../../../components'
+import { DataContext, Field, Form, Wizard } from '../../..'
+import { FilterData } from '../../../DataContext/Context'
 import Provider from '../../../DataContext/Provider'
 import useData from '../useData'
-import { FilterData } from '../../../DataContext/Context'
-import userEvent from '@testing-library/user-event'
 
 describe('Form.useData', () => {
   let identifier: string
@@ -401,6 +402,208 @@ describe('Form.useData', () => {
         foo: 'updated',
         bar: 'bar',
       })
+    })
+
+    it('should set emptyValue as the value of the field', async () => {
+      let dataContext = null
+
+      const MockComponent = () => {
+        const { update } = useData()
+
+        return (
+          <>
+            <Field.String
+              path="/foo"
+              emptyValue="empty"
+              defaultValue="foo"
+            />
+            <Button
+              onClick={() => {
+                update('/foo', 'empty')
+              }}
+            />
+
+            <DataContext.Consumer>
+              {(context) => {
+                dataContext = context
+                return null
+              }}
+            </DataContext.Consumer>
+          </>
+        )
+      }
+
+      render(
+        <Form.Handler>
+          <MockComponent />
+        </Form.Handler>
+      )
+
+      expect(dataContext.data).toEqual({ foo: 'foo' })
+      expect(document.querySelector('input')).toHaveValue('foo')
+
+      await userEvent.click(document.querySelector('button'))
+
+      expect(dataContext.data).toEqual({ foo: 'empty' })
+      expect(document.querySelector('input')).toHaveValue('empty')
+    })
+
+    it('should set emptyValue when no value is given', () => {
+      let dataContext = null
+
+      render(
+        <Form.Handler>
+          <Field.String path="/foo" required emptyValue="empty" />
+
+          <DataContext.Consumer>
+            {(context) => {
+              dataContext = context
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      expect(dataContext.data).toEqual({ foo: 'empty' })
+      expect(document.querySelector('input')).toHaveValue('empty')
+    })
+
+    it('should prioritize defaultValue over emptyValue', () => {
+      let dataContext = null
+
+      render(
+        <Form.Handler>
+          <Field.String
+            path="/foo"
+            required
+            emptyValue="empty"
+            defaultValue="foo"
+          />
+
+          <DataContext.Consumer>
+            {(context) => {
+              dataContext = context
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      expect(dataContext.data).toEqual({ foo: 'foo' })
+      expect(document.querySelector('input')).toHaveValue('foo')
+    })
+
+    it('should set emptyValue as the value of the field without showing error', async () => {
+      let dataContext = null
+
+      const MockComponent = () => {
+        const { update } = Form.useData()
+
+        return (
+          <>
+            <Field.String
+              path="/foo"
+              required
+              emptyValue="empty"
+              defaultValue="foo"
+            />
+            <Button
+              onClick={() => {
+                update('/foo', 'empty')
+              }}
+            />
+
+            <DataContext.Consumer>
+              {(context) => {
+                dataContext = context
+                return null
+              }}
+            </DataContext.Consumer>
+          </>
+        )
+      }
+
+      render(
+        <Form.Handler>
+          <MockComponent />
+        </Form.Handler>
+      )
+
+      expect(dataContext.data).toEqual({ foo: 'foo' })
+      expect(document.querySelector('input')).toHaveValue('foo')
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      await userEvent.click(document.querySelector('button'))
+
+      expect(dataContext.data).toEqual({ foo: 'empty' })
+      expect(document.querySelector('input')).toHaveValue('empty')
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      fireEvent.submit(document.querySelector('form'))
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+    })
+
+    it('should validate the field after useData update', async () => {
+      let dataContext = null
+
+      const MockComponent = () => {
+        const { update } = Form.useData()
+
+        return (
+          <>
+            <Field.String path="/foo" required defaultValue="foo" />
+            <Button
+              onClick={() => {
+                update('/foo', undefined)
+              }}
+            />
+
+            <DataContext.Consumer>
+              {(context) => {
+                dataContext = context
+                return null
+              }}
+            </DataContext.Consumer>
+          </>
+        )
+      }
+
+      render(
+        <Form.Handler>
+          <MockComponent />
+        </Form.Handler>
+      )
+
+      expect(dataContext.data).toEqual({ foo: 'foo' })
+      expect(document.querySelector('input')).toHaveValue('foo')
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      await userEvent.click(document.querySelector('button'))
+      await userEvent.type(document.querySelector('input'), 'bar')
+
+      expect(dataContext.data).toEqual({ foo: 'bar' })
+      expect(document.querySelector('input')).toHaveValue('bar')
+
+      await userEvent.click(document.querySelector('button'))
+
+      expect(dataContext.data).toEqual({ foo: undefined })
+      expect(document.querySelector('input')).toHaveValue('')
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      fireEvent.submit(document.querySelector('form'))
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
     })
   })
 
