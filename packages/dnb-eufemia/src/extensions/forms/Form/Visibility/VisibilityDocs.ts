@@ -42,6 +42,11 @@ export const VisibilityProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  valueDefined: {
+    doc: 'Given data context path must have a value other than "undefined" to show children.',
+    type: 'string',
+    status: 'optional',
+  },
   inferData: {
     doc: 'Will be called to decide by external logic, and show/hide contents based on the return value.',
     type: 'function',

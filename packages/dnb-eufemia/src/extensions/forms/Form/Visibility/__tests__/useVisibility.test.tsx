@@ -611,6 +611,36 @@ describe('useVisibility', () => {
     })
   })
 
+  describe('valueDefined', () => {
+    it('renders children when target path has a value other than "undefined"', () => {
+      const { result } = renderHook(
+        () =>
+          useVisibility({
+            valueDefined: '/isDefined',
+          }),
+        {
+          wrapper: ({ children }) => (
+            <Provider data={{ isDefined: 'foo' }}>{children}</Provider>
+          ),
+        }
+      )
+      expect(result.current.check()).toBe(true)
+    })
+
+    it('does not render children when target path does not have a value other than "undefined"', () => {
+      const { result } = renderHook(useVisibility, {
+        wrapper: ({ children }) => (
+          <Provider data={{ isDefined: 'foo' }}>{children}</Provider>
+        ),
+      })
+      expect(
+        result.current.check({
+          valueDefined: '/notDefined',
+        })
+      ).toBe(false)
+    })
+  })
+
   describe('withinIterate', () => {
     describe('visibility', () => {
       it('renders children when target path is falsy, but visible prop is true', () => {

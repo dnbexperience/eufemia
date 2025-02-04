@@ -74,6 +74,8 @@ export type Props = {
   pathTrue?: Path
   /** Given data context path must be false to show children */
   pathFalse?: Path
+  /** Given data context path must have a value other than "undefined" to show children */
+  valueDefined?: Path
   /** Provide a `path` or `itemPath` and a `hasValue` method that returns a boolean or the excepted value in order to show children. The first parameter is the value of the path. */
   visibleWhen?: VisibleWhen
   /** Same as `visibleWhen`, but with inverted logic. */
@@ -117,6 +119,7 @@ function Visibility(props: Props) {
     pathFalse,
     pathValue,
     whenValue,
+    valueDefined,
     visibleWhen,
     visibleWhenNot,
     inferData,
@@ -148,6 +151,7 @@ function Visibility(props: Props) {
     pathTrue,
     pathFalse,
     pathValue,
+    valueDefined,
     whenValue,
     visibleWhen,
     visibleWhenNot,

@@ -39,6 +39,7 @@ export default function useVisibility(props?: Partial<Props>) {
         visible,
         visibleWhen,
         visibleWhenNot,
+        valueDefined,
         pathDefined,
         pathUndefined,
         pathTruthy,
@@ -58,6 +59,17 @@ export default function useVisibility(props?: Partial<Props>) {
       const data =
         (filterData && filterDataHandler?.(originalData, filterData)) ||
         originalData
+
+      if (valueDefined) {
+        const hasPath = pointer.has(data, valueDefined)
+        if (hasPath) {
+          const value = pointer.get(data, valueDefined)
+          if (value !== undefined) {
+            return true
+          }
+        }
+        return false
+      }
 
       if (visibleWhen || visibleWhenNot) {
         if (visibleWhenNot) {
