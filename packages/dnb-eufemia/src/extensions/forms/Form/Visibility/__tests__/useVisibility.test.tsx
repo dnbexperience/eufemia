@@ -630,12 +630,12 @@ describe('useVisibility', () => {
     it('does not render children when target path does not have a value other than "undefined"', () => {
       const { result } = renderHook(useVisibility, {
         wrapper: ({ children }) => (
-          <Provider data={{ isDefined: 'foo' }}>{children}</Provider>
+          <Provider data={{ isUndefined: undefined }}>{children}</Provider>
         ),
       })
       expect(
         result.current.check({
-          valueDefined: '/notDefined',
+          valueDefined: '/isUndefined',
         })
       ).toBe(false)
     })
@@ -877,6 +877,52 @@ describe('useVisibility', () => {
             pathFalsy: '/isTruthy',
           })
         ).toBe(false)
+      })
+    })
+
+    describe('valueDefined', () => {
+      it('renders children when target path is defined', () => {
+        const { result } = renderHook(
+          () =>
+            useVisibility({
+              withinIterate: true,
+              valueDefined: '/isDefined',
+            }),
+          {
+            wrapper: ({ children }) => (
+              <Provider
+                data={{
+                  myList: [{ isDefined: 'foo' }],
+                }}
+              >
+                <Iterate.Array path="/myList">{children}</Iterate.Array>
+              </Provider>
+            ),
+          }
+        )
+        expect(result.current.check()).toBe(true)
+      })
+
+      it('does not render children when target path is not defined', () => {
+        const { result } = renderHook(
+          () =>
+            useVisibility({
+              withinIterate: true,
+              valueDefined: '/isUndefined',
+            }),
+          {
+            wrapper: ({ children }) => (
+              <Provider
+                data={{
+                  myList: [{ isUndefined: undefined }],
+                }}
+              >
+                <Iterate.Array path="/myList">{children}</Iterate.Array>
+              </Provider>
+            ),
+          }
+        )
+        expect(result.current.check()).toBe(false)
       })
     })
   })

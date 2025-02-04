@@ -61,9 +61,9 @@ export default function useVisibility(props?: Partial<Props>) {
         originalData
 
       if (valueDefined) {
-        const hasPath = pointer.has(data, valueDefined)
+        const hasPath = pointer.has(data, makeLocalPath(valueDefined))
         if (hasPath) {
-          const value = pointer.get(data, valueDefined)
+          const value = pointer.get(data, makeLocalPath(valueDefined))
           if (value !== undefined) {
             return true
           }
