@@ -22,6 +22,9 @@ export interface ModalRootProps extends ModalContentProps {
    * The content which will appear when triggering the modal/drawer.
    */
   children?: ReactChildType
+
+  /** For internal use only */
+  modalContentCloseRef?: React.RefObject<any>
 }
 
 interface ModalRootState {

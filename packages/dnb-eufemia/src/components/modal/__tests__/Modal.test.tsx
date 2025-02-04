@@ -14,6 +14,7 @@ import DialogContent from '../../dialog/DialogContent'
 import Provider from '../../../shared/Provider'
 import * as helpers from '../../../shared/helpers'
 import userEvent from '@testing-library/user-event'
+import ModalHeaderBar from '../parts/ModalHeaderBar'
 
 global.userAgent = jest.spyOn(navigator, 'userAgent', 'get')
 global.appVersion = jest.spyOn(navigator, 'appVersion', 'get')
@@ -31,11 +32,27 @@ beforeAll(() => {
 })
 
 beforeEach(() => {
-  global.console.log = jest.fn()
   document.body.removeAttribute('style')
   document.documentElement.removeAttribute('style')
   document.getElementById('dnb-modal-root')?.remove()
   window.__modalStack = undefined
+})
+
+const log = global.console.log
+beforeEach(() => {
+  global.console.log = jest.fn((...args) => {
+    if (
+      !String(args[1]).includes(
+        'A Dialog or Drawer needs a h1 as its first element!'
+      )
+    ) {
+      log(...args)
+    }
+  })
+})
+afterEach(() => {
+  global.console.log = log
+  jest.resetAllMocks()
 })
 
 describe('Modal component', () => {
@@ -229,47 +246,26 @@ describe('Modal component', () => {
     ).toHaveAttribute('disabled')
   })
 
-  it('has working open event and close event if "Esc" key gets pressed', () => {
+  it('has working open event and close event if "Esc" key gets pressed', async () => {
     let testTriggeredBy = null
-    const on_close = jest.fn(
+
+    const onOpen = jest.fn()
+    const onClose = jest.fn(
       ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
     )
-    const on_open = jest.fn()
-    render(<Modal {...props} on_close={on_close} on_open={on_open} />)
+
+    render(<Modal {...props} onClose={onClose} onOpen={onOpen} />)
+
     fireEvent.click(document.querySelector('button'))
-    expect(on_open).toHaveBeenCalledTimes(1)
-    expect(on_open).toHaveBeenCalledWith({
+    expect(onOpen).toHaveBeenCalledTimes(1)
+    expect(onOpen).toHaveBeenCalledWith({
       id: 'modal_id',
     })
     expect(testTriggeredBy).toBe(null)
 
-    fireEvent.click(document.querySelector('button'))
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
-    expect(on_close).toHaveBeenCalledTimes(1)
-  })
-
-  it('will close modal by using callback method', () => {
-    const on_close = jest.fn()
-    const on_open = jest.fn()
-
-    render(
-      <Modal
-        no_animation={true}
-        on_open={on_open}
-        on_close={on_close}
-        hide_close_button
-      >
-        {({ close }) => {
-          return <Button id="close-button" text="close" on_click={close} />
-        }}
-      </Modal>
-    )
-
-    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
-    expect(on_open).toHaveBeenCalledTimes(1)
-
-    fireEvent.click(document.querySelector('button#close-button'))
-    expect(on_close).toHaveBeenCalledTimes(1)
+    await userEvent.keyboard('{esc}')
+    expect(onClose).toHaveBeenCalledTimes(1)
+    expect(testTriggeredBy).toBe('keyboard')
   })
 
   it('will set focus on content div if no h1 and close button is given', async () => {
@@ -880,9 +876,13 @@ describe('Modal component', () => {
       ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
     )
     const on_open = jest.fn()
+
+    console.log('open_state')
+
     const { rerender } = render(
       <Modal {...props} on_close={on_close} on_open={on_open} />
     )
+
     rerender(
       <Modal
         {...props}
@@ -1009,14 +1009,12 @@ describe('Modal component', () => {
     global.userAgent.mockReturnValue('iPhone OS 12')
     global.appVersion.mockReturnValue('OS 12_0_0')
 
-    const addEventListener = jest.fn()
-    jest
+    const addEventListener = jest
       .spyOn(document, 'addEventListener')
-      .mockImplementation(addEventListener)
-    const removeEventListener = jest.fn()
-    jest
+      .mockImplementation(jest.fn())
+    const removeEventListener = jest
       .spyOn(document, 'removeEventListener')
-      .mockImplementation(removeEventListener)
+      .mockImplementation(jest.fn())
 
     // open modal
     fireEvent.click(elem)
@@ -1058,6 +1056,9 @@ describe('Modal component', () => {
       'keydown',
       expect.any(Function)
     )
+
+    addEventListener.mockRestore()
+    removeEventListener.mockRestore()
   })
 
   it('runs expected side effects on android', () => {
@@ -1457,6 +1458,152 @@ describe('Modal component', () => {
         .querySelector('button.dnb-modal__trigger')
         .querySelector('.dnb-button__text').textContent
     ).toBe(customText)
+  })
+
+  describe('onClose', () => {
+    it('should have triggeredBy with "unmount" when unmounting', async () => {
+      const onClose = jest.fn()
+
+      const { rerender } = render(
+        <Modal noAnimation onClose={onClose} openState={true}>
+          Content
+        </Modal>
+      )
+
+      expect(onClose).toHaveBeenCalledTimes(0)
+
+      rerender(
+        <Modal noAnimation onClose={onClose} openState={false}>
+          Content
+        </Modal>
+      )
+
+      await userEvent.click(document.querySelector('button#close-button'))
+      expect(onClose).toHaveBeenCalledTimes(1)
+      expect(onClose).toHaveBeenCalledWith({
+        event: undefined,
+        id: expect.any(String),
+        triggeredBy: 'unmount',
+      })
+    })
+
+    it('should have triggeredBy with "button" when closing with button', () => {
+      const onClose = jest.fn()
+
+      render(
+        <Modal noAnimation onClose={onClose}>
+          <ModalHeaderBar />
+        </Modal>
+      )
+
+      fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+      expect(onClose).toHaveBeenCalledTimes(0)
+
+      fireEvent.click(document.querySelector('.dnb-modal__close-button'))
+      expect(onClose).toHaveBeenCalledTimes(1)
+      expect(onClose).toHaveBeenCalledWith(
+        expect.objectContaining({
+          event: expect.any(Object),
+          id: expect.any(String),
+          type: 'click',
+          triggeredBy: 'button',
+        })
+      )
+    })
+
+    it('should have triggeredBy with "overlay" when closing with button', () => {
+      const onClose = jest.fn()
+
+      render(
+        <Modal noAnimation onClose={onClose}>
+          Content
+        </Modal>
+      )
+
+      fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+      expect(onClose).toHaveBeenCalledTimes(0)
+
+      fireEvent.mouseDown(document.querySelector('div.dnb-modal__content'))
+      fireEvent.click(document.querySelector('div.dnb-modal__content'))
+
+      expect(onClose).toHaveBeenCalledTimes(1)
+      expect(onClose).toHaveBeenCalledWith(
+        expect.objectContaining({
+          event: expect.any(Object),
+          id: expect.any(String),
+          type: 'click',
+          triggeredBy: 'overlay',
+        })
+      )
+    })
+
+    it('should have triggeredBy with "keydown" when closing with button', async () => {
+      const onClose = jest.fn()
+
+      render(
+        <Modal noAnimation onClose={onClose}>
+          Content
+        </Modal>
+      )
+
+      fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+      expect(onClose).toHaveBeenCalledTimes(0)
+
+      await userEvent.keyboard('{esc}')
+      expect(onClose).toHaveBeenCalledTimes(1)
+      expect(onClose).toHaveBeenCalledWith(
+        expect.objectContaining({
+          event: expect.any(Object),
+          id: expect.any(String),
+          triggeredBy: 'keyboard',
+        })
+      )
+    })
+
+    it('should have triggeredBy with "handler" when closing with button', () => {
+      const onClose = jest.fn()
+
+      render(
+        <Modal noAnimation onClose={onClose} hideCloseButton>
+          {({ close }) => {
+            return (
+              <Button id="close-button" text="close" on_click={close} />
+            )
+          }}
+        </Modal>
+      )
+
+      fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+      expect(onClose).toHaveBeenCalledTimes(0)
+
+      fireEvent.click(document.querySelector('#close-button'))
+      expect(onClose).toHaveBeenCalledTimes(1)
+      expect(onClose).toHaveBeenCalledWith(
+        expect.objectContaining({
+          event: expect.any(Object),
+          id: expect.any(String),
+          triggeredBy: 'handler',
+        })
+      )
+    })
+
+    it('will call onClose in StrictMode, even it should not be called', () => {
+      const onClose = jest.fn()
+      const onOpen = jest.fn()
+
+      render(
+        <React.StrictMode>
+          <Modal noAnimation onOpen={onOpen} onClose={onClose}>
+            Content
+          </Modal>
+        </React.StrictMode>
+      )
+
+      fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+
+      expect(onOpen).toHaveBeenCalledTimes(2)
+      expect(onClose).toHaveBeenCalledTimes(0)
+    })
   })
 })
 

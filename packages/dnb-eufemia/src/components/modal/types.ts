@@ -18,6 +18,18 @@ export type ModalTriggerIconPosition = 'left' | 'right'
 export type ModalContentMinWidth = string | number
 export type ModalContentMaxWidth = string | number
 
+export type TriggeredBy =
+  | 'handler'
+  | 'button'
+  | 'overlay'
+  | 'keyboard'
+  | 'unmount'
+export type CloseHandlerParams = {
+  triggeredBy: TriggeredBy
+  triggeredByEvent?: Event
+}
+export type CloseHandler = (params?: CloseHandlerParams) => void
+
 export interface ModalProps extends ModalRootProps {
   /**
    * The id used internal in the modal/drawer root element. Defaults to `root`, so the element id will be `dnb-modal-root`.
@@ -94,21 +106,21 @@ export interface ModalProps extends ModalRootProps {
     id?: string
     event?: Event
     triggeredBy?: string
-    close?: (...args: any[]) => any
+    close?: CloseHandler
   }) => void
 
   /**
    * Set a function to call the callback function, once the modal/drawer should open: `open_modal={(open) => open()}`
    */
-  open_modal?: (open?: (e: Event) => void, elem?: any) => () => void | void
+  open_modal?: (
+    open?: (e: Event) => void,
+    instance?: any
+  ) => () => void | void
 
   /**
    * Set a function to call the callback function, once the modal/drawer should close: `close_modal={(close) => close()}`
    */
-  close_modal?: (
-    close?: (...args: any[]) => void,
-    elem?: any
-  ) => () => void | void
+  close_modal?: (close?: CloseHandler, instance?: any) => () => void | void
 
   /**
    * Provide a custom trigger component. Like trigger={<Anchor href="/" />}. It will set the focus on it when the modal/drawer gets closed.
@@ -306,6 +318,8 @@ export interface ModalContentProps {
   dialog_role?: 'dialog' | 'alertdialog' | 'region'
   content_ref?: React.RefObject<HTMLElement>
   scroll_ref?: React.RefObject<HTMLElement>
+  open_state?: ModalOpenState
+  modalContentCloseRef?: React.MutableRefObject<any>
 }
 
 export type TriggerAttributes = ButtonProps

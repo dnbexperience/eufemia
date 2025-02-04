@@ -75,6 +75,7 @@ class Modal extends React.PureComponent<
   _tryToOpenTimeout: NodeJS.Timeout
   activeElement: Element
   isInTransition: boolean
+  modalContentCloseRef: React.RefObject<any>
 
   state = {
     hide: false,
@@ -170,6 +171,7 @@ class Modal extends React.PureComponent<
     this._id = props.id || makeUniqueId('modal-')
 
     this._triggerRef = React.createRef()
+    this.modalContentCloseRef = React.createRef()
 
     this._onUnmount = []
   }
@@ -350,8 +352,12 @@ class Modal extends React.PureComponent<
 
   close = (
     event: Event,
-    { ifIsLatest, triggeredBy = null } = { ifIsLatest: true }
+    { ifIsLatest, triggeredBy = 'handler' } = {
+      ifIsLatest: true,
+    }
   ) => {
+    this.modalContentCloseRef.current?.(event, { triggeredBy })
+
     const { prevent_close = false } = this.props
 
     if (isTrue(prevent_close)) {
@@ -448,7 +454,6 @@ class Modal extends React.PureComponent<
       vertical_alignment = 'center',
 
       id, // eslint-disable-line
-      open_state, // eslint-disable-line
       open_delay, // eslint-disable-line
 
       omit_trigger_button = false,
@@ -534,6 +539,7 @@ class Modal extends React.PureComponent<
               close={this.close}
               hide={hide}
               title={rest.title || fallbackTitle}
+              modalContentCloseRef={this.modalContentCloseRef}
             />
           )}
         </>
