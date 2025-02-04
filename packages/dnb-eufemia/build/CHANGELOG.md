@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.63.1](https://github.com/dnbexperience/eufemia/compare/v10.63.0...v10.63.1) (2025-02-04)
+
+
+### :bug: Bug Fixes
+
+* **Forms:** ensure `transformData` contains `displayValue` from fields inside Iterate ([#4526](https://github.com/dnbexperience/eufemia/issues/4526)) ([cc67a19](https://github.com/dnbexperience/eufemia/commit/cc67a19a224d4b5215cbd42f6acc8bae5d1c392c)), closes [#4510](https://github.com/dnbexperience/eufemia/issues/4510)
+
 ## [10.63.0](https://github.com/dnbexperience/eufemia/compare/v10.62.4...v10.63.0) (2025-01-29)
 
 
