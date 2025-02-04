@@ -955,12 +955,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     changedRef.current = state
   }, [])
 
-  const removeError = useCallback(() => {
-    setChanged(false)
-    hideError()
-    clearErrorState()
-  }, [clearErrorState, hideError, setChanged])
-
   const validatorCacheRef = useRef({
     onChangeValidator: null,
     onBlurValidator: null,
@@ -1328,6 +1322,21 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     validateUnchanged,
   ])
 
+  const removeError = useCallback(() => {
+    // Mark as not changed,
+    // so the field is considered "fresh" when the user starts typing again.
+    setChanged(false)
+
+    // Hide the error message.
+    hideError()
+
+    // Remove the local error states.
+    clearErrorState()
+
+    // To ensure this field will report back to the context if there are any errors.
+    validateValue()
+  }, [clearErrorState, hideError, setChanged, validateValue])
+
   const handleError = useCallback(() => {
     if (
       validateContinuously ||
@@ -1483,20 +1492,20 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   const handleChangeEventResult = useCallback(async () => {
     const result: EventStateObjectWithSuccess =
-      changeEventResultRef.current
+      changeEventResultRef.current || ({} as EventStateObjectWithSuccess)
 
-    if (typeof result?.error !== 'undefined') {
-      if (result?.error === null) {
+    if ('error' in result) {
+      if (!result.error) {
         removeError()
       } else {
         persistErrorState('gracefully', 'onChangeValidator', result.error)
         revealError()
       }
     }
-    if (typeof result?.warning !== 'undefined') {
+    if ('warning' in result) {
       warningRef.current = result.warning
     }
-    if (typeof result?.info !== 'undefined') {
+    if ('info' in result) {
       infoRef.current = result.info
     }
 
@@ -2312,8 +2321,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const connections = useMemo(() => {
     return {
       setEventResult,
+      emptyValue,
     }
-  }, [setEventResult])
+  }, [emptyValue, setEventResult])
   setFieldConnectionDataContext?.(identifier, connections)
 
   // - Handle htmlAttributes

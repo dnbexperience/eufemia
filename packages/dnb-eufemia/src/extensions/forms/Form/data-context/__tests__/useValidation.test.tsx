@@ -6,10 +6,11 @@ import {
   renderHook,
   waitFor,
 } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import { Field, Form } from '../../..'
+import { Button } from '../../../../../components'
 import useValidation from '../useValidation'
-import userEvent from '@testing-library/user-event'
 
 describe('useValidation', () => {
   let identifier: string
@@ -261,6 +262,43 @@ describe('useValidation', () => {
     })
 
     describe('with an identifier', () => {
+      it('should handle the setFormError method outside of the form context', async () => {
+        const myId = () => null
+        const onSubmit = jest.fn()
+
+        const MockComponent = () => {
+          const { setFieldStatus } = useValidation(myId)
+
+          return (
+            <Form.Handler id={myId} onSubmit={onSubmit}>
+              <Field.String
+                label="My field"
+                path="/myField"
+                onChange={(value) => {
+                  if (value === 'error') {
+                    setFieldStatus('/myField', {
+                      error: new Error('Error message'),
+                    })
+                  }
+                }}
+              />
+            </Form.Handler>
+          )
+        }
+
+        render(<MockComponent />)
+
+        await userEvent.type(document.querySelector('input'), 'error')
+
+        fireEvent.submit(document.querySelector('form'))
+
+        expect(onSubmit).toHaveBeenCalledTimes(0)
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+      })
+
       it('should set and remove a field error', async () => {
         const onSubmit = jest.fn()
 
@@ -475,41 +513,53 @@ describe('useValidation', () => {
         })
       })
 
-      it('should handle the setFormError method outside of the form context', async () => {
-        const myId = () => null
-        const onSubmit = jest.fn()
-
+      it('should hide the error message when the field is set to empty', async () => {
         const MockComponent = () => {
-          const { setFieldStatus } = useValidation(myId)
+          const { setFieldStatus } = useValidation()
 
           return (
-            <Form.Handler id={myId} onSubmit={onSubmit}>
-              <Field.String
-                label="My field"
-                path="/myField"
-                onChange={(value) => {
-                  if (value === 'error') {
-                    setFieldStatus('/myField', {
-                      error: new Error('Error message'),
-                    })
-                  }
+            <>
+              <Field.String path="/foo" required />
+              <Button
+                onClick={() => {
+                  setFieldStatus('/foo', {
+                    error: undefined,
+                  })
                 }}
               />
-            </Form.Handler>
+            </>
           )
         }
 
-        render(<MockComponent />)
-
-        await userEvent.type(document.querySelector('input'), 'error')
-
-        fireEvent.submit(document.querySelector('form'))
-
-        expect(onSubmit).toHaveBeenCalledTimes(0)
+        render(
+          <Form.Handler>
+            <MockComponent />
+          </Form.Handler>
+        )
 
         expect(
           document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+
+        fireEvent.submit(document.querySelector('form'))
+        expect(
+          document.querySelector('.dnb-form-status')
         ).toBeInTheDocument()
+
+        await userEvent.click(document.querySelector('button'))
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+
+        fireEvent.submit(document.querySelector('form'))
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+
+        await userEvent.click(document.querySelector('button'))
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
       })
     })
   })
