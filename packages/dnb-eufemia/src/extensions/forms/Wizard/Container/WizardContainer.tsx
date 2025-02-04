@@ -129,7 +129,7 @@ function WizardContainer(props: Props) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const activeIndexRef = useRef<StepIndex>(initialActiveIndex)
   const totalStepsRef = useRef<number>(NaN)
-  const errorOnStepRef = useRef<Record<StepIndex, boolean>>({})
+  const errorOnStepRef = useRef<Record<StepIndex, boolean | number>>({})
   const elementRef = useRef<HTMLElement>()
   const stepElementRef = useRef<HTMLElement>()
   const preventNextStepRef = useRef(false)
@@ -248,7 +248,7 @@ function WizardContainer(props: Props) {
 
           if (!skipErrorCheck) {
             // Set the showAllErrors to the step we got to
-            setShowAllErrors(errorOnStepRef.current[index])
+            setShowAllErrors(Boolean(errorOnStepRef.current[index]))
           }
 
           if (!preventNextStepRef.current && !(result instanceof Error)) {
