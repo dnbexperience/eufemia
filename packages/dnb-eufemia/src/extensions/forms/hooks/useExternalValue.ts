@@ -18,7 +18,7 @@ export default function useExternalValue<Value>(props: Props<Value>) {
   const {
     path,
     itemPath,
-    value,
+    value = undefined,
     transformers,
     emptyValue = undefined,
   } = props
@@ -28,7 +28,7 @@ export default function useExternalValue<Value>(props: Props<Value>) {
   const { value: iterateElementValue } = iterateItemContext || {}
 
   return useMemo(() => {
-    if (value !== emptyValue) {
+    if (value !== undefined && value !== emptyValue) {
       // Value-prop sent directly to the field has highest priority, overriding any surrounding source
       return transformers?.current?.fromExternal?.(value) ?? emptyValue
     }
