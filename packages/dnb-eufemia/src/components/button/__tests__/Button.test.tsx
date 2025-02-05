@@ -347,6 +347,14 @@ describe('Button component', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('supports inline styling', () => {
+    render(<Button text="text" style={{ color: 'red' }} />)
+
+    expect(document.querySelector('button').getAttribute('style')).toBe(
+      'color: red;'
+    )
+  })
+
   it('should show tooltip on hover', async () => {
     render(<Button text="Button" tooltip="Tooltip content" />)
 

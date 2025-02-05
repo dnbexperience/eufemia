@@ -184,6 +184,18 @@ describe('Avatar', () => {
     ])
   })
 
+  it('supports inline styling', () => {
+    render(
+      <Avatar.Group label="tags">
+        <Avatar style={{ color: 'red' }}>A</Avatar>
+      </Avatar.Group>
+    )
+
+    expect(
+      document.querySelector('.dnb-avatar').getAttribute('style')
+    ).toBe('color: red;')
+  })
+
   describe('AvatarGroup', () => {
     it('renders the label as string', () => {
       const label = 'avatar'
@@ -242,6 +254,18 @@ describe('Avatar', () => {
       expect(screen.queryByText('+3')).toBeInTheDocument()
 
       expect(avatarsDisplayed).toHaveLength(0)
+    })
+
+    it('supports inline styling', () => {
+      render(
+        <Avatar.Group label="tags" style={{ color: 'red' }}>
+          <Avatar>A</Avatar>
+        </Avatar.Group>
+      )
+
+      expect(
+        document.querySelector('.dnb-avatar__group').getAttribute('style')
+      ).toBe('color: red;')
     })
 
     it('does not render "elements left"-avatar when num of avatars is the same as maxElements', () => {

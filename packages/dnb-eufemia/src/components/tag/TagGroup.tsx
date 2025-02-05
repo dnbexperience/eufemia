@@ -47,7 +47,11 @@ export const defaultProps = {
   skeleton: false,
 }
 
-const TagGroup = (localProps: TagGroupProps & SpacingProps) => {
+const TagGroup = (
+  localProps: TagGroupProps &
+    SpacingProps &
+    Omit<React.HTMLProps<HTMLElement>, 'label'>
+) => {
   // Every component should have a context
   const context = React.useContext(Context)
   // Extract additional props from global context

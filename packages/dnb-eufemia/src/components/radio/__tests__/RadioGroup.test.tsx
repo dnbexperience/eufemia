@@ -58,6 +58,20 @@ describe('Radio group component', () => {
     expect(document.querySelector('input[disabled]')).toBeInTheDocument()
   })
 
+  it('should support inline styling', () => {
+    render(
+      <Radio.Group style={{ color: 'red' }}>
+        <Radio />
+      </Radio.Group>
+    )
+
+    expect(
+      document
+        .querySelector('.dnb-radio-group__shell')
+        .getAttribute('style')
+    ).toBe('color: red;')
+  })
+
   it('will overwrite "disable" state, defined in the group', () => {
     render(
       <Radio.Group disabled>

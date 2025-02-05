@@ -16,6 +16,14 @@ describe('Tag Group', () => {
     expect(document.querySelector('.dnb-tag__group')).toBeInTheDocument()
   })
 
+  it('supports inline styling', () => {
+    render(<Tag.Group label="tags" style={{ color: 'red' }} />)
+
+    expect(
+      document.querySelector('.dnb-tag__group').getAttribute('style')
+    ).toBe('color: red;')
+  })
+
   it('renders without children', () => {
     render(<Tag.Group label="tags" />)
 
@@ -116,6 +124,18 @@ describe('Tag', () => {
     )
 
     expect(document.querySelector('.dnb-tag')).toBeInTheDocument()
+  })
+
+  it('supports inline styling', () => {
+    render(
+      <Tag.Group label="tags">
+        <Tag text="text" style={{ color: 'red' }} />
+      </Tag.Group>
+    )
+
+    expect(document.querySelector('.dnb-tag').getAttribute('style')).toBe(
+      'color: red;'
+    )
   })
 
   it('renders a tag with content by text prop', () => {

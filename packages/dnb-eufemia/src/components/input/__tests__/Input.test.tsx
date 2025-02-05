@@ -91,6 +91,14 @@ describe('Input component', () => {
     expect(ref.current.tagName).toBe('INPUT')
   })
 
+  it('should support inline styling', () => {
+    render(<Input value={1234.56} style={{ color: 'red' }} />)
+
+    expect(document.querySelector('input').getAttribute('style')).toBe(
+      'color: red;'
+    )
+  })
+
   it('value should be controllable from outside', () => {
     const initialValue = '1234'
     const Controlled = () => {

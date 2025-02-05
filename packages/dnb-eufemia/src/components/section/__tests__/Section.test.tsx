@@ -130,6 +130,14 @@ describe('Section component', () => {
     expect(document.querySelector('div.dnb-section')).toBeInTheDocument()
   })
 
+  it('supports inline styling', () => {
+    render(<Section style={{ color: 'red' }} />)
+
+    expect(
+      document.querySelector('.dnb-section').getAttribute('style')
+    ).toContain('color: red;')
+  })
+
   describe('with style properties', () => {
     it('should merge existing style', () => {
       render(<Section style={{ fontSize: '2rem' }} />)

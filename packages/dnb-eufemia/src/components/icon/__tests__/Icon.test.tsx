@@ -33,6 +33,14 @@ describe('Icon component', () => {
     expect(elem.getAttribute('height')).toBe(height)
   })
 
+  it('should support inline styling', () => {
+    render(<Icon icon={question} style={{ color: 'red' }} />)
+
+    expect(document.querySelector('.dnb-icon').getAttribute('style')).toBe(
+      'color: red;'
+    )
+  })
+
   it('should work with medium size', () => {
     const { rerender } = render(<Icon {...props} size="24" />)
     expect(document.querySelector('span.dnb-icon').classList).toContain(

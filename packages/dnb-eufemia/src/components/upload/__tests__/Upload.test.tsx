@@ -72,6 +72,13 @@ describe('Upload', () => {
       expect(screen.queryByText(customText)).toBeInTheDocument()
     })
 
+    it('supports inline styling', () => {
+      render(<Upload {...defaultProps} style={{ color: 'red' }} />)
+      expect(
+        document.querySelector('.dnb-upload').getAttribute('style')
+      ).toBe('color: red;')
+    })
+
     it('renders the format description', () => {
       render(<Upload {...defaultProps} />)
 

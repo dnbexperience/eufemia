@@ -79,6 +79,14 @@ describe('Logo component', () => {
     expect(document.querySelector('svg')).toMatchSnapshot()
   })
 
+  it('should support inline styling', () => {
+    render(<Logo style={{ color: 'red' }} />)
+
+    expect(document.querySelector('.dnb-logo').getAttribute('style')).toBe(
+      'color: red;'
+    )
+  })
+
   it('should set role="img"', () => {
     render(<Logo />)
     expect(document.querySelector('.dnb-logo').getAttribute('role')).toBe(

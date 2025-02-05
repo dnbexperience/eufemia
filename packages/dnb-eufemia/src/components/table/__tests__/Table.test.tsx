@@ -189,6 +189,18 @@ describe('Table', () => {
       ])
     )
   })
+
+  it('supports inline styling', () => {
+    render(
+      <Table style={{ color: 'red' }}>
+        <BasicTable />
+      </Table>
+    )
+
+    expect(
+      document.querySelector('.dnb-table').getAttribute('style')
+    ).toBe('color: red;')
+  })
 })
 
 describe('Table aria', () => {
