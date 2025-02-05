@@ -1,4 +1,5 @@
 import { join, dirname } from 'path'
+import type { Options } from '@swc/core'
 import type { StorybookConfig } from '@storybook/react-webpack5'
 
 const config: StorybookConfig = {
@@ -12,6 +13,16 @@ const config: StorybookConfig = {
   framework: {
     name: getAbsolutePath('@storybook/react-webpack5'),
     options: {},
+  },
+  swc: (config: Options, options): Options => {
+    if (config.jsc) {
+      config.jsc.transform = {
+        react: {
+          runtime: 'automatic',
+        },
+      }
+    }
+    return config
   },
   core: {
     disableTelemetry: true,
