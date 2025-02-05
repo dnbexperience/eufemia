@@ -11,13 +11,16 @@ export function ErrorHandler(
   { message } = { message: null },
   code = ERROR_HARMLESS
 ) {
+  let thisError = this && this.err
   if (typeof error === 'object') {
     message = error.message
   }
-  this.err = new Error(`${error}\n\n${message}`)
+  if (thisError) {
+    thisError = new Error(`${error}\n\n${message}`)
+  }
   if (code === ERROR_FATAL) {
-    throw this.err
+    throw thisError
   } else {
-    console.log(this.err)
+    console.log(thisError)
   }
 }
