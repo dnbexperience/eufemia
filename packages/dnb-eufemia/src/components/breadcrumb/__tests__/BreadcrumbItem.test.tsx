@@ -97,6 +97,20 @@ describe('BreadcrumbItem', () => {
       )
     })
 
+    it('supports inline styling', () => {
+      render(
+        <BreadcrumbItem
+          {...defaultProps}
+          onClick={jest.fn()}
+          style={{ color: 'red' }}
+        />
+      )
+
+      expect(document.querySelector('a').getAttribute('style')).toBe(
+        'color: red;'
+      )
+    })
+
     it('has a home icon', () => {
       render(<BreadcrumbItem {...defaultProps} variant="home" />)
 

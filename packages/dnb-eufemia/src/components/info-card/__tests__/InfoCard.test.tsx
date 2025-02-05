@@ -29,6 +29,14 @@ describe('InfoCard', () => {
     ).toMatch(title)
   })
 
+  it('should support inline styling', () => {
+    render(<InfoCard text="text" style={{ color: 'red' }} />)
+
+    expect(
+      document.querySelector('.dnb-info-card').getAttribute('style')
+    ).toBe('color: red;')
+  })
+
   it('renders the title as react node', () => {
     const title = <span data-testid="react-node">ReactNode</span>
 

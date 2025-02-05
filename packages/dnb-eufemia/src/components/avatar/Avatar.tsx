@@ -26,7 +26,8 @@ export type AvatarVariants = 'primary' | 'secondary' | 'tertiary'
 
 export type AvatarImgProps = ImgProps
 
-export interface AvatarProps {
+export interface AvatarProps
+  extends Omit<React.HTMLProps<HTMLElement>, 'size'> {
   /**
    * Used in combination with `src` to provide an alt attribute for the `img` element.
    * Default: null

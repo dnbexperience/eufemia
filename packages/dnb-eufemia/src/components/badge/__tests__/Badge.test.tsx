@@ -85,6 +85,14 @@ describe('Badge', () => {
     expect(global.console.log).not.toHaveBeenCalled()
   })
 
+  it('supports inline styling', () => {
+    render(<Badge style={{ color: 'red' }}>A</Badge>)
+
+    expect(
+      document.querySelector('.dnb-badge').getAttribute('style')
+    ).toBe('color: red;')
+  })
+
   it('warns when Badge content is a number and is missing a label', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = jest.fn()

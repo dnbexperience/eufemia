@@ -68,6 +68,14 @@ describe('NumberFormat component', () => {
     )
   })
 
+  it('should support inline styling', () => {
+    render(<Component style={{ color: 'red' }} value="12345" />)
+
+    expect(
+      document.querySelector('.dnb-number-format').getAttribute('style')
+    ).toBe('color: red;')
+  })
+
   it('have to match currency for default locale', () => {
     const { rerender } = render(<Component value={-value} currency />)
 

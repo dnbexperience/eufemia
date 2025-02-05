@@ -21,6 +21,19 @@ describe('Card', () => {
     expect(element.getAttribute('aria-label')).toBe('Aria Label')
   })
 
+  it('supports inline styling', () => {
+    render(
+      <Card style={{ color: 'red' }}>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
+        cursus pharetra elit in bibendum.
+      </Card>
+    )
+
+    expect(
+      document.querySelector('.dnb-card').getAttribute('style')
+    ).toContain('color: red;')
+  })
+
   it('should support spacing props', () => {
     const { rerender } = render(
       <Card top="large">

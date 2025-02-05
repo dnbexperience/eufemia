@@ -100,7 +100,9 @@ export const defaultProps = {
   omitOnKeyUpDeleteEvent: false,
 }
 
-const Tag = (localProps: TagProps & SpacingProps) => {
+const Tag = (
+  localProps: TagProps & SpacingProps & React.HTMLProps<HTMLElement>
+) => {
   // Every component should have a context
   const context = React.useContext(Context)
   const tagGroupContext = React.useContext(TagGroupContext)

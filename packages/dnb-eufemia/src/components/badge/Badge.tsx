@@ -65,7 +65,9 @@ export type BadgeProps = {
   variant?: 'information' | 'notification'
 }
 
-type BadgeAndSpacingProps = BadgeProps & SpacingProps
+type BadgeAndSpacingProps = BadgeProps &
+  SpacingProps &
+  Omit<React.HTMLProps<HTMLElement>, 'content' | 'label'>
 
 export const defaultProps = {
   label: null,
