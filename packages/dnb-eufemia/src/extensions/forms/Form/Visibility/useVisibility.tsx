@@ -123,11 +123,8 @@ export default function useVisibility(props?: Partial<Props>) {
       if (pathDefined) {
         return getValue(makeLocalPath(pathDefined)) !== undefined
       }
-      if (
-        pathUndefined &&
-        pointer.has(data, makeLocalPath(pathUndefined))
-      ) {
-        return false
+      if (pathUndefined) {
+        return getValue(makeLocalPath(pathUndefined)) === undefined
       }
 
       if (pathTrue && getValue(makeLocalPath(pathTrue)) !== true) {
@@ -136,6 +133,7 @@ export default function useVisibility(props?: Partial<Props>) {
       if (pathFalse && getValue(makeLocalPath(pathFalse)) !== false) {
         return false
       }
+
       if (
         pathTruthy &&
         Boolean(getValue(makeLocalPath(pathTruthy))) === false
@@ -148,6 +146,7 @@ export default function useVisibility(props?: Partial<Props>) {
       ) {
         return false
       }
+
       if (inferData && !inferData(data)) {
         return false
       }

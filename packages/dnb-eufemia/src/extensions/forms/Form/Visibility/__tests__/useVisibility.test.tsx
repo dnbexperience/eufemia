@@ -116,6 +116,19 @@ describe('useVisibility', () => {
       )
       expect(result.current.check()).toBe(true)
     })
+
+    it('should return false when value exists but is "undefined"', () => {
+      const { result } = renderHook(useVisibility, {
+        wrapper: ({ children }) => (
+          <Provider data={{ isUndefined: undefined }}>{children}</Provider>
+        ),
+      })
+      expect(
+        result.current.check({
+          pathUndefined: '/isUndefined',
+        })
+      ).toBe(true)
+    })
   })
 
   describe('pathTruthy', () => {
@@ -751,6 +764,28 @@ describe('useVisibility', () => {
               <Provider
                 data={{
                   myList: [{ isDefined: 'foo' }],
+                }}
+              >
+                <Iterate.Array path="/myList">{children}</Iterate.Array>
+              </Provider>
+            ),
+          }
+        )
+        expect(result.current.check()).toBe(true)
+      })
+
+      it('should return true when value exists but is "undefined"', () => {
+        const { result } = renderHook(
+          () =>
+            useVisibility({
+              withinIterate: true,
+              pathUndefined: '/isUndefined',
+            }),
+          {
+            wrapper: ({ children }) => (
+              <Provider
+                data={{
+                  myList: [{ isUndefined: undefined }],
                 }}
               >
                 <Iterate.Array path="/myList">{children}</Iterate.Array>
