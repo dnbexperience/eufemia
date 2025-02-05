@@ -223,7 +223,7 @@ export function SectionParams(
 }
 
 function getColor(value: string) {
-  if (value.includes('--')) {
+  if (String(value).includes('--')) {
     return value
   }
   return value
