@@ -6,7 +6,7 @@ import { Field, Iterate } from '../../..'
 
 describe('useVisibility', () => {
   describe('visibility', () => {
-    it('renders children when visible is true', () => {
+    it('should return true when visible is true', () => {
       const { result } = renderHook(() =>
         useVisibility({
           visible: true,
@@ -15,7 +15,7 @@ describe('useVisibility', () => {
       expect(result.current.check()).toBe(true)
     })
 
-    it('does not render children when visible is false', () => {
+    it('should return false when visible is false', () => {
       const { result } = renderHook(() =>
         useVisibility({
           visible: false,
@@ -24,7 +24,7 @@ describe('useVisibility', () => {
       expect(result.current.check()).toBe(false)
     })
 
-    it('renders children when target path is falsy, but visible prop is true', () => {
+    it('should return true when target path is falsy, but visible prop is true', () => {
       const { result } = renderHook(
         () =>
           useVisibility({
@@ -42,7 +42,7 @@ describe('useVisibility', () => {
   })
 
   describe('pathDefined', () => {
-    it('renders children when target path is defined', () => {
+    it('should return true when target path is defined', () => {
       const { result } = renderHook(
         () =>
           useVisibility({
@@ -57,7 +57,7 @@ describe('useVisibility', () => {
       expect(result.current.check()).toBe(true)
     })
 
-    it('does not render children when target path is not defined', () => {
+    it('should return false when target path is not defined', () => {
       const { result } = renderHook(
         () =>
           useVisibility({
@@ -74,7 +74,7 @@ describe('useVisibility', () => {
   })
 
   describe('pathUndefined', () => {
-    it('does not render children when target path is not defined', () => {
+    it('should return false when target path is not defined', () => {
       const { result } = renderHook(
         () =>
           useVisibility({
@@ -89,7 +89,7 @@ describe('useVisibility', () => {
       expect(result.current.check()).toBe(false)
     })
 
-    it('renders children when target path is defined', () => {
+    it('should return true when target path is defined', () => {
       const { result } = renderHook(
         () =>
           useVisibility({
@@ -106,7 +106,7 @@ describe('useVisibility', () => {
   })
 
   describe('pathTruthy', () => {
-    it('renders children when target path is truthy', () => {
+    it('should return true when target path is truthy', () => {
       const { result } = renderHook(
         () =>
           useVisibility({
@@ -121,7 +121,7 @@ describe('useVisibility', () => {
       expect(result.current.check()).toBe(true)
     })
 
-    it('does not render children when target path is not truthy', () => {
+    it('should return false when target path is not truthy', () => {
       const { result } = renderHook(useVisibility, {
         wrapper: ({ children }) => (
           <Provider data={{ isFalsy: null }}>{children}</Provider>
@@ -134,7 +134,7 @@ describe('useVisibility', () => {
       ).toBe(false)
     })
 
-    it('does not render children when target path is not defined', () => {
+    it('should return false when target path is not defined', () => {
       const { result } = renderHook(useVisibility, {
         wrapper: ({ children }) => (
           <Provider data={{ isFalse: false }}>{children}</Provider>
@@ -149,7 +149,7 @@ describe('useVisibility', () => {
   })
 
   describe('pathFalsy', () => {
-    it('renders children when target path is falsy', () => {
+    it('should return true when target path is falsy', () => {
       const { result } = renderHook(
         () =>
           useVisibility({
@@ -164,7 +164,7 @@ describe('useVisibility', () => {
       expect(result.current.check()).toBe(true)
     })
 
-    it('renders children when target path is not defined', () => {
+    it('should return true when target path is not defined', () => {
       const { result } = renderHook(useVisibility, {
         wrapper: ({ children }) => (
           <Provider data={{ isFalse: false }}>{children}</Provider>
@@ -177,7 +177,7 @@ describe('useVisibility', () => {
       ).toBe(true)
     })
 
-    it('does not render children when target path is not falsy', () => {
+    it('should return false when target path is not falsy', () => {
       const { result } = renderHook(useVisibility, {
         wrapper: ({ children }) => (
           <Provider data={{ isTruthy: 'value' }}>{children}</Provider>
@@ -192,7 +192,7 @@ describe('useVisibility', () => {
   })
 
   describe('visibleWhen', () => {
-    it('should render children when hasValue matches', () => {
+    it('should return true when hasValue matches', () => {
       const { result } = renderHook(
         () =>
           useVisibility({
@@ -210,7 +210,7 @@ describe('useVisibility', () => {
       expect(result.current.check()).toBe(true)
     })
 
-    it('should not render children when hasValue does not match', () => {
+    it('should return false when hasValue does not match', () => {
       const { result } = renderHook(useVisibility, {
         wrapper: ({ children }) => (
           <Provider data={{ myPath: 'foo' }}>{children}</Provider>
@@ -226,7 +226,7 @@ describe('useVisibility', () => {
       ).toBe(false)
     })
 
-    it('should not render children when path does not match', () => {
+    it('should return false when path does not match', () => {
       const { result } = renderHook(useVisibility, {
         wrapper: ({ children }) => (
           <Provider data={{ myPath: 'foo' }}>{children}</Provider>
@@ -242,7 +242,7 @@ describe('useVisibility', () => {
       ).toBe(false)
     })
 
-    it('should render children when withValue matches', () => {
+    it('should return true when withValue matches', () => {
       const log = jest.spyOn(console, 'warn').mockImplementation()
 
       const { result } = renderHook(
@@ -264,7 +264,7 @@ describe('useVisibility', () => {
       log.mockRestore()
     })
 
-    it('should not render children when withValue does not match', () => {
+    it('should return false when withValue does not match', () => {
       const log = jest.spyOn(console, 'warn').mockImplementation()
 
       const { result } = renderHook(useVisibility, {
@@ -476,7 +476,7 @@ describe('useVisibility', () => {
   })
 
   describe('visibleWhenNot', () => {
-    it('should render children when hasValue matches', () => {
+    it('should return true when hasValue matches', () => {
       const { result } = renderHook(
         () =>
           useVisibility({
@@ -494,7 +494,7 @@ describe('useVisibility', () => {
       expect(result.current.check()).toBe(false)
     })
 
-    it('should not render children when hasValue does not match', () => {
+    it('should return false when hasValue does not match', () => {
       const { result } = renderHook(useVisibility, {
         wrapper: ({ children }) => (
           <Provider data={{ myPath: 'foo' }}>{children}</Provider>
@@ -613,7 +613,7 @@ describe('useVisibility', () => {
 
   describe('withinIterate', () => {
     describe('visibility', () => {
-      it('renders children when target path is falsy, but visible prop is true', () => {
+      it('should return true when target path is falsy, but visible prop is true', () => {
         const { result } = renderHook(
           () =>
             useVisibility({
@@ -636,7 +636,7 @@ describe('useVisibility', () => {
     })
 
     describe('pathDefined', () => {
-      it('renders children when target path is defined', () => {
+      it('should return true when target path is defined', () => {
         const { result } = renderHook(
           () =>
             useVisibility({
@@ -658,7 +658,7 @@ describe('useVisibility', () => {
         expect(result.current.check()).toBe(true)
       })
 
-      it('does not render children when target path is not defined', () => {
+      it('should return false when target path is not defined', () => {
         const { result } = renderHook(
           () =>
             useVisibility({
@@ -682,7 +682,7 @@ describe('useVisibility', () => {
     })
 
     describe('pathUndefined', () => {
-      it('does not render children when target path is not defined', () => {
+      it('should return false when target path is not defined', () => {
         const { result } = renderHook(
           () =>
             useVisibility({
@@ -704,7 +704,7 @@ describe('useVisibility', () => {
         expect(result.current.check()).toBe(false)
       })
 
-      it('renders children when target path is defined', () => {
+      it('should return true when target path is defined', () => {
         const { result } = renderHook(
           () =>
             useVisibility({
@@ -728,7 +728,7 @@ describe('useVisibility', () => {
     })
 
     describe('pathTruthy', () => {
-      it('renders children when target path is truthy', () => {
+      it('should return true when target path is truthy', () => {
         const { result } = renderHook(
           () =>
             useVisibility({
@@ -746,7 +746,7 @@ describe('useVisibility', () => {
         expect(result.current.check()).toBe(true)
       })
 
-      it('does not render children when target path is not truthy', () => {
+      it('should return false when target path is not truthy', () => {
         const { result } = renderHook(useVisibility, {
           wrapper: ({ children }) => (
             <Provider
@@ -765,7 +765,7 @@ describe('useVisibility', () => {
         ).toBe(false)
       })
 
-      it('does not render children when target path is not defined', () => {
+      it('should return false when target path is not defined', () => {
         const { result } = renderHook(useVisibility, {
           wrapper: ({ children }) => (
             <Provider
@@ -789,7 +789,7 @@ describe('useVisibility', () => {
     })
 
     describe('pathFalsy', () => {
-      it('renders children when target path is falsy', () => {
+      it('should return true when target path is falsy', () => {
         const { result } = renderHook(
           () =>
             useVisibility({
@@ -813,7 +813,7 @@ describe('useVisibility', () => {
         expect(result.current.check()).toBe(true)
       })
 
-      it('renders children when target path is not defined', () => {
+      it('should return true when target path is not defined', () => {
         const { result } = renderHook(useVisibility, {
           wrapper: ({ children }) => (
             <Provider data={{ myList: [{ isFalse: false }] }}>
@@ -831,7 +831,7 @@ describe('useVisibility', () => {
         ).toBe(true)
       })
 
-      it('does not render children when target path is not falsy', () => {
+      it('should return false when target path is not falsy', () => {
         const { result } = renderHook(useVisibility, {
           wrapper: ({ children }) => (
             <Provider data={{ myList: [{ isTruthy: 'value' }] }}>
