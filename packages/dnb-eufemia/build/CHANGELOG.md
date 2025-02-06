@@ -3,6 +3,20 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.63.3](https://github.com/dnbexperience/eufemia/compare/v10.63.2...v10.63.3) (2025-02-06)
+
+
+### :memo: Documentation
+
+* **Portal:** wrap text of property table description ([#4543](https://github.com/dnbexperience/eufemia/issues/4543)) ([b0ba974](https://github.com/dnbexperience/eufemia/commit/b0ba974723bc6b3d665c902298167292702365a0))
+
+
+### :bug: Bug Fixes
+
+* **Forms:** enhance Form.useData to update and render in sync when `id` is used ([#4536](https://github.com/dnbexperience/eufemia/issues/4536)) ([bb12d70](https://github.com/dnbexperience/eufemia/commit/bb12d707fd393c42f8008936c4ad87dd07883763)), closes [#4461](https://github.com/dnbexperience/eufemia/issues/4461)
+* **Forms:** ensure `pathDefined` on Form.Visibility does not render when value is `undefined` ([#4539](https://github.com/dnbexperience/eufemia/issues/4539)) ([4f99680](https://github.com/dnbexperience/eufemia/commit/4f9968006ec2dc5088845da399d34f175e9fab2e))
+* **Forms:** ensure `pathUndefined` on Form.Visibility does render when value is `undefined` ([#4540](https://github.com/dnbexperience/eufemia/issues/4540)) ([9d165e3](https://github.com/dnbexperience/eufemia/commit/9d165e35a76df881f1f584cc10ec3b3fdf444220))
+
 ## [10.63.2](https://github.com/dnbexperience/eufemia/compare/v10.63.1...v10.63.2) (2025-02-04)
 
 
