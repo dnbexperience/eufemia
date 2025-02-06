@@ -235,6 +235,10 @@ describe('FormStatus component', () => {
       ).toHaveTextContent('Custom GlobalStatus Title')
     })
 
+    expect(
+      document.querySelector('.dnb-global-status__message__content')
+    ).toHaveTextContent('has error')
+
     // Close the GlobalStatus
     rerender(
       <>
@@ -259,6 +263,37 @@ describe('FormStatus component', () => {
         document.querySelector('.dnb-global-status__title')
       ).toBeNull()
     })
+
+    // Show the GlobalStatus and set a custom title
+    rerender(
+      <>
+        <GlobalStatus id="my-status" />
+        <Provider
+          FormStatus={{
+            className: 'bar',
+            globalStatus: {
+              id: 'my-status',
+              show: true,
+              title: 'Custom GlobalStatus Title',
+            },
+          }}
+        >
+          <FormStatus>has error given as children</FormStatus>
+        </Provider>
+      </>
+    )
+
+    expect(document.querySelector('.dnb-form-status')).toHaveClass('bar')
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-global-status__title')
+      ).toHaveTextContent('Custom GlobalStatus Title')
+    })
+
+    expect(
+      document.querySelector('.dnb-global-status__message__content')
+    ).toHaveTextContent('has error given as children')
   })
 
   it('should support spacing props', () => {
