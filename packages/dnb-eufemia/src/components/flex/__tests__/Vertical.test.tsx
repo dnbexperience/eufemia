@@ -43,7 +43,6 @@ describe('Flex.Vertical', () => {
     expect(Array.from(element.classList)).toEqual([
       'dnb-space',
       'dnb-flex-container',
-      'dnb-flex-container--row-gap-off',
       'custom-class',
       'dnb-flex-container--direction-vertical',
       'dnb-flex-container--justify-flex-start',

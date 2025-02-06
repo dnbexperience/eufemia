@@ -220,8 +220,6 @@ function FlexContainer(props: Props) {
     if (rowGap !== false && direction === 'horizontal') {
       return `${n}--row-gap-${rowGap ?? 'small'}`
     }
-
-    return `${n}--row-gap-off`
   }, [direction, rowGap])
 
   const cn = classnames(

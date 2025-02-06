@@ -27,7 +27,6 @@ describe('ToggleButton group component', () => {
     expect(Array.from(flexElement.classList)).toEqual([
       'dnb-space',
       'dnb-flex-container',
-      'dnb-flex-container--row-gap-off',
       'dnb-flex-container--direction-vertical',
       'dnb-flex-container--justify-flex-start',
       'dnb-flex-container--align-flex-start',
@@ -45,7 +44,6 @@ describe('ToggleButton group component', () => {
     expect(Array.from(flexElement.classList)).toEqual([
       'dnb-space',
       'dnb-flex-container',
-      'dnb-flex-container--row-gap-off',
       'dnb-flex-container--direction-vertical',
       'dnb-flex-container--justify-flex-start',
       'dnb-flex-container--align-flex-start',
@@ -445,7 +443,6 @@ describe('ToggleButton group component', () => {
     ).toEqual([
       'dnb-space',
       'dnb-flex-container',
-      'dnb-flex-container--row-gap-off',
       'dnb-flex-container--direction-vertical',
       'dnb-flex-container--justify-flex-start',
       'dnb-flex-container--align-flex-start',
@@ -458,7 +455,6 @@ describe('ToggleButton group component', () => {
     ).toEqual([
       'dnb-space',
       'dnb-flex-container',
-      'dnb-flex-container--row-gap-off',
       'dnb-flex-container--direction-vertical',
       'dnb-flex-container--justify-flex-start',
       'dnb-flex-container--align-flex-start',

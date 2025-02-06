@@ -223,7 +223,7 @@ describe('Flex.Container', () => {
     const container = document.querySelector('.dnb-flex-container')
     expect(container).toMatchInlineSnapshot(`
       <div
-        class="dnb-space dnb-flex-container dnb-flex-container--row-gap-off dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-line"
+        class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-line"
       >
         <h1
           class="dnb-space__top--zero dnb-space__bottom--zero dnb-h--xx-large"
@@ -464,7 +464,7 @@ describe('Flex.Container', () => {
       const container = document.querySelector('.dnb-flex-container')
       expect(container).toMatchInlineSnapshot(`
         <div
-          class="dnb-space dnb-flex-container dnb-flex-container--row-gap-off dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+          class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
         >
           <div
             class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
@@ -525,7 +525,7 @@ describe('Flex.Container', () => {
       const container = document.querySelector('.dnb-flex-container')
       expect(container).toMatchInlineSnapshot(`
         <div
-          class="dnb-space dnb-flex-container dnb-flex-container--row-gap-off dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+          class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
         >
           <div
             class="dnb-space__top--zero dnb-space__bottom--zero test-item"
@@ -581,13 +581,13 @@ describe('Flex.Container', () => {
       const container = document.querySelector('.dnb-flex-container')
       expect(container).toMatchInlineSnapshot(`
         <div
-          class="dnb-space dnb-flex-container dnb-flex-container--row-gap-off dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+          class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
         >
           <div
             class="wrapper"
           >
             <div
-              class="dnb-space dnb-space__top--zero dnb-space__bottom--zero dnb-flex-container dnb-flex-container--row-gap-off dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+              class="dnb-space dnb-space__top--zero dnb-space__bottom--zero dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
             >
               <div
                 class="dnb-space__top--zero dnb-space__bottom--zero test-item"
@@ -643,13 +643,13 @@ describe('Flex.Container', () => {
       const container = document.querySelector('.dnb-flex-container')
       expect(container).toMatchInlineSnapshot(`
         <div
-          class="dnb-space dnb-flex-container dnb-flex-container--row-gap-off dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+          class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
         >
           <div
             class="wrapper"
           >
             <div
-              class="dnb-space dnb-space__top--zero dnb-space__bottom--zero dnb-flex-container dnb-flex-container--row-gap-off dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+              class="dnb-space dnb-space__top--zero dnb-space__bottom--zero dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
             >
               <div
                 class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
@@ -694,7 +694,7 @@ describe('Flex.Container', () => {
       const container = document.querySelector('.dnb-flex-container')
       expect(container).toMatchInlineSnapshot(`
         <div
-          class="dnb-space dnb-flex-container dnb-flex-container--row-gap-off dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+          class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
         >
           <div
             class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
@@ -745,7 +745,7 @@ describe('Flex.Container', () => {
       const container = document.querySelector('.dnb-flex-container')
       expect(container).toMatchInlineSnapshot(`
         <div
-          class="dnb-space dnb-flex-container dnb-flex-container--row-gap-off dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+          class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
         >
           <div
             class="dnb-space dnb-space__top--zero dnb-space__bottom--zero"
@@ -816,7 +816,7 @@ describe('Flex.Container', () => {
       const container = document.querySelector('.dnb-flex-container')
       expect(container).toMatchInlineSnapshot(`
         <div
-          class="dnb-space dnb-flex-container dnb-flex-container--row-gap-off dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+          class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
         >
           <h3
             class="dnb-heading dnb-h--medium dnb-forms-sub-heading dnb-card--auto-indent dnb-space__top--zero dnb-space__bottom--zero"
@@ -883,7 +883,7 @@ describe('Flex.Container', () => {
       const container = document.querySelector('.dnb-flex-container')
       expect(container).toMatchInlineSnapshot(`
         <div
-          class="dnb-space dnb-flex-container dnb-flex-container--row-gap-off dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
+          class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space"
         >
           <h3
             class="dnb-heading dnb-h--medium dnb-forms-sub-heading dnb-card--auto-indent dnb-space__top--zero dnb-space__bottom--zero"

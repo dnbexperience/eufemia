@@ -1,6 +1,7 @@
 .dnb-flex-container {
+  --gap: 0;
   display: flex;
-  row-gap: var(--gap, 0);
+  row-gap: var(--gap);
 
   &--direction {
     &-horizontal {
@@ -88,9 +89,6 @@
     flex-wrap: wrap;
   }
 
-  &--row-gap-off {
-    --gap: 0;
-  }
   &--row-gap-xx-small {
     --gap: var(--spacing-xx-small);
   }
