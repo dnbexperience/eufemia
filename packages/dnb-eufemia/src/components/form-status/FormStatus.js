@@ -188,14 +188,14 @@ export default class FormStatus extends React.PureComponent {
       (provider) => {
         // gets called once ready
         if (this.props.state === 'error' && this.isReadyToGetVisible()) {
-          const { state, text, globalStatus, label } =
+          const { state, text, children, globalStatus, label } =
             this.getProps(context)
           provider.add({
             state,
             status_id: this.getStatusId(),
             item: {
               item_id: this.state.id,
-              text: globalStatus?.message || text,
+              text: globalStatus?.message || text || children,
               status_anchor_label: label,
               status_anchor_url: true,
             },
@@ -280,7 +280,7 @@ export default class FormStatus extends React.PureComponent {
               status_id,
               item: {
                 item_id: this.state.id,
-                text: globalStatus?.message || text,
+                text: globalStatus?.message || text || children,
                 status_anchor_label: label,
                 status_anchor_url: true,
               },

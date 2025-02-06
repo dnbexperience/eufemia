@@ -2536,6 +2536,10 @@ describe('DataContext.Provider', () => {
           ).toHaveTextContent(nb.Field.errorSummaryTitle)
         })
 
+        expect(
+          document.querySelector('.dnb-global-status__message__content')
+        ).toHaveTextContent(nb.Field.errorRequired + 'Gå til')
+
         await userEvent.type(input, 'foo')
         fireEvent.blur(input)
 
