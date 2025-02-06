@@ -11,7 +11,7 @@ const components = {
 }
 
 const StyledTable = styled(Table)`
-  td {
+  td:not(.description) {
     white-space: nowrap;
   }
 `
@@ -153,7 +153,7 @@ export default function PropertiesTable({
             )}
           </Td>
         )}
-        <Td>
+        <Td className="description">
           {(!showDefaultValue || status === 'deprecated') && (
             <em>({status}) </em>
           )}
@@ -173,7 +173,7 @@ export default function PropertiesTable({
             <Th>Property</Th>
             <Th>Type</Th>
             {showDefaultValue && <Th>Default value</Th>}
-            <Th>Description</Th>
+            <Th className="description">Description</Th>
           </Tr>
         </thead>
         <tbody>{tableRows}</tbody>
