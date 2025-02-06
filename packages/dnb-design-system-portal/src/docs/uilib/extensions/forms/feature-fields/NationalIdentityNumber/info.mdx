@@ -52,26 +52,16 @@ render(
 
 See the following [example](/uilib/extensions/forms/feature-fields/NationalIdentityNumber/#extend-validation-with-custom-validation-function) on how to extend validation using the exposed validators.
 
-### useMinimumAge and createMinimumAgeChecker
+### createMinimumAgeChecker
 
-To use the `createMinimumAgeValidator` functionality without a field, you can use `useMinimumAge` or `createMinimumAgeChecker`, which returns a boolean.
+To use the `createMinimumAgeValidator` functionality without a field, you can use `createMinimumAgeChecker`, which returns a boolean.
 
 ```tsx
-import {
-  useMinimumAge,
-  createMinimumAgeChecker,
-} from '@dnb/eufemia/extensions/forms/Field/NationalIdentityNumber'
+import { createMinimumAgeChecker } from '@dnb/eufemia/extensions/forms/Field/NationalIdentityNumber'
 
 const isAdult = createMinimumAgeChecker(18)
+
 isAdult('123') // false
 isAdult('10072476609') // false
 isAdult('09100654021') // true
-
-function Component() {
-  const isAdult = useMinimumAge(18)
-
-  isAdult('123') // false
-  isAdult('10072476609') // false
-  isAdult('09100654021') // true
-}
 ```
