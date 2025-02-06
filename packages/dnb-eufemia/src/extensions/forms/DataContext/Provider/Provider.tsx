@@ -71,8 +71,11 @@ export type SharedAttachments<Data = unknown> = {
   setShowAllErrors?: ContextState['setShowAllErrors']
   setSubmitState?: ContextState['setSubmitState']
   rerenderUseDataHook?: () => void
+  updateDataValue?: ContextState['updateDataValue']
   clearData?: () => void
+  setData?: ContextState['setData']
   fieldConnectionsRef?: ContextState['fieldConnectionsRef']
+  internalDataRef?: ContextState['internalDataRef']
 }
 
 export type Props<Data extends JsonObject> =
@@ -756,49 +759,6 @@ export default function Provider<Data extends JsonObject>(
     }) // Delay so the field validation error message are not shown
   }, [emptyData, id, onClear, setSharedData])
 
-  useLayoutEffect(() => {
-    // Set the shared state, if initialData was given
-    if (id) {
-      if (initialData && !sharedData.data) {
-        extendSharedData(initialData, { preventSyncOfSameInstance: true })
-      }
-    }
-  }, [id, initialData, extendSharedData, sharedData.data])
-
-  useLayoutEffect(() => {
-    if (id) {
-      extendAttachment(
-        {
-          visibleDataHandler,
-          filterDataHandler,
-          hasErrors,
-          hasFieldError,
-          setShowAllErrors,
-          setSubmitState,
-          clearData,
-          fieldConnectionsRef,
-        },
-        { preventSyncOfSameInstance: true }
-      )
-      if (filterSubmitData) {
-        rerenderUseDataHook?.()
-      }
-    }
-  }, [
-    extendAttachment,
-    visibleDataHandler,
-    filterDataHandler,
-    filterSubmitData,
-    hasErrors,
-    hasFieldError,
-    id,
-    rerenderUseDataHook,
-    setShowAllErrors,
-    setSubmitState,
-    clearData,
-    extendSharedData,
-  ])
-
   useMemo(() => {
     executeAjvValidator()
 
@@ -1324,6 +1284,53 @@ export default function Provider<Data extends JsonObject>(
       customStatus: undefined,
     })
   }, [setFormState, setSubmitState])
+
+  useLayoutEffect(() => {
+    // Set the shared state, if initialData was given
+    if (id) {
+      if (initialData && !sharedData.data) {
+        extendSharedData(initialData, { preventSyncOfSameInstance: true })
+      }
+    }
+  }, [id, initialData, extendSharedData, sharedData.data])
+
+  useLayoutEffect(() => {
+    if (id) {
+      extendAttachment(
+        {
+          visibleDataHandler,
+          filterDataHandler,
+          hasErrors,
+          hasFieldError,
+          setShowAllErrors,
+          setSubmitState,
+          clearData,
+          setData,
+          updateDataValue,
+          fieldConnectionsRef,
+          internalDataRef,
+        },
+        { preventSyncOfSameInstance: true }
+      )
+      if (filterSubmitData) {
+        rerenderUseDataHook?.()
+      }
+    }
+  }, [
+    clearData,
+    extendAttachment,
+    filterDataHandler,
+    filterSubmitData,
+    hasErrors,
+    hasFieldError,
+    id,
+    rerenderUseDataHook,
+    setData,
+    setShowAllErrors,
+    setSubmitState,
+    updateDataValue,
+    visibleDataHandler,
+  ])
 
   const { bufferedFormState: formState } = useFormStatusBuffer({
     formState: formStateRef.current,

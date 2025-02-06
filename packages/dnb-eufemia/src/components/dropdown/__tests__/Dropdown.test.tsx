@@ -1142,6 +1142,14 @@ describe('Dropdown component', () => {
     ).toBe(title)
   })
 
+  it('should support inline styling', () => {
+    render(<Dropdown data={mockData} style={{ color: 'red' }} />)
+
+    expect(
+      document.querySelector('.dnb-button').getAttribute('style')
+    ).toBe('color: red;')
+  })
+
   it('should support empty data entry', () => {
     render(<Dropdown skip_portal no_animation data={['']} />)
 

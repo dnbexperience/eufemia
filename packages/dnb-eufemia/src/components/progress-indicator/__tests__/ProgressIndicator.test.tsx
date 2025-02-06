@@ -157,6 +157,16 @@ describe('Circular ProgressIndicator component', () => {
     ])
   })
 
+  it('should support inline styling', () => {
+    render(<ProgressIndicator type="circular" style={{ color: 'red' }} />)
+
+    expect(
+      document
+        .querySelector('.dnb-progress-indicator')
+        .getAttribute('style')
+    ).toBe('color: red;')
+  })
+
   it('should support custom attributes', () => {
     render(
       <ProgressIndicator type="circular" progress={1} top="2rem" hidden />
@@ -432,6 +442,16 @@ describe('Linear ProgressIndicator component', () => {
       'dnb-progress-indicator--default',
       'dnb-progress-indicator--full-width',
     ])
+  })
+
+  it('should support inline styling', () => {
+    render(<ProgressIndicator type="linear" style={{ color: 'red' }} />)
+
+    expect(
+      document
+        .querySelector('.dnb-progress-indicator')
+        .getAttribute('style')
+    ).toBe('color: red;')
   })
 
   it('should support custom attributes', () => {

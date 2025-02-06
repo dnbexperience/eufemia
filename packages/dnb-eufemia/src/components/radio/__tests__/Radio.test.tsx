@@ -137,6 +137,14 @@ describe('Radio component', () => {
     ])
   })
 
+  it('should support inline styling', () => {
+    render(<Radio style={{ color: 'red' }} />)
+
+    expect(document.querySelector('input').getAttribute('style')).toBe(
+      'color: red;'
+    )
+  })
+
   it('should inherit formElement vertical label', () => {
     render(
       <Provider formElement={{ vertical: true, disabled: true }}>

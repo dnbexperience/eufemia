@@ -463,6 +463,13 @@ describe('Textarea component', () => {
     )
   })
 
+  it('supports inline styling', () => {
+    render(<Textarea style={{ color: 'red' }} />)
+    expect(document.querySelector('textarea').getAttribute('style')).toBe(
+      'color: red;'
+    )
+  })
+
   describe('sets the resize-- modifier class based on the user agent', () => {
     const textarea = () => document.querySelector('.dnb-textarea')
 

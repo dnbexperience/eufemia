@@ -14,7 +14,8 @@ import Context from '../../shared/Context'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 
-export interface AvatarGroupProps {
+export interface AvatarGroupProps
+  extends Omit<React.HTMLProps<HTMLElement>, 'size' | 'label'> {
   /**
    * Label to describe the avatar group
    * Default: null

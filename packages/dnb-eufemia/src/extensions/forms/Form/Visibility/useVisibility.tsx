@@ -114,20 +114,17 @@ export default function useVisibility(props?: Partial<Props>) {
         }
       }
 
-      if (pathDefined && !pointer.has(data, makeLocalPath(pathDefined))) {
-        return false
-      }
-      if (
-        pathUndefined &&
-        pointer.has(data, makeLocalPath(pathUndefined))
-      ) {
-        return false
-      }
-
       const getValue = (path: Path) => {
         if (pointer.has(data, path)) {
           return pointer.get(data, path)
         }
+      }
+
+      if (pathDefined) {
+        return getValue(makeLocalPath(pathDefined)) !== undefined
+      }
+      if (pathUndefined) {
+        return getValue(makeLocalPath(pathUndefined)) === undefined
       }
 
       if (pathTrue && getValue(makeLocalPath(pathTrue)) !== true) {
@@ -136,6 +133,7 @@ export default function useVisibility(props?: Partial<Props>) {
       if (pathFalse && getValue(makeLocalPath(pathFalse)) !== false) {
         return false
       }
+
       if (
         pathTruthy &&
         Boolean(getValue(makeLocalPath(pathTruthy))) === false
@@ -148,6 +146,7 @@ export default function useVisibility(props?: Partial<Props>) {
       ) {
         return false
       }
+
       if (inferData && !inferData(data)) {
         return false
       }

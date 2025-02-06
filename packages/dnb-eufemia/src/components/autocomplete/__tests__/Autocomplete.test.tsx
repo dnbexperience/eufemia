@@ -1329,6 +1329,14 @@ describe('Autocomplete component', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('should support inline styling', () => {
+    render(<Autocomplete data={[]} style={{ color: 'red' }} />)
+
+    expect(
+      document.querySelector('.dnb-input__input').getAttribute('style')
+    ).toBe('color: red;')
+  })
+
   it('will call on_change on each change, when selecting the first option from different data sources', async () => {
     const mockDataA = [{ selected_key: 'a', content: 'A' }]
     const mockDataB = [{ selected_key: 'b', content: 'B' }]

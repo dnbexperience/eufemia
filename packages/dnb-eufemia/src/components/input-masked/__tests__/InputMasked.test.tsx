@@ -37,6 +37,14 @@ describe('InputMasked component', () => {
     expect(document.querySelector('input').value).toBe('NOK 1 234,- kr')
   })
 
+  it('should support inline styling', () => {
+    render(<InputMasked value="1234.56" style={{ color: 'red' }} />)
+
+    expect(document.querySelector('input').getAttribute('style')).toBe(
+      'color: red;'
+    )
+  })
+
   it('gets valid ref element', () => {
     let ref: React.RefObject<HTMLInputElement>
 

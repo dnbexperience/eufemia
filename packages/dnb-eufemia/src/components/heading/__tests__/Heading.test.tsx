@@ -24,6 +24,14 @@ describe('Heading component', () => {
     expect(document.querySelector('.dnb-heading')).toBeInTheDocument()
   })
 
+  it('should support inline styling', () => {
+    render(<Heading text="text" style={{ color: 'red' }} />)
+
+    expect(
+      document.querySelector('.dnb-heading').getAttribute('style')
+    ).toBe('color: red;')
+  })
+
   it('have to match level correction', () => {
     render(
       <React.StrictMode>

@@ -68,6 +68,13 @@ describe('VisuallyHidden', () => {
     )
   })
 
+  it('supports inline styling', () => {
+    render(<VisuallyHidden style={{ color: 'red' }} />)
+    expect(
+      document.querySelector('.dnb-visually-hidden').getAttribute('style')
+    ).toBe('color: red;')
+  })
+
   it('renders with custom HTML element', () => {
     render(<VisuallyHidden element="div">I'm a div</VisuallyHidden>)
     expect(document.querySelector('div') instanceof HTMLElement).toBe(true)

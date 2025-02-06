@@ -290,9 +290,163 @@ describe('Form.useData', () => {
       })
       expect(result.current.data).not.toHaveProperty('foo')
     })
+
+    it('should remove and render in sync', async () => {
+      let dataContext = null
+      let dataFromHook = null
+
+      const MockComponent = () => {
+        const { remove, data } = Form.useData(identifier)
+        dataFromHook = data
+
+        return (
+          <Form.Handler
+            id={identifier}
+            defaultData={{
+              owners: {
+                hasOwners: true,
+                otherOwners: [],
+              },
+            }}
+          >
+            <Field.Boolean
+              variant="button"
+              path="/owners/hasOwners"
+              onChange={(val) => {
+                if (!val) {
+                  remove('/owners/otherOwners')
+                }
+              }}
+            />
+
+            <Form.Visibility animate pathTrue="/owners/hasOwners">
+              <Field.ArraySelection path="/owners/otherOwners">
+                <Field.Option value="foo" />
+              </Field.ArraySelection>
+            </Form.Visibility>
+
+            <DataContext.Consumer>
+              {(context) => {
+                dataContext = context
+                return null
+              }}
+            </DataContext.Consumer>
+          </Form.Handler>
+        )
+      }
+
+      render(<MockComponent />)
+
+      expect(dataContext.data).toEqual({
+        owners: {
+          hasOwners: true,
+          otherOwners: [],
+        },
+      })
+      expect(dataFromHook).toEqual({
+        owners: {
+          hasOwners: true,
+          otherOwners: [],
+        },
+      })
+
+      await userEvent.click(
+        document.querySelector('input[type="checkbox"]')
+      )
+
+      expect(dataContext.data).toEqual({
+        owners: {
+          hasOwners: true,
+          otherOwners: ['foo'],
+        },
+      })
+      expect(dataFromHook).toEqual({
+        owners: {
+          hasOwners: true,
+          otherOwners: ['foo'],
+        },
+      })
+
+      await userEvent.click(document.querySelector('button'))
+
+      expect(dataContext.data).toEqual({
+        owners: {
+          hasOwners: false,
+          otherOwners: undefined, // should ideally not be there. But the field did add it back again.
+        },
+      })
+      expect(dataFromHook).toEqual({
+        owners: {
+          hasOwners: false,
+          otherOwners: undefined, // should ideally not be there. But the field did add it back again.
+        },
+      })
+
+      await userEvent.click(document.querySelector('button'))
+
+      expect(dataContext.data).toEqual({
+        owners: {
+          hasOwners: true,
+          otherOwners: undefined, // should ideally not be there. But the field did add it back again.
+        },
+      })
+      expect(dataFromHook).toEqual({
+        owners: {
+          hasOwners: true,
+          otherOwners: undefined, // should ideally not be there. But the field did add it back again.
+        },
+      })
+
+      await userEvent.click(
+        document.querySelector('input[type="checkbox"]')
+      )
+
+      expect(dataContext.data).toEqual({
+        owners: {
+          hasOwners: true,
+          otherOwners: ['foo'],
+        },
+      })
+      expect(dataFromHook).toEqual({
+        owners: {
+          hasOwners: true,
+          otherOwners: ['foo'],
+        },
+      })
+
+      await userEvent.click(document.querySelector('button'))
+
+      expect(dataContext.data).toEqual({
+        owners: {
+          hasOwners: false,
+          otherOwners: undefined, // should ideally not be there. But the field did add it back again.
+        },
+      })
+      expect(dataFromHook).toEqual({
+        owners: {
+          hasOwners: false,
+          otherOwners: undefined, // should ideally not be there. But the field did add it back again.
+        },
+      })
+
+      await userEvent.click(document.querySelector('button'))
+
+      expect(dataContext.data).toEqual({
+        owners: {
+          hasOwners: true,
+          otherOwners: undefined, // should ideally not be there. But the field did add it back again.
+        },
+      })
+      expect(dataFromHook).toEqual({
+        owners: {
+          hasOwners: true,
+          otherOwners: undefined, // should ideally not be there. But the field did add it back again.
+        },
+      })
+    })
   })
 
-  it('"update" should only re-render when value has changed', () => {
+  it('"update" should re-render when value has changed', () => {
     let rerendered = 0
     const MockComponent = () => {
       useData(identifier)
@@ -604,6 +758,160 @@ describe('Form.useData', () => {
       expect(
         document.querySelector('.dnb-form-status')
       ).toBeInTheDocument()
+    })
+
+    it('should update and render in sync', async () => {
+      let dataContext = null
+      let dataFromHook = null
+
+      const MockComponent = () => {
+        const { update, data } = Form.useData(identifier)
+        dataFromHook = data
+
+        return (
+          <Form.Handler
+            id={identifier}
+            defaultData={{
+              owners: {
+                hasOwners: true,
+                otherOwners: [],
+              },
+            }}
+          >
+            <Field.Boolean
+              variant="button"
+              path="/owners/hasOwners"
+              onChange={(val) => {
+                if (!val) {
+                  update('/owners/otherOwners', [])
+                }
+              }}
+            />
+
+            <Form.Visibility animate pathTrue="/owners/hasOwners">
+              <Field.ArraySelection path="/owners/otherOwners">
+                <Field.Option value="foo" />
+              </Field.ArraySelection>
+            </Form.Visibility>
+
+            <DataContext.Consumer>
+              {(context) => {
+                dataContext = context
+                return null
+              }}
+            </DataContext.Consumer>
+          </Form.Handler>
+        )
+      }
+
+      render(<MockComponent />)
+
+      expect(dataContext.data).toEqual({
+        owners: {
+          hasOwners: true,
+          otherOwners: [],
+        },
+      })
+      expect(dataFromHook).toEqual({
+        owners: {
+          hasOwners: true,
+          otherOwners: [],
+        },
+      })
+
+      await userEvent.click(
+        document.querySelector('input[type="checkbox"]')
+      )
+
+      expect(dataContext.data).toEqual({
+        owners: {
+          hasOwners: true,
+          otherOwners: ['foo'],
+        },
+      })
+      expect(dataFromHook).toEqual({
+        owners: {
+          hasOwners: true,
+          otherOwners: ['foo'],
+        },
+      })
+
+      await userEvent.click(document.querySelector('button'))
+
+      expect(dataContext.data).toEqual({
+        owners: {
+          hasOwners: false,
+          otherOwners: [],
+        },
+      })
+      expect(dataFromHook).toEqual({
+        owners: {
+          hasOwners: false,
+          otherOwners: [],
+        },
+      })
+
+      await userEvent.click(document.querySelector('button'))
+
+      expect(dataContext.data).toEqual({
+        owners: {
+          hasOwners: true,
+          otherOwners: [],
+        },
+      })
+      expect(dataFromHook).toEqual({
+        owners: {
+          hasOwners: true,
+          otherOwners: [],
+        },
+      })
+
+      await userEvent.click(
+        document.querySelector('input[type="checkbox"]')
+      )
+
+      expect(dataContext.data).toEqual({
+        owners: {
+          hasOwners: true,
+          otherOwners: ['foo'],
+        },
+      })
+      expect(dataFromHook).toEqual({
+        owners: {
+          hasOwners: true,
+          otherOwners: ['foo'],
+        },
+      })
+
+      await userEvent.click(document.querySelector('button'))
+
+      expect(dataContext.data).toEqual({
+        owners: {
+          hasOwners: false,
+          otherOwners: [],
+        },
+      })
+      expect(dataFromHook).toEqual({
+        owners: {
+          hasOwners: false,
+          otherOwners: [],
+        },
+      })
+
+      await userEvent.click(document.querySelector('button'))
+
+      expect(dataContext.data).toEqual({
+        owners: {
+          hasOwners: true,
+          otherOwners: [],
+        },
+      })
+      expect(dataFromHook).toEqual({
+        owners: {
+          hasOwners: true,
+          otherOwners: [],
+        },
+      })
     })
   })
 
