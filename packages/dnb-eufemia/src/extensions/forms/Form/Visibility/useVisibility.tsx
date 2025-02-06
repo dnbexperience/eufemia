@@ -114,20 +114,20 @@ export default function useVisibility(props?: Partial<Props>) {
         }
       }
 
-      if (pathDefined && !pointer.has(data, makeLocalPath(pathDefined))) {
-        return false
+      const getValue = (path: Path) => {
+        if (pointer.has(data, path)) {
+          return pointer.get(data, path)
+        }
+      }
+
+      if (pathDefined) {
+        return getValue(makeLocalPath(pathDefined)) !== undefined
       }
       if (
         pathUndefined &&
         pointer.has(data, makeLocalPath(pathUndefined))
       ) {
         return false
-      }
-
-      const getValue = (path: Path) => {
-        if (pointer.has(data, path)) {
-          return pointer.get(data, path)
-        }
       }
 
       if (pathTrue && getValue(makeLocalPath(pathTrue)) !== true) {
