@@ -113,6 +113,13 @@ export type Props = ComponentProps & {
   scrollTopOnStepChange?: boolean
 }
 
+function handeDeprecatedProps(
+  props: Props
+): Omit<Props, 'variant' | 'sidebarId'> {
+  const { variant, sidebarId, ...rest } = props
+  return rest
+}
+
 function WizardContainer(props: Props) {
   const {
     className,
@@ -128,7 +135,7 @@ function WizardContainer(props: Props) {
     prerenderFieldProps = true,
     validationMode,
     ...rest
-  } = props
+  } = handeDeprecatedProps(props)
 
   const dataContext = useContext(DataContext)
   const {
@@ -429,17 +436,12 @@ function WizardContainer(props: Props) {
   return (
     <WizardContext.Provider value={providerValue}>
       <Space
-        className={classnames(
-          'dnb-forms-wizard-layout',
-          `dnb-forms-wizard-layout--drawer`,
-          className
-        )}
+        className={classnames('dnb-forms-wizard-layout', className)}
         innerRef={elementRef}
         {...rest}
       >
         <DisplaySteps
           mode={mode}
-          variant="drawer"
           noAnimation={noAnimation}
           expandedInitially={expandedInitially}
           handleChange={handleChange}
@@ -461,26 +463,19 @@ function WizardContainer(props: Props) {
 
 function DisplaySteps({
   mode,
-  variant,
   noAnimation,
   handleChange,
   expandedInitially,
-  sidebarId = undefined, // deprecated
 }) {
   const [, forceUpdate] = useReducer(() => ({}), {})
-  const { id, activeIndexRef, stepsRef, updateTitlesRef } =
+  const { activeIndexRef, stepsRef, updateTitlesRef } =
     useContext(WizardContext) || {}
   updateTitlesRef.current = () => {
     forceUpdate()
   }
 
-  // deprecated
-  const sidebar_id =
-    variant === 'drawer' && !sidebarId ? undefined : sidebarId ?? id
-
   return (
     <aside className="dnb-forms-wizard-layout__indicator">
-      <StepIndicator.Sidebar sidebar_id={sidebar_id} /> {/* deprecated */}
       <StepIndicator
         bottom
         current_step={activeIndexRef.current}
@@ -491,7 +486,6 @@ function DisplaySteps({
         no_animation={noAnimation}
         expandedInitially={expandedInitially}
         on_change={handleChange}
-        sidebar_id={sidebar_id} // deprecated
       />
     </aside>
   )
