@@ -1,20 +1,20 @@
-import { createMinimumAgeChecker } from '../NationalIdentityNumber'
+import { createMinimumAgeVerifier } from '../NationalIdentityNumber'
 
-describe('createMinimumAgeChecker', () => {
+describe('createMinimumAgeVerifier', () => {
   jest.useFakeTimers().setSystemTime(new Date('2024-10-09').getTime())
 
   it('should validate with true', () => {
-    const isAdult = createMinimumAgeChecker(18)
+    const isAdult = createMinimumAgeVerifier(18)
     expect(isAdult('09100654021')).toBe(true)
   })
 
   it('should validate with false', () => {
-    const isAdult = createMinimumAgeChecker(18)
+    const isAdult = createMinimumAgeVerifier(18)
     expect(isAdult('10072476609')).toBe(false)
   })
 
   it('should validate with false when value is invalid', () => {
-    const isAdult = createMinimumAgeChecker(18)
+    const isAdult = createMinimumAgeVerifier(18)
     expect(isAdult(undefined)).toBe(false)
     expect(isAdult(null)).toBe(false)
     expect(isAdult('invalid')).toBe(false)
@@ -110,7 +110,7 @@ describe('createMinimumAgeChecker', () => {
     const validIds = [...fnr18YearsOldAndOlder, ...dnr18YearsOldAndOlder]
     const invalidIds = [...fnrUnder18YearsOld, ...dnrUnder18YearsOld]
 
-    const isAdult = createMinimumAgeChecker(18)
+    const isAdult = createMinimumAgeVerifier(18)
 
     it.each(validIds)(
       'Identity number is 18 years or older : %s',

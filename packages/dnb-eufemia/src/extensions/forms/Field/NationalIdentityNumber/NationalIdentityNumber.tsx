@@ -213,7 +213,7 @@ export function createMinimumAgeValidator(age: number) {
   }
 }
 
-export function createMinimumAgeChecker(age: number) {
+export function createMinimumAgeVerifier(age: number) {
   const validator = createMinimumAgeValidator(age)
   return (value: string) => {
     if (value?.length >= 7) {
