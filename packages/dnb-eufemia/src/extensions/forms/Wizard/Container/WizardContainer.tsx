@@ -118,6 +118,13 @@ export type Props = ComponentProps & {
   scrollTopOnStepChange?: boolean
 }
 
+function handeDeprecatedProps(
+  props: Props
+): Omit<Props, 'variant' | 'sidebarId'> {
+  const { variant, sidebarId, ...rest } = props
+  return rest
+}
+
 function WizardContainer(props: Props) {
   const {
     className,
@@ -134,7 +141,7 @@ function WizardContainer(props: Props) {
     keepInDOM,
     validationMode,
     ...rest
-  } = props
+  } = handeDeprecatedProps(props)
 
   const dataContext = useContext(DataContext)
   const {
@@ -595,17 +602,12 @@ function WizardContainer(props: Props) {
   return (
     <WizardContext.Provider value={providerValue}>
       <Space
-        className={classnames(
-          'dnb-forms-wizard-layout',
-          `dnb-forms-wizard-layout--drawer`,
-          className
-        )}
+        className={classnames('dnb-forms-wizard-layout', className)}
         innerRef={elementRef}
         {...rest}
       >
         <DisplaySteps
           mode={mode}
-          variant="drawer"
           noAnimation={noAnimation}
           expandedInitially={expandedInitially}
           handleChange={handleChange}

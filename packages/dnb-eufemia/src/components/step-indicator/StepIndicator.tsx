@@ -152,6 +152,13 @@ export type StepIndicatorProps = Omit<
     children?: React.ReactNode
   }
 
+function handeDeprecatedProps(
+  props: StepIndicatorProps
+): Omit<StepIndicatorProps, 'sidebar_id' | 'step_title_extended'> {
+  const { sidebar_id, step_title_extended, ...rest } = props
+  return rest
+}
+
 function StepIndicator({
   data = stepIndicatorDefaultProps.data,
   skeleton = stepIndicatorDefaultProps.skeleton,
@@ -161,7 +168,7 @@ function StepIndicator({
   expandedInitially = stepIndicatorDefaultProps.expandedInitially,
   ...restOfProps
 }: StepIndicatorProps) {
-  const props = {
+  const props = handeDeprecatedProps({
     data,
     skeleton,
     current_step,
@@ -169,7 +176,7 @@ function StepIndicator({
     no_animation,
     expandedInitially,
     ...restOfProps,
-  }
+  })
 
   return (
     <StepIndicatorProvider {...props}>
