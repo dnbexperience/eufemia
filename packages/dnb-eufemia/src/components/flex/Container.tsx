@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback } from 'react'
+import React, { Fragment, useCallback, useMemo } from 'react'
 import classnames from 'classnames'
 import Space, { SpaceProps } from '../space/Space'
 import { Hr } from '../../elements'
@@ -105,17 +105,20 @@ function FlexContainer(props: Props) {
     direction = 'horizontal',
     wrap = true,
     sizeCount = 12,
-    rowGap = 'small',
+    rowGap,
     justify = 'flex-start',
     align = 'flex-start',
     alignSelf,
     divider = 'space',
-    gap: spacing = 'small',
+    gap = 'small',
     breakpoints,
     queries,
     ...rest
   } = handleDeprecatedProps(props)
-
+  const spacing = useMemo(
+    () => (direction === 'vertical' ? rowGap : undefined) ?? gap,
+    [direction, gap, rowGap]
+  )
   const childrenArray = replaceRootFragment(wrapChildren(props, children))
   const hasHeading = childrenArray.some((child, i) => {
     const previousChild = childrenArray?.[i - 1]
@@ -215,11 +218,11 @@ function FlexContainer(props: Props) {
   const n = 'dnb-flex-container'
   const getRowGapClass = useCallback(() => {
     if (rowGap !== false && direction === 'horizontal') {
-      return `${n}--row-gap-${rowGap}`
+      return `${n}--row-gap-${rowGap ?? 'small'}`
     }
 
     return `${n}--row-gap-off`
-  }, [rowGap, direction])
+  }, [direction, rowGap])
 
   const cn = classnames(
     'dnb-flex-container',
