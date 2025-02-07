@@ -11,6 +11,7 @@
   "version": "1.0.0",
   "workspaces": [
     "packages/*",
+    "sandboxes/*",
     "tools/*"
   ],
   "main": "./packages/eufemia/index.js",
