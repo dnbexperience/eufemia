@@ -3,6 +3,15 @@ import { render, waitFor, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { DataContext, Field, FieldBlock, Form } from '../../..'
+import nbNO from '../../../constants/locales/nb-NO'
+import enGB from '../../../constants/locales/en-GB'
+import { format } from 'date-fns'
+import { convertStringToDate } from '../../../../../components/date-picker/DatePickerCalc'
+import noLocale from 'date-fns/locale/nb'
+import enLocale from 'date-fns/locale/en-GB'
+
+const nb = nbNO['nb-NO']
+const en = enGB['en-GB']
 
 describe('Field.Date', () => {
   it('should render without props', () => {
@@ -1011,4 +1020,541 @@ describe('Field.Date', () => {
     const input = document.querySelector('.dnb-date-picker')
     expect(input).toHaveClass('dnb-date-picker__status--error')
   })
+
+  describe('Date limit validation', () => {
+    it('should display error message if `value` is before `minDate`', async () => {
+      const minDate = '2025-01-01'
+
+      render(<Field.Date value={minDate} minDate={minDate} />)
+
+      const day = document.querySelector(
+        '.dnb-date-picker__input--day'
+      ) as HTMLInputElement
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+
+      await userEvent.click(day)
+      await userEvent.keyboard('{ArrowDown}')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        nb.Date.errorMinDate.replace(/%s/, formatDate(minDate))
+      )
+    })
+
+    it('should display error message if `value` is after `maxDate`', async () => {
+      const maxDate = '2025-01-31'
+
+      render(<Field.Date value={maxDate} maxDate={maxDate} />)
+
+      const day = document.querySelector(
+        '.dnb-date-picker__input--day'
+      ) as HTMLInputElement
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+
+      await userEvent.click(day)
+      await userEvent.keyboard('{ArrowUp}')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        nb.Date.errorMaxDate.replace(/%s/, formatDate(maxDate))
+      )
+    })
+
+    it('should display error message if start date is before `minDate`', async () => {
+      const minDate = '2025-01-01'
+
+      render(
+        <Field.Date
+          value={`${minDate}|undefined`}
+          minDate={minDate}
+          range
+        />
+      )
+
+      const [startDay] = Array.from(
+        document.querySelectorAll('.dnb-date-picker__input--day')
+      ) as Array<HTMLInputElement>
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+
+      await userEvent.click(startDay)
+      await userEvent.keyboard('{ArrowDown}')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        nb.Date.errorRangeStartDateMinDate.replace(
+          /%s/,
+          formatDate(minDate)
+        )
+      )
+    })
+
+    it('should display error message if start date is after `maxDate`', async () => {
+      const maxDate = '2025-01-31'
+
+      render(
+        <Field.Date
+          value={`${maxDate}|undefined`}
+          maxDate={maxDate}
+          range
+        />
+      )
+
+      const [startDay] = Array.from(
+        document.querySelectorAll('.dnb-date-picker__input--day')
+      ) as Array<HTMLInputElement>
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+
+      await userEvent.click(startDay)
+      await userEvent.keyboard('{ArrowUp}')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        nb.Date.errorRangeStartDateMaxDate.replace(
+          /%s/,
+          formatDate(maxDate)
+        )
+      )
+    })
+
+    it('should display error message if end date is before `minDate`', async () => {
+      const minDate = '2025-01-01'
+
+      render(
+        <Field.Date
+          value={`undefined|${minDate}`}
+          minDate={minDate}
+          range
+        />
+      )
+
+      const [, endDay] = Array.from(
+        document.querySelectorAll('.dnb-date-picker__input--day')
+      ) as Array<HTMLInputElement>
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+
+      await userEvent.click(endDay)
+      await userEvent.keyboard('{ArrowDown}')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        nb.Date.errorRangeEndDateMinDate.replace(/%s/, formatDate(minDate))
+      )
+    })
+
+    it('should display error message if end date is after `maxDate`', async () => {
+      const maxDate = '2025-01-31'
+
+      render(
+        <Field.Date
+          value={`undefined|${maxDate}`}
+          maxDate={maxDate}
+          range
+        />
+      )
+
+      const [, endDay] = Array.from(
+        document.querySelectorAll('.dnb-date-picker__input--day')
+      ) as Array<HTMLInputElement>
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+
+      await userEvent.click(endDay)
+      await userEvent.keyboard('{ArrowUp}')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        nb.Date.errorRangeEndDateMaxDate.replace(/%s/, formatDate(maxDate))
+      )
+    })
+
+    it('should display error messages if start date and end date is outside of limits in `range` mode', async () => {
+      const minDate = '2025-01-01'
+      const maxDate = '2025-01-31'
+
+      render(
+        <Field.Date
+          value={`${minDate}|${maxDate}`}
+          minDate={minDate}
+          maxDate={maxDate}
+          range
+        />
+      )
+
+      const [startDay, startMonth, , endDay, endMonth] = Array.from(
+        document.querySelectorAll('.dnb-date-picker__input')
+      ) as Array<HTMLInputElement>
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+
+      // Focus on day inputs and select out of limit dates
+      await userEvent.click(startDay)
+      await userEvent.keyboard('{ArrowDown}')
+      await userEvent.click(endDay)
+      await userEvent.keyboard('{ArrowUp}')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+
+      const statusText = document.querySelector('.dnb-form-status__text')
+      const messages = () =>
+        Array.from(
+          document.querySelectorAll('.dnb-li')
+        ) as Array<HTMLLIElement>
+
+      expect(statusText).toHaveTextContent(nb.Field.errorSummary)
+
+      expect(messages()[0]).toHaveTextContent(
+        nb.Date.errorRangeStartDateMinDate.replace(
+          /%s/,
+          formatDate(minDate)
+        )
+      )
+      expect(messages()[1]).toHaveTextContent(
+        nb.Date.errorRangeEndDateMaxDate.replace(/%s/, formatDate(maxDate))
+      )
+
+      await userEvent.click(startMonth)
+      await userEvent.keyboard('{ArrowUp>2}')
+      await userEvent.click(document.body)
+
+      expect(messages()[0]).toHaveTextContent(
+        nb.Date.errorRangeStartDateMaxDate.replace(
+          /%s/,
+          formatDate(maxDate)
+        )
+      )
+      expect(messages()[1]).toHaveTextContent(
+        nb.Date.errorRangeEndDateMaxDate.replace(/%s/, formatDate(maxDate))
+      )
+
+      await userEvent.click(endMonth)
+      await userEvent.keyboard('{ArrowDown>2}')
+      await userEvent.click(document.body)
+
+      expect(messages()[0]).toHaveTextContent(
+        nb.Date.errorRangeStartDateMaxDate.replace(
+          /%s/,
+          formatDate(maxDate)
+        )
+      )
+      expect(messages()[1]).toHaveTextContent(
+        nb.Date.errorRangeEndDateMinDate.replace(/%s/, formatDate(minDate))
+      )
+
+      await userEvent.click(startMonth)
+      await userEvent.keyboard('{ArrowDown>2}')
+      await userEvent.click(document.body)
+
+      expect(messages()[0]).toHaveTextContent(
+        nb.Date.errorRangeStartDateMinDate.replace(
+          /%s/,
+          formatDate(minDate)
+        )
+      )
+      expect(messages()[1]).toHaveTextContent(
+        nb.Date.errorRangeEndDateMinDate.replace(/%s/, formatDate(minDate))
+      )
+
+      await userEvent.click(startMonth)
+      await userEvent.keyboard('{ArrowUp}')
+      await userEvent.click(endMonth)
+      await userEvent.keyboard('{ArrowUp}')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should validate `minDate` limits based on `value` prop', async () => {
+      const minDate = '2025-01-01'
+
+      render(<Field.Date value="2024-12-31" minDate={minDate} />)
+
+      const day = document.querySelector(
+        '.dnb-date-picker__input--day'
+      ) as HTMLInputElement
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        nb.Date.errorMinDate.replace(/%s/, formatDate(minDate))
+      )
+
+      await userEvent.click(day)
+      await userEvent.keyboard('{ArrowUp}')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should validate `maxDate` based on `value` prop', async () => {
+      const maxDate = '2025-01-31'
+
+      render(<Field.Date value="2025-02-01" maxDate={maxDate} />)
+
+      const day = document.querySelector(
+        '.dnb-date-picker__input--day'
+      ) as HTMLInputElement
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        nb.Date.errorMaxDate.replace(/%s/, formatDate(maxDate))
+      )
+
+      await userEvent.click(day)
+      await userEvent.keyboard('{ArrowDown}')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should validate date limits based on `value` prop in `range` mode', async () => {
+      const minDate = '2025-01-01'
+      const maxDate = '2025-01-31'
+
+      render(
+        <Field.Date
+          value="2024-12-31|2025-02-01"
+          minDate={minDate}
+          maxDate={maxDate}
+          range
+        />
+      )
+
+      const [startDay, endDay] = Array.from(
+        document.querySelectorAll('.dnb-date-picker__input--day')
+      ) as Array<HTMLInputElement>
+
+      const [startDayError, endDayError] = Array.from(
+        document.querySelectorAll('.dnb-li')
+      ) as Array<HTMLLIElement>
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+
+      expect(startDayError).toHaveTextContent(
+        nb.Date.errorRangeStartDateMinDate.replace(
+          /%s/,
+          formatDate(minDate)
+        )
+      )
+      expect(endDayError).toHaveTextContent(
+        nb.Date.errorRangeEndDateMaxDate.replace(/%s/, formatDate(maxDate))
+      )
+
+      await userEvent.click(startDay)
+      await userEvent.keyboard('{ArrowUp}')
+      await userEvent.click(endDay)
+      await userEvent.keyboard('{ArrowDown}')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should display date limit error messages based on locale', async () => {
+      const minDate = '2025-01-01'
+      const maxDate = '2025-01-31'
+
+      render(
+        <Form.Handler locale="en-GB">
+          <Field.Date
+            value={minDate}
+            minDate={minDate}
+            maxDate={maxDate}
+            showInput
+          />
+        </Form.Handler>
+      )
+
+      const [day, month] = Array.from(
+        document.querySelectorAll('.dnb-date-picker__input')
+      )
+
+      await userEvent.click(day)
+      await userEvent.keyboard('{ArrowDown}')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        en.Date.errorMinDate.replace(/%s/, formatDate(minDate, 'en'))
+      )
+
+      await userEvent.click(month)
+      await userEvent.keyboard('{ArrowUp>2}')
+      await userEvent.click(document.body)
+
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        en.Date.errorMaxDate.replace(/%s/, formatDate(maxDate, 'en'))
+      )
+    })
+
+    it('should display date limit error messages based on locale when in `range` mode', async () => {
+      const minDate = '2025-01-01'
+      const maxDate = '2025-01-31'
+
+      render(
+        <Form.Handler locale="en-GB">
+          <Field.Date
+            value={`${minDate}|${maxDate}`}
+            minDate={minDate}
+            maxDate={maxDate}
+            range
+          />
+        </Form.Handler>
+      )
+
+      const [, startMonth, , , endMonth] = Array.from(
+        document.querySelectorAll('.dnb-date-picker__input')
+      ) as Array<HTMLInputElement>
+
+      await userEvent.click(startMonth)
+      await userEvent.keyboard('{ArrowDown}')
+      await userEvent.click(endMonth)
+      await userEvent.keyboard('{ArrowUp}')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+
+      const messages = () =>
+        Array.from(
+          document.querySelectorAll('.dnb-form-status--error .dnb-li')
+        ) as Array<HTMLLIElement>
+
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        en.Field.errorSummary
+      )
+
+      expect(messages()[0]).toHaveTextContent(
+        en.Date.errorRangeStartDateMinDate.replace(
+          /%s/,
+          formatDate(minDate, 'en')
+        )
+      )
+      expect(messages()[1]).toHaveTextContent(
+        en.Date.errorRangeEndDateMaxDate.replace(
+          /%s/,
+          formatDate(maxDate, 'en')
+        )
+      )
+
+      await userEvent.click(startMonth)
+      await userEvent.keyboard('{ArrowUp>2}')
+      await userEvent.click(document.body)
+
+      expect(messages()[0]).toHaveTextContent(
+        en.Date.errorRangeStartDateMaxDate.replace(
+          /%s/,
+          formatDate(maxDate, 'en')
+        )
+      )
+      expect(messages()[1]).toHaveTextContent(
+        en.Date.errorRangeEndDateMaxDate.replace(
+          /%s/,
+          formatDate(maxDate, 'en')
+        )
+      )
+
+      await userEvent.click(endMonth)
+      await userEvent.keyboard('{ArrowDown>2}')
+      await userEvent.click(document.body)
+
+      expect(messages()[0]).toHaveTextContent(
+        en.Date.errorRangeStartDateMaxDate.replace(
+          /%s/,
+          formatDate(maxDate, 'en')
+        )
+      )
+      expect(messages()[1]).toHaveTextContent(
+        en.Date.errorRangeEndDateMinDate.replace(
+          /%s/,
+          formatDate(minDate, 'en')
+        )
+      )
+
+      await userEvent.click(startMonth)
+      await userEvent.keyboard('{ArrowDown>2}')
+      await userEvent.click(document.body)
+
+      expect(messages()[0]).toHaveTextContent(
+        en.Date.errorRangeStartDateMinDate.replace(
+          /%s/,
+          formatDate(minDate, 'en')
+        )
+      )
+      expect(messages()[1]).toHaveTextContent(
+        en.Date.errorRangeEndDateMinDate.replace(
+          /%s/,
+          formatDate(minDate, 'en')
+        )
+      )
+    })
+  })
 })
+
+function formatDate(date: string, locale: 'no' | 'en' = 'no') {
+  return format(convertStringToDate(date), 'PPP', {
+    locale: locale === 'no' ? noLocale : enLocale,
+  })
+}
