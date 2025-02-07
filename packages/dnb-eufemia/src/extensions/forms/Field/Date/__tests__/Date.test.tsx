@@ -173,7 +173,10 @@ describe('Field.Date', () => {
     )
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myValue': '01.10.2023',
+      '/myValue': {
+        type: 'field',
+        value: '01.10.2023',
+      },
     })
 
     fireEvent.focus(day)
@@ -181,7 +184,10 @@ describe('Field.Date', () => {
     await userEvent.type(year, '2024')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myValue': '02.11.2024',
+      '/myValue': {
+        type: 'field',
+        value: '02.11.2024',
+      },
     })
   })
 
@@ -205,7 +211,10 @@ describe('Field.Date', () => {
     )
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myValue': '10/01/2023',
+      '/myValue': {
+        type: 'field',
+        value: '10/01/2023',
+      },
     })
 
     fireEvent.focus(day)
@@ -213,7 +222,10 @@ describe('Field.Date', () => {
     await userEvent.type(year, '2024')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myValue': '11/02/2024',
+      '/myValue': {
+        type: 'field',
+        value: '11/02/2024',
+      },
     })
   })
 

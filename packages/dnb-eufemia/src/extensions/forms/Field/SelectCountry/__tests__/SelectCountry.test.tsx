@@ -633,7 +633,10 @@ describe('Field.SelectCountry', () => {
     )
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/country': 'Norway',
+      '/country': {
+        type: 'field',
+        value: 'Norway',
+      },
     })
 
     // Open like user would do, but without a delay
@@ -644,7 +647,10 @@ describe('Field.SelectCountry', () => {
     DrawerListProvider['blurDelay'] = 201
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/country': 'Denmark',
+      '/country': {
+        type: 'field',
+        value: 'Denmark',
+      },
     })
   })
 

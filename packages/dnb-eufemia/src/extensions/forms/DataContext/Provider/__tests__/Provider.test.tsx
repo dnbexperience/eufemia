@@ -2536,6 +2536,10 @@ describe('DataContext.Provider', () => {
           ).toHaveTextContent(nb.Field.errorSummaryTitle)
         })
 
+        expect(
+          document.querySelector('.dnb-global-status__message__content')
+        ).toHaveTextContent(nb.Field.errorRequired + 'Gå til')
+
         await userEvent.type(input, 'foo')
         fireEvent.blur(input)
 
@@ -4834,7 +4838,7 @@ describe('DataContext.Provider', () => {
     )
   })
 
-  it('should transform data with "transformData"', async () => {
+  it('should transform submit data with "transformData"', async () => {
     let transformedData = undefined
     const onSubmit = jest.fn((data, { transformData }) => {
       transformedData = transformData(
@@ -4893,9 +4897,9 @@ describe('DataContext.Provider', () => {
         displayValue: 'Foo Value',
       },
       arraySelectionField: {
-        displayValue: ['Foo Value'],
-        label: 'ArraySelection label',
         value: ['foo'],
+        label: 'ArraySelection label',
+        displayValue: ['Foo Value'],
       },
     })
 
@@ -4918,9 +4922,9 @@ describe('DataContext.Provider', () => {
         displayValue: 'Bar Value',
       },
       arraySelectionField: {
-        displayValue: ['Foo Value'],
-        label: 'ArraySelection label',
         value: ['foo'],
+        label: 'ArraySelection label',
+        displayValue: ['Foo Value'],
       },
     })
 
@@ -4943,22 +4947,20 @@ describe('DataContext.Provider', () => {
         displayValue: 'Bar Value',
       },
       arraySelectionField: {
-        displayValue: ['Foo Value', 'Bar Value'],
-        label: 'ArraySelection label',
         value: ['foo', 'bar'],
+        label: 'ArraySelection label',
+        displayValue: ['Foo Value', 'Bar Value'],
       },
     })
   })
 
-  it('should transform data with "transformData" from fields inside Iterate', async () => {
+  it('should transform submit data with "transformData" from fields inside Iterate', async () => {
     let transformedData = undefined
     const onSubmit = jest.fn((data, { transformData }) => {
       transformedData = transformData(
         data,
         ({ value, displayValue, label }) => {
-          if (!Array.isArray(value)) {
-            return { value, displayValue, label }
-          }
+          return { value, displayValue, label }
         }
       )
     })
@@ -4972,7 +4974,7 @@ describe('DataContext.Provider', () => {
       >
         <Iterate.Array path="/accounts">
           <Field.String
-            label="Bar label"
+            label="Foo label"
             itemPath="/fooPath"
             defaultValue="foo value"
           />
@@ -4988,7 +4990,7 @@ describe('DataContext.Provider', () => {
         {
           fooPath: {
             displayValue: 'foo value',
-            label: 'Bar label',
+            label: 'Foo label',
             value: 'foo value',
           },
         },
@@ -5006,7 +5008,7 @@ describe('DataContext.Provider', () => {
         {
           fooPath: {
             displayValue: 'bar value',
-            label: 'Bar label',
+            label: 'Foo label',
             value: 'bar value',
           },
         },

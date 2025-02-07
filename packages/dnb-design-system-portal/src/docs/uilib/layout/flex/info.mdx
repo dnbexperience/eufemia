@@ -19,16 +19,22 @@ To make it easier to build application layout and [form](/uilib/extensions/forms
 
 - **[Flex.Item](/uilib/layout/flex/item)** is a building block for CSS flexbox based layout of contents and components.
 
-- **[Flex.Stack](/uilib/layout/flex/stack)** is an outer block element for wrapping content to get the correct layout and spacing between region and region headings.
+- **[Flex.Stack](/uilib/layout/flex/stack)** is an outer block element that wraps content to ensure proper layout and spacing between form elements, larger regions and headings. It stretches its content horizontally (100%).
 
 ```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
 import { Flex } from '@dnb/eufemia'
 
-render(
-  <Flex.Container>
-    <Flex.Item>content</Flex.Item>
-  </Flex.Container>,
-)
+function MyForm() {
+  return (
+    <Form.Handler>
+      <Flex.Stack>
+        <Form.MainHeading>Main heading</Form.MainHeading>
+        <Form.Card>...</Form.Card>
+      </Flex.Stack>
+    </Form.Handler>
+  )
+}
 ```
 
 You can find more related information in the [Layout](/uilib/layout) pages.

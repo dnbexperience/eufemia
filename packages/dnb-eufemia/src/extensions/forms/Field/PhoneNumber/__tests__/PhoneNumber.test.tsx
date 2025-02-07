@@ -1137,26 +1137,38 @@ describe('Field.PhoneNumber', () => {
     )
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myValue': '+47 99 99 ​​ ​​',
+      '/myValue': {
+        type: 'field',
+        value: '+47 99 99 ​​ ​​',
+      },
     })
 
     fireEvent.focus(input)
     await userEvent.type(input, '{ArrowRight>6} 8888')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myValue': '+47 99 99 88 88',
+      '/myValue': {
+        type: 'field',
+        value: '+47 99 99 88 88',
+      },
     })
 
     await userEvent.type(input, '{Backspace>12}')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myValue': undefined,
+      '/myValue': {
+        type: 'field',
+        value: undefined,
+      },
     })
 
     await userEvent.type(input, '123')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myValue': '+47 12 3​ ​​ ​​',
+      '/myValue': {
+        type: 'field',
+        value: '+47 12 3​ ​​ ​​',
+      },
     })
 
     // Open like user would do, but without a delay
@@ -1166,7 +1178,10 @@ describe('Field.PhoneNumber', () => {
     DrawerListProvider['blurDelay'] = 201
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myValue': '+45 123​​​​​​​​​',
+      '/myValue': {
+        type: 'field',
+        value: '+45 123​​​​​​​​​',
+      },
     })
   })
 

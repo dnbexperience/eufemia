@@ -1681,15 +1681,19 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   const setDisplayValue: ReturnAdditional<Value>['setDisplayValue'] =
     useCallback(
-      (content, fieldPath = itemPath ? identifier : path) => {
+      (value, options) => {
+        const {
+          path: fieldPath = itemPath ? identifier : path,
+          type = 'field',
+        } = options || {}
         if (!fieldPath || !fieldDisplayValueRef?.current) {
           return // stop here
         }
 
         fieldDisplayValueRef.current[fieldPath] =
           valueRef.current === (emptyValue as unknown as Value)
-            ? undefined
-            : content
+            ? { type }
+            : { value, type }
       },
       [identifier, emptyValue, fieldDisplayValueRef, itemPath, path]
     )
@@ -2476,7 +2480,10 @@ export interface ReturnAdditional<Value> {
   ) => void
   updateValue: (value: Value) => void
   setChanged: (state: boolean) => void
-  setDisplayValue: (value: React.ReactNode, path?: Identifier) => void
+  setDisplayValue: (
+    value: React.ReactNode,
+    { path, type }?: { path?: Identifier; type?: 'field' }
+  ) => void
   forceUpdate: () => void
   hasError?: boolean
 

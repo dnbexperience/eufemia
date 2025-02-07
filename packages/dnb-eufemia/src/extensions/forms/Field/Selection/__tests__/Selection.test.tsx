@@ -541,14 +541,20 @@ describe('variants', () => {
       )
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
-        '/mySelection': 'Foo!',
+        '/mySelection': {
+          type: 'field',
+          value: 'Foo!',
+        },
       })
 
       await userEvent.tab()
       await userEvent.keyboard('{ArrowDown}')
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
-        '/mySelection': 'Bar!',
+        '/mySelection': {
+          type: 'field',
+          value: 'Bar!',
+        },
       })
     })
 
@@ -915,7 +921,10 @@ describe('variants', () => {
       )
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
-        '/mySelection': 'Foo!',
+        '/mySelection': {
+          type: 'field',
+          value: 'Foo!',
+        },
       })
 
       await userEvent.tab()
@@ -923,7 +932,10 @@ describe('variants', () => {
       await userEvent.click(document.activeElement)
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
-        '/mySelection': 'Bar!',
+        '/mySelection': {
+          type: 'field',
+          value: 'Bar!',
+        },
       })
     })
 
@@ -1326,7 +1338,10 @@ describe('variants', () => {
       )
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
-        '/mySelection': 'Foo!',
+        '/mySelection': {
+          type: 'field',
+          value: 'Foo!',
+        },
       })
 
       // Open like user would do, but without a delay
@@ -1338,7 +1353,10 @@ describe('variants', () => {
       DrawerListProvider['blurDelay'] = 201
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
-        '/mySelection': 'Bar!',
+        '/mySelection': {
+          type: 'field',
+          value: 'Bar!',
+        },
       })
     })
 
@@ -1729,7 +1747,10 @@ describe('variants', () => {
       )
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
-        '/mySelection': 'Foo!',
+        '/mySelection': {
+          type: 'field',
+          value: 'Foo!',
+        },
       })
 
       // Open like user would do, but without a delay
@@ -1741,7 +1762,10 @@ describe('variants', () => {
       DrawerListProvider['blurDelay'] = 201
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
-        '/mySelection': 'Bar!',
+        '/mySelection': {
+          type: 'field',
+          value: 'Bar!',
+        },
       })
     })
 
