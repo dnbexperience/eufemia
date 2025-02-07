@@ -1444,19 +1444,89 @@ describe('Field.String', () => {
     const input = document.querySelector('input')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myValue': '123 kr',
+      '/myValue': {
+        type: 'field',
+        value: '123 kr',
+      },
     })
 
     await userEvent.type(input, '{Backspace>2}4')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myValue': '124 kr',
+      '/myValue': {
+        type: 'field',
+        value: '124 kr',
+      },
     })
 
     await userEvent.type(input, '{Backspace>5}')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myValue': undefined,
+      '/myValue': {
+        type: 'field',
+      },
+    })
+  })
+
+  it('should transform submit data with "transformData"', async () => {
+    let transformedData = undefined
+    const onSubmit = jest.fn((data, { transformData }) => {
+      transformedData = transformData(
+        data,
+        ({ value, displayValue, label }) => {
+          return { value, displayValue, label }
+        }
+      )
+    })
+
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Field.String
+          label="String label"
+          path="/stringField"
+          defaultValue="foo"
+        />
+      </Form.Handler>
+    )
+
+    fireEvent.submit(document.querySelector('form'))
+
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(transformedData).toEqual({
+      stringField: {
+        value: 'foo',
+        label: 'String label',
+        displayValue: 'foo',
+      },
+    })
+
+    await userEvent.type(
+      document.querySelector('input'),
+      '{Backspace>3}bar'
+    )
+
+    fireEvent.submit(document.querySelector('form'))
+
+    expect(onSubmit).toHaveBeenCalledTimes(2)
+    expect(transformedData).toEqual({
+      stringField: {
+        value: 'bar',
+        label: 'String label',
+        displayValue: 'bar',
+      },
+    })
+
+    await userEvent.type(document.querySelector('input'), '{Backspace>3}')
+
+    fireEvent.submit(document.querySelector('form'))
+
+    expect(onSubmit).toHaveBeenCalledTimes(3)
+    expect(transformedData).toEqual({
+      stringField: {
+        value: undefined,
+        label: 'String label',
+        displayValue: undefined,
+      },
     })
   })
 
@@ -1487,22 +1557,39 @@ describe('Field.String', () => {
     const input = document.querySelector('input')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myArray/0/myValue': '123 kr',
-      '/myArray/1/myValue': '456 kr',
+      '/myArray/0/myValue': {
+        type: 'field',
+        value: '123 kr',
+      },
+      '/myArray/1/myValue': {
+        type: 'field',
+        value: '456 kr',
+      },
     })
 
     await userEvent.type(input, '{Backspace>2}4')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myArray/0/myValue': '124 kr',
-      '/myArray/1/myValue': '456 kr',
+      '/myArray/0/myValue': {
+        type: 'field',
+        value: '124 kr',
+      },
+      '/myArray/1/myValue': {
+        type: 'field',
+        value: '456 kr',
+      },
     })
 
     await userEvent.type(input, '{Backspace>5}')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myArray/0/myValue': undefined,
-      '/myArray/1/myValue': '456 kr',
+      '/myArray/0/myValue': {
+        type: 'field',
+      },
+      '/myArray/1/myValue': {
+        type: 'field',
+        value: '456 kr',
+      },
     })
   })
 

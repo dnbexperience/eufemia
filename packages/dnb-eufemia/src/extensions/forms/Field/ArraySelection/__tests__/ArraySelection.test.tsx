@@ -3,7 +3,7 @@ import { render, fireEvent, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 import DataContext from '../../../DataContext/Context'
-import { Field, FieldBlock, Form } from '../../..'
+import { Field, FieldBlock, Form, Iterate } from '../../..'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
@@ -366,29 +366,19 @@ describe('ArraySelection', () => {
       )
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
-        '/mySelection': undefined,
+        '/mySelection': {
+          type: 'field',
+        },
       })
 
       await userEvent.tab()
       await userEvent.keyboard('{Enter}')
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
-        '/mySelection': ['Foo!'],
-      })
-
-      await userEvent.tab()
-      await userEvent.tab()
-      await userEvent.keyboard('{Enter}')
-
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
-        '/mySelection': ['Foo!', 'Bar!'],
-      })
-
-      await userEvent.tab()
-      await userEvent.keyboard('{Enter}')
-
-      expect(dataContext.fieldDisplayValueRef.current).toEqual({
-        '/mySelection': ['Bar!'],
+        '/mySelection': {
+          type: 'field',
+          value: ['Foo!'],
+        },
       })
 
       await userEvent.tab()
@@ -396,7 +386,30 @@ describe('ArraySelection', () => {
       await userEvent.keyboard('{Enter}')
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
-        '/mySelection': undefined,
+        '/mySelection': {
+          type: 'field',
+          value: ['Foo!', 'Bar!'],
+        },
+      })
+
+      await userEvent.tab()
+      await userEvent.keyboard('{Enter}')
+
+      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        '/mySelection': {
+          type: 'field',
+          value: ['Bar!'],
+        },
+      })
+
+      await userEvent.tab()
+      await userEvent.tab()
+      await userEvent.keyboard('{Enter}')
+
+      expect(dataContext.fieldDisplayValueRef.current).toEqual({
+        '/mySelection': {
+          type: 'field',
+        },
       })
     })
 
@@ -808,29 +821,19 @@ describe('ArraySelection', () => {
         )
 
         expect(dataContext.fieldDisplayValueRef.current).toEqual({
-          '/mySelection': undefined,
+          '/mySelection': {
+            type: 'field',
+          },
         })
 
         await userEvent.tab()
         await userEvent.keyboard('{Enter}')
 
         expect(dataContext.fieldDisplayValueRef.current).toEqual({
-          '/mySelection': ['Foo!'],
-        })
-
-        await userEvent.tab()
-        await userEvent.tab()
-        await userEvent.keyboard('{Enter}')
-
-        expect(dataContext.fieldDisplayValueRef.current).toEqual({
-          '/mySelection': ['Foo!', 'Bar!'],
-        })
-
-        await userEvent.tab()
-        await userEvent.keyboard('{Enter}')
-
-        expect(dataContext.fieldDisplayValueRef.current).toEqual({
-          '/mySelection': ['Bar!'],
+          '/mySelection': {
+            type: 'field',
+            value: ['Foo!'],
+          },
         })
 
         await userEvent.tab()
@@ -838,7 +841,124 @@ describe('ArraySelection', () => {
         await userEvent.keyboard('{Enter}')
 
         expect(dataContext.fieldDisplayValueRef.current).toEqual({
-          '/mySelection': undefined,
+          '/mySelection': {
+            type: 'field',
+            value: ['Foo!', 'Bar!'],
+          },
+        })
+
+        await userEvent.tab()
+        await userEvent.keyboard('{Enter}')
+
+        expect(dataContext.fieldDisplayValueRef.current).toEqual({
+          '/mySelection': {
+            type: 'field',
+            value: ['Bar!'],
+          },
+        })
+
+        await userEvent.tab()
+        await userEvent.tab()
+        await userEvent.keyboard('{Enter}')
+
+        expect(dataContext.fieldDisplayValueRef.current).toEqual({
+          '/mySelection': {
+            type: 'field',
+          },
+        })
+      })
+
+      it('should transform submit data with "transformData" when inside Iterate', async () => {
+        let transformedData = undefined
+        const onSubmit = jest.fn((data, { transformData }) => {
+          transformedData = transformData(
+            data,
+            ({ value, displayValue, label }) => {
+              return { value, displayValue, label }
+            }
+          )
+        })
+
+        render(
+          <Form.Handler
+            onSubmit={onSubmit}
+            defaultData={{
+              accounts: [
+                {
+                  arraySelection: ['bar'],
+                },
+              ],
+            }}
+          >
+            <Iterate.Array path="/accounts">
+              <Field.ArraySelection
+                label="Foo and Bar label"
+                variant={testVariant}
+                itemPath="/arraySelection"
+                data={[
+                  {
+                    value: 'foo',
+                    title: 'Foo!',
+                  },
+                  {
+                    value: 'bar',
+                    title: 'Bar!',
+                  },
+                ]}
+              />
+            </Iterate.Array>
+          </Form.Handler>
+        )
+
+        fireEvent.submit(document.querySelector('form'))
+
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(transformedData).toEqual({
+          accounts: [
+            {
+              arraySelection: {
+                displayValue: ['Bar!'],
+                label: 'Foo and Bar label',
+                value: ['bar'],
+              },
+            },
+          ],
+        })
+
+        await userEvent.tab()
+        await userEvent.keyboard('{Enter}')
+
+        fireEvent.submit(document.querySelector('form'))
+
+        expect(onSubmit).toHaveBeenCalledTimes(2)
+        expect(transformedData).toEqual({
+          accounts: [
+            {
+              arraySelection: {
+                displayValue: ['Foo!', 'Bar!'],
+                label: 'Foo and Bar label',
+                value: ['bar', 'foo'],
+              },
+            },
+          ],
+        })
+
+        await userEvent.tab()
+        await userEvent.keyboard('{Enter}')
+
+        fireEvent.submit(document.querySelector('form'))
+
+        expect(onSubmit).toHaveBeenCalledTimes(3)
+        expect(transformedData).toEqual({
+          accounts: [
+            {
+              arraySelection: {
+                displayValue: ['Bar!'],
+                label: 'Foo and Bar label',
+                value: ['bar'],
+              },
+            },
+          ],
         })
       })
 

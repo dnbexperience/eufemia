@@ -275,7 +275,7 @@ The `onSubmit` event returns additional functions you can call:
 
 - `filterData` Filters the given/internal data set.
 - `reduceToVisibleFields` Reduces the given data set to only contain the visible fields (mounted fields).
-- `transformData` Will call the given function for each data path. The returned `value` will replace each data entry. It's up to you to define the shape of the value.
+- `transformData` Will call your given function for each `Field.*` that contains a path (not `Iterate.Array`). It's up to you to define the shape of the value.
 - `resetForm` Deletes `sessionStorage` and browser stored autocomplete data.
 - `clearData` Empties the given/internal data set.
 
@@ -323,9 +323,9 @@ const MyForm = () => {
 
 #### `transformData`
 
-The `transformData` function will call the given function for each data path. The returned `value` will replace each data entry. It's up to you to define the shape of the value.
+The `transformData` handler will call your given function for each `Field.*` that contains a path (not `Iterate.Array`). The returned value will be used instead of the given `value` and returned as a new data object. It's up to you to define the shape of the returned value.
 
-The callback function receives the following arguments as an object:
+The callback function receives the following properties in an object:
 
 - `path` The path of the field.
 - `value` The value of the field.
@@ -354,9 +354,7 @@ const MyForm = () => {
         const transformedData = transformData(
           data,
           ({ value, displayValue, label }) => {
-            if (!Array.isArray(value)) {
-              return { value, displayValue, label }
-            }
+            return { value, displayValue, label }
           },
         )
       }}

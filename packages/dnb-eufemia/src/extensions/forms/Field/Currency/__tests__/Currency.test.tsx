@@ -160,19 +160,27 @@ describe('Field.Currency', () => {
     const input = document.querySelector('input')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myValue': '123 kr',
+      '/myValue': {
+        type: 'field',
+        value: '123 kr',
+      },
     })
 
     await userEvent.type(input, '4')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myValue': '1 234 kr',
+      '/myValue': {
+        type: 'field',
+        value: '1 234 kr',
+      },
     })
 
     await userEvent.type(input, '{Backspace>5}')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myValue': undefined,
+      '/myValue': {
+        type: 'field',
+      },
     })
   })
 
