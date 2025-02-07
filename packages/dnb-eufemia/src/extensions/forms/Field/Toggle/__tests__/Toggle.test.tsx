@@ -136,14 +136,20 @@ describe('Field.Toggle', () => {
         )
 
         expect(dataContext.fieldDisplayValueRef.current).toEqual({
-          '/mySelection': 'On!',
+          '/mySelection': {
+            type: 'field',
+            value: 'On!',
+          },
         })
 
         await userEvent.tab()
         await userEvent.keyboard('{Enter}')
 
         expect(dataContext.fieldDisplayValueRef.current).toEqual({
-          '/mySelection': 'Off!',
+          '/mySelection': {
+            type: 'field',
+            value: 'Off!',
+          },
         })
       })
 

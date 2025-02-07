@@ -430,7 +430,7 @@ export default function Provider<Data extends JsonObject>(
     (
       data: Data,
       handler: TransformData | FilterData,
-      { remove = false, mutate = true } = {}
+      { remove = false, mutate = true, fireHandlerWhen = null } = {}
     ) => {
       const freshData = {} as Data
       const mutateEntry = (path: Path, result: boolean | unknown) => {
@@ -457,20 +457,23 @@ export default function Provider<Data extends JsonObject>(
             const exists = pointer.has(data, path)
             if (exists) {
               const value = pointer.get(data, path)
-              const displayValue = fieldDisplayValueRef.current[path]
+              const { value: displayValue, type } =
+                fieldDisplayValueRef.current[path] || {}
               const internal = {
                 error: fieldErrorRef.current?.[path],
               }
-              const result = handler({
-                path,
-                value,
-                displayValue,
-                label: props.label,
-                data: internalDataRef.current,
-                props,
-                internal,
-              })
-              mutateEntry(path, result)
+              if (fireHandlerWhen?.({ type }) !== false) {
+                const result = handler({
+                  path,
+                  value,
+                  displayValue,
+                  label: props.label,
+                  data: internalDataRef.current,
+                  props,
+                  internal,
+                })
+                mutateEntry(path, result)
+              }
             }
           }
         )
@@ -1149,7 +1152,10 @@ export default function Provider<Data extends JsonObject>(
     }
 
     const transformData = (data: Data, handler: TransformData) => {
-      return mutateDataHandler(data, handler, { mutate: false })
+      return mutateDataHandler(data, handler, {
+        mutate: false,
+        fireHandlerWhen: ({ type }) => type === 'field',
+      })
     }
 
     const formElement = formElementRef.current

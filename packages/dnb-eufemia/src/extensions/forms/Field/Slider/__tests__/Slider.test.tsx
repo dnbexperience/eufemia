@@ -108,14 +108,20 @@ describe('Field.Slider', () => {
       )
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
-        '/myValue': '400,00 €',
+        '/myValue': {
+          type: 'field',
+          value: '400,00 €',
+        },
       })
 
       await userEvent.keyboard('{Tab>3}')
       await userEvent.type(document.activeElement, '{ArrowRight}')
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
-        '/myValue': '401,00 €',
+        '/myValue': {
+          type: 'field',
+          value: '401,00 €',
+        },
       })
     })
 

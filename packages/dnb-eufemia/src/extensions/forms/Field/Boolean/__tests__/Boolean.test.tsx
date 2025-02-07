@@ -150,14 +150,20 @@ describe('Field.Boolean', () => {
       )
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
-        '/mySelection': 'Ja',
+        '/mySelection': {
+          type: 'field',
+          value: 'Ja',
+        },
       })
 
       await userEvent.tab()
       await userEvent.keyboard('{Enter}')
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
-        '/mySelection': 'Nei',
+        '/mySelection': {
+          type: 'field',
+          value: 'Nei',
+        },
       })
     })
 
@@ -188,16 +194,28 @@ describe('Field.Boolean', () => {
       )
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
-        '/myArray/0/mySelection': 'Ja',
-        '/myArray/1/mySelection': 'Ja',
+        '/myArray/0/mySelection': {
+          type: 'field',
+          value: 'Ja',
+        },
+        '/myArray/1/mySelection': {
+          type: 'field',
+          value: 'Ja',
+        },
       })
 
       await userEvent.tab()
       await userEvent.keyboard('{Enter}')
 
       expect(dataContext.fieldDisplayValueRef.current).toEqual({
-        '/myArray/0/mySelection': 'Nei',
-        '/myArray/1/mySelection': 'Ja',
+        '/myArray/0/mySelection': {
+          type: 'field',
+          value: 'Nei',
+        },
+        '/myArray/1/mySelection': {
+          type: 'field',
+          value: 'Ja',
+        },
       })
     })
 

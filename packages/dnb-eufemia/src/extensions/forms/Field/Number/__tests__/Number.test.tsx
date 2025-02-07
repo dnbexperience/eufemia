@@ -1235,19 +1235,27 @@ describe('Field.Number', () => {
     const input = document.querySelector('input')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myValue': '123',
+      '/myValue': {
+        type: 'field',
+        value: '123',
+      },
     })
 
     await userEvent.type(input, '{Backspace>2}4')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myValue': '14',
+      '/myValue': {
+        type: 'field',
+        value: '14',
+      },
     })
 
     await userEvent.type(input, '{Backspace>5}')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myValue': undefined,
+      '/myValue': {
+        type: 'field',
+      },
     })
   })
 
@@ -1274,22 +1282,39 @@ describe('Field.Number', () => {
     const input = document.querySelector('input')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myArray/0/myValue': '123',
-      '/myArray/1/myValue': '456',
+      '/myArray/0/myValue': {
+        type: 'field',
+        value: '123',
+      },
+      '/myArray/1/myValue': {
+        type: 'field',
+        value: '456',
+      },
     })
 
     await userEvent.type(input, '{Backspace>2}4')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myArray/0/myValue': '14',
-      '/myArray/1/myValue': '456',
+      '/myArray/0/myValue': {
+        type: 'field',
+        value: '14',
+      },
+      '/myArray/1/myValue': {
+        type: 'field',
+        value: '456',
+      },
     })
 
     await userEvent.type(input, '{Backspace>5}')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myArray/0/myValue': undefined,
-      '/myArray/1/myValue': '456',
+      '/myArray/0/myValue': {
+        type: 'field',
+      },
+      '/myArray/1/myValue': {
+        type: 'field',
+        value: '456',
+      },
     })
   })
 })

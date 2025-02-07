@@ -176,7 +176,7 @@ export interface ContextState {
     Array<(showAllErrors: boolean) => void>
   >
   fieldDisplayValueRef?: React.MutableRefObject<
-    Record<Path, React.ReactNode>
+    Record<Path, { type: 'field'; value?: React.ReactNode }>
   >
   fieldInternalsRef?: React.MutableRefObject<FieldInternalsRef>
   valueInternalsRef?: React.MutableRefObject<ValueInternalsRef>

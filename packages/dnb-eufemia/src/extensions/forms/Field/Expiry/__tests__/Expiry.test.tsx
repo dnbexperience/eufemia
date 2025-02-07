@@ -322,14 +322,20 @@ describe('Field.Expiry', () => {
     )
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myValue': '08/35',
+      '/myValue': {
+        type: 'field',
+        value: '08/35',
+      },
     })
 
     await userEvent.tab()
     await userEvent.keyboard('1236')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
-      '/myValue': '12/36',
+      '/myValue': {
+        type: 'field',
+        value: '12/36',
+      },
     })
   })
 
