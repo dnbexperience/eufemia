@@ -152,7 +152,7 @@ function DateComponent(props: DateProps) {
     },
     validateRequired,
     validateInitially,
-    onBlurValidator: dateLimitValidator,
+    onBlurValidator: props.onBlurValidator ?? dateLimitValidator,
     exportValidators: { dateLimitValidator },
   }
 
