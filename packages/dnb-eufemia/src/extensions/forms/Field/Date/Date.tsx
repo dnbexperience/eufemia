@@ -19,7 +19,6 @@ import nb from 'date-fns/locale/nb'
 import enGB from 'date-fns/locale/en-GB'
 import { convertStringToDate } from '../../../../components/date-picker/DatePickerCalc'
 import { ProviderProps } from '../../../../shared/Provider'
-import { listFormat } from '../../../../components/list-format'
 
 // `range`, `showInput`, `showCancelButton` and `showResetButton` are not picked from the `DatePickerProps`
 // Since they require `Field.Date` specific comments, due to them having different default values
@@ -114,25 +113,36 @@ function DateComponent(props: DateProps) {
     },
     []
   )
+
   const dateLimitValidator = useCallback(
     (value: string) => {
       return validateDateLimit({
-        value: value,
+        value,
         minDate: props.minDate,
         maxDate: props.maxDate,
         isRange: props.range,
         localeKey: locale,
-        translations,
+        translations: translations,
       })
     },
-    [props.minDate, props.maxDate, props.range, locale, translations]
+    [props.maxDate, props.minDate, props.range, translations, locale]
   )
+
+  const hasDateLimitAndValue = useMemo(() => {
+    return (props.minDate || props.maxDate) && props.value
+  }, [props.minDate, props.maxDate, props.value])
+
+  const validateInitially = useMemo(() => {
+    if (hasDateLimitAndValue && !props.validateInitially) {
+      return true
+    }
+    return props.validateInitially
+  }, [props.validateInitially, hasDateLimitAndValue])
 
   const preparedProps: DateProps = {
     ...props,
     errorMessages,
     schema,
-    // error,
     fromInput: ({
       date,
       start_date,
@@ -141,6 +151,7 @@ function DateComponent(props: DateProps) {
       return range ? `${start_date}|${end_date}` : date
     },
     validateRequired,
+    validateInitially,
     onBlurValidator: dateLimitValidator,
     exportValidators: { dateLimitValidator },
   }
@@ -181,9 +192,7 @@ function DateComponent(props: DateProps) {
       }
     }
 
-    const [startDate, endDate] = parseRangeValue({
-      value: valueProp,
-    })
+    const [startDate, endDate] = parseRangeValue(valueProp)
 
     return {
       date: undefined,
@@ -194,7 +203,7 @@ function DateComponent(props: DateProps) {
 
   useMemo(() => {
     if ((path || itemPath) && valueProp) {
-      setDisplayValue(formatDate(valueProp, { locale }))
+      setDisplayValue(formatDate(valueProp, { locale }), undefined)
     }
   }, [itemPath, locale, path, setDisplayValue, valueProp])
 
@@ -234,7 +243,7 @@ function DateComponent(props: DateProps) {
   )
 }
 
-function parseRangeValue({ value }: { value: DateProps['value'] }) {
+function parseRangeValue(value: DateProps['value']) {
   return (
     value
       .split('|')
@@ -262,13 +271,11 @@ function validateDateLimit({
   localeKey: ProviderProps['locale']
   translations: FormsTranslation['Date']
 }) {
-  if (!params.minDate && !params.maxDate) {
+  if ((!params.minDate && !params.maxDate) || !value) {
     return
   }
 
-  const [startDateParsed, endDateParsed] = parseRangeValue({
-    value,
-  })
+  const [startDateParsed, endDateParsed] = parseRangeValue(value)
 
   const minDate = convertStringToDate(params.minDate)
   const maxDate = convertStringToDate(params.maxDate)
@@ -301,47 +308,55 @@ function validateDateLimit({
     return
   }
 
-  const messages: Array<string> = []
+  const messages: Array<Error> = []
 
+  // Start date validation
   if (isBefore(startDate, minDate)) {
     messages.push(
-      translations.errorRangeStartDateMinDate.replace(
-        /%s/,
-        format(minDate, dateFormat, { locale })
+      new Error(
+        translations.errorRangeStartDateMinDate.replace(
+          /%s/,
+          format(minDate, dateFormat, { locale })
+        )
       )
     )
   }
 
   if (isAfter(startDate, maxDate)) {
     messages.push(
-      translations.errorRangeStartDateMaxDate.replace(
-        /%s/,
-        format(maxDate, dateFormat, { locale })
+      new Error(
+        translations.errorRangeStartDateMaxDate.replace(
+          /%s/,
+          format(maxDate, dateFormat, { locale })
+        )
       )
     )
   }
 
+  // End date validation
   if (isBefore(endDate, minDate)) {
     messages.push(
-      translations.errorRangeEndDateMinDate.replace(
-        /%s/,
-        format(minDate, dateFormat, { locale })
+      new Error(
+        translations.errorRangeEndDateMinDate.replace(
+          /%s/,
+          format(minDate, dateFormat, { locale })
+        )
       )
     )
   }
 
   if (isAfter(endDate, maxDate)) {
     messages.push(
-      translations.errorRangeEndDateMaxDate.replace(
-        /%s/,
-        format(maxDate, dateFormat, { locale })
+      new Error(
+        translations.errorRangeEndDateMaxDate.replace(
+          /%s/,
+          format(maxDate, dateFormat, { locale })
+        )
       )
     )
   }
 
-  if (messages.length > 0) {
-    return new Error(listFormat(messages, { locale: localeKey }) as string)
-  }
+  return messages
 }
 
 // Used to filter out DatePickerProps from the FieldProps.
