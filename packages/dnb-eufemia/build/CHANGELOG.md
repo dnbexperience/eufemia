@@ -3,6 +3,20 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.63.4](https://github.com/dnbexperience/eufemia/compare/v10.63.3...v10.63.4) (2025-02-07)
+
+
+### :memo: Documentation
+
+* **Flex:** clarify difference between Flex.Vertical and Flex.Stack (stretching behavior) ([#4544](https://github.com/dnbexperience/eufemia/issues/4544)) ([de9f811](https://github.com/dnbexperience/eufemia/commit/de9f8113d8ea9fd29a2ea5301163a2c85bb18425))
+* remove events tab for components who don't have it ([#4546](https://github.com/dnbexperience/eufemia/issues/4546)) ([f2feee7](https://github.com/dnbexperience/eufemia/commit/f2feee7f0e83b9c1932121a13474f83466acbcd0))
+
+
+### :bug: Bug Fixes
+
+* **Forms:** only execute `transformData` from fields with a path and not Iterate ([#4549](https://github.com/dnbexperience/eufemia/issues/4549)) ([474b881](https://github.com/dnbexperience/eufemia/commit/474b8818ce9992f82950463eb734a4bb0e772ae4)), closes [#4526](https://github.com/dnbexperience/eufemia/issues/4526)
+* **FormStatus:** ensure content given as `children` will be displayed in linked GlobalStatus ([#4547](https://github.com/dnbexperience/eufemia/issues/4547)) ([bc8f89d](https://github.com/dnbexperience/eufemia/commit/bc8f89d6fa96a448a8a67141fb51e84227a9516f))
+
 ## [10.63.3](https://github.com/dnbexperience/eufemia/compare/v10.63.2...v10.63.3) (2025-02-06)
 
 
