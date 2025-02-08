@@ -1021,7 +1021,7 @@ describe('Field.Date', () => {
     expect(input).toHaveClass('dnb-date-picker__status--error')
   })
 
-  describe('Date limit validation', () => {
+  describe('`minDate` and `maxDate` validation', () => {
     it('should display error message if `value` is before `minDate`', async () => {
       const minDate = '2025-01-01'
 
