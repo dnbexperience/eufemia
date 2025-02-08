@@ -25,11 +25,6 @@ import {
 } from '../DatePickerCalc'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import { Provider } from '../../../shared'
-import nbNO from '../../../shared/locales/nb-NO'
-import enGB from '../../../shared/locales/en-GB'
-
-const nb = nbNO['nb-NO'].DatePicker
-const en = enGB['en-GB'].DatePicker
 
 describe('DatePicker component', () => {
   it('renders with props as an object', () => {
