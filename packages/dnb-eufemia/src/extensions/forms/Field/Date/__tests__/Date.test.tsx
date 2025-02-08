@@ -1407,7 +1407,6 @@ describe('Field.Date', () => {
             value={minDate}
             minDate={minDate}
             maxDate={maxDate}
-            showInput
           />
         </Form.Handler>
       )
@@ -1563,12 +1562,16 @@ describe('Field.Date', () => {
       const maxDate = '2025-01-31'
 
       render(
-        <Field.Date
-          value="2025-01-02"
-          minDate={minDate}
-          maxDate={maxDate}
-          onBlurValidator={onBlurValidator}
-        />
+        // Setting the locale back to nb-NO, to prevent test from failing, as the above tests are in en-GB
+        // and moving this test to above tests will cause the test to fail anyway without setting the locale in this test
+        <Form.Handler locale="nb-NO">
+          <Field.Date
+            value="2025-01-02"
+            minDate={minDate}
+            maxDate={maxDate}
+            onBlurValidator={onBlurValidator}
+          />
+        </Form.Handler>
       )
 
       const [day, month]: Array<HTMLInputElement> = Array.from(
