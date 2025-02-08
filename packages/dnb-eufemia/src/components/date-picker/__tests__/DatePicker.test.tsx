@@ -2581,7 +2581,7 @@ describe('DatePicker calc', () => {
     ).toHaveTextContent('november 2024')
   })
 
-  describe('DatePicker date limit validation', () => {
+  describe('minDate and maxDate', () => {
     it('should display error message if `date` is before `minDate`', async () => {
       const minDate = '2025-01-01'
 
