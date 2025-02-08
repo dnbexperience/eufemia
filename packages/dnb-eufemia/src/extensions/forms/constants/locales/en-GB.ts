@@ -17,7 +17,7 @@ export default {
       sendText: 'Send',
     },
     SubmitIndicator: {
-      label: 'In progress',
+      label: 'Please wait',
     },
     Isolation: {
       commitButtonText: 'Add',
