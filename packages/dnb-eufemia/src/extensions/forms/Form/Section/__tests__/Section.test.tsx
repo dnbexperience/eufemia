@@ -513,7 +513,7 @@ describe('Form.Section', () => {
       expect(onChange).toHaveBeenCalledTimes(0)
 
       fireEvent.change(last, { target: { value: 'bar' } })
-      expect(onChange).toHaveBeenLastCalledWith('bar')
+      expect(onChange).toHaveBeenLastCalledWith('bar', expect.anything())
     })
 
     it('should overwrite "required"', () => {
@@ -738,7 +738,7 @@ describe('Form.Section', () => {
         expect(onChange).toHaveBeenCalledTimes(0)
 
         fireEvent.change(last, { target: { value: 'bar' } })
-        expect(onChange).toHaveBeenLastCalledWith('bar')
+        expect(onChange).toHaveBeenLastCalledWith('bar', expect.anything())
       })
 
       it('should overwrite "required"', () => {

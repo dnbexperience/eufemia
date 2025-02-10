@@ -36,32 +36,36 @@ describe('Iterate.Array', () => {
       expect(fieldThree).toHaveDisplayValue('threethree')
 
       expect(onChange).toHaveBeenCalledTimes(6)
-      expect(onChange).toHaveBeenNthCalledWith(1, ['one1', 'two', 'three'])
-      expect(onChange).toHaveBeenNthCalledWith(2, [
-        'one1',
-        'two',
-        'threet',
-      ])
-      expect(onChange).toHaveBeenNthCalledWith(3, [
-        'one1',
-        'two',
-        'threeth',
-      ])
-      expect(onChange).toHaveBeenNthCalledWith(4, [
-        'one1',
-        'two',
-        'threethr',
-      ])
-      expect(onChange).toHaveBeenNthCalledWith(5, [
-        'one1',
-        'two',
-        'threethre',
-      ])
-      expect(onChange).toHaveBeenNthCalledWith(6, [
-        'one1',
-        'two',
-        'threethree',
-      ])
+      expect(onChange).toHaveBeenNthCalledWith(
+        1,
+        ['one1', 'two', 'three'],
+        expect.anything()
+      )
+      expect(onChange).toHaveBeenNthCalledWith(
+        2,
+        ['one1', 'two', 'threet'],
+        expect.anything()
+      )
+      expect(onChange).toHaveBeenNthCalledWith(
+        3,
+        ['one1', 'two', 'threeth'],
+        expect.anything()
+      )
+      expect(onChange).toHaveBeenNthCalledWith(
+        4,
+        ['one1', 'two', 'threethr'],
+        expect.anything()
+      )
+      expect(onChange).toHaveBeenNthCalledWith(
+        5,
+        ['one1', 'two', 'threethre'],
+        expect.anything()
+      )
+      expect(onChange).toHaveBeenNthCalledWith(
+        6,
+        ['one1', 'two', 'threethree'],
+        expect.anything()
+      )
     })
 
     it('should support a function callback as the children prop', async () => {
@@ -284,16 +288,24 @@ describe('Iterate.Array', () => {
       expect(object2FieldFoo).toHaveDisplayValue('foo 2c')
 
       expect(onChange).toHaveBeenCalledTimes(2)
-      expect(onChange).toHaveBeenNthCalledWith(1, [
-        { foo: 'foo 0', bar: 'bar 0a' },
-        { foo: 'foo 1', bar: 'bar 1' },
-        { foo: 'foo 2', bar: 'bar 2' },
-      ])
-      expect(onChange).toHaveBeenNthCalledWith(2, [
-        { foo: 'foo 0', bar: 'bar 0a' },
-        { foo: 'foo 1', bar: 'bar 1' },
-        { foo: 'foo 2c', bar: 'bar 2' },
-      ])
+      expect(onChange).toHaveBeenNthCalledWith(
+        1,
+        [
+          { foo: 'foo 0', bar: 'bar 0a' },
+          { foo: 'foo 1', bar: 'bar 1' },
+          { foo: 'foo 2', bar: 'bar 2' },
+        ],
+        expect.anything()
+      )
+      expect(onChange).toHaveBeenNthCalledWith(
+        2,
+        [
+          { foo: 'foo 0', bar: 'bar 0a' },
+          { foo: 'foo 1', bar: 'bar 1' },
+          { foo: 'foo 2c', bar: 'bar 2' },
+        ],
+        expect.anything()
+      )
     })
 
     it('should render array elements defined in the root data context', () => {
@@ -1231,34 +1243,41 @@ describe('Iterate.Array', () => {
 
           expect(iterateOnChange).toHaveBeenCalledTimes(7)
 
-          expect(iterateOnChange).toHaveBeenNthCalledWith(1, [
-            'fool',
-            'bar',
-          ])
-          expect(iterateOnChange).toHaveBeenNthCalledWith(2, [
-            'fools',
-            'bar',
-          ])
-          expect(iterateOnChange).toHaveBeenNthCalledWith(3, [
-            'fools',
-            'bar ',
-          ])
-          expect(iterateOnChange).toHaveBeenNthCalledWith(4, [
-            'fools',
-            'bar c',
-          ])
-          expect(iterateOnChange).toHaveBeenNthCalledWith(5, [
-            'fools',
-            'bar co',
-          ])
-          expect(iterateOnChange).toHaveBeenNthCalledWith(6, [
-            'fools',
-            'bar cod',
-          ])
-          expect(iterateOnChange).toHaveBeenNthCalledWith(7, [
-            'fools',
-            'bar code',
-          ])
+          expect(iterateOnChange).toHaveBeenNthCalledWith(
+            1,
+            ['fool', 'bar'],
+            expect.anything()
+          )
+          expect(iterateOnChange).toHaveBeenNthCalledWith(
+            2,
+            ['fools', 'bar'],
+            expect.anything()
+          )
+          expect(iterateOnChange).toHaveBeenNthCalledWith(
+            3,
+            ['fools', 'bar '],
+            expect.anything()
+          )
+          expect(iterateOnChange).toHaveBeenNthCalledWith(
+            4,
+            ['fools', 'bar c'],
+            expect.anything()
+          )
+          expect(iterateOnChange).toHaveBeenNthCalledWith(
+            5,
+            ['fools', 'bar co'],
+            expect.anything()
+          )
+          expect(iterateOnChange).toHaveBeenNthCalledWith(
+            6,
+            ['fools', 'bar cod'],
+            expect.anything()
+          )
+          expect(iterateOnChange).toHaveBeenNthCalledWith(
+            7,
+            ['fools', 'bar code'],
+            expect.anything()
+          )
 
           expect(dataContextOnChange).toHaveBeenCalledTimes(8)
           expect(dataContextOnChange).toHaveBeenNthCalledWith(

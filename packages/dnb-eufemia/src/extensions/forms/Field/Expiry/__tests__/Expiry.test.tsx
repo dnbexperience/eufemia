@@ -101,7 +101,7 @@ describe('Field.Expiry', () => {
     await userEvent.keyboard('1235')
 
     expect(onChange).toHaveBeenCalledTimes(4)
-    expect(onChange).toHaveBeenLastCalledWith('1235')
+    expect(onChange).toHaveBeenLastCalledWith('1235', expect.anything())
   })
 
   it('should have autofill attributes', () => {

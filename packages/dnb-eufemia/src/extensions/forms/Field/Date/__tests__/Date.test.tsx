@@ -447,7 +447,7 @@ describe('Field.Date', () => {
       screen.getByLabelText('torsdag 31. oktober 2024')
     )
 
-    expect(onChange).toHaveBeenCalledWith('31/10/2024')
+    expect(onChange).toHaveBeenCalledWith('31/10/2024', expect.anything())
     expect(startDay).toHaveValue('31')
     expect(startMonth).toHaveValue('10')
     expect(startYear).toHaveValue('2024')

@@ -18,11 +18,11 @@ import {
 } from '../utils'
 import {
   FieldPropsGeneric,
-  AdditionalEventArgs,
+  ProvideAdditionalEventArgs,
   SubmitState,
   EventReturnWithStateObjectAndSuccess,
   EventStateObjectWithSuccess,
-  ValidatorAdditionalArgs,
+  ReceiveAdditionalEventArgs,
   Validator,
   Identifier,
   MessageProp,
@@ -149,7 +149,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     transformValue = (value: Value) => value,
     provideAdditionalArgs = (
       value: Value,
-      additionalArgs: AdditionalEventArgs
+      additionalArgs: ProvideAdditionalEventArgs
     ) => additionalArgs,
     fromExternal = (value: Value) => value,
     validateRequired = (value, { emptyValue, required, error }) => {
@@ -750,15 +750,19 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     [getValueByPath, setFieldEventListener]
   )
 
-  const exportValidatorsRef = useRef(exportValidators)
-  exportValidatorsRef.current = exportValidators
+  const additionalArgsRef = useRef({
+    validators: exportValidators,
+    props,
+  })
+  additionalArgsRef.current.validators = exportValidators
+  additionalArgsRef.current.props = props
   const additionalArgs = useMemo(() => {
-    const args: ValidatorAdditionalArgs<Value> = {
+    const args: ReceiveAdditionalEventArgs<Value> = {
       /** Deprecated – can be removed in v11 */
       ...combinedErrorMessages,
 
       errorMessages: combinedErrorMessages,
-      validators: exportValidatorsRef.current,
+      ...additionalArgsRef.current,
       connectWithPath: (path) => {
         return handleConnectWithPath(path)
       },
@@ -1357,7 +1361,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       eventName,
       additionalArgs,
       overrideValue = undefined,
-    }): [Value] | [Value, AdditionalEventArgs] => {
+    }): [Value] | [Value, ProvideAdditionalEventArgs] => {
       const value = transformers.current.toEvent(
         overrideValue ?? valueRef.current,
         eventName
@@ -1384,12 +1388,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     async (
       hasFocus: boolean,
       overrideValue?: Value,
-      additionalArgs?: AdditionalEventArgs
+      localAdditionalArgs?: ProvideAdditionalEventArgs
     ) => {
       const args = getEventArgs({
         eventName: hasFocus ? 'onFocus' : 'onBlur',
         overrideValue,
-        additionalArgs,
+        additionalArgs: localAdditionalArgs
+          ? { ...additionalArgs, ...localAdditionalArgs }
+          : additionalArgs,
       })
 
       if (hasFocus) {
@@ -1428,6 +1434,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     },
     [
       getEventArgs,
+      additionalArgs,
       onFocus,
       setMountedFieldStateDataContext,
       identifier,
@@ -1701,7 +1708,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const handleChange = useCallback(
     async (
       argFromInput: Value | unknown,
-      additionalArgs: AdditionalEventArgs = undefined
+      localAdditionalArgs: ProvideAdditionalEventArgs = undefined
     ) => {
       const currentValue = valueRef.current
       const fromInput = transformers.current.fromInput(argFromInput)
@@ -1728,7 +1735,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           async () => {
             const args = getEventArgs({
               eventName: 'onChange',
-              additionalArgs,
+              additionalArgs: localAdditionalArgs
+                ? { ...additionalArgs, ...localAdditionalArgs }
+                : additionalArgs,
             })
 
             await yieldAsyncProcess({
@@ -1767,7 +1776,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       } else {
         const args = getEventArgs({
           eventName: 'onChange',
-          additionalArgs,
+          additionalArgs: localAdditionalArgs
+            ? { ...additionalArgs, ...localAdditionalArgs }
+            : additionalArgs,
         })
 
         setEventResult(onChange?.apply(this, args))
@@ -1777,6 +1788,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     },
     [
       addToPool,
+      additionalArgs,
       asyncBehaviorIsEnabled,
       defineAsyncProcess,
       getEventArgs,
@@ -2470,13 +2482,13 @@ export interface ReturnAdditional<Value> {
   setHasFocus: (
     hasFocus: boolean,
     overrideValue?: Value,
-    additionalArgs?: AdditionalEventArgs
+    additionalArgs?: ProvideAdditionalEventArgs
   ) => void
   handleFocus: () => void
   handleBlur: () => void
   handleChange: (
     value: Value | unknown,
-    additionalArgs?: AdditionalEventArgs
+    additionalArgs?: ProvideAdditionalEventArgs
   ) => void
   updateValue: (value: Value) => void
   setChanged: (state: boolean) => void

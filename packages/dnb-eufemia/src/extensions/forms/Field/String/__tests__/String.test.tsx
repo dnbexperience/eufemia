@@ -227,12 +227,18 @@ describe('Field.String', () => {
       await userEvent.type(input, ' second')
       expect(input).toHaveValue('First Word Second')
 
-      expect(onChange).toHaveBeenLastCalledWith('First Word Second')
+      expect(onChange).toHaveBeenLastCalledWith(
+        'First Word Second',
+        expect.anything()
+      )
 
       await userEvent.type(input, ' WORD')
       expect(input).toHaveValue('First Word Second Word')
 
-      expect(onChange).toHaveBeenLastCalledWith('First Word Second Word')
+      expect(onChange).toHaveBeenLastCalledWith(
+        'First Word Second Word',
+        expect.anything()
+      )
 
       await userEvent.type(input, '{Backspace>22}')
       expect(input).toHaveValue('')
@@ -283,14 +289,20 @@ describe('Field.String', () => {
       expect(transformIn).toHaveBeenCalledTimes(9)
       expect(transformIn).toHaveBeenLastCalledWith('abc')
       expect(transformOut).toHaveBeenCalledTimes(13)
-      expect(transformOut).toHaveBeenLastCalledWith('ABc', undefined)
+      expect(transformOut).toHaveBeenLastCalledWith(
+        'ABc',
+        expect.anything()
+      )
       expect(onChangeProvider).toHaveBeenCalledTimes(6)
       expect(onChangeProvider).toHaveBeenLastCalledWith(
         { myField: 'abc' },
         expect.anything()
       )
       expect(onChangeField).toHaveBeenCalledTimes(6)
-      expect(onChangeField).toHaveBeenLastCalledWith('abc')
+      expect(onChangeField).toHaveBeenLastCalledWith(
+        'abc',
+        expect.anything()
+      )
 
       await userEvent.type(input, '{Backspace>3}EfG')
 
@@ -298,14 +310,20 @@ describe('Field.String', () => {
       expect(transformIn).toHaveBeenCalledTimes(16)
       expect(transformIn).toHaveBeenLastCalledWith('efg')
       expect(transformOut).toHaveBeenCalledTimes(25)
-      expect(transformOut).toHaveBeenLastCalledWith('EFG', undefined)
+      expect(transformOut).toHaveBeenLastCalledWith(
+        'EFG',
+        expect.anything()
+      )
       expect(onChangeProvider).toHaveBeenCalledTimes(12)
       expect(onChangeProvider).toHaveBeenLastCalledWith(
         { myField: 'efg' },
         expect.anything()
       )
       expect(onChangeField).toHaveBeenCalledTimes(12)
-      expect(onChangeField).toHaveBeenLastCalledWith('efg')
+      expect(onChangeField).toHaveBeenLastCalledWith(
+        'efg',
+        expect.anything()
+      )
     })
 
     it('should support "transformIn" and "transformOut"', async () => {
@@ -395,19 +413,31 @@ describe('Field.String', () => {
       expect(valueTransformIn).toHaveBeenCalledTimes(6)
 
       expect(transformOut).toHaveBeenNthCalledWith(1, 'A', undefined)
-      expect(transformOut).toHaveBeenNthCalledWith(2, 'A', undefined)
+      expect(transformOut).toHaveBeenNthCalledWith(
+        2,
+        'A',
+        expect.anything()
+      )
       expect(transformOut).toHaveBeenNthCalledWith(
         3,
         undefined,
         expect.anything()
       )
-      expect(transformOut).toHaveBeenNthCalledWith(4, undefined, undefined)
+      expect(transformOut).toHaveBeenNthCalledWith(
+        4,
+        undefined,
+        expect.anything()
+      )
       expect(transformOut).toHaveBeenNthCalledWith(
         5,
         'B',
         expect.anything()
       )
-      expect(transformOut).toHaveBeenNthCalledWith(6, 'B', undefined)
+      expect(transformOut).toHaveBeenNthCalledWith(
+        6,
+        'B',
+        expect.anything()
+      )
 
       expect(transformIn).toHaveBeenNthCalledWith(1, 'A')
       expect(transformIn).toHaveBeenNthCalledWith(2, 'A')
@@ -474,23 +504,32 @@ describe('Field.String', () => {
 
       await userEvent.type(input, ' second ')
 
-      expect(onChange).toHaveBeenLastCalledWith(' first second ')
+      expect(onChange).toHaveBeenLastCalledWith(
+        ' first second ',
+        expect.anything()
+      )
 
       fireEvent.blur(input)
 
       expect(input).toHaveValue('first second')
-      expect(onBlur).toHaveBeenLastCalledWith('first second')
-      expect(onChange).toHaveBeenLastCalledWith('first second')
+      expect(onBlur).toHaveBeenLastCalledWith(
+        'first second',
+        expect.anything()
+      )
+      expect(onChange).toHaveBeenLastCalledWith(
+        'first second',
+        expect.anything()
+      )
 
       await userEvent.type(input, '{Backspace>12}third')
 
-      expect(onChange).toHaveBeenLastCalledWith('third')
+      expect(onChange).toHaveBeenLastCalledWith('third', expect.anything())
 
       fireEvent.blur(input)
 
       expect(input).toHaveValue('third')
-      expect(onBlur).toHaveBeenLastCalledWith('third')
-      expect(onChange).toHaveBeenLastCalledWith('third')
+      expect(onBlur).toHaveBeenLastCalledWith('third', expect.anything())
+      expect(onChange).toHaveBeenLastCalledWith('third', expect.anything())
     })
 
     it('input is connected to label', () => {
@@ -663,9 +702,21 @@ describe('Field.String', () => {
       const input = document.querySelector('input')
       await userEvent.type(input, 'def')
       expect(onChange).toHaveBeenCalledTimes(3)
-      expect(onChange).toHaveBeenNthCalledWith(1, 'abcd')
-      expect(onChange).toHaveBeenNthCalledWith(2, 'abcde')
-      expect(onChange).toHaveBeenNthCalledWith(3, 'abcdef')
+      expect(onChange).toHaveBeenNthCalledWith(
+        1,
+        'abcd',
+        expect.anything()
+      )
+      expect(onChange).toHaveBeenNthCalledWith(
+        2,
+        'abcde',
+        expect.anything()
+      )
+      expect(onChange).toHaveBeenNthCalledWith(
+        3,
+        'abcdef',
+        expect.anything()
+      )
     })
 
     it('calls onFocus with current value', () => {
@@ -676,7 +727,7 @@ describe('Field.String', () => {
         input.focus()
       })
       expect(onFocus).toHaveBeenCalledTimes(1)
-      expect(onFocus).toHaveBeenNthCalledWith(1, 'blah')
+      expect(onFocus).toHaveBeenNthCalledWith(1, 'blah', expect.anything())
     })
 
     it('calls onBlur with current value', async () => {
@@ -687,11 +738,15 @@ describe('Field.String', () => {
       fireEvent.blur(input)
       await wait(0)
       expect(onBlur).toHaveBeenCalledTimes(1)
-      expect(onBlur).toHaveBeenNthCalledWith(1, 'song2')
+      expect(onBlur).toHaveBeenNthCalledWith(1, 'song2', expect.anything())
       await userEvent.type(input, '345')
       fireEvent.blur(input)
       expect(onBlur).toHaveBeenCalledTimes(2)
-      expect(onBlur).toHaveBeenNthCalledWith(2, 'song2345')
+      expect(onBlur).toHaveBeenNthCalledWith(
+        2,
+        'song2345',
+        expect.anything()
+      )
     })
 
     it('should show submit indicator on async onChange', async () => {
@@ -1324,8 +1379,16 @@ describe('Field.String', () => {
       await userEvent.type(input, 'O!')
 
       await waitFor(() => {
-        expect(inputOnChange).toHaveBeenNthCalledWith(1, 'FOOO')
-        expect(inputOnChange).toHaveBeenNthCalledWith(2, 'FOOO!')
+        expect(inputOnChange).toHaveBeenNthCalledWith(
+          1,
+          'FOOO',
+          expect.anything()
+        )
+        expect(inputOnChange).toHaveBeenNthCalledWith(
+          2,
+          'FOOO!',
+          expect.anything()
+        )
 
         expect(dataContextOnChange).toHaveBeenNthCalledWith(
           1,

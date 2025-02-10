@@ -43,7 +43,11 @@ describe('useFieldProps', () => {
       handleChange('new-value')
     })
     expect(onChange).toHaveBeenCalledTimes(1)
-    expect(onChange).toHaveBeenNthCalledWith(1, 'new-value')
+    expect(onChange).toHaveBeenNthCalledWith(
+      1,
+      'new-value',
+      expect.anything()
+    )
   })
 
   it('should update data context with initially given "value"', () => {
@@ -814,6 +818,98 @@ describe('useFieldProps', () => {
 
         expect(result.current.error).toBeUndefined()
       })
+    })
+  })
+
+  describe('onBlur', () => {
+    it('should provide "additionalArgs" to onBlur', () => {
+      const onBlur: OnChange<unknown> = jest.fn()
+
+      const { result } = renderHook(useFieldProps, {
+        initialProps: {
+          onBlur,
+          value: '',
+          foo: 'bar',
+        },
+      })
+
+      const { handleChange, handleBlur } = result.current
+
+      expect(onBlur).toHaveBeenCalledTimes(0)
+
+      act(() => {
+        handleChange('123')
+        handleBlur()
+      })
+
+      expect(onBlur).toHaveBeenCalledTimes(1)
+      expect(onBlur).toHaveBeenCalledWith(
+        '123',
+        expect.objectContaining({
+          props: expect.objectContaining({ foo: 'bar' }),
+        })
+      )
+    })
+  })
+
+  describe('onFocus', () => {
+    it('should provide "additionalArgs" to onFocus', () => {
+      const onFocus: OnChange<unknown> = jest.fn()
+
+      const { result } = renderHook(useFieldProps, {
+        initialProps: {
+          onFocus,
+          value: '',
+          foo: 'bar',
+        },
+      })
+
+      const { handleChange, handleFocus } = result.current
+
+      expect(onFocus).toHaveBeenCalledTimes(0)
+
+      act(() => {
+        handleChange('123')
+        handleFocus()
+      })
+
+      expect(onFocus).toHaveBeenCalledTimes(1)
+      expect(onFocus).toHaveBeenCalledWith(
+        '123',
+        expect.objectContaining({
+          props: expect.objectContaining({ foo: 'bar' }),
+        })
+      )
+    })
+  })
+
+  describe('with sync onChange', () => {
+    it('should provide "additionalArgs" to onChange', () => {
+      const onChange: OnChange<unknown> = jest.fn()
+
+      const { result } = renderHook(useFieldProps, {
+        initialProps: {
+          onChange,
+          value: '',
+          foo: 'bar',
+        },
+      })
+
+      const { handleChange } = result.current
+
+      expect(onChange).toHaveBeenCalledTimes(0)
+
+      act(() => {
+        handleChange('456')
+      })
+
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenCalledWith(
+        '456',
+        expect.objectContaining({
+          props: expect.objectContaining({ foo: 'bar' }),
+        })
+      )
     })
   })
 
@@ -1748,6 +1844,38 @@ describe('useFieldProps', () => {
         )
       })
     })
+
+    it('should provide "additionalArgs" to onChange', async () => {
+      const onChange: OnChange<unknown> = jest.fn(async () => {
+        return null
+      })
+
+      const { result } = renderHook(useFieldProps, {
+        initialProps: {
+          onChange,
+          value: '',
+          foo: 'bar',
+        },
+      })
+
+      const { handleChange } = result.current
+
+      expect(onChange).toHaveBeenCalledTimes(0)
+
+      act(() => {
+        handleChange('456')
+      })
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalledTimes(1)
+      })
+      expect(onChange).toHaveBeenCalledWith(
+        '456',
+        expect.objectContaining({
+          props: expect.objectContaining({ foo: 'bar' }),
+        })
+      )
+    })
   })
 
   describe('htmlAttributes', () => {
@@ -1997,7 +2125,7 @@ describe('useFieldProps', () => {
       expect(transformIn).toHaveBeenLastCalledWith(1)
       expect(transformOut).toHaveBeenCalledTimes(2)
       expect(transformOut).toHaveBeenNthCalledWith(1, 2, expect.anything())
-      expect(transformOut).toHaveBeenNthCalledWith(2, 2, undefined)
+      expect(transformOut).toHaveBeenNthCalledWith(2, 2, expect.anything())
 
       act(() => {
         handleChange(4)
@@ -2007,7 +2135,7 @@ describe('useFieldProps', () => {
       expect(transformIn).toHaveBeenLastCalledWith(1)
       expect(transformOut).toHaveBeenCalledTimes(4)
       expect(transformOut).toHaveBeenNthCalledWith(3, 4, expect.anything())
-      expect(transformOut).toHaveBeenNthCalledWith(4, 4, undefined)
+      expect(transformOut).toHaveBeenNthCalledWith(4, 4, expect.anything())
     })
 
     it('should call "transformOut" initially when path is given', () => {
@@ -2102,7 +2230,7 @@ describe('useFieldProps', () => {
       expect(transformIn).toHaveBeenLastCalledWith(1)
       expect(transformOut).toHaveBeenCalledTimes(2)
       expect(transformOut).toHaveBeenNthCalledWith(1, 3, expect.anything())
-      expect(transformOut).toHaveBeenNthCalledWith(2, 3, undefined)
+      expect(transformOut).toHaveBeenNthCalledWith(2, 3, expect.anything())
 
       act(() => {
         handleChange(4)
@@ -2112,7 +2240,7 @@ describe('useFieldProps', () => {
       expect(transformIn).toHaveBeenLastCalledWith(1)
       expect(transformOut).toHaveBeenCalledTimes(4)
       expect(transformOut).toHaveBeenNthCalledWith(3, 5, expect.anything())
-      expect(transformOut).toHaveBeenNthCalledWith(4, 5, undefined)
+      expect(transformOut).toHaveBeenNthCalledWith(4, 5, expect.anything())
     })
 
     it('should call "fromInput" and "toInput"', () => {
@@ -2187,11 +2315,11 @@ describe('useFieldProps', () => {
       expect(toEvent).toHaveBeenLastCalledWith(2, 'onBlur')
 
       expect(onChange).toHaveBeenCalledTimes(1)
-      expect(onChange).toHaveBeenLastCalledWith(3)
+      expect(onChange).toHaveBeenLastCalledWith(3, expect.anything())
       expect(onFocus).toHaveBeenCalledTimes(1)
-      expect(onFocus).toHaveBeenLastCalledWith(2)
+      expect(onFocus).toHaveBeenLastCalledWith(2, expect.anything())
       expect(onBlur).toHaveBeenCalledTimes(1)
-      expect(onBlur).toHaveBeenLastCalledWith(3)
+      expect(onBlur).toHaveBeenLastCalledWith(3, expect.anything())
 
       act(() => {
         handleFocus()
@@ -2203,11 +2331,11 @@ describe('useFieldProps', () => {
       expect(toEvent).toHaveBeenLastCalledWith(4, 'onBlur')
 
       expect(onChange).toHaveBeenCalledTimes(2)
-      expect(onChange).toHaveBeenLastCalledWith(5)
+      expect(onChange).toHaveBeenLastCalledWith(5, expect.anything())
       expect(onFocus).toHaveBeenCalledTimes(2)
-      expect(onFocus).toHaveBeenLastCalledWith(3)
+      expect(onFocus).toHaveBeenLastCalledWith(3, expect.anything())
       expect(onBlur).toHaveBeenCalledTimes(2)
-      expect(onBlur).toHaveBeenLastCalledWith(5)
+      expect(onBlur).toHaveBeenLastCalledWith(5, expect.anything())
     })
 
     it('should call "fromExternal"', () => {
@@ -2241,9 +2369,9 @@ describe('useFieldProps', () => {
       expect(fromExternal).toHaveBeenLastCalledWith(1)
 
       expect(onFocus).toHaveBeenCalledTimes(1)
-      expect(onFocus).toHaveBeenLastCalledWith(2)
+      expect(onFocus).toHaveBeenLastCalledWith(2, expect.anything())
       expect(onBlur).toHaveBeenCalledTimes(1)
-      expect(onBlur).toHaveBeenLastCalledWith(2)
+      expect(onBlur).toHaveBeenLastCalledWith(2, expect.anything())
 
       act(() => {
         handleFocus()
@@ -2255,9 +2383,9 @@ describe('useFieldProps', () => {
       expect(fromExternal).toHaveBeenLastCalledWith(1)
 
       expect(onFocus).toHaveBeenCalledTimes(2)
-      expect(onFocus).toHaveBeenLastCalledWith(2)
+      expect(onFocus).toHaveBeenLastCalledWith(2, expect.anything())
       expect(onBlur).toHaveBeenCalledTimes(2)
-      expect(onBlur).toHaveBeenLastCalledWith(4)
+      expect(onBlur).toHaveBeenLastCalledWith(4, expect.anything())
 
       expect(onChange).toHaveBeenCalledTimes(1)
     })
@@ -2435,8 +2563,8 @@ describe('useFieldProps', () => {
         updateValue('')
       })
 
-      expect(onFocus).toHaveBeenLastCalledWith('foo')
-      expect(onBlur).toHaveBeenLastCalledWith('foo')
+      expect(onFocus).toHaveBeenLastCalledWith('foo', expect.anything())
+      expect(onBlur).toHaveBeenLastCalledWith('foo', expect.anything())
 
       act(() => {
         handleFocus()
@@ -2444,8 +2572,8 @@ describe('useFieldProps', () => {
         handleBlur()
       })
 
-      expect(onFocus).toHaveBeenLastCalledWith('')
-      expect(onBlur).toHaveBeenLastCalledWith('a')
+      expect(onFocus).toHaveBeenLastCalledWith('', expect.anything())
+      expect(onBlur).toHaveBeenLastCalledWith('a', expect.anything())
 
       expect(onChange).toHaveBeenCalledTimes(0)
       expect(onFocus).toHaveBeenCalledTimes(2)
@@ -2528,8 +2656,8 @@ describe('useFieldProps', () => {
         updateValue('')
       })
 
-      expect(onFocus).toHaveBeenLastCalledWith('foo')
-      expect(onBlur).toHaveBeenLastCalledWith('foo')
+      expect(onFocus).toHaveBeenLastCalledWith('foo', expect.anything())
+      expect(onBlur).toHaveBeenLastCalledWith('foo', expect.anything())
 
       await waitFor(() => {
         expect(result.current.error).toBeInstanceOf(Error)
@@ -2545,8 +2673,8 @@ describe('useFieldProps', () => {
         expect(result.current.error).toBeUndefined()
       })
 
-      expect(onFocus).toHaveBeenLastCalledWith('')
-      expect(onBlur).toHaveBeenLastCalledWith('a')
+      expect(onFocus).toHaveBeenLastCalledWith('', expect.anything())
+      expect(onBlur).toHaveBeenLastCalledWith('a', expect.anything())
 
       expect(onChange).toHaveBeenCalledTimes(0)
       expect(onFocus).toHaveBeenCalledTimes(2)

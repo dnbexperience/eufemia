@@ -275,24 +275,27 @@ describe('Field.Upload', () => {
         expect.anything()
       )
       expect(onChangeField).toHaveBeenCalledTimes(1)
-      expect(onChangeField).toHaveBeenLastCalledWith([
-        {
-          file: file1,
-          exists: false,
-          id: expect.anything(),
-          name: 'fileName-1.png',
-        },
-        {
-          errorMessage: nbShared.Upload.errorLargeFile.replace(
-            '%size',
-            '5'
-          ),
-          file: file2,
-          exists: false,
-          id: expect.anything(),
-          name: 'fileName-2.png',
-        },
-      ])
+      expect(onChangeField).toHaveBeenLastCalledWith(
+        [
+          {
+            file: file1,
+            exists: false,
+            id: expect.anything(),
+            name: 'fileName-1.png',
+          },
+          {
+            errorMessage: nbShared.Upload.errorLargeFile.replace(
+              '%size',
+              '5'
+            ),
+            file: file2,
+            exists: false,
+            id: expect.anything(),
+            name: 'fileName-2.png',
+          },
+        ],
+        expect.anything()
+      )
 
       fireEvent.submit(document.querySelector('form'))
 
