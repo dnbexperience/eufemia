@@ -228,6 +228,8 @@ const { error, hasError } = useFieldProps({
 handleChange(value, (additionalArgs = null))
 ```
 
+When `additionalArgs` is provided, it will be passed to the `onChange`, `onFocus` or `onBlur` events as the second argument. It will be merged with the internal `additionalArgs`, which includes `props`, including all of the given properties.
+
 - `updateValue(value)` to update/change the internal value, without calling any events.
 
 - `forceUpdate()` to re-render the React Hook along with the outer component.

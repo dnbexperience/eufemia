@@ -129,12 +129,18 @@ describe('Field.Name', () => {
     await userEvent.type(input, ' second')
     expect(input).toHaveValue('First Name Second')
 
-    expect(onChange).toHaveBeenLastCalledWith('First Name Second')
+    expect(onChange).toHaveBeenLastCalledWith(
+      'First Name Second',
+      expect.anything()
+    )
 
     await userEvent.type(input, '-NAME')
     expect(input).toHaveValue('First Name Second-Name')
 
-    expect(onChange).toHaveBeenLastCalledWith('First Name Second-Name')
+    expect(onChange).toHaveBeenLastCalledWith(
+      'First Name Second-Name',
+      expect.anything()
+    )
 
     await userEvent.type(input, '{Backspace>22}')
     expect(input).toHaveValue('')

@@ -1699,7 +1699,10 @@ describe('DataContext.Provider', () => {
       })
       await waitFor(() => {
         expect(onChangeField).toHaveBeenCalled()
-        expect(onChangeField).toHaveBeenLastCalledWith('valid')
+        expect(onChangeField).toHaveBeenLastCalledWith(
+          'valid',
+          expect.anything()
+        )
       })
     })
   })
@@ -4238,7 +4241,7 @@ describe('DataContext.Provider', () => {
 
       await waitFor(() => {
         expect(onChange).toHaveBeenCalledTimes(1)
-        expect(onChange).toHaveBeenLastCalledWith(123)
+        expect(onChange).toHaveBeenLastCalledWith(123, expect.anything())
 
         expect(onChangeValidator).toHaveBeenCalledTimes(2)
         expect(onChangeValidator).toHaveBeenLastCalledWith(
