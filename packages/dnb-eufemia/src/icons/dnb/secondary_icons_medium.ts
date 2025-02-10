@@ -33,6 +33,7 @@ import building_construction_medium from './building_construction_medium'
 import building_shopping_medium from './building_shopping_medium'
 import bus_medium from './bus_medium'
 import calculator_medium from './calculator_medium'
+import calendar_add_medium from './calendar_add_medium'
 import calendar_cancel_medium from './calendar_cancel_medium'
 import camera_medium from './camera_medium'
 import camper_trailer_medium from './camper_trailer_medium'
@@ -75,6 +76,7 @@ import digipass_corporate_medium from './digipass_corporate_medium'
 import digipass_medium from './digipass_medium'
 import digipass_private_medium from './digipass_private_medium'
 import digipost_medium from './digipost_medium'
+import digitpass_private_corporate_medium from './digitpass_private_corporate_medium'
 import dismiss_keyboard_medium from './dismiss_keyboard_medium'
 import dog_medium from './dog_medium'
 import e_scooter_medium from './e_scooter_medium'
@@ -116,6 +118,7 @@ import funds_in_medium from './funds_in_medium'
 import funds_medium from './funds_medium'
 import funds_out_medium from './funds_out_medium'
 import globe_medium from './globe_medium'
+import goal_medium from './goal_medium'
 import grabber_medium from './grabber_medium'
 import graph_decrease_medium from './graph_decrease_medium'
 import graph_increase_medium from './graph_increase_medium'
@@ -141,12 +144,14 @@ import information_circled_medium from './information_circled_medium'
 import instagram_medium from './instagram_medium'
 import insurance_medium from './insurance_medium'
 import investment_account_medium from './investment_account_medium'
+import investor_medium from './investor_medium'
 import keyfigures_medium from './keyfigures_medium'
 import kid_number_medium from './kid_number_medium'
 import language_medium from './language_medium'
 import laptop_medium from './laptop_medium'
 import launch_medium from './launch_medium'
 import layout_card_medium from './layout_card_medium'
+import layout_grid_medium from './layout_grid_medium'
 import leaf_medium from './leaf_medium'
 import lightbulb_medium from './lightbulb_medium'
 import linkedin_medium from './linkedin_medium'
@@ -215,6 +220,7 @@ import share_ios_medium from './share_ios_medium'
 import shield_lock_medium from './shield_lock_medium'
 import shield_medium from './shield_medium'
 import shopping_cart_medium from './shopping_cart_medium'
+import show_pin_medium from './show_pin_medium'
 import snowmobile_medium from './snowmobile_medium'
 import sort_medium from './sort_medium'
 import speedometer_medium from './speedometer_medium'
@@ -226,6 +232,7 @@ import stopwatch_medium from './stopwatch_medium'
 import subtract_circled_medium from './subtract_circled_medium'
 import support_medium from './support_medium'
 import swap_medium from './swap_medium'
+import table_medium from './table_medium'
 import tag_medium from './tag_medium'
 import teenager_medium from './teenager_medium'
 import thumbs_down_medium from './thumbs_down_medium'
@@ -287,6 +294,7 @@ export {
   building_shopping_medium,
   bus_medium,
   calculator_medium,
+  calendar_add_medium,
   calendar_cancel_medium,
   camera_medium,
   camper_trailer_medium,
@@ -329,6 +337,7 @@ export {
   digipass_medium,
   digipass_private_medium,
   digipost_medium,
+  digitpass_private_corporate_medium,
   dismiss_keyboard_medium,
   dog_medium,
   e_scooter_medium,
@@ -370,6 +379,7 @@ export {
   funds_medium,
   funds_out_medium,
   globe_medium,
+  goal_medium,
   grabber_medium,
   graph_decrease_medium,
   graph_increase_medium,
@@ -395,12 +405,14 @@ export {
   instagram_medium,
   insurance_medium,
   investment_account_medium,
+  investor_medium,
   keyfigures_medium,
   kid_number_medium,
   language_medium,
   laptop_medium,
   launch_medium,
   layout_card_medium,
+  layout_grid_medium,
   leaf_medium,
   lightbulb_medium,
   linkedin_medium,
@@ -469,6 +481,7 @@ export {
   shield_lock_medium,
   shield_medium,
   shopping_cart_medium,
+  show_pin_medium,
   snowmobile_medium,
   sort_medium,
   speedometer_medium,
@@ -480,6 +493,7 @@ export {
   subtract_circled_medium,
   support_medium,
   swap_medium,
+  table_medium,
   tag_medium,
   teenager_medium,
   thumbs_down_medium,

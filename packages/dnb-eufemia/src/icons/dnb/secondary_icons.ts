@@ -33,6 +33,7 @@ import building_construction from './building_construction'
 import building_shopping from './building_shopping'
 import bus from './bus'
 import calculator from './calculator'
+import calendar_add from './calendar_add'
 import calendar_cancel from './calendar_cancel'
 import camera from './camera'
 import camper_trailer from './camper_trailer'
@@ -75,6 +76,7 @@ import digipass from './digipass'
 import digipass_corporate from './digipass_corporate'
 import digipass_private from './digipass_private'
 import digipost from './digipost'
+import digitpass_private_corporate from './digitpass_private_corporate'
 import dismiss_keyboard from './dismiss_keyboard'
 import dog from './dog'
 import e_scooter from './e_scooter'
@@ -116,6 +118,7 @@ import funds from './funds'
 import funds_in from './funds_in'
 import funds_out from './funds_out'
 import globe from './globe'
+import goal from './goal'
 import grabber from './grabber'
 import graph_decrease from './graph_decrease'
 import graph_increase from './graph_increase'
@@ -141,12 +144,14 @@ import information_circled from './information_circled'
 import instagram from './instagram'
 import insurance from './insurance'
 import investment_account from './investment_account'
+import investor from './investor'
 import keyfigures from './keyfigures'
 import kid_number from './kid_number'
 import language from './language'
 import laptop from './laptop'
 import launch from './launch'
 import layout_card from './layout_card'
+import layout_grid from './layout_grid'
 import leaf from './leaf'
 import lightbulb from './lightbulb'
 import linkedin from './linkedin'
@@ -215,6 +220,7 @@ import share_ios from './share_ios'
 import shield from './shield'
 import shield_lock from './shield_lock'
 import shopping_cart from './shopping_cart'
+import show_pin from './show_pin'
 import snowmobile from './snowmobile'
 import sort from './sort'
 import speedometer from './speedometer'
@@ -226,6 +232,7 @@ import stopwatch from './stopwatch'
 import subtract_circled from './subtract_circled'
 import support from './support'
 import swap from './swap'
+import table from './table'
 import tag from './tag'
 import teenager from './teenager'
 import thumbs_down from './thumbs_down'
@@ -287,6 +294,7 @@ export {
   building_shopping,
   bus,
   calculator,
+  calendar_add,
   calendar_cancel,
   camera,
   camper_trailer,
@@ -329,6 +337,7 @@ export {
   digipass_corporate,
   digipass_private,
   digipost,
+  digitpass_private_corporate,
   dismiss_keyboard,
   dog,
   e_scooter,
@@ -370,6 +379,7 @@ export {
   funds_in,
   funds_out,
   globe,
+  goal,
   grabber,
   graph_decrease,
   graph_increase,
@@ -395,12 +405,14 @@ export {
   instagram,
   insurance,
   investment_account,
+  investor,
   keyfigures,
   kid_number,
   language,
   laptop,
   launch,
   layout_card,
+  layout_grid,
   leaf,
   lightbulb,
   linkedin,
@@ -469,6 +481,7 @@ export {
   shield,
   shield_lock,
   shopping_cart,
+  show_pin,
   snowmobile,
   sort,
   speedometer,
@@ -480,6 +493,7 @@ export {
   subtract_circled,
   support,
   swap,
+  table,
   tag,
   teenager,
   thumbs_down,

@@ -616,14 +616,14 @@
     "category": "essentials"
   },
   "layout_card_medium": {
-    "tags": [],
+    "tags": ["Layout card", "content list"],
     "created": 1668066402144,
     "name": "layout_card",
     "variant": "secondary",
     "category": "essentials"
   },
   "layout_card": {
-    "tags": [],
+    "tags": ["Layout card", "content list"],
     "created": 1668066403037,
     "name": "layout_card",
     "variant": "secondary",
@@ -2316,14 +2316,18 @@
     "category": "products"
   },
   "pension_medium": {
-    "tags": ["binoculars", "pensjon"],
+    "tags": [
+      "binoculars",
+      "pensjon\n\n\nONLY USE FOR PENSION",
+      "pensjon\n\n\nOnly use for pension"
+    ],
     "created": 1668066598838,
     "name": "pension",
     "variant": "secondary",
     "category": "products"
   },
   "pension": {
-    "tags": ["binoculars", "pensjon"],
+    "tags": ["binoculars", "pensjon", "pensjon\n\n\nOnly use for pension"],
     "created": 1668066599606,
     "name": "pension",
     "variant": "secondary",
@@ -3882,5 +3886,129 @@
     "name": "laptop",
     "variant": "secondary",
     "category": "objects"
+  },
+  "goal_medium": {
+    "tags": ["Goal", "used for saving goals"],
+    "created": 1738229773467,
+    "name": "goal",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "goal": {
+    "tags": ["Goal", "used for saving goals"],
+    "created": 1738229773747,
+    "name": "goal",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "digitpass_private_corporate_medium": {
+    "tags": [
+      "document",
+      "powerpoint",
+      ".ppt",
+      "code device private",
+      "code device corporate",
+      "kodebrikke",
+      "code device",
+      "digipass",
+      "login",
+      "authentication",
+      "G03",
+      "DP250"
+    ],
+    "created": 1738229817375,
+    "name": "digitpass_private_corporate",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "digitpass_private_corporate": {
+    "tags": [
+      "document",
+      "powerpoint",
+      ".ppt",
+      "code device private",
+      "code device corporate",
+      "kodebrikke",
+      "code device",
+      "digipass",
+      "login",
+      "authentication",
+      "G03",
+      "DP250"
+    ],
+    "created": 1738229817671,
+    "name": "digitpass_private_corporate",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "calendar_add_medium": {
+    "tags": ["calendar", "date", "repeat"],
+    "created": 1738229840964,
+    "name": "calendar_add",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "calendar_add": {
+    "tags": ["calendar", "date", "repeat"],
+    "created": 1738229841237,
+    "name": "calendar_add",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "table_medium": {
+    "tags": ["Table", "grid", "module"],
+    "created": 1738229842657,
+    "name": "table",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "table": {
+    "tags": ["Table", "grid", "module"],
+    "created": 1738229842941,
+    "name": "table",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "layout_grid_medium": {
+    "tags": ["Layout card", "grid"],
+    "created": 1738229844962,
+    "name": "layout_grid",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "layout_grid": {
+    "tags": ["Layout card", "grid"],
+    "created": 1738229845253,
+    "name": "layout_grid",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "investor_medium": {
+    "tags": ["Layout card", "grid"],
+    "created": 1738229845542,
+    "name": "investor",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "investor": {
+    "tags": ["Layout card", "grid"],
+    "created": 1738229845813,
+    "name": "investor",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "show_pin_medium": {
+    "tags": ["Payment cards"],
+    "created": 1738229846103,
+    "name": "show_pin",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "show_pin": {
+    "tags": ["Payment cards"],
+    "created": 1738229846398,
+    "name": "show_pin",
+    "variant": "secondary",
+    "category": "essentials"
   }
 }
