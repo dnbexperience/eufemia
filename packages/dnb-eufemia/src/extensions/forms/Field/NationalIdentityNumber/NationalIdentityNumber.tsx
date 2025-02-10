@@ -213,5 +213,16 @@ export function createMinimumAgeValidator(age: number) {
   }
 }
 
+export function createMinimumAgeVerifier(age: number) {
+  const validator = createMinimumAgeValidator(age)
+  return (value: string) => {
+    if (value?.length >= 7) {
+      return !(validator(value) instanceof Error)
+    }
+
+    return false
+  }
+}
+
 NationalIdentityNumber._supportsSpacingProps = true
 export default NationalIdentityNumber

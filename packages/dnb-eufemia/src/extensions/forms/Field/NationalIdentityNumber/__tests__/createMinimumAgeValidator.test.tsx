@@ -7,7 +7,7 @@ import nbNO from '../../../constants/locales/nb-NO'
 
 const nb = nbNO['nb-NO']
 
-describe('Field.NationalIdentityNumber with minimumAgeValidator', () => {
+describe('createMinimumAgeValidator', () => {
   const errorMinimumAgeValidator =
     nb.NationalIdentityNumber.errorMinimumAgeValidator.replace(
       '{age}',
