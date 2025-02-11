@@ -1197,4 +1197,42 @@ describe('PushContainer', () => {
       ).toHaveClass('dnb-height-animation--is-visible')
     })
   })
+
+  describe('insertAt', () => {
+    it('should add a new entry to the beginning of the array', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Form.Handler
+          onChange={onChange}
+          defaultData={{
+            entries: ['Existing'],
+          }}
+        >
+          <Iterate.Array path="/entries">...</Iterate.Array>
+
+          <Iterate.PushContainer path="/entries" insertAt={0}>
+            <Field.String itemPath="/" />
+          </Iterate.PushContainer>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const button = document.querySelector('button')
+
+      await userEvent.type(input, 'First entry')
+
+      expect(onChange).toHaveBeenCalledTimes(0)
+
+      await userEvent.click(button)
+
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          entries: ['First entry', 'Existing'],
+        },
+        expect.anything()
+      )
+    })
+  })
 })
