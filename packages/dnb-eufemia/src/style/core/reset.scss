@@ -483,11 +483,6 @@
 @mixin resetLegacyStyles() {
   html[xmlns="http://www.w3.org/1999/xhtml"]
   {
-    // reset underline during hover
-    a:hover {
-      text-decoration: none;
-    }
-
     .dnb-anchor--active {
       color: var(--color-mint-green) !important;
     }
@@ -501,17 +496,16 @@
     }
 
     // reset lists
-    ul {
+    .dnb-ul {
       list-style: initial;
     }
 
     // reset paragraphs
-    p {
+    .dnb-p {
       overflow: initial;
       text-align: inherit;
       background-color: initial;
     }
-
     i {
       font-style: italic;
     }
@@ -525,7 +519,7 @@
     body#dnbLayoutDefault #wrapper,
     body#dnbLayoutDefaultStartPage #wrapper {
       width: 100%;
-      max-width: 60rem;
+      padding: 0;
     }
 
     // reset the main content shadow
