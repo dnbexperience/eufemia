@@ -12,6 +12,11 @@ export const PushContainerProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  insertAt: {
+    doc: 'The index to insert the new item at.',
+    type: 'number',
+    status: 'optional',
+  },
   title: {
     doc: 'The title of the container.',
     type: 'React.Node',
