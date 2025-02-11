@@ -878,7 +878,7 @@ describe('Iterate.Array', () => {
         const index = findFirstDuplication(arrayValue)
         if (index > -1) {
           const value = arrayValue[index]
-          return new Error(`You can not have duplicate items: ${value}`)
+          return new Error(`You cannot have duplicate items: ${value}`)
         }
       })
 
@@ -903,7 +903,7 @@ describe('Iterate.Array', () => {
       })
 
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        'You can not have duplicate items: foo'
+        'You cannot have duplicate items: foo'
       )
     })
   })

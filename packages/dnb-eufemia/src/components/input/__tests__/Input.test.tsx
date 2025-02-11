@@ -646,7 +646,7 @@ describe('Input with clear button', () => {
     expect(global.console.log).toHaveBeenCalledTimes(1)
     expect(global.console.log).toHaveBeenCalledWith(
       expect.stringContaining('Eufemia'),
-      `You can not have a clear button and icon_position="right"`
+      `You cannot have a clear button and icon_position="right"`
     )
   })
 

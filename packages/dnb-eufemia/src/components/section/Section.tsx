@@ -71,7 +71,7 @@ export type SectionProps = {
   breakout?: boolean | ResponsiveProp<boolean>
 
   /**
-   * Define if the Card should break out negatively on larger screens. You can not use `breakout` and `outset` together.
+   * Define if the Card should break out negatively on larger screens. You cannot use `breakout` and `outset` together.
    * Defaults to `false`
    */
   outset?: boolean | ResponsiveProp<boolean>

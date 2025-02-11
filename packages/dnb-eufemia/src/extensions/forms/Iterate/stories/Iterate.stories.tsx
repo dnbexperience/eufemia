@@ -201,7 +201,7 @@ export const InitialOpen = () => {
                 const index = findFirstDuplication(arrayValue)
                 if (count > 1 && index > -1) {
                   return new Error(
-                    'You can not have duplicate items: ' +
+                    'You cannot have duplicate items: ' +
                       getCountryNameByIso(arrayValue.at(index) as string)
                   )
                 }

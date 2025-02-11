@@ -210,7 +210,7 @@ export class Counter {
 
     if (level > 6) {
       report.push(
-        `Can not [${action}] heading level higher than 6! Got:`,
+        `Cannot [${action}] heading level higher than 6! Got:`,
         level,
         'and had before',
         this.level
@@ -218,7 +218,7 @@ export class Counter {
       level = 6
     } else if (level < 1 && this.level !== -1) {
       report.push(
-        `Can not [${action}] heading level lower than 1! Got:`,
+        `Cannot [${action}] heading level lower than 1! Got:`,
         level,
         'and had before',
         this.level
@@ -226,7 +226,7 @@ export class Counter {
       level = 1
     } else if (!this.bypassChecks && level === 1 && this.level === 1) {
       report.push(
-        `Can not set ([${action}]) heading level 1 several times! Got:`,
+        `Cannot set ([${action}]) heading level 1 several times! Got:`,
         level,
         'and had before',
         this.level
@@ -234,7 +234,7 @@ export class Counter {
       level = 2
     } else if (!this.bypassChecks && level < 2 && this.level === 2) {
       report.push(
-        'Can not decrease to heading level 1! Had before',
+        'Cannot decrease to heading level 1! Had before',
         this.level
       )
       level = this.level

@@ -12,7 +12,7 @@ export const SectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   outset: {
-    doc: 'Define if the Card should break out negatively on larger screens. You can not use `breakout` and `outset` together. Defaults to `false`.',
+    doc: 'Define if the Card should break out negatively on larger screens. You cannot use `breakout` and `outset` together. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },

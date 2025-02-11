@@ -162,7 +162,7 @@
 
   // input-button
   &--input-button#{&}--secondary:not(&--has-text):not([disabled]) {
-    // Because we can not anymore have a square, we have to trick that part
+    // Because we cannot anymore have a square, we have to trick that part
     background-color: transparent;
     box-shadow: none;
 

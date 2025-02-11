@@ -452,7 +452,7 @@ export const InitialOpenWithToolbarVariant = () => {
                       const index = findFirstDuplication(arrayValue)
                       if (index > -1) {
                         return new Error(
-                          'You can not have duplicate items: ' +
+                          'You cannot have duplicate items: ' +
                             getCountryNameByIso(
                               String(arrayValue.at(index)),
                             ),

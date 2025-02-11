@@ -253,7 +253,7 @@ export default class Input extends React.PureComponent {
       makeUniqueId() // cause we need an id anyway
 
     if (isTrue(props.clear) && props.icon_position === 'right') {
-      warn('You can not have a clear button and icon_position="right"')
+      warn('You cannot have a clear button and icon_position="right"')
     }
 
     // make sure we trigger getDerivedStateFromProps on startup

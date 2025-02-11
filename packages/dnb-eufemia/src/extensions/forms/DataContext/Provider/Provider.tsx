@@ -243,7 +243,7 @@ export default function Provider<Data extends JsonObject>(
   const { hasContext } = useContext(DataContext) || {}
 
   if (hasContext && !isolate) {
-    throw new Error('DataContext (Form.Handler) can not be nested')
+    throw new Error('DataContext (Form.Handler) cannot be nested')
   }
 
   // - Element

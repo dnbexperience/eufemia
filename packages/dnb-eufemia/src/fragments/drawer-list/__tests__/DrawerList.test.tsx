@@ -134,7 +134,7 @@ describe('DrawerList component', () => {
       })
     })
 
-    it('can not be clicked', async () => {
+    it('cannot be clicked', async () => {
       const on_change = jest.fn()
       const on_select = jest.fn()
 
