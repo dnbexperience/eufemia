@@ -120,7 +120,7 @@ export default {
       errorRangeStartDateMinDate: 'Startdato kan ikke være før %s.',
       errorRangeStartDateMaxDate: 'Startdato kan ikke være etter %s.',
       errorRangeEndDateMinDate: 'Sluttdato kan ikke være før %s.',
-      errorRangeEndDateMaxDate: 'Sluttdato må kan ikke være etter %s.',
+      errorRangeEndDateMaxDate: 'Sluttdato kan ikke være etter %s.',
     },
     Expiry: {
       label: 'Utløpsdato',
