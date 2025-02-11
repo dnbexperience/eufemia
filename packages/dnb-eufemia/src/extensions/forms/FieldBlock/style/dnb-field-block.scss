@@ -146,6 +146,11 @@ fieldset.dnb-forms-field-block {
 
   &__indicator {
     grid-area: indicator;
+
+    position: relative;
+    .dnb-forms-submit-indicator__content {
+      position: absolute;
+    }
   }
 
   &__help {
