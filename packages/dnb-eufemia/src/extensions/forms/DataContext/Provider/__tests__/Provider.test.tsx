@@ -67,7 +67,7 @@ describe('DataContext.Provider', () => {
     }
 
     expect(renderComponent).toThrow(
-      'DataContext (Form.Handler) can not be nested'
+      'DataContext (Form.Handler) cannot be nested'
     )
 
     log.mockRestore()

@@ -151,7 +151,7 @@
       --dt-max-width: 40%;
       --dd-max-width: calc(60% - 1rem); // minus margin-right and the gap
 
-      // We can not use gap: 0.5rem because of our wrapper "__item"
+      // We cannot use gap: 0.5rem because of our wrapper "__item"
       display: flex;
       flex-wrap: wrap;
       max-width: 60ch; // to enhance readability

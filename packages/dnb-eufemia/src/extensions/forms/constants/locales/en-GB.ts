@@ -78,9 +78,9 @@ export default {
      */
     StringField: {
       errorMinLength:
-        'The value can not be shorter than {minLength} characters.',
+        'The value cannot be shorter than {minLength} characters.',
       errorMaxLength:
-        'The value can not be longer than {maxLength} characters.',
+        'The value cannot be longer than {maxLength} characters.',
     },
     NumberField: {
       errorMinimum: 'The value must be at least {minimum}.',

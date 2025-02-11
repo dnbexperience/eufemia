@@ -596,7 +596,7 @@ export type EventStateObject = EventStateObjectOr &
   EventStateObjectEitherOr
 
 /**
- * Provide 'saved' to indicate the data has been saved successfully. Can not be combined with `error`.
+ * Provide 'saved' to indicate the data has been saved successfully. Cannot be combined with `error`.
  */
 export type EventStateObjectWithSuccess = EventStateObjectOr & {
   success?: EventStateObjectSuccess

@@ -878,7 +878,7 @@ describe('Dropdown component', () => {
     )
 
     // 2. close the dropdown with tab
-    keydown(9) // tab – because JSDOM does not support keyboard handling, so we can not check document.activeElement
+    keydown(9) // tab – because JSDOM does not support keyboard handling, so we cannot check document.activeElement
 
     // delay because we want to wait to have the DOM focus to be called
     await wait(1)
