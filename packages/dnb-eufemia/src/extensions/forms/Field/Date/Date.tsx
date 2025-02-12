@@ -251,7 +251,7 @@ function parseRangeValue(value: DateProps['value']) {
   )
 }
 
-const dateFnslocales = {
+const dateFnsLocales = {
   'nb-NO': nb,
   'en-GB': enGB,
 }
@@ -281,7 +281,7 @@ function validateDateLimit({
   const startDate = convertStringToDate(startDateParsed)
   const endDate = convertStringToDate(endDateParsed)
 
-  const locale = dateFnslocales[localeKey]
+  const locale = dateFnsLocales[localeKey]
   const dateFormat = 'PPP'
 
   // Handle non range validation
