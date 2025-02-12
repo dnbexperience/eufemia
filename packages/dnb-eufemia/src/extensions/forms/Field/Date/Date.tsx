@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 import { DatePicker } from '../../../../components'
 import { useFieldProps } from '../../hooks'
-import { FieldProps, AllJSONSchemaVersions } from '../../types'
+import { FieldProps, AllJSONSchemaVersions, Validator } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import classnames from 'classnames'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
@@ -19,7 +19,10 @@ import { FormError } from '../../utils'
 
 // `range`, `showInput`, `showCancelButton` and `showResetButton` are not picked from the `DatePickerProps`
 // Since they require `Field.Date` specific comments, due to them having different default values
-export type DateProps = FieldProps<string, undefined | string> & {
+export type DateProps = Omit<
+  FieldProps<string, undefined | string>,
+  'onBlurValidator'
+> & {
   // Validation
   pattern?: string
   /**
@@ -41,6 +44,7 @@ export type DateProps = FieldProps<string, undefined | string> & {
    * If set to `true`, a reset button will be shown. You can change the default text by using `reset_button_text="Tilbakestill"` Defaults to `true`.
    */
   showResetButton?: DatePickerProps['showResetButton']
+  onBlurValidator?: Validator<string> | false
 } & Pick<
     DatePickerProps,
     | 'month'
