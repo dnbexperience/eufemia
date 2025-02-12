@@ -63,12 +63,12 @@ export type CalendarDay = {
   className?: string
 }
 
-type CalendarLocales = {
+export type CalendarLocales = {
   // eslint-disable-next-line no-unused-vars
   [locale in InternalLocale]?: Pick<Locale, 'localize' | 'formatLong'>
 }
 // Easy to access objects containing the only (in our case) needed functions for date-fns format
-const locales: CalendarLocales = {
+export const locales: CalendarLocales = {
   'nb-NO': { localize: nbLocalize, formatLong: nbFormatLong },
   'en-GB': { localize: enLocalize, formatLong: gbFormatLong },
   'en-US': { localize: enLocalize, formatLong: enFormatLong },
