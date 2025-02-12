@@ -102,6 +102,11 @@ export default {
     /**
      * Feature fields
      */
+    Address: {
+      label: 'Addresse',
+      errorRequired: 'Du må fylle inn en addresse.',
+      errorPattern: 'Ugyldig addresse. Skriv inn en addresse.',
+    },
     Date: {
       label: 'Dato',
       errorRequired: 'Du må angi en gyldig dato.',

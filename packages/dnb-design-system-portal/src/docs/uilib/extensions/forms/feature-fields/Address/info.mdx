@@ -1,0 +1,20 @@
+---
+showTabs: true
+---
+
+## Description
+
+`Field.Address` is a wrapper component for the [input of strings](/uilib/extensions/forms/base-fields/String), with user experience tailored for street addresses.
+
+```jsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.Address />)
+```
+
+There is a corresponding [Value.Address](/uilib/extensions/forms/Value/Address) component.
+
+## Characteristics
+
+- If the user enters an address with a space, the space is removed.
+- `autocomplete` is set to `street-address`.
+- `inputmode` is set to `text`.
