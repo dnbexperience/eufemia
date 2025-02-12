@@ -270,17 +270,17 @@ function validateDateLimit({
   const [startDateParsed, endDateParsed] = parseRangeValue(value)
 
   const minDate = convertStringToDate(params.minDate)
-  const minDateString = params.minDate
+  const minDateISO = params.minDate
     ? typeof params.minDate === 'string'
       ? params.minDate
-      : params.minDate.toLocaleString(locale)
+      : params.minDate.toISOString()
     : undefined
 
   const maxDate = convertStringToDate(params.maxDate)
-  const maxDateString = params.maxDate
+  const maxDateISO = params.maxDate
     ? typeof params.maxDate === 'string'
       ? params.maxDate
-      : params.maxDate.toLocaleString(locale)
+      : params.maxDate.toISOString()
     : undefined
 
   const startDate = convertStringToDate(startDateParsed)
@@ -297,7 +297,7 @@ function validateDateLimit({
       return new Error(
         translations.errorMinDate.replace(
           /%s/,
-          formatDate(minDateString, options)
+          formatDate(minDateISO, options)
         )
       )
     }
@@ -306,7 +306,7 @@ function validateDateLimit({
       return new Error(
         translations.errorMaxDate.replace(
           /%s/,
-          formatDate(maxDateString, options)
+          formatDate(maxDateISO, options)
         )
       )
     }
@@ -322,7 +322,7 @@ function validateDateLimit({
       new Error(
         translations.errorRangeStartDateMinDate.replace(
           /%s/,
-          formatDate(minDateString, options)
+          formatDate(minDateISO, options)
         )
       )
     )
@@ -333,7 +333,7 @@ function validateDateLimit({
       new Error(
         translations.errorRangeStartDateMaxDate.replace(
           /%s/,
-          formatDate(maxDateString, options)
+          formatDate(maxDateISO, options)
         )
       )
     )
@@ -345,7 +345,7 @@ function validateDateLimit({
       new Error(
         translations.errorRangeEndDateMinDate.replace(
           /%s/,
-          formatDate(minDateString, options)
+          formatDate(minDateISO, options)
         )
       )
     )
@@ -356,7 +356,7 @@ function validateDateLimit({
       new Error(
         translations.errorRangeEndDateMaxDate.replace(
           /%s/,
-          formatDate(maxDateString, options)
+          formatDate(maxDateISO, options)
         )
       )
     )
