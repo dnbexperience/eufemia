@@ -980,8 +980,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         ) {
           // Because we first need to throw the error to be able to display it, we delay the showError call
           window.requestAnimationFrame(() => {
-            revealError()
-            forceUpdate()
+            if (localErrorInitiatorRef.current === 'onChangeValidator') {
+              revealError()
+              forceUpdate()
+            }
           })
         }
       }
