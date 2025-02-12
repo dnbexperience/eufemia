@@ -39,11 +39,7 @@ export function Range() {
 }
 
 const ChangeLocale = () => {
-  const {
-    setLocale,
-    // setCurrentLocale,// to update only the current context
-    locale,
-  } = React.useContext(Context)
+  const { setLocale, locale } = React.useContext(Context)
 
   return (
     <Dropdown
