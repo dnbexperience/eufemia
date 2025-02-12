@@ -6,18 +6,17 @@ import { pickSpacingProps } from '../../../../components/flex/utils'
 import classnames from 'classnames'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import SharedContext from '../../../../shared/Context'
-import { parseISO, isValid, isBefore, isAfter, format } from 'date-fns'
+import { parseISO, isValid, isBefore, isAfter } from 'date-fns'
 import useTranslation, {
   FormsTranslation,
 } from '../../hooks/useTranslation'
-import { formatDate } from '../../Value/Date'
+import { FormatDateOptions, formatDate } from '../../Value/Date'
 import {
   DatePickerEvent,
   DatePickerProps,
 } from '../../../../components/DatePicker'
 import { convertStringToDate } from '../../../../components/date-picker/DatePickerCalc'
 import { ProviderProps } from '../../../../shared/Provider'
-import { locales } from '../../../../components/date-picker/DatePickerCalendar'
 
 // `range`, `showInput`, `showCancelButton` and `showResetButton` are not picked from the `DatePickerProps`
 // Since they require `Field.Date` specific comments, due to them having different default values
@@ -117,11 +116,11 @@ function DateComponent(props: DateProps) {
     (value: string) => {
       return validateDateLimit({
         value,
+        locale,
+        translations,
         minDate: props.minDate,
         maxDate: props.maxDate,
         isRange: props.range,
-        localeKey: locale,
-        translations: translations,
       })
     },
     [props.maxDate, props.minDate, props.range, translations, locale]
@@ -253,7 +252,7 @@ function parseRangeValue(value: DateProps['value']) {
 function validateDateLimit({
   value,
   isRange,
-  localeKey,
+  locale,
   translations,
   ...params
 }: {
@@ -261,7 +260,7 @@ function validateDateLimit({
   minDate: DateProps['minDate']
   maxDate: DateProps['maxDate']
   isRange: DateProps['range']
-  localeKey: ProviderProps['locale']
+  locale: ProviderProps['locale']
   translations: FormsTranslation['Date']
 }) {
   if ((!params.minDate && !params.maxDate) || !value) {
@@ -271,12 +270,26 @@ function validateDateLimit({
   const [startDateParsed, endDateParsed] = parseRangeValue(value)
 
   const minDate = convertStringToDate(params.minDate)
+  const minDateString = params.minDate
+    ? typeof params.minDate === 'string'
+      ? params.minDate
+      : params.minDate.toLocaleString(locale)
+    : undefined
+
   const maxDate = convertStringToDate(params.maxDate)
+  const maxDateString = params.maxDate
+    ? typeof params.maxDate === 'string'
+      ? params.maxDate
+      : params.maxDate.toLocaleString(locale)
+    : undefined
+
   const startDate = convertStringToDate(startDateParsed)
   const endDate = convertStringToDate(endDateParsed)
 
-  const locale = locales[localeKey]
-  const dateFormat = 'PPP'
+  const options: FormatDateOptions = {
+    locale,
+    variant: 'long',
+  }
 
   // Handle non range validation
   if (!isRange) {
@@ -284,7 +297,7 @@ function validateDateLimit({
       return new Error(
         translations.errorMinDate.replace(
           /%s/,
-          format(minDate, dateFormat, { locale })
+          formatDate(minDateString, options)
         )
       )
     }
@@ -293,7 +306,7 @@ function validateDateLimit({
       return new Error(
         translations.errorMaxDate.replace(
           /%s/,
-          format(maxDate, dateFormat, { locale })
+          formatDate(maxDateString, options)
         )
       )
     }
@@ -309,7 +322,7 @@ function validateDateLimit({
       new Error(
         translations.errorRangeStartDateMinDate.replace(
           /%s/,
-          format(minDate, dateFormat, { locale })
+          formatDate(minDateString, options)
         )
       )
     )
@@ -320,7 +333,7 @@ function validateDateLimit({
       new Error(
         translations.errorRangeStartDateMaxDate.replace(
           /%s/,
-          format(maxDate, dateFormat, { locale })
+          formatDate(maxDateString, options)
         )
       )
     )
@@ -332,7 +345,7 @@ function validateDateLimit({
       new Error(
         translations.errorRangeEndDateMinDate.replace(
           /%s/,
-          format(minDate, dateFormat, { locale })
+          formatDate(minDateString, options)
         )
       )
     )
@@ -343,7 +356,7 @@ function validateDateLimit({
       new Error(
         translations.errorRangeEndDateMaxDate.replace(
           /%s/,
-          format(maxDate, dateFormat, { locale })
+          formatDate(maxDateString, options)
         )
       )
     )
