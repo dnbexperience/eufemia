@@ -167,12 +167,12 @@ export default {
         'You have not entered a mobile number. You can still use this number if it is correct.',
     },
     PostalCodeAndCity: {
-      label: 'Postcode and city',
+      label: 'Postal code and city',
     },
     PostalCode: {
       label: 'Postc.',
-      errorRequired: 'You must enter a postcode.',
-      errorPattern: 'This is not a valid postcode (four-digits).',
+      errorRequired: 'You must enter a postal code.',
+      errorPattern: 'This is not a valid postal code (four-digits).',
     },
     City: {
       label: 'City',
