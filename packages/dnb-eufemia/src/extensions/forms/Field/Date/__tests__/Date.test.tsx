@@ -1651,7 +1651,7 @@ describe('Field.Date', () => {
       )
     })
 
-    it('should export dateLimitValidator', async () => {
+    it('should export `dateLimitValidator`', async () => {
       const myOnBlurValidator = (value: string) => {
         if (value === '2025-01-01') {
           return new Error('My custom message')
@@ -1751,6 +1751,48 @@ describe('Field.Date', () => {
       expect(
         document.querySelector('.dnb-form-status--error')
       ).not.toBeInTheDocument()
+    })
+
+    it('should disabled `dateLimitValidator` if `onBlurValidation` is set to `false`', async () => {
+      const minDate = '2025-01-01'
+      const maxDate = '2025-01-31'
+
+      render(
+        // Setting the locale back to nb-NO, to prevent test from failing, as the above tests are in en-GB
+        // and moving this test to above tests will cause the test to fail anyway without setting the locale in this test
+        <Form.Handler>
+          <Field.Date
+            value="2025-01-01"
+            minDate={minDate}
+            maxDate={maxDate}
+            onBlurValidator={false}
+          />
+        </Form.Handler>
+      )
+
+      const [day, month]: Array<HTMLInputElement> = Array.from(
+        document.querySelectorAll('.dnb-date-picker__input')
+      )
+
+      await userEvent.click(day)
+      await userEvent.keyboard('{ArrowDown}')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+
+      // expect(screen.getByRole('alert')).not.toBeInTheDocument()
+
+      await userEvent.click(month)
+      await userEvent.keyboard('{ArrowUp>2}')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+
+      // expect(screen.getByRole('alert')).not.toBeInTheDocument()
     })
   })
 
