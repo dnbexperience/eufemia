@@ -15,10 +15,9 @@ import {
   DatePickerEvent,
   DatePickerProps,
 } from '../../../../components/DatePicker'
-import nb from 'date-fns/locale/nb'
-import enGB from 'date-fns/locale/en-GB'
 import { convertStringToDate } from '../../../../components/date-picker/DatePickerCalc'
 import { ProviderProps } from '../../../../shared/Provider'
+import { locales } from '../../../../components/date-picker/DatePickerCalendar'
 
 // `range`, `showInput`, `showCancelButton` and `showResetButton` are not picked from the `DatePickerProps`
 // Since they require `Field.Date` specific comments, due to them having different default values
@@ -251,11 +250,6 @@ function parseRangeValue(value: DateProps['value']) {
   )
 }
 
-const dateFnsLocales = {
-  'nb-NO': nb,
-  'en-GB': enGB,
-}
-
 function validateDateLimit({
   value,
   isRange,
@@ -281,7 +275,7 @@ function validateDateLimit({
   const startDate = convertStringToDate(startDateParsed)
   const endDate = convertStringToDate(endDateParsed)
 
-  const locale = dateFnsLocales[localeKey]
+  const locale = locales[localeKey]
   const dateFormat = 'PPP'
 
   // Handle non range validation
