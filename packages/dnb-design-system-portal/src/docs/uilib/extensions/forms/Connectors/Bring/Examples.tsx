@@ -36,8 +36,8 @@ export const PostalCode = () => {
           },
         })
 
-        const onChangeValidator = withConfig(
-          Connectors.Bring.postalCode.onChangeValidator,
+        const onBlurValidator = withConfig(
+          Connectors.Bring.postalCode.validator,
         )
 
         const onChange = withConfig(Connectors.Bring.postalCode.onChange, {
@@ -56,7 +56,7 @@ export const PostalCode = () => {
                 country="/country"
                 postalCode={{
                   path: '/postalCode',
-                  onChangeValidator,
+                  onBlurValidator,
                   onChange,
                   required: true,
                 }}

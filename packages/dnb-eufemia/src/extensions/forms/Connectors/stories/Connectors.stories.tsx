@@ -22,7 +22,7 @@ export function PostalCode() {
 
   // 2. Use the context to create the onChangeValidator ...
   const onChangeValidator = withConfig(
-    Connectors.Bring.postalCode.onChangeValidator
+    Connectors.Bring.postalCode.validator
   )
 
   // ... and an onChange function

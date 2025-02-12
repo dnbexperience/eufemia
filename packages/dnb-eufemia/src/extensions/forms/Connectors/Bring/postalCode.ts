@@ -98,10 +98,12 @@ export function onChange(
   }
 }
 
-export function onChangeValidator(
+export function validator(
   generalConfig: GeneralConfig
-): UseFieldProps<string>['onChangeValidator'] {
-  return async function onChangeValidatorHandler(value, additionalArgs) {
+):
+  | UseFieldProps<string>['onChangeValidator']
+  | UseFieldProps<string>['onBlurValidator'] {
+  return async function validatorHandler(value, additionalArgs) {
     if (!(typeof value === 'string' && value.length >= 4)) {
       return // stop here
     }

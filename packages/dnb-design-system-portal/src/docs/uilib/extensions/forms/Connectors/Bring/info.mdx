@@ -36,12 +36,12 @@ The Bring API for PostalCode supports the following countries:
 
 #### To verify a postal code
 
-Use the context to create the `onChangeValidator` validator.
+Use the context to create the a validator.
+
+You can use it as an `onChangeValidator` or `onBlurValidator` (recommended) validator, depending on your use case.
 
 ```tsx
-const onChangeValidator = withConfig(
-  Connectors.Bring.postalCode.onChangeValidator,
-)
+const onBlurValidator = withConfig(Connectors.Bring.postalCode.validator)
 
 function MyForm() {
   return (
@@ -49,7 +49,7 @@ function MyForm() {
       <Field.PostalCodeAndCity
         postalCode={{
           path: '/postalCode',
-          onChangeValidator,
+          onBlurValidator,
         }}
       />
     </Form.Handler>
