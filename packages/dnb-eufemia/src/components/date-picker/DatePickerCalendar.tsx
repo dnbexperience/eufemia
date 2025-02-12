@@ -63,12 +63,12 @@ export type CalendarDay = {
   className?: string
 }
 
-export type ReducedDateFnsLocales = {
+export type ReducedDateFnsLocale = {
   // eslint-disable-next-line no-unused-vars
   [locale in InternalLocale]?: Pick<Locale, 'localize' | 'formatLong'>
 }
 // Easy to access objects containing the only (in our case) needed functions for date-fns format
-export const locales: ReducedDateFnsLocales = {
+export const locales: ReducedDateFnsLocale = {
   'nb-NO': { localize: nbLocalize, formatLong: nbFormatLong },
   'en-GB': { localize: enLocalize, formatLong: gbFormatLong },
   'en-US': { localize: enLocalize, formatLong: enFormatLong },
@@ -715,7 +715,7 @@ export type CalendarButtonProps = {
   nr: number
   date: Date
   month: Date
-  locale: CalendarLocales[keyof CalendarLocales]
+  locale: ReducedDateFnsLocale[keyof ReducedDateFnsLocale]
   showButton: boolean
   onClick: ({
     nr,
