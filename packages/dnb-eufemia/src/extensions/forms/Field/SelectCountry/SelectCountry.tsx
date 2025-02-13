@@ -255,6 +255,7 @@ function SelectCountry(props: Props) {
         keep_selection
         autoComplete="country-name"
         no_animation={props.noAnimation}
+        keepSelectIndexOnDataChange
         {...htmlAttributes}
       />
     </FieldBlock>

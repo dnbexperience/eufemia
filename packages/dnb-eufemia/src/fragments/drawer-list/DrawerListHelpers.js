@@ -127,6 +127,7 @@ export const drawerListPropTypes = {
   on_resize: PropTypes.func,
   on_select: PropTypes.func,
   on_state_update: PropTypes.func,
+  keepSelectIndexOnDataChange: PropTypes.bool,
 }
 
 export const drawerListDefaultProps = {
@@ -175,6 +176,7 @@ export const drawerListDefaultProps = {
   on_select: null,
   on_state_update: null,
   options_render: null,
+  keepSelectIndexOnDataChange: false,
 }
 
 export const drawerListProviderPropTypes = {
@@ -454,17 +456,48 @@ export const prepareStartupState = (props) => {
   return state
 }
 
+function isSameData(a, b) {
+  // Compare arrays
+  if (Array.isArray(a) && Array.isArray(b)) {
+    return a.every((itemA, index) => {
+      const itemB = b[index]
+      if (itemA?.constructor === Object && itemB?.constructor === Object) {
+        return Object.keys(itemA).every(
+          (key) => key in itemB && itemA[key] === itemB[key]
+        )
+      }
+
+      return itemA === itemB
+    })
+  }
+
+  return a === b
+}
+
 export const prepareDerivedState = (props, state) => {
   if (state.opened && !state.data && typeof props.data === 'function') {
     state.data = getData(props)
   }
 
-  if (props.data && props.data !== state._data) {
+  if (props.data && !isSameData(props.data, state._data)) {
     if (state._data) {
       state.cache_hash = state.cache_hash + Date.now()
     }
     state.data = getData(props)
     state.original_data = getData(props)
+
+    // Reset selected_item and active_item on data prop change
+    if (!props?.keepSelectIndexOnDataChange) {
+      // Sets the selected_item to be the default_value if provided
+      // And -1 or null if not provided, making the active item be unselected on props.data change
+      const defaultItem =
+        props.default_value !== undefined || props.default_value !== null
+          ? getCurrentIndex(props.default_value, state.data)
+          : null
+
+      state.selected_item = defaultItem
+      state.active_item = defaultItem
+    }
   }
 
   state.usePortal =

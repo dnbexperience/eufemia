@@ -183,6 +183,10 @@ export interface DrawerListProps {
   on_resize?: (...args: any[]) => any;
   on_select?: (...args: any[]) => any;
   on_state_update?: (...args: any[]) => any;
+  /**
+   * Determines if the selection index should retain between `data` changes or not. Default: `false`
+   */
+  keepSelectIndexOnDataChange?: boolean;
 }
 export type DrawerListOptionsProps = {
   children: React.ReactNode;

@@ -406,6 +406,7 @@ function PhoneNumber(props: Props) {
             autoComplete="tel-country-code"
             no_animation={props.noAnimation}
             stretch={width === 'stretch'}
+            keepSelectIndexOnDataChange
           />
         )}
 
