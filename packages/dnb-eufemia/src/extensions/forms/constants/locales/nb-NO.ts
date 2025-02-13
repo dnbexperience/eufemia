@@ -102,6 +102,16 @@ export default {
     /**
      * Feature fields
      */
+    PostalAddress: {
+      label: 'Postadresse',
+      errorRequired: 'Du må fylle inn en postadresse.',
+      errorPattern: 'Ugyldig postadresse. Skriv inn en postadresse.',
+    },
+    StreetAddress: {
+      label: 'Gateadresse',
+      errorRequired: 'Du må fylle inn en gateaddresse.',
+      errorPattern: 'Ugyldig gateaddresse. Skriv inn en gateaddresse.',
+    },
     Date: {
       label: 'Dato',
       errorRequired: 'Du må angi en gyldig dato.',
