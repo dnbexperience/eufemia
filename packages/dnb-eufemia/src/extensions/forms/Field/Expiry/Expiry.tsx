@@ -69,7 +69,7 @@ function Expiry(props: ExpiryProps) {
 
   const expiry: ExpiryValue = useMemo(() => {
     return {
-      month: ensureValidMonth(value?.substring(0, 2)),
+      month: value?.substring(0, 2),
       year: value?.substring(2, 4) ?? '',
     }
   }, [value])
@@ -114,7 +114,7 @@ function Expiry(props: ExpiryProps) {
           {
             id: 'month',
             label: monthLabel,
-            mask: getMonthMask(expiry?.month),
+            mask: [/[0-9]/, /[0-9]/],
             placeholderCharacter: placeholders['month'],
             autoComplete: 'cc-exp-month',
             ...htmlAttributes,
@@ -138,41 +138,4 @@ export default Expiry
 
 function toExpiryString(values: ExpiryValue) {
   return Object.values(values).join('')
-}
-
-function ensureValidMonth(month: string) {
-  // Return empty value if no month is given
-  if (!month) {
-    return ''
-  }
-
-  const [firstMask, secondMask] = getMonthMask(month)
-
-  const firstDigit = month?.charAt(0)
-  const isFirstDigitValid = firstMask.test(firstDigit)
-
-  if (firstDigit && !isFirstDigitValid) {
-    // Return empty value if the first digit is invalid
-    return ''
-  }
-
-  const secondDigit = month?.charAt(1)
-  const isSecondDigitValid = secondMask.test(secondDigit)
-
-  if (secondDigit && !isSecondDigitValid) {
-    // Return empty value if the second digit is invalid
-    return ''
-  }
-
-  // Return given month of month value is valid
-  return month
-}
-
-function getMonthMask(month: string) {
-  const firstDigit = month?.charAt(0)
-
-  return [
-    /[0-1]/,
-    firstDigit === '0' || firstDigit === '' ? /[1-9]/ : /[0-2]/,
-  ]
 }
