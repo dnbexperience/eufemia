@@ -34,6 +34,7 @@ export type Props = Omit<
     path?: Path
     itemPath?: Path
     limit?: number
+    reverse?: boolean
     countPath?: Path
     countPathLimit?: number
     onChangeValidator?: Validator<Value>

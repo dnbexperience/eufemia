@@ -54,6 +54,7 @@ function ArrayComponent(props: Props) {
   const {
     path: pathProp,
     itemPath: itemPathProp,
+    reverse,
     countPath,
     countPathTransform,
     countPathLimit = Infinity,
@@ -212,7 +213,7 @@ function ArrayComponent(props: Props) {
     const limitedList =
       typeof limit === 'number' ? list.slice(0, limit) : list
 
-    return limitedList.map((value, index) => {
+    const arrayItems = limitedList.map((value, index) => {
       const id = idsRef.current[index] || makeUniqueId()
 
       const hasNewItems =
@@ -303,9 +304,24 @@ function ArrayComponent(props: Props) {
       return itemContext
     })
 
+    if (reverse) {
+      return arrayItems.reverse()
+    }
+
+    return arrayItems
+
     // In order to update "valueWhileClosingRef" we need to have "salt" in the deps array
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [salt, arrayValue, limit, path, itemPath, absolutePath, handleChange])
+  }, [
+    salt,
+    arrayValue,
+    limit,
+    path,
+    itemPath,
+    absolutePath,
+    reverse,
+    handleChange,
+  ])
 
   const total = arrayItems.length
   useEffect(() => {

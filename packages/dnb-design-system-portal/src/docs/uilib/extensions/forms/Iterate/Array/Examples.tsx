@@ -764,7 +764,7 @@ export const ViewAndEditContainerWithLineDivider = () => {
   )
 }
 
-export const Required = () => {
+export const RequiredWithPushButton = () => {
   return (
     <ComponentBox>
       <Form.Handler>
@@ -793,6 +793,73 @@ export const Required = () => {
 
         <Form.SubmitButton />
       </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const RequiredWithPushContainer = () => {
+  return (
+    <ComponentBox>
+      {() => {
+        const MyViewItem = () => {
+          return (
+            <Iterate.ViewContainer title="Account holder {itemNo}">
+              <Value.SummaryList>
+                <Value.Name.First itemPath="/firstName" />
+                <Value.Name.Last itemPath="/lastName" />
+              </Value.SummaryList>
+            </Iterate.ViewContainer>
+          )
+        }
+
+        const MyEditItem = () => {
+          return (
+            <Iterate.EditContainer
+              title="Edit account holder {itemNo}"
+              titleWhenNew="New account holder {itemNo}"
+            >
+              <MyEditItemContent />
+            </Iterate.EditContainer>
+          )
+        }
+
+        const MyEditItemContent = () => {
+          return (
+            <Field.Composition width="large">
+              <Field.Name.First itemPath="/firstName" required />
+              <Field.Name.Last itemPath="/lastName" required />
+            </Field.Composition>
+          )
+        }
+
+        return (
+          <Form.Handler>
+            <Form.Card>
+              <Iterate.PushContainer
+                path="/myListOfPeople"
+                title="New account holder"
+              >
+                <MyEditItemContent />
+              </Iterate.PushContainer>
+
+              <Iterate.Array
+                path="/myListOfPeople"
+                reverse
+                animate
+                required
+                errorMessages={{
+                  'Field.errorRequired': 'Custom message',
+                }}
+              >
+                <MyViewItem />
+                <MyEditItem />
+              </Iterate.Array>
+            </Form.Card>
+
+            <Form.SubmitButton />
+          </Form.Handler>
+        )
+      }}
     </ComponentBox>
   )
 }

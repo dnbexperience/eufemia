@@ -27,6 +27,11 @@ export const ArrayProperties: PropertiesTableProps = {
     type: 'number',
     status: 'optional',
   },
+  reverse: {
+    doc: 'When `true` it will reverse the order of the items.',
+    type: 'boolean',
+    status: 'optional',
+  },
   countPath: {
     doc: 'A path (JSON Pointer) to the array length.',
     type: 'string',

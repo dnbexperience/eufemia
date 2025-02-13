@@ -2336,4 +2336,42 @@ describe('Iterate.Array', () => {
       expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(0)
     })
   })
+
+  describe('reverse', () => {
+    it('should reverse the order of the items', () => {
+      render(
+        <Iterate.Array value={['foo', 'bar', 'baz']} reverse>
+          <Value.String itemPath="/" label="Label {itemNo}" />
+        </Iterate.Array>
+      )
+
+      expect(
+        document.querySelectorAll('.dnb-forms-iterate__element')
+      ).toHaveLength(3)
+      expect(
+        document.querySelectorAll(
+          '.dnb-forms-iterate__element .dnb-forms-value-block__content'
+        )[0]
+      ).toHaveTextContent('baz')
+      expect(
+        document.querySelectorAll(
+          '.dnb-forms-iterate__element .dnb-forms-value-block__content'
+        )[1]
+      ).toHaveTextContent('bar')
+      expect(
+        document.querySelectorAll(
+          '.dnb-forms-iterate__element .dnb-forms-value-block__content'
+        )[2]
+      ).toHaveTextContent('foo')
+      expect(
+        document.querySelectorAll('.dnb-form-label')[0]
+      ).toHaveTextContent('Label 3')
+      expect(
+        document.querySelectorAll('.dnb-form-label')[1]
+      ).toHaveTextContent('Label 2')
+      expect(
+        document.querySelectorAll('.dnb-form-label')[2]
+      ).toHaveTextContent('Label 1')
+    })
+  })
 })
