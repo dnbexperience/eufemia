@@ -197,7 +197,7 @@ export const NonNorwegianPostalCode = () => {
           },
           'en-GB': {
             'PostalCode.errorPattern':
-              'This is not a valid postcode (five-digits).',
+              'This is not a valid postal code (five-digits).',
           },
         }}
       >

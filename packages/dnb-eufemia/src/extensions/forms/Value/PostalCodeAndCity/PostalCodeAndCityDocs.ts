@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../../../shared/types'
 
 export const PostalCodeAndCityProperties: PropertiesTableProps = {
   postalCode: {
-    doc: 'Properties such as `value` and `path` for the [Value.String](/uilib/extensions/forms/Value/String) component for postcode.',
+    doc: 'Properties such as `value` and `path` for the [Value.String](/uilib/extensions/forms/Value/String) component for postal code.',
     type: 'object',
     status: 'optional',
   },
