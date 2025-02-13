@@ -4263,6 +4263,45 @@ describe('useFieldProps', () => {
         expect(result.current.fieldState).toBeUndefined()
         expect(result.current.error).toBeUndefined()
       })
+
+      it('should not show error when onChangeValidator has no error, but schema has', async () => {
+        const original = window.requestAnimationFrame
+        window.requestAnimationFrame = jest.fn((callback) => {
+          return setTimeout(callback, 0)
+        })
+
+        const onChangeValidator = jest.fn(async (value) => {
+          if (value === '1234') {
+            return new Error('onChangeValidator error')
+          }
+        })
+        const schema: JSONSchema = {
+          type: 'string',
+          pattern: '^[0-9]{4}$',
+        }
+
+        render(
+          <Field.String
+            schema={schema}
+            onChangeValidator={onChangeValidator}
+          />
+        )
+
+        const input = document.querySelector('input')
+        await userEvent.type(input, '1{Backspace}1')
+
+        expect(window.requestAnimationFrame).toHaveBeenCalledTimes(1)
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+
+        await userEvent.type(input, '234')
+
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
+        expect(screen.queryByRole('alert')).toHaveTextContent(
+          'onChangeValidator error'
+        )
+
+        window.requestAnimationFrame = original
+      })
     })
 
     describe('validateInitially', () => {
