@@ -7,6 +7,10 @@ import { getMockData, unsupportedCountry } from '../postalCode'
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
+beforeEach(() => {
+  globalThis.fetch = createFetchMock()
+})
+
 describe('postalCode', () => {
   const { withConfig } = Connectors.createContext({
     fetchConfig: {
@@ -54,6 +58,105 @@ describe('postalCode', () => {
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
         nb.PostalCodeAndCity.invalidCode
       )
+    })
+
+    it('should not show 400 status code error while typing', async () => {
+      globalThis.fetch = createFetchMock({
+        status: 400,
+      })
+
+      render(
+        <Form.Handler>
+          <Field.PostalCodeAndCity
+            // Use SE ini order to call "fetch" twice.
+            country="SE"
+            postalCode={{
+              path: '/postalCode',
+              onChangeValidator,
+            }}
+          />
+        </Form.Handler>
+      )
+
+      const postalCodeInput = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+      )
+
+      await userEvent.type(postalCodeInput, '0000')
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
+
+      // Without default status
+      globalThis.fetch = createFetchMock()
+
+      await userEvent.type(postalCodeInput, '0')
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(nb.PostalCodeAndCity.invalidCode)
+      })
+    })
+
+    it('should use AbortController to cancel request while typing', async () => {
+      const mockAbort = jest.fn()
+
+      const mockSignal = {
+        aborted: false,
+        onabort: null,
+        reason: undefined,
+        throwIfAborted: jest.fn(),
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+        dispatchEvent: jest.fn(),
+      }
+
+      globalThis.AbortController = jest.fn(() => ({
+        signal: mockSignal,
+        abort: mockAbort,
+      }))
+
+      // With delay so we can abort
+      globalThis.fetch = createFetchMock(null, async () => {
+        await new Promise((resolve) => setTimeout(resolve, 10))
+      })
+
+      render(
+        <Form.Handler>
+          <Field.PostalCodeAndCity
+            // Use SE ini order to call "fetch" twice.
+            country="SE"
+            postalCode={{
+              path: '/postalCode',
+              onChangeValidator,
+            }}
+          />
+        </Form.Handler>
+      )
+
+      const postalCodeInput = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+      )
+
+      await userEvent.type(postalCodeInput, '00000')
+
+      expect(mockAbort).toHaveBeenCalledTimes(1)
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(nb.PostalCodeAndCity.invalidCode)
+      })
     })
 
     it('should prevent submit when postal code is not valid', async () => {
@@ -643,34 +746,38 @@ describe('postalCode', () => {
   })
 })
 
-globalThis.fetch = jest.fn(() => {
-  return Promise.resolve({
-    ok: true,
-    status: 200,
-    statusText: 'OK',
-    type: 'basic',
-    url: '',
-    headers: new Headers(),
-    body: null,
-    bodyUsed: false,
-    redirected: false,
-    clone: () => {
-      return this
-    },
-    arrayBuffer: async () => {
-      return new ArrayBuffer(0)
-    },
-    blob: async () => {
-      return new Blob()
-    },
-    formData: async () => {
-      return new FormData()
-    },
-    text: () => {
-      return Promise.resolve(JSON.stringify(getMockData()))
-    },
-    json: () => {
-      return Promise.resolve(getMockData())
-    },
+function createFetchMock(overwrite = null, delay = null) {
+  return jest.fn(async () => {
+    await delay?.()
+    return Promise.resolve({
+      ok: true,
+      status: 200,
+      statusText: 'OK',
+      type: 'basic',
+      url: '',
+      headers: new Headers(),
+      body: null,
+      bodyUsed: false,
+      redirected: false,
+      clone: () => {
+        return this
+      },
+      arrayBuffer: async () => {
+        return new ArrayBuffer(0)
+      },
+      blob: async () => {
+        return new Blob()
+      },
+      formData: async () => {
+        return new FormData()
+      },
+      text: () => {
+        return Promise.resolve(JSON.stringify(getMockData()))
+      },
+      json: () => {
+        return Promise.resolve(getMockData())
+      },
+      ...overwrite,
+    })
   })
-})
+}

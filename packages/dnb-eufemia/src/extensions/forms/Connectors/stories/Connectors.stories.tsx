@@ -32,7 +32,7 @@ export function PostalCode() {
 
   return (
     <Form.Handler
-      // defaultData={{ postalCode: '0000', city: 'Oslo' }}
+      // defaultData={{ postalCode: '144', city: '' }}
       onSubmit={async (data) => {
         await new Promise((resolve) => setTimeout(resolve, 3000))
         console.log('onSubmit', data)
@@ -41,7 +41,8 @@ export function PostalCode() {
       <Form.Card>
         <Field.SelectCountry
           path="/country"
-          defaultValue="NO"
+          // defaultValue="NO"
+          defaultValue="SE"
           filterCountries={({ iso }) => supportedCountries.includes(iso)}
         />
         <Field.PostalCodeAndCity
@@ -50,9 +51,11 @@ export function PostalCode() {
             path: '/postalCode',
             onChangeValidator,
             onChange,
+            required: true,
           }}
           city={{
             path: '/city',
+            required: true,
           }}
         />
       </Form.Card>

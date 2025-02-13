@@ -4,6 +4,7 @@ import type {
 } from '../../types'
 import { FormError } from '../../utils'
 import {
+  FetchDataFromAPIOptions,
   GeneralConfig,
   UrlSecondParameter,
   fetchDataFromAPI,
@@ -34,28 +35,47 @@ export const unsupportedCountry =
 async function fetchData(
   value: string,
   generalConfig: GeneralConfig,
-  parameters?: UrlSecondParameter
+  parameters?: UrlSecondParameter,
+  options?: FetchDataFromAPIOptions
 ) {
   if (!value) {
     return { postal_codes: [] }
   }
 
-  const u = generalConfig.fetchConfig.url
-  const url = typeof u === 'function' ? await u(value, parameters) : u
+  try {
+    const u = generalConfig.fetchConfig.url
+    const url = typeof u === 'function' ? await u(value, parameters) : u
 
-  return await fetchDataFromAPI({
-    ...generalConfig,
-    fetchConfig: {
-      ...generalConfig.fetchConfig,
-      url,
-    },
-  })
+    const { data, response } = await fetchDataFromAPI(
+      {
+        ...generalConfig,
+        fetchConfig: {
+          ...generalConfig.fetchConfig,
+          url,
+        },
+      },
+      options
+    )
+
+    // Check if the response status is in the range of 200-299
+    if (!response.ok) {
+      throw new Error(
+        `${response.statusText} – Status: ${response.status}`
+      )
+    }
+
+    return { data, status: response.status }
+  } catch (error) {
+    return error
+  }
 }
 
 export function onChange(
   generalConfig: GeneralConfig,
   handlerConfig?: HandlerConfig
 ): UseFieldProps<string>['onChange'] {
+  const abortControllerRef = { current: null }
+
   return async function onChangeHandler(value, additionalArgs) {
     if (!(typeof value === 'string' && value.length >= 4)) {
       return // stop here
@@ -73,11 +93,16 @@ export function onChange(
     }
 
     try {
-      const data = await fetchData(value, generalConfig, {
-        country: String(country).toLowerCase(),
-      })
+      const { data } = await fetchData(
+        value,
+        generalConfig,
+        {
+          country: String(country).toLowerCase(),
+        },
+        { abortControllerRef }
+      )
 
-      const { postal_code, city } = data?.postal_codes[0] || {}
+      const { postal_code, city } = data?.postal_codes?.[0] || {}
       if (postal_code === value) {
         const path = handlerConfig?.cityPath
         if (path) {
@@ -103,6 +128,8 @@ export function validator(
 ):
   | UseFieldProps<string>['onChangeValidator']
   | UseFieldProps<string>['onBlurValidator'] {
+  const abortControllerRef = { current: null }
+
   return async function validatorHandler(value, additionalArgs) {
     if (!(typeof value === 'string' && value.length >= 4)) {
       return // stop here
@@ -115,11 +142,19 @@ export function validator(
     }
 
     try {
-      const data = await fetchData(value, generalConfig, {
-        country: String(country).toLowerCase(),
-      })
+      const { data, status } = await fetchData(
+        value,
+        generalConfig,
+        {
+          country: String(country).toLowerCase(),
+        },
+        { abortControllerRef }
+      )
 
-      if (data?.postal_codes?.[0]?.postal_code !== value) {
+      if (
+        status !== 400 &&
+        data?.postal_codes?.[0]?.postal_code !== value
+      ) {
         return new FormError('PostalCodeAndCity.invalidCode')
       }
     } catch (error) {

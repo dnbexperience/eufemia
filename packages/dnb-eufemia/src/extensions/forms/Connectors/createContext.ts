@@ -31,35 +31,51 @@ export function createContext<GeneralConfigGeneric = GeneralConfig>(
   }
 }
 
+export type FetchDataFromAPIOptions = {
+  abortControllerRef?: { current: null | AbortController }
+}
+
 export async function fetchDataFromAPI(
-  generalConfig: GeneralConfig & { fetchConfig: { url: string } }
+  generalConfig: GeneralConfig & { fetchConfig: { url: string } },
+  options?: FetchDataFromAPIOptions
 ) {
   const { fetchConfig } = generalConfig
 
-  const options = {
+  const controller = options?.abortControllerRef
+  if (controller) {
+    if (controller.current) {
+      controller.current.abort()
+      controller.current = null
+    }
+    if (!controller.current) {
+      controller.current = new AbortController()
+    }
+  }
+  const { signal } = controller?.current || {}
+
+  const fetchOptions = {
     method: 'GET',
     headers: {
       Accept: 'application/json',
       ...fetchConfig.headers,
     },
+    signal,
   }
 
   try {
-    const response = await fetch(fetchConfig.url, options)
+    const response = await fetch(fetchConfig.url, fetchOptions)
 
-    if (response.status === 400) {
-      return // silently ignore to not show an error while typing
+    if (controller) {
+      controller.current = null
     }
 
-    // Check if the response status is in the range of 200-299
-    if (!response.ok) {
-      throw new Error(
-        `${response.statusText} – Status: ${response.status}`
-      )
+    return {
+      response,
+      data: await response.json(),
     }
-
-    return await response.json()
   } catch (error) {
-    throw new Error(error)
+    if (error.name !== 'AbortError') {
+      return error
+    }
   }
 }
