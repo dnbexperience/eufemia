@@ -64,7 +64,7 @@ Name.Last = function LastName(props: Props) {
 
   return <Name {...nameProps} />
 }
-Name.First['_supportsSpacingProps'] = true
+Name.Last['_supportsSpacingProps'] = true
 
 Name.Company = function CompanyName(props: Props) {
   const translations = useTranslation().CompanyName
@@ -86,6 +86,6 @@ Name.Company = function CompanyName(props: Props) {
 
   return <Name {...StringFieldProps} />
 }
-Name.First['_supportsSpacingProps'] = true
+Name.Company['_supportsSpacingProps'] = true
 
 export default Name
