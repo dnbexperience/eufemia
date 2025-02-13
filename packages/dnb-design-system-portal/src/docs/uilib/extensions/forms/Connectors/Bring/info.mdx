@@ -20,7 +20,7 @@ import { Connectors, Field, Form } from '@dnb/eufemia/extensions/forms'
 const { withConfig } = Connectors.createContext({
   fetchConfig: {
     url: (value, { country }) => {
-      return `[YOUR-API-URL]/${value}`
+      return `[YOUR-API-URL]/.../${country}/.../${value}`
     },
   },
 })
@@ -28,7 +28,15 @@ const { withConfig } = Connectors.createContext({
 
 `[YOUR-API-URL]` is the URL of your own API endpoint that proxies the Bring [Postal Code API](https://developer.bring.com/api/postal-code/) with a token.
 
-Ensure you use the `/postal-codes` endpoint from Bring via your proxy API, returning a list of postal codes in the following format:
+### Supported countries
+
+The Bring API for PostalCode supports the [following countries](https://developer.bring.com/api/postal-code/#supported-countries):
+
+{supportedCountries.join(', ')}
+
+### Endpoints and response format
+
+Ensure you use one of the [following endpoints](https://developer.bring.com/api/postal-code/#endpoints) from Bring via your proxy API, returning a list of postal codes in the following format:
 
 ```json
 {
@@ -42,13 +50,7 @@ Ensure you use the `/postal-codes` endpoint from Bring via your proxy API, retur
 }
 ```
 
-### Supported countries
-
-The Bring API for PostalCode supports the following countries:
-
-{supportedCountries.join(', ')}
-
-#### To verify a postal code
+### To verify a postal code
 
 Use the context to create a validator.
 
@@ -71,7 +73,7 @@ function MyForm() {
 }
 ```
 
-#### To autocomplete a city name
+### To autocomplete a city name based on a postal code
 
 Use the context to create the `onChange` event handler.
 

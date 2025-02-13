@@ -15,3 +15,40 @@ Current connectors:
 ```tsx
 import { Connectors } from '@dnb/eufemia/extensions/forms'
 ```
+
+## How to create a connector
+
+Connectors are created by returning a function that takes the `generalConfig` as an argument.
+
+Here is an example of how to create a validator:
+
+```tsx
+export function validator(generalConfig: GeneralConfig) {
+  // - The handler to be used as a validator
+  return async function validatorHandler(value, additionalArgs) {
+    try {
+      const { data, status } = await fetchData(value, {
+        generalConfig,
+      })
+
+      // - The logic of the validator
+      if (status !== 400 && data?.API_RESULT !== value) {
+        return new Error('Your error message')
+      }
+    } catch (error) {
+      return error
+    }
+  }
+}
+```
+
+Here is the `GeneralConfig` type simplified:
+
+```ts
+type GeneralConfig = {
+  fetchConfig?: {
+    url: string | ((value: string) => string | Promise<string>)
+    headers?: HeadersInit
+  }
+}
+```

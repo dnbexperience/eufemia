@@ -1,13 +1,10 @@
-import type {
-  ReceiveAdditionalEventArgs,
-  UseFieldProps,
-} from '../../types'
+import type { UseFieldProps } from '../../types'
 import { FormError } from '../../utils'
 import {
-  FetchDataFromAPIOptions,
   GeneralConfig,
-  UrlSecondParameter,
-  fetchDataFromAPI,
+  fetchData,
+  getCountryValue,
+  handleCountryPath,
 } from '../createContext'
 
 export const supportedCountries = [
@@ -32,44 +29,6 @@ export type HandlerConfig = {
 export const unsupportedCountry =
   'Postal code verification is not supported for {country}.'
 
-async function fetchData(
-  value: string,
-  generalConfig: GeneralConfig,
-  parameters?: UrlSecondParameter,
-  options?: FetchDataFromAPIOptions
-) {
-  if (!value) {
-    return { postal_codes: [] }
-  }
-
-  try {
-    const u = generalConfig.fetchConfig.url
-    const url = typeof u === 'function' ? await u(value, parameters) : u
-
-    const { data, response } = await fetchDataFromAPI(
-      {
-        ...generalConfig,
-        fetchConfig: {
-          ...generalConfig.fetchConfig,
-          url,
-        },
-      },
-      options
-    )
-
-    // Check if the response status is in the range of 200-299
-    if (!response.ok) {
-      throw new Error(
-        `${response.statusText} – Status: ${response.status}`
-      )
-    }
-
-    return { data, status: response.status }
-  } catch (error) {
-    return error
-  }
-}
-
 export function onChange(
   generalConfig: GeneralConfig,
   handlerConfig?: HandlerConfig
@@ -84,7 +43,6 @@ export function onChange(
     const { country } = handleCountryPath({
       value,
       additionalArgs,
-      handlerId: 'onChangeHandler',
       handler: onChangeHandler,
     })
 
@@ -93,14 +51,19 @@ export function onChange(
     }
 
     try {
-      const { data } = await fetchData(
-        value,
+      const parameters = {
+        country: String(country).toLowerCase(),
+      }
+      const { data } = await fetchData(value, {
         generalConfig,
-        {
-          country: String(country).toLowerCase(),
+        parameters,
+        abortControllerRef,
+        returnResult: () => {
+          if (!value) {
+            return { postal_codes: [] }
+          }
         },
-        { abortControllerRef }
-      )
+      })
 
       const { postal_code, city } = data?.postal_codes?.[0] || {}
       if (postal_code === value) {
@@ -142,14 +105,19 @@ export function validator(
     }
 
     try {
-      const { data, status } = await fetchData(
-        value,
+      const parameters = {
+        country: String(country).toLowerCase(),
+      }
+      const { data, status } = await fetchData(value, {
         generalConfig,
-        {
-          country: String(country).toLowerCase(),
+        parameters,
+        abortControllerRef,
+        returnResult: () => {
+          if (!value) {
+            return { postal_codes: [] }
+          }
         },
-        { abortControllerRef }
-      )
+      })
 
       if (
         status !== 400 &&
@@ -161,50 +129,6 @@ export function validator(
       return error
     }
   }
-}
-
-function getCountryValue({
-  additionalArgs,
-}: {
-  additionalArgs: ReceiveAdditionalEventArgs<unknown>
-}) {
-  const countryValue = additionalArgs.props['data-country']
-  const country = additionalArgs.getSourceValue<string>(countryValue)
-
-  return { country, countryValue }
-}
-
-function handleCountryPath({
-  value,
-  additionalArgs,
-  handlerId,
-  handler,
-}: {
-  value: string
-  additionalArgs: ReceiveAdditionalEventArgs<unknown>
-  handlerId: string
-  handler: (
-    value: string,
-    additionalArgs: ReceiveAdditionalEventArgs<unknown>
-  ) => void
-}) {
-  const { country, countryValue } = getCountryValue({ additionalArgs })
-
-  if (
-    String(countryValue).startsWith('/') &&
-    additionalArgs[handlerId] !== handler
-  ) {
-    additionalArgs[handlerId] = handler
-    additionalArgs.setFieldEventListener(
-      countryValue,
-      'onPathChange',
-      () => {
-        handler(value, additionalArgs)
-      }
-    )
-  }
-
-  return { country }
 }
 
 export function getMockData(country?: string) {

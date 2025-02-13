@@ -1,3 +1,5 @@
+import { ReceiveAdditionalEventArgs } from '../types'
+
 export type UrlSecondParameter = {
   country: string
 }
@@ -9,10 +11,7 @@ export type GeneralConfig = {
           value: string,
           { country }: UrlSecondParameter
         ) => string | Promise<string>)
-    headers?: {
-      'X-Mybring-API-Uid'?: string
-      'X-Mybring-API-Key'?: string
-    } & Record<string, string>
+    headers?: HeadersInit
   }
 }
 
@@ -32,10 +31,13 @@ export function createContext<GeneralConfigGeneric = GeneralConfig>(
 }
 
 export type FetchDataFromAPIOptions = {
+  generalConfig: GeneralConfig
+  parameters?: UrlSecondParameter
   abortControllerRef?: { current: null | AbortController }
+  returnResult?: (data: { value: string }) => unknown
 }
 
-export async function fetchDataFromAPI(
+async function fetchDataFromAPI(
   generalConfig: GeneralConfig & { fetchConfig: { url: string } },
   options?: FetchDataFromAPIOptions
 ) {
@@ -78,4 +80,85 @@ export async function fetchDataFromAPI(
       return error
     }
   }
+}
+
+export async function fetchData(
+  value: string,
+  options: FetchDataFromAPIOptions
+) {
+  const { generalConfig, parameters } = options || {}
+
+  const result = options?.returnResult?.({ value })
+  if (typeof result !== 'undefined') {
+    return result
+  }
+
+  try {
+    const u = generalConfig.fetchConfig.url
+    const url = typeof u === 'function' ? await u(value, parameters) : u
+
+    const { data, response } = await fetchDataFromAPI(
+      {
+        ...generalConfig,
+        fetchConfig: {
+          ...generalConfig.fetchConfig,
+          url,
+        },
+      },
+      options
+    )
+
+    // Check if the response status is in the range of 200-299
+    if (!response.ok) {
+      throw new Error(
+        `${response.statusText} – Status: ${response.status}`
+      )
+    }
+
+    return { data, status: response.status }
+  } catch (error) {
+    return error
+  }
+}
+
+export function getCountryValue({
+  additionalArgs,
+}: {
+  additionalArgs: ReceiveAdditionalEventArgs<unknown>
+}) {
+  const countryValue = additionalArgs.props['data-country']
+  const country = additionalArgs.getSourceValue<string>(countryValue)
+
+  return { country, countryValue }
+}
+
+export function handleCountryPath({
+  value,
+  additionalArgs,
+  handler,
+}: {
+  value: string
+  additionalArgs: ReceiveAdditionalEventArgs<unknown>
+  handler: (
+    value: string,
+    additionalArgs: ReceiveAdditionalEventArgs<unknown>
+  ) => void
+}) {
+  const { country, countryValue } = getCountryValue({ additionalArgs })
+
+  if (
+    String(countryValue).startsWith('/') &&
+    additionalArgs[handler.name] !== handler
+  ) {
+    additionalArgs[handler.name] = handler
+    additionalArgs.setFieldEventListener(
+      countryValue,
+      'onPathChange',
+      () => {
+        handler(value, additionalArgs)
+      }
+    )
+  }
+
+  return { country }
 }
