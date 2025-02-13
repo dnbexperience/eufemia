@@ -28,6 +28,20 @@ const { withConfig } = Connectors.createContext({
 
 `[YOUR-API-URL]` is the URL of your own API endpoint that proxies the Bring [Postal Code API](https://developer.bring.com/api/postal-code/) with a token.
 
+Ensure you use the `/postal-codes` endpoint from Bring via your proxy API, returning a list of postal codes in the following format:
+
+```json
+{
+  "postal_codes": [
+    {
+      "postal_code": "1391",
+      "city": "Vollen"
+      ...
+    }
+  ]
+}
+```
+
 ### Supported countries
 
 The Bring API for PostalCode supports the following countries:
