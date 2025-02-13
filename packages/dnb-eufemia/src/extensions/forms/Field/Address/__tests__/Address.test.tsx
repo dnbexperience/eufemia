@@ -60,7 +60,7 @@ describe('Field.Address', () => {
     )
   })
 
-  it('should have autocomplete (autofill)', () => {
+  it('should have default autocomplete (autofill) as street-address', () => {
     render(<Field.Address />)
 
     const input = document.querySelector('input')
@@ -68,8 +68,8 @@ describe('Field.Address', () => {
     expect(input).toHaveAttribute('autocomplete', 'street-address')
   })
 
-  it('should be possible to extend autocomplete (autofill) with group identifier shipping', () => {
-    render(<Field.Address autoCompleteGroupingIdentifier="shipping" />)
+  it('should be possible to set autocomplete (autofill)', () => {
+    render(<Field.Address autoComplete="shipping street-address" />)
 
     const input = document.querySelector('input')
 
@@ -77,14 +77,6 @@ describe('Field.Address', () => {
       'autocomplete',
       'shipping street-address'
     )
-  })
-
-  it('should be possible to extend autocomplete (autofill) with group identifier billing', () => {
-    render(<Field.Address autoCompleteGroupingIdentifier="billing" />)
-
-    const input = document.querySelector('input')
-
-    expect(input).toHaveAttribute('autocomplete', 'billing street-address')
   })
 
   it('should have inputmode of text', () => {

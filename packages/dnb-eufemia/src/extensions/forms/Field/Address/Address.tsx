@@ -2,13 +2,11 @@ import React, { useMemo } from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
 import useTranslation from '../../hooks/useTranslation'
 
-export type Props = StringFieldProps & {
-  autoCompleteGroupingIdentifier?: AutoFillAddressKind
-}
+export type Props = StringFieldProps
 
 function Address(props: Props) {
   const { label, errorRequired, errorPattern } = useTranslation().Address
-  const { autoCompleteGroupingIdentifier } = props
+  const { autoComplete = 'street-address' } = props
 
   const errorMessages = useMemo(
     () => ({
@@ -21,9 +19,7 @@ function Address(props: Props) {
 
   const StringFieldProps: Props = {
     label,
-    autoComplete: autoCompleteGroupingIdentifier
-      ? `${autoCompleteGroupingIdentifier} street-address`
-      : 'street-address',
+    autoComplete,
     inputMode: 'text',
     trim: true,
     ...props,
