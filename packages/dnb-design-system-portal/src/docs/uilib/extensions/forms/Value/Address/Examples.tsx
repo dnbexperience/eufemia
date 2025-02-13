@@ -1,11 +1,19 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { P } from '@dnb/eufemia/src'
-import { Value } from '@dnb/eufemia/src/extensions/forms'
+import { Form, Value } from '@dnb/eufemia/src/extensions/forms'
 
-export const Empty = () => {
+export const PostalAddress = () => {
   return (
     <ComponentBox>
-      <Value.Address showEmpty />
+      <Value.Address.Postal value="Postboks 55 Falkum 3705 Skien" />
+    </ComponentBox>
+  )
+}
+
+export const StreetAddress = () => {
+  return (
+    <ComponentBox>
+      <Value.Address.Street value="Dronning Eufemias gate 30" />
     </ComponentBox>
   )
 }
@@ -13,34 +21,7 @@ export const Empty = () => {
 export const Placeholder = () => {
   return (
     <ComponentBox>
-      <Value.Address placeholder="The value was not filled in" />
-    </ComponentBox>
-  )
-}
-
-export const WithValue = () => {
-  return (
-    <ComponentBox>
-      <Value.Address value="Dronning Eufemias gate 30" />
-    </ComponentBox>
-  )
-}
-
-export const Label = () => {
-  return (
-    <ComponentBox>
-      <Value.Address label="Label text" showEmpty />
-    </ComponentBox>
-  )
-}
-
-export const LabelAndValue = () => {
-  return (
-    <ComponentBox>
-      <Value.Address
-        label="Label text"
-        value="Dronning Eufemias gate 30"
-      />
+      <Value.Address.Street placeholder="Custom placeholder" />
     </ComponentBox>
   )
 }
@@ -48,11 +29,19 @@ export const LabelAndValue = () => {
 export const Inline = () => {
   return (
     <ComponentBox>
-      <P>
-        This is before the component{' '}
-        <Value.Address value="Dronning Eufemias gate 30" inline /> This is
-        after the component
-      </P>
+      <Form.Handler
+        defaultData={{
+          streetAddress: 'Dronning Eufemias gate 30',
+          postalAddress: 'Postboks 55 Falkum 3705 Skien',
+        }}
+      >
+        <P>
+          This is before the component{' '}
+          <Value.Address.Street path="/streetAddress" inline />{' '}
+          <Value.Address.Postal path="/postalAddress" inline /> This is
+          after the component
+        </P>
+      </Form.Handler>
     </ComponentBox>
   )
 }

@@ -15,29 +15,29 @@ describe('Value.Address', () => {
     ).toHaveTextContent('Dronning Eufemias gate 30')
   })
 
-  it('renders label when showEmpty is true', () => {
+  it('renders no label by default', () => {
     render(<Value.Address showEmpty />)
-    expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      nb.Address.label
-    )
-  })
-
-  it('renders value and label', () => {
-    render(<Value.Address value="Dronning Eufemias gate 30" />)
-    expect(
-      document.querySelector(
-        '.dnb-forms-value-string .dnb-forms-value-block__content'
-      )
-    ).toHaveTextContent('Dronning Eufemias gate 30')
-    expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-      nb.Address.label
-    )
+    expect(document.querySelector('.dnb-form-label')).toBeNull()
   })
 
   it('renders custom label', () => {
     render(<Value.Address label="Custom label" showEmpty />)
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
       'Custom label'
+    )
+  })
+
+  it('renders PostalAddress label', () => {
+    render(<Value.Address.Postal showEmpty />)
+    expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
+      nb.PostalAddress.label
+    )
+  })
+
+  it('renders StreetAddress label', () => {
+    render(<Value.Address.Street showEmpty />)
+    expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
+      nb.StreetAddress.label
     )
   })
 

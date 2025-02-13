@@ -1,10 +1,20 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 
-export const Empty = () => {
+export const EmptyPostal = () => {
   return (
     <ComponentBox>
-      <Field.Address
+      <Field.Address.Postal
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
+export const EmptyStreet = () => {
+  return (
+    <ComponentBox>
+      <Field.Address.Street
         onChange={(value) => console.log('onChange', value)}
       />
     </ComponentBox>
@@ -14,7 +24,7 @@ export const Empty = () => {
 export const Placeholder = () => {
   return (
     <ComponentBox>
-      <Field.Address
+      <Field.Address.Postal
         placeholder="Enter address..."
         onChange={(value) => console.log('onChange', value)}
       />
@@ -25,7 +35,7 @@ export const Placeholder = () => {
 export const Label = () => {
   return (
     <ComponentBox>
-      <Field.Address
+      <Field.Address.Postal
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
       />
@@ -36,7 +46,7 @@ export const Label = () => {
 export const LabelAndValue = () => {
   return (
     <ComponentBox>
-      <Field.Address
+      <Field.Address.Postal
         label="Label text"
         value="Dronning Eufemias gate 30"
         onChange={(value) => console.log('onChange', value)}
@@ -48,7 +58,7 @@ export const LabelAndValue = () => {
 export const WithHelp = () => {
   return (
     <ComponentBox>
-      <Field.Address
+      <Field.Address.Postal
         label="Label text"
         value="Dronning Eufemias gate 30"
         help={{
@@ -65,7 +75,7 @@ export const WithHelp = () => {
 export const Disabled = () => {
   return (
     <ComponentBox>
-      <Field.Address
+      <Field.Address.Postal
         value="Dronning Eufemias gate 30"
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
@@ -78,7 +88,7 @@ export const Disabled = () => {
 export const WithError = () => {
   return (
     <ComponentBox>
-      <Field.Address
+      <Field.Address.Postal
         value="Dronning Eufemias gate X"
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
@@ -91,7 +101,7 @@ export const WithError = () => {
 export const ValidationRequired = () => {
   return (
     <ComponentBox>
-      <Field.Address
+      <Field.Address.Postal
         value="Dronning Eufemias gate 30"
         label="Label text"
         onChange={(value) => console.log('onChange', value)}

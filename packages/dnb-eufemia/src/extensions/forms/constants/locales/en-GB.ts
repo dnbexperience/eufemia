@@ -103,10 +103,17 @@ export default {
     /**
      * Feature fields
      */
-    Address: {
-      label: 'Address',
-      errorRequired: 'You must enter an address.',
-      errorPattern: 'Invalid address. Enter a valid address.',
+    PostalAddress: {
+      label: 'Postal address',
+      errorRequired: 'You must enter a postal address.',
+      errorPattern:
+        'Invalid postal address. Enter a valid postal address.',
+    },
+    StreetAddress: {
+      label: 'Street address',
+      errorRequired: 'You must enter a street address.',
+      errorPattern:
+        'Invalid street address. Enter a valid street address.',
     },
     Date: {
       label: 'Date',

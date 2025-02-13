@@ -87,24 +87,11 @@ describe('Field.Address', () => {
     expect(input).toHaveAttribute('inputmode', 'text')
   })
 
-  it('should have default label', () => {
-    render(<Field.Address />)
+  it('should set label', () => {
+    render(<Field.Address label="myLabel" />)
 
     const label = document.querySelector('label')
-    expect(label).toHaveTextContent(nb.Address.label)
-  })
-
-  it('should add (optional) text to the label if required={false}', () => {
-    render(
-      <Form.Handler required>
-        <Field.Address required={false} />
-      </Form.Handler>
-    )
-
-    const label = document.querySelector('label')
-    expect(label).toHaveTextContent(
-      `${nb.Address.label} ${nb.Field.optionalLabelSuffix}`
-    )
+    expect(label).toHaveTextContent('myLabel')
   })
 
   it('should allow a custom pattern', async () => {
@@ -123,9 +110,58 @@ describe('Field.Address', () => {
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
   })
 
+  describe('Address.Postal', () => {
+    it('should have correct label', () => {
+      render(<Field.Address.Postal />)
+
+      const label = document.querySelector('label')
+      expect(label).toHaveTextContent(nb.PostalAddress.label)
+    })
+
+    it('should add (optional) text to the label if required={false}', () => {
+      render(
+        <Form.Handler required>
+          <Field.Address.Postal required={false} />
+        </Form.Handler>
+      )
+
+      const label = document.querySelector('label')
+      expect(label).toHaveTextContent(
+        `${nb.PostalAddress.label} ${nb.Field.optionalLabelSuffix}`
+      )
+    })
+  })
+
+  describe('Address.Street', () => {
+    it('should have correct label', () => {
+      render(<Field.Address.Street />)
+
+      const label = document.querySelector('label')
+      expect(label).toHaveTextContent(nb.StreetAddress.label)
+    })
+
+    it('should add (optional) text to the label if required={false}', () => {
+      render(
+        <Form.Handler required>
+          <Field.Address.Street required={false} />
+        </Form.Handler>
+      )
+
+      const label = document.querySelector('label')
+      expect(label).toHaveTextContent(
+        `${nb.StreetAddress.label} ${nb.Field.optionalLabelSuffix}`
+      )
+    })
+  })
+
   describe('ARIA', () => {
     it('should validate with ARIA rules', async () => {
-      const result = render(<Field.Address required validateInitially />)
+      const result = render(
+        <>
+          <Field.Address.Postal required validateInitially />
+          <Field.Address.Street required validateInitially />
+        </>
+      )
 
       expect(await axeComponent(result)).toHaveNoViolations()
     })
