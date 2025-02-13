@@ -24,7 +24,7 @@
 
 .dnb-drawer {
   --drawer-width: 40vw;
-  --drawer-min-width: 25rem;
+  --drawer-min-width: 384px; // (24rem) Use px so a larger font-size will not make the drawer too small
   --drawer-max-width: 40rem;
   --drawer-spacing: 2rem; // should reflect --spacing-large
   --drawer-spacing-minus: -2rem; // should reflect --spacing-large
@@ -38,9 +38,9 @@
   max-width: var(--drawer-max-width);
 
   @include allBelow(small) {
-    width: 100vw;
-    min-width: none;
-    max-width: none;
+    --drawer-width: 100vw;
+    --drawer-min-width: none;
+    --drawer-max-width: none;
   }
 
   @include defaultDropShadow();

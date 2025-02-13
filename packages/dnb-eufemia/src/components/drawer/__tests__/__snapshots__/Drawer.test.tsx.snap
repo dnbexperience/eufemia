@@ -991,7 +991,7 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
 }
 .dnb-drawer {
   --drawer-width: 40vw;
-  --drawer-min-width: 25rem;
+  --drawer-min-width: 384px;
   --drawer-max-width: 40rem;
   --drawer-spacing: 2rem;
   --drawer-spacing-minus: -2rem;
@@ -1013,9 +1013,9 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
 }
 @media screen and (max-width: 40em) {
   .dnb-drawer {
-    width: 100vw;
-    min-width: none;
-    max-width: none;
+    --drawer-width: 100vw;
+    --drawer-min-width: none;
+    --drawer-max-width: none;
   }
 }
 @media screen and (max-width: 40em) {
