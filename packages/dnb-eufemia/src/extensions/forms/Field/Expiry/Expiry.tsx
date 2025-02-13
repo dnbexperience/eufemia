@@ -45,7 +45,7 @@ function Expiry(props: ExpiryProps) {
   const preparedProps: ExpiryProps = {
     ...props,
     errorMessages,
-    fromInput: toExpiryString,
+    fromInput: (value: ExpiryValue) => Object.values(value).join(''),
     validateRequired,
   }
 
@@ -69,7 +69,7 @@ function Expiry(props: ExpiryProps) {
 
   const expiry: ExpiryValue = useMemo(() => {
     return {
-      month: value?.substring(0, 2),
+      month: value?.substring(0, 2) ?? '',
       year: value?.substring(2, 4) ?? '',
     }
   }, [value])
@@ -135,7 +135,3 @@ function Expiry(props: ExpiryProps) {
 
 Expiry._supportsEufemiaSpacingProps = true
 export default Expiry
-
-function toExpiryString(values: ExpiryValue) {
-  return Object.values(values).join('')
-}
