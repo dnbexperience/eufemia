@@ -164,108 +164,134 @@ describe('Field.PostalCodeAndCity', () => {
     expect(city2).toHaveValue('Bergen')
   })
 
-  it('should not use Norwegian postal code validation rules if `country` is set to something other than `NO`', async () => {
-    render(<Field.PostalCodeAndCity country="DE" />)
+  describe('country', () => {
+    it('should not use Norwegian postal code validation rules if `country` is set to something other than `NO`', async () => {
+      render(<Field.PostalCodeAndCity country="DE" />)
 
-    const postalCodeInput = document.querySelector(
-      '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
-    ) as HTMLInputElement
+      const postalCodeInput = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+      ) as HTMLInputElement
 
-    expect(postalCodeInput).not.toHaveAttribute('placeholder')
+      expect(postalCodeInput).not.toHaveAttribute('placeholder')
 
-    await userEvent.type(postalCodeInput, '123456')
+      await userEvent.type(postalCodeInput, '123456')
 
-    expect(postalCodeInput).toHaveValue('123456')
-  })
+      expect(postalCodeInput).toHaveValue('123456')
+    })
 
-  it('should support custom postal code validation', async () => {
-    render(
-      <Field.PostalCodeAndCity
-        country="DE"
-        postalCode={{
-          pattern: '^[0-9]{5}$',
-          mask: [/\d/, /\d/, /\d/, /\d/, /\d/],
-          placeholder: '00000',
-          validateInitially: true,
-        }}
-        city={{
-          validateInitially: true,
-          pattern: '^[a-zA-ZäöüÄÖÜß -]+$',
-        }}
-      />
-    )
+    it('should not use Norwegian city validation rules if `country` is set to something other than `NO`', async () => {
+      const { rerender } = render(<Field.PostalCodeAndCity />)
 
-    const [postalCode, city] = Array.from(
-      document.querySelectorAll('input')
-    )
+      const city = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__city .dnb-input__input'
+      ) as HTMLInputElement
 
-    expect(postalCode).toHaveAttribute('aria-placeholder', '00000')
-    await userEvent.type(postalCode, 'abcs123456')
+      expect(city).not.toHaveAttribute('placeholder')
 
-    expect(postalCode).toHaveValue('12345')
+      await userEvent.type(city, 'äöü')
+      fireEvent.blur(city)
 
-    await userEvent.type(city, 'München')
+      expect(city).toHaveValue('äöü')
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
 
-    expect(city).toHaveValue('München')
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-  })
+      rerender(<Field.PostalCodeAndCity country="DE" />)
 
-  it('should be able to use a path to set the country value', async () => {
-    const { rerender } = render(
-      <Form.Handler data={{ country: 'DE' }}>
-        <Field.PostalCodeAndCity country="/country" />
-      </Form.Handler>
-    )
+      await userEvent.type(city, 'äöü')
+      fireEvent.blur(city)
 
-    const postalCodeDe = document.querySelector(
-      '.dnb-forms-field-postal-code-and-city input'
-    )
+      expect(city).toHaveValue('äöüäöü')
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
 
-    await userEvent.type(postalCodeDe, '123456')
-    expect(postalCodeDe).toHaveValue('123456')
-    expect(postalCodeDe).not.toHaveAttribute('aria-placeholder')
+    it('should support custom postal code validation', async () => {
+      render(
+        <Field.PostalCodeAndCity
+          country="DE"
+          postalCode={{
+            pattern: '^[0-9]{5}$',
+            mask: [/\d/, /\d/, /\d/, /\d/, /\d/],
+            placeholder: '00000',
+            validateInitially: true,
+          }}
+          city={{
+            validateInitially: true,
+            pattern: '^[a-zA-ZäöüÄÖÜß -]+$',
+          }}
+        />
+      )
 
-    rerender(
-      <Form.Handler data={{ country: 'NO' }}>
-        <Field.PostalCodeAndCity country="/country" />
-      </Form.Handler>
-    )
+      const [postalCode, city] = Array.from(
+        document.querySelectorAll('input')
+      )
 
-    const postalCodeNo = document.querySelector(
-      '.dnb-forms-field-postal-code-and-city input'
-    )
+      expect(postalCode).toHaveAttribute('aria-placeholder', '00000')
+      await userEvent.type(postalCode, 'abcs123456')
 
-    await userEvent.type(postalCodeNo, '{Backspace>4}987654')
-    expect(postalCodeNo).toHaveValue('9876')
-    expect(postalCodeNo).toHaveAttribute('aria-placeholder', '0000')
-  })
+      expect(postalCode).toHaveValue('12345')
 
-  it('should use value from country inside iterate', async () => {
-    render(
-      <Form.Handler
-        defaultData={{ items: [{ country: 'NO' }, { country: 'DE' }] }}
-      >
-        <Iterate.Array path="/items">
+      await userEvent.type(city, 'München')
+
+      expect(city).toHaveValue('München')
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
+
+    it('should be able to use a path to set the country value', async () => {
+      const { rerender } = render(
+        <Form.Handler data={{ country: 'DE' }}>
           <Field.PostalCodeAndCity country="/country" />
-        </Iterate.Array>
-      </Form.Handler>
-    )
+        </Form.Handler>
+      )
 
-    const [norway, germany] = Array.from(
-      document.querySelectorAll('.dnb-forms-field-postal-code-and-city')
-    )
+      const postalCodeDe = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city input'
+      )
 
-    await userEvent.type(
-      norway.querySelector('input'),
-      '{Backspace>4}987654'
-    )
-    expect(norway.querySelector('input').value).toBe('9876')
+      await userEvent.type(postalCodeDe, '123456')
+      expect(postalCodeDe).toHaveValue('123456')
+      expect(postalCodeDe).not.toHaveAttribute('aria-placeholder')
 
-    await userEvent.type(
-      germany.querySelector('input'),
-      '{Backspace>4}987654'
-    )
-    expect(germany.querySelector('input').value).toBe('987654')
+      rerender(
+        <Form.Handler data={{ country: 'NO' }}>
+          <Field.PostalCodeAndCity country="/country" />
+        </Form.Handler>
+      )
+
+      const postalCodeNo = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city input'
+      )
+
+      await userEvent.type(postalCodeNo, '{Backspace>4}987654')
+      expect(postalCodeNo).toHaveValue('9876')
+      expect(postalCodeNo).toHaveAttribute('aria-placeholder', '0000')
+    })
+
+    it('should use value from country inside iterate', async () => {
+      render(
+        <Form.Handler
+          defaultData={{ items: [{ country: 'NO' }, { country: 'DE' }] }}
+        >
+          <Iterate.Array path="/items">
+            <Field.PostalCodeAndCity country="/country" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      const [norway, germany] = Array.from(
+        document.querySelectorAll('.dnb-forms-field-postal-code-and-city')
+      )
+
+      await userEvent.type(
+        norway.querySelector('input'),
+        '{Backspace>4}987654'
+      )
+      expect(norway.querySelector('input').value).toBe('9876')
+
+      await userEvent.type(
+        germany.querySelector('input'),
+        '{Backspace>4}987654'
+      )
+      expect(germany.querySelector('input').value).toBe('987654')
+    })
   })
 
   describe('ARIA', () => {

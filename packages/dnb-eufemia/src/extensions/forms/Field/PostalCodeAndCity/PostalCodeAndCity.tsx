@@ -37,16 +37,33 @@ function PostalCodeAndCity(props: Props) {
     ...fieldBlockProps
   } = props
 
+  const countryValue = getSourceValue(country)
+
+  const handleCityDefaults = useCallback(
+    (city: StringFieldProps) => {
+      const props: StringFieldProps = {}
+
+      switch (countryValue) {
+        case defaultCountry: {
+          props.pattern = '^[A-Za-zÆØÅæøå -]+$'
+          break
+        }
+      }
+
+      return { ...props, ...city }
+    },
+    [countryValue]
+  )
+
   const {
     pattern: cityPattern,
     className: cityClassName,
     label: cityLabel,
     width: cityWidth,
     errorMessages: cityErrorMessages,
-  } = city
+  } = handleCityDefaults(city)
 
-  const countryValue = getSourceValue(country)
-  const handleDefaults = useCallback(
+  const handlePostalCodeDefaults = useCallback(
     (postalCode: StringFieldProps) => {
       const props: StringFieldProps = {}
 
@@ -77,7 +94,7 @@ function PostalCodeAndCity(props: Props) {
     label: postalCodeLabel,
     width: postalCodeWidth,
     errorMessages: postalCodeErrorMessages,
-  } = handleDefaults(postalCode)
+  } = handlePostalCodeDefaults(postalCode)
 
   return (
     <CompositionField
@@ -136,7 +153,7 @@ function PostalCodeAndCity(props: Props) {
             translations.City.errorRequired,
           ]
         )}
-        pattern={cityPattern ?? '^[A-Za-zÆØÅæøå -]+$'}
+        pattern={cityPattern}
         trim
         width={cityWidth ?? 'stretch'}
         autoComplete="address-level2"
