@@ -118,12 +118,12 @@ export default {
     Date: {
       label: 'Date',
       errorRequired: 'You must provide a valid date.',
-      errorMinDate: 'Chosen date cannot be before %s.',
-      errorMaxDate: 'Chosen date cannot be after %s.',
-      errorRangeStartDateMinDate: 'Start date cannot be before %s.',
-      errorRangeStartDateMaxDate: 'Start date cannot be after %s.',
-      errorRangeEndDateMinDate: 'End date cannot be before %s.',
-      errorRangeEndDateMaxDate: 'End date cannot be after %s.',
+      errorMinDate: 'Chosen date cannot be before {minDate}.',
+      errorMaxDate: 'Chosen date cannot be after {maxDate}.',
+      errorStartDateMinDate: 'Start date cannot be before {minDate}.',
+      errorStartDateMaxDate: 'Start date cannot be after {maxDate}.',
+      errorEndDateMinDate: 'End date cannot be before {minDate}.',
+      errorEndDateMaxDate: 'End date cannot be after {maxDate}.',
     },
     Expiry: {
       label: 'Expiry date',

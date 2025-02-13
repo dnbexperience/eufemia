@@ -115,12 +115,12 @@ export default {
     Date: {
       label: 'Dato',
       errorRequired: 'Du må angi en gyldig dato.',
-      errorMinDate: 'Valgt dato kan ikke være før %s.',
-      errorMaxDate: 'Valgt dato kan ikke være etter %s.',
-      errorRangeStartDateMinDate: 'Startdato kan ikke være før %s.',
-      errorRangeStartDateMaxDate: 'Startdato kan ikke være etter %s.',
-      errorRangeEndDateMinDate: 'Sluttdato kan ikke være før %s.',
-      errorRangeEndDateMaxDate: 'Sluttdato kan ikke være etter %s.',
+      errorMinDate: 'Valgt dato kan ikke være før {minDate}.',
+      errorMaxDate: 'Valgt dato kan ikke være etter {maxDate}.',
+      errorStartDateMinDate: 'Startdato kan ikke være før {minDate}.',
+      errorStartDateMaxDate: 'Startdato kan ikke være etter {maxDate}.',
+      errorEndDateMinDate: 'Sluttdato kan ikke være før {minDate}.',
+      errorEndDateMaxDate: 'Sluttdato kan ikke være etter {maxDate}.',
     },
     Expiry: {
       label: 'Utløpsdato',

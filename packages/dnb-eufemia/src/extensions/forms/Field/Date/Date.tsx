@@ -7,9 +7,7 @@ import classnames from 'classnames'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import SharedContext from '../../../../shared/Context'
 import { parseISO, isValid, isBefore, isAfter } from 'date-fns'
-import useTranslation, {
-  FormsTranslation,
-} from '../../hooks/useTranslation'
+import useTranslation from '../../hooks/useTranslation'
 import { FormatDateOptions, formatDate } from '../../Value/Date'
 import {
   DatePickerEvent,
@@ -17,6 +15,7 @@ import {
 } from '../../../../components/DatePicker'
 import { convertStringToDate } from '../../../../components/date-picker/DatePickerCalc'
 import { ProviderProps } from '../../../../shared/Provider'
+import { FormError } from '../../utils'
 
 // `range`, `showInput`, `showCancelButton` and `showResetButton` are not picked from the `DatePickerProps`
 // Since they require `Field.Date` specific comments, due to them having different default values
@@ -117,13 +116,12 @@ function DateComponent(props: DateProps) {
       return validateDateLimit({
         value,
         locale,
-        translations,
         minDate: props.minDate,
         maxDate: props.maxDate,
         isRange: props.range,
       })
     },
-    [props.maxDate, props.minDate, props.range, translations, locale]
+    [props.maxDate, props.minDate, props.range, locale]
   )
 
   const hasDateLimitAndValue = useMemo(() => {
@@ -253,38 +251,36 @@ function validateDateLimit({
   value,
   isRange,
   locale,
-  translations,
-  ...params
+  ...dates
 }: {
   value: DateProps['value']
   minDate: DateProps['minDate']
   maxDate: DateProps['maxDate']
   isRange: DateProps['range']
   locale: ProviderProps['locale']
-  translations: FormsTranslation['Date']
 }) {
-  if ((!params.minDate && !params.maxDate) || !value) {
+  if ((!dates.minDate && !dates.maxDate) || !value) {
     return
   }
 
   const [startDateParsed, endDateParsed] = parseRangeValue(value)
 
-  const minDate = convertStringToDate(params.minDate)
-  const minDateISO = params.minDate
-    ? typeof params.minDate === 'string'
-      ? params.minDate
-      : params.minDate.toISOString()
-    : undefined
-
-  const maxDate = convertStringToDate(params.maxDate)
-  const maxDateISO = params.maxDate
-    ? typeof params.maxDate === 'string'
-      ? params.maxDate
-      : params.maxDate.toISOString()
-    : undefined
+  const minDate = convertStringToDate(dates.minDate)
+  const maxDate = convertStringToDate(dates.maxDate)
 
   const startDate = convertStringToDate(startDateParsed)
   const endDate = convertStringToDate(endDateParsed)
+
+  const isoDates = {
+    minDate:
+      dates.minDate instanceof Date
+        ? dates.minDate.toISOString()
+        : dates.minDate,
+    maxDate:
+      dates.maxDate instanceof Date
+        ? dates.maxDate.toISOString()
+        : dates.maxDate,
+  }
 
   const options: FormatDateOptions = {
     locale,
@@ -294,71 +290,53 @@ function validateDateLimit({
   // Handle non range validation
   if (!isRange) {
     if (isBefore(startDate, minDate)) {
-      return new Error(
-        translations.errorMinDate.replace(
-          /%s/,
-          formatDate(minDateISO, options)
-        )
-      )
+      return new FormError('Date.errorMinDate', {
+        messageValues: { minDate: formatDate(isoDates.minDate, options) },
+      })
     }
 
     if (isAfter(startDate, maxDate)) {
-      return new Error(
-        translations.errorMaxDate.replace(
-          /%s/,
-          formatDate(maxDateISO, options)
-        )
-      )
+      return new FormError('Date.errorMaxDate', {
+        messageValues: { maxDate: formatDate(isoDates.maxDate, options) },
+      })
     }
 
     return
   }
 
-  const messages: Array<Error> = []
+  const messages: Array<FormError> = []
 
   // Start date validation
   if (isBefore(startDate, minDate)) {
     messages.push(
-      new Error(
-        translations.errorRangeStartDateMinDate.replace(
-          /%s/,
-          formatDate(minDateISO, options)
-        )
-      )
+      new FormError('Date.errorStartDateMinDate', {
+        messageValues: { minDate: formatDate(isoDates.minDate, options) },
+      })
     )
   }
 
   if (isAfter(startDate, maxDate)) {
     messages.push(
-      new Error(
-        translations.errorRangeStartDateMaxDate.replace(
-          /%s/,
-          formatDate(maxDateISO, options)
-        )
-      )
+      new FormError('Date.errorStartDateMaxDate', {
+        messageValues: { maxDate: formatDate(isoDates.maxDate, options) },
+      })
     )
   }
 
   // End date validation
   if (isBefore(endDate, minDate)) {
     messages.push(
-      new Error(
-        translations.errorRangeEndDateMinDate.replace(
-          /%s/,
-          formatDate(minDateISO, options)
-        )
-      )
+      new FormError('Date.errorEndDateMinDate', {
+        messageValues: { minDate: formatDate(isoDates.minDate, options) },
+      })
     )
   }
 
   if (isAfter(endDate, maxDate)) {
     messages.push(
-      new Error(
-        translations.errorRangeEndDateMaxDate.replace(
-          /%s/,
-          formatDate(maxDateISO, options)
-        )
-      )
+      new FormError('Date.errorEndDateMaxDate', {
+        messageValues: { maxDate: formatDate(isoDates.maxDate, options) },
+      })
     )
   }
 
