@@ -1053,7 +1053,7 @@ describe('Field.Date', () => {
 
       expect(screen.getByRole('alert')).toHaveTextContent(
         nb.Date.errorMinDate.replace(
-          /\{minDate\}/,
+          /\{date\}/,
           formatDate(minDate, formatOptions.no)
         )
       )
@@ -1082,7 +1082,7 @@ describe('Field.Date', () => {
 
       expect(screen.getByRole('alert')).toHaveTextContent(
         nb.Date.errorMaxDate.replace(
-          /\{maxDate\}/,
+          /\{date\}/,
           formatDate(maxDate, formatOptions.no)
         )
       )
@@ -1117,7 +1117,7 @@ describe('Field.Date', () => {
 
       expect(screen.getByRole('alert')).toHaveTextContent(
         nb.Date.errorStartDateMinDate.replace(
-          /\{minDate\}/,
+          /\{date\}/,
           formatDate(minDate, formatOptions.no)
         )
       )
@@ -1152,7 +1152,7 @@ describe('Field.Date', () => {
 
       expect(screen.getByRole('alert')).toHaveTextContent(
         nb.Date.errorStartDateMaxDate.replace(
-          /\{maxDate\}/,
+          /\{date\}/,
           formatDate(maxDate, formatOptions.no)
         )
       )
@@ -1187,7 +1187,7 @@ describe('Field.Date', () => {
 
       expect(screen.getByRole('alert')).toHaveTextContent(
         nb.Date.errorEndDateMinDate.replace(
-          /\{minDate\}/,
+          /\{date\}/,
           formatDate(minDate, formatOptions.no)
         )
       )
@@ -1222,7 +1222,7 @@ describe('Field.Date', () => {
 
       expect(screen.getByRole('alert')).toHaveTextContent(
         nb.Date.errorEndDateMaxDate.replace(
-          /\{maxDate\}/,
+          /\{date\}/,
           formatDate(maxDate, formatOptions.no)
         )
       )
@@ -1270,13 +1270,13 @@ describe('Field.Date', () => {
 
       expect(messages()[0]).toHaveTextContent(
         nb.Date.errorStartDateMinDate.replace(
-          /\{minDate\}/,
+          /\{date\}/,
           formatDate(minDate, formatOptions.no)
         )
       )
       expect(messages()[1]).toHaveTextContent(
         nb.Date.errorEndDateMaxDate.replace(
-          /\{maxDate\}/,
+          /\{date\}/,
           formatDate(maxDate, formatOptions.no)
         )
       )
@@ -1287,13 +1287,13 @@ describe('Field.Date', () => {
 
       expect(messages()[0]).toHaveTextContent(
         nb.Date.errorStartDateMaxDate.replace(
-          /\{maxDate\}/,
+          /\{date\}/,
           formatDate(maxDate, formatOptions.no)
         )
       )
       expect(messages()[1]).toHaveTextContent(
         nb.Date.errorEndDateMaxDate.replace(
-          /\{maxDate\}/,
+          /\{date\}/,
           formatDate(maxDate, formatOptions.no)
         )
       )
@@ -1304,13 +1304,13 @@ describe('Field.Date', () => {
 
       expect(messages()[0]).toHaveTextContent(
         nb.Date.errorStartDateMaxDate.replace(
-          /\{maxDate\}/,
+          /\{date\}/,
           formatDate(maxDate, formatOptions.no)
         )
       )
       expect(messages()[1]).toHaveTextContent(
         nb.Date.errorEndDateMinDate.replace(
-          /\{minDate\}/,
+          /\{date\}/,
           formatDate(minDate, formatOptions.no)
         )
       )
@@ -1321,13 +1321,13 @@ describe('Field.Date', () => {
 
       expect(messages()[0]).toHaveTextContent(
         nb.Date.errorStartDateMinDate.replace(
-          /\{minDate\}/,
+          /\{date\}/,
           formatDate(minDate, formatOptions.no)
         )
       )
       expect(messages()[1]).toHaveTextContent(
         nb.Date.errorEndDateMinDate.replace(
-          /\{minDate\}/,
+          /\{date\}/,
           formatDate(minDate, formatOptions.no)
         )
       )
@@ -1358,7 +1358,7 @@ describe('Field.Date', () => {
 
       expect(screen.getByRole('alert')).toHaveTextContent(
         nb.Date.errorMinDate.replace(
-          /\{minDate\}/,
+          /\{date\}/,
           formatDate(minDate, formatOptions.no)
         )
       )
@@ -1387,7 +1387,7 @@ describe('Field.Date', () => {
 
       expect(screen.getByRole('alert')).toHaveTextContent(
         nb.Date.errorMaxDate.replace(
-          /\{maxDate\}/,
+          /\{date\}/,
           formatDate(maxDate, formatOptions.no)
         )
       )
@@ -1428,13 +1428,13 @@ describe('Field.Date', () => {
 
       expect(startDayError).toHaveTextContent(
         nb.Date.errorStartDateMinDate.replace(
-          /\{minDate\}/,
+          /\{date\}/,
           formatDate(minDate, formatOptions.no)
         )
       )
       expect(endDayError).toHaveTextContent(
         nb.Date.errorEndDateMaxDate.replace(
-          /\{maxDate\}/,
+          /\{date\}/,
           formatDate(maxDate, formatOptions.no)
         )
       )
@@ -1477,7 +1477,7 @@ describe('Field.Date', () => {
       ).toBeInTheDocument()
       expect(screen.getByRole('alert')).toHaveTextContent(
         en.Date.errorMinDate.replace(
-          /\{minDate\}/,
+          /\{date\}/,
           formatDate(minDate, formatOptions.en)
         )
       )
@@ -1488,7 +1488,7 @@ describe('Field.Date', () => {
 
       expect(screen.getByRole('alert')).toHaveTextContent(
         en.Date.errorMaxDate.replace(
-          /\{maxDate\}/,
+          /\{date\}/,
           formatDate(maxDate, formatOptions.en)
         )
       )
@@ -1534,13 +1534,13 @@ describe('Field.Date', () => {
 
       expect(messages()[0]).toHaveTextContent(
         en.Date.errorStartDateMinDate.replace(
-          /\{minDate\}/,
+          /\{date\}/,
           formatDate(minDate, formatOptions.en)
         )
       )
       expect(messages()[1]).toHaveTextContent(
         en.Date.errorEndDateMaxDate.replace(
-          /\{maxDate\}/,
+          /\{date\}/,
           formatDate(maxDate, formatOptions.en)
         )
       )
@@ -1551,13 +1551,13 @@ describe('Field.Date', () => {
 
       expect(messages()[0]).toHaveTextContent(
         en.Date.errorStartDateMaxDate.replace(
-          /\{maxDate\}/,
+          /\{date\}/,
           formatDate(maxDate, formatOptions.en)
         )
       )
       expect(messages()[1]).toHaveTextContent(
         en.Date.errorEndDateMaxDate.replace(
-          /\{maxDate\}/,
+          /\{date\}/,
           formatDate(maxDate, formatOptions.en)
         )
       )
@@ -1568,13 +1568,13 @@ describe('Field.Date', () => {
 
       expect(messages()[0]).toHaveTextContent(
         en.Date.errorStartDateMaxDate.replace(
-          /\{maxDate\}/,
+          /\{date\}/,
           formatDate(maxDate, formatOptions.en)
         )
       )
       expect(messages()[1]).toHaveTextContent(
         en.Date.errorEndDateMinDate.replace(
-          /\{minDate\}/,
+          /\{date\}/,
           formatDate(minDate, formatOptions.en)
         )
       )
@@ -1585,13 +1585,13 @@ describe('Field.Date', () => {
 
       expect(messages()[0]).toHaveTextContent(
         en.Date.errorStartDateMinDate.replace(
-          /\{minDate\}/,
+          /\{date\}/,
           formatDate(minDate, formatOptions.en)
         )
       )
       expect(messages()[1]).toHaveTextContent(
         en.Date.errorEndDateMinDate.replace(
-          /\{minDate\}/,
+          /\{date\}/,
           formatDate(minDate, formatOptions.en)
         )
       )

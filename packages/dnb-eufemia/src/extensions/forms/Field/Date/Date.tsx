@@ -291,13 +291,13 @@ function validateDateLimit({
   if (!isRange) {
     if (isBefore(startDate, minDate)) {
       return new FormError('Date.errorMinDate', {
-        messageValues: { minDate: formatDate(isoDates.minDate, options) },
+        messageValues: { date: formatDate(isoDates.minDate, options) },
       })
     }
 
     if (isAfter(startDate, maxDate)) {
       return new FormError('Date.errorMaxDate', {
-        messageValues: { maxDate: formatDate(isoDates.maxDate, options) },
+        messageValues: { date: formatDate(isoDates.maxDate, options) },
       })
     }
 
@@ -310,7 +310,7 @@ function validateDateLimit({
   if (isBefore(startDate, minDate)) {
     messages.push(
       new FormError('Date.errorStartDateMinDate', {
-        messageValues: { minDate: formatDate(isoDates.minDate, options) },
+        messageValues: { date: formatDate(isoDates.minDate, options) },
       })
     )
   }
@@ -318,7 +318,7 @@ function validateDateLimit({
   if (isAfter(startDate, maxDate)) {
     messages.push(
       new FormError('Date.errorStartDateMaxDate', {
-        messageValues: { maxDate: formatDate(isoDates.maxDate, options) },
+        messageValues: { date: formatDate(isoDates.maxDate, options) },
       })
     )
   }
@@ -327,7 +327,7 @@ function validateDateLimit({
   if (isBefore(endDate, minDate)) {
     messages.push(
       new FormError('Date.errorEndDateMinDate', {
-        messageValues: { minDate: formatDate(isoDates.minDate, options) },
+        messageValues: { date: formatDate(isoDates.minDate, options) },
       })
     )
   }
@@ -335,7 +335,7 @@ function validateDateLimit({
   if (isAfter(endDate, maxDate)) {
     messages.push(
       new FormError('Date.errorEndDateMaxDate', {
-        messageValues: { maxDate: formatDate(isoDates.maxDate, options) },
+        messageValues: { date: formatDate(isoDates.maxDate, options) },
       })
     )
   }
