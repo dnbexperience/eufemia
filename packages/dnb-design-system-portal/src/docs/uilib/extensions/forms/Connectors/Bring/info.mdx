@@ -6,7 +6,10 @@ import { supportedCountries } from '@dnb/eufemia/src/extensions/forms/Connectors
 
 ## Description
 
-The `Bring` connector allows you to use the [Bring API](https://developer.bring.com/api/) to verify a postal code and autocomplete a city name or street name.
+The `Bring` connector allows you to use the [Bring API](https://developer.bring.com/api/) to:
+
+- Verify a postal code
+- Autocomplete a city name or street name
 
 ## PostalCode API
 
@@ -54,7 +57,7 @@ Ensure you use one of the [following endpoints](https://developer.bring.com/api/
 
 Use the context to create a validator.
 
-You can use it as an `onChangeValidator` or `onBlurValidator` (recommended) validator, depending on your use case.
+You can use it as an `onChangeValidator` or `onBlurValidator` (recommended), depending on your use case.
 
 ```tsx
 const onBlurValidator = withConfig(Connectors.Bring.postalCode.validator)
