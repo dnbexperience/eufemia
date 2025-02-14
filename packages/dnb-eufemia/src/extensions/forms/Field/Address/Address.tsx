@@ -4,15 +4,20 @@ import useTranslation from '../../hooks/useTranslation'
 
 export type Props = StringFieldProps
 
-function Address(props: Props) {
+function Address(
+  props: Props & {
+    element?: React.ElementType<Props>
+  }
+) {
+  const { element: Element = StringField, ...rest } = props
   const stringFieldProps: Props = {
     autoComplete: 'street-address',
     inputMode: 'text',
     trim: true,
-    ...props,
+    ...rest,
   }
 
-  return <StringField {...stringFieldProps} />
+  return <Element {...stringFieldProps} />
 }
 Address._supportsSpacingProps = true
 

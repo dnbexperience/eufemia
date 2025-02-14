@@ -127,32 +127,26 @@ export async function fetchData<Data = unknown>(
     return result as FetchDataReturnValue<Data>
   }
 
-  try {
-    const u = generalConfig.fetchConfig.url
-    const url = typeof u === 'function' ? await u(value, parameters) : u
+  const u = generalConfig.fetchConfig.url
+  const url = typeof u === 'function' ? await u(value, parameters) : u
 
-    const { data, response } = await fetchDataFromAPI<Data>(
-      {
-        ...generalConfig,
-        fetchConfig: {
-          ...generalConfig.fetchConfig,
-          url,
-        },
+  const { data, response } = await fetchDataFromAPI<Data>(
+    {
+      ...generalConfig,
+      fetchConfig: {
+        ...generalConfig.fetchConfig,
+        url,
       },
-      options
-    )
+    },
+    options
+  )
 
-    // Check if the response status is in the range of 200-299
-    if (!response.ok) {
-      throw new Error(
-        `${response.statusText} – Status: ${response.status}`
-      )
-    }
-
-    return { data, status: response.status }
-  } catch (error) {
-    return error
+  // Check if the response status is in the range of 200-299
+  if (!response.ok) {
+    throw new Error(`${response.statusText} – Status: ${response.status}`)
   }
+
+  return { data, status: response.status }
 }
 
 export function getCountryCodeValue({
