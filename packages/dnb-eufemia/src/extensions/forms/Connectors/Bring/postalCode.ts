@@ -3,11 +3,11 @@ import { FormError } from '../../utils'
 import {
   GeneralConfig,
   fetchData,
-  getCountryValue,
+  getCountryCodeValue,
   handleCountryPath,
 } from '../createContext'
 
-export const supportedCountries = [
+export const supportedCountryCodes = [
   'NO', // Norway
   'DK', // Denmark
   'SE', // Sweden
@@ -26,8 +26,8 @@ export type HandlerConfig = {
   cityPath: string
 }
 
-export const unsupportedCountry =
-  'Postal code verification is not supported for {country}.'
+export const unsupportedCountryCode =
+  'Postal code verification is not supported for {countryCode}.'
 
 export function autofill(
   generalConfig: GeneralConfig,
@@ -40,19 +40,19 @@ export function autofill(
       return // stop here
     }
 
-    const { country } = handleCountryPath({
+    const { countryCode } = handleCountryPath({
       value,
       additionalArgs,
       handler: autofillHandler,
     })
 
-    if (country && !supportedCountries.includes(country)) {
+    if (countryCode && !supportedCountryCodes.includes(countryCode)) {
       return // stop here
     }
 
     try {
       const parameters = {
-        country: String(country).toLowerCase(),
+        countryCode: String(countryCode).toLowerCase(),
       }
       const { data } = await fetchData(value, {
         generalConfig,
@@ -98,15 +98,17 @@ export function validator(
       return // stop here
     }
 
-    const { country } = getCountryValue({ additionalArgs })
+    const { countryCode } = getCountryCodeValue({ additionalArgs })
 
-    if (country && !supportedCountries.includes(country)) {
-      return new Error(unsupportedCountry.replace('{country}', country))
+    if (countryCode && !supportedCountryCodes.includes(countryCode)) {
+      return new Error(
+        unsupportedCountryCode.replace('{countryCode}', countryCode)
+      )
     }
 
     try {
       const parameters = {
-        country: String(country).toLowerCase(),
+        countryCode: String(countryCode).toLowerCase(),
       }
       const { data, status } = await fetchData(value, {
         generalConfig,
@@ -131,8 +133,8 @@ export function validator(
   }
 }
 
-export function getMockData(country?: string) {
-  switch (String(country).toUpperCase()) {
+export function getMockData(countryCode?: string) {
+  switch (String(countryCode).toUpperCase()) {
     case 'SE':
       return {
         postal_codes: [

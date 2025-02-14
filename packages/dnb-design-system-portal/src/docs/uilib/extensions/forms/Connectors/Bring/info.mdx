@@ -2,7 +2,7 @@
 showTabs: true
 ---
 
-import { supportedCountries } from '@dnb/eufemia/src/extensions/forms/Connectors/Bring/postalCode'
+import { supportedCountryCodes } from '@dnb/eufemia/src/extensions/forms/Connectors/Bring/postalCode'
 
 ## Description
 
@@ -22,10 +22,10 @@ import { Connectors, Field, Form } from '@dnb/eufemia/extensions/forms'
 
 const { withConfig } = Connectors.createContext({
   fetchConfig: {
-    url: (value, { country }) => {
-      return `[YOUR-API-URL]/.../${country}/.../${value}`
-      // real-world example without proxy
-      // return `https://api.bring.com/address/api/{country}/postal-codes/{value}`
+    url: (value, { countryCode }) => {
+      return `[YOUR-API-URL]/.../${countryCode}/.../${value}`
+      // Real-world example using Bring's Postal Code API's endpoint get postal code, directly without proxy:
+      // return `https://api.bring.com/address/api/{countryCode}/postal-codes/{value}`
     },
   },
 })
@@ -35,9 +35,9 @@ const { withConfig } = Connectors.createContext({
 
 ### Supported countries
 
-The Bring API for PostalCode supports the [following countries](https://developer.bring.com/api/postal-code/#supported-countries):
+The Bring API for PostalCode supports the [following countries](https://developer.bring.com/api/postal-code/#supported-countries), by its country codes:
 
-{supportedCountries.join(', ')}
+{supportedCountryCodes.join(', ')}
 
 ### Endpoints and response format
 

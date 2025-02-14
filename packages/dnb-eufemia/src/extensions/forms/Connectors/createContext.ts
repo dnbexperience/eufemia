@@ -1,7 +1,7 @@
 import { ReceiveAdditionalEventArgs } from '../types'
 
 export type UrlSecondParameter = {
-  country: string
+  countryCode: string
 }
 export type GeneralConfig = {
   fetchConfig?: {
@@ -9,7 +9,7 @@ export type GeneralConfig = {
       | string
       | ((
           value: string,
-          { country }: UrlSecondParameter
+          { countryCode }: UrlSecondParameter
         ) => string | Promise<string>)
     headers?: HeadersInit
   }
@@ -121,15 +121,15 @@ export async function fetchData(
   }
 }
 
-export function getCountryValue({
+export function getCountryCodeValue({
   additionalArgs,
 }: {
   additionalArgs: ReceiveAdditionalEventArgs<unknown>
 }) {
-  const countryValue = additionalArgs.props['data-country']
-  const country = additionalArgs.getSourceValue<string>(countryValue)
-
-  return { country, countryValue }
+  const countryCodeValue = additionalArgs.props['data-country-code']
+  const countryCode =
+    additionalArgs.getSourceValue<string>(countryCodeValue)
+  return { countryCode, countryCodeValue }
 }
 
 export function handleCountryPath({
@@ -144,15 +144,17 @@ export function handleCountryPath({
     additionalArgs: ReceiveAdditionalEventArgs<unknown>
   ) => void
 }) {
-  const { country, countryValue } = getCountryValue({ additionalArgs })
+  const { countryCode, countryCodeValue } = getCountryCodeValue({
+    additionalArgs,
+  })
 
   if (
-    String(countryValue).startsWith('/') &&
+    String(countryCodeValue).startsWith('/') &&
     additionalArgs[handler.name] !== handler
   ) {
     additionalArgs[handler.name] = handler
     additionalArgs.setFieldEventListener(
-      countryValue,
+      countryCodeValue,
       'onPathChange',
       () => {
         handler(value, additionalArgs)
@@ -160,5 +162,5 @@ export function handleCountryPath({
     )
   }
 
-  return { country }
+  return { countryCode }
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import userEvent from '@testing-library/user-event'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { Connectors, Field, Form } from '../../..'
-import { getMockData, unsupportedCountry } from '../postalCode'
+import { getMockData, unsupportedCountryCode } from '../postalCode'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
@@ -253,16 +253,18 @@ describe('postalCode', () => {
         document.querySelector('.dnb-form-status')
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        unsupportedCountry.replace('{country}', 'CH')
+        unsupportedCountryCode.replace('{countryCode}', 'CH')
       )
     })
 
-    it('should not validate when country path is other than "NO"', async () => {
+    it('should not validate when countryCode path is other than "NO"', async () => {
       render(
-        <Form.Handler defaultData={{ postalCode: '0000', country: 'CH' }}>
-          <Field.String path="/country" className="country" />
+        <Form.Handler
+          defaultData={{ postalCode: '0000', countryCode: 'CH' }}
+        >
+          <Field.String path="/countryCode" className="country" />
           <Field.PostalCodeAndCity
-            country="/country"
+            countryCode="/countryCode"
             postalCode={{
               path: '/postalCode',
               onChangeValidator,
@@ -286,7 +288,7 @@ describe('postalCode', () => {
         document.querySelector('.dnb-form-status')
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        unsupportedCountry.replace('{country}', 'CH')
+        unsupportedCountryCode.replace('{countryCode}', 'CH')
       )
 
       await userEvent.type(countryInput, '{Backspace>2}NO')
@@ -329,7 +331,7 @@ describe('postalCode', () => {
 
       expect(url).toHaveBeenCalledTimes(1)
       expect(url).toHaveBeenCalledWith('1391', {
-        country: 'dk',
+        countryCode: 'dk',
       })
     })
   })
@@ -470,16 +472,18 @@ describe('postalCode', () => {
         ).toBeInTheDocument()
       })
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        unsupportedCountry.replace('{country}', 'CH')
+        unsupportedCountryCode.replace('{countryCode}', 'CH')
       )
     })
 
-    it('should not validate when country path is other than "NO"', async () => {
+    it('should not validate when countryCode path is other than "NO"', async () => {
       render(
-        <Form.Handler defaultData={{ postalCode: '0000', country: 'CH' }}>
-          <Field.String path="/country" className="country" />
+        <Form.Handler
+          defaultData={{ postalCode: '0000', countryCode: 'CH' }}
+        >
+          <Field.String path="/countryCode" className="country" />
           <Field.PostalCodeAndCity
-            country="/country"
+            countryCode="/countryCode"
             postalCode={{
               path: '/postalCode',
               onBlurValidator,
@@ -506,7 +510,7 @@ describe('postalCode', () => {
         ).toBeInTheDocument()
       })
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        unsupportedCountry.replace('{country}', 'CH')
+        unsupportedCountryCode.replace('{countryCode}', 'CH')
       )
 
       await userEvent.type(countryInput, '{Backspace>2}NO')
@@ -550,7 +554,7 @@ describe('postalCode', () => {
 
       expect(url).toHaveBeenCalledTimes(1)
       expect(url).toHaveBeenCalledWith('1391', {
-        country: 'dk',
+        countryCode: 'dk',
       })
     })
   })
@@ -632,16 +636,16 @@ describe('postalCode', () => {
       expect(cityInput).toHaveValue('')
     })
 
-    it('should not fill city when country path is other than "NO"', async () => {
+    it('should not fill city when countryCode path is other than "NO"', async () => {
       render(
         <Form.Handler>
           <Field.String
-            path="/country"
+            path="/countryCode"
             className="country"
             defaultValue="CH"
           />
           <Field.PostalCodeAndCity
-            country="/country"
+            countryCode="/countryCode"
             postalCode={{
               path: '/postalCode',
               onChange,
@@ -740,7 +744,7 @@ describe('postalCode', () => {
 
       expect(url).toHaveBeenCalledTimes(1)
       expect(url).toHaveBeenCalledWith('1391', {
-        country: 'fi',
+        countryCode: 'fi',
       })
     })
   })

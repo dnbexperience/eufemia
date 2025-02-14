@@ -3,14 +3,14 @@ import { getMockData } from '@dnb/eufemia/src/extensions/forms/Connectors/Bring/
 import { Form, Field, Connectors } from '@dnb/eufemia/src/extensions/forms'
 
 let mockFetchTimeout = null
-async function mockFetch(country: string) {
+async function mockFetch(countryCode: string) {
   const originalFetch = globalThis.fetch
 
   globalThis.fetch = () => {
     return Promise.resolve({
       ok: true,
       json: () => {
-        return Promise.resolve(getMockData(country))
+        return Promise.resolve(getMockData(countryCode))
       },
     }) as any
   }
@@ -29,8 +29,8 @@ export const PostalCode = () => {
       {() => {
         const { withConfig } = Connectors.createContext({
           fetchConfig: {
-            url: async (value, { country }) => {
-              await mockFetch(country)
+            url: async (value, { countryCode }) => {
+              await mockFetch(countryCode)
               return '[YOUR-API-URL]/' + value
             },
           },
@@ -48,12 +48,12 @@ export const PostalCode = () => {
           <Form.Handler onSubmit={console.log}>
             <Form.Card>
               <Field.SelectCountry
-                path="/country"
+                path="/countryCode"
                 defaultValue="NO"
                 filterCountries={({ iso }) => ['NO', 'SE'].includes(iso)}
               />
               <Field.PostalCodeAndCity
-                country="/country"
+                countryCode="/countryCode"
                 postalCode={{
                   path: '/postalCode',
                   onBlurValidator,

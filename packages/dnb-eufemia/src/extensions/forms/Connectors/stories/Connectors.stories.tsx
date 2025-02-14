@@ -1,5 +1,5 @@
 import { Connectors, Field, Form } from '../../'
-import { supportedCountries } from '../Bring/postalCode'
+import { supportedCountryCodes } from '../Bring/postalCode'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Connectors',
@@ -9,9 +9,9 @@ export function PostalCode() {
   // 1. Create a context with the config
   const { withConfig } = Connectors.createContext({
     fetchConfig: {
-      url: (value, { country }) => {
+      url: (value, { countryCode }) => {
         // Visit: https://cors-anywhere.herokuapp.com/corsdemo to enable this service
-        return `https://cors-anywhere.herokuapp.com/https://api.bring.com/address/api/${country}/postal-codes/${value}`
+        return `https://cors-anywhere.herokuapp.com/https://api.bring.com/address/api/${countryCode}/postal-codes/${value}`
       },
       headers: {
         'X-Mybring-API-Uid': 'Uid',
@@ -40,13 +40,15 @@ export function PostalCode() {
     >
       <Form.Card>
         <Field.SelectCountry
-          path="/country"
+          path="/countryCode"
           // defaultValue="NO"
           defaultValue="SE"
-          filterCountries={({ iso }) => supportedCountries.includes(iso)}
+          filterCountries={({ iso }) =>
+            supportedCountryCodes.includes(iso)
+          }
         />
         <Field.PostalCodeAndCity
-          country="/country"
+          countryCode="/countryCode"
           postalCode={{
             path: '/postalCode',
             onChangeValidator,
