@@ -452,7 +452,7 @@ export function makeOptions<T = DrawerListProps['data']>(
   }) as T
 }
 
-function renderDropdownItems(
+export function renderDropdownItems(
   data: Data,
   transformSelection?: Props['transformSelection']
 ) {
