@@ -8,6 +8,7 @@ import { MultiInputMask } from '../../../../components/input-masked'
 import type { MultiInputMaskValue } from '../../../../components/input-masked'
 import { useTranslation as useSharedTranslation } from '../../../../shared'
 import useTranslation from '../../hooks/useTranslation'
+import { FormError } from '../../utils'
 
 type ExpiryValue = MultiInputMaskValue<'month' | 'year'>
 
@@ -35,6 +36,16 @@ function Expiry(props: ExpiryProps) {
     [errorRequired, props.errorMessages]
   )
 
+  const handleInput = useCallback(
+    (values: ExpiryValue) => {
+      const month = expiryValueToString(values.month, placeholders.month)
+      const year = expiryValueToString(values.year, placeholders.year)
+
+      return `${month}${year}`
+    },
+    [placeholders.month, placeholders.year]
+  )
+
   const validateRequired = useCallback(
     (value: string, { required, error }) => {
       return required && !value ? error : undefined
@@ -42,11 +53,53 @@ function Expiry(props: ExpiryProps) {
     []
   )
 
+  const validateMonth = useCallback(
+    (value: string) => {
+      const month = value.substring(0, 2)
+      const year = value.substring(2, 4)
+
+      const monthNumber = Number(month)
+
+      const messages: Array<FormError> = []
+
+      if (
+        month.includes(placeholders.month) ||
+        monthNumber < 1 ||
+        monthNumber > 12
+      ) {
+        messages.push(
+          new FormError('Expiry.errorMonth', {
+            messageValues: { month: month },
+          })
+        )
+      }
+
+      if (year.includes(placeholders.year)) {
+        messages.push(
+          new FormError('Expiry.errorYear', {
+            messageValues: { year: year },
+          })
+        )
+      }
+
+      if (messages.length) {
+        return messages
+      }
+    },
+    [placeholders.month, placeholders.year]
+  )
+
+  const validateInitially = useMemo(() => {
+    return props.validateInitially ?? !!props.value
+  }, [props.value, props.validateInitially])
+
   const preparedProps: ExpiryProps = {
     ...props,
     errorMessages,
-    fromInput: (value: ExpiryValue) => Object.values(value).join(''),
+    fromInput: handleInput,
     validateRequired,
+    validateInitially,
+    onBlurValidator: validateMonth,
   }
 
   const {
@@ -131,6 +184,18 @@ function Expiry(props: ExpiryProps) {
       />
     </FieldBlock>
   )
+}
+
+function expiryValueToString(value: string, placeholder: string) {
+  if (!value) {
+    return `${placeholder}${placeholder}`
+  }
+
+  if (value.length === 1) {
+    return `${value}${placeholder}`
+  }
+
+  return value
 }
 
 Expiry._supportsEufemiaSpacingProps = true
