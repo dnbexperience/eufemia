@@ -38,7 +38,7 @@ export function PostalCodeAndCityCountryCodeSelection() {
           <Field.Option value="DE" label="Germany" />
         </Field.Selection>
         <Field.PostalCodeAndCity
-          country="/country"
+          countryCode="/country"
           postalCode={{ path: '/postalCode' }}
           city={{ path: '/city' }}
         />
