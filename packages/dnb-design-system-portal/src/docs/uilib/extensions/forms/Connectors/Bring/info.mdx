@@ -24,6 +24,8 @@ const { withConfig } = Connectors.createContext({
   fetchConfig: {
     url: (value, { country }) => {
       return `[YOUR-API-URL]/.../${country}/.../${value}`
+      // real-world example without proxy
+      // return `https://api.bring.com/address/api/{country}/postal-codes/{value}`
     },
   },
 })
