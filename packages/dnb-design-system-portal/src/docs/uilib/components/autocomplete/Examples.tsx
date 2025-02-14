@@ -382,7 +382,7 @@ export const AutocompleteOpened = () => {
   )
 }
 
-const topMovies = [
+export const topMovies = [
   {
     content: (
       <Autocomplete.HorizontalItem>

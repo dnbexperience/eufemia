@@ -277,7 +277,8 @@ function Selection(props: Props) {
       }
 
       const specificFieldBlockProps: FieldBlockProps = {
-        width,
+        width: width === 'stretch' ? width : undefined,
+        contentWidth: width !== false ? width : undefined,
       }
       if (layout === 'horizontal') {
         specificFieldBlockProps.width = undefined
@@ -452,7 +453,7 @@ export function makeOptions<T = DrawerListProps['data']>(
   }) as T
 }
 
-function renderDropdownItems(
+export function renderDropdownItems(
   data: Data,
   transformSelection?: Props['transformSelection']
 ) {

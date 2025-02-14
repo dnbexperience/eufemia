@@ -1,6 +1,7 @@
 import React from 'react'
 import type { GetTranslationProps } from './Context'
 export * from '../components/space/types'
+export * from './PropertiesTable'
 
 export type ResponsiveProp<T> = {
   small?: T
@@ -39,16 +40,6 @@ export type DynamicElement<
 > = React.ElementType<P> | string
 
 export type DynamicElementParams<T = Record<string, unknown>> = T
-
-export type PropertiesTableProps = Record<
-  string,
-  {
-    type: string | string[]
-    defaultValue?: string
-    doc: string
-    status: 'optional' | 'internal' | 'required' | 'deprecated'
-  }
->
 
 export type DeepPartial<T> = T extends object
   ? {
