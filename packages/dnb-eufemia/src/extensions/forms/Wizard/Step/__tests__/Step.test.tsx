@@ -82,6 +82,19 @@ describe('Step', () => {
     expect(stepElement).toHaveAttribute('aria-label', 'Other Aria Label')
   })
 
+  it('should set title as aria-label when wrapped in Wizard.Container', () => {
+    render(
+      <Form.Handler>
+        <Wizard.Container>
+          <Wizard.Step title="My Aria Label">Step Content</Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>
+    )
+
+    const stepElement = document.querySelector('.dnb-forms-step')
+    expect(stepElement).toHaveAttribute('aria-label', 'My Aria Label')
+  })
+
   it('should not render when active is false', () => {
     render(<Wizard.Step active={false}>Step Content</Wizard.Step>)
 
