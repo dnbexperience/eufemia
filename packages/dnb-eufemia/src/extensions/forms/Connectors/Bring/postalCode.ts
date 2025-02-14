@@ -29,13 +29,13 @@ export type HandlerConfig = {
 export const unsupportedCountry =
   'Postal code verification is not supported for {country}.'
 
-export function onChange(
+export function autofill(
   generalConfig: GeneralConfig,
   handlerConfig?: HandlerConfig
 ): UseFieldProps<string>['onChange'] {
   const abortControllerRef = { current: null }
 
-  return async function onChangeHandler(value, additionalArgs) {
+  return async function autofillHandler(value, additionalArgs) {
     if (!(typeof value === 'string' && value.length >= 4)) {
       return // stop here
     }
@@ -43,7 +43,7 @@ export function onChange(
     const { country } = handleCountryPath({
       value,
       additionalArgs,
-      handler: onChangeHandler,
+      handler: autofillHandler,
     })
 
     if (country && !supportedCountries.includes(country)) {

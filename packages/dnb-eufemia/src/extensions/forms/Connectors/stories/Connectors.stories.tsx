@@ -26,7 +26,7 @@ export function PostalCode() {
   )
 
   // ... and an onChange function
-  const onChange = withConfig(Connectors.Bring.postalCode.onChange, {
+  const onChange = withConfig(Connectors.Bring.postalCode.autofill, {
     cityPath: '/city',
   })
 

@@ -55,9 +55,9 @@ Ensure you use one of the [following endpoints](https://developer.bring.com/api/
 
 ### To verify a postal code
 
-Use the context to create a validator.
+Use the context to create a validator based on the `validator` connector.
 
-You can use it as an `onChangeValidator` or `onBlurValidator` (recommended), depending on your use case.
+You can use it for an `onChangeValidator` or `onBlurValidator` (recommended), depending on your use case.
 
 ```tsx
 const onBlurValidator = withConfig(Connectors.Bring.postalCode.validator)
@@ -78,10 +78,10 @@ function MyForm() {
 
 ### To autofill a city name based on a postal code
 
-Use the context to create the `onChange` event handler.
+Use the context to create the `onChange` event handler based on the `autofill` connector.
 
 ```tsx
-const onChange = withConfig(Connectors.Bring.postalCode.onChange, {
+const onChange = withConfig(Connectors.Bring.postalCode.autofill, {
   cityPath: '/city',
 })
 

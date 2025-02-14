@@ -40,7 +40,7 @@ export const PostalCode = () => {
           Connectors.Bring.postalCode.validator,
         )
 
-        const onChange = withConfig(Connectors.Bring.postalCode.onChange, {
+        const onChange = withConfig(Connectors.Bring.postalCode.autofill, {
           cityPath: '/city',
         })
 

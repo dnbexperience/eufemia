@@ -555,11 +555,11 @@ describe('postalCode', () => {
     })
   })
 
-  describe('onChange', () => {
+  describe('autofill', () => {
     let onChange = null
 
     beforeEach(() => {
-      onChange = withConfig(Connectors.Bring.postalCode.onChange, {
+      onChange = withConfig(Connectors.Bring.postalCode.autofill, {
         cityPath: '/city',
       })
     })
@@ -716,7 +716,7 @@ describe('postalCode', () => {
         fetchConfig: { url },
       })
 
-      const onChange = withConfig(Connectors.Bring.postalCode.onChange)
+      const onChange = withConfig(Connectors.Bring.postalCode.autofill)
 
       render(
         <Form.Handler>
