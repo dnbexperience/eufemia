@@ -20,7 +20,18 @@ export type Props = Pick<
      * You can also use the value of another field to define the country, by using a path value i.e. `/myCountryPath`.
      * Default: `NO`
      */
+    /**
+     * @deprecated – use countryCode instead. Will be removed in v11.
+     */
     country?: Path | string
+
+    /**
+     * Defines which country the postal code and city is for.
+     * Setting it to anything other than `no` will remove the default norwegian postal code pattern.
+     * You can also use the value of another field to define the countryCode, by using a path value i.e. `/myCountryCodePath`.
+     * Default: `NO`
+     */
+    countryCode?: Path | string
     help?: HelpProps
   }
 
@@ -33,17 +44,18 @@ function PostalCodeAndCity(props: Props) {
     city = {},
     help,
     width = 'large',
-    country = defaultCountry,
+    country,
+    countryCode = defaultCountry,
     ...fieldBlockProps
   } = props
 
-  const countryValue = getSourceValue(country)
+  const countryCodeValue = getSourceValue(country || countryCode)
 
   const handleCityDefaults = useCallback(
     (city: StringFieldProps) => {
       const props: StringFieldProps = {}
 
-      switch (countryValue) {
+      switch (countryCodeValue) {
         case defaultCountry: {
           props.pattern = '^[A-Za-zÆØÅæøå -]+$'
           break
@@ -52,7 +64,7 @@ function PostalCodeAndCity(props: Props) {
 
       return { ...props, ...city }
     },
-    [countryValue]
+    [countryCodeValue]
   )
 
   const {
@@ -67,7 +79,7 @@ function PostalCodeAndCity(props: Props) {
     (postalCode: StringFieldProps) => {
       const props: StringFieldProps = {}
 
-      switch (countryValue) {
+      switch (countryCodeValue) {
         case defaultCountry:
         case 'DK':
         case 'CH': {
@@ -83,7 +95,7 @@ function PostalCodeAndCity(props: Props) {
 
       return { ...props, ...postalCode }
     },
-    [countryValue]
+    [countryCodeValue]
   )
 
   const {
