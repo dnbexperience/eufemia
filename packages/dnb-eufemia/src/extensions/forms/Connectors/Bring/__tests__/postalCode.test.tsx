@@ -2,7 +2,7 @@ import React from 'react'
 import userEvent from '@testing-library/user-event'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { Connectors, Field, Form } from '../../..'
-import { getMockData, unsupportedCountryCode } from '../postalCode'
+import { getMockData, unsupportedCountryCodeMessage } from '../postalCode'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
@@ -253,7 +253,7 @@ describe('postalCode', () => {
         document.querySelector('.dnb-form-status')
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        unsupportedCountryCode.replace('{countryCode}', 'CH')
+        unsupportedCountryCodeMessage.replace('{countryCode}', 'CH')
       )
     })
 
@@ -288,7 +288,7 @@ describe('postalCode', () => {
         document.querySelector('.dnb-form-status')
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        unsupportedCountryCode.replace('{countryCode}', 'CH')
+        unsupportedCountryCodeMessage.replace('{countryCode}', 'CH')
       )
 
       await userEvent.type(countryInput, '{Backspace>2}NO')
@@ -472,7 +472,7 @@ describe('postalCode', () => {
         ).toBeInTheDocument()
       })
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        unsupportedCountryCode.replace('{countryCode}', 'CH')
+        unsupportedCountryCodeMessage.replace('{countryCode}', 'CH')
       )
     })
 
@@ -510,7 +510,7 @@ describe('postalCode', () => {
         ).toBeInTheDocument()
       })
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        unsupportedCountryCode.replace('{countryCode}', 'CH')
+        unsupportedCountryCodeMessage.replace('{countryCode}', 'CH')
       )
 
       await userEvent.type(countryInput, '{Backspace>2}NO')

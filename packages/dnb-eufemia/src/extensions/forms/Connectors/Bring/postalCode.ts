@@ -25,7 +25,7 @@ export const supportedCountryCodes = [
   'SJ', // Svalbard and Jan Mayen
 ]
 
-export const unsupportedCountryCode =
+export const unsupportedCountryCodeMessage =
   'Postal code verification is not supported for {countryCode}.'
 
 export type AutofillResolverResponse = {
@@ -137,7 +137,7 @@ export function validator(
 
     if (countryCode && !supportedCountryCodes.includes(countryCode)) {
       return new Error(
-        unsupportedCountryCode.replace('{countryCode}', countryCode)
+        unsupportedCountryCodeMessage.replace('{countryCode}', countryCode)
       )
     }
 
