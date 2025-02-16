@@ -2478,6 +2478,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     forceUpdate,
 
     /** Internal */
+    additionalArgs,
     dataContext,
   }
 }
@@ -2510,6 +2511,7 @@ export interface ReturnAdditional<Value> {
   /** Internal */
   dataContext: ContextState
   fieldState: SubmitState
+  additionalArgs: ReceiveAdditionalEventArgs<Value>
 }
 
 function resolveValidatingState(state: SubmitStateWithValidating) {
