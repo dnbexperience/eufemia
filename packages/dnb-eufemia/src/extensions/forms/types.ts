@@ -1,6 +1,8 @@
 import type { AriaAttributes } from 'react'
 import type { SpacingProps } from '../../components/space/types'
 import type {
+  ContextState,
+  EventListenerCall,
   FilterData,
   TransformData,
   VisibleDataOptions,
@@ -68,6 +70,25 @@ export type ReceiveAdditionalEventArgs<
   connectWithItemPath: (path: Path) => { getValue: () => Value }
 
   /**
+   * Returns the value of the given path.
+   */
+  getValueByPath: GetValueByPath<Value>
+
+  /**
+   * Returns the value of the given path or the source value.
+   */
+  getSourceValue: GetValueByPath<Value>
+
+  /**
+   * Used internally to connect a field event listener to a path.
+   */
+  setFieldEventListener: (
+    path: Path,
+    type: EventListenerCall['type'],
+    callback: EventListenerCall['callback']
+  ) => void
+
+  /**
    * Returns the validators from the { exportValidators } object.
    */
   validators: Record<string, Validator<Value>> | undefined
@@ -76,6 +97,11 @@ export type ReceiveAdditionalEventArgs<
    * The props passed to the Field component.
    */
   props: UseFieldProps<Value>
+
+  /**
+   * The internal data context.
+   */
+  dataContext: ContextState
 } & {
   /** @deprecated use the error messages from the { errorMessages } object instead. */
   pattern?: string
@@ -192,7 +218,7 @@ export function omitDataValueReadProps<Props extends DataValueReadProps>(
 
 type EventArgs<Value, ExtraValue extends ProvideAdditionalEventArgs> = [
   value: Value,
-  additionalArgs?: Partial<ExtraValue> & ReceiveAdditionalEventArgs<Value>,
+  additionalArgs?: ExtraValue | ReceiveAdditionalEventArgs<Value>,
 ]
 
 export interface DataValueWriteProps<

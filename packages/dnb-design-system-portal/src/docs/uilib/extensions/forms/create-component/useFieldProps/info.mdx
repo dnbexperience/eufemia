@@ -228,7 +228,7 @@ const { error, hasError } = useFieldProps({
 handleChange(value, (additionalArgs = null))
 ```
 
-When `additionalArgs` is provided, it will be passed to the `onChange`, `onFocus` or `onBlur` events as the second argument. It will be merged with the internal `additionalArgs`, which includes `props`, including all of the given properties.
+When `additionalArgs` is provided, it will be passed to the `onChange`, `onFocus` or `onBlur` events as the second argument. It will be merged with the internal `additionalArgs`, which includes `props` (including all of the given properties), `getValueByPath` and `getSourceValue`.
 
 - `updateValue(value)` to update/change the internal value, without calling any events.
 

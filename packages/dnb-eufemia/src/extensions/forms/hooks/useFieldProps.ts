@@ -185,7 +185,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     useContext(SnapshotContext) || {}
   const { isVisible } = useContext(VisibilityContext) || {}
 
-  const { getValueByPath } = useDataValue()
+  const { getValueByPath, getSourceValue } = useDataValue()
   const translation = useTranslation()
   const { formatMessage } = translation
   const translationRef = useRef(translation)
@@ -730,7 +730,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     )
   }, [error])
 
-  const connectWithPathListenerRef = useRef(async () => {
+  const connectWithPathListenerRef = useRef(() => {
     runOnChangeValidator()
     runOnBlurValidator()
   })
@@ -750,9 +750,15 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     [getValueByPath, setFieldEventListener]
   )
 
-  const additionalArgsRef = useRef({
+  const additionalArgsRef = useRef<
+    Partial<ReceiveAdditionalEventArgs<Value>>
+  >({
     validators: exportValidators,
     props,
+    dataContext,
+    getValueByPath,
+    getSourceValue,
+    setFieldEventListener,
   })
   additionalArgsRef.current.validators = exportValidators
   additionalArgsRef.current.props = props
@@ -2472,6 +2478,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     forceUpdate,
 
     /** Internal */
+    additionalArgs,
     dataContext,
   }
 }
@@ -2504,6 +2511,7 @@ export interface ReturnAdditional<Value> {
   /** Internal */
   dataContext: ContextState
   fieldState: SubmitState
+  additionalArgs: ReceiveAdditionalEventArgs<Value>
 }
 
 function resolveValidatingState(state: SubmitStateWithValidating) {

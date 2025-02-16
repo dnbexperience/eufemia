@@ -1,0 +1,100 @@
+---
+showTabs: true
+---
+
+## Description
+
+`Connectors` are an opt-in way to extend the functionality of a form. They can be used to add features like API calls for autofill, validation, and more.
+
+Available connectors:
+
+- [Bring](/uilib/extensions/forms/Connectors/Bring/)
+
+## Import
+
+```ts
+import { Connectors } from '@dnb/eufemia/extensions/forms'
+```
+
+## How to create your own connector
+
+Connectors are created by returning a function that takes the `generalConfig` and optionally a `handlerConfig` as an argument.
+
+Here is an example of how to create a connector that can be used as an field `onChangeValidator` or `onBlurValidator`:
+
+```ts
+export function validator(generalConfig: GeneralConfig) {
+  // - The handler to be used as the validator
+  return async function validatorHandler(value) {
+    try {
+      const { data, status } = await fetchData(value, {
+        generalConfig,
+        parameters: {},
+      })
+
+      const onMatch = () => {
+        return new FormError('PostalCodeAndCity.invalidCode')
+      }
+
+      const { matcher } = responseResolver(data, handlerConfig)
+      const match = matcher(value)
+
+      if (status !== 400 && !match) {
+        return onMatch()
+      }
+    } catch (error) {
+      return error
+    }
+  }
+}
+```
+
+Here is the `GeneralConfig` type simplified:
+
+```ts
+type GeneralConfig = {
+  fetchConfig?: {
+    url: string | ((value: string) => string | Promise<string>)
+    headers?: HeadersInit
+  }
+}
+```
+
+The `responseResolver` is used to take care of the response from the API and return the `matcher` and `payload` to be used by the connector.
+
+```ts
+const responseResolver: ResponseResolver<
+  PostalCodeResolverData,
+  PostalCodeResolverPayload
+> = (data, handlerConfig) => {
+  // - Here we align the data from the API with the expected data structure
+  const { postal_code, city } = data?.postal_codes?.[0] || {}
+
+  return {
+    /**
+     * The matcher to be used to determine if the connector,
+     * such as an validator for `onChangeValidator` or `onBlurValidator`,
+     * should validate the field value.
+     */
+    matcher: (value) => value === postal_code,
+
+    /**
+     * The payload to be returned and used by the connector.
+     */
+    payload: { city },
+  }
+}
+```
+
+You can extend a response resolver to support a custom resolver, given via the `handlerConfig` argument.
+
+```ts
+const responseResolver = (data, handlerConfig) => {
+  const resolver = handlerConfig?.responseResolver
+  if (typeof resolver === 'function') {
+    return resolver(data)
+  }
+
+  // ... the rest of the response resolver.
+}
+```
