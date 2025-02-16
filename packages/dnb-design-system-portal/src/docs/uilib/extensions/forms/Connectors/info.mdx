@@ -20,7 +20,7 @@ import { Connectors } from '@dnb/eufemia/extensions/forms'
 
 Connectors are created by returning a function that takes the `generalConfig` and optionally a `handlerConfig` as an argument.
 
-Here is an example of how to create a connector that can be used as an field `onChangeValidator` or `onBlurValidator`:
+Here is an example of how to create a connector that can be used as a field's `onChangeValidator` or `onBlurValidator`:
 
 ```ts
 export function validator(generalConfig: GeneralConfig) {
@@ -72,7 +72,7 @@ const responseResolver: ResponseResolver<
 
   return {
     /**
-     * The matcher to be used to determine if the connector,
+     * The matcher to be used to determine if and how the connector,
      * such as an validator for `onChangeValidator` or `onBlurValidator`,
      * should validate the field value.
      */
