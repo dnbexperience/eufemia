@@ -24,7 +24,7 @@ const { withConfig } = Connectors.createContext({
   fetchConfig: {
     url: (value, { countryCode }) => {
       return `[YOUR-API-URL]/.../${countryCode}/.../${value}`
-      // Real-world example using Bring's Postal Code API's endpoint get postal code, directly without proxy:
+      // Real-world example using Bring's Postal Code API's get postal code endpoint, directly without proxy:
       // return `https://api.bring.com/address/api/{countryCode}/postal-codes/{value}`
     },
   },
