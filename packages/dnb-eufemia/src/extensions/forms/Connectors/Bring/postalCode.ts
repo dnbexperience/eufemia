@@ -2,6 +2,9 @@ import type { UseFieldProps } from '../../types'
 import { FormError } from '../../utils'
 import {
   GeneralConfig,
+  HandlerConfig,
+  PreResponseResolver,
+  ResponseResolver,
   fetchData,
   getCountryCodeValue,
   handleCountryPath,
@@ -22,16 +25,44 @@ export const supportedCountryCodes = [
   'SJ', // Svalbard and Jan Mayen
 ]
 
-export type HandlerConfig = {
-  cityPath: string
-}
-
 export const unsupportedCountryCode =
   'Postal code verification is not supported for {countryCode}.'
 
+export type AutofillResolverResponse = {
+  postal_codes: { postal_code: string; city: string }[]
+}
+export type AutofillResolverPayload = {
+  city: string
+}
+
+export const preResponseResolver: PreResponseResolver = ({ value }) => {
+  if (!value) {
+    return { postal_codes: [] }
+  }
+}
+
+export const responseResolver: ResponseResolver<
+  AutofillResolverResponse,
+  AutofillResolverPayload
+> = (response, handlerConfig) => {
+  const resolver = handlerConfig?.responseResolver
+  if (typeof resolver === 'function') {
+    return resolver(response) as ReturnType<typeof resolver> & {
+      payload: AutofillResolverPayload
+    }
+  }
+
+  const { postal_code, city } = response?.postal_codes?.[0] || {}
+
+  return {
+    matcher: (value) => value === postal_code,
+    payload: { city },
+  }
+}
+
 export function autofill(
   generalConfig: GeneralConfig,
-  handlerConfig?: HandlerConfig
+  handlerConfig?: HandlerConfig & { cityPath: string }
 ): UseFieldProps<string>['onChange'] {
   const abortControllerRef = { current: null }
 
@@ -58,27 +89,30 @@ export function autofill(
         generalConfig,
         parameters,
         abortControllerRef,
-        returnResult: () => {
-          if (!value) {
-            return { postal_codes: [] }
-          }
-        },
+        preResponseResolver:
+          handlerConfig?.preResponseResolver ?? preResponseResolver,
       })
 
-      const { postal_code, city } = data?.postal_codes?.[0] || {}
-      if (postal_code === value) {
-        const path = handlerConfig?.cityPath
-        if (path) {
+      const onMatch = (payload: AutofillResolverPayload) => {
+        const { cityPath } = handlerConfig || {}
+        if (cityPath) {
           if (!additionalArgs.dataContext) {
             throw new Error(
               'No data context found in the postalCode connector'
             )
           }
           additionalArgs.dataContext.handlePathChangeUnvalidated(
-            path,
-            city
+            cityPath,
+            payload.city
           )
         }
+      }
+
+      const { matcher, payload } = responseResolver(data, handlerConfig)
+      const match = matcher(value)
+
+      if (match) {
+        return onMatch(payload)
       }
     } catch (error) {
       return error
@@ -87,7 +121,8 @@ export function autofill(
 }
 
 export function validator(
-  generalConfig: GeneralConfig
+  generalConfig: GeneralConfig,
+  handlerConfig?: HandlerConfig
 ):
   | UseFieldProps<string>['onChangeValidator']
   | UseFieldProps<string>['onBlurValidator'] {
@@ -114,18 +149,19 @@ export function validator(
         generalConfig,
         parameters,
         abortControllerRef,
-        returnResult: () => {
-          if (!value) {
-            return { postal_codes: [] }
-          }
-        },
+        preResponseResolver:
+          handlerConfig?.preResponseResolver ?? preResponseResolver,
       })
 
-      if (
-        status !== 400 &&
-        data?.postal_codes?.[0]?.postal_code !== value
-      ) {
+      const onMatch = () => {
         return new FormError('PostalCodeAndCity.invalidCode')
+      }
+
+      const { matcher } = responseResolver(data, handlerConfig)
+      const match = matcher(value)
+
+      if (status !== 400 && !match) {
+        return onMatch()
       }
     } catch (error) {
       return error

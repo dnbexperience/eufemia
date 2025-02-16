@@ -20,14 +20,45 @@ export function PostalCode() {
     },
   })
 
+  type Response = {
+    postal_codes: { postal_code: string; city: string }[]
+  }
+
   // 2. Use the context to create the onChangeValidator ...
   const onChangeValidator = withConfig(
-    Connectors.Bring.postalCode.validator
+    Connectors.Bring.postalCode.validator,
+    {
+      // preResponseResolver: ({ value }) => {
+      //   if (!value) {
+      //     return { postal_codes: [] }
+      //   }
+      // },
+      responseResolver: (response: Response) => {
+        const { postal_code, city } = response?.postal_codes?.[0] || {}
+        return {
+          matcher: (value) => value === postal_code,
+          payload: { city },
+        }
+      },
+    }
   )
 
   // ... and an onChange function
   const onChange = withConfig(Connectors.Bring.postalCode.autofill, {
     cityPath: '/city',
+    // preResponseResolver: ({ value }) => {
+    //   if (!value) {
+    //     return { postal_codes: [] }
+    //   }
+    // },
+    // responseResolver: (response: Response) => {
+    //   const { postal_code, city } = response?.postal_codes?.[0] || {}
+
+    //   return {
+    //     matcher: (value) => value === postal_code,
+    //     payload: { city },
+    //   }
+    // },
   })
 
   return (

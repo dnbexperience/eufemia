@@ -1,4 +1,5 @@
 import { ReceiveAdditionalEventArgs } from '../types'
+import { COUNTRY as defaultCountry } from '../../../shared/defaults'
 
 export type UrlSecondParameter = {
   countryCode: string
@@ -30,11 +31,27 @@ export function createContext<GeneralConfigGeneric = GeneralConfig>(
   }
 }
 
+export type HandlerConfig = {
+  preResponseResolver?: PreResponseResolver
+  responseResolver?: ResponseResolver
+}
+export type PreResponseResolver = (fromField: { value: string }) => unknown
+export type ResponseResolver<
+  Response = unknown,
+  Payload = Record<string, unknown>,
+> = (
+  response: Response,
+  handlerConfig?: HandlerConfig
+) => {
+  matcher: (value: string) => boolean
+  payload?: Payload
+}
+
 export type FetchDataFromAPIOptions = {
   generalConfig: GeneralConfig
   parameters?: UrlSecondParameter
   abortControllerRef?: { current: null | AbortController }
-  returnResult?: (data: { value: string }) => unknown
+  preResponseResolver?: PreResponseResolver
 }
 
 async function fetchDataFromAPI(
@@ -88,7 +105,7 @@ export async function fetchData(
 ) {
   const { generalConfig, parameters } = options || {}
 
-  const result = options?.returnResult?.({ value })
+  const result = options?.preResponseResolver?.({ value })
   if (typeof result !== 'undefined') {
     return result
   }
@@ -126,7 +143,8 @@ export function getCountryCodeValue({
 }: {
   additionalArgs: ReceiveAdditionalEventArgs<unknown>
 }) {
-  const countryCodeValue = additionalArgs.props['data-country-code']
+  const countryCodeValue =
+    additionalArgs.props['data-country-code'] || defaultCountry
   const countryCode =
     additionalArgs.getSourceValue<string>(countryCodeValue)
   return { countryCode, countryCodeValue }
