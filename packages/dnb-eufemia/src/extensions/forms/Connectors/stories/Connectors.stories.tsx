@@ -14,8 +14,8 @@ export function PostalCode() {
         return `https://cors-anywhere.herokuapp.com/https://api.bring.com/address/api/${countryCode}/postal-codes/${value}`
       },
       headers: {
-        'X-Mybring-API-Uid': 'Uid',
-        'X-Mybring-API-Key': 'Key',
+        'X-Mybring-API-Uid': process.env.BRING_API_UID,
+        'X-Mybring-API-Key': process.env.BRING_API_KEY,
       },
     },
   })
