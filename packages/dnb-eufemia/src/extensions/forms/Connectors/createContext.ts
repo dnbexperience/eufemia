@@ -43,7 +43,16 @@ export type ResponseResolver<
   response: Response,
   handlerConfig?: HandlerConfig
 ) => {
-  matcher: (value: string) => boolean
+  /**
+   * The matcher to be used to determine if the connector,
+   * such as an validator for `onChangeValidator` or `onBlurValidator`,
+   * should validate the field value.
+   */
+  matcher?: (value: string) => boolean
+
+  /**
+   * The payload to be returned and used by the connector.
+   */
   payload?: Payload
 }
 
@@ -54,10 +63,13 @@ export type FetchDataFromAPIOptions = {
   preResponseResolver?: PreResponseResolver
 }
 
-async function fetchDataFromAPI(
+async function fetchDataFromAPI<Data = unknown>(
   generalConfig: GeneralConfig & { fetchConfig: { url: string } },
   options?: FetchDataFromAPIOptions
-) {
+): Promise<{
+  data: Data
+  response: Response
+}> {
   const { fetchConfig } = generalConfig
 
   const controller = options?.abortControllerRef
@@ -99,22 +111,27 @@ async function fetchDataFromAPI(
   }
 }
 
-export async function fetchData(
+export type FetchDataReturnValue<Data = unknown> = {
+  data: Data
+  status: number
+}
+
+export async function fetchData<Data = unknown>(
   value: string,
   options: FetchDataFromAPIOptions
-) {
+): Promise<FetchDataReturnValue<Data>> {
   const { generalConfig, parameters } = options || {}
 
   const result = options?.preResponseResolver?.({ value })
   if (typeof result !== 'undefined') {
-    return result
+    return result as FetchDataReturnValue<Data>
   }
 
   try {
     const u = generalConfig.fetchConfig.url
     const url = typeof u === 'function' ? await u(value, parameters) : u
 
-    const { data, response } = await fetchDataFromAPI(
+    const { data, response } = await fetchDataFromAPI<Data>(
       {
         ...generalConfig,
         fetchConfig: {

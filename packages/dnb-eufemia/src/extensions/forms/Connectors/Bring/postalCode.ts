@@ -28,10 +28,10 @@ export const supportedCountryCodes = [
 export const unsupportedCountryCodeMessage =
   'Postal code verification is not supported for {countryCode}.'
 
-export type AutofillResolverResponse = {
+export type PostalCodeResolverData = {
   postal_codes: { postal_code: string; city: string }[]
 }
-export type AutofillResolverPayload = {
+export type PostalCodeResolverPayload = {
   city: string
 }
 
@@ -42,17 +42,17 @@ export const preResponseResolver: PreResponseResolver = ({ value }) => {
 }
 
 export const responseResolver: ResponseResolver<
-  AutofillResolverResponse,
-  AutofillResolverPayload
-> = (response, handlerConfig) => {
+  PostalCodeResolverData,
+  PostalCodeResolverPayload
+> = (data, handlerConfig) => {
   const resolver = handlerConfig?.responseResolver
   if (typeof resolver === 'function') {
-    return resolver(response) as ReturnType<typeof resolver> & {
-      payload: AutofillResolverPayload
+    return resolver(data) as ReturnType<typeof resolver> & {
+      payload: PostalCodeResolverPayload
     }
   }
 
-  const { postal_code, city } = response?.postal_codes?.[0] || {}
+  const { postal_code, city } = data?.postal_codes?.[0] || {}
 
   return {
     matcher: (value) => value === postal_code,
@@ -85,7 +85,7 @@ export function autofill(
       const parameters = {
         countryCode: String(countryCode).toLowerCase(),
       }
-      const { data } = await fetchData(value, {
+      const { data } = await fetchData<PostalCodeResolverData>(value, {
         generalConfig,
         parameters,
         abortControllerRef,
@@ -93,7 +93,7 @@ export function autofill(
           handlerConfig?.preResponseResolver ?? preResponseResolver,
       })
 
-      const onMatch = (payload: AutofillResolverPayload) => {
+      const onMatch = (payload: PostalCodeResolverPayload) => {
         const { cityPath } = handlerConfig || {}
         if (cityPath) {
           if (!additionalArgs.dataContext) {
@@ -145,13 +145,16 @@ export function validator(
       const parameters = {
         countryCode: String(countryCode).toLowerCase(),
       }
-      const { data, status } = await fetchData(value, {
-        generalConfig,
-        parameters,
-        abortControllerRef,
-        preResponseResolver:
-          handlerConfig?.preResponseResolver ?? preResponseResolver,
-      })
+      const { data, status } = await fetchData<PostalCodeResolverData>(
+        value,
+        {
+          generalConfig,
+          parameters,
+          abortControllerRef,
+          preResponseResolver:
+            handlerConfig?.preResponseResolver ?? preResponseResolver,
+        }
+      )
 
       const onMatch = () => {
         return new FormError('PostalCodeAndCity.invalidCode')
