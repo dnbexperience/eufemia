@@ -118,6 +118,8 @@ export default {
     },
     Expiry: {
       label: 'Utløpsdato',
+      errorMonth: '{month} er ikke en gyldig måned.',
+      errorYear: '{year} er ikke et gyldig år.',
     },
     Email: {
       label: 'E-postadresse',

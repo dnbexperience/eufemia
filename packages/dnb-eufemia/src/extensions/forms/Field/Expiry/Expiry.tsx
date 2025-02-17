@@ -8,6 +8,7 @@ import { MultiInputMask } from '../../../../components/input-masked'
 import type { MultiInputMaskValue } from '../../../../components/input-masked'
 import { useTranslation as useSharedTranslation } from '../../../../shared'
 import useTranslation from '../../hooks/useTranslation'
+import { FormError } from '../../utils'
 
 type ExpiryValue = MultiInputMaskValue<'month' | 'year'>
 
@@ -35,6 +36,23 @@ function Expiry(props: ExpiryProps) {
     [errorRequired, props.errorMessages]
   )
 
+  const handleInput = useCallback(
+    (values: ExpiryValue) => {
+      const month = expiryValueToString(values.month, placeholders.month)
+      const year = expiryValueToString(values.year, placeholders.year)
+
+      if (
+        isFieldEmpty(month, placeholders.month) &&
+        isFieldEmpty(year, placeholders.year)
+      ) {
+        return ''
+      }
+
+      return `${month}${year}`
+    },
+    [placeholders.month, placeholders.year]
+  )
+
   const validateRequired = useCallback(
     (value: string, { required, error }) => {
       return required && !value ? error : undefined
@@ -42,11 +60,53 @@ function Expiry(props: ExpiryProps) {
     []
   )
 
+  const monthAndYearValidator = useCallback(
+    (value: string) => validateMonthAndYear(value, placeholders),
+    [placeholders]
+  )
+
+  const validateInitially = useMemo(() => {
+    if (props.validateInitially) {
+      return props.validateInitially
+    }
+
+    if (props.value) {
+      return true
+    }
+
+    return undefined
+  }, [props.validateInitially, props.value])
+
+  const valueProp = useMemo(() => {
+    const { month, year } = stringToExpiryValue(
+      props.value ?? props.defaultValue
+    )
+    const monthString = expiryValueToString(month, placeholders.month)
+    const yearString = expiryValueToString(year, placeholders.year)
+
+    if (
+      isFieldEmpty(monthString, placeholders.month) &&
+      isFieldEmpty(yearString, placeholders.year)
+    ) {
+      return ''
+    }
+
+    return `${monthString}${yearString}`
+  }, [
+    props.value,
+    props.defaultValue,
+    placeholders.month,
+    placeholders.year,
+  ])
+
   const preparedProps: ExpiryProps = {
     ...props,
     errorMessages,
-    fromInput: toExpiryString,
+    value: valueProp,
+    fromInput: handleInput,
     validateRequired,
+    validateInitially: validateInitially,
+    onBlurValidator: monthAndYearValidator,
   }
 
   const {
@@ -67,12 +127,10 @@ function Expiry(props: ExpiryProps) {
     setDisplayValue,
   } = useFieldProps(preparedProps)
 
-  const expiry: ExpiryValue = useMemo(() => {
-    return {
-      month: ensureValidMonth(value?.substring(0, 2)),
-      year: value?.substring(2, 4) ?? '',
-    }
-  }, [value])
+  const expiry: ExpiryValue = useMemo(
+    () => stringToExpiryValue(value),
+    [value]
+  )
 
   useMemo(() => {
     if ((path || itemPath) && expiry.month && expiry.year) {
@@ -114,7 +172,7 @@ function Expiry(props: ExpiryProps) {
           {
             id: 'month',
             label: monthLabel,
-            mask: getMonthMask(expiry?.month),
+            mask: [/[0-9]/, /[0-9]/],
             placeholderCharacter: placeholders['month'],
             autoComplete: 'cc-exp-month',
             ...htmlAttributes,
@@ -133,46 +191,66 @@ function Expiry(props: ExpiryProps) {
   )
 }
 
+function isFieldEmpty(value: string, placeholder: string) {
+  return value === `${placeholder}${placeholder}`
+}
+
+function stringToExpiryValue(value: string) {
+  const month = value?.substring(0, 2) ?? ''
+  const year = value?.substring(2, 4) ?? ''
+
+  return {
+    month,
+    year,
+  }
+}
+
+function expiryValueToString(value: string, placeholder: string) {
+  if (!value) {
+    return `${placeholder}${placeholder}`
+  }
+
+  if (value.length === 1) {
+    return `${value}${placeholder}`
+  }
+
+  return value
+}
+
+function validateMonthAndYear(
+  date: string,
+  placeholders: Record<'month' | 'year', string>
+) {
+  const { month, year } = stringToExpiryValue(date)
+
+  const monthNumber = Number(month)
+
+  const messages: Array<FormError> = []
+
+  if (
+    month.includes(placeholders.month) ||
+    monthNumber < 1 ||
+    monthNumber > 12
+  ) {
+    messages.push(
+      new FormError('Expiry.errorMonth', {
+        messageValues: { month: month },
+      })
+    )
+  }
+
+  if (year.includes(placeholders.year)) {
+    messages.push(
+      new FormError('Expiry.errorYear', {
+        messageValues: { year: year },
+      })
+    )
+  }
+
+  if (messages.length) {
+    return messages
+  }
+}
+
 Expiry._supportsEufemiaSpacingProps = true
 export default Expiry
-
-function toExpiryString(values: ExpiryValue) {
-  return Object.values(values).join('')
-}
-
-function ensureValidMonth(month: string) {
-  // Return empty value if no month is given
-  if (!month) {
-    return ''
-  }
-
-  const [firstMask, secondMask] = getMonthMask(month)
-
-  const firstDigit = month?.charAt(0)
-  const isFirstDigitValid = firstMask.test(firstDigit)
-
-  if (firstDigit && !isFirstDigitValid) {
-    // Return empty value if the first digit is invalid
-    return ''
-  }
-
-  const secondDigit = month?.charAt(1)
-  const isSecondDigitValid = secondMask.test(secondDigit)
-
-  if (secondDigit && !isSecondDigitValid) {
-    // Return empty value if the second digit is invalid
-    return ''
-  }
-
-  // Return given month of month value is valid
-  return month
-}
-
-function getMonthMask(month: string) {
-  const firstDigit = month?.charAt(0)
-
-  return [
-    /[0-1]/,
-    firstDigit === '0' || firstDigit === '' ? /[1-9]/ : /[0-2]/,
-  ]
-}

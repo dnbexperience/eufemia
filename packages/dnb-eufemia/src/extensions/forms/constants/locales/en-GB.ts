@@ -121,6 +121,8 @@ export default {
     },
     Expiry: {
       label: 'Expiry date',
+      errorMonth: '{month} is not a valid month.',
+      errorYear: '{year} is not a valid year.',
     },
     Email: {
       label: 'Email address',
