@@ -3,8 +3,8 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
-@import '../../input/style/deps.scss';
-@import '../../dropdown/style/deps.scss';
-@import '../../progress-indicator/style/deps.scss';
-@import './dnb-autocomplete.scss';
+@use '../../../style/core/utilities.scss';
+@use '../../input/style/deps.scss';
+@use '../../dropdown/style/deps.scss';
+@use '../../progress-indicator/style/deps.scss';
+@use './dnb-autocomplete.scss';

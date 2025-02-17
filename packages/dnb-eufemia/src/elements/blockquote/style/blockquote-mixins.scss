@@ -1,5 +1,5 @@
 @use '../../../style/elements/ui-spacing.scss';
-@import '../../../components/space/style/space-mixins.scss';
+@use '../../../components/space/style/space-mixins.scss';
 
 @mixin blockquoteStyle() {
   --blockquote-padding-top: 2rem;
@@ -16,7 +16,7 @@
   display: inline-block;
   width: auto;
 
-  @include spaceReset();
+  @include space-mixins.spaceReset();
   padding: 1.5rem;
 
   font-size: var(--font-size-small);

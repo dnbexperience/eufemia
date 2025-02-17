@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../../style/core/utilities.scss';
+@use '../../../../style/core/utilities.scss';
 
 .dnb-dropdown {
   --dropdown-error-border-width: 0.125rem;
@@ -15,7 +15,7 @@
 
   // button
   &__trigger {
-    @include hover() {
+    @include utilities.hover() {
       color: var(--color-emerald-green);
     }
   }
@@ -25,7 +25,7 @@
     background-color: var(--dropdown-background-color-disabled);
 
     &:not(.dnb-button--tertiary) {
-      @include fakeBorder(var(--dropdown-foreground-color-primary));
+      @include utilities.fakeBorder(var(--dropdown-foreground-color-primary));
     }
   }
 

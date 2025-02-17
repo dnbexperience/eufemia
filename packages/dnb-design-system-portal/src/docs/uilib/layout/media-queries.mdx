@@ -307,7 +307,7 @@ You can re-use the SASS mixins from Eufemia:
 
 ```scss
 // breakpoints.scss
-@import '@dnb/eufemia/style/core/utilities';
+@use '@dnb/eufemia/style/core/utilities';
 $layout-small: map-get($breakpoints, 'small');
 $layout-medium: map-get($breakpoints, 'medium');
 $layout-large: map-get($breakpoints, 'large');
@@ -316,7 +316,7 @@ $layout-large: map-get($breakpoints, 'large');
 or like this:
 
 ```scss
-@import '@dnb/eufemia/style/core/utilities';
+@use '@dnb/eufemia/style/core/utilities';
 
 @include allBelow(large) {
   /* Your CSS */

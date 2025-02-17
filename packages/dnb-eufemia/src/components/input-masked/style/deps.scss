@@ -3,6 +3,6 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
-@import '../../input/style/deps.scss';
-@import './dnb-input-masked.scss';
+@use '../../../style/core/utilities.scss';
+@use '../../input/style/deps.scss';
+@use './dnb-input-masked.scss';

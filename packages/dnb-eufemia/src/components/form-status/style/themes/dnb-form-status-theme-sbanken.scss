@@ -3,7 +3,7 @@
  *
  */
 
-@import '../../../../style/core/utilities.scss';
+@use '../../../../style/core/utilities.scss';
 
 .dnb-form-status {
   &__shell {
@@ -23,13 +23,13 @@
   }
 
   &__variant--outlined#{&}--error &__shell {
-    @include fakeBorder(var(--sb-color-red));
+    @include utilities.fakeBorder(var(--sb-color-red));
   }
   &__variant--outlined#{&}--warn &__shell {
-    @include fakeBorder(var(--sb-color-yellow-dark));
+    @include utilities.fakeBorder(var(--sb-color-yellow-dark));
   }
   &__variant--outlined#{&}--info &__shell,
   &__variant--outlined#{&}--marketing &__shell {
-    @include fakeBorder(var(--sb-color-violet-light));
+    @include utilities.fakeBorder(var(--sb-color-violet-light));
   }
 }

@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 .dnb-info-card {
   display: flex;
@@ -36,7 +36,7 @@
   }
 
   &--shadow {
-    @include defaultDropShadow();
+    @include utilities.defaultDropShadow();
   }
 
   &__content {

@@ -3,8 +3,8 @@
  *
  */
 
-@import './label-mixins.scss';
+@use 'label-mixins.scss';
 
 .dnb-label {
-  @include labelStyle();
+  @include label-mixins.labelStyle();
 }

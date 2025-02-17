@@ -3,12 +3,12 @@
  *
  */
 
-@import '../../button/style/themes/button-mixins.scss';
+@use '../../button/style/themes/button-mixins.scss';
 
 .dnb-help-button {
   &.dnb-help-button__inline {
     &--open {
-      @include buttonHoverStyle(null, null, var(--color-emerald-green));
+      @include button-mixins.buttonHoverStyle(null, null, var(--color-emerald-green));
     }
   }
 }

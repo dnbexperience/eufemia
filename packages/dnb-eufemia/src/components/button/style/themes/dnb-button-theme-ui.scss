@@ -3,21 +3,21 @@
 *
 */
 
-@import '../../../../style/core/utilities.scss';
-@import './button-mixins.scss';
+@use '../../../../style/core/utilities.scss';
+@use 'button-mixins.scss';
 
 // Because the tertiary button has so much code,
 // we slice the shareable parts out in a separate file
-@import '../button--tertiary.scss';
+@use '../button--tertiary.scss';
 
 .dnb-button {
   &--primary {
     color: var(--color-white);
     background-color: var(--color-sea-green);
 
-    @include buttonHover(var(--color-sea-green), var(--color-white));
-    @include buttonFocus(var(--color-sea-green), var(--color-white));
-    @include buttonActive(
+    @include button-mixins.buttonHover(var(--color-sea-green), var(--color-white));
+    @include button-mixins.buttonFocus(var(--color-sea-green), var(--color-white));
+    @include button-mixins.buttonActive(
       var(--color-sea-green),
       var(--color-mint-green-50)
     );
@@ -38,11 +38,11 @@
     color: var(--color-sea-green);
     background-color: var(--color-white);
 
-    @include fakeBorder(var(--color-sea-green), 0.0625rem, inset);
+    @include utilities.fakeBorder(var(--color-sea-green), 0.0625rem, inset);
 
-    @include buttonHover(var(--color-sea-green), var(--color-white));
-    @include buttonFocus(var(--color-sea-green), var(--color-white));
-    @include buttonActive(
+    @include button-mixins.buttonHover(var(--color-sea-green), var(--color-white));
+    @include button-mixins.buttonFocus(var(--color-sea-green), var(--color-white));
+    @include button-mixins.buttonActive(
       var(--color-sea-green),
       var(--color-mint-green-50)
     );
@@ -54,14 +54,14 @@
       background-color: var(--color-white);
 
       // only because of href/anchor button
-      @include fakeBorder(var(--color-sea-green-30), 0.0625rem, inset);
+      @include utilities.fakeBorder(var(--color-sea-green-30), 0.0625rem, inset);
     }
   }
   &:not([disabled])#{&}--secondary#{&}__status {
     &--error {
       color: var(--color-fire-red);
 
-      @include fakeBorder(var(--color-fire-red), 0.0625rem, inset);
+      @include utilities.fakeBorder(var(--color-fire-red), 0.0625rem, inset);
       .dnb-button__icon {
         color: inherit;
       }
@@ -70,9 +70,9 @@
 
   // Icon button
   &--secondary:not(#{&}--has-text) {
-    @include buttonHover(var(--color-emerald-green), var(--color-white));
-    @include buttonFocus(var(--color-emerald-green), var(--color-white));
-    @include buttonActive(
+    @include button-mixins.buttonHover(var(--color-emerald-green), var(--color-white));
+    @include button-mixins.buttonFocus(var(--color-emerald-green), var(--color-white));
+    @include button-mixins.buttonActive(
       var(--color-emerald-green),
       var(--color-mint-green-50)
     );
@@ -88,7 +88,7 @@
   &--secondary:not(#{&}--has-text)#{&}--control-after {
     box-shadow: none;
     border: none;
-    @include hover() {
+    @include utilities.hover() {
       box-shadow: none;
       border: none;
     }
@@ -96,21 +96,21 @@
 
   // simulate active state
   &--active {
-    @include fakeBorder(var(--color-emerald-green), 0.125rem /*2px*/);
+    @include utilities.fakeBorder(var(--color-emerald-green), 0.125rem /*2px*/);
   }
 
   &--tertiary {
     color: var(--color-sea-green);
     background-color: transparent;
 
-    @include hover() {
+    @include utilities.hover() {
       // underline
       .dnb-button__text::after {
         color: var(--color-emerald-green);
       }
     }
 
-    @include active() {
+    @include utilities.active() {
       // underline
       .dnb-button__text::after {
         html[data-whatintent='touch'] & {
@@ -139,17 +139,17 @@
     color: var(--color-ocean-green);
     background-color: var(--color-accent-yellow);
 
-    @include buttonHover(
+    @include button-mixins.buttonHover(
       var(--color-ocean-green),
       var(--color-accent-yellow),
       var(--color-ocean-green),
       'touch'
     );
-    @include buttonFocus(
+    @include button-mixins.buttonFocus(
       var(--color-ocean-green),
       var(--color-accent-yellow)
     );
-    @include buttonActive(
+    @include button-mixins.buttonActive(
       var(--color-ocean-green),
       var(--color-accent-yellow)
     );
@@ -205,7 +205,7 @@
     &--input-button#{&}--secondary:not(&--has-text)[disabled] {
     color: var(--color-black-55);
     background-color: var(--color-black-3);
-    @include fakeBorder(
+    @include utilities.fakeBorder(
       var(--color-black-55),
       var(--input-border-width),
       inset

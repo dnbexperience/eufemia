@@ -5,8 +5,8 @@
  *
  */
 
-@import '../../../style/core/utilities.scss';
-@import './space-mixins.scss';
+@use '../../../style/core/utilities.scss';
+@use 'space-mixins.scss';
 
 @mixin direction($direction) {
   // 0rem
@@ -175,7 +175,7 @@
     @include direction(left);
   }
   &__reset {
-    @include spaceReset();
+    @include space-mixins.spaceReset();
   }
 
   // innerSpace
@@ -192,19 +192,19 @@
     padding-left: var(--padding-left, 0);
   }
 
-  @include allBelow(medium) {
+  @include utilities.allBelow(medium) {
     --padding-right: var(--space-r-s);
     --padding-left: var(--space-l-s);
     --padding-top: var(--space-t-s);
     --padding-bottom: var(--space-b-s);
   }
-  @include allBetween(small, medium) {
+  @include utilities.allBetween(small, medium) {
     --padding-right: var(--space-r-m);
     --padding-left: var(--space-l-m);
     --padding-top: var(--space-t-m);
     --padding-bottom: var(--space-b-m);
   }
-  @include allAbove(medium) {
+  @include utilities.allAbove(medium) {
     --padding-right: var(--space-r-l);
     --padding-left: var(--space-l-l);
     --padding-top: var(--space-t-l);

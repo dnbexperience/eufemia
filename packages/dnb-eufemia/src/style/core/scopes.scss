@@ -3,7 +3,7 @@
  *
  */
 
-@import './reset.scss';
+@use 'reset.scss';
 
 @mixin typographyBasis() {
   font-family: var(--font-family-default);
@@ -51,7 +51,7 @@
 }
 
 @mixin bodyDefault() {
-  @include reset();
+  @include reset.reset();
   @include coreDefault();
 
   @media print {
@@ -83,14 +83,14 @@
   }
 
   // reset ePlatform css
-  @include resetLegacyStyles();
+  @include reset.resetLegacyStyles();
 }
 
 // Can be used to include the most important "CSS reset" rules to one component.
 // Should only be used when this component is imported in isolation.
 @mixin componentReset() {
   @include coreDefault();
-  @include coreReset();
+  @include reset.coreReset();
 
   margin: 0;
   padding: 0;

@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 .dnb-input-masked {
   &--guide {
@@ -18,7 +18,7 @@
 
 // MultiInputMask
 .dnb-multi-input-mask__fieldset {
-  @include fieldsetReset();
+  @include utilities.fieldsetReset();
 
   &--horizontal {
     display: inline-flex;

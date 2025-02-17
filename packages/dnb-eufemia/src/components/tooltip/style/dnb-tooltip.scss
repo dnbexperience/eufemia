@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 .dnb-tooltip {
   --tooltip-color: white;
@@ -26,7 +26,7 @@
 
   background-color: var(--tooltip-background-color);
   border-radius: var(--tooltip-border-radius);
-  @include defaultDropShadow();
+  @include utilities.defaultDropShadow();
 
   &--large {
     padding: 0.25rem 1rem;

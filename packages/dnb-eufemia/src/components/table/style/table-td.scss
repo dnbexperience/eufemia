@@ -3,7 +3,8 @@
 *
 */
 
-@import './table-header-buttons.scss';
+@use 'table-header-buttons.scss';
+@use "table-mixins";
 
 .dnb-table {
   // table border
@@ -11,7 +12,7 @@
     tbody {
       .dnb-table__td,
       .dnb-table__th {
-        @include tableBorder() {
+        @include table-mixins.tableBorder() {
           border: var(--table-border);
           border-bottom: none;
         }

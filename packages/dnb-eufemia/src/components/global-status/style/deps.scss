@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
-@import '../../button/style/deps.scss';
-@import '../../section/style/deps.scss';
-@import './dnb-global-status.scss';
+@use '../../../style/core/utilities.scss';
+@use '../../button/style/deps.scss';
+@use '../../section/style/deps.scss';
+@use './dnb-global-status.scss';

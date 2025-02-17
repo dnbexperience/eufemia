@@ -3,7 +3,7 @@
  *
  */
 
-@import './properties.scss';
-@import './fonts.scss';
-@import './sbanken-theme-elements.scss';
-@import './globals.scss';
+@use 'properties.scss';
+@use 'fonts.scss';
+@use 'sbanken-theme-elements.scss';
+@use 'globals.scss';

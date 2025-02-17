@@ -3,6 +3,6 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
-@import '../../modal/style/deps.scss';
-@import './dnb-drawer.scss';
+@use '../../../style/core/utilities.scss';
+@use '../../modal/style/deps.scss';
+@use './dnb-drawer.scss';

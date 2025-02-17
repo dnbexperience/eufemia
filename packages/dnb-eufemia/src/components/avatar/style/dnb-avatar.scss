@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 .dnb-avatar {
   --avatar-font-size--small: var(--font-size-x-small);
@@ -102,7 +102,7 @@
     flex-direction: row;
 
     .dnb-avatar {
-      @include fakeBorder(var(--color-black-3), 0.125rem);
+      @include utilities.fakeBorder(var(--color-black-3), 0.125rem);
 
       &--size-small {
         margin-left: -0.5rem;

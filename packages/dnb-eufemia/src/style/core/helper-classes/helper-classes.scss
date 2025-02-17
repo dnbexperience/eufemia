@@ -3,7 +3,8 @@
  *
  */
 
-@import '../utilities.scss';
+@use "sass:meta";
+@use '../utilities.scss';
 
 // Focus management
 .dnb-no-focus {
@@ -14,7 +15,7 @@
   outline: none;
 
   &:focus {
-    @include focusRing('keyboard');
+    @include utilities.focusRing('keyboard');
   }
 }
 
@@ -22,12 +23,12 @@
   outline: none;
 
   &:focus {
-    @include focusRing('mouse');
+    @include utilities.focusRing('mouse');
   }
 }
 
 .dnb-focus-ring {
-  @include fakeBorder(
+  @include utilities.fakeBorder(
     var(--focus-ring-color),
     var(--focus-ring-width),
     null,
@@ -36,22 +37,22 @@
 }
 
 .dnb-scrollbar-appearance {
-  @include scrollbarAppearance();
+  @include utilities.scrollbarAppearance();
 }
 
-@import './skip-link.scss';
+@include meta.load-css('skip-link.scss');
 
 .dnb-alignment-helper {
-  @include alignmentHelperClass();
-  @include alignmentHelper();
+  @include utilities.alignmentHelperClass();
+  @include utilities.alignmentHelper();
 }
 
 .dnb-drop-shadow {
-  @include defaultDropShadow();
+  @include utilities.defaultDropShadow();
 }
 
 .dnb-sr-only {
-  @include srOnly();
+  @include utilities.srOnly();
 }
 
 .dnb-suffix {

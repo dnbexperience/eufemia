@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../../style/core/utilities.scss';
+@use '../../../../style/core/utilities.scss';
 
 :root {
   --drawer-list-height: 2.5rem;
@@ -47,12 +47,12 @@
       left: 0.5rem;
       width: calc(100% - 1rem);
       height: 1px;
-      @include fakeBorder(var(--sb-color-gray-dark), 0.125rem, inset);
+      @include utilities.fakeBorder(var(--sb-color-gray-dark), 0.125rem, inset);
     }
   }
 
   &__options {
-    @include fakeBorder(
+    @include utilities.fakeBorder(
       var(--sb-color-gray-dark-2),
       var(--drawer-list-option-border-width),
       inset
@@ -70,7 +70,7 @@
       font-weight: var(--font-weight-medium);
     }
 
-    @include hover() {
+    @include utilities.hover() {
       --drawer-list-option-border-color: var(--sb-color-violet);
       z-index: 1;
 
@@ -79,7 +79,7 @@
       }
     }
 
-    @include active() {
+    @include utilities.active() {
       --drawer-list-option-border-color: var(--sb-color-violet);
       z-index: 1;
 
@@ -121,7 +121,7 @@
       }
     }
 
-    @include allAbove(small) {
+    @include utilities.allAbove(small) {
       &--selected &__suffix {
         z-index: 2; // over check icon
         background-color: var(

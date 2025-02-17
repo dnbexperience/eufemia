@@ -3,7 +3,7 @@
 *
 */
 
-@import './dnb-button-theme-ui.scss';
+@use 'dnb-button-theme-ui.scss';
 
 .dnb-button--primary {
   background-color: var(--color-emerald-green);

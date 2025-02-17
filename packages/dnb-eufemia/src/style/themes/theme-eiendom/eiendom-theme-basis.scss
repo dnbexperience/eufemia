@@ -3,7 +3,7 @@
  *
  */
 
-@import './properties.scss';
-@import './fonts.scss';
-@import './eiendom-theme-elements.scss';
-@import './globals.scss';
+@use 'properties.scss';
+@use 'fonts.scss';
+@use 'eiendom-theme-elements.scss';
+@use 'globals.scss';

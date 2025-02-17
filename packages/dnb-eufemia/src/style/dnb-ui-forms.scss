@@ -4,24 +4,24 @@
  *
  */
 
-@import './core/utilities.scss';
-@import '../extensions/forms/Field/ArraySelection/style/dnb-array-selection.scss';
-@import '../extensions/forms/Field/Expiry/style/dnb-expiry.scss';
-@import '../extensions/forms/Field/Number/style/dnb-number.scss';
-@import '../extensions/forms/Field/Password/style/dnb-password.scss';
-@import '../extensions/forms/Field/PhoneNumber/style/dnb-phone-number.scss';
-@import '../extensions/forms/Field/PostalCodeAndCity/style/dnb-postal-code-and-city.scss';
-@import '../extensions/forms/Field/Selection/style/dnb-selection.scss';
-@import '../extensions/forms/Field/String/style/dnb-string.scss';
-@import '../extensions/forms/Field/Upload/style/dnb-upload.scss';
-@import '../extensions/forms/FieldBlock/style/dnb-field-block.scss';
-@import '../extensions/forms/Form/ButtonRow/style/dnb-form-button-row.scss';
-@import '../extensions/forms/Form/MainHeading/style/dnb-form-main-heading.scss';
-@import '../extensions/forms/Form/Section/style/dnb-form-section.scss';
-@import '../extensions/forms/Form/SubHeading/style/dnb-form-sub-heading.scss';
-@import '../extensions/forms/Form/SubmitIndicator/style/dnb-form-submit-indicator.scss';
-@import '../extensions/forms/Iterate/style/dnb-iterate.scss';
-@import '../extensions/forms/Value/Upload/style/dnb-value-upload.scss';
-@import '../extensions/forms/ValueBlock/style/dnb-value-block.scss';
-@import '../extensions/forms/Wizard/style/dnb-wizard-layout.scss';
-@import '../extensions/forms/utils/TestElement/style/dnb-test-element.scss';
+@use 'core/utilities.scss';
+@use '../extensions/forms/Field/ArraySelection/style/dnb-array-selection.scss';
+@use '../extensions/forms/Field/Expiry/style/dnb-expiry.scss';
+@use '../extensions/forms/Field/Number/style/dnb-number.scss';
+@use '../extensions/forms/Field/Password/style/dnb-password.scss';
+@use '../extensions/forms/Field/PhoneNumber/style/dnb-phone-number.scss';
+@use '../extensions/forms/Field/PostalCodeAndCity/style/dnb-postal-code-and-city.scss';
+@use '../extensions/forms/Field/Selection/style/dnb-selection.scss';
+@use '../extensions/forms/Field/String/style/dnb-string.scss';
+@use '../extensions/forms/Field/Upload/style/dnb-upload.scss';
+@use '../extensions/forms/FieldBlock/style/dnb-field-block.scss';
+@use '../extensions/forms/Form/ButtonRow/style/dnb-form-button-row.scss';
+@use '../extensions/forms/Form/MainHeading/style/dnb-form-main-heading.scss';
+@use '../extensions/forms/Form/Section/style/dnb-form-section.scss';
+@use '../extensions/forms/Form/SubHeading/style/dnb-form-sub-heading.scss';
+@use '../extensions/forms/Form/SubmitIndicator/style/dnb-form-submit-indicator.scss';
+@use '../extensions/forms/Iterate/style/dnb-iterate.scss';
+@use '../extensions/forms/Value/Upload/style/dnb-value-upload.scss';
+@use '../extensions/forms/ValueBlock/style/dnb-value-block.scss';
+@use '../extensions/forms/Wizard/style/dnb-wizard-layout.scss';
+@use '../extensions/forms/utils/TestElement/style/dnb-test-element.scss';

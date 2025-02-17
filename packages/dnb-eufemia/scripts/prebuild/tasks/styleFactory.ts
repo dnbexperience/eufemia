@@ -42,11 +42,11 @@ async function runStyleFactory() {
       `../../../src/style/${fallbackPrefix}-ui-components.scss`
     ),
     customContent: `
-      @import './core/utilities.scss';
-      @import './${fallbackPrefix}-ui-fragments.scss';
-      @import './${fallbackPrefix}-ui-forms.scss';
+      @use './core/utilities.scss';
+      @use './${fallbackPrefix}-ui-fragments.scss';
+      @use './${fallbackPrefix}-ui-forms.scss';
     `,
-    importContent: ({ relativeSource }) => `@import '${relativeSource}';`,
+    importContent: ({ relativeSource }) => `@use '${relativeSource}';`,
     searchGlob: [
       path.resolve(
         __dirname,
@@ -67,8 +67,8 @@ async function runStyleFactory() {
       __dirname,
       `../../../src/style/${fallbackPrefix}-ui-elements.scss`
     ),
-    customContent: `@import './core/utilities.scss';`,
-    importContent: ({ relativeSource }) => `@import '${relativeSource}';`,
+    customContent: `@use './core/utilities.scss';`,
+    importContent: ({ relativeSource }) => `@use '${relativeSource}';`,
     searchGlob: [
       path.resolve(
         __dirname,
@@ -89,8 +89,8 @@ async function runStyleFactory() {
       __dirname,
       `../../../src/style/${fallbackPrefix}-ui-fragments.scss`
     ),
-    customContent: `@import './core/utilities.scss';`,
-    importContent: ({ relativeSource }) => `@import '${relativeSource}';`,
+    customContent: `@use './core/utilities.scss';`,
+    importContent: ({ relativeSource }) => `@use '${relativeSource}';`,
     searchGlob: [
       path.resolve(
         __dirname,
@@ -111,8 +111,8 @@ async function runStyleFactory() {
       __dirname,
       `../../../src/style/${fallbackPrefix}-ui-extensions.scss`
     ),
-    customContent: `@import './core/utilities.scss';`,
-    importContent: ({ relativeSource }) => `@import '${relativeSource}';`,
+    customContent: `@use './core/utilities.scss';`,
+    importContent: ({ relativeSource }) => `@use '${relativeSource}';`,
     searchGlob: [
       path.resolve(
         __dirname,
@@ -131,8 +131,8 @@ async function runStyleFactory() {
       __dirname,
       `../../../src/style/${fallbackPrefix}-ui-forms.scss`
     ),
-    customContent: `@import './core/utilities.scss';`,
-    importContent: ({ relativeSource }) => `@import '${relativeSource}';`,
+    customContent: `@use './core/utilities.scss';`,
+    importContent: ({ relativeSource }) => `@use '${relativeSource}';`,
     searchGlob: [
       path.resolve(
         __dirname,

@@ -3,7 +3,7 @@
  *
  */
 
-@import './anchor-mixins.scss';
+@use 'anchor-mixins.scss';
 
 button.dnb-anchor {
   cursor: pointer;
@@ -16,45 +16,45 @@ button.dnb-anchor {
   appearance: none; // and use prefix to make sure webkit does  a good job
 }
 
-@include notNoStyle() {
+@include anchor-mixins.notNoStyle() {
   &.dnb-anchor {
     --anchor-underline-thickness: 0.0938rem;
-    @include anchorStyle();
+    @include anchor-mixins.anchorStyle();
 
     &.dnb-anchor--contrast {
-      @include useAnchorContrastStyle();
+      @include anchor-mixins.useAnchorContrastStyle();
     }
   }
 }
 
 .dnb-anchor--hover {
-  @include anchorHoverStyle();
+  @include anchor-mixins.anchorHoverStyle();
 }
 
 .dnb-anchor--active {
-  @include anchorActiveStyle();
+  @include anchor-mixins.anchorActiveStyle();
 }
 
 .dnb-anchor--focus {
-  @include anchorFocusStyle();
+  @include anchor-mixins.anchorFocusStyle();
 }
 
 .dnb-anchor--no-underline {
-  @include resetUnderlineStyle();
+  @include anchor-mixins.resetUnderlineStyle();
 }
 
 .dnb-anchor--no-radius {
-  @include resetBorderRadius();
+  @include anchor-mixins.resetBorderRadius();
 }
 
 .dnb-anchor--no-animation {
-  @include resetAnimationStyle();
+  @include anchor-mixins.resetAnimationStyle();
 }
 
 // make sure we style an Anchor like a button
 a.dnb-button {
   // reset the anchor style
-  @include resetAnimationStyle();
+  @include anchor-mixins.resetAnimationStyle();
 }
 
 // because of the underline, we hide anchors

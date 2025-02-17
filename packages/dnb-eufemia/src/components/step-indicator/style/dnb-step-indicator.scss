@@ -3,7 +3,7 @@
  *
  */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 .dnb-step-indicator__sidebar {
   @media screen and (min-width: 50.1em) {

@@ -3,8 +3,8 @@
  *
  */
 
-@import '../../../style/core/utilities.scss';
-@import '../../../style/themes/theme-sbanken/properties.scss';
+@use '../../../style/core/utilities.scss';
+@use '../../../style/themes/theme-sbanken/properties.scss';
 
 .dnb-payment-card {
   --color-dark-cyan: #003b47;

@@ -3,9 +3,9 @@
 *
 */
 
-@import '../../../../style/core/utilities.scss';
-@import '../../../button/style/themes/button-mixins.scss';
-@import '../table-mixins.scss';
+@use '../../../../style/core/utilities.scss';
+@use '../../../button/style/themes/button-mixins.scss';
+@use '../table-mixins.scss';
 
 @mixin tableFocusRing() {
   &::before {
@@ -41,7 +41,7 @@
   thead + tbody .dnb-table__tr:first-child {
     .dnb-table__td,
     .dnb-table__th {
-      @include tableBorder() {
+      @include table-mixins.tableBorder() {
         border-top: var(--table-border);
       }
     }
@@ -63,22 +63,22 @@
       &:not(:focus) .dnb-button__text::after {
         color: var(--sb-color-violet);
       }
-      @include hover() {
+      @include utilities.hover() {
         color: var(--sb-color-violet);
       }
-      @include active() {
+      @include utilities.active() {
         color: var(--sb-color-violet);
-        @include buttonFocusRing(
+        @include button-mixins.buttonFocusRing(
           'mouse',
           inset
         ); // also, make a mouse ring
-        @include buttonFocusRing(
+        @include button-mixins.buttonFocusRing(
           'touch',
           inset
         ); // also, make a touch ring
         @include tableFocusRing();
       }
-      @include focus() {
+      @include utilities.focus() {
         @include tableFocusRing();
         &:focus-visible {
           color: var(--sb-color-blue-dark);
@@ -94,7 +94,7 @@
   & > thead > tr > th#{&}--active,
   & &__th#{&}--active {
     .dnb-table__sort-button.dnb-button {
-      @include hover() {
+      @include utilities.hover() {
         & .dnb-button__text::after {
           color: var(--sb-color-violet);
         }

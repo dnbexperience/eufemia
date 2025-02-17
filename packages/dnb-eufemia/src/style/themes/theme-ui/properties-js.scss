@@ -1,4 +1,4 @@
 // Adds all theme properties with this theme being the most prioritized, used by makePropertiesFile.js to generate properties.js
 
-@import '../all-properties.scss';
-@import './properties.scss';
+@use '../all-properties.scss';
+@use 'properties.scss';

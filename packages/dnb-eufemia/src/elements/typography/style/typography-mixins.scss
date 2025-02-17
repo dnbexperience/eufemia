@@ -1,5 +1,6 @@
 @use '../../../style/elements/ui-spacing.scss';
-@import '../../../components/space/style/space-mixins.scss';
+@use "sass:meta";
+@use '../../../components/space/style/space-mixins.scss';
 
 // includes all classes, tags, etc. needed for "global" typography rules (like css variables)
 @mixin typographySelectors() {
@@ -93,7 +94,7 @@
 @mixin headingDefaults() {
   padding: 0;
 
-  @include spaceReset();
+  @include space-mixins.spaceReset();
 
   font-family: var(--font-family-heading);
 
@@ -113,7 +114,7 @@
     padding-bottom: 0.03125rem;
   }
 
-  @if mixin-exists('headingDefaultsCustomisation') {
+  @if meta.mixin-exists('headingDefaultsCustomisation') {
     @include headingDefaultsCustomisation();
   }
 }

@@ -4,7 +4,7 @@
  */
 
 // WIP: Remove this import as soon as we have a mapping for all existing properties
-@import '../theme-ui/properties.scss';
+@use '../theme-ui/properties.scss';
 
 .eufemia-theme__eiendom,
 :root {

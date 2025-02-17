@@ -4,6 +4,6 @@
 */
 
 // default packages import
-@import './dnb-ui-core.scss';
-@import './themes/theme-ui/ui-theme-components.scss';
-@import './themes/theme-ui/ui-theme-basis.scss';
+@use 'dnb-ui-core.scss';
+@use 'themes/theme-ui/ui-theme-components.scss';
+@use 'themes/theme-ui/ui-theme-basis.scss';

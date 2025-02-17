@@ -1,3 +1,6 @@
+@use "../../../style/core/utilities";
+@use "table-mixins";
+
 /*
 * Table component
 *
@@ -127,7 +130,7 @@
       border-right: none;
     }
 
-    @include hover() {
+    @include utilities.hover() {
       td::before {
         border-color: var(--table-accordion-outline-color);
       }
@@ -151,7 +154,7 @@
       :hover
     ):focus {
     td::before {
-      @include whatInput(keyboard) {
+      @include utilities.whatInput(keyboard) {
         border-color: var(--focus-ring-color);
         border-width: var(--focus-ring-width);
       }
@@ -195,7 +198,7 @@
   &__tr--clickable#{&}__tr#{&}__tr--expanded:not(&__tr--disabled):not(
       :active
     ):not(:hover) {
-    @include whatInputNot('keyboard') {
+    @include utilities.whatInputNot('keyboard') {
       background-color: var(--table-accordion-header-background);
 
       td::before {
@@ -239,7 +242,7 @@
       }
 
       + .dnb-table__tr--clickable .dnb-table__td {
-        @include tableBorder() {
+        @include table-mixins.tableBorder() {
           border-top: var(--table-accordion-border);
         }
       }

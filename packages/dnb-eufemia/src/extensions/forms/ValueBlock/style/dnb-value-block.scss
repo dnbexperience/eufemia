@@ -1,4 +1,4 @@
-@import '../../../../style/core/utilities.scss';
+@use '../../../../style/core/utilities.scss';
 
 .dnb-forms-summary-list.dnb-dl {
   &:not(.dnb-dl__layout--horizontal) {
@@ -49,7 +49,7 @@
     &-stretch {
       width: 100%;
     }
-    @include allAbove(x-small) {
+    @include utilities.allAbove(x-small) {
       &-small {
         max-width: var(--forms-field-width--small);
       }
@@ -88,10 +88,10 @@
       --column-gap: var(--spacing-large);
     }
 
-    @include allAbove(x-small) {
+    @include utilities.allAbove(x-small) {
       align-items: flex-start;
     }
-    @include allBelow(x-small) {
+    @include utilities.allBelow(x-small) {
       &:not(:has(.dnb-forms-value-block__label)) {
         --row-gap: var(--spacing-x-small);
       }

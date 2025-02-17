@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../../style/core/utilities.scss';
+@use '../../../../style/core/utilities.scss';
 
 .dnb-textarea {
   --textarea-border-color: var(--sb-color-gray-dark-2);
@@ -40,7 +40,7 @@
     ~ .dnb-textarea__state {
       --textarea-border-color: var(--sb-color-violet);
       --textarea-border-radius: 1.5rem;
-      @include focusRing(null, null, inset);
+      @include utilities.focusRing(null, null, inset);
     }
   }
 

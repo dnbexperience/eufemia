@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
-@import '../../form-label/style/deps.scss';
-@import '../../form-status/style/deps.scss';
-@import './dnb-checkbox.scss';
+@use '../../../style/core/utilities.scss';
+@use '../../form-label/style/deps.scss';
+@use '../../form-status/style/deps.scss';
+@use './dnb-checkbox.scss';

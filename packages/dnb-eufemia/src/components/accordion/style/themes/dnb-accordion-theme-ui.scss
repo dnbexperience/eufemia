@@ -3,7 +3,7 @@
  *
  */
 
-@import '../../../../style/core/utilities.scss';
+@use '../../../../style/core/utilities.scss';
 
 .dnb-accordion {
   &__header {
@@ -69,7 +69,7 @@
         --ui-accordion-expanded-color
       );
 
-      @include focus-visible() {
+      @include utilities.focus-visible() {
         --accordion-border-width: 0.125rem;
         --ui-accordion-border-color: var(--color-emerald-green);
 
@@ -79,7 +79,7 @@
         --ui-accordion-expanded-background: var(--color-mint-green);
       }
 
-      @include hover() {
+      @include utilities.hover() {
         --accordion-border-width: 0.125rem;
         --ui-accordion-color: var(--color-emerald-green);
         --ui-accordion-background: var(--color-white);
@@ -107,7 +107,7 @@
         z-index: 1;
       }
 
-      @include active() {
+      @include utilities.active() {
         --accordion-border-width: 0.0625rem;
         --ui-accordion-background: var(--color-pistachio);
         --ui-accordion-border-inset: inset;
@@ -123,18 +123,18 @@
       --ui-accordion-border-color: var(--color-pistachio);
       --ui-accordion-description-color: var(--color-black-55);
 
-      @include hover() {
+      @include utilities.hover() {
         --ui-accordion-background: var(--color-white);
       }
 
-      @include active() {
+      @include utilities.active() {
         --ui-accordion-color: var(--color-white);
         --ui-accordion-background: var(--color-sea-green);
         --ui-accordion-border-color: var(--color-sea-green);
         --ui-accordion-description-color: ar(--color-white);
       }
 
-      @include focus-visible() {
+      @include utilities.focus-visible() {
         --ui-accordion-border-color: var(--color-sea-green);
       }
     }

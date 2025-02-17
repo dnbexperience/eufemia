@@ -1,3 +1,5 @@
+@use "table-mixins";
+
 /*
 * Table component
 *
@@ -6,7 +8,7 @@
 .dnb-table__container {
   position: relative;
 
-  @include tableOutline() {
+  @include table-mixins.tableOutline() {
     z-index: 3; // over sticky-header
     border: var(--table-outline);
   }
@@ -35,7 +37,7 @@
       }
 
       position: relative; // because of bottom border
-      @include tableOutline() {
+      @include table-mixins.tableOutline() {
         border-bottom: var(--table-border);
       }
 

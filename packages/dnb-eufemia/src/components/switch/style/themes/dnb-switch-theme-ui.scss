@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../../style/core/utilities.scss';
+@use '../../../../style/core/utilities.scss';
 
 .dnb-switch {
   &__background {
@@ -166,7 +166,7 @@
     ~ &__background {
     // change background color
     background-color: var(--color-fire-red-8);
-    @include fakeBorder(var(--color-fire-red), var(--focus-ring-width));
+    @include utilities.fakeBorder(var(--color-fire-red), var(--focus-ring-width));
   }
 
   // change gfx 1 color
@@ -192,7 +192,7 @@
     &__input:not([disabled]):not(:focus):not(:active)
     ~ &__button
     &__focus {
-    @include fakeBorder(var(--color-fire-red), var(--focus-ring-width));
+    @include utilities.fakeBorder(var(--color-fire-red), var(--focus-ring-width));
   }
 
   // and rotate in checked state

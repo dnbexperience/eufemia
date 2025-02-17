@@ -3,6 +3,6 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
-@import '../../help-button/style/deps.scss';
-@import './dnb-modal.scss';
+@use '../../../style/core/utilities.scss';
+@use '../../help-button/style/deps.scss';
+@use './dnb-modal.scss';

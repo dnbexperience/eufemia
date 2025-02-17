@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 .dnb-breadcrumb {
   margin: 0;
@@ -95,13 +95,13 @@
   /* stylelint-enable */
 
   &--variant-responsive &__bar &__multiple {
-    @include allBelow(medium) {
+    @include utilities.allBelow(medium) {
       display: none;
     }
   }
 
   &--variant-responsive &__toggle {
-    @include allAbove(medium) {
+    @include utilities.allAbove(medium) {
       display: none;
     }
   }

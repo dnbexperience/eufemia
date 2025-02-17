@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../../style/core/utilities.scss';
+@use '../../../../style/core/utilities.scss';
 
 .dnb-global-status {
   &__close-button {
@@ -11,7 +11,7 @@
   }
 
   &__title {
-    @include allBelow('large') {
+    @include utilities.allBelow('large') {
       padding-right: 2.5rem;
     }
   }

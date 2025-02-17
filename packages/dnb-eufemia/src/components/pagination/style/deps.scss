@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
-@import '../../button/style/deps.scss';
-@import '../../progress-indicator/style/deps.scss';
-@import './dnb-pagination.scss';
+@use '../../../style/core/utilities.scss';
+@use '../../button/style/deps.scss';
+@use '../../progress-indicator/style/deps.scss';
+@use './dnb-pagination.scss';

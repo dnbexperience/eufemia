@@ -4,6 +4,6 @@
  *
  */
 
-@import './core/utilities.scss';
-@import '../extensions/forms/style/dnb-forms.scss';
-@import '../extensions/payment-card/style/dnb-payment-card.scss';
+@use 'core/utilities.scss';
+@use '../extensions/forms/style/dnb-forms.scss';
+@use '../extensions/payment-card/style/dnb-payment-card.scss';

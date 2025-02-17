@@ -3,12 +3,12 @@
 *
 */
 
-@import '../../../../style/core/utilities.scss';
-@import './button-mixins.scss';
+@use '../../../../style/core/utilities.scss';
+@use 'button-mixins.scss';
 
 // Because the tertiary button has so much code,
 // we slice the shareable parts out in a separate file
-@import '../button--tertiary.scss';
+@use '../button--tertiary.scss';
 
 .dnb-button {
   // global
@@ -62,18 +62,18 @@
     background-color: var(--button-primary-background);
     box-shadow: var(--button-primary-shadow);
 
-    @include hover() {
+    @include utilities.hover() {
       color: var(--button-primary-color--hover);
       background-color: var(--button-primary-background--hover);
 
-      @include fakeBorder(
+      @include utilities.fakeBorder(
         $color: var(--button-primary-border--hover),
         $inset: inset,
         $extendShadow: var(--button-primary-shadow--hover)
       ); // only for error button
     }
 
-    @include active() {
+    @include utilities.active() {
       color: var(--button-primary-color--active);
       background-color: var(--button-primary-background--active);
     }
@@ -82,15 +82,15 @@
   &--secondary {
     color: var(--button-secondary-color);
     background-color: var(--button-secondary-background);
-    @include fakeBorder(var(--button-secondary-border), null, inset);
+    @include utilities.fakeBorder(var(--button-secondary-border), null, inset);
 
-    @include hover() {
+    @include utilities.hover() {
       --button-secondary-border: var(--button-secondary-border--hover);
       color: var(--button-secondary-color--hover);
       background-color: var(--button-secondary-background--hover);
     }
 
-    @include active() {
+    @include utilities.active() {
       --button-secondary-border: var(--button-secondary-border--active);
       color: var(--button-secondary-color--active);
       background-color: var(--button-secondary-background--active);
@@ -100,7 +100,7 @@
   &--secondary:not(#{&}--has-text)#{&}--control-after {
     box-shadow: none;
     border: none;
-    @include hover() {
+    @include utilities.hover() {
       box-shadow: none;
       border: none;
     }
@@ -108,11 +108,11 @@
 
   &--primary,
   &--secondary {
-    @include focus-visible() {
+    @include utilities.focus-visible() {
       color: var(--sb-color-blue-dark);
       background-color: var(--button-background--focus);
 
-      @include focusRing(
+      @include utilities.focusRing(
         $whatinput: 'always',
         $inset: inset,
         $extendShadow: var(--sb-shadow-medium)
@@ -201,7 +201,7 @@
 
     @mixin focus-tertiary() {
       color: var(--sb-color-blue-dark);
-      @include buttonFocusRing(
+      @include button-mixins.buttonFocusRing(
         'always',
         inset,
         var(--sb-shadow-medium),
@@ -218,7 +218,7 @@
       }
     }
 
-    @include hover() {
+    @include utilities.hover() {
       // underline
       &:not(:focus-visible) .dnb-button__text::after {
         color: var(--button-tertiary-border);
@@ -231,7 +231,7 @@
         @include focus-tertiary();
       }
     }
-    @include focus-visible() {
+    @include utilities.focus-visible() {
       @include focus-tertiary();
     }
 

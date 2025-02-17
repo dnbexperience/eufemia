@@ -3,7 +3,7 @@
 * Warning, this is just a stop-gap theming to avoid dnb brand colors. This component is not fully "Sbanken-ready"
 */
 
-@import '../../../../style/core/utilities.scss';
+@use '../../../../style/core/utilities.scss';
 
 .dnb-step-indicator-wrapper .dnb-step-indicator {
   &__item {
@@ -35,7 +35,7 @@
         color: var(--color-black-80);
         background-color: var(--color-white);
 
-        @include fakeBorder(var(--color-black-20), 0.0625rem, inset);
+        @include utilities.fakeBorder(var(--color-black-20), 0.0625rem, inset);
       }
     }
 
@@ -45,7 +45,7 @@
         &.dnb-button--secondary:hover,
         &.dnb-button--secondary:focus,
         &.dnb-button--secondary:active {
-          @include fakeBorder(var(--color-black-80), 0.125rem, inset);
+          @include utilities.fakeBorder(var(--color-black-80), 0.125rem, inset);
         }
       }
     }

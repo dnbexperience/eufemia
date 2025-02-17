@@ -3,7 +3,7 @@
  *
  */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 .dnb-form-row {
   &,
@@ -58,7 +58,7 @@
     }
   }
   &--centered#{&}:not(#{&}--vertical) &__content {
-    @include allAbove(small) {
+    @include utilities.allAbove(small) {
       align-items: center;
     }
   }
@@ -114,7 +114,7 @@
   // reset the fieldset
   &__fieldset,
   .dnb-core-style &__fieldset {
-    @include fieldsetReset();
+    @include utilities.fieldsetReset();
 
     width: 100%;
   }

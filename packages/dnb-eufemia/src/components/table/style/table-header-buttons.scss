@@ -1,4 +1,5 @@
-@import '../../button/style/themes/button-mixins.scss';
+@use '../../button/style/themes/button-mixins.scss';
+@use "../../../style/core/utilities";
 
 @mixin tableFocusRing() {
   &::before {
@@ -70,7 +71,7 @@
         color: var(--color-sea-green);
       }
 
-      @include hover() {
+      @include utilities.hover() {
         color: var(--color-sea-green);
 
         &:not(:focus) .dnb-icon {
@@ -83,7 +84,7 @@
         }
       }
 
-      @include focus() {
+      @include utilities.focus() {
         @include tableFocusRing();
 
         // focus ring
@@ -109,9 +110,9 @@
         }
       }
 
-      @include active() {
-        @include buttonFocusRing('mouse'); // also, make a mouse ring
-        @include buttonFocusRing('touch'); // also, make a touch ring
+      @include utilities.active() {
+        @include button-mixins.buttonFocusRing('mouse'); // also, make a mouse ring
+        @include button-mixins.buttonFocusRing('touch'); // also, make a touch ring
         @include tableFocusRing();
 
         // focus ring
@@ -166,14 +167,14 @@
       }
 
       // and underline on hover
-      @include hover() {
+      @include utilities.hover() {
         .dnb-button__text::after {
           color: var(--color-sea-green);
           opacity: 1;
         }
       }
 
-      @include focus() {
+      @include utilities.focus() {
         // hide underline
         .dnb-button__text::after {
           opacity: 0;

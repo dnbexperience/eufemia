@@ -3,7 +3,7 @@
  *
  */
 @use 'sass:math';
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 @mixin anchorDefaultStyle() {
   // make sure we have always `display: inline;` as inline-block is breaking the border-bottom
@@ -76,7 +76,7 @@
   @include resetAnimationStyle();
   @include resetUnderlineStyle();
 
-  @include focusRing('always');
+  @include utilities.focusRing('always');
 
   border-radius: 0.25em;
   @content;
@@ -110,7 +110,7 @@
     color: var(--color-white);
     background-color: transparent;
 
-    @include focusRing('always', var(--color-white));
+    @include utilities.focusRing('always', var(--color-white));
   }
 }
 

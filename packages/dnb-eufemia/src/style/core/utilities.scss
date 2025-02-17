@@ -2,7 +2,9 @@
  * Utilities
  */
 
-@import '../../components/space/style/space-mixins.scss';
+@use "sass:map";
+@use "sass:string";
+@use '../../components/space/style/space-mixins.scss';
 
 @mixin defaultDropShadow() {
   box-shadow: var(--shadow-default);
@@ -293,12 +295,12 @@ $breakpoint-offset: 0;
 // @include allAbove(medium){ styles go here.. }
 // $offset and $list are needed to provide global customization options
 @mixin allAbove($size, $offset: $breakpoint-offset, $list: $breakpoints) {
-  @media screen and (min-width: (if(map-has-key($list, $size), map-get($list, $size), $size) + $offset + 0.00625)) {
+  @media screen and (min-width: (if(map.has-key($list, $size), map.get($list, $size), $size) + $offset + 0.00625)) {
     @content;
   }
 }
 @mixin allBelow($size, $offset: $breakpoint-offset, $list: $breakpoints) {
-  @media screen and (max-width: (if(map-has-key($list, $size), map-get($list, $size), $size) + $offset)) {
+  @media screen and (max-width: (if(map.has-key($list, $size), map.get($list, $size), $size) + $offset)) {
     @content;
   }
 }
@@ -358,9 +360,9 @@ $breakpoint-offset: 0;
   $index: string.index($string, $search);
 
   @if $index {
-    @return str-slice($string, 1, $index - 1) + $replace +
+    @return string.slice($string, 1, $index - 1) + $replace +
       str-replace(
-        str-slice($string, $index + str-length($search)),
+        string.slice($string, $index + string.length($search)),
         $search,
         $replace
       );
@@ -380,7 +382,7 @@ $breakpoint-offset: 0;
 }
 
 @mixin fieldsetReset() {
-  @include spaceReset();
+  @include space-mixins.spaceReset();
   padding: 0;
   border: none;
 }

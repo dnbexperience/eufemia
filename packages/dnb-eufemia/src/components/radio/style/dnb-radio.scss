@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 :root {
   --radio-width--medium: 1.5rem;
@@ -94,7 +94,7 @@
   &__focus {
     display: none;
 
-    @include focusRing();
+    @include utilities.focusRing();
   }
 
   &__focus,
@@ -260,7 +260,7 @@
     }
 
     fieldset {
-      @include fieldsetReset();
+      @include utilities.fieldsetReset();
     }
 
     &--column .dnb-radio {
@@ -459,7 +459,7 @@
     &__input:not([disabled]):not(:focus):not(:active)
     ~ &__focus {
     display: block;
-    @include fakeBorder(
+    @include utilities.fakeBorder(
       var(--radio-color-border-on--error),
       var(--radio-focus-ring-width--error)
     );
@@ -467,7 +467,7 @@
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active):hover
     ~ &__focus {
-    @include fakeBorder(
+    @include utilities.fakeBorder(
       var(--radio-color-border--error-hover),
       var(--radio-focus-ring-width--error)
     );

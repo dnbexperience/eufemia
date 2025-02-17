@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 .dnb-input {
   --input-font-size: var(--font-size-basis);
@@ -115,7 +115,7 @@
 
     border-radius: var(--b-radius, var(--input-border-radius));
 
-    @include fakeBorder(
+    @include utilities.fakeBorder(
       var(--b-color, var(--input-border-color)),
       var(--b-width, var(--input-border-width)),
       var(--b-inset, var(--input-border-inset, inset))
@@ -123,7 +123,7 @@
   }
   &--disabled &__border {
     // Overwrite the border
-    @include fakeBorder(
+    @include utilities.fakeBorder(
       var(--input-border-color--disabled),
       var(--input-border-width--disabled),
       var(--input-border-inset--disabled, inset)
@@ -270,7 +270,7 @@
     line-height: var(--line-height-basis);
   }
 
-  @include formLabelWrap();
+  @include utilities.formLabelWrap();
 
   &:not(&--vertical)[class*='__status'] {
     align-items: flex-start;

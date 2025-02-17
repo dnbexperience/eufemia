@@ -4,17 +4,19 @@
 */
 
 // core imports
-@import './core/scopes.scss';
+@use "sass:meta";
+@use 'core/scopes.scss';
+@use "core/reset";
 
-@include globalReset();
+@include reset.globalReset();
 
 // make sure we have dynamic root font size
-@include htmlDefault();
+@include scopes.htmlDefault();
 
 // global body style
 body,
 .dnb-core-style {
-  @include bodyDefault();
+  @include scopes.bodyDefault();
 }
 
-@import './core/helper-classes/helper-classes.scss';
+@include meta.load-css('core/helper-classes/helper-classes.scss');

@@ -4,11 +4,11 @@
  *
  */
 
-@import './core/utilities.scss';
-@import '../elements/blockquote/style/dnb-blockquote.scss';
-@import '../elements/code/style/dnb-code.scss';
-@import '../elements/hr/style/dnb-hr.scss';
-@import '../elements/img/style/dnb-img.scss';
-@import '../elements/label/style/dnb-label.scss';
-@import '../elements/lists/style/dnb-lists.scss';
-@import '../elements/typography/style/dnb-typography.scss';
+@use 'core/utilities.scss';
+@use '../elements/blockquote/style/dnb-blockquote.scss';
+@use '../elements/code/style/dnb-code.scss';
+@use '../elements/hr/style/dnb-hr.scss';
+@use '../elements/img/style/dnb-img.scss';
+@use '../elements/label/style/dnb-label.scss';
+@use '../elements/lists/style/dnb-lists.scss';
+@use '../elements/typography/style/dnb-typography.scss';

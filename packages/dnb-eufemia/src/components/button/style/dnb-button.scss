@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 :root {
   --button-icon-size: 1rem;
@@ -251,14 +251,14 @@
     text-align: inherit;
     line-height: inherit;
 
-    @include hover() {
+    @include utilities.hover() {
       box-shadow: none;
       border: none;
     }
 
     &:not([disabled]):focus,
     &:not([disabled]):active {
-      @include focusRing();
+      @include utilities.focusRing();
     }
 
     html[data-whatinput='mouse'] &:not([disabled]):focus,

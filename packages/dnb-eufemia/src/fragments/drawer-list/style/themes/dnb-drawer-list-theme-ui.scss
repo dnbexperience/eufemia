@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../../style/core/utilities.scss';
+@use '../../../../style/core/utilities.scss';
 
 .dnb-drawer-list {
   --drawer-list-options-border-radius: 0.25rem;
@@ -14,7 +14,7 @@
   color: var(--color-emerald-green);
 
   &__list {
-    @include defaultDropShadow();
+    @include utilities.defaultDropShadow();
     border-radius: calc(
       var(--drawer-list-options-border-radius) + 0.15rem
     );
@@ -29,11 +29,11 @@
     );
 
     &:focus {
-      @include focusRing();
+      @include utilities.focusRing();
     }
 
     &--focusring {
-      @include focusRing('mouse');
+      @include utilities.focusRing('mouse');
     }
   }
 
@@ -69,7 +69,7 @@
       font-weight: var(--font-weight-medium);
     }
 
-    @include hover() {
+    @include utilities.hover() {
       background-color: var(--color-mint-green-12);
 
       .dnb-drawer-list__option__inner {
@@ -78,7 +78,7 @@
       }
     }
 
-    @include active() {
+    @include utilities.active() {
       .dnb-drawer-list__option__inner {
         color: var(--color-black);
       }
@@ -98,7 +98,7 @@
         height: auto;
         background-color: transparent;
 
-        @include fakeBorder(
+        @include utilities.fakeBorder(
           var(--color-emerald-green),
           var(--drawer-list-focus-border-width)
         );
@@ -119,7 +119,7 @@
         background-color: inherit;
       }
 
-      @include hover() {
+      @include utilities.hover() {
         color: var(--color-white);
         background-color: var(--color-emerald-green);
 
@@ -155,7 +155,7 @@
     }
 
     // TODO: Use CSS Container Queries when available
-    @include allAbove(small) {
+    @include utilities.allAbove(small) {
       &--selected &__suffix {
         z-index: 2; // over check icon
         background-color: inherit; // to "hide" the check icon
@@ -171,7 +171,7 @@
       &__inner::before {
       visibility: visible;
 
-      @include fakeBorder(
+      @include utilities.fakeBorder(
         var(--color-mint-green),
         var(--drawer-list-focus-border-width)
       );
@@ -203,7 +203,7 @@
 
     &--selected &__item {
       .dnb-anchor:focus {
-        @include focusRing(null, var(--color-white));
+        @include utilities.focusRing(null, var(--color-white));
       }
     }
   }
@@ -243,7 +243,7 @@
     border: none;
     background-color: var(--color-white);
 
-    @include defaultDropShadow();
+    @include utilities.defaultDropShadow();
   }
 
   // hover

@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 :root {
   --checkbox-width--medium: 1.5rem;
@@ -107,7 +107,7 @@
   &__focus {
     display: none;
 
-    @include focusRing();
+    @include utilities.focusRing();
   }
 
   &__focus,
@@ -433,7 +433,7 @@
     ~ &__button
     &__focus {
     display: block;
-    @include fakeBorder(
+    @include utilities.fakeBorder(
       var(--checkbox-color-border--error),
       var(--checkbox-border-width--error)
     );
@@ -463,7 +463,7 @@
     html[data-whatinput='keyboard'] & {
       border: none;
       background-color: var(--checkbox-color-background--error-contrast);
-      @include fakeBorder(
+      @include utilities.fakeBorder(
         var(--checkbox-color-border--error),
         calc(var(--checkbox-border-width--hover))
       );

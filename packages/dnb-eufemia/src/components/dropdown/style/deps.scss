@@ -3,9 +3,9 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
-@import '../../icon/style/deps.scss';
-@import '../../button/style/deps.scss';
-@import '../../form-label/style/deps.scss';
-@import '../../form-status/style/deps.scss';
-@import './dnb-dropdown.scss';
+@use '../../../style/core/utilities.scss';
+@use '../../icon/style/deps.scss';
+@use '../../button/style/deps.scss';
+@use '../../form-label/style/deps.scss';
+@use '../../form-status/style/deps.scss';
+@use './dnb-dropdown.scss';

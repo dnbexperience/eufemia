@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 .dnb-toggle-button {
   display: inline-flex;
@@ -126,7 +126,7 @@
     }
 
     fieldset {
-      @include fieldsetReset();
+      @include utilities.fieldsetReset();
     }
 
     &--column .dnb-toggle-button {
@@ -185,7 +185,7 @@
   }
 
   // default spacing for a single toggle button
-  @include allAbove(small) {
+  @include utilities.allAbove(small) {
     .dnb-form-label + & {
       transform: translateY(-0.5rem);
     }

@@ -1,16 +1,16 @@
 @use 'sass:map';
-@import '../../../../style/core/utilities.scss';
-@import '../../Field/style/field-sizes.scss';
+@use '../../../../style/core/utilities.scss';
+@use '../../Field/style/field-sizes.scss';
 
-$breakpoints: map.merge(
-  $breakpoints,
+utilities.$breakpoints: map.merge(
+  utilities.$breakpoints,
   (
     'xx-small': 15em,
   )
 );
 
 fieldset.dnb-forms-field-block {
-  @include fieldsetReset();
+  @include utilities.fieldsetReset();
 }
 
 .dnb-forms-field-block {
@@ -49,7 +49,7 @@ fieldset.dnb-forms-field-block {
         max-width: none;
       }
     }
-    @include allAbove(x-small) {
+    @include utilities.allAbove(x-small) {
       &-custom {
         width: calc(var(--dnb-forms-field-block-width));
       }
@@ -106,12 +106,12 @@ fieldset.dnb-forms-field-block {
       margin-bottom: var(--label-margin);
     }
 
-    @include allBelow(small) {
+    @include utilities.allBelow(small) {
       & > .dnb-form-label {
         margin-bottom: calc(var(--label-margin) + 0.5rem);
       }
     }
-    @include allAbove(small) {
+    @include utilities.allAbove(small) {
       grid-template-columns:
         minmax(
           var(--dnb-forms-field-block-layout-width-min, min-content),
@@ -167,7 +167,7 @@ fieldset.dnb-forms-field-block {
     }
   }
   &__grid#{&}--layout-horizontal &__help {
-    @include allAbove(small) {
+    @include utilities.allAbove(small) {
       .dnb-section {
         margin-top: 0.5rem;
         margin-bottom: 0;
@@ -183,7 +183,7 @@ fieldset.dnb-forms-field-block {
       max-width: 60ch; // to enhance readability
     }
 
-    @include allBelow(xx-small) {
+    @include utilities.allBelow(xx-small) {
       width: 90%;
     }
   }
@@ -198,7 +198,7 @@ fieldset.dnb-forms-field-block {
       &-stretch {
         width: 100%;
       }
-      @include allAbove(x-small) {
+      @include utilities.allAbove(x-small) {
         &-custom {
           width: calc(var(--dnb-forms-field-block-content-width));
         }
@@ -226,14 +226,14 @@ fieldset.dnb-forms-field-block {
     flex-flow: row;
     column-gap: var(--spacing-small);
 
-    @include allAbove(x-small) {
+    @include utilities.allAbove(x-small) {
       align-items: flex-end; // To support fields with labels of different size
 
       &[class*='align-center'] {
         align-items: center; // To support fields without labels, but different heights
       }
     }
-    @include allBelow(x-small) {
+    @include utilities.allBelow(x-small) {
       row-gap: var(--spacing-x-small);
       flex-flow: column;
     }
@@ -241,12 +241,12 @@ fieldset.dnb-forms-field-block {
 
   // Because we want to hide / show the indicator responsively,
   // we render both, but hide the one we don't want to show.
-  @include allBelow(x-small) {
+  @include utilities.allBelow(x-small) {
     &__composition > &__grid > .dnb-forms-submit-indicator {
       display: none;
     }
   }
-  @include allAbove(x-small) {
+  @include utilities.allAbove(x-small) {
     &__composition > &__grid > &__contents .dnb-forms-submit-indicator {
       display: none;
     }

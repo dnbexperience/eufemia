@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 .dnb-skip-content {
   &--visible {
@@ -22,7 +22,7 @@
       position: absolute;
       inset: #{var(--focus-ring-width)};
 
-      @include focusRing();
+      @include utilities.focusRing();
     }
   }
 

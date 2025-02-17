@@ -1,4 +1,4 @@
-@import '../../../../style/core/utilities.scss';
+@use '../../../../style/core/utilities.scss';
 
 .dnb-forms-wizard-layout {
   display: flex;
@@ -50,7 +50,7 @@
     }
   }
 
-  @include allBelow('medium') {
+  @include utilities.allBelow('medium') {
     flex-direction: column;
     justify-content: stretch;
     align-items: stretch;
@@ -65,7 +65,7 @@
   }
 }
 
-@include allAbove('medium') {
+@include utilities.allAbove('medium') {
   .dnb-forms-form:has(.dnb-forms-wizard-layout--sidebar)
     .dnb-forms-form__status-message {
     margin-left: 21.5rem;

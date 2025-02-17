@@ -32,7 +32,7 @@ export const editAdvice = `
 $THEME_FALLBACK: 'ui';
 
 // Import shared styles
-@import '../../dnb-ui-<file>.scss';
+@use '../../dnb-ui-<file>.scss';
 `
 
 const insertBelowTitle =
@@ -79,7 +79,7 @@ async function runThemeFactory() {
       ),
       ...processToNamesIgnoreList,
     ],
-    customContent: ({ name }) => `@import './${name}-theme-forms.scss';`,
+    customContent: ({ name }) => `@use './${name}-theme-forms.scss';`,
     // output
     targetFile: 'components', // ui-theme-components.scss
     scssOutputPath: path.resolve(__dirname, '../../../src/style/themes'),
@@ -324,7 +324,7 @@ async function collectRelatedThemeFiles(themeSources: ThemeSources) {
     const files = list.reduce((acc, { source }) => {
       const path = packpath.self()
       acc.push(
-        `\n@import '${source.replace(
+        `\n@use '${source.replace(
           new RegExp(`${path}/src/`, 'g'),
           '../../../'
         )}';`

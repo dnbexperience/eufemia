@@ -3,8 +3,8 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
-@import '../../icon/style/deps.scss';
-@import '../../tooltip/style/deps.scss';
-@import '../../form-status/style/deps.scss';
-@import './dnb-button.scss';
+@use '../../../style/core/utilities.scss';
+@use '../../icon/style/deps.scss';
+@use '../../tooltip/style/deps.scss';
+@use '../../form-status/style/deps.scss';
+@use './dnb-button.scss';

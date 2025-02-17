@@ -3,7 +3,7 @@
  *
  */
 
-@import './properties.scss';
-@import './fonts.scss';
-@import './ui-theme-elements.scss';
-@import './globals.scss';
+@use 'properties.scss';
+@use 'fonts.scss';
+@use 'ui-theme-elements.scss';
+@use 'globals.scss';

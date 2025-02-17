@@ -1,15 +1,17 @@
+@use "../../../style/core/utilities";
+
 .dnb-grid-item {
   grid-column: var(--start-c) / var(--end-c);
 
   --start-c: var(--small-c-s, 1);
   --end-c: var(--small-c-e, calc(var(--grid-columns) + 1));
 
-  @include allAbove(small) {
+  @include utilities.allAbove(small) {
     --start-c: var(--medium-c-s, 1);
     --end-c: var(--medium-c-e, calc(var(--grid-columns) + 1));
   }
 
-  @include allAbove(medium) {
+  @include utilities.allAbove(medium) {
     --start-c: var(--large-c-s, 1);
     --end-c: var(--large-c-e, calc(var(--grid-columns) + 1));
   }

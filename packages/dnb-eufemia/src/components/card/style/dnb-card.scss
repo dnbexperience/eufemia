@@ -1,4 +1,4 @@
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 .dnb-card {
   &__heading {
@@ -30,7 +30,7 @@
   & .dnb-section {
     z-index: 1;
   }
-  @include allAbove(small) {
+  @include utilities.allAbove(small) {
     // These vars needs to be declared outside of the nested .dnb-section
     --nested-space-l: calc(var(--padding-left, 0px) * -1);
     --nested-space-r: calc(var(--padding-right, 0px) * -1);
@@ -45,7 +45,7 @@
   }
 
   &--responsive {
-    @include allBelow(small) {
+    @include utilities.allBelow(small) {
       &.dnb-section::before {
         left: var(--left);
 
@@ -65,7 +65,7 @@
 
   // Show only one border (combined) when stacked
   & + .dnb-card--responsive:not([class*='space__top']) {
-    @include allBelow(small) {
+    @include utilities.allBelow(small) {
       &::before {
         top: var(--outline-width);
       }
@@ -82,7 +82,7 @@
   .dnb-flex-container.dnb-flex-container--divider-space
     &
     + .dnb-card--responsive {
-    @include allBelow(small) {
+    @include utilities.allBelow(small) {
       margin-top: 0;
 
       &::before {
@@ -150,7 +150,7 @@
   + .dnb-help-button__content + .dnb-section + .dnb-card:not([style*='--outset'])
 ) {
   &:not([class*='space__left']) {
-    @include allAbove(small) {
+    @include utilities.allAbove(small) {
       margin-left: var(--spacing-medium);
     }
   }

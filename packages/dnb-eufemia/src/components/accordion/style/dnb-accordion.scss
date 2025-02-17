@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 .dnb-accordion {
   --accordion-border-width: 0.0625rem;
@@ -173,7 +173,7 @@
     position: static;
     max-width: 60rem;
 
-    @include allAbove(small) {
+    @include utilities.allAbove(small) {
       &__header {
         width: 40%; // 40% / 60%
       }
@@ -199,7 +199,7 @@
     // }
   }
   &-group--single-container & > &__header &__header__icon {
-    @include allAbove(small) {
+    @include utilities.allAbove(small) {
       transform: rotate(-90deg);
     }
   }
@@ -209,7 +209,7 @@
       &__children {
         max-width: 60rem;
 
-        @include allAbove(small) {
+        @include utilities.allAbove(small) {
           position: relative;
           display: flex;
           flex-direction: column;

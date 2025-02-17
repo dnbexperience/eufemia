@@ -3,7 +3,7 @@
 *
 */
 
-@import './table-header-buttons.scss';
+@use 'table-header-buttons.scss';
 
 .dnb-table {
   &__th__horizontal {

@@ -1,4 +1,4 @@
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 .dnb-grid-container {
   display: grid;
@@ -35,27 +35,27 @@
 
   // set columns
   --grid-columns: var(--small-columns, 4);
-  @include allAbove(small) {
+  @include utilities.allAbove(small) {
     --grid-columns: var(--medium-columns, 6);
   }
-  @include allAbove(medium) {
+  @include utilities.allAbove(medium) {
     --grid-columns: var(--large-columns, 12);
   }
 
   // disable
-  @include allBelow(medium) {
+  @include utilities.allBelow(medium) {
     &__disabled--small {
       display: unset;
     }
   }
-  @include allAbove(small) {
-    @include allBelow(medium) {
+  @include utilities.allAbove(small) {
+    @include utilities.allBelow(medium) {
       &__disabled--medium {
         display: unset;
       }
     }
   }
-  @include allAbove(large) {
+  @include utilities.allAbove(large) {
     --grid-columns: var(--large-columns, 12);
     &__disabled--large {
       display: unset;

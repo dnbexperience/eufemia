@@ -3,7 +3,7 @@
  *
  */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 .dnb-section {
   position: relative;
@@ -86,7 +86,7 @@
     }
   }
 
-  @include allBelow(medium) {
+  @include utilities.allBelow(medium) {
     --breakout: var(--breakout--small, var(--breakout--fallback));
     --outset: var(--outset--small, var(--outset--fallback));
     --background-color--value: var(--background-color--small);
@@ -98,7 +98,7 @@
       var(--rounded-corner--fallback)
     );
   }
-  @include allBetween(small, medium) {
+  @include utilities.allBetween(small, medium) {
     --breakout: var(--breakout--medium, var(--breakout--fallback));
     --outset: var(--outset--medium, var(--outset--fallback));
     --background-color--value: var(--background-color--medium);
@@ -110,7 +110,7 @@
       var(--rounded-corner--fallback)
     );
   }
-  @include allAbove(medium) {
+  @include utilities.allAbove(medium) {
     --breakout: var(--breakout--large, var(--breakout--fallback));
     --outset: var(--outset--large, var(--outset--fallback));
     --background-color--value: var(--background-color--large);

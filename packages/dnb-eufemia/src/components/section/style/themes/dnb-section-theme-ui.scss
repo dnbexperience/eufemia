@@ -3,7 +3,8 @@
  *
  */
 
-@import '../../../../components/anchor/style/anchor-mixins.scss';
+@use '../../../../components/anchor/style/anchor-mixins.scss';
+@use "../../../../style/core/utilities";
 
 .dnb-section {
   --background-color: var(--color-white);
@@ -111,7 +112,7 @@
   &--emerald-green .dnb-anchor,/** deprecated */
   &--sea-green .dnb-anchor,/** deprecated */
   &--success .dnb-anchor {
-    @include useAnchorContrastStyle();
+    @include anchor-mixins.useAnchorContrastStyle();
   }
 
   &--fire-red .dnb-button--tertiary,/** deprecated */
@@ -131,7 +132,7 @@
       --text-color: var(--color-white);
 
       &::before {
-        @include focusRing(null, var(--color-white));
+        @include utilities.focusRing(null, var(--color-white));
       }
     }
   }

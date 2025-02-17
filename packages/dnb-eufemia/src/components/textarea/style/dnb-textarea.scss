@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 @mixin textareaStyleCommon() {
   cursor: auto;
@@ -95,7 +95,7 @@
 
     background-color: var(--textarea-background-color);
 
-    @include fakeBorder(
+    @include utilities.fakeBorder(
       var(--textarea-border-color),
       var(--textarea-border-width),
       var(--textarea-border-inset, inset)
@@ -124,9 +124,9 @@
 
     @include textareaStyleCommon();
 
-    @include scrollY(auto);
+    @include utilities.scrollY(auto);
 
-    @include IS_FF() {
+    @include utilities.IS_FF() {
       overflow-x: clip !important;
     }
   }
@@ -225,7 +225,7 @@
     }
   }
 
-  @include formLabelWrap();
+  @include utilities.formLabelWrap();
 
   // make full width
   &--stretch {

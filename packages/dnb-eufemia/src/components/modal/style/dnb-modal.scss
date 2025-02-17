@@ -3,8 +3,8 @@
  *
  */
 
-@import '../../../style/core/utilities.scss';
-@import './modal-mixins.scss';
+@use '../../../style/core/utilities.scss';
+@use 'modal-mixins.scss';
 
 :root {
   --modal-z-index: 3000;
@@ -44,7 +44,7 @@ html[data-dnb-modal-active] {
     -webkit-user-select: none; // Safari / Touch fix
 
     &--auto-fullscreen {
-      @include allBelow(small) {
+      @include utilities.allBelow(small) {
         height: auto;
       }
     }

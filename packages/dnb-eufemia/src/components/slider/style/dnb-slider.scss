@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@use '../../../style/core/utilities.scss';
 
 .dnb-slider {
   --slider-track-height: 0.25rem;
@@ -83,7 +83,7 @@
 
     &:focus {
       outline: none; // we show a Tooltip instead
-      @include focusRing();
+      @include utilities.focusRing();
     }
 
     // Larger bounding area
@@ -199,7 +199,7 @@
   }
 
   &__thumb {
-    @include defaultDropShadow();
+    @include utilities.defaultDropShadow();
   }
 
   &__button-helper,
@@ -272,7 +272,7 @@
   }
 
   &__button-helper:not(:disabled):focus ~ .dnb-button {
-    @include focusRing();
+    @include utilities.focusRing();
   }
 
   > .dnb-form-label {

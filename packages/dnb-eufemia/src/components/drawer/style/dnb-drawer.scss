@@ -3,21 +3,21 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
-@import '../../modal/style/modal-mixins.scss';
+@use '../../../style/core/utilities.scss';
+@use '../../modal/style/modal-mixins.scss';
 
 @mixin drawerSpacing {
   padding: 0 var(--drawer-spacing); // should be 56px – but then the whole width should be larger
 
-  @include allAbove(x-large) {
+  @include utilities.allAbove(x-large) {
     padding: 0 calc(var(--drawer-spacing) * 1.75); // 3.5rem (56px)
   }
 
-  @include allBelow(medium) {
+  @include utilities.allBelow(medium) {
     padding: 0 calc(var(--drawer-spacing) / 1.333333); // 2rem (32px)
   }
 
-  @include allBelow(small) {
+  @include utilities.allBelow(small) {
     padding: 0 calc(var(--drawer-spacing) / 2); // 1rem (16px)
   }
 }
@@ -32,25 +32,25 @@
   position: relative;
   max-height: 100vh;
 
-  @include modalFullscreen();
+  @include modal-mixins.modalFullscreen();
   width: var(--drawer-width);
   min-width: var(--drawer-min-width);
   max-width: var(--drawer-max-width);
 
-  @include allBelow(small) {
+  @include utilities.allBelow(small) {
     --drawer-width: 100vw;
     --drawer-min-width: none;
     --drawer-max-width: none;
   }
 
-  @include defaultDropShadow();
+  @include utilities.defaultDropShadow();
   user-select: text; // Safari / Touch fix
   border: none;
   -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
 
   &--auto-fullscreen {
-    @include allBelow(small) {
-      @include modalFullscreen();
+    @include utilities.allBelow(small) {
+      @include modal-mixins.modalFullscreen();
     }
   }
 
@@ -112,7 +112,7 @@
   }
 
   &--fullscreen {
-    @include modalFullscreen();
+    @include modal-mixins.modalFullscreen();
   }
 
   html:not([data-visual-test]) & {
@@ -160,7 +160,7 @@
     animation-duration: 0ms !important;
   }
 
-  @include allBelow(small) {
+  @include utilities.allBelow(small) {
     &--no-animation-on-mobile {
       animation-duration: 0ms !important;
     }
@@ -172,7 +172,7 @@
   }
 
   &__title {
-    @include allBelow(medium) {
+    @include utilities.allBelow(medium) {
       font-size: var(--font-size-large) !important;
       line-height: var(--line-height-medium) !important;
     }
@@ -214,7 +214,7 @@
     padding-bottom: calc(var(--drawer-spacing) * 2);
     margin-bottom: calc(var(--drawer-spacing-minus) * 2);
 
-    @include IS_SAFARI_MOBILE() {
+    @include utilities.IS_SAFARI_MOBILE() {
       padding-bottom: calc(var(--drawer-spacing-minus) * 8);
     }
   }
@@ -251,7 +251,7 @@
       bottom: 0;
       height: 300%; // hide the top shadow
 
-      @include defaultDropShadow();
+      @include utilities.defaultDropShadow();
     }
   }
 
@@ -262,7 +262,7 @@
     }
   }
 
-  @include allBelow(small) {
+  @include utilities.allBelow(small) {
     &--no-animation-on-mobile {
       animation-delay: 0ms !important;
       animation-duration: 0ms !important;

@@ -1,5 +1,5 @@
 @use '../../../style/elements/ui-spacing.scss';
-@import '../../../components/space/style/space-mixins.scss';
+@use '../../../components/space/style/space-mixins.scss';
 
 @mixin hrStyle() {
   position: relative;
@@ -9,7 +9,7 @@
 
   display: flow-root; // avoid margin collapsing on Safari
 
-  @include spaceReset();
+  @include space-mixins.spaceReset();
 
   border: 0;
 

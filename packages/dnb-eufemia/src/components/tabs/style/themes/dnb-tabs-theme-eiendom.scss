@@ -3,7 +3,7 @@
 *
 */
 
-@import './dnb-tabs-theme-ui.scss';
+@use 'dnb-tabs-theme-ui.scss';
 
 .dnb-tabs {
   &__button {
