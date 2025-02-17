@@ -178,8 +178,8 @@ export const SettingCountryBasedOnPath = () => {
     <ComponentBox>
       <Form.Handler>
         <Form.Card>
-          <Field.SelectCountry path="/myCountry" defaultValue="NO" />
-          <Field.PostalCodeAndCity country="/myCountry" />
+          <Field.SelectCountry path="/country" defaultValue="NO" />
+          <Field.PostalCodeAndCity countryCode="/country" />
         </Form.Card>
       </Form.Handler>
     </ComponentBox>
@@ -197,12 +197,12 @@ export const NonNorwegianPostalCode = () => {
           },
           'en-GB': {
             'PostalCode.errorPattern':
-              'This is not a valid postcode (five-digits).',
+              'This is not a valid postal code (five-digits).',
           },
         }}
       >
         <Field.PostalCodeAndCity
-          country="DE"
+          countryCode="DE"
           postalCode={{
             pattern: '^[0-9]{5}$',
             onBlurValidator: undefined,

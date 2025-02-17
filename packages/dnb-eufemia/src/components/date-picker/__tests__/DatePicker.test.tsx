@@ -2475,6 +2475,90 @@ describe('DatePicker calc', () => {
     })
   })
 
+  describe('isDisabledCalc', () => {
+    it('should correctly determine `date` is before `minDate`', async () => {
+      const date = new Date('2025-02-12')
+      const onChange = jest.fn()
+
+      render(
+        <DatePicker
+          date={date}
+          minDate={date}
+          onChange={onChange}
+          shortcuts={[
+            {
+              title: 'Correct',
+              start_date: new Date('2025-02-12'),
+              end_date: new Date('2025-02-28'),
+            },
+            {
+              title: 'Wrong',
+              start_date: new Date('2025-02-11'),
+              end_date: new Date('2025-02-28'),
+            },
+          ]}
+          range
+        />
+      )
+
+      await userEvent.click(screen.getByLabelText('åpne datovelger'))
+      await userEvent.click(screen.getByText('Correct'))
+
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({ is_valid_start_date: true })
+      )
+
+      await userEvent.click(screen.getByText('Wrong'))
+
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({ is_valid_start_date: false })
+      )
+    })
+
+    it('should correctly determine `date` is after `maxDate`', async () => {
+      const date = new Date('2025-02-12')
+      const onChange = jest.fn()
+
+      render(
+        <DatePicker
+          date={date}
+          maxDate={date}
+          onChange={onChange}
+          shortcuts={[
+            {
+              title: 'Correct',
+              start_date: new Date('2025-02-01'),
+              end_date: new Date('2025-02-12'),
+            },
+            {
+              title: 'Wrong',
+              start_date: new Date('2025-02-01'),
+              end_date: new Date('2025-02-13'),
+            },
+          ]}
+          range
+        />
+      )
+
+      await userEvent.click(screen.getByLabelText('åpne datovelger'))
+      await userEvent.click(screen.getByText('Correct'))
+
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({ is_valid_end_date: true })
+      )
+
+      await userEvent.click(screen.getByText('Wrong'))
+
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({ is_valid_end_date: false })
+      )
+    })
+  })
+
   it('should support spacing props', () => {
     render(<DatePicker top="2rem" showInput />)
 

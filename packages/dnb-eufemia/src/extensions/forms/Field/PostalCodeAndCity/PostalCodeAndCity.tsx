@@ -20,7 +20,18 @@ export type Props = Pick<
      * You can also use the value of another field to define the country, by using a path value i.e. `/myCountryPath`.
      * Default: `NO`
      */
+    /**
+     * @deprecated – use countryCode instead. Will be removed in v11.
+     */
     country?: Path | string
+
+    /**
+     * Defines which country the postal code and city is for.
+     * Setting it to anything other than `no` will remove the default norwegian postal code pattern.
+     * You can also use the value of another field to define the countryCode, by using a path value i.e. `/myCountryCodePath`.
+     * Default: `NO`
+     */
+    countryCode?: Path | string
     help?: HelpProps
   }
 
@@ -33,9 +44,28 @@ function PostalCodeAndCity(props: Props) {
     city = {},
     help,
     width = 'large',
-    country = defaultCountry,
+    country,
+    countryCode = defaultCountry,
     ...fieldBlockProps
   } = props
+
+  const countryCodeValue = getSourceValue(country || countryCode)
+
+  const handleCityDefaults = useCallback(
+    (city: StringFieldProps) => {
+      const props: StringFieldProps = {}
+
+      switch (countryCodeValue) {
+        case defaultCountry: {
+          props.pattern = '^[A-Za-zÆØÅæøå -]+$'
+          break
+        }
+      }
+
+      return { ...props, ...city }
+    },
+    [countryCodeValue]
+  )
 
   const {
     pattern: cityPattern,
@@ -43,14 +73,13 @@ function PostalCodeAndCity(props: Props) {
     label: cityLabel,
     width: cityWidth,
     errorMessages: cityErrorMessages,
-  } = city
+  } = handleCityDefaults(city)
 
-  const countryValue = getSourceValue(country)
-  const handleDefaults = useCallback(
+  const handlePostalCodeDefaults = useCallback(
     (postalCode: StringFieldProps) => {
       const props: StringFieldProps = {}
 
-      switch (countryValue) {
+      switch (countryCodeValue) {
         case defaultCountry:
         case 'DK':
         case 'CH': {
@@ -66,7 +95,7 @@ function PostalCodeAndCity(props: Props) {
 
       return { ...props, ...postalCode }
     },
-    [countryValue]
+    [countryCodeValue]
   )
 
   const {
@@ -77,7 +106,7 @@ function PostalCodeAndCity(props: Props) {
     label: postalCodeLabel,
     width: postalCodeWidth,
     errorMessages: postalCodeErrorMessages,
-  } = handleDefaults(postalCode)
+  } = handlePostalCodeDefaults(postalCode)
 
   return (
     <CompositionField
@@ -114,6 +143,7 @@ function PostalCodeAndCity(props: Props) {
         inputClassName="dnb-forms-field-postal-code-and-city__postal-code-input"
         inputMode="numeric"
         autoComplete="postal-code"
+        data-country-code={country || countryCode}
       />
 
       <StringField
@@ -136,7 +166,7 @@ function PostalCodeAndCity(props: Props) {
             translations.City.errorRequired,
           ]
         )}
-        pattern={cityPattern ?? '^[A-Za-zÆØÅæøå -]+$'}
+        pattern={cityPattern}
         trim
         width={cityWidth ?? 'stretch'}
         autoComplete="address-level2"

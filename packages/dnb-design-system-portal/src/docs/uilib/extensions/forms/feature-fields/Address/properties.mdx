@@ -1,0 +1,22 @@
+---
+showTabs: true
+---
+
+import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import { AddressProperties } from '@dnb/eufemia/src/extensions/forms/Field/Address/AddressDocs'
+
+## Properties
+
+### Field-specific properties
+
+<PropertiesTable props={AddressProperties} />
+
+### General properties
+
+<PropertiesTable props={FieldProperties} />
+
+## Translations
+
+<TranslationsTable localeKey={['Address', 'Field']} />

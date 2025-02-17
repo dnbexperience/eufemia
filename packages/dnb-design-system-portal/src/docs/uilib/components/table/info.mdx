@@ -64,7 +64,7 @@ You have two options (both have their downsides):
 
 1. use `sticky={true}`. It works even when using a `Table.ScrollView` or a `overflow: hidden;` is used on any parent elements. And it works inside a [Drawer](/uilib/components/drawer) as well. The downside is, that it uses JavaScript and the browser may drop some frames, which results in a potential flickering during scrolling.
 
-2. use `sticky="css-position"` for using the CSS `position: sticky;` method. It is super smooth. But then you can not use a `overflow: hidden;` or `overflow: auto;` on any parent elements. This is a know issue happening on every modern browser.
+2. use `sticky="css-position"` for using the CSS `position: sticky;` method. It is super smooth. But then you cannot use a `overflow: hidden;` or `overflow: auto;` on any parent elements. This is a know issue happening on every modern browser.
 
 Method no. 2 should be used when a `max-height` is set to the wrapping `Table.ScrollView` e.g.:
 

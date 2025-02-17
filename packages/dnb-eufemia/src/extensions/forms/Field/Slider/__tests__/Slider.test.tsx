@@ -166,7 +166,10 @@ describe('Field.Slider', () => {
       simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
       expect(onChange).toHaveBeenCalledTimes(1)
-      expect(onChange).toHaveBeenLastCalledWith([40, 80])
+      expect(onChange).toHaveBeenLastCalledWith(
+        [40, 80],
+        expect.anything()
+      )
 
       resetMouseSimulation()
 
@@ -174,7 +177,10 @@ describe('Field.Slider', () => {
       simulateMouseMove({ pageX: 20, width: 100, height: 10 })
 
       expect(onChange).toHaveBeenCalledTimes(2)
-      expect(onChange).toHaveBeenLastCalledWith([20, 40])
+      expect(onChange).toHaveBeenLastCalledWith(
+        [20, 40],
+        expect.anything()
+      )
     })
 
     it('with "paths"', () => {

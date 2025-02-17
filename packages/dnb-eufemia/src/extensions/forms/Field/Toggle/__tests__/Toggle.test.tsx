@@ -103,13 +103,13 @@ describe('Field.Toggle', () => {
 
         expect(element).toHaveAttribute('aria-pressed', 'false')
         expect(onChange).toHaveBeenCalledTimes(1)
-        expect(onChange).toHaveBeenLastCalledWith('off')
+        expect(onChange).toHaveBeenLastCalledWith('off', expect.anything())
 
         fireEvent.click(element)
 
         expect(element).toHaveAttribute('aria-pressed', 'true')
         expect(onChange).toHaveBeenCalledTimes(2)
-        expect(onChange).toHaveBeenLastCalledWith('on')
+        expect(onChange).toHaveBeenLastCalledWith('on', expect.anything())
       })
 
       it('should store "displayValue" in data context', async () => {
@@ -309,14 +309,14 @@ describe('Field.Toggle', () => {
         expect(yesElement).toHaveAttribute('aria-pressed', 'false')
         expect(noElement).toHaveAttribute('aria-pressed', 'true')
         expect(onChange).toHaveBeenCalledTimes(1)
-        expect(onChange).toHaveBeenLastCalledWith('off')
+        expect(onChange).toHaveBeenLastCalledWith('off', expect.anything())
 
         fireEvent.click(yesElement)
 
         expect(yesElement).toHaveAttribute('aria-pressed', 'true')
         expect(noElement).toHaveAttribute('aria-pressed', 'false')
         expect(onChange).toHaveBeenCalledTimes(2)
-        expect(onChange).toHaveBeenLastCalledWith('on')
+        expect(onChange).toHaveBeenLastCalledWith('on', expect.anything())
       })
 
       it('should reset both buttons when value is "undefined"', () => {
@@ -521,13 +521,13 @@ describe('Field.Toggle', () => {
 
         expect(element).toHaveAttribute('data-checked', 'false')
         expect(onChange).toHaveBeenCalledTimes(1)
-        expect(onChange).toHaveBeenLastCalledWith('off')
+        expect(onChange).toHaveBeenLastCalledWith('off', expect.anything())
 
         fireEvent.click(element)
 
         expect(element).toHaveAttribute('data-checked', 'true')
         expect(onChange).toHaveBeenCalledTimes(2)
-        expect(onChange).toHaveBeenLastCalledWith('on')
+        expect(onChange).toHaveBeenLastCalledWith('on', expect.anything())
       })
 
       describe('ARIA', () => {
@@ -687,13 +687,13 @@ describe('Field.Toggle', () => {
 
         expect(element).not.toBeChecked()
         expect(onChange).toHaveBeenCalledTimes(1)
-        expect(onChange).toHaveBeenLastCalledWith('off')
+        expect(onChange).toHaveBeenLastCalledWith('off', expect.anything())
 
         fireEvent.click(element)
 
         expect(element).toBeChecked()
         expect(onChange).toHaveBeenCalledTimes(2)
-        expect(onChange).toHaveBeenLastCalledWith('on')
+        expect(onChange).toHaveBeenLastCalledWith('on', expect.anything())
       })
 
       describe('ARIA', () => {

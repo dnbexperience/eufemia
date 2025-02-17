@@ -5,15 +5,13 @@ showTabs: true
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import { EmailProperties } from '@dnb/eufemia/src/extensions/forms/Field/Email/EmailDocs'
 
 ## Properties
 
 ### Field-specific properties
 
-| Property                                    | Type     | Description                                                                     |
-| ------------------------------------------- | -------- | ------------------------------------------------------------------------------- |
-| `help`                                      | `object` | _(optional)_ Provide a help button. Object consisting of `title` and `content`. |
-| [Input](/uilib/components/input/properties) | Various  | _(optional)_ All `Input` properties are supported.                              |
+<PropertiesTable props={EmailProperties} />
 
 ### General properties
 

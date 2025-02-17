@@ -364,7 +364,7 @@ describe('variants', () => {
       expect(option2.querySelector('input')).toBeChecked()
 
       expect(onChange).toHaveBeenCalledTimes(1)
-      expect(onChange).toHaveBeenLastCalledWith('bar')
+      expect(onChange).toHaveBeenLastCalledWith('bar', expect.anything())
     })
 
     it('should support "dataPath"', () => {
@@ -848,7 +848,7 @@ describe('variants', () => {
       }
 
       expect(onChange).toHaveBeenCalledTimes(1)
-      expect(onChange).toHaveBeenLastCalledWith('bar')
+      expect(onChange).toHaveBeenLastCalledWith('bar', expect.anything())
     })
 
     it('should support "dataPath"', () => {

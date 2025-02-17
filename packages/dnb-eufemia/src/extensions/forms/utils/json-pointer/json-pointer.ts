@@ -35,7 +35,7 @@ export function set<T = JsonObject>(
   let nextTok = refTokens[0]
 
   if (refTokens.length === 0) {
-    throw Error('Can not set the root object')
+    throw Error('Cannot set the root object')
   }
 
   for (let i = 0; i < refTokens.length - 1; ++i) {

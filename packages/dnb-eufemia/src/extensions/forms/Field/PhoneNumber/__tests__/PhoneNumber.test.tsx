@@ -149,30 +149,42 @@ describe('Field.PhoneNumber', () => {
     )
 
     fireEvent.focus(phoneElement)
-    expect(onFocus).toHaveBeenLastCalledWith(undefined, {
-      countryCode: '+47',
-      phoneNumber: undefined,
-    })
+    expect(onFocus).toHaveBeenLastCalledWith(
+      undefined,
+      expect.objectContaining({
+        countryCode: '+47',
+        phoneNumber: undefined,
+      })
+    )
 
     fireEvent.blur(phoneElement)
-    expect(onBlur).toHaveBeenLastCalledWith(undefined, {
-      countryCode: '+47',
-      phoneNumber: undefined,
-    })
+    expect(onBlur).toHaveBeenLastCalledWith(
+      undefined,
+      expect.objectContaining({
+        countryCode: '+47',
+        phoneNumber: undefined,
+      })
+    )
 
     await userEvent.type(phoneElement, '99999999')
 
     fireEvent.focus(phoneElement)
-    expect(onFocus).toHaveBeenLastCalledWith('+47 99999999', {
-      countryCode: '+47',
-      phoneNumber: '99999999',
-    })
+    expect(onFocus).toHaveBeenLastCalledWith(
+      '+47 99999999',
+      expect.objectContaining({
+        countryCode: '+47',
+        phoneNumber: '99999999',
+      })
+    )
 
     fireEvent.blur(phoneElement)
-    expect(onBlur).toHaveBeenLastCalledWith('+47 99999999', {
-      countryCode: '+47',
-      phoneNumber: '99999999',
-    })
+    expect(onBlur).toHaveBeenLastCalledWith(
+      '+47 99999999',
+      expect.objectContaining({
+        countryCode: '+47',
+        phoneNumber: '99999999',
+      })
+    )
   })
 
   it('should have selected correct item', async () => {
@@ -351,10 +363,13 @@ describe('Field.PhoneNumber', () => {
 
     await userEvent.type(phoneElement, '99999999')
 
-    expect(onChange).toHaveBeenLastCalledWith('+47 99999999', {
-      countryCode: '+47',
-      phoneNumber: '99999999',
-    })
+    expect(onChange).toHaveBeenLastCalledWith(
+      '+47 99999999',
+      expect.objectContaining({
+        countryCode: '+47',
+        phoneNumber: '99999999',
+      })
+    )
     expect(codeElement.value).toEqual('NO (+47)')
     expect(phoneElement.value).toEqual('99 99 99 99')
 
@@ -383,19 +398,25 @@ describe('Field.PhoneNumber', () => {
 
     expect(onCountryCodeChange).toHaveBeenCalledTimes(1)
     expect(onCountryCodeChange).toHaveBeenLastCalledWith('+41')
-    expect(onChange).toHaveBeenLastCalledWith('+41 99999999', {
-      countryCode: '+41',
-      phoneNumber: '99999999',
-    })
+    expect(onChange).toHaveBeenLastCalledWith(
+      '+41 99999999',
+      expect.objectContaining({
+        countryCode: '+41',
+        phoneNumber: '99999999',
+      })
+    )
     expect(codeElement.value).toEqual('CH (+41)')
     expect(phoneElement.value).toEqual('99999999​​​​')
 
     await userEvent.type(phoneElement, '{Backspace>12}')
 
-    expect(onChange).toHaveBeenLastCalledWith(undefined, {
-      countryCode: '+41',
-      phoneNumber: undefined,
-    })
+    expect(onChange).toHaveBeenLastCalledWith(
+      undefined,
+      expect.objectContaining({
+        countryCode: '+41',
+        phoneNumber: undefined,
+      })
+    )
   })
 
   it('should return correct value onChange event in data context', async () => {
@@ -443,17 +464,23 @@ describe('Field.PhoneNumber', () => {
 
     fireEvent.change(phoneElement, { target: { value: '1' } })
 
-    expect(onChange).toHaveBeenLastCalledWith('+47 1', {
-      countryCode: '+47',
-      phoneNumber: '1',
-    })
+    expect(onChange).toHaveBeenLastCalledWith(
+      '+47 1',
+      expect.objectContaining({
+        countryCode: '+47',
+        phoneNumber: '1',
+      })
+    )
 
     fireEvent.change(phoneElement, { target: { value: '' } })
 
-    expect(onChange).toHaveBeenLastCalledWith(undefined, {
-      countryCode: '+47',
-      phoneNumber: undefined,
-    })
+    expect(onChange).toHaveBeenLastCalledWith(
+      undefined,
+      expect.objectContaining({
+        countryCode: '+47',
+        phoneNumber: undefined,
+      })
+    )
     expect(codeElement.value).toEqual('NO (+47)')
     expect(phoneElement.value).toEqual('')
 
@@ -473,10 +500,13 @@ describe('Field.PhoneNumber', () => {
 
     await userEvent.type(phoneElement, '456')
 
-    expect(onChange).toHaveBeenLastCalledWith('+41 456', {
-      countryCode: '+41',
-      phoneNumber: '456',
-    })
+    expect(onChange).toHaveBeenLastCalledWith(
+      '+41 456',
+      expect.objectContaining({
+        countryCode: '+41',
+        phoneNumber: '456',
+      })
+    )
     expect(codeElement.value).toEqual('CH (+41)')
     expect(phoneElement.value).toEqual('456​​​​​​​​​')
   })
@@ -518,10 +548,13 @@ describe('Field.PhoneNumber', () => {
 
     await userEvent.type(phoneElement, '456')
 
-    expect(onChange).toHaveBeenLastCalledWith('+41 456', {
-      countryCode: '+41',
-      phoneNumber: '456',
-    })
+    expect(onChange).toHaveBeenLastCalledWith(
+      '+41 456',
+      expect.objectContaining({
+        countryCode: '+41',
+        phoneNumber: '456',
+      })
+    )
     expect(codeElement.value).toEqual('CH (+41)')
     expect(phoneElement.value).toEqual('456​​​​​​​​​')
   })
@@ -564,14 +597,22 @@ describe('Field.PhoneNumber', () => {
     })
 
     expect(onChange).toHaveBeenCalledTimes(2)
-    expect(onChange).toHaveBeenNthCalledWith(1, '+47 999', {
-      countryCode: '+47',
-      phoneNumber: '999',
-    })
-    expect(onChange).toHaveBeenNthCalledWith(2, '+41 999', {
-      countryCode: '+41',
-      phoneNumber: '999',
-    })
+    expect(onChange).toHaveBeenNthCalledWith(
+      1,
+      '+47 999',
+      expect.objectContaining({
+        countryCode: '+47',
+        phoneNumber: '999',
+      })
+    )
+    expect(onChange).toHaveBeenNthCalledWith(
+      2,
+      '+41 999',
+      expect.objectContaining({
+        countryCode: '+41',
+        phoneNumber: '999',
+      })
+    )
 
     // Because of requestAnimationFrame
     await wait(2)
@@ -857,10 +898,12 @@ describe('Field.PhoneNumber', () => {
     await userEvent.type(numberElement, '123')
 
     expect(numberElement.value).toBe('12 3​ ​​ ​​')
-    expect(onChange).toHaveBeenLastCalledWith('123', {
-      countryCode: undefined,
-      phoneNumber: '123',
-    })
+    expect(onChange).toHaveBeenLastCalledWith(
+      '123',
+      expect.objectContaining({
+        phoneNumber: '123',
+      })
+    )
 
     rerender(
       <Field.PhoneNumber
@@ -875,16 +918,24 @@ describe('Field.PhoneNumber', () => {
     await userEvent.type(numberElement, '{Backspace>8}8888')
 
     expect(numberElement.value).toBe('88 88 ​​ ​​')
-    expect(onChange).toHaveBeenLastCalledWith('8888', {
-      phoneNumber: '8888',
-    })
+    expect(onChange).toHaveBeenLastCalledWith(
+      '8888',
+      expect.objectContaining({
+        phoneNumber: '8888',
+      })
+    )
 
     await userEvent.type(numberElement, '{Backspace>6}+4')
 
-    expect(numberElement.value).toBe('88 4​ ​​ ​​')
-    expect(onChange).toHaveBeenLastCalledWith('884', {
-      phoneNumber: '884',
+    await waitFor(() => {
+      expect(numberElement.value).toBe('88 4​ ​​ ​​')
     })
+    expect(onChange).toHaveBeenLastCalledWith(
+      '884',
+      expect.objectContaining({
+        phoneNumber: '884',
+      })
+    )
     expect(
       Object.prototype.hasOwnProperty.call(
         onChange.mock.calls[17][1],

@@ -1,0 +1,106 @@
+---
+showTabs: true
+---
+
+import { supportedCountryCodes } from '@dnb/eufemia/src/extensions/forms/Connectors/Bring/postalCode'
+
+## Description
+
+The `Bring` connector allows you to use the [Bring API](https://developer.bring.com/api/) to:
+
+- Verify a postal code
+- Autofill a city name or street name
+
+## PostalCode API
+
+Here is an example of how to use the Bring [Postal Code API](https://developer.bring.com/api/postal-code/) to connect the [PostalCodeAndCity](/uilib/extensions/forms/feature-fields/PostalCodeAndCity/) field to a form.
+
+First, create a context with the config:
+
+```tsx
+import { Connectors, Field, Form } from '@dnb/eufemia/extensions/forms'
+
+const { withConfig } = Connectors.createContext({
+  fetchConfig: {
+    url: (value, { countryCode }) => {
+      return `[YOUR-API-URL]/.../${countryCode}/.../${value}`
+      // Real-world example using Bring's Postal Code API's get postal code endpoint, directly without proxy:
+      // return `https://api.bring.com/address/api/{countryCode}/postal-codes/{value}`
+    },
+  },
+})
+```
+
+`[YOUR-API-URL]` is the URL of your own API endpoint that proxies the Bring [Postal Code API](https://developer.bring.com/api/postal-code/) with a token.
+
+### Supported countries
+
+The Bring API for PostalCode supports the [following countries](https://developer.bring.com/api/postal-code/#supported-countries), by its country codes:
+
+{supportedCountryCodes.join(', ')}
+
+### Endpoints and response format
+
+Ensure you use one of the [following endpoints](https://developer.bring.com/api/postal-code/#endpoints) from Bring via your proxy API, returning a list of postal codes in the following format:
+
+```json
+{
+  "postal_codes": [
+    {
+      "postal_code": "1391",
+      "city": "Vollen"
+      ...
+    }
+  ]
+}
+```
+
+### To verify a postal code
+
+Use the context to create a validator based on the `validator` connector.
+
+You can use it for an `onChangeValidator` or `onBlurValidator` (recommended), depending on your use case.
+
+```tsx
+const onBlurValidator = withConfig(Connectors.Bring.postalCode.validator)
+
+function MyForm() {
+  return (
+    <Form.Handler>
+      <Field.PostalCodeAndCity
+        postalCode={{
+          path: '/postalCode',
+          onBlurValidator,
+        }}
+      />
+    </Form.Handler>
+  )
+}
+```
+
+### To autofill a city name based on a postal code
+
+Use the context to create the `onChange` event handler based on the `autofill` connector.
+
+```tsx
+const onChange = withConfig(Connectors.Bring.postalCode.autofill, {
+  cityPath: '/city',
+})
+
+function MyForm() {
+  return (
+    <Form.Handler>
+      <Field.PostalCodeAndCity
+        postalCode={{
+          path: '/postalCode',
+          onChange,
+        }}
+        city={{
+          path: '/city',
+        }}
+      />
+      <Form.SubmitButton />
+    </Form.Handler>
+  )
+}
+```

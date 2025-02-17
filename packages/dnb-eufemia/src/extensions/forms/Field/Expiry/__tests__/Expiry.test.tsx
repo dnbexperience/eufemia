@@ -1,8 +1,15 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
-import { act, render } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { DataContext, Field, FieldBlock, Form } from '../../..'
+
+import nbNO from '../../../constants/locales/nb-NO'
+import enGB from '../../../constants/locales/en-GB'
+import FormHandler from '../../../Form/Handler/Handler'
+
+const no = nbNO['nb-NO'].Expiry
+const en = enGB['en-GB'].Expiry
 
 describe('Field.Expiry', () => {
   beforeEach(() => {
@@ -45,48 +52,6 @@ describe('Field.Expiry', () => {
     expect(yearInput.value).toBe('åå')
   })
 
-  describe('should handle non existing values for month', () => {
-    it('when month is 90', () => {
-      render(<Field.Expiry value="9022" />)
-
-      const monthInput = document.querySelectorAll('input')[0]
-      const yearInput = document.querySelectorAll('input')[1]
-
-      expect(monthInput.value).toBe('mm')
-      expect(yearInput.value).toBe('22')
-    })
-
-    it('when month is 23', () => {
-      render(<Field.Expiry value="2335" />)
-
-      const monthInput = document.querySelectorAll('input')[0]
-      const yearInput = document.querySelectorAll('input')[1]
-
-      expect(monthInput.value).toBe('mm')
-      expect(yearInput.value).toBe('35')
-    })
-
-    it('when month is 13', () => {
-      render(<Field.Expiry value="1312" />)
-
-      const monthInput = document.querySelectorAll('input')[0]
-      const yearInput = document.querySelectorAll('input')[1]
-
-      expect(monthInput.value).toBe('mm')
-      expect(yearInput.value).toBe('12')
-    })
-
-    it('when month is 00', () => {
-      render(<Field.Expiry value="0000" />)
-
-      const monthInput = document.querySelectorAll('input')[0]
-      const yearInput = document.querySelectorAll('input')[1]
-
-      expect(monthInput.value).toBe('mm')
-      expect(yearInput.value).toBe('00')
-    })
-  })
-
   it('should return month and year values as a concatenated string', async () => {
     const onChange = jest.fn()
 
@@ -101,7 +66,7 @@ describe('Field.Expiry', () => {
     await userEvent.keyboard('1235')
 
     expect(onChange).toHaveBeenCalledTimes(4)
-    expect(onChange).toHaveBeenLastCalledWith('1235')
+    expect(onChange).toHaveBeenLastCalledWith('1235', expect.anything())
   })
 
   it('should have autofill attributes', () => {
@@ -303,6 +268,138 @@ describe('Field.Expiry', () => {
         'dnb-input__status--error'
       )
       expect(formStatusText).not.toBeInTheDocument()
+    })
+
+    it('should validate month and year', async () => {
+      render(<Field.Expiry value="324" />)
+
+      const [firstMessage, secondMessage] = Array.from(
+        document.querySelectorAll('.dnb-li')
+      )
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+
+      expect(firstMessage).toHaveTextContent(
+        no.errorMonth.replace(/\{month\}/g, '32')
+      )
+
+      expect(secondMessage).toHaveTextContent(
+        no.errorYear.replace(/\{year\}/g, '4å')
+      )
+
+      await userEvent.click(document.querySelector('input'))
+      await userEvent.keyboard('0125')
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should validate month', async () => {
+      render(<Field.Expiry />)
+
+      const monthInput = document.querySelector('input')
+
+      await userEvent.click(monthInput)
+      await userEvent.keyboard('1325')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        no.errorMonth.replace(/\{month\}/, '13')
+      )
+
+      await userEvent.click(monthInput)
+      await userEvent.keyboard('99')
+      await userEvent.click(document.body)
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        no.errorMonth.replace(/\{month\}/, '99')
+      )
+
+      await userEvent.click(monthInput)
+      await userEvent.keyboard('0025')
+      await userEvent.click(document.body)
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        no.errorMonth.replace(/\{month\}/, '00')
+      )
+      await userEvent.click(monthInput)
+      await userEvent.keyboard('1')
+      await userEvent.click(document.body)
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        no.errorMonth.replace(/\{month\}/, '1m')
+      )
+
+      await userEvent.click(monthInput)
+      await userEvent.keyboard('09')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should validate year', async () => {
+      render(<Field.Expiry />)
+
+      const [monthInput, yearInput] = Array.from(
+        document.querySelectorAll('input')
+      )
+
+      await userEvent.click(monthInput)
+      await userEvent.keyboard('092')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        no.errorYear.replace(/\{year\}/, '2å')
+      )
+
+      await userEvent.click(yearInput)
+      await userEvent.keyboard('25')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should display month and year messages based on locale', async () => {
+      render(
+        <FormHandler locale="en-GB">
+          <Field.Expiry value="324" />
+        </FormHandler>
+      )
+
+      const [firstMessage, secondMessage] = Array.from(
+        document.querySelectorAll('.dnb-li')
+      )
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+
+      expect(firstMessage).toHaveTextContent(
+        en.errorMonth.replace(/\{month\}/g, '32')
+      )
+
+      expect(secondMessage).toHaveTextContent(
+        en.errorYear.replace(/\{year\}/g, '4y')
+      )
+
+      await userEvent.click(document.querySelector('input'))
+      await userEvent.keyboard('0125')
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
     })
   })
 

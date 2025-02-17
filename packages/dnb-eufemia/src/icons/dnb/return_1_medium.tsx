@@ -15,7 +15,7 @@ const return_1_medium = (props) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="m5.25 21.747-4.5-4.5m0 0 4.5-4.5m-4.5 4.5h15a7.5 7.5 0 0 0 0-15h-6"
+      d="m5.25 21.747-4.5-4.5m0 0 4.5-4.5m-4.5 4.5h15a7.5 7.5 0 1 0 0-15h-6"
     />
   </svg>
 )

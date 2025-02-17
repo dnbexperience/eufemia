@@ -16,7 +16,7 @@ export default {
       sendText: 'Send inn',
     },
     SubmitIndicator: {
-      label: 'Under arbeid',
+      label: 'Vennligst vent',
     },
     Isolation: {
       commitButtonText: 'Legg til',
@@ -102,12 +102,24 @@ export default {
     /**
      * Feature fields
      */
+    PostalAddress: {
+      label: 'Postadresse',
+      errorRequired: 'Du må fylle inn en postadresse.',
+      errorPattern: 'Ugyldig postadresse. Skriv inn en postadresse.',
+    },
+    StreetAddress: {
+      label: 'Gateadresse',
+      errorRequired: 'Du må fylle inn en gateaddresse.',
+      errorPattern: 'Ugyldig gateaddresse. Skriv inn en gateaddresse.',
+    },
     Date: {
       label: 'Dato',
       errorRequired: 'Du må angi en gyldig dato.',
     },
     Expiry: {
       label: 'Utløpsdato',
+      errorMonth: '{month} er ikke en gyldig måned.',
+      errorYear: '{year} er ikke et gyldig år.',
     },
     Email: {
       label: 'E-postadresse',
@@ -167,6 +179,7 @@ export default {
     },
     PostalCodeAndCity: {
       label: 'Postnummer og sted',
+      invalidCode: 'Ugyldig postnummer.',
     },
     PostalCode: {
       label: 'Postnr.',

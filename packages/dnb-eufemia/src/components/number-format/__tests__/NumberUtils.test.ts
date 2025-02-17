@@ -839,7 +839,7 @@ describe('countDecimals should', () => {
     expect(countDecimals(1.01)).toBe(2)
   })
 
-  it('return 0 when 1.0 is given (we can not determine better in JS)', () => {
+  it('return 0 when 1.0 is given (we cannot determine better in JS)', () => {
     expect(countDecimals(1.0)).toBe(0)
   })
 

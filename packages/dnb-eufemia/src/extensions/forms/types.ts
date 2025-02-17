@@ -1,6 +1,8 @@
 import type { AriaAttributes } from 'react'
 import type { SpacingProps } from '../../components/space/types'
 import type {
+  ContextState,
+  EventListenerCall,
   FilterData,
   TransformData,
   VisibleDataOptions,
@@ -44,9 +46,9 @@ export type ValidatorReturnAsync<Value> =
   | Promise<ValidatorReturnSync<Value>>
 export type Validator<Value, ErrorMessages = DefaultErrorMessages> = (
   value: Value,
-  additionalArgs: ValidatorAdditionalArgs<Value, ErrorMessages>
+  additionalArgs: ReceiveAdditionalEventArgs<Value, ErrorMessages>
 ) => ValidatorReturnAsync<Value>
-export type ValidatorAdditionalArgs<
+export type ReceiveAdditionalEventArgs<
   Value,
   ErrorMessages = DefaultErrorMessages,
 > = {
@@ -68,9 +70,38 @@ export type ValidatorAdditionalArgs<
   connectWithItemPath: (path: Path) => { getValue: () => Value }
 
   /**
+   * Returns the value of the given path.
+   */
+  getValueByPath: GetValueByPath<Value>
+
+  /**
+   * Returns the value of the given path or the source value.
+   */
+  getSourceValue: GetValueByPath<Value>
+
+  /**
+   * Used internally to connect a field event listener to a path.
+   */
+  setFieldEventListener: (
+    path: Path,
+    type: EventListenerCall['type'],
+    callback: EventListenerCall['callback']
+  ) => void
+
+  /**
    * Returns the validators from the { exportValidators } object.
    */
   validators: Record<string, Validator<Value>> | undefined
+
+  /**
+   * The props passed to the Field component.
+   */
+  props: UseFieldProps<Value>
+
+  /**
+   * The internal data context.
+   */
+  dataContext: ContextState
 } & {
   /** @deprecated use the error messages from the { errorMessages } object instead. */
   pattern?: string
@@ -185,17 +216,15 @@ export function omitDataValueReadProps<Props extends DataValueReadProps>(
   )
 }
 
-type EventArgs<
-  Value,
-  ExtraValue extends AdditionalEventArgs,
-> = ExtraValue extends undefined
-  ? [value: Value]
-  : [value: Value, additionalArgs?: ExtraValue]
+type EventArgs<Value, ExtraValue extends ProvideAdditionalEventArgs> = [
+  value: Value,
+  additionalArgs?: ExtraValue | ReceiveAdditionalEventArgs<Value>,
+]
 
 export interface DataValueWriteProps<
   Value = unknown,
   EmptyValue = undefined | unknown,
-  ExtraValue extends AdditionalEventArgs = undefined,
+  ExtraValue extends ProvideAdditionalEventArgs = undefined,
 > {
   emptyValue?: EmptyValue
   onFocus?: (...args: EventArgs<Value | EmptyValue, ExtraValue>) => void
@@ -262,7 +291,7 @@ export type ComponentProps = SpacingProps & {
   className?: string
 }
 
-export type AdditionalEventArgs = Record<string, unknown>
+export type ProvideAdditionalEventArgs = Record<string, unknown>
 
 export type DataValueReadComponentProps<Value = unknown> = ComponentProps &
   DataValueReadProps<Value>
@@ -297,6 +326,11 @@ export type MessageTypes<Value> =
   | UseFieldProps<Value>['info']
   | UseFieldProps<Value>['warning']
   | UseFieldProps<Value>['error']
+
+export type ConnectorProps<Value = unknown> = Pick<
+  UseFieldProps<Value>,
+  'onChange' | 'onBlurValidator'
+>
 
 export interface UseFieldProps<
   Value = unknown,
@@ -410,8 +444,8 @@ export interface UseFieldProps<
    */
   provideAdditionalArgs?: (
     value: Value,
-    additionalArgs?: AdditionalEventArgs
-  ) => AdditionalEventArgs
+    additionalArgs?: ProvideAdditionalEventArgs
+  ) => ProvideAdditionalEventArgs
 
   /**
    * Transforms the value before it gets returned as the `value`.
@@ -456,11 +490,12 @@ export type FieldPropsGeneric<
   FieldProps<Value, EmptyValue, ErrorMessages>,
   keyof DataValueWriteProps
 > &
-  DataValueWriteProps<Value, EmptyValue, AdditionalEventArgs>
+  DataValueWriteProps<Value, EmptyValue, ProvideAdditionalEventArgs>
 
 export type FieldPropsWithExtraValue<
   Value = unknown,
-  ExtraValue extends AdditionalEventArgs = AdditionalEventArgs,
+  ExtraValue extends
+    ProvideAdditionalEventArgs = ProvideAdditionalEventArgs,
   EmptyValue = undefined | unknown,
   ErrorMessages extends DefaultErrorMessages = DefaultErrorMessages,
 > = Omit<
@@ -587,7 +622,7 @@ export type EventStateObject = EventStateObjectOr &
   EventStateObjectEitherOr
 
 /**
- * Provide 'saved' to indicate the data has been saved successfully. Can not be combined with `error`.
+ * Provide 'saved' to indicate the data has been saved successfully. Cannot be combined with `error`.
  */
 export type EventStateObjectWithSuccess = EventStateObjectOr & {
   success?: EventStateObjectSuccess

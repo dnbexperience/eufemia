@@ -17,7 +17,7 @@ export default {
       sendText: 'Send',
     },
     SubmitIndicator: {
-      label: 'In progress',
+      label: 'Please wait',
     },
     Isolation: {
       commitButtonText: 'Add',
@@ -78,9 +78,9 @@ export default {
      */
     StringField: {
       errorMinLength:
-        'The value can not be shorter than {minLength} characters.',
+        'The value cannot be shorter than {minLength} characters.',
       errorMaxLength:
-        'The value can not be longer than {maxLength} characters.',
+        'The value cannot be longer than {maxLength} characters.',
     },
     NumberField: {
       errorMinimum: 'The value must be at least {minimum}.',
@@ -103,12 +103,26 @@ export default {
     /**
      * Feature fields
      */
+    PostalAddress: {
+      label: 'Postal address',
+      errorRequired: 'You must enter a postal address.',
+      errorPattern:
+        'Invalid postal address. Enter a valid postal address.',
+    },
+    StreetAddress: {
+      label: 'Street address',
+      errorRequired: 'You must enter a street address.',
+      errorPattern:
+        'Invalid street address. Enter a valid street address.',
+    },
     Date: {
       label: 'Date',
       errorRequired: 'You must provide a valid date.',
     },
     Expiry: {
       label: 'Expiry date',
+      errorMonth: '{month} is not a valid month.',
+      errorYear: '{year} is not a valid year.',
     },
     Email: {
       label: 'Email address',
@@ -167,12 +181,13 @@ export default {
         'You have not entered a mobile number. You can still use this number if it is correct.',
     },
     PostalCodeAndCity: {
-      label: 'Postcode and city',
+      label: 'Postcode and city', // Use British English
+      invalidCode: 'Invalid postal code.',
     },
     PostalCode: {
       label: 'Postc.',
-      errorRequired: 'You must enter a postcode.',
-      errorPattern: 'This is not a valid postcode (four-digits).',
+      errorRequired: 'You must enter a postal code.',
+      errorPattern: 'This is not a valid postal code (four-digits).',
     },
     City: {
       label: 'City',

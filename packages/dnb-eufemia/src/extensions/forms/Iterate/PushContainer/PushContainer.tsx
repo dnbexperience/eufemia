@@ -65,6 +65,11 @@ export type Props = (OnlyPathRequired | OnlyItemPathRequired) & {
   required?: boolean
 
   /**
+   * The index to insert the new item at.
+   */
+  insertAt?: number
+
+  /**
    * The button to open container.
    */
   openButton?: React.ReactNode
@@ -124,6 +129,7 @@ function PushContainer(props: AllProps) {
     bubbleValidation,
     path,
     itemPath,
+    insertAt,
     title,
     required = requiredInherited,
     children,
@@ -208,7 +214,13 @@ function PushContainer(props: AllProps) {
       transformOnCommit={({ pushContainerItems }) => {
         return moveValueToPath(
           path || absolutePath,
-          [...entries, ...pushContainerItems],
+          typeof insertAt === 'number'
+            ? [
+                ...entries.slice(0, insertAt),
+                ...pushContainerItems,
+                ...entries.slice(insertAt),
+              ]
+            : [...entries, ...pushContainerItems],
           absolutePath ? structuredClone(getValueByPath('/')) : {}
         )
       }}
