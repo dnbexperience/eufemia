@@ -1,5 +1,5 @@
 import React from 'react'
-import { act, fireEvent, render } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import nbNO from '../../../constants/locales/nb-NO'
 import { Form } from '../../..'
 
@@ -401,5 +401,29 @@ describe('Form.InfoOverlay', () => {
 
     fireEvent.click(backButton)
     expect(onCancel).toHaveBeenCalledTimes(1)
+  })
+
+  it('should display fallback content when undefined', () => {
+    const nb = nbNO['nb-NO'].InfoOverlaySuccess
+    const formId = {}
+
+    render(
+      <Form.Handler id={formId}>
+        <Form.InfoOverlay>fallback content</Form.InfoOverlay>
+      </Form.Handler>
+    )
+
+    expect(screen.getByText('fallback content')).toBeInTheDocument()
+
+    act(() => {
+      Form.InfoOverlay.setContent(formId, 'success')
+    })
+
+    expect(screen.queryByText('fallback content')).toBeNull()
+
+    act(() => {
+      Form.InfoOverlay.setContent(formId, 'success')
+    })
+    expect(screen.getByText('fallback content')).toBeInTheDocument()
   })
 })
