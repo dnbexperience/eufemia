@@ -3,6 +3,42 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.64.0](https://github.com/dnbexperience/eufemia/compare/v10.63.4...v10.64.0) (2025-02-17)
+
+
+### :sparkles: Features
+
+* **Field.Expiry:** add month and year validation ([#4571](https://github.com/dnbexperience/eufemia/issues/4571)) ([bc4fff9](https://github.com/dnbexperience/eufemia/commit/bc4fff9ce83ac96351eb9f824386885324b0e892))
+* **Forms:** add `createMinimumAgeVerifier` to Field.NationalIdentityNumber ([#4542](https://github.com/dnbexperience/eufemia/issues/4542)) ([ceb8c2d](https://github.com/dnbexperience/eufemia/commit/ceb8c2df3693b6dcbb6951d21383cd0c85da2c20))
+* **Forms:** add `insertAt` to Iterate.PushContainer ([#4555](https://github.com/dnbexperience/eufemia/issues/4555)) ([6160d78](https://github.com/dnbexperience/eufemia/commit/6160d780d1cbc1cced6a8e8c710c02fd5058e4e2))
+* **Forms:** add `reverse` to Iterate.Array ([#4556](https://github.com/dnbexperience/eufemia/issues/4556)) ([0b9ba79](https://github.com/dnbexperience/eufemia/commit/0b9ba796d3f4376d0b4c69d850c495a0d205589f))
+* **Forms:** add Bring API connector for postal code validation and autofill city ([#4554](https://github.com/dnbexperience/eufemia/issues/4554)) ([f2ccd5d](https://github.com/dnbexperience/eufemia/commit/f2ccd5df97909af52e22f8d44cb6f9c662b84f47))
+* **Forms:** add feature fields Field.Address.Street & Field.Address.Postal ([#4562](https://github.com/dnbexperience/eufemia/issues/4562)) ([c546009](https://github.com/dnbexperience/eufemia/commit/c54600973e5de3a76e29d494307da7e560dbc97f))
+* **Forms:** provide `{ props }` to the second `onChange`, `onFocus` and `onBlur` event parameter ([#4550](https://github.com/dnbexperience/eufemia/issues/4550)) ([374ff0e](https://github.com/dnbexperience/eufemia/commit/374ff0e9d58c5604f4a5d518531bc8f81a99d89c)), closes [#4344](https://github.com/dnbexperience/eufemia/issues/4344)
+* **Forms:** show field indicator inline without shifting content below ([#4553](https://github.com/dnbexperience/eufemia/issues/4553)) ([45347a3](https://github.com/dnbexperience/eufemia/commit/45347a3e49a74d25fc87b9530d84b6f55456f986))
+* **icons:** add digipass_corporate, digipass_private, calendar_add, investor, goal, layout_grid, table, show_pin ([#4522](https://github.com/dnbexperience/eufemia/issues/4522)) ([c5db964](https://github.com/dnbexperience/eufemia/commit/c5db96406b8a5585061323ae4842b6dd2a89d6c8)), closes [#4527](https://github.com/dnbexperience/eufemia/issues/4527)
+* **PostalCodeAndCity:** deprecate `country` in favor of `countryCode` ([#4572](https://github.com/dnbexperience/eufemia/issues/4572)) ([8d0d980](https://github.com/dnbexperience/eufemia/commit/8d0d98020bcac20fd784858ed01fad279d30edd7))
+
+
+### :memo: Documentation
+
+* **InfoOverlay:** display fallback content when `undefined` ([#4580](https://github.com/dnbexperience/eufemia/issues/4580)) ([9879149](https://github.com/dnbexperience/eufemia/commit/9879149cc9ef67b8febb950255f37bb68070df96))
+* link to base fields from their respective value components ([#4564](https://github.com/dnbexperience/eufemia/issues/4564)) ([3d71c19](https://github.com/dnbexperience/eufemia/commit/3d71c19998a48b226e59b23bb4b50f2e5a8cb1e7))
+* link to feature fields from their respective value components ([#4563](https://github.com/dnbexperience/eufemia/issues/4563)) ([45d0e3d](https://github.com/dnbexperience/eufemia/commit/45d0e3db7bea992a06ff477f56f6a93abb2554d5))
+* removes duplicated docs for help prop ([#4568](https://github.com/dnbexperience/eufemia/issues/4568)) ([ae46e71](https://github.com/dnbexperience/eufemia/commit/ae46e717897b18e32bc52058d6198e8b8336e990))
+
+
+### :bug: Bug Fixes
+
+* **DatePicker:** compare `date` and `maxDate` at same time of day so `is_valid_end_date` is `true` when `date` and `maxDate` are the same date ([#4565](https://github.com/dnbexperience/eufemia/issues/4565)) ([c52a40b](https://github.com/dnbexperience/eufemia/commit/c52a40be0acc3194fc93bc29169153f886a64f6b))
+* **Drawer:** ensure content on very small screen sizes doesn't get cut off ([#4567](https://github.com/dnbexperience/eufemia/issues/4567)) ([1dd405f](https://github.com/dnbexperience/eufemia/commit/1dd405f08eebf0f68dcde0066621d4a6b3d08196))
+* **ePlatform:** adjust ul list style and wrapper style (`max-width` and `padding`) ([#4552](https://github.com/dnbexperience/eufemia/issues/4552)) ([44f551e](https://github.com/dnbexperience/eufemia/commit/44f551efb00cc306535faeb523795fb2028df8b8))
+* **Forms:** ensure city in PostalCodeAndCity accepts non-Norwegian characters when using other country ([#4569](https://github.com/dnbexperience/eufemia/issues/4569)) ([af1bdc8](https://github.com/dnbexperience/eufemia/commit/af1bdc8e1ad7ed14fd0d31932e110813082709ba))
+* **Forms:** reveal error only when onChangeValidator is actually the initiator ([#4570](https://github.com/dnbexperience/eufemia/issues/4570)) ([4d962df](https://github.com/dnbexperience/eufemia/commit/4d962df0fcdd4a80ff63dbbfc0471078ae7a359d))
+* **Name:** support spacing props ([eb6a412](https://github.com/dnbexperience/eufemia/commit/eb6a412e3f49504d5f45012deaef3fb5a15eb479))
+* **TextArea:** ResizeObserver loop completed with undelivered notifications ([#4582](https://github.com/dnbexperience/eufemia/issues/4582)) ([f2f97e3](https://github.com/dnbexperience/eufemia/commit/f2f97e3492feb95b19224a64aea5eb4014b498ac))
+* **Wizard.Step:** use `title` as aria-label when wrapped in `Wizard.Container` ([#4573](https://github.com/dnbexperience/eufemia/issues/4573)) ([de095e7](https://github.com/dnbexperience/eufemia/commit/de095e7ff2bf898a4dd0abf2d707b4738762765d))
+
 ## [10.63.4](https://github.com/dnbexperience/eufemia/compare/v10.63.3...v10.63.4) (2025-02-07)
 
 
