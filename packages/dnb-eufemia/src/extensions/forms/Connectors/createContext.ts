@@ -44,7 +44,7 @@ export type ResponseResolver<
   handlerConfig?: HandlerConfig
 ) => {
   /**
-   * The matcher to be used to determine if the connector,
+   * The matcher to be used to determine if and how the connector,
    * such as an validator for `onChangeValidator` or `onBlurValidator`,
    * should validate the field value.
    */
