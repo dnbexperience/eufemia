@@ -79,7 +79,7 @@ function Expiry(props: ExpiryProps) {
 
   const valueProp = useMemo(() => {
     const { month, year } = stringToExpiryValue(
-      props.defaultValue ?? props.value
+      props.value ?? props.defaultValue
     )
     const monthString = expiryValueToString(month, placeholders.month)
     const yearString = expiryValueToString(year, placeholders.year)
