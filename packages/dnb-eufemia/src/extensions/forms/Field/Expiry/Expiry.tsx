@@ -41,6 +41,13 @@ function Expiry(props: ExpiryProps) {
       const month = expiryValueToString(values.month, placeholders.month)
       const year = expiryValueToString(values.year, placeholders.year)
 
+      if (
+        isFieldEmpty(month, placeholders.month) &&
+        isFieldEmpty(year, placeholders.year)
+      ) {
+        return ''
+      }
+
       return `${month}${year}`
     },
     [placeholders.month, placeholders.year]
@@ -53,53 +60,53 @@ function Expiry(props: ExpiryProps) {
     []
   )
 
-  const validateMonth = useCallback(
-    (value: string) => {
-      const month = value.substring(0, 2)
-      const year = value.substring(2, 4)
-
-      const monthNumber = Number(month)
-
-      const messages: Array<FormError> = []
-
-      if (
-        month.includes(placeholders.month) ||
-        monthNumber < 1 ||
-        monthNumber > 12
-      ) {
-        messages.push(
-          new FormError('Expiry.errorMonth', {
-            messageValues: { month: month },
-          })
-        )
-      }
-
-      if (year.includes(placeholders.year)) {
-        messages.push(
-          new FormError('Expiry.errorYear', {
-            messageValues: { year: year },
-          })
-        )
-      }
-
-      if (messages.length) {
-        return messages
-      }
-    },
-    [placeholders.month, placeholders.year]
+  const monthAndYearValidator = useCallback(
+    (value: string) => validateMonthAndYear(value, placeholders),
+    [placeholders]
   )
 
   const validateInitially = useMemo(() => {
-    return props.validateInitially ?? !!props.value
-  }, [props.value, props.validateInitially])
+    if (props.validateInitially) {
+      return props.validateInitially
+    }
+
+    if (props.value) {
+      return true
+    }
+
+    return undefined
+  }, [props.validateInitially, props.value])
+
+  const valueProp = useMemo(() => {
+    const { month, year } = stringToExpiryValue(
+      props.defaultValue ?? props.value
+    )
+    const monthString = expiryValueToString(month, placeholders.month)
+    const yearString = expiryValueToString(year, placeholders.year)
+
+    if (
+      isFieldEmpty(monthString, placeholders.month) &&
+      isFieldEmpty(yearString, placeholders.year)
+    ) {
+      return ''
+    }
+
+    return `${monthString}${yearString}`
+  }, [
+    props.value,
+    props.defaultValue,
+    placeholders.month,
+    placeholders.year,
+  ])
 
   const preparedProps: ExpiryProps = {
     ...props,
     errorMessages,
+    value: valueProp,
     fromInput: handleInput,
     validateRequired,
-    validateInitially,
-    onBlurValidator: validateMonth,
+    validateInitially: validateInitially,
+    onBlurValidator: monthAndYearValidator,
   }
 
   const {
@@ -120,12 +127,10 @@ function Expiry(props: ExpiryProps) {
     setDisplayValue,
   } = useFieldProps(preparedProps)
 
-  const expiry: ExpiryValue = useMemo(() => {
-    return {
-      month: value?.substring(0, 2) ?? '',
-      year: value?.substring(2, 4) ?? '',
-    }
-  }, [value])
+  const expiry: ExpiryValue = useMemo(
+    () => stringToExpiryValue(value),
+    [value]
+  )
 
   useMemo(() => {
     if ((path || itemPath) && expiry.month && expiry.year) {
@@ -186,6 +191,20 @@ function Expiry(props: ExpiryProps) {
   )
 }
 
+function isFieldEmpty(value: string, placeholder: string) {
+  return value === `${placeholder}${placeholder}`
+}
+
+function stringToExpiryValue(value: string) {
+  const month = value?.substring(0, 2) ?? ''
+  const year = value?.substring(2, 4) ?? ''
+
+  return {
+    month,
+    year,
+  }
+}
+
 function expiryValueToString(value: string, placeholder: string) {
   if (!value) {
     return `${placeholder}${placeholder}`
@@ -196,6 +215,41 @@ function expiryValueToString(value: string, placeholder: string) {
   }
 
   return value
+}
+
+function validateMonthAndYear(
+  date: string,
+  placeholders: Record<'month' | 'year', string>
+) {
+  const { month, year } = stringToExpiryValue(date)
+
+  const monthNumber = Number(month)
+
+  const messages: Array<FormError> = []
+
+  if (
+    month.includes(placeholders.month) ||
+    monthNumber < 1 ||
+    monthNumber > 12
+  ) {
+    messages.push(
+      new FormError('Expiry.errorMonth', {
+        messageValues: { month: month },
+      })
+    )
+  }
+
+  if (year.includes(placeholders.year)) {
+    messages.push(
+      new FormError('Expiry.errorYear', {
+        messageValues: { year: year },
+      })
+    )
+  }
+
+  if (messages.length) {
+    return messages
+  }
 }
 
 Expiry._supportsEufemiaSpacingProps = true
