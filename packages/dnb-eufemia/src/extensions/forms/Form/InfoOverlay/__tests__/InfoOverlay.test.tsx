@@ -404,26 +404,39 @@ describe('Form.InfoOverlay', () => {
   })
 
   it('should display fallback content when undefined', () => {
-    const nb = nbNO['nb-NO'].InfoOverlaySuccess
     const formId = {}
 
-    render(
+    const { rerender } = render(
       <Form.Handler id={formId}>
         <Form.InfoOverlay>fallback content</Form.InfoOverlay>
       </Form.Handler>
     )
 
-    expect(screen.getByText('fallback content')).toBeInTheDocument()
+    expect(
+      screen.getByText('fallback content').getAttribute('aria-hidden')
+    ).toBe('false')
 
     act(() => {
       Form.InfoOverlay.setContent(formId, 'success')
     })
-
-    expect(screen.queryByText('fallback content')).toBeNull()
+    expect(
+      screen.getByText('fallback content').getAttribute('aria-hidden')
+    ).toBe('true')
 
     act(() => {
-      Form.InfoOverlay.setContent(formId, 'success')
+      Form.InfoOverlay.setContent(formId, undefined)
     })
-    expect(screen.getByText('fallback content')).toBeInTheDocument()
+    expect(
+      screen.getByText('fallback content').getAttribute('aria-hidden')
+    ).toBe('false')
+
+    rerender(
+      <Form.Handler id={formId} content={undefined}>
+        <Form.InfoOverlay>fallback content</Form.InfoOverlay>
+      </Form.Handler>
+    )
+    expect(
+      screen.getByText('fallback content').getAttribute('aria-hidden')
+    ).toBe('false')
   })
 })
