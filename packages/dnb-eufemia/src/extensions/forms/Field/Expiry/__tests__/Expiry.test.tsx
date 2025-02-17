@@ -250,10 +250,9 @@ describe('Field.Expiry', () => {
       expect(
         document.querySelector('.dnb-form-status__text')
       ).not.toBeInTheDocument()
-      console.log('input.value', input.value)
+
       await userEvent.keyboard('{Backspace}')
       await userEvent.click(document.body)
-      console.log('input.value', input.value)
 
       const formStatusText = document.querySelector(
         '.dnb-form-status__text'
