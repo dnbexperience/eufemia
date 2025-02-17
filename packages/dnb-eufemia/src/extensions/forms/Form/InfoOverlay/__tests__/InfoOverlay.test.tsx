@@ -1,5 +1,5 @@
 import React from 'react'
-import { act, fireEvent, render } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import nbNO from '../../../constants/locales/nb-NO'
 import { Form } from '../../..'
 
@@ -401,5 +401,42 @@ describe('Form.InfoOverlay', () => {
 
     fireEvent.click(backButton)
     expect(onCancel).toHaveBeenCalledTimes(1)
+  })
+
+  it('should display fallback content when undefined', () => {
+    const formId = {}
+
+    const { rerender } = render(
+      <Form.Handler id={formId}>
+        <Form.InfoOverlay>fallback content</Form.InfoOverlay>
+      </Form.Handler>
+    )
+
+    expect(
+      screen.getByText('fallback content').getAttribute('aria-hidden')
+    ).toBe('false')
+
+    act(() => {
+      Form.InfoOverlay.setContent(formId, 'success')
+    })
+    expect(
+      screen.getByText('fallback content').getAttribute('aria-hidden')
+    ).toBe('true')
+
+    act(() => {
+      Form.InfoOverlay.setContent(formId, undefined)
+    })
+    expect(
+      screen.getByText('fallback content').getAttribute('aria-hidden')
+    ).toBe('false')
+
+    rerender(
+      <Form.Handler id={formId} content={undefined}>
+        <Form.InfoOverlay>fallback content</Form.InfoOverlay>
+      </Form.Handler>
+    )
+    expect(
+      screen.getByText('fallback content').getAttribute('aria-hidden')
+    ).toBe('false')
   })
 })

@@ -10,6 +10,7 @@ hideInMenu: true
 ## Usage
 
 By default the given children will be shown.
+This can also be achieved by setting `content={undefined}` or by `Form.InfoOverlay.setContent(myId, undefined)`.
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
@@ -38,6 +39,8 @@ Form.InfoOverlay.setContent(myId, <>info content</>)
 Form.InfoOverlay.setContent(myId, 'success')
 // or
 Form.InfoOverlay.setContent(myId, 'error')
+// or to display the fallback content
+Form.InfoOverlay.setContent(myId, undefined)
 ```
 
 And render the component with an `id` prop:
