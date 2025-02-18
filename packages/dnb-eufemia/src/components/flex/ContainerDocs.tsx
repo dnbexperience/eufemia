@@ -8,7 +8,7 @@ export const FlexContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   wrap: {
-    doc: 'True to wrap contents if there is not enough space.',
+    doc: 'Define if we should wrap contents if there is not enough space.',
     type: 'boolean',
     defaultValue: 'true',
     status: 'optional',
@@ -51,7 +51,7 @@ export const FlexContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   gap: {
-    doc: 'How much space between child items. Use `false` for no spacing. Only works in vertical layout if the `rowGap` is not set.',
+    doc: 'How much space between child items. Use `false` for no spacing. (If in vertical layout: if both `rowGap` and `gap` is set, `rowGap` will be used.)',
     type: [
       `'xx-small'`,
       `'x-small'`,
@@ -66,7 +66,7 @@ export const FlexContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   rowGap: {
-    doc: 'How much space between rows. Use `false` for no row gap. Will override `gap` in vertical layout if set.',
+    doc: 'How much space between rows. Use `false` for no row gap. (If in vertical layout: if both `rowGap` and `gap` is set, `rowGap` will be used.)',
     type: [
       `'xx-small'`,
       `'x-small'`,
@@ -98,7 +98,7 @@ export const FlexContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   spacing: {
-    doc: 'Deprecated, use `gap` instead. How much space between sub components. Can be `false` for no spacing.',
+    doc: 'Deprecated, use `gap` instead. ~~How much space between sub components. Can be `false` for no spacing.~~',
     type: [
       `'xx-small'`,
       `'x-small'`,
