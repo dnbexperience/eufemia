@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useMemo } from 'react'
+import React, { Fragment, useMemo } from 'react'
 import classnames from 'classnames'
 import Space, { SpaceProps } from '../space/Space'
 import { Hr } from '../../elements'
@@ -115,6 +115,7 @@ function FlexContainer(props: Props) {
     queries,
     ...rest
   } = handleDeprecatedProps(props)
+
   const spacing = useMemo(
     () => (direction === 'vertical' ? rowGap : undefined) ?? gap,
     [direction, gap, rowGap]
@@ -216,10 +217,11 @@ function FlexContainer(props: Props) {
   })
 
   const n = 'dnb-flex-container'
-  const getRowGapClass = useCallback(() => {
+  const rowGapClass = useMemo(() => {
     if (rowGap !== false && direction === 'horizontal') {
       return `${n}--row-gap-${rowGap ?? 'small'}`
     }
+    return undefined
   }, [direction, rowGap])
 
   const cn = classnames(
@@ -230,7 +232,7 @@ function FlexContainer(props: Props) {
     alignSelf && `${n}--align-self-${alignSelf}`,
     spacing && `${n}--spacing-${spacing}`,
     wrap && `${n}--wrap`,
-    getRowGapClass(),
+    rowGapClass,
     hasSizeProp && `${n}--has-size`,
     divider && `${n}--divider-${divider}`,
     className
