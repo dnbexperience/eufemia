@@ -2793,6 +2793,47 @@ describe('DatePickerPortal', () => {
       document.body.querySelector('.dnb-date-picker__portal')
     ).not.toBeInTheDocument()
   })
+
+  it('should unmount portal when `onShow` and `onHide` callbacks are setting a state', async () => {
+    const onHide = jest.fn()
+    const onShow = jest.fn()
+
+    const DatePickerComponent = () => {
+      const [, setShow] = React.useState(false)
+
+      return (
+        <DatePicker
+          date="2025-02-19"
+          onShow={() => {
+            onShow()
+            setShow(true)
+          }}
+          onHide={() => {
+            onHide()
+            setShow(false)
+          }}
+        />
+      )
+    }
+
+    render(<DatePickerComponent />)
+
+    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    expect(onShow).toHaveBeenCalledTimes(1)
+    expect(onHide).toHaveBeenCalledTimes(0)
+    expect(
+      document.querySelector('.dnb-date-picker__portal')
+    ).toBeInTheDocument()
+
+    await userEvent.click(screen.getByLabelText('fredag 14. februar 2025'))
+    await waitFor(() =>
+      expect(
+        document.querySelector('.dnb-date-picker__portal')
+      ).not.toBeInTheDocument()
+    )
+    expect(onShow).toHaveBeenCalledTimes(1)
+    expect(onHide).toHaveBeenCalledTimes(1)
+  })
 })
 
 describe('DatePicker ARIA', () => {
