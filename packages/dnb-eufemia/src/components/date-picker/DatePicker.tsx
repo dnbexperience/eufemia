@@ -644,8 +644,6 @@ function DatePicker(externalProps: DatePickerAllProps) {
 
       setOpened(false)
 
-      // Double check and compare return
-
       hideTimeout.current = setTimeout(
         () => {
           setHidden(true)
