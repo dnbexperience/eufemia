@@ -1,9 +1,6 @@
 import { PropertiesTableProps } from '../../../../shared/types'
+import { stringProperties } from '../String/StringDocs'
 
 export const AddressProperties: PropertiesTableProps = {
-  '[Input](/uilib/components/input/properties)': {
-    doc: 'All `Input` properties are supported.',
-    type: 'Various',
-    status: 'optional',
-  },
+  ...stringProperties,
 }
