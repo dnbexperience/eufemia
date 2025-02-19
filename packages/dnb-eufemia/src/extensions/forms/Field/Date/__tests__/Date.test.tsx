@@ -934,6 +934,11 @@ describe('Field.Date', () => {
 
     await userEvent.click(screen.getByLabelText('åpne datovelger'))
     await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await waitFor(() =>
+      expect(
+        document.querySelector('.dnb-date-picker__portal')
+      ).not.toBeInTheDocument()
+    )
 
     expect(onHide).toHaveBeenCalledTimes(1)
     expect(onHide).toHaveBeenLastCalledWith(
