@@ -645,13 +645,13 @@ function DatePicker(externalProps: DatePickerAllProps) {
       setOpened(false)
 
       // Double check and compare return
-      onHide?.({
-        ...getReturnObject.current(args),
-      })
 
       hideTimeout.current = setTimeout(
         () => {
           setHidden(true)
+          onHide?.({
+            ...getReturnObject.current(args),
+          })
           if (args?.['focusOnHide']) {
             try {
               submitButtonRef.current.focus({
