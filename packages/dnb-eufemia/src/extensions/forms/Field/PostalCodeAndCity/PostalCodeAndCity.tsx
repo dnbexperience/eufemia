@@ -13,6 +13,7 @@ export type Props = Pick<
   FieldBlockProps,
   'error' | 'warning' | 'info' | 'width' | 'className'
 > &
+  Pick<StringFieldProps, 'size'> &
   Partial<Record<'postalCode' | 'city', StringFieldProps>> & {
     /**
      * Defines which country the postal code and city is for.
@@ -46,6 +47,7 @@ function PostalCodeAndCity(props: Props) {
     width = 'large',
     country,
     countryCode = defaultCountry,
+    size,
     ...fieldBlockProps
   } = props
 
@@ -119,6 +121,7 @@ function PostalCodeAndCity(props: Props) {
     >
       <StringField
         {...postalCode}
+        size={size}
         className={classnames(
           'dnb-forms-field-postal-code-and-city__postal-code',
           postalCodeClassName
@@ -149,6 +152,7 @@ function PostalCodeAndCity(props: Props) {
       <StringField
         help={help}
         {...city}
+        size={size}
         className={classnames(
           'dnb-forms-field-postal-code-and-city__city',
           cityClassName

@@ -36,35 +36,36 @@ export type Props = Omit<
     undefined | string
   >,
   'layout' | 'layoutOptions'
-> & {
-  countryCodeFieldClassName?: string
-  numberFieldClassName?: string
-  countryCodePlaceholder?: string
-  countryCodeLabel?: string
-  numberMask?: InputMaskedProps['mask']
-  pattern?: StringFieldProps['pattern']
-  width?: 'large' | 'stretch'
-  inputRef?: React.RefObject<HTMLInputElement>
-  omitCountryCodeField?: boolean
-  onCountryCodeChange?: (value: string | undefined) => void
-  onNumberChange?: (value: string | undefined) => void
+> &
+  Pick<StringFieldProps, 'size'> & {
+    countryCodeFieldClassName?: string
+    numberFieldClassName?: string
+    countryCodePlaceholder?: string
+    countryCodeLabel?: string
+    numberMask?: InputMaskedProps['mask']
+    pattern?: StringFieldProps['pattern']
+    width?: 'large' | 'stretch'
+    inputRef?: React.RefObject<HTMLInputElement>
+    omitCountryCodeField?: boolean
+    onCountryCodeChange?: (value: string | undefined) => void
+    onNumberChange?: (value: string | undefined) => void
 
-  /**
-   * Defines the countries to filter. Can be `Scandinavia`, `Nordic`, `Europe` or `Prioritized`.
-   * Defaults to `Prioritized`.
-   */
-  countries?: CountryFilterSet
+    /**
+     * Defines the countries to filter. Can be `Scandinavia`, `Nordic`, `Europe` or `Prioritized`.
+     * Defaults to `Prioritized`.
+     */
+    countries?: CountryFilterSet
 
-  /**
-   * Use this prop to filter out certain countries. The function receives the country object and should return a boolean. Returning `false` will omit the country.
-   */
-  filterCountries?: (country: CountryType) => boolean
+    /**
+     * Use this prop to filter out certain countries. The function receives the country object and should return a boolean. Returning `false` will omit the country.
+     */
+    filterCountries?: (country: CountryType) => boolean
 
-  /**
-   * For internal testing purposes
-   */
-  noAnimation?: boolean
-}
+    /**
+     * For internal testing purposes
+     */
+    noAnimation?: boolean
+  }
 
 // Important for the default value to be defined here, and not after the useFieldProps call, to avoid the UI jumping
 // back to +47 once the user empty the field so handleChange send out undefined.
@@ -195,6 +196,7 @@ function PhoneNumber(props: Props) {
     error,
     hasError,
     disabled,
+    size,
     width = 'large',
     help,
     required,
@@ -388,6 +390,7 @@ function PhoneNumber(props: Props) {
               'dnb-forms-field-phone-number__country-code',
               countryCodeFieldClassName
             )}
+            size={size}
             mode="async"
             placeholder={countryCodePlaceholder}
             label_direction="vertical"
@@ -414,6 +417,7 @@ function PhoneNumber(props: Props) {
             'dnb-forms-field-phone-number__number',
             numberFieldClassName
           )}
+          size={size}
           type="tel"
           autoComplete="tel-national"
           emptyValue={emptyValue}

@@ -1,5 +1,6 @@
 import { PropertiesTableProps } from '../../../../shared/types'
 import { getFieldEventsWithTypes } from '../FieldDocs'
+import { stringProperties } from '../String/StringDocs'
 
 export const SelectCountryProperties: PropertiesTableProps = {
   countries: {
@@ -12,6 +13,7 @@ export const SelectCountryProperties: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
+  size: stringProperties.size,
 }
 
 export const SelectCountryGeneralEvents = getFieldEventsWithTypes(

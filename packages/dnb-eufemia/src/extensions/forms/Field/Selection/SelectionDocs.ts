@@ -1,4 +1,5 @@
 import { PropertiesTableProps } from '../../../../shared/types'
+import { stringProperties } from '../String/StringDocs'
 
 export const SelectionProperties: PropertiesTableProps = {
   variant: {
@@ -46,6 +47,7 @@ export const SelectionProperties: PropertiesTableProps = {
     type: 'object',
     status: 'optional',
   },
+  size: stringProperties.size,
   children: {
     doc: 'For providing Option components, and other children.',
     type: 'React.Node',

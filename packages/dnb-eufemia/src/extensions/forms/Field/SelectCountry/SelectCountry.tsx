@@ -17,6 +17,7 @@ import FieldBlock, {
   FieldBlockWidth,
 } from '../../FieldBlock'
 import useTranslation from '../../hooks/useTranslation'
+import { AutocompleteAllProps } from '../../../../components/autocomplete/Autocomplete'
 
 export type CountryFilterSet =
   | 'Scandinavia'
@@ -45,6 +46,11 @@ export type Props = FieldPropsWithExtraValue<
    * For internal testing purposes
    */
   noAnimation?: boolean
+
+  /**
+   * The size of the component.
+   */
+  size?: AutocompleteAllProps['size']
 
   /**
    * The width of the component.
@@ -112,6 +118,7 @@ function SelectCountry(props: Props) {
     countries: ccFilter = 'Prioritized',
     hasError,
     disabled,
+    size,
     value,
     width,
     htmlAttributes,
@@ -244,6 +251,7 @@ function SelectCountry(props: Props) {
         data={dataRef.current}
         value={typeof value === 'string' ? value : null}
         disabled={disabled}
+        size={size}
         on_show={fillData}
         on_focus={onFocusHandler}
         on_blur={handleBlur}

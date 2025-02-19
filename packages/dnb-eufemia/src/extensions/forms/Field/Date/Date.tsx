@@ -41,6 +41,7 @@ export type Props = FieldProps<string, undefined | string> & {
 } & Pick<
     DatePickerProps,
     | 'month'
+    | 'size'
     | 'startMonth'
     | 'endMonth'
     | 'minDate'
@@ -130,6 +131,7 @@ function DateComponent(props: Props) {
     label,
     value: valueProp,
     hasError,
+    size,
     disabled,
     htmlAttributes,
     handleFocus,
@@ -199,6 +201,7 @@ function DateComponent(props: Props) {
           handleChange(event)
           onReset?.(event)
         }}
+        size={size}
         onFocus={handleFocus}
         onBlur={handleBlur}
         {...datePickerProps}
