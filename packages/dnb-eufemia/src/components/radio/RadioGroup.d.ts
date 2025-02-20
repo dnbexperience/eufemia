@@ -9,7 +9,7 @@ import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import type { GlobalStatusConfigObject } from '../GlobalStatus';
 export type RadioGroupLabelPosition = 'left' | 'right';
-export type RadioGroupSize = 'default' | 'medium' | 'large';
+export type RadioGroupSize = 'default' | 'medium' | 'large' | number;
 export type RadioGroupSuffix =
   | string
   | ((...args: any[]) => any)
@@ -44,7 +44,7 @@ export interface RadioGroupProps
   /**
    * The size of the Radio button. For now there is "medium" (default) and "large".
    */
-  size?: ButtonSize | number;
+  size?: RadioGroupSize;
   /**
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
    */
