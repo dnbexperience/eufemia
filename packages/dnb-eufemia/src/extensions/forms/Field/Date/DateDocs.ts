@@ -11,7 +11,6 @@ const {
   showResetButton,
   showInput,
   range,
-  size,
   skeleton,
   tooltip,
   globalStatus,

@@ -10,6 +10,25 @@ describe('Field.Date', () => {
     expect(screen.getByLabelText('Dato')).toBeInTheDocument()
   })
 
+  it('should support size', () => {
+    render(<Field.Date size="large" />)
+
+    const fieldStringElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-string'
+    )
+    expect(fieldStringElement.classList).toContain(
+      'dnb-forms-field-block--label-height-large'
+    )
+
+    const datePickerElement: HTMLInputElement =
+      document.querySelector('.dnb-date-picker')
+    expect(datePickerElement.classList).toContain('dnb-date-picker--large')
+
+    const inputElement: HTMLInputElement =
+      document.querySelector('.dnb-input')
+    expect(inputElement.classList).toContain('dnb-input--large')
+  })
+
   it('should show required warning', async () => {
     render(<Field.Date value="2023-12-07" required />)
 

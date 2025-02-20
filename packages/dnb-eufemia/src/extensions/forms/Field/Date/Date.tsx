@@ -61,6 +61,7 @@ export type Props = FieldProps<string, undefined | string> & {
     | 'resetButtonText'
     | 'firstDay'
     | 'link'
+    | 'size'
     | 'sync'
     | 'addonElement'
     | 'shortcuts'
@@ -232,6 +233,7 @@ const datePickerPropKeys = [
   'resetButtonText',
   'firstDay',
   'link',
+  'size',
   'sync',
   'addonElement',
   'shortcuts',
