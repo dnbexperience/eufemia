@@ -22,6 +22,21 @@ describe('Field.Expiry', () => {
     })
   })
 
+  it('should support size', () => {
+    render(<Field.Expiry value="0835" size="large" />)
+
+    const fieldBlockElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-block'
+    )
+    expect(fieldBlockElement.classList).toContain(
+      'dnb-forms-field-block--label-height-large'
+    )
+
+    const inputElement: HTMLInputElement =
+      document.querySelector('.dnb-input')
+    expect(inputElement.classList).toContain('dnb-input--large')
+  })
+
   it('should set value as a string', () => {
     render(<Field.Expiry value="0835" />)
 

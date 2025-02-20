@@ -5,14 +5,22 @@ import { useFieldProps } from '../../hooks'
 import classnames from 'classnames'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import { MultiInputMask } from '../../../../components/input-masked'
-import type { MultiInputMaskValue } from '../../../../components/input-masked'
+import type {
+  MultiInputMaskProps,
+  MultiInputMaskValue,
+} from '../../../../components/input-masked'
 import { useTranslation as useSharedTranslation } from '../../../../shared'
 import useTranslation from '../../hooks/useTranslation'
 import { FormError } from '../../utils'
 
 type ExpiryValue = MultiInputMaskValue<'month' | 'year'>
 
-export type ExpiryProps = FieldProps<string, undefined | ''>
+export type ExpiryProps = FieldProps<string, undefined | ''> & {
+  /**
+   * The size of the component.
+   */
+  size?: MultiInputMaskProps<'month' | 'year'>['size']
+}
 
 function Expiry(props: ExpiryProps) {
   const {
@@ -119,6 +127,7 @@ function Expiry(props: ExpiryProps) {
     info,
     warning,
     disabled,
+    size,
     value = '',
     htmlAttributes,
     handleFocus,
@@ -163,6 +172,7 @@ function Expiry(props: ExpiryProps) {
         status={status}
         statusState={disabled ? 'disabled' : undefined}
         disabled={disabled}
+        size={size}
         onChange={handleChange}
         onBlur={handleBlur}
         onFocus={handleFocus}
