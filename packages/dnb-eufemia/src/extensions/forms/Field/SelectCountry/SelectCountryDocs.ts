@@ -1,5 +1,6 @@
 import { PropertiesTableProps } from '../../../../shared/types'
 import { getFieldEventsWithTypes } from '../FieldDocs'
+import { autocompleteProperties } from '../../../../components/autocomplete/AutocompleteDocs'
 
 export const SelectCountryProperties: PropertiesTableProps = {
   countries: {
@@ -12,6 +13,7 @@ export const SelectCountryProperties: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
+  size: autocompleteProperties.size,
 }
 
 export const SelectCountryGeneralEvents = getFieldEventsWithTypes(
