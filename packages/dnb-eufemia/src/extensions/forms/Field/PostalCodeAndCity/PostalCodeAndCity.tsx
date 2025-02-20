@@ -172,6 +172,7 @@ function PostalCodeAndCity(props: Props) {
         pattern={cityPattern}
         trim
         width={cityWidth ?? 'stretch'}
+        inputClassName="dnb-forms-field-postal-code-and-city__city-input"
         autoComplete="address-level2"
       />
     </CompositionField>
