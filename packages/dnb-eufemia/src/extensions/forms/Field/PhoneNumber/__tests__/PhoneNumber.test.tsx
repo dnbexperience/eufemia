@@ -50,6 +50,29 @@ describe('Field.PhoneNumber', () => {
     expect(selectedItemElement.textContent).toBe('+47 Norge')
   })
 
+  it('should support size', () => {
+    render(<Field.PhoneNumber size="large" />)
+
+    const autocompleteElement: HTMLInputElement = document.querySelector(
+      '.dnb-autocomplete'
+    )
+    expect(autocompleteElement.classList).toContain(
+      'dnb-autocomplete--large'
+    )
+
+    const fieldPhoneNumberElement: HTMLInputElement =
+      document.querySelector('.dnb-forms-field-phone-number')
+    expect(fieldPhoneNumberElement.classList).toContain(
+      'dnb-forms-field-block--label-height-large'
+    )
+
+    const fieldPhoneNumberNumberElement: HTMLInputElement =
+      document.querySelector('.dnb-forms-field-phone-number__number')
+    expect(fieldPhoneNumberNumberElement.classList).toContain(
+      'dnb-forms-field-block--label-height-large'
+    )
+  })
+
   it('should support disabled prop', () => {
     const { rerender } = render(
       <Field.PhoneNumber label="Disabled label" disabled />
