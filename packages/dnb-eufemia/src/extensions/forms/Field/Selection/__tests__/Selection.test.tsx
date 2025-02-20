@@ -185,6 +185,25 @@ describe('Selection', () => {
 
 describe('variants', () => {
   describe('radio', () => {
+    it('should support size', () => {
+      render(
+        <Field.Selection value="bar" size="large" variant="radio">
+          <Field.Option value="bar" title="Bar!" text="Text" />
+        </Field.Selection>
+      )
+
+      const fieldRadioElement: HTMLInputElement = document.querySelector(
+        '.dnb-forms-field-selection__variant--radio'
+      )
+      expect(fieldRadioElement.classList).toContain(
+        'dnb-forms-field-block--label-height-large'
+      )
+
+      const radioElement: HTMLInputElement =
+        document.querySelector('.dnb-radio')
+      expect(radioElement.classList).toContain('dnb-radio--large')
+    })
+
     it('renders selected option', () => {
       render(
         <Field.Selection variant="radio" value="bar">
@@ -662,6 +681,26 @@ describe('variants', () => {
   })
 
   describe('button', () => {
+    it('should support size', () => {
+      render(
+        <Field.Selection value="bar" size="large" variant="button">
+          <Field.Option value="bar" title="Bar!" text="Text" />
+        </Field.Selection>
+      )
+
+      const fieldButtonElement: HTMLInputElement = document.querySelector(
+        '.dnb-forms-field-selection__variant--button'
+      )
+      expect(fieldButtonElement.classList).toContain(
+        'dnb-forms-field-block--label-height-large'
+      )
+
+      const buttonElement: HTMLInputElement = document.querySelector(
+        '.dnb-toggle-button__button'
+      )
+      expect(buttonElement.classList).toContain('dnb-button--size-large')
+    })
+
     it('has no selected value by default', () => {
       render(
         <Field.Selection variant="button">
@@ -1052,6 +1091,27 @@ describe('variants', () => {
   describe('dropdown', () => {
     const openDropdown = () =>
       fireEvent.click(document.querySelector('.dnb-dropdown__trigger'))
+
+    it('should support size', () => {
+      render(
+        <Field.Selection value="bar" size="large" variant="dropdown">
+          <Field.Option value="foo" title="Foo!" text="Text" />
+          <Field.Option value="bar" title="Bar!" text="Text" />
+        </Field.Selection>
+      )
+
+      const fieldDropdownElement: HTMLInputElement =
+        document.querySelector(
+          '.dnb-forms-field-selection__variant--dropdown'
+        )
+      expect(fieldDropdownElement.classList).toContain(
+        'dnb-forms-field-block--label-height-large'
+      )
+
+      const dropdownElement: HTMLInputElement =
+        document.querySelector('.dnb-dropdown')
+      expect(dropdownElement.classList).toContain('dnb-dropdown--large')
+    })
 
     it('has no selected value by default', () => {
       render(
@@ -1481,6 +1541,30 @@ describe('variants', () => {
       fireEvent.focus(document.querySelector('.dnb-input__input'))
       fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
     }
+
+    it('should support size', () => {
+      render(
+        <Field.Selection value="bar" size="large" variant="autocomplete">
+          <Field.Option value="foo" title="Foo!" text="Text" />
+          <Field.Option value="bar" title="Bar!" text="Text" />
+        </Field.Selection>
+      )
+
+      const fieldAutocompleteElement: HTMLInputElement =
+        document.querySelector(
+          '.dnb-forms-field-selection__variant--autocomplete'
+        )
+      expect(fieldAutocompleteElement.classList).toContain(
+        'dnb-forms-field-block--label-height-large'
+      )
+
+      const autocompleteElement: HTMLInputElement = document.querySelector(
+        '.dnb-autocomplete'
+      )
+      expect(autocompleteElement.classList).toContain(
+        'dnb-autocomplete--large'
+      )
+    })
 
     it('has no selected value by default', () => {
       render(
