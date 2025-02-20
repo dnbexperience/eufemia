@@ -507,6 +507,29 @@ describe('variants', () => {
       expect(radioButtons[2]).not.toBeChecked()
     })
 
+    it('should support selecting first option by enter key, using keyboard navigation', async () => {
+      render(
+        <Field.Selection variant="radio">
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+          <Field.Option value="baz">Baz</Field.Option>
+        </Field.Selection>
+      )
+
+      const radioButtons = screen.queryAllByRole('radio')
+
+      expect(radioButtons.length).toEqual(3)
+      expect(radioButtons[0]).not.toBeChecked()
+      expect(radioButtons[1]).not.toBeChecked()
+      expect(radioButtons[2]).not.toBeChecked()
+
+      await userEvent.tab()
+      await userEvent.keyboard('{Enter}')
+      expect(radioButtons[0]).toBeChecked()
+      expect(radioButtons[1]).not.toBeChecked()
+      expect(radioButtons[2]).not.toBeChecked()
+    })
+
     it('should store "displayValue" in data context', async () => {
       let dataContext = null
 

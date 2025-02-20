@@ -1,5 +1,5 @@
 import React from 'react'
-import { Section } from '../../../../../components'
+import { Section, Radio } from '../../../../../components'
 import { Field, Form } from '../../..'
 
 export default {
@@ -192,5 +192,31 @@ export function TransformSelection() {
         <Field.Option value="bar" title="Baar!" text="Additional text" />
       </Field.Selection>
     </Form.Card>
+  )
+}
+
+export function SelectionRadio() {
+  return (
+    <>
+      <Field.Selection
+        variant="radio"
+        label="Label text"
+        onChange={(value) => console.log('onChange', value)}
+      >
+        <Field.Option label="First" value="first" />
+        <Field.Option label="Second" value="second" />
+        <Field.Option label="Third" value="third" />
+      </Field.Selection>
+      <Radio.Group
+        label="Radio Group"
+        on_change={({ value }) => {
+          console.log('on_change', value)
+        }}
+      >
+        <Radio label="First" value="first" />
+        <Radio label="Second" value="second" />
+        <Radio label="Third" value="third" />
+      </Radio.Group>
+    </>
   )
 }
