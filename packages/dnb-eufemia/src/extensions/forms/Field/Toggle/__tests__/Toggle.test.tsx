@@ -40,6 +40,29 @@ describe('Field.Toggle', () => {
 
   describe('variants', () => {
     describe('button', () => {
+      it('should support size', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="button"
+            label="Toggle label"
+            size="large"
+          />
+        )
+
+        const fieldRadioElement: HTMLInputElement = document.querySelector(
+          '.dnb-forms-field-selection__variant--radio'
+        )
+        expect(fieldRadioElement.classList).toContain(
+          'dnb-forms-field-block--label-height-large'
+        )
+
+        const radioElement: HTMLInputElement =
+          document.querySelector('.dnb-radio')
+        expect(radioElement.classList).toContain('dnb-radio--large')
+      })
+
       it('renders label', () => {
         render(
           <Field.Toggle
