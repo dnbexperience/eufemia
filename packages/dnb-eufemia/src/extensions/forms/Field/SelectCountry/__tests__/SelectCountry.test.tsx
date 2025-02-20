@@ -18,10 +18,19 @@ describe('Field.SelectCountry', () => {
   it('should support size', () => {
     render(<Field.SelectCountry size="large" />)
 
-    const inputElement: HTMLInputElement = document.querySelector(
+    const autocompleteElement: HTMLInputElement = document.querySelector(
       '.dnb-autocomplete'
     )
-    expect(inputElement.classList).toContain('dnb-autocomplete--large')
+    expect(autocompleteElement.classList).toContain(
+      'dnb-autocomplete--large'
+    )
+
+    const selectCountryElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-select-country'
+    )
+    expect(selectCountryElement.classList).toContain(
+      'dnb-forms-field-block--label-height-large'
+    )
   })
 
   it('should return correct value onChange event', () => {
