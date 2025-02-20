@@ -95,7 +95,7 @@ exports[`Logo scss has to match theme css for sbanken 1`] = `
  *
  */
 .sbanken-logo {
-  color: var(--sb-color-purple);
+  color: var(--sb-color-text);
 }
 .sbanken-logo--inherit-color {
   color: currentcolor;
