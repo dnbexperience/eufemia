@@ -3,6 +3,27 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.64.1](https://github.com/dnbexperience/eufemia/compare/v10.64.0...v10.64.1) (2025-02-20)
+
+
+### :bug: Bug Fixes
+
+* **DatePicker:** portal will properly unmount when 'onShow' and 'onHide' callbacks are used to set a state ([#4587](https://github.com/dnbexperience/eufemia/issues/4587)) ([35211b0](https://github.com/dnbexperience/eufemia/commit/35211b0dafaa8b2a1a1112c3a0ba29f1c8dcce1c))
+* **Logo:** change Sbanken logo color ([#4586](https://github.com/dnbexperience/eufemia/issues/4586)) ([420c553](https://github.com/dnbexperience/eufemia/commit/420c55347d60623019be107c5c588f1f7a0f6273))
+* **Selection:** select item using enter and space key in radio variant ([#4584](https://github.com/dnbexperience/eufemia/issues/4584)) ([68b2cff](https://github.com/dnbexperience/eufemia/commit/68b2cff2ba2403fe2667e5c2dd17f31a4d4d99c4))
+
+
+### :memo: Documentation
+
+* **Address:** improve properties docs ([#4590](https://github.com/dnbexperience/eufemia/issues/4590)) ([4675c71](https://github.com/dnbexperience/eufemia/commit/4675c7179e26382b5ab57f952914258bfd3aefd2))
+* **Email:** improve properties docs ([#4591](https://github.com/dnbexperience/eufemia/issues/4591)) ([64becf0](https://github.com/dnbexperience/eufemia/commit/64becf09b7ae24117f6246d17ef55cf55f05a6e2))
+* **Name:** improve properties docs ([#4592](https://github.com/dnbexperience/eufemia/issues/4592)) ([9f30547](https://github.com/dnbexperience/eufemia/commit/9f3054769fa54e3ed53ec7a0c5661ae278dec3ec))
+* **NationalIdentityNumber:** improve properties docs ([#4594](https://github.com/dnbexperience/eufemia/issues/4594)) ([b849953](https://github.com/dnbexperience/eufemia/commit/b849953eaec2e8004ec28b68605257209fcebf9a))
+* **OrganizationNumber:** improve properties docs  ([#4593](https://github.com/dnbexperience/eufemia/issues/4593)) ([bc730b7](https://github.com/dnbexperience/eufemia/commit/bc730b795360edd8dfa728998f4ff0deef772bca))
+* **Password:** improve properties docs for `size` ([#4600](https://github.com/dnbexperience/eufemia/issues/4600)) ([499fbef](https://github.com/dnbexperience/eufemia/commit/499fbef9f4155626735b2addb199c7374c2a6560))
+* **PostalCodeAndCity:** replace country with countryCode ([e89b2a5](https://github.com/dnbexperience/eufemia/commit/e89b2a50b0ea1b879e73f3debd5cde6fdc30d376))
+* **v11:** replace `country` with `countryCode` in `Field.PostalCodeAndCity` ([#4583](https://github.com/dnbexperience/eufemia/issues/4583)) ([f70cb4e](https://github.com/dnbexperience/eufemia/commit/f70cb4ede1ccaeffc27dd1ca720e6b2c577f5190))
+
 ## [10.64.0](https://github.com/dnbexperience/eufemia/compare/v10.63.4...v10.64.0) (2025-02-17)
 
 
