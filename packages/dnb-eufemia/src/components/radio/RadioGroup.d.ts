@@ -44,7 +44,7 @@ export interface RadioGroupProps
   /**
    * The size of the Radio button. For now there is "medium" (default) and "large".
    */
-  size?: RadioGroupSize;
+  size?: ButtonSize | number;
   /**
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
    */

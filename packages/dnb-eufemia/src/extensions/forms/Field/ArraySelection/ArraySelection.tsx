@@ -51,10 +51,7 @@ export type Props = FieldProps<Array<OptionValue> | undefined> & {
   /**
    * The size of the component.
    */
-  size?:
-    | ToggleButtonGroupProps['size']
-    | ToggleButtonProps['size']
-    | CheckboxProps['size']
+  size?: ToggleButtonProps['size'] | CheckboxProps['size']
 
   errorMessages?: DefaultErrorMessages & {
     minItems?: string
@@ -137,7 +134,6 @@ function ArraySelection(props: Props) {
             value={{
               status: hasError ? 'error' : undefined,
               disabled,
-              size,
             }}
           >
             {options}
