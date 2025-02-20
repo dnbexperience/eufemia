@@ -100,9 +100,11 @@ function ArraySelection(props: Props) {
       className
     ),
     contentClassName: 'dnb-forms-field-array-selection__options',
-    labelHeight: 'small',
     disableStatusSummary: true,
     ...pickSpacingProps(props),
+  }
+  if (!size) {
+    fieldBlockProps.labelHeight = 'small'
   }
 
   const options = useCheckboxOrToggleOptions({

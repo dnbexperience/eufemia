@@ -22,6 +22,24 @@ describe('ArraySelection', () => {
       expect(screen.getByText('Option 2')).toBeInTheDocument()
     })
 
+    it('should support size', () => {
+      render(
+        <Field.ArraySelection size="large">
+          <Field.Option value="option2">Option 2</Field.Option>
+        </Field.ArraySelection>
+      )
+
+      const fieldArraySelectionElement: HTMLInputElement =
+        document.querySelector('.dnb-forms-field-array-selection')
+      expect(fieldArraySelectionElement.classList).toContain(
+        'dnb-forms-field-block--label-height-large'
+      )
+
+      const checkboxElement: HTMLInputElement =
+        document.querySelector('.dnb-checkbox')
+      expect(checkboxElement.classList).toContain('dnb-checkbox--large')
+    })
+
     it('renders help', () => {
       render(
         <Field.ArraySelection
@@ -538,6 +556,25 @@ describe('ArraySelection', () => {
         )
         expect(option1).toBeInTheDocument()
         expect(option2).toBeInTheDocument()
+      })
+
+      it('should support size', () => {
+        render(
+          <Field.ArraySelection variant={testVariant} size="large">
+            <Field.Option value="option2">Option 2</Field.Option>
+          </Field.ArraySelection>
+        )
+
+        const fieldArraySelectionElement: HTMLInputElement =
+          document.querySelector('.dnb-forms-field-array-selection')
+        expect(fieldArraySelectionElement.classList).toContain(
+          'dnb-forms-field-block--label-height-large'
+        )
+
+        const buttonElement: HTMLInputElement = document.querySelector(
+          '.dnb-toggle-button__button'
+        )
+        expect(buttonElement.classList).toContain('dnb-button--size-large')
       })
 
       it('should render options in nested elements', () => {

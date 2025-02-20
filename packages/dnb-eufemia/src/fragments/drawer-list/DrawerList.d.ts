@@ -1,12 +1,7 @@
 import * as React from 'react';
 import type { SpacingProps } from '../../shared/types';
 export type DrawerListDirection = 'auto' | 'top' | 'bottom';
-export type DrawerListSize =
-  | 'default'
-  | 'small'
-  | 'medium'
-  | 'large'
-  | number;
+export type DrawerListSize = 'default' | 'small' | 'medium' | 'large';
 export type DrawerListAlignDrawer = 'left' | 'right';
 export type DrawerListOptionsRender =
   | Record<string, unknown>
