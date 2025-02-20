@@ -51,16 +51,16 @@ describe('Field.Toggle', () => {
           />
         )
 
-        const fieldRadioElement: HTMLInputElement = document.querySelector(
-          '.dnb-forms-field-selection__variant--radio'
-        )
-        expect(fieldRadioElement.classList).toContain(
+        const fieldToggleElement: HTMLInputElement =
+          document.querySelector('.dnb-forms-field-toggle')
+        expect(fieldToggleElement.classList).toContain(
           'dnb-forms-field-block--label-height-large'
         )
 
-        const radioElement: HTMLInputElement =
-          document.querySelector('.dnb-radio')
-        expect(radioElement.classList).toContain('dnb-radio--large')
+        const buttonElement: HTMLInputElement = document.querySelector(
+          '.dnb-toggle-button__button'
+        )
+        expect(buttonElement.classList).toContain('dnb-button--size-large')
       })
 
       it('renders label', () => {
@@ -272,6 +272,38 @@ describe('Field.Toggle', () => {
     })
 
     describe('buttons', () => {
+      it('should support size', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="buttons"
+            label="Toggle label"
+            size="large"
+          />
+        )
+
+        const fieldToggleElement: HTMLInputElement =
+          document.querySelector('.dnb-forms-field-toggle')
+        expect(fieldToggleElement.classList).toContain(
+          'dnb-forms-field-block--label-height-large'
+        )
+
+        const buttonElementOne: Element = document.querySelectorAll(
+          '.dnb-toggle-button__button'
+        )[1]
+        expect(buttonElementOne.classList).toContain(
+          'dnb-button--size-large'
+        )
+
+        const buttonElementTwo: Element = document.querySelectorAll(
+          '.dnb-toggle-button__button'
+        )[0]
+        expect(buttonElementTwo.classList).toContain(
+          'dnb-button--size-large'
+        )
+      })
+
       it('renders label', () => {
         render(
           <Field.Toggle
@@ -481,6 +513,30 @@ describe('Field.Toggle', () => {
     })
 
     describe('checkbox-button', () => {
+      it('should support size', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="checkbox-button"
+            label="Toggle label"
+            size="large"
+          />
+        )
+
+        const fieldToggleElement: HTMLInputElement =
+          document.querySelector('.dnb-forms-field-toggle')
+        expect(fieldToggleElement.classList).toContain(
+          'dnb-forms-field-block--label-height-large'
+        )
+
+        const checkboxButtonElement: HTMLInputElement =
+          document.querySelector('.dnb-toggle-button__button')
+        expect(checkboxButtonElement.classList).toContain(
+          'dnb-button--size-large'
+        )
+      })
+
       it('renders label', () => {
         render(
           <Field.Toggle
@@ -651,6 +707,28 @@ describe('Field.Toggle', () => {
     })
 
     describe('checkbox', () => {
+      it('should support size', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="checkbox"
+            label="Toggle label"
+            size="large"
+          />
+        )
+
+        const fieldToggleElement: HTMLInputElement =
+          document.querySelector('.dnb-forms-field-toggle')
+        expect(fieldToggleElement.classList).toContain(
+          'dnb-forms-field-block--label-height-large'
+        )
+
+        const checkboxElement: HTMLInputElement =
+          document.querySelector('.dnb-checkbox')
+        expect(checkboxElement.classList).toContain('dnb-checkbox--large')
+      })
+
       it('renders label', () => {
         render(
           <Field.Toggle
