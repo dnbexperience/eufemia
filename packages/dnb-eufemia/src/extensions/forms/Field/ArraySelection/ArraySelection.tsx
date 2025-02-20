@@ -15,7 +15,6 @@ import useDataValue from '../../hooks/useDataValue'
 import { FormError } from '../../utils'
 import type { CheckboxProps } from '../../../../components/Checkbox'
 import type { ToggleButtonProps } from '../../../../components/ToggleButton'
-import type { ToggleButtonGroupProps } from '../../../../components/toggle-button/ToggleButtonGroup'
 
 type OptionProps = React.ComponentProps<
   React.FC<{
@@ -134,6 +133,7 @@ function ArraySelection(props: Props) {
             value={{
               status: hasError ? 'error' : undefined,
               disabled,
+              size,
             }}
           >
             {options}
