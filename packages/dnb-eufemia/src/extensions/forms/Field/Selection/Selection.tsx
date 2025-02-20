@@ -315,7 +315,7 @@ type OptionProps = React.ComponentProps<
     help: HelpProps
     title: React.ReactNode
     children: React.ReactNode
-    size: ToggleButtonProps['size'] | RadioProps['size']
+    size?: ToggleButtonProps['size'] | RadioProps['size']
   }>
 >
 

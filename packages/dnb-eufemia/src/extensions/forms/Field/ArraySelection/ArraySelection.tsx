@@ -25,7 +25,7 @@ type OptionProps = React.ComponentProps<
     className: string
     children: React.ReactNode
     handleSelect: () => void
-    size: ToggleButtonProps['size'] | RadioProps['size']
+    size?: ToggleButtonProps['size'] | RadioProps['size']
   }>
 >
 
