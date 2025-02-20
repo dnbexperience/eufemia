@@ -96,7 +96,7 @@ export type MultiInputMaskProps<T extends string> = {
   | 'size'
 > &
   SpacingProps &
-  InputProps
+  Pick<InputProps, 'size'>
 
 function MultiInputMask<T extends string>({
   id,
