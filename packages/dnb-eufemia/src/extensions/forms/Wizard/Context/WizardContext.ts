@@ -21,7 +21,10 @@ export type OnStepChange = (
   | Promise<EventReturnWithStateObject | void>
 
 export type StepIndex = number
-export type Steps = Record<string, { title: string; id: string }>
+export type Steps = Record<
+  string,
+  { title: string; id: string; inactive?: boolean }
+>
 export type SetActiveIndexOptions = {
   skipStepChangeCall?: boolean
   skipStepChangeCallBeforeMounted?: boolean

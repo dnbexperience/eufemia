@@ -6,6 +6,11 @@ export const StepProperties: PropertiesTableProps = {
     type: 'React.Node',
     status: 'optional',
   },
+  inactive: {
+    doc: 'Will treat the step as non-navigable if set to `true`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   required: {
     doc: 'Will make all nested form fields required.',
     type: 'boolean',

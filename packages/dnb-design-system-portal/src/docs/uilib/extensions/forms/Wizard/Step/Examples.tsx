@@ -71,6 +71,43 @@ export const DynamicSteps = () => {
   )
 }
 
+export const Inactive = () => {
+  return (
+    <ComponentBox data-visual-test="wizard-step-inactive">
+      {() => {
+        const Component = () => {
+          const { activeIndex } = Wizard.useStep('unique-id-inactive')
+
+          return (
+            <Wizard.Container
+              mode="strict"
+              id="unique-id-inactive"
+              initialActiveIndex={2}
+            >
+              <Wizard.Step title="Step 1" inactive>
+                <Wizard.Buttons />
+              </Wizard.Step>
+
+              <Wizard.Step title="Step 2" inactive={activeIndex < 1}>
+                <Wizard.Buttons />
+              </Wizard.Step>
+
+              <Wizard.Step title="Step 3" inactive={activeIndex < 2}>
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 4" inactive={activeIndex < 3}>
+                <Wizard.Buttons />
+              </Wizard.Step>
+            </Wizard.Container>
+          )
+        }
+
+        return <Component />
+      }}
+    </ComponentBox>
+  )
+}
+
 export const EditButton = () => {
   return (
     <ComponentBox data-visual-test="wizard-edit-button">
