@@ -241,7 +241,7 @@ function Selection(props: Props) {
             }
             disabled={disabled}
             on_change={onChangeHandler}
-            value={String(value ?? '')}
+            value={String(value ?? '') || undefined}
           >
             {items}
           </Component.Group>
@@ -373,7 +373,7 @@ function renderRadioItems({
         key={`option-${i}-${id}`}
         label={variant === 'radio' ? label : undefined}
         text={variant === 'button' ? label : undefined}
-        value={String(value ?? valueProp ?? '')}
+        value={String(value ?? valueProp) || undefined}
         status={
           (hasError || checkForError([error, info, warning])) && 'error'
         }
