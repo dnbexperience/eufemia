@@ -18,11 +18,26 @@ import IterateItemContext from '../Iterate/IterateItemContext'
 import { convertJsxToString } from '../../../shared/component-helper'
 import VisibilityContext from '../Form/Visibility/VisibilityContext'
 import Visibility from '../Form/Visibility/Visibility'
+import HelpButtonInline, {
+  HelpButtonInlineContent,
+  HelpProps,
+} from '../../../components/help-button/HelpButtonInline'
+import useId from '../../../shared/helpers/useId'
 
 /**
  * Props are documented in ValueDocs.ts
  */
 export type Props = Omit<ValueProps<unknown>, 'value'> & {
+  id?: string
+
+  /** The id to link a element with */
+  forId?: string
+
+  /**
+   * Provide help content for the field.
+   */
+  help?: HelpProps
+
   children?: React.ReactNode
 
   /**
@@ -42,6 +57,8 @@ function ValueBlock(props: Props) {
   const { prerenderFieldProps } = useContext(DataContext) || {}
   const { index: iterateIndex } = useContext(IterateItemContext) || {}
 
+  const id = useId(props.id ?? props.forId)
+
   const {
     className,
     label: labelProp,
@@ -55,6 +72,7 @@ function ValueBlock(props: Props) {
     showEmpty,
     children,
     composition,
+    help,
     gap = 'xx-small',
   } = props
 
@@ -106,6 +124,8 @@ function ValueBlock(props: Props) {
     'dnb-forms-value-block__content',
     `dnb-forms-value-block__content--gap-${gap === false ? 'none' : gap}`
   )
+
+  const hasHelp = help?.title || help?.content
 
   if (summaryListContext) {
     const Item = summaryListContext.isNested
@@ -172,15 +192,33 @@ function ValueBlock(props: Props) {
         )}
         {...pickSpacingProps(props)}
       >
-        {label && (
+        {(label || hasHelp) && (
           <FormLabel
             element="strong" // enhance a11y: https://www.w3.org/WAI/WCAG21/Techniques/html/H49
             className="dnb-forms-value-block__label"
             labelDirection={inline ? 'horizontal' : 'vertical'}
             srOnly={labelSrOnly}
           >
-            {label}
+            <span>
+              {label && (
+                <span className="dnb-forms-field-block__label__content">
+                  {label}
+                </span>
+              )}
+              {hasHelp && (
+                <HelpButtonInline contentId={`${id}-help`} help={help} />
+              )}
+            </span>
           </FormLabel>
+        )}
+        {hasHelp && (
+          <HelpButtonInlineContent
+            contentId={`${id}-help`}
+            className="dnb-forms-field-block__help"
+            help={help}
+            breakout={layout === 'vertical'}
+            outset={layout !== 'horizontal'}
+          />
         )}
         {children ? (
           <span className={defaultClass}>{children}</span>

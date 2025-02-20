@@ -4,7 +4,7 @@ import { P } from '@dnb/eufemia/src'
 
 export const Default = () => {
   return (
-    <ComponentBox scope={{ ValueBlock }}>
+    <ComponentBox>
       <ValueBlock label="Label text">Data-value goes here</ValueBlock>
     </ComponentBox>
   )
@@ -12,14 +12,24 @@ export const Default = () => {
 
 export const Inline = () => {
   return (
-    <ComponentBox
-      scope={{ ValueBlock }}
-      data-visual-test="value-block-inline"
-    >
+    <ComponentBox data-visual-test="value-block-inline">
       <P>
         this is before the value <ValueBlock inline>Foo</ValueBlock>{' '}
         <ValueBlock inline>Bar</ValueBlock> this is after the value
       </P>
+    </ComponentBox>
+  )
+}
+
+export const Help = () => {
+  return (
+    <ComponentBox>
+      <ValueBlock
+        label="Label text"
+        help={{ title: 'Help title', content: 'Help content' }}
+      >
+        Data-value goes here
+      </ValueBlock>
     </ComponentBox>
   )
 }
