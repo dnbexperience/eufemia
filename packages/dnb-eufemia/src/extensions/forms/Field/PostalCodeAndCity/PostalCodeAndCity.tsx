@@ -33,7 +33,7 @@ export type Props = Pick<
      */
     countryCode?: Path | string
     help?: HelpProps
-  }
+  } & Pick<StringFieldProps, 'size'>
 
 function PostalCodeAndCity(props: Props) {
   const translations = useTranslation()
@@ -46,6 +46,7 @@ function PostalCodeAndCity(props: Props) {
     width = 'large',
     country,
     countryCode = defaultCountry,
+    size,
     ...fieldBlockProps
   } = props
 
@@ -119,6 +120,7 @@ function PostalCodeAndCity(props: Props) {
     >
       <StringField
         {...postalCode}
+        size={size}
         className={classnames(
           'dnb-forms-field-postal-code-and-city__postal-code',
           postalCodeClassName
@@ -149,6 +151,7 @@ function PostalCodeAndCity(props: Props) {
       <StringField
         help={help}
         {...city}
+        size={size}
         className={classnames(
           'dnb-forms-field-postal-code-and-city__city',
           cityClassName
