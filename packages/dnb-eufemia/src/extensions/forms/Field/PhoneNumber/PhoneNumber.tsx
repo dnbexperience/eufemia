@@ -64,7 +64,7 @@ export type Props = Omit<
    * For internal testing purposes
    */
   noAnimation?: boolean
-}
+} & Pick<StringFieldProps, 'size'>
 
 // Important for the default value to be defined here, and not after the useFieldProps call, to avoid the UI jumping
 // back to +47 once the user empty the field so handleChange send out undefined.
@@ -192,6 +192,7 @@ function PhoneNumber(props: Props) {
     emptyValue,
     info,
     warning,
+    size,
     error,
     hasError,
     disabled,
@@ -406,6 +407,7 @@ function PhoneNumber(props: Props) {
             autoComplete="tel-country-code"
             no_animation={props.noAnimation}
             stretch={width === 'stretch'}
+            size={size}
           />
         )}
 
@@ -446,6 +448,7 @@ function PhoneNumber(props: Props) {
           }
           validateUnchanged={validateUnchanged}
           inputMode="tel"
+          size={size}
         />
       </Flex.Horizontal>
     </FieldBlock>
