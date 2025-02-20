@@ -13,6 +13,8 @@ import { mapOptions, Data } from '../Selection'
 import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
 import { FormError } from '../../utils'
+import type { RadioProps } from '../../../../components/Radio'
+import type { ToggleButtonProps } from '../../../../components/ToggleButton'
 
 type OptionProps = React.ComponentProps<
   React.FC<{
@@ -23,6 +25,7 @@ type OptionProps = React.ComponentProps<
     className: string
     children: React.ReactNode
     handleSelect: () => void
+    size?: ToggleButtonProps['size'] | RadioProps['size']
   }>
 >
 

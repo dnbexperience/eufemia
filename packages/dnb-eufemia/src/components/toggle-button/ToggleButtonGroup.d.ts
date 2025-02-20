@@ -4,6 +4,7 @@ import type {
   FormStatusState,
   FormStatusText
 } from '../FormStatus';
+import type { ButtonSize } from '../Button';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import type { FormLabelLabelDirection } from '../FormLabel';
@@ -82,6 +83,10 @@ export interface ToggleButtonGroupProps
   values?: ToggleButtonGroupValues;
   attributes?: ToggleButtonGroupAttributes;
   className?: string;
+  /**
+   * The size of the toggle button. For now there is `small`, `medium`, `default` and `large`.
+   */
+  size?: ButtonSize | number;
   children?: ToggleButtonGroupChildren;
   /**
    * Will be called on state changes made by the user. Returns a boolean and string `{ checked, value, event }`.
