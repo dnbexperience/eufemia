@@ -28,6 +28,38 @@ describe('Field.PostalCodeAndCity', () => {
     expect(postalCodeInput).toHaveValue('1234')
   })
 
+  it('should support size', () => {
+    render(<Field.PostalCodeAndCity size="large" />)
+
+    const fieldPostalCodeElement: HTMLInputElement =
+      document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__postal-code'
+      )
+    expect(fieldPostalCodeElement.classList).toContain(
+      'dnb-forms-field-block--label-height-large'
+    )
+
+    const fieldPostalCodeInputElement: HTMLInputElement =
+      document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__postal-code-input'
+      )
+    expect(fieldPostalCodeInputElement.classList).toContain(
+      'dnb-input--large'
+    )
+
+    const fieldCityElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-postal-code-and-city__city'
+    )
+    expect(fieldCityElement.classList).toContain(
+      'dnb-forms-field-block--label-height-large'
+    )
+
+    const fieldCityInputElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-postal-code-and-city__city-input'
+    )
+    expect(fieldCityInputElement.classList).toContain('dnb-input--large')
+  })
+
   it('postalCode should have numeric "inputmode"', () => {
     render(<Field.PostalCodeAndCity />)
 
