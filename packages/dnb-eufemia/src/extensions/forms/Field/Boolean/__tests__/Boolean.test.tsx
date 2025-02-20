@@ -9,6 +9,27 @@ const nb = nbNO['nb-NO']
 
 describe('Field.Boolean', () => {
   describe('variant: checkbox', () => {
+    it('should support size', () => {
+      render(
+        <Field.Boolean
+          variant="checkbox"
+          label="Boolean label"
+          size="large"
+        />
+      )
+
+      const fieldToggleElement: HTMLInputElement = document.querySelector(
+        '.dnb-forms-field-toggle'
+      )
+      expect(fieldToggleElement.classList).toContain(
+        'dnb-forms-field-block--label-height-large'
+      )
+
+      const checkboxElement: HTMLInputElement =
+        document.querySelector('.dnb-checkbox')
+      expect(checkboxElement.classList).toContain('dnb-checkbox--large')
+    })
+
     it('renders label', () => {
       render(<Field.Boolean variant="checkbox" label="Boolean label" />)
       expect(screen.getByLabelText('Boolean label')).toBeInTheDocument()
@@ -257,6 +278,28 @@ describe('Field.Boolean', () => {
   })
 
   describe('variant: button', () => {
+    it('should support size', () => {
+      render(
+        <Field.Boolean
+          variant="button"
+          label="Boolean label"
+          size="large"
+        />
+      )
+
+      const fieldToggleElement: HTMLInputElement = document.querySelector(
+        '.dnb-forms-field-toggle'
+      )
+      expect(fieldToggleElement.classList).toContain(
+        'dnb-forms-field-block--label-height-large'
+      )
+
+      const buttonElement: HTMLInputElement = document.querySelector(
+        '.dnb-toggle-button__button'
+      )
+      expect(buttonElement.classList).toContain('dnb-button--size-large')
+    })
+
     it('renders label', () => {
       render(<Field.Boolean variant="button" label="Boolean label" />)
       expect(screen.getByText('Boolean label')).toBeInTheDocument()
@@ -404,6 +447,29 @@ describe('Field.Boolean', () => {
   })
 
   describe('variant: checkbox-button', () => {
+    it('should support size', () => {
+      render(
+        <Field.Boolean
+          variant="checkbox-button"
+          label="Boolean label"
+          size="large"
+        />
+      )
+
+      const fieldToggleElement: HTMLInputElement = document.querySelector(
+        '.dnb-forms-field-toggle'
+      )
+      expect(fieldToggleElement.classList).toContain(
+        'dnb-forms-field-block--label-height-large'
+      )
+
+      const checkboxButtonElement: HTMLInputElement =
+        document.querySelector('.dnb-toggle-button__button')
+      expect(checkboxButtonElement.classList).toContain(
+        'dnb-button--size-large'
+      )
+    })
+
     it('renders label', () => {
       render(
         <Field.Boolean variant="checkbox-button" label="Boolean label" />
@@ -567,6 +633,37 @@ describe('Field.Boolean', () => {
   })
 
   describe('variant: buttons', () => {
+    it('should support size', () => {
+      render(
+        <Field.Boolean
+          variant="buttons"
+          label="Boolean label"
+          size="large"
+        />
+      )
+
+      const fieldToggleElement: HTMLInputElement = document.querySelector(
+        '.dnb-forms-field-toggle'
+      )
+      expect(fieldToggleElement.classList).toContain(
+        'dnb-forms-field-block--label-height-large'
+      )
+
+      const buttonElementOne: Element = document.querySelectorAll(
+        '.dnb-toggle-button__button'
+      )[1]
+      expect(buttonElementOne.classList).toContain(
+        'dnb-button--size-large'
+      )
+
+      const buttonElementTwo: Element = document.querySelectorAll(
+        '.dnb-toggle-button__button'
+      )[0]
+      expect(buttonElementTwo.classList).toContain(
+        'dnb-button--size-large'
+      )
+    })
+
     it('renders label', () => {
       render(<Field.Boolean variant="buttons" label="Boolean label" />)
       expect(screen.getByText('Boolean label')).toBeInTheDocument()
