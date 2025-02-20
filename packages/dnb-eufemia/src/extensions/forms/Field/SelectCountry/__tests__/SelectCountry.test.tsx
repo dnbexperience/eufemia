@@ -15,6 +15,15 @@ describe('Field.SelectCountry', () => {
     expect(document.querySelector('input')).toBeInTheDocument()
   })
 
+  it('should support size', () => {
+    render(<Field.SelectCountry size="large" />)
+
+    const inputElement: HTMLInputElement = document.querySelector(
+      '.dnb-autocomplete'
+    )
+    expect(inputElement.classList).toContain('dnb-autocomplete--large')
+  })
+
   it('should return correct value onChange event', () => {
     const onChange = jest.fn()
     const onBlur = jest.fn()
