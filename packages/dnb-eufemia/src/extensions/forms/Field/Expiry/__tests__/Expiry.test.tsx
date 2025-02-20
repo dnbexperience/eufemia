@@ -34,7 +34,7 @@ describe('Field.Expiry', () => {
 
     const inputElement: HTMLInputElement =
       document.querySelector('.dnb-input')
-    expect(inputElement.classList).toContain('dnb-input--small')
+    expect(inputElement.classList).toContain('dnb-input--large')
   })
 
   it('should set value as a string', () => {
