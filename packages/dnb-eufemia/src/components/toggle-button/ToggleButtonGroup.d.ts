@@ -86,7 +86,7 @@ export interface ToggleButtonGroupProps
   /**
    * The size of the toggle button. For now there is `small`, `medium`, `default` and `large`.
    */
-  size?: ButtonSize | number;
+  size?: ButtonSize;
   children?: ToggleButtonGroupChildren;
   /**
    * Will be called on state changes made by the user. Returns a boolean and string `{ checked, value, event }`.

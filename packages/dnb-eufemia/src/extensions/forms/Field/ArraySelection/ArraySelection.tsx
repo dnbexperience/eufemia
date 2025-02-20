@@ -13,8 +13,9 @@ import { mapOptions, Data } from '../Selection'
 import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
 import { FormError } from '../../utils'
-import type { RadioProps } from '../../../../components/Radio'
+import type { CheckboxProps } from '../../../../components/Checkbox'
 import type { ToggleButtonProps } from '../../../../components/ToggleButton'
+import type { ToggleButtonGroupProps } from '../../../../components/toggle-button/ToggleButtonGroup'
 
 type OptionProps = React.ComponentProps<
   React.FC<{
@@ -25,7 +26,7 @@ type OptionProps = React.ComponentProps<
     className: string
     children: React.ReactNode
     handleSelect: () => void
-    size?: ToggleButtonProps['size'] | RadioProps['size']
+    size?: ToggleButtonProps['size'] | CheckboxProps['size']
   }>
 >
 
@@ -46,6 +47,14 @@ export type Props = FieldProps<Array<OptionValue> | undefined> & {
    * The generated options will be placed above given JSX based children.
    */
   data?: Data
+
+  /**
+   * The size of the component.
+   */
+  size?:
+    | ToggleButtonGroupProps['size']
+    | ToggleButtonProps['size']
+    | CheckboxProps['size']
 
   errorMessages?: DefaultErrorMessages & {
     minItems?: string
@@ -68,6 +77,7 @@ function ArraySelection(props: Props) {
     info,
     warning,
     disabled,
+    size,
     emptyValue,
     htmlAttributes,
     handleChange,
@@ -107,6 +117,7 @@ function ArraySelection(props: Props) {
     children,
     value,
     disabled,
+    size,
     hasError,
     handleChange,
     handleActiveData: ({ labels }) => {
@@ -124,6 +135,7 @@ function ArraySelection(props: Props) {
             value={{
               status: hasError ? 'error' : undefined,
               disabled,
+              size,
             }}
           >
             {options}
@@ -145,6 +157,7 @@ export function useCheckboxOrToggleOptions({
   children,
   value,
   disabled,
+  size,
   hasError,
   handleChange,
   handleActiveData,
@@ -160,6 +173,7 @@ export function useCheckboxOrToggleOptions({
   children?: Props['children']
   value?: Props['value']
   disabled?: Props['disabled']
+  size?: Props['size']
   hasError?: ReturnAdditional<Props['value']>['hasError']
   handleChange?: ReturnAdditional<Props['value']>['handleChange']
   handleActiveData?: (item: { labels: Array<Props['children']> }) => void
@@ -219,6 +233,7 @@ export function useCheckboxOrToggleOptions({
             }`,
             className
           )}
+          size={size}
           label={variant === 'checkbox' ? label : undefined}
           text={variant !== 'checkbox' ? label : undefined}
           value={value}

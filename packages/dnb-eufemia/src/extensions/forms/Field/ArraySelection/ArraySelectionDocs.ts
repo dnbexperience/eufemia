@@ -18,6 +18,11 @@ export const arraySelectionProperties: PropertiesTableProps = {
     type: 'React.Node',
     status: 'optional',
   },
+  size: {
+    doc: 'The sizes you can choose is small (1.5rem), default (2rem), medium (2.5rem) and large (3rem) are supported component sizes. Defaults to default / null. Also, if you define a number like size="2" then it will be forwarded as the input element attribute.',
+    type: 'string',
+    status: 'optional',
+  },
   data: {
     doc: 'Data to be used for the component. The object needs to have a `value` and a `title` property. Provide the Dropdown or Autocomplete data in the format documented here: [Dropdown](/uilib/components/dropdown) and [Autocomplete](/uilib/components/autocomplete) documentation.',
     type: 'array',
