@@ -224,11 +224,15 @@ function Selection(props: Props) {
         },
       })
 
+      const additionalFieldBlockProps: FieldBlockProps = {
+        asFieldset: React.Children.count(items) > 1,
+      }
+      if (!size) {
+        additionalFieldBlockProps.labelHeight = 'small'
+      }
+
       return (
-        <FieldBlock
-          asFieldset={React.Children.count(items) > 1}
-          {...fieldBlockProps}
-        >
+        <FieldBlock {...fieldBlockProps} {...additionalFieldBlockProps}>
           <Component.Group
             size={size}
             className={cn}
