@@ -142,9 +142,7 @@ describe('DatePicker component', () => {
     ).toBe('true')
 
     expect(
-      document
-        .querySelector('.dnb-date-picker')
-        .getAttribute('class')
+      document.querySelector('.dnb-date-picker').getAttribute('class')
     ).toContain('dnb-date-picker--opened')
 
     await userEvent.click(screen.getByLabelText('lørdag 22. februar 2025'))
