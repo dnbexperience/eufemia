@@ -115,7 +115,7 @@ describe('DatePicker component', () => {
     ).not.toContain('dnb-date-picker--opened')
   })
 
-  it.only('will close the picker on click outside when when `onShow` callback set a state', async () => {
+  it('will close the picker on click outside when when `onShow` callback set a state', async () => {
     const onShow = jest.fn()
 
     const Component = () => {
