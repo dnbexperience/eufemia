@@ -148,7 +148,6 @@ describe('DatePicker component', () => {
     expect(
       document
         .querySelector('.dnb-date-picker')
-
         .getAttribute('class')
     ).toContain('dnb-date-picker--opened')
 
