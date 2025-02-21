@@ -13,7 +13,10 @@ export const SelectCountryProperties: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
-  size: autocompleteProperties.size,
+  size: {
+    ...autocompleteProperties.size,
+    doc: `${autocompleteProperties.size} Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).`,
+  },
 }
 
 export const SelectCountryGeneralEvents = getFieldEventsWithTypes(
