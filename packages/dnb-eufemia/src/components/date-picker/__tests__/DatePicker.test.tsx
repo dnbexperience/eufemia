@@ -91,15 +91,11 @@ describe('DatePicker component', () => {
     expect(
       document
         .querySelector('button.dnb-input__submit-button__button')
-
         .getAttribute('aria-expanded')
     ).toBe('true')
 
     expect(
-      document
-        .querySelector('.dnb-date-picker')
-
-        .getAttribute('class')
+      document.querySelector('.dnb-date-picker').getAttribute('class')
     ).toContain('dnb-date-picker--opened')
 
     await userEvent.click(document.body)
