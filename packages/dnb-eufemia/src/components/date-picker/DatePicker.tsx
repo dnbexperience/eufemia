@@ -736,12 +736,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
     if (openedProp) {
       showPicker()
     }
-
-    return () => {
-      clearTimeout(hideTimeout.current)
-      removeOutsideClickHandler()
-    }
-  }, [openedProp, removeOutsideClickHandler, showPicker])
+  }, [openedProp, showPicker])
 
   const onPickerChange = useCallback(
     ({
