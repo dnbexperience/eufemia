@@ -214,7 +214,7 @@ function ValueBlock(props: Props) {
         {hasHelp && (
           <HelpButtonInlineContent
             contentId={`${id}-help`}
-            className="dnb-forms-field-block__help"
+            className="dnb-forms-value-block__help"
             help={help}
             breakout={layout === 'vertical'}
             outset={layout !== 'horizontal'}
