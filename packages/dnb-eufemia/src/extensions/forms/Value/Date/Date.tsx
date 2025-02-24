@@ -35,15 +35,14 @@ function DateComponent(props: Props) {
   return <StringValue {...stringProps} />
 }
 
+export type FormatDateOptions = {
+  locale?: string
+  variant?: Props['variant']
+}
+
 export function formatDate(
   value: string,
-  {
-    locale = LOCALE,
-    variant = 'numeric',
-  }: {
-    locale?: string
-    variant?: Props['variant']
-  } = {}
+  { locale = LOCALE, variant = 'numeric' }: FormatDateOptions = {}
 ) {
   // Either of the range dates can be null
   const isRange =
