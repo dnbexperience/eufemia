@@ -116,6 +116,7 @@ export type StepIndicatorProps = Omit<
     }: StepIndicatorMouseEvent) => void
     /**
      * Callback function to manipulate or wrap every item. Has to return a React Node. You receive an object you can use in your custom HOC `{ StepItem, element, attributes, props, context }`.
+     * @deprecated no longer does anything other than the step item `title` prop
      */
     on_item_render?: ({
       StepItem,
