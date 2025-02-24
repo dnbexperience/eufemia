@@ -81,16 +81,16 @@ export type DateProps = FieldProps<string, undefined | string> & {
   >
 
 function DateComponent(props: DateProps) {
-  const translations = useTranslation().Date
+  const { errorRequired, label: defaultLabel } = useTranslation().Date
   const { locale } = useContext(SharedContext)
 
   const errorMessages = useMemo(() => {
     return {
-      'Field.errorRequired': translations.errorRequired,
-      'Field.errorPattern': translations.errorRequired,
+      'Field.errorRequired': errorRequired,
+      'Field.errorPattern': errorRequired,
       ...props.errorMessages,
     }
-  }, [props.errorMessages, translations.errorRequired])
+  }, [props.errorMessages, errorRequired])
 
   const schema = useMemo<AllJSONSchemaVersions>(
     () =>
@@ -114,27 +114,22 @@ function DateComponent(props: DateProps) {
 
   const dateLimitValidator = useCallback(
     (value: string) => {
-      return validateDateLimit({
+      const res = validateDateLimit({
         value,
         locale,
         minDate: props.minDate,
         maxDate: props.maxDate,
         isRange: props.range,
       })
+
+      return res
     },
     [props.maxDate, props.minDate, props.range, locale]
   )
 
   const hasDateLimitAndValue = useMemo(() => {
-    return (props.minDate || props.maxDate) && props.value
+    return (props.minDate || props.maxDate) && Boolean(props.value)
   }, [props.minDate, props.maxDate, props.value])
-
-  const validateInitially = useMemo(() => {
-    if (hasDateLimitAndValue && !props.validateInitially) {
-      return true
-    }
-    return props.validateInitially
-  }, [props.validateInitially, hasDateLimitAndValue])
 
   const preparedProps: DateProps = {
     ...props,
@@ -148,7 +143,7 @@ function DateComponent(props: DateProps) {
       return range ? `${start_date}|${end_date}` : date
     },
     validateRequired,
-    validateInitially,
+    validateInitially: props.validateInitially ?? hasDateLimitAndValue,
     onBlurValidator: props.onBlurValidator ?? dateLimitValidator,
   }
 
@@ -191,7 +186,7 @@ function DateComponent(props: DateProps) {
     const [startDate, endDate] = parseRangeValue(valueProp)
 
     return {
-      date: undefined,
+      value: undefined,
       startDate,
       endDate,
     }
@@ -205,7 +200,7 @@ function DateComponent(props: DateProps) {
 
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
-    label: label ?? translations.label,
+    label: label ?? defaultLabel,
     className: classnames('dnb-forms-field-string', className),
     ...pickSpacingProps(props),
   }
