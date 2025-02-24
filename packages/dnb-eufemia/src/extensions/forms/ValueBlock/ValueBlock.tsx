@@ -201,7 +201,7 @@ function ValueBlock(props: Props) {
           >
             <span>
               {label && (
-                <span className="dnb-forms-field-block__label__content">
+                <span className="dnb-forms-value-block__label__content">
                   {label}
                 </span>
               )}
