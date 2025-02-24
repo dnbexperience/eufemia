@@ -56,6 +56,7 @@ export type StepIndicatorItemProps = Omit<
   status_state?: StepIndicatorStatusState
   /**
    * Callback function to manipulate or wrap the step item. Has to return a React Node. You receive an object `{ StepItem, element, attributes, props, context }`.
+   * @deprecated no longer does anything other than the `title` prop
    */
   on_render?: ({
     StepItem,

@@ -225,6 +225,22 @@ const errorMessages = {
 
 - replace `country` with `countryCode`.
 
+## `StepIndicator`
+
+- `on_item_render` removed. No longer has any other function than each step's `title` prop.
+- step item `on_render` removed. No longer has any other function than the `title` prop.
+- `sidebarId` removed. No longer had any sidebar. If an id is needed, use the `id` prop.
+- `step_title_extended` removed. Only `step_title` is needed.
+
+## `StepIndicator.Sidebar`
+
+- component is removed entirely.
+
+## `Wizard.Container`
+
+- `variant` removed. No longer has any variants.
+- `sidebarId` removed. No longer had any sidebar. If an id is needed, use the `id` prop.
+
 ## `Wizard.Step`
 
 - replace `active` with `include`
