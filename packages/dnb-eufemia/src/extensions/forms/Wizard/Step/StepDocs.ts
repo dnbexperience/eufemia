@@ -16,12 +16,12 @@ export const StepProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  active: {
+  include: {
     doc: 'If set to `false`, the step will not be rendered.',
     type: 'boolean',
     status: 'optional',
   },
-  activeWhen: {
+  includeWhen: {
     doc: 'Provide a `path` and a `hasValue` property with the expected value in order to enable the step. You can alternatively provide a `hasValue` function that returns a boolean. The first parameter is the value of the path.',
     type: 'object',
     status: 'optional',
@@ -40,6 +40,16 @@ export const StepProperties: PropertiesTableProps = {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
+  },
+  active: {
+    doc: 'Deprecated, use `include`. Old docs: If set to `false`, the step will not be rendered.',
+    type: 'boolean',
+    status: 'deprecated',
+  },
+  activeWhen: {
+    doc: 'Deprecated, use `includeWhen`. Old docs: Provide a `path` and a `hasValue` property with the excepted value in order to enable the step. You can alternatively provide a `hasValue` function that returns a boolean. The first parameter is the value of the path.',
+    type: 'object',
+    status: 'deprecated',
   },
 }
 

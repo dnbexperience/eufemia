@@ -96,8 +96,8 @@ describe('Step', () => {
     expect(stepElement).toHaveAttribute('aria-label', 'My Aria Label')
   })
 
-  it('should not render when active is false', () => {
-    render(<Wizard.Step active={false}>Step Content</Wizard.Step>)
+  it('should not render when include is false', () => {
+    render(<Wizard.Step include={false}>Step Content</Wizard.Step>)
 
     const stepElement = document.querySelector('.dnb-forms-step')
     expect(stepElement).toBeNull()

@@ -376,7 +376,7 @@ function WizardContainer(props: Props) {
     return count !== 0 && tmpCount !== 0 && count !== tmpCount
   }, [])
 
-  // - Call onStepChange when step gets replaced or added (e.g. via activeWhen)
+  // - Call onStepChange when step gets replaced or added (e.g. via includeWhen)
   useLayoutEffect(() => {
     if (stepsLengthDidChange()) {
       callOnStepChange(activeIndexRef.current, 'stepListModified')
@@ -491,13 +491,13 @@ function IterateOverSteps({ children }) {
       }
 
       if (child?.type === Step) {
-        if (child.props.active === false) {
+        if (child.props.include === false) {
           return null
         }
 
         if (
-          child.props.activeWhen &&
-          !check({ visibleWhen: child.props.activeWhen })
+          child.props.includeWhen &&
+          !check({ visibleWhen: child.props.includeWhen })
         ) {
           return null
         }

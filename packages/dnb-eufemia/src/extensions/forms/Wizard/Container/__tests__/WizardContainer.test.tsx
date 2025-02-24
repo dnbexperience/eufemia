@@ -656,10 +656,10 @@ describe('Wizard.Container', () => {
   })
 
   describe('dynamic steps', () => {
-    it('should not render inactive steps', () => {
+    it('should not render excluded steps', () => {
       render(
         <Wizard.Container mode="loose">
-          <Wizard.Step title="Step 1" active={false}>
+          <Wizard.Step title="Step 1" include={false}>
             <output>Step 1</output>
           </Wizard.Step>
 
@@ -678,7 +678,7 @@ describe('Wizard.Container', () => {
     it('should render dynamically enabled steps', () => {
       const { rerender } = render(
         <Wizard.Container mode="loose">
-          <Wizard.Step title="Step 1" active={false}>
+          <Wizard.Step title="Step 1" include={false}>
             <output>Step 1</output>
           </Wizard.Step>
 
@@ -719,7 +719,7 @@ describe('Wizard.Container', () => {
 
       rerender(
         <Wizard.Container mode="loose">
-          <Wizard.Step title="Step 1" active={false}>
+          <Wizard.Step title="Step 1" include={false}>
             <output>Step 1</output>
             <Field.String path="/something" />
           </Wizard.Step>
@@ -740,12 +740,12 @@ describe('Wizard.Container', () => {
 
       rerender(
         <Wizard.Container mode="loose">
-          <Wizard.Step title="Step 1" active={false}>
+          <Wizard.Step title="Step 1" include={false}>
             <output>Step 1</output>
             <Field.String path="/something" />
           </Wizard.Step>
 
-          <Wizard.Step title="Step 2" active={false}>
+          <Wizard.Step title="Step 2" include={false}>
             <output>Step 2</output>
           </Wizard.Step>
         </Wizard.Container>
@@ -760,7 +760,7 @@ describe('Wizard.Container', () => {
       ).toHaveLength(0)
     })
 
-    it('should update active steps without rerendering', async () => {
+    it('should update include steps without rerendering', async () => {
       const initialData = {
         showStep1: true,
         showStep2: true,
@@ -769,7 +769,7 @@ describe('Wizard.Container', () => {
       const Step1 = () => {
         const { data } = Form.useData<typeof initialData>()
         return (
-          <Wizard.Step title="Step 1" active={data?.showStep1}>
+          <Wizard.Step title="Step 1" include={data?.showStep1}>
             <output>Step 1</output>
             <Field.Boolean id="toggleStep2" path="/showStep2" />
             <Wizard.Buttons />
@@ -780,7 +780,7 @@ describe('Wizard.Container', () => {
       const Step2 = () => {
         const { data } = Form.useData<typeof initialData>()
         return (
-          <Wizard.Step title="Step 2" active={data?.showStep2}>
+          <Wizard.Step title="Step 2" include={data?.showStep2}>
             <output>Step 2</output>
             <Field.Boolean id="toggleStep1" path="/showStep1" />
             <Wizard.Buttons />
@@ -826,7 +826,7 @@ describe('Wizard.Container', () => {
       expect(nextButton()).toBeInTheDocument()
     })
 
-    it('should not render inactive steps based on paths and activeWhen', () => {
+    it('should not render excluded steps based on paths and includeWhen', () => {
       render(
         <Form.Handler
           data={{
@@ -836,7 +836,7 @@ describe('Wizard.Container', () => {
           <Wizard.Container mode="loose">
             <Wizard.Step
               title="Step 1"
-              activeWhen={{ path: '/enabledStep', hasValue: 'match me' }}
+              includeWhen={{ path: '/enabledStep', hasValue: 'match me' }}
             >
               <output>Step 1</output>
             </Wizard.Step>
@@ -854,13 +854,13 @@ describe('Wizard.Container', () => {
       ).toHaveLength(1)
     })
 
-    it('should render inactive steps based on paths and activeWhen with hasValue', () => {
+    it('should render excluded steps based on paths and includeWhen with hasValue', () => {
       render(
         <Form.Handler defaultData={{ enabledStep: 'group-1' }}>
           <Wizard.Container mode="loose">
             <Wizard.Step
               title="Step 1"
-              activeWhen={{
+              includeWhen={{
                 path: '/enabledStep',
                 hasValue: (value) => {
                   return value === 'group-1'
@@ -883,7 +883,7 @@ describe('Wizard.Container', () => {
       ).toHaveLength(2)
     })
 
-    it('should render dynamically enabled steps based on paths and activeWhen', async () => {
+    it('should render dynamically enabled steps based on paths and includeWhen', async () => {
       render(
         <Form.Handler defaultData={{ enabledStep: 'group-2' }}>
           <Field.Selection path="/enabledStep" variant="button">
@@ -895,7 +895,7 @@ describe('Wizard.Container', () => {
           <Wizard.Container mode="loose">
             <Wizard.Step
               title="Step 1"
-              activeWhen={{ path: '/enabledStep', hasValue: 'group-1' }}
+              includeWhen={{ path: '/enabledStep', hasValue: 'group-1' }}
             >
               <output>Step 1</output>
               <Wizard.Buttons />
@@ -903,7 +903,7 @@ describe('Wizard.Container', () => {
 
             <Wizard.Step
               title="Step 2"
-              activeWhen={{ path: '/enabledStep', hasValue: 'group-2' }}
+              includeWhen={{ path: '/enabledStep', hasValue: 'group-2' }}
             >
               <output>Step 2</output>
               <Wizard.Buttons />
@@ -911,7 +911,7 @@ describe('Wizard.Container', () => {
 
             <Wizard.Step
               title="Step 3"
-              activeWhen={{
+              includeWhen={{
                 path: '/enabledStep',
                 hasValue: (value) => {
                   return value === 'group-1'
@@ -992,7 +992,7 @@ describe('Wizard.Container', () => {
             <Wizard.Step
               title="Step 1"
               id="step-1"
-              activeWhen={{ path: '/enabledStep', hasValue: 'group-1' }}
+              includeWhen={{ path: '/enabledStep', hasValue: 'group-1' }}
             >
               <output>Step 1</output>
               <Wizard.Buttons />
@@ -1001,7 +1001,7 @@ describe('Wizard.Container', () => {
             <Wizard.Step
               title="Step 2"
               id="step-2"
-              activeWhen={{ path: '/enabledStep', hasValue: 'group-2' }}
+              includeWhen={{ path: '/enabledStep', hasValue: 'group-2' }}
             >
               <output>Step 2</output>
               <Wizard.Buttons />
@@ -1010,7 +1010,7 @@ describe('Wizard.Container', () => {
             <Wizard.Step
               title="Step 3"
               id="step-3"
-              activeWhen={{ path: '/enabledStep', hasValue: 'group-1' }}
+              includeWhen={{ path: '/enabledStep', hasValue: 'group-1' }}
             >
               <output>Step 3</output>
               <Wizard.Buttons />

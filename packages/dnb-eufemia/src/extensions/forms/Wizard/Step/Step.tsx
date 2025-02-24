@@ -36,13 +36,25 @@ export type Props = ComponentProps &
 
     /**
      * If set to `false`, the step will not be rendered.
+     * @deprecated use `include` instead
      */
     active?: boolean
 
     /**
      * Provide a `path` and a `hasValue` property with the expected value in order to enable the step. You can alternatively provide a `hasValue` function that returns a boolean. The first parameter is the value of the path.
+     * @deprecated use `includeWhen` instead
      */
     activeWhen?: VisibleWhen
+
+    /**
+     * If set to `false`, the step will not be rendered.
+     */
+
+    include?: boolean
+    /**
+     * Provide a `path` and a `hasValue` property with the excepted value in order to enable the step. You can alternatively provide a `hasValue` function that returns a boolean. The first parameter is the value of the path.
+     */
+    includeWhen?: VisibleWhen
 
     /**
      * If set to `true`, the step will always be rendered.
@@ -51,19 +63,32 @@ export type Props = ComponentProps &
     prerenderFieldProps?: boolean
   }
 
+function handleDeprecatedProps({
+  active,
+  activeWhen,
+  include,
+  includeWhen,
+  ...rest
+}: Props): Omit<Props, 'active' | 'activeWhen'> {
+  return {
+    include: include ?? active,
+    includeWhen: includeWhen ?? activeWhen,
+    ...rest,
+  }
+}
 function Step(props: Props): JSX.Element {
   const {
     className,
     title,
     inactive,
     index,
-    active = true,
-    activeWhen,
+    include = true,
+    includeWhen,
     required,
     prerenderFieldProps,
     children,
     ...restProps
-  } = props
+  } = handleDeprecatedProps(props)
   const { check, activeIndex, stepsRef, stepElementRef } =
     useContext(WizardContext) || {}
 
@@ -94,8 +119,8 @@ function Step(props: Props): JSX.Element {
 
   if (
     activeIndex !== index ||
-    active === false ||
-    (activeWhen && !check({ visibleWhen: activeWhen }))
+    include === false ||
+    (includeWhen && !check({ visibleWhen: includeWhen }))
   ) {
     // Another step is active
     return <></>
