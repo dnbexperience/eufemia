@@ -91,18 +91,63 @@ describe('DatePicker component', () => {
     expect(
       document
         .querySelector('button.dnb-input__submit-button__button')
+        .getAttribute('aria-expanded')
+    ).toBe('true')
+
+    expect(
+      document.querySelector('.dnb-date-picker').getAttribute('class')
+    ).toContain('dnb-date-picker--opened')
+
+    await userEvent.click(document.body)
+
+    expect(
+      document
+        .querySelector('button.dnb-input__submit-button__button')
+        .getAttribute('aria-expanded')
+    ).toBe('false')
+
+    expect(
+      document.querySelector('.dnb-date-picker').getAttribute('class')
+    ).not.toContain('dnb-date-picker--opened')
+  })
+
+  it('will close the picker on click outside when `onShow` callback sets a state', async () => {
+    const onShow = jest.fn()
+
+    const Component = () => {
+      const [opened, setOpened] = useState(true)
+      return (
+        <DatePicker
+          date="2025-02-21"
+          showInput
+          showSubmitButton
+          onShow={() => {
+            onShow()
+            setOpened(!opened)
+          }}
+        />
+      )
+    }
+
+    render(<Component />)
+
+    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    expect(onShow).toHaveBeenCalledTimes(1)
+
+    expect(
+      document
+        .querySelector('button.dnb-input__submit-button__button')
 
         .getAttribute('aria-expanded')
     ).toBe('true')
 
     expect(
-      document
-        .querySelector('.dnb-date-picker')
-
-        .getAttribute('class')
+      document.querySelector('.dnb-date-picker').getAttribute('class')
     ).toContain('dnb-date-picker--opened')
 
+    await userEvent.click(screen.getByLabelText('lørdag 22. februar 2025'))
     await userEvent.click(document.body)
+    expect(onShow).toHaveBeenCalledTimes(1)
 
     expect(
       document
