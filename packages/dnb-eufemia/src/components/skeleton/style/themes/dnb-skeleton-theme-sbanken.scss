@@ -1,7 +1,5 @@
-/*
- * No theme is provided
- *
- * Theming variables for the Skeleton component is required globally
- * and is thus defined in src/style/themes/theme-sbanken/customisations.scss
- *
- */
+.dnb-skeleton {
+  // Skeleton
+  --skeleton-color: var(--sb-color-gray-light-2);
+  --skeleton-color--contrast: var(--sb-color-white);
+}

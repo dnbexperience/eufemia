@@ -1,7 +1,5 @@
-/*
- * No theme is provided
- *
- * Theming variables for the Skeleton component is required globally
- * and is thus defined in src/style/themes/theme-ui/ui-theme-basis.scss
- *
- */
+.dnb-skeleton {
+  // Skeleton
+  --skeleton-color: var(--color-black-8);
+  --skeleton-color--contrast: var(--color-white);
+}
