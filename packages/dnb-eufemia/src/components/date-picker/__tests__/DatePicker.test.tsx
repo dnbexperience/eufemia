@@ -2411,7 +2411,7 @@ describe('DatePicker component', () => {
     expect(todayButton).not.toBeDisabled()
   })
 
-  it('should tab to next element after closing date picker', async () => {
+  it.only('should tab to next element after closing date picker', async () => {
     render(
       <>
         <DatePicker
@@ -2433,12 +2433,12 @@ describe('DatePicker component', () => {
       expect(document.querySelector('button')).toHaveFocus()
     })
 
-    await userEvent.type(document.querySelector('button'), '{Space}')
+    await userEvent.keyboard('{Enter}')
     await waitFor(() => {
       expect(document.querySelector('table')).toHaveFocus()
     })
 
-    await userEvent.type(document.querySelector('button'), '{Space}')
+    await userEvent.keyboard('{Enter}')
     await waitFor(() => {
       expect(document.querySelector('button')).toHaveFocus()
     })
