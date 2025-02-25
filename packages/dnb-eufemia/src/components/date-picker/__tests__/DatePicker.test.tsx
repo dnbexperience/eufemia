@@ -25,6 +25,7 @@ import {
 } from '../DatePickerCalc'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import { Provider } from '../../../shared'
+import Input from '../../input/Input'
 
 describe('DatePicker component', () => {
   it('renders with props as an object', () => {
@@ -2408,6 +2409,44 @@ describe('DatePicker component', () => {
     )
 
     expect(todayButton).not.toBeDisabled()
+  })
+
+  it('should tab to next element after closing date picker', async () => {
+    render(
+      <>
+        <DatePicker
+          noAnimation={true}
+          showInput
+          date={new Date('2025-02-12')}
+        />
+        <Input id="my-input" />
+      </>
+    )
+
+    expect(document.body).toHaveFocus()
+
+    await userEvent.tab()
+    await userEvent.tab()
+    await userEvent.tab()
+    await userEvent.tab()
+    await waitFor(() => {
+      expect(document.querySelector('button')).toHaveFocus()
+    })
+
+    await userEvent.type(document.querySelector('button'), '{Space}')
+    await waitFor(() => {
+      expect(document.querySelector('table')).toHaveFocus()
+    })
+
+    await userEvent.type(document.querySelector('button'), '{Space}')
+    await waitFor(() => {
+      expect(document.querySelector('button')).toHaveFocus()
+    })
+
+    await userEvent.tab()
+    await waitFor(() => {
+      expect(document.querySelector('#my-input')).toHaveFocus()
+    })
   })
 })
 
