@@ -23,6 +23,7 @@ const {
   labelSrOnly,
   suffix,
   stretch,
+  size,
   '[Space](/uilib/layout/space/properties)': space,
   ...datePickerProperties
 } = DatePickerProperties
@@ -48,6 +49,10 @@ export const DateProperties: PropertiesTableProps = {
   showResetButton: {
     ...showResetButton,
     doc: 'If set to `true`, a reset button will be shown. You can change the default text by using `resetButtonText="Tilbakestill"` Defaults to `true`.',
+  },
+  size: {
+    ...size,
+    doc: `${size.doc} Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).`,
   },
   ...datePickerProperties,
 }
