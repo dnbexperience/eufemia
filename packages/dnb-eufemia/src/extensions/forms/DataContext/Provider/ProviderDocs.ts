@@ -105,7 +105,7 @@ export const ProviderEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onSubmitRequest: {
-    doc: 'Will be called when the user tries to submit, but errors stop the data from being submitted.',
+    doc: 'Will be called when the user tries to submit, but errors stop the data from being submitted. The first parameter is an object containing the `errors` array. Each error object contains the `path`, `error` and `props` of the field. You can use this to log the errors before the form is submitted.',
     type: 'function',
     status: 'optional',
   },

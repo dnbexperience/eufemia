@@ -17,3 +17,18 @@ import * as Examples from './Examples'
 ### With StatusMessage
 
 <Examples.WithStatusMessage />
+
+### OnSubmitRequest
+
+You can use the `onSubmitRequest` prop on the [Form.Handler](/uilib/extensions/forms/Form/Handler/) to get visible errors before the form is submitted.
+
+```tsx
+const onSubmitRequest: OnSubmitRequest = ({ errors }) => {
+  errors.forEach(({ path, error, props }) => {
+    // Do something with the error
+    console.log(props.label, error.message)
+  })
+}
+```
+
+<Examples.OnSubmitRequest />

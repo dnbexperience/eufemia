@@ -2896,4 +2896,42 @@ describe('Wizard.Container', () => {
       expect(document.querySelector('input')).toHaveValue('1234')
     })
   })
+
+  it('should call onSubmitRequest on step change', async () => {
+    const onSubmitRequest = jest.fn()
+
+    render(
+      <Form.Handler onSubmitRequest={onSubmitRequest}>
+        <Wizard.Container mode="loose">
+          <Wizard.Step title="Step 1">
+            <Form.Card>
+              <Field.String path="/bar" label="Bar" required />
+            </Form.Card>
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 2">
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>
+    )
+
+    await userEvent.click(nextButton())
+
+    expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+    expect(onSubmitRequest).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        errors: [
+          {
+            path: '/bar',
+            error: new Error(nb.Field.errorRequired),
+            props: expect.objectContaining({
+              label: 'Bar',
+            }),
+          },
+        ],
+      })
+    )
+  })
 })

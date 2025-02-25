@@ -673,6 +673,11 @@ export type OnSubmit<Data = JsonObject> = (
     clearData,
   }: OnSubmitParams
 ) => OnSubmitReturn
+export type OnSubmitRequest = ({
+  errors,
+}: {
+  errors: Array<{ path: Path; error: Error; props: FieldProps }>
+}) => void
 
 export type OnCommit<Data = JsonObject> = (
   data: Data,

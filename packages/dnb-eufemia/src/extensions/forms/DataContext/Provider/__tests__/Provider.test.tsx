@@ -928,7 +928,7 @@ describe('DataContext.Provider', () => {
       fireEvent.click(submitButton)
 
       expect(onSubmitRequest).toHaveBeenCalledTimes(1)
-      expect(onSubmitRequest).toHaveBeenCalledWith()
+      expect(onSubmitRequest).toHaveBeenCalledWith(expect.anything())
 
       rerender(
         <DataContext.Provider
@@ -943,7 +943,7 @@ describe('DataContext.Provider', () => {
       fireEvent.click(submitButton)
 
       expect(onSubmitRequest).toHaveBeenCalledTimes(2)
-      expect(onSubmitRequest).toHaveBeenLastCalledWith()
+      expect(onSubmitRequest).toHaveBeenLastCalledWith(expect.anything())
 
       log.mockRestore()
     })
@@ -2834,70 +2834,152 @@ describe('DataContext.Provider', () => {
       ).toBeInTheDocument()
     })
 
-    it('should call "onSubmitRequest" on invalid submit set by a schema', () => {
-      const log = jest.spyOn(console, 'error').mockImplementation()
+    describe('onSubmitRequest', () => {
+      it('should get called on invalid submit set by a schema', () => {
+        const log = jest.spyOn(console, 'error').mockImplementation()
 
-      const onSubmitRequest = jest.fn()
+        const onSubmitRequest = jest.fn()
 
-      const Schema: JSONSchema = {
-        type: 'object',
-        properties: {
-          foo: { type: 'number', minimum: 3 },
-        },
-      }
+        const Schema: JSONSchema = {
+          type: 'object',
+          properties: {
+            foo: { type: 'number', minimum: 3 },
+          },
+        }
 
-      const { rerender } = render(
-        <DataContext.Provider
-          data={{ foo: 'original' }}
-          onSubmitRequest={onSubmitRequest}
-          schema={Schema}
-        >
-          <Field.Number path="/foo" />
-          <Form.SubmitButton />
-        </DataContext.Provider>
-      )
+        const { rerender } = render(
+          <DataContext.Provider
+            data={{ foo: 'original' }}
+            onSubmitRequest={onSubmitRequest}
+            schema={Schema}
+          >
+            <Field.Number path="/foo" />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
 
-      const inputElement = document.querySelector('input')
-      const submitButton = document.querySelector('button')
+        const inputElement = document.querySelector('input')
+        const submitButton = document.querySelector('button')
 
-      fireEvent.change(inputElement, {
-        target: { value: '1' },
+        fireEvent.change(inputElement, {
+          target: { value: '1' },
+        })
+        fireEvent.click(submitButton)
+
+        expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+        expect(onSubmitRequest).toHaveBeenCalledWith(expect.anything())
+
+        rerender(
+          <DataContext.Provider
+            data={{ foo: 'changed' }}
+            onSubmitRequest={onSubmitRequest}
+            schema={Schema}
+          >
+            <Field.Number path="/fooBar" required />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        fireEvent.click(submitButton)
+
+        expect(onSubmitRequest).toHaveBeenCalledTimes(2)
+        expect(onSubmitRequest).toHaveBeenLastCalledWith(expect.anything())
+
+        expect(log).toHaveBeenNthCalledWith(
+          1,
+          'The field value (original) type must be number'
+        )
+        expect(log).toHaveBeenNthCalledWith(
+          2,
+          'The field at path="/foo" value (original) type must be number'
+        )
+        expect(log).toHaveBeenNthCalledWith(
+          3,
+          'The field at path="/foo" value (changed) type must be number'
+        )
+
+        log.mockRestore()
       })
-      fireEvent.click(submitButton)
 
-      expect(onSubmitRequest).toHaveBeenCalledTimes(1)
-      expect(onSubmitRequest).toHaveBeenCalledWith()
+      it('should return errors in first parameter', async () => {
+        const onSubmitRequest = jest.fn()
 
-      rerender(
-        <DataContext.Provider
-          data={{ foo: 'changed' }}
-          onSubmitRequest={onSubmitRequest}
-          schema={Schema}
-        >
-          <Field.Number path="/fooBar" required />
-          <Form.SubmitButton />
-        </DataContext.Provider>
-      )
+        render(
+          <DataContext.Provider onSubmitRequest={onSubmitRequest}>
+            <Field.String
+              label="Foo"
+              path="/foo"
+              required
+              defaultValue="foo"
+            />
+            <Field.String label="Bar" path="/bar" required />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
 
-      fireEvent.click(submitButton)
+        await userEvent.click(document.querySelector('button'))
 
-      expect(onSubmitRequest).toHaveBeenCalledTimes(2)
-      expect(onSubmitRequest).toHaveBeenLastCalledWith()
+        expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+        expect(onSubmitRequest).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            errors: [
+              {
+                path: '/bar',
+                error: new Error(nb.Field.errorRequired),
+                props: expect.objectContaining({
+                  label: 'Bar',
+                }),
+              },
+            ],
+          })
+        )
 
-      expect(log).toHaveBeenNthCalledWith(
-        1,
-        'The field value (original) type must be number'
-      )
-      expect(log).toHaveBeenNthCalledWith(
-        2,
-        'The field at path="/foo" value (original) type must be number'
-      )
-      expect(log).toHaveBeenNthCalledWith(
-        3,
-        'The field at path="/foo" value (changed) type must be number'
-      )
+        await userEvent.type(
+          document.querySelector('input'),
+          '{Backspace>3}'
+        )
+        await userEvent.click(document.querySelector('button'))
 
-      log.mockRestore()
+        expect(onSubmitRequest).toHaveBeenCalledTimes(2)
+        expect(onSubmitRequest).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            errors: [
+              {
+                path: '/bar',
+                error: new Error(nb.Field.errorRequired),
+                props: expect.objectContaining({
+                  label: 'Bar',
+                }),
+              },
+              {
+                path: '/foo',
+                error: new Error(nb.Field.errorRequired),
+                props: expect.objectContaining({
+                  label: 'Foo',
+                }),
+              },
+            ],
+          })
+        )
+
+        await userEvent.type(document.querySelector('input'), 'foo')
+        await userEvent.click(document.querySelector('button'))
+
+        expect(onSubmitRequest).toHaveBeenCalledTimes(3)
+        expect(onSubmitRequest).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            errors: [
+              {
+                path: '/bar',
+                error: new Error(nb.Field.errorRequired),
+                props: expect.objectContaining({
+                  label: 'Bar',
+                }),
+              },
+            ],
+          })
+        )
+      })
     })
 
     it('should revalidate with provided schema based on changes in external data using deprecated continuousValidation', () => {

@@ -26,6 +26,7 @@ import {
   ValueProps,
   OnSubmitParams,
   OnSubmitReturn,
+  OnSubmitRequest,
 } from '../../types'
 import type { IsolationProviderProps } from '../../Form/Isolation/Isolation'
 import { debounce } from '../../../../shared/helpers'
@@ -147,7 +148,7 @@ export type Props<Data extends JsonObject> =
     /**
      * Submit was requested, but data was invalid
      */
-    onSubmitRequest?: () => void
+    onSubmitRequest?: OnSubmitRequest
     /**
      * Will be called when the onSubmit is finished and had not errors
      */
@@ -1076,9 +1077,19 @@ export default function Provider<Data extends JsonObject>(
           }
         }
 
-        onSubmitRequest?.()
-
         setShowAllErrors(true)
+
+        onSubmitRequest?.({
+          errors: Object.entries(fieldErrorRef.current)
+            .map(([path, error]) => {
+              return {
+                path,
+                error,
+                props: fieldInternalsRef.current[path]?.props,
+              }
+            })
+            .filter(({ error }) => error),
+        })
       }
 
       return result
