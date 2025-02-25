@@ -34,11 +34,15 @@ export type Props = Omit<ValueProps<unknown>, 'value'> & {
   forId?: string
 
   /**
-   * Provide help content for the field.
+   * Provide help content for the value.
    */
   help?: HelpProps
 
-  children?: React.ReactNode
+  /**
+   * The layout of the value block.
+   * (Undocumented for now, as there is only one layout option.)
+   */
+  layout?: 'vertical'
 
   /**
    * Used internally by the Composition component
@@ -49,6 +53,8 @@ export type Props = Omit<ValueProps<unknown>, 'value'> & {
    * Used internally by the Composition component
    */
   gap?: 'xx-small' | 'x-small' | 'small' | 'medium' | 'large' | false
+
+  children?: React.ReactNode
 }
 
 function ValueBlock(props: Props) {
@@ -73,6 +79,7 @@ function ValueBlock(props: Props) {
     children,
     composition,
     help,
+    layout = 'vertical',
     gap = 'xx-small',
   } = props
 
@@ -122,7 +129,8 @@ function ValueBlock(props: Props) {
     )
   const defaultClass = classnames(
     'dnb-forms-value-block__content',
-    `dnb-forms-value-block__content--gap-${gap === false ? 'none' : gap}`
+    `dnb-forms-value-block__content--gap-${gap === false ? 'none' : gap}`,
+    maxWidth && `dnb-forms-value-block--max-width-${maxWidth}`
   )
 
   const hasHelp = help?.title || help?.content
@@ -154,6 +162,9 @@ function ValueBlock(props: Props) {
             >
               <VisibilityWrapper>
                 {label && <strong>{label}</strong>}
+                {hasHelp && (
+                  <HelpButtonInline contentId={`${id}-help`} help={help} />
+                )}
               </VisibilityWrapper>
             </Dt>
             <Dd
@@ -166,6 +177,15 @@ function ValueBlock(props: Props) {
               )}
             >
               <VisibilityWrapper>
+                {hasHelp && (
+                  <HelpButtonInlineContent
+                    contentId={`${id}-help`}
+                    className="dnb-forms-value-block__help"
+                    help={help}
+                    breakout={layout === 'vertical'}
+                    outset={layout === 'vertical'}
+                  />
+                )}
                 {children ? (
                   <span className={defaultClass}>{children}</span>
                 ) : (
@@ -186,7 +206,6 @@ function ValueBlock(props: Props) {
         className={classnames(
           'dnb-forms-value-block',
           inline && 'dnb-forms-value-block--inline',
-          maxWidth && `dnb-forms-value-block--max-width-${maxWidth}`,
           compositionClass,
           className
         )}
@@ -217,7 +236,7 @@ function ValueBlock(props: Props) {
             className="dnb-forms-value-block__help"
             help={help}
             breakout={layout === 'vertical'}
-            outset={layout !== 'horizontal'}
+            outset={layout === 'vertical'}
           />
         )}
         {children ? (
