@@ -473,11 +473,11 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       try {
         const isDate = target
           .getAttribute('class')
-          .match(/__input--([day|month|year]+)($|\s)/)[1]
+          .match(/__input--(day|month|year)($|\s)/)[1]
 
         const isInRange = target
           .getAttribute('id')
-          .match(/-(start|end)-/)[1]
+          .match(/-(start|end)-(day|month|year)/)[1]
 
         let date = isInRange === 'start' ? startDate : endDate
 

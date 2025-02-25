@@ -1651,4 +1651,37 @@ describe('Field.Date', () => {
       )
     })
   })
+
+  it('should support keyboard interactions in range mode when id includes start or end', async () => {
+    const onChange = jest.fn()
+
+    render(
+      <Field.Date
+        id="id-end-start-something"
+        value="2025-01-01|2025-01-31"
+        range
+        onChange={onChange}
+      />
+    )
+
+    const [startMonth, endMonth] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input--month')
+    ) as Array<HTMLInputElement>
+
+    await userEvent.type(startMonth, '{ArrowDown}')
+    await userEvent.type(endMonth, '{ArrowUp}')
+    await userEvent.click(document.body)
+
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenNthCalledWith(
+      1,
+      '2024-12-01|2025-01-31',
+      expect.anything()
+    )
+    expect(onChange).toHaveBeenNthCalledWith(
+      2,
+      '2024-12-01|2025-02-28',
+      expect.anything()
+    )
+  })
 })
