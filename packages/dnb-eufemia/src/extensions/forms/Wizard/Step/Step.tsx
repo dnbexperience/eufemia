@@ -63,7 +63,7 @@ export type Props = ComponentProps &
     prerenderFieldProps?: boolean
   }
 
-function handleDeprecatedProps({
+export function handleDeprecatedProps({
   active,
   activeWhen,
   include,

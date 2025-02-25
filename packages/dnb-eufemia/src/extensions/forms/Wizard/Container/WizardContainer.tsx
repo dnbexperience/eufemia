@@ -14,7 +14,10 @@ import {
 } from '../../../../shared/component-helper'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import useId from '../../../../shared/helpers/useId'
-import Step, { Props as StepProps } from '../Step'
+import Step, {
+  Props as StepProps,
+  handleDeprecatedProps as handleDeprecatedStepProps,
+} from '../Step'
 import WizardContext, {
   OnStepChange,
   OnStepChangeOptions,
@@ -491,13 +494,18 @@ function IterateOverSteps({ children }) {
       }
 
       if (child?.type === Step) {
-        if (child.props.include === false) {
+        const { title, inactive, include, includeWhen, id } =
+          handleDeprecatedStepProps(child.props)
+
+        if (include === false) {
           return null
         }
 
         if (
-          child.props.includeWhen &&
-          !check({ visibleWhen: child.props.includeWhen })
+          includeWhen &&
+          !check({
+            visibleWhen: includeWhen,
+          })
         ) {
           return null
         }
@@ -506,12 +514,12 @@ function IterateOverSteps({ children }) {
         const index = incrementIndex
 
         stepsRef.current[index] = {
-          id: child.props.id,
+          id,
           title:
-            child.props.title !== undefined
-              ? convertJsxToString(child.props.title)
+            title !== undefined
+              ? convertJsxToString(title)
               : 'Title missing',
-          inactive: child.props.inactive,
+          inactive,
         }
         const key = `${index}-${activeIndexRef.current}`
         const clone = (props) =>
