@@ -181,16 +181,20 @@ function PushContainer(props: AllProps) {
     }
   }, [dataProp, defaultDataProp, isolatedData])
 
+  if (outerData) {
+    // Use assign to avoid mutating the original data object.
+    // Because changes from outside should only silently be applied to the
+    // data object, without triggering a rerender.
+    // This way "pushContainerItems" will not clear/unset changed data.
+    Object.assign(data, outerData)
+  }
+
   const defaultData = useMemo(() => {
     return {
       ...(!dataProp ? isolatedData : null),
       pushContainerItems: [defaultDataProp ?? clearedData],
     }
   }, [dataProp, defaultDataProp, isolatedData])
-
-  if (outerData) {
-    Object.assign(data, outerData)
-  }
 
   const emptyData = useCallback(
     (data: { pushContainerItems: unknown[] }) => {
