@@ -121,7 +121,7 @@ describe('ValueBlock', () => {
             class="dnb-forms-value-block--max-width-large dnb-dd"
           >
             <span
-              class="dnb-forms-value-block__content dnb-forms-value-block__content--gap-xx-small"
+              class="dnb-forms-value-block__content dnb-forms-value-block__content--gap-xx-small dnb-forms-value-block--max-width-large"
             >
               Value
             </span>
