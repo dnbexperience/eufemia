@@ -47,7 +47,7 @@ export const StepProperties: PropertiesTableProps = {
     status: 'deprecated',
   },
   activeWhen: {
-    doc: 'Deprecated, use `includeWhen`. Old docs: Provide a `path` and a `hasValue` property with the excepted value in order to enable the step. You can alternatively provide a `hasValue` function that returns a boolean. The first parameter is the value of the path.',
+    doc: 'Deprecated, use `includeWhen`. Old docs: Provide a `path` and a `hasValue` property with the expected value in order to enable the step. You can alternatively provide a `hasValue` function that returns a boolean. The first parameter is the value of the path.',
     type: 'object',
     status: 'deprecated',
   },
