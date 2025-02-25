@@ -2411,7 +2411,7 @@ describe('DatePicker component', () => {
     expect(todayButton).not.toBeDisabled()
   })
 
-  it.only('should tab to next element after closing date picker', async () => {
+  it('should tab to next element after closing date picker', async () => {
     render(
       <>
         <DatePicker
