@@ -52,7 +52,7 @@ export const DateProperties: PropertiesTableProps = {
   },
   size: {
     ...size,
-    doc: `${size} Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).`,
+    doc: `${size.doc} Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).`,
   },
   ...datePickerProperties,
 }

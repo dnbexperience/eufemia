@@ -15,7 +15,7 @@ export const SelectCountryProperties: PropertiesTableProps = {
   },
   size: {
     ...autocompleteProperties.size,
-    doc: `${autocompleteProperties.size} Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).`,
+    doc: `${autocompleteProperties.size.doc} Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).`,
   },
 }
 
