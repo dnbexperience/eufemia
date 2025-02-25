@@ -1705,4 +1705,44 @@ describe('Form.Isolation', () => {
       expect(onCommit).toHaveBeenCalledTimes(1)
     })
   })
+
+  describe('Visibility', () => {
+    it('should show the children initially', () => {
+      render(
+        <Form.Handler
+          defaultData={{
+            isVisible: true,
+          }}
+        >
+          <Form.Isolation>
+            <Form.Visibility pathTrue="/isVisible">
+              <output>content</output>
+            </Form.Visibility>
+          </Form.Isolation>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('output')).toBeInTheDocument()
+    })
+
+    it('should support Visibility', async () => {
+      render(
+        <Form.Handler>
+          <Field.Boolean variant="button" path="/isVisible" />
+
+          <Form.Isolation>
+            <Form.Visibility pathTrue="/isVisible">
+              <output>content</output>
+            </Form.Visibility>
+          </Form.Isolation>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('output')).toBeNull()
+
+      await userEvent.click(document.querySelector('button'))
+
+      expect(document.querySelector('output')).toBeInTheDocument()
+    })
+  })
 })

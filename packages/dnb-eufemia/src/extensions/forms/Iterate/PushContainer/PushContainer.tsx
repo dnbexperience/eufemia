@@ -120,7 +120,8 @@ export type AllProps = Props & SpacingProps & ArrayItemAreaProps
 
 function PushContainer(props: AllProps) {
   const [, forceUpdate] = useReducer(() => ({}), {})
-  const requiredInherited = useContext(DataContext)?.required
+  const { data: outerData, required: requiredInherited } =
+    useContext(DataContext) || {}
 
   const {
     data: dataProp,
@@ -186,6 +187,10 @@ function PushContainer(props: AllProps) {
       pushContainerItems: [defaultDataProp ?? clearedData],
     }
   }, [dataProp, defaultDataProp, isolatedData])
+
+  if (outerData) {
+    Object.assign(data, outerData)
+  }
 
   const emptyData = useCallback(
     (data: { pushContainerItems: unknown[] }) => {
