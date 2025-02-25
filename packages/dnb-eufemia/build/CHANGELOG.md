@@ -3,6 +3,14 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.65.1](https://github.com/dnbexperience/eufemia/compare/v10.65.0...v10.65.1) (2025-02-25)
+
+
+### :bug: Bug Fixes
+
+* **DatePicker:** correct focus behaviour when picker has closed ([#4622](https://github.com/dnbexperience/eufemia/issues/4622)) ([b20ed69](https://github.com/dnbexperience/eufemia/commit/b20ed69acb621a2d42ce0097f483c1e958f0c8b3))
+* **Forms:** add support for using Visibility inside PushContainer ([#4623](https://github.com/dnbexperience/eufemia/issues/4623)) ([d333f38](https://github.com/dnbexperience/eufemia/commit/d333f38e0e7ab93a6299d4bf99334673a07d78ac))
+
 ## [10.65.0](https://github.com/dnbexperience/eufemia/compare/v10.64.1...v10.65.0) (2025-02-25)
 
 
