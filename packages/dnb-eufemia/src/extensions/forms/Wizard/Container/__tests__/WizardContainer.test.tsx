@@ -656,6 +656,480 @@ describe('Wizard.Container', () => {
   })
 
   describe('dynamic steps', () => {
+    it('should not render excluded steps', () => {
+      render(
+        <Wizard.Container mode="loose">
+          <Wizard.Step title="Step 1" include={false}>
+            <output>Step 1</output>
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 2">
+            <output>Step 2</output>
+          </Wizard.Step>
+        </Wizard.Container>
+      )
+
+      expect(output()).toHaveTextContent('Step 2')
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(1)
+    })
+
+    it('should render dynamically enabled steps', () => {
+      const { rerender } = render(
+        <Wizard.Container mode="loose">
+          <Wizard.Step title="Step 1" include={false}>
+            <output>Step 1</output>
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 2">
+            <output>Step 2</output>
+          </Wizard.Step>
+        </Wizard.Container>
+      )
+
+      expect(output()).toHaveTextContent('Step 2')
+      expect(
+        document.querySelector('.dnb-step-indicator')
+      ).toHaveTextContent('Steg 1 av 1')
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(1)
+
+      rerender(
+        <Wizard.Container mode="loose">
+          <Wizard.Step title="Step 1">
+            <output>Step 1</output>
+            <Field.String path="/something" />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 2">
+            <output>Step 2</output>
+          </Wizard.Step>
+        </Wizard.Container>
+      )
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(
+        document.querySelector('.dnb-step-indicator')
+      ).toHaveTextContent('Steg 2 av 2')
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(2)
+
+      rerender(
+        <Wizard.Container mode="loose">
+          <Wizard.Step title="Step 1" include={false}>
+            <output>Step 1</output>
+            <Field.String path="/something" />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 2">
+            <output>Step 2</output>
+          </Wizard.Step>
+        </Wizard.Container>
+      )
+
+      expect(output()).toHaveTextContent('Step 2')
+      expect(
+        document.querySelector('.dnb-step-indicator')
+      ).toHaveTextContent('Steg 1 av 1')
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(1)
+
+      rerender(
+        <Wizard.Container mode="loose">
+          <Wizard.Step title="Step 1" include={false}>
+            <output>Step 1</output>
+            <Field.String path="/something" />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 2" include={false}>
+            <output>Step 2</output>
+          </Wizard.Step>
+        </Wizard.Container>
+      )
+
+      expect(output()).toBeNull()
+      expect(
+        document.querySelector('.dnb-step-indicator')
+      ).toHaveTextContent('')
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(0)
+    })
+
+    it('should update include steps without rerendering', async () => {
+      const initialData = {
+        showStep1: true,
+        showStep2: true,
+      }
+
+      const Step1 = () => {
+        const { data } = Form.useData<typeof initialData>()
+        return (
+          <Wizard.Step title="Step 1" include={data?.showStep1}>
+            <output>Step 1</output>
+            <Field.Boolean id="toggleStep2" path="/showStep2" />
+            <Wizard.Buttons />
+          </Wizard.Step>
+        )
+      }
+
+      const Step2 = () => {
+        const { data } = Form.useData<typeof initialData>()
+        return (
+          <Wizard.Step title="Step 2" include={data?.showStep2}>
+            <output>Step 2</output>
+            <Field.Boolean id="toggleStep1" path="/showStep1" />
+            <Wizard.Buttons />
+          </Wizard.Step>
+        )
+      }
+
+      const MyForm = () => {
+        return (
+          <Form.Handler defaultData={initialData}>
+            <Wizard.Container>
+              <Step1 />
+              <Step2 />
+            </Wizard.Container>
+          </Form.Handler>
+        )
+      }
+
+      render(<MyForm />)
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(2)
+      expect(previousButton()).toBeNull()
+      expect(nextButton()).toBeInTheDocument()
+
+      await userEvent.click(document.querySelector('#toggleStep2'))
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(1)
+      expect(previousButton()).toBeNull()
+      expect(nextButton()).not.toBeInTheDocument()
+
+      await userEvent.click(document.querySelector('#toggleStep2'))
+
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(2)
+      expect(previousButton()).toBeNull()
+      expect(nextButton()).toBeInTheDocument()
+    })
+
+    it('should not render excluded steps based on paths and includeWhen', () => {
+      render(
+        <Form.Handler
+          data={{
+            enabledStep: 'does not match',
+          }}
+        >
+          <Wizard.Container mode="loose">
+            <Wizard.Step
+              title="Step 1"
+              includeWhen={{ path: '/enabledStep', hasValue: 'match me' }}
+            >
+              <output>Step 1</output>
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      expect(output()).toHaveTextContent('Step 2')
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(1)
+    })
+
+    it('should render excluded steps based on paths and includeWhen with hasValue', () => {
+      render(
+        <Form.Handler defaultData={{ enabledStep: 'group-1' }}>
+          <Wizard.Container mode="loose">
+            <Wizard.Step
+              title="Step 1"
+              includeWhen={{
+                path: '/enabledStep',
+                hasValue: (value) => {
+                  return value === 'group-1'
+                },
+              }}
+            >
+              <output>Step 1</output>
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(2)
+    })
+
+    it('should render dynamically enabled steps based on paths and includeWhen', async () => {
+      render(
+        <Form.Handler defaultData={{ enabledStep: 'group-2' }}>
+          <Field.Selection path="/enabledStep" variant="button">
+            <Field.Option value="group-1" title="1" />
+            <Field.Option value="group-2" title="2" />
+            <Field.Option value="invalid" title="invalid" />
+          </Field.Selection>
+
+          <Wizard.Container mode="loose">
+            <Wizard.Step
+              title="Step 1"
+              includeWhen={{ path: '/enabledStep', hasValue: 'group-1' }}
+            >
+              <output>Step 1</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step
+              title="Step 2"
+              includeWhen={{ path: '/enabledStep', hasValue: 'group-2' }}
+            >
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step
+              title="Step 3"
+              includeWhen={{
+                path: '/enabledStep',
+                hasValue: (value) => {
+                  return value === 'group-1'
+                },
+              }}
+            >
+              <output>Step 3</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      const [groupOne, groupTwo] = Array.from(
+        document.querySelectorAll('.dnb-toggle-button button')
+      )
+
+      expect(output()).toHaveTextContent('Step 2')
+      expect(
+        document.querySelector('.dnb-step-indicator')
+      ).toHaveTextContent('Steg 1 av 1')
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(1)
+      expect(previousButton()).toBeNull()
+      expect(nextButton()).toBeNull()
+
+      await userEvent.click(groupOne)
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(
+        document.querySelector('.dnb-step-indicator')
+      ).toHaveTextContent('Steg 1 av 2')
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(2)
+      expect(previousButton()).toBeNull()
+      expect(nextButton()).toBeInTheDocument()
+
+      await userEvent.click(groupTwo)
+
+      expect(output()).toHaveTextContent('Step 2')
+      expect(
+        document.querySelector('.dnb-step-indicator')
+      ).toHaveTextContent('Steg 1 av 1')
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(1)
+      expect(previousButton()).toBeNull()
+      expect(nextButton()).toBeNull()
+
+      await userEvent.click(
+        document.querySelectorAll('.dnb-toggle-button button')[2]
+      )
+
+      expect(output()).toBeNull()
+      expect(
+        document.querySelector('.dnb-step-indicator')
+      ).toHaveTextContent('')
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(0)
+      expect(previousButton()).toBeNull()
+      expect(nextButton()).toBeNull()
+    })
+
+    it('should provide "id" prop and "same" mode in "onStepChange"', async () => {
+      const onStepChange = jest.fn(async () => null)
+
+      render(
+        <Form.Handler defaultData={{ enabledStep: 'group-2' }}>
+          <Field.Selection path="/enabledStep" variant="button">
+            <Field.Option value="group-1" title="1" />
+            <Field.Option value="group-2" title="2" />
+          </Field.Selection>
+
+          <Wizard.Container mode="loose" onStepChange={onStepChange}>
+            <Wizard.Step
+              title="Step 1"
+              id="step-1"
+              includeWhen={{ path: '/enabledStep', hasValue: 'group-1' }}
+            >
+              <output>Step 1</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step
+              title="Step 2"
+              id="step-2"
+              includeWhen={{ path: '/enabledStep', hasValue: 'group-2' }}
+            >
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step
+              title="Step 3"
+              id="step-3"
+              includeWhen={{ path: '/enabledStep', hasValue: 'group-1' }}
+            >
+              <output>Step 3</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      expect(output()).toHaveTextContent('Step 2')
+      expect(onStepChange).toHaveBeenCalledTimes(0)
+
+      const [groupOne, groupTwo] = Array.from(
+        document.querySelectorAll('.dnb-toggle-button button')
+      )
+
+      await userEvent.click(groupOne)
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(onStepChange).toHaveBeenCalledTimes(1)
+      expect(onStepChange).toHaveBeenLastCalledWith(
+        0,
+        'stepListModified',
+        {
+          id: 'step-1',
+          previousStep: { index: 0, id: 'step-1' },
+          preventNavigation: expect.any(Function),
+        }
+      )
+
+      await userEvent.click(groupTwo)
+
+      expect(output()).toHaveTextContent('Step 2')
+      expect(onStepChange).toHaveBeenCalledTimes(2)
+      expect(onStepChange).toHaveBeenLastCalledWith(
+        0,
+        'stepListModified',
+        {
+          id: 'step-2',
+          previousStep: { index: 0, id: 'step-2' },
+          preventNavigation: expect.any(Function),
+        }
+      )
+
+      await userEvent.click(groupOne)
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(onStepChange).toHaveBeenCalledTimes(3)
+      expect(onStepChange).toHaveBeenLastCalledWith(
+        0,
+        'stepListModified',
+        {
+          id: 'step-1',
+          previousStep: { index: 0, id: 'step-1' },
+          preventNavigation: expect.any(Function),
+        }
+      )
+
+      await userEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 3')
+      expect(onStepChange).toHaveBeenCalledTimes(4)
+      expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
+        id: 'step-3',
+        previousStep: { index: 0, id: 'step-1' },
+        preventNavigation: expect.any(Function),
+      })
+
+      await userEvent.click(groupTwo)
+
+      expect(output()).toHaveTextContent('Step 2')
+      expect(onStepChange).toHaveBeenCalledTimes(5)
+      expect(onStepChange).toHaveBeenLastCalledWith(
+        0,
+        'stepListModified',
+        {
+          id: 'step-2',
+          previousStep: { index: 0, id: 'step-2' },
+          preventNavigation: expect.any(Function),
+        }
+      )
+
+      await userEvent.click(groupOne)
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(onStepChange).toHaveBeenCalledTimes(6)
+      expect(onStepChange).toHaveBeenLastCalledWith(
+        0,
+        'stepListModified',
+        {
+          id: 'step-1',
+          previousStep: { index: 0, id: 'step-1' },
+          preventNavigation: expect.any(Function),
+        }
+      )
+
+      await userEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 3')
+      expect(onStepChange).toHaveBeenCalledTimes(7)
+      expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
+        id: 'step-3',
+        previousStep: { index: 0, id: 'step-1' },
+        preventNavigation: expect.any(Function),
+      })
+
+      await userEvent.click(previousButton())
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(onStepChange).toHaveBeenCalledTimes(8)
+      expect(onStepChange).toHaveBeenLastCalledWith(0, 'previous', {
+        id: 'step-1',
+        previousStep: { index: 1, id: 'step-3' },
+        preventNavigation: expect.any(Function),
+      })
+    })
+  })
+
+  // Deprecated – active and activeWhen is replaced with include and includeWhen - can be removed in v11
+  describe('dynamic steps - active & activeWhen', () => {
     it('should not render inactive steps', () => {
       render(
         <Wizard.Container mode="loose">

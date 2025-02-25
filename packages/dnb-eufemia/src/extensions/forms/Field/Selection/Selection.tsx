@@ -31,6 +31,10 @@ import {
 } from '../../../../shared/helpers/withCamelCaseProps'
 import useDataValue from '../../hooks/useDataValue'
 import { FormError } from '../../utils'
+import type { RadioProps } from '../../../../components/Radio'
+import type { ToggleButtonProps } from '../../../../components/ToggleButton'
+import type { RadioGroupProps } from '../../../../components/radio/RadioGroup'
+import type { ToggleButtonGroupProps } from '../../../../components/toggle-button/ToggleButtonGroup'
 
 type IOption = {
   title: string | React.ReactNode
@@ -92,6 +96,15 @@ export type Props = FieldProps<IOption['value']> & {
   dropdownProps?: ToCamelCase<DropdownAllProps>
 
   /**
+   * The size of the component.
+   */
+  size?:
+    | ToggleButtonGroupProps['size']
+    | RadioGroupProps['size']
+    | AutocompleteAllProps['size']
+    | DropdownAllProps['size']
+
+  /**
    * The content of the component.
    */
   children?: React.ReactNode
@@ -113,6 +126,7 @@ function Selection(props: Props) {
     error,
     hasError,
     disabled,
+    size,
     emptyValue,
     width = 'large',
     htmlAttributes,
@@ -210,13 +224,17 @@ function Selection(props: Props) {
         },
       })
 
+      const additionalFieldBlockProps: FieldBlockProps = {
+        asFieldset: React.Children.count(items) > 1,
+      }
+      if (!size) {
+        additionalFieldBlockProps.labelHeight = 'small'
+      }
+
       return (
-        <FieldBlock
-          {...fieldBlockProps}
-          labelHeight="small"
-          asFieldset={React.Children.count(items) > 1}
-        >
+        <FieldBlock {...fieldBlockProps} {...additionalFieldBlockProps}>
           <Component.Group
+            size={size}
             className={cn}
             layout_direction={
               optionsLayout === 'horizontal' ? 'row' : 'column'
@@ -251,6 +269,7 @@ function Selection(props: Props) {
         disabled,
         ...htmlAttributes,
         data,
+        size,
         on_change: handleDropdownChange,
         on_show: handleShow,
         on_hide: handleHide,
@@ -299,6 +318,7 @@ type OptionProps = React.ComponentProps<
     help: HelpProps
     title: React.ReactNode
     children: React.ReactNode
+    size?: ToggleButtonProps['size'] | RadioProps['size']
   }>
 >
 
@@ -332,7 +352,7 @@ function renderRadioItems({
     React.Children.count(children) + (dataList?.length || 0)
 
   const createOption = (props: OptionProps, i: number) => {
-    const { value, title, children, error, help, ...rest } = props
+    const { value, title, children, error, help, size, ...rest } = props
 
     const label = title ?? children
     const suffix = help ? (
@@ -358,6 +378,7 @@ function renderRadioItems({
           (hasError || checkForError([error, info, warning])) && 'error'
         }
         suffix={suffix}
+        size={size}
         {...htmlAttributes}
         {...rest}
       />

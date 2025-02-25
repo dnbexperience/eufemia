@@ -1,4 +1,5 @@
 import { PropertiesTableProps } from '../../../../shared/types'
+import { ToggleProperties } from '../Toggle/ToggleDocs'
 
 export const BooleanProperties: PropertiesTableProps = {
   trueText: {
@@ -16,4 +17,5 @@ export const BooleanProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  size: ToggleProperties.size,
 }

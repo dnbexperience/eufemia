@@ -57,7 +57,10 @@ export const numberProperties: PropertiesTableProps = {
     type: ['string', 'false'],
     status: 'optional',
   },
-  size: inputProperties.size,
+  size: {
+    ...inputProperties.size,
+    doc: `${inputProperties.size.doc} Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).`,
+  },
   align: {
     doc: 'Lateral alignment of contents of input field, one of `left` (default), `center`, or `right`.',
     type: 'string',

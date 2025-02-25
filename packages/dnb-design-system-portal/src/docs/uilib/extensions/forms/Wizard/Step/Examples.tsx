@@ -10,7 +10,7 @@ import {
 export const DynamicSteps = () => {
   return (
     <ComponentBox>
-      <Form.Handler defaultData={{ activeSteps: 'group-1' }}>
+      <Form.Handler defaultData={{ includedSteps: 'group-1' }}>
         <Wizard.Container
           onStepChange={(index, mode, args) => {
             console.log('onStepChange', index, mode, args.id)
@@ -19,7 +19,7 @@ export const DynamicSteps = () => {
           <Wizard.Step
             title="Step A"
             id="step-a"
-            activeWhen={{ path: '/activeSteps', hasValue: 'group-1' }}
+            includeWhen={{ path: '/includedSteps', hasValue: 'group-1' }}
           >
             <Form.MainHeading>Step A</Form.MainHeading>
             <Wizard.Buttons />
@@ -28,7 +28,7 @@ export const DynamicSteps = () => {
           <Wizard.Step
             title="Step B"
             id="step-b"
-            activeWhen={{ path: '/activeSteps', hasValue: 'group-1' }}
+            includeWhen={{ path: '/includedSteps', hasValue: 'group-1' }}
           >
             <Form.MainHeading>Step B</Form.MainHeading>
             <Wizard.Buttons />
@@ -37,8 +37,8 @@ export const DynamicSteps = () => {
           <Wizard.Step
             title="Step C"
             id="step-c"
-            activeWhen={{
-              path: '/activeSteps',
+            includeWhen={{
+              path: '/includedSteps',
               hasValue: (value: string) =>
                 ['group-1', 'group-2'].includes(value),
             }}
@@ -50,7 +50,7 @@ export const DynamicSteps = () => {
           <Wizard.Step
             title="Step D"
             id="step-d"
-            activeWhen={{ path: '/activeSteps', hasValue: 'group-2' }}
+            includeWhen={{ path: '/includedSteps', hasValue: 'group-2' }}
           >
             <Form.MainHeading>Step D</Form.MainHeading>
             <Wizard.Buttons />
@@ -58,7 +58,7 @@ export const DynamicSteps = () => {
         </Wizard.Container>
 
         <Field.Selection
-          path="/activeSteps"
+          path="/includedSteps"
           variant="button"
           optionsLayout="horizontal"
           top
@@ -67,6 +67,43 @@ export const DynamicSteps = () => {
           <Field.Option value="group-2" title="Group 2" />
         </Field.Selection>
       </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const Inactive = () => {
+  return (
+    <ComponentBox data-visual-test="wizard-step-inactive">
+      {() => {
+        const Component = () => {
+          const { activeIndex } = Wizard.useStep('unique-id-inactive')
+
+          return (
+            <Wizard.Container
+              mode="strict"
+              id="unique-id-inactive"
+              initialActiveIndex={2}
+            >
+              <Wizard.Step title="Step 1" inactive>
+                <Wizard.Buttons />
+              </Wizard.Step>
+
+              <Wizard.Step title="Step 2" inactive={activeIndex < 1}>
+                <Wizard.Buttons />
+              </Wizard.Step>
+
+              <Wizard.Step title="Step 3" inactive={activeIndex < 2}>
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 4" inactive={activeIndex < 3}>
+                <Wizard.Buttons />
+              </Wizard.Step>
+            </Wizard.Container>
+          )
+        }
+
+        return <Component />
+      }}
     </ComponentBox>
   )
 }

@@ -74,7 +74,7 @@ export type Props = {
   pathTrue?: Path
   /** Given data context path must be false to show children */
   pathFalse?: Path
-  /** Provide a `path` or `itemPath` and a `hasValue` method that returns a boolean or the excepted value in order to show children. The first parameter is the value of the path. */
+  /** Provide a `path` or `itemPath` and a `hasValue` method that returns a boolean or the expected value in order to show children. The first parameter is the value of the path. */
   visibleWhen?: VisibleWhen
   /** Same as `visibleWhen`, but with inverted logic. */
   visibleWhenNot?: VisibleWhen

@@ -9,6 +9,8 @@ import { pickSpacingProps } from '../../../../components/flex/utils'
 import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
 import useTranslation from '../../hooks/useTranslation'
 import { useIterateItemNo } from '../../Iterate/ItemNo/useIItemNo'
+import type { CheckboxProps } from '../../../../components/Checkbox'
+import type { ToggleButtonProps } from '../../../../components/ToggleButton'
 
 export type ToggleProps = {
   valueOn: unknown
@@ -16,6 +18,7 @@ export type ToggleProps = {
   variant?: 'checkbox' | 'checkbox-button' | 'button' | 'buttons'
   textOn?: string
   textOff?: string
+  size?: ToggleButtonProps['size'] | CheckboxProps['size']
 }
 
 export type Props = Omit<FieldProps<unknown>, 'layout' | 'layoutOptions'> &
@@ -39,6 +42,7 @@ function Toggle(props: Props) {
     textOn,
     textOff,
     value,
+    size,
     hasError,
     htmlAttributes,
     handleChange,
@@ -100,6 +104,7 @@ function Toggle(props: Props) {
             }
             checked={isOn}
             disabled={disabled}
+            size={size !== 'small' ? size : undefined}
             status={hasError ? 'error' : undefined}
             onChange={handleCheckboxChange}
             {...htmlAttributes}
@@ -120,6 +125,7 @@ function Toggle(props: Props) {
             disabled={disabled}
             status={hasError ? 'error' : undefined}
             value={value ? 'true' : 'false'}
+            size={size}
             on_change={handleCheckboxChange}
             {...htmlAttributes}
           />
@@ -135,6 +141,7 @@ function Toggle(props: Props) {
                 onChange: handleToggleChange,
                 status: hasError ? 'error' : undefined,
                 disabled,
+                size,
               }}
             >
               <ToggleButton
@@ -166,6 +173,7 @@ function Toggle(props: Props) {
             disabled={disabled}
             status={hasError ? 'error' : undefined}
             value={value ? 'true' : 'false'}
+            size={size}
             on_change={handleCheckboxChange}
             {...htmlAttributes}
           />

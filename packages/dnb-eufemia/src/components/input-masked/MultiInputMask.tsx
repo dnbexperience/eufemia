@@ -1,5 +1,6 @@
 import React, { MutableRefObject, useRef } from 'react'
 import Input from '../Input'
+import type { InputProps } from '../Input'
 import TextMask from './TextMask'
 import useHandleCursorPosition from './hooks/useHandleCursorPosition'
 import classnames from 'classnames'
@@ -92,8 +93,10 @@ export type MultiInputMaskProps<T extends string> = {
   | 'value'
   | 'label'
   | 'placeholder'
+  | 'size'
 > &
-  SpacingProps
+  SpacingProps &
+  Pick<InputProps, 'size'>
 
 function MultiInputMask<T extends string>({
   id,

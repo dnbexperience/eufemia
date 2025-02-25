@@ -1,5 +1,6 @@
 import { PropertiesTableProps } from '../../../../shared/types'
 import { getFieldEventsWithTypes } from '../FieldDocs'
+import { stringProperties } from '../String/StringDocs'
 
 export const PhoneNumberProperties: PropertiesTableProps = {
   countries: {
@@ -52,6 +53,7 @@ export const PhoneNumberProperties: PropertiesTableProps = {
     type: 'string | false',
     status: 'optional',
   },
+  size: stringProperties.size,
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
