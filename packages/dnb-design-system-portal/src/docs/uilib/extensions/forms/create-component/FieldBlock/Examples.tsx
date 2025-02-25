@@ -301,7 +301,7 @@ export const InlineHelpButtonHTML = () => {
           labelDescription={
             <span>
               <br />
-              Label description with a <Anchor>Anchor</Anchor>
+              Label description with a <Anchor href="/">Anchor</Anchor>
             </span>
           }
           help={{
@@ -309,7 +309,7 @@ export const InlineHelpButtonHTML = () => {
             title: <strong>Help title</strong>,
             content: (
               <>
-                Help content with a <Anchor>Anchor</Anchor>.
+                Help content with a <Anchor href="/">Anchor</Anchor>.
               </>
             ),
           }}

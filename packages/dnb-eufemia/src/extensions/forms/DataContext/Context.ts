@@ -163,7 +163,7 @@ export interface ContextState {
     type: EventListenerCall['type'],
     callback: EventListenerCall['callback']
   ) => void
-  setVisibleError?: (path: Path, hasError: boolean) => void
+  revealError?: (path: Path, hasError: boolean) => void
   setFieldInternals?: (path: Path, props: unknown, id?: string) => void
   setValueInternals?: (path: Path, props: unknown) => void
   setHandleSubmit?: (

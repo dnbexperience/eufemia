@@ -35,7 +35,7 @@ export default function FieldBoundaryProvider(props: Props) {
   }, [])
 
   const hasVisibleErrorRef = useRef<Record<Path, boolean>>({})
-  const setVisibleError = useCallback((path: Path, hasError: boolean) => {
+  const revealError = useCallback((path: Path, hasError: boolean) => {
     if (hasError) {
       hasVisibleErrorRef.current[path] = hasError
     } else {
@@ -60,7 +60,7 @@ export default function FieldBoundaryProvider(props: Props) {
     showBoundaryErrors: showBoundaryErrorsRef.current,
     setShowBoundaryErrors,
     setFieldError,
-    setVisibleError,
+    revealError,
   }
 
   return (

@@ -120,7 +120,8 @@ export type AllProps = Props & SpacingProps & ArrayItemAreaProps
 
 function PushContainer(props: AllProps) {
   const [, forceUpdate] = useReducer(() => ({}), {})
-  const requiredInherited = useContext(DataContext)?.required
+  const { data: outerData, required: requiredInherited } =
+    useContext(DataContext) || {}
 
   const {
     data: dataProp,
@@ -179,6 +180,14 @@ function PushContainer(props: AllProps) {
       pushContainerItems: [dataProp ?? clearedData],
     }
   }, [dataProp, defaultDataProp, isolatedData])
+
+  if (outerData) {
+    // Use assign to avoid mutating the original data object.
+    // Because changes from outside should only silently be applied to the
+    // data object, without triggering a rerender.
+    // This way "pushContainerItems" will not clear/unset changed data.
+    Object.assign(data, outerData)
+  }
 
   const defaultData = useMemo(() => {
     return {

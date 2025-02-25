@@ -1235,4 +1235,33 @@ describe('PushContainer', () => {
       )
     })
   })
+
+  it('should support Visibility', async () => {
+    render(
+      <Form.Handler
+        defaultData={{
+          isVisible: false,
+          entries: [
+            {
+              foo: 'First entry',
+            },
+          ],
+        }}
+      >
+        <Field.Boolean variant="button" path="/isVisible" />
+
+        <Iterate.PushContainer path="/entries">
+          <Form.Visibility pathTrue="/isVisible">
+            <output>content</output>
+          </Form.Visibility>
+        </Iterate.PushContainer>
+      </Form.Handler>
+    )
+
+    expect(document.querySelector('output')).toBeNull()
+
+    await userEvent.click(document.querySelector('button'))
+
+    expect(document.querySelector('output')).toBeInTheDocument()
+  })
 })
