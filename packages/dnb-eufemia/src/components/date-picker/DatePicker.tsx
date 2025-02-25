@@ -72,8 +72,8 @@ export type DatePickerEvent<T> = ReturnObject<T>
 
 export type DisplayPickerEvent = (
   | React.MouseEvent<HTMLButtonElement | HTMLAnchorElement | HTMLElement>
-  | MouseEvent
-  | KeyboardEvent
+  | Partial<MouseEvent>
+  | Partial<KeyboardEvent>
 ) &
   DatePickerDates & {
     focusOnHide?: boolean | string
@@ -745,7 +745,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
       | React.KeyboardEvent<HTMLTableElement>
     >) => {
       if (shouldHidePicker && !showSubmitButton && !showCancelButton) {
-        hidePicker()
+        hidePicker({ focusOnHide: true })
       }
 
       setDates({ startDate: args.startDate, endDate: args.endDate })
