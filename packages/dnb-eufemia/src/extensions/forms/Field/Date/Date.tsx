@@ -1,7 +1,11 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 import { DatePicker } from '../../../../components'
 import { useFieldProps } from '../../hooks'
-import { FieldProps, AllJSONSchemaVersions } from '../../types'
+import type {
+  FieldProps,
+  AllJSONSchemaVersions,
+  ValidatorDisableable,
+} from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import classnames from 'classnames'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
@@ -19,7 +23,10 @@ import { FormError } from '../../utils'
 
 // `range`, `showInput`, `showCancelButton` and `showResetButton` are not picked from the `DatePickerProps`
 // Since they require `Field.Date` specific comments, due to them having different default values
-export type DateProps = FieldProps<string, undefined | string> & {
+export type DateProps = Omit<
+  FieldProps<string, undefined | string>,
+  'onBlurValidator'
+> & {
   // Validation
   pattern?: string
   /**
@@ -41,6 +48,7 @@ export type DateProps = FieldProps<string, undefined | string> & {
    * If set to `true`, a reset button will be shown. You can change the default text by using `reset_button_text="Tilbakestill"` Defaults to `true`.
    */
   showResetButton?: DatePickerProps['showResetButton']
+  onBlurValidator?: ValidatorDisableable<string>
 } & Pick<
     DatePickerProps,
     | 'month'
@@ -127,11 +135,23 @@ function DateComponent(props: DateProps) {
     [props.maxDate, props.minDate, props.range, locale]
   )
 
+  const onBlurValidator = useMemo(() => {
+    if (props.onBlurValidator === false) {
+      return undefined
+    }
+
+    if (props.onBlurValidator) {
+      return props.onBlurValidator
+    }
+
+    return dateLimitValidator
+  }, [props.onBlurValidator, dateLimitValidator])
+
   const hasDateLimitAndValue = useMemo(() => {
     return (props.minDate || props.maxDate) && Boolean(props.value)
   }, [props.minDate, props.maxDate, props.value])
 
-  const preparedProps: DateProps = {
+  const preparedProps = {
     ...props,
     errorMessages,
     schema,
@@ -144,7 +164,8 @@ function DateComponent(props: DateProps) {
     },
     validateRequired,
     validateInitially: props.validateInitially ?? hasDateLimitAndValue,
-    onBlurValidator: props.onBlurValidator ?? dateLimitValidator,
+    onBlurValidator,
+    exportValidators: { dateLimitValidator },
   }
 
   const {
