@@ -1129,7 +1129,7 @@ describe('Wizard.Container', () => {
   })
 
   // Deprecated – active and activeWhen is replaced with include and includeWhen - can be removed in v11
-  describe('dynamic steps', () => {
+  describe('dynamic steps - active & activeWhen', () => {
     it('should not render inactive steps', () => {
       render(
         <Wizard.Container mode="loose">
