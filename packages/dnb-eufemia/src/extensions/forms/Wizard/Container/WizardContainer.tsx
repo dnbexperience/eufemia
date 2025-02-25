@@ -14,7 +14,10 @@ import {
 } from '../../../../shared/component-helper'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import useId from '../../../../shared/helpers/useId'
-import Step, { Props as StepProps } from '../Step'
+import Step, {
+  Props as StepProps,
+  handleDeprecatedProps as handleDeprecatedStepProps,
+} from '../Step'
 import WizardContext, {
   OnStepChange,
   OnStepChangeOptions,
@@ -376,7 +379,7 @@ function WizardContainer(props: Props) {
     return count !== 0 && tmpCount !== 0 && count !== tmpCount
   }, [])
 
-  // - Call onStepChange when step gets replaced or added (e.g. via activeWhen)
+  // - Call onStepChange when step gets replaced or added (e.g. via includeWhen)
   useLayoutEffect(() => {
     if (stepsLengthDidChange()) {
       callOnStepChange(activeIndexRef.current, 'stepListModified')
@@ -491,13 +494,18 @@ function IterateOverSteps({ children }) {
       }
 
       if (child?.type === Step) {
-        if (child.props.active === false) {
+        const { title, inactive, include, includeWhen, id } =
+          handleDeprecatedStepProps(child.props)
+
+        if (include === false) {
           return null
         }
 
         if (
-          child.props.activeWhen &&
-          !check({ visibleWhen: child.props.activeWhen })
+          includeWhen &&
+          !check({
+            visibleWhen: includeWhen,
+          })
         ) {
           return null
         }
@@ -506,12 +514,12 @@ function IterateOverSteps({ children }) {
         const index = incrementIndex
 
         stepsRef.current[index] = {
-          id: child.props.id,
+          id,
           title:
-            child.props.title !== undefined
-              ? convertJsxToString(child.props.title)
+            title !== undefined
+              ? convertJsxToString(title)
               : 'Title missing',
-          inactive: child.props.inactive,
+          inactive,
         }
         const key = `${index}-${activeIndexRef.current}`
         const clone = (props) =>

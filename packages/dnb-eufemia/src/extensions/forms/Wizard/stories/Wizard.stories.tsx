@@ -41,10 +41,10 @@ export const Basic = () => {
   )
 }
 
-export const WizardDynamicStepsActiveWhen = () => {
+export const WizardDynamicStepsIncludeWhen = () => {
   const { createSnapshot, revertSnapshot } = Form.useSnapshot('my-form')
   return (
-    <Form.Handler id="my-form" defaultData={{ activeSteps: 'group-a' }}>
+    <Form.Handler id="my-form" defaultData={{ includedSteps: 'group-a' }}>
       <Wizard.Container
         onStepChange={(index, mode, args) => {
           console.log(
@@ -64,7 +64,7 @@ export const WizardDynamicStepsActiveWhen = () => {
       >
         <Wizard.Step
           title="Step A"
-          activeWhen={{ path: '/activeSteps', hasValue: 'group-a' }}
+          includeWhen={{ path: '/includedSteps', hasValue: 'group-a' }}
           id="step-a"
         >
           <Form.MainHeading>Step A</Form.MainHeading>
@@ -79,7 +79,7 @@ export const WizardDynamicStepsActiveWhen = () => {
 
         <Wizard.Step
           title="Step B"
-          activeWhen={{ path: '/activeSteps', hasValue: 'group-a' }}
+          includeWhen={{ path: '/includedSteps', hasValue: 'group-a' }}
           id="step-b"
         >
           <Form.MainHeading>Step B</Form.MainHeading>
@@ -90,8 +90,8 @@ export const WizardDynamicStepsActiveWhen = () => {
 
         <Wizard.Step
           title="Step C"
-          activeWhen={{
-            path: '/activeSteps',
+          includeWhen={{
+            path: '/includedSteps',
             hasValue: (value: string) =>
               ['group-a', 'group-b'].includes(value),
           }}
@@ -104,7 +104,7 @@ export const WizardDynamicStepsActiveWhen = () => {
 
         <Wizard.Step
           title="Step D"
-          activeWhen={{ path: '/activeSteps', hasValue: 'group-b' }}
+          includeWhen={{ path: '/includedSteps', hasValue: 'group-b' }}
           id="step-d"
         >
           <Form.MainHeading>Step D</Form.MainHeading>
@@ -114,7 +114,7 @@ export const WizardDynamicStepsActiveWhen = () => {
       </Wizard.Container>
 
       <Field.Selection
-        path="/activeSteps"
+        path="/includedSteps"
         variant="button"
         optionsLayout="horizontal"
         top

@@ -48,7 +48,7 @@ If you need an event to be triggered when the user changes the active step, you 
 
 ## Dynamic steps support
 
-You can use the `Wizard.Step` component to create dynamic steps. The `active` and `activeWhen` properties allow you to show or hide a step based on specific conditions.
+You can use the `Wizard.Step` component to create dynamic steps. The `include` and `includeWhen` properties allow you to show or hide a step based on specific conditions.
 
 If a step is replaced by another step, the `onStepChange` event will trigger with `stepListModified` as the second argument. The current step index might remain the same. However, if the total number of steps becomes less than the current step, the index will adjust to the last step.
 
@@ -67,11 +67,11 @@ To keep track of the current step, you can provide each step with an `id` proper
   <Wizard.Step
     title="Step 1"
     id="step-1"
-    activeWhen={{ path: '/myPath', hasValue: '...' }}
+    includeWhen={{ path: '/myPath', hasValue: '...' }}
   >
     content
   </Wizard.Step>
 </Wizard.Container>
 ```
 
-In the demo section, you will find an example demonstrating how to use the `Wizard.Step` component with `activeWhen`.
+In the demo section, you will find an example demonstrating how to use the `Wizard.Step` component with `includeWhen`.
