@@ -3,6 +3,36 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.65.0](https://github.com/dnbexperience/eufemia/compare/v10.64.1...v10.65.0) (2025-02-25)
+
+
+### :bug: Bug Fixes
+
+* **DatePicker:** `opened` prop listener `useEffect` no longer removes on outside click detector ([#4608](https://github.com/dnbexperience/eufemia/issues/4608)) ([9d2bd61](https://github.com/dnbexperience/eufemia/commit/9d2bd616d3dad9edcaf89289305e5ff6d8194f7b))
+* **Skeleton:** move CSS variables for Skeleton from a global scope to themed skeleton files ([#4520](https://github.com/dnbexperience/eufemia/issues/4520)) ([8ff1007](https://github.com/dnbexperience/eufemia/commit/8ff10078f0de78e44afa19a31bef15e71c0916e7))
+
+
+### :memo: Documentation
+
+* **Fields:** add info about `Form.Appearance` in `size` property ([#4609](https://github.com/dnbexperience/eufemia/issues/4609)) ([e8ae85b](https://github.com/dnbexperience/eufemia/commit/e8ae85b3d6e8141733e4ec3d8579c0637bb0755c))
+* show Form.Isolation in menu ([#4610](https://github.com/dnbexperience/eufemia/issues/4610)) ([cd50c82](https://github.com/dnbexperience/eufemia/commit/cd50c824e6984409919c7b47dad429df16114d89))
+
+
+### :sparkles: Features
+
+* **ArraySelection:** add `size` property ([#4603](https://github.com/dnbexperience/eufemia/issues/4603)) ([12d319d](https://github.com/dnbexperience/eufemia/commit/12d319db19087b51ce391b475b64c6ec4c3c4587))
+* **Boolean:** add `size` property ([#4602](https://github.com/dnbexperience/eufemia/issues/4602)) ([c8b57b0](https://github.com/dnbexperience/eufemia/commit/c8b57b0df9f81a12615dbde50cf4b4f1e7d1fd85))
+* **Date:** add `size` property ([#4598](https://github.com/dnbexperience/eufemia/issues/4598)) ([b82ffff](https://github.com/dnbexperience/eufemia/commit/b82ffffe45e144fe62b27abcfe6ad123fc1e022c))
+* **Expiry:** add `size` property ([#4604](https://github.com/dnbexperience/eufemia/issues/4604)) ([cb0505e](https://github.com/dnbexperience/eufemia/commit/cb0505e098cd66f2936d98a8bad6aafef321c689))
+* **Field.Date:** add built in error messaging for min and max dates ([#4469](https://github.com/dnbexperience/eufemia/issues/4469)) ([fbfdd5e](https://github.com/dnbexperience/eufemia/commit/fbfdd5e2edccfa07fc094015549f92edbe87a7e5))
+* **PhoneNumber:** add `size` property ([#4596](https://github.com/dnbexperience/eufemia/issues/4596)) ([58a45a6](https://github.com/dnbexperience/eufemia/commit/58a45a66b7219a5e520baf3f379bb869a01590e4))
+* **PostalCodeAndCity:** add `size` property ([#4597](https://github.com/dnbexperience/eufemia/issues/4597)) ([545d3d9](https://github.com/dnbexperience/eufemia/commit/545d3d9c246ef19cd03cc9bcb725f244f87be2a1))
+* **SelectCountry:** add `size` property ([#4595](https://github.com/dnbexperience/eufemia/issues/4595)) ([18d23d4](https://github.com/dnbexperience/eufemia/commit/18d23d4cde8460d0aad3f9e98328590068993e18))
+* **Selection:** add `size` property ([#4599](https://github.com/dnbexperience/eufemia/issues/4599)) ([6c32b26](https://github.com/dnbexperience/eufemia/commit/6c32b26fa37ca7362b14c9bfe2f6637e603475d4))
+* **Toggle:** add `size` property ([#4601](https://github.com/dnbexperience/eufemia/issues/4601)) ([f77a6c8](https://github.com/dnbexperience/eufemia/commit/f77a6c8f8a4b53a49250f2a577cdce89c2456f02))
+* **Wizard.Step:** add inactive prop to handle a step as inactive ([#4606](https://github.com/dnbexperience/eufemia/issues/4606)) ([07d032a](https://github.com/dnbexperience/eufemia/commit/07d032a71e0ee57ef9d0f72b2931d957d215c987))
+* **Wizard.Step:** deprecate `active` and `activeWhen` in favor of `include` and `includeWhen` ([#4612](https://github.com/dnbexperience/eufemia/issues/4612)) ([4236efd](https://github.com/dnbexperience/eufemia/commit/4236efdc00938bec1ae89ef18fc3460c302c7228))
+
 ## [10.64.1](https://github.com/dnbexperience/eufemia/compare/v10.64.0...v10.64.1) (2025-02-20)
 
 
