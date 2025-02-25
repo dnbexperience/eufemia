@@ -17,6 +17,7 @@ import {
   FormsTranslationLocale,
 } from './hooks/useTranslation'
 import { GetValueByPath } from './hooks/useDataValue'
+import { HelpProps } from '../../components/help-button/HelpButtonInline'
 
 export type * from 'json-schema'
 export type JSONSchema = JSONSchema7
@@ -544,6 +545,8 @@ export interface ValueProps<Value = unknown>
 
   /** The max-width of a value block. Defaults to large */
   maxWidth?: 'small' | 'medium' | 'large' | 'auto'
+
+  help?: HelpProps
 
   /**
    * Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is a object containing the `convertJsxToString` function.
