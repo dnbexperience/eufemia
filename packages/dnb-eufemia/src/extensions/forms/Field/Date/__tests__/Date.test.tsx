@@ -61,17 +61,21 @@ describe('Field.Date', () => {
       datePicker.querySelector('.dnb-form-status__text')
     ).not.toBeInTheDocument()
 
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
 
     fireEvent.focus(year)
     await userEvent.type(year, '{Backspace>2}')
     fireEvent.blur(year)
 
-    expect(screen.queryByRole('alert')).toBeInTheDocument()
+    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
 
     await userEvent.keyboard('20231207')
 
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
 
     await userEvent.click(
       document.querySelector('.dnb-input__submit-button__button')
@@ -83,7 +87,7 @@ describe('Field.Date', () => {
         .querySelectorAll('.dnb-button--tertiary ')[0]
     )
 
-    expect(screen.queryByRole('alert')).toBeInTheDocument()
+    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
   })
 
   it('should support date range', () => {
@@ -155,7 +159,9 @@ describe('Field.Date', () => {
       it('should show error message initially', async () => {
         render(<Field.Date required validateInitially />)
         await waitFor(() => {
-          expect(screen.getByRole('alert')).toBeInTheDocument()
+          expect(
+            document.querySelector('.dnb-form-status--error')
+          ).toBeInTheDocument()
         })
       })
     })
@@ -175,13 +181,17 @@ describe('Field.Date', () => {
 
         const input = document.querySelector('input')
 
-        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
 
         input.focus()
         fireEvent.blur(input)
 
         await waitFor(() => {
-          expect(screen.getByRole('alert')).toBeInTheDocument()
+          expect(
+            document.querySelector('.dnb-form-status--error')
+          ).toBeInTheDocument()
         })
 
         log.mockRestore()
@@ -1075,7 +1085,9 @@ describe('Field.Date', () => {
         document.querySelector('.dnb-form-status--error')
       ).toBeInTheDocument()
 
-      expect(screen.getByRole('alert')).toHaveTextContent(
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toHaveTextContent(
         nb.Date.errorMinDate.replace(
           /\{date\}/,
           formatDate(minDate, formatOptions.no)
@@ -1104,7 +1116,9 @@ describe('Field.Date', () => {
         document.querySelector('.dnb-form-status--error')
       ).toBeInTheDocument()
 
-      expect(screen.getByRole('alert')).toHaveTextContent(
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toHaveTextContent(
         nb.Date.errorMaxDate.replace(
           /\{date\}/,
           formatDate(maxDate, formatOptions.no)
@@ -1139,7 +1153,9 @@ describe('Field.Date', () => {
         document.querySelector('.dnb-form-status--error')
       ).toBeInTheDocument()
 
-      expect(screen.getByRole('alert')).toHaveTextContent(
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toHaveTextContent(
         nb.Date.errorStartDateMinDate.replace(
           /\{date\}/,
           formatDate(minDate, formatOptions.no)
@@ -1174,7 +1190,9 @@ describe('Field.Date', () => {
         document.querySelector('.dnb-form-status--error')
       ).toBeInTheDocument()
 
-      expect(screen.getByRole('alert')).toHaveTextContent(
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toHaveTextContent(
         nb.Date.errorStartDateMaxDate.replace(
           /\{date\}/,
           formatDate(maxDate, formatOptions.no)
@@ -1209,7 +1227,9 @@ describe('Field.Date', () => {
         document.querySelector('.dnb-form-status--error')
       ).toBeInTheDocument()
 
-      expect(screen.getByRole('alert')).toHaveTextContent(
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toHaveTextContent(
         nb.Date.errorEndDateMinDate.replace(
           /\{date\}/,
           formatDate(minDate, formatOptions.no)
@@ -1244,7 +1264,9 @@ describe('Field.Date', () => {
         document.querySelector('.dnb-form-status--error')
       ).toBeInTheDocument()
 
-      expect(screen.getByRole('alert')).toHaveTextContent(
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toHaveTextContent(
         nb.Date.errorEndDateMaxDate.replace(
           /\{date\}/,
           formatDate(maxDate, formatOptions.no)
@@ -1255,6 +1277,11 @@ describe('Field.Date', () => {
     it('should display error messages if start date and end date is outside of limits in `range` mode', async () => {
       const minDate = '2025-01-01'
       const maxDate = '2025-01-31'
+
+      const getMessages = () =>
+        Array.from(
+          document.querySelectorAll('.dnb-form-status .dnb-li')
+        ) as Array<HTMLLIElement>
 
       render(
         <Field.Date
@@ -1285,20 +1312,16 @@ describe('Field.Date', () => {
       ).toBeInTheDocument()
 
       const statusText = document.querySelector('.dnb-form-status__text')
-      const messages = () =>
-        Array.from(
-          document.querySelectorAll('.dnb-li')
-        ) as Array<HTMLLIElement>
 
       expect(statusText).toHaveTextContent(nb.Field.errorSummary)
 
-      expect(messages()[0]).toHaveTextContent(
+      expect(getMessages().at(0)).toHaveTextContent(
         nb.Date.errorStartDateMinDate.replace(
           /\{date\}/,
           formatDate(minDate, formatOptions.no)
         )
       )
-      expect(messages()[1]).toHaveTextContent(
+      expect(getMessages().at(1)).toHaveTextContent(
         nb.Date.errorEndDateMaxDate.replace(
           /\{date\}/,
           formatDate(maxDate, formatOptions.no)
@@ -1309,13 +1332,13 @@ describe('Field.Date', () => {
       await userEvent.keyboard('{ArrowUp>2}')
       await userEvent.click(document.body)
 
-      expect(messages()[0]).toHaveTextContent(
+      expect(getMessages().at(0)).toHaveTextContent(
         nb.Date.errorStartDateMaxDate.replace(
           /\{date\}/,
           formatDate(maxDate, formatOptions.no)
         )
       )
-      expect(messages()[1]).toHaveTextContent(
+      expect(getMessages().at(1)).toHaveTextContent(
         nb.Date.errorEndDateMaxDate.replace(
           /\{date\}/,
           formatDate(maxDate, formatOptions.no)
@@ -1326,13 +1349,13 @@ describe('Field.Date', () => {
       await userEvent.keyboard('{ArrowDown>2}')
       await userEvent.click(document.body)
 
-      expect(messages()[0]).toHaveTextContent(
+      expect(getMessages().at(0)).toHaveTextContent(
         nb.Date.errorStartDateMaxDate.replace(
           /\{date\}/,
           formatDate(maxDate, formatOptions.no)
         )
       )
-      expect(messages()[1]).toHaveTextContent(
+      expect(getMessages().at(1)).toHaveTextContent(
         nb.Date.errorEndDateMinDate.replace(
           /\{date\}/,
           formatDate(minDate, formatOptions.no)
@@ -1343,13 +1366,13 @@ describe('Field.Date', () => {
       await userEvent.keyboard('{ArrowDown>2}')
       await userEvent.click(document.body)
 
-      expect(messages()[0]).toHaveTextContent(
+      expect(getMessages().at(0)).toHaveTextContent(
         nb.Date.errorStartDateMinDate.replace(
           /\{date\}/,
           formatDate(minDate, formatOptions.no)
         )
       )
-      expect(messages()[1]).toHaveTextContent(
+      expect(getMessages().at(1)).toHaveTextContent(
         nb.Date.errorEndDateMinDate.replace(
           /\{date\}/,
           formatDate(minDate, formatOptions.no)
@@ -1380,7 +1403,9 @@ describe('Field.Date', () => {
         document.querySelector('.dnb-form-status--error')
       ).toBeInTheDocument()
 
-      expect(screen.getByRole('alert')).toHaveTextContent(
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toHaveTextContent(
         nb.Date.errorMinDate.replace(
           /\{date\}/,
           formatDate(minDate, formatOptions.no)
@@ -1409,7 +1434,9 @@ describe('Field.Date', () => {
         document.querySelector('.dnb-form-status--error')
       ).toBeInTheDocument()
 
-      expect(screen.getByRole('alert')).toHaveTextContent(
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toHaveTextContent(
         nb.Date.errorMaxDate.replace(
           /\{date\}/,
           formatDate(maxDate, formatOptions.no)
@@ -1499,7 +1526,9 @@ describe('Field.Date', () => {
       expect(
         document.querySelector('.dnb-form-status--error')
       ).toBeInTheDocument()
-      expect(screen.getByRole('alert')).toHaveTextContent(
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toHaveTextContent(
         en.Date.errorMinDate.replace(
           /\{date\}/,
           formatDate(minDate, formatOptions.en)
@@ -1510,7 +1539,9 @@ describe('Field.Date', () => {
       await userEvent.keyboard('{ArrowUp>2}')
       await userEvent.click(document.body)
 
-      expect(screen.getByRole('alert')).toHaveTextContent(
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toHaveTextContent(
         en.Date.errorMaxDate.replace(
           /\{date\}/,
           formatDate(maxDate, formatOptions.en)
@@ -1521,6 +1552,11 @@ describe('Field.Date', () => {
     it('should display date limit error messages based on locale when in `range` mode', async () => {
       const minDate = '2025-01-01'
       const maxDate = '2025-01-31'
+
+      const getMessages = () =>
+        Array.from(
+          document.querySelectorAll('.dnb-form-status .dnb-li')
+        ) as Array<HTMLLIElement>
 
       render(
         <Form.Handler locale="en-GB">
@@ -1533,8 +1569,8 @@ describe('Field.Date', () => {
         </Form.Handler>
       )
 
-      const [, startMonth, , , endMonth] = Array.from(
-        document.querySelectorAll('.dnb-date-picker__input')
+      const [startMonth, endMonth] = Array.from(
+        document.querySelectorAll('.dnb-date-picker__input--month')
       ) as Array<HTMLInputElement>
 
       await userEvent.click(startMonth)
@@ -1546,23 +1582,17 @@ describe('Field.Date', () => {
       expect(
         document.querySelector('.dnb-form-status--error')
       ).toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toHaveTextContent(en.Field.errorSummary)
 
-      const messages = () =>
-        Array.from(
-          document.querySelectorAll('.dnb-form-status--error .dnb-li')
-        ) as Array<HTMLLIElement>
-
-      expect(screen.getByRole('alert')).toHaveTextContent(
-        en.Field.errorSummary
-      )
-
-      expect(messages()[0]).toHaveTextContent(
+      expect(getMessages().at(0)).toHaveTextContent(
         en.Date.errorStartDateMinDate.replace(
           /\{date\}/,
           formatDate(minDate, formatOptions.en)
         )
       )
-      expect(messages()[1]).toHaveTextContent(
+      expect(getMessages().at(1)).toHaveTextContent(
         en.Date.errorEndDateMaxDate.replace(
           /\{date\}/,
           formatDate(maxDate, formatOptions.en)
@@ -1573,13 +1603,13 @@ describe('Field.Date', () => {
       await userEvent.keyboard('{ArrowUp>2}')
       await userEvent.click(document.body)
 
-      expect(messages()[0]).toHaveTextContent(
+      expect(getMessages().at(0)).toHaveTextContent(
         en.Date.errorStartDateMaxDate.replace(
           /\{date\}/,
           formatDate(maxDate, formatOptions.en)
         )
       )
-      expect(messages()[1]).toHaveTextContent(
+      expect(getMessages().at(1)).toHaveTextContent(
         en.Date.errorEndDateMaxDate.replace(
           /\{date\}/,
           formatDate(maxDate, formatOptions.en)
@@ -1590,13 +1620,13 @@ describe('Field.Date', () => {
       await userEvent.keyboard('{ArrowDown>2}')
       await userEvent.click(document.body)
 
-      expect(messages()[0]).toHaveTextContent(
+      expect(getMessages().at(0)).toHaveTextContent(
         en.Date.errorStartDateMaxDate.replace(
           /\{date\}/,
           formatDate(maxDate, formatOptions.en)
         )
       )
-      expect(messages()[1]).toHaveTextContent(
+      expect(getMessages().at(1)).toHaveTextContent(
         en.Date.errorEndDateMinDate.replace(
           /\{date\}/,
           formatDate(minDate, formatOptions.en)
@@ -1607,18 +1637,51 @@ describe('Field.Date', () => {
       await userEvent.keyboard('{ArrowDown>2}')
       await userEvent.click(document.body)
 
-      expect(messages()[0]).toHaveTextContent(
+      expect(getMessages().at(0)).toHaveTextContent(
         en.Date.errorStartDateMinDate.replace(
           /\{date\}/,
           formatDate(minDate, formatOptions.en)
         )
       )
-      expect(messages()[1]).toHaveTextContent(
+      expect(getMessages().at(1)).toHaveTextContent(
         en.Date.errorEndDateMinDate.replace(
           /\{date\}/,
           formatDate(minDate, formatOptions.en)
         )
       )
     })
+  })
+
+  it('should support keyboard interactions in range mode when id includes start or end', async () => {
+    const onChange = jest.fn()
+
+    render(
+      <Field.Date
+        id="id-end-start-something"
+        value="2025-01-01|2025-01-31"
+        range
+        onChange={onChange}
+      />
+    )
+
+    const [startMonth, endMonth] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input--month')
+    ) as Array<HTMLInputElement>
+
+    await userEvent.type(startMonth, '{ArrowDown}')
+    await userEvent.type(endMonth, '{ArrowUp}')
+    await userEvent.click(document.body)
+
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenNthCalledWith(
+      1,
+      '2024-12-01|2025-01-31',
+      expect.anything()
+    )
+    expect(onChange).toHaveBeenNthCalledWith(
+      2,
+      '2024-12-01|2025-02-28',
+      expect.anything()
+    )
   })
 })
