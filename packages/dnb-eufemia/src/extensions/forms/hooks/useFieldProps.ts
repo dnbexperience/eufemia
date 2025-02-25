@@ -212,7 +212,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     setFieldError: setFieldErrorDataContext,
     setFieldInternals: setFieldInternalsDataContext,
     setFieldConnection: setFieldConnectionDataContext,
-    setVisibleError: setVisibleErrorDataContext,
+    revealError: revealErrorDataContext,
     setMountedFieldState: setMountedFieldStateDataContext,
     setFieldEventListener,
     errors: dataContextErrors,
@@ -243,7 +243,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const { path: sectionPath, errorPrioritization } = sectionContext || {}
   const {
     setFieldError: setFieldErrorBoundary,
-    setVisibleError: setVisibleErrorBoundary,
+    revealError: revealErrorBoundary,
     showBoundaryErrors,
   } = fieldBoundaryContext || {}
 
@@ -568,29 +568,29 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     if (!revealErrorRef.current || alwaysRevealError) {
       revealErrorRef.current = true
       showFieldErrorFieldBlock?.(identifier, true)
-      setVisibleErrorBoundary?.(identifier, !!localErrorRef.current)
-      setVisibleErrorDataContext?.(identifier, !!localErrorRef.current)
+      revealErrorBoundary?.(identifier, !!localErrorRef.current)
+      revealErrorDataContext?.(identifier, !!localErrorRef.current)
     }
   }, [
     validateInitially,
     alwaysRevealError,
     showFieldErrorFieldBlock,
     identifier,
-    setVisibleErrorBoundary,
-    setVisibleErrorDataContext,
+    revealErrorBoundary,
+    revealErrorDataContext,
   ])
 
   const hideError = useCallback(() => {
     if (revealErrorRef.current) {
       revealErrorRef.current = undefined
       showFieldErrorFieldBlock?.(identifier, false)
-      setVisibleErrorBoundary?.(identifier, false)
-      setVisibleErrorDataContext?.(identifier, false)
+      revealErrorBoundary?.(identifier, false)
+      revealErrorDataContext?.(identifier, false)
     }
   }, [
     identifier,
-    setVisibleErrorBoundary,
-    setVisibleErrorDataContext,
+    revealErrorBoundary,
+    revealErrorDataContext,
     showFieldErrorFieldBlock,
   ])
 
