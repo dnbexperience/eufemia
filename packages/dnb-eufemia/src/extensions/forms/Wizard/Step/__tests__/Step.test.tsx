@@ -158,10 +158,14 @@ describe('Step', () => {
   })
 
   describe('inactive', () => {
-    it('should not be clickable', () => {
+    it('should not be clickable', async () => {
       render(
         <Form.Handler>
-          <Wizard.Container mode="loose" initialActiveIndex={1}>
+          <Wizard.Container
+            mode="loose"
+            initialActiveIndex={1}
+            expandedInitially
+          >
             <Wizard.Step title="Step 1" inactive>
               1
             </Wizard.Step>
@@ -194,15 +198,19 @@ describe('Step', () => {
         'dnb-step-indicator__item--inactive',
       ])
 
-      expect(s1.querySelector('.dnb-button').tagName).toBe('SPAN')
-      expect(s2.querySelector('.dnb-button').tagName).toBe('SPAN')
-      expect(s3.querySelector('.dnb-button').tagName).toBe('SPAN')
+      expect(s1.querySelector('.dnb-anchor').tagName).toBe('SPAN')
+      expect(s2.querySelector('.dnb-anchor').tagName).toBe('SPAN')
+      expect(s3.querySelector('.dnb-anchor').tagName).toBe('SPAN')
     })
 
-    it('should make steps inactive in loose mode', () => {
+    it('should make steps inactive in loose mode', async () => {
       render(
         <Form.Handler>
-          <Wizard.Container mode="loose" initialActiveIndex={1}>
+          <Wizard.Container
+            mode="loose"
+            initialActiveIndex={1}
+            expandedInitially
+          >
             <Wizard.Step title="Step 1" inactive>
               1
             </Wizard.Step>
@@ -227,7 +235,11 @@ describe('Step', () => {
     it('should make steps inactive in strict mode', async () => {
       render(
         <Form.Handler>
-          <Wizard.Container mode="strict" initialActiveIndex={1}>
+          <Wizard.Container
+            mode="strict"
+            initialActiveIndex={1}
+            expandedInitially
+          >
             <Wizard.Step title="Step 1" inactive>
               1
             </Wizard.Step>
@@ -244,7 +256,7 @@ describe('Step', () => {
         document.querySelectorAll('.dnb-step-indicator__item')
       )
       const [b1, b2] = Array.from(
-        document.querySelectorAll('.dnb-step-indicator__item .dnb-button')
+        document.querySelectorAll('.dnb-step-indicator__item .dnb-anchor')
       )
 
       expect(s1).toHaveClass('dnb-step-indicator__item--inactive')
