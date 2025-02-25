@@ -62,7 +62,7 @@ describe('Tools.ListAllProps', () => {
           "innerRef": {
             "current": <input
               class="dnb-input__input"
-              id="id-r9"
+              id="id-ra"
               name="myField"
               type="text"
               value=""
@@ -84,7 +84,7 @@ describe('Tools.ListAllProps', () => {
               "current": <input
                 aria-required="true"
                 class="dnb-input__input"
-                id="id-rf"
+                id="id-rg"
                 name="nested/myString"
                 type="text"
                 value="my string"
@@ -125,7 +125,7 @@ describe('Tools.ListAllProps', () => {
             "current": <input
               aria-required="true"
               class="dnb-input__input"
-              id="id-r9"
+              id="id-ra"
               name="myString"
               type="text"
               value="local value"
@@ -146,7 +146,7 @@ describe('Tools.ListAllProps', () => {
             "current": <input
               aria-required="true"
               class="dnb-input__input"
-              id="id-r9"
+              id="id-ra"
               name="myString"
               type="text"
               value="local value"
@@ -273,7 +273,7 @@ describe('Tools.ListAllProps', () => {
             "innerRef": {
               "current": <input
                 class="dnb-input__input"
-                id="id-rv"
+                id="id-r12"
                 inputmode="decimal"
                 name="myNumber"
                 type="text"
@@ -295,7 +295,7 @@ describe('Tools.ListAllProps', () => {
             "innerRef": {
               "current": <input
                 class="dnb-input__input"
-                id="id-rp"
+                id="id-rs"
                 name="myString"
                 type="text"
                 value=""
@@ -364,7 +364,7 @@ describe('Tools.ListAllProps', () => {
             "innerRef": {
               "current": <input
                 class="dnb-input__input"
-                id="id-r27"
+                id="id-r2a"
                 inputmode="decimal"
                 name="myNumber"
                 type="text"
@@ -390,7 +390,7 @@ describe('Tools.ListAllProps', () => {
               "innerRef": {
                 "current": <input
                   class="dnb-input__input"
-                  id="id-r1q"
+                  id="id-r1t"
                   name="myObject/withString"
                   type="text"
                   value=""
@@ -413,7 +413,7 @@ describe('Tools.ListAllProps', () => {
             "innerRef": {
               "current": <input
                 class="dnb-input__input"
-                id="id-r1k"
+                id="id-r1n"
                 name="myString"
                 type="text"
                 value=""
@@ -470,7 +470,7 @@ describe('Tools.ListAllProps', () => {
                 "innerRef": {
                   "current": <input
                     class="dnb-input__input"
-                    id="id-r2k"
+                    id="id-r2n"
                     inputmode="decimal"
                     name="myObject/nested/withNumber"
                     type="text"
@@ -496,7 +496,7 @@ describe('Tools.ListAllProps', () => {
               "innerRef": {
                 "current": <input
                   class="dnb-input__input"
-                  id="id-r2e"
+                  id="id-r2h"
                   name="myObject/withString"
                   type="text"
                   value=""
@@ -562,7 +562,7 @@ describe('Tools.ListAllProps', () => {
                 "current": <input
                   aria-required="true"
                   class="dnb-input__input"
-                  id="id-r3e"
+                  id="id-r3h"
                   inputmode="decimal"
                   name="myObject/withNumber"
                   type="text"
@@ -588,7 +588,7 @@ describe('Tools.ListAllProps', () => {
                 "current": <input
                   aria-required="true"
                   class="dnb-input__input"
-                  id="id-r31"
+                  id="id-r34"
                   name="myObject/withString"
                   type="text"
                   value=""
@@ -612,7 +612,7 @@ describe('Tools.ListAllProps', () => {
               "current": <input
                 aria-required="true"
                 class="dnb-input__input"
-                id="id-r2r"
+                id="id-r2u"
                 name="myString"
                 type="text"
                 value=""
@@ -683,9 +683,9 @@ describe('Tools.ListAllProps', () => {
                   aria-valuenow="0"
                   aria-valuetext="0"
                   class="dnb-input__input"
-                  id="id-r3r"
+                  id="id-r3u"
                   inputmode="decimal"
-                  name="id-r3r"
+                  name="id-r3u"
                   role="spinbutton"
                   step="1"
                   type="text"
@@ -716,9 +716,9 @@ describe('Tools.ListAllProps', () => {
                   aria-valuenow="1"
                   aria-valuetext="1"
                   class="dnb-input__input"
-                  id="id-r41"
+                  id="id-r44"
                   inputmode="decimal"
-                  name="id-r41"
+                  name="id-r44"
                   role="spinbutton"
                   step="1"
                   type="text"
