@@ -70,7 +70,7 @@ export type DatePickerEventAttributes = {
 // Takes the return object from DatePickerProvider and extends it with the event
 export type DatePickerEvent<T> = ReturnObject<T>
 
-export type FocusOnHide = { focusOnHide?: boolean | string }
+type FocusOnHide = { focusOnHide?: boolean | string }
 
 export type DisplayPickerEvent = (
   | React.MouseEvent<HTMLButtonElement | HTMLAnchorElement | HTMLElement>
