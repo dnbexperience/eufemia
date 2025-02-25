@@ -2,12 +2,12 @@ import React, { useCallback, useMemo } from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
 
 import useTranslation from '../../hooks/useTranslation'
-import { Validator } from '../../types'
+import type { ValidatorDisableable } from '../../types'
 
 export type Props = Omit<StringFieldProps, 'onBlurValidator'> & {
   validate?: boolean
   omitMask?: boolean
-  onBlurValidator?: Validator<string> | false
+  onBlurValidator?: ValidatorDisableable<string>
 }
 
 function BankAccountNumber(props: Props) {

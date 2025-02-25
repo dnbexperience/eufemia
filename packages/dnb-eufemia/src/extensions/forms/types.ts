@@ -109,6 +109,8 @@ export type ReceiveAdditionalEventArgs<
   required?: string
 }
 
+export type ValidatorDisableable<Value> = Validator<Value> | false
+
 /**
  * Accept any key, so custom message keys can be used
  * including the path to the field the message is for
