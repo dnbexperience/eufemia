@@ -277,7 +277,7 @@ export default function Provider<Data extends JsonObject>(
     forceUpdate()
     addSetShowAllErrorsRef.current.forEach((fn) => fn?.(showAllErrors))
   }, [])
-  const setVisibleError = useCallback((path: Path, hasError: boolean) => {
+  const revealError = useCallback((path: Path, hasError: boolean) => {
     if (hasError) {
       hasVisibleErrorRef.current[path] = hasError
     } else {
@@ -1366,7 +1366,7 @@ export default function Provider<Data extends JsonObject>(
     setFormState,
     setSubmitState,
     setShowAllErrors,
-    setVisibleError,
+    revealError,
     setFieldEventListener,
     setFieldState,
     setFieldError,
