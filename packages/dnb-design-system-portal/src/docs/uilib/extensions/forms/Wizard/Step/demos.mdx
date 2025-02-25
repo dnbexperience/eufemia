@@ -11,3 +11,11 @@ See [WizardContainer demo section](/uilib/extensions/forms/Wizard/Container/demo
 ### Dynamic steps
 
 <Examples.DynamicSteps />
+
+### Inactive control
+
+If you need more control over what steps the user can freely navigate to, the `inactive` prop allows you to treat a step as non-navigable even if it would be normally.
+
+In this example, the first step is never clickable, and you can never skip ahead, even if the next steps have been visited.
+
+<Examples.Inactive />

@@ -18,6 +18,10 @@ export type Props = ComponentProps &
      * A title that will be displayed in the indicator.
      */
     title?: React.ReactNode
+    /**
+     * Will treat the step as non-navigable if set to `true`.
+     */
+    inactive?: boolean
 
     /**
      * To determine if the step should be rendered.
@@ -51,6 +55,7 @@ function Step(props: Props): JSX.Element {
   const {
     className,
     title,
+    inactive,
     index,
     active = true,
     activeWhen,

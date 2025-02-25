@@ -451,7 +451,9 @@ function DisplaySteps({
       <StepIndicator
         bottom
         current_step={activeIndexRef.current}
-        data={Object.values(stepsRef.current).map(({ title }) => title)}
+        data={Object.values(stepsRef.current).map(
+          ({ title, inactive }) => ({ title, inactive })
+        )}
         mode={mode}
         no_animation={noAnimation}
         on_change={handleChange}
@@ -509,6 +511,7 @@ function IterateOverSteps({ children }) {
             child.props.title !== undefined
               ? convertJsxToString(child.props.title)
               : 'Title missing',
+          inactive: child.props.inactive,
         }
         const key = `${index}-${activeIndexRef.current}`
         const clone = (props) =>
