@@ -102,6 +102,12 @@ export type DatePickerInputProps = Omit<
   ) => void
 }
 
+export type InvalidDates = {
+  invalidDate?: string
+  invalidStartDate?: string
+  invalidEndDate?: string
+}
+
 const defaultProps: DatePickerInputProps = {
   maskOrder: 'dd/mm/yyyy',
   maskPlaceholder: 'dd/mm/åååå',
@@ -141,6 +147,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   } = props
 
   const [focusState, setFocusState] = useState<string>('virgin')
+  // TODO: refactor to useRef, as these values should not trigger a rerender
   const [partialDates, setPartialDates] = useState({
     partialStartDate: '',
     partialEndDate: '',
@@ -405,7 +412,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         )
 
       // Get the typed dates, so we can ...
-      let { startDate, endDate } = getDates()
+      const { startDate, endDate } = getDates()
       // Get the partial dates, so we can know if something was typed or not in an optional date field
       const partialStartDate = startDate
       const partialEndDate = endDate
@@ -415,33 +422,28 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         partialEndDate,
       })
 
-      startDate = parseISO(startDate)
-      endDate = parseISO(endDate)
+      const parsedStartDate = parseISO(startDate)
+      const parsedEndDate = parseISO(endDate)
 
-      // ... check if they were valid
-      if (!isValid(startDate)) {
-        startDate = null
-      }
-      if (!isValid(endDate)) {
-        endDate = null
-      }
+      const isStartDateValid = isValid(parsedStartDate)
+      const isEndDateValid = isValid(parsedEndDate)
 
       let returnObject = getReturnObject({
-        startDate,
-        endDate,
+        startDate: isStartDateValid ? parsedStartDate : null,
+        endDate: isEndDateValid ? parsedEndDate : null,
         event,
         partialStartDate,
         partialEndDate,
+        invalidStartDate: !isStartDateValid ? startDate : null,
+        invalidEndDate: !isEndDateValid ? endDate : null,
       })
 
-      // Now, lets correct
+      // TODO: Find a way to prevent having to re-assign the dates
       if (
         returnObject.is_valid === false ||
         returnObject.is_valid_start_date === false ||
         returnObject.is_valid_end_date === false
       ) {
-        const { startDate, endDate } = getDates()
-
         const typedDates = isRange
           ? {
               start_date: startDate,
