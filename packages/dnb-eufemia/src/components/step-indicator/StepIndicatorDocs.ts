@@ -41,6 +41,11 @@ export const StepIndicatorProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  outset: {
+    doc: 'Same as `outset` in [Card](/uilib/components/card/properties). Defaults to `false`',
+    type: 'boolean',
+    status: 'optional',
+  },
   skeleton: {
     doc: 'If set to `true`, an overlaying skeleton with animation will be shown.',
     type: 'boolean',

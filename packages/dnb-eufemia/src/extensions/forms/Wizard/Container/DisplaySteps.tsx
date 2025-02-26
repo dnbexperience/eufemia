@@ -9,6 +9,7 @@ export function DisplaySteps({
   noAnimation,
   handleChange,
   expandedInitially,
+  outset,
 }) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const {
@@ -63,6 +64,7 @@ export function DisplaySteps({
         no_animation={noAnimation}
         expandedInitially={expandedInitially}
         on_change={handleChange}
+        outset={outset}
         triggerButtonProps={getTriggerStatus()}
       />
     </aside>

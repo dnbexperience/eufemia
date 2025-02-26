@@ -148,6 +148,10 @@ export type StepIndicatorProps = Omit<
      * Set to `true` to have the list be expanded initially. Defaults to `false`.
      */
     expandedInitially?: boolean
+    /**
+     * Set it to `true` to break out on larger screens. Defaults to `false`
+     */
+    outset?: boolean
     skeleton?: SkeletonShow
     className?: string
     children?: React.ReactNode
@@ -169,7 +173,7 @@ function StepIndicator({
   expandedInitially = stepIndicatorDefaultProps.expandedInitially,
   ...restOfProps
 }: StepIndicatorProps) {
-  const props = handeDeprecatedProps({
+  const { outset, ...props } = handeDeprecatedProps({
     data,
     skeleton,
     current_step,
@@ -188,6 +192,7 @@ function StepIndicator({
             'dnb-step-indicator',
             createSpacingClasses(restOfProps)
           )}
+          outset={outset}
         >
           <StepIndicatorTriggerButton />
           <StepIndicatorList />
