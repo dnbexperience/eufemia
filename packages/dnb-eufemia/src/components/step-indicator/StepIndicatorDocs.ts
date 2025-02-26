@@ -98,7 +98,7 @@ export const StepIndicatorStepProperties: PropertiesTableProps = {
     status: 'optional',
   },
   disabled: {
-    doc: 'If set to `true`, this item step will be visible as a disabled button and will not be clickable. Defaults to `false`.',
+    doc: 'If set to `true`, this step will be handled the same as `inactive` as well as getting a disabled mouseover and `aria-disabled="true`. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
