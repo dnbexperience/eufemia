@@ -877,8 +877,6 @@ describe('Modal component', () => {
     )
     const on_open = jest.fn()
 
-    console.log('open_state')
-
     const { rerender } = render(
       <Modal {...props} on_close={on_close} on_open={on_open} />
     )
