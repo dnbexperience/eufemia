@@ -41,6 +41,11 @@ export const WizardContainerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  outset: {
+    doc: 'Same as `outset` in [Card](/uilib/components/card/properties). Defaults to `true`',
+    type: 'boolean',
+    status: 'optional',
+  },
   children: {
     doc: 'Contents (Step components).',
     type: 'React.Node',
