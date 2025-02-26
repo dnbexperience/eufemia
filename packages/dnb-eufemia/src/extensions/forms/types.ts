@@ -546,6 +546,9 @@ export interface ValueProps<Value = unknown>
   /** The max-width of a value block. Defaults to large */
   maxWidth?: 'small' | 'medium' | 'large' | 'auto'
 
+  /**
+   * Provide help content for the value.
+   */
   help?: HelpProps
 
   /**
