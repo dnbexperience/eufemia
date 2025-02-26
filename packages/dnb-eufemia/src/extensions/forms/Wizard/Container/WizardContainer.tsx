@@ -91,6 +91,11 @@ export type Props = ComponentProps & {
   prerenderFieldProps?: boolean
 
   /**
+   * Determines if and how the validation will be bypassed.
+   */
+  validationMode?: 'bypassOnNavigation'
+
+  /**
    * The children of the wizard container.
    */
   children: React.ReactNode
@@ -113,6 +118,7 @@ function WizardContainer(props: Props) {
     children,
     noAnimation = true,
     prerenderFieldProps = true,
+    validationMode,
     variant = 'sidebar',
     sidebarId,
     ...rest
@@ -213,7 +219,7 @@ function WizardContainer(props: Props) {
   }, [omitScrollManagement, omitFocusManagement, setFocus, scrollToTop])
 
   const handleStepChange = useCallback(
-    ({
+    async ({
       index,
       skipErrorCheck,
       skipStepChangeCall,
@@ -224,50 +230,63 @@ function WizardContainer(props: Props) {
       index: StepIndex
       mode: OnStepsChangeMode
     } & SetActiveIndexOptions) => {
-      handleSubmitCall({
+      const onSubmit = async () => {
+        if (!skipStepChangeCallFromHook) {
+          sharedStateRef.current?.data?.onStepChange?.(
+            index,
+            mode,
+            getStepChangeOptions(index)
+          )
+        }
+
+        let result = undefined
+
+        if (
+          !skipStepChangeCall &&
+          !(skipStepChangeCallBeforeMounted && !isInteractionRef.current)
+        ) {
+          result = await callOnStepChange(index, mode)
+        }
+
+        // Hide async indicator
+        setFormState('abort')
+
+        if (!skipErrorCheck) {
+          // Set the showAllErrors to the step we got to
+          setShowAllErrors(Boolean(errorOnStepRef.current[index]))
+        }
+
+        if (!preventNextStepRef.current && !(result instanceof Error)) {
+          handleLayoutEffect()
+
+          activeIndexRef.current = index
+          forceUpdate()
+        }
+
+        preventNextStepRef.current = false
+
+        return result
+      }
+
+      await handleSubmitCall({
         skipErrorCheck,
         skipFieldValidation: skipErrorCheck,
         enableAsyncBehavior: isAsync(onStepChange),
-        onSubmit: async () => {
-          if (!skipStepChangeCallFromHook) {
-            sharedStateRef.current?.data?.onStepChange?.(
-              index,
-              mode,
-              getStepChangeOptions(index)
-            )
-          }
-
-          let result = undefined
-
-          if (
-            !skipStepChangeCall &&
-            !(skipStepChangeCallBeforeMounted && !isInteractionRef.current)
-          ) {
-            result = await callOnStepChange(index, mode)
-          }
-
-          // Hide async indicator
-          setFormState('abort')
-
-          if (!skipErrorCheck) {
-            // Set the showAllErrors to the step we got to
-            setShowAllErrors(Boolean(errorOnStepRef.current[index]))
-          }
-
-          if (!preventNextStepRef.current && !(result instanceof Error)) {
-            handleLayoutEffect()
-
-            activeIndexRef.current = index
-            forceUpdate()
-          }
-
-          preventNextStepRef.current = false
-
-          return result
-        },
+        onSubmit,
       })
+
+      switch (validationMode) {
+        case 'bypassOnNavigation': {
+          const hasErrors = errorOnStepRef.current[activeIndexRef.current]
+          if (hasErrors) {
+            await onSubmit()
+          }
+          break
+        }
+      }
     },
     [
+      validationMode,
       callOnStepChange,
       getStepChangeOptions,
       handleLayoutEffect,
