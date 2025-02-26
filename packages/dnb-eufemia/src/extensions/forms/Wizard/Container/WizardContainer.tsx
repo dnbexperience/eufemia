@@ -75,15 +75,26 @@ export type Props = ComponentProps & {
 
   /**
    * The sidebar variant.
+   * @deprecated there is only one variant available. This props has no effect
    */
   variant?: 'sidebar' | 'drawer'
+  /**
+   * @deprecated there is no longer a sidebar. This prop does nothing.
+   */
   sidebarId?: string
 
   /**
    * If set to `true`, the wizard will not animate the steps.
    */
   noAnimation?: boolean
-
+  /**
+   * Set to `true` to have the list be expanded initially. Defaults to `false`.
+   */
+  expandedInitially?: boolean
+  /**
+   * Set it to `false` to avoid the step indicator breaking out on larger screens. Defaults to `true`
+   */
+  outset?: boolean
   /**
    * If set to `true`, the wizard pre-render all steps so the props of each field is available in the data context.
    * Defaults to `true`.
@@ -101,6 +112,13 @@ export type Props = ComponentProps & {
   scrollTopOnStepChange?: boolean
 }
 
+function handeDeprecatedProps(
+  props: Props
+): Omit<Props, 'variant' | 'sidebarId'> {
+  const { variant, sidebarId, ...rest } = props
+  return rest
+}
+
 function WizardContainer(props: Props) {
   const {
     className,
@@ -111,12 +129,12 @@ function WizardContainer(props: Props) {
     omitFocusManagement,
     onStepChange,
     children,
-    noAnimation = true,
+    noAnimation = false,
+    expandedInitially = false,
     prerenderFieldProps = true,
-    variant = 'sidebar',
-    sidebarId,
+    outset = true,
     ...rest
-  } = props
+  } = handeDeprecatedProps(props)
 
   const dataContext = useContext(DataContext)
   const {
@@ -172,8 +190,11 @@ function WizardContainer(props: Props) {
 
         const id = stepsRef.current[index]?.id
         if (id) {
-          const previousId = stepsRef.current[previousIndex]?.id
           Object.assign(options, { id })
+        }
+
+        const previousId = stepsRef.current[previousIndex]?.id
+        if (previousId) {
           Object.assign(options.previousStep, { id: previousId })
         }
 
@@ -401,20 +422,16 @@ function WizardContainer(props: Props) {
   return (
     <WizardContext.Provider value={providerValue}>
       <Space
-        className={classnames(
-          'dnb-forms-wizard-layout',
-          `dnb-forms-wizard-layout--${variant}`,
-          className
-        )}
+        className={classnames('dnb-forms-wizard-layout', className)}
         innerRef={elementRef}
         {...rest}
       >
         <DisplaySteps
           mode={mode}
-          variant={variant}
           noAnimation={noAnimation}
+          expandedInitially={expandedInitially}
           handleChange={handleChange}
-          sidebarId={sidebarId}
+          outset={outset}
         />
 
         <div className="dnb-forms-wizard-layout__contents">
@@ -433,24 +450,20 @@ function WizardContainer(props: Props) {
 
 function DisplaySteps({
   mode,
-  variant,
   noAnimation,
   handleChange,
-  sidebarId,
+  expandedInitially,
+  outset,
 }) {
   const [, forceUpdate] = useReducer(() => ({}), {})
-  const { id, activeIndexRef, stepsRef, updateTitlesRef } =
+  const { activeIndexRef, stepsRef, updateTitlesRef } =
     useContext(WizardContext) || {}
   updateTitlesRef.current = () => {
     forceUpdate()
   }
 
-  const sidebar_id =
-    variant === 'drawer' && !sidebarId ? undefined : sidebarId ?? id
-
   return (
     <aside className="dnb-forms-wizard-layout__indicator">
-      <StepIndicator.Sidebar sidebar_id={sidebar_id} />
       <StepIndicator
         bottom
         current_step={activeIndexRef.current}
@@ -459,8 +472,9 @@ function DisplaySteps({
         )}
         mode={mode}
         no_animation={noAnimation}
+        expandedInitially={expandedInitially}
         on_change={handleChange}
-        sidebar_id={sidebar_id}
+        outset={outset}
       />
     </aside>
   )

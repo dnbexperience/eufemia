@@ -4,10 +4,12 @@
  */
 
 import React from 'react'
-
+import classnames from 'classnames'
+import { createSpacingClasses } from '../space/SpacingHelper'
+import Card from '../../components/card/Card'
+import StepIndicatorTriggerButton from './StepIndicatorTriggerButton'
 import StepIndicatorSidebar from './StepIndicatorSidebar'
-
-import StepIndicatorModal from './StepIndicatorModal'
+import StepIndicatorList from './StepIndicatorList'
 import {
   StepIndicatorContextValues,
   StepIndicatorProvider,
@@ -20,7 +22,6 @@ import type {
   StepItemWrapper,
 } from './StepIndicatorItem'
 import { stepIndicatorDefaultProps } from './StepIndicatorProps'
-import useId from '../../shared/helpers/useId'
 
 export type StepIndicatorMode = 'static' | 'strict' | 'loose'
 export type StepIndicatorDataItem = Pick<
@@ -44,8 +45,11 @@ export type StepIndicatorMouseEvent = {
 }
 
 export type StepIndicatorRenderCallback = {
+  /** A component that will render the item with the correct props. */
   StepItem: typeof StepItemWrapper
+  /** Element that was originally going to be rendered */
   element: React.ReactNode
+  /** @deprecated never has values */
   attributes: React.HTMLProps<HTMLElement>
   props: StepIndicatorItemProps
   context: StepIndicatorContextValues
@@ -58,6 +62,7 @@ export type StepIndicatorProps = Omit<
   SpacingProps & {
     /**
      * <em>(required with `<StepIndicator.Sidebar />`)</em> a unique string-based ID in order to bind together the main component and the sidebar (`<StepIndicator.Sidebar />`). Both have to get the same ID.
+     * @deprecated StepIndicator.Sidebar variant is no longer supported
      */
     sidebar_id?: string
     /**
@@ -87,6 +92,7 @@ export type StepIndicatorProps = Omit<
      * `%step` is used to place the current step into the text
      * `%count` is used to place the step total into the text
      *  Defaults to `You are on step %step of %count`
+     * @deprecated only `step_title`is used
      */
     step_title_extended?: string
     /**
@@ -108,6 +114,7 @@ export type StepIndicatorProps = Omit<
     }: StepIndicatorMouseEvent) => void
     /**
      * Callback function to manipulate or wrap every item. Has to return a React Node. You receive an object you can use in your custom HOC `{ StepItem, element, attributes, props, context }`.
+     * @deprecated no longer does anything other than the step item `title` prop
      */
     on_item_render?: ({
       StepItem,
@@ -125,15 +132,29 @@ export type StepIndicatorProps = Omit<
       current_step,
       currentStep,
     }: StepIndicatorMouseEvent) => void
-
     /**
      * If set to `true`, the height animation on the step items and the drawer button will be omitted. Defaults to `false`.
      */
     no_animation?: boolean
+    /**
+     * Set to `true` to have the list be expanded initially. Defaults to `false`.
+     */
+    expandedInitially?: boolean
+    /**
+     * Set it to `true` to break out on larger screens. Defaults to `false`
+     */
+    outset?: boolean
     skeleton?: SkeletonShow
     className?: string
     children?: React.ReactNode
   }
+
+function handeDeprecatedProps(
+  props: StepIndicatorProps
+): Omit<StepIndicatorProps, 'sidebar_id' | 'step_title_extended'> {
+  const { sidebar_id, step_title_extended, ...rest } = props
+  return rest
+}
 
 function StepIndicator({
   data = stepIndicatorDefaultProps.data,
@@ -141,28 +162,41 @@ function StepIndicator({
   current_step = stepIndicatorDefaultProps.current_step,
   hide_numbers = stepIndicatorDefaultProps.hide_numbers,
   no_animation = stepIndicatorDefaultProps.no_animation,
+  expandedInitially = stepIndicatorDefaultProps.expandedInitially,
   ...restOfProps
 }: StepIndicatorProps) {
-  const props = {
+  const { outset, ...props } = handeDeprecatedProps({
     data,
     skeleton,
     current_step,
     hide_numbers,
     no_animation,
+    expandedInitially,
     ...restOfProps,
-  }
-
-  const sidebarId = useId(props.sidebar_id)
+  })
 
   return (
-    <StepIndicatorProvider {...props} sidebar_id={sidebarId}>
+    <StepIndicatorProvider {...props}>
       <div className="dnb-step-indicator-wrapper">
-        <StepIndicatorModal />
+        <Card
+          align="stretch"
+          className={classnames(
+            'dnb-step-indicator',
+            createSpacingClasses(restOfProps)
+          )}
+          outset={outset}
+        >
+          <StepIndicatorTriggerButton />
+          <StepIndicatorList />
+        </Card>
       </div>
     </StepIndicatorProvider>
   )
 }
 
+/**
+ * @deprecated StepIndicator.Sidebar variant is no longer supported
+ */
 StepIndicator.Sidebar = StepIndicatorSidebar
 
 StepIndicator._supportsSpacingProps = true
