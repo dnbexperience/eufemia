@@ -40,7 +40,7 @@ export type Props = Omit<ValueProps<unknown>, 'value'> & {
 
   /**
    * The layout of the value block.
-   * (Undocumented for now, as there is only one layout option.)
+   * (Undocumented for now, as there is only one layout option, vertical.)
    */
   layout?: 'vertical'
 
@@ -205,6 +205,7 @@ function ValueBlock(props: Props) {
         ref={ref}
         className={classnames(
           'dnb-forms-value-block',
+          `dnb-forms-value-block--max-width-${maxWidth}`,
           inline && 'dnb-forms-value-block--inline',
           compositionClass,
           className
