@@ -68,6 +68,183 @@ export const HorizontalLayout = () => {
   )
 }
 
+export const DefaultLayoutWithHelp = () => {
+  return (
+    <ComponentBox data-visual-test="forms-value-summary-list-default-with-help">
+      <Form.Handler
+        data={{
+          firstName: 'John',
+          lastName: 'Doe',
+          nickName: 'JD',
+          streetName: 'Osloveien',
+          streetNr: 12,
+        }}
+      >
+        <Form.Card>
+          <Form.SubHeading>Subheading</Form.SubHeading>
+
+          <Value.SummaryList>
+            <Value.Name.First
+              path="/firstName"
+              help={{
+                open: true,
+                title: 'Help title',
+                content: 'Help content',
+              }}
+            />
+            <Value.Name.Last path="/lastName" />
+            <Value.String
+              path="/nickName"
+              label="kallenavn"
+              help={{
+                open: true,
+                title: 'Help title',
+                content: 'Help content',
+              }}
+            />
+            <Value.Composition
+              label="Street"
+              help={{
+                open: true,
+                title: 'Help title',
+                content: 'Help content',
+              }}
+            >
+              <Value.String path="/streetName" />
+              <Value.Number
+                path="/streetNr"
+                help={{
+                  open: true,
+                  title: 'Help title',
+                  content: 'Help content',
+                }}
+              />
+            </Value.Composition>
+          </Value.SummaryList>
+        </Form.Card>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const GridLayoutWithHelp = () => {
+  return (
+    <ComponentBox data-visual-test="forms-value-summary-list-grid-with-help">
+      <Form.Handler
+        data={{
+          firstName: 'John',
+          lastName: 'Doe',
+          nickName: 'JD',
+          streetName: 'Osloveien',
+          streetNr: 12,
+        }}
+      >
+        <Form.Card>
+          <Form.SubHeading>Subheading</Form.SubHeading>
+
+          <Value.SummaryList layout="grid">
+            <Value.Name.First
+              path="/firstName"
+              help={{
+                open: true,
+                title: 'Help title',
+                content: 'Help content',
+              }}
+            />
+            <Value.Name.Last path="/lastName" />
+            <Value.String
+              path="/nickName"
+              label="kallenavn"
+              help={{
+                open: true,
+                title: 'Help title',
+                content: 'Help content',
+              }}
+            />
+            <Value.Composition
+              label="Street"
+              help={{
+                open: true,
+                title: 'Help title',
+                content: 'Help content',
+              }}
+            >
+              <Value.String path="/streetName" />
+              <Value.Number
+                path="/streetNr"
+                help={{
+                  open: true,
+                  title: 'Help title',
+                  content: 'Help content',
+                }}
+              />
+            </Value.Composition>
+          </Value.SummaryList>
+        </Form.Card>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const HorizontalLayoutWithHelp = () => {
+  return (
+    <ComponentBox data-visual-test="forms-value-summary-list-horizontal-with-help">
+      <Form.Handler
+        data={{
+          firstName: 'John',
+          lastName: 'Doe',
+          nickName: 'JD',
+          streetName: 'Osloveien',
+          streetNr: 12,
+        }}
+      >
+        <Form.Card>
+          <Form.SubHeading>Subheading</Form.SubHeading>
+
+          <Value.SummaryList layout="horizontal">
+            <Value.Name.First
+              path="/firstName"
+              help={{
+                open: true,
+                title: 'Help title',
+                content: 'Help content',
+              }}
+            />
+            <Value.Name.Last path="/lastName" />
+            <Value.String
+              path="/nickName"
+              label="kallenavn"
+              help={{
+                open: true,
+                title: 'Help title',
+                content: 'Help content',
+              }}
+            />
+            <Value.Composition
+              label="Street"
+              help={{
+                open: true,
+                title: 'Help title',
+                content: 'Help content',
+              }}
+            >
+              <Value.String path="/streetName" />
+              <Value.Number
+                path="/streetNr"
+                help={{
+                  open: true,
+                  title: 'Help title',
+                  content: 'Help content',
+                }}
+              />
+            </Value.Composition>
+          </Value.SummaryList>
+        </Form.Card>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
 export const CombinedLayout = () => {
   return (
     <ComponentBox data-visual-test="forms-value-summary-list-combined">

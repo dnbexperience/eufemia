@@ -149,7 +149,13 @@ export const WithHelp = () => {
               }}
             >
               <Value.String value="value" />
-              <Value.Number value={123} />
+              <Value.Number
+                value={123}
+                help={{
+                  title: 'Hva betyr lånebeløp?',
+                  content: 'Dette er hvor mye du har tenkt å låne totalt.',
+                }}
+              />
             </Value.Composition>
             <Value.String value="Another value" />
           </Value.SummaryList>
