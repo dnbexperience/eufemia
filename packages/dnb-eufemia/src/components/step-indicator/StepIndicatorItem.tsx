@@ -41,7 +41,7 @@ export type StepIndicatorItemProps = Omit<
    */
   inactive?: boolean
   /**
-   * If set to true, this item step will be visible as an disabled button and will not be clickable.
+   * If set to true, this item step will not be clickable. Same as `inactive`, but will also add the `aria-disabled="true"` .
    * Defaults to false.
    */
   disabled?: boolean
@@ -168,7 +168,7 @@ function StepIndicatorItem({
   const isNavigatable = mode === 'strict' || mode === 'loose'
 
   let isInactive =
-    inactive || (mode === 'strict' && !hasPassedAndIsCurrent)
+    inactive || disabled || (mode === 'strict' && !hasPassedAndIsCurrent)
 
   const isVisited = currentItemNum < activeStep
 
