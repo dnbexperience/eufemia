@@ -57,16 +57,20 @@ describe('ValueBlock', () => {
   })
 
   it('should have large max-width by default', () => {
-    render(<ValueBlock showEmpty />)
+    render(<ValueBlock>content</ValueBlock>)
 
-    const element = document.querySelector('.dnb-forms-value-block')
+    const element = document.querySelector(
+      '.dnb-forms-value-block__content'
+    )
     expect(element).toHaveClass('dnb-forms-value-block--max-width-large')
   })
 
   it('should set max-width', () => {
-    render(<ValueBlock showEmpty maxWidth="medium" />)
+    render(<ValueBlock maxWidth="medium"> content</ValueBlock>)
 
-    const element = document.querySelector('.dnb-forms-value-block')
+    const element = document.querySelector(
+      '.dnb-forms-value-block__content'
+    )
     expect(element).toHaveClass('dnb-forms-value-block--max-width-medium')
   })
 
