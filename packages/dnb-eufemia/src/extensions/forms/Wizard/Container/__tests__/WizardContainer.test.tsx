@@ -241,52 +241,55 @@ describe('Wizard.Container', () => {
     )
 
     expect(output()).toHaveTextContent('Step 1')
-    expect(screen.queryByRole('alert')).toBeNull()
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
 
     await userEvent.click(nextButton())
 
+    expect(output()).toHaveTextContent('Step 2')
+
     await waitFor(() => {
-      expect(output()).toHaveTextContent('Step 2')
-      expect(screen.queryByRole('alert')).toBeNull()
+      expect(document.querySelector('.dnb-form-status')).toBeNull()
     })
 
     await userEvent.click(nextButton())
 
+    expect(output()).toHaveTextContent('Step 2')
+
     await waitFor(() => {
-      expect(output()).toHaveTextContent('Step 2')
-      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
     })
 
     await userEvent.click(previousButton())
 
+    expect(output()).toHaveTextContent('Step 1')
+
     await waitFor(() => {
-      expect(output()).toHaveTextContent('Step 1')
-      expect(screen.queryByRole('alert')).toBeNull()
+      expect(document.querySelector('.dnb-form-status')).toBeNull()
     })
 
     await userEvent.click(nextButton())
 
-    await waitFor(() => {
-      expect(output()).toHaveTextContent('Step 2')
-    })
+    expect(output()).toHaveTextContent('Step 2')
 
     await waitFor(() => {
-      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
     })
 
     await userEvent.type(document.querySelector('input'), 'foo')
 
     await waitFor(() => {
-      expect(screen.queryByRole('alert')).toBeNull()
+      expect(document.querySelector('.dnb-form-status')).toBeNull()
     })
 
     await userEvent.click(nextButton())
 
-    await waitFor(() => {
-      expect(output()).toHaveTextContent('Step 3')
-    })
+    expect(output()).toHaveTextContent('Step 3')
 
-    expect(screen.queryByRole('alert')).toBeNull()
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
   })
 
   it('should support navigating back and forth with async validators', async () => {
@@ -332,12 +335,12 @@ describe('Wizard.Container', () => {
     const input = () => document.querySelector('input')
 
     expect(output()).toHaveTextContent('Step 1')
-    expect(screen.queryByRole('alert')).toBeNull()
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
 
     await userEvent.click(nextButton())
 
     expect(output()).toHaveTextContent('Step 1')
-    expect(screen.queryByRole('alert')).toHaveTextContent(
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
       nb.Field.errorRequired
     )
 
@@ -345,7 +348,7 @@ describe('Wizard.Container', () => {
     fireEvent.click(nextButton())
 
     expect(output()).toHaveTextContent('Step 1')
-    expect(screen.queryByRole('alert')).toHaveTextContent(
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
       'onChangeValidator-error'
     )
 
@@ -353,7 +356,7 @@ describe('Wizard.Container', () => {
 
     await waitFor(() => {
       expect(output()).toHaveTextContent('Step 1')
-      expect(screen.queryByRole('alert')).toHaveTextContent(
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
         'onBlurValidator-error'
       )
     })
@@ -362,25 +365,25 @@ describe('Wizard.Container', () => {
     await userEvent.click(nextButton())
 
     expect(output()).toHaveTextContent('Step 2')
-    expect(screen.queryByRole('alert')).toBeNull()
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
 
     await userEvent.click(nextButton())
 
     expect(output()).toHaveTextContent('Step 2')
-    expect(screen.queryByRole('alert')).toHaveTextContent(
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
       nb.Field.errorRequired
     )
 
     await userEvent.click(previousButton())
 
     expect(output()).toHaveTextContent('Step 1')
-    expect(screen.queryByRole('alert')).toBeNull()
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
 
     await userEvent.type(input(), '{Backspace>8}invalid')
     fireEvent.click(nextButton())
 
     expect(output()).toHaveTextContent('Step 1')
-    expect(screen.queryByRole('alert')).toHaveTextContent(
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
       'onChangeValidator-error'
     )
 
@@ -388,7 +391,7 @@ describe('Wizard.Container', () => {
 
     await waitFor(() => {
       expect(output()).toHaveTextContent('Step 1')
-      expect(screen.queryByRole('alert')).toHaveTextContent(
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
         'onBlurValidator-error'
       )
     })
@@ -397,7 +400,7 @@ describe('Wizard.Container', () => {
     await userEvent.click(nextButton())
 
     expect(output()).toHaveTextContent('Step 2')
-    expect(screen.queryByRole('alert')).toHaveTextContent(
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
       nb.Field.errorRequired
     )
   }, 20000)
@@ -528,13 +531,13 @@ describe('Wizard.Container', () => {
     )
 
     expect(output()).toHaveTextContent('Step 1')
-    expect(screen.queryByRole('alert')).toBeNull()
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
 
     await userEvent.click(secondStep.querySelector('button'))
 
     await waitFor(() => {
       expect(output()).toHaveTextContent('Step 2')
-      expect(screen.queryByRole('alert')).toBeNull()
+      expect(document.querySelector('.dnb-form-status')).toBeNull()
     })
 
     // Show the error message
@@ -542,21 +545,25 @@ describe('Wizard.Container', () => {
 
     await waitFor(() => {
       expect(output()).toHaveTextContent('Step 2')
-      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
     })
 
     await userEvent.click(firstStep.querySelector('button'))
 
     await waitFor(() => {
       expect(output()).toHaveTextContent('Step 1')
-      expect(screen.queryByRole('alert')).toBeNull()
+      expect(document.querySelector('.dnb-form-status')).toBeNull()
     })
 
     await userEvent.click(secondStep.querySelector('button'))
 
     await waitFor(() => {
       expect(output()).toHaveTextContent('Step 2')
-      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
     })
   })
 
@@ -1917,9 +1924,9 @@ describe('Wizard.Container', () => {
       await waitFor(() => {
         expect(output()).toHaveTextContent('Step 1')
         expect(screen.queryAllByRole('alert')).toHaveLength(1)
-        expect(screen.queryByRole('alert')).toHaveTextContent(
-          'Error message'
-        )
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('Error message')
         expect(previousButton()).toBeDisabled()
         expect(nextButton()).not.toBeDisabled()
       })
@@ -2039,9 +2046,9 @@ describe('Wizard.Container', () => {
       await waitFor(() => {
         expect(output()).toHaveTextContent('Step 1')
         expect(screen.queryAllByRole('alert')).toHaveLength(1)
-        expect(screen.queryByRole('alert')).toHaveTextContent(
-          'Error message'
-        )
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('Error message')
         expect(previousButton()).toBeDisabled()
         expect(nextButton()).not.toBeDisabled()
       })
@@ -2191,12 +2198,12 @@ describe('Wizard.Container', () => {
     )
 
     expect(output()).toHaveTextContent('Step 1')
-    expect(screen.queryByRole('alert')).toBeNull()
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
 
     fireEvent.click(nextButton())
 
     expect(output()).toHaveTextContent('Step 1')
-    expect(screen.queryByRole('alert')).toBeInTheDocument()
+    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
   })
 
   it('should set focus on step change', async () => {
@@ -2342,25 +2349,25 @@ describe('Wizard.Container', () => {
     )
 
     expect(output()).toHaveTextContent('Step 1')
-    expect(screen.queryByRole('alert')).toBeNull()
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
 
     fireEvent.click(nextButton())
 
     expect(output()).toHaveTextContent('Step 1')
-    expect(screen.queryByRole('alert')).toBeInTheDocument()
+    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
 
     await userEvent.type(document.querySelector('input'), 'valid')
-    expect(screen.queryByRole('alert')).toBeNull()
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
 
     await userEvent.click(nextButton())
 
     expect(output()).toHaveTextContent('Step 2')
-    expect(screen.queryByRole('alert')).toBeNull()
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
 
     await userEvent.click(submitButton())
 
     expect(output()).toHaveTextContent('Step 2')
-    expect(screen.queryByRole('alert')).toBeInTheDocument()
+    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
   })
 
   it('should prevent navigation if `preventNavigation` is called', async () => {
@@ -2447,7 +2454,9 @@ describe('Wizard.Container', () => {
     await userEvent.click(nextButton())
 
     await waitFor(() => {
-      expect(screen.queryByRole('alert')).toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
     })
 
     expect(output()).toHaveTextContent('Step 1')
@@ -2455,7 +2464,7 @@ describe('Wizard.Container', () => {
     await userEvent.type(document.querySelector('input'), 'valid')
 
     await waitFor(() => {
-      expect(screen.queryByRole('alert')).toBeNull()
+      expect(document.querySelector('.dnb-form-status')).toBeNull()
     })
 
     await userEvent.click(nextButton())
@@ -2466,6 +2475,78 @@ describe('Wizard.Container', () => {
       previousStep: { index: 0 },
       preventNavigation: expect.any(Function),
     })
+  })
+
+  it('should run validation before every step change using StepIndicator to navigate back and forth', async () => {
+    const onStepChange = jest.fn()
+
+    render(
+      <Form.Handler>
+        <Wizard.Container onStepChange={onStepChange} mode="loose">
+          <Wizard.Step title="Step 1">
+            <Field.String required />
+            <output>Step 1</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+          <Wizard.Step title="Step 2">
+            <output>Step 2</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>
+    )
+
+    const [firstStep, secondStep] = Array.from(
+      document.querySelectorAll('.dnb-step-indicator__item')
+    )
+
+    expect(output()).toHaveTextContent('Step 1')
+
+    // Try Step 2
+    await userEvent.click(secondStep.querySelector('.dnb-button'))
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+    })
+
+    expect(output()).toHaveTextContent('Step 1')
+
+    await userEvent.type(document.querySelector('input'), 'foo')
+
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-form-status')).toBeNull()
+    })
+
+    // Go to Step 2
+    await userEvent.click(secondStep.querySelector('.dnb-button'))
+
+    expect(output()).toHaveTextContent('Step 2')
+    expect(onStepChange).toHaveBeenCalledTimes(1)
+    expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
+      previousStep: { index: 0 },
+      preventNavigation: expect.any(Function),
+    })
+
+    // Go to Step 1
+    await userEvent.click(firstStep.querySelector('.dnb-button'))
+
+    expect(output()).toHaveTextContent('Step 1')
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+    await userEvent.type(document.querySelector('input'), '{Backspace>3}')
+
+    // Try Step 2
+    await userEvent.click(secondStep.querySelector('.dnb-button'))
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+    })
+
+    expect(output()).toHaveTextContent('Step 1')
   })
 
   describe('prerenderFieldProps and filterData', () => {
