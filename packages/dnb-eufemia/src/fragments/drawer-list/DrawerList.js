@@ -582,15 +582,21 @@ function DrawerListOptionItem({
   )
 }
 
-DrawerList.HorizontalItem = ({ className = null, ...props }) => (
-  <DrawerListOptionItem
-    className={classnames([
-      'dnb-drawer-list__option__item--horizontal',
-      className,
-    ])}
-    {...props}
-  />
-)
+DrawerList.HorizontalItem = ({
+  className = null,
+  on_click = null, // eslint-disable-line
+  ...props
+}) => {
+  return (
+    <DrawerListOptionItem
+      className={classnames([
+        'dnb-drawer-list__option__item--horizontal',
+        className,
+      ])}
+      {...props}
+    />
+  )
+}
 
 DrawerList.HorizontalItem.propTypes = {
   className: PropTypes.string,
