@@ -307,7 +307,7 @@ function WizardContainer(props: Props) {
 
   const handleChange = useCallback(
     ({ current_step }) => {
-      setActiveIndex(current_step, { skipErrorCheck: true })
+      setActiveIndex(current_step)
     },
     [setActiveIndex]
   )
