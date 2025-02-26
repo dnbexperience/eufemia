@@ -92,6 +92,10 @@ export type Props = ComponentProps & {
    */
   expandedInitially?: boolean
   /**
+   * Set it to `false` to avoid the step indicator breaking out on larger screens. Defaults to `true`
+   */
+  outset?: boolean
+  /**
    * If set to `true`, the wizard pre-render all steps so the props of each field is available in the data context.
    * Defaults to `true`.
    */
@@ -134,6 +138,7 @@ function WizardContainer(props: Props) {
     expandedInitially = false,
     prerenderFieldProps = true,
     validationMode,
+    outset = true,
     ...rest
   } = handeDeprecatedProps(props)
 
@@ -445,6 +450,7 @@ function WizardContainer(props: Props) {
           noAnimation={noAnimation}
           expandedInitially={expandedInitially}
           handleChange={handleChange}
+          outset={outset}
         />
 
         <div className="dnb-forms-wizard-layout__contents">
@@ -466,6 +472,7 @@ function DisplaySteps({
   noAnimation,
   handleChange,
   expandedInitially,
+  outset,
 }) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const { activeIndexRef, stepsRef, updateTitlesRef } =
@@ -486,6 +493,7 @@ function DisplaySteps({
         no_animation={noAnimation}
         expandedInitially={expandedInitially}
         on_change={handleChange}
+        outset={outset}
       />
     </aside>
   )
