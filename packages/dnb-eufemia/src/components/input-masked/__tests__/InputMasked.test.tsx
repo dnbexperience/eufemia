@@ -74,6 +74,14 @@ describe('InputMasked component', () => {
     expect(ref.current.tagName).toBe('INPUT')
   })
 
+  it('should apply value attribute to input', () => {
+    render(<InputMasked value="1234" />)
+
+    expect(document.querySelector('input').getAttribute('value')).toBe(
+      '1234'
+    )
+  })
+
   it('event "on_change" gets emitted with correct value #1', async () => {
     const initValue = 'NOK 1234,5 kr'
     const newValue = 'NOK 123456789,0 kr'
@@ -99,6 +107,9 @@ describe('InputMasked component', () => {
     })
 
     expect(document.querySelector('input').value).toBe(
+      'NOK 1 234 567 890,,- kr'
+    )
+    expect(document.querySelector('input').getAttribute('value')).toBe(
       'NOK 1 234 567 890,,- kr'
     )
 
@@ -130,7 +141,9 @@ describe('InputMasked component', () => {
     })
 
     expect(document.querySelector('input').value).toBe('123 456 789,67')
-
+    expect(document.querySelector('input').getAttribute('value')).toBe(
+      '123 456 789,67'
+    )
     expect(on_change).toHaveBeenCalledTimes(1)
     expect(
       on_change.mock.calls[on_change.mock.calls.length - 1][0].value
@@ -164,6 +177,9 @@ describe('InputMasked component', () => {
     })
 
     expect(document.querySelector('input').value).toBe('123 456 789,67')
+    expect(document.querySelector('input').getAttribute('value')).toBe(
+      '123 456 789,67'
+    )
 
     expect(
       on_change.mock.calls[on_change.mock.calls.length - 1][0].value
