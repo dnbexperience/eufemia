@@ -251,3 +251,43 @@ export const WithStatusMessage = () => {
     </ComponentBox>
   )
 }
+
+export const OnSubmitRequest = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler
+        onSubmitRequest={({ errors }) => {
+          errors.forEach(({ label, error }) => {
+            console.log(label, error.message)
+          })
+        }}
+      >
+        <Wizard.Container mode="loose" variant="drawer">
+          <Wizard.Step title="Step 1">
+            <Form.Card>
+              <Field.String
+                path="/foo"
+                label="Foo"
+                defaultValue="With default value"
+                required
+              />
+              <Field.String path="/bar" label="Bar" required />
+            </Form.Card>
+
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 2">
+            <Form.Card>
+              <Field.String path="/baz" label="Baz" required />
+            </Form.Card>
+
+            <Wizard.Buttons />
+
+            <Form.SubmitButton />
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}

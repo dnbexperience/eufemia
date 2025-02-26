@@ -2,6 +2,7 @@ import type { AriaAttributes } from 'react'
 import type { SpacingProps } from '../../components/space/types'
 import type {
   ContextState,
+  DataPathHandlerParameters,
   EventListenerCall,
   FilterData,
   TransformData,
@@ -673,6 +674,11 @@ export type OnSubmit<Data = JsonObject> = (
     clearData,
   }: OnSubmitParams
 ) => OnSubmitReturn
+export type OnSubmitRequest = ({
+  errors,
+}: {
+  errors: Array<DataPathHandlerParameters>
+}) => void
 
 export type OnCommit<Data = JsonObject> = (
   data: Data,
