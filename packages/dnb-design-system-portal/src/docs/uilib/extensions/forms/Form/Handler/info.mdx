@@ -252,7 +252,7 @@ render(
 
 You can use the `filterData` function to filter your `onSubmit` data. It might be useful, for example, to **exclude disabled fields** or filter out empty fields. The callback function receives the following arguments:
 
-The callback function receives the following properties in an object with the type `DataPathHandlerParameters`:
+The callback function receives the following properties in an object:
 
 - `path` The path of the field.
 - `value` The value of the field.
@@ -329,7 +329,7 @@ const MyForm = () => {
 
 The `transformData` handler will call your given function for each `Field.*` that contains a path (not `Iterate.Array`). The returned value will be used instead of the given `value` and returned as a new data object. It's up to you to define the shape of the returned value.
 
-The callback function receives the following properties in an object with the type `DataPathHandlerParameters`:
+The callback function receives the following properties in an object:
 
 - `path` The path of the field.
 - `value` The value of the field.
