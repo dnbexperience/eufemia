@@ -36,8 +36,14 @@ Read more in the [First Steps](/uilib/usage/first-steps/) section.
 
 ## Supported Browsers and Platforms
 
-Eufemia uses the following config for the bundle output, defined in `.browserslistrc`:
+To cover most users in Norway and balance between security and user experience, DNB has defined browsers support list:
 
-- `defaults and supports es6-module`
+| Device type   | OS          | Browsers |
+|---------------|-------------|----------|
+| Desktop       | -           | Chrome >= 109 <br /> Edge >= 109 <br /> Firefox >= 115 <br /> Opera >= 95 <br /> Safari >= 13.1 |
+| Tablet/Mobile | Android >=6 | Chrome >= 106 <br /> Firefox >= 115 <br /> Samsung Browser >=17 |
+|               | iOS >= 13.1 | Safari iOS >=13.1 |
 
-To see exactly which browsers this config supports, take a look [here](https://browsersl.ist/#q=defaults+and+supports+es6-module).
+Based on it, Eufemia is offering shared browserslist config `@dnb/browserslist-config`. See [Readme](https://github.com/dnbexperience/browserslist-config) to get more information about how to use it.
+
+To see exactly browsers coverage in Norway that this config supports, take a look [here](https://browsersl.ist/#q=Chrome+%3E%3D+109%2C+Firefox+%3E%3D+115%2C+Edge+%3E%3D+109%2C+Opera+%3E%3D+95%2C+Safari+%3E%3D+13.1%2C+ChromeAndroid+%3E%3D+106%2C+FirefoxAndroid+%3E%3D+115%2C+Samsung+%3E%3D+17%2C+iOS+%3E%3D+13.1&region=NO).
