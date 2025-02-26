@@ -772,15 +772,7 @@ describe('DrawerList component', () => {
       render(
         <DrawerList {...props}>
           <DrawerList.Options>
-            <DrawerList.HorizontalItem
-              style={{ hyphens: 'auto' }}
-              key="A"
-              selected={false}
-              value="A"
-              on_click={() => {
-                console.log('on_click')
-              }}
-            >
+            <DrawerList.HorizontalItem style={{ hyphens: 'auto' }}>
               Content
             </DrawerList.HorizontalItem>
           </DrawerList.Options>
