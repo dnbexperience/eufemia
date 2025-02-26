@@ -52,6 +52,7 @@ import DataContext, {
   TransformData,
   VisibleDataHandler,
   FieldInternalsRefProps,
+  DataPathHandlerParameters,
 } from '../Context'
 
 /**
@@ -424,6 +425,36 @@ export default function Provider<Data extends JsonObject>(
     []
   )
 
+  const getDataPathHandlerParameters = useCallback(
+    (
+      path: Path,
+      data: Data = internalDataRef.current
+    ): DataPathHandlerParameters => {
+      const value = pointer.has(data, path)
+        ? pointer.get(data, path)
+        : undefined
+      const { value: displayValue } =
+        fieldDisplayValueRef.current[path] || {}
+      const props = fieldInternalsRef.current[path]?.props
+      const label = props?.label
+      const error = fieldErrorRef.current[path]
+
+      return {
+        path,
+        value,
+        displayValue,
+        label,
+        props,
+        data: internalDataRef.current, // always use the internal data
+        error,
+
+        /** @deprecated – can be removed in v11 */
+        internal: { error },
+      }
+    },
+    []
+  )
+
   /**
    * Mutate the data set based on the filterData function
    */
@@ -453,31 +484,18 @@ export default function Provider<Data extends JsonObject>(
       }
 
       if (typeof handler === 'function') {
-        Object.entries(fieldInternalsRef.current).forEach(
-          ([path, { props }]) => {
-            const exists = pointer.has(data, path)
-            if (exists) {
-              const value = pointer.get(data, path)
-              const { value: displayValue, type } =
-                fieldDisplayValueRef.current[path] || {}
-              const internal = {
-                error: fieldErrorRef.current?.[path],
-              }
-              if (fireHandlerWhen?.({ type }) !== false) {
-                const result = handler({
-                  path,
-                  value,
-                  displayValue,
-                  label: props.label,
-                  data: internalDataRef.current,
-                  props,
-                  internal,
-                })
-                mutateEntry(path, result)
-              }
+        Object.keys(fieldInternalsRef.current).forEach((path) => {
+          const exists = pointer.has(data, path)
+          if (exists) {
+            const { type } = fieldDisplayValueRef.current[path] || {}
+            if (fireHandlerWhen?.({ type }) !== false) {
+              const result = handler(
+                getDataPathHandlerParameters(path, data)
+              )
+              mutateEntry(path, result)
             }
           }
-        )
+        })
 
         if (!mutate) {
           return freshData
@@ -488,17 +506,9 @@ export default function Provider<Data extends JsonObject>(
         const runFilter = ({ path, condition }) => {
           const exists = pointer.has(data, path)
           if (exists) {
-            const value = pointer.get(data, path)
-            const props = fieldInternalsRef.current[path]?.props
-            const internal = { error: fieldErrorRef.current?.[path] }
             const result =
               typeof condition === 'function'
-                ? condition({
-                    value,
-                    data: internalDataRef.current,
-                    props,
-                    internal,
-                  })
+                ? condition(getDataPathHandlerParameters(path, data))
                 : condition
             mutateEntry(path, result)
           }
@@ -545,7 +555,7 @@ export default function Provider<Data extends JsonObject>(
 
       return data
     },
-    []
+    [getDataPathHandlerParameters]
   )
 
   /**
@@ -1080,13 +1090,9 @@ export default function Provider<Data extends JsonObject>(
         setShowAllErrors(true)
 
         onSubmitRequest?.({
-          errors: Object.entries(fieldErrorRef.current)
-            .map(([path, error]) => {
-              return {
-                path,
-                error,
-                props: fieldInternalsRef.current[path]?.props,
-              }
+          errors: Object.keys(fieldErrorRef.current)
+            .map((path) => {
+              return getDataPathHandlerParameters(path)
             })
             .filter(({ error }) => error),
         })
@@ -1096,6 +1102,7 @@ export default function Provider<Data extends JsonObject>(
     },
     [
       clearData,
+      getDataPathHandlerParameters,
       hasErrors,
       hasFieldState,
       hasFieldWithAsyncValidator,

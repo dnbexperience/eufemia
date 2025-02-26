@@ -201,12 +201,14 @@ You can use the `filterData` function to filter your data. Check out [the exampl
 
 You simply give it the [same kind of filter](/uilib/extensions/forms/Form/Handler/demos/#filter-your-data) as you would within the `onSubmit` event callback.
 
-The callback function receives the following arguments:
+The callback function receives the following properties in an object with the type `DataPathHandlerParameters`:
 
-1. `path` as the first argument.
-2. `value` as the second argument.
-3. The field `properties` (props) as the third argument.
-4. The fourth argument is an object with the internal state of the field, like the error state.
+- `path` The path of the field.
+- `value` The value of the field.
+- `displayValue` The displayed value of the field.
+- `label` The label of the field.
+- `props` The given field properties.
+- `error` The error of the field. Is `undefined` if there is no error.
 
 The callback function should return a `boolean` or `undefined`. Return `false` to exclude an entry.
 
@@ -215,7 +217,7 @@ It returns the filtered form data.
 **Tip:** Depending on your use case – and instead of `disabled` – you may rather use a `data-*` attribute on your field (e.g. `data-exclude-field`) to filter the field out of the data set.
 
 ```tsx
-const filterDataHandler = ({ path, value, data, props, internal }) => {
+const filterDataHandler = ({ path, value, data, props, error }) => {
   if (props['data-exclude-field']) {
     return false
   }
@@ -235,11 +237,9 @@ const MyForm = () => {
 }
 ```
 
-The `internal` parameter contains `{ error: Error | undefined }` you can utilize if needed.
-
 ```tsx
-const filterDataHandler = ({ path, value, data, props, internal }) => {
-  return !(internal.error instanceof Error)
+const filterDataHandler = ({ path, value, data, props, error }) => {
+  return !(error instanceof Error)
 }
 ```
 

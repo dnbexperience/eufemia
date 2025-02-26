@@ -252,10 +252,14 @@ render(
 
 You can use the `filterData` function to filter your `onSubmit` data. It might be useful, for example, to **exclude disabled fields** or filter out empty fields. The callback function receives the following arguments:
 
-1. `path` as the first argument.
-2. `value` as the second argument.
-3. The field `properties` (props) as the third argument.
-4. The fourth argument is an object with the internal state of the field, like the error state.
+The callback function receives the following properties in an object with the type `DataPathHandlerParameters`:
+
+- `path` The path of the field.
+- `value` The value of the field.
+- `displayValue` The displayed value of the field.
+- `label` The label of the field.
+- `props` The given field properties.
+- `error` The error of the field. Is `undefined` if there is no error.
 
 The callback function should return a `boolean` or `undefined`. Return `false` to exclude an entry.
 
@@ -308,7 +312,7 @@ const MyForm = () => {
         const myData = reduceToVisibleFields(filteredData)
         const transformed = transformData(
           myData,
-          ({ path, value, displayValue, label, props, internal }) => {
+          ({ path, value, displayValue, label, props, error }) => {
             return 'new value'
           },
         )
@@ -325,14 +329,14 @@ const MyForm = () => {
 
 The `transformData` handler will call your given function for each `Field.*` that contains a path (not `Iterate.Array`). The returned value will be used instead of the given `value` and returned as a new data object. It's up to you to define the shape of the returned value.
 
-The callback function receives the following properties in an object:
+The callback function receives the following properties in an object with the type `DataPathHandlerParameters`:
 
 - `path` The path of the field.
 - `value` The value of the field.
 - `displayValue` The displayed value of the field.
 - `label` The label of the field.
 - `props` The given field properties.
-- `internal` The `internal` parameter contains `{ error: Error | undefined }` you can utilize if needed.
+- `error` The error of the field. Is `undefined` if there is no error.
 
 **displayValue** can be `undefined` if a field does not support it, or it's value is not set (`emptyValue`).
 

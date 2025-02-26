@@ -2925,10 +2925,19 @@ describe('Wizard.Container', () => {
         errors: [
           {
             path: '/bar',
-            error: new Error(nb.Field.errorRequired),
+            value: undefined,
+            displayValue: undefined,
+            label: 'Bar',
             props: expect.objectContaining({
               label: 'Bar',
             }),
+            data: {
+              bar: undefined,
+            },
+            error: new Error(nb.Field.errorRequired),
+            internal: {
+              error: new Error(nb.Field.errorRequired),
+            },
           },
         ],
       })

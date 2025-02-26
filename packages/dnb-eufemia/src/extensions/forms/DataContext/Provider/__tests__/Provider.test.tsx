@@ -27,11 +27,7 @@ import {
 } from '../../../'
 import { isCI } from 'repo-utils'
 import { Props as StringFieldProps } from '../../../Field/String'
-import {
-  ContextState,
-  FilterData,
-  FilterDataPathCondition,
-} from '../../Context'
+import { ContextState, FilterData, DataPathHandler } from '../../Context'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
@@ -455,20 +451,16 @@ describe('DataContext.Provider', () => {
 
     describe('filterData', () => {
       it('should filter data based on the given filterData paths', () => {
-        const fooHandler: FilterDataPathCondition = jest.fn(
-          ({ props }) => {
-            if (props.disabled === true) {
-              return false
-            }
+        const fooHandler: DataPathHandler = jest.fn(({ props }) => {
+          if (props.disabled === true) {
+            return false
           }
-        )
-        const barHandler: FilterDataPathCondition = jest.fn(
-          ({ props }) => {
-            if (props.disabled === true) {
-              return false
-            }
+        })
+        const barHandler: DataPathHandler = jest.fn(({ props }) => {
+          if (props.disabled === true) {
+            return false
           }
-        )
+        })
 
         const filterDataPaths: FilterData = {
           '/foo': fooHandler,
@@ -506,15 +498,22 @@ describe('DataContext.Provider', () => {
         expect(barHandler).toHaveBeenCalledTimes(1)
 
         expect(fooHandler).toHaveBeenLastCalledWith({
+          path: '/foo',
           value: 'Include this value',
+          displayValue: 'Include this value',
+          label: undefined,
           props: expect.objectContaining({}),
           data: { bar: 'bar', foo: 'Include this value' },
+          error: undefined,
           internal: { error: undefined },
         })
         expect(barHandler).toHaveBeenLastCalledWith({
+          path: '/bar',
           value: 'bar',
+          displayValue: 'bar',
           props: expect.objectContaining({}),
           data: { bar: 'bar', foo: 'Include this value' },
+          error: undefined,
           internal: { error: undefined },
         })
 
@@ -546,15 +545,23 @@ describe('DataContext.Provider', () => {
         expect(barHandler).toHaveBeenCalledTimes(2)
 
         expect(fooHandler).toHaveBeenLastCalledWith({
+          path: '/foo',
           value: 'Skip this value',
+          displayValue: 'Skip this value',
+          label: undefined,
           props: expect.objectContaining({}),
           data: { bar: 'bar value', foo: 'Skip this value' },
+          error: undefined,
           internal: { error: undefined },
         })
         expect(barHandler).toHaveBeenLastCalledWith({
+          path: '/bar',
           value: 'bar value',
+          displayValue: 'bar value',
+          label: undefined,
           props: expect.objectContaining({}),
           data: { bar: 'bar value', foo: 'Skip this value' },
+          error: undefined,
           internal: { error: undefined },
         })
 
@@ -608,6 +615,7 @@ describe('DataContext.Provider', () => {
           props: expect.objectContaining({
             value: 'Include this value',
           }),
+          error: undefined,
           internal: {
             error: undefined,
           },
@@ -624,6 +632,7 @@ describe('DataContext.Provider', () => {
           props: expect.objectContaining({
             value: 'bar',
           }),
+          error: undefined,
           internal: {
             error: undefined,
           },
@@ -666,6 +675,7 @@ describe('DataContext.Provider', () => {
           props: expect.objectContaining({
             value: 'Skip this value',
           }),
+          error: undefined,
           internal: {
             error: undefined,
           },
@@ -682,6 +692,7 @@ describe('DataContext.Provider', () => {
           props: expect.objectContaining({
             value: 'bar value',
           }),
+          error: undefined,
           internal: {
             error: undefined,
           },
@@ -2925,10 +2936,20 @@ describe('DataContext.Provider', () => {
             errors: [
               {
                 path: '/bar',
-                error: new Error(nb.Field.errorRequired),
+                value: undefined,
+                displayValue: undefined,
+                label: 'Bar',
                 props: expect.objectContaining({
                   label: 'Bar',
                 }),
+                data: {
+                  bar: undefined,
+                  foo: 'foo',
+                },
+                error: new Error(nb.Field.errorRequired),
+                internal: {
+                  error: new Error(nb.Field.errorRequired),
+                },
               },
             ],
           })
@@ -2946,17 +2967,35 @@ describe('DataContext.Provider', () => {
             errors: [
               {
                 path: '/bar',
-                error: new Error(nb.Field.errorRequired),
+                value: undefined,
+                displayValue: undefined,
+                label: 'Bar',
                 props: expect.objectContaining({
                   label: 'Bar',
                 }),
+                data: {
+                  bar: undefined,
+                },
+                error: new Error(nb.Field.errorRequired),
+                internal: {
+                  error: new Error(nb.Field.errorRequired),
+                },
               },
               {
                 path: '/foo',
-                error: new Error(nb.Field.errorRequired),
+                value: undefined,
+                displayValue: undefined,
+                label: 'Foo',
                 props: expect.objectContaining({
                   label: 'Foo',
                 }),
+                data: {
+                  foo: undefined,
+                },
+                error: new Error(nb.Field.errorRequired),
+                internal: {
+                  error: new Error(nb.Field.errorRequired),
+                },
               },
             ],
           })
@@ -2971,10 +3010,20 @@ describe('DataContext.Provider', () => {
             errors: [
               {
                 path: '/bar',
-                error: new Error(nb.Field.errorRequired),
+                value: undefined,
+                displayValue: undefined,
+                label: 'Bar',
                 props: expect.objectContaining({
                   label: 'Bar',
                 }),
+                data: {
+                  bar: undefined,
+                  foo: 'foo',
+                },
+                error: new Error(nb.Field.errorRequired),
+                internal: {
+                  error: new Error(nb.Field.errorRequired),
+                },
               },
             ],
           })
