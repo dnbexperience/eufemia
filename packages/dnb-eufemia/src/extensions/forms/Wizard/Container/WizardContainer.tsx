@@ -94,7 +94,10 @@ export type Props = ComponentProps & {
    * If set to `true`, the wizard will not unmount the steps when navigating back and forth.
    */
   keepInDOM?: boolean
-
+  /**
+   * Set it to `false` to avoid the step indicator breaking out on larger screens. Defaults to `true`
+   */
+  outset?: boolean
   /**
    * If set to `true`, the wizard pre-render all steps so the props of each field is available in the data context.
    * Defaults to `true`.
@@ -139,6 +142,7 @@ function WizardContainer(props: Props) {
     prerenderFieldProps = true,
     keepInDOM,
     validationMode,
+    outset = true,
     ...rest
   } = handeDeprecatedProps(props)
 
@@ -569,6 +573,7 @@ function WizardContainer(props: Props) {
           noAnimation={noAnimation}
           expandedInitially={expandedInitially}
           handleChange={handleChange}
+          outset={outset}
         />
 
         <div className="dnb-forms-wizard-layout__contents">
