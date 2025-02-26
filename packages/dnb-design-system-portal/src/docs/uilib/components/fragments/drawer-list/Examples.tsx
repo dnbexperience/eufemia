@@ -177,9 +177,6 @@ export const DrawerListExampleInlineStyling = () => (
             key="B"
             selected={false}
             value="B"
-            on_click={() => {
-              console.log('on_click')
-            }}
           >
             Item 2
           </DrawerList.HorizontalItem>
