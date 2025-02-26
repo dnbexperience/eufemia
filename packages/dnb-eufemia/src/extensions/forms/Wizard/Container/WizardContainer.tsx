@@ -5,7 +5,6 @@ import React, {
   useReducer,
   useMemo,
 } from 'react'
-import ReactDOM from 'react-dom'
 import classnames from 'classnames'
 import { Space, StepIndicator } from '../../../../components'
 import {
@@ -36,6 +35,7 @@ import {
   createReferenceKey,
   useSharedState,
 } from '../../../../shared/helpers/useSharedState'
+import useMounted from '../../../../shared/helpers/useMounted'
 import useHandleLayoutEffect from './useHandleLayoutEffect'
 import useStepAnimation from './useStepAnimation'
 import { ComponentProps } from '../../types'
@@ -568,29 +568,20 @@ function PrerenderFieldPropsOfOtherSteps({
 }: {
   prerenderFieldPropsRef: WizardContextState['prerenderFieldPropsRef']
 }) {
-  const hasRenderedRef = useRef(true)
-  if (!hasRenderedRef.current) {
+  const isMountedRef = useMounted()
+  if (isMountedRef.current) {
     return null
   }
-  hasRenderedRef.current = false
 
   return (
-    <WizardPortal>
-      <PrerenderFieldPropsProvider>
-        <iframe title="Wizard Prerender" hidden>
-          {Object.values(prerenderFieldPropsRef.current).map((Fn, i) => (
-            <Fn key={i} />
-          ))}
-        </iframe>
-      </PrerenderFieldPropsProvider>
-    </WizardPortal>
+    <PrerenderFieldPropsProvider>
+      <div title="Wizard Prerender" hidden>
+        {Object.values(prerenderFieldPropsRef.current).map((Fn, i) => (
+          <Fn key={i} />
+        ))}
+      </div>
+    </PrerenderFieldPropsProvider>
   )
-}
-
-function WizardPortal({ children }) {
-  if (typeof document !== 'undefined') {
-    return ReactDOM.createPortal(children, document.body)
-  }
 }
 
 function PrerenderFieldPropsProvider({ children }) {

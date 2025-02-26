@@ -215,78 +215,82 @@ describe('Wizard.Container', () => {
     })
   })
 
-  it('should show error on navigating back and forth', async () => {
-    render(
-      <Wizard.Container>
-        <Wizard.Step title="Step 1">
-          <output>Step 1</output>
-          <Field.String path="/something" />
-          <Wizard.PreviousButton />
-          <Wizard.NextButton />
-        </Wizard.Step>
+  describe('navigating', () => {
+    it('should show error on navigating back and forth', async () => {
+      render(
+        <Wizard.Container>
+          <Wizard.Step title="Step 1">
+            <output>Step 1</output>
+            <Field.String path="/something" />
+            <Wizard.PreviousButton />
+            <Wizard.NextButton />
+          </Wizard.Step>
 
-        <Wizard.Step title="Step 2">
-          <output>Step 2</output>
-          <Field.String path="/foo" required />
-          <Wizard.PreviousButton />
-          <Wizard.NextButton />
-        </Wizard.Step>
+          <Wizard.Step title="Step 2">
+            <output>Step 2</output>
+            <Field.String path="/foo" required />
+            <Wizard.PreviousButton />
+            <Wizard.NextButton />
+          </Wizard.Step>
 
-        <Wizard.Step title="Step 3">
-          <output>Step 3</output>
-          <Wizard.PreviousButton />
-          <Wizard.NextButton />
-        </Wizard.Step>
-      </Wizard.Container>
-    )
+          <Wizard.Step title="Step 3">
+            <output>Step 3</output>
+            <Wizard.PreviousButton />
+            <Wizard.NextButton />
+          </Wizard.Step>
+        </Wizard.Container>
+      )
 
-    expect(output()).toHaveTextContent('Step 1')
-    expect(screen.queryByRole('alert')).toBeNull()
-
-    await userEvent.click(nextButton())
-
-    await waitFor(() => {
-      expect(output()).toHaveTextContent('Step 2')
-      expect(screen.queryByRole('alert')).toBeNull()
-    })
-
-    await userEvent.click(nextButton())
-
-    await waitFor(() => {
-      expect(output()).toHaveTextContent('Step 2')
-      expect(screen.queryByRole('alert')).toBeInTheDocument()
-    })
-
-    await userEvent.click(previousButton())
-
-    await waitFor(() => {
       expect(output()).toHaveTextContent('Step 1')
       expect(screen.queryByRole('alert')).toBeNull()
-    })
 
-    await userEvent.click(nextButton())
+      await userEvent.click(nextButton())
 
-    await waitFor(() => {
-      expect(output()).toHaveTextContent('Step 2')
-    })
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 2')
+        expect(screen.queryByRole('alert')).toBeNull()
+      })
 
-    await waitFor(() => {
-      expect(screen.queryByRole('alert')).toBeInTheDocument()
-    })
+      await userEvent.click(nextButton())
 
-    await userEvent.type(document.querySelector('input'), 'foo')
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 2')
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
+      })
 
-    await waitFor(() => {
+      await userEvent.click(previousButton())
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 1')
+        expect(screen.queryByRole('alert')).toBeNull()
+      })
+
+      await userEvent.click(nextButton())
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 2')
+      })
+
+      await waitFor(() => {
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
+      })
+
+      await userEvent.type(document.querySelector('input'), 'foo')
+
+      await wait(1)
+
+      await waitFor(() => {
+        expect(screen.queryByRole('alert')).toBeNull()
+      })
+
+      await userEvent.click(nextButton())
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 3')
+      })
+
       expect(screen.queryByRole('alert')).toBeNull()
     })
-
-    await userEvent.click(nextButton())
-
-    await waitFor(() => {
-      expect(output()).toHaveTextContent('Step 3')
-    })
-
-    expect(screen.queryByRole('alert')).toBeNull()
   })
 
   it('should support navigating back and forth with async validators', async () => {
@@ -2676,65 +2680,41 @@ describe('Wizard.Container', () => {
       })
     })
 
-    it('should put prerendered fields in the portal inside an hidden iframe', async () => {
-      const addedNodes = []
-      const removedNodes = []
+    it('should put prerendered fields in the portal inside an hidden div', async () => {
+      let firstRenderHTML: string = null
 
-      const observer = new MutationObserver((mutationsList) => {
-        for (const mutation of mutationsList) {
-          if (mutation.type === 'childList') {
-            if (mutation.removedNodes?.length) {
-              removedNodes.push(mutation.removedNodes)
-            }
-            if (mutation.addedNodes?.length) {
-              addedNodes.push(mutation.addedNodes)
-            }
-          }
-        }
-      })
+      const MockComponent = () => {
+        const ref = React.useRef<HTMLDivElement>()
+        React.useLayoutEffect(() => {
+          firstRenderHTML = ref.current.innerHTML
+        }, [])
 
-      observer.observe(document.body, {
-        childList: true,
-      })
+        return (
+          <div ref={ref}>
+            <Form.Handler>
+              <Wizard.Container initialActiveIndex={0}>
+                <Wizard.Step title="Step 1">
+                  <Field.String path="/fooStep1" />
+                  <Field.String path="/barStep1" />
+                  <Wizard.Buttons />
+                </Wizard.Step>
 
-      render(
-        <Form.Handler>
-          <Wizard.Container initialActiveIndex={1}>
-            <Wizard.Step title="Step 1">
-              <Field.String path="/fooStep1" />
-              <Field.String path="/barStep1" />
-              <Wizard.Buttons />
-            </Wizard.Step>
+                <Wizard.Step title="Step 2">
+                  <Field.String path="/fooStep2" />
+                  <Field.String path="/barStep2" />
+                  <Wizard.Buttons />
+                </Wizard.Step>
+              </Wizard.Container>
+            </Form.Handler>
+          </div>
+        )
+      }
 
-            <Wizard.Step title="Step 2">
-              <Field.String path="/fooStep2" />
-              <Field.String path="/barStep2" />
-              <Wizard.Buttons />
-            </Wizard.Step>
-          </Wizard.Container>
-        </Form.Handler>
-      )
+      render(<MockComponent />)
 
-      expect(document.querySelector('iframe')).toBeNull()
-
-      await wait(1)
-
-      observer.disconnect()
-
-      expect(addedNodes).toHaveLength(2)
-      expect(addedNodes[0]).toHaveLength(1)
-      expect(addedNodes[0][0]).toBe(document.body.querySelector('div'))
-      expect(addedNodes[1][0].tagName).toBe('IFRAME')
-
-      expect(removedNodes).toHaveLength(1)
-      expect(removedNodes[0][0].tagName).toBe('IFRAME')
-
-      const iframe = addedNodes[1][0]
-
-      expect(iframe).toHaveAttribute('hidden', '')
-      expect(iframe).toHaveAttribute('title', 'Wizard Prerender')
-      expect(iframe).toHaveTextContent('')
-      expect(iframe.parentElement).toBeNull()
+      expect(document.querySelector('div[hidden]')).toBeNull()
+      expect(firstRenderHTML).toContain('Wizard Prerender')
+      expect(firstRenderHTML).toContain('hidden=""')
     })
   })
 
