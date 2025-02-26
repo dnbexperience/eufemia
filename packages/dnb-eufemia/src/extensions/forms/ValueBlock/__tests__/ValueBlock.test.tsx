@@ -1,8 +1,9 @@
 import React from 'react'
 import { axeComponent } from '../../../../core/jest/jestSetup'
-import { render } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import ValueBlock from '../ValueBlock'
 import { Form, Value } from '../..'
+import userEvent from '@testing-library/user-event'
 
 describe('ValueBlock', () => {
   it('renders without crashing', () => {
@@ -208,10 +209,10 @@ describe('ValueBlock', () => {
     it('should render HeightAnimation inside dt and dd when animate is true', () => {
       render(
         <Value.SummaryList>
-          <Value.String label="Label" value="First field" />
+          <Value.String label="Label" value="First value" />
 
           <Form.Visibility pathUndefined="/undefined" animate>
-            <Value.String label="Label" value="Second field" />
+            <Value.String label="Label" value="Second value" />
           </Form.Visibility>
         </Value.SummaryList>
       )
@@ -247,10 +248,10 @@ describe('ValueBlock', () => {
     it('should render div inside dt and dd when keepInDOM is true', () => {
       render(
         <Value.SummaryList>
-          <Value.String label="Label" value="First field" />
+          <Value.String label="Label" value="First value" />
 
           <Form.Visibility pathUndefined="/undefined" keepInDOM>
-            <Value.String label="Label" value="Second field" />
+            <Value.String label="Label" value="Second value" />
           </Form.Visibility>
         </Value.SummaryList>
       )
@@ -457,6 +458,193 @@ describe('ValueBlock', () => {
         'The label B',
         expect.anything()
       )
+    })
+  })
+
+  describe('help', () => {
+    it('should render content when open is true', async () => {
+      render(
+        <ValueBlock
+          label="Label"
+          help={{
+            open: true,
+            title: 'Help title',
+            content: '\nHelp content',
+          }}
+        >
+          Value
+        </ValueBlock>
+      )
+
+      const element = document.querySelector('.dnb-help-button__content')
+      expect(element).toBeInTheDocument()
+      expect(element.textContent).toBe('Help title\nHelp content')
+    })
+
+    it('should open on click', async () => {
+      render(
+        <ValueBlock
+          label="Label"
+          help={{
+            title: 'Help title',
+            content: '\nHelp content',
+          }}
+        >
+          Value
+        </ValueBlock>
+      )
+
+      fireEvent.click(document.querySelector('button'))
+
+      const element = document.querySelector('.dnb-help-button__content')
+      expect(element).toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-help-button__content')
+      ).toHaveTextContent('Help title Help content')
+    })
+
+    it('should close on click', async () => {
+      render(
+        <ValueBlock
+          label="Label"
+          help={{
+            title: 'Help title',
+            content: '\nHelp content',
+          }}
+        >
+          Value
+        </ValueBlock>
+      )
+
+      fireEvent.click(document.querySelector('button'))
+
+      {
+        const element = document.querySelector('.dnb-help-button__content')
+        expect(element).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-help-button__content')
+        ).toHaveTextContent('Help title Help content')
+      }
+
+      fireEvent.click(document.querySelector('button'))
+
+      const element = document.querySelector('.dnb-help-button__content')
+      expect(element).not.toBeInTheDocument()
+    })
+
+    it('should have correct id', async () => {
+      render(
+        <ValueBlock
+          id="unique"
+          label="Label"
+          help={{
+            open: true,
+            title: 'Help title',
+            content: '\nHelp content',
+          }}
+        >
+          Value
+        </ValueBlock>
+      )
+
+      {
+        const element = document.querySelector('.dnb-help-button__content')
+        expect(element).toBeInTheDocument()
+        expect(document.querySelector('button').getAttribute('id')).toBe(
+          'unique-help'
+        )
+      }
+      {
+        const element = document.querySelector('.dnb-help-button__content')
+        expect(element).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-section').getAttribute('id')
+        ).toBe('unique-help-content')
+      }
+    })
+
+    it('should have aria-controls', async () => {
+      render(
+        <ValueBlock
+          id="unique"
+          label="Label"
+          help={{
+            open: true,
+            title: 'Help title',
+            content: '\nHelp content',
+          }}
+        >
+          Value
+        </ValueBlock>
+      )
+
+      const element = document.querySelector('.dnb-help-button__content')
+      expect(element).toBeInTheDocument()
+      expect(
+        document.querySelector('button').getAttribute('aria-controls')
+      ).toBe('unique-help-content')
+    })
+
+    describe('title', () => {
+      it('should render correctly', async () => {
+        render(
+          <ValueBlock
+            label="Label"
+            help={{
+              title: 'Help title',
+            }}
+          >
+            Value
+          </ValueBlock>
+        )
+
+        await userEvent.click(document.querySelector('button'))
+
+        const element = document.querySelector('.dnb-section')
+        expect(element).toBeInTheDocument()
+        expect(element.textContent).toBe('Help title')
+      })
+
+      it('should render correctly with content', async () => {
+        render(
+          <ValueBlock
+            label="Label"
+            help={{
+              title: 'Help title',
+              content: '\nHelp content',
+            }}
+          >
+            Value
+          </ValueBlock>
+        )
+
+        await userEvent.click(document.querySelector('button'))
+
+        const element = document.querySelector('.dnb-help-button__content')
+        expect(element).toBeInTheDocument()
+        expect(element.textContent).toBe('Help title\nHelp content')
+      })
+    })
+
+    describe('content', () => {
+      it('should render correctly', async () => {
+        render(
+          <ValueBlock
+            label="Label"
+            help={{
+              content: 'Help content',
+            }}
+          >
+            Value
+          </ValueBlock>
+        )
+
+        await userEvent.click(document.querySelector('button'))
+
+        const element = document.querySelector('.dnb-help-button__content')
+        expect(element).toBeInTheDocument()
+        expect(element.textContent).toBe('Help content')
+      })
     })
   })
 })
