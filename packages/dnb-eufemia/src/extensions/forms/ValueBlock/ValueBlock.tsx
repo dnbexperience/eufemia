@@ -149,6 +149,7 @@ function ValueBlock(props: Props) {
         </span>
       )
     } else {
+      const { layout } = summaryListContext
       content = (
         <SummaryListContext.Provider
           value={{ ...summaryListContext, isNested: true }}
@@ -169,7 +170,7 @@ function ValueBlock(props: Props) {
             </Dt>
             <Dd
               className={classnames(
-                summaryListContext.layout !== 'grid' &&
+                layout !== 'grid' &&
                   !summaryListContext.isNested &&
                   maxWidth &&
                   `dnb-forms-value-block--max-width-${maxWidth}`,
