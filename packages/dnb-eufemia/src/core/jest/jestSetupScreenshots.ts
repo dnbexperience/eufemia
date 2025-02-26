@@ -1,6 +1,6 @@
 /**
  * Jest Setup for Screenshot testing
- * github.com/GoogleChrome/puppeteer/blob/master/docs/api.md
+ * github.com/GoogleChrome/puppeteer/blob/master/docs/api/index.md
  */
 
 import fs from 'fs-extra'
