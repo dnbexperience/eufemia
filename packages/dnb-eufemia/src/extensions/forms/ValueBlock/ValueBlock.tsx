@@ -205,7 +205,6 @@ function ValueBlock(props: Props) {
         ref={ref}
         className={classnames(
           'dnb-forms-value-block',
-          `dnb-forms-value-block--max-width-${maxWidth}`,
           inline && 'dnb-forms-value-block--inline',
           compositionClass,
           className
@@ -215,7 +214,10 @@ function ValueBlock(props: Props) {
         {(label || hasHelp) && (
           <FormLabel
             element="strong" // enhance a11y: https://www.w3.org/WAI/WCAG21/Techniques/html/H49
-            className="dnb-forms-value-block__label"
+            className={classnames(
+              'dnb-forms-value-block__label',
+              maxWidth && `dnb-forms-value-block--max-width-${maxWidth}`
+            )}
             labelDirection={inline ? 'horizontal' : 'vertical'}
             srOnly={labelSrOnly}
           >

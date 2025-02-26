@@ -47,7 +47,8 @@ export const HelpHtml = () => {
       data-visual-test="value-block-help-button-html"
     >
       <ValueBlock
-        label="Label text"
+        label="Label text with a long label label – lorem ipsum
+        dolor sit"
         help={{
           open: true,
           title: <strong>Help title</strong>,
@@ -58,7 +59,7 @@ export const HelpHtml = () => {
           ),
         }}
       >
-        Data-value goes here
+        Data-value goes here – lorem ipsum dolor sit amet consectetur.
       </ValueBlock>
     </ComponentBox>
   )

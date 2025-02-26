@@ -31,7 +31,7 @@
   display: block;
   font-size: var(--font-size-basis);
 
-  &__content {
+  &:not(#{&}__composition--horizontal) &__content {
     display: block;
   }
 
@@ -48,6 +48,19 @@
     & > strong:has(+ .dnb-help-button),// To support dt > strong 
     &__content:has(+ .dnb-help-button) {
       margin-right: 0.5rem;
+    }
+  }
+
+  &__help {
+    display: flex;
+    flex-flow: column;
+
+    .dnb-section {
+      margin-bottom: 0.5rem;
+
+      & > .dnb-p--lead {
+        margin-bottom: 0.5rem;
+      }
     }
   }
 

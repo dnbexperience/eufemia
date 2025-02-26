@@ -45,7 +45,7 @@ describe('Value.Composition', () => {
     )
 
     const element = document.querySelector(
-      '.dnb-forms-value-block__composition--horizontal'
+      '.dnb-forms-value-block__composition--horizontal .dnb-forms-value-block__content'
     )
 
     expect(element).toHaveClass('dnb-forms-value-block--max-width-medium')
