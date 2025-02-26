@@ -250,6 +250,37 @@ describe('StepIndicator in general', () => {
 })
 
 describe('StepIndicator redesign', () => {
+  it('should set aria-expanded', () => {
+    render(
+      <>
+        <StepIndicator
+          mode="loose"
+          data={stepIndicatorListData}
+          expandedInitially
+        />
+      </>
+    )
+    expect(
+      document
+        .querySelector('.dnb-step-indicator__trigger__button')
+        .attributes.getNamedItem('aria-expanded').value
+    ).toBe('true')
+
+    act(() => {
+      document
+        .querySelector<HTMLButtonElement>(
+          'button.dnb-step-indicator__trigger__button--expanded'
+        )
+        ?.click()
+    })
+
+    expect(
+      document
+        .querySelector('.dnb-step-indicator__trigger__button')
+        .attributes.getNamedItem('aria-expanded').value
+    ).toBe('false')
+  })
+
   it('should hide numbers in list', () => {
     render(
       <>
@@ -267,7 +298,7 @@ describe('StepIndicator redesign', () => {
     ).toEqual('Step A')
   })
 
-  it('should expandd with click', () => {
+  it('should expand with click', () => {
     render(
       <>
         <StepIndicator mode="loose" data={stepIndicatorListData} />
