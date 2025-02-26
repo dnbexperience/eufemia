@@ -45,15 +45,6 @@ const stepIndicatorListData: StepIndicatorData = [
     title: 'Step D',
   },
 ]
-const expandStepList = () => {
-  act(() => {
-    document
-      .querySelector<HTMLButtonElement>(
-        'button.dnb-step-indicator__trigger__button--collapsed'
-      )
-      ?.click()
-  })
-}
 
 describe('StepIndicator Sidebar', () => {
   it('renders with empty props', () => {
@@ -198,24 +189,27 @@ describe('StepIndicator in general', () => {
     )
   })
 
-  // it('should not add spacing props to dnb-step-indicator with no sidebar', async () => {
-  //   render(
-  //     <StepIndicator
-  //       sidebar_id="unique-id-no-sidebar"
-  //       top="large"
-  //       mode="static"
-  //       current_step={1}
-  //       data={stepIndicatorListData}
-  //     />
-  //   )
-  //   act(() => {
-  //     document.querySelector('button').click()
-  //   })
+  // eslint-disable-next-line jest/no-commented-out-tests, multiline-comment-style
+  /* 
+  it('should not add spacing props to dnb-step-indicator with no sidebar', async () => {
+    render(
+      <StepIndicator
+        sidebar_id="unique-id-no-sidebar"
+        top="large"
+        mode="static"
+        current_step={1}
+        data={stepIndicatorListData}
+      />
+    )
+    act(() => {
+      document.querySelector('button').click()
+    })
 
-  //   const element = document.querySelector('.dnb-step-indicator')
+    const element = document.querySelector('.dnb-step-indicator')
 
-  //   expect(Array.from(element.classList)).toEqual(['dnb-step-indicator'])
-  // })
+    expect(Array.from(element.classList)).toEqual(['dnb-step-indicator'])
+  })
+  */
 
   it('should support aria-labelledby', () => {
     render(
@@ -253,34 +247,48 @@ describe('StepIndicator in general', () => {
 
     expect(element.getAttribute('aria-labelledby')).toBe('element')
   })
+})
 
-  it('hide numbers in list', () => {
+describe('StepIndicator redesign', () => {
+  it('should hide numbers in list', () => {
     render(
       <>
         <StepIndicator
           mode="loose"
           data={stepIndicatorListData}
           hide_numbers
+          expandedInitially
         />
       </>
     )
-    expandStepList()
     expect(
       document.querySelector('.dnb-step-indicator__item-content')
         .textContent
     ).toEqual('Step A')
   })
 
-  it('start expanded with expandedInitially', () => {
+  it('should expandd with click', () => {
     render(
       <>
-        <StepIndicator
-          mode="loose"
-          expandedInitially
-          data={stepIndicatorListData}
-        />
+        <StepIndicator mode="loose" data={stepIndicatorListData} />
       </>
     )
+
+    expect(
+      document.querySelector('button.dnb-step-indicator__trigger__button')
+    ).toHaveClass('dnb-step-indicator__trigger__button--collapsed')
+    expect(
+      document.querySelectorAll('li.dnb-step-indicator__item')
+    ).toHaveLength(0)
+
+    act(() => {
+      document
+        .querySelector<HTMLButtonElement>(
+          'button.dnb-step-indicator__trigger__button--collapsed'
+        )
+        ?.click()
+    })
+
     expect(
       document.querySelector('button.dnb-step-indicator__trigger__button')
     ).toHaveClass('dnb-step-indicator__trigger__button--expanded')
@@ -301,21 +309,17 @@ describe('StepIndicator in loose mode', () => {
           mode="loose"
           sidebar_id={id}
           data={stepIndicatorListData}
+          expandedInitially
           {...props}
         />
       </>
     )
   }
-  const renderExpandedComponent = (id, props = null) => {
-    const render = renderComponent(id, props)
-    expandStepList()
-    return render
-  }
 
   it('has trigger button when mobile', () => {
     simulateSmallScreen()
 
-    renderComponent('unique-id-loose-mobile')
+    renderComponent('unique-id-loose-mobile', { expandedInitially: false })
     expect(screen.queryByRole('button')).toBeInTheDocument()
   })
 
@@ -330,10 +334,10 @@ describe('StepIndicator in loose mode', () => {
           mode="loose"
           sidebar_id={id}
           data={stepIndicatorListData}
+          expandedInitially
         />
       </>
     )
-    expandStepList()
 
     expect(
       document.querySelectorAll('li.dnb-step-indicator__item')
@@ -356,14 +360,13 @@ describe('StepIndicator in loose mode', () => {
         />
       </>
     )
-    expandStepList()
     expect(
       document.querySelector('.dnb-step-indicator__trigger').textContent
     ).toContain('StegoversiktSteg 2 av 4:‌Step B')
   })
 
   it('has correct states on steps', () => {
-    renderExpandedComponent('unique-id-loose-states')
+    renderComponent('unique-id-loose-states')
     const items = document.querySelectorAll('li.dnb-step-indicator__item')
 
     expect(items.length).toBe(4)
@@ -379,7 +382,7 @@ describe('StepIndicator in loose mode', () => {
 
   it('has correct state after change', () => {
     const on_change = jest.fn()
-    renderExpandedComponent('unique-id-loose-simulate', {
+    renderComponent('unique-id-loose-simulate', {
       on_change,
     })
     const items = document.querySelectorAll('li.dnb-step-indicator__item')
@@ -399,7 +402,6 @@ describe('StepIndicator in loose mode', () => {
     expect(typeof on_change.mock.calls[0][0].event.preventDefault).toBe(
       'function'
     )
-    expandStepList()
 
     expect(items[0].classList).toContain(
       'dnb-step-indicator__item--current'
@@ -410,7 +412,7 @@ describe('StepIndicator in loose mode', () => {
   })
 
   it('should have only one "current" at a time', () => {
-    renderExpandedComponent('unique-id-sidebar', {
+    renderComponent('unique-id-sidebar', {
       current_step: null,
       data: [
         {
@@ -442,7 +444,6 @@ describe('StepIndicator in loose mode', () => {
         .getByRole('button')
         .click()
     })
-    expandStepList()
 
     expect(
       screen.queryAllByRole('listitem', { current: 'step' })
@@ -463,6 +464,7 @@ describe('StepIndicator in loose mode', () => {
           <StepIndicator
             mode="loose"
             sidebar_id="unique-id-loose-simulate"
+            expandedInitially
             {...props}
           />
         </>
@@ -483,7 +485,6 @@ describe('StepIndicator in loose mode', () => {
     ]
 
     const { rerender } = render(<TestComp data={data1} />)
-    expandStepList()
 
     expect(
       document.querySelector('li.dnb-step-indicator__item--current')
@@ -521,6 +522,7 @@ describe('StepIndicator in loose mode', () => {
             mode="loose"
             sidebar_id={id}
             data={stepIndicatorListData}
+            expandedInitially
             {...props}
           />
         </>
@@ -530,7 +532,6 @@ describe('StepIndicator in loose mode', () => {
     const { rerender } = render(<TestComp id="unique-id-loose-simulate" />)
 
     rerender(<TestComp id="unique-id-loose-simulate" current_step={2} />)
-    expandStepList()
 
     expect(
       document.querySelector('li.dnb-step-indicator__item--current')
@@ -601,27 +602,24 @@ describe('StepIndicator in strict mode', () => {
           mode="strict"
           sidebar_id={id}
           data={stepIndicatorListData}
+          expandedInitially
           {...props}
         />
       </>
     )
   }
-  const renderExpandedComponent = (id, props = null) => {
-    const render = renderComponent(id, props)
-    expandStepList()
-
-    return render
-  }
 
   it('has trigger button when mobile', () => {
     simulateSmallScreen()
 
-    renderComponent('unique-id-strict-mobile')
+    renderComponent('unique-id-strict-mobile', {
+      expandedInitially: false,
+    })
     expect(screen.queryByRole('button')).toBeInTheDocument()
   })
 
   it('has correct states on steps', () => {
-    renderExpandedComponent('unique-id-strict-states')
+    renderComponent('unique-id-strict-states')
     const items = document.querySelectorAll('li.dnb-step-indicator__item')
 
     expect(items.length).toBe(4)
@@ -638,7 +636,7 @@ describe('StepIndicator in strict mode', () => {
 
   it('has correct state after change', () => {
     const on_change = jest.fn()
-    renderExpandedComponent('unique-id-strict-simulate', {
+    renderComponent('unique-id-strict-simulate', {
       on_change,
     })
     const items = document.querySelectorAll('li.dnb-step-indicator__item')
@@ -663,7 +661,6 @@ describe('StepIndicator in strict mode', () => {
     expect(items[0].classList).toContain(
       'dnb-step-indicator__item--current'
     )
-    expandStepList()
 
     expect(
       screen.queryAllByRole('listitem', { current: 'step' })
@@ -675,34 +672,17 @@ describe('StepIndicator in static mode', () => {
   const renderComponent = (id, props = null) => {
     return render(
       <>
-        <StepIndicator.Sidebar sidebar_id={'hahah'} />
+        <StepIndicator.Sidebar sidebar_id={id} />
         <StepIndicator
           current_step={1}
           mode="static"
           sidebar_id={id}
-          data={[
-            {
-              title: 'Step A',
-            },
-            {
-              title: 'Step B',
-            },
-            {
-              title: 'Step C',
-            },
-            {
-              title: 'Step D',
-            },
-          ]}
+          data={stepIndicatorListData}
+          expandedInitially
+          {...props}
         />
       </>
     )
-  }
-  const renderExpandedComponent = (id, props = null) => {
-    const render = renderComponent(id, props)
-    expandStepList()
-
-    return render
   }
   it('has trigger button when mobile', () => {
     simulateSmallScreen()
@@ -712,7 +692,7 @@ describe('StepIndicator in static mode', () => {
   })
 
   it('has correct states on steps', () => {
-    renderExpandedComponent('unique-id-static-states')
+    renderComponent('unique-id-static-states')
 
     const items = document.querySelectorAll('li.dnb-step-indicator__item')
 
