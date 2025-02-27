@@ -31,6 +31,28 @@ describe('Value.Composition', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match forms-value-composition-help', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="forms-value-composition-help"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match forms-value-composition-help-opened', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="forms-value-composition-help-opened"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match forms-value-composition-in-summary-list-with-nested-help', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="forms-value-composition-in-summary-list-with-nested-help"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match forms-value-composition-summary-list-grid', async () => {
     const screenshot = await makeScreenshot({
       selector:
