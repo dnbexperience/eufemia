@@ -23,6 +23,10 @@
   --width: 100vw;
   --height: 100%;
   --color-transparent: transparent;
+  // reset to prevent inheriting from parent
+  --rounded-corner--small: 0;
+  --rounded-corner--medium: 0;
+  --rounded-corner--large: 0;
 
   color: var(--text-color, black);
   border-radius: var(--rounded-corner, 0);
@@ -61,6 +65,7 @@
     // we use box-shadow to avoid a horizontal scrollbar
     // We lower the left position, so we get an overlap
     box-shadow: var(--box-shadow);
+    border-radius: var(--rounded-corner, 0);
   }
 
   &:not([style*='--breakout']) {
