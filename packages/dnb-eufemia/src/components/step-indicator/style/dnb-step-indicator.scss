@@ -6,6 +6,10 @@
 @import '../../../style/core/utilities.scss';
 
 .dnb-step-indicator {
+  --step-indicator-trigger-background: var(--color-black-3);
+  --step-indicator-check-bg: var(--color-pistachio);
+  --step-indicator-check-color: var(--color-success-green);
+  --step-indicator-current-border: var(--color-black-80);
   --padding-top: 0;
   --padding-bottom: 0;
 
@@ -70,15 +74,15 @@
       &--check,
       &--empty,
       &--current {
-        background-color: var(--color-pistachio);
+        background-color: var(--step-indicator-check-bg);
         border-width: 0.0625rem;
         border-style: solid;
         border-color: transparent;
       }
 
       &--check {
-        color: var(--color-success-green);
-        border-color: var(--color-success-green);
+        color: var(--step-indicator-check-color);
+        border-color: var(--step-indicator-check-color);
       }
 
       &--empty {
@@ -89,7 +93,7 @@
 
       &--current {
         border-width: 0.1875rem;
-        border-color: var(--color-black-80);
+        border-color: var(--step-indicator-current-border);
       }
     }
 
@@ -136,6 +140,7 @@
   &__button {
     white-space: normal;
     text-align: left;
+    align-self: flex-start;
     &.dnb-anchor {
       padding: 0;
       line-height: inherit;
