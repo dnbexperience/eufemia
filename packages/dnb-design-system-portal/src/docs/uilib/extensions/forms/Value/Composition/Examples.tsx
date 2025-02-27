@@ -215,3 +215,29 @@ export const WithHelpOpened = () => {
     </ComponentBox>
   )
 }
+
+export const InSummaryListWithNestedHelp = () => {
+  return (
+    <ComponentBox data-visual-test="forms-value-composition-in-summary-list-with-nested-help">
+      <Value.SummaryList>
+        <Value.Composition
+          label="Label with help inside SummaryList"
+          help={{
+            title: 'Hva betyr lånebeløp?',
+            content: 'Dette er hvor mye du har tenkt å låne totalt.',
+            open: true,
+          }}
+        >
+          <Value.Number
+            value={123}
+            help={{
+              title: 'Hva betyr lånebeløp?',
+              content: 'Dette er hvor mye du har tenkt å låne totalt.',
+              open: true,
+            }}
+          />
+        </Value.Composition>
+      </Value.SummaryList>
+    </ComponentBox>
+  )
+}
