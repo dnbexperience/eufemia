@@ -78,7 +78,7 @@ describe('InputMasked component', () => {
     render(<InputMasked value="1234" />)
 
     expect(document.querySelector('input').getAttribute('value')).toBe(
-      '1234'
+      '1 234'
     )
   })
 

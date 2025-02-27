@@ -219,6 +219,7 @@ export default function createTextMaskInputElement(config) {
       }
 
       inputElement.value = inputElementValue // set the input value
+      inputElement.setAttribute('value', inputElementValue) // set the input value as an attribute
       safeSetSelection(inputElement, adjustedCaretPosition) // adjust caret position
     },
   }
