@@ -273,7 +273,9 @@ function FieldBlock(props: Props) {
   )
 
   const statusContent = useMemo(() => {
-    if (typeof errorProp !== 'undefined') {
+    const hasState = stateRecordRef.current[blockId]
+
+    if (typeof errorProp !== 'undefined' || hasState) {
       setInternalRecord({
         identifier: blockId,
         showInitially: hasInitiallyErrorProp,
@@ -282,7 +284,7 @@ function FieldBlock(props: Props) {
       })
     }
 
-    if (typeof warning !== 'undefined') {
+    if (typeof warning !== 'undefined' || hasState) {
       setInternalRecord({
         identifier: blockId,
         showInitially: true,
@@ -291,7 +293,7 @@ function FieldBlock(props: Props) {
       })
     }
 
-    if (typeof info !== 'undefined') {
+    if (typeof info !== 'undefined' || hasState) {
       setInternalRecord({
         identifier: blockId,
         showInitially: true,
