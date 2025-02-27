@@ -6,6 +6,7 @@
 import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Input, { InputProps } from '../Input'
 import { format } from '../../number-format/NumberUtils'
 import { Provider } from '../../../shared'
@@ -499,6 +500,38 @@ describe('Input component', () => {
     })
     expect(on_submit).toHaveBeenCalledTimes(1)
     expect(on_submit.mock.calls[0][0].value).toBe('value')
+  })
+
+  it('should apply value attribute to input', async () => {
+    render(<Input value="1234" />)
+
+    const input = document.querySelector('input')
+
+    expect(input.getAttribute('value')).toBe('1234')
+
+    await userEvent.type(input, '{backspace}')
+    expect(input.getAttribute('value')).toBe('123')
+
+    await userEvent.type(input, '{backspace}')
+    expect(input.getAttribute('value')).toBe('12')
+
+    await userEvent.type(input, '{backspace}')
+    expect(input.getAttribute('value')).toBe('1')
+
+    await userEvent.type(input, '{backspace}')
+    expect(input.getAttribute('value')).toBe('')
+
+    await userEvent.type(input, '1')
+    expect(input.getAttribute('value')).toBe('1')
+
+    await userEvent.type(input, '2')
+    expect(input.getAttribute('value')).toBe('12')
+
+    await userEvent.type(input, '3')
+    expect(input.getAttribute('value')).toBe('123')
+
+    await userEvent.type(input, '4')
+    expect(input.getAttribute('value')).toBe('1234')
   })
 })
 
