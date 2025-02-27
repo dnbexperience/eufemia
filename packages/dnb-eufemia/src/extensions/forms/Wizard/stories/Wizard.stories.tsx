@@ -19,22 +19,28 @@ export const Basic = () => {
   const onStepChange = useCallback(async (index, mode) => {
     console.log('onStepChange', index, mode)
   }, [])
+
   return (
     <Form.Handler>
-      <Wizard.Container
-        onStepChange={onStepChange}
-        mode="loose"
-        variant="drawer"
-      >
+      <Wizard.Container onStepChange={onStepChange} mode="loose">
         <Wizard.Step title="Step 1">
-          <output>Step 1</output>
-          <Wizard.NextButton />
+          <Field.String
+            label="Step 1"
+            path="/step1"
+            required
+            // validateInitially
+          />
+          <Wizard.Buttons />
         </Wizard.Step>
 
         <Wizard.Step title="Step 2">
-          <output>Step 2</output>
-          <Wizard.PreviousButton />
-          <Wizard.NextButton />
+          <Field.String label="Step 2" path="/step2" required />
+          <Wizard.Buttons />
+        </Wizard.Step>
+
+        <Wizard.Step title="Step 3">
+          <Field.String label="Step 3" path="/step3" required />
+          <Wizard.Buttons />
         </Wizard.Step>
       </Wizard.Container>
     </Form.Handler>

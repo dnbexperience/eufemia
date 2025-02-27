@@ -24,6 +24,9 @@ export default {
     Step: {
       summaryTitle: 'Oppsummering',
     },
+    Wizard: {
+      stepErrors: 'Skjemaet inneholder feil.',
+    },
     WizardEditButton: {
       text: 'Endre',
     },

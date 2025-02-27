@@ -4,6 +4,7 @@ import React, {
   useRef,
   useReducer,
   useMemo,
+  useEffect,
 } from 'react'
 import ReactDOM from 'react-dom'
 import classnames from 'classnames'
@@ -39,6 +40,7 @@ import {
 import useHandleLayoutEffect from './useHandleLayoutEffect'
 import useStepAnimation from './useStepAnimation'
 import { ComponentProps } from '../../types'
+import { useTranslation } from '../../hooks'
 import useVisibility from '../../Form/Visibility/useVisibility'
 
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
@@ -138,7 +140,7 @@ function WizardContainer(props: Props) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const activeIndexRef = useRef<StepIndex>(initialActiveIndex)
   const totalStepsRef = useRef<number>(NaN)
-  const errorOnStepRef = useRef<Record<StepIndex, boolean | number>>({})
+  const errorOnStepRef = useRef<Record<StepIndex, boolean>>({})
   const elementRef = useRef<HTMLElement>()
   const stepElementRef = useRef<HTMLElement>()
   const preventNextStepRef = useRef(false)
@@ -160,8 +162,10 @@ function WizardContainer(props: Props) {
     hasContext && id ? createReferenceKey(id, 'wizard') : undefined
   )
 
-  // Store the current state of showAllErrors
-  errorOnStepRef.current[activeIndexRef.current] = showAllErrors
+  const index = activeIndexRef.current
+  useEffect(() => {
+    errorOnStepRef.current[index] = Boolean(showAllErrors)
+  }, [index, showAllErrors])
 
   const preventNavigation = useCallback((shouldPrevent = true) => {
     preventNextStepRef.current = shouldPrevent
@@ -251,10 +255,8 @@ function WizardContainer(props: Props) {
         // Hide async indicator
         setFormState('abort')
 
-        if (!skipErrorCheck) {
-          // Set the showAllErrors to the step we got to
-          setShowAllErrors(Boolean(errorOnStepRef.current[index]))
-        }
+        // Set the "showAllErrors" to the step we got to
+        setShowAllErrors(errorOnStepRef.current[index])
 
         if (!preventNextStepRef.current && !(result instanceof Error)) {
           handleLayoutEffect()
@@ -326,9 +328,12 @@ function WizardContainer(props: Props) {
 
   const handleChange = useCallback(
     ({ current_step }) => {
-      setActiveIndex(current_step)
+      setActiveIndex(
+        current_step,
+        mode === 'loose' ? { skipErrorCheck: true } : undefined
+      )
     },
-    [setActiveIndex]
+    [mode, setActiveIndex]
   )
 
   const setFormError = useCallback(
@@ -361,6 +366,7 @@ function WizardContainer(props: Props) {
       updateTitlesRef,
       activeIndexRef,
       totalStepsRef,
+      errorOnStepRef,
       prerenderFieldProps,
       prerenderFieldPropsRef,
       check,
@@ -474,7 +480,12 @@ function DisplaySteps({
         bottom
         current_step={activeIndexRef.current}
         data={Object.values(stepsRef.current).map(
-          ({ title, inactive }) => ({ title, inactive })
+          ({ title, inactive, status, statusState }) => ({
+            title,
+            inactive,
+            status,
+            status_state: statusState,
+          })
         )}
         mode={mode}
         no_animation={noAnimation}
@@ -491,12 +502,15 @@ function IterateOverSteps({ children }) {
     stepsRef,
     activeIndexRef,
     totalStepsRef,
+    errorOnStepRef,
     prerenderFieldProps,
     prerenderFieldPropsRef,
   } = useContext(WizardContext)
 
   stepsRef.current = {}
   let incrementIndex = -1
+
+  const translations = useTranslation()
 
   const childrenArray = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
@@ -531,6 +545,7 @@ function IterateOverSteps({ children }) {
 
         incrementIndex++
         const index = incrementIndex
+        const hasErrors = errorOnStepRef.current[index]
 
         stepsRef.current[index] = {
           id,
@@ -539,6 +554,8 @@ function IterateOverSteps({ children }) {
               ? convertJsxToString(title)
               : 'Title missing',
           inactive,
+          status: hasErrors ? translations.Wizard.stepErrors : undefined,
+          statusState: 'error',
         }
         const key = `${index}-${activeIndexRef.current}`
         const clone = (props) =>
