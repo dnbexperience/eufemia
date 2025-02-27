@@ -689,6 +689,7 @@ describe('Tools.ListAllProps', () => {
                   role="spinbutton"
                   step="1"
                   type="text"
+                  value="0suffix"
                 />,
               },
               "itemPath": "/item",
@@ -722,6 +723,7 @@ describe('Tools.ListAllProps', () => {
                   role="spinbutton"
                   step="1"
                   type="text"
+                  value="1suffix"
                 />,
               },
               "itemPath": "/item",

@@ -19,6 +19,7 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
             inputmode="numeric"
             name="id-rgo"
             type="text"
+            value="18"
           />,
         },
         "itemPath": "/age",
@@ -337,6 +338,7 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
         role="spinbutton"
         step="1"
         type="text"
+        value="2"
       />,
     },
     "label": "Antall barn under 18 år",
