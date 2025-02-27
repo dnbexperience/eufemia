@@ -19,6 +19,9 @@ import Step, {
   handleDeprecatedProps as handleDeprecatedStepProps,
 } from '../Step'
 import WizardContext, {
+  InternalStepStatus,
+  InternalStepStatuses,
+  InternalVisitedSteps,
   OnStepChange,
   OnStepChangeOptions,
   OnStepsChangeMode,
@@ -39,6 +42,7 @@ import {
 import useHandleLayoutEffect from './useHandleLayoutEffect'
 import useStepAnimation from './useStepAnimation'
 import { ComponentProps } from '../../types'
+import { useTranslation } from '../../hooks'
 import useVisibility from '../../Form/Visibility/useVisibility'
 
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
@@ -138,7 +142,8 @@ function WizardContainer(props: Props) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const activeIndexRef = useRef<StepIndex>(initialActiveIndex)
   const totalStepsRef = useRef<number>(NaN)
-  const errorOnStepRef = useRef<Record<StepIndex, boolean | number>>({})
+  const stepStatusRef = useRef<InternalStepStatuses>({})
+  const visitedStepsRef = useRef<InternalVisitedSteps>({})
   const elementRef = useRef<HTMLElement>()
   const stepElementRef = useRef<HTMLElement>()
   const preventNextStepRef = useRef(false)
@@ -148,6 +153,8 @@ function WizardContainer(props: Props) {
   const prerenderFieldPropsRef = useRef<
     Record<string, () => React.ReactElement>
   >({})
+
+  const bypassOnNavigation = validationMode === 'bypassOnNavigation'
 
   // - Handle shared state
   const sharedStateRef =
@@ -160,8 +167,23 @@ function WizardContainer(props: Props) {
     hasContext && id ? createReferenceKey(id, 'wizard') : undefined
   )
 
-  // Store the current state of showAllErrors
-  errorOnStepRef.current[activeIndexRef.current] = showAllErrors
+  const setStepState = useCallback(
+    (index: number, state: InternalStepStatus) => {
+      stepStatusRef.current[index] = state
+    },
+    []
+  )
+
+  visitedStepsRef.current[activeIndexRef.current] = true
+  const currentState = stepStatusRef.current[activeIndexRef.current]
+  if (!showAllErrors && ['error', 'valid'].includes(currentState)) {
+    setStepState(activeIndexRef.current, 'valid')
+  } else {
+    setStepState(
+      activeIndexRef.current,
+      showAllErrors ? 'error' : undefined
+    )
+  }
 
   const preventNavigation = useCallback((shouldPrevent = true) => {
     preventNextStepRef.current = shouldPrevent
@@ -251,10 +273,12 @@ function WizardContainer(props: Props) {
         // Hide async indicator
         setFormState('abort')
 
-        if (!skipErrorCheck) {
-          // Set the showAllErrors to the step we got to
-          setShowAllErrors(Boolean(errorOnStepRef.current[index]))
-        }
+        // Set the "showAllErrors" to the step we got to
+        setShowAllErrors(
+          bypassOnNavigation
+            ? false
+            : stepStatusRef.current[index] === 'error'
+        )
 
         if (!preventNextStepRef.current && !(result instanceof Error)) {
           handleLayoutEffect()
@@ -272,21 +296,15 @@ function WizardContainer(props: Props) {
         skipErrorCheck,
         skipFieldValidation: skipErrorCheck,
         enableAsyncBehavior: isAsync(onStepChange),
-        onSubmit,
+        onSubmit: bypassOnNavigation ? () => null : onSubmit,
       })
 
-      switch (validationMode) {
-        case 'bypassOnNavigation': {
-          const hasErrors = errorOnStepRef.current[activeIndexRef.current]
-          if (hasErrors) {
-            await onSubmit()
-          }
-          break
-        }
+      if (bypassOnNavigation) {
+        await onSubmit()
       }
     },
     [
-      validationMode,
+      bypassOnNavigation,
       callOnStepChange,
       getStepChangeOptions,
       handleLayoutEffect,
@@ -326,9 +344,12 @@ function WizardContainer(props: Props) {
 
   const handleChange = useCallback(
     ({ current_step }) => {
-      setActiveIndex(current_step)
+      setActiveIndex(
+        current_step,
+        mode === 'loose' ? { skipErrorCheck: true } : undefined
+      )
     },
-    [setActiveIndex]
+    [mode, setActiveIndex]
   )
 
   const setFormError = useCallback(
@@ -338,14 +359,44 @@ function WizardContainer(props: Props) {
     [setSubmitState]
   )
 
+  const handleUnknownStepsState = useCallback(() => {
+    const index = activeIndexRef.current
+    for (let i = 0; i < totalStepsRef.current; i++) {
+      // - Check if the step was visited before,
+      // - if, not check if the step has already an state,
+      // - if, not check if the step is before the active step and and below.
+      // - Only then set the state to "unknown"
+      if (
+        !visitedStepsRef.current[i] &&
+        stepStatusRef.current[i] === undefined &&
+        i < index &&
+        i !== index
+      ) {
+        setStepState(i, 'unknown')
+      }
+    }
+  }, [setStepState])
+
+  const hasInvalidStepsState = useCallback(() => {
+    const steps = Object.values(stepStatusRef.current)
+    return steps.includes('unknown') || steps.includes('error')
+  }, [])
+
   const handleSubmit = useCallback(
     ({ preventSubmit }) => {
+      handleUnknownStepsState()
+
+      // - If there is an unknown step state, we need to prevent the submit
+      if (hasInvalidStepsState()) {
+        return preventSubmit()
+      }
+
       if (activeIndexRef.current + 1 < totalStepsRef.current) {
         handleNext()
         preventSubmit()
       }
     },
-    [handleNext]
+    [handleUnknownStepsState, hasInvalidStepsState, handleNext]
   )
   dataContext.setHandleSubmit?.(handleSubmit)
 
@@ -361,6 +412,7 @@ function WizardContainer(props: Props) {
       updateTitlesRef,
       activeIndexRef,
       totalStepsRef,
+      stepStatusRef,
       prerenderFieldProps,
       prerenderFieldPropsRef,
       check,
@@ -474,7 +526,12 @@ function DisplaySteps({
         bottom
         current_step={activeIndexRef.current}
         data={Object.values(stepsRef.current).map(
-          ({ title, inactive }) => ({ title, inactive })
+          ({ title, inactive, status, statusState }) => ({
+            title,
+            inactive,
+            status,
+            status_state: statusState,
+          })
         )}
         mode={mode}
         no_animation={noAnimation}
@@ -491,12 +548,15 @@ function IterateOverSteps({ children }) {
     stepsRef,
     activeIndexRef,
     totalStepsRef,
+    stepStatusRef,
     prerenderFieldProps,
     prerenderFieldPropsRef,
   } = useContext(WizardContext)
 
   stepsRef.current = {}
   let incrementIndex = -1
+
+  const translations = useTranslation()
 
   const childrenArray = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
@@ -531,6 +591,7 @@ function IterateOverSteps({ children }) {
 
         incrementIndex++
         const index = incrementIndex
+        const state = stepStatusRef.current[index]
 
         stepsRef.current[index] = {
           id,
@@ -539,6 +600,13 @@ function IterateOverSteps({ children }) {
               ? convertJsxToString(title)
               : 'Title missing',
           inactive,
+          status:
+            state === 'error'
+              ? translations.Step.stepHasError
+              : state === 'unknown'
+              ? translations.Step.stepMayHaveErrors
+              : undefined,
+          statusState: state === 'error' ? 'error' : undefined,
         }
         const key = `${index}-${activeIndexRef.current}`
         const clone = (props) =>
@@ -620,13 +688,13 @@ function PrerenderFieldPropsProvider({ children }) {
     <DataContext.Provider
       value={{
         ...defaultContextState,
+        hasContext: true,
+        prerenderFieldProps: true,
 
-        // Only update the props and the data value
+        // Only enable data and these methods
         data,
         setFieldInternals,
         updateDataValue,
-        prerenderFieldProps: true,
-        hasContext: true,
       }}
     >
       <WizardContext.Provider value={{ prerenderFieldProps: true }}>
