@@ -24,6 +24,7 @@ import {
   DataValueWriteProps,
   OnSubmit,
   Iterate,
+  OnSubmitRequest,
 } from '../../../'
 import { isCI } from 'repo-utils'
 import { Props as StringFieldProps } from '../../../Field/String'
@@ -2913,7 +2914,13 @@ describe('DataContext.Provider', () => {
       })
 
       it('should return errors in first parameter', async () => {
-        const onSubmitRequest = jest.fn()
+        let receivedErrors = null
+
+        const onSubmitRequest: OnSubmitRequest = jest.fn(
+          ({ getErrors }) => {
+            receivedErrors = getErrors()
+          }
+        )
 
         render(
           <DataContext.Provider onSubmitRequest={onSubmitRequest}>
@@ -2933,27 +2940,28 @@ describe('DataContext.Provider', () => {
         expect(onSubmitRequest).toHaveBeenCalledTimes(1)
         expect(onSubmitRequest).toHaveBeenLastCalledWith(
           expect.objectContaining({
-            errors: [
-              {
-                path: '/bar',
-                value: undefined,
-                displayValue: undefined,
-                label: 'Bar',
-                props: expect.objectContaining({
-                  label: 'Bar',
-                }),
-                data: {
-                  bar: undefined,
-                  foo: 'foo',
-                },
-                error: new Error(nb.Field.errorRequired),
-                internal: {
-                  error: new Error(nb.Field.errorRequired),
-                },
-              },
-            ],
+            getErrors: expect.any(Function),
           })
         )
+        expect(receivedErrors).toEqual([
+          {
+            path: '/bar',
+            value: undefined,
+            displayValue: undefined,
+            label: 'Bar',
+            props: expect.objectContaining({
+              label: 'Bar',
+            }),
+            data: {
+              bar: undefined,
+              foo: 'foo',
+            },
+            error: new Error(nb.Field.errorRequired),
+            internal: {
+              error: new Error(nb.Field.errorRequired),
+            },
+          },
+        ])
 
         await userEvent.type(
           document.querySelector('input'),
@@ -2964,42 +2972,43 @@ describe('DataContext.Provider', () => {
         expect(onSubmitRequest).toHaveBeenCalledTimes(2)
         expect(onSubmitRequest).toHaveBeenLastCalledWith(
           expect.objectContaining({
-            errors: [
-              {
-                path: '/bar',
-                value: undefined,
-                displayValue: undefined,
-                label: 'Bar',
-                props: expect.objectContaining({
-                  label: 'Bar',
-                }),
-                data: {
-                  bar: undefined,
-                },
-                error: new Error(nb.Field.errorRequired),
-                internal: {
-                  error: new Error(nb.Field.errorRequired),
-                },
-              },
-              {
-                path: '/foo',
-                value: undefined,
-                displayValue: undefined,
-                label: 'Foo',
-                props: expect.objectContaining({
-                  label: 'Foo',
-                }),
-                data: {
-                  foo: undefined,
-                },
-                error: new Error(nb.Field.errorRequired),
-                internal: {
-                  error: new Error(nb.Field.errorRequired),
-                },
-              },
-            ],
+            getErrors: expect.any(Function),
           })
         )
+        expect(receivedErrors).toEqual([
+          {
+            path: '/bar',
+            value: undefined,
+            displayValue: undefined,
+            label: 'Bar',
+            props: expect.objectContaining({
+              label: 'Bar',
+            }),
+            data: {
+              bar: undefined,
+            },
+            error: new Error(nb.Field.errorRequired),
+            internal: {
+              error: new Error(nb.Field.errorRequired),
+            },
+          },
+          {
+            path: '/foo',
+            value: undefined,
+            displayValue: undefined,
+            label: 'Foo',
+            props: expect.objectContaining({
+              label: 'Foo',
+            }),
+            data: {
+              foo: undefined,
+            },
+            error: new Error(nb.Field.errorRequired),
+            internal: {
+              error: new Error(nb.Field.errorRequired),
+            },
+          },
+        ])
 
         await userEvent.type(document.querySelector('input'), 'foo')
         await userEvent.click(document.querySelector('button'))
@@ -3007,27 +3016,28 @@ describe('DataContext.Provider', () => {
         expect(onSubmitRequest).toHaveBeenCalledTimes(3)
         expect(onSubmitRequest).toHaveBeenLastCalledWith(
           expect.objectContaining({
-            errors: [
-              {
-                path: '/bar',
-                value: undefined,
-                displayValue: undefined,
-                label: 'Bar',
-                props: expect.objectContaining({
-                  label: 'Bar',
-                }),
-                data: {
-                  bar: undefined,
-                  foo: 'foo',
-                },
-                error: new Error(nb.Field.errorRequired),
-                internal: {
-                  error: new Error(nb.Field.errorRequired),
-                },
-              },
-            ],
+            getErrors: expect.any(Function),
           })
         )
+        expect(receivedErrors).toEqual([
+          {
+            path: '/bar',
+            value: undefined,
+            displayValue: undefined,
+            label: 'Bar',
+            props: expect.objectContaining({
+              label: 'Bar',
+            }),
+            data: {
+              bar: undefined,
+              foo: 'foo',
+            },
+            error: new Error(nb.Field.errorRequired),
+            internal: {
+              error: new Error(nb.Field.errorRequired),
+            },
+          },
+        ])
       })
     })
 

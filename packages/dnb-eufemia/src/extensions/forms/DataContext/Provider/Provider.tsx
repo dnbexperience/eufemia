@@ -1090,11 +1090,12 @@ export default function Provider<Data extends JsonObject>(
         setShowAllErrors(true)
 
         onSubmitRequest?.({
-          errors: Object.keys(fieldErrorRef.current)
-            .map((path) => {
-              return getDataPathHandlerParameters(path)
-            })
-            .filter(({ error }) => error),
+          getErrors: () =>
+            Object.keys(fieldErrorRef.current)
+              .map((path) => {
+                return getDataPathHandlerParameters(path)
+              })
+              .filter(({ error }) => error),
         })
       }
 

@@ -256,8 +256,8 @@ export const OnSubmitRequest = () => {
   return (
     <ComponentBox>
       <Form.Handler
-        onSubmitRequest={({ errors }) => {
-          errors.forEach(({ label, error }) => {
+        onSubmitRequest={({ getErrors }) => {
+          getErrors().forEach(({ label, error }) => {
             console.log(label, error.message)
           })
         }}
