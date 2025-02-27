@@ -74,14 +74,6 @@ describe('InputMasked component', () => {
     expect(ref.current.tagName).toBe('INPUT')
   })
 
-  it('should apply value attribute to input', () => {
-    render(<InputMasked value="1234" />)
-
-    expect(document.querySelector('input').getAttribute('value')).toBe(
-      '1 234'
-    )
-  })
-
   it('event "on_change" gets emitted with correct value #1', async () => {
     const initValue = 'NOK 1234,5 kr'
     const newValue = 'NOK 123456789,0 kr'
@@ -2277,6 +2269,40 @@ describe('controlled', () => {
     await userEvent.type(nativeInput, '{Backspace>4}1,00')
     expect(nativeInput).toHaveValue('1,00')
     expect(inputMasked).toHaveValue('1,00')
+  })
+})
+
+describe('value attribute', () => {
+  it('should apply value attribute to input element', async () => {
+    render(<InputMasked value="1234" />)
+
+    const input = document.querySelector('input')
+
+    expect(input.getAttribute('value')).toBe('1 234')
+
+    await userEvent.type(input, '{backspace}')
+    expect(input.getAttribute('value')).toBe('123')
+
+    await userEvent.type(input, '{backspace}')
+    expect(input.getAttribute('value')).toBe('12')
+
+    await userEvent.type(input, '{backspace}')
+    expect(input.getAttribute('value')).toBe('1')
+
+    await userEvent.type(input, '{backspace}')
+    expect(input.getAttribute('value')).toBe('')
+
+    await userEvent.type(input, '1')
+    expect(input.getAttribute('value')).toBe('1')
+
+    await userEvent.type(input, '2')
+    expect(input.getAttribute('value')).toBe('12')
+
+    await userEvent.type(input, '3')
+    expect(input.getAttribute('value')).toBe('123')
+
+    await userEvent.type(input, '4')
+    expect(input.getAttribute('value')).toBe('1234')
   })
 })
 
