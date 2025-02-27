@@ -80,4 +80,21 @@ describe('Value.Composition', () => {
       expect(screenshot).toMatchImageSnapshot()
     })
   })
+
+  describe('xx-small', () => {
+    setupPageScreenshot({
+      url: '/uilib/extensions/forms/Value/Composition/demos/',
+      pageViewport: {
+        width: 180,
+      },
+    })
+
+    it('have to match forms-value-composition-summary-list-grid', async () => {
+      const screenshot = await makeScreenshot({
+        selector:
+          '[data-visual-test="forms-value-composition-summary-list-grid"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  })
 })

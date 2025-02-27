@@ -95,7 +95,7 @@
       &:not(:has(.dnb-forms-value-block__label)) {
         --row-gap: var(--spacing-x-small);
       }
-      flex-flow: column;
+      flex-flow: row wrap;
     }
 
     /* stylelint-disable */
