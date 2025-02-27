@@ -24,6 +24,7 @@ import {
   StepIndicatorMouseEvent,
   StepIndicatorRenderCallback,
 } from './StepIndicator'
+import Context from '../../shared/Context'
 
 export type StepIndicatorStatusState = 'warn' | 'info' | 'error'
 export type StepIndicatorItemProps = Omit<
@@ -83,11 +84,13 @@ function StepIndicatorItem({
   disabled: disabled_default = false,
   ...restOfProps
 }: StepIndicatorItemProps) {
+  const globalContext = React.useContext(Context)
+
   const props: StepIndicatorItemProps = useMemo(() => {
     return {
       status_state: status_state_default,
       inactive: inactive_default,
-      disabled: disabled_default,
+      disabled: globalContext?.formElement?.disabled ?? disabled_default,
       ...restOfProps,
     }
   }, [
@@ -95,6 +98,7 @@ function StepIndicatorItem({
     inactive_default,
     restOfProps,
     status_state_default,
+    globalContext?.formElement?.disabled,
   ])
 
   const context = useContext(StepIndicatorContext)
