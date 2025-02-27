@@ -118,6 +118,7 @@ function StepIndicatorTriggerButton({
                 openHandler()
               }
             }}
+            aria-expanded={openState}
             id={id}
             wrap
             variant="tertiary"
