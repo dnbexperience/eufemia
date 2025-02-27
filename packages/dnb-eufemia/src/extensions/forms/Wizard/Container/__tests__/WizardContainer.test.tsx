@@ -2,7 +2,14 @@ import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { spyOnEufemiaWarn, wait } from '../../../../../core/jest/jestSetup'
-import { Field, Form, Iterate, OnSubmit, Wizard } from '../../..'
+import {
+  Field,
+  Form,
+  Iterate,
+  OnSubmit,
+  OnSubmitRequest,
+  Wizard,
+} from '../../..'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
@@ -2979,7 +2986,11 @@ describe('Wizard.Container', () => {
   })
 
   it('should call onSubmitRequest on step change', async () => {
-    const onSubmitRequest = jest.fn()
+    let receivedErrors = null
+
+    const onSubmitRequest: OnSubmitRequest = jest.fn(({ getErrors }) => {
+      receivedErrors = getErrors()
+    })
 
     render(
       <Form.Handler onSubmitRequest={onSubmitRequest}>
@@ -3003,25 +3014,26 @@ describe('Wizard.Container', () => {
     expect(onSubmitRequest).toHaveBeenCalledTimes(1)
     expect(onSubmitRequest).toHaveBeenLastCalledWith(
       expect.objectContaining({
-        errors: [
-          {
-            path: '/bar',
-            value: undefined,
-            displayValue: undefined,
-            label: 'Bar',
-            props: expect.objectContaining({
-              label: 'Bar',
-            }),
-            data: {
-              bar: undefined,
-            },
-            error: new Error(nb.Field.errorRequired),
-            internal: {
-              error: new Error(nb.Field.errorRequired),
-            },
-          },
-        ],
+        getErrors: expect.any(Function),
       })
     )
+    expect(receivedErrors).toEqual([
+      {
+        path: '/bar',
+        value: undefined,
+        displayValue: undefined,
+        label: 'Bar',
+        props: expect.objectContaining({
+          label: 'Bar',
+        }),
+        data: {
+          bar: undefined,
+        },
+        error: new Error(nb.Field.errorRequired),
+        internal: {
+          error: new Error(nb.Field.errorRequired),
+        },
+      },
+    ])
   })
 })

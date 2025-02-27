@@ -32,11 +32,13 @@ Each item in the error array contains the following properties in an object:
 - `error` The error of the field.
 
 ```tsx
-const onSubmitRequest: OnSubmitRequest = ({ errors }) => {
-  errors.forEach(({ path, value, displayValue, label, props, error }) => {
-    // Do something with the error
-    console.log(label, error.message)
-  })
+const onSubmitRequest: OnSubmitRequest = ({ getErrors }) => {
+  getErrors().forEach(
+    ({ path, value, displayValue, label, props, error }) => {
+      // Do something with the error
+      console.log(label, error.message)
+    },
+  )
 }
 ```
 

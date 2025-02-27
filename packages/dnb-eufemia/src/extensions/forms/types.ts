@@ -675,9 +675,9 @@ export type OnSubmit<Data = JsonObject> = (
   }: OnSubmitParams
 ) => OnSubmitReturn
 export type OnSubmitRequest = ({
-  errors,
+  getErrors,
 }: {
-  errors: Array<DataPathHandlerParameters>
+  getErrors: () => Array<DataPathHandlerParameters>
 }) => void
 
 export type OnCommit<Data = JsonObject> = (
