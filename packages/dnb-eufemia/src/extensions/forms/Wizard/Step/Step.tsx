@@ -80,7 +80,7 @@ function Step(props: Props): JSX.Element {
   const {
     className,
     title,
-    inactive,
+    inactive, // eslint-disable-line
     index,
     include = true,
     includeWhen,

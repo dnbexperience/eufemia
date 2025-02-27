@@ -175,6 +175,11 @@ const MyForm = () => {
 }
 ```
 
+## Modes
+
+- The `strict` mode is the default. The user can only navigate forward using the [Wizard.NextButton](/uilib/extensions/forms/Wizard/NextButton/), not via the menu. However, the previous step remains active, allowing the user to go back at any time – even if there are errors in the current step.
+- Use `loose` mode if the user should be able to navigate freely between all steps, including those that have not been visited before. When there is an error in the current step, the user can navigate to other steps via the menu, but not via the [Wizard.NextButton](/uilib/extensions/forms/Wizard/NextButton/).
+
 ## Accessibility
 
 The `Wizard.Step` component uses an `aria-label` attribute that matches the title property value. The step content is enclosed within a section element, which further enhances accessibility.

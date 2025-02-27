@@ -2484,12 +2484,12 @@ describe('Wizard.Container', () => {
     })
   })
 
-  it('should run validation before every step change using StepIndicator to navigate back and forth', async () => {
+  it('should run validation before every step change using StepIndicator menu to navigate back and forth', async () => {
     const onStepChange = jest.fn()
 
     render(
       <Form.Handler>
-        <Wizard.Container onStepChange={onStepChange} mode="loose">
+        <Wizard.Container onStepChange={onStepChange}>
           <Wizard.Step title="Step 1">
             <Field.String required />
             <output>Step 1</output>
@@ -2510,50 +2510,43 @@ describe('Wizard.Container', () => {
     expect(output()).toHaveTextContent('Step 1')
 
     // Try Step 2
-    await userEvent.click(secondStep.querySelector('.dnb-button'))
-
-    await waitFor(() => {
-      expect(
-        document.querySelector('.dnb-form-status')
-      ).toBeInTheDocument()
-    })
+    await userEvent.click(nextButton()) // Use nextButton, because menu button of step is not active yet
 
     expect(output()).toHaveTextContent('Step 1')
+    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
 
     await userEvent.type(document.querySelector('input'), 'foo')
 
-    await waitFor(() => {
-      expect(document.querySelector('.dnb-form-status')).toBeNull()
-    })
-
-    // Go to Step 2
-    await userEvent.click(secondStep.querySelector('.dnb-button'))
+    // Try Step 2
+    await userEvent.click(nextButton()) // Use nextButton, because menu button of step is not active yet
 
     expect(output()).toHaveTextContent('Step 2')
-    expect(onStepChange).toHaveBeenCalledTimes(1)
-    expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
-      previousStep: { index: 0 },
-      preventNavigation: expect.any(Function),
-    })
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
 
-    // Go to Step 1
     await userEvent.click(firstStep.querySelector('.dnb-button'))
 
     expect(output()).toHaveTextContent('Step 1')
-    expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+    // Try Step 2 (because no path="/foo" is given, the value got lost)
+    await userEvent.click(secondStep.querySelector('.dnb-button'))
+
+    expect(output()).toHaveTextContent('Step 1')
+    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
 
     await userEvent.type(document.querySelector('input'), '{Backspace>3}')
 
     // Try Step 2
     await userEvent.click(secondStep.querySelector('.dnb-button'))
 
-    await waitFor(() => {
-      expect(
-        document.querySelector('.dnb-form-status')
-      ).toBeInTheDocument()
-    })
-
     expect(output()).toHaveTextContent('Step 1')
+    expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
+
+    await userEvent.type(document.querySelector('input'), 'foo')
+
+    // Try Step 2
+    await userEvent.click(secondStep.querySelector('.dnb-button'))
+    expect(output()).toHaveTextContent('Step 2')
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
   })
 
   it('should bypass validation on every step when validationMode is bypassOnNavigation', async () => {
@@ -2562,17 +2555,17 @@ describe('Wizard.Container', () => {
     render(
       <Form.Handler>
         <Wizard.Container
+          mode="loose"
           validationMode="bypassOnNavigation"
           onStepChange={onStepChange}
-          mode="loose"
         >
           <Wizard.Step title="Step 1">
-            <Field.String required />
+            <Field.String path="/foo" required />
             <output>Step 1</output>
             <Wizard.Buttons />
           </Wizard.Step>
           <Wizard.Step title="Step 2">
-            <Field.String required />
+            <Field.String path="/bar" required />
             <output>Step 2</output>
             <Wizard.Buttons />
           </Wizard.Step>
