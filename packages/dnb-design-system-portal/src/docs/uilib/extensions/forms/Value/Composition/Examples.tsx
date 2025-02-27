@@ -129,7 +129,13 @@ export const WithHelp = () => {
             content: 'Dette er hvor mye du har tenkt å låne totalt.',
           }}
         >
-          <Value.String value="value" />
+          <Value.String
+            help={{
+              title: 'Hva betyr lånebeløp?',
+              content: 'Dette er hvor mye du har tenkt å låne totalt.',
+            }}
+            value="value"
+          />
           <Value.Number value={123} />
         </Value.Composition>
 
@@ -148,6 +154,57 @@ export const WithHelp = () => {
                 help={{
                   title: 'Hva betyr lånebeløp?',
                   content: 'Dette er hvor mye du har tenkt å låne totalt.',
+                }}
+              />
+            </Value.Composition>
+            <Value.String value="Another value" />
+          </Value.SummaryList>
+        </Form.Card>
+      </Flex.Stack>
+    </ComponentBox>
+  )
+}
+
+export const WithHelpOpened = () => {
+  return (
+    <ComponentBox data-visual-test="forms-value-composition-help-opened">
+      <Flex.Stack>
+        <Value.Composition
+          label="Label with help"
+          help={{
+            title: 'Hva betyr lånebeløp?',
+            content: 'Dette er hvor mye du har tenkt å låne totalt.',
+            open: true,
+          }}
+        >
+          <Value.String
+            help={{
+              title: 'Hva betyr lånebeløp?',
+              content: 'Dette er hvor mye du har tenkt å låne totalt.',
+              open: true,
+            }}
+            value="value"
+          />
+          <Value.Number value={123} />
+        </Value.Composition>
+
+        <Form.Card>
+          <Value.SummaryList>
+            <Value.Composition
+              label="Label with help inside SummaryList"
+              help={{
+                title: 'Hva betyr lånebeløp?',
+                content: 'Dette er hvor mye du har tenkt å låne totalt.',
+                open: true,
+              }}
+            >
+              <Value.String value="value" />
+              <Value.Number
+                value={123}
+                help={{
+                  title: 'Hva betyr lånebeløp?',
+                  content: 'Dette er hvor mye du har tenkt å låne totalt.',
+                  open: true,
                 }}
               />
             </Value.Composition>
