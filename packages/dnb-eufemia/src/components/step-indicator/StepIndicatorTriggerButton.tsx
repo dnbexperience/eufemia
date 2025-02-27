@@ -97,6 +97,11 @@ function StepIndicatorTriggerButton({
         top: 'small',
         bottom: 'small',
       }}
+      roundedCorner={{
+        small: false,
+        medium: [true, true, !openState, !openState],
+        large: [true, true, !openState, !openState],
+      }}
     >
       <HeightAnimation animate={!no_animation}>
         <div {...(triggerParams as React.HTMLProps<HTMLDivElement>)}>
