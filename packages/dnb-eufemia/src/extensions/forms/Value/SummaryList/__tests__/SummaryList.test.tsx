@@ -5,7 +5,7 @@ import SummaryList from '../SummaryList'
 import { Field, Form, Value } from '../../..'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
 
-describe('Field.SummaryList', () => {
+describe('Value.SummaryList', () => {
   it('should forward HTML attributes', () => {
     render(<SummaryList aria-label="Aria Label">Aria Summary</SummaryList>)
 

@@ -7,16 +7,16 @@ showTabs: true
 `Field.Name` is a wrapper component for the [input of strings](/uilib/extensions/forms/base-fields/String), with user experience tailored for first and last name and company names.
 
 ```jsx
-import { Field } from '@dnb/eufemia/extensions/forms'
+import { Field, Form } from '@dnb/eufemia/extensions/forms'
 
 function MyForm() {
   return (
-    <Field.SummaryList>
+    <Form.Handler>
       <Field.Name />
       <Field.Name.First value="Nora" />
       <Field.Name.Last value="Mørk" />
       <Field.Name.Company value="DNB" />
-    </Field.SummaryList>
+    </Form.Handler>
   )
 }
 ```

@@ -49,26 +49,33 @@ export type FilterDataHandler<Data> = (
 export type FilterDataHandlerCallback<R> = (
   parameters: FilterDataHandlerParameters
 ) => R
-export type FilterDataHandlerParameters =
-  FilterDataPathConditionParameters & {
-    path: Path
-  }
-export type FilterDataPathCondition<Data = unknown> = (
-  parameters: FilterDataPathConditionParameters<Data>
+export type FilterDataHandlerParameters = DataPathHandlerParameters & {
+  path: Path
+}
+export type DataPathHandler<Data = unknown> = (
+  parameters: DataPathHandlerParameters<Data>
 ) => boolean | undefined
-export type FilterDataPathConditionParameters<Data = unknown> = {
+export type DataPathHandlerParameters<Data = unknown> = {
+  path: Path
   value: unknown
   displayValue: undefined | React.ReactNode | Array<React.ReactNode>
   label: React.ReactNode
   props: FieldProps
+  error: Error | undefined
+
+  /**
+   * Used in the "filterData" given by the "useData" hook.
+   */
   data: Data
+
+  /** @deprecated – can be removed in v11 */
   internal: {
     error: Error | undefined
   }
 }
 export type FilterDataPathObject<Data> = Record<
   Path,
-  FilterDataPathCondition<Data> | boolean | undefined
+  DataPathHandler<Data> | boolean | undefined
 >
 export type FilterData<Data = unknown> =
   | FilterDataPathObject<Data>
