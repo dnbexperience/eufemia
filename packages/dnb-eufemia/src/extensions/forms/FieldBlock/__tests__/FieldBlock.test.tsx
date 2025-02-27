@@ -730,6 +730,34 @@ describe('FieldBlock', () => {
         expect(element).toHaveClass('dnb-height-animation--is-visible')
         expect(element).toHaveTextContent(blockInfo)
       })
+
+      it('should show and hide the message when info prop gets "undefined"', () => {
+        const { rerender } = render(<FieldBlock info="message" />)
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+
+        rerender(<FieldBlock info={undefined} />)
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
+
+      it('a field (with useFieldProps) should show and hide the message when info prop gets "undefined"', () => {
+        const { rerender } = render(<Field.String info="message" />)
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+
+        rerender(<Field.String info={undefined} />)
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
     })
 
     describe('warning prop', () => {
@@ -758,6 +786,34 @@ describe('FieldBlock', () => {
         expect(element).toHaveClass('dnb-height-animation--is-visible')
         expect(element).toHaveTextContent(blockWarning)
       })
+
+      it('should show and hide the message when warning prop gets "undefined"', () => {
+        const { rerender } = render(<FieldBlock warning="message" />)
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+
+        rerender(<FieldBlock warning={undefined} />)
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
+
+      it('a field (with useFieldProps) should show and hide the message when warning prop gets "undefined"', () => {
+        const { rerender } = render(<Field.String warning="message" />)
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+
+        rerender(<Field.String warning={undefined} />)
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
     })
 
     describe('error prop', () => {
@@ -772,6 +828,38 @@ describe('FieldBlock', () => {
         expect(element).toHaveClass('dnb-form-status--error')
         expect(element).toHaveClass('dnb-height-animation--is-visible')
         expect(element).toHaveTextContent(blockError)
+      })
+
+      it('should show and hide the message when error prop gets "undefined"', () => {
+        const { rerender } = render(
+          <FieldBlock error={new Error('message')} />
+        )
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+
+        rerender(<FieldBlock error={undefined} />)
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
+
+      it('a field (with useFieldProps) should show and hide the message when error prop gets "undefined"', () => {
+        const { rerender } = render(
+          <Field.String error={new Error('message')} />
+        )
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+
+        rerender(<Field.String error={undefined} />)
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
       })
     })
 

@@ -2335,12 +2335,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   const infoRef = useRef<UseFieldProps['info']>(info)
   const warningRef = useRef<UseFieldProps['warning']>(warning)
-  if (typeof info !== 'undefined') {
+  useMemo(() => {
     infoRef.current = info
-  }
-  if (typeof warning !== 'undefined') {
+  }, [info])
+  useMemo(() => {
     warningRef.current = warning
-  }
+  }, [warning])
 
   const connections = useMemo(() => {
     return {

@@ -32,6 +32,7 @@ import {
   FieldProps,
   SubmitState,
   Identifier,
+  UseFieldProps,
 } from '../types'
 import type { FormLabelAllProps } from '../../../components/FormLabel'
 import HelpButtonInline, {
@@ -159,7 +160,7 @@ function FieldBlock(props: Props) {
     required,
     info,
     warning,
-    error: errorProp,
+    error,
     disableStatusSummary,
     fieldState,
     disabled,
@@ -175,6 +176,19 @@ function FieldBlock(props: Props) {
   const hasCustomWidth = /\d(rem)$/.test(String(width))
   const hasCustomContentWidth = /\d(rem)$/.test(String(contentWidth))
 
+  const infoRef = useRef<UseFieldProps['info']>(info)
+  const warningRef = useRef<UseFieldProps['warning']>(warning)
+  const errorRef = useRef<UseFieldProps['error']>(error)
+  useMemo(() => {
+    infoRef.current = info
+  }, [info])
+  useMemo(() => {
+    warningRef.current = warning
+  }, [warning])
+  useMemo(() => {
+    errorRef.current = error
+  }, [error])
+
   const blockId = useId(props.id)
   const [salt, forceUpdate] = useReducer(() => ({}), {})
   const mountedFieldsRef = useRef<MountedFieldsRef>({})
@@ -183,7 +197,7 @@ function FieldBlock(props: Props) {
   const fieldStateIdsRef = useRef<FieldErrorIdsRef>(null)
   const contentsRef = useRef<HTMLDivElement>(null)
   const hasInitiallyErrorProp = useMemo(() => {
-    return Boolean(errorProp)
+    return Boolean(errorRef.current)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const label = useIterateItemNo({
@@ -272,157 +286,171 @@ function FieldBlock(props: Props) {
     [nestedFieldBlockContext]
   )
 
-  const statusContent = useMemo(() => {
-    if (typeof errorProp !== 'undefined') {
-      setInternalRecord({
-        identifier: blockId,
-        showInitially: hasInitiallyErrorProp,
-        type: 'error',
-        content: errorProp,
-      })
-    }
-
-    if (typeof warning !== 'undefined') {
-      setInternalRecord({
-        identifier: blockId,
-        showInitially: true,
-        type: 'warning',
-        content: warning,
-      })
-    }
-
-    if (typeof info !== 'undefined') {
-      setInternalRecord({
-        identifier: blockId,
-        showInitially: true,
-        type: 'info',
-        content: info,
-      })
-    }
-
-    const statesWithMessages: Array<StatesWithMessages> =
-      // 1. Prepare the states for later use
-      Object.entries(stateRecordRef.current)
-        .flatMap(([identifier, states]) =>
-          states.map((props) => {
-            return {
-              identifier,
-              ...props,
-            }
-          })
-        )
-
-        // 2. Take states and group the same type together
-        .reduce((acc, cur) => {
-          const existing = acc.find((item) => {
-            return item.type === cur.type
-          })
-
-          const messages = getMessagesFromError(cur).map((message) => {
-            return {
-              ...cur,
-              message,
-            }
-          })
-
-          if (existing) {
-            existing.messages.push(...messages)
-          } else {
-            acc.push({
-              ...cur,
-              content: undefined,
-              messages,
-            })
-          }
-
-          return acc
-        }, [] as Array<StatesWithMessages>)
-
-    // 3. Return the grouped states/messages
-    return states.reduce((acc, type) => {
-      const id = `${props.id || forId || blockId}-form-status--${type}`
-      acc[type] = {
-        id,
-        label,
-        state: type === 'warning' ? 'warn' : type,
-        width_element: contentsRef,
-
-        // Enable animation only in the browser and not in tests
-        no_animation:
-          process.env.NODE_ENV === 'test'
-            ? true
-            : typeof globalThis !== 'undefined'
-            ? globalThis.IS_TEST === true
-            : false,
+  const statusContent = useMemo(
+    () => {
+      if (typeof errorRef.current !== 'undefined') {
+        setInternalRecord({
+          identifier: blockId,
+          showInitially: hasInitiallyErrorProp,
+          type: 'error',
+          content: errorRef.current,
+        })
       }
 
-      const found = statesWithMessages.find((item) => {
-        return item.type === type
-      })
+      if (typeof warningRef.current !== 'undefined') {
+        setInternalRecord({
+          identifier: blockId,
+          showInitially: true,
+          type: 'warning',
+          content: warningRef.current,
+        })
+      }
 
-      if (found?.messages) {
-        // Hide/remove messages that should be hidden and are not marked as to be shown initially
-        const messages = found.messages
-          .map((msg) => {
-            if (msg.type === 'error') {
-              if (!msg.showInitially && !msg.show) {
-                msg.message = null
+      if (typeof infoRef.current !== 'undefined') {
+        setInternalRecord({
+          identifier: blockId,
+          showInitially: true,
+          type: 'info',
+          content: infoRef.current,
+        })
+      }
+
+      const statesWithMessages: Array<StatesWithMessages> =
+        // 1. Prepare the states for later use
+        Object.entries(stateRecordRef.current)
+          .flatMap(([identifier, states]) =>
+            states.map((props) => {
+              return {
+                identifier,
+                ...props,
               }
-            }
+            })
+          )
 
-            return msg
-          })
-          .filter(({ message }) => message)
-          .reduce((acc, msg, i, arr) => {
-            const existingIndex = arr.findIndex((item) => {
-              return (
-                convertJsxToString(item.message) ===
-                convertJsxToString(msg.message)
-              )
+          // 2. Take states and group the same type together
+          .reduce((acc, cur) => {
+            const existing = acc.find((item) => {
+              return item.type === cur.type
             })
 
-            // Remove duplicates, use the first found message
-            if (existingIndex === i) {
-              acc.push(msg)
+            const messages = getMessagesFromError(cur).map((message) => {
+              return {
+                ...cur,
+                message,
+              }
+            })
+
+            if (existing) {
+              existing.messages.push(...messages)
+            } else {
+              acc.push({
+                ...cur,
+                content: undefined,
+                messages,
+              })
             }
 
             return acc
-          }, [])
+          }, [] as Array<StatesWithMessages>)
 
-        // Combine the messages and put them in an ul/li list
-        if (messages.length > 0) {
-          acc[type] = {
-            ...acc[type],
-            children: <CombineMessages type={type} messages={messages} />,
-          }
+      // 3. Return the grouped states/messages
+      return states.reduce((acc, type) => {
+        const id = `${props.id || forId || blockId}-form-status--${type}`
+        acc[type] = {
+          id,
+          label,
+          state: type === 'warning' ? 'warn' : type,
+          width_element: contentsRef,
 
-          fieldStateIdsRef.current[type] = id
-        } else {
-          fieldStateIdsRef.current[type] = undefined
+          // Enable animation only in the browser and not in tests
+          no_animation:
+            process.env.NODE_ENV === 'test'
+              ? true
+              : typeof globalThis !== 'undefined'
+              ? globalThis.IS_TEST === true
+              : false,
         }
-      }
 
-      return acc
-    }, salt) as StatusContent
-  }, [
-    errorProp,
-    warning,
-    info,
-    salt,
-    setInternalRecord,
-    blockId,
-    hasInitiallyErrorProp,
-    props.id,
-    forId,
-    label,
-  ])
+        const found = statesWithMessages.find((item) => {
+          return item.type === type
+        })
+
+        if (found?.messages) {
+          // Hide/remove messages that should be hidden and are not marked as to be shown initially
+          const messages = found.messages
+            .map((msg) => {
+              if (msg.type === 'error') {
+                if (!msg.showInitially && !msg.show) {
+                  msg.message = null
+                }
+              }
+
+              return msg
+            })
+            .filter(({ message }) => message)
+            .reduce((acc, msg, i, arr) => {
+              const existingIndex = arr.findIndex((item) => {
+                return (
+                  convertJsxToString(item.message) ===
+                  convertJsxToString(msg.message)
+                )
+              })
+
+              // Remove duplicates, use the first found message
+              if (existingIndex === i) {
+                acc.push(msg)
+              }
+
+              return acc
+            }, [])
+
+          // Combine the messages and put them in an ul/li list
+          if (messages.length > 0) {
+            acc[type] = {
+              ...acc[type],
+              children: (
+                <CombineMessages type={type} messages={messages} />
+              ),
+            }
+
+            fieldStateIdsRef.current[type] = id
+          } else {
+            fieldStateIdsRef.current[type] = undefined
+          }
+        }
+
+        return acc
+      }, salt) as StatusContent
+    },
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      errorRef.current, // is needed the hook reacts to changes
+      warningRef.current, // is needed the hook reacts to changes
+      infoRef.current, // is needed the hook reacts to changes
+      salt,
+      setInternalRecord,
+      blockId,
+      hasInitiallyErrorProp,
+      props.id,
+      forId,
+      label,
+    ]
+  )
 
   // Handle the error prop from outside
   useEffect(() => {
     if (!nestedFieldBlockContext) {
-      showFieldError(blockId, Boolean(errorProp))
+      showFieldError(blockId, Boolean(errorRef.current))
     }
-  }, [errorProp, blockId, showFieldError, nestedFieldBlockContext])
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    errorRef.current, // is needed the hook reacts to changes
+    blockId,
+    showFieldError,
+    nestedFieldBlockContext,
+  ])
 
   useEffect(
     () => () => {
@@ -519,7 +547,7 @@ function FieldBlock(props: Props) {
         setBlockRecord,
         setFieldState,
         showFieldError,
-        hasErrorProp: Boolean(errorProp),
+        hasErrorProp: Boolean(errorRef.current),
         fieldStateIdsRef,
         mountedFieldsRef,
         composition,
