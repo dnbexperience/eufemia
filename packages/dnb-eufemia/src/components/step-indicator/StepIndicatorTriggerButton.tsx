@@ -92,7 +92,7 @@ function StepIndicatorTriggerButton({
 
   return (
     <Section
-      backgroundColor="var(--color-black-3)"
+      backgroundColor="var(--step-indicator-trigger-background)"
       innerSpace={{
         top: 'small',
         bottom: 'small',
