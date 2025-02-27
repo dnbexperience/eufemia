@@ -2556,6 +2556,74 @@ describe('Wizard.Container', () => {
     expect(output()).toHaveTextContent('Step 1')
   })
 
+  it('should bypass validation on every step when validationMode is bypassOnNavigation', async () => {
+    const onStepChange = jest.fn()
+
+    render(
+      <Form.Handler>
+        <Wizard.Container
+          validationMode="bypassOnNavigation"
+          onStepChange={onStepChange}
+          mode="loose"
+        >
+          <Wizard.Step title="Step 1">
+            <Field.String required />
+            <output>Step 1</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+          <Wizard.Step title="Step 2">
+            <Field.String required />
+            <output>Step 2</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>
+    )
+
+    const [firstStep, secondStep] = Array.from(
+      document.querySelectorAll('.dnb-step-indicator__item')
+    )
+
+    expect(output()).toHaveTextContent('Step 1')
+
+    // Go to Step 2
+    await userEvent.click(secondStep.querySelector('.dnb-button'))
+
+    expect(output()).toHaveTextContent('Step 2')
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
+    expect(onStepChange).toHaveBeenCalledTimes(1)
+    expect(onStepChange).toHaveBeenLastCalledWith(1, 'next', {
+      previousStep: { index: 0 },
+      preventNavigation: expect.any(Function),
+    })
+
+    // Go to Step 1
+    await userEvent.click(firstStep.querySelector('.dnb-button'))
+
+    expect(output()).toHaveTextContent('Step 1')
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+    await userEvent.type(document.querySelector('input'), '{Backspace>3}')
+
+    // Go to Step 2
+    await userEvent.click(nextButton())
+
+    expect(output()).toHaveTextContent('Step 2')
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+    // Go to Step 1
+    await userEvent.click(previousButton())
+
+    expect(output()).toHaveTextContent('Step 1')
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+    // Go to Step 2
+    await userEvent.click(nextButton())
+
+    expect(output()).toHaveTextContent('Step 2')
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
+  })
+
   describe('prerenderFieldProps and filterData', () => {
     it('should keep field props in memory during step change', async () => {
       const filterDataHandler = jest.fn(({ props }) => {
