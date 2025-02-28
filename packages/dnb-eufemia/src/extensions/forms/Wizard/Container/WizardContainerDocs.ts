@@ -36,6 +36,11 @@ export const WizardContainerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  validationMode: {
+    doc: 'Determines if and how the validation will be bypassed.',
+    type: ['bypassOnNavigation'],
+    status: 'optional',
+  },
   children: {
     doc: 'Contents (Step components).',
     type: 'React.Node',

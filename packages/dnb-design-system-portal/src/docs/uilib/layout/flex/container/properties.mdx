@@ -2,18 +2,9 @@
 showTabs: true
 ---
 
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { FlexContainerProperties } from '@dnb/eufemia/src/components/flex/ContainerDocs'
+
 ## Properties
 
-| Property                                | Type                        | Description                                                                                                                                                                                                                |
-| --------------------------------------- | --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `direction`                             | `string`                    | _(optional)_ Direction of sub components. Can be: `horizontal` or `vertical`.                                                                                                                                              |
-| `wrap`                                  | `boolean`                   | _(optional)_ True to wrap contents if there is not enough space. Defaults to `true`.                                                                                                                                       |
-| `justify`                               | `string`                    | _(optional)_ How to place sub components if there is space available in the container. Can be: `flex-start`, `flex-end`, `center`, `space-between`, `space-around` or `space-evenly`.                                      |
-| `align`                                 | `string`                    | _(optional)_ How to align sub components. Can be: `flex-start`, `flex-end`, `center`, `stretch` or `baseline`.                                                                                                             |
-| `divider`                               | `string`                    | _(optional)_ How to separate sub components. Can be: `space`, `line`, or `line-framed`.                                                                                                                                    |
-| `sizeCount`                             | `number`                    | _(optional)_ Define how many parts your layout should be divided in. Should be used in combination with a [Flex.Item](/uilib/layout/flex/item). Defaults to `12`.                                                          |
-| `rowGap`                                | `string` or `boolean`       | _(optional)_ Defines how much the gap between rows should be. Can be `large`, `medium`, `small` or `false` for no gap. Use `true` for `small`. It will inherit the `spacing` property, if Flex.Item has a `size` property. |
-| `spacing`                               | `string` or `boolean`       | _(optional)_ How much space between sub components. Can be `medium`, `small` or `false` for no spacing.                                                                                                                    |
-| `element`                               | `string` or `React.Element` | _(optional)_ Define the type of element. Defaults to `div`.                                                                                                                                                                |
-| `innerRef`                              | `React.Ref`                 | _(optional)_ Provide a React.Ref to accessing the inner HTML element.                                                                                                                                                      |
-| [Space](/uilib/layout/space/properties) | Various                     | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                                                                                      |
+<PropertiesTable showDefaultValue props={FlexContainerProperties} />
