@@ -102,6 +102,12 @@ export type DatePickerInputProps = Omit<
   ) => void
 }
 
+export type InvalidDates = {
+  invalidDate?: string
+  invalidStartDate?: string
+  invalidEndDate?: string
+}
+
 const defaultProps: DatePickerInputProps = {
   maskOrder: 'dd/mm/yyyy',
   maskPlaceholder: 'dd/mm/åååå',
@@ -141,10 +147,17 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   } = props
 
   const [focusState, setFocusState] = useState<string>('virgin')
+  // TODO: Turn into a ref, as these values should not trigger a rerender
   const [partialDates, setPartialDates] = useState({
     partialStartDate: '',
     partialEndDate: '',
   })
+
+  const invalidDatesRef = useRef<InvalidDates>({
+    invalidStartDate: null,
+    invalidEndDate: null,
+  })
+  const isDateFullyFilledOutRef = useRef(false)
 
   const {
     updateDates,
@@ -335,12 +348,17 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           hoverDate: null,
         },
         (dates) => {
-          if (hasHadValidDate) {
+          if (isDateFullyFilledOutRef.current || hasHadValidDate) {
             const { startDate, endDate, event } = {
               ...state,
               ...dates,
             }
-            callOnChangeHandler({ startDate, endDate, event })
+            callOnChangeHandler({
+              startDate,
+              endDate,
+              event,
+              ...invalidDatesRef.current,
+            })
           }
         }
       )
@@ -376,7 +394,11 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           (typeof startDate !== 'undefined' && isValid(startDate)) ||
           (typeof endDate !== 'undefined' && isValid(endDate))
         ) {
-          callOnChangeHandler({ event, ...dates })
+          callOnChangeHandler({
+            event,
+            ...dates,
+            ...invalidDatesRef.current,
+          })
         }
       })
     },
@@ -405,7 +427,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         )
 
       // Get the typed dates, so we can ...
-      let { startDate, endDate } = getDates()
+      const { startDate, endDate } = getDates()
       // Get the partial dates, so we can know if something was typed or not in an optional date field
       const partialStartDate = startDate
       const partialEndDate = endDate
@@ -415,23 +437,19 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         partialEndDate,
       })
 
-      startDate = parseISO(startDate)
-      endDate = parseISO(endDate)
+      const parsedStartDate = parseISO(startDate)
+      const parsedEndDate = parseISO(endDate)
 
-      // ... check if they were valid
-      if (!isValid(startDate)) {
-        startDate = null
-      }
-      if (!isValid(endDate)) {
-        endDate = null
-      }
+      const isStartDateValid = isValid(parsedStartDate)
+      const isEndDateValid = isValid(parsedEndDate)
 
       let returnObject = getReturnObject({
-        startDate,
-        endDate,
+        startDate: isStartDateValid ? parsedStartDate : null,
+        endDate: isEndDateValid ? parsedEndDate : null,
         event,
         partialStartDate,
         partialEndDate,
+        ...invalidDatesRef.current,
       })
 
       // Now, lets correct
@@ -677,8 +695,20 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         date.getMonth() + 1 == parseFloat(String(month)) &&
         date.getFullYear() == parseFloat(String(year))
 
+      const dateString = `${year}-${month}-${day}`
+
+      isDateFullyFilledOutRef.current =
+        /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(dateString)
+
       // update the date
       if (isValidDate) {
+        invalidDatesRef.current = {
+          ...invalidDatesRef.current,
+          ...(mode === 'start'
+            ? { invalidStartDate: null }
+            : { invalidEndDate: null }),
+        }
+
         callOnChange({
           [`${mode}Date`]: date,
           event,
@@ -688,6 +718,13 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           [`${mode}Date`]: null,
           [`__${mode}${type}`]: value,
         })
+
+        invalidDatesRef.current = {
+          ...invalidDatesRef.current,
+          ...(mode === 'start'
+            ? { invalidStartDate: dateString }
+            : { invalidEndDate: dateString }),
+        }
 
         callOnChangeAsInvalid({
           [`${mode}Date`]: null,
