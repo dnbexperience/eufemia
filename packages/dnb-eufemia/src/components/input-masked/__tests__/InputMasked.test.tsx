@@ -101,6 +101,9 @@ describe('InputMasked component', () => {
     expect(document.querySelector('input').value).toBe(
       'NOK 1 234 567 890,,- kr'
     )
+    expect(document.querySelector('input').getAttribute('value')).toBe(
+      'NOK 1 234 567 890,,- kr'
+    )
 
     expect(
       on_change.mock.calls[on_change.mock.calls.length - 1][0].value
@@ -130,7 +133,9 @@ describe('InputMasked component', () => {
     })
 
     expect(document.querySelector('input').value).toBe('123 456 789,67')
-
+    expect(document.querySelector('input').getAttribute('value')).toBe(
+      '123 456 789,67'
+    )
     expect(on_change).toHaveBeenCalledTimes(1)
     expect(
       on_change.mock.calls[on_change.mock.calls.length - 1][0].value
@@ -164,6 +169,9 @@ describe('InputMasked component', () => {
     })
 
     expect(document.querySelector('input').value).toBe('123 456 789,67')
+    expect(document.querySelector('input').getAttribute('value')).toBe(
+      '123 456 789,67'
+    )
 
     expect(
       on_change.mock.calls[on_change.mock.calls.length - 1][0].value
@@ -2261,6 +2269,40 @@ describe('controlled', () => {
     await userEvent.type(nativeInput, '{Backspace>4}1,00')
     expect(nativeInput).toHaveValue('1,00')
     expect(inputMasked).toHaveValue('1,00')
+  })
+})
+
+describe('value attribute', () => {
+  it('should apply value attribute to input element', async () => {
+    render(<InputMasked value="1234" />)
+
+    const input = document.querySelector('input')
+
+    expect(input.getAttribute('value')).toBe('1 234')
+
+    await userEvent.type(input, '{backspace}')
+    expect(input.getAttribute('value')).toBe('123')
+
+    await userEvent.type(input, '{backspace}')
+    expect(input.getAttribute('value')).toBe('12')
+
+    await userEvent.type(input, '{backspace}')
+    expect(input.getAttribute('value')).toBe('1')
+
+    await userEvent.type(input, '{backspace}')
+    expect(input.getAttribute('value')).toBe('')
+
+    await userEvent.type(input, '1')
+    expect(input.getAttribute('value')).toBe('1')
+
+    await userEvent.type(input, '2')
+    expect(input.getAttribute('value')).toBe('12')
+
+    await userEvent.type(input, '3')
+    expect(input.getAttribute('value')).toBe('123')
+
+    await userEvent.type(input, '4')
+    expect(input.getAttribute('value')).toBe('1234')
   })
 })
 
