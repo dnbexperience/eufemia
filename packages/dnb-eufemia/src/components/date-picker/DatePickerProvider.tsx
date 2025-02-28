@@ -24,6 +24,7 @@ import useDates, { DatePickerDates } from './hooks/useDates'
 import useLastEventCallCache, {
   LastEventCallCache,
 } from './hooks/useLastEventCallCache'
+import { InvalidDates } from './DatePickerInput'
 
 type DatePickerProviderProps = DatePickerAllProps & {
   setReturnObject: (
@@ -40,24 +41,27 @@ export type DatePickerChangeEvent<E> = DatePickerDates & {
   event?: E
 }
 
-export type GetReturnObjectParams<E> = DatePickerDates & {
-  event?: E
-}
+export type GetReturnObjectParams<E> = DatePickerDates &
+  InvalidDates & {
+    event?: E
+  }
 
 // TODO: convert properties on event handler return objects to camelCase, constitutes a breaking change
-export type ReturnObject<E> = {
-  event?: E
-  attributes?: Record<string, unknown>
-  days_between?: number
-  date?: string | null
-  start_date?: string | null
-  end_date?: string | null
-  is_valid?: boolean
-  is_valid_start_date?: boolean
-  is_valid_end_date?: boolean
-  partialStartDate?: string
-  partialEndDate?: string
-}
+export type ReturnObject<E> = Pick<
+  DatePickerDates,
+  'partialStartDate' | 'partialEndDate'
+> &
+  InvalidDates & {
+    event?: E
+    attributes?: Record<string, unknown>
+    days_between?: number
+    date?: string | null
+    start_date?: string | null
+    end_date?: string | null
+    is_valid?: boolean
+    is_valid_start_date?: boolean
+    is_valid_end_date?: boolean
+  }
 
 export type DatePickerProviderState = DatePickerDates &
   Array<CalendarView> &
@@ -123,7 +127,14 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
 
   const getReturnObject = useCallback(
     <E,>({ event = null, ...rest }: GetReturnObjectParams<E> = {}) => {
-      const { startDate, endDate, partialStartDate, partialEndDate } = {
+      const {
+        startDate,
+        endDate,
+        partialStartDate,
+        partialEndDate,
+        invalidStartDate,
+        invalidEndDate,
+      } = {
         ...views,
         ...dates,
         ...rest,
@@ -132,12 +143,10 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
       const returnFormat = correctV1Format(returnFormatProp)
       const startDateIsValid = Boolean(startDate && isValid(startDate))
       const endDateIsValid = Boolean(endDate && isValid(endDate))
-      const hasMinOrMaxDates = minDate || maxDate
 
       const returnObject: ReturnObject<E> = {
         event,
         attributes: attributes || {},
-        partialStartDate,
       }
 
       // Handle range props
@@ -153,33 +162,34 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
             : null,
           end_date: endDateIsValid ? format(endDate, returnFormat) : null,
           is_valid_start_date:
-            hasMinOrMaxDates &&
             startDateIsValid &&
             isDisabled(startDate, dates.minDate, dates.maxDate)
               ? false
               : startDateIsValid,
           is_valid_end_date:
-            hasMinOrMaxDates &&
             endDateIsValid &&
             isDisabled(endDate, dates.minDate, dates.maxDate)
               ? false
               : endDateIsValid,
+          partialStartDate,
           partialEndDate,
+          invalidStartDate,
+          invalidEndDate,
         }
       }
 
       return {
         ...returnObject,
         date: startDateIsValid ? format(startDate, returnFormat) : null,
+        invalidDate: invalidStartDate,
         is_valid:
-          hasMinOrMaxDates &&
           startDateIsValid &&
           isDisabled(startDate, dates.minDate, dates.maxDate)
             ? false
             : startDateIsValid,
       }
     },
-    [dates, views, attributes, maxDate, minDate, range, returnFormatProp]
+    [dates, views, attributes, range, returnFormatProp]
   )
 
   const callOnChangeHandler = useCallback(
