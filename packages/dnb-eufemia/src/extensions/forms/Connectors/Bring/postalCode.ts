@@ -1,4 +1,4 @@
-import type { UseFieldProps } from '../../types'
+import type { Path, UseFieldProps } from '../../types'
 import { FormError } from '../../utils'
 import {
   GeneralConfig,
@@ -62,7 +62,7 @@ export const responseResolver: ResponseResolver<
 
 export function autofill(
   generalConfig: GeneralConfig,
-  handlerConfig?: HandlerConfig & { cityPath: string }
+  handlerConfig?: HandlerConfig & { cityPath: Path }
 ): UseFieldProps<string>['onChange'] {
   const abortControllerRef = { current: null }
 
