@@ -153,7 +153,10 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     partialEndDate: '',
   })
 
-  const invalidDatesRef = useRef<InvalidDates>({})
+  const invalidDatesRef = useRef<InvalidDates>({
+    invalidStartDate: null,
+    invalidEndDate: null,
+  })
   const isDateFullyFilledOutRef = useRef(false)
 
   const {
@@ -391,7 +394,11 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           (typeof startDate !== 'undefined' && isValid(startDate)) ||
           (typeof endDate !== 'undefined' && isValid(endDate))
         ) {
-          callOnChangeHandler({ event, ...dates })
+          callOnChangeHandler({
+            event,
+            ...dates,
+            ...invalidDatesRef.current,
+          })
         }
       })
     },
@@ -695,6 +702,13 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
       // update the date
       if (isValidDate) {
+        invalidDatesRef.current = {
+          ...invalidDatesRef.current,
+          ...(mode === 'start'
+            ? { invalidStartDate: null }
+            : { invalidEndDate: null }),
+        }
+
         callOnChange({
           [`${mode}Date`]: date,
           event,
