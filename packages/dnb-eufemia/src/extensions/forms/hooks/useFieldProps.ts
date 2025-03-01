@@ -125,7 +125,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     disabled: disabledProp,
     info: infoProp,
     warning: warningProp,
-    error: errorProp,
+    error: initialErrorProp = 'initial',
     errorMessages,
     onFocus,
     onBlur,
@@ -435,7 +435,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     [getFieldByPath, getValueByPath]
   )
 
-  const error = executeMessage<UseFieldProps['error']>(errorProp)
+  const errorProp =
+    initialErrorProp === 'initial' ? undefined : initialErrorProp
+  const error = executeMessage<UseFieldProps['error'] | 'initial'>(
+    errorProp
+  )
   const warning = executeMessage<UseFieldProps['warning']>(warningProp)
   const info = executeMessage<UseFieldProps['info']>(infoProp)
 
@@ -713,13 +717,16 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     revealErrorRef.current = true
   }
 
-  const bufferedError = revealErrorRef.current
-    ? prepareError(error) ??
-      localErrorRef.current ??
-      contextErrorRef.current
-    : error === null
-    ? null
-    : undefined
+  const bufferedError =
+    initialErrorProp !== 'initial' && typeof errorProp !== 'function'
+      ? prepareError(errorProp)
+      : revealErrorRef.current
+      ? prepareError(error as FormError) ??
+        localErrorRef.current ??
+        contextErrorRef.current
+      : error === null
+      ? null
+      : undefined
 
   const hasVisibleError =
     Boolean(bufferedError) ||

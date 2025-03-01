@@ -745,7 +745,7 @@ describe('FieldBlock', () => {
         ).not.toBeInTheDocument()
       })
 
-      it('a field (with useFieldProps) should show and hide the message when info prop gets "undefined"', () => {
+      it('should show and hide the message when info prop gets "undefined" (using Field.String in order to include useFieldProps)', () => {
         const { rerender } = render(<Field.String info="message" />)
 
         expect(
@@ -801,7 +801,7 @@ describe('FieldBlock', () => {
         ).not.toBeInTheDocument()
       })
 
-      it('a field (with useFieldProps) should show and hide the message when warning prop gets "undefined"', () => {
+      it('should show and hide the message when warning prop gets "undefined" (using Field.String in order to include useFieldProps)', () => {
         const { rerender } = render(<Field.String warning="message" />)
 
         expect(
@@ -846,7 +846,7 @@ describe('FieldBlock', () => {
         ).not.toBeInTheDocument()
       })
 
-      it('a field (with useFieldProps) should show and hide the message when error prop gets "undefined"', () => {
+      it('should show and hide the message when error prop gets "undefined" (using Field.String in order to include useFieldProps)', () => {
         const { rerender } = render(
           <Field.String error={new Error('message')} />
         )
