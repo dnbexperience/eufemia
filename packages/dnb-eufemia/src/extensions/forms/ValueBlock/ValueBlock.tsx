@@ -142,7 +142,7 @@ function ValueBlock(props: Props) {
       ? Dl.Item
       : Fragment
 
-    if (!label && valueBlockContext?.composition) {
+    if (!label && !hasHelp && valueBlockContext?.composition) {
       content = <span className={defaultClass}>{children}</span> ?? (
         <span className="dnb-forms-value-block__placeholder">
           {placeholder}
@@ -158,7 +158,7 @@ function ValueBlock(props: Props) {
             <Dt
               className={classnames(
                 'dnb-forms-value-block__label',
-                (!label || labelSrOnly) && 'dnb-sr-only'
+                ((!label && !hasHelp) || labelSrOnly) && 'dnb-sr-only'
               )}
             >
               <VisibilityWrapper>
