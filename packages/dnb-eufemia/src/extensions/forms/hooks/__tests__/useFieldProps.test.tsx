@@ -292,7 +292,12 @@ describe('useFieldProps', () => {
       const { result } = renderHook(useFieldProps, {
         initialProps: {
           value: '',
-          error: new Error('Error message'),
+          onChangeValidator: () => {
+            return new Error('Error message')
+          },
+          onBlurValidator: () => {
+            return new Error('Error message')
+          },
           validateInitially: false,
         },
       })
@@ -2076,6 +2081,7 @@ describe('useFieldProps', () => {
 
       expect(result.current.htmlAttributes).toEqual({
         'aria-describedby': expect.stringMatching(/id-.*-form-status/),
+        'aria-invalid': 'true',
       })
 
       rerender({})
