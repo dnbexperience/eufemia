@@ -252,6 +252,43 @@ export const WithStatusMessage = () => {
   )
 }
 
+export const WithStatusMessageInMenu = () => {
+  return (
+    <ComponentBox data-visual-test="wizard-with-status-message-in-menu">
+      <Form.Handler
+        onSubmit={(data) => {
+          console.log('onSubmit', data)
+        }}
+      >
+        <Wizard.Container
+          onStepChange={async (index, mode) => {
+            console.log('onStepChange', index, mode)
+          }}
+          mode="loose"
+          initialActiveIndex={2}
+        >
+          <Wizard.Step title="Step 1">
+            <Field.String label="Step 1" path="/step1" required />
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 2">
+            <Field.String label="Step 2" path="/step2" required />
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 3">
+            <Field.String label="Step 3" path="/step3" />
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+
+        <Form.SubmitButton />
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
 export const OnSubmitRequest = () => {
   return (
     <ComponentBox>
