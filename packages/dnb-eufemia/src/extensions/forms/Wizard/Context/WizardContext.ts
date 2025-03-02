@@ -46,7 +46,6 @@ export type InternalStepStatus =
   | 'error'
   | 'valid'
   | 'unknown'
-  // | 'visited'
   | undefined
 export type InternalStepStatuses = Record<StepIndex, InternalStepStatus>
 export type InternalVisitedSteps = Record<StepIndex, boolean>
