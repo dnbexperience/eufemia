@@ -93,15 +93,10 @@
     }
     @include allBelow(x-small) {
       &:not(:has(.dnb-forms-value-block__label)) {
+        flex-flow: row wrap;
         --row-gap: var(--spacing-x-small);
       }
-      flex-flow: row wrap;
-    }
-
-    &:has(.dnb-forms-value-block__label) {
-      @include allBelow(x-small) {
-        flex-flow: column;
-      }
+      flex-flow: column;
     }
 
     /* stylelint-disable */
