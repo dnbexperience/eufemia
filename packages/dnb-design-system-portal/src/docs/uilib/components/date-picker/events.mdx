@@ -23,8 +23,8 @@ All additional HTML attributes will be returned as well.
   invalidDate: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `false` */
   invalidStartDate: null | 'date as `returnFormat` | ´yyyy-MM-dd`', /* Available if `range` is `true` */
   invalidEndDate: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `true` */
-  partialStartDate: null | 'date as `returnFormat` | `yyyy-MM-dd`'
-  partialEndDate: null | 'date as `returnFormat` | `yyyy-MM-dd`'
+  partialStartDate:  '' | 'date as `returnFormat` | `yyyy-MM-dd`' /* Always available if `range` is `true` */
+  partialEndDate: '' | 'date as `returnFormat` | `yyyy-MM-dd`' /* Available if `range` is `true` */
   days_between: number,
   attributes: { attributes },
   event: null | { native event }
