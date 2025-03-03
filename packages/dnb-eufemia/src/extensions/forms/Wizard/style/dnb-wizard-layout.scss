@@ -2,14 +2,10 @@
 
 .dnb-forms-wizard-layout {
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: column wrap;
+  justify-content: stretch;
+  align-items: stretch;
   column-gap: var(--spacing-x-large);
-
-  &--drawer {
-    flex-direction: column;
-    justify-content: stretch;
-    align-items: stretch;
-  }
 
   &__indicator {
     flex: 0;
@@ -58,16 +54,5 @@
     &__contents {
       flex-basis: auto;
     }
-  }
-
-  .dnb-step-indicator__sidebar {
-    margin-right: 0;
-  }
-}
-
-@include allAbove('medium') {
-  .dnb-forms-form:has(.dnb-forms-wizard-layout--sidebar)
-    .dnb-forms-form__status-message {
-    margin-left: 21.5rem;
   }
 }
