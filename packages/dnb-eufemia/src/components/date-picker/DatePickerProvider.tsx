@@ -50,16 +50,16 @@ export type GetReturnObjectParams<E> = DatePickerDates &
 // TODO: convert properties on event handler return objects to camelCase, constitutes a breaking change
 export type ReturnObject<E> = InvalidDates &
   PartialDates & {
-  event?: E
-  attributes?: Record<string, unknown>
-  days_between?: number
-  date?: string | null
-  start_date?: string | null
-  end_date?: string | null
-  is_valid?: boolean
-  is_valid_start_date?: boolean
-  is_valid_end_date?: boolean
-}
+    event?: E
+    attributes?: Record<string, unknown>
+    days_between?: number
+    date?: string | null
+    start_date?: string | null
+    end_date?: string | null
+    is_valid?: boolean
+    is_valid_start_date?: boolean
+    is_valid_end_date?: boolean
+  }
 
 export type DatePickerProviderState = DatePickerDates &
   Array<CalendarView> &
@@ -146,7 +146,6 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
       const returnObject: ReturnObject<E> = {
         event,
         attributes: attributes || {},
-        partialStartDate,
       }
 
       // Handle range props
@@ -173,6 +172,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
             isDisabled(endDate, dates.minDate, dates.maxDate)
               ? false
               : endDateIsValid,
+          partialStartDate,
           partialEndDate,
           invalidStartDate,
           invalidEndDate,
@@ -182,6 +182,10 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
       return {
         ...returnObject,
         date: startDateIsValid ? format(startDate, returnFormat) : null,
+        partialDate: partialStartDate,
+        // Can be removed in v11, in favor to partialDate,
+        // to keep the naming logic the same as with date and invalidDate when not in range mode
+        partialStartDate,
         invalidDate: invalidStartDate,
         is_valid:
           hasMinOrMaxDates &&
