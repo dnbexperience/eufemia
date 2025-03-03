@@ -604,7 +604,7 @@ function IterateOverSteps({ children }) {
             state === 'error'
               ? translations.Step.stepHasError
               : state === 'unknown'
-              ? translations.Step.stepMayHaveErrors
+              ? 'Unknown state'
               : undefined,
           statusState: state === 'error' ? 'error' : undefined,
         }

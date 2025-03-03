@@ -2727,13 +2727,13 @@ describe('Wizard.Container', () => {
       document.querySelectorAll('.dnb-step-indicator__item')
     )
 
-    expect(screen.getAllByText(nb.Step.stepMayHaveErrors)).toHaveLength(2)
+    expect(screen.getAllByText('Unknown state')).toHaveLength(2)
     expect(
       firstStep.querySelector('.dnb-step-indicator__item-content__status')
-    ).toHaveTextContent(nb.Step.stepMayHaveErrors)
+    ).toHaveTextContent('Unknown state')
     expect(
       secondStep.querySelector('.dnb-step-indicator__item-content__status')
-    ).toHaveTextContent(nb.Step.stepMayHaveErrors)
+    ).toHaveTextContent('Unknown state')
     expect(
       document.querySelectorAll(
         '.dnb-step-indicator__button__status--warn'
@@ -2743,26 +2743,24 @@ describe('Wizard.Container', () => {
     await userEvent.click(previousButton())
 
     expect(output()).toHaveTextContent('Step 2')
-    expect(screen.getAllByText(nb.Step.stepMayHaveErrors)).toHaveLength(1)
+    expect(screen.getAllByText('Unknown state')).toHaveLength(1)
     expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
 
     await userEvent.click(nextButton())
 
     expect(output()).toHaveTextContent('Step 2')
-    expect(screen.getAllByText(nb.Step.stepMayHaveErrors)).toHaveLength(1)
+    expect(screen.getAllByText('Unknown state')).toHaveLength(1)
     expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(1)
 
     await userEvent.type(document.querySelector('input'), 'bar')
 
-    expect(screen.getAllByText(nb.Step.stepMayHaveErrors)).toHaveLength(1)
+    expect(screen.getAllByText('Unknown state')).toHaveLength(1)
     expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
 
     await userEvent.click(previousButton())
 
     expect(output()).toHaveTextContent('Step 1')
-    expect(screen.queryAllByText(nb.Step.stepMayHaveErrors)).toHaveLength(
-      0
-    )
+    expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
     expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
 
     await userEvent.click(nextButton())
@@ -2773,9 +2771,7 @@ describe('Wizard.Container', () => {
     await userEvent.type(document.querySelector('input'), 'foo')
 
     expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
-    expect(screen.queryAllByText(nb.Step.stepMayHaveErrors)).toHaveLength(
-      0
-    )
+    expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
 
     await userEvent.click(nextButton())
 
@@ -2824,13 +2820,13 @@ describe('Wizard.Container', () => {
       document.querySelectorAll('.dnb-step-indicator__item')
     )
 
-    expect(screen.getAllByText(nb.Step.stepMayHaveErrors)).toHaveLength(2)
+    expect(screen.getAllByText('Unknown state')).toHaveLength(2)
     expect(
       firstStep.querySelector('.dnb-step-indicator__item-content__status')
-    ).toHaveTextContent(nb.Step.stepMayHaveErrors)
+    ).toHaveTextContent('Unknown state')
     expect(
       secondStep.querySelector('.dnb-step-indicator__item-content__status')
-    ).toHaveTextContent(nb.Step.stepMayHaveErrors)
+    ).toHaveTextContent('Unknown state')
     expect(
       document.querySelectorAll(
         '.dnb-step-indicator__button__status--warn'
@@ -2840,26 +2836,24 @@ describe('Wizard.Container', () => {
     await userEvent.click(previousButton())
 
     expect(output()).toHaveTextContent('Step 2')
-    expect(screen.getAllByText(nb.Step.stepMayHaveErrors)).toHaveLength(1)
+    expect(screen.getAllByText('Unknown state')).toHaveLength(1)
     expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
 
     await userEvent.click(nextButton())
 
     expect(output()).toHaveTextContent('Step 2')
-    expect(screen.getAllByText(nb.Step.stepMayHaveErrors)).toHaveLength(1)
+    expect(screen.getAllByText('Unknown state')).toHaveLength(1)
     expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(1)
 
     await userEvent.type(document.querySelector('input'), 'bar')
 
-    expect(screen.getAllByText(nb.Step.stepMayHaveErrors)).toHaveLength(1)
+    expect(screen.getAllByText('Unknown state')).toHaveLength(1)
     expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
 
     await userEvent.click(previousButton())
 
     expect(output()).toHaveTextContent('Step 1')
-    expect(screen.queryAllByText(nb.Step.stepMayHaveErrors)).toHaveLength(
-      0
-    )
+    expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
     expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
 
     await userEvent.click(nextButton())
@@ -2870,9 +2864,7 @@ describe('Wizard.Container', () => {
     await userEvent.type(document.querySelector('input'), 'foo')
 
     expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
-    expect(screen.queryAllByText(nb.Step.stepMayHaveErrors)).toHaveLength(
-      0
-    )
+    expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
 
     await userEvent.click(nextButton())
 
@@ -2928,19 +2920,17 @@ describe('Wizard.Container', () => {
 
     fireEvent.submit(document.querySelector('form'))
 
-    expect(screen.getAllByText(nb.Step.stepMayHaveErrors)).toHaveLength(2)
+    expect(screen.getAllByText('Unknown state')).toHaveLength(2)
 
     await userEvent.click(secondStep)
 
     expect(
       firstStep.querySelector('.dnb-step-indicator__item-content__status')
-    ).toHaveTextContent(nb.Step.stepMayHaveErrors)
+    ).toHaveTextContent('Unknown state')
     expect(
       secondStep.querySelector('.dnb-step-indicator__item-content__status')
-    ).toHaveTextContent(nb.Step.stepMayHaveErrors)
-    expect(screen.queryAllByText(nb.Step.stepMayHaveErrors)).toHaveLength(
-      2
-    )
+    ).toHaveTextContent('Unknown state')
+    expect(screen.queryAllByText('Unknown state')).toHaveLength(2)
     expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
   })
 
