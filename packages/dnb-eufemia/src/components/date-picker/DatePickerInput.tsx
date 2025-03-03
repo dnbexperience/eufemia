@@ -459,7 +459,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         ...invalidDatesRef.current,
       })
 
-      // Re-assigns dates to typed the date, instead of null returned from getReturnObject, if they are invalid
+      // Re-assigns dates to the typed date, instead of `null` from getReturnObject, if dates are invalid
       const typedDates = {
         ...(!isRange && is_valid === false && { date: startDate }),
         ...(isRange &&
