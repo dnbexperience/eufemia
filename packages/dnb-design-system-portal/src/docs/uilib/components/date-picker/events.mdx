@@ -17,12 +17,15 @@ All additional HTML attributes will be returned as well.
 
 ```js
 {
-  date: null|'like return_format', /* Gets returned if range is false */
-  start_date: null|'like return_format',
-  end_date: null|'like return_format',
+  date: null | 'date as `returnFormat` | `yyyy-MM-dd` ', /* Available if `range` is `false` */
+  start_date: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `true` */
+  end_date: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `true` */
+  invalidDate: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `false` */
+  invalidStartDate: null | 'date as `returnFormat` | ´yyyy-MM-dd`', /* Available if `range` is `true` */
+  invalidEndDate: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `true` */
   days_between: number,
   attributes: { attributes },
-  event: null|{ native event }
+  event: null | { native event }
 }
 ```
 
@@ -34,10 +37,9 @@ Additional event return object properties:
 
 ```js
 {
-  is_valid: boolean, /* Gets returned if range is false */
-  is_valid_start_date: boolean,
-  is_valid_end_date: boolean,
-  ...
+  is_valid: boolean, /* Available if `range` is `false` */
+  is_valid_start_date: boolean, /* Available if `range` is `true` */
+  is_valid_end_date: boolean, /* Available if `range` is `true` */
 }
 ```
 
