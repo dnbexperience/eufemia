@@ -42,11 +42,7 @@ export type SetActiveIndexOptions = {
   skipStepChangeCallFromHook?: boolean
   skipErrorCheck?: boolean
 }
-export type InternalStepStatus =
-  | 'error'
-  | 'valid'
-  | 'unknown'
-  | undefined
+export type InternalStepStatus = 'error' | 'valid' | 'unknown' | undefined
 export type InternalStepStatuses = Record<StepIndex, InternalStepStatus>
 export type InternalVisitedSteps = Record<StepIndex, boolean>
 export interface WizardContextState {
