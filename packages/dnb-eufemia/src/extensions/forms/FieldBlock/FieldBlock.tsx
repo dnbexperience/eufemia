@@ -32,6 +32,7 @@ import {
   FieldProps,
   SubmitState,
   Identifier,
+  UseFieldProps,
 } from '../types'
 import type { FormLabelAllProps } from '../../../components/FormLabel'
 import HelpButtonInline, {
@@ -159,7 +160,7 @@ function FieldBlock(props: Props) {
     required,
     info,
     warning,
-    error: errorProp,
+    error,
     disableStatusSummary,
     fieldState,
     disabled,
@@ -175,6 +176,10 @@ function FieldBlock(props: Props) {
   const hasCustomWidth = /\d(rem)$/.test(String(width))
   const hasCustomContentWidth = /\d(rem)$/.test(String(contentWidth))
 
+  const infoRef = useRef<UseFieldProps['info']>()
+  const warningRef = useRef<UseFieldProps['warning']>()
+  const errorRef = useRef<UseFieldProps['error']>()
+
   const blockId = useId(props.id)
   const [salt, forceUpdate] = useReducer(() => ({}), {})
   const mountedFieldsRef = useRef<MountedFieldsRef>({})
@@ -182,9 +187,7 @@ function FieldBlock(props: Props) {
   const stateRecordRef = useRef<StateRecord>({})
   const fieldStateIdsRef = useRef<FieldErrorIdsRef>(null)
   const contentsRef = useRef<HTMLDivElement>(null)
-  const hasInitiallyErrorProp = useMemo(() => {
-    return Boolean(errorProp)
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  const hasInitiallyErrorPropRef = useRef(Boolean(error))
 
   const label = useIterateItemNo({
     label: labelProp,
@@ -273,16 +276,18 @@ function FieldBlock(props: Props) {
   )
 
   const statusContent = useMemo(() => {
-    if (typeof errorProp !== 'undefined') {
+    if (typeof error !== 'undefined' || (errorRef.current && !error)) {
+      errorRef.current = error
       setInternalRecord({
         identifier: blockId,
-        showInitially: hasInitiallyErrorProp,
+        showInitially: hasInitiallyErrorPropRef.current,
         type: 'error',
-        content: errorProp,
+        content: error,
       })
     }
 
-    if (typeof warning !== 'undefined') {
+    if (typeof warning !== 'undefined' || warningRef.current !== warning) {
+      warningRef.current = warning
       setInternalRecord({
         identifier: blockId,
         showInitially: true,
@@ -291,7 +296,8 @@ function FieldBlock(props: Props) {
       })
     }
 
-    if (typeof info !== 'undefined') {
+    if (typeof info !== 'undefined' || infoRef.current !== info) {
+      infoRef.current = info
       setInternalRecord({
         identifier: blockId,
         showInitially: true,
@@ -405,13 +411,12 @@ function FieldBlock(props: Props) {
       return acc
     }, salt) as StatusContent
   }, [
-    errorProp,
+    error,
     warning,
     info,
     salt,
     setInternalRecord,
     blockId,
-    hasInitiallyErrorProp,
     props.id,
     forId,
     label,
@@ -420,9 +425,9 @@ function FieldBlock(props: Props) {
   // Handle the error prop from outside
   useEffect(() => {
     if (!nestedFieldBlockContext) {
-      showFieldError(blockId, Boolean(errorProp))
+      showFieldError(blockId, Boolean(error))
     }
-  }, [errorProp, blockId, showFieldError, nestedFieldBlockContext])
+  }, [error, blockId, showFieldError, nestedFieldBlockContext])
 
   useEffect(
     () => () => {
@@ -519,7 +524,7 @@ function FieldBlock(props: Props) {
         setBlockRecord,
         setFieldState,
         showFieldError,
-        hasErrorProp: Boolean(errorProp),
+        hasErrorProp: Boolean(error),
         fieldStateIdsRef,
         mountedFieldsRef,
         composition,
