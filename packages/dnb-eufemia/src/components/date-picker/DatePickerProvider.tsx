@@ -43,6 +43,7 @@ export type DatePickerChangeEvent<E> = DatePickerDates &
   }
 
 export type GetReturnObjectParams<E> = DatePickerDates &
+  PartialDates &
   InvalidDates & {
     event?: E
   }
