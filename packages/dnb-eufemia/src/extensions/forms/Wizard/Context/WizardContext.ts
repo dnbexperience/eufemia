@@ -32,7 +32,7 @@ export type Steps = Record<
     /** Used internally to set the status */
     status?: string
 
-    /** Used internally to set the status */
+    /** Used internally to set the statusState */
     statusState?: StepIndicatorStatusState
   }
 >
