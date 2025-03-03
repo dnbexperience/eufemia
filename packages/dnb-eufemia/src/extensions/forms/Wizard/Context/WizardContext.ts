@@ -1,5 +1,5 @@
 import React from 'react'
-import { EventReturnWithStateObject } from '../../types'
+import { EventReturnWithStateObject, Path } from '../../types'
 import { VisibleWhen } from '../../Form/Visibility'
 import { StepIndicatorStatusState } from '../../../../components/step-indicator/StepIndicatorItem'
 
@@ -70,7 +70,8 @@ export interface WizardContextState {
     }?: SetActiveIndexOptions
   ) => void
   setFormError?: (error: Error) => void
-  hasInvalidStepsState?: () => boolean
+  revealError?: (index: StepIndex, path: Path, hasError: boolean) => void
+  hasInvalidStepsState?: (forStates?: Array<InternalStepStatus>) => boolean
   check?: ({ visibleWhen }: { visibleWhen: VisibleWhen }) => boolean
 }
 

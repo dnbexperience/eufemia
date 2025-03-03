@@ -2558,6 +2558,7 @@ describe('Wizard.Container', () => {
         ).toBeInTheDocument()
       })
 
+      await wait(100)
       await userEvent.type(document.querySelector('input'), 'foo')
 
       await waitFor(() => {
