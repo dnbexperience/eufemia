@@ -11,17 +11,20 @@ import { warn } from '../../../../shared/component-helper'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import useId from '../../../../shared/helpers/useId'
 import WizardContext, {
-  InternalStepStatus,
-  InternalStepStatuses,
-  InternalVisitedSteps,
+  WizardContextState,
+} from '../Context/WizardContext'
+import type {
   OnStepChange,
   OnStepChangeOptions,
   OnStepsChangeMode,
   SetActiveIndexOptions,
   StepIndex,
   Steps,
-  WizardContextState,
-} from '../Context/WizardContext'
+  InternalFieldError,
+  InternalStepStatus,
+  InternalStepStatuses,
+  InternalVisitedSteps,
+} from '../Context/types'
 import DataContext from '../../DataContext/Context'
 import Handler from '../../Form/Handler/Handler'
 import {
@@ -31,7 +34,7 @@ import {
 } from '../../../../shared/helpers/useSharedState'
 import useHandleLayoutEffect from './useHandleLayoutEffect'
 import useStepAnimation from './useStepAnimation'
-import { ComponentProps, Path } from '../../types'
+import { ComponentProps } from '../../types'
 import useVisibility from '../../Form/Visibility/useVisibility'
 import { DisplaySteps } from './DisplaySteps'
 import { IterateOverSteps } from './IterateOverSteps'
@@ -134,15 +137,7 @@ function WizardContainer(props: Props) {
   const activeIndexRef = useRef<StepIndex>(initialActiveIndex)
   const totalStepsRef = useRef<number>(NaN)
   const stepStatusRef = useRef<InternalStepStatuses>({})
-  const fieldErrorRef = useRef<
-    Record<
-      Path,
-      {
-        index: StepIndex
-        hasError: boolean
-      }
-    >
-  >({})
+  const fieldErrorRef = useRef<InternalFieldError>({})
   const visitedStepsRef = useRef<InternalVisitedSteps>({})
   const elementRef = useRef<HTMLElement>()
   const stepElementRef = useRef<HTMLElement>()
