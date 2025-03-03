@@ -1,4 +1,5 @@
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import styled from '@emotion/styled'
 import { Table, Td, Th, Tr } from '@dnb/eufemia/src'
 import { PropertiesTableProps } from '@dnb/eufemia/src/shared/types'
@@ -157,7 +158,10 @@ export default function PropertiesTable({
           {(!showDefaultValue || status === 'deprecated') && (
             <em>({status}) </em>
           )}
-          <ReactMarkdown components={components}>
+          <ReactMarkdown
+            components={components}
+            remarkPlugins={[remarkGfm]}
+          >
             {camelCase ? convertToCamelCase(doc, keys) : doc}
           </ReactMarkdown>
         </Td>

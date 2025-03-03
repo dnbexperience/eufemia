@@ -41,6 +41,7 @@ function StepIndicatorTriggerButton(
 
   const {
     data, // eslint-disable-line
+    triggerButtonProps, // eslint-disable-line
     ...contextWithoutData
   } = context
 
@@ -55,6 +56,7 @@ function StepIndicatorTriggerButton(
   } as React.HTMLProps<HTMLElement>
 
   const buttonParams = {
+    ...triggerButtonProps,
     ...props,
     className: classnames(
       'dnb-step-indicator__trigger__button',

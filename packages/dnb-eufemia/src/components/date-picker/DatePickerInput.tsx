@@ -102,6 +102,12 @@ export type DatePickerInputProps = Omit<
   ) => void
 }
 
+export type InvalidDates = {
+  invalidDate?: string
+  invalidStartDate?: string
+  invalidEndDate?: string
+}
+
 const defaultProps: DatePickerInputProps = {
   maskOrder: 'dd/mm/yyyy',
   maskPlaceholder: 'dd/mm/åååå',
@@ -141,10 +147,17 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   } = props
 
   const [focusState, setFocusState] = useState<string>('virgin')
+  // TODO: Turn into a ref, as these values should not trigger a rerender
   const [partialDates, setPartialDates] = useState({
     partialStartDate: '',
     partialEndDate: '',
   })
+
+  const invalidDatesRef = useRef<InvalidDates>({
+    invalidStartDate: null,
+    invalidEndDate: null,
+  })
+  const isDateFullyFilledOutRef = useRef(false)
 
   const {
     updateDates,
@@ -335,12 +348,19 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           hoverDate: null,
         },
         (dates) => {
-          if (hasHadValidDate) {
+          // Should fire if user has filled out an invalid date,
+          // or if the date was valid. Like if the user has pressed backspace or removed the valid date.
+          if (isDateFullyFilledOutRef.current || hasHadValidDate) {
             const { startDate, endDate, event } = {
               ...state,
               ...dates,
             }
-            callOnChangeHandler({ startDate, endDate, event })
+            callOnChangeHandler({
+              startDate,
+              endDate,
+              event,
+              ...invalidDatesRef.current,
+            })
           }
         }
       )
@@ -376,7 +396,11 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           (typeof startDate !== 'undefined' && isValid(startDate)) ||
           (typeof endDate !== 'undefined' && isValid(endDate))
         ) {
-          callOnChangeHandler({ event, ...dates })
+          callOnChangeHandler({
+            event,
+            ...dates,
+            ...invalidDatesRef.current,
+          })
         }
       })
     },
@@ -405,7 +429,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         )
 
       // Get the typed dates, so we can ...
-      let { startDate, endDate } = getDates()
+      const { startDate, endDate } = getDates()
       // Get the partial dates, so we can know if something was typed or not in an optional date field
       const partialStartDate = startDate
       const partialEndDate = endDate
@@ -415,47 +439,42 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         partialEndDate,
       })
 
-      startDate = parseISO(startDate)
-      endDate = parseISO(endDate)
+      const parsedStartDate = parseISO(startDate)
+      const parsedEndDate = parseISO(endDate)
 
-      // ... check if they were valid
-      if (!isValid(startDate)) {
-        startDate = null
-      }
-      if (!isValid(endDate)) {
-        endDate = null
-      }
+      const isStartDateValid = isValid(parsedStartDate)
+      const isEndDateValid = isValid(parsedEndDate)
 
-      let returnObject = getReturnObject({
-        startDate,
-        endDate,
+      const {
+        is_valid,
+        is_valid_start_date,
+        is_valid_end_date,
+        ...returnObject
+      } = getReturnObject({
+        startDate: isStartDateValid ? parsedStartDate : null,
+        endDate: isEndDateValid ? parsedEndDate : null,
         event,
         partialStartDate,
         partialEndDate,
+        ...invalidDatesRef.current,
       })
 
-      // Now, lets correct
-      if (
-        returnObject.is_valid === false ||
-        returnObject.is_valid_start_date === false ||
-        returnObject.is_valid_end_date === false
-      ) {
-        const { startDate, endDate } = getDates()
-
-        const typedDates = isRange
-          ? {
-              start_date: startDate,
-              end_date: endDate,
-            }
-          : { date: startDate }
-
-        returnObject = {
-          ...returnObject,
-          ...typedDates,
-        }
+      // Re-assigns dates to the typed date, instead of `null` from getReturnObject, if dates are invalid
+      const typedDates = {
+        ...(!isRange && is_valid === false && { date: startDate }),
+        ...(isRange &&
+          is_valid_start_date === false && { start_date: startDate }),
+        ...(isRange &&
+          is_valid_end_date === false && { end_date: endDate }),
       }
 
-      onType?.({ ...returnObject })
+      onType?.({
+        is_valid,
+        is_valid_start_date,
+        is_valid_end_date,
+        ...returnObject,
+        ...typedDates,
+      })
     },
     [isRange, dateRefs, getReturnObject, inputDates, onType]
   )
@@ -677,8 +696,20 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         date.getMonth() + 1 == parseFloat(String(month)) &&
         date.getFullYear() == parseFloat(String(year))
 
+      const dateString = `${year}-${month}-${day}`
+
+      isDateFullyFilledOutRef.current =
+        /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(dateString)
+
       // update the date
       if (isValidDate) {
+        invalidDatesRef.current = {
+          ...invalidDatesRef.current,
+          ...(mode === 'start'
+            ? { invalidStartDate: null }
+            : { invalidEndDate: null }),
+        }
+
         callOnChange({
           [`${mode}Date`]: date,
           event,
@@ -688,6 +719,13 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           [`${mode}Date`]: null,
           [`__${mode}${type}`]: value,
         })
+
+        invalidDatesRef.current = {
+          ...invalidDatesRef.current,
+          ...(mode === 'start'
+            ? { invalidStartDate: dateString }
+            : { invalidEndDate: dateString }),
+        }
 
         callOnChangeAsInvalid({
           [`${mode}Date`]: null,

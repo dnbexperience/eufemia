@@ -98,6 +98,7 @@ The `InputPassword` component has been moved to `Field.Password`, and is now a p
 ## Flex
 
 - replace `spacing` with `gap` on all Flex components.
+- `rowGap` no longer accepts value `true`. Replace `true` with `undefined` or simply remove the prop to get the same behaviour.
 
 ## Checkbox
 
@@ -146,6 +147,7 @@ The `InputPassword` component has been moved to `Field.Password`, and is now a p
 ## Eufemia Forms
 
 - replace `useError` with `useValidation`.
+- replace `internal.error` with `error`.
 - replace Form.Iterate label variable `{itemNr}` with `{itemNo}`.
 - replace `Form.FieldProps` with `Field.Provider`.
 - replace `<Card stack>...</Card>` with `<Form.Card>...</Form.Card>`.

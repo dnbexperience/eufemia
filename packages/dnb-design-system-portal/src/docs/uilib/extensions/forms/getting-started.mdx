@@ -226,7 +226,7 @@ Here is an example of how to filter data outlining the different ways to filter 
 ```tsx
 // 1. Method – by using paths (JSON Pointer)
 const filterDataPaths = {
-  '/foo': ({ value, data, props, internal }) => value !== 'bar',
+  '/foo': ({ value, data, props, error }) => value !== 'bar',
   '/foo': false, // Will exclude the field with the path "/foo"
   '/array/0': false, // Will exclude the first item of the array
   '/array/*/objectKey': false, // Will exclude all objects inside the array with a key of "objectKey"
@@ -234,7 +234,7 @@ const filterDataPaths = {
 
 // 2. Method – by using a handler.
 // It will iterate over all fields regardless what path they have.
-const filterDataHandler = ({ path, value, data, props, internal }) =>
+const filterDataHandler = ({ path, value, data, props, error }) =>
   value !== 'bar'
 
 const MyComponent = () => {

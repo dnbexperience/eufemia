@@ -94,6 +94,7 @@
     @include allBelow(x-small) {
       &:not(:has(.dnb-forms-value-block__label)) {
         --row-gap: var(--spacing-x-small);
+        flex-flow: row wrap;
       }
       flex-flow: column;
     }

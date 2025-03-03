@@ -208,6 +208,9 @@ export type DrawerListItemProps = {
     value: string;
   }) => void;
 } & Omit<React.HTMLProps<HTMLElement>, 'children'>;
+export type DrawerListHorizontalItemProps = {
+  children: React.ReactNode;
+} & Omit<React.HTMLProps<HTMLElement>, 'children'>;
 export type DrawerListAllProps = DrawerListProps &
   SpacingProps &
   Omit<
@@ -221,7 +224,9 @@ export default class DrawerList extends React.Component<
   static defaultProps: object;
   static Options: (props: DrawerListOptionsProps) => JSX.Element;
   static Item: (props: DrawerListItemProps) => JSX.Element;
-  static HorizontalItem: (props: DrawerListItemProps) => JSX.Element;
+  static HorizontalItem: (
+    props: DrawerListHorizontalItemProps
+  ) => JSX.Element;
   render(): JSX.Element;
 }
 export type ItemContentChildren =
