@@ -418,17 +418,19 @@ function WizardContainer(props: Props) {
       check,
       setActiveIndex,
       handlePrevious,
+      hasInvalidStepsState,
       handleNext,
       setFormError,
     }
   }, [
-    activeIndex,
-    handleNext,
-    handlePrevious,
     id,
+    activeIndex,
     prerenderFieldProps,
     check,
     setActiveIndex,
+    handlePrevious,
+    hasInvalidStepsState,
+    handleNext,
     setFormError,
   ])
 
@@ -510,8 +512,13 @@ function DisplaySteps({
   sidebarId,
 }) {
   const [, forceUpdate] = useReducer(() => ({}), {})
-  const { id, activeIndexRef, stepsRef, updateTitlesRef } =
-    useContext(WizardContext) || {}
+  const {
+    id,
+    activeIndexRef,
+    stepsRef,
+    updateTitlesRef,
+    hasInvalidStepsState,
+  } = useContext(WizardContext) || {}
   updateTitlesRef.current = () => {
     forceUpdate()
   }
@@ -537,6 +544,14 @@ function DisplaySteps({
         no_animation={noAnimation}
         on_change={handleChange}
         sidebar_id={sidebar_id}
+        triggerButtonProps={
+          hasInvalidStepsState()
+            ? {
+                status: 'Unknown state',
+                status_state: 'warn',
+              }
+            : undefined
+        }
       />
     </aside>
   )
@@ -606,7 +621,7 @@ function IterateOverSteps({ children }) {
               : state === 'unknown'
               ? 'Unknown state'
               : undefined,
-          statusState: state === 'error' ? 'error' : undefined,
+          statusState: state === 'error' ? 'error' : undefined, // Shows 'warn' by default
         }
         const key = `${index}-${activeIndexRef.current}`
         const clone = (props) =>

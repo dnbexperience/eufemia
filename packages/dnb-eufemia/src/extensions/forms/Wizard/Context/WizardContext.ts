@@ -70,6 +70,7 @@ export interface WizardContextState {
     }?: SetActiveIndexOptions
   ) => void
   setFormError?: (error: Error) => void
+  hasInvalidStepsState?: () => boolean
   check?: ({ visibleWhen }: { visibleWhen: VisibleWhen }) => boolean
 }
 
