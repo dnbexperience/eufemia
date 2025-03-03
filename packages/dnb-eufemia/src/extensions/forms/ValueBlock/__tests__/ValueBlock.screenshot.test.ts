@@ -17,4 +17,18 @@ describe.each(['ui', 'sbanken'])('ValueBlock for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match help button', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="value-block-help-button"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match help button with html', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="value-block-help-button-html"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

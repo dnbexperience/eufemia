@@ -323,4 +323,81 @@ describe('Value.SummaryList', () => {
       })
     })
   })
+
+  describe('help', () => {
+    it('should render', async () => {
+      render(
+        <Value.SummaryList>
+          <Value.String
+            label="Label"
+            value="Value"
+            help={{
+              title: 'Help title',
+              content: 'Help content',
+            }}
+          />
+        </Value.SummaryList>
+      )
+
+      await userEvent.click(
+        document.querySelector('.dnb-help-button__inline')
+      )
+
+      const element = document.querySelector('.dnb-forms-summary-list')
+      const help = element.querySelector('.dnb-help-button__content')
+
+      expect(help).toHaveTextContent('Help title')
+      expect(help).toHaveTextContent('Help content')
+    })
+
+    it('should render without label', async () => {
+      render(
+        <Value.SummaryList>
+          <Value.String
+            value="Value"
+            help={{
+              title: 'Help title',
+              content: 'Help content',
+            }}
+          />
+        </Value.SummaryList>
+      )
+
+      await userEvent.click(
+        document.querySelector('.dnb-help-button__inline')
+      )
+
+      const element = document.querySelector('.dnb-forms-summary-list')
+      const help = element.querySelector('.dnb-help-button__content')
+
+      expect(help).toHaveTextContent('Help title')
+      expect(help).toHaveTextContent('Help content')
+    })
+
+    it('should render inside Value.Composition', async () => {
+      render(
+        <Value.SummaryList>
+          <Value.Composition>
+            <Value.String
+              value="Value"
+              help={{
+                title: 'Help title',
+                content: 'Help content',
+              }}
+            />
+          </Value.Composition>
+        </Value.SummaryList>
+      )
+
+      await userEvent.click(
+        document.querySelector('.dnb-help-button__inline')
+      )
+
+      const element = document.querySelector('.dnb-forms-summary-list')
+      const help = element.querySelector('.dnb-help-button__content')
+
+      expect(help).toHaveTextContent('Help title')
+      expect(help).toHaveTextContent('Help content')
+    })
+  })
 })
