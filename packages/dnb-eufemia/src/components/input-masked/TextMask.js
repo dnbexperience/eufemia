@@ -85,7 +85,7 @@ export default class TextMask extends React.PureComponent {
     const { value, pipe, mask, guide, placeholderChar, showMask } =
       this.props
 
-    // Сalculate that settings was changed:
+    // Calculate that settings was changed:
     // - `pipe` converting to string, to compare function content
     // - `mask` converting to string, to compare values or function content
     // - `keepCharPositions` excludes, because it affect only cursor position
@@ -103,7 +103,7 @@ export default class TextMask extends React.PureComponent {
       isMaskChanged ||
       isPipeChanged
 
-    // Сalculate that value was changed
+    // Calculate that value was changed
     const isValueChanged =
       value !== this.inputRef.current.value || prevProps.value !== value
 
