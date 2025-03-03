@@ -349,7 +349,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         },
         (dates) => {
           // Should fire if user has filled out an invalid date,
-          // or of the date was valid, but the user has pressed backsapce or removed it
+          // or if the date was valid. Like if the user has pressed backspace or removed the valid date.
           if (isDateFullyFilledOutRef.current || hasHadValidDate) {
             const { startDate, endDate, event } = {
               ...state,
