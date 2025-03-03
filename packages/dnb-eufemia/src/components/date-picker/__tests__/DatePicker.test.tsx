@@ -2456,22 +2456,22 @@ describe('DatePicker component', () => {
     const dayInput = document.querySelector('.dnb-date-picker__input--day')
 
     await userEvent.click(dayInput)
-    await userEvent.keyboard('99')
+    await userEvent.keyboard('39')
     expect(onChange).toHaveBeenCalledTimes(0)
 
-    await userEvent.keyboard('99')
+    await userEvent.keyboard('19')
     expect(onChange).toHaveBeenCalledTimes(0)
 
-    await userEvent.keyboard('9999')
+    await userEvent.keyboard('1111')
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenCalledWith(
-      expect.objectContaining({ invalidDate: '9999-99-99' })
+      expect.objectContaining({ invalidDate: '1111-19-39' })
     )
 
     // Typing a valid date
     await userEvent.click(dayInput)
     await userEvent.keyboard('20112025')
-    expect(onChange).toHaveBeenCalledTimes(6)
+    expect(onChange).toHaveBeenCalledTimes(7)
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({ invalidDate: null })
     )
@@ -2485,48 +2485,48 @@ describe('DatePicker component', () => {
 
     // Fill out startDay
     await userEvent.click(dayInput)
-    await userEvent.keyboard('99')
+    await userEvent.keyboard('39')
     expect(onChange).toHaveBeenCalledTimes(0)
 
-    await userEvent.keyboard('99')
+    await userEvent.keyboard('19')
     expect(onChange).toHaveBeenCalledTimes(0)
 
-    await userEvent.keyboard('9999')
+    await userEvent.keyboard('1111')
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenCalledWith(
-      expect.objectContaining({ invalidStartDate: '9999-99-99' })
+      expect.objectContaining({ invalidStartDate: '1111-19-39' })
     )
 
     // Fill out endDay
-    await userEvent.keyboard('88')
+    await userEvent.keyboard('39')
     expect(onChange).toHaveBeenCalledTimes(1)
 
-    await userEvent.keyboard('88')
+    await userEvent.keyboard('19')
     expect(onChange).toHaveBeenCalledTimes(1)
 
-    await userEvent.keyboard('8888')
+    await userEvent.keyboard('2222')
     expect(onChange).toHaveBeenCalledTimes(2)
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({
-        invalidStartDate: '9999-99-99',
-        invalidEndDate: '8888-88-88',
+        invalidStartDate: '1111-19-39',
+        invalidEndDate: '2222-19-39',
       })
     )
 
     // Typing a valid start date
     await userEvent.click(dayInput)
     await userEvent.keyboard('20112025')
-    expect(onChange).toHaveBeenCalledTimes(7)
+    expect(onChange).toHaveBeenCalledTimes(8)
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({
         invalidStartDate: null,
-        invalidEndDate: '8888-88-88',
+        invalidEndDate: '2222-19-39',
       })
     )
 
     // Typing a valid end date
     await userEvent.keyboard('29112025')
-    expect(onChange).toHaveBeenCalledTimes(12)
+    expect(onChange).toHaveBeenCalledTimes(13)
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({
         invalidStartDate: null,
