@@ -21,6 +21,7 @@ import type {
 } from './StepIndicatorItem'
 import { stepIndicatorDefaultProps } from './StepIndicatorProps'
 import useId from '../../shared/helpers/useId'
+import { StepIndicatorTriggerButtonProps } from './StepIndicatorTriggerButton'
 
 export type StepIndicatorMode = 'static' | 'strict' | 'loose'
 export type StepIndicatorDataItem = Pick<
@@ -125,6 +126,12 @@ export type StepIndicatorProps = Omit<
       current_step,
       currentStep,
     }: StepIndicatorMouseEvent) => void
+
+    /**
+     * The props for the trigger button.
+     * Used internally to pass the props such as a status to the trigger button.
+     */
+    triggerButtonProps?: StepIndicatorTriggerButtonProps
 
     /**
      * If set to `true`, the height animation on the step items and the drawer button will be omitted. Defaults to `false`.
