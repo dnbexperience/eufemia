@@ -445,7 +445,12 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       const isStartDateValid = isValid(parsedStartDate)
       const isEndDateValid = isValid(parsedEndDate)
 
-      let returnObject = getReturnObject({
+      const {
+        is_valid,
+        is_valid_start_date,
+        is_valid_end_date,
+        ...returnObject
+      } = getReturnObject({
         startDate: isStartDateValid ? parsedStartDate : null,
         endDate: isEndDateValid ? parsedEndDate : null,
         event,
@@ -454,28 +459,22 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         ...invalidDatesRef.current,
       })
 
-      // Now, lets correct
-      if (
-        returnObject.is_valid === false ||
-        returnObject.is_valid_start_date === false ||
-        returnObject.is_valid_end_date === false
-      ) {
-        const { startDate, endDate } = getDates()
-
-        const typedDates = isRange
-          ? {
-              start_date: startDate,
-              end_date: endDate,
-            }
-          : { date: startDate }
-
-        returnObject = {
-          ...returnObject,
-          ...typedDates,
-        }
+      // Re-assigns dates to typed the date, instead of null returned from getReturnObject, if they are invalid
+      const typedDates = {
+        ...(!isRange && is_valid === false && { date: startDate }),
+        ...(isRange &&
+          is_valid_start_date === false && { start_date: startDate }),
+        ...(isRange &&
+          is_valid_end_date === false && { end_date: endDate }),
       }
 
-      onType?.({ ...returnObject })
+      onType?.({
+        is_valid,
+        is_valid_start_date,
+        is_valid_end_date,
+        ...returnObject,
+        ...typedDates,
+      })
     },
     [isRange, dateRefs, getReturnObject, inputDates, onType]
   )
