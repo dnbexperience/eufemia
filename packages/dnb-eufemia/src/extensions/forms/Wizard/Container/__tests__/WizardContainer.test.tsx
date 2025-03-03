@@ -31,7 +31,8 @@ beforeEach(() => {
     if (
       !String(args[1]).includes(
         'You may wrap Wizard.Container in Form.Handler'
-      )
+      ) &&
+      !String(args[1]).includes('initialActiveIndex=')
     ) {
       log(...args)
     }
@@ -2199,6 +2200,28 @@ describe('Wizard.Container', () => {
     log.mockRestore()
   })
 
+  it('should warn when initialActiveIndex is used', () => {
+    const log = jest.spyOn(console, 'log').mockImplementation()
+
+    render(
+      <Form.Handler>
+        <Wizard.Container initialActiveIndex={1}>
+          <Wizard.Step title="Step 1">
+            <output>Step 1</output>
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>
+    )
+
+    expect(log).toHaveBeenCalledTimes(1)
+    expect(log).toHaveBeenCalledWith(
+      expect.anything(),
+      'initialActiveIndex={1} is used. Fields of previews steps may not validate. You can use "keepInDOM" to always run validation.'
+    )
+
+    log.mockRestore()
+  })
+
   it('should support schema', async () => {
     const schema = {
       type: 'object',
@@ -3800,5 +3823,30 @@ describe('Wizard.Container', () => {
         },
       },
     ])
+  })
+
+  describe('keepInDOM', () => {
+    it('should keep all non-active steps in the DOM when keepInDOM is true', async () => {
+      render(
+        <Wizard.Container keepInDOM>
+          <Wizard.Step>Active Content</Wizard.Step>
+          <Wizard.Step>keepInDOM Content</Wizard.Step>
+          <Wizard.Step>keepInDOM Content</Wizard.Step>
+        </Wizard.Container>
+      )
+
+      const [step1, step2, step3] = Array.from(
+        document.querySelectorAll('.dnb-forms-step')
+      )
+
+      expect(step1).toHaveTextContent('Active Content')
+      expect(step1.parentElement).not.toHaveAttribute('hidden')
+
+      expect(step2).toHaveTextContent('keepInDOM Content')
+      expect(step2.parentElement).toHaveAttribute('hidden')
+
+      expect(step3).toHaveTextContent('keepInDOM Content')
+      expect(step3.parentElement).toHaveAttribute('hidden')
+    })
   })
 })

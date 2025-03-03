@@ -30,6 +30,7 @@ export const Basic = () => {
         mode="loose"
         // validationMode="bypassOnNavigation"
         initialActiveIndex={2}
+        keepInDOM
       >
         <Wizard.Step title="Step 1">
           <Field.String

@@ -84,6 +84,11 @@ export type Props = ComponentProps & {
   noAnimation?: boolean
 
   /**
+   * If set to `true`, the wizard will not unmount the steps when navigating back and forth.
+   */
+  keepInDOM?: boolean
+
+  /**
    * If set to `true`, the wizard pre-render all steps so the props of each field is available in the data context.
    * Defaults to `true`.
    */
@@ -117,6 +122,7 @@ function WizardContainer(props: Props) {
     children,
     noAnimation = true,
     prerenderFieldProps = true,
+    keepInDOM,
     validationMode,
     variant = 'sidebar',
     sidebarId,
@@ -426,6 +432,7 @@ function WizardContainer(props: Props) {
     return {
       id,
       activeIndex,
+      initialActiveIndex,
       stepElementRef,
       stepsRef,
       updateTitlesRef,
@@ -434,6 +441,7 @@ function WizardContainer(props: Props) {
       stepStatusRef,
       prerenderFieldProps,
       prerenderFieldPropsRef,
+      keepInDOM,
       check,
       setActiveIndex,
       handlePrevious,
@@ -445,7 +453,9 @@ function WizardContainer(props: Props) {
   }, [
     id,
     activeIndex,
+    initialActiveIndex,
     prerenderFieldProps,
+    keepInDOM,
     check,
     setActiveIndex,
     handlePrevious,
@@ -516,7 +526,7 @@ function WizardContainer(props: Props) {
         </div>
       </Space>
 
-      {prerenderFieldProps && (
+      {prerenderFieldProps && !keepInDOM && (
         <PrerenderFieldPropsOfOtherSteps
           prerenderFieldPropsRef={prerenderFieldPropsRef}
         />
