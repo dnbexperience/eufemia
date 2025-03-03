@@ -55,6 +55,7 @@ import { isAsync } from '../../../shared/helpers/isAsync'
 import useTranslation from './useTranslation'
 import useExternalValue from './useExternalValue'
 import useDataValue from './useDataValue'
+import WizardStepContext from '../Wizard/Step/StepContext'
 
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
 const useLayoutEffect =
@@ -181,6 +182,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const sectionContext = useContext(SectionContext)
   const fieldBoundaryContext = useContext(FieldBoundaryContext)
   const wizardContext = useContext(WizardContext)
+  const wizardStepContext = useContext(WizardStepContext)
   const { setMountedField: setMountedFieldSnapshot } =
     useContext(SnapshotContext) || {}
   const { isVisible } = useContext(VisibilityContext) || {}
@@ -234,6 +236,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     showFieldError: showFieldErrorFieldBlock,
     mountedFieldsRef: mountedFieldsRefFieldBlock,
   } = inFieldBlock ? fieldBlockContext : ({} as FieldBlockContextProps)
+  const {
+    activeIndex,
+    activeIndexRef,
+    prerenderFieldProps,
+    revealError: revealErrorWizard,
+  } = wizardContext || {}
+  const { index: wizardIndex } = wizardStepContext || {}
   const {
     handleChange: handleChangeIterateContext,
     index: iterateIndex,
@@ -570,6 +579,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       showFieldErrorFieldBlock?.(identifier, true)
       revealErrorBoundary?.(identifier, !!localErrorRef.current)
       revealErrorDataContext?.(identifier, !!localErrorRef.current)
+      revealErrorWizard?.(wizardIndex, identifier, !!localErrorRef.current)
     }
   }, [
     validateInitially,
@@ -578,6 +588,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     identifier,
     revealErrorBoundary,
     revealErrorDataContext,
+    revealErrorWizard,
+    wizardIndex,
   ])
 
   const hideError = useCallback(() => {
@@ -586,12 +598,15 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       showFieldErrorFieldBlock?.(identifier, false)
       revealErrorBoundary?.(identifier, false)
       revealErrorDataContext?.(identifier, false)
+      revealErrorWizard?.(wizardIndex, identifier, false)
     }
   }, [
     identifier,
     revealErrorBoundary,
     revealErrorDataContext,
+    revealErrorWizard,
     showFieldErrorFieldBlock,
+    wizardIndex,
   ])
 
   const errorMessagesCacheRef = useRef({
@@ -1817,7 +1832,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   // Put props into the surrounding data context as early as possible
   setFieldInternalsDataContext?.(identifier, props, id)
 
-  const { activeIndex, activeIndexRef } = wizardContext || {}
   const activeIndexTmpRef = useRef(activeIndex)
   useEffect(() => {
     activeIndexTmpRef.current = activeIndex
@@ -1918,6 +1932,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     setFieldErrorBoundary,
     setFieldErrorDataContext,
     setMountedFieldStateDataContext,
+    wizardIndex,
   ])
 
   useEffect(() => {
@@ -1996,7 +2011,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
       let valueToStore: Value | unknown = valueProp
 
-      const data = wizardContext?.prerenderFieldProps
+      const data = prerenderFieldProps
         ? dataContext.data
         : dataContext.internalDataRef?.current
 
@@ -2176,7 +2191,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       updateDataValueDataContext,
       validateDataDataContext,
       valueProp,
-      wizardContext?.prerenderFieldProps,
+      prerenderFieldProps,
     ]
   )
 
