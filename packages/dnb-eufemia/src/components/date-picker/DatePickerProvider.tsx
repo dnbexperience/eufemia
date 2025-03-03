@@ -24,7 +24,7 @@ import useDates, { DatePickerDates } from './hooks/useDates'
 import useLastEventCallCache, {
   LastEventCallCache,
 } from './hooks/useLastEventCallCache'
-import { InvalidDates } from './DatePickerInput'
+import { InvalidDates, PartialDates } from './DatePickerInput'
 
 type DatePickerProviderProps = DatePickerAllProps & {
   setReturnObject: (
@@ -48,7 +48,8 @@ export type GetReturnObjectParams<E> = DatePickerDates &
   }
 
 // TODO: convert properties on event handler return objects to camelCase, constitutes a breaking change
-export type ReturnObject<E> = InvalidDates & {
+export type ReturnObject<E> = InvalidDates &
+  PartialDates & {
   event?: E
   attributes?: Record<string, unknown>
   days_between?: number
@@ -58,8 +59,6 @@ export type ReturnObject<E> = InvalidDates & {
   is_valid?: boolean
   is_valid_start_date?: boolean
   is_valid_end_date?: boolean
-  partialStartDate?: string
-  partialEndDate?: string
 }
 
 export type DatePickerProviderState = DatePickerDates &

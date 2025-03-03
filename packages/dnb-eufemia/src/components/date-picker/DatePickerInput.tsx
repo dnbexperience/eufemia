@@ -103,6 +103,12 @@ export type DatePickerInputProps = Omit<
   ) => void
 }
 
+export type PartialDates = {
+  partialDate?: string
+  partialStartDate?: string
+  partialEndDate?: string
+}
+
 export type InvalidDates = {
   invalidDate?: string
   invalidStartDate?: string
@@ -148,7 +154,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   } = props
 
   const [focusState, setFocusState] = useState<string>('virgin')
-  // TODO: Turn into a ref, as these values should not trigger a rerender
+
   const partialDatesRef = useRef<PartialDates>({
     partialStartDate: null,
     partialEndDate: null,
