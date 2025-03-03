@@ -717,16 +717,24 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     revealErrorRef.current = true
   }
 
-  const bufferedError =
-    initialErrorProp !== 'initial' && typeof errorProp !== 'function'
-      ? prepareError(errorProp)
-      : revealErrorRef.current
-      ? prepareError(error as FormError) ??
+  const getBufferedError = useCallback(() => {
+    if (
+      initialErrorProp !== 'initial' &&
+      typeof errorProp !== 'function'
+    ) {
+      return prepareError(errorProp)
+    } else if (revealErrorRef.current) {
+      return (
+        prepareError(error as FormError) ??
         localErrorRef.current ??
         contextErrorRef.current
-      : error === null
-      ? null
-      : undefined
+      )
+    } else if (error === null) {
+      return null
+    }
+  }, [error, errorProp, initialErrorProp, prepareError])
+
+  const bufferedError = getBufferedError()
 
   const hasVisibleError =
     Boolean(bufferedError) ||
