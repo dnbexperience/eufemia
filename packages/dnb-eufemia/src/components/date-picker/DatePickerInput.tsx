@@ -149,8 +149,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   const [focusState, setFocusState] = useState<string>('virgin')
   // TODO: Turn into a ref, as these values should not trigger a rerender
   const [partialDates, setPartialDates] = useState({
-    partialStartDate: null,
-    partialEndDate: null,
+    partialStartDate: '',
+    partialEndDate: '',
   })
 
   const invalidDatesRef = useRef<InvalidDates>({
