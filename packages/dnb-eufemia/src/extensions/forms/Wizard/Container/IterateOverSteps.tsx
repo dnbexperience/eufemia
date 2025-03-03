@@ -71,7 +71,7 @@ export function IterateOverSteps({ children }) {
               : state === 'unknown'
               ? 'Unknown state'
               : undefined,
-          statusState: state === 'error' ? 'error' : undefined, // Shows 'warn' by default
+          statusState: state === 'error' ? 'error' : undefined, // undefined shows 'warn' by default
         }
         const key = `${index}-${activeIndexRef.current}`
         const clone = (props) =>
