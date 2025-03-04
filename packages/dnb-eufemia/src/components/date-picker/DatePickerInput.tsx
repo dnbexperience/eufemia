@@ -102,6 +102,12 @@ export type DatePickerInputProps = Omit<
   ) => void
 }
 
+export type PartialDates = {
+  partialDate?: string
+  partialStartDate?: string
+  partialEndDate?: string
+}
+
 export type InvalidDates = {
   invalidDate?: string
   invalidStartDate?: string
@@ -147,10 +153,10 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   } = props
 
   const [focusState, setFocusState] = useState<string>('virgin')
-  // TODO: Turn into a ref, as these values should not trigger a rerender
-  const [partialDates, setPartialDates] = useState({
-    partialStartDate: '',
-    partialEndDate: '',
+
+  const partialDatesRef = useRef<PartialDates>({
+    partialStartDate: null,
+    partialEndDate: null,
   })
 
   const invalidDatesRef = useRef<InvalidDates>({
@@ -431,13 +437,14 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       // Get the typed dates, so we can ...
       const { startDate, endDate } = getDates()
       // Get the partial dates, so we can know if something was typed or not in an optional date field
+
       const partialStartDate = startDate
       const partialEndDate = endDate
 
-      setPartialDates({
+      partialDatesRef.current = {
         partialStartDate,
         partialEndDate,
-      })
+      }
 
       const parsedStartDate = parseISO(startDate)
       const parsedEndDate = parseISO(endDate)
@@ -566,11 +573,10 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
       onBlur?.({
         ...event,
-        ...getReturnObject({ event }),
-        ...partialDates,
+        ...getReturnObject({ event, ...partialDatesRef.current }),
       })
     },
-    [onBlur, getReturnObject, partialDates]
+    [onBlur, getReturnObject, partialDatesRef]
   )
 
   const onKeyDownHandler = useCallback(
