@@ -37,7 +37,7 @@ export const WizardContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   keepInDOM: {
-    doc: 'Determines if the steps should be kept in the DOM. Defaults to `false`.',
+    doc: 'Determines if all steps should be kept in the DOM. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
