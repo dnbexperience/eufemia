@@ -26,6 +26,11 @@ export const StepProperties: PropertiesTableProps = {
     type: 'object',
     status: 'optional',
   },
+  keepInDOM: {
+    doc: 'Determines if the step should be kept in the DOM. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   children: {
     doc: 'Contents.',
     type: 'React.Node',

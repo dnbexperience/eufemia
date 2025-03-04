@@ -36,6 +36,11 @@ export const WizardContainerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  keepInDOM: {
+    doc: 'Determines if all steps should be kept in the DOM. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   validationMode: {
     doc: 'Determines if and how the validation will be bypassed.',
     type: ['bypassOnNavigation'],
