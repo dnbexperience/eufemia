@@ -28,16 +28,16 @@ export function DisplaySteps({
     variant === 'drawer' && !sidebarId ? undefined : sidebarId ?? id
 
   const getTriggerStatus = useCallback(() => {
-    if (hasInvalidStepsState(['unknown'])) {
-      return {
-        status: 'Unknown state',
-        status_state: 'warn',
-      } satisfies Omit<StepIndicatorItemProps, 'title' | 'currentItemNum'>
-    }
     if (hasInvalidStepsState(['error'])) {
       return {
         status: translations.Step.stepHasError,
         status_state: 'error',
+      } satisfies Omit<StepIndicatorItemProps, 'title' | 'currentItemNum'>
+    }
+    if (hasInvalidStepsState(['unknown'])) {
+      return {
+        status: 'Unknown state',
+        status_state: 'warn',
       } satisfies Omit<StepIndicatorItemProps, 'title' | 'currentItemNum'>
     }
   }, [hasInvalidStepsState, translations.Step.stepHasError])
