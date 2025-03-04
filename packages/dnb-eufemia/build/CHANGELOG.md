@@ -3,6 +3,37 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.66.0](https://github.com/dnbexperience/eufemia/compare/v10.65.1...v10.66.0) (2025-03-04)
+
+
+### :bug: Bug Fixes
+
+* **Field.Slider:** correct default values and validate with ARIA rules ([#4650](https://github.com/dnbexperience/eufemia/issues/4650)) ([bf2d9fe](https://github.com/dnbexperience/eufemia/commit/bf2d9fe565b251bc2a66fe921aba95a7c572b074))
+* **Forms:** always run validation on Wizard step changes ([#4626](https://github.com/dnbexperience/eufemia/issues/4626)) ([57577ce](https://github.com/dnbexperience/eufemia/commit/57577ce148f0a2183c3f237adc8842305a118004))
+* **Forms:** enhance a11y of inline help button ([#4649](https://github.com/dnbexperience/eufemia/issues/4649)) ([6908095](https://github.com/dnbexperience/eufemia/commit/6908095a02c62a61c84d0d154bd0df5116f1af1d))
+* **Forms:** hide `info`, `warning` or `error` prop when `undefined` is given to a Field ([#4634](https://github.com/dnbexperience/eufemia/issues/4634)) ([f953cf9](https://github.com/dnbexperience/eufemia/commit/f953cf95301befd673a2facc525b22d825cc5c7c)), closes [#4611](https://github.com/dnbexperience/eufemia/issues/4611)
+* **Forms:** show error in Wizard menu and prevent submission if previous steps contain errors or have an unknown state ([#4638](https://github.com/dnbexperience/eufemia/issues/4638)) ([05e30b6](https://github.com/dnbexperience/eufemia/commit/05e30b6814d2e956efcf35f0ef05e7ba7479a4b1))
+* **ToggleButton:** add `tooltip` type and docs ([#4647](https://github.com/dnbexperience/eufemia/issues/4647)) ([e6495e5](https://github.com/dnbexperience/eufemia/commit/e6495e558f0e2c273ea3c68a4ea35dcd33a42f92))
+
+
+### :sparkles: Features
+
+* **DatePicker:** add invalid dates to return object ([#4637](https://github.com/dnbexperience/eufemia/issues/4637)) ([082e4b8](https://github.com/dnbexperience/eufemia/commit/082e4b806042b549f968397fb5b6da7a8c46fea3))
+* **Flex:** improve `gap` and `rowGap` behaviour ([#4496](https://github.com/dnbexperience/eufemia/issues/4496)) ([7685609](https://github.com/dnbexperience/eufemia/commit/7685609efa8efd6e477053cd5be952b3b1fd4ad2))
+* **Forms:** `row wrap` Values without label when used inside Value.Compositon ([#4641](https://github.com/dnbexperience/eufemia/issues/4641)) ([2203fc7](https://github.com/dnbexperience/eufemia/commit/2203fc705b8aac9ada6a7f04179593bb45b8cf51))
+* **Forms:** add `help` property to all Value.* components ([#4607](https://github.com/dnbexperience/eufemia/issues/4607)) ([9c1aa46](https://github.com/dnbexperience/eufemia/commit/9c1aa4621f359cb19fd62fc1ae46214af7f58caf))
+* **Forms:** add `keepInDOM` to Wizard ([#4652](https://github.com/dnbexperience/eufemia/issues/4652)) ([dec3fd6](https://github.com/dnbexperience/eufemia/commit/dec3fd66bd66ea6d23d69b308dd797f2c6dd3621)), closes [#4629](https://github.com/dnbexperience/eufemia/issues/4629) [#4642](https://github.com/dnbexperience/eufemia/issues/4642)
+* **Forms:** add `validationMode` property with `bypassOnNavigation` to Wizard.Container ([#4631](https://github.com/dnbexperience/eufemia/issues/4631)) ([f47294b](https://github.com/dnbexperience/eufemia/commit/f47294bb15eade33c39e3c44ec98d91e612cc48d))
+* **Forms:** return existing errors in `onSubmitRequest` before Form.Handler submit or Wizard step change ([#4625](https://github.com/dnbexperience/eufemia/issues/4625)) ([3b02fc3](https://github.com/dnbexperience/eufemia/commit/3b02fc3a36415708a2d046b8f1df1f6faaeb701d))
+
+
+### :memo: Documentation
+
+* **DatePicker:** document partial dates ([#4644](https://github.com/dnbexperience/eufemia/issues/4644)) ([090cda8](https://github.com/dnbexperience/eufemia/commit/090cda8d5c72840b70cb2dfe74d0b79d2c90d570))
+* **Form:** adds demos to root doc ([#4643](https://github.com/dnbexperience/eufemia/issues/4643)) ([f4c2ce7](https://github.com/dnbexperience/eufemia/commit/f4c2ce7929dff51e154408cfc3c447bf02f5303c))
+* **Forms:** changelog for v10.66.0 ([#4642](https://github.com/dnbexperience/eufemia/issues/4642)) ([303081e](https://github.com/dnbexperience/eufemia/commit/303081e929df69fd6c49fdde281de8fd582d0169))
+* **Name:** remove Field.SummaryList from example ([#4635](https://github.com/dnbexperience/eufemia/issues/4635)) ([685f298](https://github.com/dnbexperience/eufemia/commit/685f298fc3be27864483a956ee1eee21931b29f5))
+
 ## [10.65.1](https://github.com/dnbexperience/eufemia/compare/v10.65.0...v10.65.1) (2025-02-25)
 
 
