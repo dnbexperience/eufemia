@@ -4,6 +4,19 @@ import { fireEvent, render } from '@testing-library/react'
 import { Field, Form, Wizard } from '../../..'
 import WizardContext from '../../Context'
 
+const log = global.console.log
+beforeEach(() => {
+  global.console.log = jest.fn((...args) => {
+    if (!String(args[1]).includes('initialActiveIndex=')) {
+      log(...args)
+    }
+  })
+})
+afterEach(() => {
+  global.console.log = log
+  jest.resetAllMocks()
+})
+
 describe('Step', () => {
   it('should render the step when activeIndex matches the index prop', () => {
     const activeIndex = 0
@@ -252,6 +265,30 @@ describe('Step', () => {
 
       expect(s2).toHaveClass('dnb-step-indicator__item--inactive')
       expect(b2.tagName).toBe('SPAN')
+    })
+  })
+
+  describe('keepInDOM', () => {
+    it('should keep the step in the DOM when keepInDOM is true', async () => {
+      const activeIndex = 0
+      render(
+        <WizardContext.Provider value={{ activeIndex }}>
+          <Wizard.Step index={0}>Active Content</Wizard.Step>
+          <Wizard.Step index={1} keepInDOM>
+            keepInDOM Content
+          </Wizard.Step>
+          <Wizard.Step index={2}>Hidden Content</Wizard.Step>
+        </WizardContext.Provider>
+      )
+
+      const [step1, step2, step3] = Array.from(
+        document.querySelectorAll('.dnb-forms-step')
+      )
+
+      expect(step1).toHaveTextContent('Active Content')
+      expect(step2).toHaveTextContent('keepInDOM Content')
+      expect(step2.parentElement).toHaveAttribute('hidden')
+      expect(step3).toBeUndefined()
     })
   })
 })

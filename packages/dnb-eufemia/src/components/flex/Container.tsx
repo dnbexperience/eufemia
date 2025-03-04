@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback } from 'react'
+import React, { Fragment, useMemo } from 'react'
 import classnames from 'classnames'
 import Space, { SpaceProps } from '../space/Space'
 import { Hr } from '../../elements'
@@ -27,7 +27,8 @@ type Gap =
 export type BasicProps = {
   direction?: 'horizontal' | 'vertical'
   wrap?: boolean
-  rowGap?: 'small' | 'medium' | 'large' | boolean
+  /** value `true` is deprecated, use `undefined` instead */
+  rowGap?: Gap | true
   sizeCount?: number
   justify?:
     | 'flex-start'
@@ -82,6 +83,18 @@ export function pickFlexContainerProps<T extends Props>(
     ),
   }
 }
+function handleDeprecatedProps({
+  spacing,
+  gap,
+  rowGap,
+  ...rest
+}: Props): Omit<Props, 'spacing'> & { rowGap?: Gap } {
+  return {
+    ...rest,
+    rowGap: rowGap === true ? undefined : rowGap,
+    gap: spacing ?? gap,
+  }
+}
 
 function FlexContainer(props: Props) {
   const {
@@ -97,14 +110,16 @@ function FlexContainer(props: Props) {
     align = 'flex-start',
     alignSelf,
     divider = 'space',
-    gap,
-    spacing: spacingProp,
+    gap = 'small',
     breakpoints,
     queries,
     ...rest
-  } = props
+  } = handleDeprecatedProps(props)
 
-  const spacing = spacingProp ?? gap ?? 'small'
+  const spacing = useMemo(
+    () => (direction === 'vertical' ? rowGap : undefined) ?? gap,
+    [direction, gap, rowGap]
+  )
   const childrenArray = replaceRootFragment(wrapChildren(props, children))
   const hasHeading = childrenArray.some((child, i) => {
     const previousChild = childrenArray?.[i - 1]
@@ -202,26 +217,12 @@ function FlexContainer(props: Props) {
   })
 
   const n = 'dnb-flex-container'
-  const getRowGapClass = useCallback(() => {
-    if (rowGap === false) {
-      return `${n}--row-gap-off`
+  const rowGapClass = useMemo(() => {
+    if (rowGap !== false && direction === 'horizontal') {
+      return `${n}--row-gap-${rowGap ?? 'small'}`
     }
-
-    if (
-      rowGap === true ||
-      (!rowGap && wrap && direction === 'horizontal')
-    ) {
-      return `${n}--row-gap-small`
-    }
-
-    if (hasSizeProp && spacing) {
-      return `${n}--row-gap-${spacing}`
-    }
-
-    if (rowGap) {
-      return `${n}--row-gap-${rowGap}`
-    }
-  }, [direction, hasSizeProp, rowGap, spacing, wrap])
+    return undefined
+  }, [direction, rowGap])
 
   const cn = classnames(
     'dnb-flex-container',
@@ -231,7 +232,7 @@ function FlexContainer(props: Props) {
     alignSelf && `${n}--align-self-${alignSelf}`,
     spacing && `${n}--spacing-${spacing}`,
     wrap && `${n}--wrap`,
-    getRowGapClass(),
+    rowGapClass,
     hasSizeProp && `${n}--has-size`,
     divider && `${n}--divider-${divider}`,
     className

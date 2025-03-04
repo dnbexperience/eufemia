@@ -1,4 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
+import { Flex } from '@dnb/eufemia/src'
 import { Form, Value } from '@dnb/eufemia/src/extensions/forms'
 
 export const Basic = () => {
@@ -50,10 +51,11 @@ export const WithSummaryList = () => {
         data={{
           firstName: 'John',
           lastName: 'Doe',
-          streetName: 'Osloveien',
-          streetNr: 12,
-          postalCode: '1234',
-          city: 'Oslo',
+          streetName: 'Øvraørnefjeddstakkslåttåveien',
+          streetNr: 9998,
+          streetId: 'H0301',
+          postalCode: '9713',
+          city: 'Russenes',
         }}
       >
         <Form.Card>
@@ -68,6 +70,7 @@ export const WithSummaryList = () => {
             <Value.Composition label="Street">
               <Value.String path="/streetName" />
               <Value.Number path="/streetNr" />
+              <Value.String path="/streetId" />
             </Value.Composition>
 
             <Value.Composition label="City">
@@ -88,31 +91,70 @@ export const WithSummaryListGridLayout = () => {
         data={{
           firstName: 'John',
           lastName: 'Doe',
-          streetName: 'Osloveien',
-          streetNr: 12,
-          postalCode: '1234',
-          city: 'Oslo',
+          streetName: 'Øvraørnefjeddstakkslåttåveien',
+          streetNr: 9998,
+          streetId: 'H0301',
+          postalCode: '9713',
+          city: 'Russenes',
         }}
       >
         <Form.Card>
           <Form.SubHeading>Subheading</Form.SubHeading>
 
           <Value.SummaryList layout="grid">
-            <Value.Name.First path="/firstName" />
-            <Value.Name.Last path="/lastName" />
+            <Value.Composition label="Name">
+              <Value.Name.First path="/firstName" />
+              <Value.Name.Last path="/lastName" />
+            </Value.Composition>
 
             <Value.Composition label="Street">
               <Value.String path="/streetName" />
               <Value.Number path="/streetNr" />
+              <Value.String path="/streetId" />
             </Value.Composition>
 
-            <Value.Composition label="City">
-              <Value.String path="/postalCode" />
-              <Value.String path="/city" />
-            </Value.Composition>
+            <Value.PostalCodeAndCity
+              postalCode={{ path: '/postalCode' }}
+              city={{ path: '/city' }}
+            />
           </Value.SummaryList>
         </Form.Card>
       </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const WithHelp = () => {
+  return (
+    <ComponentBox data-visual-test="forms-value-composition-help">
+      <Flex.Stack>
+        <Value.Composition
+          label="Label with help"
+          help={{
+            title: 'Hva betyr lånebeløp?',
+            content: 'Dette er hvor mye du har tenkt å låne totalt.',
+          }}
+        >
+          <Value.String value="value" />
+          <Value.Number value={123} />
+        </Value.Composition>
+
+        <Form.Card>
+          <Value.SummaryList>
+            <Value.Composition
+              label="Label with help inside SummaryList"
+              help={{
+                title: 'Hva betyr lånebeløp?',
+                content: 'Dette er hvor mye du har tenkt å låne totalt.',
+              }}
+            >
+              <Value.String value="value" />
+              <Value.Number value={123} />
+            </Value.Composition>
+            <Value.String value="Another value" />
+          </Value.SummaryList>
+        </Form.Card>
+      </Flex.Stack>
     </ComponentBox>
   )
 }

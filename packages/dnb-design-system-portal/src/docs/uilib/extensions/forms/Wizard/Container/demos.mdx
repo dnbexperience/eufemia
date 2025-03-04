@@ -14,6 +14,38 @@ import * as Examples from './Examples'
 
 <Examples.AsyncWizardContainer />
 
+### With StatusMessage in Menu
+
+This example uses the `loose` mode to demonstrate status messages. Press the `Send` button to see the status message. You may also navigate to the previous steps and press the `Send` button again.
+
+<Examples.WithStatusMessageInMenu />
+
 ### With StatusMessage
 
 <Examples.WithStatusMessage />
+
+### Get errors before submit or step change
+
+You can use the `onSubmitRequest` property on the [Form.Handler](/uilib/extensions/forms/Form/Handler/) to get visible errors before the form is submitted.
+
+Each item in the error array contains the following properties in an object:
+
+- `path` The path of the field.
+- `value` The value of the field.
+- `displayValue` The displayed value of the field.
+- `label` The label of the field.
+- `props` The given field properties.
+- `error` The error of the field.
+
+```tsx
+const onSubmitRequest: OnSubmitRequest = ({ getErrors }) => {
+  getErrors().forEach(
+    ({ path, value, displayValue, label, props, error }) => {
+      // Do something with the error
+      console.log(label, error.message)
+    },
+  )
+}
+```
+
+<Examples.OnSubmitRequest />

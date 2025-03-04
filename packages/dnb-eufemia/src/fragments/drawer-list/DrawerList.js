@@ -593,6 +593,8 @@ DrawerList.HorizontalItem = ({ className = null, ...props }) => (
 )
 
 DrawerList.HorizontalItem.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+    .isRequired,
   className: PropTypes.string,
 }
 

@@ -88,7 +88,9 @@ const MyForm = () => {
 
 ## Controlling the wizard steps
 
-To define a different initial index (than 0), you can use `initialActiveIndex` hook.
+To define a different initial index (than 0), you can use `initialActiveIndex` property.
+
+**Note:** When using `initialActiveIndex`, there may be previous steps with unknown field validation statuses. To address this, you can use the `keepInDOM` property to ensure that some or all steps are not removed from the DOM, so validation runs on fields in previous steps.
 
 For controlling the wizard steps interactively, you can use the [useStep](/uilib/extensions/forms/Wizard/useStep/) hook:
 
@@ -174,6 +176,11 @@ const MyForm = () => {
   )
 }
 ```
+
+## Modes
+
+- The `strict` mode is the default. The user can only navigate forward using the [Wizard.NextButton](/uilib/extensions/forms/Wizard/NextButton/), not via the menu. However, the previous step remains active, allowing the user to go back at any time – even if there are errors in the current step.
+- Use `loose` mode if the user should be able to navigate freely between all steps, including those that have not been visited before. When there is an error in the current step, the user can navigate to other steps via the menu, but not via the [Wizard.NextButton](/uilib/extensions/forms/Wizard/NextButton/).
 
 ## Accessibility
 

@@ -3,7 +3,7 @@ import {
   setupPageScreenshot,
 } from '../../../../../core/jest/jestSetupScreenshots'
 
-describe('Field.SummaryList', () => {
+describe('Value.SummaryList', () => {
   setupPageScreenshot({
     url: '/uilib/extensions/forms/Value/SummaryList/demos/',
   })
@@ -40,6 +40,30 @@ describe('Field.SummaryList', () => {
     const screenshot = await makeScreenshot({
       style: { width: '6rem' },
       selector: '[data-visual-test="forms-value-summary-empty-label"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match default layout with help', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="forms-value-summary-list-default-with-help"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match grid layout with help', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="forms-value-summary-list-grid-with-help"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match horizontal layout with help', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="forms-value-summary-list-horizontal-with-help"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

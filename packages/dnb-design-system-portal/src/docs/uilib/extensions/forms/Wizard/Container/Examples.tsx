@@ -251,3 +251,80 @@ export const WithStatusMessage = () => {
     </ComponentBox>
   )
 }
+
+export const WithStatusMessageInMenu = () => {
+  return (
+    <ComponentBox data-visual-test="wizard-with-status-message-in-menu">
+      <Form.Handler
+        onSubmit={(data) => {
+          console.log('onSubmit', data)
+        }}
+      >
+        <Wizard.Container
+          onStepChange={async (index, mode) => {
+            console.log('onStepChange', index, mode)
+          }}
+          mode="loose"
+          initialActiveIndex={2}
+        >
+          <Wizard.Step title="Step 1">
+            <Field.String label="Step 1" path="/step1" required />
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 2">
+            <Field.String label="Step 2" path="/step2" required />
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 3">
+            <Field.String label="Step 3" path="/step3" />
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+
+        <Form.SubmitButton />
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const OnSubmitRequest = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler
+        onSubmitRequest={({ getErrors }) => {
+          getErrors().forEach(({ label, error }) => {
+            console.log(label, error.message)
+          })
+        }}
+      >
+        <Wizard.Container mode="loose" variant="drawer">
+          <Wizard.Step title="Step 1">
+            <Form.Card>
+              <Field.String
+                path="/foo"
+                label="Foo"
+                defaultValue="With default value"
+                required
+              />
+              <Field.String path="/bar" label="Bar" required />
+            </Form.Card>
+
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 2">
+            <Form.Card>
+              <Field.String path="/baz" label="Baz" required />
+            </Form.Card>
+
+            <Wizard.Buttons />
+
+            <Form.SubmitButton />
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}

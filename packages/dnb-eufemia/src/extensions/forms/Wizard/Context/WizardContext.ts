@@ -1,49 +1,30 @@
 import React from 'react'
-import { EventReturnWithStateObject } from '../../types'
+import { Path } from '../../types'
 import { VisibleWhen } from '../../Form/Visibility'
+import {
+  InternalStepStatus,
+  InternalStepStatuses,
+  SetActiveIndexOptions,
+  StepIndex,
+  Steps,
+} from './types'
 
-export type OnStepsChangeMode = 'previous' | 'next' | 'stepListModified'
-export type OnStepChangeOptions = {
-  preventNavigation: (shouldPrevent?: boolean) => void
-  id?: string
-  previousStep: {
-    index: StepIndex
-    id?: string
-  }
-}
-export type OnStepChange = (
-  index: StepIndex,
-  mode: OnStepsChangeMode,
-  options: OnStepChangeOptions
-) =>
-  | EventReturnWithStateObject
-  | void
-  | Promise<EventReturnWithStateObject | void>
-
-export type StepIndex = number
-export type Steps = Record<
-  string,
-  { title: string; id: string; inactive?: boolean }
->
-export type SetActiveIndexOptions = {
-  skipStepChangeCall?: boolean
-  skipStepChangeCallBeforeMounted?: boolean
-  skipStepChangeCallFromHook?: boolean
-  skipErrorCheck?: boolean
-}
 export interface WizardContextState {
   id?: string
   totalSteps?: number
   activeIndex?: StepIndex
+  initialActiveIndex?: StepIndex
   stepElementRef?: React.MutableRefObject<HTMLElement>
   stepsRef?: React.MutableRefObject<Steps>
   updateTitlesRef?: React.MutableRefObject<() => void>
   activeIndexRef?: React.MutableRefObject<StepIndex>
   totalStepsRef?: React.MutableRefObject<number>
+  stepStatusRef?: React.MutableRefObject<InternalStepStatuses>
   prerenderFieldPropsRef?: React.MutableRefObject<
     Record<string, () => React.ReactElement>
   >
   prerenderFieldProps?: boolean
+  keepInDOM?: boolean
   handlePrevious?: () => void
   handleNext?: () => void
   setActiveIndex?: (
@@ -55,6 +36,8 @@ export interface WizardContextState {
     }?: SetActiveIndexOptions
   ) => void
   setFormError?: (error: Error) => void
+  revealError?: (index: StepIndex, path: Path, hasError: boolean) => void
+  hasInvalidStepsState?: (forStates?: Array<InternalStepStatus>) => boolean
   check?: ({ visibleWhen }: { visibleWhen: VisibleWhen }) => boolean
 }
 

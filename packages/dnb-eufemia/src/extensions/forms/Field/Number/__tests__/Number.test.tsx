@@ -171,6 +171,23 @@ describe('Field.Number', () => {
         ).toBeInTheDocument()
       })
 
+      it('should hide error when undefined is returned by error function', () => {
+        const { rerender } = render(
+          <Field.Number
+            error={() => new Error('This is what went wrong')}
+          />
+        )
+        expect(
+          screen.getByText('This is what went wrong')
+        ).toBeInTheDocument()
+
+        rerender(<Field.Number error={() => undefined} />)
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
+
       it('renders error given as a function with value', () => {
         render(
           <Field.Number

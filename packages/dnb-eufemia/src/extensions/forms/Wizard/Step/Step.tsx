@@ -3,8 +3,12 @@ import classnames from 'classnames'
 import { ComponentProps } from '../../types'
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
 import WizardContext from '../Context/WizardContext'
+import WizardStepContext from './StepContext'
 import Flex from '../../../../components/flex/Flex'
-import { convertJsxToString } from '../../../../shared/component-helper'
+import {
+  convertJsxToString,
+  warn,
+} from '../../../../shared/component-helper'
 import FieldProvider from '../../Field/Provider'
 import type { VisibleWhen } from '../../Form/Visibility'
 
@@ -57,6 +61,11 @@ export type Props = ComponentProps &
     includeWhen?: VisibleWhen
 
     /**
+     * Determines if the step should be kept in the DOM. Defaults to `false`.
+     */
+    keepInDOM?: boolean
+
+    /**
      * If set to `true`, the step will always be rendered.
      * For internal use only.
      */
@@ -80,17 +89,24 @@ function Step(props: Props): JSX.Element {
   const {
     className,
     title,
-    inactive,
+    inactive, // eslint-disable-line
     index,
     include = true,
     includeWhen,
     required,
+    keepInDOM: keepInDOMProp,
     prerenderFieldProps,
     children,
     ...restProps
   } = handleDeprecatedProps(props)
-  const { check, activeIndex, stepsRef, stepElementRef } =
-    useContext(WizardContext) || {}
+  const {
+    check,
+    activeIndex,
+    initialActiveIndex,
+    stepsRef,
+    stepElementRef,
+    keepInDOM,
+  } = useContext(WizardContext) || {}
 
   const ariaLabel = useMemo(() => {
     return (
@@ -117,34 +133,52 @@ function Step(props: Props): JSX.Element {
     return children as JSX.Element
   }
 
+  const fieldProps =
+    typeof required === 'boolean' ? { required } : undefined
+
+  const content = (
+    <WizardStepContext.Provider value={{ index }}>
+      <Flex.Stack
+        className={classnames('dnb-forms-step', className)}
+        element="section"
+        aria-label={ariaLabel}
+        innerRef={currentElementRef}
+        tabIndex={-1}
+        {...restProps}
+      >
+        {fieldProps ? (
+          <FieldProvider {...fieldProps}>{children}</FieldProvider>
+        ) : (
+          children
+        )}
+      </Flex.Stack>
+    </WizardStepContext.Provider>
+  )
+
   if (
     activeIndex !== index ||
     include === false ||
     (includeWhen && !check({ visibleWhen: includeWhen }))
   ) {
+    if (keepInDOMProp ?? keepInDOM) {
+      return (
+        <div title="Wizard Step" hidden>
+          {content}
+        </div>
+      )
+    } else {
+      if (initialActiveIndex > 0) {
+        warn(
+          `initialActiveIndex={${initialActiveIndex}} is used. Fields of previews steps may not validate. You can use "keepInDOM" to always run validation.`
+        )
+      }
+    }
+
     // Another step is active
     return <></>
   }
 
-  const fieldProps =
-    typeof required === 'boolean' ? { required } : undefined
-
-  return (
-    <Flex.Stack
-      className={classnames('dnb-forms-step', className)}
-      element="section"
-      aria-label={ariaLabel}
-      innerRef={currentElementRef}
-      tabIndex={-1}
-      {...restProps}
-    >
-      {fieldProps ? (
-        <FieldProvider {...fieldProps}>{children}</FieldProvider>
-      ) : (
-        children
-      )}
-    </Flex.Stack>
-  )
+  return <>{content}</>
 }
 
 Step._supportsSpacingProps = true

@@ -2448,6 +2448,92 @@ describe('DatePicker component', () => {
       expect(document.querySelector('#my-input')).toHaveFocus()
     })
   })
+
+  it('should trigger `onChange` with `invalidDate` when input is fully filled out with an invalid date', async () => {
+    const onChange = jest.fn()
+    render(<DatePicker onChange={onChange} showInput />)
+
+    const dayInput = document.querySelector('.dnb-date-picker__input--day')
+
+    await userEvent.click(dayInput)
+    await userEvent.keyboard('39')
+    expect(onChange).toHaveBeenCalledTimes(0)
+
+    await userEvent.keyboard('19')
+    expect(onChange).toHaveBeenCalledTimes(0)
+
+    await userEvent.keyboard('1111')
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({ invalidDate: '1111-19-39' })
+    )
+
+    // Typing a valid date
+    await userEvent.click(dayInput)
+    await userEvent.keyboard('20112025')
+    expect(onChange).toHaveBeenCalledTimes(7)
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({ invalidDate: null })
+    )
+  })
+
+  it('should trigger `onChange` with `invalidStartDate` and `invalidEndDate` when input is fully filled out with an invalid dates in `range` mode', async () => {
+    const onChange = jest.fn()
+    render(<DatePicker onChange={onChange} range showInput />)
+
+    const dayInput = document.querySelector('.dnb-date-picker__input--day')
+
+    // Fill out startDay
+    await userEvent.click(dayInput)
+    await userEvent.keyboard('39')
+    expect(onChange).toHaveBeenCalledTimes(0)
+
+    await userEvent.keyboard('19')
+    expect(onChange).toHaveBeenCalledTimes(0)
+
+    await userEvent.keyboard('1111')
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({ invalidStartDate: '1111-19-39' })
+    )
+
+    // Fill out endDay
+    await userEvent.keyboard('39')
+    expect(onChange).toHaveBeenCalledTimes(1)
+
+    await userEvent.keyboard('19')
+    expect(onChange).toHaveBeenCalledTimes(1)
+
+    await userEvent.keyboard('2222')
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        invalidStartDate: '1111-19-39',
+        invalidEndDate: '2222-19-39',
+      })
+    )
+
+    // Typing a valid start date
+    await userEvent.click(dayInput)
+    await userEvent.keyboard('20112025')
+    expect(onChange).toHaveBeenCalledTimes(8)
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        invalidStartDate: null,
+        invalidEndDate: '2222-19-39',
+      })
+    )
+
+    // Typing a valid end date
+    await userEvent.keyboard('29112025')
+    expect(onChange).toHaveBeenCalledTimes(13)
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        invalidStartDate: null,
+        invalidEndDate: null,
+      })
+    )
+  })
 })
 
 // for the unit calc tests

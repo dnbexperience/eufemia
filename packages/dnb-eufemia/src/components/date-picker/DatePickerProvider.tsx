@@ -24,6 +24,7 @@ import useDates, { DatePickerDates } from './hooks/useDates'
 import useLastEventCallCache, {
   LastEventCallCache,
 } from './hooks/useLastEventCallCache'
+import { InvalidDates } from './DatePickerInput'
 
 type DatePickerProviderProps = DatePickerAllProps & {
   setReturnObject: (
@@ -34,18 +35,20 @@ type DatePickerProviderProps = DatePickerAllProps & {
   children: React.ReactNode
 }
 
-export type DatePickerChangeEvent<E> = DatePickerDates & {
-  nr?: number
-  hidePicker?: boolean
-  event?: E
-}
+export type DatePickerChangeEvent<E> = DatePickerDates &
+  InvalidDates & {
+    nr?: number
+    hidePicker?: boolean
+    event?: E
+  }
 
-export type GetReturnObjectParams<E> = DatePickerDates & {
-  event?: E
-}
+export type GetReturnObjectParams<E> = DatePickerDates &
+  InvalidDates & {
+    event?: E
+  }
 
 // TODO: convert properties on event handler return objects to camelCase, constitutes a breaking change
-export type ReturnObject<E> = {
+export type ReturnObject<E> = InvalidDates & {
   event?: E
   attributes?: Record<string, unknown>
   days_between?: number
@@ -123,7 +126,14 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
 
   const getReturnObject = useCallback(
     <E,>({ event = null, ...rest }: GetReturnObjectParams<E> = {}) => {
-      const { startDate, endDate, partialStartDate, partialEndDate } = {
+      const {
+        startDate,
+        endDate,
+        partialStartDate,
+        partialEndDate,
+        invalidStartDate,
+        invalidEndDate,
+      } = {
         ...views,
         ...dates,
         ...rest,
@@ -165,12 +175,15 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
               ? false
               : endDateIsValid,
           partialEndDate,
+          invalidStartDate,
+          invalidEndDate,
         }
       }
 
       return {
         ...returnObject,
         date: startDateIsValid ? format(startDate, returnFormat) : null,
+        invalidDate: invalidStartDate,
         is_valid:
           hasMinOrMaxDates &&
           startDateIsValid &&

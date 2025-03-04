@@ -2,6 +2,7 @@ import type { AriaAttributes } from 'react'
 import type { SpacingProps } from '../../components/space/types'
 import type {
   ContextState,
+  DataPathHandlerParameters,
   EventListenerCall,
   FilterData,
   TransformData,
@@ -16,6 +17,7 @@ import {
   FormsTranslationLocale,
 } from './hooks/useTranslation'
 import { GetValueByPath } from './hooks/useDataValue'
+import { HelpProps } from '../../components/help-button/HelpButtonInline'
 
 export type * from 'json-schema'
 export type JSONSchema = JSONSchema7
@@ -545,6 +547,11 @@ export interface ValueProps<Value = unknown>
   maxWidth?: 'small' | 'medium' | 'large' | 'auto'
 
   /**
+   * Provide help content for the value.
+   */
+  help?: HelpProps
+
+  /**
    * Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is a object containing the `convertJsxToString` function.
    */
   transformLabel?: (
@@ -673,6 +680,11 @@ export type OnSubmit<Data = JsonObject> = (
     clearData,
   }: OnSubmitParams
 ) => OnSubmitReturn
+export type OnSubmitRequest = ({
+  getErrors,
+}: {
+  getErrors: () => Array<DataPathHandlerParameters>
+}) => void
 
 export type OnCommit<Data = JsonObject> = (
   data: Data,
