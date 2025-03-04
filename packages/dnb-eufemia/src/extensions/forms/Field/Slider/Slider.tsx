@@ -122,6 +122,7 @@ function SliderComponent(props: Props) {
   }
 
   const sliderProps: SliderProps = {
+    id,
     value,
     step,
     min,
