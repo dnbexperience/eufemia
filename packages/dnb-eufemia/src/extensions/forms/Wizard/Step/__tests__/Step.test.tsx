@@ -4,6 +4,19 @@ import { fireEvent, render } from '@testing-library/react'
 import { Field, Form, Wizard } from '../../..'
 import WizardContext from '../../Context'
 
+const log = global.console.log
+beforeEach(() => {
+  global.console.log = jest.fn((...args) => {
+    if (!String(args[1]).includes('initialActiveIndex=')) {
+      log(...args)
+    }
+  })
+})
+afterEach(() => {
+  global.console.log = log
+  jest.resetAllMocks()
+})
+
 describe('Step', () => {
   it('should render the step when activeIndex matches the index prop', () => {
     const activeIndex = 0
