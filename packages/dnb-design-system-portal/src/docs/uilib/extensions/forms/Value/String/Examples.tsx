@@ -53,3 +53,18 @@ export const Inline = () => {
     </ComponentBox>
   )
 }
+
+export const WithHelp = () => {
+  return (
+    <ComponentBox>
+      <Value.String
+        label="Label text"
+        value="Value text"
+        help={{
+          title: 'Help title',
+          content: 'Help content.',
+        }}
+      />
+    </ComponentBox>
+  )
+}
