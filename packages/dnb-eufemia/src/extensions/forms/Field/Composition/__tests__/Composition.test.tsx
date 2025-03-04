@@ -2,11 +2,12 @@ import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Field, Form, JSONSchema } from '../../..'
+import { axeComponent } from '../../../../../core/jest/jestSetup'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
-describe('FieldBlock', () => {
+describe('Field.Composition', () => {
   const blockError = 'FieldBlock error'
   const blockWarning = 'FieldBlock warning'
   const blockInfo = 'FieldBlock info'
@@ -790,6 +791,18 @@ describe('FieldBlock', () => {
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
         nb.StringField.errorMinLength.replace('{minLength}', '6')
       )
+    })
+  })
+  describe('ARIA', () => {
+    it('should validate with ARIA rules', async () => {
+      const result = render(
+        <Field.Composition label="composition">
+          <Field.String label="label1" required />
+          <Field.String label="label2" required />
+        </Field.Composition>
+      )
+
+      expect(await axeComponent(result)).toHaveNoViolations()
     })
   })
 })
