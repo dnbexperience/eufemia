@@ -421,6 +421,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       // Get the typed dates, so we can ...
       const { startDate, endDate } = getDates()
       // Get the partial dates, so we can know if something was typed or not in an optional date field
+
       const partialStartDate = startDate
       const partialEndDate = endDate
 
@@ -556,8 +557,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
       onBlur?.({
         ...event,
-        ...getReturnObject({ event }),
-        ...partialDatesRef.current,
+        ...getReturnObject({ event, ...partialDatesRef.current }),
       })
     },
     [onBlur, getReturnObject, partialDatesRef]
