@@ -1,11 +1,18 @@
 import React from 'react'
 import { render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { makeUniqueId } from '../../../shared/component-helper'
 import HelpButtonInline, {
   HelpButtonInlineContent,
 } from '../HelpButtonInline'
 
 describe('HelpButtonInline', () => {
+  let uniqueId = null
+
+  beforeEach(() => {
+    uniqueId = makeUniqueId()
+  })
+
   it('should render without title and content', () => {
     render(<HelpButtonInline help={{ open: true }} />)
     expect(
@@ -32,15 +39,26 @@ describe('HelpButtonInline', () => {
 
     await userEvent.tab()
     expect(document.querySelector('button')).toHaveFocus()
+    expect(document.querySelector('button')).not.toHaveClass(
+      'dnb-help-button__inline--open'
+    )
 
     await userEvent.type(document.querySelector('button'), '{Space}')
     await waitFor(() => {
-      expect(document.querySelector('section')).toHaveFocus()
+      expect(document.querySelector('button')).toHaveFocus()
+      expect(document.querySelector('button')).toHaveClass(
+        'dnb-help-button__inline--open'
+      )
     })
 
     await userEvent.keyboard('{Space}')
     await waitFor(() => {
       expect(document.querySelector('button')).toHaveFocus()
+
+      // Will not close when Space is pressed
+      expect(document.querySelector('button')).toHaveClass(
+        'dnb-help-button__inline--open'
+      )
     })
   })
 
@@ -51,15 +69,24 @@ describe('HelpButtonInline', () => {
 
     await userEvent.tab()
     expect(document.querySelector('button')).toHaveFocus()
+    expect(document.querySelector('button')).not.toHaveClass(
+      'dnb-help-button__inline--open'
+    )
 
     await userEvent.keyboard('{Enter}')
     await waitFor(() => {
-      expect(document.querySelector('section')).toHaveFocus()
+      expect(document.querySelector('button')).toHaveFocus()
+      expect(document.querySelector('button')).toHaveClass(
+        'dnb-help-button__inline--open'
+      )
     })
 
     await userEvent.keyboard('{Enter}')
     await waitFor(() => {
       expect(document.querySelector('button')).toHaveFocus()
+      expect(document.querySelector('button')).not.toHaveClass(
+        'dnb-help-button__inline--open'
+      )
     })
   })
 
@@ -70,15 +97,173 @@ describe('HelpButtonInline', () => {
 
     await userEvent.tab()
     expect(document.querySelector('button')).toHaveFocus()
+    expect(document.querySelector('button')).not.toHaveClass(
+      'dnb-help-button__inline--open'
+    )
 
     await userEvent.keyboard('{Enter}')
     await waitFor(() => {
-      expect(document.querySelector('section')).toHaveFocus()
+      expect(document.querySelector('button')).toHaveFocus()
+      expect(document.querySelector('button')).toHaveClass(
+        'dnb-help-button__inline--open'
+      )
     })
 
     await userEvent.keyboard('{Escape}')
     await waitFor(() => {
       expect(document.querySelector('button')).toHaveFocus()
+      expect(document.querySelector('button')).not.toHaveClass(
+        'dnb-help-button__inline--open'
+      )
+    })
+  })
+
+  describe('focusWhenOpen', () => {
+    it('should set focus on the button when closing with Escape key', async () => {
+      render(
+        <HelpButtonInline focusWhenOpen help={{ title: 'Help title' }} />
+      )
+
+      expect(document.body).toHaveFocus()
+
+      await userEvent.tab()
+      expect(document.querySelector('button')).toHaveFocus()
+
+      await userEvent.keyboard('{Enter}')
+      await waitFor(() => {
+        expect(document.querySelector('section')).toHaveFocus()
+      })
+
+      await userEvent.keyboard('{Escape}')
+      await waitFor(() => {
+        expect(document.querySelector('button')).toHaveFocus()
+      })
+    })
+
+    it('should set focus on the content when open', async () => {
+      render(
+        <HelpButtonInline focusWhenOpen help={{ title: 'Help title' }} />
+      )
+
+      expect(document.body).toHaveFocus()
+
+      await userEvent.click(document.querySelector('button'))
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-help-button__content .dnb-section')
+        ).toHaveFocus()
+      })
+
+      await userEvent.click(document.querySelector('button'))
+      expect(document.querySelector('button')).toHaveFocus()
+
+      await userEvent.click(document.querySelector('button'))
+      await waitFor(() => {
+        const section = document.querySelector(
+          '.dnb-help-button__content .dnb-section'
+        )
+        expect(section).toHaveFocus()
+        expect(section).toHaveClass('dnb-no-focus')
+      })
+    })
+
+    it('should not set focus on the content when open is true', async () => {
+      render(
+        <HelpButtonInline
+          focusWhenOpen
+          help={{ open: true, title: 'Help title' }}
+        />
+      )
+
+      expect(document.body).toHaveFocus()
+
+      await userEvent.click(document.querySelector('button'))
+      expect(document.querySelector('button')).toHaveFocus()
+
+      await userEvent.click(document.querySelector('button'))
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-help-button__content .dnb-section')
+        ).toHaveFocus()
+      })
+    })
+
+    it('should have tabindex with -1', () => {
+      render(
+        <HelpButtonInlineContent
+          focusWhenOpen
+          contentId="test-content"
+          help={{
+            open: true,
+            content: 'Some content',
+          }}
+        />
+      )
+
+      expect(
+        document.querySelector('.dnb-help-button__content .dnb-section')
+      ).toHaveAttribute('tabindex', '-1')
+    })
+
+    it('should have aria-label attribute when title is HTML', () => {
+      render(
+        <HelpButtonInline
+          focusWhenOpen
+          help={{
+            open: true,
+            title: <span>Help title</span>,
+          }}
+        />
+      )
+
+      expect(
+        document.querySelector('.dnb-help-button__content .dnb-section')
+      ).toHaveAttribute('aria-label', 'Help title')
+    })
+
+    it('should have aria-label attribute', () => {
+      render(
+        <HelpButtonInline
+          focusWhenOpen
+          help={{ open: true, title: 'Help title' }}
+        />
+      )
+
+      expect(
+        document.querySelector('.dnb-help-button__content .dnb-section')
+      ).toHaveAttribute('aria-label', 'Help title')
+    })
+
+    it('should not have aria-live when focusWhenOpen is true', () => {
+      render(
+        <HelpButtonInline
+          focusWhenOpen
+          help={{ open: true, title: 'Help title' }}
+        />
+      )
+
+      expect(document.querySelector('section')).not.toHaveAttribute(
+        'aria-live'
+      )
+    })
+  })
+
+  it('should have aria-live with polite when open', async () => {
+    render(
+      <HelpButtonInline
+        help={{ open: true, title: 'Help title', content: 'Help content' }}
+      />
+    )
+
+    await waitFor(() => {
+      expect(document.querySelector('section')).toHaveAttribute(
+        'aria-live',
+        'polite'
+      )
+      expect(document.querySelector('section')).toHaveAttribute(
+        'aria-atomic',
+        'true'
+      )
     })
   })
 
@@ -118,7 +303,7 @@ describe('HelpButtonInline', () => {
   it('should not render content when contentId was given', () => {
     render(
       <HelpButtonInline
-        contentId="unique"
+        contentId={uniqueId}
         help={{ open: true, title: 'Help title' }}
       />
     )
@@ -132,41 +317,44 @@ describe('HelpButtonInline', () => {
     render(
       <>
         <HelpButtonInline
-          contentId="unique"
+          contentId={uniqueId}
           help={{ open: true, title: 'Help title' }}
         />
-        <HelpButtonInlineContent contentId="unique" />
+        <HelpButtonInlineContent contentId={uniqueId} />
       </>
     )
 
     const button = document.querySelector('button')
-    expect(button).toHaveAttribute('aria-controls', 'unique-content')
+    expect(button).toHaveAttribute(
+      'aria-controls',
+      expect.stringContaining(uniqueId + '-content')
+    )
     expect(
       document.querySelector('.dnb-help-button__content .dnb-section')
-    ).toHaveAttribute('id', 'unique-content')
+    ).toHaveAttribute('id', expect.stringContaining(uniqueId + '-content'))
   })
 
-  it('should have aria-label attribute', () => {
-    render(<HelpButtonInline help={{ open: true, title: 'Help title' }} />)
-
-    expect(
-      document.querySelector('.dnb-help-button__content .dnb-section')
-    ).toHaveAttribute('aria-label', 'Help title')
-  })
-
-  it('should have aria-label attribute when title is HTML', () => {
+  it('should have aria-expanded attribute', async () => {
     render(
-      <HelpButtonInline
-        help={{
-          open: true,
-          title: <span>Help title</span>,
-        }}
-      />
+      <>
+        <HelpButtonInline
+          contentId={uniqueId}
+          help={{ title: 'Help title' }}
+        />
+        <HelpButtonInlineContent contentId={uniqueId} />
+      </>
     )
 
-    expect(
-      document.querySelector('.dnb-help-button__content .dnb-section')
-    ).toHaveAttribute('aria-label', 'Help title')
+    const button = document.querySelector('button')
+    expect(button).toHaveAttribute('aria-expanded', 'false')
+
+    await userEvent.click(button)
+
+    expect(button).toHaveAttribute('aria-expanded', 'true')
+
+    await userEvent.click(button)
+
+    expect(button).toHaveAttribute('aria-expanded', 'false')
   })
 
   it('should support HTML as title and content', () => {
@@ -205,45 +393,22 @@ describe('HelpButtonInline', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('should set focus on the content when open', async () => {
-    render(<HelpButtonInline help={{ title: 'Help title' }} />)
-
-    expect(document.body).toHaveFocus()
-
-    await userEvent.click(document.querySelector('button'))
-    await waitFor(() => {
-      expect(
-        document.querySelector('.dnb-help-button__content .dnb-section')
-      ).toHaveFocus()
-    })
-
-    await userEvent.click(document.querySelector('button'))
-    expect(document.querySelector('button')).toHaveFocus()
-
-    await userEvent.click(document.querySelector('button'))
-    await waitFor(() => {
-      const section = document.querySelector(
-        '.dnb-help-button__content .dnb-section'
-      )
-      expect(section).toHaveFocus()
-      expect(section).toHaveClass('dnb-no-focus')
-    })
-  })
-
-  it('should not set focus on the content when open is true', async () => {
-    render(<HelpButtonInline help={{ open: true, title: 'Help title' }} />)
-
-    expect(document.body).toHaveFocus()
-
-    await userEvent.click(document.querySelector('button'))
-    expect(document.querySelector('button')).toHaveFocus()
-
-    await userEvent.click(document.querySelector('button'))
-    await waitFor(() => {
-      expect(
-        document.querySelector('.dnb-help-button__content .dnb-section')
-      ).toHaveFocus()
-    })
+  it('should render tooltip', () => {
+    render(
+      <>
+        <HelpButtonInline
+          contentId={uniqueId}
+          help={{ title: 'Help title' }}
+        />
+        <HelpButtonInlineContent contentId={uniqueId} />
+      </>
+    )
+    expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(1)
+    expect(
+      document
+        .querySelector('.dnb-help-button')
+        .getAttribute('aria-describedby')
+    ).toBe(document.querySelector('.dnb-tooltip__content').id)
   })
 })
 
@@ -262,22 +427,6 @@ describe('HelpButtonInlineContent Component', () => {
     expect(
       document.querySelector('.dnb-help-button__content')
     ).toBeInTheDocument()
-  })
-
-  it('should have tabindex with -1', () => {
-    render(
-      <HelpButtonInlineContent
-        contentId="test-content"
-        help={{
-          open: true,
-          content: 'Some content',
-        }}
-      />
-    )
-
-    expect(
-      document.querySelector('.dnb-help-button__content .dnb-section')
-    ).toHaveAttribute('tabindex', '-1')
   })
 
   it('should not render content when closed', () => {

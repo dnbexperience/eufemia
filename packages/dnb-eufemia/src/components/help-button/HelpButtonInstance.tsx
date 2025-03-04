@@ -59,7 +59,7 @@ export default function HelpButtonInstance(localProps: ButtonProps) {
     }
   }
 
-  if (!params.text && !params['aria-label']) {
+  if (!params.text && typeof params['aria-label'] === 'undefined') {
     let ariaLabel = convertJsxToString(props.title || props.children)
     if (!ariaLabel) {
       ariaLabel = context.getTranslation(props).HelpButton.title
