@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useReducer } from 'react'
 import WizardContext from '../Context'
 import StepIndicator from '../../../../components/StepIndicator'
+import { StepIndicatorItemProps } from '../../../../components/step-indicator/StepIndicatorItem'
 import { useTranslation } from '../../hooks'
 
 export function DisplaySteps({
@@ -31,13 +32,13 @@ export function DisplaySteps({
       return {
         status: 'Unknown state',
         status_state: 'warn',
-      }
+      } satisfies Omit<StepIndicatorItemProps, 'title' | 'currentItemNum'>
     }
     if (hasInvalidStepsState(['error'])) {
       return {
         status: translations.Step.stepHasError,
         status_state: 'error',
-      }
+      } satisfies Omit<StepIndicatorItemProps, 'title' | 'currentItemNum'>
     }
   }, [hasInvalidStepsState, translations.Step.stepHasError])
 
@@ -48,12 +49,13 @@ export function DisplaySteps({
         bottom
         current_step={activeIndexRef.current}
         data={Object.values(stepsRef.current).map(
-          ({ title, inactive, status, statusState }) => ({
-            title,
-            inactive,
-            status,
-            status_state: statusState,
-          })
+          ({ title, inactive, status, statusState }) =>
+            ({
+              title,
+              inactive,
+              status,
+              status_state: statusState,
+            }) satisfies Omit<StepIndicatorItemProps, 'currentItemNum'>
         )}
         mode={mode}
         no_animation={noAnimation}
