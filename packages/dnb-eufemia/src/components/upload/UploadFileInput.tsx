@@ -25,6 +25,7 @@ const UploadFileInput = () => {
     buttonText,
     onInputUpload,
     filesAmountLimit,
+    required,
   } = context
 
   const openFileDialog = () => fileInput.current?.click()
@@ -58,6 +59,7 @@ const UploadFileInput = () => {
         onChange={onChangeHandler}
         onClick={onClickHandler}
         multiple={filesAmountLimit > 1}
+        required={required}
       />
     </div>
   )
