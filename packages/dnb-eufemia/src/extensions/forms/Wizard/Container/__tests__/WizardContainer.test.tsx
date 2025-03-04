@@ -2720,6 +2720,52 @@ describe('Wizard.Container', () => {
       expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(1)
     })
 
+    it('should show a error beneath the trigger button when the step status has an error and the screen width is small', async () => {
+      simulateSmallScreen()
+
+      const onStepChange = jest.fn()
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Wizard.Container mode="loose" onStepChange={onStepChange}>
+            <Wizard.Step title="Step 1">
+              <Field.String path="/foo" required />
+              <output>Step 1</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(0)
+      expect(output()).toHaveTextContent('Step 1')
+
+      // Try submit while on Step 3
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Step.stepHasError
+      )
+      expect(
+        document.querySelectorAll(
+          '.dnb-step-indicator__button__status--warn'
+        )
+      ).toHaveLength(0)
+      expect(
+        document.querySelectorAll(
+          '.dnb-step-indicator__button__status--error'
+        )
+      ).toHaveLength(0)
+    })
+
     it('should show a warning beneath the trigger button when the step status is unknown and the screen width is small', async () => {
       simulateSmallScreen()
 
@@ -2752,6 +2798,9 @@ describe('Wizard.Container', () => {
         </Form.Handler>
       )
 
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(0)
       expect(output()).toHaveTextContent('Step 3')
 
       // Try submit while on Step 3
