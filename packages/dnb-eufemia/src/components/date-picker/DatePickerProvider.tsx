@@ -190,6 +190,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
         partialStartDate,
         invalidDate: invalidStartDate,
         is_valid:
+          hasMinOrMaxDates &&
           startDateIsValid &&
           isDisabled(startDate, dates.minDate, dates.maxDate)
             ? false
