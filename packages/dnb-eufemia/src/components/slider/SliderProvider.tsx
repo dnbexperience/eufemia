@@ -27,8 +27,6 @@ import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 
 const defaultProps = {
   statusState: 'error',
-  addTitle: '+',
-  subtractTitle: '−',
   min: 0,
   max: 100,
   value: -1,

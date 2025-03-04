@@ -10,6 +10,7 @@ import Slider, { SliderProps } from '../../../../components/Slider'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import DataContext, { ContextState } from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
+import { useTranslation as useSharedTranslation } from '../../../../shared'
 
 export type SliderVisibilityEvent = React.MouseEvent<HTMLButtonElement> & {
   value: string
@@ -43,6 +44,9 @@ export type Props = FieldProps<SliderValue> & {
 function SliderComponent(props: Props) {
   const dataContextRef = useRef<ContextState>()
   dataContextRef.current = useContext<ContextState>(DataContext)
+  const {
+    Slider: { addTitle: addTitleLabel, subtractTitle: subtractTitleLabel },
+  } = useSharedTranslation()
 
   const { getSourceValue } = useDataValue()
   const getValues = useCallback(
@@ -79,10 +83,10 @@ function SliderComponent(props: Props) {
     vertical,
     reverse,
     hideButtons,
-    multiThumbBehavior,
+    multiThumbBehavior = 'swap',
     thumbTitle,
-    subtractTitle,
-    addTitle,
+    subtractTitle = subtractTitleLabel,
+    addTitle = addTitleLabel,
     numberFormat,
     tooltip,
     alwaysShowTooltip,
@@ -116,12 +120,14 @@ function SliderComponent(props: Props) {
   )
 
   const fieldBlockProps: FieldBlockProps = {
-    forId: id,
+    id: id,
+    forId: `${id}-slider-thumb-0`,
     width,
     ...pickSpacingProps(props),
   }
 
   const sliderProps: SliderProps = {
+    id: `${id}-slider`,
     value,
     step,
     min,

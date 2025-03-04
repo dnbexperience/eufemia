@@ -2,6 +2,7 @@ import React from 'react'
 import { act, fireEvent, render } from '@testing-library/react'
 import { DataContext, Field, Form } from '../../..'
 import userEvent from '@testing-library/user-event'
+import { axeComponent } from '../../../../../core/jest/jestSetup'
 
 import nbNO from '../../../constants/locales/nb-NO'
 
@@ -239,6 +240,22 @@ describe('Field.Slider', () => {
 
       expect(firstThumb).toHaveStyle('left: 80%')
       expect(secondThumb).toHaveStyle('left: 20%')
+    })
+  })
+
+  describe('ARIA', () => {
+    it('should validate with ARIA rules', async () => {
+      const result = render(
+        <Form.Handler
+          defaultData={{
+            myValue: 50,
+          }}
+        >
+          <Field.Slider label="Slider" path="/myValue" />
+        </Form.Handler>
+      )
+
+      expect(await axeComponent(result)).toHaveNoViolations()
     })
   })
 })
