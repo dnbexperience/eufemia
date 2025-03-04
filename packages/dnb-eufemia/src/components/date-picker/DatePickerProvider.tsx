@@ -143,10 +143,12 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
       const returnFormat = correctV1Format(returnFormatProp)
       const startDateIsValid = Boolean(startDate && isValid(startDate))
       const endDateIsValid = Boolean(endDate && isValid(endDate))
+      const hasMinOrMaxDates = minDate || maxDate
 
       const returnObject: ReturnObject<E> = {
         event,
         attributes: attributes || {},
+        partialStartDate,
       }
 
       // Handle range props
@@ -162,16 +164,17 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
             : null,
           end_date: endDateIsValid ? format(endDate, returnFormat) : null,
           is_valid_start_date:
+            hasMinOrMaxDates &&
             startDateIsValid &&
             isDisabled(startDate, dates.minDate, dates.maxDate)
               ? false
               : startDateIsValid,
           is_valid_end_date:
+            hasMinOrMaxDates &&
             endDateIsValid &&
             isDisabled(endDate, dates.minDate, dates.maxDate)
               ? false
               : endDateIsValid,
-          partialStartDate,
           partialEndDate,
           invalidStartDate,
           invalidEndDate,
@@ -193,7 +196,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
             : startDateIsValid,
       }
     },
-    [dates, views, attributes, range, returnFormatProp]
+    [dates, views, attributes, maxDate, minDate, range, returnFormatProp]
   )
 
   const callOnChangeHandler = useCallback(
