@@ -126,7 +126,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     disabled: disabledProp,
     info: infoProp,
     warning: warningProp,
-    error: errorProp,
+    error: initialErrorProp = 'initial',
     errorMessages,
     onFocus,
     onBlur,
@@ -444,7 +444,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     [getFieldByPath, getValueByPath]
   )
 
-  const error = executeMessage<UseFieldProps['error']>(errorProp)
+  const errorProp =
+    initialErrorProp === 'initial' ? undefined : initialErrorProp
+  const error = executeMessage<UseFieldProps['error'] | 'initial'>(
+    errorProp
+  )
   const warning = executeMessage<UseFieldProps['warning']>(warningProp)
   const info = executeMessage<UseFieldProps['info']>(infoProp)
 
@@ -728,13 +732,24 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     revealErrorRef.current = true
   }
 
-  const bufferedError = revealErrorRef.current
-    ? prepareError(error) ??
-      localErrorRef.current ??
-      contextErrorRef.current
-    : error === null
-    ? null
-    : undefined
+  const getBufferedError = useCallback(() => {
+    if (
+      initialErrorProp !== 'initial' &&
+      typeof errorProp !== 'function'
+    ) {
+      return prepareError(errorProp)
+    } else if (revealErrorRef.current) {
+      return (
+        prepareError(error as FormError) ??
+        localErrorRef.current ??
+        contextErrorRef.current
+      )
+    } else if (error === null) {
+      return null
+    }
+  }, [error, errorProp, initialErrorProp, prepareError])
+
+  const bufferedError = getBufferedError()
 
   const hasVisibleError =
     Boolean(bufferedError) ||
@@ -2350,12 +2365,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   const infoRef = useRef<UseFieldProps['info']>(info)
   const warningRef = useRef<UseFieldProps['warning']>(warning)
-  if (typeof info !== 'undefined') {
+  useMemo(() => {
     infoRef.current = info
-  }
-  if (typeof warning !== 'undefined') {
+  }, [info])
+  useMemo(() => {
     warningRef.current = warning
-  }
+  }, [warning])
 
   const connections = useMemo(() => {
     return {
