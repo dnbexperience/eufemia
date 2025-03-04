@@ -42,6 +42,7 @@ export const ToggleButtonProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  tooltip: ButtonProperties.tooltip,
   size: ButtonProperties.size,
   status: {
     doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
