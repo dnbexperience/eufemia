@@ -462,3 +462,34 @@ export const TransformData = () => {
     </ComponentBox>
   )
 }
+
+export const WithHelp = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler
+        defaultData={{
+          myField: 12345,
+        }}
+      >
+        <Form.Card>
+          <Field.Number
+            path="/myField"
+            label="Label text"
+            help={{
+              title: 'Help title',
+              content: 'Help content.',
+            }}
+          />
+          <Value.Number
+            path="/myField"
+            inheritLabel
+            help={{
+              title: 'Help title',
+              content: 'Help content.',
+            }}
+          />
+        </Form.Card>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}

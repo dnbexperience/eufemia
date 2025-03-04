@@ -18,12 +18,31 @@ import IterateItemContext from '../Iterate/IterateItemContext'
 import { convertJsxToString } from '../../../shared/component-helper'
 import VisibilityContext from '../Form/Visibility/VisibilityContext'
 import Visibility from '../Form/Visibility/Visibility'
+import HelpButtonInline, {
+  HelpButtonInlineContent,
+  HelpProps,
+} from '../../../components/help-button/HelpButtonInline'
+import useId from '../../../shared/helpers/useId'
 
 /**
  * Props are documented in ValueDocs.ts
  */
 export type Props = Omit<ValueProps<unknown>, 'value'> & {
-  children?: React.ReactNode
+  id?: string
+
+  /** The id to link a element with */
+  forId?: string
+
+  /**
+   * Provide help content for the value.
+   */
+  help?: HelpProps
+
+  /**
+   * The layout of the value block.
+   * (Undocumented for now, as there is only one layout option, vertical.)
+   */
+  layout?: 'vertical'
 
   /**
    * Used internally by the Composition component
@@ -34,6 +53,8 @@ export type Props = Omit<ValueProps<unknown>, 'value'> & {
    * Used internally by the Composition component
    */
   gap?: 'xx-small' | 'x-small' | 'small' | 'medium' | 'large' | false
+
+  children?: React.ReactNode
 }
 
 function ValueBlock(props: Props) {
@@ -41,6 +62,8 @@ function ValueBlock(props: Props) {
   const valueBlockContext = useContext(ValueBlockContext)
   const { prerenderFieldProps } = useContext(DataContext) || {}
   const { index: iterateIndex } = useContext(IterateItemContext) || {}
+
+  const id = useId(props.id ?? props.forId)
 
   const {
     className,
@@ -55,6 +78,8 @@ function ValueBlock(props: Props) {
     showEmpty,
     children,
     composition,
+    help,
+    layout = 'vertical',
     gap = 'xx-small',
   } = props
 
@@ -104,8 +129,11 @@ function ValueBlock(props: Props) {
     )
   const defaultClass = classnames(
     'dnb-forms-value-block__content',
-    `dnb-forms-value-block__content--gap-${gap === false ? 'none' : gap}`
+    `dnb-forms-value-block__content--gap-${gap === false ? 'none' : gap}`,
+    maxWidth && `dnb-forms-value-block--max-width-${maxWidth}`
   )
+
+  const hasHelp = help?.title || help?.content
 
   if (summaryListContext) {
     const Item = summaryListContext.isNested
@@ -114,13 +142,14 @@ function ValueBlock(props: Props) {
       ? Dl.Item
       : Fragment
 
-    if (!label && valueBlockContext?.composition) {
+    if (!label && !hasHelp && valueBlockContext?.composition) {
       content = <span className={defaultClass}>{children}</span> ?? (
         <span className="dnb-forms-value-block__placeholder">
           {placeholder}
         </span>
       )
     } else {
+      const { layout } = summaryListContext
       content = (
         <SummaryListContext.Provider
           value={{ ...summaryListContext, isNested: true }}
@@ -129,16 +158,19 @@ function ValueBlock(props: Props) {
             <Dt
               className={classnames(
                 'dnb-forms-value-block__label',
-                (!label || labelSrOnly) && 'dnb-sr-only'
+                ((!label && !hasHelp) || labelSrOnly) && 'dnb-sr-only'
               )}
             >
               <VisibilityWrapper>
                 {label && <strong>{label}</strong>}
+                {hasHelp && (
+                  <HelpButtonInline contentId={`${id}-help`} help={help} />
+                )}
               </VisibilityWrapper>
             </Dt>
             <Dd
               className={classnames(
-                summaryListContext.layout !== 'grid' &&
+                layout !== 'grid' &&
                   !summaryListContext.isNested &&
                   maxWidth &&
                   `dnb-forms-value-block--max-width-${maxWidth}`,
@@ -146,6 +178,15 @@ function ValueBlock(props: Props) {
               )}
             >
               <VisibilityWrapper>
+                {hasHelp && (
+                  <HelpButtonInlineContent
+                    contentId={`${id}-help`}
+                    className="dnb-forms-value-block__help"
+                    help={help}
+                    breakout={layout === 'vertical'}
+                    outset={layout === 'vertical'}
+                  />
+                )}
                 {children ? (
                   <span className={defaultClass}>{children}</span>
                 ) : (
@@ -166,21 +207,41 @@ function ValueBlock(props: Props) {
         className={classnames(
           'dnb-forms-value-block',
           inline && 'dnb-forms-value-block--inline',
-          maxWidth && `dnb-forms-value-block--max-width-${maxWidth}`,
           compositionClass,
           className
         )}
         {...pickSpacingProps(props)}
       >
-        {label && (
+        {(label || hasHelp) && (
           <FormLabel
             element="strong" // enhance a11y: https://www.w3.org/WAI/WCAG21/Techniques/html/H49
-            className="dnb-forms-value-block__label"
+            className={classnames(
+              'dnb-forms-value-block__label',
+              maxWidth && `dnb-forms-value-block--max-width-${maxWidth}`
+            )}
             labelDirection={inline ? 'horizontal' : 'vertical'}
             srOnly={labelSrOnly}
           >
-            {label}
+            <span>
+              {label && (
+                <span className="dnb-forms-value-block__label__content">
+                  {label}
+                </span>
+              )}
+              {hasHelp && (
+                <HelpButtonInline contentId={`${id}-help`} help={help} />
+              )}
+            </span>
           </FormLabel>
+        )}
+        {hasHelp && (
+          <HelpButtonInlineContent
+            contentId={`${id}-help`}
+            className="dnb-forms-value-block__help"
+            help={help}
+            breakout={layout === 'vertical'}
+            outset={layout === 'vertical'}
+          />
         )}
         {children ? (
           <span className={defaultClass}>{children}</span>

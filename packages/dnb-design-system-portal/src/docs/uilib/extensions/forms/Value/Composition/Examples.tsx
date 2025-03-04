@@ -1,4 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
+import { Flex } from '@dnb/eufemia/src'
 import { Form, Value } from '@dnb/eufemia/src/extensions/forms'
 
 export const Basic = () => {
@@ -119,6 +120,41 @@ export const WithSummaryListGridLayout = () => {
           </Value.SummaryList>
         </Form.Card>
       </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const WithHelp = () => {
+  return (
+    <ComponentBox data-visual-test="forms-value-composition-help">
+      <Flex.Stack>
+        <Value.Composition
+          label="Label with help"
+          help={{
+            title: 'Hva betyr lånebeløp?',
+            content: 'Dette er hvor mye du har tenkt å låne totalt.',
+          }}
+        >
+          <Value.String value="value" />
+          <Value.Number value={123} />
+        </Value.Composition>
+
+        <Form.Card>
+          <Value.SummaryList>
+            <Value.Composition
+              label="Label with help inside SummaryList"
+              help={{
+                title: 'Hva betyr lånebeløp?',
+                content: 'Dette er hvor mye du har tenkt å låne totalt.',
+              }}
+            >
+              <Value.String value="value" />
+              <Value.Number value={123} />
+            </Value.Composition>
+            <Value.String value="Another value" />
+          </Value.SummaryList>
+        </Form.Card>
+      </Flex.Stack>
     </ComponentBox>
   )
 }
