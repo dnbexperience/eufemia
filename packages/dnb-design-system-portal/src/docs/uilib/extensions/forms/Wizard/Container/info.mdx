@@ -90,7 +90,7 @@ const MyForm = () => {
 
 To define a different initial index (than 0), you can use `initialActiveIndex` property.
 
-**Note:** When using `initialActiveIndex`, there may be previous steps with unknown field validation statuses. To address this, you can use the `keepInDOM` property to ensure that validation runs on fields in previous steps.
+**Note:** When using `initialActiveIndex`, there may be previous steps with unknown field validation statuses. To address this, you can use the `keepInDOM` property to ensure that some or all steps are not removed from the DOM, so validation runs on fields in previous steps.
 
 For controlling the wizard steps interactively, you can use the [useStep](/uilib/extensions/forms/Wizard/useStep/) hook:
 
