@@ -55,10 +55,10 @@ export type SliderProps = IncludeSnakeCase<{
   /** give the slider thumb button a title for accessibility reasons. Defaults to `null`. */
   thumbTitle?: string
 
-  /** give the add button a title for accessibility reasons. Defaults to `+`. */
+  /** give the add button a title for accessibility reasons. Defaults to `Increase (%s)`. */
   addTitle?: string
 
-  /** give the subtract button a title for accessibility reasons. Defaults to `−`. */
+  /** give the subtract button a title for accessibility reasons. Defaults to `Decrease (%s)`. */
   subtractTitle?: string
 
   /** the minimum value. Defaults to `0`. */

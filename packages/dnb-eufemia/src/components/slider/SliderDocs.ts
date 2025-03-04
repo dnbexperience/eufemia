@@ -52,12 +52,12 @@ export const SliderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   subtractTitle: {
-    doc: 'Give the subtract button a title for accessibility reasons. Defaults to `−`.',
+    doc: 'Give the subtract button a title for accessibility reasons. Defaults to `Decrease (%s)`.',
     type: 'string',
     status: 'optional',
   },
   addTitle: {
-    doc: 'Give the add button a title for accessibility reasons. Defaults to `+`.',
+    doc: 'Give the add button a title for accessibility reasons. Defaults to `Increase (%s)`.',
     type: 'string',
     status: 'optional',
   },
