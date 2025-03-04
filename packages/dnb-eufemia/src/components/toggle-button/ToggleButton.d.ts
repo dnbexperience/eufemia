@@ -1,5 +1,9 @@
 import * as React from 'react';
-import type { ButtonIconPosition, ButtonSize } from '../Button';
+import type {
+  ButtonIconPosition,
+  ButtonSize,
+  ButtonTooltip
+} from '../Button';
 import type { FormLabelLabelDirection } from '../FormLabel';
 import type {
   FormStatusProps,
@@ -73,6 +77,10 @@ export interface ToggleButtonProps
    * Text describing the content of the ToggleButton more than the label. You can also send in a React component, so it gets wrapped inside the ToggleButton component.
    */
   suffix?: ToggleButtonSuffix;
+  /**
+   * Provide a string or a React Element to be shown as the tooltip content.
+   */
+  tooltip?: ButtonTooltip;
   /**
    * <em>(required)</em> defines the `value` as a string. Use it to get the value during the `on_change` event listener callback in the "ToggleButtonGroup".
    */

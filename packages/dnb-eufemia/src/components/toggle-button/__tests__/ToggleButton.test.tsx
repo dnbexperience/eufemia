@@ -3,11 +3,17 @@
  *
  */
 
-import { fireEvent, render, cleanup } from '@testing-library/react'
+import {
+  fireEvent,
+  render,
+  cleanup,
+  waitFor,
+} from '@testing-library/react'
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import ToggleButton, { ToggleButtonProps } from '../ToggleButton'
 import { Provider } from '../../../shared'
+import userEvent from '@testing-library/user-event'
 
 const props: ToggleButtonProps = {
   variant: 'checkbox',
@@ -265,6 +271,24 @@ describe('ToggleButton component', () => {
       'dnb-toggle-button',
       'dnb-toggle-button--vertical',
     ])
+  })
+
+  it('should show tooltip on hover', async () => {
+    render(<ToggleButton text="Toggle Button" tooltip="Tooltip content" />)
+
+    const button = document.querySelector('button')
+
+    expect(
+      document.querySelector('.dnb-tooltip--active')
+    ).not.toBeInTheDocument()
+
+    await userEvent.hover(button)
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-tooltip--active')
+      ).toBeInTheDocument()
+    })
   })
 
   describe('size', () => {
