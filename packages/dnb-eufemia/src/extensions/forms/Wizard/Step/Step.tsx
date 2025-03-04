@@ -3,6 +3,7 @@ import classnames from 'classnames'
 import { ComponentProps } from '../../types'
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
 import WizardContext from '../Context/WizardContext'
+import WizardStepContext from './StepContext'
 import Flex from '../../../../components/flex/Flex'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import FieldProvider from '../../Field/Provider'
@@ -80,7 +81,7 @@ function Step(props: Props): JSX.Element {
   const {
     className,
     title,
-    inactive,
+    inactive, // eslint-disable-line
     index,
     include = true,
     includeWhen,
@@ -117,6 +118,28 @@ function Step(props: Props): JSX.Element {
     return children as JSX.Element
   }
 
+  const fieldProps =
+    typeof required === 'boolean' ? { required } : undefined
+
+  const content = (
+    <WizardStepContext.Provider value={{ index }}>
+      <Flex.Stack
+        className={classnames('dnb-forms-step', className)}
+        element="section"
+        aria-label={ariaLabel}
+        innerRef={currentElementRef}
+        tabIndex={-1}
+        {...restProps}
+      >
+        {fieldProps ? (
+          <FieldProvider {...fieldProps}>{children}</FieldProvider>
+        ) : (
+          children
+        )}
+      </Flex.Stack>
+    </WizardStepContext.Provider>
+  )
+
   if (
     activeIndex !== index ||
     include === false ||
@@ -126,25 +149,7 @@ function Step(props: Props): JSX.Element {
     return <></>
   }
 
-  const fieldProps =
-    typeof required === 'boolean' ? { required } : undefined
-
-  return (
-    <Flex.Stack
-      className={classnames('dnb-forms-step', className)}
-      element="section"
-      aria-label={ariaLabel}
-      innerRef={currentElementRef}
-      tabIndex={-1}
-      {...restProps}
-    >
-      {fieldProps ? (
-        <FieldProvider {...fieldProps}>{children}</FieldProvider>
-      ) : (
-        children
-      )}
-    </Flex.Stack>
-  )
+  return <>{content}</>
 }
 
 Step._supportsSpacingProps = true
