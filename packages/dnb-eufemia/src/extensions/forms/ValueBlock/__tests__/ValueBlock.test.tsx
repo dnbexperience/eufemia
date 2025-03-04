@@ -100,7 +100,7 @@ describe('ValueBlock', () => {
 
     expect(
       document.querySelector('.dnb-forms-value-block__label').tagName
-    ).toBe('STRONG')
+    ).toBe('DT')
   })
 
   describe('when used in a SummaryList', () => {
@@ -116,14 +116,14 @@ describe('ValueBlock', () => {
           class="dnb-forms-summary-list dnb-dl"
         >
           <dt
-            class="dnb-forms-value-block__label dnb-dt"
+            class="dnb-form-label dnb-form-label--vertical dnb-space__right--small dnb-forms-value-block__label dnb-dt"
           >
             <strong>
               Label
             </strong>
           </dt>
           <dd
-            class="dnb-forms-value-block--max-width-large dnb-dd"
+            class="dnb-forms-value-block__content dnb-forms-value-block__content--gap-xx-small dnb-forms-value-block--max-width-large dnb-dd"
           >
             <span
               class="dnb-forms-value-block__content dnb-forms-value-block__content--gap-xx-small dnb-forms-value-block--max-width-large"
@@ -289,7 +289,7 @@ describe('ValueBlock', () => {
     })
   })
 
-  it('renders support gap', () => {
+  it('supports gap', () => {
     const { rerender } = render(
       <ValueBlock gap="medium" label="Label">
         Value
@@ -316,15 +316,15 @@ describe('ValueBlock', () => {
 
     render(
       <>
-        <ValueBlock label="Value A">Value</ValueBlock>
-        <ValueBlock label="Value B">Value</ValueBlock>
+        <ValueBlock>Value</ValueBlock>
+        <ValueBlock>Value</ValueBlock>
       </>
     )
     expect(log).toHaveBeenCalledTimes(1)
     expect(log).toHaveBeenLastCalledWith(
       expect.any(String),
       'Value components as siblings should be wrapped inside a Value.SummaryList:',
-      { itemPath: undefined, label: 'Value B', path: undefined }
+      { itemPath: undefined, label: undefined, path: undefined }
     )
 
     render(<ValueBlock>Value</ValueBlock>)
@@ -361,11 +361,11 @@ describe('ValueBlock', () => {
         </Value.Composition>
       </>
     )
-    expect(log).toHaveBeenCalledTimes(4)
+    expect(log).toHaveBeenCalledTimes(3)
     expect(log).toHaveBeenLastCalledWith(
       expect.any(String),
       'Value components as siblings should be wrapped inside a Value.SummaryList:',
-      { itemPath: undefined, label: 'Composition label', path: undefined }
+      { itemPath: undefined, label: undefined, path: undefined }
     )
 
     log.mockRestore()

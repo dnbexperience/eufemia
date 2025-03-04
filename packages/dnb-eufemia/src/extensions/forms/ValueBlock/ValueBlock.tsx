@@ -135,10 +135,19 @@ function ValueBlock(props: Props) {
 
   const hasHelp = help?.title || help?.content
 
-  if (summaryListContext) {
-    const Item = summaryListContext.isNested
+  const dlProps = summaryListContext
+    ? summaryListContext
+    : label
+    ? ({
+        isNested: true,
+        layout: 'vertical',
+      } as const)
+    : undefined
+
+  if (dlProps) {
+    const Item = dlProps.isNested
       ? Dl
-      : summaryListContext.layout === 'horizontal'
+      : dlProps.layout === 'horizontal'
       ? Dl.Item
       : Fragment
 
@@ -149,17 +158,21 @@ function ValueBlock(props: Props) {
         </span>
       )
     } else {
-      const { layout } = summaryListContext
+      const { layout } = dlProps
       content = (
         <SummaryListContext.Provider
-          value={{ ...summaryListContext, isNested: true }}
+          value={{ ...dlProps, isNested: true }}
         >
           <Item>
-            <Dt
+            <FormLabel
+              element={Dt as React.ElementType} // enhance a11y: https://www.w3.org/WAI/WCAG21/Techniques/html/H49
               className={classnames(
                 'dnb-forms-value-block__label',
+                className,
                 ((!label && !hasHelp) || labelSrOnly) && 'dnb-sr-only'
               )}
+              labelDirection={inline ? 'horizontal' : 'vertical'}
+              srOnly={labelSrOnly}
             >
               <VisibilityWrapper>
                 {label && <strong>{label}</strong>}
@@ -167,14 +180,12 @@ function ValueBlock(props: Props) {
                   <HelpButtonInline contentId={`${id}-help`} help={help} />
                 )}
               </VisibilityWrapper>
-            </Dt>
+            </FormLabel>
             <Dd
               className={classnames(
-                layout !== 'grid' &&
-                  !summaryListContext.isNested &&
-                  maxWidth &&
-                  `dnb-forms-value-block--max-width-${maxWidth}`,
-                compositionClass
+                className,
+                defaultClass,
+                layout !== 'grid' && !dlProps.isNested && compositionClass
               )}
             >
               <VisibilityWrapper>
