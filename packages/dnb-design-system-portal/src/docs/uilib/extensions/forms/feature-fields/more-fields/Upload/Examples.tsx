@@ -60,6 +60,7 @@ export const Customized = () => {
         help={{
           title: 'Help title',
           content: 'Help content',
+          open: true,
         }}
         warning="Warning message"
         acceptedFileTypes={['pdf']}
