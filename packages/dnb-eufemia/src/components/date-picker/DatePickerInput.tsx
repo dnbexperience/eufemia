@@ -37,6 +37,7 @@ import type { SkeletonShow } from '../Skeleton'
 import { ReturnObject } from './DatePickerProvider'
 import { DatePickerEventAttributes } from './DatePicker'
 import { useTranslation } from '../../shared'
+import { DatePickerInputDates } from './hooks/useDates'
 
 export type DatePickerInputProps = Omit<
   React.HTMLProps<HTMLInputElement>,
@@ -223,6 +224,9 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     endMonth: '',
     endYear: '',
   })
+
+  // Keep dateRefs in sync with inputDates on re-render
+  syncDateRefs(dateRefs, inputDates)
 
   const startDateRef = useRef<Date>()
   const endDateRef = useRef<Date>()
@@ -1052,6 +1056,20 @@ function InputElement({ className, value, ...props }: TextMaskProps) {
       {...props}
     />
   )
+}
+
+function syncDateRefs(
+  dateRefs: React.MutableRefObject<Record<string, string>>,
+  inputDates: DatePickerInputDates
+) {
+  for (const ref in dateRefs.current) {
+    const refValue = dateRefs.current[ref]
+    const inputDate = inputDates[`__${ref}`]
+
+    if (refValue !== inputDate) {
+      dateRefs.current[ref] = inputDate
+    }
+  }
 }
 
 const wait = (duration: number) =>
