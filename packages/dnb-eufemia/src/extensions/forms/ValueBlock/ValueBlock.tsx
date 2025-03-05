@@ -302,7 +302,11 @@ function VisibilityWrapper({ children }) {
   const visibilityContext = useContext(VisibilityContext)
 
   if (visibilityContext) {
-    return <Visibility {...visibilityContext.props}>{children}</Visibility>
+    return (
+      <Visibility element="span" {...visibilityContext.props}>
+        {children}
+      </Visibility>
+    )
   }
 
   return children

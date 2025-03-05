@@ -311,6 +311,7 @@ describe('FormStatus component', () => {
       'dnb-form-status--has-content',
       'dnb-height-animation--is-visible',
       'dnb-height-animation--is-in-dom',
+      'dnb-height-animation--block',
     ])
   })
 
