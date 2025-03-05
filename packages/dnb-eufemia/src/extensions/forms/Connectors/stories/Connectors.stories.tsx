@@ -1,4 +1,4 @@
-import { Connectors, Field, Form } from '../../'
+import { Connectors, Field, Form, Tools } from '../../'
 import { supportedCountryCodes } from '../Bring/postalCode'
 
 export default {
@@ -72,8 +72,8 @@ export function PostalCode() {
       <Form.Card>
         <Field.SelectCountry
           path="/countryCode"
-          // defaultValue="NO"
-          defaultValue="SE"
+          defaultValue="NO"
+          // defaultValue="SE"
           filterCountries={({ iso }) =>
             supportedCountryCodes.includes(iso)
           }
@@ -91,6 +91,70 @@ export function PostalCode() {
             required: true,
           }}
         />
+      </Form.Card>
+      <Form.SubmitButton />
+    </Form.Handler>
+  )
+}
+
+export function Address() {
+  // 1. Create a context with the config
+  const { withConfig } = Connectors.createContext({
+    fetchConfig: {
+      url: (value, { countryCode }) => {
+        // Visit: https://cors-anywhere.herokuapp.com/corsdemo to enable this service
+        return `https://cors-anywhere.herokuapp.com/https://api.bring.com/address/api/${countryCode}/addresses/suggestions?q=${value}`
+      },
+      headers: {
+        'X-Mybring-API-Uid': process.env.BRING_API_UID,
+        'X-Mybring-API-Key': process.env.BRING_API_KEY,
+      },
+    },
+  })
+
+  // 2. Use the context to create the element we use instead of the default one
+  const addressSuggestionsElement = withConfig(
+    Connectors.Bring.address.suggestionsElement,
+    {
+      cityPath: '/city',
+      postalCodePath: '/postalCode',
+    }
+  )
+
+  return (
+    <Form.Handler
+      // defaultData={{ postalCode: '144', city: '' }}
+      onSubmit={async (data) => {
+        await new Promise((resolve) => setTimeout(resolve, 3000))
+        console.log('onSubmit', data)
+      }}
+    >
+      <Form.Card>
+        <Field.SelectCountry
+          path="/countryCode"
+          defaultValue="NO"
+          // defaultValue="SE"
+          filterCountries={({ iso }) =>
+            supportedCountryCodes.includes(iso)
+          }
+        />
+        <Field.Address.Street
+          path="/streetAddress"
+          required
+          element={addressSuggestionsElement}
+        />
+        <Field.PostalCodeAndCity
+          countryCode="/countryCode"
+          postalCode={{
+            path: '/postalCode',
+            required: true,
+          }}
+          city={{
+            path: '/city',
+            required: true,
+          }}
+        />
+        <Tools.Log />
       </Form.Card>
       <Form.SubmitButton />
     </Form.Handler>
