@@ -144,11 +144,10 @@ const Upload = (localProps: UploadAllProps) => {
       <Provider skeleton={skeleton}>
         <UploadDropzone
           className={classnames('dnb-upload', spacingClasses, className)}
-          {...props}
         >
           <UploadInfo />
 
-          <UploadFileInput />
+          <UploadFileInput {...props} />
 
           <UploadFileList />
         </UploadDropzone>
