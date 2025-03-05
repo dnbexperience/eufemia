@@ -1885,7 +1885,6 @@ describe('DatePicker component', () => {
     rerender(<DatePicker onChange={onChange} showInput date={null} />)
 
     console.log('should be cleared from now on ❌')
-    // But refs in DatePickerInput.tsx are not cleared
 
     expect(dayInput).toHaveValue('dd')
     expect(monthInput).toHaveValue('mm')
