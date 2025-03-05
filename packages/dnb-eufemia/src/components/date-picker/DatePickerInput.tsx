@@ -1064,10 +1064,10 @@ function syncDateRefs(
 ) {
   for (const ref in dateRefs.current) {
     const refValue = dateRefs.current[ref]
-    const inputDate = inputDates[`__${ref}`]
+    const inputValue = inputDates[`__${ref}`]
 
-    if (refValue !== inputDate) {
-      dateRefs.current[ref] = inputDate
+    if (refValue !== inputValue) {
+      dateRefs.current[ref] = inputValue
     }
   }
 }
