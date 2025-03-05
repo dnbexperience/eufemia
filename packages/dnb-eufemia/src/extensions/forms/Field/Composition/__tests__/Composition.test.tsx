@@ -2,11 +2,12 @@ import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Field, Form, JSONSchema } from '../../..'
+import { axeComponent } from '../../../../../core/jest/jestSetup'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
-describe('FieldBlock', () => {
+describe('Field.Composition', () => {
   const blockError = 'FieldBlock error'
   const blockWarning = 'FieldBlock warning'
   const blockInfo = 'FieldBlock info'
@@ -27,6 +28,34 @@ describe('FieldBlock', () => {
 
     const element = document.querySelector('.dnb-form-status')
     expect(element).toBeNull()
+  })
+
+  it('should render as fieldset and legend when label is given', () => {
+    render(
+      <Field.Composition label="Label">
+        <Field.String />
+        <Field.String />
+      </Field.Composition>
+    )
+
+    const element = document.querySelector('.dnb-forms-field-block')
+    expect(element.tagName).toBe('FIELDSET')
+
+    const legendElement = element.querySelector('legend')
+    expect(legendElement).toBeInTheDocument()
+    expect(legendElement).toHaveTextContent('Label')
+  })
+
+  it('should render as fieldset even if no label is given', () => {
+    render(
+      <Field.Composition>
+        <Field.String />
+        <Field.String />
+      </Field.Composition>
+    )
+
+    const element = document.querySelector('.dnb-forms-field-block')
+    expect(element.tagName).toBe('FIELDSET')
   })
 
   it('should display both error messages with summary in one status', () => {
@@ -790,6 +819,29 @@ describe('FieldBlock', () => {
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
         nb.StringField.errorMinLength.replace('{minLength}', '6')
       )
+    })
+  })
+  describe('ARIA', () => {
+    it('should validate with ARIA rules', async () => {
+      const result = render(
+        <Field.Composition label="composition">
+          <Field.String label="label1" required />
+          <Field.String label="label2" required />
+        </Field.Composition>
+      )
+
+      expect(await axeComponent(result)).toHaveNoViolations()
+    })
+
+    it('should validate without label', async () => {
+      const result = render(
+        <Field.Composition>
+          <Field.String label="label1" />
+          <Field.String label="label2" />
+        </Field.Composition>
+      )
+
+      expect(await axeComponent(result)).toHaveNoViolations()
     })
   })
 })

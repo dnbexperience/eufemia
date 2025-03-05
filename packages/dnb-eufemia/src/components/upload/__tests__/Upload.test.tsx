@@ -75,7 +75,9 @@ describe('Upload', () => {
     it('supports inline styling', () => {
       render(<Upload {...defaultProps} style={{ color: 'red' }} />)
       expect(
-        document.querySelector('.dnb-upload').getAttribute('style')
+        document
+          .querySelector('.dnb-upload__file-input')
+          .getAttribute('style')
       ).toBe('color: red;')
     })
 
@@ -606,6 +608,16 @@ describe('Upload', () => {
     )
 
     expect(screen.queryByText(nb.errorUnsupportedFile)).toBeInTheDocument()
+  })
+
+  it('passes down required to the upload file input', () => {
+    render(<Upload {...defaultProps} required />)
+
+    expect(
+      document
+        .querySelector('.dnb-upload__file-input')
+        .getAttribute('required')
+    ).toBe('')
   })
 
   describe('useUpload', () => {

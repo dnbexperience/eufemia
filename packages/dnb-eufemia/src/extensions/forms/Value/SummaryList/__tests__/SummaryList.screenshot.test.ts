@@ -44,6 +44,14 @@ describe('Value.SummaryList', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match with help wrapped in info overlay', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="forms-value-summary-with-help-in-info-overlay"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match default layout with help', async () => {
     const screenshot = await makeScreenshot({
       selector:

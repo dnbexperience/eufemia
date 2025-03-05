@@ -86,6 +86,7 @@ export type DateProps = Omit<
     | 'onSubmit'
     | 'onCancel'
     | 'onReset'
+    | 'skipPortal'
   >
 
 function DateComponent(props: DateProps) {
@@ -400,6 +401,7 @@ const datePickerPropKeys = [
   'onSubmit',
   'onCancel',
   'onReset',
+  'skipPortal',
 ]
 
 function pickDatePickerProps(props: DateProps) {

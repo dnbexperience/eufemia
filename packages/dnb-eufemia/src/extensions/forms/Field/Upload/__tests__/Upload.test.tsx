@@ -3,6 +3,7 @@ import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import { DataContext, Field, Form, Wizard } from '../../..'
 import { BYTES_IN_A_MEGA_BYTE } from '../../../../../components/upload/UploadVerify'
 import { createMockFile } from '../../../../../components/upload/__tests__/testHelpers'
+import { axeComponent } from '../../../../../core/jest/jestSetup'
 
 import nbNOForms from '../../../constants/locales/nb-NO'
 import nbNOShared from '../../../../../shared/locales/nb-NO'
@@ -1734,6 +1735,14 @@ describe('Field.Upload', () => {
           },
         ],
       })
+    })
+  })
+
+  describe('ARIA', () => {
+    it('should validate with ARIA rules', async () => {
+      const result = render(<Field.Upload required />)
+
+      expect(await axeComponent(result)).toHaveNoViolations()
     })
   })
 })

@@ -2,6 +2,7 @@ import React from 'react'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import { Props } from '..'
 import { Field, Form, Validator } from '../../..'
+import { axeComponent } from '../../../../../core/jest/jestSetup'
 import nbNO from '../../../constants/locales/nb-NO'
 import userEvent from '@testing-library/user-event'
 
@@ -667,5 +668,13 @@ describe('Field.NationalIdentityNumber', () => {
         })
       }
     )
+  })
+
+  describe('ARIA', () => {
+    it('should validate with ARIA rules', async () => {
+      const result = render(<Field.NationalIdentityNumber required />)
+
+      expect(await axeComponent(result)).toHaveNoViolations()
+    })
   })
 })

@@ -1807,7 +1807,7 @@ describe('DatePicker component', () => {
     expect(on_change).toHaveBeenCalledTimes(2)
   })
 
-  it('will reset on setting value to null', () => {
+  it('should reset on setting value to null', () => {
     const { rerender } = render(
       <DatePicker
         showInput
@@ -1850,6 +1850,53 @@ describe('DatePicker component', () => {
         )[5] as HTMLInputElement
       ).value
     ).toBe('åååå')
+  })
+
+  it('should clear internal date when null is passed', async () => {
+    const onChange = jest.fn()
+
+    const { rerender } = render(
+      <DatePicker onChange={onChange} showInput />
+    )
+
+    const dayInput = document.querySelector('.dnb-date-picker__input--day')
+    const monthInput = document.querySelector(
+      '.dnb-date-picker__input--month'
+    )
+    const yearInput = document.querySelector(
+      '.dnb-date-picker__input--year'
+    )
+
+    // Typing a valid end date
+    fireEvent.focus(dayInput)
+    await userEvent.keyboard('29112025')
+
+    expect(dayInput).toHaveValue('29')
+    expect(monthInput).toHaveValue('11')
+    expect(yearInput).toHaveValue('2025')
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        date: '2025-11-29',
+      })
+    )
+
+    rerender(<DatePicker onChange={onChange} showInput date={null} />)
+
+    expect(dayInput).toHaveValue('dd')
+    expect(monthInput).toHaveValue('mm')
+    expect(yearInput).toHaveValue('åååå')
+
+    // Typing a valid end date
+    fireEvent.focus(dayInput)
+    await userEvent.keyboard('29')
+
+    expect(dayInput).toHaveValue('29')
+    expect(monthInput).toHaveValue('mm')
+    expect(yearInput).toHaveValue('åååå')
+
+    expect(onChange).toHaveBeenCalledTimes(1)
   })
 
   it('has a reacting end date input with valid value', () => {
