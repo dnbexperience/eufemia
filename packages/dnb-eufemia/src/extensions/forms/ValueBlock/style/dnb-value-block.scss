@@ -45,16 +45,9 @@
     font-weight: var(--font-weight-medium);
   }
   &__label {
-    & > strong:has(+ .dnb-help-button),// To support dt > strong 
+    & strong:has(+ .dnb-help-button),// To support dt > strong or dt > span > strong
     &__content:has(+ .dnb-help-button) {
       margin-right: 0.5rem;
-    }
-    div {
-      // To support when wrapped in a Form.InfoOverlay
-      & > strong:has(+ .dnb-help-button),// To support dt > strong 
-    &__content:has(+ .dnb-help-button) {
-        margin-right: 0.5rem;
-      }
     }
   }
 
