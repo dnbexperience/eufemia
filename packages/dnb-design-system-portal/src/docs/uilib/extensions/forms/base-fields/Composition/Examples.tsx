@@ -10,6 +10,15 @@ export const Composition = () => (
   </ComponentBox>
 )
 
+export const CompositionWithLabel = () => (
+  <ComponentBox data-visual-test="forms-field-block-composition-with-label">
+    <Field.Composition label="A legend for the fieldset" width="large">
+      <Field.String label="Field label" width="stretch" />
+      <Field.Number width="small" placeholder="0000" />
+    </Field.Composition>
+  </ComponentBox>
+)
+
 export const CompositionError = () => (
   <ComponentBox data-visual-test="forms-field-block-composition-error">
     <Field.Composition
