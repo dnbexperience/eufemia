@@ -254,7 +254,6 @@ export function HelpButtonInlineContent(
         'aria-atomic': 'true',
       } as AriaAttributes)
 
-  console.log('breakoutFromLayout', breakoutFromLayout)
 
   return (
     <HeightAnimation
