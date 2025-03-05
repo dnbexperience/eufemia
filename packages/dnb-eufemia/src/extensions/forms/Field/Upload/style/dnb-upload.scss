@@ -1,6 +1,9 @@
 .dnb-forms-field-upload {
   .dnb-help-button__content {
     .dnb-section {
+      --outset-left: calc(var(--spacing-medium));
+      --outset-right: calc(var(--spacing-medium));
+
       margin-left: var(--upload-border-width);
       margin-right: var(--upload-border-width);
       &::before {
