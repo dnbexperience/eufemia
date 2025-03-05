@@ -14,7 +14,12 @@ import { UploadContext } from './UploadContext'
 import UploadStatus from './UploadStatus'
 import { getAcceptedFileTypes } from './UploadVerify'
 
-const UploadFileInput = ({ ...rest }) => {
+const UploadFileInput = ({
+  children,
+  ...rest
+}: {
+  children?: React.ReactNode
+}) => {
   const fileInput = useRef<HTMLInputElement>(null)
 
   const context = React.useContext(UploadContext)
