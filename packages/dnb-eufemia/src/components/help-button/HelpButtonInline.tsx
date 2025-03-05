@@ -152,6 +152,7 @@ export type HelpButtonInlineContentProps = SpacingProps & {
   help?: HelpProps
   breakout?: boolean
   outset?: boolean
+  roundedCorner?: boolean
   focusWhenOpen?: boolean
 }
 
@@ -165,6 +166,7 @@ export function HelpButtonInlineContent(
     help: helpProp,
     breakout = true,
     outset = true,
+    roundedCorner = true,
     focusWhenOpen: focusWhenOpenProp,
     ...rest
   } = props
@@ -263,7 +265,7 @@ export function HelpButtonInlineContent(
         innerRef={innerRef}
         outset={outsetFromLayout}
         breakout={breakoutFromLayout}
-        roundedCorner={!breakoutFromLayout}
+        roundedCorner={roundedCorner ?? !breakoutFromLayout}
         innerSpace={
           breakoutFromLayout
             ? { top: 'small', bottom: 'medium' }

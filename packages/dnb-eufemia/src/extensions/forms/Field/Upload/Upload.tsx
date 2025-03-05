@@ -249,7 +249,11 @@ function UploadComponent(props: Props) {
         {...htmlAttributes}
       >
         {help && (
-          <HelpButtonInlineContent contentId={`${id}-help`} help={help} />
+          <HelpButtonInlineContent
+            contentId={`${id}-help`}
+            help={help}
+            roundedCorner={false}
+          />
         )}
       </Upload>
     </FieldBlock>
