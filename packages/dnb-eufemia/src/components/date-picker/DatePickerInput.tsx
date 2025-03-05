@@ -215,24 +215,14 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     endYearRef: { current: undefined },
   })
 
-  const startDayDateRef = useRef<string>()
-  const endDayDateRef = useRef<string>()
-  const startMonthDateRef = useRef<string>()
-  const endMonthDateRef = useRef<string>()
-  const startYearDateRef = useRef<string>()
-  const endYearDateRef = useRef<string>()
-
-  const dateRefs = useMemo(
-    () => ({
-      startDay: startDayDateRef,
-      startMonth: endDayDateRef,
-      startYear: startMonthDateRef,
-      endDay: endMonthDateRef,
-      endMonth: startYearDateRef,
-      endYear: endYearDateRef,
-    }),
-    []
-  )
+  const dateRefs = useRef<Record<string, string>>({
+    startDay: '',
+    startMonth: '',
+    startYear: '',
+    endDay: '',
+    endMonth: '',
+    endYear: '',
+  })
 
   const startDateRef = useRef<Date>()
   const endDateRef = useRef<Date>()
@@ -403,13 +393,13 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         ['start', 'end'].reduce(
           (acc, mode) => {
             acc[`${mode}Date`] = [
-              dateRefs[`${mode}Year`].current ||
+              dateRefs.current[`${mode}Year`] ||
                 inputDates[`__${mode}Year`] ||
                 'yyyy',
-              dateRefs[`${mode}Month`].current ||
+              dateRefs.current[`${mode}Month`] ||
                 inputDates[`__${mode}Month`] ||
                 'mm',
-              dateRefs[`${mode}Day`].current ||
+              dateRefs.current[`${mode}Day`] ||
                 inputDates[`__${mode}Day`] ||
                 'dd',
             ].join('-')
@@ -652,7 +642,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
       const value = (event.target as HTMLInputElement).value
 
-      dateRefs[`${mode}${type}`].current = value
+      dateRefs.current[`${mode}${type}`] = value
 
       if (modeDate[`${mode}Date`]) {
         temporaryDates[`${mode}Date`].current = modeDate[`${mode}Date`]
@@ -662,13 +652,13 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
       // provide fallbacks to create a temp fallback
       const year =
-        dateRefs[`${mode}Year`]?.current ||
+        dateRefs.current[`${mode}Year`] ||
         (fallback && fallback.getFullYear())
       const month =
-        dateRefs[`${mode}Month`]?.current ||
+        dateRefs.current[`${mode}Month`] ||
         (fallback && fallback.getMonth() + 1)
       const day =
-        dateRefs[`${mode}Day`]?.current || (fallback && fallback.getDate())
+        dateRefs.current[`${mode}Day`] || (fallback && fallback.getDate())
 
       // calculate new date
       const date = new Date(
