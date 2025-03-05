@@ -1062,12 +1062,12 @@ function syncDateRefs(
   dateRefs: React.MutableRefObject<Record<string, string>>,
   inputDates: DatePickerInputDates
 ) {
-  for (const ref in dateRefs.current) {
-    const refValue = dateRefs.current[ref]
-    const inputValue = inputDates[`__${ref}`]
+  for (const date in dateRefs.current) {
+    const dateRefValue = dateRefs.current[date]
+    const inputDateValue = inputDates[`__${date}`]
 
-    if (refValue !== inputValue) {
-      dateRefs.current[ref] = inputValue
+    if (dateRefValue !== inputDateValue) {
+      dateRefs.current[date] = inputDateValue
     }
   }
 }
