@@ -152,6 +152,7 @@ export type HelpButtonInlineContentProps = SpacingProps & {
   help?: HelpProps
   breakout?: boolean
   outset?: boolean
+  roundedCorner?: boolean
   focusWhenOpen?: boolean
 }
 
@@ -165,6 +166,7 @@ export function HelpButtonInlineContent(
     help: helpProp,
     breakout = true,
     outset = true,
+    roundedCorner = true,
     focusWhenOpen: focusWhenOpenProp,
     ...rest
   } = props
@@ -252,6 +254,8 @@ export function HelpButtonInlineContent(
         'aria-atomic': 'true',
       } as AriaAttributes)
 
+  console.log('breakoutFromLayout', breakoutFromLayout)
+
   return (
     <HeightAnimation
       className={classnames('dnb-help-button__content', className)}
@@ -263,7 +267,7 @@ export function HelpButtonInlineContent(
         innerRef={innerRef}
         outset={outsetFromLayout}
         breakout={breakoutFromLayout}
-        roundedCorner={!breakoutFromLayout}
+        roundedCorner={roundedCorner ?? !breakoutFromLayout}
         innerSpace={
           breakoutFromLayout
             ? { top: 'small', bottom: 'medium' }
