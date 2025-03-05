@@ -3,6 +3,18 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.66.1](https://github.com/dnbexperience/eufemia/compare/v10.66.0...v10.66.1) (2025-03-05)
+
+
+### :bug: Bug Fixes
+
+* **DatePicker:** clear internal date when passing null ([#4656](https://github.com/dnbexperience/eufemia/issues/4656)) ([3ba3b26](https://github.com/dnbexperience/eufemia/commit/3ba3b26e7d948efee1e98d160f9587574e10a2b2))
+* **Field.Date:** add missing support for `skipPortal` ([#4666](https://github.com/dnbexperience/eufemia/issues/4666)) ([975f3ea](https://github.com/dnbexperience/eufemia/commit/975f3ea8f5b8e8e8cb0adcdab32b84289a026af7))
+* **Field.Upload:** improve styling of `help` button ([#4659](https://github.com/dnbexperience/eufemia/issues/4659)) ([8a10d7c](https://github.com/dnbexperience/eufemia/commit/8a10d7c9db7f155d6502f78f11c5a6140693c5be))
+* **Field.Upload:** set `aria-required` and `required` props in input rather than div ([#4655](https://github.com/dnbexperience/eufemia/issues/4655)) ([7db1f04](https://github.com/dnbexperience/eufemia/commit/7db1f0431679872765d5716e2a85bab645918c4b))
+* **Forms:** always render Field.Composition with a `fieldset` ([#4661](https://github.com/dnbexperience/eufemia/issues/4661)) ([a3991a1](https://github.com/dnbexperience/eufemia/commit/a3991a1eedae31a1413ce974182f20efa5ea59ab))
+* **Value.SummaryList:** spacing of `help` when wrapped in `Form.InfoOverlay` ([#4667](https://github.com/dnbexperience/eufemia/issues/4667)) ([b7a2702](https://github.com/dnbexperience/eufemia/commit/b7a2702ce0afbf4d2d88c9a528dbd5cc4a28b939)), closes [/github.com/dnbexperience/eufemia/pull/4667/files#diff-281ca53e6a78ae24056e8fc94bf0274576aef89044ddcc613fb09b0844023e13R50](https://github.com/dnbexperience//github.com/dnbexperience/eufemia/pull/4667/files/issues/diff-281ca53e6a78ae24056e8fc94bf0274576aef89044ddcc613fb09b0844023e13R50)
+
 ## [10.66.0](https://github.com/dnbexperience/eufemia/compare/v10.65.1...v10.66.0) (2025-03-04)
 
 
