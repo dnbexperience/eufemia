@@ -17,7 +17,7 @@ function CompositionField(
     | 'children'
   >
 ) {
-  return <FieldBlock {...props} composition />
+  return <FieldBlock {...props} composition asFieldset />
 }
 
 CompositionField._supportsSpacingProps = true
