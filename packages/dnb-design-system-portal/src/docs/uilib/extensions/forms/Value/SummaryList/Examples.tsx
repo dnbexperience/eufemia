@@ -335,6 +335,36 @@ export const HorizontalLayoutWithoutLabel = () => (
   </ComponentBox>
 )
 
+export const WithHelpInInfoOverlay = () => (
+  <ComponentBox data-visual-test="forms-value-summary-with-help-in-info-overlay">
+    <Form.Handler
+      data={{
+        firstName: 'John',
+        lastName: 'Doe',
+      }}
+    >
+      <Form.InfoOverlay>
+        <Value.SummaryList>
+          <Value.Name.First
+            path="/firstName"
+            help={{
+              title: 'Help title',
+              content: 'Help content.',
+            }}
+          />
+          <Value.Name.Last
+            path="/lastName"
+            help={{
+              title: 'Help title',
+              content: 'Help content.',
+            }}
+          />
+        </Value.SummaryList>
+      </Form.InfoOverlay>
+    </Form.Handler>
+  </ComponentBox>
+)
+
 export function AnimatedVisibility() {
   return (
     <ComponentBox>
