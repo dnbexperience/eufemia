@@ -254,7 +254,6 @@ export function HelpButtonInlineContent(
         'aria-atomic': 'true',
       } as AriaAttributes)
 
-
   return (
     <HeightAnimation
       className={classnames('dnb-help-button__content', className)}
