@@ -191,6 +191,7 @@ function Visibility(props: Props) {
   if (animate) {
     return (
       <HeightAnimation
+        element="span"
         open={open}
         onAnimationEnd={onAnimationEnd}
         onOpen={onOpen}
