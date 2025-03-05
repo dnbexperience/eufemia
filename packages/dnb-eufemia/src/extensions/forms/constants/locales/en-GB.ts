@@ -125,6 +125,9 @@ export default {
       errorStartDateMaxDate: 'Start date cannot be after {date}.',
       errorEndDateMinDate: 'End date cannot be before {date}.',
       errorEndDateMaxDate: 'End date cannot be after {date}.',
+      errorInvalidDate: '{date} is not a valid date.',
+      errorInvalidStartDate: '{date} is not a valid start date.',
+      errorInvalidEndDate: '{date} is not a valid end date.',
     },
     Expiry: {
       label: 'Expiry date',
