@@ -204,26 +204,16 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     ]
   )
 
-  // Used in refList, and initiated inside object to to maintain the way of accessing mimic `this`, used in this component
-  // Should probably refactor at one point, or move to own hook
-  const startDayRef = useRef<HTMLInputElement>()
-  const startMonthRef = useRef<HTMLInputElement>()
-  const startYearRef = useRef<HTMLInputElement>()
-  const endDayRef = useRef<HTMLInputElement>()
-  const endMonthRef = useRef<HTMLInputElement>()
-  const endYearRef = useRef<HTMLInputElement>()
-
-  const inputRefs = useMemo(
-    () => ({
-      startDayRef,
-      startMonthRef,
-      startYearRef,
-      endDayRef,
-      endMonthRef,
-      endYearRef,
-    }),
-    []
-  )
+  const inputRefs = useRef<
+    Record<string, MutableRefObject<HTMLInputElement>>
+  >({
+    startDayRef: { current: undefined },
+    startMonthRef: { current: undefined },
+    startYearRef: { current: undefined },
+    endDayRef: { current: undefined },
+    endMonthRef: { current: undefined },
+    endYearRef: { current: undefined },
+  })
 
   const startDayDateRef = useRef<string>()
   const endDayDateRef = useRef<string>()
@@ -822,7 +812,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
           switch (state) {
             case 'd':
-              refList.current.push(inputRefs[`${mode}DayRef`])
+              refList.current.push(inputRefs.current[`${mode}DayRef`])
 
               return (
                 <React.Fragment key={'dd' + i}>
@@ -838,7 +828,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
                     )}
                     size={2}
                     mask={[/[0-3]/, /[0-9]/]}
-                    inputRef={inputRefs[`${mode}DayRef`]}
+                    inputRef={inputRefs.current[`${mode}DayRef`]}
                     onChange={dateSetters[`set_${mode}Day`]}
                     value={inputDates[`__${mode}Day`] || ''}
                     aria-labelledby={`${id}-${mode}-day-label`}
@@ -854,7 +844,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
                 </React.Fragment>
               )
             case 'm':
-              refList.current.push(inputRefs[`${mode}MonthRef`])
+              refList.current.push(inputRefs.current[`${mode}MonthRef`])
 
               return (
                 <React.Fragment key={'mm' + i}>
@@ -870,7 +860,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
                     )}
                     size={2}
                     mask={[/[0-1]/, /[0-9]/]}
-                    inputRef={inputRefs[`${mode}MonthRef`]}
+                    inputRef={inputRefs.current[`${mode}MonthRef`]}
                     onChange={dateSetters[`set_${mode}Month`]}
                     value={inputDates[`__${mode}Month`] || ''}
                     aria-labelledby={`${id}-${mode}-month-label`}
@@ -886,7 +876,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
                 </React.Fragment>
               )
             case 'y':
-              refList.current.push(inputRefs[`${mode}YearRef`])
+              refList.current.push(inputRefs.current[`${mode}YearRef`])
 
               return (
                 <React.Fragment key={'yy' + i}>
@@ -902,7 +892,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
                     )}
                     size={4}
                     mask={[/[1-2]/, /[0-9]/, /[0-9]/, /[0-9]/]}
-                    inputRef={inputRefs[`${mode}YearRef`]}
+                    inputRef={inputRefs.current[`${mode}YearRef`]}
                     onChange={dateSetters[`set_${mode}Year`]}
                     value={inputDates[`__${mode}Year`] || ''}
                     aria-labelledby={`${id}-${mode}-year-label`}
