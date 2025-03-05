@@ -30,6 +30,34 @@ describe('Field.Composition', () => {
     expect(element).toBeNull()
   })
 
+  it('should render as fieldset and legend when label is given', () => {
+    render(
+      <Field.Composition label="Label">
+        <Field.String />
+        <Field.String />
+      </Field.Composition>
+    )
+
+    const element = document.querySelector('.dnb-forms-field-block')
+    expect(element.tagName).toBe('FIELDSET')
+
+    const legendElement = element.querySelector('legend')
+    expect(legendElement).toBeInTheDocument()
+    expect(legendElement).toHaveTextContent('Label')
+  })
+
+  it('should render as fieldset even if no label is given', () => {
+    render(
+      <Field.Composition>
+        <Field.String />
+        <Field.String />
+      </Field.Composition>
+    )
+
+    const element = document.querySelector('.dnb-forms-field-block')
+    expect(element.tagName).toBe('FIELDSET')
+  })
+
   it('should display both error messages with summary in one status', () => {
     render(
       <Field.Composition>
@@ -799,6 +827,17 @@ describe('Field.Composition', () => {
         <Field.Composition label="composition">
           <Field.String label="label1" required />
           <Field.String label="label2" required />
+        </Field.Composition>
+      )
+
+      expect(await axeComponent(result)).toHaveNoViolations()
+    })
+
+    it('should validate without label', async () => {
+      const result = render(
+        <Field.Composition>
+          <Field.String label="label1" />
+          <Field.String label="label2" />
         </Field.Composition>
       )
 
