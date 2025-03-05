@@ -1852,7 +1852,7 @@ describe('DatePicker component', () => {
     ).toBe('åååå')
   })
 
-  it.only('should clear internal date when null is passed', async () => {
+  it('should clear internal date when null is passed', async () => {
     const onChange = jest.fn()
 
     const { rerender } = render(
