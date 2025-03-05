@@ -3,6 +3,9 @@
     .dnb-section {
       margin-left: var(--upload-border-width);
       margin-right: var(--upload-border-width);
+      &::before {
+        z-index: 0;
+      }
     }
   }
 }
