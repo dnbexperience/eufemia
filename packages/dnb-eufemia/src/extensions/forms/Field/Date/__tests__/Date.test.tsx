@@ -1018,6 +1018,22 @@ describe('Field.Date', () => {
     )
   })
 
+  it('should support `skipPortal`', async () => {
+    render(<Field.Date skipPortal />)
+
+    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+
+    // dnb-date-picker__container is a direct descendant of dnb-date-picker__shell when portal is skipped
+    expect(
+      document.querySelector(
+        '.dnb-date-picker__shell > .dnb-date-picker__container'
+      )
+    ).toBeInTheDocument()
+    expect(
+      document.body.querySelector('.dnb-date-picker__portal')
+    ).not.toBeInTheDocument()
+  })
+
   describe('ARIA', () => {
     it('should validate with ARIA rules', async () => {
       const result = render(
