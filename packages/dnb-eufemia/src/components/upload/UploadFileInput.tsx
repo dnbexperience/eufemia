@@ -14,7 +14,7 @@ import { UploadContext } from './UploadContext'
 import UploadStatus from './UploadStatus'
 import { getAcceptedFileTypes } from './UploadVerify'
 
-const UploadFileInput = () => {
+const UploadFileInput = ({ ...rest }) => {
   const fileInput = useRef<HTMLInputElement>(null)
 
   const context = React.useContext(UploadContext)
@@ -25,7 +25,6 @@ const UploadFileInput = () => {
     buttonText,
     onInputUpload,
     filesAmountLimit,
-    required,
   } = context
 
   const openFileDialog = () => fileInput.current?.click()
@@ -59,7 +58,7 @@ const UploadFileInput = () => {
         onChange={onChangeHandler}
         onClick={onClickHandler}
         multiple={filesAmountLimit > 1}
-        required={required}
+        {...rest}
       />
     </div>
   )

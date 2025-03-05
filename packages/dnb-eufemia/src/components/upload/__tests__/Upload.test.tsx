@@ -75,7 +75,9 @@ describe('Upload', () => {
     it('supports inline styling', () => {
       render(<Upload {...defaultProps} style={{ color: 'red' }} />)
       expect(
-        document.querySelector('.dnb-upload').getAttribute('style')
+        document
+          .querySelector('.dnb-upload__file-input')
+          .getAttribute('style')
       ).toBe('color: red;')
     })
 
