@@ -1884,7 +1884,6 @@ describe('DatePicker component', () => {
 
     rerender(<DatePicker onChange={onChange} showInput date={null} />)
 
-
     expect(dayInput).toHaveValue('dd')
     expect(monthInput).toHaveValue('mm')
     expect(yearInput).toHaveValue('åååå')
