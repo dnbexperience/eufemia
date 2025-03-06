@@ -137,6 +137,7 @@ function Selection(props: Props) {
     data,
     dataPath,
     children,
+    additionalArgs,
 
     // - Autocomplete and Dropdown specific props
     autocompleteProps,
@@ -149,13 +150,14 @@ function Selection(props: Props) {
     dataList = getValueByPath(dataPath)
   }
 
-  const handleDropdownChange = useCallback(
-    ({ data }) => {
-      const selectedKey = data?.selectedKey
+  const handleDrawerListChange = useCallback(
+    ({ data, value }) => {
+      const selectedKey = data?.selectedKey ?? value
       handleChange?.(
         !selectedKey || selectedKey === clearValue
           ? emptyValue
-          : selectedKey
+          : selectedKey,
+        { data }
       )
     },
     [handleChange, emptyValue, clearValue]
@@ -199,6 +201,20 @@ function Selection(props: Props) {
     disableStatusSummary: true,
     ...pickSpacingProps(props),
   }
+
+  const onType = props?.autocompleteProps?.onType
+  const onTypeAutocompleteHandler = useCallback(
+    (event) => {
+      const { value } = event
+      if (typeof onType === 'function') {
+        onType(value === undefined ? emptyValue : value, {
+          ...event,
+          ...additionalArgs,
+        })
+      }
+    },
+    [additionalArgs, emptyValue, onType]
+  )
 
   switch (variant) {
     case 'radio':
@@ -270,7 +286,7 @@ function Selection(props: Props) {
         ...htmlAttributes,
         data,
         size,
-        on_change: handleDropdownChange,
+        on_change: handleDrawerListChange,
         on_show: handleShow,
         on_hide: handleHide,
         stretch: true,
@@ -291,9 +307,20 @@ function Selection(props: Props) {
               {...sharedProps}
               {...(autocompleteProps
                 ? (convertCamelCaseProps(
-                    autocompleteProps
+                    Object.freeze(autocompleteProps)
                   ) as AutocompleteAllProps)
                 : null)}
+              value={
+                autocompleteProps?.preventSelection ? undefined : value
+              }
+              on_type={onTypeAutocompleteHandler}
+              data={
+                !props.data &&
+                !props.dataPath &&
+                autocompleteProps?.mode === 'async'
+                  ? undefined
+                  : data
+              }
             />
           ) : (
             <Dropdown
