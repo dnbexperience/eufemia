@@ -1046,6 +1046,48 @@ describe('FieldBlock', () => {
           )
         })
       })
+
+      it('should update error message when return value in onBlurValidator changes', async () => {
+        const firstReturn = [new Error('first error')]
+        const secondReturn = [
+          new Error('first error'),
+          new Error('second error'),
+        ]
+
+        let count = 0
+        const onBlurValidator: Validator<string> = () => {
+          count++
+          if (count > 1) {
+            return secondReturn
+          }
+          return firstReturn
+        }
+
+        render(<Field.String onBlurValidator={onBlurValidator} />)
+
+        const input = document.querySelector('input')
+
+        await userEvent.type(input, '1')
+        fireEvent.blur(input)
+
+        expect(count).toBe(1)
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status').textContent
+          ).toBe('first error')
+        })
+
+        fireEvent.blur(input)
+        await new Promise((resolve) => setTimeout(resolve, 100))
+
+        expect(count).toBe(2)
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status').textContent
+          ).toBe(nb.Field.errorSummary + 'first error' + 'second error')
+        })
+      })
     })
 
     describe('FormStatus with animation', () => {
