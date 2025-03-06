@@ -1,4 +1,4 @@
-import type { UseFieldProps } from '../../types'
+import type { Path, PathStrict, UseFieldProps } from '../../types'
 import { FormError } from '../../utils'
 import {
   GeneralConfig,
@@ -8,6 +8,7 @@ import {
   fetchData,
   getCountryCodeValue,
   handleCountryPath,
+  isSupportedCountryCode,
 } from '../createContext'
 
 export const supportedCountryCodes = [
@@ -23,7 +24,15 @@ export const supportedCountryCodes = [
   'GL', // Greenland
   'IS', // Iceland
   'SJ', // Svalbard and Jan Mayen
-]
+] as const
+export type SupportedCountries = (typeof supportedCountryCodes)[number]
+
+type AutofillHandlerConfig = HandlerConfig & {
+  countryCode?:
+    | PathStrict
+    | SupportedCountries
+    | Lowercase<SupportedCountries>
+}
 
 export const unsupportedCountryCodeMessage =
   'Postal code verification is not supported for {countryCode}.'
@@ -62,7 +71,7 @@ export const responseResolver: ResponseResolver<
 
 export function autofill(
   generalConfig: GeneralConfig,
-  handlerConfig?: HandlerConfig & { cityPath: string }
+  handlerConfig?: AutofillHandlerConfig & { cityPath: Path }
 ): UseFieldProps<string>['onChange'] {
   const abortControllerRef = { current: null }
 
@@ -71,13 +80,15 @@ export function autofill(
       return // stop here
     }
 
+    // Get country code from path or use given countryCode value
     const { countryCode } = handleCountryPath({
       value,
+      countryCode: handlerConfig?.countryCode,
       additionalArgs,
       handler: autofillHandler,
     })
 
-    if (countryCode && !supportedCountryCodes.includes(countryCode)) {
+    if (!isSupportedCountryCode(countryCode, supportedCountryCodes)) {
       return // stop here
     }
 
@@ -122,7 +133,7 @@ export function autofill(
 
 export function validator(
   generalConfig: GeneralConfig,
-  handlerConfig?: HandlerConfig
+  handlerConfig?: AutofillHandlerConfig
 ):
   | UseFieldProps<string>['onChangeValidator']
   | UseFieldProps<string>['onBlurValidator'] {
@@ -135,7 +146,7 @@ export function validator(
 
     const { countryCode } = getCountryCodeValue({ additionalArgs })
 
-    if (countryCode && !supportedCountryCodes.includes(countryCode)) {
+    if (!isSupportedCountryCode(countryCode, supportedCountryCodes)) {
       return new Error(
         unsupportedCountryCodeMessage.replace('{countryCode}', countryCode)
       )

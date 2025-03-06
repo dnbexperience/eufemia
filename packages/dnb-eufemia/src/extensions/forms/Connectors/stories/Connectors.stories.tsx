@@ -1,5 +1,6 @@
 import { Connectors, Field, Form } from '../../'
-import { supportedCountryCodes } from '../Bring/postalCode'
+import { isSupportedCountryCode } from '../createContext'
+import { supportedCountryCodes as postalCode_supportedCountryCodes } from '../Bring/postalCode'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Connectors',
@@ -72,10 +73,10 @@ export function PostalCode() {
       <Form.Card>
         <Field.SelectCountry
           path="/countryCode"
-          // defaultValue="NO"
-          defaultValue="SE"
+          defaultValue="NO"
+          // defaultValue="SE"
           filterCountries={({ iso }) =>
-            supportedCountryCodes.includes(iso)
+            isSupportedCountryCode(iso, postalCode_supportedCountryCodes)
           }
         />
         <Field.PostalCodeAndCity
