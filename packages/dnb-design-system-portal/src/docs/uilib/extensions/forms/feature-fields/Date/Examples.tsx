@@ -114,3 +114,39 @@ export const DatePickerDateLimitValidation = () => {
     </Provider>
   )
 }
+
+export const ValidationExtendValidator = () => {
+  return (
+    <ComponentBox>
+      {() => {
+        const myDateValidator = (value: string) => {
+          if (value === '2025-01-01') {
+            return new Error('My custom message')
+          }
+
+          if (value === '2025-01-03') {
+            return [
+              new Error('My custom message 1'),
+              new Error('My custom message 2'),
+            ]
+          }
+        }
+
+        const myOnBlurValidator = (value: string, { validators }) => {
+          const { dateValidator } = validators
+
+          return [myDateValidator, dateValidator]
+        }
+
+        return (
+          <Field.Date
+            value="2025-01-01"
+            minDate="2024-12-31"
+            maxDate="2025-01-31"
+            onBlurValidator={myOnBlurValidator}
+          />
+        )
+      }}
+    </ComponentBox>
+  )
+}
