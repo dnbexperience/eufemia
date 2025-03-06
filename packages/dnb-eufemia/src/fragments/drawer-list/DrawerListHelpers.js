@@ -100,7 +100,6 @@ export const drawerListPropTypes = {
       ])
     ),
   ]),
-  prepared_data: PropTypes.array,
   raw_data: PropTypes.oneOfType([
     PropTypes.array,
     PropTypes.object,
@@ -159,7 +158,6 @@ export const drawerListDefaultProps = {
   skip_keysearch: false,
   opened: null,
   data: null,
-  prepared_data: null,
   raw_data: null,
   ignore_events: null,
 
@@ -317,10 +315,6 @@ export const normalizeData = (props) => {
 }
 
 export const getData = (props) => {
-  if (props.prepared_data && Array.isArray(props.prepared_data)) {
-    return props.prepared_data
-  }
-
   return normalizeData(props)
 }
 
