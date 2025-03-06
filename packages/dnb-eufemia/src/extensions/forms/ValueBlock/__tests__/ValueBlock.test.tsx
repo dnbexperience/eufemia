@@ -526,6 +526,26 @@ describe('ValueBlock', () => {
       expect(element.textContent).toBe('Help title\nHelp content')
     })
 
+    it('should render content with a span element', async () => {
+      const result = render(
+        <ValueBlock
+          label="Label"
+          help={{
+            open: true,
+            title: 'Help title',
+            content: '\nHelp content',
+          }}
+        >
+          Value
+        </ValueBlock>
+      )
+
+      const element = document.querySelector('.dnb-help-button__content')
+      expect(element.tagName).toBe('SPAN')
+
+      await axeComponent(result)
+    })
+
     it('should open on click', async () => {
       render(
         <ValueBlock

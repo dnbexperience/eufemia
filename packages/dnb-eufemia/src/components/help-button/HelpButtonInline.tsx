@@ -148,6 +148,7 @@ export default function HelpButtonInline(props: HelpButtonInlineProps) {
 export type HelpButtonInlineContentProps = SpacingProps & {
   contentId: string
   className?: string
+  element?: React.ElementType
   children?: React.ReactNode
   help?: HelpProps
   breakout?: boolean
@@ -162,6 +163,7 @@ export function HelpButtonInlineContent(
   const {
     contentId,
     className,
+    element,
     children,
     help: helpProp,
     breakout = true,
@@ -256,6 +258,7 @@ export function HelpButtonInlineContent(
 
   return (
     <HeightAnimation
+      element={element}
       className={classnames('dnb-help-button__content', className)}
       open={isOpen ?? open ?? false}
     >

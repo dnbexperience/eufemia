@@ -180,6 +180,7 @@ function ValueBlock(props: Props) {
               <VisibilityWrapper>
                 {hasHelp && (
                   <HelpButtonInlineContent
+                    element="span"
                     contentId={`${id}-help`}
                     className="dnb-forms-value-block__help"
                     help={help}
@@ -236,6 +237,7 @@ function ValueBlock(props: Props) {
         )}
         {hasHelp && (
           <HelpButtonInlineContent
+            element="span"
             contentId={`${id}-help`}
             className="dnb-forms-value-block__help"
             help={help}

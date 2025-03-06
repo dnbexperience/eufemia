@@ -105,7 +105,6 @@ function HeightAnimation({
       element={element || 'div'}
       className={classnames(
         'dnb-height-animation',
-        element === 'span' && 'dnb-height-animation--block',
         isInDOM && 'dnb-height-animation--is-in-dom',
         isVisible && 'dnb-height-animation--is-visible',
         animate && isVisibleParallax && 'dnb-height-animation--parallax',

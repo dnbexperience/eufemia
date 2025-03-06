@@ -365,12 +365,6 @@ describe('HeightAnimation', () => {
     expect(getElement().tagName).toBe('SPAN')
   })
 
-  it('should have correct class when "span" is given', () => {
-    render(<HeightAnimation element="span" />)
-
-    expect(getElement()).toHaveClass('dnb-height-animation--block')
-  })
-
   it('should not animate when globalThis.IS_TEST is true', () => {
     globalThis.IS_TEST = true
 
