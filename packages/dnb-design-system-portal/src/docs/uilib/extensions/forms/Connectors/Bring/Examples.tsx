@@ -1,16 +1,17 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { getMockData } from '@dnb/eufemia/src/extensions/forms/Connectors/Bring/postalCode'
+import { getMockData as getMockDataPostalCode } from '@dnb/eufemia/src/extensions/forms/Connectors/Bring/postalCode'
+import { getMockData as getMockDataAddress } from '@dnb/eufemia/src/extensions/forms/Connectors/Bring/address'
 import { Form, Field, Connectors } from '@dnb/eufemia/src/extensions/forms'
 
 let mockFetchTimeout = null
-async function mockFetch(countryCode: string) {
+async function mockFetch(countryCode: string, data) {
   const originalFetch = globalThis.fetch
 
   globalThis.fetch = () => {
     return Promise.resolve({
       ok: true,
       json: () => {
-        return Promise.resolve(getMockData(countryCode))
+        return Promise.resolve(data)
       },
     }) as any
   }
@@ -25,12 +26,15 @@ async function mockFetch(countryCode: string) {
 
 export const PostalCode = () => {
   return (
-    <ComponentBox scope={{ Connectors, getMockData, mockFetch }}>
+    <ComponentBox scope={{ Connectors, getMockDataPostalCode, mockFetch }}>
       {() => {
         const { withConfig } = Connectors.createContext({
           fetchConfig: {
             url: async (value, { countryCode }) => {
-              await mockFetch(countryCode)
+              await mockFetch(
+                countryCode,
+                getMockDataPostalCode(countryCode),
+              )
               return `[YOUR-API-URL]/${value}`
             },
           },
@@ -47,11 +51,6 @@ export const PostalCode = () => {
         return (
           <Form.Handler onSubmit={console.log}>
             <Form.Card>
-              <Field.SelectCountry
-                path="/countryCode"
-                defaultValue="NO"
-                filterCountries={({ iso }) => ['NO', 'SE'].includes(iso)}
-              />
               <Field.PostalCodeAndCity
                 countryCode="/countryCode"
                 postalCode={{
@@ -65,7 +64,67 @@ export const PostalCode = () => {
                   required: true,
                 }}
               />
+              <Field.SelectCountry
+                path="/countryCode"
+                defaultValue="NO"
+                filterCountries={({ iso }) => ['NO', 'SE'].includes(iso)}
+              />
             </Form.Card>
+            <Form.SubmitButton />
+          </Form.Handler>
+        )
+      }}
+    </ComponentBox>
+  )
+}
+
+export const Address = () => {
+  return (
+    <ComponentBox scope={{ Connectors, getMockDataAddress, mockFetch }}>
+      {() => {
+        const { withConfig } = Connectors.createContext({
+          fetchConfig: {
+            url: async (value, { countryCode }) => {
+              await mockFetch(countryCode, getMockDataAddress(countryCode))
+              return `[YOUR-API-URL]/${value}`
+            },
+          },
+        })
+
+        const addressSuggestionsElement = withConfig(
+          Connectors.Bring.address.suggestionsElement,
+          {
+            countryCode: '/countryCode',
+            cityPath: '/city',
+            postalCodePath: '/postalCode',
+          },
+        )
+
+        return (
+          <Form.Handler onSubmit={console.log}>
+            <Form.Card>
+              <Field.Address.Street
+                path="/streetAddress"
+                element={addressSuggestionsElement}
+              />
+              <Field.PostalCodeAndCity
+                countryCode="/countryCode"
+                postalCode={{
+                  path: '/postalCode',
+                  required: true,
+                }}
+                city={{
+                  path: '/city',
+                  required: true,
+                }}
+              />
+              <Field.SelectCountry
+                path="/countryCode"
+                defaultValue="NO"
+                filterCountries={({ iso }) => ['NO', 'SE'].includes(iso)}
+              />
+            </Form.Card>
+
             <Form.SubmitButton />
           </Form.Handler>
         )
