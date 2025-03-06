@@ -1691,7 +1691,7 @@ describe('DatePicker component', () => {
 
     fireEvent.mouseOver(lastDayElem.querySelector('button'))
 
-    // 6. We should have all TDs in between, marked as "pewview"
+    // 6. We should have all TDs in between, marked as "preview"
     // - and we should have marked it as the end-date
 
     expect(lastDayElem.classList).toContain(
