@@ -46,8 +46,7 @@ export type DrawerListContent =
   | string
   | React.ReactNode
   | (string | React.ReactNode)[]
-export type DrawerListDataArrayObject = {
-  [customProperty: string]: any
+export type DrawerListDataArrayObjectStrict = {
   selected_value?: string | React.ReactNode
   selectedKey?: string | number
   selected_key?: string | number
@@ -65,6 +64,9 @@ export type DrawerListDataArrayObject = {
   /** internal use only */
   render?: (children: React.ReactNode, id: string) => React.ReactNode
 }
+export type DrawerListDataArrayObject = {
+  [customProperty: string]: any
+} & DrawerListDataArrayObjectStrict
 /** @deprecated use `DrawerListDataArrayItem` */
 export type DrawerListDataObjectUnion = DrawerListDataArrayItem
 export type DrawerListDataArrayItem =
