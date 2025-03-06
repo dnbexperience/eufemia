@@ -1806,6 +1806,200 @@ describe('Field.Date', () => {
     })
   })
 
+  describe('invalid date validation', () => {
+    it('should display error if date is invalid', async () => {
+      render(<Field.Date />)
+
+      const dayInput = document.querySelector(
+        '.dnb-date-picker__input--day'
+      )
+
+      await userEvent.click(dayInput)
+      await userEvent.keyboard('39192025')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+
+      expect(
+        document.querySelector('.dnb-form-status__text')
+      ).toHaveTextContent(
+        nb.Date.errorInvalidDate.replace(/\{date\}/, '2025-19-39')
+      )
+
+      await userEvent.click(dayInput)
+      await userEvent.keyboard('11122025')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should display error if start date or end date is invalid', async () => {
+      render(<Field.Date range />)
+
+      const dayInput = document.querySelector(
+        '.dnb-date-picker__input--day'
+      )
+
+      const getMessages = () =>
+        Array.from(
+          document.querySelectorAll('.dnb-form-status .dnb-li')
+        ) as Array<HTMLLIElement>
+
+      // Type start date
+      await userEvent.click(dayInput)
+      await userEvent.keyboard('39192025')
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+
+      expect(
+        document.querySelector('.dnb-form-status__text')
+      ).toHaveTextContent(
+        nb.Date.errorInvalidStartDate.replace(/\{date\}/, '2025-19-39')
+      )
+
+      // Type end date
+      await userEvent.keyboard('39192026')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+      expect(getMessages().at(0)).toHaveTextContent(
+        nb.Date.errorInvalidStartDate.replace(/\{date\}/, '2025-19-39')
+      )
+      expect(getMessages().at(1)).toHaveTextContent(
+        nb.Date.errorInvalidEndDate.replace(/\{date\}/, '2026-19-39')
+      )
+
+      // Type valid start date
+      await userEvent.click(dayInput)
+      await userEvent.keyboard('11122025')
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-form-status__text')
+      ).toHaveTextContent(
+        nb.Date.errorInvalidEndDate.replace(/\{date\}/, '2026-19-39')
+      )
+
+      // Type valid end date
+      await userEvent.keyboard('11122026')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should display invalid date error message based on locale', async () => {
+      render(
+        <Form.Handler locale="en-GB">
+          <Field.Date />
+        </Form.Handler>
+      )
+
+      const dayInput = document.querySelector(
+        '.dnb-date-picker__input--day'
+      )
+
+      await userEvent.click(dayInput)
+      await userEvent.keyboard('39192025')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+
+      expect(
+        document.querySelector('.dnb-form-status__text')
+      ).toHaveTextContent(
+        en.Date.errorInvalidDate.replace(/\{date\}/, '2025-19-39')
+      )
+
+      await userEvent.click(dayInput)
+      await userEvent.keyboard('11122025')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should display invalid date error message based on locale when in `range` mode', async () => {
+      render(
+        <Form.Handler locale="en-GB">
+          <Field.Date range />
+        </Form.Handler>
+      )
+
+      const dayInput = document.querySelector(
+        '.dnb-date-picker__input--day'
+      )
+
+      const getMessages = () =>
+        Array.from(
+          document.querySelectorAll('.dnb-form-status .dnb-li')
+        ) as Array<HTMLLIElement>
+
+      // Type start date
+      await userEvent.click(dayInput)
+      await userEvent.keyboard('39192025')
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+
+      expect(
+        document.querySelector('.dnb-form-status__text')
+      ).toHaveTextContent(
+        en.Date.errorInvalidStartDate.replace(/\{date\}/, '2025-19-39')
+      )
+
+      // Type end date
+      await userEvent.keyboard('39192026')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+      expect(getMessages().at(0)).toHaveTextContent(
+        en.Date.errorInvalidStartDate.replace(/\{date\}/, '2025-19-39')
+      )
+      expect(getMessages().at(1)).toHaveTextContent(
+        en.Date.errorInvalidEndDate.replace(/\{date\}/, '2026-19-39')
+      )
+
+      // Type valid start date
+      await userEvent.click(dayInput)
+      await userEvent.keyboard('11122025')
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-form-status__text')
+      ).toHaveTextContent(
+        en.Date.errorInvalidEndDate.replace(/\{date\}/, '2026-19-39')
+      )
+
+      // Type valid end date
+      await userEvent.keyboard('11122026')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+    })
+  })
+
   it('should support keyboard interactions in range mode when id includes start or end', async () => {
     const onChange = jest.fn()
 
