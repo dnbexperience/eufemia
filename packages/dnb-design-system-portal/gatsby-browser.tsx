@@ -30,11 +30,18 @@ export const replaceHydrateFunction = () => {
   }
 }
 
+// scroll to top on route change
+export const shouldUpdateScroll = ({ routerProps: { location } }) => {
+  const { hash } = location
+  if (hash) {
+    return true
+  }
+
+  return false
+}
+
 export const wrapRootElement = rootElement('browser')
 export const wrapPageElement = pageElement()
-
-// scroll to top on route change
-export const shouldUpdateScroll = () => false
 
 export const onRouteUpdate = ({ location, prevLocation }) => {
   try {
