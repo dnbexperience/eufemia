@@ -44,9 +44,8 @@ import FormStatus from '../form-status/FormStatus'
 import IconPrimary from '../icon-primary/IconPrimary'
 import Input, { SubmitButton } from '../input/Input'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
-import DrawerList, {
-  ItemContent,
-} from '../../fragments/drawer-list/DrawerList'
+import DrawerList from '../../fragments/drawer-list/DrawerList'
+import { ItemContent } from '../../fragments/drawer-list/DrawerListItem'
 import DrawerListContext from '../../fragments/drawer-list/DrawerListContext'
 import DrawerListProvider from '../../fragments/drawer-list/DrawerListProvider'
 import {
