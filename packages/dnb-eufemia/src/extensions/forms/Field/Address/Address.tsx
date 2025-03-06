@@ -2,17 +2,23 @@ import React, { useMemo } from 'react'
 import StringField, { Props as StringFieldProps } from '../String'
 import useTranslation from '../../hooks/useTranslation'
 
-export type Props = StringFieldProps
+export type Props = StringFieldProps & {
+  element?: React.ElementType<Props>
+}
 
 function Address(props: Props) {
-  const stringFieldProps: Props = {
-    autoComplete: 'street-address',
-    inputMode: 'text',
-    trim: true,
-    ...props,
+  const { element: Element = StringField, ...rest } = props
+
+  if (Element === StringField) {
+    Object.assign(rest, {
+      autoComplete: 'street-address',
+      inputMode: 'text',
+      trim: true,
+      ...rest,
+    })
   }
 
-  return <StringField {...stringFieldProps} />
+  return <Element {...rest} />
 }
 Address._supportsSpacingProps = true
 
