@@ -2532,52 +2532,58 @@ describe('DatePicker component', () => {
 
     // Fill out startDay
     await userEvent.click(dayInput)
-    await userEvent.keyboard('39')
+    await userEvent.keyboard('99')
     expect(onChange).toHaveBeenCalledTimes(0)
 
-    await userEvent.keyboard('19')
+    await userEvent.keyboard('99')
     expect(onChange).toHaveBeenCalledTimes(0)
 
-    await userEvent.keyboard('1111')
+    await userEvent.keyboard('9999')
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenCalledWith(
-      expect.objectContaining({ invalidStartDate: '1111-19-39' })
+      expect.objectContaining({ invalidStartDate: '9999-99-99' })
     )
 
     // Fill out endDay
-    await userEvent.keyboard('39')
+    await userEvent.keyboard('88')
     expect(onChange).toHaveBeenCalledTimes(1)
 
-    await userEvent.keyboard('19')
+    await userEvent.keyboard('88')
     expect(onChange).toHaveBeenCalledTimes(1)
 
-    await userEvent.keyboard('2222')
+    await userEvent.keyboard('8888')
     expect(onChange).toHaveBeenCalledTimes(2)
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({
-        invalidStartDate: '1111-19-39',
-        invalidEndDate: '2222-19-39',
+        invalidStartDate: '9999-99-99',
+        invalidEndDate: '8888-88-88',
+        start_date: null,
+        end_date: null,
       })
     )
 
     // Typing a valid start date
     await userEvent.click(dayInput)
     await userEvent.keyboard('20112025')
-    expect(onChange).toHaveBeenCalledTimes(8)
+    expect(onChange).toHaveBeenCalledTimes(7)
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({
         invalidStartDate: null,
-        invalidEndDate: '2222-19-39',
+        invalidEndDate: '8888-88-88',
+        start_date: '2025-11-20',
+        end_date: null,
       })
     )
 
     // Typing a valid end date
     await userEvent.keyboard('29112025')
-    expect(onChange).toHaveBeenCalledTimes(13)
+    expect(onChange).toHaveBeenCalledTimes(12)
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({
         invalidStartDate: null,
         invalidEndDate: null,
+        start_date: '2025-11-20',
+        end_date: '2025-11-29',
       })
     )
   })
