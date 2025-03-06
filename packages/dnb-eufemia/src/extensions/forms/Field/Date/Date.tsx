@@ -136,7 +136,7 @@ function DateComponent(props: DateProps) {
         return invalidDateErrors
       }
 
-      const dateOutsideOfLimitErrors = validateDateLimit({
+      const dateLimitErrors = validateDateLimit({
         value,
         locale,
         minDate: props.minDate,
@@ -144,7 +144,7 @@ function DateComponent(props: DateProps) {
         isRange: props.range,
       })
 
-      return [...invalidDateErrors, ...dateOutsideOfLimitErrors]
+      return [...invalidDateErrors, ...dateLimitErrors]
     },
     [props.maxDate, props.minDate, props.range, locale]
   )
@@ -303,7 +303,6 @@ function parseRangeValue(value: DateProps['value']) {
 }
 
 // Validators
-
 function validateDateLimit({
   value,
   isRange,
