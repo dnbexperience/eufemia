@@ -1,5 +1,18 @@
 import * as React from 'react';
 import type { SpacingProps } from '../../shared/types';
+import type {
+  DrawerListItemProps,
+  DrawerListHorizontalItemProps,
+  ItemContentProps
+} from './DrawerListItem';
+
+export type {
+  DrawerListItemProps,
+  DrawerListHorizontalItemProps,
+  ItemContentChildren,
+  ItemContentProps
+} from './DrawerListItem';
+
 export type DrawerListDirection = 'auto' | 'top' | 'bottom';
 export type DrawerListSize =
   | 'default'
@@ -8,10 +21,15 @@ export type DrawerListSize =
   | 'large'
   | number;
 export type DrawerListAlignDrawer = 'left' | 'right';
-export type DrawerListOptionsRender =
-  | Record<string, unknown>
-  | ((...args: any[]) => any)
-  | React.ReactNode;
+export type DrawerListOptionsRender = ({
+  data,
+  Items,
+  Item
+}: {
+  data: DrawerListDataArrayObject[];
+  Items: React.FunctionComponent;
+  Item: React.FC<DrawerListItemProps>;
+}) => React.ReactNode;
 export type DrawerListWrapperElement =
   | Record<string, unknown>
   | ((...args: any[]) => any)
@@ -28,8 +46,14 @@ export type DrawerListDataArrayObject = {
   suffix_value?: string | React.ReactNode;
   content?: DrawerListContent;
   disabled?: boolean;
+  /** used by Autocomplete for additional search hits */
   search_content?: string | React.ReactNode | string[];
+  /** style prop of the html list item */
   style?: React.CSSProperties;
+  /** classname added to the html list item */
+  class_name?: string;
+  /** set to true to disable mouse events selected style. Keyboard can still select @deprecated */
+  ignore_events?: boolean;
 };
 /** @deprecated use `DrawerListDataArrayItem` */
 export type DrawerListDataObjectUnion = DrawerListDataArrayItem;
@@ -192,25 +216,25 @@ export interface DrawerListProps {
 export type DrawerListOptionsProps = {
   children: React.ReactNode;
 };
-export type DrawerListItemProps = {
-  children: React.ReactNode;
-  selected: boolean;
-  /**
-   * Define a preselected `data` entry. In order of priority, `value` can be set to: object key (if `data` is an object), `selectedKey` prop (if `data` is an array), array index (if no `selectedKey`) or content (if `value` is a non-integer string).
-   */
-  value: string;
-  on_click: ({
-    value
-  }: {
-    /**
-     * Define a preselected `data` entry. In order of priority, `value` can be set to: object key (if `data` is an object), `selectedKey` prop (if `data` is an array), array index (if no `selectedKey`) or content (if `value` is a non-integer string).
-     */
-    value: string;
-  }) => void;
-} & Omit<React.HTMLProps<HTMLElement>, 'children'>;
-export type DrawerListHorizontalItemProps = {
-  children: React.ReactNode;
-} & Omit<React.HTMLProps<HTMLElement>, 'children'>;
+// export type DrawerListItemProps = {
+//   children: React.ReactNode;
+//   selected: boolean;
+//   /**
+//    * Define a preselected `data` entry. In order of priority, `value` can be set to: object key (if `data` is an object), `selectedKey` prop (if `data` is an array), array index (if no `selectedKey`) or content (if `value` is a non-integer string).
+//    */
+//   value: string;
+//   on_click: ({
+//     value
+//   }: {
+//     /**
+//      * Define a preselected `data` entry. In order of priority, `value` can be set to: object key (if `data` is an object), `selectedKey` prop (if `data` is an array), array index (if no `selectedKey`) or content (if `value` is a non-integer string).
+//      */
+//     value: string;
+//   }) => void;
+// } & Omit<React.HTMLProps<HTMLElement>, 'children'>;
+// export type DrawerListHorizontalItemProps = {
+//   children: React.ReactNode;
+// } & Omit<React.HTMLProps<HTMLElement>, 'children'>;
 export type DrawerListAllProps = DrawerListProps &
   SpacingProps &
   Omit<
@@ -229,11 +253,11 @@ export default class DrawerList extends React.Component<
   ) => JSX.Element;
   render(): JSX.Element;
 }
-export type ItemContentChildren =
-  | React.ReactNode
-  | Record<string, unknown>;
-export interface ItemContentProps {
-  hash?: string;
-  children?: ItemContentChildren;
-}
+// export type ItemContentChildren =
+//   | React.ReactNode
+//   | Record<string, unknown>;
+// export interface ItemContentProps {
+//   hash?: string;
+//   children?: ItemContentChildren;
+// }
 export declare const ItemContent: React.FC<ItemContentProps>;

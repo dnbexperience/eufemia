@@ -13,7 +13,6 @@ import {
   makeUniqueId,
   extendPropsWithContextInClassComponent,
   validateDOMAttributes,
-  dispatchCustomElementEvent,
   keycode,
 } from '../../shared/component-helper'
 import { getThemeClasses } from '../../shared/Theme'
@@ -26,6 +25,7 @@ import {
   drawerListPropTypes,
   drawerListDefaultProps,
 } from './DrawerListHelpers'
+import { DrawerListHorizontalItem, DrawerListItem } from './DrawerListItem'
 
 const propsToFilterOut = {
   on_show: null,
@@ -452,150 +452,8 @@ DrawerList.Options.propTypes = {
   triangleRef: PropTypes.object,
 }
 
-// DrawerList Item
-DrawerList.Item = React.forwardRef((props, ref) => {
-  const {
-    role = 'option', // eslint-disable-line
-    hash = '', // eslint-disable-line
-    children, // eslint-disable-line
-    className = null, // eslint-disable-line
-    on_click = null, // eslint-disable-line
-    selected, // eslint-disable-line
-    active = null, // eslint-disable-line
-    value = null, // eslint-disable-line
-    disabled, // eslint-disable-line
-    ...rest
-  } = props
-
-  const params = {
-    className: classnames(
-      className,
-      'dnb-drawer-list__option',
-      selected && 'dnb-drawer-list__option--selected',
-      active && 'dnb-drawer-list__option--focus'
-    ),
-    role,
-    tabIndex: selected ? '0' : '-1',
-    'aria-selected': active,
-    disabled,
-    'aria-disabled': disabled,
-  }
-  if (selected) {
-    params['aria-current'] = true // has best support on NVDA
-  }
-
-  if (on_click) {
-    params.onClick = () =>
-      dispatchCustomElementEvent(
-        {
-          props: { ...props, displayName: DrawerList.Item.displayName },
-        },
-        'on_click',
-        {
-          selected,
-          value,
-          ...rest,
-        }
-      )
-  }
-
-  return (
-    <li {...params} {...rest} ref={ref} key={'li' + hash}>
-      <span className="dnb-drawer-list__option__inner">
-        <ItemContent hash={hash}>{children}</ItemContent>
-      </span>
-    </li>
-  )
-})
-DrawerList.Item.displayName = 'DrawerList.Item'
-DrawerList.Item.propTypes = {
-  role: PropTypes.string,
-  hash: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.func,
-    PropTypes.object,
-  ]).isRequired,
-  className: PropTypes.string,
-  on_click: PropTypes.func,
-  selected: PropTypes.bool,
-  active: PropTypes.bool,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  disabled: PropTypes.bool,
-}
-
-export function ItemContent({ hash = '', children = undefined }) {
-  let content = null
-
-  if (Array.isArray(children.content || children)) {
-    content = (children.content || children).map((item, n) => (
-      <DrawerListOptionItem
-        key={hash + n}
-        className={`item-nr-${n + 1}`} // "item-nr" is used by CSS
-      >
-        {children.render ? children.render(item, hash + n) : item}
-      </DrawerListOptionItem>
-    ))
-  } else if (Object.prototype.hasOwnProperty.call(children, 'content')) {
-    content = children.render
-      ? children.render(children.content, hash, children)
-      : children.content
-    if (content) {
-      content = <DrawerListOptionItem>{content}</DrawerListOptionItem>
-    }
-  } else {
-    content = children && (
-      <DrawerListOptionItem>{children}</DrawerListOptionItem>
-    )
-  }
-
-  return Object.prototype.hasOwnProperty.call(children, 'suffix_value') ? (
-    <>
-      {content}
-
-      <DrawerListOptionItem className="dnb-drawer-list__option__suffix">
-        {children.suffix_value}
-      </DrawerListOptionItem>
-    </>
-  ) : (
-    content
-  )
-}
-ItemContent.propTypes = {
-  hash: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
-}
-
-function DrawerListOptionItem({
-  children = undefined,
-  className = null,
-  ...props
-}) {
-  return (
-    <span
-      className={classnames(['dnb-drawer-list__option__item', className])}
-      {...props}
-    >
-      {children}
-    </span>
-  )
-}
-
-DrawerList.HorizontalItem = ({ className = null, ...props }) => (
-  <DrawerListOptionItem
-    className={classnames([
-      'dnb-drawer-list__option__item--horizontal',
-      className,
-    ])}
-    {...props}
-  />
-)
-
-DrawerList.HorizontalItem.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
-    .isRequired,
-  className: PropTypes.string,
-}
+DrawerList.Item = DrawerListItem
+DrawerList.HorizontalItem = DrawerListHorizontalItem
 
 class OnMounted extends React.PureComponent {
   static propTypes = {
