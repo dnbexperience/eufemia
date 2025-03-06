@@ -1823,9 +1823,7 @@ describe('Field.Date', () => {
 
       expect(
         document.querySelector('.dnb-form-status__text')
-      ).toHaveTextContent(
-        nb.Date.errorInvalidDate.replace(/\{date\}/, '2025-19-39')
-      )
+      ).toHaveTextContent(nb.Date.errorInvalidDate)
 
       await userEvent.click(dayInput)
       await userEvent.keyboard('11122025')
@@ -1858,9 +1856,7 @@ describe('Field.Date', () => {
 
       expect(
         document.querySelector('.dnb-form-status__text')
-      ).toHaveTextContent(
-        nb.Date.errorInvalidStartDate.replace(/\{date\}/, '2025-19-39')
-      )
+      ).toHaveTextContent(nb.Date.errorInvalidStartDate)
 
       // Type end date
       await userEvent.keyboard('39192026')
@@ -1870,10 +1866,10 @@ describe('Field.Date', () => {
         document.querySelector('.dnb-form-status--error')
       ).toBeInTheDocument()
       expect(getMessages().at(0)).toHaveTextContent(
-        nb.Date.errorInvalidStartDate.replace(/\{date\}/, '2025-19-39')
+        nb.Date.errorInvalidStartDate
       )
       expect(getMessages().at(1)).toHaveTextContent(
-        nb.Date.errorInvalidEndDate.replace(/\{date\}/, '2026-19-39')
+        nb.Date.errorInvalidEndDate
       )
 
       // Type valid start date
@@ -1885,9 +1881,7 @@ describe('Field.Date', () => {
       ).toBeInTheDocument()
       expect(
         document.querySelector('.dnb-form-status__text')
-      ).toHaveTextContent(
-        nb.Date.errorInvalidEndDate.replace(/\{date\}/, '2026-19-39')
-      )
+      ).toHaveTextContent(nb.Date.errorInvalidEndDate)
 
       // Type valid end date
       await userEvent.keyboard('11122026')
@@ -1919,9 +1913,7 @@ describe('Field.Date', () => {
 
       expect(
         document.querySelector('.dnb-form-status__text')
-      ).toHaveTextContent(
-        en.Date.errorInvalidDate.replace(/\{date\}/, '2025-19-39')
-      )
+      ).toHaveTextContent(en.Date.errorInvalidDate)
 
       await userEvent.click(dayInput)
       await userEvent.keyboard('11122025')
@@ -1958,9 +1950,7 @@ describe('Field.Date', () => {
 
       expect(
         document.querySelector('.dnb-form-status__text')
-      ).toHaveTextContent(
-        en.Date.errorInvalidStartDate.replace(/\{date\}/, '2025-19-39')
-      )
+      ).toHaveTextContent(en.Date.errorInvalidStartDate)
 
       // Type end date
       await userEvent.keyboard('39192026')
@@ -1970,10 +1960,10 @@ describe('Field.Date', () => {
         document.querySelector('.dnb-form-status--error')
       ).toBeInTheDocument()
       expect(getMessages().at(0)).toHaveTextContent(
-        en.Date.errorInvalidStartDate.replace(/\{date\}/, '2025-19-39')
+        en.Date.errorInvalidStartDate
       )
       expect(getMessages().at(1)).toHaveTextContent(
-        en.Date.errorInvalidEndDate.replace(/\{date\}/, '2026-19-39')
+        en.Date.errorInvalidEndDate
       )
 
       // Type valid start date
@@ -1985,9 +1975,7 @@ describe('Field.Date', () => {
       ).toBeInTheDocument()
       expect(
         document.querySelector('.dnb-form-status__text')
-      ).toHaveTextContent(
-        en.Date.errorInvalidEndDate.replace(/\{date\}/, '2026-19-39')
-      )
+      ).toHaveTextContent(en.Date.errorInvalidEndDate)
 
       // Type valid end date
       await userEvent.keyboard('11122026')
