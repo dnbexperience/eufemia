@@ -171,7 +171,6 @@ class DrawerListInstance extends React.PureComponent {
       max_height: _max_height, // eslint-disable-line
       id: _id, // eslint-disable-line
       data: _data, // eslint-disable-line
-      prepared_data: _prepared_data, // eslint-disable-line
       raw_data: _raw_data, // eslint-disable-line
       opened: _opened, // eslint-disable-line
       value: _value, // eslint-disable-line
