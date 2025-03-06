@@ -1047,7 +1047,7 @@ describe('FieldBlock', () => {
         })
       })
 
-      it('should update error message when return value in onBlurValidator changes', async () => {
+      it('should update error message when onBlurValidator returns array with different errors', async () => {
         const firstReturn = [new Error('first error')]
         const secondReturn = [
           new Error('first error'),
