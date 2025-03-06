@@ -130,6 +130,7 @@ function DateComponent(props: DateProps) {
         invalidDatesRef.current
       )
 
+      // No need to validate min/max date if they are not provided
       if (!props.minDate && !props.maxDate) {
         return invalidDateErrors
       }
@@ -304,6 +305,8 @@ function parseRangeValue(value: DateProps['value']) {
       .map((value) => (/(undefined|null)/.test(value) ? null : value))
   )
 }
+
+// Validators
 
 function validateDateLimit({
   value,
