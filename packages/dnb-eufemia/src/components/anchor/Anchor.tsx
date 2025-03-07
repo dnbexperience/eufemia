@@ -11,7 +11,7 @@ import {
   makeUniqueId,
   extendPropsWithContext,
 } from '../../shared/component-helper'
-import { getOffsetTop } from '../../shared/helpers'
+import { getOffsetTop, warn } from '../../shared/helpers'
 import IconPrimary from '../icon-primary/IconPrimary'
 import Tooltip from '../tooltip/Tooltip'
 import { launch as launchIcon } from '../../icons'
@@ -193,9 +193,14 @@ Anchor._supportsSpacingProps = true
 
 export default Anchor
 
+/**
+ * @deprecated – can be removed in v11
+ */
 export function scrollToHashHandler(
   event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
 ) {
+  warn('"scrollToHashHandler" is deprecated.')
+
   const element = event.currentTarget as HTMLAnchorElement
   const href = element.getAttribute('href')
 

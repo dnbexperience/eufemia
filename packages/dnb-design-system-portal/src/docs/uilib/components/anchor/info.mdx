@@ -34,40 +34,6 @@ render(
 )
 ```
 
-### Anchor hash
-
-Some browsers like Chrome (behind a flag) does still not support animated anchor hash clicks when CSS `scroll-behavior: smooth;` is set. To make it work, you can provide the `scrollToHashHandler` helper function to the Anchor:
-
-```jsx
-import Anchor, {
-  scrollToHashHandler,
-} from '@dnb/eufemia/components/Anchor'
-
-render(
-  <App>
-    <Anchor href="/path#hash-id" onClick={scrollToHashHandler}>
-      Link
-    </Anchor>
-
-    <div id="hash-id">element to scroll to</div>
-  </App>,
-)
-```
-
-Or with the `scrollToHash` helper function:
-
-```jsx
-import Anchor, { scrollToHash } from '@dnb/eufemia/components/Anchor'
-
-scrollToHash('/path#hash-id')
-
-render(
-  <App>
-    <div id="hash-id">element to scroll to</div>
-  </App>,
-)
-```
-
 ## Blank target
 
 **NB:** If you only use a vanilla HTML anchor element including `target="_blank"` then you have to ensure you add a `title` attribute that includes `Opens a new Window` or as a part of the text:
