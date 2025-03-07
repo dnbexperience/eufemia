@@ -151,6 +151,7 @@
     "@babel/preset-react": "7.22.5",
     "@babel/preset-typescript": "7.22.5",
     "@babel/traverse": "7.23.2",
+    "@dnb/browserslist-config": "1.1.0",
     "@emotion/react": "11.11.0",
     "@emotion/styled": "11.11.0",
     "@playwright/test": "1.49.1",
