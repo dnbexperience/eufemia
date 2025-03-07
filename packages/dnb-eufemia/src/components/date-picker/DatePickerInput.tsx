@@ -228,13 +228,10 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   // Keep dateRefs in sync with inputDates on re-render
   syncDateRefs(dateRefs, inputDates)
 
-  const startDateRef = useRef<Date>()
-  const endDateRef = useRef<Date>()
-
-  const temporaryDates = useMemo(
-    () => ({ startDate: startDateRef, endDate: endDateRef }),
-    []
-  )
+  const temporaryDates = useRef<Record<string, Date>>({
+    startDate: undefined,
+    endDate: undefined,
+  })
 
   const refList = useRef<Array<MutableRefObject<HTMLInputElement>>>()
 
@@ -649,10 +646,10 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       dateRefs.current[`${mode}${type}`] = value
 
       if (modeDate[`${mode}Date`]) {
-        temporaryDates[`${mode}Date`].current = modeDate[`${mode}Date`]
+        temporaryDates.current[`${mode}Date`] = modeDate[`${mode}Date`]
       }
 
-      const fallback = temporaryDates[`${mode}Date`].current
+      const fallback = temporaryDates.current[`${mode}Date`]
 
       // provide fallbacks to create a temp fallback
       const year =
