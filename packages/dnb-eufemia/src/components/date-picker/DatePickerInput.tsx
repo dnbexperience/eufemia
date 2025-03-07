@@ -38,6 +38,7 @@ import { ReturnObject } from './DatePickerProvider'
 import { DatePickerEventAttributes } from './DatePicker'
 import { useTranslation } from '../../shared'
 import { DatePickerInputDates } from './hooks/useDates'
+import usePartialDates from './hooks/usePartialDates'
 
 export type DatePickerInputProps = Omit<
   React.HTMLProps<HTMLInputElement>,
@@ -103,12 +104,6 @@ export type DatePickerInputProps = Omit<
   ) => void
 }
 
-export type PartialDates = {
-  partialDate?: string
-  partialStartDate?: string
-  partialEndDate?: string
-}
-
 export type InvalidDates = {
   invalidDate?: string
   invalidStartDate?: string
@@ -155,10 +150,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
   const [focusState, setFocusState] = useState<string>('virgin')
 
-  const partialDatesRef = useRef<PartialDates>({
-    partialStartDate: null,
-    partialEndDate: null,
-  })
+  const { partialDatesRef, setPartialDates } = usePartialDates()
 
   const invalidDatesRef = useRef<InvalidDates>({
     invalidStartDate: null,
@@ -420,15 +412,12 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
       // Get the typed dates, so we can ...
       const { startDate, endDate } = getDates()
+
       // Get the partial dates, so we can know if something was typed or not in an optional date field
-
-      const partialStartDate = startDate
-      const partialEndDate = endDate
-
-      partialDatesRef.current = {
-        partialStartDate,
-        partialEndDate,
-      }
+      setPartialDates({
+        partialStartDate: startDate,
+        partialEndDate: endDate,
+      })
 
       const parsedStartDate = parseISO(startDate)
       const parsedEndDate = parseISO(endDate)
@@ -445,8 +434,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         startDate: isStartDateValid ? parsedStartDate : null,
         endDate: isEndDateValid ? parsedEndDate : null,
         event,
-        partialStartDate,
-        partialEndDate,
+        ...partialDatesRef.current,
         ...invalidDatesRef.current,
       })
 
