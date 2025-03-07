@@ -2,7 +2,7 @@
 showTabs: true
 ---
 
-import { supportedCountryCodes } from '@dnb/eufemia/src/extensions/forms/Connectors/Bring/postalCode'
+import { supportedCountryCodes as postalCode_supportedCountryCodes } from '@dnb/eufemia/src/extensions/forms/Connectors/Bring/postalCode'
 
 ## Description
 
@@ -37,7 +37,7 @@ const { withConfig } = Connectors.createContext({
 
 The Bring API for PostalCode supports the [following countries](https://developer.bring.com/api/postal-code/#supported-countries), by its country codes:
 
-{supportedCountryCodes.join(', ')}
+{postalCode_supportedCountryCodes.join(', ')}
 
 ### Endpoints and response format
 

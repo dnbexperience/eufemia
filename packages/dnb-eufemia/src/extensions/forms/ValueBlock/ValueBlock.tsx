@@ -180,6 +180,7 @@ function ValueBlock(props: Props) {
               <VisibilityWrapper>
                 {hasHelp && (
                   <HelpButtonInlineContent
+                    element="span"
                     contentId={`${id}-help`}
                     className="dnb-forms-value-block__help"
                     help={help}
@@ -236,6 +237,7 @@ function ValueBlock(props: Props) {
         )}
         {hasHelp && (
           <HelpButtonInlineContent
+            element="span"
             contentId={`${id}-help`}
             className="dnb-forms-value-block__help"
             help={help}
@@ -302,7 +304,11 @@ function VisibilityWrapper({ children }) {
   const visibilityContext = useContext(VisibilityContext)
 
   if (visibilityContext) {
-    return <Visibility {...visibilityContext.props}>{children}</Visibility>
+    return (
+      <Visibility element="span" {...visibilityContext.props}>
+        {children}
+      </Visibility>
+    )
   }
 
   return children

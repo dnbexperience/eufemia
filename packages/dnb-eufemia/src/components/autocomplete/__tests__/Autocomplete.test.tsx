@@ -2951,6 +2951,39 @@ describe('Autocomplete component', () => {
     }
   })
 
+  it('should support "preventSelection"', async () => {
+    render(<Autocomplete data={mockData} prevent_selection />)
+
+    const input = document.querySelector('input')
+    await userEvent.type(input, 'aa')
+
+    expect(input).toHaveValue('aa')
+
+    {
+      const options = document.querySelectorAll('[role="option"]')
+      expect(options[0]).toHaveTextContent('AA c')
+      expect(options[1]).toHaveTextContent('Vis alt')
+
+      await userEvent.click(options[0])
+    }
+
+    expect(
+      document.querySelector('.dnb-drawer-list__option--selected')
+    ).not.toBeInTheDocument()
+
+    await userEvent.click(input)
+
+    expect(
+      document.querySelector('.dnb-drawer-list__option--selected')
+    ).not.toBeInTheDocument()
+
+    {
+      const options = document.querySelectorAll('[role="option"]')
+      expect(options[0]).toHaveTextContent('AA c')
+      expect(options[1]).toHaveTextContent('Vis alt')
+    }
+  })
+
   describe('input blur', () => {
     const mainElement = () => document.querySelector('.dnb-autocomplete')
     const inputElement = () =>

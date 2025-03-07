@@ -5,10 +5,7 @@
 
 import React, { useCallback } from 'react'
 import { Anchor as EufemiaAnchor } from '@dnb/eufemia/src'
-import {
-  AnchorAllProps as Props,
-  scrollToHashHandler,
-} from '@dnb/eufemia/src/components/Anchor'
+import { AnchorAllProps as Props } from '@dnb/eufemia/src/components/Anchor'
 import { GatsbyLinkProps, Link as GatsbyLink } from 'gatsby'
 import { startPageTransition } from './Transition'
 
@@ -47,12 +44,7 @@ const PortalLink = React.forwardRef(function Link<TState>(
 
 export { PortalLink as Link }
 
-export default function Anchor({
-  href,
-  to = null,
-  onClick = null,
-  ...rest
-}: AnchorProps) {
+export default function Anchor({ href, to = null, ...rest }: AnchorProps) {
   if (to) {
     href = to
   }
@@ -72,31 +64,5 @@ export default function Anchor({
 
   const element = (isAbsoluteUrl ? 'a' : PortalLink) as Props['element']
 
-  const clickHandler = useCallback(
-    (event: React.MouseEvent<HTMLAnchorElement>) => {
-      if (onClick) {
-        onClick(event)
-      }
-      try {
-        const element = scrollToHashHandler(event)?.element?.parentElement
-
-        if (element) {
-          element.classList.add('focus')
-          setTimeout(() => element.classList.remove('focus'), 3000)
-        }
-      } catch (error) {
-        console.error(error)
-      }
-    },
-    [onClick],
-  )
-
-  return (
-    <EufemiaAnchor
-      href={href}
-      element={element}
-      {...rest}
-      onClick={clickHandler}
-    />
-  )
+  return <EufemiaAnchor href={href} element={element} {...rest} />
 }

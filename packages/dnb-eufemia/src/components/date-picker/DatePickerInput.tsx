@@ -53,7 +53,7 @@ export type DatePickerInputProps = Omit<
   selectedDateTitle?: string
   maskOrder?: string
   maskPlaceholder?: string
-  separatorRexExp?: RegExp
+  separatorRegExp?: RegExp
   submitAttributes?: Record<string, unknown>
   isRange?: boolean
   /**
@@ -112,7 +112,7 @@ export type InvalidDates = {
 const defaultProps: DatePickerInputProps = {
   maskOrder: 'dd/mm/yyyy',
   maskPlaceholder: 'dd/mm/åååå',
-  separatorRexExp: /[-/ ]/g,
+  separatorRegExp: /[-/ ]/g,
   statusState: 'error',
   opened: false,
 }
@@ -123,7 +123,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   const {
     isRange,
     maskOrder,
-    separatorRexExp,
+    separatorRegExp,
     id,
     title,
     submitAttributes,
@@ -228,23 +228,20 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   // Keep dateRefs in sync with inputDates on re-render
   syncDateRefs(dateRefs, inputDates)
 
-  const startDateRef = useRef<Date>()
-  const endDateRef = useRef<Date>()
-
-  const temporaryDates = useMemo(
-    () => ({ startDate: startDateRef, endDate: endDateRef }),
-    []
-  )
+  const temporaryDates = useRef<Record<string, Date>>({
+    startDate: undefined,
+    endDate: undefined,
+  })
 
   const refList = useRef<Array<MutableRefObject<HTMLInputElement>>>()
 
   const focusMode = useRef<string>()
 
   const maskList = useMemo(() => {
-    const separators = maskOrder.match(separatorRexExp)
+    const separators = maskOrder.match(separatorRegExp)
 
     return maskOrder
-      .split(separatorRexExp)
+      .split(separatorRegExp)
       .reduce<Array<string>>((acc, cur) => {
         if (!cur) {
           return acc
@@ -259,7 +256,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
         return acc
       }, [])
-  }, [maskOrder, separatorRexExp])
+  }, [maskOrder, separatorRegExp])
 
   const pasteHandler = useCallback(
     async (event: React.ClipboardEvent<HTMLInputElement>) => {
@@ -649,10 +646,10 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       dateRefs.current[`${mode}${type}`] = value
 
       if (modeDate[`${mode}Date`]) {
-        temporaryDates[`${mode}Date`].current = modeDate[`${mode}Date`]
+        temporaryDates.current[`${mode}Date`] = modeDate[`${mode}Date`]
       }
 
-      const fallback = temporaryDates[`${mode}Date`].current
+      const fallback = temporaryDates.current[`${mode}Date`]
 
       // provide fallbacks to create a temp fallback
       const year =
@@ -780,7 +777,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         const { day, month, year } = translation
         const isRangeLabel = isRange ? `${translation[mode]} ` : ''
 
-        if (!separatorRexExp.test(value)) {
+        if (!separatorRegExp.test(value)) {
           if (!inputElement) {
             element = {
               ...element,
@@ -821,7 +818,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
                       inputSizeClassName
                     )}
                     size={2}
-                    mask={[/[0-3]/, /[0-9]/]}
+                    mask={[/[0-9]/, /[0-9]/]}
                     inputRef={inputRefs.current[`${mode}DayRef`]}
                     onChange={dateSetters[`set_${mode}Day`]}
                     value={inputDates[`__${mode}Day`] || ''}
@@ -853,7 +850,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
                       inputSizeClassName
                     )}
                     size={2}
-                    mask={[/[0-1]/, /[0-9]/]}
+                    mask={[/[0-9]/, /[0-9]/]}
                     inputRef={inputRefs.current[`${mode}MonthRef`]}
                     onChange={dateSetters[`set_${mode}Month`]}
                     value={inputDates[`__${mode}Month`] || ''}
@@ -885,7 +882,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
                       inputSizeClassName
                     )}
                     size={4}
-                    mask={[/[1-2]/, /[0-9]/, /[0-9]/, /[0-9]/]}
+                    mask={[/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/]}
                     inputRef={inputRefs.current[`${mode}YearRef`]}
                     onChange={dateSetters[`set_${mode}Year`]}
                     value={inputDates[`__${mode}Year`] || ''}
@@ -920,7 +917,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       isRange,
       size,
       translation,
-      separatorRexExp,
+      separatorRegExp,
       dateSetters,
       inputRefs,
       maskList,

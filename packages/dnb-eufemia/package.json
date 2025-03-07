@@ -106,7 +106,7 @@
   "typings": "./index.d.ts",
   "dependencies": {
     "@babel/runtime": "7.22.5",
-    "@navikt/fnrvalidator": "1.3.0",
+    "@navikt/fnrvalidator": "2.1.5",
     "@ungap/structured-clone": "1.2.0",
     "ajv": "8.14.0",
     "ajv-errors": "3.0.0",

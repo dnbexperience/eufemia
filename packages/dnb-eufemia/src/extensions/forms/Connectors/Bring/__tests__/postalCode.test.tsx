@@ -69,7 +69,7 @@ describe('postalCode', () => {
         <Form.Handler>
           <Field.PostalCodeAndCity
             // Use SE ini order to call "fetch" twice.
-            country="SE"
+            countryCode="SE"
             postalCode={{
               path: '/postalCode',
               onChangeValidator,
@@ -132,7 +132,7 @@ describe('postalCode', () => {
         <Form.Handler>
           <Field.PostalCodeAndCity
             // Use SE ini order to call "fetch" twice.
-            country="SE"
+            countryCode="SE"
             postalCode={{
               path: '/postalCode',
               onChangeValidator,
@@ -231,7 +231,7 @@ describe('postalCode', () => {
       render(
         <Form.Handler defaultData={{ postalCode: '0000' }}>
           <Field.PostalCodeAndCity
-            country="CH"
+            countryCode="CH"
             postalCode={{
               path: '/postalCode',
               onChangeValidator,
@@ -312,7 +312,7 @@ describe('postalCode', () => {
       render(
         <Form.Handler>
           <Field.PostalCodeAndCity
-            country="DK"
+            countryCode="DK"
             postalCode={{
               path: '/postalCode',
               onChangeValidator,
@@ -447,7 +447,7 @@ describe('postalCode', () => {
       render(
         <Form.Handler defaultData={{ postalCode: '0000' }}>
           <Field.PostalCodeAndCity
-            country="CH"
+            countryCode="CH"
             postalCode={{
               path: '/postalCode',
               onBlurValidator,
@@ -520,6 +520,35 @@ describe('postalCode', () => {
       ).not.toBeInTheDocument()
     })
 
+    it('should not validate when countryCode given in config is other than "NO"', async () => {
+      render(
+        <Field.PostalCodeAndCity
+          countryCode="CH"
+          postalCode={{
+            onBlurValidator,
+          }}
+        />
+      )
+
+      const postalCodeInput = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+      )
+
+      // Enter a valid (for Norway) postal code
+      await userEvent.type(postalCodeInput, '{Backspace>4}1391')
+      fireEvent.blur(postalCodeInput)
+
+      expect(postalCodeInput).toHaveValue('1391')
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+      })
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        unsupportedCountryCodeMessage.replace('{countryCode}', 'CH')
+      )
+    })
+
     it('url config can be a function that gives the value and the country', async () => {
       const url = jest.fn()
 
@@ -534,7 +563,7 @@ describe('postalCode', () => {
       render(
         <Form.Handler>
           <Field.PostalCodeAndCity
-            country="DK"
+            countryCode="DK"
             postalCode={{
               path: '/postalCode',
               onBlurValidator,
@@ -608,7 +637,7 @@ describe('postalCode', () => {
       render(
         <Form.Handler>
           <Field.PostalCodeAndCity
-            country="CH"
+            countryCode="CH"
             postalCode={{
               path: '/postalCode',
               onChange,
@@ -725,7 +754,7 @@ describe('postalCode', () => {
       render(
         <Form.Handler>
           <Field.PostalCodeAndCity
-            country="FI"
+            countryCode="FI"
             postalCode={{
               path: '/postalCode',
               onChange,

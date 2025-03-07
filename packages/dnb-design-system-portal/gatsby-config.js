@@ -159,6 +159,7 @@ const plugins = [
       // also load the extensions CSS package
       defaultTheme,
       wrapWithThemeProvider: false, // The portal uses its own wrapper: ThemeProvider
+      omitScrollBehavior: true, // Ensure smooth scrolling with CSS `scroll-behavior: smooth;` is working
     },
   },
 ].filter(Boolean)
