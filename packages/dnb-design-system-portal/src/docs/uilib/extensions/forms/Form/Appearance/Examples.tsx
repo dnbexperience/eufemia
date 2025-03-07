@@ -13,7 +13,7 @@ export const Size = () => {
             <Form.Appearance size={size}>
               <Form.Handler id="appearance">
                 <Flex.Stack>
-                  <Field.Selection label="Choose size">
+                  <Field.Selection label="Choose size" path="/size">
                     <Field.Option
                       value="default"
                       title="Small (Default)"
