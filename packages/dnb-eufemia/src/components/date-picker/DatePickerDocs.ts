@@ -55,7 +55,7 @@ export const DatePickerProperties: PropertiesTableProps = {
   },
   range: {
     doc:
-      'If the date picker should support a range of two dates (starting and ending date).' +
+      'Defines if the date picker should support a range of two dates (starting and ending date).' +
       'Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
