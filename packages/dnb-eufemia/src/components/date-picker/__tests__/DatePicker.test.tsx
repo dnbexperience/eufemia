@@ -2333,25 +2333,25 @@ describe('DatePicker component', () => {
           'sv-SE': {
             DatePicker: {
               day: 'dag',
-              month: 'måned',
+              month: 'månad',
               year: 'år',
-              start: 'fra',
-              end: 'til',
-              selectedDate: 'Valgt dato: %s',
-              selectedMonth: 'Valgt måned %s',
-              selectedYear: 'Valgt år %s',
-              nextMonth: 'Neste måned %s',
-              prevMonth: 'Forrige måned %s',
-              nextYear: 'Neste år %s',
-              prevYear: 'Forrige år %s',
-              openPickerText: 'åpne datovelger',
+              start: 'från',
+              end: 'till',
+              selectedDate: 'Valt datum: %s',
+              selectedMonth: 'Vald månad %s',
+              selectedYear: 'Valt år %s',
+              nextMonth: 'Nästa månad %s',
+              prevMonth: 'Förra månaden %s',
+              nextYear: 'Nästa år %s',
+              prevYear: 'Förra året %s',
+              openPickerText: 'öppna datumväljaren',
               maskOrder: 'dd/mm/yyyy',
               maskPlaceholder: 'dd.mm.åååå',
               dateFormat: 'yyyy-MM-dd',
               returnFormat: 'yyyy-MM-dd',
-              submitButtonText: 'Ok',
+              submitButtonText: 'Okej',
               cancelButtonText: 'Stänga',
-              resetButtonText: 'Tilbakestill',
+              resetButtonText: 'Återställa',
               placeholderCharacters: {
                 day: 'd',
                 month: 'm',
@@ -2368,7 +2368,7 @@ describe('DatePicker component', () => {
     expect(
       document.querySelector('[data-testid="cancel"]  .dnb-button__text')
         .textContent
-    ).toBe('No')
+    ).toBe('Stänga')
   })
 
   it('should fire fire event when input gets focus', async () => {
