@@ -53,7 +53,7 @@ export type DatePickerInputProps = Omit<
   selectedDateTitle?: string
   maskOrder?: string
   maskPlaceholder?: string
-  separatorRexExp?: RegExp
+  separatorRegExp?: RegExp
   submitAttributes?: Record<string, unknown>
   isRange?: boolean
   /**
@@ -112,7 +112,7 @@ export type InvalidDates = {
 const defaultProps: DatePickerInputProps = {
   maskOrder: 'dd/mm/yyyy',
   maskPlaceholder: 'dd/mm/åååå',
-  separatorRexExp: /[-/ ]/g,
+  separatorRegExp: /[-/ ]/g,
   statusState: 'error',
   opened: false,
 }
@@ -123,7 +123,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   const {
     isRange,
     maskOrder,
-    separatorRexExp,
+    separatorRegExp,
     id,
     title,
     submitAttributes,
@@ -238,10 +238,10 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   const focusMode = useRef<string>()
 
   const maskList = useMemo(() => {
-    const separators = maskOrder.match(separatorRexExp)
+    const separators = maskOrder.match(separatorRegExp)
 
     return maskOrder
-      .split(separatorRexExp)
+      .split(separatorRegExp)
       .reduce<Array<string>>((acc, cur) => {
         if (!cur) {
           return acc
@@ -256,7 +256,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
         return acc
       }, [])
-  }, [maskOrder, separatorRexExp])
+  }, [maskOrder, separatorRegExp])
 
   const pasteHandler = useCallback(
     async (event: React.ClipboardEvent<HTMLInputElement>) => {
@@ -777,7 +777,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         const { day, month, year } = translation
         const isRangeLabel = isRange ? `${translation[mode]} ` : ''
 
-        if (!separatorRexExp.test(value)) {
+        if (!separatorRegExp.test(value)) {
           if (!inputElement) {
             element = {
               ...element,
@@ -917,7 +917,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       isRange,
       size,
       translation,
-      separatorRexExp,
+      separatorRegExp,
       dateSetters,
       inputRefs,
       maskList,
