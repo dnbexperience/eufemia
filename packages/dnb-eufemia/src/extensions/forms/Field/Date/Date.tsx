@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo, useRef } from 'react'
+import React, { useCallback, useContext, useMemo } from 'react'
 import { DatePicker } from '../../../../components'
 import { useFieldProps } from '../../hooks'
 import type {
@@ -22,6 +22,7 @@ import { ProviderProps } from '../../../../shared/Provider'
 import { FormError } from '../../utils'
 import startOfDay from 'date-fns/startOfDay'
 import { InvalidDates } from '../../../../components/date-picker/DatePickerInput'
+import useInvalidDates from './hooks/useInvalidDates'
 
 // `range`, `showInput`, `showCancelButton` and `showResetButton` are not picked from the `DatePickerProps`
 // Since they require `Field.Date` specific comments, due to them having different default values
@@ -95,7 +96,7 @@ function DateComponent(props: DateProps) {
   const { errorRequired, label: defaultLabel } = useTranslation().Date
   const { locale } = useContext(SharedContext)
 
-  const invalidDatesRef = useRef<InvalidDates>({})
+  const { invalidDatesRef, setInvalidDates } = useInvalidDates()
 
   const errorMessages = useMemo(() => {
     return {
@@ -146,7 +147,7 @@ function DateComponent(props: DateProps) {
 
       return [...invalidDateErrors, ...dateLimitErrors]
     },
-    [props.maxDate, props.minDate, props.range, locale]
+    [props.maxDate, props.minDate, props.range, invalidDatesRef, locale]
   )
 
   const onBlurValidator = useMemo(() => {
@@ -171,15 +172,15 @@ function DateComponent(props: DateProps) {
       invalidEndDate,
     }: DatePickerEvent<React.ChangeEvent<HTMLInputElement>>) => {
       // Add to ref, for use in onBlurValidator, would be better if there was a way to add this to additional args
-      invalidDatesRef.current = {
+      setInvalidDates({
         invalidDate,
         invalidStartDate,
         invalidEndDate,
-      }
+      })
 
       return props.range ? `${start_date}|${end_date}` : date
     },
-    [props.range]
+    [props.range, setInvalidDates]
   )
 
   const preparedProps = {
