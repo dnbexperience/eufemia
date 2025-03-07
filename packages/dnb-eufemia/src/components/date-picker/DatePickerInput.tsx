@@ -147,7 +147,6 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
     ...attributes
   } = props
-
   const [focusState, setFocusState] = useState<string>('virgin')
 
   const { partialDatesRef, setPartialDates } = usePartialDates()
@@ -416,7 +415,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       // Get the partial dates, so we can know if something was typed or not in an optional date field
       setPartialDates({
         partialStartDate: startDate,
-        partialEndDate: endDate,
+        // Only set endDate if in range mode
+        ...(isRange && { partialEndDate: endDate }),
       })
 
       const parsedStartDate = parseISO(startDate)
