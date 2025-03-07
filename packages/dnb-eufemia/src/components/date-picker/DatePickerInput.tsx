@@ -818,7 +818,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
                       inputSizeClassName
                     )}
                     size={2}
-                    mask={[/[0-3]/, /[0-9]/]}
+                    mask={[/[0-9]/, /[0-9]/]}
                     inputRef={inputRefs.current[`${mode}DayRef`]}
                     onChange={dateSetters[`set_${mode}Day`]}
                     value={inputDates[`__${mode}Day`] || ''}
@@ -850,7 +850,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
                       inputSizeClassName
                     )}
                     size={2}
-                    mask={[/[0-1]/, /[0-9]/]}
+                    mask={[/[0-9]/, /[0-9]/]}
                     inputRef={inputRefs.current[`${mode}MonthRef`]}
                     onChange={dateSetters[`set_${mode}Month`]}
                     value={inputDates[`__${mode}Month`] || ''}
@@ -882,7 +882,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
                       inputSizeClassName
                     )}
                     size={4}
-                    mask={[/[1-2]/, /[0-9]/, /[0-9]/, /[0-9]/]}
+                    mask={[/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/]}
                     inputRef={inputRefs.current[`${mode}YearRef`]}
                     onChange={dateSetters[`set_${mode}Year`]}
                     value={inputDates[`__${mode}Year`] || ''}
