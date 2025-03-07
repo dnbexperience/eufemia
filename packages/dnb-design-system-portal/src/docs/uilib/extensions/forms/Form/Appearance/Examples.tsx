@@ -65,7 +65,6 @@ export const Size = () => {
                     valueOn="what-ever"
                     valueOff="you-name-it"
                   />
-
                   <Field.Boolean />
                   <Form.ButtonRow>
                     <Form.SubmitButton />
