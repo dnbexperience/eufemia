@@ -177,12 +177,7 @@ function DateComponent(props: DateProps) {
         invalidEndDate,
       }
 
-      return props.range
-        ? // Set startDate and endDate to invalid dates, to properly trigger error messages when typing in a range input,
-          // (undefined|undefined) does not trigger change or new error messages, even though onBlurValidator returns a new value
-          // Not an issue in non range inputs
-          `${start_date ?? invalidStartDate}|${end_date ?? invalidEndDate}`
-        : date
+      return props.range ? `${start_date}|${end_date}` : date
     },
     [props.range]
   )
@@ -238,16 +233,8 @@ function DateComponent(props: DateProps) {
 
     return {
       value: undefined,
-      // Set invalid date values to undefined, as invalid dates are not accepted by the DatePicker component
-      // Should be fixed when we remove the input control from the DatePicker component
-      startDate:
-        startDate === invalidDatesRef.current.invalidStartDate
-          ? undefined
-          : startDate,
-      endDate:
-        endDate === invalidDatesRef.current.invalidEndDate
-          ? undefined
-          : endDate,
+      startDate,
+      endDate,
     }
   }, [range, valueProp])
 
