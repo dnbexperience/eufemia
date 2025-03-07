@@ -22,8 +22,11 @@ export type DrawerListValue = string | number;
 export type DrawerListDataObject = DrawerListDataArrayObject;
 export type DrawerListDataArrayObject = {
   [customProperty: string]: any;
+  selectedValue?: string | React.ReactNode;
+  /** @deprecated use `DrawerListDataArrayObject` */
   selected_value?: string | React.ReactNode;
   selectedKey?: string | number;
+  /** @deprecated use `DrawerListDataArrayObject` */
   selected_key?: string | number;
   suffix_value?: string | React.ReactNode;
   content?: DrawerListContent;
