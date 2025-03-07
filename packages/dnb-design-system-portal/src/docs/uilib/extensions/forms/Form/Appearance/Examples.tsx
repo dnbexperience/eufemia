@@ -61,7 +61,6 @@ export const Size = () => {
                   <Field.Address.Postal />
                   <Field.Address.Street />
                   <Field.Indeterminate dependencePaths={[]} />
-
                   <Field.Toggle
                     valueOn="what-ever"
                     valueOff="you-name-it"
