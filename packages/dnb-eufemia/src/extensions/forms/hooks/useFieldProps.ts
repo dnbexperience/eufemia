@@ -464,12 +464,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const localErrorInitiatorRef = useRef<ErrorInitiator>()
 
   // - Context errors are from outer contexts, like validation for this field as part of the whole data set
-  const dataContextError = useMemo(() => {
-    return path ? dataContextErrors?.[identifier] : undefined
-  }, [dataContextErrors, identifier, path])
-  const contextErrorRef = useRef<Error | FormError | undefined>(
-    dataContextError
-  )
+  const contextErrorRef = useRef<Error | FormError | undefined>()
 
   const onChangeValidatorRef = useRef(onChangeValidator)
   useUpdateEffect(() => {
@@ -718,6 +713,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   )
 
   contextErrorRef.current = useMemo(() => {
+    const dataContextError = dataContextErrors?.[path]
     if (!dataContextError) {
       return undefined
     }
@@ -725,7 +721,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     if (errorChanged(error, contextErrorRef.current)) {
       return error
     }
-  }, [dataContextError, prepareError])
+    return contextErrorRef.current
+  }, [dataContextErrors, path, prepareError])
 
   // If the error is a type error, we want to show it even if the field as not been used
   if (localErrorRef.current?.['ajvKeyword'] === 'type') {
@@ -1995,7 +1992,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     // Check against the local error state,
     // so we prioritize the local error state over the context error state
     if (!localErrorInitiatorRef.current) {
-      const error = prepareError(dataContextError)
+      const error = contextErrorRef.current
       if (error) {
         persistErrorState('weak', 'dataContextError', error)
         if (validateInitially) {
@@ -2006,8 +2003,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       }
     }
   }, [
+    dataContextErrors, // Is needed in order to trigger a re-render when the error state changes.
     clearErrorState,
-    dataContextError,
     handleError,
     persistErrorState,
     prepareError,
