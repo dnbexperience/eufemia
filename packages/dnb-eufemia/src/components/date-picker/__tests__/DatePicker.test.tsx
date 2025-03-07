@@ -2369,6 +2369,16 @@ describe('DatePicker component', () => {
       document.querySelector('[data-testid="cancel"]  .dnb-button__text')
         .textContent
     ).toBe('Stänga')
+
+    expect(
+      document.querySelector('[data-testid="reset"]  .dnb-button__text')
+        .textContent
+    ).toBe('Återställa')
+
+    expect(
+      document.querySelector('[data-testid="submit"]  .dnb-button__text')
+        .textContent
+    ).toBe('Okej')
   })
 
   it('should fire fire event when input gets focus', async () => {
