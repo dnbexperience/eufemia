@@ -2444,7 +2444,19 @@ describe('DatePicker component', () => {
     expect(onBlur).toHaveBeenCalledWith(
       expect.objectContaining({
         date: '2025-11-12',
-        partialDate: '2025-11-12',
+        partialDate: null,
+      })
+    )
+
+    // Remove part of year to make date partial again
+    await userEvent.click(yearInput)
+    await userEvent.keyboard('{ArrowRight>4}{Backspace}')
+    await userEvent.click(document.body)
+    expect(onBlur).toHaveBeenCalledTimes(5)
+    expect(onBlur).toHaveBeenCalledWith(
+      expect.objectContaining({
+        date: null,
+        partialDate: '202y-11-12',
       })
     )
   })
@@ -2505,7 +2517,7 @@ describe('DatePicker component', () => {
       expect.objectContaining({
         start_date: '2025-11-12',
         end_date: null,
-        partialStartDate: '2025-11-12',
+        partialStartDate: null,
         partialEndDate: 'yyyy-mm-dd',
       })
     )
@@ -2517,7 +2529,7 @@ describe('DatePicker component', () => {
       expect.objectContaining({
         start_date: '2025-11-12',
         end_date: null,
-        partialStartDate: '2025-11-12',
+        partialStartDate: null,
         partialEndDate: 'yyyy-mm-13',
       })
     )
@@ -2529,7 +2541,7 @@ describe('DatePicker component', () => {
       expect.objectContaining({
         start_date: '2025-11-12',
         end_date: null,
-        partialStartDate: '2025-11-12',
+        partialStartDate: null,
         partialEndDate: 'yyyy-09-13',
       })
     )
@@ -2542,7 +2554,7 @@ describe('DatePicker component', () => {
       expect.objectContaining({
         start_date: '2025-11-12',
         end_date: null,
-        partialStartDate: '2025-11-12',
+        partialStartDate: null,
         partialEndDate: '202y-09-13',
       })
     )
@@ -2555,8 +2567,36 @@ describe('DatePicker component', () => {
       expect.objectContaining({
         start_date: '2025-11-12',
         end_date: '2026-09-13',
-        partialStartDate: '2025-11-12',
-        partialEndDate: '2026-09-13',
+        partialStartDate: null,
+        partialEndDate: null,
+      })
+    )
+
+    // Remove part of end year to make end date partial again
+    await userEvent.click(endYearInput)
+    await userEvent.keyboard('{ArrowRight>4}{Backspace}')
+    await userEvent.click(document.body)
+    expect(onBlur).toHaveBeenCalledTimes(9)
+    expect(onBlur).toHaveBeenCalledWith(
+      expect.objectContaining({
+        start_date: '2025-11-12',
+        end_date: null,
+        partialStartDate: null,
+        partialEndDate: '202y-09-13',
+      })
+    )
+
+    // Remove part of start year to make start date partial again
+    await userEvent.click(startYearInput)
+    await userEvent.keyboard('{ArrowRight>4}{Backspace}')
+    await userEvent.click(document.body)
+    expect(onBlur).toHaveBeenCalledTimes(10)
+    expect(onBlur).toHaveBeenCalledWith(
+      expect.objectContaining({
+        start_date: null,
+        end_date: null,
+        partialStartDate: '202y-11-12',
+        partialEndDate: '202y-09-13',
       })
     )
   })
