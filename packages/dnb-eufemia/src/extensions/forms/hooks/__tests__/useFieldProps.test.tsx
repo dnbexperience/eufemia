@@ -6993,6 +6993,81 @@ describe('useFieldProps', () => {
         expect(result.current.disabled).toBeUndefined()
       })
     })
+
+    it('should rerender returned error when onBlurValidator returns array with different errors', async () => {
+      const firstReturn = [new Error('first error')]
+      const secondReturn = [
+        new Error('first error'),
+        new Error('second error'),
+      ]
+
+      let count = 0
+      const onBlurValidator = () => {
+        count++
+        if (count > 1) {
+          return secondReturn
+        }
+        return firstReturn
+      }
+
+      const { result } = renderHook(useFieldProps, {
+        initialProps: {
+          onBlurValidator,
+          value: '',
+        },
+      })
+
+      expect(result.current.error).toBeUndefined()
+
+      act(() => {
+        result.current.handleChange('1')
+        result.current.handleBlur()
+      })
+      expect(count).toBe(1)
+      expect(result.current.error['errors']).toEqual(firstReturn)
+
+      act(() => {
+        result.current.handleBlur()
+      })
+      expect(count).toBe(2)
+      expect(result.current.error['errors']).toEqual(secondReturn)
+    })
+
+    it('should rerender returned error when onBlurValidator returns array changed error', async () => {
+      const firstReturn = [new Error('Error message')]
+      const secondReturn = [new Error('Changed error message')]
+
+      let count = 0
+      const onBlurValidator = () => {
+        count++
+        if (count > 1) {
+          return secondReturn
+        }
+        return firstReturn
+      }
+
+      const { result } = renderHook(useFieldProps, {
+        initialProps: {
+          onBlurValidator,
+          value: '',
+        },
+      })
+
+      expect(result.current.error).toBeUndefined()
+
+      act(() => {
+        result.current.handleChange('1')
+        result.current.handleBlur()
+      })
+      expect(count).toBe(1)
+      expect(result.current.error['errors']).toEqual(firstReturn)
+
+      act(() => {
+        result.current.handleBlur()
+      })
+      expect(count).toBe(2)
+      expect(result.current.error['errors']).toEqual(secondReturn)
+    })
   })
 
   describe('setMountedFieldState', () => {
