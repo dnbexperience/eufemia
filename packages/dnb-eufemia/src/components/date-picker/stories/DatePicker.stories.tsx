@@ -559,3 +559,44 @@ export const CorrectInvalidDateExample = () => {
     />
   )
 }
+
+export const ProviderLocaleExample = () => {
+  return (
+    <Provider
+      locale="sv-SE"
+      translations={{
+        'sv-SE': {
+          DatePicker: {
+            day: 'dag',
+            month: 'måned',
+            year: 'år',
+            start: 'fra',
+            end: 'til',
+            selectedDate: 'Valgt dato: %s',
+            selectedMonth: 'Valgt måned %s',
+            selectedYear: 'Valgt år %s',
+            nextMonth: 'Neste måned %s',
+            prevMonth: 'Forrige måned %s',
+            nextYear: 'Neste år %s',
+            prevYear: 'Forrige år %s',
+            openPickerText: 'åpne datovelger',
+            maskOrder: 'dd/mm/yyyy',
+            maskPlaceholder: 'dd.mm.åååå', // have to be same setup as "mask" - but can be like: dd/mm/åååå
+            dateFormat: 'yyyy-MM-dd', // in v1 of date-fns we were more flexible in terms of the format
+            returnFormat: 'yyyy-MM-dd', // used in date-fns v1: YYYY-MM-DD
+            submitButtonText: 'Ok',
+            cancelButtonText: 'Avbryt',
+            resetButtonText: 'Tilbakestill',
+            placeholderCharacters: {
+              day: 'd',
+              month: 'm',
+              year: 'å',
+            },
+          },
+        },
+      }}
+    >
+      <DatePicker showInput />
+    </Provider>
+  )
+}
