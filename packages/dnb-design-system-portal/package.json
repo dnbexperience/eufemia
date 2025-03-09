@@ -59,6 +59,7 @@
     "@babel/core": "7.22.5",
     "@babel/eslint-parser": "7.22.5",
     "@babel/node": "7.22.5",
+    "@dnb/browserslist-config": "1.2.0",
     "@emotion/cache": "11.11.0",
     "@playwright/test": "1.49.1",
     "@types/json-schema": "7.0.12",
