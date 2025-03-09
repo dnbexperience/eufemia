@@ -5,6 +5,10 @@ order: 3
 ---
 
 import WatchingReleases from 'Docs/uilib/info/about-watching-releases.mdx'
+import {
+  SupportedBrowsersConfig,
+  SupportedBrowsersTable,
+} from 'Docs/uilib/assets/SupportedBrowsers'
 
 # Usage
 
@@ -36,8 +40,16 @@ Read more in the [First Steps](/uilib/usage/first-steps/) section.
 
 ## Supported Browsers and Platforms
 
+<SupportedBrowsersTable />
+
+### Configuration and Browserslist
+
 Eufemia uses the [@dnb/browserslist-config](https://github.com/dnbexperience/browserslist-config) configuration for the bundle output, defined in `.browserslistrc`:
 
 - `extends @dnb/browserslist-config`
 
-To see exactly which browsers this config supports, take a look [here](https://browsersl.ist/#q=defaults+and+supports+es6-module).
+It only effects the JavaScript bundle output, not the CSS bundle output.
+
+To see exactly which browsers this config supports, paste the following config into the [Check compatible browsers](https://browsersl.ist/#q=defaults+and+supports+es6-module) tool:
+
+<SupportedBrowsersConfig />
