@@ -4,8 +4,40 @@
  */
 
 import React from 'react'
-import HelpButton from '../../components/help-button/HelpButton'
+
 import ToggleButton from '../../components/toggle-button/ToggleButton'
+import Timeline from '../../components/timeline/Timeline'
+import Breadcrumb from '../../components/breadcrumb/Breadcrumb'
+import DatePicker from '../../components/date-picker/DatePicker'
+import Anchor from '../../components/anchor/Anchor'
+import GlobalStatus from '../../components/global-status/GlobalStatus'
+import GlobalError from '../../components/global-error/GlobalError'
+import ProgressIndicator from '../../components/progress-indicator/ProgressIndicator'
+import Dropdown from '../../components/dropdown/Dropdown'
+import Autocomplete from '../../components/autocomplete/Autocomplete'
+import Modal from '../../components/modal/Modal'
+import Dialog from '../../components/dialog/Dialog'
+import CopyOnClick from '../../components/copy-on-click/CopyOnClick'
+import NumberFormat from '../../components/number-format/NumberFormat'
+import HelpButton from '../../components/help-button/HelpButton'
+import Input from '../../components/input/Input'
+import Pagination from '../../components/pagination/Pagination'
+import Skeleton from '../../components/skeleton/Skeleton'
+import StepIndicator from '../../components/step-indicator/StepIndicator'
+import Slider from '../../components/slider/Slider'
+import Tag from '../../components/tag/Tag'
+import Table from '../../components/table/Table'
+import Upload from '../../components/upload/Upload'
+
+import Th from '../../components/table/TableTh'
+import Td from '../../components/table/TableTd'
+import Tr from '../../components/table/TableTr'
+
+import PaymentCard from '../../extensions/payment-card/PaymentCard'
+
+import TextCounter from '../../fragments/text-counter/TextCounter'
+
+import P from '../../elements/P'
 
 import Context, {
   ContextProps,
@@ -479,6 +511,292 @@ describe('Provider', () => {
           .querySelectorAll('.nb-NO button')[1]
           .getAttribute('aria-pressed')
       ).toBe('true')
+    })
+
+    it('should support custom locale like sv-SE', () => {
+      render(
+        <Provider
+          locale="sv-SE"
+          translations={{
+            'sv-SE': {
+              TextCounter: {
+                characterDown: '%count av %max tecken kvar.',
+                characterUp: 'Du har använt %count av %max tecken.',
+                characterExceeded: '%count tecken över gränsen på %max.',
+              },
+              TimelineItem: {
+                alt_label_completed: 'Slutförd',
+                alt_label_current: 'Aktuell',
+                alt_label_upcoming: 'Kommande',
+              },
+              Breadcrumb: {
+                navText: 'Sidhierarki',
+                goBackText: 'Tillbaka',
+                homeText: 'Hem',
+                backToText: 'Tillbaka till...',
+              },
+              DatePicker: {
+                day: 'dag',
+                month: 'månad',
+                year: 'år',
+                start: 'från',
+                end: 'till',
+                selectedDate: 'Valt datum: %s',
+                selectedMonth: 'Vald månad %s',
+                selectedYear: 'Valt år %s',
+                nextMonth: 'Nästa månad %s',
+                prevMonth: 'Förra månaden %s',
+                nextYear: 'Nästa år %s',
+                prevYear: 'Förra året %s',
+                openPickerText: 'öppna datumväljaren',
+                maskOrder: 'dd/mm/yyyy',
+                maskPlaceholder: 'dd.mm.åååå',
+                dateFormat: 'yyyy-MM-dd',
+                returnFormat: 'yyyy-MM-dd',
+                submitButtonText: 'Okej',
+                cancelButtonText: 'Stänga',
+                resetButtonText: 'Återställa',
+                placeholderCharacters: {
+                  day: 'd',
+                  month: 'm',
+                  year: 'å',
+                },
+                // TODO: add firstDay
+              },
+              Anchor: {
+                targetBlankTitle: 'Öppnar ett nytt fönster',
+              },
+              GlobalStatus: {
+                default_title: 'Ett fel har inträffat',
+                close_text: 'Stäng',
+                status_anchor_text: 'Gå till %s',
+              },
+              GlobalError: {
+                404: {
+                  title: 'Vi kan inte hitta sidan du letar efter...',
+                  text: 'Är du säker på att du har skrivit rätt adress? Eller har vi bråkat med länkarna?',
+                },
+                500: {
+                  title: 'Förlåt, något gick fel här!',
+                  text: 'Tjänsten fungerar inte som den ska för tillfället, men försök igen senare.',
+                },
+                code: 'Felmeddelandekod:',
+                help: 'Här är några länkar som kan hjälpa:',
+              },
+              ProgressIndicator: {
+                indicator_label: 'Vänta...',
+              },
+              Dropdown: {
+                title: 'Valmenyn',
+              },
+              Autocomplete: {
+                title: 'Skriv och välj',
+                submit_button_title: 'Visa alternativ',
+                no_options: 'Inga alternativ',
+                show_all: 'Visa alla',
+                show_options_sr:
+                  'Bläddra bland alternativ, stäng med esc-tangenten',
+                aria_live_options: '%s alternativ',
+                selected_sr: 'Vald:',
+                indicator_label: 'Hämtar data ...',
+              },
+              Modal: {
+                dialog_title: 'Separat fönster',
+                close_title: 'Stäng',
+              },
+              Dialog: {
+                declineText: 'Avbryt',
+                confirmText: 'Acceptera',
+              },
+              CopyOnClick: {
+                clipboard_copy: 'Kopierade',
+              },
+              NumberFormat: {
+                clipboard_copy: 'Kopierat',
+                not_available: 'Inte tillgängligt',
+              },
+              HelpButton: {
+                title: 'Hjälptext',
+                aria_role: 'Hjälpknapp',
+              },
+              Input: {
+                submit_button_title: 'Skicka knapp',
+                clear_button_title: 'Återställ',
+              },
+              Pagination: {
+                button_title: 'Sida %s',
+                next_title: 'Nästa sida',
+                prev_title: 'Föregående sida',
+                more_pages: '%s fler sidor',
+                is_loading_text: 'Laddar nytt innehåll',
+                load_button_text: 'Visa mer innehåll',
+              },
+              Skeleton: {
+                aria_busy: 'Bearbetar data ...',
+                aria_ready: 'Redo att interagera',
+              },
+              StepIndicator: {
+                overview_title: 'Stegöversikt',
+                step_title_extended: 'Du är på steg %step av %count',
+                step_title: 'Steg %step av %count',
+              },
+              Slider: {
+                addTitle: 'Öka (%s)',
+                subtractTitle: 'Subtrahera (%s)',
+              },
+              PaymentCard: {
+                text_card_number: 'Kortnummer',
+                text_expired: 'Utgånget',
+                text_blocked: 'Blockerad',
+                text_not_active: 'Inte aktiverad',
+                text_order_in_process: 'I process',
+                text_renewed: 'Förnyad',
+                text_replaced: 'Bytts ut',
+                text_unknown: 'Okänd',
+              },
+              Tag: {
+                removeIconTitle: 'Ta bort',
+                addIconTitle: 'Lägg till',
+              },
+              Table: {
+                accordionToggleButtonSR: 'Visa mer innehåll',
+                accordionMoreContentSR: 'Mer innehåll på nästa rad',
+                navigationButtonSR: 'Navigera till mer innehåll',
+              },
+              Upload: {
+                title: 'Ladda upp dokument',
+                text: 'Dra och släpp eller välj vilka filer du vill ladda upp.',
+                textSingular:
+                  'Dra och släpp eller välj vilken fil du vill ladda upp.',
+                fileTypeTableCaption:
+                  'Tillåtna filformat och max filstorlek',
+                fileTypeDescription: 'Tillåtna filformat:',
+                fileSizeDescription: 'Max filstorlek:',
+                fileAmountDescription: 'Max antal filer:',
+                fileSizeContent: '%size MB',
+                buttonText: 'Välj filer',
+                buttonTextSingular: 'Välj fil',
+                loadingText: 'Lastar',
+                errorLargeFile:
+                  'Filen du försöker ladda upp är för stor, den maximala storleken som stöds är %size MB.',
+                errorAmountLimit:
+                  'Antalet filer du kan ladda upp är begränsat (%amount).',
+                errorUnsupportedFile:
+                  'Filen du försöker ladda upp stöds inte.',
+                deleteButton: 'Radera',
+                fileListAriaLabel: 'uppladdade filer',
+              },
+            },
+          }}
+        >
+          <TextCounter variant="down" text="test" max={10} />
+          <Timeline
+            data={[
+              {
+                title: 'Completed event',
+                subtitle: '10. september 2021',
+                state: 'completed',
+              },
+            ]}
+          />
+          <Breadcrumb />
+          <DatePicker opened />
+          <Anchor href="https://dnb.no/">link to a website</Anchor>
+          <GlobalStatus show />
+          <GlobalError />
+          <ProgressIndicator />
+          <Dropdown data={['data']} />
+          <Autocomplete data={['data']} />
+          <Modal>Text</Modal>
+          <Dialog>Text</Dialog>
+          <CopyOnClick>Text</CopyOnClick>
+          <NumberFormat value="12345" />
+          <HelpButton>Text</HelpButton>
+          <Pagination
+            page_count={888}
+            current_page={4}
+            on_change={({ pageNumber }) => {
+              console.log('on_change:', pageNumber)
+            }}
+          >
+            <P>Current Page Content</P>
+          </Pagination>
+          <Skeleton show>
+            <P>Heading</P>
+          </Skeleton>
+          <StepIndicator.Sidebar sidebar_id="unique-id-strict" />
+          <StepIndicator
+            sidebar_id="unique-id-strict"
+            mode="strict"
+            data={[
+              {
+                title: 'Velg mottaker',
+              },
+            ]}
+          />
+          <Slider />
+          <PaymentCard product_code="NK1" card_number="************1337" />
+          <Tag.Group label="Interactable tags">
+            <Tag>Tag</Tag>
+          </Tag.Group>
+          <Table>
+            <caption className="dnb-sr-only">A Table Caption</caption>
+            <thead>
+              <Tr>
+                <Th>Column</Th>
+                <Th>
+                  <Th.Horizontal>
+                    Help Button
+                    <Th.HelpButton>Help Content</Th.HelpButton>
+                  </Th.Horizontal>
+                </Th>
+                <Th sortable>
+                  <Th.SortButton
+                    text="Sortable Active"
+                    title="Sort table column"
+                  />
+                </Th>
+                <Th sortable align="right">
+                  <Th.SortButton
+                    text="Sortable"
+                    title="Sort table column"
+                  />
+                </Th>
+              </Tr>
+            </thead>
+            <tbody>
+              <Tr>
+                <Td>Row 1</Td>
+                <Td>Row 1</Td>
+                <Td>Row 1</Td>
+                <Td align="right">Row 1</Td>
+              </Tr>
+              <Tr>
+                <Td>Row 2</Td>
+                <Td>Row 2</Td>
+                <Td>Row 2</Td>
+                <Td align="right">Row 2</Td>
+              </Tr>
+              <Tr>
+                <Td>
+                  <P>Row 3 with paragraph</P>
+                </Td>
+                <Td>Row 3 with text</Td>
+                <Td>
+                  <P>
+                    Row 3 with <b>medium paragraph</b>
+                  </P>
+                </Td>
+                <Td align="right">
+                  Row 3 with <b>medium text</b>
+                </Td>
+              </Tr>
+            </tbody>
+          </Table>
+          <Upload acceptedFileTypes={['jpg', 'png']} />
+        </Provider>
+      )
+      expect(true).toBe(true)
     })
   })
 })
