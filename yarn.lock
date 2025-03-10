@@ -3095,7 +3095,7 @@ __metadata:
     typescript: "npm:5.2.2"
     vd-tool: "npm:4.0.2"
     wait-on: "npm:6.0.0"
-    what-input: "npm:5.2.10"
+    what-input: "npm:5.2.12"
   peerDependencies:
     "@types/react": ^17 || ^18
     "@types/react-dom": ^17 || ^18
@@ -33596,10 +33596,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"what-input@npm:5.2.10":
-  version: 5.2.10
-  resolution: "what-input@npm:5.2.10"
-  checksum: 10/c52d79505bfe6588adb06a5ee3256ce2ec1067d0281d134d6a6e75f36f78a005d804ca53762df2ff01bb11769409dad4dd34486c8dc940e4a614700e47d3897a
+"what-input@npm:5.2.12":
+  version: 5.2.12
+  resolution: "what-input@npm:5.2.12"
+  checksum: 10/eeda7ce832e0f02e20d0bc4c0540053b2fa3e2c8e9f9217e5506785860422b4a58b54ae65d16495d68d8cce415b27236c4f62ad058e131c14d4a5a56a9741e25
   languageName: node
   linkType: hard
 
