@@ -20,7 +20,8 @@ export const RequiredAndOptionalFields = () => {
           <Field.String
             path="/custom"
             label="Label"
-            labelDescription="\nLabel description"
+            labelDescription="Label description"
+            labelDescriptionNextLine
             required={false}
           />
           <Field.Currency path="/amount" label="Amount" />

@@ -193,7 +193,8 @@ export const WithInlineHelp = () => {
       <Form.Card>
         <Field.String
           label="Ønsket lånebeløp"
-          labelDescription={'\nDescription'}
+          labelDescription="Description"
+          labelDescriptionNextLine
           help={{
             title: 'Hva betyr lånebeløp?',
             content: 'Dette er hvor mye du har tenkt å låne totalt.',
@@ -204,7 +205,8 @@ export const WithInlineHelp = () => {
         />
         <Field.String
           label="Ønsket lånebeløp"
-          labelDescription={'\nDescription'}
+          labelDescription="Description"
+          labelDescriptionNextLine
           multiline
           help={{
             title: 'Hva betyr lånebeløp?',

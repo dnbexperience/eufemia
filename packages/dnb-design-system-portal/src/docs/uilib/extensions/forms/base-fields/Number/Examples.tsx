@@ -38,7 +38,8 @@ export const LabelAndDescription = () => {
         />
         <Field.Number
           label="Label text"
-          labelDescription="\nDescription text with new line using \\n"
+          labelDescription="Description text on the next line"
+          labelDescriptionNextLine
           placeholder="Enter a text..."
         />
       </Form.Card>
