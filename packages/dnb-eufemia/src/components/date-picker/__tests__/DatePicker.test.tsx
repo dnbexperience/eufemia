@@ -2324,7 +2324,7 @@ describe('DatePicker component', () => {
     expect(separator2.textContent).toBe('/')
   })
 
-  it('renders correct translations when using custom locale like sv-SE', () => {
+  it('renders should support `sv-SE` locale', () => {
     render(
       <Provider
         locale="sv-SE"
