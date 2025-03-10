@@ -2507,7 +2507,7 @@ describe('DatePicker component', () => {
     expect(onBlur).toHaveBeenCalledWith(
       expect.objectContaining({
         date: null,
-        partialDate: '202y-11-12',
+        partialDate: '202å-11-12',
       })
     )
 
@@ -2530,7 +2530,7 @@ describe('DatePicker component', () => {
     expect(onBlur).toHaveBeenCalledWith(
       expect.objectContaining({
         date: null,
-        partialDate: '202y-11-12',
+        partialDate: '202å-11-12',
       })
     )
   })
@@ -2579,7 +2579,7 @@ describe('DatePicker component', () => {
       expect.objectContaining({
         start_date: null,
         end_date: null,
-        partialStartDate: '202y-11-12',
+        partialStartDate: '202å-11-12',
         partialEndDate: 'yyyy-mm-dd',
       })
     )
@@ -2629,7 +2629,7 @@ describe('DatePicker component', () => {
         start_date: '2025-11-12',
         end_date: null,
         partialStartDate: null,
-        partialEndDate: '202y-09-13',
+        partialEndDate: '202å-09-13',
       })
     )
 
@@ -2656,7 +2656,7 @@ describe('DatePicker component', () => {
         start_date: '2025-11-12',
         end_date: null,
         partialStartDate: null,
-        partialEndDate: '202y-09-13',
+        partialEndDate: '202å-09-13',
       })
     )
 
@@ -2669,8 +2669,8 @@ describe('DatePicker component', () => {
       expect.objectContaining({
         start_date: null,
         end_date: null,
-        partialStartDate: '202y-11-12',
-        partialEndDate: '202y-09-13',
+        partialStartDate: '202å-11-12',
+        partialEndDate: '202å-09-13',
       })
     )
   })
