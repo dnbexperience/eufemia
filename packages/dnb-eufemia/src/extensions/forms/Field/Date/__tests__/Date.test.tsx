@@ -1517,110 +1517,6 @@ describe('Field.Date', () => {
       ).not.toBeInTheDocument()
     })
 
-    it('should export `dateLimitValidator`', async () => {
-      const myOnBlurValidator = (value: string) => {
-        if (value === '2025-01-01') {
-          return new Error('My custom message')
-        }
-
-        if (value === '2025-01-03') {
-          return [
-            new Error('My custom message 1'),
-            new Error('My custom message 2'),
-          ]
-        }
-      }
-
-      const onBlurValidator = (value: string, { validators }) => {
-        const { dateLimitValidator } = validators
-
-        return [myOnBlurValidator, dateLimitValidator]
-      }
-
-      const minDate = '2025-01-01'
-      const maxDate = '2025-01-31'
-
-      render(
-        <Field.Date
-          value="2025-01-02"
-          minDate={minDate}
-          maxDate={maxDate}
-          onBlurValidator={onBlurValidator}
-        />
-      )
-
-      const [day, month]: Array<HTMLInputElement> = Array.from(
-        document.querySelectorAll('.dnb-date-picker__input')
-      )
-
-      await userEvent.click(day)
-      await userEvent.keyboard('{ArrowDown}')
-      await userEvent.click(document.body)
-
-      expect(
-        document.querySelector('.dnb-form-status--error')
-      ).toBeInTheDocument()
-
-      expect(screen.getByRole('alert')).toHaveTextContent(
-        'My custom message'
-      )
-
-      await userEvent.click(day)
-      await userEvent.keyboard('{ArrowUp>2}')
-      await userEvent.click(document.body)
-
-      expect(
-        document.querySelector('.dnb-form-status--error')
-      ).toBeInTheDocument()
-
-      const [firstMessage, secondMessage] = Array.from(
-        document.querySelectorAll('.dnb-li')
-      )
-
-      expect(firstMessage).toHaveTextContent('My custom message 1')
-      expect(secondMessage).toHaveTextContent('My custom message 2')
-
-      await userEvent.click(month)
-      await userEvent.keyboard('{ArrowUp}')
-      await userEvent.click(document.body)
-
-      expect(
-        document.querySelector('.dnb-form-status--error')
-      ).toBeInTheDocument()
-
-      expect(screen.getByRole('alert')).toHaveTextContent(
-        nb.Date.errorMaxDate.replace(
-          /\{date\}/,
-          formatDate(maxDate, formatOptions.no)
-        )
-      )
-
-      await userEvent.click(month)
-      await userEvent.keyboard('{ArrowDown>2}')
-      await userEvent.click(document.body)
-
-      expect(
-        document.querySelector('.dnb-form-status--error')
-      ).toBeInTheDocument()
-
-      expect(screen.getByRole('alert')).toHaveTextContent(
-        nb.Date.errorMinDate.replace(
-          /\{date\}/,
-          formatDate(minDate, formatOptions.no)
-        )
-      )
-
-      await userEvent.click(month)
-      await userEvent.keyboard('{ArrowUp}')
-      await userEvent.click(day)
-      await userEvent.keyboard('{ArrowDown}')
-      await userEvent.click(document.body)
-
-      expect(
-        document.querySelector('.dnb-form-status--error')
-      ).not.toBeInTheDocument()
-    })
-
     it('should disabled `dateLimitValidator` if `onBlurValidation` is set to `false`', async () => {
       const minDate = '2025-01-01'
       const maxDate = '2025-01-31'
@@ -1804,6 +1700,318 @@ describe('Field.Date', () => {
         )
       )
     })
+  })
+
+  describe('invalid date validation', () => {
+    it('should display error if date is invalid', async () => {
+      render(<Field.Date />)
+
+      const dayInput = document.querySelector(
+        '.dnb-date-picker__input--day'
+      )
+
+      await userEvent.click(dayInput)
+      await userEvent.keyboard('39192025')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+
+      expect(
+        document.querySelector('.dnb-form-status__text')
+      ).toHaveTextContent(nb.Date.errorInvalidDate)
+
+      await userEvent.click(dayInput)
+      await userEvent.keyboard('11122025')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should display error if start date or end date is invalid', async () => {
+      render(<Field.Date range />)
+
+      const dayInput = document.querySelector(
+        '.dnb-date-picker__input--day'
+      )
+
+      const getMessages = () =>
+        Array.from(
+          document.querySelectorAll('.dnb-form-status .dnb-li')
+        ) as Array<HTMLLIElement>
+
+      // Type start date
+      await userEvent.click(dayInput)
+      await userEvent.keyboard('39192025')
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+
+      expect(
+        document.querySelector('.dnb-form-status__text')
+      ).toHaveTextContent(nb.Date.errorInvalidStartDate)
+
+      // Type end date
+      await userEvent.keyboard('39192026')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+      expect(getMessages().at(0)).toHaveTextContent(
+        nb.Date.errorInvalidStartDate
+      )
+      expect(getMessages().at(1)).toHaveTextContent(
+        nb.Date.errorInvalidEndDate
+      )
+
+      // Type valid start date
+      await userEvent.click(dayInput)
+      await userEvent.keyboard('11122025')
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-form-status__text')
+      ).toHaveTextContent(nb.Date.errorInvalidEndDate)
+
+      // Type valid end date
+      await userEvent.keyboard('11122026')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should display invalid date error message based on locale', async () => {
+      render(
+        <Form.Handler locale="en-GB">
+          <Field.Date />
+        </Form.Handler>
+      )
+
+      const dayInput = document.querySelector(
+        '.dnb-date-picker__input--day'
+      )
+
+      await userEvent.click(dayInput)
+      await userEvent.keyboard('39192025')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+
+      expect(
+        document.querySelector('.dnb-form-status__text')
+      ).toHaveTextContent(en.Date.errorInvalidDate)
+
+      await userEvent.click(dayInput)
+      await userEvent.keyboard('11122025')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should display invalid date error message based on locale when in `range` mode', async () => {
+      render(
+        <Form.Handler locale="en-GB">
+          <Field.Date range />
+        </Form.Handler>
+      )
+
+      const dayInput = document.querySelector(
+        '.dnb-date-picker__input--day'
+      )
+
+      const getMessages = () =>
+        Array.from(
+          document.querySelectorAll('.dnb-form-status .dnb-li')
+        ) as Array<HTMLLIElement>
+
+      // Type start date
+      await userEvent.click(dayInput)
+      await userEvent.keyboard('39192025')
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+
+      expect(
+        document.querySelector('.dnb-form-status__text')
+      ).toHaveTextContent(en.Date.errorInvalidStartDate)
+
+      // Type end date
+      await userEvent.keyboard('39192026')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+      expect(getMessages().at(0)).toHaveTextContent(
+        en.Date.errorInvalidStartDate
+      )
+      expect(getMessages().at(1)).toHaveTextContent(
+        en.Date.errorInvalidEndDate
+      )
+
+      // Type valid start date
+      await userEvent.click(dayInput)
+      await userEvent.keyboard('11122025')
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-form-status__text')
+      ).toHaveTextContent(en.Date.errorInvalidEndDate)
+
+      // Type valid end date
+      await userEvent.keyboard('11122026')
+      await userEvent.click(document.body)
+
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+    })
+  })
+
+  it('should export `dateValidator`', async () => {
+    const myOnBlurValidator = (value: string) => {
+      if (value === '2025-01-01') {
+        return new Error('My custom message')
+      }
+
+      if (value === '2025-01-03') {
+        return [
+          new Error('My custom message 1'),
+          new Error('My custom message 2'),
+        ]
+      }
+    }
+
+    const onBlurValidator = (value: string, { validators }) => {
+      const { dateValidator } = validators
+
+      return [myOnBlurValidator, dateValidator]
+    }
+
+    const minDate = '2025-01-01'
+    const maxDate = '2025-01-31'
+
+    render(
+      <Field.Date
+        value="2025-01-02"
+        minDate={minDate}
+        maxDate={maxDate}
+        onBlurValidator={onBlurValidator}
+      />
+    )
+
+    const [day, month]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    )
+
+    // Test myOnBlurValidator
+    await userEvent.click(day)
+    await userEvent.keyboard('{ArrowDown}')
+    await userEvent.click(document.body)
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).toBeInTheDocument()
+
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      'My custom message'
+    )
+
+    await userEvent.click(day)
+    await userEvent.keyboard('{ArrowUp>2}')
+    await userEvent.click(document.body)
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).toBeInTheDocument()
+
+    const [firstMessage, secondMessage] = Array.from(
+      document.querySelectorAll('.dnb-li')
+    )
+
+    expect(firstMessage).toHaveTextContent('My custom message 1')
+    expect(secondMessage).toHaveTextContent('My custom message 2')
+
+    // Test date limit (min|max) validator
+    await userEvent.click(month)
+    await userEvent.keyboard('{ArrowUp}')
+    await userEvent.click(document.body)
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).toBeInTheDocument()
+
+    expect(
+      document.querySelector('.dnb-form-status__text')
+    ).toHaveTextContent(
+      nb.Date.errorMaxDate.replace(
+        /\{date\}/,
+        formatDate(maxDate, formatOptions.no)
+      )
+    )
+
+    await userEvent.click(month)
+    await userEvent.keyboard('{ArrowDown>2}')
+    await userEvent.click(document.body)
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).toBeInTheDocument()
+
+    expect(
+      document.querySelector('.dnb-form-status__text')
+    ).toHaveTextContent(
+      nb.Date.errorMinDate.replace(
+        /\{date\}/,
+        formatDate(minDate, formatOptions.no)
+      )
+    )
+
+    await userEvent.click(month)
+    await userEvent.keyboard('{ArrowUp}')
+    await userEvent.click(day)
+    await userEvent.keyboard('{ArrowDown}')
+    await userEvent.click(document.body)
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).not.toBeInTheDocument()
+
+    // Test invalid date validator
+    await userEvent.click(day)
+    await userEvent.keyboard('39091111')
+    await userEvent.click(document.body)
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-form-status__text')
+    ).toHaveTextContent(nb.Date.errorInvalidDate)
+
+    await userEvent.click(day)
+    await userEvent.keyboard('10012025')
+    await userEvent.click(document.body)
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).not.toBeInTheDocument()
   })
 
   it('should support keyboard interactions in range mode when id includes start or end', async () => {
