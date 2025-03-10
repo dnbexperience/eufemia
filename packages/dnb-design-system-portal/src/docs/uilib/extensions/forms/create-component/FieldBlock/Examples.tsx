@@ -328,7 +328,8 @@ export const InlineHelpButtonVerticalLabelDescription = () => {
       <Form.Card>
         <Field.String
           label="Ønsket lånebeløp"
-          labelDescription={'\\nDescription'}
+          labelDescription="Description"
+          labelDescriptionNextLine
           help={{
             title: 'Hva betyr lånebeløp?',
             content: 'Dette er hvor mye du har tenkt å låne totalt.',
@@ -339,7 +340,8 @@ export const InlineHelpButtonVerticalLabelDescription = () => {
         />
         <Field.String
           label="Ønsket lånebeløp"
-          labelDescription={'\\nDescription'}
+          labelDescription="Description"
+          labelDescriptionNextLine
           multiline
           rows={3}
           help={{
