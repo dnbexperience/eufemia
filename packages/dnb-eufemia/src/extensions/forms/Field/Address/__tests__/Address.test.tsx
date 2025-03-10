@@ -110,6 +110,21 @@ describe('Field.Address', () => {
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
   })
 
+  it('should replace Field.String with custom element', async () => {
+    const CustomElement = (props) => (
+      <textarea className="custom-element" {...props} />
+    )
+    render(<Field.Address element={CustomElement} />)
+
+    const element = document.querySelector('.custom-element')
+    expect(element.nodeName).toBe('TEXTAREA')
+
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+    expect(attributes).toEqual(['class'])
+  })
+
   describe('Address.Postal', () => {
     it('should have correct label', () => {
       render(<Field.Address.Postal />)

@@ -326,6 +326,13 @@ describe('NumberFormat component', () => {
     ).toBe('-12346 kroner')
   })
 
+  it('should yield strict zero when value gets rounded to zero because of decimals=0', () => {
+    render(<NumberFormat value={-0.2} decimals={0} />)
+    expect(document.querySelector('.dnb-number-format').textContent).toBe(
+      '0'
+    )
+  })
+
   it('have to match phone number', () => {
     render(<Component phone>+47 99999999</Component>)
     expect(document.querySelector(displaySelector).textContent).toBe(
@@ -669,7 +676,7 @@ describe('NumberFormat component', () => {
   })
 
   describe('rounding', () => {
-    it('should support "omit"', async () => {
+    it('should support "omit"', () => {
       render(
         <NumberFormat rounding="omit" value={123456.789} decimals={2} />
       )
@@ -678,7 +685,7 @@ describe('NumberFormat component', () => {
       ).toHaveTextContent('123 456,78') // without omit it would equal to 123 456,79
     })
 
-    it('should support "half-even"', async () => {
+    it('should support "half-even"', () => {
       render(<NumberFormat rounding="half-even" value={2.5} />)
       expect(
         document.querySelector('.dnb-number-format')

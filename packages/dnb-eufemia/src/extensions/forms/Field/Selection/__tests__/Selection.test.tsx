@@ -1603,6 +1603,136 @@ describe('variants', () => {
       ).toBe(document.querySelector('.dnb-tooltip__content').id)
     })
 
+    it('should support "onType"', async () => {
+      const onType = jest.fn()
+
+      render(
+        <Field.Selection
+          variant="autocomplete"
+          autocompleteProps={{
+            onType,
+          }}
+        >
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.Selection>
+      )
+
+      const input = document.querySelector('input')
+      await userEvent.type(input, 'foo')
+
+      expect(onType).toHaveBeenCalledTimes(3)
+      expect(onType).toHaveBeenLastCalledWith(
+        'foo',
+        expect.objectContaining({
+          updateData: expect.any(Function),
+          dataContext: expect.any(Object),
+        })
+      )
+    })
+
+    it('should support "preventSelection"', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Field.Selection
+          variant="autocomplete"
+          autocompleteProps={{
+            preventSelection: true,
+          }}
+          onChange={onChange}
+        >
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.Selection>
+      )
+
+      const input = document.querySelector('input')
+      await userEvent.type(input, 'foo')
+
+      expect(input).toHaveValue('foo')
+
+      {
+        const options = document.querySelectorAll('[role="option"]')
+        expect(options[0]).toHaveTextContent('Foo')
+        expect(options[1]).toHaveTextContent('Vis alt')
+
+        await userEvent.click(options[0])
+      }
+
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenLastCalledWith('foo', expect.anything())
+      expect(
+        document.querySelector('.dnb-drawer-list__option--selected')
+      ).not.toBeInTheDocument()
+      expect(input).toHaveValue('foo')
+
+      await userEvent.click(input)
+
+      expect(
+        document.querySelector('.dnb-drawer-list__option--selected')
+      ).not.toBeInTheDocument()
+      expect(input).toHaveValue('foo')
+
+      {
+        const options = document.querySelectorAll('[role="option"]')
+        expect(options[0]).toHaveTextContent('Foo')
+        expect(options[1]).toHaveTextContent('Vis alt')
+      }
+
+      expect(onChange).toHaveBeenCalledTimes(1)
+    })
+
+    describe('mode="async"', () => {
+      it('should open DrawerList when focused and data is set with updateData', async () => {
+        const onType = jest.fn((value, { updateData }) => {
+          updateData([
+            {
+              selectedKey: 'foo',
+              content: 'Foo',
+            },
+            {
+              selectedKey: 'bar',
+              content: 'Bar',
+            },
+          ])
+        })
+
+        render(
+          <Field.Selection
+            variant="autocomplete"
+            autocompleteProps={{
+              mode: 'async',
+              onType,
+            }}
+          />
+        )
+
+        const input = document.querySelector('input')
+        await userEvent.type(input, 'foo')
+
+        {
+          const options = document.querySelectorAll('[role="option"]')
+          expect(options[0]).toHaveTextContent('Foo')
+          expect(options[1]).toHaveTextContent('Vis alt')
+          expect(input).toHaveValue('foo')
+
+          await userEvent.click(options[0])
+        }
+
+        expect(input).toHaveValue('Foo')
+
+        await userEvent.click(input)
+
+        {
+          const options = document.querySelectorAll('[role="option"]')
+          expect(options[0]).toHaveTextContent('Foo')
+          expect(options[1]).toHaveTextContent('Bar')
+          expect(input).toHaveValue('Foo')
+        }
+      })
+    })
+
     it('should disable autocomplete', () => {
       render(
         <Field.Selection variant="autocomplete" disabled>

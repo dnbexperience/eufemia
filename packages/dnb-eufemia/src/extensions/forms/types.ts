@@ -577,6 +577,7 @@ export interface ValueProps<Value = unknown>
 }
 
 export type Path = string
+export type PathStrict = `/${string}`
 export type Identifier = string
 
 export type SubmitState =

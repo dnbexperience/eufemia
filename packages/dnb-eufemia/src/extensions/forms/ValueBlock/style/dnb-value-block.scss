@@ -85,6 +85,12 @@
     }
   }
 
+  // WHen used in a SummaryList, the height-animation will be a span,
+  // so we need display: block or flex to make it work.
+  span.dnb-height-animation {
+    display: block;
+  }
+
   // Composition block
   &__composition--horizontal &__content {
     display: flex;

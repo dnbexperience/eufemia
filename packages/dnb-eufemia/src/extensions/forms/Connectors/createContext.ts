@@ -127,52 +127,53 @@ export async function fetchData<Data = unknown>(
     return result as FetchDataReturnValue<Data>
   }
 
-  try {
-    const u = generalConfig.fetchConfig.url
-    const url = typeof u === 'function' ? await u(value, parameters) : u
+  const u = generalConfig.fetchConfig.url
+  const url = typeof u === 'function' ? await u(value, parameters) : u
 
-    const { data, response } = await fetchDataFromAPI<Data>(
-      {
-        ...generalConfig,
-        fetchConfig: {
-          ...generalConfig.fetchConfig,
-          url,
-        },
+  const { data, response } = await fetchDataFromAPI<Data>(
+    {
+      ...generalConfig,
+      fetchConfig: {
+        ...generalConfig.fetchConfig,
+        url,
       },
-      options
-    )
+    },
+    options
+  )
 
-    // Check if the response status is in the range of 200-299
-    if (!response.ok) {
-      throw new Error(
-        `${response.statusText} – Status: ${response.status}`
-      )
-    }
-
-    return { data, status: response.status }
-  } catch (error) {
-    return error
+  // Check if the response status is in the range of 200-299
+  if (!response.ok) {
+    throw new Error(`${response.statusText} – Status: ${response.status}`)
   }
+
+  return { data, status: response.status }
 }
 
 export function getCountryCodeValue({
+  countryCode: givenCountryCode,
   additionalArgs,
 }: {
+  countryCode?: string
   additionalArgs: ReceiveAdditionalEventArgs<unknown>
 }) {
   const countryCodeValue =
-    additionalArgs.props['data-country-code'] || defaultCountry
+    givenCountryCode ||
+    additionalArgs.props?.['data-country-code'] ||
+    defaultCountry
   const countryCode =
-    additionalArgs.getSourceValue<string>(countryCodeValue)
+    additionalArgs.getSourceValue<string>(countryCodeValue) ||
+    givenCountryCode
   return { countryCode, countryCodeValue }
 }
 
 export function handleCountryPath({
   value,
+  countryCode: givenCountryCode,
   additionalArgs,
   handler,
 }: {
   value: string
+  countryCode?: string
   additionalArgs: ReceiveAdditionalEventArgs<unknown>
   handler: (
     value: string,
@@ -180,6 +181,8 @@ export function handleCountryPath({
   ) => void
 }) {
   const { countryCode, countryCodeValue } = getCountryCodeValue({
+    countryCode:
+      givenCountryCode || additionalArgs.props?.['data-country-code'],
     additionalArgs,
   })
 
@@ -198,4 +201,16 @@ export function handleCountryPath({
   }
 
   return { countryCode }
+}
+
+export function isSupportedCountryCode(
+  countryCode: string,
+  supportedCountryCodes: readonly string[]
+) {
+  if (!countryCode) {
+    return false
+  }
+  return (supportedCountryCodes as unknown as Array<string>).includes(
+    String(countryCode).toUpperCase()
+  )
 }

@@ -40,28 +40,6 @@ When switching over to Yarn PnP, there are some issues:
   gatsby-plugin-mdx tried to access mkdirp, but it isn't declared in its dependencies; this makes the require call ambiguous and unsound.
   ```
 
-### Gatsby v4
-
-In order to ensure `defaults and supports es6-module` is not targeting IE11, we run a newer version of `browserslist`.
-
-```json
-{
-  "resolutions": {
-    "gatsby/browserslist": "4.21.4"
-  }
-}
-```
-
-Gatsby v4 uses socket.io v3 that has an [issue](https://github.com/socketio/socket.io/issues/3838) when running all visual tests in a batch locally on a development build. To mitigate it, we have installed a newer version of socket.io:
-
-```json
-{
-  "resolutions": {
-    "gatsby/socket.io": "4.6.1"
-  }
-}
-```
-
 ### svg2vectordrawable
 
 `svg2vectordrawable` uses an very old version of svgo that did not work with newer versions of Node.js.
