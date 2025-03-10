@@ -516,7 +516,10 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     ))
   }, [cacheKey, getDays, month])
 
-  const locale = useMemo(() => ({ ...locales[localeCode] }), [localeCode])
+  const locale = useMemo(
+    () => ({ ...(locales[localeCode] || locales['nb-NO']) }),
+    [localeCode]
+  )
 
   return (
     <div
