@@ -2323,9 +2323,7 @@ describe('DatePicker component', () => {
     expect(separator2.textContent).toBe('/')
   })
 
-  it('renders correct translations when using custom locale like sv-SE', () => {
-    const props: DatePickerAllProps = {}
-
+  it('renders should support `sv-SE` locale', () => {
     render(
       <Provider
         locale="sv-SE"
@@ -2362,15 +2360,26 @@ describe('DatePicker component', () => {
         }}
       >
         <DatePicker
-          {...props}
-          showInput
-          showSubmitButton
           showCancelButton
           showResetButton
+          showSubmitButton
+          showInput
           opened
         />
       </Provider>
     )
+
+    const dayLabels = Array.from(
+      document.querySelectorAll('.dnb-date-picker__labels__day')
+    )
+
+    expect(dayLabels.at(0)).toHaveAttribute('aria-label', 'måndag')
+    expect(dayLabels.at(1)).toHaveAttribute('aria-label', 'tisdag')
+    expect(dayLabels.at(2)).toHaveAttribute('aria-label', 'onsdag')
+    expect(dayLabels.at(3)).toHaveAttribute('aria-label', 'torsdag')
+    expect(dayLabels.at(4)).toHaveAttribute('aria-label', 'fredag')
+    expect(dayLabels.at(5)).toHaveAttribute('aria-label', 'lördag')
+    expect(dayLabels.at(6)).toHaveAttribute('aria-label', 'söndag')
 
     expect(
       document.querySelector('[data-testid="cancel"]  .dnb-button__text')

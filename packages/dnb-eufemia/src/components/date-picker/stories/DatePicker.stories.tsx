@@ -596,7 +596,12 @@ export const ProviderLocaleExample = () => {
         },
       }}
     >
-      <DatePicker showInput />
+      <DatePicker
+        showInput
+        showCancelButton
+        showResetButton
+        showSubmitButton
+      />
     </Provider>
   )
 }
