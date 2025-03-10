@@ -7,7 +7,6 @@ import React, { useState } from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import userEvent from '@testing-library/user-event'
 import DatePicker, { DatePickerAllProps } from '../DatePicker'
-import svLocale from 'date-fns/locale/sv'
 
 jest.setTimeout(30e3)
 
@@ -2328,7 +2327,6 @@ describe('DatePicker component', () => {
     render(
       <Provider
         locale="sv-SE"
-        dateFnsLocale={{ 'sv-SE': svLocale }}
         translations={{
           'sv-SE': {
             DatePicker: {

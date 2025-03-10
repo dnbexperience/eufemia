@@ -14,7 +14,6 @@ import Provider from '../../../shared/Provider'
 import Context from '../../../shared/Context'
 import nbNO from '../../../shared/locales/nb-NO'
 import isWeekend from 'date-fns/isWeekend'
-import svLocale from 'date-fns/locale/sv'
 
 import {
   DatePicker,
@@ -565,7 +564,6 @@ export const ProviderLocaleExample = () => {
   return (
     <Provider
       locale="sv-SE"
-      dateFnsLocale={{ 'sv-SE': svLocale }}
       translations={{
         'sv-SE': {
           DatePicker: {
