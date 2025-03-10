@@ -32,6 +32,8 @@ import nbFormatLong from 'date-fns/locale/nb/_lib/formatLong'
 import enLocalize from 'date-fns/locale/en-US/_lib/localize'
 import enFormatLong from 'date-fns/locale/en-US/_lib/formatLong'
 import gbFormatLong from 'date-fns/locale/en-GB/_lib/formatLong'
+import svLocalize from 'date-fns/locale/sv/_lib/localize'
+import svFormatLong from 'date-fns/locale/sv/_lib/formatLong'
 
 import {
   isDisabled,
@@ -69,10 +71,12 @@ type CalendarLocales = {
   [locale in InternalLocale]?: Pick<Locale, 'localize' | 'formatLong'>
 }
 // Easy to access objects containing the only (in our case) needed functions for date-fns format
+// TODO: Replace with Intl.DateTimeFormat
 const locales: CalendarLocales = {
   'nb-NO': { localize: nbLocalize, formatLong: nbFormatLong },
   'en-GB': { localize: enLocalize, formatLong: gbFormatLong },
   'en-US': { localize: enLocalize, formatLong: enFormatLong },
+  'sv-SE': { localize: svLocalize, formatLong: svFormatLong },
 }
 
 export type CalendarNavigationEvent = {
