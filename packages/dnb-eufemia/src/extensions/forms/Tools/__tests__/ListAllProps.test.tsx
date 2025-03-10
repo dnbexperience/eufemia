@@ -65,7 +65,6 @@ describe('Tools.ListAllProps', () => {
               id="id-ra"
               name="myField"
               type="text"
-              value=""
             />,
           },
           "label": "My field",
@@ -87,7 +86,6 @@ describe('Tools.ListAllProps', () => {
                 id="id-rg"
                 name="nested/myString"
                 type="text"
-                value="my string"
               />,
             },
             "minLength": 2,
@@ -128,7 +126,6 @@ describe('Tools.ListAllProps', () => {
               id="id-ra"
               name="myString"
               type="text"
-              value="local value"
             />,
           },
           "label": "My field",
@@ -149,7 +146,6 @@ describe('Tools.ListAllProps', () => {
               id="id-ra"
               name="myString"
               type="text"
-              value="local value"
             />,
           },
           "minLength": 2,
@@ -298,7 +294,6 @@ describe('Tools.ListAllProps', () => {
                 id="id-rs"
                 name="myString"
                 type="text"
-                value=""
               />,
             },
             "path": "/myString",
@@ -393,7 +388,6 @@ describe('Tools.ListAllProps', () => {
                   id="id-r1t"
                   name="myObject/withString"
                   type="text"
-                  value=""
                 />,
               },
               "maxLength": 10,
@@ -416,7 +410,6 @@ describe('Tools.ListAllProps', () => {
                 id="id-r1n"
                 name="myString"
                 type="text"
-                value=""
               />,
             },
             "maxLength": 5,
@@ -499,7 +492,6 @@ describe('Tools.ListAllProps', () => {
                   id="id-r2h"
                   name="myObject/withString"
                   type="text"
-                  value=""
                 />,
               },
               "maxLength": 10,
@@ -591,7 +583,6 @@ describe('Tools.ListAllProps', () => {
                   id="id-r34"
                   name="myObject/withString"
                   type="text"
-                  value=""
                 />,
               },
               "maxLength": 10,
@@ -615,7 +606,6 @@ describe('Tools.ListAllProps', () => {
                 id="id-r2u"
                 name="myString"
                 type="text"
-                value=""
               />,
             },
             "path": "/myString",

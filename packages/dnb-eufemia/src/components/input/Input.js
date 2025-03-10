@@ -261,10 +261,25 @@ export default class Input extends React.PureComponent {
   componentWillUnmount() {
     clearTimeout(this._selectallTimeout)
   }
+  componentDidMount() {
+    this.updateInputValue()
+  }
+  componentDidUpdate() {
+    this.updateInputValue()
+  }
+  updateInputValue = () => {
+    // Only update the input value if it's not a custom input_element.
+    // The custom input_element will handle the value.
+    // This is used in the InputMasked component.
+    if (this._ref.current && !this.props.input_element) {
+      const value = this.state.value
+      const hasValue = Input.hasValue(value)
+      this._ref.current.value = hasValue ? value : ''
+    }
+  }
   onFocusHandler = (event) => {
     const { value } = event.target
     this.setState({
-      // value,// why should we update the value on blur?
       inputState: 'focus',
     })
 
@@ -303,6 +318,7 @@ export default class Input extends React.PureComponent {
       event,
     })
     if (result === false) {
+      this.updateInputValue()
       return // stop here
     }
     if (typeof result === 'string') {
@@ -448,7 +464,6 @@ export default class Input extends React.PureComponent {
     const inputParams = {
       className: classnames('dnb-input__input', input_class),
       autoComplete: autocomplete,
-      value: hasValue ? value : '',
       type,
       id,
       disabled: isTrue(disabled),
@@ -496,7 +511,7 @@ export default class Input extends React.PureComponent {
     validateDOMAttributes(null, shellParams)
 
     if (InputElement && typeof InputElement === 'function') {
-      InputElement = InputElement(inputParams, this._ref)
+      InputElement = InputElement({ ...inputParams, value }, this._ref)
     } else if (!InputElement && _input_element) {
       InputElement = _input_element
     }
