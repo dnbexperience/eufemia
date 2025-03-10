@@ -113,7 +113,7 @@
     "classnames": "2.3.1",
     "core-js": "3.26.1",
     "date-fns": "2.25.0",
-    "prop-types": "15.7.2",
+    "prop-types": "15.8.1",
     "what-input": "5.2.10"
   },
   "peerDependencies": {
@@ -251,7 +251,6 @@
     "prettier-package-json": "2.8.0",
     "prettier-v2": "npm:prettier@^2",
     "process": "0.11.10",
-    "prop-types": "15.7.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-to-typescript-definitions": "3.1.1",
