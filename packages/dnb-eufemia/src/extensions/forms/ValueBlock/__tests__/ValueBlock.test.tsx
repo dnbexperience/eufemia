@@ -210,82 +210,123 @@ describe('ValueBlock', () => {
       ).toBeInTheDocument()
     })
 
-    it('should render HeightAnimation inside dt and dd when animate is true', () => {
-      render(
-        <Value.SummaryList>
-          <Value.String label="Label" value="First value" />
+    describe('with Visibility', () => {
+      describe('with animate true', () => {
+        it('should render HeightAnimation inside dt and dd', () => {
+          render(
+            <Value.SummaryList>
+              <Value.String label="Label" value="First value" />
 
-          <Form.Visibility pathUndefined="/undefined" animate>
-            <Value.String label="Label" value="Second value" />
-          </Form.Visibility>
-        </Value.SummaryList>
-      )
+              <Form.Visibility pathUndefined="/undefined" animate>
+                <Value.String label="Label" value="Second value" />
+              </Form.Visibility>
+            </Value.SummaryList>
+          )
 
-      const element = document.querySelector('.dnb-forms-summary-list')
+          const element = document.querySelector('.dnb-forms-summary-list')
 
-      const firstChild = element.children[0]
-      const secondChild = element.children[1]
-      const thirdChild = element.children[2]
-      const fourthChild = element.children[3]
+          const firstChild = element.children[0]
+          const secondChild = element.children[1]
+          const thirdChild = element.children[2]
+          const fourthChild = element.children[3]
 
-      expect(
-        firstChild.querySelector('.dnb-height-animation')
-      ).not.toBeInTheDocument()
-      expect(
-        secondChild.querySelector('.dnb-height-animation')
-      ).not.toBeInTheDocument()
+          expect(
+            firstChild.querySelector('.dnb-height-animation')
+          ).not.toBeInTheDocument()
+          expect(
+            secondChild.querySelector('.dnb-height-animation')
+          ).not.toBeInTheDocument()
 
-      expect(
-        thirdChild.querySelector('.dnb-height-animation')
-      ).toBeInTheDocument()
-      expect(
-        fourthChild.querySelector('.dnb-height-animation')
-      ).toBeInTheDocument()
+          expect(
+            thirdChild.querySelector('.dnb-height-animation')
+          ).toBeInTheDocument()
+          expect(
+            fourthChild.querySelector('.dnb-height-animation')
+          ).toBeInTheDocument()
 
-      expect(element.tagName).toBe('DL')
-      expect(firstChild.tagName).toBe('DT')
-      expect(secondChild.tagName).toBe('DD')
-      expect(thirdChild.tagName).toBe('DT')
-      expect(fourthChild.tagName).toBe('DD')
-    })
+          expect(element.tagName).toBe('DL')
+          expect(firstChild.tagName).toBe('DT')
+          expect(secondChild.tagName).toBe('DD')
+          expect(thirdChild.tagName).toBe('DT')
+          expect(fourthChild.tagName).toBe('DD')
+        })
 
-    it('should render div inside dt and dd when keepInDOM is true', () => {
-      render(
-        <Value.SummaryList>
-          <Value.String label="Label" value="First value" />
+        it('should render HeightAnimation with a "span" element inside dt and dd', async () => {
+          const result = render(
+            <Value.SummaryList>
+              <Value.String label="Label" value="First value" />
 
-          <Form.Visibility pathUndefined="/undefined" keepInDOM>
-            <Value.String label="Label" value="Second value" />
-          </Form.Visibility>
-        </Value.SummaryList>
-      )
+              <Form.Visibility pathUndefined="/undefined" animate>
+                <Value.String label="Label" value="Second value" />
+              </Form.Visibility>
+            </Value.SummaryList>
+          )
 
-      const element = document.querySelector('.dnb-forms-summary-list')
+          const element = document.querySelector('.dnb-forms-summary-list')
 
-      const firstChild = element.children[0]
-      const secondChild = element.children[1]
-      const thirdChild = element.children[2]
-      const fourthChild = element.children[3]
+          const thirdChild = element.children[2]
+          const fourthChild = element.children[3]
 
-      expect(
-        firstChild.querySelector('.dnb-forms-visibility')
-      ).not.toBeInTheDocument()
-      expect(
-        secondChild.querySelector('.dnb-forms-visibility')
-      ).not.toBeInTheDocument()
+          expect(
+            thirdChild.querySelector('.dnb-height-animation').tagName
+          ).toBe('SPAN')
+          expect(
+            fourthChild.querySelector('.dnb-height-animation').tagName
+          ).toBe('SPAN')
 
-      expect(
-        thirdChild.querySelector('.dnb-forms-visibility')
-      ).toBeInTheDocument()
-      expect(
-        fourthChild.querySelector('.dnb-forms-visibility')
-      ).toBeInTheDocument()
+          expect(await axeComponent(result)).toHaveNoViolations()
+        })
+      })
 
-      expect(element.tagName).toBe('DL')
-      expect(firstChild.tagName).toBe('DT')
-      expect(secondChild.tagName).toBe('DD')
-      expect(thirdChild.tagName).toBe('DT')
-      expect(fourthChild.tagName).toBe('DD')
+      describe('with keepInDOM true', () => {
+        it('should render span inside dt and dd', async () => {
+          const result = render(
+            <Value.SummaryList>
+              <Value.String label="Label" value="First value" />
+
+              <Form.Visibility pathUndefined="/undefined" keepInDOM>
+                <Value.String label="Label" value="Second value" />
+              </Form.Visibility>
+            </Value.SummaryList>
+          )
+
+          const element = document.querySelector('.dnb-forms-summary-list')
+
+          const firstChild = element.children[0]
+          const secondChild = element.children[1]
+          const thirdChild = element.children[2]
+          const fourthChild = element.children[3]
+
+          expect(
+            firstChild.querySelector('.dnb-forms-visibility')
+          ).not.toBeInTheDocument()
+          expect(
+            secondChild.querySelector('.dnb-forms-visibility')
+          ).not.toBeInTheDocument()
+
+          expect(
+            thirdChild.querySelector('.dnb-forms-visibility')
+          ).toBeInTheDocument()
+          expect(
+            fourthChild.querySelector('.dnb-forms-visibility')
+          ).toBeInTheDocument()
+
+          expect(
+            thirdChild.querySelector('.dnb-forms-visibility').tagName
+          ).toBe('SPAN')
+          expect(
+            fourthChild.querySelector('.dnb-forms-visibility').tagName
+          ).toBe('SPAN')
+
+          expect(element.tagName).toBe('DL')
+          expect(firstChild.tagName).toBe('DT')
+          expect(secondChild.tagName).toBe('DD')
+          expect(thirdChild.tagName).toBe('DT')
+          expect(fourthChild.tagName).toBe('DD')
+
+          expect(await axeComponent(result)).toHaveNoViolations()
+        })
+      })
     })
   })
 
@@ -483,6 +524,26 @@ describe('ValueBlock', () => {
       const element = document.querySelector('.dnb-help-button__content')
       expect(element).toBeInTheDocument()
       expect(element.textContent).toBe('Help title\nHelp content')
+    })
+
+    it('should render content with a span element', async () => {
+      const result = render(
+        <ValueBlock
+          label="Label"
+          help={{
+            open: true,
+            title: 'Help title',
+            content: '\nHelp content',
+          }}
+        >
+          Value
+        </ValueBlock>
+      )
+
+      const element = document.querySelector('.dnb-help-button__content')
+      expect(element.tagName).toBe('SPAN')
+
+      await axeComponent(result)
     })
 
     it('should open on click', async () => {

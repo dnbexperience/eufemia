@@ -52,7 +52,20 @@ export const Size = () => {
                     city={{ value: 'Oslo' }}
                   />
                   <Field.SelectCountry />
-
+                  <Field.BankAccountNumber />
+                  <Field.Name.First />
+                  <Field.Name.Last />
+                  <Field.Password />
+                  <Field.Slider />
+                  <Field.Upload />
+                  <Field.Address.Postal />
+                  <Field.Address.Street />
+                  <Field.Indeterminate dependencePaths={[]} />
+                  <Field.Toggle
+                    valueOn="what-ever"
+                    valueOff="you-name-it"
+                  />
+                  <Field.Boolean />
                   <Form.ButtonRow>
                     <Form.SubmitButton />
                   </Form.ButtonRow>

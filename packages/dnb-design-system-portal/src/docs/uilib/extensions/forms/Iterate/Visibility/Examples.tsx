@@ -31,7 +31,7 @@ export const BasicExample = () => {
           <Iterate.Visibility pathTrue="/toggleValue" animate>
             <TestElement>
               <Iterate.ItemNo>
-                {'Hide an show me item no. {itemNo}'}
+                {'Hide and show me item no. {itemNo}'}
               </Iterate.ItemNo>
             </TestElement>
           </Iterate.Visibility>

@@ -39,9 +39,6 @@ export type DatePickerDates = {
   maxDate?: Date
   startMonth?: Date
   endMonth?: Date
-  // TODO: Move partial dates to own types, as they are not really only used on `getReturnObject`, and not in this hook
-  partialStartDate?: string
-  partialEndDate?: string
   hasHadValidDate?: boolean
   hoverDate?: Date
 } & DatePickerInputDates

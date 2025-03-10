@@ -552,6 +552,9 @@ export const formatNumber = (
     ) {
       number = parseFloat(number).toLocaleString(locale, options)
     }
+    if (number === '−0') {
+      number = '0'
+    }
   } catch (e) {
     warn(
       `Number could not be formatted: ${JSON.stringify([

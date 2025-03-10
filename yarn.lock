@@ -2929,6 +2929,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@dnb/browserslist-config@npm:1.2.0":
+  version: 1.2.0
+  resolution: "@dnb/browserslist-config@npm:1.2.0"
+  checksum: 10/62641b81b2fc5ac57225ef7a32beb5e8ce4f3e1b42d401b1778ba41bf66ebd9195e65ef4603499faf75fb69dbf92f72c15e7114fab4f2738a075f5101238795b
+  languageName: node
+  linkType: hard
+
 "@dnb/eufemia@workspace:*, @dnb/eufemia@workspace:packages/dnb-eufemia":
   version: 0.0.0-use.local
   resolution: "@dnb/eufemia@workspace:packages/dnb-eufemia"
@@ -2954,9 +2961,10 @@ __metadata:
     "@babel/preset-typescript": "npm:7.22.5"
     "@babel/runtime": "npm:7.22.5"
     "@babel/traverse": "npm:7.23.2"
+    "@dnb/browserslist-config": "npm:1.2.0"
     "@emotion/react": "npm:11.11.0"
     "@emotion/styled": "npm:11.11.0"
-    "@navikt/fnrvalidator": "npm:1.3.0"
+    "@navikt/fnrvalidator": "npm:2.1.5"
     "@playwright/test": "npm:1.49.1"
     "@rollup/plugin-babel": "npm:6.0.3"
     "@rollup/plugin-commonjs": "npm:24.0.1"
@@ -2991,7 +2999,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:5.60.0"
     "@typescript-eslint/parser": "npm:5.60.0"
     "@ungap/structured-clone": "npm:1.2.0"
-    ajv: "npm:8.14.0"
+    ajv: "npm:8.17.1"
     ajv-errors: "npm:3.0.0"
     audit-ci: "npm:6.6.1"
     babel-jest: "npm:29.7.0"
@@ -3002,7 +3010,7 @@ __metadata:
     browserslist: "npm:4.21.4"
     camelcase: "npm:6.2.0"
     chalk: "npm:4.1.2"
-    classnames: "npm:2.3.1"
+    classnames: "npm:2.5.1"
     color: "npm:4.0.1"
     conventional-changelog-conventionalcommits: "npm:5.0.0"
     core-js: "npm:3.26.1"
@@ -3060,7 +3068,7 @@ __metadata:
     prettier-package-json: "npm:2.8.0"
     prettier-v2: "npm:prettier@^2"
     process: "npm:0.11.10"
-    prop-types: "npm:15.7.2"
+    prop-types: "npm:15.8.1"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
     react-to-typescript-definitions: "npm:3.1.1"
@@ -3087,7 +3095,7 @@ __metadata:
     typescript: "npm:5.2.2"
     vd-tool: "npm:4.0.2"
     wait-on: "npm:6.0.0"
-    what-input: "npm:5.2.10"
+    what-input: "npm:5.2.12"
   peerDependencies:
     "@types/react": ^17 || ^18
     "@types/react-dom": ^17 || ^18
@@ -4771,10 +4779,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/fnrvalidator@npm:1.3.0":
-  version: 1.3.0
-  resolution: "@navikt/fnrvalidator@npm:1.3.0"
-  checksum: 10/97ed8e0dd1d10501d811c39695adba7dcde90a14fd84a7fa94bb0412e9e21786f56cee69a638fd6daa01eede15f010a1de17f08da9de698037eb4757f46bf1a0
+"@navikt/fnrvalidator@npm:2.1.5":
+  version: 2.1.5
+  resolution: "@navikt/fnrvalidator@npm:2.1.5"
+  checksum: 10/6004890b3046d957f117b8566d6b12bc254cb5417a6fa9dd800a807bbb78d6775165d8c2aba5f1c1561b499341d4e97d662589a9d708651ae59aee06411ce66d
   languageName: node
   linkType: hard
 
@@ -8615,15 +8623,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ajv@npm:8.14.0":
-  version: 8.14.0
-  resolution: "ajv@npm:8.14.0"
+"ajv@npm:8.17.1":
+  version: 8.17.1
+  resolution: "ajv@npm:8.17.1"
   dependencies:
     fast-deep-equal: "npm:^3.1.3"
+    fast-uri: "npm:^3.0.1"
     json-schema-traverse: "npm:^1.0.0"
     require-from-string: "npm:^2.0.2"
-    uri-js: "npm:^4.4.1"
-  checksum: 10/b6430527c2e1bf3d20dce4cca2979b5cc69db15751ac00105e269e04d7b09c2e20364070257cafacfa676171a8bf9c84c1cd9def97267a20cd15c64daa486151
+  checksum: 10/ee3c62162c953e91986c838f004132b6a253d700f1e51253b99791e2dbfdb39161bc950ebdc2f156f8568035bb5ed8be7bd78289cd9ecbf3381fe8f5b82e3f33
   languageName: node
   linkType: hard
 
@@ -11204,6 +11212,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"classnames@npm:2.5.1":
+  version: 2.5.1
+  resolution: "classnames@npm:2.5.1"
+  checksum: 10/58eb394e8817021b153bb6e7d782cfb667e4ab390cb2e9dac2fc7c6b979d1cc2b2a733093955fc5c94aa79ef5c8c89f11ab77780894509be6afbb91dddd79d15
+  languageName: node
+  linkType: hard
+
 "clean-css@npm:^5.2.2":
   version: 5.3.2
   resolution: "clean-css@npm:5.3.2"
@@ -13272,6 +13287,7 @@ __metadata:
     "@babel/core": "npm:7.22.5"
     "@babel/eslint-parser": "npm:7.22.5"
     "@babel/node": "npm:7.22.5"
+    "@dnb/browserslist-config": "npm:1.2.0"
     "@dnb/eufemia": "workspace:*"
     "@emotion/cache": "npm:11.11.0"
     "@emotion/react": "npm:11.9.3"
@@ -13328,7 +13344,7 @@ __metadata:
     prettier-package-json: "npm:2.8.0"
     prism-react-renderer: "npm:1.3.3"
     process: "npm:0.11.10"
-    prop-types: "npm:15.7.2"
+    prop-types: "npm:15.8.1"
     raw-loader: "npm:4.0.2"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
@@ -15353,6 +15369,13 @@ __metadata:
   version: 2.0.6
   resolution: "fast-levenshtein@npm:2.0.6"
   checksum: 10/eb7e220ecf2bab5159d157350b81d01f75726a4382f5a9266f42b9150c4523b9795f7f5d9fbbbeaeac09a441b2369f05ee02db48ea938584205530fe5693cfe1
+  languageName: node
+  linkType: hard
+
+"fast-uri@npm:^3.0.1":
+  version: 3.0.6
+  resolution: "fast-uri@npm:3.0.6"
+  checksum: 10/43c87cd03926b072a241590e49eca0e2dfe1d347ddffd4b15307613b42b8eacce00a315cf3c7374736b5f343f27e27ec88726260eb03a758336d507d6fbaba0a
   languageName: node
   linkType: hard
 
@@ -27833,18 +27856,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:15.7.2":
-  version: 15.7.2
-  resolution: "prop-types@npm:15.7.2"
-  dependencies:
-    loose-envify: "npm:^1.4.0"
-    object-assign: "npm:^4.1.1"
-    react-is: "npm:^16.8.1"
-  checksum: 10/1d2b6462559e78e4ab15775b5f9ca21bbdcf94c0c6597624a407f9f5ce2cac8c02997bc59cc517b54f64aa1e95e5134c86755ee99a24659bc023d7b2b3096e15
-  languageName: node
-  linkType: hard
-
-"prop-types@npm:^15.0.0, prop-types@npm:^15.8.1":
+"prop-types@npm:15.8.1, prop-types@npm:^15.0.0, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -28241,7 +28253,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-is@npm:^16.13.1, react-is@npm:^16.7.0, react-is@npm:^16.8.1, react-is@npm:^16.8.4":
+"react-is@npm:^16.13.1, react-is@npm:^16.7.0, react-is@npm:^16.8.4":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
   checksum: 10/5aa564a1cde7d391ac980bedee21202fc90bdea3b399952117f54fb71a932af1e5902020144fb354b4690b2414a0c7aafe798eb617b76a3d441d956db7726fdf
@@ -32928,7 +32940,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uri-js@npm:^4.2.2, uri-js@npm:^4.4.1":
+"uri-js@npm:^4.2.2":
   version: 4.4.1
   resolution: "uri-js@npm:4.4.1"
   dependencies:
@@ -33591,10 +33603,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"what-input@npm:5.2.10":
-  version: 5.2.10
-  resolution: "what-input@npm:5.2.10"
-  checksum: 10/c52d79505bfe6588adb06a5ee3256ce2ec1067d0281d134d6a6e75f36f78a005d804ca53762df2ff01bb11769409dad4dd34486c8dc940e4a614700e47d3897a
+"what-input@npm:5.2.12":
+  version: 5.2.12
+  resolution: "what-input@npm:5.2.12"
+  checksum: 10/eeda7ce832e0f02e20d0bc4c0540053b2fa3e2c8e9f9217e5506785860422b4a58b54ae65d16495d68d8cce415b27236c4f62ad058e131c14d4a5a56a9741e25
   languageName: node
   linkType: hard
 
