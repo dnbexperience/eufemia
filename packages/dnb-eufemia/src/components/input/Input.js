@@ -261,6 +261,19 @@ export default class Input extends React.PureComponent {
   componentWillUnmount() {
     clearTimeout(this._selectallTimeout)
   }
+  componentDidMount() {
+    this.updateInputValue()
+  }
+  componentDidUpdate() {
+    this.updateInputValue()
+  }
+  updateInputValue = () => {
+    if (this._ref.current) {
+      const value = this.state.value
+      const hasValue = Input.hasValue(value)
+      this._ref.current.value = hasValue ? value : ''
+    }
+  }
   onFocusHandler = (event) => {
     const { value } = event.target
     this.setState({
@@ -303,6 +316,7 @@ export default class Input extends React.PureComponent {
       event,
     })
     if (result === false) {
+      this.updateInputValue()
       return // stop here
     }
     if (typeof result === 'string') {
@@ -448,7 +462,6 @@ export default class Input extends React.PureComponent {
     const inputParams = {
       className: classnames('dnb-input__input', input_class),
       autoComplete: autocomplete,
-      value: hasValue ? value : '',
       type,
       id,
       disabled: isTrue(disabled),

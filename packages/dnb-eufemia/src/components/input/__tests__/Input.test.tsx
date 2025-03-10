@@ -6,6 +6,7 @@
 import React from 'react'
 import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Input, { InputProps } from '../Input'
 import { format } from '../../number-format/NumberUtils'
 import { Provider } from '../../../shared'
@@ -57,9 +58,7 @@ describe('Input component', () => {
       document.querySelector('.dnb-input').getAttribute('data-has-content')
     ).toBe('true')
 
-    expect(document.querySelector('input').getAttribute('value')).toBe(
-      newValue
-    )
+    expect(document.querySelector('input').value).toBe(newValue)
   })
 
   it('gets valid ref element', () => {
@@ -115,7 +114,7 @@ describe('Input component', () => {
 
     render(<Controlled />)
 
-    expect(document.querySelector('input').getAttribute('value')).toBe(
+    expect(document.querySelector('input').value).toBe(
       format(initialValue)
     )
 
@@ -124,9 +123,7 @@ describe('Input component', () => {
       target: { value: newValue },
     })
 
-    expect(document.querySelector('input').getAttribute('value')).toBe(
-      format(newValue)
-    )
+    expect(document.querySelector('input').value).toBe(format(newValue))
   })
 
   it('value can be manipulated during on_change', () => {
@@ -143,9 +140,7 @@ describe('Input component', () => {
       target: { value: newValue },
     })
 
-    expect(document.querySelector('input').getAttribute('value')).toBe(
-      'NEW VALUE'
-    )
+    expect(document.querySelector('input').value).toBe('NEW VALUE')
   })
 
   it('value will not change when returning false on_change', () => {
@@ -162,7 +157,7 @@ describe('Input component', () => {
       target: { value: newValue },
     })
 
-    expect(document.querySelector('input').getAttribute('value')).toBe('')
+    expect(document.querySelector('input').value).toBe('')
   })
 
   it('events gets emitted correctly: "on_change" and "onKeyDown"', () => {
@@ -272,9 +267,7 @@ describe('Input component', () => {
     expect(document.querySelector('input').value).toBe('')
 
     rerender(<Input placeholder="Placeholder" value={zeroValue} />)
-    expect(document.querySelector('input').getAttribute('value')).toBe(
-      String(zeroValue)
-    )
+    expect(document.querySelector('input').value).toBe(String(zeroValue))
   })
 
   it('uses aria-placeholder and label for when placeholder is set', () => {
@@ -377,9 +370,7 @@ describe('Input component', () => {
 
   it('uses children as the value', () => {
     render(<Input>children</Input>)
-    expect(document.querySelector('input').getAttribute('value')).toBe(
-      'children'
-    )
+    expect(document.querySelector('input').value).toBe('children')
   })
 
   it('has correct size attribute (chars length) on input by int number', () => {
@@ -478,6 +469,33 @@ describe('Input component', () => {
     ).toBe('focus')
   })
 
+  it('should not expose the value as an html attribute', async () => {
+    render(<Input />)
+
+    const input = document.querySelector('input')
+
+    await userEvent.type(input, 'foo')
+    expect(input).not.toHaveAttribute('value')
+    expect(input).toHaveValue('foo')
+
+    await userEvent.type(input, ' bar')
+    expect(input).not.toHaveAttribute('value')
+    expect(input).toHaveValue('foo bar')
+  })
+
+  it('should not expose the value as an html attribute when initially provided', async () => {
+    render(<Input value="foo" />)
+
+    const input = document.querySelector('input')
+
+    expect(input).not.toHaveAttribute('foo')
+    expect(input).toHaveValue('foo')
+
+    await userEvent.type(input, ' bar')
+    expect(input).not.toHaveAttribute('foo bar')
+    expect(input).toHaveValue('foo bar')
+  })
+
   it('should call on_submit event handler', () => {
     const on_submit = jest.fn()
     render(
@@ -489,9 +507,7 @@ describe('Input component', () => {
       />
     )
 
-    expect(document.querySelector('input').getAttribute('value')).toBe(
-      'value'
-    )
+    expect(document.querySelector('input').value).toBe('value')
 
     fireEvent.keyDown(document.querySelector('input'), {
       key: 'Enter',
@@ -511,31 +527,27 @@ describe('Input with clear button', () => {
   it('should clear the value on press', () => {
     render(<Input id="input-id" clear={true} value="value" />)
 
-    expect(document.querySelector('input').getAttribute('value')).toBe(
-      'value'
-    )
+    expect(document.querySelector('input').value).toBe('value')
 
     const clearButton = document.querySelector(
       'button#input-id-clear-button'
     )
     fireEvent.click(clearButton)
 
-    expect(document.querySelector('input').getAttribute('value')).toBe('')
+    expect(document.querySelector('input').value).toBe('')
   })
 
   it('should have a disabled clear button when no value is given', () => {
     render(<Input id="input-id" clear={true} value="value" />)
 
-    expect(document.querySelector('input').getAttribute('value')).toBe(
-      'value'
-    )
+    expect(document.querySelector('input').value).toBe('value')
 
     const clearButton = document.querySelector(
       'button#input-id-clear-button'
     )
     fireEvent.click(clearButton)
 
-    expect(document.querySelector('input').getAttribute('value')).toBe('')
+    expect(document.querySelector('input').value).toBe('')
     expect(clearButton.getAttribute('aria-hidden')).toBe('true')
     expect(clearButton).toHaveAttribute('disabled')
   })
@@ -543,13 +555,13 @@ describe('Input with clear button', () => {
   it('should have a disabled clear button when initially empty value is given', () => {
     render(<Input id="input-id" clear={true} />)
 
-    expect(document.querySelector('input').getAttribute('value')).toBe('')
+    expect(document.querySelector('input').value).toBe('')
 
     const clearButton = document.querySelector(
       'button#input-id-clear-button'
     )
 
-    expect(document.querySelector('input').getAttribute('value')).toBe('')
+    expect(document.querySelector('input').value).toBe('')
     expect(clearButton.getAttribute('aria-hidden')).toBe('true')
     expect(clearButton).toHaveAttribute('disabled')
   })
