@@ -2470,46 +2470,207 @@ describe('DatePicker component', () => {
     )
   })
 
-  it('should fire blur event with partially typed dates when input loses focus', async () => {
+  it('should fire blur event with `partialDate`', async () => {
     const onBlur = jest.fn()
-    render(<DatePicker showInput onBlur={onBlur} date="" />)
+    render(<DatePicker showInput onBlur={onBlur} />)
 
-    const [firstInput, secondInput]: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('.dnb-input__input')
+    const dayInput = document.querySelector('.dnb-date-picker__input--day')
+    const yearInput = document.querySelector(
+      '.dnb-date-picker__input--year'
     )
 
-    await userEvent.click(firstInput)
-    fireEvent.change(firstInput, { target: { value: 12 } })
-    expect(onBlur).toHaveBeenCalledTimes(0)
-
-    expect(document.activeElement).toBe(firstInput)
-    await userEvent.click(document.body)
-
-    expect(document.activeElement).not.toBe(firstInput)
-
+    // Type day
+    await userEvent.click(dayInput)
+    await userEvent.keyboard('12')
     expect(onBlur).toHaveBeenCalledTimes(1)
     expect(onBlur).toHaveBeenCalledWith(
       expect.objectContaining({
-        target: firstInput,
         date: null,
-        partialStartDate: 'yyyy-mm-12',
+        partialDate: 'yyyy-mm-12',
       })
     )
-    await userEvent.click(secondInput)
 
-    fireEvent.change(secondInput, { target: { value: 11 } })
-
-    expect(onBlur).toHaveBeenCalledTimes(1)
-    expect(document.activeElement).toBe(secondInput)
-
-    await userEvent.click(document.body)
-
-    expect(document.activeElement).not.toBe(secondInput)
+    // Type month
+    await userEvent.keyboard('11')
     expect(onBlur).toHaveBeenCalledTimes(2)
     expect(onBlur).toHaveBeenCalledWith(
       expect.objectContaining({
-        target: secondInput,
+        date: null,
+        partialDate: 'yyyy-11-12',
+      })
+    )
+
+    // Type year
+    await userEvent.keyboard('202')
+    await userEvent.click(document.body)
+    expect(onBlur).toHaveBeenCalledTimes(3)
+    expect(onBlur).toHaveBeenCalledWith(
+      expect.objectContaining({
+        date: null,
+        partialDate: '202y-11-12',
+      })
+    )
+
+    await userEvent.click(yearInput)
+    await userEvent.keyboard('2025')
+    await userEvent.click(document.body)
+    expect(onBlur).toHaveBeenCalledTimes(4)
+    expect(onBlur).toHaveBeenCalledWith(
+      expect.objectContaining({
+        date: '2025-11-12',
+        partialDate: null,
+      })
+    )
+
+    // Remove part of year to make date partial again
+    await userEvent.click(yearInput)
+    await userEvent.keyboard('{ArrowRight>4}{Backspace}')
+    await userEvent.click(document.body)
+    expect(onBlur).toHaveBeenCalledTimes(5)
+    expect(onBlur).toHaveBeenCalledWith(
+      expect.objectContaining({
+        date: null,
+        partialDate: '202y-11-12',
+      })
+    )
+  })
+
+  it('should fire blur event with `partialStartDate` and `partialEndDate`', async () => {
+    const onBlur = jest.fn()
+    render(<DatePicker showInput range onBlur={onBlur} />)
+
+    const startDayInput = document.querySelector(
+      '.dnb-date-picker__input--day'
+    )
+    const [startYearInput, endYearInput] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input--year')
+    )
+
+    // Type start day
+    await userEvent.click(startDayInput)
+    await userEvent.keyboard('12')
+    expect(onBlur).toHaveBeenCalledTimes(1)
+    expect(onBlur).toHaveBeenCalledWith(
+      expect.objectContaining({
+        start_date: null,
+        end_date: null,
+        partialStartDate: 'yyyy-mm-12',
+        partialEndDate: 'yyyy-mm-dd',
+      })
+    )
+
+    // Type start month
+    await userEvent.keyboard('11')
+    expect(onBlur).toHaveBeenCalledTimes(2)
+    expect(onBlur).toHaveBeenCalledWith(
+      expect.objectContaining({
+        start_date: null,
+        end_date: null,
         partialStartDate: 'yyyy-11-12',
+        partialEndDate: 'yyyy-mm-dd',
+      })
+    )
+
+    // Type start year
+    await userEvent.keyboard('202')
+    await userEvent.click(document.body)
+    expect(onBlur).toHaveBeenCalledTimes(3)
+    expect(onBlur).toHaveBeenCalledWith(
+      expect.objectContaining({
+        start_date: null,
+        end_date: null,
+        partialStartDate: '202y-11-12',
+        partialEndDate: 'yyyy-mm-dd',
+      })
+    )
+
+    await userEvent.click(startYearInput)
+    await userEvent.keyboard('2025')
+    expect(onBlur).toHaveBeenCalledTimes(4)
+    expect(onBlur).toHaveBeenCalledWith(
+      expect.objectContaining({
+        start_date: '2025-11-12',
+        end_date: null,
+        partialStartDate: null,
+        partialEndDate: 'yyyy-mm-dd',
+      })
+    )
+
+    // Type end day
+    await userEvent.keyboard('13')
+    expect(onBlur).toHaveBeenCalledTimes(5)
+    expect(onBlur).toHaveBeenCalledWith(
+      expect.objectContaining({
+        start_date: '2025-11-12',
+        end_date: null,
+        partialStartDate: null,
+        partialEndDate: 'yyyy-mm-13',
+      })
+    )
+
+    // Type end month
+    await userEvent.keyboard('09')
+    expect(onBlur).toHaveBeenCalledTimes(6)
+    expect(onBlur).toHaveBeenCalledWith(
+      expect.objectContaining({
+        start_date: '2025-11-12',
+        end_date: null,
+        partialStartDate: null,
+        partialEndDate: 'yyyy-09-13',
+      })
+    )
+
+    // Type end year
+    await userEvent.keyboard('202')
+    await userEvent.click(document.body)
+    expect(onBlur).toHaveBeenCalledTimes(7)
+    expect(onBlur).toHaveBeenCalledWith(
+      expect.objectContaining({
+        start_date: '2025-11-12',
+        end_date: null,
+        partialStartDate: null,
+        partialEndDate: '202y-09-13',
+      })
+    )
+
+    await userEvent.click(endYearInput)
+    await userEvent.keyboard('2026')
+    await userEvent.click(document.body)
+    expect(onBlur).toHaveBeenCalledTimes(8)
+    expect(onBlur).toHaveBeenCalledWith(
+      expect.objectContaining({
+        start_date: '2025-11-12',
+        end_date: '2026-09-13',
+        partialStartDate: null,
+        partialEndDate: null,
+      })
+    )
+
+    // Remove part of end year to make end date partial again
+    await userEvent.click(endYearInput)
+    await userEvent.keyboard('{ArrowRight>4}{Backspace}')
+    await userEvent.click(document.body)
+    expect(onBlur).toHaveBeenCalledTimes(9)
+    expect(onBlur).toHaveBeenCalledWith(
+      expect.objectContaining({
+        start_date: '2025-11-12',
+        end_date: null,
+        partialStartDate: null,
+        partialEndDate: '202y-09-13',
+      })
+    )
+
+    // Remove part of start year to make start date partial again
+    await userEvent.click(startYearInput)
+    await userEvent.keyboard('{ArrowRight>4}{Backspace}')
+    await userEvent.click(document.body)
+    expect(onBlur).toHaveBeenCalledTimes(10)
+    expect(onBlur).toHaveBeenCalledWith(
+      expect.objectContaining({
+        start_date: null,
+        end_date: null,
+        partialStartDate: '202y-11-12',
+        partialEndDate: '202y-09-13',
       })
     )
   })
