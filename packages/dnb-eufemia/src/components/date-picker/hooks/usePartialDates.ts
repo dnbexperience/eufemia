@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useCallback, useRef } from 'react'
 
 export type PartialDates = {
   partialDate?: string
@@ -12,7 +12,7 @@ export default function usePartialDates() {
     partialEndDate: null,
   })
 
-  function setPartialDates(partialDates: PartialDates) {
+  const setPartialDates = useCallback((partialDates: PartialDates) => {
     const nonPartialDates = Object.entries(partialDates).reduce(
       (dates, [dateKey, dateValue]) => {
         if (isFullyFilledOut(dateValue)) {
@@ -29,7 +29,7 @@ export default function usePartialDates() {
       ...partialDates,
       ...nonPartialDates,
     }
-  }
+  }, [])
 
   return { partialDatesRef, setPartialDates }
 }
