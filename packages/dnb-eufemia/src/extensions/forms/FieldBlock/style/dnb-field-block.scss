@@ -79,8 +79,9 @@ fieldset.dnb-forms-field-block {
 
     margin-right: 0;
 
-    &__description {
-      margin-left: 0.3em;
+    &:has(&__description) .dnb-help-button,
+    &:has(&__description):not(&:has(+ .dnb-help-button)) span {
+      margin-right: 0.3em; // Keep the description closer to the label
     }
 
     &__content:has(+ .dnb-help-button),
