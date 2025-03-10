@@ -2929,6 +2929,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@dnb/browserslist-config@npm:1.2.0":
+  version: 1.2.0
+  resolution: "@dnb/browserslist-config@npm:1.2.0"
+  checksum: 10/62641b81b2fc5ac57225ef7a32beb5e8ce4f3e1b42d401b1778ba41bf66ebd9195e65ef4603499faf75fb69dbf92f72c15e7114fab4f2738a075f5101238795b
+  languageName: node
+  linkType: hard
+
 "@dnb/eufemia@workspace:*, @dnb/eufemia@workspace:packages/dnb-eufemia":
   version: 0.0.0-use.local
   resolution: "@dnb/eufemia@workspace:packages/dnb-eufemia"
@@ -2954,6 +2961,7 @@ __metadata:
     "@babel/preset-typescript": "npm:7.22.5"
     "@babel/runtime": "npm:7.22.5"
     "@babel/traverse": "npm:7.23.2"
+    "@dnb/browserslist-config": "npm:1.2.0"
     "@emotion/react": "npm:11.11.0"
     "@emotion/styled": "npm:11.11.0"
     "@navikt/fnrvalidator": "npm:2.1.5"
@@ -13272,6 +13280,7 @@ __metadata:
     "@babel/core": "npm:7.22.5"
     "@babel/eslint-parser": "npm:7.22.5"
     "@babel/node": "npm:7.22.5"
+    "@dnb/browserslist-config": "npm:1.2.0"
     "@dnb/eufemia": "workspace:*"
     "@emotion/cache": "npm:11.11.0"
     "@emotion/react": "npm:11.9.3"

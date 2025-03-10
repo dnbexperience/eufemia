@@ -26,7 +26,7 @@ const ignoreAsPage = [
   '**/skip-link-example.tsx',
   '**/CardProductsTable.js',
   '**/ColorTable.tsx',
-  '**/assets/*.js',
+  '**/assets/*.{js,ts,tsx}',
   '**/__utils__/*.{js,ts,tsx}',
   // '**/*.mdx',// Use when templates/mdx.tsx in createPage is used
 ]
