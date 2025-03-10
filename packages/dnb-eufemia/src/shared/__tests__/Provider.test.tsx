@@ -712,6 +712,7 @@ describe('Provider', () => {
           <CopyOnClick>Text</CopyOnClick>
           <NumberFormat value="12345" />
           <HelpButton>Text</HelpButton>
+          <Input />
           <Pagination
             page_count={888}
             current_page={4}
