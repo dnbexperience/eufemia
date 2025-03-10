@@ -561,7 +561,6 @@ describe('Provider', () => {
                   month: 'm',
                   year: 'å',
                 },
-                // TODO: add firstDay
               },
               Anchor: {
                 targetBlankTitle: 'Öppnar ett nytt fönster',
@@ -693,15 +692,15 @@ describe('Provider', () => {
           <Timeline
             data={[
               {
-                title: 'Completed event',
-                subtitle: '10. september 2021',
+                title: 'Avslutat evenemang',
+                subtitle: '10. januari 2021',
                 state: 'completed',
               },
             ]}
           />
           <Breadcrumb />
           <DatePicker opened />
-          <Anchor href="https://dnb.no/">link to a website</Anchor>
+          <Anchor href="https://dnb.no/">länk till en webbplats</Anchor>
           <GlobalStatus show />
           <GlobalError />
           <ProgressIndicator />
@@ -720,7 +719,7 @@ describe('Provider', () => {
               console.log('on_change:', pageNumber)
             }}
           >
-            <P>Current Page Content</P>
+            <P>Aktuellt sidinnehåll</P>
           </Pagination>
           <Skeleton show>
             <P>Heading</P>
@@ -731,65 +730,65 @@ describe('Provider', () => {
             mode="strict"
             data={[
               {
-                title: 'Velg mottaker',
+                title: 'Välj mottagare',
               },
             ]}
           />
           <Slider />
           <PaymentCard product_code="NK1" card_number="************1337" />
-          <Tag.Group label="Interactable tags">
+          <Tag.Group label="Interagerbare tags">
             <Tag>Tag</Tag>
           </Tag.Group>
           <Table>
-            <caption className="dnb-sr-only">A Table Caption</caption>
+            <caption className="dnb-sr-only">En tabellbildtext</caption>
             <thead>
               <Tr>
                 <Th>Column</Th>
                 <Th>
                   <Th.Horizontal>
-                    Help Button
-                    <Th.HelpButton>Help Content</Th.HelpButton>
+                    Hjälp-knapp
+                    <Th.HelpButton>Hjälpinnehåll</Th.HelpButton>
                   </Th.Horizontal>
                 </Th>
                 <Th sortable>
                   <Th.SortButton
-                    text="Sortable Active"
-                    title="Sort table column"
+                    text="Sorterbar Aktiv"
+                    title="Sortera tabellkolumnen"
                   />
                 </Th>
                 <Th sortable align="right">
                   <Th.SortButton
-                    text="Sortable"
-                    title="Sort table column"
+                    text="Sorterbar"
+                    title="Sortera tabellkolumnen"
                   />
                 </Th>
               </Tr>
             </thead>
             <tbody>
               <Tr>
-                <Td>Row 1</Td>
-                <Td>Row 1</Td>
-                <Td>Row 1</Td>
-                <Td align="right">Row 1</Td>
+                <Td>Rad 1</Td>
+                <Td>Rad 1</Td>
+                <Td>Rad 1</Td>
+                <Td align="right">Rad 1</Td>
               </Tr>
               <Tr>
-                <Td>Row 2</Td>
-                <Td>Row 2</Td>
-                <Td>Row 2</Td>
-                <Td align="right">Row 2</Td>
+                <Td>Rad 2</Td>
+                <Td>Rad 2</Td>
+                <Td>Rad 2</Td>
+                <Td align="right">Rad 2</Td>
               </Tr>
               <Tr>
                 <Td>
-                  <P>Row 3 with paragraph</P>
+                  <P>Rad 3 med stycke</P>
                 </Td>
-                <Td>Row 3 with text</Td>
+                <Td>Rad 3 med text</Td>
                 <Td>
                   <P>
-                    Row 3 with <b>medium paragraph</b>
+                    Rad 3 med <b>medium stycke</b>
                   </P>
                 </Td>
                 <Td align="right">
-                  Row 3 with <b>medium text</b>
+                  Rad 3 med <b>medium text</b>
                 </Td>
               </Tr>
             </tbody>
@@ -797,7 +796,11 @@ describe('Provider', () => {
           <Upload acceptedFileTypes={['jpg', 'png']} />
         </Provider>
       )
-      expect(true).toBe(true)
+      expect(
+        document
+          .querySelector('button.dnb-help-button')
+          .getAttribute('aria-label')
+      ).toBe('Hjälptext')
     })
   })
 })
