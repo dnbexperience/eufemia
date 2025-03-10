@@ -47,6 +47,7 @@ import { useTranslation } from '../../shared'
 import { InternalLocale } from '../../shared/Context'
 import { DatePickerChangeEvent } from './DatePickerProvider'
 import { DatePickerDates } from './hooks/useDates'
+import { LOCALE } from '../../shared/defaults'
 
 export type CalendarDay = {
   date: Date
@@ -516,7 +517,10 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     ))
   }, [cacheKey, getDays, month])
 
-  const locale = useMemo(() => ({ ...locales[localeCode] }), [localeCode])
+  const locale = useMemo(
+    () => ({ ...(locales[localeCode] || locales[LOCALE]) }),
+    [localeCode]
+  )
 
   return (
     <div

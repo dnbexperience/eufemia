@@ -559,3 +559,44 @@ export const CorrectInvalidDateExample = () => {
     />
   )
 }
+
+export const ProviderLocaleExample = () => {
+  return (
+    <Provider
+      locale="sv-SE"
+      translations={{
+        'sv-SE': {
+          DatePicker: {
+            day: 'dag',
+            month: 'månad',
+            year: 'år',
+            start: 'från',
+            end: 'till',
+            selectedDate: 'Valt datum: %s',
+            selectedMonth: 'Vald månad %s',
+            selectedYear: 'Valt år %s',
+            nextMonth: 'Nästa månad %s',
+            prevMonth: 'Förra månaden %s',
+            nextYear: 'Nästa år %s',
+            prevYear: 'Förra året %s',
+            openPickerText: 'öppna datumväljaren',
+            maskOrder: 'dd/mm/yyyy',
+            maskPlaceholder: 'dd.mm.åååå',
+            dateFormat: 'yyyy-MM-dd',
+            returnFormat: 'yyyy-MM-dd',
+            submitButtonText: 'Okej',
+            cancelButtonText: 'Stänga',
+            resetButtonText: 'Återställa',
+            placeholderCharacters: {
+              day: 'd',
+              month: 'm',
+              year: 'å',
+            },
+          },
+        },
+      }}
+    >
+      <DatePicker showInput />
+    </Provider>
+  )
+}

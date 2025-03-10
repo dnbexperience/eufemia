@@ -2323,6 +2323,71 @@ describe('DatePicker component', () => {
     expect(separator2.textContent).toBe('/')
   })
 
+  it('renders correct translations when using custom locale like sv-SE', () => {
+    const props: DatePickerAllProps = {}
+
+    render(
+      <Provider
+        locale="sv-SE"
+        translations={{
+          'sv-SE': {
+            DatePicker: {
+              day: 'dag',
+              month: 'månad',
+              year: 'år',
+              start: 'från',
+              end: 'till',
+              selectedDate: 'Valt datum: %s',
+              selectedMonth: 'Vald månad %s',
+              selectedYear: 'Valt år %s',
+              nextMonth: 'Nästa månad %s',
+              prevMonth: 'Förra månaden %s',
+              nextYear: 'Nästa år %s',
+              prevYear: 'Förra året %s',
+              openPickerText: 'öppna datumväljaren',
+              maskOrder: 'dd/mm/yyyy',
+              maskPlaceholder: 'dd.mm.åååå',
+              dateFormat: 'yyyy-MM-dd',
+              returnFormat: 'yyyy-MM-dd',
+              submitButtonText: 'Okej',
+              cancelButtonText: 'Stänga',
+              resetButtonText: 'Återställa',
+              placeholderCharacters: {
+                day: 'd',
+                month: 'm',
+                year: 'å',
+              },
+            },
+          },
+        }}
+      >
+        <DatePicker
+          {...props}
+          showInput
+          showSubmitButton
+          showCancelButton
+          showResetButton
+          opened
+        />
+      </Provider>
+    )
+
+    expect(
+      document.querySelector('[data-testid="cancel"]  .dnb-button__text')
+        .textContent
+    ).toBe('Stänga')
+
+    expect(
+      document.querySelector('[data-testid="reset"]  .dnb-button__text')
+        .textContent
+    ).toBe('Återställa')
+
+    expect(
+      document.querySelector('[data-testid="submit"]  .dnb-button__text')
+        .textContent
+    ).toBe('Okej')
+  })
+
   it('should fire fire event when input gets focus', async () => {
     const onFocus = jest.fn()
     render(<DatePicker showInput onFocus={onFocus} date="2024-01-05" />)
