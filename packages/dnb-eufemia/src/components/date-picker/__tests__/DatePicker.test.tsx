@@ -2361,7 +2361,14 @@ describe('DatePicker component', () => {
           },
         }}
       >
-        <DatePicker {...props} showInput opened />
+        <DatePicker
+          {...props}
+          showInput
+          showSubmitButton
+          showCancelButton
+          showResetButton
+          opened
+        />
       </Provider>
     )
 
