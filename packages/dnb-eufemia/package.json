@@ -114,7 +114,7 @@
     "core-js": "3.41.0",
     "date-fns": "2.25.0",
     "prop-types": "15.8.1",
-    "what-input": "5.2.12"
+    "what-input": "5.2.10"
   },
   "peerDependencies": {
     "@types/react": "^17 || ^18",
