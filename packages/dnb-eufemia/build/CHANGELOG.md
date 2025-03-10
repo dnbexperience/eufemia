@@ -3,6 +3,43 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.67.0](https://github.com/dnbexperience/eufemia/compare/v10.66.1...v10.67.0) (2025-03-10)
+
+
+### :memo: Documentation
+
+* **Autocomplete:** correct link to data property ([#4677](https://github.com/dnbexperience/eufemia/issues/4677)) ([e124b6c](https://github.com/dnbexperience/eufemia/commit/e124b6c5f79aca6f067d9a5651f139f2f2413e90))
+* **Breadcrumb:** move `onClick` from properties to events doc ([#4675](https://github.com/dnbexperience/eufemia/issues/4675)) ([09b4463](https://github.com/dnbexperience/eufemia/commit/09b4463da688fc9a32357e1db6282044499d99d0))
+* **DatePicker:** correct `range` description ([#4697](https://github.com/dnbexperience/eufemia/issues/4697)) ([3aa057a](https://github.com/dnbexperience/eufemia/commit/3aa057aaea2016bfc1dcc14eb13cf2163412d5e7))
+* **Dialog:** removes double properties heading ([#4676](https://github.com/dnbexperience/eufemia/issues/4676)) ([6cb9ee3](https://github.com/dnbexperience/eufemia/commit/6cb9ee3cf7e06296df744a6c31d8f20c5b069132))
+* **Dropdown:** correct link to data property ([#4678](https://github.com/dnbexperience/eufemia/issues/4678)) ([7081e79](https://github.com/dnbexperience/eufemia/commit/7081e7945509513bd0498ea550d122ce8caa347c))
+* **Form.Section.EditContainer:** move events to events tab ([#4682](https://github.com/dnbexperience/eufemia/issues/4682)) ([fbaa6b5](https://github.com/dnbexperience/eufemia/commit/fbaa6b5c0ea95bb0708976c19ff47f21d7f0aa7d))
+* **Form.Section.ViewContainer:** move events to events tab ([#4683](https://github.com/dnbexperience/eufemia/issues/4683)) ([c85296f](https://github.com/dnbexperience/eufemia/commit/c85296f157433e815758952f4204c1a56a558e16))
+* **Form.SubmitConfirmation:** move events to events tab ([#4684](https://github.com/dnbexperience/eufemia/issues/4684)) ([d4829d8](https://github.com/dnbexperience/eufemia/commit/d4829d8d82511670ec4f821cb4f30bd8d32fd36f))
+* **HeightAnimation:** remove properties heading from events doc ([#4679](https://github.com/dnbexperience/eufemia/issues/4679)) ([ea80698](https://github.com/dnbexperience/eufemia/commit/ea806989b2ac88a62869b4528c0f1eef4d86340f))
+* **InfoCard:** remove events from properties ([#4680](https://github.com/dnbexperience/eufemia/issues/4680)) ([787118b](https://github.com/dnbexperience/eufemia/commit/787118be9271cb452c2d122412109b2ec39ff4b0))
+* **Timeline:** correct import example ([#4681](https://github.com/dnbexperience/eufemia/issues/4681)) ([1d6a755](https://github.com/dnbexperience/eufemia/commit/1d6a755b144aab047349788860cee38344b71ecc))
+* **Wizard.EditButton:** add properties docs ([#4685](https://github.com/dnbexperience/eufemia/issues/4685)) ([25f6474](https://github.com/dnbexperience/eufemia/commit/25f647428a594c6aec743bd8c94424d4c80e8390))
+
+
+### :bug: Bug Fixes
+
+* **Anchor:** deprecate `scrollToHashHandler` ([#4671](https://github.com/dnbexperience/eufemia/issues/4671)) ([cd2df7c](https://github.com/dnbexperience/eufemia/commit/cd2df7c53a1a64131d8180a8ac742e8492ec1948))
+* **DatePicker:** remove input validation (use Field.Date for included validation) ([#4688](https://github.com/dnbexperience/eufemia/issues/4688)) ([2e66cda](https://github.com/dnbexperience/eufemia/commit/2e66cdad5caf880460dc1ce8efa46b816b182796))
+* **DatePicker:** using custom locale `sv-SE` breaks calendar ([#4698](https://github.com/dnbexperience/eufemia/issues/4698)) ([3108de0](https://github.com/dnbexperience/eufemia/commit/3108de0c519749fcfa2fa77477d8ae8d0d852b5a))
+* **Forms:** ensure to update status message when validator returns different array ([#4690](https://github.com/dnbexperience/eufemia/issues/4690)) ([f8868c5](https://github.com/dnbexperience/eufemia/commit/f8868c5838e1425942246c7341cda7ab82858479))
+* **NumberFormat:** ensure -0 is displayed as 0 ([#4691](https://github.com/dnbexperience/eufemia/issues/4691)) ([8fab366](https://github.com/dnbexperience/eufemia/commit/8fab366f82c5193ee718987ec895a433c1046130))
+* **Value.SummaryList:** use `span` when wrapped inside Form.Visibility ([#4669](https://github.com/dnbexperience/eufemia/issues/4669)) ([00d7386](https://github.com/dnbexperience/eufemia/commit/00d738629c3da50dce8d07f106ff608ef203aaf3))
+
+
+### :sparkles: Features
+
+* **DatePicker:** add support for swedish translations ([#4706](https://github.com/dnbexperience/eufemia/issues/4706)) ([0e57c76](https://github.com/dnbexperience/eufemia/commit/0e57c765db1f1356dd4bbbeaf26bcbc653a2f798))
+* **Field.Address:** add `element` property ([#4670](https://github.com/dnbexperience/eufemia/issues/4670)) ([1aae5d0](https://github.com/dnbexperience/eufemia/commit/1aae5d0b7642740b084974fefd67c4127dd71b62))
+* **Field.NationalIdentityNumber:** bump internally used @navikt/fnrvalidator to v2.1.5 ([#4695](https://github.com/dnbexperience/eufemia/issues/4695)) ([b640c17](https://github.com/dnbexperience/eufemia/commit/b640c17c14cb42e3a0980322b1638529ac353898))
+* **Forms:** add async Autocomplete support to Field.Selection ([#4664](https://github.com/dnbexperience/eufemia/issues/4664)) ([ac8d58c](https://github.com/dnbexperience/eufemia/commit/ac8d58ccfadf9beb6bd404e5b793a133fd5032a7)), closes [#4657](https://github.com/dnbexperience/eufemia/issues/4657)
+* use @dnb/browserslist-config for when creating the bundle ([#4704](https://github.com/dnbexperience/eufemia/issues/4704)) ([dde596b](https://github.com/dnbexperience/eufemia/commit/dde596bec8747f5c43b6baa212e2cd399ff01edf))
+
 ## [10.66.1](https://github.com/dnbexperience/eufemia/compare/v10.66.0...v10.66.1) (2025-03-05)
 
 
