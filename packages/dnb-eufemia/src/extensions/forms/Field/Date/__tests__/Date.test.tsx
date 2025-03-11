@@ -371,7 +371,7 @@ describe('Field.Date', () => {
     ).toHaveAttribute('aria-disabled', 'true')
   })
 
-  it.only('should support min and max dates as date objects', async () => {
+  it('should support min and max dates as date objects', async () => {
     render(
       <Wizard.Container>
         <Wizard.Step title="Step 1">
