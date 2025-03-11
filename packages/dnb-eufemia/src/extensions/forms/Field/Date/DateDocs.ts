@@ -24,6 +24,7 @@ const {
   suffix,
   stretch,
   size,
+  date,
   '[Space](/uilib/layout/space/properties)': space,
   ...datePickerProperties
 } = DatePickerProperties
