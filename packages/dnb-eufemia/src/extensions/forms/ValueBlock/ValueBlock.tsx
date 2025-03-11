@@ -149,7 +149,7 @@ function ValueBlock(props: Props) {
         </span>
       )
     } else {
-      const { layout } = summaryListContext
+      const { layout = 'vertical' } = summaryListContext
       content = (
         <SummaryListContext.Provider
           value={{ ...summaryListContext, isNested: true }}
@@ -158,7 +158,8 @@ function ValueBlock(props: Props) {
             <Dt
               className={classnames(
                 'dnb-forms-value-block__label',
-                ((!label && !hasHelp) || labelSrOnly) && 'dnb-sr-only'
+                ((!label && !hasHelp) || labelSrOnly) && 'dnb-sr-only',
+                maxWidth && `dnb-forms-value-block--max-width-${maxWidth}`
               )}
             >
               <VisibilityWrapper>
@@ -172,9 +173,7 @@ function ValueBlock(props: Props) {
               className={classnames(
                 layout !== 'grid' &&
                   !summaryListContext.isNested &&
-                  maxWidth &&
-                  `dnb-forms-value-block--max-width-${maxWidth}`,
-                compositionClass
+                  compositionClass
               )}
             >
               <VisibilityWrapper>

@@ -116,14 +116,14 @@ describe('ValueBlock', () => {
           class="dnb-forms-summary-list dnb-dl"
         >
           <dt
-            class="dnb-forms-value-block__label dnb-dt"
+            class="dnb-forms-value-block__label dnb-forms-value-block--max-width-large dnb-dt"
           >
             <strong>
               Label
             </strong>
           </dt>
           <dd
-            class="dnb-forms-value-block--max-width-large dnb-dd"
+            class="dnb-dd"
           >
             <span
               class="dnb-forms-value-block__content dnb-forms-value-block__content--gap-xx-small dnb-forms-value-block--max-width-large"
