@@ -413,29 +413,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:7.22.5, @babel/core@npm:^7.11.6, @babel/core@npm:^7.12.3, @babel/core@npm:^7.14.0, @babel/core@npm:^7.19.6, @babel/core@npm:^7.7.5":
-  version: 7.22.5
-  resolution: "@babel/core@npm:7.22.5"
-  dependencies:
-    "@ampproject/remapping": "npm:^2.2.0"
-    "@babel/code-frame": "npm:^7.22.5"
-    "@babel/generator": "npm:^7.22.5"
-    "@babel/helper-compilation-targets": "npm:^7.22.5"
-    "@babel/helper-module-transforms": "npm:^7.22.5"
-    "@babel/helpers": "npm:^7.22.5"
-    "@babel/parser": "npm:^7.22.5"
-    "@babel/template": "npm:^7.22.5"
-    "@babel/traverse": "npm:^7.22.5"
-    "@babel/types": "npm:^7.22.5"
-    convert-source-map: "npm:^1.7.0"
-    debug: "npm:^4.1.0"
-    gensync: "npm:^1.0.0-beta.2"
-    json5: "npm:^2.2.2"
-    semver: "npm:^6.3.0"
-  checksum: 10/6bd54a2524b02650cf7bb3d3af86ef71b67a221b980a6b86fe0e206f6d50d25fc354545b92027f78eb292b37505477fd3cbace1abd58668b3320b81496b86a2f
-  languageName: node
-  linkType: hard
-
 "@babel/core@npm:7.26.9":
   version: 7.26.9
   resolution: "@babel/core@npm:7.26.9"
@@ -456,6 +433,29 @@ __metadata:
     json5: "npm:^2.2.3"
     semver: "npm:^6.3.1"
   checksum: 10/ceed199dbe25f286a0a59a2ea7879aed37c1f3bb289375d061eda4752cab2ba365e7f9e969c7fd3b9b95c930493db6eeb5a6d6f017dd135fb5a4503449aad753
+  languageName: node
+  linkType: hard
+
+"@babel/core@npm:^7.11.6, @babel/core@npm:^7.12.3, @babel/core@npm:^7.14.0, @babel/core@npm:^7.19.6, @babel/core@npm:^7.7.5":
+  version: 7.22.5
+  resolution: "@babel/core@npm:7.22.5"
+  dependencies:
+    "@ampproject/remapping": "npm:^2.2.0"
+    "@babel/code-frame": "npm:^7.22.5"
+    "@babel/generator": "npm:^7.22.5"
+    "@babel/helper-compilation-targets": "npm:^7.22.5"
+    "@babel/helper-module-transforms": "npm:^7.22.5"
+    "@babel/helpers": "npm:^7.22.5"
+    "@babel/parser": "npm:^7.22.5"
+    "@babel/template": "npm:^7.22.5"
+    "@babel/traverse": "npm:^7.22.5"
+    "@babel/types": "npm:^7.22.5"
+    convert-source-map: "npm:^1.7.0"
+    debug: "npm:^4.1.0"
+    gensync: "npm:^1.0.0-beta.2"
+    json5: "npm:^2.2.2"
+    semver: "npm:^6.3.0"
+  checksum: 10/6bd54a2524b02650cf7bb3d3af86ef71b67a221b980a6b86fe0e206f6d50d25fc354545b92027f78eb292b37505477fd3cbace1abd58668b3320b81496b86a2f
   languageName: node
   linkType: hard
 
@@ -502,20 +502,6 @@ __metadata:
     gensync: "npm:^1.0.0-beta.2"
     json5: "npm:^2.2.2"
   checksum: 10/9f0d9f3547a3990384ac0d077905e9e4cfed0f83ca2f4a7d46f80af3562b6a8d19bd81dbf844c96b1cbf9d0a83ca7921331887cd504147312d0d08113efea9e3
-  languageName: node
-  linkType: hard
-
-"@babel/eslint-parser@npm:7.22.5":
-  version: 7.22.5
-  resolution: "@babel/eslint-parser@npm:7.22.5"
-  dependencies:
-    "@nicolo-ribaudo/eslint-scope-5-internals": "npm:5.1.1-v1"
-    eslint-visitor-keys: "npm:^2.1.0"
-    semver: "npm:^6.3.0"
-  peerDependencies:
-    "@babel/core": ">=7.11.0"
-    eslint: ^7.5.0 || ^8.0.0
-  checksum: 10/698a17188f134018c61b095743c1cacc15e822403837140b354cb3d44b9e9f93f3ae48cb4fb7043878aa327a1e3c9dc04ed73d8e0241a230400c5d7f636cfcab
   languageName: node
   linkType: hard
 
@@ -1100,24 +1086,6 @@ __metadata:
     chalk: "npm:^2.0.0"
     js-tokens: "npm:^4.0.0"
   checksum: 10/ff59305c0184648c9cb042638e9d2d184c12df2a112c71359268a982e7ab65cd5236f392ee8eb722a3bf5b5bd155954fdc7b5aacb6b2b1cd5e38dafcbe63cc57
-  languageName: node
-  linkType: hard
-
-"@babel/node@npm:7.22.5":
-  version: 7.22.5
-  resolution: "@babel/node@npm:7.22.5"
-  dependencies:
-    "@babel/register": "npm:^7.22.5"
-    commander: "npm:^4.0.1"
-    core-js: "npm:^3.30.2"
-    node-environment-flags: "npm:^1.0.5"
-    regenerator-runtime: "npm:^0.13.11"
-    v8flags: "npm:^3.1.1"
-  peerDependencies:
-    "@babel/core": ^7.0.0-0
-  bin:
-    babel-node: ./bin/babel-node.js
-  checksum: 10/9cdd7e4a77c28d8118a2e4f3a51202283501ad866a61fbe614559974a66ebb478196e75669fcb02911200196ebb0d95c75f0d15c86ef99218caf4e1f865cdcbd
   languageName: node
   linkType: hard
 
@@ -3269,21 +3237,6 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.0.0-0
   checksum: 10/2d851117e78235540be469a12a5c3bad42f994d030cf1fa58943e69f218dd21b805b0f2a592caf5f4bfc7beee2d3f9b66fa2a1daeb80c78edb3c574bd99e63d3
-  languageName: node
-  linkType: hard
-
-"@babel/register@npm:^7.22.5":
-  version: 7.22.5
-  resolution: "@babel/register@npm:7.22.5"
-  dependencies:
-    clone-deep: "npm:^4.0.1"
-    find-cache-dir: "npm:^2.0.0"
-    make-dir: "npm:^2.1.0"
-    pirates: "npm:^4.0.5"
-    source-map-support: "npm:^0.5.16"
-  peerDependencies:
-    "@babel/core": ^7.0.0-0
-  checksum: 10/723ce27fdad6faee5b3f51ef4f5154f7f285d61da665367de14de85abbe1c81ccbac11f699671cd0ed6b755dd430f28a62364fed5d49f2527625a9ea3bf40056
   languageName: node
   linkType: hard
 
@@ -10660,23 +10613,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-jest@npm:29.5.0, babel-jest@npm:^29.5.0":
-  version: 29.5.0
-  resolution: "babel-jest@npm:29.5.0"
-  dependencies:
-    "@jest/transform": "npm:^29.5.0"
-    "@types/babel__core": "npm:^7.1.14"
-    babel-plugin-istanbul: "npm:^6.1.1"
-    babel-preset-jest: "npm:^29.5.0"
-    chalk: "npm:^4.0.0"
-    graceful-fs: "npm:^4.2.9"
-    slash: "npm:^3.0.0"
-  peerDependencies:
-    "@babel/core": ^7.8.0
-  checksum: 10/33bad2c4e567f0db04c9e5575371b98422994d6047ebc855926fe05e48c7fd580f89fa67708c11b2d41c1ddb02f420ba51483b36eac909490488056ade683474
-  languageName: node
-  linkType: hard
-
 "babel-jest@npm:29.7.0, babel-jest@npm:^29.7.0":
   version: 29.7.0
   resolution: "babel-jest@npm:29.7.0"
@@ -10691,6 +10627,23 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.8.0
   checksum: 10/8a0953bd813b3a8926008f7351611055548869e9a53dd36d6e7e96679001f71e65fd7dbfe253265c3ba6a4e630dc7c845cf3e78b17d758ef1880313ce8fba258
+  languageName: node
+  linkType: hard
+
+"babel-jest@npm:^29.5.0":
+  version: 29.5.0
+  resolution: "babel-jest@npm:29.5.0"
+  dependencies:
+    "@jest/transform": "npm:^29.5.0"
+    "@types/babel__core": "npm:^7.1.14"
+    babel-plugin-istanbul: "npm:^6.1.1"
+    babel-preset-jest: "npm:^29.5.0"
+    chalk: "npm:^4.0.0"
+    graceful-fs: "npm:^4.2.9"
+    slash: "npm:^3.0.0"
+  peerDependencies:
+    "@babel/core": ^7.8.0
+  checksum: 10/33bad2c4e567f0db04c9e5575371b98422994d6047ebc855926fe05e48c7fd580f89fa67708c11b2d41c1ddb02f420ba51483b36eac909490488056ade683474
   languageName: node
   linkType: hard
 
@@ -14397,9 +14350,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "dnb-design-system-portal@workspace:packages/dnb-design-system-portal"
   dependencies:
-    "@babel/core": "npm:7.22.5"
-    "@babel/eslint-parser": "npm:7.22.5"
-    "@babel/node": "npm:7.22.5"
+    "@babel/core": "npm:7.26.9"
+    "@babel/eslint-parser": "npm:7.26.8"
+    "@babel/node": "npm:7.26.0"
     "@dnb/browserslist-config": "npm:1.2.0"
     "@dnb/eufemia": "workspace:*"
     "@emotion/cache": "npm:11.11.0"
@@ -14413,7 +14366,7 @@ __metadata:
     "@types/react-dom": "npm:18.2.6"
     "@typescript-eslint/parser": "npm:5.60.0"
     algoliasearch: "npm:4.12.0"
-    babel-jest: "npm:29.5.0"
+    babel-jest: "npm:29.7.0"
     camelcase: "npm:6.2.0"
     classnames: "npm:2.3.1"
     cross-env: "npm:7.0.3"
@@ -27042,7 +26995,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pirates@npm:^4.0.1, pirates@npm:^4.0.4, pirates@npm:^4.0.5, pirates@npm:^4.0.6":
+"pirates@npm:^4.0.1, pirates@npm:^4.0.4, pirates@npm:^4.0.6":
   version: 4.0.6
   resolution: "pirates@npm:4.0.6"
   checksum: 10/d02dda76f4fec1cbdf395c36c11cf26f76a644f9f9a1bfa84d3167d0d3154d5289aacc72677aa20d599bb4a6937a471de1b65c995e2aea2d8687cbcd7e43ea5f
