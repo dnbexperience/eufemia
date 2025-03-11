@@ -122,7 +122,6 @@ describe('Form.Section', () => {
               id="id-r1b"
               name="firstName"
               type="text"
-              value=""
             />,
           },
           "label": "Fornavn",
@@ -151,7 +150,6 @@ describe('Form.Section', () => {
               id="id-r1h"
               name="lastName"
               type="text"
-              value=""
             />,
           },
           "label": "Etternavn",

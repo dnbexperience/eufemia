@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useCallback } from 'react'
 import classnames from 'classnames'
 import {
   cleanNumber,
@@ -230,34 +230,44 @@ export const useInputElement = () => {
   // Create the actual input element
   const inputElementRef = React.useRef(<input ref={ref} />)
 
-  const InputElement = (params, innerRef) => {
-    // Set ref for Eufemia input
-    innerRef.current = ref.current
+  return useCallback(
+    (params, innerRef) => {
+      // Set ref for Eufemia input
+      innerRef.current = ref.current
 
-    return (
-      <TextMask
-        inputRef={ref}
-        inputElement={inputElementRef.current}
-        pipe={pipe}
-        mask={mask || createNumberMask()}
-        showMask={showMask}
-        guide={showGuide}
-        keepCharPositions={keepCharPositions}
-        placeholderChar={placeholderChar}
-        {...getSoftKeyboardAttributes(mask)}
-        {...params}
-        className={classnames(
-          params.className,
-          showMask &&
-            showGuide &&
-            placeholderChar &&
-            placeholderChar !== invisibleSpace &&
-            'dnb-input-masked--guide' // will use --font-family-monospace
-        )}
-      />
-    )
-  }
-  return InputElement
+      return (
+        <TextMask
+          inputRef={ref}
+          inputElement={inputElementRef.current}
+          pipe={pipe}
+          mask={mask || createNumberMask()}
+          showMask={showMask}
+          guide={showGuide}
+          keepCharPositions={keepCharPositions}
+          placeholderChar={placeholderChar}
+          {...getSoftKeyboardAttributes(mask)}
+          {...params}
+          className={classnames(
+            params.className,
+            showMask &&
+              showGuide &&
+              placeholderChar &&
+              placeholderChar !== invisibleSpace &&
+              'dnb-input-masked--guide' // will use --font-family-monospace
+          )}
+        />
+      )
+    },
+    [
+      keepCharPositions,
+      mask,
+      pipe,
+      placeholderChar,
+      ref,
+      showGuide,
+      showMask,
+    ]
+  )
 }
 
 /**
