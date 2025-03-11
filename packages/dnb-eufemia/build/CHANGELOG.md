@@ -3,6 +3,28 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.67.1](https://github.com/dnbexperience/eufemia/compare/v10.67.0...v10.67.1) (2025-03-11)
+
+
+### :memo: Documentation
+
+* correct broken link to uutilsynet about WCAG ([34f4001](https://github.com/dnbexperience/eufemia/commit/34f40013afb0d3040687fc52e06bafc0275c77a1))
+* **Field.Date:** remove `date` property ([#4718](https://github.com/dnbexperience/eufemia/issues/4718)) ([b0e34a0](https://github.com/dnbexperience/eufemia/commit/b0e34a070b73d23c27e619a6bc0bb0998dc6606d))
+* **Field.Date:** remove `startDate` property ([#4720](https://github.com/dnbexperience/eufemia/issues/4720)) ([4181d04](https://github.com/dnbexperience/eufemia/commit/4181d049f4c906c832f1b741f8db757d0e9c15ac))
+* **Field.Date:** remove date property ([243f141](https://github.com/dnbexperience/eufemia/commit/243f1415f03e179975682d111bae117ec5597da0))
+* **Field.Date:** remove endDate property ([f617677](https://github.com/dnbexperience/eufemia/commit/f6176773b9c9437181faefad29f6a3afb985759a))
+* **Field.Date:** remove endDate property ([#4721](https://github.com/dnbexperience/eufemia/issues/4721)) ([f1fa1cd](https://github.com/dnbexperience/eufemia/commit/f1fa1cd53157720dbd4b5623bcbb369ce4ff5500))
+* **Field.Date:** remove startDate property ([81fedcd](https://github.com/dnbexperience/eufemia/commit/81fedcdb0bcae6cf3e806e9f143ca57de9a92ac4))
+* **PushContainer:** move events docs to events tab ([c35d2c8](https://github.com/dnbexperience/eufemia/commit/c35d2c8d5f7d5ac0b321028d3c6348876a756854))
+* **PushContainer:** move events docs to events tab ([#4717](https://github.com/dnbexperience/eufemia/issues/4717)) ([86dfa3f](https://github.com/dnbexperience/eufemia/commit/86dfa3fc9f831d26e0503cfb643fb24867017e3e))
+
+
+### :bug: Bug Fixes
+
+* **Field.Date:** validate `minDate` & `maxDate` by the start of the day (00:00)  ([#4716](https://github.com/dnbexperience/eufemia/issues/4716)) ([98996bd](https://github.com/dnbexperience/eufemia/commit/98996bdb91680e65572c1db0538492ab7f962410))
+* **Input:** remove `value` attribute (use element.value for getting the value in tests) ([f1711a8](https://github.com/dnbexperience/eufemia/commit/f1711a853573a2494e7a574ee7e959cb18dc121b))
+* **Input:** remove value attribute (⚠️ Use element.value instead in e.g. tests) ([#4713](https://github.com/dnbexperience/eufemia/issues/4713)) ([dd2ae1a](https://github.com/dnbexperience/eufemia/commit/dd2ae1a6c48e7cd7c51c9b9c82b84a312ed7b53e))
+
 ## [10.67.0](https://github.com/dnbexperience/eufemia/compare/v10.66.1...v10.67.0) (2025-03-10)
 
 
