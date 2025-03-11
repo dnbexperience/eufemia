@@ -11,7 +11,7 @@ export const FieldBlockSharedProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  labelDescriptionNextLine: {
+  labelDescriptionSameLine: {
     doc: 'If true, the labelDescription will be displayed on the next line.',
     type: 'boolean',
     status: 'optional',

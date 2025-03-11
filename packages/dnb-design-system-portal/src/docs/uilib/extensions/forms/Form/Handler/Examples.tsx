@@ -21,7 +21,6 @@ export const RequiredAndOptionalFields = () => {
             path="/custom"
             label="Label"
             labelDescription="Label description"
-            labelDescriptionNextLine
             required={false}
           />
           <Field.Currency path="/amount" label="Amount" />

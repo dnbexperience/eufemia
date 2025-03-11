@@ -33,13 +33,13 @@ export const LabelAndDescription = () => {
       <Form.Card>
         <Field.Number
           label="Label text"
-          labelDescription="Description text"
+          labelDescription="Description text on the next line"
           placeholder="Enter a text..."
         />
         <Field.Number
           label="Label text"
-          labelDescription="Description text on the next line"
-          labelDescriptionNextLine
+          labelDescription="Description text on the same line"
+          labelDescriptionSameLine
           placeholder="Enter a text..."
         />
       </Form.Card>
@@ -441,10 +441,7 @@ export const ConditionalInfo = () => {
               <Field.Number
                 label="Maximum for amount"
                 labelDescription={
-                  <>
-                    <br />
-                    Defines the maximum amount possible to be entered.
-                  </>
+                  <>Defines the maximum amount possible to be entered.</>
                 }
                 path="/maximum"
                 required
@@ -485,10 +482,7 @@ export const ConditionalInfo = () => {
               <Field.Number
                 label="Amount"
                 labelDescription={
-                  <>
-                    <br />
-                    Should be same or lower than maximum.
-                  </>
+                  <>Should be same or lower than maximum.</>
                 }
                 path="/amount"
                 required

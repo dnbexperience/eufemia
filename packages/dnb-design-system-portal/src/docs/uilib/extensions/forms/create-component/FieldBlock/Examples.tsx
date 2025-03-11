@@ -300,7 +300,6 @@ export const InlineHelpButtonHTML = () => {
           label={<strong>Ønsket lånebeløp</strong>}
           labelDescription={
             <span>
-              <br />
               Label description with a <Anchor href="/">Anchor</Anchor>
             </span>
           }
@@ -329,7 +328,6 @@ export const InlineHelpButtonVerticalLabelDescription = () => {
         <Field.String
           label="Ønsket lånebeløp"
           labelDescription="Description"
-          labelDescriptionNextLine
           help={{
             title: 'Hva betyr lånebeløp?',
             content: 'Dette er hvor mye du har tenkt å låne totalt.',
@@ -341,7 +339,6 @@ export const InlineHelpButtonVerticalLabelDescription = () => {
         <Field.String
           label="Ønsket lånebeløp"
           labelDescription="Description"
-          labelDescriptionNextLine
           multiline
           rows={3}
           help={{

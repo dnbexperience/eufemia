@@ -93,9 +93,9 @@ export type SharedFieldBlockProps = {
    */
   labelDescription?: React.ReactNode
   /**
-   * If true, the labelDescription will be displayed on the next line
+   * If true, the labelDescription will be displayed on the same line as the label.
    */
-  labelDescriptionNextLine?: boolean
+  labelDescriptionSameLine?: boolean
   /**
    * Width of outer block element
    */
@@ -157,7 +157,7 @@ function FieldBlock(props: Props) {
     composition,
     label: labelProp,
     labelDescription,
-    labelDescriptionNextLine,
+    labelDescriptionSameLine,
     labelSuffix,
     labelSrOnly,
     help,
@@ -556,7 +556,9 @@ function FieldBlock(props: Props) {
                   <HelpButtonInline contentId={`${id}-help`} help={help} />
                 )}
 
-                {labelDescriptionNextLine && <br />}
+                {hasLabelDescription && !labelDescriptionSameLine && (
+                  <br />
+                )}
                 {hasLabelDescription && (
                   <span className="dnb-forms-field-block__label__description">
                     {labelDescription}

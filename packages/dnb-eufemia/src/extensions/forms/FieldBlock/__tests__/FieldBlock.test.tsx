@@ -144,11 +144,11 @@ describe('FieldBlock', () => {
       expect(labelElement).toHaveTextContent('A Label Description')
     })
 
-    it('should render br when labelDescriptionNextLine is true', () => {
+    it('should render br when labelDescriptionSameLine is false', () => {
       render(
         <FieldBlock
           labelDescription="A Label Description"
-          labelDescriptionNextLine
+          labelDescriptionSameLine={false}
         >
           content
         </FieldBlock>
@@ -158,6 +158,22 @@ describe('FieldBlock', () => {
 
       expect(labelElement).toHaveTextContent('A Label Description')
       expect(labelElement.querySelector('br')).toBeInTheDocument()
+    })
+
+    it('should not render br when labelDescriptionSameLine is true', () => {
+      render(
+        <FieldBlock
+          labelDescription="A Label Description"
+          labelDescriptionSameLine
+        >
+          content
+        </FieldBlock>
+      )
+
+      const labelElement = document.querySelector('label')
+
+      expect(labelElement).toHaveTextContent('A Label Description')
+      expect(labelElement.querySelector('br')).not.toBeInTheDocument()
     })
 
     it('should render with JSX content', () => {
