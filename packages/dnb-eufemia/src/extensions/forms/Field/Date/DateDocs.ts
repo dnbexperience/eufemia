@@ -24,6 +24,8 @@ const {
   suffix,
   stretch,
   size,
+  date,
+  startDate,
   endDate,
   '[Space](/uilib/layout/space/properties)': space,
   ...datePickerProperties
