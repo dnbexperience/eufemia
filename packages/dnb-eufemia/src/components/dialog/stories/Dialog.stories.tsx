@@ -19,7 +19,7 @@ import {
 } from '../..'
 import { ScrollView } from '../../../fragments'
 import Dialog from '../Dialog'
-import { H2, P, Hr, Flex } from '../../..'
+import { H2, P, Hr, Flex, ToggleButton } from '../../..'
 import Provider from '../../../shared/Provider'
 import {
   trash_medium as TrashIcon,
@@ -802,5 +802,42 @@ export const DialogConfirmHideConfirm = () => {
         omitTriggerButton
       />
     </Box>
+  )
+}
+
+export function WithStrictMode() {
+  const [open, setOpen] = React.useState(false)
+
+  return (
+    <React.StrictMode>
+      <ToggleButton
+        text="Open/Close"
+        checked={open}
+        onChange={() => {
+          setOpen((s) => !s)
+        }}
+      />
+      <Dialog
+        title="What is a Dialog?"
+        onClose={({ triggeredBy }) => {
+          console.log('triggeredBy', triggeredBy)
+          setOpen(false)
+        }}
+        openState={open}
+        omitTriggerButton
+      >
+        <P>
+          The Dialog component is a Modal variation that appears at the
+          center of the screen. The Dialog has similar functionality to a
+          traditional popup window and is mostly used for informational
+          purposes (for example explaining a word on the page). Similar to
+          Modal, it has to be triggered by the user to appear. Typical
+          usage would be to read an explanation, then closing it.
+        </P>
+        <Button variant="secondary" size="large" top="large">
+          Read more
+        </Button>
+      </Dialog>
+    </React.StrictMode>
   )
 }
