@@ -149,10 +149,6 @@ function DateComponent(props: DateProps) {
     return dateLimitValidator
   }, [props.onBlurValidator, dateLimitValidator])
 
-  const hasDateLimitAndValue = useMemo(() => {
-    return (props.minDate || props.maxDate) && Boolean(props.value)
-  }, [props.minDate, props.maxDate, props.value])
-
   const preparedProps = {
     ...props,
     errorMessages,
@@ -165,7 +161,6 @@ function DateComponent(props: DateProps) {
       return range ? `${start_date}|${end_date}` : date
     },
     validateRequired,
-    validateInitially: props.validateInitially ?? hasDateLimitAndValue,
     onBlurValidator,
     exportValidators: { dateLimitValidator },
   }
