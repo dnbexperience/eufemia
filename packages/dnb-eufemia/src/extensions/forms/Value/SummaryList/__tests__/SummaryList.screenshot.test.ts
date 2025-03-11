@@ -36,6 +36,14 @@ describe('Value.SummaryList', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match with help help button', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="forms-value-summary-list-with-help-button"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match without a label', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '6rem' },

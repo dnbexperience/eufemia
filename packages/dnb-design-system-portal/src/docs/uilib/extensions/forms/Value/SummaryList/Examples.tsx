@@ -390,3 +390,54 @@ export function AnimatedVisibility() {
     </ComponentBox>
   )
 }
+
+export const HelpButton = () => {
+  return (
+    <ComponentBox data-visual-test="forms-value-summary-list-with-help-button">
+      <Form.Handler>
+        <Flex.Stack>
+          <Form.Card>
+            <Value.SummaryList>
+              <Value.Boolean
+                label={
+                  'Vil foretaket være involvert i, eller drive virksomhet knyttet til virtuell valuta?'
+                }
+                help={{
+                  open: true,
+                  title: 'Virtuell valuta',
+                  content:
+                    'For eksempel i forbindelse med veksling, oppbevaring, utvinning eller investering i kryptovaluta.',
+                }}
+                value={false}
+              />
+              <Value.Boolean
+                label={
+                  'Skal foretaket drive med betalingsformidling som hovedvirksomhet eller som tilleggsvirksomhet til annen næring?'
+                }
+                help={{
+                  open: true,
+                  title: 'Betalingsformidling',
+                  content:
+                    'For eksempel betalingsforetak, agent, filial eller tilsvarende virksomhet som krever konsesjon.',
+                }}
+                value={false}
+              />
+            </Value.SummaryList>
+            <Value.Boolean
+              label={
+                'Er foretaket registreringspliktig hos Finanstilsynet?'
+              }
+              help={{
+                open: true,
+                title: 'Registreringspliktig',
+                content:
+                  'Driver virksomhet innenfor eiendomsmegling, inkasso, finans eller regnskapstjenester kan foretaket være regnskapspliktig.',
+              }}
+              value={true}
+            />
+          </Form.Card>
+        </Flex.Stack>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
