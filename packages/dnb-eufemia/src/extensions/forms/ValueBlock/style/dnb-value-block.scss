@@ -1,4 +1,5 @@
 @import '../../../../style/core/utilities.scss';
+@import '../../Field/style/value-sizes.scss';
 
 .dnb-forms-summary-list.dnb-dl {
   &:not(.dnb-dl__layout--horizontal) {
@@ -74,13 +75,13 @@
     }
     @include allAbove(x-small) {
       &-small {
-        max-width: var(--forms-field-width--small);
+        max-width: var(--forms-value-width--small);
       }
       &-medium {
-        max-width: var(--forms-field-width--medium);
+        max-width: var(--forms-value-width--medium);
       }
       &-large {
-        max-width: var(--forms-field-width--large);
+        max-width: var(--forms-value-width--large);
       }
     }
   }
