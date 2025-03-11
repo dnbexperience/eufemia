@@ -108,7 +108,6 @@ describe('Tools.GenerateSchema', () => {
               id="id-rm"
               name="myField"
               type="text"
-              value=""
             />,
           },
           "label": "My field",
@@ -130,7 +129,6 @@ describe('Tools.GenerateSchema', () => {
                 id="id-rs"
                 name="nested/myString"
                 type="text"
-                value="my string"
               />,
             },
             "minLength": 2,
@@ -171,7 +169,6 @@ describe('Tools.GenerateSchema', () => {
               id="id-rm"
               name="myString"
               type="text"
-              value="local value"
             />,
           },
           "label": "My field",
@@ -192,7 +189,6 @@ describe('Tools.GenerateSchema', () => {
               id="id-rm"
               name="myString"
               type="text"
-              value="local value"
             />,
           },
           "minLength": 2,

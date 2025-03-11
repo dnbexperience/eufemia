@@ -347,10 +347,10 @@ function MultiInputMaskInput<T extends string>({
       )}
     </>
   )
+}
 
-  function removePlaceholder(value: string, placeholder: string) {
-    return value.replace(RegExp(placeholder, 'gm'), '')
-  }
+function removePlaceholder(value: string, placeholder: string) {
+  return value.replace(RegExp(placeholder, 'gm'), '')
 }
 
 export default MultiInputMask

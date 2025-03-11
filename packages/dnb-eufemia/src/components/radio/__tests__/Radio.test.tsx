@@ -31,9 +31,7 @@ describe('Radio component', () => {
 
     const value = 'new value'
     rerender(<Radio {...props} checked value={value} />)
-    expect(document.querySelector('input').getAttribute('value')).toBe(
-      value
-    )
+    expect(document.querySelector('input').value).toBe(value)
   })
 
   it('has "on_change" event which will trigger on a input change', () => {
