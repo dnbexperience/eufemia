@@ -1,7 +1,12 @@
 import React, { forwardRef } from 'react'
 import classnames from 'classnames'
+import { DrawerListDataArrayObject } from './DrawerList'
 
-export type DrawerListItemProps = React.HTMLProps<HTMLLIElement> & {
+export type DrawerListItemProps = Omit<
+  React.HTMLProps<HTMLLIElement>,
+  'children'
+> & {
+  children: ItemContentChildren
   active?: boolean
   hash?: string
   selected?: boolean
@@ -73,47 +78,53 @@ export const DrawerListItem = forwardRef(function DrawerListItem(
   )
 })
 
-export type ItemContentChildren = React.ReactNode | Record<string, unknown>
+export type ItemContentChildren =
+  | React.ReactNode
+  | DrawerListDataArrayObject
+
 export interface ItemContentProps {
   hash?: string
   children?: ItemContentChildren
 }
 
-export function ItemContent({ hash = '', children = undefined }) {
-  let content = null
+export function ItemContent({ hash = '', children }: ItemContentProps) {
+  let renderedContent = undefined
+  const isDataObject =
+    typeof children === 'object' && 'content' in children
 
-  if (Array.isArray(children.content || children)) {
-    content = (children.content || children).map((item, n) => (
-      <DrawerListOptionItem
-        key={hash + n}
-        className={`item-nr-${n + 1}`} // "item-nr" is used by CSS
-      >
-        {children.render ? children.render(item, hash + n) : item}
-      </DrawerListOptionItem>
-    ))
-  } else if (Object.prototype.hasOwnProperty.call(children, 'content')) {
-    content = children.render
-      ? children.render(children.content, hash, children)
-      : children.content
-    if (content) {
-      content = <DrawerListOptionItem>{content}</DrawerListOptionItem>
+  const content = isDataObject ? children.content : children
+  if (content) {
+    if (Array.isArray(content)) {
+      renderedContent = content.map((contentItem, n) => (
+        <DrawerListOptionItem
+          key={hash + n}
+          className={`item-nr-${n + 1}`} // "item-nr" is used by CSS
+        >
+          {isDataObject && children.render
+            ? children.render(contentItem, hash + n)
+            : contentItem}
+        </DrawerListOptionItem>
+      ))
+    } else {
+      renderedContent = (
+        <DrawerListOptionItem>
+          {isDataObject && children.render
+            ? children.render(content, hash)
+            : content}
+        </DrawerListOptionItem>
+      )
     }
-  } else {
-    content = children && (
-      <DrawerListOptionItem>{children}</DrawerListOptionItem>
-    )
   }
 
-  return Object.prototype.hasOwnProperty.call(children, 'suffix_value') ? (
+  return (
     <>
-      {content}
-
-      <DrawerListOptionItem className="dnb-drawer-list__option__suffix">
-        {children.suffix_value}
-      </DrawerListOptionItem>
+      {renderedContent}
+      {isDataObject && children.suffix_value && (
+        <DrawerListOptionItem className="dnb-drawer-list__option__suffix">
+          {children.suffix_value}
+        </DrawerListOptionItem>
+      )}
     </>
-  ) : (
-    content
   )
 }
 
