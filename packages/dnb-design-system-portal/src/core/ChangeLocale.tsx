@@ -16,6 +16,7 @@ export default function ChangeLocale({ listUSLocale = null, ...props }) {
       {...props}
     >
       <Field.Option value="nb-NO" title="Norsk" />
+      <Field.Option value="sv-SE" title="Svenska (beta)" />
       <Field.Option value="en-GB" title="English (GB)" />
       {listUSLocale && <Field.Option value="en-US" title="English (US)" />}
     </Field.Selection>
