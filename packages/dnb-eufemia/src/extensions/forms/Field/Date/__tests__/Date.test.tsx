@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { render, waitFor, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
-import { DataContext, Field, FieldBlock, Form } from '../../..'
+import { DataContext, Field, FieldBlock, Form, Wizard } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 import enGB from '../../../constants/locales/en-GB'
 import { FormatDateOptions, formatDate } from '../../../Value/Date'
@@ -369,6 +369,102 @@ describe('Field.Date', () => {
     expect(
       screen.getAllByLabelText('fredag 1. november 2024')[0]
     ).toHaveAttribute('aria-disabled', 'true')
+  })
+
+  it('should support min and max dates as date objects', async () => {
+    render(
+      <Wizard.Container>
+        <Wizard.Step title="Step 1">
+          <Field.Date
+            value="2025-03-15"
+            minDate={new Date('2025-03-13')}
+            maxDate={new Date('2025-03-31')}
+            showResetButton={false}
+            showCancelButton={false}
+          />
+          <Wizard.Buttons />
+        </Wizard.Step>
+        <Wizard.Step title="Step 2">
+          <Wizard.Buttons />
+        </Wizard.Step>
+      </Wizard.Container>
+    )
+
+    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+
+    // Clicking the minDate should not trigger error
+    await userEvent.click(screen.getByLabelText('torsdag 13. mars 2025'))
+    await userEvent.click(screen.getByText('Neste'))
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).not.toBeInTheDocument()
+
+    // Clicking the maxDate should not trigger error
+    await userEvent.click(screen.getByText('Tilbake'))
+    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('mandag 31. mars 2025'))
+    await userEvent.click(screen.getByText('Neste'))
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).not.toBeInTheDocument()
+
+    // Double check that dates before min and max date are disabled in the calendar
+    await userEvent.click(screen.getByText('Tilbake'))
+    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    expect(screen.getByLabelText('onsdag 12. mars 2025')).toHaveAttribute(
+      'disabled'
+    )
+    expect(screen.getByLabelText('tirsdag 1. april 2025')).toHaveAttribute(
+      'disabled'
+    )
+  })
+
+  it('should support min and max dates as ISO strings', async () => {
+    render(
+      <Wizard.Container>
+        <Wizard.Step title="Step 1">
+          <Field.Date
+            value="2025-03-15"
+            minDate="2025-03-13T11:25:13.000Z"
+            maxDate="2025-03-31T14:12:19.000Z"
+            showResetButton={false}
+            showCancelButton={false}
+          />
+          <Wizard.Buttons />
+        </Wizard.Step>
+        <Wizard.Step title="Step 2">
+          <Wizard.Buttons />
+        </Wizard.Step>
+      </Wizard.Container>
+    )
+
+    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+
+    // Clicking the minDate should not trigger error
+    await userEvent.click(screen.getByLabelText('torsdag 13. mars 2025'))
+    await userEvent.click(screen.getByText('Neste'))
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).not.toBeInTheDocument()
+
+    // Clicking the maxDate should not trigger error
+    await userEvent.click(screen.getByText('Tilbake'))
+    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('mandag 31. mars 2025'))
+    await userEvent.click(screen.getByText('Neste'))
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).not.toBeInTheDocument()
+
+    // Double check that dates before min and max date are disabled in the calendar
+    await userEvent.click(screen.getByText('Tilbake'))
+    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    expect(screen.getByLabelText('onsdag 12. mars 2025')).toHaveAttribute(
+      'disabled'
+    )
+    expect(screen.getByLabelText('tirsdag 1. april 2025')).toHaveAttribute(
+      'disabled'
+    )
   })
 
   it('should be able to correct invalid dates', async () => {

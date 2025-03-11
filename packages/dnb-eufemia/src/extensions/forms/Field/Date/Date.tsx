@@ -20,6 +20,7 @@ import {
 import { convertStringToDate } from '../../../../components/date-picker/DatePickerCalc'
 import { ProviderProps } from '../../../../shared/Provider'
 import { FormError } from '../../utils'
+import startOfDay from 'date-fns/startOfDay'
 
 // `range`, `showInput`, `showCancelButton` and `showResetButton` are not picked from the `DatePickerProps`
 // Since they require `Field.Date` specific comments, due to them having different default values
@@ -283,11 +284,12 @@ function validateDateLimit({
 
   const [startDateParsed, endDateParsed] = parseRangeValue(value)
 
-  const minDate = convertStringToDate(dates.minDate)
-  const maxDate = convertStringToDate(dates.maxDate)
+  // Set dates to the start of the day to compare the actual days, and not day and time
+  const minDate = startOfDay(convertStringToDate(dates.minDate))
+  const maxDate = startOfDay(convertStringToDate(dates.maxDate))
 
-  const startDate = convertStringToDate(startDateParsed)
-  const endDate = convertStringToDate(endDateParsed)
+  const startDate = startOfDay(convertStringToDate(startDateParsed))
+  const endDate = startOfDay(convertStringToDate(endDateParsed))
 
   const isoDates = {
     minDate:
