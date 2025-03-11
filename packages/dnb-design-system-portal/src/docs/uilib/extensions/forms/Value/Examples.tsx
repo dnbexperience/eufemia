@@ -8,7 +8,11 @@ export const SummaryList = () => {
     <ComponentBox>
       <Value.SummaryList>
         <Value.String label="Foo" value="value" />
-        <Value.Number label="Bar" value={123} />
+        <Value.Number
+          label="Bar"
+          value={123}
+          help={{ title: 'Help title', content: 'Help content' }}
+        />
       </Value.SummaryList>
     </ComponentBox>
   )
