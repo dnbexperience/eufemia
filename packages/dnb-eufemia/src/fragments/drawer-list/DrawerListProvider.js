@@ -71,8 +71,8 @@ export default class DrawerListProvider extends React.PureComponent {
     this.state = {
       tagName: 'dnb-drawer-list',
       cache_hash: '',
-      active_item: null,
-      selected_item: null,
+      active_item: undefined,
+      selected_item: undefined,
       ignore_events: false,
       ...prepareStartupState(props),
     }
