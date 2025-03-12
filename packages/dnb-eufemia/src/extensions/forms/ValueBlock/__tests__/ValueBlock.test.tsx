@@ -113,7 +113,7 @@ describe('ValueBlock', () => {
       const dl = document.querySelector('dl')
       expect(dl).toMatchInlineSnapshot(`
         <dl
-          class="dnb-forms-summary-list dnb-dl"
+          class="dnb-forms-summary-list dnb-dl__layout--vertical dnb-dl"
         >
           <dt
             class="dnb-forms-value-block__label dnb-forms-value-block--max-width-large dnb-dt"

@@ -108,6 +108,7 @@ describe('Value.SummaryList', () => {
     expect(Array.from(element.classList)).toEqual([
       'dnb-forms-summary-list',
       'custom-class',
+      'dnb-dl__layout--vertical',
       'dnb-dl',
     ])
   })
