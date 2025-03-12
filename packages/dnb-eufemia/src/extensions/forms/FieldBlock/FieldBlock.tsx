@@ -95,7 +95,7 @@ export type SharedFieldBlockProps = {
   /**
    * If true, the labelDescription will be displayed on the same line as the label.
    */
-  labelDescriptionSameLine?: boolean
+  labelDescriptionInline?: boolean
   /**
    * Width of outer block element
    */
@@ -157,7 +157,7 @@ function FieldBlock(props: Props) {
     composition,
     label: labelProp,
     labelDescription,
-    labelDescriptionSameLine,
+    labelDescriptionInline,
     labelSuffix,
     labelSrOnly,
     help,
@@ -556,9 +556,7 @@ function FieldBlock(props: Props) {
                   <HelpButtonInline contentId={`${id}-help`} help={help} />
                 )}
 
-                {hasLabelDescription && !labelDescriptionSameLine && (
-                  <br />
-                )}
+                {hasLabelDescription && !labelDescriptionInline && <br />}
                 {hasLabelDescription && (
                   <span className="dnb-forms-field-block__label__description">
                     {labelDescription}

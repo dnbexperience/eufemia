@@ -2446,7 +2446,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     required,
     label: props.label,
     labelDescription: props.labelDescription,
-    labelDescriptionSameLine: props.labelDescriptionSameLine,
+    labelDescriptionInline: props.labelDescriptionInline,
     labelSuffix: props.labelSuffix,
     layout: props.layout,
     layoutOptions: props.layoutOptions,

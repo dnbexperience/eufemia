@@ -39,7 +39,7 @@ export const LabelAndDescription = () => {
         <Field.Number
           label="Label text"
           labelDescription="Description text on the same line"
-          labelDescriptionSameLine
+          labelDescriptionInline
           placeholder="Enter a text..."
         />
       </Form.Card>

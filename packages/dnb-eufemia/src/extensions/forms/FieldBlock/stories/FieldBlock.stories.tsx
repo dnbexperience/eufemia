@@ -194,7 +194,7 @@ export const WithInlineHelp = () => {
         <Field.String
           label="Ønsket lånebeløp"
           labelDescription="Description"
-          labelDescriptionSameLine
+          labelDescriptionInline
           help={{
             title: 'Hva betyr lånebeløp?',
             content: 'Dette er hvor mye du har tenkt å låne totalt.',
@@ -206,7 +206,7 @@ export const WithInlineHelp = () => {
         <Field.String
           label="Ønsket lånebeløp"
           labelDescription="Description"
-          labelDescriptionSameLine
+          labelDescriptionInline
           multiline
           help={{
             title: 'Hva betyr lånebeløp?',
