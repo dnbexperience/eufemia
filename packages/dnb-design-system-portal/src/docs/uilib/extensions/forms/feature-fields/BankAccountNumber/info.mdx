@@ -6,7 +6,7 @@ showTabs: true
 
 `Field.BankAccountNumber` is a wrapper component for the [input of strings](/uilib/extensions/forms/base-fields/String), with user experience tailored for bank account values.
 
-This field is meant for Norwegian bank account numbers, and therefor takes a 11-digit string as a value. A Norwegian bank account number can have a leading zero, which is why this value is a string and not a number.
+This field is meant for Norwegian bank account numbers, and therefor takes a 11-digit string as a value. A Norwegian bank account number can have a leading zero, which is why this value is a string and not a number. In addition, we validate `0000 00 00000` as invalid.
 More info can be found at [Wikipedia](https://no.wikipedia.org/wiki/Kontonummer)
 
 ```jsx

@@ -107,6 +107,7 @@ describe('Field.BankAccountNumber', () => {
       '12345678901',
       '10987654321',
       '98765432112',
+      '00000000000',
     ]
 
     const invalidBankAccountNumbersTooShort = [
