@@ -1,7 +1,7 @@
 import { PropertiesTableProps } from '../../../../shared/types'
 import { ValueProperties } from '../ValueDocs'
 
-const { transformLabel } = ValueProperties
+const { transformLabel, help } = ValueProperties
 
 export const SummaryListProperties: PropertiesTableProps = {
   layout: {
@@ -20,6 +20,7 @@ export const SummaryListProperties: PropertiesTableProps = {
     status: 'optional',
   },
   transformLabel,
+  help,
   children: {
     doc: 'Contents.',
     type: 'React.Node',
