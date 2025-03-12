@@ -242,6 +242,8 @@ describe('Field.Name', () => {
       'Ink @ Nine',
       'Non–Breaking Space',
       'Corp!',
+      '1ABC',
+      '123ABC',
     ]
 
     const invalidNames = [
@@ -253,6 +255,10 @@ describe('Field.Name', () => {
       'Limited ',
       '123',
       '0',
+      '0A',
+      '0AB',
+      'A0',
+      'AB0',
     ]
 
     it.each(validNames)('Valid name: %s', (name) => {
