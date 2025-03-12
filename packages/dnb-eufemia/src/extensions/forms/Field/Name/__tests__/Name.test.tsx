@@ -240,9 +240,10 @@ describe('Field.Name', () => {
       'Beta Industries',
       'Gamma-Group',
       'Ink @ Nine',
-      '123',
       'Non–Breaking Space',
       'Corp!',
+      '1ABC',
+      '123ABC',
     ]
 
     const invalidNames = [
@@ -252,6 +253,12 @@ describe('Field.Name', () => {
       'Acme--',
       ' Limited',
       'Limited ',
+      '123',
+      '0',
+      '0A',
+      '0AB',
+      'A0',
+      'AB0',
     ]
 
     it.each(validNames)('Valid name: %s', (name) => {
