@@ -5,7 +5,7 @@ const { transformLabel, help } = ValueProperties
 
 export const SummaryListProperties: PropertiesTableProps = {
   layout: {
-    doc: 'Use `grid`, `horizontal` or `vertical`.',
+    doc: 'Use `grid`, `horizontal` or `vertical`. Defaults to `vertical`.',
     type: 'string',
     status: 'optional',
   },
