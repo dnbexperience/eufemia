@@ -24,7 +24,7 @@ export default {
     },
     Step: {
       summaryTitle: 'Summary',
-      stepHasError: 'The form contains errors.',
+      stepHasError: 'The step contains errors.',
     },
     WizardEditButton: {
       text: 'Edit',

@@ -23,7 +23,7 @@ export default {
     },
     Step: {
       summaryTitle: 'Oppsummering',
-      stepHasError: 'Skjemaet inneholder feil.',
+      stepHasError: 'Steget inneholder feil.',
     },
     WizardEditButton: {
       text: 'Endre',
