@@ -240,7 +240,6 @@ describe('Field.Name', () => {
       'Beta Industries',
       'Gamma-Group',
       'Ink @ Nine',
-      '123',
       'Non–Breaking Space',
       'Corp!',
     ]
@@ -252,6 +251,8 @@ describe('Field.Name', () => {
       'Acme--',
       ' Limited',
       'Limited ',
+      '123',
+      '0',
     ]
 
     it.each(validNames)('Valid name: %s', (name) => {
