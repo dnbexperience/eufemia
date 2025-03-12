@@ -82,7 +82,7 @@ function OrganizationNumber(props: Props) {
  * www.brreg.no/om-oss/registrene-vare/om-enhetsregisteret/organisasjonsnummeret/
  */
 function isValidOrgNumber(digits: string) {
-  if (digits === '000000000') {
+  if (parseFloat(digits) === 0) {
     return false
   }
   let checkDigit = 2
