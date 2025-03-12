@@ -408,7 +408,12 @@ describe('Field.OrganizationNumber', () => {
       '148623902',
     ]
 
-    const invalidOrgNum = ['123456789', '148623907', '987654321']
+    const invalidOrgNum = [
+      '123456789',
+      '148623907',
+      '987654321',
+      '000000000',
+    ]
     const invalidOrgNumTooShort = ['123', '321', '123123', '321321']
 
     it.each(validOrgNum)(
