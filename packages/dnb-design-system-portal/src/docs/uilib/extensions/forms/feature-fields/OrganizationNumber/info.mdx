@@ -7,7 +7,7 @@ showTabs: true
 `Field.OrganizationNumber` is a wrapper component for the [input of strings](/uilib/extensions/forms/base-fields/String), with user experience tailored for organization number values.
 
 This input expects a 9-digit number as its value. This is because Norwegian organization numbers are 9-digits long, based on info from [Brønnøysundregisteret](https://www.brreg.no/en/about-us-2/our-registers/about-the-central-coordinating-register-for-legal-entities-ccr/about-the-organisation-number/?nocache=1701776533136)
-It validates input for Norwegian organization numbers, as described by [Brønnøysundregistrene](https://www.brreg.no/om-oss/registrene-vare/om-enhetsregisteret/organisasjonsnummeret/).
+It validates input for Norwegian organization numbers as described by [Brønnøysundregistrene](https://www.brreg.no/om-oss/registrene-vare/om-enhetsregisteret/organisasjonsnummeret/), and in addition we validate `000 000 000` as invalid.
 The validation happens on blur, internally using the `onBlurValidator` [property](/uilib/extensions/forms/feature-fields/OrganizationNumber/properties/#field-specific-properties).
 
 ```jsx
