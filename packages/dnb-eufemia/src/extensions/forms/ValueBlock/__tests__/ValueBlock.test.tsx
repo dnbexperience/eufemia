@@ -159,6 +159,34 @@ describe('ValueBlock', () => {
       expect(document.querySelector('dd')).toBeInTheDocument()
     })
 
+    it('should render only one dl when inside Composition and no label was given', () => {
+      const { rerender } = render(
+        <Value.SummaryList>
+          <Value.Composition>
+            <ValueBlock>Value</ValueBlock>
+            <Value.String value="omit error" />
+          </Value.Composition>
+        </Value.SummaryList>
+      )
+
+      expect(document.querySelectorAll('dl')).toHaveLength(1)
+      expect(document.querySelectorAll('dt')).toHaveLength(1)
+      expect(document.querySelectorAll('dd')).toHaveLength(1)
+
+      rerender(
+        <Value.SummaryList>
+          <Value.Composition>
+            <ValueBlock label="Label">Value</ValueBlock>
+            <Value.String value="omit error" />
+          </Value.Composition>
+        </Value.SummaryList>
+      )
+
+      expect(document.querySelectorAll('dl')).toHaveLength(2)
+      expect(document.querySelectorAll('dt')).toHaveLength(2)
+      expect(document.querySelectorAll('dd')).toHaveLength(2)
+    })
+
     it('should validate with ARIA rules', async () => {
       const result = render(
         <Value.SummaryList>

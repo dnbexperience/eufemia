@@ -51,10 +51,19 @@
       margin-right: 0.5rem;
     }
   }
+  &__label:empty {
+    // Make it possible to omit labels in a SummaryList with a horizontal/grid layout that has a label
+    margin-bottom: 0;
+  }
 
   &__help {
     display: flex;
     flex-flow: column;
+
+    .dnb-card & {
+      // Make it possible to that &__help--next-line wraps to a new line
+      flex-grow: 1;
+    }
 
     .dnb-section {
       margin-bottom: 0.5rem;
@@ -89,13 +98,25 @@
   // WHen used in a SummaryList, the height-animation will be a span,
   // so we need display: block or flex to make it work.
   span.dnb-height-animation {
-    display: block;
+    display: flex;
+  }
+
+  // Composition block with horizontal layout in a SummaryList and no label
+  .dnb-forms-summary-list &__composition--horizontal & {
+    display: flex;
+
+    &__label {
+      &:not(&__content) {
+        margin-right: 0.3em;
+      }
+    }
   }
 
   // Composition block
   &__composition--horizontal &__content {
     display: flex;
     flex-flow: row;
+    flex-wrap: wrap;
     row-gap: var(--row-gap, var(--spacing-medium));
     column-gap: var(--column-gap, 0);
 
@@ -130,15 +151,24 @@
     }
 
     /* stylelint-disable */
-    & > .dnb-dd,
-    & > .dnb-dt,
     & > .dnb-dl,
+    & > .dnb-dt,
+    & > .dnb-dd,
     &:not([class*='dnb-space']) > .dnb-dl {
       margin: 0;
     }
     & > .dnb-dl > .dnb-dd {
       margin-bottom: 0;
     }
+    & .dnb-dt:empty ~ .dnb-dd {
+      // Make it possible to omit labels in a SummaryList with a horizontal/grid layout that has a label
+      margin-top: 0;
+    }
     /* stylelint-enable */
+  }
+
+  &__help--next-line {
+    display: flex;
+    flex-basis: 100%; // Ensure the help content is wrapped to a new line
   }
 }
