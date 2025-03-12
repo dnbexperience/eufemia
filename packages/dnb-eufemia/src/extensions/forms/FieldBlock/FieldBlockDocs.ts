@@ -12,7 +12,7 @@ export const FieldBlockSharedProperties: PropertiesTableProps = {
     status: 'optional',
   },
   labelDescriptionInline: {
-    doc: 'If true, the labelDescription will be displayed on the next line.',
+    doc: 'If true, the labelDescription will be displayed on the same line as the label.',
     type: 'boolean',
     status: 'optional',
   },
