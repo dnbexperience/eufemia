@@ -204,6 +204,7 @@ export interface ContextState {
   path?: Path
   disabled?: boolean
   required?: boolean
+  countryCode?: Path | string
   submitState: Partial<EventStateObject>
   prerenderFieldProps?: boolean
   decoupleForm?: boolean

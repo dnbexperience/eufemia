@@ -685,6 +685,14 @@ render(
 
 More info about it in the [Field.Number](/uilib/extensions/forms/base-fields/Number/) component.
 
+### Country specific validation
+
+You can change the country used for your form by setting the `countryCode` property on the [Form.Handler](/uilib/extensions/forms/Form/Handler/) component.
+
+By default, the country code is set to `NO`.
+
+Changing it will ensure that e.g. the [PostalCodeAndCity](/uilib/extensions/forms/feature-fields/PostalCodeAndCity/) field will disable validation when the country code is not `NO`.
+
 ### Localization and translation
 
 You can set the locale for your form by using the `locale` property on the [Form.Handler](/uilib/extensions/forms/Form/Handler/) component. This will ensure that the correct language is used for all the fields in your form.

@@ -54,6 +54,7 @@ import DataContext, {
   FieldInternalsRefProps,
   DataPathHandlerParameters,
 } from '../Context'
+import { COUNTRY as defaultCountry } from '../../../../shared/defaults'
 
 /**
  * Deprecated, as it is supported by all major browsers and Node.js >=v18
@@ -180,6 +181,12 @@ export type Props<Data extends JsonObject> =
      */
     sessionStorageId?: string
     /**
+     * Will change the default country code for fields supporting `countryCode`.
+     * You can also set a path as the value, e.g. `/myCountryCodePath`.
+     * Default: `NO`
+     */
+    countryCode?: ContextState['countryCode']
+    /**
      * Locale to use for all nested Eufemia components
      */
     locale?: ContextProps['locale']
@@ -226,6 +233,7 @@ export default function Provider<Data extends JsonObject>(
     transformIn,
     transformOut,
     filterSubmitData,
+    countryCode,
     locale,
     translations,
     required,
@@ -1375,6 +1383,17 @@ export default function Provider<Data extends JsonObject>(
   const contextErrorMessages =
     errorMessages?.[locale ?? sharedLocale] || errorMessages
 
+  const getSourceValue = useCallback(
+    <T extends string>(value: Path | string) => {
+      const data = internalDataRef.current
+      if (value.includes('/') && pointer.has(data, value)) {
+        return pointer.get(data, value) as unknown as T
+      }
+      return value
+    },
+    []
+  )
+
   const contextValue: ContextState = {
     /** Method */
     handlePathChange,
@@ -1430,6 +1449,9 @@ export default function Provider<Data extends JsonObject>(
     isEmptyDataRef,
     fieldErrorRef,
     ajvInstance: ajvRef.current,
+    countryCode: countryCode
+      ? getSourceValue<string>(countryCode)
+      : defaultCountry,
 
     /** Additional */
     id,

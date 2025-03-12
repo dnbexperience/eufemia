@@ -5437,4 +5437,91 @@ describe('DataContext.Provider', () => {
       })
     })
   })
+
+  describe('countryCode', () => {
+    it('should support countryCode given as a path', async () => {
+      let currentContext: ContextState = null
+
+      render(
+        <Form.Handler countryCode="/countryCode">
+          <Field.String path="/countryCode" defaultValue="SE" />
+          <DataContext.Consumer>
+            {(context) => {
+              currentContext = context
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      expect(currentContext?.countryCode).toBe('SE')
+
+      await userEvent.type(
+        document.querySelector('input'),
+        '{Backspace>2}DK'
+      )
+
+      expect(currentContext?.countryCode).toBe('DK')
+    })
+
+    it('should support countryCode given as a path with value in data context', async () => {
+      let currentContext: ContextState = null
+
+      render(
+        <Form.Handler
+          countryCode="/countryCode"
+          defaultData={{ countryCode: 'SE' }}
+        >
+          <Field.String path="/countryCode" />
+          <DataContext.Consumer>
+            {(context) => {
+              currentContext = context
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      expect(currentContext?.countryCode).toBe('SE')
+
+      await userEvent.type(
+        document.querySelector('input'),
+        '{Backspace>2}DK'
+      )
+
+      expect(currentContext?.countryCode).toBe('DK')
+    })
+
+    describe('PostalCodeAndCity', () => {
+      it('should validate invalid value with default countryCode', () => {
+        render(
+          <Form.Handler countryCode="NO">
+            <Field.PostalCodeAndCity
+              postalCode={{
+                value: '123',
+                validateInitially: true,
+              }}
+            />
+          </Form.Handler>
+        )
+
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
+      })
+
+      it('should not show error when countryCode is SE and value is valid', () => {
+        render(
+          <Form.Handler countryCode="SE">
+            <Field.PostalCodeAndCity
+              postalCode={{
+                value: '12345',
+                validateInitially: true,
+              }}
+            />
+          </Form.Handler>
+        )
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      })
+    })
+  })
 })

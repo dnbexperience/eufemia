@@ -1,6 +1,7 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useContext, useMemo } from 'react'
 import classnames from 'classnames'
 import { Props as FieldBlockProps } from '../../FieldBlock'
+import DataContext from '../../DataContext/Context'
 import StringField, { Props as StringFieldProps } from '../String'
 import CompositionField from '../Composition'
 import { Path } from '../../types'
@@ -38,6 +39,7 @@ export type Props = Pick<
 function PostalCodeAndCity(props: Props) {
   const translations = useTranslation()
   const { getSourceValue } = useDataValue()
+  const countryCodeFromProvider = useContext(DataContext)?.countryCode
 
   const {
     postalCode = {},
@@ -45,7 +47,7 @@ function PostalCodeAndCity(props: Props) {
     help,
     width = 'large',
     country,
-    countryCode = defaultCountry,
+    countryCode = countryCodeFromProvider ?? defaultCountry,
     size,
     ...fieldBlockProps
   } = props
