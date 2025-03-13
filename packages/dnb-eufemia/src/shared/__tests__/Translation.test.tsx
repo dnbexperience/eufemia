@@ -1,6 +1,9 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import Translation, { TranslationProps } from '../Translation'
+import Translation, {
+  TranslationProps,
+  mergeTranslations,
+} from '../Translation'
 
 import Context from '../Context'
 import Provider from '../Provider'
@@ -167,5 +170,74 @@ describe('Translation', () => {
     )
 
     expect(document.body.textContent).toBe('string baz')
+  })
+})
+
+describe('mergeTranslations', () => {
+  it('should merge translations given as objects', () => {
+    const nbNO = {
+      'nb-NO': { my: { string: 'streng {foo}' } },
+    }
+    const enGB = {
+      'en-GB': { my: { string: 'string {foo}' } },
+    }
+    const enGB_expected = {
+      'en-GB': {
+        my: { string: 'use this string here {foo}' },
+        foo: 'bar',
+      },
+    }
+
+    const translations = mergeTranslations(nbNO, enGB, enGB_expected)
+
+    expect(translations).toEqual({
+      'en-GB': {
+        foo: 'bar',
+        my: {
+          string: 'use this string here {foo}',
+        },
+      },
+      'nb-NO': {
+        my: {
+          string: 'streng {foo}',
+        },
+      },
+    })
+  })
+
+  it('should merge translations given flatten translations', () => {
+    const nbNO = {
+      'nb-NO': {
+        'Modal.close_title': 'Steng',
+        'HelpButton.other.string': given_nbNO,
+      },
+    }
+    const enGB = {
+      'en-GB': {
+        'Modal.close_title': 'Close',
+        'HelpButton.other.string': given_enGB,
+      },
+    }
+    const enGB_expected = {
+      'en-GB': {
+        foo: 'bar',
+        'Modal.close_title': 'Close',
+        'HelpButton.other.string': 'use this string here {foo}',
+      },
+    }
+
+    const translations = mergeTranslations(nbNO, enGB, enGB_expected)
+
+    expect(translations).toEqual({
+      'en-GB': {
+        foo: 'bar',
+        'HelpButton.other.string': 'use this string here {foo}',
+        'Modal.close_title': 'Close',
+      },
+      'nb-NO': {
+        'HelpButton.other.string': '{foo} ({bar} av {max})',
+        'Modal.close_title': 'Steng',
+      },
+    })
   })
 })
