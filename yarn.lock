@@ -9742,6 +9742,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ajv-formats@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "ajv-formats@npm:3.0.1"
+  dependencies:
+    ajv: "npm:^8.0.0"
+  peerDependencies:
+    ajv: ^8.0.0
+  peerDependenciesMeta:
+    ajv:
+      optional: true
+  checksum: 10/5679b9f9ced9d0213a202a37f3aa91efcffe59a6de1a6e3da5c873344d3c161820a1f11cc29899661fee36271fd2895dd3851b6461c902a752ad661d1c1e8722
+  languageName: node
+  linkType: hard
+
 "ajv-keywords@npm:^3.4.1, ajv-keywords@npm:^3.5.2":
   version: 3.5.2
   resolution: "ajv-keywords@npm:3.5.2"
@@ -32022,6 +32036,7 @@ __metadata:
     "@dnb/eufemia": "workspace:*"
     "@emotion/react": "npm:11.9.3"
     "@emotion/styled": "npm:11.9.3"
+    ajv-formats: "npm:^3.0.1"
     classnames: "npm:2.3.1"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
