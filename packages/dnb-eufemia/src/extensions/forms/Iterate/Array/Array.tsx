@@ -159,7 +159,6 @@ function ArrayComponent(props: Props) {
     updateContextDataInSync: true,
     omitMultiplePathWarning: true,
     forceUpdateWhenContextDataIsSet: Boolean(countPath),
-    alwaysRevealError: true,
   })
 
   // - Call onChange on the data context, if the count value changes
