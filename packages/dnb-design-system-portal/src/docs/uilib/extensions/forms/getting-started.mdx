@@ -717,7 +717,9 @@ import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
 render(<Form.Handler translations={svSE_forms}>Your form</Form.Handler>)
 ```
 
-In case you want to merge the forms translations for your whole application using the shared `Provider`, you can use the `mergeTranslations` function from `@dnb/eufemia/shared`.
+Instead of providing the forms translations per form, you can also provide them globally using the `Provider` component.
+
+If so, you can use the `mergeTranslations` function from `@dnb/eufemia/shared` to merge the forms translations with the shared translations.
 
 ```js
 import { Provider, mergeTranslations } from '@dnb/eufemia/shared'
