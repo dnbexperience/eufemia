@@ -710,3 +710,7 @@ type OnChangeReturnType =
   | EventReturnWithStateObjectAndSuccess
   | void
   | Promise<EventReturnWithStateObjectAndSuccess | void>
+
+export type CountryCode =
+  | PathStrict
+  | `${Uppercase<string>}${Uppercase<string>}`

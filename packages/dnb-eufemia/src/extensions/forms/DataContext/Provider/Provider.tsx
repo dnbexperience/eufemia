@@ -27,6 +27,8 @@ import {
   OnSubmitParams,
   OnSubmitReturn,
   OnSubmitRequest,
+  CountryCode,
+  PathStrict,
 } from '../../types'
 import type { IsolationProviderProps } from '../../Form/Isolation/Isolation'
 import { debounce } from '../../../../shared/helpers'
@@ -1383,12 +1385,15 @@ export default function Provider<Data extends JsonObject>(
     errorMessages?.[locale ?? sharedLocale] || errorMessages
 
   const getSourceValue = useCallback(
-    <T extends string>(value: Path | string) => {
+    <Return extends string>(value: PathStrict | unknown): Return => {
       const data = internalDataRef.current
-      if (value.startsWith('/') && pointer.has(data, value)) {
-        return pointer.get(data, value) as unknown as T
+      if (
+        String(value).startsWith('/') &&
+        pointer.has(data, String(value))
+      ) {
+        return pointer.get(data, String(value)) as unknown as Return
       }
-      return value
+      return value as Return
     },
     []
   )
@@ -1449,7 +1454,7 @@ export default function Provider<Data extends JsonObject>(
     fieldErrorRef,
     ajvInstance: ajvRef.current,
     countryCode: countryCode
-      ? getSourceValue<string>(countryCode)
+      ? getSourceValue<CountryCode>(countryCode)
       : undefined,
 
     /** Additional */
