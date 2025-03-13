@@ -174,6 +174,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
             isDisabled(endDate, dates.minDate, dates.maxDate)
               ? false
               : endDateIsValid,
+          partialStartDate,
           partialEndDate,
           invalidStartDate,
           invalidEndDate,
