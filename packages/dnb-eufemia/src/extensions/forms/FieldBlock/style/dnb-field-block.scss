@@ -51,16 +51,16 @@ fieldset.dnb-forms-field-block {
     }
     @include allAbove(x-small) {
       &-custom {
-        width: calc(var(--dnb-forms-field-block-width));
+        max-width: calc(var(--dnb-forms-field-block-width));
       }
       &-small {
-        width: var(--forms-field-width--small);
+        max-width: var(--forms-field-width--small);
       }
       &-medium {
-        width: var(--forms-field-width--medium);
+        max-width: var(--forms-field-width--medium);
       }
       &-large {
-        width: var(--forms-field-width--large);
+        max-width: var(--forms-field-width--large);
       }
     }
   }
@@ -200,16 +200,16 @@ fieldset.dnb-forms-field-block {
       }
       @include allAbove(x-small) {
         &-custom {
-          width: calc(var(--dnb-forms-field-block-content-width));
+          max-width: calc(var(--dnb-forms-field-block-content-width));
         }
         &-small {
-          width: var(--forms-field-width--small);
+          max-width: var(--forms-field-width--small);
         }
         &-medium {
-          width: var(--forms-field-width--medium);
+          max-width: var(--forms-field-width--medium);
         }
         &-large {
-          width: var(--forms-field-width--large);
+          max-width: var(--forms-field-width--large);
         }
       }
     }
