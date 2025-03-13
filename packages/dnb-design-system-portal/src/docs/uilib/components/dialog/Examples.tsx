@@ -242,7 +242,9 @@ export const DialogConfirmLoggedOut = () => {
                 confirmText="Logg inn"
                 hideDecline
                 openState={open}
-                onClose={() => {
+                onClose={({ triggeredBy }) => {
+                  console.log('triggeredBy', triggeredBy)
+
                   setOpen(false)
                 }}
                 onConfirm={() => {

@@ -65,6 +65,10 @@ export class InteractionInvalidation {
 
     this._nodesToInvalidate = this.getNodesToInvalidate(targetElement)
 
+    if (!Array.isArray(this._nodesToInvalidate)) {
+      return // stop here
+    }
+
     // 1. Save the previous tabindex and aria-hidden state so we can restore it on close
     // 2. And invalidate the node
     for (const node of this._nodesToInvalidate) {
@@ -181,10 +185,14 @@ export class InteractionInvalidation {
       ) as Array<HTMLElementNode>
     }
 
-    return Array.from(
-      (targetElement || document.documentElement).querySelectorAll(
-        selector
+    try {
+      return Array.from(
+        (targetElement || document.documentElement).querySelectorAll(
+          selector
+        )
       )
-    )
+    } catch (error) {
+      //
+    }
   }
 }
