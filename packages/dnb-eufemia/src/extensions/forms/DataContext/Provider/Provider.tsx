@@ -54,7 +54,6 @@ import DataContext, {
   FieldInternalsRefProps,
   DataPathHandlerParameters,
 } from '../Context'
-import { COUNTRY as defaultCountry } from '../../../../shared/defaults'
 
 /**
  * Deprecated, as it is supported by all major browsers and Node.js >=v18
@@ -1386,7 +1385,7 @@ export default function Provider<Data extends JsonObject>(
   const getSourceValue = useCallback(
     <T extends string>(value: Path | string) => {
       const data = internalDataRef.current
-      if (value.includes('/') && pointer.has(data, value)) {
+      if (value.startsWith('/') && pointer.has(data, value)) {
         return pointer.get(data, value) as unknown as T
       }
       return value
@@ -1451,7 +1450,7 @@ export default function Provider<Data extends JsonObject>(
     ajvInstance: ajvRef.current,
     countryCode: countryCode
       ? getSourceValue<string>(countryCode)
-      : defaultCountry,
+      : undefined,
 
     /** Additional */
     id,

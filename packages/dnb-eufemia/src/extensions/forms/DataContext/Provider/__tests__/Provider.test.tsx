@@ -5439,6 +5439,23 @@ describe('DataContext.Provider', () => {
   })
 
   describe('countryCode', () => {
+    it('should return undefined when no countryCode', async () => {
+      let currentContext: ContextState = null
+
+      render(
+        <Form.Handler>
+          <DataContext.Consumer>
+            {(context) => {
+              currentContext = context
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      expect(currentContext?.countryCode).toBeUndefined()
+    })
+
     it('should support countryCode given as a path', async () => {
       let currentContext: ContextState = null
 
