@@ -128,9 +128,7 @@ function DateComponent(props: DateProps) {
 
   const dateValidator = useCallback(
     (value: string) => {
-      const invalidDateErrors = getInvalidDateError(
-        invalidDatesRef.current
-      )
+      const invalidDateErrors = validateDate(invalidDatesRef.current)
 
       // No need to validate min/max date if they are not provided
       if (!props.minDate && !props.maxDate) {
@@ -392,7 +390,7 @@ function validateDateLimit({
   return messages
 }
 
-function getInvalidDateError({
+function validateDate({
   invalidDate,
   invalidStartDate,
   invalidEndDate,
