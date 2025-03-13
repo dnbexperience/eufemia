@@ -35,7 +35,7 @@ export default {
       maskPlaceholder: 'dd.mm.åååå',
       dateFormat: 'yyyy-MM-dd',
       returnFormat: 'yyyy-MM-dd',
-      submitButtonText: 'Ok',
+      submitButtonText: 'Okej',
       cancelButtonText: 'Avbryt',
       resetButtonText: 'Återställ',
       placeholderCharacters: {
