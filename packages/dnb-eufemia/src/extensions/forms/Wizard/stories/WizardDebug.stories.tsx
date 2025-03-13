@@ -20,53 +20,13 @@ const MainSchema = {
   additionalProperties: false,
   unevaluatedProperties: false,
   required: [
-    'mainContactPerson',
     'contactInformation',
     'businessActivities',
     'internationalTransactions',
     'mainBank',
     'customerRelationshipFunds',
-    'ownershipAndControl',
-    'shareClasses',
-    'directOwnership',
-    'beneficialOwners',
-    'pep',
   ],
   properties: {
-    mainContactPerson: {
-      $schema: 'https://json-schema.org/draft/2020-12/schema',
-      type: 'object',
-      required: [
-        'firstName',
-        'lastName',
-        'dateOfBirth',
-        'phoneNumber',
-        'emailAddress',
-      ],
-      properties: {
-        dateOfBirth: {
-          type: 'string',
-          format: 'date',
-        },
-        firstName: {
-          type: 'string',
-          maxLength: 30,
-        },
-        lastName: {
-          type: 'string',
-          maxLength: 30,
-        },
-        phoneNumber: {
-          type: 'string',
-          minLength: 8,
-          maxLength: 20,
-        },
-        emailAddress: {
-          type: 'string',
-          format: 'email',
-        },
-      },
-    },
     contactInformation: {
       $schema: 'https://json-schema.org/draft/2020-12/schema',
       type: 'object',
@@ -936,9 +896,6 @@ function FormContents({ data }: any) {
       <WizardContainer>
         <Wizard.Step title={"Steps['1']"}>
           <ContactInformationSection />
-          {/* <MainContactPersonSection
-            persons={data.organization.persons || []}
-          /> */}
           <BusinessActivitiesSection />
           <Flex.Horizontal bottom="1rem">
             <Wizard.Buttons />
