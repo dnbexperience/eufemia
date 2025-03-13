@@ -78,7 +78,7 @@ export const FieldBlockProperties: PropertiesTableProps = {
   },
   composition: {
     doc: 'Use `true` for when you have more than one field wrapped.',
-    type: 'boolean',
+    type: 'true',
     status: 'optional',
   },
   disabled: {
