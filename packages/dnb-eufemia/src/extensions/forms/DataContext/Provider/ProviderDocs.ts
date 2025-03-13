@@ -82,7 +82,7 @@ export const ProviderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   countryCode: {
-    doc: 'Will change the default country code for fields supporting `countryCode`. You can also set a path as the value, e.g. `/myCountryCodePath`.',
+    doc: 'Will change the country code for fields supporting `countryCode`. You can also set a path as the value, e.g. `/myCountryCodePath`.',
     type: ['ISO 3166-1 alpha-2', 'Path/JSON Pointer'],
     status: 'optional',
   },
