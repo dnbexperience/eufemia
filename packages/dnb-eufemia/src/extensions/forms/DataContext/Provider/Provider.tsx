@@ -184,7 +184,6 @@ export type Props<Data extends JsonObject> =
     /**
      * Will change the default country code for fields supporting `countryCode`.
      * You can also set a path as the value, e.g. `/myCountryCodePath`.
-     * Default: `NO`
      */
     countryCode?: ContextState['countryCode']
     /**
