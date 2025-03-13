@@ -247,16 +247,14 @@ function ValueBlock(props: Props) {
               labelDirection={inline ? 'horizontal' : 'vertical'}
               srOnly={labelSrOnly}
             >
-              <>
-                {label && (
-                  <span className="dnb-forms-value-block__label__content">
-                    {label}
-                  </span>
-                )}
-                {hasHelp && (
-                  <HelpButtonInline contentId={`${id}-help`} help={help} />
-                )}
-              </>
+              {label && (
+                <span className="dnb-forms-value-block__label__content">
+                  {label}
+                </span>
+              )}
+              {hasHelp && (
+                <HelpButtonInline contentId={`${id}-help`} help={help} />
+              )}
             </FormLabel>
           )}
           {!isCompositionInContextWithoutLabel

@@ -101,17 +101,6 @@
     display: flex;
   }
 
-  // Composition block with horizontal layout in a SummaryList and no label
-  .dnb-forms-summary-list &__composition--horizontal & {
-    display: flex;
-
-    &__label {
-      &:not(&__content) {
-        margin-right: 0.3em;
-      }
-    }
-  }
-
   // Composition block
   &__composition--horizontal &__content {
     display: flex;
@@ -152,17 +141,60 @@
 
     /* stylelint-disable */
     & > .dnb-dl,
-    & > .dnb-dt,
-    & > .dnb-dd,
     &:not([class*='dnb-space']) > .dnb-dl {
       margin: 0;
-    }
-    & > .dnb-dl > .dnb-dd {
-      margin-bottom: 0;
+
+      & > .dnb-dd {
+        margin-bottom: 0;
+      }
     }
     & .dnb-dt:empty ~ .dnb-dd {
       // Make it possible to omit labels in a SummaryList with a horizontal/grid layout that has a label
       margin-top: 0;
+    }
+    /* stylelint-enable */
+  }
+
+  // Composition block in a SummaryList
+  // Composition block with horizontal layout in a SummaryList and no label
+  .dnb-forms-summary-list &__composition--horizontal & {
+    // Make it possible to reverse the order of the label and help button
+    display: flex;
+
+    &__label {
+      &:not(&__content) {
+        margin-right: 0.5rem;
+      }
+    }
+
+    // For a composition block with horizontal layout in a SummaryList and no label,
+    // the help button should be on the end of the content.
+    &:not(&__label__content):has(
+        > .dnb-forms-value-block__label:not(&__content)
+      ):has(.dnb-forms-value-block__content) {
+      flex-direction: row-reverse;
+
+      > .dnb-forms-value-block__label {
+        margin-left: 0.5rem;
+      }
+    }
+  }
+  .dnb-forms-summary-list &__composition--horizontal &__content {
+    /* stylelint-disable */
+    & > .dnb-dl,
+    &:not([class*='dnb-space']) > .dnb-dl {
+      .dnb-forms-value-block__help .dnb-section {
+        margin-top: 0.5rem;
+      }
+
+      // To ensure the help button is always on the same line as the label
+      & > .dnb-dt {
+        display: inline;
+      }
+      & > .dnb-dd {
+        // Ensure help content stretches in width
+        width: 100%;
+      }
     }
     /* stylelint-enable */
   }

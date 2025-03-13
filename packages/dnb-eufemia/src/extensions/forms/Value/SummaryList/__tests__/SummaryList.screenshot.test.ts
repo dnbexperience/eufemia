@@ -76,6 +76,14 @@ describe('Value.SummaryList', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match grid layout with help and label', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="forms-value-summary-list-grid-with-help-and-label"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match horizontal layout with help', async () => {
     const screenshot = await makeScreenshot({
       selector:
