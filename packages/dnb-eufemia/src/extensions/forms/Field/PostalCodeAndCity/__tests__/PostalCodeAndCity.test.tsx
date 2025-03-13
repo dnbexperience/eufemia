@@ -479,7 +479,7 @@ describe('Field.PostalCodeAndCity', () => {
           <Form.Handler countryCode="SE">
             <Field.PostalCodeAndCity
               postalCode={{
-                value: '12345',
+                value: '12345678',
                 validateInitially: true,
               }}
             />
