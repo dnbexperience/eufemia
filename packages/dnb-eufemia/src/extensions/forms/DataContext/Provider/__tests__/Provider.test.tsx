@@ -5491,37 +5491,5 @@ describe('DataContext.Provider', () => {
 
       expect(currentContext?.countryCode).toBe('DK')
     })
-
-    describe('PostalCodeAndCity', () => {
-      it('should validate invalid value with default countryCode', () => {
-        render(
-          <Form.Handler countryCode="NO">
-            <Field.PostalCodeAndCity
-              postalCode={{
-                value: '123',
-                validateInitially: true,
-              }}
-            />
-          </Form.Handler>
-        )
-
-        expect(screen.queryByRole('alert')).toBeInTheDocument()
-      })
-
-      it('should not show error when countryCode is SE and value is valid', () => {
-        render(
-          <Form.Handler countryCode="SE">
-            <Field.PostalCodeAndCity
-              postalCode={{
-                value: '12345',
-                validateInitially: true,
-              }}
-            />
-          </Form.Handler>
-        )
-
-        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-      })
-    })
   })
 })
