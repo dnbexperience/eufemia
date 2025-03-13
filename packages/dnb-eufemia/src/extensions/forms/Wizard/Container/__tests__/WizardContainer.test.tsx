@@ -2743,7 +2743,7 @@ describe('Wizard.Container', () => {
       expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(1)
     })
 
-    it('should remove error in menu after user provides data using Field.Boolean', async () => {
+    it('should remove error in menu after user enters required data using Field.Boolean', async () => {
       render(
         <Form.Handler>
           <Wizard.Container mode="loose">
