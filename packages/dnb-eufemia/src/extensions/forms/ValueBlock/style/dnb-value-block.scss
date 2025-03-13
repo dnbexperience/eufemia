@@ -61,7 +61,7 @@
     flex-flow: column;
 
     .dnb-card & {
-      // Make it possible to that &__help--next-line wraps to a new line
+      // Make it possible so that &__help--next-line wraps to a new line
       flex-grow: 1;
     }
 
