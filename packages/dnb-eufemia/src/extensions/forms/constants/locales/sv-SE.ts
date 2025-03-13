@@ -150,7 +150,7 @@ export default {
       errorRequired: 'Du måste fylla i företagsnamn.',
     },
     NationalIdentityNumber: {
-      label: 'Födselsnummer (11 siffror)',
+      label: 'Norsk "fødselsnummer" (11 siffror)',
       errorRequired: 'Du måste fylla i ett födselsnummer.',
       errorFnr: 'Ogiltigt födselsnummer.',
       errorFnrLength:
