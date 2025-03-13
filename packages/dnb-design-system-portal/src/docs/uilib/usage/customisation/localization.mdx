@@ -19,8 +19,15 @@ You can easily change one, some or all of them by using a React provider – the
 Here are the default strings located:
 
 ```js
+// Included by default
 import enGB from '@dnb/eufemia/shared/locales/en-GB'
 import nbNO from '@dnb/eufemia/shared/locales/nb-NO'
+import enGB_forms from '@dnb/eufemia/extensions/forms/constants/locales/en-GB'
+import nbNO_forms from '@dnb/eufemia/extensions/forms/constants/locales/nb-NO'
+
+// Additional locales you can add
+import svSE from '@dnb/eufemia/shared/locales/sv-SE'
+import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
 ```
 
 ## How to set the locale
@@ -344,21 +351,55 @@ render(
 )
 ```
 
-## How to add new locales
+## How add existing locales
 
-Create a new file (`sv-SE.js`) containing all the strings:
+To include e.g. `sv-SE` you can use the following code:
+
+```js
+import { Provider } from '@dnb/eufemia/shared'
+import svSE from '@dnb/eufemia/shared/locales/sv-SE'
+
+render(<Provider translations={svSE}>Your app</Provider>)
+```
+
+### Eufemia Forms
+
+For easily merging translations, you can use the `mergeTranslations` function from `@dnb/eufemia/shared`.
+
+```js
+import { Provider, mergeTranslations } from '@dnb/eufemia/shared'
+import svSE from '@dnb/eufemia/shared/locales/sv-SE'
+import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
+
+const translations = mergeTranslations(svSE, svSE_forms)
+
+render(
+  <Provider translations={translations}>
+    Your app, including Eufemia Forms
+  </Provider>,
+)
+```
+
+Or set the `translations` property within the [Form.Handler](/uilib/extensions/forms/Form/Handler/) component like this:
+
+```js
+import { Form } from '@dnb/eufemia/src/extensions/forms'
+import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
+
+render(<Form.Handler translations={svSE_forms}>Your form</Form.Handler>)
+```
+
+## How add new locales
+
+Create a new file (`nn-NO.js`) containing all the strings:
 
 ```js
 export default {
-  'sv-SE': {
-    DatePicker: {
-      submit_button_text: 'OK',
-    },
-    Modal: {
-      close_title: 'Stänga',
-    },
-    Logo: {
-      alt: 'DNB Logo',
+  'nn-NO': {
+    GlobalError: {
+      404: {
+        title: 'Me finn ikkje sida du leitar etter …',
+      },
     },
   },
 }
@@ -368,7 +409,7 @@ And add the file, like so:
 
 ```jsx
 import Provider from '@dnb/eufemia/shared/Provider'
-import myTranslations from './locales/sv-SE'
+import myTranslations from './locales/nn-NO'
 
 render(
   <Provider translations={myTranslations}>
@@ -377,19 +418,19 @@ render(
 )
 ```
 
-or add/update the locales during runtime:
+### Add or update the locales during runtime
 
 ```tsx
 import Provider from '@dnb/eufemia/shared/Provider'
 import Context from '@dnb/eufemia/shared/Context'
 
-import myTranslations from './locales/sv-SE'
+import myTranslations from './locales/nn-NO'
 
 const ChangeLocale = () => {
   const { update, locale } = React.useContext(Context)
 
   // Add new locales
-  update({ locales: myTranslations, locale: 'sv-SE' })
+  update({ locales: myTranslations, locale: 'nn-NO' })
 
   return locale
 }
