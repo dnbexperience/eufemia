@@ -364,7 +364,18 @@ render(<Provider translations={svSE}>Your app</Provider>)
 
 ### Eufemia Forms
 
-For easily merging translations, you can use the `mergeTranslations` function from `@dnb/eufemia/shared`.
+You can provide forms translations to the `translations` property within the [Form.Handler](/uilib/extensions/forms/Form/Handler/) component like this:
+
+```js
+import { Form } from '@dnb/eufemia/src/extensions/forms'
+import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
+
+render(<Form.Handler translations={svSE_forms}>Your form</Form.Handler>)
+```
+
+How ever, instead of providing the forms translations per form, you can also provide them globally using the `Provider` component.
+
+If so, you can use the `mergeTranslations` function from `@dnb/eufemia/shared` to merge the forms translations with the shared translations like this:
 
 ```js
 import { Provider, mergeTranslations } from '@dnb/eufemia/shared'
@@ -378,15 +389,6 @@ render(
     Your app, including Eufemia Forms
   </Provider>,
 )
-```
-
-Or set the `translations` property within the [Form.Handler](/uilib/extensions/forms/Form/Handler/) component like this:
-
-```js
-import { Form } from '@dnb/eufemia/src/extensions/forms'
-import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
-
-render(<Form.Handler translations={svSE_forms}>Your form</Form.Handler>)
 ```
 
 ## How add new locales
