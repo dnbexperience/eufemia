@@ -52,6 +52,7 @@ import AsyncChangeExample from './Form/Handler/parts/async-change-example.mdx'
       - [Async validator with debounce](#async-validator-with-debounce)
     - [error](#error)
   - [Conditionally display messages](#conditionally-display-messages)
+  - [Country specific validation](#country-specific-validation)
   - [Localization and translation](#localization-and-translation)
     - [Customize translations](#customize-translations)
     - [How to customize translations in a form](#how-to-customize-translations-in-a-form)
@@ -689,9 +690,9 @@ More info about it in the [Field.Number](/uilib/extensions/forms/base-fields/Num
 
 You can change the country used for your form by setting the `countryCode` property on the [Form.Handler](/uilib/extensions/forms/Form/Handler/) component.
 
-By default, the country code is set to `NO`.
+By default, the country code is set to `NO` ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format).
 
-Changing it will ensure that e.g. the [PostalCodeAndCity](/uilib/extensions/forms/feature-fields/PostalCodeAndCity/) field will disable validation when the country code is not `NO`.
+Fields that support the `countryCode` property will use the country code from the data context and adjust their behavior accordingly. Read more about the specific behavior changes in their respective documentation.
 
 ### Localization and translation
 
