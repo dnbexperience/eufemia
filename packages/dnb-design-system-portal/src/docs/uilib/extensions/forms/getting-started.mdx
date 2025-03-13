@@ -52,6 +52,7 @@ import AsyncChangeExample from './Form/Handler/parts/async-change-example.mdx'
       - [Async validator with debounce](#async-validator-with-debounce)
     - [error](#error)
   - [Conditionally display messages](#conditionally-display-messages)
+  - [Country specific validation](#country-specific-validation)
   - [Localization and translation](#localization-and-translation)
     - [Customize translations](#customize-translations)
     - [How to customize translations in a form](#how-to-customize-translations-in-a-form)
@@ -684,6 +685,12 @@ render(
 **NB:** When using `error` and returning a React.Node, the error message will be shown, but it will not trigger the error state of the form. So the form can be submitted, even if the field looks invalid.
 
 More info about it in the [Field.Number](/uilib/extensions/forms/base-fields/Number/) component.
+
+### Country specific validation
+
+You can change the country used for your form by setting the `countryCode` property on the [Form.Handler](/uilib/extensions/forms/Form/Handler/) component.
+
+Fields that support the `countryCode` property will use the country code from the data context and adjust their behavior accordingly. Read more about the specific behavior changes in their respective documentation.
 
 ### Localization and translation
 

@@ -1,9 +1,10 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useContext, useMemo } from 'react'
 import classnames from 'classnames'
 import { Props as FieldBlockProps } from '../../FieldBlock'
+import DataContext from '../../DataContext/Context'
 import StringField, { Props as StringFieldProps } from '../String'
 import CompositionField from '../Composition'
-import { Path } from '../../types'
+import { CountryCode, Path } from '../../types'
 import useTranslation from '../../hooks/useTranslation'
 import useDataValue from '../../hooks/useDataValue'
 import { COUNTRY as defaultCountry } from '../../../../shared/defaults'
@@ -31,13 +32,14 @@ export type Props = Pick<
      * You can also use the value of another field to define the countryCode, by using a path value i.e. `/myCountryCodePath`.
      * Default: `NO`
      */
-    countryCode?: Path | string
+    countryCode?: CountryCode
     help?: HelpProps
   } & Pick<StringFieldProps, 'size'>
 
 function PostalCodeAndCity(props: Props) {
   const translations = useTranslation()
   const { getSourceValue } = useDataValue()
+  const countryCodeFromProvider = useContext(DataContext)?.countryCode
 
   const {
     postalCode = {},
@@ -45,7 +47,7 @@ function PostalCodeAndCity(props: Props) {
     help,
     width = 'large',
     country,
-    countryCode = defaultCountry,
+    countryCode = countryCodeFromProvider ?? defaultCountry,
     size,
     ...fieldBlockProps
   } = props
