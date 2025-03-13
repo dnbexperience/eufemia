@@ -11,6 +11,11 @@ export const FieldBlockSharedProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  labelDescriptionInline: {
+    doc: 'If true, the labelDescription will be displayed on the same line as the label.',
+    type: 'boolean',
+    status: 'optional',
+  },
   labelSrOnly: {
     doc: 'Use `true` to make the label only readable by screen readers.',
     type: 'boolean',

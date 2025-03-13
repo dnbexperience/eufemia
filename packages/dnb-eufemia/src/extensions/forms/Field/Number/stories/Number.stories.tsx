@@ -160,7 +160,7 @@ export const ConditionalInfo = () => {
         />
         <Field.Number
           label="Amount"
-          labelDescription={'\nShould be same or lower than maximum.'}
+          labelDescription="Should be same or lower than maximum."
           path="/amount"
           required
           // defaultValue={5}

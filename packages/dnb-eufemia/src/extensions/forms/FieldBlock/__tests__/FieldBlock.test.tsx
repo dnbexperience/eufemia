@@ -144,6 +144,38 @@ describe('FieldBlock', () => {
       expect(labelElement).toHaveTextContent('A Label Description')
     })
 
+    it('should render br when labelDescriptionInline is false', () => {
+      render(
+        <FieldBlock
+          labelDescription="A Label Description"
+          labelDescriptionInline={false}
+        >
+          content
+        </FieldBlock>
+      )
+
+      const labelElement = document.querySelector('label')
+
+      expect(labelElement).toHaveTextContent('A Label Description')
+      expect(labelElement.querySelector('br')).toBeInTheDocument()
+    })
+
+    it('should not render br when labelDescriptionInline is true', () => {
+      render(
+        <FieldBlock
+          labelDescription="A Label Description"
+          labelDescriptionInline
+        >
+          content
+        </FieldBlock>
+      )
+
+      const labelElement = document.querySelector('label')
+
+      expect(labelElement).toHaveTextContent('A Label Description')
+      expect(labelElement.querySelector('br')).not.toBeInTheDocument()
+    })
+
     it('should render with JSX content', () => {
       render(
         <FieldBlock labelDescription={<span>A Label Description</span>}>
