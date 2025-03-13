@@ -59,7 +59,7 @@ export const DateProperties: PropertiesTableProps = {
   },
   ...datePickerProperties,
   onBlurValidator: {
-    doc: 'Custom validator function that is triggered when the user leaves a field (e.g., blurring a text input or closing a dropdown). The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }. Defaults to validating the date against `minDate` and `maxDate`, using `dateLimitValidator`. Can be disabled using `false`.',
+    doc: 'Custom validator function that is triggered when the user leaves a field (e.g., blurring a text input or closing a dropdown). The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }. Defaults to validating invalid dates, and dates against `minDate` and `maxDate`, using `dateValidator`. Can be disabled using `false`.',
     type: 'function',
     status: 'optional',
   },
