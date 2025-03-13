@@ -182,7 +182,7 @@ export type Props<Data extends JsonObject> =
      */
     sessionStorageId?: string
     /**
-     * Will change the default country code for fields supporting `countryCode`.
+     * Will change the country code for fields supporting `countryCode`.
      * You can also set a path as the value, e.g. `/myCountryCodePath`.
      */
     countryCode?: ContextState['countryCode']
