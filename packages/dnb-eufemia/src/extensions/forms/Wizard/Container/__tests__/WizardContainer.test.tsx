@@ -2743,6 +2743,84 @@ describe('Wizard.Container', () => {
       expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(1)
     })
 
+    it('should remove error in menu after user provides data using Field.Boolean', async () => {
+      render(
+        <Form.Handler>
+          <Wizard.Container mode="loose">
+            <Wizard.Step title="Step 1">
+              <Field.Boolean path="/foo" variant="checkbox" required />
+              <output>Step 1</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+            <Wizard.Step title="Step 2">
+              <Field.Boolean path="/bar" variant="checkbox" required />
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      const [firstStep, secondStep] = Array.from(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      )
+
+      expect(output()).toHaveTextContent('Step 1')
+
+      // Try Step 2
+      await userEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 1')
+
+      expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(1)
+      expect(
+        firstStep.querySelector(
+          '.dnb-step-indicator__item-content__status'
+        )
+      ).toHaveTextContent(nb.Step.stepHasError)
+      expect(
+        document.querySelectorAll(
+          '.dnb-step-indicator__button__status--error'
+        )
+      ).toHaveLength(1)
+
+      // To to Step 2
+      await userEvent.click(secondStep.querySelector('.dnb-button'))
+
+      expect(output()).toHaveTextContent('Step 2')
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(2)
+      expect(
+        firstStep.querySelector(
+          '.dnb-step-indicator__item-content__status'
+        )
+      ).toHaveTextContent(nb.Step.stepHasError)
+      expect(
+        secondStep.querySelector(
+          '.dnb-step-indicator__item-content__status'
+        )
+      ).toHaveTextContent(nb.Step.stepHasError)
+
+      await userEvent.click(screen.getByRole('checkbox'))
+
+      expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(1)
+      expect(
+        firstStep.querySelector(
+          '.dnb-step-indicator__item-content__status'
+        )
+      ).toHaveTextContent(nb.Step.stepHasError)
+
+      await userEvent.click(previousButton())
+
+      expect(output()).toHaveTextContent('Step 1')
+
+      await userEvent.click(screen.getByRole('checkbox'))
+
+      expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
+    })
+
     it('should show a error beneath the trigger button when the step status has an error and the screen width is small', async () => {
       simulateSmallScreen()
 
