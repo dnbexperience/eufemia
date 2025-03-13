@@ -194,7 +194,7 @@ export default {
       errorPattern: 'Detta är inte ett giltigt postnummer (fyra siffror).',
     },
     City: {
-      label: 'Sted',
+      label: 'Ort',
       errorRequired: 'Du måste fylla i ett ortsnamn.',
       errorPattern:
         'Ortsnamn kan endast innehålla bokstäver och giltiga tecken som bindestreck och mellanslag.',
