@@ -185,7 +185,7 @@ export default {
         'Du har inte angett ett mobilnummer. Du kan ändå använda detta nummer om det är korrekt.',
     },
     PostalCodeAndCity: {
-      label: 'Postnummer och sted',
+      label: 'Postnummer och ort',
       invalidCode: 'Ogiltigt postnummer.',
     },
     PostalCode: {
