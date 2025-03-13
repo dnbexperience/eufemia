@@ -148,7 +148,6 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
       const returnObject: ReturnObject<E> = {
         event,
         attributes: attributes || {},
-        partialStartDate,
       }
 
       // Handle range props
