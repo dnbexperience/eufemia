@@ -192,21 +192,25 @@ export const drawerListProviderDefaultProps = {
   min_height: 10, // 10rem = 10x16=160,
 }
 
+type DATAITEM = { content: any | any[]; selected_value?: any }
 export const parseContentTitle = (
-  dataItem,
+  dataItem: DATAITEM | any[],
   {
     separator = '\n',
     removeNumericOnlyValues = false,
     preferSelectedValue = false,
   } = {}
 ) => {
-  let ret = ''
-  const onlyNumericRegex = /[0-9.,-\s]+/
-  if (Array.isArray(dataItem) && dataItem.length > 0) {
-    dataItem = { content: dataItem }
+  // make sure we don't return empty strings
+  if (Array.isArray(dataItem) && dataItem.length === 0) {
+    return undefined
   }
 
-  const hasValue = dataItem?.selected_value
+  let ret = ''
+  const onlyNumericRegex = /[0-9.,-\s]+/
+  dataItem = Array.isArray(dataItem) ? { content: dataItem } : dataItem
+
+  const hasValue = dataItem && dataItem.selected_value
 
   if (
     !(preferSelectedValue && hasValue) &&
@@ -251,15 +255,6 @@ export const parseContentTitle = (
     } else if (!onlyNumericRegex.test(dataItem.selected_value)) {
       ret = String(convertJsxToString()) + separator + ret
     }
-  }
-
-  // make sure we don't return empty strings
-  if (Array.isArray(dataItem) && dataItem.length === 0) {
-    ret = null
-  }
-
-  if (ret && ret.length === 1 && ret[0].ignore_events) {
-    return null
   }
 
   return ret
@@ -410,6 +405,21 @@ export const getCurrentData = (item_index, data) => {
   return data
 }
 
+type STATE = {
+  opened: boolean
+  data: any
+  original_data: any
+  raw_data: any
+  direction: any
+  max_height: any
+  selected_item: any
+  active_item: any
+  on_hide: any
+  on_show: any
+  on_change: any
+  on_select: any
+  _value?: any
+}
 export const prepareStartupState = (props) => {
   const selected_item = null
   const raw_data = preSelectData(
@@ -418,7 +428,7 @@ export const prepareStartupState = (props) => {
   const data = getData(props)
   const opened = props.opened !== null ? isTrue(props.opened) : null
 
-  const state = {
+  const state: STATE = {
     opened,
     data,
     original_data: data, // used to reset in case we reorder data etc.
