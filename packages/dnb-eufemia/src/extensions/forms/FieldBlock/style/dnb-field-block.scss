@@ -65,27 +65,27 @@ fieldset.dnb-forms-field-block {
     }
   }
 
-  --max-width: var(--forms-field-width--large);
   &:not([class*='--content-width']) {
-    --max-width: 60ch;
+    --max-width: var(--forms-field-label-max-width--large);
   }
 
   &__label,
   &__label.dnb-form-label {
     grid-area: label;
     display: flex;
-    max-width: var(--max-width); // to enhance readability
+    max-width: var(--forms-field-label-max-width--large);
     align-items: center;
 
     margin-right: 0;
 
-    &__description {
-      margin-left: 0.3em;
-    }
-
     &__content:has(+ .dnb-help-button),
     &__description:has(+ .dnb-help-button) {
       margin-right: 0.5rem;
+    }
+
+    &:has(&__description) .dnb-help-button,
+    &:has(&__description):not(&:has(+ .dnb-help-button)) &__content {
+      margin-right: 0.3em; // Keep the description closer to the label
     }
   }
 

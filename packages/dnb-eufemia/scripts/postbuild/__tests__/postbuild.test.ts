@@ -140,7 +140,9 @@ describe('babel build', () => {
             expect(content).toContain(
               'Object.defineProperty(exports, "__esModule", {'
             )
-            expect(content).toContain(`var _default = {};`)
+            expect(content).toContain(
+              `var _default = exports.default = {};`
+            )
 
             // Has extra cjs package
             expect(
@@ -176,7 +178,9 @@ describe('babel build', () => {
               ),
               'utf-8'
             )
-            expect(content).toContain('var _default = Breadcrumb')
+            expect(content).toContain(
+              'var _default = exports.default = Breadcrumb'
+            )
             expect(content).toMatch(/^"use strict";/g)
           }
         }

@@ -11,6 +11,7 @@ import {
   ValueProps,
   OnChange,
   OnSubmitParams,
+  CountryCode,
 } from '../types'
 import { Props as ProviderProps } from './Provider'
 import { SnapshotName } from '../Form/Snapshot'
@@ -204,6 +205,7 @@ export interface ContextState {
   path?: Path
   disabled?: boolean
   required?: boolean
+  countryCode?: CountryCode
   submitState: Partial<EventStateObject>
   prerenderFieldProps?: boolean
   decoupleForm?: boolean

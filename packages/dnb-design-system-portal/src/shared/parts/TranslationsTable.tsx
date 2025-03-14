@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import styled from '@emotion/styled'
 import { Anchor, P, Table, Td, Th, Tr } from '@dnb/eufemia/src'
 import { extendDeep, warn } from '@dnb/eufemia/src/shared/component-helper'
@@ -5,6 +6,8 @@ import globalTranslations from '@dnb/eufemia/src/shared/locales'
 import formsTranslations from '@dnb/eufemia/src/extensions/forms/constants/locales'
 import { FormattedCode } from './PropertiesTable'
 import { Translation } from '@dnb/eufemia/src/shared/Context'
+import { translationsWithoutEnUS } from '../../core/PortalProviders'
+import { languageDisplayNames } from '../../core/ChangeLocale'
 
 const StyledTable = styled(Table)`
   td {
@@ -19,9 +22,15 @@ export default function TranslationsTable({
   localeKey?: string | Array<string>
   source?: Record<string, Translation>
 }) {
-  if (!source) {
-    source = extendDeep({}, globalTranslations, formsTranslations)
-  }
+  source = useMemo(() => {
+    return (
+      source ||
+      Object.assign(
+        extendDeep({}, globalTranslations, formsTranslations),
+        translationsWithoutEnUS,
+      )
+    )
+  }, [source])
 
   const entries = {}
   const allowList = {}
@@ -117,9 +126,15 @@ export default function TranslationsTable({
           <thead>
             <Tr>
               <Th>Key</Th>
-              {locales.map((locale) => (
-                <Th key={locale}>{locale}</Th>
-              ))}
+              {locales.map((locale) => {
+                const { status } = languageDisplayNames[locale]
+                return (
+                  <Th key={locale}>
+                    {locale}
+                    {status ? ` (${status})` : null}
+                  </Th>
+                )
+              })}
             </Tr>
           </thead>
           <tbody>{tableRows}</tbody>

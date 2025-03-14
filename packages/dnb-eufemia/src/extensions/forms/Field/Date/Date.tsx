@@ -21,6 +21,8 @@ import { convertStringToDate } from '../../../../components/date-picker/DatePick
 import { ProviderProps } from '../../../../shared/Provider'
 import { FormError } from '../../utils'
 import startOfDay from 'date-fns/startOfDay'
+import { InvalidDates } from '../../../../components/date-picker/DatePickerInput'
+import useInvalidDates from './hooks/useInvalidDates'
 
 // `range`, `showInput`, `showCancelButton` and `showResetButton` are not picked from the `DatePickerProps`
 // Since they require `Field.Date` specific comments, due to them having different default values
@@ -94,6 +96,8 @@ function DateComponent(props: DateProps) {
   const { errorRequired, label: defaultLabel } = useTranslation().Date
   const { locale } = useContext(SharedContext)
 
+  const { invalidDatesRef, setInvalidDates } = useInvalidDates()
+
   const errorMessages = useMemo(() => {
     return {
       'Field.errorRequired': errorRequired,
@@ -122,9 +126,16 @@ function DateComponent(props: DateProps) {
     []
   )
 
-  const dateLimitValidator = useCallback(
+  const dateValidator = useCallback(
     (value: string) => {
-      const res = validateDateLimit({
+      const invalidDateErrors = validateDate(invalidDatesRef.current)
+
+      // No need to validate min/max date if they are not provided
+      if (!props.minDate && !props.maxDate) {
+        return invalidDateErrors
+      }
+
+      const dateLimitErrors = validateDateLimit({
         value,
         locale,
         minDate: props.minDate,
@@ -132,9 +143,9 @@ function DateComponent(props: DateProps) {
         isRange: props.range,
       })
 
-      return res
+      return [...invalidDateErrors, ...dateLimitErrors]
     },
-    [props.maxDate, props.minDate, props.range, locale]
+    [props.maxDate, props.minDate, props.range, invalidDatesRef, locale]
   )
 
   const onBlurValidator = useMemo(() => {
@@ -146,28 +157,39 @@ function DateComponent(props: DateProps) {
       return props.onBlurValidator
     }
 
-    return dateLimitValidator
-  }, [props.onBlurValidator, dateLimitValidator])
+    return dateValidator
+  }, [props.onBlurValidator, dateValidator])
 
-  const hasDateLimitAndValue = useMemo(() => {
-    return (props.minDate || props.maxDate) && Boolean(props.value)
-  }, [props.minDate, props.maxDate, props.value])
+  const fromInput = useCallback(
+    ({
+      date,
+      start_date,
+      end_date,
+      invalidDate,
+      invalidStartDate,
+      invalidEndDate,
+    }: DatePickerEvent<React.ChangeEvent<HTMLInputElement>>) => {
+      // Add to ref, for use in onBlurValidator, would be better if there was a way to add this to additional args
+      setInvalidDates({
+        invalidDate,
+        invalidStartDate,
+        invalidEndDate,
+      })
+
+      return props.range ? `${start_date}|${end_date}` : date
+    },
+    [props.range, setInvalidDates]
+  )
 
   const preparedProps = {
     ...props,
     errorMessages,
     schema,
-    fromInput: ({
-      date,
-      start_date,
-      end_date,
-    }: DatePickerEvent<React.ChangeEvent<HTMLInputElement>>) => {
-      return range ? `${start_date}|${end_date}` : date
-    },
+    fromInput,
     validateRequired,
-    validateInitially: props.validateInitially ?? hasDateLimitAndValue,
     onBlurValidator,
-    exportValidators: { dateLimitValidator },
+    exportValidators: { dateValidator },
+    invalidDatesRef,
   }
 
   const {
@@ -266,6 +288,7 @@ function parseRangeValue(value: DateProps['value']) {
   )
 }
 
+// Validators
 function validateDateLimit({
   value,
   isRange,
@@ -279,7 +302,7 @@ function validateDateLimit({
   locale: ProviderProps['locale']
 }) {
   if ((!dates.minDate && !dates.maxDate) || !value) {
-    return
+    return []
   }
 
   const [startDateParsed, endDateParsed] = parseRangeValue(value)
@@ -307,24 +330,28 @@ function validateDateLimit({
     variant: 'long',
   }
 
+  const messages: Array<FormError> = []
+
   // Handle non range validation
   if (!isRange) {
     if (isBefore(startDate, minDate)) {
-      return new FormError('Date.errorMinDate', {
-        messageValues: { date: formatDate(isoDates.minDate, options) },
-      })
+      messages.push(
+        new FormError('Date.errorMinDate', {
+          messageValues: { date: formatDate(isoDates.minDate, options) },
+        })
+      )
     }
 
     if (isAfter(startDate, maxDate)) {
-      return new FormError('Date.errorMaxDate', {
-        messageValues: { date: formatDate(isoDates.maxDate, options) },
-      })
+      messages.push(
+        new FormError('Date.errorMaxDate', {
+          messageValues: { date: formatDate(isoDates.maxDate, options) },
+        })
+      )
     }
 
-    return
+    return messages
   }
-
-  const messages: Array<FormError> = []
 
   // Start date validation
   if (isBefore(startDate, minDate)) {
@@ -361,6 +388,40 @@ function validateDateLimit({
   }
 
   return messages
+}
+
+function validateDate({
+  invalidDate,
+  invalidStartDate,
+  invalidEndDate,
+}: InvalidDates) {
+  if (invalidDate) {
+    return [
+      new FormError('Date.errorInvalidDate', {
+        messageValues: { date: invalidDate },
+      }),
+    ]
+  }
+
+  const errors: Array<FormError> = []
+
+  if (invalidStartDate) {
+    errors.push(
+      new FormError('Date.errorInvalidStartDate', {
+        messageValues: { date: invalidStartDate },
+      })
+    )
+  }
+
+  if (invalidEndDate) {
+    errors.push(
+      new FormError('Date.errorInvalidEndDate', {
+        messageValues: { date: invalidEndDate },
+      })
+    )
+  }
+
+  return errors
 }
 
 // Used to filter out DatePickerProps from the FieldProps.

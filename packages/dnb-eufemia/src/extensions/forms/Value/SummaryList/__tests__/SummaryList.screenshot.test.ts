@@ -36,6 +36,14 @@ describe('Value.SummaryList', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match with help button', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="forms-value-summary-list-with-help-button"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match without a label', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '6rem' },
@@ -64,6 +72,14 @@ describe('Value.SummaryList', () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="forms-value-summary-list-grid-with-help"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match grid layout with help and label', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="forms-value-summary-list-grid-with-help-and-label"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

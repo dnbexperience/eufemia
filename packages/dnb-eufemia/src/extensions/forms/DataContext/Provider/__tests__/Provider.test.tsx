@@ -5437,4 +5437,76 @@ describe('DataContext.Provider', () => {
       })
     })
   })
+
+  describe('countryCode', () => {
+    it('should return undefined when no countryCode', async () => {
+      let currentContext: ContextState = null
+
+      render(
+        <Form.Handler>
+          <DataContext.Consumer>
+            {(context) => {
+              currentContext = context
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      expect(currentContext?.countryCode).toBeUndefined()
+    })
+
+    it('should support countryCode given as a path', async () => {
+      let currentContext: ContextState = null
+
+      render(
+        <Form.Handler countryCode="/countryCode">
+          <Field.String path="/countryCode" defaultValue="SE" />
+          <DataContext.Consumer>
+            {(context) => {
+              currentContext = context
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      expect(currentContext?.countryCode).toBe('SE')
+
+      await userEvent.type(
+        document.querySelector('input'),
+        '{Backspace>2}DK'
+      )
+
+      expect(currentContext?.countryCode).toBe('DK')
+    })
+
+    it('should support countryCode given as a path with value in data context', async () => {
+      let currentContext: ContextState = null
+
+      render(
+        <Form.Handler
+          countryCode="/countryCode"
+          defaultData={{ countryCode: 'SE' }}
+        >
+          <Field.String path="/countryCode" />
+          <DataContext.Consumer>
+            {(context) => {
+              currentContext = context
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      expect(currentContext?.countryCode).toBe('SE')
+
+      await userEvent.type(
+        document.querySelector('input'),
+        '{Backspace>2}DK'
+      )
+
+      expect(currentContext?.countryCode).toBe('DK')
+    })
+  })
 })

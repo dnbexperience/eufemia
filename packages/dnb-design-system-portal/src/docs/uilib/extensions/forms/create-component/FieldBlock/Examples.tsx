@@ -57,66 +57,66 @@ export const Widths = () => {
       data-visual-test="forms-field-block-widths"
     >
       <Flex.Stack>
-        <FieldBlock label="Default width (no width props)">
+        <FieldBlock label="Default width (no width props). This label is long so we can validate that the label can be longer.">
           <TestElement>Contents</TestElement>
         </FieldBlock>
         <FieldBlock
-          label="Small (affects outer block element)"
+          label="Small (affects outer block element)."
           width="small"
         >
           <TestElement>Contents</TestElement>
         </FieldBlock>
         <FieldBlock
-          label="Medium (affects outer block element)"
+          label="Medium (affects outer block element)."
           width="medium"
         >
           <TestElement>Contents</TestElement>
         </FieldBlock>
         <FieldBlock
-          label="Large (affects outer block element)"
+          label="Large (affects outer block element)."
           width="large"
         >
           <TestElement>Contents</TestElement>
         </FieldBlock>
         <FieldBlock
-          label="Custom (affects outer block element)"
+          label="Custom (affects outer block element)."
           width="8rem"
         >
           <TestElement>Contents</TestElement>
         </FieldBlock>
         <FieldBlock
-          label="Stretch (affects outer block element). This label is long to validate that label also stretches full width."
+          label="Stretch (affects outer block element). This label is long so we can validate that the label also stretches full width."
           width="stretch"
         >
           <TestElement>Contents</TestElement>
         </FieldBlock>
 
         <FieldBlock
-          label="Small (affects contents only)"
+          label="Small (affects contents only). This label is long so we can validate that the label can be longer."
           contentWidth="small"
         >
           <TestElement>Contents</TestElement>
         </FieldBlock>
         <FieldBlock
-          label="Medium (affects contents only)"
+          label="Medium (affects contents only). This label is long so we can validate that the label can be longer."
           contentWidth="medium"
         >
           <TestElement>Contents</TestElement>
         </FieldBlock>
         <FieldBlock
-          label="Large (affects contents only)"
+          label="Large (affects contents only). This label is long so we can validate that the label can be longer."
           contentWidth="large"
         >
           <TestElement>Contents</TestElement>
         </FieldBlock>
         <FieldBlock
-          label="Custom (affects contents only)"
+          label="Custom (affects contents only). This label is long so we can validate that the label can be longer."
           contentWidth="8rem"
         >
           <TestElement>Contents</TestElement>
         </FieldBlock>
         <FieldBlock
-          label="Stretch (affects contents only)"
+          label="Stretch (affects contents only). This label is long so we can validate that the label can be longer."
           contentWidth="stretch"
         >
           <TestElement>Contents</TestElement>
@@ -300,7 +300,6 @@ export const InlineHelpButtonHTML = () => {
           label={<strong>Ønsket lånebeløp</strong>}
           labelDescription={
             <span>
-              <br />
               Label description with a <Anchor href="/">Anchor</Anchor>
             </span>
           }
@@ -328,7 +327,7 @@ export const InlineHelpButtonVerticalLabelDescription = () => {
       <Form.Card>
         <Field.String
           label="Ønsket lånebeløp"
-          labelDescription={'\\nDescription'}
+          labelDescription="Description"
           help={{
             title: 'Hva betyr lånebeløp?',
             content: 'Dette er hvor mye du har tenkt å låne totalt.',
@@ -339,7 +338,7 @@ export const InlineHelpButtonVerticalLabelDescription = () => {
         />
         <Field.String
           label="Ønsket lånebeløp"
-          labelDescription={'\\nDescription'}
+          labelDescription="Description"
           multiline
           rows={3}
           help={{

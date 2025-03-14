@@ -3,6 +3,9 @@ title: 'Locale / Translation'
 order: 8
 ---
 
+import { Ul, Li, Code, Anchor } from '@dnb/eufemia/src'
+import { languageDisplayNames } from 'dnb-design-system-portal/src/core/ChangeLocale'
+
 # Localization
 
 The default constants are defined in the `/shared/defaults.js` file.
@@ -12,18 +15,39 @@ The default constants are defined in the `/shared/defaults.js` file.
 
 ## Supported component translations
 
-Eufemia components comes with a set of default translated strings.
+Eufemia components comes with a set of default translated strings for the following locales:
+
+<Ul>
+  {Object.keys(languageDisplayNames).map((l) => (
+    <Li key={l}>
+      <Anchor
+        href={`https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/shared/locales/${l}.ts`}
+      >
+        {l}
+      </Anchor>
+    </Li>
+  ))}
+</Ul>
+
+**NOTE:** The `sv-SE` translation are in a beta phase, as it's not 100% finalised and may change when officially approved by UX.
 
 You can easily change one, some or all of them by using a React provider – the Eufemia Provider.
 
 Here are the default strings located:
 
 ```js
+// Included by default
 import enGB from '@dnb/eufemia/shared/locales/en-GB'
 import nbNO from '@dnb/eufemia/shared/locales/nb-NO'
+import enGB_forms from '@dnb/eufemia/extensions/forms/constants/locales/en-GB'
+import nbNO_forms from '@dnb/eufemia/extensions/forms/constants/locales/nb-NO'
+
+// Additional locales you can add
+import svSE from '@dnb/eufemia/shared/locales/sv-SE'
+import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
 ```
 
-## How set the locale
+## How to set the locale
 
 In React based apps, use the shared Eufemia provider:
 
@@ -53,7 +77,7 @@ render(
 )
 ```
 
-## How set locale progressively
+## How to set locale progressively
 
 You can easily enhance or change translated strings progressively:
 
@@ -74,7 +98,7 @@ render(
 )
 ```
 
-## How change the locale during runtime
+## How to change the locale during runtime
 
 You can even change the locale during runtime. Find more info in the [Provider docs](/uilib/usage/customisation/provider).
 
@@ -89,6 +113,7 @@ const ChangeLocale = () => {
   return (
     <Field.Selection value={locale} onChange={(value) => setLocale(value)}>
       <Field.Option value="nb-NO" title="Norsk" />
+      <Field.Option value="sv-SE" title="Svenska" />
       <Field.Option value="en-GB" title="English (GB)" />
     </Field.Selection>
   )
@@ -343,21 +368,99 @@ render(
 )
 ```
 
-## How add new locales
+## How to add Eufemia provided locales
 
-Create a new file (`sv-SE.js`) containing all the strings:
+### Eufemia components
+
+Eufemia provides component translations for the following locales:
+
+<Ul>
+  {Object.keys(languageDisplayNames).map((l) => (
+    <Li key={l}>
+      <Anchor
+        href={`https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/shared/locales/${l}.ts`}
+      >
+        {l}
+      </Anchor>
+    </Li>
+  ))}
+</Ul>
+
+**NOTE:** The `sv-SE` translation are in a beta phase, as it's not 100% finalised and may change when officially approved by UX.
+
+To include e.g. `sv-SE` you can use the following code:
+
+```js
+import { Provider } from '@dnb/eufemia/shared'
+import svSE from '@dnb/eufemia/shared/locales/sv-SE'
+
+render(
+  <Provider translations={svSE} locale="sv-SE">
+    Your app
+  </Provider>,
+)
+```
+
+### Eufemia Forms
+
+Eufemia provides forms translations for the following locales:
+
+<Ul>
+  {Object.keys(languageDisplayNames).map((l) => (
+    <Li key={l}>
+      <Anchor
+        href={`https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/extensions/forms/constants/locales/${l}.ts`}
+      >
+        {l}
+      </Anchor>
+    </Li>
+  ))}
+</Ul>
+
+**NOTE:** The `sv-SE` translation are in a beta phase, as it's not 100% finalised and may change when officially approved by UX.
+
+You can provide forms translations to the `translations` property within the [Form.Handler](/uilib/extensions/forms/Form/Handler/) component like this:
+
+```js
+import { Form } from '@dnb/eufemia/src/extensions/forms'
+import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
+
+render(
+  <Form.Handler translations={svSE_forms} locale="sv-SE">
+    Your form
+  </Form.Handler>,
+)
+```
+
+How ever, instead of providing the forms translations per form, you can also provide them globally using the `Provider` component.
+
+If so, you can use the `mergeTranslations` function from `@dnb/eufemia/shared` to merge the forms translations with the shared translations like this:
+
+```js
+import { Provider, mergeTranslations } from '@dnb/eufemia/shared'
+import svSE from '@dnb/eufemia/shared/locales/sv-SE'
+import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
+
+const translations = mergeTranslations(svSE, svSE_forms)
+
+render(
+  <Provider translations={translations} locale="sv-SE">
+    Your app, including Eufemia Forms
+  </Provider>,
+)
+```
+
+## How to add new locales
+
+Create a new file (`nn-NO.js`) containing all the strings:
 
 ```js
 export default {
-  'sv-SE': {
-    DatePicker: {
-      submit_button_text: 'OK',
-    },
-    Modal: {
-      close_title: 'Stänga',
-    },
-    Logo: {
-      alt: 'DNB Logo',
+  'nn-NO': {
+    GlobalError: {
+      404: {
+        title: 'Me finn ikkje sida du leitar etter …',
+      },
     },
   },
 }
@@ -367,7 +470,7 @@ And add the file, like so:
 
 ```jsx
 import Provider from '@dnb/eufemia/shared/Provider'
-import myTranslations from './locales/sv-SE'
+import myTranslations from './locales/nn-NO'
 
 render(
   <Provider translations={myTranslations}>
@@ -376,19 +479,19 @@ render(
 )
 ```
 
-or add/update the locales during runtime:
+### Add or update the locales during runtime
 
 ```tsx
 import Provider from '@dnb/eufemia/shared/Provider'
 import Context from '@dnb/eufemia/shared/Context'
 
-import myTranslations from './locales/sv-SE'
+import myTranslations from './locales/nn-NO'
 
 const ChangeLocale = () => {
   const { update, locale } = React.useContext(Context)
 
   // Add new locales
-  update({ locales: myTranslations, locale: 'sv-SE' })
+  update({ locales: myTranslations, locale: 'nn-NO' })
 
   return locale
 }

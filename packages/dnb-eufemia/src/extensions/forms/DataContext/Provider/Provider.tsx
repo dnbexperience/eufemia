@@ -27,6 +27,8 @@ import {
   OnSubmitParams,
   OnSubmitReturn,
   OnSubmitRequest,
+  CountryCode,
+  PathStrict,
 } from '../../types'
 import type { IsolationProviderProps } from '../../Form/Isolation/Isolation'
 import { debounce } from '../../../../shared/helpers'
@@ -180,6 +182,11 @@ export type Props<Data extends JsonObject> =
      */
     sessionStorageId?: string
     /**
+     * Will change the country code for fields supporting `countryCode`.
+     * You can also set a path as the value, e.g. `/myCountryCodePath`.
+     */
+    countryCode?: ContextState['countryCode']
+    /**
      * Locale to use for all nested Eufemia components
      */
     locale?: ContextProps['locale']
@@ -226,6 +233,7 @@ export default function Provider<Data extends JsonObject>(
     transformIn,
     transformOut,
     filterSubmitData,
+    countryCode,
     locale,
     translations,
     required,
@@ -1375,6 +1383,20 @@ export default function Provider<Data extends JsonObject>(
   const contextErrorMessages =
     errorMessages?.[locale ?? sharedLocale] || errorMessages
 
+  const getSourceValue = useCallback(
+    <Return extends string>(value: PathStrict | unknown): Return => {
+      const data = internalDataRef.current
+      if (
+        String(value).startsWith('/') &&
+        pointer.has(data, String(value))
+      ) {
+        return pointer.get(data, String(value)) as unknown as Return
+      }
+      return value as Return
+    },
+    []
+  )
+
   const contextValue: ContextState = {
     /** Method */
     handlePathChange,
@@ -1430,6 +1452,9 @@ export default function Provider<Data extends JsonObject>(
     isEmptyDataRef,
     fieldErrorRef,
     ajvInstance: ajvRef.current,
+    countryCode: countryCode
+      ? getSourceValue<CountryCode>(countryCode)
+      : undefined,
 
     /** Additional */
     id,

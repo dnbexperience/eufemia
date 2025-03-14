@@ -60,12 +60,13 @@ const ChangeLocale = () => {
       >
         <ToggleButton text="English" value="en-GB" />
         <ToggleButton text="Norsk" value="nb-NO" />
+        <ToggleButton text="Svenska" value="sv-SE" />
       </ToggleButton.Group>
 
       <Dropdown
         left
         value={locale}
-        data={{ 'en-GB': 'English', 'nb-NO': 'Norsk' }}
+        data={{ 'en-GB': 'English', 'nb-NO': 'Norsk', 'sv-SE': 'Svenska' }}
         on_change={({ data: { selected_key: locale } }) => {
           setLocale(locale)
         }}

@@ -105,12 +105,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     updateContextDataInSync = false,
     omitMultiplePathWarning = false,
     forceUpdateWhenContextDataIsSet = false,
-
-    /**
-     * When set to true, errors will always be reported downwards to FieldBlock.
-     * This is useful for when not dealing with blur/focus, like in Iterate.Array.
-     */
-    alwaysRevealError = false,
   } = {}
 ): typeof localProps & ReturnAdditional<Value> {
   const { extend } = useContext(FieldProviderContext)
@@ -573,16 +567,15 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       return // stop here
     }
 
-    if (!revealErrorRef.current || alwaysRevealError) {
-      revealErrorRef.current = true
-      showFieldErrorFieldBlock?.(identifier, true)
-      revealErrorBoundary?.(identifier, !!localErrorRef.current)
-      revealErrorDataContext?.(identifier, !!localErrorRef.current)
-      revealErrorWizard?.(wizardIndex, identifier, !!localErrorRef.current)
-    }
+    revealErrorRef.current = true
+
+    const hasError = Boolean(localErrorRef.current)
+    showFieldErrorFieldBlock?.(identifier, hasError)
+    revealErrorBoundary?.(identifier, hasError)
+    revealErrorDataContext?.(identifier, hasError)
+    revealErrorWizard?.(wizardIndex, identifier, hasError)
   }, [
     validateInitially,
-    alwaysRevealError,
     showFieldErrorFieldBlock,
     identifier,
     revealErrorBoundary,
@@ -2446,6 +2439,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     required,
     label: props.label,
     labelDescription: props.labelDescription,
+    labelDescriptionInline: props.labelDescriptionInline,
     labelSuffix: props.labelSuffix,
     layout: props.layout,
     layoutOptions: props.layoutOptions,

@@ -1,5 +1,6 @@
 import React, {
   Fragment,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -8,8 +9,10 @@ import React, {
 import classnames from 'classnames'
 import { warn } from '../../../shared/helpers'
 import { Dd, Dl, Dt, Span } from '../../../elements'
+import type { DlProps } from '../../../elements/Dl'
 import { FormLabel } from '../../../components'
 import SummaryListContext from '../Value/SummaryList/SummaryListContext'
+import ValueProviderContext from '../Value/Provider/ValueProviderContext'
 import ValueBlockContext from './ValueBlockContext'
 import DataContext from '../DataContext/Context'
 import { Path, ValueProps } from '../types'
@@ -57,13 +60,19 @@ export type Props = Omit<ValueProps<unknown>, 'value'> & {
   children?: React.ReactNode
 }
 
-function ValueBlock(props: Props) {
+function ValueBlock(localProps: Props) {
   const summaryListContext = useContext(SummaryListContext)
   const valueBlockContext = useContext(ValueBlockContext)
   const { prerenderFieldProps } = useContext(DataContext) || {}
   const { index: iterateIndex } = useContext(IterateItemContext) || {}
 
+  const { extend } = useContext(ValueProviderContext)
+  const props = extend(localProps)
+
   const id = useId(props.id ?? props.forId)
+  const defaultLayout = summaryListContext?.isNested
+    ? 'horizontal'
+    : 'vertical'
 
   const {
     className,
@@ -79,7 +88,7 @@ function ValueBlock(props: Props) {
     children,
     composition,
     help,
-    layout = 'vertical',
+    layout = defaultLayout,
     gap = 'xx-small',
   } = props
 
@@ -100,56 +109,84 @@ function ValueBlock(props: Props) {
     return transformLabel(label, transformLabelParameters)
   }, [inline, iterateIndex, labelProp, transformLabel])
 
-  const ref = useRef<HTMLElement>(null)
-  useNotInSummaryList(
-    valueBlockContext?.composition ? null : ref,
-    label,
-    path,
-    itemPath
-  )
-
   const hide =
     prerenderFieldProps ||
     ((children === undefined || children === null || children === false) &&
       !showEmpty &&
       !placeholder)
+  const hasHelp = help?.title || help?.content
+  const isComposition = composition === true
+  const isCompositionInContext = valueBlockContext?.composition
+  const isCompositionInContextWithoutLabel =
+    !label && isCompositionInContext
 
-  if (hide) {
-    return <></>
-  }
+  const ref = useRef<HTMLElement>(null)
+  useNotInSummaryList(
+    isCompositionInContext ? null : ref,
+    label,
+    path,
+    itemPath
+  )
+
+  const summaryListLayout = summaryListContext?.layout
+  const getHelpContent = useCallback(
+    (layout: DlProps['layout'], { renderOnNextLine = false } = {}) => {
+      const breakout =
+        layout === 'vertical' || summaryListLayout === 'vertical'
+      const content = hasHelp && (
+        <HelpButtonInlineContent
+          element="span"
+          contentId={`${id}-help`}
+          className="dnb-forms-value-block__help"
+          help={help}
+          breakout={breakout}
+          outset={breakout}
+        />
+      )
+
+      return hasHelp && renderOnNextLine ? (
+        <span className="dnb-forms-value-block__help--next-line">
+          {content}
+        </span>
+      ) : (
+        content
+      )
+    },
+    [hasHelp, help, id, summaryListLayout]
+  )
 
   let content = null
 
-  const compositionClass =
-    composition &&
-    classnames(
-      `dnb-forms-value-block__composition--${
-        composition === true ? 'horizontal' : composition
-      }`
-    )
   const defaultClass = classnames(
     'dnb-forms-value-block__content',
     `dnb-forms-value-block__content--gap-${gap === false ? 'none' : gap}`,
     maxWidth && `dnb-forms-value-block--max-width-${maxWidth}`
   )
+  const compositionClass =
+    isComposition && 'dnb-forms-value-block__composition--horizontal'
 
-  const hasHelp = help?.title || help?.content
+  if (hide) {
+    return <></>
+  }
 
-  if (summaryListContext) {
+  if (summaryListContext && !isCompositionInContextWithoutLabel) {
     const Item = summaryListContext.isNested
       ? Dl
       : summaryListContext.layout === 'horizontal'
       ? Dl.Item
       : Fragment
 
-    if (!label && !hasHelp && valueBlockContext?.composition) {
+    if (!label && !hasHelp && isCompositionInContext) {
       content = <span className={defaultClass}>{children}</span> ?? (
         <span className="dnb-forms-value-block__placeholder">
           {placeholder}
         </span>
       )
     } else {
-      const { layout } = summaryListContext
+      const defaultLayout =
+        isCompositionInContext && label ? 'horizontal' : 'vertical'
+      const { layout = defaultLayout } = summaryListContext
+
       content = (
         <SummaryListContext.Provider
           value={{ ...summaryListContext, isNested: true }}
@@ -158,7 +195,9 @@ function ValueBlock(props: Props) {
             <Dt
               className={classnames(
                 'dnb-forms-value-block__label',
-                ((!label && !hasHelp) || labelSrOnly) && 'dnb-sr-only'
+                ((!label && !hasHelp) || labelSrOnly) && 'dnb-sr-only',
+                maxWidth && `dnb-forms-value-block--max-width-${maxWidth}`,
+                className
               )}
             >
               <VisibilityWrapper>
@@ -168,26 +207,11 @@ function ValueBlock(props: Props) {
                 )}
               </VisibilityWrapper>
             </Dt>
-            <Dd
-              className={classnames(
-                layout !== 'grid' &&
-                  !summaryListContext.isNested &&
-                  maxWidth &&
-                  `dnb-forms-value-block--max-width-${maxWidth}`,
-                compositionClass
-              )}
-            >
+            <Dd className={compositionClass}>
               <VisibilityWrapper>
-                {hasHelp && (
-                  <HelpButtonInlineContent
-                    element="span"
-                    contentId={`${id}-help`}
-                    className="dnb-forms-value-block__help"
-                    help={help}
-                    breakout={layout === 'vertical'}
-                    outset={layout === 'vertical'}
-                  />
-                )}
+                {!isCompositionInContextWithoutLabel
+                  ? getHelpContent(layout)
+                  : null}
                 {children ? (
                   <span className={defaultClass}>{children}</span>
                 ) : (
@@ -198,32 +222,35 @@ function ValueBlock(props: Props) {
               </VisibilityWrapper>
             </Dd>
           </Item>
+          {isCompositionInContextWithoutLabel && hasHelp
+            ? getHelpContent(layout, { renderOnNextLine: true })
+            : null}
         </SummaryListContext.Provider>
       )
     }
   } else {
     content = (
-      <Span
-        ref={ref}
-        className={classnames(
-          'dnb-forms-value-block',
-          inline && 'dnb-forms-value-block--inline',
-          compositionClass,
-          className
-        )}
-        {...pickSpacingProps(props)}
-      >
-        {(label || hasHelp) && (
-          <FormLabel
-            element="strong" // enhance a11y: https://www.w3.org/WAI/WCAG21/Techniques/html/H49
-            className={classnames(
-              'dnb-forms-value-block__label',
-              maxWidth && `dnb-forms-value-block--max-width-${maxWidth}`
-            )}
-            labelDirection={inline ? 'horizontal' : 'vertical'}
-            srOnly={labelSrOnly}
-          >
-            <span>
+      <>
+        <Span
+          ref={ref}
+          className={classnames(
+            'dnb-forms-value-block',
+            inline && 'dnb-forms-value-block--inline',
+            compositionClass,
+            className
+          )}
+          {...pickSpacingProps(props)}
+        >
+          {(label || hasHelp) && (
+            <FormLabel
+              element="strong" // enhance a11y: https://www.w3.org/WAI/WCAG21/Techniques/html/H49
+              className={classnames(
+                'dnb-forms-value-block__label',
+                maxWidth && `dnb-forms-value-block--max-width-${maxWidth}`
+              )}
+              labelDirection={inline ? 'horizontal' : 'vertical'}
+              srOnly={labelSrOnly}
+            >
               {label && (
                 <span className="dnb-forms-value-block__label__content">
                   {label}
@@ -232,27 +259,24 @@ function ValueBlock(props: Props) {
               {hasHelp && (
                 <HelpButtonInline contentId={`${id}-help`} help={help} />
               )}
+            </FormLabel>
+          )}
+          {!isCompositionInContextWithoutLabel
+            ? getHelpContent(layout)
+            : null}
+          {children ? (
+            <span className={defaultClass}>{children}</span>
+          ) : (
+            <span className="dnb-forms-value-block__placeholder">
+              {placeholder}
             </span>
-          </FormLabel>
-        )}
-        {hasHelp && (
-          <HelpButtonInlineContent
-            element="span"
-            contentId={`${id}-help`}
-            className="dnb-forms-value-block__help"
-            help={help}
-            breakout={layout === 'vertical'}
-            outset={layout === 'vertical'}
-          />
-        )}
-        {children ? (
-          <span className={defaultClass}>{children}</span>
-        ) : (
-          <span className="dnb-forms-value-block__placeholder">
-            {placeholder}
-          </span>
-        )}
-      </Span>
+          )}
+        </Span>
+
+        {isCompositionInContextWithoutLabel && hasHelp
+          ? getHelpContent(layout, { renderOnNextLine: true })
+          : null}
+      </>
     )
   }
 

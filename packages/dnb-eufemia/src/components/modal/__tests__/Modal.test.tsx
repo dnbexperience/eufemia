@@ -870,7 +870,7 @@ describe('Modal component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('has working open event and close event on changing the "open_state"', () => {
+  it('has working open event and close event on changing the "open_state"', async () => {
     let testTriggeredBy = null
     const on_close = jest.fn(
       ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
@@ -1585,22 +1585,72 @@ describe('Modal component', () => {
       )
     })
 
-    it('will call onClose in StrictMode, even it should not be called', () => {
-      const onClose = jest.fn()
-      const onOpen = jest.fn()
+    describe('StrictMode', () => {
+      it('will call onOpen in StrictMode, even it should not be called', () => {
+        const onClose = jest.fn()
+        const onOpen = jest.fn()
 
-      render(
-        <React.StrictMode>
-          <Modal noAnimation onOpen={onOpen} onClose={onClose}>
-            Content
-          </Modal>
-        </React.StrictMode>
-      )
+        render(
+          <React.StrictMode>
+            <Modal noAnimation onOpen={onOpen} onClose={onClose}>
+              Content
+            </Modal>
+          </React.StrictMode>
+        )
 
-      fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+        fireEvent.click(document.querySelector('.dnb-modal__trigger'))
 
-      expect(onOpen).toHaveBeenCalledTimes(2)
-      expect(onClose).toHaveBeenCalledTimes(0)
+        expect(onOpen).toHaveBeenCalledTimes(2)
+        expect(onClose).toHaveBeenCalledTimes(0)
+      })
+
+      it('should not call onClose in StrictMode', () => {
+        const onClose = jest.fn()
+        const onOpen = jest.fn()
+
+        const MockComponent = () => {
+          const [open, setOpen] = React.useState(false)
+
+          const onOpenHandler = (...args) => {
+            setOpen(true)
+            onOpen(...args)
+          }
+          const onCloseHandler = (...args) => {
+            setOpen(false)
+            onClose(...args)
+          }
+
+          return (
+            <>
+              <Button onClick={() => setOpen((s) => !s)}>Toggle</Button>
+              <Modal
+                noAnimation
+                omitTriggerButton
+                openState={open}
+                onOpen={onOpenHandler}
+                onClose={onCloseHandler}
+              >
+                Content
+              </Modal>
+            </>
+          )
+        }
+
+        process.env.NODE_ENV = 'something-else'
+
+        render(
+          <React.StrictMode>
+            <MockComponent />
+          </React.StrictMode>
+        )
+
+        fireEvent.click(document.querySelector('button'))
+
+        expect(onOpen).toHaveBeenCalledTimes(2)
+        expect(onClose).toHaveBeenCalledTimes(0)
+
+        process.env.NODE_ENV = 'test'
+      })
     })
   })
 })

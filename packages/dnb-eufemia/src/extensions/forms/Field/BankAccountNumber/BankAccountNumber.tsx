@@ -108,6 +108,9 @@ function BankAccountNumber(props: Props) {
 }
 
 function isValidAccountNumber(digits: string) {
+  if (parseFloat(digits) === 0) {
+    return false
+  }
   let checkDigit = 2
   let sum = 0
 

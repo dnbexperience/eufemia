@@ -68,7 +68,7 @@ export default class ModalContent extends React.PureComponent<
   _iiLocal: InteractionInvalidation
   _triggeredBy: TriggeredBy
   _triggeredByEvent: React.SyntheticEvent
-  _isControlled = false
+  _mounted = 0
 
   static contextType = Context
 
@@ -120,24 +120,14 @@ export default class ModalContent extends React.PureComponent<
       this._lockTimeout = setTimeout(this.lockBody, timeoutDuration * 1.2) // a little over --modal-animation-duration
     }
 
-    this.setIsControlled()
+    this._mounted = Date.now()
   }
 
   componentWillUnmount() {
     clearTimeout(this._focusTimeout)
     clearTimeout(this._lockTimeout)
     this.removeLocks()
-  }
-
-  setIsControlled() {
-    const { open_state } = this.props
-    if (typeof open_state !== 'undefined' && open_state !== null) {
-      this._isControlled = true
-    }
-  }
-
-  componentDidUpdate() {
-    this.setIsControlled()
+    this._mounted = 0
   }
 
   wasOpenedManually() {
@@ -145,7 +135,16 @@ export default class ModalContent extends React.PureComponent<
       return true
     }
 
-    if (this._isControlled) {
+    const { open_state } = this.props
+    if (
+      typeof open_state === 'boolean' ||
+      typeof open_state === 'string'
+    ) {
+      if (process.env.NODE_ENV !== 'test') {
+        const delay = Date.now() - this._mounted
+        return delay > 30 // E.g. ReactStrict mode will cause a short delay.
+      }
+
       return true
     }
 

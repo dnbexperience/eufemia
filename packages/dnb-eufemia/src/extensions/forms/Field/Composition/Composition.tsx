@@ -6,6 +6,7 @@ function CompositionField(
     FieldBlockProps,
     | 'label'
     | 'labelDescription'
+    | 'labelDescriptionInline'
     | 'labelSrOnly'
     | 'width'
     | 'align'

@@ -47,6 +47,7 @@ const allowedProviderContextProps: Array<
   'scrollTopOnSubmit',
   'sessionStorageId',
   'locale',
+  'countryCode',
   'translations',
   'autoComplete',
   'disabled',

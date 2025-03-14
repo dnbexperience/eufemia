@@ -56,9 +56,9 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@babel/core": "7.22.5",
-    "@babel/eslint-parser": "7.22.5",
-    "@babel/node": "7.22.5",
+    "@babel/core": "7.26.9",
+    "@babel/eslint-parser": "7.26.8",
+    "@babel/node": "7.26.0",
     "@dnb/browserslist-config": "1.2.0",
     "@emotion/cache": "11.11.0",
     "@playwright/test": "1.49.1",
@@ -66,7 +66,7 @@
     "@types/react": "18.2.13",
     "@types/react-dom": "18.2.6",
     "@typescript-eslint/parser": "5.60.0",
-    "babel-jest": "29.5.0",
+    "babel-jest": "29.7.0",
     "camelcase": "6.2.0",
     "cross-env": "7.0.3",
     "current-git-branch": "1.1.0",

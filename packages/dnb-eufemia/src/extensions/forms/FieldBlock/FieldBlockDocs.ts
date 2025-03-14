@@ -11,6 +11,11 @@ export const FieldBlockSharedProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  labelDescriptionInline: {
+    doc: 'If true, the labelDescription will be displayed on the same line as the label.',
+    type: 'boolean',
+    status: 'optional',
+  },
   labelSrOnly: {
     doc: 'Use `true` to make the label only readable by screen readers.',
     type: 'boolean',
@@ -78,7 +83,7 @@ export const FieldBlockProperties: PropertiesTableProps = {
   },
   composition: {
     doc: 'Use `true` for when you have more than one field wrapped.',
-    type: 'string',
+    type: 'true',
     status: 'optional',
   },
   disabled: {

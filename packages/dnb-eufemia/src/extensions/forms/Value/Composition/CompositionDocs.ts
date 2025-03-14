@@ -1,10 +1,11 @@
 import { PropertiesTableProps } from '../../../../shared/types'
 import { ValueProperties } from '../ValueDocs'
 
-const { label, transformLabel } = ValueProperties
+const { label, transformLabel, help } = ValueProperties
 
 export const CompositionProperties: PropertiesTableProps = {
   label,
+  help,
   transformLabel,
   maxWidth: {
     doc: 'Use `small`, `medium` or `large` for predefined standard max widths. Defaults to `auto`.',

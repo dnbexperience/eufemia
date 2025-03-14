@@ -6,12 +6,31 @@
 import React from 'react'
 import { CacheProvider } from '@emotion/react'
 import createEmotionCache from '@emotion/cache'
-import { Provider, Context, Theme } from '@dnb/eufemia/src/shared'
+import {
+  Provider,
+  Context,
+  Theme,
+  mergeTranslations,
+} from '@dnb/eufemia/src/shared'
+import coreTranslations from '@dnb/eufemia/src/shared/locales'
 import enUS from '@dnb/eufemia/src/shared/locales/en-US'
+import svSE from '@dnb/eufemia/src/shared/locales/sv-SE'
+import svSE_forms from '@dnb/eufemia/src/extensions/forms/constants/locales/sv-SE'
 import { isTrue } from '@dnb/eufemia/src/shared/component-helper'
 import PortalLayout, { PortalLayoutProps } from './PortalLayout'
 import { useThemeHandler } from 'gatsby-plugin-eufemia-theme-handler'
 import { InternalLocale } from '@dnb/eufemia/src/shared/Context'
+
+// Enable other existing locales here
+export const translationsWithoutEnUS = mergeTranslations(svSE, svSE_forms)
+export const translations = mergeTranslations(
+  translationsWithoutEnUS,
+  enUS,
+)
+export const supportedTranslationsKey = [
+  ...Object.keys(coreTranslations),
+  ...Object.keys(translations),
+]
 
 // This ensures we processes also the css prop during build
 // More into in the docs: https://emotion.sh/docs/ssr#gatsby
@@ -42,7 +61,7 @@ export const rootElement =
         <Provider
           skeleton={getSkeletonEnabled()} // To simulate a whole page skeleton
           locale={getLang()}
-          translations={enUS} // extend the available locales
+          translations={translations} // extend the available locales
         >
           <SkeletonEnabled>
             <ThemeProvider>{element}</ThemeProvider>

@@ -37,6 +37,9 @@ describe('Context', () => {
         <ToggleButton value="nb-NO" className="nb-NO">
           nb-NO
         </ToggleButton>
+        <ToggleButton value="sv-SE" className="sv-SE">
+          sv-SE
+        </ToggleButton>
         <ToggleButton value="en-GB" className="en-GB">
           en-GB
         </ToggleButton>

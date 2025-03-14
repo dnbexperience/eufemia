@@ -20,7 +20,7 @@ export const RequiredAndOptionalFields = () => {
           <Field.String
             path="/custom"
             label="Label"
-            labelDescription="\nLabel description"
+            labelDescription="Label description"
             required={false}
           />
           <Field.Currency path="/amount" label="Amount" />
@@ -290,6 +290,7 @@ export const Locale = () => {
                   optionsLayout="horizontal"
                 >
                   <Field.Option value="nb-NO">Norsk</Field.Option>
+                  <Field.Option value="sv-SE">Svenska</Field.Option>
                   <Field.Option value="en-GB">English</Field.Option>
                 </Field.Selection>
               </Form.Card>
