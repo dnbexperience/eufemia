@@ -21,7 +21,11 @@ import { useThemeHandler } from 'gatsby-plugin-eufemia-theme-handler'
 import { InternalLocale } from '@dnb/eufemia/src/shared/Context'
 
 // Enable other existing locales here
-const translations = mergeTranslations(enUS, svSE, svSE_forms)
+export const translationsWithoutEnUS = mergeTranslations(svSE, svSE_forms)
+export const translations = mergeTranslations(
+  translationsWithoutEnUS,
+  enUS,
+)
 
 // This ensures we processes also the css prop during build
 // More into in the docs: https://emotion.sh/docs/ssr#gatsby
