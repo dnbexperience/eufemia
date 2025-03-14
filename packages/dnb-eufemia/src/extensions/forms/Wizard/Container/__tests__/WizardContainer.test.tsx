@@ -2837,6 +2837,69 @@ describe('Wizard.Container', () => {
         expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
       })
 
+      it('should not show error status on same step', async () => {
+        let currentIndex = null
+
+        render(
+          <Form.Handler>
+            <Wizard.Container
+              mode="loose"
+              initialActiveIndex={2}
+              keepInDOM
+            >
+              <Wizard.Step title="Step 1">
+                <Field.String path="/foo" required />
+                <output>Step 1</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 2">
+                <Field.String path="/bar" required />
+                <output>Step 2</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 3">
+                <Field.String path="/baz" />
+                <output>Step 3</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+
+              <WizardContext.Consumer>
+                {(context) => {
+                  currentIndex = context.activeIndex
+                  return null
+                }}
+              </WizardContext.Consumer>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        const [firstStep, secondStep] = Array.from(
+          document.querySelectorAll('.dnb-step-indicator__item')
+        )
+
+        expect(currentIndex).toBe(2)
+
+        fireEvent.submit(document.querySelector('form'))
+
+        expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(2)
+
+        await userEvent.click(previousButton())
+
+        expect(currentIndex).toBe(1)
+
+        expect(
+          firstStep.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).toHaveTextContent(nb.Step.stepHasError)
+        expect(
+          secondStep.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).not.toBeInTheDocument()
+        expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(1)
+      })
+
       it('should run validation before every step change using StepIndicator menu to navigate back and forth', async () => {
         const onStepChange = jest.fn()
 
