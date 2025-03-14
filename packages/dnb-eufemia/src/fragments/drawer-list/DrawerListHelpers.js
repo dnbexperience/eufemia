@@ -100,7 +100,6 @@ export const drawerListPropTypes = {
       ])
     ),
   ]),
-  prepared_data: PropTypes.array,
   raw_data: PropTypes.oneOfType([
     PropTypes.array,
     PropTypes.object,
@@ -159,7 +158,6 @@ export const drawerListDefaultProps = {
   skip_keysearch: false,
   opened: null,
   data: null,
-  prepared_data: null,
   raw_data: null,
   ignore_events: null,
 
@@ -284,7 +282,12 @@ export const preSelectData = (data) => {
   return data
 }
 
-// normalize data
+/**
+ * Takes any of the forms data can have and returns a normalized array representation of it.
+ * If the data is a single React.ReactNode, it will return an empty list.
+ * @param {*} props object containing the data in props.data or props.children, or the data itself
+ * @returns an array representation of the data
+ */
 export const normalizeData = (props) => {
   let data = preSelectData(props.data || props.children || props)
 
@@ -317,10 +320,6 @@ export const normalizeData = (props) => {
 }
 
 export const getData = (props) => {
-  if (props.prepared_data && Array.isArray(props.prepared_data)) {
-    return props.prepared_data
-  }
-
   return normalizeData(props)
 }
 
