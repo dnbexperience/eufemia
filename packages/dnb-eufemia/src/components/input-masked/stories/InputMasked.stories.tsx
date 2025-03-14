@@ -46,6 +46,9 @@ export function Sandbox() {
             <ToggleButton value="nb-NO" right>
               nb-NO
             </ToggleButton>
+            <ToggleButton value="sv-SE" right>
+              sv-SE
+            </ToggleButton>
             <ToggleButton value="en-GB" right>
               en-GB
             </ToggleButton>

@@ -47,6 +47,9 @@ const ChangeLocale = () => {
       <ToggleButton value="nb-NO" className="nb-NO">
         Norsk
       </ToggleButton>
+      <ToggleButton value="sv-SE" className="sv-SE">
+        Svenska
+      </ToggleButton>
       <ToggleButton value="en-GB" className="en-GB">
         English
       </ToggleButton>

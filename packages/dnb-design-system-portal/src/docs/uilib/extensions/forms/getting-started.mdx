@@ -708,6 +708,37 @@ function MyForm() {
 }
 ```
 
+#### Add additional translations
+
+```js
+import { Form } from '@dnb/eufemia/src/extensions/forms'
+import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
+
+render(
+  <Form.Handler translations={svSE_forms} locale="sv-SE">
+    Your form
+  </Form.Handler>,
+)
+```
+
+Instead of providing the forms translations per form, you can also provide them globally using the `Provider` component.
+
+If so, you can use the `mergeTranslations` function from `@dnb/eufemia/shared` to merge the forms translations with the shared translations like this:
+
+```js
+import { Provider, mergeTranslations } from '@dnb/eufemia/shared'
+import svSE from '@dnb/eufemia/shared/locales/sv-SE'
+import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
+
+const translations = mergeTranslations(svSE, svSE_forms)
+
+render(
+  <Provider translations={translations} locale="sv-SE">
+    Your app, including Eufemia Forms
+  </Provider>,
+)
+```
+
 #### Customize translations
 
 You can customize the internal translations in a flat structure (dot-notation):
@@ -732,7 +763,7 @@ or an object based structure:
 
 You can customize the translations in a form by using the `translations` property on the [Form.Handler](/uilib/extensions/forms/Form/Handler/).
 
-Alternatively, you can use the global Eufemia [Provider](/uilib/usage/customisation/localization/) (example further down).
+Alternatively, you can use the global Eufemia [Provider](/uilib/usage/customisation/provider/).
 
 You can find all available strings and keys in the properties tab of each field or value component. For example, check out the [PhoneNumber field properties](#!/uilib/extensions/forms/feature-fields/PhoneNumber/properties/#translations).
 
