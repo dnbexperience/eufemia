@@ -275,6 +275,7 @@ function WizardContainer(props: Props) {
       index: StepIndex
       mode: OnStepsChangeMode
     } & SetActiveIndexOptions) => {
+      let didSubmit = false
       const onSubmit = async () => {
         if (!skipStepChangeCallFromHook) {
           sharedStateRef.current?.data?.onStepChange?.(
@@ -311,6 +312,7 @@ function WizardContainer(props: Props) {
         }
 
         preventNextStepRef.current = false
+        didSubmit = true
 
         return result
       }
@@ -322,8 +324,19 @@ function WizardContainer(props: Props) {
         onSubmit: bypassOnNavigation ? () => null : onSubmit,
       })
 
-      if (bypassOnNavigation) {
-        await onSubmit()
+      if (!didSubmit) {
+        if (bypassOnNavigation) {
+          await onSubmit()
+        } else {
+          // In case steps where visited before, or they use the "keepInDOM" prop,
+          // we need to check the step status, because other steps may report an error,
+          // so the user will not be able to navigate to the next step,
+          // because the form contains errors. Thats why onSubmit will not be called via handleSubmitCall.
+          const state = stepStatusRef.current[activeIndexRef.current]
+          if (mode === 'next' && state === 'valid') {
+            await onSubmit()
+          }
+        }
       }
     },
     [
