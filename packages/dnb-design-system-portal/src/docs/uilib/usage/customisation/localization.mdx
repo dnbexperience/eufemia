@@ -379,12 +379,15 @@ render(
 
 ### Eufemia Forms
 
-Eufemia provides the following forms translations:
+Eufemia provides forms translations for the following locales::
 
-- en-GB
-- en-US
-- nb-NO
-- sv-SE
+<Ul>
+  {Object.keys(languageDisplayNames).map((l) => (
+    <Li key={l}>
+      <Code>{l}</Code>
+    </Li>
+  ))}
+</Ul
 
 You can provide forms translations to the `translations` property within the [Form.Handler](/uilib/extensions/forms/Form/Handler/) component like this:
 
