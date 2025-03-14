@@ -38,8 +38,13 @@ export function IterateOverSteps({ children }) {
       }
 
       if (child?.type === Step) {
-        const { title, inactive, include, includeWhen, id } =
-          handleDeprecatedStepProps(child.props)
+        const {
+          title: titleProp,
+          inactive,
+          include,
+          includeWhen,
+          id,
+        } = handleDeprecatedStepProps(child.props)
 
         if (include === false) {
           return null
@@ -55,25 +60,32 @@ export function IterateOverSteps({ children }) {
         }
 
         incrementIndex++
-        const index = incrementIndex
-        const state = stepStatusRef.current[index]
 
-        stepsRef.current[index] = {
-          id,
-          title:
-            title !== undefined
-              ? convertJsxToString(title)
-              : 'Title missing',
-          inactive,
-          status:
-            state === 'error'
+        const index = incrementIndex
+        const title =
+          titleProp !== undefined
+            ? convertJsxToString(titleProp)
+            : 'Title missing'
+        const state = stepStatusRef.current[index]
+        const status =
+          index !== activeIndexRef.current
+            ? state === 'error'
               ? translations.Step.stepHasError
               : state === 'unknown'
               ? 'Unknown state'
-              : undefined,
-          statusState: state === 'error' ? 'error' : undefined, // undefined shows 'warn' by default
-        }
+              : undefined
+            : undefined
+        const statusState = state === 'error' ? 'error' : undefined // undefined shows 'warn' by default
         const key = `${index}-${activeIndexRef.current}`
+
+        stepsRef.current[index] = {
+          id,
+          title,
+          inactive,
+          status,
+          statusState,
+        }
+
         const clone = (props) =>
           React.cloneElement(child as React.ReactElement<StepProps>, props)
 
