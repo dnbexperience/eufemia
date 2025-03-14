@@ -20,10 +20,16 @@ Eufemia components comes with a set of default translated strings for the follow
 <Ul>
   {Object.keys(languageDisplayNames).map((l) => (
     <Li key={l}>
-      <Code>{l}</Code>
+      <Anchor
+        href={`https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/shared/locales/${l}.ts`}
+      >
+        {l}
+      </Anchor>
     </Li>
   ))}
 </Ul>
+
+**NOTE:** The `sv-SE` translation are in a beta phase, as it's not 100% finalised and may change when officially approved by UX.
 
 You can easily change one, some or all of them by using a React provider – the Eufemia Provider.
 
@@ -379,15 +385,21 @@ render(
 
 ### Eufemia Forms
 
-Eufemia provides forms translations for the following locales::
+Eufemia provides forms translations for the following locales:
 
 <Ul>
   {Object.keys(languageDisplayNames).map((l) => (
     <Li key={l}>
-      <Code>{l}</Code>
+      <Anchor
+        href={`https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/extensions/forms/constants/locales/${l}.ts`}
+      >
+        {l}
+      </Anchor>
     </Li>
   ))}
 </Ul>
+
+**NOTE:** The `sv-SE` translation are in a beta phase, as it's not 100% finalised and may change when officially approved by UX.
 
 You can provide forms translations to the `translations` property within the [Form.Handler](/uilib/extensions/forms/Form/Handler/) component like this:
 

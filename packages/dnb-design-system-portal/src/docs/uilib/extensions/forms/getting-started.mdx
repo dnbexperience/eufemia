@@ -717,10 +717,16 @@ Eufemia provides translations for the following locales:
 <Ul>
   {Object.keys(languageDisplayNames).map((l) => (
     <Li key={l}>
-      <Code>{l}</Code>
+      <Anchor
+        href={`https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/shared/locales/${l}.ts`}
+      >
+        {l}
+      </Anchor>
     </Li>
   ))}
 </Ul>
+
+**NOTE:** The `sv-SE` translation are in a beta phase, as it's not 100% finalised and may change when officially approved by UX.
 
 #### Add additional translations
 
