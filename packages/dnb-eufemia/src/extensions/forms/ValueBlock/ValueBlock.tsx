@@ -12,6 +12,7 @@ import { Dd, Dl, Dt, Span } from '../../../elements'
 import type { DlProps } from '../../../elements/Dl'
 import { FormLabel } from '../../../components'
 import SummaryListContext from '../Value/SummaryList/SummaryListContext'
+import ValueProviderContext from '../Value/Provider/ValueProviderContext'
 import ValueBlockContext from './ValueBlockContext'
 import DataContext from '../DataContext/Context'
 import { Path, ValueProps } from '../types'
@@ -59,11 +60,14 @@ export type Props = Omit<ValueProps<unknown>, 'value'> & {
   children?: React.ReactNode
 }
 
-function ValueBlock(props: Props) {
+function ValueBlock(localProps: Props) {
   const summaryListContext = useContext(SummaryListContext)
   const valueBlockContext = useContext(ValueBlockContext)
   const { prerenderFieldProps } = useContext(DataContext) || {}
   const { index: iterateIndex } = useContext(IterateItemContext) || {}
+
+  const { extend } = useContext(ValueProviderContext)
+  const props = extend(localProps)
 
   const id = useId(props.id ?? props.forId)
   const defaultLayout = summaryListContext?.isNested

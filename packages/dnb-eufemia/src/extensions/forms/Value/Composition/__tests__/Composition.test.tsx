@@ -229,5 +229,22 @@ describe('Value.Composition', () => {
 
       expect(label.textContent).toBe('LABEL')
     })
+
+    it('renders transformLabel given in Value.Provider', async () => {
+      render(
+        <Value.Provider
+          transformLabel={(label: string) => label?.toUpperCase()}
+        >
+          <Value.Composition label="Label">
+            <Value.String path="/foo" />
+            <Value.String path="/bar" />
+          </Value.Composition>
+        </Value.Provider>
+      )
+
+      const label = document.querySelector('.dnb-form-label')
+
+      expect(label.textContent).toBe('LABEL')
+    })
   })
 })
