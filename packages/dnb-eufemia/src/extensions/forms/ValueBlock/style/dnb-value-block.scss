@@ -1,5 +1,5 @@
 @import '../../../../style/core/utilities.scss';
-@import '../../Field/style/value-sizes.scss';
+@import '../../Value/style/value-sizes.scss';
 
 .dnb-forms-summary-list.dnb-dl {
   &:not(.dnb-dl__layout--horizontal) {
@@ -46,6 +46,8 @@
     font-weight: var(--font-weight-medium);
   }
   &__label {
+    max-width: var(--forms-value-label-max-width--large);
+
     & strong:has(+ .dnb-help-button),// To support dt > strong or dt > span > strong
     &__content:has(+ .dnb-help-button) {
       margin-right: 0.5rem;
@@ -78,7 +80,7 @@
     color: var(--color-black-80);
   }
 
-  &--max-width {
+  &__content#{&}--max-width {
     &-stretch {
       width: 100%;
     }

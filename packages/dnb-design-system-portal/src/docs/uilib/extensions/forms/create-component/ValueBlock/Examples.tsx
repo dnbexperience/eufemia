@@ -1,6 +1,6 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { ValueBlock } from '@dnb/eufemia/src/extensions/forms'
-import { Anchor, P } from '@dnb/eufemia/src'
+import { TestElement, ValueBlock } from '@dnb/eufemia/src/extensions/forms'
+import { Anchor, Flex, P } from '@dnb/eufemia/src'
 
 export const Default = () => {
   return (
@@ -61,6 +61,52 @@ export const HelpHtml = () => {
       >
         Data-value goes here – lorem ipsum dolor sit amet consectetur.
       </ValueBlock>
+    </ComponentBox>
+  )
+}
+
+export const Widths = () => {
+  return (
+    <ComponentBox
+      scope={{ ValueBlock, TestElement }}
+      hideCode
+      data-visual-test="forms-value-block-widths"
+    >
+      <Flex.Stack>
+        <ValueBlock label="No maxWidth: This label is long so we can validate that the label can be longer until it will wrap.">
+          <TestElement>
+            This content is long so we can see the maxWidth defined. It
+            should wrap at a certain amount of characters.
+          </TestElement>
+        </ValueBlock>
+        <ValueBlock
+          label="maxWidth='small': This label is long so we can validate that the label can be longer."
+          maxWidth="small"
+        >
+          <TestElement>
+            This content is long so we can see the maxWidth defined. It
+            should wrap at a certain amount of characters.
+          </TestElement>
+        </ValueBlock>
+        <ValueBlock
+          label="maxWidth='medium': This label is long so we can validate that the label can be longer."
+          maxWidth="medium"
+        >
+          <TestElement>
+            This content is long so we can see the maxWidth defined. It
+            should wrap at a certain amount of characters.
+          </TestElement>
+        </ValueBlock>
+        <ValueBlock
+          label="maxWidth='large': This label is long so we can validate that the label can be longer."
+          maxWidth="large"
+        >
+          <TestElement>
+            This content is long so we can see the maxWidth defined. It
+            should wrap at a certain amount of characters.
+          </TestElement>
+        </ValueBlock>
+      </Flex.Stack>
     </ComponentBox>
   )
 }
