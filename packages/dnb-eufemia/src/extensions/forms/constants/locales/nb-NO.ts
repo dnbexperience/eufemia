@@ -123,7 +123,7 @@ export default {
       errorEndDateMinDate: 'Sluttdato kan ikke være før {date}.',
       errorEndDateMaxDate: 'Sluttdato kan ikke være etter {date}.',
       errorInvalidDate: 'Ugyldig dato.',
-      errorInvalidStartDate: 'Uyldig startdato.',
+      errorInvalidStartDate: 'Ugyldig startdato.',
       errorInvalidEndDate: 'Ugyldig sluttdato.',
     },
     Expiry: {
