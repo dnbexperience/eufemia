@@ -3,6 +3,38 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.68.0](https://github.com/dnbexperience/eufemia/compare/v10.67.1...v10.68.0) (2025-03-14)
+
+
+### :memo: Documentation
+
+* **Field.PostalCodeAndCity:** add link to ISO 3166-1 alpha-2 code ([#4736](https://github.com/dnbexperience/eufemia/issues/4736)) ([eaccd44](https://github.com/dnbexperience/eufemia/commit/eaccd447f8b396423425613050ea894d6829f2bb))
+* **Localization:** list available translations ([#4746](https://github.com/dnbexperience/eufemia/issues/4746)) ([f3cf554](https://github.com/dnbexperience/eufemia/commit/f3cf554ec828f8ecd213fda168eb9faf46499102))
+* **Value:** add help button to example ([#4728](https://github.com/dnbexperience/eufemia/issues/4728)) ([dee0bd3](https://github.com/dnbexperience/eufemia/commit/dee0bd3bafb35736733aca172d146858956e3449))
+
+
+### :sparkles: Features
+
+* add Swedish translation (beta) ([#4719](https://github.com/dnbexperience/eufemia/issues/4719)) ([cec1b24](https://github.com/dnbexperience/eufemia/commit/cec1b24880d35c10c9fedbb7e123bd21f938a0f9))
+* **Field.Date:** show error messages on invalid date ([#4508](https://github.com/dnbexperience/eufemia/issues/4508)) ([83fbb92](https://github.com/dnbexperience/eufemia/commit/83fbb92c51cb0c86d299227ba8c4385885b3eebf))
+* **Forms:** add `countryCode` property to Form.Handler ([#4735](https://github.com/dnbexperience/eufemia/issues/4735)) ([7679a95](https://github.com/dnbexperience/eufemia/commit/7679a95cdec0a0f4c3d6bd499787717d00a59675))
+* **Forms:** adjust the "widths" of `Value.*` components ([#4745](https://github.com/dnbexperience/eufemia/issues/4745)) ([602fc0f](https://github.com/dnbexperience/eufemia/commit/602fc0fafc5664c31bfcc27f816f2450dd9bfd4c))
+* **Forms:** adjust the label "widths" of `Field.*` components ([#4748](https://github.com/dnbexperience/eufemia/issues/4748)) ([2488e7c](https://github.com/dnbexperience/eufemia/commit/2488e7c8e871fdfc2e892fca2e2428f39e13fa4c)), closes [#4745](https://github.com/dnbexperience/eufemia/issues/4745)
+* **Forms:** render `labelDescription` beneath `label` and place HelpButton after `label` ([#4705](https://github.com/dnbexperience/eufemia/issues/4705)) ([64a7ca9](https://github.com/dnbexperience/eufemia/commit/64a7ca9a3b092c0d7dcc93f219b7453b9f36d219)), closes [#4693](https://github.com/dnbexperience/eufemia/issues/4693)
+
+
+### :bug: Bug Fixes
+
+* **Dialog, Drawer, Modal:** ensure `onClose` is not called in React.StrictMode ([#4729](https://github.com/dnbexperience/eufemia/issues/4729)) ([22628c7](https://github.com/dnbexperience/eufemia/commit/22628c76353a0caca7f7fb766a87e2130c073322)), closes [#4525](https://github.com/dnbexperience/eufemia/issues/4525)
+* **Field.BankAccountNumber:** `0000 00 00000` should be invalid ([#4733](https://github.com/dnbexperience/eufemia/issues/4733)) ([b9955e3](https://github.com/dnbexperience/eufemia/commit/b9955e381ea1a9e08151396b8420d1e3545b293a))
+* **Field.Name.Company:** must consist of at least 3 norwegian letters ([#4734](https://github.com/dnbexperience/eufemia/issues/4734)) ([9e3708f](https://github.com/dnbexperience/eufemia/commit/9e3708fc6e0857c07a1ea4be0cad3bf3949fbf3a))
+* **Field.OrganizationNumber:** `000 000 000` should be invalid ([#4732](https://github.com/dnbexperience/eufemia/issues/4732)) ([55032db](https://github.com/dnbexperience/eufemia/commit/55032db3dad355962f9c3a3fa6c30996cecc35b3))
+* **Forms:** don't show error in Wizard step menu for the active/current step ([#4751](https://github.com/dnbexperience/eufemia/issues/4751)) ([e2b4a7d](https://github.com/dnbexperience/eufemia/commit/e2b4a7dafe0b571d9507299b0b4281fc51e2397a))
+* **Forms:** ensure `minDate`/`maxDate` does not interrupt first form submit ([#4726](https://github.com/dnbexperience/eufemia/issues/4726)) ([061e41e](https://github.com/dnbexperience/eufemia/commit/061e41e55443324285fd1b93965058c89f163d06))
+* **Forms:** ensure Value.Composition inherits props defined i Value.Provider ([#4747](https://github.com/dnbexperience/eufemia/issues/4747)) ([05f9f92](https://github.com/dnbexperience/eufemia/commit/05f9f927edd100fc43c23611726e4f3d0a4f7609))
+* **Value.SummaryList:** styling `Value.*` components with help button ([#4727](https://github.com/dnbexperience/eufemia/issues/4727)) ([fb17aa4](https://github.com/dnbexperience/eufemia/commit/fb17aa49f1cc2ee304649dacc82dfa976302043d))
+* **Wizard.Container:** not displaying error when user enters required data ([#4742](https://github.com/dnbexperience/eufemia/issues/4742)) ([5cf20ee](https://github.com/dnbexperience/eufemia/commit/5cf20ee043ec856d99f4c17104a09dae2aacd757))
+
 ## [10.67.1](https://github.com/dnbexperience/eufemia/compare/v10.67.0...v10.67.1) (2025-03-11)
 
 
