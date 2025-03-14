@@ -359,7 +359,11 @@ To include e.g. `sv-SE` you can use the following code:
 import { Provider } from '@dnb/eufemia/shared'
 import svSE from '@dnb/eufemia/shared/locales/sv-SE'
 
-render(<Provider translations={svSE} locale="sv-SE">Your app</Provider>)
+render(
+  <Provider translations={svSE} locale="sv-SE">
+    Your app
+  </Provider>,
+)
 ```
 
 ### Eufemia Forms
@@ -370,7 +374,11 @@ You can provide forms translations to the `translations` property within the [Fo
 import { Form } from '@dnb/eufemia/src/extensions/forms'
 import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
 
-render(<Form.Handler translations={svSE_forms} locale="sv-SE">Your form</Form.Handler>)
+render(
+  <Form.Handler translations={svSE_forms} locale="sv-SE">
+    Your form
+  </Form.Handler>,
+)
 ```
 
 How ever, instead of providing the forms translations per form, you can also provide them globally using the `Provider` component.
