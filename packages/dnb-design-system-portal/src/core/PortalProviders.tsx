@@ -12,6 +12,7 @@ import {
   Theme,
   mergeTranslations,
 } from '@dnb/eufemia/src/shared'
+import coreTranslations from '@dnb/eufemia/src/shared/locales'
 import enUS from '@dnb/eufemia/src/shared/locales/en-US'
 import svSE from '@dnb/eufemia/src/shared/locales/sv-SE'
 import svSE_forms from '@dnb/eufemia/src/extensions/forms/constants/locales/sv-SE'
@@ -26,6 +27,10 @@ export const translations = mergeTranslations(
   translationsWithoutEnUS,
   enUS,
 )
+export const supportedTranslationsKey = [
+  ...Object.keys(coreTranslations),
+  ...Object.keys(translations),
+]
 
 // This ensures we processes also the css prop during build
 // More into in the docs: https://emotion.sh/docs/ssr#gatsby

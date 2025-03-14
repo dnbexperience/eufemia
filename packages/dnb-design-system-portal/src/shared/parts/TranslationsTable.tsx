@@ -7,6 +7,7 @@ import formsTranslations from '@dnb/eufemia/src/extensions/forms/constants/local
 import { FormattedCode } from './PropertiesTable'
 import { Translation } from '@dnb/eufemia/src/shared/Context'
 import { translationsWithoutEnUS } from '../../core/PortalProviders'
+import { languageDisplayNames } from '../../core/ChangeLocale'
 
 const StyledTable = styled(Table)`
   td {
@@ -125,9 +126,15 @@ export default function TranslationsTable({
           <thead>
             <Tr>
               <Th>Key</Th>
-              {locales.map((locale) => (
-                <Th key={locale}>{locale}</Th>
-              ))}
+              {locales.map((locale) => {
+                const { status } = languageDisplayNames[locale]
+                return (
+                  <Th key={locale}>
+                    {locale}
+                    {status ? ` (${status})` : null}
+                  </Th>
+                )
+              })}
             </Tr>
           </thead>
           <tbody>{tableRows}</tbody>
