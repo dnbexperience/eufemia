@@ -328,7 +328,7 @@ function WizardContainer(props: Props) {
         if (bypassOnNavigation) {
           await onSubmit()
         } else {
-          // In case steps where visited before, or they use the "keepInDOM" prop,
+          // In case steps were visited before, or they use the "keepInDOM" prop,
           // we need to check the step status, because other steps may report an error,
           // so the user will not be able to navigate to the next step,
           // because the form contains errors. Thats why onSubmit will not be called via handleSubmitCall.
