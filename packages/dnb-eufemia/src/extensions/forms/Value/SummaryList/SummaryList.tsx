@@ -21,7 +21,7 @@ function SummaryList(props: Props) {
   const {
     className,
     children,
-    layout,
+    layout = 'vertical',
     transformLabel,
     inheritVisibility,
     inheritLabel,

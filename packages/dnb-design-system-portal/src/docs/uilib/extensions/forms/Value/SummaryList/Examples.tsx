@@ -186,6 +186,85 @@ export const GridLayoutWithHelp = () => {
   )
 }
 
+export const GridLayoutWithHelpAndLabel = () => {
+  return (
+    <ComponentBox data-visual-test="forms-value-summary-list-grid-with-help-and-label">
+      <Form.Handler
+        data={{
+          firstName: 'John',
+          lastName: 'Doe',
+          nickName: 'JD',
+          streetName: 'Osloveien',
+          streetNr: 12,
+        }}
+      >
+        <Form.Card>
+          <Form.SubHeading>Subheading</Form.SubHeading>
+
+          <Value.SummaryList layout="grid">
+            <Value.Composition
+              label="Street"
+              help={{
+                open: true,
+                title: 'Help title',
+                content: 'Help content',
+              }}
+            >
+              <Value.String path="/streetName" label="Label" />
+              <Value.Number path="/streetNr" label="Label" />
+            </Value.Composition>
+            <Value.Composition
+              label="Street"
+              help={{
+                open: true,
+                title: 'Help title',
+                content: 'Help content',
+              }}
+            >
+              <Value.String
+                path="/streetName"
+                label="Label"
+                help={{
+                  open: true,
+                  title: 'Help title',
+                  content: 'Help content',
+                }}
+              />
+              <Value.Number
+                path="/streetNr"
+                label="Label"
+                help={{
+                  open: true,
+                  title: 'Help title',
+                  content: 'Help content',
+                }}
+              />
+            </Value.Composition>
+            <Value.Composition label="Street">
+              <Value.String
+                path="/streetName"
+                help={{
+                  open: true,
+                  title: 'Help title',
+                  content: 'Help content',
+                }}
+              />
+              <Value.Number
+                path="/streetNr"
+                help={{
+                  open: true,
+                  title: 'Help title',
+                  content: 'Help content',
+                }}
+              />
+            </Value.Composition>
+          </Value.SummaryList>
+        </Form.Card>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
 export const HorizontalLayoutWithHelp = () => {
   return (
     <ComponentBox data-visual-test="forms-value-summary-list-horizontal-with-help">
@@ -228,9 +307,18 @@ export const HorizontalLayoutWithHelp = () => {
                 content: 'Help content',
               }}
             >
-              <Value.String path="/streetName" />
+              <Value.String
+                path="/streetName"
+                label="label"
+                help={{
+                  open: true,
+                  title: 'Help title',
+                  content: 'Help content',
+                }}
+              />
               <Value.Number
                 path="/streetNr"
+                label="label"
                 help={{
                   open: true,
                   title: 'Help title',
@@ -384,6 +472,57 @@ export function AnimatedVisibility() {
                 <Value.String label="Label" value="Second field" />
               </Form.Visibility>
             </Value.SummaryList>
+          </Form.Card>
+        </Flex.Stack>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const HelpButton = () => {
+  return (
+    <ComponentBox data-visual-test="forms-value-summary-list-with-help-button">
+      <Form.Handler>
+        <Flex.Stack>
+          <Form.Card>
+            <Value.SummaryList>
+              <Value.Boolean
+                label={
+                  'Vil foretaket være involvert i, eller drive virksomhet knyttet til virtuell valuta?'
+                }
+                help={{
+                  open: true,
+                  title: 'Virtuell valuta',
+                  content:
+                    'For eksempel i forbindelse med veksling, oppbevaring, utvinning eller investering i kryptovaluta.',
+                }}
+                value={false}
+              />
+              <Value.Boolean
+                label={
+                  'Skal foretaket drive med betalingsformidling som hovedvirksomhet eller som tilleggsvirksomhet til annen næring?'
+                }
+                help={{
+                  open: true,
+                  title: 'Betalingsformidling',
+                  content:
+                    'For eksempel betalingsforetak, agent, filial eller tilsvarende virksomhet som krever konsesjon.',
+                }}
+                value={false}
+              />
+            </Value.SummaryList>
+            <Value.Boolean
+              label={
+                'Er foretaket registreringspliktig hos Finanstilsynet?'
+              }
+              help={{
+                open: true,
+                title: 'Registreringspliktig',
+                content:
+                  'Driver virksomhet innenfor eiendomsmegling, inkasso, finans eller regnskapstjenester kan foretaket være regnskapspliktig.',
+              }}
+              value={true}
+            />
           </Form.Card>
         </Flex.Stack>
       </Form.Handler>
