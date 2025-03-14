@@ -13,6 +13,8 @@ import * as Examples from './Examples'
 import QuickStart from './quick-start'
 import AsyncStateReturnExample from './Form/Handler/parts/async-state-return-example.mdx'
 import AsyncChangeExample from './Form/Handler/parts/async-change-example.mdx'
+import { Ul, Li, Code } from '@dnb/eufemia/src'
+import { languageDisplayNames } from 'dnb-design-system-portal/src/core/ChangeLocale'
 
 # Getting started
 
@@ -712,17 +714,13 @@ function MyForm() {
 
 Eufemia provides the following translations:
 
-- en-GB
-- en-US
-- nb-NO
-- sv-SE
-
-Eufemia provides the following forms translations:
-
-- en-GB
-- en-US
-- nb-NO
-- sv-SE
+<Ul>
+  {Object.keys(languageDisplayNames).map((l) => (
+    <Li key={l}>
+      <Code>{l}</Code>
+    </Li>
+  ))}
+</Ul>
 
 #### Add additional translations
 

@@ -3,6 +3,9 @@ title: 'Locale / Translation'
 order: 8
 ---
 
+import { Ul, Li, Code } from '@dnb/eufemia/src'
+import { languageDisplayNames } from 'dnb-design-system-portal/src/core/ChangeLocale'
+
 # Localization
 
 The default constants are defined in the `/shared/defaults.js` file.
@@ -14,10 +17,13 @@ The default constants are defined in the `/shared/defaults.js` file.
 
 Eufemia components comes with a set of default translated strings for the following locales:
 
-- en-GB
-- en-US
-- nb-NO
-- sv-SE
+<Ul>
+  {Object.keys(languageDisplayNames).map((l) => (
+    <Li key={l}>
+      <Code>{l}</Code>
+    </Li>
+  ))}
+</Ul>
 
 You can easily change one, some or all of them by using a React provider – the Eufemia Provider.
 
