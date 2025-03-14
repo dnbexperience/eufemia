@@ -13,6 +13,8 @@ import * as Examples from './Examples'
 import QuickStart from './quick-start'
 import AsyncStateReturnExample from './Form/Handler/parts/async-state-return-example.mdx'
 import AsyncChangeExample from './Form/Handler/parts/async-change-example.mdx'
+import { Ul, Li, Code, Anchor } from '@dnb/eufemia/src'
+import { languageDisplayNames } from 'dnb-design-system-portal/src/core/ChangeLocale'
 
 # Getting started
 
@@ -707,6 +709,24 @@ function MyForm() {
   )
 }
 ```
+
+#### Translations provided by Eufemia
+
+Eufemia provides forms translations for the following locales:
+
+<Ul>
+  {Object.keys(languageDisplayNames).map((l) => (
+    <Li key={l}>
+      <Anchor
+        href={`https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/extensions/forms/constants/locales/${l}.ts`}
+      >
+        {l}
+      </Anchor>
+    </Li>
+  ))}
+</Ul>
+
+**NOTE:** The `sv-SE` translation are in a beta phase, as it's not 100% finalised and may change when officially approved by UX.
 
 #### Add additional translations
 
