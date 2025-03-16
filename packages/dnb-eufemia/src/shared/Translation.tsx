@@ -35,9 +35,15 @@ export function mergeTranslations(
 ) {
   return translations.reduce((acc, cur) => {
     Object.keys(cur).forEach((key) => {
-      acc[key] = {
-        ...acc[key],
-        ...cur[key],
+      if (
+        acc[key] !== null &&
+        cur[key] !== null &&
+        typeof acc[key] === 'object' &&
+        typeof cur[key] === 'object'
+      ) {
+        acc[key] = mergeTranslations(acc[key], cur[key])
+      } else {
+        acc[key] = cur[key]
       }
     })
 
