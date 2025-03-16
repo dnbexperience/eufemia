@@ -116,6 +116,26 @@ describe('NumberFormat component', () => {
     )
   })
 
+  it('have support invalid locale with invalid value', () => {
+    const log = jest.spyOn(console, 'log').mockImplementation()
+
+    render(
+      <NumberFormat locale="something" decimals={2}>
+        invalid
+      </NumberFormat>
+    )
+
+    expect(document.querySelector(displaySelector).textContent).toBe(
+      'invalid'
+    )
+
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('N/A')
+
+    log.mockRestore()
+  })
+
   it('have to match currency with large decimals', () => {
     render(<Component value="5000.0099" currency />)
     expect(document.querySelector(displaySelector).textContent).toBe(
