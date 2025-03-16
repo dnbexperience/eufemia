@@ -309,7 +309,7 @@ export const format = (
     }
 
     if (value === 'invalid') {
-      aria = locales[locale].NumberFormat.not_available || 'N/A'
+      aria = locales[locale]?.NumberFormat.not_available || 'N/A'
     }
 
     // return "locale" as well value,l, since we have to "auto" option

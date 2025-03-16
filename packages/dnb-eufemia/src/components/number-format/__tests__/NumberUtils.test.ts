@@ -120,6 +120,19 @@ describe('Decimals format', () => {
     expect(global.console.log).toHaveBeenCalledTimes(4)
   })
 
+  it('should render N/A when unsupported locale is given', () => {
+    expect(
+      format('invalid', { locale: 'something', returnAria: true })
+    ).toEqual({
+      aria: 'N/A',
+      cleanedValue: 'invalid',
+      locale: 'something',
+      number: 'invalid',
+      type: 'number',
+      value: 'invalid',
+    })
+  })
+
   describe('rounding', () => {
     it('omit', () => {
       expect(
