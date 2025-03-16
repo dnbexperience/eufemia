@@ -10,6 +10,9 @@ import {
 import userEvent from '@testing-library/user-event'
 import useFieldProps from '../useFieldProps'
 import { Context, ContextState, Provider } from '../../DataContext'
+import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
+import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
+import WizardStepContext from '../../Wizard/Step/StepContext'
 import WizardContext from '../../Wizard/Context'
 import Field, {
   FieldBlock,
@@ -2056,12 +2059,9 @@ describe('useFieldProps', () => {
     })
 
     it('should return aria-describedby', async () => {
-      const { result, rerender } = renderHook(
-        (props) => useFieldProps(props),
-        {
-          initialProps: {},
-        }
-      )
+      const { result, rerender } = renderHook(useFieldProps, {
+        initialProps: {},
+      })
 
       expect(result.current.htmlAttributes).toEqual({})
 
@@ -2744,15 +2744,12 @@ describe('useFieldProps', () => {
   })
 
   it('should return autoComplete based on DataContext', () => {
-    const { result, rerender } = renderHook(
-      (props) => useFieldProps(props),
-      {
-        initialProps: {},
-        wrapper: ({ children }) => (
-          <Form.Handler autoComplete>{children}</Form.Handler>
-        ),
-      }
-    )
+    const { result, rerender } = renderHook(useFieldProps, {
+      initialProps: {},
+      wrapper: ({ children }) => (
+        <Form.Handler autoComplete>{children}</Form.Handler>
+      ),
+    })
 
     expect(result.current.autoComplete).toBe('on')
 
@@ -7070,11 +7067,109 @@ describe('useFieldProps', () => {
     })
   })
 
+  describe('revealError', () => {
+    it('should report error downwards', () => {
+      const revealErrorDataContext = jest.fn()
+      const revealErrorBoundary = jest.fn()
+      const revealErrorWizard = jest.fn()
+      const showFieldErrorFieldBlock = jest.fn()
+      const handlePathChangeUnvalidated = jest.fn()
+
+      const { result, rerender } = renderHook(useFieldProps, {
+        initialProps: {
+          path: '/foo',
+          required: false,
+        },
+        wrapper: ({ children }) => {
+          const dataContextValue = {
+            revealError: revealErrorDataContext,
+            handlePathChangeUnvalidated,
+            setMountedFieldState: jest.fn(),
+          } as unknown as ContextState
+          const fieldBoundaryContextValue = {
+            revealError: revealErrorBoundary,
+          }
+          const fieldBlockContextValue = {
+            showFieldError: showFieldErrorFieldBlock,
+          }
+          const wizardContextValue = {
+            revealError: revealErrorWizard,
+          }
+          const wizardStepContextValue = {
+            index: 1,
+          }
+          return (
+            <Context.Provider value={dataContextValue}>
+              <FieldBoundaryContext.Provider
+                value={fieldBoundaryContextValue}
+              >
+                <FieldBlockContext.Provider value={fieldBlockContextValue}>
+                  <WizardContext.Provider value={wizardContextValue}>
+                    <WizardStepContext.Provider
+                      value={wizardStepContextValue}
+                    >
+                      {children}
+                    </WizardStepContext.Provider>
+                  </WizardContext.Provider>
+                </FieldBlockContext.Provider>
+              </FieldBoundaryContext.Provider>
+            </Context.Provider>
+          )
+        },
+      })
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      const { revealError } = result.current
+
+      expect(revealErrorDataContext).toHaveBeenCalledTimes(0)
+      expect(revealErrorBoundary).toHaveBeenCalledTimes(0)
+      expect(showFieldErrorFieldBlock).toHaveBeenCalledTimes(0)
+      expect(revealErrorWizard).toHaveBeenCalledTimes(0)
+
+      revealError()
+
+      expect(revealErrorDataContext).toHaveBeenCalledTimes(1)
+      expect(revealErrorDataContext).toHaveBeenLastCalledWith(
+        '/foo',
+        false
+      )
+      expect(revealErrorBoundary).toHaveBeenCalledTimes(1)
+      expect(revealErrorBoundary).toHaveBeenLastCalledWith('/foo', false)
+      expect(showFieldErrorFieldBlock).toHaveBeenCalledTimes(1)
+      expect(showFieldErrorFieldBlock).toHaveBeenLastCalledWith(
+        '/foo',
+        false
+      )
+      expect(revealErrorWizard).toHaveBeenLastCalledWith(1, '/foo', false)
+
+      rerender({
+        path: '/foo',
+        required: true,
+      })
+
+      revealError()
+
+      expect(revealErrorDataContext).toHaveBeenCalledTimes(2)
+      expect(revealErrorDataContext).toHaveBeenLastCalledWith('/foo', true)
+      expect(revealErrorBoundary).toHaveBeenCalledTimes(2)
+      expect(revealErrorBoundary).toHaveBeenLastCalledWith('/foo', true)
+      expect(showFieldErrorFieldBlock).toHaveBeenCalledTimes(2)
+      expect(showFieldErrorFieldBlock).toHaveBeenLastCalledWith(
+        '/foo',
+        true
+      )
+      expect(revealErrorWizard).toHaveBeenLastCalledWith(1, '/foo', true)
+
+      return
+    })
+  })
+
   describe('setMountedFieldState', () => {
     it('should mount and unmount when the field is removed from the DOM', () => {
       const setMountedFieldState = jest.fn()
 
-      const { unmount } = renderHook((props) => useFieldProps(props), {
+      const { unmount } = renderHook(useFieldProps, {
         initialProps: {
           path: '/foo',
         },
@@ -7109,7 +7204,7 @@ describe('useFieldProps', () => {
     it('should set isVisible when within a visibility context', () => {
       const setMountedFieldState = jest.fn()
 
-      const { unmount } = renderHook((props) => useFieldProps(props), {
+      const { unmount } = renderHook(useFieldProps, {
         initialProps: {
           path: '/foo',
         },
@@ -7149,7 +7244,7 @@ describe('useFieldProps', () => {
     it('should set isVisible when within a visibility context with a negative visibility', () => {
       const setMountedFieldState = jest.fn()
 
-      const { unmount } = renderHook((props) => useFieldProps(props), {
+      const { unmount } = renderHook(useFieldProps, {
         initialProps: {
           path: '/foo',
         },
@@ -7193,29 +7288,26 @@ describe('useFieldProps', () => {
       const setMountedFieldState = jest.fn()
 
       let activeIndex = 0
-      const { rerender, unmount } = renderHook(
-        (props) => useFieldProps(props),
-        {
-          initialProps: { path: '/foo' },
-          wrapper: ({ children }) => {
-            const value = {
-              setMountedFieldState,
-            } as unknown as ContextState
-            activeIndex++
-            return (
-              <Context.Provider value={value}>
-                <WizardContext.Provider
-                  value={{
-                    activeIndex,
-                  }}
-                >
-                  {children}
-                </WizardContext.Provider>
-              </Context.Provider>
-            )
-          },
-        }
-      )
+      const { rerender, unmount } = renderHook(useFieldProps, {
+        initialProps: { path: '/foo' },
+        wrapper: ({ children }) => {
+          const value = {
+            setMountedFieldState,
+          } as unknown as ContextState
+          activeIndex++
+          return (
+            <Context.Provider value={value}>
+              <WizardContext.Provider
+                value={{
+                  activeIndex,
+                }}
+              >
+                {children}
+              </WizardContext.Provider>
+            </Context.Provider>
+          )
+        },
+      })
 
       expect(setMountedFieldState).toHaveBeenCalledTimes(2)
       expect(setMountedFieldState).toHaveBeenNthCalledWith(1, '/foo', {
