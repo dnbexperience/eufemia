@@ -133,7 +133,7 @@ describe('Decimals format', () => {
     })
   })
 
-  it('should render custom invalid text when given', () => {
+  it('should render custom invalid ARIA text when given', () => {
     const customInvalidAriaText = 'my text'
     expect(
       format('invalid', {
