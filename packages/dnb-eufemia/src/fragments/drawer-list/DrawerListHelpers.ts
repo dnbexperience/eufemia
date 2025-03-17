@@ -13,6 +13,10 @@ import {
   convertJsxToString,
 } from '../../shared/component-helper'
 import { spacingPropTypes } from '../../components/space/SpacingHelper'
+import {
+  DrawerListDataArrayItem,
+  DrawerListDataArrayObject,
+} from './DrawerList'
 
 export const drawerListPropTypes = {
   id: PropTypes.string,
@@ -192,52 +196,47 @@ export const drawerListProviderDefaultProps = {
   min_height: 10, // 10rem = 10x16=160,
 }
 
-type DATAITEM = { content: any | any[]; selected_value?: any }
-export const parseContentTitle = (
-  dataItem: DATAITEM | any[],
+export function parseContentTitle(
+  dataItem: DrawerListDataArrayItem,
   {
     separator = '\n',
     removeNumericOnlyValues = false,
     preferSelectedValue = false,
   } = {}
-) => {
-  // make sure we don't return empty strings
-  if (Array.isArray(dataItem) && dataItem.length === 0) {
-    return undefined
+): string | null {
+  dataItem = normalizeDataItem(dataItem)
+
+  if (!dataItem) {
+    return null
   }
 
   let ret = ''
   const onlyNumericRegex = /[0-9.,-\s]+/
-  dataItem = Array.isArray(dataItem) ? { content: dataItem } : dataItem
 
   const hasValue = dataItem && dataItem.selected_value
 
   if (
     !(preferSelectedValue && hasValue) &&
-    dataItem &&
     Array.isArray(dataItem.content)
   ) {
     ret = dataItem.content
-      .reduce((acc, cur) => {
+      .reduce<string[]>((acc, cur) => {
         // check if we have React inside, with strings we can use
-        cur = convertJsxToString(cur, ' ')
-        if (cur === false) {
+        const converted = convertJsxToString(cur, ' ')
+        if (!converted) {
           return acc
         }
         // remove only numbers
         const found =
-          removeNumericOnlyValues && cur && cur.match(onlyNumericRegex)
-        if (!(found && found[0].length === cur.length)) {
-          acc.push(cur)
+          removeNumericOnlyValues && converted.match(onlyNumericRegex)
+        if (!(found && found[0].length === converted.length)) {
+          acc.push(converted)
         }
         return acc
       }, [])
       .join(separator)
   } else {
-    ret = convertJsxToString(
-      (dataItem && dataItem.content) || dataItem,
-      ' '
-    )
+    ret = convertJsxToString(dataItem.content, ' ')
   }
 
   if (hasValue) {
@@ -247,13 +246,13 @@ export const parseContentTitle = (
           const nestedChildren =
             !word.props.children &&
             typeof word?.type === 'function' &&
-            word.type()
+            (word.type as () => React.ReactElement)()
 
           return nestedChildren?.props?.children ? nestedChildren : word
         })
       )
-    } else if (!onlyNumericRegex.test(dataItem.selected_value)) {
-      ret = String(convertJsxToString()) + separator + ret
+    } else if (!onlyNumericRegex.test(dataItem.selected_value as string)) {
+      ret = separator + ret
     }
   }
 
@@ -312,6 +311,16 @@ export const normalizeData = (props) => {
 
     return typeof item?.__id !== 'undefined' ? item : { ...item, __id }
   })
+}
+
+function normalizeDataItem(
+  dataItem: DrawerListDataArrayItem
+): DrawerListDataArrayObject {
+  return dataItem === null
+    ? undefined
+    : typeof dataItem === 'object' && 'content' in dataItem
+    ? dataItem
+    : { content: dataItem }
 }
 
 export const getData = (props) => {
