@@ -133,6 +133,24 @@ describe('Decimals format', () => {
     })
   })
 
+  it('should render custom invalid ARIA text when given', () => {
+    const customInvalidAriaText = 'my text'
+    expect(
+      format('invalid', {
+        locale: 'something',
+        returnAria: true,
+        invalidAriaText: customInvalidAriaText,
+      })
+    ).toEqual({
+      aria: customInvalidAriaText,
+      cleanedValue: 'invalid',
+      locale: 'something',
+      number: 'invalid',
+      type: 'number',
+      value: 'invalid',
+    })
+  })
+
   describe('rounding', () => {
     it('omit', () => {
       expect(

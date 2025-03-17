@@ -88,6 +88,9 @@ export interface formatOptionParams {
 
   /** If an object should be returned, including the "aria" property */
   returnAria?: boolean;
+
+  /** ARIA Text to be displayed when value is invalid. */
+  invalidAriaText?: string;
 }
 
 export function format(
