@@ -75,7 +75,7 @@ export default function PortalToolsMenu({
             Read more about{' '}
             <Anchor href="/uilib/usage/customisation/localization/">
               localization
-            </Anchor>{' '}
+            </Anchor>
           </P>
         </Space>
 
