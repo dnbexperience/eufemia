@@ -205,6 +205,37 @@ describe('mergeTranslations', () => {
     })
   })
 
+  it('should merge translations given as objects with same keys', () => {
+    const enGB = {
+      'en-GB': {
+        my: {
+          keepme: 'use this string here',
+          subkey: { string: 'string {foo}' },
+        },
+        foo: 'foo',
+      },
+    }
+    const enGB_expected = {
+      'en-GB': {
+        my: { subkey: { string: 'use this string here {foo}' } },
+        bar: 'bar',
+      },
+    }
+
+    const translations = mergeTranslations(enGB, enGB_expected)
+
+    expect(translations).toEqual({
+      'en-GB': {
+        foo: 'foo',
+        bar: 'bar',
+        my: {
+          keepme: 'use this string here',
+          subkey: { string: 'use this string here {foo}' },
+        },
+      },
+    })
+  })
+
   it('should merge translations given flatten translations', () => {
     const nbNO = {
       'nb-NO': {
