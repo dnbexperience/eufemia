@@ -16,6 +16,9 @@ import { isMac } from '../../../shared/helpers'
 import Provider from '../../../shared/Provider'
 import NumberFormat, { NumberFormatProps } from '../NumberFormat'
 import { format, formatReturnValue } from '../NumberUtils'
+import enGB from '../../../shared/locales/en-GB'
+
+const en = enGB['en-GB'].NumberFormat
 
 const Component = (props) => {
   return <NumberFormat id="unique" {...props} />
@@ -114,6 +117,24 @@ describe('NumberFormat component', () => {
     expect(document.querySelector(displaySelector).textContent).toBe(
       'NOK 12 345'
     )
+  })
+
+  it('have support valid locale with invalid value', () => {
+    const log = jest.spyOn(console, 'log').mockImplementation()
+
+    render(
+      <NumberFormat locale="en-GB" decimals={2}>
+        invalid
+      </NumberFormat>
+    )
+
+    expect(document.querySelector(displaySelector).textContent).toBe('-')
+
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe(en.not_available)
+
+    log.mockRestore()
   })
 
   it('have support invalid locale with invalid value', () => {
