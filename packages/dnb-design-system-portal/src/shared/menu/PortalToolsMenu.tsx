@@ -1,7 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import { Drawer, Space, Tooltip } from '@dnb/eufemia/src/components'
-import { H2 } from '@dnb/eufemia/src'
+import { H2, P, Anchor } from '@dnb/eufemia/src'
 import ToggleGrid from './ToggleGrid'
 import { Context } from '@dnb/eufemia/src/shared'
 import PortalSkeleton from '../../core/PortalSkeleton'
@@ -71,6 +71,12 @@ export default function PortalToolsMenu({
           <Space top>
             <ChangeLocale />
           </Space>
+          <P size="small" top="x-small">
+            Read more about{' '}
+            <Anchor href="/uilib/usage/customisation/localization/">
+              localization
+            </Anchor>{' '}
+          </P>
         </Space>
 
         <Space top="large">
