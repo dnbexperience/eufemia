@@ -953,7 +953,7 @@ export const AccordionRow = () => {
             label: 'Expanded 1.1',
           },
           {
-            label: 'Expanded 1.2',
+            label: 'Expanded 1.2 with a lot of text',
           },
         ]
         return (
@@ -961,10 +961,10 @@ export const AccordionRow = () => {
             <Table mode="accordion" accordionChevronPlacement="end">
               <thead>
                 <Tr>
-                  <Th>Column A</Th>
-                  <Th>Column B</Th>
-                  <Th>Column C</Th>
-                  <Th>Column D</Th>
+                  <Th style={{ width: '25%' }}>Column A</Th>
+                  <Th style={{ width: '25%' }}>Column B</Th>
+                  <Th style={{ width: '25%' }}>Column C</Th>
+                  <Th style={{ width: '25%' }}>Column D</Th>
                 </Tr>
               </thead>
 
@@ -992,21 +992,21 @@ export const AccordionRow = () => {
                   <Td>Row 2</Td>
 
                   <Tr.AccordionContent>
-                    <Td>Expanded 2.1</Td>
+                    <Td>Expanded 2.1 with a lot of text</Td>
                     <Td>Expanded 2.1</Td>
                     <Td>Expanded 2.1</Td>
                     <Td>Expanded 2.1</Td>
                   </Tr.AccordionContent>
 
                   <Tr.AccordionContent>
-                    <Td>Expanded 2.2</Td>
+                    <Td>Expanded 2.2 with a lot of text</Td>
                     <Td>Expanded 2.2</Td>
                     <Td>Expanded 2.2</Td>
                     <Td>Expanded 2.2</Td>
                   </Tr.AccordionContent>
 
                   <Tr.AccordionContent>
-                    <Td>Expanded 2.3</Td>
+                    <Td>Expanded 2.3 with a lot of text</Td>
                     <Td>Expanded 2.3</Td>
                     <Td>Expanded 2.3</Td>
                     <Td>Expanded 2.3</Td>
