@@ -323,7 +323,10 @@ export default class NumberFormat extends React.PureComponent {
       clean: isTrue(clean),
       clean_copy_value: isTrue(clean_copy_value),
       returnAria: true,
-      invalidAriaText: translations?.not_available,
+      invalidAriaText:
+        locale && locale !== this.context.locale
+          ? null
+          : translations?.not_available,
     }
 
     // use only the props from context, who are available here anyway

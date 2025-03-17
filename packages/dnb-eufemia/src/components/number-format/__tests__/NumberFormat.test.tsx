@@ -128,7 +128,7 @@ describe('NumberFormat component', () => {
       </NumberFormat>
     )
 
-    expect(document.querySelector(displaySelector).textContent).toBe('-')
+    expect(document.querySelector(displaySelector).textContent).toBe('–')
 
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
@@ -141,7 +141,7 @@ describe('NumberFormat component', () => {
     const log = jest.spyOn(console, 'log').mockImplementation()
 
     render(
-      <NumberFormat locale="something" decimals={2}>
+      <NumberFormat locale="else" decimals={2}>
         invalid
       </NumberFormat>
     )
