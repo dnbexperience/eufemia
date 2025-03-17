@@ -75,10 +75,7 @@ export type DatePickerCalendarProps = Omit<
   month?: Date
   prevBtn?: boolean
   nextBtn?: boolean
-  // TODO: remove as prop, as it's never used, or documented anywhere
-  titleFormat?: string
-  // TODO: remove as prop, as it's never used, or documented anywhere
-  dayOfWeekFormat?: string
+
   firstDayOfWeek?: string
   hideNav?: boolean
   hideDays?: boolean
@@ -126,10 +123,6 @@ type DayObject = {
 const defaultProps: DatePickerCalendarProps = {
   prevBtn: true,
   nextBtn: true,
-  // TODO: remove as prop, as it's never used, or documented anywhere
-  titleFormat: 'MMMM yyyy',
-  // TODO: remove as prop, as it's never used, or documented anywhere
-  dayOfWeekFormat: 'EEEEEE',
   firstDayOfWeek: 'monday',
   hideNav: false,
   hideDays: false,
@@ -143,7 +136,7 @@ const defaultProps: DatePickerCalendarProps = {
 const arrowKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown']
 const keysToHandle = ['Enter', 'Space', ...arrowKeys]
 
-const titleFormatOption: Intl.DateTimeFormatOptions = {
+const titleFormat: Intl.DateTimeFormatOptions = {
   month: 'long',
   year: 'numeric',
 }
@@ -544,7 +537,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
               quickFormat({
                 date: month,
                 locale,
-                options: titleFormatOption,
+                options: titleFormat,
               })
             )}
             tabIndex={-1}
@@ -553,7 +546,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
             {quickFormat({
               date: month,
               locale,
-              options: titleFormatOption,
+              options: titleFormat,
             })}
           </label>
           <div className="dnb-date-picker__header__nav">
