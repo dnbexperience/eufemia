@@ -3,6 +3,14 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.68.1](https://github.com/dnbexperience/eufemia/compare/v10.68.0...v10.68.1) (2025-03-17)
+
+
+### :bug: Bug Fixes
+
+* **mergeTranslations:** add support for nested objects ([#4756](https://github.com/dnbexperience/eufemia/issues/4756)) ([7dc074b](https://github.com/dnbexperience/eufemia/commit/7dc074b23347ca28a584b6ab0f5fbb94349379da)), closes [#4752](https://github.com/dnbexperience/eufemia/issues/4752) [#4754](https://github.com/dnbexperience/eufemia/issues/4754)
+* **NumberFormat:** render properly when `sv-SE` locale is given ([#4760](https://github.com/dnbexperience/eufemia/issues/4760)) ([a71ab73](https://github.com/dnbexperience/eufemia/commit/a71ab7331a922b3ca307d4fbfce92a59512fe071))
+
 ## [10.68.0](https://github.com/dnbexperience/eufemia/compare/v10.67.1...v10.68.0) (2025-03-14)
 
 
