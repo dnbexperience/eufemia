@@ -34,6 +34,9 @@
     align-items: center;
     text-align: center;
   }
+  &--centered:not(&--stretch) {
+    margin: auto;
+  }
 
   &--shadow {
     @include defaultDropShadow();
@@ -42,6 +45,10 @@
   &__content {
     flex-direction: column;
     margin-top: 0.1875rem;
+  }
+
+  &:not(&--stretch),
+  &__content {
     max-width: 70ch;
   }
 

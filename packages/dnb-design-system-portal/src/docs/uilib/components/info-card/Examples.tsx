@@ -15,8 +15,18 @@ export const InfoCardBasic = () => (
 )
 
 export const InfoCardTitle = () => (
-  <ComponentBox data-visual-test="info-card-title">
+  <ComponentBox>
     <InfoCard
+      text="This is a description of some information or a tip that will inform the user of something that will help them."
+      title="Title of your info/tip"
+    />
+  </ComponentBox>
+)
+
+export const InfoCardStretch = () => (
+  <ComponentBox data-visual-test="info-card-stretch">
+    <InfoCard
+      stretch
       text="This is a description of some information or a tip that will inform the user of something that will help them."
       title="Title of your info/tip"
     />

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import classnames from 'classnames'
 
 // Components
@@ -54,6 +54,10 @@ export interface InfoCardProps {
    * Default: null
    */
   skeleton?: SkeletonShow
+  /**
+   * Stretch the card to fill the container
+   */
+  stretch?: boolean
   /**
    * Specifies the path to the image
    * Default: null
@@ -127,6 +131,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
     dropShadow,
     title,
     skeleton,
+    stretch,
     className,
     icon,
     src,
@@ -148,11 +153,70 @@ const InfoCard = (localProps: InfoCardAllProps) => {
 
   validateDOMAttributes(allProps, props)
 
+  const getButtons = useCallback(() => {
+    if (closeButtonIsHidden && acceptButtonIsHidden) return null
+
+    return (
+      <div className="dnb-info-card__buttons">
+        {!acceptButtonIsHidden && (
+          <Button
+            top={centered ? 'medium' : 'small'}
+            type="button"
+            className="dnb-info-card__buttons__accept-button"
+            variant="secondary"
+            right={centered ? 'zero' : 'small'}
+            on_click={onAccept}
+            text={acceptButtonText}
+            {...acceptButtonAttributes}
+          />
+        )}
+        {!closeButtonIsHidden && (
+          <Button
+            type="button"
+            className="dnb-info-card__buttons__close-button"
+            variant="tertiary"
+            top="small"
+            on_click={onClose}
+            icon="close"
+            icon_position="left"
+            text={closeButtonText}
+            {...closeButtonAttributes}
+          />
+        )}
+      </div>
+    )
+  }, [
+    acceptButtonAttributes,
+    acceptButtonIsHidden,
+    acceptButtonText,
+    centered,
+    closeButtonAttributes,
+    closeButtonIsHidden,
+    closeButtonText,
+    onAccept,
+    onClose,
+  ])
+
+  const getIllustration = useCallback(() => {
+    if (src || imgProps) {
+      const imageProps = { src, alt, ...imgProps }
+      return <Img className="dnb-info-card__image" {...imageProps} />
+    }
+    return (
+      <IconPrimary
+        size="medium"
+        className="dnb-info-card__icon"
+        icon={icon}
+      />
+    )
+  }, [alt, icon, imgProps, src])
+
   return (
     <div
       className={classnames(
         'dnb-info-card',
         centered && 'dnb-info-card--centered',
+        stretch && 'dnb-info-card--stretch',
         dropShadow && 'dnb-info-card--shadow',
         spacingClasses,
         className
@@ -188,54 +252,6 @@ const InfoCard = (localProps: InfoCardAllProps) => {
       </Provider>
     </div>
   )
-
-  function getButtons() {
-    if (closeButtonIsHidden && acceptButtonIsHidden) return null
-
-    return (
-      <div className="dnb-info-card__buttons">
-        {!acceptButtonIsHidden && (
-          <Button
-            top={centered ? 'medium' : 'small'}
-            type="button"
-            className="dnb-info-card__buttons__accept-button"
-            variant="secondary"
-            right={centered ? 'zero' : 'small'}
-            on_click={onAccept}
-            text={acceptButtonText}
-            {...acceptButtonAttributes}
-          />
-        )}
-        {!closeButtonIsHidden && (
-          <Button
-            type="button"
-            className="dnb-info-card__buttons__close-button"
-            variant="tertiary"
-            top="small"
-            on_click={onClose}
-            icon="close"
-            icon_position="left"
-            text={closeButtonText}
-            {...closeButtonAttributes}
-          />
-        )}
-      </div>
-    )
-  }
-
-  function getIllustration() {
-    if (src || imgProps) {
-      const imageProps = { src, alt, ...imgProps }
-      return <Img className="dnb-info-card__image" {...imageProps} />
-    }
-    return (
-      <IconPrimary
-        size="medium"
-        className="dnb-info-card__icon"
-        icon={icon}
-      />
-    )
-  }
 }
 
 InfoCard._supportsSpacingProps = true
