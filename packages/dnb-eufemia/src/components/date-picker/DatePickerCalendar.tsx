@@ -98,7 +98,9 @@ export type DatePickerCalendarProps = Omit<
   month?: Date
   prevBtn?: boolean
   nextBtn?: boolean
+  // TODO: remove as prop, as it's never used, or documented anywhere
   titleFormat?: string
+  // TODO: remove as prop, as it's never used, or documented anywhere
   dayOfWeekFormat?: string
   firstDayOfWeek?: string
   hideNav?: boolean
@@ -147,7 +149,9 @@ type DayObject = {
 const defaultProps: DatePickerCalendarProps = {
   prevBtn: true,
   nextBtn: true,
+  // TODO: remove as prop, as it's never used, or documented anywhere
   titleFormat: 'MMMM yyyy',
+  // TODO: remove as prop, as it's never used, or documented anywhere
   dayOfWeekFormat: 'EEEEEE',
   firstDayOfWeek: 'monday',
   hideNav: false,
@@ -161,6 +165,25 @@ const defaultProps: DatePickerCalendarProps = {
 
 const arrowKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown']
 const keysToHandle = ['Enter', 'Space', ...arrowKeys]
+
+const titleFormatOption: Intl.DateTimeFormatOptions = {
+  month: 'long',
+  year: 'numeric',
+}
+
+function quickFormat({
+  date,
+  locale,
+  options,
+}: {
+  date: number | Date
+  locale: string
+  options?: Intl.DateTimeFormatOptions
+}) {
+  const intl = new Intl.DateTimeFormat(locale, options)
+
+  return intl.format(date)
+}
 
 function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   const props = { ...defaultProps, ...restOfProps }
@@ -265,7 +288,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         }
       }
 
-      // // Save for later check against disabled days during key navigation
+      // Save for later check against disabled days during key navigation
       days.current[format(month, 'yyyy-MM')] = daysFromCalendar
 
       return daysFromCalendar
@@ -539,6 +562,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
               date={minDate}
               month={month}
               locale={locale}
+              localeCode={localeCode}
               showButton={prevBtn}
               onClick={onPrev}
             />
@@ -548,15 +572,19 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
             className="dnb-date-picker__header__title dnb-no-focus"
             title={selectedMonth.replace(
               /%s/,
-              format(month, titleFormat, {
-                locale,
+              quickFormat({
+                date: month,
+                locale: localeCode,
+                options: titleFormatOption,
               })
             )}
             tabIndex={-1}
             ref={labelRef}
           >
-            {format(month, titleFormat, {
-              locale,
+            {quickFormat({
+              date: month,
+              locale: localeCode,
+              options: titleFormatOption,
             })}
           </label>
           <div className="dnb-date-picker__header__nav">
@@ -566,6 +594,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
               date={maxDate}
               month={month}
               locale={locale}
+              localeCode={localeCode}
               showButton={nextBtn}
               onClick={onNext}
             />
@@ -589,19 +618,18 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                   key={i}
                   role="columnheader"
                   scope="col"
-                  className={classnames(
-                    'dnb-date-picker__labels__day',
-                    `dnb-date-picker__labels__day--${format(day, 'i', {
-                      locale,
-                    })}`
-                  )}
-                  aria-label={format(day, 'EEEE', {
-                    locale,
+                  className="dnb-date-picker__labels__day"
+                  aria-label={quickFormat({
+                    date: day,
+                    locale: localeCode,
+                    options: { weekday: 'long' },
                   })}
                 >
-                  {format(day, dayOfWeekFormat, {
-                    locale,
-                  })}
+                  {quickFormat({
+                    date: day,
+                    locale: localeCode,
+                    options: { weekday: 'short' },
+                  }).substring(0, 2)}
                 </th>
               ))}
             </tr>
@@ -616,8 +644,15 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                 className="dnb-date-picker__days"
               >
                 {week.map((day: DayObject, i) => {
-                  const title = format(day.date, 'PPPP', {
-                    locale,
+                  const title = quickFormat({
+                    date: day.date,
+                    locale: localeCode,
+                    options: {
+                      weekday: 'long',
+                      day: 'numeric',
+                      month: 'long',
+                      year: 'numeric',
+                    },
                   })
 
                   const handleAsDisabled =
@@ -660,9 +695,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                       <Button
                         size="medium"
                         variant="secondary"
-                        text={format(day.date, 'd', {
-                          locale,
-                        })}
+                        text={day.date.getDate()}
                         bounding={true}
                         disabled={handleAsDisabled}
                         tabIndex={handleAsDisabled ? 0 : -1} // fix for NVDA
@@ -726,6 +759,7 @@ export type CalendarButtonProps = {
   date: Date
   month: Date
   locale: CalendarLocales[keyof CalendarLocales]
+  localeCode?: InternalLocale
   showButton: boolean
   onClick: ({
     nr,
@@ -743,6 +777,7 @@ function CalendarButton({
   date,
   month,
   locale,
+  localeCode,
   showButton,
   onClick,
   onKeyDown,
@@ -756,8 +791,13 @@ function CalendarButton({
 
   const title = tr[`${type}Month`].replace(
     /%s/,
-    format(subMonths(month, 1), 'MMMM yyyy', {
-      locale,
+    quickFormat({
+      date: subMonths(month, 1),
+      locale: localeCode,
+      options: {
+        month: 'long',
+        year: 'numeric',
+      },
     })
   )
 
