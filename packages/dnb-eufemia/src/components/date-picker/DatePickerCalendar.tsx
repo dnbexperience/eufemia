@@ -752,7 +752,7 @@ function CalendarButton({
     /%s/,
     quickFormat({
       date: subMonths(month, 1),
-      locale: locale,
+      locale,
       options: {
         month: 'long',
         year: 'numeric',
