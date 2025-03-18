@@ -29,9 +29,6 @@ import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { skeletonDOMAttributes } from '../skeleton/SkeletonHelper'
 
-// date-fns
-import format from 'date-fns/format'
-
 import Context, { Locale } from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
@@ -793,22 +790,6 @@ function DatePicker(externalProps: DatePickerAllProps) {
     [opened, showPicker, hidePicker]
   )
 
-  const formatSelectedDateTitle = useCallback(() => {
-    const { selectedDate, start, end } = translation
-    const { startDate, endDate } = dates
-
-    let currentDate = startDate ? format(startDate, 'PPPP') : null
-
-    if (range && startDate && endDate) {
-      currentDate = `${start} ${currentDate} - ${end} ${format(
-        endDate,
-        'PPPP'
-      )}`
-    }
-
-    return currentDate ? selectedDate.replace(/%s/, currentDate) : ''
-  }, [range, translation, dates])
-
   // use only the props from context, who are available here anyway
   const extendedProps = extendPropsWithContext(
     props,
@@ -889,7 +870,33 @@ function DatePicker(externalProps: DatePickerAllProps) {
     tooltip,
   }
 
-  const selectedDateTitle = formatSelectedDateTitle()
+  const selectedDateTitle = useMemo(() => {
+    const { selectedDate, start, end } = translation
+    const { startDate, endDate } = dates
+
+    //  Replace with formatDate
+    const formatter = new Intl.DateTimeFormat(context.locale, {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    })
+
+    // Handle non range formatting
+    if (!range && startDate) {
+      return selectedDate.replace(/%s/, formatter.format(startDate))
+    }
+
+    // Handle range formatting
+    if (startDate && endDate) {
+      const formattedStartDate = formatter.format(startDate)
+      const formattedEndDate = formatter.format(endDate)
+
+      return `${start} ${formattedStartDate} - ${end} ${formattedEndDate}`
+    }
+
+    return ''
+  }, [range, translation, dates, context.locale])
 
   const mainParams = {
     className: classnames(
