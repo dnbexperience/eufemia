@@ -184,7 +184,7 @@ describe('Field.Currency', () => {
     })
   })
 
-  it('renders autoComplete', () => {
+  it('should render autoComplete when provided', () => {
     render(
       <Field.Currency value={123} autoComplete="transaction-amount" />
     )
