@@ -26,4 +26,19 @@ describe('Field.SelectCurrency', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('matches when opened', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="select-currency-opened"]',
+      simulateSelector:
+        '[data-visual-test="select-currency-opened"] .dnb-autocomplete .dnb-input',
+      simulate: 'click',
+      waitAfterSimulateSelector:
+        '[data-visual-test="select-currency-opened"] .dnb-autocomplete--opened',
+      style: {
+        height: '30rem',
+      },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

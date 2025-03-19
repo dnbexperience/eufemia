@@ -169,3 +169,9 @@ export function WithFieldCurrency() {
     </ComponentBox>
   )
 }
+
+export const Opened = () => (
+  <ComponentBox data-visual-test="select-currency-opened">
+    <Field.SelectCurrency value="NOK" htmlAttributes={{ opened: true }} />
+  </ComponentBox>
+)

@@ -261,8 +261,6 @@ function SelectCurrency(props: Props) {
         status={hasError ? 'error' : undefined}
         show_submit_button
         keep_selection
-        // Todo: look into transaction-amount
-        autoComplete="transaction-currency"
         no_animation={props.noAnimation}
         {...htmlAttributes}
       />
@@ -323,7 +321,7 @@ export function getCurrencyData({
         }
       }
 
-      return String(a[lang])?.localeCompare?.(b[lang], 'nb') // Always sort by nb, because åøæ (for Åland) is not in the en alphabet
+      return String(a[lang])?.localeCompare?.(b[lang], 'nb') // Always sort by nb, because åøæ (for Østkaribisk dollar) is not in the en alphabet
     })
     .map((currency) => makeObject(currency, lang))
 
