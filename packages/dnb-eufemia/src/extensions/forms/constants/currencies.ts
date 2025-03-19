@@ -25,7 +25,217 @@ export type CurrencyISO = (typeof currencies)[number]['iso']
 
 export const prioritizedCurrencies = ['NOK', 'SEK', 'DKK', 'EUR', 'USD']
 
-const currencies = [
+const preciousMetals = [
+  {
+    continent: 'None',
+    iso: 'XPD',
+    decimals: null,
+    i18n: {
+      en: 'Palladium (one troy ounce)',
+      nb: 'Palladium (31,1034768 gram)',
+    },
+  },
+  {
+    continent: 'None',
+    iso: 'XPT',
+    decimals: null,
+    i18n: {
+      en: 'Platinum (one troy ounce)',
+      nb: 'Platinum (31,1034768 gram)',
+    },
+  },
+  {
+    continent: 'None',
+    iso: 'XAG',
+    decimals: null,
+    i18n: {
+      en: 'Silver (one troy ounce)',
+      nb: 'Sølv (31,1034768 gram)',
+    },
+  },
+  {
+    continent: 'None',
+    iso: 'XAU',
+    decimals: null,
+    i18n: {
+      en: 'Gold (one troy ounce)',
+      nb: 'Gull (31,1034768 gram)',
+    },
+  },
+] as const
+
+// https://en.wikipedia.org/wiki/ISO_4217#X_currencies_(funds,_precious_metals,_supranationals,_other)
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const xCurrencies = [
+  {
+    continent: 'Africa',
+    iso: 'XAF',
+    decimals: 0,
+    i18n: {
+      en: 'CFA franc BEAC',
+      nb: 'Sentralafrikansk CFA-franc',
+    },
+  },
+  {
+    continent: 'Europe',
+    iso: 'XBA',
+    decimals: null,
+    i18n: {
+      en: 'European Composite Unit (EURCO) (bond market unit)',
+      nb: 'Europeisk regnskapsenhet (EURCO) (kredittmarkedsenhet)',
+    },
+  },
+  {
+    continent: 'Europe',
+    iso: 'XBB',
+    decimals: null,
+    i18n: {
+      en: 'European Monetary Unit (E.M.U.-6) (bond market unit)',
+      nb: 'Europeisk regnskapsenhet (E.M.U.-6) (kredittmarkedsenhet)',
+    },
+  },
+  {
+    continent: 'Europe',
+    iso: 'XBC',
+    decimals: null,
+    i18n: {
+      en: 'European Unit of Account 9 (E.U.A.-9) (bond market unit)',
+      nb: 'Europeisk regnskapsenhet (E.U.A.-9) (kredittmarkedsenhet)',
+    },
+  },
+  {
+    continent: 'Europe',
+    iso: 'XBD',
+    decimals: null,
+    i18n: {
+      en: 'European Unit of Account 17 (E.U.A.-17) (bond market unit)',
+      nb: 'Europeisk regnskapsenhet (E.U.A.-17) (kredittmarkedsenhet)',
+    },
+  },
+  {
+    continent: 'North America',
+    iso: 'XCD',
+    decimals: 2,
+    i18n: {
+      en: 'East Caribbean dollar',
+      nb: 'Østkaribisk dollar',
+    },
+  },
+  {
+    continent: 'None',
+    iso: 'XDR',
+    decimals: null,
+    i18n: {
+      en: 'Special drawing rights',
+      nb: 'Spesielle trekkrettigheter',
+    },
+  },
+  {
+    continent: 'None',
+    iso: 'XFU',
+    decimals: null,
+    i18n: {
+      en: 'UIC franc (special settlement currency)',
+      nb: 'UIC-franc',
+    },
+  },
+  {
+    continent: 'Africa',
+    iso: 'XOF',
+    decimals: 0,
+    i18n: {
+      en: 'CFA franc BCEAO',
+      nb: 'Vestafrikansk CFA-franc',
+    },
+  },
+  {
+    continent: 'Oceania',
+    iso: 'XPF',
+    decimals: 0,
+    i18n: {
+      en: 'CFP franc',
+      nb: 'CFP-franc',
+    },
+  },
+  {
+    continent: 'None',
+    iso: 'XTS',
+    decimals: null,
+    i18n: {
+      en: 'Code reserved for testing purposes',
+      nb: 'Kode reservert for testing',
+    },
+  },
+  {
+    continent: 'None',
+    iso: 'XXX',
+    decimals: null,
+    i18n: {
+      en: 'No currency',
+      nb: 'Ingen valuta',
+    },
+  },
+  ...preciousMetals,
+] as const
+
+const fundsCurrencies = [
+  {
+    continent: 'South America',
+    iso: 'BOV',
+    decimals: 2,
+    i18n: {
+      en: 'Bolivian Mvdol (funds code)',
+      nb: 'Boliviansk mvdol (fondkode)',
+    },
+  },
+  {
+    continent: 'South America',
+    iso: 'CLF',
+    decimals: 0,
+    i18n: {
+      en: 'Unidad de Fomento (funds code)',
+      nb: 'Unidad de Fomento (fondkode)',
+    },
+  },
+  {
+    continent: 'North America',
+    iso: 'MXV',
+    decimals: 2,
+    i18n: {
+      en: 'Mexican Unidad de Inversion (UDI) (funds code)',
+      nb: 'Meksikansk Unidad de Inversion (fondkode)',
+    },
+  },
+  {
+    continent: 'North America',
+    iso: 'USN',
+    decimals: 2,
+    i18n: {
+      en: 'United States dollar (next day) (funds code)',
+      nb: 'Amerikansk dollar (neste dag) (fondkode)',
+    },
+  },
+  {
+    continent: 'North America',
+    iso: 'USS',
+    decimals: 2,
+    i18n: {
+      en: 'United States dollar (same day) (funds code)',
+      nb: 'Amerikansk dollar (samme dag) (fondkode)',
+    },
+  },
+  {
+    continent: 'South America',
+    iso: 'UYI',
+    decimals: 0,
+    i18n: {
+      en: 'Uruguay Peso en Unidades Indexadas (URUIURUI) (funds code)',
+      nb: 'Uruguay Peso en Unidades Indexadas (URUIURUI) (fondkode)',
+    },
+  },
+] as const
+
+const nationalCurrencies = [
   {
     continent: 'Asia',
     iso: 'AED',
@@ -199,15 +409,6 @@ const currencies = [
   },
   {
     continent: 'South America',
-    iso: 'BOV',
-    decimals: 2,
-    i18n: {
-      en: 'Bolivian Mvdol (funds code)',
-      nb: 'Boliviansk mvdol (fondkode)',
-    },
-  },
-  {
-    continent: 'South America',
     iso: 'BRL',
     decimals: 2,
     i18n: {
@@ -303,15 +504,6 @@ const currencies = [
     i18n: {
       en: 'WIR Franc (complementary currency)',
       nb: 'WIR-franc (komplementærvaluta)',
-    },
-  },
-  {
-    continent: 'South America',
-    iso: 'CLF',
-    decimals: 0,
-    i18n: {
-      en: 'Unidad de Fomento (funds code)',
-      nb: 'Unidad de Fomento (fondkode)',
     },
   },
   {
@@ -939,15 +1131,6 @@ const currencies = [
     },
   },
   {
-    continent: 'North America',
-    iso: 'MXV',
-    decimals: 2,
-    i18n: {
-      en: 'Mexican Unidad de Inversion (UDI) (funds code)',
-      nb: 'Meksikansk Unidad de Inversion (fondkode)',
-    },
-  },
-  {
     continent: 'Asia',
     iso: 'MYR',
     decimals: 2,
@@ -1373,33 +1556,6 @@ const currencies = [
     },
   },
   {
-    continent: 'North America',
-    iso: 'USN',
-    decimals: 2,
-    i18n: {
-      en: 'United States dollar (next day) (funds code)',
-      nb: 'Amerikansk dollar (neste dag) (fondkode)',
-    },
-  },
-  {
-    continent: 'North America',
-    iso: 'USS',
-    decimals: 2,
-    i18n: {
-      en: 'United States dollar (same day) (funds code)',
-      nb: 'Amerikansk dollar (samme dag) (fondkode)',
-    },
-  },
-  {
-    continent: 'South America',
-    iso: 'UYI',
-    decimals: 0,
-    i18n: {
-      en: 'Uruguay Peso en Unidades Indexadas (URUIURUI) (funds code)',
-      nb: 'Uruguay Peso en Unidades Indexadas (URUIURUI) (fondkode)',
-    },
-  },
-  {
     continent: 'South America',
     iso: 'UYU',
     decimals: 2,
@@ -1454,150 +1610,6 @@ const currencies = [
     },
   },
   {
-    continent: 'Africa',
-    iso: 'XAF',
-    decimals: 0,
-    i18n: {
-      en: 'CFA franc BEAC',
-      nb: 'Sentralafrikansk CFA-franc',
-    },
-  },
-  {
-    continent: 'None',
-    iso: 'XAG',
-    decimals: null,
-    i18n: {
-      en: 'Silver (one troy ounce)',
-      nb: 'Sølv (31,1034768 gram)',
-    },
-  },
-  {
-    continent: 'None',
-    iso: 'XAU',
-    decimals: null,
-    i18n: {
-      en: 'Gold (one troy ounce)',
-      nb: 'Gull (31,1034768 gram)',
-    },
-  },
-  {
-    continent: 'Europe',
-    iso: 'XBA',
-    decimals: null,
-    i18n: {
-      en: 'European Composite Unit (EURCO) (bond market unit)',
-      nb: 'Europeisk regnskapsenhet (EURCO) (kredittmarkedsenhet)',
-    },
-  },
-  {
-    continent: 'Europe',
-    iso: 'XBB',
-    decimals: null,
-    i18n: {
-      en: 'European Monetary Unit (E.M.U.-6) (bond market unit)',
-      nb: 'Europeisk regnskapsenhet (E.M.U.-6) (kredittmarkedsenhet)',
-    },
-  },
-  {
-    continent: 'Europe',
-    iso: 'XBC',
-    decimals: null,
-    i18n: {
-      en: 'European Unit of Account 9 (E.U.A.-9) (bond market unit)',
-      nb: 'Europeisk regnskapsenhet (E.U.A.-9) (kredittmarkedsenhet)',
-    },
-  },
-  {
-    continent: 'Europe',
-    iso: 'XBD',
-    decimals: null,
-    i18n: {
-      en: 'European Unit of Account 17 (E.U.A.-17) (bond market unit)',
-      nb: 'Europeisk regnskapsenhet (E.U.A.-17) (kredittmarkedsenhet)',
-    },
-  },
-  {
-    continent: 'North America',
-    iso: 'XCD',
-    decimals: 2,
-    i18n: {
-      en: 'East Caribbean dollar',
-      nb: 'Østkaribisk dollar',
-    },
-  },
-  {
-    continent: 'None',
-    iso: 'XDR',
-    decimals: null,
-    i18n: {
-      en: 'Special drawing rights',
-      nb: 'Spesielle trekkrettigheter',
-    },
-  },
-  {
-    continent: 'None',
-    iso: 'XFU',
-    decimals: null,
-    i18n: {
-      en: 'UIC franc (special settlement currency)',
-      nb: 'UIC-franc',
-    },
-  },
-  {
-    continent: 'Africa',
-    iso: 'XOF',
-    decimals: 0,
-    i18n: {
-      en: 'CFA franc BCEAO',
-      nb: 'Vestafrikansk CFA-franc',
-    },
-  },
-  {
-    continent: 'None',
-    iso: 'XPD',
-    decimals: null,
-    i18n: {
-      en: 'Palladium (one troy ounce)',
-      nb: 'Palladium (31,1034768 gram)',
-    },
-  },
-  {
-    continent: 'Oceania',
-    iso: 'XPF',
-    decimals: 0,
-    i18n: {
-      en: 'CFP franc',
-      nb: 'CFP-franc',
-    },
-  },
-  {
-    continent: 'None',
-    iso: 'XPT',
-    decimals: null,
-    i18n: {
-      en: 'Platinum (one troy ounce)',
-      nb: 'Platinum (31,1034768 gram)',
-    },
-  },
-  {
-    continent: 'None',
-    iso: 'XTS',
-    decimals: null,
-    i18n: {
-      en: 'Code reserved for testing purposes',
-      nb: 'Kode reservert for testing',
-    },
-  },
-  {
-    continent: 'None',
-    iso: 'XXX',
-    decimals: null,
-    i18n: {
-      en: 'No currency',
-      nb: 'Ingen valuta',
-    },
-  },
-  {
     continent: 'Asia',
     iso: 'YER',
     decimals: 2,
@@ -1625,5 +1637,11 @@ const currencies = [
     },
   },
 ] as const
+
+const currencies = [
+  ...nationalCurrencies,
+  ...fundsCurrencies,
+  ...xCurrencies,
+]
 
 export default currencies satisfies Readonly<Array<CurrencyType>>
