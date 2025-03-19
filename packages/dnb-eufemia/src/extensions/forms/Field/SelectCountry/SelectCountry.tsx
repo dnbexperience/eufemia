@@ -278,7 +278,6 @@ type GetCountryData = {
     lang: string
   ) => {
     selectedKey: string
-    selected_value?: string
     content: string
   }
 }
