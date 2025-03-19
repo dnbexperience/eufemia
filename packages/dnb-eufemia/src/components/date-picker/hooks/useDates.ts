@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { convertStringToDate, isDisabled } from '../DatePickerCalc'
 import isValid from 'date-fns/isValid'
 import format from 'date-fns/format'
-import { addMonths, isSameDay, min } from 'date-fns'
+import { addMonths, isSameDay } from 'date-fns'
 import { DateType } from '../DatePickerContext'
 import { InvalidDates } from './useInvalidDates'
 
