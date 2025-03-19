@@ -9,6 +9,7 @@
 
 export type RegionType = Array<'Scandinavia' | 'Nordic'>
 export type CountryISO = (typeof countries)[number]['iso']
+export type CountryCdc = (typeof countries)[number]['cdc']
 
 export type CountryType = {
   cdc: string
