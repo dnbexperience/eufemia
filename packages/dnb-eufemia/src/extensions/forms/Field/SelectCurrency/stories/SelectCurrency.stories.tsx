@@ -1,14 +1,14 @@
 import React from 'react'
 import { Field, Form, Tools, Value } from '../../..'
 import { Flex } from '../../../../../components'
-import { CurrencyType } from '../../../constants/currencies'
+import { CurrencyISO, CurrencyType } from '../../../constants/currencies'
 
 export default {
   title: 'Eufemia/Extensions/Forms/SelectCurrency',
 }
 
 export function SelectCurrency() {
-  const [state, update] = React.useState('NOK')
+  const [state, update] = React.useState<CurrencyISO>('NOK')
   React.useEffect(() => {
     update('CHF')
   }, [])
@@ -16,7 +16,7 @@ export function SelectCurrency() {
     <Field.SelectCurrency
       required
       value={state}
-      onChange={(value, data) => {
+      onChange={(value: CurrencyISO, data) => {
         console.log('onChange', value, data)
         update(value)
       }}

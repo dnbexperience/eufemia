@@ -9,6 +9,7 @@ import currencies, {
   prioritizedCurrencies,
   type CurrencyType,
   type CurrencyLang,
+  type CurrencyISO,
 } from '../../constants/currencies'
 import { useFieldProps } from '../../hooks'
 import { FieldPropsWithExtraValue } from '../../types'
@@ -56,6 +57,11 @@ export type Props = FieldPropsWithExtraValue<
    * The size of the component.
    */
   size?: AutocompleteAllProps['size']
+
+  /**
+   * The value of the component.
+   */
+  value?: CurrencyISO
 }
 
 function SelectCurrency(props: Props) {
