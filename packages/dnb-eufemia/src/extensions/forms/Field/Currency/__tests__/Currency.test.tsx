@@ -184,6 +184,15 @@ describe('Field.Currency', () => {
     })
   })
 
+  it('should render autoComplete when provided', () => {
+    render(
+      <Field.Currency value={123} autoComplete="transaction-amount" />
+    )
+    expect(
+      document.querySelector('input').getAttribute('autocomplete')
+    ).toBe('transaction-amount')
+  })
+
   describe('ARIA', () => {
     it('should validate with ARIA rules', async () => {
       const result = render(
