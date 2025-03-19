@@ -998,7 +998,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           'onChangeValidator',
           result
         )
-        // persistErrorState('gracefully', 'onChangeValidator', result)
 
         if (
           (validateInitially && !changedRef.current) ||
