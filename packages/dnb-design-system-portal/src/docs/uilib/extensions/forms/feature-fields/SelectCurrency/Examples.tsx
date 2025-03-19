@@ -154,7 +154,6 @@ export function WithFieldCurrency() {
             <Field.SelectCurrency
               label="Select a currency"
               path="/currency"
-              width="medium"
               value="EUR"
               autoComplete="transaction-currency"
             />

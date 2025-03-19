@@ -10,7 +10,7 @@ describe('Value.SelectCurrency', () => {
       document.querySelector(
         '.dnb-forms-value-select-currency .dnb-forms-value-block__content'
       )
-    ).toHaveTextContent('Norsk krone')
+    ).toHaveTextContent('Norsk krone (NOK)')
   })
 
   it('renders label when showEmpty is true', () => {
@@ -26,7 +26,7 @@ describe('Value.SelectCurrency', () => {
       document.querySelector(
         '.dnb-forms-value-select-currency .dnb-forms-value-block__content'
       )
-    ).toHaveTextContent('Norsk krone')
+    ).toHaveTextContent('Norsk krone (NOK)')
 
     expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
       'My selections'
@@ -56,7 +56,7 @@ describe('Value.SelectCurrency', () => {
       document.querySelector(
         '.dnb-forms-value-select-currency .dnb-forms-value-block__content'
       )
-    ).toHaveTextContent('Sveitsisk franc')
+    ).toHaveTextContent('Sveitsisk franc (CHF)')
   })
 
   it('formats value in different locale', () => {
@@ -70,6 +70,6 @@ describe('Value.SelectCurrency', () => {
       document.querySelector(
         '.dnb-forms-value-select-currency .dnb-forms-value-block__content'
       )
-    ).toHaveTextContent('Swiss franc')
+    ).toHaveTextContent('Swiss franc (CHF)')
   })
 })

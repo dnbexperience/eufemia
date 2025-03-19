@@ -54,7 +54,9 @@ describe('Field.SelectCurrency', () => {
     expect(inputElement).toHaveValue('')
 
     fireEvent.focus(inputElement)
-    fireEvent.change(inputElement, { target: { value: 'Norsk krone' } })
+    fireEvent.change(inputElement, {
+      target: { value: 'Norsk krone (NOK)' },
+    })
     fireEvent.click(firstItemElement())
 
     const firstEventValues = [
@@ -72,7 +74,7 @@ describe('Field.SelectCurrency', () => {
       },
     ]
     expect(onChange).toHaveBeenLastCalledWith(...firstEventValues)
-    expect(inputElement).toHaveValue('Norsk krone')
+    expect(inputElement).toHaveValue('Norsk krone (NOK)')
 
     fireEvent.blur(inputElement)
     fireEvent.focus(inputElement)
@@ -94,7 +96,7 @@ describe('Field.SelectCurrency', () => {
       },
       regions: ['Scandinavia', 'Nordic'],
     })
-    expect(inputElement).toHaveValue('Dansk krone')
+    expect(inputElement).toHaveValue('Dansk krone (DKK)')
   })
 
   it('should select matching currency on type change to support autofill', async () => {
@@ -118,9 +120,9 @@ describe('Field.SelectCurrency', () => {
       nativeEvent: undefined,
     })
 
-    expect(inputElement).toHaveValue('Svensk krone')
+    expect(inputElement).toHaveValue('Svensk krone (SEK)')
     expect(liElements()).toHaveLength(2)
-    expect(selectedItemElement().textContent).toBe('Svensk krone')
+    expect(selectedItemElement().textContent).toBe('Svensk kroneSEK')
     expect(onChange).toHaveBeenCalledTimes(1)
     expect(onChange).toHaveBeenLastCalledWith('SEK', {
       continent: 'Europe',
@@ -153,10 +155,10 @@ describe('Field.SelectCurrency', () => {
 
     const liElements = document.querySelectorAll('li:not([aria-hidden])')
     expect(liElements).toHaveLength(4)
-    expect(liElements[0].textContent).toBe('Norsk krone')
-    expect(liElements[1].textContent).toBe('Svensk krone')
-    expect(liElements[2].textContent).toBe('Dansk krone')
-    expect(liElements[3].textContent).toBe('Euro')
+    expect(liElements[0].textContent).toBe('Norsk kroneNOK')
+    expect(liElements[1].textContent).toBe('Svensk kroneSEK')
+    expect(liElements[2].textContent).toBe('Dansk kroneDKK')
+    expect(liElements[3].textContent).toBe('EuroEUR')
 
     expect(
       document.querySelector('li.dnb-drawer-list__option--selected')
@@ -175,12 +177,12 @@ describe('Field.SelectCurrency', () => {
 
     const liElements = document.querySelectorAll('li:not([aria-hidden])')
     expect(liElements.length).toBeGreaterThan(176)
-    expect(liElements[0].textContent).toBe('Norsk krone')
-    expect(liElements[1].textContent).toBe('Svensk krone')
-    expect(liElements[2].textContent).toBe('Dansk krone')
-    expect(liElements[3].textContent).toBe('Euro')
-    expect(liElements[4].textContent).toBe('Amerikansk dollar')
-    expect(liElements[5].textContent).toBe('Afghansk afghani')
+    expect(liElements[0].textContent).toBe('Norsk kroneNOK')
+    expect(liElements[1].textContent).toBe('Svensk kroneSEK')
+    expect(liElements[2].textContent).toBe('Dansk kroneDKK')
+    expect(liElements[3].textContent).toBe('EuroEUR')
+    expect(liElements[4].textContent).toBe('Amerikansk dollarUSD')
+    expect(liElements[5].textContent).toBe('Afghansk afghaniAFN')
   })
 
   it('should sort "XCD" as last when locale nb-NO', () => {
@@ -200,7 +202,7 @@ describe('Field.SelectCurrency', () => {
     {
       const liElements = document.querySelectorAll('li:not([aria-hidden])')
       expect(liElements[liElements.length - 1].textContent).toBe(
-        'Østkaribisk dollar'
+        'Østkaribisk dollarXCD'
       )
     }
   })
@@ -222,7 +224,7 @@ describe('Field.SelectCurrency', () => {
     {
       const liElements = document.querySelectorAll('li:not([aria-hidden])')
       expect(liElements[liElements.length - 1].textContent).toBe(
-        'Zambian kwacha'
+        'Zambian kwachaZMW'
       )
     }
   })
@@ -239,10 +241,10 @@ describe('Field.SelectCurrency', () => {
 
     const liElements = document.querySelectorAll('li:not([aria-hidden])')
     expect(liElements).toHaveLength(4)
-    expect(liElements[0].textContent).toBe('Dansk krone')
-    expect(liElements[1].textContent).toBe('Euro')
-    expect(liElements[2].textContent).toBe('Norsk krone')
-    expect(liElements[3].textContent).toBe('Svensk krone')
+    expect(liElements[0].textContent).toBe('Dansk kroneDKK')
+    expect(liElements[1].textContent).toBe('EuroEUR')
+    expect(liElements[2].textContent).toBe('Norsk kroneNOK')
+    expect(liElements[3].textContent).toBe('Svensk kroneSEK')
   })
 
   it('should show only Scandinavian currencies and filterCurrencies at the same time', () => {
@@ -262,9 +264,9 @@ describe('Field.SelectCurrency', () => {
 
     const liElements = document.querySelectorAll('li:not([aria-hidden])')
     expect(liElements).toHaveLength(3)
-    expect(liElements[0].textContent).toBe('Euro')
-    expect(liElements[1].textContent).toBe('Norsk krone')
-    expect(liElements[2].textContent).toBe('Svensk krone')
+    expect(liElements[0].textContent).toBe('EuroEUR')
+    expect(liElements[1].textContent).toBe('Norsk kroneNOK')
+    expect(liElements[2].textContent).toBe('Svensk kroneSEK')
   })
 
   it('should sort prioritized currencies on top', () => {
@@ -279,12 +281,12 @@ describe('Field.SelectCurrency', () => {
 
     const liElements = document.querySelectorAll('li:not([aria-hidden])')
     expect(liElements.length).toBeGreaterThan(176)
-    expect(liElements[0].textContent).toBe('Norsk krone')
-    expect(liElements[1].textContent).toBe('Svensk krone')
-    expect(liElements[2].textContent).toBe('Dansk krone')
-    expect(liElements[3].textContent).toBe('Euro')
-    expect(liElements[4].textContent).toBe('Amerikansk dollar')
-    expect(liElements[5].textContent).toBe('Afghansk afghani')
+    expect(liElements[0].textContent).toBe('Norsk kroneNOK')
+    expect(liElements[1].textContent).toBe('Svensk kroneSEK')
+    expect(liElements[2].textContent).toBe('Dansk kroneDKK')
+    expect(liElements[3].textContent).toBe('EuroEUR')
+    expect(liElements[4].textContent).toBe('Amerikansk dollarUSD')
+    expect(liElements[5].textContent).toBe('Afghansk afghaniAFN')
   })
 
   it('should validate when required', () => {
@@ -319,7 +321,7 @@ describe('Field.SelectCurrency', () => {
       '.dnb-forms-field-select-currency input'
     )
 
-    expect(inputElement.value).toBe('Norsk krone')
+    expect(inputElement.value).toBe('Norsk krone (NOK)')
   })
 
   it('should use value from itemPath inside iterate', () => {
@@ -337,8 +339,8 @@ describe('Field.SelectCurrency', () => {
       document.querySelectorAll('.dnb-forms-field-select-currency')
     )
 
-    expect(norway.querySelector('input')).toHaveValue('Norsk krone')
-    expect(denmark.querySelector('input')).toHaveValue('Dansk krone')
+    expect(norway.querySelector('input')).toHaveValue('Norsk krone (NOK)')
+    expect(denmark.querySelector('input')).toHaveValue('Dansk krone (DKK)')
   })
 
   it('should execute validateInitially if required', () => {
@@ -373,8 +375,8 @@ describe('Field.SelectCurrency', () => {
         '.dnb-drawer-list__option.dnb-drawer-list__option--selected'
       )
 
-    expect(inputElement.value).toBe('Norsk krone')
-    expect(selectedItemElement().textContent).toBe('Norsk krone')
+    expect(inputElement.value).toBe('Norsk krone (NOK)')
+    expect(selectedItemElement().textContent).toBe('Norsk kroneNOK')
 
     rerender(
       <Provider locale="en-GB">
@@ -385,8 +387,8 @@ describe('Field.SelectCurrency', () => {
     fireEvent.mouseDown(inputElement)
 
     await waitFor(() => {
-      expect(inputElement.value).toBe('Norwegian krone')
-      expect(selectedItemElement().textContent).toBe('Norwegian krone')
+      expect(inputElement.value).toBe('Norwegian krone (NOK)')
+      expect(selectedItemElement().textContent).toBe('Norwegian kroneNOK')
     })
 
     rerender(
@@ -397,8 +399,8 @@ describe('Field.SelectCurrency', () => {
 
     fireEvent.mouseDown(inputElement)
 
-    expect(inputElement.value).toBe('Dansk krone')
-    expect(selectedItemElement().textContent).toBe('Dansk krone')
+    expect(inputElement.value).toBe('Dansk krone (DKK)')
+    expect(selectedItemElement().textContent).toBe('Dansk kroneDKK')
   })
 
   it('renders error', () => {
@@ -500,17 +502,17 @@ describe('Field.SelectCurrency', () => {
     expect(transformIn).toHaveBeenCalledTimes(4)
     expect(valueTransformIn).toHaveBeenCalledTimes(3)
 
-    expect(input).toHaveValue('Norsk krone')
-    expect(value).toHaveTextContent('Norsk krone')
+    expect(input).toHaveValue('Norsk krone (NOK)')
+    expect(value).toHaveTextContent('Norsk krone (NOK)')
 
-    await userEvent.type(input, '{Backspace>11}Sveitsisk franc')
+    await userEvent.type(input, '{Backspace>19}Sveitsisk franc')
     await waitFor(() => {
       expect(firstItemElement()).toBeInTheDocument()
     })
     await userEvent.click(firstItemElement())
 
-    expect(input).toHaveValue('Sveitsisk franc')
-    expect(value).toHaveTextContent('Sveitsisk franc')
+    expect(input).toHaveValue('Sveitsisk franc (CHF)')
+    expect(value).toHaveTextContent('Sveitsisk franc (CHF)')
 
     expect(transformOut).toHaveBeenCalledTimes(4)
     expect(transformIn).toHaveBeenCalledTimes(6)
@@ -637,17 +639,17 @@ describe('Field.SelectCurrency', () => {
     expect(transformIn).toHaveBeenCalledTimes(2)
     expect(valueTransformIn).toHaveBeenCalledTimes(2)
 
-    expect(input).toHaveValue('Norsk krone')
-    expect(value).toHaveTextContent('Norsk krone')
+    expect(input).toHaveValue('Norsk krone (NOK)')
+    expect(value).toHaveTextContent('Norsk krone (NOK)')
 
-    await userEvent.type(input, '{Backspace>11}Sveitsisk franc')
+    await userEvent.type(input, '{Backspace>19}Sveitsisk franc')
     await waitFor(() => {
       expect(firstItemElement()).toBeInTheDocument()
     })
     await userEvent.click(firstItemElement())
 
-    expect(input).toHaveValue('Sveitsisk franc')
-    expect(value).toHaveTextContent('Sveitsisk franc')
+    expect(input).toHaveValue('Sveitsisk franc (CHF)')
+    expect(value).toHaveTextContent('Sveitsisk franc (CHF)')
 
     expect(transformOut).toHaveBeenCalledTimes(3)
     expect(transformIn).toHaveBeenCalledTimes(4)

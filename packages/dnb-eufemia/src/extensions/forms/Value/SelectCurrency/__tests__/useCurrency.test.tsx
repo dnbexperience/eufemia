@@ -11,7 +11,11 @@ jest.mock('../../../Field/SelectCurrency', () => ({
 describe('useCurrency', () => {
   const mockLocale = 'en-US'
   const mockCurrencyData = [
-    { iso: 'USD', content: 'United States dollar' },
+    {
+      iso: 'USD',
+      content: ['United States dollar', 'USD'],
+      selected_value: 'United States dollar (USD)',
+    },
   ]
 
   beforeEach(() => {
@@ -29,7 +33,7 @@ describe('useCurrency', () => {
     const { result } = renderHook(() => useCurrency(), { wrapper })
     const { getCurrencyNameByIso } = result.current
 
-    expect(getCurrencyNameByIso('USD')).toBe('United States dollar')
+    expect(getCurrencyNameByIso('USD')).toBe('United States dollar (USD)')
     expect(getCurrencyData).toHaveBeenCalledWith({
       lang: 'en',
       filter: expect.any(Function),
