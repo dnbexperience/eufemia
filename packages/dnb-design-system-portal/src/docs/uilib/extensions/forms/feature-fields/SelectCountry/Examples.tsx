@@ -143,3 +143,9 @@ export function TransformInAndOut() {
     </ComponentBox>
   )
 }
+
+export const Opened = () => (
+  <ComponentBox data-visual-test="select-country-opened">
+    <Field.SelectCountry value="NO" htmlAttributes={{ opened: true }} />
+  </ComponentBox>
+)
