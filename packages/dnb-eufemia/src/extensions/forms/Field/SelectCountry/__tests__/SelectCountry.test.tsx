@@ -686,6 +686,20 @@ describe('Field.SelectCountry', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('should have default autoComplete', () => {
+    render(<Field.SelectCountry />)
+    expect(
+      document.querySelector('input').getAttribute('autocomplete')
+    ).toBe('country-name')
+  })
+
+  it('should render autoComplete when provided', () => {
+    render(<Field.SelectCountry autoComplete="country" />)
+    expect(
+      document.querySelector('input').getAttribute('autocomplete')
+    ).toBe('country')
+  })
+
   describe('ARIA', () => {
     it('should validate with ARIA rules', async () => {
       const result = render(
