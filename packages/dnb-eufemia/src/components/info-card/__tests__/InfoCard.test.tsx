@@ -299,10 +299,26 @@ describe('InfoCard', () => {
   it('renders the drop shadow if dropShadow is true', () => {
     const shadowClassName = 'dnb-info-card--shadow'
 
-    render(<InfoCard dropShadow text="drop-shadow" />)
+    render(<InfoCard dropShadow text="content" />)
 
     expect(document.querySelector('.dnb-info-card').className).toMatch(
       shadowClassName
+    )
+  })
+
+  it('should render --centered modifier class', () => {
+    render(<InfoCard centered text="content" />)
+
+    expect(document.querySelector('.dnb-info-card')).toHaveClass(
+      'dnb-info-card--centered'
+    )
+  })
+
+  it('should render --stretch modifier class', () => {
+    render(<InfoCard stretch text="content" />)
+
+    expect(document.querySelector('.dnb-info-card')).toHaveClass(
+      'dnb-info-card--stretch'
     )
   })
 
