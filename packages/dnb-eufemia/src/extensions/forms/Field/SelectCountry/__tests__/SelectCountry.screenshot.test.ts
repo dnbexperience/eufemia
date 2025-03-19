@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../../../core/jest/jestSetupScreenshots'
 
-describe('Field.String', () => {
+describe('Field.SelectCountry', () => {
   setupPageScreenshot({
     url: '/uilib/extensions/forms/feature-fields/SelectCountry/demos/',
   })
