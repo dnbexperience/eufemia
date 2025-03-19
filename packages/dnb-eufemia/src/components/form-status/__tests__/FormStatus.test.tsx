@@ -153,7 +153,7 @@ describe('FormStatus component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('has to to have a text value as defined in the prop', () => {
+  it('has to have a text value as defined in the prop', () => {
     render(<FormStatus {...props} />)
 
     expect(
