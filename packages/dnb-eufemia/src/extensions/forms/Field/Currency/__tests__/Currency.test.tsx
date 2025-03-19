@@ -228,6 +228,27 @@ describe('Field.Currency', () => {
     )
   })
 
+  it('should handle unsupported currency', () => {
+    const log = jest.spyOn(console, 'log').mockImplementation()
+
+    render(
+      <Field.Currency
+        value={123}
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        currency="invalid"
+      />
+    )
+
+    expect(document.querySelector('input')).toHaveValue('123 invalid')
+    expect(log).toHaveBeenCalledWith(
+      expect.any(String),
+      new RangeError('Invalid currency code : invalid')
+    )
+
+    log.mockRestore()
+  })
+
   describe('ARIA', () => {
     it('should validate with ARIA rules', async () => {
       const result = render(

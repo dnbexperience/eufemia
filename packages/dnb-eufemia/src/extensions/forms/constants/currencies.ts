@@ -21,10 +21,11 @@ export type CurrencyType = {
 }
 
 export type CurrencyLang = keyof CurrencyType['i18n']
+export type CurrencyISO = (typeof currencies)[number]['iso']
 
 export const prioritizedCurrencies = ['NOK', 'SEK', 'DKK', 'EUR', 'USD']
 
-const currencies: Array<CurrencyType> = [
+const currencies = [
   {
     continent: 'Asia',
     iso: 'AED',
@@ -402,7 +403,7 @@ const currencies: Array<CurrencyType> = [
       en: 'Danish krone',
       nb: 'Dansk krone',
     },
-    regions: ['Scandinavia', 'Nordic'],
+    regions: ['Scandinavia', 'Nordic'] as RegionType,
   },
   {
     continent: 'North America',
@@ -457,7 +458,7 @@ const currencies: Array<CurrencyType> = [
       en: 'Euro',
       nb: 'Euro',
     },
-    regions: ['Scandinavia', 'Nordic'],
+    regions: ['Scandinavia', 'Nordic'] as RegionType,
   },
   {
     continent: 'Oceania',
@@ -647,7 +648,7 @@ const currencies: Array<CurrencyType> = [
       en: 'Icelandic króna',
       nb: 'Islandsk krone',
     },
-    regions: ['Nordic'],
+    regions: ['Nordic'] as RegionType,
   },
   {
     continent: 'North America',
@@ -999,7 +1000,7 @@ const currencies: Array<CurrencyType> = [
       en: 'Norwegian krone',
       nb: 'Norsk krone',
     },
-    regions: ['Scandinavia', 'Nordic'],
+    regions: ['Scandinavia', 'Nordic'] as RegionType,
   },
   {
     continent: 'Asia',
@@ -1180,7 +1181,7 @@ const currencies: Array<CurrencyType> = [
       en: 'Swedish krona',
       nb: 'Svensk krone',
     },
-    regions: ['Scandinavia', 'Nordic'],
+    regions: ['Scandinavia', 'Nordic'] as RegionType,
   },
   {
     continent: 'Asia',
@@ -1623,6 +1624,6 @@ const currencies: Array<CurrencyType> = [
       nb: 'Zambisk kwacha',
     },
   },
-]
+] as const
 
-export default currencies
+export default currencies satisfies Readonly<Array<CurrencyType>>
