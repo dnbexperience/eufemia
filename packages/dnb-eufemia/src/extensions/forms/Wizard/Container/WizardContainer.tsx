@@ -143,7 +143,8 @@ function WizardContainer(props: Props) {
   const activeIndexRef = useRef<StepIndex>(initialActiveIndex)
   const totalStepsRef = useRef<number>(NaN)
   const stepStatusRef = useRef<InternalStepStatuses>({})
-  const fieldErrorRef = useRef<InternalFieldError>({})
+  const hasVisibleErrorRef = useRef<InternalFieldError>({})
+  const hasErrorInOtherStepRef = useRef<boolean>(false)
   const visitedStepsRef = useRef<InternalVisitedSteps>({})
   const elementRef = useRef<HTMLElement>()
   const stepElementRef = useRef<HTMLElement>()
@@ -177,7 +178,7 @@ function WizardContainer(props: Props) {
     []
   )
   const hasFieldErrorInStep = useCallback((index: StepIndex) => {
-    return Object.values(fieldErrorRef.current).some(
+    return Object.values(hasVisibleErrorRef.current).some(
       ({ index: i, hasError }) => {
         return i === index && hasError
       }
@@ -185,7 +186,7 @@ function WizardContainer(props: Props) {
   }, [])
   const revealError: WizardContextState['revealError'] = useCallback(
     (index, path, hasError) => {
-      fieldErrorRef.current[path] = { index, hasError }
+      hasVisibleErrorRef.current[path] = { index, hasError }
 
       if (hasFieldErrorInStep(index)) {
         setStepState(index, 'error')
@@ -454,6 +455,7 @@ function WizardContainer(props: Props) {
       stepStatusRef,
       prerenderFieldProps,
       prerenderFieldPropsRef,
+      hasErrorInOtherStepRef,
       keepInDOM,
       check,
       setActiveIndex,

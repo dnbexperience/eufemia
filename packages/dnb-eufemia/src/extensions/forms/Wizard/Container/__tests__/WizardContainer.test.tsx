@@ -3015,7 +3015,7 @@ describe('Wizard.Container', () => {
           )
         ).toHaveLength(0)
 
-        // To to Step 2
+        // Go to Step 2
         await userEvent.click(secondStep.querySelector('.dnb-button'))
 
         expect(output()).toHaveTextContent('Step 2')
@@ -3195,7 +3195,7 @@ describe('Wizard.Container', () => {
           )
         ).toHaveLength(0)
 
-        // To to Step 2
+        // Go to Step 2
         await userEvent.click(secondStep.querySelector('.dnb-button'))
 
         expect(output()).toHaveTextContent('Step 2')
@@ -3264,9 +3264,11 @@ describe('Wizard.Container', () => {
       fireEvent.submit(document.querySelector('form'))
 
       expect(output()).toHaveTextContent('Step 1')
-      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Step.stepHasError
-      )
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toHaveTextContent(nb.Step.stepHasError)
+
       expect(
         document.querySelectorAll(
           '.dnb-step-indicator__button__status--warn'
@@ -3277,6 +3279,21 @@ describe('Wizard.Container', () => {
           '.dnb-step-indicator__button__status--error'
         )
       ).toHaveLength(0)
+
+      // Open the drawer
+      await userEvent.click(
+        document.querySelector('.dnb-step-indicator__trigger__button')
+      )
+
+      // Go to Step 2
+      const [, secondStep] = Array.from(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      )
+      await userEvent.click(secondStep.querySelector('.dnb-button'))
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Step.stepHasError
+      )
     })
 
     it('should show a warning beneath the trigger button when the step status is unknown and the screen width is small', async () => {

@@ -17,6 +17,7 @@ export function DisplaySteps({
     activeIndexRef,
     stepsRef,
     updateTitlesRef,
+    hasErrorInOtherStepRef,
     hasInvalidStepsState,
   } = useContext(WizardContext) || {}
   updateTitlesRef.current = () => {
@@ -28,6 +29,9 @@ export function DisplaySteps({
     variant === 'drawer' && !sidebarId ? undefined : sidebarId ?? id
 
   const getTriggerStatus = useCallback(() => {
+    if (!hasErrorInOtherStepRef.current) {
+      return // stop here
+    }
     if (hasInvalidStepsState(['error'])) {
       return {
         status: translations.Step.stepHasError,
