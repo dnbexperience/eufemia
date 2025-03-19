@@ -121,6 +121,8 @@ function SelectCountry(props: Props) {
     size,
     value,
     width,
+    noAnimation,
+    autoComplete,
     htmlAttributes,
     handleFocus,
     handleBlur,
@@ -261,8 +263,8 @@ function SelectCountry(props: Props) {
         status={hasError ? 'error' : undefined}
         show_submit_button
         keep_selection
-        autoComplete="country-name"
-        no_animation={props.noAnimation}
+        autoComplete={autoComplete ?? 'country-name'}
+        no_animation={noAnimation}
         {...htmlAttributes}
       />
     </FieldBlock>
