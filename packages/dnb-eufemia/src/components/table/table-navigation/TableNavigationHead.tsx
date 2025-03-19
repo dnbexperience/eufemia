@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import Td from '../TableTd'
 import { TableContext } from '../TableContext'
 import {
@@ -23,6 +23,13 @@ export function TableNavigationHead(allProps: TableNavigationHeadProps) {
   const hasOnClick = typeof onClick === 'function'
 
   const tableContextAllProps = React.useContext(TableContext)?.allProps
+
+  const onClickHandler = useCallback(
+    (event: React.SyntheticEvent, allowInteractiveElement?: boolean) => {
+      onClickTr(event, allowInteractiveElement, onClick)
+    },
+    [onClick]
+  )
 
   if (hasOnClick) {
     content.push(
@@ -55,11 +62,4 @@ export function TableNavigationHead(allProps: TableNavigationHeadProps) {
       {content}
     </TableClickableHead>
   )
-
-  function onClickHandler(
-    event: React.SyntheticEvent,
-    allowInteractiveElement?: boolean
-  ) {
-    onClickTr(event, allowInteractiveElement, onClick)
-  }
 }

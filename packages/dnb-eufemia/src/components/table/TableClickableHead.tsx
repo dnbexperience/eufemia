@@ -1,6 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import keycode from '../../shared/keycode'
+import useId from '../../shared/helpers/useId'
 import { hasSelectedText } from '../../shared/helpers'
 import Button from '../button/Button'
 import IconPrimary from '../icon/IconPrimary'
@@ -37,9 +38,11 @@ export function TableClickableHead(allProps: TableClickableHeadProps) {
     onMouseLeave,
     onKeyDown,
     ariaLabel,
+    style,
     ...props
   } = allProps
 
+  const id = useId()
   const trParams =
     !disabled && clickable
       ? {
@@ -61,6 +64,10 @@ export function TableClickableHead(allProps: TableClickableHeadProps) {
         noAnimation && 'dnb-table__tr--no-animation',
         trIsHover && trHadClick && 'dnb-table__tr--hover'
       )}
+      style={{
+        ...style,
+        viewTransitionName: `row-${id}`,
+      }}
       {...trParams}
       {...props}
     >

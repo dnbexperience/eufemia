@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import Td from '../TableTd'
 import { TableContext } from '../TableContext'
 import {
@@ -25,6 +25,12 @@ export type TableAccordionHeadProps = {
   count: number
 } & TableTrProps &
   React.TableHTMLAttributes<HTMLTableRowElement>
+
+declare global {
+  interface Document {
+    startViewTransition?: (callback?: () => Promise<void> | void) => void
+  }
+}
 
 export function TableAccordionHead(allProps: TableAccordionHeadProps) {
   const {
@@ -56,13 +62,54 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
 
   let headerContent = React.Children.toArray(children)
 
-  const addContent = (content) => {
-    if (tableContext.allProps.accordionChevronPlacement === 'end') {
-      headerContent.push(content)
-    } else {
-      headerContent.unshift(content)
-    }
-  }
+  const addContent = useCallback(
+    (content) => {
+      if (tableContext.allProps.accordionChevronPlacement === 'end') {
+        headerContent.push(content)
+      } else {
+        headerContent.unshift(content)
+      }
+    },
+    [headerContent, tableContext.allProps.accordionChevronPlacement]
+  )
+
+  const onMouseLeaveHandler = useCallback(() => {
+    setHover(false)
+    setHadClick(false)
+  }, [])
+
+  const toggleOpenFn = useCallback(
+    (event: React.SyntheticEvent) => {
+      if (document?.startViewTransition) {
+        document.startViewTransition(() => {
+          setOpen(!trIsOpen)
+        })
+      } else {
+        setOpen(!trIsOpen)
+      }
+      setHadClick(true)
+      onClick?.(event)
+    },
+    [trIsOpen, onClick]
+  )
+
+  const toggleOpenTr = useCallback(
+    (event: React.SyntheticEvent, allowInteractiveElement?: boolean) => {
+      onClickTr(event, allowInteractiveElement, toggleOpenFn)
+    },
+    [toggleOpenFn]
+  )
+
+  const onMouseEnterHandler = useCallback(() => {
+    setHover(true)
+  }, [])
+
+  const onKeyDownHandler = useCallback(
+    (event: React.SyntheticEvent) => {
+      toggleOpenTr(event, true)
+    },
+    [toggleOpenTr]
+  )
 
   /**
    * Handle Accordion Content
@@ -156,32 +203,6 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
       {accordionContent}
     </TableAccordionContext.Provider>
   )
-
-  function onMouseEnterHandler() {
-    setHover(true)
-  }
-
-  function onKeyDownHandler(event: React.SyntheticEvent) {
-    toggleOpenTr(event, true)
-  }
-
-  function onMouseLeaveHandler() {
-    setHover(false)
-    setHadClick(false)
-  }
-
-  function toggleOpenFn(event: React.SyntheticEvent) {
-    setOpen(!trIsOpen)
-    setHadClick(true)
-    onClick?.(event)
-  }
-
-  function toggleOpenTr(
-    event: React.SyntheticEvent,
-    allowInteractiveElement?: boolean
-  ) {
-    onClickTr(event, allowInteractiveElement, toggleOpenFn)
-  }
 }
 
 const isAccordionElement = (element: React.ReactElement) =>
