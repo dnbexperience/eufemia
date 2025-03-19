@@ -15,15 +15,17 @@ The event handlers has two arguments. The first one is a `string` containing the
 
 ```jsx
 (
-  value?: string // e.g. "CHF"
+  value?: string, // e.g. "CHF"
   additionalArgs?: {
     i18n: {
       en: string, // e.g. "Swiss franc"
       nb: string // e.g. "Sveitsisk franc"
     },
     iso: string, // e.g. "CHF"
-    continent: string // e.g. "Europe"
-    decimals: number // e.g. 2
+    continent: string, // e.g. "Europe"
+    name: string, // e.g. "Swiss franc"
+    decimals: number, // e.g. 2
+    regions?: string[] // e.g ["Scandinavia", "Nordic"]
   }
 ) => void
 ```
