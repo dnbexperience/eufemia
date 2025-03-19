@@ -23,6 +23,7 @@ export interface WizardContextState {
   prerenderFieldPropsRef?: React.MutableRefObject<
     Record<string, () => React.ReactElement>
   >
+  hasErrorInOtherStepRef?: React.MutableRefObject<boolean>
   prerenderFieldProps?: boolean
   keepInDOM?: boolean
   handlePrevious?: () => void
