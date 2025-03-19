@@ -121,6 +121,8 @@ function SelectCurrency(props: Props) {
     size,
     value,
     width,
+    noAnimation,
+    autoComplete,
     htmlAttributes,
     handleFocus,
     handleBlur,
@@ -261,7 +263,8 @@ function SelectCurrency(props: Props) {
         status={hasError ? 'error' : undefined}
         show_submit_button
         keep_selection
-        no_animation={props.noAnimation}
+        autoComplete={autoComplete}
+        no_animation={noAnimation}
         {...htmlAttributes}
       />
     </FieldBlock>
