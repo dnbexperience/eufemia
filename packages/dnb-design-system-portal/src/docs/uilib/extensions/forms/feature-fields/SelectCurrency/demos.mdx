@@ -1,0 +1,48 @@
+---
+showTabs: true
+---
+
+import * as Examples from './Examples'
+
+## Demos
+
+### Option selected
+
+<Examples.OptionSelected />
+
+### With a horizontal layout
+
+<Examples.HorizontalLayout />
+
+### With help
+
+<Examples.WithHelp />
+
+### Disabled
+
+<Examples.Disabled />
+
+### Error
+
+<Examples.WithError />
+
+### Validation - Required
+
+<Examples.ValidationRequired />
+
+### TransformIn and TransformOut
+
+<Examples.TransformInAndOut />
+
+### Filter currencies
+
+This example demonstrates how to filter specific currencies. Use the `currencies` property to define a set of currencies and/or the `filterCurrencies` property to apply custom filtering logic.
+
+<Examples.FilterCurrencies />
+
+### With `Field.Currency`
+
+This example demonstrates how to use `Field.SelectCurrency` together with `Field.Currency`.
+It imitates a transaction, and therefore sets the HTML [autofill](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) attribute for both fields, `transaction-currency` in `Field.SelectCurrency` and `transaction-amount` in `Field.Currency`.
+
+<Examples.WithFieldCurrency />

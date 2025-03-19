@@ -193,6 +193,41 @@ describe('Field.Currency', () => {
     ).toBe('transaction-amount')
   })
 
+  it('should be able to use a path to set the currency value', async () => {
+    const { rerender } = render(
+      <Form.Handler data={{ currency: 'SEK' }}>
+        <Field.Currency currency="/currency" />
+      </Form.Handler>
+    )
+
+    expect(document.querySelector('input')).toHaveAttribute(
+      'aria-placeholder',
+      'kr'
+    )
+
+    rerender(
+      <Form.Handler data={{ currency: 'EUR' }}>
+        <Field.Currency currency="/currency" />
+      </Form.Handler>
+    )
+
+    expect(document.querySelector('input')).toHaveAttribute(
+      'aria-placeholder',
+      '€'
+    )
+
+    rerender(
+      <Form.Handler data={{ currency: 'CHF' }}>
+        <Field.Currency currency="/currency" />
+      </Form.Handler>
+    )
+
+    expect(document.querySelector('input')).toHaveAttribute(
+      'aria-placeholder',
+      'CHF'
+    )
+  })
+
   describe('ARIA', () => {
     it('should validate with ARIA rules', async () => {
       const result = render(

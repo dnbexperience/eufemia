@@ -1,0 +1,29 @@
+---
+showTabs: true
+---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { SelectCurrencyGeneralEvents } from '@dnb/eufemia/src/extensions/forms/Field/SelectCurrency/SelectCurrencyDocs'
+
+## Events
+
+<PropertiesTable props={SelectCurrencyGeneralEvents} />
+
+### Details about argument values
+
+The event handlers has two arguments. The first one is a `string` containing the `ISO` of the selected currency, e.g. `CHF`, and the second argument is an object with the properties `continent`, `i18n`, `decimals` and `iso`.
+
+```jsx
+(
+  value?: string // e.g. "CHF"
+  additionalArgs?: {
+    i18n: {
+      en: string, // e.g. "Swiss franc"
+      nb: string // e.g. "Sveitsisk franc"
+    },
+    iso: string, // e.g. "CHF"
+    continent: string // e.g. "Europe"
+    decimals: number // e.g. 2
+  }
+) => void
+```

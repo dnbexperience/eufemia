@@ -7,7 +7,6 @@
  * cdc: Country Dialing Code
  */
 
-export type RegionType = Array<'Scandinavia' | 'Nordic'>
 export type CountryISO = (typeof countries)[number]['iso']
 export type CountryCdc = (typeof countries)[number]['cdc']
 
@@ -18,18 +17,22 @@ export type CountryType = {
     en: string
     nb: string
   }
-  continent:
-    | 'Asia'
-    | 'Europe'
-    | 'Africa'
-    | 'Oceania'
-    | 'Antarctica'
-    | 'North America'
-    | 'South America'
-    | 'None'
+  continent: ContinentType
   regions?: RegionType
   name?: string
 }
+
+export type RegionType = Array<'Scandinavia' | 'Nordic'>
+
+export type ContinentType =
+  | 'Asia'
+  | 'Europe'
+  | 'Africa'
+  | 'Oceania'
+  | 'Antarctica'
+  | 'North America'
+  | 'South America'
+  | 'None'
 
 export type CountryLang = keyof CountryType['i18n']
 

@@ -1,6 +1,7 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Field } from '@dnb/eufemia/src/extensions/forms'
+import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 import { Provider } from '@dnb/eufemia/src/shared'
+import { Flex } from '@dnb/eufemia/src'
 
 export const Empty = () => {
   return (
@@ -143,3 +144,29 @@ export const WithStepControls = () => (
     />
   </ComponentBox>
 )
+
+export function WithFieldSelectCurrency() {
+  return (
+    <ComponentBox>
+      <Form.Handler onSubmit={console.log}>
+        <Form.Card>
+          <Flex.Horizontal>
+            <Field.SelectCurrency
+              label="Select a currency"
+              path="/currency"
+              width="medium"
+              value="EUR"
+              autoComplete="transaction-currency"
+            />
+            <Field.Currency
+              label="Amount"
+              currency="/currency"
+              autoComplete="transaction-amount"
+            />
+          </Flex.Horizontal>
+        </Form.Card>
+        <Form.SubmitButton text="Pay" />
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
