@@ -2,8 +2,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { convertStringToDate, isDisabled } from '../DatePickerCalc'
 import isValid from 'date-fns/isValid'
 import format from 'date-fns/format'
-import { addMonths, isSameDay } from 'date-fns'
+import { addMonths, isSameDay, min } from 'date-fns'
 import { DateType } from '../DatePickerContext'
+import { InvalidDates } from './useInvalidDates'
 
 export type DatePickerDateProps = {
   date?: DateType
@@ -41,7 +42,8 @@ export type DatePickerDates = {
   endMonth?: Date
   hasHadValidDate?: boolean
   hoverDate?: Date
-} & DatePickerInputDates
+} & DatePickerInputDates &
+  InvalidDates
 
 export default function useDates(
   dateProps: DatePickerDateProps,
@@ -114,6 +116,8 @@ export default function useDates(
             endDate: newDates.endDate ?? dates.endDate,
             minDate: dates.minDate,
             maxDate: dates.maxDate,
+            invalidStartDate: newDates.invalidStartDate,
+            invalidEndDate: newDates.invalidEndDate,
             isRange,
           })
         : {}
@@ -357,15 +361,33 @@ function correctDates({
   endDate,
   minDate,
   maxDate,
+  invalidStartDate,
+  invalidEndDate,
   isRange,
 }: {
   startDate: Date
   endDate: Date
   minDate: Date
   maxDate: Date
+  invalidStartDate?: string
+  invalidEndDate?: string
   isRange: boolean
 }) {
   const correctedDates = {}
+
+  if (!isRange && invalidStartDate) {
+    correctedDates['startDate'] = minDate ?? maxDate
+  }
+
+  if (isRange) {
+    if (invalidStartDate) {
+      correctedDates['startDate'] = minDate ?? maxDate
+    }
+
+    if (invalidEndDate) {
+      correctedDates['endDate'] = maxDate ?? minDate
+    }
+  }
 
   if (isDisabled(startDate, minDate, maxDate)) {
     correctedDates['startDate'] = minDate

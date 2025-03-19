@@ -450,6 +450,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       getReturnObject,
       inputDates,
       onType,
+      partialDatesRef,
+      setPartialDates,
       invalidDatesRef,
     ]
   )
@@ -683,20 +685,26 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
             : { invalidEndDate: null }),
         })
 
+        updateDates(invalidDatesRef.current)
+
         callOnChange({
           [`${mode}Date`]: date,
           event,
         })
       } else {
-        updateDates({
-          [`${mode}Date`]: null,
-          [`__${mode}${type}`]: value,
-        })
-
         setInvalidDates({
           ...(mode === 'start'
             ? { invalidStartDate: dateString }
             : { invalidEndDate: dateString }),
+        })
+
+        updateDates({
+          [`${mode}Date`]: null,
+          [`__${mode}${type}`]: value,
+          // Only send invalid dates to useDates if the date is fully filled out
+          ...(isDateFullyFilledOutRef.current && {
+            ...invalidDatesRef.current,
+          }),
         })
 
         callOnChangeAsInvalid({
@@ -716,6 +724,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       dateRefs,
       temporaryDates,
       setInvalidDates,
+      invalidDatesRef,
     ]
   )
 
