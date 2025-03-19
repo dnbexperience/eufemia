@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import FieldBlock from '../FieldBlock'
 import Input from '../../../../components/Input'
 import { useFieldProps } from '../../hooks'
-import { Field, Form } from '../..'
+import { Field, FieldProps, Form } from '../..'
 import { Anchor, Flex } from '../../../../components'
 
 export default {
@@ -268,4 +268,42 @@ export const WithInlineHelp = () => {
       </Form.Card>
     </Flex.Stack>
   )
+}
+
+export function Types() {
+  type FieldPropsProps = FieldProps<string, string>
+  const MyInput = (props: FieldPropsProps) => {
+    const {
+      id,
+      value,
+      error,
+      handleChange,
+      handleFocus,
+      handleBlur,
+      htmlAttributes,
+      // We get an error which seems to be due
+      // to missing ProvideAdditionalEventArgs
+    } = useFieldProps(props)
+
+    return (
+      <FieldBlock
+        forId={id}
+        id={id}
+        // We get a `unknown is not assignable to string` type error
+        error={error}
+        space="medium"
+      >
+        <input
+          id={id}
+          value={value}
+          onChange={handleChange}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          {...htmlAttributes}
+        />
+      </FieldBlock>
+    )
+  }
+
+  return <MyInput error={Error('error')} />
 }
