@@ -961,10 +961,18 @@ export const AccordionRow = () => {
             <Table mode="accordion" accordionChevronPlacement="end">
               <thead>
                 <Tr>
-                  <Th style={{ width: '25%' }}>Column A</Th>
-                  <Th style={{ width: '25%' }}>Column B</Th>
-                  <Th style={{ width: '25%' }}>Column C</Th>
-                  <Th style={{ width: '25%' }}>Column D</Th>
+                  <Th noWrap style={{ width: '25%' }}>
+                    Column A
+                  </Th>
+                  <Th noWrap style={{ width: '25%' }}>
+                    Column B
+                  </Th>
+                  <Th noWrap style={{ width: '25%' }}>
+                    Column C
+                  </Th>
+                  <Th noWrap style={{ width: '25%' }}>
+                    Column D
+                  </Th>
                 </Tr>
               </thead>
 
