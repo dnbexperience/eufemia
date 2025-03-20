@@ -39,6 +39,7 @@ import { DatePickerEventAttributes } from './DatePicker'
 import { useTranslation } from '../../shared'
 import { DatePickerInputDates } from './hooks/useDates'
 import usePartialDates from './hooks/usePartialDates'
+import useInvalidDates from './hooks/useInvalidDates'
 
 export type DatePickerInputProps = Omit<
   React.HTMLProps<HTMLInputElement>,
@@ -104,12 +105,6 @@ export type DatePickerInputProps = Omit<
   ) => void
 }
 
-export type InvalidDates = {
-  invalidDate?: string
-  invalidStartDate?: string
-  invalidEndDate?: string
-}
-
 const defaultProps: DatePickerInputProps = {
   maskOrder: 'dd/mm/yyyy',
   maskPlaceholder: 'dd/mm/åååå',
@@ -150,11 +145,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   const [focusState, setFocusState] = useState<string>('virgin')
 
   const { partialDatesRef, setPartialDates } = usePartialDates()
+  const { invalidDatesRef, setInvalidDates } = useInvalidDates()
 
-  const invalidDatesRef = useRef<InvalidDates>({
-    invalidStartDate: null,
-    invalidEndDate: null,
-  })
   const isDateFullyFilledOutRef = useRef(false)
 
   const {
@@ -343,7 +335,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         }
       )
     },
-    [updateDates, callOnChangeHandler, hasHadValidDate]
+    [updateDates, callOnChangeHandler, hasHadValidDate, invalidDatesRef]
   )
 
   const callOnChange = useCallback(
@@ -382,7 +374,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         }
       })
     },
-    [updateDates, callOnChangeHandler, isRange]
+    [updateDates, callOnChangeHandler, isRange, invalidDatesRef]
   )
 
   const callOnType = useCallback(
@@ -452,7 +444,16 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         ...typedDates,
       })
     },
-    [isRange, dateRefs, getReturnObject, inputDates, onType]
+    [
+      isRange,
+      dateRefs,
+      getReturnObject,
+      inputDates,
+      onType,
+      partialDatesRef,
+      setPartialDates,
+      invalidDatesRef,
+    ]
   )
 
   const prepareCounting = useCallback(
@@ -678,29 +679,33 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
       // update the date
       if (isValidDate) {
-        invalidDatesRef.current = {
-          ...invalidDatesRef.current,
+        setInvalidDates({
           ...(mode === 'start'
             ? { invalidStartDate: null }
             : { invalidEndDate: null }),
-        }
+        })
+
+        updateDates(invalidDatesRef.current)
 
         callOnChange({
           [`${mode}Date`]: date,
           event,
         })
       } else {
-        updateDates({
-          [`${mode}Date`]: null,
-          [`__${mode}${type}`]: value,
-        })
-
-        invalidDatesRef.current = {
-          ...invalidDatesRef.current,
+        setInvalidDates({
           ...(mode === 'start'
             ? { invalidStartDate: dateString }
             : { invalidEndDate: dateString }),
-        }
+        })
+
+        updateDates({
+          [`${mode}Date`]: null,
+          [`__${mode}${type}`]: value,
+          // Only send invalid dates to useDates if the date is fully filled out
+          ...(isDateFullyFilledOutRef.current && {
+            ...invalidDatesRef.current,
+          }),
+        })
 
         callOnChangeAsInvalid({
           [`${mode}Date`]: null,
@@ -718,6 +723,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       modeDate,
       dateRefs,
       temporaryDates,
+      setInvalidDates,
+      invalidDatesRef,
     ]
   )
 
