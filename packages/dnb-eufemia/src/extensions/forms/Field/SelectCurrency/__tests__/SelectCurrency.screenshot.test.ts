@@ -15,7 +15,7 @@ describe('Field.SelectCurrency', () => {
 
   it('match vertical layout', async () => {
     const screenshot = await makeScreenshot({
-      style: { height: '64px' },
+      style: { height: '67px' },
       selector: '[data-visual-test="select-currency-vertical-layout"]',
     })
     expect(screenshot).toMatchImageSnapshot()
