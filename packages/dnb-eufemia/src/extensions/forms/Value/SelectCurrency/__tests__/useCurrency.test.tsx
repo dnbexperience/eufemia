@@ -29,7 +29,7 @@ describe('useCurrency', () => {
     </SharedContext.Provider>
   )
 
-  it('should return currency name by ISO code', () => {
+  it('should return currency display name by ISO code', () => {
     const { result } = renderHook(() => useCurrency(), { wrapper })
     const { getCurrencyDisplayNameByIso } = result.current
 
