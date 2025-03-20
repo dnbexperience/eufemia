@@ -46,6 +46,16 @@ export const StepIndicatorProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  status: {
+    doc: 'Text for status shown below the step indicator when it is not expanded. Defaults to `undefined`',
+    type: 'string',
+    status: 'optional',
+  },
+  status_state: {
+    doc: 'The type of status shown when the `status` prop is set. Defaults to `warn`.',
+    type: `['warn', 'info', 'error']`,
+    status: 'optional',
+  },
   skeleton: {
     doc: 'If set to `true`, an overlaying skeleton with animation will be shown.',
     type: 'boolean',

@@ -24,7 +24,7 @@ export function DisplaySteps({
   }
   const translations = useTranslation()
 
-  const getTriggerStatus = useCallback(() => {
+  const getStepIndicatorStatus = useCallback(() => {
     if (!hasErrorInOtherStepRef.current) {
       return // stop here
     }
@@ -40,11 +40,14 @@ export function DisplaySteps({
         status_state: 'warn',
       } satisfies Omit<StepIndicatorItemProps, 'title' | 'currentItemNum'>
     }
+    return {}
   }, [
     hasErrorInOtherStepRef,
     hasInvalidStepsState,
     translations.Step.stepHasError,
   ])
+
+  const { status, status_state } = getStepIndicatorStatus() ?? {}
 
   return (
     <aside className="dnb-forms-wizard-layout__indicator">
@@ -65,7 +68,8 @@ export function DisplaySteps({
         expandedInitially={expandedInitially}
         on_change={handleChange}
         outset={outset}
-        triggerButtonProps={getTriggerStatus()}
+        status={status}
+        status_state={status_state}
       />
     </aside>
   )

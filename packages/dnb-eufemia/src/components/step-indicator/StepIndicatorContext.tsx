@@ -22,7 +22,6 @@ import {
   StepIndicatorProps,
 } from './StepIndicator'
 import { StepIndicatorItemProps } from './StepIndicatorItem'
-import { StepIndicatorTriggerButtonProps } from './StepIndicatorTriggerButton'
 
 // We use this array to filter out unwanted properties
 const filterAttributes = Object.keys(stepIndicatorDefaultProps)
@@ -67,7 +66,6 @@ export type StepIndicatorProviderProps = Omit<
    */
   mode?: StepIndicatorMode
   children: React.ReactNode
-  triggerButtonProps?: StepIndicatorTriggerButtonProps
 }
 
 export type StepIndicatorProviderStates = {

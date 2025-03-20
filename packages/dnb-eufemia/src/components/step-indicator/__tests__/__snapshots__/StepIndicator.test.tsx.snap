@@ -677,13 +677,20 @@ html[data-visual-test] .dnb-step-indicator__item__icon {
   transition-duration: 1ms !important;
 }
 .dnb-step-indicator__button {
+  --margin-animation: margin var(--height-animation-duration)
+    var(--easing-default) var(--delay, 0ms);
+  transition: var(--margin-animation);
   white-space: normal;
   text-align: left;
   align-self: flex-start;
+  margin-bottom: 0;
 }
 .dnb-step-indicator__button.dnb-anchor {
   padding: 0;
   line-height: inherit;
+}
+.dnb-step-indicator__button--has-status {
+  margin-bottom: 1rem;
 }"
 `;
 
