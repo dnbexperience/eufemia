@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useContext } from 'react'
 import classnames from 'classnames'
 
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -11,7 +11,7 @@ import Card from '../Card'
 import StepIndicatorTriggerButton from './StepIndicatorTriggerButton'
 import StepIndicatorSidebar from './StepIndicatorSidebar'
 import StepIndicatorList from './StepIndicatorList'
-import {
+import StepIndicatorContext, {
   StepIndicatorContextValues,
   StepIndicatorProvider,
 } from './StepIndicatorContext'
@@ -23,7 +23,10 @@ import type {
   StepItemWrapper,
 } from './StepIndicatorItem'
 import { stepIndicatorDefaultProps } from './StepIndicatorProps'
-import type { StepIndicatorTriggerButtonProps } from './StepIndicatorTriggerButton'
+import FormStatus, {
+  FormStatusState,
+  FormStatusText,
+} from '../form-status/FormStatus'
 
 export type StepIndicatorMode = 'static' | 'strict' | 'loose'
 export type StepIndicatorDataItem = Pick<
@@ -135,11 +138,14 @@ export type StepIndicatorProps = Omit<
       currentStep,
     }: StepIndicatorMouseEvent) => void
     /**
-     * The props for the trigger button.
-     * Used internally to pass the props such as a status to the trigger button.
+     * Status text. Status is only shown if this prop has text. Defaults to `undefined`
      */
-    triggerButtonProps?: StepIndicatorTriggerButtonProps
-
+    status?: FormStatusText
+    /**
+     * The type of status for the `status` prop. Is either `info`, `error` or `warn`.
+     * Defaults to `warn`.
+     */
+    status_state?: FormStatusState
     /**
      * If set to `true`, the height animation on the step items and the drawer button will be omitted. Defaults to `false`.
      */
@@ -165,6 +171,8 @@ function handeDeprecatedProps(
 }
 
 function StepIndicator({
+  status,
+  status_state = 'warn',
   data = stepIndicatorDefaultProps.data,
   skeleton = stepIndicatorDefaultProps.skeleton,
   current_step = stepIndicatorDefaultProps.current_step,
@@ -197,11 +205,25 @@ function StepIndicator({
           <StepIndicatorTriggerButton />
           <StepIndicatorList />
         </Card>
+        <StepIndicatorStatus status={status} status_state={status_state} />
       </div>
     </StepIndicatorProvider>
   )
 }
 
+function StepIndicatorStatus({ status, status_state }) {
+  const { openState, no_animation } = useContext(StepIndicatorContext)
+  const show = !openState && !!status
+  return (
+    <FormStatus
+      show={show}
+      no_animation={no_animation}
+      state={status_state}
+    >
+      {status}
+    </FormStatus>
+  )
+}
 /**
  * @deprecated StepIndicator.Sidebar variant is no longer supported
  */

@@ -148,6 +148,7 @@ function StepIndicatorItem({
     hide_numbers = stepIndicatorDefaultProps.hide_numbers,
     on_item_render,
     step_title,
+    no_animation,
   } = context
 
   const {
@@ -298,16 +299,13 @@ function StepIndicatorItem({
             >
               {element}
             </StepItemButton>
-            {status && (
-              <FormStatus
-                top
-                state={status_state}
-                variant="outlined"
-                className="dnb-step-indicator__item-content__status"
-              >
-                {status}
-              </FormStatus>
-            )}
+            <FormStatus
+              no_animation={no_animation}
+              state={status_state}
+              variant="outlined"
+              className="dnb-step-indicator__item-content__status"
+              text={status}
+            />
           </div>
         </div>
       </div>
