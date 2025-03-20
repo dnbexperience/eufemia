@@ -31,9 +31,11 @@ describe('useCurrency', () => {
 
   it('should return currency name by ISO code', () => {
     const { result } = renderHook(() => useCurrency(), { wrapper })
-    const { getCurrencyNameByIso } = result.current
+    const { getCurrencyDisplayNameByIso } = result.current
 
-    expect(getCurrencyNameByIso('USD')).toBe('United States dollar (USD)')
+    expect(getCurrencyDisplayNameByIso('USD')).toBe(
+      'United States dollar (USD)'
+    )
     expect(getCurrencyData).toHaveBeenCalledWith({
       lang: 'en',
       filter: expect.any(Function),
@@ -42,8 +44,8 @@ describe('useCurrency', () => {
 
   it('should return null if ISO code is not provided', () => {
     const { result } = renderHook(() => useCurrency(), { wrapper })
-    const { getCurrencyNameByIso } = result.current
+    const { getCurrencyDisplayNameByIso } = result.current
 
-    expect(getCurrencyNameByIso('')).toBeNull()
+    expect(getCurrencyDisplayNameByIso('')).toBeNull()
   })
 })

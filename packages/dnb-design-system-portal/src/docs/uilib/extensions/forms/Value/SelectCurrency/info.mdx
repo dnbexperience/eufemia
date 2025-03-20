@@ -21,7 +21,8 @@ You can use the `Value.SelectCurrency.useCurrency` hook to get the currency name
 import { Value } from '@dnb/eufemia/extensions/forms'
 
 const MyComponent = () => {
-  const { getCurrencyNameByIso } = Value.SelectCurrency.useCurrency('NOK')
+  const { getCurrencyDisplayNameByIso } =
+    Value.SelectCurrency.useCurrency('NOK')
 }
 ```
 

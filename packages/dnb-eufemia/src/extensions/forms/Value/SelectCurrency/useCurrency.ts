@@ -6,7 +6,7 @@ import { CurrencyLang, CurrencyType } from '../../constants/currencies'
 export default function useCurrency() {
   const { locale } = useContext(SharedContext)
 
-  const getCurrencyNameByIso = useCallback(
+  const getCurrencyDisplayNameByIso = useCallback(
     (iso: CurrencyType['iso']) => {
       if (!iso) {
         return null
@@ -23,5 +23,5 @@ export default function useCurrency() {
     [locale]
   )
 
-  return { getCurrencyNameByIso }
+  return { getCurrencyDisplayNameByIso }
 }
