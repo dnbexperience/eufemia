@@ -6,12 +6,7 @@ import ValueBlock from '../../ValueBlock'
 import useCurrency from './useCurrency'
 import type { CurrencyISO } from '../../constants/currencies'
 
-export type Props = ValueProps<string> & {
-  /**
-   * The value of the component.
-   */
-  value?: CurrencyISO
-}
+export type Props = ValueProps<CurrencyISO>
 
 function SelectCurrency(props: Props) {
   const translations = useTranslation().SelectCurrency
