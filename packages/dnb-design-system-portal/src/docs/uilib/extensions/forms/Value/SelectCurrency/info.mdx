@@ -1,0 +1,70 @@
+---
+showTabs: true
+---
+
+## Description
+
+`Value.SelectCurrency` will render the selected currency.
+
+```jsx
+import { Value } from '@dnb/eufemia/extensions/forms'
+render(<Value.SelectCurrency path="/currency" />)
+```
+
+There is a corresponding [Field.SelectCurrency](/uilib/extensions/forms/feature-fields/SelectCurrency) component.
+
+### The `useCurrency` hook
+
+You can use the `Value.SelectCurrency.useCurrency` hook to get the currency display name by ISO code ([ISO 4217 code](https://en.wikipedia.org/wiki/ISO_4217)). It returns the currency name in the current locale, like `Norwegian krone (NOK)`.
+
+```tsx
+import { Value } from '@dnb/eufemia/extensions/forms'
+
+const MyComponent = () => {
+  const { getCurrencyDisplayNameByIso } =
+    Value.SelectCurrency.useCurrency('NOK')
+}
+```
+
+### TransformIn and TransformOut
+
+You can use the `transformIn` and `transformOut` to transform the value before it gets displayed in the field and before it gets sent to the form context. The second parameter is the currency object. You may have a look at the demo below to see how it works.
+
+```tsx
+import type { CurrencyType } from '@dnb/eufemia/extensions/forms/Field/SelectCurrency'
+
+// From the Field (internal value) to the data context or event parameter
+const transformOut = (internal: string, currency: CurrencyType) => {
+  if (internal) {
+    return `${currency.name} (${internal})`
+  }
+}
+
+// To the Field (from e.g. defaultValue)
+const transformIn = (external: unknown) => {
+  return String(external).match(/\((.*)\)/)?.[1] || 'NOK'
+}
+```
+
+### onFocus, onBlur, onChange
+
+These events have an additional parameter with the currency object.
+
+```tsx
+const onFocus = (value, currency) => {}
+```
+
+## The currency object
+
+```ts
+  {
+    continent: 'Europe',
+    name: 'Norsk krone',
+    iso: 'NOK',
+    decimals: 2,
+    i18n: {
+      en: 'Norwegian krone',
+      nb: 'Norsk krone',
+    },
+  },
+```
