@@ -176,13 +176,13 @@ describe('Field.SelectCurrency', () => {
     fireEvent.focus(inputElement)
 
     const liElements = document.querySelectorAll('li:not([aria-hidden])')
-    expect(liElements.length).toBeGreaterThan(176)
+    expect(liElements.length).toBeGreaterThan(42)
     expect(liElements[0].textContent).toBe('Norsk kroneNOK')
     expect(liElements[1].textContent).toBe('Svensk kroneSEK')
     expect(liElements[2].textContent).toBe('Dansk kroneDKK')
     expect(liElements[3].textContent).toBe('EuroEUR')
     expect(liElements[4].textContent).toBe('Amerikansk dollarUSD')
-    expect(liElements[5].textContent).toBe('Afghansk afghaniAFN')
+    expect(liElements[5].textContent).toBe('Australsk dollarAUD')
   })
 
   it('should sort "XCD" as last when locale nb-NO', () => {
@@ -202,7 +202,7 @@ describe('Field.SelectCurrency', () => {
     {
       const liElements = document.querySelectorAll('li:not([aria-hidden])')
       expect(liElements[liElements.length - 1].textContent).toBe(
-        'Østkaribisk dollarXCD'
+        'Ungarsk forintHUF'
       )
     }
   })
@@ -224,7 +224,7 @@ describe('Field.SelectCurrency', () => {
     {
       const liElements = document.querySelectorAll('li:not([aria-hidden])')
       expect(liElements[liElements.length - 1].textContent).toBe(
-        'Zambian kwachaZMW'
+        'United Arab Emirates dirhamAED'
       )
     }
   })
@@ -280,13 +280,13 @@ describe('Field.SelectCurrency', () => {
     fireEvent.focus(inputElement)
 
     const liElements = document.querySelectorAll('li:not([aria-hidden])')
-    expect(liElements.length).toBeGreaterThan(176)
+    expect(liElements.length).toBeGreaterThan(42)
     expect(liElements[0].textContent).toBe('Norsk kroneNOK')
     expect(liElements[1].textContent).toBe('Svensk kroneSEK')
     expect(liElements[2].textContent).toBe('Dansk kroneDKK')
     expect(liElements[3].textContent).toBe('EuroEUR')
     expect(liElements[4].textContent).toBe('Amerikansk dollarUSD')
-    expect(liElements[5].textContent).toBe('Afghansk afghaniAFN')
+    expect(liElements[5].textContent).toBe('Australsk dollarAUD')
   })
 
   it('should validate when required', () => {
