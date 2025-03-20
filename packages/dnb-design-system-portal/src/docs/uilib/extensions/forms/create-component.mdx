@@ -184,6 +184,7 @@ import {
   Form,
   FieldBlock,
   useFieldProps,
+  FieldProps,
 } from '@dnb/eufemia/extensions/forms'
 
 const myFieldTranslations = {
@@ -204,7 +205,9 @@ const myFieldTranslations = {
 type Translation =
   (typeof myFieldTranslations)[keyof typeof myFieldTranslations]
 
-const MyField = (props) => {
+type MyFieldValue = string
+
+const MyField = (props: FieldProps<MyFieldValue>) => {
   const translations = Form.useTranslation<Translation>(
     myFieldTranslations,
   )
@@ -222,7 +225,7 @@ const MyField = (props) => {
     useFieldProps(preparedProps)
 
   return (
-    <FieldBlock forId={id}>
+    <FieldBlock<MyFieldValue> forId={id}>
       <input
         id={id}
         value={value}
