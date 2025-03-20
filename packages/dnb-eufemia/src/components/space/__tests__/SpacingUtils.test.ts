@@ -41,6 +41,7 @@ describe('translateSpace', () => {
   it('should translate and calc types', () => {
     expect(translateSpace('large')).toBe(2)
     expect(translateSpace('xx-large-x2')).toBe(7)
+    expect(translateSpace('xx-small')).toBe(0.25)
   })
 
   it('should translate and calc types -x2', () => {
@@ -87,6 +88,9 @@ describe('calc', () => {
   it('should output calc based on string types', () => {
     expect(calc('large x-small')).toEqual(
       'calc(var(--spacing-large) + var(--spacing-x-small))'
+    )
+    expect(calc('small xx-small')).toEqual(
+      'calc(var(--spacing-small) + var(--spacing-xx-small))'
     )
   })
 
@@ -180,6 +184,7 @@ describe('createTypeModifiers', () => {
       'small',
       'large',
     ])
+    expect(createTypeModifiers('0.25 1')).toEqual(['xx-small', 'small'])
     expect(createTypeModifiers('2 0.5')).toEqual(['large', 'x-small'])
     expect(createTypeModifiers(1)).toEqual(['small'])
     expect(createTypeModifiers(true)).toEqual(['small'])
@@ -189,6 +194,7 @@ describe('createTypeModifiers', () => {
 
 describe('findNearestTypes', () => {
   it('should find the nearest type in correct order', () => {
+    expect(findNearestTypes(0.25)).toEqual(['xx-small'])
     expect(findNearestTypes(2.5)).toEqual(['large', 'x-small'])
     expect(findNearestTypes(5)).toEqual(['xx-large', 'medium'])
     expect(findNearestTypes(8)).toEqual(['xx-large', 'xx-large', 'small'])
@@ -211,6 +217,10 @@ describe('createSpacingClasses', () => {
     expect(createSpacingClasses({ right: 'large x-small' })).toEqual([
       'dnb-space__right--large',
       'dnb-space__right--x-small',
+    ])
+    expect(createSpacingClasses({ right: 'small xx-small' })).toEqual([
+      'dnb-space__right--small',
+      'dnb-space__right--xx-small',
     ])
   })
 
