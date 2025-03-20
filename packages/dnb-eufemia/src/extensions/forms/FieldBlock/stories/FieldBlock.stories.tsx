@@ -11,6 +11,16 @@ export default {
 
 export function FieldBlockLabel() {
   const fromInput = useCallback(({ value }) => value, [])
+  // const fromInput = useCallback((external: unknown) => {
+  //   if (
+  //     typeof external === 'object' &&
+  //     external !== null &&
+  //     'value' in external
+  //   ) {
+  //     return external.value
+  //   }
+  //   return ''
+  // }, [])
   const { value, handleChange, handleFocus, handleBlur } = useFieldProps({
     value: 'foo',
     fromInput,
