@@ -28,7 +28,7 @@ export type CurrencyFilterSet =
 export type { CurrencyType }
 
 export type Props = FieldPropsWithExtraValue<
-  string,
+  CurrencyISO,
   CurrencyType,
   undefined | string
 > & {
@@ -57,11 +57,6 @@ export type Props = FieldPropsWithExtraValue<
    * The size of the component.
    */
   size?: AutocompleteAllProps['size']
-
-  /**
-   * The value of the component.
-   */
-  value?: CurrencyISO
 }
 
 function SelectCurrency(props: Props) {

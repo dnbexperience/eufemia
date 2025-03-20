@@ -7,6 +7,7 @@ import { Provider } from '../../../../../shared'
 import DataContext from '../../../DataContext/Context'
 import DrawerListProvider from '../../../../../fragments/drawer-list/DrawerListProvider'
 import { Field, Form, FieldBlock, Value, Iterate } from '../../..'
+import { CurrencyISO } from '../../../constants/currencies'
 
 describe('Field.SelectCurrency', () => {
   it('should render with props', () => {
@@ -568,7 +569,7 @@ describe('Field.SelectCurrency', () => {
       }
     })
     const transformIn = jest.fn((external) => {
-      return String(external).match(/\((.*)\)/)?.[1]
+      return String(external).match(/\((.*)\)/)?.[1] as CurrencyISO
     })
     const valueTransformIn = jest.fn((internal) => {
       return String(internal).match(/\((.*)\)/)?.[1]

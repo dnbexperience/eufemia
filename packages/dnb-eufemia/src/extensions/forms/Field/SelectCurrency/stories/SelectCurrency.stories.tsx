@@ -30,7 +30,7 @@ const transformOut = (internal: string, currency: CurrencyType) => {
   }
 }
 const transformIn = (external: unknown) => {
-  return String(external).match(/\((.*)\)/)?.[1] || 'NOK'
+  return (String(external).match(/\((.*)\)/)?.[1] || 'NOK') as CurrencyISO
 }
 
 export function Transform() {
