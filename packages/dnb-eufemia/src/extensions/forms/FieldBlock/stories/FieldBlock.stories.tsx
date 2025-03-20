@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import FieldBlock from '../FieldBlock'
 import Input from '../../../../components/Input'
 import { useFieldProps } from '../../hooks'
-import { Field, Form } from '../..'
+import { Field, FieldProps, Form } from '../..'
 import { Anchor, Flex } from '../../../../components'
 
 export default {
@@ -11,6 +11,16 @@ export default {
 
 export function FieldBlockLabel() {
   const fromInput = useCallback(({ value }) => value, [])
+  // const fromInput = useCallback((external: unknown) => {
+  //   if (
+  //     typeof external === 'object' &&
+  //     external !== null &&
+  //     'value' in external
+  //   ) {
+  //     return external.value
+  //   }
+  //   return ''
+  // }, [])
   const { value, handleChange, handleFocus, handleBlur } = useFieldProps({
     value: 'foo',
     fromInput,
@@ -268,4 +278,41 @@ export const WithInlineHelp = () => {
       </Form.Card>
     </Flex.Stack>
   )
+}
+
+export function Types() {
+  const MyInput = (props: FieldProps<string>) => {
+    const {
+      id,
+      value,
+      error,
+      handleChange,
+      handleFocus,
+      handleBlur,
+      htmlAttributes,
+      // We get an error which seems to be due
+      // to missing ProvideAdditionalEventArgs
+    } = useFieldProps(props)
+
+    return (
+      <FieldBlock<string>
+        forId={id}
+        id={id}
+        // We get a `unknown is not assignable to string` type error
+        error={error}
+        space="medium"
+      >
+        <input
+          id={id}
+          value={value}
+          onChange={handleChange}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          {...htmlAttributes}
+        />
+      </FieldBlock>
+    )
+  }
+
+  return <MyInput error={Error('error')} />
 }

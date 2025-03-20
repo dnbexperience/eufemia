@@ -110,9 +110,9 @@ export type SharedFieldBlockProps = {
   help?: HelpProps
 }
 
-export type Props = SharedFieldBlockProps &
+export type Props<Value = unknown> = SharedFieldBlockProps &
   Pick<
-    FieldProps,
+    FieldProps<Value>,
     keyof ComponentProps | 'info' | 'warning' | 'error' | 'disabled'
   > & {
     /** The id to link a element with */
@@ -140,7 +140,7 @@ export type Props = SharedFieldBlockProps &
     children?: React.ReactNode
   } & React.HTMLAttributes<HTMLDivElement>
 
-function FieldBlock(props: Props) {
+function FieldBlock<Value = unknown>(props: Props<Value>) {
   const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
   const nestedFieldBlockContext = !fieldBlockContext?.disableStatusSummary
