@@ -9,6 +9,7 @@ import countries, {
   prioritizedCountries,
   type CountryType,
   type CountryLang,
+  type CountryISO,
 } from '../../constants/countries'
 import { useFieldProps } from '../../hooks'
 import { FieldPropsWithExtraValue } from '../../types'
@@ -56,6 +57,11 @@ export type Props = FieldPropsWithExtraValue<
    * The size of the component.
    */
   size?: AutocompleteAllProps['size']
+
+  /**
+   * The value of the component.
+   */
+  value?: CountryISO
 }
 
 function SelectCountry(props: Props) {

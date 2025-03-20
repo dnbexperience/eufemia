@@ -7,6 +7,10 @@
  * cdc: Country Dialing Code
  */
 
+export type RegionType = Array<'Scandinavia' | 'Nordic'>
+export type CountryISO = (typeof countries)[number]['iso']
+export type CountryCdc = (typeof countries)[number]['cdc']
+
 export type CountryType = {
   cdc: string
   iso: string
@@ -23,7 +27,7 @@ export type CountryType = {
     | 'North America'
     | 'South America'
     | 'None'
-  regions?: Array<'Scandinavia' | 'Nordic'>
+  regions?: RegionType
   name?: string
 }
 
@@ -36,7 +40,7 @@ export const prioritizedCountries = [
   'Finland',
 ]
 
-const countries: Array<CountryType> = [
+const countries = [
   {
     i18n: {
       en: 'Afghanistan',
@@ -567,7 +571,7 @@ const countries: Array<CountryType> = [
     cdc: '45',
     iso: 'DK',
     continent: 'Europe',
-    regions: ['Scandinavia', 'Nordic'],
+    regions: ['Scandinavia', 'Nordic'] as RegionType,
   },
   {
     i18n: {
@@ -694,7 +698,7 @@ const countries: Array<CountryType> = [
     cdc: '298',
     iso: 'FO',
     continent: 'Europe',
-    regions: ['Nordic'],
+    regions: ['Nordic'] as RegionType,
   },
   {
     i18n: {
@@ -713,7 +717,7 @@ const countries: Array<CountryType> = [
     cdc: '358',
     iso: 'FI',
     continent: 'Europe',
-    regions: ['Nordic'],
+    regions: ['Nordic'] as RegionType,
   },
   {
     i18n: {
@@ -822,7 +826,7 @@ const countries: Array<CountryType> = [
     cdc: '299',
     iso: 'GL',
     continent: 'North America',
-    regions: ['Nordic'],
+    regions: ['Nordic'] as RegionType,
   },
   {
     i18n: {
@@ -949,7 +953,7 @@ const countries: Array<CountryType> = [
     cdc: '354',
     iso: 'IS',
     continent: 'Europe',
-    regions: ['Nordic'],
+    regions: ['Nordic'] as RegionType,
   },
   {
     i18n: {
@@ -1535,7 +1539,7 @@ const countries: Array<CountryType> = [
     cdc: '47',
     iso: 'NO',
     continent: 'Europe',
-    regions: ['Scandinavia', 'Nordic'],
+    regions: ['Scandinavia', 'Nordic'] as RegionType,
   },
   {
     i18n: {
@@ -1986,7 +1990,7 @@ const countries: Array<CountryType> = [
     cdc: '46',
     iso: 'SE',
     continent: 'Europe',
-    regions: ['Scandinavia', 'Nordic'],
+    regions: ['Scandinavia', 'Nordic'] as RegionType,
   },
   {
     i18n: {
@@ -2294,6 +2298,6 @@ const countries: Array<CountryType> = [
     iso: 'AX',
     continent: 'Europe',
   },
-]
+] as const
 
-export default countries
+export default countries satisfies Readonly<Array<CountryType>>

@@ -4,8 +4,14 @@ import { useTranslation, useValueProps } from '../../hooks'
 import { ValueProps } from '../../types'
 import ValueBlock from '../../ValueBlock'
 import useCountry from './useCountry'
+import type { CountryISO } from '../../constants/countries'
 
-export type Props = ValueProps<string>
+export type Props = ValueProps<string> & {
+  /**
+   * The value of the component.
+   */
+  value?: CountryISO
+}
 
 function SelectCountry(props: Props) {
   const translations = useTranslation().SelectCountry
