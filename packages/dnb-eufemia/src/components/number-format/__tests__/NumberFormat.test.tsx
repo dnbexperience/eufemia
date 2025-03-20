@@ -374,6 +374,34 @@ describe('NumberFormat component', () => {
     )
   })
 
+  it('should yield strict zero currency when value gets rounded to zero because of decimals=0', () => {
+    render(<NumberFormat value={-0.2} currency decimals={0} />)
+    expect(document.querySelector('.dnb-number-format').textContent).toBe(
+      '0 kr'
+    )
+  })
+
+  it('should yield strict zero currency when value gets rounded to zero because of decimals=0 and locale is en-GB', () => {
+    render(
+      <NumberFormat
+        value={-0.2}
+        currency="SEK"
+        locale="en-GB"
+        decimals={0}
+      />
+    )
+    expect(document.querySelector('.dnb-number-format').textContent).toBe(
+      '-SEK 0'
+    )
+  })
+
+  it('should yield strict zero percent when value gets rounded to zero because of decimals=0', () => {
+    render(<NumberFormat value={-0.2} percent decimals={0} />)
+    expect(document.querySelector('.dnb-number-format').textContent).toBe(
+      '0 %'
+    )
+  })
+
   it('have to match phone number', () => {
     render(<Component phone>+47 99999999</Component>)
     expect(document.querySelector(displaySelector).textContent).toBe(
