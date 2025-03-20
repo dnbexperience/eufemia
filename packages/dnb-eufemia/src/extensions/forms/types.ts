@@ -329,7 +329,7 @@ export type MessageProp<Value, ReturnValue> =
   | ((
       value: Value,
       options: MessagePropParams<Value, ReturnValue>
-    ) => ReturnValue)
+    ) => ReturnValue | undefined)
 export type MessageTypes<Value> =
   | UseFieldProps<Value>['info']
   | UseFieldProps<Value>['warning']
