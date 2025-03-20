@@ -30,7 +30,7 @@ const transformOut = (internal: string, country: CountryType) => {
   }
 }
 const transformIn = (external: unknown) => {
-  return String(external).match(/\((.*)\)/)?.[1] || 'NO'
+  return (String(external).match(/\((.*)\)/)?.[1] || 'NO') as CountryISO
 }
 
 export function Transform() {
