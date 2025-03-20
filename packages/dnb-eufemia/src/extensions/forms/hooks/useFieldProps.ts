@@ -229,7 +229,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     setFieldState: setFieldStateFieldBlock,
     showFieldError: showFieldErrorFieldBlock,
     mountedFieldsRef: mountedFieldsRefFieldBlock,
-  } = inFieldBlock ? fieldBlockContext : ({} as FieldBlockContextProps)
+  } = (inFieldBlock ? fieldBlockContext : {}) as FieldBlockContextProps
   const {
     activeIndex,
     activeIndexRef,

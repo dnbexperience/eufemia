@@ -281,8 +281,7 @@ export const WithInlineHelp = () => {
 }
 
 export function Types() {
-  type FieldPropsProps = FieldProps<string, string>
-  const MyInput = (props: FieldPropsProps) => {
+  const MyInput = (props: FieldProps<string>) => {
     const {
       id,
       value,
@@ -296,7 +295,7 @@ export function Types() {
     } = useFieldProps(props)
 
     return (
-      <FieldBlock
+      <FieldBlock<string>
         forId={id}
         id={id}
         // We get a `unknown is not assignable to string` type error

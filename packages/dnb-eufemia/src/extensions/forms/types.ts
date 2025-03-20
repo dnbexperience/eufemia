@@ -139,7 +139,10 @@ export type ErrorMessagesWithLocaleSupport = Record<
   DefaultErrorMessages
 >
 
-export type InternalErrorMessages = Record<FormsTranslationFlat, string>
+export type InternalErrorMessages = Record<
+  Exclude<FormsTranslationFlat, undefined>,
+  string
+>
 export type DefaultErrorMessages = Partial<InternalErrorMessages> &
   Partial<DotNotationErrorMessages> &
   Partial<DeprecatedErrorMessages>
@@ -222,13 +225,14 @@ export function omitDataValueReadProps<Props extends DataValueReadProps>(
 
 type EventArgs<Value, ExtraValue extends ProvideAdditionalEventArgs> = [
   value: Value,
-  additionalArgs?: ExtraValue | ReceiveAdditionalEventArgs<Value>,
+  additionalArgs?: ExtraValue & ReceiveAdditionalEventArgs<Value>,
 ]
 
 export interface DataValueWriteProps<
   Value = unknown,
   EmptyValue = undefined | unknown,
-  ExtraValue extends ProvideAdditionalEventArgs = undefined,
+  ExtraValue extends
+    ProvideAdditionalEventArgs = ProvideAdditionalEventArgs,
 > {
   emptyValue?: EmptyValue
   onFocus?: (...args: EventArgs<Value | EmptyValue, ExtraValue>) => void
