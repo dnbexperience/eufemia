@@ -13,7 +13,7 @@ describe('Field.SelectCurrency', () => {
     url: '/uilib/extensions/forms/feature-fields/SelectCurrency/demos/',
   })
 
-  it.skip('match vertical layout', async () => {
+  it('match vertical layout', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="select-currency-vertical-layout"]',
     })
