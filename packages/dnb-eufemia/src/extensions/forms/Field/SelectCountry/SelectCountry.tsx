@@ -28,7 +28,7 @@ export type CountryFilterSet =
 export type { CountryType }
 
 export type Props = FieldPropsWithExtraValue<
-  string,
+  CountryISO,
   CountryType,
   undefined | string
 > & {
@@ -57,11 +57,6 @@ export type Props = FieldPropsWithExtraValue<
    * The size of the component.
    */
   size?: AutocompleteAllProps['size']
-
-  /**
-   * The value of the component.
-   */
-  value?: CountryISO
 }
 
 function SelectCountry(props: Props) {
