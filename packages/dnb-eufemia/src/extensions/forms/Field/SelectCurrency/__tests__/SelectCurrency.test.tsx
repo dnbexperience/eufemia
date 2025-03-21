@@ -753,6 +753,62 @@ describe('Field.SelectCurrency', () => {
     ).toBe('transaction-currency')
   })
 
+  describe('displayFormat IsoCode', () => {
+    it('should format selected item correctly', () => {
+      render(<Field.SelectCurrency displayFormat="IsoCode" value="NOK" />)
+
+      const inputElement: HTMLInputElement = document.querySelector(
+        '.dnb-forms-field-select-currency input'
+      )
+
+      expect(inputElement).toHaveValue('NOK (Norsk krone)')
+    })
+
+    it('should format list elements correctly', () => {
+      render(<Field.SelectCurrency displayFormat="IsoCode" />)
+
+      const inputElement: HTMLInputElement = document.querySelector(
+        '.dnb-forms-field-select-currency input'
+      )
+
+      // open
+      fireEvent.focus(inputElement)
+
+      const liElements = document.querySelectorAll('li:not([aria-hidden])')
+      expect(liElements.length).toBeGreaterThan(176)
+      expect(liElements[0].textContent).toBe('NOKNorsk krone')
+      expect(liElements[1].textContent).toBe('SEKSvensk krone')
+      expect(liElements[2].textContent).toBe('DKKDansk krone')
+      expect(liElements[3].textContent).toBe('EUREuro')
+      expect(liElements[4].textContent).toBe('USDAmerikansk dollar')
+      expect(liElements[5].textContent).toBe('AEDEmiratarabisk dirham')
+    })
+
+    it('should sort "ZMW" as last', () => {
+      render(
+        <Form.Handler>
+          <Field.SelectCurrency displayFormat="IsoCode" />
+        </Form.Handler>
+      )
+
+      const inputElement: HTMLInputElement = document.querySelector(
+        '.dnb-forms-field-select-currency input'
+      )
+
+      // open
+      fireEvent.focus(inputElement)
+
+      {
+        const liElements = document.querySelectorAll(
+          'li:not([aria-hidden])'
+        )
+        expect(liElements[liElements.length - 1].textContent).toBe(
+          'ZMWZambisk kwacha'
+        )
+      }
+    })
+  })
+
   describe('ARIA', () => {
     it('should validate with ARIA rules', async () => {
       const result = render(
