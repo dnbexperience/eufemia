@@ -13,6 +13,10 @@ import {
   convertJsxToString,
 } from '../../shared/component-helper'
 import { spacingPropTypes } from '../../components/space/SpacingHelper'
+import {
+  DrawerListDataArrayItem,
+  DrawerListDataArrayObject,
+} from './DrawerList'
 
 export const drawerListPropTypes = {
   id: PropTypes.string,
@@ -100,7 +104,6 @@ export const drawerListPropTypes = {
       ])
     ),
   ]),
-  prepared_data: PropTypes.array,
   raw_data: PropTypes.oneOfType([
     PropTypes.array,
     PropTypes.object,
@@ -159,7 +162,6 @@ export const drawerListDefaultProps = {
   skip_keysearch: false,
   opened: null,
   data: null,
-  prepared_data: null,
   raw_data: null,
   ignore_events: null,
 
@@ -194,48 +196,47 @@ export const drawerListProviderDefaultProps = {
   min_height: 10, // 10rem = 10x16=160,
 }
 
-export const parseContentTitle = (
-  dataItem,
+export function parseContentTitle(
+  dataItem: DrawerListDataArrayItem,
   {
     separator = '\n',
     removeNumericOnlyValues = false,
     preferSelectedValue = false,
   } = {}
-) => {
-  let ret = ''
-  const onlyNumericRegex = /[0-9.,-\s]+/
-  if (Array.isArray(dataItem) && dataItem.length > 0) {
-    dataItem = { content: dataItem }
+): string | null {
+  dataItem = normalizeDataItem(dataItem)
+
+  if (!dataItem) {
+    return null
   }
 
-  const hasValue = dataItem?.selected_value
+  let ret = ''
+  const onlyNumericRegex = /[0-9.,-\s]+/
+
+  const hasValue = dataItem && dataItem.selected_value
 
   if (
     !(preferSelectedValue && hasValue) &&
-    dataItem &&
     Array.isArray(dataItem.content)
   ) {
     ret = dataItem.content
-      .reduce((acc, cur) => {
+      .reduce<string[]>((acc, cur) => {
         // check if we have React inside, with strings we can use
-        cur = convertJsxToString(cur, ' ')
-        if (cur === false) {
+        const converted = convertJsxToString(cur, ' ')
+        if (!converted) {
           return acc
         }
         // remove only numbers
         const found =
-          removeNumericOnlyValues && cur && cur.match(onlyNumericRegex)
-        if (!(found && found[0].length === cur.length)) {
-          acc.push(cur)
+          removeNumericOnlyValues && converted.match(onlyNumericRegex)
+        if (!(found && found[0].length === converted.length)) {
+          acc.push(converted)
         }
         return acc
       }, [])
       .join(separator)
   } else {
-    ret = convertJsxToString(
-      (dataItem && dataItem.content) || dataItem,
-      ' '
-    )
+    ret = convertJsxToString(dataItem.content, ' ')
   }
 
   if (hasValue) {
@@ -245,23 +246,14 @@ export const parseContentTitle = (
           const nestedChildren =
             !word.props.children &&
             typeof word?.type === 'function' &&
-            word.type()
+            (word.type as () => React.ReactElement)()
 
           return nestedChildren?.props?.children ? nestedChildren : word
         })
       )
-    } else if (!onlyNumericRegex.test(dataItem.selected_value)) {
-      ret = String(convertJsxToString()) + separator + ret
+    } else if (!onlyNumericRegex.test(dataItem.selected_value as string)) {
+      ret = separator + ret
     }
-  }
-
-  // make sure we don't return empty strings
-  if (Array.isArray(dataItem) && dataItem.length === 0) {
-    ret = null
-  }
-
-  if (ret && ret.length === 1 && ret[0].ignore_events) {
-    return null
   }
 
   return ret
@@ -284,7 +276,12 @@ export const preSelectData = (data) => {
   return data
 }
 
-// normalize data
+/**
+ * Takes any of the forms data can have and returns a normalized array representation of it.
+ * If the data is a single React.ReactNode, it will return an empty list.
+ * @param {*} props object containing the data in props.data or props.children, or the data itself
+ * @returns an array representation of the data
+ */
 export const normalizeData = (props) => {
   let data = preSelectData(props.data || props.children || props)
 
@@ -316,11 +313,17 @@ export const normalizeData = (props) => {
   })
 }
 
-export const getData = (props) => {
-  if (props.prepared_data && Array.isArray(props.prepared_data)) {
-    return props.prepared_data
-  }
+function normalizeDataItem(
+  dataItem: DrawerListDataArrayItem
+): DrawerListDataArrayObject {
+  return dataItem === null
+    ? undefined
+    : typeof dataItem === 'object' && 'content' in dataItem
+    ? dataItem
+    : { content: dataItem }
+}
 
+export const getData = (props) => {
   return normalizeData(props)
 }
 
@@ -411,6 +414,21 @@ export const getCurrentData = (item_index, data) => {
   return data
 }
 
+type STATE = {
+  opened: boolean
+  data: any
+  original_data: any
+  raw_data: any
+  direction: any
+  max_height: any
+  selected_item: any
+  active_item: any
+  on_hide: any
+  on_show: any
+  on_change: any
+  on_select: any
+  _value?: any
+}
 export const prepareStartupState = (props) => {
   const selected_item = null
   const raw_data = preSelectData(
@@ -419,7 +437,7 @@ export const prepareStartupState = (props) => {
   const data = getData(props)
   const opened = props.opened !== null ? isTrue(props.opened) : null
 
-  const state = {
+  const state: STATE = {
     opened,
     data,
     original_data: data, // used to reset in case we reorder data etc.
