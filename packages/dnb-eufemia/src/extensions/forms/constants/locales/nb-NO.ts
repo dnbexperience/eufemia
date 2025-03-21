@@ -207,6 +207,11 @@ export default {
       placeholder: 'Velg et land',
       errorRequired: 'Du må velge et land fra listen.',
     },
+    SelectCurrency: {
+      label: 'Valuta',
+      placeholder: 'Velg en valuta',
+      errorRequired: 'Du må velge en valuta fra listen.',
+    },
     Password: {
       label: 'Passord',
       ariaLabelShow: 'Vis passord',

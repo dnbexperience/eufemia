@@ -837,7 +837,7 @@ class AutocompleteInstance extends React.PureComponent {
   hasDatasetChanged = (rawData) => {
     const { selected_item } = this.context.drawerList
     if (parseFloat(selected_item) > -1) {
-      const newItem = rawData[selected_item]
+      const newItem = rawData?.[selected_item]
       const oldItem = this.context.drawerList.original_data[selected_item]
       if (
         typeof newItem?.selectedKey !== 'undefined'

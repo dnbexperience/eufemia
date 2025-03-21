@@ -15,7 +15,7 @@ The event handlers has two arguments. The first one is a `string` containing the
 
 ```jsx
 (
-  value?: string // e.g. "CH"
+  value?: string, // e.g. "CH"
   additionalArgs?: {
     i18n: {
       en: string, // e.g. "Switzerland"
@@ -23,7 +23,9 @@ The event handlers has two arguments. The first one is a `string` containing the
     },
     cdc: string, // e.g. "41"
     iso: string, // e.g. "CH"
-    continent: string // e.g. "Europe"
+    continent: string, // e.g. "Europe"
+    name: string, // e.g. "Sveits"
+    regions?: string[] // e.g ["Scandinavia", "Nordic"]
   }
 ) => void
 ```

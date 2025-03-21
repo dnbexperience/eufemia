@@ -16,7 +16,9 @@ export function IterateOverSteps({ children }) {
     stepStatusRef,
     prerenderFieldProps,
     prerenderFieldPropsRef,
+    hasErrorInOtherStepRef,
   } = useContext(WizardContext)
+  hasErrorInOtherStepRef.current = false
 
   stepsRef.current = {}
   let incrementIndex = -1
@@ -77,6 +79,10 @@ export function IterateOverSteps({ children }) {
             : undefined
         const statusState = state === 'error' ? 'error' : undefined // undefined shows 'warn' by default
         const key = `${index}-${activeIndexRef.current}`
+
+        if (status) {
+          hasErrorInOtherStepRef.current = true
+        }
 
         stepsRef.current[index] = {
           id,

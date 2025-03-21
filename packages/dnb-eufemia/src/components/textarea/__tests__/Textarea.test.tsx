@@ -194,7 +194,7 @@ describe('Textarea component', () => {
     )
   })
 
-  it('has to to have a prop value like value', () => {
+  it('has to have a prop value like value', () => {
     const { rerender } = render(
       <Textarea {...props} value={null}>
         {null}
@@ -209,12 +209,12 @@ describe('Textarea component', () => {
     expect(document.querySelector('textarea').value).toBe(value)
   })
 
-  it('has to to have a label value as defined in the prop', () => {
+  it('has to have a label value as defined in the prop', () => {
     render(<Textarea {...props} label="label" />)
     expect(document.querySelector('label').textContent).toBe('label')
   })
 
-  it('has to to have a status value as defined in the prop', () => {
+  it('has to have a status value as defined in the prop', () => {
     render(<Textarea {...props} status="status" status_state="error" />)
     expect(
       document.querySelector('.dnb-form-status__text').textContent

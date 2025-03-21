@@ -38,12 +38,17 @@ exports[`InfoCard InfoCard scss has to match style dependencies css 1`] = `
   align-items: center;
   text-align: center;
 }
+.dnb-info-card--centered:not(.dnb-info-card--stretch) {
+  margin: auto;
+}
 .dnb-info-card--shadow {
   box-shadow: var(--shadow-default);
 }
 .dnb-info-card__content {
   flex-direction: column;
   margin-top: 0.1875rem;
+}
+.dnb-info-card:not(.dnb-info-card--stretch), .dnb-info-card__content {
   max-width: 70ch;
 }
 .dnb-info-card--centered .dnb-info-card__content {

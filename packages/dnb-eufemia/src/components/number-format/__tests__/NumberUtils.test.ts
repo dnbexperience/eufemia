@@ -4,7 +4,9 @@
  */
 
 import { mockClipboard } from '../../../core/jest/jestSetup'
-import countries from '../../../extensions/forms/constants/countries'
+import countries, {
+  CountryCdc,
+} from '../../../extensions/forms/constants/countries'
 import { InternalLocale } from '../../../shared/Context'
 import { LOCALE } from '../../../shared/defaults'
 import * as helpers from '../../../shared/helpers'
@@ -125,6 +127,24 @@ describe('Decimals format', () => {
       format('invalid', { locale: 'something', returnAria: true })
     ).toEqual({
       aria: 'N/A',
+      cleanedValue: 'invalid',
+      locale: 'something',
+      number: 'invalid',
+      type: 'number',
+      value: 'invalid',
+    })
+  })
+
+  it('should render custom invalid ARIA text when given', () => {
+    const customInvalidAriaText = 'my text'
+    expect(
+      format('invalid', {
+        locale: 'something',
+        returnAria: true,
+        invalidAriaText: customInvalidAriaText,
+      })
+    ).toEqual({
+      aria: customInvalidAriaText,
       cleanedValue: 'invalid',
       locale: 'something',
       number: 'invalid',
@@ -1027,7 +1047,10 @@ describe('formatPhone', () => {
       const result = formatPhone(`+${cdc} 12345678`)
 
       if (cdc.includes('-')) {
-        cdc = cdc.replace(/([\d]{1,2})-([\d]{1,6})/, '$1 ($2)')
+        cdc = cdc.replace(
+          /([\d]{1,2})-([\d]{1,6})/,
+          '$1 ($2)'
+        ) as CountryCdc
       }
 
       expect(result.number).toBe(`+${cdc} 12 34 56 78`)

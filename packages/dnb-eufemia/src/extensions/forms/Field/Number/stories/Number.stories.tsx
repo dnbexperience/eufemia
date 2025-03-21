@@ -163,6 +163,11 @@ export const ConditionalInfo = () => {
           labelDescription="Should be same or lower than maximum."
           path="/amount"
           required
+          error={(value) => {
+            if (value < 5) {
+              return new Error('You done messed up, A-a-ron!')
+            }
+          }}
           // defaultValue={5}
           onBlurValidator={onBlurValidator}
           // validateInitially

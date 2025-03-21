@@ -1,14 +1,14 @@
 import React from 'react'
 import { Field, Form, Tools, Value } from '../../..'
 import { Flex } from '../../../../../components'
-import { CountryType } from '../../../constants/countries'
+import { CountryISO, CountryType } from '../../../constants/countries'
 
 export default {
   title: 'Eufemia/Extensions/Forms/SelectCountry',
 }
 
 export function SelectCountry() {
-  const [state, update] = React.useState('NO')
+  const [state, update] = React.useState<CountryISO>('NO')
   React.useEffect(() => {
     update('CH')
   }, [])
@@ -16,7 +16,7 @@ export function SelectCountry() {
     <Field.SelectCountry
       required
       value={state}
-      onChange={(value, data) => {
+      onChange={(value: CountryISO, data) => {
         console.log('onChange', value, data)
         update(value)
       }}
@@ -30,7 +30,7 @@ const transformOut = (internal: string, country: CountryType) => {
   }
 }
 const transformIn = (external: unknown) => {
-  return String(external).match(/\((.*)\)/)?.[1] || 'NO'
+  return (String(external).match(/\((.*)\)/)?.[1] || 'NO') as CountryISO
 }
 
 export function Transform() {

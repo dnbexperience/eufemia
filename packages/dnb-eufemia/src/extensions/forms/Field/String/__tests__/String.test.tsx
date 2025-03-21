@@ -2017,4 +2017,77 @@ describe('Field.String', () => {
       )
     })
   })
+
+  describe('onInput', () => {
+    it('should prevent typing of invalid characters', async () => {
+      const forbiddenRegex = /\d/
+
+      const onInput = jest.fn(
+        (event: React.FormEvent<HTMLInputElement>) => {
+          const inputEl = event.currentTarget
+          const currentVal = inputEl.value
+          const oldVal = inputEl.dataset.oldVal
+
+          if (currentVal.length <= oldVal.length) {
+            inputEl.dataset.oldVal = currentVal
+            return // stop here
+          }
+
+          const addedLength = currentVal.length - oldVal.length
+          const caretPos = inputEl.selectionStart
+          const inserted = currentVal.substring(
+            caretPos - addedLength,
+            caretPos
+          )
+
+          if (forbiddenRegex.test(inserted)) {
+            inputEl.value = oldVal
+
+            inputEl.setSelectionRange(
+              caretPos - addedLength,
+              caretPos - addedLength
+            )
+          } else {
+            inputEl.dataset.oldVal = currentVal
+          }
+        }
+      )
+
+      const onFocus = jest.fn(
+        (event: React.FormEvent<HTMLInputElement>) => {
+          const inputEl = event.currentTarget
+          if (typeof inputEl.dataset.oldVal === 'undefined') {
+            inputEl.dataset.oldVal = inputEl.value
+          }
+        }
+      )
+
+      render(
+        <Form.Handler>
+          <Field.String
+            path="/myValue"
+            value="Here are some digits: 123"
+            htmlAttributes={{
+              onFocus,
+              onInput,
+            }}
+          />
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '456')
+
+      expect(input).toHaveValue('Here are some digits: 123')
+
+      await userEvent.type(input, '{Backspace>3}456')
+
+      expect(input).toHaveValue('Here are some digits: ')
+
+      await userEvent.type(input, 'foo')
+
+      expect(input).toHaveValue('Here are some digits: foo')
+    })
+  })
 })

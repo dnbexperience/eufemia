@@ -512,3 +512,69 @@ export function TransformInAndOut() {
     </ComponentBox>
   )
 }
+
+export const OnInput = () => {
+  return (
+    <ComponentBox>
+      {() => {
+        const forbiddenRegex = /\\d/
+
+        const onInput = (event: React.FormEvent<HTMLInputElement>) => {
+          const inputEl = event.currentTarget
+          const currentVal = inputEl.value
+          const oldVal = inputEl.dataset.oldVal
+
+          if (currentVal.length <= oldVal.length) {
+            inputEl.dataset.oldVal = currentVal
+            return // stop here
+          }
+
+          const addedLength = currentVal.length - oldVal.length
+          const caretPos = inputEl.selectionStart
+          const inserted = currentVal.substring(
+            caretPos - addedLength,
+            caretPos,
+          )
+
+          if (forbiddenRegex.test(inserted)) {
+            inputEl.value = oldVal
+
+            inputEl.setSelectionRange(
+              caretPos - addedLength,
+              caretPos - addedLength,
+            )
+          } else {
+            inputEl.dataset.oldVal = currentVal
+          }
+        }
+
+        const onFocus = (event: React.FormEvent<HTMLInputElement>) => {
+          const inputEl = event.currentTarget
+          if (typeof inputEl.dataset.oldVal === 'undefined') {
+            inputEl.dataset.oldVal = inputEl.value
+          }
+        }
+
+        return (
+          <Form.Handler onSubmit={console.log} onChange={console.log}>
+            <Form.Card>
+              <Field.String
+                path="/myValue"
+                label="You can't type numbers here"
+                value="Existing value: 123"
+                htmlAttributes={{
+                  onFocus,
+                  onInput,
+                }}
+                autoComplete="off"
+                required
+              />
+            </Form.Card>
+
+            <Form.SubmitButton />
+          </Form.Handler>
+        )
+      }}
+    </ComponentBox>
+  )
+}

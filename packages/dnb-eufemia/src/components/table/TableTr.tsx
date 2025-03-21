@@ -184,6 +184,11 @@ export function useHandleOddEven({ children }) {
   // This is useful, when one tr gets removed
   const [rerenderAlias, setRerenderAlias] = React.useState({}) // eslint-disable-line no-unused-vars
 
+  const forceRerender = React.useCallback(() => {
+    trCountRef.current.count = 0
+    setRerenderAlias({})
+  }, [])
+
   const isMounted = React.useRef(false)
   React.useEffect(() => {
     if (isMounted.current) {
@@ -193,11 +198,6 @@ export function useHandleOddEven({ children }) {
   }, [children]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return { trCountRef, rerenderAlias, setRerenderAlias }
-
-  function forceRerender() {
-    trCountRef.current.count = 0
-    setRerenderAlias({})
-  }
 }
 
 Tr.AccordionContent = TableAccordionContentRow

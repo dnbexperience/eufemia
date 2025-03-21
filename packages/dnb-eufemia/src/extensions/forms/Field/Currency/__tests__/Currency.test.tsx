@@ -184,6 +184,71 @@ describe('Field.Currency', () => {
     })
   })
 
+  it('should render autoComplete when provided', () => {
+    render(
+      <Field.Currency value={123} autoComplete="transaction-amount" />
+    )
+    expect(
+      document.querySelector('input').getAttribute('autocomplete')
+    ).toBe('transaction-amount')
+  })
+
+  it('should be able to use a path to set the currency value', async () => {
+    const { rerender } = render(
+      <Form.Handler data={{ currency: 'SEK' }}>
+        <Field.Currency currency="/currency" />
+      </Form.Handler>
+    )
+
+    expect(document.querySelector('input')).toHaveAttribute(
+      'aria-placeholder',
+      'kr'
+    )
+
+    rerender(
+      <Form.Handler data={{ currency: 'EUR' }}>
+        <Field.Currency currency="/currency" />
+      </Form.Handler>
+    )
+
+    expect(document.querySelector('input')).toHaveAttribute(
+      'aria-placeholder',
+      '€'
+    )
+
+    rerender(
+      <Form.Handler data={{ currency: 'CHF' }}>
+        <Field.Currency currency="/currency" />
+      </Form.Handler>
+    )
+
+    expect(document.querySelector('input')).toHaveAttribute(
+      'aria-placeholder',
+      'CHF'
+    )
+  })
+
+  it('should handle unsupported currency', () => {
+    const log = jest.spyOn(console, 'log').mockImplementation()
+
+    render(
+      <Field.Currency
+        value={123}
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        currency="invalid"
+      />
+    )
+
+    expect(document.querySelector('input')).toHaveValue('123 invalid')
+    expect(log).toHaveBeenCalledWith(
+      expect.any(String),
+      new RangeError('Invalid currency code : invalid')
+    )
+
+    log.mockRestore()
+  })
+
   describe('ARIA', () => {
     it('should validate with ARIA rules', async () => {
       const result = render(

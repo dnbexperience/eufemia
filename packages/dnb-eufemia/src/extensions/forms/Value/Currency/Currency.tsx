@@ -1,8 +1,14 @@
 import React from 'react'
 import { CURRENCY } from '../../../../shared/defaults'
 import NumberValue, { Props as NumberValueProps } from '../Number'
+import type { CurrencyISO } from '../../constants/currencies'
 
-export type Props = NumberValueProps
+export type Props = NumberValueProps & {
+  /**
+   * The currency of the component.
+   */
+  currency?: CurrencyISO | true
+}
 
 function Currency(props: Props) {
   const numberProps: Props = {

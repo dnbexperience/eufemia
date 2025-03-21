@@ -51,3 +51,10 @@ This field is using `NOK` when `locale` is `en-GB`.
 ### Validation - Required
 
 <Examples.ValidationRequired />
+
+### With `Field.SelectCurrency`
+
+This example demonstrates how to use `Field.Currency` together with `Field.SelectCurrency`.
+It imitates a transaction, and therefore sets the HTML [autofill](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) attribute for both fields, `transaction-currency` in `Field.SelectCurrency` and `transaction-amount` in `Field.Currency`.
+
+<Examples.WithFieldSelectCurrency />

@@ -9,6 +9,7 @@ import countries, {
   prioritizedCountries,
   type CountryType,
   type CountryLang,
+  type CountryISO,
 } from '../../constants/countries'
 import { useFieldProps } from '../../hooks'
 import { FieldPropsWithExtraValue } from '../../types'
@@ -27,7 +28,7 @@ export type CountryFilterSet =
 export type { CountryType }
 
 export type Props = FieldPropsWithExtraValue<
-  string,
+  CountryISO,
   CountryType,
   undefined | string
 > & {
@@ -121,6 +122,8 @@ function SelectCountry(props: Props) {
     size,
     value,
     width,
+    noAnimation,
+    autoComplete,
     htmlAttributes,
     handleFocus,
     handleBlur,
@@ -261,8 +264,8 @@ function SelectCountry(props: Props) {
         status={hasError ? 'error' : undefined}
         show_submit_button
         keep_selection
-        autoComplete="country-name"
-        no_animation={props.noAnimation}
+        autoComplete={autoComplete ?? 'country-name'}
+        no_animation={noAnimation}
         {...htmlAttributes}
       />
     </FieldBlock>
@@ -278,7 +281,6 @@ type GetCountryData = {
     lang: string
   ) => {
     selectedKey: string
-    selected_value?: string
     content: string
   }
 }

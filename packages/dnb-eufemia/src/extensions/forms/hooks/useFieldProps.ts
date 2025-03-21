@@ -44,6 +44,7 @@ import SectionContext from '../Form/Section/SectionContext'
 import FieldBoundaryContext from '../DataContext/FieldBoundary/FieldBoundaryContext'
 import VisibilityContext from '../Form/Visibility/VisibilityContext'
 import WizardContext from '../Wizard/Context'
+import WizardStepContext from '../Wizard/Step/StepContext'
 import SnapshotContext from '../Form/Snapshot/SnapshotContext'
 import useProcessManager from './useProcessManager'
 import usePath from './usePath'
@@ -55,7 +56,6 @@ import { isAsync } from '../../../shared/helpers/isAsync'
 import useTranslation from './useTranslation'
 import useExternalValue from './useExternalValue'
 import useDataValue from './useDataValue'
-import WizardStepContext from '../Wizard/Step/StepContext'
 
 // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
 const useLayoutEffect =
@@ -229,7 +229,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     setFieldState: setFieldStateFieldBlock,
     showFieldError: showFieldErrorFieldBlock,
     mountedFieldsRef: mountedFieldsRefFieldBlock,
-  } = inFieldBlock ? fieldBlockContext : ({} as FieldBlockContextProps)
+  } = (inFieldBlock ? fieldBlockContext : {}) as FieldBlockContextProps
   const {
     activeIndex,
     activeIndexRef,
@@ -560,46 +560,42 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     ]
   )
 
+  const setErrorState = useCallback(
+    (hasError: boolean) => {
+      showFieldErrorFieldBlock?.(identifier, hasError)
+      revealErrorWizard?.(wizardIndex, identifier, hasError)
+      revealErrorBoundary?.(identifier, hasError)
+      revealErrorDataContext?.(identifier, hasError)
+    },
+    [
+      identifier,
+      revealErrorBoundary,
+      revealErrorDataContext,
+      revealErrorWizard,
+      showFieldErrorFieldBlock,
+      wizardIndex,
+    ]
+  )
+
+  // - Will reveal the error as a visible error (hasVisibleError)
   const revealError = useCallback(() => {
     // To support "validateInitially={false}" prop, we need to make sure that the error is not shown initially
-    if (revealErrorRef.current === false && validateInitially === false) {
+    if (validateInitially === false && revealErrorRef.current === false) {
       revealErrorRef.current = undefined
       return // stop here
     }
 
-    revealErrorRef.current = true
-
     const hasError = Boolean(localErrorRef.current)
-    showFieldErrorFieldBlock?.(identifier, hasError)
-    revealErrorBoundary?.(identifier, hasError)
-    revealErrorDataContext?.(identifier, hasError)
-    revealErrorWizard?.(wizardIndex, identifier, hasError)
-  }, [
-    validateInitially,
-    showFieldErrorFieldBlock,
-    identifier,
-    revealErrorBoundary,
-    revealErrorDataContext,
-    revealErrorWizard,
-    wizardIndex,
-  ])
+    revealErrorRef.current = hasError
+    setErrorState(hasError)
+  }, [validateInitially, setErrorState])
 
   const hideError = useCallback(() => {
     if (revealErrorRef.current) {
       revealErrorRef.current = undefined
-      showFieldErrorFieldBlock?.(identifier, false)
-      revealErrorBoundary?.(identifier, false)
-      revealErrorDataContext?.(identifier, false)
-      revealErrorWizard?.(wizardIndex, identifier, false)
+      setErrorState(false)
     }
-  }, [
-    identifier,
-    revealErrorBoundary,
-    revealErrorDataContext,
-    revealErrorWizard,
-    showFieldErrorFieldBlock,
-    wizardIndex,
-  ])
+  }, [setErrorState])
 
   const errorMessagesCacheRef = useRef({
     errorMessages: null,
@@ -717,7 +713,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     return contextErrorRef.current
   }, [dataContextErrors, path, prepareError])
 
-  // If the error is a type error, we want to show it even if the field as not been used
+  // If the error is a type error, we want to show it even if the field has not been used
   if (localErrorRef.current?.['ajvKeyword'] === 'type') {
     revealErrorRef.current = true
   }
@@ -741,7 +737,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   const bufferedError = getBufferedError()
 
-  const hasVisibleError =
+  const errorIsVisible =
     Boolean(bufferedError) ||
     (inFieldBlock && fieldBlockContext.hasErrorProp)
   const hasError = useCallback(() => {
@@ -936,7 +932,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       if (
         !error &&
         method === 'gracefully' &&
-        Object.keys(errorMethodRef.current).filter(Boolean).length > 0
+        (errorMethodRef.current?.weak ||
+          errorMethodRef.current?.gracefully)
       ) {
         // If the error is removed, we need to check if there are other errors that still should be shown
         return
@@ -996,7 +993,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
       // Don't show the error if the value has changed in the meantime
       if (unchangedValue) {
-        persistErrorState('gracefully', 'onChangeValidator', result)
+        persistErrorState(
+          runAsync ? 'gracefully' : 'weak',
+          'onChangeValidator',
+          result
+        )
 
         if (
           (validateInitially && !changedRef.current) ||
@@ -2483,7 +2484,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     /** Documented APIs */
     id,
     value: transformers.current.toInput(valueRef.current),
-    hasError: hasVisibleError,
+    hasError: errorIsVisible,
     isChanged: Boolean(changedRef.current),
     props,
     htmlAttributes,

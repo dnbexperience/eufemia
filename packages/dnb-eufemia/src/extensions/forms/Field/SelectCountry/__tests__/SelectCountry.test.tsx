@@ -7,6 +7,7 @@ import { Provider } from '../../../../../shared'
 import DataContext from '../../../DataContext/Context'
 import DrawerListProvider from '../../../../../fragments/drawer-list/DrawerListProvider'
 import { Field, Form, FieldBlock, Value, Iterate } from '../../..'
+import { CountryISO } from '../../../constants/countries'
 
 describe('Field.SelectCountry', () => {
   it('should render with props', () => {
@@ -527,7 +528,7 @@ describe('Field.SelectCountry', () => {
       }
     })
     const transformIn = jest.fn((external) => {
-      return String(external).match(/\((.*)\)/)?.[1]
+      return String(external).match(/\((.*)\)/)?.[1] as CountryISO
     })
     const valueTransformIn = jest.fn((internal) => {
       return String(internal).match(/\((.*)\)/)?.[1]
@@ -684,6 +685,20 @@ describe('Field.SelectCountry', () => {
     expect(
       document.querySelector('.dnb-drawer-list__option')
     ).not.toBeInTheDocument()
+  })
+
+  it('should have default autoComplete', () => {
+    render(<Field.SelectCountry />)
+    expect(
+      document.querySelector('input').getAttribute('autocomplete')
+    ).toBe('country-name')
+  })
+
+  it('should render autoComplete when provided', () => {
+    render(<Field.SelectCountry autoComplete="country" />)
+    expect(
+      document.querySelector('input').getAttribute('autocomplete')
+    ).toBe('country')
   })
 
   describe('ARIA', () => {

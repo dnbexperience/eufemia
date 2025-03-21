@@ -16,6 +16,9 @@ import { isMac } from '../../../shared/helpers'
 import Provider from '../../../shared/Provider'
 import NumberFormat, { NumberFormatProps } from '../NumberFormat'
 import { format, formatReturnValue } from '../NumberUtils'
+import enGB from '../../../shared/locales/en-GB'
+
+const en = enGB['en-GB'].NumberFormat
 
 const Component = (props) => {
   return <NumberFormat id="unique" {...props} />
@@ -116,11 +119,29 @@ describe('NumberFormat component', () => {
     )
   })
 
+  it('have support valid locale with invalid value', () => {
+    const log = jest.spyOn(console, 'log').mockImplementation()
+
+    render(
+      <NumberFormat locale="en-GB" decimals={2}>
+        invalid
+      </NumberFormat>
+    )
+
+    expect(document.querySelector(displaySelector).textContent).toBe('–')
+
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe(en.not_available)
+
+    log.mockRestore()
+  })
+
   it('have support invalid locale with invalid value', () => {
     const log = jest.spyOn(console, 'log').mockImplementation()
 
     render(
-      <NumberFormat locale="something" decimals={2}>
+      <NumberFormat locale="else" decimals={2}>
         invalid
       </NumberFormat>
     )
@@ -350,6 +371,34 @@ describe('NumberFormat component', () => {
     render(<NumberFormat value={-0.2} decimals={0} />)
     expect(document.querySelector('.dnb-number-format').textContent).toBe(
       '0'
+    )
+  })
+
+  it('should yield strict zero currency when value gets rounded to zero because of decimals=0', () => {
+    render(<NumberFormat value={-0.2} currency decimals={0} />)
+    expect(document.querySelector('.dnb-number-format').textContent).toBe(
+      '0 kr'
+    )
+  })
+
+  it('should yield strict zero currency when value gets rounded to zero because of decimals=0 and locale is en-GB', () => {
+    render(
+      <NumberFormat
+        value={-0.2}
+        currency="SEK"
+        locale="en-GB"
+        decimals={0}
+      />
+    )
+    expect(document.querySelector('.dnb-number-format').textContent).toBe(
+      '-SEK 0'
+    )
+  })
+
+  it('should yield strict zero percent when value gets rounded to zero because of decimals=0', () => {
+    render(<NumberFormat value={-0.2} percent decimals={0} />)
+    expect(document.querySelector('.dnb-number-format').textContent).toBe(
+      '0 %'
     )
   })
 

@@ -210,6 +210,11 @@ export default {
       placeholder: 'Select country',
       errorRequired: 'You must select a country from the list.',
     },
+    SelectCurrency: {
+      label: 'Currency',
+      placeholder: 'Select currency',
+      errorRequired: 'You must select a currency from the list.',
+    },
     Password: {
       label: 'Password',
       ariaLabelShow: 'Show password',

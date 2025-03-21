@@ -250,11 +250,15 @@ export default class NumberFormat extends React.PureComponent {
   }
 
   render() {
+    const translations = this.context.getTranslation(
+      this.props
+    ).NumberFormat
+
     // consume the global context
     const props = extendPropsWithContextInClassComponent(
       this.props,
       NumberFormat.defaultProps,
-      this.context.getTranslation(this.props).NumberFormat,
+      translations,
       this.context.NumberFormat
     )
 
@@ -319,6 +323,10 @@ export default class NumberFormat extends React.PureComponent {
       clean: isTrue(clean),
       clean_copy_value: isTrue(clean_copy_value),
       returnAria: true,
+      invalidAriaText:
+        locale && locale !== this.context.locale
+          ? null
+          : translations?.not_available,
     }
 
     // use only the props from context, who are available here anyway
