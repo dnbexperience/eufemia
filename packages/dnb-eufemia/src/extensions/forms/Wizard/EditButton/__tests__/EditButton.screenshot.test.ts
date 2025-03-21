@@ -6,10 +6,8 @@ describe('EditButton', () => {
   it('have to match button with hr', async () => {
     const screenshot = await makeScreenshot({
       url,
-      style: {
-        width: '20rem',
-      },
       wrapperStyle: {
+        width: '25rem',
         'padding-left': '2.5rem',
         'padding-right': '2.5rem',
       },

@@ -83,6 +83,7 @@ export const Inactive = () => {
               mode="strict"
               id="unique-id-inactive"
               initialActiveIndex={2}
+              expandedInitially
             >
               <Wizard.Step title="Step 1" inactive>
                 <Wizard.Buttons />
