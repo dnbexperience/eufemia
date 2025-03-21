@@ -7197,7 +7197,6 @@ describe('useFieldProps', () => {
                 </FieldBoundaryContext.Consumer>
 
                 <Wizard.Step title="Step 1">
-                  <output>Step 1</output>
                   <Field.Selection
                     variant="autocomplete"
                     path="/foo"
@@ -7249,6 +7248,9 @@ describe('useFieldProps', () => {
       expect(fieldBoundaryContext).toBe(true)
 
       expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        'Show this error!'
+      )
 
       await userEvent.click(document.querySelector('input'))
       await userEvent.click(
