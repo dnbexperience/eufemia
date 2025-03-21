@@ -3,6 +3,35 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.69.0](https://github.com/dnbexperience/eufemia/compare/v10.68.1...v10.69.0) (2025-03-21)
+
+
+### :sparkles: Features
+
+* **Field.SelectCountry:** add `autoComplete` support ([#4781](https://github.com/dnbexperience/eufemia/issues/4781)) ([176760b](https://github.com/dnbexperience/eufemia/commit/176760b42ce4b6ca21ec97961de24ab6c0c37868))
+* **Field.SelectCountry:** enhance value type ([#4782](https://github.com/dnbexperience/eufemia/issues/4782)) ([a51ec61](https://github.com/dnbexperience/eufemia/commit/a51ec614345a87b584c7f1502e32d81199ee41db))
+* **Forms:** add `CountryISO` as the value type to Field.SelectCountry ([#4791](https://github.com/dnbexperience/eufemia/issues/4791)) ([b8491ed](https://github.com/dnbexperience/eufemia/commit/b8491ed99cbf44107584aa10e77e178e56ebaca9))
+* **Forms:** add `Field.SelectCurrency` and `Value.SelectCurrency` ([#4770](https://github.com/dnbexperience/eufemia/issues/4770)) ([279d03e](https://github.com/dnbexperience/eufemia/commit/279d03e81531b0a7f7799ff2ace86c94401ca105))
+* **InfoCard:** add `stretch` property and don't stretch by default ([#4765](https://github.com/dnbexperience/eufemia/issues/4765)) ([d7c850d](https://github.com/dnbexperience/eufemia/commit/d7c850d598f7e2f83a76d560ff637f5b826a1fe4))
+* **NumberFormat:** use component's translation for invalid aria text ([#4763](https://github.com/dnbexperience/eufemia/issues/4763)) ([f446639](https://github.com/dnbexperience/eufemia/commit/f446639386c97a32c4df1205a0c4b435088245f1))
+* **Table:** add view transition support to inserted table rows (accordion) ([#4764](https://github.com/dnbexperience/eufemia/issues/4764)) ([29273c8](https://github.com/dnbexperience/eufemia/commit/29273c83abd5f1b71f7beed91681b4852c542969))
+
+
+### :memo: Documentation
+
+* add link to localization docs in portal tools menu ([#4762](https://github.com/dnbexperience/eufemia/issues/4762)) ([d39353b](https://github.com/dnbexperience/eufemia/commit/d39353bf162d29713ed4c8973410fe2152ac5e94))
+* **DatePicker:** add rationale behind why `correctInvalidDate` is not on by default ([#4776](https://github.com/dnbexperience/eufemia/issues/4776)) ([c414463](https://github.com/dnbexperience/eufemia/commit/c414463ea297a5437b7e1d826d4f6f134ae9589d))
+* **Field.SelectCountry:** improve event arguments ([#4784](https://github.com/dnbexperience/eufemia/issues/4784)) ([644f9e8](https://github.com/dnbexperience/eufemia/commit/644f9e8581836108bdd442799613a4cae443f46f))
+* **Forms:** add example on how to use `onInput` ([#4792](https://github.com/dnbexperience/eufemia/issues/4792)) ([2294b68](https://github.com/dnbexperience/eufemia/commit/2294b68dd59a412f2918be6f430d5863b1397141))
+
+
+### :bug: Bug Fixes
+
+* **Forms:** don't show Wizard step error on small screens for the same step ([#4774](https://github.com/dnbexperience/eufemia/issues/4774)) ([74afa5e](https://github.com/dnbexperience/eufemia/commit/74afa5ebf559c2b4d004220bc448ad80d27dd087))
+* **Forms:** enhance typing for `FieldBlock` and `useFieldProps` ([#4785](https://github.com/dnbexperience/eufemia/issues/4785)) ([64070a6](https://github.com/dnbexperience/eufemia/commit/64070a6a2e01ba546ee6d3dd432cdddb8ca82f4b))
+* **Forms:** ensure Wizard does not show invalid error ([#4786](https://github.com/dnbexperience/eufemia/issues/4786)) ([e5f913c](https://github.com/dnbexperience/eufemia/commit/e5f913c91f798a469dfabf5b5fece5a079811995))
+* **NumberFormat:** ensure -0 is displayed as 0 when formatted as currency ([#4788](https://github.com/dnbexperience/eufemia/issues/4788)) ([aa02d37](https://github.com/dnbexperience/eufemia/commit/aa02d371154ac2b0cd0e25e68da3b1f29eba75c2)), closes [#4691](https://github.com/dnbexperience/eufemia/issues/4691)
+
 ## [10.68.1](https://github.com/dnbexperience/eufemia/compare/v10.68.0...v10.68.1) (2025-03-17)
 
 
