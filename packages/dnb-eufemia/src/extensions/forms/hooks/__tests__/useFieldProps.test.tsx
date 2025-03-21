@@ -10,11 +10,13 @@ import {
 import userEvent from '@testing-library/user-event'
 import useFieldProps from '../useFieldProps'
 import { Context, ContextState, Provider } from '../../DataContext'
-import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
+import FieldBoundaryProvider from '../../DataContext/FieldBoundary/FieldBoundaryProvider'
+import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import WizardStepContext from '../../Wizard/Step/StepContext'
 import WizardContext from '../../Wizard/Context'
 import Field, {
+  DataContext,
   FieldBlock,
   FieldPropsGeneric,
   Form,
@@ -24,6 +26,7 @@ import Field, {
   OnChange,
   SubmitState,
   UseFieldProps,
+  Wizard,
 } from '../../Forms'
 import { spyOnEufemiaWarn, wait } from '../../../../core/jest/jestSetup'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
@@ -7160,8 +7163,106 @@ describe('useFieldProps', () => {
         true
       )
       expect(revealErrorWizard).toHaveBeenLastCalledWith(1, '/foo', true)
+    })
 
-      return
+    it('should remove error from context when field has no error', async () => {
+      let dataContextError = null
+      let wizardContextError = null
+      let fieldBoundaryContext = null
+
+      const MockComponent = () => {
+        return (
+          <Form.Handler>
+            <FieldBoundaryProvider>
+              <Wizard.Container>
+                <DataContext.Consumer>
+                  {(context) => {
+                    dataContextError = context.hasVisibleError
+                    return null
+                  }}
+                </DataContext.Consumer>
+
+                <WizardContext.Consumer>
+                  {(context) => {
+                    wizardContextError = context.hasInvalidStepsState()
+                    return null
+                  }}
+                </WizardContext.Consumer>
+
+                <FieldBoundaryContext.Consumer>
+                  {(context) => {
+                    fieldBoundaryContext = context.hasVisibleError
+                    return null
+                  }}
+                </FieldBoundaryContext.Consumer>
+
+                <Wizard.Step title="Step 1">
+                  <Field.Selection
+                    variant="autocomplete"
+                    path="/foo"
+                    data={[
+                      {
+                        value: 'foo',
+                        title: 'Foo',
+                      },
+                      {
+                        value: 'bar',
+                        title: 'Bar',
+                      },
+                    ]}
+                    onChangeValidator={(value: string) => {
+                      if (value === 'foo') {
+                        return new Error('Show this error!')
+                      }
+                    }}
+                    required
+                  />
+                </Wizard.Step>
+              </Wizard.Container>
+            </FieldBoundaryProvider>
+          </Form.Handler>
+        )
+      }
+
+      render(<MockComponent />)
+
+      expect(dataContextError).toBe(false)
+      expect(wizardContextError).toBe(false)
+      expect(fieldBoundaryContext).toBe(false)
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(dataContextError).toBe(true)
+      expect(wizardContextError).toBe(false)
+      expect(fieldBoundaryContext).toBe(true)
+
+      await userEvent.type(document.querySelector('input'), 'foo')
+      await userEvent.click(
+        document.querySelectorAll('[role="option"]')[0]
+      )
+
+      expect(document.querySelector('input')).toHaveValue('Foo')
+
+      expect(dataContextError).toBe(true)
+      expect(wizardContextError).toBe(true)
+      expect(fieldBoundaryContext).toBe(true)
+
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        'Show this error!'
+      )
+
+      await userEvent.click(document.querySelector('input'))
+      await userEvent.click(
+        document.querySelectorAll('[role="option"]')[1]
+      )
+
+      expect(document.querySelector('input')).toHaveValue('Bar')
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(0)
+
+      expect(dataContextError).toBe(false)
+      expect(wizardContextError).toBe(false)
+      expect(fieldBoundaryContext).toBe(false)
     })
   })
 
