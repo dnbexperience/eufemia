@@ -13,9 +13,9 @@ export type DrawerListContextState = Omit<
   'data'
 > & {
   data: DrawerListDataArrayObject[]
-  /** used by Autocomplere */
+  /** used by Autocomplete */
   original_data?: DrawerListDataArrayObject[]
-  /** used by Autocomplere */
+  /** used by Autocomplete */
   current_title?: string
   /** used internally */
   _data?: any
