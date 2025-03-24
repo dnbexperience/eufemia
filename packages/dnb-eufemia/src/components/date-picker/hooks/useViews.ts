@@ -16,7 +16,12 @@ export type UseViewsParams = ViewDates & {
 export default function useViews({ isRange, ...dates }: UseViewsParams) {
   const [previousDates, setPreviousDates] = useState(dates)
   const [views, setViews] = useState<Array<CalendarView>>(
-    getViews({ views: undefined, ...dates, isRange })
+    isRange
+      ? [
+          { nr: 0, month: dates.startMonth },
+          { nr: 1, month: dates.endMonth },
+        ]
+      : [{ nr: 0, month: dates.startMonth }]
   )
 
   const forceViewChange = useRef(false)
