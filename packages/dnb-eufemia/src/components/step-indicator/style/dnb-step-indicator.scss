@@ -138,20 +138,13 @@
   }
 
   &__button {
-    --margin-animation: margin var(--height-animation-duration)
-      var(--easing-default) var(--delay, 0ms);
-    transition: var(--margin-animation);
     white-space: normal;
     text-align: left;
     align-self: flex-start;
-    margin-bottom: 0;
 
     &.dnb-anchor {
       padding: 0;
       line-height: inherit;
-    }
-    &--has-status {
-      margin-bottom: 1rem;
     }
   }
 }
