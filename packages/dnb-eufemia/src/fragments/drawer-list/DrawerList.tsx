@@ -151,7 +151,7 @@ export interface DrawerListProps {
   /**
    * Has to be an HTML Element, ideally a mother element, used to calculate sizes and distances. Also used for the 'click outside' detection. Clicking on the `wrapper_element` will not trigger an outside click.
    */
-  wrapper_element?: string | Element
+  wrapper_element?: string | HTMLElement
   /**
    * Define a startup value or handle a re-render without handling the state during the re-render by yourself. Defaults to null.
    */
