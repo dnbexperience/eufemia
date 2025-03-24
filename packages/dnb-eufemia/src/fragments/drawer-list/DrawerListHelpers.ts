@@ -492,7 +492,9 @@ export const prepareDerivedState = (
     typeof props.wrapper_element === 'string' &&
     typeof document !== 'undefined'
   ) {
-    const wrapper_element = document.querySelector(props.wrapper_element)
+    const wrapper_element = document.querySelector<HTMLElement>(
+      props.wrapper_element
+    )
     if (wrapper_element) {
       state.wrapper_element = wrapper_element
     }
