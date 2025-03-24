@@ -16,6 +16,9 @@ import { spacingPropTypes } from '../../components/space/SpacingHelper'
 import {
   DrawerListDataArrayItem,
   DrawerListDataArrayObject,
+  DrawerListData,
+  DrawerListDataAll,
+  DrawerListDataArray,
 } from './DrawerList'
 import { DrawerListProviderProps } from './DrawerListProvider'
 import { DrawerListContextState } from './DrawerListContext'
@@ -266,9 +269,12 @@ export const hasObjectKeyAsValue = (data) => {
   return data && typeof data === 'object' && !Array.isArray(data)
 }
 
-export const preSelectData = (data) => {
+export function preSelectData(data: DrawerListData): DrawerListDataAll {
   if (typeof data === 'string') {
-    data = data[0] === '{' || data[0] === '[' ? JSON.parse(data) : null
+    data =
+      data[0] === '{' || data[0] === '['
+        ? (JSON.parse(data) as Array<any> | Record<string, any>)
+        : undefined
   } else if (data && React.isValidElement(data)) {
     data = []
   } else if (typeof data === 'function') {
@@ -284,11 +290,11 @@ export const preSelectData = (data) => {
  * @param {*} props object containing the data in props.data or props.children, or the data itself
  * @returns an array representation of the data
  */
-export const normalizeData = (props) => {
-  let data = preSelectData(props.data || props.children || props)
+export function normalizeData(props): DrawerListDataArrayObject[] {
+  let data = preSelectData(props.data || props.children || props) ?? []
 
-  if (data && typeof data === 'object' && !Array.isArray(data)) {
-    const list = []
+  if (typeof data === 'object' && !Array.isArray(data)) {
+    const list: DrawerListDataArray = []
     for (const key in data) {
       list.push({
         selectedKey: key,
@@ -301,28 +307,27 @@ export const normalizeData = (props) => {
     data = list
   }
 
-  return (data || []).map((item, __id) => {
-    if (
-      typeof item === 'number' ||
-      typeof item === 'string' ||
-      Array.isArray(item) ||
-      React.isValidElement(item)
-    ) {
-      item = { content: item, __isTransformed: true }
-    }
+  return data.map((dataItem, __id) => {
+    const normalized = normalizeDataItem(dataItem, true)
 
-    return typeof item?.__id !== 'undefined' ? item : { ...item, __id }
+    return typeof normalized?.__id !== 'undefined'
+      ? normalized
+      : { ...normalized, __id }
   })
 }
 
 function normalizeDataItem(
-  dataItem: DrawerListDataArrayItem
+  dataItem: DrawerListDataArrayItem,
+  markAsTransformed = false
 ): DrawerListDataArrayObject {
   return dataItem === null
     ? undefined
     : typeof dataItem === 'object' && 'content' in dataItem
     ? dataItem
-    : { content: dataItem }
+    : {
+        content: dataItem,
+        ...(markAsTransformed ? { __isTransformed: true } : {}),
+      }
 }
 
 export const getData = (props) => {
@@ -421,7 +426,10 @@ export function prepareStartupState(
 ): DrawerListContextState {
   const selected_item = null
   const raw_data = preSelectData(
-    props.raw_data || props.data || props.children
+    props.data ||
+      (!React.isValidElement(props.children)
+        ? (props.children as DrawerListData)
+        : undefined)
   )
   const data = getData(props)
   const opened = props.opened !== null ? isTrue(props.opened) : null
@@ -430,7 +438,7 @@ export function prepareStartupState(
     opened,
     data,
     original_data: data, // used to reset in case we reorder data etc.
-    raw_data, // to have a backup to look up what we got in the first place (array vs object)
+    raw_data,
     direction: props.direction,
     max_height: props.max_height,
     selected_item,
