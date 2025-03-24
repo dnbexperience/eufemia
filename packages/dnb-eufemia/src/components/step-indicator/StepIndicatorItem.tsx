@@ -300,6 +300,7 @@ function StepIndicatorItem({
               {element}
             </StepItemButton>
             <FormStatus
+              shellSpace={{ top: '1rem' }}
               no_animation={no_animation}
               state={status_state}
               variant="outlined"
