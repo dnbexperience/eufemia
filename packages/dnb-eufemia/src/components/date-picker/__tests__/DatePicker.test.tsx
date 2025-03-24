@@ -1515,6 +1515,149 @@ describe('DatePicker component', () => {
     expect(yearElem).toHaveValue('2024')
   })
 
+  it('should auto-correct invalid dates if `correctInvalidDate` is set to true and `minDate` is defined', async () => {
+    render(
+      <DatePicker minDate="2025-03-01" correctInvalidDate showInput />
+    )
+
+    const [dayInput, monthInput, yearInput] = Array.from(
+      document.querySelectorAll('input.dnb-date-picker__input')
+    )
+
+    await userEvent.click(dayInput)
+    await userEvent.keyboard('55555555')
+
+    expect(dayInput).toHaveValue('01')
+    expect(monthInput).toHaveValue('03')
+    expect(yearInput).toHaveValue('2025')
+  })
+
+  it('should auto-correct invalid dates if `correctInvalidDate` is set to true and `maxDate` is defined', async () => {
+    render(
+      <DatePicker maxDate="2026-04-30" correctInvalidDate showInput />
+    )
+
+    const [dayInput, monthInput, yearInput] = Array.from(
+      document.querySelectorAll('input.dnb-date-picker__input')
+    )
+
+    await userEvent.click(dayInput)
+    await userEvent.keyboard('55555555')
+
+    expect(dayInput).toHaveValue('30')
+    expect(monthInput).toHaveValue('04')
+    expect(yearInput).toHaveValue('2026')
+  })
+
+  it('should auto-correct invalid dates if `correctInvalidDate` is set to true and `minDate` is defined when in `range` mode', async () => {
+    render(
+      <DatePicker
+        minDate="2027-11-19"
+        correctInvalidDate
+        showInput
+        range
+      />
+    )
+
+    const [
+      startDayInput,
+      startMonthInput,
+      startYearInput,
+      endDayInput,
+      endMonthInput,
+      endYearInput,
+    ] = Array.from(
+      document.querySelectorAll('input.dnb-date-picker__input')
+    )
+
+    // startDate should be auto-corrected to `2027-11-19`
+    await userEvent.click(startDayInput)
+    await userEvent.keyboard('55555555')
+
+    expect(startDayInput).toHaveValue('19')
+    expect(startMonthInput).toHaveValue('11')
+    expect(startYearInput).toHaveValue('2027')
+
+    // endDate should be auto-corrected to `2027-11-19`
+    await userEvent.keyboard('66666666')
+    expect(endDayInput).toHaveValue('19')
+    expect(endMonthInput).toHaveValue('11')
+    expect(endYearInput).toHaveValue('2027')
+  })
+
+  it('should auto-correct invalid dates if `correctInvalidDate` is set to true and `maxDate` is defined when in `range` mode', async () => {
+    render(
+      <DatePicker
+        maxDate="2026-04-30"
+        correctInvalidDate
+        showInput
+        range
+      />
+    )
+
+    const [
+      startDayInput,
+      startMonthInput,
+      startYearInput,
+      endDayInput,
+      endMonthInput,
+      endYearInput,
+    ] = Array.from(
+      document.querySelectorAll('input.dnb-date-picker__input')
+    )
+
+    // startDate should be auto-corrected to `2026-04-30`
+    await userEvent.click(startDayInput)
+    await userEvent.keyboard('55555555')
+
+    expect(startDayInput).toHaveValue('30')
+    expect(startMonthInput).toHaveValue('04')
+    expect(startYearInput).toHaveValue('2026')
+
+    // endDate should be auto-corrected to `2026-04-30`
+    await userEvent.keyboard('66666666')
+    expect(endDayInput).toHaveValue('30')
+    expect(endMonthInput).toHaveValue('04')
+    expect(endYearInput).toHaveValue('2026')
+  })
+
+  it('should auto-correct invalid dates if `correctInvalidDate` is set to true and `minDate` and `maxDate` is defined when in `range` mode', async () => {
+    render(
+      <DatePicker
+        minDate="2025-03-01"
+        maxDate="2026-04-30"
+        correctInvalidDate
+        showInput
+        range
+      />
+    )
+
+    const [
+      startDayInput,
+      startMonthInput,
+      startYearInput,
+      endDayInput,
+      endMonthInput,
+      endYearInput,
+    ] = Array.from(
+      document.querySelectorAll('input.dnb-date-picker__input')
+    )
+
+    // startDate should be auto-corrected to `2025-03-01`
+    await userEvent.click(startDayInput)
+    await userEvent.keyboard('55555555')
+
+    expect(startDayInput).toHaveValue('01')
+    expect(startMonthInput).toHaveValue('03')
+    expect(startYearInput).toHaveValue('2025')
+
+    // endDate should be auto-corrected to `2026-04-30`
+    await userEvent.keyboard('66666666')
+    expect(endDayInput).toHaveValue('30')
+    expect(endMonthInput).toHaveValue('04')
+    expect(endYearInput).toHaveValue('2026')
+  })
+
   it('has valid on_type and onChange event calls', () => {
     const onType = jest.fn()
     const onChange = jest.fn()
