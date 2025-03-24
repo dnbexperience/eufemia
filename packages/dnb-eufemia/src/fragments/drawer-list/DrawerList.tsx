@@ -44,31 +44,11 @@ const propsToFilterOut = {
   options_render: null,
   wrapper_element: null,
 }
-export type DrawerListDirection = 'auto' | 'top' | 'bottom'
-export type DrawerListSize =
-  | 'default'
-  | 'small'
-  | 'medium'
-  | 'large'
-  | number
-export type DrawerListAlignDrawer = 'left' | 'right'
-export type DrawerListOptionsRender = ({
-  data,
-  Items,
-  Item,
-}: {
-  data: DrawerListDataArrayObject[]
-  Items: React.FunctionComponent
-  Item: React.FC<DrawerListItemProps>
-}) => React.ReactNode
+
 export type DrawerListContent =
   | string
   | React.ReactNode
   | (string | React.ReactNode)[]
-export type DrawerListDefaultValue = string | number
-
-export type DrawerListValue = string | number
-export type DrawerListWrapperElement = string | Element
 export type DrawerListDataArrayObject = {
   [customProperty: string]: any
   selected_value?: string | React.ReactNode
@@ -96,6 +76,17 @@ export type DrawerListDataArrayItem =
 export type DrawerListDataArray = DrawerListDataArrayItem[]
 export type DrawerListDataRecord = Record<string, DrawerListContent>
 export type DrawerListDataAll = DrawerListDataRecord | DrawerListDataArray
+
+export type DrawerListOptionsRender = ({
+  data,
+  Items,
+  Item,
+}: {
+  data: DrawerListDataArrayObject[]
+  Items: React.FunctionComponent
+  Item: React.FC<DrawerListItemProps>
+}) => React.ReactNode
+export type DrawerListValue = string | number
 export type DrawerListData =
   | string
   | ((...args: any[]) => DrawerListDataAll)
@@ -104,7 +95,6 @@ export type DrawerListRawData =
   | any[]
   | Record<string, unknown>
   | ((...args: any[]) => any)
-export type DrawerListChildren = DrawerListData | React.ReactElement
 export type DrawerListSuffix = React.ReactNode
 
 export interface DrawerListProps {
@@ -130,8 +120,8 @@ export interface DrawerListProps {
   /**
    * Defines the direction of how the drawer-list shows the options list. Can be 'bottom' or 'top'. Defaults to 'auto'.
    */
-  direction?: DrawerListDirection
-  size?: DrawerListSize
+  direction?: 'auto' | 'top' | 'bottom'
+  size?: 'default' | 'small' | 'medium' | 'large' | number
   /**
    * Defines the minimum height (in `rem`) of the options list.
    */
@@ -157,7 +147,7 @@ export interface DrawerListProps {
   /**
    * Use 'right' to change the options alignment direction. Makes only sense to use in combination with `prevent_selection` or `more_menu` - or if an independent width is used.
    */
-  align_drawer?: DrawerListAlignDrawer
+  align_drawer?: 'left' | 'right'
   /**
    * Has to be a function, returning the items again. See [example](/uilib/components/fragments/drawer-list#example-usage-of-options_render). This can be used to add additional options above the actual rendered list.
    */
@@ -165,11 +155,11 @@ export interface DrawerListProps {
   /**
    * Has to be an HTML Element, ideally a mother element, used to calculate sizes and distances. Also used for the 'click outside' detection. Clicking on the `wrapper_element` will not trigger an outside click.
    */
-  wrapper_element?: DrawerListWrapperElement
+  wrapper_element?: string | Element
   /**
    * Define a startup value or handle a re-render without handling the state during the re-render by yourself. Defaults to null.
    */
-  default_value?: DrawerListDefaultValue
+  default_value?: DrawerListValue
   /**
    * Define a preselected `data` entry. In order of priority, `value` can be set to: object key (if `data` is an object), `selectedKey` prop (if `data` is an array), array index (if no `selectedKey`) or content (if `value` is a non-integer string).
    */
@@ -217,7 +207,7 @@ export interface DrawerListProps {
   ignore_events?: boolean
   className?: string
   /** Accepts the same values as the `data` prop. Will be ignored if `data` is used. Can also accept a single child for custom rendering. */
-  children?: DrawerListChildren
+  children?: DrawerListData | React.ReactElement
   suffix?: DrawerListSuffix
   /**
    * If set to `true`, the HTML body will get locked from scrolling when the Dropdown is open.
