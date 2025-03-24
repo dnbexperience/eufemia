@@ -379,7 +379,7 @@ export default function Provider<Data extends JsonObject>(
     (state: SubmitState) => {
       for (const path in mountedFieldsRef.current) {
         const item = mountedFieldsRef.current[path]
-        if (item.isMounted && checkFieldStateFor(path, state)) {
+        if (item && item.isMounted && checkFieldStateFor(path, state)) {
           return true
         }
       }
@@ -393,6 +393,7 @@ export default function Provider<Data extends JsonObject>(
       for (const p in mountedFieldsRef.current) {
         const item = mountedFieldsRef.current[path]
         if (
+          item &&
           item.isMounted &&
           p === path &&
           checkFieldStateFor(path, 'error')
