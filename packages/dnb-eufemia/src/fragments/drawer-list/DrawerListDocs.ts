@@ -137,8 +137,8 @@ export const DrawerListProperties: PropertiesTableProps = {
     status: 'optional',
   },
   wrapper_element: {
-    doc: "Has to be an HTML Element, ideally a mother element, used to calculate sizes and distances. Also used for the 'click outside' detection. Clicking on the `wrapper_element` will not trigger an outside click.",
-    type: 'HTMLElement',
+    doc: "Has to be an HTML Element, or a selector for one, ideally a mother element, used to calculate sizes and distances. Also used for the 'click outside' detection. Clicking on the `wrapper_element` will not trigger an outside click.",
+    type: ['string', 'HTMLElement'],
     status: 'optional',
   },
   options_render: {

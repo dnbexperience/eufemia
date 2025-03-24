@@ -68,10 +68,7 @@ export type DrawerListContent =
 export type DrawerListDefaultValue = string | number
 
 export type DrawerListValue = string | number
-export type DrawerListWrapperElement =
-  | Record<string, unknown>
-  | ((...args: any[]) => any)
-  | React.ReactNode
+export type DrawerListWrapperElement = string | Element
 export type DrawerListDataArrayObject = {
   [customProperty: string]: any
   selected_value?: string | React.ReactNode

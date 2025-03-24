@@ -17,6 +17,8 @@ import {
   DrawerListDataArrayItem,
   DrawerListDataArrayObject,
 } from './DrawerList'
+import { DrawerListProviderProps } from './DrawerListProvider'
+import { DrawerListContextState } from './DrawerListContext'
 
 export const drawerListPropTypes = {
   id: PropTypes.string,
@@ -414,22 +416,9 @@ export const getCurrentData = (item_index, data) => {
   return data
 }
 
-type STATE = {
-  opened: boolean
-  data: any
-  original_data: any
-  raw_data: any
-  direction: any
-  max_height: any
-  selected_item: any
-  active_item: any
-  on_hide: any
-  on_show: any
-  on_change: any
-  on_select: any
-  _value?: any
-}
-export const prepareStartupState = (props) => {
+export function prepareStartupState(
+  props: DrawerListProviderProps
+): DrawerListContextState {
   const selected_item = null
   const raw_data = preSelectData(
     props.raw_data || props.data || props.children
@@ -437,7 +426,7 @@ export const prepareStartupState = (props) => {
   const data = getData(props)
   const opened = props.opened !== null ? isTrue(props.opened) : null
 
-  const state: STATE = {
+  const state: DrawerListContextState = {
     opened,
     data,
     original_data: data, // used to reset in case we reorder data etc.
@@ -472,7 +461,10 @@ export const prepareStartupState = (props) => {
   return state
 }
 
-export const prepareDerivedState = (props, state) => {
+export const prepareDerivedState = (
+  props: DrawerListProviderProps,
+  state: DrawerListContextState
+) => {
   if (state.opened && !state.data && typeof props.data === 'function') {
     state.data = getData(props)
   }
@@ -524,7 +516,7 @@ export const prepareDerivedState = (props, state) => {
 
   // active_item can be -1, so we check for -2
   if (
-    !(parseFloat(state.active_item) > -2) ||
+    !(state.active_item !== null && state.active_item > -2) ||
     state._value !== props.value
   ) {
     state.active_item = state.selected_item
@@ -534,7 +526,7 @@ export const prepareDerivedState = (props, state) => {
     state.direction = props.direction
   }
 
-  if (parseFloat(state.selected_item) > -1) {
+  if (state.selected_item !== null && state.selected_item > -1) {
     state.current_title = getCurrentDataTitle(
       state.selected_item,
       state.data
