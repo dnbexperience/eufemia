@@ -313,6 +313,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       starDate?: Date
       event: React.ChangeEvent<HTMLInputElement>
     }) => {
+      // TODO: Check if we can drop the updateDates here to prevent double re-render when callOnChangeAsInvalid is called from setDate
       updateDates(
         {
           hoverDate: null,
