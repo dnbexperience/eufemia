@@ -110,9 +110,7 @@ function Step(props: Props): JSX.Element {
 
   const ariaLabel = useMemo(() => {
     return (
-      (!prerenderFieldProps &&
-        (stepsRef?.current?.[index]?.title ||
-          stepsRef?.current?.[index])) ??
+      (!prerenderFieldProps && stepsRef?.current?.[index]?.title) ??
       convertJsxToString(title)
     )
   }, [index, prerenderFieldProps, title, stepsRef])
