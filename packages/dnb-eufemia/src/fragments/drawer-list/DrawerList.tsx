@@ -91,10 +91,6 @@ export type DrawerListData =
   | string
   | ((...args: any[]) => DrawerListDataAll)
   | DrawerListDataAll
-export type DrawerListRawData =
-  | any[]
-  | Record<string, unknown>
-  | ((...args: any[]) => any)
 export type DrawerListSuffix = React.ReactNode
 
 export interface DrawerListProps {
@@ -200,7 +196,6 @@ export interface DrawerListProps {
   opened?: boolean
   data?: DrawerListData
   prepared_data?: any[]
-  raw_data?: DrawerListRawData
   /**
    * If set to `true`, all keyboard and mouse events will be ignored.
    */
@@ -364,7 +359,6 @@ class DrawerListInstance extends React.PureComponent<DrawerListProps> {
       max_height: _max_height, // eslint-disable-line
       id: _id, // eslint-disable-line
       data: _data, // eslint-disable-line
-      raw_data: _raw_data, // eslint-disable-line
       opened: _opened, // eslint-disable-line
       value: _value, // eslint-disable-line
       children,
