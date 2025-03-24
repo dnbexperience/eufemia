@@ -375,16 +375,16 @@ function correctDates({
 }) {
   const correctedDates = {}
 
-  if (!isRange && invalidStartDate) {
+  if (!isRange && invalidStartDate && !startDate) {
     correctedDates['startDate'] = minDate ?? maxDate
   }
 
   if (isRange) {
-    if (invalidStartDate) {
+    if (invalidStartDate && !startDate) {
       correctedDates['startDate'] = minDate ?? maxDate
     }
 
-    if (invalidEndDate) {
+    if (invalidEndDate && !endDate) {
       correctedDates['endDate'] = maxDate ?? minDate
     }
   }
