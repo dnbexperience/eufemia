@@ -155,7 +155,7 @@ export type StepIndicatorProps = Omit<
      */
     expandedInitially?: boolean
     /**
-     * Set it to `true` to break out on larger screens. Defaults to `false`
+     * Whether or not to break out (using negative margins) on larger screens. Defaults to `false`.
      */
     outset?: boolean
     skeleton?: SkeletonShow

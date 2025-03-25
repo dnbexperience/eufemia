@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const CardProperties: PropertiesTableProps = {
   outset: {
-    doc: 'True to break out negatively on larger screens. Defaults to `false`.',
+    doc: 'Whether or not to break out (using negative margins) on larger screens. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
