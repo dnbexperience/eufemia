@@ -4,11 +4,11 @@ import Step, {
   Props as StepProps,
   handleDeprecatedProps as handleDeprecatedStepProps,
 } from '../Step/Step'
+import { useCollectStepsData } from './useCollectStepsData'
 
 export function IterateOverSteps({ children }) {
   const {
     check,
-    collectStepsData,
     stepsRef,
     activeIndexRef,
     totalStepsRef,
@@ -17,6 +17,8 @@ export function IterateOverSteps({ children }) {
     prerenderFieldPropsRef,
     hasErrorInOtherStepRef,
   } = useContext(WizardContext)
+
+  const { collectStepsData } = useCollectStepsData()
 
   // Reset before iterating and calling "collectStepsData" and other variables are collected.
   stepsRef.current = new Map()

@@ -7,10 +7,7 @@ import React, {
 } from 'react'
 import classnames from 'classnames'
 import { Space } from '../../../../components'
-import {
-  convertJsxToString,
-  warn,
-} from '../../../../shared/component-helper'
+import { warn } from '../../../../shared/component-helper'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import useId from '../../../../shared/helpers/useId'
 import WizardContext, {
@@ -39,7 +36,6 @@ import useHandleLayoutEffect from './useHandleLayoutEffect'
 import useStepAnimation from './useStepAnimation'
 import { ComponentProps } from '../../types'
 import useVisibility from '../../Form/Visibility/useVisibility'
-import { useTranslation } from '../../hooks'
 import { DisplaySteps } from './DisplaySteps'
 import { IterateOverSteps } from './IterateOverSteps'
 import { PrerenderFieldPropsOfOtherSteps } from './PrerenderFieldPropsOfOtherSteps'
@@ -141,7 +137,7 @@ function WizardContainer(props: Props) {
     setShowAllErrors,
     setSubmitState,
   } = dataContext
-  const translations = useTranslation()
+  // const translations = useTranslation()
 
   const id = useId(idProp)
   const [, forceUpdate] = useReducer(() => ({}), {})
@@ -429,41 +425,6 @@ function WizardContainer(props: Props) {
       )
     }, [])
 
-  const collectStepsData = useCallback(
-    ({ id, index, inactive, titleProp }) => {
-      const title =
-        titleProp !== undefined
-          ? convertJsxToString(titleProp)
-          : 'Title missing'
-
-      const state = stepStatusRef.current[index]
-      const status =
-        index !== activeIndexRef.current
-          ? state === 'error'
-            ? translations.Step.stepHasError
-            : state === 'unknown'
-            ? 'Unknown state'
-            : undefined
-          : undefined
-      const statusState = state === 'error' ? 'error' : undefined // undefined shows 'warn' by default
-
-      if (status) {
-        hasErrorInOtherStepRef.current = true
-      }
-
-      stepsRef.current.set(String(index), {
-        id,
-        title,
-        inactive,
-        status,
-        statusState,
-      })
-
-      return { title }
-    },
-    [translations.Step.stepHasError]
-  )
-
   const handleSubmit = useCallback(
     ({ preventSubmit }) => {
       handleUnknownStepsState()
@@ -506,7 +467,6 @@ function WizardContainer(props: Props) {
       setActiveIndex,
       handlePrevious,
       hasInvalidStepsState,
-      collectStepsData,
       revealError,
       handleNext,
       setFormError,
@@ -521,7 +481,6 @@ function WizardContainer(props: Props) {
     setActiveIndex,
     handlePrevious,
     hasInvalidStepsState,
-    collectStepsData,
     revealError,
     handleNext,
     setFormError,

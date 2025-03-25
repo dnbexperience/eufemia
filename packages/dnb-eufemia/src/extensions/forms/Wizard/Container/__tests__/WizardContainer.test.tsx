@@ -235,6 +235,87 @@ describe('Wizard.Container', () => {
     })
   })
 
+  it('should support navigating back and forth and only show one step at a time', async () => {
+    const Step1 = () => (
+      <Wizard.Step title="Step 1">
+        <output>Step 1</output>
+        <Wizard.Buttons />
+      </Wizard.Step>
+    )
+
+    const Step2 = () => (
+      <Wizard.Step title="Step 2">
+        <output>Step 2</output>
+        <Wizard.Buttons />
+      </Wizard.Step>
+    )
+
+    const Summary = () => {
+      const { summaryTitle } = Form.useLocale().Step
+      return (
+        <Wizard.Step title={summaryTitle}>
+          <output>Summary</output>
+          <Wizard.Buttons />
+        </Wizard.Step>
+      )
+    }
+
+    const onStepChange = async (step, mode) => {
+      if (mode === 'next') {
+        await wait(100)
+      }
+    }
+
+    render(
+      <Form.Handler>
+        <Wizard.Container onStepChange={onStepChange}>
+          <Step1 />
+          <Step2 />
+          <Summary />
+        </Wizard.Container>
+      </Form.Handler>
+    )
+
+    expect(output()).toHaveTextContent('Step 1')
+    expect(document.querySelectorAll('output')).toHaveLength(1)
+
+    await userEvent.click(nextButton())
+
+    expect(document.querySelectorAll('output')).toHaveLength(1)
+
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('Step 2')
+      expect(document.querySelectorAll('output')).toHaveLength(1)
+    })
+
+    await userEvent.click(nextButton())
+
+    expect(document.querySelectorAll('output')).toHaveLength(1)
+
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('Summary')
+      expect(document.querySelectorAll('output')).toHaveLength(1)
+    })
+
+    await userEvent.click(previousButton())
+
+    expect(document.querySelectorAll('output')).toHaveLength(1)
+
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('Step 2')
+      expect(document.querySelectorAll('output')).toHaveLength(1)
+    })
+
+    await userEvent.click(previousButton())
+
+    expect(document.querySelectorAll('output')).toHaveLength(1)
+
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('Step 1')
+      expect(document.querySelectorAll('output')).toHaveLength(1)
+    })
+  })
+
   it('should support navigating back and forth with async validators', async () => {
     const onChangeValidator = async (value: string) => {
       if (value !== 'valid') {

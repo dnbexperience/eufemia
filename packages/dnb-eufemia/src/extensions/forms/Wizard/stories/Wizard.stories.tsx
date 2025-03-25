@@ -344,3 +344,44 @@ export function WizardWithVisibilityAndSchema() {
     </Form.Handler>
   )
 }
+
+export const AsyncWizard = () => {
+  const Step1 = () => (
+    <Wizard.Step title="Step 1">
+      <output>Step 1</output>
+      <Wizard.Buttons />
+    </Wizard.Step>
+  )
+
+  const Step2 = () => (
+    <Wizard.Step title="Step 2">
+      <output>Step 2</output>
+      <Wizard.Buttons />
+    </Wizard.Step>
+  )
+
+  const Summary = () => {
+    const { summaryTitle } = Form.useLocale().Step
+    return (
+      <Wizard.Step title={summaryTitle}>
+        <output>Summary</output>
+        <Wizard.Buttons />
+      </Wizard.Step>
+    )
+  }
+
+  const onStepChange = async (step, mode) => {
+    if (mode === 'next') {
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+    }
+  }
+  return (
+    <Form.Handler>
+      <Wizard.Container onStepChange={onStepChange}>
+        <Step1 />
+        <Step2 />
+        <Summary />
+      </Wizard.Container>
+    </Form.Handler>
+  )
+}

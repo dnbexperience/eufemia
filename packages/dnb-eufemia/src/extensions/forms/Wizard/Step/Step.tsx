@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useMemo } from 'react'
 import classnames from 'classnames'
 import { ComponentProps } from '../../types'
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
@@ -84,11 +84,11 @@ export function handleDeprecatedProps({
 
 function Step(props: Props): JSX.Element {
   const {
-    id,
+    id, // eslint-disable-line
     className,
     title: titleProp,
     index: indexProp,
-    inactive,
+    inactive, // eslint-disable-line
     include = true,
     includeWhen,
     required,
@@ -99,13 +99,19 @@ function Step(props: Props): JSX.Element {
   } = handleDeprecatedProps(props)
   const {
     check,
-    collectStepsData,
     activeIndex,
     initialActiveIndex,
     stepElementRef,
     stepIndexRef,
     keepInDOM,
   } = useContext(WizardContext) || {}
+
+  const initialIndex = useMemo(() => {
+    if (indexProp === undefined && stepIndexRef) {
+      stepIndexRef.current += 1
+    }
+    return indexProp ?? stepIndexRef?.current
+  }, [indexProp, stepIndexRef])
 
   if (prerenderFieldProps) {
     return children as JSX.Element
@@ -124,18 +130,8 @@ function Step(props: Props): JSX.Element {
     return <></>
   }
 
-  if (indexProp === undefined && stepIndexRef) {
-    stepIndexRef.current += 1
-  }
-  const index = indexProp ?? stepIndexRef?.current
-
-  const { title: ariaLabel } = collectStepsData?.({
-    id,
-    index,
-    inactive,
-    titleProp,
-  }) || { title: convertJsxToString(titleProp) }
-
+  const index = indexProp ?? initialIndex
+  const ariaLabel = convertJsxToString(titleProp)
   const fieldProps =
     typeof required === 'boolean' ? { required } : undefined
 
