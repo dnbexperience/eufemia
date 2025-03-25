@@ -6,6 +6,7 @@ import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/Transla
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
 import { SelectCurrencyProperties } from '@dnb/eufemia/src/extensions/forms/Field/SelectCurrency/SelectCurrencyDocs'
+import { AvailableCurrenciesTable } from './AvailableCurrenciesTable'
 
 ### Field-specific properties
 
@@ -18,3 +19,11 @@ import { SelectCurrencyProperties } from '@dnb/eufemia/src/extensions/forms/Fiel
 ## Translations
 
 <TranslationsTable localeKey={['SelectCurrency', 'Field']} />
+
+## List of available currencies
+
+[Link to the code of the available currencies](https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/extensions/forms/constants/currencies.ts#L21).
+
+NOTE: This list does not say anything about the order in which they will appear in component `Field.SelectCurrency`. And is only meant to easily find which countries that's supported and available to use.
+
+<AvailableCurrenciesTable />
