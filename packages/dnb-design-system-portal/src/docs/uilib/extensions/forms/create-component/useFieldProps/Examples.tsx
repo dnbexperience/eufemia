@@ -68,6 +68,7 @@ export const CustomComponentExample = () => {
             >
               <Flex.Stack>
                 <Field.Number
+                  id={id}
                   value={value}
                   showStepControls
                   onChange={handleChange}
@@ -76,7 +77,6 @@ export const CustomComponentExample = () => {
                   {...steps}
                 />
                 <Slider
-                  id={id}
                   value={value}
                   onChange={handleChange}
                   onDragStart={handleFocus}
