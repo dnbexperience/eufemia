@@ -224,10 +224,9 @@ function WizardContainer(props: Props) {
           previousStep: { index: previousIndex },
         }
 
-        const id = stepsRef.current.get(String(index))?.id
+        const id = stepsRef.current.get(index)?.id
         if (id) {
-          const previousId = stepsRef.current.get(String(previousIndex))
-            ?.id
+          const previousId = stepsRef.current.get(previousIndex)?.id
           Object.assign(options, { id })
           Object.assign(options.previousStep, { id: previousId })
         }
@@ -447,6 +446,13 @@ function WizardContainer(props: Props) {
   // because it need the outer context to be available.
   const { check } = useVisibility()
 
+  // This is used to map over the children and to give them the correct index,
+  // in case it could be given properly, like if no id or title was given in React.StrictMode.
+  const mapOverChildrenRef = useRef(false)
+  const enableMapOverChildren = useCallback(() => {
+    mapOverChildrenRef.current = true
+  }, [])
+
   const providerValue = useMemo<WizardContextState>(() => {
     return {
       id,
@@ -463,6 +469,8 @@ function WizardContainer(props: Props) {
       prerenderFieldPropsRef,
       hasErrorInOtherStepRef,
       keepInDOM,
+      enableMapOverChildren,
+      mapOverChildrenRef,
       check,
       setActiveIndex,
       handlePrevious,
@@ -470,13 +478,14 @@ function WizardContainer(props: Props) {
       revealError,
       handleNext,
       setFormError,
-    }
+    } satisfies WizardContextState
   }, [
     id,
     activeIndex,
     initialActiveIndex,
     prerenderFieldProps,
     keepInDOM,
+    enableMapOverChildren,
     check,
     setActiveIndex,
     handlePrevious,

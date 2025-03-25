@@ -14,15 +14,13 @@ export function useCollectStepsData() {
   const translations = useTranslation()
 
   const collectStepsData = useCallback(
-    ({ id, index, inactive, titleProp }) => {
+    ({ id, index, inactive, title }) => {
       if (!stepStatusRef) {
         return // stop here
       }
 
-      const title =
-        titleProp !== undefined
-          ? convertJsxToString(titleProp)
-          : 'Title missing'
+      const stringifiedTitle =
+        title !== undefined ? convertJsxToString(title) : 'Title missing'
 
       const state = stepStatusRef.current[index]
       const status =
@@ -39,9 +37,11 @@ export function useCollectStepsData() {
         hasErrorInOtherStepRef.current = true
       }
 
-      stepsRef.current.set(String(index), {
+      stepsRef.current.set(index, {
+        index,
         id,
         title,
+        stringifiedTitle,
         inactive,
         status,
         statusState,

@@ -3,6 +3,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import MatchMediaMock from 'jest-matchmedia-mock'
 import { spyOnEufemiaWarn, wait } from '../../../../../core/jest/jestSetup'
+import { Translation } from '../../../../../shared'
 import {
   Field,
   Form,
@@ -313,6 +314,259 @@ describe('Wizard.Container', () => {
     await waitFor(() => {
       expect(output()).toHaveTextContent('Step 1')
       expect(document.querySelectorAll('output')).toHaveLength(1)
+    })
+  })
+
+  describe('StrictMode', () => {
+    it('should support rendering without id and title', async () => {
+      const Step1 = () => (
+        <Wizard.Step>
+          <output>Step 1</output>
+          <Wizard.Buttons />
+        </Wizard.Step>
+      )
+
+      const Step2 = () => (
+        <Wizard.Step>
+          <output>Step 2</output>
+          <Wizard.Buttons />
+        </Wizard.Step>
+      )
+
+      const Summary = () => {
+        return (
+          <Wizard.Step>
+            <output>Summary</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+        )
+      }
+
+      const onStepChange = async (step, mode) => {
+        if (mode === 'next') {
+          await wait(100)
+        }
+      }
+
+      render(
+        <React.StrictMode>
+          <Form.Handler>
+            <Wizard.Container onStepChange={onStepChange}>
+              <Step1 />
+              <Step2 />
+              <Summary />
+            </Wizard.Container>
+          </Form.Handler>
+        </React.StrictMode>
+      )
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(document.querySelectorAll('output')).toHaveLength(1)
+
+      await userEvent.click(nextButton())
+
+      expect(document.querySelectorAll('output')).toHaveLength(1)
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 2')
+        expect(document.querySelectorAll('output')).toHaveLength(1)
+      })
+
+      await userEvent.click(nextButton())
+
+      expect(document.querySelectorAll('output')).toHaveLength(1)
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Summary')
+        expect(document.querySelectorAll('output')).toHaveLength(1)
+      })
+
+      await userEvent.click(previousButton())
+
+      expect(document.querySelectorAll('output')).toHaveLength(1)
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 2')
+        expect(document.querySelectorAll('output')).toHaveLength(1)
+      })
+
+      await userEvent.click(previousButton())
+
+      expect(document.querySelectorAll('output')).toHaveLength(1)
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 1')
+        expect(document.querySelectorAll('output')).toHaveLength(1)
+      })
+    })
+
+    it('should support navigating back and forth and only show one step at a time', async () => {
+      const Step1 = () => (
+        <Wizard.Step title="Step 1">
+          <output>Step 1</output>
+          <Wizard.Buttons />
+        </Wizard.Step>
+      )
+
+      const Step2 = () => (
+        <Wizard.Step title="Step 2">
+          <output>Step 2</output>
+          <Wizard.Buttons />
+        </Wizard.Step>
+      )
+
+      const Summary = () => {
+        const { summaryTitle } = Form.useLocale().Step
+        return (
+          <Wizard.Step title={summaryTitle}>
+            <output>Summary</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+        )
+      }
+
+      const onStepChange = async (step, mode) => {
+        if (mode === 'next') {
+          await wait(100)
+        }
+      }
+
+      render(
+        <React.StrictMode>
+          <Form.Handler>
+            <Wizard.Container onStepChange={onStepChange}>
+              <Step1 />
+              <Step2 />
+              <Summary />
+            </Wizard.Container>
+          </Form.Handler>
+        </React.StrictMode>
+      )
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(document.querySelectorAll('output')).toHaveLength(1)
+
+      await userEvent.click(nextButton())
+
+      expect(document.querySelectorAll('output')).toHaveLength(1)
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 2')
+        expect(document.querySelectorAll('output')).toHaveLength(1)
+      })
+
+      await userEvent.click(nextButton())
+
+      expect(document.querySelectorAll('output')).toHaveLength(1)
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Summary')
+        expect(document.querySelectorAll('output')).toHaveLength(1)
+      })
+
+      await userEvent.click(previousButton())
+
+      expect(document.querySelectorAll('output')).toHaveLength(1)
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 2')
+        expect(document.querySelectorAll('output')).toHaveLength(1)
+      })
+
+      await userEvent.click(previousButton())
+
+      expect(document.querySelectorAll('output')).toHaveLength(1)
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 1')
+        expect(document.querySelectorAll('output')).toHaveLength(1)
+      })
+    })
+
+    it('should support the Translation component for titles', async () => {
+      const Step1 = () => (
+        <Wizard.Step title={<Translation id="wizard.step1" />}>
+          <output>Step 1</output>
+          <Wizard.Buttons />
+        </Wizard.Step>
+      )
+
+      const Step2 = () => (
+        <Wizard.Step title={<Translation id="wizard.step2" />}>
+          <output>Step 2</output>
+          <Wizard.Buttons />
+        </Wizard.Step>
+      )
+
+      const Summary = () => {
+        const { summaryTitle } = Form.useLocale().Step
+        return (
+          <Wizard.Step title={summaryTitle}>
+            <output>Summary</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+        )
+      }
+
+      const onStepChange = async (step, mode) => {
+        if (mode === 'next') {
+          await wait(100)
+        }
+      }
+
+      render(
+        <React.StrictMode>
+          <Form.Handler>
+            <Wizard.Container onStepChange={onStepChange}>
+              <Step1 />
+              <Step2 />
+              <Summary />
+            </Wizard.Container>
+          </Form.Handler>
+        </React.StrictMode>
+      )
+
+      expect(screen.getByText('wizard.step1')).toBeInTheDocument()
+      expect(screen.getByText('wizard.step2')).toBeInTheDocument()
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(document.querySelectorAll('output')).toHaveLength(1)
+
+      await userEvent.click(nextButton())
+
+      expect(document.querySelectorAll('output')).toHaveLength(1)
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 2')
+        expect(document.querySelectorAll('output')).toHaveLength(1)
+      })
+
+      await userEvent.click(nextButton())
+
+      expect(document.querySelectorAll('output')).toHaveLength(1)
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Summary')
+        expect(document.querySelectorAll('output')).toHaveLength(1)
+      })
+
+      await userEvent.click(previousButton())
+
+      expect(document.querySelectorAll('output')).toHaveLength(1)
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 2')
+        expect(document.querySelectorAll('output')).toHaveLength(1)
+      })
+
+      await userEvent.click(previousButton())
+
+      expect(document.querySelectorAll('output')).toHaveLength(1)
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 1')
+        expect(document.querySelectorAll('output')).toHaveLength(1)
+      })
     })
   })
 

@@ -57,9 +57,9 @@ export function DisplaySteps({
         bottom
         current_step={activeIndexRef.current}
         data={Array.from(stepsRef.current.values()).map(
-          ({ title, inactive, status, statusState }) =>
+          ({ stringifiedTitle, title, inactive, status, statusState }) =>
             ({
-              title,
+              title: stringifiedTitle || title,
               inactive,
               status,
               status_state: statusState,

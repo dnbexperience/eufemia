@@ -21,10 +21,12 @@ export type OnStepChange = (
 
 export type StepIndex = number
 export type Steps = Map<
-  string,
+  StepIndex,
   {
-    title: string
+    index: StepIndex
     id: string
+    title: React.ReactNode
+    stringifiedTitle: string
     inactive?: boolean
 
     /** Used internally to set the status */

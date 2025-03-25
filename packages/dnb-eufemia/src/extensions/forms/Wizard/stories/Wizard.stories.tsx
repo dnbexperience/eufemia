@@ -376,12 +376,14 @@ export const AsyncWizard = () => {
     }
   }
   return (
-    <Form.Handler>
-      <Wizard.Container onStepChange={onStepChange}>
-        <Step1 />
-        <Step2 />
-        <Summary />
-      </Wizard.Container>
-    </Form.Handler>
+    <React.StrictMode>
+      <Form.Handler>
+        <Wizard.Container onStepChange={onStepChange}>
+          <Step1 />
+          <Step2 />
+          <Summary />
+        </Wizard.Container>
+      </Form.Handler>
+    </React.StrictMode>
   )
 }

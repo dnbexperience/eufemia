@@ -1,12 +1,17 @@
 import React, { useContext } from 'react'
 import WizardContext from '../Context/WizardContext'
+import WizardStepContext from '../Step/StepContext'
 import Step, {
   Props as StepProps,
   handleDeprecatedProps as handleDeprecatedStepProps,
 } from '../Step/Step'
 import { useCollectStepsData } from './useCollectStepsData'
 
-export function IterateOverSteps({ children }) {
+export function IterateOverSteps({
+  children,
+}: {
+  children: React.ReactNode
+}): React.ReactNode {
   const {
     check,
     stepsRef,
@@ -16,6 +21,7 @@ export function IterateOverSteps({ children }) {
     prerenderFieldProps,
     prerenderFieldPropsRef,
     hasErrorInOtherStepRef,
+    mapOverChildrenRef,
   } = useContext(WizardContext)
 
   const { collectStepsData } = useCollectStepsData()
@@ -26,7 +32,7 @@ export function IterateOverSteps({ children }) {
   stepIndexRef.current = -1
   totalStepsRef.current = 0
 
-  React.Children.forEach(children, (child) => {
+  const childrenArray = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
       let step = child
 
@@ -41,13 +47,8 @@ export function IterateOverSteps({ children }) {
       }
 
       if (child?.type === Step) {
-        const {
-          title: titleProp,
-          inactive,
-          include,
-          includeWhen,
-          id,
-        } = handleDeprecatedStepProps(child.props)
+        const { title, inactive, include, includeWhen, id } =
+          handleDeprecatedStepProps(child.props)
 
         if (include === false) {
           return null
@@ -65,7 +66,12 @@ export function IterateOverSteps({ children }) {
         const index = totalStepsRef.current
         totalStepsRef.current = totalStepsRef.current + 1
 
-        collectStepsData({ id, index, inactive, titleProp })
+        collectStepsData({
+          id,
+          index,
+          inactive,
+          title,
+        })
 
         if (
           prerenderFieldProps &&
@@ -82,6 +88,8 @@ export function IterateOverSteps({ children }) {
               prerenderFieldProps: true,
             })
         }
+
+        return child
       }
     }
 
@@ -94,6 +102,16 @@ export function IterateOverSteps({ children }) {
     activeIndexRef.current = 0
   } else if (totalStepsRef.current < activeIndexRef.current + 1) {
     activeIndexRef.current = totalStepsRef.current - 1
+  }
+
+  if (mapOverChildrenRef.current) {
+    return childrenArray.map((child, index) => {
+      return (
+        <WizardStepContext.Provider key={index} value={{ index }}>
+          {child}
+        </WizardStepContext.Provider>
+      )
+    })
   }
 
   return children

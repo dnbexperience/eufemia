@@ -49,6 +49,8 @@ export interface WizardContextState {
   hasInvalidStepsState?: (forStates?: Array<InternalStepStatus>) => boolean
   check?: ({ visibleWhen }: { visibleWhen: VisibleWhen }) => boolean
   collectStepsData?: (args: HandleStatusArgs) => { title: string }
+  enableMapOverChildren?: () => void
+  mapOverChildrenRef?: React.MutableRefObject<boolean>
 }
 
 const WizardContext = React.createContext<WizardContextState | undefined>(
