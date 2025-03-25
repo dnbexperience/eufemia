@@ -20,7 +20,7 @@ export type OnStepChange = (
   | Promise<EventReturnWithStateObject | void>
 
 export type StepIndex = number
-export type Steps = Record<
+export type Steps = Map<
   string,
   {
     title: string

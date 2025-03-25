@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useRef } from 'react'
+import React, { useContext } from 'react'
 import classnames from 'classnames'
 import { ComponentProps } from '../../types'
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
@@ -11,10 +11,6 @@ import {
 } from '../../../../shared/component-helper'
 import FieldProvider from '../../Field/Provider'
 import type { VisibleWhen } from '../../Form/Visibility'
-
-// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
-const useLayoutEffect =
-  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
 export type Props = ComponentProps &
   FlexContainerProps & {
@@ -85,12 +81,14 @@ export function handleDeprecatedProps({
     ...rest,
   }
 }
+
 function Step(props: Props): JSX.Element {
   const {
+    id,
     className,
-    title,
-    inactive, // eslint-disable-line
-    index,
+    title: titleProp,
+    index: indexProp,
+    inactive,
     include = true,
     includeWhen,
     required,
@@ -101,37 +99,42 @@ function Step(props: Props): JSX.Element {
   } = handleDeprecatedProps(props)
   const {
     check,
+    collectStepsData,
     activeIndex,
     initialActiveIndex,
-    stepsRef,
     stepElementRef,
+    stepIndexRef,
     keepInDOM,
   } = useContext(WizardContext) || {}
-
-  const ariaLabel = useMemo(() => {
-    return (
-      (!prerenderFieldProps &&
-        (stepsRef?.current?.[index]?.title ||
-          stepsRef?.current?.[index])) ??
-      convertJsxToString(title)
-    )
-  }, [index, prerenderFieldProps, title, stepsRef])
-
-  const currentElementRef = useRef<HTMLElement>()
-  useLayoutEffect(() => {
-    if (!prerenderFieldProps && typeof stepElementRef !== 'undefined') {
-      if (currentElementRef.current) {
-        stepElementRef.current = currentElementRef.current
-      }
-      return () => {
-        stepElementRef.current = null
-      }
-    }
-  }, [prerenderFieldProps, stepElementRef])
 
   if (prerenderFieldProps) {
     return children as JSX.Element
   }
+
+  if (include === false) {
+    return <></>
+  }
+
+  if (
+    includeWhen &&
+    !check({
+      visibleWhen: includeWhen,
+    })
+  ) {
+    return <></>
+  }
+
+  if (indexProp === undefined && stepIndexRef) {
+    stepIndexRef.current += 1
+  }
+  const index = indexProp ?? stepIndexRef?.current
+
+  const { title: ariaLabel } = collectStepsData?.({
+    id,
+    index,
+    inactive,
+    titleProp,
+  }) || { title: convertJsxToString(titleProp) }
 
   const fieldProps =
     typeof required === 'boolean' ? { required } : undefined
@@ -142,7 +145,7 @@ function Step(props: Props): JSX.Element {
         className={classnames('dnb-forms-step', className)}
         element="section"
         aria-label={ariaLabel}
-        innerRef={currentElementRef}
+        innerRef={stepElementRef}
         tabIndex={-1}
         {...restProps}
       >
@@ -157,7 +160,6 @@ function Step(props: Props): JSX.Element {
 
   if (
     activeIndex !== index ||
-    include === false ||
     (includeWhen && !check({ visibleWhen: includeWhen }))
   ) {
     if (keepInDOMProp ?? keepInDOM) {

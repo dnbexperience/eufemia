@@ -279,3 +279,68 @@ export function WithRouter() {
 //     </BrowserRouter>
 //   )
 // }
+
+export function WizardWithVisibilityAndSchema() {
+  function Step1() {
+    return (
+      <Wizard.Step title="Step 1">
+        <Form.Section path="/sectionPath">
+          <Field.Boolean path="/isThisTrue" variant="buttons" />
+          <Form.Visibility pathFalse="/isThisTrue" animate>
+            <Field.String path="/showMeWhenTrue" />
+          </Form.Visibility>
+        </Form.Section>
+        <Wizard.Buttons />
+      </Wizard.Step>
+    )
+  }
+
+  function Step2() {
+    return (
+      <Wizard.Step title="Step 2">
+        <Field.String path="/someField" />
+        <Wizard.Buttons />
+        <Form.SubmitButton />
+      </Wizard.Step>
+    )
+  }
+
+  return (
+    <Form.Handler
+      schema={{
+        type: 'object',
+        required: ['sectionPath'],
+        properties: {
+          sectionPath: {
+            type: 'object',
+            additionalProperties: false,
+            required: ['isThisTrue'],
+            properties: {
+              isThisTrue: {
+                type: 'boolean',
+              },
+              showMeWhenTrue: {
+                type: 'string',
+              },
+            },
+            if: {
+              properties: {
+                isThisTrue: {
+                  const: false,
+                },
+              },
+            },
+            then: {
+              required: ['showMeWhenTrue'],
+            },
+          },
+        },
+      }}
+    >
+      <Wizard.Container>
+        <Step1 />
+        <Step2 />
+      </Wizard.Container>
+    </Form.Handler>
+  )
+}

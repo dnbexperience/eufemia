@@ -7,7 +7,10 @@ import React, {
 } from 'react'
 import classnames from 'classnames'
 import { Space } from '../../../../components'
-import { warn } from '../../../../shared/component-helper'
+import {
+  convertJsxToString,
+  warn,
+} from '../../../../shared/component-helper'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import useId from '../../../../shared/helpers/useId'
 import WizardContext, {
@@ -36,6 +39,7 @@ import useHandleLayoutEffect from './useHandleLayoutEffect'
 import useStepAnimation from './useStepAnimation'
 import { ComponentProps } from '../../types'
 import useVisibility from '../../Form/Visibility/useVisibility'
+import { useTranslation } from '../../hooks'
 import { DisplaySteps } from './DisplaySteps'
 import { IterateOverSteps } from './IterateOverSteps'
 import { PrerenderFieldPropsOfOtherSteps } from './PrerenderFieldPropsOfOtherSteps'
@@ -137,6 +141,7 @@ function WizardContainer(props: Props) {
     setShowAllErrors,
     setSubmitState,
   } = dataContext
+  const translations = useTranslation()
 
   const id = useId(idProp)
   const [, forceUpdate] = useReducer(() => ({}), {})
@@ -149,8 +154,9 @@ function WizardContainer(props: Props) {
   const elementRef = useRef<HTMLElement>()
   const stepElementRef = useRef<HTMLElement>()
   const preventNextStepRef = useRef(false)
-  const stepsRef = useRef<Steps>({})
-  const tmpStepsRef = useRef<Steps>({})
+  const stepsRef = useRef<Steps>(new Map())
+  const tmpStepsRef = useRef<number>()
+  const stepIndexRef = useRef<number>(-1)
   const updateTitlesRef = useRef<() => void>()
   const prerenderFieldPropsRef = useRef<
     Record<string, () => React.ReactElement>
@@ -222,9 +228,10 @@ function WizardContainer(props: Props) {
           previousStep: { index: previousIndex },
         }
 
-        const id = stepsRef.current[index]?.id
+        const id = stepsRef.current.get(String(index))?.id
         if (id) {
-          const previousId = stepsRef.current[previousIndex]?.id
+          const previousId = stepsRef.current.get(String(previousIndex))
+            ?.id
           Object.assign(options, { id })
           Object.assign(options.previousStep, { id: previousId })
         }
@@ -422,6 +429,41 @@ function WizardContainer(props: Props) {
       )
     }, [])
 
+  const collectStepsData = useCallback(
+    ({ id, index, inactive, titleProp }) => {
+      const title =
+        titleProp !== undefined
+          ? convertJsxToString(titleProp)
+          : 'Title missing'
+
+      const state = stepStatusRef.current[index]
+      const status =
+        index !== activeIndexRef.current
+          ? state === 'error'
+            ? translations.Step.stepHasError
+            : state === 'unknown'
+            ? 'Unknown state'
+            : undefined
+          : undefined
+      const statusState = state === 'error' ? 'error' : undefined // undefined shows 'warn' by default
+
+      if (status) {
+        hasErrorInOtherStepRef.current = true
+      }
+
+      stepsRef.current.set(String(index), {
+        id,
+        title,
+        inactive,
+        status,
+        statusState,
+      })
+
+      return { title }
+    },
+    [translations.Step.stepHasError]
+  )
+
   const handleSubmit = useCallback(
     ({ preventSubmit }) => {
       handleUnknownStepsState()
@@ -440,6 +482,8 @@ function WizardContainer(props: Props) {
   )
   dataContext.setHandleSubmit?.(handleSubmit)
 
+  // NB: useVisibility needs to be imported here,
+  // because it need the outer context to be available.
   const { check } = useVisibility()
 
   const providerValue = useMemo<WizardContextState>(() => {
@@ -451,6 +495,7 @@ function WizardContainer(props: Props) {
       stepsRef,
       updateTitlesRef,
       activeIndexRef,
+      stepIndexRef,
       totalStepsRef,
       stepStatusRef,
       prerenderFieldProps,
@@ -461,6 +506,7 @@ function WizardContainer(props: Props) {
       setActiveIndex,
       handlePrevious,
       hasInvalidStepsState,
+      collectStepsData,
       revealError,
       handleNext,
       setFormError,
@@ -475,6 +521,7 @@ function WizardContainer(props: Props) {
     setActiveIndex,
     handlePrevious,
     hasInvalidStepsState,
+    collectStepsData,
     revealError,
     handleNext,
     setFormError,
@@ -493,8 +540,11 @@ function WizardContainer(props: Props) {
   }, [stepsRef.current])
 
   const stepsLengthDidChange = useCallback(() => {
-    const count = Object.keys(stepsRef.current).length
-    const tmpCount = Object.keys(tmpStepsRef.current).length
+    const tmpCount = tmpStepsRef.current
+    if (tmpCount === undefined) {
+      return false
+    }
+    const count = totalStepsRef.current
     return count !== 0 && tmpCount !== 0 && count !== tmpCount
   }, [])
 
@@ -504,9 +554,15 @@ function WizardContainer(props: Props) {
       callOnStepChange(activeIndexRef.current, 'stepListModified')
       executeLayoutAnimationRef.current?.()
     }
-    tmpStepsRef.current = stepsRef.current
+
+    tmpStepsRef.current = totalStepsRef.current
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stepsRef.current, callOnStepChange, stepsLengthDidChange])
+  }, [
+    totalStepsRef.current, // Include the totalStepsRef.current to trigger the useEffect on change
+    callOnStepChange,
+    stepsLengthDidChange,
+  ])
 
   if (!hasContext) {
     warn('You may wrap Wizard.Container in Form.Handler')

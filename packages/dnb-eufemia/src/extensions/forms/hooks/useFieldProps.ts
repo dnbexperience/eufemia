@@ -1938,7 +1938,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     setFieldErrorBoundary,
     setFieldErrorDataContext,
     setMountedFieldStateDataContext,
-    wizardIndex,
   ])
 
   useEffect(() => {

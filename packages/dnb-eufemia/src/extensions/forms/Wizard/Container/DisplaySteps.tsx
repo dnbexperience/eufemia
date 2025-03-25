@@ -44,7 +44,11 @@ export function DisplaySteps({
         status_state: 'warn',
       } satisfies Omit<StepIndicatorItemProps, 'title' | 'currentItemNum'>
     }
-  }, [hasInvalidStepsState, translations.Step.stepHasError])
+  }, [
+    hasErrorInOtherStepRef,
+    hasInvalidStepsState,
+    translations.Step.stepHasError,
+  ])
 
   return (
     <aside className="dnb-forms-wizard-layout__indicator">
@@ -52,7 +56,7 @@ export function DisplaySteps({
       <StepIndicator
         bottom
         current_step={activeIndexRef.current}
-        data={Object.values(stepsRef.current).map(
+        data={Array.from(stepsRef.current.values()).map(
           ({ title, inactive, status, statusState }) =>
             ({
               title,

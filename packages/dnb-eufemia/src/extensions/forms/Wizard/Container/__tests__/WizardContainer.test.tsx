@@ -4099,4 +4099,153 @@ describe('Wizard.Container', () => {
       expect(step3.parentElement).toHaveAttribute('hidden')
     })
   })
+
+  describe('step context render routine', () => {
+    it('should hide the visibility content when the condition is met', async () => {
+      render(
+        <Form.Handler>
+          <Wizard.Container
+          // variant="drawer" // TODO: enable in an upcoming PR
+          >
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Form.Section
+                required // Ensure all fields in the section are required
+                path="/sectionPath"
+              >
+                <Field.Boolean path="/isThisTrue" variant="buttons" />
+                <Form.Visibility pathFalse="/isThisTrue">
+                  <Field.String path="/showMeWhenTrue" />
+                </Form.Visibility>
+                <Wizard.Buttons />
+              </Form.Section>
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Field.String path="/someField" />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+      await userEvent.click(screen.getByText('Neste'))
+
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Field.errorRequired
+      )
+
+      await userEvent.click(screen.getByText('Nei'))
+
+      expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+      await userEvent.click(screen.getByText('Neste'))
+
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Field.errorRequired
+      )
+
+      await userEvent.click(screen.getByText('Ja'))
+
+      expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+      expect(output()).toHaveTextContent('Step 1')
+
+      await userEvent.click(screen.getByText('Neste'))
+
+      expect(output()).toHaveTextContent('Step 2')
+      expect(document.querySelector('.dnb-form-status')).toBeNull()
+    })
+
+    it('should hide the visibility content when the condition is met using a schema', async () => {
+      render(
+        <Form.Handler
+          schema={{
+            type: 'object',
+            required: ['sectionPath'],
+            properties: {
+              sectionPath: {
+                type: 'object',
+                additionalProperties: false,
+                required: ['isThisTrue'],
+                properties: {
+                  isThisTrue: {
+                    type: 'boolean',
+                  },
+                  showMeWhenTrue: {
+                    type: 'string',
+                  },
+                },
+                if: {
+                  properties: {
+                    isThisTrue: {
+                      const: false,
+                    },
+                  },
+                },
+                then: {
+                  required: ['showMeWhenTrue'],
+                },
+              },
+            },
+          }}
+        >
+          <Wizard.Container
+          // variant="drawer" // TODO: enable in an upcoming PR
+          >
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Form.Section path="/sectionPath">
+                <Field.Boolean path="/isThisTrue" variant="buttons" />
+                <Form.Visibility pathFalse="/isThisTrue">
+                  <Field.String path="/showMeWhenTrue" />
+                </Form.Visibility>
+                <Wizard.Buttons />
+              </Form.Section>
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Field.String path="/someField" />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+      await userEvent.click(screen.getByText('Neste'))
+
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Field.errorRequired
+      )
+
+      await userEvent.click(screen.getByText('Nei'))
+
+      expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+      await userEvent.click(screen.getByText('Neste'))
+
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Field.errorRequired
+      )
+
+      await userEvent.click(screen.getByText('Ja'))
+
+      expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+      expect(output()).toHaveTextContent('Step 1')
+
+      await userEvent.click(screen.getByText('Neste'))
+
+      expect(output()).toHaveTextContent('Step 2')
+      expect(document.querySelector('.dnb-form-status')).toBeNull()
+    })
+  })
 })
