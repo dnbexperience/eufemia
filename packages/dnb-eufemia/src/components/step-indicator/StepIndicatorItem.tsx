@@ -282,7 +282,7 @@ function StepIndicatorItem({
                 'dnb-step-indicator__item__icon',
                 !isVisited && 'dnb-step-indicator__item__icon--hidden'
               )}
-              size="small" // TODO: should be 0.875rem
+              size="auto"
             />
           )}
         </span>
