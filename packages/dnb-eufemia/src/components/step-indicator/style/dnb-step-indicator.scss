@@ -96,6 +96,10 @@
         border-width: 0.1875rem;
         border-color: var(--step-indicator-current-border);
       }
+      &.dnb-skeleton {
+        border-width: 0.0625rem;
+        border-color: var(--color-black-20);
+      }
     }
 
     &-content {

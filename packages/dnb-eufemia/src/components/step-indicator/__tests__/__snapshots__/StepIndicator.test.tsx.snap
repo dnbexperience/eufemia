@@ -648,6 +648,10 @@ button.dnb-button::-moz-focus-inner {
   border-width: 0.1875rem;
   border-color: var(--step-indicator-current-border);
 }
+.dnb-step-indicator__item__bullet.dnb-skeleton {
+  border-width: 0.0625rem;
+  border-color: var(--color-black-20);
+}
 .dnb-step-indicator__item-content {
   display: flex;
 }

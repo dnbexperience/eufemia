@@ -774,6 +774,3 @@ describe('StepIndicator scss', () => {
     expect(css).toMatchSnapshot()
   })
 })
-
-// TODO: class .dnb-step-indicator is gone?
-// TODO: test skeleton

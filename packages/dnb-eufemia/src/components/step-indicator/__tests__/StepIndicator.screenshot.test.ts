@@ -97,6 +97,13 @@ describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match skeleton', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="step-indicator-skeleton"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 // eslint-disable-next-line jest/no-identical-title
