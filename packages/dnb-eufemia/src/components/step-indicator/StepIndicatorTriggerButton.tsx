@@ -4,7 +4,7 @@
  */
 
 import classnames from 'classnames'
-import React, { useContext } from 'react'
+import React, { useContext, useMemo } from 'react'
 import Button, { ButtonProps } from '../button/Button'
 import Section from '../section/Section'
 import HeightAnimation from '../height-animation/HeightAnimation'
@@ -48,7 +48,7 @@ function StepIndicatorTriggerButton({
 
   const item = data[activeStep || 0]
   const label = stepsLabel
-  const id = makeUniqueId()
+  const id = useMemo(() => makeUniqueId(), [])
 
   const triggerParams = {
     ...contextWithoutData,
