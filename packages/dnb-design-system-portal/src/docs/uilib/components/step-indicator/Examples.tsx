@@ -243,6 +243,28 @@ export const StepIndicatorStatuses = () => (
   </ComponentBox>
 )
 
+export const StepIndicatorSkeleton = () => (
+  <ComponentBox data-visual-test="step-indicator-skeleton">
+    <StepIndicator
+      mode="static"
+      skeleton
+      current_step={1}
+      expandedInitially
+      data={[
+        {
+          title: 'Om din nye bolig',
+        },
+        {
+          title: 'Ditt lån og egenkapital',
+        },
+        {
+          title: 'Oppsummering',
+        },
+      ]}
+    />
+  </ComponentBox>
+)
+
 /**
  * Examples below tests deprecated behaviour
  */
