@@ -25,6 +25,7 @@ import {
   StepIndicatorRenderCallback,
 } from './StepIndicator'
 import Context from '../../shared/Context'
+import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 
 export type StepIndicatorStatusState = 'warn' | 'info' | 'error'
 export type StepIndicatorItemProps = Omit<
@@ -149,6 +150,7 @@ function StepIndicatorItem({
     on_item_render,
     step_title,
     no_animation,
+    skeleton,
   } = context
 
   const {
@@ -188,7 +190,7 @@ function StepIndicatorItem({
     <StepItemWrapper>{title}</StepItemWrapper>
   ) as React.ReactNode
 
-  // TODO: should we deprecate this entire thing?
+  // should be entirely removed in v11 as well as any other functionality associated with `on_render` and `on_item_render`
   const callbackProps = {
     StepItem: StepItemWrapper,
     element,
@@ -265,7 +267,8 @@ function StepIndicatorItem({
               : !status &&
                   (isVisited
                     ? 'dnb-step-indicator__item__bullet--check'
-                    : 'dnb-step-indicator__item__bullet--empty')
+                    : 'dnb-step-indicator__item__bullet--empty'),
+            createSkeletonClass('shape', skeleton)
           )}
         >
           {status && !isCurrent ? (
@@ -286,7 +289,12 @@ function StepIndicatorItem({
             />
           )}
         </span>
-        <div className="dnb-step-indicator__item-content">
+        <div
+          className={classnames(
+            'dnb-step-indicator__item-content',
+            createSkeletonClass('font', skeleton)
+          )}
+        >
           {!hide_numbers && (
             <span className="dnb-step-indicator__item-content__number">
               {`${currentItemNum + 1}.`}
