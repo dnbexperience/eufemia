@@ -96,7 +96,7 @@ export type Props = ComponentProps & {
    */
   keepInDOM?: boolean
   /**
-   * Set it to `false` to avoid the step indicator breaking out on larger screens. Defaults to `true`
+   * Whether or not to break out (using negative margins) on larger screens. Defaults to `true`.
    */
   outset?: boolean
   /**
