@@ -29,7 +29,6 @@ function StepIndicatorTriggerButton({
   className,
   ...rest
 }: StepIndicatorTriggerButtonProps) {
-
   const {
     data, // eslint-disable-line
     ...contextWithoutData
