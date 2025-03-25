@@ -27,6 +27,8 @@ export type CurrencyFilterSet =
   | 'Prioritized'
 export type { CurrencyType }
 
+type DisplayFormat = 'CurrencyName' | 'IsoCode'
+
 export type Props = FieldPropsWithExtraValue<
   CurrencyISO,
   CurrencyType,
@@ -57,6 +59,11 @@ export type Props = FieldPropsWithExtraValue<
    * The size of the component.
    */
   size?: AutocompleteAllProps['size']
+
+  /**
+   * The format to display the currencies in.
+   */
+  displayFormat?: DisplayFormat
 }
 
 function SelectCurrency(props: Props) {
@@ -117,6 +124,7 @@ function SelectCurrency(props: Props) {
     placeholder = defaultPlaceholder,
     label = defaultLabel,
     currencies: ccFilter = 'Prioritized',
+    displayFormat = 'CurrencyName',
     hasError,
     disabled,
     size,
@@ -164,6 +172,7 @@ function SelectCurrency(props: Props) {
           ? (currency) => currency.iso === value
           : filter,
         sort: ccFilter as Extract<CurrencyFilterSet, 'Prioritized'>,
+        displayFormat,
       })
 
       // To force Autocomplete to re-evaluate the internal data
@@ -194,6 +203,7 @@ function SelectCurrency(props: Props) {
         lang: langRef.current,
         filter,
         sort: ccFilter as Extract<CurrencyFilterSet, 'Prioritized'>,
+        displayFormat,
       })
       forceUpdate()
     }
@@ -276,9 +286,11 @@ type GetCurrencyData = {
   lang?: CurrencyLang
   filter?: Props['filterCurrencies']
   sort?: Extract<CurrencyFilterSet, 'Prioritized'>
+  displayFormat?: DisplayFormat
   makeObject?: (
     currency: CurrencyType,
-    lang: string
+    lang: string,
+    displayFormat: DisplayFormat
   ) => {
     selectedKey: string
     selected_value: string
@@ -290,12 +302,24 @@ export function getCurrencyData({
   lang = 'nb',
   filter = null,
   sort = null,
-  makeObject = (currency: CurrencyType, lang: string) => {
+  displayFormat = 'CurrencyName',
+  makeObject = (
+    currency: CurrencyType,
+    lang: string,
+    displayFormat: DisplayFormat
+  ) => {
     const translation = currency.i18n[lang] ?? currency.i18n.en
-    const content = [translation, currency.iso]
+    const content =
+      displayFormat === 'IsoCode'
+        ? [currency.iso, translation]
+        : [translation, currency.iso]
+    const selected_value =
+      displayFormat === 'IsoCode'
+        ? `${currency.iso} (${translation})`
+        : `${translation} (${currency.iso})`
     return {
       selectedKey: currency.iso,
-      selected_value: `${translation} (${currency.iso})`,
+      selected_value,
       content,
     }
   },
@@ -325,9 +349,14 @@ export function getCurrencyData({
         }
       }
 
-      return String(a[lang])?.localeCompare?.(b[lang], 'nb') // Always sort by nb, because åøæ (for Østkaribisk dollar) is not in the en alphabet
+      const sortBy =
+        displayFormat === 'IsoCode'
+          ? String(a1)?.localeCompare?.(b1)
+          : String(a[lang])?.localeCompare?.(b[lang], 'nb') // Always sort by nb, because åøæ (for Østkaribisk dollar) is not in the en alphabet
+
+      return sortBy
     })
-    .map((currency) => makeObject(currency, lang))
+    .map((currency) => makeObject(currency, lang, displayFormat))
 
   if (sortedCurrencies.length === 0) {
     return undefined
