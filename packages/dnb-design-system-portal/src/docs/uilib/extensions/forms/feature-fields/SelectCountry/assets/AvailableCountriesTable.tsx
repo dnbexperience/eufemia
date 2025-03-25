@@ -1,7 +1,7 @@
 import React from 'react'
 import { Table, Th, Tr, Td } from '@dnb/eufemia/src'
 import countries from '@dnb/eufemia/src/extensions/forms/constants/countries'
-import { FormattedCode } from '../../../../../.../../../shared/parts/PropertiesTable'
+import { FormattedCode } from '../../../../../../../shared/parts/PropertiesTable'
 
 export function AvailableCountriesTable() {
   return (
