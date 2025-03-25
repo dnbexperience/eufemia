@@ -24,7 +24,7 @@ import useDates, { DatePickerDates } from './hooks/useDates'
 import useLastEventCallCache, {
   LastEventCallCache,
 } from './hooks/useLastEventCallCache'
-import { InvalidDates } from './DatePickerInput'
+import { InvalidDates } from './hooks/useInvalidDates'
 import { PartialDates } from './hooks/usePartialDates'
 
 type DatePickerProviderProps = DatePickerAllProps & {

@@ -21,7 +21,7 @@ import { convertStringToDate } from '../../../../components/date-picker/DatePick
 import { ProviderProps } from '../../../../shared/Provider'
 import { FormError } from '../../utils'
 import startOfDay from 'date-fns/startOfDay'
-import { InvalidDates } from '../../../../components/date-picker/DatePickerInput'
+import { InvalidDates } from '../../../../components/date-picker/hooks/useInvalidDates'
 import useInvalidDates from './hooks/useInvalidDates'
 
 // `range`, `showInput`, `showCancelButton` and `showResetButton` are not picked from the `DatePickerProps`
