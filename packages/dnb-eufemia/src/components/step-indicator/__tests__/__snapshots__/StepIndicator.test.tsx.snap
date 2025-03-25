@@ -635,6 +635,7 @@ button.dnb-button::-moz-focus-inner {
   border-color: transparent;
 }
 .dnb-step-indicator__item__bullet--check {
+  font-size: 0.875rem;
   color: var(--step-indicator-check-color);
   border-color: var(--step-indicator-check-color);
 }
