@@ -35,9 +35,6 @@ describe('GlobalError', () => {
   it('have to match the custom status', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="global-error-custom"]',
-      matchConfig: {
-        failureThreshold: 0.17, // because of dev vs build diff
-      },
     })
     expect(screenshot).toMatchImageSnapshot()
   })
