@@ -17,7 +17,7 @@ export const GlobalErrorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   code: {
-    doc: 'Overwrites the default error message code `Feilmeldings-kode:`.',
+    doc: 'Overwrites the default error message code text `Feilmeldings-kode:`.',
     type: ['React.ReactNode'],
     status: 'optional',
   },
