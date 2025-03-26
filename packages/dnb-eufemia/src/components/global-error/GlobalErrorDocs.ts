@@ -22,7 +22,7 @@ export const GlobalErrorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   help: {
-    doc: 'Overwrites the default additional help text `Her er noen lenker som kanskje kan hjelpe:`.',
+    doc: 'Overwrites the default additional help text `Her er noen lenker som kanskje kan hjelpe:`. This text is only rendered when `links` are provided.',
     type: ['React.ReactNode'],
     status: 'optional',
   },
