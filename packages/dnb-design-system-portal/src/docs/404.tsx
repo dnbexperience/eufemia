@@ -15,12 +15,21 @@ export default function PageNotFound({ location }) {
     <Provider
       translations={{
         'nb-NO': {
-          'GlobalError.404.text': `Det er ingen side på adressen: ${pathname}`,
+          GlobalError: {
+            404: {
+              text: `Det er ingen side på adressen: ${pathname}`,
+            },
+          },
         },
         'en-GB': {
-          'GlobalError.404.text': `There's no page at the address: ${pathname}`,
+          GlobalError: {
+            404: {
+              text: `There's no page at the address: ${pathname}`,
+            },
+          },
         },
       }}
+      locale="nb-NO"
     >
       <Layout key="layout" location={location} hideSidebar>
         <GlobalError center status="404" />
