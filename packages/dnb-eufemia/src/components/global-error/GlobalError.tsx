@@ -155,7 +155,7 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
           <P bottom {...textParams} />
           {code && (
             <P bottom className="dnb-global-error__status">
-              {code} <Code>{status}</Code>
+              {code} {status && <Code>{status}</Code>}
             </P>
           )}
           {help && links?.length && (

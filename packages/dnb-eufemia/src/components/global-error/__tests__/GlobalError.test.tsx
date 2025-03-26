@@ -68,6 +68,14 @@ describe('GlobalError', () => {
     )
   })
 
+  it('should not render status code when status is empty', () => {
+    render(<GlobalStatus {...props} status="" />)
+
+    const elem = document.querySelector('.dnb-global-error__status')
+    expect(elem.textContent).toMatchInlineSnapshot(`"Error code: "`)
+    expect(elem.querySelector('code')).not.toBeInTheDocument()
+  })
+
   it('has to have title and text props as defined in the prop', () => {
     render(<GlobalStatus {...props} />)
 
