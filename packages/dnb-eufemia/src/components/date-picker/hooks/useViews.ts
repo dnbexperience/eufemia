@@ -35,15 +35,9 @@ export default function useViews({ isRange, ...dates }: UseViewsParams) {
   )
 
   if (hasDateChanges) {
-    const currentViews = Array.isArray(views)
-      ? views.length > 1
-        ? views
-        : views[0]
-      : views
-
     // Maintain range views unless forced to change by shortcut or keyboard navigation
     if (forceViewChange.current || !isRange) {
-      setViews(getViews({ ...dates, views: currentViews, isRange }))
+      setViews(getViews({ ...dates, isRange }))
       forceViewChange.current = false
     }
 
@@ -70,26 +64,17 @@ export default function useViews({ isRange, ...dates }: UseViewsParams) {
 }
 
 export function getViews({
-  views,
   isRange,
   ...dates
-}: ViewDates &
-  UseViewsParams & {
-    views?: CalendarView | Array<CalendarView>
-  }): Array<CalendarView> {
-  // fill the views with the calendar data getMonth()
-  return (
-    Array.isArray(views)
-      ? views
-      : Array(
-          isRange
-            ? 2 // set default range calendars
-            : views
-        ).fill(1)
-  ).map((view, nr) => ({
-    month: getMonthView({ ...dates }, nr),
-    nr,
-  }))
+}: ViewDates & UseViewsParams): Array<CalendarView> {
+  if (!isRange) {
+    return [{ nr: 0, month: getMonthView({ ...dates }, 0) }]
+  }
+
+  return [
+    { nr: 0, month: getMonthView({ ...dates }, 0) },
+    { nr: 1, month: getMonthView({ ...dates }, 1) },
+  ]
 }
 
 function getMonthView(
