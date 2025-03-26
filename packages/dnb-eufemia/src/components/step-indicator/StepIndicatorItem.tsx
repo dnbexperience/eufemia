@@ -310,7 +310,7 @@ function StepIndicatorItem({
             <FormStatus
               shellSpace={{ top: '1rem' }}
               no_animation={no_animation}
-              state={status_state}
+              state={status && status_state}
               variant="outlined"
               className="dnb-step-indicator__item-content__status"
               text={status}
