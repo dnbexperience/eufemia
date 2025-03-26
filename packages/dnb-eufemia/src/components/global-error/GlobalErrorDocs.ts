@@ -7,12 +7,12 @@ export const GlobalErrorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   title: {
-    doc: 'Overwrites the default title.',
+    doc: 'Overwrites the default title for the provided `status`.',
     type: ['React.ReactNode'],
     status: 'optional',
   },
   text: {
-    doc: 'Overwrites the default text.',
+    doc: 'Overwrites the default text for the provided `status`.',
     type: ['React.ReactNode'],
     status: 'optional',
   },
