@@ -47,7 +47,7 @@ export const GlobalErrorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   children: {
-    doc: 'Contents.',
+    doc: 'To display additional related content, like useful links etc.',
     type: 'React.Node',
     status: 'optional',
   },
