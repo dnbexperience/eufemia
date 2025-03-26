@@ -95,6 +95,7 @@ export type GlobalErrorTranslation = {
 }
 
 const defaultProps = {
+  // deprecated – Replaced with statusCode, status can be removed in v11.
   status: '404',
   statusCode: '404',
 }
