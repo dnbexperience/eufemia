@@ -15,7 +15,7 @@ export default function PageNotFound({ location }) {
     <Provider
       translations={{
         'nb-NO': {
-          'GlobalError.text': `Det er ingen side på adressen: ${pathname}`,
+          'GlobalError.404.text': `Det er ingen side på adressen: ${pathname}`,
         },
         'en-GB': {
           'GlobalError.text': `There's no a page at the address: ${pathname}`,
