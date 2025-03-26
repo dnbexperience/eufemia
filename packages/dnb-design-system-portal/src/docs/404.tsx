@@ -18,7 +18,7 @@ export default function PageNotFound({ location }) {
           'GlobalError.text': `Det er ingen side på adressen: ${pathname}`,
         },
         'en-GB': {
-          'GlobalError.text': `There's no a page at the address ${pathname}`,
+          'GlobalError.text': `There's no a page at the address: ${pathname}`,
         },
       }}
     >
