@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const GlobalErrorProperties: PropertiesTableProps = {
   status: {
-    doc: 'Defines a status code as a string. When `404` or `500` is given, a predefined text will be shown. Defaults to `404`.',
+    doc: 'Defines a status code as a string. When `404` or `500` is given, predefined `text` and `title` will be shown. Defaults to `404`.',
     type: ['404', '500', 'string'],
     status: 'optional',
   },
