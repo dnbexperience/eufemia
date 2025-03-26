@@ -31,8 +31,8 @@ const Bg = styled.div`
 export const GlobalErrorSandbox = () => (
   <Bg>
     <Wrapper>
-      <GlobalError status="404" />
-      <GlobalError status="500">
+      <GlobalError statusCode="404" />
+      <GlobalError statusCode="500">
         <CustomStatus />
       </GlobalError>
     </Wrapper>
