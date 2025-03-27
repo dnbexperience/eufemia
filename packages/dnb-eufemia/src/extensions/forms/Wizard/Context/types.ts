@@ -20,11 +20,13 @@ export type OnStepChange = (
   | Promise<EventReturnWithStateObject | void>
 
 export type StepIndex = number
-export type Steps = Record<
-  string,
+export type Steps = Map<
+  StepIndex,
   {
-    title: string
+    index: StepIndex
     id: string
+    title: React.ReactNode
+    stringifiedTitle: string
     inactive?: boolean
 
     /** Used internally to set the status */

@@ -9,6 +9,13 @@ import {
   Steps,
 } from './types'
 
+export type HandleStatusArgs = {
+  id: string
+  index: StepIndex
+  inactive: boolean
+  titleProp: React.ReactNode
+}
+
 export interface WizardContextState {
   id?: string
   totalSteps?: number
@@ -18,6 +25,7 @@ export interface WizardContextState {
   stepsRef?: React.MutableRefObject<Steps>
   updateTitlesRef?: React.MutableRefObject<() => void>
   activeIndexRef?: React.MutableRefObject<StepIndex>
+  stepIndexRef?: React.MutableRefObject<StepIndex>
   totalStepsRef?: React.MutableRefObject<number>
   stepStatusRef?: React.MutableRefObject<InternalStepStatuses>
   prerenderFieldPropsRef?: React.MutableRefObject<
@@ -40,6 +48,9 @@ export interface WizardContextState {
   revealError?: (index: StepIndex, path: Path, hasError: boolean) => void
   hasInvalidStepsState?: (forStates?: Array<InternalStepStatus>) => boolean
   check?: ({ visibleWhen }: { visibleWhen: VisibleWhen }) => boolean
+  collectStepsData?: (args: HandleStatusArgs) => { title: string }
+  enableMapOverChildren?: () => void
+  mapOverChildrenRef?: React.MutableRefObject<boolean>
 }
 
 const WizardContext = React.createContext<WizardContextState | undefined>(
