@@ -556,7 +556,6 @@ describe('Provider', () => {
       )
 
       // HelpButton
-
       expect(
         document.querySelector('.dnb-button').getAttribute('aria-label')
       ).toBe(customText)
