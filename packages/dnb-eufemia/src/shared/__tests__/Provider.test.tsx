@@ -488,7 +488,7 @@ describe('Provider', () => {
       ).toBe('true')
     })
 
-    it('should only override translation when provided as a nested object (cascaded)', () => {
+    it('should only override translation provided as a nested object (cascaded)', () => {
       const customText = 'My text'
       const errorCode = '404'
 
