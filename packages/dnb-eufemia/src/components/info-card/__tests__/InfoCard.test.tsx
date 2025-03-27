@@ -5,9 +5,19 @@ import { confetti as Confetti } from '../../../icons'
 
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 import { Provider } from '../../../shared'
+import { Li, Ul } from '../../../elements'
 
 describe('InfoCard', () => {
-  it('renders with no props', () => {
+  it('renders without props', () => {
+    render(<InfoCard />)
+
+    expect(
+      document.querySelector('.dnb-info-card__text')
+    ).not.toBeInTheDocument()
+    expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
+  })
+
+  it('renders with props', () => {
     const props: InfoCardAllProps = { text: 'text' }
     render(<InfoCard {...props} />)
 
@@ -327,6 +337,34 @@ describe('InfoCard', () => {
 
     const element = document.querySelector('.dnb-info-card')
     expect(element.querySelector('h3')).not.toBeInTheDocument()
+  })
+
+  it('renders the children as a property', () => {
+    const children = (
+      <Ul>
+        <Li>Item 1</Li>
+        <Li>Item 2</Li>
+      </Ul>
+    )
+
+    render(<InfoCard children={children} />)
+
+    expect(document.querySelector('.dnb-ul')).toBeInTheDocument()
+    expect(document.querySelector('.dnb-li')).toBeInTheDocument()
+  })
+
+  it('renders the children as children', () => {
+    const children = (
+      <Ul>
+        <Li>Item 1</Li>
+        <Li>Item 2</Li>
+      </Ul>
+    )
+
+    render(<InfoCard>{children}</InfoCard>)
+
+    expect(document.querySelector('.dnb-ul')).toBeInTheDocument()
+    expect(document.querySelector('.dnb-li')).toBeInTheDocument()
   })
 
   describe('InfoCard aria', () => {
