@@ -34,12 +34,12 @@ export default function FieldBoundaryProvider(props: Props) {
     onPathErrorRef.current?.(path, error)
   }, [])
 
-  const hasVisibleErrorRef = useRef<Record<Path, boolean>>({})
+  const hasVisibleErrorRef = useRef<Map<Path, boolean>>(new Map())
   const revealError = useCallback((path: Path, hasError: boolean) => {
     if (hasError) {
-      hasVisibleErrorRef.current[path] = hasError
+      hasVisibleErrorRef.current.set(path, hasError)
     } else {
-      delete hasVisibleErrorRef.current[path]
+      hasVisibleErrorRef.current.delete(path)
     }
     forceUpdate()
   }, [])
@@ -55,7 +55,7 @@ export default function FieldBoundaryProvider(props: Props) {
   const context: FieldBoundaryContextState = {
     hasError,
     hasSubmitError,
-    hasVisibleError: Object.keys(hasVisibleErrorRef.current).length > 0,
+    hasVisibleError: hasVisibleErrorRef.current.size > 0,
     errorsRef,
     showBoundaryErrors: showBoundaryErrorsRef.current,
     setShowBoundaryErrors,

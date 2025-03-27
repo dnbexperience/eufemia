@@ -276,7 +276,7 @@ export default function Provider<Data extends JsonObject>(
   )
 
   // - Errors from provider validation (the whole data set)
-  const hasVisibleErrorRef = useRef<Record<Path, boolean>>({})
+  const hasVisibleErrorRef = useRef<Map<Path, boolean>>(new Map())
   const errorsRef = useRef<Record<Path, FormError> | undefined>()
   const addSetShowAllErrorsRef = useRef<
     Array<(showAllErrors: boolean) => void>
@@ -289,9 +289,9 @@ export default function Provider<Data extends JsonObject>(
   }, [])
   const revealError = useCallback((path: Path, hasError: boolean) => {
     if (hasError) {
-      hasVisibleErrorRef.current[path] = hasError
+      hasVisibleErrorRef.current.set(path, hasError)
     } else {
-      delete hasVisibleErrorRef.current[path]
+      hasVisibleErrorRef.current.delete(path)
     }
     forceUpdate() // Will rerender the whole form initially
   }, [])
@@ -1439,7 +1439,7 @@ export default function Provider<Data extends JsonObject>(
     hasContext: true,
     errors: errorsRef.current,
     showAllErrors: showAllErrorsRef.current,
-    hasVisibleError: Object.keys(hasVisibleErrorRef.current).length > 0,
+    hasVisibleError: hasVisibleErrorRef.current.size > 0,
     addSetShowAllErrorsRef,
     fieldConnectionsRef,
     fieldDisplayValueRef,

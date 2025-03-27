@@ -44,9 +44,9 @@ export type SetActiveIndexOptions = {
 }
 
 export type InternalStepStatus = 'error' | 'valid' | 'unknown' | undefined
-export type InternalStepStatuses = Record<StepIndex, InternalStepStatus>
-export type InternalVisitedSteps = Record<StepIndex, boolean>
-export type InternalFieldError = Record<
+export type InternalStepStatuses = Map<StepIndex, InternalStepStatus>
+export type InternalVisitedSteps = Map<StepIndex, boolean>
+export type InternalFieldError = Map<
   Path,
   {
     index: StepIndex
