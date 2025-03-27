@@ -2,7 +2,7 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const InfoCardProperties: PropertiesTableProps = {
   text: {
-    doc: 'The content of the InfoCard can be a string or a react element.',
+    doc: 'The text content of the InfoCard, wrapped in a paragraph. To fully customize the content, see `children` property.',
     type: ['React.ReactNode'],
     status: 'optional',
   },
