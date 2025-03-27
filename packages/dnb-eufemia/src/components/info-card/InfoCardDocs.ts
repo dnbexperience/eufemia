@@ -77,7 +77,7 @@ export const InfoCardProperties: PropertiesTableProps = {
     status: 'optional',
   },
   children: {
-    doc: 'Can be used to add custom content, which is rendered between the `text` property and buttons.',
+    doc: 'Can be used to add custom content, which is displayed/rendered between the `text` property and buttons.',
     type: 'React.ReactNode',
     status: 'optional',
   },
