@@ -1587,6 +1587,91 @@ describe('Field.Upload', () => {
     ).toBe(1)
   })
 
+  it.only('should remove correct file when file names are the same', async () => {
+    const fileName = 'fileName-1.png'
+    const asyncOnFileDelete = jest.fn(async () => {
+      await wait(1)
+    })
+
+    const existingFile = createMockFile(
+      fileName,
+      100,
+      'image/png',
+      1730801854755
+    )
+    const newFile = createMockFile(
+      fileName,
+      100,
+      'image/png',
+      1730801854752
+    )
+
+    render(
+      <Form.Handler
+        data={{
+          myFiles: [
+            {
+              file: existingFile,
+            },
+          ],
+        }}
+      >
+        <Field.Upload path="/myFiles" onFileDelete={asyncOnFileDelete} />
+      </Form.Handler>
+    )
+
+    expect(
+      document.querySelectorAll('.dnb-upload__file-cell').length
+    ).toBe(1)
+
+    const element = getRootElement()
+
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [newFile],
+        },
+      })
+    )
+
+    // it should allow uploading two files with the same file name, as they are not identical files
+    await waitFor(() => {
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(2)
+    })
+
+    await waitFor(() => {
+      // delete the second file
+      fireEvent.click(
+        document
+          .querySelectorAll('.dnb-upload__file-cell')[1]
+          .querySelector('button')
+      )
+    })
+
+    await waitFor(() => {
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(1)
+    })
+
+    await waitFor(() => {
+      // delete the first file
+      fireEvent.click(
+        document
+          .querySelectorAll('.dnb-upload__file-cell')[0]
+          .querySelector('button')
+      )
+    })
+
+    await waitFor(() => {
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(0)
+    })
+  })
+
   describe('transformIn and transformOut', () => {
     type DocumentMetadata = {
       id: string
