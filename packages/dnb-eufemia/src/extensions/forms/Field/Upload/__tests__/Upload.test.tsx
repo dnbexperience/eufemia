@@ -1587,7 +1587,7 @@ describe('Field.Upload', () => {
     ).toBe(1)
   })
 
-  it.only('should remove correct file when file names are the same', async () => {
+  it('should remove correct file when file names are the same', async () => {
     const fileName = 'fileName-1.png'
     const asyncOnFileDelete = jest.fn(async () => {
       await wait(1)
