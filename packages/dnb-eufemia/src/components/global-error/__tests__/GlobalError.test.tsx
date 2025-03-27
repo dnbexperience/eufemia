@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import GlobalStatus, { GlobalErrorAllProps } from '../GlobalError'
+import GlobalError, { GlobalErrorAllProps } from '../GlobalError'
 import { render } from '@testing-library/react'
 import { Provider } from '../../../shared'
 
@@ -21,7 +21,7 @@ const props: GlobalErrorAllProps = {
 
 describe('GlobalError', () => {
   it('has default text for 404', () => {
-    render(<GlobalStatus status="404" />)
+    render(<GlobalError status="404" />)
 
     expect(
       document.querySelector('.dnb-global-error__inner__content')
@@ -32,7 +32,7 @@ describe('GlobalError', () => {
   })
 
   it('has default text for 500', () => {
-    render(<GlobalStatus status="500" />)
+    render(<GlobalError status="500" />)
 
     expect(
       document.querySelector('.dnb-global-error__inner__content')
@@ -43,7 +43,7 @@ describe('GlobalError', () => {
   })
 
   it('has default text for 404 in en-GB', () => {
-    render(<GlobalStatus status="404" locale="en-GB" />)
+    render(<GlobalError status="404" locale="en-GB" />)
 
     expect(
       document.querySelector('.dnb-global-error__inner__content')
@@ -56,7 +56,7 @@ describe('GlobalError', () => {
   it('has default text for 500 in en-GB', () => {
     render(
       <Provider locale="en-GB">
-        <GlobalStatus status="500" />
+        <GlobalError status="500" />
       </Provider>
     )
 
@@ -69,7 +69,7 @@ describe('GlobalError', () => {
   })
 
   it('should not render status code when status is empty', () => {
-    render(<GlobalStatus {...props} status="" />)
+    render(<GlobalError {...props} status="" />)
 
     const elem = document.querySelector('.dnb-global-error__status')
     expect(elem.textContent).toMatchInlineSnapshot(`"Error code: "`)
@@ -77,7 +77,7 @@ describe('GlobalError', () => {
   })
 
   it('has to have title and text props as defined in the prop', () => {
-    render(<GlobalStatus {...props} />)
+    render(<GlobalError {...props} />)
 
     expect(
       document.querySelector('.dnb-global-error__inner__content h1')
@@ -90,7 +90,7 @@ describe('GlobalError', () => {
   })
 
   it('should render status code', () => {
-    render(<GlobalStatus {...props} />)
+    render(<GlobalError {...props} />)
 
     const elem = document.querySelector('.dnb-global-error__status')
     expect(elem.textContent).toMatchInlineSnapshot(
@@ -104,7 +104,7 @@ describe('GlobalError', () => {
 
     render(
       <Provider skeleton>
-        <GlobalStatus {...props} />
+        <GlobalError {...props} />
       </Provider>
     )
 
@@ -114,7 +114,7 @@ describe('GlobalError', () => {
   })
 
   it('should support spacing props', () => {
-    render(<GlobalStatus {...props} top="2rem" />)
+    render(<GlobalError {...props} top="2rem" />)
 
     const element = document.querySelector('.dnb-global-error')
 
@@ -128,7 +128,7 @@ describe('GlobalError', () => {
   })
 
   it('should add additional html props to main element', () => {
-    render(<GlobalStatus {...props} aria-label="Label" />)
+    render(<GlobalError {...props} aria-label="Label" />)
 
     const element = document.querySelector('.dnb-global-error')
     const attributes = Array.from(element.attributes).map(
@@ -140,7 +140,7 @@ describe('GlobalError', () => {
 
   it('should show links when provided', () => {
     render(
-      <GlobalStatus
+      <GlobalError
         {...props}
         links={[
           { text: 'Anchor 1', url: 'http://' },
@@ -160,7 +160,7 @@ describe('GlobalError', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const Comp = render(<GlobalStatus {...props} />)
+    const Comp = render(<GlobalError {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
