@@ -534,7 +534,7 @@ describe('Provider', () => {
       ).toBe(en.GlobalError[errorCode].title)
     })
 
-    it('should only override translation when provided as a flat object with dot-notation', () => {
+    it('should only override translation provided as a flat object with dot-notation', () => {
       const customText = 'My text'
       const errorCode = '404'
 
