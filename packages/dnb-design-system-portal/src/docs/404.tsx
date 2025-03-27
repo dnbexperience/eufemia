@@ -29,7 +29,6 @@ export default function PageNotFound({ location }) {
           },
         },
       }}
-      locale="nb-NO"
     >
       <Layout key="layout" location={location} hideSidebar>
         <GlobalError center status="404" />
