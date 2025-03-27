@@ -6,10 +6,8 @@
 import React, { HTMLProps, useCallback, useContext, useMemo } from 'react'
 
 import classnames from 'classnames'
-import {
-  makeUniqueId,
-  dispatchCustomElementEvent,
-} from '../../shared/component-helper'
+import { dispatchCustomElementEvent } from '../../shared/component-helper'
+import useId from '../../shared/helpers/useId'
 import Anchor, { AnchorAllProps } from '../anchor/Anchor'
 import Icon, { IconIcon } from '../icon/Icon'
 import IconPrimary from '../icon/IconPrimary'
@@ -179,7 +177,7 @@ function StepIndicatorItem({
 
   const isVisited = currentItemNum < activeStep
 
-  const id = `${makeUniqueId()}-${currentItemNum}`
+  const id = `${useId()}-${currentItemNum}`
   const ariaLabel = step_title
     ?.replace('%step', String(currentItemNum + 1))
     .replace('%count', String(countSteps))

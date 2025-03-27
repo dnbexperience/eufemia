@@ -4,17 +4,17 @@
  */
 
 import classnames from 'classnames'
-import React, { useContext, useMemo } from 'react'
+import React, { useContext } from 'react'
 import Button, { ButtonProps } from '../button/Button'
 import Section from '../section/Section'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import chevron_down from '../../icons/chevron_down'
 import chevron_up from '../../icons/chevron_up'
 import {
-  makeUniqueId,
   validateDOMAttributes,
   combineDescribedBy,
 } from '../../shared/component-helper'
+import useId from '../../shared/helpers/useId'
 import FormLabel from '../form-label/FormLabel'
 import StepIndicatorContext from './StepIndicatorContext'
 import {
@@ -48,7 +48,7 @@ function StepIndicatorTriggerButton({
 
   const item = data[activeStep || 0]
   const label = stepsLabel
-  const id = useMemo(() => makeUniqueId(), [])
+  const id = useId()
 
   const triggerParams = {
     ...contextWithoutData,
