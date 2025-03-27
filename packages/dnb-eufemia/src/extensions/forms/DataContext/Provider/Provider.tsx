@@ -267,7 +267,9 @@ export default function Provider<Data extends JsonObject>(
   const ajvRef = useRef<Ajv>(makeAjvInstance(ajvInstance))
 
   // - Paths
-  const mountedFieldsRef: ContextState['mountedFieldsRef'] = useRef({})
+  const mountedFieldsRef: ContextState['mountedFieldsRef'] = useRef(
+    new Map()
+  )
 
   // - Snapshots
   const snapshotsRef: ContextState['snapshotsRef'] = useRef(new Map())
@@ -377,31 +379,25 @@ export default function Provider<Data extends JsonObject>(
   )
   const hasFieldState = useCallback(
     (state: SubmitState) => {
-      for (const path in mountedFieldsRef.current) {
-        const item = mountedFieldsRef.current[path]
-        if (item.isMounted && checkFieldStateFor(path, state)) {
-          return true
+      return Array.from(mountedFieldsRef.current.entries()).some(
+        ([path, item]) => {
+          return item.isMounted && checkFieldStateFor(path, state)
         }
-      }
-
-      return false
+      )
     },
     [checkFieldStateFor]
   )
   const hasFieldError = useCallback(
     (path: Path) => {
-      for (const p in mountedFieldsRef.current) {
-        const item = mountedFieldsRef.current[path]
-        if (
-          item.isMounted &&
-          p === path &&
-          checkFieldStateFor(path, 'error')
-        ) {
-          return true
+      return Array.from(mountedFieldsRef.current.entries()).some(
+        ([p, item]) => {
+          return (
+            item.isMounted &&
+            p === path &&
+            checkFieldStateFor(path, 'error')
+          )
         }
-      }
-
-      return false
+      )
     },
     [checkFieldStateFor]
   )
@@ -573,8 +569,7 @@ export default function Provider<Data extends JsonObject>(
     (data = internalDataRef.current, { keepPaths, removePaths } = {}) => {
       const visibleData = {} as Partial<Data>
 
-      for (const path in mountedFieldsRef.current) {
-        const item = mountedFieldsRef.current[path]
+      mountedFieldsRef.current.forEach((item, path) => {
         if (
           item &&
           item.isVisible !== false &&
@@ -584,7 +579,7 @@ export default function Provider<Data extends JsonObject>(
         ) {
           pointer.set(visibleData, path, pointer.get(data, path))
         }
-      }
+      })
 
       if (keepPaths) {
         keepPaths.forEach((path) => {
@@ -657,7 +652,7 @@ export default function Provider<Data extends JsonObject>(
 
   const hasFieldWithAsyncValidator = useCallback(() => {
     for (const path in fieldInternalsRef.current) {
-      if (mountedFieldsRef.current[path]?.isMounted) {
+      if (mountedFieldsRef.current.get(path)?.isMounted) {
         const props = fieldInternalsRef.current[path]?.props
         if (
           isAsync(props?.onChangeValidator) ||
@@ -963,11 +958,10 @@ export default function Provider<Data extends JsonObject>(
   // - Mounted fields
   const setMountedFieldState = useCallback(
     (path: Path, state: MountState) => {
-      if (!mountedFieldsRef.current[path]) {
-        mountedFieldsRef.current[path] = { ...state }
-      } else {
-        Object.assign(mountedFieldsRef.current[path], state)
-      }
+      mountedFieldsRef.current.set(path, {
+        ...mountedFieldsRef.current.get(path),
+        ...state,
+      })
 
       for (const itm of fieldEventListenersRef.current) {
         if (itm.type === 'onMount' && itm.path === path) {
@@ -1017,7 +1011,7 @@ export default function Provider<Data extends JsonObject>(
           const { path, type, callback } = item
           if (
             type === 'onSubmit' &&
-            mountedFieldsRef.current[path]?.isMounted
+            mountedFieldsRef.current.get(path)?.isMounted
           ) {
             // Call all submit listener callbacks (e.g. to validate fields)
             if (asyncBehaviorIsEnabled) {

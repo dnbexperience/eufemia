@@ -189,7 +189,7 @@ export interface ContextState {
   fieldInternalsRef?: React.MutableRefObject<FieldInternalsRef>
   valueInternalsRef?: React.MutableRefObject<ValueInternalsRef>
   fieldConnectionsRef?: React.RefObject<Record<Path, FieldConnections>>
-  mountedFieldsRef?: React.MutableRefObject<Record<Path, MountState>>
+  mountedFieldsRef?: React.MutableRefObject<Map<Path, MountState>>
   snapshotsRef?: React.MutableRefObject<
     Map<SnapshotName, Map<Path, unknown>>
   >
