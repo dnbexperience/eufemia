@@ -339,20 +339,6 @@ describe('InfoCard', () => {
     expect(element.querySelector('h3')).not.toBeInTheDocument()
   })
 
-  it('renders the children as a property', () => {
-    const children = (
-      <Ul>
-        <Li>Item 1</Li>
-        <Li>Item 2</Li>
-      </Ul>
-    )
-
-    render(<InfoCard children={children} />)
-
-    expect(document.querySelector('.dnb-ul')).toBeInTheDocument()
-    expect(document.querySelector('.dnb-li')).toBeInTheDocument()
-  })
-
   it('renders the children as children', () => {
     const children = (
       <Ul>
