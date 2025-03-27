@@ -525,7 +525,6 @@ describe('Provider', () => {
       ).toBe(en.HelpButton.aria_role)
 
       // GlobalError
-
       expect(
         document.querySelector('.dnb-global-error__inner__content .dnb-p')
           .textContent
