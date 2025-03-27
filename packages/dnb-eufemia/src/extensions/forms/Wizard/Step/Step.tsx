@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useContext, useMemo, useRef } from 'react'
 import classnames from 'classnames'
 import { ComponentProps } from '../../types'
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
@@ -11,6 +11,10 @@ import {
 } from '../../../../shared/component-helper'
 import FieldProvider from '../../Field/Provider'
 import type { VisibleWhen } from '../../Form/Visibility'
+
+// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
+const useLayoutEffect =
+  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
 export type Props = ComponentProps &
   FlexContainerProps & {
@@ -111,6 +115,7 @@ function Step(props: Props): JSX.Element {
     keepInDOM,
   } = useContext(WizardContext) || {}
 
+  const tmpStepElementRef = useRef<HTMLElement>()
   const wizardStepContext = useContext(WizardStepContext) || {}
   const indexFromContext = wizardStepContext.index
 
@@ -180,6 +185,21 @@ function Step(props: Props): JSX.Element {
     ariaLabel,
   ])
 
+  useLayoutEffect(() => {
+    if (
+      !prerenderFieldProps &&
+      typeof stepElementRef !== 'undefined' &&
+      activeIndex === index
+    ) {
+      if (tmpStepElementRef.current) {
+        stepElementRef.current = tmpStepElementRef.current
+      }
+      return () => {
+        stepElementRef.current = null
+      }
+    }
+  }, [prerenderFieldProps, stepElementRef, activeIndex, index])
+
   // If the index is greater than the total steps,
   // its a sign that e.g. React.StrictMode is used.
   // And if no title or id is given,
@@ -215,7 +235,7 @@ function Step(props: Props): JSX.Element {
         className={classnames('dnb-forms-step', className)}
         element="section"
         aria-label={ariaLabel}
-        innerRef={stepElementRef}
+        innerRef={tmpStepElementRef}
         tabIndex={-1}
         {...restProps}
       >

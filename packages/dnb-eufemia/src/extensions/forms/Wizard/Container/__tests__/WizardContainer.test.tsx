@@ -2426,6 +2426,74 @@ describe('Wizard.Container', () => {
     expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
   })
 
+  it('should set animation HTML class "appear-fx" when navigating with keepInDOM', async () => {
+    let currentIndex = null
+
+    render(
+      <Wizard.Container mode="loose" keepInDOM>
+        <Wizard.Step title="Step 1">
+          <output>Step 1</output>
+          <Field.String />
+          <Wizard.Buttons />
+        </Wizard.Step>
+
+        <Wizard.Step title="Step 2">
+          <output>Step 2</output>
+          <Wizard.Buttons />
+        </Wizard.Step>
+
+        <WizardContext.Consumer>
+          {(context) => {
+            currentIndex = context.activeIndex
+            return null
+          }}
+        </WizardContext.Consumer>
+      </Wizard.Container>
+    )
+
+    const getElements = () =>
+      Array.from(
+        document.querySelectorAll(
+          ':not([hidden]) > .dnb-forms-step > *, :not([hidden]) > .dnb-forms-step > .dnb-forms-button-row > *'
+        )
+      )
+
+    expect(currentIndex).toBe(0)
+
+    await userEvent.click(nextButton())
+
+    expect(currentIndex).toBe(1)
+    {
+      const elements = getElements()
+      expect(elements).toHaveLength(3)
+      elements.forEach((element) => {
+        expect(element).toHaveClass('appear-fx')
+      })
+    }
+
+    await userEvent.click(previousButton())
+
+    expect(currentIndex).toBe(0)
+    {
+      const elements = getElements()
+      expect(elements).toHaveLength(4)
+      elements.forEach((element) => {
+        expect(element).toHaveClass('appear-fx')
+      })
+    }
+
+    await userEvent.click(nextButton())
+
+    expect(currentIndex).toBe(1)
+    {
+      const elements = getElements()
+      expect(elements).toHaveLength(3)
+      elements.forEach((element) => {
+        expect(element).toHaveClass('appear-fx')
+      })
+    }
+  })
+
   it('should set focus on step change', async () => {
     render(
       <Wizard.Container mode="loose">
