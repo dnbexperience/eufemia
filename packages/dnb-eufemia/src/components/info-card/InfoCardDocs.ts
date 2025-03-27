@@ -7,7 +7,7 @@ export const InfoCardProperties: PropertiesTableProps = {
     status: 'required',
   },
   title: {
-    doc: 'The card title is of type `string`',
+    doc: 'The title of the InfoCard.',
     type: ['React.ReactNode'],
     status: 'optional',
   },
@@ -52,7 +52,7 @@ export const InfoCardProperties: PropertiesTableProps = {
     status: 'optional',
   },
   skeleton: {
-    doc: 'If set to `true`, an overlaying skeleton with animation will be shown.',
+    doc: 'If set to `true`, an overlaying skeleton with animation will be shown. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
