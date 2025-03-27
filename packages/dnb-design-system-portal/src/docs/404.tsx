@@ -28,6 +28,13 @@ export default function PageNotFound({ location }) {
             },
           },
         },
+        'sv-SE': {
+          GlobalError: {
+            404: {
+              text: `Det finns ingen sida på adressen: ${pathname}`,
+            },
+          },
+        },
       }}
     >
       <Layout key="layout" location={location} hideSidebar>
