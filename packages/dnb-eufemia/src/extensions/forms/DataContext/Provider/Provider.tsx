@@ -1099,6 +1099,12 @@ export default function Provider<Data extends JsonObject>(
               })
               .filter(({ error }) => error),
         })
+
+        for (const itm of fieldEventListenersRef.current) {
+          if (itm.type === 'onSubmitRequest') {
+            itm.callback()
+          }
+        }
       }
 
       return result

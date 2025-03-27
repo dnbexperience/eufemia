@@ -1,6 +1,9 @@
 import React, { useCallback, useContext, useReducer, useRef } from 'react'
 import classnames from 'classnames'
-import { Card, HeightAnimation } from '../../../../components'
+import { Card } from '../../../../components'
+import { HeightAnimationOnEndStates } from '../../../../components/height-animation/HeightAnimationInstance'
+import { HeightAnimationProps } from '../../../../components/HeightAnimation'
+import Visibility from '../Visibility'
 import IterateItemContext, {
   IterateItemContextState,
 } from '../IterateItemContext'
@@ -27,9 +30,12 @@ export type Props = {
   open?: boolean | undefined
   ariaLabel?: string
   openDelay?: number
+  onAnimationEnd?: HeightAnimationProps['onAnimationEnd']
 } & ArrayItemAreaProps
 
-function ArrayItemArea(props: Props & FlexContainerProps) {
+function ArrayItemArea(
+  props: Props & Omit<FlexContainerProps, 'onAnimationEnd'>
+) {
   const [, forceUpdate] = useReducer(() => ({}), {})
 
   const {
@@ -143,7 +149,7 @@ function ArrayItemArea(props: Props & FlexContainerProps) {
 
   // - Remove the block with animation, if it's in the right mode
   const handleAnimationEnd = useCallback(
-    (state) => {
+    (state: HeightAnimationOnEndStates) => {
       if (!openRef.current && isRemoving.current) {
         isRemoving.current = false
         localContextRef.current.fulfillRemove?.()
@@ -178,7 +184,7 @@ function ArrayItemArea(props: Props & FlexContainerProps) {
         divider: restProps.divider,
       }}
     >
-      <HeightAnimation
+      <Visibility
         className={classnames(
           'dnb-forms-section-block',
           variant && `dnb-forms-section-block--variant-${variant}`,
@@ -186,9 +192,9 @@ function ArrayItemArea(props: Props & FlexContainerProps) {
           hasSubmitError && 'dnb-forms-section-block--error',
           className
         )}
-        open={openRef.current}
+        visible={openRef.current}
+        animate
         onAnimationEnd={handleAnimationEnd}
-        duration={450}
         keepInDOM // Ensure fields get mounted so they will sync with the data context
       >
         <Card
@@ -201,7 +207,7 @@ function ArrayItemArea(props: Props & FlexContainerProps) {
         >
           {children}
         </Card>
-      </HeightAnimation>
+      </Visibility>
     </ArrayItemAreaContext.Provider>
   )
 }

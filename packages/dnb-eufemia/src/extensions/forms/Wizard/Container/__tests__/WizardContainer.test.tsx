@@ -3031,7 +3031,9 @@ describe('Wizard.Container', () => {
 
       fireEvent.submit(document.querySelector('form'))
 
-      expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(2)
+      await waitFor(() => {
+        expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(2)
+      })
 
       // Go to Step 1
       await userEvent.click(firstStep.querySelector('button'))
@@ -3266,6 +3268,8 @@ describe('Wizard.Container', () => {
                 <Wizard.Buttons />
               </Wizard.Step>
 
+              <Form.SubmitButton />
+
               <WizardContext.Consumer>
                 {(context) => {
                   currentIndex = context.activeIndex
@@ -3284,7 +3288,9 @@ describe('Wizard.Container', () => {
 
         fireEvent.submit(document.querySelector('form'))
 
-        expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(2)
+        await waitFor(() => {
+          expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(2)
+        })
 
         await userEvent.click(previousButton())
 
@@ -3633,6 +3639,68 @@ describe('Wizard.Container', () => {
         await userEvent.click(screen.getByRole('checkbox'))
 
         expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
+      })
+
+      it('should remove error in menu when visibility hides the field', async () => {
+        render(
+          <Form.Handler>
+            <Wizard.Container variant="drawer">
+              <Wizard.Step title="Step 1">
+                <output>Step 1</output>
+                <Form.Section
+                  required // Ensure all fields in the section are required
+                  path="/sectionPath"
+                >
+                  <Field.Boolean path="/isThisTrue" variant="buttons" />
+                  <Form.Visibility pathFalse="/isThisTrue">
+                    <Field.String path="/showMeWhenTrue" />
+                  </Form.Visibility>
+                  <Wizard.Buttons />
+                </Form.Section>
+              </Wizard.Step>
+
+              <Wizard.Step title="Step 2">
+                <output>Step 2</output>
+                <Field.String path="/someField" />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+        await userEvent.click(screen.getByText('Neste'))
+
+        expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(
+          1
+        )
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(nb.Field.errorRequired)
+
+        await userEvent.click(screen.getByText('Nei'))
+
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+        await userEvent.click(screen.getByText('Neste'))
+
+        expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(
+          1
+        )
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(nb.Field.errorRequired)
+
+        await userEvent.click(screen.getByText('Ja'))
+
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+        expect(output()).toHaveTextContent('Step 1')
+
+        await userEvent.click(screen.getByText('Neste'))
+
+        expect(output()).toHaveTextContent('Step 2')
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
       })
     })
 
@@ -4507,9 +4575,7 @@ describe('Wizard.Container', () => {
     it('should hide the visibility content when the condition is met', async () => {
       render(
         <Form.Handler>
-          <Wizard.Container
-          // variant="drawer" // TODO: enable in an upcoming PR
-          >
+          <Wizard.Container variant="drawer">
             <Wizard.Step title="Step 1">
               <output>Step 1</output>
               <Form.Section
@@ -4597,9 +4663,7 @@ describe('Wizard.Container', () => {
             },
           }}
         >
-          <Wizard.Container
-          // variant="drawer" // TODO: enable in an upcoming PR
-          >
+          <Wizard.Container variant="drawer">
             <Wizard.Step title="Step 1">
               <output>Step 1</output>
               <Form.Section path="/sectionPath">
