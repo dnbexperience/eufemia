@@ -22,7 +22,7 @@ export function useCollectStepsData() {
       const stringifiedTitle =
         title !== undefined ? convertJsxToString(title) : 'Title missing'
 
-      const state = stepStatusRef.current[index]
+      const state = stepStatusRef.current.get(index)
       const status =
         index !== activeIndexRef.current
           ? state === 'error'

@@ -2,7 +2,7 @@ import React from 'react'
 import type { FieldProps, Identifier, SubmitState } from '../types'
 
 export type FieldErrorIdsRef = Record<StateTypes, string>
-export type MountedFieldsRef = Record<Identifier, boolean>
+export type MountedFieldsRef = Map<Identifier, boolean>
 export type StateTypes = 'error' | 'warning' | 'info'
 export type StateContent =
   | FieldProps<unknown>['error']

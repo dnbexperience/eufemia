@@ -2339,7 +2339,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         // Unmount procedure
         if (mountedFieldsRefFieldBlock) {
           // eslint-disable-next-line react-hooks/exhaustive-deps
-          mountedFieldsRefFieldBlock.current[identifier] = true
+          mountedFieldsRefFieldBlock.current.set(identifier, true)
         }
       }
     }
@@ -2392,7 +2392,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   if (inFieldBlock) {
     // Mount the field in the field block context
     if (mountedFieldsRefFieldBlock) {
-      mountedFieldsRefFieldBlock.current[identifier] = true
+      mountedFieldsRefFieldBlock.current.set(identifier, true)
     }
 
     // Check if there are any state IDs to be added to the aria-describedby attribute

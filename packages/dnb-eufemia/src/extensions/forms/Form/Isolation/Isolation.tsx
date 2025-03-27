@@ -133,12 +133,13 @@ function IsolationProvider<Data extends JsonObject>(
 
   const getMountedData = useCallback((data: Data) => {
     const mounterData = {} as Data
-    for (const path in dataContextRef.current?.mountedFieldsRef.current) {
-      const field = dataContextRef.current.mountedFieldsRef.current[path]
-      if (field.isMounted && pointer.has(data, path)) {
-        pointer.set(mounterData, path, pointer.get(data, path))
+    dataContextRef.current?.mountedFieldsRef.current.forEach(
+      (field, path) => {
+        if (field.isMounted && pointer.has(data, path)) {
+          pointer.set(mounterData, path, pointer.get(data, path))
+        }
       }
-    }
+    )
     return mounterData
   }, [])
 
