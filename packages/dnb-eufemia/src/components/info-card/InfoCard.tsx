@@ -69,7 +69,7 @@ export interface InfoCardProps {
    */
   text?: React.ReactNode
   /**
-   * The content of the component. Can be used to add custom content.
+   * Can be used to add custom content, which is rendered between the `text` property and buttons.
    * Default: null
    */
   children?: React.ReactNode
