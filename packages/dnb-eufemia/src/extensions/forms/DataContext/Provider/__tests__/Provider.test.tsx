@@ -3039,6 +3039,74 @@ describe('DataContext.Provider', () => {
           },
         ])
       })
+
+      it('should call "onSubmitRequest" event listener', async () => {
+        const handleSubmitRequest = jest.fn()
+        const onSubmitRequest: OnSubmitRequest = jest.fn()
+
+        render(
+          <DataContext.Provider onSubmitRequest={onSubmitRequest}>
+            <Field.String
+              label="Foo"
+              path="/foo"
+              required
+              defaultValue="foo"
+            />
+            <Field.String label="Bar" path="/bar" required />
+            <Form.SubmitButton />
+
+            <DataContext.Consumer>
+              {(context) => {
+                context.setFieldEventListener?.(
+                  '/',
+                  'onSubmitRequest',
+                  handleSubmitRequest
+                )
+
+                return null
+              }}
+            </DataContext.Consumer>
+          </DataContext.Provider>
+        )
+
+        await userEvent.click(document.querySelector('button'))
+
+        expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+        expect(onSubmitRequest).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            getErrors: expect.any(Function),
+          })
+        )
+        expect(handleSubmitRequest).toHaveBeenCalledTimes(1)
+        expect(handleSubmitRequest).toHaveBeenLastCalledWith()
+
+        await userEvent.type(
+          document.querySelector('input'),
+          '{Backspace>3}'
+        )
+        await userEvent.click(document.querySelector('button'))
+
+        expect(onSubmitRequest).toHaveBeenCalledTimes(2)
+        expect(onSubmitRequest).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            getErrors: expect.any(Function),
+          })
+        )
+        expect(handleSubmitRequest).toHaveBeenCalledTimes(2)
+        expect(handleSubmitRequest).toHaveBeenLastCalledWith()
+
+        await userEvent.type(document.querySelector('input'), 'foo')
+        await userEvent.click(document.querySelector('button'))
+
+        expect(onSubmitRequest).toHaveBeenCalledTimes(3)
+        expect(onSubmitRequest).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            getErrors: expect.any(Function),
+          })
+        )
+        expect(handleSubmitRequest).toHaveBeenCalledTimes(3)
+        expect(handleSubmitRequest).toHaveBeenLastCalledWith()
+      })
     })
 
     it('should revalidate with provided schema based on changes in external data using deprecated continuousValidation', () => {

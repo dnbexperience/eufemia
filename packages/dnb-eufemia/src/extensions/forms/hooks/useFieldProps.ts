@@ -180,6 +180,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const { setMountedField: setMountedFieldSnapshot } =
     useContext(SnapshotContext) || {}
   const { isVisible } = useContext(VisibilityContext) || {}
+  const isVisibleRef = useRef(isVisible)
+  isVisibleRef.current = isVisible
 
   const { getValueByPath, getSourceValue } = useDataValue()
   const translation = useTranslation()
@@ -234,7 +236,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     activeIndex,
     activeIndexRef,
     prerenderFieldProps,
-    revealError: revealErrorWizard,
+    setFieldError: setFieldErrorWizard,
   } = wizardContext || {}
   const { index: wizardIndex } = wizardStepContext || {}
   const {
@@ -563,15 +565,21 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const setErrorState = useCallback(
     (hasError: boolean) => {
       showFieldErrorFieldBlock?.(identifier, hasError)
-      revealErrorWizard?.(wizardIndex, identifier, hasError)
       revealErrorBoundary?.(identifier, hasError)
       revealErrorDataContext?.(identifier, hasError)
+
+      setFieldErrorWizard?.(
+        wizardIndex,
+        identifier,
+        isVisible !== false ? hasError : undefined
+      )
     },
     [
       identifier,
+      isVisible,
       revealErrorBoundary,
       revealErrorDataContext,
-      revealErrorWizard,
+      setFieldErrorWizard,
       showFieldErrorFieldBlock,
       wizardIndex,
     ]
@@ -945,6 +953,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       setFieldErrorDataContext?.(identifier, error)
       setFieldErrorBoundary?.(identifier, error)
 
+      setFieldErrorWizard?.(
+        wizardIndex,
+        identifier,
+        isVisibleRef.current !== false ? Boolean(error) : undefined
+      )
+
       // Set the visual states
       setBlockRecord?.({
         stateId,
@@ -961,12 +975,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       identifier,
       inFieldBlock,
       prepareError,
+      setBlockRecord,
       setFieldErrorBoundary,
       setFieldErrorDataContext,
+      setFieldErrorWizard,
       setFieldStateDataContext,
-      setBlockRecord,
       stateId,
       validateInitially,
+      wizardIndex,
     ]
   )
 
@@ -1928,17 +1944,21 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   ])
 
   useEffect(() => {
+    // Unmount procedure.
     return () => {
       setFieldErrorDataContext?.(identifier, undefined)
       setFieldErrorBoundary?.(identifier, undefined)
       localErrorRef.current = undefined
     }
-  }, [
-    identifier,
-    setFieldErrorBoundary,
-    setFieldErrorDataContext,
-    setMountedFieldStateDataContext,
-  ])
+  }, [identifier, setFieldErrorBoundary, setFieldErrorDataContext])
+
+  useEffect(() => {
+    // Unmount procedure.
+    return () => {
+      // Only remove the error if the field was visible
+      setFieldErrorWizard?.(wizardIndex, identifier, undefined)
+    }
+  }, [identifier, setFieldErrorWizard, wizardIndex])
 
   useEffect(() => {
     validateValue()

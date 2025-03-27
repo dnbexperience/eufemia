@@ -27,7 +27,7 @@ export type MountState = {
 
 export type EventListenerCall = {
   path?: Path
-  type?: 'onSubmit' | 'onPathChange' | 'onMount'
+  type?: 'onSubmit' | 'onSubmitRequest' | 'onPathChange' | 'onMount'
   callback: (params?: { value: unknown }) => void | Promise<void | Error>
 }
 

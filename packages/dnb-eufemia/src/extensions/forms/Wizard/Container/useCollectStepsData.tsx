@@ -5,33 +5,37 @@ import { useTranslation } from '../../hooks'
 
 export function useCollectStepsData() {
   const {
-    stepStatusRef,
     activeIndexRef,
     hasErrorInOtherStepRef,
     stepsRef,
+    writeStepsState,
+    hasInvalidStepsState,
   } = useContext(WizardContext) || {}
 
   const translations = useTranslation()
 
   const collectStepsData = useCallback(
     ({ id, index, inactive, title }) => {
-      if (!stepStatusRef) {
+      if (!hasInvalidStepsState) {
         return // stop here
       }
+
+      writeStepsState(index)
 
       const stringifiedTitle =
         title !== undefined ? convertJsxToString(title) : 'Title missing'
 
-      const state = stepStatusRef.current.get(index)
-      const status =
-        index !== activeIndexRef.current
-          ? state === 'error'
-            ? translations.Step.stepHasError
-            : state === 'unknown'
-            ? 'Unknown state'
-            : undefined
-          : undefined
-      const statusState = state === 'error' ? 'error' : undefined // undefined shows 'warn' by default
+      let status = undefined
+      let statusState = undefined
+      if (index !== activeIndexRef.current) {
+        if (hasInvalidStepsState(index, ['error'])) {
+          status = translations.Step.stepHasError
+          statusState = 'error'
+        } else if (hasInvalidStepsState(index, ['unknown'])) {
+          status = 'Unknown state'
+          statusState = 'warn'
+        }
+      }
 
       if (status) {
         hasErrorInOtherStepRef.current = true
@@ -52,9 +56,10 @@ export function useCollectStepsData() {
     [
       activeIndexRef,
       hasErrorInOtherStepRef,
-      stepStatusRef,
+      hasInvalidStepsState,
       stepsRef,
       translations.Step.stepHasError,
+      writeStepsState,
     ]
   )
 
