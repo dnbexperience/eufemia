@@ -118,6 +118,7 @@ export type DatePickerProps = {
   maxDate?: DateType
   /**
    * Corrects the input date value to be the same as either `minDate` or `maxDate`, when the user types in a date that is either before or after one of these. Defaults to `false`.
+   * Deprecate in v11 in favor of built in validation through Field.Date
    */
   correctInvalidDate?: boolean
   /**
