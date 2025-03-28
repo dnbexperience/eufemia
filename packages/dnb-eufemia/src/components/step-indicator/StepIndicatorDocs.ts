@@ -103,7 +103,7 @@ export const StepIndicatorStepProperties: PropertiesTableProps = {
     status: 'required',
   },
   is_current: {
-    doc: 'If set to `true`, this item step will be set as the current current selected step. This can be used instead of `current_step` on the main component.',
+    doc: 'If set to `true`, this item step will be set as the current selected step. This can be used instead of `current_step` on the main component.',
     type: 'boolean',
     status: 'optional',
   },
