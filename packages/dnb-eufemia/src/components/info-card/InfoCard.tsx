@@ -67,7 +67,12 @@ export interface InfoCardProps {
    * Image src, will replace the 'icon' with the image
    * Default: null
    */
-  text: React.ReactNode
+  text?: React.ReactNode
+  /**
+   * Can be used to add custom content, which is displayed/rendered between the `text` property and buttons.
+   * Default: null
+   */
+  children?: React.ReactNode
   /**
    * Component title
    * Default: null
@@ -137,6 +142,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
     src,
     imgProps,
     text,
+    children,
     onClose,
     onAccept,
     closeButtonText,
@@ -242,11 +248,12 @@ const InfoCard = (localProps: InfoCardAllProps) => {
               {title}
             </P>
           )}
-
-          <P size="small" className="dnb-info-card__text" bottom="0">
-            {text}
-          </P>
-
+          {text && (
+            <P size="small" className="dnb-info-card__text" bottom="0">
+              {text}
+            </P>
+          )}
+          {children}
           {getButtons()}
         </div>
       </Provider>

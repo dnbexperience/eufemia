@@ -2,9 +2,9 @@ import { PropertiesTableProps } from '../../shared/types'
 
 export const InfoCardProperties: PropertiesTableProps = {
   text: {
-    doc: 'The content of the InfoCard can be a string or a react element.',
+    doc: 'The text content of the InfoCard, displayed/rendered in a paragraph. To fully customize the content, see `children` property.',
     type: ['React.ReactNode'],
-    status: 'required',
+    status: 'optional',
   },
   title: {
     doc: 'The title of the InfoCard.',
@@ -74,6 +74,11 @@ export const InfoCardProperties: PropertiesTableProps = {
   acceptButtonAttributes: {
     doc: 'define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.',
     type: ['ButtonProps'],
+    status: 'optional',
+  },
+  children: {
+    doc: 'Can be used to add custom content, which is displayed/rendered between the `text` property and buttons.',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {

@@ -7,6 +7,9 @@ import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { card_medium as Card } from '@dnb/eufemia/src/icons'
 import InfoCard from '@dnb/eufemia/src/components/info-card/InfoCard'
+import Li from '@dnb/eufemia/src/elements/Li'
+import Ul from '@dnb/eufemia/src/elements/Ul'
+import P from '@dnb/eufemia/src/elements/P'
 
 export const InfoCardBasic = () => (
   <ComponentBox data-visual-test="info-card-basic">
@@ -144,5 +147,27 @@ export const InfoCardCustomImageCentered = () => (
       src="/images/avatars/1501870.jpg"
       alt="Profile picture"
     />
+  </ComponentBox>
+)
+
+export const InfoCardChildren = () => (
+  <ComponentBox
+    scope={{ Ul, Li, P }}
+    data-visual-test="info-card-children"
+  >
+    <InfoCard
+      title="Title of your info/tip"
+      acceptButtonText="Accept"
+      onAccept={() => {
+        console.log('onAccept')
+      }}
+    >
+      <P>I want to inform you about the following items:</P>
+      <Ul>
+        <Li>Item 1</Li>
+        <Li>Item 2</Li>
+      </Ul>
+      <P>Is this okay with you?</P>
+    </InfoCard>
   </ComponentBox>
 )
