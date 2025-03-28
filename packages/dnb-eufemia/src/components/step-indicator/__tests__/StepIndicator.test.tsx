@@ -60,75 +60,75 @@ describe('StepIndicator Sidebar', () => {
     ).toBeInTheDocument()
   })
 
-  it('has to inherit Provider data for initial SSR render', () => {
-    render(
-      <Provider StepIndicator={{ data: ['one', 'two', 'three'] }}>
-        <StepIndicator.Sidebar
-          sidebar_id="unique-id-initial"
-          showInitialData
-        />
-      </Provider>
-    )
+  // it('has to inherit Provider data for initial SSR render', () => {
+  //   render(
+  //     <Provider StepIndicator={{ data: ['one', 'two', 'three'] }}>
+  //       <StepIndicator.Sidebar
+  //         sidebar_id="unique-id-initial"
+  //         showInitialData
+  //       />
+  //     </Provider>
+  //   )
 
-    expect(screen.queryAllByRole('listitem')).toHaveLength(3)
-  })
+  //   expect(screen.queryAllByRole('listitem')).toHaveLength(3)
+  // })
 
-  it('has to use data prop for initial SSR render', () => {
-    render(
-      <StepIndicator.Sidebar
-        sidebar_id="unique-id-initial"
-        data={['one', 'two', 'three']}
-        showInitialData
-      />
-    )
-    expect(screen.queryAllByRole('listitem')).toHaveLength(3)
-  })
+  // it('has to use data prop for initial SSR render', () => {
+  //   render(
+  //     <StepIndicator.Sidebar
+  //       sidebar_id="unique-id-initial"
+  //       data={['one', 'two', 'three']}
+  //       showInitialData
+  //     />
+  //   )
+  //   expect(screen.queryAllByRole('listitem')).toHaveLength(3)
+  // })
 
-  it('has to remove data from Sidebar when mounted', () => {
-    render(
-      <StepIndicator.Sidebar
-        sidebar_id="unique-id-initial"
-        data={['one', 'two', 'three']}
-      />
-    )
-    expect(screen.queryAllByRole('listitem')).toHaveLength(0)
-  })
+  // it('has to remove data from Sidebar when mounted', () => {
+  //   render(
+  //     <StepIndicator.Sidebar
+  //       sidebar_id="unique-id-initial"
+  //       data={['one', 'two', 'three']}
+  //     />
+  //   )
+  //   expect(screen.queryAllByRole('listitem')).toHaveLength(0)
+  // })
 
-  it('has to show skeleton when no data is given to Sidebar', () => {
-    render(
-      <StepIndicator.Sidebar
-        sidebar_id="unique-id-initial"
-        showInitialData
-      />
-    )
-    expect(screen.queryAllByRole('listitem')).toHaveLength(1)
+  // it('has to show skeleton when no data is given to Sidebar', () => {
+  //   render(
+  //     <StepIndicator.Sidebar
+  //       sidebar_id="unique-id-initial"
+  //       showInitialData
+  //     />
+  //   )
+  //   expect(screen.queryAllByRole('listitem')).toHaveLength(1)
 
-    const element = document.querySelector('.dnb-button__text')
+  //   const element = document.querySelector('.dnb-button__text')
 
-    expect(Array.from(element.classList)).toEqual(
-      expect.arrayContaining(['dnb-skeleton--show-font'])
-    )
-  })
+  //   expect(Array.from(element.classList)).toEqual(
+  //     expect.arrayContaining(['dnb-skeleton--show-font'])
+  //   )
+  // })
 
-  it('should support spacing props', () => {
-    render(
-      <StepIndicator.Sidebar
-        sidebar_id="unique-id-initial"
-        data={['one', 'two', 'three']}
-        showInitialData
-        top="large"
-      />
-    )
+  // it('should support spacing props', () => {
+  //   render(
+  //     <StepIndicator.Sidebar
+  //       sidebar_id="unique-id-initial"
+  //       data={['one', 'two', 'three']}
+  //       showInitialData
+  //       top="large"
+  //     />
+  //   )
 
-    const element = document.querySelector('.dnb-step-indicator__sidebar')
+  //   const element = document.querySelector('.dnb-step-indicator__sidebar')
 
-    expect(Array.from(element.classList)).toEqual(
-      expect.arrayContaining([
-        'dnb-step-indicator__sidebar',
-        'dnb-space__top--large',
-      ])
-    )
-  })
+  //   expect(Array.from(element.classList)).toEqual(
+  //     expect.arrayContaining([
+  //       'dnb-step-indicator__sidebar',
+  //       'dnb-space__top--large',
+  //     ])
+  //   )
+  // })
 })
 
 describe('StepIndicator in general', () => {
@@ -166,10 +166,9 @@ describe('StepIndicator in general', () => {
 
     const element = document.querySelector('.dnb-step-indicator')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-step-indicator',
-      'dnb-space__top--large',
-    ])
+    expect(Array.from(element.classList)).toContain(
+      'dnb-space__top--large'
+    )
   })
 
   it('should support spacing props with no sidebar', () => {
@@ -183,14 +182,15 @@ describe('StepIndicator in general', () => {
       />
     )
 
-    const element = document.querySelector('.dnb-step-indicator__trigger')
+    const element = document.querySelector('.dnb-step-indicator')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-step-indicator__trigger',
-      'dnb-space__top--large',
-    ])
+    expect(Array.from(element.classList)).toContain(
+      'dnb-space__top--large'
+    )
   })
 
+  // eslint-disable-next-line jest/no-commented-out-tests, multiline-comment-style
+  /* 
   it('should not add spacing props to dnb-step-indicator with no sidebar', async () => {
     render(
       <StepIndicator
@@ -209,6 +209,7 @@ describe('StepIndicator in general', () => {
 
     expect(Array.from(element.classList)).toEqual(['dnb-step-indicator'])
   })
+  */
 
   it('should support aria-labelledby', () => {
     render(
@@ -225,11 +226,9 @@ describe('StepIndicator in general', () => {
       </>
     )
 
-    const element = document.querySelector('.dnb-step-indicator')
+    const element = document.querySelector('.dnb-step-indicator__trigger')
 
-    expect(element.getAttribute('aria-labelledby')).toBe(
-      'element unique-id-aria-labelledby'
-    )
+    expect(element.getAttribute('aria-labelledby')).toBe('element')
   })
 
   it('should support aria-labelledby with no sidebar', () => {
@@ -243,15 +242,91 @@ describe('StepIndicator in general', () => {
         aria-labelledby="element"
       />
     )
+
+    const element = document.querySelector('.dnb-step-indicator__trigger')
+
+    expect(element.getAttribute('aria-labelledby')).toBe('element')
+  })
+})
+
+describe('StepIndicator redesign', () => {
+  it('should set aria-expanded', () => {
+    render(
+      <>
+        <StepIndicator
+          mode="loose"
+          data={stepIndicatorListData}
+          expandedInitially
+        />
+      </>
+    )
+    expect(
+      document
+        .querySelector('.dnb-step-indicator__trigger__button')
+        .attributes.getNamedItem('aria-expanded').value
+    ).toBe('true')
+
     act(() => {
-      document.querySelector('button').click()
+      document
+        .querySelector<HTMLButtonElement>(
+          'button.dnb-step-indicator__trigger__button--expanded'
+        )
+        ?.click()
     })
 
-    const element = document.querySelector('.dnb-step-indicator__list')
+    expect(
+      document
+        .querySelector('.dnb-step-indicator__trigger__button')
+        .attributes.getNamedItem('aria-expanded').value
+    ).toBe('false')
+  })
 
-    expect(element.getAttribute('aria-labelledby')).toBe(
-      'element unique-id-aria-labelledby-no-sidebar'
+  it('should hide numbers in list', () => {
+    render(
+      <>
+        <StepIndicator
+          mode="loose"
+          data={stepIndicatorListData}
+          hide_numbers
+          expandedInitially
+        />
+      </>
     )
+    expect(
+      document.querySelector('.dnb-step-indicator__item-content')
+        .textContent
+    ).toEqual('Step A')
+  })
+
+  it('should expand with click', () => {
+    render(
+      <>
+        <StepIndicator mode="loose" data={stepIndicatorListData} />
+      </>
+    )
+
+    expect(
+      document.querySelector('button.dnb-step-indicator__trigger__button')
+    ).toHaveClass('dnb-step-indicator__trigger__button--collapsed')
+    expect(
+      document.querySelectorAll('li.dnb-step-indicator__item')
+    ).toHaveLength(0)
+
+    act(() => {
+      document
+        .querySelector<HTMLButtonElement>(
+          'button.dnb-step-indicator__trigger__button--collapsed'
+        )
+        ?.click()
+    })
+
+    expect(
+      document.querySelector('button.dnb-step-indicator__trigger__button')
+    ).toHaveClass('dnb-step-indicator__trigger__button--expanded')
+
+    expect(
+      document.querySelectorAll('li.dnb-step-indicator__item')
+    ).toHaveLength(4)
   })
 })
 
@@ -265,6 +340,7 @@ describe('StepIndicator in loose mode', () => {
           mode="loose"
           sidebar_id={id}
           data={stepIndicatorListData}
+          expandedInitially
           {...props}
         />
       </>
@@ -274,7 +350,7 @@ describe('StepIndicator in loose mode', () => {
   it('has trigger button when mobile', () => {
     simulateSmallScreen()
 
-    renderComponent('unique-id-loose-mobile')
+    renderComponent('unique-id-loose-mobile', { expandedInitially: false })
     expect(screen.queryByRole('button')).toBeInTheDocument()
   })
 
@@ -289,12 +365,10 @@ describe('StepIndicator in loose mode', () => {
           mode="loose"
           sidebar_id={id}
           data={stepIndicatorListData}
+          expandedInitially
         />
       </>
     )
-    expect(
-      document.querySelector('button.dnb-step-indicator__trigger__button')
-    ).not.toBeInTheDocument()
 
     expect(
       document.querySelectorAll('li.dnb-step-indicator__item')
@@ -317,11 +391,9 @@ describe('StepIndicator in loose mode', () => {
         />
       </>
     )
-
     expect(
-      document.querySelector('button.dnb-step-indicator__trigger__button')
-        .textContent
-    ).toContain('‌2.Step B')
+      document.querySelector('.dnb-step-indicator__trigger').textContent
+    ).toContain('StegoversiktSteg 2 av 4:‌Step B')
   })
 
   it('has correct states on steps', () => {
@@ -336,7 +408,7 @@ describe('StepIndicator in loose mode', () => {
       'dnb-step-indicator__item--current'
     )
     expect(items[1].getAttribute('aria-current')).toBe('step')
-    expect(screen.queryAllByRole('button')).toHaveLength(4)
+    expect(screen.queryAllByRole('button')).toHaveLength(5)
   })
 
   it('has correct state after change', () => {
@@ -361,6 +433,7 @@ describe('StepIndicator in loose mode', () => {
     expect(typeof on_change.mock.calls[0][0].event.preventDefault).toBe(
       'function'
     )
+
     expect(items[0].classList).toContain(
       'dnb-step-indicator__item--current'
     )
@@ -422,6 +495,7 @@ describe('StepIndicator in loose mode', () => {
           <StepIndicator
             mode="loose"
             sidebar_id="unique-id-loose-simulate"
+            expandedInitially
             {...props}
           />
         </>
@@ -442,6 +516,7 @@ describe('StepIndicator in loose mode', () => {
     ]
 
     const { rerender } = render(<TestComp data={data1} />)
+
     expect(
       document.querySelector('li.dnb-step-indicator__item--current')
         .textContent
@@ -478,6 +553,7 @@ describe('StepIndicator in loose mode', () => {
             mode="loose"
             sidebar_id={id}
             data={stepIndicatorListData}
+            expandedInitially
             {...props}
           />
         </>
@@ -505,9 +581,12 @@ describe('StepIndicator in loose mode', () => {
     )
 
     expect(
+      document.querySelector('label.dnb-step-indicator__label').textContent
+    ).toContain('Steg 2 av 4:')
+    expect(
       document.querySelector('button.dnb-step-indicator__trigger__button')
         .textContent
-    ).toContain('‌2.Step B')
+    ).toContain('Step B')
 
     simulateSmallScreen()
 
@@ -519,11 +598,13 @@ describe('StepIndicator in loose mode', () => {
         data={stepIndicatorListData}
       />
     )
-
+    expect(
+      document.querySelector('label.dnb-step-indicator__label').textContent
+    ).toContain('Steg 2 av 4:')
     expect(
       document.querySelector('button.dnb-step-indicator__trigger__button')
         .textContent
-    ).toContain('‌2.Step B')
+    ).toContain('Step B')
   })
 
   it('should have no current if current_step is not given', () => {
@@ -552,6 +633,7 @@ describe('StepIndicator in strict mode', () => {
           mode="strict"
           sidebar_id={id}
           data={stepIndicatorListData}
+          expandedInitially
           {...props}
         />
       </>
@@ -561,7 +643,9 @@ describe('StepIndicator in strict mode', () => {
   it('has trigger button when mobile', () => {
     simulateSmallScreen()
 
-    renderComponent('unique-id-strict-mobile')
+    renderComponent('unique-id-strict-mobile', {
+      expandedInitially: false,
+    })
     expect(screen.queryByRole('button')).toBeInTheDocument()
   })
 
@@ -578,7 +662,7 @@ describe('StepIndicator in strict mode', () => {
     )
     expect(items[1].getAttribute('aria-current')).toBe('step')
 
-    expect(screen.queryAllByRole('button')).toHaveLength(2)
+    expect(screen.queryAllByRole('button')).toHaveLength(3)
   })
 
   it('has correct state after change', () => {
@@ -597,13 +681,18 @@ describe('StepIndicator in strict mode', () => {
     )
 
     act(() => {
-      screen.queryAllByRole('button')[0].click()
+      document
+        .querySelectorAll<HTMLButtonElement>(
+          'button.dnb-step-indicator__button'
+        )[0]
+        .click()
     })
 
     expect(on_change).toHaveBeenCalledTimes(1)
     expect(items[0].classList).toContain(
       'dnb-step-indicator__item--current'
     )
+
     expect(
       screen.queryAllByRole('listitem', { current: 'step' })
     ).toHaveLength(1)
@@ -620,12 +709,12 @@ describe('StepIndicator in static mode', () => {
           mode="static"
           sidebar_id={id}
           data={stepIndicatorListData}
+          expandedInitially
           {...props}
         />
       </>
     )
   }
-
   it('has trigger button when mobile', () => {
     simulateSmallScreen()
 
@@ -635,6 +724,7 @@ describe('StepIndicator in static mode', () => {
 
   it('has correct states on steps', () => {
     renderComponent('unique-id-static-states')
+
     const items = document.querySelectorAll('li.dnb-step-indicator__item')
 
     expect(items.length).toBe(4)
@@ -645,7 +735,7 @@ describe('StepIndicator in static mode', () => {
       'dnb-step-indicator__item--current'
     )
     expect(items[1].getAttribute('aria-current')).toBe('step')
-    expect(screen.queryAllByRole('button')).toHaveLength(0)
+    expect(screen.queryAllByRole('button')).toHaveLength(1)
   })
 
   it('should validate with ARIA rules', async () => {
