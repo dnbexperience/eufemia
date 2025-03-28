@@ -3049,6 +3049,158 @@ describe('Wizard.Container', () => {
     })
 
     describe('with validation shown in menu', () => {
+      it('should not show a status when no fields are present', async () => {
+        render(
+          <Form.Handler>
+            <Wizard.Container>
+              <Wizard.Step title="Step 1">
+                <output>Step 1</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 2">
+                <output>Step 2</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        expect(output()).toHaveTextContent('Step 1')
+        expect(
+          document.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).toBeNull()
+
+        await userEvent.click(nextButton())
+
+        expect(output()).toHaveTextContent('Step 2')
+        expect(
+          document.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).toBeNull()
+      })
+
+      it('should not show a status when Iterate.PushContainer is closed', async () => {
+        render(
+          <Form.Handler>
+            <Wizard.Container>
+              <Wizard.Step title="Step 1">
+                <output>Step 1</output>
+                <Iterate.PushContainer
+                  path="/does-not-matter"
+                  showOpenButtonWhen={() => true}
+                  bubbleValidation
+                >
+                  <Field.String required itemPath="/initiateError" />
+                </Iterate.PushContainer>
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 2">
+                <output>Step 2</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        expect(output()).toHaveTextContent('Step 1')
+        expect(
+          document.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).toBeNull()
+
+        await userEvent.click(nextButton())
+
+        expect(output()).toHaveTextContent('Step 2')
+        expect(
+          document.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).toBeNull()
+      })
+
+      it('should not navigate to next step when Iterate.PushContainer is open', async () => {
+        render(
+          <Form.Handler>
+            <Wizard.Container>
+              <Wizard.Step title="Step 1">
+                <output>Step 1</output>
+                <Iterate.PushContainer
+                  path="/does-not-matter"
+                  showOpenButtonWhen={() => true}
+                  openButton={<Iterate.PushContainer.OpenButton />}
+                  bubbleValidation
+                >
+                  <Field.String required itemPath="/initiateError" />
+                </Iterate.PushContainer>
+                <Wizard.Buttons />
+              </Wizard.Step>
+
+              <Wizard.Step title="Step 2">
+                <output>Step 2</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        expect(output()).toHaveTextContent('Step 1')
+        expect(
+          document.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).toBeNull()
+
+        await userEvent.click(nextButton())
+
+        expect(output()).toHaveTextContent('Step 2')
+        expect(
+          document.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).toBeNull()
+
+        await userEvent.click(previousButton())
+
+        expect(output()).toHaveTextContent('Step 1')
+        expect(
+          document.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).toBeNull()
+
+        await userEvent.click(
+          document.querySelector('.dnb-forms-iterate__open-button')
+        )
+
+        await wait(300)
+
+        await userEvent.click(nextButton())
+
+        expect(output()).toHaveTextContent('Step 1')
+        expect(
+          document.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).toBeNull()
+
+        await userEvent.click(
+          document.querySelector('.dnb-forms-iterate__cancel-button')
+        )
+
+        await userEvent.click(nextButton())
+
+        expect(output()).toHaveTextContent('Step 2')
+        expect(
+          document.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).toBeNull()
+      })
+
       it('should render warning or error status when form cannot be submitted', async () => {
         const onStepChange = jest.fn()
         const onSubmit = jest.fn()

@@ -4,6 +4,7 @@ import React, {
   useRef,
   useReducer,
   useMemo,
+  useEffect,
 } from 'react'
 import classnames from 'classnames'
 import { Space } from '../../../../components'
@@ -177,6 +178,16 @@ function WizardContainer(props: Props) {
       }
     )
   }, [])
+
+  const setStepAsVisited = useCallback((index: StepIndex) => {
+    visitedStepsRef.current.set(index, true)
+  }, [])
+
+  useEffect(() => {
+    if (!initialActiveIndex) {
+      setStepAsVisited(activeIndexRef.current)
+    }
+  }, [initialActiveIndex, setStepAsVisited])
 
   /**
    * - This method is used to check if a step (or any step) has an invalid state.
@@ -456,14 +467,14 @@ function WizardContainer(props: Props) {
       }
 
       // Mark as visited after validation is done.
-      visitedStepsRef.current.set(activeIndexRef.current, true)
+      setStepAsVisited(activeIndexRef.current)
 
       if (activeIndexRef.current + 1 < totalStepsRef.current) {
         handleNext()
         preventSubmit()
       }
     },
-    [hasInvalidStepsState, handleNext]
+    [hasInvalidStepsState, setStepAsVisited, handleNext]
   )
   dataContext.setHandleSubmit?.(handleSubmit)
 
@@ -471,9 +482,9 @@ function WizardContainer(props: Props) {
     // Run after all fields where validated
     requestAnimationFrame(() => {
       // Mark as visited after validation is done.
-      visitedStepsRef.current.set(activeIndexRef.current, true)
+      setStepAsVisited(activeIndexRef.current)
     })
-  }, [])
+  }, [setStepAsVisited])
   dataContext.setFieldEventListener?.(
     '/',
     'onSubmitRequest',

@@ -563,12 +563,18 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const setErrorState = useCallback(
     (hasError: boolean) => {
       showFieldErrorFieldBlock?.(identifier, hasError)
-      setFieldErrorWizard?.(wizardIndex, identifier, hasError)
       revealErrorBoundary?.(identifier, hasError)
       revealErrorDataContext?.(identifier, hasError)
+
+      setFieldErrorWizard?.(
+        wizardIndex,
+        identifier,
+        isVisible !== false ? hasError : undefined
+      )
     },
     [
       identifier,
+      isVisible,
       revealErrorBoundary,
       revealErrorDataContext,
       setFieldErrorWizard,
@@ -901,6 +907,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
    * Based on validation, update error state, locally and relevant surrounding contexts
    */
   const stateId = useId()
+  const isVisibleRef = useRef(isVisible)
+  isVisibleRef.current = isVisible
   const persistErrorState = useCallback(
     (
       method: PersistErrorStateMethod,
@@ -944,7 +952,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       // Tell the data context about the error, so it can stop the user from submitting the form until the error has been fixed
       setFieldErrorDataContext?.(identifier, error)
       setFieldErrorBoundary?.(identifier, error)
-      setFieldErrorWizard?.(wizardIndex, identifier, !!error)
+
+      setFieldErrorWizard?.(
+        wizardIndex,
+        identifier,
+        isVisibleRef.current !== false ? Boolean(error) : undefined
+      )
 
       // Set the visual states
       setBlockRecord?.({
