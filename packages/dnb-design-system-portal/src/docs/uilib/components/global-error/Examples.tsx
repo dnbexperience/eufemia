@@ -10,13 +10,13 @@ import { GlobalError } from '@dnb/eufemia/src'
 
 export const GlobalError404Example = () => (
   <ComponentBox data-visual-test="global-error-404">
-    <GlobalError status="404" />
+    <GlobalError statusCode="404" />
   </ComponentBox>
 )
 
 export const GlobalError500Example = () => (
   <ComponentBox data-visual-test="global-error-500">
-    <GlobalError status="500" />
+    <GlobalError statusCode="500" />
   </ComponentBox>
 )
 
@@ -35,7 +35,7 @@ export const GlobalErrorCustomStatusExample = () => (
       ]
       return (
         <GlobalError
-          status="403"
+          statusCode="403"
           title="Access Denied"
           text="More related text"
           links={links}
