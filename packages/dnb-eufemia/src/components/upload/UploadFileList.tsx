@@ -45,11 +45,11 @@ function UploadFileList() {
       const idIsSame =
         fileListElement.id && fileListElement.id === fileToBeUpdated.id
 
-      const fileNameIsSame =
-        fileListElement?.file?.name &&
-        fileListElement?.file?.name === fileToBeUpdated?.file?.name
+      const fileIsSame =
+        fileListElement.file &&
+        fileListElement.file === fileToBeUpdated.file
 
-      return idIsSame || fileNameIsSame
+      return idIsSame || fileIsSame
         ? {
             ...fileListElement,
             ...props,
