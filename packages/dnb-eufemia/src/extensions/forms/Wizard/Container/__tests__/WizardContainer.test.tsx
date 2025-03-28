@@ -532,7 +532,10 @@ describe('Wizard.Container', () => {
       render(
         <React.StrictMode>
           <Form.Handler>
-            <Wizard.Container onStepChange={onStepChange}>
+            <Wizard.Container
+              expandedInitially
+              onStepChange={onStepChange}
+            >
               <Step1 />
               <Step2 />
               <Summary />
@@ -541,7 +544,7 @@ describe('Wizard.Container', () => {
         </React.StrictMode>
       )
 
-      expect(screen.getByText('wizard.step1')).toBeInTheDocument()
+      expect(screen.getAllByText('wizard.step1')).toHaveLength(2)
       expect(screen.getByText('wizard.step2')).toBeInTheDocument()
 
       expect(output()).toHaveTextContent('Step 1')
@@ -4611,9 +4614,7 @@ describe('Wizard.Container', () => {
     it('should hide the visibility content when the condition is met', async () => {
       render(
         <Form.Handler>
-          <Wizard.Container
-          // variant="drawer" // TODO: enable in an upcoming PR
-          >
+          <Wizard.Container>
             <Wizard.Step title="Step 1">
               <output>Step 1</output>
               <Form.Section
@@ -4665,7 +4666,11 @@ describe('Wizard.Container', () => {
       await userEvent.click(screen.getByText('Neste'))
 
       expect(output()).toHaveTextContent('Step 2')
-      expect(document.querySelector('.dnb-form-status')).toBeNull()
+      expect(content().querySelector('.dnb-form-status')).toBeNull()
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Step.stepHasError
+      )
     })
 
     it('should hide the visibility content when the condition is met using a schema', async () => {
@@ -4701,9 +4706,7 @@ describe('Wizard.Container', () => {
             },
           }}
         >
-          <Wizard.Container
-          // variant="drawer" // TODO: enable in an upcoming PR
-          >
+          <Wizard.Container>
             <Wizard.Step title="Step 1">
               <output>Step 1</output>
               <Form.Section path="/sectionPath">
@@ -4752,7 +4755,11 @@ describe('Wizard.Container', () => {
       await userEvent.click(screen.getByText('Neste'))
 
       expect(output()).toHaveTextContent('Step 2')
-      expect(document.querySelector('.dnb-form-status')).toBeNull()
+      expect(content().querySelector('.dnb-form-status')).toBeNull()
+      expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Step.stepHasError
+      )
     })
   })
 
