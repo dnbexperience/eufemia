@@ -32,13 +32,13 @@ export function DisplaySteps({
     if (!hasErrorInOtherStepRef.current) {
       return // stop here
     }
-    if (hasInvalidStepsState(['error'])) {
+    if (hasInvalidStepsState(undefined, ['error'])) {
       return {
         status: translations.Step.stepHasError,
         status_state: 'error',
       } satisfies Omit<StepIndicatorItemProps, 'title' | 'currentItemNum'>
     }
-    if (hasInvalidStepsState(['unknown'])) {
+    if (hasInvalidStepsState(undefined, ['unknown'])) {
       return {
         status: 'Unknown state',
         status_state: 'warn',
