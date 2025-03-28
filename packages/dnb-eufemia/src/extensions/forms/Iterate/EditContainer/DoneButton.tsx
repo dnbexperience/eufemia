@@ -59,7 +59,7 @@ export default function DoneButton(props: Props) {
   return (
     <Button
       variant="tertiary"
-      className={classnames('dnb-push-container__done-button', className)}
+      className={classnames('dnb-forms-iterate__done-button', className)}
       icon={check}
       icon_position="left"
       on_click={doneHandler}

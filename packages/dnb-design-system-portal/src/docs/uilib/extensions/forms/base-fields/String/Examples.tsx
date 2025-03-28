@@ -521,31 +521,43 @@ export const OnInput = () => {
 
         const onInput = (event: React.FormEvent<HTMLInputElement>) => {
           const inputEl = event.currentTarget
-          const currentVal = inputEl.value
-          const oldVal = inputEl.dataset.oldVal
+          const oldVal = inputEl.dataset.oldVal || ''
+          const addedLength = inputEl.value.length - oldVal.length
+          const caretStart = inputEl.selectionStart
+          const selectionStart = parseFloat(inputEl.dataset.selectionStart)
+          const selectionEnd = parseFloat(inputEl.dataset.selectionEnd)
+          let inserted = ''
 
-          if (currentVal.length <= oldVal.length) {
-            inputEl.dataset.oldVal = currentVal
-            return // stop here
+          if (selectionStart !== selectionEnd) {
+            inserted = inputEl.value.substring(
+              selectionStart,
+              selectionEnd,
+            )
+          } else {
+            inserted = inputEl.value.substring(
+              caretStart - addedLength,
+              caretStart,
+            )
           }
-
-          const addedLength = currentVal.length - oldVal.length
-          const caretPos = inputEl.selectionStart
-          const inserted = currentVal.substring(
-            caretPos - addedLength,
-            caretPos,
-          )
 
           if (forbiddenRegex.test(inserted)) {
             inputEl.value = oldVal
 
-            inputEl.setSelectionRange(
-              caretPos - addedLength,
-              caretPos - addedLength,
-            )
-          } else {
-            inputEl.dataset.oldVal = currentVal
+            const { selectionStart, selectionEnd } = inputEl.dataset
+            if (selectionStart !== selectionEnd) {
+              inputEl.setSelectionRange(
+                parseFloat(selectionStart),
+                parseFloat(selectionEnd),
+              )
+            } else {
+              inputEl.setSelectionRange(
+                caretStart - addedLength,
+                caretStart - addedLength,
+              )
+            }
           }
+
+          inputEl.dataset.oldVal = inputEl.value
         }
 
         const onFocus = (event: React.FormEvent<HTMLInputElement>) => {
@@ -553,6 +565,12 @@ export const OnInput = () => {
           if (typeof inputEl.dataset.oldVal === 'undefined') {
             inputEl.dataset.oldVal = inputEl.value
           }
+        }
+
+        const onSelect = (event: React.FormEvent<HTMLInputElement>) => {
+          const inputEl = event.currentTarget
+          inputEl.dataset.selectionStart = String(inputEl.selectionStart)
+          inputEl.dataset.selectionEnd = String(inputEl.selectionEnd)
         }
 
         return (
@@ -565,6 +583,7 @@ export const OnInput = () => {
                 htmlAttributes={{
                   onFocus,
                   onInput,
+                  onSelect,
                 }}
                 autoComplete="off"
                 required

@@ -1,29 +1,36 @@
 import React, { useContext } from 'react'
-import { useTranslation } from '../../hooks'
-import { convertJsxToString } from '../../../../shared/component-helper'
 import WizardContext from '../Context/WizardContext'
+import WizardStepContext from '../Step/StepContext'
 import Step, {
   Props as StepProps,
   handleDeprecatedProps as handleDeprecatedStepProps,
 } from '../Step/Step'
+import { useCollectStepsData } from './useCollectStepsData'
 
-export function IterateOverSteps({ children }) {
+export function IterateOverSteps({
+  children,
+}: {
+  children: React.ReactNode
+}): React.ReactNode {
   const {
     check,
     stepsRef,
     activeIndexRef,
     totalStepsRef,
-    stepStatusRef,
+    stepIndexRef,
     prerenderFieldProps,
     prerenderFieldPropsRef,
     hasErrorInOtherStepRef,
+    mapOverChildrenRef,
   } = useContext(WizardContext)
+
+  const { collectStepsData } = useCollectStepsData()
+
+  // Reset before iterating and calling "collectStepsData" and other variables are collected.
+  stepsRef.current = new Map()
   hasErrorInOtherStepRef.current = false
-
-  stepsRef.current = {}
-  let incrementIndex = -1
-
-  const translations = useTranslation()
+  stepIndexRef.current = -1
+  totalStepsRef.current = 0
 
   const childrenArray = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
@@ -40,13 +47,8 @@ export function IterateOverSteps({ children }) {
       }
 
       if (child?.type === Step) {
-        const {
-          title: titleProp,
-          inactive,
-          include,
-          includeWhen,
-          id,
-        } = handleDeprecatedStepProps(child.props)
+        const { title, inactive, include, includeWhen, id } =
+          handleDeprecatedStepProps(child.props)
 
         if (include === false) {
           return null
@@ -61,39 +63,15 @@ export function IterateOverSteps({ children }) {
           return null
         }
 
-        incrementIndex++
+        const index = totalStepsRef.current
+        totalStepsRef.current = totalStepsRef.current + 1
 
-        const index = incrementIndex
-        const title =
-          titleProp !== undefined
-            ? convertJsxToString(titleProp)
-            : 'Title missing'
-        const state = stepStatusRef.current[index]
-        const status =
-          index !== activeIndexRef.current
-            ? state === 'error'
-              ? translations.Step.stepHasError
-              : state === 'unknown'
-              ? 'Unknown state'
-              : undefined
-            : undefined
-        const statusState = state === 'error' ? 'error' : undefined // undefined shows 'warn' by default
-        const key = `${index}-${activeIndexRef.current}`
-
-        if (status) {
-          hasErrorInOtherStepRef.current = true
-        }
-
-        stepsRef.current[index] = {
+        collectStepsData({
           id,
-          title,
+          index,
           inactive,
-          status,
-          statusState,
-        }
-
-        const clone = (props) =>
-          React.cloneElement(child as React.ReactElement<StepProps>, props)
+          title,
+        })
 
         if (
           prerenderFieldProps &&
@@ -102,18 +80,16 @@ export function IterateOverSteps({ children }) {
           typeof prerenderFieldPropsRef.current['step-' + index] ===
             'undefined'
         ) {
+          const key = `${index}-${activeIndexRef.current}`
           prerenderFieldPropsRef.current['step-' + index] = () =>
-            clone({
+            React.cloneElement(child as React.ReactElement<StepProps>, {
               key,
               index,
               prerenderFieldProps: true,
             })
         }
 
-        return clone({
-          key,
-          index,
-        })
+        return child
       }
     }
 
@@ -122,13 +98,21 @@ export function IterateOverSteps({ children }) {
 
   // Ensure we never have a higher index than the available children
   // else we get a white screen
-  if (childrenArray?.length === 0) {
+  if (totalStepsRef.current === 0) {
     activeIndexRef.current = 0
-  } else if (childrenArray?.length < activeIndexRef.current + 1) {
-    activeIndexRef.current = childrenArray.length - 1
+  } else if (totalStepsRef.current < activeIndexRef.current + 1) {
+    activeIndexRef.current = totalStepsRef.current - 1
   }
 
-  totalStepsRef.current = childrenArray?.length
+  if (mapOverChildrenRef.current) {
+    return childrenArray.map((child, index) => {
+      return (
+        <WizardStepContext.Provider key={index} value={{ index }}>
+          {child}
+        </WizardStepContext.Provider>
+      )
+    })
+  }
 
-  return childrenArray
+  return children
 }

@@ -33,8 +33,12 @@ describe('Anchor with scrollToHash', () => {
   })
 })
 
+/**
+ * @deprecated – can be removed in v11
+ */
 describe('Anchor with scrollToHashHandler', () => {
   let location: Location
+  jest.spyOn(console, 'log').mockImplementation()
 
   beforeEach(() => {
     location = window.location

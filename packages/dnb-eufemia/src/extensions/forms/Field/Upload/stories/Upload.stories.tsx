@@ -98,14 +98,48 @@ export const WithAsyncFileHandler = () => {
   )
 }
 
+async function mockAsyncFileRemoval({ fileItem }) {
+  const request = createRequest()
+  console.log('making API request to remove: ' + fileItem.file.name)
+  await request(3000) // Simulate a request
+}
+
+async function mockAsyncFileUpload(
+  newFiles: UploadValue
+): Promise<UploadValue> {
+  const updatedFiles: UploadValue = []
+
+  for (const [, file] of Object.entries(newFiles)) {
+    const formData = new FormData()
+    formData.append('file', file.file, file.file.name)
+
+    const request = createRequest()
+    await request(3000) // Simulate a request
+
+    const mockResponse = {
+      ok: false, // Fails virus check
+      json: async () => ({
+        server_generated_id:
+          'server_generated_id' +
+          '_' +
+          file.file.name +
+          '_' +
+          crypto.randomUUID(),
+      }),
+    }
+
+    const data = await mockResponse.json()
+    updatedFiles.push({
+      ...file,
+      id: data.server_generated_id,
+    })
+  }
+
+  return updatedFiles
+}
+
 export const AsyncEverything = () => {
   const acceptedFileTypes = ['jpg', 'pdf', 'png']
-
-  async function mockAsyncFileRemoval({ fileItem }) {
-    const request = createRequest()
-    console.log('making API request to remove: ' + fileItem.file.name)
-    await request(3000) // Simulate a request
-  }
 
   async function mockAsyncOnFileClick({ fileItem }) {
     const request = createRequest()
@@ -118,40 +152,6 @@ export const AsyncEverything = () => {
       'https://eufemia.dnb.no/images/avatars/1501870.jpg',
       '_blank'
     )
-  }
-
-  async function mockAsyncFileUpload(
-    newFiles: UploadValue
-  ): Promise<UploadValue> {
-    const updatedFiles: UploadValue = []
-
-    for (const [, file] of Object.entries(newFiles)) {
-      const formData = new FormData()
-      formData.append('file', file.file, file.file.name)
-
-      const request = createRequest()
-      await request(3000) // Simulate a request
-
-      const mockResponse = {
-        ok: false, // Fails virus check
-        json: async () => ({
-          server_generated_id:
-            'server_generated_id' +
-            '_' +
-            file.file.name +
-            '_' +
-            crypto.randomUUID(),
-        }),
-      }
-
-      const data = await mockResponse.json()
-      updatedFiles.push({
-        ...file,
-        id: data.server_generated_id,
-      })
-    }
-
-    return updatedFiles
   }
 
   return (
@@ -279,6 +279,35 @@ export function FileSizeErrorWithFileHandler() {
       <Flex.Stack>
         <Field.Upload fileHandler={uploadFilesWithMockError} />
       </Flex.Stack>
+    </Form.Handler>
+  )
+}
+export function SameFileName() {
+  function createMockFile(name: string, size: number, type: string) {
+    const file = new File([], name, { type })
+    Object.defineProperty(file, 'size', {
+      get() {
+        return size
+      },
+    })
+    return file
+  }
+
+  return (
+    <Form.Handler
+      data={{
+        myFiles: [
+          {
+            file: createMockFile('1.png', 100, 'image/png'),
+          },
+        ],
+      }}
+    >
+      <Field.Upload
+        required
+        path="/myFiles"
+        onFileDelete={mockAsyncFileRemoval}
+      />
     </Form.Handler>
   )
 }

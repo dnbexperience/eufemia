@@ -74,7 +74,7 @@ export default function useValueProps<
 
   const shouldBeVisible = useCallback(
     (path: Path): boolean => {
-      const item = mountedFieldsRef?.current?.[path]
+      const item = mountedFieldsRef?.current?.get(path)
 
       if (!item || !inheritVisibility) {
         return true

@@ -181,6 +181,25 @@ describe('"detectOutsideClick" should', () => {
     await userEvent.click(wrapperElementRef.current)
     expect(onSuccess).toHaveBeenCalledTimes(2)
   })
+
+  it('should not throw an error when "ignoreElementRef" is undefined', async () => {
+    const log = jest.spyOn(console, 'log').mockImplementation()
+
+    window.PointerEvent = undefined
+    const ignoreElementRef = undefined
+
+    const MockComponent = () => {
+      detectOutsideClick(ignoreElementRef)
+      return null
+    }
+
+    render(<MockComponent />)
+
+    await userEvent.click(document.body)
+
+    expect(log).toHaveBeenCalledTimes(0)
+    log.mockRestore()
+  })
 })
 
 describe('"checkIfHasScrollbar" should', () => {

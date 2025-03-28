@@ -32,7 +32,7 @@ function OpenButton(props: Props) {
 
   return (
     <Button
-      className={classnames('dnb-forms-iterate-open-button', className)}
+      className={classnames('dnb-forms-iterate__open-button', className)}
       variant="secondary"
       icon={add}
       icon_position="left"

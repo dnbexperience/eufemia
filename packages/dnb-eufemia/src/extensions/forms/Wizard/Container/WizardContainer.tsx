@@ -137,20 +137,22 @@ function WizardContainer(props: Props) {
     setShowAllErrors,
     setSubmitState,
   } = dataContext
+  // const translations = useTranslation()
 
   const id = useId(idProp)
   const [, forceUpdate] = useReducer(() => ({}), {})
   const activeIndexRef = useRef<StepIndex>(initialActiveIndex)
   const totalStepsRef = useRef<number>(NaN)
-  const stepStatusRef = useRef<InternalStepStatuses>({})
-  const hasVisibleErrorRef = useRef<InternalFieldError>({})
+  const visitedStepsRef = useRef<InternalVisitedSteps>(new Map())
+  const stepStatusRef = useRef<InternalStepStatuses>(new Map())
+  const hasVisibleErrorRef = useRef<InternalFieldError>(new Map())
   const hasErrorInOtherStepRef = useRef<boolean>(false)
-  const visitedStepsRef = useRef<InternalVisitedSteps>({})
   const elementRef = useRef<HTMLElement>()
   const stepElementRef = useRef<HTMLElement>()
   const preventNextStepRef = useRef(false)
-  const stepsRef = useRef<Steps>({})
-  const tmpStepsRef = useRef<Steps>({})
+  const stepsRef = useRef<Steps>(new Map())
+  const tmpStepsRef = useRef<number>()
+  const stepIndexRef = useRef<number>(-1)
   const updateTitlesRef = useRef<() => void>()
   const prerenderFieldPropsRef = useRef<
     Record<string, () => React.ReactElement>
@@ -169,16 +171,16 @@ function WizardContainer(props: Props) {
     hasContext && id ? createReferenceKey(id, 'wizard') : undefined
   )
 
-  visitedStepsRef.current[activeIndexRef.current] = true
+  visitedStepsRef.current.set(activeIndexRef.current, true)
 
   const setStepState = useCallback(
     (index: number, state: InternalStepStatus) => {
-      stepStatusRef.current[index] = state
+      stepStatusRef.current.set(index, state)
     },
     []
   )
   const hasFieldErrorInStep = useCallback((index: StepIndex) => {
-    return Object.values(hasVisibleErrorRef.current).some(
+    return Array.from(hasVisibleErrorRef.current.values()).some(
       ({ index: i, hasError }) => {
         return i === index && hasError
       }
@@ -186,7 +188,7 @@ function WizardContainer(props: Props) {
   }, [])
   const revealError: WizardContextState['revealError'] = useCallback(
     (index, path, hasError) => {
-      hasVisibleErrorRef.current[path] = { index, hasError }
+      hasVisibleErrorRef.current.set(path, { index, hasError })
 
       if (hasFieldErrorInStep(index)) {
         setStepState(index, 'error')
@@ -198,7 +200,7 @@ function WizardContainer(props: Props) {
   const activeIndex = activeIndexRef.current
   const hasErrorInActiveStep = hasFieldErrorInStep(activeIndex)
   useMemo(() => {
-    const currentState = stepStatusRef.current[activeIndex]
+    const currentState = stepStatusRef.current.get(activeIndex)
     if (
       !hasErrorInActiveStep &&
       ['error', 'valid'].includes(currentState)
@@ -222,9 +224,9 @@ function WizardContainer(props: Props) {
           previousStep: { index: previousIndex },
         }
 
-        const id = stepsRef.current[index]?.id
+        const id = stepsRef.current.get(index)?.id
         if (id) {
-          const previousId = stepsRef.current[previousIndex]?.id
+          const previousId = stepsRef.current.get(previousIndex)?.id
           Object.assign(options, { id })
           Object.assign(options.previousStep, { id: previousId })
         }
@@ -302,7 +304,7 @@ function WizardContainer(props: Props) {
         setShowAllErrors(
           bypassOnNavigation
             ? false
-            : stepStatusRef.current[index] === 'error'
+            : stepStatusRef.current.get(index) === 'error'
         )
 
         if (!preventNextStepRef.current && !(result instanceof Error)) {
@@ -333,7 +335,7 @@ function WizardContainer(props: Props) {
           // we need to check the step status, because other steps may report an error,
           // so the user will not be able to navigate to the next step,
           // because the form contains errors. Thats why onSubmit will not be called via handleSubmitCall.
-          const state = stepStatusRef.current[activeIndexRef.current]
+          const state = stepStatusRef.current.get(activeIndexRef.current)
           if (mode === 'next' && state === 'valid') {
             await onSubmit()
           }
@@ -404,8 +406,8 @@ function WizardContainer(props: Props) {
       // - if, not check if the step is before the active step and and below.
       // - Only then set the state to "unknown"
       if (
-        !visitedStepsRef.current[i] &&
-        stepStatusRef.current[i] === undefined &&
+        !visitedStepsRef.current.get(i) &&
+        stepStatusRef.current.get(i) === undefined &&
         i < index &&
         i !== index
       ) {
@@ -416,7 +418,7 @@ function WizardContainer(props: Props) {
 
   const hasInvalidStepsState: WizardContextState['hasInvalidStepsState'] =
     useCallback((forStates) => {
-      const steps = Object.values(stepStatusRef.current)
+      const steps = Array.from(stepStatusRef.current.values())
       return (forStates || ['unknown', 'error']).some((state) =>
         steps.includes(state)
       )
@@ -440,7 +442,16 @@ function WizardContainer(props: Props) {
   )
   dataContext.setHandleSubmit?.(handleSubmit)
 
+  // NB: useVisibility needs to be imported here,
+  // because it need the outer context to be available.
   const { check } = useVisibility()
+
+  // This is used to map over the children and to give them the correct index,
+  // in case it could be given properly, like if no id or title was given in React.StrictMode.
+  const mapOverChildrenRef = useRef(false)
+  const enableMapOverChildren = useCallback(() => {
+    mapOverChildrenRef.current = true
+  }, [])
 
   const providerValue = useMemo<WizardContextState>(() => {
     return {
@@ -451,12 +462,15 @@ function WizardContainer(props: Props) {
       stepsRef,
       updateTitlesRef,
       activeIndexRef,
+      stepIndexRef,
       totalStepsRef,
       stepStatusRef,
       prerenderFieldProps,
       prerenderFieldPropsRef,
       hasErrorInOtherStepRef,
       keepInDOM,
+      enableMapOverChildren,
+      mapOverChildrenRef,
       check,
       setActiveIndex,
       handlePrevious,
@@ -464,13 +478,14 @@ function WizardContainer(props: Props) {
       revealError,
       handleNext,
       setFormError,
-    }
+    } satisfies WizardContextState
   }, [
     id,
     activeIndex,
     initialActiveIndex,
     prerenderFieldProps,
     keepInDOM,
+    enableMapOverChildren,
     check,
     setActiveIndex,
     handlePrevious,
@@ -493,8 +508,11 @@ function WizardContainer(props: Props) {
   }, [stepsRef.current])
 
   const stepsLengthDidChange = useCallback(() => {
-    const count = Object.keys(stepsRef.current).length
-    const tmpCount = Object.keys(tmpStepsRef.current).length
+    const tmpCount = tmpStepsRef.current
+    if (tmpCount === undefined) {
+      return false
+    }
+    const count = totalStepsRef.current
     return count !== 0 && tmpCount !== 0 && count !== tmpCount
   }, [])
 
@@ -504,9 +522,15 @@ function WizardContainer(props: Props) {
       callOnStepChange(activeIndexRef.current, 'stepListModified')
       executeLayoutAnimationRef.current?.()
     }
-    tmpStepsRef.current = stepsRef.current
+
+    tmpStepsRef.current = totalStepsRef.current
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stepsRef.current, callOnStepChange, stepsLengthDidChange])
+  }, [
+    totalStepsRef.current, // Include the totalStepsRef.current to trigger the useEffect on change
+    callOnStepChange,
+    stepsLengthDidChange,
+  ])
 
   if (!hasContext) {
     warn('You may wrap Wizard.Container in Form.Handler')

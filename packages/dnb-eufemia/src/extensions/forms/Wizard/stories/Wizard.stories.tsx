@@ -279,3 +279,111 @@ export function WithRouter() {
 //     </BrowserRouter>
 //   )
 // }
+
+export function WizardWithVisibilityAndSchema() {
+  function Step1() {
+    return (
+      <Wizard.Step title="Step 1">
+        <Form.Section path="/sectionPath">
+          <Field.Boolean path="/isThisTrue" variant="buttons" />
+          <Form.Visibility pathFalse="/isThisTrue" animate>
+            <Field.String path="/showMeWhenTrue" />
+          </Form.Visibility>
+        </Form.Section>
+        <Wizard.Buttons />
+      </Wizard.Step>
+    )
+  }
+
+  function Step2() {
+    return (
+      <Wizard.Step title="Step 2">
+        <Field.String path="/someField" />
+        <Wizard.Buttons />
+        <Form.SubmitButton />
+      </Wizard.Step>
+    )
+  }
+
+  return (
+    <Form.Handler
+      schema={{
+        type: 'object',
+        required: ['sectionPath'],
+        properties: {
+          sectionPath: {
+            type: 'object',
+            additionalProperties: false,
+            required: ['isThisTrue'],
+            properties: {
+              isThisTrue: {
+                type: 'boolean',
+              },
+              showMeWhenTrue: {
+                type: 'string',
+              },
+            },
+            if: {
+              properties: {
+                isThisTrue: {
+                  const: false,
+                },
+              },
+            },
+            then: {
+              required: ['showMeWhenTrue'],
+            },
+          },
+        },
+      }}
+    >
+      <Wizard.Container>
+        <Step1 />
+        <Step2 />
+      </Wizard.Container>
+    </Form.Handler>
+  )
+}
+
+export const AsyncWizard = () => {
+  const Step1 = () => (
+    <Wizard.Step title="Step 1">
+      <output>Step 1</output>
+      <Wizard.Buttons />
+    </Wizard.Step>
+  )
+
+  const Step2 = () => (
+    <Wizard.Step title="Step 2">
+      <output>Step 2</output>
+      <Wizard.Buttons />
+    </Wizard.Step>
+  )
+
+  const Summary = () => {
+    const { summaryTitle } = Form.useLocale().Step
+    return (
+      <Wizard.Step title={summaryTitle}>
+        <output>Summary</output>
+        <Wizard.Buttons />
+      </Wizard.Step>
+    )
+  }
+
+  const onStepChange = async (step, mode) => {
+    if (mode === 'next') {
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+    }
+  }
+  return (
+    <React.StrictMode>
+      <Form.Handler>
+        <Wizard.Container onStepChange={onStepChange}>
+          <Step1 />
+          <Step2 />
+          <Summary />
+        </Wizard.Container>
+      </Form.Handler>
+    </React.StrictMode>
+  )
+}

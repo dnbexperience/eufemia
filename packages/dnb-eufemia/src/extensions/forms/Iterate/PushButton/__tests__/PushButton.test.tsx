@@ -377,7 +377,7 @@ describe('PushButton', () => {
       })
 
       await userEvent.click(
-        document.querySelector('.dnb-push-container__done-button')
+        document.querySelector('.dnb-forms-iterate__done-button')
       )
 
       expect(outerData).toEqual({ outer: [{ inner: ['new value'] }] })
@@ -448,7 +448,7 @@ describe('PushButton', () => {
       })
 
       await userEvent.click(
-        document.querySelectorAll('.dnb-push-container__done-button')[1]
+        document.querySelectorAll('.dnb-forms-iterate__done-button')[1]
       )
 
       expect(outerData).toEqual({
@@ -467,7 +467,7 @@ describe('PushButton', () => {
       expect(containerModeOfFirstItem).toEqual('view')
 
       await userEvent.click(
-        document.querySelector('.dnb-push-container__edit-button')
+        document.querySelector('.dnb-forms-iterate__edit-button')
       )
 
       expect(containerModeOfFirstItem).toEqual('edit')

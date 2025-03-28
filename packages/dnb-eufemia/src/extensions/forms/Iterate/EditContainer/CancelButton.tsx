@@ -1,4 +1,5 @@
 import React, { useCallback, useContext, useEffect, useRef } from 'react'
+import classnames from 'classnames'
 import { Button } from '../../../../components'
 import useTranslation from '../../hooks/useTranslation'
 import IterateItemContext from '../IterateItemContext'
@@ -12,7 +13,7 @@ import { ContainerMode } from '../Array'
 type Props = ButtonProps
 
 export default function CancelButton(props: Props) {
-  const { onClick, ...rest } = props
+  const { onClick, className, ...rest } = props
   const {
     restoreOriginalValue,
     switchContainerMode,
@@ -73,6 +74,7 @@ export default function CancelButton(props: Props) {
   return (
     <Button
       variant="tertiary"
+      className={classnames('dnb-forms-iterate__cancel-button', className)}
       icon={close}
       icon_position="left"
       on_click={cancelHandler}
