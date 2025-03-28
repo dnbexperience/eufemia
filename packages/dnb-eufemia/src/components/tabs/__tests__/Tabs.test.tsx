@@ -500,7 +500,7 @@ describe('A single Tab component', () => {
     ).toBe('Content two')
   })
 
-  it('has to work with "Tabs.Content" as children Components', () => {
+  it('has to work with "Tabs.Content" as children components', () => {
     render(
       <Tabs {...props} data={tablistData}>
         <Tabs.Content title="first title">first</Tabs.Content>
@@ -593,6 +593,47 @@ describe('A single Tab component', () => {
       document.querySelector('button span.dnb-tabs__button__title')
         .textContent
     ).toBe('single title')
+  })
+
+  it('has to work when conditional rendering "Tabs.Content" as children components', () => {
+    render(
+      <Tabs {...props}>
+        {false && (
+          <Tabs.Content key="first" title="First">
+            First tab content
+          </Tabs.Content>
+        )}
+        {null && (
+          <Tabs.Content key="second" title="Second">
+            Second tab content
+          </Tabs.Content>
+        )}
+        <Tabs.Content key="third" title="Third">
+          Third tab content
+        </Tabs.Content>
+        {undefined && (
+          <Tabs.Content key="fourth" title="Fourth">
+            Fourth tab content
+          </Tabs.Content>
+        )}
+        <Tabs.Content key="fifth" title="Fifth">
+          Fifth tab content
+        </Tabs.Content>
+      </Tabs>
+    )
+
+    expect(
+      document.querySelectorAll('div.dnb-tabs__content__inner')[0]
+        .textContent
+    ).toBe('Third tab content')
+    expect(
+      document.querySelectorAll('button span.dnb-tabs__button__title')[0]
+        .textContent
+    ).toBe('Third')
+    expect(
+      document.querySelectorAll('button span.dnb-tabs__button__title')[1]
+        .textContent
+    ).toBe('Fifth')
   })
 
   it('has to work with a single element for data property', () => {

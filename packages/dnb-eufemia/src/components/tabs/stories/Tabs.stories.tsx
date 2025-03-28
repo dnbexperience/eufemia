@@ -441,3 +441,31 @@ export function TabsAndFlex() {
     </>
   )
 }
+
+export function TabsContentConditionalRendering() {
+  return (
+    <Tabs>
+      {false && (
+        <Tabs.Content key="first" title="First">
+          First tab content
+        </Tabs.Content>
+      )}
+      {null && (
+        <Tabs.Content key="second" title="Second">
+          Second tab content
+        </Tabs.Content>
+      )}
+      <Tabs.Content key="third" title="Third">
+        Third tab content
+      </Tabs.Content>
+      {undefined && (
+        <Tabs.Content key="fourth" title="Fourth">
+          Fourth tab content
+        </Tabs.Content>
+      )}
+      <Tabs.Content key="fifth" title="Fifth">
+        Fifth tab content
+      </Tabs.Content>
+    </Tabs>
+  )
+}
