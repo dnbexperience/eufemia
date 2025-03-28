@@ -89,7 +89,7 @@ describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
 
   it('have to match static mode after click simulation', async () => {
     const screenshot = await makeScreenshot({
-      selector: 'div#dnb-modal-root',
+      selector: '[data-visual-test="step-indicator-static"]',
       simulateSelector:
         '[data-visual-test="step-indicator-static"] .dnb-step-indicator__trigger__button',
       simulate: 'click',
@@ -151,7 +151,7 @@ describe('deprecated', () => {
         width: 1280,
         height: 1024,
       },
-      url: '/uilib/components/step-indicator/visual-tests',
+      url: '/uilib/components/step-indicator/deprecated-visual-tests',
     })
 
     it('have to match statuses', async () => {
