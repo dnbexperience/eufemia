@@ -208,7 +208,7 @@ export const parseContentTitle = (
     dataItem = { content: dataItem }
   }
 
-  const hasValue = dataItem?.selected_value
+  const hasValue = dataItem?.selectedValue ?? dataItem?.selected_value
 
   if (
     !(preferSelectedValue && hasValue) &&
@@ -241,16 +241,24 @@ export const parseContentTitle = (
   if (hasValue) {
     if (preferSelectedValue) {
       ret = String(
-        convertJsxToString(dataItem.selected_value, separator, (word) => {
-          const nestedChildren =
-            !word.props.children &&
-            typeof word?.type === 'function' &&
-            word.type()
+        convertJsxToString(
+          dataItem?.selectedValue ?? dataItem.selected_value,
+          separator,
+          (word) => {
+            const nestedChildren =
+              !word.props.children &&
+              typeof word?.type === 'function' &&
+              word.type()
 
-          return nestedChildren?.props?.children ? nestedChildren : word
-        })
+            return nestedChildren?.props?.children ? nestedChildren : word
+          }
+        )
       )
-    } else if (!onlyNumericRegex.test(dataItem.selected_value)) {
+    } else if (
+      !onlyNumericRegex.test(
+        dataItem?.selectedValue ?? dataItem.selected_value
+      )
+    ) {
       ret = String(convertJsxToString()) + separator + ret
     }
   }
