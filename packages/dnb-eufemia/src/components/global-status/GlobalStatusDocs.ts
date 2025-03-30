@@ -86,6 +86,11 @@ export const GlobalStatusProperties: PropertiesTableProps = {
     type: 'x',
     status: 'optional',
   },
+  omit_set_focus_on_update: {
+    doc: 'THIS IS NOT DOCUMENTED YET?!?!',
+    type: 'x',
+    status: 'optional',
+  },
   skeleton: {
     doc: 'If set to `true`, an overlaying skeleton with animation will be shown.',
     type: 'boolean',
