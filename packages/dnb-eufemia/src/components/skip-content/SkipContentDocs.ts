@@ -3,7 +3,7 @@ import { PropertiesTableProps } from '../../shared/types'
 export const SkipContentProperties: PropertiesTableProps = {
   selector: {
     doc: 'Define an existing HTML element selector to focus when the inner button got pressed.',
-    type: ['x'],
+    type: ['string'],
     status: 'required',
   },
   text: {
