@@ -2,14 +2,17 @@
 showTabs: true
 ---
 
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
+import {
+  BreadcrumbEvents,
+  BreadcrumbItemEvents,
+} from '@dnb/eufemia/src/components/breadcrumb/BreadcrumbDocs'
+
 ### `Breadcrumb` events
 
-| Events    | Description                                                                                                                                          |
-| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `onClick` | _(optional)_ will be called by user click interaction, to handle click event on "Back" for variant `single` and "Back to..." for variant `collapse`. |
+<PropertiesTable props={BreadcrumbEvents} />
 
 ### `Breadcrumb.Item` events
 
-| Events    | Description                                            |
-| --------- | ------------------------------------------------------ |
-| `onClick` | _(optional)_ will be called by user click interaction. |
+<PropertiesTable props={BreadcrumbItemEvents} />
