@@ -38,7 +38,9 @@ export type Props = {
   toolbarVariant?: ArrayItemAreaProps['toolbarVariant']
 }
 
-export type AllProps = Props & FlexContainerProps & ArrayItemAreaProps
+export type AllProps = Props &
+  Omit<FlexContainerProps, 'onAnimationEnd'> &
+  ArrayItemAreaProps
 
 export default function EditContainer(props: AllProps) {
   const { toolbar, toolbarVariant, children, ...rest } = props
@@ -77,7 +79,10 @@ export default function EditContainer(props: AllProps) {
 }
 
 export function EditContainerWithoutToolbar(
-  props: Props & FlexContainerProps & { toolbar?: React.ReactNode }
+  props: Props &
+    Omit<FlexContainerProps, 'onAnimationEnd'> & {
+      toolbar?: React.ReactNode
+    }
 ) {
   const { containerMode, isNew, index, path } =
     useContext(IterateItemContext)
