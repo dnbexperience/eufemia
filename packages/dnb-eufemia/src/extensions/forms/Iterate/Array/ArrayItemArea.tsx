@@ -1,6 +1,8 @@
 import React, { useCallback, useContext, useReducer, useRef } from 'react'
 import classnames from 'classnames'
 import { Card, HeightAnimation } from '../../../../components'
+import { HeightAnimationOnEndStates } from '../../../../components/height-animation/HeightAnimationInstance'
+import { HeightAnimationProps } from '../../../../components/HeightAnimation'
 import IterateItemContext, {
   IterateItemContextState,
 } from '../IterateItemContext'
@@ -27,9 +29,12 @@ export type Props = {
   open?: boolean | undefined
   ariaLabel?: string
   openDelay?: number
-} & ArrayItemAreaProps
+} & ArrayItemAreaProps &
+  Pick<HeightAnimationProps, 'onAnimationEnd'>
 
-function ArrayItemArea(props: Props & FlexContainerProps) {
+function ArrayItemArea(
+  props: Props & Omit<FlexContainerProps, 'onAnimationEnd'>
+) {
   const [, forceUpdate] = useReducer(() => ({}), {})
 
   const {
@@ -123,7 +128,7 @@ function ArrayItemArea(props: Props & FlexContainerProps) {
   }, [containerMode, isNew, mode, open, openDelay, setOpenState])
 
   const setFocus = useCallback(
-    (state) => {
+    (state: HeightAnimationOnEndStates) => {
       if (
         localContextRef.current.modeOptions?.omitFocusManagement !==
           true &&
@@ -143,7 +148,7 @@ function ArrayItemArea(props: Props & FlexContainerProps) {
 
   // - Remove the block with animation, if it's in the right mode
   const handleAnimationEnd = useCallback(
-    (state) => {
+    (state: HeightAnimationOnEndStates) => {
       if (!openRef.current && isRemoving.current) {
         isRemoving.current = false
         localContextRef.current.fulfillRemove?.()

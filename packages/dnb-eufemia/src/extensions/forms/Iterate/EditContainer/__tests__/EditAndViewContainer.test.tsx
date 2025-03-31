@@ -108,7 +108,7 @@ describe('EditContainer and ViewContainer', () => {
     expect(containerMode).toBe('edit')
   })
 
-  it('should switch mode from view to edit on error during submit', async () => {
+  it('should switch mode from view to edit when pressing done button', async () => {
     let containerMode = null
 
     const ContextConsumer = () => {
@@ -147,6 +147,49 @@ describe('EditContainer and ViewContainer', () => {
 
     const button = document.querySelector('button')
     await userEvent.click(button)
+
+    expect(button).toHaveTextContent(tr.editContainer.doneButton)
+    expect(containerMode).toBe('edit')
+  })
+
+  it('should switch mode from view to edit on error during submit', async () => {
+    let containerMode = null
+
+    const ContextConsumer = () => {
+      const context = React.useContext(IterateItemContext)
+      containerMode = context.containerMode
+
+      return null
+    }
+
+    render(
+      <Form.Handler>
+        <Iterate.Array value={['0']}>
+          <Iterate.EditContainer>
+            <Field.String
+              itemPath="/"
+              onBlurValidator={(value) => {
+                if (value === '01') {
+                  return new Error('error')
+                }
+              }}
+            />
+          </Iterate.EditContainer>
+          <Iterate.ViewContainer>content</Iterate.ViewContainer>
+          <ContextConsumer />
+        </Iterate.Array>
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    expect(containerMode).toBe('view')
+
+    const input = document.querySelector('input')
+    await userEvent.type(input, '1')
+
+    expect(containerMode).toBe('view')
+
+    fireEvent.submit(input)
 
     expect(containerMode).toBe('edit')
   })
