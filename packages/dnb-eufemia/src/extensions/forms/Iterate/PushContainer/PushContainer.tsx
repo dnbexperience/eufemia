@@ -322,16 +322,14 @@ function NewContainer({
   )
 
   return (
-    <>
+    <VisibilityContext.Provider value={{ isVisible }}>
       <EditContainer
         open={isVisible}
         title={title}
         toolbar={toolbar}
         {...rest}
       >
-        <VisibilityContext.Provider value={{ isVisible }}>
-          {children}
-        </VisibilityContext.Provider>
+        {children}
       </EditContainer>
 
       {openButton && typeof showOpenButton === 'boolean' && (
@@ -339,7 +337,7 @@ function NewContainer({
           {openButton}
         </HeightAnimation>
       )}
-    </>
+    </VisibilityContext.Provider>
   )
 }
 
