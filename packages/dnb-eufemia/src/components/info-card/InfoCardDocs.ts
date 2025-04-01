@@ -28,7 +28,7 @@ export const InfoCardProperties: PropertiesTableProps = {
   },
   className: {
     doc: 'Custom className for the component root.',
-    type: ['x'],
+    type: ['string'],
     status: 'optional',
   },
   icon: {
