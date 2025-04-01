@@ -24,7 +24,7 @@ export type GlobalErrorLink = {
 export type GlobalErrorProps = {
   /**
    * When `404` or `500` is given, a predefined text will be shown.
-   * Defaults to `400`.
+   * Defaults to `404`.
    */
   status?: '404' | '500' | string
 
@@ -155,7 +155,7 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
           <P bottom {...textParams} />
           {code && (
             <P bottom className="dnb-global-error__status">
-              {code} <Code>{status}</Code>
+              {code} {status && <Code>{status}</Code>}
             </P>
           )}
           {help && links?.length && (

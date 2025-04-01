@@ -18,12 +18,12 @@ export default function useStep(
   { onStepChange }: { onStepChange?: OnStepChange } = {}
 ) {
   const setFormError = useCallback(() => null, [])
-  const context = useContext(WizardContext) || { setFormError }
+  const wizardContext = useContext(WizardContext) || { setFormError }
 
   // In order to make it possible to add a "onStepChange" handler without an id,
   // we at least check if there is one from the context.
-  if (onStepChange && !id && context.id) {
-    id = context.id
+  if (onStepChange && !id && wizardContext.id) {
+    id = wizardContext.id
   }
 
   const sharedDataRef =
@@ -43,20 +43,12 @@ export default function useStep(
     data.setFormError = setFormError
   }
 
-  const value = data || context
-  const { stepsRef } = value || {}
-  const setTotalSteps = useCallback(() => {
-    const totalSteps = Object.keys(stepsRef?.current || {}).length || 0
-    if (value.totalSteps !== totalSteps) {
-      value.totalSteps = totalSteps
-    }
-  }, [stepsRef, value])
-  if (data) {
-    setTotalSteps()
+  const context = data || wizardContext
+  const { totalStepsRef } = context || {}
+  const totalSteps = totalStepsRef?.current || 0
+  if (context && context.totalSteps !== totalSteps) {
+    context.totalSteps = totalSteps
   }
-  useLayoutEffect(() => {
-    setTotalSteps()
-  }, [setTotalSteps, stepsRef, value])
 
-  return value
+  return context
 }

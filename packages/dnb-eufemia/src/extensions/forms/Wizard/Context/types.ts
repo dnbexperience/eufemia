@@ -20,11 +20,13 @@ export type OnStepChange = (
   | Promise<EventReturnWithStateObject | void>
 
 export type StepIndex = number
-export type Steps = Record<
-  string,
+export type Steps = Map<
+  StepIndex,
   {
-    title: string
+    index: StepIndex
     id: string
+    title: React.ReactNode
+    stringifiedTitle: string
     inactive?: boolean
 
     /** Used internally to set the status */
@@ -41,10 +43,10 @@ export type SetActiveIndexOptions = {
   skipErrorCheck?: boolean
 }
 
-export type InternalStepStatus = 'error' | 'valid' | 'unknown' | undefined
-export type InternalStepStatuses = Record<StepIndex, InternalStepStatus>
-export type InternalVisitedSteps = Record<StepIndex, boolean>
-export type InternalFieldError = Record<
+export type InternalStepStatus = 'error' | 'unknown' | undefined
+export type InternalStepStatuses = Map<StepIndex, InternalStepStatus>
+export type InternalVisitedSteps = Map<StepIndex, boolean>
+export type InternalFieldError = Map<
   Path,
   {
     index: StepIndex

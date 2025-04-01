@@ -2,9 +2,9 @@ import { PropertiesTableProps } from '../../../../shared/types'
 
 export const StepProperties: PropertiesTableProps = {
   title: {
-    doc: 'Title of the step.',
+    doc: 'An unique title of the step.',
     type: 'React.Node',
-    status: 'optional',
+    status: 'required',
   },
   inactive: {
     doc: 'Will treat the step as non-navigable if set to `true`.',

@@ -27,7 +27,9 @@ export type Props = {
   toolbarVariant?: ArrayItemAreaProps['toolbarVariant']
 }
 
-export type AllProps = Props & FlexContainerProps & ArrayItemAreaProps
+export type AllProps = Props &
+  Omit<FlexContainerProps, 'onAnimationEnd'> &
+  ArrayItemAreaProps
 
 function ViewContainer(props: AllProps) {
   const {

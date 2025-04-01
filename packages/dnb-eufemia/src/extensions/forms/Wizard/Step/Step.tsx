@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useRef } from 'react'
+import React, { useContext, useMemo } from 'react'
 import classnames from 'classnames'
 import { ComponentProps } from '../../types'
 import { Props as FlexContainerProps } from '../../../../components/flex/Container'
@@ -12,16 +12,13 @@ import {
 import FieldProvider from '../../Field/Provider'
 import type { VisibleWhen } from '../../Form/Visibility'
 
-// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
-const useLayoutEffect =
-  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
-
 export type Props = ComponentProps &
   FlexContainerProps & {
     /**
-     * A title that will be displayed in the indicator.
+     * An unique title of the step.
      */
     title?: React.ReactNode
+
     /**
      * Will treat the step as non-navigable if set to `true`.
      */
@@ -85,12 +82,14 @@ export function handleDeprecatedProps({
     ...rest,
   }
 }
+
 function Step(props: Props): JSX.Element {
   const {
+    id,
     className,
     title,
+    index: indexProp,
     inactive, // eslint-disable-line
-    index,
     include = true,
     includeWhen,
     required,
@@ -99,42 +98,118 @@ function Step(props: Props): JSX.Element {
     children,
     ...restProps
   } = handleDeprecatedProps(props)
+
   const {
     check,
+    enableMapOverChildren,
     activeIndex,
     initialActiveIndex,
-    stepsRef,
+    totalStepsRef,
     stepElementRef,
+    stepIndexRef,
+    stepsRef,
     keepInDOM,
   } = useContext(WizardContext) || {}
 
-  const ariaLabel = useMemo(() => {
-    return (
-      (!prerenderFieldProps &&
-        (stepsRef?.current?.[index]?.title ||
-          stepsRef?.current?.[index])) ??
-      convertJsxToString(title)
-    )
-  }, [index, prerenderFieldProps, title, stepsRef])
+  const wizardStepContext = useContext(WizardStepContext) || {}
+  const indexFromContext = wizardStepContext.index
 
-  const currentElementRef = useRef<HTMLElement>()
-  useLayoutEffect(() => {
-    if (!prerenderFieldProps && typeof stepElementRef !== 'undefined') {
-      if (currentElementRef.current) {
-        stepElementRef.current = currentElementRef.current
-      }
-      return () => {
-        stepElementRef.current = null
+  const totalSteps = totalStepsRef?.current
+  const ariaLabel = useMemo(() => convertJsxToString(title), [title])
+  const index = useMemo(() => {
+    if (indexProp !== undefined) {
+      return indexProp
+    }
+
+    // Try to use the index from the step context
+    if (indexFromContext !== undefined) {
+      return indexFromContext
+    }
+
+    if (stepsRef?.current) {
+      // Try different ways to find the step index
+      const { index } =
+        Array.from(stepsRef.current.values()).find(
+          ({
+            id: currentId,
+            title: originalTitleProp,
+            stringifiedTitle,
+          }) => {
+            // Try to find the step by id
+            if (id !== undefined) {
+              return id === currentId
+            }
+
+            // Try to find the step by <Translation id="..." />
+            const translationId = originalTitleProp?.['props']?.id
+            if (translationId) {
+              return translationId === title?.['props']?.id
+            }
+
+            // Try to find the step by a string (with convertJsxToString) title
+            if (stringifiedTitle) {
+              return stringifiedTitle === ariaLabel
+            }
+
+            // Try to find the step by a JSX title
+            return originalTitleProp === title
+          }
+        ) || {}
+
+      if (index !== undefined) {
+        return index
       }
     }
-  }, [prerenderFieldProps, stepElementRef])
+
+    if (
+      totalSteps && // Is only used to make the deps ESLint happy.
+      stepIndexRef
+    ) {
+      stepIndexRef.current += 1
+    }
+
+    return stepIndexRef?.current
+  }, [
+    indexProp,
+    stepsRef,
+    totalSteps, // "totalSteps" is needed to make dynamic steps work.
+    stepIndexRef,
+    indexFromContext,
+    title,
+    id,
+    ariaLabel,
+  ])
+
+  // If the index is greater than the total steps,
+  // its a sign that e.g. React.StrictMode is used.
+  // And if no title or id is given,
+  // we need to force an re-render and use an alternative render method,
+  // using React.Children.map(children, ...).
+  if (index >= totalSteps) {
+    enableMapOverChildren()
+  }
 
   if (prerenderFieldProps) {
     return children as JSX.Element
   }
 
+  if (include === false) {
+    return <></>
+  }
+
+  if (
+    includeWhen &&
+    !check({
+      visibleWhen: includeWhen,
+    })
+  ) {
+    return <></>
+  }
+
   const fieldProps =
     typeof required === 'boolean' ? { required } : undefined
+  const innerRef =
+    !prerenderFieldProps && activeIndex === index ? stepElementRef : null
 
   const content = (
     <WizardStepContext.Provider value={{ index }}>
@@ -142,7 +217,7 @@ function Step(props: Props): JSX.Element {
         className={classnames('dnb-forms-step', className)}
         element="section"
         aria-label={ariaLabel}
-        innerRef={currentElementRef}
+        innerRef={innerRef}
         tabIndex={-1}
         {...restProps}
       >
@@ -157,7 +232,6 @@ function Step(props: Props): JSX.Element {
 
   if (
     activeIndex !== index ||
-    include === false ||
     (includeWhen && !check({ visibleWhen: includeWhen }))
   ) {
     if (keepInDOMProp ?? keepInDOM) {

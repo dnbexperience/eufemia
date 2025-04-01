@@ -82,19 +82,11 @@ export type Props = {
   inferData?: (data: unknown) => boolean
   /** Filter data based on provided criteria. The first parameter is the path, the second is the value, and the third is the props, and the fourth is the internal. Return false to filter out the data. */
   filterData?: FilterData
-  /** Animate the visibility change */
-  animate?: boolean
-  /** Keep the content in the DOM, even if it's not visible */
-  keepInDOM?: boolean
   /** Callback for when the content gets visible. */
   onVisible?: HeightAnimationAllProps['onOpen']
-  /** Callback for when animation has ended */
-  onAnimationEnd?: HeightAnimationAllProps['onAnimationEnd']
-  /** To compensate for CSS gap between the rows, so animation does not jump during the animation. Provide a CSS unit or `auto`. Defaults to `null`. */
-  compensateForGap?: HeightAnimationAllProps['compensateForGap']
+
   /** When visibility is hidden, and `keepInDOM` is true, pass these props to the children */
   fieldPropsWhenHidden?: UseFieldProps & DataAttributes & AriaAttributes
-  element?: HeightAnimationAllProps['element']
   children: React.ReactNode
 
   /** For internal use only. Used by "Iterate.Visibility" */
@@ -104,7 +96,14 @@ export type Props = {
   pathValue?: string
   /** @deprecated Use `visibleWhen` instead */
   whenValue?: unknown
-}
+} & Pick<
+  HeightAnimationAllProps,
+  | 'onAnimationEnd'
+  | 'animate'
+  | 'keepInDOM'
+  | 'element'
+  | 'compensateForGap'
+>
 
 function Visibility(props: Props) {
   const {
@@ -159,7 +158,8 @@ function Visibility(props: Props) {
     <VisibilityContext.Provider
       value={{
         isVisible: open,
-        props,
+        keepInDOM,
+        props, // Used by ValueBlock and for when nested in a Visibility
       }}
     >
       {children}

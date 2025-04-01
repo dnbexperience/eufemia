@@ -555,8 +555,9 @@ export class DetectOutsideClickClass {
       for (let i = 0, elem, l = ignoreElements.length; i < l; ++i) {
         // Allow for comparing ref elements that are rendered conditionally,
         // That might be `null` or ´undefined` during the construction stage of this class
+
         const ignoreElement =
-          'current' in ignoreElements[i]
+          ignoreElements[i] && 'current' in ignoreElements[i]
             ? ignoreElements[i].current
             : ignoreElements[i]
 

@@ -201,6 +201,7 @@ export default class Tabs extends React.PureComponent {
   static getData(props) {
     const addReactElement = (list, reactElem, reactElemIndex) => {
       if (
+        reactElem &&
         reactElem.props &&
         reactElem.props.displayName === 'CustomContent' // we use this solution, as Component.displayName
       ) {
@@ -243,11 +244,13 @@ export default class Tabs extends React.PureComponent {
     const data =
       !props.data && props.children ? props.children : props.data
 
-    // if it is an array of React Components - collect data from Tabs.Content component
+    // if it is an array containing React Components - collect data from Tabs.Content component
     if (
       Array.isArray(props.children) &&
-      (typeof props.children[0] === 'function' ||
-        React.isValidElement(props.children[0]))
+      props.children.some(
+        (element) =>
+          typeof element === 'function' || React.isValidElement(element)
+      )
     ) {
       res = props.children.reduce((list, reactElem, i) => {
         addReactElement(list, reactElem, i)

@@ -32,19 +32,23 @@ export function DisplaySteps({
     if (!hasErrorInOtherStepRef.current) {
       return // stop here
     }
-    if (hasInvalidStepsState(['error'])) {
+    if (hasInvalidStepsState(undefined, ['error'])) {
       return {
         status: translations.Step.stepHasError,
         status_state: 'error',
       } satisfies Omit<StepIndicatorItemProps, 'title' | 'currentItemNum'>
     }
-    if (hasInvalidStepsState(['unknown'])) {
+    if (hasInvalidStepsState(undefined, ['unknown'])) {
       return {
         status: 'Unknown state',
         status_state: 'warn',
       } satisfies Omit<StepIndicatorItemProps, 'title' | 'currentItemNum'>
     }
-  }, [hasInvalidStepsState, translations.Step.stepHasError])
+  }, [
+    hasErrorInOtherStepRef,
+    hasInvalidStepsState,
+    translations.Step.stepHasError,
+  ])
 
   return (
     <aside className="dnb-forms-wizard-layout__indicator">
@@ -52,10 +56,10 @@ export function DisplaySteps({
       <StepIndicator
         bottom
         current_step={activeIndexRef.current}
-        data={Object.values(stepsRef.current).map(
-          ({ title, inactive, status, statusState }) =>
+        data={Array.from(stepsRef.current.values()).map(
+          ({ stringifiedTitle, title, inactive, status, statusState }) =>
             ({
-              title,
+              title: stringifiedTitle || title,
               inactive,
               status,
               status_state: statusState,

@@ -27,7 +27,7 @@ export type MountState = {
 
 export type EventListenerCall = {
   path?: Path
-  type?: 'onSubmit' | 'onPathChange' | 'onMount'
+  type?: 'onSubmit' | 'onSubmitRequest' | 'onPathChange' | 'onMount'
   callback: (params?: { value: unknown }) => void | Promise<void | Error>
 }
 
@@ -189,7 +189,7 @@ export interface ContextState {
   fieldInternalsRef?: React.MutableRefObject<FieldInternalsRef>
   valueInternalsRef?: React.MutableRefObject<ValueInternalsRef>
   fieldConnectionsRef?: React.RefObject<Record<Path, FieldConnections>>
-  mountedFieldsRef?: React.MutableRefObject<Record<Path, MountState>>
+  mountedFieldsRef?: React.MutableRefObject<Map<Path, MountState>>
   snapshotsRef?: React.MutableRefObject<
     Map<SnapshotName, Map<Path, unknown>>
   >
