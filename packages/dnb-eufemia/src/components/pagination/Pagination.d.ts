@@ -72,8 +72,13 @@ export interface PaginationProps
   parallel_load_count?: PaginationParallelLoadCount;
   /**
    * If set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.
+   * @deprecated – Replaced with place_marker_before_content, code can be removed in v11.
    */
   place_maker_before_content?: boolean;
+  /**
+   * If set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.
+   */
+  place_marker_before_content?: boolean;
   /**
    * The minimum time to wait, if the infinity scroll was invoked under that time threshold. This prevents not intentional infinity scroll loop calls. Defaults to `400` milliseconds.
    */
@@ -261,8 +266,13 @@ interface PaginationInstanceProps extends SpacingProps {
   parallel_load_count?: PaginationInstanceParallelLoadCount;
   /**
    * If set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.
+   * @deprecated – Replaced with place_marker_before_content, code can be removed in v11.
    */
   place_maker_before_content?: boolean;
+  /**
+   * If set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.
+   */
+  place_marker_before_content?: boolean;
   /**
    * The minimum time to wait, if the infinity scroll was invoked under that time threshold. This prevents not intentional infinity scroll loop calls. Defaults to `400` milliseconds.
    */
@@ -444,8 +454,13 @@ interface InfinityMarkerProps extends SpacingProps {
   parallel_load_count?: InfinityMarkerParallelLoadCount;
   /**
    * If set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.
+   * @deprecated – Replaced with place_marker_before_content, code can be removed in v11.
    */
   place_maker_before_content?: boolean;
+  /**
+   * If set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.
+   */
+  place_marker_before_content?: boolean;
   /**
    * The minimum time to wait, if the infinity scroll was invoked under that time threshold. This prevents not intentional infinity scroll loop calls. Defaults to `400` milliseconds.
    */
