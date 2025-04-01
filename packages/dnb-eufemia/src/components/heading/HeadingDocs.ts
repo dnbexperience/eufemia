@@ -7,7 +7,7 @@ export const HeadingProperties: PropertiesTableProps = {
     status: 'optional',
   },
   children: {
-    doc: 'a heading, can be text or React.Node.',
+    doc: 'A heading, can be text or React.Node.',
     type: 'React.Node',
     status: 'optional',
   },
