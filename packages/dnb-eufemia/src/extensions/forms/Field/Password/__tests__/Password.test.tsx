@@ -271,4 +271,20 @@ describe('Password component', () => {
 
     expect(button()).toHaveAttribute('aria-label', 'Hide it!')
   })
+
+  it('should have default autocomplete (autofill) as current-password', () => {
+    render(<Field.Password />)
+
+    const input = document.querySelector('input')
+
+    expect(input).toHaveAttribute('autocomplete', 'current-password')
+  })
+
+  it('should be possible to set autocomplete (autofill)', () => {
+    render(<Field.Password autoComplete="new-password" />)
+
+    const input = document.querySelector('input')
+
+    expect(input).toHaveAttribute('autocomplete', 'new-password')
+  })
 })
