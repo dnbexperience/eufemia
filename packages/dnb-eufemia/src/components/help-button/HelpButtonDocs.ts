@@ -32,3 +32,11 @@ export const HelpButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
 }
+
+export const HelpButtonEvents: PropertiesTableProps = {
+  '[Button](/uilib/components/button/events)': {
+    doc: 'accepts all Button events.',
+    type: 'Various',
+    status: 'optional',
+  },
+}
