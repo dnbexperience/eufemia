@@ -3,6 +3,30 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.69.1](https://github.com/dnbexperience/eufemia/compare/v10.69.0...v10.69.1) (2025-04-01)
+
+
+### :memo: Documentation
+
+* **Contribute:** remove outdated Slack channels in Contact ([#4808](https://github.com/dnbexperience/eufemia/issues/4808)) ([f94fea3](https://github.com/dnbexperience/eufemia/commit/f94fea35c925a07bf245fb9e58bea426f3faff97))
+* **Field.SelectCountry:** add link to list of countries ([#4809](https://github.com/dnbexperience/eufemia/issues/4809)) ([c663a6a](https://github.com/dnbexperience/eufemia/commit/c663a6ae3f428362e128c2c89cc01cf736b791e3))
+* **Field.SelectCountry:** display list of available countries ([#4813](https://github.com/dnbexperience/eufemia/issues/4813)) ([bdbce5b](https://github.com/dnbexperience/eufemia/commit/bdbce5b850c4cdf8d7415aba972640287b1c0f5b))
+* **Field.SelectCurrency:** add link to list of currencies ([#4810](https://github.com/dnbexperience/eufemia/issues/4810)) ([3f70c3b](https://github.com/dnbexperience/eufemia/commit/3f70c3b08fb96ac6d372a0a796c15389faa6c32e))
+* **Field.SelectCurrency:** Amerikansk dollar -> United States dollar ([#4795](https://github.com/dnbexperience/eufemia/issues/4795)) ([747e73c](https://github.com/dnbexperience/eufemia/commit/747e73c09ff3352ec573597af03efcae64ca7af3))
+* **Field.SelectCurrency:** display list of available currencies ([#4814](https://github.com/dnbexperience/eufemia/issues/4814)) ([9e4ce2a](https://github.com/dnbexperience/eufemia/commit/9e4ce2adb613fce888b764c023062d8200059f54))
+* **GlobalError:** improve properties docs ([#4817](https://github.com/dnbexperience/eufemia/issues/4817)) ([db8ae99](https://github.com/dnbexperience/eufemia/commit/db8ae9908a6b8a95db6614bdb2f5206887cc258b))
+* update `onInput` example (prevent typing of invalid characters) ([#4799](https://github.com/dnbexperience/eufemia/issues/4799)) ([93edff0](https://github.com/dnbexperience/eufemia/commit/93edff01d7c43319520ce283bde1ee456e95373e))
+* **Value.SelectCurrency:** add regions to docs ([#4797](https://github.com/dnbexperience/eufemia/issues/4797)) ([2ba9d11](https://github.com/dnbexperience/eufemia/commit/2ba9d1108c5df30c923295d6fa672828498c4cab))
+* **Value.SelectCurrency:** better describe the display name ([#4796](https://github.com/dnbexperience/eufemia/issues/4796)) ([79739a5](https://github.com/dnbexperience/eufemia/commit/79739a5f990c75049b2aabd04e75fe8762ddbc89))
+
+
+### :bug: Bug Fixes
+
+* **Field.Upload:** async removal of file with same file name as other file ([#4834](https://github.com/dnbexperience/eufemia/issues/4834)) ([9381ac2](https://github.com/dnbexperience/eufemia/commit/9381ac2517344cb57f6b4d064fa643e2a1532384))
+* **Forms:** enhance Wizard Step rendering routine ([#4811](https://github.com/dnbexperience/eufemia/issues/4811)) ([e8b8277](https://github.com/dnbexperience/eufemia/commit/e8b82774f4a761c159d0641c3bee4ec44e519c20)), closes [#4789](https://github.com/dnbexperience/eufemia/issues/4789)
+* **Forms:** remove error from Wizard menu when field gets unmounted ([#4812](https://github.com/dnbexperience/eufemia/issues/4812)) ([7ecde87](https://github.com/dnbexperience/eufemia/commit/7ecde877cb1366314038af3f5b6673dc53974a40)), closes [#4811](https://github.com/dnbexperience/eufemia/issues/4811) [#4804](https://github.com/dnbexperience/eufemia/issues/4804)
+* **Tabs:** conditional render Tabs.Content ([#4835](https://github.com/dnbexperience/eufemia/issues/4835)) ([906173e](https://github.com/dnbexperience/eufemia/commit/906173e58f526afc4e1629f19d3d4160314ddf1c))
+
 ## [10.69.0](https://github.com/dnbexperience/eufemia/compare/v10.68.1...v10.69.0) (2025-03-21)
 
 
