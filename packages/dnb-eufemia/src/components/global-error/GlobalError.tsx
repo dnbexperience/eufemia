@@ -49,6 +49,12 @@ export type GlobalErrorProps = {
   /**
    * Will overwrite the default error message code.
    */
+  errorMessageCode?: React.ReactNode
+
+  /**
+   * Will overwrite the default error message code.
+   * @deprecated – Replaced with errorMessageCode, code can be removed in v11.
+   */
   code?: React.ReactNode
 
   /**
@@ -129,6 +135,7 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
     title,
     help,
     code,
+    errorMessageCode,
     links,
     text,
 
@@ -172,6 +179,14 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
           {code && (
             <P bottom className="dnb-global-error__status">
               {code} {statusToUse && <Code>{statusToUse}</Code>}
+            </P>
+          )}
+          {errorMessageCode && (
+            <P bottom className="dnb-global-error__status">
+              {String(errorMessageCode).replace(
+                '%statusCode',
+                statusToUse
+              )}
             </P>
           )}
           {help && links?.length && (
