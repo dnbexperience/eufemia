@@ -2996,19 +2996,16 @@ describe('Wizard.Container', () => {
       render(
         <Wizard.Container mode="strict" initialActiveIndex={2} keepInDOM>
           <Wizard.Step title="Step 1">
-            <output>Step 1</output>
             <Field.String path="/foo" required />
             <Wizard.Buttons />
           </Wizard.Step>
 
           <Wizard.Step title="Step 2">
-            <output>Step 2</output>
             <Field.String path="/bar" required />
             <Wizard.Buttons />
           </Wizard.Step>
 
           <Wizard.Step title="Step 3">
-            <output>Step 3</output>
             <Wizard.Buttons />
           </Wizard.Step>
 
@@ -3044,6 +3041,94 @@ describe('Wizard.Container', () => {
       await userEvent.click(nextButton())
 
       expect(currentIndex).toBe(1)
+    })
+
+    it('should prevent navigation if field inside Visibility with keepInDOM is invalid', async () => {
+      let currentIndex = null
+
+      render(
+        <Wizard.Container>
+          <Wizard.Step title="Step 1">
+            <Form.Visibility visible={false} keepInDOM>
+              <Field.String path="/foo" required />
+            </Form.Visibility>
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 2">
+            <Form.Visibility visible={false}>
+              <Field.String path="/bar" required />
+            </Form.Visibility>
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 3">
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <WizardContext.Consumer>
+            {(context) => {
+              currentIndex = context.activeIndex
+              return null
+            }}
+          </WizardContext.Consumer>
+        </Wizard.Container>
+      )
+
+      expect(currentIndex).toBe(0)
+
+      // Try Step 2
+      await userEvent.click(nextButton())
+
+      expect(currentIndex).toBe(0)
+
+      await userEvent.type(document.querySelector('input'), 'foo')
+
+      // Go to Step 2
+      await userEvent.click(nextButton())
+
+      expect(currentIndex).toBe(1)
+
+      // Go to Step 3
+      await userEvent.click(nextButton())
+
+      expect(currentIndex).toBe(2)
+    })
+
+    it('should not show a status when Iterate.PushContainer is closed', async () => {
+      render(
+        <Form.Handler>
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Iterate.PushContainer
+                path="/does-not-matter"
+                showOpenButtonWhen={() => true}
+                bubbleValidation
+              >
+                <Field.String required itemPath="/initiateError" />
+              </Iterate.PushContainer>
+              <Wizard.Buttons />
+            </Wizard.Step>
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(
+        document.querySelector('.dnb-step-indicator__item-content__status')
+      ).toBeNull()
+
+      await userEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 2')
+      expect(
+        document.querySelector('.dnb-step-indicator__item-content__status')
+      ).toBeNull()
     })
 
     describe('with validation shown in menu', () => {
@@ -3416,11 +3501,130 @@ describe('Wizard.Container', () => {
         )
 
         expect(output()).toHaveTextContent('Step 3')
-        expect(screen.getAllByText('Unknown state')).toHaveLength(0)
+        expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
 
         fireEvent.submit(document.querySelector('form'))
 
         expect(screen.getAllByText('Unknown state')).toHaveLength(1)
+      })
+
+      it('should not show unknown status without form submit', async () => {
+        render(
+          <Form.Handler>
+            <Wizard.Container mode="loose" initialActiveIndex={2}>
+              <Wizard.Step title="Step 1">
+                <Field.String path="/foo" required />
+                <output>Step 1</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 2">
+                <Field.String path="/bar" required />
+                <output>Step 2</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 3">
+                <Field.String path="/baz" />
+                <output>Step 3</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        expect(output()).toHaveTextContent('Step 3')
+        expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
+
+        fireEvent.submit(document.querySelector('form'))
+
+        expect(screen.getAllByText('Unknown state')).toHaveLength(2)
+      })
+
+      it('should not show unknown status on navigation without form submit', async () => {
+        render(
+          <Form.Handler>
+            <Wizard.Container mode="loose" initialActiveIndex={1}>
+              <Wizard.Step title="Step 1">
+                <Field.String path="/foo" required />
+                <output>Step 1</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 2">
+                <Field.String path="/bar" />
+                <output>Step 2</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 3">
+                <Field.String path="/baz" />
+                <output>Step 3</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        expect(output()).toHaveTextContent('Step 2')
+        expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
+
+        await userEvent.click(nextButton())
+
+        expect(output()).toHaveTextContent('Step 3')
+        expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
+
+        fireEvent.submit(document.querySelector('form'))
+
+        expect(screen.getAllByText('Unknown state')).toHaveLength(2)
+
+        await userEvent.click(previousButton())
+
+        expect(screen.getAllByText('Unknown state')).toHaveLength(1)
+      })
+
+      it('should not show unknown status on visited steps', async () => {
+        render(
+          <Form.Handler>
+            <Wizard.Container mode="loose" initialActiveIndex={2}>
+              <Wizard.Step title="Step 1">
+                <output>Step 1</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 2">
+                <output>Step 2</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 3">
+                <output>Step 3</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        expect(output()).toHaveTextContent('Step 3')
+        expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
+
+        fireEvent.submit(document.querySelector('form'))
+
+        expect(screen.getAllByText('Unknown state')).toHaveLength(2)
+
+        await userEvent.click(previousButton())
+
+        expect(output()).toHaveTextContent('Step 2')
+        expect(screen.getAllByText('Unknown state')).toHaveLength(1)
+
+        await userEvent.click(previousButton())
+
+        expect(output()).toHaveTextContent('Step 1')
+        expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
+
+        await userEvent.click(nextButton())
+
+        expect(output()).toHaveTextContent('Step 2')
+        expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
+
+        await userEvent.click(nextButton())
+
+        expect(output()).toHaveTextContent('Step 3')
+        expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
       })
 
       it('should not show error status on same step', async () => {
@@ -3435,17 +3639,14 @@ describe('Wizard.Container', () => {
             >
               <Wizard.Step title="Step 1">
                 <Field.String path="/foo" required />
-                <output>Step 1</output>
                 <Wizard.Buttons />
               </Wizard.Step>
               <Wizard.Step title="Step 2">
                 <Field.String path="/bar" required />
-                <output>Step 2</output>
                 <Wizard.Buttons />
               </Wizard.Step>
               <Wizard.Step title="Step 3">
                 <Field.String path="/baz" />
-                <output>Step 3</output>
                 <Wizard.Buttons />
               </Wizard.Step>
 

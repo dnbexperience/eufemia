@@ -143,6 +143,7 @@ function WizardContainer(props: Props) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const activeIndexRef = useRef<StepIndex>(initialActiveIndex)
   const totalStepsRef = useRef<number>(NaN)
+  const submitCountRef = useRef(0)
   const visitedStepsRef = useRef<InternalVisitedSteps>(new Map())
   const fieldErrorRef = useRef<InternalFieldError>(new Map())
   const storeStepStateRef = useRef<InternalStepStatuses>(new Map())
@@ -367,6 +368,7 @@ function WizardContainer(props: Props) {
           handleLayoutEffect()
 
           activeIndexRef.current = index
+          setStepAsVisited(activeIndexRef.current)
           forceUpdate()
         }
 
@@ -413,6 +415,7 @@ function WizardContainer(props: Props) {
       onStepChange,
       setFormState,
       setShowAllErrors,
+      setStepAsVisited,
       writeStepsState,
     ]
   )
@@ -462,32 +465,21 @@ function WizardContainer(props: Props) {
 
   const handleSubmit = useCallback(
     ({ preventSubmit }) => {
+      submitCountRef.current += 1
+
       // - If there is an unknown step state, we need to prevent the submit
       if (hasInvalidStepsState()) {
         return preventSubmit()
       }
-
-      // Mark as visited after validation is done.
-      setStepAsVisited(activeIndexRef.current)
 
       if (activeIndexRef.current + 1 < totalStepsRef.current) {
         handleNext()
         preventSubmit()
       }
     },
-    [hasInvalidStepsState, setStepAsVisited, handleNext]
+    [hasInvalidStepsState, handleNext]
   )
   dataContext.setHandleSubmit?.(handleSubmit)
-
-  const handleSubmitRequest = useCallback(() => {
-    // Mark as visited after validation is done.
-    setStepAsVisited(activeIndexRef.current)
-  }, [setStepAsVisited])
-  dataContext.setFieldEventListener?.(
-    '/',
-    'onSubmitRequest',
-    handleSubmitRequest
-  )
 
   // NB: useVisibility needs to be imported here,
   // because it need the outer context to be available.
@@ -512,6 +504,7 @@ function WizardContainer(props: Props) {
       activeIndexRef,
       stepIndexRef,
       totalStepsRef,
+      submitCountRef,
       prerenderFieldProps,
       prerenderFieldPropsRef,
       hasErrorInOtherStepRef,

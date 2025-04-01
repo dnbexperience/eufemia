@@ -8,6 +8,7 @@ export function useCollectStepsData() {
     activeIndexRef,
     hasErrorInOtherStepRef,
     stepsRef,
+    submitCountRef,
     writeStepsState,
     hasInvalidStepsState,
   } = useContext(WizardContext) || {}
@@ -31,7 +32,10 @@ export function useCollectStepsData() {
         if (hasInvalidStepsState(index, ['error'])) {
           status = translations.Step.stepHasError
           statusState = 'error'
-        } else if (hasInvalidStepsState(index, ['unknown'])) {
+        } else if (
+          submitCountRef.current > 0 &&
+          hasInvalidStepsState(index, ['unknown'])
+        ) {
           status = 'Unknown state'
           statusState = 'warn'
         }
@@ -58,6 +62,7 @@ export function useCollectStepsData() {
       hasErrorInOtherStepRef,
       hasInvalidStepsState,
       stepsRef,
+      submitCountRef,
       translations.Step.stepHasError,
       writeStepsState,
     ]
