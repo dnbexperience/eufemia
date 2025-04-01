@@ -49,7 +49,6 @@ import DataContext, {
   ValueInternalsRef,
   FilterData,
   FilterDataHandler,
-  HandleSubmitCallback,
   MountState,
   TransformData,
   VisibleDataHandler,
@@ -1010,7 +1009,7 @@ export default function Provider<Data extends JsonObject>(
         for (const item of fieldEventListenersRef.current) {
           const { path, type, callback } = item
           if (
-            type === 'onSubmit' &&
+            type === 'onSubmitCall' &&
             mountedFieldsRef.current.get(path)?.isMounted
           ) {
             // Call all submit listener callbacks (e.g. to validate fields)
@@ -1124,29 +1123,6 @@ export default function Provider<Data extends JsonObject>(
     ]
   )
 
-  const handleSubmitListenersRef = useRef<Array<HandleSubmitCallback>>([])
-  const setHandleSubmit: ContextState['setHandleSubmit'] = useCallback(
-    (callback, { remove = false } = {}) => {
-      const listeners = handleSubmitListenersRef.current
-      if (remove) {
-        handleSubmitListenersRef.current = listeners.filter(
-          (item) => item !== callback
-        )
-      } else if (!listeners.includes(callback)) {
-        listeners.push(callback)
-      }
-    },
-    []
-  )
-  const handleSubmitListeners = useCallback(() => {
-    let stop = false
-    const preventSubmit = () => (stop = true)
-    handleSubmitListenersRef.current.forEach((cb) => {
-      cb({ preventSubmit })
-    })
-    return stop
-  }, [])
-
   const getSubmitData = useCallback(() => {
     // - Mutate the data context
     const data = internalDataRef.current
@@ -1223,7 +1199,15 @@ export default function Provider<Data extends JsonObject>(
     return await handleSubmitCall({
       enableAsyncBehavior: isAsync(onSubmit),
       onSubmit: async () => {
-        if (handleSubmitListeners()) {
+        let stop = false
+        const preventSubmit = () => (stop = true)
+        for (const item of fieldEventListenersRef.current) {
+          const { type, callback } = item
+          if (type === 'onSubmit') {
+            callback({ preventSubmit })
+          }
+        }
+        if (stop) {
           return // stop here
         }
 
@@ -1256,7 +1240,6 @@ export default function Provider<Data extends JsonObject>(
     getSubmitData,
     getSubmitParams,
     handleSubmitCall,
-    handleSubmitListeners,
     onSubmit,
     onSubmitComplete,
     scrollToTop,
@@ -1269,7 +1252,8 @@ export default function Provider<Data extends JsonObject>(
     (
       path: EventListenerCall['path'],
       type: EventListenerCall['type'],
-      callback: EventListenerCall['callback']
+      callback: EventListenerCall['callback'],
+      { remove = false } = {}
     ) => {
       fieldEventListenersRef.current =
         fieldEventListenersRef.current.filter(
@@ -1277,7 +1261,9 @@ export default function Provider<Data extends JsonObject>(
             return !(p === path && t === type && c === callback)
           }
         )
-      fieldEventListenersRef.current.push({ path, type, callback })
+      if (!remove) {
+        fieldEventListenersRef.current.push({ path, type, callback })
+      }
     },
     []
   )
@@ -1426,7 +1412,6 @@ export default function Provider<Data extends JsonObject>(
     getSubmitData,
     getSubmitParams,
     addOnChangeHandler,
-    setHandleSubmit,
     scrollToTop,
 
     /** State handling */

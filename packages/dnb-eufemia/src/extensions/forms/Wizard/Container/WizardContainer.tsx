@@ -479,7 +479,7 @@ function WizardContainer(props: Props) {
     },
     [hasInvalidStepsState, handleNext]
   )
-  dataContext.setHandleSubmit?.(handleSubmit)
+  dataContext.setFieldEventListener?.(undefined, 'onSubmit', handleSubmit)
 
   // NB: useVisibility needs to be imported here,
   // because it need the outer context to be available.
