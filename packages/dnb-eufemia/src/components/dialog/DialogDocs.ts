@@ -112,3 +112,16 @@ export const DialogProperties: PropertiesTableProps = {
     status: 'optional',
   },
 }
+
+export const DialogEvents: PropertiesTableProps = {
+  onConfirm: {
+    doc: 'For variant confirmation, handle the confirm action click. Provided with the mouse event and the Modal function `close` as arguments.',
+    type: 'function',
+    status: 'optional',
+  },
+  onDecline: {
+    doc: 'For variant confirmation, handle the decline action click. Provided with the mouse event and the Modal function `close` as arguments.',
+    type: 'function',
+    status: 'optional',
+  },
+}
