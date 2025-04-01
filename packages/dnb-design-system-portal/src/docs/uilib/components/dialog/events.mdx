@@ -4,12 +4,12 @@ showTabs: true
 
 import ModalEventTable from 'Docs/uilib/components/modal/event-table-camel-case'
 
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { DialogEvents } from '@dnb/eufemia/src/components/dialog/DialogDocs'
+
 ## Events
 
-| Events      | Description                                                                                                                                        |
-| ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `onConfirm` | _(optional)_ For variant confirmation, handle the confirm action click. Provided with the mouse event and the Modal function `close` as arguments. |
-| `onDecline` | _(optional)_ For variant confirmation, handle the decline action click. Provided with the mouse event and the Modal function `close` as arguments. |
+<PropertiesTable props={DialogEvents} />
 
 Dialog also includes the same events as [Modal](/uilib/components/modal), only formatted as camel case.
 
