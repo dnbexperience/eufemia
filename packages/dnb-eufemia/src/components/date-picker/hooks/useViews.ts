@@ -10,7 +10,7 @@ export type ViewDates = {
   endMonth?: DatePickerDates['endMonth']
 }
 
-export type ClickedViewDays = { startDay?: Date; endDay?: Date }
+export type ClickedCalendarDays = { start?: Date; end?: Date }
 
 export type UseViewsParams = ViewDates & {
   isRange?: boolean
@@ -22,9 +22,9 @@ export default function useViews({ isRange, ...dates }: UseViewsParams) {
     getViews({ ...dates, isRange, views: undefined })
   )
 
-  const clickedDays = useRef<ClickedViewDays>({
-    startDay: undefined,
-    endDay: undefined,
+  const clickedCalendarDays = useRef<ClickedCalendarDays>({
+    start: undefined,
+    end: undefined,
   })
 
   const hasDateChanges = useMemo(
@@ -42,11 +42,11 @@ export default function useViews({ isRange, ...dates }: UseViewsParams) {
       ...dates,
       isRange,
       views,
-      clickedDays: clickedDays.current,
+      clickedCalendarDays: clickedCalendarDays.current,
     })
 
     setViews(updatedViews)
-    setClickedDays({ startDay: undefined, endDay: undefined })
+    setClickedCalendarDays({ start: undefined, end: undefined })
     setPreviousDates(dates)
   }
 
@@ -58,26 +58,29 @@ export default function useViews({ isRange, ...dates }: UseViewsParams) {
     cb?.()
   }
 
-  function setClickedDays(days: ClickedViewDays) {
-    clickedDays.current = { ...clickedDays.current, ...days }
+  function setClickedCalendarDays(days: ClickedCalendarDays) {
+    clickedCalendarDays.current = {
+      ...clickedCalendarDays.current,
+      ...days,
+    }
   }
 
   return {
     views,
     setViews: updateViews,
-    setClickedDays,
+    setClickedCalendarDays,
   } as const
 }
 
 export function getViews({
   isRange,
   views,
-  clickedDays,
+  clickedCalendarDays,
   ...dates
 }: ViewDates &
   UseViewsParams & {
     views: Array<CalendarView>
-    clickedDays?: ClickedViewDays
+    clickedCalendarDays?: ClickedCalendarDays
   }): Array<CalendarView> {
   // Handle non-range views
   if (!isRange) {
@@ -86,10 +89,10 @@ export function getViews({
 
   // Do not change views if the clicked start or end day is in one of the currently displayed month views
   if (
-    (clickedDays?.startDay &&
-      isSameMonth(clickedDays.startDay, views[1].month)) ||
-    (clickedDays?.endDay &&
-      isSameMonth(clickedDays.endDay, views[0].month))
+    (clickedCalendarDays?.start &&
+      isSameMonth(clickedCalendarDays.start, views[1].month)) ||
+    (clickedCalendarDays?.end &&
+      isSameMonth(clickedCalendarDays.end, views[0].month))
   ) {
     return views
   }

@@ -50,7 +50,7 @@ import { InternalLocale } from '../../shared/Context'
 import { DatePickerChangeEvent } from './DatePickerProvider'
 import { DatePickerDates } from './hooks/useDates'
 import { LOCALE } from '../../shared/defaults'
-import { ClickedViewDays } from './hooks/useViews'
+import { ClickedCalendarDays } from './hooks/useViews'
 
 export type CalendarDay = {
   date: Date
@@ -166,7 +166,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
   const {
     updateDates,
-    setClickedDays,
+    setClickedCalendarDays,
     startDate,
     endDate,
     hoverDate,
@@ -679,7 +679,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                                   endDate,
                                   resetDate,
                                   event,
-                                  setClickedDays,
+                                  setClickedCalendarDays,
                                   onSelect: (state) => {
                                     updateDates(state, (dates) =>
                                       callOnSelect({
@@ -782,7 +782,7 @@ type SelectRangeEvent = {
   resetDate?: boolean
   isRange?: boolean
   onSelect?: DatePickerCalendarProps['onSelect']
-  setClickedDays: (days: ClickedViewDays) => void
+  setClickedCalendarDays: (days: ClickedCalendarDays) => void
 }
 
 function onSelectRange({
@@ -793,12 +793,12 @@ function onSelectRange({
   onSelect,
   resetDate,
   event,
-  setClickedDays,
+  setClickedCalendarDays,
 }: SelectRangeEvent) {
   event.persist()
 
   if (!isRange) {
-    setClickedDays({ startDay: startOfDay(day.date) })
+    setClickedCalendarDays({ start: startOfDay(day.date) })
 
     // set only date
     return onSelect({
@@ -811,7 +811,10 @@ function onSelectRange({
   }
 
   if (!startDate || (resetDate && startDate && endDate)) {
-    setClickedDays({ startDay: startOfDay(day.date), endDay: undefined })
+    setClickedCalendarDays({
+      start: startOfDay(day.date),
+      end: undefined,
+    })
     // set startDate
     // user is selecting startDate
     return onSelect({
@@ -836,7 +839,10 @@ function onSelectRange({
     day.date
   )
 
-  setClickedDays({ startDay: range.startDate, endDay: range.endDate })
+  setClickedCalendarDays({
+    start: range.startDate,
+    end: range.endDate,
+  })
 
   return onSelect({
     startDate: startOfDay(range.startDate),
