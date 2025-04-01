@@ -2,8 +2,9 @@ import { createContext } from 'react'
 import { Props } from './Visibility'
 
 type VisibilityContext = {
+  isVisible: boolean
+  keepInDOM: boolean
   inheritVisibility?: boolean
-  isVisible?: boolean
   props?: Props
 }
 

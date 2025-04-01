@@ -179,7 +179,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const wizardStepContext = useContext(WizardStepContext)
   const { setMountedField: setMountedFieldSnapshot } =
     useContext(SnapshotContext) || {}
-  const { isVisible } = useContext(VisibilityContext) || {}
+  const { isVisible, keepInDOM } = useContext(VisibilityContext) || {}
+  const handleFieldAsVisible = isVisible || keepInDOM
+  const handleFieldAsVisibleRef = useRef<boolean>()
+  handleFieldAsVisibleRef.current = handleFieldAsVisible
 
   const { getValueByPath, getSourceValue } = useDataValue()
   const translation = useTranslation()
@@ -1848,10 +1851,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       isPreMounted: true,
     })
 
-    if (typeof isVisible === 'boolean') {
-      setMountedFieldStateDataContext(identifier, { isVisible })
+    if (typeof handleFieldAsVisible === 'boolean') {
+      setMountedFieldStateDataContext(identifier, {
+        isVisible: handleFieldAsVisible,
+      })
     }
-  }, [setMountedFieldStateDataContext, identifier, isVisible])
+  }, [setMountedFieldStateDataContext, identifier, handleFieldAsVisible])
 
   useEffect(() => {
     if (typeof activeIndexRef?.current === 'number') {

@@ -7342,7 +7342,7 @@ describe('useFieldProps', () => {
       })
     })
 
-    it('should set isVisible when within a visibility context with a negative visibility', () => {
+    it('should set isVisible as true when within a visibility context with a negative visibility but keepInDOM is true', () => {
       const setMountedFieldState = jest.fn()
 
       const { unmount } = renderHook(useFieldProps, {
@@ -7368,7 +7368,47 @@ describe('useFieldProps', () => {
         isPreMounted: true,
       })
       expect(setMountedFieldState).toHaveBeenNthCalledWith(2, '/foo', {
-        isVisible: false,
+        isVisible: true,
+      })
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(3, '/foo', {
+        isMounted: true,
+        isPreMounted: true,
+      })
+
+      unmount()
+
+      expect(setMountedFieldState).toHaveBeenCalledTimes(4)
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(4, '/foo', {
+        isMounted: false,
+        isPreMounted: false,
+      })
+    })
+
+    it('should set isVisible as true when within a visibility context with a positive visibility', () => {
+      const setMountedFieldState = jest.fn()
+
+      const { unmount } = renderHook(useFieldProps, {
+        initialProps: {
+          path: '/foo',
+        },
+        wrapper: ({ children }) => {
+          const value = {
+            setMountedFieldState,
+          } as unknown as ContextState
+          return (
+            <Context.Provider value={value}>
+              <Form.Visibility visible={true}>{children}</Form.Visibility>
+            </Context.Provider>
+          )
+        },
+      })
+
+      expect(setMountedFieldState).toHaveBeenCalledTimes(3)
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(1, '/foo', {
+        isPreMounted: true,
+      })
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(2, '/foo', {
+        isVisible: true,
       })
       expect(setMountedFieldState).toHaveBeenNthCalledWith(3, '/foo', {
         isMounted: true,

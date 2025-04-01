@@ -159,7 +159,8 @@ function Visibility(props: Props) {
     <VisibilityContext.Provider
       value={{
         isVisible: open,
-        props,
+        keepInDOM,
+        props, // Used by ValueBlock and for when nested in a Visibility
       }}
     >
       {children}
