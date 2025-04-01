@@ -27,7 +27,7 @@ export function useCollectStepsData() {
 
       let status = undefined
       let statusState = undefined
-      if (index !== activeIndexRef.current) {
+      if (index !== activeIndexRef.current && !inactive) {
         if (hasInvalidStepsState(index, ['error'])) {
           status = translations.Step.stepHasError
           statusState = 'error'

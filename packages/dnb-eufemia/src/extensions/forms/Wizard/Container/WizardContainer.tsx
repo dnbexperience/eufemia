@@ -196,43 +196,44 @@ function WizardContainer(props: Props) {
    * If a step was visited before, but has an invalid state, it will be set to "error".
    * If an index is given, it will check if the step, with the given index, has an invalid state.
    */
-  const writeStepsState = useCallback(
-    (index = undefined, forStates = ['unknown', 'error']) => {
-      for (let i = 0; i < totalStepsRef.current; i++) {
-        if (index !== undefined && index !== i) {
-          continue
-        }
-
-        let result: InternalStepStatus = undefined
-        const existingState = storeStepStateRef.current.get(i)
-
-        if (forStates.includes('unknown')) {
-          const state =
-            i < activeIndexRef.current &&
-            visitedStepsRef.current.get(i) === undefined
-          if (state) {
-            result = 'unknown'
+  const writeStepsState: WizardContextState['writeStepsState'] =
+    useCallback(
+      (index = undefined, forStates = ['unknown', 'error']) => {
+        for (let i = 0; i < totalStepsRef.current; i++) {
+          if (index !== undefined && index !== i) {
+            continue
           }
-        }
 
-        if (forStates.includes('error')) {
-          const state = hasFieldErrorInStep(i)
-          if (state) {
-            result = 'error'
-          } else if (existingState === 'error') {
-            if (i === activeIndexRef.current) {
-              result = undefined
-            } else {
-              result = existingState
+          let result: InternalStepStatus = undefined
+          const existingState = storeStepStateRef.current.get(i)
+
+          if (forStates.includes('unknown')) {
+            const state =
+              i < activeIndexRef.current &&
+              visitedStepsRef.current.get(i) === undefined
+            if (state) {
+              result = 'unknown'
             }
           }
-        }
 
-        storeStepStateRef.current.set(i, result)
-      }
-    },
-    [hasFieldErrorInStep]
-  )
+          if (forStates.includes('error')) {
+            const state = hasFieldErrorInStep(i)
+            if (state) {
+              result = 'error'
+            } else if (existingState === 'error') {
+              if (i === activeIndexRef.current) {
+                result = undefined
+              } else {
+                result = existingState
+              }
+            }
+          }
+
+          storeStepStateRef.current.set(i, result)
+        }
+      },
+      [hasFieldErrorInStep]
+    )
 
   const hasInvalidStepsState: WizardContextState['hasInvalidStepsState'] =
     useCallback((index = undefined, forStates = ['unknown', 'error']) => {
@@ -388,7 +389,7 @@ function WizardContainer(props: Props) {
         } else {
           if (mode === 'next') {
             // First we need to write the steps state for the current active index.
-            writeStepsState(activeIndexRef.current)
+            writeStepsState(activeIndexRef.current, ['error'])
 
             // In case steps were visited before, or they use the "keepInDOM" prop,
             // we need to check the step status, because other steps may report an error,
@@ -479,11 +480,8 @@ function WizardContainer(props: Props) {
   dataContext.setHandleSubmit?.(handleSubmit)
 
   const handleSubmitRequest = useCallback(() => {
-    // Run after all fields where validated
-    requestAnimationFrame(() => {
-      // Mark as visited after validation is done.
-      setStepAsVisited(activeIndexRef.current)
-    })
+    // Mark as visited after validation is done.
+    setStepAsVisited(activeIndexRef.current)
   }, [setStepAsVisited])
   dataContext.setFieldEventListener?.(
     '/',

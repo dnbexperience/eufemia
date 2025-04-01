@@ -3392,6 +3392,37 @@ describe('Wizard.Container', () => {
         expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
       })
 
+      it('should not show unknown status on inactive step', async () => {
+        render(
+          <Form.Handler>
+            <Wizard.Container mode="loose" initialActiveIndex={2}>
+              <Wizard.Step title="Step 1" inactive>
+                <Field.String path="/foo" required />
+                <output>Step 1</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 2">
+                <Field.String path="/bar" required />
+                <output>Step 2</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 3">
+                <Field.String path="/baz" />
+                <output>Step 3</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        expect(output()).toHaveTextContent('Step 3')
+        expect(screen.getAllByText('Unknown state')).toHaveLength(0)
+
+        fireEvent.submit(document.querySelector('form'))
+
+        expect(screen.getAllByText('Unknown state')).toHaveLength(1)
+      })
+
       it('should not show error status on same step', async () => {
         let currentIndex = null
 
