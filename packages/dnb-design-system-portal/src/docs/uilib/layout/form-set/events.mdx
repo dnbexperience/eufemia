@@ -2,8 +2,9 @@
 showTabs: true
 ---
 
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { FormSetEvents } from '@dnb/eufemia/src/components/form-set/FormSetDocs'
+
 ## Events
 
-| Events      | Description                                                                               |
-| ----------- | ----------------------------------------------------------------------------------------- |
-| `on_submit` | _(optional)_ will be called on submit. Returns an object with a native event: `{ event }` |
+<PropertiesTable props={FormSetEvents} />

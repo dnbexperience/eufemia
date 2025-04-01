@@ -42,3 +42,11 @@ export const FormSetProperties: PropertiesTableProps = {
     status: 'optional',
   },
 }
+
+export const FormSetEvents: PropertiesTableProps = {
+  on_submit: {
+    doc: 'will be called on submit. Returns an object with a native event: `{ event }`.',
+    type: 'function',
+    status: 'optional',
+  },
+}
