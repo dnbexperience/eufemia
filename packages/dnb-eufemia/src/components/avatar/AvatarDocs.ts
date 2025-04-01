@@ -74,11 +74,6 @@ export const AvatarGroupProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  className: {
-    doc: 'Custom className for the component root.',
-    type: 'string',
-    status: 'optional',
-  },
   skeleton: {
     doc: 'If set to `true`, an overlaying skeleton with animation will be shown.',
     type: 'boolean',
