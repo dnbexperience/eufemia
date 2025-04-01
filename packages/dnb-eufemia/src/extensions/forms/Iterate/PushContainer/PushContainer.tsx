@@ -322,7 +322,7 @@ function NewContainer({
   )
 
   return (
-    <VisibilityContext.Provider value={{ isVisible }}>
+    <VisibilityContext.Provider value={{ isVisible, keepInDOM: false }}>
       <EditContainer
         open={isVisible}
         title={title}

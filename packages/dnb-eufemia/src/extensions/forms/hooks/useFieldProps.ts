@@ -179,9 +179,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const wizardStepContext = useContext(WizardStepContext)
   const { setMountedField: setMountedFieldSnapshot } =
     useContext(SnapshotContext) || {}
-  const { isVisible } = useContext(VisibilityContext) || {}
-  const isVisibleRef = useRef(isVisible)
-  isVisibleRef.current = isVisible
+  const { isVisible, keepInDOM } = useContext(VisibilityContext) || {}
+  const handleFieldAsVisible = isVisible || keepInDOM
 
   const { getValueByPath, getSourceValue } = useDataValue()
   const translation = useTranslation()
@@ -571,12 +570,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       setFieldErrorWizard?.(
         wizardIndex,
         identifier,
-        isVisible !== false ? hasError : undefined
+        handleFieldAsVisible !== false ? hasError : undefined
       )
     },
     [
       identifier,
-      isVisible,
+      handleFieldAsVisible,
       revealErrorBoundary,
       revealErrorDataContext,
       setFieldErrorWizard,
@@ -956,7 +955,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       setFieldErrorWizard?.(
         wizardIndex,
         identifier,
-        isVisibleRef.current !== false ? Boolean(error) : undefined
+        handleFieldAsVisible !== false ? Boolean(error) : undefined
       )
 
       // Set the visual states
@@ -972,6 +971,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       forceUpdate()
     },
     [
+      handleFieldAsVisible,
       identifier,
       inFieldBlock,
       prepareError,
