@@ -158,6 +158,22 @@ describe('GlobalError', () => {
     expect(elem.querySelector('code').textContent).toBe('404')
   })
 
+  it('should set custom status code', () => {
+    render(<GlobalError {...props} code="My text:" />)
+
+    const elem = document.querySelector('.dnb-global-error__status')
+    expect(elem.textContent).toMatchInlineSnapshot(`"My text: 404"`)
+    expect(elem.querySelector('code').textContent).toBe('404')
+  })
+
+  it('should remove status code when set to empty', () => {
+    render(<GlobalError {...props} code="" />)
+
+    expect(
+      document.querySelector('.dnb-global-error__status')
+    ).not.toBeInTheDocument()
+  })
+
   it('inherits skeleton prop from provider', () => {
     const skeletonClassName = 'dnb-skeleton'
 
