@@ -113,11 +113,12 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
       }
     )
 
-  const { views, setViews, forceViewMonthChange } = useViews({
-    startMonth: dates.startMonth,
-    endMonth: dates.endMonth,
-    isRange: range,
-  })
+  const { views, setViews, setClickedDays, forceViewMonthChange } =
+    useViews({
+      startMonth: dates.startMonth,
+      endMonth: dates.endMonth,
+      isRange: range,
+    })
 
   const [lastEventCallCache, setLastEventCallCache] =
     useLastEventCallCache({
@@ -248,6 +249,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
         hasHadValidDate,
         views,
         setViews,
+        setClickedDays,
         forceViewMonthChange,
       }}
     >

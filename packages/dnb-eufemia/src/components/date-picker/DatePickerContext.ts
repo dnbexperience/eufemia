@@ -13,7 +13,7 @@ import {
   ReturnObject,
 } from './DatePickerProvider'
 import { DatePickerDateProps, DatePickerDates } from './hooks/useDates'
-import { CalendarView } from './hooks/useViews'
+import { CalendarView, ClickedViewDays } from './hooks/useViews'
 
 export type DateType = Date | string
 
@@ -30,6 +30,7 @@ export type DatePickerContextValues = ContextProps &
     ) => void
     setState?: (state: DatePickerProviderState) => void
     setViews: (views: Array<CalendarView>, callback?: () => void) => void
+    setClickedDays: (days: ClickedViewDays) => void
     forceViewMonthChange: () => void
     callOnChangeHandler: <E>(event: DatePickerChangeEvent<E>) => void
     hidePicker: (event: DisplayPickerEvent) => void
