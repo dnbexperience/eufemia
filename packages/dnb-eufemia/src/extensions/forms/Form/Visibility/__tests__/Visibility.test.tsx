@@ -283,6 +283,26 @@ describe('Visibility', () => {
       log.mockRestore()
     })
 
+    it('should run hasValue even when path not exists', () => {
+      const hasValue = jest.fn((value) => value === 'foo')
+
+      render(
+        <Provider>
+          <Visibility
+            visibleWhen={{
+              path: '/myPath',
+              hasValue,
+            }}
+          >
+            Child
+          </Visibility>
+        </Provider>
+      )
+      expect(screen.queryByText('Child')).not.toBeInTheDocument()
+      expect(hasValue).toHaveBeenCalledTimes(1)
+      expect(hasValue).toHaveBeenLastCalledWith(undefined)
+    })
+
     describe('Iterate', () => {
       it('should render with whole path', async () => {
         render(
