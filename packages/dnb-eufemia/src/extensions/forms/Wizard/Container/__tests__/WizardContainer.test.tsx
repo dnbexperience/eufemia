@@ -2432,13 +2432,11 @@ describe('Wizard.Container', () => {
     render(
       <Wizard.Container mode="loose" keepInDOM>
         <Wizard.Step title="Step 1">
-          <output>Step 1</output>
           <Field.String />
           <Wizard.Buttons />
         </Wizard.Step>
 
         <Wizard.Step title="Step 2">
-          <output>Step 2</output>
           <Wizard.Buttons />
         </Wizard.Step>
 
@@ -2465,7 +2463,7 @@ describe('Wizard.Container', () => {
     expect(currentIndex).toBe(1)
     {
       const elements = getElements()
-      expect(elements).toHaveLength(3)
+      expect(elements).toHaveLength(2)
       elements.forEach((element) => {
         expect(element).toHaveClass('appear-fx')
       })
@@ -2476,7 +2474,7 @@ describe('Wizard.Container', () => {
     expect(currentIndex).toBe(0)
     {
       const elements = getElements()
-      expect(elements).toHaveLength(4)
+      expect(elements).toHaveLength(3)
       elements.forEach((element) => {
         expect(element).toHaveClass('appear-fx')
       })
@@ -2487,7 +2485,7 @@ describe('Wizard.Container', () => {
     expect(currentIndex).toBe(1)
     {
       const elements = getElements()
-      expect(elements).toHaveLength(3)
+      expect(elements).toHaveLength(2)
       elements.forEach((element) => {
         expect(element).toHaveClass('appear-fx')
       })
@@ -2998,19 +2996,16 @@ describe('Wizard.Container', () => {
       render(
         <Wizard.Container mode="strict" initialActiveIndex={2} keepInDOM>
           <Wizard.Step title="Step 1">
-            <output>Step 1</output>
             <Field.String path="/foo" required />
             <Wizard.Buttons />
           </Wizard.Step>
 
           <Wizard.Step title="Step 2">
-            <output>Step 2</output>
             <Field.String path="/bar" required />
             <Wizard.Buttons />
           </Wizard.Step>
 
           <Wizard.Step title="Step 3">
-            <output>Step 3</output>
             <Wizard.Buttons />
           </Wizard.Step>
 
@@ -3031,7 +3026,9 @@ describe('Wizard.Container', () => {
 
       fireEvent.submit(document.querySelector('form'))
 
-      expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(2)
+      await waitFor(() => {
+        expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(2)
+      })
 
       // Go to Step 1
       await userEvent.click(firstStep.querySelector('button'))
@@ -3046,7 +3043,247 @@ describe('Wizard.Container', () => {
       expect(currentIndex).toBe(1)
     })
 
+    it('should prevent navigation if field inside Visibility with keepInDOM is invalid', async () => {
+      let currentIndex = null
+
+      render(
+        <Wizard.Container>
+          <Wizard.Step title="Step 1">
+            <Form.Visibility visible={false} keepInDOM>
+              <Field.String path="/foo" required />
+            </Form.Visibility>
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 2">
+            <Form.Visibility visible={false}>
+              <Field.String path="/bar" required />
+            </Form.Visibility>
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 3">
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <WizardContext.Consumer>
+            {(context) => {
+              currentIndex = context.activeIndex
+              return null
+            }}
+          </WizardContext.Consumer>
+        </Wizard.Container>
+      )
+
+      expect(currentIndex).toBe(0)
+
+      // Try Step 2
+      await userEvent.click(nextButton())
+
+      expect(currentIndex).toBe(0)
+
+      await userEvent.type(document.querySelector('input'), 'foo')
+
+      // Go to Step 2
+      await userEvent.click(nextButton())
+
+      expect(currentIndex).toBe(1)
+
+      // Go to Step 3
+      await userEvent.click(nextButton())
+
+      expect(currentIndex).toBe(2)
+    })
+
+    it('should not show a status when Iterate.PushContainer is closed', async () => {
+      render(
+        <Form.Handler>
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Iterate.PushContainer
+                path="/does-not-matter"
+                showOpenButtonWhen={() => true}
+                bubbleValidation
+              >
+                <Field.String required itemPath="/initiateError" />
+              </Iterate.PushContainer>
+              <Wizard.Buttons />
+            </Wizard.Step>
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(
+        document.querySelector('.dnb-step-indicator__item-content__status')
+      ).toBeNull()
+
+      await userEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 2')
+      expect(
+        document.querySelector('.dnb-step-indicator__item-content__status')
+      ).toBeNull()
+    })
+
     describe('with validation shown in menu', () => {
+      it('should not show a status when no fields are present', async () => {
+        render(
+          <Form.Handler>
+            <Wizard.Container>
+              <Wizard.Step title="Step 1">
+                <output>Step 1</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 2">
+                <output>Step 2</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        expect(output()).toHaveTextContent('Step 1')
+        expect(
+          document.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).toBeNull()
+
+        await userEvent.click(nextButton())
+
+        expect(output()).toHaveTextContent('Step 2')
+        expect(
+          document.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).toBeNull()
+      })
+
+      it('should not show a status when Iterate.PushContainer is closed', async () => {
+        render(
+          <Form.Handler>
+            <Wizard.Container>
+              <Wizard.Step title="Step 1">
+                <output>Step 1</output>
+                <Iterate.PushContainer
+                  path="/does-not-matter"
+                  showOpenButtonWhen={() => true}
+                  bubbleValidation
+                >
+                  <Field.String required itemPath="/initiateError" />
+                </Iterate.PushContainer>
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 2">
+                <output>Step 2</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        expect(output()).toHaveTextContent('Step 1')
+        expect(
+          document.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).toBeNull()
+
+        await userEvent.click(nextButton())
+
+        expect(output()).toHaveTextContent('Step 2')
+        expect(
+          document.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).toBeNull()
+      })
+
+      it('should not navigate to next step when Iterate.PushContainer is open', async () => {
+        render(
+          <Form.Handler>
+            <Wizard.Container>
+              <Wizard.Step title="Step 1">
+                <output>Step 1</output>
+                <Iterate.PushContainer
+                  path="/does-not-matter"
+                  showOpenButtonWhen={() => true}
+                  openButton={<Iterate.PushContainer.OpenButton />}
+                  bubbleValidation
+                >
+                  <Field.String required itemPath="/initiateError" />
+                </Iterate.PushContainer>
+                <Wizard.Buttons />
+              </Wizard.Step>
+
+              <Wizard.Step title="Step 2">
+                <output>Step 2</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        expect(output()).toHaveTextContent('Step 1')
+        expect(
+          document.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).toBeNull()
+
+        await userEvent.click(nextButton())
+
+        expect(output()).toHaveTextContent('Step 2')
+        expect(
+          document.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).toBeNull()
+
+        await userEvent.click(previousButton())
+
+        expect(output()).toHaveTextContent('Step 1')
+        expect(
+          document.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).toBeNull()
+
+        await userEvent.click(
+          document.querySelector('.dnb-forms-iterate__open-button')
+        )
+
+        await wait(300)
+
+        await userEvent.click(nextButton())
+
+        expect(output()).toHaveTextContent('Step 1')
+        expect(
+          document.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).toBeNull()
+
+        await userEvent.click(
+          document.querySelector('.dnb-forms-iterate__cancel-button')
+        )
+
+        await userEvent.click(nextButton())
+
+        expect(output()).toHaveTextContent('Step 2')
+        expect(
+          document.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).toBeNull()
+      })
+
       it('should render warning or error status when form cannot be submitted', async () => {
         const onStepChange = jest.fn()
         const onSubmit = jest.fn()
@@ -3240,16 +3477,41 @@ describe('Wizard.Container', () => {
         expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
       })
 
-      it('should not show error status on same step', async () => {
-        let currentIndex = null
-
+      it('should not show unknown status on inactive step', async () => {
         render(
           <Form.Handler>
-            <Wizard.Container
-              mode="loose"
-              initialActiveIndex={2}
-              keepInDOM
-            >
+            <Wizard.Container mode="loose" initialActiveIndex={2}>
+              <Wizard.Step title="Step 1" inactive>
+                <Field.String path="/foo" required />
+                <output>Step 1</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 2">
+                <Field.String path="/bar" required />
+                <output>Step 2</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 3">
+                <Field.String path="/baz" />
+                <output>Step 3</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        expect(output()).toHaveTextContent('Step 3')
+        expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
+
+        fireEvent.submit(document.querySelector('form'))
+
+        expect(screen.getAllByText('Unknown state')).toHaveLength(1)
+      })
+
+      it('should not show unknown status without form submit', async () => {
+        render(
+          <Form.Handler>
+            <Wizard.Container mode="loose" initialActiveIndex={2}>
               <Wizard.Step title="Step 1">
                 <Field.String path="/foo" required />
                 <output>Step 1</output>
@@ -3265,6 +3527,130 @@ describe('Wizard.Container', () => {
                 <output>Step 3</output>
                 <Wizard.Buttons />
               </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        expect(output()).toHaveTextContent('Step 3')
+        expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
+
+        fireEvent.submit(document.querySelector('form'))
+
+        expect(screen.getAllByText('Unknown state')).toHaveLength(2)
+      })
+
+      it('should not show unknown status on navigation without form submit', async () => {
+        render(
+          <Form.Handler>
+            <Wizard.Container mode="loose" initialActiveIndex={1}>
+              <Wizard.Step title="Step 1">
+                <Field.String path="/foo" required />
+                <output>Step 1</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 2">
+                <Field.String path="/bar" />
+                <output>Step 2</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 3">
+                <Field.String path="/baz" />
+                <output>Step 3</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        expect(output()).toHaveTextContent('Step 2')
+        expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
+
+        await userEvent.click(nextButton())
+
+        expect(output()).toHaveTextContent('Step 3')
+        expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
+
+        fireEvent.submit(document.querySelector('form'))
+
+        expect(screen.getAllByText('Unknown state')).toHaveLength(2)
+
+        await userEvent.click(previousButton())
+
+        expect(screen.getAllByText('Unknown state')).toHaveLength(1)
+      })
+
+      it('should not show unknown status on visited steps', async () => {
+        render(
+          <Form.Handler>
+            <Wizard.Container mode="loose" initialActiveIndex={2}>
+              <Wizard.Step title="Step 1">
+                <output>Step 1</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 2">
+                <output>Step 2</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 3">
+                <output>Step 3</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        expect(output()).toHaveTextContent('Step 3')
+        expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
+
+        fireEvent.submit(document.querySelector('form'))
+
+        expect(screen.getAllByText('Unknown state')).toHaveLength(2)
+
+        await userEvent.click(previousButton())
+
+        expect(output()).toHaveTextContent('Step 2')
+        expect(screen.getAllByText('Unknown state')).toHaveLength(1)
+
+        await userEvent.click(previousButton())
+
+        expect(output()).toHaveTextContent('Step 1')
+        expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
+
+        await userEvent.click(nextButton())
+
+        expect(output()).toHaveTextContent('Step 2')
+        expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
+
+        await userEvent.click(nextButton())
+
+        expect(output()).toHaveTextContent('Step 3')
+        expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
+      })
+
+      it('should not show error status on same step', async () => {
+        let currentIndex = null
+
+        render(
+          <Form.Handler>
+            <Wizard.Container
+              mode="loose"
+              initialActiveIndex={2}
+              keepInDOM
+            >
+              <Wizard.Step title="Step 1">
+                <Field.String path="/foo" required />
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 2">
+                <Field.String path="/bar" required />
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 3">
+                <Field.String path="/baz" />
+                <Wizard.Buttons />
+              </Wizard.Step>
+
+              <Form.SubmitButton />
 
               <WizardContext.Consumer>
                 {(context) => {
@@ -3284,7 +3670,9 @@ describe('Wizard.Container', () => {
 
         fireEvent.submit(document.querySelector('form'))
 
-        expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(2)
+        await waitFor(() => {
+          expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(2)
+        })
 
         await userEvent.click(previousButton())
 
@@ -3633,6 +4021,68 @@ describe('Wizard.Container', () => {
         await userEvent.click(screen.getByRole('checkbox'))
 
         expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
+      })
+
+      it('should remove error in menu when visibility hides the field', async () => {
+        render(
+          <Form.Handler>
+            <Wizard.Container variant="drawer">
+              <Wizard.Step title="Step 1">
+                <output>Step 1</output>
+                <Form.Section
+                  required // Ensure all fields in the section are required
+                  path="/sectionPath"
+                >
+                  <Field.Boolean path="/isThisTrue" variant="buttons" />
+                  <Form.Visibility pathFalse="/isThisTrue">
+                    <Field.String path="/showMeWhenTrue" />
+                  </Form.Visibility>
+                  <Wizard.Buttons />
+                </Form.Section>
+              </Wizard.Step>
+
+              <Wizard.Step title="Step 2">
+                <output>Step 2</output>
+                <Field.String path="/someField" />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+        await userEvent.click(screen.getByText('Neste'))
+
+        expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(
+          1
+        )
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(nb.Field.errorRequired)
+
+        await userEvent.click(screen.getByText('Nei'))
+
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+        await userEvent.click(screen.getByText('Neste'))
+
+        expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(
+          1
+        )
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(nb.Field.errorRequired)
+
+        await userEvent.click(screen.getByText('Ja'))
+
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+        expect(output()).toHaveTextContent('Step 1')
+
+        await userEvent.click(screen.getByText('Neste'))
+
+        expect(output()).toHaveTextContent('Step 2')
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
       })
     })
 
@@ -4507,9 +4957,7 @@ describe('Wizard.Container', () => {
     it('should hide the visibility content when the condition is met', async () => {
       render(
         <Form.Handler>
-          <Wizard.Container
-          // variant="drawer" // TODO: enable in an upcoming PR
-          >
+          <Wizard.Container variant="drawer">
             <Wizard.Step title="Step 1">
               <output>Step 1</output>
               <Form.Section
@@ -4597,9 +5045,7 @@ describe('Wizard.Container', () => {
             },
           }}
         >
-          <Wizard.Container
-          // variant="drawer" // TODO: enable in an upcoming PR
-          >
+          <Wizard.Container variant="drawer">
             <Wizard.Step title="Step 1">
               <output>Step 1</output>
               <Form.Section path="/sectionPath">

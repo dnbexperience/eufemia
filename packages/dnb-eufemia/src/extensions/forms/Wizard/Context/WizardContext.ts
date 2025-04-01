@@ -3,7 +3,6 @@ import { Path } from '../../types'
 import { VisibleWhen } from '../../Form/Visibility'
 import {
   InternalStepStatus,
-  InternalStepStatuses,
   SetActiveIndexOptions,
   StepIndex,
   Steps,
@@ -27,7 +26,7 @@ export interface WizardContextState {
   activeIndexRef?: React.MutableRefObject<StepIndex>
   stepIndexRef?: React.MutableRefObject<StepIndex>
   totalStepsRef?: React.MutableRefObject<number>
-  stepStatusRef?: React.MutableRefObject<InternalStepStatuses>
+  submitCountRef?: React.MutableRefObject<number>
   prerenderFieldPropsRef?: React.MutableRefObject<
     Record<string, () => React.ReactElement>
   >
@@ -45,8 +44,15 @@ export interface WizardContextState {
     }?: SetActiveIndexOptions
   ) => void
   setFormError?: (error: Error) => void
-  revealError?: (index: StepIndex, path: Path, hasError: boolean) => void
-  hasInvalidStepsState?: (forStates?: Array<InternalStepStatus>) => boolean
+  setFieldError?: (index: StepIndex, path: Path, hasError: boolean) => void
+  writeStepsState?: (
+    index?: StepIndex,
+    forStates?: Array<InternalStepStatus>
+  ) => void
+  hasInvalidStepsState?: (
+    index?: StepIndex,
+    forStates?: Array<InternalStepStatus>
+  ) => boolean
   check?: ({ visibleWhen }: { visibleWhen: VisibleWhen }) => boolean
   collectStepsData?: (args: HandleStatusArgs) => { title: string }
   enableMapOverChildren?: () => void

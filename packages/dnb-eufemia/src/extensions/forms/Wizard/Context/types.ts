@@ -43,7 +43,7 @@ export type SetActiveIndexOptions = {
   skipErrorCheck?: boolean
 }
 
-export type InternalStepStatus = 'error' | 'valid' | 'unknown' | undefined
+export type InternalStepStatus = 'error' | 'unknown' | undefined
 export type InternalStepStatuses = Map<StepIndex, InternalStepStatus>
 export type InternalVisitedSteps = Map<StepIndex, boolean>
 export type InternalFieldError = Map<

@@ -10,6 +10,7 @@ import Isolation from '../../Form/Isolation'
 import PushContainerContext from './PushContainerContext'
 import IterateItemContext from '../IterateItemContext'
 import DataContext from '../../DataContext/Context'
+import VisibilityContext from '../../Form/Visibility/VisibilityContext'
 import useDataValue from '../../hooks/useDataValue'
 import EditContainer, { CancelButton, DoneButton } from '../EditContainer'
 import IterateArray, { ContainerMode } from '../Array'
@@ -290,6 +291,7 @@ function NewContainer({
   }, [containerMode, rerenderPushContainer])
 
   switchContainerModeRef.current = switchContainerMode
+  const isVisible = Boolean(!showOpenButton || containerMode === 'edit')
   const { createButton } = useTranslation().IteratePushContainer
   const { clearData } = useContext(DataContext) || {}
   const restoreOriginalValue = useCallback(() => {
@@ -320,9 +322,9 @@ function NewContainer({
   )
 
   return (
-    <>
+    <VisibilityContext.Provider value={{ isVisible, keepInDOM: false }}>
       <EditContainer
-        open={!showOpenButton || containerMode === 'edit'}
+        open={isVisible}
         title={title}
         toolbar={toolbar}
         {...rest}
@@ -335,7 +337,7 @@ function NewContainer({
           {openButton}
         </HeightAnimation>
       )}
-    </>
+    </VisibilityContext.Provider>
   )
 }
 

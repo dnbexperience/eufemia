@@ -13,8 +13,7 @@ describe('EditButton', () => {
         'padding-left': '2.5rem',
         'padding-right': '2.5rem',
       },
-      selector:
-        '[data-visual-test="wizard-edit-button"] .dnb-forms-wizard-layout__contents',
+      selector: '[data-visual-test="wizard-edit-button"] .dnb-forms-step',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

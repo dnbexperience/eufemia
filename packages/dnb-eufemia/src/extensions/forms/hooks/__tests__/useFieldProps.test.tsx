@@ -7074,7 +7074,7 @@ describe('useFieldProps', () => {
     it('should report error downwards', () => {
       const revealErrorDataContext = jest.fn()
       const revealErrorBoundary = jest.fn()
-      const revealErrorWizard = jest.fn()
+      const setFieldErrorWizard = jest.fn()
       const showFieldErrorFieldBlock = jest.fn()
       const handlePathChangeUnvalidated = jest.fn()
 
@@ -7096,7 +7096,7 @@ describe('useFieldProps', () => {
             showFieldError: showFieldErrorFieldBlock,
           }
           const wizardContextValue = {
-            revealError: revealErrorWizard,
+            setFieldError: setFieldErrorWizard,
           }
           const wizardStepContextValue = {
             index: 1,
@@ -7128,7 +7128,7 @@ describe('useFieldProps', () => {
       expect(revealErrorDataContext).toHaveBeenCalledTimes(0)
       expect(revealErrorBoundary).toHaveBeenCalledTimes(0)
       expect(showFieldErrorFieldBlock).toHaveBeenCalledTimes(0)
-      expect(revealErrorWizard).toHaveBeenCalledTimes(0)
+      expect(setFieldErrorWizard).toHaveBeenCalledTimes(0)
 
       revealError()
 
@@ -7144,7 +7144,11 @@ describe('useFieldProps', () => {
         '/foo',
         false
       )
-      expect(revealErrorWizard).toHaveBeenLastCalledWith(1, '/foo', false)
+      expect(setFieldErrorWizard).toHaveBeenLastCalledWith(
+        1,
+        '/foo',
+        false
+      )
 
       rerender({
         path: '/foo',
@@ -7162,13 +7166,13 @@ describe('useFieldProps', () => {
         '/foo',
         true
       )
-      expect(revealErrorWizard).toHaveBeenLastCalledWith(1, '/foo', true)
+      expect(setFieldErrorWizard).toHaveBeenLastCalledWith(1, '/foo', true)
     })
 
     it('should remove error from context when field has no error', async () => {
       let dataContextError = null
-      let wizardContextError = null
       let fieldBoundaryContext = null
+      let wizardContextError = null
 
       const MockComponent = () => {
         return (
@@ -7182,19 +7186,19 @@ describe('useFieldProps', () => {
                   }}
                 </DataContext.Consumer>
 
-                <WizardContext.Consumer>
-                  {(context) => {
-                    wizardContextError = context.hasInvalidStepsState()
-                    return null
-                  }}
-                </WizardContext.Consumer>
-
                 <FieldBoundaryContext.Consumer>
                   {(context) => {
                     fieldBoundaryContext = context.hasVisibleError
                     return null
                   }}
                 </FieldBoundaryContext.Consumer>
+
+                <WizardContext.Consumer>
+                  {(context) => {
+                    wizardContextError = context.hasInvalidStepsState()
+                    return null
+                  }}
+                </WizardContext.Consumer>
 
                 <Wizard.Step title="Step 1">
                   <Field.Selection
@@ -7227,14 +7231,14 @@ describe('useFieldProps', () => {
       render(<MockComponent />)
 
       expect(dataContextError).toBe(false)
-      expect(wizardContextError).toBe(false)
       expect(fieldBoundaryContext).toBe(false)
+      expect(wizardContextError).toBe(true)
 
       fireEvent.submit(document.querySelector('form'))
 
       expect(dataContextError).toBe(true)
-      expect(wizardContextError).toBe(false)
       expect(fieldBoundaryContext).toBe(true)
+      expect(wizardContextError).toBe(true)
 
       await userEvent.type(document.querySelector('input'), 'foo')
       await userEvent.click(
@@ -7244,8 +7248,8 @@ describe('useFieldProps', () => {
       expect(document.querySelector('input')).toHaveValue('Foo')
 
       expect(dataContextError).toBe(true)
-      expect(wizardContextError).toBe(true)
       expect(fieldBoundaryContext).toBe(true)
+      expect(wizardContextError).toBe(true)
 
       expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
@@ -7261,8 +7265,8 @@ describe('useFieldProps', () => {
       expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(0)
 
       expect(dataContextError).toBe(false)
-      expect(wizardContextError).toBe(false)
       expect(fieldBoundaryContext).toBe(false)
+      expect(wizardContextError).toBe(false)
     })
   })
 
