@@ -157,3 +157,36 @@ export const inputProperties: PropertiesTableProps = {
     status: 'optional',
   },
 }
+
+export const inputEvents: PropertiesTableProps = {
+  on_change: {
+    doc: 'will be called on value changes made by the user. Returns an object with the value as a string and the native event: `{ value, event }`.',
+    type: 'function',
+    status: 'optional',
+  },
+  on_focus: {
+    doc: 'will be called on focus set by the user. Returns `{ value, event }`.',
+    type: 'function',
+    status: 'optional',
+  },
+  on_key_down: {
+    doc: 'will be called on key down by the user. Returns `{ value, event }`.',
+    type: 'function',
+    status: 'optional',
+  },
+  on_blur: {
+    doc: 'will be called on blur set by the user. Returns `{ value, event }`.',
+    type: 'function',
+    status: 'optional',
+  },
+  on_submit: {
+    doc: 'will be called on submit button click. Returns `{ value, event }`.',
+    type: 'function',
+    status: 'optional',
+  },
+  on_clear: {
+    doc: 'will be called on a clear button click. Returns `{ value, previousValue, event }`.',
+    type: 'function',
+    status: 'optional',
+  },
+}
