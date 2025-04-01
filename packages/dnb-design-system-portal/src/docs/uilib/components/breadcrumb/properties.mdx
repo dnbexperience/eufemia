@@ -2,39 +2,22 @@
 showTabs: true
 ---
 
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
+import {
+  BreadcrumbProperties,
+  BreadcrumbItemProperties,
+} from '@dnb/eufemia/src/components/breadcrumb/BreadcrumbDocs'
 
 ## Properties
 
 ### `Breadcrumb` properties
 
-| Properties                              | Description                                                                                                                                                                                                  |
-| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `data`                                  | _(optional)_ List of pages to render as breadcrumbitems. Each object in data can include all properties from [BreadcrumbItem properties](/uilib/components/breadcrumb/properties#breadcrumbitem-properties). |
-| `children`                              | _(optional)_ Content of the component. Can be used instead of property `data`, by adding Breadcrumbitem children `<Breadcrumb.Item {...props} />`.                                                           |
-| `skeleton`                              | _(optional)_ Applies loading skeleton.                                                                                                                                                                       |
-| `variant`                               | _(optional)_ Defaults to 'responsive' or 'single' depending on content. Options: `responsive` \| `single` \| `multiple` \| `collapse` .                                                                      |
-| `href`                                  | _(optional)_ For variant `single`, set `href` for button click. Can be used instead of property `onClick`.                                                                                                   |
-| `navText`                               | _(optional)_ Every `<nav>` on a page needs an unique aria-label text.                                                                                                                                        |
-| `goBackText`                            | _(optional)_ Override with a custom 'Back' text for variant `single` (Not recommended).                                                                                                                      |
-| `homeText`                              | _(optional)_ Override with a custom 'Home' text (Not recommended).                                                                                                                                           |
-| `backToText`                            | _(optional)_ Override with a custom 'Back to...' text (Not recommended) .                                                                                                                                    |
-| `styleType`                             | _(optional)_ Use one of the Section component style types (style_type). Defaults to `transparent`.                                                                                                           |
-| `collapsedStyleType`                    | _(optional)_ Use one of the Section component style types (style_type). Defaults to `pistachio`.                                                                                                             |
-| `className`                             | _(optional)_ Custom className for the component root.                                                                                                                                                        |
-| `isCollapsed`                           | _(optional)_ For variant `collapse`, override isCollapsed for the collapsed content by updating this value using the provided property `onClick`.                                                            |
-| `spacing`                               | _(optional)_ Include spacing properties from [Section](/uilib/components/section/properties) in breadcrumb. If only `true` is given, the spacing will be `small`. Defaults to `false`.                       |
-| [Space](/uilib/layout/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                                                                        |
+<PropertiesTable props={BreadcrumbProperties} />
 
 ### `Breadcrumb.Item` properties
 
-| Properties          | Description                                                                                        |
-| ------------------- | -------------------------------------------------------------------------------------------------- |
-| `text`              | _(optional)_ Text displaying inside Breadcrumb item.                                               |
-| `variant`           | _(optional)_ The component variant. Options: `home` \| `previous` \| `current`.                    |
-| `icon`              | _(optional)_ Override icon displaying on the left side (Not recommended). Default: `chevron_left`. |
-| `href` or `onClick` | _(optional)_ Set what happens when the user clicks on the item.                                    |
-| `skeleton`          | _(optional)_ Applies loading skeleton.                                                             |
+<PropertiesTable props={BreadcrumbItemProperties} />
 
 **NB:** When interactive, the item is an inherited [Button](/uilib/components/button/). You can therefore swap out the underlying HTML element, by providing a new `element` or use other Button properties, such as `to` instead of `href`.
 
