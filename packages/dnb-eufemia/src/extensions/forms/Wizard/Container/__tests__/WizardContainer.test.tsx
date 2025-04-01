@@ -2432,13 +2432,11 @@ describe('Wizard.Container', () => {
     render(
       <Wizard.Container mode="loose" keepInDOM>
         <Wizard.Step title="Step 1">
-          <output>Step 1</output>
           <Field.String />
           <Wizard.Buttons />
         </Wizard.Step>
 
         <Wizard.Step title="Step 2">
-          <output>Step 2</output>
           <Wizard.Buttons />
         </Wizard.Step>
 
@@ -2465,7 +2463,7 @@ describe('Wizard.Container', () => {
     expect(currentIndex).toBe(1)
     {
       const elements = getElements()
-      expect(elements).toHaveLength(3)
+      expect(elements).toHaveLength(2)
       elements.forEach((element) => {
         expect(element).toHaveClass('appear-fx')
       })
@@ -2476,7 +2474,7 @@ describe('Wizard.Container', () => {
     expect(currentIndex).toBe(0)
     {
       const elements = getElements()
-      expect(elements).toHaveLength(4)
+      expect(elements).toHaveLength(3)
       elements.forEach((element) => {
         expect(element).toHaveClass('appear-fx')
       })
@@ -2487,7 +2485,7 @@ describe('Wizard.Container', () => {
     expect(currentIndex).toBe(1)
     {
       const elements = getElements()
-      expect(elements).toHaveLength(3)
+      expect(elements).toHaveLength(2)
       elements.forEach((element) => {
         expect(element).toHaveClass('appear-fx')
       })
