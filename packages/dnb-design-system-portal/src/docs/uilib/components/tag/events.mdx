@@ -2,9 +2,9 @@
 showTabs: true
 ---
 
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { TagEvents } from '@dnb/eufemia/src/components/tag/TagDocs'
+
 ## `Tag` events
 
-| Events     | Description                                                                                                                                                                         |
-| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `onClick`  | _(optional)_ will be called on a click event. Returns an object with the native event: `{ event }`.                                                                                 |
-| `onDelete` | _(optional)_ will be called on a click event. Returns an object with the native event: `{ event }`. This property does not support icon and will be ignored if `onClick`is defined. |
+<PropertiesTable props={TagEvents} />
