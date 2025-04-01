@@ -26,7 +26,6 @@ export default function useViews({ isRange, ...dates }: UseViewsParams) {
     startDay: undefined,
     endDay: undefined,
   })
-  const forceViewChange = useRef(false)
 
   const hasDateChanges = useMemo(
     () =>
@@ -38,18 +37,15 @@ export default function useViews({ isRange, ...dates }: UseViewsParams) {
 
   if (hasDateChanges) {
     // Maintain range views unless forced to change by shortcut or keyboard navigation
-    if (forceViewChange.current || !isRange) {
-      setViews(
-        getViews({
-          ...dates,
-          isRange,
-          views,
-          clickedDays: clickedDays.current,
-        })
-      )
-      forceViewChange.current = false
-    }
 
+    const updatedViews = getViews({
+      ...dates,
+      isRange,
+      views,
+      clickedDays: clickedDays.current,
+    })
+
+    setViews(updatedViews)
     setClickedDays({ startDay: undefined, endDay: undefined })
     setPreviousDates(dates)
   }
@@ -62,10 +58,6 @@ export default function useViews({ isRange, ...dates }: UseViewsParams) {
     cb?.()
   }
 
-  function forceViewMonthChange() {
-    forceViewChange.current = true
-  }
-
   function setClickedDays(days: ClickedViewDays) {
     clickedDays.current = { ...clickedDays.current, ...days }
   }
@@ -74,7 +66,6 @@ export default function useViews({ isRange, ...dates }: UseViewsParams) {
     views,
     setViews: updateViews,
     setClickedDays,
-    forceViewMonthChange,
   } as const
 }
 

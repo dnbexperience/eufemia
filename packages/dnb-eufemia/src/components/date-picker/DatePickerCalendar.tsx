@@ -166,7 +166,6 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
   const {
     updateDates,
-    forceViewMonthChange,
     setClickedDays,
     startDate,
     endDate,
@@ -448,8 +447,6 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         })
       })
 
-      forceViewMonthChange()
-
       // and set the focus back again
       if (listRef && listRef.current) {
         listRef.current.focus({ preventScroll: true })
@@ -470,7 +467,6 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       onlyMonth,
       endMonth,
       startMonth,
-      forceViewMonthChange,
     ]
   )
 
