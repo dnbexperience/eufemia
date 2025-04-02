@@ -313,17 +313,17 @@ export function formatDateRange(
   const startDate = convertStringToDate(dates.startDate)
   const endDate = convertStringToDate(dates.endDate)
 
-  if (typeof Intl === 'undefined') {
-    return `${startDate.toLocaleString(
-      locale,
-      options
-    )}-${endDate.toLocaleString(locale, options)}`
+  if (typeof Intl !== 'undefined') {
+    return new Intl.DateTimeFormat(locale, options).formatRange(
+      startDate,
+      endDate
+    )
   }
 
-  return new Intl.DateTimeFormat(locale, options).formatRange(
-    startDate,
-    endDate
-  )
+  const startDateString = startDate.toLocaleString(locale, options)
+  const endDateString = endDate.toLocaleString(locale, options)
+
+  return `${startDateString}-${endDateString}`
 }
 
 export function getFormatOptions(
