@@ -69,8 +69,6 @@ export function getViews({
   isRange,
   ...dates
 }: ViewDates & UseViewsParams): Array<CalendarView> {
-  // Handle non-range views
-
   return isRange
     ? [
         { nr: 0, month: getMonthView({ months: dates, nr: 0 }) },
