@@ -11,6 +11,13 @@ export default class InputModeNumber {
   hasFocus: boolean
   focusEventName: string
   blurEventName: string
+  _type: string
+  _value: string
+  _width: number
+  _cssText: string
+  _placeholder: string
+  _selectionStart: number
+  _selectionEnd: number
 
   setElement(element: HTMLInputElement) {
     if (!IS_IOS) {
@@ -62,6 +69,8 @@ export default class InputModeNumber {
     }
   }
   remove() {
+    this.reset()
+
     clearTimeout(this.timeout)
 
     this.removeEvent(this.inputElement)
@@ -75,33 +84,59 @@ export default class InputModeNumber {
   }
   onFocus = () => {
     if (this.hasFocus || !this.inputElement) {
-      return
+      return // stop here
     }
 
     this.hasFocus = true
 
-    const type = this.inputElement.type
+    this._type = this.inputElement.type
 
-    if (type === 'number') {
+    if (this._type === 'number') {
       return // stop here
     }
 
-    const value = this.inputElement.value
-    const placeholder = this.inputElement.placeholder
+    this._value = this.inputElement.value
+    this._width = this.inputElement.offsetWidth
+    this._cssText = this.inputElement.style.cssText
+    this._placeholder = this.inputElement.placeholder
+    this._selectionStart = this.inputElement.selectionStart
+    this._selectionEnd = this.inputElement.selectionEnd
 
     // To prevent flickering, show the placeholder, while the input value is "empty".
-    this.inputElement.placeholder = value
+    this.inputElement.placeholder = this._value
 
     // Changing the type, will remove the current input value to show as "empty".
     this.inputElement.type = 'number'
 
+    // Hide steppers with pseudo-elements using CSS injection
+    this.inputElement.classList.add('dnb-input-masked--hide-controls')
+
+    // Keep the width the same as the input element
+    this.inputElement.style.width = `${this._width}px`
+
     // Reset the input again
     clearTimeout(this.timeout)
     this.timeout = setTimeout(() => {
-      this.inputElement.type = type
-      this.inputElement.value = value // set the input value
-      this.inputElement.placeholder = placeholder
+      this.reset()
+    }, 10) // Delay before changing the type back again.
+  }
+  reset = () => {
+    if (!this.inputElement) {
+      return // stop here
+    }
+    try {
+      this.inputElement.type = this._type
+      this.inputElement.style.cssText = this._cssText // Because we did set a width, we need to reset the cssText
+      this.inputElement.classList.remove('dnb-input-masked--hide-controls')
+      this.inputElement.value = this._value // set the input value, else it will be empty
+      this.inputElement.placeholder = this._placeholder
+      if (this._selectionStart > 0) {
+        this.inputElement.selectionStart = this._selectionStart
+        this.inputElement.selectionEnd = this._selectionEnd
+      }
       this.inputElement['runCorrectCaretPosition']?.()
-    }, 5)
+    } catch (error) {
+      console.error(error)
+    }
   }
 }

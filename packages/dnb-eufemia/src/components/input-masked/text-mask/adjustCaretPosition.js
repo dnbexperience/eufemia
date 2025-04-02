@@ -11,6 +11,7 @@ export default function adjustCaretPosition({
   placeholder,
   indexesOfPipedChars = defaultArray,
   caretTrapIndexes = defaultArray,
+  keepCharPositions = false,
 }) {
   if (currentCaretPosition === 0 || !rawValue.length) {
     return 0
@@ -55,7 +56,8 @@ export default function adjustCaretPosition({
   // positioning.
   const possiblyHasRejectedChar =
     isAddition &&
-    (previousConformedValue === conformedValue ||
+    ((keepCharPositions !== false &&
+      previousConformedValue === conformedValue) ||
       conformedValue === placeholder)
 
   let startingSearchIndex = 0
