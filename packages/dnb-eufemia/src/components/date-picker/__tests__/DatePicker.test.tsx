@@ -952,6 +952,28 @@ describe('DatePicker component', () => {
 
     await userEvent.click(screen.getByLabelText('torsdag 18. juli 2024'))
     await userEvent.click(screen.getByLabelText('onsdag 1. januar 2025'))
+
+    await userEvent.click(leftPrev)
+    await userEvent.click(screen.getByLabelText('tirsdag 4. juni 2024'))
+    await userEvent.click(screen.getByLabelText('tirsdag 11. juni 2024'))
+
+    expect(
+      leftPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('juni 2024')
+    expect(
+      rightPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('januar 2025')
+
+    await userEvent.click(leftPrev)
+    await userEvent.click(screen.getByLabelText('fredag 10. mai 2024'))
+    await userEvent.click(screen.getByLabelText('fredag 17. mai 2024'))
+
+    expect(
+      leftPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('mai 2024')
+    expect(
+      rightPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('januar 2025')
   })
 
   it('should set correct month based date selected with keyboard navigation', async () => {
