@@ -11,6 +11,8 @@ import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.Password />)
 ```
 
+It supports the HTML [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) attribute, and by default set it to `current-password`. Consider setting autocomplete to `new-password` when it's expected that the user should enter a new password.
+
 ## Validation
 
 By default it has no validation. But you can enable it by giving a `required`, `pattern`, `schema`, `onChangeValidator` or `onBlurValidator` property with the needed validation. More about validation in the [Getting Started](/uilib/extensions/forms/getting-started/#validation) section.
