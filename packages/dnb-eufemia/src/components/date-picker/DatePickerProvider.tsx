@@ -113,7 +113,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
       }
     )
 
-  const { views, setViews, setClickedCalendarDays } = useViews({
+  const { views, setViews, setHasClickedCalendarDay } = useViews({
     startMonth: dates.startMonth,
     endMonth: dates.endMonth,
     isRange: range,
@@ -248,7 +248,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
         hasHadValidDate,
         views,
         setViews,
-        setClickedCalendarDays,
+        setHasClickedCalendarDay,
       }}
     >
       {children}

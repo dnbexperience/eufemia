@@ -44,13 +44,14 @@ import {
   getCalendar,
 } from './DatePickerCalc'
 import Button, { ButtonProps } from '../button/Button'
-import DatePickerContext from './DatePickerContext'
+import DatePickerContext, {
+  DatePickerContextValues,
+} from './DatePickerContext'
 import { useTranslation } from '../../shared'
 import { InternalLocale } from '../../shared/Context'
 import { DatePickerChangeEvent } from './DatePickerProvider'
 import { DatePickerDates } from './hooks/useDates'
 import { LOCALE } from '../../shared/defaults'
-import { ClickedCalendarDays } from './hooks/useViews'
 
 export type CalendarDay = {
   date: Date
@@ -166,7 +167,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
   const {
     updateDates,
-    setClickedCalendarDays,
+    setHasClickedCalendarDay,
     startDate,
     endDate,
     hoverDate,
@@ -679,7 +680,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                                   endDate,
                                   resetDate,
                                   event,
-                                  setClickedCalendarDays,
+                                  setHasClickedCalendarDay,
                                   onSelect: (state) => {
                                     updateDates(state, (dates) =>
                                       callOnSelect({
@@ -774,7 +775,10 @@ function CalendarButton({
   )
 }
 
-type SelectRangeEvent = {
+type SelectRangeEvent = Pick<
+  DatePickerContextValues,
+  'setHasClickedCalendarDay'
+> & {
   day: DayObject
   event?: React.MouseEvent<HTMLButtonElement>
   startDate?: Date
@@ -782,7 +786,6 @@ type SelectRangeEvent = {
   resetDate?: boolean
   isRange?: boolean
   onSelect?: DatePickerCalendarProps['onSelect']
-  setClickedCalendarDays: (days: ClickedCalendarDays) => void
 }
 
 function onSelectRange({
@@ -793,13 +796,11 @@ function onSelectRange({
   onSelect,
   resetDate,
   event,
-  setClickedCalendarDays,
+  setHasClickedCalendarDay,
 }: SelectRangeEvent) {
   event.persist()
 
   if (!isRange) {
-    setClickedCalendarDays({ start: day.date })
-
     // set only date
     return onSelect({
       startDate: startOfDay(day.date),
@@ -810,11 +811,10 @@ function onSelectRange({
     // for setting date new on every selection, do this here
   }
 
+  // Set to true to stop calendar views from changing in range mode when clicking a day
+  setHasClickedCalendarDay(true)
+
   if (!startDate || (resetDate && startDate && endDate)) {
-    setClickedCalendarDays({
-      start: day.date,
-      end: undefined,
-    })
     // set startDate
     // user is selecting startDate
     return onSelect({
@@ -838,11 +838,6 @@ function onSelectRange({
       : startDate,
     day.date
   )
-
-  setClickedCalendarDays({
-    start: range.startDate,
-    end: range.endDate,
-  })
 
   return onSelect({
     startDate: startOfDay(range.startDate),
