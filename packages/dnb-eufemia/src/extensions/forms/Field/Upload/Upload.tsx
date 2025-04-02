@@ -123,6 +123,7 @@ function UploadComponent(props: Props) {
     skeleton,
     onFileDelete,
     onFileClick,
+    download,
   } = rest
 
   const { files, setFiles } = useUpload(id)
@@ -226,6 +227,7 @@ function UploadComponent(props: Props) {
         id={id}
         acceptedFileTypes={acceptedFileTypes}
         filesAmountLimit={filesAmountLimit}
+        download={download}
         fileMaxSize={fileMaxSize}
         skeleton={skeleton}
         onChange={changeHandler}
