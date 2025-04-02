@@ -78,7 +78,7 @@ export function PaymentCardAllCardsExample() {
                   </H4>
                   <PaymentCard
                     product_code={product_code}
-                    card_number="************1337"
+                    card_number="••••••••••••1337"
                   />
                 </article>
               )
@@ -97,7 +97,7 @@ export const PaymentCardBasicExample = () => (
     scope={{ PaymentCard }}
     data-visual-test="payment-card-basic"
   >
-    <PaymentCard product_code="NK1" card_number="************1337" />
+    <PaymentCard product_code="NK1" card_number="••••••••••••1337" />
   </ComponentBox>
 )
 
@@ -119,7 +119,7 @@ export const PaymentCardCustomExample = () => (
         <PaymentCard
           product_code="UNDEFINED"
           raw_data={customData}
-          card_number="************1337"
+          card_number="••••••••••••1337"
         />
       )
     }}
@@ -134,7 +134,7 @@ export const PaymentCardStatusExample = () => (
     <PaymentCard
       product_code="VG2"
       card_status="blocked"
-      card_number="************1337"
+      card_number="••••••••••••1337"
     />
   </ComponentBox>
 )
@@ -147,7 +147,7 @@ export const PaymentCardCompactExample = () => (
     <PaymentCard
       variant="compact"
       product_code="VG1"
-      card_number="************1337"
+      card_number="••••••••••••1337"
     />
   </ComponentBox>
 )
