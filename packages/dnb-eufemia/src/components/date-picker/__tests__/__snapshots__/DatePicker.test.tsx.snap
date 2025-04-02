@@ -3947,6 +3947,10 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
   }
 }
 @supports (-webkit-touch-callout: none) {
+  .dnb-date-picker__input,
+  .dnb-date-picker .dnb-input__input.dnb-date-picker__input, .dnb-core-style .dnb-date-picker__input {
+    text-indent: -2px;
+  }
   .dnb-date-picker__input:not(*:root),
   .dnb-date-picker .dnb-input__input.dnb-date-picker__input:not(*:root), .dnb-core-style .dnb-date-picker__input:not(*:root) {
     margin: 0;

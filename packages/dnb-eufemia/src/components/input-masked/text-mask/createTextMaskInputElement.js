@@ -198,6 +198,7 @@ export default function createTextMaskInputElement(config) {
         placeholderChar,
         indexesOfPipedChars: pipeResults.indexesOfPipedChars,
         caretTrapIndexes,
+        keepCharPositions,
       })
 
       // Text Mask sets the input value to an empty string when the condition below is set. It provides a better UX.
@@ -229,14 +230,17 @@ export function safeSetSelection(element, selectionPosition) {
     document.activeElement === element ||
     element?.setSelectionRange?.name === 'mockConstructor'
   ) {
+    const select = () => {
+      try {
+        element.setSelectionRange(selectionPosition, selectionPosition)
+      } catch (error) {
+        //
+      }
+    }
     if (isAndroid) {
-      defer(
-        () =>
-          element.setSelectionRange(selectionPosition, selectionPosition),
-        0
-      )
+      defer(select, 0)
     } else {
-      element?.setSelectionRange(selectionPosition, selectionPosition)
+      select()
     }
   }
 }

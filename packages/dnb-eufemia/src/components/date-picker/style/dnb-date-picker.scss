@@ -192,6 +192,9 @@
       &:not(*:root) {
         margin: 0;
       }
+
+      // Avoid artifact (moving the value 2px) when focusing the input
+      text-indent: -2px; // The width of the cursor
     }
 
     // Safari Desktop fix
