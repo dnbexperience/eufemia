@@ -798,7 +798,7 @@ function onSelectRange({
   event.persist()
 
   if (!isRange) {
-    setClickedCalendarDays({ start: startOfDay(day.date) })
+    setClickedCalendarDays({ start: day.date })
 
     // set only date
     return onSelect({
@@ -812,7 +812,7 @@ function onSelectRange({
 
   if (!startDate || (resetDate && startDate && endDate)) {
     setClickedCalendarDays({
-      start: startOfDay(day.date),
+      start: day.date,
       end: undefined,
     })
     // set startDate
