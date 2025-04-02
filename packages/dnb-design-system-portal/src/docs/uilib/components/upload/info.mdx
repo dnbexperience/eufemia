@@ -18,7 +18,7 @@ The Upload component should be used in scenarios where the user has to upload an
 - The user should be able to remove them (files) during the session.
 - The Upload component connects to the [GlobalStatus](/uilib/components/global-status) and displays file error messages there as well.
 - Validation messages coming from the "backend" should be displayed for each file via the `useUpload` hook. See [example](/uilib/components/upload/#upload-error-message) below.
-- The `useUpload` hook can be placed on any location in your application, and does not need to be where the `Upload` component is used.
+- The `useUpload` hook can be placed in any location in your application, and does not need to be where the `Upload` component is used.
 
 ```jsx
 function YourComponent() {
@@ -63,3 +63,8 @@ Once the Upload component mounts, it also adds support for dropping files to the
 Each file item is displayed as a clickable link with its original file name, which opens the file source in a new browser tab.
 
 In some situations, it's more suitable to have each link download the file instead of opening it in a new browser tab. To achieve this, set the `download={true}` property on the Upload component.
+
+## Prevents uploading duplicate files
+
+By default, the Upload component prevents uploading duplicate files.
+It determines if a file is duplicate if the file's `name`, `size`, and `lastModified` values are equal.
