@@ -1,4 +1,3 @@
-import Provider from '@dnb/eufemia/src/shared/Provider'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 
