@@ -102,16 +102,14 @@ export const AutoClose = () => {
 
 export const DatePickerDateLimitValidation = () => {
   return (
-    <Provider locale="en-GB">
-      <ComponentBox>
-        <Field.Date
-          value="2024-12-31|2025-02-01"
-          minDate="2025-01-01"
-          maxDate="2025-01-31"
-          range
-        />
-      </ComponentBox>
-    </Provider>
+    <ComponentBox>
+      <Field.Date
+        value="2024-12-31|2025-02-01"
+        minDate="2025-01-01"
+        maxDate="2025-01-31"
+        range
+      />
+    </ComponentBox>
   )
 }
 
