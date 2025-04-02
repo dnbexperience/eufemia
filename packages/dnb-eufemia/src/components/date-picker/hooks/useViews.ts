@@ -35,20 +35,19 @@ export default function useViews({ isRange, ...dates }: UseViewsParams) {
   )
 
   if (hasDateChanges) {
-    if (!hasClickedCalendarDay.current) {
-      const updatedViews = getViews({
-        ...dates,
-        isRange,
-      })
-
-      setViews(updatedViews)
-    }
-
-    if (hasClickedCalendarDay.current) {
-      setHasClickedCalendarDay(false)
-    }
-
     setPreviousDates(dates)
+
+    // Stop here if the user has clicked a date in the calendar, as we don't want to update the views then
+    if (hasClickedCalendarDay.current) {
+      return setHasClickedCalendarDay(false)
+    }
+
+    const updatedViews = getViews({
+      ...dates,
+      isRange,
+    })
+
+    setViews(updatedViews)
   }
 
   function updateViews(
