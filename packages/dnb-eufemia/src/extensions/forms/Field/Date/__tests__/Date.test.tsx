@@ -5,7 +5,10 @@ import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { DataContext, Field, FieldBlock, Form, Wizard } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 import enGB from '../../../constants/locales/en-GB'
-import { FormatDateOptions, formatDate } from '../../../Value/Date'
+import {
+  FormatDateOptions,
+  formatDate,
+} from '../../../../../components/date-picker/DatePickerCalc'
 
 const nb = nbNO['nb-NO']
 const en = enGB['en-GB']

@@ -3017,6 +3017,7 @@ describe('DatePicker calc', () => {
     })
   })
 
+  // TODO: Move the following out of describe('DatePicker calc')
   it('should support spacing props', () => {
     render(<DatePicker top="2rem" showInput />)
 
