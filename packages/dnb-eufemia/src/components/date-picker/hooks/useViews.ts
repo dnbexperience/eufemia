@@ -37,7 +37,7 @@ export default function useViews({ isRange, ...dates }: UseViewsParams) {
   if (hasDateChanges) {
     setPreviousDates(dates)
 
-    // Stop here if the user has clicked a date in the calendar, as we don't want to update
+    // Stop here if the user has clicked a day in the calendar, as we don't want update the views then
     if (hasClickedCalendarDay.current) {
       setHasClickedCalendarDay(false)
     } else {
