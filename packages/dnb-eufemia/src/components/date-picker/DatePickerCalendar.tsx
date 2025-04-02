@@ -204,15 +204,15 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     onlyMonth,
   } = props
 
-  const listRef = useRef<React.ElementRef<'table'>>()
+  const tableRef = useRef<React.ElementRef<'table'>>()
   const labelRef = useRef<HTMLLabelElement>()
   const days = useRef<Record<string, Array<CalendarDay>>>({})
   const cache = useRef<Record<string, CalendarDay[][]>>({})
 
   useEffect(() => {
     if (!noAutoFocus && nr === 0) {
-      if (listRef.current) {
-        listRef.current.focus({ preventScroll: true })
+      if (tableRef.current) {
+        tableRef.current.focus({ preventScroll: true })
       }
     }
   }, [noAutoFocus, nr])
@@ -349,7 +349,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
       // call onKeyDown prop if given
       if (typeof onKeyDown === 'function') {
-        return onKeyDown(event, listRef, nr)
+        return onKeyDown(event, tableRef, nr)
       }
 
       // only continue of key is one of these
@@ -449,8 +449,8 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       forceViewMonthChange()
 
       // and set the focus back again
-      if (listRef && listRef.current) {
-        listRef.current.focus({ preventScroll: true })
+      if (tableRef && tableRef.current) {
+        tableRef.current.focus({ preventScroll: true })
       }
     },
     [
@@ -580,7 +580,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         aria-labelledby={`${id}--title`}
         onKeyDown={onKeyDownHandler}
         onMouseLeave={onMouseLeaveHandler}
-        ref={listRef}
+        ref={tableRef}
       >
         {!hideDays && (
           <thead aria-hidden>
