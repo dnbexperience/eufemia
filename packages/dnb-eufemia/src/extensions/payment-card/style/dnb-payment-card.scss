@@ -8,37 +8,12 @@
 
 .dnb-payment-card {
   --color-dark-cyan: #003b47;
-  --dnb-payment-bg-default: linear-gradient(
-    187.2deg,
-    #008484 6.31%,
-    var(--color-sea-green) 82.66%
-  );
-  --dnb-payment-bg-pluss: linear-gradient(
-      187.2deg,
-      var(--color-dark-cyan) 6.31%,
-      var(--color-ocean-green) 82.66%
-    ),
-    var(--color-emerald-green);
-  --dnb-payment-bg-white: linear-gradient(
-    184.55deg,
-    var(--color-black-background) 4.63%,
-    var(--color-white) 92.04%
-  );
-  --dnb-payment-bg-gold: linear-gradient(
-    184.55deg,
-    #bfa970 4.63%,
-    #d3bd83 84.57%
-  );
-  --dnb-payment-bg-saga: linear-gradient(
-    187.2deg,
-    #1c1c1c 6.31%,
-    #000 82.66%
-  );
-  --dnb-payment-bg-private: linear-gradient(
-    187.2deg,
-    #1c1c1c 6.31%,
-    #000 82.66%
-  );
+  --dnb-payment-bg-default: var(--color-sea-green);
+  --dnb-payment-bg-pluss: var(--color-ocean-green);
+  --dnb-payment-bg-white: var(--color-white);
+  --dnb-payment-bg-gold: #D8C583;
+  --dnb-payment-bg-black-gold:  #1F1B10;
+  --dnb-payment-bg-black-grey: #1C1C1E;
   --dnb-payment-bg-business-no-visa: linear-gradient(
       187.2deg,
       var(--color-dark-cyan) 6.31%,
@@ -82,29 +57,37 @@
     }
 
     &--design-ung {
+      background: var(--dnb-payment-bg-white);
       color: var(--color-black-80);
     }
 
     &--design-youth {
+      background: var(--dnb-payment-bg-white);
       color: var(--color-black-80);
     }
 
     &--design-my-first {
+      background: var(--dnb-payment-bg-white);
       color: var(--color-black-80);
     }
 
     &--design-gold {
       background: var(--dnb-payment-bg-gold);
-      color: var(--color-white);
+      color: var(--color-black);
     }
 
     &--design-saga {
-      background: var(--dnb-payment-bg-saga);
+      background: var(--dnb-payment-bg-black-gold);
+      color: var(--color-white);
+    }
+
+    &--design-saga-platinum {
+      background: var(--dnb-payment-bg-black-grey);
       color: var(--color-white);
     }
 
     &--design-private {
-      background: var(--dnb-payment-bg-private);
+      background: var(--dnb-payment-bg-black-grey);
       color: var(--color-white);
     }
 
