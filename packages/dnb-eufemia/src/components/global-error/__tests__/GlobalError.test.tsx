@@ -190,7 +190,7 @@ describe('GlobalError', () => {
     )
   })
 
-  it('should set custom status code', () => {
+  it('should set custom error message code', () => {
     render(
       <GlobalError {...props} errorMessageCode="My text: %statusCode" />
     )
