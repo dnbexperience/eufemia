@@ -168,6 +168,9 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
 
   const additionalContent = processChildren(allProps)
 
+  // deprecated – Replaced with errorMessageCode, code and the line below can be removed in v11.
+  const userProvidedCodeValue = localProps.hasOwnProperty('code')
+
   return (
     <Skeleton {...params} show={skeleton} element="section">
       <div className="dnb-global-error__inner">
@@ -176,12 +179,12 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
             {title}
           </H1>
           <P bottom {...textParams} />
-          {code && (
+          {userProvidedCodeValue && code && (
             <P bottom className="dnb-global-error__status">
               {code} {statusToUse && <Code>{statusToUse}</Code>}
             </P>
           )}
-          {errorMessageCode && (
+          {!userProvidedCodeValue && errorMessageCode && (
             <P bottom className="dnb-global-error__status">
               {String(errorMessageCode).replace(
                 '%statusCode',
