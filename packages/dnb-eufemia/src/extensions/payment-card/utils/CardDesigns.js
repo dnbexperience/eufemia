@@ -1,6 +1,14 @@
 import properties from '../../../style/themes/theme-ui/properties'
 import { DNB, Saga, PB, Mastercard, BankAxept, Visa } from './Types'
-import { myFirstImg, youthImg, ungImg } from './backgrounds'
+import {
+  myFirstImg,
+  youthImg,
+  visaDefault,
+  visaPluss,
+  visaSagaGold,
+  visaSagaPlatinum,
+  mastercardGold
+} from './backgrounds'
 
 const defaultDesign = {
   name: 'Default',
@@ -11,6 +19,7 @@ const defaultDesign = {
   bankAxept: BankAxept.White,
   saga: Saga.None,
   privateBanking: PB.None,
+  backgroundImage: visaDefault,
 }
 
 const pluss = {
@@ -22,6 +31,7 @@ const pluss = {
   bankAxept: BankAxept.White,
   saga: Saga.None,
   privateBanking: PB.None,
+  backgroundImage: visaPluss,
 }
 
 const young = {
@@ -33,7 +43,6 @@ const young = {
   bankAxept: BankAxept.Black,
   saga: Saga.None,
   privateBanking: PB.None,
-  backgroundImage: ungImg,
 }
 
 const myFirst = {
@@ -63,12 +72,13 @@ const youth = {
 const gold = {
   name: 'Gold',
   cardStyle: 'card--design-gold',
-  bankLogo: DNB.Colored(properties['--color-white']),
-  visa: Visa.Colored(properties['--color-white']),
+  bankLogo: DNB.Colored(properties['--color-black']),
+  visa: Visa.Colored(properties['--color-black']),
   mastercard: Mastercard.Default,
   bankAxept: BankAxept.White,
   saga: Saga.None,
   privateBanking: PB.None,
+  backgroundImage: mastercardGold,
 }
 
 const saga = {
@@ -80,17 +90,19 @@ const saga = {
   bankAxept: BankAxept.Gold,
   saga: Saga.Gold,
   privateBanking: PB.None,
+  backgroundImage: visaSagaGold,
 }
 
 const sagaPlatinum = {
   name: 'Saga platinum',
-  cardStyle: 'card--design-saga',
+  cardStyle: 'card--design-saga-platinum',
   bankLogo: DNB.Colored('#b2b4b3'),
   visa: Visa.Colored('#cccccc'),
   mastercard: Mastercard.Dark,
   bankAxept: BankAxept.Black20,
   saga: Saga.Platinum,
   privateBanking: PB.None,
+  backgroundImage: visaSagaPlatinum,
 }
 
 const privateBanking = {
@@ -102,6 +114,7 @@ const privateBanking = {
   bankAxept: BankAxept.Gray,
   saga: Saga.None,
   privateBanking: PB.Default,
+  backgroundImage: visaSagaPlatinum,
 }
 
 const mcBlack = {
