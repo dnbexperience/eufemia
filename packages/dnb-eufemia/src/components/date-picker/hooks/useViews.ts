@@ -9,8 +9,6 @@ export type ViewDates = {
   endMonth?: DatePickerDates['endMonth']
 }
 
-export type ClickedCalendarDays = { start?: Date; end?: Date }
-
 export type UseViewsParams = ViewDates & {
   isRange?: boolean
 }
