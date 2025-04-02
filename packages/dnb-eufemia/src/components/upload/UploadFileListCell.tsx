@@ -100,7 +100,8 @@ const UploadFileListCell = ({
 
   const imageUrl = file?.size > 0 ? URL.createObjectURL(file) : null
   const cellRef = useRef<HTMLLIElement>()
-  const isDuplicate = !allowDuplicates && useExistsHighlight(id, file)
+  const exists = useExistsHighlight(id, file)
+  const isDuplicate = !allowDuplicates && exists
 
   const handleDisappearFocus = useCallback(() => {
     const cellElement = cellRef.current
