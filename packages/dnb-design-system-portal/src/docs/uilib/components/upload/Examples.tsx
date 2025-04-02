@@ -126,7 +126,7 @@ export const UploadRemoveFile = () => (
 
               reader.readAsDataURL(file)
             })
-          }, [files, images])
+          }, [files])
 
           return (
             <Section aria-label="List of chosen images">
