@@ -2,7 +2,11 @@ import React, { useCallback, useContext } from 'react'
 import StringValue, { Props as StringValueProps } from '../String'
 import useTranslation from '../../hooks/useTranslation'
 import SharedContext, { AnyLocale } from '../../../../shared/Context'
-import { formatDate } from '../../../../components/date-picker/utils/formatDate'
+import {
+  formatDate,
+  formatDateRange,
+} from '../../../../components/date-picker/DatePickerCalc'
+import { parseRangeValue } from '../../Field/Date'
 
 export type Props = StringValueProps & {
   variant?: 'long' | 'short' | 'numeric'
@@ -19,6 +23,15 @@ function DateComponent(props: Props) {
     (value: string) => {
       if (!value) {
         return undefined
+      }
+
+      // Range values contains the pipe separator in the middle
+      const isRange = /\|/.test(value)
+
+      if (isRange) {
+        const [startDate, endDate] = parseRangeValue(value)
+
+        return formatDateRange({ startDate, endDate }, { locale, variant })
       }
 
       return formatDate(value, { locale, variant })
