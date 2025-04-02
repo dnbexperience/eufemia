@@ -190,7 +190,7 @@ describe('GlobalError', () => {
     )
   })
 
-  it('should set custom status code', () => {
+  it('should set custom error message code', () => {
     render(
       <GlobalError {...props} errorMessageCode="My text: %statusCode" />
     )
@@ -199,7 +199,7 @@ describe('GlobalError', () => {
     expect(elem.textContent).toMatchInlineSnapshot(`"My text: 404"`)
   })
 
-  it('should remove status code when set to empty', () => {
+  it('should remove error message code when set to empty', () => {
     render(<GlobalError {...props} errorMessageCode="" />)
 
     expect(
