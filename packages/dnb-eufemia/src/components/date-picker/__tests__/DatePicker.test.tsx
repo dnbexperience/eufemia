@@ -2216,6 +2216,58 @@ describe('DatePicker component', () => {
     expect(endMonth).toHaveTextContent('desember 2024')
   })
 
+  it('should display month based on input value when opening picker', async () => {
+    render(<DatePicker showInput />)
+
+    const dayInput = document.querySelector('.dnb-date-picker__input--day')
+
+    await userEvent.click(dayInput)
+    await userEvent.keyboard('10022001')
+    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+
+    const startMonth = document.querySelector(
+      '.dnb-date-picker__header__title'
+    )
+    const selectedMonth = document.querySelector('[aria-current="date"]')
+
+    expect(startMonth).toHaveTextContent('februar 2001')
+    expect(selectedMonth).toHaveAttribute(
+      'aria-label',
+      'lørdag 10. februar 2001'
+    )
+  })
+
+  it('should display correct months in calendar view based on input value when opening the picker in range mode', async () => {
+    render(
+      <DatePicker startMonth="2024-01-01" endMonth="2024-12-31" range />
+    )
+
+    const dayInput = document.querySelector('.dnb-date-picker__input--day')
+
+    await userEvent.click(dayInput)
+    await userEvent.keyboard('0103200106042003')
+    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+
+    const [startMonth, endMonth] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__header__title')
+    )
+
+    const [selectedStartMonth, selectedEndMonth] = Array.from(
+      document.querySelectorAll('[aria-current="date"]')
+    )
+
+    expect(startMonth).toHaveTextContent('mars 2001')
+    expect(endMonth).toHaveTextContent('april 2003')
+    expect(selectedStartMonth).toHaveAttribute(
+      'aria-label',
+      'torsdag 1. mars 2001'
+    )
+    expect(selectedEndMonth).toHaveAttribute(
+      'aria-label',
+      'søndag 6. april 2003'
+    )
+  })
+
   describe('size', () => {
     it('has correct small size', () => {
       render(<DatePicker {...defaultProps} size="small" />)
