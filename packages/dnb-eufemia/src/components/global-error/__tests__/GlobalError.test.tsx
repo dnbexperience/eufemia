@@ -135,6 +135,39 @@ describe('GlobalError', () => {
     })
   })
 
+  // Deprecated – code is replaced with errorMessageCode - can be removed in v11
+  describe('has to support deprecated code property', () => {
+    it('should set custom status code', () => {
+      render(<GlobalError {...props} code="My text:" />)
+
+      const elem = document.querySelector('.dnb-global-error__status')
+      expect(elem.textContent).toMatchInlineSnapshot(`"My text: 404"`)
+      expect(elem.querySelector('code').textContent).toBe('404')
+    })
+
+    it('should remove status code when set to empty', () => {
+      render(<GlobalError {...props} code="" />)
+
+      expect(
+        document.querySelector('.dnb-global-error__status')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should prioritize code over errorMessageCode', () => {
+      render(
+        <GlobalError
+          {...props}
+          code="My text:"
+          errorMessageCode="Your text:"
+        />
+      )
+
+      const elem = document.querySelector('.dnb-global-error__status')
+      expect(elem.textContent).toMatchInlineSnapshot(`"My text: 404"`)
+      expect(elem.querySelector('code').textContent).toBe('404')
+    })
+  })
+
   it('has to have title and text props as defined in the prop', () => {
     render(<GlobalError {...props} />)
 
@@ -155,19 +188,19 @@ describe('GlobalError', () => {
     expect(elem.textContent).toMatchInlineSnapshot(
       `"Feilmeldings-kode: 404"`
     )
-    expect(elem.querySelector('code').textContent).toBe('404')
   })
 
-  it('should set custom status code', () => {
-    render(<GlobalError {...props} code="My text:" />)
+  it('should set custom error message code', () => {
+    render(
+      <GlobalError {...props} errorMessageCode="My text: %statusCode" />
+    )
 
     const elem = document.querySelector('.dnb-global-error__status')
     expect(elem.textContent).toMatchInlineSnapshot(`"My text: 404"`)
-    expect(elem.querySelector('code').textContent).toBe('404')
   })
 
-  it('should remove status code when set to empty', () => {
-    render(<GlobalError {...props} code="" />)
+  it('should remove error message code when set to empty', () => {
+    render(<GlobalError {...props} errorMessageCode="" />)
 
     expect(
       document.querySelector('.dnb-global-error__status')
