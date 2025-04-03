@@ -278,7 +278,10 @@ export function transformFiles(value: UploadValue) {
     value.map((item) => {
       if (item?.file && !(item.file instanceof File)) {
         // To support session storage, we recreated the file blob.
-        item['file'] = new File([], item['name'])
+        item['file'] = new File([], item['name'] || item?.file['name'], {
+          lastModified: (item.file as File)?.lastModified ?? 0,
+          type: (item.file as File)?.type ?? '',
+        })
       }
       return item
     })
