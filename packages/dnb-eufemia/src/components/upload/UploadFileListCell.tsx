@@ -73,7 +73,7 @@ export type UploadFileListCellProps = {
   download?: boolean
 
   /**
-   * Allows uploading duplicate files.
+   * Allows uploading of duplicate files.
    * Default: false
    */
   allowDuplicates?: boolean
