@@ -374,7 +374,7 @@ const cardData = [
     productName: '?',
     displayName: 'Black Mastercard',
     cardDesign: mcBlack,
-    productType: ProductType.None,
+    productType: ProductType.WorldElite,
     cardType: CardType.Mastercard,
     bankAxept: BankAxeptType.None,
   },
