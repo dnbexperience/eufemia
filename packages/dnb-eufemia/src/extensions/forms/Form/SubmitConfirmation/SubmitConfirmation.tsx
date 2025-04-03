@@ -56,7 +56,7 @@ function SubmitConfirmation(props: ConfirmProps) {
 
   const {
     setFormState,
-    setHandleSubmit,
+    setFieldEventListener,
     handleSubmit: handleFinalSubmit,
     submitState,
     formElementRef,
@@ -171,10 +171,12 @@ function SubmitConfirmation(props: ConfirmProps) {
     },
     [setConfirmationState, validatePreventSubmit]
   )
-  setHandleSubmit?.(handleSubmit)
+  setFieldEventListener?.(undefined, 'onSubmit', handleSubmit)
 
   const submitHandler = useCallback(async () => {
-    setHandleSubmit?.(handleSubmit, { remove: true })
+    setFieldEventListener?.(undefined, 'onSubmit', handleSubmit, {
+      remove: true,
+    })
 
     await setConfirmationState('submitInProgress')
     await handleFinalSubmit()
@@ -185,7 +187,7 @@ function SubmitConfirmation(props: ConfirmProps) {
     handleFinalSubmit,
     handleSubmit,
     setFocusOnButton,
-    setHandleSubmit,
+    setFieldEventListener,
     setConfirmationState,
   ])
 
