@@ -1,7 +1,19 @@
 import React from 'react'
 
 import BankAxept from './BankAxept'
-import DNB from './DNB'
+// brand logos
+import DNB from './brandLogos/DNB'
+import Sbanken from './brandLogos/Sbanken'
+// loyalty logos
+import Bedrift from './loyaltyLogos/Bedrift'
+import Business from './loyaltyLogos/Business'
+import Corporate from './loyaltyLogos/Corporate'
+import Intro from './loyaltyLogos/Intro'
+import PB from './loyaltyLogos/PB'
+import Pluss from './loyaltyLogos/Pluss'
+import SagaGold from './loyaltyLogos/SagaGold'
+import SagaPlatinum from './loyaltyLogos/SagaPlatinum'
+import WorldElite from './loyaltyLogos/WorldElite'
 import {
   clock_medium as Expired,
   padlock_medium as Blocked,
@@ -11,16 +23,8 @@ import {
 } from '../../../icons'
 import MastercardDefault from './MastercardDefault'
 import MastercardDark from './MastercardDark'
-import Pluss from './Pluss'
-import Intro from './Intro'
-import Business from './Business'
-import Bedrift from './Bedrift'
-import PB from './PB'
-import SagaGold from './SagaGold'
-import SagaPlatinum from './SagaPlatinum'
 import VisaDefault from './VisaDefault'
 import VisaPlatinum from './VisaPlatinum'
-import Sbanken from './Sbanken'
 import Credit from './Credit'
 const BankLogo = ({ logoType, height }) =>
   logoType.cata({
@@ -53,6 +57,8 @@ const ProductLogo = ({ productType, cardDesign }) => {
     Intro: () => <Intro className={id} />,
     Business: () => <Business className={id} />,
     Bedrift: () => <Bedrift className={id} />,
+    Corporate: () => <Corporate className={id} />,
+    WorldElite: () => <WorldElite className={id} />,
     PrivateBanking: () =>
       cardDesign.privateBanking.cata({
         Default: () => <PB className={id} />,

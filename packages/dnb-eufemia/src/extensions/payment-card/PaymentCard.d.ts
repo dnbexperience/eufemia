@@ -26,6 +26,8 @@ export enum ProductType {
   Business,
   Bedrift,
   PrivateBanking,
+  Corporate,
+  WorldElite,
   None
 }
 export enum BankAxept {
