@@ -272,12 +272,6 @@ function CardText({ cardNumber, translations, skeleton }) {
         createSkeletonClass('font', skeleton)
       )}
     >
-      <P
-        className="dnb-payment-card__card__holder"
-        modifier="x-small medium"
-      >
-        {translations.text_card_number}
-      </P>
       <P className="dnb-payment-card__card__numbers">{cardNumber}</P>
     </span>
   )
