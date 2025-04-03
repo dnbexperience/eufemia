@@ -33,6 +33,7 @@ import {
   getWeek,
   dayOffset,
   getCalendar,
+  formatDate,
 } from './DatePickerCalc'
 import Button, { ButtonProps } from '../button/Button'
 import DatePickerContext from './DatePickerContext'
@@ -137,21 +138,6 @@ const keysToHandle = ['Enter', 'Space', ...arrowKeys]
 const titleFormat: Intl.DateTimeFormatOptions = {
   month: 'long',
   year: 'numeric',
-}
-
-// Replace with formatDate
-function quickFormat({
-  date,
-  locale,
-  options,
-}: {
-  date: number | Date
-  locale: string
-  options?: Intl.DateTimeFormatOptions
-}) {
-  const intl = new Intl.DateTimeFormat(locale, options)
-
-  return intl.format(date)
 }
 
 function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
@@ -536,19 +522,17 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
             className="dnb-date-picker__header__title dnb-no-focus"
             title={selectedMonth.replace(
               /%s/,
-              quickFormat({
-                date: month,
+              formatDate(month, {
                 locale,
-                options: titleFormat,
+                formatOptions: titleFormat,
               })
             )}
             tabIndex={-1}
             ref={labelRef}
           >
-            {quickFormat({
-              date: month,
+            {formatDate(month, {
               locale,
-              options: titleFormat,
+              formatOptions: titleFormat,
             })}
           </label>
           <div className="dnb-date-picker__header__nav">
@@ -582,16 +566,14 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                   role="columnheader"
                   scope="col"
                   className="dnb-date-picker__labels__day"
-                  aria-label={quickFormat({
-                    date: day,
+                  aria-label={formatDate(day, {
                     locale,
-                    options: { weekday: 'long' },
+                    formatOptions: { weekday: 'long' },
                   })}
                 >
-                  {quickFormat({
-                    date: day,
+                  {formatDate(day, {
                     locale,
-                    options: { weekday: 'short' },
+                    formatOptions: { weekday: 'short' },
                   }).substring(0, 2)}
                 </th>
               ))}
@@ -607,10 +589,9 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                 className="dnb-date-picker__days"
               >
                 {week.map((day: DayObject, i) => {
-                  const title = quickFormat({
-                    date: day.date,
+                  const title = formatDate(day.date, {
                     locale,
-                    options: {
+                    formatOptions: {
                       weekday: 'long',
                       day: 'numeric',
                       month: 'long',
@@ -749,10 +730,9 @@ function CalendarButton({
 
   const title = tr[`${type}Month`].replace(
     /%s/,
-    quickFormat({
-      date: subMonths(month, 1),
+    formatDate(subMonths(month, 1), {
       locale,
-      options: {
+      formatOptions: {
         month: 'long',
         year: 'numeric',
       },

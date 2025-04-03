@@ -56,6 +56,11 @@ import { DatePickerDates } from './hooks/useDates'
 import { useTranslation } from '../../shared'
 import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 import DatePickerPortal from './DatePickerPortal'
+import {
+  FormatDateOptions,
+  formatDate,
+  formatDateRange,
+} from './DatePickerCalc'
 
 export type DatePickerEventAttributes = {
   day?: string
@@ -871,31 +876,27 @@ function DatePicker(externalProps: DatePickerAllProps) {
   }
 
   const selectedDateTitle = useMemo(() => {
-    const { selectedDate, start, end } = translation
+    const { selectedDate } = translation
     const { startDate, endDate } = dates
 
+    if (!startDate) {
+      return ''
+    }
+
     //  Replace with formatDate
-    const formatter = new Intl.DateTimeFormat(context.locale, {
-      weekday: 'long',
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-    })
-
-    // Handle non range formatting
-    if (!range && startDate) {
-      return selectedDate.replace(/%s/, formatter.format(startDate))
+    const options: FormatDateOptions = {
+      locale: context.locale,
+      formatOptions: {
+        weekday: 'long',
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+      },
     }
 
-    // Handle range formatting
-    if (startDate && endDate) {
-      const formattedStartDate = formatter.format(startDate)
-      const formattedEndDate = formatter.format(endDate)
-
-      return `${start} ${formattedStartDate} - ${end} ${formattedEndDate}`
-    }
-
-    return ''
+    return range && endDate
+      ? formatDateRange({ startDate, endDate }, options)
+      : selectedDate.replace(/%s/, formatDate(startDate, options))
   }, [range, translation, dates, context.locale])
 
   const mainParams = {
