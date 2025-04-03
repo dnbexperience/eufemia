@@ -399,3 +399,42 @@ export const UploadOnFileClick = () => (
     }}
   </ComponentBox>
 )
+
+export const UploadFileEmptySize = () => (
+  <ComponentBox
+    scope={{ createMockFile, createRequest }}
+    data-visual-test="upload-file-empty-size"
+  >
+    {() => {
+      const Component = () => {
+        const { setFiles } = Upload.useUpload('upload-file-size-empty')
+
+        React.useEffect(() => {
+          setFiles([
+            {
+              file: createMockFile('1501870.jpg', 0, 'image/png'),
+              id: '1',
+            },
+            {
+              file: createMockFile(
+                'file-name-that-is-very-long-and-has-letters.png',
+                0,
+                'image/png',
+              ),
+              id: '2',
+            },
+          ])
+        }, [setFiles])
+
+        return (
+          <Upload
+            acceptedFileTypes={['jpg', 'png']}
+            id="upload-file-size-empty"
+          />
+        )
+      }
+
+      return <Component />
+    }}
+  </ComponentBox>
+)

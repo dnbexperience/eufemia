@@ -166,6 +166,7 @@ const UploadFileListCell = ({
           href={imageUrl}
           download={download}
           onClick={onClick}
+          bottom={0}
         />
       </div>
     )
