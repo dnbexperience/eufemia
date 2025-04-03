@@ -1,6 +1,5 @@
 import React from 'react'
 
-import BankAxept from './BankAxept'
 // brand logos
 import DNB from './brandLogos/DNB'
 import Sbanken from './brandLogos/Sbanken'
@@ -14,6 +13,14 @@ import Pluss from './loyaltyLogos/Pluss'
 import SagaGold from './loyaltyLogos/SagaGold'
 import SagaPlatinum from './loyaltyLogos/SagaPlatinum'
 import WorldElite from './loyaltyLogos/WorldElite'
+// provider icons
+import BankAxept from './providers/BankAxept'
+import ClickToPay from './providers/ClickToPay'
+import MastercardDefault from './providers/MastercardDefault'
+import MastercardDark from './providers/MastercardDark'
+import VisaDefault from './providers/VisaDefault'
+import VisaPlatinum from './providers/VisaPlatinum'
+// status icons
 import {
   clock_medium as Expired,
   padlock_medium as Blocked,
@@ -21,10 +28,6 @@ import {
   hourglass as Hourglass,
   question_medium as QuestionMark,
 } from '../../../icons'
-import MastercardDefault from './MastercardDefault'
-import MastercardDark from './MastercardDark'
-import VisaDefault from './VisaDefault'
-import VisaPlatinum from './VisaPlatinum'
 import Credit from './Credit'
 const BankLogo = ({ logoType, height }) =>
   logoType.cata({
@@ -73,12 +76,12 @@ const BankAxeptLogo = ({ bankAxept, cardDesign }) => {
   return bankAxept.cata({
     BankAxept: () =>
       cardDesign.bankAxept.cata({
-        White: () => <BankAxept className={id} fill="#ffffff" />,
-        Black20: () => <BankAxept className={id} fill="#cccccc" />,
+        White: () => <BankAxept className={id} fill="#FFFFFF" />,
+        Black20: () => <BankAxept className={id} fill="#CCCCCC" />,
         Gray: () => <BankAxept className={id} fill="#b2b4b3" />,
         GrayDark: () => <BankAxept className={id} fill="#55565A" />,
-        Black: () => <BankAxept className={id} fill="#333333" />,
-        Gold: () => <BankAxept className={id} fill="#BFA970" />,
+        Black: () => <BankAxept className={id} fill="#000000" />,
+        Gold: () => <BankAxept className={id} fill="#CAAB51" />,
       }),
     Credit: () => (
       <Credit className={'dnb-payment-card__card__credit'} fill="#fff" />
