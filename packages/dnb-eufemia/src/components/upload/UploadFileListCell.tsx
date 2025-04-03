@@ -26,7 +26,7 @@ import { UploadFile, UploadFileNative } from './types'
 
 // Shared
 import { getPreviousSibling } from '../../shared/component-helper'
-import useUpload, { isFilesDuplicates } from './useUpload'
+import useUpload, { isFileEqual } from './useUpload'
 import { getFileTypeFromExtension } from './UploadVerify'
 import UploadFileLink from './UploadFileListLink'
 import { ProgressIndicatorAllProps } from '../progress-indicator/types'
@@ -191,7 +191,7 @@ function useExistsHighlight(id: string, file: File) {
 
   React.useEffect(() => {
     const exists = internalFiles.some(({ exists, file: f }) => {
-      return exists && isFilesDuplicates(file, f)
+      return exists && isFileEqual(file, f)
     })
 
     if (exists) {

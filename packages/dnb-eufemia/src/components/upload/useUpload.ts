@@ -45,7 +45,7 @@ function useUpload(id: UploadProps['id']): useUploadReturn {
   const getExistingFile = useCallback(
     (file: File, fileItems: Array<UploadFile> = files) => {
       return fileItems.find(({ file: f }) => {
-        return isFilesDuplicates(file, f)
+        return isFileEqual(file, f)
       })
     },
     [files]
@@ -60,7 +60,7 @@ function useUpload(id: UploadProps['id']): useUploadReturn {
   }
 }
 
-export const isFilesDuplicates = (fileA: File, fileB: File): boolean => {
+export const isFileEqual = (fileA: File, fileB: File): boolean => {
   const compareExistingProperty = function (
     a: File,
     b: File,
