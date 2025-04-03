@@ -6,6 +6,23 @@ showTabs: true
 
 The `Form.useValidation` lets you monitor and modify field status or your form errors outside of the context.
 
+## APIs
+
+- `hasErrors(): boolean` - True if any error is present.
+- `hasFieldError(path: Path): boolean` - True if the field has an error.
+- `setFormError(error: Error | FormError | undefined)` - Report a form error.
+- `setFieldStatus(path: Path, status: EventStateObject)` - Show a field error.
+
+The `EventStateObject` is an object that can hold any of the following properties:
+
+```ts
+type EventStateObject = {
+  error?: Error | FormError | undefined
+  warning?: React.ReactNode | undefined
+  info?: React.ReactNode | undefined
+}
+```
+
 ## Usage
 
 You can use it in several ways. Like within the context of `Form.Handler`:
@@ -36,8 +53,8 @@ function Component() {
   // Report a form error
   setFormError(new Error('This is a global form error'))
 
-  // Clear the form error with a null or undefined value
-  setFormError(null)
+  // Clear the form error with a undefined value
+  setFormError(undefined)
 
   // Show a field error
   setFieldStatus('/path/to/field', {
@@ -133,7 +150,7 @@ function Component() {
 }
 ```
 
-To remove the field status, you can use `setFieldStatus('/path/to/field', { error: null })`.
+To remove the field status, you can use `setFieldStatus('/path/to/field', { error: undefined })`.
 
 ## Accessibility
 

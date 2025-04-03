@@ -41,7 +41,7 @@ export function HasErrors() {
                   path="/isVisible"
                 />
 
-                <Form.Visibility pathTrue="/isVisible">
+                <Form.Visibility pathTrue="/isVisible" animate>
                   <Field.String
                     path="/foo"
                     label="Label"

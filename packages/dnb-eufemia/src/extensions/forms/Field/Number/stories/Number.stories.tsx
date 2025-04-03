@@ -131,7 +131,7 @@ export const ConditionalInfo = () => {
 
     if (amount > maximum) {
       return new FormError('NumberField.errorMaximum', {
-        messageValues: { maximum: String(maximum) },
+        messageValues: { maximum: maximum.toString() },
       })
     }
   }
