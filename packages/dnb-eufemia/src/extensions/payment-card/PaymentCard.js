@@ -322,10 +322,6 @@ function NormalCard({
             productType={data.productType}
             cardDesign={data.cardDesign}
           />
-          <BankAxeptLogo
-            bankAxept={data.bankAxept}
-            cardDesign={data.cardDesign}
-          />
         </div>
         <div className="dnb-payment-card__card__bottom">
           <CardText
@@ -334,10 +330,16 @@ function NormalCard({
             translations={translations}
             skeleton={skeleton}
           />
-          <TypeLogo
-            cardType={data.cardType}
-            cardDesign={data.cardDesign}
-          />
+          <div className="dnb-payment-card__card__bottom__right">
+            <BankAxeptLogo
+                bankAxept={data.bankAxept}
+                cardDesign={data.cardDesign}
+            />
+            <TypeLogo
+                cardType={data.cardType}
+                cardDesign={data.cardDesign}
+            />
+          </div>
         </div>
       </div>
       <StatusOverlay cardStatus={cardStatus} translations={translations} />
