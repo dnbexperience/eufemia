@@ -171,10 +171,22 @@
       font-weight: var(--font-weight-regular);
     }
 
-    &__credit-type {
+    // &__credit-type {}
+    // &__bank-axept {}
+
+    &__bottom__right {
       position: absolute;
       bottom: 0;
       right: 0;
+      display: flex;
+      align-items: center;
+
+      // adds divider if there are two provider icons
+      svg + div {
+        border-left: solid 1px currentColor;
+        margin-left: 1rem;
+        padding-left: 1rem;
+      }
     }
 
     &__bank-logo {
@@ -184,17 +196,9 @@
     }
 
     &__product-type {
-      height: 38px;
       position: absolute;
       top: 0;
-      left: 70px;
-    }
-
-    &__bank-axept {
-      height: 45px;
-      position: absolute;
-      top: 0;
-      right: 0;
+      left: 50px;
     }
 
     &__credit {
