@@ -37,7 +37,7 @@ export const UploadProperties: PropertiesTableProps = {
     status: 'optional',
   },
   allowDuplicates: {
-    doc: 'Allows uploading duplicate files. Defaults to `false`.',
+    doc: 'Allows uploading of duplicate files. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
