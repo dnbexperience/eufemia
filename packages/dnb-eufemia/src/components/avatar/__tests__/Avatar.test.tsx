@@ -196,6 +196,28 @@ describe('Avatar', () => {
     ).toBe('color: red;')
   })
 
+  it('should support backgroundColor', () => {
+    render(
+      <Avatar.Group label="tags">
+        <Avatar backgroundColor="fire-red">A</Avatar>
+      </Avatar.Group>
+    )
+    expect(
+      document.querySelector('.dnb-avatar').getAttribute('style')
+    ).toBe('--background-color: var(--color-fire-red);')
+  })
+
+  it('should support color', () => {
+    render(
+      <Avatar.Group label="tags">
+        <Avatar color="fire-red">A</Avatar>
+      </Avatar.Group>
+    )
+    expect(
+      document.querySelector('.dnb-avatar').getAttribute('style')
+    ).toBe('--color: var(--color-fire-red);')
+  })
+
   describe('AvatarGroup', () => {
     it('renders the label as string', () => {
       const label = 'avatar'

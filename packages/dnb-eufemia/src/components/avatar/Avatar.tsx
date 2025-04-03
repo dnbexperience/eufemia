@@ -82,6 +82,18 @@ export interface AvatarProps
    * Default: null
    */
   hasLabel?: boolean
+
+  /**
+   * Define a custom background color, instead of a variant. Use a Eufemia color.
+   * Default: null
+   */
+  backgroundColor?: string
+
+  /**
+   * Define a custom color to compliment the backgroundColor. Use a Eufemia color.
+   * Default: null
+   */
+  color?: string
 }
 
 export const defaultProps = {
@@ -114,6 +126,8 @@ const Avatar = (localProps: AvatarProps & SpacingProps) => {
     src,
     imgProps,
     hasLabel,
+    backgroundColor,
+    color,
     ...props
   } = allProps
 
@@ -142,6 +156,12 @@ const Avatar = (localProps: AvatarProps & SpacingProps) => {
 
   validateDOMAttributes(allProps, props)
 
+  const style = {
+    '--background-color': getColor(backgroundColor),
+    '--color': getColor(color),
+    ...props?.style,
+  } as React.CSSProperties
+
   return (
     <span
       className={classnames(
@@ -152,6 +172,7 @@ const Avatar = (localProps: AvatarProps & SpacingProps) => {
         spacingClasses,
         className
       )}
+      style={style}
       {...props}
     >
       {childrenIsString && (
@@ -160,6 +181,17 @@ const Avatar = (localProps: AvatarProps & SpacingProps) => {
       {children}
     </span>
   )
+}
+
+function getColor(value: string) {
+  if (String(value).includes('--')) {
+    return value
+  }
+  return value
+    ? !/#|var/.test(value)
+      ? `var(--color-${value})`
+      : value
+    : undefined
 }
 
 Avatar.Group = AvatarGroup
