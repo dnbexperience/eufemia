@@ -282,7 +282,7 @@ export const GroupedAvatarsImg = () => (
 )
 
 export const AvatarCustomColors = () => (
-  <ComponentBox data-visual-test="avatar-custom-colors">
+  <ComponentBox hideCode data-visual-test="avatar-custom-colors">
     <Avatar.Group label="Persons">
       <Avatar backgroundColor="fire-red" color="sky-blue">
         Ola Nordmann
