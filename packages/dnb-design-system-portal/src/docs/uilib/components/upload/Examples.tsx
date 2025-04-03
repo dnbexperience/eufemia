@@ -56,7 +56,10 @@ export const UploadPrefilledFileList = () => (
 
 export const UploadBasic = () => (
   <ComponentBox data-visual-test="upload-basic">
-    <Upload acceptedFileTypes={['jpg', 'png']} />
+    <Upload
+      acceptedFileTypes={['jpg', 'png']}
+      onChange={({ files }) => console.log('onChange', files)}
+    />
   </ComponentBox>
 )
 

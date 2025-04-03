@@ -73,6 +73,12 @@ export type UploadFileListCellProps = {
   download?: boolean
 
   /**
+   * Allows uploading of duplicate files.
+   * Default: false
+   */
+  allowDuplicates?: boolean
+
+  /**
    * Text
    */
   loadingText: React.ReactNode
@@ -87,6 +93,7 @@ const UploadFileListCell = ({
   loadingText,
   deleteButtonText,
   download,
+  allowDuplicates,
 }: UploadFileListCellProps) => {
   const { file, errorMessage, isLoading } = uploadFile
   const hasWarning = errorMessage != null
@@ -94,6 +101,7 @@ const UploadFileListCell = ({
   const imageUrl = file?.size > 0 ? URL.createObjectURL(file) : null
   const cellRef = useRef<HTMLLIElement>()
   const exists = useExistsHighlight(id, file)
+  const isDuplicate = !allowDuplicates && exists
 
   const handleDisappearFocus = useCallback(() => {
     const cellElement = cellRef.current
@@ -115,7 +123,7 @@ const UploadFileListCell = ({
       className={classnames(
         'dnb-upload__file-cell',
         hasWarning && 'dnb-upload__file-cell--warning',
-        exists && 'dnb-upload__file-cell--highlight'
+        isDuplicate && 'dnb-upload__file-cell--highlight'
       )}
       ref={cellRef}
     >

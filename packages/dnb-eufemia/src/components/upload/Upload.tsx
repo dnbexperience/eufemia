@@ -55,6 +55,7 @@ const Upload = (localProps: UploadAllProps) => {
     onFileDelete, // eslint-disable-line
     onFileClick, // eslint-disable-line
     download, // eslint-disable-line
+    allowDuplicates, // eslint-disable-line
     title, // eslint-disable-line
     text, // eslint-disable-line
     fileTypeTableCaption, // eslint-disable-line
@@ -89,21 +90,25 @@ const Upload = (localProps: UploadAllProps) => {
           const existingFile = getExistingFile(file, files)
 
           fileItem.exists = Boolean(existingFile)
-          fileItem.id = fileItem.exists ? existingFile.id : makeUniqueId()
+          fileItem.id =
+            fileItem.exists && !allowDuplicates
+              ? existingFile.id
+              : makeUniqueId()
 
           return fileItem
         }),
       ]
 
-      const verifiedFiles = verifyFiles(
-        mergedFiles.filter(({ exists }) => !exists),
-        {
-          fileMaxSize,
-          acceptedFileTypes,
-          errorUnsupportedFile,
-          errorLargeFile,
-        }
-      )
+      const filesToVerify = allowDuplicates
+        ? mergedFiles
+        : mergedFiles.filter(({ exists }) => !exists)
+
+      const verifiedFiles = verifyFiles(filesToVerify, {
+        fileMaxSize,
+        acceptedFileTypes,
+        errorUnsupportedFile,
+        errorLargeFile,
+      })
 
       const validFiles = [...verifiedFiles].slice(
         0,
