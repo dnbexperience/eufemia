@@ -172,8 +172,8 @@ const Avatar = (localProps: AvatarProps & SpacingProps) => {
         spacingClasses,
         className
       )}
-      style={style}
       {...props}
+      style={style}
     >
       {childrenIsString && (
         <span className="dnb-sr-only">{childrenProp}</span>

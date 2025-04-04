@@ -57,6 +57,18 @@ export interface AvatarGroupProps
    * Default: false
    */
   skeleton?: SkeletonShow
+
+  /**
+   * Define a custom background color for the Avatars, instead of a variant. Use a Eufemia color.
+   * Default: null
+   */
+  backgroundColor?: string
+
+  /**
+   * Define a custom color to compliment the backgroundColor for the Avatars. Use a Eufemia color.
+   * Default: null
+   */
+  color?: string
 }
 
 export const defaultProps = {
@@ -82,6 +94,8 @@ const AvatarGroup = (localProps: AvatarGroupProps & SpacingProps) => {
     size,
     maxElements: maxElementsProp,
     variant,
+    backgroundColor,
+    color,
     ...props
   } = extendPropsWithContext(
     localProps,
@@ -112,9 +126,15 @@ const AvatarGroup = (localProps: AvatarGroupProps & SpacingProps) => {
         const appliedVariant = child.props.variant
           ? child.props.variant
           : variant
+        const appliedColor = child.props?.color ? child.props.color : color
+        const appliedBackgroundColor = child.props?.backgroundColor
+          ? child.props.backgroundColor
+          : backgroundColor
         return React.cloneElement(child, {
           size: appliedSize,
           variant: appliedVariant,
+          color: appliedColor,
+          backgroundColor: appliedBackgroundColor,
           style: { ...child.props.style, zIndex: total - i },
           key: i,
         })
