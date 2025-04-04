@@ -1,5 +1,5 @@
 import addMonths from 'date-fns/addMonths'
-import { useMemo, useRef, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import { DatePickerDates } from './useDates'
 
 export type CalendarView = { nr: number; month?: Date }
@@ -16,10 +16,10 @@ export type UseViewsParams = ViewDates & {
 export default function useViews({ isRange, ...dates }: UseViewsParams) {
   const [previousDates, setPreviousDates] = useState(dates)
   const [views, setViews] = useState<Array<CalendarView>>(
-    getViews({ views: undefined, ...dates, isRange })
+    getViews({ ...dates, isRange })
   )
 
-  const forceViewChange = useRef(false)
+  const hasClickedCalendarDay = useRef<boolean>(false)
 
   const hasDateChanges = useMemo(
     () =>
@@ -29,20 +29,25 @@ export default function useViews({ isRange, ...dates }: UseViewsParams) {
     [dates, previousDates]
   )
 
+  const setHasClickedCalendarDay = useCallback(
+    (hasClicked: boolean) => (hasClickedCalendarDay.current = hasClicked),
+    []
+  )
+
   if (hasDateChanges) {
-    const currentViews = Array.isArray(views)
-      ? views.length > 1
-        ? views
-        : views[0]
-      : views
-
-    // Maintain range views unless forced to change by shortcut or keyboard navigation
-    if (forceViewChange.current || !isRange) {
-      setViews(getViews({ ...dates, views: currentViews, isRange }))
-      forceViewChange.current = false
-    }
-
     setPreviousDates(dates)
+
+    // Stop here if the user has clicked a day in the calendar, as we don't want update the views then
+    if (hasClickedCalendarDay.current) {
+      setHasClickedCalendarDay(false)
+    } else {
+      const updatedViews = getViews({
+        ...dates,
+        isRange,
+      })
+
+      setViews(updatedViews)
+    }
   }
 
   function updateViews(
@@ -53,44 +58,28 @@ export default function useViews({ isRange, ...dates }: UseViewsParams) {
     cb?.()
   }
 
-  function forceViewMonthChange() {
-    forceViewChange.current = true
-  }
-
   return {
     views,
     setViews: updateViews,
-    forceViewMonthChange,
+    setHasClickedCalendarDay,
   } as const
 }
 
 export function getViews({
-  views,
   isRange,
   ...dates
-}: ViewDates &
-  UseViewsParams & {
-    views?: CalendarView | Array<CalendarView>
-  }): Array<CalendarView> {
-  // fill the views with the calendar data getMonth()
-  return (
-    Array.isArray(views)
-      ? views
-      : Array(
-          isRange
-            ? 2 // set default range calendars
-            : views
-        ).fill(1)
-  ).map((view, nr) => ({
-    month: getMonthView({ ...dates }, nr),
-    nr,
-  }))
+}: ViewDates & UseViewsParams): Array<CalendarView> {
+  return isRange
+    ? [
+        { nr: 0, month: getMonthView({ months: dates, nr: 0 }) },
+        { nr: 1, month: getMonthView({ months: dates, nr: 1 }) },
+      ]
+    : [{ nr: 0, month: getMonthView({ months: dates, nr: 0 }) }]
 }
 
-function getMonthView(
-  { startMonth, endMonth }: ViewDates,
-  nr: CalendarView['nr']
-) {
+function getMonthView({ months, nr }: { months: ViewDates; nr: number }) {
+  const { startMonth, endMonth } = months
+
   if (startMonth && nr === 0) {
     return startMonth
   }

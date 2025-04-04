@@ -44,7 +44,9 @@ import {
   getCalendar,
 } from './DatePickerCalc'
 import Button, { ButtonProps } from '../button/Button'
-import DatePickerContext from './DatePickerContext'
+import DatePickerContext, {
+  DatePickerContextValues,
+} from './DatePickerContext'
 import { useTranslation } from '../../shared'
 import { InternalLocale } from '../../shared/Context'
 import { DatePickerChangeEvent } from './DatePickerProvider'
@@ -165,7 +167,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
   const {
     updateDates,
-    forceViewMonthChange,
+    setHasClickedCalendarDay,
     startDate,
     endDate,
     hoverDate,
@@ -446,8 +448,6 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         })
       })
 
-      forceViewMonthChange()
-
       // and set the focus back again
       if (tableRef && tableRef.current) {
         tableRef.current.focus({ preventScroll: true })
@@ -468,7 +468,6 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       onlyMonth,
       endMonth,
       startMonth,
-      forceViewMonthChange,
     ]
   )
 
@@ -681,6 +680,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                                   endDate,
                                   resetDate,
                                   event,
+                                  setHasClickedCalendarDay,
                                   onSelect: (state) => {
                                     updateDates(state, (dates) =>
                                       callOnSelect({
@@ -693,11 +693,13 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                                   },
                                 })
                         }
+                        // TODO: See if this can be replaced with css, to prevent massive amount of re-renders
                         onMouseOver={
                           handleAsDisabled
                             ? undefined
                             : () => onHoverDay({ day, hoverDate, onHover })
                         }
+                        // TODO: See if this can be replaced with css, to prevent massive amount of re-renders
                         onFocus={
                           handleAsDisabled
                             ? undefined
@@ -773,7 +775,10 @@ function CalendarButton({
   )
 }
 
-type SelectRangeEvent = {
+type SelectRangeEvent = Pick<
+  DatePickerContextValues,
+  'setHasClickedCalendarDay'
+> & {
   day: DayObject
   event?: React.MouseEvent<HTMLButtonElement>
   startDate?: Date
@@ -791,6 +796,7 @@ function onSelectRange({
   onSelect,
   resetDate,
   event,
+  setHasClickedCalendarDay,
 }: SelectRangeEvent) {
   event.persist()
 
@@ -804,6 +810,9 @@ function onSelectRange({
 
     // for setting date new on every selection, do this here
   }
+
+  // Set to true to stop calendar views from changing in range mode when clicking a day
+  setHasClickedCalendarDay(true)
 
   if (!startDate || (resetDate && startDate && endDate)) {
     // set startDate
