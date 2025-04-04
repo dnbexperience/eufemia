@@ -26,7 +26,7 @@ import { UploadFile, UploadFileNative } from './types'
 
 // Shared
 import { getPreviousSibling } from '../../shared/component-helper'
-import useUpload from './useUpload'
+import useUpload, { isFileEqual } from './useUpload'
 import { getFileTypeFromExtension } from './UploadVerify'
 import UploadFileLink from './UploadFileListLink'
 import { ProgressIndicatorAllProps } from '../progress-indicator/types'
@@ -73,6 +73,12 @@ export type UploadFileListCellProps = {
   download?: boolean
 
   /**
+   * Allows uploading of duplicate files.
+   * Default: false
+   */
+  allowDuplicates?: boolean
+
+  /**
    * Text
    */
   loadingText: React.ReactNode
@@ -87,6 +93,7 @@ const UploadFileListCell = ({
   loadingText,
   deleteButtonText,
   download,
+  allowDuplicates,
 }: UploadFileListCellProps) => {
   const { file, errorMessage, isLoading } = uploadFile
   const hasWarning = errorMessage != null
@@ -94,6 +101,7 @@ const UploadFileListCell = ({
   const imageUrl = file?.size > 0 ? URL.createObjectURL(file) : null
   const cellRef = useRef<HTMLLIElement>()
   const exists = useExistsHighlight(id, file)
+  const isDuplicate = !allowDuplicates && exists
 
   const handleDisappearFocus = useCallback(() => {
     const cellElement = cellRef.current
@@ -115,7 +123,7 @@ const UploadFileListCell = ({
       className={classnames(
         'dnb-upload__file-cell',
         hasWarning && 'dnb-upload__file-cell--warning',
-        exists && 'dnb-upload__file-cell--highlight'
+        isDuplicate && 'dnb-upload__file-cell--highlight'
       )}
       ref={cellRef}
     >
@@ -158,6 +166,7 @@ const UploadFileListCell = ({
           href={imageUrl}
           download={download}
           onClick={onClick}
+          bottom={0}
         />
       </div>
     )
@@ -183,7 +192,7 @@ function useExistsHighlight(id: string, file: File) {
 
   React.useEffect(() => {
     const exists = internalFiles.some(({ exists, file: f }) => {
-      return exists && f.name === file.name && f.size === file.size
+      return exists && isFileEqual(file, f)
     })
 
     if (exists) {

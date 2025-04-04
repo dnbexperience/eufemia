@@ -45,11 +45,7 @@ function useUpload(id: UploadProps['id']): useUploadReturn {
   const getExistingFile = useCallback(
     (file: File, fileItems: Array<UploadFile> = files) => {
       return fileItems.find(({ file: f }) => {
-        return (
-          f.name === file.name &&
-          f.size === file.size &&
-          f.lastModified === file.lastModified
-        )
+        return isFileEqual(file, f)
       })
     },
     [files]
@@ -62,6 +58,29 @@ function useUpload(id: UploadProps['id']): useUploadReturn {
     setInternalFiles,
     getExistingFile,
   }
+}
+
+export const isFileEqual = (fileA: File, fileB: File): boolean => {
+  const compareExistingProperty = function (
+    a: File,
+    b: File,
+    property: string
+  ) {
+    return (
+      a &&
+      property in a &&
+      b &&
+      property in b &&
+      (a[property] === 0 || // If value is 0, which is default when not provided, we can't say whether the file is equal or not, so we assume they are.
+        b[property] === 0 || // If value is 0, which is default when not provided, we can't say whether the file is equal or not, so we assume they are.
+        a[property] === b[property])
+    )
+  }
+  return (
+    fileA.name === fileB.name &&
+    compareExistingProperty(fileA, fileB, 'size') &&
+    compareExistingProperty(fileA, fileB, 'lastModified')
+  )
 }
 
 export default useUpload

@@ -12,12 +12,15 @@ import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import SharedContext from '../../../../shared/Context'
 import { parseISO, isValid, isBefore, isAfter } from 'date-fns'
 import useTranslation from '../../hooks/useTranslation'
-import { FormatDateOptions, formatDate } from '../../Value/Date'
 import {
   DatePickerEvent,
   DatePickerProps,
 } from '../../../../components/DatePicker'
-import { convertStringToDate } from '../../../../components/date-picker/DatePickerCalc'
+import {
+  FormatDateOptions,
+  convertStringToDate,
+  formatDate,
+} from '../../../../components/date-picker/DatePickerCalc'
 import { ProviderProps } from '../../../../shared/Provider'
 import { FormError } from '../../utils'
 import startOfDay from 'date-fns/startOfDay'
@@ -279,7 +282,7 @@ function DateComponent(props: DateProps) {
   )
 }
 
-function parseRangeValue(value: DateProps['value']) {
+export function parseRangeValue(value: DateProps['value']) {
   return (
     value
       .split('|')

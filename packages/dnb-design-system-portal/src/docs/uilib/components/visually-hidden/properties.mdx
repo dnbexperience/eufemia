@@ -2,9 +2,9 @@
 showTabs: true
 ---
 
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { VisuallyHiddenProperties } from '@dnb/eufemia/src/components/visually-hidden/VisuallyHiddenDocs'
+
 ## Properties
 
-| Properties  | Description                                                                                                                                             |
-| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `element`   | _(optional)_ Custom root HTML element for the component. Defaults to `<span>`.                                                                          |
-| `focusable` | _(optional)_ Set to `true` to hide an element by default, but to display it when it’s focused (e.g. by a keyboard-only user) root. Defaults to `false`. |
+<PropertiesTable props={VisuallyHiddenProperties} />

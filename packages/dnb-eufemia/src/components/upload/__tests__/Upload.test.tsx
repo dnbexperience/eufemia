@@ -491,7 +491,7 @@ describe('Upload', () => {
     ).not.toHaveAttribute('disabled')
   })
 
-  it('will accept same file only once', async () => {
+  it('will accept same file only once when fileName, size and lastModified is equal', async () => {
     const id = 'only-once'
 
     const { result } = renderHook(useUpload, { initialProps: id })
@@ -503,6 +503,130 @@ describe('Upload', () => {
     const element = getRootElement()
     const file1 = createMockFile('fileName-1.png', 100, 'image/png')
     const file2 = createMockFile('fileName-2.png', 100, 'image/png')
+
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1] },
+      })
+    )
+
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1, file2] },
+      })
+    )
+
+    expect(result.current.files.length).toBe(2)
+    expect(result.current.files).toEqual([
+      { file: file1, id: expect.any(String), exists: false },
+      { file: file2, id: expect.any(String), exists: false },
+    ])
+    expect(result.current.internalFiles.length).toBe(3)
+    expect(result.current.internalFiles).toEqual([
+      { file: file1, id: expect.any(String), exists: false },
+      { file: file1, id: expect.any(String), exists: true },
+      { file: file2, id: expect.any(String), exists: false },
+    ])
+  })
+
+  it('will accept same file only once when fileName and lastModified is equal', async () => {
+    const id = 'only-once-filename-last-modified'
+
+    const { result } = renderHook(useUpload, { initialProps: id })
+
+    render(<Upload {...defaultProps} id={id} />)
+
+    const getRootElement = () => document.querySelector('.dnb-upload')
+
+    const element = getRootElement()
+    const file1 = createMockFile(
+      'fileName-1.png',
+      undefined,
+      'image/png',
+      1743671810161
+    )
+    const file2 = createMockFile(
+      'fileName-2.png',
+      undefined,
+      'image/png',
+      1743671810161
+    )
+
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1] },
+      })
+    )
+
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1, file2] },
+      })
+    )
+
+    expect(result.current.files.length).toBe(2)
+    expect(result.current.files).toEqual([
+      { file: file1, id: expect.any(String), exists: false },
+      { file: file2, id: expect.any(String), exists: false },
+    ])
+    expect(result.current.internalFiles.length).toBe(3)
+    expect(result.current.internalFiles).toEqual([
+      { file: file1, id: expect.any(String), exists: false },
+      { file: file1, id: expect.any(String), exists: true },
+      { file: file2, id: expect.any(String), exists: false },
+    ])
+  })
+
+  it('will accept same file only once when fileName and size is equal', async () => {
+    const id = 'only-once-file-name-size'
+
+    const { result } = renderHook(useUpload, { initialProps: id })
+
+    render(<Upload {...defaultProps} id={id} />)
+
+    const getRootElement = () => document.querySelector('.dnb-upload')
+
+    const element = getRootElement()
+    const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+    const file2 = createMockFile('fileName-2.png', 100, 'image/png')
+
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1] },
+      })
+    )
+
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1, file2] },
+      })
+    )
+
+    expect(result.current.files.length).toBe(2)
+    expect(result.current.files).toEqual([
+      { file: file1, id: expect.any(String), exists: false },
+      { file: file2, id: expect.any(String), exists: false },
+    ])
+    expect(result.current.internalFiles.length).toBe(3)
+    expect(result.current.internalFiles).toEqual([
+      { file: file1, id: expect.any(String), exists: false },
+      { file: file1, id: expect.any(String), exists: true },
+      { file: file2, id: expect.any(String), exists: false },
+    ])
+  })
+
+  it('will accept same file only once when fileName is equal', async () => {
+    const id = 'only-once-file-name'
+
+    const { result } = renderHook(useUpload, { initialProps: id })
+
+    render(<Upload {...defaultProps} id={id} />)
+
+    const getRootElement = () => document.querySelector('.dnb-upload')
+
+    const element = getRootElement()
+    const file1 = createMockFile('fileName-1.png', undefined, 'image/png')
+    const file2 = createMockFile('fileName-2.png', undefined, 'image/png')
 
     await waitFor(() =>
       fireEvent.drop(element, {
@@ -562,6 +686,75 @@ describe('Upload', () => {
         element.querySelectorAll('.dnb-upload__file-cell')[0].classList
       )
     ).toEqual(expect.arrayContaining(['dnb-upload__file-cell--highlight']))
+  })
+
+  it('will accept duplicate files when allowDuplicates', async () => {
+    const id = 'allow-duplicates'
+
+    const { result } = renderHook(useUpload, { initialProps: id })
+
+    render(<Upload {...defaultProps} id={id} allowDuplicates />)
+
+    const getRootElement = () => document.querySelector('.dnb-upload')
+
+    const element = getRootElement()
+    const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+    const file2 = createMockFile('fileName-2.png', 100, 'image/png')
+
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1] },
+      })
+    )
+
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1, file2] },
+      })
+    )
+
+    expect(result.current.files.length).toBe(3)
+    expect(result.current.files).toEqual([
+      { file: file1, id: expect.any(String), exists: false },
+      { file: file1, id: expect.any(String), exists: true },
+      { file: file2, id: expect.any(String), exists: false },
+    ])
+    expect(result.current.internalFiles.length).toBe(3)
+    expect(result.current.internalFiles).toEqual([
+      { file: file1, id: expect.any(String), exists: false },
+      { file: file1, id: expect.any(String), exists: true },
+      { file: file2, id: expect.any(String), exists: false },
+    ])
+  })
+
+  it('will not highlight same file when allowDuplicates', async () => {
+    const id = 'not-highlight-duplicates'
+
+    renderHook(useUpload, { initialProps: id })
+
+    render(<Upload {...defaultProps} id={id} allowDuplicates />)
+
+    const getRootElement = () => document.querySelector('.dnb-upload')
+
+    const element = getRootElement()
+    const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+    const file2 = createMockFile('fileName-2.png', 100, 'image/png')
+
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1] },
+      })
+    )
+
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1, file2] },
+      })
+    )
+
+    expect(
+      element.querySelector('.dnb-upload__file-cell--highlight')
+    ).not.toBeInTheDocument()
   })
 
   it('will return error when dropping a file with extension that is not accepted', async () => {

@@ -176,5 +176,12 @@ describe.each(['ui', 'sbanken'])('Avatar for %s', (themeName) => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
+    it('have to match setting custom colors', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="avatar-custom-colors"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
   })
 })

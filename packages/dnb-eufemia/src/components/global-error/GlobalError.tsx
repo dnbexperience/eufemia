@@ -26,6 +26,14 @@ export type GlobalErrorProps = {
    * When `404` or `500` is given, a predefined text will be shown.
    * Defaults to `404`.
    */
+  statusCode?: '404' | '500' | string
+
+  /**
+   *
+   * When `404` or `500` is given, a predefined text will be shown.
+   * Defaults to `404`.
+   * @deprecated – Replaced with statusCode, status can be removed in v11.
+   */
   status?: '404' | '500' | string
 
   /**
@@ -40,6 +48,12 @@ export type GlobalErrorProps = {
 
   /**
    * Will overwrite the default error message code.
+   */
+  errorMessageCode?: React.ReactNode
+
+  /**
+   * Will overwrite the default error message code.
+   * @deprecated – Replaced with errorMessageCode, code can be removed in v11.
    */
   code?: React.ReactNode
 
@@ -87,7 +101,9 @@ export type GlobalErrorTranslation = {
 }
 
 const defaultProps = {
+  // deprecated – Replaced with statusCode, status can be removed in v11.
   status: '404',
+  statusCode: '404',
 }
 
 export default function GlobalError(localProps: GlobalErrorAllProps) {
@@ -103,12 +119,15 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
     defaultProps,
     context?.GlobalError,
     translation,
-    translation[localProps.status || defaultProps.status],
+    translation[
+      localProps.status || localProps.statusCode || defaultProps.statusCode
+    ],
     { skeleton: context?.skeleton }
   )
 
   const {
     status,
+    statusCode,
     skeleton,
     center,
     className,
@@ -116,11 +135,15 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
     title,
     help,
     code,
+    errorMessageCode,
     links,
     text,
 
     ...attributes
   } = allProps
+
+  // When status is deprecated, we just use the statusCode
+  const statusToUse = status !== defaultProps.status ? status : statusCode
 
   const textParams: React.HTMLAttributes<HTMLElement> = {}
   if (typeof text === 'string') {
@@ -134,7 +157,7 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
   const params = {
     className: classnames(
       'dnb-global-error',
-      `dnb-global-error--${status}`,
+      `dnb-global-error--${statusToUse}`,
       center && 'dnb-global-error--center',
       createSpacingClasses(attributes),
       className,
@@ -145,6 +168,12 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
 
   const additionalContent = processChildren(allProps)
 
+  // deprecated – Replaced with errorMessageCode, code and the line below can be removed in v11.
+  const userProvidedCodeValue = Object.prototype.hasOwnProperty.call(
+    localProps,
+    'code'
+  )
+
   return (
     <Skeleton {...params} show={skeleton} element="section">
       <div className="dnb-global-error__inner">
@@ -153,9 +182,17 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
             {title}
           </H1>
           <P bottom {...textParams} />
-          {code && (
+          {userProvidedCodeValue && code && (
             <P bottom className="dnb-global-error__status">
-              {code} {status && <Code>{status}</Code>}
+              {code} {statusToUse && <Code>{statusToUse}</Code>}
+            </P>
+          )}
+          {!userProvidedCodeValue && errorMessageCode && (
+            <P bottom className="dnb-global-error__status">
+              {String(errorMessageCode).replace(
+                '%statusCode',
+                statusToUse
+              )}
             </P>
           )}
           {help && links?.length && (

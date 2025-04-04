@@ -77,3 +77,16 @@ export const inputMaskedProperties: PropertiesTableProps = {
     status: 'optional',
   },
 }
+
+export const inputMaskedEvents: PropertiesTableProps = {
+  on_change: {
+    doc: 'will be called on value changes made by the user. Returns an object with the value as a string and the native event: `{ value, numberValue, cleanedValue, event }`.',
+    type: 'function',
+    status: 'optional',
+  },
+  '[Input](/uilib/components/input/events)': {
+    doc: 'All `Input` events are supported.',
+    type: 'Various',
+    status: 'optional',
+  },
+}

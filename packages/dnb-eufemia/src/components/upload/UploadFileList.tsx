@@ -13,6 +13,7 @@ function UploadFileList() {
     fileListAriaLabel,
     deleteButton,
     download,
+    allowDuplicates,
     loadingText,
     onFileDelete,
     onFileClick,
@@ -139,6 +140,7 @@ function UploadFileList() {
             deleteButtonText={deleteButton}
             loadingText={loadingText}
             download={download}
+            allowDuplicates={allowDuplicates}
           />
         )
       })}

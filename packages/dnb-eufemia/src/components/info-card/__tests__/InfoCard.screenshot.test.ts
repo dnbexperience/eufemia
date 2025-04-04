@@ -96,4 +96,12 @@ describe('InfoCard', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('renders with children', async () => {
+    const screenshot = await makeScreenshot({
+      style: { width: '30rem' },
+      selector: '[data-visual-test="info-card-children"] .dnb-info-card',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

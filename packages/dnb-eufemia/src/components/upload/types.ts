@@ -74,6 +74,12 @@ export type UploadProps = {
   download?: boolean
 
   /**
+   * Allows uploading of duplicate files.
+   * Default: false
+   */
+  allowDuplicates?: boolean
+
+  /**
    * Custom text properties
    */
   title?: React.ReactNode

@@ -24,6 +24,9 @@ import parse from 'date-fns/parse'
 import startOfDay from 'date-fns/startOfDay'
 
 import { warn } from '../../shared/component-helper'
+import { AnyLocale } from '../../shared/Context'
+import { LOCALE } from '../../shared/defaults'
+import { DateType } from './DatePickerContext'
 
 type ZeroDayIndex = 0 | 1 | 2 | 3 | 4 | 5 | 6
 
@@ -272,4 +275,71 @@ export function convertStringToDate(
   }
 
   return dateObject
+}
+
+export type FormatDateOptions = {
+  locale?: AnyLocale
+  variant?: 'long' | 'short' | 'numeric'
+  formatOptions?: Intl.DateTimeFormatOptions
+}
+
+export function formatDate(
+  dateValue: DateType,
+  {
+    locale = LOCALE,
+    variant = 'numeric',
+    formatOptions = undefined,
+  }: FormatDateOptions = {}
+) {
+  const options = formatOptions ?? getFormatOptions(variant)
+
+  const date = convertStringToDate(dateValue)
+
+  return typeof Intl !== 'undefined'
+    ? new Intl.DateTimeFormat(locale, options).format(date)
+    : date.toLocaleString(locale, options)
+}
+
+export function formatDateRange(
+  dates: { startDate: DateType; endDate: DateType },
+  {
+    locale = LOCALE,
+    variant = 'numeric',
+    formatOptions = undefined,
+  }: FormatDateOptions = {}
+) {
+  const options = formatOptions ?? getFormatOptions(variant)
+
+  const startDate = convertStringToDate(dates.startDate)
+  const endDate = convertStringToDate(dates.endDate)
+
+  if (typeof Intl !== 'undefined') {
+    return new Intl.DateTimeFormat(locale, options).formatRange(
+      startDate,
+      endDate
+    )
+  }
+
+  const startDateString = startDate.toLocaleString(locale, options)
+  const endDateString = endDate.toLocaleString(locale, options)
+
+  return `${startDateString}-${endDateString}`
+}
+
+export function getFormatOptions(
+  variant: FormatDateOptions['variant']
+): Intl.DateTimeFormatOptions {
+  if (variant === 'numeric') {
+    return {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    } as const
+  }
+
+  return {
+    day: 'numeric',
+    month: variant,
+    year: 'numeric',
+  } as const
 }

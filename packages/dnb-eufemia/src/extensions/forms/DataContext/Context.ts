@@ -27,8 +27,15 @@ export type MountState = {
 
 export type EventListenerCall = {
   path?: Path
-  type?: 'onSubmit' | 'onSubmitRequest' | 'onPathChange' | 'onMount'
-  callback: (params?: { value: unknown }) => void | Promise<void | Error>
+  type?:
+    | 'onSubmit'
+    | 'onSubmitCall'
+    | 'onSubmitRequest'
+    | 'onPathChange'
+    | 'onMount'
+  callback: (
+    params?: { value: unknown } | { preventSubmit: () => void }
+  ) => void | Promise<void | Error>
 }
 
 export type VisibleDataHandler<Data> = (
@@ -169,15 +176,12 @@ export interface ContextState {
   setFieldEventListener?: (
     path: EventListenerCall['path'],
     type: EventListenerCall['type'],
-    callback: EventListenerCall['callback']
+    callback: EventListenerCall['callback'],
+    params?: { remove?: boolean }
   ) => void
   revealError?: (path: Path, hasError: boolean) => void
   setFieldInternals?: (path: Path, props: unknown, id?: string) => void
   setValueInternals?: (path: Path, props: unknown) => void
-  setHandleSubmit?: (
-    callback: HandleSubmitCallback,
-    params?: { remove?: boolean }
-  ) => void
   setFieldConnection?: (path: Path, connections: FieldConnections) => void
   isEmptyDataRef?: React.MutableRefObject<boolean>
   addSetShowAllErrorsRef?: React.MutableRefObject<

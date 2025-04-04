@@ -36,6 +36,11 @@ export const UploadProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  allowDuplicates: {
+    doc: 'Allows uploading of duplicate files. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   skeleton: {
     doc: 'Skeleton should be applied when loading content.',
     type: 'boolean',

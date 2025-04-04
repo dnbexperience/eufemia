@@ -18,6 +18,7 @@ export const BasicUsage = () => {
         <Field.Upload
           label="My custom label"
           labelDescription="My description"
+          onChange={(files) => console.log('onChange', files)}
         />
       </Form.Handler>
     </ComponentBox>

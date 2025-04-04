@@ -56,7 +56,10 @@ export const UploadPrefilledFileList = () => (
 
 export const UploadBasic = () => (
   <ComponentBox data-visual-test="upload-basic">
-    <Upload acceptedFileTypes={['jpg', 'png']} />
+    <Upload
+      acceptedFileTypes={['jpg', 'png']}
+      onChange={({ files }) => console.log('onChange', files)}
+    />
   </ComponentBox>
 )
 
@@ -126,7 +129,7 @@ export const UploadRemoveFile = () => (
 
               reader.readAsDataURL(file)
             })
-          }, [files, images])
+          }, [files])
 
           return (
             <Section aria-label="List of chosen images">
@@ -388,6 +391,45 @@ export const UploadOnFileClick = () => (
             acceptedFileTypes={['jpg', 'png']}
             id="upload-on-file-click"
             onFileClick={mockAsyncFileFetching}
+          />
+        )
+      }
+
+      return <Component />
+    }}
+  </ComponentBox>
+)
+
+export const UploadFileEmptySize = () => (
+  <ComponentBox
+    scope={{ createMockFile, createRequest }}
+    data-visual-test="upload-file-empty-size"
+  >
+    {() => {
+      const Component = () => {
+        const { setFiles } = Upload.useUpload('upload-file-size-empty')
+
+        React.useEffect(() => {
+          setFiles([
+            {
+              file: createMockFile('1501870.jpg', 0, 'image/png'),
+              id: '1',
+            },
+            {
+              file: createMockFile(
+                'file-name-that-is-very-long-and-has-letters.png',
+                0,
+                'image/png',
+              ),
+              id: '2',
+            },
+          ])
+        }, [setFiles])
+
+        return (
+          <Upload
+            acceptedFileTypes={['jpg', 'png']}
+            id="upload-file-size-empty"
           />
         )
       }

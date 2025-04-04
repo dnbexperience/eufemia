@@ -38,7 +38,7 @@ export default function PageNotFound({ location }) {
       }}
     >
       <Layout key="layout" location={location} hideSidebar>
-        <GlobalError center status="404" />
+        <GlobalError center statusCode="404" />
       </Layout>
     </Provider>
   )

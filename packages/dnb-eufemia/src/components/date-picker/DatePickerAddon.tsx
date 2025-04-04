@@ -28,7 +28,6 @@ export type DatePickerAddonProps = React.HTMLProps<HTMLElement> & {
 function DatePickerAddon(props: DatePickerAddonProps) {
   const {
     updateDates,
-    forceViewMonthChange,
     callOnChangeHandler,
     hidePicker,
     startDate,
@@ -57,14 +56,14 @@ function DatePickerAddon(props: DatePickerAddonProps) {
       event?: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
     } = {}) => {
       updateDates({ startDate, endDate })
-      forceViewMonthChange()
+
       callOnChangeHandler({
         startDate,
         endDate: endDate || startDate,
         event,
       })
     },
-    [updateDates, callOnChangeHandler, forceViewMonthChange]
+    [updateDates, callOnChangeHandler]
   )
 
   const setDate = useCallback(

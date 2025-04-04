@@ -1821,6 +1821,64 @@ describe('Field.Upload', () => {
         ],
       })
     })
+
+    it('should prevent uploading duplicate file when filename is the same', async () => {
+      const fileName = 'myFile.pdf'
+      render(
+        <Form.Handler
+          data={{
+            documents: [
+              {
+                file: { name: fileName },
+                id: '1234',
+              },
+            ],
+          }}
+        >
+          <Field.Upload path="/documents" />
+          <LogContext />
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(1)
+      expect(dataContext).toEqual({
+        documents: [
+          {
+            id: '1234',
+            file: createMockFile(fileName, 0, '', 0),
+          },
+        ],
+      })
+
+      const file = createMockFile(
+        fileName,
+        100,
+        'application/pdf',
+        1743671810162
+      )
+      await waitFor(() => {
+        fireEvent.drop(document.querySelector('input'), {
+          dataTransfer: {
+            files: [file],
+          },
+        })
+      })
+
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(1)
+      expect(dataContext).toEqual({
+        documents: [
+          {
+            id: '1234',
+            file: createMockFile(fileName, 0, '', 0),
+            name: fileName,
+          },
+        ],
+      })
+    })
   })
 
   describe('ARIA', () => {

@@ -35,6 +35,10 @@ const paginationPropTypes = {
   place_maker_before_content: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool,
+  ]), // Deprecated:  Replaced with place_marker_before_content, place_maker_before_content can be removed in v11.
+  place_marker_before_content: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
   ]),
   min_wait_time: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -131,7 +135,8 @@ const paginationDefaultProps = {
   barSpace: null,
   startup_count: 1,
   parallel_load_count: 1,
-  place_maker_before_content: false,
+  place_maker_before_content: false, // Deprecated:  Replaced with place_marker_before_content, place_maker_before_content can be removed in v11.
+  place_marker_before_content: false,
   min_wait_time: 400,
   disabled: null,
   skeleton: null,

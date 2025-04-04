@@ -64,6 +64,13 @@ describe.each(['ui', 'sbanken'])('Upload for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match when displaying text', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="upload-file-empty-size"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe('Upload', () => {

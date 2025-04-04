@@ -310,6 +310,25 @@ describe('useVisibility', () => {
       log.mockRestore()
     })
 
+    it('should run hasValue even when path not exists', () => {
+      const hasValue = jest.fn((value) => value === 'bar')
+      const { result } = renderHook(
+        () =>
+          useVisibility({
+            visibleWhen: {
+              path: '/myPath',
+              hasValue,
+            },
+          }),
+        {
+          wrapper: ({ children }) => <Provider>{children}</Provider>,
+        }
+      )
+      expect(result.current.check()).toBe(false)
+      expect(hasValue).toHaveBeenCalledTimes(1)
+      expect(hasValue).toHaveBeenLastCalledWith(undefined)
+    })
+
     describe('isValid', () => {
       it('should return false when path is not existing', () => {
         const { result } = renderHook(useVisibility, {

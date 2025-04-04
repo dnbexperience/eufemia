@@ -170,6 +170,7 @@ function Password({
       submitElement={<ToggleVisibilityButton />}
       disabled={disabled}
       size={size}
+      autoComplete="current-password"
       {...props}
     />
   )

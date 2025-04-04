@@ -563,15 +563,15 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   const setErrorState = useCallback(
     (hasError: boolean) => {
-      showFieldErrorFieldBlock?.(identifier, hasError)
-      revealErrorBoundary?.(identifier, hasError)
-      revealErrorDataContext?.(identifier, hasError)
-
       setFieldErrorWizard?.(
         wizardIndex,
         identifier,
         handleFieldAsVisible !== false ? hasError : undefined
       )
+
+      showFieldErrorFieldBlock?.(identifier, hasError)
+      revealErrorBoundary?.(identifier, hasError)
+      revealErrorDataContext?.(identifier, hasError)
     },
     [
       identifier,
@@ -952,12 +952,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       setFieldErrorDataContext?.(identifier, error)
       setFieldErrorBoundary?.(identifier, error)
 
-      setFieldErrorWizard?.(
-        wizardIndex,
-        identifier,
-        handleFieldAsVisible !== false ? Boolean(error) : undefined
-      )
-
       // Set the visual states
       setBlockRecord?.({
         stateId,
@@ -971,18 +965,15 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       forceUpdate()
     },
     [
-      handleFieldAsVisible,
       identifier,
       inFieldBlock,
       prepareError,
       setBlockRecord,
       setFieldErrorBoundary,
       setFieldErrorDataContext,
-      setFieldErrorWizard,
       setFieldStateDataContext,
       stateId,
       validateInitially,
-      wizardIndex,
     ]
   )
 
@@ -2327,7 +2318,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   // Validate/call validator functions during submit of the form
   useEffect(() => {
-    setFieldEventListener?.(identifier, 'onSubmit', onSubmitHandler)
+    setFieldEventListener?.(identifier, 'onSubmitCall', onSubmitHandler)
   }, [identifier, onSubmitHandler, setFieldEventListener])
 
   // Set the error in the field block context if this field is inside a field block

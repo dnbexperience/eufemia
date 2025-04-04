@@ -42,6 +42,7 @@ export type Props = Omit<
     | 'onFileClick'
     | 'skeleton'
     | 'download'
+    | 'allowDuplicates'
   > & {
     fileHandler?: (
       newFiles: UploadValue
@@ -123,6 +124,8 @@ function UploadComponent(props: Props) {
     skeleton,
     onFileDelete,
     onFileClick,
+    download,
+    allowDuplicates,
   } = rest
 
   const { files, setFiles } = useUpload(id)
@@ -226,6 +229,8 @@ function UploadComponent(props: Props) {
         id={id}
         acceptedFileTypes={acceptedFileTypes}
         filesAmountLimit={filesAmountLimit}
+        download={download}
+        allowDuplicates={allowDuplicates}
         fileMaxSize={fileMaxSize}
         skeleton={skeleton}
         onChange={changeHandler}
@@ -273,7 +278,10 @@ export function transformFiles(value: UploadValue) {
     value.map((item) => {
       if (item?.file && !(item.file instanceof File)) {
         // To support session storage, we recreated the file blob.
-        item['file'] = new File([], item['name'])
+        item['file'] = new File([], item['name'] || item?.file['name'], {
+          lastModified: (item.file as File)?.lastModified ?? 0,
+          type: (item.file as File)?.type ?? '',
+        })
       }
       return item
     })
