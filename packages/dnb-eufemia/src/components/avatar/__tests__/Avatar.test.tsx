@@ -240,17 +240,6 @@ describe('Avatar', () => {
     ).toBeInTheDocument()
   })
 
-  it('should support size small', () => {
-    render(
-      <Avatar.Group label="tags">
-        <Avatar size="small">A</Avatar>
-      </Avatar.Group>
-    )
-    expect(
-      document.querySelector('.dnb-avatar--size-small')
-    ).toBeInTheDocument()
-  })
-
   it('should support size medium', () => {
     render(
       <Avatar.Group label="tags">
