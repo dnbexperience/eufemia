@@ -126,7 +126,7 @@ const AvatarGroup = (localProps: AvatarGroupProps & SpacingProps) => {
         const appliedVariant = child.props.variant
           ? child.props.variant
           : variant
-        const appliedColor = child.props?.color ? child.props.color : color
+        const appliedColor = child.props?.color ?? color
         const appliedBackgroundColor = child.props?.backgroundColor
           ? child.props.backgroundColor
           : backgroundColor
