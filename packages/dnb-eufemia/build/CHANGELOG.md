@@ -3,6 +3,29 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.70.0](https://github.com/dnbexperience/eufemia/compare/v10.69.1...v10.70.0) (2025-04-04)
+
+
+### :sparkles: Features
+
+* **Avatar:** add properties `color` & `backgroundColor` ([#4897](https://github.com/dnbexperience/eufemia/issues/4897)) ([2d1a675](https://github.com/dnbexperience/eufemia/commit/2d1a675e6d7d3ec679380dd2bfcc492de5da87de))
+* **Field.Password:** set default autocomplete attribute to `current-password` ([#4874](https://github.com/dnbexperience/eufemia/issues/4874)) ([c6b1454](https://github.com/dnbexperience/eufemia/commit/c6b1454980848a46ebc23ab56bd05be371cc7b4e))
+* **GlobalError:** deprecate `code` in favor of `errorMessageCode` ([#4872](https://github.com/dnbexperience/eufemia/issues/4872)) ([3634bce](https://github.com/dnbexperience/eufemia/commit/3634bce6ca174904b6921b0bc549a457f21e6a64))
+* **GlobalError:** deprecate `status` in favor of `statusCode` ([#4819](https://github.com/dnbexperience/eufemia/issues/4819)) ([6aeca86](https://github.com/dnbexperience/eufemia/commit/6aeca86b942855072d112b2ed719fe2c0c966216))
+* **InfoCard:** add `children` property ([#4831](https://github.com/dnbexperience/eufemia/issues/4831)) ([7d61f14](https://github.com/dnbexperience/eufemia/commit/7d61f14c921a40f35ca6a0fbee5e10528933d6d9))
+* **Pagination:** rename `place_maker_before_content` to `place_marker_before_content` ([#4875](https://github.com/dnbexperience/eufemia/issues/4875)) ([51974fa](https://github.com/dnbexperience/eufemia/commit/51974faf9872dafae1709daf7091de1427c540be))
+* **Upload:** add property `allowDuplicates` ([#4880](https://github.com/dnbexperience/eufemia/issues/4880)) ([192d98b](https://github.com/dnbexperience/eufemia/commit/192d98bce249e4fa936cf12435450659c9b0ec37))
+
+
+### :bug: Bug Fixes
+
+* **Avatar.Group:** forward `size`, `variant`, `color`, `backgroundColor` to single child ([#4903](https://github.com/dnbexperience/eufemia/issues/4903)) ([f4ad737](https://github.com/dnbexperience/eufemia/commit/f4ad737fa6a5e2c0f040ebd2a434d8c6db96c080))
+* **DatePicker:** update calendar views based on input value when `range` is `true` ([#4859](https://github.com/dnbexperience/eufemia/issues/4859)) ([99d7c72](https://github.com/dnbexperience/eufemia/commit/99d7c72e6493ccf551f832f7875a5c5a9711a134))
+* **Forms:** correctly report error during Wizard step navigation with async event handler or field validator ([#4899](https://github.com/dnbexperience/eufemia/issues/4899)) ([995aff6](https://github.com/dnbexperience/eufemia/commit/995aff653dd70e496e1e02ba13c7f858c98ea11b)), closes [#4892](https://github.com/dnbexperience/eufemia/issues/4892)
+* **Forms:** ensure `hasValue` runs in Form.Visibility when path is missing ([#4870](https://github.com/dnbexperience/eufemia/issues/4870)) ([01cd306](https://github.com/dnbexperience/eufemia/commit/01cd30613583a4dd370493fc3531eb27605248ef)), closes [#4864](https://github.com/dnbexperience/eufemia/issues/4864)
+* **Upload:** compare existing properties to determine duplicate ([#4895](https://github.com/dnbexperience/eufemia/issues/4895)) ([7286a33](https://github.com/dnbexperience/eufemia/commit/7286a332d749c8be16a037bda68db666b79858e8))
+* **Upload:** correct displaying of only text ([#4896](https://github.com/dnbexperience/eufemia/issues/4896)) ([ef9c565](https://github.com/dnbexperience/eufemia/commit/ef9c5652e784290a1d3c74b180e34ad665fa3936))
+
 ## [10.69.1](https://github.com/dnbexperience/eufemia/compare/v10.69.0...v10.69.1) (2025-04-01)
 
 
