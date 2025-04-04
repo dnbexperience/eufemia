@@ -413,5 +413,16 @@ export const warn = (...params) => {
   }
 }
 
+export function getColor(value) {
+  if (String(value).includes('--')) {
+    return value
+  }
+  return value
+    ? !/#|var/.test(value)
+      ? `var(--color-${value})`
+      : value
+    : undefined
+}
+
 // Run the version mismatch warning one time
 runCssVersionMismatchWarning()
