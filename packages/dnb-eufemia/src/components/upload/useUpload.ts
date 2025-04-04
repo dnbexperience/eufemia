@@ -72,7 +72,7 @@ export const isFileEqual = (fileA: File, fileB: File): boolean => {
       b &&
       property in b &&
       (a[property] === 0 || // If value is 0, which is default when not provided, we can't say whether the file is equal or not, so we assume they are.
-        b[property] === 0 || // If value is 0, which is default when not provided, we can't say whether the file is a duplicate or not, so we assume they are.
+        b[property] === 0 || // If value is 0, which is default when not provided, we can't say whether the file is equal or not, so we assume they are.
         a[property] === b[property])
     )
   }
