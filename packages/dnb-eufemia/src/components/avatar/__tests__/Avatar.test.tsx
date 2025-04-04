@@ -483,6 +483,28 @@ describe('Avatar', () => {
       ).toHaveLength(2)
     })
 
+    it('should support variant when single Avatar', () => {
+      render(
+        <Avatar.Group label="tags" variant="secondary">
+          <Avatar>A</Avatar>
+        </Avatar.Group>
+      )
+      expect(
+        document.querySelector('.dnb-avatar--secondary')
+      ).toBeInTheDocument()
+    })
+
+    it('should weigh variant set in Avatar highest when single Avatar', () => {
+      render(
+        <Avatar.Group label="tags" variant="tertiary">
+          <Avatar variant="secondary">A</Avatar>
+        </Avatar.Group>
+      )
+      expect(
+        document.querySelector('.dnb-avatar--secondary')
+      ).toBeInTheDocument()
+    })
+
     it('should support size', () => {
       render(
         <Avatar.Group label="tags" size="large">
@@ -505,6 +527,28 @@ describe('Avatar', () => {
       expect(
         document.querySelectorAll('.dnb-avatar--size-large')
       ).toHaveLength(2)
+    })
+
+    it('should support size when single Avatar', () => {
+      render(
+        <Avatar.Group label="tags" size="large">
+          <Avatar>A</Avatar>
+        </Avatar.Group>
+      )
+      expect(
+        document.querySelector('.dnb-avatar--size-large')
+      ).toBeInTheDocument()
+    })
+
+    it('should weigh size set in Avatar highest when single Avatar', () => {
+      render(
+        <Avatar.Group label="tags" size="small">
+          <Avatar size="large">A</Avatar>
+        </Avatar.Group>
+      )
+      expect(
+        document.querySelector('.dnb-avatar--size-large')
+      ).toBeInTheDocument()
     })
 
     it('should support backgroundColor', () => {
@@ -537,6 +581,28 @@ describe('Avatar', () => {
       ).toBe('--background-color: var(--color-fire-red); z-index: 1;')
     })
 
+    it('should support backgroundColor when single Avatar', () => {
+      render(
+        <Avatar.Group label="tags" backgroundColor="fire-red">
+          <Avatar>A</Avatar>
+        </Avatar.Group>
+      )
+      expect(
+        document.querySelector('.dnb-avatar').getAttribute('style')
+      ).toBe('--background-color: var(--color-fire-red);')
+    })
+
+    it('should weigh backgroundColor set in Avatar highest when single Avatar', () => {
+      render(
+        <Avatar.Group label="tags" backgroundColor="emerald-green">
+          <Avatar backgroundColor="fire-red">A</Avatar>
+        </Avatar.Group>
+      )
+      expect(
+        document.querySelector('.dnb-avatar').getAttribute('style')
+      ).toBe('--background-color: var(--color-fire-red);')
+    })
+
     it('should support color', () => {
       render(
         <Avatar.Group label="tags" color="fire-red">
@@ -565,6 +631,28 @@ describe('Avatar', () => {
       expect(
         document.querySelectorAll('.dnb-avatar')[1].getAttribute('style')
       ).toBe('--color: var(--color-fire-red); z-index: 1;')
+    })
+
+    it('should support color when single Avatar', () => {
+      render(
+        <Avatar.Group label="tags" color="fire-red">
+          <Avatar>A</Avatar>
+        </Avatar.Group>
+      )
+      expect(
+        document.querySelector('.dnb-avatar').getAttribute('style')
+      ).toBe('--color: var(--color-fire-red);')
+    })
+
+    it('should weigh color set in Avatar highest when single Avatar', () => {
+      render(
+        <Avatar.Group label="tags" color="emerald-green">
+          <Avatar color="fire-red">A</Avatar>
+        </Avatar.Group>
+      )
+      expect(
+        document.querySelector('.dnb-avatar').getAttribute('style')
+      ).toBe('--color: var(--color-fire-red);')
     })
   })
 })

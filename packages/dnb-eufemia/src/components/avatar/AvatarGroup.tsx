@@ -145,7 +145,9 @@ const AvatarGroup = (localProps: AvatarGroupProps & SpacingProps) => {
   } = validateDOMAttributes({}, props)
 
   return (
-    <AvatarGroupContext.Provider value={props}>
+    <AvatarGroupContext.Provider
+      value={{ ...props, variant, size, color, backgroundColor }}
+    >
       <span
         className={classnames(
           'dnb-avatar__group',
