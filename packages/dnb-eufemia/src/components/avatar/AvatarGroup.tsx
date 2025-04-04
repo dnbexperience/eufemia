@@ -122,12 +122,11 @@ const AvatarGroup = (localProps: AvatarGroupProps & SpacingProps) => {
     children = childrenProp
       .slice(0, total - numOfHiddenAvatars)
       .map((child, i) => {
-        const appliedSize = child.props.size ? child.props.size : size
-        const appliedVariant = child.props.variant
-          ? child.props.variant
-          : variant
+        const appliedSize = child.props?.size ?? size
+        const appliedVariant = child.props?.variant ?? variant
         const appliedColor = child.props?.color ?? color
-        const appliedBackgroundColor = child.props?.backgroundColor ?? backgroundColor
+        const appliedBackgroundColor =
+          child.props?.backgroundColor ?? backgroundColor
         return React.cloneElement(child, {
           size: appliedSize,
           variant: appliedVariant,
