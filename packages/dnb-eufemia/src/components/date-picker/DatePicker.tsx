@@ -876,7 +876,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
   }
 
   const selectedDateTitle = useMemo(() => {
-    const { selectedDate } = translation
+    const { selectedDate, selectedDateRange } = translation
     const { startDate, endDate } = dates
 
     if (!startDate) {
@@ -894,9 +894,15 @@ function DatePicker(externalProps: DatePickerAllProps) {
       },
     }
 
-    return range && endDate
-      ? formatDateRange({ startDate, endDate }, options)
-      : selectedDate.replace(/%s/, formatDate(startDate, options))
+    const res =
+      range && endDate
+        ? selectedDateRange.replace(
+            /%s/,
+            formatDateRange({ startDate, endDate }, options)
+          )
+        : selectedDate.replace(/%s/, formatDate(startDate, options))
+    console.log(res)
+    return res
   }, [range, translation, dates, context.locale])
 
   const mainParams = {
