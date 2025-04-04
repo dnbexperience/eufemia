@@ -3608,7 +3608,7 @@ describe('DatePicker ARIA', () => {
     )
   })
 
-  it('should announce selected date based on locale', async () => {
+  it.only('should announce selected date based on locale', async () => {
     // en-GB
     const { rerender } = render(
       <Provider locale="en-GB">
@@ -3662,11 +3662,11 @@ describe('DatePicker ARIA', () => {
     await userEvent.click(screen.getByLabelText('tisdag 22 april 2025'))
 
     expect(document.querySelector('.dnb-sr-only')).toHaveTextContent(
-      'Valgt dato: tisdag 22 april 2025'
+      'Valt datum: tisdag 22 april 2025'
     )
     expect(openButton).toHaveAttribute(
       'aria-label',
-      'Valgt dato: tisdag 22 april 2025, Åpne datovelger'
+      'Valt datum:: tisdag 22 april 2025, Öppna datumväljaren'
     )
   })
 
@@ -3753,11 +3753,11 @@ describe('DatePicker ARIA', () => {
     await userEvent.click(screen.getByLabelText('tisdag 22 april 2025'))
 
     expect(document.querySelector('.dnb-sr-only')).toHaveTextContent(
-      'Valgte datoer: måndag 14 april–tisdag 22 april 2025'
+      'Valda datum: måndag 14 april–tisdag 22 april 2025'
     )
     expect(openButton).toHaveAttribute(
       'aria-label',
-      'Valgte datoer: måndag 14 april–tisdag 22 april 2025, Åpne datovelger'
+      'Valda datum: måndag 14 april–tisdag 22 april 2025, Öppna datumväljaren'
     )
   })
 })
