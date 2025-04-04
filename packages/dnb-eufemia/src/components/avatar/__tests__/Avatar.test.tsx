@@ -196,6 +196,94 @@ describe('Avatar', () => {
     ).toBe('color: red;')
   })
 
+  it('should support variant tertiary', () => {
+    render(
+      <Avatar.Group label="tags">
+        <Avatar variant="tertiary">A</Avatar>
+      </Avatar.Group>
+    )
+    expect(
+      document.querySelector('.dnb-avatar--tertiary')
+    ).toBeInTheDocument()
+  })
+
+  it('should support variant primary', () => {
+    render(
+      <Avatar.Group label="tags">
+        <Avatar variant="primary">A</Avatar>
+      </Avatar.Group>
+    )
+    expect(
+      document.querySelector('.dnb-avatar--primary')
+    ).toBeInTheDocument()
+  })
+
+  it('should support variant secondary', () => {
+    render(
+      <Avatar.Group label="tags">
+        <Avatar variant="secondary">A</Avatar>
+      </Avatar.Group>
+    )
+    expect(
+      document.querySelector('.dnb-avatar--secondary')
+    ).toBeInTheDocument()
+  })
+
+  it('should support size small', () => {
+    render(
+      <Avatar.Group label="tags">
+        <Avatar size="small">A</Avatar>
+      </Avatar.Group>
+    )
+    expect(
+      document.querySelector('.dnb-avatar--size-small')
+    ).toBeInTheDocument()
+  })
+
+  it('should support size small', () => {
+    render(
+      <Avatar.Group label="tags">
+        <Avatar size="small">A</Avatar>
+      </Avatar.Group>
+    )
+    expect(
+      document.querySelector('.dnb-avatar--size-small')
+    ).toBeInTheDocument()
+  })
+
+  it('should support size medium', () => {
+    render(
+      <Avatar.Group label="tags">
+        <Avatar size="medium">A</Avatar>
+      </Avatar.Group>
+    )
+    expect(
+      document.querySelector('.dnb-avatar--size-medium')
+    ).toBeInTheDocument()
+  })
+
+  it('should support size large', () => {
+    render(
+      <Avatar.Group label="tags">
+        <Avatar size="large">A</Avatar>
+      </Avatar.Group>
+    )
+    expect(
+      document.querySelector('.dnb-avatar--size-large')
+    ).toBeInTheDocument()
+  })
+
+  it('should support size x-large', () => {
+    render(
+      <Avatar.Group label="tags">
+        <Avatar size="x-large">A</Avatar>
+      </Avatar.Group>
+    )
+    expect(
+      document.querySelector('.dnb-avatar--size-x-large')
+    ).toBeInTheDocument()
+  })
+
   it('should support backgroundColor', () => {
     render(
       <Avatar.Group label="tags">
@@ -380,6 +468,54 @@ describe('Avatar', () => {
         document.querySelector('.dnb-avatar__group--elements-left')
       ).toBeInTheDocument()
       expect(avatarsDisplayed).toHaveLength(3)
+    })
+
+    it('should support variant', () => {
+      render(
+        <Avatar.Group label="tags" variant="secondary">
+          <Avatar>A</Avatar>
+          <Avatar>A</Avatar>
+        </Avatar.Group>
+      )
+      expect(
+        document.querySelectorAll('.dnb-avatar--secondary')
+      ).toHaveLength(2)
+    })
+
+    it('should weigh variant set in Avatar highest', () => {
+      render(
+        <Avatar.Group label="tags" variant="tertiary">
+          <Avatar variant="secondary">A</Avatar>
+          <Avatar variant="secondary">A</Avatar>
+        </Avatar.Group>
+      )
+      expect(
+        document.querySelectorAll('.dnb-avatar--secondary')
+      ).toHaveLength(2)
+    })
+
+    it('should support size', () => {
+      render(
+        <Avatar.Group label="tags" size="large">
+          <Avatar>A</Avatar>
+          <Avatar>A</Avatar>
+        </Avatar.Group>
+      )
+      expect(
+        document.querySelectorAll('.dnb-avatar--size-large')
+      ).toHaveLength(2)
+    })
+
+    it('should weigh size set in Avatar highest', () => {
+      render(
+        <Avatar.Group label="tags" size="small">
+          <Avatar size="large">A</Avatar>
+          <Avatar size="large">A</Avatar>
+        </Avatar.Group>
+      )
+      expect(
+        document.querySelectorAll('.dnb-avatar--size-large')
+      ).toHaveLength(2)
     })
 
     it('should support backgroundColor', () => {
