@@ -127,9 +127,7 @@ const AvatarGroup = (localProps: AvatarGroupProps & SpacingProps) => {
           ? child.props.variant
           : variant
         const appliedColor = child.props?.color ?? color
-        const appliedBackgroundColor = child.props?.backgroundColor
-          ? child.props.backgroundColor
-          : backgroundColor
+        const appliedBackgroundColor = child.props?.backgroundColor ?? backgroundColor
         return React.cloneElement(child, {
           size: appliedSize,
           variant: appliedVariant,
