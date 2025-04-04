@@ -3588,4 +3588,176 @@ describe('DatePicker ARIA', () => {
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
+
+  it('should announce selected date', async () => {
+    render(<DatePicker date="2025-04-01" />)
+
+    const openButton = document.querySelector(
+      '.dnb-button'
+    ) as HTMLButtonElement
+
+    await userEvent.click(openButton)
+    await userEvent.click(screen.getByLabelText('fredag 25. april 2025'))
+
+    expect(document.querySelector('.dnb-sr-only')).toHaveTextContent(
+      'Valgt dato: fredag 25. april 2025'
+    )
+    expect(openButton).toHaveAttribute(
+      'aria-label',
+      'Valgt dato: fredag 25. april 2025, åpne datovelger'
+    )
+  })
+
+  it('should announce selected date based on locale', async () => {
+    // en-GB
+    const { rerender } = render(
+      <Provider locale="en-GB">
+        <DatePicker date="2025-04-01" />
+      </Provider>
+    )
+
+    const openButton = document.querySelector(
+      '.dnb-button'
+    ) as HTMLButtonElement
+
+    expect(openButton).toHaveAttribute('aria-label', 'Open date picker')
+
+    await userEvent.click(openButton)
+    await userEvent.click(screen.getByLabelText('Friday 25 April 2025'))
+
+    expect(document.querySelector('.dnb-sr-only')).toHaveTextContent(
+      'Selected date: Friday 25 April 2025'
+    )
+    expect(openButton).toHaveAttribute(
+      'aria-label',
+      'Selected date: Friday 25 April 2025, Open date picker'
+    )
+
+    // en-US
+    rerender(
+      <Provider locale="en-US">
+        <DatePicker date="2025-04-01" />
+      </Provider>
+    )
+
+    await userEvent.click(openButton)
+    await userEvent.click(screen.getByLabelText('Monday, April 14, 2025'))
+
+    expect(document.querySelector('.dnb-sr-only')).toHaveTextContent(
+      'Selected date: Monday, April 14, 2025'
+    )
+    expect(openButton).toHaveAttribute(
+      'aria-label',
+      'Selected date: Monday, April 14, 2025, Open date picker'
+    )
+
+    // sv-SE
+    rerender(
+      <Provider locale="sv-SE">
+        <DatePicker date="2025-04-01" />
+      </Provider>
+    )
+
+    await userEvent.click(openButton)
+    await userEvent.click(screen.getByLabelText('tisdag 22 april 2025'))
+
+    expect(document.querySelector('.dnb-sr-only')).toHaveTextContent(
+      'Valgt dato: tisdag 22 april 2025'
+    )
+    expect(openButton).toHaveAttribute(
+      'aria-label',
+      'Valgt dato: tisdag 22 april 2025, åpne datovelger'
+    )
+  })
+
+  it('should announce selected date range', async () => {
+    render(
+      <DatePicker startDate="2025-04-01" endDate="2025-05-31" range />
+    )
+
+    const openButton = document.querySelector(
+      '.dnb-button'
+    ) as HTMLButtonElement
+
+    await userEvent.click(openButton)
+    await userEvent.click(screen.getByLabelText('onsdag 2. april 2025'))
+    await userEvent.click(screen.getByLabelText('lørdag 19. april 2025'))
+
+    expect(document.querySelector('.dnb-sr-only')).toHaveTextContent(
+      'Valgte datoer: onsdag 2.–lørdag 19. april 2025'
+    )
+    expect(openButton).toHaveAttribute(
+      'aria-label',
+      'Valgte datoer: onsdag 2.–lørdag 19. april 2025, Åpne datovelger'
+    )
+  })
+
+  it('should announce selected date range based on locale', async () => {
+    // en-GB
+    const { rerender } = render(
+      <Provider locale="en-GB">
+        <DatePicker startDate="2025-04-01" endDate="2025-05-31" range />
+      </Provider>
+    )
+
+    const openButton = document.querySelector(
+      '.dnb-button'
+    ) as HTMLButtonElement
+
+    expect(openButton).toHaveAttribute('aria-label', 'Open date picker')
+
+    await userEvent.click(openButton)
+    await userEvent.click(screen.getByLabelText('Wednesday 2 April 2025'))
+    await userEvent.click(screen.getByLabelText('Saturday 19 April 2025'))
+
+    expect(document.querySelector('.dnb-sr-only')).toHaveTextContent(
+      'Selected dates: Wednesday 2 April – Saturday 19 April 2025'
+    )
+    expect(openButton).toHaveAttribute(
+      'aria-label',
+      'Selected dates: Wednesday 2 April – Saturday 19 April 2025, Open date picker'
+    )
+
+    // en-US
+    rerender(
+      <Provider locale="en-US">
+        <DatePicker startDate="2025-04-01" endDate="2025-05-31" range />
+      </Provider>
+    )
+
+    await userEvent.click(openButton)
+    await userEvent.click(
+      screen.getByLabelText('Wednesday, April 2, 2025')
+    )
+    await userEvent.click(
+      screen.getByLabelText('Saturday, April 19, 2025')
+    )
+
+    expect(document.querySelector('.dnb-sr-only')).toHaveTextContent(
+      'Selected dates: Wednesday, April 2 – Saturday, April 19, 2025'
+    )
+    expect(openButton).toHaveAttribute(
+      'aria-label',
+      'Selected dates: Wednesday, April 2 – Saturday, April 19, 2025, Open date picker'
+    )
+
+    // sv-SE
+    rerender(
+      <Provider locale="sv-SE">
+        <DatePicker startDate="2025-04-01" endDate="2025-05-31" range />
+      </Provider>
+    )
+
+    await userEvent.click(openButton)
+    await userEvent.click(screen.getByLabelText('måndag 14 april 2025'))
+    await userEvent.click(screen.getByLabelText('tisdag 22 april 2025'))
+
+    expect(document.querySelector('.dnb-sr-only')).toHaveTextContent(
+      'Valgte datoer: måndag 14 april–tisdag 22 april 2025'
+    )
+    expect(openButton).toHaveAttribute(
+      'aria-label',
+      'Valgte datoer: måndag 14 april–tisdag 22 april 2025, Åpne datovelger'
+    )
+  })
 })
