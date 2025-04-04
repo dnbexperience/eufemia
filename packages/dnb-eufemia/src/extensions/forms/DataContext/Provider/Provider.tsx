@@ -1071,9 +1071,13 @@ export default function Provider<Data extends JsonObject>(
         }
       } else {
         if (asyncBehaviorIsEnabled) {
-          window.requestAnimationFrame(() => {
-            setFormState(undefined)
-          })
+          // Because we buffer the "revealError" in the useFieldProps hook,
+          // we need to wait for the next frame before we continue and call "setShowAllErrors".
+          await new Promise((resolve) =>
+            window.requestAnimationFrame(resolve)
+          )
+
+          setFormState(undefined)
 
           if (!skipFieldValidation) {
             // Add a event listener to continue the submit after the pending state is resolved
