@@ -23,13 +23,14 @@ export default {
       start: 'fra',
       end: 'til',
       selectedDate: 'Valgt dato: %s',
+      selectedDateRange: 'Valgte datoer: %s',
       selectedMonth: 'Valgt måned %s',
       selectedYear: 'Valgt år %s',
       nextMonth: 'Neste måned %s',
       prevMonth: 'Forrige måned %s',
       nextYear: 'Neste år %s',
       prevYear: 'Forrige år %s',
-      openPickerText: 'åpne datovelger',
+      openPickerText: 'Åpne datovelger',
       maskOrder: 'dd/mm/yyyy',
       maskPlaceholder: 'dd.mm.åååå', // have to be same setup as "mask" - but can be like: dd/mm/åååå
       dateFormat: 'yyyy-MM-dd', // in v1 of date-fns we were more flexible in terms of the format
