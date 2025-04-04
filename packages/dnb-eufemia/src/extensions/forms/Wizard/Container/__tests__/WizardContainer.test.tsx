@@ -4084,6 +4084,118 @@ describe('Wizard.Container', () => {
         expect(output()).toHaveTextContent('Step 2')
         expect(document.querySelector('.dnb-form-status')).toBeNull()
       })
+
+      it('should not show error during back and forth navigation', async () => {
+        const onStepChange = async () => {
+          await wait(1)
+        }
+
+        render(
+          <Form.Handler>
+            <Wizard.Container onStepChange={onStepChange}>
+              <Wizard.Step title="Step 1">
+                <output>Step 1</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+
+              <Wizard.Step title="Step 2">
+                <output>Step 2</output>
+
+                <Field.Boolean
+                  path="/foo"
+                  variant="buttons"
+                  required // ensure to show error message
+                />
+
+                <Wizard.Buttons />
+              </Wizard.Step>
+
+              <Wizard.Step title="Step 3">
+                <output>Step 3</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        expect(output()).toHaveTextContent('Step 1')
+        expect(
+          document.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).toBeNull()
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+        await userEvent.click(nextButton())
+
+        expect(output()).toHaveTextContent('Step 2')
+        expect(
+          document.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).toBeNull()
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+        await userEvent.click(previousButton())
+
+        expect(output()).toHaveTextContent('Step 1')
+        expect(
+          document.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).toBeNull()
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+        await userEvent.click(nextButton())
+
+        expect(output()).toHaveTextContent('Step 2')
+        expect(
+          document.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).toBeNull()
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+        await userEvent.click(nextButton())
+
+        expect(output()).toHaveTextContent('Step 2')
+        expect(
+          document.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).toBeNull()
+        expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(
+          1
+        )
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(nb.Field.errorRequired)
+
+        await userEvent.click(previousButton())
+
+        expect(output()).toHaveTextContent('Step 1')
+        expect(
+          document.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).toHaveTextContent(nb.Step.stepHasError)
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+        await userEvent.click(nextButton())
+
+        expect(output()).toHaveTextContent('Step 2')
+        expect(
+          document.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).toBeNull()
+        expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(
+          1
+        )
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(nb.Field.errorRequired)
+      })
     })
 
     it('should show a error beneath the trigger button when the step status has an error and the screen width is small', async () => {

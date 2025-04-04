@@ -7089,7 +7089,7 @@ describe('useFieldProps', () => {
             handlePathChangeUnvalidated,
             setMountedFieldState: jest.fn(),
           } as unknown as ContextState
-          const fieldBoundaryContextValue = {
+          const fieldBoundaryContextErrorValue = {
             revealError: revealErrorBoundary,
           }
           const fieldBlockContextValue = {
@@ -7104,7 +7104,7 @@ describe('useFieldProps', () => {
           return (
             <Context.Provider value={dataContextValue}>
               <FieldBoundaryContext.Provider
-                value={fieldBoundaryContextValue}
+                value={fieldBoundaryContextErrorValue}
               >
                 <FieldBlockContext.Provider value={fieldBlockContextValue}>
                   <WizardContext.Provider value={wizardContextValue}>
@@ -7171,8 +7171,8 @@ describe('useFieldProps', () => {
 
     it('should remove error from context when field has no error', async () => {
       let dataContextError = null
-      let fieldBoundaryContext = null
-      let wizardContextError = null
+      let fieldBoundaryContextError = null
+      let hasInvalidStepsState = null
 
       const MockComponent = () => {
         return (
@@ -7188,14 +7188,14 @@ describe('useFieldProps', () => {
 
                 <FieldBoundaryContext.Consumer>
                   {(context) => {
-                    fieldBoundaryContext = context.hasVisibleError
+                    fieldBoundaryContextError = context.hasVisibleError
                     return null
                   }}
                 </FieldBoundaryContext.Consumer>
 
                 <WizardContext.Consumer>
                   {(context) => {
-                    wizardContextError = context.hasInvalidStepsState()
+                    hasInvalidStepsState = context.hasInvalidStepsState
                     return null
                   }}
                 </WizardContext.Consumer>
@@ -7231,14 +7231,14 @@ describe('useFieldProps', () => {
       render(<MockComponent />)
 
       expect(dataContextError).toBe(false)
-      expect(fieldBoundaryContext).toBe(false)
-      expect(wizardContextError).toBe(true)
+      expect(fieldBoundaryContextError).toBe(false)
+      expect(hasInvalidStepsState()).toBe(false)
 
       fireEvent.submit(document.querySelector('form'))
 
       expect(dataContextError).toBe(true)
-      expect(fieldBoundaryContext).toBe(true)
-      expect(wizardContextError).toBe(true)
+      expect(fieldBoundaryContextError).toBe(true)
+      expect(hasInvalidStepsState()).toBe(true)
 
       await userEvent.type(document.querySelector('input'), 'foo')
       await userEvent.click(
@@ -7248,8 +7248,8 @@ describe('useFieldProps', () => {
       expect(document.querySelector('input')).toHaveValue('Foo')
 
       expect(dataContextError).toBe(true)
-      expect(fieldBoundaryContext).toBe(true)
-      expect(wizardContextError).toBe(true)
+      expect(fieldBoundaryContextError).toBe(true)
+      expect(hasInvalidStepsState()).toBe(true)
 
       expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
@@ -7265,8 +7265,8 @@ describe('useFieldProps', () => {
       expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(0)
 
       expect(dataContextError).toBe(false)
-      expect(fieldBoundaryContext).toBe(false)
-      expect(wizardContextError).toBe(false)
+      expect(fieldBoundaryContextError).toBe(false)
+      expect(hasInvalidStepsState()).toBe(false)
     })
   })
 
