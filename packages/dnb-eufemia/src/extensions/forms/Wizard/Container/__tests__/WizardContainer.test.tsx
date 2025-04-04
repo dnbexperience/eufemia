@@ -532,7 +532,10 @@ describe('Wizard.Container', () => {
       render(
         <React.StrictMode>
           <Form.Handler>
-            <Wizard.Container onStepChange={onStepChange}>
+            <Wizard.Container
+              expandedInitially
+              onStepChange={onStepChange}
+            >
               <Step1 />
               <Step2 />
               <Summary />
@@ -541,7 +544,7 @@ describe('Wizard.Container', () => {
         </React.StrictMode>
       )
 
-      expect(screen.getByText('wizard.step1')).toBeInTheDocument()
+      expect(screen.getAllByText('wizard.step1')).toHaveLength(2)
       expect(screen.getByText('wizard.step2')).toBeInTheDocument()
 
       expect(output()).toHaveTextContent('Step 1')
@@ -3639,13 +3642,20 @@ describe('Wizard.Container', () => {
 
         fireEvent.submit(document.querySelector('form'))
 
+        expect(screen.getAllByText('Unknown state')).toHaveLength(1)
+
+        await expandStepIndicator()
         expect(screen.getAllByText('Unknown state')).toHaveLength(2)
       })
 
       it('should not show unknown status on navigation without form submit', async () => {
         render(
           <Form.Handler>
-            <Wizard.Container mode="loose" initialActiveIndex={1}>
+            <Wizard.Container
+              mode="loose"
+              initialActiveIndex={1}
+              expandedInitially
+            >
               <Wizard.Step title="Step 1">
                 <Field.String path="/foo" required />
                 <output>Step 1</output>
@@ -3685,7 +3695,11 @@ describe('Wizard.Container', () => {
       it('should not show unknown status on visited steps', async () => {
         render(
           <Form.Handler>
-            <Wizard.Container mode="loose" initialActiveIndex={2}>
+            <Wizard.Container
+              mode="loose"
+              initialActiveIndex={2}
+              expandedInitially
+            >
               <Wizard.Step title="Step 1">
                 <output>Step 1</output>
                 <Wizard.Buttons />
@@ -4203,7 +4217,10 @@ describe('Wizard.Container', () => {
 
         render(
           <Form.Handler>
-            <Wizard.Container onStepChange={onStepChange}>
+            <Wizard.Container
+              onStepChange={onStepChange}
+              expandedInitially
+            >
               <Wizard.Step title="Step 1">
                 <output>Step 1</output>
                 <Wizard.Buttons />
@@ -4290,7 +4307,7 @@ describe('Wizard.Container', () => {
             '.dnb-step-indicator__item-content__status'
           )
         ).toHaveTextContent(nb.Step.stepHasError)
-        expect(document.querySelector('.dnb-form-status')).toBeNull()
+        expect(content().querySelector('.dnb-form-status')).toBeNull()
 
         await userEvent.click(nextButton())
 
@@ -5173,7 +5190,7 @@ describe('Wizard.Container', () => {
     it('should hide the visibility content when the condition is met', async () => {
       render(
         <Form.Handler>
-          <Wizard.Container variant="drawer">
+          <Wizard.Container>
             <Wizard.Step title="Step 1">
               <output>Step 1</output>
               <Form.Section
@@ -5261,7 +5278,7 @@ describe('Wizard.Container', () => {
             },
           }}
         >
-          <Wizard.Container variant="drawer">
+          <Wizard.Container expandedInitially>
             <Wizard.Step title="Step 1">
               <output>Step 1</output>
               <Form.Section path="/sectionPath">
