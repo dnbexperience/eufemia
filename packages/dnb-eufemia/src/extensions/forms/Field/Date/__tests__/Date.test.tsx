@@ -368,9 +368,10 @@ describe('Field.Date', () => {
 
       const dayInput = document.querySelector(
         '.dnb-date-picker__input--day'
-      )
+      ) as HTMLInputElement
 
       await userEvent.click(dayInput)
+      dayInput.setSelectionRange(0, 0)
       await userEvent.keyboard('39192025')
       await userEvent.click(document.body)
 
@@ -383,6 +384,7 @@ describe('Field.Date', () => {
       ).toHaveTextContent(nb.Date.errorInvalidDate)
 
       await userEvent.click(dayInput)
+      dayInput.setSelectionRange(0, 0)
       await userEvent.keyboard('11122025')
       await userEvent.click(document.body)
 
@@ -396,7 +398,7 @@ describe('Field.Date', () => {
 
       const dayInput = document.querySelector(
         '.dnb-date-picker__input--day'
-      )
+      ) as HTMLInputElement
 
       const getMessages = () =>
         Array.from(
@@ -405,6 +407,7 @@ describe('Field.Date', () => {
 
       // Type start date
       await userEvent.click(dayInput)
+      dayInput.setSelectionRange(0, 0)
       await userEvent.keyboard('39192025')
 
       expect(
@@ -431,6 +434,7 @@ describe('Field.Date', () => {
 
       // Type valid start date
       await userEvent.click(dayInput)
+      dayInput.setSelectionRange(0, 0)
       await userEvent.keyboard('11122025')
 
       expect(
@@ -458,9 +462,10 @@ describe('Field.Date', () => {
 
       const dayInput = document.querySelector(
         '.dnb-date-picker__input--day'
-      )
+      ) as HTMLInputElement
 
       await userEvent.click(dayInput)
+      dayInput.setSelectionRange(0, 0)
       await userEvent.keyboard('39192025')
       await userEvent.click(document.body)
 
@@ -473,6 +478,7 @@ describe('Field.Date', () => {
       ).toHaveTextContent(en.Date.errorInvalidDate)
 
       await userEvent.click(dayInput)
+      dayInput.setSelectionRange(0, 0)
       await userEvent.keyboard('11122025')
       await userEvent.click(document.body)
 
@@ -490,7 +496,7 @@ describe('Field.Date', () => {
 
       const dayInput = document.querySelector(
         '.dnb-date-picker__input--day'
-      )
+      ) as HTMLInputElement
 
       const getMessages = () =>
         Array.from(
@@ -525,6 +531,7 @@ describe('Field.Date', () => {
 
       // Type valid start date
       await userEvent.click(dayInput)
+      dayInput.setSelectionRange(0, 0)
       await userEvent.keyboard('11122025')
 
       expect(
@@ -559,9 +566,9 @@ describe('Field.Date', () => {
       </Form.Handler>
     )
 
-    const [day, , year]: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
-    )
+    const day = document.querySelector(
+      '.dnb-date-picker__input'
+    ) as HTMLInputElement
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
       '/myValue': {
@@ -570,9 +577,9 @@ describe('Field.Date', () => {
       },
     })
 
-    fireEvent.focus(day)
-    await userEvent.keyboard('0211')
-    await userEvent.type(year, '2024')
+    await userEvent.click(day)
+    day.setSelectionRange(0, 0)
+    await userEvent.keyboard('02112024')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
       '/myValue': {
@@ -597,9 +604,9 @@ describe('Field.Date', () => {
       </Form.Handler>
     )
 
-    const [day, , year]: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
-    )
+    const day = document.querySelector(
+      '.dnb-date-picker__input'
+    ) as HTMLInputElement
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
       '/myValue': {
@@ -608,9 +615,9 @@ describe('Field.Date', () => {
       },
     })
 
-    fireEvent.focus(day)
-    await userEvent.keyboard('0211')
-    await userEvent.type(year, '2024')
+    await userEvent.click(day)
+    day.setSelectionRange(0, 0)
+    await userEvent.keyboard('02112024')
 
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
       '/myValue': {
@@ -1323,6 +1330,7 @@ describe('Field.Date', () => {
 
     // Test myOnBlurValidator
     await userEvent.click(day)
+    day.setSelectionRange(0, 0)
     await userEvent.keyboard('{ArrowDown}')
     await userEvent.click(document.body)
 
@@ -1351,6 +1359,7 @@ describe('Field.Date', () => {
 
     // Test date limit (min|max) validator
     await userEvent.click(month)
+    day.setSelectionRange(0, 0)
     await userEvent.keyboard('{ArrowUp}')
     await userEvent.click(document.body)
 
@@ -1368,6 +1377,7 @@ describe('Field.Date', () => {
     )
 
     await userEvent.click(month)
+    month.setSelectionRange(0, 0)
     await userEvent.keyboard('{ArrowDown>2}')
     await userEvent.click(document.body)
 
@@ -1396,6 +1406,7 @@ describe('Field.Date', () => {
 
     // Test invalid date validator
     await userEvent.click(day)
+    day.setSelectionRange(0, 0)
     await userEvent.keyboard('99999999')
     await userEvent.click(document.body)
 
@@ -1407,6 +1418,7 @@ describe('Field.Date', () => {
     ).toHaveTextContent(nb.Date.errorInvalidDate)
 
     await userEvent.click(day)
+    day.setSelectionRange(0, 0)
     await userEvent.keyboard('10012025')
     await userEvent.click(document.body)
 

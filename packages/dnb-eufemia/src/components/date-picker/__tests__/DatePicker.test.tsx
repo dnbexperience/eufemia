@@ -317,7 +317,7 @@ describe('DatePicker component', () => {
     expect(month.value).toBe('05')
     expect(year.value).toBe('åååå')
 
-    await userEvent.keyboard('{Backspace>2}')
+    await userEvent.keyboard('{Backspace}')
 
     expect(day.value).toBe('17')
     expect(month.value).toBe('0m')
@@ -329,7 +329,7 @@ describe('DatePicker component', () => {
     expect(month.value).toBe('mm')
     expect(year.value).toBe('åååå')
 
-    await userEvent.keyboard('{Backspace>2}')
+    await userEvent.keyboard('{Backspace}')
 
     expect(day.value).toBe('1d')
     expect(month.value).toBe('mm')
@@ -382,16 +382,7 @@ describe('DatePicker component', () => {
     expect(endYear.value).toBe('2025')
 
     await userEvent.click(endYear)
-    await userEvent.keyboard('{ArrowRight>4}{Backspace}')
-
-    expect(startDay.value).toBe('01')
-    expect(startMonth.value).toBe('05')
-    expect(startYear.value).toBe('2024')
-    expect(endDay.value).toBe('30')
-    expect(endMonth.value).toBe('06')
-    expect(endYear.value).toBe('202å')
-
-    await userEvent.keyboard('{Backspace}')
+    await userEvent.keyboard('{ArrowRight>4}{Backspace>2}')
 
     expect(startDay.value).toBe('01')
     expect(startMonth.value).toBe('05')
@@ -400,16 +391,7 @@ describe('DatePicker component', () => {
     expect(endMonth.value).toBe('06')
     expect(endYear.value).toBe('20åå')
 
-    await userEvent.keyboard('{Backspace}')
-
-    expect(startDay.value).toBe('01')
-    expect(startMonth.value).toBe('05')
-    expect(startYear.value).toBe('2024')
-    expect(endDay.value).toBe('30')
-    expect(endMonth.value).toBe('06')
-    expect(endYear.value).toBe('2ååå')
-
-    await userEvent.keyboard('{Backspace}')
+    await userEvent.keyboard('{Backspace>2}')
 
     expect(startDay.value).toBe('01')
     expect(startMonth.value).toBe('05')
@@ -424,28 +406,10 @@ describe('DatePicker component', () => {
     expect(startMonth.value).toBe('05')
     expect(startYear.value).toBe('2024')
     expect(endDay.value).toBe('30')
-    expect(endMonth.value).toBe('0m')
-    expect(endYear.value).toBe('åååå')
-
-    await userEvent.keyboard('{Backspace}')
-
-    expect(startDay.value).toBe('01')
-    expect(startMonth.value).toBe('05')
-    expect(startYear.value).toBe('2024')
-    expect(endDay.value).toBe('30')
     expect(endMonth.value).toBe('mm')
     expect(endYear.value).toBe('åååå')
 
     await userEvent.keyboard('{Backspace>2}')
-
-    expect(startDay.value).toBe('01')
-    expect(startMonth.value).toBe('05')
-    expect(startYear.value).toBe('2024')
-    expect(endDay.value).toBe('3d')
-    expect(endMonth.value).toBe('mm')
-    expect(endYear.value).toBe('åååå')
-
-    await userEvent.keyboard('{Backspace}')
 
     expect(startDay.value).toBe('01')
     expect(startMonth.value).toBe('05')
@@ -455,15 +419,6 @@ describe('DatePicker component', () => {
     expect(endYear.value).toBe('åååå')
 
     await userEvent.keyboard('{Backspace>2}')
-
-    expect(startDay.value).toBe('01')
-    expect(startMonth.value).toBe('05')
-    expect(startYear.value).toBe('202å')
-    expect(endDay.value).toBe('dd')
-    expect(endMonth.value).toBe('mm')
-    expect(endYear.value).toBe('åååå')
-
-    await userEvent.keyboard('{Backspace}')
 
     expect(startDay.value).toBe('01')
     expect(startMonth.value).toBe('05')
@@ -472,16 +427,7 @@ describe('DatePicker component', () => {
     expect(endMonth.value).toBe('mm')
     expect(endYear.value).toBe('åååå')
 
-    await userEvent.keyboard('{Backspace}')
-
-    expect(startDay.value).toBe('01')
-    expect(startMonth.value).toBe('05')
-    expect(startYear.value).toBe('2ååå')
-    expect(endDay.value).toBe('dd')
-    expect(endMonth.value).toBe('mm')
-    expect(endYear.value).toBe('åååå')
-
-    await userEvent.keyboard('{Backspace}')
+    await userEvent.keyboard('{Backspace>2}')
 
     expect(startDay.value).toBe('01')
     expect(startMonth.value).toBe('05')
@@ -493,15 +439,6 @@ describe('DatePicker component', () => {
     await userEvent.keyboard('{Backspace>2}')
 
     expect(startDay.value).toBe('01')
-    expect(startMonth.value).toBe('0m')
-    expect(startYear.value).toBe('åååå')
-    expect(endDay.value).toBe('dd')
-    expect(endMonth.value).toBe('mm')
-    expect(endYear.value).toBe('åååå')
-
-    await userEvent.keyboard('{Backspace}')
-
-    expect(startDay.value).toBe('01')
     expect(startMonth.value).toBe('mm')
     expect(startYear.value).toBe('åååå')
     expect(endDay.value).toBe('dd')
@@ -509,20 +446,109 @@ describe('DatePicker component', () => {
     expect(endYear.value).toBe('åååå')
 
     await userEvent.keyboard('{Backspace>2}')
-
-    expect(startDay.value).toBe('0d')
-    expect(startMonth.value).toBe('mm')
-    expect(startYear.value).toBe('åååå')
-    expect(endDay.value).toBe('dd')
-    expect(endMonth.value).toBe('mm')
-    expect(endYear.value).toBe('åååå')
-
-    await userEvent.keyboard('{Backspace}')
 
     expect(startDay.value).toBe('dd')
     expect(startMonth.value).toBe('mm')
     expect(startYear.value).toBe('åååå')
     expect(endDay.value).toBe('dd')
+    expect(endMonth.value).toBe('mm')
+    expect(endYear.value).toBe('åååå')
+  })
+
+  it('should insert number in next field when cursor is at the end and the component controlled', async () => {
+    const Component = () => {
+      const [startDate, setStartDate] = useState('2024-05-01')
+      const [endDate, setEndDate] = useState('2025-06-30')
+
+      return (
+        <DatePicker
+          showInput
+          range
+          startDate={startDate}
+          endDate={endDate}
+          onChange={({ start_date, end_date }) => {
+            setStartDate(start_date)
+            setEndDate(end_date)
+          }}
+        />
+      )
+    }
+
+    render(<Component />)
+
+    const [
+      startDay,
+      startMonth,
+      startYear,
+      endDay,
+      endMonth,
+      endYear,
+    ]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('input.dnb-input__input')
+    )
+
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('05')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('30')
+    expect(endMonth.value).toBe('06')
+    expect(endYear.value).toBe('2025')
+
+    await userEvent.click(endYear)
+    await userEvent.keyboard('{Backspace>16}')
+
+    expect(startDay.value).toBe('dd')
+    expect(startMonth.value).toBe('mm')
+    expect(startYear.value).toBe('åååå')
+    expect(endDay.value).toBe('dd')
+    expect(endMonth.value).toBe('mm')
+    expect(endYear.value).toBe('åååå')
+
+    await userEvent.keyboard('01')
+
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('mm')
+    expect(startYear.value).toBe('åååå')
+    expect(endDay.value).toBe('dd')
+    expect(endMonth.value).toBe('mm')
+    expect(endYear.value).toBe('åååå')
+
+    await userEvent.keyboard('05')
+
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('05')
+    expect(startYear.value).toBe('åååå')
+    expect(endDay.value).toBe('dd')
+    expect(endMonth.value).toBe('mm')
+    expect(endYear.value).toBe('åååå')
+
+    await userEvent.click(startMonth)
+    await userEvent.keyboard('3024')
+
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('05')
+    expect(startYear.value).toBe('3024')
+    expect(endDay.value).toBe('dd')
+    expect(endMonth.value).toBe('mm')
+    expect(endYear.value).toBe('åååå')
+
+    await userEvent.click(startMonth)
+    await userEvent.keyboard('2024')
+
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('05')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('dd')
+    expect(endMonth.value).toBe('mm')
+    expect(endYear.value).toBe('åååå')
+
+    await userEvent.click(startYear)
+    await userEvent.keyboard('30')
+
+    expect(startDay.value).toBe('01')
+    expect(startMonth.value).toBe('05')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('30')
     expect(endMonth.value).toBe('mm')
     expect(endYear.value).toBe('åååå')
   })
@@ -1488,15 +1514,17 @@ describe('DatePicker component', () => {
         maxDate="2019-03-01"
       />
     )
-    const elem = document.querySelectorAll(
+    const elem = document.querySelector(
       'input.dnb-date-picker__input--day'
-    )[0]
+    ) as HTMLInputElement
 
     // by default we have the corrected start day
     expect(elem).toHaveValue('02')
 
     // change the date to something invalid
-    await userEvent.type(elem, '01')
+    await userEvent.click(elem)
+    elem.setSelectionRange(0, 0)
+    await userEvent.keyboard('01')
 
     expect(onChange).toHaveBeenCalledTimes(2)
     expect(onChange).toHaveBeenLastCalledWith(
@@ -1507,7 +1535,9 @@ describe('DatePicker component', () => {
     )
 
     // change the date to a valid date
-    await userEvent.type(elem, '{Backspace>2}03')
+    await userEvent.click(elem)
+    elem.setSelectionRange(0, 0)
+    await userEvent.keyboard('{Backspace>2}03')
 
     expect(onChange).toHaveBeenCalledTimes(3)
     expect(onChange).toHaveBeenLastCalledWith(
@@ -2073,7 +2103,7 @@ describe('DatePicker component', () => {
     expect(legendElem.classList).toContain('dnb-sr-only')
   })
 
-  it('has to select all only on first focus', () => {
+  it('has to select first caret position on first focus', () => {
     render(
       <DatePicker
         id="custom-id"
@@ -2088,9 +2118,10 @@ describe('DatePicker component', () => {
     ) as HTMLInputElement
 
     fireEvent.focus(inputElement)
+    inputElement.setSelectionRange(0, 0)
 
     expect(inputElement.selectionStart).toBe(0)
-    expect(inputElement.selectionEnd).toBe(2)
+    expect(inputElement.selectionEnd).toBe(0)
 
     fireEvent.keyDown(inputElement, {
       key: 'A',
@@ -2107,7 +2138,7 @@ describe('DatePicker component', () => {
     fireEvent.focus(inputElement)
 
     expect(inputElement.selectionStart).toBe(0)
-    expect(inputElement.selectionEnd).toBe(2)
+    expect(inputElement.selectionEnd).toBe(0)
   })
 
   it('has to focus on date picker on opening', () => {
@@ -2551,7 +2582,7 @@ describe('DatePicker component', () => {
     const dayInput = document.querySelector('.dnb-date-picker__input--day')
     const yearInput = document.querySelector(
       '.dnb-date-picker__input--year'
-    )
+    ) as HTMLInputElement
 
     // Type day
     await userEvent.click(dayInput)
@@ -2586,6 +2617,7 @@ describe('DatePicker component', () => {
     )
 
     await userEvent.click(yearInput)
+    yearInput.setSelectionRange(0, 0)
     await userEvent.keyboard('2025')
     await userEvent.click(document.body)
     expect(onBlur).toHaveBeenCalledTimes(4)
@@ -2618,7 +2650,7 @@ describe('DatePicker component', () => {
     )
     const [startYearInput, endYearInput] = Array.from(
       document.querySelectorAll('.dnb-date-picker__input--year')
-    )
+    ) as Array<HTMLInputElement>
 
     // Type start day
     await userEvent.click(startDayInput)
@@ -2659,6 +2691,7 @@ describe('DatePicker component', () => {
     )
 
     await userEvent.click(startYearInput)
+    startYearInput.setSelectionRange(0, 0)
     await userEvent.keyboard('2025')
     expect(onBlur).toHaveBeenCalledTimes(4)
     expect(onBlur).toHaveBeenCalledWith(
@@ -2708,6 +2741,7 @@ describe('DatePicker component', () => {
     )
 
     await userEvent.click(endYearInput)
+    endYearInput.setSelectionRange(0, 0)
     await userEvent.keyboard('2026')
     await userEvent.click(document.body)
     expect(onBlur).toHaveBeenCalledTimes(8)
@@ -2736,6 +2770,7 @@ describe('DatePicker component', () => {
 
     // Remove part of start year to make start date partial again
     await userEvent.click(startYearInput)
+    startYearInput.setSelectionRange(0, 0)
     await userEvent.keyboard('{ArrowRight>4}{Backspace}')
     await userEvent.click(document.body)
     expect(onBlur).toHaveBeenCalledTimes(10)
@@ -2809,7 +2844,9 @@ describe('DatePicker component', () => {
     const onChange = jest.fn()
     render(<DatePicker onChange={onChange} showInput />)
 
-    const dayInput = document.querySelector('.dnb-date-picker__input--day')
+    const dayInput = document.querySelector(
+      '.dnb-date-picker__input--day'
+    ) as HTMLInputElement
 
     await userEvent.click(dayInput)
     await userEvent.keyboard('39')
@@ -2826,6 +2863,7 @@ describe('DatePicker component', () => {
 
     // Typing a valid date
     await userEvent.click(dayInput)
+    dayInput.setSelectionRange(0, 0)
     await userEvent.keyboard('20112025')
     expect(onChange).toHaveBeenCalledTimes(7)
     expect(onChange).toHaveBeenCalledWith(
@@ -2837,7 +2875,9 @@ describe('DatePicker component', () => {
     const onChange = jest.fn()
     render(<DatePicker onChange={onChange} range showInput />)
 
-    const dayInput = document.querySelector('.dnb-date-picker__input--day')
+    const dayInput = document.querySelector(
+      '.dnb-date-picker__input--day'
+    ) as HTMLInputElement
 
     // Fill out startDay
     await userEvent.click(dayInput)
@@ -2873,6 +2913,7 @@ describe('DatePicker component', () => {
 
     // Typing a valid start date
     await userEvent.click(dayInput)
+    dayInput.setSelectionRange(0, 0)
     await userEvent.keyboard('20112025')
     expect(onChange).toHaveBeenCalledTimes(7)
     expect(onChange).toHaveBeenCalledWith(
@@ -2894,6 +2935,50 @@ describe('DatePicker component', () => {
         start_date: '2025-11-20',
         end_date: '2025-11-29',
       })
+    )
+  })
+
+  it('should set cursor on beginning of input when clicking on input', async () => {
+    render(<DatePicker showInput={true} />)
+
+    const input = document.querySelector(
+      '.dnb-date-picker__input'
+    ) as HTMLInputElement
+
+    expect(input.selectionStart).toBe(2)
+    expect(input.selectionEnd).toBe(2)
+
+    await userEvent.click(input)
+
+    expect(input.selectionStart).toBe(0)
+    expect(input.selectionEnd).toBe(0)
+  })
+
+  it('should set cursor on end of input when clicking on input when existing value is given', async () => {
+    render(<DatePicker showInput={true} date="2023-10-01" />)
+
+    const input = document.querySelector(
+      '.dnb-date-picker__input'
+    ) as HTMLInputElement
+
+    expect(input.selectionStart).toBe(2)
+    expect(input.selectionEnd).toBe(2)
+
+    await userEvent.click(input)
+
+    expect(input.selectionStart).toBe(2)
+    expect(input.selectionEnd).toBe(2)
+  })
+
+  it('should use inputMode="numeric" on all inputs', async () => {
+    render(<DatePicker range={true} showInput={true} />)
+
+    const inputs = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    ) as Array<HTMLInputElement>
+
+    expect(inputs.every((input) => input.inputMode === 'numeric')).toBe(
+      true
     )
   })
 })
