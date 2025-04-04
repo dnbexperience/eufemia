@@ -104,6 +104,8 @@ const Avatar = (localProps: AvatarProps & SpacingProps) => {
     avatarGroupContext
   )
 
+  console.log(avatarGroupContext)
+
   const {
     alt,
     className,
