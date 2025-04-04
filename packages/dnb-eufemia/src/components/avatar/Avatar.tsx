@@ -91,7 +91,7 @@ export interface AvatarProps
 
   /**
    * Define a custom color to compliment the backgroundColor. Use a Eufemia color.
-   * Default: null
+   * Default: undefined
    */
   color?: string
 }
