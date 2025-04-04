@@ -60,7 +60,7 @@ export interface AvatarGroupProps
 
   /**
    * Define a custom background color for the Avatars, instead of a variant. Use a Eufemia color.
-   * Default: null
+   * Default: undefined
    */
   backgroundColor?: string
 
