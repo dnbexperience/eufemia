@@ -894,15 +894,12 @@ function DatePicker(externalProps: DatePickerAllProps) {
       },
     }
 
-    const res =
-      range && endDate
-        ? selectedDateRange.replace(
-            /%s/,
-            formatDateRange({ startDate, endDate }, options)
-          )
-        : selectedDate.replace(/%s/, formatDate(startDate, options))
-    console.log(res)
-    return res
+    return range && endDate
+      ? selectedDateRange.replace(
+          /%s/,
+          formatDateRange({ startDate, endDate }, options)
+        )
+      : selectedDate.replace(/%s/, formatDate(startDate, options))
   }, [range, translation, dates, context.locale])
 
   const mainParams = {
