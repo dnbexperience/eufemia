@@ -36,6 +36,15 @@
   border-radius: 50%;
   font-weight: var(--font-weight-medium);
   line-height: 1;
+  background-color: var(--background-color);
+  color: var(--color);
+
+  &[style*='--background-color'] {
+    background-color: var(--background-color, var(--color-emerald-green));
+  }
+  &[style*='--color'] {
+    color: var(--color, var(--color-pistachio));
+  }
 
   // Safari needs a correct CSS specificity
   &,

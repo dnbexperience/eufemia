@@ -43,6 +43,14 @@ exports[`Avatar scss has to match style dependencies css 1`] = `
   border-radius: 50%;
   font-weight: var(--font-weight-medium);
   line-height: 1;
+  background-color: var(--background-color);
+  color: var(--color);
+}
+.dnb-avatar[style*="--background-color"] {
+  background-color: var(--background-color, var(--color-emerald-green));
+}
+.dnb-avatar[style*="--color"] {
+  color: var(--color, var(--color-pistachio));
 }
 .dnb-avatar, .dnb-core-style .dnb-avatar {
   line-height: var(--line-height-large);
@@ -143,16 +151,16 @@ exports[`Avatar scss have to match default theme snapshot 1`] = `
  * Utilities
  */
 .dnb-avatar {
-  color: var(--color-pistachio);
+  --color: var(--color-pistachio);
 }
 .dnb-avatar--primary {
-  background-color: var(--color-emerald-green);
+  --background-color: var(--color-emerald-green);
 }
 .dnb-avatar--secondary {
-  background-color: var(--color-sea-green);
+  --background-color: var(--color-sea-green);
 }
 .dnb-avatar--tertiary {
-  background-color: var(--color-mint-green);
-  color: var(--color-emerald-green);
+  --background-color: var(--color-mint-green);
+  --color: var(--color-emerald-green);
 }"
 `;

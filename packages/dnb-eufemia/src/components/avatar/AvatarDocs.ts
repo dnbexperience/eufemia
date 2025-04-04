@@ -36,6 +36,16 @@ export const AvatarProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  backgroundColor: {
+    doc: 'Define a custom background color, instead of a variant. Use a Eufemia color.',
+    type: 'string',
+    status: 'optional',
+  },
+  color: {
+    doc: 'Define a custom color to compliment the backgroundColor. Use a Eufemia color.',
+    type: 'string',
+    status: 'optional',
+  },
   skeleton: {
     doc: 'If set to `true`, an overlaying skeleton with animation will be shown.',
     type: 'boolean',
