@@ -15,6 +15,13 @@ Change log for the Eufemia Forms extension.
 
 Get more [details about releases](/uilib/releases) or have a look on all [release notes on GitHub](https://github.com/dnbexperience/eufemia/releases).
 
+## v10.70.0
+
+- Added default `autoComplete` of `current-password` in [Field.Password](/uilib/extensions/forms/feature-fields/more-fields/Password/).
+- Added `allowDuplicates` in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/) to allow uploading duplicate files.
+- Fixed so only comparing existing properties of file's `name`, `size` and `lastModified` when determining if file is a duplicate in [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/).
+- Fixed so `hasValue` runs in [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) when path is missing.
+
 ## v10.69.1
 
 - Fixed so error message in the step menu of [Wizard.Container](/uilib/extensions/forms/Wizard/Container/) is removed when unmounted.
