@@ -16,6 +16,7 @@ import type {
   SpacingProps,
 } from '../../shared/types'
 import Space from '../space/Space'
+import { getColor } from '../../shared/helpers'
 
 export type SectionVariants = 'error' | 'info' | 'warning' | 'success'
 
@@ -220,17 +221,6 @@ export function SectionParams(
     innerRef: elementRef,
     children,
   })
-}
-
-function getColor(value: string) {
-  if (String(value).includes('--')) {
-    return value
-  }
-  return value
-    ? !/#|var/.test(value)
-      ? `var(--color-${value})`
-      : value
-    : undefined
 }
 
 function computeStyle(
