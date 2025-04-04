@@ -134,7 +134,7 @@ describe('DatePicker component', () => {
 
     render(<Component />)
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
     expect(onShow).toHaveBeenCalledTimes(1)
 
     expect(
@@ -2392,7 +2392,7 @@ describe('DatePicker component', () => {
       <DatePicker startMonth="2024-01-01" endMonth="2024-12-31" range />
     )
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     const [startMonth, endMonth] = Array.from(
       document.querySelectorAll('.dnb-date-picker__header__title')
@@ -3223,7 +3223,7 @@ describe('DatePicker calc', () => {
         />
       )
 
-      await userEvent.click(screen.getByLabelText('åpne datovelger'))
+      await userEvent.click(screen.getByLabelText('Åpne datovelger'))
       await userEvent.click(screen.getByText('Correct'))
 
       expect(onChange).toHaveBeenCalledTimes(1)
@@ -3264,7 +3264,7 @@ describe('DatePicker calc', () => {
         />
       )
 
-      await userEvent.click(screen.getByLabelText('åpne datovelger'))
+      await userEvent.click(screen.getByLabelText('Åpne datovelger'))
       await userEvent.click(screen.getByText('Correct'))
 
       expect(onChange).toHaveBeenCalledTimes(1)
@@ -3463,7 +3463,7 @@ describe('DatePickerPortal', () => {
   it('should attach portal to document body on mount, and detach on unmount', async () => {
     render(<DatePicker />)
 
-    const inputButton = screen.getByLabelText('åpne datovelger')
+    const inputButton = screen.getByLabelText('Åpne datovelger')
 
     expect(
       document.body.querySelector('.dnb-date-picker__portal')
@@ -3489,7 +3489,7 @@ describe('DatePickerPortal', () => {
   it('should contain calendar views when mounted', async () => {
     render(<DatePicker />)
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     const portal = document.body.querySelector('.dnb-date-picker__portal')
 
@@ -3504,7 +3504,7 @@ describe('DatePickerPortal', () => {
   it('should skip portal when "skipPortal" is true', async () => {
     render(<DatePicker skipPortal />)
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     // dnb-date-picker__container is a direct descendant of dnb-date-picker__shell when portal is skipped
     expect(
@@ -3541,7 +3541,7 @@ describe('DatePickerPortal', () => {
 
     render(<DatePickerComponent />)
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
     expect(onShow).toHaveBeenCalledTimes(1)
     expect(onHide).toHaveBeenCalledTimes(0)
     expect(
@@ -3604,7 +3604,7 @@ describe('DatePicker ARIA', () => {
     )
     expect(openButton).toHaveAttribute(
       'aria-label',
-      'Valgt dato: fredag 25. april 2025, åpne datovelger'
+      'Valgt dato: fredag 25. april 2025, Åpne datovelger'
     )
   })
 
@@ -3666,7 +3666,7 @@ describe('DatePicker ARIA', () => {
     )
     expect(openButton).toHaveAttribute(
       'aria-label',
-      'Valgt dato: tisdag 22 april 2025, åpne datovelger'
+      'Valgt dato: tisdag 22 april 2025, Åpne datovelger'
     )
   })
 
