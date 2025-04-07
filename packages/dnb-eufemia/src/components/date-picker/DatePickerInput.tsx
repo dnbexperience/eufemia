@@ -30,7 +30,7 @@ import {
   toCapitalized,
 } from '../../shared/component-helper'
 import { IS_ANDROID, IS_IOS } from '../../shared/helpers'
-import { convertStringToDate } from './DatePickerCalc'
+import { convertStringToDate, formatDate } from './DatePickerCalc'
 import DatePickerContext from './DatePickerContext'
 
 import type {
@@ -41,7 +41,7 @@ import type {
 import type { SkeletonShow } from '../Skeleton'
 import { ReturnObject } from './DatePickerProvider'
 import { DatePickerEventAttributes } from './DatePicker'
-import { useTranslation } from '../../shared'
+import { Context, useTranslation } from '../../shared'
 import { DatePickerInputDates } from './hooks/useDates'
 import usePartialDates from './hooks/usePartialDates'
 
@@ -179,6 +179,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   } = useContext(DatePickerContext)
 
   const translation = useTranslation().DatePicker
+  const { locale } = useContext(Context)
 
   const modeDate = useMemo(
     () => ({
@@ -839,6 +840,14 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
                 onFocusHandler(e)
               },
               onBlur: onBlurHandler,
+              onCopy: (event) => {
+                const date = mode === 'end' ? endDate : startDate
+                if (isValid(date)) {
+                  event.preventDefault()
+                  const valueToCopy = formatDate(date, { locale })
+                  event.clipboardData.setData('text/plain', valueToCopy)
+                }
+              },
               placeholderChar,
             }
           }
