@@ -143,12 +143,6 @@
       position: relative;
     }
 
-    &__wrapper {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-    }
-
     // In case of .dnb-spacing usage
     .dnb-spacing & .dnb-p {
       margin-bottom: 0 !important;
@@ -171,40 +165,53 @@
       font-weight: var(--font-weight-regular);
     }
 
-    // &__credit-type {}
-    // &__bank-axept {}
+    &__type-text {
+      font-size: 0.938rem;
+      line-height: 1.188rem;
+      padding-top: 6px;
+    }
 
-    &__bottom__right {
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      display: flex;
-      align-items: center;
-
-      // adds divider if there are two provider icons
-      svg + div {
-        border-left: solid 1px currentColor;
-        margin-left: 1rem;
-        padding-left: 1rem;
+    // Top positioning of Card Elements
+    &__top {
+      // Bank + Loyalty Logos
+      &__left {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+      }
+      // Card Type Text
+      &__right {
+        position: absolute;
+        top: 0;
+        right: 0;
       }
     }
 
-    &__bank-logo {
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
+    // Bottom positioning of Card Elements
+    &__bottom {
+      // Card Number Text
+      &__left {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+      }
+      // BankAxept + Card Type Logos
+      &__right {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
 
-    &__product-type {
-      position: absolute;
-      top: 0;
-      left: 50px;
-    }
-
-    &__credit {
-      position: absolute;
-      top: 6px;
-      right: 0;
+        // adds divider if there are two provider icons
+        svg + div {
+          border-left: solid 0.5px currentColor;
+          margin-left: 1rem;
+          padding-left: 1rem;
+        }
+      }
     }
   }
 
