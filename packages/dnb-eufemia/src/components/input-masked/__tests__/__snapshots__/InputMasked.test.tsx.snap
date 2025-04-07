@@ -1337,6 +1337,13 @@ html[data-visual-test] .dnb-input__input {
 .dnb-input-masked input::placeholder {
   color: inherit;
 }
+.dnb-input-masked--hide-controls[type=number]::-webkit-outer-spin-button, .dnb-input-masked--hide-controls[type=number]::-webkit-inner-spin-button {
+  appearance: none;
+  margin: 0;
+}
+.dnb-input-masked--hide-controls[type=number] {
+  appearance: textfield;
+}
 
 .dnb-multi-input-mask__fieldset {
   padding: 0;
