@@ -715,7 +715,7 @@ describe('Field.Date', () => {
     expect(startMonth).toHaveValue('10')
     expect(startYear).toHaveValue('2024')
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     expect(
       screen.getByLabelText('tirsdag 1. oktober 2024')
@@ -741,7 +741,7 @@ describe('Field.Date', () => {
     expect(startMonth).toHaveValue('10')
     expect(startYear).toHaveValue('2024')
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     expect(
       screen.getByLabelText('tirsdag 1. oktober 2024')
@@ -815,7 +815,7 @@ describe('Field.Date', () => {
   it('should be able to hide navigation arrows', async () => {
     render(<Field.Date hideNavigation />)
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     expect(
       document.querySelector('.dnb-date-picker__prev')
@@ -828,7 +828,7 @@ describe('Field.Date', () => {
   it('should be able to hide week days', async () => {
     render(<Field.Date hideDays />)
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     expect(
       document.querySelector('.dnb-date-picker__labels')
@@ -838,7 +838,7 @@ describe('Field.Date', () => {
   it('should display cancel and reset buttons by default', async () => {
     render(<Field.Date />)
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     const [resetButton, cancelButton] = Array.from(
       document.querySelectorAll('.dnb-date-picker__footer button')
@@ -856,7 +856,7 @@ describe('Field.Date', () => {
       <Field.Date showSubmitButton showCancelButton showResetButton />
     )
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     const [submitButton, resetButton, cancelButton] = Array.from(
       document.querySelectorAll('.dnb-date-picker__footer button')
@@ -892,7 +892,7 @@ describe('Field.Date', () => {
       />
     )
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     const [submitButton, resetButton, cancelButton] = Array.from(
       document.querySelectorAll('.dnb-date-picker__footer button')
@@ -906,7 +906,7 @@ describe('Field.Date', () => {
   it('should support linked calendars', async () => {
     render(<Field.Date value="2024-11-01|2024-12-01" range link />)
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     const [rightCalendar, leftCalendar] = Array.from(
       document.querySelectorAll('.dnb-date-picker__calendar')
@@ -949,7 +949,7 @@ describe('Field.Date', () => {
   it('should be able to define the first day of the week', async () => {
     render(<Field.Date firstDay="tuesday" />)
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     const [firstDay] = Array.from(
       document.querySelectorAll('.dnb-date-picker__labels__day')
@@ -976,7 +976,7 @@ describe('Field.Date', () => {
   it('should be able to only show the month in calendar', async () => {
     render(<Field.Date onlyMonth />)
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     const calendar = document.querySelector('.dnb-date-picker__calendar')
 
@@ -1019,7 +1019,7 @@ describe('Field.Date', () => {
       />
     )
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     const [
       startDay,
@@ -1101,7 +1101,7 @@ describe('Field.Date', () => {
     expect(month).toHaveValue('10')
     expect(year).toHaveValue('2024')
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     const addonElement = document.querySelector(
       '.dnb-date-picker__addon button'
@@ -1125,7 +1125,7 @@ describe('Field.Date', () => {
       document.querySelectorAll('.dnb-date-picker__input')
     )
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     const monthTable = document.querySelector(
       '.dnb-date-picker__calendar table'
@@ -1168,7 +1168,7 @@ describe('Field.Date', () => {
       />
     )
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     const submitButton = document.querySelector(
       '.dnb-date-picker__footer button[data-testid="submit"]'
@@ -1187,7 +1187,7 @@ describe('Field.Date', () => {
 
     render(<Field.Date value="2024-10-31" onCancel={onCancel} />)
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     const cancelButton = document.querySelector(
       '.dnb-date-picker__footer button[data-testid="cancel"]'
@@ -1206,7 +1206,7 @@ describe('Field.Date', () => {
 
     render(<Field.Date value="2024-10-31" onReset={onReset} />)
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     const resetButton = document.querySelector(
       '.dnb-date-picker__footer button[data-testid="reset"]'
@@ -1223,7 +1223,7 @@ describe('Field.Date', () => {
 
     render(<Field.Date value="2024-10-31" onShow={onShow} />)
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     expect(onShow).toHaveBeenCalledTimes(1)
     expect(onShow).toHaveBeenLastCalledWith(
@@ -1236,8 +1236,8 @@ describe('Field.Date', () => {
 
     render(<Field.Date value="2024-10-31" onHide={onHide} />)
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
     await waitFor(() =>
       expect(
         document.querySelector('.dnb-date-picker__portal')
@@ -1255,7 +1255,7 @@ describe('Field.Date', () => {
 
     render(<Field.Date value="2024-10-01" onDaysRender={onDaysRender} />)
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     expect(onDaysRender).toHaveBeenCalledTimes(1)
     expect(onDaysRender.mock.calls[0][0].length).toBe(42)
@@ -1279,7 +1279,7 @@ describe('Field.Date', () => {
   it('should support `skipPortal`', async () => {
     render(<Field.Date skipPortal />)
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     // dnb-date-picker__container is a direct descendant of dnb-date-picker__shell when portal is skipped
     expect(
@@ -1475,7 +1475,7 @@ describe('Field.Date', () => {
         <Field.Date startMonth="2024-01-01" endMonth="2024-12-31" range />
       )
 
-      await userEvent.click(screen.getByLabelText('åpne datovelger'))
+      await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
       const [startMonth, endMonth] = Array.from(
         document.querySelectorAll('.dnb-date-picker__header__title')
@@ -1497,7 +1497,7 @@ describe('Field.Date', () => {
         />
       )
 
-      await userEvent.click(screen.getByLabelText('åpne datovelger'))
+      await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
       const [rightCalendar, leftCalendar] = Array.from(
         document.querySelectorAll('.dnb-date-picker__calendar')
@@ -1591,7 +1591,7 @@ describe('Field.Date', () => {
         </Form.Handler>
       )
 
-      await userEvent.click(screen.getByLabelText('åpne datovelger'))
+      await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
       // Clicking the minDate should not trigger error
       await userEvent.click(screen.getByLabelText('torsdag 13. mars 2025'))
@@ -1602,7 +1602,7 @@ describe('Field.Date', () => {
 
       // Clicking the maxDate should not trigger error
       await userEvent.click(screen.getByText('Tilbake'))
-      await userEvent.click(screen.getByLabelText('åpne datovelger'))
+      await userEvent.click(screen.getByLabelText('Åpne datovelger'))
       await userEvent.click(screen.getByLabelText('mandag 31. mars 2025'))
       await userEvent.click(screen.getByText('Neste'))
       expect(
@@ -1611,7 +1611,7 @@ describe('Field.Date', () => {
 
       // Double check that dates before min and max date are disabled in the calendar
       await userEvent.click(screen.getByText('Tilbake'))
-      await userEvent.click(screen.getByLabelText('åpne datovelger'))
+      await userEvent.click(screen.getByLabelText('Åpne datovelger'))
       expect(
         screen.getByLabelText('onsdag 12. mars 2025')
       ).toHaveAttribute('disabled')
@@ -1641,7 +1641,7 @@ describe('Field.Date', () => {
         </Form.Handler>
       )
 
-      await userEvent.click(screen.getByLabelText('åpne datovelger'))
+      await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
       // Clicking the minDate should not trigger error
       await userEvent.click(screen.getByLabelText('torsdag 13. mars 2025'))
@@ -1652,7 +1652,7 @@ describe('Field.Date', () => {
 
       // Clicking the maxDate should not trigger error
       await userEvent.click(screen.getByText('Tilbake'))
-      await userEvent.click(screen.getByLabelText('åpne datovelger'))
+      await userEvent.click(screen.getByLabelText('Åpne datovelger'))
       await userEvent.click(screen.getByLabelText('mandag 31. mars 2025'))
       await userEvent.click(screen.getByText('Neste'))
       expect(
@@ -1661,7 +1661,7 @@ describe('Field.Date', () => {
 
       // Double check that dates before min and max date are disabled in the calendar
       await userEvent.click(screen.getByText('Tilbake'))
-      await userEvent.click(screen.getByLabelText('åpne datovelger'))
+      await userEvent.click(screen.getByLabelText('Åpne datovelger'))
       expect(
         screen.getByLabelText('onsdag 12. mars 2025')
       ).toHaveAttribute('disabled')
