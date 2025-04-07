@@ -1118,6 +1118,7 @@ const NonAttributes = [
   'startMonth',
   'alignPicker',
   'preventClose',
+  'selectedDateRange',
 ]
 
 function filterOutNonAttributes(props: DatePickerProps) {
