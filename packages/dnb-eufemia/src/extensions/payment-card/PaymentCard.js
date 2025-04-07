@@ -258,13 +258,12 @@ function StatusOverlay({ cardStatus, translations }) {
   ) : null
 }
 
-CardText.propTypes = {
+CardNumberText.propTypes = {
   cardNumber: PropTypes.string.isRequired,
-  translations: PropTypes.object.isRequired,
   skeleton: PropTypes.bool.isRequired,
 }
 
-function CardText({ cardNumber, translations, skeleton }) {
+function CardNumberText({ cardNumber, skeleton }) {
   return (
     <span
       className={classnames(
@@ -318,12 +317,12 @@ function NormalCard({
           />
         </div>
         <div className="dnb-payment-card__card__bottom">
-          <CardText
-            cardNumber={cardNumber}
-            displayName={data.displayName}
-            translations={translations}
-            skeleton={skeleton}
-          />
+          <div className="dnb-payment-card__card__bottom__left">
+            <CardNumberText
+                cardNumber={cardNumber}
+                skeleton={skeleton}
+            />
+          </div>
           <div className="dnb-payment-card__card__bottom__right">
             <BankAxeptLogo
                 bankAxept={data.bankAxept}
