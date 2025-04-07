@@ -83,9 +83,7 @@ const BankAxeptLogo = ({ bankAxept, cardDesign }) => {
         Black: () => <BankAxept className={id} fill="#000000" />,
         Gold: () => <BankAxept className={id} fill="#CAAB51" />,
       }),
-    Credit: () => (
-      <Credit className={'dnb-payment-card__card__credit'} fill="#fff" />
-    ),
+    Credit: () => null,
     None: () => null,
   })
 }
