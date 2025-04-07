@@ -2409,7 +2409,7 @@ describe('DatePicker component', () => {
 
     await userEvent.click(dayInput)
     await userEvent.keyboard('10022001')
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     const startMonth = document.querySelector(
       '.dnb-date-picker__header__title'
@@ -2432,7 +2432,7 @@ describe('DatePicker component', () => {
 
     await userEvent.click(dayInput)
     await userEvent.keyboard('0103200106042003')
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     const [startMonth, endMonth] = Array.from(
       document.querySelectorAll('.dnb-date-picker__header__title')
