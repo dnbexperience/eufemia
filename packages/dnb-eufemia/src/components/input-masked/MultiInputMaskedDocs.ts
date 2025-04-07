@@ -66,7 +66,7 @@ export const multiInputMaskedProperties: PropertiesTableProps = {
   },
 }
 
-export const multiInputMaskedInputProperties: PropertiesTableProps = {
+export const multiInputMaskedInputsProperties: PropertiesTableProps = {
   id: {
     doc: '(string) Defines input id. This id is also used to map the input value to the correct property on the objects used for `values` and `onChange` parameters.',
     type: 'string',
