@@ -90,3 +90,61 @@ export const inputMaskedEvents: PropertiesTableProps = {
     status: 'optional',
   },
 }
+
+export const inputMaskedMaskOptionsProperties: PropertiesTableProps = {
+  prefix: {
+    doc: 'What to display before the amount. Defaults to an empty string.',
+    type: 'string',
+    status: 'optional',
+  },
+  suffix: {
+    doc: 'What to display after the amount. Defaults to an empty string.',
+    type: 'string',
+    status: 'optional',
+  },
+  includeThousandsSeparator: {
+    doc: 'Whether or not to separate thousands. Defaults to `true`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  thousandsSeparatorSymbol: {
+    doc: "Character with which to separate thousands. Defaults to `' '`.",
+    type: 'string',
+    status: 'optional',
+  },
+  allowDecimal: {
+    doc: 'Whether or not to allow the user to enter a fraction with the amount. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  decimalSymbol: {
+    doc: "Character that will act as a decimal point. Defaults to `','`.",
+    type: 'string',
+    status: 'optional',
+  },
+  decimalLimit: {
+    doc: 'How many digits to allow after the decimal. Defaults to `2`.',
+    type: 'number',
+    status: 'optional',
+  },
+  integerLimit: {
+    doc: 'Limit the length of the integer number. Defaults to `null` for unlimited.',
+    type: 'number',
+    status: 'optional',
+  },
+  requireDecimal: {
+    doc: 'Whether or not to always include a decimal point and placeholder for decimal digits after the integer. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  allowNegative: {
+    doc: 'Whether or not to allow negative numbers. Defaults to `true`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  disallowLeadingZeroes: {
+    doc: 'Whether or not to allow leading zeroes. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+}
