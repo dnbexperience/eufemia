@@ -41,6 +41,11 @@ export const UploadProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  disableDragAndDrop: {
+    doc: 'Disables file drag and drop, by removing the drop zone. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   skeleton: {
     doc: 'Skeleton should be applied when loading content.',
     type: 'boolean',

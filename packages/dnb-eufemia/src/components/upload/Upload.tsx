@@ -10,6 +10,7 @@ import {
   makeUniqueId,
 } from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
+import HeightAnimation from '../height-animation/HeightAnimation'
 
 // Internal
 import UploadFileInput from './UploadFileInput'
@@ -55,7 +56,7 @@ const Upload = (localProps: UploadAllProps) => {
     onFileDelete, // eslint-disable-line
     onFileClick, // eslint-disable-line
     download, // eslint-disable-line
-    allowDuplicates, // eslint-disable-line
+    allowDuplicates,
     title, // eslint-disable-line
     text, // eslint-disable-line
     fileTypeTableCaption, // eslint-disable-line
@@ -70,6 +71,7 @@ const Upload = (localProps: UploadAllProps) => {
     errorAmountLimit, // eslint-disable-line
     deleteButton, // eslint-disable-line
     fileListAriaLabel, // eslint-disable-line
+    disableDragAndDrop,
     ...props
   } = extendedProps
 
@@ -138,6 +140,10 @@ const Upload = (localProps: UploadAllProps) => {
     ]
   )
 
+  const UploadWrapper = disableDragAndDrop
+    ? HeightAnimation
+    : UploadDropzone
+
   return (
     <UploadContext.Provider
       value={{
@@ -147,7 +153,7 @@ const Upload = (localProps: UploadAllProps) => {
       }}
     >
       <Provider skeleton={skeleton}>
-        <UploadDropzone
+        <UploadWrapper
           className={classnames('dnb-upload', spacingClasses, className)}
         >
           <UploadInfo />
@@ -155,7 +161,7 @@ const Upload = (localProps: UploadAllProps) => {
           <UploadFileInput {...props} />
 
           <UploadFileList />
-        </UploadDropzone>
+        </UploadWrapper>
       </Provider>
     </UploadContext.Provider>
   )

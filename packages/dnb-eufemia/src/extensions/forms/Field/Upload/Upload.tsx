@@ -43,6 +43,7 @@ export type Props = Omit<
     | 'skeleton'
     | 'download'
     | 'allowDuplicates'
+    | 'disableDragAndDrop'
   > & {
     fileHandler?: (
       newFiles: UploadValue
@@ -126,6 +127,7 @@ function UploadComponent(props: Props) {
     onFileClick,
     download,
     allowDuplicates,
+    disableDragAndDrop,
   } = rest
 
   const { files, setFiles } = useUpload(id)
@@ -231,6 +233,7 @@ function UploadComponent(props: Props) {
         filesAmountLimit={filesAmountLimit}
         download={download}
         allowDuplicates={allowDuplicates}
+        disableDragAndDrop={disableDragAndDrop}
         fileMaxSize={fileMaxSize}
         skeleton={skeleton}
         onChange={changeHandler}
