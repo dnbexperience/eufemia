@@ -3608,7 +3608,7 @@ describe('DatePicker ARIA', () => {
     )
   })
 
-  it.only('should announce selected date based on locale', async () => {
+  it('should announce selected date based on locale', async () => {
     // en-GB
     const { rerender } = render(
       <Provider locale="en-GB">
@@ -3653,7 +3653,7 @@ describe('DatePicker ARIA', () => {
 
     // sv-SE
     rerender(
-      <Provider locale="sv-SE">
+      <Provider locale="sv-SE" translations={svSE}>
         <DatePicker date="2025-04-01" />
       </Provider>
     )
@@ -3666,7 +3666,7 @@ describe('DatePicker ARIA', () => {
     )
     expect(openButton).toHaveAttribute(
       'aria-label',
-      'Valt datum:: tisdag 22 april 2025, Öppna datumväljaren'
+      'Valt datum: tisdag 22 april 2025, Öppna datumväljaren'
     )
   })
 
@@ -3743,7 +3743,7 @@ describe('DatePicker ARIA', () => {
 
     // sv-SE
     rerender(
-      <Provider locale="sv-SE">
+      <Provider locale="sv-SE" translations={svSE}>
         <DatePicker startDate="2025-04-01" endDate="2025-05-31" range />
       </Provider>
     )
