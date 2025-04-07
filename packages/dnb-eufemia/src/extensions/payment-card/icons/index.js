@@ -28,7 +28,6 @@ import {
   hourglass as Hourglass,
   question_medium as QuestionMark,
 } from '../../../icons'
-import Credit from './Credit'
 const BankLogo = ({ logoType, height }) =>
   logoType.cata({
     Colored: (color) => (
