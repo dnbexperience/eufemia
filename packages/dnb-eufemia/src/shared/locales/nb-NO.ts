@@ -134,6 +134,8 @@ export default {
       text_renewed: 'Fornyet',
       text_replaced: 'Erstattet',
       text_unknown: 'Ukjent',
+      text_type_credit: 'Credit',
+      text_type_debit: 'Debit',
     },
     Tag: {
       removeIconTitle: 'Fjern',

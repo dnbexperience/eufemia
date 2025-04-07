@@ -56,6 +56,8 @@ const translationDefaultPropsProps = {
   text_renewed: null,
   text_replaced: null,
   text_unknown: null,
+  text_type_credit: null,
+  text_type_debit: null,
 }
 
 export default class PaymentCard extends React.PureComponent {
@@ -276,6 +278,31 @@ function CardNumberText({ cardNumber, skeleton }) {
   )
 }
 
+CardTypeText.propTypes = {
+  isCredit: PropTypes.bool.isRequired,
+  translations: PropTypes.object.isRequired,
+  skeleton: PropTypes.bool.isRequired,
+}
+
+function CardTypeText({ isCredit, translations, skeleton }) {
+  return (
+    <span
+      className={classnames(
+        'dnb-payment-card__card__wrapper',
+        createSkeletonClass('font', skeleton)
+      )}
+    >
+      <P className={'dnb-payment-card__card__type-text'}>
+        {
+          isCredit ?
+            translations.text_type_credit :
+            translations.text_type_debit
+        }
+      </P>
+    </span>
+  )
+}
+
 NormalCard.propTypes = {
   id: PropTypes.string,
   skeleton: PropTypes.bool,
@@ -310,11 +337,20 @@ function NormalCard({
     >
       <div className="dnb-payment-card__card__content">
         <div className="dnb-payment-card__card__top">
-          <BankLogo logoType={data.cardDesign.bankLogo} />
-          <ProductLogo
-            productType={data.productType}
-            cardDesign={data.cardDesign}
-          />
+          <div className="dnb-payment-card__card__top__left">
+            <BankLogo logoType={data.cardDesign.bankLogo} />
+            <ProductLogo
+                productType={data.productType}
+                cardDesign={data.cardDesign}
+            />
+          </div>
+          <div className="dnb-payment-card__card__top__right">
+            <CardTypeText
+                isCredit={data.bankAxept === BankAxeptType.Credit}
+                translations={translations}
+                skeleton={skeleton}
+            />
+          </div>
         </div>
         <div className="dnb-payment-card__card__bottom">
           <div className="dnb-payment-card__card__bottom__left">
