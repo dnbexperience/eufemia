@@ -135,6 +135,8 @@ export default {
       text_renewed: 'Förnyat',
       text_replaced: 'Ersatt',
       text_unknown: 'Okänt',
+      text_type_credit: 'Credit',
+      text_type_debit: 'Debit',
     },
     Tag: {
       removeIconTitle: 'Ta bort',

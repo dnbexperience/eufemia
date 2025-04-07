@@ -135,6 +135,8 @@ export default {
       text_renewed: 'Renewed',
       text_replaced: 'Replaced',
       text_unknown: 'Unknown',
+      text_type_credit: 'Credit',
+      text_type_debit: 'Debit',
     },
     Tag: {
       removeIconTitle: 'Remove',
