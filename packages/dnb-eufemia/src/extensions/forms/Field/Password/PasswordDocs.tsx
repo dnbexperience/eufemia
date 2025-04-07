@@ -13,7 +13,7 @@ export const PasswordProperties: PropertiesTableProps = {
   },
   innerRef: {
     doc: '`ElementRef` passed on to the password `input` element.',
-    type: 'object',
+    type: 'React.RefObject',
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {

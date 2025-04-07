@@ -103,12 +103,12 @@ export const DialogProperties: PropertiesTableProps = {
   },
   scrollRef: {
     doc: 'To get the scroll Element, pass in your own React ref.',
-    type: 'React.Ref',
+    type: 'React.RefObject',
     status: 'optional',
   },
   contentRef: {
     doc: 'To get the inner content Element, pass in your own React ref.',
-    type: 'React.Ref',
+    type: 'React.RefObject',
     status: 'optional',
   },
 }

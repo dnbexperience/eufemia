@@ -33,7 +33,7 @@ export const SwitchProperties: PropertiesTableProps = {
   },
   status: {
     doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: 'ReactNode',
+    type: ['error', 'info', 'boolean'],
     status: 'optional',
   },
   statusState: {
@@ -63,7 +63,7 @@ export const SwitchProperties: PropertiesTableProps = {
   },
   innerRef: {
     doc: 'By providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.',
-    type: 'string',
+    type: 'React.RefObject',
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {
