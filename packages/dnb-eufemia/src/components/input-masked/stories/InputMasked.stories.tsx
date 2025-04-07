@@ -3,16 +3,18 @@
  *
  */
 
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import emailMask from '../addons/emailMask'
 import { InputMasked, FormSet, ToggleButton } from '../..'
-import { Hr } from '../../..'
+import { DatePicker, Flex, Hr, Input } from '../../..'
 import styled from '@emotion/styled'
 import { Provider } from '../../../shared'
 import { MultiInputMask } from '../'
 import type { MultiInputMaskValue } from '../'
 import { InternalLocale } from '../../../shared/Context'
+import InputModeNumber from '../text-mask/InputModeNumber'
+import { Field } from '../../../extensions/forms'
 
 const Pre = styled.pre`
   margin-top: 0;
@@ -335,5 +337,47 @@ function MultiInputMaskStatuses() {
         ]}
       />
     </>
+  )
+}
+
+function MockComponent() {
+  const elementRef = useRef()
+
+  useEffect(() => {
+    new InputModeNumber().setElement(elementRef.current)
+  }, [])
+
+  return (
+    <Input
+      inner_ref={elementRef}
+      value="12"
+      size={2}
+      type="number"
+      input_class="dnb-input-masked--hide-controls"
+    />
+  )
+}
+
+const Component = () => {
+  const [date, setDate] = useState('2024-05-17')
+
+  return (
+    <DatePicker
+      showInput
+      date={date}
+      onChange={({ date }) => setDate(date)}
+    />
+  )
+}
+
+export function InputWithModeNumber() {
+  return (
+    <Flex.Stack>
+      {/* <Component /> */}
+      <MockComponent />
+      <DatePicker showInput range onChange={console.log} />
+      <DatePicker showInput date={new Date('2020-11-01')} />
+      <Field.Date defaultValue="2023-10-01" path="/myValue" />
+    </Flex.Stack>
   )
 }
