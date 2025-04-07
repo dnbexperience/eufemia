@@ -190,7 +190,7 @@ export const DatePickerProperties: PropertiesTableProps = {
   },
   status: {
     doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: 'string | boolean',
+    type: ['error', 'info', 'boolean'],
     status: 'optional',
   },
   statusState: {

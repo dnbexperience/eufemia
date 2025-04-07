@@ -17,7 +17,7 @@ export const IsolationProperties: PropertiesTableProps = {
   },
   commitHandleRef: {
     doc: 'Provide a ref to a function that can be called from any location to commit the data to the form.',
-    type: 'React.Ref',
+    type: 'React.RefObject',
     status: 'optional',
   },
   bubbleValidation: {

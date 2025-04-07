@@ -38,7 +38,7 @@ export const RadioProperties: PropertiesTableProps = {
   },
   status: {
     doc: 'text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['string', 'boolean'],
+    type: ['error', 'info', 'boolean'],
     status: 'optional',
   },
   status_state: {
@@ -58,7 +58,7 @@ export const RadioProperties: PropertiesTableProps = {
   },
   innerRef: {
     doc: 'by providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.',
-    type: 'React.Ref',
+    type: 'React.RefObject',
     status: 'optional',
   },
 }
