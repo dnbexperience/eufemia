@@ -20,6 +20,7 @@ import {
 
 // Internal
 import AvatarGroup, { AvatarGroupContext } from './AvatarGroup'
+import { getColor } from '../../shared/helpers'
 
 export type AvatarSizes = 'small' | 'medium' | 'large' | 'x-large'
 export type AvatarVariants = 'primary' | 'secondary' | 'tertiary'
@@ -181,17 +182,6 @@ const Avatar = (localProps: AvatarProps & SpacingProps) => {
       {children}
     </span>
   )
-}
-
-function getColor(value: string) {
-  if (String(value).includes('--')) {
-    return value
-  }
-  return value
-    ? !/#|var/.test(value)
-      ? `var(--color-${value})`
-      : value
-    : undefined
 }
 
 Avatar.Group = AvatarGroup
