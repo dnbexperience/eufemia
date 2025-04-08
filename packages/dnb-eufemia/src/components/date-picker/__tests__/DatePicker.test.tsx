@@ -3086,6 +3086,107 @@ describe('DatePicker component', () => {
       true
     )
   })
+
+  it('should support spacing props', () => {
+    render(<DatePicker top="2rem" showInput />)
+
+    const element = document.querySelector('.dnb-date-picker')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-date-picker',
+      'dnb-form-component',
+      'dnb-space__top--large',
+      'dnb-date-picker--hidden',
+      'dnb-date-picker--show-input',
+    ])
+  })
+
+  it('should inherit formElement vertical label', () => {
+    render(
+      <Provider formElement={{ labelDirection: 'vertical' }}>
+        <DatePicker label="Label" showInput />
+      </Provider>
+    )
+
+    const element = document.querySelector('.dnb-date-picker')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['class', 'lang'])
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-date-picker',
+      'dnb-form-component',
+      'dnb-date-picker--vertical',
+      'dnb-date-picker--hidden',
+      'dnb-date-picker--show-input',
+    ])
+  })
+
+  it('should display a month ahead in right picker when range is linked', async () => {
+    render(
+      <DatePicker startDate="2024-10-10" endDate="2024-11-21" range link />
+    )
+
+    const [startDay, startMonth, startYear, endDay, endMonth, endYear] =
+      Array.from(
+        document.querySelectorAll('.dnb-date-picker__input')
+      ) as Array<HTMLInputElement>
+
+    expect(startDay.value).toBe('10')
+    expect(startMonth.value).toBe('10')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('21')
+    expect(endMonth.value).toBe('11')
+    expect(endYear.value).toBe('2024')
+
+    await userEvent.click(document.querySelector('button.dnb-button'))
+
+    const [leftPicker, rightPicker] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__calendar')
+    )
+
+    expect(
+      leftPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('oktober 2024')
+    expect(
+      rightPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('november 2024')
+
+    await userEvent.click(
+      screen.getByLabelText('torsdag 14. november 2024')
+    )
+
+    expect(startDay.value).toBe('14')
+    expect(startMonth.value).toBe('11')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('dd')
+    expect(endMonth.value).toBe('mm')
+    expect(endYear.value).toBe('åååå')
+
+    expect(
+      leftPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('oktober 2024')
+    expect(
+      rightPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('november 2024')
+
+    await userEvent.click(screen.getByLabelText('onsdag 2. oktober 2024'))
+
+    expect(startDay.value).toBe('02')
+    expect(startMonth.value).toBe('10')
+    expect(startYear.value).toBe('2024')
+    expect(endDay.value).toBe('14')
+    expect(endMonth.value).toBe('11')
+    expect(endYear.value).toBe('2024')
+
+    expect(
+      leftPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('oktober 2024')
+    expect(
+      rightPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('november 2024')
+  })
 })
 
 // for the unit calc tests
@@ -3279,108 +3380,6 @@ describe('DatePicker calc', () => {
         expect.objectContaining({ is_valid_end_date: false })
       )
     })
-  })
-
-  // TODO: Move the following out of describe('DatePicker calc')
-  it('should support spacing props', () => {
-    render(<DatePicker top="2rem" showInput />)
-
-    const element = document.querySelector('.dnb-date-picker')
-
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-date-picker',
-      'dnb-form-component',
-      'dnb-space__top--large',
-      'dnb-date-picker--hidden',
-      'dnb-date-picker--show-input',
-    ])
-  })
-
-  it('should inherit formElement vertical label', () => {
-    render(
-      <Provider formElement={{ labelDirection: 'vertical' }}>
-        <DatePicker label="Label" showInput />
-      </Provider>
-    )
-
-    const element = document.querySelector('.dnb-date-picker')
-    const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
-    )
-
-    expect(attributes).toEqual(['class', 'lang'])
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-date-picker',
-      'dnb-form-component',
-      'dnb-date-picker--vertical',
-      'dnb-date-picker--hidden',
-      'dnb-date-picker--show-input',
-    ])
-  })
-
-  it('should display a month ahead in right picker when range is linked', async () => {
-    render(
-      <DatePicker startDate="2024-10-10" endDate="2024-11-21" range link />
-    )
-
-    const [startDay, startMonth, startYear, endDay, endMonth, endYear] =
-      Array.from(
-        document.querySelectorAll('.dnb-date-picker__input')
-      ) as Array<HTMLInputElement>
-
-    expect(startDay.value).toBe('10')
-    expect(startMonth.value).toBe('10')
-    expect(startYear.value).toBe('2024')
-    expect(endDay.value).toBe('21')
-    expect(endMonth.value).toBe('11')
-    expect(endYear.value).toBe('2024')
-
-    await userEvent.click(document.querySelector('button.dnb-button'))
-
-    const [leftPicker, rightPicker] = Array.from(
-      document.querySelectorAll('.dnb-date-picker__calendar')
-    )
-
-    expect(
-      leftPicker.querySelector('.dnb-date-picker__header__title')
-    ).toHaveTextContent('oktober 2024')
-    expect(
-      rightPicker.querySelector('.dnb-date-picker__header__title')
-    ).toHaveTextContent('november 2024')
-
-    await userEvent.click(
-      screen.getByLabelText('torsdag 14. november 2024')
-    )
-
-    expect(startDay.value).toBe('14')
-    expect(startMonth.value).toBe('11')
-    expect(startYear.value).toBe('2024')
-    expect(endDay.value).toBe('dd')
-    expect(endMonth.value).toBe('mm')
-    expect(endYear.value).toBe('åååå')
-
-    expect(
-      leftPicker.querySelector('.dnb-date-picker__header__title')
-    ).toHaveTextContent('oktober 2024')
-    expect(
-      rightPicker.querySelector('.dnb-date-picker__header__title')
-    ).toHaveTextContent('november 2024')
-
-    await userEvent.click(screen.getByLabelText('onsdag 2. oktober 2024'))
-
-    expect(startDay.value).toBe('02')
-    expect(startMonth.value).toBe('10')
-    expect(startYear.value).toBe('2024')
-    expect(endDay.value).toBe('14')
-    expect(endMonth.value).toBe('11')
-    expect(endYear.value).toBe('2024')
-
-    expect(
-      leftPicker.querySelector('.dnb-date-picker__header__title')
-    ).toHaveTextContent('oktober 2024')
-    expect(
-      rightPicker.querySelector('.dnb-date-picker__header__title')
-    ).toHaveTextContent('november 2024')
   })
 })
 
