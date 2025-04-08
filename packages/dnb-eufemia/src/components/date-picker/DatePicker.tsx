@@ -883,7 +883,6 @@ function DatePicker(externalProps: DatePickerAllProps) {
       return ''
     }
 
-    //  Replace with formatDate
     const options: FormatDateOptions = {
       locale: context.locale,
       formatOptions: {
