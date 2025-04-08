@@ -4,7 +4,7 @@ import visaDefault from './visa-default'
 import visaPluss from './visa-pluss'
 import visaSagaGold from './visa-saga-gold'
 import visaSagaPlatinum from './visa-saga-platinum'
-import mastercardGold from './master_gold'
+import mastercardGold from './master-gold'
 
 export {
     myFirstImg,
