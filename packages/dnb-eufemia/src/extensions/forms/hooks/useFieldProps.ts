@@ -83,6 +83,7 @@ type PersistErrorStateMethod =
 type ErrorInitiator =
   | 'required'
   | 'schema'
+  | 'errorProp'
   | 'onChangeValidator'
   | 'onBlurValidator'
   | 'dataContextError'
@@ -1293,6 +1294,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         throw requiredError
       }
 
+      if (error instanceof Error) {
+        initiator = 'errorProp'
+        throw error
+      }
+
       // Validate by provided JSON Schema for this value
       if (
         value !== undefined &&
@@ -1350,6 +1356,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     clearErrorState,
     disabled,
     emptyValue,
+    error,
     hideError,
     persistErrorState,
     prioritizeContextSchema,
