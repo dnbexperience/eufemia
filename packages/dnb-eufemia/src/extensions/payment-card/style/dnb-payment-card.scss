@@ -153,14 +153,14 @@
       }
     }
 
-    &__numbers {
-      font-size: 1.375rem !important;
+    &__numbers.dnb-p {
+      font-size: 1.375rem; // 22px
       line-height: 1.143rem;
       font-weight: var(--font-weight-regular);
     }
 
-    &__type-text {
-      font-size: 0.938rem;
+    &__type-text.dnb-p {
+      font-size: 0.938rem; // 15px
       line-height: 1.188rem;
       padding-top: 6px;
     }
