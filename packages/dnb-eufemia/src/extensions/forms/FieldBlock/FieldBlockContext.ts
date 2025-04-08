@@ -20,7 +20,7 @@ export type StateRecord = Record<
   Identifier,
   Array<Omit<StateBasis, 'identifier'>>
 >
-export type StateMessage = string
+export type StateMessage = React.ReactNode
 export type StateWithMessage = StateBasis & {
   message: StateMessage
 }

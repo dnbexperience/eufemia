@@ -15,45 +15,50 @@ type ValidationRule =
 
 type FormErrorOptions = {
   /**
+   * What validation rule did the error occur based on? (i.e: minLength, required or maximum).
    * @deprecated Use translation keys as the message instead of this parameter (e.g. Field.errorRequired)
    */
   validationRule?: ValidationRule
+
+  /**
+   * Replacement values relevant for this error.
+   * @example { minLength: 3 } to be able to replace values in a message like "Minimum {minLength} characters"
+   */
   messageValues?: Record<string, string>
+
+  /**
+   * The AJV keyword that caused the error.
+   */
   ajvKeyword?: ErrorObject['keyword']
-  errors?: Array<Error>
+
+  /**
+   * An array of errors that should be rendered in the same error message.
+   */
+  errors?: Array<Error | FormError>
+
+  /**
+   * For internal use only.
+   * A formatted (JSX) message to be used internally later on.
+   */
+  formattedMessage?: string | React.ReactElement
 }
 
 /**
  * Standard error object for Eufemia Forms, extending the built-in error with additional information for data handling
  */
 export class FormError extends Error {
-  /**
-   * What validation rule did the error occur based on? (i.e: minLength, required or maximum)
-   * @deprecated – can be removed in v11
-   */
+  /* @deprecated – can be removed in v11*/
   validationRule?: FormErrorOptions['validationRule']
-
-  /**
-   * Replacement values relevant for this error.
-   * @example { minLength: 3 } to be able to replace values in a message like "Minimum {minLength} characters"
-   */
   messageValues?: FormErrorOptions['messageValues']
-
-  /**
-   * The AJV keyword that caused the error.
-   */
   ajvKeyword?: FormErrorOptions['ajvKeyword']
-
-  /**
-   * An array of errors that should be rendered in the same error message.
-   */
   errors?: FormErrorOptions['errors']
+  formattedMessage?: FormErrorOptions['formattedMessage']
 
   constructor(
-    message: FormsTranslationFlat | string,
+    message: FormsTranslationFlat | string | React.ReactElement,
     options?: FormErrorOptions
   ) {
-    super(message)
+    super(message as string)
 
     if (options) {
       for (const key in options) {
