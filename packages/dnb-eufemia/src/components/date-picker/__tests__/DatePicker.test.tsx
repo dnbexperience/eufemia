@@ -3754,7 +3754,12 @@ describe('DatePicker ARIA', () => {
     // en-US
     rerender(
       <Provider locale="en-US">
-        <DatePicker startDate="2025-04-01" endDate="2025-04-31" range />
+        <DatePicker
+          startDate="2025-04-01"
+          endDate="2025-05-31"
+          range
+          preventClose
+        />
       </Provider>
     )
 
