@@ -488,15 +488,14 @@ export const prepareDerivedState = (
   state.usePortal =
     props.skip_portal !== null ? !isTrue(props.skip_portal) : true
 
-  if (
-    typeof props.wrapper_element === 'string' &&
-    typeof document !== 'undefined'
-  ) {
-    const wrapper_element = document.querySelector<HTMLElement>(
-      props.wrapper_element
-    )
-    if (wrapper_element) {
-      state.wrapper_element = wrapper_element
+  if (typeof props.wrapper_element === 'string') {
+    if (typeof document !== 'undefined') {
+      const wrapper_element = document.querySelector<HTMLElement>(
+        props.wrapper_element
+      )
+      if (wrapper_element) {
+        state.wrapper_element = wrapper_element
+      }
     }
   } else if (props.wrapper_element) {
     state.wrapper_element = props.wrapper_element
@@ -526,7 +525,10 @@ export const prepareDerivedState = (
 
   // active_item can be -1, so we check for -2
   if (
-    !(state.active_item !== null && state.active_item > -2) ||
+    !(
+      state.active_item !== null &&
+      parseFloat(state.active_item as string) > -2
+    ) ||
     state._value !== props.value
   ) {
     state.active_item = state.selected_item
@@ -536,7 +538,10 @@ export const prepareDerivedState = (
     state.direction = props.direction
   }
 
-  if (state.selected_item !== null && state.selected_item > -1) {
+  if (
+    state.selected_item !== null &&
+    parseFloat(state.selected_item as string) > -1
+  ) {
     state.current_title = getCurrentDataTitle(
       state.selected_item,
       state.data
