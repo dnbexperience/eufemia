@@ -3729,7 +3729,12 @@ describe('DatePicker ARIA', () => {
     // en-GB
     const { rerender } = render(
       <Provider locale="en-GB">
-        <DatePicker startDate="2025-04-01" endDate="2025-05-31" range />
+        <DatePicker
+          startDate="2025-04-01"
+          endDate="2025-05-31"
+          range
+          preventClose
+        />
       </Provider>
     )
 
@@ -3782,7 +3787,12 @@ describe('DatePicker ARIA', () => {
     // sv-SE
     rerender(
       <Provider locale="sv-SE" translations={svSE}>
-        <DatePicker startDate="2025-04-01" endDate="2025-05-31" range />
+        <DatePicker
+          startDate="2025-04-01"
+          endDate="2025-05-31"
+          range
+          preventClose
+        />
       </Provider>
     )
 
