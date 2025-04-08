@@ -2605,7 +2605,7 @@ describe('DatePicker component', () => {
   it('should fire fire event when input gets focus', async () => {
     const onFocus = jest.fn()
     render(
-      // Reset locale to prevent following test from failing after the swedish locale test
+      // Reset locale to prevent following tests from failing after the swedish locale test
       <Provider locale="nb-NO">
         <DatePicker showInput onFocus={onFocus} date="2024-01-05" />
       </Provider>
