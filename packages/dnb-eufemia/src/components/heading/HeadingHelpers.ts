@@ -85,11 +85,16 @@ export const correctInternalHeadingLevel = ({
       }
     }
 
+    const counterWasCorrectedToLevel2 =
+      globalHeadingCounter?.current?.hasCorrection() &&
+      globalSyncCounter?.current?.level === 1 &&
+      counter?.getLevel() === 2
+
     if (level >= 1) {
       counter.setLevel(level)
     } else if (decrease) {
       counter.decrement()
-    } else if (increase) {
+    } else if (increase && !counterWasCorrectedToLevel2) {
       counter.increment()
     }
 

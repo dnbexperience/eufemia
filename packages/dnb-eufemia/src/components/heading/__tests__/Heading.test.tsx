@@ -317,6 +317,26 @@ describe('Heading component', () => {
     )
   })
 
+  it('have to not warn when setting h2 by increasing Header', () => {
+    const debugWarning = jest.fn()
+    render(
+      <>
+        <Heading debug={debugWarning}>Heading #1</Heading>
+        <Heading debug={debugWarning} increase>
+          Heading #2
+        </Heading>
+      </>
+    )
+
+    expect(document.querySelectorAll('.dnb-heading')[0].textContent).toBe(
+      '[h1] Heading #1'
+    )
+    expect(document.querySelectorAll('.dnb-heading')[1].textContent).toBe(
+      '[h2] Heading #2'
+    )
+    expect(debugWarning).not.toHaveBeenCalled()
+  })
+
   it('have to have correct size class', () => {
     render(
       <Heading debug={warn} size="x-large" reset={1}>
