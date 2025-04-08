@@ -27,6 +27,7 @@ import {
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import { Provider } from '../../../shared'
 import Input from '../../input/Input'
+import svSE from '../../../shared/locales/sv-SE'
 
 describe('DatePicker component', () => {
   it('renders with props as an object', () => {
@@ -2562,40 +2563,7 @@ describe('DatePicker component', () => {
 
   it('renders should support `sv-SE` locale', () => {
     render(
-      <Provider
-        locale="sv-SE"
-        translations={{
-          'sv-SE': {
-            DatePicker: {
-              day: 'dag',
-              month: 'månad',
-              year: 'år',
-              start: 'från',
-              end: 'till',
-              selectedDate: 'Valt datum: %s',
-              selectedMonth: 'Vald månad %s',
-              selectedYear: 'Valt år %s',
-              nextMonth: 'Nästa månad %s',
-              prevMonth: 'Förra månaden %s',
-              nextYear: 'Nästa år %s',
-              prevYear: 'Förra året %s',
-              openPickerText: 'öppna datumväljaren',
-              maskOrder: 'dd/mm/yyyy',
-              maskPlaceholder: 'dd.mm.åååå',
-              dateFormat: 'yyyy-MM-dd',
-              returnFormat: 'yyyy-MM-dd',
-              submitButtonText: 'Okej',
-              cancelButtonText: 'Stänga',
-              resetButtonText: 'Återställa',
-              placeholderCharacters: {
-                day: 'd',
-                month: 'm',
-                year: 'å',
-              },
-            },
-          },
-        }}
-      >
+      <Provider locale="sv-SE" translations={svSE}>
         <DatePicker
           showCancelButton
           showResetButton
@@ -2636,7 +2604,12 @@ describe('DatePicker component', () => {
 
   it('should fire fire event when input gets focus', async () => {
     const onFocus = jest.fn()
-    render(<DatePicker showInput onFocus={onFocus} date="2024-01-05" />)
+    render(
+      // Reset locale to prevent following test from failing after the swedish locale test
+      <Provider locale="nb-NO">
+        <DatePicker showInput onFocus={onFocus} date="2024-01-05" />
+      </Provider>
+    )
 
     const [firstInput, secondInput]: Array<HTMLInputElement> = Array.from(
       document.querySelectorAll('.dnb-input__input')
