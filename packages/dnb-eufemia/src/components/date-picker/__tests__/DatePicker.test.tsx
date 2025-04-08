@@ -28,6 +28,7 @@ import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import { Provider } from '../../../shared'
 import Input from '../../input/Input'
 import svSE from '../../../shared/locales/sv-SE'
+import Button from '../../Button'
 
 describe('DatePicker component', () => {
   it('renders with props as an object', () => {
@@ -2905,6 +2906,46 @@ describe('DatePicker component', () => {
     )
 
     expect(todayButton).not.toBeDisabled()
+  })
+
+  it('should update calendar when changing minDate', async () => {
+    const DatePickerComponent = () => {
+      const today = new Date()
+      const [minDate, setMinDate] = React.useState(today)
+
+      var tomorrow = new Date()
+      tomorrow.setDate(tomorrow.getDate() + 1)
+      return (
+        <>
+          <Button
+            onClick={() => {
+              setMinDate(tomorrow)
+            }}
+          >
+            Click me
+          </Button>
+          <DatePicker minDate={minDate} />
+        </>
+      )
+    }
+
+    render(<DatePickerComponent />)
+
+    const button = document.querySelector(
+      '.dnb-input__submit-element > button'
+    )
+
+    await userEvent.click(button)
+
+    const todayButton = document.querySelector(
+      '.dnb-date-picker__day--today > button'
+    )
+
+    expect(todayButton).not.toBeDisabled()
+
+    await userEvent.click(screen.getByText('Click me'))
+
+    expect(todayButton).toBeDisabled()
   })
 
   it('should tab to next element after closing date picker', async () => {
