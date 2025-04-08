@@ -82,6 +82,9 @@
     &--design-saga {
       background-color: var(--dnb-payment-bg-black-gold);
       color: var(--color-white);
+      .separator {
+        color: var(--dnb-payment-bg-gold);
+      }
     }
 
     &--design-saga-platinum {
@@ -201,12 +204,14 @@
         right: 0;
         display: flex;
         align-items: center;
+        column-gap: 1rem;
 
         // adds divider if there are two provider icons
-        svg + div {
-          border-left: solid 0.5px currentColor;
-          margin-left: 1rem;
-          padding-left: 1rem;
+        .separator {
+          width: 1px;
+          height: 26px;
+          background-color: currentColor;
+          transform:scale(0.5, 1); // subpixel rendering (0.5px width is not supported on some browsers)
         }
       }
     }
