@@ -125,7 +125,7 @@ export interface DrawerListProps {
   /**
    * Defines the maximum height (in `rem`) of the options list.
    */
-  max_height?: number
+  max_height?: string | number
   /**
    * To disable appear/disappear (show/hide) animation.
    */
@@ -449,22 +449,25 @@ class DrawerListInstance extends React.PureComponent<DrawerListProps> {
       'aria-labelledby': `${id}-label`,
       tabIndex: -1,
       style: {
-        maxHeight: max_height > 0 ? `${max_height}rem` : null,
+        maxHeight:
+          parseFloat(max_height as string) > 0 ? `${max_height}rem` : null,
       },
       ref: _refUl,
     }
 
     if (
       !hidden &&
-      (active_item > -1 || (!(active_item > -1) && !(selected_item > -1)))
+      (parseFloat(active_item as string) > -1 ||
+        (!(parseFloat(active_item as string) > -1) &&
+          !(parseFloat(selected_item as string) > -1)))
     ) {
       ulParams['aria-activedescendant'] = `option-${id}-${
-        active_item > -1 ? active_item : 0
+        parseFloat(active_item as string) > -1 ? active_item : 0
       }`
     } else if (
       !isTrue(prevent_selection) &&
       !hidden &&
-      selected_item > -1
+      parseFloat(selected_item as string) > -1
     ) {
       ulParams['aria-activedescendant'] = `option-${id}-${selected_item}`
     }

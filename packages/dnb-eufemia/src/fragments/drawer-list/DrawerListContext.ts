@@ -10,13 +10,15 @@ import { DrawerListDataAll, DrawerListDataArrayObject } from './'
 
 export type DrawerListContextState = Omit<
   DrawerListProviderProps,
-  'data'
+  'data' | 'wrapper_element'
 > & {
   data: DrawerListDataArrayObject[]
+  wrapper_element?: HTMLElement
   /** used by Autocomplete */
   original_data?: DrawerListDataArrayObject[]
   /** used by Autocomplete */
   current_title?: string
+  isOpen?: boolean
   /** used internally */
   _data?: any
   /** used internally */

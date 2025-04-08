@@ -17,6 +17,7 @@ import {
   dispatchCustomElementEvent,
   getPreviousSibling,
   keycode,
+  DetectOutsideClickClass,
 } from '../../shared/component-helper'
 import {
   getOffsetTop,
@@ -38,14 +39,93 @@ import {
   drawerListProviderPropTypes,
   drawerListProviderDefaultProps,
 } from './DrawerListHelpers'
-import DrawerListContext from './DrawerListContext'
+import DrawerListContext, {
+  DrawerListContextState,
+} from './DrawerListContext'
 import {
   disableBodyScroll,
   enableBodyScroll,
 } from '../../components/modal/bodyScrollLock'
 
-export default class DrawerListProvider extends React.PureComponent {
+import type { SpacingProps } from '../../shared/types'
+import type { DrawerListProps } from './DrawerList'
+
+export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
+  Omit<React.HTMLProps<HTMLElement>, 'data' | 'role' | 'size' | 'value'> &
+  SpacingProps & {
+    hasFocusOnElement?: boolean
+    getActiveElement?: () => HTMLElement
+    setData?: (
+      data: any,
+      cb?: any,
+      {
+        overwriteOriginalData,
+      }?: {
+        overwriteOriginalData?: boolean
+      }
+    ) => DrawerListProvider
+    setState?: (state: any, cb?: any) => void
+    setWrapperElement?: (
+      wrapper_element?: string | HTMLElement
+    ) => DrawerListProvider
+    setHidden?: (args?: any[], onStateComplete?: any) => void
+    selectItemAndClose?: (
+      itemToSelect: any,
+      args?: {
+        fireSelectEvent?: boolean
+        event: any
+      }
+    ) => any
+    selected_item?: string | number
+    active_item?: string | number
+    showFocusRing?: boolean
+    closestToTop?: number
+    closestToBottom?: number
+    usePortal?: boolean
+    addObservers?: () => void
+    removeObservers?: () => void
+    setVisible?: (
+      args?: Record<string, any>,
+      onStateComplete?: any
+    ) => void
+    toggleVisible?: (...args: any[]) => void
+    selectItem?: (
+      itemToSelect: any,
+      args?: {
+        fireSelectEvent?: boolean
+        event?: any
+        closeOnSelection?: boolean
+      }
+    ) => any
+    scrollToItem?: (
+      active_item: any,
+      opt?: {
+        scrollTo?: boolean
+        element?: any
+      }
+    ) => void
+    setActiveItemAndScrollToIt?: (
+      active_item: any,
+      args?: {
+        fireSelectEvent?: boolean
+        scrollTo?: boolean
+        event?: any
+      }
+    ) => void
+    _refShell?: React.RefObject<HTMLSpanElement>
+    _refTriangle?: React.RefObject<HTMLLIElement & HTMLSpanElement>
+    _refUl?: React.RefObject<HTMLUListElement>
+    _refRoot?: React.RefObject<HTMLSpanElement>
+    _rootElem?: Window | Element
+    attributes?: Record<string, any>
+  }
+
+export default class DrawerListProvider extends React.PureComponent<
+  DrawerListProviderProps,
+  DrawerListContextState
+> {
   static contextType = Context
+  context!: React.ContextType<typeof Context>
 
   static propTypes = {
     ...drawerListPropTypes,
@@ -60,16 +140,44 @@ export default class DrawerListProvider extends React.PureComponent {
 
   static blurDelay = 201 // some ms more than "DrawerListSlideDown 200ms"
 
+  static isOpen: boolean
+
   static getDerivedStateFromProps(props, state) {
     return prepareDerivedState(props, state)
   }
+
+  attributes: object
+  _refRoot: React.RefObject<HTMLSpanElement>
+  _refShell: React.RefObject<HTMLSpanElement>
+  _refUl: React.RefObject<HTMLUListElement>
+  _refTriangle: React.RefObject<HTMLLIElement & HTMLSpanElement>
+
+  _showTimeout: NodeJS.Timeout
+  _hideTimeout: NodeJS.Timeout
+  _scrollTimeout: NodeJS.Timeout
+  _directionTimeout: NodeJS.Timeout
+
+  itemSpots: { [customProperty: number]: { i: number } }
+  itemSpotsCount: number
+  setOnScroll: () => void
+  _bodyLockIsEnabled: boolean
+  setDirection: () => void
+  _rootElem: Window | Element
+  changedOrderFor: string
+  searchCache: Record<string, { i: number }[]>
+  meta: {
+    cmd: any
+    ctrl: any
+    shift: any
+    alt: any
+  }
+  outsideClick: DetectOutsideClickClass
 
   constructor(props) {
     super(props)
 
     this.attributes = {}
     this.state = {
-      tagName: 'dnb-drawer-list',
       cache_hash: '',
       active_item: undefined,
       selected_item: undefined,
@@ -128,7 +236,7 @@ export default class DrawerListProvider extends React.PureComponent {
     }
 
     this.itemSpots = this.state.data.reduce((acc, cur, i) => {
-      const element = this._refUl.current?.querySelector(
+      const element = this._refUl.current?.querySelector<HTMLLIElement>(
         `li.dnb-drawer-list__option:nth-of-type(${i + 1})`
       )
       if (element) {
@@ -242,8 +350,8 @@ export default class DrawerListProvider extends React.PureComponent {
     // const skipPortal = isTrue(skip_portal)
     const useBodyLock = isTrue(enable_body_lock)
     const isScrollable = isTrue(scrollable)
-    const customMinHeight = parseFloat(min_height) * 16
-    const customMaxHeight = parseFloat(max_height) || 0
+    const customMinHeight = parseFloat(min_height as string) * 16
+    const customMaxHeight = parseFloat(max_height as string) || 0
 
     let customElem =
       typeof observer_element === 'string'
@@ -282,8 +390,8 @@ export default class DrawerListProvider extends React.PureComponent {
       // make calculation for both direction and height
       const rootElem = customElem || document.documentElement
 
-      const pageYOffset = !isNaN(parseFloat(page_offset))
-        ? parseFloat(page_offset)
+      const pageYOffset = !isNaN(parseFloat(page_offset as string))
+        ? parseFloat(page_offset as string)
         : rootElem.scrollTop
       const spaceToTop =
         getOffsetTop(elem) + elem.offsetHeight - pageYOffset
@@ -511,7 +619,7 @@ export default class DrawerListProvider extends React.PureComponent {
           if (liElement) {
             const top = liElement.offsetTop
             if (ulElement.scrollTo) {
-              if (scrollTo === false || window.IS_TEST) {
+              if (scrollTo === false || window['IS_TEST']) {
                 ulElement.style.scrollBehavior = 'auto'
               }
               ulElement.scrollTo({
@@ -620,11 +728,11 @@ export default class DrawerListProvider extends React.PureComponent {
   }
 
   setWrapperElement = (wrapper_element = this.props.wrapper_element) => {
-    if (
-      typeof wrapper_element === 'string' &&
-      typeof document !== 'undefined'
-    ) {
-      wrapper_element = document.querySelector(wrapper_element)
+    if (typeof wrapper_element === 'string') {
+      wrapper_element =
+        typeof document !== 'undefined'
+          ? document.querySelector<HTMLElement>(wrapper_element)
+          : undefined
     }
 
     if (wrapper_element !== this.state.wrapper_element) {
@@ -710,7 +818,7 @@ export default class DrawerListProvider extends React.PureComponent {
       return // stop here
     }
 
-    let active_item = parseFloat(this.state.active_item)
+    let active_item = parseFloat(this.state.active_item as string)
 
     if (isNaN(active_item)) {
       active_item = -1
@@ -845,7 +953,10 @@ export default class DrawerListProvider extends React.PureComponent {
                 const createTabElem = () => {
                   try {
                     const elem = document.createElement('BUTTON')
-                    elem.style = 'opacity:0;position:absolute;'
+                    elem.setAttribute(
+                      'style',
+                      'opacity:0;position:absolute;'
+                    )
                     const focus = () => {
                       prevActiveElement.focus()
                       elem.removeEventListener('focus', focus)
@@ -859,7 +970,8 @@ export default class DrawerListProvider extends React.PureComponent {
                   }
                 }
 
-                const prevActiveElement = document.activeElement
+                const prevActiveElement =
+                  document.activeElement as HTMLElement
                 const after = createTabElem()
                 const before = createTabElem()
 
@@ -927,7 +1039,7 @@ export default class DrawerListProvider extends React.PureComponent {
         dispatchCustomElementEvent(this.state, 'handle_dismiss_focus')
       }
     } else if (
-      parseFloat(active_item) > -1 &&
+      active_item > -1 &&
       active_item !== this.state.active_item
     ) {
       this.setState({
@@ -942,12 +1054,9 @@ export default class DrawerListProvider extends React.PureComponent {
 
   getSelectedElement = () => {
     return (
-      this._refUl.current?.querySelector(
+      this._refUl.current?.querySelector<HTMLLIElement>(
         'li.dnb-drawer-list__option--selected'
-      ) ||
-      this._refUl.current || {
-        getAttribute: () => null,
-      }
+      ) || this._refUl.current
     )
   }
 
@@ -958,7 +1067,7 @@ export default class DrawerListProvider extends React.PureComponent {
 
   getActiveElement = () => {
     return (
-      this._refUl.current?.querySelector(
+      this._refUl.current?.querySelector<HTMLLIElement>(
         'li.dnb-drawer-list__option--focus'
       ) || this.getSelectedElement()
     )
@@ -971,12 +1080,16 @@ export default class DrawerListProvider extends React.PureComponent {
 
   getNextActiveItem = () => {
     const elem = this.getActiveElement().nextSibling
-    return parseFloat(elem && elem.getAttribute('data-item'))
+    return parseFloat(
+      elem && elem instanceof Element && elem.getAttribute('data-item')
+    )
   }
 
   getPrevActiveItem = () => {
     const elem = this.getActiveElement().previousSibling
-    return parseFloat(elem && elem.getAttribute('data-item'))
+    return parseFloat(
+      elem && elem instanceof Element && elem.getAttribute('data-item')
+    )
   }
 
   getFirstItem = () => {
@@ -1092,7 +1205,9 @@ export default class DrawerListProvider extends React.PureComponent {
       dispatchCustomElementEvent(this.state, 'on_show', {
         ...args,
         data: getEventData(
-          parseFloat(selected_item) > -1 ? selected_item : active_item,
+          parseFloat(selected_item as string) > -1
+            ? selected_item
+            : active_item,
           this.state.data
         ),
         attributes: this.attributes,
@@ -1100,7 +1215,7 @@ export default class DrawerListProvider extends React.PureComponent {
       })
 
       this.setActiveItemAndScrollToIt(
-        parseFloat(active_item) > -1 ? active_item : -1,
+        parseFloat(active_item as string) > -1 ? active_item : -1,
         { scrollTo: false }
       )
     }
@@ -1133,7 +1248,9 @@ export default class DrawerListProvider extends React.PureComponent {
     const res = dispatchCustomElementEvent(this.state, 'on_hide', {
       ...args,
       data: getEventData(
-        parseFloat(selected_item) > -1 ? selected_item : active_item,
+        parseFloat(selected_item as string) > -1
+          ? selected_item
+          : active_item,
         this.state.data
       ),
       attributes: this.attributes,
@@ -1235,7 +1352,14 @@ export default class DrawerListProvider extends React.PureComponent {
     return this
   }
 
-  selectItemAndClose = (itemToSelect, args = {}) => {
+  selectItemAndClose = (
+    itemToSelect,
+    args: {
+      fireSelectEvent?: boolean
+      event?: any
+      closeOnSelection?: boolean
+    } = {}
+  ) => {
     args.closeOnSelection = true
     return this.selectItem(itemToSelect, args)
   }
@@ -1286,7 +1410,10 @@ export default class DrawerListProvider extends React.PureComponent {
 
     if (hasSelectedText()) {
       const elem = getSelectedElement()
-      const isInput = getPreviousSibling('dnb-input', elem)
+      const isInput =
+        elem instanceof Element
+          ? getPreviousSibling('dnb-input', elem)
+          : null
       if (!isInput) {
         return // stop here
       }

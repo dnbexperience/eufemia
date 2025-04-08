@@ -5,9 +5,7 @@ export interface DrawerListPortalInnerRef {
 export type DrawerListPortalCurrent =
   | React.ReactNode
   | Record<string, unknown>;
-export interface DrawerListPortalRootRef {
-  current?: React.ReactNode | Record<string, unknown>;
-}
+
 export interface DrawerListPortalProps
   extends React.HTMLProps<HTMLElement> {
   id: string;
@@ -15,7 +13,7 @@ export interface DrawerListPortalProps
   opened: boolean;
   innerRef?: DrawerListPortalInnerRef;
   current?: DrawerListPortalCurrent;
-  rootRef: DrawerListPortalRootRef;
+  rootRef: React.RefObject<HTMLSpanElement>;
   include_owner_width?: boolean;
   independent_width?: boolean;
   fixed_position?: boolean;
