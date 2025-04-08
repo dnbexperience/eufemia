@@ -303,6 +303,15 @@ function CardTypeText({ isCredit, translations, skeleton }) {
   )
 }
 
+CardTypeText.propTypes = {
+  hasBankAxept: PropTypes.bool.isRequired,
+  hasCardType: PropTypes.bool.isRequired,
+}
+
+function CardProvidersSeparator({ hasBankAxept, hasCardType }) {
+  return (hasBankAxept && hasCardType) && (<div className="separator" />)
+}
+
 NormalCard.propTypes = {
   id: PropTypes.string,
   skeleton: PropTypes.bool,
@@ -361,12 +370,16 @@ function NormalCard({
           </div>
           <div className="dnb-payment-card__card__bottom__right">
             <BankAxeptLogo
-                bankAxept={data.bankAxept}
-                cardDesign={data.cardDesign}
+              bankAxept={data.bankAxept}
+              cardDesign={data.cardDesign}
+            />
+            <CardProvidersSeparator
+              hasBankAxept={data.bankAxept === BankAxeptType.BankAxept}
+              hasCardType={data.cardType !== CardType.None}
             />
             <TypeLogo
-                cardType={data.cardType}
-                cardDesign={data.cardDesign}
+              cardType={data.cardType}
+              cardDesign={data.cardDesign}
             />
           </div>
         </div>
