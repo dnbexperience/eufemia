@@ -2913,7 +2913,7 @@ describe('DatePicker component', () => {
       const today = new Date()
       const [minDate, setMinDate] = React.useState(today)
 
-      var tomorrow = new Date()
+      let tomorrow = new Date()
       tomorrow.setDate(tomorrow.getDate() + 1)
       return (
         <>
