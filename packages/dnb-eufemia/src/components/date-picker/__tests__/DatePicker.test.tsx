@@ -2339,7 +2339,7 @@ describe('DatePicker component', () => {
       />
     )
 
-    const [dayElem, monthElem, yearElem] = Array.from(
+    const [dayElem, monthElem] = Array.from(
       document.querySelectorAll('input.dnb-date-picker__input')
     ) as Array<HTMLInputElement>
 
