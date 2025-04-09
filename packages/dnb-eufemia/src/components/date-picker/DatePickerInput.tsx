@@ -13,9 +13,6 @@ import React, {
 } from 'react'
 
 // date-fns
-import addDays from 'date-fns/addDays'
-import addMonths from 'date-fns/addMonths'
-import addYears from 'date-fns/addYears'
 import isValid from 'date-fns/isValid'
 import parseISO from 'date-fns/parseISO'
 
