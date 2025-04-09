@@ -24,6 +24,8 @@ import {
 } from '../../components/skeleton/SkeletonHelper'
 import P from '../../elements/P'
 
+import StatusOverlay, {isCardBlocked} from './components/StatusOverlay'
+
 import { ProductType, CardType, BankAxeptType } from './utils/Types'
 import Designs, { defaultDesign } from './utils/CardDesigns'
 import cardProducts from './utils/cardProducts'
@@ -31,7 +33,6 @@ import {
   ProductLogo,
   TypeLogo,
   BankLogo,
-  StatusIcon,
   BankAxeptLogo,
 } from './icons'
 
@@ -49,13 +50,15 @@ const cardDataPropTypes = PropTypes.shape({
 
 const translationDefaultPropsProps = {
   text_card_number: null,
-  text_expired: null,
-  text_blocked: null,
-  text_not_active: null,
-  text_order_in_process: null,
-  text_renewed: null,
-  text_replaced: null,
-  text_unknown: null,
+  text_status_blocked: null,
+  text_status_expired: null,
+  text_status_not_active: null,
+  text_status_new_order: null,
+  text_status_order_in_process: null,
+  text_status_replaced: null,
+  text_status_renewed: null,
+  text_status_new: null,
+  text_status_unknown: null,
   text_type_credit: null,
   text_type_debit: null,
 }
@@ -219,46 +222,6 @@ const defaultCard = (productCode) => ({
   productType: ProductType.None,
   bankAxept: BankAxeptType.None,
 })
-
-StatusOverlay.propTypes = {
-  cardStatus: PropTypes.string.isRequired,
-  translations: PropTypes.object.isRequired,
-}
-
-const BlockingOverlay = ({ cardStatus, text }, skeleton) => {
-  return (
-    <div
-      className={classnames(
-        'dnb-payment-card__blocking__overlay',
-        createSkeletonClass('font', skeleton)
-      )}
-    >
-      <div className="dnb-payment-card__blocking__center">
-        <StatusIcon status={cardStatus} />
-        <P top="xx-small">{text}</P>
-      </div>
-    </div>
-  )
-}
-
-function StatusOverlay({ cardStatus, translations }) {
-  const cardStatusMap = {
-    not_active: translations.text_not_active,
-    order_in_process: translations.text_order_in_process,
-    renewed: translations.text_renewed,
-    replaced: translations.text_replaced,
-    blocked: translations.text_blocked,
-    expired: translations.text_expired,
-    unknown: translations.text_unknown,
-  }
-
-  return cardStatusMap[cardStatus] ? (
-    <BlockingOverlay
-      cardStatus={cardStatus}
-      text={cardStatusMap[cardStatus]}
-    />
-  ) : null
-}
 
 CardNumberText.propTypes = {
   cardNumber: PropTypes.string.isRequired,
