@@ -218,11 +218,6 @@ export const DatePickerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  correctInvalidDate: {
-    doc: 'Corrects the input date value to be the same as either `minDate` or `maxDate`, when the user types in a date that is either before or after one of these. Defaults to `false`.',
-    type: 'boolean',
-    status: 'optional',
-  },
   globalStatus: {
     doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
     type: 'object',
