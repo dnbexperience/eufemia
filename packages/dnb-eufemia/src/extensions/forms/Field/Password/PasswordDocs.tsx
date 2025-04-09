@@ -22,3 +22,16 @@ export const PasswordProperties: PropertiesTableProps = {
     status: 'optional',
   },
 }
+
+export const PasswordEvents: PropertiesTableProps = {
+  onShowPassword: {
+    doc: 'Will be called when the user toggles the password to be visible.',
+    type: 'function',
+    status: 'optional',
+  },
+  onHidePassword: {
+    doc: 'Will be called when the user toggles the password to be hidden.',
+    type: 'function',
+    status: 'optional',
+  },
+}
