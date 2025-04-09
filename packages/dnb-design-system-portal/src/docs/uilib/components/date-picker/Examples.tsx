@@ -362,14 +362,3 @@ export const DatePickerDateFnsRangeIsWeekend = () => (
     />
   </ComponentBox>
 )
-
-export const DatePickerCorrectInvalidDate = () => (
-  <ComponentBox>
-    <DatePicker
-      showInput
-      minDate="2024-11-01"
-      maxDate="2024-12-31"
-      correctInvalidDate
-    />
-  </ComponentBox>
-)
