@@ -175,7 +175,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     __endYear,
     startDate,
     endDate,
-    props: { onType, label, correctInvalidDate },
+    props: { onType, label },
   } = useContext(DatePickerContext)
 
   const translation = useTranslation().DatePicker
@@ -677,10 +677,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       const keyCode = event.key
       const target = event.target as HTMLInputElement
 
-      if (
-        correctInvalidDate &&
-        target.selectionStart !== target.selectionEnd
-      ) {
+      if (target.selectionStart !== target.selectionEnd) {
         setCursorPosition(target)
       }
 
@@ -783,7 +780,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         }
       }
     },
-    [correctInvalidDate, dateSetters, prepareCounting]
+    [dateSetters, prepareCounting]
   )
 
   const onInputHandler = useCallback(
