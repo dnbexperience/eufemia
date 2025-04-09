@@ -17,3 +17,10 @@ The DatePicker component should be used whenever there is to enter a single date
 The DatePicker operates with a default JavaScript Date instance as well as string (ISO 8601) like `start_date="2019-05-05"` (yyyy-MM-dd).
 
 For more _DatePicker_ examples, have a look at [this CodeSandbox](https://codesandbox.io/embed/q88v3r8w6).
+
+### Validation for `minDate`, `maxDate` and invalid dates
+
+`Field.Date` has [built in valdation](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Date/#date-limit-validation]) for `minDate`, `maxDate` and invalid dates.
+This is the preffered method of handling scenarios where the user has typed in an invalid date, or a date outside of the set date limits.
+Automatically changing the user input on the other hand, leads to worse UX, and confusion, as the user might not understand why the date is changed, for seemingly no reason.
+So it's best practice to actually tell the user what is wrong, and let them correct it.
