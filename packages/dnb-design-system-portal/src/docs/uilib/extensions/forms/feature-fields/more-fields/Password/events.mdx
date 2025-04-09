@@ -4,6 +4,7 @@ showTabs: true
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { FieldEvents } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import { PasswordEvents } from '@dnb/eufemia/src/extensions/forms/Field/Password/PasswordDocs'
 
 ## Events
 
@@ -11,10 +12,7 @@ import { FieldEvents } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
 
 ## Password visibility events
 
-| Event            | Description                                                                   |
-| ---------------- | ----------------------------------------------------------------------------- |
-| `onShowPassword` | _(optional)_ Will be called when the user toggles the password to be visible. |
-| `onHidePassword` | _(optional)_ Will be called when the user toggles the password to be hidden.  |
+<PropertiesTable props={PasswordEvents} />
 
 ### Argument value
 
