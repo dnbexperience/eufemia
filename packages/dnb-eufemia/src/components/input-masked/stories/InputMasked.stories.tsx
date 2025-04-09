@@ -337,3 +337,13 @@ function MultiInputMaskStatuses() {
     </>
   )
 }
+
+export function DissalowLeadingZerosMask() {
+  return (
+    <InputMasked
+      label="disallowLeadingZeroesMask"
+      number_mask
+      mask_options={{ disallowLeadingZeroes: true }}
+    />
+  )
+}
