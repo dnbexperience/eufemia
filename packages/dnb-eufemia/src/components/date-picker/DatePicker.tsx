@@ -119,7 +119,7 @@ export type DatePickerProps = {
    */
   maxDate?: DateType
   /**
-   * Corrects the input date value to be the same as either `minDate` or `maxDate`, when the user types in a date that is either before or after one of these. Defaults to `false`.
+   * @deprecated use `Field.Date` instead, for {@link https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Date/#date-limit-validation | built in validation}.
    */
   correctInvalidDate?: boolean
   /**
@@ -354,7 +354,7 @@ type DatePickerDeprecatedProps = {
    */
   end_date?: DateType
   /**
-   * @deprecated use `startMonth` instead.
+   * @deprecated use `startMonth` instead.π
    */
   start_month?: DateType
   /**
@@ -370,7 +370,7 @@ type DatePickerDeprecatedProps = {
    */
   max_date?: DateType
   /**
-   * @deprecated use `correctInvalidDate` instead.
+   * @deprecated use `Field.Date` instead, for {@link https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Date/#date-limit-validation | built in validation}.
    */
   correct_invalid_date?: boolean
   /**
