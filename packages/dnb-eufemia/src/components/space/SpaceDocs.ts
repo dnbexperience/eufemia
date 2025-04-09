@@ -3,7 +3,7 @@ import { PropertiesTableProps } from '../../shared/types'
 export const SpaceGlobalProperties: PropertiesTableProps = {
   space: {
     doc: 'Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.',
-    type: ['object', 'string', 'number', 'boolean'],
+    type: ['object'],
     status: 'optional',
   },
   top: {
