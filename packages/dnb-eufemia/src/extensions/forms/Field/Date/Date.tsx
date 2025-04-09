@@ -62,7 +62,6 @@ export type DateProps = Omit<
     | 'endMonth'
     | 'minDate'
     | 'maxDate'
-    | 'correctInvalidDate'
     | 'maskOrder'
     | 'maskPlaceholder'
     | 'dateFormat'
