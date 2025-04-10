@@ -205,43 +205,52 @@
     }
   }
 
-  &__blocking {
-    &__overlay {
-      svg path {
+  &__overlay {
+    svg {
+      width: 2rem;
+      height: 2rem;
+      shape-rendering: geometricprecision;
+      &.icon--fill path {
+        fill: currentcolor;
+      }
+      &.icon--stroke path {
         stroke: currentcolor;
       }
-
-      position: absolute;
-      left: 0;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      border-radius: inherit;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      background: linear-gradient(
-        184.55deg,
-        rgb(204 204 204 / 50%) 4.63%,
-        rgb(232 232 232 / 50%) 84.83%
-      );
     }
 
-    &__center {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__content {
+      min-width: 6rem;
+      height: 6rem;
       padding: 1rem;
       display: flex;
-      align-items: center;
-      justify-content: center;
       flex-direction: column;
+      align-items: center;
+      gap: 0.667rem;
+      border-radius: inherit;
+      font-size: var(--font-size-basis);
+      line-height: var(--line-height-small);
 
-      background: var(--color-black-80);
-      color: var(--color-sand-yellow);
-      border-radius: 4px;
-    }
+      // cards with a light background use this overlay status
+      &--light {
+        background-color: var(--dnb-payment-overlay-bg-dark);
+        color: var(--color-white);
+      }
 
-    svg {
-      shape-rendering: geometricprecision;
+      // cards with a dark background use this overlay status
+      &--dark {
+        background-color: var(--dnb-payment-overlay-bg-light);
+        color: var(--color-black);
+      }
     }
   }
 
