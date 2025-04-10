@@ -7,7 +7,6 @@ import {
   Value,
 } from '@dnb/eufemia/src/extensions/forms'
 import { createMockFile } from '../../../../../../../docs/uilib/components/upload/Examples'
-import useUpload from '@dnb/eufemia/src/components/upload/useUpload'
 import { UploadValue } from '@dnb/eufemia/src/extensions/forms/Field/Upload'
 import { createRequest } from '../../../Form/SubmitIndicator/Examples'
 
@@ -91,7 +90,7 @@ export const WithPath = () => {
 
 export const WithAsyncFileHandler = () => {
   return (
-    <ComponentBox scope={{ createRequest, useUpload }}>
+    <ComponentBox scope={{ createRequest }}>
       {() => {
         const MyForm = () => {
           return (
@@ -159,7 +158,7 @@ export const WithAsyncFileHandler = () => {
 
 export const WithSyncFileHandler = () => {
   return (
-    <ComponentBox scope={{ createRequest, useUpload }}>
+    <ComponentBox>
       {() => {
         const MyForm = () => {
           return (
