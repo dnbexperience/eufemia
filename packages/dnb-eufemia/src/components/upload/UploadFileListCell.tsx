@@ -98,7 +98,13 @@ const UploadFileListCell = ({
   download,
   allowDuplicates,
 }: UploadFileListCellProps) => {
-  const { file, errorMessage, isLoading, description } = uploadFile
+  const {
+    file,
+    errorMessage,
+    isLoading,
+    description,
+    removeDeleteButton,
+  } = uploadFile
   const hasWarning = errorMessage != null
 
   const imageUrl = file?.size > 0 ? URL.createObjectURL(file) : null
@@ -135,17 +141,7 @@ const UploadFileListCell = ({
           {getFileIcon(file, { isLoading }, hasWarning)}
           {getTitle()}
         </div>
-        <div>
-          <Button
-            icon={TrashIcon}
-            variant="tertiary"
-            onClick={onDeleteHandler}
-            icon_position="left"
-            disabled={isLoading}
-          >
-            {deleteButtonText}
-          </Button>
-        </div>
+        {getDeleteButton()}
       </div>
       {getWarning()}
     </li>
@@ -173,6 +169,22 @@ const UploadFileListCell = ({
         {getDescription()}
       </div>
     )
+  }
+
+  function getDeleteButton() {
+    return !removeDeleteButton ? (
+      <div>
+        <Button
+          icon={TrashIcon}
+          variant="tertiary"
+          onClick={onDeleteHandler}
+          icon_position="left"
+          disabled={isLoading}
+        >
+          {deleteButtonText}
+        </Button>
+      </div>
+    ) : null
   }
 
   function getDescription() {

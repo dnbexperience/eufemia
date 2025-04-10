@@ -948,6 +948,35 @@ describe('Upload', () => {
       expect(emptyFileCell).not.toBeInTheDocument()
     })
 
+    it('does not show the delete button when removeDeleteButton', async () => {
+      const files = [
+        {
+          file: createMockFile('fileName.png', 100, 'image/png'),
+          removeDeleteButton: true,
+        },
+      ]
+
+      const id = 'random-id-remove-delete-button'
+
+      render(<Upload {...defaultProps} id={id} />)
+
+      const MockComponent = () => {
+        const { setFiles } = useUpload(id)
+
+        useEffect(() => setFiles(files), [])
+
+        return <div />
+      }
+
+      render(<MockComponent />)
+
+      expect(
+        screen.queryByRole('button', {
+          name: nb.deleteButton,
+        })
+      ).not.toBeInTheDocument()
+    })
+
     it('shows the file description when provided', async () => {
       const myDescription = 'my description'
       const files = [

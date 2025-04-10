@@ -85,6 +85,13 @@ describe.each(['ui', 'sbanken'])('Upload for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match when file item does not have delete button', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="upload-remove-delete-button"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe('Upload', () => {

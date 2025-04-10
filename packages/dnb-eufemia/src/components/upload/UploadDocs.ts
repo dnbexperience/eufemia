@@ -120,4 +120,9 @@ export const FileItemProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
+  removeDeleteButton: {
+    doc: 'Set to `true` to remove the delete button from the file item. This is useful for preventing users from deleting files.',
+    type: 'boolean',
+    status: 'optional',
+  },
 }
