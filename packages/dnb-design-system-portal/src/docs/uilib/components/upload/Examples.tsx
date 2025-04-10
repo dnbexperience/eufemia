@@ -438,3 +438,13 @@ export const UploadFileEmptySize = () => (
     }}
   </ComponentBox>
 )
+
+export const UploadDisabledDragAndDrop = () => (
+  <ComponentBox data-visual-test="upload-disabled-drag-and-drop">
+    <Upload
+      disableDragAndDrop
+      acceptedFileTypes={['jpg', 'png']}
+      onChange={({ files }) => console.log('onChange', files)}
+    />
+  </ComponentBox>
+)

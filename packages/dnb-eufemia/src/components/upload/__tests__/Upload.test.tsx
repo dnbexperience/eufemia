@@ -1205,6 +1205,31 @@ describe('Upload', () => {
         document.querySelectorAll('.dnb-upload__file-cell').length
       ).toBe(0)
     })
+
+    it('will not support drop when disableDragAndDrop', async () => {
+      const id = 'disable-drag-and-drop'
+
+      const { result } = renderHook(useUpload, { initialProps: id })
+
+      render(
+        <Upload {...defaultProps} id={id} disableDragAndDrop={true} />
+      )
+
+      const getRootElement = () => document.querySelector('.dnb-upload')
+
+      const element = getRootElement()
+      const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: { files: [file1] },
+        })
+      )
+
+      expect(result.current.files.length).toBe(0)
+      expect(result.current.files).toEqual([])
+      expect(result.current.internalFiles.length).toBe(0)
+    })
   })
 
   describe('events', () => {

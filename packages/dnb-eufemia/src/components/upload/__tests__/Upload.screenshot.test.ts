@@ -71,6 +71,13 @@ describe.each(['ui', 'sbanken'])('Upload for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match when disabling drag and drop', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="upload-disabled-drag-and-drop"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe('Upload', () => {
