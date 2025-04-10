@@ -22,9 +22,10 @@ import {
   skeletonDOMAttributes,
   createSkeletonClass,
 } from '../../components/skeleton/SkeletonHelper'
-import P from '../../elements/P'
 
-import StatusOverlay, {isCardBlocked} from './components/StatusOverlay'
+import StatusOverlay, { isCardBlocked } from './components/StatusOverlay'
+import CardNumberText, { formatCardNumber } from './components/CardNumber'
+import CardTypeText from './components/CardType'
 
 import { ProductType, CardType, BankAxeptType } from './utils/Types'
 import Designs, { defaultDesign } from './utils/CardDesigns'
@@ -191,21 +192,6 @@ export default class PaymentCard extends React.PureComponent {
   }
 }
 
-const formatCardNumberRegex = /(?=(?:....)*$)/g
-
-export const formatCardNumber = (cardNumber, digits = 8) => {
-  if (!cardNumber) {
-    return cardNumber
-  }
-  if (digits && digits <= cardNumber.length) {
-    return cardNumber
-      .slice(cardNumber.length - digits, cardNumber.length)
-      .replace(formatCardNumberRegex, ' ')
-      .trim()
-  }
-  return cardNumber.replace(formatCardNumberRegex, ' ').trim()
-}
-
 export const getCardData = (productCode) => {
   const card = cardProducts.find(
     (item) => item.productCode === productCode
@@ -223,55 +209,7 @@ const defaultCard = (productCode) => ({
   bankAxept: BankAxeptType.None,
 })
 
-CardNumberText.propTypes = {
-  cardNumber: PropTypes.string.isRequired,
-  skeleton: PropTypes.bool.isRequired,
-}
-
-function CardNumberText({ cardNumber, skeleton }) {
-  return (
-    <span
-      className={classnames(
-        'dnb-payment-card__card__wrapper',
-        createSkeletonClass('font', skeleton)
-      )}
-    >
-      <P className="dnb-payment-card__card__numbers">{cardNumber}</P>
-    </span>
-  )
-}
-
-CardTypeText.propTypes = {
-  isCredit: PropTypes.bool.isRequired,
-  translations: PropTypes.object.isRequired,
-  skeleton: PropTypes.bool.isRequired,
-}
-
-function CardTypeText({ isCredit, translations, skeleton }) {
-  return (
-    <span
-      className={classnames(
-        'dnb-payment-card__card__wrapper',
-        createSkeletonClass('font', skeleton)
-      )}
-    >
-      <P className={'dnb-payment-card__card__type-text'}>
-        {
-          isCredit ?
-            translations.text_type_credit :
-            translations.text_type_debit
-        }
-      </P>
-    </span>
-  )
-}
-
-CardTypeText.propTypes = {
-  hasBankAxept: PropTypes.bool.isRequired,
-  hasCardType: PropTypes.bool.isRequired,
-}
-
-function CardProvidersSeparator({ hasBankAxept, hasCardType }) {
+const CardProvidersSeparator = ({ hasBankAxept, hasCardType }) => {
   return (hasBankAxept && hasCardType) && (<div className="separator" />)
 }
 
@@ -289,65 +227,74 @@ function NormalCard({
   cardStatus,
   cardNumber,
   id = null,
-  skeleton = null,
+  skeleton = false,
   translations,
 }) {
+  const cardClasses = classnames(
+    'dnb-payment-card__card',
+    `dnb-payment-card__${data.cardDesign.cardStyle}`,
+    `${isCardBlocked(cardStatus) ? 'dnb-payment-card__card--blocked' : ''}`,
+  );
+
   return (
-    <div
-      id={id}
-      className={classnames(
-        'dnb-payment-card__card',
-        `dnb-payment-card__${data.cardDesign.cardStyle}`
-      )}
-      {...(data.cardDesign?.backgroundImage
-        ? {
-            style: {
-              backgroundImage: `url(${data.cardDesign.backgroundImage})`,
-            },
-          }
-        : {})}
-    >
-      <div className="dnb-payment-card__card__content">
-        <div className="dnb-payment-card__card__top">
-          <div className="dnb-payment-card__card__top__left">
-            <BankLogo logoType={data.cardDesign.bankLogo} />
-            <ProductLogo
-                productType={data.productType}
-                cardDesign={data.cardDesign}
-            />
+    <div className="dnb-payment-card__card__wrapper">
+      <div
+          id={id}
+          className={cardClasses}
+          {...(data.cardDesign?.backgroundImage
+              ? {
+                style: {
+                  backgroundImage: `url(${data.cardDesign.backgroundImage})`,
+                },
+              }
+              : {})}
+      >
+        <div className="dnb-payment-card__card__content">
+          <div className="dnb-payment-card__card__top">
+            <div className="dnb-payment-card__card__top__left">
+              <BankLogo logoType={data.cardDesign.bankLogo} />
+              <ProductLogo
+                  productType={data.productType}
+                  cardDesign={data.cardDesign}
+              />
+            </div>
+            <div className="dnb-payment-card__card__top__right">
+              <CardTypeText
+                  isCredit={data.bankAxept === BankAxeptType.Credit}
+                  translations={translations}
+                  skeleton={skeleton}
+              />
+            </div>
           </div>
-          <div className="dnb-payment-card__card__top__right">
-            <CardTypeText
-                isCredit={data.bankAxept === BankAxeptType.Credit}
-                translations={translations}
-                skeleton={skeleton}
-            />
-          </div>
-        </div>
-        <div className="dnb-payment-card__card__bottom">
-          <div className="dnb-payment-card__card__bottom__left">
-            <CardNumberText
-                cardNumber={cardNumber}
-                skeleton={skeleton}
-            />
-          </div>
-          <div className="dnb-payment-card__card__bottom__right">
-            <BankAxeptLogo
-              bankAxept={data.bankAxept}
-              cardDesign={data.cardDesign}
-            />
-            <CardProvidersSeparator
-              hasBankAxept={data.bankAxept === BankAxeptType.BankAxept}
-              hasCardType={data.cardType !== CardType.None}
-            />
-            <TypeLogo
-              cardType={data.cardType}
-              cardDesign={data.cardDesign}
-            />
+          <div className="dnb-payment-card__card__bottom">
+            <div className="dnb-payment-card__card__bottom__left">
+              <CardNumberText
+                  cardNumber={cardNumber}
+                  skeleton={skeleton}
+              />
+            </div>
+            <div className="dnb-payment-card__card__bottom__right">
+              <BankAxeptLogo
+                  bankAxept={data.bankAxept}
+                  cardDesign={data.cardDesign}
+              />
+              <CardProvidersSeparator
+                  hasBankAxept={data.bankAxept === BankAxeptType.BankAxept}
+                  hasCardType={data.cardType !== CardType.None}
+              />
+              <TypeLogo
+                  cardType={data.cardType}
+                  cardDesign={data.cardDesign}
+              />
+            </div>
           </div>
         </div>
       </div>
-      <StatusOverlay cardStatus={cardStatus} translations={translations} />
+      <StatusOverlay
+          cardStatus={cardStatus}
+          cardDesign={data.cardDesign.cardStyle}
+          translations={translations}
+      />
     </div>
   )
 }
