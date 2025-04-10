@@ -20,14 +20,8 @@ import MastercardDefault from './providers/MastercardDefault'
 import MastercardDark from './providers/MastercardDark'
 import VisaDefault from './providers/VisaDefault'
 import VisaPlatinum from './providers/VisaPlatinum'
-// status icons
-import {
-  clock_medium as Expired,
-  padlock_medium as Blocked,
-  card_in_medium as CardIn,
-  hourglass as Hourglass,
-  question_medium as QuestionMark,
-} from '../../../icons'
+import { StatusIcon } from './status'
+
 const BankLogo = ({ logoType, height }) =>
   logoType.cata({
     Colored: (color) => (
@@ -85,35 +79,6 @@ const BankAxeptLogo = ({ bankAxept, cardDesign }) => {
     Credit: () => null,
     None: () => null,
   })
-}
-
-const StatusIcon = ({ status }) => {
-  switch (status) {
-    case 'expired':
-      return <Expired />
-
-    case 'not_active':
-      return <CardIn />
-
-    case 'blocked':
-      return <Blocked />
-
-    case 'order_in_process':
-      return <Hourglass />
-
-    case 'renewed':
-      return <CardIn />
-
-    case 'replaced':
-      return <CardIn />
-
-    case 'unknown':
-      return <QuestionMark />
-
-    case 'active':
-    default:
-      return null
-  }
 }
 
 const TypeLogo = ({ cardType, cardDesign }) => {
