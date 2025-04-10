@@ -283,3 +283,54 @@ export function SessionStorage() {
     </ComponentBox>
   )
 }
+
+export const WithFileItemOptions = () => {
+  return (
+    <ComponentBox scope={{ createMockFile }}>
+      {() => {
+        const MyForm = () => {
+          return (
+            <Form.Handler
+              data={{
+                myFiles: [
+                  {
+                    file: createMockFile(
+                      'fileName-1.png',
+                      100,
+                      'image/png',
+                    ),
+                    description: 'My description',
+                    errorMessage: 'My error message',
+                    removeDeleteButton: true,
+                  },
+                ],
+              }}
+            >
+              <Flex.Stack>
+                <Field.Upload
+                  path="/myFiles"
+                  fileHandler={mockSyncFileUpload}
+                  required
+                />
+                <Form.SubmitButton />
+                <Tools.Log />
+              </Flex.Stack>
+            </Form.Handler>
+          )
+        }
+
+        function mockSyncFileUpload(newFiles: UploadValue) {
+          return newFiles.map((file) => {
+            file.errorMessage = 'File has a problem'
+            file.description = 'File description'
+            file.removeDeleteButton = true
+
+            return file
+          })
+        }
+
+        return <MyForm />
+      }}
+    </ComponentBox>
+  )
+}

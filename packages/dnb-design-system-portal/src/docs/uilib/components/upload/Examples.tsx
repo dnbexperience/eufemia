@@ -489,6 +489,16 @@ export const UploadDescription = () => (
           <Upload
             acceptedFileTypes={['jpg', 'png']}
             id="upload-description"
+            onChange={({ files }) =>
+              setFiles(
+                files.map((fileItem) => {
+                  return {
+                    ...fileItem,
+                    description: 'This is my description',
+                  }
+                }),
+              )
+            }
           />
         )
       }
@@ -541,6 +551,13 @@ export const UploadRemoveDeleteButton = () => (
           <Upload
             acceptedFileTypes={['jpg', 'png']}
             id="upload-remove-delete-button"
+            onChange={({ files }) =>
+              setFiles(
+                files.map((fileItem) => {
+                  return { ...fileItem, removeDeleteButton: true }
+                }),
+              )
+            }
           />
         )
       }
