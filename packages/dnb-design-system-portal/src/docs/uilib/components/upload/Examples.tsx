@@ -448,3 +448,52 @@ export const UploadDisabledDragAndDrop = () => (
     />
   </ComponentBox>
 )
+
+export const UploadDescription = () => (
+  <ComponentBox
+    scope={{ createMockFile, createRequest }}
+    data-visual-test="upload-description"
+  >
+    {() => {
+      const Component = () => {
+        const { setFiles } = Upload.useUpload('upload-description')
+
+        React.useEffect(() => {
+          setFiles([
+            {
+              file: createMockFile('1501870.jpg', 0, 'image/png'),
+              id: '1',
+              description: 'This is my description',
+            },
+            {
+              file: createMockFile(
+                'file-name-that-is-very-long-and-has-letters.png',
+                0,
+                'image/png',
+              ),
+              id: '2',
+            },
+            {
+              file: createMockFile('123.jpg', 0, 'image/png'),
+              id: '3',
+              description: 'This is my description',
+            },
+            {
+              file: createMockFile('321.jpg', 0, 'image/png'),
+              id: '4',
+            },
+          ])
+        }, [setFiles])
+
+        return (
+          <Upload
+            acceptedFileTypes={['jpg', 'png']}
+            id="upload-description"
+          />
+        )
+      }
+
+      return <Component />
+    }}
+  </ComponentBox>
+)

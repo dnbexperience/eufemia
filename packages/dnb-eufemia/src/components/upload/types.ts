@@ -121,6 +121,7 @@ export type UploadFile = {
   exists: boolean
   isLoading?: boolean
   errorMessage?: React.ReactNode
+  description?: React.ReactNode
 }
 
 export type UploadFileNative = Omit<UploadFile, 'id' | 'exists'> &

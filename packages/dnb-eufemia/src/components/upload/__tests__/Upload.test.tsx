@@ -948,6 +948,62 @@ describe('Upload', () => {
       expect(emptyFileCell).not.toBeInTheDocument()
     })
 
+    it('shows the file description when provided', async () => {
+      const myDescription = 'my description'
+      const files = [
+        {
+          file: createMockFile('fileName.png', 100, 'image/png'),
+          description: myDescription,
+        },
+      ]
+
+      const id = 'random-id-description'
+
+      render(<Upload {...defaultProps} id={id} />)
+
+      const MockComponent = () => {
+        const { setFiles } = useUpload(id)
+
+        useEffect(() => setFiles(files), [])
+
+        return <div />
+      }
+
+      render(<MockComponent />)
+
+      expect(screen.queryByText(myDescription)).toBeInTheDocument()
+    })
+
+    it('does not show the file description when loading', async () => {
+      const myDescription = 'my description'
+      const files = [
+        {
+          file: createMockFile('fileName.png', 100, 'image/png'),
+          description: myDescription,
+          isLoading: true,
+        },
+      ]
+
+      const id = 'random-id-description'
+
+      render(<Upload {...defaultProps} id={id} />)
+
+      const MockComponent = () => {
+        const { setFiles } = useUpload(id)
+
+        useEffect(() => setFiles(files), [])
+
+        return <div />
+      }
+
+      render(<MockComponent />)
+
+      expect(screen.queryByText(myDescription)).not.toBeInTheDocument()
+      expect(
+        document.querySelectorAll('.dnb-progress-indicator').length
+      ).toBe(1)
+    })
+
     it('shows the file when the file is added', async () => {
       const files = [
         { file: createMockFile('fileName.png', 100, 'image/png') },

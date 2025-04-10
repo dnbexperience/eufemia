@@ -7,6 +7,9 @@ import Icon from '../../components/Icon'
 import FormStatus from '../../components/FormStatus'
 import ProgressIndicator from '../../components/progress-indicator'
 
+// Elements
+import P from '../../elements/P'
+
 // Icons
 import {
   trash as TrashIcon,
@@ -95,7 +98,7 @@ const UploadFileListCell = ({
   download,
   allowDuplicates,
 }: UploadFileListCellProps) => {
-  const { file, errorMessage, isLoading } = uploadFile
+  const { file, errorMessage, isLoading, description } = uploadFile
   const hasWarning = errorMessage != null
 
   const imageUrl = file?.size > 0 ? URL.createObjectURL(file) : null
@@ -144,7 +147,6 @@ const UploadFileListCell = ({
           </Button>
         </div>
       </div>
-
       {getWarning()}
     </li>
   )
@@ -168,8 +170,16 @@ const UploadFileListCell = ({
           onClick={onClick}
           bottom={0}
         />
+        {getDescription()}
       </div>
     )
+  }
+
+  function getDescription() {
+    if (!description) {
+      return null
+    }
+    return <P className="dnb-upload__text">{description}</P>
   }
 
   function getWarning() {
