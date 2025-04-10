@@ -176,9 +176,10 @@ const UploadFileListCell = ({
   }
 
   function getDescription() {
-    return description ? (
-      <P className="dnb-upload__text">{description}</P>
-    ) : null
+    if(!description){
+      return null
+    }
+    return <P className="dnb-upload__text">{description}</P>
   }
 
   function getWarning() {
