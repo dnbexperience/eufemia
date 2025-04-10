@@ -1,6 +1,5 @@
 import React from "react";
 import classnames from "classnames";
-import { createSkeletonClass } from "../../../components/skeleton/SkeletonHelper";
 import { StatusIcon } from "../icons";
 import P from "../../../elements/P";
 
@@ -18,8 +17,8 @@ interface Translations {
 
 interface StatusOverlayProps {
   cardStatus: string;
-  cardDesign: string;
   translations: Translations;
+  cardDesign: string;
 }
 
 const StatusOverlay: React.FC<StatusOverlayProps> = ({ cardStatus, translations, cardDesign }) => {
