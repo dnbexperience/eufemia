@@ -22,7 +22,7 @@ export const ProviderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   errorMessages: {
-    doc: 'Object containing error messages by either type of JSON Pointer path and type.',
+    doc: 'Object containing error messages by either type of JSON Pointer path and type. The messages can be a React.ReactNode or a string.',
     type: 'object',
     status: 'optional',
   },

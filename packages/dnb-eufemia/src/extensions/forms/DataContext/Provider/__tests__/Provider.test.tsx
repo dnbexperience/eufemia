@@ -2341,131 +2341,133 @@ describe('DataContext.Provider', () => {
         )
       })
 
-      it('should interact with GlobalStatus', async () => {
-        jest.spyOn(window, 'scrollTo').mockImplementation()
+      describe('GlobalStatus', () => {
+        it('should interact with GlobalStatus', async () => {
+          jest.spyOn(window, 'scrollTo').mockImplementation()
 
-        render(
-          <>
-            <GlobalStatus />
-            <DataContext.Provider>
-              <Field.String path="/myField" required minLength={5} />
-              <Form.SubmitButton />
-            </DataContext.Provider>
-          </>
-        )
+          render(
+            <>
+              <GlobalStatus />
+              <DataContext.Provider>
+                <Field.String path="/myField" required minLength={5} />
+                <Form.SubmitButton />
+              </DataContext.Provider>
+            </>
+          )
 
-        const input = document.querySelector('input')
-        const submitButton = document.querySelector('button')
+          const input = document.querySelector('input')
+          const submitButton = document.querySelector('button')
 
-        expect(document.querySelector('.dnb-form-status')).toBeNull()
-        expect(
-          document.querySelector('.dnb-global-status__title')
-        ).toBeNull()
-
-        // Invoke the error
-        await userEvent.type(input, 'x{Backspace}')
-        fireEvent.blur(input)
-
-        expect(
-          document.querySelector('.dnb-form-status')
-        ).toHaveTextContent(nb.Field.errorRequired)
-        expect(
-          document.querySelector('.dnb-global-status__title')
-        ).toBeNull()
-
-        fireEvent.click(submitButton)
-
-        expect(
-          document.querySelector('.dnb-global-status__title')
-        ).toBeNull()
-
-        await waitFor(() => {
+          expect(document.querySelector('.dnb-form-status')).toBeNull()
           expect(
             document.querySelector('.dnb-global-status__title')
-          ).toHaveTextContent(nb.Field.errorSummaryTitle)
-        })
+          ).toBeNull()
 
-        await userEvent.type(input, 'foo')
-        fireEvent.blur(input)
+          // Invoke the error
+          await userEvent.type(input, 'x{Backspace}')
+          fireEvent.blur(input)
 
-        expect(
-          document.querySelector('.dnb-form-status')
-        ).toHaveTextContent(
-          nb.StringField.errorMinLength.replace('{minLength}', '5')
-        )
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent(nb.Field.errorRequired)
+          expect(
+            document.querySelector('.dnb-global-status__title')
+          ).toBeNull()
 
-        await waitFor(() => {
-          simulateAnimationEnd()
+          fireEvent.click(submitButton)
 
           expect(
             document.querySelector('.dnb-global-status__title')
           ).toBeNull()
+
+          await waitFor(() => {
+            expect(
+              document.querySelector('.dnb-global-status__title')
+            ).toHaveTextContent(nb.Field.errorSummaryTitle)
+          })
+
+          await userEvent.type(input, 'foo')
+          fireEvent.blur(input)
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent(
+            nb.StringField.errorMinLength.replace('{minLength}', '5')
+          )
+
+          await waitFor(() => {
+            simulateAnimationEnd()
+
+            expect(
+              document.querySelector('.dnb-global-status__title')
+            ).toBeNull()
+          })
         })
-      })
 
-      it('should interact with GlobalStatus with unique "globalStatusId"', async () => {
-        jest.spyOn(window, 'scrollTo').mockImplementation()
+        it('should interact with GlobalStatus with unique "globalStatusId"', async () => {
+          jest.spyOn(window, 'scrollTo').mockImplementation()
 
-        render(
-          <>
-            <GlobalStatus id="my-status" />
-            <DataContext.Provider globalStatusId="my-status">
-              <Field.String path="/myField" required minLength={5} />
-              <Form.SubmitButton />
-            </DataContext.Provider>
-          </>
-        )
+          render(
+            <>
+              <GlobalStatus id="my-status" />
+              <DataContext.Provider globalStatusId="my-status">
+                <Field.String path="/myField" required minLength={5} />
+                <Form.SubmitButton />
+              </DataContext.Provider>
+            </>
+          )
 
-        const input = document.querySelector('input')
-        const submitButton = document.querySelector('button')
+          const input = document.querySelector('input')
+          const submitButton = document.querySelector('button')
 
-        expect(document.querySelector('.dnb-form-status')).toBeNull()
-        expect(
-          document.querySelector('.dnb-global-status__title')
-        ).toBeNull()
-
-        // Invoke the error
-        await userEvent.type(input, 'x{Backspace}')
-        fireEvent.blur(input)
-
-        expect(
-          document.querySelector('.dnb-form-status')
-        ).toHaveTextContent(nb.Field.errorRequired)
-        expect(
-          document.querySelector('.dnb-global-status__title')
-        ).toBeNull()
-
-        fireEvent.click(submitButton)
-
-        expect(
-          document.querySelector('.dnb-global-status__title')
-        ).toBeNull()
-
-        await waitFor(() => {
+          expect(document.querySelector('.dnb-form-status')).toBeNull()
           expect(
             document.querySelector('.dnb-global-status__title')
-          ).toHaveTextContent(nb.Field.errorSummaryTitle)
-        })
+          ).toBeNull()
 
-        expect(
-          document.querySelector('.dnb-global-status__message__content')
-        ).toHaveTextContent(nb.Field.errorRequired + 'Gå til')
+          // Invoke the error
+          await userEvent.type(input, 'x{Backspace}')
+          fireEvent.blur(input)
 
-        await userEvent.type(input, 'foo')
-        fireEvent.blur(input)
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent(nb.Field.errorRequired)
+          expect(
+            document.querySelector('.dnb-global-status__title')
+          ).toBeNull()
 
-        expect(
-          document.querySelector('.dnb-form-status')
-        ).toHaveTextContent(
-          nb.StringField.errorMinLength.replace('{minLength}', '5')
-        )
-
-        await waitFor(() => {
-          simulateAnimationEnd()
+          fireEvent.click(submitButton)
 
           expect(
             document.querySelector('.dnb-global-status__title')
           ).toBeNull()
+
+          await waitFor(() => {
+            expect(
+              document.querySelector('.dnb-global-status__title')
+            ).toHaveTextContent(nb.Field.errorSummaryTitle)
+          })
+
+          expect(
+            document.querySelector('.dnb-global-status__message__content')
+          ).toHaveTextContent(nb.Field.errorRequired + 'Gå til')
+
+          await userEvent.type(input, 'foo')
+          fireEvent.blur(input)
+
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent(
+            nb.StringField.errorMinLength.replace('{minLength}', '5')
+          )
+
+          await waitFor(() => {
+            simulateAnimationEnd()
+
+            expect(
+              document.querySelector('.dnb-global-status__title')
+            ).toBeNull()
+          })
         })
       })
     })

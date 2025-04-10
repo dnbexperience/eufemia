@@ -38,6 +38,8 @@ export { JSONSchemaType }
 export type ValidatorReturnSync<Value> =
   | Error
   | FormError
+  | string
+  | React.ReactElement
   | undefined
   | void
   | Array<Validator<Value>>
@@ -129,7 +131,7 @@ export type GlobalErrorMessagesWithPaths =
  */
 export type DotNotationErrorMessages = Record<
   `${string}` | `${string}.${string}`,
-  string
+  string | React.ReactElement
 >
 /**
  * { 'nb-NO': { 'Field.errorRequired': 'Dette feltet er påkrevd' } }
@@ -340,6 +342,23 @@ export type ConnectorProps<Value = unknown> = Pick<
   'onChange' | 'onBlurValidator'
 >
 
+export type InfoProp<Value> = MessageProp<
+  Value,
+  React.ReactNode | Array<React.ReactNode>
+>
+export type WarningProp<Value> = MessageProp<
+  Value,
+  React.ReactNode | Array<React.ReactNode>
+>
+export type ErrorProp<Value> = MessageProp<
+  Value,
+  | string
+  | React.ReactElement
+  | Error
+  | FormError
+  | Array<string | React.ReactElement | Error | FormError>
+>
+
 export interface UseFieldProps<
   Value = unknown,
   EmptyValue = undefined | unknown,
@@ -375,9 +394,9 @@ export interface UseFieldProps<
   props?: Record<string, unknown>
 
   // - Used by useFieldProps and FieldBlock
-  info?: MessageProp<Value, React.ReactNode | Array<React.ReactNode>>
-  warning?: MessageProp<Value, React.ReactNode | Array<React.ReactNode>>
-  error?: MessageProp<Value, Error | FormError | Array<Error | FormError>>
+  info?: InfoProp<Value>
+  warning?: WarningProp<Value>
+  error?: ErrorProp<Value>
 
   // - Validation
   required?: boolean
