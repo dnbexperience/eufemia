@@ -176,7 +176,7 @@ const UploadFileListCell = ({
   }
 
   function getDescription() {
-    if(!description){
+    if (!description) {
       return null
     }
     return <P className="dnb-upload__text">{description}</P>
