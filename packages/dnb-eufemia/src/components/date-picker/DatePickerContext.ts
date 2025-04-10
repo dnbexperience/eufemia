@@ -22,7 +22,6 @@ export type DatePickerContextValues = ContextProps &
     props: DatePickerAllProps
     translation: ContextProps['translation']
     views: Array<CalendarView>
-    hasHadValidDate: boolean
     previousDateProps: DatePickerDateProps
     updateDates: (
       dates: DatePickerDates,
