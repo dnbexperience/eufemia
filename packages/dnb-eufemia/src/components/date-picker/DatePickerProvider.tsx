@@ -84,7 +84,6 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
     maxDate,
     dateFormat,
     range,
-    correctInvalidDate,
     attributes,
     returnFormat: returnFormatProp,
     children,
@@ -109,7 +108,6 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
       {
         dateFormat: dateFormat,
         isRange: range,
-        shouldCorrectDate: correctInvalidDate,
       }
     )
 
