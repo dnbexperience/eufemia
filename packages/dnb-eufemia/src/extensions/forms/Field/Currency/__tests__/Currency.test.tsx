@@ -27,82 +27,6 @@ describe('Field.Currency', () => {
     expect(input).toHaveValue('123 NOK')
   })
 
-  it('placeholder should use correct currency format', () => {
-    const { rerender } = render(
-      <Provider>
-        <Field.Currency />
-      </Provider>
-    )
-
-    expect(
-      document.querySelector('.dnb-input__placeholder').textContent
-    ).toBe('kr')
-
-    rerender(
-      <Provider locale="en-GB">
-        <Field.Currency />
-      </Provider>
-    )
-
-    expect(
-      document.querySelector('.dnb-input__placeholder').textContent
-    ).toBe('NOK')
-
-    rerender(<Field.Currency currencyDisplay="name" />)
-
-    expect(
-      document.querySelector('.dnb-input__placeholder').textContent
-    ).toBe('kroner')
-  })
-
-  it('should support "currencyDisplay"', () => {
-    const { rerender } = render(
-      <Provider>
-        <Field.Currency value={1234} currencyDisplay="name" />
-      </Provider>
-    )
-
-    const input = document.querySelector('input')
-
-    expect(input).toHaveValue('1 234 kroner')
-
-    rerender(
-      <Provider>
-        <Field.Currency value={1} currencyDisplay="name" />
-      </Provider>
-    )
-
-    expect(input).toHaveValue('1 krone')
-
-    rerender(
-      <Provider locale="en-GB">
-        <Field.Currency value={1234} currencyDisplay="name" />
-      </Provider>
-    )
-
-    expect(input).toHaveValue('1 234 kroner')
-
-    rerender(
-      <Provider locale="de-CH">
-        <Field.Currency value={1234} currencyDisplay="name" />
-      </Provider>
-    )
-
-    expect(input).toHaveValue('1’234 Kronen')
-
-    rerender(
-      <Provider>
-        <Field.Currency
-          value={1234}
-          currency="SEK"
-          currencyDisplay="name"
-        />
-      </Provider>
-    )
-
-    expect(input).toHaveValue('1 234 svenske kroner')
-  })
-
   it('should align input correctly', () => {
     render(
       <>
@@ -247,6 +171,106 @@ describe('Field.Currency', () => {
     )
 
     log.mockRestore()
+  })
+
+  describe('currencyDisplay', () => {
+    it('placeholder should use correct currency format', () => {
+      const { rerender } = render(
+        <Provider>
+          <Field.Currency />
+        </Provider>
+      )
+
+      expect(
+        document.querySelector('.dnb-input__placeholder').textContent
+      ).toBe('kr')
+
+      rerender(
+        <Provider locale="en-GB">
+          <Field.Currency />
+        </Provider>
+      )
+
+      expect(
+        document.querySelector('.dnb-input__placeholder').textContent
+      ).toBe('NOK')
+
+      rerender(<Field.Currency currencyDisplay="name" />)
+
+      expect(
+        document.querySelector('.dnb-input__placeholder').textContent
+      ).toBe('kroner')
+    })
+
+    it('should support "currencyDisplay"', () => {
+      const { rerender } = render(
+        <Provider>
+          <Field.Currency value={1234} currencyDisplay="name" />
+        </Provider>
+      )
+
+      const input = document.querySelector('input')
+
+      expect(input).toHaveValue('1 234 kroner')
+
+      rerender(
+        <Provider>
+          <Field.Currency value={1} currencyDisplay="name" />
+        </Provider>
+      )
+
+      expect(input).toHaveValue('1 krone')
+
+      rerender(
+        <Provider locale="en-GB">
+          <Field.Currency value={1234} currencyDisplay="name" />
+        </Provider>
+      )
+
+      expect(input).toHaveValue('1 234 kroner')
+
+      rerender(
+        <Provider locale="de-CH">
+          <Field.Currency value={1234} currencyDisplay="name" />
+        </Provider>
+      )
+
+      expect(input).toHaveValue('1’234 Kronen')
+
+      rerender(
+        <Provider>
+          <Field.Currency
+            value={1234}
+            currency="SEK"
+            currencyDisplay="name"
+          />
+        </Provider>
+      )
+
+      expect(input).toHaveValue('1 234 svenske kroner')
+    })
+
+    it('should support dynamic suffix and cursor position correction', async () => {
+      render(<Field.Currency currencyDisplay="name" />)
+
+      const input = document.querySelector('input')
+
+      expect(input).toHaveValue('')
+      expect(input).toHaveAttribute('aria-placeholder', 'kroner')
+
+      await userEvent.type(input, '1')
+      expect(input).toHaveValue('1 krone')
+      expect(input.selectionStart).toBe(1)
+      expect(input.selectionEnd).toBe(1)
+
+      await userEvent.keyboard('{Backspace}')
+      expect(input).toHaveValue('')
+
+      await userEvent.type(input, '2')
+      expect(input).toHaveValue('2 kroner')
+      expect(input.selectionStart).toBe(1)
+      expect(input.selectionEnd).toBe(1)
+    })
   })
 
   describe('ARIA', () => {
