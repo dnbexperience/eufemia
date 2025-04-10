@@ -14,16 +14,17 @@
   --dnb-payment-bg-gold: #D8C583;
   --dnb-payment-bg-black-gold:  #1F1B10;
   --dnb-payment-bg-black-grey: #1C1C1E;
+  --dnb-payment-overlay-bg-dark: #00000099;
+  --dnb-payment-overlay-bg-light: #FFFFFFB2;
 
   margin: 0;
+  border-radius: 12px;
 
   &__card {
-    position: relative;
-    width: 343px;
-    height: 216px;
+    width: 100%;
+    height: 100%;
     padding: 16px;
-
-    border-radius: 12px;
+    border-radius: inherit;
 
     border: 1px solid;
     border-color: rgb(255 255 255 / 10%) transparent rgb(255 255 255 / 10%)
@@ -37,77 +38,90 @@
     // disable cursor selection
     user-select: none;
 
-    &--design-default {
-      background-color: var(--dnb-payment-bg-default);
-      color: var(--color-white);
+    &__wrapper {
+      position: relative;
+      width: 343px;
+      height: 216px;
+      border-radius: inherit;
     }
 
-    &--design-pluss {
-      background-color: var(--dnb-payment-bg-pluss);
-      color: var(--color-white);
+    &--blocked {
+      opacity: 0.5;
     }
 
-    &--design-ung {
-      background-color: var(--dnb-payment-bg-white);
-      color: var(--color-black-80);
-    }
-
-    &--design-youth {
-      background-color: var(--dnb-payment-bg-white);
-      color: var(--color-black-80);
-    }
-
-    &--design-my-first {
-      background-color: var(--dnb-payment-bg-white);
-      color: var(--color-black-80);
-    }
-
-    &--design-gold {
-      background-color: var(--dnb-payment-bg-gold);
-      color: var(--color-black);
-    }
-
-    &--design-saga {
-      background-color: var(--dnb-payment-bg-black-gold);
-      color: var(--color-white);
-      .separator {
-        color: var(--dnb-payment-bg-gold);
+    &--design {
+      &-default {
+        background-color: var(--dnb-payment-bg-default);
+        color: var(--color-white);
       }
-    }
 
-    &--design-saga-platinum {
-      background-color: var(--dnb-payment-bg-black-grey);
-      color: var(--color-white);
-    }
+      &-pluss {
+        background-color: var(--dnb-payment-bg-pluss);
+        color: var(--color-white);
+      }
 
-    &--design-private {
-      background-color: var(--dnb-payment-bg-black-grey);
-      color: var(--color-white);
-    }
+      &-ung {
+        background-color: var(--dnb-payment-bg-white);
+        color: var(--color-black-80);
+      }
 
-    &--design-black {
-      background-color: var(--color-black);
-      color: var(--color-white);
-    }
+      &-youth {
+        background-color: var(--dnb-payment-bg-white);
+        color: var(--color-black-80);
+      }
 
-    &--design-business-no-visa {
-      background-color: var(--dnb-payment-bg-business-no-visa);
-      color: var(--color-white);
-    }
+      &-my-first {
+        background-color: var(--dnb-payment-bg-white);
+        color: var(--color-black-80);
+      }
 
-    &--design-business-with-visa {
-      background-color: var(--dnb-payment-bg-business-with-visa);
-      color: var(--color-white);
-    }
+      &-gold {
+        background-color: var(--dnb-payment-bg-gold);
+        color: var(--color-black);
+      }
 
-    &--design-sbanken-mastercard {
-      background-color: var(--sb-color-purple);
-      color: var(--color-white);
-    }
+      &-saga {
+        background-color: var(--dnb-payment-bg-black-gold);
+        color: var(--color-white);
+        .separator {
+          color: var(--dnb-payment-bg-gold);
+        }
+      }
 
-    &--design-sbanken-visa {
-      background-color: var(--color-white);
-      color: var(--sb-color-text);
+      &-saga-platinum {
+        background-color: var(--dnb-payment-bg-black-grey);
+        color: var(--color-white);
+      }
+
+      &-private {
+        background-color: var(--dnb-payment-bg-black-grey);
+        color: var(--color-white);
+      }
+
+      &-black {
+        background-color: var(--color-black);
+        color: var(--color-white);
+      }
+
+      &-business-no-visa {
+        background-color: var(--dnb-payment-bg-business-no-visa);
+        color: var(--color-white);
+      }
+
+      &-business-with-visa {
+        background-color: var(--dnb-payment-bg-business-with-visa);
+        color: var(--color-white);
+      }
+
+      &-sbanken-mastercard {
+        background-color: var(--sb-color-purple);
+        color: var(--color-white);
+      }
+
+      &-sbanken-visa {
+        background-color: var(--color-white);
+        color: var(--sb-color-text);
+      }
     }
 
     &::after {
@@ -118,10 +132,6 @@
       width: 100%;
       height: 100%;
       border-radius: inherit;
-    }
-
-    &--design-sbanken-mastercard::after {
-      background: none;
     }
 
     &__content {
