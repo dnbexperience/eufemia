@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useLayoutEffect, useMemo, useState } from 'react'
 import { convertStringToDate, isDisabled } from '../DatePickerCalc'
 import isValid from 'date-fns/isValid'
 import format from 'date-fns/format'
@@ -142,7 +142,7 @@ export default function useDates(
 
   // Updated input dates based on start and end dates, move to DatePickerInput
   // TODO: Move to DatePickerInput
-  useEffect(() => {
+  useLayoutEffect(() => {
     const startDates = updateInputDates('start', dates.startDate)
     const endDates = updateInputDates('end', dates.endDate)
 
