@@ -497,3 +497,55 @@ export const UploadDescription = () => (
     }}
   </ComponentBox>
 )
+
+export const UploadRemoveDeleteButton = () => (
+  <ComponentBox
+    scope={{ createMockFile, createRequest }}
+    data-visual-test="upload-remove-delete-button"
+  >
+    {() => {
+      const Component = () => {
+        const { setFiles } = Upload.useUpload(
+          'upload-remove-delete-button',
+        )
+
+        React.useEffect(() => {
+          setFiles([
+            {
+              file: createMockFile('1501870.jpg', 0, 'image/png'),
+              id: '1',
+            },
+            {
+              file: createMockFile(
+                'file-name-that-is-very-very-very-very-very-very-very-verylong-to-display-that-when-remove-button-is-hidden-file-name-will-take-full-width.png',
+                0,
+                'image/png',
+              ),
+              description:
+                'Description that is very very very very very very very very long to display that when delete button is removed, file description will take full width.',
+              removeDeleteButton: true,
+            },
+            {
+              file: createMockFile('123.jpg', 0, 'image/png'),
+              id: '3',
+            },
+            {
+              file: createMockFile('321.jpg', 0, 'image/png'),
+              id: '4',
+              removeDeleteButton: true,
+            },
+          ])
+        }, [setFiles])
+
+        return (
+          <Upload
+            acceptedFileTypes={['jpg', 'png']}
+            id="upload-remove-delete-button"
+          />
+        )
+      }
+
+      return <Component />
+    }}
+  </ComponentBox>
+)
