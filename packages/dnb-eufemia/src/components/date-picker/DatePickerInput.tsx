@@ -165,7 +165,6 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   const {
     updateDates,
     callOnChangeHandler,
-    hasHadValidDate,
     getReturnObject,
     __startDay,
     __startMonth,
@@ -179,6 +178,11 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   } = useContext(DatePickerContext)
 
   const translation = useTranslation().DatePicker
+
+  const hasHadValidDate = useMemo(
+    () => isValid(startDate) || isValid(endDate),
+    [startDate, endDate]
+  )
 
   const modeDate = useMemo(
     () => ({
