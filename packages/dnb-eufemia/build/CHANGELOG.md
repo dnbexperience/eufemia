@@ -3,6 +3,14 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.70.1](https://github.com/dnbexperience/eufemia/compare/v10.70.0...v10.70.1) (2025-04-10)
+
+
+### :bug: Bug Fixes
+
+* **DatePicker:** enhance typing in input ([#4893](https://github.com/dnbexperience/eufemia/issues/4893)) ([1162c72](https://github.com/dnbexperience/eufemia/commit/1162c72842286e0383a15406a02f7e3846d275f4))
+* **Forms:** prevent form submit when `error` prop is set on a `Field.*` ([#4908](https://github.com/dnbexperience/eufemia/issues/4908)) ([687c249](https://github.com/dnbexperience/eufemia/commit/687c2493ab5f463163cb947aef162890f50153cd))
+
 ## [10.70.0](https://github.com/dnbexperience/eufemia/compare/v10.69.1...v10.70.0) (2025-04-04)
 
 
