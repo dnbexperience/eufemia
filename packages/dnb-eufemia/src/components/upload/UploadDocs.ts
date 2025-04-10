@@ -115,4 +115,9 @@ export const FileItemProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
+  description: {
+    doc: 'Provide a description to be displayed. This is useful for providing additional information about the file.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
 }
