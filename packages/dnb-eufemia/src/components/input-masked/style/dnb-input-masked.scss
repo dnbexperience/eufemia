@@ -14,6 +14,18 @@
   input::placeholder {
     color: inherit;
   }
+
+  &--hide-controls {
+    &[type='number']::-webkit-outer-spin-button,
+    &[type='number']::-webkit-inner-spin-button {
+      appearance: none;
+      margin: 0;
+    }
+
+    &[type='number'] {
+      appearance: textfield;
+    }
+  }
 }
 
 // MultiInputMask

@@ -3,7 +3,14 @@ showTabs: true
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { inputMaskedProperties } from '@dnb/eufemia/src/components/input-masked/InputMaskedDocs'
+import {
+  inputMaskedProperties,
+  inputMaskedMaskOptionsProperties,
+} from '@dnb/eufemia/src/components/input-masked/InputMaskedDocs'
+import {
+  multiInputMaskedProperties,
+  multiInputMaskedInputsProperties,
+} from '@dnb/eufemia/src/components/input-masked/MultiInputMaskedDocs'
 
 ## Properties
 
@@ -28,19 +35,7 @@ You can `mask_options` to manipulate the options.
 
 Defaults to Norwegian number format.
 
-| Properties                  | Description                                                                                                                            |
-| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `prefix`                    | (string): What to display before the amount. Defaults to an empty string.                                                              |
-| `suffix`                    | (string): What to display after the amount. Defaults to an empty string.                                                               |
-| `includeThousandsSeparator` | (boolean): Whether or not to separate thousands. Defaults to `true`.                                                                   |
-| `thousandsSeparatorSymbol`  | (string): Character with which to separate thousands. Defaults to `' '`.                                                               |
-| `allowDecimal`              | (boolean): Whether or not to allow the user to enter a fraction with the amount. Defaults to `false`.                                  |
-| `decimalSymbol`             | (string): Character that will act as a decimal point. Defaults to `','`.                                                               |
-| `decimalLimit`              | (number): How many digits to allow after the decimal. Defaults to `2`.                                                                 |
-| `integerLimit`              | (number): Limit the length of the integer number. Defaults to `null` for unlimited.                                                    |
-| `requireDecimal`            | (boolean): Whether or not to always include a decimal point and placeholder for decimal digits after the integer. Defaults to `false`. |
-| `allowNegative`             | (boolean): Whether or not to allow negative numbers. Defaults to `true`.                                                               |
-| `disallowLeadingZeroes`     | (boolean): Whether or not to allow leading zeroes. Defaults to `false`.                                                                |
+<PropertiesTable props={inputMaskedMaskOptionsProperties} />
 
 ### Custom number mask usage
 
@@ -92,23 +87,8 @@ Read more about other addons [on the open-source project](https://github.com/tex
 
 ## Multi-input mask
 
-| Properties       | Description                                                                                                                                                                                                                                                          |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `label`          | _(optional)_ `legend` element describing the group of inputs inside the components.                                                                                                                                                                                  |
-| `labelDirection` | _(optional)_ Use to change the label layout direction. Defaults to `horizontal`.                                                                                                                                                                                     |
-| `inputs`         | array of [MultiInputMaskInput](/uilib/components/input-masked/properties/#multiinputmask-inputs-properties) that defines the inputs in the component. The id's defined here is used to map input value to correct property in `values` parameters used in `onChange` |
-| `values`         | _(optional)_ values used for the inputs in the component. Expects an object with keys matching the id's defined in `inputs`                                                                                                                                          |
-| `delimiter`      | _(optional)_ character that separates the input inputs.                                                                                                                                                                                                              |
-| `stretch`        | _(optional)_ use `true` in order to stretch the input to the available space. Defaults to false.                                                                                                                                                                     |
-| `status`         | _(optional)_ text with a status message. The style defaults to an error message. You can use true to only get the status color, without a message.`.                                                                                                                 |
-| `statusState`    | _(optional)_ defines the state of the status. It's two statuses [error, info]. Defaults to error.                                                                                                                                                                    |
-| `suffix`         | _(optional)_ Text describing the content of the input more than the label. you can also send in a React component, so it gets wrapped inside the Input component.                                                                                                    |
+<PropertiesTable props={multiInputMaskedProperties} />
 
 ### MultiInputMask inputs properties
 
-| Properties             | Description                                                                                                                                                              |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `id`                   | (string) Defines input id. This id is also used to map the input value to the correct property on the objects used for `values` and `onChange` parameters.               |
-| `label`                | (string) Label used by the input. The label itself is hidden, but required to uphold accessibility standards for screen readers.                                         |
-| `mask`                 | (array) Each RegExp item in the array defines what the mask should be for each subsequent character in the input. The array length sets the inputs size/character limit. |
-| `placeholderCharacter` | (string) Sets the placeholder character used for the input.                                                                                                              |
+<PropertiesTable props={multiInputMaskedInputsProperties} />

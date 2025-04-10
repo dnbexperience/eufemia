@@ -68,12 +68,12 @@ export const textareaProperties: PropertiesTableProps = {
   },
   status: {
     doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['string', 'boolean'],
+    type: ['error', 'info', 'boolean'],
     status: 'optional',
   },
   status_state: {
     doc: 'Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.',
-    type: 'string',
+    type: ['error', 'info'],
     status: 'optional',
   },
   status_props: {
@@ -93,7 +93,7 @@ export const textareaProperties: PropertiesTableProps = {
   },
   inner_ref: {
     doc: 'By providing a React.Ref we can get the internally used Textarea element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`.',
-    type: 'React.Ref',
+    type: 'React.RefObject',
     status: 'optional',
   },
   skeleton: {

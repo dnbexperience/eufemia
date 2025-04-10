@@ -13,12 +13,25 @@ export const PasswordProperties: PropertiesTableProps = {
   },
   innerRef: {
     doc: '`ElementRef` passed on to the password `input` element.',
-    type: 'object',
+    type: 'React.RefObject',
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
+    status: 'optional',
+  },
+}
+
+export const PasswordEvents: PropertiesTableProps = {
+  onShowPassword: {
+    doc: 'Will be called when the user toggles the password to be visible.',
+    type: 'function',
+    status: 'optional',
+  },
+  onHidePassword: {
+    doc: 'Will be called when the user toggles the password to be hidden.',
+    type: 'function',
     status: 'optional',
   },
 }

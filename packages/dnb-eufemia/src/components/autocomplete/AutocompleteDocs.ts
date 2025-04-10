@@ -183,12 +183,12 @@ export const autocompleteProperties: PropertiesTableProps = {
   },
   status: {
     doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: 'string',
+    type: ['error', 'info', 'boolean'],
     status: 'optional',
   },
   status_state: {
     doc: 'Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.',
-    type: 'string',
+    type: ['error', 'info'],
     status: 'optional',
   },
   status_props: {
@@ -228,7 +228,7 @@ export const autocompleteProperties: PropertiesTableProps = {
   },
   input_ref: {
     doc: 'Use a React.Ref to get access to the `input` DOM element.',
-    type: 'React.Ref',
+    type: 'React.RefObject',
     status: 'optional',
   },
   input_element: {

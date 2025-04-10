@@ -98,7 +98,7 @@ export const stringProperties: PropertiesTableProps = {
   },
   innerRef: {
     doc: 'By providing a React.Ref we can get the internally used input element (DOM).',
-    type: 'React.Ref',
+    type: 'React.RefObject',
     status: 'optional',
   },
   submitElement: {

@@ -347,107 +347,47 @@ describe('DataContext.Provider', () => {
       expect(onPathChange).toHaveBeenLastCalledWith('/fooBar', undefined)
     })
 
-    it('should call "onSubmit" on submit', async () => {
-      const onSubmit: OnSubmit = jest.fn()
+    describe('onChange', () => {
+      it('should call "onChange" validated when async and unvalidated when sync', async () => {
+        const log = jest.spyOn(console, 'log').mockImplementation()
 
-      const { rerender } = render(
-        <DataContext.Provider onSubmit={onSubmit}>
-          <Field.String path="/foo" required minLength={3} />
-          <Form.SubmitButton />
-        </DataContext.Provider>
-      )
+        const onChangeSync = jest.fn(() => null)
+        const onChangeAsync = jest.fn(async () => null)
 
-      const inputElement = document.querySelector('input')
-      const submitButton = document.querySelector('button')
+        const { rerender } = render(
+          <DataContext.Provider onChange={onChangeAsync}>
+            <Field.String path="/foo" required minLength={3} />
+          </DataContext.Provider>
+        )
 
-      fireEvent.change(inputElement, {
-        target: { value: '1' },
+        const element = document.querySelector('input')
+
+        await userEvent.type(element, '1')
+        expect(onChangeAsync).toHaveBeenCalledTimes(0)
+
+        await userEvent.type(element, '2')
+        expect(onChangeAsync).toHaveBeenCalledTimes(0)
+
+        await userEvent.type(element, '3')
+        expect(onChangeAsync).toHaveBeenCalledTimes(1)
+
+        await userEvent.type(element, '{Backspace>3}')
+
+        rerender(
+          <DataContext.Provider onChange={onChangeSync}>
+            <Field.String path="/foo" required minLength={3} />
+          </DataContext.Provider>
+        )
+
+        await userEvent.type(element, '1')
+        expect(onChangeSync).toHaveBeenCalledTimes(1)
+        expect(onChangeSync).toHaveBeenLastCalledWith(
+          { foo: '1' },
+          expect.anything()
+        )
+
+        log.mockRestore()
       })
-      fireEvent.click(submitButton)
-      expect(onSubmit).toHaveBeenCalledTimes(0)
-
-      fireEvent.change(inputElement, {
-        target: { value: '12' },
-      })
-      fireEvent.click(submitButton)
-      expect(onSubmit).toHaveBeenCalledTimes(0)
-
-      fireEvent.change(inputElement, {
-        target: { value: '123' },
-      })
-      fireEvent.click(submitButton)
-
-      expect(onSubmit).toHaveBeenCalledTimes(1)
-      expect(onSubmit).toHaveBeenLastCalledWith(
-        { foo: '123' },
-        expect.anything()
-      )
-
-      await waitFor(() => {
-        expect(onSubmit).toHaveBeenCalledTimes(1)
-      })
-
-      rerender(
-        <DataContext.Provider
-          data={{ fooBar: 'changed' }}
-          onSubmit={onSubmit}
-        >
-          <Field.String path="/fooBar" required minLength={3} />
-          <Form.SubmitButton />
-        </DataContext.Provider>
-      )
-
-      fireEvent.change(inputElement, {
-        target: { value: 'Second Value' },
-      })
-      fireEvent.click(submitButton)
-
-      expect(onSubmit).toHaveBeenCalledTimes(2)
-      expect(onSubmit).toHaveBeenLastCalledWith(
-        { fooBar: 'Second Value' },
-        expect.anything()
-      )
-    })
-
-    it('should call "onChange" validated when async and unvalidated when sync', async () => {
-      const log = jest.spyOn(console, 'log').mockImplementation()
-
-      const onChangeSync = jest.fn(() => null)
-      const onChangeAsync = jest.fn(async () => null)
-
-      const { rerender } = render(
-        <DataContext.Provider onChange={onChangeAsync}>
-          <Field.String path="/foo" required minLength={3} />
-        </DataContext.Provider>
-      )
-
-      const element = document.querySelector('input')
-
-      await userEvent.type(element, '1')
-      expect(onChangeAsync).toHaveBeenCalledTimes(0)
-
-      await userEvent.type(element, '2')
-      expect(onChangeAsync).toHaveBeenCalledTimes(0)
-
-      await userEvent.type(element, '3')
-      expect(onChangeAsync).toHaveBeenCalledTimes(1)
-
-      await userEvent.type(element, '{Backspace>3}')
-
-      rerender(
-        <DataContext.Provider onChange={onChangeSync}>
-          <Field.String path="/foo" required minLength={3} />
-        </DataContext.Provider>
-      )
-
-      await userEvent.type(element, '1')
-      expect(onChangeSync).toHaveBeenCalledTimes(1)
-      expect(onChangeSync).toHaveBeenLastCalledWith(
-        { foo: '1' },
-        expect.anything()
-      )
-
-      log.mockRestore()
     })
 
     describe('filterData', () => {
@@ -914,50 +854,6 @@ describe('DataContext.Provider', () => {
         )
         expect(filteredData).toMatchObject({})
       })
-    })
-
-    it('should call "onSubmitRequest" on invalid submit', () => {
-      const log = jest.spyOn(console, 'error').mockImplementation()
-
-      const onSubmitRequest = jest.fn()
-
-      const { rerender } = render(
-        <DataContext.Provider
-          data={{ foo: 'original' }}
-          onSubmitRequest={onSubmitRequest}
-        >
-          <Field.Number path="/foo" minimum={3} />
-          <Form.SubmitButton />
-        </DataContext.Provider>
-      )
-
-      const inputElement = document.querySelector('input')
-      const submitButton = document.querySelector('button')
-
-      fireEvent.change(inputElement, {
-        target: { value: '1' },
-      })
-      fireEvent.click(submitButton)
-
-      expect(onSubmitRequest).toHaveBeenCalledTimes(1)
-      expect(onSubmitRequest).toHaveBeenCalledWith(expect.anything())
-
-      rerender(
-        <DataContext.Provider
-          data={{ fooBar: 'changed' }}
-          onSubmitRequest={onSubmitRequest}
-        >
-          <Field.Number path="/fooBar" required />
-          <Form.SubmitButton />
-        </DataContext.Provider>
-      )
-
-      fireEvent.click(submitButton)
-
-      expect(onSubmitRequest).toHaveBeenCalledTimes(2)
-      expect(onSubmitRequest).toHaveBeenLastCalledWith(expect.anything())
-
-      log.mockRestore()
     })
   })
 
@@ -2753,101 +2649,298 @@ describe('DataContext.Provider', () => {
         )
       })
 
-      describe('disabled and readOnly', () => {
-        it('should skip required validation on disabled fields', () => {
-          const { rerender } = render(<TestField value="" required />)
+      it('should show default errorMessages based on outer schema validation with injected value', () => {
+        const schema: JSONSchema = {
+          type: 'object',
+          properties: {
+            val: {
+              type: 'string',
+              minLength: 486,
+            },
+          },
+        }
 
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
+        render(
+          <DataContext.Provider schema={schema} data={{ val: 'abc' }}>
+            <TestField path="/val" />
+          </DataContext.Provider>
+        )
 
-          rerender(<TestField value="value" required disabled />)
-
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-        })
-
-        it('should skip schema validation on disabled fields', () => {
-          const schema: JSONSchema = {
-            type: 'object',
-            required: ['myField'],
-          }
-
-          const { rerender } = render(
-            <DataContext.Provider schema={schema}>
-              <TestField path="/myField" />
-            </DataContext.Provider>
+        expect(
+          screen.getByText(
+            nb.StringField.errorMinLength.replace('{minLength}', '486')
           )
+        ).toBeInTheDocument()
+      })
 
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
+      it('should log an error when path changes and the field is required', () => {
+        const log = jest.spyOn(console, 'error').mockImplementation()
 
-          rerender(
-            <DataContext.Provider schema={schema}>
-              <TestField path="/myField" disabled />
-            </DataContext.Provider>
-          )
+        const Schema: JSONSchema = {
+          type: 'object',
+          properties: {
+            foo: { type: 'number', minimum: 3 },
+          },
+        }
 
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        const { rerender } = render(
+          <DataContext.Provider data={{ foo: 'original' }} schema={Schema}>
+            <Field.Number path="/foo" />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        const inputElement = document.querySelector('input')
+        const submitButton = document.querySelector('button')
+
+        fireEvent.change(inputElement, {
+          target: { value: '1' },
         })
+        fireEvent.click(submitButton)
 
-        it('should skip required validation on readOnly fields', () => {
-          const { rerender } = render(<TestField value="" required />)
+        rerender(
+          <DataContext.Provider data={{ foo: 'changed' }} schema={Schema}>
+            <Field.Number path="/fooBar" required />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
 
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
+        fireEvent.click(submitButton)
 
-          rerender(<TestField value="value" required readOnly />)
+        expect(log).toHaveBeenNthCalledWith(
+          1,
+          'The field value (original) type must be number'
+        )
+        expect(log).toHaveBeenNthCalledWith(
+          2,
+          'The field at path="/foo" value (original) type must be number'
+        )
+        expect(log).toHaveBeenNthCalledWith(
+          3,
+          'The field at path="/foo" value (changed) type must be number'
+        )
 
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-        })
-
-        it('should skip schema validation on readOnly fields', () => {
-          const schema: JSONSchema = {
-            type: 'object',
-            required: ['myField'],
-          }
-
-          const { rerender } = render(
-            <DataContext.Provider schema={schema}>
-              <TestField path="/myField" />
-            </DataContext.Provider>
-          )
-
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-
-          rerender(
-            <DataContext.Provider schema={schema}>
-              <TestField path="/myField" readOnly />
-            </DataContext.Provider>
-          )
-
-          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-        })
+        log.mockRestore()
       })
     })
 
-    it('should show default errorMessages based on outer schema validation with injected value', () => {
-      const schema: JSONSchema = {
-        type: 'object',
-        properties: {
-          val: {
-            type: 'string',
-            minLength: 486,
-          },
-        },
-      }
+    describe('disabled and readOnly', () => {
+      it('should skip required validation on disabled fields', () => {
+        const { rerender } = render(<TestField value="" required />)
 
-      render(
-        <DataContext.Provider schema={schema} data={{ val: 'abc' }}>
-          <TestField path="/val" />
-        </DataContext.Provider>
-      )
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
 
-      expect(
-        screen.getByText(
-          nb.StringField.errorMinLength.replace('{minLength}', '486')
+        rerender(<TestField value="value" required disabled />)
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      })
+
+      it('should skip schema validation on disabled fields', () => {
+        const schema: JSONSchema = {
+          type: 'object',
+          required: ['myField'],
+        }
+
+        const { rerender } = render(
+          <DataContext.Provider schema={schema}>
+            <TestField path="/myField" />
+          </DataContext.Provider>
         )
-      ).toBeInTheDocument()
+
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
+
+        rerender(
+          <DataContext.Provider schema={schema}>
+            <TestField path="/myField" disabled />
+          </DataContext.Provider>
+        )
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      })
+
+      it('should skip required validation on readOnly fields', () => {
+        const { rerender } = render(<TestField value="" required />)
+
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
+
+        rerender(<TestField value="value" required readOnly />)
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      })
+
+      it('should skip schema validation on readOnly fields', () => {
+        const schema: JSONSchema = {
+          type: 'object',
+          required: ['myField'],
+        }
+
+        const { rerender } = render(
+          <DataContext.Provider schema={schema}>
+            <TestField path="/myField" />
+          </DataContext.Provider>
+        )
+
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
+
+        rerender(
+          <DataContext.Provider schema={schema}>
+            <TestField path="/myField" readOnly />
+          </DataContext.Provider>
+        )
+
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      })
+    })
+
+    describe('onSubmit', () => {
+      it('should not submit when error prop has been set', () => {
+        const onSubmit = jest.fn()
+
+        const { rerender } = render(
+          <DataContext.Provider onSubmit={onSubmit}>
+            <Field.Number
+              path="/foo"
+              error={new Error('Show this error')}
+            />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        fireEvent.click(document.querySelector('button'))
+
+        expect(onSubmit).toHaveBeenCalledTimes(0)
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+
+        rerender(
+          <DataContext.Provider onSubmit={onSubmit}>
+            <Field.Number path="/foo" error={undefined} />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        fireEvent.click(document.querySelector('button'))
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { foo: undefined },
+          expect.anything()
+        )
+      })
+
+      it('should call "onSubmit" on submit', async () => {
+        const onSubmit: OnSubmit = jest.fn()
+
+        const { rerender } = render(
+          <DataContext.Provider onSubmit={onSubmit}>
+            <Field.String path="/foo" required minLength={3} />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        const inputElement = document.querySelector('input')
+        const submitButton = document.querySelector('button')
+
+        fireEvent.change(inputElement, {
+          target: { value: '1' },
+        })
+        fireEvent.click(submitButton)
+        expect(onSubmit).toHaveBeenCalledTimes(0)
+
+        fireEvent.change(inputElement, {
+          target: { value: '12' },
+        })
+        fireEvent.click(submitButton)
+        expect(onSubmit).toHaveBeenCalledTimes(0)
+
+        fireEvent.change(inputElement, {
+          target: { value: '123' },
+        })
+        fireEvent.click(submitButton)
+
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { foo: '123' },
+          expect.anything()
+        )
+
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        })
+
+        rerender(
+          <DataContext.Provider
+            data={{ fooBar: 'changed' }}
+            onSubmit={onSubmit}
+          >
+            <Field.String path="/fooBar" required minLength={3} />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        fireEvent.change(inputElement, {
+          target: { value: 'Second Value' },
+        })
+        fireEvent.click(submitButton)
+
+        expect(onSubmit).toHaveBeenCalledTimes(2)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { fooBar: 'Second Value' },
+          expect.anything()
+        )
+      })
     })
 
     describe('onSubmitRequest', () => {
-      it('should get called on invalid submit set by a schema', () => {
+      it('should call "onSubmitRequest" on invalid submit', () => {
+        const log = jest.spyOn(console, 'error').mockImplementation()
+
+        const onSubmitRequest = jest.fn()
+
+        const { rerender } = render(
+          <DataContext.Provider
+            data={{ foo: 'original' }}
+            onSubmitRequest={onSubmitRequest}
+          >
+            <Field.Number path="/foo" minimum={3} />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        const inputElement = document.querySelector('input')
+        const submitButton = document.querySelector('button')
+
+        fireEvent.change(inputElement, {
+          target: { value: '1' },
+        })
+        fireEvent.click(submitButton)
+
+        expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+        expect(onSubmitRequest).toHaveBeenCalledWith(expect.anything())
+
+        rerender(
+          <DataContext.Provider
+            data={{ fooBar: 'changed' }}
+            onSubmitRequest={onSubmitRequest}
+          >
+            <Field.Number path="/fooBar" required />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        fireEvent.click(submitButton)
+
+        expect(onSubmitRequest).toHaveBeenCalledTimes(2)
+        expect(onSubmitRequest).toHaveBeenLastCalledWith(expect.anything())
+
+        log.mockRestore()
+      })
+
+      it('should get called on invalid submit, set by a schema', () => {
         const log = jest.spyOn(console, 'error').mockImplementation()
 
         const onSubmitRequest = jest.fn()
@@ -2897,20 +2990,43 @@ describe('DataContext.Provider', () => {
         expect(onSubmitRequest).toHaveBeenCalledTimes(2)
         expect(onSubmitRequest).toHaveBeenLastCalledWith(expect.anything())
 
-        expect(log).toHaveBeenNthCalledWith(
-          1,
-          'The field value (original) type must be number'
-        )
-        expect(log).toHaveBeenNthCalledWith(
-          2,
-          'The field at path="/foo" value (original) type must be number'
-        )
-        expect(log).toHaveBeenNthCalledWith(
-          3,
-          'The field at path="/foo" value (changed) type must be number'
+        log.mockRestore()
+      })
+
+      it('should get called on invalid submit, set by an error prop', () => {
+        const onSubmitRequest = jest.fn()
+
+        const { rerender } = render(
+          <DataContext.Provider onSubmitRequest={onSubmitRequest}>
+            <Field.Number
+              path="/foo"
+              error={new Error('Show this error')}
+            />
+            <Form.SubmitButton />
+          </DataContext.Provider>
         )
 
-        log.mockRestore()
+        fireEvent.click(document.querySelector('button'))
+
+        expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+        expect(onSubmitRequest).toHaveBeenCalledWith(expect.anything())
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+
+        rerender(
+          <DataContext.Provider onSubmitRequest={onSubmitRequest}>
+            <Field.Number path="/foo" error={undefined} />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        fireEvent.click(document.querySelector('button'))
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+        expect(onSubmitRequest).toHaveBeenCalledTimes(1)
       })
 
       it('should return errors in first parameter', async () => {

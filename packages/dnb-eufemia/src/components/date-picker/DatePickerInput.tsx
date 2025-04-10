@@ -24,7 +24,12 @@ import TextMask, { TextMaskProps } from '../input-masked/TextMask'
 import Button from '../button/Button'
 import Input, { SubmitButton } from '../input/Input'
 import type { InputInputElement, InputSize } from '../Input'
-import { warn, validateDOMAttributes } from '../../shared/component-helper'
+import {
+  warn,
+  validateDOMAttributes,
+  toCapitalized,
+} from '../../shared/component-helper'
+import { IS_ANDROID, IS_IOS } from '../../shared/helpers'
 import { convertStringToDate } from './DatePickerCalc'
 import DatePickerContext from './DatePickerContext'
 
@@ -170,7 +175,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     __endYear,
     startDate,
     endDate,
-    props: { onType, label },
+    props: { onType, label, correctInvalidDate },
   } = useContext(DatePickerContext)
 
   const translation = useTranslation().DatePicker
@@ -452,7 +457,14 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         ...typedDates,
       })
     },
-    [isRange, dateRefs, getReturnObject, inputDates, onType]
+    [
+      setPartialDates,
+      isRange,
+      getReturnObject,
+      partialDatesRef,
+      onType,
+      inputDates,
+    ]
   )
 
   const prepareCounting = useCallback(
@@ -501,130 +513,11 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           [isInRange === 'start' ? 'startDate' : 'endDate']: date,
           event,
         })
-
-        await wait(1) // to get the correct position afterwards
-
-        selectAll(target)
       } catch (e) {
         warn(e)
       }
     },
     [startDate, endDate, callOnChange]
-  )
-
-  const selectStart = useCallback((target: HTMLInputElement) => {
-    target.focus()
-    target.setSelectionRange(0, 0)
-  }, [])
-
-  const onFocusHandler = useCallback(
-    (event: React.FocusEvent<HTMLInputElement>) => {
-      try {
-        selectAll(event.target)
-      } catch (e) {
-        warn(e)
-      }
-
-      setFocusState('focus')
-
-      onFocus?.({
-        ...event,
-        ...getReturnObject({ event }),
-      })
-    },
-    [getReturnObject, onFocus]
-  )
-
-  const onBlurHandler = useCallback(
-    (event: React.FocusEvent<HTMLInputElement>) => {
-      focusMode.current = null
-      setFocusState('blur')
-
-      onBlur?.({
-        ...event,
-        ...getReturnObject({ event, ...partialDatesRef.current }),
-      })
-    },
-    [onBlur, getReturnObject, partialDatesRef]
-  )
-
-  const onKeyDownHandler = useCallback(
-    async (event: React.KeyboardEvent<HTMLInputElement>) => {
-      const keyCode = event.key
-      const target = event.target as HTMLInputElement
-
-      if (target.selectionStart !== target.selectionEnd) {
-        selectStart(target)
-      }
-
-      // only to process key up and down press
-      switch (keyCode) {
-        case 'ArrowUp':
-        case 'ArrowDown':
-          event.persist()
-          event.preventDefault()
-          prepareCounting({ event, keyCode, target })
-          return false
-        case 'Tab':
-          return false
-      }
-
-      // the rest is for value entry
-
-      const size = parseFloat(target.getAttribute('size'))
-      const firstSelectionStart = target.selectionStart
-
-      await wait(1) // to get the correct position afterwards
-
-      const secondSelectionStart = target.selectionStart
-      // Always false (since the old keycode function set number keys to undefined) but needed to not break tests
-      const isValid = /[0-9]/g.test(keyCode)
-      const refListArray = refList.current
-
-      const index = refListArray.findIndex(
-        ({ current }) => current === target
-      )
-
-      if (
-        index < refListArray.length - 1 &&
-        ((secondSelectionStart === size &&
-          isValid &&
-          keyCode !== 'ArrowLeft' &&
-          keyCode !== 'Backspace') ||
-          (firstSelectionStart === size && keyCode === 'ArrowRight'))
-      ) {
-        try {
-          // stop in case there is no next input element
-          if (!refListArray[index + 1].current) {
-            return
-          }
-          const nextSibling = refListArray[index + 1].current
-          if (nextSibling) {
-            nextSibling.focus()
-            nextSibling.setSelectionRange(0, 0)
-          }
-        } catch (e) {
-          warn(e)
-        }
-      } else if (firstSelectionStart === 0 && index > 0) {
-        switch (keyCode) {
-          case 'ArrowLeft':
-          case 'Backspace':
-            try {
-              const prevSibling = refListArray[index - 1].current
-              if (prevSibling) {
-                const endPos = prevSibling.value.length
-                prevSibling.focus()
-                prevSibling.setSelectionRange(endPos, endPos)
-              }
-            } catch (e) {
-              warn(e)
-            }
-            break
-        }
-      }
-    },
-    [prepareCounting, selectStart]
   )
 
   const setDate = useCallback(
@@ -750,6 +643,169 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     [setDate]
   )
 
+  const onFocusHandler = useCallback(
+    (event: React.FocusEvent<HTMLInputElement>) => {
+      setFocusState('focus')
+
+      onFocus?.({
+        ...event,
+        ...getReturnObject({ event }),
+      })
+
+      if (isNaN(parseFloat(event.target.value))) {
+        setCursorPosition(event.target)
+      }
+    },
+    [getReturnObject, onFocus]
+  )
+
+  const onBlurHandler = useCallback(
+    (event: React.FocusEvent<HTMLInputElement>) => {
+      focusMode.current = null
+      setFocusState('blur')
+
+      onBlur?.({
+        ...event,
+        ...getReturnObject({ event, ...partialDatesRef.current }),
+      })
+    },
+    [onBlur, getReturnObject, partialDatesRef]
+  )
+
+  const onKeyDownHandler = useCallback(
+    async (event: React.KeyboardEvent<HTMLInputElement>) => {
+      const keyCode = event.key
+      const target = event.target as HTMLInputElement
+
+      if (
+        correctInvalidDate &&
+        target.selectionStart !== target.selectionEnd
+      ) {
+        setCursorPosition(target)
+      }
+
+      // Only to process key up and down press
+      switch (keyCode) {
+        case 'ArrowUp':
+        case 'ArrowDown':
+          event.persist()
+          event.preventDefault()
+          prepareCounting({ event, keyCode, target })
+          return false
+        case 'Tab':
+          return false
+      }
+
+      // The rest is for value entry
+
+      const size = parseFloat(target.getAttribute('size'))
+      const firstSelectionStart = target.selectionStart
+      const firstSelectionEnd = target.selectionEnd
+
+      // To get the correct position afterwards.
+      // Use 10ms in order to make it work on iOS Safari
+      await wait(IS_IOS ? 10 : 1)
+
+      const secondSelectionStart = target.selectionStart
+
+      // Always false (since the old keycode function set number keys to undefined) but needed to not break tests
+      const isValid = /[0-9]/g.test(keyCode)
+      const refListArray = refList.current
+
+      const index = refListArray.findIndex(
+        ({ current }) => current === target
+      )
+
+      const isLastChar = secondSelectionStart === size
+      const isFirstChar = firstSelectionStart === size
+
+      const isMovingForward =
+        keyCode !== 'ArrowLeft' &&
+        keyCode !== 'Backspace' &&
+        isValid &&
+        isLastChar
+
+      const isExplicitForward =
+        (keyCode === 'ArrowRight' || keyCode === 'Enter') && isFirstChar
+
+      const hasNextField = index < refListArray.length - 1
+
+      if (hasNextField && (isMovingForward || isExplicitForward)) {
+        // stop in case there is no next input element
+        if (!refListArray[index + 1].current) {
+          return // stop here
+        }
+        const nextSibling = refListArray[index + 1]?.current
+
+        if (nextSibling) {
+          setCursorPosition(nextSibling, 0, { withoutDelay: true })
+        }
+
+        // When the cursor is at the end of the input
+        // and the user types a number, we want to set the value on the next input.
+        if (
+          parseFloat(keyCode) <= 9 &&
+          firstSelectionStart === target.size
+        ) {
+          const name = toCapitalized(
+            nextSibling
+              .getAttribute('class')
+              .match(/__input--(day|month|year)($|\s)/)[1]
+          )
+          const mode = nextSibling
+            .getAttribute('id')
+            .match(/-(start|end)-(day|month|year)/)[1]
+
+          dateSetters[`set_${mode}${name}`]({
+            persist: () => null,
+            ...event,
+            target: {
+              value: keyCode + nextSibling.value.slice(1),
+            },
+          })
+
+          setCursorPosition(nextSibling, 1)
+        }
+      } else if (index > 0 && firstSelectionStart === firstSelectionEnd) {
+        const isMovingBackward =
+          keyCode === 'ArrowLeft' && firstSelectionStart === 0
+        const isPressingBackspace =
+          keyCode === 'Backspace' && firstSelectionStart <= 1
+
+        if (isMovingBackward || isPressingBackspace) {
+          const prevSibling = refListArray[index - 1]?.current
+          if (prevSibling) {
+            const endPos = prevSibling.value.length
+            setCursorPosition(prevSibling, endPos, {
+              withoutDelay: true,
+            })
+          }
+        }
+      }
+    },
+    [correctInvalidDate, dateSetters, prepareCounting]
+  )
+
+  const onInputHandler = useCallback(
+    (event) => {
+      const target = event.currentTarget
+
+      // Add support for "backspace" on Android virtual keyboard
+      if (
+        IS_ANDROID &&
+        event.nativeEvent.inputType === 'deleteContentBackward' &&
+        target.selectionStart === 0 &&
+        target.selectionEnd === 0
+      ) {
+        onKeyDownHandler({
+          ...event,
+          key: 'Backspace',
+        })
+      }
+    },
+    [onKeyDownHandler]
+  )
+
   const getPlaceholderChar = useCallback(
     (value: string) => {
       const index = maskOrder.indexOf(value)
@@ -758,7 +814,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     [maskOrder, maskPlaceholder]
   )
 
-  // TODO: Replace with MutliInputMask
+  // TODO: Replace with MultiInputMask
   const generateDateList = useCallback(
     (
       element: Omit<React.HTMLProps<HTMLInputElement>, 'size'> &
@@ -775,6 +831,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           if (!inputElement) {
             element = {
               ...element,
+              onInput: onInputHandler,
               onKeyDown: onKeyDownHandler,
               onPaste: pasteHandler,
               onFocus: (e) => {
@@ -906,20 +963,20 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       })
     },
     [
-      id,
-      inputElement,
-      isRange,
-      size,
-      translation,
-      separatorRegExp,
-      dateSetters,
-      inputRefs,
       maskList,
+      getPlaceholderChar,
+      translation,
+      isRange,
+      separatorRegExp,
+      inputElement,
+      size,
+      onInputHandler,
+      onKeyDownHandler,
+      pasteHandler,
       onBlurHandler,
       onFocusHandler,
-      getPlaceholderChar,
-      pasteHandler,
-      onKeyDownHandler,
+      id,
+      dateSetters,
       inputDates,
     ]
   )
@@ -951,7 +1008,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     [id, isRange, generateDateList]
   )
 
-  const formatDate = useMemo(
+  const ariaLabel = useMemo(
     () =>
       selectedDateTitle
         ? `${selectedDateTitle}, ${translation.openPickerText}`
@@ -1001,7 +1058,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
               showInput && 'dnb-button--input-button',
               opened ? 'dnb-button--active' : null
             )}
-            aria-label={formatDate}
+            aria-label={ariaLabel}
             title={title}
             size={size}
             status={status}
@@ -1024,15 +1081,30 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
 
 export default DatePickerInput
 
-function selectAll(target: HTMLInputElement) {
+function setCursorPosition(
+  target: HTMLInputElement,
+  position = 0,
+  options?: { withoutDelay?: boolean }
+) {
   target.focus()
-  target.select()
+
+  const select = () => {
+    target.setSelectionRange(position, position)
+  }
+
+  // Delay for correct iOS Safari appearance
+  if (!options?.withoutDelay && process.env.NODE_ENV !== 'test') {
+    setTimeout(select, 0)
+  } else {
+    select()
+  }
 }
 
 function InputElement({ className, value, ...props }: TextMaskProps) {
   return (
     <TextMask
       guide={true}
+      inputMode="numeric"
       showMask={true}
       keepCharPositions={false} // so we can overwrite next value, if it already exists
       autoComplete="off"
