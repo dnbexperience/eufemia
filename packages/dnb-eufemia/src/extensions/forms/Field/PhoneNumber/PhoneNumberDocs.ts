@@ -61,7 +61,12 @@ export const PhoneNumberProperties: PropertiesTableProps = {
   },
 }
 
-export const phoneNumberSpecificEvents: PropertiesTableProps = {
+export const PhoneNumberSpecificEvents: PropertiesTableProps = {
+  onChange: {
+    doc: 'Callback on phone number and country code change.',
+    type: '(value?: string, additionalArgs?: { countryCode?: string, phoneNumber?: string, iso?: string }) => void',
+    status: 'optional',
+  },
   onCountryCodeChange: {
     doc: 'Callback on country code change.',
     type: '(value?: string) => void',
@@ -74,7 +79,7 @@ export const phoneNumberSpecificEvents: PropertiesTableProps = {
   },
 }
 
-export const phoneNumberGeneralEvents = getFieldEventsWithTypes(
+export const PhoneNumberGeneralEvents = getFieldEventsWithTypes(
   { type: 'string', optional: true },
   { type: 'object' }
 )
