@@ -948,7 +948,7 @@ describe('Upload', () => {
       expect(emptyFileCell).not.toBeInTheDocument()
     })
 
-    it('does not show the delete button when removeDeleteButton', async () => {
+    it('does not show the delete button when removeDeleteButton', () => {
       const files = [
         {
           file: createMockFile('fileName.png', 100, 'image/png'),
