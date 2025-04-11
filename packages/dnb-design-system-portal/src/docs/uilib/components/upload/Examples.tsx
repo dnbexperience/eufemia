@@ -330,7 +330,7 @@ export const UploadOnFileDeleteAsync = () => (
     {() => {
       async function mockAsyncFileRemoval({ fileItem }) {
         const request = createRequest()
-        console.log('making API request to remove: ' + fileItem.file.name)
+        console.log('making API request to remove:', fileItem.file.name)
         await request(3000) // Simulate a request
         const mockResponse = {
           successful_removal: Math.random() < 0.5, // Randomly fails to remove the file
@@ -379,12 +379,12 @@ export const UploadOnFileClick = () => (
         async function mockAsyncFileFetching({ fileItem }) {
           const request = createRequest()
           console.log(
-            'making API request to fetch the url of the file: ' +
-              fileItem.file.name,
+            'making API request to fetch the url of the file:',
+            fileItem.file.name,
           )
           await request(2000) // Simulate a request
           window.open(
-            'https://eufemia.dnb.no/images/avatars/' + fileItem.file.name,
+            `https://eufemia.dnb.no/images/avatars/${fileItem.file.name}`,
             '_blank',
           )
         }

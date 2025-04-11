@@ -223,7 +223,7 @@ export const IsolatedData = () => {
                 persons: formData.persons.map((data, i) => {
                   return {
                     title: [data.firstName, data.lastName].join(' '),
-                    value: '/persons/' + i,
+                    value: `/persons/${i}`,
                     data,
                   }
                 }),

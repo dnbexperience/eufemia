@@ -198,7 +198,7 @@ export const WithAsyncOnFileDelete = () => {
         async function mockAsyncFileRemoval({ fileItem }) {
           const request = createRequest()
           console.log(
-            'making API request to remove: ' + fileItem.file.name,
+            `making API request to remove: ${fileItem.file.name}`,
           )
           await request(3000) // Simulate a request
           const mockResponse = {
@@ -227,12 +227,11 @@ export const WithAsyncOnFileClick = () => {
         async function mockAsyncFileClick({ fileItem }) {
           const request = createRequest()
           console.log(
-            'making API request to fetch the url of the file: ' +
-              fileItem.file.name,
+            `making API request to fetch the url of the file: ${fileItem.file.name}`,
           )
           await request(2000) // Simulate a request
           window.open(
-            'https://eufemia.dnb.no/images/avatars/' + fileItem.file.name,
+            `https://eufemia.dnb.no/images/avatars/${fileItem.file.name}`,
             '_blank',
           )
         }

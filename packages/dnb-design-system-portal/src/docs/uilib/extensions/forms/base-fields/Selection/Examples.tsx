@@ -202,7 +202,7 @@ export const DropdownDynamicOptions = () => (
                 <Field.Option
                   key={key}
                   value={key}
-                  title={'Option ' + (key + 1)}
+                  title={`Option ${key + 1}`}
                 />
               ))}
             </Field.Selection>

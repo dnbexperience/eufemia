@@ -225,15 +225,11 @@ export const DrawerScrollViewSetup = () => (
 
               if (contentOverflowY !== 'visible') {
                 setErrorMessage(
-                  '.dnb-drawer__content was "' +
-                    contentOverflowY +
-                    '" and not "visible"',
+                  `.dnb-drawer__content was "${contentOverflowY}" and not "visible"`,
                 )
               } else if (innerOverflowY !== 'visible') {
                 setErrorMessage(
-                  '.dnb-drawer__inner was "' +
-                    innerOverflowY +
-                    '" and not "visible"',
+                  `.dnb-drawer__inner was "${innerOverflowY}" and not "visible"`,
                 )
               } else if (scrollOverflowY !== 'auto') {
                 setErrorMessage('.dnb-scroll-view was not "auto"')
