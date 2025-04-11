@@ -10997,13 +10997,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-react-live@npm:1.4.2":
-  version: 1.4.2
-  resolution: "babel-plugin-react-live@npm:1.4.2"
+"babel-plugin-react-live@npm:1.4.4":
+  version: 1.4.4
+  resolution: "babel-plugin-react-live@npm:1.4.4"
   dependencies:
     "@babel/generator": "npm:7.21.5"
     prettier: "npm:2.8.0"
-  checksum: 10/a1db3e9d25d1b95c6185dbd2e3563d16fde3abe6329bd7670f6129d5cfccc16becf364168719ae200aeefa6443ca34203cc4e2aeb7303d98d2d2867e76d96cfd
+  checksum: 10/fbb655643b958748f080d5115fcec5dbbecc47a569afe510fbf81f7b35fc4ab9bd66ffc4d3b38f7b632af0ba767bda1a15f21b66a0df42bd45bd48d9cf400f96
   languageName: node
   linkType: hard
 
@@ -14509,7 +14509,7 @@ __metadata:
     fs-extra: "npm:10.0.0"
     gatsby: "npm:5.12.4"
     gatsby-plugin-algolia: "npm:1.0.3"
-    gatsby-plugin-babel-react-live: "npm:1.4.2"
+    gatsby-plugin-babel-react-live: "npm:1.4.4"
     gatsby-plugin-catch-links: "npm:5.12.0"
     gatsby-plugin-emotion: "npm:8.12.0"
     gatsby-plugin-eufemia-theme-handler: "npm:1.8.0"
@@ -17683,12 +17683,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gatsby-plugin-babel-react-live@npm:1.4.2":
-  version: 1.4.2
-  resolution: "gatsby-plugin-babel-react-live@npm:1.4.2"
+"gatsby-plugin-babel-react-live@npm:1.4.4":
+  version: 1.4.4
+  resolution: "gatsby-plugin-babel-react-live@npm:1.4.4"
   dependencies:
-    babel-plugin-react-live: "npm:1.4.2"
-  checksum: 10/6f02ea61bb77696df353d39b501bb6c8ee6017fecb5e2312105b4f050be9625460baf6ff391c9e51f20d14d3037272ff285f7ae945d9409e20e3dd167ab5f0c1
+    babel-plugin-react-live: "npm:1.4.4"
+  checksum: 10/332c55362f35ce7c50b35a18b2eb4940074317c8987036b167961fd5ab8654cb34cddfee40ddde27e1594781e6bc9c068f1fa96c947d6ffb8734439ab65c5de8
   languageName: node
   linkType: hard
 
