@@ -3,6 +3,24 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.71.0](https://github.com/dnbexperience/eufemia/compare/v10.70.1...v10.71.0) (2025-04-11)
+
+
+### :bug: Bug Fixes
+
+* **DatePicker:** display correct dates when props are updated with `useLayoutEffect` ([#4937](https://github.com/dnbexperience/eufemia/issues/4937)) ([cbaf535](https://github.com/dnbexperience/eufemia/commit/cbaf535a8fc12ba6933efddd08d2d10c02f213c5))
+* **InputMasked:** ensure correct cursor position when suffix changes during typing ([#4939](https://github.com/dnbexperience/eufemia/issues/4939)) ([17d5da5](https://github.com/dnbexperience/eufemia/commit/17d5da53c30221d397dd0733107b11e143970116))
+
+
+### :sparkles: Features
+
+* **DatePicker:** remove stepped date change on `ArrowUp` a `ArrowDown` key press ([#4917](https://github.com/dnbexperience/eufemia/issues/4917)) ([9569617](https://github.com/dnbexperience/eufemia/commit/95696172a18242216a29f37d729814b11d9a8ff3))
+* **Forms:** add `iso` (country) to additional args in PhoneNumber field ([#4929](https://github.com/dnbexperience/eufemia/issues/4929)) ([6ee934a](https://github.com/dnbexperience/eufemia/commit/6ee934aab4b99f99099c66dc31ad69ef84c548b8))
+* **Forms:** add support for string and JSX format to Field.* `error` prop and validators ([#4928](https://github.com/dnbexperience/eufemia/issues/4928)) ([ee0183f](https://github.com/dnbexperience/eufemia/commit/ee0183f91ad11232ba29294040664cbfff75f319))
+* **Upload:** add `description` to fileItem ([#4935](https://github.com/dnbexperience/eufemia/issues/4935)) ([688e340](https://github.com/dnbexperience/eufemia/commit/688e340d4d76ed8c96ab71e78afbb91cbb56b0de))
+* **Upload:** add `disableDragAndDrop` ([#4905](https://github.com/dnbexperience/eufemia/issues/4905)) ([7205f96](https://github.com/dnbexperience/eufemia/commit/7205f96755ff492fdde9ccd79a7c86615dfe52c1))
+* **Upload:** add `removeDeleteButton` to fileItem ([#4936](https://github.com/dnbexperience/eufemia/issues/4936)) ([00e7b81](https://github.com/dnbexperience/eufemia/commit/00e7b81d70e0ba7c030c5ece55a343fb9ea3ef7c))
+
 ## [10.70.1](https://github.com/dnbexperience/eufemia/compare/v10.70.0...v10.70.1) (2025-04-10)
 
 
