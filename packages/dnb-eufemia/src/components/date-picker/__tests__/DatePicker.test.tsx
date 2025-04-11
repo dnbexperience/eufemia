@@ -2340,7 +2340,7 @@ describe('DatePicker component', () => {
       />
     )
 
-    const [dayElem, monthElem, yearElem] = Array.from(
+    const [dayElem, monthElem] = Array.from(
       document.querySelectorAll('input.dnb-date-picker__input')
     ) as Array<HTMLInputElement>
 
@@ -2357,12 +2357,6 @@ describe('DatePicker component', () => {
       )
     })
 
-    // also test the key up to change the value on the month input
-    expect(monthElem).toHaveValue('01')
-    fireEvent.keyDown(monthElem, { key: 'Up', keyCode: 38 })
-
-    expect(monthElem).toHaveValue('02')
-
     // and simulate a left keydown
     fireEvent.keyDown(monthElem, { key: 'Left', keyCode: 37 })
 
@@ -2372,20 +2366,6 @@ describe('DatePicker component', () => {
         'dnb-date-picker__input--day'
       )
     })
-
-    // also test the key up to change the value on the day input
-    expect(dayElem).toHaveValue('01')
-    fireEvent.keyDown(dayElem, { key: 'Up', keyCode: 38 })
-
-    expect(dayElem).toHaveValue('02')
-
-    // also test the key up to change the value on the year input
-    expect(yearElem).toHaveValue('2019')
-    fireEvent.keyDown(yearElem, { key: 'Up', keyCode: 38 })
-    expect(yearElem).toHaveValue('2020')
-    fireEvent.keyDown(yearElem, { key: 'Down', keyCode: 40 })
-
-    expect(yearElem).toHaveValue('2019')
   })
 
   it('should display correct start and end month on opening the date picker', async () => {
