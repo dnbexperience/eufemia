@@ -139,7 +139,7 @@ export const AsyncWizardContainer = () => {
             }
 
             // Optional, you can show a FormStatus at the bottom of the form
-            return { info: 'Info message: ' + index }
+            return { info: `Info message: ${index}` }
           }, [])
 
           const onSubmit = React.useCallback(async (data) => {
