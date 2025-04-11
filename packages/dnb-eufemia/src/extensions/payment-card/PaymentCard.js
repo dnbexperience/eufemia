@@ -158,6 +158,7 @@ export default class PaymentCard extends React.PureComponent {
                 <CardFigure
                   id={id}
                   skeleton={isTrue(skeleton)}
+                  compact={variant === 'compact'}
                   data={cardData}
                   cardStatus={card_status}
                   cardNumber={formatCardNumber(
