@@ -173,7 +173,7 @@ const UploadFileListCell = ({
 
   function getDeleteButton() {
     if (removeDeleteButton) {
-      return
+      return null
     }
     return (
       <div>
