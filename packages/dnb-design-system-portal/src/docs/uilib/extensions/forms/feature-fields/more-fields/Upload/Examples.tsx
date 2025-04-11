@@ -299,6 +299,7 @@ export const WithFileItemOptions = () => {
                       100,
                       'image/png',
                     ),
+                    id: '1',
                     description: 'My description',
                     errorMessage: 'My error message',
                     removeDeleteButton: true,
