@@ -364,9 +364,3 @@ function getStartDate(
 
   return undefined
 }
-
-export function pad(date: string, size: number) {
-  const dateWithPadding = '000000000' + date
-
-  return dateWithPadding.substring(dateWithPadding.length - size)
-}
