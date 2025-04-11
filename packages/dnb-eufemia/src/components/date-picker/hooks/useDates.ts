@@ -1,13 +1,7 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { convertStringToDate, isDisabled } from '../DatePickerCalc'
-import isValid from 'date-fns/isValid'
-import format from 'date-fns/format'
 import { addMonths, isSameDay } from 'date-fns'
 import { DateType } from '../DatePickerContext'
-
-// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
-const useLayoutEffect =
-  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
 export type DatePickerDateProps = {
   date?: DateType
@@ -25,15 +19,6 @@ type UseDatesOptions = {
   isRange: boolean
   shouldCorrectDate: boolean
 }
-// TODO: Move to DatePickerInput
-export type DatePickerInputDates = {
-  __startDay?: string
-  __startMonth?: string
-  __startYear?: string
-  __endDay?: string
-  __endMonth?: string
-  __endYear?: string
-}
 
 export type DatePickerDates = {
   date?: DateType
@@ -44,7 +29,7 @@ export type DatePickerDates = {
   startMonth?: Date
   endMonth?: Date
   hoverDate?: Date
-} & DatePickerInputDates
+}
 
 export default function useDates(
   dateProps: DatePickerDateProps,
@@ -144,42 +129,11 @@ export default function useDates(
     [dates, shouldCorrectDate, isRange]
   )
 
-  // Updated input dates based on start and end dates, move to DatePickerInput
-  // TODO: Move to DatePickerInput
-  useLayoutEffect(() => {
-    const startDates = updateInputDates('start', dates.startDate)
-    const endDates = updateInputDates('end', dates.endDate)
-
-    setDates((currentDates) => ({
-      ...currentDates,
-      ...startDates,
-      ...endDates,
-    }))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dates.startDate, dates.endDate])
-
   return {
     dates,
     updateDates,
     previousDateProps,
   } as const
-}
-
-// TODO: Move to DatePickerInput
-function updateInputDates(type: 'start' | 'end', date: Date | undefined) {
-  const updatedDates = {}
-
-  if (isValid(date)) {
-    updatedDates[`__${type}Day`] = pad(format(date, 'dd'), 2)
-    updatedDates[`__${type}Month`] = pad(format(date, 'MM'), 2)
-    updatedDates[`__${type}Year`] = format(date, 'yyyy')
-  } else if (date === undefined) {
-    updatedDates[`__${type}Day`] = null
-    updatedDates[`__${type}Month`] = null
-    updatedDates[`__${type}Year`] = null
-  }
-
-  return updatedDates
 }
 
 function mapDates(
@@ -241,25 +195,8 @@ function mapDates(
     ...correctedDates,
   }
 
-  const hasValidStartDate = isValid(dates.startDate)
-  const hasValidEndDate = isValid(dates.endDate)
-
   return {
     ...dates,
-    __startDay: hasValidStartDate
-      ? pad(format(dates.startDate, 'dd'), 2)
-      : null,
-    __startMonth: hasValidStartDate
-      ? pad(format(dates.startDate, 'MM'), 2)
-      : null,
-    __startYear: hasValidStartDate
-      ? format(dates.startDate, 'yyyy')
-      : null,
-    __endDay: hasValidEndDate ? pad(format(dates.endDate, 'dd'), 2) : null,
-    __endMonth: hasValidEndDate
-      ? pad(format(dates.endDate, 'MM'), 2)
-      : null,
-    __endYear: hasValidEndDate ? format(dates.endDate, 'yyyy') : null,
   }
 }
 
