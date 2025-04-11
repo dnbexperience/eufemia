@@ -267,6 +267,28 @@ describe('InputMasked component', () => {
     expect(onKeyDown).toHaveBeenCalledTimes(4)
   })
 
+  it('should allow 0 as value when disallowLeadingZeroes is set', () => {
+    const onChange = jest.fn()
+
+    render(
+      <InputMasked
+        {...props}
+        number_mask={{
+          disallowLeadingZeroes: true,
+        }}
+        onChange={onChange}
+      />
+    )
+
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: '0' },
+    })
+
+    expect(onChange.mock.calls[0][0].numberValue).toBe(-0)
+    expect(document.querySelector('input').value).toBe('-​')
+    expect(onChange).toHaveBeenCalledTimes(1)
+  })
+
   it('should allow leading zero when removing first letter', () => {
     const onChange = jest.fn()
 
