@@ -180,9 +180,11 @@ describe('correctCaretPosition', () => {
     element.setSelectionRange = jest.fn()
 
     const maskParams = {
-      suffix: 'suffix',
-      prefix: 'prefix',
-      placeholderChar: '_',
+      current: {
+        suffix: 'suffix',
+        prefix: 'prefix',
+        placeholderChar: '_',
+      },
     }
 
     correctCaretPosition(element, maskParams, {})
@@ -198,9 +200,11 @@ describe('correctCaretPosition', () => {
     element.setSelectionRange = jest.fn()
 
     const maskParams = {
-      suffix: 'suffix',
-      prefix: 'prefix',
-      placeholderChar: '_',
+      current: {
+        suffix: 'suffix',
+        prefix: 'prefix',
+        placeholderChar: '_',
+      },
     }
 
     correctCaretPosition(element, maskParams, {})
@@ -216,9 +220,11 @@ describe('correctCaretPosition', () => {
     element.setSelectionRange = jest.fn()
 
     const maskParams = {
-      suffix: 'suffix',
-      prefix: 'prefix',
-      placeholderChar: '_',
+      current: {
+        suffix: 'suffix',
+        prefix: 'prefix',
+        placeholderChar: '_',
+      },
     }
 
     correctCaretPosition(element, maskParams, {})
@@ -234,9 +240,11 @@ describe('correctCaretPosition', () => {
     element.setSelectionRange = jest.fn()
 
     const maskParams = {
-      suffix: 'suffix',
-      prefix: '',
-      placeholderChar: '_',
+      current: {
+        suffix: 'suffix',
+        prefix: '',
+        placeholderChar: '_',
+      },
     }
 
     correctCaretPosition(element, maskParams, {})
