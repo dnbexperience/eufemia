@@ -13,7 +13,6 @@ const SvgComparison = (props) => (
         d="M.5 23.56h23"
         stroke="black"
         fill="white"
-        strokeweight="40"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
