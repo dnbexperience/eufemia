@@ -3,20 +3,22 @@
  *
  */
 
-import React from 'react'
-import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   Button,
-  ToggleButton,
   Img,
   Section,
+  ToggleButton,
   Upload,
 } from '@dnb/eufemia/src'
+import React from 'react'
+import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { createRequest } from '../../extensions/forms/Form/SubmitIndicator/Examples'
 
 export function createMockFile(name: string, size: number, type: string) {
-  const file =
-    typeof window !== 'undefined' && new File([], name, { type })
+  if (typeof window === 'undefined' || !window?.File) {
+    return undefined
+  }
+  const file = new File([], name, { type })
   Object.defineProperty(file, 'size', {
     get() {
       return size
