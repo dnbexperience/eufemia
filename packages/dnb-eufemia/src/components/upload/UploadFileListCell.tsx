@@ -172,7 +172,10 @@ const UploadFileListCell = ({
   }
 
   function getDeleteButton() {
-    return !removeDeleteButton ? (
+    if (removeDeleteButton) {
+      return null
+    }
+    return (
       <div>
         <Button
           icon={TrashIcon}
@@ -184,7 +187,7 @@ const UploadFileListCell = ({
           {deleteButtonText}
         </Button>
       </div>
-    ) : null
+    )
   }
 
   function getDescription() {
@@ -195,9 +198,10 @@ const UploadFileListCell = ({
   }
 
   function getWarning() {
-    return hasWarning ? (
-      <FormStatus top="small" text={errorMessage} stretch />
-    ) : null
+    if (!hasWarning) {
+      return null
+    }
+    return <FormStatus top="small" text={errorMessage} stretch />
   }
 }
 
