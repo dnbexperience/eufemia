@@ -1,9 +1,13 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { convertStringToDate, isDisabled } from '../DatePickerCalc'
 import isValid from 'date-fns/isValid'
 import format from 'date-fns/format'
 import { addMonths, isSameDay } from 'date-fns'
 import { DateType } from '../DatePickerContext'
+
+// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
+const useLayoutEffect =
+  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
 export type DatePickerDateProps = {
   date?: DateType
@@ -142,7 +146,7 @@ export default function useDates(
 
   // Updated input dates based on start and end dates, move to DatePickerInput
   // TODO: Move to DatePickerInput
-  useEffect(() => {
+  useLayoutEffect(() => {
     const startDates = updateInputDates('start', dates.startDate)
     const endDates = updateInputDates('end', dates.endDate)
 
