@@ -11,7 +11,7 @@ interface CardNumberTextProps {
 const CardNumberText = ({cardNumber, skeleton}: CardNumberTextProps) => {
   return (
     <span className={classnames(
-      'dnb-payment-card__card__wrapper', createSkeletonClass('font', skeleton))}>
+      'dnb-payment-card__card__element--wrapper', createSkeletonClass('font', skeleton))}>
       <P className="dnb-payment-card__card__numbers">{cardNumber}</P>
     </span>
   )
