@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { convertStringToDate, isDisabled } from '../DatePickerCalc'
 import isValid from 'date-fns/isValid'
 import format from 'date-fns/format'
@@ -39,7 +39,6 @@ export type DatePickerDates = {
   maxDate?: Date
   startMonth?: Date
   endMonth?: Date
-  hasHadValidDate?: boolean
   hoverDate?: Date
 } & DatePickerInputDates
 
@@ -100,8 +99,6 @@ export default function useDates(
     setPreviousDateProps(dateProps)
   }
 
-  const hasHadValidDate = useRef<boolean>(false)
-
   const updateDates = useCallback(
     (
       newDates: DatePickerDates,
@@ -149,9 +146,6 @@ export default function useDates(
     const startDates = updateInputDates('start', dates.startDate)
     const endDates = updateInputDates('end', dates.endDate)
 
-    hasHadValidDate.current =
-      isValid(dates.startDate) || isValid(dates.endDate)
-
     setDates((currentDates) => ({
       ...currentDates,
       ...startDates,
@@ -163,7 +157,6 @@ export default function useDates(
   return {
     dates,
     updateDates,
-    hasHadValidDate: hasHadValidDate.current,
     previousDateProps,
   } as const
 }
