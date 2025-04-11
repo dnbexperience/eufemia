@@ -22,18 +22,16 @@ import VisaDefault from './providers/VisaDefault'
 import VisaPlatinum from './providers/VisaPlatinum'
 import { StatusIcon } from './status'
 
-const BankLogo = ({ logoType, height }) =>
+const BankLogo = ({ logoType }) =>
   logoType.cata({
     Colored: (color) => (
       <DNB
-        height={height}
         fill={color}
         className="dnb-payment-card__card__bank-logo"
       />
     ),
     Sbanken: (color) => (
       <Sbanken
-        height={height}
         fill={color}
         className="dnb-payment-card__card__bank-logo"
       />
