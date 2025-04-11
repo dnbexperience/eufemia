@@ -108,7 +108,7 @@ export default function adjustCaretPosition({
       .filter((char) => char !== placeholderChar).length
 
     // Has the number of mask characters up to the caret changed?
-    const masklengthChanged = leftMaskChars !== previousLeftMaskChars
+    const maskLengthChanged = leftMaskChars !== previousLeftMaskChars
 
     // Detect if `targetChar` is a mask character and has moved to the left
     const targetIsMaskMovingLeft =
@@ -120,13 +120,13 @@ export default function adjustCaretPosition({
       previousPlaceholder[intersection.length - 1] ===
         placeholder[intersection.length - 2]
 
-    // If deleting and the `targetChar` `is a mask character and `masklengthChanged` is true
+    // If deleting and the `targetChar` `is a mask character and `maskLengthChanged` is true
     // or the mask is moving to the left, we can't use the selected `targetChar` any longer
     // if we are not at the end of the string.
     // In this case, change tracking strategy and track the character to the right of the caret.
     if (
       !isAddition &&
-      (masklengthChanged || targetIsMaskMovingLeft) &&
+      (maskLengthChanged || targetIsMaskMovingLeft) &&
       previousLeftMaskChars > 0 &&
       placeholder.indexOf(targetChar) > -1 &&
       rawValue[currentCaretPosition] !== undefined
