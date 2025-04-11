@@ -258,7 +258,7 @@ export const StepIndicatorRouter = () => (
               on_change={({ current_step }) => {
                 const step = current_step + 1
                 setCurrentStep(step)
-                history.push('?' + step)
+                history.push(`?${step}`)
               }}
               data={[
                 {

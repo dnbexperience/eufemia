@@ -708,12 +708,12 @@ render(
 
 You can provide a function to the `info`, `warning` and `error` properties to conditionally change this behavior based on specific requirements.
 
-Using this `conditional` function, the error message will only be shown after the user interacts with the field — for instance, after they change its value and move focus away (blur). This allows you to display error messages dynamically, ensuring they appear only when the field's value is invalid and the user has engaged with it.
+Using this `conditional` function, the error message (or info or warning message) will only be shown after the user interacts with the field — for instance, after they change its value and move focus away (blur). This allows you to display error messages dynamically, ensuring they appear only when the field's value is invalid and the user has engaged with it.
 
 ```tsx
 render(
   <Field.Number
-    info={(value, { conditionally }) => {
+    error={(value, { conditionally }) => {
       if (value === 123) {
         return conditionally(() => new Error('Invalid value'))
       }

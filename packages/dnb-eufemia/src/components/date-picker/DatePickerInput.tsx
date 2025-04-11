@@ -39,8 +39,8 @@ import type { SkeletonShow } from '../Skeleton'
 import { ReturnObject } from './DatePickerProvider'
 import { DatePickerEventAttributes } from './DatePicker'
 import { useTranslation } from '../../shared'
-import { DatePickerInputDates } from './hooks/useDates'
 import usePartialDates from './hooks/usePartialDates'
+import useInputDates, { DatePickerInputDates } from './hooks/useInputDates'
 
 export type DatePickerInputProps = Omit<
   React.HTMLProps<HTMLInputElement>,
@@ -163,16 +163,15 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     updateDates,
     callOnChangeHandler,
     getReturnObject,
-    __startDay,
-    __startMonth,
-    __startYear,
-    __endDay,
-    __endMonth,
-    __endYear,
     startDate,
     endDate,
     props: { onType, label, correctInvalidDate },
   } = useContext(DatePickerContext)
+
+  const { inputDates, updateInputDates } = useInputDates({
+    startDate,
+    endDate,
+  })
 
   const translation = useTranslation().DatePicker
 
@@ -184,25 +183,6 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       endDate,
     }),
     [startDate, endDate]
-  )
-
-  const inputDates = useMemo(
-    () => ({
-      __startDay,
-      __startMonth,
-      __startYear,
-      __endDay,
-      __endMonth,
-      __endYear,
-    }),
-    [
-      __startDay,
-      __startMonth,
-      __startYear,
-      __endDay,
-      __endMonth,
-      __endYear,
-    ]
   )
 
   const inputRefs = useRef<
@@ -530,8 +510,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       } else {
         updateDates({
           [`${mode}Date`]: null,
-          [`__${mode}${type}`]: value,
         })
+        updateInputDates({ [`__${mode}${type}`]: value })
 
         invalidDatesRef.current = {
           ...invalidDatesRef.current,
@@ -556,6 +536,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       modeDate,
       dateRefs,
       temporaryDates,
+      updateInputDates,
     ]
   )
 

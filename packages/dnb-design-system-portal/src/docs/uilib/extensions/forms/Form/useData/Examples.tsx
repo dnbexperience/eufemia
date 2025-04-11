@@ -51,7 +51,7 @@ export function Update() {
                 <Field.Number path="/count" showStepControls />
                 <Form.SubmitButton
                   onClick={increment}
-                  text={'Increment ' + data.count}
+                  text={`Increment ${data.count}`}
                 />
               </Flex.Horizontal>
             </Form.Handler>
@@ -85,7 +85,7 @@ export function WithoutFormHandler() {
           return (
             <Button
               on_click={increment}
-              text={'Increment ' + data.count}
+              text={`Increment ${data.count}`}
               variant="secondary"
             />
           )

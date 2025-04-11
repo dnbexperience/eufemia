@@ -139,7 +139,7 @@ export const GlobalStatusAddRemoveItems = () => (
               on_hide={() => toggleUpdateStatus(0)}
             />
             <Button
-              text={'Show step #' + count}
+              text={`Show step #${count}`}
               on_click={() => {
                 toggleUpdateStatus(count + 1)
                 if (count >= 3) {

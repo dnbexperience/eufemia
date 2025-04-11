@@ -387,7 +387,7 @@ export const ProgressIndicatorCountdownExample = () => (
           <ProgressIndicator
             type="countdown"
             progress={(current / max) * 100}
-            title={current + ' av ' + max}
+            title={`${current} av ${max}`}
             size="large"
             labelDirection="inside"
           >

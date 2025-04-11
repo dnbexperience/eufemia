@@ -30,7 +30,7 @@ export const Default = () => {
 
                 <Iterate.PushButton
                   path="/myList"
-                  pushValue={'Item ' + String(count('/myList') + 1)}
+                  pushValue={`Item ${String(count('/myList') + 1)}`}
                   text="Add new item"
                 />
               </Form.Card>

@@ -28,7 +28,7 @@ export const DrawerListExampleInteractive = () => (
               <ToggleButton
                 text="Toggle"
                 checked={opened}
-                icon={'chevron_' + (opened ? 'up' : 'down')}
+                icon={`chevron_${opened ? 'up' : 'down'}`}
                 icon_position="left"
                 on_change={({ checked }) => setOpened(checked)}
               />

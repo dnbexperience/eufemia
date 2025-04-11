@@ -924,7 +924,7 @@ describe('Form.Handler', () => {
       )
     })
 
-    it('should accept custom minimumAsyncBehaviorTimevalue', async () => {
+    it('should accept custom minimumAsyncBehaviorTime value', async () => {
       const onSubmit = async () => null
 
       render(
