@@ -282,3 +282,51 @@ export function SessionStorage() {
     </ComponentBox>
   )
 }
+
+export const WithFileItemOptions = () => {
+  return (
+    <ComponentBox scope={{ createMockFile }}>
+      {() => {
+        const MyForm = () => {
+          return (
+            <Form.Handler
+              data={{
+                myFiles: [
+                  {
+                    file: createMockFile(
+                      'fileName-1.png',
+                      100,
+                      'image/png',
+                    ),
+                    id: '1',
+                    description: 'My description',
+                    errorMessage: 'My error message',
+                    removeDeleteButton: true,
+                  },
+                ],
+              }}
+            >
+              <Field.Upload
+                path="/myFiles"
+                fileHandler={mockFileHandler}
+                required
+              />
+            </Form.Handler>
+          )
+        }
+
+        function mockFileHandler(newFiles: UploadValue) {
+          return newFiles.map((file) => {
+            file.errorMessage = 'File has a problem'
+            file.description = 'File description'
+            file.removeDeleteButton = true
+
+            return file
+          })
+        }
+
+        return <MyForm />
+      }}
+    </ComponentBox>
+  )
+}
