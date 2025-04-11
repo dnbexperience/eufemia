@@ -1,13 +1,9 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useReducer, useRef } from 'react'
 import { convertStringToDate, isDisabled } from '../DatePickerCalc'
 import isValid from 'date-fns/isValid'
 import format from 'date-fns/format'
 import { addMonths, isSameDay } from 'date-fns'
 import { DateType } from '../DatePickerContext'
-
-// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
-const useLayoutEffect =
-  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
 export type DatePickerDateProps = {
   date?: DateType
@@ -54,8 +50,10 @@ export default function useDates(
     shouldCorrectDate = false,
   }: UseDatesOptions
 ) {
-  const [previousDateProps, setPreviousDateProps] = useState(dateProps)
-  const [dates, setDates] = useState<DatePickerDates>({
+  const [, forceUpdate] = useReducer(() => ({}), {})
+
+  const previousDatePropsRef = useRef(dateProps)
+  const datesRef = useRef<DatePickerDates>({
     ...mapDates(dateProps, {
       dateFormat,
       isRange,
@@ -67,7 +65,7 @@ export default function useDates(
     () =>
       Object.keys(dateProps).some((date) => {
         const dateProp = dateProps[date]
-        const previousDate = previousDateProps[date]
+        const previousDate = previousDatePropsRef.current[date]
 
         const convertedDateProp = convertStringToDate(dateProp, {
           dateFormat,
@@ -86,21 +84,22 @@ export default function useDates(
 
         return dateProp !== previousDate
       }),
-    [dateProps, previousDateProps, dateFormat]
+    [dateProps, dateFormat]
   )
 
   // Update dates on prop change
   if (hasDatePropChanges) {
     const derivedDates = deriveDatesFromProps({
-      dates,
+      dates: datesRef.current,
       dateProps,
-      previousDateProps,
+      previousDateProps: previousDatePropsRef.current,
       dateFormat,
       isRange,
     })
 
-    setDates((currentDates) => ({ ...currentDates, ...derivedDates }))
-    setPreviousDateProps(dateProps)
+    datesRef.current = { ...datesRef.current, ...derivedDates }
+    previousDatePropsRef.current = dateProps
+    forceUpdate()
   }
 
   const updateDates = useCallback(
@@ -111,10 +110,10 @@ export default function useDates(
       // Correct dates based on min and max date
       const correctedDates = shouldCorrectDate
         ? correctDates({
-            startDate: newDates.startDate ?? dates.startDate,
-            endDate: newDates.endDate ?? dates.endDate,
-            minDate: dates.minDate,
-            maxDate: dates.maxDate,
+            startDate: newDates.startDate ?? datesRef.current.startDate,
+            endDate: newDates.endDate ?? datesRef.current.endDate,
+            minDate: datesRef.current.minDate,
+            maxDate: datesRef.current.maxDate,
             isRange,
           })
         : {}
@@ -122,46 +121,39 @@ export default function useDates(
       // Update months based on month or start/end date changes
       const months = updateMonths({
         newDates,
-        currentDates: dates,
+        currentDates: datesRef.current,
       })
 
-      setDates((currentDates) => {
-        return {
-          ...currentDates,
-          ...newDates,
-          ...months,
-          ...correctedDates,
-        }
-      })
-
-      callback?.({
-        ...dates,
+      datesRef.current = {
+        ...datesRef.current,
         ...newDates,
         ...months,
         ...correctedDates,
-      })
+      }
+
+      callback?.(datesRef.current)
+
+      forceUpdate()
     },
-    [dates, shouldCorrectDate, isRange]
+    [shouldCorrectDate, isRange]
   )
 
   // Updated input dates based on start and end dates, move to DatePickerInput
   // TODO: Move to DatePickerInput
-  useLayoutEffect(() => {
-    const startDates = updateInputDates('start', dates.startDate)
-    const endDates = updateInputDates('end', dates.endDate)
-
-    setDates((currentDates) => ({
-      ...currentDates,
-      ...startDates,
-      ...endDates,
-    }))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dates.startDate, dates.endDate])
+  useEffect(() => {
+    const startDates = updateInputDates(
+      'start',
+      datesRef.current.startDate
+    )
+    const endDates = updateInputDates('end', datesRef.current.endDate)
+    datesRef.current = { ...datesRef.current, ...startDates, ...endDates }
+    forceUpdate()
+  }, [datesRef.current.startDate, datesRef.current.endDate])
 
   return {
-    dates,
+    dates: datesRef.current,
+    previousDateProps: previousDatePropsRef.current,
     updateDates,
-    previousDateProps,
   } as const
 }
 

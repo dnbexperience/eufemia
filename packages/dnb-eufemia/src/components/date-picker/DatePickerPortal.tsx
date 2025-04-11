@@ -1,12 +1,11 @@
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { DatePickerProps } from './DatePicker'
 import { debounce } from '../../shared/helpers'
+
+// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
+const useLayoutEffect =
+  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
 type DatePickerPortalProps = React.HTMLProps<HTMLDivElement> & {
   skipPortal?: DatePickerProps['skipPortal']
@@ -26,7 +25,7 @@ export default function DatePickerPortal({
     if (targetElementRef.current) {
       setPosition(getPosition(targetElementRef.current, alignment))
     }
-  }, [])
+  }, [alignment, targetElementRef])
 
   const setPositionDebounce = useCallback(() => {
     const debounced = debounce(() => {

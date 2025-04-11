@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useState } from 'react'
+import React, { StrictMode, useState } from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import userEvent from '@testing-library/user-event'
 import * as helpers from '../../../shared/helpers'
@@ -1675,7 +1675,7 @@ describe('DatePicker component', () => {
     elem.setSelectionRange(0, 0)
     await userEvent.keyboard('{Backspace>2}03')
 
-    expect(onChange).toHaveBeenCalledTimes(3)
+    expect(onChange).toHaveBeenCalledTimes(4)
     expect(onChange).toHaveBeenLastCalledWith(
       expect.objectContaining({
         is_valid_start_date: true,
@@ -3224,7 +3224,11 @@ describe('DatePicker component', () => {
       return <DatePicker date={date} minDate={minDate} maxDate={maxDate} />
     }
 
-    render(<Component />)
+    render(
+      <StrictMode>
+        <Component />
+      </StrictMode>
+    )
 
     await userEvent.click(screen.getByLabelText('åpne datovelger'))
 

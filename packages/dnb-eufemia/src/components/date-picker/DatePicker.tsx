@@ -8,7 +8,6 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -59,6 +58,10 @@ import { DatePickerDates } from './hooks/useDates'
 import { useTranslation } from '../../shared'
 import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 import DatePickerPortal from './DatePickerPortal'
+
+// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
+const useLayoutEffect =
+  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
 export type DatePickerEventAttributes = {
   day?: string
