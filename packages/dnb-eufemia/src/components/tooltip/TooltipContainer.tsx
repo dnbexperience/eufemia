@@ -127,8 +127,6 @@ export default function TooltipContainer(
       return // stop here
     }
 
-    let alignOffset = 0
-
     const elementWidth = element.offsetWidth
     const elementHeight = element.offsetHeight
     const rect = target.getBoundingClientRect()
@@ -169,48 +167,57 @@ export default function TooltipContainer(
 
     const style = { ...props.style }
 
-    if (align === 'left') {
-      alignOffset = -targetBodySize.width / 2
-    } else if (align === 'right') {
-      alignOffset = targetBodySize.width / 2
+    const getAlignedHorizontalPosition = () => {
+      if (align === 'left') {
+        // Align left edge of tooltip with left edge of target
+        return left
+      } else if (align === 'right') {
+        // Align right edge of tooltip with right edge of target
+        return left + targetBodySize.width - elementWidth
+      } else {
+        // Default center alignment
+        return left - elementWidth / 2 + targetBodySize.width / 2
+      }
     }
 
-    const topHorizontal =
-      top + targetBodySize.height / 2 - elementHeight / 2
-    const leftVertical =
-      left - elementWidth / 2 + targetBodySize.width / 2 + alignOffset
+    const getAlignedVerticalPosition = () => {
+      if (align === 'left') {
+        // Align left edge of tooltip with left edge of target
+        return left
+      } else if (align === 'right') {
+        // Align right edge of tooltip with right edge of target
+        return left + targetBodySize.width - elementWidth
+      } else {
+        // Default center alignment
+        return left - elementWidth / 2 + targetBodySize.width / 2
+      }
+    }
 
     const stylesFromPosition = {
       left: () => {
-        style.top = topHorizontal
+        style.top = top + targetBodySize.height / 2 - elementHeight / 2
         style.left = left - elementWidth - offset.current
       },
       right: () => {
-        style.top = topHorizontal
+        style.top = top + targetBodySize.height / 2 - elementHeight / 2
         style.left = left + targetBodySize.width + offset.current
       },
       top: () => {
-        style.left = leftVertical
+        style.left = getAlignedHorizontalPosition()
         style.top = top - elementHeight - offset.current
       },
       bottom: () => {
-        style.left = leftVertical
+        style.left = getAlignedHorizontalPosition()
         style.top = top + targetBodySize.height + offset.current
       },
     }
 
     const stylesFromArrow = {
       left: () => {
-        style.left =
-          left + targetBodySize.width / 2 - offset.current + alignOffset
+        style.left = getAlignedVerticalPosition()
       },
       right: () => {
-        style.left =
-          left -
-          elementWidth +
-          targetBodySize.width / 2 +
-          offset.current +
-          alignOffset
+        style.left = getAlignedVerticalPosition()
       },
       top: () => {
         style.top = top + targetBodySize.height / 2 - offset.current
