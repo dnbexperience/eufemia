@@ -2340,7 +2340,7 @@ describe('DatePicker component', () => {
       />
     )
 
-    const [dayElem, monthElem, yearElem] = Array.from(
+    const [dayElem, monthElem] = Array.from(
       document.querySelectorAll('input.dnb-date-picker__input')
     ) as Array<HTMLInputElement>
 
@@ -2357,12 +2357,6 @@ describe('DatePicker component', () => {
       )
     })
 
-    // also test the key up to change the value on the month input
-    expect(monthElem).toHaveValue('01')
-    fireEvent.keyDown(monthElem, { key: 'Up', keyCode: 38 })
-
-    expect(monthElem).toHaveValue('02')
-
     // and simulate a left keydown
     fireEvent.keyDown(monthElem, { key: 'Left', keyCode: 37 })
 
@@ -2372,20 +2366,6 @@ describe('DatePicker component', () => {
         'dnb-date-picker__input--day'
       )
     })
-
-    // also test the key up to change the value on the day input
-    expect(dayElem).toHaveValue('01')
-    fireEvent.keyDown(dayElem, { key: 'Up', keyCode: 38 })
-
-    expect(dayElem).toHaveValue('02')
-
-    // also test the key up to change the value on the year input
-    expect(yearElem).toHaveValue('2019')
-    fireEvent.keyDown(yearElem, { key: 'Up', keyCode: 38 })
-    expect(yearElem).toHaveValue('2020')
-    fireEvent.keyDown(yearElem, { key: 'Down', keyCode: 40 })
-
-    expect(yearElem).toHaveValue('2019')
   })
 
   it('should display correct start and end month on opening the date picker', async () => {
@@ -3227,6 +3207,46 @@ describe('DatePicker component', () => {
     expect(
       rightPicker.querySelector('.dnb-date-picker__header__title')
     ).toHaveTextContent('november 2024')
+  })
+
+  it('should use correct dates based on props updated through useLayoutEffect', async () => {
+    const Component = () => {
+      const [date, setDate] = React.useState(new Date('2025-04-12'))
+      const [minDate, setMinDate] = React.useState(new Date('2025-04-10'))
+      const [maxDate, setMaxDate] = React.useState(new Date('2025-04-20'))
+
+      React.useLayoutEffect(() => {
+        setDate(new Date('2025-04-15'))
+        setMinDate(new Date('2025-04-05'))
+        setMaxDate(new Date('2025-04-25'))
+      }, [])
+
+      return <DatePicker date={date} minDate={minDate} maxDate={maxDate} />
+    }
+
+    render(<Component />)
+
+    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+
+    // Check date
+    expect(
+      screen.getByLabelText('lørdag 12. april 2025')
+    ).not.toHaveAttribute('aria-current', 'date')
+    expect(
+      screen.getByLabelText('tirsdag 15. april 2025')
+    ).toHaveAttribute('aria-current', 'date')
+
+    // Check minDate
+    expect(
+      screen.getByLabelText('onsdag 9. april 2025')
+    ).not.toBeDisabled()
+    expect(screen.getByLabelText('fredag 4. april 2025')).toBeDisabled()
+
+    // Check maxDate
+    expect(
+      screen.getByLabelText('mandag 21. april 2025')
+    ).not.toBeDisabled()
+    expect(screen.getByLabelText('lørdag 26. april 2025')).toBeDisabled()
   })
 })
 

@@ -13,9 +13,6 @@ import React, {
 } from 'react'
 
 // date-fns
-import addDays from 'date-fns/addDays'
-import addMonths from 'date-fns/addMonths'
-import addYears from 'date-fns/addYears'
 import isValid from 'date-fns/isValid'
 import parseISO from 'date-fns/parseISO'
 
@@ -468,59 +465,6 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     ]
   )
 
-  const prepareCounting = useCallback(
-    async ({
-      keyCode,
-      target,
-      event,
-    }: {
-      keyCode: string
-      target: HTMLInputElement
-      event: React.KeyboardEvent<HTMLInputElement>
-    }) => {
-      try {
-        const isDate = target
-          .getAttribute('class')
-          .match(/__input--(day|month|year)($|\s)/)[1]
-
-        const isInRange = target
-          .getAttribute('id')
-          .match(/-(start|end)-(day|month|year)/)[1]
-
-        let date = isInRange === 'start' ? startDate : endDate
-
-        // do nothing if date is not set yet
-        if (!date) {
-          return
-        }
-
-        const count = keyCode === 'ArrowUp' ? 1 : -1
-
-        if (keyCode === 'ArrowUp' || keyCode === 'ArrowDown') {
-          switch (isDate) {
-            case 'day':
-              date = addDays(date, count)
-              break
-            case 'month':
-              date = addMonths(date, count)
-              break
-            case 'year':
-              date = addYears(date, count)
-              break
-          }
-        }
-
-        callOnChange({
-          [isInRange === 'start' ? 'startDate' : 'endDate']: date,
-          event,
-        })
-      } catch (e) {
-        warn(e)
-      }
-    },
-    [startDate, endDate, callOnChange]
-  )
-
   const setDate = useCallback(
     (
       event: React.ChangeEvent<HTMLInputElement>,
@@ -685,18 +629,6 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         setCursorPosition(target)
       }
 
-      // Only to process key up and down press
-      switch (keyCode) {
-        case 'ArrowUp':
-        case 'ArrowDown':
-          event.persist()
-          event.preventDefault()
-          prepareCounting({ event, keyCode, target })
-          return false
-        case 'Tab':
-          return false
-      }
-
       // The rest is for value entry
 
       const size = parseFloat(target.getAttribute('size'))
@@ -784,7 +716,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         }
       }
     },
-    [correctInvalidDate, dateSetters, prepareCounting]
+    [correctInvalidDate, dateSetters]
   )
 
   const onInputHandler = useCallback(

@@ -3,18 +3,21 @@
  *
  */
 
-import React from 'react'
-import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   Button,
-  ToggleButton,
   Img,
   Section,
+  ToggleButton,
   Upload,
 } from '@dnb/eufemia/src'
+import React from 'react'
+import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { createRequest } from '../../extensions/forms/Form/SubmitIndicator/Examples'
 
 export function createMockFile(name: string, size: number, type: string) {
+  if (typeof window === 'undefined' || !window?.File) {
+    return undefined
+  }
   const file = new File([], name, { type })
   Object.defineProperty(file, 'size', {
     get() {
@@ -489,6 +492,16 @@ export const UploadDescription = () => (
           <Upload
             acceptedFileTypes={['jpg', 'png']}
             id="upload-description"
+            onChange={({ files }) =>
+              setFiles(
+                files.map((fileItem) => {
+                  return {
+                    ...fileItem,
+                    description: 'This is my description',
+                  }
+                }),
+              )
+            }
           />
         )
       }
@@ -541,6 +554,13 @@ export const UploadRemoveDeleteButton = () => (
           <Upload
             acceptedFileTypes={['jpg', 'png']}
             id="upload-remove-delete-button"
+            onChange={({ files }) =>
+              setFiles(
+                files.map((fileItem) => {
+                  return { ...fileItem, removeDeleteButton: true }
+                }),
+              )
+            }
           />
         )
       }
