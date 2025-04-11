@@ -1,6 +1,6 @@
 import { format, isValid } from 'date-fns'
 import { DatePickerDates } from './useDates'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 
 export type DatePickerInputDates = {
   __startDay?: string
@@ -36,9 +36,9 @@ export default function useInputDates({
     setPreviousDates({ startDate, endDate })
   }
 
-  function updateInputDates(dates: DatePickerInputDates) {
+  const updateInputDates = useCallback((dates: DatePickerInputDates) => {
     setInputDates((current) => ({ ...current, ...dates }))
-  }
+  }, [])
 
   return {
     inputDates,
