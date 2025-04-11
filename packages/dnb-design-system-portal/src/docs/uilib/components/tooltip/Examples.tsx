@@ -65,7 +65,7 @@ export const TooltipExampleButtonLongText = () => (
     data-visual-test="tooltip-hover-button-long-text"
     scope={{ swissJoke }}
   >
-    <Button tooltip={swissJoke + ' ' + swissJoke} text="Long Tooltip" />
+    <Button tooltip={`${swissJoke} ${swissJoke}`} text="Long Tooltip" />
   </ComponentBox>
 )
 
