@@ -1,12 +1,17 @@
 /*
- * PaymentCard component
- *
+ * PaymentCard component styles
+ * This file provides styling for the PaymentCard component, including general design tokens
+ * and variations for different card types (e.g., default, pluss, gold, etc.).
  */
 
 @import '../../../style/core/utilities.scss';
 @import '../../../style/themes/theme-sbanken/properties.scss';
 
 .dnb-payment-card {
+  /*
+   * Define custom CSS variables used throughout the PaymentCard component.
+   * These variables allow for reusable colors, border-radius, and overlay background transitions.
+   */
   --color-dark-cyan: #003b47;
   --dnb-payment-bg-default: var(--color-sea-green);
   --dnb-payment-bg-pluss: var(--color-ocean-green);
@@ -16,10 +21,16 @@
   --dnb-payment-bg-black-grey: #1C1C1E;
   --dnb-payment-overlay-bg-dark: #00000099;
   --dnb-payment-overlay-bg-light: #FFFFFFB2;
+  --dnb-payment-border-radius: 12px;
 
+  // General styles for the PaymentCard container
   margin: 0;
-  border-radius: 12px;
+  border-radius: var(--dnb-payment-border-radius);
 
+  /*
+   * Base styles for the card element including size, padding, color, and shadow.
+   * This serves as the core design for all PaymentCard variations.
+   */
   &__card {
     width: 100%;
     height: 100%;
@@ -31,9 +42,10 @@
 
     transition: all 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
 
-    // disable cursor selection
+    // Ensure the card content cannot be selected
     user-select: none;
 
+    // Specific container wrapper for the card.
     &__wrapper {
       position: relative;
       width: 343px;
@@ -42,95 +54,93 @@
       border: 1px solid var(--color-black-8);
     }
 
+    // Styles for a card marked as: not_active | blocked | expired
     &--blocked {
       opacity: 0.5;
     }
-
+    
+    /*
+     * Design variations for different card types.
+     * Each modifier represents a unique card style and contains
+     * specific background and text color configurations.
+     */
     &--design {
+      // Card styles for DNB default card designs
       &-default {
         background-color: var(--dnb-payment-bg-default);
         color: var(--color-white);
       }
 
+      // Card styles for DNB Pluss card designs
       &-pluss {
         background-color: var(--dnb-payment-bg-pluss);
         color: var(--color-white);
       }
 
-      &-ung {
+      // Card styles for youth-oriented card designs
+      &-ung, &-youth, &-my-first {
         background-color: var(--dnb-payment-bg-white);
         color: var(--color-black-80);
       }
 
-      &-youth {
-        background-color: var(--dnb-payment-bg-white);
-        color: var(--color-black-80);
-      }
-
-      &-my-first {
-        background-color: var(--dnb-payment-bg-white);
-        color: var(--color-black-80);
-      }
-
+      // Gold card design
       &-gold {
         background-color: var(--dnb-payment-bg-gold);
         color: var(--color-black);
       }
 
+      // Saga (Gold) card design with black-gold theme
       &-saga {
         background-color: var(--dnb-payment-bg-black-gold);
         color: var(--color-white);
-        .separator {
+        // Specific styles for separators within the Saga card.
+        .provider--separator {
           color: var(--dnb-payment-bg-gold);
         }
       }
 
-      &-saga-platinum {
-        background-color: var(--dnb-payment-bg-black-grey);
-        color: var(--color-white);
-      }
-
+      // Shared styles for Saga Platinum and private cards with black-grey theme
+      &-saga-platinum,
       &-private {
         background-color: var(--dnb-payment-bg-black-grey);
         color: var(--color-white);
       }
 
+      // Black (Elite) card design
       &-black {
         background-color: var(--color-black);
         color: var(--color-white);
       }
 
+      // Design for a business card without Visa support
       &-business-no-visa {
         background-color: var(--dnb-payment-bg-business-no-visa);
         color: var(--color-white);
       }
 
+      // Design for a business card with Visa support
       &-business-with-visa {
         background-color: var(--dnb-payment-bg-business-with-visa);
         color: var(--color-white);
       }
 
+      // Sbanken-themed Mastercard with purple background
       &-sbanken-mastercard {
         background-color: var(--sb-color-purple);
         color: var(--color-white);
       }
 
+      // Sbanken-themed Visa card with a white background and custom text color.
       &-sbanken-visa {
         background-color: var(--color-white);
         color: var(--sb-color-text);
       }
     }
 
-    &::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: inherit;
-    }
-
+    /*
+     * Primary container for card content (e.g., numbers, text, holder name).
+     * Ensures content stretches to fit the card while preserving relative positioning.
+     */
     &__content {
       display: flex;
       height: 100%;
@@ -143,30 +153,39 @@
       margin-bottom: 0 !important;
     }
 
-    &__holder {
-      font-weight: var(--font-weight-medium);
-      text-transform: uppercase;
-      text-align: left;
-      // opacity: 0.5;
-
-      &.dnb-p {
-        font-size: 0.625rem;
-      }
-    }
-
+    // Styling for the card number
     &__numbers.dnb-p {
+
       font-size: 1.375rem; // 22px
       line-height: 1.143rem;
       font-weight: var(--font-weight-regular);
     }
 
+    // Card Type Text - Credit / Debit
     &__type-text.dnb-p {
       font-size: 0.938rem; // 15px
       line-height: 1.188rem;
       padding-top: 6px;
     }
 
-    // Top positioning of Card Elements
+    /* Provider Icons Container
+     * Flex container to house provider logos (e.g., Visa, Mastercard, BankAxept).
+     * Includes a visual separator if two providers are present. */
+    &__providers {
+      display: flex;
+      align-items: center;
+      column-gap: 1rem;
+
+      // Adds divider between provider icons
+      .provider--separator {
+        width: 1px;
+        height: 26px;
+        background-color: currentColor;
+        transform:scale(0.5, 1); // subpixel rendering (0.5px width is not supported on some browsers)
+      }
+    }
+
+    // Positioning of Card Elements
     &__top {
       // Bank + Loyalty Logos
       &__left {
@@ -176,42 +195,45 @@
         display: flex;
         align-items: center;
       }
-      // Card Type Text
+
+      /*
+       * Normal mode: Card Type Text (Credit / Debit)
+       * Compact mode: Provider Icons
+       */
       &__right {
         position: absolute;
         top: 0;
         right: 0;
       }
     }
-
-    // Bottom positioning of Card Elements
     &__bottom {
-      // Card Number Text
+      /*
+       * Normal mode: Card Number
+       * Compact mode: Hidden
+       */
       &__left {
         position: absolute;
         bottom: 0;
         left: 0;
       }
-      // BankAxept + Card Type Logos
+
+      /*
+       * Normal mode: Provider Icons
+       * Compact mode: Hidden
+       */
       &__right {
         position: absolute;
         bottom: 0;
         right: 0;
-        display: flex;
-        align-items: center;
-        column-gap: 1rem;
-
-        // adds divider if there are two provider icons
-        .separator {
-          width: 1px;
-          height: 26px;
-          background-color: currentColor;
-          transform:scale(0.5, 1); // subpixel rendering (0.5px width is not supported on some browsers)
-        }
       }
     }
   }
 
+  /*
+   * Overlay styling used for additional content or status displayed over the card element.
+   * It centers the content and adapts the overlay design
+   * based on the card's background theme (light or dark).
+   */
   &__overlay {
     svg {
       width: 2rem;
