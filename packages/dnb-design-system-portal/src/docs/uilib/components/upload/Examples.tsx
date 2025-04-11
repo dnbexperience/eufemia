@@ -3,18 +3,21 @@
  *
  */
 
-import React from 'react'
-import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   Button,
-  ToggleButton,
   Img,
   Section,
+  ToggleButton,
   Upload,
 } from '@dnb/eufemia/src'
+import React from 'react'
+import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { createRequest } from '../../extensions/forms/Form/SubmitIndicator/Examples'
 
 export function createMockFile(name: string, size: number, type: string) {
+  if (typeof window === 'undefined' || !window?.File) {
+    return undefined
+  }
   const file = new File([], name, { type })
   Object.defineProperty(file, 'size', {
     get() {
@@ -430,6 +433,134 @@ export const UploadFileEmptySize = () => (
           <Upload
             acceptedFileTypes={['jpg', 'png']}
             id="upload-file-size-empty"
+          />
+        )
+      }
+
+      return <Component />
+    }}
+  </ComponentBox>
+)
+
+export const UploadDisabledDragAndDrop = () => (
+  <ComponentBox data-visual-test="upload-disabled-drag-and-drop">
+    <Upload
+      disableDragAndDrop
+      acceptedFileTypes={['jpg', 'png']}
+      onChange={({ files }) => console.log('onChange', files)}
+    />
+  </ComponentBox>
+)
+
+export const UploadDescription = () => (
+  <ComponentBox
+    scope={{ createMockFile, createRequest }}
+    data-visual-test="upload-description"
+  >
+    {() => {
+      const Component = () => {
+        const { setFiles } = Upload.useUpload('upload-description')
+
+        React.useEffect(() => {
+          setFiles([
+            {
+              file: createMockFile('1501870.jpg', 0, 'image/png'),
+              id: '1',
+              description: 'This is my description',
+            },
+            {
+              file: createMockFile(
+                'file-name-that-is-very-long-and-has-letters.png',
+                0,
+                'image/png',
+              ),
+              id: '2',
+            },
+            {
+              file: createMockFile('123.jpg', 0, 'image/png'),
+              id: '3',
+              description: 'This is my description',
+            },
+            {
+              file: createMockFile('321.jpg', 0, 'image/png'),
+              id: '4',
+            },
+          ])
+        }, [setFiles])
+
+        return (
+          <Upload
+            acceptedFileTypes={['jpg', 'png']}
+            id="upload-description"
+            onChange={({ files }) =>
+              setFiles(
+                files.map((fileItem) => {
+                  return {
+                    ...fileItem,
+                    description: 'This is my description',
+                  }
+                }),
+              )
+            }
+          />
+        )
+      }
+
+      return <Component />
+    }}
+  </ComponentBox>
+)
+
+export const UploadRemoveDeleteButton = () => (
+  <ComponentBox
+    scope={{ createMockFile, createRequest }}
+    data-visual-test="upload-remove-delete-button"
+  >
+    {() => {
+      const Component = () => {
+        const { setFiles } = Upload.useUpload(
+          'upload-remove-delete-button',
+        )
+
+        React.useEffect(() => {
+          setFiles([
+            {
+              file: createMockFile('1501870.jpg', 0, 'image/png'),
+              id: '1',
+            },
+            {
+              file: createMockFile(
+                'file-name-that-is-very-very-very-very-very-very-very-verylong-to-display-that-when-remove-button-is-hidden-file-name-will-take-full-width.png',
+                0,
+                'image/png',
+              ),
+              description:
+                'Description that is very very very very very very very very long to display that when delete button is removed, file description will take full width.',
+              removeDeleteButton: true,
+            },
+            {
+              file: createMockFile('123.jpg', 0, 'image/png'),
+              id: '3',
+            },
+            {
+              file: createMockFile('321.jpg', 0, 'image/png'),
+              id: '4',
+              removeDeleteButton: true,
+            },
+          ])
+        }, [setFiles])
+
+        return (
+          <Upload
+            acceptedFileTypes={['jpg', 'png']}
+            id="upload-remove-delete-button"
+            onChange={({ files }) =>
+              setFiles(
+                files.map((fileItem) => {
+                  return { ...fileItem, removeDeleteButton: true }
+                }),
+              )
+            }
           />
         )
       }

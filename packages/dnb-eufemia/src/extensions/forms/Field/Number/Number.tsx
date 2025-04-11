@@ -342,17 +342,17 @@ function NumberComponent(props: Props) {
     placeholder,
     value,
     align: showStepControls ? 'center' : align,
-    ...maskProps,
     onKeyDown: onKeyDownHandler,
     onFocus: handleFocus,
     onBlur: handleBlur,
     onChange: handleChange,
     disabled,
-    ...htmlAttributes,
     status: hasError ? 'error' : undefined,
     stretch: Boolean(width),
+    ...maskProps,
+    ...htmlAttributes,
+    ...(ariaParams as any),
   }
-  Object.assign(inputProps, ariaParams)
 
   if (showStepControls) {
     return (

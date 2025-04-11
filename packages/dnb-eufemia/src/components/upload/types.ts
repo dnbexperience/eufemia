@@ -80,6 +80,12 @@ export type UploadProps = {
   allowDuplicates?: boolean
 
   /**
+   * Disables file drag and drop, by removing the drop zone.
+   * Default: false
+   */
+  disableDragAndDrop?: boolean
+
+  /**
    * Custom text properties
    */
   title?: React.ReactNode
@@ -115,6 +121,8 @@ export type UploadFile = {
   exists: boolean
   isLoading?: boolean
   errorMessage?: React.ReactNode
+  description?: React.ReactNode
+  removeDeleteButton?: boolean
 }
 
 export type UploadFileNative = Omit<UploadFile, 'id' | 'exists'> &

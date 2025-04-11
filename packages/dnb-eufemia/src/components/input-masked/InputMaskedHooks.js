@@ -100,13 +100,13 @@ export const useLocalValue = () => {
   const maskParams = useNumberMaskParams() || {}
   const locale = useTranslation()
 
-  const [localValue, setLocalValue] = React.useState(() =>
-    correctNumberValue({
+  const [localValue, setLocalValue] = React.useState(() => {
+    return correctNumberValue({
       locale,
       props,
       maskParams,
     })
-  )
+  })
 
   /**
    * Use an effect here, just;
@@ -306,8 +306,10 @@ export const useEventMapping = ({ setLocalValue }) => {
  * @returns event handler function
  */
 const useCallEvent = ({ setLocalValue }) => {
+  const maskParamsRef = React.useRef()
+  maskParamsRef.current = useMaskParams()
+
   const { props } = React.useContext(InputMaskedContext)
-  const maskParams = useMaskParams()
   const isNumberMask = useNumberMask()
 
   // Source: https://en.wikipedia.org/wiki/Decimal_separator
@@ -315,6 +317,7 @@ const useCallEvent = ({ setLocalValue }) => {
   let isUnidentified = false
 
   const callEvent = ({ event, value }, name) => {
+    const maskParams = maskParamsRef.current
     value = value || event.target.value
     const selStart = event.target.selectionStart
     let keyCode = keycode(event)
@@ -444,7 +447,7 @@ const useCallEvent = ({ setLocalValue }) => {
       case 'on_mouse_down':
       case 'on_mouse_up':
         event.target.runCorrectCaretPosition = () =>
-          correctCaretPosition(event.target, maskParams, props)
+          correctCaretPosition(event.target, maskParamsRef, props)
         if (!event.target.__getCorrectCaretPosition) {
           event.target.runCorrectCaretPosition()
         }

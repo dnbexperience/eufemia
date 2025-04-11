@@ -683,27 +683,35 @@ function CombineMessages({
   )
 }
 
+function getMessage(error: FormError | Error) {
+  if (error instanceof FormError) {
+    return error.formattedMessage ?? error.message
+  }
+
+  return error.message
+}
+
 export function getMessagesFromError(
   item: Partial<StateWithMessage>
 ): Array<StateMessage> {
   const { content } = item
 
   if (content instanceof FormError && Array.isArray(content.errors)) {
-    return content.errors.map((error) => {
-      return error.message
+    return content.errors.map((content) => {
+      return getMessage(content)
     })
   }
 
   if (Array.isArray(content)) {
     return content.map((content) => {
       return content instanceof FormError || content instanceof Error
-        ? content.message
+        ? getMessage(content)
         : content
     })
   }
 
   if (content instanceof FormError || content instanceof Error) {
-    return [content.message as StateMessage]
+    return [getMessage(content)]
   }
 
   return [

@@ -187,9 +187,11 @@ export const correctNumberValue = ({
  * @param {Element} element Input Element
  * @param {Object} maskParams Mask parameters, containing eventually suffix or prefix
  */
-export const correctCaretPosition = (element, maskParams, props) => {
+export const correctCaretPosition = (element, maskParamsRef, props) => {
   const correction = () => {
     try {
+      const maskParams = maskParamsRef?.current
+
       const suffix = maskParams?.suffix
       const prefix = maskParams?.prefix
 

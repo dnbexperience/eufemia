@@ -363,105 +363,234 @@ describe('Field.PhoneNumber', () => {
     expect(europe).toHaveLength(52)
   })
 
-  it('should return correct value onChange event', async () => {
-    const onChange = jest.fn()
-    const onCountryCodeChange = jest.fn()
+  describe('onCountryCodeChange', () => {
+    it('should return correct value', async () => {
+      const onCountryCodeChange = jest.fn()
 
-    render(
-      <Field.PhoneNumber
-        onChange={onChange}
-        onCountryCodeChange={onCountryCodeChange}
-        noAnimation
-      />
-    )
+      render(
+        <Field.PhoneNumber
+          onCountryCodeChange={onCountryCodeChange}
+          noAnimation
+        />
+      )
 
-    const phoneElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-phone-number__number input'
-    )
-    const codeElement: HTMLInputElement = document.querySelector(
-      '.dnb-forms-field-phone-number__country-code input'
-    )
-    const firstItemElement = () =>
-      document.querySelectorAll('li.dnb-drawer-list__option')[0]
+      const codeElement = document.querySelector(
+        '.dnb-forms-field-phone-number__country-code input'
+      )
 
-    await userEvent.type(phoneElement, '99999999')
+      await userEvent.clear(codeElement)
+      await userEvent.type(codeElement, 'Sverige')
+      fireEvent.click(
+        document.querySelectorAll('li.dnb-drawer-list__option')[0]
+      )
 
-    expect(onChange).toHaveBeenLastCalledWith(
-      '+47 99999999',
-      expect.objectContaining({
-        countryCode: '+47',
-        phoneNumber: '99999999',
+      await waitFor(() => {
+        expect(onCountryCodeChange).toHaveBeenCalledTimes(1)
+        expect(onCountryCodeChange).toHaveBeenLastCalledWith('+46')
       })
-    )
-    expect(codeElement.value).toEqual('NO (+47)')
-    expect(phoneElement.value).toEqual('99 99 99 99')
-
-    // open
-    fireEvent.focus(codeElement)
-    fireEvent.keyDown(codeElement, {
-      key: 'Enter',
-      keyCode: 13,
     })
-
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--selected')
-        .textContent
-    ).toBe('+47 Norge')
-
-    await userEvent.type(codeElement, '{Backspace}')
-
-    expect(firstItemElement().textContent).toBe('+47 Norge')
-    expect(codeElement.value).toEqual('NO (+47')
-    expect(phoneElement.value).toEqual('99 99 99 99')
-
-    fireEvent.change(codeElement, { target: { value: '+41' } })
-    fireEvent.click(firstItemElement())
-
-    await wait(1)
-
-    expect(onCountryCodeChange).toHaveBeenCalledTimes(1)
-    expect(onCountryCodeChange).toHaveBeenLastCalledWith('+41')
-    expect(onChange).toHaveBeenLastCalledWith(
-      '+41 99999999',
-      expect.objectContaining({
-        countryCode: '+41',
-        phoneNumber: '99999999',
-      })
-    )
-    expect(codeElement.value).toEqual('CH (+41)')
-    expect(phoneElement.value).toEqual('99999999​​​​')
-
-    await userEvent.type(phoneElement, '{Backspace>12}')
-
-    expect(onChange).toHaveBeenLastCalledWith(
-      undefined,
-      expect.objectContaining({
-        countryCode: '+41',
-        phoneNumber: undefined,
-      })
-    )
   })
 
-  it('should return correct value onChange event in data context', async () => {
-    const onChange = jest.fn()
+  describe('onChange', () => {
+    it('should return correct value onChange event', async () => {
+      const onChange = jest.fn()
 
-    render(
-      <Form.Handler onChange={onChange}>
-        <Field.PhoneNumber path="/phone" />
-      </Form.Handler>
-    )
+      render(<Field.PhoneNumber onChange={onChange} noAnimation />)
 
-    const phoneElement = document.querySelector(
-      '.dnb-forms-field-phone-number__number .dnb-input__input'
-    )
+      const phoneElement: HTMLInputElement = document.querySelector(
+        '.dnb-forms-field-phone-number__number input'
+      )
+      const codeElement: HTMLInputElement = document.querySelector(
+        '.dnb-forms-field-phone-number__country-code input'
+      )
+      const firstItemElement = () =>
+        document.querySelectorAll('li.dnb-drawer-list__option')[0]
 
-    await userEvent.type(phoneElement, '9999')
+      await userEvent.type(phoneElement, '99999999')
 
-    expect(onChange).toHaveBeenCalledTimes(4)
-    expect(onChange).toHaveBeenLastCalledWith(
-      { phone: '+47 9999' },
-      expect.anything()
-    )
+      expect(onChange).toHaveBeenLastCalledWith(
+        '+47 99999999',
+        expect.objectContaining({
+          countryCode: '+47',
+          phoneNumber: '99999999',
+        })
+      )
+      expect(codeElement.value).toEqual('NO (+47)')
+      expect(phoneElement.value).toEqual('99 99 99 99')
+
+      // open
+      fireEvent.focus(codeElement)
+      fireEvent.keyDown(codeElement, {
+        key: 'Enter',
+        keyCode: 13,
+      })
+
+      expect(
+        document.querySelector('li.dnb-drawer-list__option--selected')
+          .textContent
+      ).toBe('+47 Norge')
+
+      await userEvent.type(codeElement, '{Backspace}')
+
+      expect(firstItemElement().textContent).toBe('+47 Norge')
+      expect(codeElement.value).toEqual('NO (+47')
+      expect(phoneElement.value).toEqual('99 99 99 99')
+
+      fireEvent.change(codeElement, { target: { value: '+41' } })
+      fireEvent.click(firstItemElement())
+
+      await wait(1)
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        '+41 99999999',
+        expect.objectContaining({
+          countryCode: '+41',
+          phoneNumber: '99999999',
+        })
+      )
+      expect(codeElement.value).toEqual('CH (+41)')
+      expect(phoneElement.value).toEqual('99999999​​​​')
+
+      await userEvent.type(phoneElement, '{Backspace>12}')
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        undefined,
+        expect.objectContaining({
+          countryCode: '+41',
+          phoneNumber: undefined,
+        })
+      )
+    })
+
+    it('should return correct value onChange event in data context', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <Form.Handler onChange={onChange}>
+          <Field.PhoneNumber path="/phone" />
+        </Form.Handler>
+      )
+
+      const phoneElement = document.querySelector(
+        '.dnb-forms-field-phone-number__number .dnb-input__input'
+      )
+
+      await userEvent.type(phoneElement, '9999')
+
+      expect(onChange).toHaveBeenCalledTimes(4)
+      expect(onChange).toHaveBeenLastCalledWith(
+        { phone: '+47 9999' },
+        expect.anything()
+      )
+    })
+
+    it('should return phoneNumber in additional args', async () => {
+      const onChange = jest.fn()
+
+      render(<Field.PhoneNumber onChange={onChange} noAnimation />)
+
+      const phoneElement = document.querySelector(
+        '.dnb-forms-field-phone-number__number input'
+      )
+      await userEvent.type(phoneElement, '123')
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalledTimes(3)
+      })
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        '+47 123',
+        expect.objectContaining({
+          phoneNumber: '123',
+        })
+      )
+    })
+
+    it('should return countryCode in additional args', async () => {
+      const onChange = jest.fn()
+
+      render(<Field.PhoneNumber onChange={onChange} noAnimation />)
+
+      const phoneElement = document.querySelector(
+        '.dnb-forms-field-phone-number__number input'
+      )
+      await userEvent.type(phoneElement, '123')
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalledTimes(3)
+      })
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        '+47 123',
+        expect.objectContaining({
+          countryCode: '+47',
+        })
+      )
+
+      const codeElement = document.querySelector(
+        '.dnb-forms-field-phone-number__country-code input'
+      )
+
+      await userEvent.clear(codeElement)
+      await userEvent.type(codeElement, 'Sverige')
+      fireEvent.click(
+        document.querySelectorAll('li.dnb-drawer-list__option')[0]
+      )
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalledTimes(4)
+      })
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        '+46 123',
+        expect.objectContaining({
+          countryCode: '+46',
+        })
+      )
+    })
+
+    it('should return iso in additional args', async () => {
+      const onChange = jest.fn()
+
+      render(<Field.PhoneNumber onChange={onChange} noAnimation />)
+
+      const phoneElement = document.querySelector(
+        '.dnb-forms-field-phone-number__number input'
+      )
+      await userEvent.type(phoneElement, '123')
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalledTimes(3)
+      })
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        '+47 123',
+        expect.objectContaining({
+          iso: 'NO',
+        })
+      )
+
+      const codeElement = document.querySelector(
+        '.dnb-forms-field-phone-number__country-code input'
+      )
+
+      await userEvent.clear(codeElement)
+      await userEvent.type(codeElement, 'Sverige')
+      fireEvent.click(
+        document.querySelectorAll('li.dnb-drawer-list__option')[0]
+      )
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalledTimes(4)
+      })
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        '+46 123',
+        expect.objectContaining({
+          iso: 'SE',
+        })
+      )
+    })
   })
 
   it('should handle events correctly with initial value', async () => {

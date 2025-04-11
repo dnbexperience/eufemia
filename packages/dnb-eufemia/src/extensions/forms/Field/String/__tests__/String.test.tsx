@@ -11,6 +11,7 @@ import userEvent from '@testing-library/user-event'
 import SharedProvider from '../../../../../shared/Provider'
 import DataContext from '../../../DataContext/Context'
 import Provider from '../../../DataContext/Provider'
+import { GlobalStatus } from '../../../../../components'
 import {
   Field,
   FieldBlock,
@@ -974,36 +975,155 @@ describe('Field.String', () => {
       })
     })
 
-    describe('validation using a synchronous external onChangeValidator function', () => {
-      it('should show error returned by onChangeValidator', async () => {
-        const onChangeValidator: Validator<string> = jest.fn(
-          syncValidatorReturningError
-        )
-        render(
-          <Field.String
-            value="abc"
-            onChangeValidator={onChangeValidator}
-            validateInitially
-          />
-        )
-        await waitFor(() => {
-          // Wait for since external validators are processed asynchronously
-          expect(onChangeValidator).toHaveBeenCalledTimes(1)
-          expect(onChangeValidator).toHaveBeenNthCalledWith(
-            1,
-            'abc',
-            expect.anything()
+    describe('onChangeValidator', () => {
+      it('should render error message given as JSX', async () => {
+        const onChangeValidator: Validator<string> = jest.fn(() => {
+          return (
+            <>
+              A <strong>formatted</strong> error message
+            </>
           )
-          expect(
-            screen.getByText('I think this is wrong')
-          ).toBeInTheDocument()
         })
 
+        render(<Field.String onChangeValidator={onChangeValidator} />)
+
         const input = document.querySelector('input')
-        await userEvent.type(input, 'def')
+        await userEvent.type(input, 'foo')
         fireEvent.blur(input)
 
+        expect(
+          document.querySelector('.dnb-form-status__text').innerHTML
+        ).toBe('A <strong>formatted</strong> error message')
+        expect(
+          document.querySelector('.dnb-form-status').textContent
+        ).toBe('A formatted error message')
+      })
+
+      it('should render error message given as JSX when async', async () => {
+        const onChangeValidator: Validator<string> = jest.fn(async () => {
+          return (
+            <>
+              A <strong>formatted</strong> error message
+            </>
+          )
+        })
+
+        render(<Field.String onChangeValidator={onChangeValidator} />)
+
+        const input = document.querySelector('input')
+        await userEvent.type(input, 'foo')
+
         await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status__text').innerHTML
+          ).toBe('A <strong>formatted</strong> error message')
+          expect(
+            document.querySelector('.dnb-form-status').textContent
+          ).toBe('A formatted error message')
+        })
+      })
+
+      describe('validation using a synchronous external onChangeValidator function', () => {
+        it('should show error returned by onChangeValidator', async () => {
+          const onChangeValidator: Validator<string> = jest.fn(
+            syncValidatorReturningError
+          )
+          render(
+            <Field.String
+              value="abc"
+              onChangeValidator={onChangeValidator}
+              validateInitially
+            />
+          )
+          await waitFor(() => {
+            // Wait for since external validators are processed asynchronously
+            expect(onChangeValidator).toHaveBeenCalledTimes(1)
+            expect(onChangeValidator).toHaveBeenNthCalledWith(
+              1,
+              'abc',
+              expect.anything()
+            )
+            expect(
+              screen.getByText('I think this is wrong')
+            ).toBeInTheDocument()
+          })
+
+          const input = document.querySelector('input')
+          await userEvent.type(input, 'def')
+          fireEvent.blur(input)
+
+          await waitFor(() => {
+            expect(onChangeValidator).toHaveBeenCalledTimes(4)
+            expect(onChangeValidator).toHaveBeenNthCalledWith(
+              2,
+              'abcd',
+              expect.anything()
+            )
+            expect(onChangeValidator).toHaveBeenNthCalledWith(
+              3,
+              'abcde',
+              expect.anything()
+            )
+            expect(onChangeValidator).toHaveBeenNthCalledWith(
+              4,
+              'abcdef',
+              expect.anything()
+            )
+            expect(
+              screen.getByText('I think this is wrong')
+            ).toBeInTheDocument()
+          })
+        })
+
+        it('should not show error when onChangeValidator returns undefined', async () => {
+          const onChangeValidator: Validator<string> = jest.fn(
+            syncValidatorReturningUndefined
+          )
+          render(
+            <Field.String
+              value="abc"
+              onChangeValidator={onChangeValidator}
+              validateInitially
+            />
+          )
+          await expect(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+          }).toNeverResolve()
+        })
+      })
+
+      describe('validation using an asynchronous external onChangeValidator function', () => {
+        it('should show error returned by onChangeValidator', async () => {
+          const onChangeValidator: Validator<string> = jest.fn(
+            asyncValidatorResolvingWithError
+          )
+          render(
+            <Field.String
+              value="abc"
+              onChangeValidator={onChangeValidator}
+              validateInitially
+            />
+          )
+          await waitFor(() => {
+            // Wait for since external validators are processed asynchronously
+            expect(onChangeValidator).toHaveBeenCalledTimes(1)
+            expect(onChangeValidator).toHaveBeenNthCalledWith(
+              1,
+              'abc',
+              expect.anything()
+            )
+            expect(
+              screen.getByText('Whats left when nothing is right?')
+            ).toBeInTheDocument()
+          })
+
+          const input = document.querySelector('input')
+          await userEvent.type(input, 'def')
+
+          act(() => {
+            fireEvent.blur(input)
+          })
+
           expect(onChangeValidator).toHaveBeenCalledTimes(4)
           expect(onChangeValidator).toHaveBeenNthCalledWith(
             2,
@@ -1021,220 +1141,200 @@ describe('Field.String', () => {
             expect.anything()
           )
           expect(
-            screen.getByText('I think this is wrong')
-          ).toBeInTheDocument()
-        })
-      })
-
-      it('should not show error when onChangeValidator returns undefined', async () => {
-        const onChangeValidator: Validator<string> = jest.fn(
-          syncValidatorReturningUndefined
-        )
-        render(
-          <Field.String
-            value="abc"
-            onChangeValidator={onChangeValidator}
-            validateInitially
-          />
-        )
-        await expect(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-        }).toNeverResolve()
-      })
-    })
-
-    describe('validation using an asynchronous external onChangeValidator function', () => {
-      it('should show error returned by onChangeValidator', async () => {
-        const onChangeValidator: Validator<string> = jest.fn(
-          asyncValidatorResolvingWithError
-        )
-        render(
-          <Field.String
-            value="abc"
-            onChangeValidator={onChangeValidator}
-            validateInitially
-          />
-        )
-        await waitFor(() => {
-          // Wait for since external validators are processed asynchronously
-          expect(onChangeValidator).toHaveBeenCalledTimes(1)
-          expect(onChangeValidator).toHaveBeenNthCalledWith(
-            1,
-            'abc',
-            expect.anything()
-          )
-          expect(
             screen.getByText('Whats left when nothing is right?')
           ).toBeInTheDocument()
         })
 
-        const input = document.querySelector('input')
-        await userEvent.type(input, 'def')
+        it('should not show error when onChangeValidator returns undefined', async () => {
+          const onChangeValidator: Validator<string> = jest.fn(
+            asyncValidatorResolvingWithUndefined
+          )
+          render(
+            <Field.String
+              value="foo"
+              onChangeValidator={onChangeValidator}
+              validateInitially
+            />
+          )
 
-        act(() => {
-          fireEvent.blur(input)
+          await expect(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+          }).toNeverResolve()
+        })
+      })
+    })
+
+    describe('onBlurValidator', () => {
+      it('should render error message given as JSX', async () => {
+        const onBlurValidator: Validator<string> = jest.fn(() => {
+          return (
+            <>
+              A <strong>formatted</strong> error message
+            </>
+          )
         })
 
-        expect(onChangeValidator).toHaveBeenCalledTimes(4)
-        expect(onChangeValidator).toHaveBeenNthCalledWith(
-          2,
-          'abcd',
-          expect.anything()
-        )
-        expect(onChangeValidator).toHaveBeenNthCalledWith(
-          3,
-          'abcde',
-          expect.anything()
-        )
-        expect(onChangeValidator).toHaveBeenNthCalledWith(
-          4,
-          'abcdef',
-          expect.anything()
-        )
+        render(<Field.String onBlurValidator={onBlurValidator} />)
+
+        const input = document.querySelector('input')
+        await userEvent.type(input, 'foo')
+        fireEvent.blur(input)
+
         expect(
-          screen.getByText('Whats left when nothing is right?')
-        ).toBeInTheDocument()
+          document.querySelector('.dnb-form-status__text').innerHTML
+        ).toBe('A <strong>formatted</strong> error message')
+        expect(
+          document.querySelector('.dnb-form-status').textContent
+        ).toBe('A formatted error message')
       })
 
-      it('should not show error when onChangeValidator returns undefined', async () => {
-        const onChangeValidator: Validator<string> = jest.fn(
-          asyncValidatorResolvingWithUndefined
-        )
-        render(
-          <Field.String
-            value="foo"
-            onChangeValidator={onChangeValidator}
-            validateInitially
-          />
-        )
-
-        await expect(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-        }).toNeverResolve()
-      })
-    })
-
-    describe('validation using a synchronous external onBlurValidator function', () => {
-      it('should show error returned by onBlurValidator', async () => {
-        const onBlurValidator: Validator<string> = jest.fn(
-          syncValidatorReturningError
-        )
-        render(
-          <Field.String
-            value="abc"
-            onBlurValidator={onBlurValidator}
-            validateInitially
-          />
-        )
-
-        await waitFor(() => {
-          // Wait for since external validators are processed asynchronously
-          expect(onBlurValidator).toHaveBeenCalledTimes(1)
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
+      it('should render error message given as JSX when async', async () => {
+        const onBlurValidator: Validator<string> = jest.fn(async () => {
+          return (
+            <>
+              A <strong>formatted</strong> error message
+            </>
+          )
         })
+
+        render(<Field.String onBlurValidator={onBlurValidator} />)
+
         const input = document.querySelector('input')
-        await userEvent.type(input, 'def')
+        await userEvent.type(input, 'foo')
         fireEvent.blur(input)
 
         await waitFor(() => {
-          // Wait for since external validators are processed asynchronously
-          expect(onBlurValidator).toHaveBeenCalledTimes(2)
-          expect(onBlurValidator).toHaveBeenNthCalledWith(
-            1,
-            'abc',
-            expect.anything()
-          )
-          expect(onBlurValidator).toHaveBeenNthCalledWith(
-            2,
-            'abcdef',
-            expect.anything()
-          )
-
           expect(
-            screen.getByText('I think this is wrong')
-          ).toBeInTheDocument()
-        })
-      })
-
-      it('should not show error when onBlurValidator returns undefined', async () => {
-        const onBlurValidator: Validator<string> = jest.fn(
-          syncValidatorReturningUndefined
-        )
-        render(
-          <Field.String
-            value="abc"
-            onBlurValidator={onBlurValidator}
-            validateInitially
-          />
-        )
-        const input = document.querySelector('input')
-        await userEvent.type(input, 'd')
-        fireEvent.blur(input)
-        await expect(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-        }).toNeverResolve()
-      })
-    })
-
-    describe('validation using an asynchronous external onBlurValidator function', () => {
-      it('should show error returned by onBlurValidator', async () => {
-        const onBlurValidator: Validator<string> = jest.fn(
-          asyncValidatorResolvingWithError
-        )
-        render(
-          <Field.String
-            value="abc"
-            onBlurValidator={onBlurValidator}
-            validateInitially
-          />
-        )
-
-        await waitFor(() => {
-          // Wait for since external validators are processed asynchronously
-          expect(onBlurValidator).toHaveBeenCalledTimes(1)
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-        })
-        const input = document.querySelector('input')
-        await userEvent.type(input, 'def')
-        fireEvent.blur(input)
-
-        await waitFor(() => {
-          // Wait for since external validators are processed asynchronously
-          expect(onBlurValidator).toHaveBeenCalledTimes(2)
-          expect(onBlurValidator).toHaveBeenNthCalledWith(
-            1,
-            'abc',
-            expect.anything()
-          )
-          expect(onBlurValidator).toHaveBeenNthCalledWith(
-            2,
-            'abcdef',
-            expect.anything()
-          )
-
+            document.querySelector('.dnb-form-status__text').innerHTML
+          ).toBe('A <strong>formatted</strong> error message')
           expect(
-            screen.getByText('Whats left when nothing is right?')
-          ).toBeInTheDocument()
+            document.querySelector('.dnb-form-status').textContent
+          ).toBe('A formatted error message')
         })
       })
 
-      it('should not show error when onBlurValidator returns undefined', async () => {
-        const onBlurValidator: Validator<string> = jest.fn(
-          asyncValidatorResolvingWithUndefined
-        )
-        render(
-          <Field.String
-            value="abc"
-            onBlurValidator={onBlurValidator}
-            validateInitially
-          />
-        )
-        const input = document.querySelector('input')
-        await userEvent.type(input, 'd')
-        fireEvent.blur(input)
-        await expect(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-        }).toNeverResolve()
+      describe('validation using a synchronous external onBlurValidator function', () => {
+        it('should show error returned by onBlurValidator', async () => {
+          const onBlurValidator: Validator<string> = jest.fn(
+            syncValidatorReturningError
+          )
+          render(
+            <Field.String
+              value="abc"
+              onBlurValidator={onBlurValidator}
+              validateInitially
+            />
+          )
+
+          await waitFor(() => {
+            // Wait for since external validators are processed asynchronously
+            expect(onBlurValidator).toHaveBeenCalledTimes(1)
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+          })
+          const input = document.querySelector('input')
+          await userEvent.type(input, 'def')
+          fireEvent.blur(input)
+
+          await waitFor(() => {
+            // Wait for since external validators are processed asynchronously
+            expect(onBlurValidator).toHaveBeenCalledTimes(2)
+            expect(onBlurValidator).toHaveBeenNthCalledWith(
+              1,
+              'abc',
+              expect.anything()
+            )
+            expect(onBlurValidator).toHaveBeenNthCalledWith(
+              2,
+              'abcdef',
+              expect.anything()
+            )
+
+            expect(
+              screen.getByText('I think this is wrong')
+            ).toBeInTheDocument()
+          })
+        })
+
+        it('should not show error when onBlurValidator returns undefined', async () => {
+          const onBlurValidator: Validator<string> = jest.fn(
+            syncValidatorReturningUndefined
+          )
+          render(
+            <Field.String
+              value="abc"
+              onBlurValidator={onBlurValidator}
+              validateInitially
+            />
+          )
+          const input = document.querySelector('input')
+          await userEvent.type(input, 'd')
+          fireEvent.blur(input)
+          await expect(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+          }).toNeverResolve()
+        })
+      })
+
+      describe('validation using an asynchronous external onBlurValidator function', () => {
+        it('should show error returned by onBlurValidator', async () => {
+          const onBlurValidator: Validator<string> = jest.fn(
+            asyncValidatorResolvingWithError
+          )
+          render(
+            <Field.String
+              value="abc"
+              onBlurValidator={onBlurValidator}
+              validateInitially
+            />
+          )
+
+          await waitFor(() => {
+            // Wait for since external validators are processed asynchronously
+            expect(onBlurValidator).toHaveBeenCalledTimes(1)
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+          })
+          const input = document.querySelector('input')
+          await userEvent.type(input, 'def')
+          fireEvent.blur(input)
+
+          await waitFor(() => {
+            // Wait for since external validators are processed asynchronously
+            expect(onBlurValidator).toHaveBeenCalledTimes(2)
+            expect(onBlurValidator).toHaveBeenNthCalledWith(
+              1,
+              'abc',
+              expect.anything()
+            )
+            expect(onBlurValidator).toHaveBeenNthCalledWith(
+              2,
+              'abcdef',
+              expect.anything()
+            )
+
+            expect(
+              screen.getByText('Whats left when nothing is right?')
+            ).toBeInTheDocument()
+          })
+        })
+
+        it('should not show error when onBlurValidator returns undefined', async () => {
+          const onBlurValidator: Validator<string> = jest.fn(
+            asyncValidatorResolvingWithUndefined
+          )
+          render(
+            <Field.String
+              value="abc"
+              onBlurValidator={onBlurValidator}
+              validateInitially
+            />
+          )
+          const input = document.querySelector('input')
+          await userEvent.type(input, 'd')
+          fireEvent.blur(input)
+          await expect(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+          }).toNeverResolve()
+        })
       })
     })
 
@@ -1266,6 +1366,27 @@ describe('Field.String', () => {
         expect(
           document.querySelector('.dnb-form-status').textContent
         ).toBe('Your custom error message')
+      })
+
+      it('should render error message given as JSX', () => {
+        render(
+          <Field.String
+            error={new FormError('MyCustom.message')}
+            errorMessages={{
+              'MyCustom.message': (
+                <>
+                  A <strong>formatted</strong> error message
+                </>
+              ),
+            }}
+          />
+        )
+        expect(
+          document.querySelector('.dnb-form-status__text').innerHTML
+        ).toBe('A <strong>formatted</strong> error message')
+        expect(
+          document.querySelector('.dnb-form-status').textContent
+        ).toBe('A formatted error message')
       })
 
       /**
@@ -1804,6 +1925,115 @@ describe('Field.String', () => {
         nb.Field.errorSummary + firstError + secondError
       )
     })
+
+    it('should render error message given as JSX', () => {
+      render(
+        <Field.String
+          error={
+            <>
+              A <strong>formatted</strong> error message
+            </>
+          }
+        />
+      )
+      expect(
+        document.querySelector('.dnb-form-status__text').innerHTML
+      ).toBe('A <strong>formatted</strong> error message')
+      expect(document.querySelector('.dnb-form-status').textContent).toBe(
+        'A formatted error message'
+      )
+    })
+
+    it('should render error message given as JSX in an array', () => {
+      render(
+        <Field.String
+          error={[
+            <>
+              First <strong>formatted</strong> error message
+            </>,
+            <>
+              Second <strong>formatted</strong> error message
+            </>,
+          ]}
+        />
+      )
+      expect(
+        document.querySelector('.dnb-form-status__text').innerHTML
+      ).toBe(
+        nb.Field.errorSummary +
+          '<ul class="dnb-ul"><li class="dnb-li">First <strong>formatted</strong> error message</li><li class="dnb-li">Second <strong>formatted</strong> error message</li></ul>'
+      )
+    })
+
+    it('should render error message given as in multiple ways', () => {
+      render(
+        <Field.String
+          error={[
+            'First error message',
+            <>
+              Second <strong>formatted</strong> error message.
+            </>,
+            new Error('Third error message'),
+            new FormError('fourth.message'),
+            new FormError('fifth.message'),
+          ]}
+          errorMessages={{
+            'fourth.message': 'Fourth error message',
+            'fifth.message': (
+              <>
+                Fifth <strong>formatted</strong> error message.
+              </>
+            ),
+          }}
+        />
+      )
+      expect(
+        document.querySelector('.dnb-form-status__text').innerHTML
+      ).toBe(
+        nb.Field.errorSummary +
+          '<ul class="dnb-ul"><li class="dnb-li">First error message</li><li class="dnb-li">Second <strong>formatted</strong> error message.</li><li class="dnb-li">Third error message</li><li class="dnb-li">Fourth error message</li><li class="dnb-li">Fifth <strong>formatted</strong> error message.</li></ul>'
+      )
+    })
+
+    it('should prevent form submit with error message given as JSX', () => {
+      const onSubmit = jest.fn()
+
+      const { rerender } = render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Field.String
+            path="/myValue"
+            error={
+              <>
+                A <strong>formatted</strong> error message
+              </>
+            }
+          />
+        </Form.Handler>
+      )
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(onSubmit).not.toHaveBeenCalled()
+      expect(
+        document.querySelector('.dnb-form-status__text').innerHTML
+      ).toBe('A <strong>formatted</strong> error message')
+      expect(document.querySelector('.dnb-form-status').textContent).toBe(
+        'A formatted error message'
+      )
+
+      rerender(
+        <Form.Handler onSubmit={onSubmit}>
+          <Field.String path="/myValue" error={undefined} />
+        </Form.Handler>
+      )
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(
+        document.querySelector('.dnb-form-status__text')
+      ).not.toBeInTheDocument()
+    })
   })
 
   describe('useFieldProps and FieldBlock', () => {
@@ -2088,6 +2318,30 @@ describe('Field.String', () => {
       await userEvent.type(input, 'foo')
 
       expect(input).toHaveValue('Here are some digits: foo')
+    })
+  })
+
+  describe('GlobalStatus', () => {
+    it('should render error given as JSX in GlobalStatus', async () => {
+      jest.spyOn(window, 'scrollTo').mockImplementation()
+
+      render(
+        <>
+          <GlobalStatus />
+          <Field.String
+            error={
+              <>
+                A <strong>formatted</strong> error message
+              </>
+            }
+          />
+        </>
+      )
+
+      expect(
+        document.querySelector('.dnb-global-status__message__content p')
+          .innerHTML
+      ).toBe('A <strong>formatted</strong> error message')
     })
   })
 })

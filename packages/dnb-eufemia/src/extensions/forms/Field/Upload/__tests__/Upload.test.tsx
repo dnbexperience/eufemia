@@ -1672,6 +1672,39 @@ describe('Field.Upload', () => {
     })
   })
 
+  it('should support file item properties set in data context', () => {
+    const errorMessage = 'my error message'
+    const description = 'my description'
+    render(
+      <Form.Handler
+        data={{
+          myFiles: [
+            {
+              file: createMockFile('fileName-1.png', 100, 'image/png'),
+              errorMessage,
+              description,
+              removeDeleteButton: true,
+            },
+          ],
+        }}
+      >
+        <Field.Upload path="/myFiles" />
+      </Form.Handler>
+    )
+
+    const list = document.querySelector('ul')
+    expect(list).toHaveTextContent('fileName-1.png')
+
+    expect(
+      screen.queryByRole('button', {
+        name: nbShared.Upload.deleteButton,
+      })
+    ).not.toBeInTheDocument()
+
+    expect(screen.queryByText(description)).toBeInTheDocument()
+    expect(screen.queryByText(errorMessage)).toBeInTheDocument()
+  })
+
   describe('transformIn and transformOut', () => {
     type DocumentMetadata = {
       id: string

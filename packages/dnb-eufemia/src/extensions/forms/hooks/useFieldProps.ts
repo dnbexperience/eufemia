@@ -29,11 +29,16 @@ import {
   MessageTypes,
   MessagePropParams,
   UseFieldProps,
+  ErrorProp,
 } from '../types'
 import { Context as DataContext, ContextState } from '../DataContext'
 import { clearedData } from '../DataContext/Provider/Provider'
 import FieldProviderContext from '../Field/Provider/FieldProviderContext'
-import { combineDescribedBy, warn } from '../../../shared/component-helper'
+import {
+  combineDescribedBy,
+  convertJsxToString,
+  warn,
+} from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import useUpdateEffect from '../../../shared/helpers/useUpdateEffect'
 import FieldBlockContext, {
@@ -362,6 +367,38 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     [fieldInternalsRef]
   )
 
+  const errorMessageCacheRef = useRef<Map<string, ErrorProp<Value>>>(
+    new Map()
+  )
+  const ensureErrorMessageObject = useCallback(<T>(error: T): T => {
+    let key = null
+    let returnValue: T | ErrorProp<Value> = error
+
+    if (typeof error === 'string') {
+      key = error
+      returnValue = new Error(error)
+    } else if (error && React.isValidElement(error)) {
+      key = error.key || convertJsxToString(error)
+      returnValue = new FormError('Error', {
+        formattedMessage: error,
+      })
+    }
+
+    // - Cache jsx errors to avoid rendering/infinite loop
+    if (key) {
+      if (errorMessageCacheRef.current.has(key)) {
+        return errorMessageCacheRef.current.get(key) as T
+      } else {
+        errorMessageCacheRef.current.set(
+          key,
+          returnValue as ErrorProp<Value>
+        )
+      }
+    }
+
+    return returnValue as T
+  }, [])
+
   const messageCacheRef = useRef<{
     isSet: boolean
     message: MessageTypes<Value>
@@ -384,7 +421,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
               currentMode |= INITIALLY
             }
 
-            return callback()
+            return executeMessage(callback())
           },
           getValueByPath,
           getFieldByPath,
@@ -435,9 +472,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         }
       }
 
-      return message
+      return ensureErrorMessageObject(message)
     },
-    [getFieldByPath, getValueByPath]
+    [getFieldByPath, getValueByPath, ensureErrorMessageObject]
   )
 
   const errorProp =
@@ -480,7 +517,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const asyncBehaviorIsEnabled = useMemo(() => {
     return isAsync(onChange) || isAsync(onChangeContext)
   }, [onChangeContext, onChange])
-  const validatedValue = useRef<Value>()
+  const validatedValueRef = useRef<Value>()
   const changeEventResultRef = useRef<EventStateObjectWithSuccess>(null)
   const asyncProcessRef = useRef<AsyncProcesses>(null)
   const defineAsyncProcess = useCallback((name: AsyncProcesses) => {
@@ -653,8 +690,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
    */
   const prepareError = useCallback(
     (error: FieldPropsGeneric<Value>['error']): FormError | undefined => {
-      if (error instanceof FormError) {
-        const prepare = (error: FormError) => {
+      const prepare = (error: FormError) => {
+        if (error instanceof FormError) {
           let message = error.message
 
           const { ajvKeyword } = error
@@ -691,22 +728,33 @@ export default function useFieldProps<Value, EmptyValue, Props>(
             message = formatMessage(message, error.messageValues)
           }
 
-          error.message = message
-
-          return error
+          if (React.isValidElement(message)) {
+            error.formattedMessage = message
+          } else {
+            error.message = message
+          }
         }
 
+        return ensureErrorMessageObject(error)
+      }
+
+      if (Array.isArray(error)) {
+        return new FormError('Error', {
+          errors: error.map(prepare),
+        })
+      }
+
+      if (error instanceof FormError) {
         if (Array.isArray(error.errors)) {
           error.errors = error.errors.map(prepare)
           return error
         }
-
         return prepare(error)
       }
 
       return error as FormError
     },
-    [combinedErrorMessages, formatMessage]
+    [combinedErrorMessages, ensureErrorMessageObject, formatMessage]
   )
 
   contextErrorRef.current = useMemo(() => {
@@ -848,10 +896,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
         callStackRef.current = []
       } else {
-        return result
+        return ensureErrorMessageObject(result)
       }
     },
-    [additionalArgs, hasBeenCalledRef]
+    [additionalArgs, hasBeenCalledRef, ensureErrorMessageObject]
   )
 
   const callValidatorFnSync = useCallback(
@@ -899,10 +947,15 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
         callStackRef.current = []
       } else {
-        return result
+        return ensureErrorMessageObject(result)
       }
     },
-    [additionalArgs, callValidatorFnAsync, hasBeenCalledRef]
+    [
+      additionalArgs,
+      callValidatorFnAsync,
+      hasBeenCalledRef,
+      ensureErrorMessageObject,
+    ]
   )
 
   /**
@@ -1279,7 +1332,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
     const value = valueRef.current
     changeEventResultRef.current = null
-    validatedValue.current = null
+    validatedValueRef.current = null
     let initiator: ErrorInitiator = null
 
     try {
@@ -1346,7 +1399,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         clearErrorState()
       }
 
-      validatedValue.current = value
+      validatedValueRef.current = value
     } catch (error) {
       if (isProcessActive()) {
         persistErrorState('weak', initiator, error)
@@ -1509,7 +1562,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
             ({ processName, withStates, hasValue }) => {
               const hasMatchingValue =
                 // If the value has changed during the async process, we don't want to resolve anymore
-                hasValue === validatedValue.current
+                hasValue === validatedValueRef.current
 
               const result =
                 (typeof hasValue === 'undefined'

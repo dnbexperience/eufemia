@@ -652,17 +652,53 @@ render(<Field.PhoneNumber onChangeValidator={onChangeValidator} />)
 
 #### error
 
-The `error` property is a controlled error message that is always displayed by default. However, you can provide a function to conditionally change this behavior based on specific requirements.
+The `error` property is a controlled error message that is always displayed by default.
 
-Using this `conditional` function, the error message will only be shown after the user interacts with the field — for instance, after they change its value and move focus away (blur). This allows you to display error messages dynamically, ensuring they appear only when the field's value is invalid and the user has engaged with it.
+```tsx
+render(<Field.String error={new Error('Invalid value')} />)
+```
+
+You can also provide the error message as a string:
+
+```tsx
+render(<Field.String error="Invalid value" />)
+```
+
+Or as a React.Element:
 
 ```tsx
 render(
-  <Field.Number
-    error={(value, { conditionally }) => {
-      if (value === 123) {
-        return conditionally(() => new Error('Invalid value'))
-      }
+  <Field.String
+    error={
+      <>
+        A <strong>formatted</strong> error message.
+      </>
+    }
+  />,
+)
+```
+
+As well as an array with multiple error messages:
+
+```tsx
+render(
+  <Field.String
+    error={[
+      'First error message',
+      <>
+        Second <strong>formatted</strong> error message.
+      </>,
+      new Error('Third error message'),
+      new FormError('fourth.message'),
+      new FormError('fifth.message'),
+    ]}
+    errorMessages={{
+      'fourth.message': 'Fourth error message',
+      'fifth.message': (
+        <>
+          Fifth <strong>formatted</strong> error message.
+        </>
+      ),
     }}
   />,
 )
@@ -670,21 +706,21 @@ render(
 
 ### Conditionally display messages
 
-You can provide a function to the `info`, `warning` and `error` properties.
+You can provide a function to the `info`, `warning` and `error` properties to conditionally change this behavior based on specific requirements.
+
+Using this `conditional` function, the error message will only be shown after the user interacts with the field — for instance, after they change its value and move focus away (blur). This allows you to display error messages dynamically, ensuring they appear only when the field's value is invalid and the user has engaged with it.
 
 ```tsx
 render(
   <Field.Number
     info={(value, { conditionally }) => {
       if (value === 123) {
-        return conditionally(() => <>Invalid value</>)
+        return conditionally(() => new Error('Invalid value'))
       }
     }}
   />,
 )
 ```
-
-**NB:** When using `error` and returning a React.Node, the error message will be shown, but it will not trigger the error state of the form. So the form can be submitted, even if the field looks invalid.
 
 More info about it in the [Field.Number](/uilib/extensions/forms/base-fields/Number/) component.
 

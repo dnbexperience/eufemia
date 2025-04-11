@@ -9,6 +9,7 @@ import { Autocomplete, Flex } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
 import classnames from 'classnames'
 import countries, {
+  CountryISO,
   type CountryLang,
   type CountryType,
 } from '../../constants/countries'
@@ -29,12 +30,14 @@ import {
 import useTranslation from '../../hooks/useTranslation'
 import { DrawerListDataArrayItem } from '../../../../fragments/DrawerList'
 
+export type AdditionalArgs = {
+  phoneNumber: string
+  countryCode: string
+  iso: string
+}
+
 export type Props = Omit<
-  FieldPropsWithExtraValue<
-    string,
-    { country: string; phone: string },
-    undefined | string
-  >,
+  FieldPropsWithExtraValue<string, AdditionalArgs, undefined | string>,
   'layout' | 'layoutOptions'
 > & {
   countryCodeFieldClassName?: string
@@ -84,6 +87,11 @@ const defaultMask = [
   /\d/,
 ]
 
+type EventValues = {
+  countryCode?: string
+  phoneNumber?: string
+}
+
 function PhoneNumber(props: Props) {
   const sharedContext = useContext(SharedContext)
   const {
@@ -94,10 +102,12 @@ function PhoneNumber(props: Props) {
   const lang = sharedContext.locale?.split('-')[0] as CountryLang
 
   const countryCodeRef = useRef<Props['value']>(props?.emptyValue)
+  const prevCountryCodeRef = useRef(countryCodeRef.current)
   const numberRef = useRef<Props['value']>(props?.emptyValue)
   const dataRef = useRef<Array<DrawerListDataArrayItem>>(null)
   const langRef = useRef<string>(lang)
   const wasFilled = useRef<boolean>(false)
+  const currentCountryRef = useRef<CountryType>()
 
   const errorMessages = useMemo(
     () => ({
@@ -245,35 +255,48 @@ function PhoneNumber(props: Props) {
     })
   }, [lang, filter, ccFilter])
 
-  const getEventValues = useCallback(
+  const prepareEventValues = useCallback(
     ({
       countryCode = countryCodeRef.current || emptyValue,
       phoneNumber = numberRef.current || emptyValue,
-    } = {}) => {
+    }: EventValues = {}) => {
+      if (!currentCountryRef.current) {
+        type Item = DrawerListDataArrayItem & { country: CountryType }
+
+        const cdcVal = countryCode?.replace(/^\+/, '')
+        const item = dataRef.current.find((item: Item) => {
+          const cdc = item?.country?.cdc
+          return cdc === cdcVal
+        }) as Item
+
+        currentCountryRef.current = item?.country
+      }
+
       return {
         ...(!omitCountryCodeField ? { countryCode } : {}),
         phoneNumber,
+        iso: currentCountryRef.current?.iso as CountryISO,
       }
     },
-    [omitCountryCodeField, emptyValue]
+    [emptyValue, omitCountryCodeField]
   )
 
   const callOnChange = useCallback(
-    ({ countryCode = undefined, phoneNumber = undefined }) => {
-      const eventValues = getEventValues({ countryCode, phoneNumber })
+    (data: EventValues) => {
+      const eventValues = prepareEventValues(data)
       handleChange(
         joinValue([eventValues.countryCode, eventValues.phoneNumber]),
         eventValues
       )
     },
-    [getEventValues, handleChange]
+    [prepareEventValues, handleChange]
   )
 
   const callOnBlurOrFocus = useCallback(
     (hasFocus: boolean) => {
-      setHasFocus(hasFocus, undefined, getEventValues())
+      setHasFocus(hasFocus, undefined, prepareEventValues())
     },
-    [setHasFocus, getEventValues]
+    [prepareEventValues, setHasFocus]
   )
 
   /**
@@ -298,12 +321,15 @@ function PhoneNumber(props: Props) {
     }
   }, [value, props.value, lang, updateCurrentDataSet])
 
-  const prevCountryCodeRef = useRef(countryCodeRef.current)
-
   const handleCountryCodeChange = useCallback(
-    ({ data }: { data: { selectedKey: string } }) => {
+    ({
+      data,
+    }: {
+      data: { selectedKey: string; country: CountryType }
+    }) => {
       const countryCode = (countryCodeRef.current =
         data?.selectedKey?.trim() || emptyValue)
+      currentCountryRef.current = data?.country
 
       callOnChange({ countryCode })
       onCountryCodeChange?.(countryCode)
@@ -462,6 +488,7 @@ function makeObject(country: CountryType, lang: string) {
     content: `${formatCountryCode(country.cdc)} ${
       country.i18n[lang] ?? country.i18n.en
     }`,
+    country,
   }
 }
 

@@ -229,7 +229,7 @@ describe('useFieldProps', () => {
   })
 
   describe('using focus callbacks', () => {
-    it('should return the error only when the value is invalid AND it is not in focus', async () => {
+    it('should return the error when the value is invalid AND it is not in focus', async () => {
       const { result } = renderHook(() =>
         useFieldProps({
           value: 'foo',
@@ -644,6 +644,86 @@ describe('useFieldProps', () => {
       })
     })
 
+    it('should render error message given as string', () => {
+      const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
+
+      const error = 'A formatted error message'
+
+      const { rerender } = renderHook(useFieldProps, {
+        initialProps: { error },
+        wrapper,
+      })
+
+      expect(document.querySelector('.dnb-form-status').textContent).toBe(
+        'A formatted error message'
+      )
+
+      rerender({ error: undefined })
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should render error message given as JSX', () => {
+      const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
+
+      const error = (
+        <>
+          A <strong>formatted</strong> error message
+        </>
+      )
+
+      const { rerender } = renderHook(useFieldProps, {
+        initialProps: { error },
+        wrapper,
+      })
+
+      expect(
+        document.querySelector('.dnb-form-status__text').innerHTML
+      ).toBe('A <strong>formatted</strong> error message')
+      expect(document.querySelector('.dnb-form-status').textContent).toBe(
+        'A formatted error message'
+      )
+
+      rerender({ error: undefined })
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should render error messages given as JSX in an array', () => {
+      const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
+
+      const { rerender } = renderHook(useFieldProps, {
+        initialProps: {
+          error: [
+            <>
+              First <strong>formatted</strong> error message
+            </>,
+            <>
+              Second <strong>formatted</strong> error message
+            </>,
+          ],
+        },
+        wrapper,
+      })
+
+      expect(
+        document.querySelector('.dnb-form-status__text').innerHTML
+      ).toBe(
+        nb.Field.errorSummary +
+          `<ul class="dnb-ul"><li class="dnb-li">First <strong>formatted</strong> error message</li><li class="dnb-li">Second <strong>formatted</strong> error message</li></ul>`
+      )
+
+      rerender({ error: undefined })
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+    })
+
     describe('errorMessages', () => {
       it('should show given error from errorMessages', () => {
         const { result } = renderHook(() =>
@@ -691,6 +771,42 @@ describe('useFieldProps', () => {
         expect(getError(result.current.error).message).toBe(
           'Update the message'
         )
+      })
+
+      it('should render error message given as JSX', () => {
+        const wrapper = ({ children }) => (
+          <FieldBlock>{children}</FieldBlock>
+        )
+
+        const errorMessages = {
+          'MyCustom.message': (
+            <>
+              A <strong>formatted</strong> error message
+            </>
+          ),
+        }
+        const error = new FormError('MyCustom.message')
+
+        const { rerender } = renderHook(useFieldProps, {
+          initialProps: {
+            error,
+            errorMessages,
+          },
+          wrapper,
+        })
+
+        expect(
+          document.querySelector('.dnb-form-status__text').innerHTML
+        ).toBe('A <strong>formatted</strong> error message')
+        expect(
+          document.querySelector('.dnb-form-status').textContent
+        ).toBe('A formatted error message')
+
+        rerender({ error: undefined, errorMessages })
+
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
       })
 
       /**
@@ -3731,7 +3847,7 @@ describe('useFieldProps', () => {
         })
       })
 
-      it('should only call returned validators (barValidator should not be called)', async () => {
+      it('should call returned validators (barValidator should not be called)', async () => {
         let internalValidators, fooValidator, barValidator, bazValidator
 
         const MockComponent = (props) => {
@@ -4098,8 +4214,8 @@ describe('useFieldProps', () => {
           disabled: undefined,
           error: undefined,
           fieldState: undefined,
-          info: 'Info message',
-          warning: 'Warning message',
+          info: new Error('Info message'),
+          warning: new Error('Warning message'),
         })
 
         expect(result.current.fieldState).toBeUndefined()
@@ -4136,8 +4252,8 @@ describe('useFieldProps', () => {
           disabled: undefined,
           error: undefined,
           fieldState: 'pending',
-          info: 'Info message changed',
-          warning: 'Warning message changed',
+          info: new Error('Info message changed'),
+          warning: new Error('Warning message changed'),
         })
 
         expect(result.current.fieldState).toBe('pending')
@@ -4185,8 +4301,8 @@ describe('useFieldProps', () => {
             disabled: undefined,
             error: new Error('Error message'),
             fieldState: 'error',
-            info: 'Info message changed',
-            warning: 'Warning message changed',
+            info: new Error('Info message changed'),
+            warning: new Error('Warning message changed'),
           })
         })
       })
@@ -5348,6 +5464,73 @@ describe('useFieldProps', () => {
       })
     })
 
+    it('should rerender returned error message given as JSX', () => {
+      const onChangeValidator = (value) => {
+        if (value === '1') {
+          return (
+            <>
+              A <strong>formatted</strong> error message
+            </>
+          )
+        }
+      }
+      const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
+
+      const { result } = renderHook(useFieldProps, {
+        initialProps: { onChangeValidator },
+        wrapper,
+      })
+
+      act(() => {
+        result.current.handleChange('1')
+      })
+
+      expect(
+        document.querySelector('.dnb-form-status__text').innerHTML
+      ).toBe('A <strong>formatted</strong> error message')
+      expect(document.querySelector('.dnb-form-status').textContent).toBe(
+        'A formatted error message'
+      )
+
+      act(() => {
+        result.current.handleChange('12')
+      })
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should rerender returned error message given as string', () => {
+      const onChangeValidator = (value) => {
+        if (value === '1') {
+          return 'A formatted error message'
+        }
+      }
+      const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
+
+      const { result } = renderHook(useFieldProps, {
+        initialProps: { onChangeValidator },
+        wrapper,
+      })
+
+      act(() => {
+        result.current.handleChange('1')
+      })
+
+      expect(document.querySelector('.dnb-form-status').textContent).toBe(
+        'A formatted error message'
+      )
+
+      act(() => {
+        result.current.handleChange('12')
+      })
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+    })
+
     describe('exportValidators', () => {
       it('should call exported validators from mock component', async () => {
         let internalValidators, fooValidator, barValidator, bazValidator
@@ -5591,7 +5774,7 @@ describe('useFieldProps', () => {
         })
       })
 
-      it('should only call returned validators (barValidator should not be called)', async () => {
+      it('should call returned validators (barValidator should not be called)', async () => {
         let internalValidators, fooValidator, barValidator, bazValidator
 
         const MockComponent = (props) => {
@@ -6559,7 +6742,7 @@ describe('useFieldProps', () => {
     })
 
     describe('exportValidators', () => {
-      it('should only call returned validators (barValidator should not be called)', async () => {
+      it('should call returned validators (barValidator should not be called)', async () => {
         let internalValidators, fooValidator, barValidator, bazValidator
 
         const MockComponent = (props) => {
@@ -6994,7 +7177,7 @@ describe('useFieldProps', () => {
       })
     })
 
-    it('should rerender returned error when onBlurValidator returns array with different errors', async () => {
+    it('should rerender returned error when onBlurValidator returns array with different errors', () => {
       const firstReturn = [new Error('first error')]
       const secondReturn = [
         new Error('first error'),
@@ -7033,7 +7216,7 @@ describe('useFieldProps', () => {
       expect(result.current.error['errors']).toEqual(secondReturn)
     })
 
-    it('should rerender returned error when onBlurValidator returns array changed error', async () => {
+    it('should rerender returned error when onBlurValidator returns array changed error', () => {
       const firstReturn = [new Error('Error message')]
       const secondReturn = [new Error('Changed error message')]
 
@@ -7067,6 +7250,75 @@ describe('useFieldProps', () => {
       })
       expect(count).toBe(2)
       expect(result.current.error['errors']).toEqual(secondReturn)
+    })
+
+    it('should rerender returned error message given as JSX', () => {
+      const onBlurValidator = (value) => {
+        if (value === '1') {
+          return (
+            <>
+              A <strong>formatted</strong> error message
+            </>
+          )
+        }
+      }
+      const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
+
+      const { result } = renderHook(useFieldProps, {
+        initialProps: { onBlurValidator },
+        wrapper,
+      })
+
+      act(() => {
+        result.current.handleChange('1')
+        result.current.handleBlur()
+      })
+
+      expect(
+        document.querySelector('.dnb-form-status__text').innerHTML
+      ).toBe('A <strong>formatted</strong> error message')
+      expect(document.querySelector('.dnb-form-status').textContent).toBe(
+        'A formatted error message'
+      )
+
+      act(() => {
+        result.current.handleChange('12')
+      })
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should rerender returned error message given as string', () => {
+      const onBlurValidator = (value) => {
+        if (value === '1') {
+          return 'A formatted error message'
+        }
+      }
+      const wrapper = ({ children }) => <FieldBlock>{children}</FieldBlock>
+
+      const { result } = renderHook(useFieldProps, {
+        initialProps: { onBlurValidator },
+        wrapper,
+      })
+
+      act(() => {
+        result.current.handleChange('1')
+        result.current.handleBlur()
+      })
+
+      expect(document.querySelector('.dnb-form-status').textContent).toBe(
+        'A formatted error message'
+      )
+
+      act(() => {
+        result.current.handleChange('12')
+      })
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
     })
   })
 

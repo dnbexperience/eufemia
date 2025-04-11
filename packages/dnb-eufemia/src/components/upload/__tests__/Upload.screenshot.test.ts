@@ -71,6 +71,27 @@ describe.each(['ui', 'sbanken'])('Upload for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match when disabling drag and drop', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="upload-disabled-drag-and-drop"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match when file item has description', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="upload-description"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match when file item does not have delete button', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="upload-remove-delete-button"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe('Upload', () => {

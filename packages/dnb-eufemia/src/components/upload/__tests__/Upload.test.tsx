@@ -948,6 +948,91 @@ describe('Upload', () => {
       expect(emptyFileCell).not.toBeInTheDocument()
     })
 
+    it('does not show the delete button when removeDeleteButton', () => {
+      const files = [
+        {
+          file: createMockFile('fileName.png', 100, 'image/png'),
+          removeDeleteButton: true,
+        },
+      ]
+
+      const id = 'random-id-remove-delete-button'
+
+      render(<Upload {...defaultProps} id={id} />)
+
+      const MockComponent = () => {
+        const { setFiles } = useUpload(id)
+
+        useEffect(() => setFiles(files), [])
+
+        return <div />
+      }
+
+      render(<MockComponent />)
+
+      expect(
+        screen.queryByRole('button', {
+          name: nb.deleteButton,
+        })
+      ).not.toBeInTheDocument()
+    })
+
+    it('shows the file description when provided', async () => {
+      const myDescription = 'my description'
+      const files = [
+        {
+          file: createMockFile('fileName.png', 100, 'image/png'),
+          description: myDescription,
+        },
+      ]
+
+      const id = 'random-id-description'
+
+      render(<Upload {...defaultProps} id={id} />)
+
+      const MockComponent = () => {
+        const { setFiles } = useUpload(id)
+
+        useEffect(() => setFiles(files), [])
+
+        return <div />
+      }
+
+      render(<MockComponent />)
+
+      expect(screen.queryByText(myDescription)).toBeInTheDocument()
+    })
+
+    it('does not show the file description when loading', async () => {
+      const myDescription = 'my description'
+      const files = [
+        {
+          file: createMockFile('fileName.png', 100, 'image/png'),
+          description: myDescription,
+          isLoading: true,
+        },
+      ]
+
+      const id = 'random-id-description'
+
+      render(<Upload {...defaultProps} id={id} />)
+
+      const MockComponent = () => {
+        const { setFiles } = useUpload(id)
+
+        useEffect(() => setFiles(files), [])
+
+        return <div />
+      }
+
+      render(<MockComponent />)
+
+      expect(screen.queryByText(myDescription)).not.toBeInTheDocument()
+      expect(
+        document.querySelectorAll('.dnb-progress-indicator').length
+      ).toBe(1)
+    })
+
     it('shows the file when the file is added', async () => {
       const files = [
         { file: createMockFile('fileName.png', 100, 'image/png') },
@@ -1204,6 +1289,31 @@ describe('Upload', () => {
       expect(
         document.querySelectorAll('.dnb-upload__file-cell').length
       ).toBe(0)
+    })
+
+    it('will not support drop when disableDragAndDrop', async () => {
+      const id = 'disable-drag-and-drop'
+
+      const { result } = renderHook(useUpload, { initialProps: id })
+
+      render(
+        <Upload {...defaultProps} id={id} disableDragAndDrop={true} />
+      )
+
+      const getRootElement = () => document.querySelector('.dnb-upload')
+
+      const element = getRootElement()
+      const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: { files: [file1] },
+        })
+      )
+
+      expect(result.current.files.length).toBe(0)
+      expect(result.current.files).toEqual([])
+      expect(result.current.internalFiles.length).toBe(0)
     })
   })
 

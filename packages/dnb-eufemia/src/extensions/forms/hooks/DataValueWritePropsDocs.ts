@@ -72,7 +72,7 @@ export const DataValueWritePropsProperties: PropertiesTableProps = {
     status: 'optional',
   },
   errorMessages: {
-    doc: 'Custom error messages for each type of error, overriding default messages.',
+    doc: 'Custom error messages for each type of error, overriding default messages. The messages can be a React.ReactNode or a string.',
     type: 'object',
     status: 'optional',
   },

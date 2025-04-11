@@ -7,7 +7,6 @@ import {
   Value,
 } from '@dnb/eufemia/src/extensions/forms'
 import { createMockFile } from '../../../../../../../docs/uilib/components/upload/Examples'
-import useUpload from '@dnb/eufemia/src/components/upload/useUpload'
 import { UploadValue } from '@dnb/eufemia/src/extensions/forms/Field/Upload'
 import { createRequest } from '../../../Form/SubmitIndicator/Examples'
 
@@ -91,7 +90,7 @@ export const WithPath = () => {
 
 export const WithAsyncFileHandler = () => {
   return (
-    <ComponentBox scope={{ createRequest, useUpload }}>
+    <ComponentBox scope={{ createRequest }}>
       {() => {
         const MyForm = () => {
           return (
@@ -159,7 +158,7 @@ export const WithAsyncFileHandler = () => {
 
 export const WithSyncFileHandler = () => {
   return (
-    <ComponentBox scope={{ createRequest, useUpload }}>
+    <ComponentBox>
       {() => {
         const MyForm = () => {
           return (
@@ -280,6 +279,54 @@ export function SessionStorage() {
           <Tools.Log />
         </Flex.Stack>
       </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const WithFileItemOptions = () => {
+  return (
+    <ComponentBox scope={{ createMockFile }}>
+      {() => {
+        const MyForm = () => {
+          return (
+            <Form.Handler
+              data={{
+                myFiles: [
+                  {
+                    file: createMockFile(
+                      'fileName-1.png',
+                      100,
+                      'image/png',
+                    ),
+                    id: '1',
+                    description: 'My description',
+                    errorMessage: 'My error message',
+                    removeDeleteButton: true,
+                  },
+                ],
+              }}
+            >
+              <Field.Upload
+                path="/myFiles"
+                fileHandler={mockFileHandler}
+                required
+              />
+            </Form.Handler>
+          )
+        }
+
+        function mockFileHandler(newFiles: UploadValue) {
+          return newFiles.map((file) => {
+            file.errorMessage = 'File has a problem'
+            file.description = 'File description'
+            file.removeDeleteButton = true
+
+            return file
+          })
+        }
+
+        return <MyForm />
+      }}
     </ComponentBox>
   )
 }

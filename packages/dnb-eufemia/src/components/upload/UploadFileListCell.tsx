@@ -7,6 +7,9 @@ import Icon from '../../components/Icon'
 import FormStatus from '../../components/FormStatus'
 import ProgressIndicator from '../../components/progress-indicator'
 
+// Elements
+import P from '../../elements/P'
+
 // Icons
 import {
   trash as TrashIcon,
@@ -95,7 +98,13 @@ const UploadFileListCell = ({
   download,
   allowDuplicates,
 }: UploadFileListCellProps) => {
-  const { file, errorMessage, isLoading } = uploadFile
+  const {
+    file,
+    errorMessage,
+    isLoading,
+    description,
+    removeDeleteButton,
+  } = uploadFile
   const hasWarning = errorMessage != null
 
   const imageUrl = file?.size > 0 ? URL.createObjectURL(file) : null
@@ -132,19 +141,8 @@ const UploadFileListCell = ({
           {getFileIcon(file, { isLoading }, hasWarning)}
           {getTitle()}
         </div>
-        <div>
-          <Button
-            icon={TrashIcon}
-            variant="tertiary"
-            onClick={onDeleteHandler}
-            icon_position="left"
-            disabled={isLoading}
-          >
-            {deleteButtonText}
-          </Button>
-        </div>
+        {getDeleteButton()}
       </div>
-
       {getWarning()}
     </li>
   )
@@ -168,14 +166,42 @@ const UploadFileListCell = ({
           onClick={onClick}
           bottom={0}
         />
+        {getDescription()}
       </div>
     )
   }
 
+  function getDeleteButton() {
+    if (removeDeleteButton) {
+      return null
+    }
+    return (
+      <div>
+        <Button
+          icon={TrashIcon}
+          variant="tertiary"
+          onClick={onDeleteHandler}
+          icon_position="left"
+          disabled={isLoading}
+        >
+          {deleteButtonText}
+        </Button>
+      </div>
+    )
+  }
+
+  function getDescription() {
+    if (!description) {
+      return null
+    }
+    return <P className="dnb-upload__text">{description}</P>
+  }
+
   function getWarning() {
-    return hasWarning ? (
-      <FormStatus top="small" text={errorMessage} stretch />
-    ) : null
+    if (!hasWarning) {
+      return null
+    }
+    return <FormStatus top="small" text={errorMessage} stretch />
   }
 }
 
