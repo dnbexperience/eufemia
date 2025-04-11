@@ -47,8 +47,11 @@ type FormErrorOptions = {
  * Standard error object for Eufemia Forms, extending the built-in error with additional information for data handling
  */
 export class FormError extends Error {
-  /* @deprecated – can be removed in v11*/
+  /**
+   * @deprecated – can be removed in v11
+   */
   validationRule?: FormErrorOptions['validationRule']
+
   messageValues?: FormErrorOptions['messageValues']
   ajvKeyword?: FormErrorOptions['ajvKeyword']
   errors?: FormErrorOptions['errors']
