@@ -26,10 +26,6 @@
     padding: 16px;
     border-radius: inherit;
 
-    border: 1px solid;
-    border-color: rgb(255 255 255 / 10%) transparent rgb(255 255 255 / 10%)
-      transparent;
-
     color: var(--color-white);
     box-shadow: var(--shadow-default);
 
@@ -43,6 +39,7 @@
       width: 343px;
       height: 216px;
       border-radius: inherit;
+      border: 1px solid var(--color-black-8);
     }
 
     &--blocked {
