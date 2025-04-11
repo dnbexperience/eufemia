@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useState } from 'react'
+import React, { StrictMode, useState } from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import userEvent from '@testing-library/user-event'
 import * as helpers from '../../../shared/helpers'
@@ -3225,6 +3225,50 @@ describe('DatePicker component', () => {
     }
 
     render(<Component />)
+
+    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+
+    // Check date
+    expect(
+      screen.getByLabelText('lørdag 12. april 2025')
+    ).not.toHaveAttribute('aria-current', 'date')
+    expect(
+      screen.getByLabelText('tirsdag 15. april 2025')
+    ).toHaveAttribute('aria-current', 'date')
+
+    // Check minDate
+    expect(
+      screen.getByLabelText('onsdag 9. april 2025')
+    ).not.toBeDisabled()
+    expect(screen.getByLabelText('fredag 4. april 2025')).toBeDisabled()
+
+    // Check maxDate
+    expect(
+      screen.getByLabelText('mandag 21. april 2025')
+    ).not.toBeDisabled()
+    expect(screen.getByLabelText('lørdag 26. april 2025')).toBeDisabled()
+  })
+
+  it('should use correct dates based on props updated through useLayoutEffect in StrictMode', async () => {
+    const Component = () => {
+      const [date, setDate] = React.useState(new Date('2025-04-12'))
+      const [minDate, setMinDate] = React.useState(new Date('2025-04-10'))
+      const [maxDate, setMaxDate] = React.useState(new Date('2025-04-20'))
+
+      React.useLayoutEffect(() => {
+        setDate(new Date('2025-04-15'))
+        setMinDate(new Date('2025-04-05'))
+        setMaxDate(new Date('2025-04-25'))
+      }, [])
+
+      return <DatePicker date={date} minDate={minDate} maxDate={maxDate} />
+    }
+
+    render(
+      <StrictMode>
+        <Component />
+      </StrictMode>
+    )
 
     await userEvent.click(screen.getByLabelText('åpne datovelger'))
 
