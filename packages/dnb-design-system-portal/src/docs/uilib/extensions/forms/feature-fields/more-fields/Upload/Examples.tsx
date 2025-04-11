@@ -306,20 +306,16 @@ export const WithFileItemOptions = () => {
                 ],
               }}
             >
-              <Flex.Stack>
-                <Field.Upload
-                  path="/myFiles"
-                  fileHandler={mockSyncFileUpload}
-                  required
-                />
-                <Form.SubmitButton />
-                <Tools.Log />
-              </Flex.Stack>
+              <Field.Upload
+                path="/myFiles"
+                fileHandler={mockFileHandler}
+                required
+              />
             </Form.Handler>
           )
         }
 
-        function mockSyncFileUpload(newFiles: UploadValue) {
+        function mockFileHandler(newFiles: UploadValue) {
           return newFiles.map((file) => {
             file.errorMessage = 'File has a problem'
             file.description = 'File description'
