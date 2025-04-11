@@ -8,7 +8,7 @@ import Button from '../button/Button'
 import DatePickerContext from './DatePickerContext'
 import { convertStringToDate } from './DatePickerCalc'
 import { useTranslation } from '../../shared'
-import { DatePickerInputDates } from './hooks/useDates'
+import { DatePickerInputDates } from './hooks/useInputDates'
 
 type DatePickerFooterEvent = React.MouseEvent<HTMLButtonElement> &
   DatePickerInputDates & {
