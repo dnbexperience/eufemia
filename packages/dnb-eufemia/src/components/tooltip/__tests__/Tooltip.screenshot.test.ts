@@ -69,6 +69,20 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match tooltip on button hover state when align center', async () => {
+    const screenshot = await makeScreenshot({
+      style: {
+        height: '4rem',
+        'padding-top': '2rem',
+      },
+      selector: '[data-visual-test="tooltip-hover-align-center"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-align-center"] button',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match tooltip on button hover state when arrow left', async () => {
     const screenshot = await makeScreenshot({
       style: {
