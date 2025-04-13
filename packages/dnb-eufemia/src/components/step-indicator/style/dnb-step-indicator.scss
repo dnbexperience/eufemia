@@ -53,11 +53,13 @@
         content: '';
         display: block;
         position: absolute;
-        height: 100%;
-        width: 0.0625rem;
-        background-color: var(--color-black-20);
         top: 0.25rem;
         left: 0.71875rem;
+
+        width: 0.0625rem;        
+        height: 100%;
+
+        background-color: var(--color-black-20);
       }
     }
 

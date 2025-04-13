@@ -163,7 +163,7 @@ export type StepIndicatorProps = Omit<
     children?: React.ReactNode
   }
 
-function handeDeprecatedProps(
+function handleDeprecatedProps(
   props: StepIndicatorProps
 ): Omit<StepIndicatorProps, 'sidebar_id' | 'step_title_extended'> {
   const { sidebar_id, step_title_extended, ...rest } = props
@@ -181,7 +181,7 @@ function StepIndicator({
   expandedInitially = stepIndicatorDefaultProps.expandedInitially,
   ...restOfProps
 }: StepIndicatorProps) {
-  const { outset, ...props } = handeDeprecatedProps({
+  const { outset, ...props } = handleDeprecatedProps({
     data,
     skeleton,
     current_step,

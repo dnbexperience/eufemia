@@ -121,7 +121,7 @@ export type Props = ComponentProps & {
   scrollTopOnStepChange?: boolean
 }
 
-function handeDeprecatedProps(
+function handleDeprecatedProps(
   props: Props
 ): Omit<Props, 'variant' | 'sidebarId'> {
   const { variant, sidebarId, ...rest } = props
@@ -145,7 +145,7 @@ function WizardContainer(props: Props) {
     validationMode,
     outset = true,
     ...rest
-  } = handeDeprecatedProps(props)
+  } = handleDeprecatedProps(props)
 
   const dataContext = useContext(DataContext)
   const {

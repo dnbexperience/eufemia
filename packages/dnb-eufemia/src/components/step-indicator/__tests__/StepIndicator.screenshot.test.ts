@@ -28,6 +28,7 @@ describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('initially expanded', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="step-indicator-expanded"]',
@@ -143,6 +144,7 @@ describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
   })
 })
 
+// Can be removed in v11
 describe('deprecated', () => {
   describe.each(['ui', 'sbanken'])('StepIndicator for %s', (themeName) => {
     setupPageScreenshot({

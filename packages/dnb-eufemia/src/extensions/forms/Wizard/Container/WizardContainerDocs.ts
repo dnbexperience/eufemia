@@ -57,7 +57,7 @@ export const WizardContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   variant: {
-    doc: 'There is no variants. This prop does nothing. Old docs: Sets the StepIndicator to be either `sidebar` or `drawer`. Defaults to `sidebar`.',
+    doc: 'There is no variant in the current version. This prop does nothing. Old docs: Sets the StepIndicator to be either `sidebar` or `drawer`. Defaults to `sidebar`.',
     type: 'string',
     status: 'deprecated',
   },

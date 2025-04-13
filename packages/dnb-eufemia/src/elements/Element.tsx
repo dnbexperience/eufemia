@@ -31,9 +31,9 @@ export type ElementProps = {
   skeleton?: SkeletonShow
   skeletonMethod?: SkeletonMethods
   /**
-   * As a string: replaces the default tag class `dnb-{TAG_NAME}` wich a different class. Empty string does the same as default `undefined`
+   * As a string: replaces the default tag class `dnb-{TAG_NAME}` with a different class. Empty string does the same as default `undefined`.
    *
-   * As a boolean: set it to `false` to disable the default tag class. `true` does the same as default `undefined`
+   * As a boolean: set it to `false` to disable the default tag class. `true` does the same as default `undefined`.
    *
    * Default: `undefined`
    */
