@@ -223,7 +223,8 @@ export default function TooltipContainer(
 
     if (stylesFromPosition[position]) {
       stylesFromPosition[position]()
-    } if (stylesFromArrow[arrow]) {
+    } 
+    if (stylesFromArrow[arrow]) {
       stylesFromArrow[arrow]()
     }
 
