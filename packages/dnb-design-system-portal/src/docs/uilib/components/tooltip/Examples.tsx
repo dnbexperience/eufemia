@@ -67,7 +67,7 @@ export const TooltipExampleButtonLongText = () => (
     data-visual-test="tooltip-hover-button-long-text"
     scope={{ longText }}
   >
-    <Button tooltip={`${longText} ${longText}`} text="Long Tooltip" />
+    <Button tooltip={`${longText} ${longText}`} text="Long text" />
   </ComponentBox>
 )
 
@@ -77,7 +77,7 @@ export const TooltipExampleAlignArrowLeftLongText = () => (
     scope={{ longText }}
   >
     <Button className="target-align-arrow-left-long-text">
-      Align & arrow tooltip left
+      Align left & arrow left
     </Button>
     <Tooltip
       id="unique-align-arrow-left-long-text"
@@ -96,7 +96,7 @@ export const TooltipExampleAlignArrowRightLongText = () => (
     scope={{ longText }}
   >
     <Button className="target-align-arrow-right-long-text">
-      Align & arrow tooltip right
+      Align right & arrow right
     </Button>
     <Tooltip
       id="unique-align-arrow-right-long-text"
@@ -152,9 +152,7 @@ export const TooltipExampleAlignLeftLongText = () => (
     data-visual-test="tooltip-hover-align-left-long-text"
     scope={{ longText }}
   >
-    <Button className="target-align-left-long-text">
-      Align tooltip left
-    </Button>
+    <Button className="target-align-left-long-text">Align left</Button>
     <Tooltip
       id="unique-align-left-long-text"
       targetSelector=".target-align-left-long-text"
@@ -170,9 +168,7 @@ export const TooltipExampleAlignRightLongText = () => (
     data-visual-test="tooltip-hover-align-right-long-text"
     scope={{ longText }}
   >
-    <Button className="target-align-right-long-text">
-      Align tooltip right
-    </Button>
+    <Button className="target-align-right-long-text">Align right</Button>
     <Tooltip
       id="unique-align-right-long-text"
       targetSelector=".target-align-right-long-text"
@@ -189,7 +185,7 @@ export const TooltipExampleAlignArrowCenterLongText = () => (
     scope={{ longText }}
   >
     <Button className="target-align-center-long-text">
-      Align tooltip center
+      Align center & arrow center
     </Button>
     <Tooltip
       id="unique-align-center-long-text"
@@ -207,9 +203,7 @@ export const TooltipExampleArrowLeftLongText = () => (
     data-visual-test="tooltip-hover-arrow-left-long-text"
     scope={{ longText }}
   >
-    <Button className="target-arrow-left-long-text">
-      Arrow tooltip left
-    </Button>
+    <Button className="target-arrow-left-long-text">Arrow left</Button>
     <Tooltip
       id="unique-arrow-left-long-text"
       targetSelector=".target-arrow-left-long-text"
@@ -225,9 +219,7 @@ export const TooltipExampleArrowRightLongText = () => (
     data-visual-test="tooltip-hover-arrow-right-long-text"
     scope={{ longText }}
   >
-    <Button className="target-arrow-right-long-text">
-      Arrow tooltip right
-    </Button>
+    <Button className="target-arrow-right-long-text">Arrow right</Button>
     <Tooltip
       id="unique-arrow-right-long-text"
       targetSelector=".target-arrow-right-long-text"
@@ -244,7 +236,7 @@ export const TooltipExamplePositionRightLongText = () => (
     scope={{ longText }}
   >
     <Button className="target-position-right-long-text">
-      Position tooltip right
+      Position right
     </Button>
     <Tooltip
       id="unique-position-right-long-text"
@@ -262,7 +254,7 @@ export const TooltipExamplePositionLeftLongText = () => (
     scope={{ longText }}
   >
     <Button className="target-position-left-long-text">
-      Position tooltip left
+      Position left
     </Button>
     <Tooltip
       id="unique-position-left-long-text"
@@ -280,7 +272,7 @@ export const TooltipExamplePositionBottomLongText = () => (
     scope={{ longText }}
   >
     <Button className="target-position-bottom-long-text">
-      Position tooltip bottom
+      Position bottom
     </Button>
     <Tooltip
       id="unique-position-bottom-long-text"
@@ -298,7 +290,7 @@ export const TooltipExampleAlignArrowLeft = () => (
     scope={{ shortText }}
   >
     <Button className="target-align-arrow-left">
-      Align & arrow tooltip left
+      Align left & arrow left
     </Button>
     <Tooltip
       id="unique-align-arrow-left"
@@ -317,7 +309,7 @@ export const TooltipExampleAlignArrowRight = () => (
     scope={{ shortText }}
   >
     <Button className="target-align-arrow-right">
-      Align & arrow tooltip right
+      Align left & arrow right
     </Button>
     <Tooltip
       id="unique-align-arrow-right"
@@ -373,7 +365,7 @@ export const TooltipExampleAlignLeft = () => (
     data-visual-test="tooltip-hover-align-left"
     scope={{ shortText }}
   >
-    <Button className="target-align-left">Align tooltip left</Button>
+    <Button className="target-align-left">Align left</Button>
     <Tooltip
       id="unique-align-left"
       targetSelector=".target-align-left"
@@ -389,7 +381,7 @@ export const TooltipExampleAlignRight = () => (
     data-visual-test="tooltip-hover-align-right"
     scope={{ shortText }}
   >
-    <Button className="target-align-right">Align tooltip right</Button>
+    <Button className="target-align-right">Align right</Button>
     <Tooltip
       id="unique-align-right"
       targetSelector=".target-align-right"
@@ -405,7 +397,9 @@ export const TooltipExampleAlignArrowCenter = () => (
     data-visual-test="tooltip-hover-align-center"
     scope={{ shortText }}
   >
-    <Button className="target-align-center">Align tooltip center</Button>
+    <Button className="target-align-center">
+      Align center & arrow center
+    </Button>
     <Tooltip
       id="unique-align-center"
       targetSelector=".target-align-center"
@@ -422,7 +416,7 @@ export const TooltipExampleArrowLeft = () => (
     data-visual-test="tooltip-hover-arrow-left"
     scope={{ shortText }}
   >
-    <Button className="target-arrow-left">Arrow tooltip left</Button>
+    <Button className="target-arrow-left">Arrow left</Button>
     <Tooltip
       id="unique-arrow-left"
       targetSelector=".target-arrow-left"
@@ -438,7 +432,7 @@ export const TooltipExampleArrowRight = () => (
     data-visual-test="tooltip-hover-arrow-right"
     scope={{ shortText }}
   >
-    <Button className="target-arrow-right">Arrow tooltip right</Button>
+    <Button className="target-arrow-right">Arrow right</Button>
     <Tooltip
       id="unique-arrow-right"
       targetSelector=".target-arrow-right"
@@ -454,9 +448,7 @@ export const TooltipExamplePositionRight = () => (
     data-visual-test="tooltip-hover-position-right"
     scope={{ shortText }}
   >
-    <Button className="target-position-right">
-      Position tooltip right
-    </Button>
+    <Button className="target-position-right">Position right</Button>
     <Tooltip
       id="unique-position-right"
       targetSelector=".target-position-right"
@@ -472,7 +464,7 @@ export const TooltipExamplePositionLeft = () => (
     data-visual-test="tooltip-hover-position-left"
     scope={{ shortText }}
   >
-    <Button className="target-position-left">Position tooltip left</Button>
+    <Button className="target-position-left">Position left</Button>
     <Tooltip
       id="unique-position-left"
       targetSelector=".target-position-left"
@@ -488,9 +480,7 @@ export const TooltipExamplePositionBottom = () => (
     data-visual-test="tooltip-hover-position-bottom"
     scope={{ shortText }}
   >
-    <Button className="target-position-bottom">
-      Position tooltip bottom
-    </Button>
+    <Button className="target-position-bottom">Position bottom</Button>
     <Tooltip
       id="unique-position-bottom"
       targetSelector=".target-position-bottom"
