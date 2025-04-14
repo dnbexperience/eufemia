@@ -109,6 +109,44 @@ export const TooltipExampleAlignArrowRightLongText = () => (
   </ComponentBox>
 )
 
+export const TooltipExampleAlignLeftArrowRightLongText = () => (
+  <ComponentBox
+    data-visual-test="tooltip-hover-align-left-arrow-right-long-text"
+    scope={{ longText }}
+  >
+    <Button className="target-align-left-arrow-right-long-text">
+      Align left & arrow right
+    </Button>
+    <Tooltip
+      id="unique-align-left-arrow-right-long-text"
+      targetSelector=".target-align-left-arrow-right-long-text"
+      align="left"
+      arrow="right"
+    >
+      {longText}
+    </Tooltip>
+  </ComponentBox>
+)
+
+export const TooltipExampleAlignRightArrowLeftLongText = () => (
+  <ComponentBox
+    data-visual-test="tooltip-hover-align-right-arrow-left-long-text"
+    scope={{ longText }}
+  >
+    <Button className="target-align-right-arrow-left-long-text">
+      Align right & arrow left
+    </Button>
+    <Tooltip
+      id="unique-align-right-arrow-left-long-text"
+      targetSelector=".target-align-right-arrow-left-long-text"
+      align="right"
+      arrow="left"
+    >
+      {longText}
+    </Tooltip>
+  </ComponentBox>
+)
+
 export const TooltipExampleAlignLeftLongText = () => (
   <ComponentBox
     data-visual-test="tooltip-hover-align-left-long-text"
@@ -286,6 +324,44 @@ export const TooltipExampleAlignArrowRight = () => (
       targetSelector=".target-align-arrow-right"
       align="right"
       arrow="right"
+    >
+      {shortText}
+    </Tooltip>
+  </ComponentBox>
+)
+
+export const TooltipExampleAlignLeftArrowRight = () => (
+  <ComponentBox
+    data-visual-test="tooltip-hover-align-left-arrow-right"
+    scope={{ shortText }}
+  >
+    <Button className="target-align-left-arrow-right">
+      Align left & arrow right
+    </Button>
+    <Tooltip
+      id="unique-align-left-arrow-right"
+      targetSelector=".target-align-left-arrow-right"
+      align="left"
+      arrow="right"
+    >
+      {shortText}
+    </Tooltip>
+  </ComponentBox>
+)
+
+export const TooltipExampleAlignRightArrowLeft = () => (
+  <ComponentBox
+    data-visual-test="tooltip-hover-align-right-arrow-left"
+    scope={{ shortText }}
+  >
+    <Button className="target-align-right-arrow-left">
+      Align right & arrow left
+    </Button>
+    <Tooltip
+      id="unique-align-right-arrow-left"
+      targetSelector=".target-align-right-arrow-left"
+      align="right"
+      arrow="left"
     >
       {shortText}
     </Tooltip>
