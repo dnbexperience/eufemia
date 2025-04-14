@@ -196,7 +196,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     endYearRef: { current: undefined },
   })
 
-  const dateRefs = useRef<Record<string, string>>({
+  const dateRefs = useRef<DatePickerInputDates>({
     startDay: '',
     startMonth: '',
     startYear: '',
@@ -375,13 +375,13 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           (acc, mode) => {
             acc[`${mode}Date`] = [
               dateRefs.current[`${mode}Year`] ||
-                inputDates[`__${mode}Year`] ||
+                inputDates[`${mode}Year`] ||
                 'yyyy',
               dateRefs.current[`${mode}Month`] ||
-                inputDates[`__${mode}Month`] ||
+                inputDates[`${mode}Month`] ||
                 'mm',
               dateRefs.current[`${mode}Day`] ||
-                inputDates[`__${mode}Day`] ||
+                inputDates[`${mode}Day`] ||
                 'dd',
             ].join('-')
             return acc
@@ -511,7 +511,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         updateDates({
           [`${mode}Date`]: null,
         })
-        updateInputDates({ [`__${mode}${type}`]: value })
+        updateInputDates({ [`${mode}${type}`]: value })
 
         invalidDatesRef.current = {
           ...invalidDatesRef.current,
@@ -786,7 +786,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
                     mask={[/[0-9]/, /[0-9]/]}
                     inputRef={inputRefs.current[`${mode}DayRef`]}
                     onChange={dateSetters[`set_${mode}Day`]}
-                    value={inputDates[`__${mode}Day`] || ''}
+                    value={inputDates[`${mode}Day`] || ''}
                     aria-labelledby={`${id}-${mode}-day-label`}
                   />
                   <label
@@ -818,7 +818,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
                     mask={[/[0-9]/, /[0-9]/]}
                     inputRef={inputRefs.current[`${mode}MonthRef`]}
                     onChange={dateSetters[`set_${mode}Month`]}
-                    value={inputDates[`__${mode}Month`] || ''}
+                    value={inputDates[`${mode}Month`] || ''}
                     aria-labelledby={`${id}-${mode}-month-label`}
                   />
                   <label
@@ -850,7 +850,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
                     mask={[/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/]}
                     inputRef={inputRefs.current[`${mode}YearRef`]}
                     onChange={dateSetters[`set_${mode}Year`]}
-                    value={inputDates[`__${mode}Year`] || ''}
+                    value={inputDates[`${mode}Year`] || ''}
                     aria-labelledby={`${id}-${mode}-year-label`}
                   />
                   <label
@@ -1036,12 +1036,12 @@ function InputElement({ className, value, ...props }: TextMaskProps) {
 }
 
 function syncDateRefs(
-  dateRefs: React.MutableRefObject<Record<string, string>>,
+  dateRefs: React.MutableRefObject<DatePickerInputDates>,
   inputDates: DatePickerInputDates
 ) {
   for (const date in dateRefs.current) {
     const dateRefValue = dateRefs.current[date]
-    const inputDateValue = inputDates[`__${date}`]
+    const inputDateValue = inputDates[date]
 
     if (dateRefValue !== inputDateValue) {
       dateRefs.current[date] = inputDateValue

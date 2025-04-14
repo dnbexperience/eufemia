@@ -3,12 +3,12 @@ import { DatePickerDates } from './useDates'
 import { useCallback, useState } from 'react'
 
 export type DatePickerInputDates = {
-  __startDay?: string
-  __startMonth?: string
-  __startYear?: string
-  __endDay?: string
-  __endMonth?: string
-  __endYear?: string
+  startDay?: string
+  startMonth?: string
+  startYear?: string
+  endDay?: string
+  endMonth?: string
+  endYear?: string
 }
 
 export default function useInputDates({
@@ -18,19 +18,25 @@ export default function useInputDates({
   const [previousDates, setPreviousDates] = useState<
     Pick<DatePickerDates, 'startDate' | 'endDate'>
   >({ startDate, endDate })
-  const [inputDates, setInputDates] = useState<DatePickerInputDates>(
-    initializeInputDates({ startDate, endDate })
-  )
+
+  const [inputDates, setInputDates] = useState<DatePickerInputDates>({
+    startDay: formatInputDate('day', startDate),
+    startMonth: formatInputDate('month', startDate),
+    startYear: formatInputDate('year', startDate),
+    endDay: formatInputDate('day', endDate),
+    endMonth: formatInputDate('month', endDate),
+    endYear: formatInputDate('year', endDate),
+  })
+
+  const hasStartDateChange = startDate !== previousDates.startDate
+  const hasEndDateChange = endDate !== previousDates.endDate
 
   // Update input dates if startDate or endDate changes
-  if (
-    startDate !== previousDates.startDate ||
-    endDate !== previousDates.endDate
-  ) {
+  if (hasStartDateChange || hasEndDateChange) {
     setInputDates((currentInputDates) => ({
       ...currentInputDates,
-      ...getInputDates('start', startDate),
-      ...getInputDates('end', endDate),
+      ...(hasStartDateChange && getInputDates('start', startDate)),
+      ...(hasEndDateChange && getInputDates('end', endDate)),
     }))
 
     setPreviousDates({ startDate, endDate })
@@ -46,39 +52,34 @@ export default function useInputDates({
   }
 }
 
-function initializeInputDates({
-  startDate,
-  endDate,
-}: Pick<DatePickerDates, 'startDate' | 'endDate'>): DatePickerInputDates {
-  const hasValidStartDate = isValid(startDate)
-  const hasValidEndDate = isValid(endDate)
+const inputDateFormatter = {
+  day: (date: Date) => pad(format(date, 'dd'), 2),
+  month: (date: Date) => pad(format(date, 'MM'), 2),
+  year: (date: Date) => format(date, 'yyyy'),
+}
 
-  return {
-    __startDay: hasValidStartDate ? pad(format(startDate, 'dd'), 2) : null,
-    __startMonth: hasValidStartDate
-      ? pad(format(startDate, 'MM'), 2)
-      : null,
-    __startYear: hasValidStartDate ? format(startDate, 'yyyy') : null,
-    __endDay: hasValidEndDate ? pad(format(endDate, 'dd'), 2) : null,
-    __endMonth: hasValidEndDate ? pad(format(endDate, 'MM'), 2) : null,
-    __endYear: hasValidEndDate ? format(endDate, 'yyyy') : null,
-  }
+function formatInputDate(type: 'day' | 'month' | 'year', date: Date) {
+  return isValid(date) ? inputDateFormatter[type](date) : null
 }
 
 function getInputDates(type: 'start' | 'end', date: Date | undefined) {
-  const updatedDates = {}
-
   if (isValid(date)) {
-    updatedDates[`__${type}Day`] = pad(format(date, 'dd'), 2)
-    updatedDates[`__${type}Month`] = pad(format(date, 'MM'), 2)
-    updatedDates[`__${type}Year`] = format(date, 'yyyy')
-  } else if (date === undefined) {
-    updatedDates[`__${type}Day`] = null
-    updatedDates[`__${type}Month`] = null
-    updatedDates[`__${type}Year`] = null
+    return {
+      [`${type}Day`]: formatInputDate('day', date),
+      [`${type}Month`]: formatInputDate('month', date),
+      [`${type}Year`]: formatInputDate('year', date),
+    }
   }
 
-  return updatedDates
+  if (date === undefined) {
+    return {
+      [`${type}Day`]: null,
+      [`${type}Month`]: null,
+      [`${type}Year`]: null,
+    }
+  }
+
+  return {}
 }
 
 export function pad(date: string, size: number) {
