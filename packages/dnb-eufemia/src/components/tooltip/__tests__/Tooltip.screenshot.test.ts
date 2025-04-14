@@ -55,6 +55,20 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match tooltip on button hover state when align left with long text', async () => {
+    const screenshot = await makeScreenshot({
+      style: {
+        height: '4rem',
+        'padding-top': '2rem',
+      },
+      selector: '[data-visual-test="tooltip-hover-align-left-long-text"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-align-left-long-text"] button',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match tooltip on button hover state when align right', async () => {
     const screenshot = await makeScreenshot({
       style: {
@@ -64,6 +78,20 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
       selector: '[data-visual-test="tooltip-hover-align-right"]',
       simulateSelector:
         '[data-visual-test="tooltip-hover-align-right"] button',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match tooltip on button hover state when align right with long text', async () => {
+    const screenshot = await makeScreenshot({
+      style: {
+        height: '4rem',
+        'padding-top': '2rem',
+      },
+      selector: '[data-visual-test="tooltip-hover-align-right-long-text"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-align-right-long-text"] button',
       simulate: 'hover',
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -83,6 +111,21 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match tooltip on button hover state when align center with long text', async () => {
+    const screenshot = await makeScreenshot({
+      style: {
+        height: '4rem',
+        'padding-top': '2rem',
+      },
+      selector:
+        '[data-visual-test="tooltip-hover-align-center-long-text"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-align-center-long-text"] button',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match tooltip on button hover state when arrow left', async () => {
     const screenshot = await makeScreenshot({
       style: {
@@ -92,6 +135,20 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
       selector: '[data-visual-test="tooltip-hover-arrow-left"]',
       simulateSelector:
         '[data-visual-test="tooltip-hover-arrow-left"] button',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match tooltip on button hover state when arrow left with long text', async () => {
+    const screenshot = await makeScreenshot({
+      style: {
+        height: '4rem',
+        'padding-top': '2rem',
+      },
+      selector: '[data-visual-test="tooltip-hover-arrow-left-long-text"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-arrow-left-long-text"] button',
       simulate: 'hover',
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -111,6 +168,20 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match tooltip on button hover state when arrow right with long text', async () => {
+    const screenshot = await makeScreenshot({
+      style: {
+        height: '4rem',
+        'padding-top': '2rem',
+      },
+      selector: '[data-visual-test="tooltip-hover-arrow-right-long-text"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-arrow-right-long-text"] button',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match tooltip on button hover state when position right', async () => {
     const screenshot = await makeScreenshot({
       style: {
@@ -125,6 +196,21 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match tooltip on button hover state when position right with long text', async () => {
+    const screenshot = await makeScreenshot({
+      style: {
+        height: '4rem',
+        'padding-right': '2rem',
+      },
+      selector:
+        '[data-visual-test="tooltip-hover-position-right-long-text"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-position-right-long-text"] button',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match tooltip on button hover state when position bottom', async () => {
     const screenshot = await makeScreenshot({
       style: {
@@ -134,6 +220,21 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
       selector: '[data-visual-test="tooltip-hover-position-bottom"]',
       simulateSelector:
         '[data-visual-test="tooltip-hover-position-bottom"] button',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match tooltip on button hover state when position bottom with long text', async () => {
+    const screenshot = await makeScreenshot({
+      style: {
+        height: '4rem',
+        'padding-bottom': '2rem',
+      },
+      selector:
+        '[data-visual-test="tooltip-hover-position-bottom-long-text"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-position-bottom-long-text"] button',
       simulate: 'hover',
     })
     expect(screenshot).toMatchImageSnapshot()
