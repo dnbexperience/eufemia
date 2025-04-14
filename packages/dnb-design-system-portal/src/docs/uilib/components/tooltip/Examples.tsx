@@ -10,17 +10,18 @@ import { Button, Tooltip, Span, NumberFormat } from '@dnb/eufemia/src'
 const longText =
   'What’s the best thing about Switzerland? I’m not sure, but the flag is a big plus. 🇨🇭'
 
-const shortText = 'Switzerland 🇨🇭'
-
 export const TooltipExampleDefault = () => (
   <ComponentBox data-visual-test="tooltip-hover">
-    <Button tooltip="Tooltip" text="Hover" />
+    <Button tooltip="Button tooltip" text="Hover" />
   </ComponentBox>
 )
 
 export const TooltipExampleActive = () => (
   <ComponentBox>
-    <Button tooltip={<Tooltip active>Tooltip</Tooltip>} text="Active" />
+    <Button
+      tooltip={<Tooltip active>Basic Tooltip</Tooltip>}
+      text="Active"
+    />
   </ComponentBox>
 )
 
@@ -28,7 +29,7 @@ export const TooltipExampleLinked = () => (
   <ComponentBox>
     <button className="target-1">Show the Tooltip</button>
     <Tooltip id="unique" active targetSelector=".target-1">
-      Tooltip
+      Tooltip linked
     </Tooltip>
   </ComponentBox>
 )
@@ -57,7 +58,7 @@ export const TooltipExampleNumberFormat = () => (
 export const TooltipExampleNumberFormatWrapped = () => (
   <ComponentBox>
     <Tooltip targetElement={<NumberFormat>1234</NumberFormat>}>
-      Tooltip
+      Tooltip NumberFormat
     </Tooltip>
   </ComponentBox>
 )
@@ -285,10 +286,7 @@ export const TooltipExamplePositionBottomLongText = () => (
 )
 
 export const TooltipExampleAlignArrowLeft = () => (
-  <ComponentBox
-    data-visual-test="tooltip-hover-align-arrow-left"
-    scope={{ shortText }}
-  >
+  <ComponentBox data-visual-test="tooltip-hover-align-arrow-left">
     <Button className="target-align-arrow-left">
       Align left & arrow left
     </Button>
@@ -298,18 +296,15 @@ export const TooltipExampleAlignArrowLeft = () => (
       align="left"
       arrow="left"
     >
-      {shortText}
+      Align left & arrow left
     </Tooltip>
   </ComponentBox>
 )
 
 export const TooltipExampleAlignArrowRight = () => (
-  <ComponentBox
-    data-visual-test="tooltip-hover-align-arrow-right"
-    scope={{ shortText }}
-  >
+  <ComponentBox data-visual-test="tooltip-hover-align-arrow-right">
     <Button className="target-align-arrow-right">
-      Align left & arrow right
+      Align right & arrow right
     </Button>
     <Tooltip
       id="unique-align-arrow-right"
@@ -317,16 +312,13 @@ export const TooltipExampleAlignArrowRight = () => (
       align="right"
       arrow="right"
     >
-      {shortText}
+      Align right & arrow right
     </Tooltip>
   </ComponentBox>
 )
 
 export const TooltipExampleAlignLeftArrowRight = () => (
-  <ComponentBox
-    data-visual-test="tooltip-hover-align-left-arrow-right"
-    scope={{ shortText }}
-  >
+  <ComponentBox data-visual-test="tooltip-hover-align-left-arrow-right">
     <Button className="target-align-left-arrow-right">
       Align left & arrow right
     </Button>
@@ -336,16 +328,13 @@ export const TooltipExampleAlignLeftArrowRight = () => (
       align="left"
       arrow="right"
     >
-      {shortText}
+      Align left & arrow right
     </Tooltip>
   </ComponentBox>
 )
 
 export const TooltipExampleAlignRightArrowLeft = () => (
-  <ComponentBox
-    data-visual-test="tooltip-hover-align-right-arrow-left"
-    scope={{ shortText }}
-  >
+  <ComponentBox data-visual-test="tooltip-hover-align-right-arrow-left">
     <Button className="target-align-right-arrow-left">
       Align right & arrow left
     </Button>
@@ -355,48 +344,39 @@ export const TooltipExampleAlignRightArrowLeft = () => (
       align="right"
       arrow="left"
     >
-      {shortText}
+      Align right & arrow left
     </Tooltip>
   </ComponentBox>
 )
 
 export const TooltipExampleAlignLeft = () => (
-  <ComponentBox
-    data-visual-test="tooltip-hover-align-left"
-    scope={{ shortText }}
-  >
+  <ComponentBox data-visual-test="tooltip-hover-align-left">
     <Button className="target-align-left">Align left</Button>
     <Tooltip
       id="unique-align-left"
       targetSelector=".target-align-left"
       align="left"
     >
-      {shortText}
+      Align left
     </Tooltip>
   </ComponentBox>
 )
 
 export const TooltipExampleAlignRight = () => (
-  <ComponentBox
-    data-visual-test="tooltip-hover-align-right"
-    scope={{ shortText }}
-  >
+  <ComponentBox data-visual-test="tooltip-hover-align-right">
     <Button className="target-align-right">Align right</Button>
     <Tooltip
       id="unique-align-right"
       targetSelector=".target-align-right"
       align="right"
     >
-      {shortText}
+      Align right
     </Tooltip>
   </ComponentBox>
 )
 
 export const TooltipExampleAlignArrowCenter = () => (
-  <ComponentBox
-    data-visual-test="tooltip-hover-align-center"
-    scope={{ shortText }}
-  >
+  <ComponentBox data-visual-test="tooltip-hover-align-center">
     <Button className="target-align-center">
       Align center & arrow center
     </Button>
@@ -406,87 +386,72 @@ export const TooltipExampleAlignArrowCenter = () => (
       align="center"
       arrow="center"
     >
-      {shortText}
+      Align center & arrow center
     </Tooltip>
   </ComponentBox>
 )
 
 export const TooltipExampleArrowLeft = () => (
-  <ComponentBox
-    data-visual-test="tooltip-hover-arrow-left"
-    scope={{ shortText }}
-  >
+  <ComponentBox data-visual-test="tooltip-hover-arrow-left">
     <Button className="target-arrow-left">Arrow left</Button>
     <Tooltip
       id="unique-arrow-left"
       targetSelector=".target-arrow-left"
       arrow="left"
     >
-      {shortText}
+      Arrow left
     </Tooltip>
   </ComponentBox>
 )
 
 export const TooltipExampleArrowRight = () => (
-  <ComponentBox
-    data-visual-test="tooltip-hover-arrow-right"
-    scope={{ shortText }}
-  >
+  <ComponentBox data-visual-test="tooltip-hover-arrow-right">
     <Button className="target-arrow-right">Arrow right</Button>
     <Tooltip
       id="unique-arrow-right"
       targetSelector=".target-arrow-right"
       arrow="right"
     >
-      {shortText}
+      Arrow right
     </Tooltip>
   </ComponentBox>
 )
 
 export const TooltipExamplePositionRight = () => (
-  <ComponentBox
-    data-visual-test="tooltip-hover-position-right"
-    scope={{ shortText }}
-  >
+  <ComponentBox data-visual-test="tooltip-hover-position-right">
     <Button className="target-position-right">Position right</Button>
     <Tooltip
       id="unique-position-right"
       targetSelector=".target-position-right"
       position="right"
     >
-      {shortText}
+      Position right
     </Tooltip>
   </ComponentBox>
 )
 
 export const TooltipExamplePositionLeft = () => (
-  <ComponentBox
-    data-visual-test="tooltip-hover-position-left"
-    scope={{ shortText }}
-  >
+  <ComponentBox data-visual-test="tooltip-hover-position-left">
     <Button className="target-position-left">Position left</Button>
     <Tooltip
       id="unique-position-left"
       targetSelector=".target-position-left"
       position="left"
     >
-      {shortText}
+      Position left
     </Tooltip>
   </ComponentBox>
 )
 
 export const TooltipExamplePositionBottom = () => (
-  <ComponentBox
-    data-visual-test="tooltip-hover-position-bottom"
-    scope={{ shortText }}
-  >
+  <ComponentBox data-visual-test="tooltip-hover-position-bottom">
     <Button className="target-position-bottom">Position bottom</Button>
     <Tooltip
       id="unique-position-bottom"
       targetSelector=".target-position-bottom"
       position="bottom"
     >
-      {shortText}
+      Position bottom
     </Tooltip>
   </ComponentBox>
 )
