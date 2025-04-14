@@ -180,6 +180,24 @@ export const TooltipExamplePositionRightLongText = () => (
   </ComponentBox>
 )
 
+export const TooltipExamplePositionLeftLongText = () => (
+  <ComponentBox
+    data-visual-test="tooltip-hover-position-left-long-text"
+    scope={{ longText }}
+  >
+    <Button className="target-position-left-long-text">
+      Position tooltip left
+    </Button>
+    <Tooltip
+      id="unique-position-left-long-text"
+      targetSelector=".target-position-left-long-text"
+      position="left"
+    >
+      {longText}
+    </Tooltip>
+  </ComponentBox>
+)
+
 export const TooltipExamplePositionBottomLongText = () => (
   <ComponentBox
     data-visual-test="tooltip-hover-position-bottom-long-text"
@@ -291,6 +309,22 @@ export const TooltipExamplePositionRight = () => (
       id="unique-position-right"
       targetSelector=".target-position-right"
       position="right"
+    >
+      {shortText}
+    </Tooltip>
+  </ComponentBox>
+)
+
+export const TooltipExamplePositionLeft = () => (
+  <ComponentBox
+    data-visual-test="tooltip-hover-position-left"
+    scope={{ shortText }}
+  >
+    <Button className="target-position-left">Position tooltip left</Button>
+    <Tooltip
+      id="unique-position-left"
+      targetSelector=".target-position-left"
+      position="left"
     >
       {shortText}
     </Tooltip>
