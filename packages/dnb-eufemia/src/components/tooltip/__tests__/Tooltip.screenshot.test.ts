@@ -211,6 +211,35 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match tooltip on button hover state when position left', async () => {
+    const screenshot = await makeScreenshot({
+      style: {
+        height: '4rem',
+        'padding-left': '6rem',
+      },
+      selector: '[data-visual-test="tooltip-hover-position-left"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-position-left"] button',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match tooltip on button hover state when position left with long text', async () => {
+    const screenshot = await makeScreenshot({
+      style: {
+        height: '4rem',
+        'padding-left': '6rem',
+      },
+      selector:
+        '[data-visual-test="tooltip-hover-position-left-long-text"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-position-left-long-text"] button',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match tooltip on button hover state when position bottom', async () => {
     const screenshot = await makeScreenshot({
       style: {
