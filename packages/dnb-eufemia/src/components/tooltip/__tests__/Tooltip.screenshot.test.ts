@@ -69,6 +69,64 @@ describe.each(['ui', 'sbanken'])('Tooltip for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match tooltip on button hover state when align and arrow left', async () => {
+    const screenshot = await makeScreenshot({
+      style: {
+        height: '4rem',
+        'padding-top': '2rem',
+      },
+      selector: '[data-visual-test="tooltip-hover-align-arrow-left"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-align-arrow-left"] button',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match tooltip on button hover state when align and arrow left with long text', async () => {
+    const screenshot = await makeScreenshot({
+      style: {
+        height: '4rem',
+        'padding-top': '2rem',
+      },
+      selector:
+        '[data-visual-test="tooltip-hover-align-arrow-left-long-text"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-align-arrow-left-long-text"] button',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match tooltip on button hover state when align and arrow right', async () => {
+    const screenshot = await makeScreenshot({
+      style: {
+        height: '4rem',
+        'padding-top': '2rem',
+      },
+      selector: '[data-visual-test="tooltip-hover-align-arrow-right"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-align-arrow-right"] button',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match tooltip on button hover state when align and arrow right with long text', async () => {
+    const screenshot = await makeScreenshot({
+      style: {
+        height: '4rem',
+        'padding-top': '2rem',
+      },
+      selector:
+        '[data-visual-test="tooltip-hover-align-arrow-right-long-text"]',
+      simulateSelector:
+        '[data-visual-test="tooltip-hover-align-arrow-right-long-text"] button',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match tooltip on button hover state when align right', async () => {
     const screenshot = await makeScreenshot({
       style: {

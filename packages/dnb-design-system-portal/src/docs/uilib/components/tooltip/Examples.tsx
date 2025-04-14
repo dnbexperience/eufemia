@@ -71,6 +71,44 @@ export const TooltipExampleButtonLongText = () => (
   </ComponentBox>
 )
 
+export const TooltipExampleAlignArrowLeftLongText = () => (
+  <ComponentBox
+    data-visual-test="tooltip-hover-align-arrow-left-long-text"
+    scope={{ longText }}
+  >
+    <Button className="target-align-arrow-left-long-text">
+      Align & arrow tooltip left
+    </Button>
+    <Tooltip
+      id="unique-align-arrow-left-long-text"
+      targetSelector=".target-align-arrow-left-long-text"
+      align="left"
+      arrow="left"
+    >
+      {longText}
+    </Tooltip>
+  </ComponentBox>
+)
+
+export const TooltipExampleAlignArrowRightLongText = () => (
+  <ComponentBox
+    data-visual-test="tooltip-hover-align-arrow-right-long-text"
+    scope={{ longText }}
+  >
+    <Button className="target-align-arrow-right-long-text">
+      Align & arrow tooltip right
+    </Button>
+    <Tooltip
+      id="unique-align-arrow-right-long-text"
+      targetSelector=".target-align-arrow-right-long-text"
+      align="right"
+      arrow="right"
+    >
+      {longText}
+    </Tooltip>
+  </ComponentBox>
+)
+
 export const TooltipExampleAlignLeftLongText = () => (
   <ComponentBox
     data-visual-test="tooltip-hover-align-left-long-text"
@@ -212,6 +250,44 @@ export const TooltipExamplePositionBottomLongText = () => (
       position="bottom"
     >
       {longText}
+    </Tooltip>
+  </ComponentBox>
+)
+
+export const TooltipExampleAlignArrowLeft = () => (
+  <ComponentBox
+    data-visual-test="tooltip-hover-align-arrow-left"
+    scope={{ shortText }}
+  >
+    <Button className="target-align-arrow-left">
+      Align & arrow tooltip left
+    </Button>
+    <Tooltip
+      id="unique-align-arrow-left"
+      targetSelector=".target-align-arrow-left"
+      align="left"
+      arrow="left"
+    >
+      {shortText}
+    </Tooltip>
+  </ComponentBox>
+)
+
+export const TooltipExampleAlignArrowRight = () => (
+  <ComponentBox
+    data-visual-test="tooltip-hover-align-arrow-right"
+    scope={{ shortText }}
+  >
+    <Button className="target-align-arrow-right">
+      Align & arrow tooltip right
+    </Button>
+    <Tooltip
+      id="unique-align-arrow-right"
+      targetSelector=".target-align-arrow-right"
+      align="right"
+      arrow="right"
+    >
+      {shortText}
     </Tooltip>
   </ComponentBox>
 )
