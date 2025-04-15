@@ -3,6 +3,14 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.71.1](https://github.com/dnbexperience/eufemia/compare/v10.71.0...v10.71.1) (2025-04-15)
+
+
+### :bug: Bug Fixes
+
+* **DatePicker:** display correct dates when props are updated with `useLayoutEffect` in `React.StrictMode`  ([#4950](https://github.com/dnbexperience/eufemia/issues/4950)) ([b57392d](https://github.com/dnbexperience/eufemia/commit/b57392d712b7c56e7d57a092e3334993a12933c7))
+* **Tooltip:** alignment issues ([#4968](https://github.com/dnbexperience/eufemia/issues/4968)) ([1e528e3](https://github.com/dnbexperience/eufemia/commit/1e528e333ead9e14b9e7d4209147ce60544a1299)), closes [/github.com/dnbexperience/eufemia/pull/1613/files#diff-b2805e65ae4b7b277abc5b023aae4c0962edf5c86c8fd5dcdcbdf7350f1ed536R224](https://github.com/dnbexperience//github.com/dnbexperience/eufemia/pull/1613/files/issues/diff-b2805e65ae4b7b277abc5b023aae4c0962edf5c86c8fd5dcdcbdf7350f1ed536R224)
+
 ## [10.71.0](https://github.com/dnbexperience/eufemia/compare/v10.70.1...v10.71.0) (2025-04-11)
 
 
