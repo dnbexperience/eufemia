@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.72.0](https://github.com/dnbexperience/eufemia/compare/v10.71.2...v10.72.0) (2025-04-15)
+
+
+### :sparkles: Features
+
+* **StepIndicator:** redesign ([#4462](https://github.com/dnbexperience/eufemia/issues/4462)) ([b541600](https://github.com/dnbexperience/eufemia/commit/b541600f5c77472dfae6679800edc8f52d33d8cf))
+
 ## [10.71.2](https://github.com/dnbexperience/eufemia/compare/v10.71.1...v10.71.2) (2025-04-15)
 
 
