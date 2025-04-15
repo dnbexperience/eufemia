@@ -105,7 +105,7 @@ export const AsyncChangeAndValidation = () => {
           }
 
           if (value !== 'valid') {
-            return new Error('Custom error with invalid value: ' + value) // Show this message
+            return new Error(`Custom error with invalid value: ${value}`) // Show this message
           }
         })
 

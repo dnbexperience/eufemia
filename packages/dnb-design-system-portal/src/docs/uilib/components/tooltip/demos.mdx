@@ -9,6 +9,31 @@ import {
   TooltipExampleNumberFormatWrapped,
   TooltipExampleLinked,
   TooltipExampleActive,
+  TooltipExampleAlignLeft,
+  TooltipExampleAlignLeftLongText,
+  TooltipExampleAlignRight,
+  TooltipExampleAlignRightLongText,
+  TooltipExampleAlignArrowLeft,
+  TooltipExampleAlignArrowLeftLongText,
+  TooltipExampleAlignArrowRight,
+  TooltipExampleAlignArrowRightLongText,
+  TooltipExampleAlignLeftArrowRight,
+  TooltipExampleAlignLeftArrowRightLongText,
+  TooltipExampleAlignRightArrowLeft,
+  TooltipExampleAlignRightArrowLeftLongText,
+  TooltipExampleButtonLongText,
+  TooltipExampleArrowLeft,
+  TooltipExampleArrowLeftLongText,
+  TooltipExampleArrowRight,
+  TooltipExampleArrowRightLongText,
+  TooltipExampleAlignArrowCenter,
+  TooltipExampleAlignArrowCenterLongText,
+  TooltipExamplePositionRight,
+  TooltipExamplePositionRightLongText,
+  TooltipExamplePositionLeft,
+  TooltipExamplePositionLeftLongText,
+  TooltipExamplePositionBottom,
+  TooltipExamplePositionBottomLongText,
 } from 'Docs/uilib/components/tooltip/Examples'
 
 ## Demos
@@ -19,7 +44,9 @@ import {
 
 ### Button with active Tooltip
 
-<TooltipExampleActive />
+<VisibleWhenNotVisualTest>
+  <TooltipExampleActive />
+</VisibleWhenNotVisualTest>
 
 ### NumberFormat with a tooltip
 
@@ -35,4 +62,34 @@ import {
 
 ### Tooltip linked to a vanilla button
 
-<TooltipExampleLinked />
+<VisibleWhenNotVisualTest>
+  <TooltipExampleLinked />
+</VisibleWhenNotVisualTest>
+
+<VisibleWhenVisualTest>
+  <TooltipExampleButtonLongText />
+  <TooltipExampleAlignArrowCenter />
+  <TooltipExampleAlignArrowCenterLongText />
+  <TooltipExamplePositionRight />
+  <TooltipExamplePositionRightLongText />
+  <TooltipExampleAlignLeft />
+  <TooltipExampleAlignLeftLongText />
+  <TooltipExampleAlignRight />
+  <TooltipExampleAlignRightLongText />
+  <TooltipExampleAlignArrowLeft />
+  <TooltipExampleAlignArrowLeftLongText />
+  <TooltipExampleAlignArrowRight />
+  <TooltipExampleAlignArrowRightLongText />
+  <TooltipExampleAlignLeftArrowRight />
+  <TooltipExampleAlignLeftArrowRightLongText />
+  <TooltipExampleAlignRightArrowLeft />
+  <TooltipExampleAlignRightArrowLeftLongText />
+  <TooltipExampleArrowLeft />
+  <TooltipExampleArrowLeftLongText />
+  <TooltipExampleArrowRight />
+  <TooltipExampleArrowRightLongText />
+  <TooltipExamplePositionLeft />
+  <TooltipExamplePositionLeftLongText />
+  <TooltipExamplePositionBottom />
+  <TooltipExamplePositionBottomLongText />
+</VisibleWhenVisualTest>

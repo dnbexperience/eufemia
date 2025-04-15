@@ -31,7 +31,7 @@ export const PostalCode = () => {
           fetchConfig: {
             url: async (value, { countryCode }) => {
               await mockFetch(countryCode)
-              return '[YOUR-API-URL]/' + value
+              return `[YOUR-API-URL]/${value}`
             },
           },
         })
