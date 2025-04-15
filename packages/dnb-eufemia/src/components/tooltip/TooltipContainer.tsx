@@ -221,7 +221,7 @@ export default function TooltipContainer(
       },
     }
 
-    stylesFromPosition?.[position]?.()
+    stylesFromPosition[position]?.()
     stylesFromArrow?.[arrow]?.()
 
     const rightOffset =
