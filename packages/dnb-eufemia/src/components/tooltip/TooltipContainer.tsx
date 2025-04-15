@@ -222,7 +222,7 @@ export default function TooltipContainer(
     }
 
     stylesFromPosition[position]?.()
-    stylesFromArrow?.[arrow]?.()
+    stylesFromArrow[arrow]?.()
 
     const rightOffset =
       parseFloat(String(style.left)) + elementWidth - window.innerWidth
