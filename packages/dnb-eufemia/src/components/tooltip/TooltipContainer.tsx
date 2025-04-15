@@ -37,6 +37,7 @@ export default function TooltipContainer(
   } = props
 
   const [style, setStyle] = React.useState(null)
+  const [arrowStyle, setArrowStyle] = React.useState(null)
   const [hover, setHover] = React.useState(false)
   const isActive = isTrue(active) || hover
   const [wasActive, makeActive] = React.useState(false)
@@ -168,6 +169,7 @@ export default function TooltipContainer(
         : widthBased) - offsetLeft.current
 
     const style = { ...props.style }
+    const arrowStyle = { top: null, left: null }
 
     if (align === 'left') {
       alignOffset = -targetBodySize.width / 2
@@ -221,27 +223,35 @@ export default function TooltipContainer(
       },
     }
 
-    if (stylesFromPosition[position]) {
-      stylesFromPosition[position]()
-    }
-    if (stylesFromArrow[arrow]) {
-      stylesFromArrow[arrow]()
-    }
+    stylesFromPosition[position]?.()
+    stylesFromArrow[arrow]?.()
 
     const rightOffset =
       parseFloat(String(style.left)) + elementWidth - window.innerWidth
     if (rightOffset > 0) {
       style.left = window.innerWidth - elementWidth
     }
-
     if (parseFloat(String(style.left)) < 0) {
       style.left = 0
+      if (position === 'top' || position === 'bottom') {
+        const arrowWidth = 16 // 1rem
+        const arrowStyleBasisWidth = left - arrowWidth / 2
+        if (align === 'left') {
+          arrowStyle.left = arrowStyleBasisWidth
+        } else if (align === 'right') {
+          arrowStyle.left = arrowStyleBasisWidth + targetBodySize.width
+        } else {
+          arrowStyle.left = arrowStyleBasisWidth + targetBodySize.width / 2
+        }
+      }
     }
     if (parseFloat(String(style.top)) < 0) {
       style.top = 0
+      arrowStyle.top = 0
     }
 
     setStyle(style)
+    setArrowStyle(arrowStyle)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active, arrow, position, children, renewStyles])
@@ -291,6 +301,7 @@ export default function TooltipContainer(
             `dnb-tooltip__arrow__arrow--${arrow}`,
             `dnb-tooltip__arrow__position--${position}`
           )}
+          style={{ ...arrowStyle }}
         />
       )}
 
