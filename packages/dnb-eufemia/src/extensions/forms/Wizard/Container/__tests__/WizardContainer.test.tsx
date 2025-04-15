@@ -5331,7 +5331,7 @@ describe('Wizard.Container', () => {
     })
   })
 
-  it('start expanded with expandedInitially', () => {
+  it('should render the Wizard container in an expanded state when "expandedInitially" is set', () => {
     render(
       <>
         <Wizard.Container expandedInitially>
