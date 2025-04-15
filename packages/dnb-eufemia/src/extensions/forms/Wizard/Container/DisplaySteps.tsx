@@ -6,14 +6,13 @@ import { useTranslation } from '../../hooks'
 
 export function DisplaySteps({
   mode,
-  variant,
   noAnimation,
   handleChange,
-  sidebarId,
+  expandedInitially,
+  outset,
 }) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const {
-    id,
     activeIndexRef,
     stepsRef,
     updateTitlesRef,
@@ -25,10 +24,7 @@ export function DisplaySteps({
   }
   const translations = useTranslation()
 
-  const sidebar_id =
-    variant === 'drawer' && !sidebarId ? undefined : sidebarId ?? id
-
-  const getTriggerStatus = useCallback(() => {
+  const getStepIndicatorStatus = useCallback(() => {
     if (!hasErrorInOtherStepRef.current) {
       return // stop here
     }
@@ -44,15 +40,17 @@ export function DisplaySteps({
         status_state: 'warn',
       } satisfies Omit<StepIndicatorItemProps, 'title' | 'currentItemNum'>
     }
+    return {}
   }, [
     hasErrorInOtherStepRef,
     hasInvalidStepsState,
     translations.Step.stepHasError,
   ])
 
+  const { status, status_state } = getStepIndicatorStatus() ?? {}
+
   return (
     <aside className="dnb-forms-wizard-layout__indicator">
-      <StepIndicator.Sidebar sidebar_id={sidebar_id} />
       <StepIndicator
         bottom
         current_step={activeIndexRef.current}
@@ -67,9 +65,11 @@ export function DisplaySteps({
         )}
         mode={mode}
         no_animation={noAnimation}
+        expandedInitially={expandedInitially}
         on_change={handleChange}
-        sidebar_id={sidebar_id}
-        triggerButtonProps={getTriggerStatus()}
+        outset={outset}
+        status={status}
+        status_state={status_state}
       />
     </aside>
   )

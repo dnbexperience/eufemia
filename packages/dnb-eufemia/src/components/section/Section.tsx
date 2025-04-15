@@ -59,6 +59,7 @@ export type TextColor = string
 export type OutlineColor = string | boolean
 export type BackgroundColor = string
 export type DropShadow = boolean
+export type RoundedCorner = boolean | [boolean, boolean, boolean, boolean]
 
 export type SectionProps = {
   /**
@@ -80,7 +81,7 @@ export type SectionProps = {
   /**
    * Define if the section should have rounded corners. Defaults to `false`.
    */
-  roundedCorner?: boolean | ResponsiveProp<boolean>
+  roundedCorner?: RoundedCorner | ResponsiveProp<RoundedCorner>
 
   /**
    * Define a custom border color. Use a Eufemia color.
@@ -197,10 +198,12 @@ export function SectionParams(
         (value) => `var(--breakout--${value ? 'on' : 'off'})`
       ),
       ...computeStyle(outset, 'outset', (value) => (value ? '1' : '0')),
-      ...computeStyle(
-        roundedCorner,
-        'rounded-corner',
-        (value) => value && 'var(--rounded-corner--value)'
+      ...computeStyle(roundedCorner, 'rounded-corner', (value) =>
+        typeof value === 'boolean'
+          ? value && 'var(--rounded-corner--value)'
+          : value
+              .map((v) => (v ? 'var(--rounded-corner--value)' : '0'))
+              .join(' ')
       ),
       ...computeStyle(textColor, 'text-color', (value) => getColor(value)),
       ...computeStyle(backgroundColor, 'background-color', (value) =>
@@ -212,8 +215,8 @@ export function SectionParams(
         (value) => value && 'var(--shadow-default)'
       ),
       ...computeStyle(outline, 'outline-color', (value) =>
-        String(value) === 'true'
-          ? 'var(--outline-color--value)'
+        typeof value === 'boolean'
+          ? value && 'var(--outline-color--value)'
           : getColor(value)
       ),
       ...attributes?.style,
@@ -223,24 +226,27 @@ export function SectionParams(
   })
 }
 
-function computeStyle(
-  property: ResponsiveProp<unknown> | boolean | string,
+function computeStyle<T extends boolean | string | boolean[]>(
+  property: T | ResponsiveProp<T>,
   name: string,
-  valueCallback: (value: string) => string | undefined
+  valueCallback: (value: T) => string | undefined
 ) {
-  let media = property as ResponsiveProp<unknown>
+  let media = property as ResponsiveProp<T>
 
-  if (media !== null && typeof media !== 'object') {
+  if (
+    media !== null &&
+    (Array.isArray(media) || typeof media !== 'object')
+  ) {
     media = {
       small: property,
       medium: property,
       large: property,
-    } as ResponsiveProp<unknown>
+    } as ResponsiveProp<T>
   }
 
   const result = {}
 
-  for (const size in media as ResponsiveProp<unknown>) {
+  for (const size in media as ResponsiveProp<T>) {
     if (typeof media?.[size] !== 'undefined') {
       const value = valueCallback(media?.[size])
       if (typeof value === 'string') {

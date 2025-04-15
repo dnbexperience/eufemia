@@ -15,7 +15,6 @@ import React, {
 import Context, { ContextProps } from '../../shared/Context'
 import { stepIndicatorDefaultProps } from './StepIndicatorProps'
 import { extendPropsWithContext } from '../../shared/component-helper'
-import { onMediaQueryChange } from '../../shared/MediaQueryUtils'
 import {
   StepIndicatorData,
   StepIndicatorDataItem,
@@ -23,7 +22,6 @@ import {
   StepIndicatorProps,
 } from './StepIndicator'
 import { StepIndicatorItemProps } from './StepIndicatorItem'
-import { StepIndicatorTriggerButtonProps } from './StepIndicatorTriggerButton'
 
 // We use this array to filter out unwanted properties
 const filterAttributes = Object.keys(stepIndicatorDefaultProps)
@@ -32,25 +30,18 @@ const filterAttributes = Object.keys(stepIndicatorDefaultProps)
   })
   .concat([
     'internalId',
-    'isSidebar',
-    'hasSidebar',
-    'hideSidebar',
-    'sidebarIsVisible',
     'mainTitle',
     'stepsLabel',
-    'stepsLabelExtended',
     'listOfReachedSteps',
     'setActiveStep',
     'activeStep',
     'countSteps',
     'openState',
-    'onChangeState',
     'openHandler',
     'closeHandler',
     'innerRef',
     'hasSkeletonData',
     'filterAttributes',
-    'onChangeState',
   ])
 
 export type StepIndicatorContextValues = StepIndicatorProviderProps &
@@ -64,12 +55,8 @@ export default StepIndicatorContext
 
 export type StepIndicatorProviderProps = Omit<
   StepIndicatorProps,
-  'mode' | 'data'
+  'mode' | 'data' | 'sidebar_id' | 'step_title_extended'
 > & {
-  /**
-   * <em>(required)</em> a unique string-based ID in order to bind together the main component and the sidebar (`<StepIndicator.Sidebar />`). Both have to get the same ID.
-   */
-  sidebar_id: string
   /**
    * <em>(required)</em> defines the data/steps showing up in a JavaScript Array or JSON format like `[{title,is_current}]`. See parameters and the example above.
    */
@@ -79,36 +66,22 @@ export type StepIndicatorProviderProps = Omit<
    */
   mode?: StepIndicatorMode
   children: React.ReactNode
-  isSidebar?: boolean
-  triggerButtonProps?: StepIndicatorTriggerButtonProps
 }
 
 export type StepIndicatorProviderStates = {
   data: (string | StepIndicatorItemProps)[]
-  hasSidebar: boolean
-  hideSidebar: boolean
   activeStep: number
   openState: boolean
   listOfReachedSteps: number[]
   countSteps: number
   stepsLabel: string
-  stepsLabelExtended: string
   filterAttributes: string[]
   setActiveStep: React.Dispatch<React.SetStateAction<number>>
-  sidebarIsVisible: boolean
-  onChangeState: () => void
   openHandler: () => void
   closeHandler: () => void
 }
 
-export function StepIndicatorProvider({
-  isSidebar = false,
-  ...restOfProps
-}: StepIndicatorProviderProps) {
-  const props = useMemo(() => {
-    return { isSidebar, ...restOfProps }
-  }, [isSidebar, restOfProps])
-
+export function StepIndicatorProvider(props: StepIndicatorProviderProps) {
   const data = useMemo(() => {
     if (typeof props.data === 'string') {
       return props.data[0] === '[' ? JSON.parse(props.data) : []
@@ -117,13 +90,9 @@ export function StepIndicatorProvider({
     return props.data || []
   }, [props])
 
-  const [hasSidebar, setHasSidebar] = useState<boolean>(true)
-  const [hideSidebar, setHideSidebar] = useState<boolean>(false)
-  const [openState, setOpenState] = useState<boolean>(false)
-
-  const onChangeState = useCallback(() => {
-    setOpenState(false)
-  }, [])
+  const [openState, setOpenState] = useState<boolean>(
+    props.expandedInitially
+  )
 
   const openHandler = useCallback(() => {
     setOpenState(true)
@@ -159,7 +128,6 @@ export function StepIndicatorProvider({
   const listOfReachedSteps = useRef(
     [activeStepRef.current].filter(Boolean)
   ).current
-  const mediaQueryListener = useRef(null)
   const context = useContext(Context)
 
   const updateStepTitle = useCallback(
@@ -190,28 +158,20 @@ export function StepIndicatorProvider({
       },
       // State
       {
-        hasSidebar,
-        hideSidebar,
         activeStep: activeStepRef.current,
         openState,
         listOfReachedSteps,
         data,
         countSteps,
         stepsLabel: updateStepTitle(globalContext.step_title),
-        stepsLabelExtended: updateStepTitle(
-          globalContext.step_title_extended
-        ),
       },
       // Functions
       {
         setActiveStep,
-        onChangeState,
         openHandler,
         closeHandler,
       }
     ) as StepIndicatorContextValues
-
-    value.sidebarIsVisible = value.hasSidebar && !value.hideSidebar
 
     return value
   }, [
@@ -219,10 +179,7 @@ export function StepIndicatorProvider({
     context,
     countSteps,
     data,
-    hasSidebar,
-    hideSidebar,
     listOfReachedSteps,
-    onChangeState,
     openHandler,
     openState,
     props,
@@ -231,32 +188,6 @@ export function StepIndicatorProvider({
   ])
 
   const contextValue = makeContextValue() as StepIndicatorContextValues
-
-  // Mount and dismount
-  useEffect(() => {
-    const container = document?.getElementById(
-      'sidebar__' + props.sidebar_id
-    )
-
-    setHasSidebar(Boolean(container))
-
-    mediaQueryListener.current = onMediaQueryChange(
-      {
-        min: '0',
-        max: 'medium',
-      },
-      (hideSidebar) => {
-        setHideSidebar(hideSidebar)
-      },
-      { runOnInit: true }
-    )
-
-    return () => {
-      if (mediaQueryListener.current) {
-        mediaQueryListener.current()
-      }
-    }
-  }, [props.sidebar_id])
 
   // Keeps the activeStep state updated with changes to the current_step and data props
   useEffect(() => {

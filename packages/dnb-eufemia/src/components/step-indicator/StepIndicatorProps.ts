@@ -9,4 +9,5 @@ export const stepIndicatorDefaultProps: Omit<
   current_step: 0,
   hide_numbers: false,
   no_animation: false,
+  expandedInitially: false,
 }

@@ -168,7 +168,7 @@ export function HelpButtonInlineContent(
     help: helpProp,
     breakout = true,
     outset = true,
-    roundedCorner = true,
+    roundedCorner,
     focusWhenOpen: focusWhenOpenProp,
     ...rest
   } = props

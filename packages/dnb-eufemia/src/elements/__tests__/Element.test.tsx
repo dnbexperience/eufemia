@@ -9,6 +9,8 @@ import { render } from '@testing-library/react'
 import Element, { defaultProps, ElementAllProps } from '../Element'
 import { Provider } from '../../shared'
 
+const myPElement = (props) => <p {...props} />
+
 const props: ElementAllProps = {
   as: 'p',
   skeletonMethod: 'font',
@@ -117,5 +119,85 @@ describe('Element', () => {
   it('should validate with ARIA rules as a Element element', async () => {
     const Component = render(<Element {...props}>text</Element>)
     expect(await axeComponent(Component)).toHaveNoViolations()
+  })
+
+  it('should add tag class by default', () => {
+    render(
+      <>
+        <Element id="s" as="span">
+          text
+        </Element>
+        <Element id="p" as="p" internalClass={''}>
+          text
+        </Element>
+        <Element id="h" as="h1" internalClass="">
+          text
+        </Element>
+        <Element id="d" as="div" internalClass={null}>
+          text
+        </Element>
+        <Element id="a" as="a" internalClass={true}>
+          text
+        </Element>
+      </>
+    )
+
+    const elementSpan = document.querySelector('#s')
+    const elementP = document.querySelector('#p')
+    const elementHeading = document.querySelector('#h')
+    const elementDiv = document.querySelector('#d')
+    const elementA = document.querySelector('#a')
+
+    expect(Array.from(elementSpan.classList)).toEqual(['dnb-span'])
+    expect(Array.from(elementP.classList)).toEqual(['dnb-p'])
+    expect(Array.from(elementHeading.classList)).toEqual(['dnb-h1'])
+    expect(Array.from(elementDiv.classList)).toEqual(['dnb-div'])
+    expect(Array.from(elementA.classList)).toEqual(['dnb-a'])
+  })
+
+  it('should replace tag class with prop internalClass', () => {
+    render(
+      <Element as="span" internalClass="replacement-class">
+        text
+      </Element>
+    )
+
+    const element = document.querySelector('span')
+
+    expect(Array.from(element.classList)).toEqual(['replacement-class'])
+  })
+
+  it('should not add tag class when internalClass is false', () => {
+    render(
+      <Element as="span" internalClass={false}>
+        text
+      </Element>
+    )
+
+    const element = document.querySelector('span')
+
+    expect(Array.from(element.classList)).toEqual([])
+  })
+
+  it('should accept react element', () => {
+    render(
+      <Element id="el" as={myPElement}>
+        text
+      </Element>
+    )
+    const element = document.querySelector('#el')
+    expect(element.tagName).toBe('P')
+    expect(element.getAttribute('class')).toBe('')
+    expect(element.textContent).toBe('text')
+  })
+
+  it('react element should accept internalClass', () => {
+    render(
+      <Element id="el" as={myPElement} internalClass="my-class">
+        text
+      </Element>
+    )
+    const element = document.querySelector('#el')
+    expect(element.getAttribute('class')).toBe('my-class')
   })
 })
