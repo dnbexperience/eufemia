@@ -235,7 +235,7 @@ export default function TooltipContainer(
       style.left = 0
       if (position === 'top' || position === 'bottom') {
         const arrowWidth = 16 // 1rem
-        let arrowStyleBasisWidth = left - arrowWidth / 2
+        const arrowStyleBasisWidth = left - arrowWidth / 2
         if (align === 'left') {
           arrowStyle.left = arrowStyleBasisWidth
         } else if (align === 'right') {
