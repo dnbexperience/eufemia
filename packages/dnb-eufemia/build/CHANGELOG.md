@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.71.2](https://github.com/dnbexperience/eufemia/compare/v10.71.1...v10.71.2) (2025-04-15)
+
+
+### :bug: Bug Fixes
+
+* **Tooltip:** improve alignment of tooltip with long texts ([#4970](https://github.com/dnbexperience/eufemia/issues/4970)) ([b728c6a](https://github.com/dnbexperience/eufemia/commit/b728c6aefe64d8f476bd80da167b43911676c2be))
+
 ## [10.71.1](https://github.com/dnbexperience/eufemia/compare/v10.71.0...v10.71.1) (2025-04-15)
 
 
