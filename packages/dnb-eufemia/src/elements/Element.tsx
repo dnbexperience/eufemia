@@ -30,7 +30,14 @@ export type ElementInternalProps = {
 export type ElementProps = {
   skeleton?: SkeletonShow
   skeletonMethod?: SkeletonMethods
-  internalClass?: string
+  /**
+   * As a string: replaces the default tag class `dnb-{TAG_NAME}` with a different class. Empty string does the same as default `undefined`.
+   *
+   * As a boolean: set it to `false` to disable the default tag class. `true` does the same as default `undefined`.
+   *
+   * Default: `undefined`
+   */
+  internalClass?: string | boolean
   innerRef?: React.RefObject<HTMLElement> | React.ForwardedRef<unknown>
   children?: React.ReactNode
 } & SpacingProps
@@ -69,7 +76,11 @@ function ElementInstance(localProps: ElementAllProps) {
   const attributes = rest as Attributes
 
   const tagClass =
-    internalClass || (typeof Tag === 'string' ? `dnb-${Tag}` : '')
+    internalClass === false
+      ? ''
+      : (internalClass === true ? undefined : internalClass) ||
+        (typeof Tag === 'string' ? `dnb-${Tag}` : '')
+
   const internalClassName = classnames(
     !new RegExp(`${tagClass}(\\s|$)`).test(String(className)) && tagClass,
     className,

@@ -11,11 +11,6 @@ export const WizardContainerProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
-  variant: {
-    doc: 'Sets the StepIndicator to be either `sidebar` or `drawer`. Defaults to `sidebar`.',
-    type: 'string',
-    status: 'optional',
-  },
   omitScrollManagement: {
     doc: 'True to omit scroll management.',
     type: 'boolean',
@@ -26,13 +21,8 @@ export const WizardContainerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  sidebarId: {
-    doc: 'Sets the id for `<StepIndicator.Sidebar />` Inherited from StepIndicator.',
-    type: 'string',
-    status: 'required',
-  },
   noAnimation: {
-    doc: 'Determines if the height animation for step items and the drawer button will run. Inherited from StepIndicator. Defaults to `true`.',
+    doc: 'If set to `true`, the height animation on step change and list expansion will be omitted. Inherited from StepIndicator. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
@@ -46,6 +36,16 @@ export const WizardContainerProperties: PropertiesTableProps = {
     type: ['bypassOnNavigation'],
     status: 'optional',
   },
+  expandedInitially: {
+    doc: 'Set to `true` to have the list be expanded initially. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  outset: {
+    doc: 'Same as `outset` in [Card](/uilib/components/card/properties). But defaults to `true`',
+    type: 'boolean',
+    status: 'optional',
+  },
   children: {
     doc: 'Contents (Step components).',
     type: 'React.Node',
@@ -55,6 +55,16 @@ export const WizardContainerProperties: PropertiesTableProps = {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
+  },
+  variant: {
+    doc: 'There is no variant in the current version. This prop does nothing. Old docs: Sets the StepIndicator to be either `sidebar` or `drawer`. Defaults to `sidebar`.',
+    type: 'string',
+    status: 'deprecated',
+  },
+  sidebarId: {
+    doc: 'There is no longer any sidebar. This prop does nothing. Old docs: Sets the id for `<StepIndicator.Sidebar />` Inherited from StepIndicator.',
+    type: 'string',
+    status: 'deprecated',
   },
 }
 

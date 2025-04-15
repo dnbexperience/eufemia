@@ -71,6 +71,11 @@ export const FormattedCode = ({
         break
       }
     }
+    return components.code({
+      children: formatIfMarkdown(children),
+      style,
+      ...rest,
+    })
   }
   return components.code({ children, style, ...rest })
 }
@@ -105,7 +110,7 @@ export default function PropertiesTable({
             variant="prop"
             strikethrough={status === 'deprecated'}
           >
-            {formatName(camelCase ? toCamelCase(key) : key)}
+            {camelCase ? toCamelCase(key) : key}
           </FormattedCode>
         </Td>
         <Td>
@@ -219,8 +224,8 @@ function convertToCamelCase(doc: string, keys: string[]) {
   return doc
 }
 
-export function formatName(name: string): React.ReactNode | string {
-  if (name.includes('[')) {
+export function formatIfMarkdown(name: string): React.ReactNode | string {
+  if (name.includes('](')) {
     return <ReactMarkdown components={components}>{name}</ReactMarkdown>
   }
 

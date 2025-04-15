@@ -433,6 +433,14 @@ describe('Anchor element', () => {
     expect(document.querySelector('a')).toHaveAttribute('href', '/url')
   })
 
+  it('should not add `dnb-button` class as button element', () => {
+    render(<Anchor element="button">text</Anchor>)
+
+    expect(document.querySelector('.dnb-anchor').className).not.toContain(
+      'dnb-button'
+    )
+  })
+
   it('should have no-animation class if "noAnimation" props is true', () => {
     const { rerender } = render(<Anchor />)
 
