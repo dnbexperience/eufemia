@@ -240,7 +240,7 @@ export default function TooltipContainer(
     setStyle(style)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isActive, arrow, position, children, renewStyles])
+  }, [active, arrow, position, children, renewStyles])
 
   const handleMouseEnter = () => {
     if (isTrue(active) && useHover !== false) {
