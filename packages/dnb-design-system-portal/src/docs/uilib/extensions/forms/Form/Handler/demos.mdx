@@ -16,7 +16,7 @@ For fields that should remain optional, use `required={false}` property on the s
 
 ### In combination with a SubmitButton
 
-This example uses an async `onSubmit` event handler. It will disable all fields and show an indicator on the [SubmitButton](/uilib/extensions/forms/Form/SubmitButton/) while the form is pending.
+This example uses an async `onSubmit` event handler. It will disable all fields and show an indicator on the [Form.SubmitButton](/uilib/extensions/forms/Form/SubmitButton/) while the form is pending.
 
 With an async function, you can also handle the response from the server and update the form with the new data.
 
@@ -81,7 +81,7 @@ This example demonstrates how to use async validation with an async `onSubmit` a
 
 - This example does not include an async `onBlurValidator` – but it's possible to add one into the mix as well.
 
-- To access the `date` "in sync" – you can use the [useData](/uilib/extensions/forms/Form/useData/) hook.
+- To access the `date` "in sync" – you can use the [Form.useData](/uilib/extensions/forms/Form/useData/) hook.
 
 <Examples.AsyncChangeAndValidation />
 
