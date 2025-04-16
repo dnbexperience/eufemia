@@ -4,6 +4,7 @@ import {
   addYears,
   format,
   isSameMonth,
+  isSameYear,
   subMonths,
   subYears,
 } from 'date-fns'
@@ -16,13 +17,14 @@ import Button from '../Button'
 import { useTranslation } from '../../shared'
 import DatePickerContext from './DatePickerContext'
 
-type DatePickerCalendarNavigationType = 'both' | 'month' | 'year'
+type CalendarNavigationDateType = 'month' | 'year'
+type CalendarNavigationType = 'both' | CalendarNavigationDateType
 
 export type DatePickerCalendarNavigationProps = Omit<
   React.HTMLProps<HTMLElement>,
   'onSelect' | 'onChange'
 > & {
-  type: DatePickerCalendarNavigationType
+  type: CalendarNavigationType
   id: string
   nr?: number
   /**
@@ -38,25 +40,19 @@ export type DatePickerCalendarNavigationProps = Omit<
 }
 
 // eslint-disable-next-line no-unused-vars
-const titleFormats: { [key in DatePickerCalendarNavigationType]: string } =
-  {
-    both: 'MMMM yyyy',
-    month: 'MMMM',
-    year: 'yyyy',
-  }
+const titleFormats: { [key in CalendarNavigationDateType]: string } = {
+  month: 'MMMM',
+  year: 'yyyy',
+}
 
 // eslint-disable-next-line no-unused-vars
 const dateHandlers: {
   // eslint-disable-next-line no-unused-vars
-  [key in DatePickerCalendarNavigationType]: {
+  [key in CalendarNavigationDateType]: {
     // eslint-disable-next-line no-unused-vars
     [key in CalendarNavButtonType]: typeof subMonths
   }
 } = {
-  both: {
-    prev: subMonths,
-    next: addMonths,
-  },
   month: {
     prev: subMonths,
     next: addMonths,
@@ -83,13 +79,21 @@ export function DatePickerCalendarNav({
   const { selectedMonth, selectedYear } = useTranslation().DatePicker
 
   const title = type === 'year' ? selectedYear : selectedMonth
-  const titleFormat = titleFormats[type]
+  const titleFormat =
+    type === 'both'
+      ? `${titleFormats.month} ${titleFormats.year}`
+      : titleFormats[type]
+  const buttonDateType = type === 'year' ? 'year' : 'month'
 
   const onNav = useCallback(
     ({ nr, type: navigationType }: CalendarNavigationEvent) => {
+      const handlerType = type === 'year' ? 'year' : 'month'
       const updatedViews = views.map((view) => {
         if (view.nr === nr || (isLinkedCalendars && view.nr === 1)) {
-          const month = dateHandlers[type][navigationType](view.month, 1)
+          const month = dateHandlers[handlerType][navigationType](
+            view.month,
+            1
+          )
 
           return { ...view, month }
         }
@@ -109,6 +113,8 @@ export function DatePickerCalendarNav({
           nr={nr}
           date={date}
           dateLimit={minDate}
+          dateType={buttonDateType}
+          dateFormat={titleFormat}
           locale={locale}
           showButton={showPreviousButton}
           onClick={onNav}
@@ -132,9 +138,11 @@ export function DatePickerCalendarNav({
       <div className="dnb-date-picker__header__nav">
         <CalendarNavButton
           type="next"
+          dateType={buttonDateType}
           nr={nr}
           date={date}
           dateLimit={maxDate}
+          dateFormat={titleFormat}
           locale={locale}
           showButton={showNextButton}
           onClick={onNav}
@@ -147,8 +155,10 @@ export function DatePickerCalendarNav({
 export type CalendarNavButtonType = 'prev' | 'next'
 
 export type CalendarNavButtonProps = {
+  dateType: CalendarNavigationDateType
   type: CalendarNavButtonType
   nr: number
+  dateFormat: string
   date: Date
   dateLimit: Date
   locale: CalendarLocales[keyof CalendarLocales]
@@ -163,8 +173,18 @@ export type CalendarNavButtonProps = {
   onKeyDown?: (event: React.KeyboardEvent<HTMLButtonElement>) => void
 }
 
+const navButtonDisabledHandlers: {
+  // eslint-disable-next-line no-unused-vars
+  [key in CalendarNavigationDateType]: typeof isSameMonth
+} = {
+  month: isSameMonth,
+  year: isSameYear,
+} // for month navigation}
+
 function CalendarNavButton({
   type,
+  dateType,
+  dateFormat,
   nr,
   date,
   dateLimit,
@@ -173,19 +193,23 @@ function CalendarNavButton({
   onClick,
   onKeyDown,
 }: CalendarNavButtonProps) {
-  const tr = useTranslation().DatePicker
+  const translations = useTranslation().DatePicker
 
   if (!showButton) {
     return <></>
   }
-  const disabled = dateLimit && isSameMonth(date, dateLimit)
 
-  const title = tr[`${type}Month`].replace(
+  const translationKey = `${type}${capitalizeFirstLetter(dateType)}`
+
+  const title = translations[translationKey].replace(
     /%s/,
-    format(subMonths(date, 1), 'MMMM yyyy', {
+    format(dateHandlers[dateType][type](date, 1), dateFormat, {
       locale,
     })
   )
+
+  const disabled =
+    dateLimit && navButtonDisabledHandlers[dateType](date, dateLimit)
 
   const icon = type === 'prev' ? 'chevron_left' : 'chevron_right'
 
@@ -199,4 +223,8 @@ function CalendarNavButton({
       onKeyDown={onKeyDown}
     />
   )
+}
+
+function capitalizeFirstLetter(value: string) {
+  return `${value.charAt(0).toLocaleUpperCase()}${value.slice(1)}`
 }
