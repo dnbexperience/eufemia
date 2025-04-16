@@ -13,6 +13,7 @@ export type DatePickerCalendarNavigationProps = Omit<
   React.HTMLProps<HTMLElement>,
   'onSelect' | 'onChange'
 > & {
+  type: 'month' | 'year'
   id?: string
   nr?: number
   /**
@@ -34,6 +35,7 @@ export type DatePickerCalendarNavigationProps = Omit<
 const titleFormat = 'MMMM yyyy'
 
 export function DatePickerCalendarNav({
+  type = 'month',
   id,
   nr,
   date,
@@ -45,7 +47,9 @@ export function DatePickerCalendarNav({
   nextBtn,
   onNext,
 }: DatePickerCalendarNavigationProps) {
-  const { selectedMonth } = useTranslation().DatePicker
+  const { selectedMonth, selectedYear } = useTranslation().DatePicker
+
+  const title = type === 'month' ? selectedMonth : selectedYear
 
   return (
     <div className="dnb-date-picker__header">
@@ -63,7 +67,7 @@ export function DatePickerCalendarNav({
       <label
         id={`${id}--title`}
         className="dnb-date-picker__header__title dnb-no-focus"
-        title={selectedMonth.replace(
+        title={title.replace(
           /%s/,
           format(date, titleFormat, {
             locale,

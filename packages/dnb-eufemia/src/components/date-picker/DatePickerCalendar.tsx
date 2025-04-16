@@ -495,6 +495,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       {!hideNav && (
         <>
           <DatePickerCalendarNav
+            type="month"
             id={id}
             nr={nr}
             date={month}
