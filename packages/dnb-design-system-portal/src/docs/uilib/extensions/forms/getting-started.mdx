@@ -67,7 +67,7 @@ import { languageDisplayNames } from 'dnb-design-system-portal/src/core/ChangeLo
 
 ### Creating forms
 
-To build an entire form, there are surrounding components such as form [Handler](/uilib/extensions/forms/Form/Handler) and [Wizard.Container](/uilib/extensions/forms/Wizard/Container) that make data flow and layout easier and save you a lot of extra code, without compromising flexibility.
+To build an entire form, there are surrounding components such as form [Form.Handler](/uilib/extensions/forms/Form/Handler) and [Wizard.Container](/uilib/extensions/forms/Wizard/Container) that make data flow and layout easier and save you a lot of extra code, without compromising flexibility.
 
 The needed styles are included in the Eufemia core package via `dnb-ui-components`.
 
@@ -161,9 +161,9 @@ const pointer = '/foo/bar/0/baz' // points to 'value'
 
 How do I handle complex data logic?
 
-You can show or hide parts of your form based on your own logic. This is done by using the [Visibility](/uilib/extensions/forms/Form/Visibility/) component (yes, it even can animate the visibility).
+You can show or hide parts of your form based on your own logic. This is done by using the [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) component (yes, it even can animate the visibility).
 
-And you can access and modify your form data with [Form.useData](/uilib/extensions/forms/Form/useData/) or [getData](/uilib/extensions/forms/Form/getData/) or even [setData](/uilib/extensions/forms/Form/setData/).
+And you can access and modify your form data with [Form.useData](/uilib/extensions/forms/Form/useData/) or [Form.getData](/uilib/extensions/forms/Form/getData/) or even [Form.setData](/uilib/extensions/forms/Form/setData/).
 
 Here is an example of how to use these methods:
 
@@ -393,13 +393,13 @@ You can conditionally display content using the [Form.Visibility](/uilib/extensi
 
 This feature allows you to perform asynchronous operations such as fetching data from an API – without additional state management.
 
-You can enable async form submit behavior on the form [Handler](/uilib/extensions/forms/Form/Handler) by using:
+You can enable async form submit behavior on the form [Form.Handler](/uilib/extensions/forms/Form/Handler) by using:
 
 ```tsx
 <Form.Handler onSubmit={async () => {}}>...</Form.Handler>
 ```
 
-It will disable all fields and show an indicator on the [SubmitButton](/uilib/extensions/forms/Form/SubmitButton/) while the **form** is pending ([examples](/uilib/extensions/forms/Form/Handler/demos/)).
+It will disable all fields and show an indicator on the [Form.SubmitButton](/uilib/extensions/forms/Form/SubmitButton/) while the **form** is pending ([examples](/uilib/extensions/forms/Form/Handler/demos/)).
 
 When using [Wizard.Container](/uilib/extensions/forms/Wizard/Container/) you can use in addition:
 
@@ -411,7 +411,7 @@ It will disable all fields and show an indicator on the [NextButton](/uilib/exte
 
 #### onChange and autosave
 
-You can use an async function for the `onChange` event handler, either on the form [Handler](/uilib/extensions/forms/Form/Handler):
+You can use an async function for the `onChange` event handler, either on the form [Form.Handler](/uilib/extensions/forms/Form/Handler):
 
 ```tsx
 <Form.Handler onChange={async () => {}}>...</Form.Handler>
@@ -433,7 +433,7 @@ Here is an example of an async change behavior:
 
 <AsyncChangeExample />
 
-More info about the async change behavior in the form [Handler](/uilib/extensions/forms/Form/Handler/info/#async-onchange-and-onsubmit-event-handlers) section.
+More info about the async change behavior in the form [Form.Handler](/uilib/extensions/forms/Form/Handler/info/#async-onchange-and-onsubmit-event-handlers) section.
 
 #### Async field validation
 

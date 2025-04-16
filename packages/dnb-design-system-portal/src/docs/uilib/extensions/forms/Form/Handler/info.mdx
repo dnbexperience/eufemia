@@ -186,13 +186,13 @@ function MyApp() {
 }
 ```
 
-More examples can be found in the [useData](/uilib/extensions/forms/Form/useData/) hook docs.
+More examples can be found in the [Form.useData](/uilib/extensions/forms/Form/useData/) hook docs.
 
 ## Async `onChange` and `onSubmit` event handlers
 
 **NB:** When using an async `onChange` event handler, the `data` parameter will only include validated data. This lets you utilize the `data` parameter directly in your request, without having to further process or transform it.
 
-If you need to use the original data (sync), you can access it via the [useData](/uilib/extensions/forms/Form/useData/) hook.
+If you need to use the original data (sync), you can access it via the [Form.useData](/uilib/extensions/forms/Form/useData/) hook.
 
 Depending on your needs, you may want to use e.g. `debounceAsync` ([debounce](/uilib/helpers/functions/#debounce)) to prevent multiple requests from being sent.
 
@@ -265,7 +265,7 @@ The callback function should return a `boolean` or `undefined`. Return `false` t
 
 It returns the filtered form data.
 
-The [useData](/uilib/extensions/forms/Form/useData/#filter-data) hook and the [getData](/uilib/extensions/forms/Form/getData/#filter-data) method also returns a `filterData` function you can use to filter data the same way.
+The [Form.useData](/uilib/extensions/forms/Form/useData/#filter-data) hook and the [Form.getData](/uilib/extensions/forms/Form/getData/#filter-data) method also returns a `filterData` function you can use to filter data the same way.
 
 In the demo section is an example of how to use the `filterData` method.
 
