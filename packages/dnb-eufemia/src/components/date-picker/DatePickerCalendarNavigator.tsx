@@ -1,5 +1,12 @@
-import React from 'react'
-import { format, isSameMonth, subMonths } from 'date-fns'
+import React, { useCallback, useContext } from 'react'
+import {
+  addMonths,
+  addYears,
+  format,
+  isSameMonth,
+  subMonths,
+  subYears,
+} from 'date-fns'
 import {
   CalendarLocales,
   CalendarNavigationEvent,
@@ -7,49 +14,86 @@ import {
 import classnames from 'classnames'
 import Button from '../Button'
 import { useTranslation } from '../../shared'
-import { DatePickerDates } from './hooks/useDates'
+import DatePickerContext from './DatePickerContext'
+
+type DatePickerCalendarNavigationType = 'month' | 'year'
 
 export type DatePickerCalendarNavigationProps = Omit<
   React.HTMLProps<HTMLElement>,
   'onSelect' | 'onChange'
 > & {
-  type: 'month' | 'year'
-  id?: string
+  type: DatePickerCalendarNavigationType
+  id: string
   nr?: number
   /**
    * To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`.
    */
   date?: Date
-  prevBtn?: boolean
-  nextBtn?: boolean
-  minDate: DatePickerDates['minDate']
-  maxDate: DatePickerDates['maxDate']
-  onPrev?: (event: CalendarNavigationEvent) => void
-  onNext?: (event: CalendarNavigationEvent) => void
+  showPreviousButton?: boolean
+  showNextButton?: boolean
   /**
    * To define the locale used in the calendar. Needs to be an `date-fns` "v2" locale object, like `import enLocale from &#39;date-fns/locale/en-GB&#39;`. Defaults to `nb-NO`.
    */
   locale?: CalendarLocales[keyof CalendarLocales]
 }
 
-const titleFormat = 'MMMM yyyy'
+// eslint-disable-next-line no-unused-vars
+const titleFormats: { [key in DatePickerCalendarNavigationType]: string } =
+  {
+    month: 'MMMM',
+    year: 'yyyy',
+  }
+
+const dateHandlers: {
+  // eslint-disable-next-line no-unused-vars
+  [key in DatePickerCalendarNavigationType]: {
+    // eslint-disable-next-line no-unused-vars
+    [key in CalendarNavButtonType]: typeof subMonths
+  }
+} = {
+  month: {
+    prev: subMonths,
+    next: addMonths,
+  },
+  year: { prev: subYears, next: addYears },
+}
 
 export function DatePickerCalendarNav({
   type = 'month',
   id,
   nr,
   date,
-  minDate,
-  maxDate,
   locale,
-  prevBtn,
-  onPrev,
-  nextBtn,
-  onNext,
+  showPreviousButton,
+  showNextButton,
 }: DatePickerCalendarNavigationProps) {
+  const {
+    minDate,
+    maxDate,
+    views,
+    setViews,
+    props: { link: isLinkedCalendars },
+  } = useContext(DatePickerContext)
   const { selectedMonth, selectedYear } = useTranslation().DatePicker
 
   const title = type === 'month' ? selectedMonth : selectedYear
+  const titleFormat = titleFormats[type]
+
+  const onNav = useCallback(
+    ({ nr, type: navigationType }: CalendarNavigationEvent) => {
+      const updatedViews = views.map((view) => {
+        if (view.nr === nr || (isLinkedCalendars && view.nr === 1)) {
+          const month = dateHandlers[type][navigationType](view.month, 1)
+
+          return { ...view, month }
+        }
+
+        return view
+      })
+      setViews(updatedViews)
+    },
+    [type, views, setViews, isLinkedCalendars]
+  )
 
   return (
     <div className="dnb-date-picker__header">
@@ -57,11 +101,11 @@ export function DatePickerCalendarNav({
         <CalendarNavButton
           type="prev"
           nr={nr}
-          date={minDate}
-          month={date}
+          date={date}
+          dateLimit={minDate}
           locale={locale}
-          showButton={prevBtn}
-          onClick={onPrev}
+          showButton={showPreviousButton}
+          onClick={onNav}
         />
       </div>
       <label
@@ -83,22 +127,24 @@ export function DatePickerCalendarNav({
         <CalendarNavButton
           type="next"
           nr={nr}
-          date={maxDate}
-          month={date}
+          date={date}
+          dateLimit={maxDate}
           locale={locale}
-          showButton={nextBtn}
-          onClick={onNext}
+          showButton={showNextButton}
+          onClick={onNav}
         />
       </div>
     </div>
   )
 }
 
+export type CalendarNavButtonType = 'prev' | 'next'
+
 export type CalendarNavButtonProps = {
-  type: 'prev' | 'next'
+  type: CalendarNavButtonType
   nr: number
   date: Date
-  month: Date
+  dateLimit: Date
   locale: CalendarLocales[keyof CalendarLocales]
   showButton: boolean
   onClick: ({
@@ -115,7 +161,7 @@ function CalendarNavButton({
   type,
   nr,
   date,
-  month,
+  dateLimit,
   locale,
   showButton,
   onClick,
@@ -126,11 +172,11 @@ function CalendarNavButton({
   if (!showButton) {
     return <></>
   }
-  const disabled = date && isSameMonth(month, date)
+  const disabled = dateLimit && isSameMonth(date, dateLimit)
 
   const title = tr[`${type}Month`].replace(
     /%s/,
-    format(subMonths(month, 1), 'MMMM yyyy', {
+    format(subMonths(date, 1), 'MMMM yyyy', {
       locale,
     })
   )

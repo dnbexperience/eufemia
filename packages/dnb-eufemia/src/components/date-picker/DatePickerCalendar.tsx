@@ -76,8 +76,9 @@ export type DatePickerCalendarProps = Omit<
    * To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`.
    */
   month?: Date
-  hoverDate?: Date
+  // TODO: rename for clarity
   prevBtn?: boolean
+  // TODO: rename for clarity
   nextBtn?: boolean
   firstDayOfWeek?: string
   hideNav?: boolean
@@ -91,8 +92,6 @@ export type DatePickerCalendarProps = Omit<
       | React.KeyboardEvent<HTMLTableElement | HTMLButtonElement>
     >
   ) => void
-  onPrev?: (event: CalendarNavigationEvent) => void
-  onNext?: (event: CalendarNavigationEvent) => void
   onKeyDown?: (
     event: React.KeyboardEvent<HTMLTableElement | HTMLButtonElement>,
     tableRef: React.MutableRefObject<HTMLTableElement>,
@@ -165,8 +164,6 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     hideNav,
     locale,
     hideDays,
-    onPrev,
-    onNext,
     onSelect,
     onKeyDown,
     resetDate,
@@ -499,13 +496,18 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
             id={id}
             nr={nr}
             date={month}
-            minDate={minDate}
-            maxDate={maxDate}
             locale={locale}
-            prevBtn={prevBtn}
-            nextBtn={nextBtn}
-            onPrev={onPrev}
-            onNext={onNext}
+            showPreviousButton={prevBtn}
+            showNextButton={nextBtn}
+          />
+          <DatePickerCalendarNav
+            type="year"
+            id={id}
+            nr={nr}
+            date={month}
+            locale={locale}
+            showPreviousButton={prevBtn}
+            showNextButton={nextBtn}
           />
         </>
       )}
