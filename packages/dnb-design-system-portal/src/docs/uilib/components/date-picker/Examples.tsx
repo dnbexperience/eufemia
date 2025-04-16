@@ -385,3 +385,9 @@ export const DatePickerLabelAlignmentWithButtonRight = () => (
     <DatePicker label="Label" labelAlignment="right" showInput={true} />
   </ComponentBox>
 )
+
+export const DatePickerYearNavigation = () => (
+  <ComponentBox>
+    <DatePicker showInput yearNavigation />
+  </ComponentBox>
+)
