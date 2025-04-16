@@ -3354,6 +3354,92 @@ describe('DatePicker component', () => {
     ).toBeInTheDocument()
   })
 
+  it('should enable navigation by year in the calendar when `yearNavigation` is set to `true`', async () => {
+    const onChange = jest.fn()
+
+    render(
+      <DatePicker
+        date="2025-04-16"
+        yearNavigation
+        showInput
+        onChange={onChange}
+      />
+    )
+
+    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+
+    const [monthTitle, yearTitle] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__header__title')
+    )
+
+    const [prevMonthButton, prevYearButton] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__prev')
+    )
+    const [nextMonthButton, nextYearButton] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__next')
+    )
+
+    expect(prevMonthButton).toHaveAttribute(
+      'aria-label',
+      'Forrige måned mars'
+    )
+    expect(nextMonthButton).toHaveAttribute(
+      'aria-label',
+      'Neste måned mai'
+    )
+    expect(prevYearButton).toHaveAttribute('aria-label', 'Forrige år 2024')
+    expect(nextYearButton).toHaveAttribute('aria-label', 'Neste år 2026')
+
+    await userEvent.click(prevYearButton)
+    // Verify year
+    expect(yearTitle).toHaveTextContent('2024')
+    expect(yearTitle).toHaveAttribute('title', 'Valgt år 2024')
+    expect(prevYearButton).toHaveAttribute('aria-label', 'Forrige år 2023')
+    expect(nextYearButton).toHaveAttribute('aria-label', 'Neste år 2025')
+
+    // Verify month
+    expect(prevMonthButton).toHaveAttribute(
+      'aria-label',
+      'Forrige måned mars'
+    )
+    expect(nextMonthButton).toHaveAttribute(
+      'aria-label',
+      'Neste måned mai'
+    )
+    expect(monthTitle).toHaveTextContent('april')
+    expect(monthTitle).toHaveAttribute('title', 'Valgt måned april')
+
+    await userEvent.click(nextYearButton)
+    await userEvent.click(nextYearButton)
+
+    // Verify year
+    expect(yearTitle).toHaveTextContent('2026')
+    expect(yearTitle).toHaveAttribute('title', 'Valgt år 2026')
+    expect(prevYearButton).toHaveAttribute('aria-label', 'Forrige år 2025')
+    expect(nextYearButton).toHaveAttribute('aria-label', 'Neste år 2027')
+
+    // Verify month
+    expect(prevMonthButton).toHaveAttribute(
+      'aria-label',
+      'Forrige måned mars'
+    )
+    expect(nextMonthButton).toHaveAttribute(
+      'aria-label',
+      'Neste måned mai'
+    )
+    expect(monthTitle).toHaveTextContent('april')
+    expect(monthTitle).toHaveAttribute('title', 'Valgt måned april')
+
+    // Pick a new date
+    await userEvent.click(screen.getByLabelText('onsdag 1. april 2026'))
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        date: '2026-04-01',
+      })
+    )
+  })
+
   it('should allow for right aligned label', () => {
     const { rerender } = render(
       <DatePicker label="label" labelAlignment="right" />
