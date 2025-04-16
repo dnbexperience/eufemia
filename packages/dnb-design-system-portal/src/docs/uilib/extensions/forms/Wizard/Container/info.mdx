@@ -6,7 +6,7 @@ showTabs: true
 
 The `Wizard.Container` is a container component for multi-page forms including a [StepIndicator](/uilib/components/step-indicator/).
 
-Use the [Step](/uilib/extensions/forms/Wizard/Step/) component to define the wizard steps.
+Use the [Wizard.Step](/uilib/extensions/forms/Wizard/Step/) component to define the wizard steps.
 
 ```tsx
 import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
@@ -92,7 +92,7 @@ To define a different initial index (than 0), you can use `initialActiveIndex` p
 
 **Note:** When using `initialActiveIndex`, there may be previous steps with unknown field validation statuses. To address this, you can use the `keepInDOM` property to ensure that some or all steps are not removed from the DOM, so validation runs on fields in previous steps.
 
-For controlling the wizard steps interactively, you can use the [useStep](/uilib/extensions/forms/Wizard/useStep/) hook:
+For controlling the wizard steps interactively, you can use the [Wizard.useStep](/uilib/extensions/forms/Wizard/useStep/) hook:
 
 ```tsx
 import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
