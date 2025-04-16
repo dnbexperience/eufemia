@@ -285,6 +285,10 @@ export type DatePickerProps = {
    * If set to `true`, the calendar will not be rendered inside a react portal. Defaults to `false`.
    */
   skipPortal?: boolean
+  /**
+   * Will enable year navigation in the calendar if set to `true`. Defaults to `false`.
+   */
+  yearNavigation?: boolean
   className?: string
   /**
    * Will be called right before every new calendar view gets rendered. See the example above.
@@ -584,6 +588,7 @@ const defaultProps: DatePickerProps = {
   noAnimation: false,
   direction: 'auto',
   skipPortal: false,
+  yearNavigation: false,
 }
 
 function DatePicker(externalProps: DatePickerAllProps) {
@@ -1126,6 +1131,7 @@ const NonAttributes = [
   'alignPicker',
   'preventClose',
   'selectedDateRange',
+  'yearNavigation',
 ]
 
 function filterOutNonAttributes(props: DatePickerProps) {
