@@ -5,7 +5,7 @@ hideInMenu: true
 
 ## Description
 
-`Iterate.PushContainer` enables users to create a new item in the array. It can be used instead of the [PushButton](/uilib/extensions/forms/Iterate/PushButton/), but with fields in the container.
+`Iterate.PushContainer` enables users to create a new item in the array. It can be used instead of the [Iterate.PushButton](/uilib/extensions/forms/Iterate/PushButton/), but with fields in the container.
 
 It allows the user to fill in the fields without storing them in the data context.
 
@@ -109,6 +109,6 @@ render(
 
 ## Technical details
 
-Under the hood, it uses the [Form.Isolation](/uilib/extensions/forms/Form/Isolation/) component to isolate the data from the rest of the form. It also uses the the [EditContainer](/uilib/extensions/forms/Iterate/EditContainer/) inside the [Iterate.Array](/uilib/extensions/forms/Iterate/Array/) component to render the fields.
+Under the hood, it uses the [Form.Isolation](/uilib/extensions/forms/Form/Isolation/) component to isolate the data from the rest of the form. It also uses the the [Iterate.EditContainer](/uilib/extensions/forms/Iterate/EditContainer/) inside the [Iterate.Array](/uilib/extensions/forms/Iterate/Array/) component to render the fields.
 
 All fields inside the container will be stored in the data context at this path: `/pushContainerItems/0`.
