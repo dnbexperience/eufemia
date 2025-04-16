@@ -373,3 +373,9 @@ export const DatePickerCorrectInvalidDate = () => (
     />
   </ComponentBox>
 )
+
+export const DatePickerYearNavigation = () => (
+  <ComponentBox>
+    <DatePicker showInput yearNavigation />
+  </ComponentBox>
+)
