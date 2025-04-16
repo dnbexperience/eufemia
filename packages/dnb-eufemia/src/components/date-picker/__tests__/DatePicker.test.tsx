@@ -3379,6 +3379,10 @@ describe('DatePicker component', () => {
       document.querySelectorAll('.dnb-date-picker__next')
     )
 
+    const [day, month, year] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    ) as Array<HTMLInputElement>
+
     expect(prevMonthButton).toHaveAttribute(
       'aria-label',
       'Forrige måned mars'
@@ -3438,6 +3442,56 @@ describe('DatePicker component', () => {
         date: '2026-04-01',
       })
     )
+    expect(day).toHaveValue('01')
+    expect(month).toHaveValue('04')
+    expect(year).toHaveValue('2026')
+    expect(screen.getByLabelText('onsdag 1. april 2026')).toHaveAttribute(
+      'aria-current',
+      'date'
+    )
+  })
+
+  it('should respect `minDate` and `maxDate` when `yearNavigation` is set to `true`', async () => {
+    render(
+      <DatePicker
+        date="2025-04-16"
+        minDate="2024-04-01"
+        maxDate="2026-04-30"
+        yearNavigation
+      />
+    )
+
+    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+
+    const [, yearTitle] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__header__title')
+    )
+
+    const [prevMonthButton, prevYearButton] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__prev')
+    )
+    const [nextMonthButton, nextYearButton] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__next')
+    )
+
+    expect(yearTitle).toHaveTextContent('2025')
+    expect(yearTitle).toHaveAttribute('title', 'Valgt år 2025')
+
+    await userEvent.click(prevYearButton)
+    // Verify year
+    expect(yearTitle).toHaveTextContent('2024')
+    expect(yearTitle).toHaveAttribute('title', 'Valgt år 2024')
+    expect(prevYearButton).toHaveClass('disabled')
+    expect(prevMonthButton).toHaveClass('disabled')
+
+    await userEvent.click(nextYearButton)
+    await userEvent.click(nextYearButton)
+
+    // Verify year
+    expect(yearTitle).toHaveTextContent('2026')
+    expect(yearTitle).toHaveAttribute('title', 'Valgt år 2026')
+    expect(nextYearButton).toHaveClass('disabled')
+    expect(nextMonthButton).toHaveClass('disabled')
   })
 
   it('should allow for right aligned label', () => {
