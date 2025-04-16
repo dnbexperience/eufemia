@@ -151,7 +151,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     endMonth,
     hoverDate,
     setHoverDate,
-    props: { onDaysRender },
+    props: { onDaysRender, yearNavigation },
   } = useContext(DatePickerContext)
 
   const {
@@ -490,9 +490,9 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       lang={locale}
     >
       {!hideNav && (
-        <>
+        <div className="dnb-date-picker__header">
           <DatePickerCalendarNav
-            type="month"
+            type={yearNavigation ? 'month' : 'month_year'}
             id={id}
             nr={nr}
             date={month}
@@ -500,16 +500,18 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
             showPreviousButton={prevBtn}
             showNextButton={nextBtn}
           />
-          <DatePickerCalendarNav
-            type="year"
-            id={id}
-            nr={nr}
-            date={month}
-            locale={locale}
-            showPreviousButton={prevBtn}
-            showNextButton={nextBtn}
-          />
-        </>
+          {yearNavigation && (
+            <DatePickerCalendarNav
+              type="year"
+              id={id}
+              nr={nr}
+              date={month}
+              locale={locale}
+              showPreviousButton={prevBtn}
+              showNextButton={nextBtn}
+            />
+          )}
+        </div>
       )}
       <table
         role="grid"
