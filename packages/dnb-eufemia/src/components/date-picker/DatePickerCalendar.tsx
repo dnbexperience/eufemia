@@ -492,7 +492,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       {!hideNav && (
         <div className="dnb-date-picker__header">
           <DatePickerCalendarNav
-            type={yearNavigation ? 'month' : 'month_year'}
+            type={yearNavigation ? 'month' : 'both'}
             id={id}
             nr={nr}
             date={month}
