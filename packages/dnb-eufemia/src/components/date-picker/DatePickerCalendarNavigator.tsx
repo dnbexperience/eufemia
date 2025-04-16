@@ -16,7 +16,7 @@ import Button from '../Button'
 import { useTranslation } from '../../shared'
 import DatePickerContext from './DatePickerContext'
 
-type DatePickerCalendarNavigationType = 'month_year' | 'month' | 'year'
+type DatePickerCalendarNavigationType = 'both' | 'month' | 'year'
 
 export type DatePickerCalendarNavigationProps = Omit<
   React.HTMLProps<HTMLElement>,
@@ -40,7 +40,7 @@ export type DatePickerCalendarNavigationProps = Omit<
 // eslint-disable-next-line no-unused-vars
 const titleFormats: { [key in DatePickerCalendarNavigationType]: string } =
   {
-    month_year: 'MMMM yyyy',
+    both: 'MMMM yyyy',
     month: 'MMMM',
     year: 'yyyy',
   }
@@ -53,7 +53,7 @@ const dateHandlers: {
     [key in CalendarNavButtonType]: typeof subMonths
   }
 } = {
-  month_year: {
+  both: {
     prev: subMonths,
     next: addMonths,
   },
@@ -65,7 +65,7 @@ const dateHandlers: {
 }
 
 export function DatePickerCalendarNav({
-  type = 'month_year',
+  type = 'both',
   id,
   nr,
   date,
