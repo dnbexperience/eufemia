@@ -5,13 +5,7 @@
 
 import React, { useCallback, useContext } from 'react'
 
-// date-fns
-import addMonths from 'date-fns/addMonths'
-import subMonths from 'date-fns/subMonths'
-
 import DatePickerCalendar, {
-  CalendarButtonProps,
-  CalendarNavigationEvent,
   DatePickerCalendarProps,
 } from './DatePickerCalendar'
 import DatePickerContext from './DatePickerContext'
@@ -31,6 +25,7 @@ export type DatePickerRangeProps = Omit<
     isSync?: boolean
     onlyMonth?: boolean
     hideNav?: boolean
+    // TODO: Rename this, as it has nothing to do with the views, and it's only used to set the display condition for the naviation buttons
     views?: [{ nextBtn: false; prevBtn: false }]
     onChange?: (
       event: DatePickerChangeEvent<
@@ -40,35 +35,10 @@ export type DatePickerRangeProps = Omit<
     ) => void
   }
 
-const monthHandlers: {
-  // eslint-disable-next-line no-unused-vars
-  [key in CalendarButtonProps['type']]: typeof subMonths
-} = {
-  prev: subMonths,
-  next: addMonths,
-}
-
 function DatePickerRange(props: DatePickerRangeProps) {
   // Destructured to prevent useCallback from updating on all prop or context changes
-  const { onChange, isRange, isLink } = props
-  const { views, setViews, callOnChangeHandler } =
-    useContext(DatePickerContext)
-
-  const onNav = useCallback(
-    ({ nr, type }: CalendarNavigationEvent) => {
-      const updatedViews = views.map((view) => {
-        if (view.nr === nr || (isLink && view.nr === 1)) {
-          const month = monthHandlers[type](view.month, 1)
-
-          return { ...view, month }
-        }
-
-        return view
-      })
-      setViews(updatedViews)
-    },
-    [views, setViews, isLink]
-  )
+  const { onChange, isRange } = props
+  const { views, callOnChangeHandler } = useContext(DatePickerContext)
 
   const onSelect = useCallback(
     (
@@ -99,8 +69,6 @@ function DatePickerRange(props: DatePickerRangeProps) {
           {...props}
           id={`${props.id}-${i}-`}
           onSelect={onSelect}
-          onPrev={onNav}
-          onNext={onNav}
         />
       ))}
     </div>
