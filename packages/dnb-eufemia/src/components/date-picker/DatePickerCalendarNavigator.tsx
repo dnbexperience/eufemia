@@ -16,7 +16,7 @@ import Button from '../Button'
 import { useTranslation } from '../../shared'
 import DatePickerContext from './DatePickerContext'
 
-type DatePickerCalendarNavigationType = 'month' | 'year'
+type DatePickerCalendarNavigationType = 'month_year' | 'month' | 'year'
 
 export type DatePickerCalendarNavigationProps = Omit<
   React.HTMLProps<HTMLElement>,
@@ -40,10 +40,12 @@ export type DatePickerCalendarNavigationProps = Omit<
 // eslint-disable-next-line no-unused-vars
 const titleFormats: { [key in DatePickerCalendarNavigationType]: string } =
   {
+    month_year: 'MMMM yyyy',
     month: 'MMMM',
     year: 'yyyy',
   }
 
+// eslint-disable-next-line no-unused-vars
 const dateHandlers: {
   // eslint-disable-next-line no-unused-vars
   [key in DatePickerCalendarNavigationType]: {
@@ -51,6 +53,10 @@ const dateHandlers: {
     [key in CalendarNavButtonType]: typeof subMonths
   }
 } = {
+  month_year: {
+    prev: subMonths,
+    next: addMonths,
+  },
   month: {
     prev: subMonths,
     next: addMonths,
@@ -59,7 +65,7 @@ const dateHandlers: {
 }
 
 export function DatePickerCalendarNav({
-  type = 'month',
+  type = 'month_year',
   id,
   nr,
   date,
@@ -76,7 +82,7 @@ export function DatePickerCalendarNav({
   } = useContext(DatePickerContext)
   const { selectedMonth, selectedYear } = useTranslation().DatePicker
 
-  const title = type === 'month' ? selectedMonth : selectedYear
+  const title = type === 'year' ? selectedYear : selectedMonth
   const titleFormat = titleFormats[type]
 
   const onNav = useCallback(
@@ -96,7 +102,7 @@ export function DatePickerCalendarNav({
   )
 
   return (
-    <div className="dnb-date-picker__header">
+    <>
       <div className="dnb-date-picker__header__nav">
         <CalendarNavButton
           type="prev"
@@ -134,7 +140,7 @@ export function DatePickerCalendarNav({
           onClick={onNav}
         />
       </div>
-    </div>
+    </>
   )
 }
 
