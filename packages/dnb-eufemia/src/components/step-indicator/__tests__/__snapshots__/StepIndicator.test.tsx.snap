@@ -593,7 +593,7 @@ button.dnb-button::-moz-focus-inner {
   align-items: flex-start;
 }
 .dnb-step-indicator__trigger__button {
-  line-height: inherit;
+  --button-height: 1.5rem;
 }
 .dnb-step-indicator__trigger__button .dnb-button__text {
   margin: 0;
