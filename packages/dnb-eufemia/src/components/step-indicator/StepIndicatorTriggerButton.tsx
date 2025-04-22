@@ -9,7 +9,6 @@ import Button, { ButtonProps } from '../button/Button'
 import Section from '../section/Section'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import chevron_down from '../../icons/chevron_down'
-import chevron_up from '../../icons/chevron_up'
 import {
   validateDOMAttributes,
   combineDescribedBy,
@@ -125,7 +124,7 @@ function StepIndicatorTriggerButton({
             id={id}
             wrap
             variant="tertiary"
-            icon={openState ? chevron_up : chevron_down}
+            icon={chevron_down}
             icon_position="right"
           >
             {(typeof item === 'string' ? item : item && item.title) || ''}
