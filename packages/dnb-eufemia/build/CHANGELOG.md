@@ -3,6 +3,14 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.72.1](https://github.com/dnbexperience/eufemia/compare/v10.72.0...v10.72.1) (2025-04-22)
+
+
+### :bug: Bug Fixes
+
+* **StepIndicator:** align trigger button ([#4981](https://github.com/dnbexperience/eufemia/issues/4981)) ([80e05aa](https://github.com/dnbexperience/eufemia/commit/80e05aa8bcc9225e9301f556a07e18dd8974d823))
+* **StepIndicator:** font size of step items ([#4982](https://github.com/dnbexperience/eufemia/issues/4982)) ([6d0d266](https://github.com/dnbexperience/eufemia/commit/6d0d2668228a3890bf5496916e523ab4fc2630d5))
+
 ## [10.72.0](https://github.com/dnbexperience/eufemia/compare/v10.71.2...v10.72.0) (2025-04-15)
 
 
