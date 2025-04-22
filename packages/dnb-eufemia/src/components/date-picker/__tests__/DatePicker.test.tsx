@@ -3226,7 +3226,7 @@ describe('DatePicker component', () => {
 
     render(<Component />)
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     // Check date
     expect(
@@ -3270,7 +3270,7 @@ describe('DatePicker component', () => {
       </StrictMode>
     )
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     // Check date
     expect(
@@ -3305,7 +3305,7 @@ describe('DatePicker component', () => {
       />
     )
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     const [monthTitle, yearTitle] = Array.from(
       document.querySelectorAll('.dnb-date-picker__header__title')
@@ -3400,7 +3400,7 @@ describe('DatePicker component', () => {
       />
     )
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     const [, yearTitle] = Array.from(
       document.querySelectorAll('.dnb-date-picker__header__title')
