@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.72.2](https://github.com/dnbexperience/eufemia/compare/v10.72.1...v10.72.2) (2025-04-22)
+
+
+### :bug: Bug Fixes
+
+* **Forms:** ensure Iterate.Array schema validation ([#4986](https://github.com/dnbexperience/eufemia/issues/4986)) ([7e10a4a](https://github.com/dnbexperience/eufemia/commit/7e10a4a5baffdb6b87c6fc8447a8477a583f6136)), closes [#4956](https://github.com/dnbexperience/eufemia/issues/4956)
+
 ## [10.72.1](https://github.com/dnbexperience/eufemia/compare/v10.72.0...v10.72.1) (2025-04-22)
 
 
