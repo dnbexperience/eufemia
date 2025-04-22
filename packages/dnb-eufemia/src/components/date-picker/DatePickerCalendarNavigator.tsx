@@ -2,20 +2,18 @@ import React, { useCallback, useContext } from 'react'
 import {
   addMonths,
   addYears,
-  format,
   isSameMonth,
   isSameYear,
   subMonths,
   subYears,
 } from 'date-fns'
-import {
-  CalendarLocales,
-  CalendarNavigationEvent,
-} from './DatePickerCalendar'
+import { CalendarNavigationEvent } from './DatePickerCalendar'
 import classnames from 'classnames'
 import Button from '../Button'
 import { useTranslation } from '../../shared'
 import DatePickerContext from './DatePickerContext'
+import { InternalLocale } from '../../shared/Context'
+import { formatDate } from './DatePickerCalc'
 
 type CalendarNavigationDateType = 'month' | 'year'
 type CalendarNavigationType = 'both' | CalendarNavigationDateType
@@ -36,13 +34,19 @@ export type DatePickerCalendarNavigationProps = Omit<
   /**
    * To define the locale used in the calendar. Needs to be an `date-fns` "v2" locale object, like `import enLocale from &#39;date-fns/locale/en-GB&#39;`. Defaults to `nb-NO`.
    */
-  locale?: CalendarLocales[keyof CalendarLocales]
+  locale?: InternalLocale
 }
 
-// eslint-disable-next-line no-unused-vars
-const titleFormats: { [key in CalendarNavigationDateType]: string } = {
-  month: 'MMMM',
-  year: 'yyyy',
+const titleFormats: {
+  // eslint-disable-next-line no-unused-vars
+  [key in CalendarNavigationType]: Intl.DateTimeFormatOptions
+} = {
+  both: {
+    month: 'long',
+    year: 'numeric',
+  },
+  month: { month: 'long' },
+  year: { year: 'numeric' },
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -79,10 +83,8 @@ export function DatePickerCalendarNav({
   const { selectedMonth, selectedYear } = useTranslation().DatePicker
 
   const title = type === 'year' ? selectedYear : selectedMonth
-  const titleFormat =
-    type === 'both'
-      ? `${titleFormats.month} ${titleFormats.year}`
-      : titleFormats[type]
+  const titleFormat = titleFormats[type]
+
   const buttonDateType = type === 'year' ? 'year' : 'month'
 
   const onNav = useCallback(
@@ -125,15 +127,11 @@ export function DatePickerCalendarNav({
         className="dnb-date-picker__header__title dnb-no-focus"
         title={title.replace(
           /%s/,
-          format(date, titleFormat, {
-            locale,
-          })
+          formatDate(date, { locale, formatOptions: titleFormat })
         )}
         tabIndex={-1}
       >
-        {format(date, titleFormat, {
-          locale,
-        })}
+        {formatDate(date, { locale, formatOptions: titleFormat })}
       </label>
       <div className="dnb-date-picker__header__nav">
         <CalendarNavButton
@@ -158,10 +156,10 @@ export type CalendarNavButtonProps = {
   dateType: CalendarNavigationDateType
   type: CalendarNavButtonType
   nr: number
-  dateFormat: string
+  dateFormat: Intl.DateTimeFormatOptions
   date: Date
   dateLimit: Date
-  locale: CalendarLocales[keyof CalendarLocales]
+  locale: InternalLocale
   showButton: boolean
   onClick: ({
     nr,
@@ -200,11 +198,13 @@ function CalendarNavButton({
   }
 
   const translationKey = `${type}${capitalizeFirstLetter(dateType)}`
+  const dateHandler = dateHandlers[dateType][type]
 
   const title = translations[translationKey].replace(
     /%s/,
-    format(dateHandlers[dateType][type](date, 1), dateFormat, {
+    formatDate(dateHandler(date, 1), {
       locale,
+      formatOptions: dateFormat,
     })
   )
 
