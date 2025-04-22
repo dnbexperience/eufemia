@@ -631,7 +631,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
 
     const hasError = Boolean(localErrorRef.current)
-    revealErrorRef.current = hasError
+    revealErrorRef.current = true
     setErrorState(hasError)
   }, [validateInitially, setErrorState])
 
