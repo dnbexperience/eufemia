@@ -114,12 +114,9 @@
       }
 
       &__wrapper {
+        font-size: var(--font-size-basis);
         display: flex;
         flex-direction: column;
-      }
-
-      &__text {
-        font-size: var(--font-size-basis);
       }
     }
 
