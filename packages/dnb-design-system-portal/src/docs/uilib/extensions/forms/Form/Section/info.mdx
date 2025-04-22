@@ -11,12 +11,12 @@ hideInMenu: true
 
 - It allows you to easily customize and reposition nested `Form.Section` components within the data context, making it effortless to reuse the same set of fields and values in various contexts. Check out e.g. the `overwriteProps` and `path` properties for more information.
 - When defining a default value for a field or value, you can use the `defaultValue` property instead of value. It will not take precedence over the data context like value does.
-- Use [Visibility](/uilib/extensions/forms/Form/Visibility/) to handle logic and hide parts of your form based on the data context.
+- Use [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) to handle logic and hide parts of your form based on the data context.
 - To provide localization for all used texts defined in the `translations` property of the section, you can create a localization easily.
 - Only imported sections with their localizations are included in the production bundle.
 - It is possible to overwrite the translations later by using the `Form.Handler` component.
 - A single section can be used without `Form.Handler`, just like any other field and value.
-- An [EditContainer](/uilib/extensions/forms/Form/Section/EditContainer/) and [ViewContainer](/uilib/extensions/forms/Form/Section/ViewContainer/) container is available to be used.
+- An [Form.Section.EditContainer](/uilib/extensions/forms/Form/Section/EditContainer/) and [Form.Section.ViewContainer](/uilib/extensions/forms/Form/Section/ViewContainer/) container is available to be used.
 - Here is a [list of blocks](/uilib/extensions/forms/blocks/) ready to use.
 
 ## Usage
@@ -238,7 +238,7 @@ export function MyForm() {
 
 ## Edit and View container
 
-The `Form.Section` supports an [EditContainer](/uilib/extensions/forms/Form/Section/EditContainer/) and [ViewContainer](/uilib/extensions/forms/Form/Section/ViewContainer/) container. The edit container should be used for data input with fields. While the view container is used to display the data in a read-only way.
+The `Form.Section` supports an [Form.Section.EditContainer](/uilib/extensions/forms/Form/Section/EditContainer/) and [Form.Section.ViewContainer](/uilib/extensions/forms/Form/Section/ViewContainer/) container. The edit container should be used for data input with fields. While the view container is used to display the data in a read-only way.
 
 ```tsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'

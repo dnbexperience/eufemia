@@ -14,7 +14,7 @@ Object.assign(ToggleProperties, {
 
 export const IndeterminateProperties: PropertiesTableProps = {
   dependencePaths: {
-    doc: 'Provide an array with the related paths of other [Toggle](/uilib/extensions/forms/base-fields/Toggle/) og [Boolean](/uilib/extensions/forms/base-fields/Boolean/) fields.',
+    doc: 'Provide an array with the related paths of other [Field.Toggle](/uilib/extensions/forms/base-fields/Toggle/) or [Field.Boolean](/uilib/extensions/forms/base-fields/Boolean/) fields.',
     type: 'array',
     status: 'required',
   },

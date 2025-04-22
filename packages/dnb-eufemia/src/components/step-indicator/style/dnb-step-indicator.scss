@@ -32,7 +32,7 @@
   }
 
   &__trigger__button {
-    line-height: inherit;
+    --button-height: 1.5rem;
     .dnb-button__text {
       margin: 0;
       transform: none;
@@ -56,7 +56,7 @@
         top: 0.25rem;
         left: 0.71875rem;
 
-        width: 0.0625rem;        
+        width: 0.0625rem;
         height: 100%;
 
         background-color: var(--color-black-20);
@@ -114,12 +114,9 @@
       }
 
       &__wrapper {
+        font-size: var(--font-size-basis);
         display: flex;
         flex-direction: column;
-      }
-
-      &__text {
-        font-size: var(--font-size-basis);
       }
     }
 

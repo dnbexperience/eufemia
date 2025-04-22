@@ -299,12 +299,7 @@ function StepIndicatorItem({
             </span>
           )}
           <div className="dnb-step-indicator__item-content__wrapper">
-            <StepItemButton
-              {...buttonParams}
-              className="dnb-step-indicator__item-content__text"
-            >
-              {element}
-            </StepItemButton>
+            <StepItemButton {...buttonParams}>{element}</StepItemButton>
             <FormStatus
               shellSpace={{ top: '1rem' }}
               no_animation={no_animation}
