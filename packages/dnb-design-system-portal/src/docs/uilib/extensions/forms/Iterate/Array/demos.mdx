@@ -78,6 +78,30 @@ With a [Iterate.PushButton](/uilib/extensions/forms/Iterate/PushButton/) to add 
 
 ### Minium one item
 
+There are several ways to achieve this:
+
+#### By using a schema
+
+This example uses the `minItems` in a schema with a custom error message.
+
+```tsx
+const schema = {
+  type: 'object',
+  properties: {
+    myList: {
+      type: 'array',
+      minItems: 1,
+    },
+  },
+}
+```
+
+It will show the error message when the array is empty.
+
+<Examples.MinItems />
+
+#### By using the `toolbarVariant` property
+
 This example uses the container's `toolbarVariant` property with the value `minimumOneItem`.
 
 It hides the toolbar in the `EditContainer` when there is only one item in the array. And it hides the remove button in the `ViewContainer` when there is only one item in the array.
