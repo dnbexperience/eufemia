@@ -426,6 +426,69 @@ export const InitiallyOpen = () => {
   )
 }
 
+export const MinItems = () => {
+  return (
+    <ComponentBox
+      scope={{ Iterate, Tools, ValueBlock, FieldBlock }}
+      hideCode
+    >
+      {() => {
+        const schema = {
+          type: 'object',
+          properties: {
+            myList: {
+              type: 'array',
+              minItems: 1,
+            },
+          },
+        }
+
+        return (
+          <Form.Handler schema={schema}>
+            <Iterate.Array
+              path="/myList"
+              defaultValue={[
+                {
+                  foo: 'Remove me to see the minItems error.',
+                },
+              ]}
+              errorMessages={{
+                minItems: 'You need at least one item.',
+              }}
+            >
+              <Iterate.ViewContainer>
+                <Value.String itemPath="/foo" />
+
+                <Iterate.Toolbar>
+                  <Iterate.ViewContainer.EditButton />
+                  <Iterate.ViewContainer.RemoveButton showConfirmDialog />
+                </Iterate.Toolbar>
+              </Iterate.ViewContainer>
+
+              <Iterate.EditContainer>
+                <Field.String
+                  label="Item {itemNo}"
+                  itemPath="/foo"
+                  required
+                />
+              </Iterate.EditContainer>
+            </Iterate.Array>
+
+            <Iterate.PushButton
+              text="Add another item"
+              path="/myList"
+              variant="tertiary"
+              pushValue={{}}
+            />
+
+            <Tools.Log top />
+          </Form.Handler>
+        )
+      }}
+    </ComponentBox>
+  )
+}
+
 export const InitialOpenWithToolbarVariant = () => {
   return (
     <ComponentBox scope={{ Iterate }}>
