@@ -26,15 +26,6 @@ import differenceInMonths from 'date-fns/differenceInMonths'
 import lastDayOfMonth from 'date-fns/lastDayOfMonth'
 import setDate from 'date-fns/setDate'
 
-// Imports only the parts of the date-fns locale object that we actually use
-import nbLocalize from 'date-fns/locale/nb/_lib/localize'
-import nbFormatLong from 'date-fns/locale/nb/_lib/formatLong'
-import enLocalize from 'date-fns/locale/en-US/_lib/localize'
-import enFormatLong from 'date-fns/locale/en-US/_lib/formatLong'
-import gbFormatLong from 'date-fns/locale/en-GB/_lib/formatLong'
-import svLocalize from 'date-fns/locale/sv/_lib/localize'
-import svFormatLong from 'date-fns/locale/sv/_lib/formatLong'
-
 import {
   isDisabled,
   makeDayObject,
@@ -42,6 +33,7 @@ import {
   getWeek,
   dayOffset,
   getCalendar,
+  formatDate,
 } from './DatePickerCalc'
 import Button, { ButtonProps } from '../button/Button'
 import DatePickerContext, {
@@ -51,7 +43,6 @@ import { useTranslation } from '../../shared'
 import { InternalLocale } from '../../shared/Context'
 import { DatePickerChangeEvent } from './DatePickerProvider'
 import { DatePickerDates } from './hooks/useDates'
-import { LOCALE } from '../../shared/defaults'
 
 export type CalendarDay = {
   date: Date
@@ -66,19 +57,6 @@ export type CalendarDay = {
   isToday?: boolean
   isWithinSelection?: boolean
   className?: string
-}
-
-type CalendarLocales = {
-  // eslint-disable-next-line no-unused-vars
-  [locale in InternalLocale]?: Pick<Locale, 'localize' | 'formatLong'>
-}
-// Easy to access objects containing the only (in our case) needed functions for date-fns format
-// TODO: Replace with Intl.DateTimeFormat
-const locales: CalendarLocales = {
-  'nb-NO': { localize: nbLocalize, formatLong: nbFormatLong },
-  'en-GB': { localize: enLocalize, formatLong: gbFormatLong },
-  'en-US': { localize: enLocalize, formatLong: enFormatLong },
-  'sv-SE': { localize: svLocalize, formatLong: svFormatLong },
 }
 
 export type CalendarNavigationEvent = {
@@ -98,8 +76,7 @@ export type DatePickerCalendarProps = Omit<
   month?: Date
   prevBtn?: boolean
   nextBtn?: boolean
-  titleFormat?: string
-  dayOfWeekFormat?: string
+
   firstDayOfWeek?: string
   hideNav?: boolean
   hideDays?: boolean
@@ -147,8 +124,6 @@ type DayObject = {
 const defaultProps: DatePickerCalendarProps = {
   prevBtn: true,
   nextBtn: true,
-  titleFormat: 'MMMM yyyy',
-  dayOfWeekFormat: 'EEEEEE',
   firstDayOfWeek: 'monday',
   hideNav: false,
   hideDays: false,
@@ -161,6 +136,11 @@ const defaultProps: DatePickerCalendarProps = {
 
 const arrowKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown']
 const keysToHandle = ['Enter', 'Space', ...arrowKeys]
+
+const titleFormat: Intl.DateTimeFormatOptions = {
+  month: 'long',
+  year: 'numeric',
+}
 
 function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   const props = { ...defaultProps, ...restOfProps }
@@ -187,11 +167,9 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     rtl,
     month,
     isRange,
-    titleFormat,
     firstDayOfWeek,
-    dayOfWeekFormat,
     hideNav,
-    locale: localeCode,
+    locale,
     hideDays,
     onPrev,
     onNext,
@@ -265,7 +243,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         }
       }
 
-      // // Save for later check against disabled days during key navigation
+      // Save for later check against disabled days during key navigation
       days.current[format(month, 'yyyy-MM')] = daysFromCalendar
 
       return daysFromCalendar
@@ -520,15 +498,10 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     ))
   }, [cacheKey, getDays, month])
 
-  const locale = useMemo(
-    () => ({ ...(locales[localeCode] || locales[LOCALE]) }),
-    [localeCode]
-  )
-
   return (
     <div
       className={classnames('dnb-date-picker__calendar', rtl && 'rtl')}
-      lang={localeCode}
+      lang={locale}
     >
       {!hideNav && (
         <div className="dnb-date-picker__header">
@@ -548,15 +521,17 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
             className="dnb-date-picker__header__title dnb-no-focus"
             title={selectedMonth.replace(
               /%s/,
-              format(month, titleFormat, {
+              formatDate(month, {
                 locale,
+                formatOptions: titleFormat,
               })
             )}
             tabIndex={-1}
             ref={labelRef}
           >
-            {format(month, titleFormat, {
+            {formatDate(month, {
               locale,
+              formatOptions: titleFormat,
             })}
           </label>
           <div className="dnb-date-picker__header__nav">
@@ -589,19 +564,16 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                   key={i}
                   role="columnheader"
                   scope="col"
-                  className={classnames(
-                    'dnb-date-picker__labels__day',
-                    `dnb-date-picker__labels__day--${format(day, 'i', {
-                      locale,
-                    })}`
-                  )}
-                  aria-label={format(day, 'EEEE', {
+                  className="dnb-date-picker__labels__day"
+                  aria-label={formatDate(day, {
                     locale,
+                    formatOptions: { weekday: 'long' },
                   })}
                 >
-                  {format(day, dayOfWeekFormat, {
+                  {formatDate(day, {
                     locale,
-                  })}
+                    formatOptions: { weekday: 'short' },
+                  }).substring(0, 2)}
                 </th>
               ))}
             </tr>
@@ -616,8 +588,14 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                 className="dnb-date-picker__days"
               >
                 {week.map((day: DayObject, i) => {
-                  const title = format(day.date, 'PPPP', {
+                  const title = formatDate(day.date, {
                     locale,
+                    formatOptions: {
+                      weekday: 'long',
+                      day: 'numeric',
+                      month: 'long',
+                      year: 'numeric',
+                    },
                   })
 
                   const handleAsDisabled =
@@ -660,9 +638,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                       <Button
                         size="medium"
                         variant="secondary"
-                        text={format(day.date, 'd', {
-                          locale,
-                        })}
+                        text={day.date.getDate()}
                         bounding={true}
                         disabled={handleAsDisabled}
                         tabIndex={handleAsDisabled ? 0 : -1} // fix for NVDA
@@ -725,7 +701,7 @@ export type CalendarButtonProps = {
   nr: number
   date: Date
   month: Date
-  locale: CalendarLocales[keyof CalendarLocales]
+  locale?: InternalLocale
   showButton: boolean
   onClick: ({
     nr,
@@ -756,8 +732,12 @@ function CalendarButton({
 
   const title = tr[`${type}Month`].replace(
     /%s/,
-    format(subMonths(month, 1), 'MMMM yyyy', {
+    formatDate(subMonths(month, 1), {
       locale,
+      formatOptions: {
+        month: 'long',
+        year: 'numeric',
+      },
     })
   )
 

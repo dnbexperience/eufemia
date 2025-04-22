@@ -24,6 +24,7 @@ export default {
       start: 'from',
       end: 'to',
       selectedDate: 'Selected date: %s',
+      selectedDateRange: 'Selected dates: %s',
       selectedMonth: 'Selected month %s',
       selectedYear: 'Selected year %s',
       nextMonth: 'Next month %s',
