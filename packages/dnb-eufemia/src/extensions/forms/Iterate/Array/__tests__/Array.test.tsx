@@ -1,10 +1,17 @@
 import React, { useEffect } from 'react'
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as Iterate from '../..'
 import * as DataContext from '../../../DataContext'
 import { IterateItemContext } from '../..'
-import { Field, FieldBlock, Form, Value, ValueBlock } from '../../..'
+import {
+  Field,
+  FieldBlock,
+  Form,
+  JSONSchema,
+  Value,
+  ValueBlock,
+} from '../../..'
 import { ContextState, FilterData } from '../../../DataContext'
 
 import nbNO from '../../../constants/locales/nb-NO'
@@ -2372,6 +2379,63 @@ describe('Iterate.Array', () => {
       expect(
         document.querySelectorAll('.dnb-form-label')[2]
       ).toHaveTextContent('Label 1')
+    })
+  })
+
+  describe('schema', () => {
+    it('should show error when "minItems" is not met', async () => {
+      const schema: JSONSchema = {
+        type: 'object',
+        properties: {
+          myList: {
+            type: 'array',
+            minItems: 1,
+          },
+        },
+      }
+
+      const foo = 'Remove me to see the minItems error.'
+      const minItems = 'You need at least one item.'
+
+      render(
+        <Form.Handler schema={schema} defaultData={{ myList: [{ foo }] }}>
+          <Iterate.Array path="/myList" errorMessages={{ minItems }}>
+            <Iterate.ViewContainer>
+              <Value.String itemPath="/foo" />
+            </Iterate.ViewContainer>
+
+            <Iterate.EditContainer>
+              <Field.String itemPath="/foo" />
+            </Iterate.EditContainer>
+          </Iterate.Array>
+
+          <Iterate.PushButton
+            text="Add"
+            path="/myList"
+            pushValue={{ foo }}
+          />
+        </Form.Handler>
+      )
+
+      expect(screen.getByText(foo)).toBeInTheDocument()
+      expect(screen.queryByText(minItems)).not.toBeInTheDocument()
+
+      await userEvent.click(screen.getByText('Fjern'))
+
+      await waitFor(() => {
+        expect(screen.queryByText(foo)).not.toBeInTheDocument()
+        expect(screen.queryByText(minItems)).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status').textContent
+        ).toBe(minItems)
+      })
+
+      await userEvent.click(screen.getByText('Add'))
+
+      await waitFor(() => {
+        expect(screen.getByText(foo)).toBeInTheDocument()
+        expect(screen.queryByText(minItems)).not.toBeInTheDocument()
+      })
     })
   })
 })
