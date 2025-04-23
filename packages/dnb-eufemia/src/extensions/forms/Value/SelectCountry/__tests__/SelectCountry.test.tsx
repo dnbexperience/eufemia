@@ -15,13 +15,39 @@ describe('Value.SelectCountry', () => {
   })
 
   it('renders invalid values', () => {
-    render(<Value.SelectCountry value={'NotValidISOCode' as CountryISO} />)
+    const { rerender } = render(
+      <Value.SelectCountry value={'NotValidISOCode' as CountryISO} />
+    )
 
     expect(
       document.querySelector(
         '.dnb-forms-value-select-country .dnb-forms-value-block__content'
       )
-    ).toHaveTextContent('')
+    ).toHaveTextContent('Norge')
+
+    rerender(<Value.SelectCountry value={0 as unknown as CountryISO} />)
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-select-country .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('Norge')
+
+    rerender(<Value.SelectCountry value={null} />)
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-select-country .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('Norge')
+
+    rerender(<Value.SelectCountry value={undefined} />)
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-select-country .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('Norge')
   })
 
   it('renders label when showEmpty is true', () => {

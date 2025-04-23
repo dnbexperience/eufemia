@@ -41,10 +41,33 @@ describe('useCountry', () => {
     expect(getCountryNameByIso('')).toBeNull()
   })
 
-  it('should return undefined if ISO code is not valid', () => {
+  it('should return undefined if ISO code is not found', () => {
+    const mock = getCountryData as jest.Mock
+    mock.mockReturnValue(undefined)
     const { result } = renderHook(() => useCountry(), { wrapper })
     const { getCountryNameByIso } = result.current
 
     expect(getCountryNameByIso('NotValidISOCode')).toBeUndefined()
+  })
+
+  it('should return null if ISO code is 0', () => {
+    const { result } = renderHook(() => useCountry(), { wrapper })
+    const { getCountryNameByIso } = result.current
+
+    expect(getCountryNameByIso(0 as unknown as string)).toBeNull()
+  })
+
+  it('should return null if ISO code is null', () => {
+    const { result } = renderHook(() => useCountry(), { wrapper })
+    const { getCountryNameByIso } = result.current
+
+    expect(getCountryNameByIso(null)).toBeNull()
+  })
+
+  it('should return null if ISO code is undefined', () => {
+    const { result } = renderHook(() => useCountry(), { wrapper })
+    const { getCountryNameByIso } = result.current
+
+    expect(getCountryNameByIso(undefined)).toBeNull()
   })
 })
