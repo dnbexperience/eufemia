@@ -16,10 +16,7 @@ describe('Value.SelectCurrency', () => {
 
   it('supports invalid values', () => {
     const { rerender } = render(
-      <Value.SelectCurrency
-        value={'NotValidISOCode' as CurrencyISO}
-        showEmpty
-      />
+      <Value.SelectCurrency value={'NotValidISOCode' as CurrencyISO} />
     )
 
     expect(
