@@ -1,6 +1,7 @@
 import React from 'react'
 import { screen, render } from '@testing-library/react'
 import { Value, Form } from '../../..'
+import { CurrencyISO } from '../../../constants/currencies'
 
 describe('Value.SelectCurrency', () => {
   it('renders string values', () => {
@@ -11,6 +12,47 @@ describe('Value.SelectCurrency', () => {
         '.dnb-forms-value-select-currency .dnb-forms-value-block__content'
       )
     ).toHaveTextContent('Norsk krone (NOK)')
+  })
+
+  it('supports invalid values', () => {
+    const { rerender } = render(
+      <Value.SelectCurrency value={'NotValidISOCode' as CurrencyISO} />
+    )
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-select-currency .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('NotValidISOCode')
+
+    rerender(
+      <Value.SelectCurrency
+        value={0 as unknown as CurrencyISO}
+        showEmpty
+      />
+    )
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-select-currency .dnb-forms-value-block__content'
+      )
+    ).not.toBeInTheDocument()
+
+    rerender(<Value.SelectCurrency value={null} showEmpty />)
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-select-currency .dnb-forms-value-block__content'
+      )
+    ).not.toBeInTheDocument()
+
+    rerender(<Value.SelectCurrency value={undefined} showEmpty />)
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-select-currency .dnb-forms-value-block__content'
+      )
+    ).not.toBeInTheDocument()
   })
 
   it('renders label when showEmpty is true', () => {
