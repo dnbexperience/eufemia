@@ -281,7 +281,8 @@ export const useEventMapping = ({ setLocalValue }) => {
   const callEvent = useCallEvent({ setLocalValue })
 
   return {
-    onBeforeInput: (event) => callEvent({ event }, 'on_before_input'),
+    onBeforeInput: (event) => callEvent({ event }, 'onBeforeInput'),
+    onInput: (event) => callEvent({ event }, 'onInput'),
     onFocus: (params) => callEvent(params, 'on_focus'),
     onBlur: (params) => callEvent(params, 'on_blur'),
     onMouseUp: (event) => callEvent({ event }, 'on_mouse_up'),
@@ -334,7 +335,7 @@ const useCallEvent = ({ setLocalValue }) => {
     // so we use this solution instead
     if (
       isUnidentified &&
-      name === 'on_before_input' &&
+      name === 'onBeforeInput' &&
       typeof event?.data !== 'undefined'
     ) {
       name = 'on_key_down'
@@ -349,23 +350,11 @@ const useCallEvent = ({ setLocalValue }) => {
     }
 
     // Prevent entering a leading zero
-    if (
-      name === 'on_key_down' &&
-      !isUnidentified &&
-      maskParams?.disallowLeadingZeroes &&
-      (keyCode === '0' ||
-        keyCode === 'numpad 0' ||
-        (value.replace(/[^\d]/g, '') === '' &&
-          decimalSeparators.test(keyCode)))
-    ) {
-      const testValue = (
-        value.slice(0, selStart) +
-        '0' +
-        value.slice(selStart + 1, value.length)
-      ).replace(/[^\d]/g, '')
-
-      if (/^0/.test(testValue)) {
-        event.preventDefault()
+    if (maskParams?.disallowLeadingZeroes && name === 'onInput') {
+      if (/^0\d(.+|$)/.test(value)) {
+        value = value.slice(1, value.length)
+        setLocalValue(value)
+        event.target.value = value
       }
     }
 
