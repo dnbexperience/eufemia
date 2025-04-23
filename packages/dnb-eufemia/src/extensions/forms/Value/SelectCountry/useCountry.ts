@@ -18,7 +18,7 @@ export default function useCountry() {
         filter: (country) => {
           return country.iso === iso
         },
-      }).at(0)?.content
+      })?.at(0)?.content
     },
     [locale]
   )
