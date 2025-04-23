@@ -107,7 +107,12 @@ export function DatePickerCalendarNav({
   )
 
   return (
-    <>
+    <div
+      className={classnames(
+        'dnb-date-picker__header__row',
+        type === 'year' && `dnb-date-picker__header__row--year`
+      )}
+    >
       <div className="dnb-date-picker__header__nav">
         <CalendarNavButton
           type="prev"
@@ -145,7 +150,7 @@ export function DatePickerCalendarNav({
           onClick={onNav}
         />
       </div>
-    </>
+    </div>
   )
 }
 
