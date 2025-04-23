@@ -138,6 +138,11 @@ export const DatePickerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  submitButtonAlignment: {
+    doc: 'Sets the alignment of the submit button. Only has an effect if `showInput` is `false`. Defaults to `right`.',
+    type: ['left', 'right'],
+    status: 'optional',
+  },
   onlyMonth: {
     doc: 'Use `true` to only show the defined month. Disables the month navigation possibility. Defaults to `false`.',
     type: 'boolean',
