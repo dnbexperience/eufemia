@@ -4037,7 +4037,7 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
   content: none;
 }
 .dnb-date-picker__header {
-  height: 2.5rem;
+  min-height: 2.5rem;
   line-height: var(--line-height-basis);
 }
 .dnb-date-picker__addon, .dnb-date-picker__header {
@@ -4275,8 +4275,25 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
 .dnb-date-picker__addon::after, .dnb-date-picker__calendar::after {
   background-color: var(--color-black-8);
 }
+.dnb-date-picker__header {
+  --gap: 0.25rem;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  gap: var(--gap);
+}
 .dnb-date-picker__header::after {
   background-color: var(--color-black-8);
+}
+.dnb-date-picker__header__row {
+  min-width: 60%;
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: space-between;
+}
+.dnb-date-picker__header__row--year {
+  min-width: calc(40% - var(--gap));
 }
 .dnb-date-picker__header__nav .dnb-button {
   box-shadow: none;
