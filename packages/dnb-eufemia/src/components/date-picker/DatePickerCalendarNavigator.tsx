@@ -84,7 +84,6 @@ export function DatePickerCalendarNav({
 
   const title = type === 'year' ? selectedYear : selectedMonth
   const titleFormat = titleFormats[type]
-
   const buttonDateType = type === 'year' ? 'year' : 'month'
 
   const onNav = useCallback(
