@@ -40,4 +40,11 @@ describe('useCountry', () => {
 
     expect(getCountryNameByIso('')).toBeNull()
   })
+
+  it('should return undefined if ISO code is not valid', () => {
+    const { result } = renderHook(() => useCountry(), { wrapper })
+    const { getCountryNameByIso } = result.current
+
+    expect(getCountryNameByIso('NotValidISOCode')).toBeUndefined()
+  })
 })

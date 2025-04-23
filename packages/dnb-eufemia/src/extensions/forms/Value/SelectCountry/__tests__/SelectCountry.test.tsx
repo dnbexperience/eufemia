@@ -1,6 +1,7 @@
 import React from 'react'
 import { screen, render } from '@testing-library/react'
 import { Value, Form } from '../../..'
+import { CountryISO } from '../../../constants/countries'
 
 describe('Value.SelectCountry', () => {
   it('renders string values', () => {
@@ -11,6 +12,16 @@ describe('Value.SelectCountry', () => {
         '.dnb-forms-value-select-country .dnb-forms-value-block__content'
       )
     ).toHaveTextContent('Norge')
+  })
+
+  it('renders even though value is not a valid ISO code ', () => {
+    render(<Value.SelectCountry value={'NotValidISOCode' as CountryISO} />)
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-select-country .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('')
   })
 
   it('renders label when showEmpty is true', () => {
