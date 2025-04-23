@@ -3353,6 +3353,21 @@ describe('DatePicker component', () => {
       screen.getByLabelText('søndag 27. april 2025')
     ).toBeInTheDocument()
   })
+
+  it('should allow for left aligned submit button when submitButtonAlignment is set to `left` and `showInput` is false', () => {
+    // `showInput` is false by default
+    const { rerender } = render(
+      <DatePicker submitButtonAlignment="left" />
+    )
+
+    const datePicker = document.querySelector('.dnb-date-picker')
+
+    expect(datePicker).toHaveClass('dnb-date-picker__input--reverse')
+
+    rerender(<DatePicker submitButtonAlignment="left" showInput />)
+
+    expect(datePicker).not.toHaveClass('dnb-date-picker__input--reverse')
+  })
 })
 
 // for the unit calc tests
