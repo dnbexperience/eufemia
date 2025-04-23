@@ -3796,6 +3796,7 @@ button .dnb-form-status__text {
   --date-picker-day-horizontal-spacing: 4px;
   display: inline-flex;
   align-items: center;
+  gap: var(--spacing-small);
   font-size: var(--font-size-small);
   line-height: var(--line-height-basis);
 }
@@ -3984,6 +3985,11 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
 .dnb-date-picker .dnb-input__input.dnb-date-picker__input--large:last-of-type:not(*:root), .dnb-core-style .dnb-date-picker__input--large:last-of-type:not(*:root) {
   margin-right: 4rem;
 }
+.dnb-date-picker__input--reverse,
+.dnb-date-picker .dnb-input__input.dnb-date-picker__input--reverse, .dnb-core-style .dnb-date-picker__input--reverse {
+  flex-flow: row-reverse;
+  width: fit-content;
+}
 .dnb-date-picker .dnb-input__input.dnb-date-picker__input:first-of-type, .dnb-date-picker__input:first-of-type {
   margin-left: 0.8rem;
 }
@@ -4150,6 +4156,7 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
 }
 .dnb-date-picker > .dnb-form-label {
   line-height: var(--line-height-basis);
+  margin-right: 0;
 }
 @media screen and (max-width: 40em) {
   .dnb-date-picker {
