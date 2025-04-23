@@ -14,7 +14,7 @@ describe('Value.SelectCountry', () => {
     ).toHaveTextContent('Norge')
   })
 
-  it('renders even though value is not a valid ISO code ', () => {
+  it('renders invalid values', () => {
     render(<Value.SelectCountry value={'NotValidISOCode' as CountryISO} />)
 
     expect(
