@@ -25,7 +25,7 @@ function SelectCurrency(props: Props) {
       className={classnames('dnb-forms-value-select-currency', className)}
       {...rest}
     >
-      {getCurrencyDisplayNameByIso(value)}
+      {getCurrencyDisplayNameByIso(value) ?? value}
     </ValueBlock>
   )
 }

@@ -26,7 +26,7 @@ describe('Value.SelectCurrency', () => {
       document.querySelector(
         '.dnb-forms-value-select-currency .dnb-forms-value-block__content'
       )
-    ).not.toBeInTheDocument()
+    ).toHaveTextContent('NotValidISOCode')
 
     rerender(
       <Value.SelectCurrency
