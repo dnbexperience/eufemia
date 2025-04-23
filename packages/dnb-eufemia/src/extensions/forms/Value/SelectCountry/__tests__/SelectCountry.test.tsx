@@ -16,10 +16,7 @@ describe('Value.SelectCountry', () => {
 
   it('supports invalid values', () => {
     const { rerender } = render(
-      <Value.SelectCountry
-        value={'NotValidISOCode' as CountryISO}
-        showEmpty
-      />
+      <Value.SelectCountry value={'NotValidISOCode' as CountryISO} />
     )
 
     expect(
