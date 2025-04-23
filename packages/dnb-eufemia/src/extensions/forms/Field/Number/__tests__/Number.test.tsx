@@ -657,24 +657,75 @@ describe('Field.Number', () => {
       expect(input).toHaveValue('365')
     })
 
-    it('should not allow leading zeroes when `disallowLeadingZeroes` is true', async () => {
-      render(<Field.Number disallowLeadingZeroes />)
+    describe('disallowLeadingZeroes', () => {
+      it('should not allow leading zeroes', async () => {
+        render(<Field.Number disallowLeadingZeroes />)
 
-      const input = document.querySelector('input')
+        const input = document.querySelector('input')
 
-      await userEvent.type(input, '00123456')
+        await userEvent.type(input, '00123456')
 
-      expect(input).toHaveValue('123 456')
-    })
+        expect(input).toHaveValue('123 456')
+      })
 
-    it('should allow 0 as value when `disallowLeadingZeroes` is true', async () => {
-      render(<Field.Number disallowLeadingZeroes />)
+      it('should allow "0" as value', async () => {
+        render(<Field.Number disallowLeadingZeroes />)
 
-      const input = document.querySelector('input')
+        const input = document.querySelector('input')
 
-      await userEvent.type(input, '0')
+        await userEvent.type(input, '0')
 
-      expect(input).toHaveValue('0')
+        expect(input).toHaveValue('0')
+      })
+
+      it('should support decimal values', async () => {
+        render(<Field.Number disallowLeadingZeroes />)
+
+        const input = document.querySelector('input')
+
+        await userEvent.type(input, '0.1')
+
+        expect(input).toHaveValue('0,1')
+      })
+
+      it('should return correct onChange event value', async () => {
+        const onChange = jest.fn()
+
+        render(<Field.Number disallowLeadingZeroes onChange={onChange} />)
+
+        const input = document.querySelector('input')
+
+        await userEvent.type(input, '0')
+
+        expect(input).toHaveValue('0')
+        expect(onChange).toHaveBeenCalledTimes(1)
+        expect(onChange).toHaveBeenNthCalledWith(1, 0, expect.anything())
+
+        await userEvent.keyboard('10')
+
+        expect(input).toHaveValue('10')
+        expect(onChange).toHaveBeenCalledTimes(3)
+        expect(onChange).toHaveBeenNthCalledWith(2, 1, expect.anything())
+        expect(onChange).toHaveBeenNthCalledWith(3, 10, expect.anything())
+
+        await userEvent.keyboard('{Backspace>4}')
+
+        expect(input).toHaveValue('')
+        expect(onChange).toHaveBeenCalledTimes(5)
+        expect(onChange).toHaveBeenNthCalledWith(4, 1, expect.anything())
+        expect(onChange).toHaveBeenNthCalledWith(
+          5,
+          undefined,
+          expect.anything()
+        )
+
+        await userEvent.keyboard('0.1')
+
+        expect(input).toHaveValue('0,1')
+        expect(onChange).toHaveBeenCalledTimes(7)
+        expect(onChange).toHaveBeenNthCalledWith(6, 0, expect.anything())
+        expect(onChange).toHaveBeenNthCalledWith(7, 0.1, expect.anything())
+      })
     })
   })
 

@@ -7,12 +7,13 @@ import React, { useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import emailMask from '../addons/emailMask'
 import { InputMasked, FormSet, ToggleButton } from '../..'
-import { Hr } from '../../..'
+import { Flex, Hr } from '../../..'
 import styled from '@emotion/styled'
 import { Provider } from '../../../shared'
 import { MultiInputMask } from '../'
 import type { MultiInputMaskValue } from '../'
 import { InternalLocale } from '../../../shared/Context'
+import { Field } from '../../../extensions/forms'
 
 const Pre = styled.pre`
   margin-top: 0;
@@ -338,12 +339,25 @@ function MultiInputMaskStatuses() {
   )
 }
 
-export function DissalowLeadingZerosMask() {
+export function DisallowLeadingZerosMask() {
   return (
-    <InputMasked
-      label="disallowLeadingZeroesMask"
-      number_mask
-      mask_options={{ disallowLeadingZeroes: true }}
-    />
+    <Flex.Vertical>
+      <InputMasked
+        currency_mask={{
+          // allowDecimal: true,
+          disallowLeadingZeroes: true, //
+        }}
+        onChange={({ value, numberValue }) => {
+          // console.log('onChange', value, numberValue)
+        }}
+      />
+
+      <Field.Currency
+        disallowLeadingZeroes
+        onChange={(value) => {
+          // console.log('onChange', value)
+        }}
+      />
+    </Flex.Vertical>
   )
 }
