@@ -37,7 +37,7 @@
 
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-small);
+  column-gap: var(--spacing-small);
 
   font-size: var(--font-size-small);
   line-height: var(--line-height-basis);

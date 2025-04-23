@@ -3796,7 +3796,7 @@ button .dnb-form-status__text {
   --date-picker-day-horizontal-spacing: 4px;
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-small);
+  column-gap: var(--spacing-small);
   font-size: var(--font-size-small);
   line-height: var(--line-height-basis);
 }
