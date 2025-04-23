@@ -914,15 +914,15 @@ function DatePicker(externalProps: DatePickerAllProps) {
       opened && 'dnb-date-picker--opened',
       hidden && 'dnb-date-picker--hidden',
       showInput && 'dnb-date-picker--show-input',
+      !showInput &&
+        submitButtonAlignment === 'left' &&
+        'dnb-date-picker__input--reverse',
       (range || showSubmitButton || showCancelButton || showResetButton) &&
         'dnb-date-picker--show-footer',
       alignPicker && `dnb-date-picker--${alignPicker}`,
       stretch && `dnb-date-picker--stretch`,
       'dnb-form-component',
       size && `dnb-date-picker--${size}`,
-      !showInput &&
-        submitButtonAlignment === 'left' &&
-        'dnb-date-picker__input--reverse',
       createSpacingClasses(props),
       className
     ),
