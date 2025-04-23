@@ -37,6 +37,7 @@
 
   display: inline-flex;
   align-items: center;
+  gap: var(--spacing-small);
 
   font-size: var(--font-size-small);
   line-height: var(--line-height-basis);
@@ -60,6 +61,7 @@
     display: inline-flex;
     flex-direction: column;
   }
+
   &__input__wrapper {
     display: inline-flex;
     white-space: nowrap;
@@ -236,6 +238,11 @@
       &:last-of-type:not(*:root) {
         margin-right: 4rem;
       }
+    }
+
+    &--reverse {
+      flex-flow: row-reverse;
+      width: fit-content;
     }
   }
 
@@ -451,6 +458,7 @@
 
   > .dnb-form-label {
     line-height: var(--line-height-basis);
+    margin-right: 0;
   }
   @include formLabelWrap();
 

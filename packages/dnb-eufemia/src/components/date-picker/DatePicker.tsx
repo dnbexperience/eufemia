@@ -278,6 +278,10 @@ export type DatePickerProps = {
    */
   alignPicker?: 'auto' | 'left' | 'right'
   /**
+   * Sets the alignment of the submit button. Only has an effect if `showInput` is `false`. Defaults to `right`.
+   */
+  submitButtonAlignment?: 'left' | 'right'
+  /**
    * If set to `true`, the calendar will not be rendered inside a react portal. Defaults to `false`.
    */
   skipPortal?: boolean
@@ -841,6 +845,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
     className,
     tooltip,
     skipPortal,
+    submitButtonAlignment,
     ...restProps
   } = extendedProps
 
@@ -915,6 +920,9 @@ function DatePicker(externalProps: DatePickerAllProps) {
       stretch && `dnb-date-picker--stretch`,
       'dnb-form-component',
       size && `dnb-date-picker--${size}`,
+      !showInput &&
+        submitButtonAlignment === 'left' &&
+        'dnb-date-picker__input--reverse',
       createSpacingClasses(props),
       className
     ),
