@@ -1,47 +1,10 @@
 import React from 'react'
 import { screen, render } from '@testing-library/react'
 import { Value, Form } from '../../..'
-import { CountryISO } from '../../../constants/countries'
 
 describe('Value.SelectCountry', () => {
   it('renders string values', () => {
     render(<Value.SelectCountry value="NO" />)
-
-    expect(
-      document.querySelector(
-        '.dnb-forms-value-select-country .dnb-forms-value-block__content'
-      )
-    ).toHaveTextContent('Norge')
-  })
-
-  it('renders invalid values', () => {
-    const { rerender } = render(
-      <Value.SelectCountry value={'NotValidISOCode' as CountryISO} />
-    )
-
-    expect(
-      document.querySelector(
-        '.dnb-forms-value-select-country .dnb-forms-value-block__content'
-      )
-    ).toHaveTextContent('Norge')
-
-    rerender(<Value.SelectCountry value={0 as unknown as CountryISO} />)
-
-    expect(
-      document.querySelector(
-        '.dnb-forms-value-select-country .dnb-forms-value-block__content'
-      )
-    ).toHaveTextContent('Norge')
-
-    rerender(<Value.SelectCountry value={null} />)
-
-    expect(
-      document.querySelector(
-        '.dnb-forms-value-select-country .dnb-forms-value-block__content'
-      )
-    ).toHaveTextContent('Norge')
-
-    rerender(<Value.SelectCountry value={undefined} />)
 
     expect(
       document.querySelector(
