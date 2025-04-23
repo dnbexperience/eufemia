@@ -14,40 +14,48 @@ describe('Value.SelectCurrency', () => {
     ).toHaveTextContent('Norsk krone (NOK)')
   })
 
-  it('renders invalid values', () => {
+  it('supports invalid values', () => {
     const { rerender } = render(
-      <Value.SelectCurrency value={'NotValidISOCode' as CurrencyISO} />
+      <Value.SelectCurrency
+        value={'NotValidISOCode' as CurrencyISO}
+        showEmpty
+      />
     )
 
     expect(
       document.querySelector(
         '.dnb-forms-value-select-currency .dnb-forms-value-block__content'
       )
-    ).toHaveTextContent('Norge')
+    ).not.toBeInTheDocument()
 
-    rerender(<Value.SelectCurrency value={0 as unknown as CurrencyISO} />)
-
-    expect(
-      document.querySelector(
-        '.dnb-forms-value-select-currency .dnb-forms-value-block__content'
-      )
-    ).toHaveTextContent('Norge')
-
-    rerender(<Value.SelectCurrency value={null} />)
+    rerender(
+      <Value.SelectCurrency
+        value={0 as unknown as CurrencyISO}
+        showEmpty
+      />
+    )
 
     expect(
       document.querySelector(
         '.dnb-forms-value-select-currency .dnb-forms-value-block__content'
       )
-    ).toHaveTextContent('Norge')
+    ).not.toBeInTheDocument()
 
-    rerender(<Value.SelectCurrency value={undefined} />)
+    rerender(<Value.SelectCurrency value={null} showEmpty />)
 
     expect(
       document.querySelector(
         '.dnb-forms-value-select-currency .dnb-forms-value-block__content'
       )
-    ).toHaveTextContent('Norge')
+    ).not.toBeInTheDocument()
+
+    rerender(<Value.SelectCurrency value={undefined} showEmpty />)
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-select-currency .dnb-forms-value-block__content'
+      )
+    ).not.toBeInTheDocument()
   })
 
   it('renders label when showEmpty is true', () => {
