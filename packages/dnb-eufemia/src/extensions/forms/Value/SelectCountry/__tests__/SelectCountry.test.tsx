@@ -26,7 +26,7 @@ describe('Value.SelectCountry', () => {
       document.querySelector(
         '.dnb-forms-value-select-country .dnb-forms-value-block__content'
       )
-    ).not.toBeInTheDocument()
+    ).toHaveTextContent('NotValidISOCode')
 
     rerender(
       <Value.SelectCountry value={0 as unknown as CountryISO} showEmpty />

@@ -25,7 +25,7 @@ function SelectCountry(props: Props) {
       className={classnames('dnb-forms-value-select-country', className)}
       {...rest}
     >
-      {getCountryNameByIso(value)}
+      {getCountryNameByIso(value) ?? value}
     </ValueBlock>
   )
 }
