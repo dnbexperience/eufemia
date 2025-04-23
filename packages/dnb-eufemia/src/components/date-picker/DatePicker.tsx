@@ -1041,6 +1041,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                       isSync={sync}
                       hideDays={shouldHideDays}
                       hideNav={shouldHideNavigation}
+                      // TODO: refactor to not be views, do reduce view complexity
                       views={
                         hideNavigationButtons
                           ? [{ nextBtn: false, prevBtn: false }]
