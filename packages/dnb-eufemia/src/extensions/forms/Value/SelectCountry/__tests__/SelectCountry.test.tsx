@@ -18,7 +18,6 @@ describe('Value.SelectCountry', () => {
     const { rerender } = render(
       <Value.SelectCountry
         value={'NotValidISOCode' as CountryISO}
-        showEmpty
       />
     )
 
