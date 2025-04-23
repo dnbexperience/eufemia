@@ -3451,6 +3451,224 @@ describe('DatePicker component', () => {
     )
   })
 
+  it('should enable navigation by year in the calendar when `yearNavigation` is set to `true` and in range mode', async () => {
+    const onChange = jest.fn()
+
+    render(
+      <DatePicker
+        startDate="2025-04-16"
+        endDate="2026-05-17"
+        onChange={onChange}
+        yearNavigation
+        showInput
+        range
+      />
+    )
+
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
+
+    const [
+      leftMonthTitle,
+      leftYearTitle,
+      rightMonthTitle,
+      rightYearTitle,
+    ] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__header__title')
+    )
+
+    const [
+      leftPrevMonthButton,
+      leftPrevYearButton,
+      rightPrevMonthButton,
+      rightPrevYearButton,
+    ] = Array.from(document.querySelectorAll('.dnb-date-picker__prev'))
+
+    const [
+      leftNextMonthButton,
+      leftNextYearButton,
+      rightNextMonthButton,
+      rightNextYearButton,
+    ] = Array.from(document.querySelectorAll('.dnb-date-picker__next'))
+
+    const [startDay, startMonth, startYear, endDay, endMonth, endYear] =
+      Array.from(
+        document.querySelectorAll('.dnb-date-picker__input')
+      ) as Array<HTMLInputElement>
+
+    // Verify initial label values
+    // Left
+    expect(leftPrevMonthButton).toHaveAttribute(
+      'aria-label',
+      'Forrige måned mars'
+    )
+    expect(leftNextMonthButton).toHaveAttribute(
+      'aria-label',
+      'Neste måned mai'
+    )
+    expect(leftPrevYearButton).toHaveAttribute(
+      'aria-label',
+      'Forrige år 2024'
+    )
+    expect(leftNextYearButton).toHaveAttribute(
+      'aria-label',
+      'Neste år 2026'
+    )
+
+    // Right
+    expect(rightPrevMonthButton).toHaveAttribute(
+      'aria-label',
+      'Forrige måned april'
+    )
+    expect(rightNextMonthButton).toHaveAttribute(
+      'aria-label',
+      'Neste måned juni'
+    )
+    expect(rightPrevYearButton).toHaveAttribute(
+      'aria-label',
+      'Forrige år 2025'
+    )
+    expect(rightNextYearButton).toHaveAttribute(
+      'aria-label',
+      'Neste år 2027'
+    )
+
+    await userEvent.click(leftPrevYearButton)
+    await userEvent.click(rightPrevYearButton)
+    // Verify years
+    // Left
+    expect(leftYearTitle).toHaveTextContent('2024')
+    expect(leftYearTitle).toHaveAttribute('title', 'Valgt år 2024')
+    expect(leftPrevYearButton).toHaveAttribute(
+      'aria-label',
+      'Forrige år 2023'
+    )
+    expect(leftNextYearButton).toHaveAttribute(
+      'aria-label',
+      'Neste år 2025'
+    )
+
+    // Right
+    expect(rightYearTitle).toHaveTextContent('2025')
+    expect(rightYearTitle).toHaveAttribute('title', 'Valgt år 2025')
+    expect(rightPrevYearButton).toHaveAttribute(
+      'aria-label',
+      'Forrige år 2024'
+    )
+    expect(rightNextYearButton).toHaveAttribute(
+      'aria-label',
+      'Neste år 2026'
+    )
+
+    // Verify months
+    // Left
+    expect(leftPrevMonthButton).toHaveAttribute(
+      'aria-label',
+      'Forrige måned mars'
+    )
+    expect(leftNextMonthButton).toHaveAttribute(
+      'aria-label',
+      'Neste måned mai'
+    )
+    expect(leftMonthTitle).toHaveTextContent('april')
+    expect(leftMonthTitle).toHaveAttribute('title', 'Valgt måned april')
+
+    // Right
+    expect(rightMonthTitle).toHaveTextContent('mai')
+    expect(rightMonthTitle).toHaveAttribute('title', 'Valgt måned mai')
+    expect(rightPrevMonthButton).toHaveAttribute(
+      'aria-label',
+      'Forrige måned april'
+    )
+    expect(rightNextMonthButton).toHaveAttribute(
+      'aria-label',
+      'Neste måned juni'
+    )
+
+    await userEvent.click(leftNextYearButton)
+    await userEvent.click(leftNextYearButton)
+    await userEvent.click(rightNextYearButton)
+    await userEvent.click(rightNextYearButton)
+
+    // Verify years
+    // Left
+    expect(leftYearTitle).toHaveTextContent('2026')
+    expect(leftYearTitle).toHaveAttribute('title', 'Valgt år 2026')
+    expect(leftPrevYearButton).toHaveAttribute(
+      'aria-label',
+      'Forrige år 2025'
+    )
+    expect(leftNextYearButton).toHaveAttribute(
+      'aria-label',
+      'Neste år 2027'
+    )
+
+    // Right
+    expect(rightYearTitle).toHaveTextContent('2027')
+    expect(rightYearTitle).toHaveAttribute('title', 'Valgt år 2027')
+    expect(rightPrevYearButton).toHaveAttribute(
+      'aria-label',
+      'Forrige år 2026'
+    )
+    expect(rightNextYearButton).toHaveAttribute(
+      'aria-label',
+      'Neste år 2028'
+    )
+
+    // Verify months
+    // Left
+    expect(leftPrevMonthButton).toHaveAttribute(
+      'aria-label',
+      'Forrige måned mars'
+    )
+    expect(leftNextMonthButton).toHaveAttribute(
+      'aria-label',
+      'Neste måned mai'
+    )
+    expect(leftMonthTitle).toHaveTextContent('april')
+    expect(leftMonthTitle).toHaveAttribute('title', 'Valgt måned april')
+
+    // Right
+    expect(rightMonthTitle).toHaveTextContent('mai')
+    expect(rightMonthTitle).toHaveAttribute('title', 'Valgt måned mai')
+    expect(rightPrevMonthButton).toHaveAttribute(
+      'aria-label',
+      'Forrige måned april'
+    )
+    expect(rightNextMonthButton).toHaveAttribute(
+      'aria-label',
+      'Neste måned juni'
+    )
+
+    // Pick new dates
+    await userEvent.click(screen.getByLabelText('onsdag 1. april 2026'))
+    await userEvent.click(screen.getByLabelText('lørdag 1. mai 2027'))
+
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        start_date: '2026-04-01',
+        end_date: '2027-05-01',
+      })
+    )
+    // Start date
+    expect(startDay).toHaveValue('01')
+    expect(startMonth).toHaveValue('04')
+    expect(startYear).toHaveValue('2026')
+    expect(screen.getByLabelText('onsdag 1. april 2026')).toHaveAttribute(
+      'aria-current',
+      'date'
+    )
+
+    // End date
+    expect(endDay).toHaveValue('01')
+    expect(endMonth).toHaveValue('05')
+    expect(endYear).toHaveValue('2027')
+    expect(screen.getByLabelText('lørdag 1. mai 2027')).toHaveAttribute(
+      'aria-current',
+      'date'
+    )
+  })
+
   it('should respect `minDate` and `maxDate` when `yearNavigation` is set to `true`', async () => {
     render(
       <DatePicker
