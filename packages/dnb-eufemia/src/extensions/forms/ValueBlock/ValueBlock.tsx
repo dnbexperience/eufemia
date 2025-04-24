@@ -111,9 +111,7 @@ function ValueBlock(localProps: Props) {
 
   const hide =
     prerenderFieldProps ||
-    ((children === undefined || children === null || children === false) &&
-      !showEmpty &&
-      !placeholder)
+    (isValueEmpty(children) && !showEmpty && !placeholder)
   const hasHelp = help?.title || help?.content
   const isComposition = composition === true
   const isCompositionInContext = valueBlockContext?.composition
@@ -336,4 +334,8 @@ function VisibilityWrapper({ children }) {
   }
 
   return children
+}
+
+export function isValueEmpty(value: unknown) {
+  return value === undefined || value === null || value === false
 }

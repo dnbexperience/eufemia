@@ -5,6 +5,7 @@ import {
   cleanNumber,
 } from '../../../../components/number-format/NumberUtils'
 import useTranslation from '../../hooks/useTranslation'
+import { isValueEmpty } from '../../ValueBlock'
 
 export type Props = StringValueProps
 
@@ -12,7 +13,7 @@ function NationalIdentityNumber(props: Props) {
   const translations = useTranslation().NationalIdentityNumber
 
   const toInput = useCallback((value) => {
-    if (value === undefined || value === null || value === false) {
+    if (isValueEmpty(value)) {
       return undefined
     }
     return format(cleanNumber(value), {
