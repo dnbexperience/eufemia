@@ -633,6 +633,8 @@ describe('NumberFormat cleanNumber', () => {
   it('should not clean up', () => {
     expect(cleanNumber(-12345.67)).toBe(-12345.67)
     expect(cleanNumber('prefix -123.00 suffix')).toBe('-123.00')
+    expect(cleanNumber(undefined)).toBe(undefined)
+    expect(cleanNumber(null)).toBe(null)
   })
 
   it('should not clean up if only a dot is given', () => {
