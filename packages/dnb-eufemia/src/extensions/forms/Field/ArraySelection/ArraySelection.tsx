@@ -277,7 +277,9 @@ export function useCheckboxOrToggleOptions({
   }
 
   if (path) {
-    setFieldInternals?.(path + '/arraySelectionData', activeData)
+    setFieldInternals?.(path + '/arraySelectionData', {
+      props: activeData,
+    })
   }
 
   return result

@@ -29,6 +29,7 @@ import {
   OnSubmitRequest,
   CountryCode,
   PathStrict,
+  Identifier,
 } from '../../types'
 import type { IsolationProviderProps } from '../../Form/Isolation/Isolation'
 import { debounce } from '../../../../shared/helpers'
@@ -629,10 +630,17 @@ export default function Provider<Data extends JsonObject>(
 
   const fieldInternalsRef = useRef<FieldInternalsRef>({})
   const setFieldInternals = useCallback(
-    (path: Path, props: FieldInternalsRefProps, id: string) => {
+    (
+      path: Path,
+      internals: {
+        id: Identifier
+        props: FieldInternalsRefProps
+        emptyValue: unknown
+      }
+    ) => {
       fieldInternalsRef.current[path] = Object.assign(
         fieldInternalsRef.current[path] || {},
-        { props, id }
+        internals
       )
     },
     []

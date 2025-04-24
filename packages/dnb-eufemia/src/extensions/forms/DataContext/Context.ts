@@ -12,6 +12,7 @@ import {
   OnChange,
   OnSubmitParams,
   CountryCode,
+  Identifier,
 } from '../types'
 import { Props as ProviderProps } from './Provider'
 import { SnapshotName } from '../Form/Snapshot'
@@ -104,8 +105,9 @@ export type FieldInternalsRefProps =
 export type FieldInternalsRef = Record<
   Path,
   {
-    props: FieldInternalsRefProps
     id: string | undefined
+    props: FieldInternalsRefProps
+    emptyValue: unknown
   }
 >
 export type ValueInternalsRef = Record<
@@ -180,7 +182,14 @@ export interface ContextState {
     params?: { remove?: boolean }
   ) => void
   revealError?: (path: Path, hasError: boolean) => void
-  setFieldInternals?: (path: Path, props: unknown, id?: string) => void
+  setFieldInternals?: (
+    path: Path,
+    internals: {
+      id?: Identifier
+      props: FieldInternalsRefProps | unknown
+      emptyValue?: unknown
+    }
+  ) => void
   setValueInternals?: (path: Path, props: unknown) => void
   setFieldConnection?: (path: Path, connections: FieldConnections) => void
   isEmptyDataRef?: React.MutableRefObject<boolean>

@@ -2914,6 +2914,59 @@ describe('useFieldProps', () => {
     expect(result.current.props).toEqual(expect.objectContaining(props))
   })
 
+  it('should set props and emptyValue in Provider', () => {
+    const props = {
+      path: '/foo',
+      value: 'my value',
+      emptyValue: 'custom empty value',
+    }
+
+    const setFieldInternalsDataContext = jest.fn()
+    const setMountedFieldState = jest.fn()
+
+    const dataContextValue = {
+      setFieldInternals: setFieldInternalsDataContext,
+      setMountedFieldState,
+    } as unknown as ContextState
+
+    const { rerender } = renderHook(useFieldProps, {
+      initialProps: props,
+      wrapper: ({ children }) => {
+        return (
+          <Context.Provider value={dataContextValue}>
+            {children}
+          </Context.Provider>
+        )
+      },
+    })
+
+    expect(setFieldInternalsDataContext).toHaveBeenCalledTimes(1)
+    expect(setFieldInternalsDataContext).toHaveBeenLastCalledWith(
+      props.path,
+      { id: expect.any(String), props, emptyValue: props.emptyValue }
+    )
+
+    rerender({
+      ...props,
+      value: 'new value',
+      emptyValue: 'new empty value',
+    })
+
+    expect(setFieldInternalsDataContext).toHaveBeenCalledTimes(3)
+    expect(setFieldInternalsDataContext).toHaveBeenLastCalledWith(
+      props.path,
+      {
+        id: expect.any(String),
+        props: {
+          ...props,
+          value: 'new value',
+          emptyValue: 'new empty value',
+        },
+        emptyValue: 'new empty value',
+      }
+    )
+  })
+
   it('should call async context onChange when no error is present', async () => {
     const onChange = jest.fn(async () => null)
 

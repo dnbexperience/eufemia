@@ -1903,7 +1903,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const handleBlur = useCallback(() => setHasFocus(false), [setHasFocus])
 
   // Put props into the surrounding data context as early as possible
-  setFieldInternalsDataContext?.(identifier, props, id)
+  setFieldInternalsDataContext?.(identifier, { id, props, emptyValue })
 
   const activeIndexTmpRef = useRef(activeIndex)
   useEffect(() => {
