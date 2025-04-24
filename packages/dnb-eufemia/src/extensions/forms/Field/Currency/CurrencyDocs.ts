@@ -12,5 +12,10 @@ export const currencyProperties: PropertiesTableProps = {
     type: ['code', 'symbol', 'narrowSymbol', 'name'],
     status: 'optional',
   },
+  disallowLeadingZeroes: {
+    doc: 'Whether or not to allow leading zeroes. Defaults to `true`.',
+    type: numberProperties.disallowLeadingZeroes.type,
+    status: numberProperties.disallowLeadingZeroes.status,
+  },
   ...numberProperties,
 }

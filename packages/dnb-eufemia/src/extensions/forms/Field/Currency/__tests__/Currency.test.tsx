@@ -50,6 +50,16 @@ describe('Field.Currency', () => {
     expect(input).toHaveAttribute('inputmode', 'decimal')
   })
 
+  it('should default to not allow leading zeroes when ', async () => {
+    render(<Field.Currency disallowLeadingZeroes />)
+
+    const input = document.querySelector('input')
+
+    await userEvent.type(input, '00123456')
+
+    expect(input).toHaveValue('123 456')
+  })
+
   it('should work with decimal limit 0', async () => {
     render(<Field.Currency decimalLimit={0} />)
 
