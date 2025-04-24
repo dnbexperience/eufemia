@@ -788,7 +788,11 @@ export function cleanNumber(
     suffix = null,
   } = {}
 ) {
-  if (typeof num === 'number') {
+  if (
+    typeof num === 'number' ||
+    typeof num === 'undefined' ||
+    num === null
+  ) {
     return num
   }
 
