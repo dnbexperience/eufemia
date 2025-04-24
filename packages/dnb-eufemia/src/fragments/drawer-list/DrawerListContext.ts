@@ -10,7 +10,7 @@ import { DrawerListDataAll, DrawerListDataArrayObject } from './'
 
 export type DrawerListContextState = Omit<
   DrawerListProviderProps,
-  'data' | 'wrapper_element'
+  'data' | 'wrapper_element' | 'children'
 > & {
   data: DrawerListDataArrayObject[]
   wrapper_element?: HTMLElement

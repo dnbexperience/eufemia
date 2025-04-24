@@ -10,9 +10,9 @@ import whatInput from 'what-input'
 import { warn } from './helpers'
 import { getPreviousSibling } from './helpers/getPreviousSibling'
 import { init } from './Eufemia'
-import { defineNavigator } from './component-helper/component-helper'
+import { defineNavigator } from './legacy/component-helper-legacy'
 
-export * from './component-helper/component-helper'
+export * from './legacy/component-helper-legacy'
 export { InteractionInvalidation } from './helpers/InteractionInvalidation'
 export {
   extendPropsWithContext,

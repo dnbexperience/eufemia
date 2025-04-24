@@ -24,10 +24,7 @@ import DrawerListContext, {
 } from './DrawerListContext'
 import DrawerListProvider from './DrawerListProvider'
 import DrawerListPortal from './DrawerListPortal'
-import {
-  drawerListPropTypes,
-  drawerListDefaultProps,
-} from './DrawerListHelpers'
+import { drawerListDefaultProps } from './DrawerListHelpers'
 import { DrawerListHorizontalItem, DrawerListItem } from './DrawerListItem'
 import type { DrawerListItemProps } from './DrawerListItem'
 
@@ -258,10 +255,7 @@ function DrawerList(props: DrawerListAllProps) {
 }
 DrawerList.blurDelay = DrawerListProvider.blurDelay // some ms more than "DrawerListSlideDown 200ms" = 201 // some ms more than "DrawerListSlideDown 200ms"
 
-class DrawerListInstance extends React.PureComponent<DrawerListProps> {
-  static propTypes = {
-    ...drawerListPropTypes,
-  }
+class DrawerListInstance extends React.Component<DrawerListAllProps> {
   static defaultProps = {
     ...drawerListDefaultProps,
   }

@@ -23,6 +23,7 @@ import {
 import { DrawerListProviderProps } from './DrawerListProvider'
 import { DrawerListContextState } from './DrawerListContext'
 
+// legacy used by Autocomplete and Dropdown
 export const drawerListPropTypes = {
   id: PropTypes.string,
   role: PropTypes.string,
@@ -184,6 +185,7 @@ export const drawerListDefaultProps = {
   options_render: null,
 }
 
+// legacy used by Dropdown
 export const drawerListProviderPropTypes = {
   enable_body_lock: PropTypes.bool,
   page_offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

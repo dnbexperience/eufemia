@@ -6,7 +6,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import Context from '../../shared/Context'
 import {
   warn,
@@ -34,9 +33,7 @@ import {
   getEventData,
   prepareStartupState,
   prepareDerivedState,
-  drawerListPropTypes,
   drawerListDefaultProps,
-  drawerListProviderPropTypes,
   drawerListProviderDefaultProps,
 } from './DrawerListHelpers'
 import DrawerListContext, {
@@ -118,6 +115,7 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
     _refRoot?: React.RefObject<HTMLSpanElement>
     _rootElem?: Window | Element
     attributes?: Record<string, any>
+    children: React.ReactNode
   }
 
 export default class DrawerListProvider extends React.PureComponent<
@@ -126,12 +124,6 @@ export default class DrawerListProvider extends React.PureComponent<
 > {
   static contextType = Context
   context!: React.ContextType<typeof Context>
-
-  static propTypes = {
-    ...drawerListPropTypes,
-    ...drawerListProviderPropTypes,
-    children: PropTypes.node.isRequired,
-  }
 
   static defaultProps = {
     ...drawerListDefaultProps,
