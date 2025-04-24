@@ -12,6 +12,9 @@ function BankAccountNumber(props: Props) {
   const translations = useTranslation().BankAccountNumber
 
   const toInput = useCallback((value) => {
+    if (value === undefined || value === null || value === false) {
+      return undefined
+    }
     return format(cleanNumber(value), {
       ban: true,
     }).toString()
