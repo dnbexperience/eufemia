@@ -2,6 +2,7 @@ import React, { useCallback } from 'react'
 import StringValue, { Props as StringValueProps } from '../String'
 import { format } from '../../../../components/number-format/NumberUtils'
 import useTranslation from '../../hooks/useTranslation'
+import { isValueEmpty } from '../../ValueBlock'
 
 export type Props = StringValueProps
 
@@ -12,7 +13,7 @@ function PhoneNumber(props: Props) {
     props.label ?? (props.inline ? undefined : translations.label)
 
   const toInput = useCallback((value) => {
-    if (value === undefined || value === null || value === false) {
+    if (isValueEmpty(value)) {
       return undefined
     }
     // We can't use the "cleanNumber" function here, because we need to keep the country code separate from the number
