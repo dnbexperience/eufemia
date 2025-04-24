@@ -59,4 +59,16 @@ describe('Value.NationalIdentityNumber', () => {
       )
     ).toHaveTextContent('200012 34567')
   })
+
+  it('does not render when value is null', () => {
+    render(<Value.NationalIdentityNumber value={null} />)
+    const element = document.querySelector('.dnb-forms-value-block')
+    expect(element).not.toBeInTheDocument()
+  })
+
+  it('does not render when value is undefined', () => {
+    render(<Value.NationalIdentityNumber value={undefined} />)
+    const element = document.querySelector('.dnb-forms-value-block')
+    expect(element).not.toBeInTheDocument()
+  })
 })
