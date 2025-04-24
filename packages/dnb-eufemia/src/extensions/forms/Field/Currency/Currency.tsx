@@ -32,6 +32,7 @@ function Currency(props: Props) {
         currencyValue,
         props.currencyDisplay
       ),
+    disallowLeadingZeroes: true,
   }
 
   return (
