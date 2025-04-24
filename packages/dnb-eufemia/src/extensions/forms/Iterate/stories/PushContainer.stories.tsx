@@ -1,6 +1,6 @@
 import React, { useLayoutEffect } from 'react'
-import { Field, Form, Iterate, Tools, Value } from '../..'
-import { Flex } from '../../../../components'
+import { Field, Form, Iterate, Tools, Value, Wizard } from '../..'
+import { Flex, HeightAnimation } from '../../../../components'
 
 export default {
   title: 'Eufemia/Extensions/Forms/Iterate/PushContainer',
@@ -100,7 +100,7 @@ function PushContainerContent() {
   }, [data.selectedPerson, update])
 
   return (
-    <Flex.Stack>
+    <>
       <Field.Selection
         variant="radio"
         required
@@ -109,25 +109,28 @@ function PushContainerContent() {
       >
         <Field.Option value="other" label="Other person" />
       </Field.Selection>
-      <Form.Visibility
-        visibleWhen={{
-          path: '/selectedPerson',
-          hasValue: (value) =>
-            typeof value === 'string' && value !== 'other',
-        }}
-      >
-        <ExistingPersonDetails />
-      </Form.Visibility>
 
-      <Form.Visibility
-        visibleWhen={{
-          path: '/selectedPerson',
-          hasValue: (value) => value === 'other',
-        }}
-      >
-        <NewPersonDetails />
-      </Form.Visibility>
-    </Flex.Stack>
+      <HeightAnimation top>
+        <Form.Visibility
+          visibleWhen={{
+            path: '/selectedPerson',
+            hasValue: (value) =>
+              typeof value === 'string' && value !== 'other',
+          }}
+        >
+          <ExistingPersonDetails />
+        </Form.Visibility>
+
+        <Form.Visibility
+          visibleWhen={{
+            path: '/selectedPerson',
+            hasValue: (value) => value === 'other',
+          }}
+        >
+          <NewPersonDetails />
+        </Form.Visibility>
+      </HeightAnimation>
+    </>
   )
 }
 
@@ -155,5 +158,62 @@ function RepresentativesCreateNew() {
     >
       <PushContainerContent />
     </Iterate.PushContainer>
+  )
+}
+
+export function RequireUnchanged() {
+  return (
+    <Form.Handler
+      onSubmit={() => console.log('onSubmit')}
+      onSubmitRequest={() => console.log('onSubmitRequest')}
+    >
+      <Wizard.Container keepInDOM>
+        <Wizard.Step title="Step 1">
+          <Form.Card>
+            <Form.SubHeading>People</Form.SubHeading>
+
+            <Iterate.Array path="/representatives">
+              <RepresentativesView />
+              <RepresentativesEdit />
+            </Iterate.Array>
+
+            <Iterate.PushContainer
+              requireCommit
+              showResetButton
+              path="/representatives"
+              title="Add new representative"
+              isolatedData={{
+                persons: formData.persons.map((data, i) => {
+                  return {
+                    title: [data.firstName, data.lastName].join(' '),
+                    value: '/persons/' + i,
+                    data,
+                  }
+                }),
+              }}
+              openButton={
+                <Iterate.PushContainer.OpenButton
+                  variant="tertiary"
+                  text="Add new representative"
+                />
+              }
+              showOpenButtonWhen={(list) => list.length > 0}
+            >
+              <PushContainerContent />
+            </Iterate.PushContainer>
+          </Form.Card>
+
+          <Wizard.Buttons />
+        </Wizard.Step>
+
+        <Wizard.Step title="Step 2">
+          <Iterate.Array path="/people">
+            <Value.Name.First itemPath="/firstName" />
+          </Iterate.Array>
+          <Wizard.Buttons />
+          <Form.SubmitButton />
+        </Wizard.Step>
+      </Wizard.Container>
+    </Form.Handler>
   )
 }

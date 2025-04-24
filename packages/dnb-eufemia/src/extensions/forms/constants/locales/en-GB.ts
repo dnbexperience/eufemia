@@ -67,11 +67,14 @@ export default {
       removeButton: 'Remove',
       doneButton: 'Done',
       cancelButton: 'Cancel',
+      resetButton: 'Reset',
       errorInContainer: 'Please correct the errors above.',
     },
     IteratePushContainer: {
       createButton: 'Add',
       itemsLimitReached: 'You have reached the limit of: {limit}',
+      requireCommitText:
+        'You have changes that either need to be added or cleared.',
     },
 
     /**

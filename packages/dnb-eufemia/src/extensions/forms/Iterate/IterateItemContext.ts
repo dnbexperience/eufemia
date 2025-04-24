@@ -29,7 +29,7 @@ export interface IterateItemContextState {
   handleChange?: (path: Path, value: unknown) => void
   handleRemove?: ({ keepItems }?: { keepItems?: boolean }) => void
   handlePush?: (value: unknown) => void
-  restoreOriginalValue?: (value: unknown) => void
+  restoreOriginalValue?: (value?: unknown) => void
   fulfillRemove?: () => void
 }
 

@@ -67,11 +67,14 @@ export default {
       removeButton: 'Ta bort',
       doneButton: 'Klar',
       cancelButton: 'Avbryt',
+      resetButton: 'Återställ',
       errorInContainer: 'Felen ovan måste åtgärdas.',
     },
     IteratePushContainer: {
       createButton: 'Lägg till',
       itemsLimitReached: 'Du har nått gränsen på: {limit}',
+      requireCommitText:
+        'Du har ändringar som antingen måste läggas till eller rensas.',
     },
 
     /**

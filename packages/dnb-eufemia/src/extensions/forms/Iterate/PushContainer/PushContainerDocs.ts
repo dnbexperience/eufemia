@@ -47,6 +47,16 @@ export const PushContainerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  requireCommit: {
+    doc: 'If the container should be committed before the form is submitted.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  showResetButton: {
+    doc: 'Show a button to clear the PushContainer data.',
+    type: 'boolean',
+    status: 'optional',
+  },
   openButton: {
     doc: 'The button to open container.',
     type: 'React.Node',
