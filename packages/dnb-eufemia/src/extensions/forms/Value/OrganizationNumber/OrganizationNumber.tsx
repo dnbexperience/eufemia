@@ -12,6 +12,9 @@ function OrganizationNumber(props: Props) {
   const translations = useTranslation().OrganizationNumber
 
   const toInput = useCallback((value) => {
+    if (value === undefined || value === null || value === false) {
+      return undefined
+    }
     return format(cleanNumber(value), {
       org: true,
     }).toString()
