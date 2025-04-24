@@ -12,6 +12,9 @@ function PhoneNumber(props: Props) {
     props.label ?? (props.inline ? undefined : translations.label)
 
   const toInput = useCallback((value) => {
+    if (value === undefined || value === null || value === false) {
+      return undefined
+    }
     // We can't use the "cleanNumber" function here, because we need to keep the country code separate from the number
     return format(value, {
       phone: true,
