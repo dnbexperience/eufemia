@@ -9,10 +9,11 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Field, Form, JSONSchema } from '../../..'
+import { Field, Form, JSONSchema, Wizard } from '../../..'
 import setData from '../../data-context/setData'
 
 import nbNO from '../../../constants/locales/nb-NO'
+import useReportError from '../useReportError'
 const nb = nbNO['nb-NO']
 
 if (isCI) {
@@ -1703,6 +1704,54 @@ describe('Form.Isolation', () => {
 
       await userEvent.click(commitButton)
       expect(onCommit).toHaveBeenCalledTimes(1)
+    })
+
+    it('should prevent navigation when useReportError reports an error', async () => {
+      const ReportError = () => {
+        useReportError(new Error('My error'))
+        return null
+      }
+
+      render(
+        <Wizard.Container>
+          <Wizard.Step title="Step 1">
+            <output>Step 1</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 2">
+            <output>Step 2</output>
+
+            <Form.Isolation bubbleValidation>
+              <ReportError />
+            </Form.Isolation>
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 3">
+            <output>Step 3</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+      )
+
+      const nextButton = () => {
+        return document.querySelector('.dnb-forms-next-button')
+      }
+      const output = () => {
+        return document.querySelector('output')
+      }
+
+      expect(output()).toHaveTextContent('Step 1')
+
+      await userEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 2')
+
+      await userEvent.click(nextButton())
+
+      // Stay on Step 2
+      expect(output()).toHaveTextContent('Step 2')
     })
   })
 
