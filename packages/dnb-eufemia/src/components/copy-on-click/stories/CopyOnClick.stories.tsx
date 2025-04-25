@@ -2,6 +2,7 @@ import React from 'react'
 import CopyOnClick from '../CopyOnClick'
 import { Box, Wrapper } from 'storybook-utils/helpers'
 import { NumberFormat } from '../..'
+
 export default {
   title: 'Eufemia/Components/CopyOnClick',
 }
