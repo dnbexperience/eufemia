@@ -1,6 +1,7 @@
 import React from 'react'
 import CopyOnClick from '../CopyOnClick'
 import { Box, Wrapper } from 'storybook-utils/helpers'
+import { NumberFormat } from '../..'
 
 export default {
   title: 'Eufemia/Components/CopyOnClick',
@@ -23,5 +24,9 @@ export const CopyOnClickSandbox = () => (
         <span className="dnb-p">CopyOnClick cursor is disabled</span>
       </CopyOnClick>
     </Box>
+
+    <CopyOnClick>
+      <NumberFormat value={1234567.89} currency="NOK" />
+    </CopyOnClick>
   </Wrapper>
 )
