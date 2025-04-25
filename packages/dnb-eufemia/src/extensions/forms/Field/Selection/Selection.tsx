@@ -54,7 +54,7 @@ export type Props = FieldProps<IOption['value']> & {
    * Defines the variant of the component.
    * Default: dropdown
    */
-  variant?: 'dropdown' | 'autocomplete' | 'radio' | 'button'
+  variant?: 'dropdown' | 'autocomplete' | 'radio' | 'radio-list' | 'button'
 
   /**
    * The width of the component.
@@ -219,9 +219,12 @@ function Selection(props: Props) {
 
   switch (variant) {
     case 'radio':
+    case 'radio-list':
     case 'button': {
       const Component = (
-        variant === 'radio' ? Radio : ToggleButton
+        variant === 'radio' || variant === 'radio-list'
+          ? Radio
+          : ToggleButton
       ) as typeof Radio & typeof ToggleButton
 
       const items = renderRadioItems({
@@ -246,6 +249,9 @@ function Selection(props: Props) {
       }
       if (!size) {
         additionalFieldBlockProps.labelHeight = 'small'
+      }
+      if (variant === 'radio-list') {
+        additionalFieldBlockProps.width = width
       }
 
       return (
@@ -392,14 +398,20 @@ function renderRadioItems({
     iterateOverItems?.({ value, label })
 
     const Component = (
-      variant === 'radio' ? Radio : ToggleButton
+      variant === 'radio' || variant === 'radio-list'
+        ? Radio
+        : ToggleButton
     ) as typeof Radio & typeof ToggleButton
 
     return (
       <Component
         id={optionsCount === 1 ? id : undefined}
         key={`option-${i}-${id}`}
-        label={variant === 'radio' ? label : undefined}
+        label={
+          variant === 'radio' || variant === 'radio-list'
+            ? label
+            : undefined
+        }
         text={variant === 'button' ? label : undefined}
         value={String(value ?? valueProp) || undefined}
         status={

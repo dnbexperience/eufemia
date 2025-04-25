@@ -1,3 +1,5 @@
+@import '../../../../../style/core/utilities.scss';
+
 .dnb-forms-field-selection {
   &__variant--dropdown {
     .dnb-forms-field-block {
@@ -23,6 +25,57 @@
     .dnb-forms-field-block {
       &--layout-horizontal .dnb-form-label {
         line-height: 2.5rem;
+      }
+    }
+  }
+  &__variant--radio-list {
+    --outline-color: var(--color-black-8);
+    --outline-width: 0.0625rem;
+    --list-padding: 1rem;
+    --list-height: 4rem;
+
+    .dnb-radio-group__shell {
+      row-gap: 0;
+    }
+    .dnb-toggle-button-group__fieldset {
+      border-radius: 0.5rem;
+      @include fakeBorder(var(--outline-color), var(--outline-width));
+      background-color: var(--color-white);
+    }
+
+    .dnb-radio {
+      justify-content: center;
+
+      padding: calc((var(--list-height) - 1.5rem) / 2) var(--list-padding);
+
+      // Clip await the width of 100vw in the .dnb-radio__input
+      overflow: clip;
+
+      // Make the whole area clickable
+      .dnb-radio__input {
+        appearance: none;
+        transform: none;
+        z-index: 1;
+
+        left: calc(var(--list-padding) * -1);
+        width: 100vw;
+        height: var(--list-height);
+      }
+
+      .dnb-form-label {
+        z-index: 2;
+        padding-left: var(--list-padding);
+      }
+
+      // Separator
+      position: relative;
+      &:not(:first-of-type)::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+
+        background-color: var(--outline-color);
+        height: var(--outline-width);
       }
     }
   }
