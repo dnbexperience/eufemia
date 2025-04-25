@@ -8,6 +8,7 @@ import classnames from 'classnames'
 import {
   cleanNumber,
   getCurrencySymbol,
+  NUMBER_MINUS,
 } from '../number-format/NumberUtils'
 import {
   isTrue,
@@ -351,8 +352,14 @@ const useCallEvent = ({ setLocalValue }) => {
 
     // Prevent entering a leading zero
     if (maskParams?.disallowLeadingZeroes && name === 'onInput') {
-      if (selStart === 2 && /^0\d(.*|$)/.test(value)) {
-        value = value.slice(1, value.length)
+      if (
+        (selStart === 2 || selStart === 3) &&
+        new RegExp(`^(${NUMBER_MINUS}|)0\\d(.*|$)`).test(value)
+      ) {
+        value = value.replace(
+          new RegExp(`^(${NUMBER_MINUS}|)0+(.*|$)`),
+          '$1$2'
+        )
         setLocalValue(value)
         event.target.value = value
       }
