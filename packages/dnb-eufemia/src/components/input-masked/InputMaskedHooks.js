@@ -351,7 +351,7 @@ const useCallEvent = ({ setLocalValue }) => {
 
     // Prevent entering a leading zero
     if (maskParams?.disallowLeadingZeroes && name === 'onInput') {
-      if (/^0\d(.+|$)/.test(value)) {
+      if (selStart === 2 && /^0\d(.*|$)/.test(value)) {
         value = value.slice(1, value.length)
         setLocalValue(value)
         event.target.value = value

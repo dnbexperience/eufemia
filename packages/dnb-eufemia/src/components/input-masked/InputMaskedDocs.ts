@@ -143,7 +143,7 @@ export const inputMaskedMaskOptionsProperties: PropertiesTableProps = {
     status: 'optional',
   },
   disallowLeadingZeroes: {
-    doc: 'Whether or not to allow leading zeroes. *A leading zero is any 0 digit that comes before the first nonzero digit in a number string in positional notation* - [wikipedia](https://en.wikipedia.org/wiki/Leading_zero). Defaults to `false`.',
+    doc: 'Whether or not to allow leading zeroes during typing. *A leading zero is any 0 digit that comes before the first nonzero digit in a number string in positional notation* - [wikipedia](https://en.wikipedia.org/wiki/Leading_zero). Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
