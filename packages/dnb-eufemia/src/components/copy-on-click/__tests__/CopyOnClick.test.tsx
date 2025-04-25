@@ -141,8 +141,6 @@ describe('CopyOnClick', () => {
 
     fireEvent.click(element)
 
-    expect(document.querySelector('.dnb-tooltip')).toBeInTheDocument()
-
     await waitFor(() => {
       expect(document.querySelector('.dnb-tooltip')).toBeInTheDocument()
       expect(

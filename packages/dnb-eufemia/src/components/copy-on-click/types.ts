@@ -20,7 +20,7 @@ export type CopyOnClickProps = {
   copyContent?: React.ReactNode
 
   /**
-   * The message shown when the content is copied.
+   * The message shown in the tooltip when the content is copied.
    * Defaults to the translation `CopyOnClick.clipboard_copy`.
    */
   copiedMessage?: React.ReactNode
