@@ -11,7 +11,7 @@ describe('CopyOnClick', () => {
     mockClipboard()
   })
 
-  it('renders with default props', async () => {
+  it('renders with default props', () => {
     render(<CopyOnClick>CopyOnClick text</CopyOnClick>)
 
     expect(screen.getByText('CopyOnClick text')).toBeInTheDocument()
