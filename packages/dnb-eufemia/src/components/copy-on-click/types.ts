@@ -20,6 +20,12 @@ export type CopyOnClickProps = {
   copyContent?: React.ReactNode
 
   /**
+   * The message shown when the content is copied.
+   * Defaults to the translation `CopyOnClick.clipboard_copy`.
+   */
+  copiedMessage?: React.ReactNode
+
+  /**
    * The content/children to be copied.
    */
   children: React.ReactNode

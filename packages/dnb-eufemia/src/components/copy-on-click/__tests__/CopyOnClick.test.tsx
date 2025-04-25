@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import CopyOnClick from '../CopyOnClick'
 import { mockClipboard } from '../../../core/jest/jestSetup'
 import { copyWithEffect } from '../../../components/number-format/NumberUtils'
@@ -115,5 +115,24 @@ describe('CopyOnClick', () => {
     render(<CopyOnClick top="large">CopyOnClick text</CopyOnClick>)
     const element = document.querySelector('.dnb-copy-on-click')
     expect(element).toHaveClass('dnb-space__top--large')
+  })
+
+  it('should display a default message when text has been successfully copied.', async () => {
+    render(<CopyOnClick>text</CopyOnClick>)
+    const element = document.querySelector('.dnb-copy-on-click')
+    fireEvent.click(element)
+    await waitFor(() =>
+      expect(screen.getByText('Kopiert')).toBeInTheDocument()
+    )
+  })
+
+  it('should set be able to set a custom message when text has been successfully copied.', async () => {
+    const customMessage = 'Min kopiert tekst'
+    render(<CopyOnClick copiedMessage={customMessage}>text</CopyOnClick>)
+    const element = document.querySelector('.dnb-copy-on-click')
+    fireEvent.click(element)
+    await waitFor(() =>
+      expect(screen.getByText(customMessage)).toBeInTheDocument()
+    )
   })
 })

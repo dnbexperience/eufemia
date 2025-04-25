@@ -20,6 +20,7 @@ const CopyOnClick = ({
   disabled,
   showCursor = true,
   copyContent = null,
+  copiedMessage = null,
   ...props
 }: CopyOnClickAllProps) => {
   const ref = useRef<HTMLSpanElement>(null)
@@ -36,9 +37,10 @@ const CopyOnClick = ({
 
   const copy = useCallback(
     (value: string, positionElement: HTMLElement) => {
-      copyWithEffect(value, clipboard_copy, positionElement) // use copyWithNotice only to use the nice effect / animation
+      const message = copiedMessage ?? clipboard_copy
+      copyWithEffect(value, message, positionElement) // use copyWithNotice only to use the nice effect / animation
     },
-    [clipboard_copy]
+    [clipboard_copy, copiedMessage]
   )
 
   const onClickHandler = useCallback(() => {
