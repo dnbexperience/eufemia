@@ -113,7 +113,7 @@ export function DatePickerCalendarNav({
     <div
       className={classnames(
         'dnb-date-picker__header__row',
-        type === 'year' && `dnb-date-picker__header__row--year`
+        type === 'year' && 'dnb-date-picker__header__row--year'
       )}
     >
       <div className="dnb-date-picker__header__nav">
