@@ -278,18 +278,14 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
   const findValid = useCallback(
     (date: Date, keyCode: string) => {
-      if (!onDaysRender) {
-        return date
-      }
-
-      if (!days.current) {
+      if (!onDaysRender || !days.current) {
         return date
       }
 
       const month = format(date, 'yyyy-MM')
 
+      // re-render with new month
       if (!days.current[month]) {
-        // re-render with new month
         getDays(date)
       }
 
@@ -305,7 +301,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
             foundDate.isInactive)
         ) {
           const nextDate = keyNavCalc(foundDate.date, keyCode)
-          foundDate.date = findValid(nextDate, keyCode)
+          return findValid(nextDate, keyCode)
         }
 
         if (foundDate?.date) {
@@ -479,23 +475,26 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     // Cache the result, just because we then avoid at least double calc because of reconciliation,
     // but we do not avoid calculating every day during hover or select
 
-    if (cache.current[cacheKey]) {
+    if (cacheKey in cache.current) {
       return cache.current[cacheKey]
     }
 
     let count = 0
 
-    return (cache.current[cacheKey] = Object.values(
-      getDays(month).reduce((acc, cur, i) => {
-        // Normalize the data for table consumption
-        acc[count] = acc[count] || []
-        acc[count].push(cur)
-        if (i % 7 === 6) {
-          count++
-        }
-        return acc
-      }, {})
-    ))
+    const days = getDays(month).reduce((acc, cur, i) => {
+      // Normalize the data for table consumption
+      acc[count] = acc[count] || []
+      acc[count].push(cur)
+      if (i % 7 === 6) {
+        count++
+      }
+
+      return acc
+    }, {})
+
+    cache.current[cacheKey] = Object.values(days)
+
+    return cache.current[cacheKey]
   }, [cacheKey, getDays, month])
 
   return (
