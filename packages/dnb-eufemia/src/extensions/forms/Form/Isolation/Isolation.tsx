@@ -9,7 +9,6 @@ import React, {
 import pointer, { JsonObject } from '../../utils/json-pointer'
 import { extendDeep } from '../../../../shared/component-helper'
 import { isAsync } from '../../../../shared/helpers/isAsync'
-import useId from '../../../../shared/helpers/useId'
 import useDataValue from '../../hooks/useDataValue'
 import {
   Context as DataContext,
@@ -17,6 +16,7 @@ import {
   Provider,
 } from '../../DataContext'
 import SectionContext from '../Section/SectionContext'
+import useReportError from './useReportError'
 import IsolationCommitButton from './IsolationCommitButton'
 import {
   clearedData,
@@ -226,21 +226,6 @@ function IsolationProvider<Data extends JsonObject>(
     onClearProp?.()
   }, [onClearProp])
 
-  const setShowAllErrorsNested = useCallback((showAllErrors: boolean) => {
-    dataContextRef.current?.setShowAllErrors?.(showAllErrors)
-  }, [])
-
-  if (
-    bubbleValidation &&
-    !outerContext?.addSetShowAllErrorsRef?.current?.includes(
-      setShowAllErrorsNested
-    )
-  ) {
-    outerContext.addSetShowAllErrorsRef?.current.push(
-      setShowAllErrorsNested
-    )
-  }
-
   const providerProps: IsolationProps<Data> = {
     ...props,
     [defaultData ? 'defaultData' : 'data']: internalDataRef.current,
@@ -276,31 +261,30 @@ function BubbleValidation({
 }: {
   outerContext: ContextState
 }) {
-  const { setMountedFieldState, setFieldError } = outerContext || {}
-  const errors = useContext(DataContext).hasErrors()
+  const { addSetShowAllErrorsRef } = outerContext || {}
+  const innerContext = useContext(DataContext)
+  const { setShowAllErrors } = innerContext
 
-  const id = useId()
-  useEffect(() => {
-    const path = `/${id}`
+  const setShowAllErrorsNested = useCallback(
+    (showAllErrors: boolean) => {
+      setShowAllErrors?.(showAllErrors)
+    },
+    [setShowAllErrors]
+  )
 
-    if (errors) {
-      setMountedFieldState?.(path, {
-        isMounted: true,
-      })
-    }
+  if (!addSetShowAllErrorsRef?.current?.includes(setShowAllErrorsNested)) {
+    addSetShowAllErrorsRef?.current.push(setShowAllErrorsNested)
+  }
 
-    setFieldError?.(path, errors ? new Error('Form.Isolation') : undefined)
-
-    return () => {
-      setFieldError?.(path, undefined)
-      setMountedFieldState?.(path, {
-        isMounted: false,
-      })
-    }
-  }, [errors, id, setFieldError, setMountedFieldState])
+  useReportError(
+    innerContext.hasErrors() ? isolationError : undefined,
+    outerContext
+  )
 
   return null
 }
+
+const isolationError = new Error('Form.Isolation')
 
 IsolationProvider.CommitButton = IsolationCommitButton
 IsolationProvider._supportsSpacingProps = undefined
