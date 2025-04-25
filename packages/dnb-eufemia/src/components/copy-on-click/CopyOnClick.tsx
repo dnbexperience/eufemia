@@ -17,7 +17,7 @@ import { Span } from '../../elements'
 const CopyOnClick = ({
   children,
   className = null,
-  disabled,
+  disabled = false,
   showCursor = true,
   copyContent = null,
   copiedMessage = null,
