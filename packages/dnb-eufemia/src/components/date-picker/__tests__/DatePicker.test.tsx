@@ -3292,6 +3292,67 @@ describe('DatePicker component', () => {
     ).not.toBeDisabled()
     expect(screen.getByLabelText('lørdag 26. april 2025')).toBeDisabled()
   })
+
+  it('should not select invalid dates when navigating the calendar using the arrow keys', async () => {
+    render(
+      <DatePicker
+        date="2025-04-25"
+        showInput
+        onDaysRender={(days) => {
+          return days.map((dayObject) => {
+            if (isWeekend(dayObject.date)) {
+              dayObject.isInactive = true
+              dayObject.className = 'dnb-date-picker__day--weekend' // custom css
+            }
+
+            return dayObject
+          })
+        }}
+      />
+    )
+
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
+
+    const [day, month, year] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    ) as Array<HTMLInputElement>
+
+    await userEvent.keyboard('{ArrowRight}')
+
+    expect(screen.getByLabelText('mandag 28. april 2025')).toHaveAttribute(
+      'aria-current',
+      'date'
+    )
+
+    expect(day.value).toBe('28')
+    expect(month.value).toBe('04')
+    expect(year.value).toBe('2025')
+
+    expect(
+      screen.getByLabelText('lørdag 26. april 2025')
+    ).toBeInTheDocument()
+    expect(
+      screen.getByLabelText('søndag 27. april 2025')
+    ).toBeInTheDocument()
+
+    await userEvent.keyboard('{ArrowLeft}')
+
+    expect(screen.getByLabelText('fredag 25. april 2025')).toHaveAttribute(
+      'aria-current',
+      'date'
+    )
+
+    expect(day.value).toBe('25')
+    expect(month.value).toBe('04')
+    expect(year.value).toBe('2025')
+
+    expect(
+      screen.getByLabelText('lørdag 26. april 2025')
+    ).toBeInTheDocument()
+    expect(
+      screen.getByLabelText('søndag 27. april 2025')
+    ).toBeInTheDocument()
+  })
 })
 
 // for the unit calc tests
