@@ -50,19 +50,21 @@ const titleFormats: TitleFormatMap = {
   year: { year: 'numeric' },
 }
 
-// eslint-disable-next-line no-unused-vars
-const dateHandlers: {
-  // eslint-disable-next-line no-unused-vars
-  [key in CalendarNavigationDateType]: {
-    // eslint-disable-next-line no-unused-vars
-    [key in CalendarNavButtonType]: typeof subMonths
+type CalendarDateHandlers = {
+  [D in CalendarNavigationDateType]: {
+    [B in CalendarNavButtonType]: typeof subMonths
   }
-} = {
+}
+
+const dateHandlers: CalendarDateHandlers = {
   month: {
     prev: subMonths,
     next: addMonths,
   },
-  year: { prev: subYears, next: addYears },
+  year: {
+    prev: subYears,
+    next: addYears,
+  },
 }
 
 export function DatePickerCalendarNav({
