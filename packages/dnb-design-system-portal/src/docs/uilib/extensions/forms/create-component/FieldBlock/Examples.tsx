@@ -35,6 +35,17 @@ export const Horizontal = () => {
   )
 }
 
+export const HorizontalWrap = () => {
+  return (
+    <ComponentBox data-visual-test="forms-field-block-horizontal-wrap">
+      <FieldBlock layout="horizontal" composition width="large">
+        <Field.String label="Foo" width="medium" />
+        <Field.String label="Bar" width="medium" />
+      </FieldBlock>
+    </ComponentBox>
+  )
+}
+
 export const HorizontalWithInfo = () => {
   return (
     <ComponentBox>
