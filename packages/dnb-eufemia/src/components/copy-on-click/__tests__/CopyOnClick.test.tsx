@@ -3,6 +3,9 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import CopyOnClick from '../CopyOnClick'
 import { mockClipboard } from '../../../core/jest/jestSetup'
 import { copyWithEffect } from '../../../components/number-format/NumberUtils'
+import locales from '../../../shared/locales'
+
+const nb = locales['nb-NO'].CopyOnClick
 
 describe('CopyOnClick', () => {
   beforeAll(() => {
@@ -120,19 +123,31 @@ describe('CopyOnClick', () => {
   it('should display a default message when text has been successfully copied.', async () => {
     render(<CopyOnClick>text</CopyOnClick>)
     const element = document.querySelector('.dnb-copy-on-click')
+
     fireEvent.click(element)
-    await waitFor(() =>
-      expect(screen.getByText('Kopiert')).toBeInTheDocument()
-    )
+
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-tooltip')).toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-tooltip__content').textContent
+      ).toBe(nb.clipboard_copy)
+    })
   })
 
   it('should set be able to set a custom message when text has been successfully copied.', async () => {
     const customMessage = 'Min kopiert tekst'
     render(<CopyOnClick copiedMessage={customMessage}>text</CopyOnClick>)
     const element = document.querySelector('.dnb-copy-on-click')
+
     fireEvent.click(element)
-    await waitFor(() =>
-      expect(screen.getByText(customMessage)).toBeInTheDocument()
-    )
+
+    expect(document.querySelector('.dnb-tooltip')).toBeInTheDocument()
+
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-tooltip')).toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-tooltip__content').textContent
+      ).toBe(customMessage)
+    })
   })
 })
