@@ -178,13 +178,14 @@ export type CalendarNavButtonProps = {
   onKeyDown?: (event: React.KeyboardEvent<HTMLButtonElement>) => void
 }
 
-const navButtonDisabledHandlers: {
-  // eslint-disable-next-line no-unused-vars
-  [key in CalendarNavigationDateType]: typeof isSameMonth
-} = {
+type NavButtonDisabledHandlerMap = {
+  [T in CalendarNavigationDateType]: typeof isSameMonth
+}
+
+const navButtonDisabledHandlers: NavButtonDisabledHandlerMap = {
   month: isSameMonth,
   year: isSameYear,
-} // for month navigation}
+}
 
 function CalendarNavButton({
   type,
