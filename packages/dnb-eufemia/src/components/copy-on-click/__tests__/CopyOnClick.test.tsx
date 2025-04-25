@@ -35,7 +35,7 @@ describe('CopyOnClick', () => {
     ])
   })
 
-  it('updates when children changes', async () => {
+  it('updates when children changes', () => {
     const { rerender } = render(<CopyOnClick>First copy text</CopyOnClick>)
 
     expect(screen.getByText('First copy text')).toBeInTheDocument()
