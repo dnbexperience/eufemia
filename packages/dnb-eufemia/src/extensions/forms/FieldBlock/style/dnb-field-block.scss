@@ -229,7 +229,7 @@ fieldset.dnb-forms-field-block {
     // Support wrapping
     flex-wrap: wrap;
     row-gap: var(--spacing-small);
-    & > .dnb-forms-field-block.dnb-forms-field-block--width-stretch {
+    & > .dnb-forms-field-block--width-stretch {
       flex: 1;
     }
 
