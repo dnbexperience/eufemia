@@ -48,3 +48,17 @@ export const CopyContent = () => {
     </ComponentBox>
   )
 }
+
+export const CustomTooltipMessage = () => {
+  return (
+    <ComponentBox>
+      <P>
+        <CopyOnClick copiedMessage="Custom message">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
+          cursus pharetra elit in bibendum. Praesent nunc ipsum, convallis
+          eget convallis gravida, vehicula vitae metus.
+        </CopyOnClick>
+      </P>
+    </ComponentBox>
+  )
+}
