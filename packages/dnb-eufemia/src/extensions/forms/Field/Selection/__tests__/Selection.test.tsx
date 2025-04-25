@@ -1623,10 +1623,61 @@ describe('variants', () => {
 
       expect(onType).toHaveBeenCalledTimes(3)
       expect(onType).toHaveBeenLastCalledWith(
-        'foo',
         expect.objectContaining({
           updateData: expect.any(Function),
           dataContext: expect.any(Object),
+          value: 'foo',
+        })
+      )
+
+      await userEvent.type(input, '{Backspace>3}')
+
+      expect(onType).toHaveBeenCalledTimes(6)
+      expect(onType).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          updateData: expect.any(Function),
+          dataContext: expect.any(Object),
+          value: undefined,
+        })
+      )
+    })
+
+    it('should support "onType" with empty value', async () => {
+      const onType = jest.fn()
+
+      render(
+        <Field.Selection
+          variant="autocomplete"
+          autocompleteProps={{
+            onType,
+          }}
+          emptyValue="empty"
+        >
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.Selection>
+      )
+
+      const input = document.querySelector('input')
+      await userEvent.type(input, 'foo')
+
+      expect(onType).toHaveBeenCalledTimes(3)
+      expect(onType).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          updateData: expect.any(Function),
+          dataContext: expect.any(Object),
+          value: 'foo',
+        })
+      )
+
+      await userEvent.type(input, '{Backspace>3}')
+
+      expect(onType).toHaveBeenCalledTimes(6)
+      expect(onType).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          updateData: expect.any(Function),
+          dataContext: expect.any(Object),
+          value: 'empty',
         })
       )
     })
@@ -1685,7 +1736,7 @@ describe('variants', () => {
 
     describe('mode="async"', () => {
       it('should open DrawerList when focused and data is set with updateData', async () => {
-        const onType = jest.fn((value, { updateData }) => {
+        const onType = jest.fn(({ updateData }) => {
           updateData([
             {
               selectedKey: 'foo',

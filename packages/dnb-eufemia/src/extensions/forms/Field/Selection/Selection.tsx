@@ -205,11 +205,12 @@ function Selection(props: Props) {
   const onType = props?.autocompleteProps?.onType
   const onTypeAutocompleteHandler = useCallback(
     (event) => {
-      const { value } = event
       if (typeof onType === 'function') {
-        onType(value === undefined ? emptyValue : value, {
+        const { value } = event
+        onType({
           ...event,
           ...additionalArgs,
+          value: value === '' ? emptyValue : value,
         })
       }
     },
