@@ -3473,6 +3473,7 @@ describe('DatePicker component', () => {
 
     await userEvent.click(leftPrevYearButton)
     await userEvent.click(rightPrevYearButton)
+
     // Verify years
     // Left
     expect(leftYearTitle).toHaveTextContent('2024')
