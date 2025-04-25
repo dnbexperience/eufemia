@@ -103,7 +103,7 @@ describe('CopyOnClick', () => {
     expect(screen.getByText('CopyOnClick')).toBeInTheDocument()
   })
 
-  it('should support spacing props', async () => {
+  it('should support spacing props', () => {
     render(<CopyOnClick top="large">CopyOnClick text</CopyOnClick>)
     const element = document.querySelector('.dnb-copy-on-click')
     expect(element).toHaveClass('dnb-space__top--large')
