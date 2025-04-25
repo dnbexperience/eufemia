@@ -1,8 +1,10 @@
 import React from 'react'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import CopyOnClick from '../CopyOnClick'
 import { mockClipboard } from '../../../core/jest/jestSetup'
 import { copyWithEffect } from '../../../components/number-format/NumberUtils'
+import NumberFormat from '../../NumberFormat'
+import userEvent from '@testing-library/user-event'
 
 describe('CopyOnClick', () => {
   beforeAll(() => {
@@ -12,9 +14,7 @@ describe('CopyOnClick', () => {
   it('renders with default props', async () => {
     render(<CopyOnClick>CopyOnClick text</CopyOnClick>)
 
-    await waitFor(() =>
-      expect(screen.getByText('CopyOnClick text')).toBeInTheDocument()
-    )
+    expect(screen.getByText('CopyOnClick text')).toBeInTheDocument()
 
     const element = document.querySelector('.dnb-copy-on-click')
 
@@ -38,15 +38,11 @@ describe('CopyOnClick', () => {
   it('updates when children changes', async () => {
     const { rerender } = render(<CopyOnClick>First copy text</CopyOnClick>)
 
-    await waitFor(() =>
-      expect(screen.getByText('First copy text')).toBeInTheDocument()
-    )
+    expect(screen.getByText('First copy text')).toBeInTheDocument()
 
     rerender(<CopyOnClick>Second copy text</CopyOnClick>)
 
-    await waitFor(() =>
-      expect(screen.getByText('Second copy text')).toBeInTheDocument()
-    )
+    expect(screen.getByText('Second copy text')).toBeInTheDocument()
   })
 
   it('renders with a paragraph element', async () => {
@@ -56,9 +52,7 @@ describe('CopyOnClick', () => {
       </CopyOnClick>
     )
 
-    await waitFor(() =>
-      expect(screen.getByText('CopyOnClick text')).toBeInTheDocument()
-    )
+    expect(screen.getByText('CopyOnClick text')).toBeInTheDocument()
   })
 
   it('should set any given HTML attribute on the element', () => {
@@ -106,14 +100,52 @@ describe('CopyOnClick', () => {
       <CopyOnClick copyContent="copyContent">CopyOnClick</CopyOnClick>
     )
 
-    await waitFor(() =>
-      expect(screen.getByText('CopyOnClick')).toBeInTheDocument()
-    )
+    expect(screen.getByText('CopyOnClick')).toBeInTheDocument()
   })
 
   it('should support spacing props', async () => {
     render(<CopyOnClick top="large">CopyOnClick text</CopyOnClick>)
     const element = document.querySelector('.dnb-copy-on-click')
     expect(element).toHaveClass('dnb-space__top--large')
+  })
+
+  it('should copy children to clipboard', async () => {
+    window.getSelection()?.removeAllRanges()
+
+    render(<CopyOnClick>CopyOnClick</CopyOnClick>)
+
+    expect(screen.getByText('CopyOnClick')).toBeInTheDocument()
+
+    await userEvent.click(document.querySelector('.dnb-copy-on-click'))
+
+    expect(await navigator.clipboard.readText()).toBe('CopyOnClick')
+  })
+
+  it('should copy copyContent to clipboard', async () => {
+    window.getSelection()?.removeAllRanges()
+
+    render(
+      <CopyOnClick copyContent="copyContent">CopyOnClick</CopyOnClick>
+    )
+
+    expect(screen.getByText('CopyOnClick')).toBeInTheDocument()
+
+    await userEvent.click(document.querySelector('.dnb-copy-on-click'))
+
+    expect(await navigator.clipboard.readText()).toBe('copyContent')
+  })
+
+  it('should copy textContent to clipboard when children is empty', async () => {
+    window.getSelection()?.removeAllRanges()
+
+    render(
+      <CopyOnClick>
+        <NumberFormat value={1234567.89} currency="NOK" />
+      </CopyOnClick>
+    )
+
+    await userEvent.click(document.querySelector('.dnb-copy-on-click'))
+
+    expect(await navigator.clipboard.readText()).toBe('1 234 567,89 kr')
   })
 })

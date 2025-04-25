@@ -43,18 +43,18 @@ export const loadScss = (file, options = {}) => {
 }
 
 export const mockClipboard = () => {
-  let memory
+  let memory = ''
+  const clipboardMock = {
+    writeText: jest.fn().mockImplementation((v) => {
+      memory = v
+      return Promise.resolve(v)
+    }),
+    readText: jest.fn().mockImplementation(() => Promise.resolve(memory)),
+  }
+
   Object.defineProperty(window.navigator, 'clipboard', {
     configurable: true,
-    value: {
-      writeText: jest.fn().mockImplementation((v) => {
-        memory = v
-        return Promise.resolve(v)
-      }),
-      readText: jest
-        .fn()
-        .mockImplementation(() => Promise.resolve(memory)),
-    },
+    value: clipboardMock,
   })
 
   const mockRange = new (class Range {
