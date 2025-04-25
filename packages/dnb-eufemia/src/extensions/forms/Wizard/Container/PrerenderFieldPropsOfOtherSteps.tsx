@@ -9,9 +9,8 @@ import WizardContext, {
 
 export function PrerenderFieldPropsOfOtherSteps({
   prerenderFieldPropsRef,
-}: {
-  prerenderFieldPropsRef: WizardContextState['prerenderFieldPropsRef']
-}) {
+  stepsRef,
+}: Pick<WizardContextState, 'prerenderFieldPropsRef' | 'stepsRef'>) {
   const hasRenderedRef = useRef(true)
   if (!hasRenderedRef.current) {
     return null
@@ -22,9 +21,15 @@ export function PrerenderFieldPropsOfOtherSteps({
     <PrerenderPortal>
       <PrerenderFieldPropsProvider>
         <iframe title="Wizard Prerender" hidden>
-          {Object.values(prerenderFieldPropsRef.current).map((Fn, i) => (
-            <Fn key={i} />
-          ))}
+          {Object.values(prerenderFieldPropsRef.current).map(
+            ({ index, fn: Fn }) => {
+              const step = stepsRef.current.get(index)
+              if (step?.keepInDOM === true) {
+                return null
+              }
+              return <Fn key={index} />
+            }
+          )}
         </iframe>
       </PrerenderFieldPropsProvider>
     </PrerenderPortal>

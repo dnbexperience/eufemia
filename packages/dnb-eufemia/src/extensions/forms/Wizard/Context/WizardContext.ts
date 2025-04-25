@@ -28,7 +28,13 @@ export interface WizardContextState {
   totalStepsRef?: React.MutableRefObject<number>
   submitCountRef?: React.MutableRefObject<number>
   prerenderFieldPropsRef?: React.MutableRefObject<
-    Record<string, () => React.ReactElement>
+    Record<
+      `step-${number}`,
+      {
+        index: number
+        fn: () => React.ReactElement
+      }
+    >
   >
   hasErrorInOtherStepRef?: React.MutableRefObject<boolean>
   prerenderFieldProps?: boolean

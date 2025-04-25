@@ -173,7 +173,7 @@ function WizardContainer(props: Props) {
   const stepIndexRef = useRef<number>(-1)
   const updateTitlesRef = useRef<() => void>()
   const prerenderFieldPropsRef = useRef<
-    Record<string, () => React.ReactElement>
+    Pick<WizardContextState, 'prerenderFieldPropsRef'>
   >({})
 
   const bypassOnNavigation = validationMode === 'bypassOnNavigation'
@@ -626,6 +626,7 @@ function WizardContainer(props: Props) {
       {prerenderFieldProps && !keepInDOM && (
         <PrerenderFieldPropsOfOtherSteps
           prerenderFieldPropsRef={prerenderFieldPropsRef}
+          stepsRef={stepsRef}
         />
       )}
     </WizardContext.Provider>
