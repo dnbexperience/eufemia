@@ -90,4 +90,11 @@ describe.each(['ui', 'sbanken'])('FieldBlock for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match horizontal wrap', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="forms-field-block-horizontal-wrap"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

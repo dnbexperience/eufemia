@@ -226,6 +226,13 @@ fieldset.dnb-forms-field-block {
     flex-flow: row;
     column-gap: var(--spacing-small);
 
+    // Support wrapping
+    flex-wrap: wrap;
+    row-gap: var(--spacing-small);
+    & > .dnb-forms-field-block.dnb-forms-field-block--width-stretch {
+      flex: 1;
+    }
+
     @include allAbove(x-small) {
       align-items: flex-end; // To support fields with labels of different size
 
