@@ -37,10 +37,11 @@ export type DatePickerCalendarNavigationProps = Omit<
   locale?: InternalLocale
 }
 
-const titleFormats: {
-  // eslint-disable-next-line no-unused-vars
-  [key in CalendarNavigationType]: Intl.DateTimeFormatOptions
-} = {
+type TitleFormatMap = {
+  [T in CalendarNavigationType]: Intl.DateTimeFormatOptions
+}
+
+const titleFormats: TitleFormatMap = {
   both: {
     month: 'long',
     year: 'numeric',
