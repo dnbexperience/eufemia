@@ -475,7 +475,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     // Cache the result, just because we then avoid at least double calc because of reconciliation,
     // but we do not avoid calculating every day during hover or select
 
-    if (cacheKey in cache.current) {
+    if (cache.current[cacheKey]) {
       return cache.current[cacheKey]
     }
 
