@@ -45,7 +45,7 @@ describe('CopyOnClick', () => {
     expect(screen.getByText('Second copy text')).toBeInTheDocument()
   })
 
-  it('renders with a paragraph element', async () => {
+  it('renders with a paragraph element', () => {
     render(
       <CopyOnClick>
         <p>CopyOnClick text</p>
