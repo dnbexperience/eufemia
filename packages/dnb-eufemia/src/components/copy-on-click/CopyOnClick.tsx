@@ -44,7 +44,9 @@ const CopyOnClick = ({
   const onClickHandler = useCallback(() => {
     if (!hasSelectedText()) {
       try {
-        const str = convertJsxToString(copyContent || children)
+        const str =
+          convertJsxToString(copyContent || children) ||
+          ref.current.textContent
 
         if (str) {
           const selection = window.getSelection()
