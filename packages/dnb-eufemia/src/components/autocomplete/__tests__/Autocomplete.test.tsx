@@ -89,6 +89,21 @@ describe('Autocomplete component', () => {
     expect(input).toHaveAttribute('aria-expanded', 'false')
   })
 
+  it('supports setting autocomplete', () => {
+    render(
+      <Autocomplete
+        data={mockData}
+        opened
+        autoComplete="language"
+        {...mockProps}
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    expect(input).toHaveAttribute('autocomplete', 'language')
+  })
+
   it('has correct options after filter', () => {
     render(
       <Autocomplete data={mockData} show_submit_button {...mockProps} />
