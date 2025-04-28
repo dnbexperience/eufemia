@@ -69,6 +69,26 @@ function DatePickerFooter({
         args.event.persist()
       }
 
+      updateDates(
+        {
+          date: undefined,
+          startDate: undefined,
+          endDate: undefined,
+        },
+        (dates) => {
+          onCancel?.({ ...args, ...dates })
+        }
+      )
+    },
+    [updateDates, onCancel]
+  )
+
+  const onResetHandler = useCallback(
+    (args: DatePickerFooterEvent) => {
+      if (args && args.event) {
+        args.event.persist()
+      }
+
       const startDate = previousDateProps.startDate
         ? convertStringToDate(previousDateProps.startDate, {
             dateFormat,
@@ -91,31 +111,11 @@ function DatePickerFooter({
           endDate,
         },
         (dates) => {
-          onCancel?.({ ...args, ...dates })
-        }
-      )
-    },
-    [dateFormat, updateDates, previousDateProps, onCancel]
-  )
-
-  const onResetHandler = useCallback(
-    (args: DatePickerFooterEvent) => {
-      if (args && args.event) {
-        args.event.persist()
-      }
-
-      updateDates(
-        {
-          date: undefined,
-          startDate: undefined,
-          endDate: undefined,
-        },
-        (dates) => {
           onReset?.({ ...args, ...dates })
         }
       )
     },
-    [updateDates, onReset]
+    [dateFormat, updateDates, previousDateProps, onReset]
   )
 
   if (
@@ -146,7 +146,7 @@ function DatePickerFooter({
             variant="tertiary"
             onClick={onResetHandler}
             data-testid="reset"
-            right="0.5rem"
+            right="1rem"
           />
         )) || <span />}
 
@@ -158,7 +158,6 @@ function DatePickerFooter({
             variant="tertiary"
             onClick={onCancelHandler}
             data-testid="cancel"
-            right="0.5rem"
           />
         )) || <span />}
       </span>
