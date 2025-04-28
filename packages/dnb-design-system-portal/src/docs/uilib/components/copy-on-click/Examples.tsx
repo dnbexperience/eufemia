@@ -5,7 +5,7 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { CopyOnClick, P } from '@dnb/eufemia/src'
+import { CopyOnClick, NumberFormat, P } from '@dnb/eufemia/src'
 
 export const Default = () => {
   return (
@@ -43,6 +43,18 @@ export const CopyContent = () => {
       <P>
         <CopyOnClick copyContent="content to copy">
           content to display
+        </CopyOnClick>
+      </P>
+    </ComponentBox>
+  )
+}
+
+export const CopyTextContent = () => {
+  return (
+    <ComponentBox>
+      <P>
+        <CopyOnClick>
+          <NumberFormat value={1234567.89} currency="NOK" />
         </CopyOnClick>
       </P>
     </ComponentBox>
