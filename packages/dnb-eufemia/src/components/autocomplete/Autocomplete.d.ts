@@ -175,10 +175,6 @@ export interface AutocompleteProps {
    */
   align_autocomplete?: AutocompleteAlignAutocomplete;
   /**
-   * Use `auto_complete` to set the HTML5 autocomplete attribute. Defaults to `off`.
-   */
-  auto_complete?: HTMLInputElement['autocomplete'];
-  /**
    * Lets you provide a custom React element as the input HTML element.
    */
   input_element?: AutocompleteInputElement;
