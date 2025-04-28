@@ -236,11 +236,6 @@ export const autocompleteProperties: PropertiesTableProps = {
     type: ['string', 'React.Element'],
     status: 'optional',
   },
-  auto_complete: {
-    doc: 'Use `auto_complete` to set the HTML5 autocomplete attribute. Defaults to `off`.',
-    type: 'string',
-    status: 'optional',
-  },
   '[DrawerList](/uilib/components/fragments/drawer-list/properties)': {
     doc: 'all DrawerList properties.',
     type: 'Various',
