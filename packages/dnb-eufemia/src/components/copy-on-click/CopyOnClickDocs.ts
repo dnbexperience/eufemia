@@ -7,7 +7,7 @@ export const CopyOnClickProperties: PropertiesTableProps = {
     status: 'optional',
   },
   disabled: {
-    doc: 'If `false`, the copy functionality and copy cursor will be omitted.  Defaults to `true`.',
+    doc: 'If `true`, the copy functionality and copy cursor will be omitted.  Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
