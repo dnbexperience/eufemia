@@ -98,6 +98,9 @@ export function convertCamelCaseProps<P>(props: P) {
       case 'className': {
         continue
       }
+      case 'autoComplete': {
+        continue
+      }
     }
 
     if (/^[a-z]+[A-Z]/.test(key)) {
