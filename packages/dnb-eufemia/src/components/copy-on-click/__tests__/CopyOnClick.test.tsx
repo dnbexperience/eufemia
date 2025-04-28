@@ -25,7 +25,7 @@ describe('CopyOnClick', () => {
     ])
   })
 
-  it('does not render the cursor when disabled', async () => {
+  it('does not render the cursor when disabled', () => {
     render(<CopyOnClick showCursor={true}>Disabled cursor</CopyOnClick>)
 
     const element = document.querySelector('.dnb-copy-on-click')
@@ -95,7 +95,7 @@ describe('CopyOnClick', () => {
     expect(await navigator.clipboard.readText()).toBe('CopyOnClick')
   })
 
-  it('should accept copyContent prop', async () => {
+  it('should accept copyContent prop', () => {
     render(
       <CopyOnClick copyContent="copyContent">CopyOnClick</CopyOnClick>
     )
