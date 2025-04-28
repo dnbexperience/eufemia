@@ -3,6 +3,16 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.72.3](https://github.com/dnbexperience/eufemia/compare/v10.72.2...v10.72.3) (2025-04-28)
+
+
+### :bug: Bug Fixes
+
+* **CopyOnClick:** copy `textContent` when given children is empty ([#5014](https://github.com/dnbexperience/eufemia/issues/5014)) ([9b59d56](https://github.com/dnbexperience/eufemia/commit/9b59d567adad307ab83d0870c2d523780e0ffe7d))
+* **CopyOnClick:** display copy cursor for all children ([#5011](https://github.com/dnbexperience/eufemia/issues/5011)) ([cbff90c](https://github.com/dnbexperience/eufemia/commit/cbff90cdc23bf1bdce4aacd693b457a03c467919))
+* **Forms:** ensure Field.Composition with horizontal layout will still wrap ([#5007](https://github.com/dnbexperience/eufemia/issues/5007)) ([29c3055](https://github.com/dnbexperience/eufemia/commit/29c30551514b899d41a3b836d6aff8d7fde37dca))
+* **Forms:** ensure Field.Selection with the autocomplete variant receives showIndicator in the first onType parameter object ([#5012](https://github.com/dnbexperience/eufemia/issues/5012)) ([ed8a5d1](https://github.com/dnbexperience/eufemia/commit/ed8a5d13b03212b55cc592dfa268950b3f7fa049))
+
 ## [10.72.2](https://github.com/dnbexperience/eufemia/compare/v10.72.1...v10.72.2) (2025-04-22)
 
 
