@@ -311,6 +311,7 @@ function Selection(props: Props) {
                     Object.freeze(autocompleteProps)
                   ) as AutocompleteAllProps)
                 : null)}
+              autoComplete={autocompleteProps?.autoComplete}
               value={
                 autocompleteProps?.preventSelection ? undefined : value
               }
