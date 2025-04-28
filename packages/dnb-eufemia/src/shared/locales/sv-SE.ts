@@ -38,7 +38,7 @@ export default {
       returnFormat: 'yyyy-MM-dd',
       submitButtonText: 'Okej',
       cancelButtonText: 'Stänga',
-      resetButtonText: 'Återställa',
+      resetButtonText: 'Tömma',
       placeholderCharacters: {
         day: 'd',
         month: 'm',

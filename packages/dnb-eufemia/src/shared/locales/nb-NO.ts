@@ -37,7 +37,7 @@ export default {
       returnFormat: 'yyyy-MM-dd', // used in date-fns v1: YYYY-MM-DD
       submitButtonText: 'Ok',
       cancelButtonText: 'Avbryt',
-      resetButtonText: 'Tilbakestill',
+      resetButtonText: 'Tøm',
       placeholderCharacters: {
         day: 'd',
         month: 'm',
