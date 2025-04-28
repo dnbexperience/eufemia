@@ -173,7 +173,7 @@ export type DatePickerProps = {
    */
   showCancelButton?: boolean
   /**
-   * If set to `true`, a reset button will be shown. You can change the default text by using `resetButtonText="Tilbakestill"` Defaults to `false`.
+   * If set to `true`, a clear button will be shown in the footer. You can change the default text by using `resetButtonText="Tøm"` Defaults to `false`.
    */
   showResetButton?: boolean
   submitButtonText?: string

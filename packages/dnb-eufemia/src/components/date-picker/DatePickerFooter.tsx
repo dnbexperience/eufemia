@@ -9,6 +9,7 @@ import DatePickerContext from './DatePickerContext'
 import { convertStringToDate } from './DatePickerCalc'
 import { useTranslation } from '../../shared'
 import { DatePickerDates } from './hooks/useDates'
+import { trash } from '../../icons'
 
 type DatePickerFooterEvent = React.MouseEvent<HTMLButtonElement> &
   DatePickerDates & {
@@ -141,7 +142,7 @@ function DatePickerFooter({
         {(showResetButton && (
           <Button
             text={resetButtonText || resetButtonTextTranslation}
-            icon="reset"
+            icon={trash}
             icon_position="left"
             variant="tertiary"
             onClick={onResetHandler}
