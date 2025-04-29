@@ -180,10 +180,7 @@ export default class Radio extends React.PureComponent {
           if (value !== null && typeof value !== 'undefined') {
             event.preventDefault()
           }
-          if (key === 'enter') {
-            const checked = !this.state.checked
-            this.setState({ checked, _listenForPropChanges: false })
-          }
+          this.onChangeHandler(event)
           break
         }
       }
@@ -213,9 +210,9 @@ export default class Radio extends React.PureComponent {
       // in case we have a false "hasContext" but a "group"
       // then we have to use a delay, to overwrite the uncontrolled state
       setTimeout(() => {
-        this.setState({ checked, _listenForPropChanges: false }, () =>
+        this.setState({ checked, _listenForPropChanges: false }, () => {
           this.callOnChange({ value, checked, event })
-        )
+        })
       }, 1)
     } else {
       this.setState({ checked, _listenForPropChanges: false })

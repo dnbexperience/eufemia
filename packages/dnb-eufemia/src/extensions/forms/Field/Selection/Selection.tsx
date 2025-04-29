@@ -258,7 +258,7 @@ function Selection(props: Props) {
             }
             disabled={disabled}
             on_change={onChangeHandler}
-            value={String(value ?? '') || undefined}
+            value={String(value ?? '')}
           >
             {items}
           </Component.Group>
