@@ -21,13 +21,7 @@ export type DataAttributeTypes = {
    *
    * Effects: triggerAttributes, closeButtonAttributes
    */
-  'data-testid'?: string
-
-  /**
-   * In future we want to use this below.
-   * But its supported from TS v4.4 - so we may wait some more months.
-   */
-  // [property: `data-${string}`]: string
+  [property: `data-${string}`]: string
 }
 
 /**
