@@ -22,7 +22,7 @@ export const FieldBlockSharedProperties: PropertiesTableProps = {
     status: 'optional',
   },
   labelSize: {
-    doc: 'Define the font-size of the label based on the [heading sizes](/uilib/elements/heading/) table.',
+    doc: 'Define the font-size of the label based on the [font-size](/uilib/typography/font-size/) table.',
     type: ['medium', 'large'],
     status: 'optional',
   },
