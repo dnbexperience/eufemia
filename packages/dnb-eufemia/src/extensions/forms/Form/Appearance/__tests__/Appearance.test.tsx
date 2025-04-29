@@ -165,6 +165,18 @@ describe('Form.Appearance', () => {
       )
     })
 
+    it('SelectCurrency', () => {
+      render(
+        <Form.Appearance size="medium">
+          <Field.SelectCurrency />
+        </Form.Appearance>
+      )
+
+      expect(document.querySelector('.dnb-autocomplete')).toHaveClass(
+        'dnb-autocomplete--medium'
+      )
+    })
+
     it('Expiry', () => {
       render(
         <Form.Appearance size="medium">
