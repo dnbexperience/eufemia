@@ -105,7 +105,7 @@ export function dict<T = JsonObject>(obj: T, descend = null) {
   const results = {}
   walk(
     obj,
-    function (value, pointer: string) {
+    (value, pointer: string) => {
       results[pointer] = value
     },
     descend
@@ -121,31 +121,35 @@ export function walk<T = JsonObject>(obj: T, iterator, descend = null) {
 
   descend =
     descend ||
-    function (value) {
+    ((value) => {
       const type = Object.prototype.toString.call(value)
       return type === '[object Object]' || type === '[object Array]'
-    }
-
-  function next(cur) {
-    if (Array.isArray(cur)) {
-      cur = cur.reduce((acc, cur, i) => {
-        acc[i] = cur
-        return acc
-      }, {})
-    }
-
-    Object.keys(cur).forEach((key) => {
-      refTokens.push(String(key))
-      if (descend(cur[key])) {
-        next(cur[key])
-      } else {
-        iterator(cur[key], compile(refTokens))
-      }
-      refTokens.pop()
     })
+
+  next(obj, refTokens, iterator, descend)
+}
+
+function next(cur, refTokens, iterator, descend) {
+  if (Array.isArray(cur)) {
+    cur = cur.reduce((acc, cur, i) => {
+      acc[i] = cur
+      return acc
+    }, {})
   }
 
-  next(obj)
+  let res
+  for (const key in cur) {
+    refTokens.push(String(key))
+    if (descend(cur[key])) {
+      res = next(cur[key], refTokens, iterator, descend)
+    } else {
+      res = iterator(cur[key], compile(refTokens))
+    }
+    if (res === false) {
+      return false
+    }
+    refTokens.pop()
+  }
 }
 
 /**

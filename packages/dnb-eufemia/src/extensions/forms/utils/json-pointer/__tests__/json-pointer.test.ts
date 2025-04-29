@@ -331,10 +331,27 @@ describe('json-pointer', () => {
 
   describe('walk', () => {
     it('should iterate over an object', () => {
-      walk({ bla: { test: 'expected' } }, function (value, pointer) {
+      walk({ bla: { test: 'expected' } }, (value, pointer) => {
         expect(pointer).toBe('/bla/test')
         expect(value).toBe('expected')
       })
+    })
+
+    it('should break when the iterator returns false', () => {
+      let count = 0
+
+      walk({ bla: { foo: 'foo', bar: 'bar', baz: 'baz' } }, () => {
+        count++
+      })
+      expect(count).toBe(3)
+
+      count = 0
+      walk({ bla: { foo: 'foo', bar: 'bar', baz: 'baz' } }, (value) => {
+        count++
+        return value === 'bar' ? false : true
+      })
+
+      expect(count).toBe(2)
     })
   })
 
