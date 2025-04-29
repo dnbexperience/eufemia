@@ -333,7 +333,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         return
       }
       event.preventDefault()
-      event.persist() // since we use the event after setState
+      event.persist() // since we use the event after updateDates
 
       const currentDates = { startDate, endDate, startMonth, endMonth }
       const dateType = !isRange || nr === 0 ? 'start' : 'end'

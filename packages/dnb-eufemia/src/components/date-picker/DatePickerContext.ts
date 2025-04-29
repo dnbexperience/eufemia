@@ -27,7 +27,6 @@ export type DatePickerContextValues = ContextProps &
       dates: DatePickerDates,
       callback?: (dates: DatePickerDates) => void
     ) => void
-    setState?: (state: DatePickerProviderState) => void
     setViews: (views: Array<CalendarView>, callback?: () => void) => void
     setHasClickedCalendarDay: (hasClicked: boolean) => void
     callOnChangeHandler: <E>(event: DatePickerChangeEvent<E>) => void
