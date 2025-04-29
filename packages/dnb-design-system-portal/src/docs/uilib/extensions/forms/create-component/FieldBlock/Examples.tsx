@@ -162,6 +162,16 @@ export const WithDescription = () => {
   )
 }
 
+export const WithDescriptionNoLabel = () => {
+  return (
+    <ComponentBox data-visual-test="forms-field-block-label-description-no-label">
+      <FieldBlock labelDescription="Description text">
+        Input features goes here
+      </FieldBlock>
+    </ComponentBox>
+  )
+}
+
 export const HorizontalAutoSize = () => {
   return (
     <ComponentBox>
@@ -289,6 +299,35 @@ export const InlineHelpButtonLabelDescription = () => {
         />
         <Field.String
           label="Ønsket lånebeløp"
+          labelDescription="Description"
+          multiline
+          rows={3}
+          help={{
+            open: true,
+            title: 'Hva betyr lånebeløp?',
+            content: 'Dette er hvor mye du har tenkt å låne totalt.',
+          }}
+        />
+      </Flex.Stack>
+    </ComponentBox>
+  )
+}
+
+export const InlineHelpButtonLabelDescriptionNoLabel = () => {
+  return (
+    <ComponentBox data-visual-test="forms-field-block-help-button-label-description-no-label">
+      <Flex.Stack>
+        <Field.String
+          labelDescription="Description Nisi ad ullamco ut anim proident sint eiusmod."
+          help={{
+            title: 'Hva betyr lånebeløp?',
+            content: 'Dette er hvor mye du har tenkt å låne totalt.',
+          }}
+          onChange={async () => {
+            await new Promise((resolve) => setTimeout(resolve, 1000))
+          }}
+        />
+        <Field.String
           labelDescription="Description"
           multiline
           rows={3}

@@ -522,6 +522,7 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
       !fragmentHasOnlyUndefinedChildren(labelDescription)
     : labelDescription
   const hasHelp = help?.title || help?.content
+  const hasOnlyLabelDescription = !label && hasLabelDescription
 
   return (
     <FieldBlockContext.Provider
@@ -552,15 +553,22 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
                   </span>
                 )}
 
-                {hasHelp && (
+                {hasHelp && !hasOnlyLabelDescription && (
                   <HelpButtonInline contentId={`${id}-help`} help={help} />
                 )}
 
-                {hasLabelDescription && !labelDescriptionInline && <br />}
+                {label &&
+                  hasLabelDescription &&
+                  !labelDescriptionInline && <br />}
+
                 {hasLabelDescription && (
                   <span className="dnb-forms-field-block__label__description">
                     {labelDescription}
                   </span>
+                )}
+
+                {hasHelp && hasOnlyLabelDescription && (
+                  <HelpButtonInline contentId={`${id}-help`} help={help} />
                 )}
               </span>
             </FormLabel>
