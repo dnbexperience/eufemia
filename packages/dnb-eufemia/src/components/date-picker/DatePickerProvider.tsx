@@ -19,11 +19,9 @@ import { correctV1Format, isDisabled } from './DatePickerCalc'
 import DatePickerContext, {
   DatePickerContextValues,
 } from './DatePickerContext'
-import useViews, { CalendarView } from './hooks/useViews'
+import useViews from './hooks/useViews'
 import useDates, { DatePickerDates } from './hooks/useDates'
-import useLastEventCallCache, {
-  LastEventCallCache,
-} from './hooks/useLastEventCallCache'
+import useLastEventCallCache from './hooks/useLastEventCallCache'
 import { InvalidDates } from './DatePickerInput'
 import { PartialDates } from './hooks/usePartialDates'
 
@@ -62,10 +60,6 @@ export type ReturnObject<E> = InvalidDates &
     is_valid_start_date?: boolean
     is_valid_end_date?: boolean
   }
-
-export type DatePickerProviderState = DatePickerDates &
-  Array<CalendarView> &
-  LastEventCallCache
 
 const defaultProps: Partial<DatePickerProps> = {
   returnFormat: 'yyyy-MM-dd', // used in date-fns v1: YYYY-MM-DD
