@@ -63,10 +63,6 @@ export type ReturnObject<E> = InvalidDates &
     is_valid_end_date?: boolean
   }
 
-export type DatePickerProviderState = DatePickerDates &
-  Array<CalendarView> &
-  LastEventCallCache
-
 const defaultProps: Partial<DatePickerProps> = {
   returnFormat: 'yyyy-MM-dd', // used in date-fns v1: YYYY-MM-DD
 }

@@ -8,7 +8,6 @@ import { DatePickerAllProps, DisplayPickerEvent } from './DatePicker'
 import { ContextProps } from '../../shared/Context'
 import {
   DatePickerChangeEvent,
-  DatePickerProviderState,
   GetReturnObjectParams,
   ReturnObject,
 } from './DatePickerProvider'
