@@ -21,6 +21,11 @@ export const FieldBlockSharedProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  labelSize: {
+    doc: 'Define the font-size of the label based on the [font-size](/uilib/typography/font-size/) table.',
+    type: ['medium', 'large'],
+    status: 'optional',
+  },
   help: {
     doc: 'Provide help content for the field using `title` and `content` as a string or React.Node. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).',
     type: 'object',
