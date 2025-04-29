@@ -97,6 +97,10 @@ export type SharedFieldBlockProps = {
    */
   labelDescriptionInline?: boolean
   /**
+   * Define the font-size of the label based on the [heading sizes](/uilib/elements/heading/) table.
+   */
+  labelSize?: 'medium' | 'large'
+  /**
    * Width of outer block element
    */
   width?: FieldBlockWidth
@@ -129,8 +133,6 @@ export type Props<Value = unknown> = SharedFieldBlockProps &
     contentClassName?: string
     /** To show the SubmitIndicator during async validation */
     fieldState?: SubmitState
-    /** Typography size */
-    labelSize?: 'medium' | 'large'
     /** Defines the height of an component (size prop), so the label can be aligned correctly */
     labelHeight?: FieldBlockHorizontalLabelHeight
     /** Disable the error summary for this field block */
@@ -160,6 +162,8 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
     labelDescriptionInline,
     labelSuffix,
     labelSrOnly,
+    labelSize,
+    labelHeight,
     help,
     asFieldset,
     required,
@@ -171,9 +175,7 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
     disabled,
     width,
     contentWidth,
-    labelHeight,
     align,
-    labelSize,
     contentClassName,
     children,
     ...rest
