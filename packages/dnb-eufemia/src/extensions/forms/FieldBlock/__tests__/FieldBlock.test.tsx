@@ -147,6 +147,7 @@ describe('FieldBlock', () => {
     it('should render br when labelDescriptionInline is false', () => {
       render(
         <FieldBlock
+          label="label"
           labelDescription="A Label Description"
           labelDescriptionInline={false}
         >
@@ -166,6 +167,19 @@ describe('FieldBlock', () => {
           labelDescription="A Label Description"
           labelDescriptionInline
         >
+          content
+        </FieldBlock>
+      )
+
+      const labelElement = document.querySelector('label')
+
+      expect(labelElement).toHaveTextContent('A Label Description')
+      expect(labelElement.querySelector('br')).not.toBeInTheDocument()
+    })
+
+    it('should not render br when label is not provided', () => {
+      render(
+        <FieldBlock labelDescription="A Label Description">
           content
         </FieldBlock>
       )
