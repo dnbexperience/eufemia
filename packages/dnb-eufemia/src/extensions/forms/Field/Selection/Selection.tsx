@@ -26,7 +26,7 @@ import type { DropdownAllProps } from '../../../../components/Dropdown'
 import { HelpProps } from '../../../../components/help-button/HelpButtonInline'
 import { DrawerListProps } from '../../../../fragments/DrawerList'
 import {
-  convertCamelCaseProps,
+  convertCamelCasePropsToSnakeCase,
   ToCamelCase,
 } from '../../../../shared/helpers/withCamelCaseProps'
 import useDataValue from '../../hooks/useDataValue'
@@ -307,7 +307,7 @@ function Selection(props: Props) {
             <Autocomplete
               {...sharedProps}
               {...(autocompleteProps
-                ? (convertCamelCaseProps(
+                ? (convertCamelCasePropsToSnakeCase(
                     Object.freeze(autocompleteProps)
                   ) as AutocompleteAllProps)
                 : null)}
@@ -327,7 +327,7 @@ function Selection(props: Props) {
             <Dropdown
               {...sharedProps}
               {...(dropdownProps
-                ? (convertCamelCaseProps(
+                ? (convertCamelCasePropsToSnakeCase(
                     dropdownProps
                   ) as DropdownAllProps)
                 : null)}
