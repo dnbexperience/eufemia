@@ -29,9 +29,8 @@ export type Props = Omit<
   FieldProps<UploadValue, UploadValue | undefined>,
   'name'
 > &
-  SpacingProps & {
-    width?: Omit<FieldBlockWidth, 'medium' | 'small'>
-  } & Pick<
+  SpacingProps &
+  Pick<
     Partial<UploadProps>,
     | 'title'
     | 'text'
@@ -48,6 +47,7 @@ export type Props = Omit<
     fileHandler?: (
       newFiles: UploadValue
     ) => UploadValue | Promise<UploadValue>
+    width?: 'large' | 'stretch'
   }
 
 const validateRequired = (
