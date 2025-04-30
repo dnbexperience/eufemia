@@ -55,4 +55,33 @@ describe.each(['ui', 'sbanken'])('Expiry field for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match width small', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="expiry-width-small"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match width medium', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="expiry-width-medium"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match width large', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="expiry-width-large"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match width stretch', async () => {
+    const screenshot = await makeScreenshot({
+      style: { width: '20rem' },
+      selector: '[data-visual-test="expiry-width-stretch"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

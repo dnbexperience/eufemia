@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Field } from '@dnb/eufemia/src/extensions/forms'
+import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const Empty = () => {
   return (
@@ -88,6 +88,41 @@ export const ValidationRequired = () => {
         onChange={(expiry) => console.log('onChange', expiry)}
         required
       />
+    </ComponentBox>
+  )
+}
+
+export const WidthSmall = () => {
+  return (
+    <ComponentBox data-visual-test="expiry-width-small">
+      <Field.Expiry width="small" />
+    </ComponentBox>
+  )
+}
+
+export const WidthMedium = () => {
+  return (
+    <ComponentBox data-visual-test="expiry-width-medium">
+      <Field.Expiry width="medium" />
+    </ComponentBox>
+  )
+}
+
+export const WidthLarge = () => {
+  return (
+    <ComponentBox data-visual-test="expiry-width-large">
+      <Field.Expiry width="large" />
+    </ComponentBox>
+  )
+}
+
+export const WidthStretch = () => {
+  return (
+    <ComponentBox data-visual-test="expiry-width-stretch">
+      <Form.Card>
+        <Field.String width="stretch" />
+        <Field.Expiry width="stretch" />
+      </Form.Card>
     </ComponentBox>
   )
 }
