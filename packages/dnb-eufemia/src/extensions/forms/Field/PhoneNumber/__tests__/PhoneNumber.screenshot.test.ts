@@ -24,6 +24,14 @@ describe.each(['ui'])('PhoneNumber for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match widths', async () => {
+    const screenshot = await makeScreenshot({
+      style: { width: '35rem' },
+      selector: '[data-visual-test="phone-number-width"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe('PhoneNumber', () => {
