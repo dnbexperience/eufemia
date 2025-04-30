@@ -184,3 +184,22 @@ export function FilterCountries() {
     </ComponentBox>
   )
 }
+
+export const WidthLarge = () => {
+  return (
+    <ComponentBox data-visual-test="phone-number-width-large">
+      <Field.PhoneNumber width="large" />
+    </ComponentBox>
+  )
+}
+
+export const WidthStretch = () => {
+  return (
+    <ComponentBox data-visual-test="phone-number-width-stretch">
+      <Form.Card>
+        <Field.String width="stretch" />
+        <Field.PhoneNumber width="stretch" />
+      </Form.Card>
+    </ComponentBox>
+  )
+}
