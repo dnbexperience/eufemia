@@ -92,36 +92,16 @@ export const ValidationRequired = () => {
   )
 }
 
-export const WidthSmall = () => {
+export const Width = () => {
   return (
-    <ComponentBox data-visual-test="expiry-width-small">
-      <Field.Expiry width="small" />
-    </ComponentBox>
-  )
-}
-
-export const WidthMedium = () => {
-  return (
-    <ComponentBox data-visual-test="expiry-width-medium">
-      <Field.Expiry width="medium" />
-    </ComponentBox>
-  )
-}
-
-export const WidthLarge = () => {
-  return (
-    <ComponentBox data-visual-test="expiry-width-large">
-      <Field.Expiry width="large" />
-    </ComponentBox>
-  )
-}
-
-export const WidthStretch = () => {
-  return (
-    <ComponentBox data-visual-test="expiry-width-stretch">
+    <ComponentBox data-visual-test="expiry-width">
       <Form.Card>
         <Field.String width="stretch" />
-        <Field.Expiry width="stretch" />
+        <Field.Expiry label="default" />
+        <Field.Expiry width="small" label="small" />
+        <Field.Expiry width="medium" label="medium" />
+        <Field.Expiry width="large" label="large" />
+        <Field.Expiry width="stretch" label="default" />
       </Form.Card>
     </ComponentBox>
   )
