@@ -32,31 +32,10 @@ describe.each(['ui'])('Date for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match width small', async () => {
+  it('have to match width', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="date-width-small"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match width medium', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="date-width-medium"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match width large', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="date-width-large"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match width stretch', async () => {
-    const screenshot = await makeScreenshot({
-      style: { width: '20rem' },
-      selector: '[data-visual-test="date-width-stretch"]',
+      style: { width: '30rem' },
+      selector: '[data-visual-test="date-width"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

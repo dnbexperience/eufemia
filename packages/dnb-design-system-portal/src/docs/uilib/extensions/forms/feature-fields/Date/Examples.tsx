@@ -148,36 +148,16 @@ export const ValidationExtendValidator = () => {
   )
 }
 
-export const WidthSmall = () => {
+export const Width = () => {
   return (
-    <ComponentBox data-visual-test="date-width-small">
-      <Field.Date width="small" />
-    </ComponentBox>
-  )
-}
-
-export const WidthMedium = () => {
-  return (
-    <ComponentBox data-visual-test="date-width-medium">
-      <Field.Date width="medium" />
-    </ComponentBox>
-  )
-}
-
-export const WidthLarge = () => {
-  return (
-    <ComponentBox data-visual-test="date-width-large">
-      <Field.Date width="large" />
-    </ComponentBox>
-  )
-}
-
-export const WidthStretch = () => {
-  return (
-    <ComponentBox data-visual-test="date-width-stretch">
+    <ComponentBox data-visual-test="date-width">
       <Form.Card>
         <Field.String width="stretch" />
-        <Field.Date width="stretch" />
+        <Field.Date label="default" />
+        <Field.Date width="small" label="small" />
+        <Field.Date width="medium" label="medium" />
+        <Field.Date width="large" label="large" />
+        <Field.Date width="stretch" label="stretch" />
       </Form.Card>
     </ComponentBox>
   )
