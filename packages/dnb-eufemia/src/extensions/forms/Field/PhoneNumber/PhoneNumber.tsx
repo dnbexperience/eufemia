@@ -207,7 +207,7 @@ function PhoneNumber(props: Props) {
     error,
     hasError,
     disabled,
-    width = 'large',
+    width = props.omitCountryCodeField ? 'medium' : 'large',
     help,
     required,
     validateInitially,
@@ -460,7 +460,7 @@ function PhoneNumber(props: Props) {
         warning={warning}
         error={error}
         disabled={disabled}
-        width={omitCountryCodeField && !props.width ? 'medium' : 'stretch'}
+        width="stretch"
         help={{ ...help, breakout: false, outset: false }}
         required={required}
         errorMessages={errorMessages}
