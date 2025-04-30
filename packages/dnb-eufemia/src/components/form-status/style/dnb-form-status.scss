@@ -23,6 +23,8 @@
   }
 
   &__text {
+    max-width: 60ch; // to enhance readability
+
     padding: 0.625rem 1rem;
 
     cursor: text;
@@ -93,10 +95,6 @@
 
   &--stretch &__shell {
     width: 100%;
-  }
-
-  &--stretch &__text {
-    max-width: 47rem;
   }
 
   &[hidden] {
