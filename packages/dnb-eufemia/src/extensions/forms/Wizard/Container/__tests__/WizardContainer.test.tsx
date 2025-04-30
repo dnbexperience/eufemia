@@ -2684,28 +2684,6 @@ describe('Wizard.Container', () => {
     log.mockRestore()
   })
 
-  it('should warn when initialActiveIndex is used', () => {
-    const log = jest.spyOn(console, 'log').mockImplementation()
-
-    render(
-      <Form.Handler>
-        <Wizard.Container initialActiveIndex={1}>
-          <Wizard.Step title="Step 1">
-            <output>Step 1</output>
-          </Wizard.Step>
-        </Wizard.Container>
-      </Form.Handler>
-    )
-
-    expect(log).toHaveBeenCalledTimes(1)
-    expect(log).toHaveBeenCalledWith(
-      expect.anything(),
-      'initialActiveIndex={1} is used. Fields of previews steps may not validate. You can use "keepInDOM" to always run validation.'
-    )
-
-    log.mockRestore()
-  })
-
   it('should support schema', async () => {
     const schema = {
       type: 'object',
@@ -3093,7 +3071,6 @@ describe('Wizard.Container', () => {
         <Wizard.Container
           mode="strict"
           initialActiveIndex={2}
-          keepInDOM
           expandedInitially
         >
           <Wizard.Step title="Step 1">
@@ -3142,6 +3119,58 @@ describe('Wizard.Container', () => {
       await userEvent.click(nextButton())
 
       expect(currentIndex).toBe(1)
+    })
+
+    it('should remove the prerendered steps from the DOM after submitting the form', async () => {
+      render(
+        <Wizard.Container initialActiveIndex={2} expandedInitially>
+          <Wizard.Step title="Step 1">
+            <Field.String path="/foo" required />
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 2">
+            <Field.String path="/bar" required />
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 3">
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+      )
+
+      const addedNodes = []
+      const removedNodes = []
+
+      const observer = new MutationObserver((mutationsList) => {
+        for (const mutation of mutationsList) {
+          if (mutation.type === 'childList') {
+            if (mutation.removedNodes?.length) {
+              removedNodes.push(mutation.removedNodes)
+            }
+            if (mutation.addedNodes?.length) {
+              addedNodes.push(mutation.addedNodes)
+            }
+          }
+        }
+      })
+
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+      })
+
+      fireEvent.submit(document.querySelector('form'))
+
+      await waitFor(() => {
+        expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(2)
+      })
+
+      expect(document.querySelector('iframe').innerHTML).toBe('')
+
+      expect(addedNodes.length).toBeGreaterThanOrEqual(4)
+      expect(removedNodes.length).toBeGreaterThanOrEqual(2)
     })
 
     it('should prevent navigation if field inside Visibility with keepInDOM is invalid', async () => {
@@ -3232,11 +3261,339 @@ describe('Wizard.Container', () => {
       ).toBeNull()
     })
 
+    it('should show a warning beneath the trigger button when the step status has an error and the screen width is small', async () => {
+      simulateSmallScreen()
+
+      const onStepChange = jest.fn()
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Wizard.Container
+            mode="loose"
+            initialActiveIndex={2}
+            onStepChange={onStepChange}
+          >
+            <Wizard.Step title="Step 1">
+              <Field.String path="/foo" required />
+              <output>Step 1</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+            <Wizard.Step title="Step 2">
+              <Field.String path="/bar" required />
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+            <Wizard.Step title="Step 3">
+              <Field.String path="/baz" />
+              <output>Step 3</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(0)
+      expect(output()).toHaveTextContent('Step 3')
+
+      // Try submit while on Step 3
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(output()).toHaveTextContent('Step 3')
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Step.stepHasError
+      )
+      expect(
+        document.querySelectorAll(
+          '.dnb-step-indicator__item-content__status.dnb-form-status--error'
+        )
+      ).toHaveLength(0)
+      expect(
+        document.querySelectorAll(
+          '.dnb-step-indicator__item-content__status.dnb-form-status--error'
+        )
+      ).toHaveLength(0)
+    })
+
+    it('should not submit when steps have an error status', async () => {
+      const onStepChange = jest.fn()
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Wizard.Container
+            mode="loose"
+            initialActiveIndex={2}
+            onStepChange={onStepChange}
+            expandedInitially
+          >
+            <Wizard.Step title="Step 1">
+              <Field.String path="/foo" required />
+              <output>Step 1</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+            <Wizard.Step title="Step 2">
+              <Field.String path="/bar" required />
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+            <Wizard.Step title="Step 3">
+              <Field.String path="/baz" />
+              <output>Step 3</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      expect(output()).toHaveTextContent('Step 3')
+
+      // Try submit while on Step 3
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(output()).toHaveTextContent('Step 3')
+
+      // Go to Step 2
+      await userEvent.click(previousButton())
+
+      expect(output()).toHaveTextContent('Step 2')
+
+      // Try Step 3
+      await userEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 2')
+
+      // Go to Step 1
+      await userEvent.click(previousButton())
+
+      expect(output()).toHaveTextContent('Step 1')
+
+      // Try Step 2
+      await userEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 1')
+
+      await userEvent.type(document.querySelector('input'), 'foo')
+
+      // Go to Step 2
+      await userEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 2')
+
+      await userEvent.type(document.querySelector('input'), 'bar')
+
+      // Go to Step 3
+      fireEvent.submit(document.querySelector('form'))
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 3')
+      })
+
+      expect(onSubmit).toHaveBeenCalledTimes(0)
+
+      // Make the submit
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+    })
+
+    it('should not submit when steps have a schema error status', async () => {
+      const onSubmit = jest.fn()
+
+      const schema = {
+        type: 'object',
+        required: ['isThisTrue'],
+      }
+
+      render(
+        <Form.Handler schema={schema} onSubmit={onSubmit}>
+          <Wizard.Container initialActiveIndex={1}>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Field.Boolean path="/isThisTrue" variant="buttons" />
+              <Wizard.Buttons />
+            </Wizard.Step>
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      expect(output()).toHaveTextContent('Step 2')
+
+      // Try submit while on Step 2
+      fireEvent.submit(document.querySelector('form'))
+
+      await expect(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+      }).toNeverResolve()
+      expect(onSubmit).toHaveBeenCalledTimes(0)
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Step.stepHasError
+      )
+      expect(output()).toHaveTextContent('Step 2')
+
+      // Go to Step 1
+      await userEvent.click(previousButton())
+
+      expect(output()).toHaveTextContent('Step 1')
+
+      // Try Step 2
+      await userEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 1')
+
+      // Make a choice
+      await userEvent.click(screen.getByText('Nei'))
+
+      // Try Step 2
+      await userEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 2')
+
+      // Try submit while on Step 2
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+    })
+
+    it('should not submit when steps have an error by navigating in the menu', async () => {
+      const onStepChange = jest.fn()
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Wizard.Container
+            mode="loose"
+            initialActiveIndex={2}
+            onStepChange={onStepChange}
+            expandedInitially
+          >
+            <Wizard.Step title="Step 1">
+              <Field.String path="/foo" required />
+              <output>Step 1</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+            <Wizard.Step title="Step 2">
+              <Field.String path="/bar" required />
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+            <Wizard.Step title="Step 3">
+              <Field.String path="/baz" />
+              <output>Step 3</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      const [, , thirdStep] = Array.from(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      )
+
+      expect(output()).toHaveTextContent('Step 3')
+
+      // Try submit while on Step 3
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(output()).toHaveTextContent('Step 3')
+
+      // Go to Step 2
+      await userEvent.click(previousButton())
+
+      expect(output()).toHaveTextContent('Step 2')
+
+      // Try Step 3
+      await userEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 2')
+
+      // Go to Step 1
+      await userEvent.click(previousButton())
+
+      expect(output()).toHaveTextContent('Step 1')
+
+      // Try Step 2
+      await userEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 1')
+
+      // Go to Step 3
+      await userEvent.click(thirdStep.querySelector('.dnb-anchor'))
+
+      expect(output()).toHaveTextContent('Step 3')
+
+      expect(onSubmit).toHaveBeenCalledTimes(0)
+
+      // Try submit while on Step 3
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(onSubmit).toHaveBeenCalledTimes(0)
+    })
+
     describe('with validation shown in menu', () => {
+      it('should not show a status on submit when no error is present', async () => {
+        const onSubmit = jest.fn()
+
+        render(
+          <Form.Handler onSubmit={onSubmit}>
+            <Wizard.Container>
+              <Wizard.Step title="Step 1">
+                <output>Step 1</output>
+                <Field.String path="/foo" />
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 2">
+                <output>Step 2</output>
+                <Field.String path="/bar" />
+                <Wizard.Buttons />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        expect(output()).toHaveTextContent('Step 1')
+        expect(
+          document.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).toBeNull()
+
+        fireEvent.submit(document.querySelector('form'))
+
+        await waitFor(() => {
+          expect(output()).toHaveTextContent('Step 2')
+        })
+        expect(
+          document.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).toBeNull()
+        expect(onSubmit).toHaveBeenCalledTimes(0)
+
+        fireEvent.submit(document.querySelector('form'))
+
+        expect(output()).toHaveTextContent('Step 2')
+        expect(
+          document.querySelector(
+            '.dnb-step-indicator__item-content__status'
+          )
+        ).toBeNull()
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+      })
+
       it('should not show a status when no fields are present', async () => {
         render(
           <Form.Handler>
-            <Wizard.Container>
+            <Wizard.Container expandedInitially>
               <Wizard.Step title="Step 1">
                 <output>Step 1</output>
                 <Wizard.Buttons />
@@ -3269,7 +3626,7 @@ describe('Wizard.Container', () => {
       it('should not show a status when Iterate.PushContainer is closed', async () => {
         render(
           <Form.Handler>
-            <Wizard.Container>
+            <Wizard.Container expandedInitially>
               <Wizard.Step title="Step 1">
                 <output>Step 1</output>
                 <Iterate.PushContainer
@@ -3309,7 +3666,7 @@ describe('Wizard.Container', () => {
       it('should not navigate to next step when Iterate.PushContainer is open', async () => {
         render(
           <Form.Handler>
-            <Wizard.Container>
+            <Wizard.Container expandedInitially>
               <Wizard.Step title="Step 1">
                 <output>Step 1</output>
                 <Iterate.PushContainer
@@ -3385,7 +3742,7 @@ describe('Wizard.Container', () => {
         ).toBeNull()
       })
 
-      it('should render warning or error status when form cannot be submitted', async () => {
+      it('should render error status when form cannot be submitted', async () => {
         const onStepChange = jest.fn()
         const onSubmit = jest.fn()
 
@@ -3424,14 +3781,9 @@ describe('Wizard.Container', () => {
         expect(output()).toHaveTextContent('Step 3')
         expect(
           document.querySelectorAll(
-            '.dnb-step-indicator__item-content__status.dnb-form-status--warn'
-          )
-        ).toHaveLength(2)
-        expect(
-          document.querySelectorAll(
             '.dnb-step-indicator__item-content__status.dnb-form-status--error'
           )
-        ).toHaveLength(0)
+        ).toHaveLength(2)
 
         // Go to Step 2
         await userEvent.click(previousButton())
@@ -3444,14 +3796,9 @@ describe('Wizard.Container', () => {
         expect(output()).toHaveTextContent('Step 2')
         expect(
           document.querySelectorAll(
-            '.dnb-step-indicator__item-content__status.dnb-form-status--warn'
-          )
-        ).toHaveLength(1)
-        expect(
-          document.querySelectorAll(
             '.dnb-step-indicator__item-content__status.dnb-form-status--error'
           )
-        ).toHaveLength(0)
+        ).toHaveLength(1)
 
         // Go to Step 1
         await userEvent.click(previousButton())
@@ -3464,22 +3811,12 @@ describe('Wizard.Container', () => {
         expect(output()).toHaveTextContent('Step 1')
         expect(
           document.querySelectorAll(
-            '.dnb-step-indicator__item-content__status.dnb-form-status--warn'
-          )
-        ).toHaveLength(0)
-        expect(
-          document.querySelectorAll(
             '.dnb-step-indicator__item-content__status.dnb-form-status--error'
           )
         ).toHaveLength(1)
 
         await userEvent.type(document.querySelector('input'), 'foo')
 
-        expect(
-          document.querySelectorAll(
-            '.dnb-step-indicator__item-content__status.dnb-form-status--warn'
-          )
-        ).toHaveLength(0)
         expect(
           document.querySelectorAll(
             '.dnb-step-indicator__item-content__status.dnb-form-status--error'
@@ -3493,22 +3830,12 @@ describe('Wizard.Container', () => {
 
         expect(
           document.querySelectorAll(
-            '.dnb-step-indicator__item-content__status.dnb-form-status--warn'
-          )
-        ).toHaveLength(0)
-        expect(
-          document.querySelectorAll(
             '.dnb-step-indicator__item-content__status.dnb-form-status--error'
           )
         ).toHaveLength(0)
 
         await userEvent.type(document.querySelector('input'), 'bar')
 
-        expect(
-          document.querySelectorAll(
-            '.dnb-step-indicator__item-content__status.dnb-form-status--warn'
-          )
-        ).toHaveLength(0)
         expect(
           document.querySelectorAll(
             '.dnb-step-indicator__item-content__status.dnb-form-status--error'
@@ -3530,60 +3857,7 @@ describe('Wizard.Container', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
       })
 
-      it('should not show unknown status on same step', async () => {
-        render(
-          <Form.Handler>
-            <Wizard.Container
-              mode="loose"
-              initialActiveIndex={2}
-              expandedInitially
-            >
-              <Wizard.Step title="Step 1">
-                <Field.String path="/foo" required />
-                <output>Step 1</output>
-                <Wizard.Buttons />
-              </Wizard.Step>
-              <Wizard.Step title="Step 2">
-                <Field.String path="/bar" required />
-                <output>Step 2</output>
-                <Wizard.Buttons />
-              </Wizard.Step>
-              <Wizard.Step title="Step 3">
-                <Field.String path="/baz" />
-                <output>Step 3</output>
-                <Wizard.Buttons />
-              </Wizard.Step>
-            </Wizard.Container>
-          </Form.Handler>
-        )
-
-        const [firstStep, secondStep] = Array.from(
-          document.querySelectorAll('.dnb-step-indicator__item')
-        )
-
-        expect(output()).toHaveTextContent('Step 3')
-
-        fireEvent.submit(document.querySelector('form'))
-
-        expect(screen.getAllByText('Unknown state')).toHaveLength(2)
-
-        await userEvent.click(secondStep)
-
-        expect(
-          firstStep.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
-        ).toHaveTextContent('Unknown state')
-        expect(
-          secondStep.querySelector(
-            '.dnb-step-indicator__item-content__status'
-          )
-        ).toHaveTextContent('Unknown state')
-        expect(screen.queryAllByText('Unknown state')).toHaveLength(2)
-        expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
-      })
-
-      it('should not show unknown status on inactive step', async () => {
+      it('should not show error status on inactive step', async () => {
         render(
           <Form.Handler>
             <Wizard.Container mode="loose" initialActiveIndex={2}>
@@ -3607,14 +3881,14 @@ describe('Wizard.Container', () => {
         )
 
         expect(output()).toHaveTextContent('Step 3')
-        expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
+        expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
 
         fireEvent.submit(document.querySelector('form'))
 
-        expect(screen.getAllByText('Unknown state')).toHaveLength(1)
+        expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(1)
       })
 
-      it('should not show unknown status without form submit', async () => {
+      it('should not show error status without form submit', async () => {
         render(
           <Form.Handler>
             <Wizard.Container mode="loose" initialActiveIndex={2}>
@@ -3638,17 +3912,17 @@ describe('Wizard.Container', () => {
         )
 
         expect(output()).toHaveTextContent('Step 3')
-        expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
+        expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
 
         fireEvent.submit(document.querySelector('form'))
 
-        expect(screen.getAllByText('Unknown state')).toHaveLength(1)
+        expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(1)
 
         await expandStepIndicator()
-        expect(screen.getAllByText('Unknown state')).toHaveLength(2)
+        expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(2)
       })
 
-      it('should not show unknown status on navigation without form submit', async () => {
+      it('should not show error status on navigation without form submit', async () => {
         render(
           <Form.Handler>
             <Wizard.Container
@@ -3676,72 +3950,20 @@ describe('Wizard.Container', () => {
         )
 
         expect(output()).toHaveTextContent('Step 2')
-        expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
+        expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
 
         await userEvent.click(nextButton())
 
         expect(output()).toHaveTextContent('Step 3')
-        expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
+        expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
 
         fireEvent.submit(document.querySelector('form'))
 
-        expect(screen.getAllByText('Unknown state')).toHaveLength(2)
+        expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(1)
 
         await userEvent.click(previousButton())
 
-        expect(screen.getAllByText('Unknown state')).toHaveLength(1)
-      })
-
-      it('should not show unknown status on visited steps', async () => {
-        render(
-          <Form.Handler>
-            <Wizard.Container
-              mode="loose"
-              initialActiveIndex={2}
-              expandedInitially
-            >
-              <Wizard.Step title="Step 1">
-                <output>Step 1</output>
-                <Wizard.Buttons />
-              </Wizard.Step>
-              <Wizard.Step title="Step 2">
-                <output>Step 2</output>
-                <Wizard.Buttons />
-              </Wizard.Step>
-              <Wizard.Step title="Step 3">
-                <output>Step 3</output>
-                <Wizard.Buttons />
-              </Wizard.Step>
-            </Wizard.Container>
-          </Form.Handler>
-        )
-
-        expect(output()).toHaveTextContent('Step 3')
-        expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
-
-        fireEvent.submit(document.querySelector('form'))
-
-        expect(screen.getAllByText('Unknown state')).toHaveLength(2)
-
-        await userEvent.click(previousButton())
-
-        expect(output()).toHaveTextContent('Step 2')
-        expect(screen.getAllByText('Unknown state')).toHaveLength(1)
-
-        await userEvent.click(previousButton())
-
-        expect(output()).toHaveTextContent('Step 1')
-        expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
-
-        await userEvent.click(nextButton())
-
-        expect(output()).toHaveTextContent('Step 2')
-        expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
-
-        await userEvent.click(nextButton())
-
-        expect(output()).toHaveTextContent('Step 3')
-        expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
+        expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(1)
       })
 
       it('should not show error status on same step', async () => {
@@ -3752,7 +3974,6 @@ describe('Wizard.Container', () => {
             <Wizard.Container
               mode="loose"
               initialActiveIndex={2}
-              keepInDOM
               expandedInitially
             >
               <Wizard.Step title="Step 1">
@@ -3976,7 +4197,7 @@ describe('Wizard.Container', () => {
         expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
       })
 
-      it('should show warning in menu when step status in unknown', async () => {
+      it('should show error in menu of other steps with errors', async () => {
         render(
           <Form.Handler>
             <Wizard.Container
@@ -4011,44 +4232,40 @@ describe('Wizard.Container', () => {
           document.querySelectorAll('.dnb-step-indicator__item')
         )
 
-        expect(screen.getAllByText('Unknown state')).toHaveLength(2)
+        expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(2)
         expect(
           firstStep.querySelector(
             '.dnb-step-indicator__item-content__status'
           )
-        ).toHaveTextContent('Unknown state')
+        ).toHaveTextContent(nb.Step.stepHasError)
         expect(
           secondStep.querySelector(
             '.dnb-step-indicator__item-content__status'
           )
-        ).toHaveTextContent('Unknown state')
+        ).toHaveTextContent(nb.Step.stepHasError)
         expect(
           document.querySelectorAll(
-            '.dnb-step-indicator__item-content__status.dnb-form-status--warn'
+            '.dnb-step-indicator__item-content__status.dnb-form-status--error'
           )
         ).toHaveLength(2)
 
         await userEvent.click(previousButton())
 
         expect(output()).toHaveTextContent('Step 2')
-        expect(screen.getAllByText('Unknown state')).toHaveLength(1)
-        expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
+        expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(1)
 
         await userEvent.click(nextButton())
 
         expect(output()).toHaveTextContent('Step 2')
-        expect(screen.getAllByText('Unknown state')).toHaveLength(1)
-        expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
+        expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(1)
 
         await userEvent.type(document.querySelector('input'), 'bar')
 
-        expect(screen.getAllByText('Unknown state')).toHaveLength(1)
-        expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
+        expect(screen.getAllByText(nb.Step.stepHasError)).toHaveLength(1)
 
         await userEvent.click(previousButton())
 
         expect(output()).toHaveTextContent('Step 1')
-        expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
         expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
 
         await userEvent.click(nextButton())
@@ -4059,7 +4276,6 @@ describe('Wizard.Container', () => {
         await userEvent.type(document.querySelector('input'), 'foo')
 
         expect(screen.queryAllByText(nb.Step.stepHasError)).toHaveLength(0)
-        expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
 
         await userEvent.click(nextButton())
 
@@ -4331,7 +4547,7 @@ describe('Wizard.Container', () => {
 
       render(
         <Form.Handler>
-          <Wizard.Container mode="loose">
+          <Wizard.Container prerenderFieldProps={false} mode="loose">
             <Wizard.Step title="Step 1">
               <Field.String path="/foo" required />
               <output>Step 1</output>
@@ -4377,306 +4593,6 @@ describe('Wizard.Container', () => {
       expect(
         firstStep.querySelector('.dnb-form-status')
       ).toHaveTextContent(nb.Step.stepHasError)
-    })
-
-    it('should show a warning beneath the trigger button when the step status is unknown and the screen width is small', async () => {
-      simulateSmallScreen()
-
-      const onStepChange = jest.fn()
-      const onSubmit = jest.fn()
-
-      render(
-        <Form.Handler onSubmit={onSubmit}>
-          <Wizard.Container
-            mode="loose"
-            initialActiveIndex={2}
-            onStepChange={onStepChange}
-          >
-            <Wizard.Step title="Step 1">
-              <Field.String path="/foo" required />
-              <output>Step 1</output>
-              <Wizard.Buttons />
-            </Wizard.Step>
-            <Wizard.Step title="Step 2">
-              <Field.String path="/bar" required />
-              <output>Step 2</output>
-              <Wizard.Buttons />
-            </Wizard.Step>
-            <Wizard.Step title="Step 3">
-              <Field.String path="/baz" />
-              <output>Step 3</output>
-              <Wizard.Buttons />
-            </Wizard.Step>
-          </Wizard.Container>
-        </Form.Handler>
-      )
-
-      expect(
-        document.querySelectorAll('.dnb-step-indicator__item')
-      ).toHaveLength(0)
-      expect(output()).toHaveTextContent('Step 3')
-
-      // Try submit while on Step 3
-      fireEvent.submit(document.querySelector('form'))
-
-      expect(output()).toHaveTextContent('Step 3')
-      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        'Unknown state'
-      )
-      expect(
-        document.querySelectorAll(
-          '.dnb-step-indicator__item-content__status.dnb-form-status--warn'
-        )
-      ).toHaveLength(0)
-      expect(
-        document.querySelectorAll(
-          '.dnb-step-indicator__item-content__status.dnb-form-status--error'
-        )
-      ).toHaveLength(0)
-    })
-
-    it('should not submit when some steps have an unknown status', async () => {
-      const onStepChange = jest.fn()
-      const onSubmit = jest.fn()
-
-      render(
-        <Form.Handler onSubmit={onSubmit}>
-          <Wizard.Container
-            mode="loose"
-            initialActiveIndex={2}
-            expandedInitially
-            onStepChange={onStepChange}
-          >
-            <Wizard.Step title="Step 1">
-              <Field.String path="/foo" required />
-              <output>Step 1</output>
-              <Wizard.Buttons />
-            </Wizard.Step>
-            <Wizard.Step title="Step 2">
-              <Field.String path="/bar" required />
-              <output>Step 2</output>
-              <Wizard.Buttons />
-            </Wizard.Step>
-            <Wizard.Step title="Step 3">
-              <Field.String path="/baz" />
-              <output>Step 3</output>
-              <Wizard.Buttons />
-            </Wizard.Step>
-          </Wizard.Container>
-        </Form.Handler>
-      )
-
-      expect(output()).toHaveTextContent('Step 3')
-
-      fireEvent.submit(document.querySelector('form'))
-
-      expect(screen.getAllByText('Unknown state')).toHaveLength(2)
-
-      await userEvent.click(previousButton())
-
-      expect(output()).toHaveTextContent('Step 2')
-      expect(screen.getAllByText('Unknown state')).toHaveLength(1)
-
-      await userEvent.click(nextButton())
-
-      expect(output()).toHaveTextContent('Step 2')
-      expect(screen.getAllByText('Unknown state')).toHaveLength(1)
-
-      await userEvent.type(document.querySelector('input'), 'bar')
-
-      expect(screen.getAllByText('Unknown state')).toHaveLength(1)
-
-      await userEvent.click(previousButton())
-
-      expect(output()).toHaveTextContent('Step 1')
-      expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
-
-      await userEvent.click(nextButton())
-
-      expect(output()).toHaveTextContent('Step 1')
-
-      await userEvent.type(document.querySelector('input'), 'foo')
-
-      expect(screen.queryAllByText('Unknown state')).toHaveLength(0)
-
-      await userEvent.click(nextButton())
-
-      expect(output()).toHaveTextContent('Step 2')
-
-      await userEvent.click(nextButton())
-
-      expect(output()).toHaveTextContent('Step 3')
-
-      fireEvent.submit(document.querySelector('form'))
-
-      expect(onStepChange).toHaveBeenCalledTimes(4)
-
-      expect(onSubmit).toHaveBeenCalledTimes(1)
-      expect(onSubmit).toHaveBeenLastCalledWith(
-        {
-          foo: 'foo',
-          bar: 'bar',
-          baz: undefined,
-        },
-        expect.anything()
-      )
-    })
-
-    it('should not submit when steps have an warning or error status', async () => {
-      const onStepChange = jest.fn()
-      const onSubmit = jest.fn()
-
-      render(
-        <Form.Handler onSubmit={onSubmit}>
-          <Wizard.Container
-            mode="loose"
-            initialActiveIndex={2}
-            onStepChange={onStepChange}
-            expandedInitially
-          >
-            <Wizard.Step title="Step 1">
-              <Field.String path="/foo" required />
-              <output>Step 1</output>
-              <Wizard.Buttons />
-            </Wizard.Step>
-            <Wizard.Step title="Step 2">
-              <Field.String path="/bar" required />
-              <output>Step 2</output>
-              <Wizard.Buttons />
-            </Wizard.Step>
-            <Wizard.Step title="Step 3">
-              <Field.String path="/baz" />
-              <output>Step 3</output>
-              <Wizard.Buttons />
-            </Wizard.Step>
-          </Wizard.Container>
-        </Form.Handler>
-      )
-
-      expect(output()).toHaveTextContent('Step 3')
-
-      // Try submit while on Step 3
-      fireEvent.submit(document.querySelector('form'))
-
-      expect(output()).toHaveTextContent('Step 3')
-
-      // Go to Step 2
-      await userEvent.click(previousButton())
-
-      expect(output()).toHaveTextContent('Step 2')
-
-      // Try Step 3
-      await userEvent.click(nextButton())
-
-      expect(output()).toHaveTextContent('Step 2')
-
-      // Go to Step 1
-      await userEvent.click(previousButton())
-
-      expect(output()).toHaveTextContent('Step 1')
-
-      // Try Step 2
-      await userEvent.click(nextButton())
-
-      expect(output()).toHaveTextContent('Step 1')
-
-      await userEvent.type(document.querySelector('input'), 'foo')
-
-      // Go to Step 2
-      await userEvent.click(nextButton())
-
-      expect(output()).toHaveTextContent('Step 2')
-
-      await userEvent.type(document.querySelector('input'), 'bar')
-
-      // Go to Step 3
-      fireEvent.submit(document.querySelector('form'))
-
-      await waitFor(() => {
-        expect(output()).toHaveTextContent('Step 3')
-      })
-
-      expect(onSubmit).toHaveBeenCalledTimes(0)
-
-      // Make the submit
-      fireEvent.submit(document.querySelector('form'))
-
-      expect(onSubmit).toHaveBeenCalledTimes(1)
-    })
-
-    it('should not submit when steps have an error status only', async () => {
-      const onStepChange = jest.fn()
-      const onSubmit = jest.fn()
-
-      render(
-        <Form.Handler onSubmit={onSubmit}>
-          <Wizard.Container
-            mode="loose"
-            initialActiveIndex={2}
-            expandedInitially
-            onStepChange={onStepChange}
-          >
-            <Wizard.Step title="Step 1">
-              <Field.String path="/foo" required />
-              <output>Step 1</output>
-              <Wizard.Buttons />
-            </Wizard.Step>
-            <Wizard.Step title="Step 2">
-              <Field.String path="/bar" required />
-              <output>Step 2</output>
-              <Wizard.Buttons />
-            </Wizard.Step>
-            <Wizard.Step title="Step 3">
-              <Field.String path="/baz" />
-              <output>Step 3</output>
-              <Wizard.Buttons />
-            </Wizard.Step>
-          </Wizard.Container>
-        </Form.Handler>
-      )
-
-      const [, , thirdStep] = Array.from(
-        document.querySelectorAll('.dnb-step-indicator__item')
-      )
-
-      expect(output()).toHaveTextContent('Step 3')
-
-      // Try submit while on Step 3
-      fireEvent.submit(document.querySelector('form'))
-
-      expect(output()).toHaveTextContent('Step 3')
-
-      // Go to Step 2
-      await userEvent.click(previousButton())
-
-      expect(output()).toHaveTextContent('Step 2')
-
-      // Try Step 3
-      await userEvent.click(nextButton())
-
-      expect(output()).toHaveTextContent('Step 2')
-
-      // Go to Step 1
-      await userEvent.click(previousButton())
-
-      expect(output()).toHaveTextContent('Step 1')
-
-      // Try Step 2
-      await userEvent.click(nextButton())
-
-      expect(output()).toHaveTextContent('Step 1')
-
-      // Go to Step 3
-      await userEvent.click(thirdStep.querySelector('.dnb-anchor'))
-
-      expect(output()).toHaveTextContent('Step 3')
-
-      expect(onSubmit).toHaveBeenCalledTimes(0)
-
-      // Try submit while on Step 3
-      fireEvent.submit(document.querySelector('form'))
-
-      expect(onSubmit).toHaveBeenCalledTimes(0)
     })
   })
 
@@ -4888,7 +4804,7 @@ describe('Wizard.Container', () => {
       })
     })
 
-    it('should put prerendered fields in the portal inside an hidden iframe', async () => {
+    it('should put prerendered fields (Step 1) in the portal inside an hidden iframe', async () => {
       const addedNodes = []
       const removedNodes = []
 
@@ -4927,7 +4843,7 @@ describe('Wizard.Container', () => {
         </Form.Handler>
       )
 
-      expect(document.querySelector('iframe')).toBeNull()
+      expect(document.querySelector('iframe').innerHTML).toBe('')
 
       await wait(1)
 
@@ -4936,17 +4852,16 @@ describe('Wizard.Container', () => {
       expect(addedNodes).toHaveLength(2)
       expect(addedNodes[0]).toHaveLength(1)
       expect(addedNodes[0][0]).toBe(document.body.querySelector('div'))
+      expect(addedNodes[1]).toHaveLength(1)
       expect(addedNodes[1][0].tagName).toBe('IFRAME')
 
-      expect(removedNodes).toHaveLength(1)
-      expect(removedNodes[0][0].tagName).toBe('IFRAME')
-
       const iframe = addedNodes[1][0]
-
       expect(iframe).toHaveAttribute('hidden', '')
       expect(iframe).toHaveAttribute('title', 'Wizard Prerender')
       expect(iframe).toHaveTextContent('')
-      expect(iframe.parentElement).toBeNull()
+      expect(iframe.innerHTML).toBe('')
+
+      expect(removedNodes).toHaveLength(0)
     })
   })
 

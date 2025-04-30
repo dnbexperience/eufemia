@@ -5,6 +5,7 @@ import ButtonRow from '../../Form/ButtonRow'
 import NextButton from '../NextButton'
 import PreviousButton from '../PreviousButton'
 import WizardContext from '../Context'
+import DataContext from '../../DataContext/Context'
 
 export type Props = ComponentProps & {
   children?: string
@@ -18,8 +19,13 @@ function Buttons(props: Props) {
   const showPreviousButton = activeIndex > 0
   const showNextButton = activeIndex < totalSteps - 1
 
+  const { prerenderFieldProps } = useContext(DataContext)
+  if (prerenderFieldProps) {
+    return null as JSX.Element
+  }
+
   if (!showPreviousButton && !showNextButton) {
-    return null
+    return null as JSX.Element
   }
 
   return (

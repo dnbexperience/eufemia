@@ -4,6 +4,7 @@ import type { ComponentProps } from '../../types'
 import { Button } from '../../../../components'
 import { ButtonProps } from '../../../../components/button/Button'
 import WizardContext from '../Context/WizardContext'
+import DataContext from '../../DataContext/Context'
 import ButtonRow from '../../Form/ButtonRow'
 import useTranslation from '../../hooks/useTranslation'
 
@@ -20,6 +21,11 @@ function PreviousButton(props: Props) {
     children = translations.text,
   } = props
   const { activeIndex, handlePrevious } = useContext(WizardContext) || {}
+
+  const { prerenderFieldProps } = useContext(DataContext)
+  if (prerenderFieldProps) {
+    return null as JSX.Element
+  }
 
   const params: Props = {}
   if (activeIndex === 0) {

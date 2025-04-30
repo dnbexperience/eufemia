@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 import userEvent from '@testing-library/user-event'
 import { fireEvent, render } from '@testing-library/react'
 import { Field, Form, Wizard } from '../../..'
@@ -313,12 +313,20 @@ describe('Step', () => {
       const CheckPrerender = () => {
         const wizardStepContext = useContext(WizardStepContext)
         const { index } = wizardStepContext || {}
+        const ref = useRef<HTMLDivElement>()
 
-        if (typeof index === 'number') {
-          whatStepsDidRender.push(index)
-        }
+        useEffect(() => {
+          if (
+            typeof index === 'number' &&
+            ref.current.parentElement.parentElement.classList.contains(
+              'dnb-forms-step'
+            )
+          ) {
+            whatStepsDidRender.push(index)
+          }
+        }, [index])
 
-        return null
+        return <div ref={ref}>content</div>
       }
 
       render(
@@ -396,8 +404,8 @@ describe('Step', () => {
         </Form.Handler>
       )
 
-      expect(step0).toHaveBeenCalledTimes(1)
-      expect(step1).toHaveBeenCalledTimes(0) // because it is not pre rendered
+      expect(step0).toHaveBeenCalledTimes(0) // because its the current step
+      expect(step1).toHaveBeenCalledTimes(0) // because of keepInDOM
       expect(step2).toHaveBeenCalledTimes(1)
       expect(step3).toHaveBeenCalledTimes(1)
     })

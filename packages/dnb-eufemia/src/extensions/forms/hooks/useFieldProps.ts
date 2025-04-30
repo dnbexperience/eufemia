@@ -224,6 +224,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     fieldDisplayValueRef,
     existingFieldsRef,
     fieldInternalsRef,
+    prerenderFieldProps,
   } = dataContext || {}
   const onChangeContext = dataContext?.props?.onChange
 
@@ -240,7 +241,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const {
     activeIndex,
     activeIndexRef,
-    prerenderFieldProps,
     setFieldError: setFieldErrorWizard,
   } = wizardContext || {}
   const { index: wizardIndex } = wizardStepContext || {}
@@ -2009,7 +2009,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   useEffect(() => {
     // Unmount procedure.
     return () => {
-      // Only remove the error if the field was visible
+      // Have this in a separate useEffect to avoid calling unmount when a step changes
       setFieldErrorWizard?.(wizardIndex, identifier, undefined)
     }
   }, [identifier, setFieldErrorWizard, wizardIndex])

@@ -1206,6 +1206,13 @@ export default function Provider<Data extends JsonObject>(
   const handleSubmit = useCallback<
     ContextState['handleSubmit']
   >(async () => {
+    for (const item of fieldEventListenersRef.current) {
+      const { type, callback } = item
+      if (type === 'onBeforeSubmit') {
+        callback()
+      }
+    }
+
     return await handleSubmitCall({
       enableAsyncBehavior: isAsync(onSubmit),
       onSubmit: async () => {
@@ -1214,7 +1221,11 @@ export default function Provider<Data extends JsonObject>(
         for (const item of fieldEventListenersRef.current) {
           const { type, callback } = item
           if (type === 'onSubmit') {
-            callback({ preventSubmit })
+            if (isAsync(callback)) {
+              await callback({ preventSubmit })
+            } else {
+              callback({ preventSubmit })
+            }
           }
         }
         if (stop) {

@@ -5,10 +5,7 @@ import { Props as FlexContainerProps } from '../../../../components/flex/Contain
 import WizardContext from '../Context/WizardContext'
 import WizardStepContext from './StepContext'
 import Flex from '../../../../components/flex/Flex'
-import {
-  convertJsxToString,
-  warn,
-} from '../../../../shared/component-helper'
+import { convertJsxToString } from '../../../../shared/component-helper'
 import FieldProvider from '../../Field/Provider'
 import type { VisibleWhen } from '../../Form/Visibility'
 
@@ -103,7 +100,6 @@ function Step(props: Props): JSX.Element {
     check,
     enableMapOverChildren,
     activeIndex,
-    initialActiveIndex,
     totalStepsRef,
     stepElementRef,
     stepIndexRef,
@@ -189,10 +185,6 @@ function Step(props: Props): JSX.Element {
     enableMapOverChildren()
   }
 
-  if (prerenderFieldProps) {
-    return children as JSX.Element
-  }
-
   if (include === false) {
     return <></>
   }
@@ -208,10 +200,22 @@ function Step(props: Props): JSX.Element {
 
   const fieldProps =
     typeof required === 'boolean' ? { required } : undefined
-  const innerRef =
-    !prerenderFieldProps && activeIndex === index ? stepElementRef : null
+  const childrenWithFieldProvider = fieldProps ? (
+    <FieldProvider {...fieldProps}>{children}</FieldProvider>
+  ) : (
+    children
+  )
 
-  const content = (
+  if (prerenderFieldProps) {
+    return (
+      <WizardStepContext.Provider value={{ index }}>
+        {childrenWithFieldProvider as JSX.Element}
+      </WizardStepContext.Provider>
+    )
+  }
+
+  const innerRef = activeIndex === index ? stepElementRef : null
+  const childrenWithFlex = (
     <WizardStepContext.Provider value={{ index }}>
       <Flex.Stack
         className={classnames('dnb-forms-step', className)}
@@ -221,11 +225,7 @@ function Step(props: Props): JSX.Element {
         tabIndex={-1}
         {...restProps}
       >
-        {fieldProps ? (
-          <FieldProvider {...fieldProps}>{children}</FieldProvider>
-        ) : (
-          children
-        )}
+        {childrenWithFieldProvider}
       </Flex.Stack>
     </WizardStepContext.Provider>
   )
@@ -237,22 +237,16 @@ function Step(props: Props): JSX.Element {
     if (keepInDOMProp ?? keepInDOM) {
       return (
         <div title="Wizard Step" hidden>
-          {content}
+          {childrenWithFlex}
         </div>
       )
-    } else {
-      if (initialActiveIndex > 0) {
-        warn(
-          `initialActiveIndex={${initialActiveIndex}} is used. Fields of previews steps may not validate. You can use "keepInDOM" to always run validation.`
-        )
-      }
     }
 
     // Another step is active
     return <></>
   }
 
-  return <>{content}</>
+  return <>{childrenWithFlex}</>
 }
 
 Step._supportsSpacingProps = true

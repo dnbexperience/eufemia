@@ -26,7 +26,6 @@ export interface WizardContextState {
   activeIndexRef?: React.MutableRefObject<StepIndex>
   stepIndexRef?: React.MutableRefObject<StepIndex>
   totalStepsRef?: React.MutableRefObject<number>
-  submitCountRef?: React.MutableRefObject<number>
   prerenderFieldPropsRef?: React.MutableRefObject<
     Record<
       `step-${number}`,
@@ -51,10 +50,6 @@ export interface WizardContextState {
   ) => void
   setFormError?: (error: Error) => void
   setFieldError?: (index: StepIndex, path: Path, hasError: boolean) => void
-  writeStepsState?: (
-    index?: StepIndex,
-    forStates?: Array<InternalStepStatus>
-  ) => void
   hasInvalidStepsState?: (
     index?: StepIndex,
     forStates?: Array<InternalStepStatus>
