@@ -190,10 +190,20 @@ export const Width = () => {
     <ComponentBox data-visual-test="phone-number-width">
       <Form.Card>
         <Field.String width="stretch" />
-        <Field.PhoneNumber width="large" />
-        <Field.PhoneNumber width="stretch" />
-        <Field.PhoneNumber omitCountryCodeField width="large" />
-        <Field.PhoneNumber omitCountryCodeField width="stretch" />
+        <Field.PhoneNumber label="default" />
+        <Field.PhoneNumber width="large" label="large" />
+        <Field.PhoneNumber width="stretch" label="stretch" />
+        <Field.PhoneNumber omitCountryCodeField label="default" />
+        <Field.PhoneNumber
+          omitCountryCodeField
+          width="large"
+          label="large"
+        />
+        <Field.PhoneNumber
+          omitCountryCodeField
+          width="stretch"
+          label="stretch"
+        />
       </Form.Card>
     </ComponentBox>
   )
