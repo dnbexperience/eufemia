@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Field } from '@dnb/eufemia/src/extensions/forms'
+import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const LabelAndValue = () => {
   return (
@@ -144,6 +144,21 @@ export const ValidationExtendValidator = () => {
           />
         )
       }}
+    </ComponentBox>
+  )
+}
+
+export const Width = () => {
+  return (
+    <ComponentBox data-visual-test="date-width">
+      <Form.Card>
+        <Field.String width="stretch" />
+        <Field.Date label="default" />
+        <Field.Date width="small" label="small" />
+        <Field.Date width="medium" label="medium" />
+        <Field.Date width="large" label="large" />
+        <Field.Date width="stretch" label="stretch" />
+      </Form.Card>
     </ComponentBox>
   )
 }
