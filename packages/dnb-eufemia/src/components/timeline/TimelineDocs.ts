@@ -40,7 +40,7 @@ export const TimelineItemProperties: PropertiesTableProps = {
     status: 'optional',
   },
   infoMessage: {
-    doc: 'Info message, displayed in a [FormStatus of state info](/uilib/components/form-status#formstatus-displaying-info-status), below the `subtitle` if it exists.',
+    doc: 'Info message, displayed in a [FormStatus of state info](/uilib/components/form-status#displaying-info-status), below the `subtitle` if it exists.',
     type: 'React.ReactNode',
     status: 'optional',
   },
