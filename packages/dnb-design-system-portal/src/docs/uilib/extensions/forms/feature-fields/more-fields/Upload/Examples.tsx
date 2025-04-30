@@ -329,3 +329,27 @@ export const WithFileItemOptions = () => {
     </ComponentBox>
   )
 }
+
+export const Width = () => {
+  return (
+    <ComponentBox
+      scope={{ createMockFile }}
+      data-visual-test="upload-field-width"
+    >
+      <Form.Handler
+        data={{
+          myFiles: [
+            { file: createMockFile('fileName-1.png', 100, 'image/png') },
+          ],
+        }}
+      >
+        <Form.Card>
+          <Field.String width="stretch" />
+          <Field.Upload path="/myFiles" label="default" />
+          <Field.Upload path="/myFiles" width="large" label="large" />
+          <Field.Upload path="/myFiles" width="stretch" label="stretch" />
+        </Form.Card>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}

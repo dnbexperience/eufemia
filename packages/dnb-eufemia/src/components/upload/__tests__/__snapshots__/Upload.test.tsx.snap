@@ -749,6 +749,7 @@ button .dnb-form-status__text {
   --upload-text--secondary: black;
   position: relative;
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
   padding: var(--spacing-medium);
   background-color: var(--upload-background);
