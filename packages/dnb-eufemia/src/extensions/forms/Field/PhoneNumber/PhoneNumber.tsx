@@ -14,7 +14,8 @@ import countries, {
   type CountryType,
 } from '../../constants/countries'
 import StringField, { Props as StringFieldProps } from '../String'
-import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
+import { Props as FieldBlockProps } from '../../FieldBlock'
+import CompositionField from '../Composition'
 import { useFieldProps } from '../../hooks'
 import {
   FieldPropsWithExtraValue,
@@ -407,77 +408,73 @@ function PhoneNumber(props: Props) {
   }
 
   return (
-    <FieldBlock {...fieldBlockProps}>
-      <Flex.Horizontal align="flex-end">
-        {!omitCountryCodeField && (
-          <Autocomplete
-            className={classnames(
-              'dnb-forms-field-phone-number__country-code',
-              countryCodeFieldClassName
-            )}
-            mode="async"
-            placeholder={countryCodePlaceholder}
-            label_direction="vertical"
-            label={countryCodeLabel ?? defaultCountryCodeLabel}
-            data={dataRef.current}
-            value={countryCodeRef.current}
-            status={hasError ? 'error' : undefined}
-            disabled={disabled}
-            on_focus={handleCountryCodeFocus}
-            on_blur={handleOnBlur}
-            on_change={handleCountryCodeChange}
-            on_type={onTypeHandler}
-            independent_width
-            search_numbers
-            keep_selection
-            autoComplete="tel-country-code"
-            no_animation={props.noAnimation}
-            stretch={width === 'stretch'}
-            size={size}
-          />
-        )}
-
-        <StringField
+    <CompositionField {...fieldBlockProps}>
+      {!omitCountryCodeField && (
+        <Autocomplete
           className={classnames(
-            'dnb-forms-field-phone-number__number',
-            numberFieldClassName
+            'dnb-forms-field-phone-number__country-code',
+            countryCodeFieldClassName
           )}
-          type="tel"
-          autoComplete="tel-national"
-          emptyValue={emptyValue}
-          layout="vertical"
-          label={label}
-          placeholder={
-            placeholder ?? (isDefault ? defaultPlaceholder : undefined)
-          }
-          mask={
-            numberMask ?? (isDefault ? defaultMask : Array(12).fill(/\d/))
-          }
-          onFocus={handleOnFocus}
-          onBlur={handleOnBlur}
-          onChange={handleNumberChange}
-          value={numberRef.current}
-          innerRef={inputRef}
-          info={info}
-          warning={warning}
-          error={error}
+          mode="async"
+          placeholder={countryCodePlaceholder}
+          label_direction="vertical"
+          label={countryCodeLabel ?? defaultCountryCodeLabel}
+          data={dataRef.current}
+          value={countryCodeRef.current}
+          status={hasError ? 'error' : undefined}
           disabled={disabled}
-          width={
-            omitCountryCodeField ? 'medium' : props.width ?? 'stretch'
-          }
-          help={{ ...help, breakout: false, outset: false }}
-          required={required}
-          errorMessages={errorMessages}
-          validateInitially={validateInitially}
-          validateContinuously={
-            continuousValidation || validateContinuously
-          }
-          validateUnchanged={validateUnchanged}
-          inputMode="tel"
+          on_focus={handleCountryCodeFocus}
+          on_blur={handleOnBlur}
+          on_change={handleCountryCodeChange}
+          on_type={onTypeHandler}
+          independent_width
+          search_numbers
+          keep_selection
+          autoComplete="tel-country-code"
+          no_animation={props.noAnimation}
           size={size}
         />
-      </Flex.Horizontal>
-    </FieldBlock>
+      )}
+      <StringField
+        className={classnames(
+          'dnb-forms-field-phone-number__number',
+          numberFieldClassName
+        )}
+        type="tel"
+        autoComplete="tel-national"
+        emptyValue={emptyValue}
+        layout="vertical"
+        label={label}
+        placeholder={
+          placeholder ?? (isDefault ? defaultPlaceholder : undefined)
+        }
+        mask={
+          numberMask ?? (isDefault ? defaultMask : Array(12).fill(/\d/))
+        }
+        onFocus={handleOnFocus}
+        onBlur={handleOnBlur}
+        onChange={handleNumberChange}
+        value={numberRef.current}
+        innerRef={inputRef}
+        info={info}
+        warning={warning}
+        error={error}
+        disabled={disabled}
+        width={
+          omitCountryCodeField && !props.width
+            ? 'medium'
+            : props.width ?? 'stretch'
+        }
+        help={{ ...help, breakout: false, outset: false }}
+        required={required}
+        errorMessages={errorMessages}
+        validateInitially={validateInitially}
+        validateContinuously={continuousValidation || validateContinuously}
+        validateUnchanged={validateUnchanged}
+        inputMode="tel"
+        size={size}
+      />
+    </CompositionField>
   )
 }
 
