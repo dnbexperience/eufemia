@@ -269,6 +269,7 @@ html[data-visual-test] .dnb-tooltip--hide {
   border-radius: var(--form-status-radius);
 }
 .dnb-form-status__text {
+  max-width: 60ch;
   padding: 0.625rem 1rem;
   cursor: text;
   color: inherit;
@@ -315,9 +316,6 @@ button .dnb-form-status__text {
 }
 .dnb-form-status--stretch .dnb-form-status__shell {
   width: 100%;
-}
-.dnb-form-status--stretch .dnb-form-status__text {
-  max-width: 47rem;
 }
 .dnb-form-status[hidden] {
   display: none;
@@ -858,6 +856,7 @@ legend.dnb-form-label {
   border-radius: var(--form-status-radius);
 }
 .dnb-form-status__text {
+  max-width: 60ch;
   padding: 0.625rem 1rem;
   cursor: text;
   color: inherit;
@@ -904,9 +903,6 @@ button .dnb-form-status__text {
 }
 .dnb-form-status--stretch .dnb-form-status__shell {
   width: 100%;
-}
-.dnb-form-status--stretch .dnb-form-status__text {
-  max-width: 47rem;
 }
 .dnb-form-status[hidden] {
   display: none;
@@ -1578,6 +1574,7 @@ html[data-visual-test] .dnb-tooltip--hide {
   border-radius: var(--form-status-radius);
 }
 .dnb-form-status__text {
+  max-width: 60ch;
   padding: 0.625rem 1rem;
   cursor: text;
   color: inherit;
@@ -1624,9 +1621,6 @@ button .dnb-form-status__text {
 }
 .dnb-form-status--stretch .dnb-form-status__shell {
   width: 100%;
-}
-.dnb-form-status--stretch .dnb-form-status__text {
-  max-width: 47rem;
 }
 .dnb-form-status[hidden] {
   display: none;
@@ -2181,6 +2175,7 @@ html[data-visual-test] .dnb-tooltip--hide {
   border-radius: var(--form-status-radius);
 }
 .dnb-form-status__text {
+  max-width: 60ch;
   padding: 0.625rem 1rem;
   cursor: text;
   color: inherit;
@@ -2227,9 +2222,6 @@ button .dnb-form-status__text {
 }
 .dnb-form-status--stretch .dnb-form-status__shell {
   width: 100%;
-}
-.dnb-form-status--stretch .dnb-form-status__text {
-  max-width: 47rem;
 }
 .dnb-form-status[hidden] {
   display: none;
@@ -2557,6 +2549,7 @@ legend.dnb-form-label {
   border-radius: var(--form-status-radius);
 }
 .dnb-form-status__text {
+  max-width: 60ch;
   padding: 0.625rem 1rem;
   cursor: text;
   color: inherit;
@@ -2603,9 +2596,6 @@ button .dnb-form-status__text {
 }
 .dnb-form-status--stretch .dnb-form-status__shell {
   width: 100%;
-}
-.dnb-form-status--stretch .dnb-form-status__text {
-  max-width: 47rem;
 }
 .dnb-form-status[hidden] {
   display: none;
@@ -3045,6 +3035,7 @@ legend.dnb-form-label {
   border-radius: var(--form-status-radius);
 }
 .dnb-form-status__text {
+  max-width: 60ch;
   padding: 0.625rem 1rem;
   cursor: text;
   color: inherit;
@@ -3091,9 +3082,6 @@ button .dnb-form-status__text {
 }
 .dnb-form-status--stretch .dnb-form-status__shell {
   width: 100%;
-}
-.dnb-form-status--stretch .dnb-form-status__text {
-  max-width: 47rem;
 }
 .dnb-form-status[hidden] {
   display: none;
@@ -3472,6 +3460,7 @@ html[data-whatinput=keyboard] .dnb-radio__input:not([disabled]):not(:checked):no
   border-radius: var(--form-status-radius);
 }
 .dnb-form-status__text {
+  max-width: 60ch;
   padding: 0.625rem 1rem;
   cursor: text;
   color: inherit;
@@ -3518,9 +3507,6 @@ button .dnb-form-status__text {
 }
 .dnb-form-status--stretch .dnb-form-status__shell {
   width: 100%;
-}
-.dnb-form-status--stretch .dnb-form-status__text {
-  max-width: 47rem;
 }
 .dnb-form-status[hidden] {
   display: none;
@@ -3745,6 +3731,7 @@ legend.dnb-form-label {
   border-radius: var(--form-status-radius);
 }
 .dnb-form-status__text {
+  max-width: 60ch;
   padding: 0.625rem 1rem;
   cursor: text;
   color: inherit;
@@ -3791,9 +3778,6 @@ button .dnb-form-status__text {
 }
 .dnb-form-status--stretch .dnb-form-status__shell {
   width: 100%;
-}
-.dnb-form-status--stretch .dnb-form-status__text {
-  max-width: 47rem;
 }
 .dnb-form-status[hidden] {
   display: none;
