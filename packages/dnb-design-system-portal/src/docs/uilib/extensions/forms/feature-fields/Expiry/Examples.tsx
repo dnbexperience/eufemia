@@ -101,7 +101,7 @@ export const Width = () => {
         <Field.Expiry width="small" label="small" />
         <Field.Expiry width="medium" label="medium" />
         <Field.Expiry width="large" label="large" />
-        <Field.Expiry width="stretch" label="default" />
+        <Field.Expiry width="stretch" label="stretch" />
       </Form.Card>
     </ComponentBox>
   )
