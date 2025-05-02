@@ -304,29 +304,27 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       starDate?: Date
       event: React.ChangeEvent<HTMLInputElement>
     }) => {
-      updateDates(
-        {
-          hoverDate: null,
-        },
-        (dates) => {
-          // Should fire if user has filled out an invalid date,
-          // or if the date was valid. Like if the user has pressed backspace or removed the valid date.
-          if (isDateFullyFilledOutRef.current || hasHadValidDate) {
-            const { startDate, endDate, event } = {
-              ...state,
-              ...dates,
-            }
-            callOnChangeHandler({
-              startDate,
-              endDate,
-              event,
-              ...invalidDatesRef.current,
-            })
-          }
+      if (isDateFullyFilledOutRef.current || hasHadValidDate) {
+        const datesFromContext = { startDate, endDate }
+
+        const {
+          startDate: derivedStartDate,
+          endDate: derivedEndDate,
+          event,
+        } = {
+          ...state,
+          ...datesFromContext,
         }
-      )
+
+        callOnChangeHandler({
+          startDate: derivedStartDate,
+          endDate: derivedEndDate,
+          event,
+          ...invalidDatesRef.current,
+        })
+      }
     },
-    [updateDates, callOnChangeHandler, hasHadValidDate]
+    [callOnChangeHandler, hasHadValidDate, startDate, endDate]
   )
 
   const callOnChange = useCallback(
