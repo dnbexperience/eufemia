@@ -51,7 +51,7 @@ const ProductType = daggy.taggedSum('ProductType', {
   Bedrift: [],
   Business: [],
   PrivateBanking: [],
-  // Corporate: [],
+  Corporate: [],
   WorldElite: [],
   None: [],
 })
