@@ -196,17 +196,17 @@ describe('PaymentCard', () => {
 describe('Helper functions', () => {
   describe('formatCardNumber', () => {
     it('should format card number', () => {
-      const result = formatCardNumber('************1337')
+      const result = formatCardNumber('************1337', 8)
       expect(result).toEqual('**** 1337')
     })
 
     it('should not break when provided with empty string as value', () => {
-      const result = formatCardNumber('')
+      const result = formatCardNumber('', 8)
       expect(result).toEqual('')
     })
 
     it('should not break when provided with null as value', () => {
-      const result = formatCardNumber(null)
+      const result = formatCardNumber(null, 8)
       expect(result).toEqual(null)
     })
 
