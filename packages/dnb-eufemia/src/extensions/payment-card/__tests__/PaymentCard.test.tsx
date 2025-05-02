@@ -22,7 +22,7 @@ const nb = nbNO['nb-NO'].PaymentCard
 const en = enGB['en-GB'].PaymentCard
 
 const defaultProps: PaymentCardProps = {
-  product_code: 'NK1',
+  product_code: 'VL4',
   card_number: '************1337',
   card_status: 'active',
   variant: 'normal',
@@ -62,7 +62,7 @@ describe('PaymentCard', () => {
     expect(screen.queryByText('**** **** **** 1337')).toBeInTheDocument()
   })
 
-  describe('Norwegian locale', () => {
+  describe('English locale', () => {
     it('has correct expired status', () => {
       render(<PaymentCard {...englishProps} card_status="expired" />)
 
@@ -120,9 +120,21 @@ describe('PaymentCard', () => {
         screen.queryByText(en.text_status_unknown)
       ).toBeInTheDocument()
     })
+
+    it('has correct card type text (debit)', () => {
+      render(<PaymentCard {...englishProps} />)
+
+      expect(screen.queryByText(en.text_type_debit)).toBeInTheDocument()
+    })
+
+    it('has correct card type text (credit)', () => {
+      render(<PaymentCard {...englishProps} product_code="043" />)
+
+      expect(screen.queryByText(en.text_type_credit)).toBeInTheDocument()
+    })
   })
 
-  describe('English locale', () => {
+  describe('Norwegian locale', () => {
     it('has correct expired status', () => {
       render(<PaymentCard {...defaultProps} card_status="expired" />)
 
@@ -179,6 +191,18 @@ describe('PaymentCard', () => {
       expect(
         screen.queryByText(nb.text_status_unknown)
       ).toBeInTheDocument()
+    })
+
+    it('has correct card type text (debit)', () => {
+      render(<PaymentCard {...defaultProps} />)
+
+      expect(screen.queryByText(nb.text_type_debit)).toBeInTheDocument()
+    })
+
+    it('has correct card type text (credit)', () => {
+      render(<PaymentCard {...defaultProps} product_code="043" />)
+
+      expect(screen.queryByText(nb.text_type_credit)).toBeInTheDocument()
     })
   })
 
