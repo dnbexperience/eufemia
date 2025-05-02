@@ -198,18 +198,36 @@ fieldset.dnb-forms-field-block {
       &-stretch {
         width: 100%;
       }
+      &-custom {
+        --field-block-content-width: calc(
+          var(--dnb-forms-field-block-content-width)
+        );
+      }
+      &-small {
+        --field-block-content-width: var(--forms-field-width--small);
+      }
+      &-medium {
+        --field-block-content-width: var(--forms-field-width--medium);
+      }
+      &-large {
+        --field-block-content-width: var(--forms-field-width--large);
+      }
+
       @include allAbove(x-small) {
-        &-custom {
-          width: calc(var(--dnb-forms-field-block-content-width));
-        }
-        &-small {
-          width: var(--forms-field-width--small);
-        }
-        &-medium {
-          width: var(--forms-field-width--medium);
-        }
+        &-custom,
+        &-small,
+        &-medium,
         &-large {
-          width: var(--forms-field-width--large);
+          max-width: var(--field-block-content-width, none);
+        }
+      }
+
+      @include allAbove(small) {
+        &-custom,
+        &-small,
+        &-medium,
+        &-large {
+          width: var(--field-block-content-width, max-content);
         }
       }
     }

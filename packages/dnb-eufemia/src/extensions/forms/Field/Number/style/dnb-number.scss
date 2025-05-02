@@ -96,7 +96,7 @@
     }
 
     &--has-controls.dnb-forms-field-block__contents--width-small {
-      width: calc(
+      --field-block-content-width: calc(
         var(--forms-field-width--small) +
           var(--forms-field-block--number-control-buttons-width--small)
       );
@@ -106,7 +106,7 @@
       }
     }
     &--has-controls.dnb-forms-field-block__contents--width-medium {
-      width: calc(
+      --field-block-content-width: calc(
         var(--forms-field-width--medium) +
           var(--forms-field-block--number-control-buttons-width--medium)
       );
@@ -116,7 +116,7 @@
       }
     }
     &--has-controls.dnb-forms-field-block__contents--width-large {
-      width: calc(
+      --field-block-content-width: calc(
         var(--forms-field-width--large) +
           var(--forms-field-block--number-control-buttons-width--large)
       );
