@@ -1,8 +1,11 @@
 .dnb-forms-section {
   &-block {
     --block-outline-color: var(--color-black-8);
+    --block-outline-width: var(--card-outline-width);
+
     &--error:has(.dnb-form-status--error) {
       --block-outline-color: var(--color-fire-red);
+      --block-outline-width: 0.0625rem;
     }
 
     // Because we need to use "keepInDOM"
@@ -49,6 +52,7 @@
     .dnb-card,
     .dnb-card & .dnb-card {
       --card-outline-color: var(--block-outline-color);
+      --card-outline-width: var(--block-outline-width);
     }
   }
 }
