@@ -85,6 +85,10 @@ export type SharedFieldBlockProps = {
    */
   label?: React.ReactNode
   /**
+   * Use `true` to make the label only readable by screen readers.
+   */
+  labelSrOnly?: boolean
+  /**
    * Will append an additional text to the label, like "(optional)" or "(recommended)"
    */
   labelSuffix?: React.ReactNode
@@ -123,8 +127,6 @@ export type Props<Value = unknown> = SharedFieldBlockProps &
     forId?: string
     /** Use true if you have more than one form element */
     asFieldset?: boolean
-    /** use `true` to make the label only readable by screen readers. */
-    labelSrOnly?: boolean
     /** Defines the layout of nested fields */
     composition?: FieldBlockContextProps['composition']
     /** For composition only: Align the contents vertically */
