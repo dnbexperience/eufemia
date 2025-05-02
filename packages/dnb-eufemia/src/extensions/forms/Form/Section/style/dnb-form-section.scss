@@ -1,6 +1,6 @@
 .dnb-forms-section {
   &-block {
-    --block-outline-color: var(--outline-color, var(--color-lavender));
+    --block-outline-color: var(--color-black-8);
     &--error:has(.dnb-form-status--error) {
       --block-outline-color: var(--color-fire-red);
     }
@@ -27,10 +27,7 @@
 
     &--variant-basic {
       --border-color: transparent;
-      .dnb-card,
-      .dnb-card & .dnb-card {
-        --card-outline-color: transparent;
-      }
+      --block-outline-color: transparent;
     }
 
     &--variant-filled &__inner {
@@ -47,6 +44,11 @@
     }
     &.dnb-height-animation--parallax &__inner {
       transform: translateY(0);
+    }
+
+    .dnb-card,
+    .dnb-card & .dnb-card {
+      --card-outline-color: var(--block-outline-color);
     }
   }
 }

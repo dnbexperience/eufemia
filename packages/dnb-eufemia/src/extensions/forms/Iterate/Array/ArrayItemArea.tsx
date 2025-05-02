@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useReducer, useRef } from 'react'
 import classnames from 'classnames'
 import { Card, HeightAnimation } from '../../../../components'
+import { Props as CardProps } from '../../../../components/card/Card'
 import { HeightAnimationOnEndStates } from '../../../../components/height-animation/HeightAnimationInstance'
 import { HeightAnimationProps } from '../../../../components/HeightAnimation'
 import IterateItemContext, {
@@ -22,7 +23,7 @@ export type ArrayItemAreaProps = {
    */
   variant?: 'outline' | 'basic' | 'filled'
   toolbarVariant?: 'minimumOneItem' | 'custom'
-}
+} & Omit<CardProps, 'onAnimationEnd' | 'data'>
 
 export type Props = {
   mode: ContainerMode
