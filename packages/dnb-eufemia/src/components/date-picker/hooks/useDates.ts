@@ -11,7 +11,6 @@ export type DatePickerDateProps = {
   endMonth?: DateType
   minDate?: DateType
   maxDate?: DateType
-  hoverDate?: DateType | null
 }
 
 type UseDatesOptions = {
@@ -28,7 +27,6 @@ export type DatePickerDates = {
   maxDate?: Date
   startMonth?: Date
   endMonth?: Date
-  hoverDate?: Date
 }
 
 export default function useDates(

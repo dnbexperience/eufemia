@@ -74,16 +74,15 @@ export type DatePickerCalendarProps = Omit<
    * To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`.
    */
   month?: Date
+  hoverDate?: Date
   prevBtn?: boolean
   nextBtn?: boolean
-
   firstDayOfWeek?: string
   hideNav?: boolean
   hideDays?: boolean
   onlyMonth?: boolean
   hideNextMonthWeek?: boolean
   noAutoFocus?: boolean
-  onHover?: (day: Date) => void
   onSelect?: (
     event: DatePickerChangeEvent<
       | React.MouseEvent<HTMLSpanElement>
@@ -150,11 +149,12 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     setHasClickedCalendarDay,
     startDate,
     endDate,
-    hoverDate,
     maxDate,
     minDate,
     startMonth,
     endMonth,
+    hoverDate,
+    setHoverDate,
     translation: {
       DatePicker: { selectedMonth },
     },
@@ -174,7 +174,6 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     onPrev,
     onNext,
     onSelect,
-    onHover,
     onKeyDown,
     resetDate,
     prevBtn,
@@ -198,10 +197,8 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   }, [noAutoFocus, nr])
 
   const onMouseLeaveHandler = useCallback(() => {
-    updateDates({
-      hoverDate: null,
-    })
-  }, [updateDates])
+    setHoverDate(undefined)
+  }, [setHoverDate])
 
   const callOnSelect = useCallback(
     (
@@ -668,17 +665,25 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                                   },
                                 })
                         }
-                        // TODO: See if this can be replaced with css, to prevent massive amount of re-renders
                         onMouseOver={
                           handleAsDisabled
                             ? undefined
-                            : () => onHoverDay({ day, hoverDate, onHover })
+                            : () =>
+                                onHoverDay({
+                                  day,
+                                  hoverDate,
+                                  setHoverDate,
+                                })
                         }
-                        // TODO: See if this can be replaced with css, to prevent massive amount of re-renders
                         onFocus={
                           handleAsDisabled
                             ? undefined
-                            : () => onHoverDay({ day, hoverDate, onHover })
+                            : () =>
+                                onHoverDay({
+                                  day,
+                                  hoverDate,
+                                  setHoverDate,
+                                })
                         }
                       />
                     </td>
@@ -828,14 +833,14 @@ function onSelectRange({
 function onHoverDay({
   day,
   hoverDate,
-  onHover,
+  setHoverDate,
 }: {
   day: CalendarDay
   hoverDate?: Date
-  onHover: DatePickerCalendarProps['onHover']
+  setHoverDate: (date: Date) => void
 }) {
-  if (!isSameDay(day.date, hoverDate) && onHover) {
-    onHover(day.date)
+  if (!isSameDay(day.date, hoverDate)) {
+    setHoverDate?.(day.date)
   }
 }
 
