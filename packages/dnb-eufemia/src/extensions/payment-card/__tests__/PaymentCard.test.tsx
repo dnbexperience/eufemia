@@ -22,7 +22,7 @@ const nb = nbNO['nb-NO'].PaymentCard
 const en = enGB['en-GB'].PaymentCard
 
 const defaultProps: PaymentCardProps = {
-  product_code: 'VL4',
+  product_code: 'NK1',
   card_number: '************1337',
   card_status: 'active',
   variant: 'normal',
