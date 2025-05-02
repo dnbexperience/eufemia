@@ -6,7 +6,7 @@ export interface CardFigureProps extends React.HTMLProps<HTMLElement> {
   data?: any;
   cardStatus: string;
   cardNumber: string;
-  translations: Object;
+  translations: object;
 }
 declare const CardFigure: React.FC<CardFigureProps>;
 export default CardFigure;

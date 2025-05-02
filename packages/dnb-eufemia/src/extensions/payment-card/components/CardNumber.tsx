@@ -39,7 +39,7 @@ const formatCardNumberRegex = /(?=(?:....)*$)/g
  *                              Defaults to 8 if not specified.
  * @returns {string} The formatted credit card number.
  */
-export const formatCardNumber = (cardNumber:string, digits:number = 8): string => {
+export const formatCardNumber = (cardNumber:string, digits:number): string => {
   if (!cardNumber) {
     return cardNumber
   }
