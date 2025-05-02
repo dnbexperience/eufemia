@@ -6,7 +6,6 @@
 import React, { useEffect } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import { Upload } from '../..'
-import { createMockFile } from '../__tests__/testHelpers'
 
 export default {
   title: 'Eufemia/Components/Upload',
