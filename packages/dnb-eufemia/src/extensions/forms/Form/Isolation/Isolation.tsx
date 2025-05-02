@@ -1,11 +1,11 @@
 import React, {
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useReducer,
   useRef,
 } from 'react'
+import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import pointer, { JsonObject } from '../../utils/json-pointer'
 import { extendDeep } from '../../../../shared/component-helper'
 import { isAsync } from '../../../../shared/helpers/isAsync'
@@ -122,6 +122,25 @@ function IsolationProvider<Data extends JsonObject>(
     [onPathChange, pathSection]
   )
 
+  const onUpdateDataValueHandler = useCallback(
+    async (
+      path: Path,
+      value: unknown,
+      { preventUpdate = undefined } = {}
+    ) => {
+      if (internalDataRef.current === clearedData) {
+        internalDataRef.current = {} as Data
+      }
+
+      pointer.set(internalDataRef.current, path, value)
+
+      if (!preventUpdate) {
+        forceUpdate()
+      }
+    },
+    []
+  )
+
   const removeSectionPath = useCallback(
     (data: Data) => {
       return pathSection && pointer.has(data, pathSection)
@@ -143,9 +162,9 @@ function IsolationProvider<Data extends JsonObject>(
     return mounterData
   }, [])
 
-  useEffect(() => {
+  useMountEffect(() => {
     localDataRef.current = getMountedData(internalDataRef.current)
-  }, [getMountedData])
+  })
 
   // Update the isolated data with the outside context data
   useMemo(() => {
@@ -229,6 +248,7 @@ function IsolationProvider<Data extends JsonObject>(
   const providerProps: IsolationProps<Data> = {
     ...props,
     [defaultData ? 'defaultData' : 'data']: internalDataRef.current,
+    onUpdateDataValue: onUpdateDataValueHandler,
     onPathChange: onPathChangeHandler,
     onCommit,
     onClear,
@@ -261,7 +281,6 @@ function BubbleValidation({
 }: {
   outerContext: ContextState
 }) {
-  const { addSetShowAllErrorsRef } = outerContext || {}
   const innerContext = useContext(DataContext)
   const { setShowAllErrors } = innerContext
 
@@ -272,6 +291,7 @@ function BubbleValidation({
     [setShowAllErrors]
   )
 
+  const { addSetShowAllErrorsRef } = outerContext || {}
   if (!addSetShowAllErrorsRef?.current?.includes(setShowAllErrorsNested)) {
     addSetShowAllErrorsRef?.current.push(setShowAllErrorsNested)
   }

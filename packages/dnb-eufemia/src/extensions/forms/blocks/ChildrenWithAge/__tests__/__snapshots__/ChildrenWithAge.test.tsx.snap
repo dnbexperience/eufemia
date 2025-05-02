@@ -312,7 +312,9 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
         "daycare": true,
         "usesDaycare": true,
       },
-      undefined,
+      {
+        "age": undefined,
+      },
     ],
   },
   "countChildren": {
