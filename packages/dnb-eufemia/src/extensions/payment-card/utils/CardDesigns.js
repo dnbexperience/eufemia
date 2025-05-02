@@ -25,7 +25,7 @@ const defaultDesign = {
 const pluss = {
   name: 'Pluss',
   cardStyle: 'card--design-pluss',
-  bankLogo: DNB.Colored(properties['--color-white']),
+  bankLogo: DNB.Colored(properties['--color-mint-green']),
   visa: Visa.Colored(properties['--color-white']),
   mastercard: Mastercard.Default,
   bankAxept: BankAxept.White,
@@ -37,8 +37,8 @@ const pluss = {
 const young = {
   name: 'Ung',
   cardStyle: 'card--design-ung',
-  bankLogo: DNB.Colored(properties['--color-sea-green']),
-  visa: Visa.Colored(properties['--color-black-80']),
+  bankLogo: DNB.Colored(properties['--color-emerald-green']),
+  visa: Visa.Colored(properties['--color-black']),
   mastercard: Mastercard.Default,
   bankAxept: BankAxept.Black,
   saga: Saga.None,
@@ -48,8 +48,8 @@ const young = {
 const myFirst = {
   name: 'My first',
   cardStyle: 'card--design-my-first',
-  bankLogo: DNB.Colored(properties['--color-ocean-green']),
-  visa: Visa.Colored(properties['--color-black-80']),
+  bankLogo: DNB.Colored(properties['--color-emerald-green']),
+  visa: Visa.Colored(properties['--color-black']),
   mastercard: Mastercard.Default,
   bankAxept: BankAxept.Black,
   saga: Saga.None,
@@ -60,8 +60,8 @@ const myFirst = {
 const youth = {
   name: 'Youth',
   cardStyle: 'card--design-youth',
-  bankLogo: DNB.Colored(properties['--color-sea-green']),
-  visa: Visa.Colored(properties['--color-black-80']),
+  bankLogo: DNB.Colored(properties['--color-emerald-green']),
+  visa: Visa.Colored(properties['--color-black']),
   mastercard: Mastercard.Default,
   bankAxept: BankAxept.Black,
   saga: Saga.None,
@@ -84,8 +84,8 @@ const gold = {
 const saga = {
   name: 'Saga',
   cardStyle: 'card--design-saga',
-  bankLogo: DNB.Colored('#BFA970'),
-  visa: Visa.Colored('#BFA970'),
+  bankLogo: DNB.Colored('#CAAB51'),
+  visa: Visa.Colored('#CAAB51'),
   mastercard: Mastercard.Default,
   bankAxept: BankAxept.Gold,
   saga: Saga.Gold,
@@ -96,9 +96,9 @@ const saga = {
 const sagaPlatinum = {
   name: 'Saga platinum',
   cardStyle: 'card--design-saga-platinum',
-  bankLogo: DNB.Colored('#b2b4b3'),
+  bankLogo: DNB.Colored('#cccccc'),
   visa: Visa.Colored('#cccccc'),
-  mastercard: Mastercard.Dark,
+  mastercard: Mastercard.Default,
   bankAxept: BankAxept.Black20,
   saga: Saga.Platinum,
   privateBanking: PB.None,
@@ -108,10 +108,10 @@ const sagaPlatinum = {
 const privateBanking = {
   name: 'Private Banking',
   cardStyle: 'card--design-private',
-  bankLogo: DNB.Colored('#b2b4b3'),
-  visa: Visa.Platinum,
+  bankLogo: DNB.Colored('#cccccc'),
+  visa: Visa.Colored(properties['--color-white']),
   mastercard: Mastercard.Dark,
-  bankAxept: BankAxept.Gray,
+  bankAxept: BankAxept.White,
   saga: Saga.None,
   privateBanking: PB.Default,
   backgroundImage: visaSagaPlatinum,
@@ -120,43 +120,46 @@ const privateBanking = {
 const mcBlack = {
   name: 'Mastercard Black',
   cardStyle: 'card--design-black',
-  bankLogo: DNB.Colored(properties['--color-black-80']),
+  bankLogo: DNB.Colored(properties['--color-black']),
   visa: Visa.Colored('#b2b4b3'),
   mastercard: Mastercard.Dark,
   bankAxept: BankAxept.White,
   saga: Saga.None,
   privateBanking: PB.None,
+  backgroundImage: visaSagaPlatinum,
 }
 
 const businessNoVisa = {
   name: 'Bedriftskort BankAxept',
-  cardStyle: 'card--design-business-no-visa',
-  bankLogo: DNB.Colored(properties['--color-mint-green']),
+  cardStyle: 'card--design-default',
+  bankLogo: DNB.Colored(properties['--color-white']),
   visa: Visa.Colored(properties['--color-white']),
   mastercard: Mastercard.Default,
   bankAxept: BankAxept.White,
   saga: Saga.None,
   privateBanking: PB.None,
+  backgroundImage: visaDefault,
 }
 
 const businessWithVisa = {
   name: 'Bedriftskort Visa',
-  cardStyle: 'card--design-business-with-visa',
-  bankLogo: DNB.Colored(properties['--color-mint-green']),
+  cardStyle: 'card--design-default',
+  bankLogo: DNB.Colored(properties['--color-white']),
   visa: Visa.Colored(properties['--color-white']),
   mastercard: Mastercard.Default,
   bankAxept: BankAxept.White,
   saga: Saga.None,
   privateBanking: PB.None,
+  backgroundImage: visaDefault,
 }
 
 const sbankenVisa = {
   name: 'Sbanken',
   cardStyle: 'card--design-sbanken-visa',
   bankLogo: DNB.Sbanken(properties['--sb-color-text']),
-  visa: Visa.Colored('#0F357F'),
+  visa: Visa.Colored(properties['--color-black']),
   mastercard: Mastercard.Default,
-  bankAxept: BankAxept.GrayDark,
+  bankAxept: BankAxept.Black,
   saga: Saga.None,
   privateBanking: PB.None,
 }
