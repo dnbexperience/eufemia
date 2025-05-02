@@ -204,6 +204,47 @@ describe('variants', () => {
       expect(radioElement.classList).toContain('dnb-radio--large')
     })
 
+    it('should reset value when undefined was given', async () => {
+      const { rerender } = render(
+        <Form.Handler>
+          <Field.Selection path="/selection" variant="radio">
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
+          </Field.Selection>
+        </Form.Handler>
+      )
+
+      const radioButtons = screen.queryAllByRole('radio')
+      expect(radioButtons[0]).not.toBeChecked()
+      expect(radioButtons[1]).not.toBeChecked()
+
+      await userEvent.click(radioButtons[0])
+
+      expect(radioButtons[0]).toBeChecked()
+      expect(radioButtons[1]).not.toBeChecked()
+
+      await userEvent.click(radioButtons[1])
+
+      expect(radioButtons[0]).not.toBeChecked()
+      expect(radioButtons[1]).toBeChecked()
+
+      rerender(
+        <Form.Handler
+          data={{
+            selection: undefined,
+          }}
+        >
+          <Field.Selection path="/selection" variant="radio">
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
+          </Field.Selection>
+        </Form.Handler>
+      )
+
+      expect(radioButtons[0]).not.toBeChecked()
+      expect(radioButtons[1]).not.toBeChecked()
+    })
+
     it('renders selected option', () => {
       render(
         <Field.Selection variant="radio" value="bar">

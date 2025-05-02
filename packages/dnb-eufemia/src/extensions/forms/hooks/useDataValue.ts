@@ -22,20 +22,25 @@ export default function useDataValue<Value>(
 
   const { makePath, makeIteratePath } = usePath()
 
-  const get = useCallback((selector: Path) => {
-    const data = dataContextRef.current?.internalDataRef?.current
-    if (selector === '/') {
-      return data
-    }
-    return pointer.has(data, selector)
-      ? pointer.get(data, selector)
-      : undefined
-  }, [])
+  const get = useCallback(
+    (
+      selector: Path,
+      data = dataContextRef.current?.internalDataRef?.current
+    ) => {
+      if (selector === '/') {
+        return data
+      }
+      return pointer.has(data, selector)
+        ? pointer.get(data, selector)
+        : undefined
+    },
+    []
+  )
 
   const getValueByPath = useCallback(
-    (path: Path) => {
+    (path: Path, data: ContextState['data'] = undefined) => {
       if (isPath(path)) {
-        return get(makePath(path))
+        return get(makePath(path), data)
       }
     },
     [get, makePath]

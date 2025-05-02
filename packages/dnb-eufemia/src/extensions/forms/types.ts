@@ -4,6 +4,7 @@ import type {
   ContextState,
   DataPathHandlerParameters,
   EventListenerCall,
+  FieldInternalsValue,
   FilterData,
   TransformData,
   VisibleDataOptions,
@@ -321,10 +322,7 @@ export type MessagePropParams<Value, ReturnValue> = {
     }
   ) => ReturnValue
   getValueByPath: GetValueByPath<Value>
-  getFieldByPath: (path: Path) => {
-    props: FieldProps
-    id: Identifier
-  }
+  getFieldByPath: (path: Path) => FieldInternalsValue
 }
 export type MessageProp<Value, ReturnValue> =
   | ReturnValue

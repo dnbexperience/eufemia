@@ -102,14 +102,11 @@ export type FieldConnections = {
 export type FieldInternalsRefProps =
   | (FieldProps & { children: unknown })
   | undefined
-export type FieldInternalsRef = Record<
-  Path,
-  {
-    id: string | undefined
-    props: FieldInternalsRefProps
-    emptyValue: unknown
-  }
->
+export type FieldInternalsValue<Props = FieldInternalsRefProps> = {
+  id?: Identifier
+  props?: Props
+}
+export type FieldInternalsRef = Record<Path, FieldInternalsValue>
 export type ValueInternalsRef = Record<
   Path,
   { props: ValueProps | undefined }
@@ -182,13 +179,9 @@ export interface ContextState {
     params?: { remove?: boolean }
   ) => void
   revealError?: (path: Path, hasError: boolean) => void
-  setFieldInternals?: (
+  setFieldInternals?: <Props>(
     path: Path,
-    internals: {
-      id?: Identifier
-      props: FieldInternalsRefProps | unknown
-      emptyValue?: unknown
-    }
+    internals: FieldInternalsValue<Props>
   ) => void
   setValueInternals?: (path: Path, props: unknown) => void
   setFieldConnection?: (path: Path, connections: FieldConnections) => void

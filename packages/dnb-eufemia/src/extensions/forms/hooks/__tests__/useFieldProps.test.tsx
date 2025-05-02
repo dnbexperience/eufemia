@@ -2943,7 +2943,7 @@ describe('useFieldProps', () => {
     expect(setFieldInternalsDataContext).toHaveBeenCalledTimes(1)
     expect(setFieldInternalsDataContext).toHaveBeenLastCalledWith(
       props.path,
-      { id: expect.any(String), props, emptyValue: props.emptyValue }
+      { id: expect.any(String), props }
     )
 
     rerender({
@@ -2962,7 +2962,6 @@ describe('useFieldProps', () => {
           value: 'new value',
           emptyValue: 'new empty value',
         },
-        emptyValue: 'new empty value',
       }
     )
   })
