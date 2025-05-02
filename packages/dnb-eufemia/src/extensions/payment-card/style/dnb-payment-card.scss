@@ -17,11 +17,10 @@
   --dnb-payment-bg-pluss: var(--color-ocean-green);
   --dnb-payment-bg-white: var(--color-white);
   --dnb-payment-bg-gold: #D8C583;
-  --dnb-payment-bg-gold: #D8C583;
   --dnb-payment-bg-black-gold:  #1F1B10;
   --dnb-payment-bg-black-grey: #1C1C1E;
-  --dnb-payment-overlay-bg-dark: rgba(0, 0, 0, 0.6);
-  --dnb-payment-overlay-bg-light: rgba(255, 255, 255, 0.7);
+  --dnb-payment-overlay-bg-dark: rgba(0 0 0 / 60%);
+  --dnb-payment-overlay-bg-light: rgba(255 255 255 / 70%);
   --dnb-payment-border-radius: 12px;
 
   // General styles for the PaymentCard container
