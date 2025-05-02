@@ -94,7 +94,7 @@ function CardFigure({
             </div>
           </div>
           {!compact &&
-              <div className="dnb-payment-card__card__bottom">
+            <div className="dnb-payment-card__card__bottom">
                 <div className="dnb-payment-card__card__bottom__left">
                   <CardNumberText
                       cardNumber={cardNumber}
@@ -108,11 +108,13 @@ function CardFigure({
           }
         </div>
       </div>
-      <StatusOverlay
-        cardStatus={cardStatus}
-        cardDesign={data.cardDesign.cardStyle}
-        translations={translations}
-      />
+        {!compact &&
+          <StatusOverlay
+            cardStatus={cardStatus}
+            cardDesign={data.cardDesign.cardStyle}
+            translations={translations}
+          />
+        }
     </div>
   )
 }
