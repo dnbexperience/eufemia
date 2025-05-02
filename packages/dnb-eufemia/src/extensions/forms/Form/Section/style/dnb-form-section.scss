@@ -1,8 +1,11 @@
 .dnb-forms-section {
   &-block {
-    --block-outline-color: var(--outline-color, var(--color-lavender));
+    --block-outline-color: var(--color-black-8);
+    --block-outline-width: var(--card-outline-width);
+
     &--error:has(.dnb-form-status--error) {
       --block-outline-color: var(--color-fire-red);
+      --block-outline-width: 0.0625rem;
     }
 
     // Because we need to use "keepInDOM"
@@ -27,10 +30,7 @@
 
     &--variant-basic {
       --border-color: transparent;
-      .dnb-card,
-      .dnb-card & .dnb-card {
-        --card-outline-color: transparent;
-      }
+      --block-outline-color: transparent;
     }
 
     &--variant-filled &__inner {
@@ -47,6 +47,12 @@
     }
     &.dnb-height-animation--parallax &__inner {
       transform: translateY(0);
+    }
+
+    .dnb-card,
+    .dnb-card & .dnb-card {
+      --card-outline-color: var(--block-outline-color);
+      --card-outline-width: var(--block-outline-width);
     }
   }
 }

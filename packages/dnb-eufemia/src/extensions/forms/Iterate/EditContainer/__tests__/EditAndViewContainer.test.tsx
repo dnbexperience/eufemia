@@ -1195,7 +1195,7 @@ describe('EditContainer and ViewContainer', () => {
           View Content
         </Iterate.ViewContainer>
         <Iterate.EditContainer variant="basic">
-          <Field.String itemPath="/" required />
+          Edit Content
         </Iterate.EditContainer>
       </Iterate.Array>
     )
@@ -1214,7 +1214,7 @@ describe('EditContainer and ViewContainer', () => {
           View Content
         </Iterate.ViewContainer>
         <Iterate.EditContainer variant="filled">
-          <Field.String itemPath="/" required />
+          Edit Content
         </Iterate.EditContainer>
       </Iterate.Array>
     )
@@ -1228,5 +1228,24 @@ describe('EditContainer and ViewContainer', () => {
     expect(editBlock).toHaveClass(
       'dnb-forms-section-block--variant-filled'
     )
+  })
+
+  it('should support custom className', () => {
+    render(
+      <Iterate.Array path="/" defaultValue={[null]}>
+        <Iterate.ViewContainer className="custom-ViewContainer">
+          View Content
+        </Iterate.ViewContainer>
+        <Iterate.EditContainer className="custom-EditContainer">
+          <Field.String itemPath="/" required />
+        </Iterate.EditContainer>
+      </Iterate.Array>
+    )
+
+    const [viewBlock, editBlock] = Array.from(
+      document.querySelectorAll('.dnb-forms-section-block')
+    )
+    expect(viewBlock).toHaveClass('custom-ViewContainer')
+    expect(editBlock).toHaveClass('custom-EditContainer')
   })
 })
