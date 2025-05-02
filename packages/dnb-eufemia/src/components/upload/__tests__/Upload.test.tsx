@@ -943,7 +943,7 @@ describe('Upload', () => {
       expect(fileCells.length).toBe(files.length)
     })
 
-    it('does not render any file when files file is undefined', async () => {
+    it('does not render any file when file is undefined', async () => {
       const files = [{ file: undefined }]
 
       const id = 'random-id'
