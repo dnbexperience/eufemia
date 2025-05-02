@@ -194,7 +194,7 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
 }
 .dnb-payment-card__card--design-ung, .dnb-payment-card__card--design-youth, .dnb-payment-card__card--design-my-first {
   background-color: var(--dnb-payment-bg-white);
-  color: var(--color-black-80);
+  color: var(--color-black);
 }
 .dnb-payment-card__card--design-gold {
   background-color: var(--dnb-payment-bg-gold);
