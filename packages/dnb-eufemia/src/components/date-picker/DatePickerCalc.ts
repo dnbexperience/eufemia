@@ -251,6 +251,20 @@ export function correctV1Format(date: string) {
   return date
 }
 
+function parseHumanDate(
+  input: string,
+  humanDateFormats = ['dd.MM.yyyy', 'dd/MM/yyyy', 'yyyy-MM-dd']
+) {
+  for (const format of humanDateFormats) {
+    const parsed = parse(input, format, new Date())
+    if (isValid(parsed)) {
+      return parsed
+    }
+  }
+
+  return null
+}
+
 export function convertStringToDate(
   date: string | Date,
   { dateFormat = null }: { dateFormat?: string | null } = {}
@@ -260,12 +274,20 @@ export function convertStringToDate(
   }
 
   let dateObject: Date
-  dateObject = typeof date === 'string' ? parseISO(date) : toDate(date)
 
-  // check one more time if we can generate a valid date
-  if (typeof date === 'string' && dateFormat && !isValid(dateObject)) {
-    dateFormat = correctV1Format(dateFormat)
-    dateObject = parse(date, dateFormat, new Date())
+  if (typeof date === 'string') {
+    dateObject = parseISO(date)
+
+    if (!isValid(dateObject)) {
+      dateObject = parseHumanDate(date)
+    }
+
+    // Check one more time if we can generate a valid date
+    if (dateFormat && !isValid(dateObject)) {
+      dateObject = parseHumanDate(date, [correctV1Format(dateFormat)])
+    }
+  } else {
+    dateObject = toDate(date)
   }
 
   // rather return null than an invalid date

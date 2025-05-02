@@ -3622,6 +3622,84 @@ describe('Custom text for buttons', () => {
       ).toBeInTheDocument()
     })
   })
+
+  describe('copy & paste', () => {
+    it('should copy the whole date when copied from input field', async () => {
+      const { rerender } = render(
+        <DatePicker showInput date="2025-04-01" />
+      )
+
+      const [day, month, year]: Array<HTMLInputElement> = Array.from(
+        document.querySelectorAll('input.dnb-input__input')
+      )
+
+      const setData = jest.fn()
+      const clipboardData = { setData }
+
+      day.focus()
+      day.select()
+      fireEvent.copy(day, {
+        clipboardData,
+      })
+      expect(setData).toHaveBeenLastCalledWith('text/plain', '01.04.2025')
+
+      rerender(<DatePicker showInput date="2025-04-02" />)
+      month.focus()
+      month.select()
+      fireEvent.copy(month, {
+        clipboardData,
+      })
+      expect(setData).toHaveBeenLastCalledWith('text/plain', '02.04.2025')
+
+      rerender(<DatePicker showInput date="2025-04-03" />)
+      year.focus()
+      year.select()
+      fireEvent.copy(year, {
+        clipboardData,
+      })
+      expect(setData).toHaveBeenLastCalledWith('text/plain', '03.04.2025')
+    })
+
+    it('should paste the whole date as the value of the input field', async () => {
+      render(<DatePicker showInput />)
+
+      const [day, month, year]: Array<HTMLInputElement> = Array.from(
+        document.querySelectorAll('input.dnb-input__input')
+      )
+
+      let date = null
+
+      const getData = jest.fn(() => date)
+      const clipboardData = { getData }
+
+      date = '01.04.2025'
+      day.focus()
+      day.select()
+      fireEvent.paste(day, { clipboardData })
+      expect(getData).toHaveBeenCalledWith('text/plain')
+      expect(day).toHaveValue('01')
+      expect(month).toHaveValue('04')
+      expect(year).toHaveValue('2025')
+
+      date = '02.05.2025'
+      month.focus()
+      month.select()
+      fireEvent.paste(month, { clipboardData })
+      expect(getData).toHaveBeenCalledWith('text/plain')
+      expect(day).toHaveValue('02')
+      expect(month).toHaveValue('05')
+      expect(year).toHaveValue('2025')
+
+      date = '03.05.2026'
+      year.focus()
+      year.select()
+      fireEvent.paste(year, { clipboardData })
+      expect(getData).toHaveBeenCalledWith('text/plain')
+      expect(day).toHaveValue('03')
+      expect(month).toHaveValue('05')
+      expect(year).toHaveValue('2026')
+    })
+  })
 })
 
 describe('DatePickerPortal', () => {
