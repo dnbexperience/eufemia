@@ -338,8 +338,17 @@ describe('getFileTypeFromExtension', () => {
     expect(getFileTypeFromExtension(file2)).toBe('txt')
   })
 
-  it('returns the file type when given', () => {
+  it('returns null when file extension is not given', () => {
     const file1 = createMockFile('fileName1', 100, 'text/plain')
+    expect(getFileTypeFromExtension(file1)).toBe(null)
+  })
+
+  it('returns null when no file is provided', () => {
+    expect(getFileTypeFromExtension(undefined)).toBe(null)
+  })
+
+  it('returns null when file does not have a name', () => {
+    const file1 = createMockFile(undefined, 100, 'text/plain')
     expect(getFileTypeFromExtension(file1)).toBe(null)
   })
 })

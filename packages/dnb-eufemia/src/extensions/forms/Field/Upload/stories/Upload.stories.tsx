@@ -8,6 +8,16 @@ export default {
   title: 'Eufemia/Extensions/Forms/Upload',
 }
 
+function createMockFile(name: string, size: number, type: string) {
+  const file = new File([], name, { type })
+  Object.defineProperty(file, 'size', {
+    get() {
+      return size
+    },
+  })
+  return file
+}
+
 export function Upload() {
   return (
     <Form.Handler
@@ -283,16 +293,6 @@ export function FileSizeErrorWithFileHandler() {
   )
 }
 export function SameFileName() {
-  function createMockFile(name: string, size: number, type: string) {
-    const file = new File([], name, { type })
-    Object.defineProperty(file, 'size', {
-      get() {
-        return size
-      },
-    })
-    return file
-  }
-
   return (
     <Form.Handler
       data={{
@@ -308,6 +308,31 @@ export function SameFileName() {
         path="/myFiles"
         onFileDelete={mockAsyncFileRemoval}
       />
+    </Form.Handler>
+  )
+}
+
+export const WithSyncFileHandler = () => {
+  return (
+    <Form.Handler onSubmit={async (form) => console.log(form)}>
+      <Flex.Stack>
+        <Field.Upload
+          id="sync_upload_context_id"
+          path="/attachments"
+          labelDescription="Upload multiple files at once to see the upload error message. This demo has been set up so that every other file in a batch will fail."
+          fileHandler={function () {
+            return [
+              undefined,
+              {
+                file: createMockFile('2.png', 100, 'image/png'),
+              },
+            ]
+          }}
+          required
+        />
+        <Form.SubmitButton />
+        <Tools.Log />
+      </Flex.Stack>
     </Form.Handler>
   )
 }

@@ -6,6 +6,7 @@
 import React, { useEffect } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import { Upload } from '../..'
+import { createMockFile } from '../__tests__/testHelpers'
 
 export default {
   title: 'Eufemia/Components/Upload',
@@ -150,6 +151,28 @@ export const UploadSandbox = () => {
         />
         Empty acceptedFileTypes
         <Upload id="upload-example-13" acceptedFileTypes={[]} />
+      </Box>
+    </Wrapper>
+  )
+}
+
+export const UploadEdgeCases = () => {
+  const { setFiles } = Upload.useUpload('file-list')
+
+  useEffect(() => {
+    setFiles([
+      undefined,
+      {
+        file: undefined,
+      },
+      null,
+    ])
+  }, [setFiles])
+
+  return (
+    <Wrapper>
+      <Box>
+        <Upload id="file-list" acceptedFileTypes={['pdf']} />
       </Box>
     </Wrapper>
   )

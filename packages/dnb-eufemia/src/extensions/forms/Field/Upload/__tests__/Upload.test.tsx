@@ -1009,6 +1009,148 @@ describe('Field.Upload', () => {
       )
     })
 
+    it('should handle undefined from fileHandler', async () => {
+      const file = createMockFile('1.png', 100, 'image/png')
+
+      render(
+        <Field.Upload
+          fileHandler={function () {
+            return undefined
+          }}
+        />
+      )
+
+      const element = getRootElement()
+
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [file],
+          },
+        })
+      )
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(0)
+    })
+
+    it('should handle list of undefined files from fileHandler', async () => {
+      const file = createMockFile('1.png', 100, 'image/png')
+
+      render(
+        <Field.Upload
+          fileHandler={function () {
+            return [undefined]
+          }}
+        />
+      )
+
+      const element = getRootElement()
+
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [file],
+          },
+        })
+      )
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(0)
+    })
+
+    it('should handle file without file extension from fileHandler', async () => {
+      const file = createMockFile('1.png', 100, 'image/png')
+
+      const syncFileHandler = function () {
+        return [{ file: createMockFile('1.png', 100, undefined) }]
+      }
+
+      render(<Field.Upload fileHandler={syncFileHandler} />)
+
+      const element = getRootElement()
+
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [file],
+          },
+        })
+      )
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(1)
+    })
+
+    it('should handle file without file extension in filename from fileHandler', async () => {
+      const file = createMockFile('1.png', 100, 'image/png')
+
+      const syncFileHandler = function () {
+        return [{ file: createMockFile('1', 100, 'image/png') }]
+      }
+
+      render(<Field.Upload fileHandler={syncFileHandler} />)
+
+      const element = getRootElement()
+
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [file],
+          },
+        })
+      )
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(1)
+    })
+
+    it('should handle file without file name and file extension in fileHandler', async () => {
+      const file = createMockFile(undefined, 100, undefined)
+
+      const syncFileHandler = function () {
+        return [{ file: createMockFile('1', 100, 'image/png') }]
+      }
+
+      render(<Field.Upload fileHandler={syncFileHandler} />)
+
+      const element = getRootElement()
+
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [file],
+          },
+        })
+      )
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(1)
+    })
+
+    it('should handle file without file in fileHandler', async () => {
+      const file = createMockFile(undefined, 100, undefined)
+
+      const syncFileHandler = function () {
+        return [{ file: undefined }]
+      }
+
+      render(<Field.Upload fileHandler={syncFileHandler} />)
+
+      const element = getRootElement()
+
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [file],
+          },
+        })
+      )
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(1)
+    })
+
     it('should handle displaying error from fileHandler with async function', async () => {
       const file = createMockFile('fileName-1.png', 100, 'image/png')
 

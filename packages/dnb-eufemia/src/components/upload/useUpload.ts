@@ -24,7 +24,9 @@ function useUpload(id: UploadProps['id']): useUploadReturn {
 
   const setFiles = useCallback(
     (files: Array<UploadFile>) => {
-      extend({ files })
+      extend({
+        files: files?.filter((file) => file?.file instanceof File),
+      })
     },
     [extend]
   )
