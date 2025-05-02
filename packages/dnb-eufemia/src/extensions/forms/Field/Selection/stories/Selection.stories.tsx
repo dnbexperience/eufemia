@@ -1,5 +1,5 @@
 import React from 'react'
-import { Section, Radio } from '../../../../../components'
+import { Flex, Section } from '../../../../../components'
 import { Field, Form } from '../../..'
 
 export default {
@@ -195,28 +195,52 @@ export function TransformSelection() {
   )
 }
 
-export function SelectionRadio() {
+export function SelectionRadioList() {
   return (
-    <>
+    <Flex.Stack>
       <Field.Selection
-        variant="radio"
-        label="Label text"
+        variant="radio-list"
+        label="Medium label"
+        labelSize="medium"
         onChange={(value) => console.log('onChange', value)}
       >
         <Field.Option label="First" value="first" />
         <Field.Option label="Second" value="second" />
         <Field.Option label="Third" value="third" />
       </Field.Selection>
-      <Radio.Group
-        label="Radio Group"
-        on_change={({ value }) => {
-          console.log('on_change', value)
-        }}
+
+      <Field.Selection
+        width="medium"
+        variant="radio-list"
+        label="medium"
+        onChange={(value) => console.log('onChange', value)}
       >
-        <Radio label="First" value="first" />
-        <Radio label="Second" value="second" />
-        <Radio label="Third" value="third" />
-      </Radio.Group>
-    </>
+        <Field.Option label="First" value="first" />
+        <Field.Option label="Second" value="second" />
+        <Field.Option label="Third" value="third" />
+      </Field.Selection>
+
+      <Field.Selection
+        width="small"
+        variant="radio-list"
+        label="small"
+        onChange={(value) => console.log('onChange', value)}
+      >
+        <Field.Option label="First" value="first" />
+        <Field.Option label="Second" value="second" />
+        <Field.Option label="Third" value="third" />
+      </Field.Selection>
+
+      <Field.Selection
+        width="stretch"
+        variant="radio-list"
+        label="stretch"
+        onChange={(value) => console.log('onChange', value)}
+      >
+        <Field.Option label="First" value="first" />
+        <Field.Option label="Second" value="second" />
+        <Field.Option label="Third" value="third" />
+      </Field.Selection>
+    </Flex.Stack>
   )
 }

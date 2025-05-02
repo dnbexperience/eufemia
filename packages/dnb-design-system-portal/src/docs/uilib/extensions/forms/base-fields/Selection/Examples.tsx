@@ -108,7 +108,7 @@ export const HorizontalLayout = () => {
   )
 }
 
-export const Widths = () => {
+export const DropdownWidths = () => {
   return (
     <ComponentBox hideCode data-visual-test="selection-dropdown-widths">
       <Flex.Stack>
@@ -375,6 +375,73 @@ export const RadioLabel = () => (
     </Field.Selection>
   </ComponentBox>
 )
+
+export const RadioList = () => (
+  <ComponentBox data-visual-test="selection-radio-list-options-vertical">
+    <Field.Selection
+      variant="radio-list"
+      label="Label text"
+      onChange={(value) => console.log('onChange', value)}
+    >
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+      <Field.Option value="baz" title="Bazz!" />
+    </Field.Selection>
+  </ComponentBox>
+)
+
+export const RadioListWidths = () => {
+  return (
+    <ComponentBox hideCode data-visual-test="selection-radio-list-widths">
+      <Flex.Stack>
+        <Field.Selection
+          label="Default width (property omitted)"
+          value="bar"
+          variant="radio-list"
+        >
+          <Field.Option value="foo" title="Foo!" />
+          <Field.Option value="bar" title="Baar!" />
+        </Field.Selection>
+        <Field.Selection
+          label="Small"
+          value="bar"
+          variant="radio-list"
+          width="small"
+        >
+          <Field.Option value="foo" title="Foo!" />
+          <Field.Option value="bar" title="Baar!" />
+        </Field.Selection>
+        <Field.Selection
+          label="Medium"
+          value="bar"
+          variant="radio-list"
+          width="medium"
+        >
+          <Field.Option value="foo" title="Foo!" />
+          <Field.Option value="bar" title="Baar!" />
+        </Field.Selection>
+        <Field.Selection
+          label="Large"
+          value="bar"
+          variant="radio-list"
+          width="large"
+        >
+          <Field.Option value="foo" title="Foo!" />
+          <Field.Option value="bar" title="Baar!" />
+        </Field.Selection>
+        <Field.Selection
+          label="Stretch"
+          value="bar"
+          variant="radio-list"
+          width="stretch"
+        >
+          <Field.Option value="foo" title="Foo!" />
+          <Field.Option value="bar" title="Baar!" />
+        </Field.Selection>
+      </Flex.Stack>
+    </ComponentBox>
+  )
+}
 
 export const RadioOptionSelected = () => (
   <ComponentBox data-visual-test="selection-radio-vertical">
