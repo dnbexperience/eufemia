@@ -2513,6 +2513,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     labelDescriptionInline: props.labelDescriptionInline,
     labelSuffix: props.labelSuffix,
     labelSize: props.labelSize,
+    labelSrOnly: props.labelSrOnly,
     layout: props.layout,
     layoutOptions: props.layoutOptions,
     help: props.help,
