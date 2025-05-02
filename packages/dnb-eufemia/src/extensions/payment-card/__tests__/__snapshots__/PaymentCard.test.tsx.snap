@@ -125,8 +125,8 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
   --dnb-payment-bg-gold: #D8C583;
   --dnb-payment-bg-black-gold: #1F1B10;
   --dnb-payment-bg-black-grey: #1C1C1E;
-  --dnb-payment-overlay-bg-dark: #00000099;
-  --dnb-payment-overlay-bg-light: #FFFFFFB2;
+  --dnb-payment-overlay-bg-dark: rgba(0 0 0 / 60%);
+  --dnb-payment-overlay-bg-light: rgba(255 255 255 / 70%);
   --dnb-payment-border-radius: 12px;
   margin: 0;
   border-radius: var(--dnb-payment-border-radius);
@@ -258,7 +258,7 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
 .dnb-payment-card__card__providers .provider--separator {
   width: 1px;
   height: 26px;
-  background-color: currentColor;
+  background-color: currentcolor;
   transform: scale(0.5, 1);
 }
 .dnb-payment-card__card__top {
