@@ -36,6 +36,11 @@ const defaultProps: PaymentCardProps = {
   children: 'children',
 }
 
+const englishProps: PaymentCardProps = {
+  ...defaultProps,
+  locale: 'en-GB',
+}
+
 describe('PaymentCard', () => {
   it('has to have a figcaption', () => {
     render(<PaymentCard {...defaultProps} />)
@@ -57,50 +62,100 @@ describe('PaymentCard', () => {
     expect(screen.queryByText('**** **** **** 1337')).toBeInTheDocument()
   })
 
-  it('has correct expired status', () => {
-    render(<PaymentCard {...defaultProps} card_status="expired" />)
+  describe('Norwegian locale', () => {
+    it('has correct expired status', () => {
+      render(<PaymentCard {...englishProps} card_status="expired" />)
 
-    expect(screen.queryByText(nb.text_status_expired)).toBeInTheDocument()
+      expect(screen.queryByText(en.text_status_expired)).toBeInTheDocument()
+    })
+
+    it('has correct not_active status', () => {
+      render(<PaymentCard {...englishProps} card_status="not_active" />)
+
+      expect(screen.queryByText(en.text_status_not_active)).toBeInTheDocument()
+    })
+
+    it('has correct renewed status', () => {
+      render(<PaymentCard {...englishProps} card_status="renewed" />)
+
+      expect(screen.queryByText(en.text_status_renewed)).toBeInTheDocument()
+    })
+
+    it('has correct replaced status', () => {
+      render(<PaymentCard {...englishProps} card_status="replaced" />)
+
+      expect(screen.queryByText(en.text_status_replaced)).toBeInTheDocument()
+    })
+
+    it('has correct order_in_process status', () => {
+      render(
+          <PaymentCard {...englishProps} card_status="order_in_process" />
+      )
+
+      expect(
+          screen.queryByText(en.text_status_order_in_process)
+      ).toBeInTheDocument()
+    })
+
+    it('has correct blocked status', () => {
+      render(<PaymentCard {...englishProps} card_status="blocked" />)
+
+      expect(screen.queryByText(en.text_status_blocked)).toBeInTheDocument()
+    })
+
+    it('has correct unknown status', () => {
+      render(<PaymentCard {...englishProps} card_status="unknown" />)
+
+      expect(screen.queryByText(en.text_status_unknown)).toBeInTheDocument()
+    })
   })
 
-  it('has correct not_active status', () => {
-    render(<PaymentCard {...defaultProps} card_status="not_active" />)
+  describe('English locale', () => {
+    it('has correct expired status', () => {
+      render(<PaymentCard {...defaultProps} card_status="expired" />)
 
-    expect(screen.queryByText(nb.text_status_not_active)).toBeInTheDocument()
-  })
+      expect(screen.queryByText(nb.text_status_expired)).toBeInTheDocument()
+    })
 
-  it('has correct renewed status', () => {
-    render(<PaymentCard {...defaultProps} card_status="renewed" />)
+    it('has correct not_active status', () => {
+      render(<PaymentCard {...defaultProps} card_status="not_active" />)
 
-    expect(screen.queryByText(nb.text_status_renewed)).toBeInTheDocument()
-  })
+      expect(screen.queryByText(nb.text_status_not_active)).toBeInTheDocument()
+    })
 
-  it('has correct replaced status', () => {
-    render(<PaymentCard {...defaultProps} card_status="replaced" />)
+    it('has correct renewed status', () => {
+      render(<PaymentCard {...defaultProps} card_status="renewed" />)
 
-    expect(screen.queryByText(nb.text_status_replaced)).toBeInTheDocument()
-  })
+      expect(screen.queryByText(nb.text_status_renewed)).toBeInTheDocument()
+    })
 
-  it('has correct order_in_process status', () => {
-    render(
-      <PaymentCard {...defaultProps} card_status="order_in_process" />
-    )
+    it('has correct replaced status', () => {
+      render(<PaymentCard {...defaultProps} card_status="replaced" />)
 
-    expect(
-      screen.queryByText(nb.text_status_order_in_process)
-    ).toBeInTheDocument()
-  })
+      expect(screen.queryByText(nb.text_status_replaced)).toBeInTheDocument()
+    })
 
-  it('has correct blocked status', () => {
-    render(<PaymentCard {...defaultProps} card_status="blocked" />)
+    it('has correct order_in_process status', () => {
+      render(
+          <PaymentCard {...defaultProps} card_status="order_in_process" />
+      )
 
-    expect(screen.queryByText(nb.text_status_blocked)).toBeInTheDocument()
-  })
+      expect(
+          screen.queryByText(nb.text_status_order_in_process)
+      ).toBeInTheDocument()
+    })
 
-  it('has correct unknown status', () => {
-    render(<PaymentCard {...defaultProps} card_status="unknown" />)
+    it('has correct blocked status', () => {
+      render(<PaymentCard {...defaultProps} card_status="blocked" />)
 
-    expect(screen.queryByText(nb.text_status_unknown)).toBeInTheDocument()
+      expect(screen.queryByText(nb.text_status_blocked)).toBeInTheDocument()
+    })
+
+    it('has correct unknown status', () => {
+      render(<PaymentCard {...defaultProps} card_status="unknown" />)
+
+      expect(screen.queryByText(nb.text_status_unknown)).toBeInTheDocument()
+    })
   })
 
   it('reacts raw_data with correct rendering', () => {
