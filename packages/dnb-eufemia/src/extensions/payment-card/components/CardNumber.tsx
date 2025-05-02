@@ -1,11 +1,11 @@
-import React from "react";
-import classnames from "classnames";
-import { createSkeletonClass } from "../../../components/skeleton/SkeletonHelper";
-import P from "../../../elements/P";
+import React from 'react'
+import classnames from 'classnames'
+import { createSkeletonClass } from '../../../components/skeleton/SkeletonHelper'
+import P from '../../../elements/P'
 
 interface CardNumberTextProps {
-  cardNumber: string;
-  skeleton: boolean;
+  cardNumber: string
+  skeleton: boolean
 }
 
 /**
@@ -17,10 +17,14 @@ interface CardNumberTextProps {
  * @param {boolean} props.skeleton - Determines if skeleton styling is applied for loading states.
  * @returns A span element containing the card number with optional skeleton styling.
  */
-const CardNumberText = ({cardNumber, skeleton}: CardNumberTextProps) => {
+const CardNumberText = ({ cardNumber, skeleton }: CardNumberTextProps) => {
   return (
-    <span className={classnames(
-      'dnb-payment-card__card__element--wrapper', createSkeletonClass('font', skeleton))}>
+    <span
+      className={classnames(
+        'dnb-payment-card__card__element--wrapper',
+        createSkeletonClass('font', skeleton)
+      )}
+    >
       <P className="dnb-payment-card__card__numbers">{cardNumber}</P>
     </span>
   )
@@ -39,7 +43,10 @@ const formatCardNumberRegex = /(?=(?:....)*$)/g
  *                              Defaults to 8 if not specified.
  * @returns {string} The formatted credit card number.
  */
-export const formatCardNumber = (cardNumber:string, digits:number): string => {
+export const formatCardNumber = (
+  cardNumber: string,
+  digits: number
+): string => {
   if (!cardNumber) {
     return cardNumber
   }
@@ -52,4 +59,4 @@ export const formatCardNumber = (cardNumber:string, digits:number): string => {
   return cardNumber.replace(formatCardNumberRegex, ' ').trim()
 }
 
-export default CardNumberText;
+export default CardNumberText

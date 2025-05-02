@@ -7,11 +7,11 @@ import visaSagaPlatinum from './visa-saga-platinum'
 import mastercardGold from './master-gold'
 
 export {
-    myFirstImg,
-    youthImg,
-    visaDefault,
-    visaPluss,
-    visaSagaGold,
-    visaSagaPlatinum,
-    mastercardGold
+  myFirstImg,
+  youthImg,
+  visaDefault,
+  visaPluss,
+  visaSagaGold,
+  visaSagaPlatinum,
+  mastercardGold,
 }

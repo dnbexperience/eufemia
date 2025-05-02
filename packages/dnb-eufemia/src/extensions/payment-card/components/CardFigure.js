@@ -1,12 +1,12 @@
-import React from 'react';
+import React from 'react'
 import classnames from 'classnames'
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types'
 
-import {CardType, BankAxeptType} from '../utils/Types'
-import { ProductLogo, TypeLogo, BankLogo, BankAxeptLogo } from '../icons';
-import StatusOverlay, { isCardBlocked } from './StatusOverlay';
-import CardNumberText from './CardNumber';
-import CardTypeText from './CardType';
+import { CardType, BankAxeptType } from '../utils/Types'
+import { ProductLogo, TypeLogo, BankLogo, BankAxeptLogo } from '../icons'
+import StatusOverlay, { isCardBlocked } from './StatusOverlay'
+import CardNumberText from './CardNumber'
+import CardTypeText from './CardType'
 
 export const cardDataPropTypes = PropTypes.shape({
   productCode: PropTypes.string.isRequired,
@@ -40,27 +40,32 @@ function CardFigure({
   const cardClasses = classnames(
     'dnb-payment-card__card',
     `dnb-payment-card__${data.cardDesign.cardStyle}`,
-    `${isCardBlocked(cardStatus) ? 'dnb-payment-card__card--blocked' : ''}`,
-  );
+    `${isCardBlocked(cardStatus) ? 'dnb-payment-card__card--blocked' : ''}`
+  )
 
   const ProviderIcons = () => {
-      const multipleProviders = (data.bankAxept === BankAxeptType.BankAxept && data.cardType !== CardType.None);
-      return (
-          <div className={classnames(
-              'dnb-payment-card__card__providers',
-              `${multipleProviders ? 'dnb-payment-card__card__providers--multiple' : ''}`,
-          )}>
-              <BankAxeptLogo
-                  bankAxept={data.bankAxept}
-                  cardDesign={data.cardDesign}
-              />
-              { multipleProviders && <div className="provider--separator"/>}
-              <TypeLogo
-                  cardType={data.cardType}
-                  cardDesign={data.cardDesign}
-              />
-          </div>
-      )
+    const multipleProviders =
+      data.bankAxept === BankAxeptType.BankAxept &&
+      data.cardType !== CardType.None
+    return (
+      <div
+        className={classnames(
+          'dnb-payment-card__card__providers',
+          `${
+            multipleProviders
+              ? 'dnb-payment-card__card__providers--multiple'
+              : ''
+          }`
+        )}
+      >
+        <BankAxeptLogo
+          bankAxept={data.bankAxept}
+          cardDesign={data.cardDesign}
+        />
+        {multipleProviders && <div className="provider--separator" />}
+        <TypeLogo cardType={data.cardType} cardDesign={data.cardDesign} />
+      </div>
+    )
   }
 
   return (
@@ -70,8 +75,11 @@ function CardFigure({
         className={cardClasses}
         {...(data.cardDesign?.backgroundImage
           ? {
-            style: {backgroundImage: `url(${data.cardDesign.backgroundImage})`},
-          } : {})}
+              style: {
+                backgroundImage: `url(${data.cardDesign.backgroundImage})`,
+              },
+            }
+          : {})}
       >
         <div className="dnb-payment-card__card__content">
           <div className="dnb-payment-card__card__top">
@@ -83,40 +91,41 @@ function CardFigure({
               />
             </div>
             <div className="dnb-payment-card__card__top__right">
-              {compact ?
-                  <ProviderIcons />:
-                  <CardTypeText
-                      isCredit={data.bankAxept === BankAxeptType.Credit}
-                      translations={translations}
-                      skeleton={skeleton}
-                  />
-              }
+              {compact ? (
+                <ProviderIcons />
+              ) : (
+                <CardTypeText
+                  isCredit={data.bankAxept === BankAxeptType.Credit}
+                  translations={translations}
+                  skeleton={skeleton}
+                />
+              )}
             </div>
           </div>
-          {!compact &&
+          {!compact && (
             <div className="dnb-payment-card__card__bottom">
-                <div className="dnb-payment-card__card__bottom__left">
-                  <CardNumberText
-                      cardNumber={cardNumber}
-                      skeleton={skeleton}
-                  />
-                </div>
-                <div className="dnb-payment-card__card__bottom__right">
-                  <ProviderIcons />
-                </div>
+              <div className="dnb-payment-card__card__bottom__left">
+                <CardNumberText
+                  cardNumber={cardNumber}
+                  skeleton={skeleton}
+                />
               </div>
-          }
+              <div className="dnb-payment-card__card__bottom__right">
+                <ProviderIcons />
+              </div>
+            </div>
+          )}
         </div>
       </div>
-        {!compact &&
-          <StatusOverlay
-            cardStatus={cardStatus}
-            cardDesign={data.cardDesign.cardStyle}
-            translations={translations}
-          />
-        }
+      {!compact && (
+        <StatusOverlay
+          cardStatus={cardStatus}
+          cardDesign={data.cardDesign.cardStyle}
+          translations={translations}
+        />
+      )}
     </div>
   )
 }
 
-export default CardFigure;
+export default CardFigure
