@@ -4,7 +4,7 @@
  */
 
 import PaymentCard from './PaymentCard'
-import {formatCardNumber} from './components/CardNumber'
+import { formatCardNumber } from './components/CardNumber'
 export default PaymentCard
 export * from './PaymentCard'
-export {formatCardNumber}
+export { formatCardNumber }

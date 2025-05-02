@@ -7,7 +7,7 @@ import {
   visaPluss,
   visaSagaGold,
   visaSagaPlatinum,
-  mastercardGold
+  mastercardGold,
 } from './backgrounds'
 
 const defaultDesign = {

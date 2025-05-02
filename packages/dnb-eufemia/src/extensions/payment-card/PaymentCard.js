@@ -24,7 +24,7 @@ import {
 } from '../../components/skeleton/SkeletonHelper'
 
 import { formatCardNumber } from './components/CardNumber'
-import CardFigure, { cardDataPropTypes } from "./components/CardFigure";
+import CardFigure, { cardDataPropTypes } from './components/CardFigure'
 
 import { ProductType, CardType, BankAxeptType } from './utils/Types'
 import Designs, { defaultDesign } from './utils/CardDesigns'
