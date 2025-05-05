@@ -1,9 +1,9 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Field } from '@dnb/eufemia/src/extensions/forms'
+import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const Empty = () => {
   return (
-    <ComponentBox>
+    <ComponentBox data-visual-test="date-of-birth-default">
       <Field.DateOfBirth
         onChange={(value) => console.log('onChange', value)}
       />
@@ -35,7 +35,7 @@ export const Label = () => {
 
 export const LabelAndValue = () => {
   return (
-    <ComponentBox>
+    <ComponentBox data-visual-test="date-of-birth-label-and-value">
       <Field.DateOfBirth
         label="Label text"
         value="2000-05-17"
@@ -47,7 +47,7 @@ export const LabelAndValue = () => {
 
 export const WithHelp = () => {
   return (
-    <ComponentBox>
+    <ComponentBox data-visual-test="date-of-birth-help">
       <Field.DateOfBirth
         label="Label text"
         value="2000-05-17"
@@ -64,7 +64,7 @@ export const WithHelp = () => {
 
 export const Disabled = () => {
   return (
-    <ComponentBox>
+    <ComponentBox data-visual-test="date-of-birth-disabled">
       <Field.DateOfBirth
         value="2000-05-17"
         label="Label text"
@@ -77,7 +77,7 @@ export const Disabled = () => {
 
 export const WithError = () => {
   return (
-    <ComponentBox>
+    <ComponentBox data-visual-test="date-of-birth-error">
       <Field.DateOfBirth
         value="007"
         label="Label text"
@@ -126,6 +126,21 @@ export const ValidationExtendValidator = () => {
           />
         )
       }}
+    </ComponentBox>
+  )
+}
+
+export const Width = () => {
+  return (
+    <ComponentBox data-visual-test="date-of-birth-width">
+      <Form.Card>
+        <Field.String width="stretch" />
+        <Field.DateOfBirth label="default" />
+        <Field.DateOfBirth width="small" label="small" />
+        <Field.DateOfBirth width="medium" label="medium" />
+        <Field.DateOfBirth width="large" label="large" />
+        <Field.DateOfBirth width="stretch" label="stretch" />
+      </Form.Card>
     </ComponentBox>
   )
 }
