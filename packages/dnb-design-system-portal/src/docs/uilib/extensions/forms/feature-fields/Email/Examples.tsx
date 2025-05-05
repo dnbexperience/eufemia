@@ -120,15 +120,25 @@ export const WithAsyncOnBlurValidator = () => {
         async function mockAsyncValidator(value) {
           const request = createRequest()
           console.log('making API request to validate:', value)
+
           await request(3000) // Simulate a request
+          console.log('API request finished')
 
           // Randomly validates or invalidates
-          if (Math.random() < 0.5) {
+          const validation = Math.random() < 0.5
+          console.log('API request finished and validated to:', validation)
+
+          if (validation) {
             throw new Error('This email is not valid!')
           }
         }
 
-        return <Field.Email onBlurValidator={mockAsyncValidator} />
+        return (
+          <Field.Email
+            value="foo@bar.com"
+            onBlurValidator={mockAsyncValidator}
+          />
+        )
       }}
     </ComponentBox>
   )
