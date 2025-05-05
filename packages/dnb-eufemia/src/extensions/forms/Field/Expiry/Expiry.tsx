@@ -15,7 +15,10 @@ import { FormError } from '../../utils'
 
 type ExpiryValue = MultiInputMaskValue<'month' | 'year'>
 
-export type ExpiryProps = FieldProps<string, undefined | ''> & {
+export type ExpiryProps = Omit<
+  FieldProps<string, undefined | ''>,
+  'width' | 'contentWidth'
+> & {
   /**
    * The size of the component.
    */
