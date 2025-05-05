@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Field } from '@dnb/eufemia/src/extensions/forms'
+import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 import { createRequest } from '../../Form/SubmitIndicator/Examples'
 
 export const Empty = () => {
@@ -134,10 +134,13 @@ export const WithAsyncOnBlurValidator = () => {
         }
 
         return (
-          <Field.Email
-            value="foo@bar.com"
-            onBlurValidator={mockAsyncValidator}
-          />
+          <Form.Handler>
+            <Field.Email
+              value="foo@bar.com"
+              onBlurValidator={mockAsyncValidator}
+            />
+            <Form.SubmitButton />
+          </Form.Handler>
         )
       }}
     </ComponentBox>
