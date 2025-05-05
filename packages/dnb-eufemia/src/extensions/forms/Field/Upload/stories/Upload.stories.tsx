@@ -336,3 +336,55 @@ export const WithSyncFileHandler = () => {
     </Form.Handler>
   )
 }
+
+export function TransformStuff() {
+  function transformInX(external?: unknown) {
+    console.log('transformInX', external)
+    const files = external as DocumentMetadata[]
+    return (
+      files?.map((file) =>
+        file.id === '1'
+          ? {
+              id: file.id,
+              file: new File([], file.id),
+              errorMessage: file?.errorMessage,
+            }
+          : {
+              id: file.id,
+              file: new File([], file.id),
+              errorMessage: file?.errorMessage,
+            }
+      ) || []
+    )
+  }
+
+  async function mockAsyncFileRemoval({ fileItem }) {
+    await new Promise((res, rej) => {
+      setTimeout(res, 3000)
+    })
+  }
+  const myFiles = [
+    {
+      id: '1',
+    },
+    {
+      id: '2',
+    },
+  ]
+  return (
+    <Form.Handler
+      data={{
+        myFiles,
+      }}
+    >
+      <Flex.Stack space="x-large">
+        <Field.Upload
+          path="/myFiles"
+          transformIn={transformInX}
+          onFileDelete={mockAsyncFileRemoval}
+          acceptedFileTypes={['jpg', 'png']}
+        />
+      </Flex.Stack>
+    </Form.Handler>
+  )
+}

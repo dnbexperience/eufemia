@@ -34,7 +34,7 @@ function UploadFileList() {
 
   const removeFile = (fileToBeRemoved: UploadFile) => {
     return filesRef.current.filter(
-      (fileListElement) => fileListElement.file != fileToBeRemoved.file
+      (fileListElement) => fileListElement.id != fileToBeRemoved.id
     )
   }
 
@@ -69,16 +69,16 @@ function UploadFileList() {
   }
 
   const handleDeleteAsync = async (uploadFile: UploadFile) => {
-    updateFiles(
-      updateFile(uploadFile, {
-        isLoading: true,
-        errorMessage: null,
-      })
-    )
+    console.log('handleDeleteAsync', uploadFile)
+    const test = updateFile(uploadFile, {
+      isLoading: true,
+      errorMessage: null,
+    })
+    console.log(test)
+    updateFiles(test)
 
     try {
       await onFileDelete({ fileItem: uploadFile })
-      updateFiles(removeFile(uploadFile))
     } catch (error) {
       updateFiles(
         updateFile(uploadFile, {
