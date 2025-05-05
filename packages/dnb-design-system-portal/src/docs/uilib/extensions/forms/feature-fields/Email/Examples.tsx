@@ -129,7 +129,7 @@ export const WithAsyncOnBlurValidator = () => {
           console.log('API request finished and validated to:', validation)
 
           if (validation) {
-            throw new Error('This email is not valid!')
+            return Error('This email is not valid!')
           }
         }
 
