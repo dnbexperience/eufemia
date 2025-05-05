@@ -1,5 +1,6 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
+import { createRequest } from '../../Form/SubmitIndicator/Examples'
 
 export const Empty = () => {
   return (
@@ -108,6 +109,27 @@ export const ValidationRequired = () => {
         onChange={(value) => console.log('onChange', value)}
         required
       />
+    </ComponentBox>
+  )
+}
+
+export const WithAsyncOnBlurValidator = () => {
+  return (
+    <ComponentBox scope={{ createRequest }}>
+      {() => {
+        async function mockAsyncValidator(value) {
+          const request = createRequest()
+          console.log('making API request to validate:', value)
+          await request(3000) // Simulate a request
+
+          // Randomly validates or invalidates
+          if (Math.random() < 0.5) {
+            throw new Error('This email is not valid!')
+          }
+        }
+
+        return <Field.Email onBlurValidator={mockAsyncValidator} />
+      }}
     </ComponentBox>
   )
 }
