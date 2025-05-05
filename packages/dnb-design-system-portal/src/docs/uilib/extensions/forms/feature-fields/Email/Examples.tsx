@@ -135,11 +135,14 @@ export const WithAsyncOnBlurValidator = () => {
 
         return (
           <Form.Handler>
-            <Field.Email
-              value="foo@bar.com"
-              onBlurValidator={mockAsyncValidator}
-            />
-            <Form.SubmitButton top />
+            <Form.Card>
+              <Field.Email
+                value="foo@bar.com"
+                onBlurValidator={mockAsyncValidator}
+              />
+            </Form.Card>
+
+            <Form.SubmitButton />
           </Form.Handler>
         )
       }}
