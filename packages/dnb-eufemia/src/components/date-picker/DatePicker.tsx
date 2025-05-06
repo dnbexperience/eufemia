@@ -278,6 +278,10 @@ export type DatePickerProps = {
    */
   alignPicker?: 'auto' | 'left' | 'right'
   /**
+   * Sets the alignment of the label. Defaults to `left`.
+   */
+  labelAlignment?: 'left' | 'right'
+  /**
    * If set to `true`, the calendar will not be rendered inside a react portal. Defaults to `false`.
    */
   skipPortal?: boolean
@@ -841,6 +845,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
     className,
     tooltip,
     skipPortal,
+    labelAlignment,
     ...restProps
   } = extendedProps
 
@@ -909,6 +914,9 @@ function DatePicker(externalProps: DatePickerAllProps) {
       opened && 'dnb-date-picker--opened',
       hidden && 'dnb-date-picker--hidden',
       showInput && 'dnb-date-picker--show-input',
+      label &&
+        labelAlignment === 'right' &&
+        'dnb-date-picker__input--label-alignment-right',
       (range || showSubmitButton || showCancelButton || showResetButton) &&
         'dnb-date-picker--show-footer',
       alignPicker && `dnb-date-picker--${alignPicker}`,

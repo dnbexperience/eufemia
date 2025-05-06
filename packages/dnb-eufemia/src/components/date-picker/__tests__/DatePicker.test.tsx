@@ -3353,6 +3353,24 @@ describe('DatePicker component', () => {
       screen.getByLabelText('søndag 27. april 2025')
     ).toBeInTheDocument()
   })
+
+  it('should allow for right aligned label', () => {
+    const { rerender } = render(
+      <DatePicker label="label" labelAlignment="right" />
+    )
+
+    const datePicker = document.querySelector('.dnb-date-picker')
+
+    expect(datePicker).toHaveClass(
+      'dnb-date-picker__input--label-alignment-right'
+    )
+
+    rerender(<DatePicker label="label" labelAlignment="left" />)
+
+    expect(datePicker).not.toHaveClass(
+      'dnb-date-picker__input--label-alignment-right'
+    )
+  })
 })
 
 // for the unit calc tests
