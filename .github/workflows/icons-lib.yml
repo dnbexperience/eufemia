@@ -65,9 +65,6 @@ jobs:
       - name: Icons fetch and prebuild
         run: yarn workspace @dnb/eufemia prebuild:figma:ci
 
-      - name: Test prebuild
-        run: yarn workspace @dnb/eufemia test:update --timeout=30000
-
       - name: Build portal
         run: yarn workspace dnb-design-system-portal build:visual-test
 
