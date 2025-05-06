@@ -16,6 +16,8 @@ function CompositionField(
     | 'warning'
     | 'info'
     | 'children'
+    | 'className'
+    | 'help'
   >
 ) {
   return <FieldBlock {...props} composition asFieldset />
