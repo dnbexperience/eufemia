@@ -244,3 +244,17 @@ export function SelectionRadioList() {
     </Flex.Stack>
   )
 }
+
+export function SelectionAutocompleteAriaRequired() {
+  return (
+    <Field.Selection
+      required
+      variant="autocomplete"
+      label="Label text"
+      onChange={(value) => console.log('onChange', value)}
+    >
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>
+  )
+}

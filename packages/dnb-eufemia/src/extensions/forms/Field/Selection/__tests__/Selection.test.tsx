@@ -2172,15 +2172,7 @@ describe('variants', () => {
 
         openAutocomplete()
 
-        expect(
-          await axeComponent(result, {
-            rules: {
-              // Because of aria-controls and aria-required is not allowed on buttons – but VO still reads it
-              'aria-allowed-attr': { enabled: false },
-              'aria-valid-attr-value': { enabled: false },
-            },
-          })
-        ).toHaveNoViolations()
+        expect(await axeComponent(result)).toHaveNoViolations()
       })
 
       it('should have aria-required', () => {
