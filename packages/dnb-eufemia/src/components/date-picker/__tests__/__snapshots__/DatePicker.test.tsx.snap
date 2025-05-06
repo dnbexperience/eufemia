@@ -3985,8 +3985,8 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
 .dnb-date-picker .dnb-input__input.dnb-date-picker__input--large:last-of-type:not(*:root), .dnb-core-style .dnb-date-picker__input--large:last-of-type:not(*:root) {
   margin-right: 4rem;
 }
-.dnb-date-picker__input--reverse,
-.dnb-date-picker .dnb-input__input.dnb-date-picker__input--reverse, .dnb-core-style .dnb-date-picker__input--reverse {
+.dnb-date-picker__input--label-alignment-right,
+.dnb-date-picker .dnb-input__input.dnb-date-picker__input--label-alignment-right, .dnb-core-style .dnb-date-picker__input--label-alignment-right {
   flex-flow: row-reverse;
   width: fit-content;
 }

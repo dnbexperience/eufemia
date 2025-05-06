@@ -3117,8 +3117,8 @@ describe('DatePicker component', () => {
       'dnb-date-picker',
       'dnb-form-component',
       'dnb-space__top--large',
-      'dnb-date-picker--show-input',
       'dnb-date-picker--hidden',
+      'dnb-date-picker--show-input',
     ])
   })
 
@@ -3138,9 +3138,9 @@ describe('DatePicker component', () => {
     expect(Array.from(element.classList)).toEqual([
       'dnb-date-picker',
       'dnb-form-component',
-      'dnb-date-picker--show-input',
       'dnb-date-picker--vertical',
       'dnb-date-picker--hidden',
+      'dnb-date-picker--show-input',
     ])
   })
 
@@ -3355,7 +3355,9 @@ describe('DatePicker component', () => {
   })
 
   it('should allow for right aligned label', () => {
-    const { rerender } = render(<DatePicker labelAlignment="right" />)
+    const { rerender } = render(
+      <DatePicker label="label" labelAlignment="right" />
+    )
 
     const datePicker = document.querySelector('.dnb-date-picker')
 
@@ -3363,7 +3365,7 @@ describe('DatePicker component', () => {
       'dnb-date-picker__input--label-alignment-right'
     )
 
-    rerender(<DatePicker labelAlignment="left" />)
+    rerender(<DatePicker label="label" labelAlignment="left" />)
 
     expect(datePicker).not.toHaveClass(
       'dnb-date-picker__input--label-alignment-right'
