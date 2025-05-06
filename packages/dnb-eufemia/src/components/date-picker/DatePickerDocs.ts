@@ -138,8 +138,8 @@ export const DatePickerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  submitButtonAlignment: {
-    doc: 'Sets the alignment of the submit button. Only has an effect if `showInput` is `false`. Defaults to `right`.',
+  labelAlignment: {
+    doc: 'Sets the alignment of the label. Defaults to `left`.',
     type: ['left', 'right'],
     status: 'optional',
   },

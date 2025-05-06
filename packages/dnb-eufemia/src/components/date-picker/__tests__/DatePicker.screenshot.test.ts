@@ -68,4 +68,19 @@ describe('DatePicker', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match label alignment right', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="date-picker-label-alignment-right"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match label alignment right with button', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="date-picker-with-button-label-alignment-right"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
