@@ -8,6 +8,11 @@ export const SelectCurrencyProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  displayFormat: {
+    doc: 'Sets the format for displaying the currency. `IsoCode`(NOK (Norsk krone)) or `CurrencyName`(Norsk krone (NOK)). Defaults to `CurrencyName`.',
+    type: 'string',
+    status: 'optional',
+  },
   filterCurrencies: {
     doc: 'Use this prop to filter out certain currencies. The function receives the currency object and should return a boolean. Returning `false` will omit the currency.',
     type: 'function',
