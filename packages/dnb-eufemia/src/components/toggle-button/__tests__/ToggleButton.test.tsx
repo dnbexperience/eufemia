@@ -230,6 +230,39 @@ describe('ToggleButton component', () => {
     expect(document.querySelector('button[disabled]')).toBeInTheDocument()
   })
 
+  it('should set aria-checked when role is radio', () => {
+    render(<ToggleButton role="radio" />)
+    expect(
+      document
+        .querySelector('button.dnb-toggle-button__button')
+        .getAttribute('role')
+    ).toBe('radio')
+
+    expect(
+      document
+        .querySelector('button.dnb-toggle-button__button')
+        .getAttribute('aria-pressed')
+    ).toBe(null)
+    expect(
+      document
+        .querySelector('button.dnb-toggle-button__button')
+        .getAttribute('aria-checked')
+    ).toBe('false')
+
+    fireEvent.click(document.querySelector('button'))
+
+    expect(
+      document
+        .querySelector('button.dnb-toggle-button__button')
+        .getAttribute('aria-pressed')
+    ).toBe(null)
+    expect(
+      document
+        .querySelector('button.dnb-toggle-button__button')
+        .getAttribute('aria-checked')
+    ).toBe('true')
+  })
+
   it('should support enter key', () => {
     const onChange = jest.fn()
     render(<ToggleButton on_change={onChange} />)

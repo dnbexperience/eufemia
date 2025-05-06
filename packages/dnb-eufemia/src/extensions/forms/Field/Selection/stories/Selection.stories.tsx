@@ -259,3 +259,17 @@ export function SelectionAutocompleteAriaRequired() {
     </Field.Selection>
   )
 }
+
+export function SelectionButtonsAriaRequired() {
+  return (
+    <Field.Selection
+      required
+      variant="button"
+      label="Label text"
+      onChange={(value) => console.log('onChange', value)}
+    >
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>
+  )
+}

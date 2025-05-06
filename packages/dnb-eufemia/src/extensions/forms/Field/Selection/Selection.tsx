@@ -257,6 +257,7 @@ function Selection(props: Props) {
       return (
         <FieldBlock {...fieldBlockProps} {...additionalFieldBlockProps}>
           <Component.Group
+            role="radiogroup"
             size={size}
             className={cn}
             layout_direction={
@@ -413,6 +414,7 @@ function renderRadioItems({
             : undefined
         }
         text={variant === 'button' ? label : undefined}
+        role="radio"
         value={String(value ?? valueProp) || undefined}
         status={
           (hasError || checkForError([error, info, warning])) && 'error'
