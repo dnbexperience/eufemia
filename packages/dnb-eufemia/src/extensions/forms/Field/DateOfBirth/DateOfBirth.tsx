@@ -107,7 +107,8 @@ function DateOfBirth(props: Props) {
         autoComplete="bday-day"
         className={classNames('dnb-forms-field-date-of-birth__day')}
         labelDescription={dayLabel}
-        width="3.5rem"
+        width="3.32813rem" // Enough width for 2 digits
+        inputMode="numeric"
       />
       <SelectionField
         autoComplete="bday-month"
@@ -128,6 +129,7 @@ function DateOfBirth(props: Props) {
         className={classNames('dnb-forms-field-date-of-birth__year')}
         labelDescription={yearLabel}
         width="stretch"
+        inputMode="numeric"
       />
     </CompositionField>
   )
