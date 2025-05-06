@@ -2164,13 +2164,12 @@ describe('variants', () => {
             variant="autocomplete"
             required
             validateInitially
+            autocompleteProps={{ opened: true }}
           >
             <Field.Option value="foo">Foo</Field.Option>
             <Field.Option value="bar">Bar</Field.Option>
           </Field.Selection>
         )
-
-        openAutocomplete()
 
         expect(await axeComponent(result)).toHaveNoViolations()
       })

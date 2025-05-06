@@ -248,13 +248,13 @@ export function SelectionRadioList() {
 export function SelectionAutocompleteAriaRequired() {
   return (
     <Field.Selection
-      required
+      label="Label"
       variant="autocomplete"
-      label="Label text"
-      onChange={(value) => console.log('onChange', value)}
+      required
+      validateInitially
     >
-      <Field.Option value="foo" title="Foo!" />
-      <Field.Option value="bar" title="Baar!" />
+      <Field.Option value="foo">Foo</Field.Option>
+      <Field.Option value="bar">Bar</Field.Option>
     </Field.Selection>
   )
 }

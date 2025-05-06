@@ -328,6 +328,7 @@ function Selection(props: Props) {
                   ? undefined
                   : data
               }
+              aria-controls={undefined}
             />
           ) : (
             <Dropdown
