@@ -2164,7 +2164,11 @@ describe('variants', () => {
             variant="autocomplete"
             required
             validateInitially
-            autocompleteProps={{ opened: true }}
+            autocompleteProps={{
+              opened: true,
+              noAnimation: true,
+              skipPortal: true,
+            }}
           >
             <Field.Option value="foo">Foo</Field.Option>
             <Field.Option value="bar">Bar</Field.Option>
