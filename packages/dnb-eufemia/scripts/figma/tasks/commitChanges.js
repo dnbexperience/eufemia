@@ -12,7 +12,7 @@ if (require.main === module) {
       '^icon', // Test if branch is part of icons-lib.yml ("eufemia-icons")
     ],
     what: 'icons/assets',
-    filePathsIncludelist: [
+    filePathsIncludeList: [
       '/src/icons/',
       '/src/components/icon/', // visual snapshots
       '/assets/icons/',

@@ -78,7 +78,7 @@ const commitToBranch = async ({
   requiredBranch = 'main',
   newBranch = null,
   what = 'files',
-  filePathsIncludelist = [],
+  filePathsIncludeList = [],
   skipCI = false,
   isFeature = false,
   force = false,
@@ -103,9 +103,9 @@ const commitToBranch = async ({
     const filesToCommit = [...status.modified, ...status.not_added].filter(
       (f) =>
         new RegExp(
-          Array.isArray(filePathsIncludelist)
-            ? filePathsIncludelist.join('|')
-            : filePathsIncludelist,
+          Array.isArray(filePathsIncludeList)
+            ? filePathsIncludeList.join('|')
+            : filePathsIncludeList,
           'g'
         ).test(f)
     )

@@ -65,6 +65,9 @@ jobs:
       - name: Icons fetch and prebuild
         run: yarn workspace @dnb/eufemia prebuild:figma:ci
 
+      - name: Prebuild Library
+        run: yarn workspace @dnb/eufemia prebuild:ci
+
       - name: Build portal
         run: yarn workspace dnb-design-system-portal build:visual-test
 
