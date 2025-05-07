@@ -244,3 +244,18 @@ export function SelectionRadioList() {
     </Flex.Stack>
   )
 }
+
+export function SelectionAutocompleteAriaRequired() {
+  return (
+    <Field.Selection
+      label="Label"
+      variant="autocomplete"
+      required
+      validateInitially
+      autocompleteProps={{ opened: true }}
+    >
+      <Field.Option value="foo">Foo</Field.Option>
+      <Field.Option value="bar">Bar</Field.Option>
+    </Field.Selection>
+  )
+}

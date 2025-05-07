@@ -3410,14 +3410,7 @@ describe('Autocomplete markup', () => {
       <Autocomplete {...snapshotProps} data={mockData} />
     )
 
-    expect(
-      await axeComponent(result, {
-        rules: {
-          'aria-valid-attr-value': { enabled: false },
-          'aria-required-children': { enabled: false },
-        },
-      })
-    ).toHaveNoViolations()
+    expect(await axeComponent(result)).toHaveNoViolations()
   })
 })
 
