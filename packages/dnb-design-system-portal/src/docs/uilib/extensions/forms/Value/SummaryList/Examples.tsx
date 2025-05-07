@@ -529,3 +529,45 @@ export const HelpButton = () => {
     </ComponentBox>
   )
 }
+
+export const MaxWidth = () => {
+  return (
+    <ComponentBox data-visual-test="forms-value-summary-list-with-max-width">
+      <Form.Handler>
+        <Form.Card>
+          <Value.SummaryList>
+            <Value.String
+              label="No maxWidth: This label is long so we can validate that the label can be longer."
+              value="This content is long so we can see the maxWidth defined. It
+            should wrap at a certain amount of characters."
+            />
+            <Value.String
+              label="maxWidth='small': This label is long so we can validate that the label can be longer."
+              maxWidth="small"
+              value="This content is long so we can see the maxWidth defined. It
+            should wrap at a certain amount of characters."
+            />
+            <Value.String
+              label="maxWidth='medium': This label is long so we can validate that the label can be longer."
+              maxWidth="medium"
+              value="This content is long so we can see the maxWidth defined. It
+            should wrap at a certain amount of characters."
+            />
+            <Value.String
+              label="maxWidth='large': This label is long so we can validate that the label can be longer."
+              maxWidth="large"
+              value="This content is long so we can see the maxWidth defined. It
+            should wrap at a certain amount of characters."
+            />
+            <Value.String
+              label="maxWidth='auto': This label is long so we can validate that the label can be longer."
+              maxWidth="auto"
+              value="This content is long so we can see the maxWidth defined. It
+            should wrap at a certain amount of characters."
+            />
+          </Value.SummaryList>
+        </Form.Card>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
