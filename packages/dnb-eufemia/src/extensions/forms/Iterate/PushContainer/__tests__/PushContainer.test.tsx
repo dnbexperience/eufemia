@@ -1,7 +1,7 @@
 import React, { useContext, useLayoutEffect } from 'react'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Field, Form, Iterate, Wizard } from '../../..'
+import { Field, Form, Iterate, Value, Wizard } from '../../..'
 import { Div } from '../../../../../elements'
 import DataContext from '../../../DataContext/Context'
 
@@ -62,6 +62,68 @@ describe('PushContainer', () => {
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
       nb.Field.errorRequired
     )
+  })
+
+  it('should not show error after commit and opening the container again when inside Wizard', async () => {
+    render(
+      <Form.Handler>
+        <Wizard.Container>
+          <Wizard.Step title="Step 1">
+            <Iterate.Array path="/entries">
+              <Value.String itemPath="/name" />
+            </Iterate.Array>
+
+            <Iterate.PushContainer
+              path="/entries"
+              required
+              bubbleValidation
+              openButton={
+                <Iterate.PushContainer.OpenButton id="open-button" />
+              }
+              showOpenButtonWhen={(list) => list.length > 0}
+            >
+              <Field.String itemPath="/name" />
+            </Iterate.PushContainer>
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>
+    )
+
+    fireEvent.submit(document.querySelector('form'))
+
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Field.errorRequired
+      )
+    })
+
+    await userEvent.type(document.querySelector('input'), 'foo')
+    await userEvent.click(
+      document.querySelector('.dnb-forms-iterate__done-button')
+    )
+
+    expect(
+      document.querySelector('.dnb-forms-value-block')
+    ).toHaveTextContent('foo')
+
+    await userEvent.click(
+      document.querySelector('.dnb-forms-iterate__open-button')
+    )
+
+    await expect(() => {
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+    }).toNeverResolve()
+
+    await userEvent.type(document.querySelector('input'), 'bar')
+    await userEvent.click(
+      document.querySelector('.dnb-forms-iterate__done-button')
+    )
+
+    expect(
+      document.querySelectorAll('.dnb-forms-value-block')[1]
+    ).toHaveTextContent('bar')
   })
 
   describe('defaultData', () => {
