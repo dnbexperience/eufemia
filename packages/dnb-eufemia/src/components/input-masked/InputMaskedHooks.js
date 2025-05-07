@@ -17,6 +17,7 @@ import {
   keycode,
 } from '../../shared/component-helper'
 import { safeSetSelection } from './text-mask/createTextMaskInputElement'
+import { isNumber } from './text-mask/utilities'
 
 import TextMask from './TextMask'
 import createNumberMask from './addons/createNumberMask'
@@ -352,16 +353,55 @@ const useCallEvent = ({ setLocalValue }) => {
 
     // Prevent entering a leading zero
     if (maskParams?.disallowLeadingZeroes && name === 'onInput') {
-      if (
-        (selStart === 2 || selStart === 3) &&
-        new RegExp(`^(${NUMBER_MINUS}|)0\\d(.*|$)`).test(value)
-      ) {
-        value = value.replace(
-          new RegExp(`^(${NUMBER_MINUS}|)0+(.*|$)`),
-          '$1$2'
+      const isNegative = new RegExp(`^${NUMBER_MINUS}`, 'g').test(value)
+      if (isNegative ? selStart > 1 : selStart > 0) {
+        const onlyNumber = value.replace(
+          new RegExp(`[^\\d${maskParams.decimalSymbol}]`, 'g'),
+          ''
         )
-        setLocalValue(value)
-        event.target.value = value
+        let leadingZeroes = 0
+        for (let i = 0; i < onlyNumber.length - 1; i++) {
+          if (
+            onlyNumber.charAt(i) === '0' &&
+            onlyNumber.charAt(i + 1) !== maskParams.decimalSymbol
+          ) {
+            leadingZeroes++
+          } else {
+            break
+          }
+        }
+        let newSelStart = selStart
+        let newValue = value
+        let firstNumberIndex = 0
+        if (leadingZeroes > 0) {
+          for (let i = 0; i < value.length; i++) {
+            firstNumberIndex = i
+            const char = value.charAt(i)
+
+            if (
+              (char !== '0' && isNumber(parseInt(char))) ||
+              value.charAt(i + 1) === maskParams.decimalSymbol
+            ) {
+              break
+            }
+          }
+          newValue =
+            value.substring(0, isNegative ? 1 : 0) +
+            value.substring(firstNumberIndex)
+
+          newSelStart =
+            selStart > firstNumberIndex
+              ? selStart - (value.length - newValue.length)
+              : isNegative
+              ? 1
+              : 0
+        }
+
+        if (newValue !== value) {
+          setLocalValue(newValue)
+          event.target.value = newValue
+          safeSetSelection(event.target, newSelStart)
+        }
       }
     }
 
