@@ -38,4 +38,11 @@ describe.each(['ui', 'sbanken'])('ValueBlock for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match wrapping', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="forms-value-block-wrapping"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
