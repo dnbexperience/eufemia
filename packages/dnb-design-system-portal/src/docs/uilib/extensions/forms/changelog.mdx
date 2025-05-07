@@ -19,19 +19,31 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 
 - Show error in [Iterate.PushContainer](/uilib/extensions/forms/Iterate/PushContainer/) on submit or in next step after user input.
 - Animate chevron on expand/collapse in the newly redesigned [Wizard](/uilib/extensions/forms/Wizard/).
-- [Field.Currency](/uilib/extensions/forms/feature-fields/Currency/) defaults to `disallowLeadingZeroes`.
-- Fix handling of invalid ISO code value in [Value.SelectCountry](/uilib/extensions/forms/Value/SelectCountry/).
-- Fix handling of invalid ISO code value in [Value.SelectCurrency](/uilib/extensions/forms/Value/SelectCurrency/).
-- Fix so [Value.BankAccountNumber](/uilib/extensions/forms/Value/BankAccountNumber/) does not render when value is empty.
-- Fix so [Value.OrganizationNumber](/uilib/extensions/forms/Value/OrganizationNumber/) does not render when value is empty.
-- Fix so [Value.PhoneNumber](/uilib/extensions/forms/Value/PhoneNumber/) does not render when value is empty.
-- Fix so [Value.NationalIdentityNumber](/uilib/extensions/forms/Value/NationalIdentityNumber/) does not render when value is empty.
-- Fix so [Wizard.Step](/uilib/extensions/forms/Wizard/Step/) does not pre-render step when `keepInDOM`.
+- Added support for `labelSize` to all `Field.*` components.
+- Added support for `labelSrOnly` to all `Field.*` components.
+- Added `requireCommit` property to [Iterate.PushContainer](/uilib/extensions/forms/Iterate/PushContainer/) to show error during submit or next step after user input.
+- Added variant `radio-list` to [Field.Selection](/uilib/extensions/forms/base-fields/Selection/).
+- Always validate fields in all [Wizard.Step](/uilib/extensions/forms/Wizard/Step/)(without keepInDOM).
+- Fixed handling of invalid ISO code value in [Value.SelectCountry](/uilib/extensions/forms/Value/SelectCountry/).
+- Fixed handling of invalid ISO code value in [Value.SelectCurrency](/uilib/extensions/forms/Value/SelectCurrency/).
+- Fixed so [Value.BankAccountNumber](/uilib/extensions/forms/Value/BankAccountNumber/) does not render when value is empty.
+- Fixed so [Value.OrganizationNumber](/uilib/extensions/forms/Value/OrganizationNumber/) does not render when value is empty.
+- Fixed so [Value.PhoneNumber](/uilib/extensions/forms/Value/PhoneNumber/) does not render when value is empty.
+- Fixed so [Value.NationalIdentityNumber](/uilib/extensions/forms/Value/NationalIdentityNumber/) does not render when value is empty.
+- Fixed so [Wizard.Step](/uilib/extensions/forms/Wizard/Step/) does not pre-render step when `keepInDOM`.
+- Fixed so `labelDescription` when rendered without `label` will not have additional spacing above, in all `Field.*` components.
+- Fixed so `width="large"` in [Field.PhoneNumber](/uilib/extensions/forms/feature-fields/PhoneNumber/) will be correct.
+- Fixed so fields do not overflow in width on certain screen sizes.
+- Fixed so [Field.Upload](/uilib/extensions/forms/feature-fields/more-fields/Upload/) gracefully handles `undefined` file inputs/values.
+- Fixed so [Form.Card](/uilib/extensions/forms/Form/Card/) used in [Wizard](/uilib/extensions/forms/Wizard/) has a default outline color.
+- Fixed so [Iterate.EditContainer](/uilib/extensions/forms/Iterate/EditContainer/) shows red border on submit errors.
+- Fixed so [Field.Composition](/uilib/extensions/forms/base-fields/Composition/) sets correct `width` if given.
+- Fixed a11y issue when using `required` property in a `button` variant of [Field.Selection](/uilib/extensions/forms/base-fields/Selection/) with
 
 ## v10.72.3
 
 - Ensure [Field.Composition](/uilib/extensions/forms/base-fields/Composition/) with horizontal layout will still wrap.
-- Ensure [Field.Selection](/uilib/extensions/forms/base-fields/Selection/) with the autocomplete variant receives showIndicator in the first onType parameter object
+- Ensure [Field.Selection](/uilib/extensions/forms/base-fields/Selection/) with the autocomplete variant receives `showIndicator` in the first onType parameter object.
 
 ## v10.72.2
 
@@ -39,8 +51,8 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 
 ## v10.72.1
 
-- Fix anchor alignment in the redesigned [Wizard](/uilib/extensions/forms/Wizard/).
-- Fix font size of items in the redesigned [Wizard](/uilib/extensions/forms/Wizard/).
+- Fixed anchor alignment in the redesigned [Wizard](/uilib/extensions/forms/Wizard/).
+- Fixed font size of items in the redesigned [Wizard](/uilib/extensions/forms/Wizard/).
 
 ## v10.72.0
 
