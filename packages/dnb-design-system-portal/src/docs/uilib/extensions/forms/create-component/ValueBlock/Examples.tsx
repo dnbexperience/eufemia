@@ -106,6 +106,15 @@ export const Widths = () => {
             should wrap at a certain amount of characters.
           </TestElement>
         </ValueBlock>
+        <ValueBlock
+          label="maxWidth='auto': This label is long so we can validate that the label can be longer."
+          maxWidth="auto"
+        >
+          <TestElement>
+            This content is long so we can see the maxWidth defined. It
+            should wrap at a certain amount of characters.
+          </TestElement>
+        </ValueBlock>
       </Flex.Stack>
     </ComponentBox>
   )
