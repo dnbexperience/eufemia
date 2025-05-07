@@ -8,6 +8,7 @@ import account_out from './account_out'
 import account_percent from './account_percent'
 import accounting from './accounting'
 import add_circled from './add_circled'
+import aino from './aino'
 import ainvoice from './ainvoice'
 import ambulance from './ambulance'
 import animal_print from './animal_print'
@@ -76,6 +77,7 @@ import digipass from './digipass'
 import digipass_corporate from './digipass_corporate'
 import digipass_private from './digipass_private'
 import digipost from './digipost'
+import digital_advise from './digital_advise'
 import digitpass_private_corporate from './digitpass_private_corporate'
 import dismiss_keyboard from './dismiss_keyboard'
 import dog from './dog'
@@ -154,6 +156,7 @@ import layout_card from './layout_card'
 import layout_grid from './layout_grid'
 import leaf from './leaf'
 import lightbulb from './lightbulb'
+import lightningstrike from './lightningstrike'
 import linkedin from './linkedin'
 import list from './list'
 import loan from './loan'
@@ -269,6 +272,7 @@ export {
   account_percent,
   accounting,
   add_circled,
+  aino,
   ainvoice,
   ambulance,
   animal_print,
@@ -337,6 +341,7 @@ export {
   digipass_corporate,
   digipass_private,
   digipost,
+  digital_advise,
   digitpass_private_corporate,
   dismiss_keyboard,
   dog,
@@ -415,6 +420,7 @@ export {
   layout_grid,
   leaf,
   lightbulb,
+  lightningstrike,
   linkedin,
   list,
   loan,
