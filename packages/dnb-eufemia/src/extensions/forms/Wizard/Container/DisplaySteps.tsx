@@ -34,12 +34,6 @@ export function DisplaySteps({
         status_state: 'error',
       } satisfies Omit<StepIndicatorItemProps, 'title' | 'currentItemNum'>
     }
-    if (hasInvalidStepsState(undefined, ['unknown'])) {
-      return {
-        status: 'Unknown state',
-        status_state: 'warn',
-      } satisfies Omit<StepIndicatorItemProps, 'title' | 'currentItemNum'>
-    }
     return {}
   }, [
     hasErrorInOtherStepRef,

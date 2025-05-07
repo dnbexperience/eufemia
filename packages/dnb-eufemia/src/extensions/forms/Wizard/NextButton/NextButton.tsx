@@ -3,6 +3,7 @@ import classnames from 'classnames'
 import type { ComponentProps } from '../../types'
 import { ButtonProps } from '../../../../components/button/Button'
 import WizardContext from '../Context/WizardContext'
+import DataContext from '../../DataContext/Context'
 import ButtonRow from '../../Form/ButtonRow'
 import SubmitButton from '../../Form/SubmitButton'
 import useTranslation from '../../hooks/useTranslation'
@@ -19,6 +20,11 @@ function NextButton(props: Props) {
     children = translations.text,
   } = props
   const { handleNext } = useContext(WizardContext) || {}
+
+  const { prerenderFieldProps } = useContext(DataContext)
+  if (prerenderFieldProps) {
+    return null as JSX.Element
+  }
 
   return (
     <ButtonRow>

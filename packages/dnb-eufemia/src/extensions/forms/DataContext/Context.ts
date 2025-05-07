@@ -30,6 +30,7 @@ export type EventListenerCall = {
   path?: Path
   type?:
     | 'onSubmit'
+    | 'onBeforeSubmit'
     | 'onSubmitCall'
     | 'onSubmitRequest'
     | 'onPathChange'

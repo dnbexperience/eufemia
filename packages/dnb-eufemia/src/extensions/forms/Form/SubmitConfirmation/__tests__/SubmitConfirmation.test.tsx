@@ -96,11 +96,13 @@ describe('Form.SubmitConfirmation', () => {
       await userEvent.click(submitButton)
       expect(onSubmit).toHaveBeenCalledTimes(0)
 
-      expect(
-        submitButton.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
-        )
-      ).toBeTruthy()
+      await waitFor(() => {
+        expect(
+          submitButton.querySelector(
+            '.dnb-forms-submit-indicator--state-pending'
+          )
+        ).toBeTruthy()
+      })
 
       await act(submitHandlerRef.current)
       expect(onSubmit).toHaveBeenCalledTimes(1)
@@ -243,17 +245,23 @@ describe('Form.SubmitConfirmation', () => {
       )
 
       fireEvent.submit(document.querySelector('form'))
-      expect(onSubmit).toHaveBeenCalledTimes(1)
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+      })
 
       preventSubmit = true
 
       fireEvent.submit(document.querySelector('form'))
-      expect(onSubmit).toHaveBeenCalledTimes(1)
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+      })
 
       preventSubmit = false
 
       fireEvent.submit(document.querySelector('form'))
-      expect(onSubmit).toHaveBeenCalledTimes(2)
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(2)
+      })
     })
 
     it('should get result from "onSubmit" including "customStatus"', async () => {
@@ -371,6 +379,9 @@ describe('Form.SubmitConfirmation', () => {
         expect(submitButton).not.toBeDisabled()
       })
 
+      // Because we have a requestAnimationFrame in the code as well
+      await new Promise((resolve) => requestAnimationFrame(resolve))
+
       await userEvent.click(submitButton)
       expect(confirmationStateRef.current).toBe('readyToBeSubmitted')
 
@@ -440,11 +451,13 @@ describe('Form.SubmitConfirmation', () => {
       await userEvent.click(submitButton)
       expect(onSubmit).toHaveBeenCalledTimes(0)
       expect(confirmationStateRef.current).toBe('readyToBeSubmitted')
-      expect(
-        submitButton.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
-        )
-      ).toBeTruthy()
+      await waitFor(() => {
+        expect(
+          submitButton.querySelector(
+            '.dnb-forms-submit-indicator--state-pending'
+          )
+        ).toBeTruthy()
+      })
 
       await act(async () => {
         document.dispatchEvent(
@@ -508,11 +521,14 @@ describe('Form.SubmitConfirmation', () => {
     expect(document.querySelector('output')).toHaveTextContent(
       'readyToBeSubmitted'
     )
-    expect(
-      submitButton.querySelector(
-        '.dnb-forms-submit-indicator--state-pending'
-      )
-    ).toBeTruthy()
+
+    await waitFor(() => {
+      expect(
+        submitButton.querySelector(
+          '.dnb-forms-submit-indicator--state-pending'
+        )
+      ).toBeTruthy()
+    })
 
     const [cancelButton] = Array.from(
       document.querySelectorAll('.dnb-dialog button')

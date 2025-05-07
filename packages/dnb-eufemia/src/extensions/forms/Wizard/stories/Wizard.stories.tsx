@@ -29,8 +29,9 @@ export const Basic = () => {
         onStepChange={onStepChange}
         mode="loose"
         // validationMode="bypassOnNavigation"
+        // keepInDOM
+        // expandedInitially
         initialActiveIndex={2}
-        keepInDOM
       >
         <Wizard.Step title="Step 1">
           <Field.String
