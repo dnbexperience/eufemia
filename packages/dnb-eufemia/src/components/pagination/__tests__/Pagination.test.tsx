@@ -171,12 +171,12 @@ describe('Pagination bar', () => {
     ).toBe('3')
   })
 
-  it('should set correct class when paginationLayout is set to "horizontal"', () => {
+  it('should set correct class when paginationBarLayout is set to "horizontal"', () => {
     render(
       <Pagination
         page_count={3}
         startup_page={2}
-        paginationLayout="horizontal"
+        paginationBarLayout="horizontal"
       >
         {({ pageNumber, setContent }) => {
           setContent(pageNumber, <div>{pageNumber}</div>)

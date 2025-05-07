@@ -6,7 +6,7 @@ export const PaginationProperties: PropertiesTableProps = {
     type: ['pagination', 'infinity'],
     status: 'optional',
   },
-  paginationLayout: {
+  paginationBarLayout: {
     doc: 'The layout of the pagination bar. Defaults to `vertical`.',
     type: ['vertical', 'horizontal'],
     status: 'optional',

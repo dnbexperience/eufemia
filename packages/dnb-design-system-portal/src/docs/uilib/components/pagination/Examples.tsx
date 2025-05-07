@@ -52,7 +52,7 @@ export const PaginationExampleWithHorizontalLayout = () => (
       on_change={({ pageNumber }) => {
         console.log('on_change:', pageNumber)
       }}
-      paginationLayout="horizontal"
+      paginationBarLayout="horizontal"
     >
       <P>Current Page Content</P>
     </Pagination>

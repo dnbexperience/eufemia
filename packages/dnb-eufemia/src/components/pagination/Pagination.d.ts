@@ -99,7 +99,7 @@ export interface PaginationProps
   /**
    * The layout of the pagination bar. Defaults to `vertical`.
    */
-  paginationLayout?: PaginationLayout;
+  paginationBarLayout?: PaginationLayout;
   /**
    * If set to `true` it will disable the automated infinity scrolling, but shows a load more button at the of the content instead.
    */

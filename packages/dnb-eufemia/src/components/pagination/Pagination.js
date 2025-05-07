@@ -44,7 +44,7 @@ const paginationPropTypes = {
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   mode: PropTypes.oneOf(['pagination', 'infinity']),
-  paginationLayout: PropTypes.oneOf(['vertical', 'horizontal']),
+  paginationBarLayout: PropTypes.oneOf(['vertical', 'horizontal']),
   use_load_button: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   items: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   hide_progress_indicator: PropTypes.oneOfType([
@@ -116,7 +116,7 @@ const paginationDefaultProps = {
   current_page: null,
   page_count: null,
   mode: 'pagination',
-  paginationLayout: 'vertical',
+  paginationBarLayout: 'vertical',
   use_load_button: false,
   items: null,
   hide_progress_indicator: false,
@@ -193,7 +193,7 @@ class PaginationInstance extends React.PureComponent {
       children,
       className,
       barSpace,
-      paginationLayout, // eslint-disable-line
+      paginationBarLayout, // eslint-disable-line
 
       disabled: _disabled, // eslint-disable-line
       skeleton: _skeleton, // eslint-disable-line
@@ -219,7 +219,8 @@ class PaginationInstance extends React.PureComponent {
         className: classnames(
           'dnb-pagination',
           align && `dnb-pagination--${align}`,
-          paginationLayout && `dnb-pagination--layout-${paginationLayout}`,
+          paginationBarLayout &&
+            `dnb-pagination--layout-${paginationBarLayout}`,
           createSpacingClasses(props),
           className
         ),
