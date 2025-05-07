@@ -21,6 +21,7 @@ const {
   label,
   labelDirection,
   labelSrOnly,
+  labelAlignment,
   suffix,
   stretch,
   size,
