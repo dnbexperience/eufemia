@@ -94,6 +94,18 @@ describe('Field.Composition', () => {
     expect(status).toHaveTextContent(firstError)
   })
 
+  it('should set contentWidth when width is set', () => {
+    render(<Field.Composition width="large">content</Field.Composition>)
+
+    const element = document.querySelector(
+      '.dnb-forms-field-block__composition'
+    )
+    expect(element).toHaveClass('dnb-forms-field-block--width-stretch')
+    expect(element).toHaveClass(
+      'dnb-forms-field-block--content-width-large'
+    )
+  })
+
   it('should show identical messages once, interactively', async () => {
     render(
       <Field.Composition>
