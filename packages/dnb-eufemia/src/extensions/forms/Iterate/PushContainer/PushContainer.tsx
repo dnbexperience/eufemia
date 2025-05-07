@@ -5,17 +5,26 @@ import React, {
   useMemo,
   useReducer,
   useRef,
+  useState,
 } from 'react'
+import classnames from 'classnames'
 import Isolation from '../../Form/Isolation'
+import useReportError from '../../Form/Isolation/useReportError'
 import PushContainerContext from './PushContainerContext'
 import IterateItemContext from '../IterateItemContext'
-import DataContext from '../../DataContext/Context'
+import DataContext, { ContextState } from '../../DataContext/Context'
 import VisibilityContext from '../../Form/Visibility/VisibilityContext'
 import useDataValue from '../../hooks/useDataValue'
-import EditContainer, { CancelButton, DoneButton } from '../EditContainer'
+import EditContainer, {
+  DoneButton,
+  CancelButton,
+  ResetButton,
+  AllProps as EditContainerProps,
+  useHasContentChanged,
+} from '../EditContainer'
 import IterateArray, { ContainerMode } from '../Array'
 import OpenButton from './OpenButton'
-import { Flex, HeightAnimation } from '../../../../components'
+import { Flex, FormStatus, HeightAnimation } from '../../../../components'
 import { OnCommit, Path } from '../../types'
 import { SpacingProps } from '../../../../shared/types'
 import {
@@ -25,7 +34,6 @@ import {
 } from '../hooks'
 import Toolbar from '../Toolbar'
 import { useTranslation } from '../../hooks'
-import { ArrayItemAreaProps } from '../Array/ArrayItemArea'
 import { clearedData } from '../../DataContext/Provider'
 
 /**
@@ -102,6 +110,16 @@ export type Props = (OnlyPathRequired | OnlyItemPathRequired) & {
   bubbleValidation?: boolean
 
   /**
+   * If the container should be committed before the form is submitted.
+   */
+  requireCommit?: boolean
+
+  /**
+   * Show a button to clear the PushContainer data.
+   */
+  showResetButton?: boolean
+
+  /**
    * A custom toolbar to be shown below the container.
    */
   toolbar?: React.ReactNode
@@ -117,18 +135,22 @@ export type Props = (OnlyPathRequired | OnlyItemPathRequired) & {
   children: React.ReactNode
 }
 
-export type AllProps = Props & SpacingProps & ArrayItemAreaProps
+export type AllProps = Props &
+  SpacingProps &
+  Omit<EditContainerProps, 'data'>
 
 function PushContainer(props: AllProps) {
   const [, forceUpdate] = useReducer(() => ({}), {})
-  const { data: outerData, required: requiredInherited } =
-    useContext(DataContext) || {}
+  const outerContext = useContext(DataContext)
+  const { data: outerData, required: requiredInherited } = outerContext
 
   const {
     data: dataProp,
     defaultData: defaultDataProp,
     isolatedData,
     bubbleValidation,
+    requireCommit,
+    showResetButton,
     path,
     itemPath,
     insertAt,
@@ -178,7 +200,7 @@ function PushContainer(props: AllProps) {
     }
     return {
       ...isolatedData,
-      pushContainerItems: [dataProp ?? clearedData],
+      pushContainerItems: [Object.freeze(dataProp) ?? clearedData],
     }
   }, [dataProp, defaultDataProp, isolatedData])
 
@@ -187,13 +209,15 @@ function PushContainer(props: AllProps) {
     // Because changes from outside should only silently be applied to the
     // data object, without triggering a rerender.
     // This way "pushContainerItems" will not clear/unset changed data.
-    Object.assign(data, outerData)
+    if (!Object.isFrozen(data)) {
+      Object.assign(data || {}, outerData)
+    }
   }
 
   const defaultData = useMemo(() => {
     return {
       ...(!dataProp ? isolatedData : null),
-      pushContainerItems: [defaultDataProp ?? clearedData],
+      pushContainerItems: [Object.freeze(defaultDataProp ?? clearedData)],
     }
   }, [dataProp, defaultDataProp, isolatedData])
 
@@ -206,9 +230,13 @@ function PushContainer(props: AllProps) {
           pushContainerItems: [null],
         }
       }
-      return defaultData
+
+      return {
+        ...isolatedData,
+        pushContainerItems: [dataProp ?? defaultDataProp ?? clearedData],
+      }
     },
-    [defaultData, isolatedData]
+    [dataProp, defaultDataProp, isolatedData]
   )
 
   return (
@@ -261,6 +289,9 @@ function PushContainer(props: AllProps) {
             cancelHandler={cancelHandler}
             containerModeRef={containerModeRef}
             rerenderPushContainer={forceUpdate}
+            requireCommit={requireCommit}
+            showResetButton={showResetButton}
+            outerContext={outerContext}
             {...rest}
           >
             {children}
@@ -275,16 +306,26 @@ function NewContainer({
   title,
   openButton,
   showOpenButton,
+  showResetButton,
   switchContainerModeRef,
   cancelHandler,
   containerModeRef,
   rerenderPushContainer,
+  requireCommit,
+  outerContext,
   children,
   ...rest
 }) {
   const { containerMode, switchContainerMode } =
     useContext(IterateItemContext) || {}
   containerModeRef.current = containerMode
+
+  const { hasContentChanged, showStatus: showCommitStatus } =
+    useHandleStatus({
+      outerContext,
+      requireCommit,
+    })
+  const { requireCommitText } = useTranslation().IteratePushContainer
 
   useEffect(() => {
     rerenderPushContainer()
@@ -313,7 +354,19 @@ function NewContainer({
                 {showOpenButton && (
                   <CancelButton onClick={cancelHandler} />
                 )}
+                {(requireCommit || showResetButton) && (
+                  <ResetButton
+                    // Use hidden in order to render the useHasContentChanged hook
+                    hidden={!(showResetButton || showCommitStatus)}
+                  />
+                )}
               </Flex.Horizontal>
+
+              {requireCommit && showCommitStatus && (
+                <FormStatus no_animation={false} show={hasContentChanged}>
+                  {requireCommitText}
+                </FormStatus>
+              )}
             </IterateItemContext.Provider>
           )
         }}
@@ -328,6 +381,11 @@ function NewContainer({
         title={title}
         toolbar={toolbar}
         {...rest}
+        // Add the class by default, because we don't get a "hasSubmitError" trigger
+        className={classnames(
+          'dnb-forms-section-block--error',
+          rest.className
+        )}
       >
         {children}
       </EditContainer>
@@ -340,6 +398,58 @@ function NewContainer({
     </VisibilityContext.Provider>
   )
 }
+
+function useHandleStatus({
+  outerContext,
+  requireCommit,
+}: {
+  outerContext: ContextState
+  requireCommit: boolean
+}) {
+  const { hasContentChanged } = useHasContentChanged()
+
+  useReportError(
+    requireCommit && hasContentChanged ? pushContainerError : undefined,
+    outerContext
+  )
+
+  const showStatus = useShowStatus({
+    outerContext,
+    hasContentChanged,
+    requireCommit,
+  })
+
+  return { hasContentChanged, showStatus }
+}
+
+// This hook/state is used to not show the status right away, after the user has cleared the PushContainer data.
+function useShowStatus({
+  outerContext,
+  hasContentChanged,
+  requireCommit,
+}) {
+  const showAllErrors = outerContext?.showAllErrors
+  const [showStatus, setShowStatus] = useState(showAllErrors)
+  const showRef = useRef(showAllErrors)
+  useEffect(() => {
+    if (!requireCommit) {
+      return // stop here
+    }
+
+    if (!hasContentChanged) {
+      setShowStatus(false)
+    } else {
+      if (showRef.current !== showAllErrors) {
+        setShowStatus(showAllErrors)
+      }
+    }
+    showRef.current = showAllErrors
+  }, [hasContentChanged, requireCommit, showAllErrors])
+
+  return showStatus
+}
+
+const pushContainerError = new Error('Iterate.PushContainer')
 
 PushContainer.OpenButton = OpenButton
 PushContainer._supportsSpacingProps = true
