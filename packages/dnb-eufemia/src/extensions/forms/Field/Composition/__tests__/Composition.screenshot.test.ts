@@ -31,6 +31,14 @@ describe.each(['ui', 'sbanken'])('Composition for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match composition with help button', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="forms-field-block-composition-with-help-button"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match composition alignment', async () => {
     const screenshot = await makeScreenshot({
       selector:
