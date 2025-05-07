@@ -10,6 +10,7 @@ type PaginationStartupCount = string | number;
 type PaginationParallelLoadCount = string | number;
 type PaginationMinWaitTime = string | number;
 type PaginationMode = 'pagination' | 'infinity';
+type PaginationLayout = 'vertical' | 'horizontal';
 type PaginationItems = string | any[];
 type PaginationSetContentHandler = string | ((...args: any[]) => any);
 type PaginationResetContentHandler = string | ((...args: any[]) => any);
@@ -95,6 +96,10 @@ export interface PaginationProps
    * If set to `infinity`, then the pagination bar will be now shown and but infinity scrolling will do the content presentation. For more information, check out the <a href="https://eufemia.dnb.no/uilib/components/pagination/infinity-scroller">Infinity Scroller</a>. Defaults to `pagination`.
    */
   mode?: PaginationMode;
+  /**
+   * The layout of the pagination bar. Defaults to `vertical`.
+   */
+  paginationBarLayout?: PaginationLayout;
   /**
    * If set to `true` it will disable the automated infinity scrolling, but shows a load more button at the of the content instead.
    */
