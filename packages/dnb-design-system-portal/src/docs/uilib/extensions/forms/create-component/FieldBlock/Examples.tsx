@@ -485,3 +485,62 @@ export const InlineHelpButtonCompositionFields = () => {
     </ComponentBox>
   )
 }
+
+export const Wrapping = () => {
+  const sixtyOneChars =
+    '0000000000000000000000000000000000000000000000000000000000000'
+  const sixtyOneCharsIncludingASpace =
+    '000000000000000000000000000000 000000000000000000000000000000'
+  const fiftyEightCharsIncludingASpace =
+    '00000000000000000000000000000000000000000000000000000000 0'
+  return (
+    <ComponentBox
+      data-visual-test="forms-field-block-wrapping"
+      scope={{
+        sixtyOneChars,
+        sixtyOneCharsIncludingASpace,
+        fiftyEightCharsIncludingASpace,
+      }}
+    >
+      <Flex.Stack>
+        <Form.Card>
+          <Form.SubHeading>
+            Breaking word with 61 characters
+          </Form.SubHeading>
+          <FieldBlock label={sixtyOneChars}>value</FieldBlock>
+          <FieldBlock
+            label={sixtyOneChars}
+            help={{ title: 'Help title', content: 'Help content' }}
+          >
+            value
+          </FieldBlock>
+        </Form.Card>
+        <Form.Card>
+          <Form.SubHeading>
+            Breaking a sentence of 61 characters that include a space
+          </Form.SubHeading>
+          <FieldBlock label={sixtyOneCharsIncludingASpace}>
+            value
+          </FieldBlock>
+          <FieldBlock
+            label={sixtyOneCharsIncludingASpace}
+            help={{ title: 'Help title', content: 'Help content' }}
+          >
+            value
+          </FieldBlock>
+        </Form.Card>
+        <Form.Card>
+          <Form.SubHeading>
+            Help button should not wrap alone
+          </Form.SubHeading>
+          <FieldBlock
+            label={fiftyEightCharsIncludingASpace}
+            help={{ title: 'Help title', content: 'Help content' }}
+          >
+            value
+          </FieldBlock>
+        </Form.Card>
+      </Flex.Stack>
+    </ComponentBox>
+  )
+}

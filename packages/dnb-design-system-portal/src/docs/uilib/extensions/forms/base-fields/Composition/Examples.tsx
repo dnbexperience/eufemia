@@ -1,5 +1,6 @@
+import { Flex } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Field } from '@dnb/eufemia/src/extensions/forms'
+import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const Composition = () => (
   <ComponentBox data-visual-test="forms-field-block-composition">
@@ -76,6 +77,72 @@ export const Alignment = () => {
         <Field.Number width="small" defaultValue={0} showStepControls />
         <Field.Boolean />
       </Field.Composition>
+    </ComponentBox>
+  )
+}
+
+export const Wrapping = () => {
+  const sixtyOneChars =
+    '0000000000000000000000000000000000000000000000000000000000000'
+  const sixtyOneCharsIncludingASpace =
+    '000000000000000000000000000000 000000000000000000000000000000'
+  const fiftyEightCharsIncludingASpace =
+    '00000000000000000000000000000000000000000000000000000000 0'
+  return (
+    <ComponentBox
+      scope={{
+        sixtyOneChars,
+        sixtyOneCharsIncludingASpace,
+        fiftyEightCharsIncludingASpace,
+      }}
+      data-visual-test="forms-field-block-composition-wrapping"
+    >
+      <Flex.Stack>
+        <Form.Card>
+          <Form.SubHeading>
+            Breaking word with 61 characters
+          </Form.SubHeading>
+          <Field.Composition label={sixtyOneChars}>
+            <Field.String value="string" />
+            <Field.String value="string" />
+          </Field.Composition>
+          <Field.Composition
+            label={sixtyOneChars}
+            help={{ title: 'Help title', content: 'Help content' }}
+          >
+            <Field.String value="string" />
+            <Field.String value="string" />
+          </Field.Composition>
+        </Form.Card>
+        <Form.Card>
+          <Form.SubHeading>
+            Breaking a sentence of 61 characters that include a space
+          </Form.SubHeading>
+          <Field.Composition label={sixtyOneCharsIncludingASpace}>
+            <Field.String value="string" />
+            <Field.String value="string" />
+          </Field.Composition>
+          <Field.Composition
+            label={sixtyOneCharsIncludingASpace}
+            help={{ title: 'Help title', content: 'Help content' }}
+          >
+            <Field.String value="string" />
+            <Field.String value="string" />
+          </Field.Composition>
+        </Form.Card>
+        <Form.Card>
+          <Form.SubHeading>
+            Help button should not wrap alone
+          </Form.SubHeading>
+          <Field.Composition
+            label={fiftyEightCharsIncludingASpace}
+            help={{ title: 'Help title', content: 'Help content' }}
+          >
+            <Field.String value="string" />
+            <Field.String value="string" />
+          </Field.Composition>
+        </Form.Card>
+      </Flex.Stack>
     </ComponentBox>
   )
 }
