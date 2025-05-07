@@ -69,6 +69,7 @@ export default {
       cancelButton: 'Cancel',
       resetButton: 'Reset',
       errorInContainer: 'Please correct the errors above.',
+      confirmResetText: 'Are you sure you want to clear the changes?',
     },
     IteratePushContainer: {
       createButton: 'Add',

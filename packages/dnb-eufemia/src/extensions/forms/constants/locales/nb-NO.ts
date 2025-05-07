@@ -69,6 +69,7 @@ export default {
       cancelButton: 'Avbryt',
       resetButton: 'Nullstill',
       errorInContainer: 'Feilene ovenfor må rettes.',
+      confirmResetText: 'Er du sikker på at du vil nullstille endringene?',
     },
     IteratePushContainer: {
       createButton: 'Legg til',

@@ -31,7 +31,7 @@ export default function ResetButton(props: Props) {
 
   const buttonProps = omitDataValueReadWriteProps(restProps)
   const { resetButton } = useTranslation().IterateEditContainer
-  const { confirmRemoveText } = useTranslation().RemoveButton
+  const { confirmResetText } = useTranslation().IterateEditContainer
   const textContent = text || children || resetButton
 
   const buttonWrapperRef = React.useRef<HTMLButtonElement>(null)
@@ -67,7 +67,7 @@ export default function ResetButton(props: Props) {
       {showConfirmDialog ? (
         <Dialog
           variant="confirmation"
-          title={confirmRemoveText}
+          title={confirmResetText}
           triggerAttributes={triggerAttributes}
           onConfirm={handleClick}
         />
