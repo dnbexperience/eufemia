@@ -698,7 +698,6 @@ describe('InputMasked component', () => {
       const input = document.querySelector('input')
 
       await userEvent.type(input, '0')
-      return
 
       expect(input).toHaveValue('0')
       expect(onChange).toHaveBeenCalledTimes(1)
@@ -744,6 +743,49 @@ describe('InputMasked component', () => {
       expect(onChange).toHaveBeenNthCalledWith(
         7,
         expect.objectContaining({ numberValue: 0.1, value: '0,1' })
+      )
+    })
+
+    it('should not remove leading zeroes when deleting front number', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <InputMasked
+          {...props}
+          number_mask={{
+            allowDecimal: true,
+            disallowLeadingZeroes: true,
+          }}
+          onChange={onChange}
+        />
+      )
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '1000')
+
+      expect(input).toHaveValue('1 000')
+      expect(onChange).toHaveBeenCalledTimes(4)
+      expect(onChange).toHaveBeenNthCalledWith(
+        4,
+        expect.objectContaining({ numberValue: 1000, value: '1 000' })
+      )
+
+      await userEvent.keyboard('[ArrowLeft>4]{Backspace}')
+
+      expect(input).toHaveValue('000')
+      expect(onChange).toHaveBeenCalledTimes(5)
+      expect(onChange).toHaveBeenNthCalledWith(
+        5,
+        expect.objectContaining({ numberValue: 0, value: '000' })
+      )
+
+      await userEvent.keyboard('[ArrowRight>2]1')
+      expect(input).toHaveValue('10')
+      expect(onChange).toHaveBeenCalledTimes(6)
+      expect(onChange).toHaveBeenNthCalledWith(
+        6,
+        expect.objectContaining({ numberValue: 10, value: '10' })
       )
     })
 
