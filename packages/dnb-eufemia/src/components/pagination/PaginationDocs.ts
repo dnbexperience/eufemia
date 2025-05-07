@@ -6,6 +6,11 @@ export const PaginationProperties: PropertiesTableProps = {
     type: ['pagination', 'infinity'],
     status: 'optional',
   },
+  paginationLayout: {
+    doc: 'The layout of the pagination bar. Defaults to `vertical`.',
+    type: ['vertical', 'horizontal'],
+    status: 'optional',
+  },
   children: {
     doc: 'the given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section. ',
     type: ['React.ReactNode', 'function'],

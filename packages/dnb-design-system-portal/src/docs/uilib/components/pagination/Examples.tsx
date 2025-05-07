@@ -44,6 +44,21 @@ export const PaginationExampleDefault = () => (
   </ComponentBox>
 )
 
+export const PaginationExampleWithHorizontalLayout = () => (
+  <ComponentBox data-visual-test="pagination-horizontal">
+    <Pagination
+      page_count={888}
+      current_page={4}
+      on_change={({ pageNumber }) => {
+        console.log('on_change:', pageNumber)
+      }}
+      paginationLayout="horizontal"
+    >
+      <P>Current Page Content</P>
+    </Pagination>
+  </ComponentBox>
+)
+
 export const PaginationExampleWithCallback = () => (
   <ComponentBox hideCode>
     <Pagination
