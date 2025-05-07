@@ -143,6 +143,11 @@ export const DatePickerProperties: PropertiesTableProps = {
     type: ['left', 'right'],
     status: 'optional',
   },
+  openPickerButtonVariant: {
+    doc: 'Sets the button variant of the open picker button (only visible when `showInput` is `false`). Defaults to `secondary`.',
+    type: ['secondary', 'tertiary'],
+    status: 'optional',
+  },
   onlyMonth: {
     doc: 'Use `true` to only show the defined month. Disables the month navigation possibility. Defaults to `false`.',
     type: 'boolean',

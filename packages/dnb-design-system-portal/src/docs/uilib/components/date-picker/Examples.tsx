@@ -385,3 +385,12 @@ export const DatePickerLabelAlignmentWithButtonRight = () => (
     <DatePicker label="Label" labelAlignment="right" showInput={true} />
   </ComponentBox>
 )
+
+export const DatePickerOpenButtonTertiary = () => (
+  <ComponentBox data-visual-test="date-picker-open-button-tertiary">
+    <DatePicker
+      label="Tertiary open button"
+      openPickerButtonVariant="tertiary"
+    />
+  </ComponentBox>
+)

@@ -22,6 +22,7 @@ const {
   labelDirection,
   labelSrOnly,
   labelAlignment,
+  openPickerButtonVariant,
   suffix,
   stretch,
   size,

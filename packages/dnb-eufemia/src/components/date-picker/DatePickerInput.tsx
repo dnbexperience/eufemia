@@ -998,7 +998,6 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
             status_state={statusState}
             type="button"
             icon="calendar"
-            variant="secondary"
             on_submit={onSubmit}
             on_click={onSubmit}
             {...submitAttributes}
