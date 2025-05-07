@@ -19,6 +19,26 @@ export const CompositionWithLabel = () => (
   </ComponentBox>
 )
 
+export const CompositionWithHelpButton = () => (
+  <ComponentBox data-visual-test="forms-field-block-composition-with-help-button">
+    <Field.Composition
+      label="A legend for the fieldset"
+      width="large"
+      help={{ title: 'Help title', content: 'Help content', open: true }}
+    >
+      <Field.String
+        label="Field label"
+        help={{ title: 'Help title', content: 'Help content', open: true }}
+      />
+      <Field.String
+        label="Field label"
+        width="stretch"
+        help={{ title: 'Help title', content: 'Help content', open: true }}
+      />
+    </Field.Composition>
+  </ComponentBox>
+)
+
 export const CompositionError = () => (
   <ComponentBox data-visual-test="forms-field-block-composition-error">
     <Field.Composition
