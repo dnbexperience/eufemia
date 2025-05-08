@@ -45,17 +45,19 @@ export enum BankAxeptType {
 }
 export enum Designs {
   defaultDesign,
+  pluss,
   young,
   myFirst,
   youth,
-  pluss,
   gold,
   saga,
   sagaPlatinum,
   privateBanking,
   mcBlack,
   businessNoVisa,
-  businessWithVisa
+  businessWithVisa,
+  sbankenVisa,
+  sbankenMastercard
 }
 export interface PaymentCardRawData {
   productCode: string;
