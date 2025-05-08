@@ -573,7 +573,7 @@ const defaultProps: DatePickerProps = {
   showInput: false,
   submitButtonText: 'Ok',
   cancelButtonText: 'Avbryt',
-  resetButtonText: 'Tilbakestill',
+  resetButtonText: 'Nullstill',
   resetDate: true,
   firstDay: 'monday',
   range: false,
