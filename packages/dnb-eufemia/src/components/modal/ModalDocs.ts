@@ -156,17 +156,17 @@ export const ModalProperties: PropertiesTableProps = {
   spacing: {
     doc: 'if set to `false` then the modal content will be shown without any spacing. Defaults to `true`.',
     type: 'boolean',
-    status: 'deprecated',
+    status: 'optional',
   },
   closeTitle: {
     doc: 'the title of the close button. Defaults to _Lukk_.',
     type: 'string',
-    status: 'deprecated',
+    status: 'optional',
   },
   hideCloseButton: {
     doc: 'if true, the close button will not be shown.',
     type: 'boolean',
-    status: 'deprecated',
+    status: 'optional',
   },
   class: {
     doc: 'give the inner content wrapper a class name (maps to `dnb-modal__content__inner`).',
