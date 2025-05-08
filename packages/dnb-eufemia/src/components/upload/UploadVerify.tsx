@@ -68,7 +68,7 @@ export function verifyFiles(
       const acceptedFileTypeObj = (
         acceptedFileTypes as UploadAcceptedFileTypesWithFileMaxSize
       ).find((item) => {
-        return item.fileType.toLowerCase() === fileType.toLowerCase()
+        return item?.fileType?.toLowerCase() === fileType?.toLowerCase()
       })
 
       return validateFileSize(
@@ -95,7 +95,7 @@ export function verifyFiles(
       /**
        * "file.type" can be e.g. "image/png"
        */
-      return fileType.toLowerCase().includes(type.toLowerCase())
+      return fileType?.toLowerCase()?.includes(type.toLowerCase())
     })
     return !foundType ? errorUnsupportedFile : null
   }
@@ -116,6 +116,9 @@ export function verifyFiles(
 }
 
 export function getFileTypeFromExtension(file: File) {
+  if (!file || !file.name) {
+    return null
+  }
   return (
     (file.name.includes('.') && file.name.replace(/.*\.([^.]+)$/, '$1')) ||
     null

@@ -7,12 +7,17 @@ export const CopyOnClickProperties: PropertiesTableProps = {
     status: 'optional',
   },
   disabled: {
-    doc: 'If `false`, the copy functionality and copy cursor will be omitted.  Defaults to `true`.',
+    doc: 'If `true`, the copy functionality and copy cursor will be omitted.  Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
   copyContent: {
     doc: 'Contents to copy. Used when the copied value should differ from the visually shown value(`children`).',
+    type: 'React.Node',
+    status: 'optional',
+  },
+  tooltipContent: {
+    doc: 'The message shown in the tooltip when the content is copied. Defaults to the translation `CopyOnClick.clipboard_copy`.',
     type: 'React.Node',
     status: 'optional',
   },

@@ -216,6 +216,7 @@ function DateComponent(props: DateProps) {
     onReset,
     minDate,
     maxDate,
+    width,
     ...rest
   } = useFieldProps(preparedProps)
 
@@ -250,6 +251,7 @@ function DateComponent(props: DateProps) {
     forId: id,
     label: label ?? defaultLabel,
     className: classnames('dnb-forms-field-string', className),
+    width,
     ...pickSpacingProps(props),
   }
 
@@ -262,6 +264,7 @@ function DateComponent(props: DateProps) {
         showInput={showInput}
         showCancelButton={showCancelButton}
         showResetButton={showResetButton}
+        stretch={width !== undefined}
         startDate={startDate}
         endDate={endDate}
         minDate={minDate}

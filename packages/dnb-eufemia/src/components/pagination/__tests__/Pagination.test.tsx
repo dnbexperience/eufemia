@@ -171,6 +171,27 @@ describe('Pagination bar', () => {
     ).toBe('3')
   })
 
+  it('should set correct class when paginationBarLayout is set to "horizontal"', () => {
+    render(
+      <Pagination
+        page_count={3}
+        startup_page={2}
+        paginationBarLayout="horizontal"
+      >
+        {({ pageNumber, setContent }) => {
+          setContent(pageNumber, <div>{pageNumber}</div>)
+        }}
+      </Pagination>
+    )
+    expect(
+      document.querySelector('.dnb-pagination__content').textContent
+    ).toBe('2')
+
+    expect(document.querySelector('.dnb-pagination')).toHaveClass(
+      'dnb-pagination--layout-horizontal'
+    )
+  })
+
   it('rerenders properly', () => {
     const Rerender = () => {
       const [count, incrementBy] = React.useReducer((state, count) => {

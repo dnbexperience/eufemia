@@ -9,10 +9,11 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Field, Form, JSONSchema } from '../../..'
+import { Field, Form, Iterate, JSONSchema, Wizard } from '../../..'
 import setData from '../../data-context/setData'
 
 import nbNO from '../../../constants/locales/nb-NO'
+import useReportError from '../useReportError'
 const nb = nbNO['nb-NO']
 
 if (isCI) {
@@ -1661,6 +1662,188 @@ describe('Form.Isolation', () => {
     expect(regular).toHaveValue('regular')
   })
 
+  describe('store data in data context', () => {
+    it('should set the field value to the data context', async () => {
+      let outerContext = null
+      let innerContext = null
+
+      const CollectOuterData = () => {
+        outerContext = Form.useData()
+        return null
+      }
+
+      const CollectInnerData = () => {
+        innerContext = Form.useData()
+        return null
+      }
+
+      const { rerender } = render(
+        <Form.Handler>
+          <Form.Isolation>
+            <Field.String path="/inner" />
+            <CollectInnerData />
+          </Form.Isolation>
+
+          <Field.String path="/outer" />
+          <CollectOuterData />
+        </Form.Handler>
+      )
+
+      expect(innerContext.data).toEqual({
+        inner: undefined,
+      })
+      expect(outerContext.data).toEqual({
+        outer: undefined,
+      })
+
+      rerender(
+        <Form.Handler>
+          <Form.Isolation>
+            <Field.String path="/inner" value="inner value" />
+            <CollectInnerData />
+          </Form.Isolation>
+
+          <Field.String path="/outer" value="outer value" />
+          <CollectOuterData />
+        </Form.Handler>
+      )
+
+      expect(innerContext.data).toEqual({
+        inner: 'inner value',
+        outer: 'outer value',
+      })
+      expect(outerContext.data).toEqual({
+        outer: 'outer value',
+      })
+    })
+
+    it('should set the iterate value to the data context', async () => {
+      let outerContext = null
+      let innerContext = null
+
+      const CollectOuterData = () => {
+        outerContext = Form.useData()
+        return null
+      }
+
+      const CollectInnerData = () => {
+        innerContext = Form.useData()
+        return null
+      }
+
+      const { rerender } = render(
+        <Form.Handler>
+          <Form.Isolation>
+            <Iterate.Array path="/inner" value={[{}]}>
+              <Field.String itemPath="/item" />
+            </Iterate.Array>
+            <CollectInnerData />
+          </Form.Isolation>
+
+          <Iterate.Array path="/outer" value={[{}]}>
+            <Field.String itemPath="/item" />
+          </Iterate.Array>
+          <CollectOuterData />
+        </Form.Handler>
+      )
+
+      expect(innerContext.data).toEqual({
+        inner: [{ item: undefined }],
+        outer: [{ item: undefined }],
+      })
+      expect(outerContext.data).toEqual({
+        outer: [{ item: undefined }],
+      })
+
+      rerender(
+        <Form.Handler>
+          <Form.Isolation>
+            <Iterate.Array path="/inner" value={[{ item: 'inner value' }]}>
+              <Field.String itemPath="/item" />
+            </Iterate.Array>
+            <CollectInnerData />
+          </Form.Isolation>
+
+          <Iterate.Array path="/outer" value={[{ item: 'outer value' }]}>
+            <Field.String itemPath="/item" />
+          </Iterate.Array>
+          <CollectOuterData />
+        </Form.Handler>
+      )
+
+      expect(innerContext.data).toEqual({
+        inner: [{ item: undefined }], // TODO: should be 'inner value'
+        outer: [{ item: undefined }], // TODO: should be 'outer value'
+      })
+      expect(outerContext.data).toEqual({
+        outer: [{ item: undefined }], // TODO: should be 'outer value'
+      })
+    })
+
+    it('should set the iterate value to the data context using defaultValue', async () => {
+      let outerContext = null
+      let innerContext = null
+
+      const CollectOuterData = () => {
+        outerContext = Form.useData()
+        return null
+      }
+
+      const CollectInnerData = () => {
+        innerContext = Form.useData()
+        return null
+      }
+
+      const { rerender } = render(
+        <Form.Handler>
+          <Form.Isolation>
+            <Iterate.Array path="/inner" value={[{}]}>
+              <Field.String itemPath="/item" />
+            </Iterate.Array>
+            <CollectInnerData />
+          </Form.Isolation>
+
+          <Iterate.Array path="/outer" value={[{}]}>
+            <Field.String itemPath="/item" />
+          </Iterate.Array>
+          <CollectOuterData />
+        </Form.Handler>
+      )
+
+      expect(innerContext.data).toEqual({
+        inner: [{ item: undefined }],
+        outer: [{ item: undefined }],
+      })
+      expect(outerContext.data).toEqual({
+        outer: [{ item: undefined }],
+      })
+
+      rerender(
+        <Form.Handler>
+          <Form.Isolation>
+            <Iterate.Array path="/inner" value={[{}]}>
+              <Field.String itemPath="/item" value="inner value" />
+            </Iterate.Array>
+            <CollectInnerData />
+          </Form.Isolation>
+
+          <Iterate.Array path="/outer" value={[{}]}>
+            <Field.String itemPath="/item" value="outer value" />
+          </Iterate.Array>
+          <CollectOuterData />
+        </Form.Handler>
+      )
+
+      expect(innerContext.data).toEqual({
+        inner: [{ item: 'inner value' }],
+        outer: [{ item: 'outer value' }],
+      })
+      expect(outerContext.data).toEqual({
+        outer: [{ item: 'outer value' }],
+      })
+    })
+  })
+
   describe('bubbleValidation', () => {
     it('should prevent the form from submitting as long as there are errors', async () => {
       const onSubmitRequest = jest.fn()
@@ -1703,6 +1886,54 @@ describe('Form.Isolation', () => {
 
       await userEvent.click(commitButton)
       expect(onCommit).toHaveBeenCalledTimes(1)
+    })
+
+    it('should prevent navigation when useReportError reports an error', async () => {
+      const ReportError = () => {
+        useReportError(new Error('My error'))
+        return null
+      }
+
+      render(
+        <Wizard.Container>
+          <Wizard.Step title="Step 1">
+            <output>Step 1</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 2">
+            <output>Step 2</output>
+
+            <Form.Isolation bubbleValidation>
+              <ReportError />
+            </Form.Isolation>
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 3">
+            <output>Step 3</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+      )
+
+      const nextButton = () => {
+        return document.querySelector('.dnb-forms-next-button')
+      }
+      const output = () => {
+        return document.querySelector('output')
+      }
+
+      expect(output()).toHaveTextContent('Step 1')
+
+      await userEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 2')
+
+      await userEvent.click(nextButton())
+
+      // Stay on Step 2
+      expect(output()).toHaveTextContent('Step 2')
     })
   })
 

@@ -59,4 +59,16 @@ describe('Value.BankAccountNumber', () => {
       )
     ).toHaveTextContent('2000 12 34567')
   })
+
+  it('does not render when value is null', () => {
+    render(<Value.BankAccountNumber value={null} />)
+    const element = document.querySelector('.dnb-forms-value-block')
+    expect(element).not.toBeInTheDocument()
+  })
+
+  it('does not render when value is undefined', () => {
+    render(<Value.BankAccountNumber value={undefined} />)
+    const element = document.querySelector('.dnb-forms-value-block')
+    expect(element).not.toBeInTheDocument()
+  })
 })

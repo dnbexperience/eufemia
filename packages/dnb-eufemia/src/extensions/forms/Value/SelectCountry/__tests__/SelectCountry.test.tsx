@@ -1,6 +1,7 @@
 import React from 'react'
 import { screen, render } from '@testing-library/react'
 import { Value, Form } from '../../..'
+import { CountryISO } from '../../../constants/countries'
 
 describe('Value.SelectCountry', () => {
   it('renders string values', () => {
@@ -11,6 +12,44 @@ describe('Value.SelectCountry', () => {
         '.dnb-forms-value-select-country .dnb-forms-value-block__content'
       )
     ).toHaveTextContent('Norge')
+  })
+
+  it('supports invalid values', () => {
+    const { rerender } = render(
+      <Value.SelectCountry value={'NotValidISOCode' as CountryISO} />
+    )
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-select-country .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('NotValidISOCode')
+
+    rerender(
+      <Value.SelectCountry value={0 as unknown as CountryISO} showEmpty />
+    )
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-select-country .dnb-forms-value-block__content'
+      )
+    ).not.toBeInTheDocument()
+
+    rerender(<Value.SelectCountry value={null} showEmpty />)
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-select-country .dnb-forms-value-block__content'
+      )
+    ).not.toBeInTheDocument()
+
+    rerender(<Value.SelectCountry value={undefined} showEmpty />)
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-select-country .dnb-forms-value-block__content'
+      )
+    ).not.toBeInTheDocument()
   })
 
   it('renders label when showEmpty is true', () => {

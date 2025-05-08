@@ -262,6 +262,7 @@ html[data-visual-test] .dnb-tooltip--hide {
   border-radius: var(--form-status-radius);
 }
 .dnb-form-status__text {
+  max-width: 60ch;
   padding: 0.625rem 1rem;
   cursor: text;
   color: inherit;
@@ -308,9 +309,6 @@ button .dnb-form-status__text {
 }
 .dnb-form-status--stretch .dnb-form-status__shell {
   width: 100%;
-}
-.dnb-form-status--stretch .dnb-form-status__text {
-  max-width: 47rem;
 }
 .dnb-form-status[hidden] {
   display: none;
@@ -877,6 +875,14 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
 .dnb-pagination__bar__wrapper {
   display: flex;
   flex-flow: column-reverse wrap;
+  row-gap: 0.5rem;
+}
+@media screen and (min-width: 72.00625em) {
+  .dnb-pagination--layout-horizontal .dnb-pagination__bar__wrapper {
+    flex-flow: row-reverse wrap;
+    justify-content: space-between;
+    flex: 1;
+  }
 }
 .dnb-pagination--center .dnb-pagination__bar__wrapper {
   align-items: center;
@@ -931,10 +937,8 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
   opacity: 0;
 }
 .dnb-pagination__bar__skip {
-  margin-top: 0.5rem;
-}
-.dnb-pagination__bar__skip .dnb-button:first-of-type {
-  margin-right: 1.5rem;
+  display: flex;
+  column-gap: 1.5rem;
 }
 
 @keyframes show-page {

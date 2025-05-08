@@ -36,6 +36,7 @@ import {
   useSwitchContainerMode,
 } from '../hooks'
 import { getMessagesFromError } from '../../FieldBlock'
+import { clearedArray } from '../../hooks/useFieldProps'
 
 import type { ContainerMode, ElementChild, Props, Value } from './types'
 import type { Identifier } from '../../types'
@@ -69,12 +70,14 @@ function ArrayComponent(props: Props) {
   )
 
   const { getValueByPath } = useDataValue()
-  const getCountValue = useCallback(() => {
+  const countValue = useMemo(() => {
     if (!countPath) {
       return -1
     }
 
-    let countValue = parseFloat(getValueByPath(countPath))
+    let countValue = parseFloat(
+      getValueByPath(countPath, dataContext.data)
+    )
     if (!(countValue >= 0)) {
       countValue = 0
     }
@@ -83,8 +86,7 @@ function ArrayComponent(props: Props) {
     }
 
     return countValue
-  }, [countPath, countPathLimit, getValueByPath])
-  const countValue = getCountValue()
+  }, [countPath, countPathLimit, getValueByPath, dataContext.data])
 
   const validateRequired = useCallback(
     (value: Value, { emptyValue, required, error }) => {
@@ -277,7 +279,9 @@ function ArrayComponent(props: Props) {
 
           const newArrayValue = structuredClone(arrayValue)
           newArrayValue.splice(index, 1)
-          handleChange(newArrayValue)
+          handleChange(
+            newArrayValue.length === 0 ? clearedArray : newArrayValue
+          )
         },
 
         // - Called after animation end

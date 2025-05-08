@@ -135,7 +135,7 @@ describe('DatePicker component', () => {
 
     render(<Component />)
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
     expect(onShow).toHaveBeenCalledTimes(1)
 
     expect(
@@ -2373,7 +2373,7 @@ describe('DatePicker component', () => {
       <DatePicker startMonth="2024-01-01" endMonth="2024-12-31" range />
     )
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     const [startMonth, endMonth] = Array.from(
       document.querySelectorAll('.dnb-date-picker__header__title')
@@ -2390,7 +2390,7 @@ describe('DatePicker component', () => {
 
     await userEvent.click(dayInput)
     await userEvent.keyboard('10022001')
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     const startMonth = document.querySelector(
       '.dnb-date-picker__header__title'
@@ -2413,7 +2413,7 @@ describe('DatePicker component', () => {
 
     await userEvent.click(dayInput)
     await userEvent.keyboard('0103200106042003')
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     const [startMonth, endMonth] = Array.from(
       document.querySelectorAll('.dnb-date-picker__header__title')
@@ -3226,7 +3226,7 @@ describe('DatePicker component', () => {
 
     render(<Component />)
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     // Check date
     expect(
@@ -3270,7 +3270,7 @@ describe('DatePicker component', () => {
       </StrictMode>
     )
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     // Check date
     expect(
@@ -3291,6 +3291,85 @@ describe('DatePicker component', () => {
       screen.getByLabelText('mandag 21. april 2025')
     ).not.toBeDisabled()
     expect(screen.getByLabelText('lørdag 26. april 2025')).toBeDisabled()
+  })
+
+  it('should not select invalid dates when navigating the calendar using the arrow keys', async () => {
+    render(
+      <DatePicker
+        date="2025-04-25"
+        showInput
+        onDaysRender={(days) => {
+          return days.map((dayObject) => {
+            if (isWeekend(dayObject.date)) {
+              dayObject.isInactive = true
+              dayObject.className = 'dnb-date-picker__day--weekend' // custom css
+            }
+
+            return dayObject
+          })
+        }}
+      />
+    )
+
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
+
+    const [day, month, year] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    ) as Array<HTMLInputElement>
+
+    await userEvent.keyboard('{ArrowRight}')
+
+    expect(screen.getByLabelText('mandag 28. april 2025')).toHaveAttribute(
+      'aria-current',
+      'date'
+    )
+
+    expect(day.value).toBe('28')
+    expect(month.value).toBe('04')
+    expect(year.value).toBe('2025')
+
+    expect(
+      screen.getByLabelText('lørdag 26. april 2025')
+    ).toBeInTheDocument()
+    expect(
+      screen.getByLabelText('søndag 27. april 2025')
+    ).toBeInTheDocument()
+
+    await userEvent.keyboard('{ArrowLeft}')
+
+    expect(screen.getByLabelText('fredag 25. april 2025')).toHaveAttribute(
+      'aria-current',
+      'date'
+    )
+
+    expect(day.value).toBe('25')
+    expect(month.value).toBe('04')
+    expect(year.value).toBe('2025')
+
+    expect(
+      screen.getByLabelText('lørdag 26. april 2025')
+    ).toBeInTheDocument()
+    expect(
+      screen.getByLabelText('søndag 27. april 2025')
+    ).toBeInTheDocument()
+  })
+
+  it('should allow for right aligned label', () => {
+    const { rerender } = render(
+      <DatePicker label="label" labelAlignment="right" />
+    )
+
+    const datePicker = document.querySelector('.dnb-date-picker')
+
+    expect(datePicker).toHaveClass(
+      'dnb-date-picker__input--label-alignment-right'
+    )
+
+    rerender(<DatePicker label="label" labelAlignment="left" />)
+
+    expect(datePicker).not.toHaveClass(
+      'dnb-date-picker__input--label-alignment-right'
+    )
   })
 })
 
@@ -3429,7 +3508,7 @@ describe('DatePicker calc', () => {
         />
       )
 
-      await userEvent.click(screen.getByLabelText('åpne datovelger'))
+      await userEvent.click(screen.getByLabelText('Åpne datovelger'))
       await userEvent.click(screen.getByText('Correct'))
 
       expect(onChange).toHaveBeenCalledTimes(1)
@@ -3470,7 +3549,7 @@ describe('DatePicker calc', () => {
         />
       )
 
-      await userEvent.click(screen.getByLabelText('åpne datovelger'))
+      await userEvent.click(screen.getByLabelText('Åpne datovelger'))
       await userEvent.click(screen.getByText('Correct'))
 
       expect(onChange).toHaveBeenCalledTimes(1)
@@ -3561,13 +3640,91 @@ describe('Custom text for buttons', () => {
       ).toBeInTheDocument()
     })
   })
+
+  describe('copy & paste', () => {
+    it('should copy the whole date when copied from input field', async () => {
+      const { rerender } = render(
+        <DatePicker showInput date="2025-04-01" />
+      )
+
+      const [day, month, year]: Array<HTMLInputElement> = Array.from(
+        document.querySelectorAll('input.dnb-input__input')
+      )
+
+      const setData = jest.fn()
+      const clipboardData = { setData }
+
+      day.focus()
+      day.select()
+      fireEvent.copy(day, {
+        clipboardData,
+      })
+      expect(setData).toHaveBeenLastCalledWith('text/plain', '01.04.2025')
+
+      rerender(<DatePicker showInput date="2025-04-02" />)
+      month.focus()
+      month.select()
+      fireEvent.copy(month, {
+        clipboardData,
+      })
+      expect(setData).toHaveBeenLastCalledWith('text/plain', '02.04.2025')
+
+      rerender(<DatePicker showInput date="2025-04-03" />)
+      year.focus()
+      year.select()
+      fireEvent.copy(year, {
+        clipboardData,
+      })
+      expect(setData).toHaveBeenLastCalledWith('text/plain', '03.04.2025')
+    })
+
+    it('should paste the whole date as the value of the input field', async () => {
+      render(<DatePicker showInput />)
+
+      const [day, month, year]: Array<HTMLInputElement> = Array.from(
+        document.querySelectorAll('input.dnb-input__input')
+      )
+
+      let date = null
+
+      const getData = jest.fn(() => date)
+      const clipboardData = { getData }
+
+      date = '01.04.2025'
+      day.focus()
+      day.select()
+      fireEvent.paste(day, { clipboardData })
+      expect(getData).toHaveBeenCalledWith('text/plain')
+      expect(day).toHaveValue('01')
+      expect(month).toHaveValue('04')
+      expect(year).toHaveValue('2025')
+
+      date = '02.05.2025'
+      month.focus()
+      month.select()
+      fireEvent.paste(month, { clipboardData })
+      expect(getData).toHaveBeenCalledWith('text/plain')
+      expect(day).toHaveValue('02')
+      expect(month).toHaveValue('05')
+      expect(year).toHaveValue('2025')
+
+      date = '03.05.2026'
+      year.focus()
+      year.select()
+      fireEvent.paste(year, { clipboardData })
+      expect(getData).toHaveBeenCalledWith('text/plain')
+      expect(day).toHaveValue('03')
+      expect(month).toHaveValue('05')
+      expect(year).toHaveValue('2026')
+    })
+  })
 })
 
 describe('DatePickerPortal', () => {
   it('should attach portal to document body on mount, and detach on unmount', async () => {
     render(<DatePicker />)
 
-    const inputButton = screen.getByLabelText('åpne datovelger')
+    const inputButton = screen.getByLabelText('Åpne datovelger')
 
     expect(
       document.body.querySelector('.dnb-date-picker__portal')
@@ -3593,7 +3750,7 @@ describe('DatePickerPortal', () => {
   it('should contain calendar views when mounted', async () => {
     render(<DatePicker />)
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     const portal = document.body.querySelector('.dnb-date-picker__portal')
 
@@ -3608,7 +3765,7 @@ describe('DatePickerPortal', () => {
   it('should skip portal when "skipPortal" is true', async () => {
     render(<DatePicker skipPortal />)
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
     // dnb-date-picker__container is a direct descendant of dnb-date-picker__shell when portal is skipped
     expect(
@@ -3645,7 +3802,7 @@ describe('DatePickerPortal', () => {
 
     render(<DatePickerComponent />)
 
-    await userEvent.click(screen.getByLabelText('åpne datovelger'))
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
     expect(onShow).toHaveBeenCalledTimes(1)
     expect(onHide).toHaveBeenCalledTimes(0)
     expect(
@@ -3691,5 +3848,195 @@ describe('DatePicker ARIA', () => {
       />
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+
+  it('should announce selected date', async () => {
+    render(<DatePicker date="2025-04-01" />)
+
+    const openButton = document.querySelector(
+      '.dnb-button'
+    ) as HTMLButtonElement
+
+    await userEvent.click(openButton)
+    await userEvent.click(screen.getByLabelText('fredag 25. april 2025'))
+
+    expect(document.querySelector('.dnb-sr-only')).toHaveTextContent(
+      'Valgt dato: fredag 25. april 2025'
+    )
+    expect(openButton).toHaveAttribute(
+      'aria-label',
+      'Valgt dato: fredag 25. april 2025, Åpne datovelger'
+    )
+  })
+
+  it('should announce selected date based on locale', async () => {
+    // en-GB
+    const { rerender } = render(
+      <Provider locale="en-GB">
+        <DatePicker date="2025-04-01" />
+      </Provider>
+    )
+
+    const openButton = document.querySelector(
+      '.dnb-button'
+    ) as HTMLButtonElement
+
+    expect(openButton).toHaveAttribute('aria-label', 'Open date picker')
+
+    await userEvent.click(openButton)
+    await userEvent.click(screen.getByLabelText('Friday 25 April 2025'))
+
+    expect(document.querySelector('.dnb-sr-only')).toHaveTextContent(
+      'Selected date: Friday 25 April 2025'
+    )
+    expect(openButton).toHaveAttribute(
+      'aria-label',
+      'Selected date: Friday 25 April 2025, Open date picker'
+    )
+
+    // en-US
+    rerender(
+      <Provider locale="en-US">
+        <DatePicker date="2025-04-01" />
+      </Provider>
+    )
+
+    await userEvent.click(openButton)
+    await userEvent.click(screen.getByLabelText('Monday, April 14, 2025'))
+
+    expect(document.querySelector('.dnb-sr-only')).toHaveTextContent(
+      'Selected date: Monday, April 14, 2025'
+    )
+    expect(openButton).toHaveAttribute(
+      'aria-label',
+      'Selected date: Monday, April 14, 2025, Open date picker'
+    )
+
+    // sv-SE
+    rerender(
+      <Provider locale="sv-SE" translations={svSE}>
+        <DatePicker date="2025-04-01" />
+      </Provider>
+    )
+
+    await userEvent.click(openButton)
+    await userEvent.click(screen.getByLabelText('tisdag 22 april 2025'))
+
+    expect(document.querySelector('.dnb-sr-only')).toHaveTextContent(
+      'Valt datum: tisdag 22 april 2025'
+    )
+    expect(openButton).toHaveAttribute(
+      'aria-label',
+      'Valt datum: tisdag 22 april 2025, Öppna datumväljaren'
+    )
+  })
+
+  it('should announce selected date range', async () => {
+    render(
+      <DatePicker startDate="2025-04-01" endDate="2025-05-31" range />
+    )
+
+    const openButton = document.querySelector(
+      '.dnb-button'
+    ) as HTMLButtonElement
+
+    await userEvent.click(openButton)
+    await userEvent.click(screen.getByLabelText('onsdag 2. april 2025'))
+    await userEvent.click(screen.getByLabelText('lørdag 19. april 2025'))
+
+    expect(document.querySelector('.dnb-sr-only')).toHaveTextContent(
+      'Valgte datoer: onsdag 2.–lørdag 19. april 2025'
+    )
+    expect(openButton).toHaveAttribute(
+      'aria-label',
+      'Valgte datoer: onsdag 2.–lørdag 19. april 2025, Åpne datovelger'
+    )
+  })
+
+  it('should announce selected date range based on locale', async () => {
+    // en-GB
+    const { rerender } = render(
+      <Provider locale="en-GB">
+        <DatePicker
+          startDate="2025-04-01"
+          endDate="2025-05-31"
+          range
+          // To prevent tests from failing on build server
+          preventClose
+        />
+      </Provider>
+    )
+
+    const openButton = document.querySelector(
+      '.dnb-button'
+    ) as HTMLButtonElement
+
+    expect(openButton).toHaveAttribute('aria-label', 'Open date picker')
+
+    await userEvent.click(openButton)
+    await userEvent.click(screen.getByLabelText('Wednesday 2 April 2025'))
+    await userEvent.click(screen.getByLabelText('Saturday 19 April 2025'))
+
+    expect(document.querySelector('.dnb-sr-only')).toHaveTextContent(
+      'Selected dates: Wednesday 2 April – Saturday 19 April 2025'
+    )
+    expect(openButton).toHaveAttribute(
+      'aria-label',
+      'Selected dates: Wednesday 2 April – Saturday 19 April 2025, Open date picker'
+    )
+
+    // en-US
+    rerender(
+      <Provider locale="en-US">
+        <DatePicker
+          startDate="2025-04-01"
+          endDate="2025-05-31"
+          range
+          // To prevent tests from failing on build server
+          preventClose
+        />
+      </Provider>
+    )
+
+    await userEvent.click(openButton)
+    await userEvent.click(
+      screen.getByLabelText('Wednesday, April 2, 2025')
+    )
+    await userEvent.click(
+      screen.getByLabelText('Saturday, April 19, 2025')
+    )
+
+    expect(document.querySelector('.dnb-sr-only')).toHaveTextContent(
+      'Selected dates: Wednesday, April 2 – Saturday, April 19, 2025'
+    )
+    expect(openButton).toHaveAttribute(
+      'aria-label',
+      'Selected dates: Wednesday, April 2 – Saturday, April 19, 2025, Open date picker'
+    )
+
+    // sv-SE
+    rerender(
+      <Provider locale="sv-SE" translations={svSE}>
+        <DatePicker
+          startDate="2025-04-01"
+          endDate="2025-05-31"
+          range
+          // To prevent tests from failing on build server
+          preventClose
+        />
+      </Provider>
+    )
+
+    await userEvent.click(openButton)
+    await userEvent.click(screen.getByLabelText('måndag 14 april 2025'))
+    await userEvent.click(screen.getByLabelText('tisdag 22 april 2025'))
+
+    expect(document.querySelector('.dnb-sr-only')).toHaveTextContent(
+      'Valda datum: måndag 14 april–tisdag 22 april 2025'
+    )
+    expect(openButton).toHaveAttribute(
+      'aria-label',
+      'Valda datum: måndag 14 april–tisdag 22 april 2025, Öppna datumväljaren'
+    )
   })
 })

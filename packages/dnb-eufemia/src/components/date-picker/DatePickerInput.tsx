@@ -27,7 +27,7 @@ import {
   toCapitalized,
 } from '../../shared/component-helper'
 import { IS_ANDROID, IS_IOS } from '../../shared/helpers'
-import { convertStringToDate } from './DatePickerCalc'
+import { convertStringToDate, formatDate } from './DatePickerCalc'
 import DatePickerContext from './DatePickerContext'
 
 import type {
@@ -38,7 +38,7 @@ import type {
 import type { SkeletonShow } from '../Skeleton'
 import { ReturnObject } from './DatePickerProvider'
 import { DatePickerEventAttributes } from './DatePicker'
-import { useTranslation } from '../../shared'
+import { Context, useTranslation } from '../../shared'
 import usePartialDates from './hooks/usePartialDates'
 import useInputDates, { DatePickerInputDates } from './hooks/useInputDates'
 
@@ -174,6 +174,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   })
 
   const translation = useTranslation().DatePicker
+  const { locale } = useContext(Context)
 
   const hasHadValidDate = isValid(startDate) || isValid(endDate)
 
@@ -238,6 +239,21 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       }, [])
   }, [maskOrder, separatorRegExp])
 
+  const copyHandler = useCallback(
+    (
+      event: React.ClipboardEvent<HTMLInputElement>,
+      mode: DatePickerEventAttributes['mode']
+    ) => {
+      const date = mode === 'end' ? endDate : startDate
+      if (isValid(date)) {
+        event.preventDefault()
+        const valueToCopy = formatDate(date, { locale })
+        event.clipboardData.setData('text/plain', valueToCopy)
+      }
+    },
+    [endDate, locale, startDate]
+  )
+
   const pasteHandler = useCallback(
     async (event: React.ClipboardEvent<HTMLInputElement>) => {
       if (!focusMode.current) {
@@ -247,7 +263,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       const success = (
         event.clipboardData ||
         (typeof window !== 'undefined' && window['clipboardData'])
-      ).getData('text')
+      ).getData('text/plain')
 
       if (!success) {
         return // Stop here
@@ -304,29 +320,29 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       starDate?: Date
       event: React.ChangeEvent<HTMLInputElement>
     }) => {
-      updateDates(
-        {
-          hoverDate: null,
-        },
-        (dates) => {
-          // Should fire if user has filled out an invalid date,
-          // or if the date was valid. Like if the user has pressed backspace or removed the valid date.
-          if (isDateFullyFilledOutRef.current || hasHadValidDate) {
-            const { startDate, endDate, event } = {
-              ...state,
-              ...dates,
-            }
-            callOnChangeHandler({
-              startDate,
-              endDate,
-              event,
-              ...invalidDatesRef.current,
-            })
-          }
+      // Should fire if user has filled out an invalid date,
+      // or if the date was valid. Like if the user has pressed backspace or removed the valid date.
+      if (isDateFullyFilledOutRef.current || hasHadValidDate) {
+        const datesFromContext = { startDate, endDate }
+
+        const {
+          startDate: derivedStartDate,
+          endDate: derivedEndDate,
+          event,
+        } = {
+          ...state,
+          ...datesFromContext,
         }
-      )
+
+        callOnChangeHandler({
+          startDate: derivedStartDate,
+          endDate: derivedEndDate,
+          event,
+          ...invalidDatesRef.current,
+        })
+      }
     },
-    [updateDates, callOnChangeHandler, hasHadValidDate]
+    [callOnChangeHandler, hasHadValidDate, startDate, endDate]
   )
 
   const callOnChange = useCallback(
@@ -747,12 +763,15 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
               ...element,
               onInput: onInputHandler,
               onKeyDown: onKeyDownHandler,
-              onPaste: pasteHandler,
               onFocus: (e) => {
                 focusMode.current = mode
                 onFocusHandler(e)
               },
               onBlur: onBlurHandler,
+              onPaste: pasteHandler,
+              onCopy: (event) => {
+                copyHandler(event, mode)
+              },
               placeholderChar,
             }
           }

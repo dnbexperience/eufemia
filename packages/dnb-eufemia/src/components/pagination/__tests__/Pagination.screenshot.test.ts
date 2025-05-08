@@ -24,6 +24,16 @@ describe.each(['ui', 'sbanken'])('Pagination for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match the pagination with horizontal layout', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="pagination-horizontal"]',
+      style: {
+        width: '60rem',
+      },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match the current button hover', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="pagination-default"]',

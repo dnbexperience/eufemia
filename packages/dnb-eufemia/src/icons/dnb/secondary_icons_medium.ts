@@ -8,6 +8,7 @@ import account_out_medium from './account_out_medium'
 import account_percent_medium from './account_percent_medium'
 import accounting_medium from './accounting_medium'
 import add_circled_medium from './add_circled_medium'
+import aino_medium from './aino_medium'
 import ainvoice_medium from './ainvoice_medium'
 import ambulance_medium from './ambulance_medium'
 import animal_print_medium from './animal_print_medium'
@@ -76,6 +77,7 @@ import digipass_corporate_medium from './digipass_corporate_medium'
 import digipass_medium from './digipass_medium'
 import digipass_private_medium from './digipass_private_medium'
 import digipost_medium from './digipost_medium'
+import digital_advise_medium from './digital_advise_medium'
 import digitpass_private_corporate_medium from './digitpass_private_corporate_medium'
 import dismiss_keyboard_medium from './dismiss_keyboard_medium'
 import dog_medium from './dog_medium'
@@ -154,6 +156,7 @@ import layout_card_medium from './layout_card_medium'
 import layout_grid_medium from './layout_grid_medium'
 import leaf_medium from './leaf_medium'
 import lightbulb_medium from './lightbulb_medium'
+import lightningstrike_medium from './lightningstrike_medium'
 import linkedin_medium from './linkedin_medium'
 import list_medium from './list_medium'
 import loan_in_medium from './loan_in_medium'
@@ -269,6 +272,7 @@ export {
   account_percent_medium,
   accounting_medium,
   add_circled_medium,
+  aino_medium,
   ainvoice_medium,
   ambulance_medium,
   animal_print_medium,
@@ -337,6 +341,7 @@ export {
   digipass_medium,
   digipass_private_medium,
   digipost_medium,
+  digital_advise_medium,
   digitpass_private_corporate_medium,
   dismiss_keyboard_medium,
   dog_medium,
@@ -415,6 +420,7 @@ export {
   layout_grid_medium,
   leaf_medium,
   lightbulb_medium,
+  lightningstrike_medium,
   linkedin_medium,
   list_medium,
   loan_in_medium,

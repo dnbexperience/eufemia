@@ -29,9 +29,8 @@ export type Props = Omit<
   FieldProps<UploadValue, UploadValue | undefined>,
   'name'
 > &
-  SpacingProps & {
-    width?: Omit<FieldBlockWidth, 'medium' | 'small'>
-  } & Pick<
+  SpacingProps &
+  Pick<
     Partial<UploadProps>,
     | 'title'
     | 'text'
@@ -48,6 +47,7 @@ export type Props = Omit<
     fileHandler?: (
       newFiles: UploadValue
     ) => UploadValue | Promise<UploadValue>
+    width?: 'large' | 'stretch'
   }
 
 const validateRequired = (
@@ -80,6 +80,10 @@ function UploadComponent(props: Props) {
 
   const fromInput = useCallback((value: UploadValue) => {
     value.forEach((item, index) => {
+      if (!item) {
+        return
+      }
+
       value[index] = item
 
       // Store the name in the value, to support session storage (serialization)
@@ -147,6 +151,9 @@ function UploadComponent(props: Props) {
       // Filter out existing files
       const existingFileIds =
         filesRef.current?.map((file) => file.id) || []
+      const existingFiles = files.filter((file) =>
+        existingFileIds.includes(file.id)
+      )
       const newFiles = files.filter(
         (file) => !existingFileIds.includes(file.id)
       )
@@ -161,37 +168,42 @@ function UploadComponent(props: Props) {
         setFiles([...filesRef.current, ...newFilesLoading])
 
         const incomingFiles = await fileHandler(newValidFiles)
-        // merge incoming files into existing order of newFiles.
-        incomingFiles.forEach((file) => {
-          const incomingFileObj = {
-            ...file,
-            isLoading: false,
-          }
-          const foundIndex = newFilesLoading.findIndex(
-            (newFile) => newFile.isLoading
+
+        if (!incomingFiles) {
+          setFiles(existingFiles)
+          handleChange(existingFiles)
+        } else {
+          // merge incoming files into existing order of newFiles.
+          incomingFiles.forEach((file) => {
+            const incomingFileObj = {
+              ...file,
+              isLoading: false,
+            }
+            const foundIndex = newFilesLoading.findIndex(
+              (newFile) => newFile.isLoading
+            )
+            if (foundIndex >= 0) {
+              newFilesLoading[foundIndex] = incomingFileObj
+            } else {
+              // if there's more files incoming than there's files loading (edge case), add them to end of array.
+              newFilesLoading.push(incomingFileObj)
+            }
+          })
+
+          const indexOfFirstNewFile = filesRef.current.findIndex(
+            ({ id }) => id === newFiles[0].id
           )
-          if (foundIndex >= 0) {
-            newFilesLoading[foundIndex] = incomingFileObj
-          } else {
-            // if there's more files incoming than there's files loading (edge case), add them to end of array.
-            newFilesLoading.push(incomingFileObj)
-          }
-        })
 
-        const indexOfFirstNewFile = filesRef.current.findIndex(
-          ({ id }) => id === newFiles[0].id
-        )
-
-        const updatedFiles = [
-          ...filesRef.current.slice(0, indexOfFirstNewFile),
-          ...newFilesLoading,
-          ...filesRef.current.slice(
-            indexOfFirstNewFile + newFilesLoading.length
-          ),
-        ]
-
-        // Set error, if any
-        handleChange(updatedFiles)
+          const updatedFiles = [
+            ...filesRef.current.slice(0, indexOfFirstNewFile),
+            ...(incomingFiles?.filter((file) => file != null) ?? []),
+            ...filesRef.current.slice(
+              indexOfFirstNewFile + incomingFiles.length
+            ),
+          ]
+          setFiles(updatedFiles)
+          handleChange(updatedFiles)
+        }
       } else {
         handleChange(files)
       }

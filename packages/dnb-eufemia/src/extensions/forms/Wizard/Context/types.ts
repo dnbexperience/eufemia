@@ -28,6 +28,7 @@ export type Steps = Map<
     title: React.ReactNode
     stringifiedTitle: string
     inactive?: boolean
+    keepInDOM?: boolean
 
     /** Used internally to set the status */
     status?: string

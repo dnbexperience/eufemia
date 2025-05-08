@@ -181,7 +181,7 @@ export function useCheckboxOrToggleOptions({
     () => React.Children.count(children) + (dataList?.length || 0),
     [dataList, children]
   )
-  const activeData = []
+  const activeData: Array<OptionProps> = []
 
   const createOption = useCallback(
     (props: OptionProps, i: number) => {
@@ -277,7 +277,9 @@ export function useCheckboxOrToggleOptions({
   }
 
   if (path) {
-    setFieldInternals?.(path + '/arraySelectionData', activeData)
+    setFieldInternals?.(path + '/arraySelectionData', {
+      props: activeData,
+    })
   }
 
   return result

@@ -5,6 +5,7 @@ import {
   cleanNumber,
 } from '../../../../components/number-format/NumberUtils'
 import useTranslation from '../../hooks/useTranslation'
+import { isValueEmpty } from '../../ValueBlock'
 
 export type Props = StringValueProps
 
@@ -12,6 +13,9 @@ function BankAccountNumber(props: Props) {
   const translations = useTranslation().BankAccountNumber
 
   const toInput = useCallback((value) => {
+    if (isValueEmpty(value)) {
+      return undefined
+    }
     return format(cleanNumber(value), {
       ban: true,
     }).toString()

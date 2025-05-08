@@ -34,7 +34,7 @@
   &--center &__bar {
     justify-content: center;
 
-    @media screen and (max-width: 40em) {
+    @include allBelow(small) {
       justify-content: flex-start;
     }
   }
@@ -46,6 +46,15 @@
   &__bar__wrapper {
     display: flex;
     flex-flow: column-reverse wrap; // because of screen readers
+    row-gap: 0.5rem;
+  }
+
+  &--layout-horizontal &__bar__wrapper {
+    @include allAbove(large) {
+      flex-flow: row-reverse wrap;
+      justify-content: space-between;
+      flex: 1;
+    }
   }
 
   &--center &__bar__wrapper {
@@ -117,11 +126,8 @@
   }
 
   &__bar__skip {
-    margin-top: 0.5rem;
-  }
-
-  &__bar__skip .dnb-button:first-of-type {
-    margin-right: 1.5rem;
+    display: flex;
+    column-gap: 1.5rem;
   }
 }
 

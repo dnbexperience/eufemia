@@ -158,3 +158,69 @@ export const WithHelp = () => {
     </ComponentBox>
   )
 }
+
+export const Wrapping = () => {
+  const sixtyOneChars =
+    '0000000000000000000000000000000000000000000000000000000000000'
+  const sixtyOneCharsIncludingASpace =
+    '000000000000000000000000000000 000000000000000000000000000000'
+  const fiftyEightCharsIncludingASpace =
+    '00000000000000000000000000000000000000000000000000000000 0'
+  return (
+    <ComponentBox
+      scope={{
+        sixtyOneChars,
+        sixtyOneCharsIncludingASpace,
+        fiftyEightCharsIncludingASpace,
+      }}
+      data-visual-test="forms-value-composition-wrapping"
+    >
+      <Flex.Stack>
+        <Form.Card>
+          <Form.SubHeading>
+            Breaking word with 61 characters
+          </Form.SubHeading>
+          <Value.Composition label={sixtyOneChars}>
+            <Value.String value={sixtyOneChars} />
+            <Value.String value={sixtyOneChars} />
+          </Value.Composition>
+          <Value.Composition
+            label={sixtyOneChars}
+            help={{ title: 'Help title', content: 'Help content' }}
+          >
+            <Value.String value={sixtyOneChars} />
+            <Value.String value={sixtyOneChars} />
+          </Value.Composition>
+        </Form.Card>
+        <Form.Card>
+          <Form.SubHeading>
+            Breaking a sentence of 61 characters that include a space
+          </Form.SubHeading>
+          <Value.Composition label={sixtyOneCharsIncludingASpace}>
+            <Value.String value={sixtyOneCharsIncludingASpace} />
+            <Value.String value={sixtyOneCharsIncludingASpace} />
+          </Value.Composition>
+          <Value.Composition
+            label={sixtyOneCharsIncludingASpace}
+            help={{ title: 'Help title', content: 'Help content' }}
+          >
+            <Value.String value={sixtyOneCharsIncludingASpace} />
+            <Value.String value={sixtyOneCharsIncludingASpace} />
+          </Value.Composition>
+        </Form.Card>
+        <Form.Card>
+          <Form.SubHeading>
+            Help button should not wrap alone
+          </Form.SubHeading>
+          <Value.Composition
+            label={fiftyEightCharsIncludingASpace}
+            help={{ title: 'Help title', content: 'Help content' }}
+          >
+            <Value.String value={'value'} />
+            <Value.String value={'value'} />
+          </Value.Composition>
+        </Form.Card>
+      </Flex.Stack>
+    </ComponentBox>
+  )
+}

@@ -12,6 +12,7 @@ import {
   OnChange,
   OnSubmitParams,
   CountryCode,
+  Identifier,
 } from '../types'
 import { Props as ProviderProps } from './Provider'
 import { SnapshotName } from '../Form/Snapshot'
@@ -29,6 +30,7 @@ export type EventListenerCall = {
   path?: Path
   type?:
     | 'onSubmit'
+    | 'onBeforeSubmit'
     | 'onSubmitCall'
     | 'onSubmitRequest'
     | 'onPathChange'
@@ -101,13 +103,11 @@ export type FieldConnections = {
 export type FieldInternalsRefProps =
   | (FieldProps & { children: unknown })
   | undefined
-export type FieldInternalsRef = Record<
-  Path,
-  {
-    props: FieldInternalsRefProps
-    id: string | undefined
-  }
->
+export type FieldInternalsValue<Props = FieldInternalsRefProps> = {
+  id?: Identifier
+  props?: Props
+}
+export type FieldInternalsRef = Record<Path, FieldInternalsValue>
 export type ValueInternalsRef = Record<
   Path,
   { props: ValueProps | undefined }
@@ -180,7 +180,10 @@ export interface ContextState {
     params?: { remove?: boolean }
   ) => void
   revealError?: (path: Path, hasError: boolean) => void
-  setFieldInternals?: (path: Path, props: unknown, id?: string) => void
+  setFieldInternals?: <Props>(
+    path: Path,
+    internals: FieldInternalsValue<Props>
+  ) => void
   setValueInternals?: (path: Path, props: unknown) => void
   setFieldConnection?: (path: Path, connections: FieldConnections) => void
   isEmptyDataRef?: React.MutableRefObject<boolean>

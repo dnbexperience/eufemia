@@ -154,3 +154,25 @@ export const UploadSandbox = () => {
     </Wrapper>
   )
 }
+
+export const UploadEdgeCases = () => {
+  const { setFiles } = Upload.useUpload('file-list')
+
+  useEffect(() => {
+    setFiles([
+      undefined,
+      {
+        file: undefined,
+      },
+      null,
+    ])
+  }, [setFiles])
+
+  return (
+    <Wrapper>
+      <Box>
+        <Upload id="file-list" acceptedFileTypes={['pdf']} />
+      </Box>
+    </Wrapper>
+  )
+}

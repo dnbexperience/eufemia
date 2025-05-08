@@ -37,6 +37,14 @@ describe.each(['ui', 'sbanken'])('FieldBlock for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match label description without label', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="forms-field-block-label-description-no-label"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match combined statuses', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="forms-field-block-combined-errors"]',
@@ -76,6 +84,14 @@ describe.each(['ui', 'sbanken'])('FieldBlock for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match label description help-button without label', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="forms-field-block-help-button-label-description-no-label"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match description help-button', async () => {
     const screenshot = await makeScreenshot({
       selector:
@@ -94,6 +110,13 @@ describe.each(['ui', 'sbanken'])('FieldBlock for %s', (themeName) => {
   it('have to match horizontal wrap', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="forms-field-block-horizontal-wrap"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match wrapping', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="forms-field-block-wrapping"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

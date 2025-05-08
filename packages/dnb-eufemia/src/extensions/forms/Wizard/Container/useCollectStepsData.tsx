@@ -8,36 +8,24 @@ export function useCollectStepsData() {
     activeIndexRef,
     hasErrorInOtherStepRef,
     stepsRef,
-    submitCountRef,
-    writeStepsState,
     hasInvalidStepsState,
   } = useContext(WizardContext) || {}
 
   const translations = useTranslation()
 
   const collectStepsData = useCallback(
-    ({ id, index, inactive, title }) => {
+    ({ id, index, inactive, title, keepInDOM }) => {
       if (!hasInvalidStepsState) {
         return // stop here
       }
 
-      writeStepsState(index)
-
-      const stringifiedTitle =
-        title !== undefined ? convertJsxToString(title) : 'Title missing'
-
       let status = undefined
       let statusState = undefined
       if (index !== activeIndexRef.current && !inactive) {
+        // - Never show the unknown state
         if (hasInvalidStepsState(index, ['error'])) {
           status = translations.Step.stepHasError
           statusState = 'error'
-        } else if (
-          submitCountRef.current > 0 &&
-          hasInvalidStepsState(index, ['unknown'])
-        ) {
-          status = 'Unknown state'
-          statusState = 'warn'
         }
       }
 
@@ -45,6 +33,8 @@ export function useCollectStepsData() {
         hasErrorInOtherStepRef.current = true
       }
 
+      const stringifiedTitle =
+        title !== undefined ? convertJsxToString(title) : 'Title missing'
       stepsRef.current.set(index, {
         index,
         id,
@@ -53,6 +43,7 @@ export function useCollectStepsData() {
         inactive,
         status,
         statusState,
+        keepInDOM,
       })
 
       return { title }
@@ -62,9 +53,7 @@ export function useCollectStepsData() {
       hasErrorInOtherStepRef,
       hasInvalidStepsState,
       stepsRef,
-      submitCountRef,
       translations.Step.stepHasError,
-      writeStepsState,
     ]
   )
 

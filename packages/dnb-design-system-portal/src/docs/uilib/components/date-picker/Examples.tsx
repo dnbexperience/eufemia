@@ -373,3 +373,15 @@ export const DatePickerCorrectInvalidDate = () => (
     />
   </ComponentBox>
 )
+
+export const DatePickerLabelAlignmentRight = () => (
+  <ComponentBox data-visual-test="date-picker-label-alignment-right">
+    <DatePicker label="Label" labelAlignment="right" />
+  </ComponentBox>
+)
+
+export const DatePickerLabelAlignmentWithButtonRight = () => (
+  <ComponentBox data-visual-test="date-picker-with-button-label-alignment-right">
+    <DatePicker label="Label" labelAlignment="right" showInput={true} />
+  </ComponentBox>
+)

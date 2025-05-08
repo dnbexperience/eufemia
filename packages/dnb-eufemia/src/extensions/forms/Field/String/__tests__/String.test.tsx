@@ -96,6 +96,16 @@ describe('Field.String', () => {
       ).not.toBeInTheDocument()
     })
 
+    it('should set correct class when labelSrOnly is true', () => {
+      render(<Field.String label="My label" labelSrOnly />)
+
+      const element = document.querySelector('.dnb-form-label')
+
+      expect(element).toHaveTextContent('My label')
+      expect(element).toHaveClass('dnb-sr-only')
+      expect(element).not.toHaveClass('dnb-form-label--interactive')
+    })
+
     it('support Input props such as "keepPlaceholder"', async () => {
       render(
         <Field.String keepPlaceholder placeholder="Placeholder text" />

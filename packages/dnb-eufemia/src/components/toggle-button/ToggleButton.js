@@ -129,6 +129,7 @@ export default class ToggleButton extends React.PureComponent {
     globalStatus: null,
     suffix: null,
     value: '',
+    role: undefined,
     icon: null,
     icon_position: 'right',
     icon_size: null,
@@ -316,6 +317,7 @@ export default class ToggleButton extends React.PureComponent {
             icon_size,
             icon_position,
             value: propValue,
+            role,
 
             id: _id, // eslint-disable-line
             // group: _group, // eslint-disable-line
@@ -379,7 +381,10 @@ export default class ToggleButton extends React.PureComponent {
             icon,
             icon_size,
             icon_position,
-            'aria-pressed': String(checked || false),
+            [`aria-${role === 'radio' ? 'checked' : 'pressed'}`]: String(
+              checked || false
+            ),
+            role,
             ...rest,
           }
 

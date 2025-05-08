@@ -14,4 +14,12 @@ describe('Upload', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match widths', async () => {
+    const screenshot = await makeScreenshot({
+      style: { width: '40rem' },
+      selector: '[data-visual-test="upload-field-width"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

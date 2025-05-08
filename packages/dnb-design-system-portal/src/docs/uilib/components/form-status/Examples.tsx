@@ -19,6 +19,7 @@ import {
   ToggleButton,
   Link,
   Grid,
+  Anchor,
 } from '@dnb/eufemia/src'
 import { Provider } from '@dnb/eufemia/src/shared'
 
@@ -128,18 +129,13 @@ export const FormStatusCustom = () => (
 export const FormStatusLarge = () => (
   <ComponentBox>
     {() => {
-      const myHTML = `
-  My HTML
-  <a class="dnb-anchor" href="/" target="_blank">with a link</a>
-  and more text
-`
-      const CustomStatus = () => (
-        <span dangerouslySetInnerHTML={{ __html: myHTML }} />
-      )
-
       return (
         <FormStatus state="info" size="large" variant="outlined">
-          <CustomStatus />
+          My HTML{' '}
+          <Anchor href="/" target="_blank">
+            with a link
+          </Anchor>{' '}
+          and more text
         </FormStatus>
       )
     }}

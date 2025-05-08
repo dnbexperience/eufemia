@@ -204,6 +204,47 @@ describe('variants', () => {
       expect(radioElement.classList).toContain('dnb-radio--large')
     })
 
+    it('should reset value when undefined was given', async () => {
+      const { rerender } = render(
+        <Form.Handler>
+          <Field.Selection path="/selection" variant="radio">
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
+          </Field.Selection>
+        </Form.Handler>
+      )
+
+      const radioButtons = screen.queryAllByRole('radio')
+      expect(radioButtons[0]).not.toBeChecked()
+      expect(radioButtons[1]).not.toBeChecked()
+
+      await userEvent.click(radioButtons[0])
+
+      expect(radioButtons[0]).toBeChecked()
+      expect(radioButtons[1]).not.toBeChecked()
+
+      await userEvent.click(radioButtons[1])
+
+      expect(radioButtons[0]).not.toBeChecked()
+      expect(radioButtons[1]).toBeChecked()
+
+      rerender(
+        <Form.Handler
+          data={{
+            selection: undefined,
+          }}
+        >
+          <Field.Selection path="/selection" variant="radio">
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
+          </Field.Selection>
+        </Form.Handler>
+      )
+
+      expect(radioButtons[0]).not.toBeChecked()
+      expect(radioButtons[1]).not.toBeChecked()
+    })
+
     it('renders selected option', () => {
       render(
         <Field.Selection variant="radio" value="bar">
@@ -549,6 +590,29 @@ describe('variants', () => {
       expect(radioButtons[2]).not.toBeChecked()
     })
 
+    it('should support selecting first option by space key, using keyboard navigation', async () => {
+      render(
+        <Field.Selection variant="radio">
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+          <Field.Option value="baz">Baz</Field.Option>
+        </Field.Selection>
+      )
+
+      const radioButtons = screen.queryAllByRole('radio')
+
+      expect(radioButtons.length).toEqual(3)
+      expect(radioButtons[0]).not.toBeChecked()
+      expect(radioButtons[1]).not.toBeChecked()
+      expect(radioButtons[2]).not.toBeChecked()
+
+      await userEvent.tab()
+      await userEvent.keyboard('{Space}')
+      expect(radioButtons[0]).toBeChecked()
+      expect(radioButtons[1]).not.toBeChecked()
+      expect(radioButtons[2]).not.toBeChecked()
+    })
+
     it('should store "displayValue" in data context', async () => {
       let dataContext = null
 
@@ -711,8 +775,28 @@ describe('variants', () => {
 
       const buttons = document.querySelectorAll('button')
       expect(buttons.length).toEqual(2)
-      expect(buttons[0].getAttribute('aria-pressed')).toBe('false')
-      expect(buttons[1].getAttribute('aria-pressed')).toBe('false')
+      expect(buttons[0].getAttribute('aria-checked')).toBe('false')
+      expect(buttons[1].getAttribute('aria-checked')).toBe('false')
+    })
+
+    it('has radio roles', () => {
+      render(
+        <Field.Selection variant="button">
+          <Field.Option value="foo">Foo</Field.Option>
+        </Field.Selection>
+      )
+
+      expect(
+        document
+          .querySelector('.dnb-toggle-button-group__shell')
+          .getAttribute('role')
+      ).toBe('radiogroup')
+
+      expect(
+        document
+          .querySelector('button.dnb-toggle-button__button')
+          .getAttribute('role')
+      ).toBe('radio')
     })
 
     it('renders help', () => {
@@ -768,8 +852,8 @@ describe('variants', () => {
 
       const buttons = document.querySelectorAll('button')
       expect(buttons.length).toEqual(2)
-      expect(buttons[0].getAttribute('aria-pressed')).toBe('false')
-      expect(buttons[1].getAttribute('aria-pressed')).toBe('true')
+      expect(buttons[0].getAttribute('aria-checked')).toBe('false')
+      expect(buttons[1].getAttribute('aria-checked')).toBe('true')
     })
 
     it('should render options in nested elements', () => {
@@ -856,8 +940,8 @@ describe('variants', () => {
 
       const buttons = document.querySelectorAll('button')
       expect(buttons.length).toEqual(2)
-      expect(buttons[0].getAttribute('aria-pressed')).toBe('true')
-      expect(buttons[1].getAttribute('aria-pressed')).toBe('false')
+      expect(buttons[0].getAttribute('aria-checked')).toBe('true')
+      expect(buttons[1].getAttribute('aria-checked')).toBe('false')
     })
 
     it('should support selected value from "path"', async () => {
@@ -896,8 +980,8 @@ describe('variants', () => {
       expect(option1).toHaveTextContent('Foo!')
       expect(option2).toHaveTextContent('Bar!')
 
-      expect(option1).toHaveAttribute('aria-pressed', 'true')
-      expect(option2).toHaveAttribute('aria-pressed', 'false')
+      expect(option1).toHaveAttribute('aria-checked', 'true')
+      expect(option2).toHaveAttribute('aria-checked', 'false')
 
       await userEvent.click(option2)
 
@@ -905,8 +989,8 @@ describe('variants', () => {
         const [option1, option2] = Array.from(
           document.querySelectorAll('button')
         )
-        expect(option1).toHaveAttribute('aria-pressed', 'false')
-        expect(option2).toHaveAttribute('aria-pressed', 'true')
+        expect(option1).toHaveAttribute('aria-checked', 'false')
+        expect(option2).toHaveAttribute('aria-checked', 'true')
       }
 
       expect(onChange).toHaveBeenCalledTimes(1)
@@ -944,9 +1028,9 @@ describe('variants', () => {
       expect(option2).toHaveTextContent('Bar!')
       expect(option3).toHaveTextContent('Baz!')
 
-      expect(option1).toHaveAttribute('aria-pressed', 'false')
-      expect(option2).toHaveAttribute('aria-pressed', 'false')
-      expect(option3).toHaveAttribute('aria-pressed', 'false')
+      expect(option1).toHaveAttribute('aria-checked', 'false')
+      expect(option2).toHaveAttribute('aria-checked', 'false')
+      expect(option3).toHaveAttribute('aria-checked', 'false')
     })
 
     it('should store "displayValue" in data context', async () => {
@@ -1046,14 +1130,7 @@ describe('variants', () => {
           </Field.Selection>
         )
 
-        expect(
-          await axeComponent(result, {
-            rules: {
-              // Because of aria-required is not allowed on buttons – but VO still reads it
-              'aria-allowed-attr': { enabled: false },
-            },
-          })
-        ).toHaveNoViolations()
+        expect(await axeComponent(result)).toHaveNoViolations()
       })
 
       it('should have aria-required', () => {
@@ -2100,23 +2177,18 @@ describe('variants', () => {
             variant="autocomplete"
             required
             validateInitially
+            autocompleteProps={{
+              opened: true,
+              noAnimation: true,
+              skipPortal: true,
+            }}
           >
             <Field.Option value="foo">Foo</Field.Option>
             <Field.Option value="bar">Bar</Field.Option>
           </Field.Selection>
         )
 
-        openAutocomplete()
-
-        expect(
-          await axeComponent(result, {
-            rules: {
-              // Because of aria-controls and aria-required is not allowed on buttons – but VO still reads it
-              'aria-allowed-attr': { enabled: false },
-              'aria-valid-attr-value': { enabled: false },
-            },
-          })
-        ).toHaveNoViolations()
+        expect(await axeComponent(result)).toHaveNoViolations()
       })
 
       it('should have aria-required', () => {

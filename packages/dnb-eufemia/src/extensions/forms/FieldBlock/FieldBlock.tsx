@@ -85,6 +85,10 @@ export type SharedFieldBlockProps = {
    */
   label?: React.ReactNode
   /**
+   * Use `true` to make the label only readable by screen readers.
+   */
+  labelSrOnly?: boolean
+  /**
    * Will append an additional text to the label, like "(optional)" or "(recommended)"
    */
   labelSuffix?: React.ReactNode
@@ -96,6 +100,10 @@ export type SharedFieldBlockProps = {
    * If true, the labelDescription will be displayed on the same line as the label.
    */
   labelDescriptionInline?: boolean
+  /**
+   * Define the font-size of the label based on the [heading sizes](/uilib/elements/heading/) table.
+   */
+  labelSize?: 'medium' | 'large'
   /**
    * Width of outer block element
    */
@@ -119,8 +127,6 @@ export type Props<Value = unknown> = SharedFieldBlockProps &
     forId?: string
     /** Use true if you have more than one form element */
     asFieldset?: boolean
-    /** use `true` to make the label only readable by screen readers. */
-    labelSrOnly?: boolean
     /** Defines the layout of nested fields */
     composition?: FieldBlockContextProps['composition']
     /** For composition only: Align the contents vertically */
@@ -129,8 +135,6 @@ export type Props<Value = unknown> = SharedFieldBlockProps &
     contentClassName?: string
     /** To show the SubmitIndicator during async validation */
     fieldState?: SubmitState
-    /** Typography size */
-    labelSize?: 'medium' | 'large'
     /** Defines the height of an component (size prop), so the label can be aligned correctly */
     labelHeight?: FieldBlockHorizontalLabelHeight
     /** Disable the error summary for this field block */
@@ -160,6 +164,8 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
     labelDescriptionInline,
     labelSuffix,
     labelSrOnly,
+    labelSize,
+    labelHeight,
     help,
     asFieldset,
     required,
@@ -171,9 +177,7 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
     disabled,
     width,
     contentWidth,
-    labelHeight,
     align,
-    labelSize,
     contentClassName,
     children,
     ...rest
@@ -522,6 +526,7 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
       !fragmentHasOnlyUndefinedChildren(labelDescription)
     : labelDescription
   const hasHelp = help?.title || help?.content
+  const hasOnlyLabelDescription = !label && hasLabelDescription
 
   return (
     <FieldBlockContext.Provider
@@ -552,15 +557,22 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
                   </span>
                 )}
 
-                {hasHelp && (
+                {hasHelp && !hasOnlyLabelDescription && (
                   <HelpButtonInline contentId={`${id}-help`} help={help} />
                 )}
 
-                {hasLabelDescription && !labelDescriptionInline && <br />}
+                {label &&
+                  hasLabelDescription &&
+                  !labelDescriptionInline && <br />}
+
                 {hasLabelDescription && (
                   <span className="dnb-forms-field-block__label__description">
                     {labelDescription}
                   </span>
+                )}
+
+                {hasHelp && hasOnlyLabelDescription && (
+                  <HelpButtonInline contentId={`${id}-help`} help={help} />
                 )}
               </span>
             </FormLabel>

@@ -1,12 +1,13 @@
 import React from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Flex } from '@dnb/eufemia/src'
+import { Flex, HeightAnimation } from '@dnb/eufemia/src'
 import {
   Field,
   Form,
   Iterate,
   Tools,
   Value,
+  Wizard,
 } from '@dnb/eufemia/src/extensions/forms'
 
 export { ViewAndEditContainer } from '../Array/Examples'
@@ -183,7 +184,7 @@ export const IsolatedData = () => {
           }, [selectedPerson, update])
 
           return (
-            <Flex.Stack>
+            <>
               <Field.Selection
                 variant="radio"
                 required
@@ -192,25 +193,28 @@ export const IsolatedData = () => {
               >
                 <Field.Option value="other" label="Other person" />
               </Field.Selection>
-              <Form.Visibility
-                visibleWhen={{
-                  path: '/selectedPerson',
-                  hasValue: (value) =>
-                    typeof value === 'string' && value !== 'other',
-                }}
-              >
-                <ExistingPersonDetails />
-              </Form.Visibility>
 
-              <Form.Visibility
-                visibleWhen={{
-                  path: '/selectedPerson',
-                  hasValue: (value) => value === 'other',
-                }}
-              >
-                <NewPersonDetails />
-              </Form.Visibility>
-            </Flex.Stack>
+              <HeightAnimation top>
+                <Form.Visibility
+                  visibleWhen={{
+                    path: '/selectedPerson',
+                    hasValue: (value) =>
+                      typeof value === 'string' && value !== 'other',
+                  }}
+                >
+                  <ExistingPersonDetails />
+                </Form.Visibility>
+
+                <Form.Visibility
+                  visibleWhen={{
+                    path: '/selectedPerson',
+                    hasValue: (value) => value === 'other',
+                  }}
+                >
+                  <NewPersonDetails />
+                </Form.Visibility>
+              </HeightAnimation>
+            </>
           )
         }
 
@@ -261,6 +265,55 @@ export const IsolatedData = () => {
           </Form.Handler>
         )
       }}
+    </ComponentBox>
+  )
+}
+
+export const RequireCommit = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler>
+        <Wizard.Container>
+          <Wizard.Step title="Step 1">
+            <Form.Card>
+              <Form.SubHeading>People</Form.SubHeading>
+              <Iterate.Array
+                path="/people"
+                animate
+                placeholder="No people"
+              >
+                <Value.Name.First itemPath="/firstName" />
+              </Iterate.Array>
+
+              <Iterate.PushContainer
+                path="/people"
+                title="New person"
+                requireCommit
+                bubbleValidation
+                openButton={
+                  <Iterate.PushContainer.OpenButton
+                    top
+                    variant="tertiary"
+                    text="Add new person"
+                  />
+                }
+                showOpenButtonWhen={(list) => list.length > 0}
+              >
+                <Field.Name.First itemPath="/firstName" />
+              </Iterate.PushContainer>
+            </Form.Card>
+
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 2">
+            <Iterate.Array path="/people">
+              <Value.Name.First itemPath="/firstName" />
+            </Iterate.Array>
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>
     </ComponentBox>
   )
 }

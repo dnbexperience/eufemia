@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import CopyOnClick from '../CopyOnClick'
 import { mockClipboard } from '../../../core/jest/jestSetup'
 import { copyWithEffect } from '../../../components/number-format/NumberUtils'
@@ -25,7 +25,7 @@ describe('CopyOnClick', () => {
     ])
   })
 
-  it('does not render the cursor when disabled', async () => {
+  it('does not render the cursor when disabled', () => {
     render(<CopyOnClick showCursor={true}>Disabled cursor</CopyOnClick>)
 
     const element = document.querySelector('.dnb-copy-on-click')
@@ -95,7 +95,7 @@ describe('CopyOnClick', () => {
     expect(await navigator.clipboard.readText()).toBe('CopyOnClick')
   })
 
-  it('should accept copyContent prop', async () => {
+  it('should accept copyContent prop', () => {
     render(
       <CopyOnClick copyContent="copyContent">CopyOnClick</CopyOnClick>
     )
@@ -147,5 +147,22 @@ describe('CopyOnClick', () => {
     await userEvent.click(document.querySelector('.dnb-copy-on-click'))
 
     expect(await navigator.clipboard.readText()).toBe('1 234 567,89 kr')
+  })
+
+  it('should set be able to set a custom message when text has been successfully copied.', async () => {
+    window.getSelection()?.removeAllRanges()
+
+    const customMessage = 'My custom tooltip'
+    render(<CopyOnClick tooltipContent={customMessage}>text</CopyOnClick>)
+
+    await userEvent.click(document.querySelector('.dnb-copy-on-click'))
+
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-tooltip')).toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-tooltip__content').firstChild
+          .textContent
+      ).toBe(customMessage)
+    })
   })
 })

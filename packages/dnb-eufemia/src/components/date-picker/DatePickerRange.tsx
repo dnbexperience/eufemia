@@ -51,7 +51,7 @@ const monthHandlers: {
 function DatePickerRange(props: DatePickerRangeProps) {
   // Destructured to prevent useCallback from updating on all prop or context changes
   const { onChange, isRange, isLink } = props
-  const { views, setViews, updateDates, callOnChangeHandler } =
+  const { views, setViews, callOnChangeHandler } =
     useContext(DatePickerContext)
 
   const onNav = useCallback(
@@ -90,13 +90,6 @@ function DatePickerRange(props: DatePickerRangeProps) {
     [isRange, onChange, callOnChangeHandler]
   )
 
-  const onHover = useCallback(
-    (hoverDate: DatePickerDates['hoverDate']) => {
-      updateDates({ hoverDate })
-    },
-    [updateDates]
-  )
-
   return (
     <div className="dnb-date-picker__views">
       {views.map((calendar, i) => (
@@ -106,7 +99,6 @@ function DatePickerRange(props: DatePickerRangeProps) {
           {...props}
           id={`${props.id}-${i}-`}
           onSelect={onSelect}
-          onHover={onHover}
           onPrev={onNav}
           onNext={onNav}
         />

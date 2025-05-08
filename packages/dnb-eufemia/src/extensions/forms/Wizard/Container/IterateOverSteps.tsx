@@ -47,7 +47,7 @@ export function IterateOverSteps({
       }
 
       if (child?.type === Step) {
-        const { title, inactive, include, includeWhen, id } =
+        const { title, inactive, keepInDOM, include, id, includeWhen } =
           handleDeprecatedStepProps(child.props)
 
         if (include === false) {
@@ -69,8 +69,9 @@ export function IterateOverSteps({
         collectStepsData({
           id,
           index,
-          inactive,
           title,
+          inactive,
+          keepInDOM,
         })
 
         if (
@@ -81,12 +82,15 @@ export function IterateOverSteps({
             'undefined'
         ) {
           const key = `${index}-${activeIndexRef.current}`
-          prerenderFieldPropsRef.current['step-' + index] = () =>
-            React.cloneElement(child as React.ReactElement<StepProps>, {
-              key,
-              index,
-              prerenderFieldProps: true,
-            })
+          prerenderFieldPropsRef.current['step-' + index] = {
+            index,
+            fn: () =>
+              React.cloneElement(child as React.ReactElement<StepProps>, {
+                key,
+                index,
+                prerenderFieldProps: true,
+              }),
+          }
         }
 
         return child

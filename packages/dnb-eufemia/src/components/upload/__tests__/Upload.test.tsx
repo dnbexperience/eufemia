@@ -814,7 +814,7 @@ describe('Upload', () => {
   })
 
   describe('useUpload', () => {
-    it('calls uses the useUpload hook to store files', async () => {
+    it('calls the useUpload hook to store files', async () => {
       const validationFunction = jest.fn()
 
       const file = createMockFile('fileName.png', 100, 'image/png')
@@ -873,6 +873,165 @@ describe('Upload', () => {
       const fileCells = document.querySelectorAll('.dnb-upload__file-cell')
 
       expect(fileCells.length).toBe(files.length)
+    })
+
+    it('renders file without file extension', async () => {
+      const files = [
+        { file: createMockFile('fileName.png', 100, undefined) },
+      ]
+
+      const id = 'random-id'
+
+      render(<Upload {...defaultProps} id={id} />)
+
+      const MockComponent = () => {
+        const { setFiles } = useUpload(id)
+
+        useEffect(() => setFiles(files), [])
+
+        return <div />
+      }
+
+      render(<MockComponent />)
+
+      const fileCells = document.querySelectorAll('.dnb-upload__file-cell')
+
+      expect(fileCells.length).toBe(files.length)
+    })
+
+    it('renders file without file extension and file extension in name', async () => {
+      const files = [{ file: createMockFile('fileName', 100, undefined) }]
+
+      const id = 'random-id'
+
+      render(<Upload {...defaultProps} id={id} />)
+
+      const MockComponent = () => {
+        const { setFiles } = useUpload(id)
+
+        useEffect(() => setFiles(files), [])
+
+        return <div />
+      }
+
+      render(<MockComponent />)
+
+      const fileCells = document.querySelectorAll('.dnb-upload__file-cell')
+
+      expect(fileCells.length).toBe(files.length)
+    })
+
+    it('renders file without file extension and file name', async () => {
+      const files = [{ file: createMockFile(undefined, 100, undefined) }]
+
+      const id = 'random-id'
+
+      render(<Upload {...defaultProps} id={id} />)
+
+      const MockComponent = () => {
+        const { setFiles } = useUpload(id)
+
+        useEffect(() => setFiles(files), [])
+
+        return <div />
+      }
+
+      render(<MockComponent />)
+
+      const fileCells = document.querySelectorAll('.dnb-upload__file-cell')
+
+      expect(fileCells.length).toBe(files.length)
+    })
+
+    it('does not render any file when file is undefined', async () => {
+      const files = [{ file: undefined }]
+
+      const id = 'random-id'
+
+      render(<Upload {...defaultProps} id={id} />)
+
+      const MockComponent = () => {
+        const { setFiles } = useUpload(id)
+
+        useEffect(() => setFiles(files), [])
+
+        return <div />
+      }
+
+      render(<MockComponent />)
+
+      const fileCells = document.querySelectorAll('.dnb-upload__file-cell')
+
+      expect(fileCells.length).toBe(0)
+    })
+
+    it('does not render any file when list of files is undefined', async () => {
+      const files = [undefined]
+
+      const id = 'random-id'
+
+      render(<Upload {...defaultProps} id={id} />)
+
+      const MockComponent = () => {
+        const { setFiles } = useUpload(id)
+
+        useEffect(() => setFiles(files), [])
+
+        return <div />
+      }
+
+      render(<MockComponent />)
+
+      const fileCells = document.querySelectorAll('.dnb-upload__file-cell')
+
+      expect(fileCells.length).toBe(0)
+    })
+
+    it('does not render any file when undefined', async () => {
+      const files = undefined
+
+      const id = 'random-id'
+
+      render(<Upload {...defaultProps} id={id} />)
+
+      const MockComponent = () => {
+        const { setFiles } = useUpload(id)
+
+        useEffect(() => setFiles(files), [])
+
+        return <div />
+      }
+
+      render(<MockComponent />)
+
+      const fileCells = document.querySelectorAll('.dnb-upload__file-cell')
+
+      expect(fileCells.length).toBe(0)
+    })
+
+    it('does not render a undefined file', async () => {
+      const files = [
+        undefined,
+        { file: createMockFile('fileName.png', 100, 'image/png') },
+      ]
+
+      const id = 'random-id'
+
+      render(<Upload {...defaultProps} id={id} />)
+
+      const MockComponent = () => {
+        const { setFiles } = useUpload(id)
+
+        useEffect(() => setFiles(files), [])
+
+        return <div />
+      }
+
+      render(<MockComponent />)
+
+      const fileCells = document.querySelectorAll('.dnb-upload__file-cell')
+
+      expect(fileCells.length).toBe(1)
     })
 
     it('treats all the linked URLs of the files as a download when providing download prop', async () => {

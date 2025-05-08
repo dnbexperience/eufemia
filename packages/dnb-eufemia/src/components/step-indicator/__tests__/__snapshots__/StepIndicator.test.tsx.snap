@@ -262,6 +262,7 @@ html[data-visual-test] .dnb-tooltip--hide {
   border-radius: var(--form-status-radius);
 }
 .dnb-form-status__text {
+  max-width: 60ch;
   padding: 0.625rem 1rem;
   cursor: text;
   color: inherit;
@@ -308,9 +309,6 @@ button .dnb-form-status__text {
 }
 .dnb-form-status--stretch .dnb-form-status__shell {
   width: 100%;
-}
-.dnb-form-status--stretch .dnb-form-status__text {
-  max-width: 47rem;
 }
 .dnb-form-status[hidden] {
   display: none;
@@ -601,6 +599,10 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-step-indicator__trigger__button .dnb-button__icon {
   --button-icon-margin-top: 0.25rem;
+  transition: transform 400ms var(--easing-default);
+}
+.dnb-step-indicator__trigger__button--expanded .dnb-button__icon {
+  transform: rotate(180deg);
 }
 .dnb-step-indicator__item__wrapper {
   display: flex;

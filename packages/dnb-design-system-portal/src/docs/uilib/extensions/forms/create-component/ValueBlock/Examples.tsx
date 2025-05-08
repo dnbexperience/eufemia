@@ -1,5 +1,9 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { TestElement, ValueBlock } from '@dnb/eufemia/src/extensions/forms'
+import {
+  TestElement,
+  ValueBlock,
+  Form,
+} from '@dnb/eufemia/src/extensions/forms'
 import { Anchor, Flex, P } from '@dnb/eufemia/src'
 
 export const Default = () => {
@@ -106,6 +110,75 @@ export const Widths = () => {
             should wrap at a certain amount of characters.
           </TestElement>
         </ValueBlock>
+        <ValueBlock
+          label="maxWidth='auto': This label is long so we can validate that the label can be longer."
+          maxWidth="auto"
+        >
+          <TestElement>
+            This content is long so we can see the maxWidth defined. It
+            should wrap at a certain amount of characters.
+          </TestElement>
+        </ValueBlock>
+      </Flex.Stack>
+    </ComponentBox>
+  )
+}
+
+export const Wrapping = () => {
+  const sixtyOneChars =
+    '0000000000000000000000000000000000000000000000000000000000000'
+  const sixtyOneCharsIncludingASpace =
+    '000000000000000000000000000000 000000000000000000000000000000'
+  const fiftyEightCharsIncludingASpace =
+    '00000000000000000000000000000000000000000000000000000000 0'
+  return (
+    <ComponentBox
+      scope={{
+        ValueBlock,
+        sixtyOneChars,
+        sixtyOneCharsIncludingASpace,
+        fiftyEightCharsIncludingASpace,
+      }}
+      data-visual-test="forms-value-block-wrapping"
+    >
+      <Flex.Stack>
+        <Form.Card>
+          <Form.SubHeading>
+            Breaking word with 61 characters
+          </Form.SubHeading>
+          <ValueBlock label={sixtyOneChars}>{sixtyOneChars}</ValueBlock>
+          <ValueBlock
+            label={sixtyOneChars}
+            help={{ title: 'Help title', content: 'Help content' }}
+          >
+            {sixtyOneChars}
+          </ValueBlock>
+        </Form.Card>
+        <Form.Card>
+          <Form.SubHeading>
+            Breaking a sentence of 61 characters that include a space
+          </Form.SubHeading>
+          <ValueBlock label={sixtyOneCharsIncludingASpace}>
+            {sixtyOneCharsIncludingASpace}
+          </ValueBlock>
+          <ValueBlock
+            label={sixtyOneCharsIncludingASpace}
+            help={{ title: 'Help title', content: 'Help content' }}
+          >
+            {sixtyOneCharsIncludingASpace}
+          </ValueBlock>
+        </Form.Card>
+        <Form.Card>
+          <Form.SubHeading>
+            Help button should not wrap alone
+          </Form.SubHeading>
+          <ValueBlock
+            label={fiftyEightCharsIncludingASpace}
+            help={{ title: 'Help title', content: 'Help content' }}
+          >
+            {'value'}
+          </ValueBlock>
+        </Form.Card>
       </Flex.Stack>
     </ComponentBox>
   )

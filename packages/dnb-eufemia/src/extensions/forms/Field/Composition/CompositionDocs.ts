@@ -11,6 +11,7 @@ export const CompositionProperties: PropertiesTableProps = {
   error: FieldBlockProperties.error,
   warning: FieldBlockProperties.warning,
   info: FieldBlockProperties.info,
+  help: FieldBlockProperties.help,
   align: {
     doc: '`center` or `bottom` for aligning the contents vertically. Defaults to `bottom`.',
     type: ['string', 'false'],

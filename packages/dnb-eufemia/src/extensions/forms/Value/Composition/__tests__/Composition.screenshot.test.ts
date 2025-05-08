@@ -38,6 +38,13 @@ describe('Value.Composition', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match forms-value-composition-wrapping', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="forms-value-composition-wrapping"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match forms-value-composition-summary-list-grid', async () => {
     const screenshot = await makeScreenshot({
       selector:

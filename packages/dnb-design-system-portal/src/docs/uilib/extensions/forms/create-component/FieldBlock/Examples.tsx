@@ -162,6 +162,16 @@ export const WithDescription = () => {
   )
 }
 
+export const WithDescriptionNoLabel = () => {
+  return (
+    <ComponentBox data-visual-test="forms-field-block-label-description-no-label">
+      <FieldBlock labelDescription="Description text">
+        Input features goes here
+      </FieldBlock>
+    </ComponentBox>
+  )
+}
+
 export const HorizontalAutoSize = () => {
   return (
     <ComponentBox>
@@ -289,6 +299,35 @@ export const InlineHelpButtonLabelDescription = () => {
         />
         <Field.String
           label="Ønsket lånebeløp"
+          labelDescription="Description"
+          multiline
+          rows={3}
+          help={{
+            open: true,
+            title: 'Hva betyr lånebeløp?',
+            content: 'Dette er hvor mye du har tenkt å låne totalt.',
+          }}
+        />
+      </Flex.Stack>
+    </ComponentBox>
+  )
+}
+
+export const InlineHelpButtonLabelDescriptionNoLabel = () => {
+  return (
+    <ComponentBox data-visual-test="forms-field-block-help-button-label-description-no-label">
+      <Flex.Stack>
+        <Field.String
+          labelDescription="Description Nisi ad ullamco ut anim proident sint eiusmod."
+          help={{
+            title: 'Hva betyr lånebeløp?',
+            content: 'Dette er hvor mye du har tenkt å låne totalt.',
+          }}
+          onChange={async () => {
+            await new Promise((resolve) => setTimeout(resolve, 1000))
+          }}
+        />
+        <Field.String
           labelDescription="Description"
           multiline
           rows={3}
@@ -443,6 +482,65 @@ export const InlineHelpButtonCompositionFields = () => {
           }}
         />
       </Form.Card>
+    </ComponentBox>
+  )
+}
+
+export const Wrapping = () => {
+  const sixtyOneChars =
+    '0000000000000000000000000000000000000000000000000000000000000'
+  const sixtyOneCharsIncludingASpace =
+    '000000000000000000000000000000 000000000000000000000000000000'
+  const fiftyEightCharsIncludingASpace =
+    '00000000000000000000000000000000000000000000000000000000 0'
+  return (
+    <ComponentBox
+      data-visual-test="forms-field-block-wrapping"
+      scope={{
+        sixtyOneChars,
+        sixtyOneCharsIncludingASpace,
+        fiftyEightCharsIncludingASpace,
+      }}
+    >
+      <Flex.Stack>
+        <Form.Card>
+          <Form.SubHeading>
+            Breaking word with 61 characters
+          </Form.SubHeading>
+          <FieldBlock label={sixtyOneChars}>value</FieldBlock>
+          <FieldBlock
+            label={sixtyOneChars}
+            help={{ title: 'Help title', content: 'Help content' }}
+          >
+            value
+          </FieldBlock>
+        </Form.Card>
+        <Form.Card>
+          <Form.SubHeading>
+            Breaking a sentence of 61 characters that include a space
+          </Form.SubHeading>
+          <FieldBlock label={sixtyOneCharsIncludingASpace}>
+            value
+          </FieldBlock>
+          <FieldBlock
+            label={sixtyOneCharsIncludingASpace}
+            help={{ title: 'Help title', content: 'Help content' }}
+          >
+            value
+          </FieldBlock>
+        </Form.Card>
+        <Form.Card>
+          <Form.SubHeading>
+            Help button should not wrap alone
+          </Form.SubHeading>
+          <FieldBlock
+            label={fiftyEightCharsIncludingASpace}
+            help={{ title: 'Help title', content: 'Help content' }}
+          >
+            value
+          </FieldBlock>
+        </Form.Card>
+      </Flex.Stack>
     </ComponentBox>
   )
 }

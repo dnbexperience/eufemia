@@ -30,3 +30,13 @@ export const CopyOnClickSandbox = () => (
     </CopyOnClick>
   </Wrapper>
 )
+
+export const CopyOnClickCustomTooltipContent = () => (
+  <Wrapper>
+    <Box>
+      <CopyOnClick tooltipContent="My custom tooltip text">
+        <span className="dnb-p">Text to be copied</span>
+      </CopyOnClick>
+    </Box>
+  </Wrapper>
+)

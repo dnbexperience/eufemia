@@ -87,7 +87,7 @@ function Card(props: Props) {
       ? falseWhenSmall
       : outset,
     roundedCorner: responsive ? falseWhenSmall : true,
-    outline: '--outline-card-color',
+    outline: 'var(--outline-card-color)',
     innerSpace:
       innerSpace ??
       ({

@@ -224,6 +224,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     fieldDisplayValueRef,
     existingFieldsRef,
     fieldInternalsRef,
+    prerenderFieldProps,
   } = dataContext || {}
   const onChangeContext = dataContext?.props?.onChange
 
@@ -240,7 +241,6 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const {
     activeIndex,
     activeIndexRef,
-    prerenderFieldProps,
     setFieldError: setFieldErrorWizard,
   } = wizardContext || {}
   const { index: wizardIndex } = wizardStepContext || {}
@@ -1903,7 +1903,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const handleBlur = useCallback(() => setHasFocus(false), [setHasFocus])
 
   // Put props into the surrounding data context as early as possible
-  setFieldInternalsDataContext?.(identifier, props, id)
+  setFieldInternalsDataContext?.(identifier, {
+    id,
+    props,
+  })
 
   const activeIndexTmpRef = useRef(activeIndex)
   useEffect(() => {
@@ -2006,7 +2009,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   useEffect(() => {
     // Unmount procedure.
     return () => {
-      // Only remove the error if the field was visible
+      // Have this in a separate useEffect to avoid calling unmount when a step changes
       setFieldErrorWizard?.(wizardIndex, identifier, undefined)
     }
   }, [identifier, setFieldErrorWizard, wizardIndex])
@@ -2075,10 +2078,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     validateInitially,
   ])
 
-  // Use "useLayoutEffect" to avoid flickering when value/defaultValue gets set, and other fields dependent on it.
-  // Form.Visibility is an example of a logic, where a field value/defaultValue can be used to set the set state of a path,
-  // where again other fields depend on it.
-  const tmpTransValueRef = useRef<Record<Identifier, unknown>>({})
+  const tmpTransValueRef = useRef<Record<Identifier, unknown>>({
+    // Use an unique (per field) starting value (id) for the itemPath, so we later can check if the valueToStore is the same as the current value.
+    itemPath: id,
+  })
   const setContextData = useCallback(
     ({ preventUpdate = undefined } = {}) => {
       if (!hasPath && !hasItemPath) {
@@ -2138,7 +2141,23 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
       if (hasItemPath) {
         if (existingValue === valueToStore) {
-          return // stop here, don't store the same value again
+          if (hasValue) {
+            return // stop here, don't store the same value again
+          } else {
+            // Because the valueToStore is not a part of the data context,
+            // we need to check if the valueToStore is the same as the current value,
+            // to avoid infinite rerenders.
+            if (tmpTransValueRef.current['itemPath'] === valueToStore) {
+              return // stop here to avoid infinite rerenders
+            }
+          }
+        }
+
+        // We need to store the valueToStore in a ref, so we can check if it is the same as the current value later.
+        tmpTransValueRef.current['itemPath'] = valueToStore
+
+        if (iterateArrayValue === clearedArray) {
+          return // stop here, because the array was cleared by handleRemove in the Iterate.Array component
         }
 
         if (
@@ -2259,7 +2278,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       hasPath,
       identifier,
       itemPath,
-      iterateArrayValue?.length,
+      iterateArrayValue,
       iterateIndex,
       makeIteratePath,
       nestedIteratePath,
@@ -2304,6 +2323,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
   }, [isEmptyData, updateContextDataInSync, setContextData])
 
+  // Use "useLayoutEffect" to avoid flickering when value/defaultValue gets set, and other fields dependent on it.
+  // Form.Visibility is an example of a logic, where a field value/defaultValue can be used to set the set state of a path,
+  // where again other fields depend on it.
   useLayoutEffect(() => {
     if (!updateContextDataInSync && !isEmptyData()) {
       setContextData()
@@ -2512,6 +2534,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     labelDescription: props.labelDescription,
     labelDescriptionInline: props.labelDescriptionInline,
     labelSuffix: props.labelSuffix,
+    labelSize: props.labelSize,
+    labelSrOnly: props.labelSrOnly,
     layout: props.layout,
     layoutOptions: props.layoutOptions,
     help: props.help,
@@ -2621,3 +2645,5 @@ export function checkForError(
     return error instanceof Error || error instanceof FormError
   })
 }
+
+export const clearedArray = []

@@ -9,7 +9,7 @@ import NumberFormat, {
 } from '../../../../components/NumberFormat'
 import {
   IncludeCamelCase,
-  convertCamelCaseProps,
+  convertCamelCasePropsToSnakeCase,
 } from '../../../../shared/helpers/withCamelCaseProps'
 
 export type Props = Omit<ValueProps<number>, 'defaultValue'> &
@@ -31,7 +31,9 @@ function NumberValue(props: Props) {
     path, // eslint-disable-line
     ...rest
   } = useValueProps(props)
-  const numberFormatProps = convertCamelCaseProps(omitSpacingProps(rest))
+  const numberFormatProps = convertCamelCasePropsToSnakeCase(
+    omitSpacingProps(rest)
+  )
 
   let value = valueProp
   if (value < minimum) {

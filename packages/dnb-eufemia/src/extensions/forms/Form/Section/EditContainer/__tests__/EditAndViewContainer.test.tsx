@@ -711,9 +711,7 @@ describe('EditContainer and ViewContainer', () => {
 
     render(
       <Form.Section>
-        <Form.Section.EditContainer>
-          <Field.Name required path="/name" />
-        </Form.Section.EditContainer>
+        <Form.Section.EditContainer>content</Form.Section.EditContainer>
 
         <Form.Section.ViewContainer onEdit={onEdit}>
           content
@@ -727,5 +725,25 @@ describe('EditContainer and ViewContainer', () => {
 
     await userEvent.click(editButton)
     expect(onEdit).toHaveBeenCalledTimes(1)
+  })
+
+  it('should support custom className', () => {
+    render(
+      <Form.Section>
+        <Form.Section.ViewContainer className="custom-ViewContainer">
+          content
+        </Form.Section.ViewContainer>
+
+        <Form.Section.EditContainer className="custom-EditContainer">
+          content
+        </Form.Section.EditContainer>
+      </Form.Section>
+    )
+
+    const [viewBlock, editBlock] = Array.from(
+      document.querySelectorAll('.dnb-forms-section-block')
+    )
+    expect(viewBlock).toHaveClass('custom-ViewContainer')
+    expect(editBlock).toHaveClass('custom-EditContainer')
   })
 })

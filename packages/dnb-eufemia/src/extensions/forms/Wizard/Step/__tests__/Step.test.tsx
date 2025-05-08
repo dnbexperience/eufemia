@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 import userEvent from '@testing-library/user-event'
 import { fireEvent, render } from '@testing-library/react'
 import { Field, Form, Wizard } from '../../..'
+import { PrerenderFieldPropsOfOtherSteps } from '../../Container/PrerenderFieldPropsOfOtherSteps'
 import WizardContext from '../../Context'
+import WizardStepContext from '../StepContext'
+import { Steps } from '../../Context/types'
 
 const log = global.console.log
 beforeEach(() => {
@@ -281,8 +284,9 @@ describe('Step', () => {
   })
 
   describe('keepInDOM', () => {
-    it('should keep the step in the DOM when keepInDOM is true', async () => {
+    it('should keep the step in the DOM', () => {
       const activeIndex = 0
+
       render(
         <WizardContext.Provider value={{ activeIndex }}>
           <Wizard.Step index={0}>Active Content</Wizard.Step>
@@ -301,6 +305,109 @@ describe('Step', () => {
       expect(step2).toHaveTextContent('keepInDOM Content')
       expect(step2.parentElement).toHaveAttribute('hidden')
       expect(step3).toBeUndefined()
+    })
+
+    it('should prerender the step', () => {
+      const whatStepsDidRender = []
+
+      const CheckPrerender = () => {
+        const wizardStepContext = useContext(WizardStepContext)
+        const { index } = wizardStepContext || {}
+        const ref = useRef<HTMLDivElement>()
+
+        useEffect(() => {
+          if (
+            typeof index === 'number' &&
+            ref.current.parentElement.parentElement.classList.contains(
+              'dnb-forms-step'
+            )
+          ) {
+            whatStepsDidRender.push(index)
+          }
+        }, [index])
+
+        return <div ref={ref}>content</div>
+      }
+
+      render(
+        <Form.Handler>
+          <Wizard.Container>
+            <Wizard.Step>
+              <CheckPrerender />
+            </Wizard.Step>
+            <Wizard.Step keepInDOM>
+              <CheckPrerender />
+            </Wizard.Step>
+            <Wizard.Step>
+              <CheckPrerender />
+            </Wizard.Step>
+            <Wizard.Step>
+              <CheckPrerender />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      // Only steps with a step context will be pre rendered.
+      // The first step is the current step, and is therefore not pre rendered.
+      expect(whatStepsDidRender).toEqual([0, 1])
+    })
+
+    it('should not prerender the step', () => {
+      const step0 = jest.fn()
+      const step1 = jest.fn()
+      const step2 = jest.fn()
+      const step3 = jest.fn()
+
+      const prerenderFieldPropsRef = {
+        current: {
+          'step-0': {
+            index: 0,
+            fn: step0,
+          },
+          'step-1': {
+            index: 1,
+            fn: step1,
+          },
+          'step-2': {
+            index: 2,
+            fn: step2,
+          },
+          'step-3': {
+            index: 3,
+            fn: step3,
+          },
+        },
+      }
+      const stepsRef = {
+        current: new Map([
+          [0, {}],
+          [1, { keepInDOM: true }],
+          [2, {}],
+          [3, {}],
+        ]),
+      } as React.MutableRefObject<Steps>
+
+      render(
+        <Form.Handler>
+          <Wizard.Container>
+            <Wizard.Step>content</Wizard.Step>
+            <Wizard.Step keepInDOM>content</Wizard.Step>
+            <Wizard.Step>content</Wizard.Step>
+            <Wizard.Step>content</Wizard.Step>
+
+            <PrerenderFieldPropsOfOtherSteps
+              prerenderFieldPropsRef={prerenderFieldPropsRef}
+              stepsRef={stepsRef}
+            />
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      expect(step0).toHaveBeenCalledTimes(0) // because its the current step
+      expect(step1).toHaveBeenCalledTimes(0) // because of keepInDOM
+      expect(step2).toHaveBeenCalledTimes(1)
+      expect(step3).toHaveBeenCalledTimes(1)
     })
   })
 })

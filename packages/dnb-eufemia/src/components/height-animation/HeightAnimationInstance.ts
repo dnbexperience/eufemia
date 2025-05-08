@@ -260,13 +260,12 @@ export default class HeightAnimation {
     this.stop()
     this.isAnimating = true
 
-    const cleanup = this.stopOuterAnimations()
-
     // make the animation
     this.reqId1 = window.requestAnimationFrame(() => {
       if (
         !this.elem ||
-        this.elem.classList.contains('dnb-height-animation--stop')
+        (toHeight !== 0 &&
+          this.elem.classList.contains('dnb-height-animation--stop'))
       ) {
         return
       }
@@ -279,8 +278,6 @@ export default class HeightAnimation {
         }
 
         this.elem.style.height = `${toHeight}px`
-
-        cleanup()
       })
     })
   }
@@ -312,7 +309,10 @@ export default class HeightAnimation {
     const toHeight = this.getUnknownHeight()
 
     this.addEndEvent((e) => {
-      if (e.target === e.currentTarget || !e.currentTarget) {
+      if (
+        (this.state === 'opening' && e.target === e.currentTarget) ||
+        !e.currentTarget
+      ) {
         if (this.elem) {
           this.elem.style.overflowY = ''
         }
@@ -339,7 +339,10 @@ export default class HeightAnimation {
     const fromHeight = this.getHeight()
 
     this.addEndEvent((e) => {
-      if (e.target === e.currentTarget || !e.currentTarget) {
+      if (
+        (this.state === 'closing' && e.target === e.currentTarget) ||
+        !e.currentTarget
+      ) {
         if (this.elem) {
           this.elem.style.visibility = 'hidden'
           this.elem.style.overflowY = 'clip'
@@ -390,40 +393,13 @@ export default class HeightAnimation {
           this.elem.style.height = 'auto'
         }
         this.setState('adjusted')
-        this.callAnimationEnd()
       }
+
+      // Ensure we always call the animation end
+      this.callAnimationEnd()
     })
 
     this.start(fromHeight, toHeight)
-  }
-  stopOuterAnimations() {
-    // When animating nested height animations,
-    // we need to stop the outer animation,
-    // because it has a fixed height. We want it to be "auto".
-
-    const elements = []
-
-    const getCloses = (elem: HTMLElement) =>
-      elem.parentElement?.closest('.dnb-height-animation') as HTMLElement
-
-    let elem = getCloses(this.elem)
-    while (elem) {
-      elements.push(elem)
-      elem = getCloses(elem)
-    }
-
-    elements.forEach((elem) => {
-      elem.classList.add('dnb-height-animation--stop')
-    })
-
-    return () => {
-      elements.forEach((elem) => {
-        if (elem) {
-          elem.classList.remove('dnb-height-animation--stop')
-        }
-      })
-      elements.length = 0 // reset the array
-    }
   }
   readjust() {
     const endHeight = this.getHeight()

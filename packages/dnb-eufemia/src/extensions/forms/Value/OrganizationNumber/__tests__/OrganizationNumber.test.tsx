@@ -59,4 +59,16 @@ describe('Value.OrganizationNumber', () => {
       )
     ).toHaveTextContent('123 456 789')
   })
+
+  it('does not render when value is null', () => {
+    render(<Value.OrganizationNumber value={null} />)
+    const element = document.querySelector('.dnb-forms-value-block')
+    expect(element).not.toBeInTheDocument()
+  })
+
+  it('does not render when value is undefined', () => {
+    render(<Value.OrganizationNumber value={undefined} />)
+    const element = document.querySelector('.dnb-forms-value-block')
+    expect(element).not.toBeInTheDocument()
+  })
 })

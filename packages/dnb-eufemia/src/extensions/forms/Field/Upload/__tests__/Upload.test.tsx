@@ -969,18 +969,18 @@ describe('Field.Upload', () => {
       const fileValid = createMockFile('1.png', 100, 'image/png')
       const fileInValid = createMockFile('invalid.png', 100, 'image/png')
 
-      const syncFileHandlerFnError = function mockSyncFileUpload(
-        newFiles: UploadValue
-      ) {
-        return newFiles.map((file) => {
-          if (file.file.name.length > 5) {
-            file.errorMessage = 'File name is too long'
-          }
-          return file
-        })
-      }
-
-      render(<Field.Upload fileHandler={syncFileHandlerFnError} />)
+      render(
+        <Field.Upload
+          fileHandler={function (newFiles: UploadValue) {
+            return newFiles.map((file) => {
+              if (file.file.name.length > 5) {
+                file.errorMessage = 'File name is too long'
+              }
+              return file
+            })
+          }}
+        />
+      )
 
       const element = getRootElement()
 
@@ -1007,6 +1007,156 @@ describe('Field.Upload', () => {
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
         'File name is too long'
       )
+    })
+
+    it('should handle undefined from fileHandler', async () => {
+      const file = createMockFile('1.png', 100, 'image/png')
+
+      render(
+        <Field.Upload
+          fileHandler={function () {
+            return undefined
+          }}
+        />
+      )
+
+      const element = getRootElement()
+
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [file],
+          },
+        })
+      )
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(0)
+    })
+
+    it('should handle list of undefined files from fileHandler', async () => {
+      const file = createMockFile('1.png', 100, 'image/png')
+
+      render(
+        <Field.Upload
+          fileHandler={function () {
+            return [undefined]
+          }}
+        />
+      )
+
+      const element = getRootElement()
+
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [file],
+          },
+        })
+      )
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(0)
+    })
+
+    it('should handle file without file extension from fileHandler', async () => {
+      const file = createMockFile('1.png', 100, 'image/png')
+
+      render(
+        <Field.Upload
+          fileHandler={function () {
+            return [{ file: createMockFile('1.png', 100, undefined) }]
+          }}
+        />
+      )
+
+      const element = getRootElement()
+
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [file],
+          },
+        })
+      )
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(1)
+    })
+
+    it('should handle file without file extension in filename from fileHandler', async () => {
+      const file = createMockFile('1.png', 100, 'image/png')
+
+      render(
+        <Field.Upload
+          fileHandler={function () {
+            return [{ file: createMockFile('1', 100, 'image/png') }]
+          }}
+        />
+      )
+
+      const element = getRootElement()
+
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [file],
+          },
+        })
+      )
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(1)
+    })
+
+    it('should handle file without file name and file extension in fileHandler', async () => {
+      const file = createMockFile(undefined, 100, undefined)
+
+      render(
+        <Field.Upload
+          fileHandler={function () {
+            return [{ file: createMockFile('1', 100, 'image/png') }]
+          }}
+        />
+      )
+
+      const element = getRootElement()
+
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [file],
+          },
+        })
+      )
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(1)
+    })
+
+    it('should handle file without file in fileHandler', async () => {
+      const file = createMockFile(undefined, 100, undefined)
+
+      render(
+        <Field.Upload
+          fileHandler={function () {
+            return [{ file: undefined }]
+          }}
+        />
+      )
+
+      const element = getRootElement()
+
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: {
+            files: [file],
+          },
+        })
+      )
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(1)
     })
 
     it('should handle displaying error from fileHandler with async function', async () => {
@@ -1099,11 +1249,10 @@ describe('Field.Upload', () => {
     it('should display spinner when loading fileHandler with async function', async () => {
       const file = createMockFile('fileName-1.png', 100, 'image/png')
 
-      const asyncValidatorResolvingWithSuccess = () =>
-        new Promise<UploadValue>(() => jest.fn())
-
       render(
-        <Field.Upload fileHandler={asyncValidatorResolvingWithSuccess} />
+        <Field.Upload
+          fileHandler={() => new Promise<UploadValue>(() => jest.fn())}
+        />
       )
 
       const element = getRootElement()
@@ -1167,13 +1316,9 @@ describe('Field.Upload', () => {
           )
         )
 
-      const asyncFileHandlerFnSuccess = jest.fn(
-        asyncValidatorResolvingWithSuccess
-      )
-
       render(
         <Field.Upload
-          fileHandler={asyncFileHandlerFnSuccess}
+          fileHandler={jest.fn(asyncValidatorResolvingWithSuccess)}
           value={[{ file: fileExisting }]}
         />
       )
@@ -1289,14 +1434,16 @@ describe('Field.Upload', () => {
       const asyncValidatorNeverResolving = () =>
         new Promise<UploadValue>(() => undefined)
 
-      const asyncFileHandlerFnSuccess = jest
-        .fn(asyncValidatorResolvingWithSuccess)
-        .mockReturnValueOnce(asyncValidatorResolvingWithSuccess(0))
-        .mockReturnValueOnce(asyncValidatorNeverResolving())
-        .mockReturnValueOnce(asyncValidatorResolvingWithSuccess(2))
-        .mockReturnValueOnce(asyncValidatorNeverResolving())
-
-      render(<Field.Upload fileHandler={asyncFileHandlerFnSuccess} />)
+      render(
+        <Field.Upload
+          fileHandler={jest
+            .fn(asyncValidatorResolvingWithSuccess)
+            .mockReturnValueOnce(asyncValidatorResolvingWithSuccess(0))
+            .mockReturnValueOnce(asyncValidatorNeverResolving())
+            .mockReturnValueOnce(asyncValidatorResolvingWithSuccess(2))
+            .mockReturnValueOnce(asyncValidatorNeverResolving())}
+        />
+      )
 
       const element = getRootElement()
 
@@ -1369,19 +1516,17 @@ describe('Field.Upload', () => {
           }, 1)
         )
 
-      const asyncFileHandlerFnSuccess = jest
-        .fn(asyncValidatorResolvingWithSuccess)
-        .mockReturnValueOnce(
-          asyncValidatorResolvingWithSuccess(filesFirstUpload)
-        )
-        .mockReturnValueOnce(
-          asyncValidatorResolvingWithSuccess(filesSecondUpload)
-        )
-
       render(
         <Field.Upload
           onFileDelete={asyncOnFileDelete}
-          fileHandler={asyncFileHandlerFnSuccess}
+          fileHandler={jest
+            .fn(asyncValidatorResolvingWithSuccess)
+            .mockReturnValueOnce(
+              asyncValidatorResolvingWithSuccess(filesFirstUpload)
+            )
+            .mockReturnValueOnce(
+              asyncValidatorResolvingWithSuccess(filesSecondUpload)
+            )}
         />
       )
 
@@ -1436,26 +1581,22 @@ describe('Field.Upload', () => {
     it('should not add existing file using fileHandler with async function', async () => {
       const file = createMockFile('fileName.png', 100, 'image/png')
 
-      const asyncValidatorResolvingWithSuccess = () =>
-        new Promise<UploadValue>((resolve) =>
-          setTimeout(
-            () =>
-              resolve([
-                {
-                  file,
-                },
-              ]),
-            1
-          )
-        )
-
-      const asyncFileHandlerFnSuccess = jest.fn(
-        asyncValidatorResolvingWithSuccess
-      )
-
       render(
         <Field.Upload
-          fileHandler={asyncFileHandlerFnSuccess}
+          fileHandler={jest.fn(
+            () =>
+              new Promise<UploadValue>((resolve) =>
+                setTimeout(
+                  () =>
+                    resolve([
+                      {
+                        file,
+                      },
+                    ]),
+                  1
+                )
+              )
+          )}
           value={[{ file }]}
         />
       )

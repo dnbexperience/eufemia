@@ -26,15 +26,6 @@ import differenceInMonths from 'date-fns/differenceInMonths'
 import lastDayOfMonth from 'date-fns/lastDayOfMonth'
 import setDate from 'date-fns/setDate'
 
-// Imports only the parts of the date-fns locale object that we actually use
-import nbLocalize from 'date-fns/locale/nb/_lib/localize'
-import nbFormatLong from 'date-fns/locale/nb/_lib/formatLong'
-import enLocalize from 'date-fns/locale/en-US/_lib/localize'
-import enFormatLong from 'date-fns/locale/en-US/_lib/formatLong'
-import gbFormatLong from 'date-fns/locale/en-GB/_lib/formatLong'
-import svLocalize from 'date-fns/locale/sv/_lib/localize'
-import svFormatLong from 'date-fns/locale/sv/_lib/formatLong'
-
 import {
   isDisabled,
   makeDayObject,
@@ -42,6 +33,7 @@ import {
   getWeek,
   dayOffset,
   getCalendar,
+  formatDate,
 } from './DatePickerCalc'
 import Button, { ButtonProps } from '../button/Button'
 import DatePickerContext, {
@@ -51,7 +43,6 @@ import { useTranslation } from '../../shared'
 import { InternalLocale } from '../../shared/Context'
 import { DatePickerChangeEvent } from './DatePickerProvider'
 import { DatePickerDates } from './hooks/useDates'
-import { LOCALE } from '../../shared/defaults'
 
 export type CalendarDay = {
   date: Date
@@ -66,19 +57,6 @@ export type CalendarDay = {
   isToday?: boolean
   isWithinSelection?: boolean
   className?: string
-}
-
-type CalendarLocales = {
-  // eslint-disable-next-line no-unused-vars
-  [locale in InternalLocale]?: Pick<Locale, 'localize' | 'formatLong'>
-}
-// Easy to access objects containing the only (in our case) needed functions for date-fns format
-// TODO: Replace with Intl.DateTimeFormat
-const locales: CalendarLocales = {
-  'nb-NO': { localize: nbLocalize, formatLong: nbFormatLong },
-  'en-GB': { localize: enLocalize, formatLong: gbFormatLong },
-  'en-US': { localize: enLocalize, formatLong: enFormatLong },
-  'sv-SE': { localize: svLocalize, formatLong: svFormatLong },
 }
 
 export type CalendarNavigationEvent = {
@@ -96,17 +74,15 @@ export type DatePickerCalendarProps = Omit<
    * To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`.
    */
   month?: Date
+  hoverDate?: Date
   prevBtn?: boolean
   nextBtn?: boolean
-  titleFormat?: string
-  dayOfWeekFormat?: string
   firstDayOfWeek?: string
   hideNav?: boolean
   hideDays?: boolean
   onlyMonth?: boolean
   hideNextMonthWeek?: boolean
   noAutoFocus?: boolean
-  onHover?: (day: Date) => void
   onSelect?: (
     event: DatePickerChangeEvent<
       | React.MouseEvent<HTMLSpanElement>
@@ -147,8 +123,6 @@ type DayObject = {
 const defaultProps: DatePickerCalendarProps = {
   prevBtn: true,
   nextBtn: true,
-  titleFormat: 'MMMM yyyy',
-  dayOfWeekFormat: 'EEEEEE',
   firstDayOfWeek: 'monday',
   hideNav: false,
   hideDays: false,
@@ -162,6 +136,11 @@ const defaultProps: DatePickerCalendarProps = {
 const arrowKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown']
 const keysToHandle = ['Enter', 'Space', ...arrowKeys]
 
+const titleFormat: Intl.DateTimeFormatOptions = {
+  month: 'long',
+  year: 'numeric',
+}
+
 function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   const props = { ...defaultProps, ...restOfProps }
 
@@ -170,11 +149,12 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     setHasClickedCalendarDay,
     startDate,
     endDate,
-    hoverDate,
     maxDate,
     minDate,
     startMonth,
     endMonth,
+    hoverDate,
+    setHoverDate,
     translation: {
       DatePicker: { selectedMonth },
     },
@@ -187,16 +167,13 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     rtl,
     month,
     isRange,
-    titleFormat,
     firstDayOfWeek,
-    dayOfWeekFormat,
     hideNav,
-    locale: localeCode,
+    locale,
     hideDays,
     onPrev,
     onNext,
     onSelect,
-    onHover,
     onKeyDown,
     resetDate,
     prevBtn,
@@ -220,10 +197,8 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   }, [noAutoFocus, nr])
 
   const onMouseLeaveHandler = useCallback(() => {
-    updateDates({
-      hoverDate: null,
-    })
-  }, [updateDates])
+    setHoverDate(undefined)
+  }, [setHoverDate])
 
   const callOnSelect = useCallback(
     (
@@ -265,7 +240,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         }
       }
 
-      // // Save for later check against disabled days during key navigation
+      // Save for later check against disabled days during key navigation
       days.current[format(month, 'yyyy-MM')] = daysFromCalendar
 
       return daysFromCalendar
@@ -300,18 +275,14 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
   const findValid = useCallback(
     (date: Date, keyCode: string) => {
-      if (!onDaysRender) {
-        return date
-      }
-
-      if (!days.current) {
+      if (!onDaysRender || !days.current) {
         return date
       }
 
       const month = format(date, 'yyyy-MM')
 
+      // re-render with new month
       if (!days.current[month]) {
-        // re-render with new month
         getDays(date)
       }
 
@@ -327,7 +298,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
             foundDate.isInactive)
         ) {
           const nextDate = keyNavCalc(foundDate.date, keyCode)
-          foundDate.date = findValid(nextDate, keyCode)
+          return findValid(nextDate, keyCode)
         }
 
         if (foundDate?.date) {
@@ -359,7 +330,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         return
       }
       event.preventDefault()
-      event.persist() // since we use the event after setState
+      event.persist() // since we use the event after updateDates
 
       const currentDates = { startDate, endDate, startMonth, endMonth }
       const dateType = !isRange || nr === 0 ? 'start' : 'end'
@@ -507,28 +478,26 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
     let count = 0
 
-    return (cache.current[cacheKey] = Object.values(
-      getDays(month).reduce((acc, cur, i) => {
-        // Normalize the data for table consumption
-        acc[count] = acc[count] || []
-        acc[count].push(cur)
-        if (i % 7 === 6) {
-          count++
-        }
-        return acc
-      }, {})
-    ))
-  }, [cacheKey, getDays, month])
+    const days = getDays(month).reduce((acc, cur, i) => {
+      // Normalize the data for table consumption
+      acc[count] = acc[count] || []
+      acc[count].push(cur)
+      if (i % 7 === 6) {
+        count++
+      }
 
-  const locale = useMemo(
-    () => ({ ...(locales[localeCode] || locales[LOCALE]) }),
-    [localeCode]
-  )
+      return acc
+    }, {})
+
+    cache.current[cacheKey] = Object.values(days)
+
+    return cache.current[cacheKey]
+  }, [cacheKey, getDays, month])
 
   return (
     <div
       className={classnames('dnb-date-picker__calendar', rtl && 'rtl')}
-      lang={localeCode}
+      lang={locale}
     >
       {!hideNav && (
         <div className="dnb-date-picker__header">
@@ -548,15 +517,17 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
             className="dnb-date-picker__header__title dnb-no-focus"
             title={selectedMonth.replace(
               /%s/,
-              format(month, titleFormat, {
+              formatDate(month, {
                 locale,
+                formatOptions: titleFormat,
               })
             )}
             tabIndex={-1}
             ref={labelRef}
           >
-            {format(month, titleFormat, {
+            {formatDate(month, {
               locale,
+              formatOptions: titleFormat,
             })}
           </label>
           <div className="dnb-date-picker__header__nav">
@@ -589,19 +560,16 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                   key={i}
                   role="columnheader"
                   scope="col"
-                  className={classnames(
-                    'dnb-date-picker__labels__day',
-                    `dnb-date-picker__labels__day--${format(day, 'i', {
-                      locale,
-                    })}`
-                  )}
-                  aria-label={format(day, 'EEEE', {
+                  className="dnb-date-picker__labels__day"
+                  aria-label={formatDate(day, {
                     locale,
+                    formatOptions: { weekday: 'long' },
                   })}
                 >
-                  {format(day, dayOfWeekFormat, {
+                  {formatDate(day, {
                     locale,
-                  })}
+                    formatOptions: { weekday: 'short' },
+                  }).substring(0, 2)}
                 </th>
               ))}
             </tr>
@@ -616,8 +584,14 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                 className="dnb-date-picker__days"
               >
                 {week.map((day: DayObject, i) => {
-                  const title = format(day.date, 'PPPP', {
+                  const title = formatDate(day.date, {
                     locale,
+                    formatOptions: {
+                      weekday: 'long',
+                      day: 'numeric',
+                      month: 'long',
+                      year: 'numeric',
+                    },
                   })
 
                   const handleAsDisabled =
@@ -660,9 +634,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                       <Button
                         size="medium"
                         variant="secondary"
-                        text={format(day.date, 'd', {
-                          locale,
-                        })}
+                        text={day.date.getDate()}
                         bounding={true}
                         disabled={handleAsDisabled}
                         tabIndex={handleAsDisabled ? 0 : -1} // fix for NVDA
@@ -693,17 +665,25 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                                   },
                                 })
                         }
-                        // TODO: See if this can be replaced with css, to prevent massive amount of re-renders
                         onMouseOver={
                           handleAsDisabled
                             ? undefined
-                            : () => onHoverDay({ day, hoverDate, onHover })
+                            : () =>
+                                onHoverDay({
+                                  day,
+                                  hoverDate,
+                                  setHoverDate,
+                                })
                         }
-                        // TODO: See if this can be replaced with css, to prevent massive amount of re-renders
                         onFocus={
                           handleAsDisabled
                             ? undefined
-                            : () => onHoverDay({ day, hoverDate, onHover })
+                            : () =>
+                                onHoverDay({
+                                  day,
+                                  hoverDate,
+                                  setHoverDate,
+                                })
                         }
                       />
                     </td>
@@ -725,7 +705,7 @@ export type CalendarButtonProps = {
   nr: number
   date: Date
   month: Date
-  locale: CalendarLocales[keyof CalendarLocales]
+  locale?: InternalLocale
   showButton: boolean
   onClick: ({
     nr,
@@ -756,8 +736,12 @@ function CalendarButton({
 
   const title = tr[`${type}Month`].replace(
     /%s/,
-    format(subMonths(month, 1), 'MMMM yyyy', {
+    formatDate(subMonths(month, 1), {
       locale,
+      formatOptions: {
+        month: 'long',
+        year: 'numeric',
+      },
     })
   )
 
@@ -849,14 +833,14 @@ function onSelectRange({
 function onHoverDay({
   day,
   hoverDate,
-  onHover,
+  setHoverDate,
 }: {
   day: CalendarDay
   hoverDate?: Date
-  onHover: DatePickerCalendarProps['onHover']
+  setHoverDate: (date: Date) => void
 }) {
-  if (!isSameDay(day.date, hoverDate) && onHover) {
-    onHover(day.date)
+  if (!isSameDay(day.date, hoverDate)) {
+    setHoverDate?.(day.date)
   }
 }
 

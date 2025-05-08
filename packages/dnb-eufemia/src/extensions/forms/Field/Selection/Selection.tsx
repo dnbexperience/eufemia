@@ -26,7 +26,7 @@ import type { DropdownAllProps } from '../../../../components/Dropdown'
 import { HelpProps } from '../../../../components/help-button/HelpButtonInline'
 import { DrawerListProps } from '../../../../fragments/DrawerList'
 import {
-  convertCamelCaseProps,
+  convertCamelCasePropsToSnakeCase,
   ToCamelCase,
 } from '../../../../shared/helpers/withCamelCaseProps'
 import useDataValue from '../../hooks/useDataValue'
@@ -54,7 +54,7 @@ export type Props = FieldProps<IOption['value']> & {
    * Defines the variant of the component.
    * Default: dropdown
    */
-  variant?: 'dropdown' | 'autocomplete' | 'radio' | 'button'
+  variant?: 'dropdown' | 'autocomplete' | 'radio' | 'radio-list' | 'button'
 
   /**
    * The width of the component.
@@ -219,9 +219,12 @@ function Selection(props: Props) {
 
   switch (variant) {
     case 'radio':
+    case 'radio-list':
     case 'button': {
       const Component = (
-        variant === 'radio' ? Radio : ToggleButton
+        variant === 'radio' || variant === 'radio-list'
+          ? Radio
+          : ToggleButton
       ) as typeof Radio & typeof ToggleButton
 
       const items = renderRadioItems({
@@ -247,10 +250,14 @@ function Selection(props: Props) {
       if (!size) {
         additionalFieldBlockProps.labelHeight = 'small'
       }
+      if (variant === 'radio-list') {
+        additionalFieldBlockProps.width = width
+      }
 
       return (
         <FieldBlock {...fieldBlockProps} {...additionalFieldBlockProps}>
           <Component.Group
+            role="radiogroup"
             size={size}
             className={cn}
             layout_direction={
@@ -258,7 +265,7 @@ function Selection(props: Props) {
             }
             disabled={disabled}
             on_change={onChangeHandler}
-            value={String(value ?? '') || undefined}
+            value={String(value ?? '')}
           >
             {items}
           </Component.Group>
@@ -307,7 +314,7 @@ function Selection(props: Props) {
             <Autocomplete
               {...sharedProps}
               {...(autocompleteProps
-                ? (convertCamelCaseProps(
+                ? (convertCamelCasePropsToSnakeCase(
                     Object.freeze(autocompleteProps)
                   ) as AutocompleteAllProps)
                 : null)}
@@ -327,7 +334,7 @@ function Selection(props: Props) {
             <Dropdown
               {...sharedProps}
               {...(dropdownProps
-                ? (convertCamelCaseProps(
+                ? (convertCamelCasePropsToSnakeCase(
                     dropdownProps
                   ) as DropdownAllProps)
                 : null)}
@@ -392,15 +399,22 @@ function renderRadioItems({
     iterateOverItems?.({ value, label })
 
     const Component = (
-      variant === 'radio' ? Radio : ToggleButton
+      variant === 'radio' || variant === 'radio-list'
+        ? Radio
+        : ToggleButton
     ) as typeof Radio & typeof ToggleButton
 
     return (
       <Component
         id={optionsCount === 1 ? id : undefined}
         key={`option-${i}-${id}`}
-        label={variant === 'radio' ? label : undefined}
+        label={
+          variant === 'radio' || variant === 'radio-list'
+            ? label
+            : undefined
+        }
         text={variant === 'button' ? label : undefined}
+        role="radio"
         value={String(value ?? valueProp) || undefined}
         status={
           (hasError || checkForError([error, info, warning])) && 'error'

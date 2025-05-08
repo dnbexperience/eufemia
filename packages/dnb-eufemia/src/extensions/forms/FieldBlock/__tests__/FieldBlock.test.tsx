@@ -127,6 +127,16 @@ describe('FieldBlock', () => {
     expect(labelElement).toHaveTextContent('A Label')
   })
 
+  it('should set correct class when labelSrOnly is true', () => {
+    render(<FieldBlock label="My label" labelSrOnly />)
+
+    const element = document.querySelector('.dnb-form-label')
+
+    expect(element).toHaveTextContent('My label')
+    expect(element).toHaveClass('dnb-sr-only')
+    expect(element).not.toHaveClass('dnb-form-label--interactive')
+  })
+
   describe('labelDescription', () => {
     it('should render with a string', () => {
       render(
@@ -147,6 +157,7 @@ describe('FieldBlock', () => {
     it('should render br when labelDescriptionInline is false', () => {
       render(
         <FieldBlock
+          label="label"
           labelDescription="A Label Description"
           labelDescriptionInline={false}
         >
@@ -166,6 +177,19 @@ describe('FieldBlock', () => {
           labelDescription="A Label Description"
           labelDescriptionInline
         >
+          content
+        </FieldBlock>
+      )
+
+      const labelElement = document.querySelector('label')
+
+      expect(labelElement).toHaveTextContent('A Label Description')
+      expect(labelElement.querySelector('br')).not.toBeInTheDocument()
+    })
+
+    it('should not render br when label is not provided', () => {
+      render(
+        <FieldBlock labelDescription="A Label Description">
           content
         </FieldBlock>
       )

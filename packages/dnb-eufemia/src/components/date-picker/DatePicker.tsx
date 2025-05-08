@@ -29,9 +29,6 @@ import AlignmentHelper from '../../shared/AlignmentHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { skeletonDOMAttributes } from '../skeleton/SkeletonHelper'
 
-// date-fns
-import format from 'date-fns/format'
-
 import Context, { Locale } from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
@@ -59,6 +56,11 @@ import { DatePickerDates } from './hooks/useDates'
 import { useTranslation } from '../../shared'
 import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 import DatePickerPortal from './DatePickerPortal'
+import {
+  FormatDateOptions,
+  formatDate,
+  formatDateRange,
+} from './DatePickerCalc'
 
 export type DatePickerEventAttributes = {
   day?: string
@@ -275,6 +277,10 @@ export type DatePickerProps = {
    * Use `right` to change the calendar alignment direction. Defaults to `left`.
    */
   alignPicker?: 'auto' | 'left' | 'right'
+  /**
+   * Sets the alignment of the label. Defaults to `left`.
+   */
+  labelAlignment?: 'left' | 'right'
   /**
    * If set to `true`, the calendar will not be rendered inside a react portal. Defaults to `false`.
    */
@@ -793,22 +799,6 @@ function DatePicker(externalProps: DatePickerAllProps) {
     [opened, showPicker, hidePicker]
   )
 
-  const formatSelectedDateTitle = useCallback(() => {
-    const { selectedDate, start, end } = translation
-    const { startDate, endDate } = dates
-
-    let currentDate = startDate ? format(startDate, 'PPPP') : null
-
-    if (range && startDate && endDate) {
-      currentDate = `${start} ${currentDate} - ${end} ${format(
-        endDate,
-        'PPPP'
-      )}`
-    }
-
-    return currentDate ? selectedDate.replace(/%s/, currentDate) : ''
-  }, [range, translation, dates])
-
   // use only the props from context, who are available here anyway
   const extendedProps = extendPropsWithContext(
     props,
@@ -855,6 +845,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
     className,
     tooltip,
     skipPortal,
+    labelAlignment,
     ...restProps
   } = extendedProps
 
@@ -889,7 +880,31 @@ function DatePicker(externalProps: DatePickerAllProps) {
     tooltip,
   }
 
-  const selectedDateTitle = formatSelectedDateTitle()
+  const selectedDateTitle = useMemo(() => {
+    const { selectedDate, selectedDateRange } = translation
+    const { startDate, endDate } = dates
+
+    if (!startDate) {
+      return ''
+    }
+
+    const options: FormatDateOptions = {
+      locale: context.locale,
+      formatOptions: {
+        weekday: 'long',
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+      },
+    }
+
+    return range && endDate
+      ? selectedDateRange.replace(
+          /%s/,
+          formatDateRange({ startDate, endDate }, options)
+        )
+      : selectedDate.replace(/%s/, formatDate(startDate, options))
+  }, [range, translation, dates, context.locale])
 
   const mainParams = {
     className: classnames(
@@ -899,6 +914,9 @@ function DatePicker(externalProps: DatePickerAllProps) {
       opened && 'dnb-date-picker--opened',
       hidden && 'dnb-date-picker--hidden',
       showInput && 'dnb-date-picker--show-input',
+      label &&
+        labelAlignment === 'right' &&
+        'dnb-date-picker__input--label-alignment-right',
       (range || showSubmitButton || showCancelButton || showResetButton) &&
         'dnb-date-picker--show-footer',
       alignPicker && `dnb-date-picker--${alignPicker}`,
@@ -1107,6 +1125,7 @@ const NonAttributes = [
   'startMonth',
   'alignPicker',
   'preventClose',
+  'selectedDateRange',
 ]
 
 function filterOutNonAttributes(props: DatePickerProps) {

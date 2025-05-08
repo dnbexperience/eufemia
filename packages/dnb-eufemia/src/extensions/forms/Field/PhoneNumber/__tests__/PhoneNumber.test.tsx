@@ -725,7 +725,10 @@ describe('Field.PhoneNumber', () => {
       'dnb-space__top--large',
       'dnb-forms-field-block',
       'dnb-forms-field-phone-number',
-      'dnb-forms-field-block--width-large',
+      'dnb-forms-field-block__composition',
+      'dnb-forms-field-block__composition--horizontal',
+      'dnb-forms-field-block--width-stretch',
+      'dnb-forms-field-block--content-width-large',
     ])
   })
 

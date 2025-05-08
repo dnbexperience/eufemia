@@ -17,9 +17,10 @@ import { Span } from '../../elements'
 const CopyOnClick = ({
   children,
   className = null,
-  disabled,
+  disabled = false,
   showCursor = true,
   copyContent = null,
+  tooltipContent = null,
   ...props
 }: CopyOnClickAllProps) => {
   const ref = useRef<HTMLSpanElement>(null)
@@ -36,9 +37,10 @@ const CopyOnClick = ({
 
   const copy = useCallback(
     (value: string, positionElement: HTMLElement) => {
-      copyWithEffect(value, clipboard_copy, positionElement) // use copyWithNotice only to use the nice effect / animation
+      const message = tooltipContent ?? clipboard_copy
+      copyWithEffect(value, message, positionElement) // use copyWithNotice only to use the nice effect / animation
     },
-    [clipboard_copy]
+    [clipboard_copy, tooltipContent]
   )
 
   const onClickHandler = useCallback(() => {
