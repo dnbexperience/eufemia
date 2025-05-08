@@ -17,7 +17,7 @@ import type { SkeletonShow } from '../skeleton/Skeleton'
 import type { LocaleProps, SpacingProps } from '../../shared/types'
 import { useHandleOddEven } from './TableTr'
 
-export type TableSizes = 'large' | 'medium' | 'small'
+export type TableSizes = 'large' | 'medium' | 'small' | 'x-small'
 export type TableVariants = 'generic'
 
 export { ScrollView }

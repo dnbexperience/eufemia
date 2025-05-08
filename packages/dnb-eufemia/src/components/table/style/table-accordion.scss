@@ -48,6 +48,9 @@
       .dnb-table__size--small & {
         width: 2.5rem;
       }
+      .dnb-table__size--x-small & {
+        width: 2rem;
+      }
 
       text-indent: -300vw;
     }
@@ -257,6 +260,9 @@
       }
       .dnb-table__size--small & {
         width: calc(100% - 2.5rem);
+      }
+      .dnb-table__size--x-small & {
+        width: calc(100% - 2rem);
       }
     }
 
