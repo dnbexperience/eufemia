@@ -4010,5 +4010,50 @@
     "name": "show_pin",
     "variant": "secondary",
     "category": "essentials"
+  },
+  "digital_advise_medium": {
+    "tags": ["Used for digital advisory."],
+    "created": 1746439383374,
+    "name": "digital_advise",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "digital_advise": {
+    "tags": ["Used for digital advisory."],
+    "created": 1746439383640,
+    "name": "digital_advise",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "lightningstrike_medium": {
+    "tags": ["Is used to indicate live data in a stock trading setting."],
+    "created": 1746439450006,
+    "name": "lightningstrike",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "lightningstrike": {
+    "tags": [
+      "Categorization: Leisure",
+      "Is used to indicate live data in a stock trading setting."
+    ],
+    "created": 1746439450295,
+    "name": "lightningstrike",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "aino_medium": {
+    "tags": [],
+    "created": 1746439450598,
+    "name": "aino",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "aino": {
+    "tags": [],
+    "created": 1746439450908,
+    "name": "aino",
+    "variant": "secondary",
+    "category": "objects"
   }
 }

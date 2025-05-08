@@ -65,8 +65,8 @@ jobs:
       - name: Icons fetch and prebuild
         run: yarn workspace @dnb/eufemia prebuild:figma:ci
 
-      - name: Test prebuild
-        run: yarn workspace @dnb/eufemia test:update --timeout=30000
+      - name: Prebuild Library
+        run: yarn workspace @dnb/eufemia prebuild:ci
 
       - name: Build portal
         run: yarn workspace dnb-design-system-portal build:visual-test
@@ -88,7 +88,7 @@ jobs:
 
       - name: Commit icons and updated snapshots
         if: success()
-        run: yarn workspace @dnb/eufemia postbuild:commit
+        run: yarn workspace @dnb/eufemia icons:commit
 
       - name: Slack
         uses: 8398a7/action-slack@v3

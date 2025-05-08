@@ -18,6 +18,8 @@ import add from './dnb/add'
 import add_circled from './dnb/add_circled'
 import add_circled_medium from './dnb/add_circled_medium'
 import add_medium from './dnb/add_medium'
+import aino from './dnb/aino'
+import aino_medium from './dnb/aino_medium'
 import ainvoice from './dnb/ainvoice'
 import ainvoice_medium from './dnb/ainvoice_medium'
 import ambulance from './dnb/ambulance'
@@ -178,6 +180,8 @@ import digipass_private from './dnb/digipass_private'
 import digipass_private_medium from './dnb/digipass_private_medium'
 import digipost from './dnb/digipost'
 import digipost_medium from './dnb/digipost_medium'
+import digital_advise from './dnb/digital_advise'
+import digital_advise_medium from './dnb/digital_advise_medium'
 import digitpass_private_corporate from './dnb/digitpass_private_corporate'
 import digitpass_private_corporate_medium from './dnb/digitpass_private_corporate_medium'
 import dismiss_keyboard from './dnb/dismiss_keyboard'
@@ -340,6 +344,8 @@ import leaf from './dnb/leaf'
 import leaf_medium from './dnb/leaf_medium'
 import lightbulb from './dnb/lightbulb'
 import lightbulb_medium from './dnb/lightbulb_medium'
+import lightningstrike from './dnb/lightningstrike'
+import lightningstrike_medium from './dnb/lightningstrike_medium'
 import linkedin from './dnb/linkedin'
 import linkedin_medium from './dnb/linkedin_medium'
 import list from './dnb/list'
@@ -582,6 +588,8 @@ export {
   add_circled,
   add_circled_medium,
   add_medium,
+  aino,
+  aino_medium,
   ainvoice,
   ainvoice_medium,
   ambulance,
@@ -742,6 +750,8 @@ export {
   digipass_private_medium,
   digipost,
   digipost_medium,
+  digital_advise,
+  digital_advise_medium,
   digitpass_private_corporate,
   digitpass_private_corporate_medium,
   dismiss_keyboard,
@@ -904,6 +914,8 @@ export {
   leaf_medium,
   lightbulb,
   lightbulb_medium,
+  lightningstrike,
+  lightningstrike_medium,
   linkedin,
   linkedin_medium,
   list,
