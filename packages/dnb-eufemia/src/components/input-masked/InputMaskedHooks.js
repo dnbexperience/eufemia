@@ -351,10 +351,17 @@ const useCallEvent = ({ setLocalValue }) => {
       isUnidentified = false
     }
 
-    // Prevent entering a leading zero
-    if (maskParams?.disallowLeadingZeroes && name === 'onInput') {
+    // Prevent entering a leading zero.
+    // Also remove leading zeroes when the input is blurred.
+    if (
+      maskParams?.disallowLeadingZeroes &&
+      (name === 'onInput' || name === 'on_blur')
+    ) {
       const isNegative = new RegExp(`^${NUMBER_MINUS}`, 'g').test(value)
-      if (isNegative ? selStart > 1 : selStart > 0) {
+      if (
+        (isNegative ? selStart > 1 : selStart > 0) ||
+        name === 'on_blur'
+      ) {
         const onlyNumber = value.replace(
           new RegExp(`[^\\d${maskParams.decimalSymbol}]`, 'g'),
           ''
@@ -401,6 +408,7 @@ const useCallEvent = ({ setLocalValue }) => {
           setLocalValue(newValue)
           event.target.value = newValue
           safeSetSelection(event.target, newSelStart)
+          value = newValue
         }
       }
     }

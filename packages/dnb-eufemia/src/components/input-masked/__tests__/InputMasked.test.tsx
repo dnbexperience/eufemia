@@ -746,6 +746,98 @@ describe('InputMasked component', () => {
       )
     })
 
+    it('should allow 0 as value when the input is blurred', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <InputMasked
+          {...props}
+          number_mask={{
+            disallowLeadingZeroes: true,
+          }}
+          onChange={onChange}
+        />
+      )
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '0')
+
+      expect(input).toHaveValue('0')
+
+      fireEvent.blur(input)
+
+      expect(input).toHaveValue('0')
+    })
+
+    it('should remove leading zero when the input is blurred', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <InputMasked
+          {...props}
+          number_mask={{
+            disallowLeadingZeroes: true,
+          }}
+          onChange={onChange}
+        />
+      )
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '100123')
+
+      expect(input).toHaveValue('100 123')
+
+      await userEvent.keyboard('[ArrowLeft>6]{Backspace}')
+
+      expect(input).toHaveValue('00 123')
+
+      fireEvent.blur(input)
+
+      expect(input).toHaveValue('123')
+    })
+
+    it('should remove leading zero with minus when the input is blurred', async () => {
+      const onChange = jest.fn()
+      const onBlur = jest.fn()
+
+      render(
+        <InputMasked
+          {...props}
+          number_mask={{
+            disallowLeadingZeroes: true,
+          }}
+          onChange={onChange}
+          onBlur={onBlur}
+        />
+      )
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '-100123')
+
+      expect(input).toHaveValue('-100 123')
+
+      await userEvent.keyboard('[ArrowLeft>6]{Backspace}')
+
+      expect(input).toHaveValue('-00 123')
+
+      fireEvent.blur(input)
+
+      expect(input).toHaveValue('-123')
+      expect(onChange).toHaveBeenCalledTimes(8)
+      expect(onChange).toHaveBeenNthCalledWith(
+        8,
+        expect.objectContaining({ numberValue: -123, value: '-00 123' })
+      )
+      expect(onBlur).toHaveBeenCalledTimes(1)
+      expect(onBlur).toHaveBeenNthCalledWith(
+        1,
+        expect.objectContaining({ numberValue: -123, value: '-123' })
+      )
+    })
+
     it('should not remove leading zeroes when deleting front number', async () => {
       const onChange = jest.fn()
 
