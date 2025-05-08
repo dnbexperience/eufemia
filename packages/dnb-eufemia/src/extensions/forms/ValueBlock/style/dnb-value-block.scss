@@ -29,6 +29,8 @@
 }
 
 .dnb-forms-value-block {
+  --value-block-icon-separator: '\2060';
+
   display: block;
   font-size: var(--font-size-basis);
 
@@ -47,11 +49,6 @@
   }
   &__label {
     max-width: var(--forms-value-label-max-width--large);
-
-    & strong:has(+ .dnb-help-button),// To support dt > strong or dt > span > strong
-    &__content:has(+ .dnb-help-button) {
-      margin-right: 0.5rem;
-    }
   }
   &__label:empty {
     // Make it possible to omit labels in a SummaryList with a horizontal/grid layout that has a label
@@ -204,5 +201,13 @@
   &__help--next-line {
     display: flex;
     flex-basis: 100%; // Ensure the help content is wrapped to a new line
+  }
+
+  .dnb-help-button {
+    display: inline;
+    white-space: nowrap; // force help button to line break with word
+    &::before {
+      content: var(--value-block-icon-separator);
+    }
   }
 }
