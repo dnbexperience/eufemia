@@ -292,6 +292,7 @@ export function FileSizeErrorWithFileHandler() {
     </Form.Handler>
   )
 }
+
 export function SameFileName() {
   return (
     <Form.Handler
@@ -332,6 +333,65 @@ export const WithSyncFileHandler = () => {
         />
         <Form.SubmitButton />
         <Tools.Log />
+      </Flex.Stack>
+    </Form.Handler>
+  )
+}
+
+export const AsyncEverythingWithTransform = () => {
+  const acceptedFileTypes = ['jpg', 'pdf', 'png']
+
+  async function mockAsyncOnFileClick({ fileItem }) {
+    const request = createRequest()
+    console.log(
+      'making API request to fetch the url of the file: ' +
+        fileItem.file.name
+    )
+    await request(3000) // Simulate a request
+    window.open(
+      'https://eufemia.dnb.no/images/avatars/1501870.jpg',
+      '_blank'
+    )
+  }
+
+  function transformIn(external) {
+    return (
+      external?.map((file) =>
+        file.id !== '1'
+          ? {
+              id: file.id,
+              file: new File([], file.id),
+              errorMessage: file?.errorMessage,
+              ...file,
+            }
+          : file
+      ) || []
+    )
+  }
+
+  const myFiles = [
+    {
+      id: '1',
+    },
+  ]
+
+  return (
+    <Form.Handler
+      onSubmit={async (form) => console.log(form)}
+      data={{
+        myFiles,
+      }}
+    >
+      <Flex.Stack>
+        <Field.Upload
+          path="/myFiles"
+          transformIn={transformIn}
+          onFileDelete={mockAsyncFileRemoval}
+          onFileClick={mockAsyncOnFileClick}
+          fileHandler={mockAsyncFileUpload}
+          id="upload-example-async"
+          acceptedFileTypes={acceptedFileTypes}
+        />
       </Flex.Stack>
     </Form.Handler>
   )

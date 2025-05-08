@@ -34,7 +34,7 @@ function UploadFileList() {
 
   const removeFile = (fileToBeRemoved: UploadFile) => {
     return filesRef.current.filter(
-      (fileListElement) => fileListElement.file != fileToBeRemoved.file
+      (fileListElement) => fileListElement.id != fileToBeRemoved.id
     )
   }
 
