@@ -22,59 +22,46 @@ export function PaymentCardAllCardsExample() {
     >
       {() => {
         const demoCards = [
-          'NK1',
-          'NK4',
-          'NK5',
-          'VE1',
-          'VE2',
-          'VG1',
-          'VG4',
-          '053',
-          'VK2',
-          'VK4',
-          '084',
-          'VL1',
-          'VL2',
-          'VL3',
-          'VL4',
-          'VL6',
-          '085',
-          'VO1',
-          'VP2',
-          'VP3',
-          'VP4',
-          '069',
-          'VP5',
-          '080',
-          'VX1',
-          'VX3',
-          'VX4',
-          'VX5',
-          '096',
-          '044',
           '043',
-          '098',
-          '074',
+          '044',
+          '052',
+          '053',
           '062',
+          '069',
+          '074',
+          '080',
+          '084',
+          '085',
+          '086',
+          '096',
+          '098',
+          '101',
           'BK1',
           'BP1',
-          'VB1',
-          'VB2',
           'VB5',
-          'P101',
+          'VG4',
+          'VL1',
+          'VL4',
+          'VL6',
+          'VP4',
+          'VP5',
+          'VO1',
+          'VX1',
+          'VX4',
+          'VX5',
+          '087',
           '103',
           'VS8',
-          'VO3',
         ]
 
-        const Cards = () => (
+        return (
           <>
             {demoCards.map((product_code) => {
               const cardData = getCardData(product_code)
               return (
                 <article key={product_code}>
                   <H4>
-                    {cardData.cardDesign.name}({product_code})
+                    {cardData.cardDesign.name} ({product_code})
                   </H4>
                   <PaymentCard
                     product_code={product_code}
@@ -85,8 +72,6 @@ export function PaymentCardAllCardsExample() {
             })}
           </>
         )
-
-        return <Cards />
       }}
     </ComponentBox>
   )
@@ -97,7 +82,7 @@ export const PaymentCardBasicExample = () => (
     scope={{ PaymentCard }}
     data-visual-test="payment-card-basic"
   >
-    <PaymentCard product_code="NK1" card_number="••••••••••••1337" />
+    <PaymentCard product_code="VL4" card_number="••••••••••••1337" />
   </ComponentBox>
 )
 
@@ -107,12 +92,11 @@ export const PaymentCardCustomExample = () => (
   >
     {() => {
       const customData = {
-        productCode: 'UNDEFINED',
         productName: 'DNB Custom Card',
         displayName: 'Custom card',
         cardDesign: Designs.gold,
         cardType: CardType.Visa,
-        productType: ProductType.None,
+        productType: ProductType.Corporate,
         bankAxept: BankAxeptType.BankAxept,
       }
       return (
@@ -132,7 +116,7 @@ export const PaymentCardStatusExample = () => (
     data-visual-test="payment-card-status"
   >
     <PaymentCard
-      product_code="VG2"
+      product_code="VX5"
       card_status="blocked"
       card_number="••••••••••••1337"
     />
@@ -146,7 +130,22 @@ export const PaymentCardCompactExample = () => (
   >
     <PaymentCard
       variant="compact"
-      product_code="VG1"
+      product_code="BK1"
+      card_number="••••••••••••1337"
+    />
+    <PaymentCard
+      variant="compact"
+      product_code="VP5"
+      card_number="••••••••••••1337"
+    />
+    <PaymentCard
+      variant="compact"
+      product_code="052"
+      card_number="••••••••••••1337"
+    />
+    <PaymentCard
+      variant="compact"
+      product_code="101"
       card_number="••••••••••••1337"
     />
   </ComponentBox>
