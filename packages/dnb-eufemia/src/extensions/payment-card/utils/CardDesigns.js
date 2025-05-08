@@ -75,7 +75,7 @@ const gold = {
   bankLogo: DNB.Colored(properties['--color-black']),
   visa: Visa.Colored(properties['--color-black']),
   mastercard: Mastercard.Default,
-  bankAxept: BankAxept.White,
+  bankAxept: BankAxept.Black,
   saga: Saga.None,
   privateBanking: PB.None,
   backgroundImage: mastercardGold,
