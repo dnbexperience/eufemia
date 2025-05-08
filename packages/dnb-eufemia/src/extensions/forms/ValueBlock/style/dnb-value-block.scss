@@ -80,7 +80,7 @@
     color: var(--color-black-80);
   }
 
-  &__content#{&}--max-width {
+  &__content--max-width {
     &-stretch {
       width: 100%;
     }
