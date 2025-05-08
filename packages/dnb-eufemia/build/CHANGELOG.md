@@ -3,6 +3,62 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.73.0](https://github.com/dnbexperience/eufemia/compare/v10.72.3...v10.73.0) (2025-05-08)
+
+
+### :sparkles: Features
+
+* **CopyOnClick:** add `tooltipContent` to be displayed when text has been copied ([#5008](https://github.com/dnbexperience/eufemia/issues/5008)) ([d68a031](https://github.com/dnbexperience/eufemia/commit/d68a03118fd3d365183de21d56106256f006bf5d))
+* **CountryFlag:** update country-flags to v7.3.2 ([#5063](https://github.com/dnbexperience/eufemia/issues/5063)) ([680bfbe](https://github.com/dnbexperience/eufemia/commit/680bfbe9d4939559f55631ae377f1d8c356d80ab))
+* **DatePicker:** add `labelAlignment` ([#4994](https://github.com/dnbexperience/eufemia/issues/4994)) ([171edd6](https://github.com/dnbexperience/eufemia/commit/171edd671d6250e3e072b34e10d1b8951910a6ec))
+* **DatePicker:** copy whole formatted date when coping from input field ([#5053](https://github.com/dnbexperience/eufemia/issues/5053)) ([9eb9bda](https://github.com/dnbexperience/eufemia/commit/9eb9bda61caa0b263ad94f9057da08b6c7a6e846))
+* **DatePicker:** replace locale based `date-fns` formatting with `Intl` ([#4766](https://github.com/dnbexperience/eufemia/issues/4766)) ([c44d58d](https://github.com/dnbexperience/eufemia/commit/c44d58de977d403d943c9fc6980c9fb9bdaf563b))
+* **Field.Composition:** support `help` property ([#5070](https://github.com/dnbexperience/eufemia/issues/5070)) ([4b91598](https://github.com/dnbexperience/eufemia/commit/4b9159866a66692ef77a8a7dfaaae919075d72ef))
+* **Field.Expiry:** remove `width` & `contentWidth` properties ([#5057](https://github.com/dnbexperience/eufemia/issues/5057)) ([5a6a9f9](https://github.com/dnbexperience/eufemia/commit/5a6a9f92aaaaea18a9c92a25ed563e29a11c4edc))
+* **Forms:** add `radio-list` variant to Field.Selection ([#5015](https://github.com/dnbexperience/eufemia/issues/5015)) ([ad68737](https://github.com/dnbexperience/eufemia/commit/ad687376abd43b1851e73cfe47e1a0c7dd665dea))
+* **Forms:** add `requireCommit` property to Iterate.PushContainer to show error during submit or next step after user input ([#5005](https://github.com/dnbexperience/eufemia/issues/5005)) ([37b8d6f](https://github.com/dnbexperience/eufemia/commit/37b8d6f3da3d226fde1730fac9077a8e8d46945d)), closes [#4985](https://github.com/dnbexperience/eufemia/issues/4985) [#4072](https://github.com/dnbexperience/eufemia/issues/4072)
+* **Forms:** add support for `labelSize` to all Field.* ([#5029](https://github.com/dnbexperience/eufemia/issues/5029)) ([58119ec](https://github.com/dnbexperience/eufemia/commit/58119ec80b7734b17de561a0aba311a54405c16d))
+* **Forms:** always validate fields in all Wizard steps (without keepInDOM) ([#5041](https://github.com/dnbexperience/eufemia/issues/5041)) ([e6af499](https://github.com/dnbexperience/eufemia/commit/e6af499a00c34255a51228646cb433902e974d83))
+* **Icons:** add `digital_advise`, `aino`, `lightningstrike` ([#5059](https://github.com/dnbexperience/eufemia/issues/5059)) ([bf080e4](https://github.com/dnbexperience/eufemia/commit/bf080e4b39dc8ed1e70f2967496cfec75bef7588))
+* **Pagination:** add support for horizontal `paginationBarLayout` ([#5072](https://github.com/dnbexperience/eufemia/issues/5072)) ([20a8458](https://github.com/dnbexperience/eufemia/commit/20a8458b48097724409af89d8b79920acc6653f6))
+* **StepIndicator:** animate chevron on expand/collapse ([#4987](https://github.com/dnbexperience/eufemia/issues/4987)) ([f409073](https://github.com/dnbexperience/eufemia/commit/f40907336f1daad687f182ac2e6db9bdc9393e0c))
+
+
+### :bug: Bug Fixes
+
+* **CopyOnClick:** copy `textContent` when given children is empty ([#5014](https://github.com/dnbexperience/eufemia/issues/5014)) ([d7f6992](https://github.com/dnbexperience/eufemia/commit/d7f6992681342d9c9457bf527fe58e06385ea5f6))
+* **CopyOnClick:** display copy cursor for all children ([#5011](https://github.com/dnbexperience/eufemia/issues/5011)) ([536b114](https://github.com/dnbexperience/eufemia/commit/536b114e728e9f5f22540bac15241d90426f867f))
+* **DatePicker:** prevent selection of invalid dates when navigating the calendar with arrow keys ([#5006](https://github.com/dnbexperience/eufemia/issues/5006)) ([549a1b5](https://github.com/dnbexperience/eufemia/commit/549a1b51ab9c99a21f650531052c32aa025196b8))
+* **Field.Block:** render `labelDescription` without spacing above ([#5025](https://github.com/dnbexperience/eufemia/issues/5025)) ([05879e9](https://github.com/dnbexperience/eufemia/commit/05879e952071cf001c07218f5a6fb5e7f388e619))
+* **Field.Date:** support width ([#5038](https://github.com/dnbexperience/eufemia/issues/5038)) ([8ba70cc](https://github.com/dnbexperience/eufemia/commit/8ba70cc2b7ee42bea5c8767ab24b8f95c7f1234b))
+* **Field.PhoneNumber:** ensure large width has correct size ([#5042](https://github.com/dnbexperience/eufemia/issues/5042)) ([1e2f5bd](https://github.com/dnbexperience/eufemia/commit/1e2f5bd051b35cfae51d43ee79f47eba1fdb2a70))
+* **Field.PhoneNumber:** support width ([#5036](https://github.com/dnbexperience/eufemia/issues/5036)) ([cbe360c](https://github.com/dnbexperience/eufemia/commit/cbe360c350dd773848a51637761359c6e759672c))
+* **Field.Upload:** support width ([#5033](https://github.com/dnbexperience/eufemia/issues/5033)) ([877d355](https://github.com/dnbexperience/eufemia/commit/877d355219a3ff411578bbd3d06cfdaf82bf0d43))
+* **Forms:** ensure edit containers for Iterate and Section shows red border on submit errors ([#5051](https://github.com/dnbexperience/eufemia/issues/5051)) ([7dc34cc](https://github.com/dnbexperience/eufemia/commit/7dc34ccb37876ebe5b924e9d91500832370983ac))
+* **Forms:** ensure Field.Composition sets correct `width` if given ([#5071](https://github.com/dnbexperience/eufemia/issues/5071)) ([07dd346](https://github.com/dnbexperience/eufemia/commit/07dd3469654831268d107620e5005b478b3bf245))
+* **Forms:** ensure Field.Composition with horizontal layout will still wrap ([#5007](https://github.com/dnbexperience/eufemia/issues/5007)) ([3500dd4](https://github.com/dnbexperience/eufemia/commit/3500dd4ffd715000589c92055dd8034fca5836db))
+* **Forms:** ensure Field.Selection with the autocomplete variant receives showIndicator in the first onType parameter object ([#5012](https://github.com/dnbexperience/eufemia/issues/5012)) ([98b6a5a](https://github.com/dnbexperience/eufemia/commit/98b6a5af1f386bc1418db040f96e2247d33cd88d))
+* **Forms:** ensure fields do not overflow in width on a certain screen size ([#5049](https://github.com/dnbexperience/eufemia/issues/5049)) ([cacd703](https://github.com/dnbexperience/eufemia/commit/cacd70335bcbafbaf04885c8c89cd4cbc208452c))
+* **Forms:** ensure Iterate.Array schema validation ([#4986](https://github.com/dnbexperience/eufemia/issues/4986)) ([7b1f250](https://github.com/dnbexperience/eufemia/commit/7b1f2505d187737ccab2115791bc3e6ee6518f0a)), closes [#4956](https://github.com/dnbexperience/eufemia/issues/4956)
+* **Forms:** ensure keepInDOM in Wizard step does not pre-render step ([#5002](https://github.com/dnbexperience/eufemia/issues/5002)) ([3969a15](https://github.com/dnbexperience/eufemia/commit/3969a15c6467066040e4cf9d784d76b325ef60de))
+* **Forms:** ensure support for `labelSrOnly` for all fields ([#5050](https://github.com/dnbexperience/eufemia/issues/5050)) ([948d6bc](https://github.com/dnbexperience/eufemia/commit/948d6bc4bf82081790ffed3a735040d7dfdc7007))
+* **Forms:** ensure values of fields inside Form.Isolation write their initial value to the isolated data context ([#5056](https://github.com/dnbexperience/eufemia/issues/5056)) ([583a55c](https://github.com/dnbexperience/eufemia/commit/583a55c59cf9898bb3861fb673cadc590a28ad34))
+* **Forms:** support `required` in Field.Selection with `button` variant ([#5064](https://github.com/dnbexperience/eufemia/issues/5064)) ([55be79d](https://github.com/dnbexperience/eufemia/commit/55be79d09f1135a6ad08597efa21b129a8801b51))
+* **FormStatus:** always render with a max-width to enhance readability ([#5039](https://github.com/dnbexperience/eufemia/issues/5039)) ([3271021](https://github.com/dnbexperience/eufemia/commit/3271021d493d409c648a48b1ff2d61543499a99b)), closes [/github.com/dnbexperience/eufemia/pull/5039/files#diff-9205ae17277da7b891bb7d4ee2b32336046e4f3376537a44a65cf0279f5bb582](https://github.com/dnbexperience//github.com/dnbexperience/eufemia/pull/5039/files/issues/diff-9205ae17277da7b891bb7d4ee2b32336046e4f3376537a44a65cf0279f5bb582)
+* **Forms:** use default outline color on Cards used inside Wizard ([#5054](https://github.com/dnbexperience/eufemia/issues/5054)) ([b7cb237](https://github.com/dnbexperience/eufemia/commit/b7cb2374f51927df5d90619fcc6ff92e21ef7579)), closes [#4462](https://github.com/dnbexperience/eufemia/issues/4462)
+* **HeightAnimation:** always end animation properly when animation has finished ([#5028](https://github.com/dnbexperience/eufemia/issues/5028)) ([b1287ba](https://github.com/dnbexperience/eufemia/commit/b1287ba163a285a670f1bbc55a0ee09f02d2e53e)), closes [#4493](https://github.com/dnbexperience/eufemia/issues/4493)
+* **Lead:** correct line height ([#5055](https://github.com/dnbexperience/eufemia/issues/5055)) ([3e6dd43](https://github.com/dnbexperience/eufemia/commit/3e6dd439a84b833c7f7560783bb5fce070b2d399))
+* **Selection:** support `undefined` value from data context ([#5027](https://github.com/dnbexperience/eufemia/issues/5027)) ([a3129f1](https://github.com/dnbexperience/eufemia/commit/a3129f1b2b627eafca9ab8077e8d6be4ee3e5317)), closes [#4584](https://github.com/dnbexperience/eufemia/issues/4584)
+* **StepIndicator:** align trigger button ([#4981](https://github.com/dnbexperience/eufemia/issues/4981)) ([b79a5ad](https://github.com/dnbexperience/eufemia/commit/b79a5ad644445496e512582782bda0fed63c9c46))
+* **StepIndicator:** font size of step items ([#4982](https://github.com/dnbexperience/eufemia/issues/4982)) ([1a81286](https://github.com/dnbexperience/eufemia/commit/1a81286aec820612fd2666ded1995b0af4b577cc))
+* **Upload:** gracefully handle `undefined` file input ([#5045](https://github.com/dnbexperience/eufemia/issues/5045)) ([d1dea57](https://github.com/dnbexperience/eufemia/commit/d1dea57a33496003b7e78f23067073235fc4dcdb))
+* **Value.BankAccountNumber:** should not render when value is empty ([#4998](https://github.com/dnbexperience/eufemia/issues/4998)) ([2d694a6](https://github.com/dnbexperience/eufemia/commit/2d694a674217da0647249788a1edeb4bca24ebd5))
+* **Value.NationalIdentityNumber:** should not render when value is empty ([#4995](https://github.com/dnbexperience/eufemia/issues/4995)) ([7982070](https://github.com/dnbexperience/eufemia/commit/7982070b26253f33866b977e18a6c9aaa28a720a))
+* **Value.OrganizationNumber:** should not render when value is empty ([#4997](https://github.com/dnbexperience/eufemia/issues/4997)) ([fb8987c](https://github.com/dnbexperience/eufemia/commit/fb8987c41ffa7634fd3e511237dfc0b62bd07e60))
+* **Value.PhoneNumber:** should not render when value is empty ([#4996](https://github.com/dnbexperience/eufemia/issues/4996)) ([dbc1cbf](https://github.com/dnbexperience/eufemia/commit/dbc1cbf837daabfc2c875a16beba87c195fb7b6b))
+* **Value.SelectCountry:** handle invalid iso code values ([#4992](https://github.com/dnbexperience/eufemia/issues/4992)) ([5f87e61](https://github.com/dnbexperience/eufemia/commit/5f87e612a6c4f19854f4864cade19d647fbc0b44))
+* **Value.SelectCurrency:** handle invalid iso code values ([#4993](https://github.com/dnbexperience/eufemia/issues/4993)) ([09a12f2](https://github.com/dnbexperience/eufemia/commit/09a12f2f2346459d1105878845f7573cf4ffb9ea))
+
 ## [10.72.3](https://github.com/dnbexperience/eufemia/compare/v10.72.2...v10.72.3) (2025-04-28)
 
 
