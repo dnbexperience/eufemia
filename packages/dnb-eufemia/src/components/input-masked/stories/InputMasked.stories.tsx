@@ -343,6 +343,7 @@ export function DisallowLeadingZerosMask() {
   return (
     <Flex.Vertical>
       <InputMasked
+        value={-100123}
         currency_mask={{
           // allowDecimal: true,
           disallowLeadingZeroes: true, //

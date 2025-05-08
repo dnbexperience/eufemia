@@ -584,7 +584,7 @@ describe('InputMasked component', () => {
     expect(onChange).toHaveBeenCalledTimes(2)
   })
 
-  describe('disallowLeadingZeroes', () => {
+  describe.only('disallowLeadingZeroes', () => {
     it('should prevent leading zero', () => {
       const newValue = 'NOK 1 234,56 kr'
 
@@ -743,6 +743,91 @@ describe('InputMasked component', () => {
       expect(onChange).toHaveBeenNthCalledWith(
         7,
         expect.objectContaining({ numberValue: 0.1, value: '0,1' })
+      )
+    })
+
+    it('should allow 0 as value when the input is blurred', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <InputMasked
+          {...props}
+          number_mask={{
+            disallowLeadingZeroes: true,
+          }}
+          onChange={onChange}
+        />
+      )
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '0')
+
+      expect(input).toHaveValue('0')
+
+      fireEvent.blur(input)
+
+      expect(input).toHaveValue('0')
+    })
+
+    it('should remove leading zero when the input is blurred', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <InputMasked
+          {...props}
+          number_mask={{
+            disallowLeadingZeroes: true,
+          }}
+          onChange={onChange}
+        />
+      )
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '100123')
+
+      expect(input).toHaveValue('100 123')
+
+      await userEvent.keyboard('[ArrowLeft>6]{Backspace}')
+
+      expect(input).toHaveValue('00 123')
+
+      fireEvent.blur(input)
+
+      expect(input).toHaveValue('123')
+    })
+
+    it.only('should remove leading zero with minus when the input is blurred', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <InputMasked
+          {...props}
+          number_mask={{
+            disallowLeadingZeroes: true,
+          }}
+          onChange={onChange}
+        />
+      )
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '-100123')
+
+      expect(input).toHaveValue('-100 123')
+
+      await userEvent.keyboard('[ArrowLeft>6]{Backspace}')
+
+      expect(input).toHaveValue('-00 123')
+
+      fireEvent.blur(input)
+
+      expect(input).toHaveValue('-123')
+      expect(onChange).toHaveBeenCalledTimes(8)
+      expect(onChange).toHaveBeenNthCalledWith(
+        8,
+        expect.objectContaining({ numberValue: -123, value: '-123' })
       )
     })
 
