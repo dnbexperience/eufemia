@@ -1222,7 +1222,7 @@ describe('Upload', () => {
       expect(fileCell).toBeInTheDocument()
     })
 
-    it('removes the file from the list when clicking delete', () => {
+    it('removes the file from the list when clicking delete - checking for file equality', () => {
       const files = [
         { file: createMockFile('fileName.png', 100, 'image/png') },
       ]
@@ -1230,6 +1230,42 @@ describe('Upload', () => {
       const id = 'random-id3'
 
       render(<Upload {...defaultProps} id={id} />)
+      const MockComponent = () => {
+        const { setFiles } = useUpload(id)
+
+        useEffect(() => setFiles(files), [])
+
+        return <div />
+      }
+
+      render(<MockComponent />)
+
+      const fileCell = document.querySelector('.dnb-upload__file-cell')
+
+      expect(fileCell).toBeInTheDocument()
+
+      const deleteButton = screen.queryByRole('button', {
+        name: nb.deleteButton,
+      })
+
+      fireEvent.click(deleteButton)
+
+      expect(
+        document.querySelector('.dnb-upload__file-cell')
+      ).not.toBeInTheDocument()
+    })
+
+    it('removes the file from the list when clicking delete - checking for file id equality', () => {
+      const files = [
+        {
+          file: createMockFile('fileName.png', 100, 'image/png'),
+          id: 'my-id',
+        },
+      ]
+
+      const id = 'random-idx'
+
+      render(<Upload {...defaultProps} id={'random-idx'} />)
       const MockComponent = () => {
         const { setFiles } = useUpload(id)
 

@@ -356,16 +356,14 @@ export const AsyncEverythingWithTransform = () => {
 
   function transformIn(external) {
     return (
-      external?.map((file) =>
-        file.id !== '1'
-          ? {
-              id: file.id,
-              file: new File([], file.id),
-              errorMessage: file?.errorMessage,
-              ...file,
-            }
-          : file
-      ) || []
+      external?.map((file) => {
+        return {
+          id: file.id,
+          file: new File([], file.id),
+          errorMessage: file?.errorMessage,
+          ...file,
+        }
+      }) || []
     )
   }
 
