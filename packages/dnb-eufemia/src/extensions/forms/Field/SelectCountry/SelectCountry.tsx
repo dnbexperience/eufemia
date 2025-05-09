@@ -281,7 +281,7 @@ type GetCountryData = {
     lang: string
   ) => {
     selectedKey: string
-    content: string
+    content: string | Array<string>
   }
 }
 

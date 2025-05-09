@@ -476,12 +476,13 @@ function PhoneNumber(props: Props) {
 }
 
 function makeObject(country: CountryType, lang: string) {
+  const name = country.i18n[lang] ?? country.i18n.en
+  const code = formatCountryCode(country.cdc)
   return {
-    selectedKey: formatCountryCode(country.cdc),
-    selected_value: `${country.iso} (${formatCountryCode(country.cdc)})`,
-    content: `${formatCountryCode(country.cdc)} ${
-      country.i18n[lang] ?? country.i18n.en
-    }`,
+    selectedKey: code,
+    selected_value: `${country.iso} (${code})`,
+    search_content: [code, name],
+    content: [name, code],
     country,
   }
 }

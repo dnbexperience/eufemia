@@ -31,7 +31,7 @@ describe('Field.PhoneNumber', () => {
     )
 
     expect(selectedItemElement).toBeInTheDocument()
-    expect(selectedItemElement.textContent).toContain('+47 Norge')
+    expect(selectedItemElement.textContent).toContain('Norge+47')
   })
 
   it('should use nb-NO by default', () => {
@@ -47,7 +47,7 @@ describe('Field.PhoneNumber', () => {
       '.dnb-drawer-list__option.dnb-drawer-list__option--selected'
     )
 
-    expect(selectedItemElement.textContent).toBe('+47 Norge')
+    expect(selectedItemElement.textContent).toBe('Norge+47')
   })
 
   it('should support size', () => {
@@ -226,7 +226,7 @@ describe('Field.PhoneNumber', () => {
       return element.className.includes('selected')
     })
 
-    expect(item.textContent).toBe('+47 Norge')
+    expect(item.textContent).toBe('Norge+47')
   })
 
   it('should update internal state from outside', () => {
@@ -325,9 +325,9 @@ describe('Field.PhoneNumber', () => {
     const scandinavia = countries()
 
     expect(scandinavia).toHaveLength(3)
-    expect(scandinavia[0]).toHaveTextContent('+45 Danmark')
-    expect(scandinavia[1]).toHaveTextContent('+47 Norge')
-    expect(scandinavia[2]).toHaveTextContent('+46 Sverige')
+    expect(scandinavia[0]).toHaveTextContent('Danmark+45')
+    expect(scandinavia[1]).toHaveTextContent('Norge+47')
+    expect(scandinavia[2]).toHaveTextContent('Sverige+46')
 
     rerender(<Field.PhoneNumber countries="Nordic" />)
 
@@ -341,13 +341,13 @@ describe('Field.PhoneNumber', () => {
     })
 
     expect(nordic).toHaveLength(7)
-    expect(nordic[0]).toHaveTextContent('+45 Danmark')
-    expect(nordic[1]).toHaveTextContent('+358 Finland')
-    expect(nordic[2]).toHaveTextContent('+298 Færøyene')
-    expect(nordic[3]).toHaveTextContent('+299 Grønland')
-    expect(nordic[4]).toHaveTextContent('+354 Island')
-    expect(nordic[5]).toHaveTextContent('+47 Norge')
-    expect(nordic[6]).toHaveTextContent('+46 Sverige')
+    expect(nordic[0]).toHaveTextContent('Danmark+45')
+    expect(nordic[1]).toHaveTextContent('Finland+358')
+    expect(nordic[2]).toHaveTextContent('Færøyene+298')
+    expect(nordic[3]).toHaveTextContent('Grønland+299')
+    expect(nordic[4]).toHaveTextContent('Island+354')
+    expect(nordic[5]).toHaveTextContent('Norge+47')
+    expect(nordic[6]).toHaveTextContent('Sverige+46')
 
     rerender(<Field.PhoneNumber countries="Europe" />)
 
@@ -428,11 +428,11 @@ describe('Field.PhoneNumber', () => {
       expect(
         document.querySelector('li.dnb-drawer-list__option--selected')
           .textContent
-      ).toBe('+47 Norge')
+      ).toBe('Norge+47')
 
       await userEvent.type(codeElement, '{Backspace}')
 
-      expect(firstItemElement().textContent).toBe('+47 Norge')
+      expect(firstItemElement().textContent).toBe('Norge+47')
       expect(codeElement.value).toEqual('')
       expect(phoneElement.value).toEqual('99 99 99 99')
 
@@ -730,22 +730,19 @@ describe('Field.PhoneNumber', () => {
     ])
   })
 
-  it('should select whole input value on click', async () => {
-    const onChange = jest.fn()
-
-    render(<Field.PhoneNumber onChange={onChange} />)
+  it('should select whole country code input value on click', async () => {
+    render(<Field.PhoneNumber />)
 
     const codeElement: HTMLInputElement = document.querySelector(
       '.dnb-forms-field-phone-number__country-code input'
     )
-    const firstItemElement = () =>
-      document.querySelectorAll('li.dnb-drawer-list__option')[0]
 
-    await userEvent.type(codeElement, '{Backspace}')
+    await userEvent.click(codeElement)
 
-    expect(codeElement.value).toEqual('')
-    expect(firstItemElement().textContent).toBe('+47 Norge')
-    expect(onChange).toHaveBeenCalledTimes(0)
+    await waitFor(() => {
+      expect(codeElement.selectionStart).toBe(0)
+      expect(codeElement.selectionEnd).toBe(8)
+    })
   })
 
   it('should support country code autofill', async () => {
@@ -852,7 +849,7 @@ describe('Field.PhoneNumber', () => {
     expect(
       document.querySelector('li.dnb-drawer-list__option--selected')
         .textContent
-    ).toBe('+41 Sveits')
+    ).toBe('Sveits+41')
   })
 
   it('should render given country code from data context, even if no number is given', async () => {
@@ -882,7 +879,7 @@ describe('Field.PhoneNumber', () => {
       expect(
         document.querySelector('li.dnb-drawer-list__option--selected')
           .textContent
-      ).toBe('+41 Sveits')
+      ).toBe('Sveits+41')
     })
   })
 
@@ -1015,15 +1012,15 @@ describe('Field.PhoneNumber', () => {
     await waitFor(() => {
       const liElements = document.querySelectorAll('li:not([aria-hidden])')
       expect(liElements).toHaveLength(3)
-      expect(liElements[0].textContent).toBe('+47 Norge')
-      expect(liElements[1].textContent).toBe('+46 Sverige')
-      expect(liElements[2].textContent).toBe('+45 Danmark')
+      expect(liElements[0].textContent).toBe('Norge+47')
+      expect(liElements[1].textContent).toBe('Sverige+46')
+      expect(liElements[2].textContent).toBe('Danmark+45')
     })
 
     expect(
       document.querySelector('li.dnb-drawer-list__option--selected')
         .textContent
-    ).toBe('+47 Norge')
+    ).toBe('Norge+47')
   })
 
   it('should by default sort prioritized countries on top', async () => {
@@ -1068,15 +1065,15 @@ describe('Field.PhoneNumber', () => {
     await waitFor(() => {
       const liElements = document.querySelectorAll('li:not([aria-hidden])')
       expect(liElements).toHaveLength(3)
-      expect(liElements[0].textContent).toBe('+45 Danmark')
-      expect(liElements[1].textContent).toBe('+47 Norge')
-      expect(liElements[2].textContent).toBe('+46 Sverige')
+      expect(liElements[0].textContent).toBe('Danmark+45')
+      expect(liElements[1].textContent).toBe('Norge+47')
+      expect(liElements[2].textContent).toBe('Sverige+46')
     })
 
     expect(
       document.querySelector('li.dnb-drawer-list__option--selected')
         .textContent
-    ).toBe('+47 Norge')
+    ).toBe('Norge+47')
   })
 
   it('should show only Scandinavian countries and filterCountries at the same time', async () => {
@@ -1101,14 +1098,14 @@ describe('Field.PhoneNumber', () => {
     await waitFor(() => {
       const liElements = document.querySelectorAll('li:not([aria-hidden])')
       expect(liElements).toHaveLength(2)
-      expect(liElements[0].textContent).toBe('+47 Norge')
-      expect(liElements[1].textContent).toBe('+46 Sverige')
+      expect(liElements[0].textContent).toBe('Norge+47')
+      expect(liElements[1].textContent).toBe('Sverige+46')
     })
 
     expect(
       document.querySelector('li.dnb-drawer-list__option--selected')
         .textContent
-    ).toBe('+47 Norge')
+    ).toBe('Norge+47')
   })
 
   it('should sort prioritized countries on top', async () => {
@@ -1347,7 +1344,7 @@ describe('Field.PhoneNumber', () => {
         )
 
       await waitFor(() => {
-        expect(selectedItemElement().textContent).toBe('+47 Norge')
+        expect(selectedItemElement().textContent).toBe('Norge+47')
       })
 
       rerender(
@@ -1359,7 +1356,7 @@ describe('Field.PhoneNumber', () => {
       fireEvent.mouseDown(codeElement)
 
       await waitFor(() => {
-        expect(selectedItemElement().textContent).toBe('+47 Norway')
+        expect(selectedItemElement().textContent).toBe('Norway+47')
       })
 
       rerender(
@@ -1371,7 +1368,7 @@ describe('Field.PhoneNumber', () => {
       fireEvent.mouseDown(codeElement)
 
       await waitFor(() => {
-        expect(selectedItemElement().textContent).toBe('+47 Norge')
+        expect(selectedItemElement().textContent).toBe('Norge+47')
       })
     })
 
@@ -1399,8 +1396,8 @@ describe('Field.PhoneNumber', () => {
       await userEvent.type(codeElement, 'Chi')
 
       await waitFor(() => {
-        expect(currentOptions()).toContain('+56 Chile')
-        expect(currentOptions()).not.toContain('+86 Kina')
+        expect(currentOptions()).toContain('Chile+56')
+        expect(currentOptions()).not.toContain('Kina+86')
       })
 
       rerender(
@@ -1413,8 +1410,8 @@ describe('Field.PhoneNumber', () => {
       await userEvent.type(codeElement, 'Chi')
 
       await waitFor(() => {
-        expect(currentOptions()).toContain('+56 Chile')
-        expect(currentOptions()).toContain('+86 China')
+        expect(currentOptions()).toContain('Chile+56')
+        expect(currentOptions()).toContain('China+86')
       })
 
       rerender(
@@ -1427,8 +1424,8 @@ describe('Field.PhoneNumber', () => {
       await userEvent.type(codeElement, 'Chi')
 
       await waitFor(() => {
-        expect(currentOptions()).toContain('+56 Chile')
-        expect(currentOptions()).not.toContain('+86 Kina')
+        expect(currentOptions()).toContain('Chile+56')
+        expect(currentOptions()).not.toContain('Kina+86')
       })
     })
   })
