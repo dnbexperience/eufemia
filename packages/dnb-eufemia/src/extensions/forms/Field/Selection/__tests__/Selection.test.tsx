@@ -1619,6 +1619,24 @@ describe('variants', () => {
       fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
     }
 
+    it('should support autoComplete', () => {
+      render(
+        <Field.Selection
+          value="bar"
+          size="large"
+          variant="autocomplete"
+          autocompleteProps={{ autoComplete: 'language' }}
+        >
+          <Field.Option value="foo" title="Foo!" text="Text" />
+          <Field.Option value="bar" title="Bar!" text="Text" />
+        </Field.Selection>
+      )
+
+      const input = document.querySelector('input')
+
+      expect(input).toHaveAttribute('autocomplete', 'language')
+    })
+
     it('should support size', () => {
       render(
         <Field.Selection value="bar" size="large" variant="autocomplete">
