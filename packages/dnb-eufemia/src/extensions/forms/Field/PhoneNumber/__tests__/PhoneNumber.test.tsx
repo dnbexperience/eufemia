@@ -1,6 +1,6 @@
 import React from 'react'
 import { isCI } from 'repo-utils'
-import { wait, axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import SharedProvider from '../../../../../shared/Provider'
@@ -439,8 +439,6 @@ describe('Field.PhoneNumber', () => {
       fireEvent.change(codeElement, { target: { value: '+41' } })
       fireEvent.click(firstItemElement())
 
-      await wait(1)
-
       expect(onChange).toHaveBeenLastCalledWith(
         '+41 99999999',
         expect.objectContaining({
@@ -788,9 +786,9 @@ describe('Field.PhoneNumber', () => {
     )
 
     // Because of requestAnimationFrame
-    await wait(2)
-
-    expect(codeElement.value).toBe('CH (+41)')
+    await waitFor(() => {
+      expect(codeElement.value).toBe('CH (+41)')
+    })
   })
 
   it('should require one number', async () => {
@@ -880,10 +878,12 @@ describe('Field.PhoneNumber', () => {
 
     await userEvent.click(codeElement)
 
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--selected')
-        .textContent
-    ).toBe('+41 Sveits')
+    await waitFor(() => {
+      expect(
+        document.querySelector('li.dnb-drawer-list__option--selected')
+          .textContent
+      ).toBe('+41 Sveits')
+    })
   })
 
   it('should handle simple "pattern" property', async () => {
