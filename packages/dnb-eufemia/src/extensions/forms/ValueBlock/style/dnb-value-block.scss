@@ -47,12 +47,6 @@
   }
   &__label {
     max-width: var(--forms-value-label-max-width--large);
-  }
-  &__label:empty {
-    // Make it possible to omit labels in a SummaryList with a horizontal/grid layout that has a label
-    margin-bottom: 0;
-  }
-  &__label {
     .dnb-help-button__word-joiner {
       margin-left: 0.45em; // Simulate a white-space
 
@@ -62,6 +56,10 @@
         content: '\2060';
       }
     }
+  }
+  &__label:empty {
+    // Make it possible to omit labels in a SummaryList with a horizontal/grid layout that has a label
+    margin-bottom: 0;
   }
 
   &__help {
