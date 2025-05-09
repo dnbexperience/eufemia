@@ -223,6 +223,45 @@ export const SizeSmall = () => (
   </ComponentBox>
 )
 
+export const SizeXSmall = () => (
+  <ComponentBox hideCode data-visual-test="table-size-x-small">
+    <Table.ScrollView>
+      <Table size="x-small">
+        <caption className="dnb-sr-only">A Table Caption</caption>
+        <thead>
+          <Tr>
+            <Th>Column</Th>
+            <Th sortable>
+              <Th.SortButton text="Sortable" title="Sort table column" />
+            </Th>
+            <Th align="right">Column</Th>
+          </Tr>
+        </thead>
+        <tbody>
+          <Tr>
+            <Td>Row 1</Td>
+            <Td>Row 1</Td>
+            <Td align="right">Row 1</Td>
+          </Tr>
+          <Tr>
+            <Td>
+              <P>Row 2 with paragraph</P>
+            </Td>
+            <Td>
+              <P>
+                Row 2 with <b>medium paragraph</b>
+              </P>
+            </Td>
+            <Td align="right">
+              Row 2 with <b>medium text</b>
+            </Td>
+          </Tr>
+        </tbody>
+      </Table>
+    </Table.ScrollView>
+  </ComponentBox>
+)
+
 export const VariantComplex = () => (
   <ComponentBox hideCode data-visual-test="table-complex">
     <Table.ScrollView>

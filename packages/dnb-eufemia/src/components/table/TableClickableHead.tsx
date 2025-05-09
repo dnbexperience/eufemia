@@ -139,11 +139,11 @@ export function TableClickableButtonTd(props: {
   const { trIsOpen, ariaLabel, icon, onClick } = props
 
   const tableContextAllProps = React.useContext(TableContext)?.allProps
-  const iconSize =
-    tableContextAllProps?.size === 'medium' ||
-    tableContextAllProps?.size === 'small'
-      ? 'basis'
-      : 'medium'
+  const iconSize = ['medium', 'small', 'x-small'].includes(
+    tableContextAllProps?.size
+  )
+    ? 'basis'
+    : 'medium'
 
   return (
     <Td className="dnb-table__td__button-icon">

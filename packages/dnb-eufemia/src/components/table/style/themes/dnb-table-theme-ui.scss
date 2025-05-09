@@ -45,6 +45,15 @@
       font-size: var(--font-size-small);
       line-height: var(--line-height-small);
     }
+
+    .dnb-table__size--x-small & {
+      // spacing
+      padding: 0.75rem 1rem 0.5rem;
+
+      // typography
+      font-size: var(--font-size-x-small);
+      line-height: var(--line-height-x-small);
+    }
   }
 
   // body data
@@ -92,6 +101,21 @@
       // typography
       font-size: var(--font-size-small);
       line-height: var(--line-height-small);
+
+      // And for all nested elements using typography
+      --font-size-basis: var(--font-size-small);
+    }
+
+    .dnb-table__size--x-small & {
+      // spacing
+      padding: 0.375rem 1rem;
+
+      // typography
+      font-size: var(--font-size-x-small);
+      line-height: var(--line-height-x-small);
+
+      // And for all nested elements using typography
+      --font-size-basis: var(--font-size-x-small);
     }
   }
   /* stylelint-enable */

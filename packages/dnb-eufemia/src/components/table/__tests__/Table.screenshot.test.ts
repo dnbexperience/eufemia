@@ -90,6 +90,14 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match table in x-small size', async () => {
+    const screenshot = await makeScreenshot({
+      ...defaults,
+      selector: '[data-visual-test="table-size-x-small"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match header with wrapped text', async () => {
     const selector = '[data-visual-test="table-header"] .dnb-table'
     const screenshot = await makeScreenshot({
