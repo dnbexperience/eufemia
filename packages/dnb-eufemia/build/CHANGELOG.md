@@ -3,6 +3,29 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.73.1](https://github.com/dnbexperience/eufemia/compare/v10.73.0...v10.73.1) (2025-05-09)
+
+
+### :memo: Documentation
+
+* **Drawer, Dialog:** display Modal translations in properties docs ([#5083](https://github.com/dnbexperience/eufemia/issues/5083)) ([ab3fae7](https://github.com/dnbexperience/eufemia/commit/ab3fae7053fc084e6fa13b7b08499c936c210a64))
+* **Modal:** `closeTitle`, `hideCloseButton`, `spacing` is not deprecated ([#5082](https://github.com/dnbexperience/eufemia/issues/5082)) ([4753910](https://github.com/dnbexperience/eufemia/commit/47539103a9ed8e375d0aeb0c24d3a45206d38466)), closes [/github.com/dnbexperience/eufemia/commit/ebe8e6a597c87885c081fcdfd76339780e90befc#diff-f1c94bc3bf35a0cb7181e56dab45c760dfa612539ab3fcd8c903e3c76b6b9f6](https://github.com/dnbexperience//github.com/dnbexperience/eufemia/commit/ebe8e6a597c87885c081fcdfd76339780e90befc/issues/diff-f1c94bc3bf35a0cb7181e56dab45c760dfa612539ab3fcd8c903e3c76b6b9f6)
+
+
+### :bug: Bug Fixes
+
+* **Field.PhoneNumber:** list country code beneath country name ([#5097](https://github.com/dnbexperience/eufemia/issues/5097)) ([070c9ce](https://github.com/dnbexperience/eufemia/commit/070c9ce6d3f00c8534d46a2e8db9841e0fc64026))
+* **Field.PhoneNumber:** select country  code input value on single click ([#5086](https://github.com/dnbexperience/eufemia/issues/5086)) ([4027fc1](https://github.com/dnbexperience/eufemia/commit/4027fc1b9c4292d41765e62e10200d8b00b1df62))
+* **Field.PhoneNumber:** validate field as required even if country code was given ([#5088](https://github.com/dnbexperience/eufemia/issues/5088)) ([a8bbd45](https://github.com/dnbexperience/eufemia/commit/a8bbd453115d682972858ab23e17378135ea7bf7))
+* **Field.SelectCountry:** select country input value on single click ([#5094](https://github.com/dnbexperience/eufemia/issues/5094)) ([6462f8c](https://github.com/dnbexperience/eufemia/commit/6462f8cc603f1792e5a16ee942198f0458830696))
+* **Field.SelectCurrency:** select currency input value on single click ([#5093](https://github.com/dnbexperience/eufemia/issues/5093)) ([fa66807](https://github.com/dnbexperience/eufemia/commit/fa66807bff9c5b996bad249f90967cd5a825a43a))
+* **Field.Selection:** select input value on single click ([#5095](https://github.com/dnbexperience/eufemia/issues/5095)) ([d6181fc](https://github.com/dnbexperience/eufemia/commit/d6181fc0f56cf22bc22d842629e8f9354caa9a2d))
+* **Forms:** don't show red border on errors when EditContainer or PushContainer use the `basic` variant ([#5092](https://github.com/dnbexperience/eufemia/issues/5092)) ([c3362e6](https://github.com/dnbexperience/eufemia/commit/c3362e6ccc9dd1151f8fdb7e64f4de9cac7a1f78)), closes [#4985](https://github.com/dnbexperience/eufemia/issues/4985) [/github.com/dnbexperience/eufemia/issues/4985#issuecomment-2862757367](https://github.com/dnbexperience//github.com/dnbexperience/eufemia/issues/4985/issues/issuecomment-2862757367) [#5051](https://github.com/dnbexperience/eufemia/issues/5051)
+* **Forms:** help button on Field.* components should not wrap alone ([#5096](https://github.com/dnbexperience/eufemia/issues/5096)) ([e07b8e6](https://github.com/dnbexperience/eufemia/commit/e07b8e609f385a1e6d1fbbf2eb706fec955106c6))
+* **Forms:** help button on Value.* components should not wrap alone ([#5091](https://github.com/dnbexperience/eufemia/issues/5091)) ([7d342c3](https://github.com/dnbexperience/eufemia/commit/7d342c3687d94f7bd0199440949cbad317b6d46d))
+* **Upload:** remove file by id or file equality ([#5087](https://github.com/dnbexperience/eufemia/issues/5087)) ([eb051a1](https://github.com/dnbexperience/eufemia/commit/eb051a18f237b02dc2c8598a821e6368e2842cd9))
+* **Value.SummaryList:** support `maxWidth` in nested Value.* components ([#5068](https://github.com/dnbexperience/eufemia/issues/5068)) ([dbc3be6](https://github.com/dnbexperience/eufemia/commit/dbc3be6e03939b8155cdba774641304ae69e4ed5))
+
 ## [10.73.0](https://github.com/dnbexperience/eufemia/compare/v10.72.3...v10.73.0) (2025-05-08)
 
 
