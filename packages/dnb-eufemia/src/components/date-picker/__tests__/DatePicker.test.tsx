@@ -3371,6 +3371,32 @@ describe('DatePicker component', () => {
       'dnb-date-picker__input--label-alignment-right'
     )
   })
+
+  it('should set open picker button variant', () => {
+    const { rerender } = render(<DatePicker showInput />)
+
+    expect(
+      document.querySelector('.dnb-button--secondary')
+    ).toBeInTheDocument()
+
+    rerender(<DatePicker />)
+
+    expect(
+      document.querySelector('.dnb-button--secondary')
+    ).toBeInTheDocument()
+
+    rerender(<DatePicker openPickerButtonVariant="secondary" />)
+
+    expect(
+      document.querySelector('.dnb-button--secondary')
+    ).toBeInTheDocument()
+
+    rerender(<DatePicker openPickerButtonVariant="tertiary" />)
+
+    expect(
+      document.querySelector('.dnb-button--tertiary')
+    ).toBeInTheDocument()
+  })
 })
 
 // for the unit calc tests

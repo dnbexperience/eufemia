@@ -282,6 +282,10 @@ export type DatePickerProps = {
    */
   labelAlignment?: 'left' | 'right'
   /**
+   * Sets the button variant of the open picker button (only visible when `showInput` is `false`). Defaults to `secondary`.
+   */
+  openPickerButtonVariant?: 'secondary' | 'tertiary'
+  /**
    * If set to `true`, the calendar will not be rendered inside a react portal. Defaults to `false`.
    */
   skipPortal?: boolean
@@ -846,6 +850,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
     tooltip,
     skipPortal,
     labelAlignment,
+    openPickerButtonVariant = 'secondary',
     ...restProps
   } = extendedProps
 
@@ -878,6 +883,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
     ref: submitButtonRef,
     tabIndex: extendedProps.tabIndex,
     tooltip,
+    variant: showInput ? 'secondary' : openPickerButtonVariant,
   }
 
   const selectedDateTitle = useMemo(() => {
