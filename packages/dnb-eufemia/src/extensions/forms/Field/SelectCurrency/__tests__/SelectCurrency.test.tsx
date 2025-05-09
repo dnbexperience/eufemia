@@ -753,6 +753,21 @@ describe('Field.SelectCurrency', () => {
     ).toBe('transaction-currency')
   })
 
+  it('should select whole input value on click', async () => {
+    render(<Field.SelectCurrency defaultValue="NOK" noAnimation />)
+
+    const input: HTMLInputElement = document.querySelector(
+      '.dnb-autocomplete input'
+    )
+
+    await userEvent.click(input)
+
+    await waitFor(() => {
+      expect(input.selectionStart).toBe(0)
+      expect(input.selectionEnd).toBe(17)
+    })
+  })
+
   describe('ARIA', () => {
     it('should validate with ARIA rules', async () => {
       const result = render(
