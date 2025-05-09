@@ -1643,6 +1643,26 @@ describe('variants', () => {
       )
     })
 
+    it('should select whole input value on click', async () => {
+      render(
+        <Field.Selection value="bar" size="large" variant="autocomplete">
+          <Field.Option value="foo" title="Foo!" text="Text" />
+          <Field.Option value="bar" title="Bar!" text="Text" />
+        </Field.Selection>
+      )
+
+      const autocompleteElement: HTMLInputElement = document.querySelector(
+        '.dnb-autocomplete input'
+      )
+
+      await userEvent.click(autocompleteElement)
+
+      await waitFor(() => {
+        expect(autocompleteElement.selectionStart).toBe(0)
+        expect(autocompleteElement.selectionEnd).toBe(9)
+      })
+    })
+
     it('has no selected value by default', () => {
       render(
         <Field.Selection variant="autocomplete">
