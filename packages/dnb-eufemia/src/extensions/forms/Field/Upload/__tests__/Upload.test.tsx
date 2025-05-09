@@ -1835,17 +1835,9 @@ describe('Field.Upload', () => {
       }))
     }
 
-    const fileName = 'fileName-1.png'
     const asyncOnFileDelete = jest.fn(async () => {
       await wait(1)
     })
-
-    const newFile = createMockFile(
-      fileName,
-      100,
-      'image/png',
-      1730801854752
-    )
 
     render(
       <Form.Handler
