@@ -430,6 +430,7 @@ function PhoneNumber(props: Props) {
           independent_width
           search_numbers
           keep_selection
+          selectall
           autoComplete="tel-country-code"
           no_animation={props.noAnimation}
           size={size}

@@ -433,7 +433,7 @@ describe('Field.PhoneNumber', () => {
       await userEvent.type(codeElement, '{Backspace}')
 
       expect(firstItemElement().textContent).toBe('+47 Norge')
-      expect(codeElement.value).toEqual('NO (+47')
+      expect(codeElement.value).toEqual('')
       expect(phoneElement.value).toEqual('99 99 99 99')
 
       fireEvent.change(codeElement, { target: { value: '+41' } })
@@ -730,6 +730,24 @@ describe('Field.PhoneNumber', () => {
       'dnb-forms-field-block--width-stretch',
       'dnb-forms-field-block--content-width-large',
     ])
+  })
+
+  it('should select whole input value on click', async () => {
+    const onChange = jest.fn()
+
+    render(<Field.PhoneNumber onChange={onChange} />)
+
+    const codeElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-phone-number__country-code input'
+    )
+    const firstItemElement = () =>
+      document.querySelectorAll('li.dnb-drawer-list__option')[0]
+
+    await userEvent.type(codeElement, '{Backspace}')
+
+    expect(codeElement.value).toEqual('')
+    expect(firstItemElement().textContent).toBe('+47 Norge')
+    expect(onChange).toHaveBeenCalledTimes(0)
   })
 
   it('should support country code autofill', async () => {
