@@ -13,4 +13,9 @@ export const currencyProperties: PropertiesTableProps = {
     status: 'optional',
   },
   ...numberProperties,
+  disallowLeadingZeroes: {
+    doc: 'Whether or not to allow leading zeroes. Defaults to `true`.',
+    type: numberProperties.disallowLeadingZeroes.type,
+    status: numberProperties.disallowLeadingZeroes.status,
+  },
 }
