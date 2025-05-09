@@ -558,7 +558,12 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
                 )}
 
                 {hasHelp && !hasOnlyLabelDescription && (
-                  <HelpButtonInline contentId={`${id}-help`} help={help} />
+                  <span className="dnb-help-button__word-joiner">
+                    <HelpButtonInline
+                      contentId={`${id}-help`}
+                      help={help}
+                    />
+                  </span>
                 )}
 
                 {label &&
@@ -572,7 +577,12 @@ function FieldBlock<Value = unknown>(props: Props<Value>) {
                 )}
 
                 {hasHelp && hasOnlyLabelDescription && (
-                  <HelpButtonInline contentId={`${id}-help`} help={help} />
+                  <span className="dnb-help-button__word-joiner">
+                    <HelpButtonInline
+                      contentId={`${id}-help`}
+                      help={help}
+                    />
+                  </span>
                 )}
               </span>
             </FormLabel>
