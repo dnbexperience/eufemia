@@ -67,6 +67,8 @@ const getProductVariant = (type, design) =>
     Bedrift: () => '-',
     Business: () => '-',
     PrivateBanking: () => prettiePrint(design.privateBanking.toString()),
+    Corporate: () => '-',
+    WorldElite: () => '-',
     None: () => '-',
   })
 
