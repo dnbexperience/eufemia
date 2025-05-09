@@ -10,6 +10,7 @@ import nbNOShared from '../../../../../shared/locales/nb-NO'
 import userEvent from '@testing-library/user-event'
 import { UploadFileNative, UploadValue } from '../Upload'
 import { wait } from '../../../../../core/jest/jestSetup'
+import { makeUniqueId } from '../../../../../shared/component-helper'
 
 const nbForms = nbNOForms['nb-NO']
 const nbShared = nbNOShared['nb-NO']
@@ -1508,7 +1509,7 @@ describe('Field.Upload', () => {
             const filesToResolve = files.map((file, i) => {
               return {
                 file: file,
-                id: 'server_generated_id_' + i,
+                id: makeUniqueId(),
                 exists: false,
               }
             })
@@ -1799,6 +1800,70 @@ describe('Field.Upload', () => {
 
     await waitFor(() => {
       // delete the first file
+      fireEvent.click(
+        document
+          .querySelectorAll('.dnb-upload__file-cell')[0]
+          .querySelector('button')
+      )
+    })
+
+    await waitFor(() => {
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell').length
+      ).toBe(0)
+    })
+  })
+
+  it('should remove correct file when transformIn and transformOut is used to change the file', async () => {
+    function transformIn(external) {
+      return (
+        external?.map((file) => ({
+          ...file,
+          id: file.id,
+          file: new File([], file.fileName),
+          errorMessage: file?.errorMessage,
+        })) || []
+      )
+    }
+
+    function transformOut(upload?: UploadValue) {
+      return upload?.map((file) => ({
+        ...file,
+        id: file.id,
+        fileName: file.file?.name,
+        errorMessage: file?.errorMessage,
+      }))
+    }
+
+    const asyncOnFileDelete = jest.fn(async () => {
+      await wait(1)
+    })
+
+    render(
+      <Form.Handler
+        data={{
+          myFiles: [
+            {
+              id: '1',
+            },
+          ],
+        }}
+      >
+        <Field.Upload
+          transformOut={transformOut}
+          transformIn={transformIn}
+          path="/myFiles"
+          onFileDelete={asyncOnFileDelete}
+        />
+      </Form.Handler>
+    )
+
+    expect(
+      document.querySelectorAll('.dnb-upload__file-cell').length
+    ).toBe(1)
+
+    await waitFor(() => {
+      // delete the file
       fireEvent.click(
         document
           .querySelectorAll('.dnb-upload__file-cell')[0]
