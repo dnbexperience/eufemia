@@ -19,6 +19,7 @@ import {
 import SectionContext from '../Section/SectionContext'
 import useReportError from './useReportError'
 import IsolationCommitButton from './IsolationCommitButton'
+import IsolationResetButton from './IsolationResetButton'
 import {
   clearedData,
   type Props as ProviderProps,
@@ -56,6 +57,10 @@ export type IsolationProviderProps<Data extends JsonObject> = {
    * Prevent the form from being submitted when there are fields with errors inside the Form.Isolation.
    */
   bubbleValidation?: boolean
+  /**
+   * If the container should be committed before the form is submitted.
+   */
+  requireCommit?: boolean
   /**
    * If set to `true`, the Form.Isolation will reset its data context after committing the data to the outer context.
    */
@@ -108,6 +113,7 @@ function IsolationProvider<Data extends JsonObject>(
     transformOnCommit: transformOnCommitProp,
     commitHandleRef,
     bubbleValidation,
+    requireCommit,
     data,
     defaultData,
     dataReference = dataReferenceFallback,
@@ -281,7 +287,12 @@ function IsolationProvider<Data extends JsonObject>(
   return (
     <Provider {...providerProps}>
       <IsolationContext.Provider
-        value={{ dataReference, resetDataAfterCommit, outerContext }}
+        value={{
+          requireCommit,
+          dataReference,
+          resetDataAfterCommit,
+          outerContext,
+        }}
       >
         <DataContext.Consumer>
           {(dataContext) => {
@@ -329,6 +340,7 @@ function BubbleValidation() {
 const isolationError = new Error('Form.Isolation')
 
 IsolationProvider.CommitButton = IsolationCommitButton
+IsolationProvider.ResetButton = IsolationResetButton
 IsolationProvider.createDataReference = createDataReference
 IsolationProvider._supportsSpacingProps = undefined
 

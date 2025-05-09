@@ -1,5 +1,5 @@
 import React from 'react'
-import { Field, Form } from '../../..'
+import { Field, Form, Tools } from '../../..'
 import { Flex, HeightAnimation } from '../../../../../components'
 
 export default {
@@ -169,6 +169,37 @@ export const TransformOnCommit = () => {
           </Flex.Stack>
         </Form.Visibility>
       </Form.Card>
+    </Form.Handler>
+  )
+}
+
+export function RequireCommit() {
+  return (
+    <Form.Handler onSubmit={async (data) => console.log('onSubmit', data)}>
+      <Flex.Stack>
+        <Form.Isolation
+          requireCommit
+          defaultData={{ isolated: 'Isolated' }}
+        >
+          <Flex.Stack>
+            <Field.String
+              label="Isolated"
+              path="/isolated"
+              required
+              // validateInitially
+            />
+
+            <Flex.Horizontal>
+              <Form.Isolation.CommitButton resetAfterCommit />
+              <Form.Isolation.ResetButton showWhen="errorIsPresent" />
+            </Flex.Horizontal>
+          </Flex.Stack>
+        </Form.Isolation>
+
+        <Form.SubmitButton />
+
+        <Tools.Log />
+      </Flex.Stack>
     </Form.Handler>
   )
 }

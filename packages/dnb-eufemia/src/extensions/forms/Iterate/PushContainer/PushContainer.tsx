@@ -339,8 +339,7 @@ function NewContainer({
 
   switchContainerModeRef.current = switchContainerMode
   const isVisible = Boolean(!showOpenButton || containerMode === 'edit')
-  const { preventUncommittedChangesText } =
-    useTranslation().IteratePushContainer
+  const { preventUncommittedChangesText } = useTranslation().Isolation
   const { createButton } = useTranslation().IteratePushContainer
   const { clearData } = useContext(DataContext) || {}
   const restoreOriginalValue = useCallback(() => {
