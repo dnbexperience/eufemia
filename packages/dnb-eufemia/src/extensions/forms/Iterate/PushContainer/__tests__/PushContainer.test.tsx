@@ -321,7 +321,6 @@ describe('PushContainer', () => {
           <Wizard.Container>
             <Wizard.Step title="Step 1">
               <Iterate.PushContainer
-                requireCommit
                 showResetButton
                 path="/representatives"
                 isolatedData={{
