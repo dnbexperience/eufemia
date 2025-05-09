@@ -75,12 +75,12 @@ describe('PhoneNumber', () => {
 
   it('matches when opened', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="phone-number-opened"]',
+      selector: '[data-visual-test="phone-number-label"]',
       simulateSelector:
-        '[data-visual-test="phone-number-opened"] .dnb-autocomplete .dnb-input',
+        '[data-visual-test="phone-number-label"] .dnb-autocomplete .dnb-input',
       simulate: 'click',
       waitAfterSimulateSelector:
-        '[data-visual-test="phone-number-opened"] .dnb-autocomplete--opened',
+        '[data-visual-test="phone-number-label"] .dnb-autocomplete--opened',
       style: {
         height: '30rem',
       },

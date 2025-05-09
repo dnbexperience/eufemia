@@ -208,9 +208,3 @@ export const Width = () => {
     </ComponentBox>
   )
 }
-
-export const Opened = () => (
-  <ComponentBox data-visual-test="phone-number-opened">
-    <Field.PhoneNumber value="+47 98765432" />
-  </ComponentBox>
-)
