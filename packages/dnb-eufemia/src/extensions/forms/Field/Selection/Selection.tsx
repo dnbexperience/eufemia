@@ -329,6 +329,7 @@ function Selection(props: Props) {
                   ? undefined
                   : data
               }
+              selectall
             />
           ) : (
             <Dropdown
