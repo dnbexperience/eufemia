@@ -1817,25 +1817,22 @@ describe('Field.Upload', () => {
   it('should remove correct file when transformIn and transformOut is used to change the file', async () => {
     function transformIn(external) {
       return (
-        external?.map((file) => {
-          return {
-            id: file.id,
-            file: new File([], file.id),
-            errorMessage: file?.errorMessage,
-            ...file,
-          }
-        }) || []
+        external?.map((file) => ({
+          ...file,
+          id: file.id,
+          file: new File([], file.fileName),
+          errorMessage: file?.errorMessage,
+        })) || []
       )
     }
 
-    function transformOut(external) {
-      return (
-        external?.map((file) => {
-          return {
-            ...file,
-          }
-        }) || []
-      )
+    function transformOut(upload?: UploadValue) {
+      return upload?.map((file) => ({
+        ...file,
+        id: file.id,
+        fileName: file.file?.name,
+        errorMessage: file?.errorMessage,
+      }))
     }
 
     const fileName = 'fileName-1.png'
@@ -1853,7 +1850,11 @@ describe('Field.Upload', () => {
     render(
       <Form.Handler
         data={{
-          myFiles: [],
+          myFiles: [
+            {
+              id: '1',
+            },
+          ],
         }}
       >
         <Field.Upload
@@ -1867,17 +1868,7 @@ describe('Field.Upload', () => {
 
     expect(
       document.querySelectorAll('.dnb-upload__file-cell').length
-    ).toBe(0)
-
-    const element = getRootElement()
-
-    await waitFor(() =>
-      fireEvent.drop(element, {
-        dataTransfer: {
-          files: [newFile],
-        },
-      })
-    )
+    ).toBe(1)
 
     await waitFor(() => {
       // delete the file

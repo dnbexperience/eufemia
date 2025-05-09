@@ -354,22 +354,38 @@ export const AsyncEverythingWithTransform = () => {
     )
   }
 
-  function transformIn(external) {
+  function transformIn(external?: any) {
     return (
-      external?.map((file) => {
-        return {
-          id: file.id,
-          file: new File([], file.id),
-          errorMessage: file?.errorMessage,
-          ...file,
-        }
-      }) || []
+      external?.map((file) => ({
+        ...file,
+        id: file.id,
+        file: new File([], file.fileName),
+        errorMessage: file?.errorMessage,
+      })) || []
     )
+  }
+
+  function transformOut(upload?: UploadValue) {
+    return upload?.map((file) => ({
+      ...file,
+      id: file.id,
+      fileName: file.file?.name,
+      errorMessage: file?.errorMessage,
+    }))
   }
 
   const myFiles = [
     {
       id: '1',
+    },
+    {
+      id: '2',
+    },
+    {
+      id: '3',
+    },
+    {
+      id: '4',
     },
   ]
 
@@ -384,6 +400,7 @@ export const AsyncEverythingWithTransform = () => {
         <Field.Upload
           path="/myFiles"
           transformIn={transformIn}
+          transformOut={transformOut}
           onFileDelete={mockAsyncFileRemoval}
           onFileClick={mockAsyncOnFileClick}
           fileHandler={mockAsyncFileUpload}
