@@ -1525,6 +1525,13 @@ describe('Autocomplete component', () => {
         </span>
       )
     }
+    function ValueC() {
+      return (
+        <span>
+          <ValueA />
+        </span>
+      )
+    }
 
     const data = [
       {
@@ -1534,6 +1541,10 @@ describe('Autocomplete component', () => {
       {
         selected_value: <ValueB />,
         content: <ValueB />,
+      },
+      {
+        selected_value: <ValueC />,
+        content: <ValueC />,
       },
     ]
 
@@ -1554,6 +1565,11 @@ describe('Autocomplete component', () => {
     await userEvent.click(options()[1])
 
     expect(input.value).toBe('Kontonummer: 987654321')
+
+    await userEvent.click(input)
+    await userEvent.click(options()[2])
+
+    expect(input.value).toBe('Kontonummer: 123456789')
   })
 
   it('should update input value when data prop goes from emtpy to unempty and value is given', async () => {
