@@ -143,8 +143,8 @@ function PhoneNumber(props: Props) {
 
   const fromExternal = useCallback(
     (external: string) => {
-      const [, phoneNumber] = splitValue(external)
-      if (!phoneNumber && !props.omitCountryCodeField) {
+      const [countryCode, phoneNumber] = splitValue(external)
+      if (!countryCode && !phoneNumber && !props.omitCountryCodeField) {
         return countryCodeRef.current
       }
       return external
