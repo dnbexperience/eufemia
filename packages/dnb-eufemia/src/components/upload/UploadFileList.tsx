@@ -34,8 +34,15 @@ function UploadFileList() {
 
   const removeFile = (fileToBeRemoved: UploadFile) => {
     return filesRef.current.filter(
-      (fileListElement) => fileListElement.id != fileToBeRemoved.id
+      (fileListElement) => !fileIsSame(fileListElement, fileToBeRemoved)
     )
+  }
+
+  const fileIsSame = (fileA: UploadFile, fileB: UploadFile) => {
+    const idIsSame = fileA.id && fileA.id === fileB.id
+    const fileIsSame = fileA.file && fileA.file === fileB.file
+
+    return idIsSame || fileIsSame
   }
 
   const updateFile = (
@@ -43,14 +50,7 @@ function UploadFileList() {
     props: Partial<UploadFile>
   ) => {
     return filesRef.current.map((fileListElement: UploadFile) => {
-      const idIsSame =
-        fileListElement.id && fileListElement.id === fileToBeUpdated.id
-
-      const fileIsSame =
-        fileListElement.file &&
-        fileListElement.file === fileToBeUpdated.file
-
-      return idIsSame || fileIsSame
+      return fileIsSame(fileListElement, fileToBeUpdated)
         ? {
             ...fileListElement,
             ...props,
