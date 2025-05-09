@@ -20,6 +20,8 @@ export default {
     },
     Isolation: {
       commitButtonText: 'Legg til',
+      preventUncommitedChangesText:
+        'Du har endringer som enten må legges til eller nullstilles.',
     },
     Step: {
       summaryTitle: 'Oppsummering',
@@ -74,8 +76,6 @@ export default {
     IteratePushContainer: {
       createButton: 'Legg til',
       itemsLimitReached: 'Du har nådd grensen på: {limit}',
-      preventUncommitedChangesText:
-        'Du har endringer som enten må legges til eller tømmes.',
     },
 
     /**
