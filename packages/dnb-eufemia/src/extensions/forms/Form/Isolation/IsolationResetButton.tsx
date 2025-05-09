@@ -2,19 +2,22 @@ import React, { useCallback, useContext } from 'react'
 import classnames from 'classnames'
 import { Button, Dialog } from '../../../../components'
 import useTranslation from '../../hooks/useTranslation'
-import IterateItemContext from '../IterateItemContext'
-import ToolbarContext from '../Toolbar/ToolbarContext'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
 import { reset } from '../../../../icons'
 import { ButtonProps } from '../../../../components/Button'
-import useHasContentChanged from '../../Form/Isolation/useHasContentChanged'
+import useHasContentChanged from './useHasContentChanged'
 import { omitDataValueReadWriteProps } from '../../types'
+import useDataContextSnapshot from './useDataContextSnapshot'
+import useHandleStatus from './useHandleStatus'
+import { isolationError } from './IsolatedContainer'
+import IsolationContext from './IsolationContext'
 
 type Props = ButtonProps & {
   showConfirmDialog?: boolean
+  showWhenErrorIsPresent?: boolean
 }
 
-export default function ResetButton(props: Props) {
+export default function IsolationResetButton(props: Props) {
   const {
     text,
     children,
@@ -22,12 +25,20 @@ export default function ResetButton(props: Props) {
     className,
     hidden,
     showConfirmDialog = true,
+    showWhenErrorIsPresent = false,
     ...restProps
   } = props
-  const { restoreOriginalValue } = useContext(IterateItemContext) || {}
+
+  const { outerContext, requireCommit } = useContext(IsolationContext)
   const { setShowBoundaryErrors } = useContext(FieldBoundaryContext) || {}
-  const { setShowError } = useContext(ToolbarContext) || {}
+
+  const { handleReset } = useDataContextSnapshot({ enabled: true })
   const { hasContentChanged } = useHasContentChanged()
+  const { showStatus: showCommitStatus } = useHandleStatus({
+    outerContext,
+    requireCommit,
+    error: isolationError,
+  })
 
   const buttonProps = omitDataValueReadWriteProps(restProps)
   const { resetButton } = useTranslation().IterateEditContainer
@@ -39,12 +50,11 @@ export default function ResetButton(props: Props) {
     ({ close, event }) => {
       close?.()
       onClick?.(event)
-      restoreOriginalValue?.()
-      setShowError(false)
+      handleReset()
       setShowBoundaryErrors?.(false)
       buttonWrapperRef.current?.focus()
     },
-    [onClick, restoreOriginalValue, setShowBoundaryErrors, setShowError]
+    [onClick, handleReset, setShowBoundaryErrors]
   )
 
   if (hidden) {
@@ -52,7 +62,7 @@ export default function ResetButton(props: Props) {
   }
 
   const triggerAttributes: ButtonProps = {
-    className: classnames('dnb-forms-iterate__reset-button', className),
+    className: classnames('dnb-forms-isolate__reset-button', className),
     text: textContent,
     variant: textContent ? 'tertiary' : 'secondary',
     icon: reset,
@@ -63,7 +73,12 @@ export default function ResetButton(props: Props) {
   }
 
   return (
-    <span tabIndex={-1} ref={buttonWrapperRef} className="dnb-no-focus">
+    <span
+      tabIndex={-1}
+      ref={buttonWrapperRef}
+      className="dnb-no-focus"
+      hidden={!(showWhenErrorIsPresent ? Boolean(showCommitStatus) : true)}
+    >
       {showConfirmDialog ? (
         <Dialog
           variant="confirmation"
