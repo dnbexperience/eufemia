@@ -48,7 +48,9 @@ describe('Value.Composition', () => {
       '.dnb-forms-value-block__composition--horizontal .dnb-forms-value-block__content'
     )
 
-    expect(element).toHaveClass('dnb-forms-value-block--max-width-medium')
+    expect(element).toHaveClass(
+      'dnb-forms-value-block__content--max-width-medium'
+    )
   })
 
   it('should have gap by default', () => {

@@ -158,7 +158,7 @@ function ValueBlock(localProps: Props) {
   const defaultClass = classnames(
     'dnb-forms-value-block__content',
     `dnb-forms-value-block__content--gap-${gap === false ? 'none' : gap}`,
-    maxWidth && `dnb-forms-value-block--max-width-${maxWidth}`
+    maxWidth && `dnb-forms-value-block__content--max-width-${maxWidth}`
   )
   const compositionClass =
     isComposition && 'dnb-forms-value-block__composition--horizontal'
@@ -194,18 +194,28 @@ function ValueBlock(localProps: Props) {
               className={classnames(
                 'dnb-forms-value-block__label',
                 ((!label && !hasHelp) || labelSrOnly) && 'dnb-sr-only',
-                maxWidth && `dnb-forms-value-block--max-width-${maxWidth}`,
                 className
               )}
             >
               <VisibilityWrapper>
                 {label && <strong>{label}</strong>}
                 {hasHelp && (
-                  <HelpButtonInline contentId={`${id}-help`} help={help} />
+                  <span className="dnb-help-button__word-joiner">
+                    <HelpButtonInline
+                      contentId={`${id}-help`}
+                      help={help}
+                    />
+                  </span>
                 )}
               </VisibilityWrapper>
             </Dt>
-            <Dd className={compositionClass}>
+            <Dd
+              className={classnames(
+                compositionClass,
+                maxWidth &&
+                  `dnb-forms-value-block__content--max-width-${maxWidth}`
+              )}
+            >
               <VisibilityWrapper>
                 {!isCompositionInContextWithoutLabel
                   ? getHelpContent(layout)
@@ -242,10 +252,7 @@ function ValueBlock(localProps: Props) {
           {(label || hasHelp) && (
             <FormLabel
               element="strong" // enhance a11y: https://www.w3.org/WAI/WCAG21/Techniques/html/H49
-              className={classnames(
-                'dnb-forms-value-block__label',
-                maxWidth && `dnb-forms-value-block--max-width-${maxWidth}`
-              )}
+              className={classnames('dnb-forms-value-block__label')}
               labelDirection={inline ? 'horizontal' : 'vertical'}
               srOnly={labelSrOnly}
             >
@@ -255,7 +262,9 @@ function ValueBlock(localProps: Props) {
                 </span>
               )}
               {hasHelp && (
-                <HelpButtonInline contentId={`${id}-help`} help={help} />
+                <span className="dnb-help-button__word-joiner">
+                  <HelpButtonInline contentId={`${id}-help`} help={help} />
+                </span>
               )}
             </FormLabel>
           )}

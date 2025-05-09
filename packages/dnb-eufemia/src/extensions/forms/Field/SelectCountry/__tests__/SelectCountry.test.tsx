@@ -701,6 +701,51 @@ describe('Field.SelectCountry', () => {
     ).toBe('country')
   })
 
+  it('should render open button', async () => {
+    render(<Field.SelectCountry value="NO" />)
+
+    const button = document.querySelector('button')
+    const firstItemElement = () =>
+      document.querySelectorAll('li.dnb-drawer-list__option')[0]
+
+    expect(button).toBeInTheDocument()
+
+    await userEvent.click(button)
+
+    expect(firstItemElement()).toHaveTextContent('Norge')
+  })
+
+  it('should open when clicking on the input', async () => {
+    render(<Field.SelectCountry value="NO" />)
+
+    const input = document.querySelector('input')
+    const firstItemElement = () =>
+      document.querySelectorAll('li.dnb-drawer-list__option')[0]
+
+    expect(input).toBeInTheDocument()
+
+    await userEvent.click(input)
+
+    await waitFor(() => {
+      expect(firstItemElement()).toHaveTextContent('Norge')
+    })
+  })
+
+  it('should select whole input value on click', async () => {
+    render(<Field.SelectCountry defaultValue="NO" noAnimation />)
+
+    const input: HTMLInputElement = document.querySelector(
+      '.dnb-autocomplete input'
+    )
+
+    await userEvent.click(input)
+
+    await waitFor(() => {
+      expect(input.selectionStart).toBe(0)
+      expect(input.selectionEnd).toBe(5)
+    })
+  })
+
   describe('ARIA', () => {
     it('should validate with ARIA rules', async () => {
       const result = render(

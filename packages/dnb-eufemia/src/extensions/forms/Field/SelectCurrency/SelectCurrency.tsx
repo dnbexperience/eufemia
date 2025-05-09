@@ -261,6 +261,7 @@ function SelectCurrency(props: Props) {
         on_change={handleCurrencyChange}
         on_type={onTypeHandler}
         stretch
+        selectall
         status={hasError ? 'error' : undefined}
         show_submit_button
         keep_selection

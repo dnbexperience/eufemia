@@ -1,4 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
+import { Flex } from '@dnb/eufemia/src'
 import { Field, Form, Iterate } from '@dnb/eufemia/src/extensions/forms'
 
 export {
@@ -9,7 +10,7 @@ export {
 
 export const EditContainerWithError = () => {
   return (
-    <ComponentBox data-visual-test="edit-container-error">
+    <ComponentBox data-visual-test="edit-container-error" hideCode>
       <Form.Handler
         data={{
           outsideOfCard: [
@@ -22,21 +23,47 @@ export const EditContainerWithError = () => {
               name: undefined, // // <- Trigger an error
             },
           ],
+          withFilledVariant: [
+            {
+              name: undefined, // // <- Trigger an error
+            },
+          ],
+          withBasicVariant: [
+            {
+              name: '', // // <- Trigger an error
+            },
+          ],
         }}
       >
-        <Iterate.Array path="/outsideOfCard">
-          <Iterate.EditContainer title="Item {itemNo}">
-            <Field.String itemPath="/name" required />
-          </Iterate.EditContainer>
-        </Iterate.Array>
-
-        <Form.Card>
-          <Iterate.Array path="/insideOfCard">
-            <Iterate.EditContainer title="Item {itemNo}">
-              <Field.String itemPath="/name" required />
+        <Flex.Stack>
+          <Iterate.Array path="/outsideOfCard">
+            <Iterate.EditContainer title="Outside of card">
+              <Field.String label="Name" itemPath="/name" required />
             </Iterate.EditContainer>
           </Iterate.Array>
-        </Form.Card>
+
+          <Form.Card>
+            <Iterate.Array path="/insideOfCard">
+              <Iterate.EditContainer title="Inside of card">
+                <Field.String label="Name" itemPath="/name" required />
+              </Iterate.EditContainer>
+            </Iterate.Array>
+          </Form.Card>
+
+          <Iterate.Array path="/withFilledVariant">
+            <Iterate.EditContainer title="Filled variant" variant="filled">
+              <Field.String label="Name" itemPath="/name" required />
+            </Iterate.EditContainer>
+          </Iterate.Array>
+
+          <Form.Card>
+            <Iterate.Array path="/withBasicVariant">
+              <Iterate.EditContainer title="Basic variant" variant="basic">
+                <Field.String label="Name" itemPath="/name" required />
+              </Iterate.EditContainer>
+            </Iterate.Array>
+          </Form.Card>
+        </Flex.Stack>
 
         <Form.SubmitButton text="Press me to see the error" />
       </Form.Handler>

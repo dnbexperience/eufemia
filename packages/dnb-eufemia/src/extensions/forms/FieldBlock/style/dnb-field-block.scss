@@ -87,6 +87,15 @@ fieldset.dnb-forms-field-block {
     &:has(&__description):not(&:has(+ .dnb-help-button)) &__content {
       margin-right: 0.3em; // Keep the description closer to the label
     }
+    .dnb-help-button__word-joiner {
+      margin-left: 0.45em; // Simulate a white-space
+
+      // Force help button to line break with last word
+      white-space: nowrap;
+      &::before {
+        content: '\2060';
+      }
+    }
   }
 
   &__grid#{&}--layout-vertical {

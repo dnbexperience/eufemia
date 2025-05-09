@@ -143,8 +143,8 @@ function PhoneNumber(props: Props) {
 
   const fromExternal = useCallback(
     (external: string) => {
-      const [, phoneNumber] = splitValue(external)
-      if (!phoneNumber && !props.omitCountryCodeField) {
+      const [countryCode, phoneNumber] = splitValue(external)
+      if (!countryCode && !phoneNumber && !props.omitCountryCodeField) {
         return countryCodeRef.current
       }
       return external
@@ -430,6 +430,7 @@ function PhoneNumber(props: Props) {
           independent_width
           search_numbers
           keep_selection
+          selectall
           autoComplete="tel-country-code"
           no_animation={props.noAnimation}
           size={size}
@@ -475,12 +476,13 @@ function PhoneNumber(props: Props) {
 }
 
 function makeObject(country: CountryType, lang: string) {
+  const name = country.i18n[lang] ?? country.i18n.en
+  const code = formatCountryCode(country.cdc)
   return {
-    selectedKey: formatCountryCode(country.cdc),
-    selected_value: `${country.iso} (${formatCountryCode(country.cdc)})`,
-    content: `${formatCountryCode(country.cdc)} ${
-      country.i18n[lang] ?? country.i18n.en
-    }`,
+    selectedKey: code,
+    selected_value: `${country.iso} (${code})`,
+    search_content: [code, name],
+    content: [name, code],
     country,
   }
 }

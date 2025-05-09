@@ -62,7 +62,9 @@ describe('ValueBlock', () => {
     const element = document.querySelector(
       '.dnb-forms-value-block__content'
     )
-    expect(element).toHaveClass('dnb-forms-value-block--max-width-large')
+    expect(element).toHaveClass(
+      'dnb-forms-value-block__content--max-width-large'
+    )
   })
 
   it('should set max-width', () => {
@@ -71,7 +73,9 @@ describe('ValueBlock', () => {
     const element = document.querySelector(
       '.dnb-forms-value-block__content'
     )
-    expect(element).toHaveClass('dnb-forms-value-block--max-width-medium')
+    expect(element).toHaveClass(
+      'dnb-forms-value-block__content--max-width-medium'
+    )
   })
 
   it('should set dnb-sr-only class when labelSrOnly is true', () => {
@@ -116,17 +120,17 @@ describe('ValueBlock', () => {
           class="dnb-forms-summary-list dnb-dl__layout--vertical dnb-dl"
         >
           <dt
-            class="dnb-forms-value-block__label dnb-forms-value-block--max-width-large dnb-dt"
+            class="dnb-forms-value-block__label dnb-dt"
           >
             <strong>
               Label
             </strong>
           </dt>
           <dd
-            class="dnb-dd"
+            class="dnb-forms-value-block__content--max-width-large dnb-dd"
           >
             <span
-              class="dnb-forms-value-block__content dnb-forms-value-block__content--gap-xx-small dnb-forms-value-block--max-width-large"
+              class="dnb-forms-value-block__content dnb-forms-value-block__content--gap-xx-small dnb-forms-value-block__content--max-width-large"
             >
               Value
             </span>

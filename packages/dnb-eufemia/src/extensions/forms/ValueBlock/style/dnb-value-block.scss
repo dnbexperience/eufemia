@@ -47,10 +47,14 @@
   }
   &__label {
     max-width: var(--forms-value-label-max-width--large);
+    .dnb-help-button__word-joiner {
+      margin-left: 0.45em; // Simulate a white-space
 
-    & strong:has(+ .dnb-help-button),// To support dt > strong or dt > span > strong
-    &__content:has(+ .dnb-help-button) {
-      margin-right: 0.5rem;
+      // Force help button to line break with last word
+      white-space: nowrap;
+      &::before {
+        content: '\2060';
+      }
     }
   }
   &__label:empty {
@@ -80,7 +84,7 @@
     color: var(--color-black-80);
   }
 
-  &__content#{&}--max-width {
+  &__content--max-width {
     &-stretch {
       width: 100%;
     }

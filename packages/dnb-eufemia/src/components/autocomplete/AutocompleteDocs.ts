@@ -146,6 +146,11 @@ export const autocompleteProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  selectall: {
+    doc: 'If set to `true`, then the whole input value gets selected on the entry focus. A second click will place the cursor on the wanted position.',
+    type: 'boolean',
+    status: 'optional',
+  },
   submit_button_title: {
     doc: 'Title on submit button. Defaults to `Vis alternativer`.',
     type: 'React.Node',
