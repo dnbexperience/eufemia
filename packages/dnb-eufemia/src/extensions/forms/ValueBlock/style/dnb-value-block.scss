@@ -52,6 +52,17 @@
     // Make it possible to omit labels in a SummaryList with a horizontal/grid layout that has a label
     margin-bottom: 0;
   }
+  &__label {
+    .dnb-help-button__word-joiner {
+      margin-left: 0.45em; // Simulate a white-space
+
+      // Force help button to line break with last word
+      white-space: nowrap;
+      &::before {
+        content: '\2060';
+      }
+    }
+  }
 
   &__help {
     display: flex;
@@ -199,15 +210,5 @@
   &__help--next-line {
     display: flex;
     flex-basis: 100%; // Ensure the help content is wrapped to a new line
-  }
-
-  .dnb-help-button__word-joiner {
-    margin-left: 0.45em; // Simulate a white-space
-
-    // Force help button to line break with last word
-    white-space: nowrap;
-    &::before {
-      content: '\2060';
-    }
   }
 }
