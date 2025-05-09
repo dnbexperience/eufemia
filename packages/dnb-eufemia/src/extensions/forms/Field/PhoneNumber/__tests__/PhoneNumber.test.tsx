@@ -1,6 +1,6 @@
 import React from 'react'
 import { isCI } from 'repo-utils'
-import { wait, axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import SharedProvider from '../../../../../shared/Provider'
@@ -433,13 +433,11 @@ describe('Field.PhoneNumber', () => {
       await userEvent.type(codeElement, '{Backspace}')
 
       expect(firstItemElement().textContent).toBe('+47 Norge')
-      expect(codeElement.value).toEqual('NO (+47')
+      expect(codeElement.value).toEqual('')
       expect(phoneElement.value).toEqual('99 99 99 99')
 
       fireEvent.change(codeElement, { target: { value: '+41' } })
       fireEvent.click(firstItemElement())
-
-      await wait(1)
 
       expect(onChange).toHaveBeenLastCalledWith(
         '+41 99999999',
@@ -732,6 +730,24 @@ describe('Field.PhoneNumber', () => {
     ])
   })
 
+  it('should select whole input value on click', async () => {
+    const onChange = jest.fn()
+
+    render(<Field.PhoneNumber onChange={onChange} />)
+
+    const codeElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-phone-number__country-code input'
+    )
+    const firstItemElement = () =>
+      document.querySelectorAll('li.dnb-drawer-list__option')[0]
+
+    await userEvent.type(codeElement, '{Backspace}')
+
+    expect(codeElement.value).toEqual('')
+    expect(firstItemElement().textContent).toBe('+47 Norge')
+    expect(onChange).toHaveBeenCalledTimes(0)
+  })
+
   it('should support country code autofill', async () => {
     const onChange = jest.fn()
 
@@ -770,9 +786,9 @@ describe('Field.PhoneNumber', () => {
     )
 
     // Because of requestAnimationFrame
-    await wait(2)
-
-    expect(codeElement.value).toBe('CH (+41)')
+    await waitFor(() => {
+      expect(codeElement.value).toBe('CH (+41)')
+    })
   })
 
   it('should require one number', async () => {
@@ -862,10 +878,12 @@ describe('Field.PhoneNumber', () => {
 
     await userEvent.click(codeElement)
 
-    expect(
-      document.querySelector('li.dnb-drawer-list__option--selected')
-        .textContent
-    ).toBe('+41 Sveits')
+    await waitFor(() => {
+      expect(
+        document.querySelector('li.dnb-drawer-list__option--selected')
+          .textContent
+      ).toBe('+41 Sveits')
+    })
   })
 
   it('should handle simple "pattern" property', async () => {

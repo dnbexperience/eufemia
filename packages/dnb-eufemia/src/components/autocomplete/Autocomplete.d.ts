@@ -78,6 +78,10 @@ export interface AutocompleteProps {
    */
   selected_sr?: string;
   /**
+   * If set to `true`, then the whole input value gets selected on the entry focus. A second click will place the cursor on the wanted position.
+   */
+  selectall?: boolean;
+  /**
    * Title on submit button. Defaults to `Vis alternativer`.
    */
   submit_button_title?: string;
