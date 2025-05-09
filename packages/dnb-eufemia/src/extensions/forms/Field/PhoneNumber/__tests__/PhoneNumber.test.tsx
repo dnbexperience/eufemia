@@ -795,6 +795,79 @@ describe('Field.PhoneNumber', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('should require a number, even if country code is given', async () => {
+    render(<Field.PhoneNumber required value="+41" validateInitially />)
+
+    const codeElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-phone-number__country-code input'
+    )
+    const phoneElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    )
+
+    expect(codeElement.value).toEqual('CH (+41)')
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+      nbNO.PhoneNumber.errorRequired
+    )
+
+    await userEvent.type(phoneElement, '1')
+    fireEvent.blur(phoneElement)
+
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
+  })
+
+  it('should render given country code, even if no number is given', async () => {
+    render(<Field.PhoneNumber value="+41" />)
+
+    const codeElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-phone-number__country-code input'
+    )
+    const phoneElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    )
+
+    expect(codeElement).toHaveValue('CH (+41)')
+    expect(phoneElement).toHaveValue('')
+
+    await userEvent.click(codeElement)
+
+    expect(
+      document.querySelector('li.dnb-drawer-list__option--selected')
+        .textContent
+    ).toBe('+41 Sveits')
+  })
+
+  it('should render given country code from data context, even if no number is given', async () => {
+    render(
+      <Form.Handler
+        data={{
+          phoneNumber: '+41',
+        }}
+      >
+        <Field.PhoneNumber path="/phoneNumber" />
+      </Form.Handler>
+    )
+
+    const codeElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-phone-number__country-code input'
+    )
+    const phoneElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    )
+
+    expect(codeElement).toHaveValue('CH (+41)')
+    expect(phoneElement).toHaveValue('')
+
+    await userEvent.click(codeElement)
+
+    expect(
+      document.querySelector('li.dnb-drawer-list__option--selected')
+        .textContent
+    ).toBe('+41 Sveits')
+  })
+
   it('should handle simple "pattern" property', async () => {
     render(
       <SharedProvider locale="en-GB">
