@@ -264,6 +264,16 @@ fieldset.dnb-forms-field-block {
     }
   }
 
+  .dnb-help-button__word-joiner {
+    margin-left: 0.45em; // Simulate a white-space
+
+    // Force help button to line break with last word
+    white-space: nowrap;
+    &::before {
+      content: '\2060';
+    }
+  }
+
   // Because we want to hide / show the indicator responsively,
   // we render both, but hide the one we don't want to show.
   @include allBelow(x-small) {
