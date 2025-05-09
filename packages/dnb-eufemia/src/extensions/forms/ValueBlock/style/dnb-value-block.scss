@@ -29,8 +29,6 @@
 }
 
 .dnb-forms-value-block {
-  --value-block-icon-separator: '\2060';
-
   display: block;
   font-size: var(--font-size-basis);
 
@@ -203,11 +201,13 @@
     flex-basis: 100%; // Ensure the help content is wrapped to a new line
   }
 
-  .dnb-help-button {
-    display: inline;
-    white-space: nowrap; // force help button to line break with word
+  .dnb-help-button__word-joiner {
+    margin-left: 0.45em; // Simulate a white-space
+
+    // Force help button to line break with last word
+    white-space: nowrap;
     &::before {
-      content: var(--value-block-icon-separator);
+      content: '\2060';
     }
   }
 }

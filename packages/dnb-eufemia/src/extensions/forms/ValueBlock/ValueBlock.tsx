@@ -200,7 +200,12 @@ function ValueBlock(localProps: Props) {
               <VisibilityWrapper>
                 {label && <strong>{label}</strong>}
                 {hasHelp && (
-                  <HelpButtonInline contentId={`${id}-help`} help={help} />
+                  <span className="dnb-help-button__word-joiner">
+                    <HelpButtonInline
+                      contentId={`${id}-help`}
+                      help={help}
+                    />
+                  </span>
                 )}
               </VisibilityWrapper>
             </Dt>
@@ -257,7 +262,9 @@ function ValueBlock(localProps: Props) {
                 </span>
               )}
               {hasHelp && (
-                <HelpButtonInline contentId={`${id}-help`} help={help} />
+                <span className="dnb-help-button__word-joiner">
+                  <HelpButtonInline contentId={`${id}-help`} help={help} />
+                </span>
               )}
             </FormLabel>
           )}
