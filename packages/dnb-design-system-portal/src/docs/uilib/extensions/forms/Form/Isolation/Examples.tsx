@@ -16,7 +16,10 @@ export const UsingCommitButton = () => {
           >
             <Flex.Stack>
               <Field.String required label="Isolated" path="/isolated" />
-              <Form.Isolation.CommitButton text="Commit" />
+              <Form.Isolation.CommitButton
+                text="Commit"
+                resetAfterCommit
+              />
             </Flex.Stack>
           </Form.Isolation>
 
@@ -179,7 +182,7 @@ export const TransformCommitData = () => {
                           <Field.Name.First required path="/title" />
                         </Form.Section>
 
-                        <Form.Isolation.CommitButton />
+                        <Form.Isolation.CommitButton resetAfterCommit />
                       </Flex.Stack>
                     </Form.Isolation>
                   </Flex.Stack>
@@ -222,7 +225,7 @@ export const InsideSection = () => {
             >
               <Flex.Stack>
                 <Field.String label="Isolated" path="/isolated" required />
-                <Form.Isolation.CommitButton />
+                <Form.Isolation.CommitButton resetAfterCommit />
               </Flex.Stack>
             </Form.Isolation>
 
@@ -232,6 +235,33 @@ export const InsideSection = () => {
             <Form.SubmitButton />
           </Flex.Stack>
         </Form.Section>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const RequireCommit = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler
+        onSubmit={async (data) => console.log('onSubmit', data)}
+      >
+        <Flex.Stack>
+          <Form.Isolation requireCommit>
+            <Flex.Stack>
+              <Field.String required label="Isolated" path="/isolated" />
+
+              <Flex.Horizontal>
+                <Form.Isolation.CommitButton resetAfterCommit />
+                <Form.Isolation.ResetButton showWhenErrorIsPresent />
+              </Flex.Horizontal>
+            </Flex.Stack>
+          </Form.Isolation>
+
+          <Form.SubmitButton />
+
+          <Tools.Log />
+        </Flex.Stack>
       </Form.Handler>
     </ComponentBox>
   )

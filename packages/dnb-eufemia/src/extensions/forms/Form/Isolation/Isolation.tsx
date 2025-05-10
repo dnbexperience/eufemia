@@ -18,10 +18,13 @@ import {
 import SectionContext from '../Section/SectionContext'
 import useReportError from './useReportError'
 import IsolationCommitButton from './IsolationCommitButton'
+import IsolationResetButton from './IsolationResetButton'
 import {
   clearedData,
   type Props as ProviderProps,
 } from '../../DataContext/Provider'
+import IsolationContext from './IsolationContext'
+import IsolatedContainer from './IsolatedContainer'
 import type { OnCommit, Path } from '../../types'
 
 /**
@@ -49,6 +52,10 @@ export type IsolationProviderProps<Data extends JsonObject> = {
    * Prevent the form from being submitted when there are fields with errors inside the Form.Isolation.
    */
   bubbleValidation?: boolean
+  /**
+   * If the container should be committed before the form is submitted.
+   */
+  requireCommit?: boolean
   /**
    * Used internally by the Form.Isolation component
    */
@@ -87,6 +94,7 @@ function IsolationProvider<Data extends JsonObject>(
     transformOnCommit: transformOnCommitProp,
     commitHandleRef,
     bubbleValidation,
+    requireCommit,
     data,
     defaultData,
   } = props
@@ -257,31 +265,28 @@ function IsolationProvider<Data extends JsonObject>(
 
   return (
     <Provider {...providerProps}>
-      <DataContext.Consumer>
-        {(dataContext) => {
-          dataContextRef.current = dataContext
+      <IsolationContext.Provider value={{ outerContext, requireCommit }}>
+        <DataContext.Consumer>
+          {(dataContext) => {
+            dataContextRef.current = dataContext
 
-          if (commitHandleRef) {
-            commitHandleRef.current = dataContext?.handleSubmit
-          }
+            if (commitHandleRef) {
+              commitHandleRef.current = dataContext?.handleSubmit
+            }
 
-          return children
-        }}
-      </DataContext.Consumer>
+            return <IsolatedContainer>{children}</IsolatedContainer>
+          }}
+        </DataContext.Consumer>
 
-      {bubbleValidation && (
-        <BubbleValidation outerContext={outerContext} />
-      )}
+        {bubbleValidation && <BubbleValidation />}
+      </IsolationContext.Provider>
     </Provider>
   )
 }
 
-function BubbleValidation({
-  outerContext,
-}: {
-  outerContext: ContextState
-}) {
+function BubbleValidation() {
   const innerContext = useContext(DataContext)
+  const { outerContext } = useContext(IsolationContext)
   const { setShowAllErrors } = innerContext
 
   const setShowAllErrorsNested = useCallback(
@@ -307,6 +312,7 @@ function BubbleValidation({
 const isolationError = new Error('Form.Isolation')
 
 IsolationProvider.CommitButton = IsolationCommitButton
+IsolationProvider.ResetButton = IsolationResetButton
 IsolationProvider._supportsSpacingProps = undefined
 
 export default IsolationProvider

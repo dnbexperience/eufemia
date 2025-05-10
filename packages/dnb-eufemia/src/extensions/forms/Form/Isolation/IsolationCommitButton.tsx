@@ -4,13 +4,16 @@ import { useTranslation } from '../../hooks'
 import DataContext from '../../DataContext/Context'
 import Button, { ButtonProps } from '../../../../components/button/Button'
 import { check } from '../../../../icons'
+import useDataContextSnapshot from './useDataContextSnapshot'
 
-export type Props = ButtonProps
+export type Props = ButtonProps & {
+  resetAfterCommit?: boolean
+}
 
 function IsolationCommitButton(props: Props) {
   const translations = useTranslation().Isolation
 
-  const { className, children, text, ...rest } = props
+  const { resetAfterCommit, className, children, text, ...rest } = props
 
   const content = text || children || translations.commitButtonText
 
@@ -18,16 +21,24 @@ function IsolationCommitButton(props: Props) {
     useContext(DataContext) || {}
   const { isolate } = dataContextProps || {}
 
+  const { handleReset } = useDataContextSnapshot({
+    enabled: resetAfterCommit,
+  })
+
   const onClickHandler = useCallback(() => {
     if (isolate) {
       handleSubmit?.()
+
+      if (resetAfterCommit) {
+        handleReset()
+      }
     }
-  }, [handleSubmit, isolate])
+  }, [handleSubmit, isolate, handleReset, resetAfterCommit])
 
   return (
     <Button
       variant="secondary"
-      className={classnames('dnb-forms-isolate-button', className)}
+      className={classnames('dnb-forms-isolate__commit-button', className)}
       icon={check}
       icon_position="left"
       onClick={onClickHandler}

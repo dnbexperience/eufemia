@@ -25,6 +25,11 @@ export const IsolationProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  requireCommit: {
+    doc: 'If the container should be committed before the form is submitted.',
+    type: 'boolean',
+    status: 'optional',
+  },
   ...ProviderProperties,
   minimumAsyncBehaviorTime: undefined,
   asyncSubmitTimeout: undefined,

@@ -21,6 +21,8 @@ export default {
     },
     Isolation: {
       commitButtonText: 'Lägg till',
+      requireCommitText:
+        'Du har ändringar som antingen måste läggas till eller rensas.',
     },
     Step: {
       summaryTitle: 'Sammanfattning',
@@ -75,8 +77,6 @@ export default {
     IteratePushContainer: {
       createButton: 'Lägg till',
       itemsLimitReached: 'Du har nått gränsen på: {limit}',
-      requireCommitText:
-        'Du har ändringar som antingen måste läggas till eller rensas.',
     },
 
     /**
