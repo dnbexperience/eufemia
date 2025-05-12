@@ -316,3 +316,67 @@ export function Types() {
 
   return <MyInput error={Error('error')} />
 }
+
+export function LabelSrOnly() {
+  return (
+    <Form.Handler id="appearance">
+      <Flex.Stack>
+        <Field.Selection label="Choose size" path="/size" labelSrOnly>
+          <Field.Option value="default" title="Small (Default)" />
+          <Field.Option value="medium" title="Medium" />
+          <Field.Option value="large" title="Large" />
+        </Field.Selection>
+        <Field.String label="String" value="Foo" labelSrOnly />
+        <Field.String
+          label="String multiline"
+          multiline
+          value="Foo"
+          rows={1}
+          labelSrOnly
+        />
+        <Field.Number label="Number" value={1234} labelSrOnly />
+        <Field.Number
+          label="Number"
+          currency
+          currencyDisplay="name"
+          value={1234}
+          showStepControls
+          labelSrOnly
+        />
+        <Field.Date labelSrOnly />
+        <Field.Email value="mail@dnb.no" labelSrOnly />
+        <Field.Currency
+          label="Amount"
+          currencyDisplay="name"
+          value={1234}
+          labelSrOnly
+        />
+        <Field.Expiry labelSrOnly />
+        <Field.NationalIdentityNumber value="12345678012" labelSrOnly />
+        <Field.OrganizationNumber value="123123123" labelSrOnly />
+        <Field.PhoneNumber labelSrOnly />
+        <Field.PostalCodeAndCity
+          postalCode={{ labelSrOnly: true }}
+          city={{ value: 'Oslo', labelSrOnly: true }}
+          // labelSrOnly
+        />
+        <Field.SelectCountry labelSrOnly />
+        <Field.BankAccountNumber labelSrOnly />
+        <Field.Name.First labelSrOnly />
+        <Field.Name.Last labelSrOnly />
+        <Field.Password labelSrOnly />
+        <Field.Slider labelSrOnly />
+        <Field.Upload labelSrOnly />
+        <Field.Address.Postal labelSrOnly />
+        <Field.Address.Street labelSrOnly />
+        <Field.Indeterminate dependencePaths={[]} labelSrOnly />
+        <Field.Toggle
+          valueOn="what-ever"
+          valueOff="you-name-it"
+          labelSrOnly
+        />
+        <Field.Boolean labelSrOnly />
+      </Flex.Stack>
+    </Form.Handler>
+  )
+}
