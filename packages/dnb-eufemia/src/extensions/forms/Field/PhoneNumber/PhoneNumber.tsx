@@ -198,6 +198,7 @@ function PhoneNumber(props: Props) {
     placeholder,
     countryCodeLabel,
     label = defaultLabel,
+    labelSrOnly,
     numberMask,
     countries: ccFilter = 'Prioritized',
     emptyValue,
@@ -419,6 +420,7 @@ function PhoneNumber(props: Props) {
           placeholder={countryCodePlaceholder}
           label_direction="vertical"
           label={countryCodeLabel ?? defaultCountryCodeLabel}
+          label_sr_only={labelSrOnly}
           data={dataRef.current}
           value={countryCodeRef.current}
           status={hasError ? 'error' : undefined}
@@ -446,6 +448,7 @@ function PhoneNumber(props: Props) {
         emptyValue={emptyValue}
         layout="vertical"
         label={label}
+        labelSrOnly={labelSrOnly}
         placeholder={
           placeholder ?? (isDefault ? defaultPlaceholder : undefined)
         }
