@@ -381,9 +381,11 @@ export default class ToggleButton extends React.PureComponent {
             icon,
             icon_size,
             icon_position,
-            [`aria-${role === 'radio' ? 'checked' : 'pressed'}`]: String(
-              checked || false
-            ),
+            [`aria-${
+              role === 'radio' || role === 'checkbox'
+                ? 'checked'
+                : 'pressed'
+            }`]: String(checked || false),
             role,
             ...rest,
           }
