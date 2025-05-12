@@ -76,6 +76,7 @@ export type DatePickerCalendarProps = Omit<
    * To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`.
    */
   month?: Date
+  hoverDate?: Date
   // TODO: rename for clarity
   prevBtn?: boolean
   // TODO: rename for clarity
