@@ -413,14 +413,7 @@ describe('Field.Boolean', () => {
           />
         )
 
-        expect(
-          await axeComponent(result, {
-            rules: {
-              // Because of aria-required is not allowed on buttons – but VO still reads it
-              'aria-allowed-attr': { enabled: false },
-            },
-          })
-        ).toHaveNoViolations()
+        expect(await axeComponent(result)).toHaveNoViolations()
       })
 
       it('should have aria-required', () => {
@@ -593,14 +586,7 @@ describe('Field.Boolean', () => {
           />
         )
 
-        expect(
-          await axeComponent(result, {
-            rules: {
-              // Because of aria-required is not allowed on buttons – but VO still reads it
-              'aria-allowed-attr': { enabled: false },
-            },
-          })
-        ).toHaveNoViolations()
+        expect(await axeComponent(result)).toHaveNoViolations()
       })
 
       it('should have aria-required', () => {
