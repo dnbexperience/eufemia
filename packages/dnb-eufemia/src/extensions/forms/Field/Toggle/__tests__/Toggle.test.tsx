@@ -748,6 +748,7 @@ describe('Field.Toggle', () => {
             valueOff="off"
             variant="checkbox"
             label="Toggle label"
+            labelSrOnly
           />
         )
 
