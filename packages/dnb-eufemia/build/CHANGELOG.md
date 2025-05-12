@@ -3,6 +3,18 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.73.2](https://github.com/dnbexperience/eufemia/compare/v10.73.1...v10.73.2) (2025-05-12)
+
+
+### :bug: Bug Fixes
+
+* **Forms:** ensure support for `labelSrOnly` in Field.PhoneNumber ([#5108](https://github.com/dnbexperience/eufemia/issues/5108)) ([d58ca56](https://github.com/dnbexperience/eufemia/commit/d58ca563f882e682d279fa5543507b684b18e259))
+* **Forms:** ensure support for `labelSrOnly` in Field.Toggle ([#5109](https://github.com/dnbexperience/eufemia/issues/5109)) ([a0d2031](https://github.com/dnbexperience/eufemia/commit/a0d2031936798f67acc71a97fec584e288361fec))
+* **Forms:** support `required` in Field.ArraySelection with `button` & `checkbox-button` variant ([#5074](https://github.com/dnbexperience/eufemia/issues/5074)) ([1daab13](https://github.com/dnbexperience/eufemia/commit/1daab134acc868863ef2fdb50a290115f61fef91))
+* **Forms:** support `required` in Field.Toggle with `button` & `checkbox-button` variant ([#5104](https://github.com/dnbexperience/eufemia/issues/5104)) ([be31978](https://github.com/dnbexperience/eufemia/commit/be3197891a806e0f44f8670e589e5f9e0ec3601e))
+* **Forms:** support `required` in Field.Toggle with `buttons` variant ([#5105](https://github.com/dnbexperience/eufemia/issues/5105)) ([3147d17](https://github.com/dnbexperience/eufemia/commit/3147d1780078a9a4742681469e8908afba413974))
+* **Upload:** display files amount message as warning ([#5110](https://github.com/dnbexperience/eufemia/issues/5110)) ([7da42cb](https://github.com/dnbexperience/eufemia/commit/7da42cb07c27cb426fdb8496c3d314d9e572f5ed))
+
 ## [10.73.1](https://github.com/dnbexperience/eufemia/compare/v10.73.0...v10.73.1) (2025-05-09)
 
 
