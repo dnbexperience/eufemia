@@ -1247,6 +1247,26 @@ describe('variants', () => {
       ).toBe(document.querySelector('.dnb-tooltip__content').id)
     })
 
+    describe('dropdownProps', () => {
+      it('should support tabIndex', () => {
+        render(
+          <Field.Selection
+            value="bar"
+            size="large"
+            variant="dropdown"
+            dropdownProps={{ tabIndex: 1 }}
+          >
+            <Field.Option value="foo" title="Foo!" text="Text" />
+            <Field.Option value="bar" title="Bar!" text="Text" />
+          </Field.Selection>
+        )
+
+        const input = document.querySelector('button')
+
+        expect(input).toHaveAttribute('tabindex', '1')
+      })
+    })
+
     it('should disable dropdown', () => {
       render(
         <Field.Selection variant="dropdown" disabled>
@@ -1619,24 +1639,6 @@ describe('variants', () => {
       fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
     }
 
-    it('should support autoComplete', () => {
-      render(
-        <Field.Selection
-          value="bar"
-          size="large"
-          variant="autocomplete"
-          autocompleteProps={{ autoComplete: 'language' }}
-        >
-          <Field.Option value="foo" title="Foo!" text="Text" />
-          <Field.Option value="bar" title="Bar!" text="Text" />
-        </Field.Selection>
-      )
-
-      const input = document.querySelector('input')
-
-      expect(input).toHaveAttribute('autocomplete', 'language')
-    })
-
     it('should support size', () => {
       render(
         <Field.Selection value="bar" size="large" variant="autocomplete">
@@ -1716,6 +1718,46 @@ describe('variants', () => {
           .querySelector('.dnb-help-button')
           .getAttribute('aria-describedby')
       ).toBe(document.querySelector('.dnb-tooltip__content').id)
+    })
+
+    describe('autocompleteProps', () => {
+      it('should support autoComplete (HTML attribute)', () => {
+        render(
+          <Field.Selection
+            value="bar"
+            size="large"
+            variant="autocomplete"
+            autocompleteProps={{ autoComplete: 'language' }}
+          >
+            <Field.Option value="foo" title="Foo!" text="Text" />
+            <Field.Option value="bar" title="Bar!" text="Text" />
+          </Field.Selection>
+        )
+
+        const input = document.querySelector('input')
+
+        expect(input).toHaveAttribute('autocomplete', 'language')
+      })
+
+      it('should support showClearButton', () => {
+        render(
+          <Field.Selection
+            value="bar"
+            size="large"
+            variant="autocomplete"
+            autocompleteProps={{
+              showClearButton: true,
+            }}
+          >
+            <Field.Option value="foo" title="Foo!" text="Text" />
+            <Field.Option value="bar" title="Bar!" text="Text" />
+          </Field.Selection>
+        )
+
+        expect(
+          document.querySelector('.dnb-input__clear-button')
+        ).toBeInTheDocument()
+      })
     })
 
     it('should support "onType"', async () => {

@@ -84,14 +84,14 @@ export function classWithCamelCaseProps<
 
 /**
  * Converts camel case props to snake case props.
- *
- * @template P - The type of the props object.
- * @param {P} props - The props object to convert.
- * @returns {P} - The converted props object.
  */
-export function convertCamelCasePropsToSnakeCase<P>(props: P) {
+export function convertCamelCasePropsToSnakeCase<P>(
+  props: P,
+  validProperties?: Array<string> | ReadonlyArray<string>
+): P {
   const isFrozen = Object.isFrozen(props)
   const newProps = isFrozen ? { ...props } : props
+  const hasValidProperties = Array.isArray(validProperties)
 
   for (const key in props) {
     switch (key) {
@@ -101,13 +101,29 @@ export function convertCamelCasePropsToSnakeCase<P>(props: P) {
     }
 
     if (/^[a-z]+[A-Z]/.test(key)) {
-      newProps[toSnakeCase(key)] = props[key]
+      const name = toSnakeCase(key)
+      if (hasValidProperties && !validProperties?.includes(name)) {
+        continue
+      }
+      newProps[name] = props[key]
       delete newProps[key]
     }
   }
 
   return isFrozen ? Object.freeze(newProps) : newProps
 }
+
+export type AssertNoMissing<
+  T extends readonly string[],
+  P extends Record<string, unknown>,
+> = Exclude<
+  Extract<keyof P, `${string}_${string}`>,
+  T[number]
+> extends never
+  ? T
+  : never
+type KeysMatching<T, P extends string> = Extract<keyof T, P>
+export type KeysWithUnderscore<T> = KeysMatching<T, `${string}_${string}`>
 
 /**
  * Convert recursively Types from snake_case to camelCase

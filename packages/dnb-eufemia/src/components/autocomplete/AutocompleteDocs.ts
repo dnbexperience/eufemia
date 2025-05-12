@@ -1,6 +1,6 @@
 import { PropertiesTableProps } from '../../shared/types'
 
-export const autocompleteProperties: PropertiesTableProps = {
+export const autocompleteProperties = {
   mode: {
     doc: 'If set to `async`, it prevents showing the "no options" message during typing / filtering. Defaults to `sync`.',
     type: 'string',
@@ -251,9 +251,9 @@ export const autocompleteProperties: PropertiesTableProps = {
     type: ['string', 'object'],
     status: 'optional',
   },
-}
+} satisfies PropertiesTableProps
 
-export const AutocompleteEvents: PropertiesTableProps = {
+export const AutocompleteEvents = {
   on_type: {
     doc: 'Will be called for every key change the users makes. Returns an object with the input `value` inside `{ value, event, attributes }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data)',
     type: 'function',
@@ -289,4 +289,4 @@ export const AutocompleteEvents: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
-}
+} satisfies PropertiesTableProps
