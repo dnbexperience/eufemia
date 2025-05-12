@@ -241,6 +241,7 @@ export function useCheckboxOrToggleOptions({
             (hasError || checkForError([error, info, warning])) && 'error'
           }
           suffix={suffix}
+          role="checkbox"
           on_change={handleSelect}
           {...htmlAttributes}
           {...rest}
