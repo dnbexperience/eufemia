@@ -87,6 +87,18 @@ describe('Field.PhoneNumber', () => {
     expect(labelElement()).not.toHaveAttribute('disabled')
   })
 
+  it('should set correct class when labelSrOnly is true', () => {
+    render(<Field.PhoneNumber labelSrOnly />)
+
+    const element = document.querySelectorAll('.dnb-form-label')
+
+    expect(element[0]).toHaveClass('dnb-sr-only')
+    expect(element[0]).not.toHaveClass('dnb-form-label--interactive')
+
+    expect(element[1]).toHaveClass('dnb-sr-only')
+    expect(element[1]).not.toHaveClass('dnb-form-label--interactive')
+  })
+
   it('should have default label', () => {
     render(<Field.PhoneNumber />)
 

@@ -21,6 +21,13 @@ describe.each(['ui', 'sbanken'])('Upload for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match the files amount message', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="upload-files-amount-message"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match the loading state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="upload-is-loading"] .dnb-upload',

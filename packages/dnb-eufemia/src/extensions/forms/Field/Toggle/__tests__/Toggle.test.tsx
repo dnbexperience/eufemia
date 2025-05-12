@@ -120,17 +120,17 @@ describe('Field.Toggle', () => {
         )
 
         expect(element).toBeInTheDocument()
-        expect(element).toHaveAttribute('aria-pressed', 'true')
+        expect(element).toHaveAttribute('aria-checked', 'true')
 
         fireEvent.click(element)
 
-        expect(element).toHaveAttribute('aria-pressed', 'false')
+        expect(element).toHaveAttribute('aria-checked', 'false')
         expect(onChange).toHaveBeenCalledTimes(1)
         expect(onChange).toHaveBeenLastCalledWith('off', expect.anything())
 
         fireEvent.click(element)
 
-        expect(element).toHaveAttribute('aria-pressed', 'true')
+        expect(element).toHaveAttribute('aria-checked', 'true')
         expect(onChange).toHaveBeenCalledTimes(2)
         expect(onChange).toHaveBeenLastCalledWith('on', expect.anything())
       })
@@ -189,14 +189,7 @@ describe('Field.Toggle', () => {
             />
           )
 
-          expect(
-            await axeComponent(result, {
-              rules: {
-                // Because of aria-required is not allowed on buttons – but VO still reads it
-                'aria-allowed-attr': { enabled: false },
-              },
-            })
-          ).toHaveNoViolations()
+          expect(await axeComponent(result)).toHaveNoViolations()
         })
 
         it('should have aria-required', () => {
@@ -356,20 +349,20 @@ describe('Field.Toggle', () => {
             document.querySelectorAll('.dnb-toggle-button__button')
           )
 
-        expect(yesElement).toHaveAttribute('aria-pressed', 'true')
-        expect(noElement).toHaveAttribute('aria-pressed', 'false')
+        expect(yesElement).toHaveAttribute('aria-checked', 'true')
+        expect(noElement).toHaveAttribute('aria-checked', 'false')
 
         fireEvent.click(noElement)
 
-        expect(yesElement).toHaveAttribute('aria-pressed', 'false')
-        expect(noElement).toHaveAttribute('aria-pressed', 'true')
+        expect(yesElement).toHaveAttribute('aria-checked', 'false')
+        expect(noElement).toHaveAttribute('aria-checked', 'true')
         expect(onChange).toHaveBeenCalledTimes(1)
         expect(onChange).toHaveBeenLastCalledWith('off', expect.anything())
 
         fireEvent.click(yesElement)
 
-        expect(yesElement).toHaveAttribute('aria-pressed', 'true')
-        expect(noElement).toHaveAttribute('aria-pressed', 'false')
+        expect(yesElement).toHaveAttribute('aria-checked', 'true')
+        expect(noElement).toHaveAttribute('aria-checked', 'false')
         expect(onChange).toHaveBeenCalledTimes(2)
         expect(onChange).toHaveBeenLastCalledWith('on', expect.anything())
       })
@@ -389,8 +382,8 @@ describe('Field.Toggle', () => {
             document.querySelectorAll('.dnb-toggle-button__button')
           )
 
-        expect(yesElement).toHaveAttribute('aria-pressed', 'true')
-        expect(noElement).toHaveAttribute('aria-pressed', 'false')
+        expect(yesElement).toHaveAttribute('aria-checked', 'true')
+        expect(noElement).toHaveAttribute('aria-checked', 'false')
 
         rerender(
           <Field.Toggle
@@ -401,8 +394,8 @@ describe('Field.Toggle', () => {
           />
         )
 
-        expect(yesElement).toHaveAttribute('aria-pressed', 'false')
-        expect(noElement).toHaveAttribute('aria-pressed', 'false')
+        expect(yesElement).toHaveAttribute('aria-checked', 'false')
+        expect(noElement).toHaveAttribute('aria-checked', 'false')
       })
 
       describe('ARIA', () => {
@@ -418,14 +411,7 @@ describe('Field.Toggle', () => {
             />
           )
 
-          expect(
-            await axeComponent(result, {
-              rules: {
-                // Because of aria-required is not allowed on buttons – but VO still reads it
-                'aria-allowed-attr': { enabled: false },
-              },
-            })
-          ).toHaveNoViolations()
+          expect(await axeComponent(result)).toHaveNoViolations()
         })
 
         it('should have aria-required', () => {
@@ -622,14 +608,7 @@ describe('Field.Toggle', () => {
             />
           )
 
-          expect(
-            await axeComponent(result, {
-              rules: {
-                // Because of aria-required is not allowed on buttons – but VO still reads it
-                'aria-allowed-attr': { enabled: false },
-              },
-            })
-          ).toHaveNoViolations()
+          expect(await axeComponent(result)).toHaveNoViolations()
         })
 
         it('should have aria-required', () => {
@@ -739,6 +718,24 @@ describe('Field.Toggle', () => {
           />
         )
         expect(screen.getByLabelText('Toggle label')).toBeInTheDocument()
+      })
+
+      it('should set correct class when labelSrOnly is true', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="checkbox"
+            label="Toggle label"
+            labelSrOnly
+          />
+        )
+
+        const element = document.querySelector('.dnb-form-label')
+
+        expect(element).toHaveTextContent('Toggle label')
+        expect(element).toHaveClass('dnb-sr-only')
+        expect(element).not.toHaveClass('dnb-form-label--interactive')
       })
 
       it('renders help', () => {

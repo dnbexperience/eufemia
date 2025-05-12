@@ -413,14 +413,7 @@ describe('Field.Boolean', () => {
           />
         )
 
-        expect(
-          await axeComponent(result, {
-            rules: {
-              // Because of aria-required is not allowed on buttons – but VO still reads it
-              'aria-allowed-attr': { enabled: false },
-            },
-          })
-        ).toHaveNoViolations()
+        expect(await axeComponent(result)).toHaveNoViolations()
       })
 
       it('should have aria-required', () => {
@@ -593,14 +586,7 @@ describe('Field.Boolean', () => {
           />
         )
 
-        expect(
-          await axeComponent(result, {
-            rules: {
-              // Because of aria-required is not allowed on buttons – but VO still reads it
-              'aria-allowed-attr': { enabled: false },
-            },
-          })
-        ).toHaveNoViolations()
+        expect(await axeComponent(result)).toHaveNoViolations()
       })
 
       it('should have aria-required', () => {
@@ -697,22 +683,22 @@ describe('Field.Boolean', () => {
     it('has no selected value by default', () => {
       render(<Field.Boolean variant="buttons" />)
       const buttons = document.querySelectorAll('button')
-      expect(buttons[0].getAttribute('aria-pressed')).toBe('false')
-      expect(buttons[1].getAttribute('aria-pressed')).toBe('false')
+      expect(buttons[0].getAttribute('aria-checked')).toBe('false')
+      expect(buttons[1].getAttribute('aria-checked')).toBe('false')
     })
 
     it('has "false" selected', () => {
       render(<Field.Boolean variant="buttons" value={false} />)
       const buttons = document.querySelectorAll('button')
-      expect(buttons[0].getAttribute('aria-pressed')).toBe('false')
-      expect(buttons[1].getAttribute('aria-pressed')).toBe('true')
+      expect(buttons[0].getAttribute('aria-checked')).toBe('false')
+      expect(buttons[1].getAttribute('aria-checked')).toBe('true')
     })
 
     it('has "true" selected', () => {
       render(<Field.Boolean variant="buttons" value={true} />)
       const buttons = document.querySelectorAll('button')
-      expect(buttons[0].getAttribute('aria-pressed')).toBe('true')
-      expect(buttons[1].getAttribute('aria-pressed')).toBe('false')
+      expect(buttons[0].getAttribute('aria-checked')).toBe('true')
+      expect(buttons[1].getAttribute('aria-checked')).toBe('false')
     })
 
     it('renders error', () => {
@@ -763,8 +749,8 @@ describe('Field.Boolean', () => {
         document.querySelectorAll('.dnb-toggle-button__button')
       )
 
-      expect(yesElement).toHaveAttribute('aria-pressed', 'true')
-      expect(noElement).toHaveAttribute('aria-pressed', 'false')
+      expect(yesElement).toHaveAttribute('aria-checked', 'true')
+      expect(noElement).toHaveAttribute('aria-checked', 'false')
 
       rerender(
         <DataContext.Provider data={{ isTrue: false }}>
@@ -772,8 +758,8 @@ describe('Field.Boolean', () => {
         </DataContext.Provider>
       )
 
-      expect(yesElement).toHaveAttribute('aria-pressed', 'false')
-      expect(noElement).toHaveAttribute('aria-pressed', 'true')
+      expect(yesElement).toHaveAttribute('aria-checked', 'false')
+      expect(noElement).toHaveAttribute('aria-checked', 'true')
     })
 
     it('should reset both buttons via rerender when undefined was given', () => {
@@ -787,8 +773,8 @@ describe('Field.Boolean', () => {
         document.querySelectorAll('.dnb-toggle-button__button')
       )
 
-      expect(yesElement).toHaveAttribute('aria-pressed', 'true')
-      expect(noElement).toHaveAttribute('aria-pressed', 'false')
+      expect(yesElement).toHaveAttribute('aria-checked', 'true')
+      expect(noElement).toHaveAttribute('aria-checked', 'false')
 
       rerender(
         <DataContext.Provider data={{ isTrue: undefined }}>
@@ -796,8 +782,8 @@ describe('Field.Boolean', () => {
         </DataContext.Provider>
       )
 
-      expect(yesElement).toHaveAttribute('aria-pressed', 'false')
-      expect(noElement).toHaveAttribute('aria-pressed', 'false')
+      expect(yesElement).toHaveAttribute('aria-checked', 'false')
+      expect(noElement).toHaveAttribute('aria-checked', 'false')
     })
 
     it('should reset both buttons via useData update when undefined was given', () => {
@@ -823,23 +809,23 @@ describe('Field.Boolean', () => {
         document.querySelectorAll('.dnb-toggle-button__button')
       )
 
-      expect(yesElement).toHaveAttribute('aria-pressed', 'false')
-      expect(noElement).toHaveAttribute('aria-pressed', 'false')
+      expect(yesElement).toHaveAttribute('aria-checked', 'false')
+      expect(noElement).toHaveAttribute('aria-checked', 'false')
 
       fireEvent.click(yesElement)
 
-      expect(yesElement).toHaveAttribute('aria-pressed', 'true')
-      expect(noElement).toHaveAttribute('aria-pressed', 'false')
+      expect(yesElement).toHaveAttribute('aria-checked', 'true')
+      expect(noElement).toHaveAttribute('aria-checked', 'false')
 
       fireEvent.click(noElement)
 
-      expect(yesElement).toHaveAttribute('aria-pressed', 'false')
-      expect(noElement).toHaveAttribute('aria-pressed', 'true')
+      expect(yesElement).toHaveAttribute('aria-checked', 'false')
+      expect(noElement).toHaveAttribute('aria-checked', 'true')
 
       fireEvent.click(resetButton)
 
-      expect(yesElement).toHaveAttribute('aria-pressed', 'false')
-      expect(noElement).toHaveAttribute('aria-pressed', 'false')
+      expect(yesElement).toHaveAttribute('aria-checked', 'false')
+      expect(noElement).toHaveAttribute('aria-checked', 'false')
     })
 
     it('should show error when no value is given', () => {
@@ -884,14 +870,7 @@ describe('Field.Boolean', () => {
           />
         )
 
-        expect(
-          await axeComponent(result, {
-            rules: {
-              // Because of aria-required is not allowed on buttons – but VO still reads it
-              'aria-allowed-attr': { enabled: false },
-            },
-          })
-        ).toHaveNoViolations()
+        expect(await axeComponent(result)).toHaveNoViolations()
       })
 
       it('should have aria-required', () => {

@@ -90,8 +90,52 @@ export const UploadSingleFile = () => (
   </ComponentBox>
 )
 
+export const UploadFilesAmountMessage = () => (
+  <ComponentBox
+    scope={{ createMockFile }}
+    data-visual-test="upload-files-amount-message"
+  >
+    {() => {
+      const Component = () => {
+        const { setInternalFiles, setFiles } = Upload.useUpload(
+          'upload-files-amount-message',
+        )
+
+        React.useEffect(() => {
+          setFiles([
+            { file: createMockFile('fileName1.png', 123, 'image/png') },
+            { file: createMockFile('fileName2.png', 321, 'image/png') },
+          ])
+          setInternalFiles([
+            {
+              file: createMockFile('fileName1.png', 123, 'image/png'),
+              id: '1',
+              exists: false,
+            },
+            {
+              file: createMockFile('fileName2.png', 321, 'image/png'),
+              id: '2',
+              exists: false,
+            },
+          ])
+        }, [])
+
+        return (
+          <Upload
+            acceptedFileTypes={['jpg', 'png']}
+            id="upload-files-amount-message"
+            filesAmountLimit={1}
+          />
+        )
+      }
+
+      return <Component />
+    }}
+  </ComponentBox>
+)
+
 export const UploadRemoveFile = () => (
-  <ComponentBox data-visual-test="upload-remove-files">
+  <ComponentBox>
     {() => {
       const Component = () => {
         const myUploadId = 'unique-id' // or a function, object or React Context reference.

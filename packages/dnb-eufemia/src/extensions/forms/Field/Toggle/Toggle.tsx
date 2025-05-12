@@ -81,7 +81,7 @@ function Toggle(props: Props) {
     }
   }, [isOn, setDisplayValue, textOff, textOn])
 
-  const { label, labelSuffix, required } = props
+  const { label, labelSuffix, required, labelSrOnly } = props
   const labelWithItemNo = useIterateItemNo({
     label,
     labelSuffix,
@@ -102,6 +102,7 @@ function Toggle(props: Props) {
                 ? textOn ?? translations.yes
                 : textOff ?? translations.no)
             }
+            labelSrOnly={labelSrOnly}
             checked={isOn}
             disabled={disabled}
             size={size !== 'small' ? size : undefined}
@@ -127,6 +128,7 @@ function Toggle(props: Props) {
             value={value ? 'true' : 'false'}
             size={size}
             on_change={handleCheckboxChange}
+            role="checkbox"
             {...htmlAttributes}
           />
         </FieldBlock>
@@ -135,26 +137,30 @@ function Toggle(props: Props) {
       return (
         <FieldBlock {...fieldBlockProps} asFieldset>
           <ButtonRow bottom="x-small">
-            <ToggleButtonGroupContext.Provider
-              value={{
-                value: isOn ? 'on' : isOff ? 'off' : null, // use "null" to reset the value
-                onChange: handleToggleChange,
-                status: hasError ? 'error' : undefined,
-                disabled,
-                size,
-              }}
-            >
-              <ToggleButton
-                text={textOn ?? translations.yes}
-                value="on"
-                {...htmlAttributes}
-              />
-              <ToggleButton
-                text={textOff ?? translations.no}
-                value="off"
-                {...htmlAttributes}
-              />
-            </ToggleButtonGroupContext.Provider>
+            <ToggleButton.Group role="radiogroup">
+              <ToggleButtonGroupContext.Provider
+                value={{
+                  value: isOn ? 'on' : isOff ? 'off' : null, // use "null" to reset the value
+                  onChange: handleToggleChange,
+                  status: hasError ? 'error' : undefined,
+                  disabled,
+                  size,
+                }}
+              >
+                <ToggleButton
+                  text={textOn ?? translations.yes}
+                  value="on"
+                  role="radio"
+                  {...htmlAttributes}
+                />
+                <ToggleButton
+                  text={textOff ?? translations.no}
+                  value="off"
+                  role="radio"
+                  {...htmlAttributes}
+                />
+              </ToggleButtonGroupContext.Provider>
+            </ToggleButton.Group>
           </ButtonRow>
         </FieldBlock>
       )
@@ -175,6 +181,7 @@ function Toggle(props: Props) {
             value={value ? 'true' : 'false'}
             size={size}
             on_change={handleCheckboxChange}
+            role="checkbox"
             {...htmlAttributes}
           />
         </FieldBlock>
