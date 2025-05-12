@@ -81,7 +81,7 @@ function Toggle(props: Props) {
     }
   }, [isOn, setDisplayValue, textOff, textOn])
 
-  const { label, labelSuffix, required } = props
+  const { label, labelSuffix, required, labelSrOnly } = props
   const labelWithItemNo = useIterateItemNo({
     label,
     labelSuffix,
@@ -102,6 +102,7 @@ function Toggle(props: Props) {
                 ? textOn ?? translations.yes
                 : textOff ?? translations.no)
             }
+            labelSrOnly={labelSrOnly}
             checked={isOn}
             disabled={disabled}
             size={size !== 'small' ? size : undefined}
