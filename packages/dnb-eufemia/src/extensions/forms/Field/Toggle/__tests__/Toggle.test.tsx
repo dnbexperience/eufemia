@@ -741,6 +741,27 @@ describe('Field.Toggle', () => {
         expect(screen.getByLabelText('Toggle label')).toBeInTheDocument()
       })
 
+      it('should set correct class when labelSrOnly is true', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="checkbox"
+            label="Toggle label"
+          />
+        )
+
+        it('should set correct class when labelSrOnly is true', () => {
+          render(<Field.String label="Toggle label" labelSrOnly />)
+
+          const element = document.querySelector('.dnb-form-label')
+
+          expect(element).toHaveTextContent('Toggle label')
+          expect(element).toHaveClass('dnb-sr-only')
+          expect(element).not.toHaveClass('dnb-form-label--interactive')
+        })
+      })
+
       it('renders help', () => {
         render(
           <Field.Toggle
