@@ -120,17 +120,17 @@ describe('Field.Toggle', () => {
         )
 
         expect(element).toBeInTheDocument()
-        expect(element).toHaveAttribute('aria-pressed', 'true')
+        expect(element).toHaveAttribute('aria-checked', 'true')
 
         fireEvent.click(element)
 
-        expect(element).toHaveAttribute('aria-pressed', 'false')
+        expect(element).toHaveAttribute('aria-checked', 'false')
         expect(onChange).toHaveBeenCalledTimes(1)
         expect(onChange).toHaveBeenLastCalledWith('off', expect.anything())
 
         fireEvent.click(element)
 
-        expect(element).toHaveAttribute('aria-pressed', 'true')
+        expect(element).toHaveAttribute('aria-checked', 'true')
         expect(onChange).toHaveBeenCalledTimes(2)
         expect(onChange).toHaveBeenLastCalledWith('on', expect.anything())
       })
@@ -189,14 +189,7 @@ describe('Field.Toggle', () => {
             />
           )
 
-          expect(
-            await axeComponent(result, {
-              rules: {
-                // Because of aria-required is not allowed on buttons – but VO still reads it
-                'aria-allowed-attr': { enabled: false },
-              },
-            })
-          ).toHaveNoViolations()
+          expect(await axeComponent(result)).toHaveNoViolations()
         })
 
         it('should have aria-required', () => {
@@ -615,14 +608,7 @@ describe('Field.Toggle', () => {
             />
           )
 
-          expect(
-            await axeComponent(result, {
-              rules: {
-                // Because of aria-required is not allowed on buttons – but VO still reads it
-                'aria-allowed-attr': { enabled: false },
-              },
-            })
-          ).toHaveNoViolations()
+          expect(await axeComponent(result)).toHaveNoViolations()
         })
 
         it('should have aria-required', () => {

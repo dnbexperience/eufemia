@@ -128,6 +128,7 @@ function Toggle(props: Props) {
             value={value ? 'true' : 'false'}
             size={size}
             on_change={handleCheckboxChange}
+            role="checkbox"
             {...htmlAttributes}
           />
         </FieldBlock>
@@ -180,6 +181,7 @@ function Toggle(props: Props) {
             value={value ? 'true' : 'false'}
             size={size}
             on_change={handleCheckboxChange}
+            role="checkbox"
             {...htmlAttributes}
           />
         </FieldBlock>
