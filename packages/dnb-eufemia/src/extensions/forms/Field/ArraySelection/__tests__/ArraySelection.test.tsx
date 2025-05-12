@@ -777,19 +777,19 @@ describe('ArraySelection', () => {
         expect(option3).toHaveTextContent('Baz!')
 
         expect(option1.querySelector('button')).toHaveAttribute(
-          'aria-pressed',
+          'aria-checked',
           'false'
         )
         expect(option1).not.toHaveClass('dnb-toggle-button--checked')
 
         expect(option2.querySelector('button')).toHaveAttribute(
-          'aria-pressed',
+          'aria-checked',
           'true'
         )
         expect(option2).toHaveClass('dnb-toggle-button--checked')
 
         expect(option3.querySelector('button')).toHaveAttribute(
-          'aria-pressed',
+          'aria-checked',
           'false'
         )
         expect(option3).not.toHaveClass('dnb-toggle-button--checked')
@@ -1038,14 +1038,7 @@ describe('ArraySelection', () => {
             </Field.ArraySelection>
           )
 
-          expect(
-            await axeComponent(result, {
-              rules: {
-                // Because of aria-required is not allowed on buttons – but VO still reads it
-                'aria-allowed-attr': { enabled: false },
-              },
-            })
-          ).toHaveNoViolations()
+          expect(await axeComponent(result)).toHaveNoViolations()
         })
 
         it('should have aria-required', () => {
