@@ -16,12 +16,15 @@ import { DatePicker, Flex, HelpButton } from '@dnb/eufemia/src'
 import { Provider } from '@dnb/eufemia/src/shared'
 
 const Wrapper = styled.div`
-  .dnb-date-picker__container {
+  [data-visual-test='date-picker-calendar'] .dnb-date-picker__container,
+  [data-visual-test='date-picker-year-navigation']
+    .dnb-date-picker__container {
     display: block;
     position: relative;
     top: 0;
   }
-  .dnb-date-picker {
+  [data-visual-test='date-picker-calendar'] .dnb-date-picker,
+  [data-visual-test='date-picker-year-navigation'] .dnb-date-picker {
     margin-left: 1rem;
   }
 `
