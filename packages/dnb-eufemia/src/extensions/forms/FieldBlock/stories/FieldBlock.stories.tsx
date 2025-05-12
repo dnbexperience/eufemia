@@ -316,3 +316,210 @@ export function Types() {
 
   return <MyInput error={Error('error')} />
 }
+
+export function LabelSrOnly() {
+  return (
+    <Form.Handler id="appearance">
+      <Flex.Stack>
+        Field.ArraySelection:
+        <Field.ArraySelection label="label" path="/size" labelSrOnly>
+          <Field.Option value="default" title="Small (Default)" />
+          <Field.Option value="medium" title="Medium" />
+          <Field.Option value="large" title="Large" />
+        </Field.ArraySelection>
+        <Field.ArraySelection
+          variant="checkbox"
+          label="label"
+          path="/size"
+          labelSrOnly
+        >
+          <Field.Option value="default" title="Small (Default)" />
+          <Field.Option value="medium" title="Medium" />
+          <Field.Option value="large" title="Large" />
+        </Field.ArraySelection>
+        <Field.ArraySelection
+          variant="button"
+          label="label"
+          path="/size"
+          labelSrOnly
+        >
+          <Field.Option value="default" title="Small (Default)" />
+          <Field.Option value="medium" title="Medium" />
+          <Field.Option value="large" title="Large" />
+        </Field.ArraySelection>
+        <Field.ArraySelection
+          variant="checkbox-button"
+          label="label"
+          path="/size"
+          labelSrOnly
+        >
+          <Field.Option value="default" title="Small (Default)" />
+          <Field.Option value="medium" title="Medium" />
+          <Field.Option value="large" title="Large" />
+        </Field.ArraySelection>
+        Field.Selection:
+        <Field.Selection label="label" path="/size" labelSrOnly>
+          <Field.Option value="default" title="Small (Default)" />
+          <Field.Option value="medium" title="Medium" />
+          <Field.Option value="large" title="Large" />
+        </Field.Selection>
+        <Field.Selection
+          variant="dropdown"
+          label="label"
+          path="/size"
+          labelSrOnly
+        >
+          <Field.Option value="default" title="Small (Default)" />
+          <Field.Option value="medium" title="Medium" />
+          <Field.Option value="large" title="Large" />
+        </Field.Selection>
+        <Field.Selection
+          variant="autocomplete"
+          label="label"
+          path="/size"
+          labelSrOnly
+        >
+          <Field.Option value="default" title="Small (Default)" />
+          <Field.Option value="medium" title="Medium" />
+          <Field.Option value="large" title="Large" />
+        </Field.Selection>
+        <Field.Selection
+          variant="button"
+          label="label"
+          path="/size"
+          labelSrOnly
+        >
+          <Field.Option value="default" title="Small (Default)" />
+          <Field.Option value="medium" title="Medium" />
+          <Field.Option value="large" title="Large" />
+        </Field.Selection>
+        <Field.Selection
+          variant="radio"
+          label="label"
+          path="/size"
+          labelSrOnly
+        >
+          <Field.Option value="default" title="Small (Default)" />
+          <Field.Option value="medium" title="Medium" />
+          <Field.Option value="large" title="Large" />
+        </Field.Selection>
+        <Field.Selection
+          variant="radio-list"
+          label="label"
+          path="/size"
+          labelSrOnly
+        >
+          <Field.Option value="default" title="Small (Default)" />
+          <Field.Option value="medium" title="Medium" />
+          <Field.Option value="large" title="Large" />
+        </Field.Selection>
+        <Field.String label="label" value="Foo" labelSrOnly />
+        <Field.String
+          label="label"
+          multiline
+          value="Foo"
+          rows={1}
+          labelSrOnly
+        />
+        <Field.Number label="label" value={1234} labelSrOnly />
+        <Field.Number
+          label="label"
+          currency
+          currencyDisplay="name"
+          value={1234}
+          showStepControls
+          labelSrOnly
+        />
+        <Field.Date label="label" labelSrOnly />
+        <Field.Email label="label" value="mail@dnb.no" labelSrOnly />
+        <Field.Currency
+          label="label"
+          currencyDisplay="name"
+          value={1234}
+          labelSrOnly
+        />
+        <Field.Expiry label="label" labelSrOnly />
+        <Field.NationalIdentityNumber
+          value="12345678012"
+          label="label"
+          labelSrOnly
+        />
+        <Field.OrganizationNumber
+          value="123123123"
+          label="label"
+          labelSrOnly
+        />
+        <Field.PhoneNumber label="label" labelSrOnly />
+        <Field.PostalCodeAndCity
+          postalCode={{ label: 'label', labelSrOnly: true }}
+          city={{ label: 'label', labelSrOnly: true }}
+          // labelSrOnly
+        />
+        <Field.SelectCountry label="label" labelSrOnly />
+        <Field.BankAccountNumber label="label" labelSrOnly />
+        <Field.Name.First label="label" labelSrOnly />
+        <Field.Name.Last label="label" labelSrOnly />
+        <Field.Password label="label" labelSrOnly />
+        <Field.Slider label="label" labelSrOnly />
+        <Field.Upload label="label" labelSrOnly />
+        <Field.Address.Postal label="label" labelSrOnly />
+        <Field.Address.Street label="label" labelSrOnly />
+        <Field.Indeterminate
+          dependencePaths={[]}
+          labelSrOnly
+          label="label"
+        />
+        Field.Toggle:
+        <Field.Toggle
+          label="label"
+          valueOn="what-ever"
+          valueOff="you-name-it"
+          labelSrOnly
+        />
+        <Field.Toggle
+          label="label"
+          variant="checkbox"
+          valueOn="what-ever"
+          valueOff="you-name-it"
+          labelSrOnly
+        />
+        <Field.Toggle
+          label="label"
+          variant="button"
+          valueOn="what-ever"
+          valueOff="you-name-it"
+          labelSrOnly
+        />
+        <Field.Toggle
+          label="label"
+          variant="checkbox-button"
+          valueOn="what-ever"
+          valueOff="you-name-it"
+          labelSrOnly
+        />
+        <Field.Toggle
+          label="label"
+          variant="buttons"
+          valueOn="what-ever"
+          valueOff="you-name-it"
+          labelSrOnly
+        />
+        Field.Boolean:
+        <Field.Boolean label="label" labelSrOnly />
+        <Field.Boolean label="label" variant="checkbox" labelSrOnly />
+        <Field.Boolean label="label" variant="button" labelSrOnly />
+        <Field.Boolean
+          label="label"
+          variant="checkbox-button"
+          labelSrOnly
+        />
+        <Field.Boolean label="label" variant="buttons" labelSrOnly />
+        Field.Composition:
+        <Field.Composition label="test" labelSrOnly>
+          <Field.String label="Field A with a long label" labelSrOnly />
+          <Field.String label="Field B" labelSrOnly />
+        </Field.Composition>
+      </Flex.Stack>
+    </Form.Handler>
+  )
+}
