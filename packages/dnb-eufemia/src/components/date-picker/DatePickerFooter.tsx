@@ -70,7 +70,6 @@ function DatePickerFooter({
         args.event.persist()
       }
 
-      console.log('initialCalendarDates', initialCalendarDates)
       updateDates(initialCalendarDates, (dates) => {
         onCancel?.({ ...args, ...dates })
       })
