@@ -929,6 +929,89 @@ describe('Field.Toggle', () => {
         expect(screen.getByText('Label 1')).toBeInTheDocument()
         expect(screen.getByText('Label 2')).toBeInTheDocument()
       })
+
+      it('should not change the state when calling preventDefault on the onClick event', async () => {
+        const onClick = jest.fn((value, { preventDefault }) => {
+          preventDefault()
+        })
+
+        render(
+          <Field.Toggle
+            label="Label {itemNo}"
+            valueOn="on"
+            valueOff="off"
+            variant="checkbox"
+            onClick={onClick}
+          />
+        )
+
+        const checkbox = document.querySelector('input')
+        expect(checkbox.checked).toBe(false)
+
+        await userEvent.click(checkbox)
+
+        expect(checkbox.checked).toBe(false)
+        expect(onClick).toHaveBeenCalledTimes(1)
+        expect(onClick).toHaveBeenLastCalledWith(
+          'off',
+          expect.objectContaining({
+            checked: false,
+          })
+        )
+
+        await userEvent.click(checkbox)
+
+        expect(checkbox.checked).toBe(false)
+        expect(onClick).toHaveBeenCalledTimes(2)
+        expect(onClick).toHaveBeenLastCalledWith(
+          'off',
+          expect.objectContaining({
+            checked: false,
+          })
+        )
+      })
+
+      it('should not change the state when calling preventDefault on the onClick event when default value is true', async () => {
+        const onClick = jest.fn((value, { preventDefault }) => {
+          preventDefault()
+        })
+
+        render(
+          <Field.Toggle
+            label="Label {itemNo}"
+            value="on"
+            valueOn="on"
+            valueOff="off"
+            variant="checkbox"
+            onClick={onClick}
+          />
+        )
+
+        const checkbox = document.querySelector('input')
+        expect(checkbox.checked).toBe(true)
+
+        await userEvent.click(checkbox)
+
+        expect(checkbox.checked).toBe(true)
+        expect(onClick).toHaveBeenCalledTimes(1)
+        expect(onClick).toHaveBeenLastCalledWith(
+          'on',
+          expect.objectContaining({
+            checked: true,
+          })
+        )
+
+        await userEvent.click(checkbox)
+
+        expect(checkbox.checked).toBe(true)
+        expect(onClick).toHaveBeenCalledTimes(2)
+        expect(onClick).toHaveBeenLastCalledWith(
+          'on',
+          expect.objectContaining({
+            checked: true,
+          })
+        )
+      })
     })
   })
 })

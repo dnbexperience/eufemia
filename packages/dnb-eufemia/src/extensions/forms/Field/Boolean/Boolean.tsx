@@ -8,6 +8,7 @@ type BooleanProps = {
   falseText?: string
   variant?: ToggleFieldProps['variant']
   size?: ToggleFieldProps['size']
+  onClick?: ToggleFieldProps['onClick']
   dependencePaths?: never
 }
 type NeverBooleanProps = {
