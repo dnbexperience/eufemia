@@ -1319,10 +1319,10 @@ describe('DatePicker component', () => {
         date={date}
         opened
         noAnimation
+        preventClose
         showResetButton
         showCancelButton
         showSubmitButton
-        preventClose
         onSubmit={onSubmit}
         onCancel={onCancel}
         onReset={onReset}
@@ -1358,19 +1358,8 @@ describe('DatePicker component', () => {
     expect(month).toHaveValue('10')
     expect(year).toHaveValue('2020')
 
-    // Test cancel button
-    await userEvent.click(cancelButton)
-    expect(onCancel).toHaveBeenCalled()
-
-    expect(day).toHaveValue('dd')
-    expect(month).toHaveValue('mm')
-    expect(year).toHaveValue('åååå')
-
-    expect(onCancel).toHaveBeenCalledWith(
-      expect.objectContaining({ date: null })
-    )
-
     // Test reset button
+    await userEvent.click(screen.getByLabelText('fredag 9. oktober 2020'))
     await userEvent.click(resetButton)
 
     expect(onReset).toHaveBeenCalled()
@@ -1381,19 +1370,36 @@ describe('DatePicker component', () => {
     expect(year).toHaveValue('2020')
 
     // Test submit button
+    await userEvent.click(screen.getByLabelText('torsdag 8. oktober 2020'))
     await userEvent.click(submitButton)
 
-    expect(day).toHaveValue('20')
+    expect(day).toHaveValue('08')
     expect(month).toHaveValue('10')
     expect(year).toHaveValue('2020')
 
     expect(onSubmit).toHaveBeenCalled()
     expect(onSubmit).toHaveBeenCalledWith(
-      expect.objectContaining({ date })
+      expect.objectContaining({ date: '2020-10-08' })
+    )
+
+    // Test cancel button
+    await userEvent.click(screen.getByLabelText('fredag 9. oktober 2020'))
+    await userEvent.click(submitButton)
+    await userEvent.click(screen.getByLabelText('torsdag 8. oktober 2020'))
+    await userEvent.click(screen.getByLabelText('mandag 5. oktober 2020'))
+    await userEvent.click(cancelButton)
+    expect(onCancel).toHaveBeenCalled()
+
+    expect(day).toHaveValue('09')
+    expect(month).toHaveValue('10')
+    expect(year).toHaveValue('2020')
+
+    expect(onCancel).toHaveBeenCalledWith(
+      expect.objectContaining({ date: '2020-10-09' })
     )
   })
 
-  it.only('should have functioning reset button with range pickers', async () => {
+  it('should have functioning reset button with range pickers', async () => {
     render(
       <DatePicker
         startDate="2024-04-01"
@@ -1417,7 +1423,7 @@ describe('DatePicker component', () => {
     expect(endMonth.value).toBe('05')
     expect(endYear.value).toBe('2024')
 
-    await userEvent.click(screen.getByText('Nullstill'))
+    await userEvent.click(screen.getByText('Avbryt'))
 
     expect(startDay.value).toBe('01')
     expect(startMonth.value).toBe('04')
