@@ -374,14 +374,14 @@ describe('NumberFormat component', () => {
     )
   })
 
-  it('should yield strict zero currency when value gets rounded to zero because of decimals=0', () => {
+  it('should yield strict zero (no minus) currency when value gets rounded to zero because of decimals=0', () => {
     render(<NumberFormat value={-0.2} currency decimals={0} />)
     expect(document.querySelector('.dnb-number-format').textContent).toBe(
       '0 kr'
     )
   })
 
-  it('should yield strict zero currency when value gets rounded to zero because of decimals=0 and locale is en-GB', () => {
+  it('should yield strict zero (no minus) currency when value gets rounded to zero because of decimals=0 and locale is en-GB', () => {
     render(
       <NumberFormat
         value={-0.2}
@@ -395,11 +395,32 @@ describe('NumberFormat component', () => {
     )
   })
 
-  it('should yield strict zero percent when value gets rounded to zero because of decimals=0', () => {
-    render(<NumberFormat value={-0.2} percent decimals={0} />)
+  it('should yield strict (no minus) zero percent when value gets rounded to zero because of decimals=0', () => {
+    const { rerender } = render(
+      <NumberFormat value={-0.2} percent decimals={0} />
+    )
     expect(document.querySelector('.dnb-number-format').textContent).toBe(
       '0 %'
     )
+
+    rerender(
+      <NumberFormat value={-0.2} percent decimals={0} locale="en-GB" />
+    )
+    expect(document.querySelector('.dnb-number-format').textContent).toBe(
+      '0%'
+    )
+  })
+
+  it('should render minus on decimal numbers when value is negative', () => {
+    render(<Component value={-0.9} />)
+    const element = document.querySelector('.dnb-number-format')
+    expect(element.textContent).toBe('−0,9')
+  })
+
+  it('should not render minus when value is zero', () => {
+    render(<Component value={-0} />)
+    const element = document.querySelector('.dnb-number-format')
+    expect(element.textContent).toBe('0')
   })
 
   it('have to match phone number', () => {
