@@ -152,7 +152,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     endMonth,
     hoverDate,
     setHoverDate,
-    setInitialCalendarDates,
+    setSubmittedCalendarDates,
     props: { onDaysRender, yearNavigation },
   } = useContext(DatePickerContext)
 
@@ -188,9 +188,9 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     }
   }, [noAutoFocus, nr])
 
-  // Store the initial selected calendar date, to be used for `onCancel` in DatePickerFooter
+  // Store the initial selected date on calendar render, to be used for `onCancel` in DatePickerFooter
   useEffect(() => {
-    setInitialCalendarDates({ startDate, endDate })
+    setSubmittedCalendarDates({ startDate, endDate })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
