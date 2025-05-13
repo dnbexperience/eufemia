@@ -24,7 +24,7 @@ describe('Selection', () => {
         <Field.Option value="bar">Bar</Field.Option>
       </Field.Selection>
     )
-    expect(screen.queryAllByRole('button').length).toEqual(1)
+    expect(screen.queryAllByRole('combobox').length).toEqual(1)
     expect(screen.getByText('Bar')).toBeInTheDocument()
     expect(screen.queryAllByRole('option').length).toEqual(0)
     expect(screen.queryByText('Foo')).not.toBeInTheDocument()
@@ -133,7 +133,7 @@ describe('Selection', () => {
       </Field.Selection>
     )
 
-    const btn1 = screen.getByRole('button')
+    const btn1 = screen.getByRole('combobox')
     expect(within(btn1).getByText('Bar')).toBeInTheDocument()
     expect(within(btn1).queryByText('Foo')).not.toBeInTheDocument()
 
@@ -146,7 +146,7 @@ describe('Selection', () => {
     )
 
     // The selected button should now show the other option based on the value-prop change
-    const btn2 = screen.getByRole('button')
+    const btn2 = screen.getByRole('combobox')
     expect(within(btn2).getByText('Foo')).toBeInTheDocument()
     expect(within(btn2).queryByText('Bar')).not.toBeInTheDocument()
   })
@@ -161,7 +161,7 @@ describe('Selection', () => {
       </Field.Selection>
     )
 
-    const selectionButton = screen.getByRole('button')
+    const selectionButton = screen.getByRole('combobox')
     await userEvent.click(selectionButton)
 
     expect(screen.getAllByRole('option').length).toEqual(4)
@@ -1583,6 +1583,7 @@ describe('variants', () => {
             variant="dropdown"
             required
             validateInitially
+            dropdownProps={{ skipPortal: true }}
           >
             <Field.Option value="foo">Foo</Field.Option>
             <Field.Option value="bar">Bar</Field.Option>
@@ -1591,15 +1592,7 @@ describe('variants', () => {
 
         openDropdown()
 
-        expect(
-          await axeComponent(result, {
-            rules: {
-              // Because of aria-controls and aria-required is not allowed on buttons – but VO still reads it
-              'aria-allowed-attr': { enabled: false },
-              'aria-valid-attr-value': { enabled: false },
-            },
-          })
-        ).toHaveNoViolations()
+        expect(await axeComponent(result)).toHaveNoViolations()
       })
 
       it('should have aria-required', () => {
@@ -2317,7 +2310,7 @@ describe('event handlers', () => {
       </Field.Selection>
     )
 
-    const selectionButton = screen.getByRole('button')
+    const selectionButton = screen.getByRole('combobox')
     await userEvent.click(selectionButton)
 
     await waitFor(async () => {
@@ -2348,7 +2341,7 @@ describe('event handlers', () => {
       </Field.Selection>
     )
 
-    const selectionButton = screen.getByRole('button')
+    const selectionButton = screen.getByRole('combobox')
     await userEvent.click(selectionButton)
 
     await waitFor(() => {
@@ -2366,7 +2359,7 @@ describe('event handlers', () => {
       </Field.Selection>
     )
 
-    const selectionButton = screen.getByRole('button')
+    const selectionButton = screen.getByRole('combobox')
     await userEvent.click(selectionButton)
 
     await waitFor(async () => {
@@ -2389,7 +2382,7 @@ describe('validation and error handling', () => {
             <Field.Option value="bar">Bar</Field.Option>
           </Field.Selection>
         )
-        const selectionButton = screen.getByRole('button')
+        const selectionButton = screen.getByRole('combobox')
         await userEvent.click(selectionButton)
 
         expect(screen.getByRole('alert')).toBeInTheDocument()
@@ -2402,7 +2395,7 @@ describe('validation and error handling', () => {
             <Field.Option value="bar">Bar</Field.Option>
           </Field.Selection>
         )
-        const selectionButton = screen.getByRole('button')
+        const selectionButton = screen.getByRole('combobox')
         await userEvent.click(selectionButton)
 
         await waitFor(async () => {
