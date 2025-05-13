@@ -8,6 +8,7 @@ import {
   CheckboxWithError,
   CheckboxSuffix,
   CheckboxDifferentSizes,
+  CheckboxPreventDefault,
   CheckboxDisabled,
   CheckboxWithErrorStates,
   CheckboxBoundingArea,
@@ -38,6 +39,12 @@ import {
 As for now, there are two sizes. `medium` is the default size.
 
 <CheckboxDifferentSizes />
+
+### Prevent changing the state of the checkbox
+
+You can prevent the state of the checkbox from changing by calling `preventDefault` on the `onClick` event.
+
+<CheckboxPreventDefault />
 
 ### Disabled checkbox
 
