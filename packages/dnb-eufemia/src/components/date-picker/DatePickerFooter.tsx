@@ -40,6 +40,7 @@ function DatePickerFooter({
   const {
     updateDates,
     previousDateProps,
+    initialCalendarDates,
     props: contextProps,
   } = useContext(DatePickerContext)
 
@@ -69,18 +70,12 @@ function DatePickerFooter({
         args.event.persist()
       }
 
-      updateDates(
-        {
-          date: undefined,
-          startDate: undefined,
-          endDate: undefined,
-        },
-        (dates) => {
-          onCancel?.({ ...args, ...dates })
-        }
-      )
+      console.log('initialCalendarDates', initialCalendarDates)
+      updateDates(initialCalendarDates, (dates) => {
+        onCancel?.({ ...args, ...dates })
+      })
     },
-    [updateDates, onCancel]
+    [updateDates, onCancel, initialCalendarDates]
   )
 
   const onResetHandler = useCallback(
