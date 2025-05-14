@@ -1283,7 +1283,7 @@ describe('Field.Date', () => {
     ).not.toBeInTheDocument()
   })
 
-  it.only('should support `yearNavigation`', async () => {
+  it('should support `yearNavigation`', async () => {
     const onChange = jest.fn()
 
     render(
@@ -1371,7 +1371,7 @@ describe('Field.Date', () => {
     )
   })
 
-  it.only('should support `yearNavigation` in range mode', async () => {
+  it('should support `yearNavigation` in range mode', async () => {
     const onChange = jest.fn()
 
     render(
