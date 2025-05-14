@@ -26,7 +26,9 @@ import type { DropdownAllProps } from '../../../../components/Dropdown'
 import { HelpProps } from '../../../../components/help-button/HelpButtonInline'
 import { DrawerListProps } from '../../../../fragments/DrawerList'
 import {
+  AssertNoMissing,
   convertCamelCasePropsToSnakeCase,
+  KeysWithUnderscore,
   ToCamelCase,
 } from '../../../../shared/helpers/withCamelCaseProps'
 import useDataValue from '../../hooks/useDataValue'
@@ -35,6 +37,18 @@ import type { RadioProps } from '../../../../components/Radio'
 import type { ToggleButtonProps } from '../../../../components/ToggleButton'
 import type { RadioGroupProps } from '../../../../components/radio/RadioGroup'
 import type { ToggleButtonGroupProps } from '../../../../components/toggle-button/ToggleButtonGroup'
+import {
+  DrawerListProperties,
+  DrawerListEvents,
+} from '../../../../fragments/drawer-list/DrawerListDocs'
+import {
+  AutocompleteEvents,
+  autocompleteProperties,
+} from '../../../../components/autocomplete/AutocompleteDocs'
+import {
+  DropdownProperties,
+  DropdownEvents,
+} from '../../../../components/dropdown/DropdownDocs'
 
 type IOption = {
   title: string | React.ReactNode
@@ -109,6 +123,122 @@ export type Props = FieldProps<IOption['value']> & {
    */
   children?: React.ReactNode
 }
+
+const validDrawerListProps = [
+  // DrawerList Properties
+  'default_value',
+  'triangle_position',
+  'label_direction',
+  'prevent_selection',
+  'prevent_close',
+  'keep_open',
+  'independent_width',
+  'fixed_position',
+  'enable_body_lock',
+  'skip_keysearch',
+  'ignore_events',
+  'align_drawer',
+  'list_class',
+  'portal_class',
+  'no_scroll_animation',
+  'no_animation',
+  'skip_portal',
+  'min_height',
+  'max_height',
+  'page_offset',
+  'observer_element',
+  'cache_hash',
+  'wrapper_element',
+  'options_render',
+
+  // DrawerList Events
+  'on_pre_change',
+  'on_change',
+  'on_select',
+  'on_show',
+  'on_hide',
+] as const satisfies ReadonlyArray<
+  KeysWithUnderscore<typeof DrawerListProperties & typeof DrawerListEvents>
+>
+
+const validAutocompleteProps = [
+  // Autocomplete Properties
+  'align_autocomplete',
+  'aria_live_options',
+  'disable_filter',
+  'disable_highlighting',
+  'disable_reorder',
+  'drawer_class',
+  'icon_position',
+  'icon_size',
+  'indicator_label',
+  'input_element',
+  'input_icon',
+  'input_ref',
+  'input_value',
+  'keep_selection',
+  'keep_value',
+  'keep_value_and_selection',
+  'label_direction',
+  'label_sr_only',
+  'no_options',
+  'open_on_focus',
+  'prevent_selection',
+  'search_in_word_index',
+  'search_numbers',
+  'selected_sr',
+  'show_all',
+  'show_clear_button',
+  'show_options_sr',
+  'show_submit_button',
+  'skip_portal',
+  'status_props',
+  'status_state',
+  'submit_button_icon',
+  'submit_button_title',
+  'submit_element',
+  'triangle_position',
+
+  // Autocomplete Events
+  'on_type',
+  'on_focus',
+  'on_blur',
+  'on_change',
+  'on_select',
+  'on_show',
+  'on_hide',
+] as const satisfies ReadonlyArray<
+  KeysWithUnderscore<
+    typeof autocompleteProperties & typeof AutocompleteEvents
+  >
+>
+
+const validDropdownProps = [
+  // From DropdownProperties
+  'icon_size',
+  'icon_position',
+  'triangle_position',
+  'open_on_focus',
+  'prevent_selection',
+  'action_menu',
+  'more_menu',
+  'align_dropdown',
+  'independent_width',
+  'skip_portal',
+  'status_state',
+  'status_props',
+  'label_direction',
+  'label_sr_only',
+  'trigger_element',
+
+  // From DropdownEvents
+  'on_change',
+  'on_select',
+  'on_show',
+  'on_hide',
+] as const satisfies ReadonlyArray<
+  KeysWithUnderscore<typeof DropdownProperties & typeof DropdownEvents>
+>
 
 function Selection(props: Props) {
   const clearValue = useMemo(() => `clear-option-${makeUniqueId()}`, [])
@@ -315,7 +445,19 @@ function Selection(props: Props) {
               {...sharedProps}
               {...(autocompleteProps
                 ? (convertCamelCasePropsToSnakeCase(
-                    Object.freeze(autocompleteProps)
+                    Object.freeze(autocompleteProps),
+                    [
+                      ...(validAutocompleteProps satisfies AssertNoMissing<
+                        typeof validAutocompleteProps,
+                        typeof autocompleteProperties &
+                          typeof AutocompleteEvents
+                      >),
+                      ...(validDrawerListProps satisfies AssertNoMissing<
+                        typeof validDrawerListProps,
+                        typeof DrawerListProperties &
+                          typeof DrawerListEvents
+                      >),
+                    ]
                   ) as AutocompleteAllProps)
                 : null)}
               value={
@@ -335,9 +477,16 @@ function Selection(props: Props) {
             <Dropdown
               {...sharedProps}
               {...(dropdownProps
-                ? (convertCamelCasePropsToSnakeCase(
-                    dropdownProps
-                  ) as DropdownAllProps)
+                ? (convertCamelCasePropsToSnakeCase(dropdownProps, [
+                    ...(validDropdownProps satisfies AssertNoMissing<
+                      typeof validDropdownProps,
+                      typeof DropdownProperties & typeof DropdownEvents
+                    >),
+                    ...(validDrawerListProps satisfies AssertNoMissing<
+                      typeof validDrawerListProps,
+                      typeof DrawerListProperties & typeof DrawerListEvents
+                    >),
+                  ]) as DropdownAllProps)
                 : null)}
             />
           )}

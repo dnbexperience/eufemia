@@ -314,6 +314,7 @@ export default class Autocomplete extends React.PureComponent {
     default_value: null,
     value: 'initval',
     input_value: 'initval',
+    autoComplete: 'off',
     open_on_focus: false,
     prevent_close: false,
     keep_open: false,
@@ -1793,6 +1794,7 @@ class AutocompleteInstance extends React.PureComponent {
       icon_position,
       skip_portal,
       independent_width,
+      autoComplete,
 
       mode: _mode, // eslint-disable-line
       data: _data, // eslint-disable-line
@@ -1864,7 +1866,7 @@ class AutocompleteInstance extends React.PureComponent {
       autoCapitalize: 'none',
       spellCheck: 'false',
       autoCorrect: 'off',
-      autoComplete: 'off',
+      autoComplete,
 
       // ARIA
       role: 'combobox', // we need combobox twice to make it properly work on VO
