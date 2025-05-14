@@ -452,7 +452,7 @@ describe('PushContainer', () => {
 
       const input = document.querySelector('input')
       const form = document.querySelector('form')
-      const commitButton = document.querySelector(
+      const doneButton = document.querySelector(
         '.dnb-forms-iterate__done-button'
       )
 
@@ -464,7 +464,7 @@ describe('PushContainer', () => {
       expect(onSubmitRequest).toHaveBeenCalledTimes(1)
       expect(onCommit).toHaveBeenCalledTimes(0)
 
-      await userEvent.click(commitButton)
+      await userEvent.click(doneButton)
 
       expect(onCommit).toHaveBeenCalledTimes(1)
 
@@ -488,7 +488,7 @@ describe('PushContainer', () => {
 
       const input = document.querySelector('input')
       const form = document.querySelector('form')
-      const commitButton = document.querySelector(
+      const doneButton = document.querySelector(
         '.dnb-forms-iterate__done-button'
       )
 
@@ -503,7 +503,7 @@ describe('PushContainer', () => {
         nb.IteratePushContainer.requireCommitText
       )
 
-      await userEvent.click(commitButton)
+      await userEvent.click(doneButton)
 
       expect(
         document.querySelector('.dnb-form-status')
@@ -533,7 +533,7 @@ describe('PushContainer', () => {
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
-        const commitButton = document.querySelector(
+        const doneButton = document.querySelector(
           '.dnb-forms-iterate__done-button'
         )
 
@@ -547,7 +547,7 @@ describe('PushContainer', () => {
           expect.anything()
         )
 
-        await userEvent.click(commitButton)
+        await userEvent.click(doneButton)
         fireEvent.submit(form)
 
         expect(onSubmit).toHaveBeenCalledTimes(2)
@@ -573,7 +573,7 @@ describe('PushContainer', () => {
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
-        const commitButton = document.querySelector(
+        const doneButton = document.querySelector(
           '.dnb-forms-iterate__done-button'
         )
 
@@ -614,7 +614,7 @@ describe('PushContainer', () => {
           expect.anything()
         )
 
-        await userEvent.click(commitButton)
+        await userEvent.click(doneButton)
 
         expect(input).toHaveValue('The empty value')
 
@@ -645,7 +645,7 @@ describe('PushContainer', () => {
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
-        const commitButton = document.querySelector(
+        const doneButton = document.querySelector(
           '.dnb-forms-iterate__done-button'
         )
 
@@ -659,7 +659,7 @@ describe('PushContainer', () => {
           expect.anything()
         )
 
-        await userEvent.click(commitButton)
+        await userEvent.click(doneButton)
         fireEvent.submit(form)
 
         expect(onSubmit).toHaveBeenCalledTimes(2)
@@ -685,7 +685,7 @@ describe('PushContainer', () => {
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
-        const commitButton = document.querySelector(
+        const doneButton = document.querySelector(
           '.dnb-forms-iterate__done-button'
         )
 
@@ -726,7 +726,7 @@ describe('PushContainer', () => {
           expect.anything()
         )
 
-        await userEvent.click(commitButton)
+        await userEvent.click(doneButton)
 
         expect(input).toHaveValue('A default value')
 
@@ -758,7 +758,7 @@ describe('PushContainer', () => {
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
-        const commitButton = document.querySelector(
+        const doneButton = document.querySelector(
           '.dnb-forms-iterate__done-button'
         )
 
@@ -772,7 +772,7 @@ describe('PushContainer', () => {
           expect.anything()
         )
 
-        await userEvent.click(commitButton)
+        await userEvent.click(doneButton)
         fireEvent.submit(form)
 
         expect(onSubmit).toHaveBeenCalledTimes(2)
@@ -799,7 +799,7 @@ describe('PushContainer', () => {
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
-        const commitButton = document.querySelector(
+        const doneButton = document.querySelector(
           '.dnb-forms-iterate__done-button'
         )
 
@@ -840,7 +840,7 @@ describe('PushContainer', () => {
           expect.anything()
         )
 
-        await userEvent.click(commitButton)
+        await userEvent.click(doneButton)
 
         expect(input).toHaveValue('A default value')
 
@@ -872,7 +872,7 @@ describe('PushContainer', () => {
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
-        const commitButton = document.querySelector(
+        const doneButton = document.querySelector(
           '.dnb-forms-iterate__done-button'
         )
 
@@ -886,7 +886,7 @@ describe('PushContainer', () => {
           expect.anything()
         )
 
-        await userEvent.click(commitButton)
+        await userEvent.click(doneButton)
         fireEvent.submit(form)
 
         expect(onSubmit).toHaveBeenCalledTimes(2)
@@ -913,7 +913,7 @@ describe('PushContainer', () => {
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
-        const commitButton = document.querySelector(
+        const doneButton = document.querySelector(
           '.dnb-forms-iterate__done-button'
         )
 
@@ -954,7 +954,7 @@ describe('PushContainer', () => {
           expect.anything()
         )
 
-        await userEvent.click(commitButton)
+        await userEvent.click(doneButton)
 
         expect(input).toHaveValue('A default value')
 
@@ -1007,7 +1007,7 @@ describe('PushContainer', () => {
 
       const input = document.querySelector('input')
       const form = document.querySelector('form')
-      const commitButton = document.querySelector(
+      const doneButton = document.querySelector(
         '.dnb-forms-iterate__done-button'
       )
 
@@ -1032,7 +1032,7 @@ describe('PushContainer', () => {
         document.querySelector('.dnb-form-status')
       ).toBeInTheDocument()
 
-      await userEvent.click(commitButton)
+      await userEvent.click(doneButton)
 
       expect(onCommit).toHaveBeenCalledTimes(1)
       expect(
@@ -1069,7 +1069,7 @@ describe('PushContainer', () => {
 
       const input = document.querySelector('input')
       const form = document.querySelector('form')
-      const commitButton = document.querySelector(
+      const doneButton = document.querySelector(
         '.dnb-forms-iterate__done-button'
       )
 
@@ -1084,7 +1084,7 @@ describe('PushContainer', () => {
         document.querySelector('.dnb-forms-iterate__reset-button')
       ).toBeInTheDocument()
 
-      await userEvent.click(commitButton)
+      await userEvent.click(doneButton)
 
       expect(
         document.querySelector('.dnb-form-status')
@@ -1181,11 +1181,11 @@ describe('PushContainer', () => {
 
       const input = document.querySelector('input')
       const form = document.querySelector('form')
-      const commitButton = document.querySelector(
+      const doneButton = document.querySelector(
         '.dnb-forms-iterate__done-button'
       )
 
-      await userEvent.click(commitButton)
+      await userEvent.click(doneButton)
 
       expect(onCommit).toHaveBeenCalledTimes(0)
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
@@ -1209,7 +1209,7 @@ describe('PushContainer', () => {
       expect(onSubmitRequest).toHaveBeenCalledTimes(1)
       expect(onCommit).toHaveBeenCalledTimes(0)
 
-      await userEvent.click(commitButton)
+      await userEvent.click(doneButton)
       expect(onCommit).toHaveBeenCalledTimes(1)
     })
 
