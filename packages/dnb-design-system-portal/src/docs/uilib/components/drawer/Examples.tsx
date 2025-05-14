@@ -52,6 +52,34 @@ export const LeftPlacementDrawerExample = () => (
   </ComponentBox>
 )
 
+export const TopPlacementDrawerExample = () => (
+  <ComponentBox data-visual-test="top-placement-drawer">
+    <Drawer title="Drawer title" containerPlacement="top">
+      <P top>Some informational content</P>
+      <P top>
+        Elementum eu suspendisse sit platea elit porttitor magna laoreet ad
+        ultrices tempus urna curae parturient conubia quisque viverra eget
+        vestibulum neque pulvinar semper vulputate id dis varius
+        pellentesque nunc egestas risus amet
+      </P>
+    </Drawer>
+  </ComponentBox>
+)
+
+export const BottomPlacementDrawerExample = () => (
+  <ComponentBox data-visual-test="bottom-placement-drawer">
+    <Drawer title="Drawer title" containerPlacement="bottom">
+      <P top>Some informational content</P>
+      <P top>
+        Elementum eu suspendisse sit platea elit porttitor magna laoreet ad
+        ultrices tempus urna curae parturient conubia quisque viverra eget
+        vestibulum neque pulvinar semper vulputate id dis varius
+        pellentesque nunc egestas risus amet
+      </P>
+    </Drawer>
+  </ComponentBox>
+)
+
 export const FullscreenDrawerExample = () => (
   <ComponentBox data-visual-test="fullscreen-drawer">
     <Drawer
