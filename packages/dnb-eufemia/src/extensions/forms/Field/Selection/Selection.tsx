@@ -401,7 +401,7 @@ function Selection(props: Props) {
         additionalFieldBlockProps.labelHeight = 'small'
       }
       if (variant === 'radio-list') {
-        additionalFieldBlockProps.width = width
+        additionalFieldBlockProps.contentWidth = width
       }
 
       return (
@@ -451,11 +451,7 @@ function Selection(props: Props) {
       }
 
       const specificFieldBlockProps: FieldBlockProps = {
-        width,
-      }
-      if (layout === 'horizontal') {
-        specificFieldBlockProps.width = undefined
-        specificFieldBlockProps.contentWidth = width
+        contentWidth: width,
       }
 
       return (
