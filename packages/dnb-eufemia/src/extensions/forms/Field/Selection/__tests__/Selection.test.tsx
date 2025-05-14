@@ -1860,13 +1860,15 @@ describe('variants', () => {
 
       expect(input).toHaveValue('foo')
 
-      {
+      await waitFor(() => {
         const options = document.querySelectorAll('[role="option"]')
         expect(options[0]).toHaveTextContent('Foo')
         expect(options[1]).toHaveTextContent('Vis alt')
+      })
 
-        await userEvent.click(options[0])
-      }
+      await userEvent.click(
+        document.querySelectorAll('[role="option"]')[0]
+      )
 
       expect(onChange).toHaveBeenCalledTimes(1)
       expect(onChange).toHaveBeenLastCalledWith('foo', expect.anything())
@@ -1882,11 +1884,11 @@ describe('variants', () => {
       ).not.toBeInTheDocument()
       expect(input).toHaveValue('foo')
 
-      {
+      await waitFor(() => {
         const options = document.querySelectorAll('[role="option"]')
         expect(options[0]).toHaveTextContent('Foo')
         expect(options[1]).toHaveTextContent('Vis alt')
-      }
+      })
 
       expect(onChange).toHaveBeenCalledTimes(1)
     })
@@ -1919,25 +1921,27 @@ describe('variants', () => {
         const input = document.querySelector('input')
         await userEvent.type(input, 'foo')
 
-        {
+        await waitFor(() => {
           const options = document.querySelectorAll('[role="option"]')
           expect(options[0]).toHaveTextContent('Foo')
           expect(options[1]).toHaveTextContent('Vis alt')
           expect(input).toHaveValue('foo')
+        })
 
-          await userEvent.click(options[0])
-        }
+        await userEvent.click(
+          document.querySelectorAll('[role="option"]')[0]
+        )
 
         expect(input).toHaveValue('Foo')
 
         await userEvent.click(input)
 
-        {
+        await waitFor(() => {
           const options = document.querySelectorAll('[role="option"]')
           expect(options[0]).toHaveTextContent('Foo')
           expect(options[1]).toHaveTextContent('Bar')
           expect(input).toHaveValue('Foo')
-        }
+        })
       })
     })
 
@@ -1952,7 +1956,7 @@ describe('variants', () => {
       expect(document.querySelector('input')).toBeDisabled()
     })
 
-    it('renders selected option', () => {
+    it('renders selected option', async () => {
       render(
         <Field.Selection variant="autocomplete" value="bar">
           <Field.Option value="foo">Foo</Field.Option>
@@ -1962,13 +1966,15 @@ describe('variants', () => {
 
       openAutocomplete()
 
-      const options = document.querySelectorAll('[role="option"]')
-      expect(options.length).toEqual(2)
-      expect(options[0].getAttribute('aria-selected')).toBe('false')
-      expect(options[1].getAttribute('aria-selected')).toBe('true')
+      await waitFor(() => {
+        const options = document.querySelectorAll('[role="option"]')
+        expect(options.length).toEqual(2)
+        expect(options[0].getAttribute('aria-selected')).toBe('false')
+        expect(options[1].getAttribute('aria-selected')).toBe('true')
+      })
     })
 
-    it('renders update selected option based on external value change', () => {
+    it('renders update selected option based on external value change', async () => {
       const { rerender } = render(
         <Field.Selection variant="autocomplete" value="bar">
           <Field.Option value="foo">Foo</Field.Option>
@@ -1985,13 +1991,15 @@ describe('variants', () => {
 
       openAutocomplete()
 
-      const options = document.querySelectorAll('[role="option"]')
-      expect(options.length).toEqual(2)
-      expect(options[0].getAttribute('aria-selected')).toBe('true')
-      expect(options[1].getAttribute('aria-selected')).toBe('false')
+      await waitFor(() => {
+        const options = document.querySelectorAll('[role="option"]')
+        expect(options.length).toEqual(2)
+        expect(options[0].getAttribute('aria-selected')).toBe('true')
+        expect(options[1].getAttribute('aria-selected')).toBe('false')
+      })
     })
 
-    it('renders only options with a value', () => {
+    it('renders only options with a value', async () => {
       const { rerender } = render(
         <Field.Selection variant="autocomplete" value="bar">
           <Field.Option value="foo">Foo</Field.Option>
@@ -2002,7 +2010,11 @@ describe('variants', () => {
 
       openAutocomplete()
 
-      expect(document.querySelectorAll('[role="option"]')).toHaveLength(2)
+      await waitFor(() => {
+        expect(document.querySelectorAll('[role="option"]')).toHaveLength(
+          2
+        )
+      })
 
       rerender(
         <Field.Selection variant="autocomplete" value="foo">
@@ -2062,12 +2074,16 @@ describe('variants', () => {
 
       openAutocomplete()
 
+      await waitFor(() => {
+        expect(document.querySelectorAll('[role="option"]')).toHaveLength(
+          2
+        )
+      })
+
       const options = Array.from(
         document.querySelectorAll('[role="option"]')
       )
       const [option1, option2] = options
-
-      expect(options).toHaveLength(2)
 
       expect(option1).toHaveTextContent('Foo!')
       expect(option2).toHaveTextContent('Bar!')
@@ -2103,13 +2119,16 @@ describe('variants', () => {
 
       openAutocomplete()
 
+      await waitFor(() => {
+        expect(document.querySelectorAll('[role="option"]')).toHaveLength(
+          2
+        )
+      })
+
       const options = Array.from(
         document.querySelectorAll('[role="option"]')
       )
       const [option1, option2] = options
-
-      expect(options).toHaveLength(2)
-
       expect(option1).toHaveTextContent('Foo!')
       expect(option2).toHaveTextContent('Bar!')
 
@@ -2117,7 +2136,7 @@ describe('variants', () => {
       expect(option2).toHaveAttribute('aria-selected', 'false')
     })
 
-    it('should support "dataPath"', () => {
+    it('should support "dataPath"', async () => {
       render(
         <Form.Handler
           data={{
@@ -2141,12 +2160,15 @@ describe('variants', () => {
 
       openAutocomplete()
 
+      await waitFor(() => {
+        expect(document.querySelectorAll('[role="option"]')).toHaveLength(
+          3
+        )
+      })
+
       const options = Array.from(
         document.querySelectorAll('[role="option"]')
       )
-
-      expect(options).toHaveLength(3)
-
       const [option1, option2, option3] = options
 
       expect(option1).toHaveTextContent('Foo!')
