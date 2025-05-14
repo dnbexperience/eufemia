@@ -1,6 +1,6 @@
 import { PropertiesTableProps } from '../../shared/types'
 
-export const autocompleteProperties = {
+export const AutocompleteProperties = {
   mode: {
     doc: 'If set to `async`, it prevents showing the "no options" message during typing / filtering. Defaults to `sync`.',
     type: 'string',
