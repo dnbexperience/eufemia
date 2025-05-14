@@ -1283,6 +1283,309 @@ describe('Field.Date', () => {
     ).not.toBeInTheDocument()
   })
 
+  it.only('should support `yearNavigation`', async () => {
+    const onChange = jest.fn()
+
+    render(
+      <Field.Date value="2025-04-16" yearNavigation onChange={onChange} />
+    )
+
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
+
+    const [monthTitle, yearTitle] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__header__title')
+    )
+
+    const [prevMonthButton, prevYearButton] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__prev')
+    )
+    const [nextMonthButton, nextYearButton] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__next')
+    )
+
+    const [day, month, year] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    ) as Array<HTMLInputElement>
+
+    expect(prevMonthButton).toHaveAttribute(
+      'aria-label',
+      'Forrige måned mars'
+    )
+    expect(nextMonthButton).toHaveAttribute(
+      'aria-label',
+      'Neste måned mai'
+    )
+    expect(prevYearButton).toHaveAttribute('aria-label', 'Forrige år 2024')
+    expect(nextYearButton).toHaveAttribute('aria-label', 'Neste år 2026')
+
+    await userEvent.click(prevYearButton)
+    // Verify year
+    expect(yearTitle).toHaveTextContent('2024')
+    expect(yearTitle).toHaveAttribute('title', 'Valgt år 2024')
+    expect(prevYearButton).toHaveAttribute('aria-label', 'Forrige år 2023')
+    expect(nextYearButton).toHaveAttribute('aria-label', 'Neste år 2025')
+
+    // Verify month
+    expect(prevMonthButton).toHaveAttribute(
+      'aria-label',
+      'Forrige måned mars'
+    )
+    expect(nextMonthButton).toHaveAttribute(
+      'aria-label',
+      'Neste måned mai'
+    )
+    expect(monthTitle).toHaveTextContent('april')
+    expect(monthTitle).toHaveAttribute('title', 'Valgt måned april')
+
+    await userEvent.click(nextYearButton)
+    await userEvent.click(nextYearButton)
+
+    // Verify year
+    expect(yearTitle).toHaveTextContent('2026')
+    expect(yearTitle).toHaveAttribute('title', 'Valgt år 2026')
+    expect(prevYearButton).toHaveAttribute('aria-label', 'Forrige år 2025')
+    expect(nextYearButton).toHaveAttribute('aria-label', 'Neste år 2027')
+
+    // Verify month
+    expect(prevMonthButton).toHaveAttribute(
+      'aria-label',
+      'Forrige måned mars'
+    )
+    expect(nextMonthButton).toHaveAttribute(
+      'aria-label',
+      'Neste måned mai'
+    )
+    expect(monthTitle).toHaveTextContent('april')
+    expect(monthTitle).toHaveAttribute('title', 'Valgt måned april')
+
+    // Pick a new date
+    await userEvent.click(screen.getByLabelText('onsdag 1. april 2026'))
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith('2026-04-01', expect.anything())
+    expect(day).toHaveValue('01')
+    expect(month).toHaveValue('04')
+    expect(year).toHaveValue('2026')
+    expect(screen.getByLabelText('onsdag 1. april 2026')).toHaveAttribute(
+      'aria-current',
+      'date'
+    )
+  })
+
+  it.only('should support `yearNavigation` in range mode', async () => {
+    const onChange = jest.fn()
+
+    render(
+      <Field.Date
+        value="2025-04-16|2026-05-17"
+        onChange={onChange}
+        yearNavigation
+        range
+      />
+    )
+
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
+
+    const [
+      leftMonthTitle,
+      leftYearTitle,
+      rightMonthTitle,
+      rightYearTitle,
+    ] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__header__title')
+    )
+
+    const [
+      leftPrevMonthButton,
+      leftPrevYearButton,
+      rightPrevMonthButton,
+      rightPrevYearButton,
+    ] = Array.from(document.querySelectorAll('.dnb-date-picker__prev'))
+
+    const [
+      leftNextMonthButton,
+      leftNextYearButton,
+      rightNextMonthButton,
+      rightNextYearButton,
+    ] = Array.from(document.querySelectorAll('.dnb-date-picker__next'))
+
+    const [startDay, startMonth, startYear, endDay, endMonth, endYear] =
+      Array.from(
+        document.querySelectorAll('.dnb-date-picker__input')
+      ) as Array<HTMLInputElement>
+
+    // Verify initial label values
+    // Left
+    expect(leftPrevMonthButton).toHaveAttribute(
+      'aria-label',
+      'Forrige måned mars'
+    )
+    expect(leftNextMonthButton).toHaveAttribute(
+      'aria-label',
+      'Neste måned mai'
+    )
+    expect(leftPrevYearButton).toHaveAttribute(
+      'aria-label',
+      'Forrige år 2024'
+    )
+    expect(leftNextYearButton).toHaveAttribute(
+      'aria-label',
+      'Neste år 2026'
+    )
+
+    // Right
+    expect(rightPrevMonthButton).toHaveAttribute(
+      'aria-label',
+      'Forrige måned april'
+    )
+    expect(rightNextMonthButton).toHaveAttribute(
+      'aria-label',
+      'Neste måned juni'
+    )
+    expect(rightPrevYearButton).toHaveAttribute(
+      'aria-label',
+      'Forrige år 2025'
+    )
+    expect(rightNextYearButton).toHaveAttribute(
+      'aria-label',
+      'Neste år 2027'
+    )
+
+    await userEvent.click(leftPrevYearButton)
+    await userEvent.click(rightPrevYearButton)
+
+    // Verify years
+    // Left
+    expect(leftYearTitle).toHaveTextContent('2024')
+    expect(leftYearTitle).toHaveAttribute('title', 'Valgt år 2024')
+    expect(leftPrevYearButton).toHaveAttribute(
+      'aria-label',
+      'Forrige år 2023'
+    )
+    expect(leftNextYearButton).toHaveAttribute(
+      'aria-label',
+      'Neste år 2025'
+    )
+
+    // Right
+    expect(rightYearTitle).toHaveTextContent('2025')
+    expect(rightYearTitle).toHaveAttribute('title', 'Valgt år 2025')
+    expect(rightPrevYearButton).toHaveAttribute(
+      'aria-label',
+      'Forrige år 2024'
+    )
+    expect(rightNextYearButton).toHaveAttribute(
+      'aria-label',
+      'Neste år 2026'
+    )
+
+    // Verify months
+    // Left
+    expect(leftPrevMonthButton).toHaveAttribute(
+      'aria-label',
+      'Forrige måned mars'
+    )
+    expect(leftNextMonthButton).toHaveAttribute(
+      'aria-label',
+      'Neste måned mai'
+    )
+    expect(leftMonthTitle).toHaveTextContent('april')
+    expect(leftMonthTitle).toHaveAttribute('title', 'Valgt måned april')
+
+    // Right
+    expect(rightMonthTitle).toHaveTextContent('mai')
+    expect(rightMonthTitle).toHaveAttribute('title', 'Valgt måned mai')
+    expect(rightPrevMonthButton).toHaveAttribute(
+      'aria-label',
+      'Forrige måned april'
+    )
+    expect(rightNextMonthButton).toHaveAttribute(
+      'aria-label',
+      'Neste måned juni'
+    )
+
+    await userEvent.click(leftNextYearButton)
+    await userEvent.click(leftNextYearButton)
+    await userEvent.click(rightNextYearButton)
+    await userEvent.click(rightNextYearButton)
+
+    // Verify years
+    // Left
+    expect(leftYearTitle).toHaveTextContent('2026')
+    expect(leftYearTitle).toHaveAttribute('title', 'Valgt år 2026')
+    expect(leftPrevYearButton).toHaveAttribute(
+      'aria-label',
+      'Forrige år 2025'
+    )
+    expect(leftNextYearButton).toHaveAttribute(
+      'aria-label',
+      'Neste år 2027'
+    )
+
+    // Right
+    expect(rightYearTitle).toHaveTextContent('2027')
+    expect(rightYearTitle).toHaveAttribute('title', 'Valgt år 2027')
+    expect(rightPrevYearButton).toHaveAttribute(
+      'aria-label',
+      'Forrige år 2026'
+    )
+    expect(rightNextYearButton).toHaveAttribute(
+      'aria-label',
+      'Neste år 2028'
+    )
+
+    // Verify months
+    // Left
+    expect(leftPrevMonthButton).toHaveAttribute(
+      'aria-label',
+      'Forrige måned mars'
+    )
+    expect(leftNextMonthButton).toHaveAttribute(
+      'aria-label',
+      'Neste måned mai'
+    )
+    expect(leftMonthTitle).toHaveTextContent('april')
+    expect(leftMonthTitle).toHaveAttribute('title', 'Valgt måned april')
+
+    // Right
+    expect(rightMonthTitle).toHaveTextContent('mai')
+    expect(rightMonthTitle).toHaveAttribute('title', 'Valgt måned mai')
+    expect(rightPrevMonthButton).toHaveAttribute(
+      'aria-label',
+      'Forrige måned april'
+    )
+    expect(rightNextMonthButton).toHaveAttribute(
+      'aria-label',
+      'Neste måned juni'
+    )
+
+    // Pick new dates
+    await userEvent.click(screen.getByLabelText('onsdag 1. april 2026'))
+    await userEvent.click(screen.getByLabelText('lørdag 1. mai 2027'))
+
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenCalledWith(
+      '2026-04-01|2027-05-01',
+      expect.anything()
+    )
+    // Start date
+    expect(startDay).toHaveValue('01')
+    expect(startMonth).toHaveValue('04')
+    expect(startYear).toHaveValue('2026')
+    expect(screen.getByLabelText('onsdag 1. april 2026')).toHaveAttribute(
+      'aria-current',
+      'date'
+    )
+
+    // End date
+    expect(endDay).toHaveValue('01')
+    expect(endMonth).toHaveValue('05')
+    expect(endYear).toHaveValue('2027')
+    expect(screen.getByLabelText('lørdag 1. mai 2027')).toHaveAttribute(
+      'aria-current',
+      'date'
+    )
+  })
+
   it('should export `dateValidator`', async () => {
     const myOnBlurValidator = (value: string) => {
       if (value === '2025-01-01') {
