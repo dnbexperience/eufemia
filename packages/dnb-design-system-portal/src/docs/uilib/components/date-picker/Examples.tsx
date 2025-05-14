@@ -16,12 +16,15 @@ import { DatePicker, Flex, HelpButton } from '@dnb/eufemia/src'
 import { Provider } from '@dnb/eufemia/src/shared'
 
 const Wrapper = styled.div`
-  [data-visual-test='date-picker-calendar'] .dnb-date-picker__container {
+  [data-visual-test='date-picker-calendar'] .dnb-date-picker__container,
+  [data-visual-test='date-picker-year-navigation']
+    .dnb-date-picker__container {
     display: block;
     position: relative;
     top: 0;
   }
-  [data-visual-test='date-picker-calendar'] .dnb-date-picker {
+  [data-visual-test='date-picker-calendar'] .dnb-date-picker,
+  [data-visual-test='date-picker-year-navigation'] .dnb-date-picker {
     margin-left: 1rem;
   }
 `
@@ -384,4 +387,25 @@ export const DatePickerLabelAlignmentWithButtonRight = () => (
   <ComponentBox data-visual-test="date-picker-with-button-label-alignment-right">
     <DatePicker label="Label" labelAlignment="right" showInput={true} />
   </ComponentBox>
+)
+
+export const DatePickerYearNavigation = () => (
+  <ComponentBox>
+    <DatePicker showInput yearNavigation />
+  </ComponentBox>
+)
+
+export const DatePickerYearNavigationOpen = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="date-picker-year-navigation">
+      <DatePicker
+        showInput
+        yearNavigation
+        opened
+        skipPortal
+        preventClose
+        disableAutofocus
+      />
+    </ComponentBox>
+  </Wrapper>
 )
