@@ -1,7 +1,7 @@
+import React from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Flex, HeightAnimation } from '@dnb/eufemia/src'
 import { Field, Form, Tools } from '@dnb/eufemia/src/extensions/forms'
-import React from 'react'
 
 export const UsingCommitButton = () => {
   return (
@@ -12,6 +12,7 @@ export const UsingCommitButton = () => {
       >
         <Flex.Stack>
           <Form.Isolation
+            resetAfterCommit
             onChange={(data) => console.log('Isolated onChange:', data)}
           >
             <Flex.Stack>
@@ -219,6 +220,7 @@ export const InsideSection = () => {
                 console.log('Isolated onChange:', path, value)
               }}
               onCommit={(data) => console.log('onCommit:', data)}
+              resetAfterCommit
             >
               <Flex.Stack>
                 <Field.String label="Isolated" path="/isolated" required />

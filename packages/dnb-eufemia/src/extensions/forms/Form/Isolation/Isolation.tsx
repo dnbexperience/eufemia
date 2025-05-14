@@ -4,6 +4,7 @@ import React, {
   useMemo,
   useReducer,
   useRef,
+  useState,
 } from 'react'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import pointer, { JsonObject } from '../../utils/json-pointer'
@@ -22,6 +23,12 @@ import {
   clearedData,
   type Props as ProviderProps,
 } from '../../DataContext/Provider'
+import {
+  IsolationResetSnapshot,
+  createResetSnapshot,
+} from './IsolationResetSnapshot'
+import IsolatedContainer from './IsolatedContainer'
+import IsolationContext from './IsolationContext'
 import type { OnCommit, Path } from '../../types'
 
 /**
@@ -49,6 +56,14 @@ export type IsolationProviderProps<Data extends JsonObject> = {
    * Prevent the form from being submitted when there are fields with errors inside the Form.Isolation.
    */
   bubbleValidation?: boolean
+  /**
+   * If set to `true`, the Form.Isolation will reset its data context after committing the data to the outer context.
+   */
+  resetAfterCommit?: boolean
+  /**
+   * Provide a snapshot by using Form.Isolation.createResetSnapshot.
+   */
+  resetSnapshot?: IsolationResetSnapshot
   /**
    * Used internally by the Form.Isolation component
    */
@@ -79,6 +94,12 @@ export type IsolationProps<Data extends JsonObject> = Omit<
 function IsolationProvider<Data extends JsonObject>(
   props: IsolationProps<Data>
 ) {
+  const [resetSnapshotFallback] = useState<IsolationResetSnapshot>(() => {
+    if (!props?.resetSnapshot) {
+      return createResetSnapshot()
+    }
+  })
+
   const {
     children,
     onPathChange,
@@ -89,6 +110,8 @@ function IsolationProvider<Data extends JsonObject>(
     bubbleValidation,
     data,
     defaultData,
+    resetSnapshot = resetSnapshotFallback,
+    resetAfterCommit,
   } = props
 
   const [, forceUpdate] = useReducer(() => ({}), {})
@@ -257,31 +280,30 @@ function IsolationProvider<Data extends JsonObject>(
 
   return (
     <Provider {...providerProps}>
-      <DataContext.Consumer>
-        {(dataContext) => {
-          dataContextRef.current = dataContext
+      <IsolationContext.Provider
+        value={{ resetSnapshot, resetAfterCommit, outerContext }}
+      >
+        <DataContext.Consumer>
+          {(dataContext) => {
+            dataContextRef.current = dataContext
 
-          if (commitHandleRef) {
-            commitHandleRef.current = dataContext?.handleSubmit
-          }
+            if (commitHandleRef) {
+              commitHandleRef.current = dataContext?.handleSubmit
+            }
 
-          return children
-        }}
-      </DataContext.Consumer>
+            return <IsolatedContainer>{children} </IsolatedContainer>
+          }}
+        </DataContext.Consumer>
 
-      {bubbleValidation && (
-        <BubbleValidation outerContext={outerContext} />
-      )}
+        {bubbleValidation && <BubbleValidation />}
+      </IsolationContext.Provider>
     </Provider>
   )
 }
 
-function BubbleValidation({
-  outerContext,
-}: {
-  outerContext: ContextState
-}) {
+function BubbleValidation() {
   const innerContext = useContext(DataContext)
+  const { outerContext } = useContext(IsolationContext)
   const { setShowAllErrors } = innerContext
 
   const setShowAllErrorsNested = useCallback(
@@ -307,6 +329,7 @@ function BubbleValidation({
 const isolationError = new Error('Form.Isolation')
 
 IsolationProvider.CommitButton = IsolationCommitButton
+IsolationProvider.createResetSnapshot = createResetSnapshot
 IsolationProvider._supportsSpacingProps = undefined
 
 export default IsolationProvider

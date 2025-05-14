@@ -5,14 +5,13 @@ import React, {
   useMemo,
   useReducer,
   useRef,
-  useState,
 } from 'react'
 import classnames from 'classnames'
 import Isolation from '../../Form/Isolation'
-import useReportError from '../../Form/Isolation/useReportError'
+import useHandleStatus from '../../Form/Isolation/useHandleStatus'
 import PushContainerContext from './PushContainerContext'
 import IterateItemContext from '../IterateItemContext'
-import DataContext, { ContextState } from '../../DataContext/Context'
+import DataContext from '../../DataContext/Context'
 import VisibilityContext from '../../Form/Visibility/VisibilityContext'
 import useDataValue from '../../hooks/useDataValue'
 import EditContainer, {
@@ -20,7 +19,6 @@ import EditContainer, {
   CancelButton,
   ResetButton,
   AllProps as EditContainerProps,
-  useHasContentChanged,
 } from '../EditContainer'
 import IterateArray, { ContainerMode } from '../Array'
 import OpenButton from './OpenButton'
@@ -324,8 +322,8 @@ function NewContainer({
     useHandleStatus({
       outerContext,
       requireCommit,
+      error: pushContainerError,
     })
-  const { requireCommitText } = useTranslation().IteratePushContainer
 
   useEffect(() => {
     rerenderPushContainer()
@@ -333,6 +331,7 @@ function NewContainer({
 
   switchContainerModeRef.current = switchContainerMode
   const isVisible = Boolean(!showOpenButton || containerMode === 'edit')
+  const { requireCommitText } = useTranslation().IteratePushContainer
   const { createButton } = useTranslation().IteratePushContainer
   const { clearData } = useContext(DataContext) || {}
   const restoreOriginalValue = useCallback(() => {
@@ -397,56 +396,6 @@ function NewContainer({
       )}
     </VisibilityContext.Provider>
   )
-}
-
-function useHandleStatus({
-  outerContext,
-  requireCommit,
-}: {
-  outerContext: ContextState
-  requireCommit: boolean
-}) {
-  const { hasContentChanged } = useHasContentChanged()
-
-  useReportError(
-    requireCommit && hasContentChanged ? pushContainerError : undefined,
-    outerContext
-  )
-
-  const showStatus = useShowStatus({
-    outerContext,
-    hasContentChanged,
-    requireCommit,
-  })
-
-  return { hasContentChanged, showStatus }
-}
-
-// This hook/state is used to not show the status right away, after the user has cleared the PushContainer data.
-function useShowStatus({
-  outerContext,
-  hasContentChanged,
-  requireCommit,
-}) {
-  const showAllErrors = outerContext?.showAllErrors
-  const [showStatus, setShowStatus] = useState(showAllErrors)
-  const showRef = useRef(showAllErrors)
-  useEffect(() => {
-    if (!requireCommit) {
-      return // stop here
-    }
-
-    if (!hasContentChanged) {
-      setShowStatus(false)
-    } else {
-      if (showRef.current !== showAllErrors) {
-        setShowStatus(showAllErrors)
-      }
-    }
-    showRef.current = showAllErrors
-  }, [hasContentChanged, requireCommit, showAllErrors])
-
-  return showStatus
 }
 
 const pushContainerError = new Error('Iterate.PushContainer')
