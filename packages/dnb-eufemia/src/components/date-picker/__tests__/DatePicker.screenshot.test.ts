@@ -83,4 +83,11 @@ describe('DatePicker', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match tertiary open button', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="date-picker-open-button-tertiary"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
