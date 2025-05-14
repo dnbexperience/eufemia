@@ -483,7 +483,10 @@ class DropdownInstance extends React.PureComponent {
 
     const handleAsMenu =
       isTrue(action_menu) || isTrue(more_menu) || isTrue(prevent_selection)
-    const isPopupMenu = isTrue(more_menu) || !(_title && _title.length > 0)
+
+    const title = this.getTitle(_title)
+    const isPopupMenu = isTrue(more_menu) || !title
+
     if (isPopupMenu) {
       icon = icon || (isTrue(more_menu) ? 'more' : 'chevron_down')
     }
@@ -496,7 +499,6 @@ class DropdownInstance extends React.PureComponent {
 
     const { selected_item, direction, opened } = this.context.drawerList
     const showStatus = getStatusState(status)
-    const title = this.getTitle(_title)
 
     // make it possible to grab the rest attributes and return it with all events
     Object.assign(
