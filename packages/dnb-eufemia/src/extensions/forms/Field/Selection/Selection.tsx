@@ -43,7 +43,7 @@ import {
 } from '../../../../fragments/drawer-list/DrawerListDocs'
 import {
   AutocompleteEvents,
-  autocompleteProperties,
+  AutocompleteProperties,
 } from '../../../../components/autocomplete/AutocompleteDocs'
 import {
   DropdownProperties,
@@ -209,9 +209,19 @@ const validAutocompleteProps = [
   'on_hide',
 ] as const satisfies ReadonlyArray<
   KeysWithUnderscore<
-    typeof autocompleteProperties & typeof AutocompleteEvents
+    typeof AutocompleteProperties & typeof AutocompleteEvents
   >
 >
+export const listOfValidAutocompleteProps = [
+  ...(validAutocompleteProps satisfies AssertNoMissing<
+    typeof validAutocompleteProps,
+    typeof AutocompleteProperties & typeof AutocompleteEvents
+  >),
+  ...(validDrawerListProps satisfies AssertNoMissing<
+    typeof validDrawerListProps,
+    typeof DrawerListProperties & typeof DrawerListEvents
+  >),
+]
 
 const validDropdownProps = [
   // From DropdownProperties
@@ -239,6 +249,16 @@ const validDropdownProps = [
 ] as const satisfies ReadonlyArray<
   KeysWithUnderscore<typeof DropdownProperties & typeof DropdownEvents>
 >
+export const listOfValidDropdownProps = [
+  ...(validDropdownProps satisfies AssertNoMissing<
+    typeof validDropdownProps,
+    typeof DropdownProperties & typeof DropdownEvents
+  >),
+  ...(validDrawerListProps satisfies AssertNoMissing<
+    typeof validDrawerListProps,
+    typeof DrawerListProperties & typeof DrawerListEvents
+  >),
+]
 
 function Selection(props: Props) {
   const clearValue = useMemo(() => `clear-option-${makeUniqueId()}`, [])
@@ -446,18 +466,7 @@ function Selection(props: Props) {
               {...(autocompleteProps
                 ? (convertCamelCasePropsToSnakeCase(
                     Object.freeze(autocompleteProps),
-                    [
-                      ...(validAutocompleteProps satisfies AssertNoMissing<
-                        typeof validAutocompleteProps,
-                        typeof autocompleteProperties &
-                          typeof AutocompleteEvents
-                      >),
-                      ...(validDrawerListProps satisfies AssertNoMissing<
-                        typeof validDrawerListProps,
-                        typeof DrawerListProperties &
-                          typeof DrawerListEvents
-                      >),
-                    ]
+                    listOfValidAutocompleteProps
                   ) as AutocompleteAllProps)
                 : null)}
               value={
@@ -477,16 +486,10 @@ function Selection(props: Props) {
             <Dropdown
               {...sharedProps}
               {...(dropdownProps
-                ? (convertCamelCasePropsToSnakeCase(dropdownProps, [
-                    ...(validDropdownProps satisfies AssertNoMissing<
-                      typeof validDropdownProps,
-                      typeof DropdownProperties & typeof DropdownEvents
-                    >),
-                    ...(validDrawerListProps satisfies AssertNoMissing<
-                      typeof validDrawerListProps,
-                      typeof DrawerListProperties & typeof DrawerListEvents
-                    >),
-                  ]) as DropdownAllProps)
+                ? (convertCamelCasePropsToSnakeCase(
+                    dropdownProps,
+                    listOfValidDropdownProps
+                  ) as DropdownAllProps)
                 : null)}
             />
           )}
