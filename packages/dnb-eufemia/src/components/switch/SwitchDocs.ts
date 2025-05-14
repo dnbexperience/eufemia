@@ -76,12 +76,12 @@ export const SwitchProperties: PropertiesTableProps = {
 export const SwitchEvents: PropertiesTableProps = {
   onChange: {
     doc: 'Will be called on state changes made by the user.',
-    type: '() => {checked: boolean; event: ChangeEvent}',
+    type: '({ checked: boolean; event: ChangeEvent }) => void',
     status: 'optional',
   },
   onChangeEnd: {
     doc: 'Will be called on state changes made by the user, but with a delay. This way the user sees the animation before e.g. an error will be removed. Returns a boolean { checked, event }.',
-    type: '() => {checked: boolean; event: ChangeEvent}',
+    type: '({ checked: boolean; event: ChangeEvent }) => void',
     status: 'optional',
   },
 }

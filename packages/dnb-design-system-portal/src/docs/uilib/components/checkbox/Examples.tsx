@@ -87,6 +87,20 @@ export const CheckboxIndeterminateLarge = () => {
   )
 }
 
+export const CheckboxPreventDefault = () => {
+  return (
+    <ComponentBox>
+      <Checkbox
+        label="Checkbox"
+        onClick={(event) => {
+          event.preventDefault()
+        }}
+        onChange={({ checked }) => console.log('onChange', checked)}
+      />
+    </ComponentBox>
+  )
+}
+
 const ShowBoundingArea = styled.div`
   .dnb-checkbox__input {
     opacity: 0.5;
