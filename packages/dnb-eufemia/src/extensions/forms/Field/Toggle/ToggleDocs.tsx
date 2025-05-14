@@ -32,3 +32,11 @@ export const ToggleProperties: PropertiesTableProps = {
     status: 'optional',
   },
 }
+
+export const ToggleEvents: PropertiesTableProps = {
+  onClick: {
+    doc: 'Will be called on click.',
+    type: '(value: unknown, { event: ClickEvent, preventDefault: () => void }) => void',
+    status: 'optional',
+  },
+}
