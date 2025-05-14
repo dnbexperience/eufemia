@@ -1142,6 +1142,42 @@ describe('Dropdown component', () => {
     ).toBe(title)
   })
 
+  it('should support title as `React.Node`', () => {
+    const TitleAsChildren = ({ children }) => {
+      return <span id="title-as-children">{children}</span>
+    }
+
+    const TitleAsProp = ({ title }) => {
+      return <span id="title-as-prop">{title}</span>
+    }
+
+    const { rerender } = render(
+      <Dropdown
+        data={['A', 'B', 'C']}
+        title={<TitleAsChildren>Title as children</TitleAsChildren>}
+      />
+    )
+
+    expect(
+      document.querySelector('#title-as-children')
+    ).toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-dropdown__text__inner')
+    ).toHaveTextContent('Title as children')
+
+    rerender(
+      <Dropdown
+        data={['A', 'B', 'C']}
+        title={<TitleAsProp title="Title as prop" />}
+      />
+    )
+
+    expect(document.querySelector('#title-as-prop')).toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-dropdown__text__inner')
+    ).toHaveTextContent('Title as prop')
+  })
+
   it('should support inline styling', () => {
     render(<Dropdown data={mockData} style={{ color: 'red' }} />)
 
