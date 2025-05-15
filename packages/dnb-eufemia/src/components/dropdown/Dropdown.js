@@ -241,7 +241,7 @@ export default class Dropdown extends React.PureComponent {
         {...this.props}
         id={id}
         data={data || children}
-        opened={null}
+        opened={false}
         tagName="dnb-dropdown"
         ignore_events={false}
         prevent_selection={
@@ -641,6 +641,8 @@ class DropdownInstance extends React.PureComponent {
                       </span>
                     </>
                   }
+                  role="combobox"
+                  title={title}
                   {...triggerParams}
                 />
               )}
