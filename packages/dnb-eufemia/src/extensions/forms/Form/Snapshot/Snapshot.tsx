@@ -4,8 +4,9 @@ import SnapshotContext, {
   SnapshotMap,
 } from './SnapshotContext'
 import DataContext from '../../DataContext/Context'
+import { SharedStateId } from '../../../../shared/helpers/useSharedState'
 
-export type SnapshotId = string | number
+export type SnapshotId = SharedStateId | number
 export type SnapshotName = string
 
 export type SnapshotProps = {
