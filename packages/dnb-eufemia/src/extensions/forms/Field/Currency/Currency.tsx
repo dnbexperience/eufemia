@@ -23,6 +23,7 @@ function Currency(props: Props) {
   const currencyValue = getSourceValue(props.currency)
 
   const preparedProps = {
+    disallowLeadingZeroes: true,
     ...props,
     currency: currencyValue ?? CURRENCY,
     placeholder:

@@ -143,7 +143,7 @@ export const inputMaskedMaskOptionsProperties: PropertiesTableProps = {
     status: 'optional',
   },
   disallowLeadingZeroes: {
-    doc: 'Whether or not to allow leading zeroes. Defaults to `false`.',
+    doc: 'Whether or not to disallow leading zeroes. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
