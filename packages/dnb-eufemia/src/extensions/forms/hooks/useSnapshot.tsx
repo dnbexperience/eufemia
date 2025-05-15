@@ -15,29 +15,26 @@ export default function useSnapshot(id?: SharedStateId) {
   const { getContext } = useDataContext(id)
   const { set: setData, update: updateData } = useData(id)
 
+  const { internalDataRef, snapshotsRef } = getContext()
+  const internalData = internalDataRef.current // Ensure the createSnapshot dependency gets updated
   const createSnapshot = useCallback(
     (
       id: SnapshotId = makeUniqueId(),
       name: SnapshotName = null,
       content: JsonObject = null
     ): SnapshotId => {
-      const { internalDataRef, snapshotsRef } = getContext()
-
       if (!content) {
         const snapshotWithPaths = snapshotsRef?.current?.get?.(name)
         if (snapshotWithPaths) {
           const collectedData: Map<string, JsonObject> = new Map()
           snapshotWithPaths.forEach((isMounted, path) => {
-            if (isMounted && pointer.has(internalDataRef.current, path)) {
-              collectedData.set(
-                path,
-                pointer.get(internalDataRef.current, path)
-              )
+            if (isMounted && pointer.has(internalData, path)) {
+              collectedData.set(path, pointer.get(internalData, path))
             }
           })
           content = collectedData as unknown as JsonObject
         } else {
-          content = internalDataRef.current
+          content = internalData
         }
       }
 
@@ -48,7 +45,7 @@ export default function useSnapshot(id?: SharedStateId) {
 
       return id
     },
-    [getContext]
+    [internalData, snapshotsRef]
   )
 
   const getSnapshot = useCallback(

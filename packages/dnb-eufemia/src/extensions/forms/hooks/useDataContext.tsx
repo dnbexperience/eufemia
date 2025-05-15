@@ -10,7 +10,7 @@ export default function useDataContext(id: SharedStateId = undefined): {
   dataContext?: ContextState
   getContext: () => ContextState
 } {
-  const sharedDataContext = useSharedState<ContextState>(
+  const { get } = useSharedState<ContextState>(
     createReferenceKey(id, 'data-context')
   )
 
@@ -27,8 +27,8 @@ export default function useDataContext(id: SharedStateId = undefined): {
       }
     }
 
-    return sharedDataContext.get()
-  }, [dataContext, id, sharedDataContext])
+    return get()
+  }, [dataContext, id, get])
 
   return { getContext, dataContext }
 }
