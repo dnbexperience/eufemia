@@ -11,10 +11,7 @@ export default function useSubmittedCalendarDates() {
 
   const setSubmittedCalendarDates = useCallback(
     (dates: SubmittedCalendarDates) => {
-      submittedCalendarDatesRef.current = {
-        ...submittedCalendarDatesRef.current,
-        ...dates,
-      }
+      submittedCalendarDatesRef.current = dates
     },
     []
   )
