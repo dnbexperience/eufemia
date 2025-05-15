@@ -206,10 +206,10 @@ export const SizeSmall = () => (
           </Tr>
           <Tr>
             <Td>
-              <P>Row 2 with paragraph</P>
+              <P size="small">Row 2 with paragraph</P>
             </Td>
             <Td>
-              <P>
+              <P size="small">
                 Row 2 with <b>medium paragraph</b>
               </P>
             </Td>
