@@ -15,8 +15,8 @@ export default function useSnapshot(id?: SharedStateId) {
   const { getContext } = useDataContext(id)
   const { set: setData, update: updateData } = useData(id)
 
-  const { internalDataRef, snapshotsRef } = getContext()
-  const internalData = internalDataRef.current // Ensure the createSnapshot dependency gets updated
+  const { internalDataRef, snapshotsRef } = getContext() || {}
+  const internalData = internalDataRef?.current // Ensure the createSnapshot dependency gets updated
   const createSnapshot = useCallback(
     (
       id: SnapshotId = makeUniqueId(),
