@@ -29,7 +29,7 @@ export default function IsolationResetButton(props: Props) {
     ...restProps
   } = props
 
-  const { outerContext, preventUncommitedChanges } =
+  const { outerContext, preventUncommittedChanges } =
     useContext(IsolationContext)
   const { setShowBoundaryErrors } = useContext(FieldBoundaryContext) || {}
 
@@ -37,7 +37,7 @@ export default function IsolationResetButton(props: Props) {
   const { hasContentChanged } = useHasContentChanged()
   const { showStatus: showCommitStatus } = useHandleStatus({
     outerContext,
-    preventUncommitedChanges,
+    preventUncommittedChanges,
     error: isolationError,
   })
 

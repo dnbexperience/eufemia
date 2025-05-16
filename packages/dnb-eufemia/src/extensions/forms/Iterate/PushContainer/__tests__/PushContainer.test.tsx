@@ -1877,7 +1877,7 @@ describe('PushContainer', () => {
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
         nb.IteratePushContainer.preventUncommittedChangesText
 =======
-        nb.Isolation.preventUncommitedChangesText
+        nb.Isolation.preventUncommittedChangesText
 >>>>>>> a5a1454be8 (feat(Forms): add `requireCommit` property to Form.Isolation to show error during submit after user input)
       )
 
