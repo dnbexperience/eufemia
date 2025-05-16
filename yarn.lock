@@ -9516,13 +9516,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yarnpkg/parsers@npm:^3.0.0-rc.32":
-  version: 3.0.0-rc.46
-  resolution: "@yarnpkg/parsers@npm:3.0.0-rc.46"
+"@yarnpkg/parsers@npm:^3.0.0-rc.48.1":
+  version: 3.0.3
+  resolution: "@yarnpkg/parsers@npm:3.0.3"
   dependencies:
     js-yaml: "npm:^3.10.0"
     tslib: "npm:^2.4.0"
-  checksum: 10/3b7d55ebd1b90fe2adf05bfaab53031fb9ddb6315f8dfca1b5ba0393c08fc4a7f22c94603eec06dfe0a67e4121e5227b0ae57a70c73d353614650e2b54b6049d
+  checksum: 10/379f7ff8fc1b37d3818dfeba4e18a72f8e9817bb41aab9332b50bbc843e45c9bf135563a7a06882ffb50e4cdd29c8da33c8e4f3739201de2fbcd38ecb59e3a8e
   languageName: node
   linkType: hard
 
@@ -23268,12 +23268,13 @@ __metadata:
   linkType: hard
 
 "lockfile-lint-api@npm:^5.1.7":
-  version: 5.5.5
-  resolution: "lockfile-lint-api@npm:5.5.5"
+  version: 5.9.2
+  resolution: "lockfile-lint-api@npm:5.9.2"
   dependencies:
-    "@yarnpkg/parsers": "npm:^3.0.0-rc.32"
+    "@yarnpkg/parsers": "npm:^3.0.0-rc.48.1"
+    debug: "npm:^4.3.4"
     object-hash: "npm:^3.0.0"
-  checksum: 10/d8d7f15788369ab5ee8513d93bae2565de984099aa3509c742122c95823af511b76e086971aa516bc50c163fe5a96e92ca02945f897167f6f209e839060d6b1d
+  checksum: 10/f317e0cf31921404c4182e3c2a4b8f3a24c62c3f6d03ebb616d9ebd7ffcb168f903cbb6d175a630244923a0f86aadd3b247f85e635a8b937122b19ebf4fc0508
   languageName: node
   linkType: hard
 
