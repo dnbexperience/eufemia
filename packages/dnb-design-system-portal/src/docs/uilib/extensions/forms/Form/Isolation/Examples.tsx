@@ -17,10 +17,7 @@ export const UsingCommitButton = () => {
           >
             <Flex.Stack>
               <Field.String required label="Isolated" path="/isolated" />
-              <Form.Isolation.CommitButton
-                text="Commit"
-                resetAfterCommit
-              />
+              <Form.Isolation.CommitButton text="Commit" />
             </Flex.Stack>
           </Form.Isolation>
 
@@ -177,13 +174,14 @@ export const TransformCommitData = () => {
                       onCommit={(data, { clearData }) => {
                         clearData()
                       }}
+                      resetDataAfterCommit
                     >
                       <Flex.Stack>
                         <Form.Section path="/newPerson">
                           <Field.Name.First required path="/title" />
                         </Form.Section>
 
-                        <Form.Isolation.CommitButton resetAfterCommit />
+                        <Form.Isolation.CommitButton />
                       </Flex.Stack>
                     </Form.Isolation>
                   </Flex.Stack>
@@ -227,7 +225,7 @@ export const InsideSection = () => {
             >
               <Flex.Stack>
                 <Field.String label="Isolated" path="/isolated" required />
-                <Form.Isolation.CommitButton resetAfterCommit />
+                <Form.Isolation.CommitButton />
               </Flex.Stack>
             </Form.Isolation>
 
@@ -249,12 +247,12 @@ export const RequireCommit = () => {
         onSubmit={async (data) => console.log('onSubmit', data)}
       >
         <Flex.Stack>
-          <Form.Isolation requireCommit>
+          <Form.Isolation requireCommit resetDataAfterCommit>
             <Flex.Stack>
               <Field.String required label="Isolated" path="/isolated" />
 
               <Flex.Horizontal>
-                <Form.Isolation.CommitButton resetAfterCommit />
+                <Form.Isolation.CommitButton />
                 <Form.Isolation.ResetButton showWhen="errorIsPresent" />
               </Flex.Horizontal>
             </Flex.Stack>
