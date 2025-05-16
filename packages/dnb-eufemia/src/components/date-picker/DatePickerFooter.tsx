@@ -42,8 +42,8 @@ function DatePickerFooter({
     previousDateProps,
     startDate,
     endDate,
-    submittedCalendarDates,
-    setSubmittedCalendarDates,
+    submittedDates,
+    setSubmittedDates,
     props: contextProps,
   } = useContext(DatePickerContext)
 
@@ -63,9 +63,9 @@ function DatePickerFooter({
   const onSubmitHandler = useCallback(
     (args: DatePickerFooterEvent) => {
       onSubmit?.(args)
-      setSubmittedCalendarDates({ startDate, endDate })
+      setSubmittedDates({ startDate, endDate })
     },
-    [onSubmit, startDate, endDate, setSubmittedCalendarDates]
+    [onSubmit, startDate, endDate, setSubmittedDates]
   )
 
   const onCancelHandler = useCallback(
@@ -74,11 +74,11 @@ function DatePickerFooter({
         args.event.persist()
       }
 
-      updateDates(submittedCalendarDates, (dates) => {
+      updateDates(submittedDates, (dates) => {
         onCancel?.({ ...args, ...dates })
       })
     },
-    [updateDates, onCancel, submittedCalendarDates]
+    [updateDates, onCancel, submittedDates]
   )
 
   const onResetHandler = useCallback(

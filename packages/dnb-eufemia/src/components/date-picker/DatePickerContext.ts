@@ -13,7 +13,7 @@ import {
 } from './DatePickerProvider'
 import { DatePickerDateProps, DatePickerDates } from './hooks/useDates'
 import { CalendarView } from './hooks/useViews'
-import { SubmittedCalendarDates } from './hooks/useSubmittedCalendarDates'
+import { SubmittedDates } from './hooks/useSubmittedDates'
 
 export type DateType = Date | string
 
@@ -31,8 +31,8 @@ export type DatePickerContextValues = ContextProps &
     setHasClickedCalendarDay: (hasClicked: boolean) => void
     hoverDate?: Date
     setHoverDate: (date: Date) => void
-    submittedCalendarDates: SubmittedCalendarDates
-    setSubmittedCalendarDates: (dates: SubmittedCalendarDates) => void
+    submittedDates: SubmittedDates
+    setSubmittedDates: (dates: SubmittedDates) => void
     callOnChangeHandler: <E>(event: DatePickerChangeEvent<E>) => void
     hidePicker: (event: DisplayPickerEvent) => void
     getReturnObject: <E>(
