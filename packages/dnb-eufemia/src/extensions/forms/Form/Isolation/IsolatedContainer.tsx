@@ -12,7 +12,7 @@ export default function IsolatedContainer({ children }) {
   const { preventUncommitedChangesText } = useTranslation().Isolation
   const { showStatus: showCommitStatus } = useHandleStatus({
     outerContext,
-    requireCommit: preventUncommitedChanges,
+    preventUncommitedChanges,
     error: isolationError,
   })
 
