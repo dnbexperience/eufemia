@@ -192,7 +192,7 @@ export function preventUncommitedChanges() {
 
             <Flex.Horizontal>
               <Form.Isolation.CommitButton />
-              <Form.Isolation.ResetButton showWhen="errorIsPresent" />
+              <Form.Isolation.ResetButton showWhen="uncommittedChangeDetected" />
             </Flex.Horizontal>
           </Flex.Stack>
         </Form.Isolation>

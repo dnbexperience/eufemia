@@ -226,11 +226,11 @@ function MyForm() {
       <Form.Isolation preventUncommitedChanges resetDataAfterCommit>
         <Field.String path="/isolated" />
         <Form.Isolation.CommitButton />
-        <Form.Isolation.ResetButton showWhen="errorIsPresent" />
+        <Form.Isolation.ResetButton showWhen="uncommittedChangeDetected" />
       </Form.Isolation>
     </Form.Handler>
   )
 }
 ```
 
-The `showWhen="errorIsPresent"` property ensures that the reset button is displayed only when the "prevent uncommited changes" error is visible. This helps prevent users from resetting the form unnecessarily.
+The `showWhen="uncommittedChangeDetected"` property ensures that the reset button is displayed only when the "prevent uncommited changes" error is visible. This helps prevent users from resetting the form unnecessarily.
