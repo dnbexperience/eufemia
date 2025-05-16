@@ -25,7 +25,7 @@ export const IsolationProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  requireCommit: {
+  preventUncommitedChangesText: {
     doc: 'If the isolation containing changes should be committed before the form is submitted.',
     type: 'boolean',
     status: 'optional',

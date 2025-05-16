@@ -7,11 +7,12 @@ import DataContext from '../../DataContext/Context'
 import useDataContextSnapshot from './useDataContextSnapshot'
 
 export default function IsolatedContainer({ children }) {
-  const { outerContext, requireCommit } = useContext(IsolationContext)
-  const { requireCommitText } = useTranslation().Isolation
+  const { outerContext, preventUncommitedChangesText } =
+    useContext(IsolationContext)
+  const { preventUncommitedChangesTextText } = useTranslation().Isolation
   const { showStatus: showCommitStatus } = useHandleStatus({
     outerContext,
-    requireCommit,
+    preventUncommitedChangesText,
     error: isolationError,
   })
 
@@ -32,13 +33,13 @@ export default function IsolatedContainer({ children }) {
     <>
       {children}
 
-      {requireCommit && (
+      {preventUncommitedChangesText && (
         <FormStatus
           no_animation={false}
           shellSpace={{ top: true }}
           show={Boolean(showCommitStatus)}
         >
-          {requireCommitText}
+          {preventUncommitedChangesTextText}
         </FormStatus>
       )}
     </>

@@ -269,7 +269,7 @@ export const IsolatedData = () => {
   )
 }
 
-export const RequireCommit = () => {
+export const preventUncommitedChangesText = () => {
   return (
     <ComponentBox>
       <Form.Handler>

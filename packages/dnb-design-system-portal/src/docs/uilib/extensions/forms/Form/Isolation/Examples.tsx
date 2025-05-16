@@ -240,14 +240,17 @@ export const InsideSection = () => {
   )
 }
 
-export const RequireCommit = () => {
+export const preventUncommitedChangesText = () => {
   return (
     <ComponentBox>
       <Form.Handler
         onSubmit={async (data) => console.log('onSubmit', data)}
       >
         <Flex.Stack>
-          <Form.Isolation requireCommit resetDataAfterCommit>
+          <Form.Isolation
+            preventUncommitedChangesText
+            resetDataAfterCommit
+          >
             <Flex.Stack>
               <Field.String required label="Isolated" path="/isolated" />
 

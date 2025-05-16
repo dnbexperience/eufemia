@@ -428,7 +428,7 @@ describe('PushContainer', () => {
   })
 
   // Deprecated – can be removed in v11 - replaced with preventUncommitedChanges
-  describe('requireCommit', () => {
+  describe('preventUncommitedChangesText', () => {
     it('should prevent the form from submitting as long as there is uncommitted data', async () => {
       const onSubmitRequest = jest.fn()
       const onSubmit = jest.fn()
@@ -443,7 +443,7 @@ describe('PushContainer', () => {
 
           <Iterate.PushContainer
             path="/entries"
-            requireCommit
+            preventUncommitedChangesText
             onCommit={onCommit}
           >
             <Field.String itemPath="/name" />
@@ -481,7 +481,10 @@ describe('PushContainer', () => {
         <Form.Handler>
           <Iterate.Array path="/entries">...</Iterate.Array>
 
-          <Iterate.PushContainer path="/entries" requireCommit>
+          <Iterate.PushContainer
+            path="/entries"
+            preventUncommitedChangesText
+          >
             <Field.String itemPath="/name" />
           </Iterate.PushContainer>
         </Form.Handler>
@@ -523,7 +526,10 @@ describe('PushContainer', () => {
 
         render(
           <Form.Handler onSubmit={onSubmit}>
-            <Iterate.PushContainer path="/entries" requireCommit>
+            <Iterate.PushContainer
+              path="/entries"
+              preventUncommitedChangesText
+            >
               <Field.String
                 itemPath="/name"
                 emptyValue="The empty value"
@@ -563,7 +569,10 @@ describe('PushContainer', () => {
 
         render(
           <Form.Handler onSubmit={onSubmit}>
-            <Iterate.PushContainer path="/entries" requireCommit>
+            <Iterate.PushContainer
+              path="/entries"
+              preventUncommitedChangesText
+            >
               <Field.String
                 itemPath="/name"
                 emptyValue="The empty value"
@@ -635,7 +644,10 @@ describe('PushContainer', () => {
 
         render(
           <Form.Handler onSubmit={onSubmit}>
-            <Iterate.PushContainer path="/entries" requireCommit>
+            <Iterate.PushContainer
+              path="/entries"
+              preventUncommitedChangesText
+            >
               <Field.String
                 itemPath="/name"
                 defaultValue="A default value"
@@ -675,7 +687,10 @@ describe('PushContainer', () => {
 
         render(
           <Form.Handler onSubmit={onSubmit}>
-            <Iterate.PushContainer path="/entries" requireCommit>
+            <Iterate.PushContainer
+              path="/entries"
+              preventUncommitedChangesText
+            >
               <Field.String
                 itemPath="/name"
                 defaultValue="A default value"
@@ -750,7 +765,7 @@ describe('PushContainer', () => {
             <Iterate.PushContainer
               path="/entries"
               defaultData={{ name: 'A default value' }}
-              requireCommit
+              preventUncommitedChangesText
             >
               <Field.String itemPath="/name" />
             </Iterate.PushContainer>
@@ -791,7 +806,7 @@ describe('PushContainer', () => {
             <Iterate.PushContainer
               path="/entries"
               defaultData={{ name: 'A default value' }}
-              requireCommit
+              preventUncommitedChangesText
             >
               <Field.String itemPath="/name" />
             </Iterate.PushContainer>
@@ -864,7 +879,7 @@ describe('PushContainer', () => {
             <Iterate.PushContainer
               path="/entries"
               data={{ name: 'A default value' }}
-              requireCommit
+              preventUncommitedChangesText
             >
               <Field.String itemPath="/name" />
             </Iterate.PushContainer>
@@ -905,7 +920,7 @@ describe('PushContainer', () => {
             <Iterate.PushContainer
               path="/entries"
               data={{ name: 'A default value' }}
-              requireCommit
+              preventUncommitedChangesText
             >
               <Field.String itemPath="/name" />
             </Iterate.PushContainer>
@@ -989,7 +1004,7 @@ describe('PushContainer', () => {
               <Iterate.PushContainer
                 path="/entries"
                 onCommit={onCommit}
-                requireCommit
+                preventUncommitedChangesText
               >
                 <Field.String itemPath="/name" />
               </Iterate.PushContainer>
@@ -1062,7 +1077,10 @@ describe('PushContainer', () => {
         <Form.Handler>
           <Iterate.Array path="/entries">...</Iterate.Array>
 
-          <Iterate.PushContainer path="/entries" requireCommit>
+          <Iterate.PushContainer
+            path="/entries"
+            preventUncommitedChangesText
+          >
             <Field.String itemPath="/name" />
           </Iterate.PushContainer>
         </Form.Handler>
@@ -1112,7 +1130,7 @@ describe('PushContainer', () => {
           <Iterate.PushContainer
             path="/entries"
             onCommit={onCommit}
-            requireCommit
+            preventUncommitedChangesText
           >
             <Field.String itemPath="/name" />
           </Iterate.PushContainer>

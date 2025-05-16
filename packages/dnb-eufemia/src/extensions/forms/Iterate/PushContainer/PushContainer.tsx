@@ -111,9 +111,9 @@ export type Props = (OnlyPathRequired | OnlyItemPathRequired) & {
    * If the container should be committed before the form is submitted.
    */
   /**
-   * @deprecated – Replaced with preventUncommitedChanges, requireCommit will be removed in v11.
+   * @deprecated – Replaced with preventUncommitedChanges, preventUncommitedChangesText will be removed in v11.
    */
-  requireCommit?: boolean
+  preventUncommitedChangesText?: boolean
 
   /**
    * Prevents uncommited changes before the form is submitted.
@@ -155,7 +155,7 @@ function PushContainer(props: AllProps) {
     defaultData: defaultDataProp,
     isolatedData,
     bubbleValidation,
-    preventUncommitedChanges = props?.requireCommit,
+    preventUncommitedChanges = props?.preventUncommitedChangesText,
     showResetButton,
     path,
     itemPath,
