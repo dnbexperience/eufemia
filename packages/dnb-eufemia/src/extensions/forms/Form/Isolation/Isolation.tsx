@@ -58,9 +58,9 @@ export type IsolationProviderProps<Data extends JsonObject> = {
    */
   bubbleValidation?: boolean
   /**
-   * Prevents uncommited changes before the form is submitted. Will display an error message if user tries to submit without committing their changes.
+   * Prevents uncommitted changes before the form is submitted. Will display an error message if user tries to submit without committing their changes.
    */
-  preventUncommitedChanges?: boolean
+  preventUncommittedChanges?: boolean
   /**
    * If set to `true`, the Form.Isolation will reset its data context after committing the data to the outer context.
    */
@@ -113,7 +113,7 @@ function IsolationProvider<Data extends JsonObject>(
     transformOnCommit: transformOnCommitProp,
     commitHandleRef,
     bubbleValidation,
-    preventUncommitedChanges,
+    preventUncommittedChanges,
     data,
     defaultData,
     dataReference = dataReferenceFallback,
@@ -288,7 +288,7 @@ function IsolationProvider<Data extends JsonObject>(
     <Provider {...providerProps}>
       <IsolationContext.Provider
         value={{
-          preventUncommitedChanges,
+          preventUncommittedChanges,
           dataReference,
           resetDataAfterCommit,
           outerContext,

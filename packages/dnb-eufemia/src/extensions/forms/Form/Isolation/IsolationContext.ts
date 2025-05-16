@@ -6,7 +6,7 @@ export type IsolationContext = {
   dataReference: IsolationDataReference
   resetDataAfterCommit: boolean
   outerContext: ContextState
-  preventUncommitedChanges: boolean
+  preventUncommittedChanges: boolean
 }
 
 const IsolationContext = createContext<IsolationContext>(null)
