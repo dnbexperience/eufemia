@@ -110,7 +110,15 @@ export type Props = (OnlyPathRequired | OnlyItemPathRequired) & {
   /**
    * If the container should be committed before the form is submitted.
    */
+  /**
+   * @deprecated – Replaced with preventUncommitedChanges, requireCommit will be removed in v11.
+   */
   requireCommit?: boolean
+
+  /**
+   * Prevents uncommited changes before the form is submitted.
+   */
+  preventUncommitedChanges?: boolean
 
   /**
    * Show a button to clear the PushContainer data.
@@ -147,7 +155,7 @@ function PushContainer(props: AllProps) {
     defaultData: defaultDataProp,
     isolatedData,
     bubbleValidation,
-    requireCommit,
+    preventUncommitedChanges = props?.requireCommit,
     showResetButton,
     path,
     itemPath,
@@ -287,7 +295,7 @@ function PushContainer(props: AllProps) {
             cancelHandler={cancelHandler}
             containerModeRef={containerModeRef}
             rerenderPushContainer={forceUpdate}
-            requireCommit={requireCommit}
+            preventUncommitedChanges={preventUncommitedChanges}
             showResetButton={showResetButton}
             outerContext={outerContext}
             {...rest}
@@ -309,7 +317,7 @@ function NewContainer({
   cancelHandler,
   containerModeRef,
   rerenderPushContainer,
-  requireCommit,
+  preventUncommitedChanges,
   outerContext,
   children,
   ...rest
@@ -321,7 +329,7 @@ function NewContainer({
   const { hasContentChanged, showStatus: showCommitStatus } =
     useHandleStatus({
       outerContext,
-      requireCommit,
+      preventUncommitedChanges,
       error: pushContainerError,
     })
 
@@ -331,7 +339,8 @@ function NewContainer({
 
   switchContainerModeRef.current = switchContainerMode
   const isVisible = Boolean(!showOpenButton || containerMode === 'edit')
-  const { requireCommitText } = useTranslation().IteratePushContainer
+  const { preventUncommitedChangesText } =
+    useTranslation().IteratePushContainer
   const { createButton } = useTranslation().IteratePushContainer
   const { clearData } = useContext(DataContext) || {}
   const restoreOriginalValue = useCallback(() => {
@@ -353,7 +362,7 @@ function NewContainer({
                 {showOpenButton && (
                   <CancelButton onClick={cancelHandler} />
                 )}
-                {(requireCommit || showResetButton) && (
+                {(preventUncommitedChanges || showResetButton) && (
                   <ResetButton
                     // Use hidden in order to render the useHasContentChanged hook
                     hidden={!(showResetButton || showCommitStatus)}
@@ -361,9 +370,9 @@ function NewContainer({
                 )}
               </Flex.Horizontal>
 
-              {requireCommit && showCommitStatus && (
+              {preventUncommitedChanges && showCommitStatus && (
                 <FormStatus no_animation={false} show={hasContentChanged}>
-                  {requireCommitText}
+                  {preventUncommitedChangesText}
                 </FormStatus>
               )}
             </IterateItemContext.Provider>

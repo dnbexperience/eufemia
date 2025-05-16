@@ -74,7 +74,7 @@ export default {
     IteratePushContainer: {
       createButton: 'Legg til',
       itemsLimitReached: 'Du har nådd grensen på: {limit}',
-      requireCommitText:
+      preventUncommitedChangesText:
         'Du har endringer som enten må legges til eller tømmes.',
     },
 

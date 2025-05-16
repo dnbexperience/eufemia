@@ -288,7 +288,7 @@ export const RequireCommit = () => {
               <Iterate.PushContainer
                 path="/people"
                 title="New person"
-                requireCommit
+                preventUncommitedChanges
                 bubbleValidation
                 openButton={
                   <Iterate.PushContainer.OpenButton
