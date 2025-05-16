@@ -247,7 +247,7 @@ export const RequireCommit = () => {
         onSubmit={async (data) => console.log('onSubmit', data)}
       >
         <Flex.Stack>
-          <Form.Isolation requireCommit resetDataAfterCommit>
+          <Form.Isolation preventUncommitedChanges resetDataAfterCommit>
             <Flex.Stack>
               <Field.String required label="Isolated" path="/isolated" />
 

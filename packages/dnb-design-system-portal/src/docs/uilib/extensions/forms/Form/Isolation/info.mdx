@@ -17,7 +17,7 @@ It's a provider that lets you provide a `schema` or `data` very similar to what 
 - You can provide a `schema`, `data` or `defaultData` like you would do with the `Form.Handler`.
 - You can also provide `data` or `defaultData` to the `Form.Handler` component. If not given on the `Form.Isolation` component, this will define the data that will be used for the isolated data.
 - Using `Form.Isolation` inside of a `Form.Section` is supported.
-- If the user enters data without committing it to the outer context, that data will be lost when navigating to another step in the Wizard. To prevent this, you can use the `requireCommit` property on Form.Isolation. When enabled, it will display an error message if the user tries to proceed without committing their changes.
+- If the user enters data without committing it to the outer context, that data will be lost when navigating to another step in the Wizard. To prevent this, you can use the `preventUncommitedChanges` property on Form.Isolation. When enabled, it will display an error message if the user tries to proceed without committing their changes.
 - `onChange` on the `Form.Handler` will be called when the isolated data gets committed.
 - `onChange` on the `Form.Isolation` will be called on every change of the isolated data. Use `onCommit` to get the data that gets committed.
 
@@ -185,7 +185,7 @@ function MyForm() {
 
 ### Define your own data reference (`dataReference`)
 
-Technically, when you use `requireCommit` or `resetDataAfterCommit`, the `Form.Isolation` will use its "initial" internal data set to create a reference. This reference is used to either compare if there is a change or to reset the data context after a commit.
+Technically, when you use `preventUncommitedChanges` or `resetDataAfterCommit`, the `Form.Isolation` will use its "initial" internal data set to create a reference. This reference is used to either compare if there is a change or to reset the data context after a commit.
 
 But in some situations, you may need a different data set than the initial data set given at the initial render.
 
@@ -213,9 +213,9 @@ function MyForm() {
 }
 ```
 
-## Require the user to commit before submitting (`requireCommit`)
+## Require the user to commit before submitting (`preventUncommitedChanges`)
 
-In scenarios where you want to ensure users commit their changes in an isolated section before submitting the entire form, you can use the `requireCommit` property. This will prevent form submission and prompt the user to commit any uncommitted changes first.
+In scenarios where you want to ensure users commit their changes in an isolated section before submitting the entire form, you can use the `preventUncommitedChanges` property. This will prevent form submission and prompt the user to commit any uncommitted changes first.
 
 ```jsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
@@ -223,7 +223,7 @@ import { Form, Field } from '@dnb/eufemia/extensions/forms'
 function MyForm() {
   return (
     <Form.Handler>
-      <Form.Isolation requireCommit resetDataAfterCommit>
+      <Form.Isolation preventUncommitedChanges resetDataAfterCommit>
         <Field.String path="/isolated" />
         <Form.Isolation.CommitButton />
         <Form.Isolation.ResetButton showWhen="errorIsPresent" />

@@ -29,14 +29,15 @@ export default function IsolationResetButton(props: Props) {
     ...restProps
   } = props
 
-  const { outerContext, requireCommit } = useContext(IsolationContext)
+  const { outerContext, preventUncommitedChanges } =
+    useContext(IsolationContext)
   const { setShowBoundaryErrors } = useContext(FieldBoundaryContext) || {}
 
   const { handleReset } = useDataContextSnapshot({ enabled: true })
   const { hasContentChanged } = useHasContentChanged()
   const { showStatus: showCommitStatus } = useHandleStatus({
     outerContext,
-    requireCommit,
+    requireCommit: preventUncommitedChanges,
     error: isolationError,
   })
 
