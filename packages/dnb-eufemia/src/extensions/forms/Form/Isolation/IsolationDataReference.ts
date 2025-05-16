@@ -1,6 +1,6 @@
 import React from 'react'
 
-export type IsolationResetSnapshot = {
+export type IsolationDataReference = {
   refresh: () => void
   update: (data: unknown) => void
   cleanup: () => void
@@ -8,19 +8,19 @@ export type IsolationResetSnapshot = {
   eventsRef: React.MutableRefObject<Array<() => void>>
 }
 
-export function createResetSnapshot(): IsolationResetSnapshot {
+export function createDataReference(): IsolationDataReference {
   const snapshotRef = { current: undefined }
   const eventsRef = { current: [] }
 
-  const refresh: IsolationResetSnapshot['refresh'] = () => {
+  const refresh: IsolationDataReference['refresh'] = () => {
     eventsRef.current.forEach((fn) => fn())
   }
 
-  const update: IsolationResetSnapshot['update'] = (data) => {
+  const update: IsolationDataReference['update'] = (data) => {
     snapshotRef.current = data
   }
 
-  const cleanup: IsolationResetSnapshot['cleanup'] = () => {
+  const cleanup: IsolationDataReference['cleanup'] = () => {
     eventsRef.current = []
   }
 

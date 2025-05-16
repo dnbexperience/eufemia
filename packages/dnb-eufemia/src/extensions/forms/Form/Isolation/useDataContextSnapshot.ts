@@ -14,9 +14,9 @@ export default function useDataContextSnapshot({
   enabled?: boolean
 } = {}) {
   const { internalDataRef, setData } = useContext(DataContext)
-  const { resetSnapshot } = useContext(IsolationContext) || {}
+  const { dataReference } = useContext(IsolationContext) || {}
   const { snapshotRef, eventsRef, update, refresh, cleanup } =
-    resetSnapshot || {}
+    dataReference || {}
 
   useEffect(() => {
     if (enabled && eventsRef) {

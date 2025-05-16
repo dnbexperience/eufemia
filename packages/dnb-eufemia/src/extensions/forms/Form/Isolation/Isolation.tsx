@@ -24,9 +24,9 @@ import {
   type Props as ProviderProps,
 } from '../../DataContext/Provider'
 import {
-  IsolationResetSnapshot,
-  createResetSnapshot,
-} from './IsolationResetSnapshot'
+  IsolationDataReference,
+  createDataReference,
+} from './IsolationDataReference'
 import IsolatedContainer from './IsolatedContainer'
 import IsolationContext from './IsolationContext'
 import type { OnCommit, Path } from '../../types'
@@ -61,9 +61,9 @@ export type IsolationProviderProps<Data extends JsonObject> = {
    */
   resetAfterCommit?: boolean
   /**
-   * Provide a snapshot by using Form.Isolation.createResetSnapshot.
+   * Provide a reference by using Form.Isolation.createDataReference.
    */
-  resetSnapshot?: IsolationResetSnapshot
+  dataReference?: IsolationDataReference
   /**
    * Used internally by the Form.Isolation component
    */
@@ -94,9 +94,9 @@ export type IsolationProps<Data extends JsonObject> = Omit<
 function IsolationProvider<Data extends JsonObject>(
   props: IsolationProps<Data>
 ) {
-  const [resetSnapshotFallback] = useState<IsolationResetSnapshot>(() => {
-    if (!props?.resetSnapshot) {
-      return createResetSnapshot()
+  const [dataReferenceFallback] = useState<IsolationDataReference>(() => {
+    if (!props?.dataReference) {
+      return createDataReference()
     }
   })
 
@@ -110,7 +110,7 @@ function IsolationProvider<Data extends JsonObject>(
     bubbleValidation,
     data,
     defaultData,
-    resetSnapshot = resetSnapshotFallback,
+    dataReference = dataReferenceFallback,
     resetAfterCommit,
   } = props
 
@@ -281,7 +281,7 @@ function IsolationProvider<Data extends JsonObject>(
   return (
     <Provider {...providerProps}>
       <IsolationContext.Provider
-        value={{ resetSnapshot, resetAfterCommit, outerContext }}
+        value={{ dataReference, resetAfterCommit, outerContext }}
       >
         <DataContext.Consumer>
           {(dataContext) => {
@@ -329,7 +329,7 @@ function BubbleValidation() {
 const isolationError = new Error('Form.Isolation')
 
 IsolationProvider.CommitButton = IsolationCommitButton
-IsolationProvider.createResetSnapshot = createResetSnapshot
+IsolationProvider.createDataReference = createDataReference
 IsolationProvider._supportsSpacingProps = undefined
 
 export default IsolationProvider

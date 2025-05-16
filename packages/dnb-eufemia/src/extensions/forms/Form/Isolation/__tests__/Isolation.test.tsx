@@ -1172,13 +1172,13 @@ describe('Form.Isolation', () => {
       it('should use a refreshed (by calling "refresh") snapshot after commit', async () => {
         const onCommit = jest.fn()
 
-        const resetSnapshot = Form.Isolation.createResetSnapshot()
+        const dataReference = Form.Isolation.createDataReference()
 
         render(
           <Form.Handler>
             <Form.Isolation
               onCommit={onCommit}
-              resetSnapshot={resetSnapshot}
+              dataReference={dataReference}
               resetAfterCommit
             >
               <Field.String path="/isolated" />
@@ -1196,7 +1196,7 @@ describe('Form.Isolation', () => {
         await userEvent.type(isolated, 'foo')
 
         expect(isolated).toHaveValue('foo')
-        expect(resetSnapshot.snapshotRef.current).toEqual({
+        expect(dataReference.snapshotRef.current).toEqual({
           isolated: undefined,
         })
 
@@ -1205,10 +1205,10 @@ describe('Form.Isolation', () => {
           '{Backspace>3}Use this as the reset data'
         )
 
-        resetSnapshot.refresh()
+        dataReference.refresh()
 
         expect(isolated).toHaveValue('Use this as the reset data')
-        expect(resetSnapshot.snapshotRef.current).toEqual({
+        expect(dataReference.snapshotRef.current).toEqual({
           isolated: 'Use this as the reset data',
         })
 

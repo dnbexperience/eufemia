@@ -1,9 +1,9 @@
 import { createContext } from 'react'
 import { ContextState } from '../../DataContext/Context'
-import { IsolationResetSnapshot } from './IsolationResetSnapshot'
+import { IsolationDataReference } from './IsolationDataReference'
 
 export type IsolationContext = {
-  resetSnapshot: IsolationResetSnapshot
+  dataReference: IsolationDataReference
   resetAfterCommit: boolean
   outerContext: ContextState
 }

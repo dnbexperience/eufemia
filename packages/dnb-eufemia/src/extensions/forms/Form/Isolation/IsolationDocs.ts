@@ -25,6 +25,16 @@ export const IsolationProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  resetAfterCommit: {
+    doc: 'If set to `true`, the Form.Isolation will reset its data context after committing the data to the outer context.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  dataReference: {
+    doc: 'Provide a reference by using `Form.Isolation.createDataReference.`',
+    type: 'IsolationDataReference',
+    status: 'optional',
+  },
   ...ProviderProperties,
   minimumAsyncBehaviorTime: undefined,
   asyncSubmitTimeout: undefined,
