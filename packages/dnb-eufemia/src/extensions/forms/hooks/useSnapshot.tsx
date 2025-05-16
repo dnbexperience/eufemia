@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react'
+import { useCallback, useMemo, useRef } from 'react'
 import { makeUniqueId } from '../../../shared/component-helper'
 import pointer, { JsonObject } from '../utils/json-pointer'
 import { SharedStateId } from '../../../shared/helpers/useSharedState'
@@ -85,12 +85,15 @@ export default function useSnapshot(id?: SharedStateId) {
     [applySnapshot, deleteSnapshot]
   )
 
-  return {
-    createSnapshot,
-    revertSnapshot,
-    applySnapshot,
-    internalSnapshotsRef,
-  }
+  return useMemo(() => {
+    return {
+      createSnapshot,
+      revertSnapshot,
+      applySnapshot,
+
+      internalSnapshotsRef,
+    }
+  }, [applySnapshot, createSnapshot, revertSnapshot])
 }
 
 function combineIdWithName(id: SnapshotId, name: SnapshotName = null) {

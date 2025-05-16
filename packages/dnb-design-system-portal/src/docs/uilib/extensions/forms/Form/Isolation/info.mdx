@@ -32,7 +32,7 @@ export function MyForm(props) {
     >
       <Form.Isolation>
         <Field.String label="Isolated" path="/isolated" />
-        <Form.Isolation.CommitButton />
+        <Form.Isolation.CommitButton resetAfterCommit />
       </Form.Isolation>
 
       <Field.String label="Regular" path="/regular" />
@@ -155,6 +155,55 @@ function MyForm() {
           clearData()
         }}
       >
+        <Field.String path="/isolated" />
+        <Form.Isolation.CommitButton />
+      </Form.Isolation>
+    </Form.Handler>
+  )
+}
+```
+
+## Reset data after commit
+
+You can reset the isolation the user committed by using `resetAfterCommit`:
+
+```jsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+function MyForm() {
+  return (
+    <Form.Handler>
+      <Form.Isolation resetAfterCommit>
+        <Field.String path="/isolated" />
+        <Form.Isolation.CommitButton />
+      </Form.Isolation>
+    </Form.Handler>
+  )
+}
+```
+
+### Define the reset data
+
+Technically, when you use `resetAfterCommit`, the `Form.Isolation` will reset its data context based on the "initial" internal data set.
+
+But in some situations, you may need a different data set than the internal data set given at the initial render.
+
+In order to do that you can create a `dataReference` and pass it to the `Form.Isolation` component and call `refresh` on it whenever you need to update it.
+
+```jsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const dataReference = Form.Isolation.createDataReference()
+
+function MyForm() {
+  useEffect(() => {
+    // When ever you want to refresh the "reset data"
+    dataReference.refresh()
+  }, [])
+
+  return (
+    <Form.Handler>
+      <Form.Isolation resetAfterCommit dataReference={dataReference}>
         <Field.String path="/isolated" />
         <Form.Isolation.CommitButton />
       </Form.Isolation>

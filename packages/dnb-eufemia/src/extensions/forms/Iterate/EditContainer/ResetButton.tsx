@@ -7,7 +7,7 @@ import ToolbarContext from '../Toolbar/ToolbarContext'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
 import { reset } from '../../../../icons'
 import { ButtonProps } from '../../../../components/Button'
-import useHasContentChanged from './useHasContentChanged'
+import useHasContentChanged from '../../Form/Isolation/useHasContentChanged'
 import { omitDataValueReadWriteProps } from '../../types'
 
 type Props = ButtonProps & {

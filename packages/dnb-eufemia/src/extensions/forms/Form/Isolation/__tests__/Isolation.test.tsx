@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { spyOnEufemiaWarn } from '../../../../../core/jest/jestSetup'
-import { isCI } from 'repo-utils'
 import {
   act,
   createEvent,
@@ -12,14 +11,10 @@ import userEvent from '@testing-library/user-event'
 import { Field, Form, Iterate, JSONSchema, Wizard } from '../../..'
 import DataContext from '../../../DataContext/Context'
 import setData from '../../data-context/setData'
+import useReportError from '../useReportError'
 
 import nbNO from '../../../constants/locales/nb-NO'
-import useReportError from '../useReportError'
 const nb = nbNO['nb-NO']
-
-if (isCI) {
-  jest.retryTimes(5) // because of an flaky async tests
-}
 
 describe('Form.Isolation', () => {
   let log = null
@@ -909,6 +904,331 @@ describe('Form.Isolation', () => {
       )
 
       expect(onSubmit).toHaveBeenCalledTimes(0)
+    })
+
+    describe('resetAfterCommit', () => {
+      it('should reset data context after commit using submit button when "resetAfterCommit" is true', async () => {
+        const onChange = jest.fn()
+        const onSubmit = jest.fn()
+        const onCommit = jest.fn()
+
+        render(
+          <Form.Handler onChange={onChange} onSubmit={onSubmit}>
+            <Form.Isolation onCommit={onCommit} resetAfterCommit>
+              <Field.String path="/isolated" />
+              <Form.Isolation.CommitButton />
+            </Form.Isolation>
+          </Form.Handler>
+        )
+
+        const isolated = document.querySelector('input')
+        const commitButton = document.querySelector(
+          '.dnb-forms-isolate__commit-button'
+        )
+
+        await userEvent.type(isolated, 'Isolated')
+
+        expect(isolated).toHaveValue('Isolated')
+        expect(onChange).toHaveBeenCalledTimes(0)
+        expect(onCommit).toHaveBeenCalledTimes(0)
+
+        await userEvent.click(commitButton)
+
+        await waitFor(() => {
+          expect(isolated).toHaveValue('')
+        })
+
+        expect(onChange).toHaveBeenCalledTimes(1)
+        expect(onChange).toHaveBeenLastCalledWith(
+          {
+            isolated: 'Isolated',
+          },
+          expect.anything()
+        )
+        expect(onCommit).toHaveBeenCalledTimes(1)
+        expect(onCommit).toHaveBeenLastCalledWith(
+          {
+            isolated: 'Isolated',
+          },
+          expect.anything()
+        )
+
+        await userEvent.click(commitButton)
+        await userEvent.type(isolated, '-updated')
+
+        await waitFor(() => {
+          expect(isolated).toHaveValue('-updated')
+        })
+
+        expect(onChange).toHaveBeenCalledTimes(2)
+        expect(onChange).toHaveBeenLastCalledWith(
+          {
+            isolated: undefined,
+          },
+          expect.anything()
+        )
+        expect(onCommit).toHaveBeenCalledTimes(2)
+        expect(onCommit).toHaveBeenLastCalledWith(
+          {
+            isolated: undefined,
+          },
+          expect.anything()
+        )
+      })
+
+      it('should reset data context after commit using enter key when "resetAfterCommit" is true', async () => {
+        const onChange = jest.fn()
+        const onSubmit = jest.fn()
+        const onCommit = jest.fn()
+
+        render(
+          <Form.Handler onChange={onChange} onSubmit={onSubmit}>
+            <Form.Isolation onCommit={onCommit} resetAfterCommit>
+              <Field.String path="/isolated" />
+              <Form.Isolation.CommitButton />
+            </Form.Isolation>
+          </Form.Handler>
+        )
+
+        const isolated = document.querySelector('input')
+
+        await userEvent.type(isolated, 'Isolated')
+
+        expect(isolated).toHaveValue('Isolated')
+        expect(onChange).toHaveBeenCalledTimes(0)
+        expect(onCommit).toHaveBeenCalledTimes(0)
+
+        await userEvent.type(isolated, '{Enter}')
+
+        await waitFor(() => {
+          expect(isolated).toHaveValue('')
+        })
+
+        expect(onChange).toHaveBeenCalledTimes(1)
+        expect(onChange).toHaveBeenLastCalledWith(
+          {
+            isolated: 'Isolated',
+          },
+          expect.anything()
+        )
+        expect(onCommit).toHaveBeenCalledTimes(1)
+        expect(onCommit).toHaveBeenLastCalledWith(
+          {
+            isolated: 'Isolated',
+          },
+          expect.anything()
+        )
+
+        await userEvent.keyboard('{Enter}')
+        await userEvent.type(isolated, '-updated')
+
+        await waitFor(() => {
+          expect(isolated).toHaveValue('-updated')
+        })
+
+        expect(onChange).toHaveBeenCalledTimes(2)
+        expect(onChange).toHaveBeenLastCalledWith(
+          {
+            isolated: undefined,
+          },
+          expect.anything()
+        )
+        expect(onCommit).toHaveBeenCalledTimes(2)
+        expect(onCommit).toHaveBeenLastCalledWith(
+          {
+            isolated: undefined,
+          },
+          expect.anything()
+        )
+      })
+
+      it('should use "defaultValue" to reset the isolated context after commit', async () => {
+        const onCommit = jest.fn()
+
+        render(
+          <Form.Handler>
+            <Form.Isolation onCommit={onCommit} resetAfterCommit>
+              <Field.String
+                path="/isolated"
+                defaultValue="default value"
+              />
+              <Form.Isolation.CommitButton />
+            </Form.Isolation>
+          </Form.Handler>
+        )
+
+        const isolated = document.querySelector('input')
+        const commitButton = document.querySelector(
+          '.dnb-forms-isolate__commit-button'
+        )
+
+        expect(isolated).toHaveValue('default value')
+
+        await userEvent.type(isolated, ' with a change')
+
+        expect(isolated).toHaveValue('default value with a change')
+        expect(onCommit).toHaveBeenCalledTimes(0)
+
+        await userEvent.click(commitButton)
+
+        await waitFor(() => {
+          expect(isolated).toHaveValue('default value')
+        })
+
+        expect(onCommit).toHaveBeenCalledTimes(1)
+        expect(onCommit).toHaveBeenLastCalledWith(
+          {
+            isolated: 'default value with a change',
+          },
+          expect.anything()
+        )
+      })
+
+      it('should use "defaultData" to reset the isolated context after commit', async () => {
+        const onCommit = jest.fn()
+
+        render(
+          <Form.Handler>
+            <Form.Isolation
+              onCommit={onCommit}
+              resetAfterCommit
+              defaultData={{
+                isolated: 'default value',
+              }}
+            >
+              <Field.String path="/isolated" />
+              <Form.Isolation.CommitButton />
+            </Form.Isolation>
+          </Form.Handler>
+        )
+
+        const isolated = document.querySelector('input')
+        const commitButton = document.querySelector(
+          '.dnb-forms-isolate__commit-button'
+        )
+
+        expect(isolated).toHaveValue('default value')
+
+        await userEvent.type(isolated, ' with a change')
+
+        expect(isolated).toHaveValue('default value with a change')
+        expect(onCommit).toHaveBeenCalledTimes(0)
+
+        await userEvent.click(commitButton)
+
+        await waitFor(() => {
+          expect(isolated).toHaveValue('default value')
+        })
+
+        expect(onCommit).toHaveBeenCalledTimes(1)
+        expect(onCommit).toHaveBeenLastCalledWith(
+          {
+            isolated: 'default value with a change',
+          },
+          expect.anything()
+        )
+      })
+
+      it('should not reset when validation of field fails', async () => {
+        const onCommit = jest.fn()
+
+        render(
+          <Form.Handler>
+            <Form.Isolation onCommit={onCommit} resetAfterCommit>
+              <Field.String
+                path="/isolated"
+                required
+                defaultValue="default value"
+              />
+              <Form.Isolation.CommitButton />
+            </Form.Isolation>
+          </Form.Handler>
+        )
+
+        const isolated = document.querySelector('input')
+        const commitButton = document.querySelector(
+          '.dnb-forms-isolate__commit-button'
+        )
+
+        expect(isolated).toHaveValue('default value')
+
+        await userEvent.type(isolated, '{Backspace>13}')
+
+        expect(isolated).toHaveValue('')
+        expect(onCommit).toHaveBeenCalledTimes(0)
+
+        await userEvent.click(commitButton)
+
+        await waitFor(() => {
+          expect(isolated).toHaveValue('')
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent(nb.Field.errorRequired)
+        })
+
+        expect(onCommit).toHaveBeenCalledTimes(0)
+      })
+
+      it('should use a refreshed (by calling "refresh") snapshot after commit', async () => {
+        const onCommit = jest.fn()
+
+        const dataReference = Form.Isolation.createDataReference()
+
+        render(
+          <Form.Handler>
+            <Form.Isolation
+              onCommit={onCommit}
+              dataReference={dataReference}
+              resetAfterCommit
+            >
+              <Field.String path="/isolated" />
+
+              <Form.Isolation.CommitButton />
+            </Form.Isolation>
+          </Form.Handler>
+        )
+
+        const isolated = document.querySelector('input')
+        const commitButton = document.querySelector(
+          '.dnb-forms-isolate__commit-button'
+        )
+
+        await userEvent.type(isolated, 'foo')
+
+        expect(isolated).toHaveValue('foo')
+        expect(dataReference.snapshotRef.current).toEqual({
+          isolated: undefined,
+        })
+
+        await userEvent.type(
+          isolated,
+          '{Backspace>3}Use this as the reset data'
+        )
+
+        dataReference.refresh()
+
+        expect(isolated).toHaveValue('Use this as the reset data')
+        expect(dataReference.snapshotRef.current).toEqual({
+          isolated: 'Use this as the reset data',
+        })
+
+        await userEvent.type(isolated, '{Backspace>26}Isolated')
+        expect(isolated).toHaveValue('Isolated')
+
+        await userEvent.click(commitButton)
+
+        await waitFor(() => {
+          expect(isolated).toHaveValue('Use this as the reset data')
+        })
+
+        expect(onCommit).toHaveBeenCalledTimes(1)
+        expect(onCommit).toHaveBeenLastCalledWith(
+          {
+            isolated: 'Isolated',
+          },
+          expect.anything()
+        )
+      })
     })
 
     it('should commit data on SubmitButton click without committing the form', async () => {
