@@ -179,6 +179,7 @@ export function RequireCommit() {
       <Flex.Stack>
         <Form.Isolation
           requireCommit
+          resetAfterCommit
           defaultData={{ isolated: 'Isolated' }}
         >
           <Flex.Stack>
@@ -190,7 +191,7 @@ export function RequireCommit() {
             />
 
             <Flex.Horizontal>
-              <Form.Isolation.CommitButton resetAfterCommit />
+              <Form.Isolation.CommitButton />
               <Form.Isolation.ResetButton showWhen="errorIsPresent" />
             </Flex.Horizontal>
           </Flex.Stack>
