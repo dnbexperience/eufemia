@@ -30,9 +30,9 @@ export function MyForm(props) {
     <Form.Handler
       defaultData={{ isolated: 'Isolated', regular: 'Regular' }}
     >
-      <Form.Isolation>
+      <Form.Isolation resetAfterCommit>
         <Field.String label="Isolated" path="/isolated" />
-        <Form.Isolation.CommitButton resetAfterCommit />
+        <Form.Isolation.CommitButton />
       </Form.Isolation>
 
       <Field.String label="Regular" path="/regular" />
