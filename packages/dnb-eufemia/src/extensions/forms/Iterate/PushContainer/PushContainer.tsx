@@ -116,7 +116,7 @@ export type Props = (OnlyPathRequired | OnlyItemPathRequired) & {
   requireCommit?: boolean
 
   /**
-   * Prevents uncommited changes before the form is submitted.
+   * Prevents uncommited changes before the form is submitted. Will display an error message if user tries to submit without committing their changes.
    */
   preventUncommitedChanges?: boolean
 
