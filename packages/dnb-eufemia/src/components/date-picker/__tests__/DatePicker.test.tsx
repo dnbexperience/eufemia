@@ -238,7 +238,7 @@ describe('DatePicker component', () => {
     ).not.toContain('dnb-date-picker--opened')
   })
 
-  it('will close the picker on reset', () => {
+  it('will close the picker on reset', async () => {
     const onReset = jest.fn()
 
     render(
@@ -254,22 +254,24 @@ describe('DatePicker component', () => {
       document.querySelector('button.dnb-input__submit-button__button')
     )
 
-    expect(
-      document.querySelector('.dnb-date-picker').getAttribute('class')
-    ).toContain('dnb-date-picker--opened')
+    expect(document.querySelector('.dnb-date-picker')).toHaveClass(
+      'dnb-date-picker--opened'
+    )
 
     const resetButton = document.querySelector(
       'button[data-testid="reset"]'
     )
 
-    fireEvent.click(resetButton)
+    await userEvent.click(resetButton)
 
     expect(onReset).toHaveBeenCalledTimes(1)
-    expect(onReset.mock.calls[0][0].date).toBe(null)
+    expect(onReset).toHaveBeenCalledWith(
+      expect.objectContaining({ date: '1981-01-15' })
+    )
 
-    expect(
-      document.querySelector('.dnb-date-picker').getAttribute('class')
-    ).not.toContain('dnb-date-picker--opened')
+    expect(document.querySelector('.dnb-date-picker')).not.toHaveClass(
+      'dnb-date-picker--opened'
+    )
   })
 
   it('should delete input content one number at a time when `date` is "prop controlled"', async () => {
@@ -1305,7 +1307,7 @@ describe('DatePicker component', () => {
     ).toBe('åååå')
   })
 
-  it('footer buttons work properly', () => {
+  it('footer buttons work properly', async () => {
     const onSubmit = jest.fn()
     const onCancel = jest.fn()
     const onReset = jest.fn()
@@ -1317,6 +1319,7 @@ describe('DatePicker component', () => {
         date={date}
         opened
         noAnimation
+        preventClose
         showResetButton
         showCancelButton
         showSubmitButton
@@ -1326,82 +1329,83 @@ describe('DatePicker component', () => {
       />
     )
 
-    const resetElem = document.querySelector('button[data-testid="reset"]')
-    expect(resetElem).toBeInTheDocument()
-    expect(resetElem.textContent).toMatch('Tilbakestill')
+    const [day, month, year] = Array.from(
+      document.querySelectorAll('input.dnb-date-picker__input')
+    )
 
-    const cancelElem = document.querySelector(
+    const resetButton = document.querySelector(
+      'button[data-testid="reset"]'
+    )
+    const cancelButton = document.querySelector(
       'button[data-testid="cancel"]'
     )
-    expect(cancelElem).toBeInTheDocument()
-    expect(cancelElem.textContent).toMatch('Avbryt')
-
-    const submitElem = document.querySelector(
+    const submitButton = document.querySelector(
       'button[data-testid="submit"]'
     )
-    expect(submitElem).toBeInTheDocument()
-    expect(submitElem.textContent).toMatch('Ok')
 
-    expect(
-      (
-        document.querySelector(
-          'input.dnb-date-picker__input--year'
-        ) as HTMLInputElement
-      ).value
-    ).toBe('2020')
+    // Check labels
+    expect(resetButton).toBeInTheDocument()
+    expect(resetButton).toHaveTextContent('Nullstill')
 
-    fireEvent.click(resetElem)
+    expect(cancelButton).toBeInTheDocument()
+    expect(cancelButton).toHaveTextContent('Avbryt')
+
+    expect(submitButton).toBeInTheDocument()
+    expect(submitButton).toHaveTextContent('Ok')
+
+    // Validate initial values
+    expect(day).toHaveValue('20')
+    expect(month).toHaveValue('10')
+    expect(year).toHaveValue('2020')
+
+    // Test reset button
+    await userEvent.click(screen.getByLabelText('fredag 9. oktober 2020'))
+    await userEvent.click(resetButton)
 
     expect(onReset).toHaveBeenCalled()
-    expect(onReset.mock.calls[0][0].date).toBe(null)
+    expect(onReset).toHaveBeenCalledWith(expect.objectContaining({ date }))
 
-    expect(
-      (
-        document.querySelector(
-          'input.dnb-date-picker__input--year'
-        ) as HTMLInputElement
-      ).value
-    ).toBe('åååå')
+    expect(day).toHaveValue('20')
+    expect(month).toHaveValue('10')
+    expect(year).toHaveValue('2020')
 
-    fireEvent.click(cancelElem)
+    // Test submit button
+    await userEvent.click(screen.getByLabelText('torsdag 8. oktober 2020'))
+    await userEvent.click(submitButton)
 
-    expect(
-      (
-        document.querySelector(
-          'input.dnb-date-picker__input--year'
-        ) as HTMLInputElement
-      ).value
-    ).toBe('2020')
-
-    expect(onCancel).toHaveBeenCalled()
-    expect(onCancel.mock.calls[0][0].date).toBe(date)
-
-    fireEvent.click(
-      document
-        .querySelector('span.dnb-input__submit-element')
-        .querySelector('button.dnb-button')
-    )
-    fireEvent.click(submitElem)
-
-    expect(
-      (
-        document.querySelector(
-          'input.dnb-date-picker__input--year'
-        ) as HTMLInputElement
-      ).value
-    ).toBe('2020')
+    expect(day).toHaveValue('08')
+    expect(month).toHaveValue('10')
+    expect(year).toHaveValue('2020')
 
     expect(onSubmit).toHaveBeenCalled()
-    expect(onSubmit.mock.calls[0][0].date).toBe(date)
+    expect(onSubmit).toHaveBeenCalledWith(
+      expect.objectContaining({ date: '2020-10-08' })
+    )
+
+    // Test cancel button
+    await userEvent.click(screen.getByLabelText('fredag 9. oktober 2020'))
+    await userEvent.click(submitButton)
+    await userEvent.click(screen.getByLabelText('torsdag 8. oktober 2020'))
+    await userEvent.click(screen.getByLabelText('mandag 5. oktober 2020'))
+    await userEvent.click(cancelButton)
+    expect(onCancel).toHaveBeenCalled()
+
+    expect(day).toHaveValue('09')
+    expect(month).toHaveValue('10')
+    expect(year).toHaveValue('2020')
+
+    expect(onCancel).toHaveBeenCalledWith(
+      expect.objectContaining({ date: '2020-10-09' })
+    )
   })
 
-  it('should have functioning cancel button with range pickers', async () => {
+  it('should have functioning reset button with range pickers', async () => {
     render(
       <DatePicker
-        showInput
-        range
         startDate="2024-04-01"
         endDate="2024-05-17"
+        showInput
+        range
       />
     )
 

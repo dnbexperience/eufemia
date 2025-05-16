@@ -40,6 +40,10 @@ function DatePickerFooter({
   const {
     updateDates,
     previousDateProps,
+    startDate,
+    endDate,
+    submittedDates,
+    setSubmittedDates,
     props: contextProps,
   } = useContext(DatePickerContext)
 
@@ -59,11 +63,25 @@ function DatePickerFooter({
   const onSubmitHandler = useCallback(
     (args: DatePickerFooterEvent) => {
       onSubmit?.(args)
+      setSubmittedDates({ startDate, endDate })
     },
-    [onSubmit]
+    [onSubmit, startDate, endDate, setSubmittedDates]
   )
 
   const onCancelHandler = useCallback(
+    (args: DatePickerFooterEvent) => {
+      if (args && args.event) {
+        args.event.persist()
+      }
+
+      updateDates(submittedDates, (dates) => {
+        onCancel?.({ ...args, ...dates })
+      })
+    },
+    [updateDates, onCancel, submittedDates]
+  )
+
+  const onResetHandler = useCallback(
     (args: DatePickerFooterEvent) => {
       if (args && args.event) {
         args.event.persist()
@@ -91,31 +109,11 @@ function DatePickerFooter({
           endDate,
         },
         (dates) => {
-          onCancel?.({ ...args, ...dates })
-        }
-      )
-    },
-    [dateFormat, updateDates, previousDateProps, onCancel]
-  )
-
-  const onResetHandler = useCallback(
-    (args: DatePickerFooterEvent) => {
-      if (args && args.event) {
-        args.event.persist()
-      }
-
-      updateDates(
-        {
-          date: undefined,
-          startDate: undefined,
-          endDate: undefined,
-        },
-        (dates) => {
           onReset?.({ ...args, ...dates })
         }
       )
     },
-    [updateDates, onReset]
+    [dateFormat, updateDates, previousDateProps, onReset]
   )
 
   if (
@@ -146,7 +144,7 @@ function DatePickerFooter({
             variant="tertiary"
             onClick={onResetHandler}
             data-testid="reset"
-            right="0.5rem"
+            right="1rem"
           />
         )) || <span />}
 
@@ -158,7 +156,6 @@ function DatePickerFooter({
             variant="tertiary"
             onClick={onCancelHandler}
             data-testid="cancel"
-            right="0.5rem"
           />
         )) || <span />}
       </span>

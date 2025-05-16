@@ -25,6 +25,7 @@ import useLastEventCallCache from './hooks/useLastEventCallCache'
 import { InvalidDates } from './DatePickerInput'
 import { PartialDates } from './hooks/usePartialDates'
 import useHoverDate from './hooks/useHoverDate'
+import useSubmittedDates from './hooks/useSubmittedDates'
 
 type DatePickerProviderProps = DatePickerAllProps & {
   setReturnObject: (
@@ -120,6 +121,8 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
     })
 
   const { hoverDate, setHoverDate } = useHoverDate()
+
+  const { submittedDatesRef, setSubmittedDates } = useSubmittedDates()
 
   const getReturnObject = useCallback(
     <E,>({ event = null, ...rest }: GetReturnObjectParams<E> = {}) => {
@@ -241,6 +244,8 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
         props,
         ...dates,
         previousDateProps,
+        submittedDates: submittedDatesRef.current,
+        setSubmittedDates,
         views,
         setViews,
         setHasClickedCalendarDay,

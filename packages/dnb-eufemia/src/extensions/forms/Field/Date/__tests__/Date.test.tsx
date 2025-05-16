@@ -53,8 +53,11 @@ describe('Field.Date', () => {
     render(<Field.Date value="2023-12-07" required />)
 
     const datePicker = document.querySelector('.dnb-date-picker')
-    const [, , year]: Array<HTMLInputElement> = Array.from(
-      datePicker.querySelectorAll('.dnb-date-picker__input')
+    const dayInput = datePicker.querySelector(
+      '.dnb-date-picker__input--day'
+    )
+    const yearInput = datePicker.querySelector(
+      '.dnb-date-picker__input--year'
     )
 
     expect(datePicker.classList).not.toContain(
@@ -68,27 +71,20 @@ describe('Field.Date', () => {
       document.querySelector('.dnb-form-status')
     ).not.toBeInTheDocument()
 
-    fireEvent.focus(year)
-    await userEvent.type(year, '{Backspace>2}')
-    fireEvent.blur(year)
+    await userEvent.type(yearInput, '{Backspace>2}')
+    await userEvent.click(document.body)
 
     expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
 
-    await userEvent.keyboard('20231207')
+    await userEvent.type(dayInput, '07122023')
 
     expect(
       document.querySelector('.dnb-form-status')
     ).not.toBeInTheDocument()
 
-    await userEvent.click(
-      document.querySelector('.dnb-input__submit-button__button')
-    )
-
-    await userEvent.click(
-      document
-        .querySelector('.dnb-date-picker__footer')
-        .querySelectorAll('.dnb-button--tertiary ')[0]
-    )
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
+    await userEvent.type(dayInput, '{Backspace>2}')
+    await userEvent.click(document.body)
 
     expect(document.querySelector('.dnb-form-status')).toBeInTheDocument()
   })
