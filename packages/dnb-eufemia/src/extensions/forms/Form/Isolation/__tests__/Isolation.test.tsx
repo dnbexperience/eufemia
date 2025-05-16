@@ -2230,7 +2230,7 @@ describe('Form.Isolation', () => {
     })
   })
 
-  describe('requireCommit', () => {
+  describe('preventUncommitedChanges', () => {
     it('should prevent the form from submitting as long as there is uncommitted data', async () => {
       const onSubmitRequest = jest.fn()
       const onSubmit = jest.fn()
@@ -2242,7 +2242,7 @@ describe('Form.Isolation', () => {
           onSubmit={onSubmit}
         >
           <Form.Isolation
-            requireCommit
+            preventUncommitedChanges
             resetDataAfterCommit
             onCommit={onCommit}
           >
@@ -2280,7 +2280,7 @@ describe('Form.Isolation', () => {
     it('should show error when submitting the form', async () => {
       render(
         <Form.Handler>
-          <Form.Isolation requireCommit resetDataAfterCommit>
+          <Form.Isolation preventUncommitedChanges resetDataAfterCommit>
             <Field.String path="/name" />
             <Form.Isolation.CommitButton />
           </Form.Isolation>
@@ -2301,7 +2301,7 @@ describe('Form.Isolation', () => {
         document.querySelector('.dnb-form-status')
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Isolation.requireCommitText
+        nb.Isolation.preventUncommitedChangesText
       )
 
       await userEvent.click(commitButton)
@@ -2325,7 +2325,7 @@ describe('Form.Isolation', () => {
 
         render(
           <Form.Handler onSubmit={onSubmit}>
-            <Form.Isolation requireCommit resetDataAfterCommit>
+            <Form.Isolation preventUncommitedChanges resetDataAfterCommit>
               <Field.String path="/name" emptyValue="The empty value" />
               <Form.Isolation.CommitButton />
             </Form.Isolation>
@@ -2363,7 +2363,7 @@ describe('Form.Isolation', () => {
 
         render(
           <Form.Handler onSubmit={onSubmit}>
-            <Form.Isolation requireCommit resetDataAfterCommit>
+            <Form.Isolation preventUncommitedChanges resetDataAfterCommit>
               <Field.String path="/name" emptyValue="The empty value" />
               <Form.Isolation.CommitButton />
               <Form.Isolation.ResetButton />
@@ -2437,7 +2437,7 @@ describe('Form.Isolation', () => {
 
         render(
           <Form.Handler onSubmit={onSubmit}>
-            <Form.Isolation requireCommit resetDataAfterCommit>
+            <Form.Isolation preventUncommitedChanges resetDataAfterCommit>
               <Field.String path="/name" defaultValue="A default value" />
               <Form.Isolation.CommitButton />
               <Form.Isolation.ResetButton />
@@ -2476,7 +2476,7 @@ describe('Form.Isolation', () => {
 
         render(
           <Form.Handler onSubmit={onSubmit}>
-            <Form.Isolation requireCommit resetDataAfterCommit>
+            <Form.Isolation preventUncommitedChanges resetDataAfterCommit>
               <Field.String path="/name" defaultValue="A default value" />
               <Form.Isolation.CommitButton />
               <Form.Isolation.ResetButton />
@@ -2551,7 +2551,7 @@ describe('Form.Isolation', () => {
         render(
           <Form.Handler onSubmit={onSubmit}>
             <Form.Isolation
-              requireCommit
+              preventUncommitedChanges
               resetDataAfterCommit
               defaultData={{ name: 'A default value' }}
             >
@@ -2594,7 +2594,7 @@ describe('Form.Isolation', () => {
         render(
           <Form.Handler onSubmit={onSubmit}>
             <Form.Isolation
-              requireCommit
+              preventUncommitedChanges
               resetDataAfterCommit
               defaultData={{ name: 'A default value' }}
             >
@@ -2672,7 +2672,7 @@ describe('Form.Isolation', () => {
         render(
           <Form.Handler onSubmit={onSubmit}>
             <Form.Isolation
-              requireCommit
+              preventUncommitedChanges
               resetDataAfterCommit
               data={{ name: 'A data value' }}
             >
@@ -2715,7 +2715,7 @@ describe('Form.Isolation', () => {
         render(
           <Form.Handler onSubmit={onSubmit}>
             <Form.Isolation
-              requireCommit
+              preventUncommitedChanges
               resetDataAfterCommit
               data={{ name: 'A data value' }}
             >
@@ -2805,7 +2805,7 @@ describe('Form.Isolation', () => {
               <output>Step 1</output>
 
               <Form.Isolation
-                requireCommit
+                preventUncommitedChanges
                 resetDataAfterCommit
                 onCommit={onCommit}
               >
@@ -2854,7 +2854,7 @@ describe('Form.Isolation', () => {
         document.querySelector('.dnb-form-status')
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Isolation.requireCommitText
+        nb.Isolation.preventUncommitedChangesText
       )
 
       await userEvent.click(commitButton)
@@ -2886,7 +2886,7 @@ describe('Form.Isolation', () => {
     it('should hide and show reset button when showWhen="errorIsPresent" is set', async () => {
       render(
         <Form.Handler>
-          <Form.Isolation requireCommit resetDataAfterCommit>
+          <Form.Isolation preventUncommitedChanges resetDataAfterCommit>
             <Field.String path="/name" emptyValue="The empty value" />
             <Form.Isolation.CommitButton />
             <Form.Isolation.ResetButton showWhen="errorIsPresent" />
@@ -2922,7 +2922,7 @@ describe('Form.Isolation', () => {
     it('should enable/disable reset button', async () => {
       render(
         <Form.Handler>
-          <Form.Isolation requireCommit resetDataAfterCommit>
+          <Form.Isolation preventUncommitedChanges resetDataAfterCommit>
             <Field.String path="/name" />
             <Form.Isolation.CommitButton />
             <Form.Isolation.ResetButton />
@@ -2986,7 +2986,7 @@ describe('Form.Isolation', () => {
           onSubmitRequest={onSubmitRequest}
         >
           <Form.Isolation
-            requireCommit
+            preventUncommitedChanges
             resetDataAfterCommit
             onCommit={onCommit}
           >
@@ -3011,7 +3011,7 @@ describe('Form.Isolation', () => {
         document.querySelector('.dnb-form-status')
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Isolation.requireCommitText
+        nb.Isolation.preventUncommitedChangesText
       )
 
       // Click the reset button
