@@ -9,7 +9,7 @@ export default {
       ...enGB.DatePicker,
       maskOrder: 'mm/dd/yyyy',
       maskPlaceholder: 'mm/dd/yyyy', // have to be same setup as "mask" - but can be like: mm/dd/åååå
-      firstDay: 'sunday',
+      firstDay: 'sunday', // used in DatePickerCalendar to set the first day of the week
     },
   } satisfies typeof enGB & {
     DatePicker: {
