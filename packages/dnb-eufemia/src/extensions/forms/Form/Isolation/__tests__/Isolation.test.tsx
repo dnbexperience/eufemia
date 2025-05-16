@@ -2883,13 +2883,13 @@ describe('Form.Isolation', () => {
       expect(onCommit).toHaveBeenCalledTimes(1)
     })
 
-    it('should hide and show reset button when showWhen="errorIsPresent" is set', async () => {
+    it('should hide and show reset button when showWhen="uncommittedChangeDetected" is set', async () => {
       render(
         <Form.Handler>
           <Form.Isolation preventUncommitedChanges resetDataAfterCommit>
             <Field.String path="/name" emptyValue="The empty value" />
             <Form.Isolation.CommitButton />
-            <Form.Isolation.ResetButton showWhen="errorIsPresent" />
+            <Form.Isolation.ResetButton showWhen="uncommittedChangeDetected" />
           </Form.Isolation>
         </Form.Handler>
       )

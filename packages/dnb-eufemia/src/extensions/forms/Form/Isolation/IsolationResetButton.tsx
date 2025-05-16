@@ -14,7 +14,7 @@ import IsolationContext from './IsolationContext'
 
 type Props = ButtonProps & {
   showConfirmDialog?: boolean
-  showWhen?: 'errorIsPresent'
+  showWhen?: 'uncommittedChangeDetected'
 }
 
 export default function IsolationResetButton(props: Props) {
@@ -79,7 +79,9 @@ export default function IsolationResetButton(props: Props) {
       ref={buttonWrapperRef}
       className="dnb-no-focus"
       hidden={
-        !(showWhen === 'errorIsPresent' ? Boolean(showCommitStatus) : true)
+        !(showWhen === 'uncommittedChangeDetected'
+          ? Boolean(showCommitStatus)
+          : true)
       }
     >
       {showConfirmDialog ? (
