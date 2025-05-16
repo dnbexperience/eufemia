@@ -164,7 +164,7 @@ function MyForm() {
 }
 ```
 
-## Reset data after commit (`resetAfterCommit`)
+## Reset data after commit (`resetDataAfterCommit`)
 
 You can reset the isolation the user committed by using `resetDataAfterCommit`:
 
@@ -223,9 +223,9 @@ import { Form, Field } from '@dnb/eufemia/extensions/forms'
 function MyForm() {
   return (
     <Form.Handler>
-      <Form.Isolation requireCommit>
+      <Form.Isolation requireCommit resetAfterCommit>
         <Field.String path="/isolated" />
-        <Form.Isolation.CommitButton resetAfterCommit />
+        <Form.Isolation.CommitButton />
         <Form.Isolation.ResetButton showWhen="errorIsPresent" />
       </Form.Isolation>
     </Form.Handler>
