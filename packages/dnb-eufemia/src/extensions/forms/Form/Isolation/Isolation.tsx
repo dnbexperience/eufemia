@@ -58,7 +58,7 @@ export type IsolationProviderProps<Data extends JsonObject> = {
    */
   bubbleValidation?: boolean
   /**
-   * Prevents uncommited changes before the form is submitted.
+   * Prevents uncommited changes before the form is submitted. Will display an error message if user tries to submit without committing their changes.
    */
   preventUncommitedChanges?: boolean
   /**
