@@ -240,6 +240,45 @@ describe('Field.Boolean', () => {
       })
     })
 
+    it('should not change the state when calling preventDefault on the onClick event', async () => {
+      const onClick = jest.fn((value, { preventDefault }) => {
+        preventDefault()
+      })
+
+      render(
+        <Field.Boolean
+          label="Label {itemNo}"
+          variant="checkbox"
+          onClick={onClick}
+        />
+      )
+
+      const checkbox = document.querySelector('input')
+      expect(checkbox.checked).toBe(false)
+
+      await userEvent.click(checkbox)
+
+      expect(checkbox.checked).toBe(false)
+      expect(onClick).toHaveBeenCalledTimes(1)
+      expect(onClick).toHaveBeenLastCalledWith(
+        false,
+        expect.objectContaining({
+          checked: false,
+        })
+      )
+
+      await userEvent.click(checkbox)
+
+      expect(checkbox.checked).toBe(false)
+      expect(onClick).toHaveBeenCalledTimes(2)
+      expect(onClick).toHaveBeenLastCalledWith(
+        false,
+        expect.objectContaining({
+          checked: false,
+        })
+      )
+    })
+
     describe('ARIA', () => {
       it('should validate with ARIA rules', async () => {
         const result = render(

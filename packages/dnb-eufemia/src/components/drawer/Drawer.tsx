@@ -118,6 +118,7 @@ function Drawer({
     <Modal
       {...context.Drawer}
       {...modalProps}
+      fullscreen={false} // to avoid double fullscreen as it's handled in DrawerContent
       contentClass={classnames('dnb-drawer__root', contentClass)}
     >
       <DrawerContent {...context.Drawer} {...drawerProps} />

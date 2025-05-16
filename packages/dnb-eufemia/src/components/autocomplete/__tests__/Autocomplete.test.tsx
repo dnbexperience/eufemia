@@ -89,6 +89,21 @@ describe('Autocomplete component', () => {
     expect(input).toHaveAttribute('aria-expanded', 'false')
   })
 
+  it('supports setting autocomplete', () => {
+    render(
+      <Autocomplete
+        data={mockData}
+        opened
+        autoComplete="language"
+        {...mockProps}
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    expect(input).toHaveAttribute('autocomplete', 'language')
+  })
+
   it('has correct options after filter', () => {
     render(
       <Autocomplete data={mockData} show_submit_button {...mockProps} />
@@ -1525,6 +1540,13 @@ describe('Autocomplete component', () => {
         </span>
       )
     }
+    function ValueC() {
+      return (
+        <span>
+          <ValueA />
+        </span>
+      )
+    }
 
     const data = [
       {
@@ -1534,6 +1556,10 @@ describe('Autocomplete component', () => {
       {
         selected_value: <ValueB />,
         content: <ValueB />,
+      },
+      {
+        selected_value: <ValueC />,
+        content: <ValueC />,
       },
     ]
 
@@ -1554,6 +1580,11 @@ describe('Autocomplete component', () => {
     await userEvent.click(options()[1])
 
     expect(input.value).toBe('Kontonummer: 987654321')
+
+    await userEvent.click(input)
+    await userEvent.click(options()[2])
+
+    expect(input.value).toBe('Kontonummer: 123456789')
   })
 
   it('should update input value when data prop goes from emtpy to unempty and value is given', async () => {

@@ -14,7 +14,6 @@ import classnames from 'classnames'
 
 // date-fns
 import format from 'date-fns/format'
-import subMonths from 'date-fns/subMonths'
 import addMonths from 'date-fns/addMonths'
 import addWeeks from 'date-fns/addWeeks'
 import addDays from 'date-fns/addDays'
@@ -39,10 +38,13 @@ import Button, { ButtonProps } from '../button/Button'
 import DatePickerContext, {
   DatePickerContextValues,
 } from './DatePickerContext'
-import { useTranslation } from '../../shared'
 import { InternalLocale } from '../../shared/Context'
 import { DatePickerChangeEvent } from './DatePickerProvider'
 import { DatePickerDates } from './hooks/useDates'
+import {
+  CalendarNavButtonProps,
+  DatePickerCalendarNav,
+} from './DatePickerCalendarNavigator'
 
 export type CalendarDay = {
   date: Date
@@ -61,7 +63,7 @@ export type CalendarDay = {
 
 export type CalendarNavigationEvent = {
   nr: number
-  type?: CalendarButtonProps['type']
+  type?: CalendarNavButtonProps['type']
 }
 
 export type DatePickerCalendarProps = Omit<
@@ -75,7 +77,9 @@ export type DatePickerCalendarProps = Omit<
    */
   month?: Date
   hoverDate?: Date
+  // TODO: rename for clarity
   prevBtn?: boolean
+  // TODO: rename for clarity
   nextBtn?: boolean
   firstDayOfWeek?: string
   hideNav?: boolean
@@ -89,8 +93,6 @@ export type DatePickerCalendarProps = Omit<
       | React.KeyboardEvent<HTMLTableElement | HTMLButtonElement>
     >
   ) => void
-  onPrev?: (event: CalendarNavigationEvent) => void
-  onNext?: (event: CalendarNavigationEvent) => void
   onKeyDown?: (
     event: React.KeyboardEvent<HTMLTableElement | HTMLButtonElement>,
     tableRef: React.MutableRefObject<HTMLTableElement>,
@@ -136,11 +138,6 @@ const defaultProps: DatePickerCalendarProps = {
 const arrowKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown']
 const keysToHandle = ['Enter', 'Space', ...arrowKeys]
 
-const titleFormat: Intl.DateTimeFormatOptions = {
-  month: 'long',
-  year: 'numeric',
-}
-
 function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   const props = { ...defaultProps, ...restOfProps }
 
@@ -155,10 +152,8 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     endMonth,
     hoverDate,
     setHoverDate,
-    translation: {
-      DatePicker: { selectedMonth },
-    },
-    props: { onDaysRender },
+    setSubmittedDates,
+    props: { onDaysRender, yearNavigation },
   } = useContext(DatePickerContext)
 
   const {
@@ -171,8 +166,6 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     hideNav,
     locale,
     hideDays,
-    onPrev,
-    onNext,
     onSelect,
     onKeyDown,
     resetDate,
@@ -184,7 +177,6 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   } = props
 
   const tableRef = useRef<React.ElementRef<'table'>>()
-  const labelRef = useRef<HTMLLabelElement>()
   const days = useRef<Record<string, Array<CalendarDay>>>({})
   const cache = useRef<Record<string, CalendarDay[][]>>({})
 
@@ -195,6 +187,12 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       }
     }
   }, [noAutoFocus, nr])
+
+  // Store the initial selected date on calendar render, to be used for `onCancel` in DatePickerFooter
+  useEffect(() => {
+    setSubmittedDates({ startDate, endDate })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const onMouseLeaveHandler = useCallback(() => {
     setHoverDate(undefined)
@@ -501,46 +499,26 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     >
       {!hideNav && (
         <div className="dnb-date-picker__header">
-          <div className="dnb-date-picker__header__nav">
-            <CalendarButton
-              type="prev"
+          <DatePickerCalendarNav
+            type={yearNavigation ? 'month' : 'both'}
+            id={id}
+            nr={nr}
+            date={month}
+            locale={locale}
+            showPreviousButton={prevBtn}
+            showNextButton={nextBtn}
+          />
+          {yearNavigation && (
+            <DatePickerCalendarNav
+              type="year"
+              id={id}
               nr={nr}
-              date={minDate}
-              month={month}
+              date={month}
               locale={locale}
-              showButton={prevBtn}
-              onClick={onPrev}
+              showPreviousButton={prevBtn}
+              showNextButton={nextBtn}
             />
-          </div>
-          <label
-            id={`${id}--title`}
-            className="dnb-date-picker__header__title dnb-no-focus"
-            title={selectedMonth.replace(
-              /%s/,
-              formatDate(month, {
-                locale,
-                formatOptions: titleFormat,
-              })
-            )}
-            tabIndex={-1}
-            ref={labelRef}
-          >
-            {formatDate(month, {
-              locale,
-              formatOptions: titleFormat,
-            })}
-          </label>
-          <div className="dnb-date-picker__header__nav">
-            <CalendarButton
-              type="next"
-              nr={nr}
-              date={maxDate}
-              month={month}
-              locale={locale}
-              showButton={nextBtn}
-              onClick={onNext}
-            />
-          </div>
+          )}
         </div>
       )}
       <table
@@ -699,65 +677,6 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 }
 
 export default DatePickerCalendar
-
-export type CalendarButtonProps = {
-  type: 'prev' | 'next'
-  nr: number
-  date: Date
-  month: Date
-  locale?: InternalLocale
-  showButton: boolean
-  onClick: ({
-    nr,
-    type,
-  }: {
-    nr: number
-    type: CalendarButtonProps['type']
-  }) => void
-  onKeyDown?: (event: React.KeyboardEvent<HTMLButtonElement>) => void
-}
-
-function CalendarButton({
-  type,
-  nr,
-  date,
-  month,
-  locale,
-  showButton,
-  onClick,
-  onKeyDown,
-}: CalendarButtonProps) {
-  const tr = useTranslation().DatePicker
-
-  if (!showButton) {
-    return <></>
-  }
-  const disabled = date && isSameMonth(month, date)
-
-  const title = tr[`${type}Month`].replace(
-    /%s/,
-    formatDate(subMonths(month, 1), {
-      locale,
-      formatOptions: {
-        month: 'long',
-        year: 'numeric',
-      },
-    })
-  )
-
-  const icon = type === 'prev' ? 'chevron_left' : 'chevron_right'
-
-  return (
-    <Button
-      className={classnames(`dnb-date-picker__${type}`, { disabled })}
-      icon={icon}
-      size="small"
-      aria-label={title}
-      onClick={() => onClick && !disabled && onClick({ nr, type })}
-      onKeyDown={onKeyDown}
-    />
-  )
-}
 
 type SelectRangeEvent = Pick<
   DatePickerContextValues,

@@ -130,4 +130,40 @@ describe('Drawer', () => {
       expect(screenshot).toMatchImageSnapshot()
     })
   })
+
+  describe('small', () => {
+    setupPageScreenshot({
+      url: '/uilib/components/drawer/demos',
+      pageViewport: {
+        width: 640,
+        height: 800,
+      },
+    })
+
+    it('have to match top placement drawer', async () => {
+      const screenshot = await makeScreenshot({
+        selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+        simulate: 'click',
+        simulateSelector:
+          '[data-visual-test="top-placement-drawer"] button:first-of-type',
+        screenshotSelector: '.dnb-modal__content',
+        simulateAfter: { keypress: 'Escape' },
+        rootClassName: 'hide-page-content',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match bottom placement drawer', async () => {
+      const screenshot = await makeScreenshot({
+        selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+        simulate: 'click',
+        simulateSelector:
+          '[data-visual-test="bottom-placement-drawer"] button:first-of-type',
+        screenshotSelector: '.dnb-modal__content',
+        simulateAfter: { keypress: 'Escape' },
+        rootClassName: 'hide-page-content',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  })
 })

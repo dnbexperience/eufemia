@@ -173,100 +173,6 @@ describe('InputMasked component', () => {
     ).toBe(123456789.67)
   })
 
-  it('should prevent leading zero when disallowLeadingZeroes is set', () => {
-    const newValue = 'NOK 1 234,56 kr'
-
-    const onKeyDown = jest.fn()
-    const preventDefault = jest.fn()
-
-    const { rerender } = render(
-      <InputMasked
-        {...props}
-        value={1234.56}
-        number_mask={{
-          prefix: 'NOK ',
-          suffix: ',- kr',
-          allowDecimal: true,
-        }}
-        onKeyDown={onKeyDown}
-      />
-    )
-
-    expect(document.querySelector('input').value).toBe('NOK 1 234,56,- kr')
-
-    fireEvent.keyDown(document.querySelector('input'), {
-      key: '0',
-      keyCode: 48, // zero
-      target: {
-        value: newValue,
-        selectionStart: 5, // can be wherever, but not 4
-      },
-      preventDefault,
-    })
-    expect(preventDefault).toHaveBeenCalledTimes(0)
-    expect(onKeyDown).toHaveBeenCalledTimes(1)
-    expect(onKeyDown.mock.calls[0][0].value).toBe('NOK 1 234,56 kr')
-    expect(onKeyDown.mock.calls[0][0].numberValue).toBe(1234.56)
-
-    fireEvent.keyDown(document.querySelector('input'), {
-      key: '0',
-      keyCode: 48, // zero
-      target: {
-        value: newValue,
-        selectionStart: 4, // set it to be a leading zero
-      },
-      preventDefault,
-    })
-    expect(preventDefault).toHaveBeenCalledTimes(0)
-    expect(onKeyDown).toHaveBeenCalledTimes(2)
-
-    rerender(
-      <InputMasked
-        {...props}
-        value={1234.56}
-        number_mask={{
-          disallowLeadingZeroes: true,
-        }}
-        onKeyDown={onKeyDown}
-      />
-    )
-
-    fireEvent.keyDown(document.querySelector('input'), {
-      key: '0',
-      keyCode: 48, // zero
-      target: {
-        value: newValue,
-        selectionStart: 4, // set it to be a leading zero
-      },
-      preventDefault,
-    })
-    expect(onKeyDown.mock.calls[1][0].value).toBe('NOK 1 234,56 kr')
-    expect(onKeyDown.mock.calls[1][0].numberValue).toBe(1234.56)
-
-    rerender(
-      <InputMasked
-        {...props}
-        value={1234.56}
-        number_mask={{
-          disallowLeadingZeroes: false,
-          allowDecimal: false,
-        }}
-        onKeyDown={onKeyDown}
-      />
-    )
-
-    fireEvent.keyDown(document.querySelector('input'), {
-      key: ',',
-      keyCode: 188, // comma
-      target: {
-        value: '',
-        selectionStart: 0, // set it to be a leading zero
-      },
-      preventDefault,
-    })
-    expect(onKeyDown).toHaveBeenCalledTimes(4)
-  })
-
   it('should allow leading zero when removing first letter', () => {
     const onChange = jest.fn()
 
@@ -380,53 +286,6 @@ describe('InputMasked component', () => {
     )
 
     expect(document.querySelector('input').value).toBe('1 234')
-  })
-
-  it('should not set leading zero when entering decimal separator and disallowLeadingZeroes is set', () => {
-    const onKeyDown = jest.fn()
-    const preventDefault = jest.fn()
-
-    const { rerender } = render(
-      <InputMasked
-        number_mask={{
-          suffix: ' kr',
-          allowDecimal: true,
-        }}
-        onKeyDown={onKeyDown}
-      />
-    )
-
-    const keyCode = 188 // comma
-    fireEvent.keyDown(document.querySelector('input'), {
-      keyCode,
-      target: {
-        value: '',
-      },
-      preventDefault,
-    })
-    expect(preventDefault).toHaveBeenCalledTimes(0)
-    expect(onKeyDown).toHaveBeenCalledTimes(1)
-
-    rerender(
-      <InputMasked
-        number_mask={{
-          disallowLeadingZeroes: true,
-        }}
-        onKeyDown={onKeyDown}
-      />
-    )
-
-    fireEvent.keyDown(document.querySelector('input'), {
-      key: '0',
-      keyCode: 48, // zero
-      target: {
-        value: '0 kr',
-      },
-      preventDefault,
-    })
-
-    expect(onKeyDown).toHaveBeenCalledTimes(2)
-    expect(onKeyDown.mock.calls[1][0].value).toBe('0 kr')
   })
 
   it('should accept custom mask only', () => {
@@ -723,6 +582,351 @@ describe('InputMasked component', () => {
 
     expect(element.value).toBe('1 234')
     expect(onChange).toHaveBeenCalledTimes(2)
+  })
+
+  describe('disallowLeadingZeroes', () => {
+    it('should prevent leading zero', () => {
+      const newValue = 'NOK 1 234,56 kr'
+
+      const onKeyDown = jest.fn()
+      const preventDefault = jest.fn()
+
+      const { rerender } = render(
+        <InputMasked
+          {...props}
+          value={1234.56}
+          number_mask={{
+            prefix: 'NOK ',
+            suffix: ',- kr',
+            allowDecimal: true,
+          }}
+          onKeyDown={onKeyDown}
+        />
+      )
+
+      expect(document.querySelector('input').value).toBe(
+        'NOK 1 234,56,- kr'
+      )
+
+      fireEvent.keyDown(document.querySelector('input'), {
+        key: '0',
+        keyCode: 48, // zero
+        target: {
+          value: newValue,
+          selectionStart: 5, // can be wherever, but not 4
+        },
+        preventDefault,
+      })
+      expect(preventDefault).toHaveBeenCalledTimes(0)
+      expect(onKeyDown).toHaveBeenCalledTimes(1)
+      expect(onKeyDown.mock.calls[0][0].value).toBe('NOK 1 234,56 kr')
+      expect(onKeyDown.mock.calls[0][0].numberValue).toBe(1234.56)
+
+      fireEvent.keyDown(document.querySelector('input'), {
+        key: '0',
+        keyCode: 48, // zero
+        target: {
+          value: newValue,
+          selectionStart: 4, // set it to be a leading zero
+        },
+        preventDefault,
+      })
+      expect(preventDefault).toHaveBeenCalledTimes(0)
+      expect(onKeyDown).toHaveBeenCalledTimes(2)
+
+      rerender(
+        <InputMasked
+          {...props}
+          value={1234.56}
+          number_mask={{
+            disallowLeadingZeroes: true,
+          }}
+          onKeyDown={onKeyDown}
+        />
+      )
+
+      fireEvent.keyDown(document.querySelector('input'), {
+        key: '0',
+        keyCode: 48, // zero
+        target: {
+          value: newValue,
+          selectionStart: 4, // set it to be a leading zero
+        },
+        preventDefault,
+      })
+      expect(onKeyDown.mock.calls[1][0].value).toBe('NOK 1 234,56 kr')
+      expect(onKeyDown.mock.calls[1][0].numberValue).toBe(1234.56)
+
+      rerender(
+        <InputMasked
+          {...props}
+          value={1234.56}
+          number_mask={{
+            disallowLeadingZeroes: false,
+            allowDecimal: false,
+          }}
+          onKeyDown={onKeyDown}
+        />
+      )
+
+      fireEvent.keyDown(document.querySelector('input'), {
+        key: ',',
+        keyCode: 188, // comma
+        target: {
+          value: '',
+          selectionStart: 0, // set it to be a leading zero
+        },
+        preventDefault,
+      })
+      expect(onKeyDown).toHaveBeenCalledTimes(4)
+    })
+
+    it('should allow 0 as value', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <InputMasked
+          {...props}
+          number_mask={{
+            allowDecimal: true,
+            disallowLeadingZeroes: true,
+          }}
+          onChange={onChange}
+        />
+      )
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '0')
+
+      expect(input).toHaveValue('0')
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenNthCalledWith(
+        1,
+        expect.objectContaining({ numberValue: 0, value: '0' })
+      )
+
+      await userEvent.keyboard('10')
+
+      expect(input).toHaveValue('10')
+      expect(onChange).toHaveBeenCalledTimes(3)
+      expect(onChange).toHaveBeenNthCalledWith(
+        2,
+        expect.objectContaining({ numberValue: 1, value: '1' })
+      )
+      expect(onChange).toHaveBeenNthCalledWith(
+        3,
+        expect.objectContaining({ numberValue: 10, value: '10' })
+      )
+
+      await userEvent.keyboard('{Backspace>4}')
+
+      expect(input).toHaveValue('')
+      expect(onChange).toHaveBeenCalledTimes(5)
+      expect(onChange).toHaveBeenNthCalledWith(
+        4,
+        expect.objectContaining({ numberValue: 1, value: '1' })
+      )
+      expect(onChange).toHaveBeenNthCalledWith(
+        5,
+        expect.objectContaining({ numberValue: 0, value: '' })
+      )
+
+      await userEvent.keyboard('0.1')
+
+      expect(input).toHaveValue('0,1')
+      expect(onChange).toHaveBeenCalledTimes(7)
+      expect(onChange).toHaveBeenNthCalledWith(
+        6,
+        expect.objectContaining({ numberValue: 0, value: '0' })
+      )
+      expect(onChange).toHaveBeenNthCalledWith(
+        7,
+        expect.objectContaining({ numberValue: 0.1, value: '0,1' })
+      )
+    })
+
+    it('should allow 0 as value when the input is blurred', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <InputMasked
+          {...props}
+          number_mask={{
+            disallowLeadingZeroes: true,
+          }}
+          onChange={onChange}
+        />
+      )
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '0')
+
+      expect(input).toHaveValue('0')
+
+      fireEvent.blur(input)
+
+      expect(input).toHaveValue('0')
+    })
+
+    it('should remove leading zero when the input is blurred', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <InputMasked
+          {...props}
+          number_mask={{
+            disallowLeadingZeroes: true,
+          }}
+          onChange={onChange}
+        />
+      )
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '100123')
+
+      expect(input).toHaveValue('100 123')
+
+      await userEvent.keyboard('[ArrowLeft>6]{Backspace}')
+
+      expect(input).toHaveValue('00 123')
+
+      fireEvent.blur(input)
+
+      expect(input).toHaveValue('123')
+    })
+
+    it('should remove leading zero with minus when the input is blurred', async () => {
+      const onChange = jest.fn()
+      const onBlur = jest.fn()
+
+      render(
+        <InputMasked
+          {...props}
+          number_mask={{
+            disallowLeadingZeroes: true,
+          }}
+          onChange={onChange}
+          onBlur={onBlur}
+        />
+      )
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '-100123')
+
+      expect(input).toHaveValue('-100 123')
+
+      await userEvent.keyboard('[ArrowLeft>6]{Backspace}')
+
+      expect(input).toHaveValue('-00 123')
+
+      fireEvent.blur(input)
+
+      expect(input).toHaveValue('-123')
+      expect(onChange).toHaveBeenCalledTimes(8)
+      expect(onChange).toHaveBeenNthCalledWith(
+        8,
+        expect.objectContaining({ numberValue: -123, value: '-00 123' })
+      )
+      expect(onBlur).toHaveBeenCalledTimes(1)
+      expect(onBlur).toHaveBeenNthCalledWith(
+        1,
+        expect.objectContaining({ numberValue: -123, value: '-123' })
+      )
+    })
+
+    it('should not remove leading zeroes when deleting front number', async () => {
+      const onChange = jest.fn()
+
+      render(
+        <InputMasked
+          {...props}
+          number_mask={{
+            allowDecimal: true,
+            disallowLeadingZeroes: true,
+          }}
+          onChange={onChange}
+        />
+      )
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '1000')
+
+      expect(input).toHaveValue('1 000')
+      expect(onChange).toHaveBeenCalledTimes(4)
+      expect(onChange).toHaveBeenNthCalledWith(
+        4,
+        expect.objectContaining({ numberValue: 1000, value: '1 000' })
+      )
+
+      await userEvent.keyboard('[ArrowLeft>4]{Backspace}')
+
+      expect(input).toHaveValue('000')
+      expect(onChange).toHaveBeenCalledTimes(5)
+      expect(onChange).toHaveBeenNthCalledWith(
+        5,
+        expect.objectContaining({ numberValue: 0, value: '000' })
+      )
+
+      await userEvent.keyboard('[ArrowRight>2]1')
+      expect(input).toHaveValue('10')
+      expect(onChange).toHaveBeenCalledTimes(6)
+      expect(onChange).toHaveBeenNthCalledWith(
+        6,
+        expect.objectContaining({ numberValue: 10, value: '10' })
+      )
+    })
+
+    it('should not set leading zero when entering decimal separator', () => {
+      const onKeyDown = jest.fn()
+      const preventDefault = jest.fn()
+
+      const { rerender } = render(
+        <InputMasked
+          number_mask={{
+            suffix: ' kr',
+            allowDecimal: true,
+          }}
+          onKeyDown={onKeyDown}
+        />
+      )
+
+      const keyCode = 188 // comma
+      fireEvent.keyDown(document.querySelector('input'), {
+        keyCode,
+        target: {
+          value: '',
+        },
+        preventDefault,
+      })
+      expect(preventDefault).toHaveBeenCalledTimes(0)
+      expect(onKeyDown).toHaveBeenCalledTimes(1)
+
+      rerender(
+        <InputMasked
+          number_mask={{
+            disallowLeadingZeroes: true,
+          }}
+          onKeyDown={onKeyDown}
+        />
+      )
+
+      fireEvent.keyDown(document.querySelector('input'), {
+        key: '0',
+        keyCode: 48, // zero
+        target: {
+          value: '0 kr',
+        },
+        preventDefault,
+      })
+
+      expect(onKeyDown).toHaveBeenCalledTimes(2)
+      expect(onKeyDown.mock.calls[1][0].value).toBe('0 kr')
+    })
   })
 })
 
@@ -1721,7 +1925,6 @@ describe('InputMasked with custom mask', () => {
     const element = document.querySelector('input')
 
     const preventDefault = jest.fn()
-    element.setSelectionRange = jest.fn()
 
     fireEvent.focus(element, {
       target: {
@@ -1729,6 +1932,8 @@ describe('InputMasked with custom mask', () => {
       },
       preventDefault,
     })
+
+    element.setSelectionRange = jest.fn()
 
     await waitFor(() => {
       expect(element.setSelectionRange).toHaveBeenCalledTimes(1)
@@ -1744,7 +1949,6 @@ describe('InputMasked with custom mask', () => {
     const input = document.querySelector('input')
 
     const preventDefault = jest.fn()
-    input.setSelectionRange = jest.fn()
 
     fireEvent.focus(input)
     fireEvent.mouseDown(input, {
@@ -1753,6 +1957,8 @@ describe('InputMasked with custom mask', () => {
       },
       preventDefault,
     })
+
+    input.setSelectionRange = jest.fn()
 
     await waitFor(() => {
       expect(input.setSelectionRange).toHaveBeenCalledTimes(2)
@@ -1770,7 +1976,6 @@ describe('InputMasked with custom mask', () => {
     const input = document.querySelector('input')
 
     const preventDefault = jest.fn()
-    input.setSelectionRange = jest.fn()
 
     fireEvent.focus(input)
     fireEvent.mouseUp(input, {
@@ -1779,6 +1984,8 @@ describe('InputMasked with custom mask', () => {
       },
       preventDefault,
     })
+
+    input.setSelectionRange = jest.fn()
 
     await waitFor(() => {
       expect(input.setSelectionRange).toHaveBeenCalledTimes(2)

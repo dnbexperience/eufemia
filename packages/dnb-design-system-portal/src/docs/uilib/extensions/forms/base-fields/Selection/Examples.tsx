@@ -119,7 +119,11 @@ export const DropdownWidths = () => {
           <Field.Option value="foo" title="Foo!" />
           <Field.Option value="bar" title="Baar!" />
         </Field.Selection>
-        <Field.Selection label="Small" value="bar" width="small">
+        <Field.Selection
+          label="Small selection with a long label"
+          value="bar"
+          width="small"
+        >
           <Field.Option value="foo" title="Foo!" />
           <Field.Option value="bar" title="Baar!" />
         </Field.Selection>
@@ -403,7 +407,7 @@ export const RadioListWidths = () => {
           <Field.Option value="bar" title="Baar!" />
         </Field.Selection>
         <Field.Selection
-          label="Small"
+          label="Small selection with a long label"
           value="bar"
           variant="radio-list"
           width="small"

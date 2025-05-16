@@ -33,6 +33,7 @@ export type EventListenerCall = {
     | 'onBeforeSubmit'
     | 'onSubmitCall'
     | 'onSubmitRequest'
+    | 'onBeforeCommit'
     | 'onPathChange'
     | 'onMount'
   callback: (

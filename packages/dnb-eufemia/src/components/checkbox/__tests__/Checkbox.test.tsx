@@ -71,6 +71,128 @@ describe('Checkbox component', () => {
     )
   })
 
+  it('should not change the state when calling preventDefault on the onClick event when default value is true', async () => {
+    const onClick = jest.fn((event) => {
+      event.preventDefault()
+    })
+    const onChange = jest.fn()
+
+    render(
+      <Checkbox checked={false} onClick={onClick} onChange={onChange} />
+    )
+
+    const checkbox = document.querySelector('input')
+    expect(checkbox.checked).toBe(false)
+
+    await userEvent.click(checkbox)
+
+    expect(checkbox.checked).toBe(false)
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(onClick).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        target: expect.objectContaining({
+          checked: false,
+        }),
+      })
+    )
+
+    await userEvent.click(checkbox)
+
+    expect(checkbox.checked).toBe(false)
+    expect(onClick).toHaveBeenCalledTimes(2)
+    expect(onClick).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        target: expect.objectContaining({
+          checked: false,
+        }),
+      })
+    )
+
+    userEvent.type(checkbox, '{Space}')
+
+    expect(checkbox.checked).toBe(false)
+    expect(onClick).toHaveBeenCalledTimes(2)
+    expect(onClick).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        target: expect.objectContaining({
+          checked: false,
+        }),
+      })
+    )
+
+    userEvent.type(checkbox, '{Space}')
+
+    expect(checkbox.checked).toBe(false)
+    expect(onClick).toHaveBeenCalledTimes(2)
+    expect(onClick).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        target: expect.objectContaining({
+          checked: false,
+        }),
+      })
+    )
+
+    expect(onChange).toHaveBeenCalledTimes(0)
+  })
+
+  it('should not change the state when calling preventDefault on the onClick event', async () => {
+    const onClick = jest.fn((event) => {
+      event.preventDefault()
+    })
+    const onChange = jest.fn()
+
+    render(<Checkbox onClick={onClick} onChange={onChange} />)
+
+    const checkbox = document.querySelector('input')
+    expect(checkbox.checked).toBe(false)
+
+    await userEvent.click(checkbox)
+
+    expect(checkbox.checked).toBe(false)
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(onClick).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        target: expect.objectContaining({
+          checked: false,
+        }),
+      })
+    )
+
+    await userEvent.click(checkbox)
+
+    expect(checkbox.checked).toBe(false)
+    expect(onClick).toHaveBeenCalledTimes(2)
+    expect(onClick).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        target: expect.objectContaining({
+          checked: false,
+        }),
+      })
+    )
+
+    expect(onChange).toHaveBeenCalledTimes(0)
+  })
+
+  it('should not change the state when readOnly is true', async () => {
+    render(<Checkbox readOnly />)
+
+    const checkbox = document.querySelector('input')
+    expect(checkbox.checked).toBe(false)
+
+    await userEvent.click(checkbox)
+
+    expect(checkbox.checked).toBe(false)
+
+    await userEvent.click(checkbox)
+
+    expect(checkbox.checked).toBe(false)
+
+    fireEvent.change(checkbox, { target: { checked: true } })
+
+    // We can't prevent the change when using fireEvent.change
+    expect(checkbox.checked).toBe(true)
+  })
+
   it('has "on_change" event which will trigger on a input change', () => {
     const myEvent = jest.fn()
     render(<Checkbox onChange={myEvent} checked={false} />)

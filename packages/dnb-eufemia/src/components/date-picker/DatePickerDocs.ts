@@ -134,7 +134,12 @@ export const DatePickerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   skipPortal: {
-    doc: ' If set to `true`, the calendar will not be rendered inside a react portal. Defaults to `false`.',
+    doc: 'If set to `true`, the calendar will not be rendered inside a react portal. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  yearNavigation: {
+    doc: 'Will enable year navigation in the calendar if set to `true`. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },

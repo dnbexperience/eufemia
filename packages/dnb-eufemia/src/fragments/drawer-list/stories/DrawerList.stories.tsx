@@ -71,21 +71,23 @@ const MagicOpen = (props) => {
         {...props}
       >
         <DrawerList>
-          {list.map(({ value, ...props }, i) => {
-            return (
-              <DrawerList.Item
-                key={i}
-                {...props}
-                selected={value === selected}
-                value={value}
-                on_click={({ value }) => {
-                  setSelected(value)
-                }}
-              >
-                {value}
-              </DrawerList.Item>
-            )
-          })}
+          <DrawerList.Options>
+            {list.map(({ value, ...props }, i) => {
+              return (
+                <DrawerList.Item
+                  key={i}
+                  {...props}
+                  selected={value === selected}
+                  value={value}
+                  on_click={({ value }) => {
+                    setSelected(value)
+                  }}
+                >
+                  {value}
+                </DrawerList.Item>
+              )
+            })}
+          </DrawerList.Options>
         </DrawerList>
       </Drawer>
     </>

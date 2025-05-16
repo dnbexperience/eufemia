@@ -23,7 +23,13 @@ import {
 } from '../../shared/helpers'
 import locales from '../../shared/locales'
 
-const NUMBER_CHARS = '\\-0-9,.'
+export const NUMBER_CHARS = '\\-0-9,.'
+
+// change the position of minus if it's first
+// check for two minus - −
+// check also for hyphen ‐
+// check also for dashes ‒  –  —  ―
+export const NUMBER_MINUS = '-|−|‐|‒|–|—|―'
 
 /**
  * Format a number to a streamlined format based on the given locale
@@ -460,11 +466,7 @@ const prepareMinus = (display, locale) => {
     return display
   }
 
-  // change the position of minus if it's first
-  // check for two minus - −
-  // check also for hyphen ‐
-  // check also for dashes ‒  –  —  ―
-  const reg = '^(-|−|‐|‒|–|—|―)'
+  const reg = `^(${NUMBER_MINUS})`
 
   if (new RegExp(reg).test(first)) {
     // if second is number
@@ -557,8 +559,8 @@ export const formatNumber = (
     ) {
       number = parseFloat(number).toLocaleString(locale, options)
     }
-    if (String(number).startsWith('−0')) {
-      number = number.replace('−0', '0')
+    if (new RegExp(`^(${NUMBER_MINUS})(0|0[^\\d]|0\\s.*)$`).test(number)) {
+      number = number.replace(new RegExp(`(${NUMBER_MINUS})0`), '0')
     }
   } catch (e) {
     warn(

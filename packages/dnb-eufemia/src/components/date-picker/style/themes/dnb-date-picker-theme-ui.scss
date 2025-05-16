@@ -37,9 +37,28 @@
   }
 
   &__header {
+    --gap: 0.25rem;
+
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    gap: var(--gap);
+
     // border
     &::after {
       background-color: var(--color-black-8);
+    }
+
+    &__row {
+      min-width: 60%;
+      display: flex;
+      flex: 1 1 auto;
+      align-items: center;
+      justify-content: space-between;
+
+      &--year {
+        min-width: calc(40% - var(--gap));
+      }
     }
 
     &__nav .dnb-button {

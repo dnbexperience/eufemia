@@ -83,4 +83,11 @@ describe('DatePicker', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match calendar view with year navigation', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="date-picker-year-navigation"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

@@ -273,3 +273,17 @@ export function SelectionButtonsAriaRequired() {
     </Field.Selection>
   )
 }
+
+export function SelectionAriaRequired() {
+  return (
+    <Field.Selection
+      label="Label"
+      variant="dropdown"
+      required
+      validateInitially
+    >
+      <Field.Option value="foo">Foo</Field.Option>
+      <Field.Option value="bar">Bar</Field.Option>
+    </Field.Selection>
+  )
+}

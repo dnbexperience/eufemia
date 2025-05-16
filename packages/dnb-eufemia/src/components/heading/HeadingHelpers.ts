@@ -67,6 +67,14 @@ export const correctInternalHeadingLevel = ({
     counter.enableBypassChecks()
   }
 
+  const hasCounterWasCorrectedToLevel2 = () => {
+    return (
+      globalSyncCounter?.current?.level === 1 &&
+      globalHeadingCounter?.current?.hasCorrection() &&
+      counter?.getLevel() === 2
+    )
+  }
+
   const update = (level: InternalHeadingLevel) => {
     if (!isRerender) {
       counter.makeMeReady({ level })
@@ -89,7 +97,7 @@ export const correctInternalHeadingLevel = ({
       counter.setLevel(level)
     } else if (decrease) {
       counter.decrement()
-    } else if (increase) {
+    } else if (increase && !hasCounterWasCorrectedToLevel2()) {
       counter.increment()
     }
 

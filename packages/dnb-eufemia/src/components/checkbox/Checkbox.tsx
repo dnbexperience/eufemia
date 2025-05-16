@@ -6,8 +6,8 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useReducer,
   useRef,
-  useState,
 } from 'react'
 import classnames from 'classnames'
 import {
@@ -48,6 +48,10 @@ export type CheckboxAttributes = string | Record<string, unknown>
 export type OnChangeParams = {
   checked: boolean
   event: React.ChangeEvent<HTMLInputElement>
+}
+export type OnClickParams = React.MouseEvent<HTMLInputElement> & {
+  checked: boolean
+  event: React.MouseEvent<HTMLInputElement>
 }
 
 export type CheckboxProps = {
@@ -112,6 +116,10 @@ export type CheckboxProps = {
    */
   onChange?: (args: OnChangeParams) => void
   /**
+   * Will be called on click made by the user. Returns the ClickEvent.
+   */
+  onClick?: (args: OnClickParams) => void
+  /**
    * By providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.
    */
   innerRef?:
@@ -120,7 +128,7 @@ export type CheckboxProps = {
 } & SpacingProps &
   Omit<
     React.HTMLProps<HTMLInputElement>,
-    'ref' | 'label' | 'size' | 'onChange'
+    'ref' | 'label' | 'size' | 'onChange' | 'onClick'
   > &
   DeprecatedCheckboxProps
 
@@ -149,6 +157,25 @@ const defaultProps: CheckboxProps = {
 function Checkbox(localProps: CheckboxProps) {
   const context = useContext(Context)
 
+  const extractPropsFromContext = useCallback(() => {
+    return extendPropsWithContext(
+      convertSnakeCaseProps(localProps),
+      defaultProps,
+      context.Checkbox,
+      {
+        skeleton: context?.Checkbox,
+      },
+      // Deprecated – can be removed in v11
+      pickFormElementProps(context?.FormRow),
+      pickFormElementProps(context?.formElement)
+    )
+  }, [
+    context.Checkbox,
+    context?.FormRow,
+    context?.formElement,
+    localProps,
+  ])
+
   const props = extractPropsFromContext()
 
   const {
@@ -173,10 +200,12 @@ function Checkbox(localProps: CheckboxProps) {
     indeterminate,
     checked,
     onChange,
+    onClick,
     innerRef,
     ...rest
   } = props
 
+  const [, forceUpdate] = useReducer(() => ({}), {})
   const id = useId(idProp)
 
   const isFn = typeof innerRef === 'function'
@@ -189,15 +218,17 @@ function Checkbox(localProps: CheckboxProps) {
     }
   }, [innerRef, isFn, ref])
 
-  const [isChecked, setIsChecked] = useState<boolean>(checked ?? false)
-  const [prevChecked, setPrevChecked] = useState<boolean>(checked)
+  const preventChangeRef = useRef(false)
+  const isCheckedRef = useRef(checked ?? false)
+  const prevCheckedRef = useRef(checked)
 
   useEffect(() => {
-    if (checked !== prevChecked) {
-      setIsChecked(!!checked)
-      setPrevChecked(!!checked)
+    if (checked !== prevCheckedRef.current) {
+      isCheckedRef.current = !!checked
+      prevCheckedRef.current = !!checked
+      forceUpdate()
     }
-  }, [checked, prevChecked])
+  }, [checked])
 
   useEffect(() => {
     ref.current.indeterminate = indeterminate
@@ -212,12 +243,14 @@ function Checkbox(localProps: CheckboxProps) {
 
   const handleChange = useCallback(
     (event: OnChangeParams['event']) => {
-      if (readOnly) {
-        return event.preventDefault()
+      if (preventChangeRef.current) {
+        return // stop here
       }
-      const updatedCheck = !isChecked
+      preventChangeRef.current = false
+      const updatedCheck = !isCheckedRef.current
 
-      setIsChecked(updatedCheck)
+      isCheckedRef.current = updatedCheck
+      forceUpdate()
       callOnChange({ checked: updatedCheck, event })
 
       // help firefox and safari to have an correct state after a click
@@ -225,7 +258,7 @@ function Checkbox(localProps: CheckboxProps) {
         ref.current.focus()
       }
     },
-    [callOnChange, isChecked, readOnly, ref]
+    [callOnChange, ref]
   )
 
   const onChangeHandler = useCallback(
@@ -234,6 +267,34 @@ function Checkbox(localProps: CheckboxProps) {
     },
     [handleChange]
   )
+
+  const onClickHandler: React.MouseEventHandler<HTMLInputElement> =
+    useCallback(
+      (event) => {
+        const preventDefault = () => {
+          event.preventDefault()
+
+          // if (event.target['checked'] !== isChecked) {
+          if (event.target['checked'] !== isCheckedRef.current) {
+            preventChangeRef.current = true
+            isCheckedRef.current = !isCheckedRef.current
+            forceUpdate()
+          }
+        }
+
+        if (readOnly) {
+          return preventDefault()
+        }
+
+        onClick?.({
+          checked: isCheckedRef.current,
+          preventDefault,
+          event,
+          ...event,
+        })
+      },
+      [onClick, readOnly]
+    )
 
   const onKeyDownHandler = useCallback(
     (event: KeyboardEvent & OnChangeParams['event']) => {
@@ -245,6 +306,47 @@ function Checkbox(localProps: CheckboxProps) {
     },
     [handleChange]
   )
+
+  const showStatus = getStatusState(status)
+
+  /**
+   * Adds aria attributes, calls validateDOMAttributes and skeletonDOMAttributes and returns the result
+   */
+  const handleInputAttributes = useCallback(() => {
+    const inputParams = {
+      disabled,
+      checked: isCheckedRef.current,
+      readOnly,
+      ...rest,
+    }
+
+    if (showStatus || suffix) {
+      inputParams['aria-describedby'] = combineDescribedBy(
+        inputParams,
+        showStatus ? id + '-status' : null,
+        suffix ? id + '-suffix' : null
+      )
+    }
+    if (readOnly) {
+      inputParams['aria-readonly'] = inputParams.readOnly = true
+    }
+
+    // also used for code markup simulation
+    return validateDOMAttributes(
+      props,
+      skeletonDOMAttributes(inputParams, skeleton, context)
+    )
+  }, [
+    context,
+    disabled,
+    id,
+    props,
+    readOnly,
+    rest,
+    showStatus,
+    skeleton,
+    suffix,
+  ])
 
   const mainParams = {
     className: classnames(
@@ -258,8 +360,6 @@ function Checkbox(localProps: CheckboxProps) {
       className
     ),
   }
-
-  const showStatus = getStatusState(status)
 
   const inputParams = handleInputAttributes()
 
@@ -306,10 +406,11 @@ function Checkbox(localProps: CheckboxProps) {
               type="checkbox"
               title={title}
               className="dnb-checkbox__input"
-              value={isChecked ? value || '' : ''}
+              value={isCheckedRef.current ? value || '' : ''}
               disabled={disabled}
               {...inputParams}
               onChange={onChangeHandler}
+              onClick={onClickHandler}
               onKeyDown={onKeyDownHandler}
               ref={ref}
             />
@@ -344,49 +445,6 @@ function Checkbox(localProps: CheckboxProps) {
       {(labelPosition === 'right' || !labelPosition) && statusComp}
     </span>
   )
-
-  /**
-   * Adds aria attributes, calls validateDOMAttributes and skeletonDOMAttributes and returns the result
-   */
-  function handleInputAttributes() {
-    const inputParams = {
-      disabled,
-      checked: isChecked,
-      readOnly,
-      ...rest,
-    }
-
-    if (showStatus || suffix) {
-      inputParams['aria-describedby'] = combineDescribedBy(
-        inputParams,
-        showStatus ? id + '-status' : null,
-        suffix ? id + '-suffix' : null
-      )
-    }
-    if (readOnly) {
-      inputParams['aria-readonly'] = inputParams.readOnly = true
-    }
-
-    // also used for code markup simulation
-    return validateDOMAttributes(
-      props,
-      skeletonDOMAttributes(inputParams, skeleton, context)
-    )
-  }
-
-  function extractPropsFromContext() {
-    return extendPropsWithContext(
-      convertSnakeCaseProps(localProps),
-      defaultProps,
-      context.Checkbox,
-      {
-        skeleton: context?.Checkbox,
-      },
-      // Deprecated – can be removed in v11
-      pickFormElementProps(context?.FormRow),
-      pickFormElementProps(context?.formElement)
-    )
-  }
 }
 
 export default Checkbox

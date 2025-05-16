@@ -36,6 +36,7 @@ export default {
       maskPlaceholder: 'dd/mm/yyyy', // have to be same setup as "mask" - but can be like: dd/mm/åååå
       dateFormat: 'yyyy-MM-dd', // in v1 of date-fns we were more flexible in terms of the format
       returnFormat: 'yyyy-MM-dd', // used in date-fns v1: YYYY-MM-DD
+      firstDay: 'monday', // used in DatePickerCalendar to set the first day of the week
       submitButtonText: 'OK',
       cancelButtonText: 'Cancel',
       resetButtonText: 'Reset',
@@ -44,7 +45,6 @@ export default {
         month: 'm',
         year: 'y',
       },
-      // TODO: add firstDay
     },
     Anchor: {
       targetBlankTitle: 'Opens a new Window',

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useRef } from 'react'
 import classnames from 'classnames'
 import { Checkbox, ToggleButton } from '../../../../components'
 import ButtonRow from '../../Form/ButtonRow'
@@ -9,7 +9,11 @@ import { pickSpacingProps } from '../../../../components/flex/utils'
 import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
 import useTranslation from '../../hooks/useTranslation'
 import { useIterateItemNo } from '../../Iterate/ItemNo/useIItemNo'
-import type { CheckboxProps } from '../../../../components/Checkbox'
+import type {
+  CheckboxProps,
+  OnChangeParams,
+  OnClickParams,
+} from '../../../../components/Checkbox'
 import type { ToggleButtonProps } from '../../../../components/ToggleButton'
 
 export type ToggleProps = {
@@ -19,6 +23,14 @@ export type ToggleProps = {
   textOn?: string
   textOff?: string
   size?: ToggleButtonProps['size'] | CheckboxProps['size']
+
+  /**
+   * Checkbox props
+   */
+  onClick?: (
+    value: unknown,
+    params: { event: React.MouseEvent<HTMLInputElement> }
+  ) => void
 }
 
 export type Props = Omit<FieldProps<unknown>, 'layout' | 'layoutOptions'> &
@@ -49,9 +61,32 @@ function Toggle(props: Props) {
     setDisplayValue,
   } = useFieldProps(preparedProps)
 
+  const preventChangeRef = useRef(false)
+
+  const onClick = preparedProps?.onClick
+  const handleClick = useCallback(
+    (args: OnClickParams) => {
+      const preventDefault = () => {
+        preventChangeRef.current = true
+        args.preventDefault?.()
+      }
+
+      if (preventChangeRef.current) {
+        args.checked = !args.checked
+        preventChangeRef.current = false
+      }
+
+      const event = {
+        ...args,
+        preventDefault,
+      }
+      onClick?.(args.checked ? valueOn : valueOff, event)
+    },
+    [onClick, valueOff, valueOn]
+  )
   const handleCheckboxChange = useCallback(
-    ({ checked }) => {
-      handleChange?.(checked ? valueOn : valueOff)
+    (args: OnChangeParams) => {
+      handleChange?.(args.checked ? valueOn : valueOff, args)
     },
     [handleChange, valueOn, valueOff]
   )
@@ -108,6 +143,7 @@ function Toggle(props: Props) {
             size={size !== 'small' ? size : undefined}
             status={hasError ? 'error' : undefined}
             onChange={handleCheckboxChange}
+            onClick={handleClick}
             {...htmlAttributes}
           />
         </FieldBlock>

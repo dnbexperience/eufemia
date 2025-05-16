@@ -1,6 +1,6 @@
 import { PropertiesTableProps } from '../../shared/types'
 
-export const DropdownEvents: PropertiesTableProps = {
+export const DropdownEvents = {
   on_change: {
     doc: 'will be called on state changes made by the user. Returns an object with the new selected `data` item `{ data, event, attributes, value }`.',
     type: 'function',
@@ -21,9 +21,9 @@ export const DropdownEvents: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
-}
+} satisfies PropertiesTableProps
 
-export const DropdownProperties: PropertiesTableProps = {
+export const DropdownProperties = {
   title: {
     doc: 'give a title to let the users know what they have to do. Defaults to `Valgmeny`.',
     type: 'React.ReactNode',
@@ -179,4 +179,4 @@ export const DropdownProperties: PropertiesTableProps = {
     type: ['string', 'object'],
     status: 'optional',
   },
-}
+} satisfies PropertiesTableProps

@@ -12,7 +12,7 @@ It allows the user to fill in the fields without storing them in the data contex
 Good to know:
 
 - Fields inside the container must have an `itemPath` defined, instead of a `path`.
-- If the user enters data without committing it to the outer context, that data will be lost when navigating to another step in the Wizard. To prevent this, you can use the `requireCommit` property on the PushContainer. When enabled, it will display an error message if the user tries to proceed without committing their changes.
+- If the user enters data without committing it to the outer context, that data will be lost when navigating to another step in the Wizard. To prevent this, you can use the `preventUncommittedChanges` property on the PushContainer. When enabled, it will display an error message if the user tries to proceed without committing their changes.
 - You can provide `data`, `defaultData` in addition to `isolatedData` to prefill the fields.
 - The `path` you define needs to point to an existing [Iterate.Array](/uilib/extensions/forms/Iterate/Array/) path.
 

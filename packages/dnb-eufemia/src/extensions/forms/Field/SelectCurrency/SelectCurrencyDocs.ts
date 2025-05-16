@@ -1,6 +1,6 @@
 import { PropertiesTableProps } from '../../../../shared/types'
 import { getFieldEventsWithTypes } from '../FieldDocs'
-import { autocompleteProperties } from '../../../../components/autocomplete/AutocompleteDocs'
+import { AutocompleteProperties } from '../../../../components/autocomplete/AutocompleteDocs'
 
 export const SelectCurrencyProperties: PropertiesTableProps = {
   currencies: {
@@ -14,8 +14,8 @@ export const SelectCurrencyProperties: PropertiesTableProps = {
     status: 'optional',
   },
   size: {
-    ...autocompleteProperties.size,
-    doc: `${autocompleteProperties.size.doc} Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).`,
+    ...AutocompleteProperties.size,
+    doc: `${AutocompleteProperties.size.doc} Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).`,
   },
 }
 

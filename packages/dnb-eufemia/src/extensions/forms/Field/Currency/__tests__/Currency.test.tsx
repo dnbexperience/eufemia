@@ -273,6 +273,67 @@ describe('Field.Currency', () => {
     })
   })
 
+  describe('disallowLeadingZeroes', () => {
+    it('should allow "0" as value', async () => {
+      render(<Field.Currency disallowLeadingZeroes />)
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '0')
+
+      expect(input).toHaveValue('0 kr')
+    })
+
+    it('should support decimal values', async () => {
+      render(<Field.Currency disallowLeadingZeroes />)
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '0.1')
+
+      expect(input).toHaveValue('0,1 kr')
+    })
+
+    it('should return correct onChange event value', async () => {
+      const onChange = jest.fn()
+
+      render(<Field.Currency disallowLeadingZeroes onChange={onChange} />)
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '0')
+
+      expect(input).toHaveValue('0 kr')
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenNthCalledWith(1, 0, expect.anything())
+
+      await userEvent.keyboard('10')
+
+      expect(input).toHaveValue('10 kr')
+      expect(onChange).toHaveBeenCalledTimes(3)
+      expect(onChange).toHaveBeenNthCalledWith(2, 1, expect.anything())
+      expect(onChange).toHaveBeenNthCalledWith(3, 10, expect.anything())
+
+      await userEvent.keyboard('{Backspace>4}')
+
+      expect(input).toHaveValue('')
+      expect(onChange).toHaveBeenCalledTimes(5)
+      expect(onChange).toHaveBeenNthCalledWith(4, 1, expect.anything())
+      expect(onChange).toHaveBeenNthCalledWith(
+        5,
+        undefined,
+        expect.anything()
+      )
+
+      await userEvent.keyboard('0.1')
+
+      expect(input).toHaveValue('0,1 kr')
+      expect(onChange).toHaveBeenCalledTimes(7)
+      expect(onChange).toHaveBeenNthCalledWith(6, 0, expect.anything())
+      expect(onChange).toHaveBeenNthCalledWith(7, 0.1, expect.anything())
+    })
+  })
+
   describe('ARIA', () => {
     it('should validate with ARIA rules', async () => {
       const result = render(
