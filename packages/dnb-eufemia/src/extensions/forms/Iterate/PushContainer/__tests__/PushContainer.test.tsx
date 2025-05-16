@@ -500,7 +500,7 @@ describe('PushContainer', () => {
         document.querySelector('.dnb-form-status')
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Isolation.requireCommitText
+        nb.Isolation.preventUncommitedChangesText
       )
 
       await userEvent.click(doneButton)
@@ -1132,7 +1132,7 @@ describe('PushContainer', () => {
         document.querySelector('.dnb-form-status')
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.Isolation.requireCommitText
+        nb.Isolation.preventUncommitedChangesText
       )
 
       // Click the reset button

@@ -331,7 +331,7 @@ function NewContainer({
 
   switchContainerModeRef.current = switchContainerMode
   const isVisible = Boolean(!showOpenButton || containerMode === 'edit')
-  const { requireCommitText } = useTranslation().Isolation
+  const { preventUncommitedChangesText } = useTranslation().Isolation
   const { createButton } = useTranslation().IteratePushContainer
   const { clearData } = useContext(DataContext) || {}
   const restoreOriginalValue = useCallback(() => {
@@ -363,7 +363,7 @@ function NewContainer({
 
               {requireCommit && showCommitStatus && (
                 <FormStatus no_animation={false} show={hasContentChanged}>
-                  {requireCommitText}
+                  {preventUncommitedChangesText}
                 </FormStatus>
               )}
             </IterateItemContext.Provider>

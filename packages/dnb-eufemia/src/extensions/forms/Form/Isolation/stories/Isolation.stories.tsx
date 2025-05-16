@@ -173,12 +173,12 @@ export const TransformOnCommit = () => {
   )
 }
 
-export function RequireCommit() {
+export function preventUncommitedChanges() {
   return (
     <Form.Handler onSubmit={async (data) => console.log('onSubmit', data)}>
       <Flex.Stack>
         <Form.Isolation
-          requireCommit
+          preventUncommitedChanges
           resetDataAfterCommit
           defaultData={{ isolated: 'Isolated' }}
         >

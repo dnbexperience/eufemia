@@ -21,7 +21,7 @@ export default {
     },
     Isolation: {
       commitButtonText: 'Add',
-      requireCommitText:
+      preventUncommitedChangesText:
         'You have changes that either need to be added or cleared.',
     },
     Step: {

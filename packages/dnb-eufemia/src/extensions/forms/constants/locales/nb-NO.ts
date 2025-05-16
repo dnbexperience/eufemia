@@ -20,7 +20,7 @@ export default {
     },
     Isolation: {
       commitButtonText: 'Legg til',
-      requireCommitText:
+      preventUncommitedChangesText:
         'Du har endringer som enten må legges til eller nullstilles.',
     },
     Step: {

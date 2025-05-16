@@ -21,7 +21,7 @@ export default {
     },
     Isolation: {
       commitButtonText: 'Lägg till',
-      requireCommitText:
+      preventUncommitedChangesText:
         'Du har ändringar som antingen måste läggas till eller rensas.',
     },
     Step: {
