@@ -37,7 +37,7 @@ export default function IsolationResetButton(props: Props) {
   const { hasContentChanged } = useHasContentChanged()
   const { showStatus: showCommitStatus } = useHandleStatus({
     outerContext,
-    requireCommit: preventUncommitedChanges,
+    preventUncommitedChanges,
     error: isolationError,
   })
 
