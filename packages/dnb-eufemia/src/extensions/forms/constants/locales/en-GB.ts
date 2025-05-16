@@ -119,6 +119,7 @@ export default {
       errorRequired: 'You must enter a street address.',
       errorPattern:
         'Invalid street address. Enter a valid street address.',
+      suggestionPlaceholder: 'Enter an address',
     },
     Date: {
       label: 'Date',
