@@ -253,7 +253,7 @@ export const PreventUncommitedChanges = () => {
 
               <Flex.Horizontal>
                 <Form.Isolation.CommitButton />
-                <Form.Isolation.ResetButton showWhen="uncommitedChangePrevented" />
+                <Form.Isolation.ResetButton showWhen="uncommittedChangeDetected" />
               </Flex.Horizontal>
             </Flex.Stack>
           </Form.Isolation>
