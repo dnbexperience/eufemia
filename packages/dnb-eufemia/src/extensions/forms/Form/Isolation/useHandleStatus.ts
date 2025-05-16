@@ -5,24 +5,24 @@ import useReportError from './useReportError'
 
 export default function useHandleStatus({
   outerContext,
-  preventUncommitedChanges,
+  preventUncommittedChanges,
   error,
 }: {
   outerContext: ContextState
-  preventUncommitedChanges: boolean
+  preventUncommittedChanges: boolean
   error: Error
 }) {
   const { hasContentChanged } = useHasContentChanged()
 
   useReportError(
-    preventUncommitedChanges && hasContentChanged ? error : undefined,
+    preventUncommittedChanges && hasContentChanged ? error : undefined,
     outerContext
   )
 
   const showStatus = useShowStatus({
     outerContext,
     hasContentChanged,
-    preventUncommitedChanges,
+    preventUncommittedChanges,
   })
 
   return { hasContentChanged, showStatus }
@@ -32,14 +32,14 @@ export default function useHandleStatus({
 function useShowStatus({
   outerContext,
   hasContentChanged,
-  preventUncommitedChanges,
+  preventUncommittedChanges,
 }) {
   const showAllErrors = outerContext?.showAllErrors
   const [showStatus, setShowStatus] = useState(showAllErrors)
   const showRef = useRef(showAllErrors)
 
   useEffect(() => {
-    if (!preventUncommitedChanges) {
+    if (!preventUncommittedChanges) {
       return // stop here
     }
 
@@ -51,7 +51,7 @@ function useShowStatus({
       }
     }
     showRef.current = showAllErrors
-  }, [hasContentChanged, preventUncommitedChanges, showAllErrors])
+  }, [hasContentChanged, preventUncommittedChanges, showAllErrors])
 
   return showStatus
 }

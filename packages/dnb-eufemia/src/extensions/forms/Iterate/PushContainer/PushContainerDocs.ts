@@ -47,8 +47,8 @@ export const PushContainerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  preventUncommitedChanges: {
-    doc: 'Prevents uncommited changes before the form is submitted. Will display an error message if user tries to submit without committing their changes.',
+  preventUncommittedChanges: {
+    doc: 'Prevents uncommitted changes before the form is submitted. Will display an error message if user tries to submit without committing their changes.',
     type: 'boolean',
     status: 'optional',
   },

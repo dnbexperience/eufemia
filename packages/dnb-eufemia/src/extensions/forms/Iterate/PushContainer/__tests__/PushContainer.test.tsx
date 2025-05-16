@@ -427,7 +427,7 @@ describe('PushContainer', () => {
     })
   })
 
-  // Deprecated – can be removed in v11 - replaced with preventUncommitedChanges
+  // Deprecated – can be removed in v11 - replaced with preventUncommittedChanges
   describe('requireCommit', () => {
     it('should prevent the form from submitting as long as there is uncommitted data', async () => {
       const onSubmitRequest = jest.fn()
@@ -501,7 +501,7 @@ describe('PushContainer', () => {
         document.querySelector('.dnb-form-status')
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.IteratePushContainer.preventUncommitedChangesText
+        nb.IteratePushContainer.preventUncommittedChangesText
       )
 
       await userEvent.click(doneButton)
@@ -1133,7 +1133,7 @@ describe('PushContainer', () => {
         document.querySelector('.dnb-form-status')
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.IteratePushContainer.preventUncommitedChangesText
+        nb.IteratePushContainer.preventUncommittedChangesText
       )
 
       // Click the reset button
@@ -1157,7 +1157,7 @@ describe('PushContainer', () => {
     })
   })
 
-  describe('preventUncommitedChanges', () => {
+  describe('preventUncommittedChanges', () => {
     it('should prevent the form from submitting as long as there is uncommitted data', async () => {
       const onSubmitRequest = jest.fn()
       const onSubmit = jest.fn()
@@ -1172,7 +1172,7 @@ describe('PushContainer', () => {
 
           <Iterate.PushContainer
             path="/entries"
-            preventUncommitedChanges
+            preventUncommittedChanges
             onCommit={onCommit}
           >
             <Field.String itemPath="/name" />
@@ -1210,7 +1210,7 @@ describe('PushContainer', () => {
         <Form.Handler>
           <Iterate.Array path="/entries">...</Iterate.Array>
 
-          <Iterate.PushContainer path="/entries" preventUncommitedChanges>
+          <Iterate.PushContainer path="/entries" preventUncommittedChanges>
             <Field.String itemPath="/name" />
           </Iterate.PushContainer>
         </Form.Handler>
@@ -1230,7 +1230,7 @@ describe('PushContainer', () => {
         document.querySelector('.dnb-form-status')
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.IteratePushContainer.preventUncommitedChangesText
+        nb.IteratePushContainer.preventUncommittedChangesText
       )
 
       await userEvent.click(doneButton)
@@ -1254,7 +1254,7 @@ describe('PushContainer', () => {
           <Form.Handler onSubmit={onSubmit}>
             <Iterate.PushContainer
               path="/entries"
-              preventUncommitedChanges
+              preventUncommittedChanges
             >
               <Field.String
                 itemPath="/name"
@@ -1297,7 +1297,7 @@ describe('PushContainer', () => {
           <Form.Handler onSubmit={onSubmit}>
             <Iterate.PushContainer
               path="/entries"
-              preventUncommitedChanges
+              preventUncommittedChanges
             >
               <Field.String
                 itemPath="/name"
@@ -1372,7 +1372,7 @@ describe('PushContainer', () => {
           <Form.Handler onSubmit={onSubmit}>
             <Iterate.PushContainer
               path="/entries"
-              preventUncommitedChanges
+              preventUncommittedChanges
             >
               <Field.String
                 itemPath="/name"
@@ -1415,7 +1415,7 @@ describe('PushContainer', () => {
           <Form.Handler onSubmit={onSubmit}>
             <Iterate.PushContainer
               path="/entries"
-              preventUncommitedChanges
+              preventUncommittedChanges
             >
               <Field.String
                 itemPath="/name"
@@ -1491,7 +1491,7 @@ describe('PushContainer', () => {
             <Iterate.PushContainer
               path="/entries"
               defaultData={{ name: 'A default value' }}
-              preventUncommitedChanges
+              preventUncommittedChanges
             >
               <Field.String itemPath="/name" />
             </Iterate.PushContainer>
@@ -1532,7 +1532,7 @@ describe('PushContainer', () => {
             <Iterate.PushContainer
               path="/entries"
               defaultData={{ name: 'A default value' }}
-              preventUncommitedChanges
+              preventUncommittedChanges
             >
               <Field.String itemPath="/name" />
             </Iterate.PushContainer>
@@ -1605,7 +1605,7 @@ describe('PushContainer', () => {
             <Iterate.PushContainer
               path="/entries"
               data={{ name: 'A default value' }}
-              preventUncommitedChanges
+              preventUncommittedChanges
             >
               <Field.String itemPath="/name" />
             </Iterate.PushContainer>
@@ -1646,7 +1646,7 @@ describe('PushContainer', () => {
             <Iterate.PushContainer
               path="/entries"
               data={{ name: 'A default value' }}
-              preventUncommitedChanges
+              preventUncommittedChanges
             >
               <Field.String itemPath="/name" />
             </Iterate.PushContainer>
@@ -1730,7 +1730,7 @@ describe('PushContainer', () => {
               <Iterate.PushContainer
                 path="/entries"
                 onCommit={onCommit}
-                preventUncommitedChanges
+                preventUncommittedChanges
               >
                 <Field.String itemPath="/name" />
               </Iterate.PushContainer>
@@ -1803,7 +1803,7 @@ describe('PushContainer', () => {
         <Form.Handler>
           <Iterate.Array path="/entries">...</Iterate.Array>
 
-          <Iterate.PushContainer path="/entries" preventUncommitedChanges>
+          <Iterate.PushContainer path="/entries" preventUncommittedChanges>
             <Field.String itemPath="/name" />
           </Iterate.PushContainer>
         </Form.Handler>
@@ -1853,7 +1853,7 @@ describe('PushContainer', () => {
           <Iterate.PushContainer
             path="/entries"
             onCommit={onCommit}
-            preventUncommitedChanges
+            preventUncommittedChanges
           >
             <Field.String itemPath="/name" />
           </Iterate.PushContainer>
@@ -1874,7 +1874,7 @@ describe('PushContainer', () => {
         document.querySelector('.dnb-form-status')
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.IteratePushContainer.preventUncommitedChangesText
+        nb.IteratePushContainer.preventUncommittedChangesText
       )
 
       // Click the reset button

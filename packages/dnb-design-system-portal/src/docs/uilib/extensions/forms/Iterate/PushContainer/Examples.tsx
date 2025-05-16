@@ -269,7 +269,7 @@ export const IsolatedData = () => {
   )
 }
 
-export const PreventUncommitedChanges = () => {
+export const PreventUncommittedChanges = () => {
   return (
     <ComponentBox>
       <Form.Handler>
@@ -288,7 +288,7 @@ export const PreventUncommitedChanges = () => {
               <Iterate.PushContainer
                 path="/people"
                 title="New person"
-                preventUncommitedChanges
+                preventUncommittedChanges
                 bubbleValidation
                 openButton={
                   <Iterate.PushContainer.OpenButton

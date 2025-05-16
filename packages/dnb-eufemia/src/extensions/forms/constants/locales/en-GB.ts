@@ -74,7 +74,7 @@ export default {
     IteratePushContainer: {
       createButton: 'Add',
       itemsLimitReached: 'You have reached the limit of: {limit}',
-      preventUncommitedChangesText:
+      preventUncommittedChangesText:
         'You have changes that either need to be added or cleared.',
     },
 
