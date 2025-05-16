@@ -2169,6 +2169,65 @@ describe('Form.Isolation', () => {
         outer: [{ item: 'outer value' }],
       })
     })
+
+    it('should not set the field value to the outer context when wrapped in a section', async () => {
+      let outerContext = null
+      let innerContext = null
+
+      const CollectOuterData = () => {
+        outerContext = Form.useData()
+        return null
+      }
+
+      const CollectInnerData = () => {
+        innerContext = Form.useData()
+        return null
+      }
+
+      const { rerender } = render(
+        <Form.Handler defaultData={{ mySection: {} }}>
+          <Form.Section path="/mySection">
+            <Form.Isolation>
+              <Field.String path="/isolated" />
+              <CollectInnerData />
+            </Form.Isolation>
+          </Form.Section>
+
+          <CollectOuterData />
+        </Form.Handler>
+      )
+
+      expect(innerContext.data).toEqual({
+        mySection: {
+          isolated: undefined,
+        },
+      })
+      expect(outerContext.data).toEqual({
+        mySection: {},
+      })
+
+      rerender(
+        <Form.Handler defaultData={{ mySection: {} }}>
+          <Form.Section path="/mySection">
+            <Form.Isolation>
+              <Field.String path="/isolated" value="isolated value" />
+              <CollectInnerData />
+            </Form.Isolation>
+          </Form.Section>
+
+          <CollectOuterData />
+        </Form.Handler>
+      )
+
+      expect(innerContext.data).toEqual({
+        mySection: {
+          isolated: 'isolated value',
+        },
+      })
+      expect(outerContext.data).toEqual({
+        mySection: {},
+      })
+    })
   })
 
   describe('bubbleValidation', () => {
