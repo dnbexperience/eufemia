@@ -207,7 +207,7 @@ function IsolationProvider<Data extends JsonObject>(
 
     internalDataRef.current = Object.assign(
       {},
-      localData || dataOuter || {},
+      localData || structuredClone(dataOuter) || {},
       localDataRef.current
     )
   }, [data, defaultData, pathSection, dataOuter, moveValueToPath])
