@@ -223,7 +223,7 @@ import { Form, Field } from '@dnb/eufemia/extensions/forms'
 function MyForm() {
   return (
     <Form.Handler>
-      <Form.Isolation requireCommit resetAfterCommit>
+      <Form.Isolation requireCommit resetDataAfterCommit>
         <Field.String path="/isolated" />
         <Form.Isolation.CommitButton />
         <Form.Isolation.ResetButton showWhen="errorIsPresent" />

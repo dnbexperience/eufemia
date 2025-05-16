@@ -2184,7 +2184,7 @@ describe('Form.Isolation', () => {
         >
           <Form.Isolation
             requireCommit
-            resetAfterCommit
+            resetDataAfterCommit
             onCommit={onCommit}
           >
             <Field.String path="/name" />
@@ -2221,7 +2221,7 @@ describe('Form.Isolation', () => {
     it('should show error when submitting the form', async () => {
       render(
         <Form.Handler>
-          <Form.Isolation requireCommit resetAfterCommit>
+          <Form.Isolation requireCommit resetDataAfterCommit>
             <Field.String path="/name" />
             <Form.Isolation.CommitButton />
           </Form.Isolation>
@@ -2266,7 +2266,7 @@ describe('Form.Isolation', () => {
 
         render(
           <Form.Handler onSubmit={onSubmit}>
-            <Form.Isolation requireCommit resetAfterCommit>
+            <Form.Isolation requireCommit resetDataAfterCommit>
               <Field.String path="/name" emptyValue="The empty value" />
               <Form.Isolation.CommitButton />
             </Form.Isolation>
@@ -2304,7 +2304,7 @@ describe('Form.Isolation', () => {
 
         render(
           <Form.Handler onSubmit={onSubmit}>
-            <Form.Isolation requireCommit resetAfterCommit>
+            <Form.Isolation requireCommit resetDataAfterCommit>
               <Field.String path="/name" emptyValue="The empty value" />
               <Form.Isolation.CommitButton />
               <Form.Isolation.ResetButton />
@@ -2378,7 +2378,7 @@ describe('Form.Isolation', () => {
 
         render(
           <Form.Handler onSubmit={onSubmit}>
-            <Form.Isolation requireCommit resetAfterCommit>
+            <Form.Isolation requireCommit resetDataAfterCommit>
               <Field.String path="/name" defaultValue="A default value" />
               <Form.Isolation.CommitButton />
               <Form.Isolation.ResetButton />
@@ -2417,7 +2417,7 @@ describe('Form.Isolation', () => {
 
         render(
           <Form.Handler onSubmit={onSubmit}>
-            <Form.Isolation requireCommit resetAfterCommit>
+            <Form.Isolation requireCommit resetDataAfterCommit>
               <Field.String path="/name" defaultValue="A default value" />
               <Form.Isolation.CommitButton />
               <Form.Isolation.ResetButton />
@@ -2493,7 +2493,7 @@ describe('Form.Isolation', () => {
           <Form.Handler onSubmit={onSubmit}>
             <Form.Isolation
               requireCommit
-              resetAfterCommit
+              resetDataAfterCommit
               defaultData={{ name: 'A default value' }}
             >
               <Field.String path="/name" />
@@ -2536,7 +2536,7 @@ describe('Form.Isolation', () => {
           <Form.Handler onSubmit={onSubmit}>
             <Form.Isolation
               requireCommit
-              resetAfterCommit
+              resetDataAfterCommit
               defaultData={{ name: 'A default value' }}
             >
               <Field.String path="/name" />
@@ -2614,7 +2614,7 @@ describe('Form.Isolation', () => {
           <Form.Handler onSubmit={onSubmit}>
             <Form.Isolation
               requireCommit
-              resetAfterCommit
+              resetDataAfterCommit
               data={{ name: 'A data value' }}
             >
               <Field.String path="/name" />
@@ -2657,7 +2657,7 @@ describe('Form.Isolation', () => {
           <Form.Handler onSubmit={onSubmit}>
             <Form.Isolation
               requireCommit
-              resetAfterCommit
+              resetDataAfterCommit
               data={{ name: 'A data value' }}
             >
               <Field.String path="/name" />
@@ -2747,7 +2747,7 @@ describe('Form.Isolation', () => {
 
               <Form.Isolation
                 requireCommit
-                resetAfterCommit
+                resetDataAfterCommit
                 onCommit={onCommit}
               >
                 <Field.String path="/name" emptyValue="The empty value" />
@@ -2827,7 +2827,7 @@ describe('Form.Isolation', () => {
     it('should hide and show reset button when showWhen="errorIsPresent" is set', async () => {
       render(
         <Form.Handler>
-          <Form.Isolation requireCommit resetAfterCommit>
+          <Form.Isolation requireCommit resetDataAfterCommit>
             <Field.String path="/name" emptyValue="The empty value" />
             <Form.Isolation.CommitButton />
             <Form.Isolation.ResetButton showWhen="errorIsPresent" />
@@ -2863,7 +2863,7 @@ describe('Form.Isolation', () => {
     it('should enable/disable reset button', async () => {
       render(
         <Form.Handler>
-          <Form.Isolation requireCommit resetAfterCommit>
+          <Form.Isolation requireCommit resetDataAfterCommit>
             <Field.String path="/name" />
             <Form.Isolation.CommitButton />
             <Form.Isolation.ResetButton />
@@ -2928,7 +2928,7 @@ describe('Form.Isolation', () => {
         >
           <Form.Isolation
             requireCommit
-            resetAfterCommit
+            resetDataAfterCommit
             onCommit={onCommit}
           >
             <Field.String path="/name" />
