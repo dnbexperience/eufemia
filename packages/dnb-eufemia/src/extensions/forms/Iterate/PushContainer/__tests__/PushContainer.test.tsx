@@ -501,7 +501,7 @@ describe('PushContainer', () => {
         document.querySelector('.dnb-form-status')
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.IteratePushContainer.preventUncommittedChangesText
+        nb.Isolation.preventUncommittedChangesText
       )
 
       await userEvent.click(doneButton)
@@ -1133,7 +1133,7 @@ describe('PushContainer', () => {
         document.querySelector('.dnb-form-status')
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.IteratePushContainer.preventUncommittedChangesText
+        nb.Isolation.preventUncommittedChangesText
       )
 
       // Click the reset button
@@ -1230,7 +1230,7 @@ describe('PushContainer', () => {
         document.querySelector('.dnb-form-status')
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.IteratePushContainer.preventUncommittedChangesText
+        nb.Isolation.preventUncommittedChangesText
       )
 
       await userEvent.click(doneButton)
@@ -1874,7 +1874,7 @@ describe('PushContainer', () => {
         document.querySelector('.dnb-form-status')
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.IteratePushContainer.preventUncommittedChangesText
+        nb.Isolation.preventUncommittedChangesText
       )
 
       // Click the reset button
