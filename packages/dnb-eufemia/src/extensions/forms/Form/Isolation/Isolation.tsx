@@ -59,7 +59,7 @@ export type IsolationProviderProps<Data extends JsonObject> = {
   /**
    * If set to `true`, the Form.Isolation will reset its data context after committing the data to the outer context.
    */
-  resetAfterCommit?: boolean
+  resetDataAfterCommit?: boolean
   /**
    * Provide a reference by using Form.Isolation.createDataReference.
    */
@@ -111,7 +111,7 @@ function IsolationProvider<Data extends JsonObject>(
     data,
     defaultData,
     dataReference = dataReferenceFallback,
-    resetAfterCommit,
+    resetDataAfterCommit,
   } = props
 
   const [, forceUpdate] = useReducer(() => ({}), {})
@@ -281,7 +281,7 @@ function IsolationProvider<Data extends JsonObject>(
   return (
     <Provider {...providerProps}>
       <IsolationContext.Provider
-        value={{ dataReference, resetAfterCommit, outerContext }}
+        value={{ dataReference, resetDataAfterCommit, outerContext }}
       >
         <DataContext.Consumer>
           {(dataContext) => {

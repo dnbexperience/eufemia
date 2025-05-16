@@ -5,16 +5,16 @@ import useDataContextSnapshot from './useDataContextSnapshot'
 
 export default function IsolatedContainer({ children }) {
   const { setFieldEventListener } = useContext(DataContext)
-  const { resetAfterCommit } = useContext(IsolationContext)
+  const { resetDataAfterCommit } = useContext(IsolationContext)
   const { handleReset } = useDataContextSnapshot({
-    enabled: resetAfterCommit,
+    enabled: resetDataAfterCommit,
   })
 
   const handleSubmit = useCallback(() => {
-    if (resetAfterCommit) {
+    if (resetDataAfterCommit) {
       handleReset()
     }
-  }, [handleReset, resetAfterCommit])
+  }, [handleReset, resetDataAfterCommit])
   setFieldEventListener?.(undefined, 'onBeforeCommit', handleSubmit)
 
   return <>{children}</>

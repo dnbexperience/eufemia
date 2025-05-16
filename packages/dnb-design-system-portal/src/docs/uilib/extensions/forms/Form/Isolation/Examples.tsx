@@ -12,7 +12,7 @@ export const UsingCommitButton = () => {
       >
         <Flex.Stack>
           <Form.Isolation
-            resetAfterCommit
+            resetDataAfterCommit
             onChange={(data) => console.log('Isolated onChange:', data)}
           >
             <Flex.Stack>
@@ -220,7 +220,7 @@ export const InsideSection = () => {
                 console.log('Isolated onChange:', path, value)
               }}
               onCommit={(data) => console.log('onCommit:', data)}
-              resetAfterCommit
+              resetDataAfterCommit
             >
               <Flex.Stack>
                 <Field.String label="Isolated" path="/isolated" required />

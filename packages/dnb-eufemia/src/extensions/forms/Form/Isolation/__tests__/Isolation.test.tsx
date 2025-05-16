@@ -906,15 +906,15 @@ describe('Form.Isolation', () => {
       expect(onSubmit).toHaveBeenCalledTimes(0)
     })
 
-    describe('resetAfterCommit', () => {
-      it('should reset data context after commit using submit button when "resetAfterCommit" is true', async () => {
+    describe('resetDataAfterCommit', () => {
+      it('should reset data context after commit using submit button when "resetDataAfterCommit" is true', async () => {
         const onChange = jest.fn()
         const onSubmit = jest.fn()
         const onCommit = jest.fn()
 
         render(
           <Form.Handler onChange={onChange} onSubmit={onSubmit}>
-            <Form.Isolation onCommit={onCommit} resetAfterCommit>
+            <Form.Isolation onCommit={onCommit} resetDataAfterCommit>
               <Field.String path="/isolated" />
               <Form.Isolation.CommitButton />
             </Form.Isolation>
@@ -976,14 +976,14 @@ describe('Form.Isolation', () => {
         )
       })
 
-      it('should reset data context after commit using enter key when "resetAfterCommit" is true', async () => {
+      it('should reset data context after commit using enter key when "resetDataAfterCommit" is true', async () => {
         const onChange = jest.fn()
         const onSubmit = jest.fn()
         const onCommit = jest.fn()
 
         render(
           <Form.Handler onChange={onChange} onSubmit={onSubmit}>
-            <Form.Isolation onCommit={onCommit} resetAfterCommit>
+            <Form.Isolation onCommit={onCommit} resetDataAfterCommit>
               <Field.String path="/isolated" />
               <Form.Isolation.CommitButton />
             </Form.Isolation>
@@ -1047,7 +1047,7 @@ describe('Form.Isolation', () => {
 
         render(
           <Form.Handler>
-            <Form.Isolation onCommit={onCommit} resetAfterCommit>
+            <Form.Isolation onCommit={onCommit} resetDataAfterCommit>
               <Field.String
                 path="/isolated"
                 defaultValue="default value"
@@ -1091,7 +1091,7 @@ describe('Form.Isolation', () => {
           <Form.Handler>
             <Form.Isolation
               onCommit={onCommit}
-              resetAfterCommit
+              resetDataAfterCommit
               defaultData={{
                 isolated: 'default value',
               }}
@@ -1134,7 +1134,7 @@ describe('Form.Isolation', () => {
 
         render(
           <Form.Handler>
-            <Form.Isolation onCommit={onCommit} resetAfterCommit>
+            <Form.Isolation onCommit={onCommit} resetDataAfterCommit>
               <Field.String
                 path="/isolated"
                 required
@@ -1179,7 +1179,7 @@ describe('Form.Isolation', () => {
             <Form.Isolation
               onCommit={onCommit}
               dataReference={dataReference}
-              resetAfterCommit
+              resetDataAfterCommit
             >
               <Field.String path="/isolated" />
 

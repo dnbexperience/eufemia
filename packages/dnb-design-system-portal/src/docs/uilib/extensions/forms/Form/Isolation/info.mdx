@@ -30,7 +30,7 @@ export function MyForm(props) {
     <Form.Handler
       defaultData={{ isolated: 'Isolated', regular: 'Regular' }}
     >
-      <Form.Isolation resetAfterCommit>
+      <Form.Isolation resetDataAfterCommit>
         <Field.String label="Isolated" path="/isolated" />
         <Form.Isolation.CommitButton />
       </Form.Isolation>
@@ -165,7 +165,7 @@ function MyForm() {
 
 ## Reset data after commit
 
-You can reset the isolation the user committed by using `resetAfterCommit`:
+You can reset the isolation the user committed by using `resetDataAfterCommit`:
 
 ```jsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
@@ -173,7 +173,7 @@ import { Form, Field } from '@dnb/eufemia/extensions/forms'
 function MyForm() {
   return (
     <Form.Handler>
-      <Form.Isolation resetAfterCommit>
+      <Form.Isolation resetDataAfterCommit>
         <Field.String path="/isolated" />
         <Form.Isolation.CommitButton />
       </Form.Isolation>
@@ -184,7 +184,7 @@ function MyForm() {
 
 ### Define the reset data
 
-Technically, when you use `resetAfterCommit`, the `Form.Isolation` will reset its data context based on the "initial" internal data set.
+Technically, when you use `resetDataAfterCommit`, the `Form.Isolation` will reset its data context based on the "initial" internal data set.
 
 But in some situations, you may need a different data set than the internal data set given at the initial render.
 
@@ -203,7 +203,7 @@ function MyForm() {
 
   return (
     <Form.Handler>
-      <Form.Isolation resetAfterCommit dataReference={dataReference}>
+      <Form.Isolation resetDataAfterCommit dataReference={dataReference}>
         <Field.String path="/isolated" />
         <Form.Isolation.CommitButton />
       </Form.Isolation>

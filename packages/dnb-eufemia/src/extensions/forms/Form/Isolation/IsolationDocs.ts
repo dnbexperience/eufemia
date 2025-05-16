@@ -25,7 +25,7 @@ export const IsolationProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  resetAfterCommit: {
+  resetDataAfterCommit: {
     doc: 'If set to `true`, the Form.Isolation will reset its data context after committing the data to the outer context.',
     type: 'boolean',
     status: 'optional',

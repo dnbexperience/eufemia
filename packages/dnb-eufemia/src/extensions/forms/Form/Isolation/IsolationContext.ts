@@ -4,7 +4,7 @@ import { IsolationDataReference } from './IsolationDataReference'
 
 export type IsolationContext = {
   dataReference: IsolationDataReference
-  resetAfterCommit: boolean
+  resetDataAfterCommit: boolean
   outerContext: ContextState
 }
 
