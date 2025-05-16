@@ -58,7 +58,7 @@ export type IsolationProviderProps<Data extends JsonObject> = {
    */
   bubbleValidation?: boolean
   /**
-   * If the container should be committed before the form is submitted.
+   * If the isolation containing changes should be committed before the form is submitted.
    */
   requireCommit?: boolean
   /**
