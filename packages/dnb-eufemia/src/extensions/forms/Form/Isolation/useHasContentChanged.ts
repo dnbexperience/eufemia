@@ -1,27 +1,16 @@
-import { useContext, useEffect, useMemo, useRef } from 'react'
-import DataContext from '../../DataContext/Context'
+import { useContext, useMemo } from 'react'
 import pointer from '../../utils/json-pointer'
-
-/**
- * Deprecated, as it is supported by all major browsers and Node.js >=v18
- * So its a question of time, when we will remove this polyfill
- */
-import structuredClone from '@ungap/structured-clone'
+import DataContext from '../../DataContext/Context'
+import useDataContextSnapshot from './useDataContextSnapshot'
 
 export default function useHasContentChanged() {
   const { internalDataRef } = useContext(DataContext)
-  const snapshotRef = useRef<unknown>()
-
-  useEffect(() => {
-    snapshotRef.current = structuredClone(internalDataRef?.current)
-
-    // We only want to set the initial value once for now.
-    // When e.g. the data from outside is controlled, we do not support it yet.
-  }, [internalDataRef])
+  const { snapshotRef } = useDataContextSnapshot({ enabled: true })
 
   const data = internalDataRef?.current
+  const snapshot = snapshotRef?.current // To support a custom data reference, we need to have a snapshot in the hook deps.
   const hasContentChanged = useMemo(() => {
-    if (data === undefined) {
+    if (!data || !snapshot) {
       return undefined
     }
 
@@ -29,8 +18,8 @@ export default function useHasContentChanged() {
 
     pointer.walk(data, (value, path) => {
       if (
-        pointer.has(snapshotRef.current, path) &&
-        pointer.get(snapshotRef.current, path) !== value
+        pointer.has(snapshot, path) &&
+        pointer.get(snapshot, path) !== value
       ) {
         hasChanged = true
         return false
@@ -38,7 +27,7 @@ export default function useHasContentChanged() {
     })
 
     return hasChanged
-  }, [data])
+  }, [data, snapshot])
 
   return { hasContentChanged }
 }

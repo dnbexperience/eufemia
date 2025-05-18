@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect } from 'react'
+import { useCallback, useContext, useEffect, useReducer } from 'react'
 import DataContext from '../../DataContext/Context'
 import IsolationContext from './IsolationContext'
 
@@ -13,8 +13,10 @@ export default function useDataContextSnapshot({
 }: {
   enabled?: boolean
 } = {}) {
+  const [, forceUpdate] = useReducer(() => ({}), {})
   const { internalDataRef, setData } = useContext(DataContext)
-  const { dataReference } = useContext(IsolationContext) || {}
+  const { dataReference, setIsolatedData } =
+    useContext(IsolationContext) || {}
   const { snapshotRef, eventsRef, update, refresh, cleanup } =
     dataReference || {}
 
@@ -22,20 +24,23 @@ export default function useDataContextSnapshot({
     if (enabled && eventsRef) {
       eventsRef.current.push(() => {
         update(structuredClone(internalDataRef?.current))
+        forceUpdate()
       })
       refresh()
     }
 
-    return () => cleanup()
+    return () => cleanup?.()
   }, [cleanup, enabled, eventsRef, internalDataRef, refresh, update])
 
   const handleReset = useCallback(() => {
     window.requestAnimationFrame(() => {
       if (snapshotRef) {
-        setData(snapshotRef.current)
+        const data = structuredClone(snapshotRef.current)
+        setData(data)
+        setIsolatedData(data)
       }
-    }) // To actually reset the data, we need to wait for the next frame
-  }, [setData, snapshotRef])
+    }) // To actually reset the data without influence the data we are about to push, we need to wait for the next frame
+  }, [setData, setIsolatedData, snapshotRef])
 
-  return { handleReset }
+  return { handleReset, snapshotRef }
 }

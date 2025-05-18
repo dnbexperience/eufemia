@@ -23,8 +23,22 @@ import * as Examples from './Examples'
 
 This example has a `defaultValue` both on the Form.Handler and the Form.Isolation.
 
-When no `defaultValue` is set on the Form.Isolation (inner context), the the default value from Form.Handler (outer context) is used for the initial value.
+When no `defaultValue` is set on the Form.Isolation (inner context), the default value from Form.Handler (outer context) is used for the initial value.
 
-When pressing "Legg til" the default value from Form.Isolation is inserted again, because `resetDataAfterCommit` is set to `true`.
+When pressing the "Legg til / Add"-button, the default value from Form.Isolation is inserted again, because `resetDataAfterCommit` is set to `true`.
 
 <Examples.InsideSection />
+
+### Prevent uncommitted changes
+
+This example uses the `preventUncommittedChanges` property to display an error message if the user has made changes and attempts to submit the form.
+
+Try entering something in the input field, then submit the form. An error message will appear to indicate that changes must be committed first.
+
+<Examples.PreventUncommittedChanges />
+
+### Update the data reference
+
+This example shows how to update the data reference at a later point in time.
+
+<Examples.UpdateDataReference />

@@ -19,6 +19,7 @@ import {
 import SectionContext from '../Section/SectionContext'
 import useReportError from './useReportError'
 import IsolationCommitButton from './IsolationCommitButton'
+import IsolationResetButton from './IsolationResetButton'
 import {
   clearedData,
   type Props as ProviderProps,
@@ -56,6 +57,10 @@ export type IsolationProviderProps<Data extends JsonObject> = {
    * Prevent the form from being submitted when there are fields with errors inside the Form.Isolation.
    */
   bubbleValidation?: boolean
+  /**
+   * Prevents uncommitted changes before the form is submitted. Will display an error message if user tries to submit without committing their changes.
+   */
+  preventUncommittedChanges?: boolean
   /**
    * If set to `true`, the Form.Isolation will reset its data context after committing the data to the outer context.
    */
@@ -108,6 +113,7 @@ function IsolationProvider<Data extends JsonObject>(
     transformOnCommit: transformOnCommitProp,
     commitHandleRef,
     bubbleValidation,
+    preventUncommittedChanges,
     data,
     defaultData,
     dataReference = dataReferenceFallback,
@@ -261,12 +267,16 @@ function IsolationProvider<Data extends JsonObject>(
     ]
   )
 
+  const setIsolatedData = useCallback((data: Data) => {
+    localDataRef.current = data
+    internalDataRef.current = data
+  }, [])
+
   const onClear = useCallback(() => {
-    localDataRef.current = clearedData
-    internalDataRef.current = clearedData as Data
+    setIsolatedData(clearedData as Data)
     forceUpdate()
     onClearProp?.()
-  }, [onClearProp])
+  }, [onClearProp, setIsolatedData])
 
   const providerProps: IsolationProps<Data> = {
     ...props,
@@ -281,7 +291,13 @@ function IsolationProvider<Data extends JsonObject>(
   return (
     <Provider {...providerProps}>
       <IsolationContext.Provider
-        value={{ dataReference, resetDataAfterCommit, outerContext }}
+        value={{
+          preventUncommittedChanges,
+          dataReference,
+          resetDataAfterCommit,
+          outerContext,
+          setIsolatedData,
+        }}
       >
         <DataContext.Consumer>
           {(dataContext) => {
@@ -329,6 +345,7 @@ function BubbleValidation() {
 const isolationError = new Error('Form.Isolation')
 
 IsolationProvider.CommitButton = IsolationCommitButton
+IsolationProvider.ResetButton = IsolationResetButton
 IsolationProvider.createDataReference = createDataReference
 IsolationProvider._supportsSpacingProps = undefined
 

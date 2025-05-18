@@ -25,6 +25,11 @@ export const IsolationProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  preventUncommittedChanges: {
+    doc: 'Prevents uncommitted changes before the form is submitted. Will display an error message if user tries to submit without committing their changes.',
+    type: 'boolean',
+    status: 'optional',
+  },
   resetDataAfterCommit: {
     doc: 'If set to `true`, the Form.Isolation will reset its data context after committing the data to the outer context.',
     type: 'boolean',

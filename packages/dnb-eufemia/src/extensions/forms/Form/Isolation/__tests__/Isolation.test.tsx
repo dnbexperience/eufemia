@@ -976,6 +976,50 @@ describe('Form.Isolation', () => {
         )
       })
 
+      it('should reset data context completely (internally) without keeping its previous state', async () => {
+        render(
+          <Form.Handler>
+            <Form.Isolation resetDataAfterCommit>
+              <Field.String className="inside" path="/isolated" />
+              <Form.Isolation.CommitButton />
+            </Form.Isolation>
+
+            <Field.String className="outside" path="/isolated" />
+          </Form.Handler>
+        )
+
+        const inside = document.querySelector('.inside input')
+        const outside = document.querySelector('.outside input')
+
+        const commitButton = document.querySelector(
+          '.dnb-forms-isolate__commit-button'
+        )
+
+        await userEvent.type(inside, 'Isolated')
+        expect(inside).toHaveValue('Isolated')
+        expect(outside).toHaveValue('')
+
+        await userEvent.click(commitButton)
+        await waitFor(() => {
+          expect(inside).toHaveValue('')
+          expect(outside).toHaveValue('Isolated')
+        })
+
+        await userEvent.type(outside, ' - make a change')
+        expect(inside).toHaveValue('')
+        expect(outside).toHaveValue('Isolated - make a change')
+
+        await userEvent.click(commitButton)
+        await waitFor(() => {
+          expect(inside).toHaveValue('')
+          expect(outside).toHaveValue('')
+        })
+
+        await userEvent.type(outside, 'Make a change')
+        expect(inside).toHaveValue('')
+        expect(outside).toHaveValue('Make a change')
+      })
+
       it('should reset data context after commit using enter key when "resetDataAfterCommit" is true', async () => {
         const onChange = jest.fn()
         const onSubmit = jest.fn()
@@ -2227,6 +2271,874 @@ describe('Form.Isolation', () => {
       expect(outerContext.data).toEqual({
         mySection: {},
       })
+    })
+  })
+
+  describe('preventUncommittedChanges', () => {
+    it('should prevent the form from submitting as long as there is uncommitted data', async () => {
+      const onSubmitRequest = jest.fn()
+      const onSubmit = jest.fn()
+      const onCommit = jest.fn()
+
+      render(
+        <Form.Handler
+          onSubmitRequest={onSubmitRequest}
+          onSubmit={onSubmit}
+        >
+          <Form.Isolation
+            preventUncommittedChanges
+            resetDataAfterCommit
+            onCommit={onCommit}
+          >
+            <Field.String path="/name" />
+            <Form.Isolation.CommitButton />
+          </Form.Isolation>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const form = document.querySelector('form')
+      const commitButton = document.querySelector(
+        '.dnb-forms-isolate__commit-button'
+      )
+
+      await userEvent.type(input, 'Tony')
+
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(0)
+      expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+      expect(onCommit).toHaveBeenCalledTimes(0)
+
+      await userEvent.click(commitButton)
+
+      expect(onCommit).toHaveBeenCalledTimes(1)
+
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+      expect(onCommit).toHaveBeenCalledTimes(1)
+    })
+
+    it('should show error when submitting the form', async () => {
+      render(
+        <Form.Handler>
+          <Form.Isolation preventUncommittedChanges resetDataAfterCommit>
+            <Field.String path="/name" />
+            <Form.Isolation.CommitButton />
+          </Form.Isolation>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const form = document.querySelector('form')
+      const commitButton = document.querySelector(
+        '.dnb-forms-isolate__commit-button'
+      )
+
+      await userEvent.type(input, 'Tony')
+
+      fireEvent.submit(form)
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Isolation.preventUncommittedChangesText
+      )
+
+      await userEvent.click(commitButton)
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
+
+      fireEvent.submit(form)
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+    })
+
+    describe('with emptyValue prop', () => {
+      it('should submit when "emptyValue" is given', async () => {
+        const onSubmit = jest.fn()
+
+        render(
+          <Form.Handler onSubmit={onSubmit}>
+            <Form.Isolation preventUncommittedChanges resetDataAfterCommit>
+              <Field.String path="/name" emptyValue="The empty value" />
+              <Form.Isolation.CommitButton />
+            </Form.Isolation>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input')
+        const form = document.querySelector('form')
+        const commitButton = document.querySelector(
+          '.dnb-forms-isolate__commit-button'
+        )
+
+        expect(input).toHaveValue('The empty value')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          undefined,
+          expect.anything()
+        )
+
+        await userEvent.click(commitButton)
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(2)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { name: 'The empty value' },
+          expect.anything()
+        )
+      })
+
+      it('should reset to emptyValue when reset button is clicked', async () => {
+        const onSubmit = jest.fn()
+
+        render(
+          <Form.Handler onSubmit={onSubmit}>
+            <Form.Isolation preventUncommittedChanges resetDataAfterCommit>
+              <Field.String path="/name" emptyValue="The empty value" />
+              <Form.Isolation.CommitButton />
+              <Form.Isolation.ResetButton />
+            </Form.Isolation>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input')
+        const form = document.querySelector('form')
+        const commitButton = document.querySelector(
+          '.dnb-forms-isolate__commit-button'
+        )
+
+        expect(input).toHaveValue('The empty value')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          undefined,
+          expect.anything()
+        )
+
+        await userEvent.type(input, 'X')
+        fireEvent.submit(form)
+
+        expect(input).toHaveValue('The empty valueX')
+        expect(
+          document.querySelector('.dnb-forms-isolate__reset-button')
+        ).toBeInTheDocument()
+
+        await userEvent.click(
+          document.querySelector('.dnb-forms-isolate__reset-button')
+        )
+
+        // Confirm the clear
+        await userEvent.click(
+          document.querySelector('.dnb-button--primary')
+        )
+
+        await waitFor(() => {
+          expect(input).toHaveValue('The empty value')
+          expect(document.querySelector('.dnb-form-status')).toBeNull()
+        })
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(2)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          undefined,
+          expect.anything()
+        )
+
+        await userEvent.click(commitButton)
+
+        expect(input).toHaveValue('The empty value')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(3)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { name: 'The empty value' },
+          expect.anything()
+        )
+      })
+    })
+
+    describe('with defaultValue prop', () => {
+      it('should submit when "defaultValue" is given', async () => {
+        const onSubmit = jest.fn()
+
+        render(
+          <Form.Handler onSubmit={onSubmit}>
+            <Form.Isolation preventUncommittedChanges resetDataAfterCommit>
+              <Field.String path="/name" defaultValue="A default value" />
+              <Form.Isolation.CommitButton />
+              <Form.Isolation.ResetButton />
+            </Form.Isolation>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input')
+        const form = document.querySelector('form')
+        const commitButton = document.querySelector(
+          '.dnb-forms-isolate__commit-button'
+        )
+
+        expect(input).toHaveValue('A default value')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          undefined,
+          expect.anything()
+        )
+
+        await userEvent.click(commitButton)
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(2)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { name: 'A default value' },
+          expect.anything()
+        )
+      })
+
+      it('should reset to defaultValue when reset button is clicked', async () => {
+        const onSubmit = jest.fn()
+
+        render(
+          <Form.Handler onSubmit={onSubmit}>
+            <Form.Isolation preventUncommittedChanges resetDataAfterCommit>
+              <Field.String path="/name" defaultValue="A default value" />
+              <Form.Isolation.CommitButton />
+              <Form.Isolation.ResetButton />
+            </Form.Isolation>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input')
+        const form = document.querySelector('form')
+        const commitButton = document.querySelector(
+          '.dnb-forms-isolate__commit-button'
+        )
+
+        expect(input).toHaveValue('A default value')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          undefined,
+          expect.anything()
+        )
+
+        await userEvent.type(input, 'X')
+        fireEvent.submit(form)
+
+        expect(input).toHaveValue('A default valueX')
+        expect(
+          document.querySelector('.dnb-forms-isolate__reset-button')
+        ).toBeInTheDocument()
+
+        await userEvent.click(
+          document.querySelector('.dnb-forms-isolate__reset-button')
+        )
+
+        // Confirm the clear
+        await userEvent.click(
+          document.querySelector('.dnb-button--primary')
+        )
+
+        await waitFor(() => {
+          expect(input).toHaveValue('A default value')
+          expect(document.querySelector('.dnb-form-status')).toBeNull()
+        })
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(2)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          undefined,
+          expect.anything()
+        )
+
+        await userEvent.click(commitButton)
+
+        expect(input).toHaveValue('A default value')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(3)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { name: 'A default value' },
+          expect.anything()
+        )
+      })
+    })
+
+    describe('with defaultData prop', () => {
+      it('should submit when "defaultData" is given', async () => {
+        const onSubmit = jest.fn()
+
+        render(
+          <Form.Handler onSubmit={onSubmit}>
+            <Form.Isolation
+              preventUncommittedChanges
+              resetDataAfterCommit
+              defaultData={{ name: 'A default value' }}
+            >
+              <Field.String path="/name" />
+              <Form.Isolation.CommitButton />
+              <Form.Isolation.ResetButton />
+            </Form.Isolation>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input')
+        const form = document.querySelector('form')
+        const commitButton = document.querySelector(
+          '.dnb-forms-isolate__commit-button'
+        )
+
+        expect(input).toHaveValue('A default value')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          undefined,
+          expect.anything()
+        )
+
+        await userEvent.click(commitButton)
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(2)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { name: 'A default value' },
+          expect.anything()
+        )
+      })
+
+      it('should reset to defaultData when reset button is clicked', async () => {
+        const onSubmit = jest.fn()
+
+        render(
+          <Form.Handler onSubmit={onSubmit}>
+            <Form.Isolation
+              preventUncommittedChanges
+              resetDataAfterCommit
+              defaultData={{ name: 'A default value' }}
+            >
+              <Field.String path="/name" />
+              <Form.Isolation.CommitButton />
+              <Form.Isolation.ResetButton />
+            </Form.Isolation>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input')
+        const form = document.querySelector('form')
+        const commitButton = document.querySelector(
+          '.dnb-forms-isolate__commit-button'
+        )
+
+        expect(input).toHaveValue('A default value')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          undefined,
+          expect.anything()
+        )
+
+        await userEvent.type(input, 'X')
+        fireEvent.submit(form)
+
+        expect(input).toHaveValue('A default valueX')
+        expect(
+          document.querySelector('.dnb-forms-isolate__reset-button')
+        ).toBeInTheDocument()
+
+        await userEvent.click(
+          document.querySelector('.dnb-forms-isolate__reset-button')
+        )
+
+        // Confirm the clear
+        await userEvent.click(
+          document.querySelector('.dnb-button--primary')
+        )
+
+        await waitFor(() => {
+          expect(input).toHaveValue('A default value')
+          expect(document.querySelector('.dnb-form-status')).toBeNull()
+        })
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(2)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          undefined,
+          expect.anything()
+        )
+
+        await userEvent.click(commitButton)
+
+        expect(input).toHaveValue('A default value')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(3)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { name: 'A default value' },
+          expect.anything()
+        )
+      })
+    })
+
+    describe('with data prop', () => {
+      it('should submit when "data" is given', async () => {
+        const onSubmit = jest.fn()
+
+        render(
+          <Form.Handler onSubmit={onSubmit}>
+            <Form.Isolation
+              preventUncommittedChanges
+              resetDataAfterCommit
+              data={{ name: 'A data value' }}
+            >
+              <Field.String path="/name" />
+              <Form.Isolation.CommitButton />
+              <Form.Isolation.ResetButton />
+            </Form.Isolation>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input')
+        const form = document.querySelector('form')
+        const commitButton = document.querySelector(
+          '.dnb-forms-isolate__commit-button'
+        )
+
+        expect(input).toHaveValue('A data value')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          undefined,
+          expect.anything()
+        )
+
+        await userEvent.click(commitButton)
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(2)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { name: 'A data value' },
+          expect.anything()
+        )
+      })
+
+      it('should reset to data when reset button is clicked', async () => {
+        const onSubmit = jest.fn()
+
+        render(
+          <Form.Handler onSubmit={onSubmit}>
+            <Form.Isolation
+              preventUncommittedChanges
+              resetDataAfterCommit
+              data={{ name: 'A data value' }}
+            >
+              <Field.String path="/name" />
+              <Form.Isolation.CommitButton />
+              <Form.Isolation.ResetButton />
+            </Form.Isolation>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input')
+        const form = document.querySelector('form')
+        const commitButton = document.querySelector(
+          '.dnb-forms-isolate__commit-button'
+        )
+
+        expect(input).toHaveValue('A data value')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          undefined,
+          expect.anything()
+        )
+
+        await userEvent.type(input, 'X')
+        fireEvent.submit(form)
+
+        expect(input).toHaveValue('A data valueX')
+        expect(
+          document.querySelector('.dnb-forms-isolate__reset-button')
+        ).toBeInTheDocument()
+
+        await userEvent.click(
+          document.querySelector('.dnb-forms-isolate__reset-button')
+        )
+
+        // Confirm the clear
+        await userEvent.click(
+          document.querySelector('.dnb-button--primary')
+        )
+
+        await waitFor(() => {
+          expect(input).toHaveValue('A data value')
+          expect(document.querySelector('.dnb-form-status')).toBeNull()
+        })
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(2)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          undefined,
+          expect.anything()
+        )
+
+        await userEvent.click(commitButton)
+
+        await waitFor(() => {
+          expect(input).toHaveValue('A data value')
+          expect(document.querySelector('.dnb-form-status')).toBeNull()
+        })
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(3)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { name: 'A data value' },
+          expect.anything()
+        )
+      })
+    })
+
+    it('should prevent Wizard step change as long as there is uncommitted data', async () => {
+      const onSubmitRequest = jest.fn()
+      const onSubmit = jest.fn()
+      const onCommit = jest.fn()
+      const onStepChange = jest.fn()
+
+      render(
+        <Form.Handler
+          onSubmitRequest={onSubmitRequest}
+          onSubmit={onSubmit}
+        >
+          <Wizard.Container onStepChange={onStepChange}>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+
+              <Form.Isolation
+                preventUncommittedChanges
+                resetDataAfterCommit
+                onCommit={onCommit}
+              >
+                <Field.String path="/name" emptyValue="The empty value" />
+                <Form.Isolation.CommitButton />
+              </Form.Isolation>
+
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Wizard.Buttons />
+              <Form.SubmitButton />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const form = document.querySelector('form')
+      const commitButton = document.querySelector(
+        '.dnb-forms-isolate__commit-button'
+      )
+
+      const nextButton = () => {
+        return document.querySelector('.dnb-forms-next-button')
+      }
+      const output = () => {
+        return document.querySelector('output')
+      }
+
+      expect(output()).toHaveTextContent('Step 1')
+
+      await userEvent.type(input, 'Tony')
+
+      await userEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(onStepChange).toHaveBeenCalledTimes(0)
+      expect(onSubmit).toHaveBeenCalledTimes(0)
+      expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+      expect(onCommit).toHaveBeenCalledTimes(0)
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Isolation.preventUncommittedChangesText
+      )
+
+      await userEvent.click(commitButton)
+
+      expect(onCommit).toHaveBeenCalledTimes(1)
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
+
+      await userEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 2')
+      expect(onStepChange).toHaveBeenCalledTimes(1)
+      expect(onStepChange).toHaveBeenLastCalledWith(
+        1,
+        'next',
+        expect.anything()
+      )
+
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+      expect(onCommit).toHaveBeenCalledTimes(1)
+    })
+
+    it('should hide and show reset button when showWhen="uncommittedChangeDetected" is set', async () => {
+      render(
+        <Form.Handler>
+          <Form.Isolation preventUncommittedChanges resetDataAfterCommit>
+            <Field.String path="/name" emptyValue="The empty value" />
+            <Form.Isolation.CommitButton />
+            <Form.Isolation.ResetButton showWhen="uncommittedChangeDetected" />
+          </Form.Isolation>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const form = document.querySelector('form')
+
+      expect(
+        document.querySelector('.dnb-forms-isolate__reset-button')
+          .parentElement
+      ).toHaveAttribute('hidden')
+
+      fireEvent.submit(form)
+
+      expect(
+        document.querySelector('.dnb-forms-isolate__reset-button')
+          .parentElement
+      ).toHaveAttribute('hidden')
+
+      await userEvent.type(input, 'X')
+
+      fireEvent.submit(form)
+
+      expect(
+        document.querySelector('.dnb-forms-isolate__reset-button')
+          .parentElement
+      ).not.toHaveAttribute('hidden')
+    })
+
+    it('should enable/disable reset button', async () => {
+      render(
+        <Form.Handler>
+          <Form.Isolation preventUncommittedChanges resetDataAfterCommit>
+            <Field.String path="/name" />
+            <Form.Isolation.CommitButton />
+            <Form.Isolation.ResetButton />
+          </Form.Isolation>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const form = document.querySelector('form')
+      const commitButton = document.querySelector(
+        '.dnb-forms-isolate__commit-button'
+      )
+
+      expect(
+        document.querySelector('.dnb-forms-isolate__reset-button')
+      ).toHaveAttribute('disabled')
+      expect(
+        document.querySelector('.dnb-forms-isolate__reset-button')
+          .parentElement
+      ).not.toHaveAttribute('hidden')
+
+      await userEvent.type(input, 'Tony')
+
+      fireEvent.submit(form)
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-forms-isolate__reset-button')
+      ).not.toHaveAttribute('disabled')
+      expect(
+        document.querySelector('.dnb-forms-isolate__reset-button')
+          .parentElement
+      ).not.toHaveAttribute('hidden')
+
+      await userEvent.click(commitButton)
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
+      expect(
+        document.querySelector('.dnb-forms-isolate__reset-button')
+      ).toHaveAttribute('disabled')
+      expect(
+        document.querySelector('.dnb-forms-isolate__reset-button')
+          .parentElement
+      ).not.toHaveAttribute('hidden')
+    })
+
+    it('should submit form when uncommitted data was cleared (with confirmation)', async () => {
+      const onSubmitRequest = jest.fn()
+      const onSubmit = jest.fn()
+      const onCommit = jest.fn()
+
+      render(
+        <Form.Handler
+          onSubmit={onSubmit}
+          onSubmitRequest={onSubmitRequest}
+        >
+          <Form.Isolation
+            preventUncommittedChanges
+            resetDataAfterCommit
+            onCommit={onCommit}
+          >
+            <Field.String path="/name" />
+            <Form.Isolation.CommitButton />
+            <Form.Isolation.ResetButton />
+          </Form.Isolation>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const form = document.querySelector('form')
+
+      await userEvent.type(input, 'Tony')
+
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(0)
+      expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+      expect(onCommit).toHaveBeenCalledTimes(0)
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Isolation.preventUncommittedChangesText
+      )
+
+      // Click the reset button
+      await userEvent.click(
+        document.querySelector('.dnb-forms-isolate__reset-button')
+      )
+
+      // Confirm the clear
+      await userEvent.click(document.querySelector('.dnb-button--primary'))
+
+      await waitFor(() => {
+        expect(input).toHaveValue('')
+        expect(document.querySelector('.dnb-form-status')).toBeNull()
+      })
+
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+      expect(onCommit).toHaveBeenCalledTimes(0)
+    })
+
+    it('should support a custom "dataReference"', async () => {
+      const onSubmit = jest.fn()
+      const onCommit = jest.fn()
+
+      const dataReference = Form.Isolation.createDataReference()
+
+      const SetDelayedData = () => {
+        const { update } = Form.useData()
+
+        React.useEffect(() => {
+          setTimeout(() => {
+            update('/isolated', 'With a delayed default value')
+            setTimeout(() => {
+              dataReference.refresh() // <-- refresh the data reference
+            }, 100)
+          }, 10)
+          // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [])
+
+        return null
+      }
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Form.Isolation
+            preventUncommittedChanges
+            resetDataAfterCommit
+            dataReference={dataReference}
+            onCommit={onCommit}
+          >
+            <SetDelayedData />
+
+            <Field.String path="/isolated" />
+            <Form.Isolation.CommitButton />
+            <Form.Isolation.ResetButton showConfirmDialog={false} />
+          </Form.Isolation>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const resetButton = document.querySelector(
+        '.dnb-forms-isolate__reset-button'
+      )
+
+      expect(resetButton).toBeDisabled()
+
+      await waitFor(() => {
+        expect(input).toHaveValue('With a delayed default value')
+      })
+
+      expect(resetButton).not.toBeDisabled()
+
+      await waitFor(() => {
+        expect(resetButton).toBeDisabled()
+      })
+
+      await userEvent.type(input, '2')
+      expect(resetButton).not.toBeDisabled()
+
+      await userEvent.type(input, '{Backspace}')
+      expect(resetButton).toBeDisabled()
     })
   })
 

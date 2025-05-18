@@ -156,6 +156,7 @@ function PushContainer(props: AllProps) {
     isolatedData,
     bubbleValidation,
     preventUncommittedChanges = props?.requireCommit,
+    requireCommit, // eslint-disable-line @typescript-eslint/no-unused-vars
     showResetButton,
     path,
     itemPath,
@@ -339,8 +340,7 @@ function NewContainer({
 
   switchContainerModeRef.current = switchContainerMode
   const isVisible = Boolean(!showOpenButton || containerMode === 'edit')
-  const { preventUncommittedChangesText } =
-    useTranslation().IteratePushContainer
+  const { preventUncommittedChangesText } = useTranslation().Isolation
   const { createButton } = useTranslation().IteratePushContainer
   const { clearData } = useContext(DataContext) || {}
   const restoreOriginalValue = useCallback(() => {
