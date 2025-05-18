@@ -267,12 +267,16 @@ function IsolationProvider<Data extends JsonObject>(
     ]
   )
 
+  const setIsolatedData = useCallback((data: Data) => {
+    localDataRef.current = data
+    internalDataRef.current = data
+  }, [])
+
   const onClear = useCallback(() => {
-    localDataRef.current = clearedData
-    internalDataRef.current = clearedData as Data
+    setIsolatedData(clearedData as Data)
     forceUpdate()
     onClearProp?.()
-  }, [onClearProp])
+  }, [onClearProp, setIsolatedData])
 
   const providerProps: IsolationProps<Data> = {
     ...props,
@@ -292,6 +296,7 @@ function IsolationProvider<Data extends JsonObject>(
           dataReference,
           resetDataAfterCommit,
           outerContext,
+          setIsolatedData,
         }}
       >
         <DataContext.Consumer>

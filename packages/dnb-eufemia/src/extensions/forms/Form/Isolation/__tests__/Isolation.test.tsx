@@ -976,6 +976,50 @@ describe('Form.Isolation', () => {
         )
       })
 
+      it('should reset data context completely (internally) without keeping its previous state', async () => {
+        render(
+          <Form.Handler>
+            <Form.Isolation resetDataAfterCommit>
+              <Field.String className="inside" path="/isolated" />
+              <Form.Isolation.CommitButton />
+            </Form.Isolation>
+
+            <Field.String className="outside" path="/isolated" />
+          </Form.Handler>
+        )
+
+        const inside = document.querySelector('.inside input')
+        const outside = document.querySelector('.outside input')
+
+        const commitButton = document.querySelector(
+          '.dnb-forms-isolate__commit-button'
+        )
+
+        await userEvent.type(inside, 'Isolated')
+        expect(inside).toHaveValue('Isolated')
+        expect(outside).toHaveValue('')
+
+        await userEvent.click(commitButton)
+        await waitFor(() => {
+          expect(inside).toHaveValue('')
+          expect(outside).toHaveValue('Isolated')
+        })
+
+        await userEvent.type(outside, ' - make a change')
+        expect(inside).toHaveValue('')
+        expect(outside).toHaveValue('Isolated - make a change')
+
+        await userEvent.click(commitButton)
+        await waitFor(() => {
+          expect(inside).toHaveValue('')
+          expect(outside).toHaveValue('')
+        })
+
+        await userEvent.type(outside, 'Make a change')
+        expect(inside).toHaveValue('')
+        expect(outside).toHaveValue('Make a change')
+      })
+
       it('should reset data context after commit using enter key when "resetDataAfterCommit" is true', async () => {
         const onChange = jest.fn()
         const onSubmit = jest.fn()

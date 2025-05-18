@@ -8,7 +8,7 @@ export default function useHasContentChanged() {
   const { snapshotRef } = useDataContextSnapshot({ enabled: true })
 
   const data = internalDataRef?.current
-  const snapshot = snapshotRef?.current
+  const snapshot = snapshotRef?.current // To support a custom data reference, we need to have a snapshot in the hook deps.
   const hasContentChanged = useMemo(() => {
     if (!data || !snapshot) {
       return undefined
