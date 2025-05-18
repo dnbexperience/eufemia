@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect } from 'react'
+import { useCallback, useContext, useEffect, useReducer } from 'react'
 import DataContext from '../../DataContext/Context'
 import IsolationContext from './IsolationContext'
 
@@ -13,6 +13,7 @@ export default function useDataContextSnapshot({
 }: {
   enabled?: boolean
 } = {}) {
+  const [, forceUpdate] = useReducer(() => ({}), {})
   const { internalDataRef, setData } = useContext(DataContext)
   const { dataReference } = useContext(IsolationContext) || {}
   const { snapshotRef, eventsRef, update, refresh, cleanup } =
@@ -22,11 +23,12 @@ export default function useDataContextSnapshot({
     if (enabled && eventsRef) {
       eventsRef.current.push(() => {
         update(structuredClone(internalDataRef?.current))
+        forceUpdate()
       })
       refresh()
     }
 
-    return () => cleanup()
+    return () => cleanup?.()
   }, [cleanup, enabled, eventsRef, internalDataRef, refresh, update])
 
   const handleReset = useCallback(() => {
@@ -37,5 +39,5 @@ export default function useDataContextSnapshot({
     }) // To actually reset the data, we need to wait for the next frame
   }, [setData, snapshotRef])
 
-  return { handleReset }
+  return { handleReset, snapshotRef }
 }

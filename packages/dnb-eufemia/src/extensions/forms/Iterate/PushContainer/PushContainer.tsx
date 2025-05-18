@@ -156,6 +156,7 @@ function PushContainer(props: AllProps) {
     isolatedData,
     bubbleValidation,
     preventUncommittedChanges = props?.requireCommit,
+    requireCommit, // eslint-disable-line @typescript-eslint/no-unused-vars
     showResetButton,
     path,
     itemPath,

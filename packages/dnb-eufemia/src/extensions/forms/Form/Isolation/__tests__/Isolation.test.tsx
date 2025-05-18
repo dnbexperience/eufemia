@@ -3033,6 +3033,69 @@ describe('Form.Isolation', () => {
       expect(onSubmitRequest).toHaveBeenCalledTimes(1)
       expect(onCommit).toHaveBeenCalledTimes(0)
     })
+
+    it('should support a custom "dataReference"', async () => {
+      const onSubmit = jest.fn()
+      const onCommit = jest.fn()
+
+      const dataReference = Form.Isolation.createDataReference()
+
+      const SetDelayedData = () => {
+        const { update } = Form.useData()
+
+        React.useEffect(() => {
+          setTimeout(() => {
+            update('/isolated', 'With a delayed default value')
+            setTimeout(() => {
+              dataReference.refresh() // <-- refresh the data reference
+            }, 100)
+          }, 10)
+          // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [])
+
+        return null
+      }
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Form.Isolation
+            preventUncommittedChanges
+            resetDataAfterCommit
+            dataReference={dataReference}
+            onCommit={onCommit}
+          >
+            <SetDelayedData />
+
+            <Field.String path="/isolated" />
+            <Form.Isolation.CommitButton />
+            <Form.Isolation.ResetButton showConfirmDialog={false} />
+          </Form.Isolation>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const resetButton = document.querySelector(
+        '.dnb-forms-isolate__reset-button'
+      )
+
+      expect(resetButton).toBeDisabled()
+
+      await waitFor(() => {
+        expect(input).toHaveValue('With a delayed default value')
+      })
+
+      expect(resetButton).not.toBeDisabled()
+
+      await waitFor(() => {
+        expect(resetButton).toBeDisabled()
+      })
+
+      await userEvent.type(input, '2')
+      expect(resetButton).not.toBeDisabled()
+
+      await userEvent.type(input, '{Backspace}')
+      expect(resetButton).toBeDisabled()
+    })
   })
 
   describe('bubbleValidation', () => {

@@ -215,7 +215,7 @@ function MyForm() {
 
 ## Require the user to commit before submitting (`preventUncommittedChanges`)
 
-In scenarios where you want to ensure users commit their changes in an isolated section before submitting the entire form, you can use the `preventUncommittedChanges` property. This will prevent form submission and prompt the user to commit any uncommitted changes first.
+In scenarios where you want to ensure users commit their changes before submitting or navigating to the next Wizard step, you can use the `preventUncommittedChanges` property. This will prevent form submission (or a step change) and prompt the user to commit any uncommitted changes first.
 
 ```jsx
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
