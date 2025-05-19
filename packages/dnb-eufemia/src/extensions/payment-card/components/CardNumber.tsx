@@ -39,13 +39,13 @@ const formatCardNumberRegex = /(?=(?:....)*$)/g
  * space.
  *
  * @param {string} cardNumber - The credit card number to format.
- * @param {number} [digits=8] - The number of trailing digits to preserve in the card number.
+ * @param [digits=8] - The number of trailing digits to preserve in the card number.
  *                              Defaults to 8 if not specified.
  * @returns {string} The formatted credit card number.
  */
 export const formatCardNumber = (
   cardNumber: string,
-  digits: number = 8
+  digits = 8
 ): string => {
   if (!cardNumber) {
     return cardNumber
