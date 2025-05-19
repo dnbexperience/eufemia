@@ -3,6 +3,34 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.74.0](https://github.com/dnbexperience/eufemia/compare/v10.73.2...v10.74.0) (2025-05-19)
+
+
+### :sparkles: Features
+
+* **DatePicker:** add year navigation to calendar ([#4978](https://github.com/dnbexperience/eufemia/issues/4978)) ([b927430](https://github.com/dnbexperience/eufemia/commit/b927430a73cf340d28676f4f111e5f0f56ff224d))
+* **Field.Date:** add `yearNavigation` ([#5121](https://github.com/dnbexperience/eufemia/issues/5121)) ([65928d0](https://github.com/dnbexperience/eufemia/commit/65928d0cf45af334b239854b66f4db98a43ecce0))
+* **Forms:** add `preventUncommittedChanges` in Form.Isolation to show error during submit after user input ([#5102](https://github.com/dnbexperience/eufemia/issues/5102)) ([fbc5402](https://github.com/dnbexperience/eufemia/commit/fbc5402d8dbf67f50e8bfcb95f8a62232f41c936)), closes [#5005](https://github.com/dnbexperience/eufemia/issues/5005) [#5127](https://github.com/dnbexperience/eufemia/issues/5127)
+* **Forms:** add `resetAfterCommit` to Form.Isolation ([#5127](https://github.com/dnbexperience/eufemia/issues/5127)) ([353271d](https://github.com/dnbexperience/eufemia/commit/353271d3bcc4d33e2d248a4699b0928dcd54f69f))
+* **Iterate.PushContainer:** deprecate `requireCommit` in favor of `preventUncommitedChanges` ([#5134](https://github.com/dnbexperience/eufemia/issues/5134)) ([9596abb](https://github.com/dnbexperience/eufemia/commit/9596abb3b65402769b13cd871b767626ad16f5ad))
+
+
+### :bug: Bug Fixes
+
+* **Button:** bold font weight issue when `type="submit"` on iPhone ([#5147](https://github.com/dnbexperience/eufemia/issues/5147)) ([ac12151](https://github.com/dnbexperience/eufemia/commit/ac1215193b3477aa6424f8d25a12acca42b1e9c9))
+* **Checkbox:** add support for `preventDefault` in onClick ([#4768](https://github.com/dnbexperience/eufemia/issues/4768)) ([c03a930](https://github.com/dnbexperience/eufemia/commit/c03a93096e8273cf490651ff288b45989aa0f1e8))
+* **DatePicker:** cancel and reset functionality ([#5021](https://github.com/dnbexperience/eufemia/issues/5021)) ([3db9c0e](https://github.com/dnbexperience/eufemia/commit/3db9c0e6dc6e9b2ed825ed948233eb1f2d0da530))
+* **Drawer:** bottom containerPlacement on small screen ([#5123](https://github.com/dnbexperience/eufemia/issues/5123)) ([1afada9](https://github.com/dnbexperience/eufemia/commit/1afada95ae7cd04be0b769eeb631112cabd504e9))
+* **DrawerList:** refactor TypeScript ([#4687](https://github.com/dnbexperience/eufemia/issues/4687)) ([5697c2c](https://github.com/dnbexperience/eufemia/commit/5697c2cc0bb686a111c6918dd80183735c328a04))
+* **Dropdown:** fix `React.ReactNode` support for `title` prop ([#5124](https://github.com/dnbexperience/eufemia/issues/5124)) ([9d2b653](https://github.com/dnbexperience/eufemia/commit/9d2b653d52e83a4fdd5d10fa49a288596f40d290))
+* **Field.Selection:** apply correct `width` to prevent label wrapping ([#5120](https://github.com/dnbexperience/eufemia/issues/5120)) ([a2d7928](https://github.com/dnbexperience/eufemia/commit/a2d79280c492fa92af3845461737718a07e5af2e))
+* **Field.Toggle, Field.Boolean:** add support for `preventDefault` in onClick for `checkbox` variant ([#5117](https://github.com/dnbexperience/eufemia/issues/5117)) ([a34700f](https://github.com/dnbexperience/eufemia/commit/a34700f8b6fcd32dc14bb731178c2e8b03effafc)), closes [#4768](https://github.com/dnbexperience/eufemia/issues/4768)
+* **Forms:** ensure Form.Isolation does work within a Form.Section ([#5142](https://github.com/dnbexperience/eufemia/issues/5142)) ([0db7aa3](https://github.com/dnbexperience/eufemia/commit/0db7aa3b9f28201fd7f0998926feb0697521bb94))
+* **Forms:** support `required` in Field.Selection with `dropdown` variant ([#5106](https://github.com/dnbexperience/eufemia/issues/5106)) ([d1202b9](https://github.com/dnbexperience/eufemia/commit/d1202b911e401a01f828629bc8de534c19bd2e05))
+* **Heading:** warning when increasing heading to be `h2` when previous sibling is `h1` ([#4914](https://github.com/dnbexperience/eufemia/issues/4914)) ([393e765](https://github.com/dnbexperience/eufemia/commit/393e765c163ade166ea2516702377efcce2a8576))
+* **InputMasked:** allow value 0 when `disallowLeadingZeroes` is set ([#4918](https://github.com/dnbexperience/eufemia/issues/4918)) ([c08e51a](https://github.com/dnbexperience/eufemia/commit/c08e51a0983c4f1b19832b11e3507481d303a268)), closes [/github.com/dnbexperience/eufemia/blob/a564953ecd7d7aeb25f9dc603456ba52ea91049f/packages/dnb-eufemia/src/components/input-masked/InputMaskedHooks.js#L348](https://github.com/dnbexperience//github.com/dnbexperience/eufemia/blob/a564953ecd7d7aeb25f9dc603456ba52ea91049f/packages/dnb-eufemia/src/components/input-masked/InputMaskedHooks.js/issues/L348)
+* **NumberFormat:** render minus sign correctly for negative decimal values ([#5116](https://github.com/dnbexperience/eufemia/issues/5116)) ([b1b31d4](https://github.com/dnbexperience/eufemia/commit/b1b31d452a5b6d667024b01c1b97e8ed848dc79a)), closes [#4788](https://github.com/dnbexperience/eufemia/issues/4788)
+
 ## [10.73.2](https://github.com/dnbexperience/eufemia/compare/v10.73.1...v10.73.2) (2025-05-12)
 
 
