@@ -49,3 +49,15 @@ const onSubmitRequest: OnSubmitRequest = ({ getErrors }) => {
 ```
 
 <Examples.OnSubmitRequest />
+
+### Outset and layout (Card.Provider)
+
+Like `<Form.Card>`, the container for the steps will be "outset" from the regular padding unless the wizard is
+inside a `<Card>` (of `<Form.Card>`) component.
+
+This can be disabled by wrapping the area in a `<Card.Provider>` (or `<Form.Card.Provider>`) to tell all children
+to behave as if they are inside a `<Card>`. Or by setting `outset={false}`.
+
+See more details in the [Form.Card "Outset" example](/uilib/extensions/forms/Form/Card/#outset) .
+
+<Examples.Outset />

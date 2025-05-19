@@ -101,7 +101,7 @@ function Card(props: Props) {
 
   return (
     <Flex.Item alignSelf={alignSelf} element="section" {...params}>
-      <CardContext.Provider value={{ isNested: true }}>
+      <Card.Provider>
         <Flex.Container
           direction={direction ?? 'vertical'}
           divider={divider}
@@ -118,11 +118,33 @@ function Card(props: Props) {
           )}
           {children}
         </Flex.Container>
-      </CardContext.Provider>
+      </Card.Provider>
     </Flex.Item>
   )
 }
 
 Card._supportsSpacingProps = true
+
+/**
+ * Provides the default context for the Card component's children.
+ * Can be used to tell children to act as if they are in a Card, even if they are not.
+ */
+Card.Provider = function ({
+  /**
+   * Defines if Card components should act as if it is nested inside another Card.
+   * Used to control side-margins outset behaviour. Defaults to `true`.
+   */
+  hasCardParent = true,
+  children,
+}: {
+  hasCardParent?: boolean
+  children: React.ReactNode
+}) {
+  return (
+    <CardContext.Provider value={{ isNested: hasCardParent }}>
+      {children}
+    </CardContext.Provider>
+  )
+}
 
 export default Card
