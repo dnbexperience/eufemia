@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useCallback, useContext } from 'react'
+import React, { useCallback, useContext, useMemo } from 'react'
 import type {
   DatePickerEventAttributes,
   DatePickerAllProps,
@@ -82,12 +82,17 @@ function DatePickerProvider(props: DatePickerProviderProps) {
     range,
     correctInvalidDate,
     attributes,
-    returnFormat: returnFormatProp = defaultReturnFormat,
+    returnFormat: returnFormatProp,
     children,
     onChange,
     setReturnObject,
     hidePicker,
   } = props
+
+  const returnFormat = useMemo(
+    () => correctV1Format(returnFormatProp ?? defaultReturnFormat),
+    [returnFormatProp, defaultReturnFormat]
+  )
 
   const { dates, updateDates, previousDateProps } = useDates(
     {
@@ -137,7 +142,6 @@ function DatePickerProvider(props: DatePickerProviderProps) {
         ...rest,
       }
 
-      const returnFormat = correctV1Format(returnFormatProp)
       const startDateIsValid = Boolean(startDate && isValid(startDate))
       const endDateIsValid = Boolean(endDate && isValid(endDate))
       const hasMinOrMaxDates = minDate || maxDate
@@ -194,7 +198,7 @@ function DatePickerProvider(props: DatePickerProviderProps) {
             : startDateIsValid,
       }
     },
-    [dates, views, attributes, maxDate, minDate, range, returnFormatProp]
+    [dates, views, attributes, maxDate, minDate, range, returnFormat]
   )
 
   const callOnChangeHandler = useCallback(
