@@ -27,7 +27,7 @@ export type DatePickerRangeProps = Omit<
     hideNav?: boolean
     // TODO: Rename this, as it has nothing to do with the views, and it's only used to set the display condition for the naviation buttons
     views?: [{ nextBtn: false; prevBtn: false }]
-    onChange?: (
+    onPickerChange?: (
       event: DatePickerChangeEvent<
         | React.MouseEvent<HTMLSpanElement>
         | React.KeyboardEvent<HTMLTableElement>
@@ -35,9 +35,11 @@ export type DatePickerRangeProps = Omit<
     ) => void
   }
 
-function DatePickerRange(props: DatePickerRangeProps) {
+function DatePickerRange({
+  onPickerChange,
+  ...props
+}: DatePickerRangeProps) {
   // Destructured to prevent useCallback from updating on all prop or context changes
-  const { onChange, isRange } = props
   const { views, callOnChangeHandler } = useContext(DatePickerContext)
 
   const onSelect = useCallback(
@@ -50,14 +52,13 @@ function DatePickerRange(props: DatePickerRangeProps) {
     ) => {
       callOnChangeHandler(event)
 
-      onChange?.({
-        hidePicker: !isRange,
+      onPickerChange?.({
         startDate: event.startDate,
         endDate: event.endDate,
         ...event,
       })
     },
-    [isRange, onChange, callOnChangeHandler]
+    [onPickerChange, callOnChangeHandler]
   )
 
   return (
