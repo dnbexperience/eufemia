@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event'
 import IterateItemContext from '../../IterateItemContext'
 import RemoveButton from '../RemoveButton'
 import nbNO from '../../../constants/locales/nb-NO'
-import { Form } from '../../..'
+import { Form, Iterate } from '../../..'
 import ArrayItemAreaContext from '../../Array/ArrayItemAreaContext'
 
 const nb = nbNO['nb-NO'].RemoveButton
@@ -181,6 +181,20 @@ describe('RemoveButton', () => {
 
     expect(handleRemoveItem).toHaveBeenCalledTimes(0)
     expect(handleRemove).toHaveBeenCalledTimes(1)
+  })
+
+  it('should support "itemNo" in text', () => {
+    render(
+      <Iterate.Array value={['foo', 'bar']}>
+        <RemoveButton text="Remove item {itemNo}" />
+      </Iterate.Array>
+    )
+
+    const buttons = document.querySelectorAll('button')
+    expect(buttons).toHaveLength(2)
+
+    expect(buttons[0]).toHaveTextContent('Remove item 1')
+    expect(buttons[1]).toHaveTextContent('Remove item 2')
   })
 
   describe('showConfirmDialog', () => {
