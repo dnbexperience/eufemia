@@ -75,6 +75,12 @@ describe('Dropdown component', () => {
     ).toBe(
       (mockData[props.value] as DrawerListDataArrayObject).selected_value
     )
+    expect(
+      document.querySelector('.dnb-dropdown__trigger')
+    ).toHaveAttribute(
+      'title',
+      (mockData[props.value] as DrawerListDataArrayObject).selected_value
+    )
 
     keydown(32) // space
 
@@ -98,6 +104,13 @@ describe('Dropdown component', () => {
     expect(
       document.querySelector('.dnb-dropdown__text__inner').textContent
     ).toBe(
+      (mockData[(props.value as number) + 1] as DrawerListDataArrayObject)
+        .selected_value
+    )
+    expect(
+      document.querySelector('.dnb-dropdown__trigger')
+    ).toHaveAttribute(
+      'title',
       (mockData[(props.value as number) + 1] as DrawerListDataArrayObject)
         .selected_value
     )
@@ -768,9 +781,18 @@ describe('Dropdown component', () => {
 
   it('has correct "aria-expanded"', () => {
     render(<Dropdown {...props} data={mockData} />)
+
+    expect(
+      document
+        .querySelector('span.dnb-dropdown')
+        .querySelector('button.dnb-dropdown__trigger')
+        .getAttribute('aria-expanded')
+    ).toBe('false')
+
     open()
 
     const elem = document.querySelector('span.dnb-dropdown')
+
     expect(
       elem
         .querySelector('button.dnb-dropdown__trigger')
@@ -778,6 +800,131 @@ describe('Dropdown component', () => {
     ).toBe('true')
 
     expect(elem.getAttribute('class')).toContain('dnb-dropdown--opened')
+  })
+
+  it('has correct "role"', () => {
+    render(<Dropdown {...props} data={mockData} />)
+
+    expect(
+      document
+        .querySelector('span.dnb-dropdown')
+        .querySelector('button.dnb-dropdown__trigger')
+        .getAttribute('role')
+    ).toBe('combobox')
+  })
+
+  it('has correct "aria-haspopup"', () => {
+    render(<Dropdown {...props} data={mockData} />)
+
+    expect(
+      document
+        .querySelector('span.dnb-dropdown')
+        .querySelector('button.dnb-dropdown__trigger')
+        .getAttribute('aria-haspopup')
+    ).toBe('listbox')
+  })
+
+  it('has correct "aria-haspopup" when action_menu', () => {
+    render(<Dropdown {...props} data={mockData} action_menu />)
+
+    expect(
+      document
+        .querySelector('span.dnb-dropdown')
+        .querySelector('button.dnb-dropdown__trigger')
+        .getAttribute('aria-haspopup')
+    ).toBe('true')
+  })
+
+  it('has correct "aria-haspopup" when more_menu', () => {
+    render(<Dropdown {...props} data={mockData} more_menu />)
+
+    expect(
+      document
+        .querySelector('span.dnb-dropdown')
+        .querySelector('button.dnb-dropdown__trigger')
+        .getAttribute('aria-haspopup')
+    ).toBe('true')
+  })
+
+  it('has correct "aria-haspopup" when prevent_selection', () => {
+    render(<Dropdown {...props} data={mockData} prevent_selection />)
+
+    expect(
+      document
+        .querySelector('span.dnb-dropdown')
+        .querySelector('button.dnb-dropdown__trigger')
+        .getAttribute('aria-haspopup')
+    ).toBe('true')
+  })
+
+  it('has correct "role" in options', () => {
+    render(
+      <Dropdown skip_portal no_animation opened={true} data={mockData} />
+    )
+
+    render(
+      <Dropdown skip_portal no_animation opened={true} data={mockData} />
+    )
+
+    expect(
+      document
+        .querySelector('.dnb-drawer-list__options')
+        .getAttribute('role')
+    ).toBe('listbox')
+  })
+
+  it('has correct "role" in options when action_menu', () => {
+    render(
+      <Dropdown
+        skip_portal
+        no_animation
+        opened={true}
+        data={mockData}
+        action_menu
+      />
+    )
+
+    expect(
+      document
+        .querySelector('.dnb-drawer-list__options')
+        .getAttribute('role')
+    ).toBe('menu')
+  })
+
+  it('has correct "role" in options when more_menu', () => {
+    render(
+      <Dropdown
+        skip_portal
+        no_animation
+        opened={true}
+        data={mockData}
+        more_menu
+      />
+    )
+
+    expect(
+      document
+        .querySelector('.dnb-drawer-list__options')
+        .getAttribute('role')
+    ).toBe('menu')
+  })
+
+  it('has correct "role" in options when prevent_selection', () => {
+    render(
+      <Dropdown
+        skip_portal
+        no_animation
+        opened={true}
+        data={mockData}
+        prevent_selection
+      />
+    )
+
+    expect(
+      document
+        .querySelector('.dnb-drawer-list__options')
+        .getAttribute('role')
+    ).toBe('menu')
   })
 
   it('should set aria-activedescendant to be of first option, when no items are selected', () => {
@@ -1134,12 +1281,112 @@ describe('Dropdown component', () => {
     )
   })
 
-  it('has a default title if no value is given', () => {
+  it('has a default value if no value is given', () => {
     const title = 'Make a selection'
     render(<Dropdown data={mockData} title={title} {...mockProps} />)
     expect(
       document.querySelector('.dnb-dropdown__text__inner').innerHTML
     ).toBe(title)
+  })
+
+  it('should support title as `React.Node`', () => {
+    const TitleAsChildren = ({ children }) => {
+      return <span id="title-as-children">{children}</span>
+    }
+
+    const TitleAsProp = ({ title }) => {
+      return <span id="title-as-prop">{title}</span>
+    }
+
+    const { rerender } = render(
+      <Dropdown
+        data={['A', 'B', 'C']}
+        title={<TitleAsChildren>Title as children</TitleAsChildren>}
+      />
+    )
+
+    expect(
+      document.querySelector('#title-as-children')
+    ).toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-dropdown__text__inner')
+    ).toHaveTextContent('Title as children')
+
+    rerender(
+      <Dropdown
+        data={['A', 'B', 'C']}
+        title={<TitleAsProp title="Title as prop" />}
+      />
+    )
+
+    expect(document.querySelector('#title-as-prop')).toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-dropdown__text__inner')
+    ).toHaveTextContent('Title as prop')
+  })
+
+  it('has correct title', () => {
+    render(<Dropdown {...props} data={mockData} />)
+    expect(
+      document.querySelector('.dnb-dropdown__trigger')
+    ).toHaveAttribute(
+      'title',
+      (mockData[props.value] as DrawerListDataArrayObject).selected_value
+    )
+  })
+
+  it('has correct title after new selection', () => {
+    render(<Dropdown {...props} data={mockData} />)
+    open()
+
+    // then simulate changes
+    keydown(40) // down
+    expect(
+      document.querySelector('.dnb-dropdown__trigger')
+    ).toHaveAttribute(
+      'title',
+      (mockData[props.value] as DrawerListDataArrayObject).selected_value
+    )
+  })
+
+  it('has correct title after useEffect value state change', () => {
+    const newValue = 3
+    const UpdateValue = () => {
+      const [value, setValue] = React.useState(props.value)
+
+      React.useEffect(() => {
+        setValue(newValue)
+      }, [])
+
+      return <Dropdown {...props} data={mockData} value={value} />
+    }
+
+    render(<UpdateValue />)
+
+    expect(
+      document.querySelector('.dnb-dropdown__trigger')
+    ).toHaveAttribute(
+      'title',
+      (mockData[newValue] as DrawerListDataArrayObject).selected_value
+    )
+
+    open()
+
+    const options = document.querySelectorAll('li.dnb-drawer-list__option')
+    expect(options[newValue].classList).toContain(
+      'dnb-drawer-list__option--selected'
+    )
+    expect(options[newValue].classList).toContain(
+      'dnb-drawer-list__option--focus'
+    )
+  })
+
+  it('has a default title if no value is given', () => {
+    const title = 'Make a selection'
+    render(<Dropdown data={mockData} title={title} {...mockProps} />)
+    expect(
+      document.querySelector('.dnb-dropdown__trigger')
+    ).toHaveAttribute('title', title)
   })
 
   it('should support inline styling', () => {
@@ -1152,6 +1399,10 @@ describe('Dropdown component', () => {
 
   it('should support empty data entry', () => {
     render(<Dropdown skip_portal no_animation data={['']} />)
+
+    expect(
+      document.querySelector('button').getAttribute('aria-expanded')
+    ).toBe('false')
 
     keydown(32) // space
 
@@ -1333,6 +1584,9 @@ describe('Dropdown component', () => {
     const trigger = document.querySelector('.dnb-dropdown__trigger')
     const suffix = document.querySelector('.dnb-dropdown__suffix')
 
+    expect(dropdown).not.toHaveClass('dnb-dropdown--opened')
+    expect(trigger).toHaveAttribute('aria-expanded', 'false')
+
     await userEvent.click(trigger)
 
     expect(dropdown).toHaveClass('dnb-dropdown--opened')
@@ -1364,13 +1618,7 @@ describe('Dropdown markup', () => {
       <Dropdown {...snapshotProps} data={mockData} />
     )
 
-    expect(
-      await axeComponent(CheckComponent, {
-        rules: {
-          'aria-required-children': { enabled: false },
-        },
-      })
-    ).toHaveNoViolations()
+    expect(await axeComponent(CheckComponent)).toHaveNoViolations()
   })
 })
 

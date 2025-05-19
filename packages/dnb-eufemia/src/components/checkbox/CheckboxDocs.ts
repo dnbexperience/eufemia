@@ -81,7 +81,12 @@ export const CheckboxProperties: PropertiesTableProps = {
 export const CheckboxEvents: PropertiesTableProps = {
   onChange: {
     doc: 'Will be called on state changes made by the user.',
-    type: '() => {checked: boolean; event: ChangeEvent}',
+    type: '({ checked: boolean; event: ChangeEvent }) => void',
+    status: 'optional',
+  },
+  onClick: {
+    doc: 'Will be called on click.',
+    type: '({ checked: boolean; event: MouseEvent, preventDefault: () => void }) => void',
     status: 'optional',
   },
 }

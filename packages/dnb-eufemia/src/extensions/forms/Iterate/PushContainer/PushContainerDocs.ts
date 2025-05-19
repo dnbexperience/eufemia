@@ -47,8 +47,8 @@ export const PushContainerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  requireCommit: {
-    doc: 'If the container should be committed before the form is submitted.',
+  preventUncommittedChanges: {
+    doc: 'Prevents uncommitted changes before the form is submitted. Will display an error message if user tries to submit without committing their changes.',
     type: 'boolean',
     status: 'optional',
   },

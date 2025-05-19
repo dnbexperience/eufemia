@@ -64,6 +64,21 @@ export const CheckboxDisabled = () => {
   )
 }
 
+export const CheckboxPreventDefault = () => {
+  return (
+    <ComponentBox>
+      <Field.Boolean
+        variant="checkbox"
+        label="I will never change the state"
+        onClick={(value, { event }) => {
+          event.preventDefault()
+        }}
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
 export const CheckboxError = () => {
   return (
     <ComponentBox>

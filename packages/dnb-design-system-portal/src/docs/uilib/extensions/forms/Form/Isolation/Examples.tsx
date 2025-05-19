@@ -1,7 +1,7 @@
+import React from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Flex, HeightAnimation } from '@dnb/eufemia/src'
 import { Field, Form, Tools } from '@dnb/eufemia/src/extensions/forms'
-import React from 'react'
 
 export const UsingCommitButton = () => {
   return (
@@ -12,6 +12,7 @@ export const UsingCommitButton = () => {
       >
         <Flex.Stack>
           <Form.Isolation
+            resetDataAfterCommit
             onChange={(data) => console.log('Isolated onChange:', data)}
           >
             <Flex.Stack>
@@ -173,6 +174,7 @@ export const TransformCommitData = () => {
                       onCommit={(data, { clearData }) => {
                         clearData()
                       }}
+                      resetDataAfterCommit
                     >
                       <Flex.Stack>
                         <Form.Section path="/newPerson">
@@ -219,6 +221,7 @@ export const InsideSection = () => {
                 console.log('Isolated onChange:', path, value)
               }}
               onCommit={(data) => console.log('onCommit:', data)}
+              resetDataAfterCommit
             >
               <Flex.Stack>
                 <Field.String label="Isolated" path="/isolated" required />
@@ -233,6 +236,89 @@ export const InsideSection = () => {
           </Flex.Stack>
         </Form.Section>
       </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const PreventUncommittedChanges = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler
+        onSubmit={async (data) => console.log('onSubmit', data)}
+      >
+        <Flex.Stack>
+          <Form.Isolation preventUncommittedChanges resetDataAfterCommit>
+            <Flex.Stack>
+              <Field.String required label="Isolated" path="/isolated" />
+
+              <Flex.Horizontal>
+                <Form.Isolation.CommitButton />
+                <Form.Isolation.ResetButton showWhen="uncommittedChangeDetected" />
+              </Flex.Horizontal>
+            </Flex.Stack>
+          </Form.Isolation>
+
+          <Form.SubmitButton />
+
+          <Tools.Log />
+        </Flex.Stack>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const UpdateDataReference = () => {
+  return (
+    <ComponentBox>
+      {() => {
+        const dataReference = Form.Isolation.createDataReference()
+
+        const SetDelayedData = () => {
+          const { update } = Form.useData()
+
+          React.useEffect(() => {
+            setTimeout(() => {
+              update('/isolated', 'With a delayed default value')
+              dataReference.refresh() // <-- refresh the data reference
+            }, 1000)
+          }, [update])
+
+          return null
+        }
+        return (
+          <Form.Handler
+            onSubmit={async (data) => console.log('onSubmit', data)}
+          >
+            <Flex.Stack>
+              <Form.Isolation
+                preventUncommittedChanges
+                resetDataAfterCommit
+                dataReference={dataReference}
+              >
+                <SetDelayedData />
+                <Flex.Stack>
+                  <Field.String
+                    required
+                    label="Isolated"
+                    path="/isolated"
+                  />
+
+                  <Flex.Horizontal>
+                    <Form.Isolation.CommitButton />
+                    <Form.Isolation.ResetButton
+                      showConfirmDialog={false}
+                    />
+                  </Flex.Horizontal>
+                </Flex.Stack>
+              </Form.Isolation>
+
+              <Form.SubmitButton />
+
+              <Tools.Log />
+            </Flex.Stack>
+          </Form.Handler>
+        )
+      }}
     </ComponentBox>
   )
 }

@@ -178,7 +178,7 @@ export function RequireUnchanged() {
             </Iterate.Array>
 
             <Iterate.PushContainer
-              requireCommit
+              preventUncommittedChanges
               showResetButton
               path="/representatives"
               title="Add new representative"

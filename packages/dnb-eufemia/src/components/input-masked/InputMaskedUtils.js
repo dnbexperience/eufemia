@@ -7,6 +7,7 @@ import {
   format,
   getDecimalSeparator,
   getThousandsSeparator,
+  NUMBER_MINUS,
 } from '../number-format/NumberUtils'
 import { warn } from '../../shared/component-helper'
 import { IS_IOS } from '../../shared/helpers'
@@ -120,8 +121,12 @@ export const correctNumberValue = ({
   value = value.replace('.', decimalSymbol)
 
   if (localValue !== null) {
-    const localNumberValue = localValue.replace(/[^\d,.-]/g, '')
-    const numberValue = value.replace(/[^\d,.-]/g, '')
+    const invalidCharactersRegex = new RegExp(
+      `[^${NUMBER_MINUS}\\d${decimalSymbol}]`,
+      'g'
+    )
+    const localNumberValue = localValue.replace(invalidCharactersRegex, '')
+    const numberValue = value.replace(invalidCharactersRegex, '')
     const valueHasDecimal = numberValue.includes(decimalSymbol)
 
     if (!valueHasDecimal) {
@@ -156,9 +161,10 @@ export const correctNumberValue = ({
      * If a dev listens on_change and sends the number value back in,
      * for this, we also ensure that "numberValue" and "localNumberValue" is the same.
      */
+
     if (
       localNumberValue !== '0' &&
-      localNumberValue.startsWith('0') &&
+      new RegExp(`^(0|(${NUMBER_MINUS})0)`).test(localNumberValue) &&
       parseFloat(numberValue.replace(decimalSymbol, '.')) ===
         parseFloat(localNumberValue.replace(decimalSymbol, '.'))
     ) {
@@ -170,7 +176,11 @@ export const correctNumberValue = ({
      * If the local value is - or -0 we use it.
      * Also, because of invisible whitespace we remove everything else
      */
-    if (/^(-|-0)$/.test(localValue.replace(/[^\d-0]/g, ''))) {
+    if (
+      new RegExp(`^((${NUMBER_MINUS})|(${NUMBER_MINUS})0)$`).test(
+        localValue.replace(new RegExp(`[^\\d(${NUMBER_MINUS})0]`, 'g'), '')
+      )
+    ) {
       value = localValue
     } else if (localNumberValue === '' && numberValue === '0') {
       value = ''

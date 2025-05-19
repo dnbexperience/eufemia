@@ -44,9 +44,8 @@ import FormStatus from '../form-status/FormStatus'
 import IconPrimary from '../icon-primary/IconPrimary'
 import Input, { SubmitButton } from '../input/Input'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
-import DrawerList, {
-  ItemContent,
-} from '../../fragments/drawer-list/DrawerList'
+import DrawerList from '../../fragments/drawer-list/DrawerList'
+import { ItemContent } from '../../fragments/drawer-list/DrawerListItem'
 import DrawerListContext from '../../fragments/drawer-list/DrawerListContext'
 import DrawerListProvider from '../../fragments/drawer-list/DrawerListProvider'
 import {
@@ -315,6 +314,7 @@ export default class Autocomplete extends React.PureComponent {
     default_value: null,
     value: 'initval',
     input_value: 'initval',
+    autoComplete: 'off',
     open_on_focus: false,
     prevent_close: false,
     keep_open: false,
@@ -1794,6 +1794,7 @@ class AutocompleteInstance extends React.PureComponent {
       icon_position,
       skip_portal,
       independent_width,
+      autoComplete,
 
       mode: _mode, // eslint-disable-line
       data: _data, // eslint-disable-line
@@ -1865,7 +1866,7 @@ class AutocompleteInstance extends React.PureComponent {
       autoCapitalize: 'none',
       spellCheck: 'false',
       autoCorrect: 'off',
-      autoComplete: 'off',
+      autoComplete,
 
       // ARIA
       role: 'combobox', // we need combobox twice to make it properly work on VO

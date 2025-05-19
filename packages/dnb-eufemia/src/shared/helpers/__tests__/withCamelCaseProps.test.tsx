@@ -383,6 +383,50 @@ describe('convertCamelCasePropsToSnakeCase', () => {
     })
   })
 
+  it('should only convert props given in validProperties', () => {
+    const validProperties = ['foo_bar']
+    const props = {
+      fooBar: 'value',
+      snakeCase: 'not converted',
+    }
+    const result = convertCamelCasePropsToSnakeCase(props, validProperties)
+
+    expect(result).toEqual({
+      foo_bar: 'value',
+      snakeCase: 'not converted',
+    })
+  })
+
+  it('should not convert camelCase given props in validProperties', () => {
+    const validProperties = ['foo_bar', 'snakeCase']
+    const props = {
+      fooBar: 'value',
+      snakeCase: 'not converted',
+    }
+    const result = convertCamelCasePropsToSnakeCase(props, validProperties)
+
+    expect(result).toEqual({
+      foo_bar: 'value',
+      snakeCase: 'not converted',
+    })
+  })
+
+  it('should ignore non-array validProperties', () => {
+    const validProperties = {} as Array<string>
+    const props = {
+      name: 'value',
+      fooBar: 'value',
+      snakeCase: 'not converted',
+    }
+    const result = convertCamelCasePropsToSnakeCase(props, validProperties)
+
+    expect(result).toEqual({
+      name: 'value',
+      foo_bar: 'value',
+      snake_case: 'not converted',
+    })
+  })
+
   it('will keep frozen object as frozen', () => {
     const props = Object.freeze({
       fooBar: 'value',

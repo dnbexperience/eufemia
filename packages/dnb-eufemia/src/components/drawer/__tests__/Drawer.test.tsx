@@ -470,6 +470,69 @@ describe('Drawer', () => {
       document.querySelectorAll('button.dnb-modal__close-button').length
     ).toBe(1)
   })
+
+  it('sets default fullscreen to auto', () => {
+    render(
+      <Drawer {...props}>
+        <button>button</button>
+      </Drawer>
+    )
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+
+    expect(
+      document.querySelector('.dnb-modal__content--fullscreen')
+    ).not.toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-modal__content--auto-fullscreen')
+    ).not.toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-drawer--auto-fullscreen')
+    ).toBeInTheDocument()
+  })
+
+  it('sets fullscreen to true', () => {
+    render(
+      <Drawer {...props} fullscreen>
+        <button>button</button>
+      </Drawer>
+    )
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+
+    expect(
+      document.querySelector('.dnb-modal__content--fullscreen')
+    ).not.toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-modal__content--auto-fullscreen')
+    ).not.toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-drawer--fullscreen')
+    ).toBeInTheDocument()
+  })
+
+  it('sets fullscreen to false', () => {
+    render(
+      <Drawer {...props} fullscreen={false}>
+        <button>button</button>
+      </Drawer>
+    )
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+
+    expect(
+      document.querySelector('.dnb-modal__content--fullscreen')
+    ).not.toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-modal__content--auto-fullscreen')
+    ).not.toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-drawer--auto-fullscreen')
+    ).not.toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-drawer--fullscreen')
+    ).not.toBeInTheDocument()
+  })
 })
 
 describe('Drawer aria', () => {

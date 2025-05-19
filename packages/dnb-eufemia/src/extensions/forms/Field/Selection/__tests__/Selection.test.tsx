@@ -24,7 +24,7 @@ describe('Selection', () => {
         <Field.Option value="bar">Bar</Field.Option>
       </Field.Selection>
     )
-    expect(screen.queryAllByRole('button').length).toEqual(1)
+    expect(screen.queryAllByRole('combobox').length).toEqual(1)
     expect(screen.getByText('Bar')).toBeInTheDocument()
     expect(screen.queryAllByRole('option').length).toEqual(0)
     expect(screen.queryByText('Foo')).not.toBeInTheDocument()
@@ -133,7 +133,7 @@ describe('Selection', () => {
       </Field.Selection>
     )
 
-    const btn1 = screen.getByRole('button')
+    const btn1 = screen.getByRole('combobox')
     expect(within(btn1).getByText('Bar')).toBeInTheDocument()
     expect(within(btn1).queryByText('Foo')).not.toBeInTheDocument()
 
@@ -146,7 +146,7 @@ describe('Selection', () => {
     )
 
     // The selected button should now show the other option based on the value-prop change
-    const btn2 = screen.getByRole('button')
+    const btn2 = screen.getByRole('combobox')
     expect(within(btn2).getByText('Foo')).toBeInTheDocument()
     expect(within(btn2).queryByText('Bar')).not.toBeInTheDocument()
   })
@@ -161,7 +161,7 @@ describe('Selection', () => {
       </Field.Selection>
     )
 
-    const selectionButton = screen.getByRole('button')
+    const selectionButton = screen.getByRole('combobox')
     await userEvent.click(selectionButton)
 
     expect(screen.getAllByRole('option').length).toEqual(4)
@@ -1247,6 +1247,26 @@ describe('variants', () => {
       ).toBe(document.querySelector('.dnb-tooltip__content').id)
     })
 
+    describe('dropdownProps', () => {
+      it('should support tabIndex', () => {
+        render(
+          <Field.Selection
+            value="bar"
+            size="large"
+            variant="dropdown"
+            dropdownProps={{ tabIndex: 1 }}
+          >
+            <Field.Option value="foo" title="Foo!" text="Text" />
+            <Field.Option value="bar" title="Bar!" text="Text" />
+          </Field.Selection>
+        )
+
+        const input = document.querySelector('button')
+
+        expect(input).toHaveAttribute('tabindex', '1')
+      })
+    })
+
     it('should disable dropdown', () => {
       render(
         <Field.Selection variant="dropdown" disabled>
@@ -1563,6 +1583,7 @@ describe('variants', () => {
             variant="dropdown"
             required
             validateInitially
+            dropdownProps={{ skipPortal: true }}
           >
             <Field.Option value="foo">Foo</Field.Option>
             <Field.Option value="bar">Bar</Field.Option>
@@ -1571,15 +1592,7 @@ describe('variants', () => {
 
         openDropdown()
 
-        expect(
-          await axeComponent(result, {
-            rules: {
-              // Because of aria-controls and aria-required is not allowed on buttons – but VO still reads it
-              'aria-allowed-attr': { enabled: false },
-              'aria-valid-attr-value': { enabled: false },
-            },
-          })
-        ).toHaveNoViolations()
+        expect(await axeComponent(result)).toHaveNoViolations()
       })
 
       it('should have aria-required', () => {
@@ -1700,6 +1713,46 @@ describe('variants', () => {
       ).toBe(document.querySelector('.dnb-tooltip__content').id)
     })
 
+    describe('autocompleteProps', () => {
+      it('should support autoComplete (HTML attribute)', () => {
+        render(
+          <Field.Selection
+            value="bar"
+            size="large"
+            variant="autocomplete"
+            autocompleteProps={{ autoComplete: 'language' }}
+          >
+            <Field.Option value="foo" title="Foo!" text="Text" />
+            <Field.Option value="bar" title="Bar!" text="Text" />
+          </Field.Selection>
+        )
+
+        const input = document.querySelector('input')
+
+        expect(input).toHaveAttribute('autocomplete', 'language')
+      })
+
+      it('should support showClearButton', () => {
+        render(
+          <Field.Selection
+            value="bar"
+            size="large"
+            variant="autocomplete"
+            autocompleteProps={{
+              showClearButton: true,
+            }}
+          >
+            <Field.Option value="foo" title="Foo!" text="Text" />
+            <Field.Option value="bar" title="Bar!" text="Text" />
+          </Field.Selection>
+        )
+
+        expect(
+          document.querySelector('.dnb-input__clear-button')
+        ).toBeInTheDocument()
+      })
+    })
+
     it('should support "onType"', async () => {
       const onType = jest.fn()
 
@@ -1800,13 +1853,15 @@ describe('variants', () => {
 
       expect(input).toHaveValue('foo')
 
-      {
+      await waitFor(() => {
         const options = document.querySelectorAll('[role="option"]')
         expect(options[0]).toHaveTextContent('Foo')
         expect(options[1]).toHaveTextContent('Vis alt')
+      })
 
-        await userEvent.click(options[0])
-      }
+      await userEvent.click(
+        document.querySelectorAll('[role="option"]')[0]
+      )
 
       expect(onChange).toHaveBeenCalledTimes(1)
       expect(onChange).toHaveBeenLastCalledWith('foo', expect.anything())
@@ -1822,11 +1877,11 @@ describe('variants', () => {
       ).not.toBeInTheDocument()
       expect(input).toHaveValue('foo')
 
-      {
+      await waitFor(() => {
         const options = document.querySelectorAll('[role="option"]')
         expect(options[0]).toHaveTextContent('Foo')
         expect(options[1]).toHaveTextContent('Vis alt')
-      }
+      })
 
       expect(onChange).toHaveBeenCalledTimes(1)
     })
@@ -1859,25 +1914,27 @@ describe('variants', () => {
         const input = document.querySelector('input')
         await userEvent.type(input, 'foo')
 
-        {
+        await waitFor(() => {
           const options = document.querySelectorAll('[role="option"]')
           expect(options[0]).toHaveTextContent('Foo')
           expect(options[1]).toHaveTextContent('Vis alt')
           expect(input).toHaveValue('foo')
+        })
 
-          await userEvent.click(options[0])
-        }
+        await userEvent.click(
+          document.querySelectorAll('[role="option"]')[0]
+        )
 
         expect(input).toHaveValue('Foo')
 
         await userEvent.click(input)
 
-        {
+        await waitFor(() => {
           const options = document.querySelectorAll('[role="option"]')
           expect(options[0]).toHaveTextContent('Foo')
           expect(options[1]).toHaveTextContent('Bar')
           expect(input).toHaveValue('Foo')
-        }
+        })
       })
     })
 
@@ -1892,7 +1949,7 @@ describe('variants', () => {
       expect(document.querySelector('input')).toBeDisabled()
     })
 
-    it('renders selected option', () => {
+    it('renders selected option', async () => {
       render(
         <Field.Selection variant="autocomplete" value="bar">
           <Field.Option value="foo">Foo</Field.Option>
@@ -1902,13 +1959,15 @@ describe('variants', () => {
 
       openAutocomplete()
 
-      const options = document.querySelectorAll('[role="option"]')
-      expect(options.length).toEqual(2)
-      expect(options[0].getAttribute('aria-selected')).toBe('false')
-      expect(options[1].getAttribute('aria-selected')).toBe('true')
+      await waitFor(() => {
+        const options = document.querySelectorAll('[role="option"]')
+        expect(options.length).toEqual(2)
+        expect(options[0].getAttribute('aria-selected')).toBe('false')
+        expect(options[1].getAttribute('aria-selected')).toBe('true')
+      })
     })
 
-    it('renders update selected option based on external value change', () => {
+    it('renders update selected option based on external value change', async () => {
       const { rerender } = render(
         <Field.Selection variant="autocomplete" value="bar">
           <Field.Option value="foo">Foo</Field.Option>
@@ -1925,13 +1984,15 @@ describe('variants', () => {
 
       openAutocomplete()
 
-      const options = document.querySelectorAll('[role="option"]')
-      expect(options.length).toEqual(2)
-      expect(options[0].getAttribute('aria-selected')).toBe('true')
-      expect(options[1].getAttribute('aria-selected')).toBe('false')
+      await waitFor(() => {
+        const options = document.querySelectorAll('[role="option"]')
+        expect(options.length).toEqual(2)
+        expect(options[0].getAttribute('aria-selected')).toBe('true')
+        expect(options[1].getAttribute('aria-selected')).toBe('false')
+      })
     })
 
-    it('renders only options with a value', () => {
+    it('renders only options with a value', async () => {
       const { rerender } = render(
         <Field.Selection variant="autocomplete" value="bar">
           <Field.Option value="foo">Foo</Field.Option>
@@ -1942,7 +2003,11 @@ describe('variants', () => {
 
       openAutocomplete()
 
-      expect(document.querySelectorAll('[role="option"]')).toHaveLength(2)
+      await waitFor(() => {
+        expect(document.querySelectorAll('[role="option"]')).toHaveLength(
+          2
+        )
+      })
 
       rerender(
         <Field.Selection variant="autocomplete" value="foo">
@@ -2002,12 +2067,16 @@ describe('variants', () => {
 
       openAutocomplete()
 
+      await waitFor(() => {
+        expect(document.querySelectorAll('[role="option"]')).toHaveLength(
+          2
+        )
+      })
+
       const options = Array.from(
         document.querySelectorAll('[role="option"]')
       )
       const [option1, option2] = options
-
-      expect(options).toHaveLength(2)
 
       expect(option1).toHaveTextContent('Foo!')
       expect(option2).toHaveTextContent('Bar!')
@@ -2043,13 +2112,16 @@ describe('variants', () => {
 
       openAutocomplete()
 
+      await waitFor(() => {
+        expect(document.querySelectorAll('[role="option"]')).toHaveLength(
+          2
+        )
+      })
+
       const options = Array.from(
         document.querySelectorAll('[role="option"]')
       )
       const [option1, option2] = options
-
-      expect(options).toHaveLength(2)
-
       expect(option1).toHaveTextContent('Foo!')
       expect(option2).toHaveTextContent('Bar!')
 
@@ -2057,7 +2129,7 @@ describe('variants', () => {
       expect(option2).toHaveAttribute('aria-selected', 'false')
     })
 
-    it('should support "dataPath"', () => {
+    it('should support "dataPath"', async () => {
       render(
         <Form.Handler
           data={{
@@ -2081,12 +2153,15 @@ describe('variants', () => {
 
       openAutocomplete()
 
+      await waitFor(() => {
+        expect(document.querySelectorAll('[role="option"]')).toHaveLength(
+          3
+        )
+      })
+
       const options = Array.from(
         document.querySelectorAll('[role="option"]')
       )
-
-      expect(options).toHaveLength(3)
-
       const [option1, option2, option3] = options
 
       expect(option1).toHaveTextContent('Foo!')
@@ -2257,7 +2332,7 @@ describe('event handlers', () => {
       </Field.Selection>
     )
 
-    const selectionButton = screen.getByRole('button')
+    const selectionButton = screen.getByRole('combobox')
     await userEvent.click(selectionButton)
 
     await waitFor(async () => {
@@ -2288,7 +2363,7 @@ describe('event handlers', () => {
       </Field.Selection>
     )
 
-    const selectionButton = screen.getByRole('button')
+    const selectionButton = screen.getByRole('combobox')
     await userEvent.click(selectionButton)
 
     await waitFor(() => {
@@ -2306,7 +2381,7 @@ describe('event handlers', () => {
       </Field.Selection>
     )
 
-    const selectionButton = screen.getByRole('button')
+    const selectionButton = screen.getByRole('combobox')
     await userEvent.click(selectionButton)
 
     await waitFor(async () => {
@@ -2329,7 +2404,7 @@ describe('validation and error handling', () => {
             <Field.Option value="bar">Bar</Field.Option>
           </Field.Selection>
         )
-        const selectionButton = screen.getByRole('button')
+        const selectionButton = screen.getByRole('combobox')
         await userEvent.click(selectionButton)
 
         expect(screen.getByRole('alert')).toBeInTheDocument()
@@ -2342,7 +2417,7 @@ describe('validation and error handling', () => {
             <Field.Option value="bar">Bar</Field.Option>
           </Field.Selection>
         )
-        const selectionButton = screen.getByRole('button')
+        const selectionButton = screen.getByRole('combobox')
         await userEvent.click(selectionButton)
 
         await waitFor(async () => {

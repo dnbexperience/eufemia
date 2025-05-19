@@ -5,14 +5,13 @@ import React, {
   useMemo,
   useReducer,
   useRef,
-  useState,
 } from 'react'
 import classnames from 'classnames'
 import Isolation from '../../Form/Isolation'
-import useReportError from '../../Form/Isolation/useReportError'
+import useHandleStatus from '../../Form/Isolation/useHandleStatus'
 import PushContainerContext from './PushContainerContext'
 import IterateItemContext from '../IterateItemContext'
-import DataContext, { ContextState } from '../../DataContext/Context'
+import DataContext from '../../DataContext/Context'
 import VisibilityContext from '../../Form/Visibility/VisibilityContext'
 import useDataValue from '../../hooks/useDataValue'
 import EditContainer, {
@@ -20,7 +19,6 @@ import EditContainer, {
   CancelButton,
   ResetButton,
   AllProps as EditContainerProps,
-  useHasContentChanged,
 } from '../EditContainer'
 import IterateArray, { ContainerMode } from '../Array'
 import OpenButton from './OpenButton'
@@ -112,7 +110,15 @@ export type Props = (OnlyPathRequired | OnlyItemPathRequired) & {
   /**
    * If the container should be committed before the form is submitted.
    */
+  /**
+   * @deprecated – Replaced with preventUncommittedChanges, requireCommit will be removed in v11.
+   */
   requireCommit?: boolean
+
+  /**
+   * Prevents uncommitted changes before the form is submitted. Will display an error message if user tries to submit without committing their changes.
+   */
+  preventUncommittedChanges?: boolean
 
   /**
    * Show a button to clear the PushContainer data.
@@ -149,7 +155,8 @@ function PushContainer(props: AllProps) {
     defaultData: defaultDataProp,
     isolatedData,
     bubbleValidation,
-    requireCommit,
+    preventUncommittedChanges = props?.requireCommit,
+    requireCommit, // eslint-disable-line @typescript-eslint/no-unused-vars
     showResetButton,
     path,
     itemPath,
@@ -289,7 +296,7 @@ function PushContainer(props: AllProps) {
             cancelHandler={cancelHandler}
             containerModeRef={containerModeRef}
             rerenderPushContainer={forceUpdate}
-            requireCommit={requireCommit}
+            preventUncommittedChanges={preventUncommittedChanges}
             showResetButton={showResetButton}
             outerContext={outerContext}
             {...rest}
@@ -311,7 +318,7 @@ function NewContainer({
   cancelHandler,
   containerModeRef,
   rerenderPushContainer,
-  requireCommit,
+  preventUncommittedChanges,
   outerContext,
   children,
   ...rest
@@ -323,9 +330,9 @@ function NewContainer({
   const { hasContentChanged, showStatus: showCommitStatus } =
     useHandleStatus({
       outerContext,
-      requireCommit,
+      preventUncommittedChanges,
+      error: pushContainerError,
     })
-  const { requireCommitText } = useTranslation().IteratePushContainer
 
   useEffect(() => {
     rerenderPushContainer()
@@ -333,6 +340,7 @@ function NewContainer({
 
   switchContainerModeRef.current = switchContainerMode
   const isVisible = Boolean(!showOpenButton || containerMode === 'edit')
+  const { preventUncommittedChangesText } = useTranslation().Isolation
   const { createButton } = useTranslation().IteratePushContainer
   const { clearData } = useContext(DataContext) || {}
   const restoreOriginalValue = useCallback(() => {
@@ -354,7 +362,7 @@ function NewContainer({
                 {showOpenButton && (
                   <CancelButton onClick={cancelHandler} />
                 )}
-                {(requireCommit || showResetButton) && (
+                {(preventUncommittedChanges || showResetButton) && (
                   <ResetButton
                     // Use hidden in order to render the useHasContentChanged hook
                     hidden={!(showResetButton || showCommitStatus)}
@@ -362,9 +370,9 @@ function NewContainer({
                 )}
               </Flex.Horizontal>
 
-              {requireCommit && showCommitStatus && (
+              {preventUncommittedChanges && showCommitStatus && (
                 <FormStatus no_animation={false} show={hasContentChanged}>
-                  {requireCommitText}
+                  {preventUncommittedChangesText}
                 </FormStatus>
               )}
             </IterateItemContext.Provider>
@@ -397,56 +405,6 @@ function NewContainer({
       )}
     </VisibilityContext.Provider>
   )
-}
-
-function useHandleStatus({
-  outerContext,
-  requireCommit,
-}: {
-  outerContext: ContextState
-  requireCommit: boolean
-}) {
-  const { hasContentChanged } = useHasContentChanged()
-
-  useReportError(
-    requireCommit && hasContentChanged ? pushContainerError : undefined,
-    outerContext
-  )
-
-  const showStatus = useShowStatus({
-    outerContext,
-    hasContentChanged,
-    requireCommit,
-  })
-
-  return { hasContentChanged, showStatus }
-}
-
-// This hook/state is used to not show the status right away, after the user has cleared the PushContainer data.
-function useShowStatus({
-  outerContext,
-  hasContentChanged,
-  requireCommit,
-}) {
-  const showAllErrors = outerContext?.showAllErrors
-  const [showStatus, setShowStatus] = useState(showAllErrors)
-  const showRef = useRef(showAllErrors)
-  useEffect(() => {
-    if (!requireCommit) {
-      return // stop here
-    }
-
-    if (!hasContentChanged) {
-      setShowStatus(false)
-    } else {
-      if (showRef.current !== showAllErrors) {
-        setShowStatus(showAllErrors)
-      }
-    }
-    showRef.current = showAllErrors
-  }, [hasContentChanged, requireCommit, showAllErrors])
-
-  return showStatus
 }
 
 const pushContainerError = new Error('Iterate.PushContainer')

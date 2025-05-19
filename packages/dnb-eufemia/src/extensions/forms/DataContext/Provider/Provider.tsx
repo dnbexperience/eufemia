@@ -1038,6 +1038,12 @@ export default function Provider<Data extends JsonObject>(
         let submitResult: OnSubmitReturn
         try {
           if (isolate) {
+            for (const item of fieldEventListenersRef.current) {
+              const { type, callback } = item
+              if (type === 'onBeforeCommit') {
+                callback()
+              }
+            }
             submitResult = await onCommit?.(internalDataRef.current, {
               clearData,
             })

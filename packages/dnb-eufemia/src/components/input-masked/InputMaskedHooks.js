@@ -8,6 +8,7 @@ import classnames from 'classnames'
 import {
   cleanNumber,
   getCurrencySymbol,
+  NUMBER_MINUS,
 } from '../number-format/NumberUtils'
 import {
   isTrue,
@@ -16,6 +17,7 @@ import {
   keycode,
 } from '../../shared/component-helper'
 import { safeSetSelection } from './text-mask/createTextMaskInputElement'
+import { isNumber } from './text-mask/utilities'
 
 import TextMask from './TextMask'
 import createNumberMask from './addons/createNumberMask'
@@ -281,7 +283,8 @@ export const useEventMapping = ({ setLocalValue }) => {
   const callEvent = useCallEvent({ setLocalValue })
 
   return {
-    onBeforeInput: (event) => callEvent({ event }, 'on_before_input'),
+    onBeforeInput: (event) => callEvent({ event }, 'onBeforeInput'),
+    onInput: (event) => callEvent({ event }, 'onInput'),
     onFocus: (params) => callEvent(params, 'on_focus'),
     onBlur: (params) => callEvent(params, 'on_blur'),
     onMouseUp: (event) => callEvent({ event }, 'on_mouse_up'),
@@ -334,7 +337,7 @@ const useCallEvent = ({ setLocalValue }) => {
     // so we use this solution instead
     if (
       isUnidentified &&
-      name === 'on_before_input' &&
+      name === 'onBeforeInput' &&
       typeof event?.data !== 'undefined'
     ) {
       name = 'on_key_down'
@@ -348,24 +351,65 @@ const useCallEvent = ({ setLocalValue }) => {
       isUnidentified = false
     }
 
-    // Prevent entering a leading zero
+    // Prevent entering a leading zero.
+    // Also remove leading zeroes when the input is blurred.
     if (
-      name === 'on_key_down' &&
-      !isUnidentified &&
       maskParams?.disallowLeadingZeroes &&
-      (keyCode === '0' ||
-        keyCode === 'numpad 0' ||
-        (value.replace(/[^\d]/g, '') === '' &&
-          decimalSeparators.test(keyCode)))
+      (name === 'onInput' || name === 'on_blur')
     ) {
-      const testValue = (
-        value.slice(0, selStart) +
-        '0' +
-        value.slice(selStart + 1, value.length)
-      ).replace(/[^\d]/g, '')
+      const isNegative = new RegExp(`^${NUMBER_MINUS}`, 'g').test(value)
+      if (
+        (isNegative ? selStart > 1 : selStart > 0) ||
+        name === 'on_blur'
+      ) {
+        const onlyNumber = value.replace(
+          new RegExp(`[^\\d${maskParams.decimalSymbol}]`, 'g'),
+          ''
+        )
+        let leadingZeroes = 0
+        for (let i = 0; i < onlyNumber.length - 1; i++) {
+          if (
+            onlyNumber.charAt(i) === '0' &&
+            onlyNumber.charAt(i + 1) !== maskParams.decimalSymbol
+          ) {
+            leadingZeroes++
+          } else {
+            break
+          }
+        }
+        let newSelStart = selStart
+        let newValue = value
+        let firstNumberIndex = 0
+        if (leadingZeroes > 0) {
+          for (let i = 0; i < value.length; i++) {
+            firstNumberIndex = i
+            const char = value.charAt(i)
 
-      if (/^0/.test(testValue)) {
-        event.preventDefault()
+            if (
+              (char !== '0' && isNumber(parseInt(char))) ||
+              value.charAt(i + 1) === maskParams.decimalSymbol
+            ) {
+              break
+            }
+          }
+          newValue =
+            value.substring(0, isNegative ? 1 : 0) +
+            value.substring(firstNumberIndex)
+
+          newSelStart =
+            selStart > firstNumberIndex
+              ? selStart - (value.length - newValue.length)
+              : isNegative
+              ? 1
+              : 0
+        }
+
+        if (newValue !== value) {
+          setLocalValue(newValue)
+          event.target.value = newValue
+          safeSetSelection(event.target, newSelStart)
+          value = newValue
+        }
       }
     }
 

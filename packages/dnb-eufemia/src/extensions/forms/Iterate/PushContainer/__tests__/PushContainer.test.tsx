@@ -427,6 +427,7 @@ describe('PushContainer', () => {
     })
   })
 
+  // Deprecated – can be removed in v11 - replaced with preventUncommittedChanges
   describe('requireCommit', () => {
     it('should prevent the form from submitting as long as there is uncommitted data', async () => {
       const onSubmitRequest = jest.fn()
@@ -452,7 +453,7 @@ describe('PushContainer', () => {
 
       const input = document.querySelector('input')
       const form = document.querySelector('form')
-      const commitButton = document.querySelector(
+      const doneButton = document.querySelector(
         '.dnb-forms-iterate__done-button'
       )
 
@@ -464,7 +465,7 @@ describe('PushContainer', () => {
       expect(onSubmitRequest).toHaveBeenCalledTimes(1)
       expect(onCommit).toHaveBeenCalledTimes(0)
 
-      await userEvent.click(commitButton)
+      await userEvent.click(doneButton)
 
       expect(onCommit).toHaveBeenCalledTimes(1)
 
@@ -488,7 +489,7 @@ describe('PushContainer', () => {
 
       const input = document.querySelector('input')
       const form = document.querySelector('form')
-      const commitButton = document.querySelector(
+      const doneButton = document.querySelector(
         '.dnb-forms-iterate__done-button'
       )
 
@@ -500,10 +501,10 @@ describe('PushContainer', () => {
         document.querySelector('.dnb-form-status')
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.IteratePushContainer.requireCommitText
+        nb.Isolation.preventUncommittedChangesText
       )
 
-      await userEvent.click(commitButton)
+      await userEvent.click(doneButton)
 
       expect(
         document.querySelector('.dnb-form-status')
@@ -533,7 +534,7 @@ describe('PushContainer', () => {
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
-        const commitButton = document.querySelector(
+        const doneButton = document.querySelector(
           '.dnb-forms-iterate__done-button'
         )
 
@@ -547,7 +548,7 @@ describe('PushContainer', () => {
           expect.anything()
         )
 
-        await userEvent.click(commitButton)
+        await userEvent.click(doneButton)
         fireEvent.submit(form)
 
         expect(onSubmit).toHaveBeenCalledTimes(2)
@@ -573,7 +574,7 @@ describe('PushContainer', () => {
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
-        const commitButton = document.querySelector(
+        const doneButton = document.querySelector(
           '.dnb-forms-iterate__done-button'
         )
 
@@ -614,7 +615,7 @@ describe('PushContainer', () => {
           expect.anything()
         )
 
-        await userEvent.click(commitButton)
+        await userEvent.click(doneButton)
 
         expect(input).toHaveValue('The empty value')
 
@@ -645,7 +646,7 @@ describe('PushContainer', () => {
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
-        const commitButton = document.querySelector(
+        const doneButton = document.querySelector(
           '.dnb-forms-iterate__done-button'
         )
 
@@ -659,7 +660,7 @@ describe('PushContainer', () => {
           expect.anything()
         )
 
-        await userEvent.click(commitButton)
+        await userEvent.click(doneButton)
         fireEvent.submit(form)
 
         expect(onSubmit).toHaveBeenCalledTimes(2)
@@ -685,7 +686,7 @@ describe('PushContainer', () => {
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
-        const commitButton = document.querySelector(
+        const doneButton = document.querySelector(
           '.dnb-forms-iterate__done-button'
         )
 
@@ -726,7 +727,7 @@ describe('PushContainer', () => {
           expect.anything()
         )
 
-        await userEvent.click(commitButton)
+        await userEvent.click(doneButton)
 
         expect(input).toHaveValue('A default value')
 
@@ -758,7 +759,7 @@ describe('PushContainer', () => {
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
-        const commitButton = document.querySelector(
+        const doneButton = document.querySelector(
           '.dnb-forms-iterate__done-button'
         )
 
@@ -772,7 +773,7 @@ describe('PushContainer', () => {
           expect.anything()
         )
 
-        await userEvent.click(commitButton)
+        await userEvent.click(doneButton)
         fireEvent.submit(form)
 
         expect(onSubmit).toHaveBeenCalledTimes(2)
@@ -799,7 +800,7 @@ describe('PushContainer', () => {
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
-        const commitButton = document.querySelector(
+        const doneButton = document.querySelector(
           '.dnb-forms-iterate__done-button'
         )
 
@@ -840,7 +841,7 @@ describe('PushContainer', () => {
           expect.anything()
         )
 
-        await userEvent.click(commitButton)
+        await userEvent.click(doneButton)
 
         expect(input).toHaveValue('A default value')
 
@@ -872,7 +873,7 @@ describe('PushContainer', () => {
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
-        const commitButton = document.querySelector(
+        const doneButton = document.querySelector(
           '.dnb-forms-iterate__done-button'
         )
 
@@ -886,7 +887,7 @@ describe('PushContainer', () => {
           expect.anything()
         )
 
-        await userEvent.click(commitButton)
+        await userEvent.click(doneButton)
         fireEvent.submit(form)
 
         expect(onSubmit).toHaveBeenCalledTimes(2)
@@ -913,7 +914,7 @@ describe('PushContainer', () => {
 
         const input = document.querySelector('input')
         const form = document.querySelector('form')
-        const commitButton = document.querySelector(
+        const doneButton = document.querySelector(
           '.dnb-forms-iterate__done-button'
         )
 
@@ -954,7 +955,7 @@ describe('PushContainer', () => {
           expect.anything()
         )
 
-        await userEvent.click(commitButton)
+        await userEvent.click(doneButton)
 
         expect(input).toHaveValue('A default value')
 
@@ -1007,7 +1008,7 @@ describe('PushContainer', () => {
 
       const input = document.querySelector('input')
       const form = document.querySelector('form')
-      const commitButton = document.querySelector(
+      const doneButton = document.querySelector(
         '.dnb-forms-iterate__done-button'
       )
 
@@ -1032,7 +1033,7 @@ describe('PushContainer', () => {
         document.querySelector('.dnb-form-status')
       ).toBeInTheDocument()
 
-      await userEvent.click(commitButton)
+      await userEvent.click(doneButton)
 
       expect(onCommit).toHaveBeenCalledTimes(1)
       expect(
@@ -1069,7 +1070,7 @@ describe('PushContainer', () => {
 
       const input = document.querySelector('input')
       const form = document.querySelector('form')
-      const commitButton = document.querySelector(
+      const doneButton = document.querySelector(
         '.dnb-forms-iterate__done-button'
       )
 
@@ -1084,7 +1085,7 @@ describe('PushContainer', () => {
         document.querySelector('.dnb-forms-iterate__reset-button')
       ).toBeInTheDocument()
 
-      await userEvent.click(commitButton)
+      await userEvent.click(doneButton)
 
       expect(
         document.querySelector('.dnb-form-status')
@@ -1132,7 +1133,748 @@ describe('PushContainer', () => {
         document.querySelector('.dnb-form-status')
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-        nb.IteratePushContainer.requireCommitText
+        nb.Isolation.preventUncommittedChangesText
+      )
+
+      // Click the reset button
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate__reset-button')
+      )
+
+      // Confirm the clear
+      await userEvent.click(document.querySelector('.dnb-button--primary'))
+
+      expect(onCommit).toHaveBeenCalledTimes(0)
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+      expect(onCommit).toHaveBeenCalledTimes(0)
+    })
+  })
+
+  describe('preventUncommittedChanges', () => {
+    it('should prevent the form from submitting as long as there is uncommitted data', async () => {
+      const onSubmitRequest = jest.fn()
+      const onSubmit = jest.fn()
+      const onCommit = jest.fn()
+
+      render(
+        <Form.Handler
+          onSubmitRequest={onSubmitRequest}
+          onSubmit={onSubmit}
+        >
+          <Iterate.Array path="/entries">...</Iterate.Array>
+
+          <Iterate.PushContainer
+            path="/entries"
+            preventUncommittedChanges
+            onCommit={onCommit}
+          >
+            <Field.String itemPath="/name" />
+          </Iterate.PushContainer>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const form = document.querySelector('form')
+      const doneButton = document.querySelector(
+        '.dnb-forms-iterate__done-button'
+      )
+
+      await userEvent.type(input, 'Tony')
+
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(0)
+      expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+      expect(onCommit).toHaveBeenCalledTimes(0)
+
+      await userEvent.click(doneButton)
+
+      expect(onCommit).toHaveBeenCalledTimes(1)
+
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+      expect(onCommit).toHaveBeenCalledTimes(1)
+    })
+
+    it('should show error when submitting the form', async () => {
+      render(
+        <Form.Handler>
+          <Iterate.Array path="/entries">...</Iterate.Array>
+
+          <Iterate.PushContainer path="/entries" preventUncommittedChanges>
+            <Field.String itemPath="/name" />
+          </Iterate.PushContainer>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const form = document.querySelector('form')
+      const doneButton = document.querySelector(
+        '.dnb-forms-iterate__done-button'
+      )
+
+      await userEvent.type(input, 'Tony')
+
+      fireEvent.submit(form)
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Isolation.preventUncommittedChangesText
+      )
+
+      await userEvent.click(doneButton)
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      fireEvent.submit(form)
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+    })
+
+    describe('with emptyValue prop', () => {
+      it('should submit when "emptyValue" is given', async () => {
+        const onSubmit = jest.fn()
+
+        render(
+          <Form.Handler onSubmit={onSubmit}>
+            <Iterate.PushContainer
+              path="/entries"
+              preventUncommittedChanges
+            >
+              <Field.String
+                itemPath="/name"
+                emptyValue="The empty value"
+              />
+            </Iterate.PushContainer>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input')
+        const form = document.querySelector('form')
+        const doneButton = document.querySelector(
+          '.dnb-forms-iterate__done-button'
+        )
+
+        expect(input).toHaveValue('The empty value')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          undefined,
+          expect.anything()
+        )
+
+        await userEvent.click(doneButton)
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(2)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { entries: [{ name: 'The empty value' }] },
+          expect.anything()
+        )
+      })
+
+      it('should reset to emptyValue when reset button is clicked', async () => {
+        const onSubmit = jest.fn()
+
+        render(
+          <Form.Handler onSubmit={onSubmit}>
+            <Iterate.PushContainer
+              path="/entries"
+              preventUncommittedChanges
+            >
+              <Field.String
+                itemPath="/name"
+                emptyValue="The empty value"
+              />
+            </Iterate.PushContainer>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input')
+        const form = document.querySelector('form')
+        const doneButton = document.querySelector(
+          '.dnb-forms-iterate__done-button'
+        )
+
+        expect(input).toHaveValue('The empty value')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          undefined,
+          expect.anything()
+        )
+
+        await userEvent.type(input, 'X')
+        fireEvent.submit(form)
+
+        expect(input).toHaveValue('The empty valueX')
+        expect(
+          document.querySelector('.dnb-forms-iterate__reset-button')
+        ).toBeInTheDocument()
+
+        await userEvent.click(
+          document.querySelector('.dnb-forms-iterate__reset-button')
+        )
+
+        // Confirm the clear
+        await userEvent.click(
+          document.querySelector('.dnb-button--primary')
+        )
+
+        expect(input).toHaveValue('The empty value')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(2)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          undefined,
+          expect.anything()
+        )
+
+        await userEvent.click(doneButton)
+
+        expect(input).toHaveValue('The empty value')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(3)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { entries: [{ name: 'The empty value' }] },
+          expect.anything()
+        )
+      })
+    })
+
+    describe('with defaultValue prop', () => {
+      it('should submit when "defaultValue" is given', async () => {
+        const onSubmit = jest.fn()
+
+        render(
+          <Form.Handler onSubmit={onSubmit}>
+            <Iterate.PushContainer
+              path="/entries"
+              preventUncommittedChanges
+            >
+              <Field.String
+                itemPath="/name"
+                defaultValue="A default value"
+              />
+            </Iterate.PushContainer>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input')
+        const form = document.querySelector('form')
+        const doneButton = document.querySelector(
+          '.dnb-forms-iterate__done-button'
+        )
+
+        expect(input).toHaveValue('A default value')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          undefined,
+          expect.anything()
+        )
+
+        await userEvent.click(doneButton)
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(2)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { entries: [{ name: 'A default value' }] },
+          expect.anything()
+        )
+      })
+
+      it('should reset to defaultValue when reset button is clicked', async () => {
+        const onSubmit = jest.fn()
+
+        render(
+          <Form.Handler onSubmit={onSubmit}>
+            <Iterate.PushContainer
+              path="/entries"
+              preventUncommittedChanges
+            >
+              <Field.String
+                itemPath="/name"
+                defaultValue="A default value"
+              />
+            </Iterate.PushContainer>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input')
+        const form = document.querySelector('form')
+        const doneButton = document.querySelector(
+          '.dnb-forms-iterate__done-button'
+        )
+
+        expect(input).toHaveValue('A default value')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          undefined,
+          expect.anything()
+        )
+
+        await userEvent.type(input, 'X')
+        fireEvent.submit(form)
+
+        expect(input).toHaveValue('A default valueX')
+        expect(
+          document.querySelector('.dnb-forms-iterate__reset-button')
+        ).toBeInTheDocument()
+
+        await userEvent.click(
+          document.querySelector('.dnb-forms-iterate__reset-button')
+        )
+
+        // Confirm the clear
+        await userEvent.click(
+          document.querySelector('.dnb-button--primary')
+        )
+
+        expect(input).toHaveValue('A default value')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(2)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          undefined,
+          expect.anything()
+        )
+
+        await userEvent.click(doneButton)
+
+        expect(input).toHaveValue('A default value')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(3)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { entries: [{ name: 'A default value' }] },
+          expect.anything()
+        )
+      })
+    })
+
+    describe('with defaultData prop', () => {
+      it('should submit when "defaultData" is given', async () => {
+        const onSubmit = jest.fn()
+
+        render(
+          <Form.Handler onSubmit={onSubmit}>
+            <Iterate.PushContainer
+              path="/entries"
+              defaultData={{ name: 'A default value' }}
+              preventUncommittedChanges
+            >
+              <Field.String itemPath="/name" />
+            </Iterate.PushContainer>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input')
+        const form = document.querySelector('form')
+        const doneButton = document.querySelector(
+          '.dnb-forms-iterate__done-button'
+        )
+
+        expect(input).toHaveValue('A default value')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          undefined,
+          expect.anything()
+        )
+
+        await userEvent.click(doneButton)
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(2)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { entries: [{ name: 'A default value' }] },
+          expect.anything()
+        )
+      })
+
+      it('should reset to defaultData when reset button is clicked', async () => {
+        const onSubmit = jest.fn()
+
+        render(
+          <Form.Handler onSubmit={onSubmit}>
+            <Iterate.PushContainer
+              path="/entries"
+              defaultData={{ name: 'A default value' }}
+              preventUncommittedChanges
+            >
+              <Field.String itemPath="/name" />
+            </Iterate.PushContainer>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input')
+        const form = document.querySelector('form')
+        const doneButton = document.querySelector(
+          '.dnb-forms-iterate__done-button'
+        )
+
+        expect(input).toHaveValue('A default value')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          undefined,
+          expect.anything()
+        )
+
+        await userEvent.type(input, 'X')
+        fireEvent.submit(form)
+
+        expect(input).toHaveValue('A default valueX')
+        expect(
+          document.querySelector('.dnb-forms-iterate__reset-button')
+        ).toBeInTheDocument()
+
+        await userEvent.click(
+          document.querySelector('.dnb-forms-iterate__reset-button')
+        )
+
+        // Confirm the clear
+        await userEvent.click(
+          document.querySelector('.dnb-button--primary')
+        )
+
+        expect(input).toHaveValue('A default value')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(2)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          undefined,
+          expect.anything()
+        )
+
+        await userEvent.click(doneButton)
+
+        expect(input).toHaveValue('A default value')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(3)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { entries: [{ name: 'A default value' }] },
+          expect.anything()
+        )
+      })
+    })
+
+    describe('with data prop', () => {
+      it('should submit when "data" is given', async () => {
+        const onSubmit = jest.fn()
+
+        render(
+          <Form.Handler onSubmit={onSubmit}>
+            <Iterate.PushContainer
+              path="/entries"
+              data={{ name: 'A default value' }}
+              preventUncommittedChanges
+            >
+              <Field.String itemPath="/name" />
+            </Iterate.PushContainer>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input')
+        const form = document.querySelector('form')
+        const doneButton = document.querySelector(
+          '.dnb-forms-iterate__done-button'
+        )
+
+        expect(input).toHaveValue('A default value')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          undefined,
+          expect.anything()
+        )
+
+        await userEvent.click(doneButton)
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(2)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { entries: [{ name: 'A default value' }] },
+          expect.anything()
+        )
+      })
+
+      it('should reset to data when reset button is clicked', async () => {
+        const onSubmit = jest.fn()
+
+        render(
+          <Form.Handler onSubmit={onSubmit}>
+            <Iterate.PushContainer
+              path="/entries"
+              data={{ name: 'A default value' }}
+              preventUncommittedChanges
+            >
+              <Field.String itemPath="/name" />
+            </Iterate.PushContainer>
+          </Form.Handler>
+        )
+
+        const input = document.querySelector('input')
+        const form = document.querySelector('form')
+        const doneButton = document.querySelector(
+          '.dnb-forms-iterate__done-button'
+        )
+
+        expect(input).toHaveValue('A default value')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          undefined,
+          expect.anything()
+        )
+
+        await userEvent.type(input, 'X')
+        fireEvent.submit(form)
+
+        expect(input).toHaveValue('A default valueX')
+        expect(
+          document.querySelector('.dnb-forms-iterate__reset-button')
+        ).toBeInTheDocument()
+
+        await userEvent.click(
+          document.querySelector('.dnb-forms-iterate__reset-button')
+        )
+
+        // Confirm the clear
+        await userEvent.click(
+          document.querySelector('.dnb-button--primary')
+        )
+
+        expect(input).toHaveValue('A default value')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(2)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          undefined,
+          expect.anything()
+        )
+
+        await userEvent.click(doneButton)
+
+        expect(input).toHaveValue('A default value')
+
+        fireEvent.submit(form)
+
+        expect(onSubmit).toHaveBeenCalledTimes(3)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          { entries: [{ name: 'A default value' }] },
+          expect.anything()
+        )
+      })
+    })
+
+    it('should prevent Wizard step change as long as there is uncommitted data', async () => {
+      const onSubmitRequest = jest.fn()
+      const onSubmit = jest.fn()
+      const onCommit = jest.fn()
+      const onStepChange = jest.fn()
+
+      render(
+        <Form.Handler
+          onSubmitRequest={onSubmitRequest}
+          onSubmit={onSubmit}
+        >
+          <Wizard.Container onStepChange={onStepChange}>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+
+              <Iterate.Array path="/entries">...</Iterate.Array>
+
+              <Iterate.PushContainer
+                path="/entries"
+                onCommit={onCommit}
+                preventUncommittedChanges
+              >
+                <Field.String itemPath="/name" />
+              </Iterate.PushContainer>
+
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Wizard.Buttons />
+              <Form.SubmitButton />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const form = document.querySelector('form')
+      const doneButton = document.querySelector(
+        '.dnb-forms-iterate__done-button'
+      )
+
+      const nextButton = () => {
+        return document.querySelector('.dnb-forms-next-button')
+      }
+      const output = () => {
+        return document.querySelector('output')
+      }
+
+      await userEvent.type(input, 'Tony')
+
+      await userEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(onStepChange).toHaveBeenCalledTimes(0)
+      expect(onSubmit).toHaveBeenCalledTimes(0)
+      expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+      expect(onCommit).toHaveBeenCalledTimes(0)
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+
+      await userEvent.click(doneButton)
+
+      expect(onCommit).toHaveBeenCalledTimes(1)
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      await userEvent.click(nextButton())
+
+      expect(output()).toHaveTextContent('Step 2')
+      expect(onStepChange).toHaveBeenCalledTimes(1)
+      expect(onStepChange).toHaveBeenLastCalledWith(
+        1,
+        'next',
+        expect.anything()
+      )
+
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+      expect(onCommit).toHaveBeenCalledTimes(1)
+    })
+
+    it('should show reset button when there is uncommitted data and the form was submitted', async () => {
+      render(
+        <Form.Handler>
+          <Iterate.Array path="/entries">...</Iterate.Array>
+
+          <Iterate.PushContainer path="/entries" preventUncommittedChanges>
+            <Field.String itemPath="/name" />
+          </Iterate.PushContainer>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const form = document.querySelector('form')
+      const doneButton = document.querySelector(
+        '.dnb-forms-iterate__done-button'
+      )
+
+      await userEvent.type(input, 'Tony')
+
+      fireEvent.submit(form)
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-forms-iterate__reset-button')
+      ).toBeInTheDocument()
+
+      await userEvent.click(doneButton)
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-forms-iterate__reset-button')
+      ).not.toBeInTheDocument()
+
+      fireEvent.submit(form)
+    })
+
+    it('should submit form when uncommitted data was cleared (with confirmation)', async () => {
+      const onSubmitRequest = jest.fn()
+      const onSubmit = jest.fn()
+      const onCommit = jest.fn()
+
+      render(
+        <Form.Handler
+          onSubmitRequest={onSubmitRequest}
+          onSubmit={onSubmit}
+        >
+          <Iterate.Array path="/entries">...</Iterate.Array>
+
+          <Iterate.PushContainer
+            path="/entries"
+            onCommit={onCommit}
+            preventUncommittedChanges
+          >
+            <Field.String itemPath="/name" />
+          </Iterate.PushContainer>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const form = document.querySelector('form')
+
+      await userEvent.type(input, 'Tony')
+
+      fireEvent.submit(form)
+
+      expect(onSubmit).toHaveBeenCalledTimes(0)
+      expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+      expect(onCommit).toHaveBeenCalledTimes(0)
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Isolation.preventUncommittedChangesText
       )
 
       // Click the reset button
@@ -1181,11 +1923,11 @@ describe('PushContainer', () => {
 
       const input = document.querySelector('input')
       const form = document.querySelector('form')
-      const commitButton = document.querySelector(
+      const doneButton = document.querySelector(
         '.dnb-forms-iterate__done-button'
       )
 
-      await userEvent.click(commitButton)
+      await userEvent.click(doneButton)
 
       expect(onCommit).toHaveBeenCalledTimes(0)
       expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
@@ -1209,7 +1951,7 @@ describe('PushContainer', () => {
       expect(onSubmitRequest).toHaveBeenCalledTimes(1)
       expect(onCommit).toHaveBeenCalledTimes(0)
 
-      await userEvent.click(commitButton)
+      await userEvent.click(doneButton)
       expect(onCommit).toHaveBeenCalledTimes(1)
     })
 
