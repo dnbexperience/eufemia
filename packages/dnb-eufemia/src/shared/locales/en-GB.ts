@@ -137,8 +137,6 @@ export default {
       text_status_renewed: 'Renewed',
       text_status_new: 'New',
       text_status_unknown: 'Unknown',
-      text_type_credit: 'Credit',
-      text_type_debit: 'Debit',
     },
     Tag: {
       removeIconTitle: 'Remove',

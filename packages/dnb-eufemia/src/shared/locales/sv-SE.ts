@@ -137,8 +137,6 @@ export default {
       text_status_renewed: 'Förnyat',
       text_status_new: 'Ny',
       text_status_unknown: 'Okänt',
-      text_type_credit: 'Credit',
-      text_type_debit: 'Debit',
     },
     Tag: {
       removeIconTitle: 'Ta bort',

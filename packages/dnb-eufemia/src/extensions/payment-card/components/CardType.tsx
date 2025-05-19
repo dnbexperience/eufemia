@@ -5,18 +5,14 @@ import P from '../../../elements/P'
 
 interface CardTypeTextProps {
   isCredit: boolean
-  translations: {
-    text_type_credit: string
-    text_type_debit: string
-  }
   skeleton: boolean
 }
 
 const CardTypeText: React.FC<CardTypeTextProps> = ({
   isCredit,
-  translations,
   skeleton,
 }) => {
+  const cardType = isCredit ? 'Credit' : 'Debit'
   return (
     <span
       className={classnames(
@@ -24,11 +20,7 @@ const CardTypeText: React.FC<CardTypeTextProps> = ({
         createSkeletonClass('font', skeleton)
       )}
     >
-      <P className={'dnb-payment-card__card__type-text'}>
-        {isCredit
-          ? translations.text_type_credit
-          : translations.text_type_debit}
-      </P>
+      <P className={'dnb-payment-card__card__type-text'}>{cardType}</P>
     </span>
   )
 }

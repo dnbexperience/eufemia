@@ -136,8 +136,6 @@ export default {
       text_status_renewed: 'Fornyes',
       text_status_new: 'Nytt',
       text_status_unknown: 'Ukjent',
-      text_type_credit: 'Credit',
-      text_type_debit: 'Debit',
     },
     Tag: {
       removeIconTitle: 'Fjern',

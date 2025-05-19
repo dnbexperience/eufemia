@@ -43,8 +43,6 @@ const translationDefaultPropsProps = {
   text_status_renewed: null,
   text_status_new: null,
   text_status_unknown: null,
-  text_type_credit: null,
-  text_type_debit: null,
 }
 
 export default class PaymentCard extends React.PureComponent {

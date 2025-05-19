@@ -96,7 +96,6 @@ function CardFigure({
               ) : (
                 <CardTypeText
                   isCredit={data.bankAxept === BankAxeptType.Credit}
-                  translations={translations}
                   skeleton={skeleton}
                 />
               )}
