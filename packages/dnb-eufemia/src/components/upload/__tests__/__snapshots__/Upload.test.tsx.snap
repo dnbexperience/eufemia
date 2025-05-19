@@ -451,6 +451,7 @@ button .dnb-form-status__text {
   align-items: center;
   justify-content: center;
   width: var(--button-width);
+  font-weight: var(--font-weight-regular);
   height: auto;
   padding: 0 var(--button-padding-right) 0 var(--button-padding-left);
   border: none;
