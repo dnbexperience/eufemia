@@ -113,7 +113,6 @@ export type InvalidDates = {
 }
 
 const defaultProps: DatePickerInputProps = {
-  maskPlaceholder: 'dd/mm/åååå',
   separatorRegExp: /[-/ ]/g,
   statusState: 'error',
   opened: false,
@@ -122,7 +121,10 @@ const defaultProps: DatePickerInputProps = {
 function DatePickerInput(externalProps: DatePickerInputProps) {
   const props = { ...defaultProps, ...externalProps }
 
-  const { maskOrder: defaultMaskOrder } = useTranslation().DatePicker
+  const {
+    maskOrder: defaultMaskOrder,
+    maskPlaceholder: defaultMaskPlaceholder,
+  } = useTranslation().DatePicker
 
   const {
     isRange,
@@ -131,7 +133,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     id,
     title,
     submitAttributes,
-    maskPlaceholder, // eslint-disable-line
+    maskPlaceholder = defaultMaskPlaceholder, // eslint-disable-line
     onFocus,
     onBlur,
     onChange, // eslint-disable-line
