@@ -1,14 +1,15 @@
-import { CardProperties } from '../../../../components/card/CardDocs'
 import { PropertiesTableProps } from '../../../../shared/types'
 
 export const FormCardProperties: PropertiesTableProps = {
   outset: {
-    ...CardProperties.outset,
-    doc: 'Same as `outset` in [Card](/uilib/components/card/properties). Defaults to `true`.',
+    doc: 'Whether or not to break out (using negative margins) on larger screens. Same as `outset` in [Card](/uilib/components/card/properties). But defaults to `true`',
+    type: 'boolean',
+    status: 'optional',
   },
   stack: {
-    ...CardProperties.stack,
-    doc: 'Same as `stack` in [Card](/uilib/components/card/properties). Defaults to `true`.',
+    doc: 'True to stack the sub components with lines between. The `spacing` will default to `medium`. Same as `stack` in [Card](/uilib/components/card/properties). But defaults to `true`',
+    type: 'boolean',
+    status: 'optional',
   },
   '[Card](/uilib/components/card/properties)': {
     doc: 'Card properties.',

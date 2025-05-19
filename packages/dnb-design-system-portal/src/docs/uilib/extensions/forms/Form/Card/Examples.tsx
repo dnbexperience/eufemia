@@ -25,6 +25,36 @@ export const BasicUsage = () => {
   )
 }
 
+export const Outset = () => {
+  return (
+    <ComponentBox data-visual-test="forms-card-outset">
+      <Flex.Stack>
+        <P>Regular content position</P>
+
+        <Form.Card>
+          <P>Default outset to preserve content position.</P>
+        </Form.Card>
+
+        <Form.Card outset={false}>
+          <P>
+            Outset turned off, will still breakout (go fullwidth) on small
+            screens
+          </P>
+        </Form.Card>
+
+        <Form.Card.Provider>
+          <Form.Card>
+            <P>
+              Told to behave as if inside a parent card. Will stay inside
+              the content area of the parent even on small screens.
+            </P>
+          </Form.Card>
+        </Form.Card.Provider>
+      </Flex.Stack>
+    </ComponentBox>
+  )
+}
+
 export const UsageInWizard = () => {
   return (
     <ComponentBox data-visual-test="forms-card-in-wizard">

@@ -88,4 +88,26 @@ describe('Wizard.Container', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to behave like nested card with Provider on a large screen', async () => {
+    const screenshot = await makeScreenshot({
+      url,
+      pageViewport: {
+        width: 980,
+      },
+      selector: '[data-visual-test="wizard-outset"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to behave like nested card with Provider on a small screen', async () => {
+    const screenshot = await makeScreenshot({
+      url,
+      pageViewport: {
+        width: 400,
+      },
+      selector: '[data-visual-test="wizard-outset"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
