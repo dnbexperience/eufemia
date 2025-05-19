@@ -120,18 +120,6 @@ describe('PaymentCard', () => {
         screen.queryByText(en.text_status_unknown)
       ).toBeInTheDocument()
     })
-
-    it('has correct card type text (debit)', () => {
-      render(<PaymentCard {...englishProps} />)
-
-      expect(screen.queryByText(en.text_type_debit)).toBeInTheDocument()
-    })
-
-    it('has correct card type text (credit)', () => {
-      render(<PaymentCard {...englishProps} product_code="043" />)
-
-      expect(screen.queryByText(en.text_type_credit)).toBeInTheDocument()
-    })
   })
 
   describe('Norwegian locale', () => {
@@ -192,18 +180,6 @@ describe('PaymentCard', () => {
         screen.queryByText(nb.text_status_unknown)
       ).toBeInTheDocument()
     })
-
-    it('has correct card type text (debit)', () => {
-      render(<PaymentCard {...defaultProps} />)
-
-      expect(screen.queryByText(nb.text_type_debit)).toBeInTheDocument()
-    })
-
-    it('has correct card type text (credit)', () => {
-      render(<PaymentCard {...defaultProps} product_code="043" />)
-
-      expect(screen.queryByText(nb.text_type_credit)).toBeInTheDocument()
-    })
   })
 
   it('reacts raw_data with correct rendering', () => {
@@ -238,6 +214,18 @@ describe('PaymentCard', () => {
   it('should validate with ARIA rules', async () => {
     const Comp = render(<PaymentCard {...defaultProps} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+
+  it('has correct card type text (debit)', () => {
+    render(<PaymentCard {...englishProps} />)
+
+    expect(screen.queryByText('Debit')).toBeInTheDocument()
+  })
+
+  it('has correct card type text (credit)', () => {
+    render(<PaymentCard {...englishProps} product_code="043" />)
+
+    expect(screen.queryByText('Credit')).toBeInTheDocument()
   })
 })
 
