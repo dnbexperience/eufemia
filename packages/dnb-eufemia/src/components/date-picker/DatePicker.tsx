@@ -563,7 +563,6 @@ export type DatePickerAllProps = DatePickerProps &
   >
 
 const defaultProps: DatePickerProps = {
-  maskOrder: 'dd/mm/yyyy',
   maskPlaceholder: 'dd/mm/åååå', // have to be same setup as "mask" - but can be like
   hideNavigation: false,
   hideNavigationButtons: false,

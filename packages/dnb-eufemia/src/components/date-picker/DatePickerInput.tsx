@@ -37,7 +37,7 @@ import type {
 } from '../FormStatus'
 import type { SkeletonShow } from '../Skeleton'
 import { ReturnObject } from './DatePickerProvider'
-import { DatePickerEventAttributes } from './DatePicker'
+import { DatePickerEventAttributes, DatePickerProps } from './DatePicker'
 import { Context, useTranslation } from '../../shared'
 import usePartialDates from './hooks/usePartialDates'
 import useInputDates, { DatePickerInputDates } from './hooks/useInputDates'
@@ -54,8 +54,8 @@ export type DatePickerInputProps = Omit<
   | 'label'
 > & {
   selectedDateTitle?: string
-  maskOrder?: string
-  maskPlaceholder?: string
+  maskOrder?: DatePickerProps['maskOrder']
+  maskPlaceholder?: DatePickerProps['maskPlaceholder']
   separatorRegExp?: RegExp
   submitAttributes?: Record<string, unknown>
   isRange?: boolean
@@ -113,7 +113,6 @@ export type InvalidDates = {
 }
 
 const defaultProps: DatePickerInputProps = {
-  maskOrder: 'dd/mm/yyyy',
   maskPlaceholder: 'dd/mm/åååå',
   separatorRegExp: /[-/ ]/g,
   statusState: 'error',
@@ -123,9 +122,11 @@ const defaultProps: DatePickerInputProps = {
 function DatePickerInput(externalProps: DatePickerInputProps) {
   const props = { ...defaultProps, ...externalProps }
 
+  const { maskOrder: defaultMaskOrder } = useTranslation().DatePicker
+
   const {
     isRange,
-    maskOrder,
+    maskOrder = defaultMaskOrder,
     separatorRegExp,
     id,
     title,
