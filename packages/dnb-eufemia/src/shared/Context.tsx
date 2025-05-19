@@ -254,33 +254,35 @@ export function prepareContext<Props>(
   const translations: Translations =
     props.translations || props.locales
       ? extendDeep({}, defaultLocales, props.translations || props.locales)
-      : extendDeep({}, defaultLocales)
+      : extendDeep({}, defaultLocales) // make a copy
 
   const localeWithFallback = handleLocaleFallbacks(
     props.locale || LOCALE,
-    props.translations || props.locales
+    translations
   )
 
   /**
-   * The code above adds support for strings, defined like:
+   * With "destructFlatTranslation" we add support for flat translations, defined like:
    * {
    *    "Modal.close_title": "Lukk",
    * }
    */
-  for (const locale in translations) {
-    translations[locale] = destructFlatTranslation(
-      translations[locale] as TranslationFlat
+  const translation = destructFlatTranslation(
+    extendDeep(
+      {},
+      defaultLocales[LOCALE],
+      translations[localeWithFallback]
     )
-  }
-
-  const translation =
-    translations[localeWithFallback] || defaultLocales[LOCALE] || {}
+  )
 
   const context = {
     ...props,
     updateTranslation: (locale, newTranslations) => {
       context.translation =
         newTranslations[locale] || newTranslations[LOCALE]
+      context.translation = destructFlatTranslation(
+        context.translation as TranslationFlat
+      )
       context.translations = newTranslations
 
       if (context.locales) {
@@ -295,8 +297,9 @@ export function prepareContext<Props>(
           (context.translations || context.locales)[locale] &&
           locale !== localeWithFallback
         ) {
-          const tr = context.translations || context.locales
-          return tr[locale]
+          return destructFlatTranslation(
+            (context.translations || context.locales)[locale]
+          )
         }
       }
       return context.translation || defaultLocales[LOCALE]
@@ -310,7 +313,7 @@ export function prepareContext<Props>(
     translation,
   } as Props & ContextProps
 
-  return { ...context }
+  return { ...context } // Make a copy so we don't mutate the original context directly
 }
 
 function handleLocaleFallbacks(
@@ -334,20 +337,12 @@ const Context = createContext<ContextProps>(
 
 export default Context
 
-export function destructFlatTranslation(source: TranslationFlat) {
-  let hasFlatTr = false
-  const destructed = {}
-
+export function destructFlatTranslation<T>(source: TranslationFlat) {
   for (const k in source) {
     if (String(k).includes('.')) {
-      pointer.set(destructed, '/' + k.replace(/\./g, '/'), source[k])
-      hasFlatTr = true
+      pointer.set(source, '/' + k.replace(/\./g, '/'), source[k])
     }
   }
 
-  if (hasFlatTr) {
-    return extendDeep({}, source, destructed)
-  }
-
-  return source
+  return source as T
 }
