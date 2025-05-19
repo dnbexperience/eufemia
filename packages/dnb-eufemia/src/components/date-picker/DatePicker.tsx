@@ -572,7 +572,6 @@ const defaultProps: DatePickerProps = {
   enableKeyboardNav: false,
   showInput: false,
   resetDate: true,
-  firstDay: 'monday',
   range: false,
   link: false,
   sync: true,

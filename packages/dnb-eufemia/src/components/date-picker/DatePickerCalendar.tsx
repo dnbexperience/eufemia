@@ -125,7 +125,6 @@ type DayObject = {
 const defaultProps: DatePickerCalendarProps = {
   prevBtn: true,
   nextBtn: true,
-  firstDayOfWeek: 'monday',
   hideNav: false,
   hideDays: false,
   onlyMonth: false,
@@ -154,6 +153,9 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     setHoverDate,
     setSubmittedDates,
     props: { onDaysRender, yearNavigation },
+    translation: {
+      DatePicker: { firstDay: defaultFirstDayOfWeek },
+    },
   } = useContext(DatePickerContext)
 
   const {
@@ -162,7 +164,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     rtl,
     month,
     isRange,
-    firstDayOfWeek,
+    firstDayOfWeek = defaultFirstDayOfWeek,
     hideNav,
     locale,
     hideDays,
