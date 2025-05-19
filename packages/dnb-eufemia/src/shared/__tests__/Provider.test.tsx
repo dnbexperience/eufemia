@@ -509,7 +509,7 @@ describe('Provider', () => {
           }}
         >
           <HelpButton />
-          <GlobalError status={errorCode} />
+          <GlobalError statusCode={errorCode} />
         </Provider>
       )
 
@@ -549,7 +549,7 @@ describe('Provider', () => {
           }}
         >
           <HelpButton />
-          <GlobalError status={errorCode} />
+          <GlobalError statusCode={errorCode} />
         </Provider>
       )
 
