@@ -414,7 +414,7 @@ describe('PushContainer', () => {
       // Click the reset button
       await userEvent.click(button)
 
-      // expect(button).toHaveFocus()
+      expect(button).toHaveFocus()
 
       // Confirm the clear
       await userEvent.click(document.querySelector('.dnb-button--primary'))
@@ -3194,5 +3194,44 @@ describe('PushContainer', () => {
     await userEvent.click(document.querySelector('button'))
 
     expect(document.querySelector('output')).toBeInTheDocument()
+  })
+
+  describe('when in Form.Section', () => {
+    it('should push new entry to the correct array', async () => {
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Form.Section path="/mySection">
+            <Iterate.PushContainer path="/myList">
+              <Field.String itemPath="/foo" />
+            </Iterate.PushContainer>
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const button = document.querySelector(
+        '.dnb-forms-iterate__done-button'
+      )
+
+      expect(input).toHaveValue('')
+
+      await userEvent.type(input, '{Backspace>3}bar')
+      expect(input).toHaveValue('bar')
+
+      await userEvent.click(button)
+
+      fireEvent.submit(document.querySelector('form'))
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        {
+          mySection: {
+            myList: [{ foo: 'bar' }],
+          },
+        },
+        expect.anything()
+      )
+    })
   })
 })

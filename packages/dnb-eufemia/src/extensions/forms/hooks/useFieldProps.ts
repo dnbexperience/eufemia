@@ -111,6 +111,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     updateContextDataInSync = false,
     omitMultiplePathWarning = false,
     forceUpdateWhenContextDataIsSet = false,
+    omitSectionPath = false,
   } = {}
 ): typeof localProps & ReturnAdditional<Value> {
   const { extend } = useContext(FieldProviderContext)
@@ -264,6 +265,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       id,
       path: pathProp,
       itemPath,
+      omitSectionPath,
     })
 
   const defaultValueRef = useRef(defaultValue)
@@ -1742,7 +1744,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
       if (itemPath) {
         handleChangeIterateContext?.(
-          makeIteratePath(itemPath, ''),
+          makeIteratePath(itemPath, '', {
+            omitSectionPath: true,
+          }),
           contextValue
         )
       }

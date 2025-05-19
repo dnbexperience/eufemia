@@ -59,6 +59,7 @@ function ArrayComponent(props: Props) {
     countPath,
     countPathTransform,
     countPathLimit = Infinity,
+    omitSectionPath,
   } = props || {}
 
   const dataContext = useContext(DataContext)
@@ -161,6 +162,7 @@ function ArrayComponent(props: Props) {
     updateContextDataInSync: true,
     omitMultiplePathWarning: true,
     forceUpdateWhenContextDataIsSet: Boolean(countPath),
+    omitSectionPath,
   })
 
   // - Call onChange on the data context, if the count value changes

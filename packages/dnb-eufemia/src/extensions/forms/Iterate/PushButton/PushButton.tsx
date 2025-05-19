@@ -12,6 +12,7 @@ import { omitDataValueReadWriteProps, Path } from '../../types'
 import { add } from '../../../../icons'
 import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
+import { usePath } from '../../hooks'
 import { convertJsxToString } from '../../../../shared/component-helper'
 
 export type Props = ButtonProps & {
@@ -42,6 +43,7 @@ function PushButton(props: Props) {
   const buttonProps = omitDataValueReadWriteProps(restProps)
 
   const { absolutePath } = useItemPath(itemPath)
+  const { path: relativePath } = usePath({ path, itemPath })
 
   const arrayValue = useDataValue().getValueByPath(path || absolutePath)
 
@@ -59,6 +61,7 @@ function PushButton(props: Props) {
       return // stop here
     }
 
+    // console.log('handlePush')
     const newValue =
       typeof pushValue === 'function' ? pushValue(arrayValue) : pushValue
 
@@ -67,7 +70,7 @@ function PushButton(props: Props) {
       handlePush(newValue)
     } else {
       // If not inside an iterate, it could still manipulate a source data set through useFieldProps
-      await handlePathChange?.(path || absolutePath, [
+      await handlePathChange?.(absolutePath || relativePath, [
         ...(arrayValue ?? []),
         newValue,
       ])
@@ -84,7 +87,7 @@ function PushButton(props: Props) {
     handlePathChange,
     handlePush,
     hasReachedLimit,
-    path,
+    relativePath,
     pushValue,
     setLastItemContainerMode,
     setShowStatus,

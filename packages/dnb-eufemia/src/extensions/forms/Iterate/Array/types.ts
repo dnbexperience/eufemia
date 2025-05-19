@@ -48,4 +48,5 @@ export type Props = Omit<
 
     // internal
     validateValue?: () => void
+    omitSectionPath?: boolean
   }

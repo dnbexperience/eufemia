@@ -482,4 +482,35 @@ describe('PushButton', () => {
       expect(containerModeOfFirstItem).toEqual('edit')
     })
   })
+
+  describe('when in Form.Section', () => {
+    it('should push new entry to the correct array', async () => {
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Form.Section path="/mySection">
+            <Iterate.PushButton path="/myList" pushValue="foo" />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const button = document.querySelector(
+        '.dnb-forms-iterate-push-button'
+      )
+
+      await userEvent.click(button)
+
+      fireEvent.submit(document.querySelector('form'))
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        {
+          mySection: {
+            myList: ['foo'],
+          },
+        },
+        expect.anything()
+      )
+    })
+  })
 })
