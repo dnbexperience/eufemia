@@ -324,7 +324,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
     const props = extendPropsWithContextInClassComponent(
       this.props,
       DrawerListInstance.defaultProps
-      // TOTO: should we only allow getTranslation if we define alng and locale props?
+      // TODO: should we only allow getTranslation if we define lang and locale props?
       // this.context.getTranslation(this.props).Button
     )
 
