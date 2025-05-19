@@ -350,7 +350,7 @@ type DatePickerDeprecatedProps = {
    */
   end_date?: DateType
   /**
-   * @deprecated use `startMonth` instead.π
+   * @deprecated use `startMonth` instead.
    */
   start_month?: DateType
   /**
