@@ -90,7 +90,7 @@ function DatePickerProvider(props: DatePickerProviderProps) {
   } = props
 
   const returnFormat = useMemo(
-    () => correctV1Format(returnFormatProp ?? defaultReturnFormat),
+    () => correctV1Format(returnFormatProp || defaultReturnFormat),
     [returnFormatProp, defaultReturnFormat]
   )
 
