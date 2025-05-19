@@ -11,9 +11,8 @@ hideInMenu: true
 import { Iterate, Form, Field } from '@dnb/eufemia/extensions/forms'
 
 render(
-  <Form.Handler>
+  <Form.Handler defaultData={{ myList: ['foo'] }}>
     <Iterate.Array path="/myList">
-      <Field.Name.Last itemPath="/name" />
       <Iterate.RemoveButton text="Remove item" />
     </Iterate.Array>
   </Form.Handler>,
@@ -26,4 +25,20 @@ You can use the `showConfirmDialog` property to open a confirmation dialog befor
 
 ```tsx
 <Iterate.RemoveButton showConfirmDialog />
+```
+
+## The item number in the title
+
+You can use the `{itemNo}` variable in the `text` or the `children` property to display the current item number.
+
+```tsx
+import { Iterate, Field, Value } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Handler defaultData={{ myList: ['foo'] }}>
+    <Iterate.Array path="/myList">
+      <Iterate.RemoveButton text="Remove item {itemNo}" />
+    </Iterate.Array>
+  </Form.Handler>,
+)
 ```
