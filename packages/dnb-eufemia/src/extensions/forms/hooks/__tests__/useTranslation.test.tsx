@@ -236,4 +236,34 @@ describe('Form.useTranslation', () => {
       )
     })
   })
+
+  it('should support typing for flat translations', () => {
+    const translations = {
+      'nb-NO': {
+        'my.string': 'Min streng',
+      },
+      'en-GB': {
+        'my.string': 'My string',
+      },
+    }
+
+    type Translation = (typeof translations)[keyof typeof translations]
+
+    const { result } = renderHook(
+      () => {
+        return useTranslation<Translation>()
+      },
+      {
+        wrapper: (props) => (
+          <Provider {...props} translations={translations} />
+        ),
+      }
+    )
+
+    expect(result.current.my.string).toBe('Min streng')
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    expect(result.current.my.foo).toBeUndefined()
+  })
 })

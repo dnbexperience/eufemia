@@ -311,13 +311,20 @@ describe('useTranslation without an ID', () => {
         },
       }
 
-      const result = renderHook(useTranslation, {
-        wrapper: ({ children }) => (
-          <Provider translations={customTranslation} locale="en-GB">
-            {children}
-          </Provider>
-        ),
-      })
+      type Translation =
+        (typeof customTranslation)[keyof typeof customTranslation]
+      const result = renderHook(
+        () => {
+          return useTranslation<Translation>()
+        },
+        {
+          wrapper: ({ children }) => (
+            <Provider translations={customTranslation} locale="en-GB">
+              {children}
+            </Provider>
+          ),
+        }
+      )
 
       expect(result.result.current.myGroup.stringWithArg).toBe(
         'Second string {arg}'
@@ -328,6 +335,36 @@ describe('useTranslation without an ID', () => {
         })
       ).toBe('Second string dynamic-value')
     })
+  })
+
+  it('should support typing for flat translations', () => {
+    const translations = {
+      'nb-NO': {
+        'my.string': 'Min streng',
+      },
+      'en-GB': {
+        'my.string': 'My string',
+      },
+    }
+
+    type Translation = (typeof translations)[keyof typeof translations]
+
+    const { result } = renderHook(
+      () => {
+        return useTranslation<Translation>()
+      },
+      {
+        wrapper: (props) => (
+          <Provider {...props} translations={translations} />
+        ),
+      }
+    )
+
+    expect(result.current.my.string).toBe('Min streng')
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    expect(result.current.my.foo).toBeUndefined()
   })
 })
 
@@ -371,7 +408,7 @@ describe('useTranslation with an ID', () => {
         foo: 'foo',
         bar: 'bar',
         max: 'max',
-      })
+      }) as JSX.Element
     }
 
     const ChangeLocale = (props) => {
