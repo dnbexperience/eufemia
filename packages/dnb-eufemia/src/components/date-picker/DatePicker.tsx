@@ -1050,7 +1050,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                       onlyMonth={onlyMonth}
                       hideNextMonthWeek={hideLastWeek}
                       noAutoFocus={disableAutofocus}
-                      onChange={onPickerChange}
+                      onPickerChange={onPickerChange}
                       locale={context.locale}
                     />
                     {(addonElement || shortcuts) && (
