@@ -20,6 +20,7 @@ export type DateType = Date | string
 export type DatePickerContextValues = ContextProps &
   DatePickerDates & {
     props: DatePickerAllProps
+    dateFormat: DatePickerAllProps['dateFormat']
     translation: ContextProps['translation']
     views: Array<CalendarView>
     previousDateProps: DatePickerDateProps

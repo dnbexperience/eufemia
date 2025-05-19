@@ -44,15 +44,12 @@ function DatePickerFooter({
     endDate,
     submittedDates,
     setSubmittedDates,
+    dateFormat,
     props: contextProps,
   } = useContext(DatePickerContext)
 
-  const {
-    showResetButton,
-    showCancelButton,
-    showSubmitButton,
-    dateFormat,
-  } = contextProps
+  const { showResetButton, showCancelButton, showSubmitButton } =
+    contextProps
 
   const {
     submitButtonText: submitButtonTextTranslation,

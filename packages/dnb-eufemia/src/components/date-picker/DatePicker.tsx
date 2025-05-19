@@ -565,8 +565,6 @@ export type DatePickerAllProps = DatePickerProps &
 const defaultProps: DatePickerProps = {
   maskOrder: 'dd/mm/yyyy',
   maskPlaceholder: 'dd/mm/åååå', // have to be same setup as "mask" - but can be like
-  dateFormat: 'yyyy-MM-dd', // in v1 of date-fns we were more flexible in terms of the format
-  returnFormat: 'yyyy-MM-dd', // used in date-fns v1
   hideNavigation: false,
   hideNavigationButtons: false,
   hideDays: false,
