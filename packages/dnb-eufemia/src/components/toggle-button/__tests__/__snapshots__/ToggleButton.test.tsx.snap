@@ -410,6 +410,7 @@ button .dnb-form-status__text {
   border-radius: var(--button-border-radius);
   text-align: left;
   font-size: var(--font-size-small);
+  font-weight: var(--font-weight-regular);
   text-decoration: none;
   box-shadow: none;
   /* stylelint-disable-next-line */
