@@ -2438,4 +2438,125 @@ describe('Iterate.Array', () => {
       })
     })
   })
+
+  describe('when in Form.Section', () => {
+    it('should write the correct path to the data context', async () => {
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler
+          defaultData={{
+            mySection: {
+              myList: [{ foo: 'foo' }],
+            },
+          }}
+          onSubmit={onSubmit}
+        >
+          <Form.Section path="/mySection">
+            <Iterate.Array path="/myList">
+              <Iterate.ViewContainer>
+                <Value.String itemPath="/foo" />
+              </Iterate.ViewContainer>
+
+              <Iterate.EditContainer>
+                <Field.String itemPath="/foo" />
+              </Iterate.EditContainer>
+            </Iterate.Array>
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      expect(input).toHaveValue('foo')
+      expect(
+        document.querySelector('.dnb-forms-value-block')
+      ).toHaveTextContent('foo')
+
+      await userEvent.type(input, '{Backspace>3}bar')
+      expect(input).toHaveValue('bar')
+      expect(
+        document.querySelector('.dnb-forms-value-block')
+      ).toHaveTextContent('bar')
+
+      fireEvent.submit(document.querySelector('form'))
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        {
+          mySection: {
+            myList: [{ foo: 'bar' }],
+          },
+        },
+        expect.anything()
+      )
+    })
+
+    it('should show error when "minItems" is not met', async () => {
+      const schema: JSONSchema = {
+        type: 'object',
+        properties: {
+          mySection: {
+            type: 'object',
+            properties: {
+              myList: {
+                type: 'array',
+                minItems: 1,
+              },
+            },
+          },
+        },
+      }
+
+      const foo = 'Remove me to see the minItems error.'
+      const minItems = 'You need at least one item.'
+
+      render(
+        <Form.Handler
+          schema={schema}
+          defaultData={{
+            mySection: {
+              myList: [{ foo }],
+            },
+          }}
+        >
+          <Form.Section path="/mySection">
+            <Iterate.Array path="/myList" errorMessages={{ minItems }}>
+              <Iterate.ViewContainer>
+                <Value.String itemPath="/foo" />
+              </Iterate.ViewContainer>
+
+              <Iterate.EditContainer>
+                <Field.String itemPath="/foo" />
+              </Iterate.EditContainer>
+            </Iterate.Array>
+
+            <Iterate.PushButton
+              text="Add"
+              path="/myList"
+              pushValue={{ foo }}
+            />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      expect(screen.getByText(foo)).toBeInTheDocument()
+      expect(screen.queryByText(minItems)).not.toBeInTheDocument()
+
+      await userEvent.click(screen.getByText('Fjern'))
+
+      await waitFor(() => {
+        expect(screen.queryByText(foo)).not.toBeInTheDocument()
+        expect(screen.queryByText(minItems)).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status').textContent
+        ).toBe(minItems)
+      })
+
+      await userEvent.click(screen.getByText('Add'))
+
+      await waitFor(() => {
+        expect(screen.getByText(foo)).toBeInTheDocument()
+        expect(screen.queryByText(minItems)).not.toBeInTheDocument()
+      })
+    })
+  })
 })

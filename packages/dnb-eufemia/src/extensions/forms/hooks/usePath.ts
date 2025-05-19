@@ -8,10 +8,11 @@ export type Props = {
   id?: string
   path?: Path
   itemPath?: Path
+  omitSectionPath?: boolean
 }
 
 export default function usePath(props: Props = {}) {
-  const { path: pathProp, itemPath: itemPathProp } = props
+  const { path: pathProp, itemPath: itemPathProp, omitSectionPath } = props
   const id = useId(props.id)
   const { path: sectionPath } = useContext(SectionContext) ?? {}
   const { path: iteratePathProp, index: iterateElementIndex } =
@@ -32,21 +33,25 @@ export default function usePath(props: Props = {}) {
 
   const makeSectionPath = useCallback(
     (path: Path) => {
+      if (omitSectionPath) {
+        return path
+      }
       return cleanPath(
         `${sectionPath && sectionPath !== '/' ? sectionPath : ''}${path}`
       )
     },
-    [sectionPath]
+    [omitSectionPath, sectionPath]
   )
 
   const makeIteratePath = useCallback(
     (
       itemPath: Path = itemPathProp,
-      iteratePath: Path = iteratePathProp
+      iteratePath: Path = iteratePathProp,
+      { omitSectionPath = false } = {}
     ) => {
       let root = ''
 
-      if (sectionPath) {
+      if (sectionPath && !omitSectionPath) {
         root = makeSectionPath('')
       }
 

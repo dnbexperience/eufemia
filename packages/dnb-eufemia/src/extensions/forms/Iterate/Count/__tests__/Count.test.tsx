@@ -2,7 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import { Count, count, useCount } from '../Count'
-import { DataContext } from '../../..'
+import { DataContext, Form } from '../../..'
 
 describe('Iterate.Count', () => {
   let identifier: string
@@ -384,6 +384,27 @@ describe('Iterate.Count', () => {
 
         expect(container).toHaveTextContent('NaN')
       })
+    })
+  })
+
+  describe('when in Form.Section', () => {
+    it('should return correct count', () => {
+      const path = '/mySection/myList'
+      const data = {
+        mySection: {
+          myList: { foo: 1, bar: 2, baz: 3 },
+        },
+      }
+
+      const { container } = render(
+        <Form.Handler data={data}>
+          <Form.Section path="/mySection">
+            <Count path={path} />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      expect(container).toHaveTextContent('3')
     })
   })
 })
