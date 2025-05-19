@@ -3,6 +3,7 @@ import classnames from 'classnames'
 import { Button, Dialog } from '../../../../components'
 import { ButtonProps } from '../../../../components/Button'
 import IterateItemContext from '../IterateItemContext'
+import { replaceItemNo } from '../ItemNo'
 import { useTranslation } from '../../hooks'
 import ArrayItemAreaContext from '../Array/ArrayItemAreaContext'
 import {
@@ -18,7 +19,7 @@ export type Props = ButtonProps &
 
 function RemoveButton(props: Props) {
   const iterateItemContext = useContext(IterateItemContext)
-  const { handleRemove, itemPath } = iterateItemContext || {}
+  const { handleRemove, itemPath, index } = iterateItemContext || {}
 
   if (!iterateItemContext) {
     throw new Error('RemoveButton must be inside an Iterate.Array')
@@ -52,7 +53,7 @@ function RemoveButton(props: Props) {
       'dnb-forms-iterate-remove-element-button',
       className
     ),
-    text: textContent,
+    text: replaceItemNo(textContent, index),
     variant: textContent ? 'tertiary' : 'secondary',
     icon: trash,
     icon_position: 'left',
