@@ -45,7 +45,7 @@ const formatCardNumberRegex = /(?=(?:....)*$)/g
  */
 export const formatCardNumber = (
   cardNumber: string,
-  digits: number
+  digits: number = 8
 ): string => {
   if (!cardNumber) {
     return cardNumber
