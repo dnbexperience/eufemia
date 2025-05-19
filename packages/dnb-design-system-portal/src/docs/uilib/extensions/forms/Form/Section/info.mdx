@@ -200,6 +200,8 @@ const translations = {
   'nb-NO': { MySection: { MyField: { label: 'Felt label' } } },
   'en-GB': { MySection: { MyField: { label: 'Field label' } } },
 }
+
+// For TypeScript support
 type Translation = (typeof translations)[keyof typeof translations]
 
 export function MySection() {

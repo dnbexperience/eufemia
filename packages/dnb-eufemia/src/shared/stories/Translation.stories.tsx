@@ -36,7 +36,7 @@ const UseTrans = () => {
     foo: 'foo',
     bar: 'riskScore',
     max: 'max',
-  })
+  }) as JSX.Element
 }
 
 const ChangeLocale = () => {
