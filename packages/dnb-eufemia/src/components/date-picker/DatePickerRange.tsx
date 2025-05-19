@@ -25,8 +25,6 @@ export type DatePickerRangeProps = Omit<
     isSync?: boolean
     onlyMonth?: boolean
     hideNav?: boolean
-    // TODO: Rename this, as it has nothing to do with the views, and it's only used to set the display condition for the naviation buttons
-    views?: [{ nextBtn: false; prevBtn: false }]
     onPickerChange?: (
       event: DatePickerChangeEvent<
         | React.MouseEvent<HTMLSpanElement>
