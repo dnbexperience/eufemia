@@ -8,6 +8,7 @@ import classnames from 'classnames'
 
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Card from '../Card'
+import CardContext from '../card/CardContext'
 import StepIndicatorTriggerButton from './StepIndicatorTriggerButton'
 import StepIndicatorSidebar from './StepIndicatorSidebar'
 import StepIndicatorList from './StepIndicatorList'
@@ -202,7 +203,9 @@ function StepIndicator({
           )}
           outset={outset}
         >
-          <StepIndicatorTriggerButton />
+          <StepIndicatorTriggerButton
+            isNested={useContext(CardContext)?.isNested}
+          />
           <StepIndicatorList />
         </Card>
         <StepIndicatorStatus status={status} status_state={status_state} />
