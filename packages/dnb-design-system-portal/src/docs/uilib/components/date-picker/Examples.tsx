@@ -399,7 +399,7 @@ export const DatePickerYearNavigationOpen = () => (
   <Wrapper>
     <ComponentBox data-visual-test="date-picker-year-navigation">
       <DatePicker
-        showInput
+        date="2025-05-12"
         yearNavigation
         opened
         skipPortal
