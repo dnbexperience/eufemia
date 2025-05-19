@@ -116,7 +116,7 @@ export const cleanNumber: (
 
 export const copyWithEffect: (
   value: number | string,
-  label?: React.ReactNode,
+  label?: string,
   positionElement?: HTMLElement
 ) => boolean;
 
