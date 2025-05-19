@@ -31,7 +31,7 @@ export default function useTranslation<T = Translation>(
   const { locale, translation } = useContext(Context)
   const { assignUtils } = useAdditionalUtils()
 
-  return useMemo(() => {
+  return useMemo<T>(() => {
     const id = typeof messages === 'string' ? messages : undefined
     if (id) {
       return formatMessage(id, args, translation)
