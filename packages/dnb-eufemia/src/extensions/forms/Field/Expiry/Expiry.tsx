@@ -12,6 +12,7 @@ import type {
 import { useTranslation as useSharedTranslation } from '../../../../shared'
 import useTranslation from '../../hooks/useTranslation'
 import { FormError } from '../../utils'
+import { Translation } from '../../../../shared/Context'
 
 type ExpiryValue = MultiInputMaskValue<'month' | 'year'>
 
@@ -232,7 +233,7 @@ function expiryValueToString(value: string, placeholder: string) {
 
 function validateMonthAndYear(
   date: string,
-  placeholders: Record<'month' | 'year', string>
+  placeholders: Translation['DatePicker']['placeholderCharacters']
 ) {
   const { month, year } = stringToExpiryValue(date)
 
