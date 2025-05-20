@@ -16,6 +16,7 @@ import PaymentCard, {
 import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'
 import { render, screen } from '@testing-library/react'
+import { Provider } from '../../../shared'
 
 const nb = nbNO['nb-NO'].PaymentCard
 const en = enGB['en-GB'].PaymentCard
@@ -216,6 +217,146 @@ describe('Helper functions', () => {
       const result = formatCardNumber('**1337', 8)
       expect(result).toEqual('** 1337')
     })
+  })
+})
+
+describe('PaymentCard translations', () => {
+  const customText = 'MySpecialText'
+
+  it('should override text_card_number', () => {
+    render(
+      <Provider
+        locale="nb-NO"
+        translations={{
+          'nb-NO': {
+            PaymentCard: { text_card_number: customText },
+          },
+        }}
+      >
+        <PaymentCard {...defaultProps} />
+      </Provider>
+    )
+
+    expect(screen.queryByText(customText)).toBeInTheDocument()
+  })
+
+  it('should override text_expired', () => {
+    render(
+      <Provider
+        locale="nb-NO"
+        translations={{
+          'nb-NO': {
+            PaymentCard: { text_expired: customText },
+          },
+        }}
+      >
+        <PaymentCard {...defaultProps} card_status="expired" />
+      </Provider>
+    )
+
+    expect(screen.queryByText(customText)).toBeInTheDocument()
+  })
+
+  it('should override text_blocked', () => {
+    render(
+      <Provider
+        locale="nb-NO"
+        translations={{
+          'nb-NO': {
+            PaymentCard: { text_blocked: customText },
+          },
+        }}
+      >
+        <PaymentCard {...defaultProps} card_status="blocked" />
+      </Provider>
+    )
+
+    expect(screen.queryByText(customText)).toBeInTheDocument()
+  })
+
+  it('should override text_not_active', () => {
+    render(
+      <Provider
+        locale="nb-NO"
+        translations={{
+          'nb-NO': {
+            PaymentCard: { text_not_active: customText },
+          },
+        }}
+      >
+        <PaymentCard {...defaultProps} card_status="not_active" />
+      </Provider>
+    )
+
+    expect(screen.queryByText(customText)).toBeInTheDocument()
+  })
+
+  it('should override text_order_in_process', () => {
+    render(
+      <Provider
+        locale="nb-NO"
+        translations={{
+          'nb-NO': {
+            PaymentCard: { text_order_in_process: customText },
+          },
+        }}
+      >
+        <PaymentCard {...defaultProps} card_status="order_in_process" />
+      </Provider>
+    )
+
+    expect(screen.queryByText(customText)).toBeInTheDocument()
+  })
+
+  it('should override text_renewed', () => {
+    render(
+      <Provider
+        locale="nb-NO"
+        translations={{
+          'nb-NO': {
+            PaymentCard: { text_renewed: customText },
+          },
+        }}
+      >
+        <PaymentCard {...defaultProps} card_status="renewed" />
+      </Provider>
+    )
+
+    expect(screen.queryByText(customText)).toBeInTheDocument()
+  })
+
+  it('should override text_replaced', () => {
+    render(
+      <Provider
+        locale="nb-NO"
+        translations={{
+          'nb-NO': {
+            PaymentCard: { text_replaced: customText },
+          },
+        }}
+      >
+        <PaymentCard {...defaultProps} card_status="replaced" />
+      </Provider>
+    )
+
+    expect(screen.queryByText(customText)).toBeInTheDocument()
+  })
+
+  it('should override text_unknown', () => {
+    render(
+      <Provider
+        locale="nb-NO"
+        translations={{
+          'nb-NO': {
+            PaymentCard: { text_unknown: customText },
+          },
+        }}
+      >
+        <PaymentCard {...defaultProps} card_status="unknown" />
+      </Provider>
+    )
+
+    expect(screen.queryByText(customText)).toBeInTheDocument()
   })
 })
 
