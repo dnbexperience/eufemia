@@ -26,11 +26,6 @@ export type ProviderProps = {
 export default function Provider<Props>(
   localProps: ProviderProps & Props
 ) {
-  const { children, props } = useMemo(() => {
-    const { children, ...props } = localProps
-    return { children, props }
-  }, [localProps])
-
   const nestedContext = useContext(Context)
   const [localContext, setLocalContext] = useState(null)
 
@@ -58,12 +53,17 @@ export default function Provider<Props>(
   )
 
   const value = useMemo(() => {
+    const {
+      children, // eslint-disable-line @typescript-eslint/no-unused-vars
+      ...rest
+    } = localProps
+
     const preparedContext = {
       // Make copy to avoid extending the root context
       ...prepareContext(
         mergeContextWithProps(nestedContext, {
           ...localContext,
-          ...props,
+          ...rest,
         })
       ),
     }
@@ -80,16 +80,20 @@ export default function Provider<Props>(
 
     return preparedContext
   }, [
+    localProps,
     nestedContext,
     localContext,
-    props,
-    setLocale,
-    setCurrentLocale,
     update,
+    setLocale,
     updateCurrent,
+    setCurrentLocale,
   ])
 
-  return <Context.Provider value={value}>{children}</Context.Provider>
+  return (
+    <Context.Provider value={value}>
+      {localProps.children}
+    </Context.Provider>
+  )
 }
 
 type MergeContext = {
@@ -100,22 +104,22 @@ type MergeContextProps = {
 } & MergeContext
 
 function mergeContextWithProps<ContextT, PropsT>(
-  context: ContextT & ContextProps,
-  providerProps: PropsT & MergeContextProps
+  nestedContext: ContextT & ContextProps,
+  localProps: PropsT & MergeContextProps
 ) {
   // When value is given as so: <Provider value={{}} />
-  const { value, ...rest } = providerProps
+  const { value, ...rest } = localProps
 
   // Make sure we create a copy, because we add some custom methods to it
   const props = { ...value, ...rest }
 
   // Merge our new values with an existing context
-  const mergedContext = { ...context, ...props }
+  const mergedContext = { ...nestedContext, ...props }
 
   // Because we don't want to deep merge, we merge formElement additionally
-  if (context?.formElement && props.formElement) {
+  if (nestedContext?.formElement && props.formElement) {
     mergedContext.formElement = {
-      ...context.formElement,
+      ...nestedContext.formElement,
       ...props.formElement,
     }
     mergedContext.formElement = prepareFormElementContext(
@@ -124,9 +128,9 @@ function mergeContextWithProps<ContextT, PropsT>(
   }
 
   // Deprecated – can be removed in v11
-  if (context?.FormRow && props.FormRow) {
+  if (nestedContext?.FormRow && props.FormRow) {
     mergedContext.FormRow = {
-      ...context.FormRow,
+      ...nestedContext.FormRow,
       ...props.FormRow,
     }
     mergedContext.FormRow = prepareFormElementContext(

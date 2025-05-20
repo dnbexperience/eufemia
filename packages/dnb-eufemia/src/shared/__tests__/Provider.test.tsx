@@ -6,6 +6,7 @@
 import React from 'react'
 import HelpButton from '../../components/help-button/HelpButton'
 import ToggleButton from '../../components/toggle-button/ToggleButton'
+import GlobalError from '../../components/global-error/GlobalError'
 
 import Context, {
   ContextProps,
@@ -14,6 +15,9 @@ import Context, {
 } from '../Context'
 import Provider, { ProviderProps } from '../Provider'
 import { fireEvent, render } from '@testing-library/react'
+import locales from '../../shared/locales'
+
+const en = locales['en-GB']
 
 describe('Provider', () => {
   describe('translations', () => {
@@ -482,6 +486,92 @@ describe('Provider', () => {
           .querySelectorAll('.nb-NO button')[1]
           .getAttribute('aria-pressed')
       ).toBe('true')
+    })
+
+    it('should only override translation provided as a nested object (cascaded)', () => {
+      const customText = 'My text'
+      const errorCode = '404'
+
+      render(
+        <Provider
+          locale="en-GB"
+          translations={{
+            'en-GB': {
+              GlobalError: {
+                [errorCode]: {
+                  text: customText,
+                },
+              },
+              HelpButton: {
+                title: customText,
+              },
+            },
+          }}
+        >
+          <HelpButton />
+          <GlobalError statusCode={errorCode} />
+        </Provider>
+      )
+
+      // HelpButton
+      expect(
+        document.querySelector('.dnb-button').getAttribute('aria-label')
+      ).toBe(customText)
+      expect(
+        document
+          .querySelector('.dnb-button')
+          .getAttribute('aria-roledescription')
+      ).toBe(en.HelpButton.aria_role)
+
+      // GlobalError
+      expect(
+        document.querySelector('.dnb-global-error__inner__content .dnb-p')
+          .textContent
+      ).toBe(customText)
+      expect(
+        document.querySelector('.dnb-global-error__inner__content h1')
+          .textContent
+      ).toBe(en.GlobalError[errorCode].title)
+    })
+
+    it('should only override translation provided as a flat object with dot-notation', () => {
+      const customText = 'My text'
+      const errorCode = '404'
+
+      render(
+        <Provider
+          locale="en-GB"
+          translations={{
+            'en-GB': {
+              'GlobalError.404.text': customText,
+              'HelpButton.title': customText,
+            },
+          }}
+        >
+          <HelpButton />
+          <GlobalError statusCode={errorCode} />
+        </Provider>
+      )
+
+      // HelpButton
+      expect(
+        document.querySelector('.dnb-button').getAttribute('aria-label')
+      ).toBe(customText)
+      expect(
+        document
+          .querySelector('.dnb-button')
+          .getAttribute('aria-roledescription')
+      ).toBe(en.HelpButton.aria_role)
+
+      // GlobalError
+      expect(
+        document.querySelector('.dnb-global-error__inner__content .dnb-p')
+          .textContent
+      ).toBe(customText)
+      expect(
+        document.querySelector('.dnb-global-error__inner__content h1')
+          .textContent
+      ).toBe(en.GlobalError[errorCode].title)
     })
   })
 })
