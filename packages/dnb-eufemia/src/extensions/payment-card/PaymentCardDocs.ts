@@ -17,7 +17,7 @@ export const PaymentCardProperties: PropertiesTableProps = {
     status: 'optional',
   },
   card_status: {
-    doc: 'use one of these: `active`, `not_active`, `blocked`, `expired`, `renewed`, `replaced`, `order_in_process`, `unknown`. Defaults to `active`.',
+    doc: 'use one of these: `active`, `not_active`, `new_order`, `new`, `blocked`, `expired`, `renewed`, `replaced`, `order_in_process`, `unknown`. Defaults to `active`.',
     type: [
       'active',
       'not_active',
@@ -84,7 +84,7 @@ export const PaymentCardData: PropertiesTableProps = {
     status: 'required',
   },
   productType: {
-    doc: "`import { ProductType } from '@dnb/eufemia/extensions/payment-card'` to use. Can be `ProductType.Saga`, `ProductType.Pluss`, `ProductType.Intro`, `ProductType.Business`, `ProductType.Bedrift`, `ProductType.PrivateBanking` or `ProductType.None`.",
+    doc: "`import { ProductType } from '@dnb/eufemia/extensions/payment-card'` to use. Can be `ProductType.Saga`, `ProductType.Pluss`, `ProductType.Intro`, `ProductType.Business`, `ProductType.Bedrift`, `ProductType.PrivateBanking`, `ProductType.Corporate`, `ProductType.WorldElite` or `ProductType.None`.",
     type: 'Union Type',
     status: 'required',
   },

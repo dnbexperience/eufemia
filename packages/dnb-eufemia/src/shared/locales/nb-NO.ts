@@ -126,13 +126,15 @@ export default {
       subtractTitle: 'Reduser (%s)',
     },
     PaymentCard: {
-      text_card_number: 'Kortnummer',
-      text_expired: 'Utgått',
+      text_card_number: 'Kortnummer', // Deprecated: As it's not in use anymore, can be removed in v11.
       text_blocked: 'Sperret',
-      text_not_active: 'Ikke aktivert',
-      text_order_in_process: 'Under behandling',
-      text_renewed: 'Fornyet',
+      text_expired: 'Utløpt',
+      text_not_active: 'Inaktivt',
+      text_new_order: 'Bestilt',
+      text_order_in_process: 'På vei',
       text_replaced: 'Erstattet',
+      text_renewed: 'Fornyes',
+      text_new: 'Nytt',
       text_unknown: 'Ukjent',
     },
     Tag: {
