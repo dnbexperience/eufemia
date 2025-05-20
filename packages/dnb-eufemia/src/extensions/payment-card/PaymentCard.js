@@ -33,7 +33,6 @@ import cardProducts from './utils/cardProducts'
 export { Designs, ProductType, CardType, BankAxeptType }
 
 const translationDefaultPropsProps = {
-  text_card_number: null,
   text_blocked: null,
   text_expired: null,
   text_not_active: null,

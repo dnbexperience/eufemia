@@ -126,7 +126,7 @@ export default {
       subtractTitle: 'Reduser (%s)',
     },
     PaymentCard: {
-      text_card_number: 'Kortnummer',
+      text_card_number: 'Kortnummer', // Deprecated: As it's not in use anymore, can be removed in v11.
       text_blocked: 'Sperret',
       text_expired: 'Utløpt',
       text_not_active: 'Inaktivt',

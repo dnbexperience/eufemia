@@ -127,7 +127,7 @@ export default {
       subtractTitle: 'Minska (%s)',
     },
     PaymentCard: {
-      text_card_number: 'Kortnummer',
+      text_card_number: 'Kortnummer', // Deprecated: As it's not in use anymore, can be removed in v11.
       text_blocked: 'Spärrat',
       text_expired: 'Utgånget',
       text_not_active: 'Inaktiv',

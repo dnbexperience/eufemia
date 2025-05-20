@@ -272,7 +272,8 @@ describe('Helper functions', () => {
 describe('PaymentCard translations', () => {
   const customText = 'MySpecialText'
 
-  it('should override text_card_number', () => {
+  /** @deprecated – can be removed in v11 */
+  it('should not break when setting text_card_number', () => {
     render(
       <Provider
         locale="nb-NO"
@@ -286,7 +287,7 @@ describe('PaymentCard translations', () => {
       </Provider>
     )
 
-    expect(screen.queryByText(customText)).toBeInTheDocument()
+    expect(document.querySelector('.dnb-payment-card')).toBeInTheDocument()
   })
 
   it('should override text_expired', () => {
