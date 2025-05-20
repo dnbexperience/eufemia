@@ -142,7 +142,6 @@ export type DatePickerProps = {
    * If set to `true`, the navigation will be hidden. Defaults to `false`.
    */
   hideNavigation?: boolean
-  hideNavigationButtons?: boolean
   /**
    * If set to `true`, the week days will be hidden. Defaults to `false`.
    */
@@ -395,7 +394,11 @@ type DatePickerDeprecatedProps = {
    */
   hide_navigation?: boolean
   /**
-   * @deprecated use `hideNavigationButtons` instead.
+   * @deprecated does not do anything.
+   */
+  hideNavigationButtons?: boolean
+  /**
+   * @deprecated does not do anything.
    */
   hide_navigation_buttons?: boolean
   /**
@@ -564,7 +567,6 @@ export type DatePickerAllProps = DatePickerProps &
 
 const defaultProps: DatePickerProps = {
   hideNavigation: false,
-  hideNavigationButtons: false,
   hideDays: false,
   onlyMonth: false,
   hideLastWeek: false,
@@ -815,7 +817,6 @@ function DatePicker(externalProps: DatePickerAllProps) {
     onlyMonth,
     hideLastWeek,
     disableAutofocus,
-    hideNavigationButtons,
     firstDay,
     resetDate,
     link,
@@ -852,11 +853,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
   )
 
   const shouldHideDays = onlyMonth ? true : hideDays
-  const shouldHideNavigation = onlyMonth
-    ? hideNavigationButtons
-      ? false
-      : true
-    : hideNavigation
+  const shouldHideNavigation = onlyMonth || hideNavigation
 
   const showStatus = getStatusState(status)
 
@@ -1033,12 +1030,6 @@ function DatePicker(externalProps: DatePickerAllProps) {
                       isSync={sync}
                       hideDays={shouldHideDays}
                       hideNav={shouldHideNavigation}
-                      // TODO: refactor to not be views, do reduce view complexity
-                      views={
-                        hideNavigationButtons
-                          ? [{ nextBtn: false, prevBtn: false }]
-                          : null
-                      }
                       onlyMonth={onlyMonth}
                       hideNextMonthWeek={hideLastWeek}
                       noAutoFocus={disableAutofocus}

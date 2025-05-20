@@ -77,10 +77,6 @@ export type DatePickerCalendarProps = Omit<
    */
   month?: Date
   hoverDate?: Date
-  // TODO: rename for clarity
-  prevBtn?: boolean
-  // TODO: rename for clarity
-  nextBtn?: boolean
   firstDayOfWeek?: string
   hideNav?: boolean
   hideDays?: boolean
@@ -123,8 +119,6 @@ type DayObject = {
 }
 
 const defaultProps: DatePickerCalendarProps = {
-  prevBtn: true,
-  nextBtn: true,
   hideNav: false,
   hideDays: false,
   onlyMonth: false,
@@ -171,8 +165,6 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     onSelect,
     onKeyDown,
     resetDate,
-    prevBtn,
-    nextBtn,
     noAutoFocus,
     hideNextMonthWeek,
     onlyMonth,
@@ -507,8 +499,6 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
             nr={nr}
             date={month}
             locale={locale}
-            showPreviousButton={prevBtn}
-            showNextButton={nextBtn}
           />
           {yearNavigation && (
             <DatePickerCalendarNav
@@ -517,8 +507,6 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
               nr={nr}
               date={month}
               locale={locale}
-              showPreviousButton={prevBtn}
-              showNextButton={nextBtn}
             />
           )}
         </div>

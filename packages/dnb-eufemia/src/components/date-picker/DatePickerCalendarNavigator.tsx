@@ -29,8 +29,7 @@ export type DatePickerCalendarNavigationProps = Omit<
    * To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`.
    */
   date?: Date
-  showPreviousButton?: boolean
-  showNextButton?: boolean
+
   /**
    * To define the locale used in the calendar. Needs to be an `date-fns` "v2" locale object, like `import enLocale from &#39;date-fns/locale/en-GB&#39;`. Defaults to `nb-NO`.
    */
@@ -76,8 +75,6 @@ export function DatePickerCalendarNav({
   nr,
   date,
   locale,
-  showPreviousButton,
-  showNextButton,
 }: DatePickerCalendarNavigationProps) {
   const {
     minDate,
@@ -128,7 +125,6 @@ export function DatePickerCalendarNav({
           dateType={buttonDateType}
           dateFormat={titleFormat}
           locale={locale}
-          showButton={showPreviousButton}
           onClick={onNav}
         />
       </div>
@@ -152,7 +148,6 @@ export function DatePickerCalendarNav({
           dateLimit={maxDate}
           dateFormat={titleFormat}
           locale={locale}
-          showButton={showNextButton}
           onClick={onNav}
         />
       </div>
@@ -170,7 +165,6 @@ export type CalendarNavButtonProps = {
   date: Date
   dateLimit: Date
   locale: InternalLocale
-  showButton: boolean
   onClick: ({
     nr,
     type,
@@ -199,15 +193,10 @@ function CalendarNavButton({
   date,
   dateLimit,
   locale,
-  showButton,
   onClick,
   onKeyDown,
 }: CalendarNavButtonProps) {
   const translations = useTranslation().DatePicker
-
-  if (!showButton) {
-    return <></>
-  }
 
   const translationKey = `${type}${capitalizeFirstLetter(dateType)}`
   const dateHandler = dateHandlers[dateType][type]
