@@ -94,7 +94,7 @@ export interface PaymentCardProps
    */
   card_number: string;
   /**
-   * use one of these: `active`, `not_active`, `blocked`, `expired`, `renewed`, `replaced`, `order_in_process`, `unknown`. Defaults to `active`.
+   * use one of these: `active`, `not_active`, `new_order`, `new`, `blocked`, `expired`, `renewed`, `replaced`, `order_in_process`, `unknown`. Defaults to `active`.
    */
   card_status?: PaymentCardCardStatus;
   /**

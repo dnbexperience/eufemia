@@ -17,7 +17,7 @@ export const PaymentCardProperties: PropertiesTableProps = {
     status: 'optional',
   },
   card_status: {
-    doc: 'use one of these: `active`, `not_active`, `blocked`, `expired`, `renewed`, `replaced`, `order_in_process`, `unknown`. Defaults to `active`.',
+    doc: 'use one of these: `active`, `not_active`, `new_order`, `new`, `blocked`, `expired`, `renewed`, `replaced`, `order_in_process`, `unknown`. Defaults to `active`.',
     type: [
       'active',
       'not_active',
