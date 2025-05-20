@@ -346,7 +346,7 @@ export const Outset = () => {
       data-visual-test="wizard-outset"
     >
       <CustomContainerWithPadding>
-        <Card.Provider>
+        <Card.Provider hasParentCard>
           <Form.Handler>
             <Wizard.Container mode="loose">
               <Wizard.Step title="Step 1">

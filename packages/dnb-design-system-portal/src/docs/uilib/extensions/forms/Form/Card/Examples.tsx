@@ -42,7 +42,7 @@ export const Outset = () => {
           </P>
         </Form.Card>
 
-        <Form.Card.Provider>
+        <Form.Card.Provider hasParentCard>
           <Form.Card>
             <P>
               Told to behave as if inside a parent card. Will stay inside
