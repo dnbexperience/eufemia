@@ -822,6 +822,38 @@ describe('Iterate.Array', () => {
     })
   })
 
+  describe('minItems', () => {
+    it('should show error with correct message', async () => {
+      render(
+        <Form.Handler>
+          <Iterate.Array path="/items" minItems={1} validateInitially>
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.IterateArray.errorMinItems.replace('{minItems}', '1')
+      )
+    })
+  })
+
+  describe('maxItems', () => {
+    it('should show error with correct message', async () => {
+      render(
+        <Form.Handler defaultData={{ items: ['foo', 'bar'] }}>
+          <Iterate.Array path="/items" maxItems={1} validateInitially>
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.IterateArray.errorMaxItems.replace('{maxItems}', '1')
+      )
+    })
+  })
+
   describe('onChangeValidator', () => {
     it('should validate onChangeValidator initially (validateInitially)', async () => {
       const onChangeValidator = jest.fn((arrayValue) => {
@@ -2441,6 +2473,53 @@ describe('Iterate.Array', () => {
   })
 
   describe('schema', () => {
+    it('should show error with custom error message when "minItems" and "maxItems" is not met', async () => {
+      const schema: JSONSchema = {
+        type: 'array',
+        minItems: 1,
+        maxItems: 2,
+      }
+
+      const errorMessages = {
+        minItems: 'You need at least {minItems} items.',
+        maxItems: 'You cannot have more than {maxItems} items.',
+      }
+
+      const { rerender } = render(
+        <Form.Handler>
+          <Iterate.Array
+            path="/items"
+            schema={schema}
+            errorMessages={errorMessages}
+            validateInitially
+          >
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        'You need at least 1 items.'
+      )
+
+      rerender(
+        <Form.Handler data={{ items: ['one', 'two', 'three'] }}>
+          <Iterate.Array
+            path="/items"
+            schema={schema}
+            errorMessages={errorMessages}
+            validateInitially
+          >
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        'You cannot have more than 2 items.'
+      )
+    })
+
     it('should show error when "minItems" is not met', async () => {
       const schema: JSONSchema = {
         type: 'object',

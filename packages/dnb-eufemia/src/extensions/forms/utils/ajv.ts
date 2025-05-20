@@ -26,6 +26,8 @@ const ajvErrorKeywordsTranslationTable = [
   },
   { ajvKey: 'minimum', translationKey: 'NumberField.errorMinimum' },
   { ajvKey: 'maximum', translationKey: 'NumberField.errorMaximum' },
+  { ajvKey: 'minItems', translationKey: 'IterateArray.errorMinItems' },
+  { ajvKey: 'maxItems', translationKey: 'IterateArray.errorMaxItems' },
   {
     ajvKey: 'exclusiveMinimum',
     translationKey: 'NumberField.errorExclusiveMinimum',
@@ -120,6 +122,8 @@ export function getMessageValues(
     case 'maxLength':
     case 'minimum':
     case 'maximum':
+    case 'minItems':
+    case 'maxItems':
     case 'exclusiveMinimum':
     case 'exclusiveMaximum':
       return {
@@ -178,10 +182,10 @@ export function extendErrorMessagesWithTranslationMessages(
          * @deprecated – can be removed in v11
          */
         messages[ajvKey] =
-          messages[translationKey] ?? translation[keys[0]][keys[1]]
+          messages[translationKey] ?? translation[keys[0]]?.[keys[1]]
 
         messages[translationKey] =
-          messages[translationKey] ?? translation[keys[0]][keys[1]]
+          messages[translationKey] ?? translation[keys[0]]?.[keys[1]]
       }
     }
   )
