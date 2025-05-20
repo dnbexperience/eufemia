@@ -77,6 +77,10 @@ export default {
       createButton: 'Add',
       itemsLimitReached: 'You have reached the limit of: {limit}',
     },
+    IterateArray: {
+      errorMinItems: 'You must add at least {minItems} items.',
+      errorMaxItems: 'You cannot add more than {maxItems} items.',
+    },
 
     /**
      * Base fields
