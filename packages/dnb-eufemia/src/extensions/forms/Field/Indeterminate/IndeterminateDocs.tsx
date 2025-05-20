@@ -19,7 +19,7 @@ export const IndeterminateProperties: PropertiesTableProps = {
     status: 'required',
   },
   propagateIndeterminateState: {
-    doc: 'When `checked`, the dependent checkboxes will always be set to "checked" when in indeterminate state. When `unchecked`, the dependent checkboxes will be set to "unchecked" when in indeterminate state. When "auto", the dependent checkboxes will get the inverted state from where the (this) parent checkbox is in. Default is `true`.',
+    doc: 'When `checked`, the dependent checkboxes will always be set to "checked" when in indeterminate state. When `unchecked`, the dependent checkboxes will be set to "unchecked" when in indeterminate state. When "auto", the dependent checkboxes will get the inverted state from where the (this) parent checkbox is in. Default is `checked`.',
     type: ['checked', 'unchecked', 'auto'],
     status: 'optional',
   },
