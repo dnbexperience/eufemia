@@ -142,7 +142,7 @@ Card.Provider = function CardProvider({
   hasParentCard?: boolean
   children: React.ReactNode
 }) {
-  const context = useContext(CardContext) ?? {}
+  const context = useContext(CardContext) || {}
 
   context.isNested = hasParentCard ?? context?.isNested
 
