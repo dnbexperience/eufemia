@@ -90,4 +90,11 @@ describe('DatePicker', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match month only calendar', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="date-picker-only-month"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
