@@ -36,3 +36,20 @@ export function WithToggle() {
     </Form.Handler>
   )
 }
+
+export function Required() {
+  return (
+    <Form.Handler onSubmit={console.log}>
+      <Form.Card>
+        <Field.Indeterminate
+          dependencePaths={['/checkbox1', '/checkbox2', '/checkbox3']}
+          label="Indeterminate"
+          required
+          validateInitially
+        />
+      </Form.Card>
+
+      <Form.SubmitButton />
+    </Form.Handler>
+  )
+}
