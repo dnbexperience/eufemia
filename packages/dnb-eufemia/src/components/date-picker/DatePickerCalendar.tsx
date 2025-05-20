@@ -148,7 +148,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     setSubmittedDates,
     props: { onDaysRender, yearNavigation },
     translation: {
-      DatePicker: { firstDay: defaultFirstDayOfWeek },
+      DatePicker: { firstDay: defaultFirstDayOfWeek, selectedMonth },
     },
   } = useContext(DatePickerContext)
 
@@ -491,26 +491,51 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       className={classnames('dnb-date-picker__calendar', rtl && 'rtl')}
       lang={locale}
     >
-      {!hideNav && (
-        <div className="dnb-date-picker__header">
-          <DatePickerCalendarNav
-            type={yearNavigation ? 'month' : 'both'}
-            id={id}
-            nr={nr}
-            date={month}
-            locale={locale}
-          />
-          {yearNavigation && (
+      <div
+        className={classnames(
+          'dnb-date-picker__header',
+          hideNav && 'dnb-date-picker__header--only-month'
+        )}
+      >
+        {!hideNav ? (
+          <>
             <DatePickerCalendarNav
-              type="year"
+              type={yearNavigation ? 'month' : 'both'}
               id={id}
               nr={nr}
               date={month}
               locale={locale}
             />
-          )}
-        </div>
-      )}
+            {yearNavigation && (
+              <DatePickerCalendarNav
+                type="year"
+                id={id}
+                nr={nr}
+                date={month}
+                locale={locale}
+              />
+            )}
+          </>
+        ) : (
+          <label
+            id={`${id}--title`}
+            className="dnb-date-picker__header__title dnb-no-focus"
+            title={selectedMonth.replace(
+              /%s/,
+              formatDate(month, {
+                locale,
+                formatOptions: { month: 'long' },
+              })
+            )}
+            tabIndex={-1}
+          >
+            {formatDate(month, {
+              locale,
+              formatOptions: { month: 'long' },
+            })}
+          </label>
+        )}
+      </div>
       <table
         role="grid"
         className="dnb-no-focus"

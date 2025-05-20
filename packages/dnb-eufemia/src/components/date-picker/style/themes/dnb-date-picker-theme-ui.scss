@@ -49,6 +49,11 @@
       background-color: var(--color-black-8);
     }
 
+    &--only-month {
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
     &__row {
       min-width: 60%;
       display: flex;
