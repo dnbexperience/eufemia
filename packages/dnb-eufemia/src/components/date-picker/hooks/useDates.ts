@@ -125,6 +125,8 @@ export default function useDates(
         ...dates,
         ...newDates,
         ...months,
+        // Deprecated – can be removed in v11
+        ...correctedDates,
       })
     },
     [dates, shouldCorrectDate, isRange]
