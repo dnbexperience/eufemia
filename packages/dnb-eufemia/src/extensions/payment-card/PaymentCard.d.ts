@@ -8,6 +8,8 @@ export type PaymentCardCardStatus =
   | 'blocked'
   | 'expired'
   | 'not_active'
+  | 'new_order'
+  | 'new'
   | 'order_in_process'
   | 'renewed'
   | 'replaced'
