@@ -1018,18 +1018,30 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       })
       setFieldStateDataContext?.(identifier, error ? 'error' : undefined)
 
+      if (updateContextDataInSync) {
+        setFieldErrorWizard?.(
+          wizardIndex,
+          identifier,
+          handleFieldAsVisible !== false ? !!error : undefined
+        )
+      }
+
       forceUpdate()
     },
     [
+      handleFieldAsVisible,
       identifier,
       inFieldBlock,
       prepareError,
       setBlockRecord,
       setFieldErrorBoundary,
       setFieldErrorDataContext,
+      setFieldErrorWizard,
       setFieldStateDataContext,
       stateId,
+      updateContextDataInSync,
       validateInitially,
+      wizardIndex,
     ]
   )
 

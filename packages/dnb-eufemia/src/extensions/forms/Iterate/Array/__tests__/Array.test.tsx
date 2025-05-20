@@ -11,6 +11,7 @@ import {
   JSONSchema,
   Value,
   ValueBlock,
+  Wizard,
 } from '../../..'
 import { ContextState, FilterData } from '../../../DataContext'
 
@@ -696,6 +697,63 @@ describe('Iterate.Array', () => {
           document.querySelector('.dnb-form-status')
         ).not.toBeInTheDocument()
       })
+    })
+
+    it('should not keep error when step Wizard navigates away', async () => {
+      render(
+        <Form.Handler>
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Iterate.Array path="/items" required>
+                content
+                {/* <Field.String itemPath="/" /> */}
+              </Iterate.Array>
+              <Iterate.PushButton path="/items" pushValue="baz" />
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      const nextButton = () => {
+        return document.querySelector('.dnb-forms-next-button')
+      }
+      const output = () => {
+        return document.querySelector('output')
+      }
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      fireEvent.submit(document.querySelector('form'))
+
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate-push-button')
+      )
+
+      expect(output()).toHaveTextContent('Step 1')
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
+
+      await userEvent.click(nextButton())
+      expect(output()).toHaveTextContent('Step 2')
+
+      await expect(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+      }).toNeverResolve()
     })
 
     it('should report error to FieldBlock initially', async () => {
