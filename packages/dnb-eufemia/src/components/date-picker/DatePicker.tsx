@@ -636,7 +636,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
 
   if (correctInvalidDate) {
     warn(
-      `Use 'Field.Date' instead, for built in validation (https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Date/#date-limit-validation). It's not good UX, or best practice to automatically change the user input. This often leads to confusion, as what they typed in, magically changes for seemingly no reason. It's better to inform them about the error and let them correct it themselves.`
+      `Use 'Field.Date' instead, for built in validation (https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Date/#date-limit-validation).`
     )
   }
 
