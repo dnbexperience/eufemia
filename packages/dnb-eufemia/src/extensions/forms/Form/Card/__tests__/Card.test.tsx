@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { render } from '@testing-library/react'
 import { Form } from '../../..'
+import CardContext, {
+  CardContextState,
+} from '../../../../../components/card/CardContext'
 
 describe('Form.Card', () => {
   it('should have constant of _supportsSpacingProps', () => {
@@ -69,5 +72,81 @@ describe('Form.Card', () => {
         'dnb-flex-container--spacing-medium'
       )
     }
+  })
+  describe('CardContext', () => {
+    const contextRef: React.MutableRefObject<CardContextState> =
+      React.createRef()
+
+    const ContextConsumer = () => {
+      contextRef.current = useContext(CardContext)
+      return null
+    }
+    it('should tell children they are nested', () => {
+      // Cards set nested context
+      render(
+        <Form.Card>
+          <ContextConsumer />
+        </Form.Card>
+      )
+      expect(contextRef.current.isNested).toBe(true)
+    })
+
+    it('provider should tell children they are nested', () => {
+      // Provider sets nested context
+      const { rerender } = render(
+        <Form.Card.Provider hasParentCard>
+          <ContextConsumer />
+        </Form.Card.Provider>
+      )
+      expect(contextRef.current.isNested).toBe(true)
+
+      // Can set false context
+      rerender(
+        <Form.Card.Provider hasParentCard={false}>
+          <ContextConsumer />
+        </Form.Card.Provider>
+      )
+      expect(contextRef.current.isNested).toBe(false)
+
+      // Provider without props are undefined
+      rerender(
+        <Form.Card.Provider>
+          <ContextConsumer />
+        </Form.Card.Provider>
+      )
+      expect(contextRef.current.isNested).toBe(undefined)
+    })
+
+    it('provider should inherit if not set', () => {
+      // Overrides parent card context if set
+      const { rerender } = render(
+        <Form.Card>
+          <Form.Card.Provider hasParentCard={false}>
+            <ContextConsumer />
+          </Form.Card.Provider>
+        </Form.Card>
+      )
+      expect(contextRef.current.isNested).toBe(false)
+
+      // Overrides parent provider context if set
+      rerender(
+        <Form.Card.Provider hasParentCard>
+          <Form.Card.Provider hasParentCard={false}>
+            <ContextConsumer />
+          </Form.Card.Provider>
+        </Form.Card.Provider>
+      )
+      expect(contextRef.current.isNested).toBe(false)
+
+      // Inherits parent context if not set
+      rerender(
+        <Form.Card>
+          <Form.Card.Provider>
+            <ContextConsumer />
+          </Form.Card.Provider>
+        </Form.Card>
+      )
+      expect(contextRef.current.isNested).toBe(true)
+    })
   })
 })
