@@ -369,11 +369,13 @@ type DatePickerDeprecatedProps = {
    * @deprecated use `Field.Date` instead, for {@link https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Date/#date-limit-validation | built in validation}.
    * It's not good UX, or best practice to automatically change the user input. This often leads to confusion, as what they typed in, magically changes for seemingly no reason. It's better to inform them about the error and let them correct it themselves.
    */
+  // Deprecated – can be removed in v11
   correctInvalidDate?: boolean
   /**
    * @deprecated use `Field.Date` instead, for {@link https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Date/#date-limit-validation | built in validation}.
    * It's not good UX, or best practice to automatically change the user input. This often leads to confusion, as what they typed in, magically changes for seemingly no reason. It's better to inform them about the error and let them correct it themselves.
    */
+  // Deprecated – can be removed in v11
   correct_invalid_date?: boolean
   /**
    * @deprecated use `maskOrder` instead.
@@ -605,6 +607,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
     range,
     hideDays,
     hideNavigation,
+    // Deprecated – can be removed in v11
     correctInvalidDate,
     opened: openedProp,
     endDate: endDateProp,

@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react'
-import { convertStringToDate } from '../DatePickerCalc'
+import { convertStringToDate, isDisabled } from '../DatePickerCalc'
 import { addMonths, isSameDay } from 'date-fns'
 import { DateType } from '../DatePickerContext'
 
@@ -16,6 +16,8 @@ export type DatePickerDateProps = {
 type UseDatesOptions = {
   dateFormat: string
   isRange: boolean
+  // Deprecated – can be removed in v11
+  shouldCorrectDate: boolean
 }
 
 export type DatePickerDates = {
@@ -30,13 +32,20 @@ export type DatePickerDates = {
 
 export default function useDates(
   dateProps: DatePickerDateProps,
-  { dateFormat, isRange = false }: UseDatesOptions
+  {
+    dateFormat,
+    isRange = false,
+    // Deprecated – can be removed in v11
+    shouldCorrectDate = false,
+  }: UseDatesOptions
 ) {
   const [previousDateProps, setPreviousDateProps] = useState(dateProps)
   const [dates, setDates] = useState<DatePickerDates>({
     ...mapDates(dateProps, {
       dateFormat,
       isRange,
+      // Deprecated – can be removed in v11
+      shouldCorrectDate,
     }),
   })
 
@@ -85,6 +94,17 @@ export default function useDates(
       newDates: DatePickerDates,
       callback?: (dates: DatePickerDates) => void
     ) => {
+      // Deprecated – can be removed in v11
+      const correctedDates = shouldCorrectDate
+        ? correctDates({
+            startDate: newDates.startDate ?? dates.startDate,
+            endDate: newDates.endDate ?? dates.endDate,
+            minDate: dates.minDate,
+            maxDate: dates.maxDate,
+            isRange,
+          })
+        : {}
+
       // Update months based on month or start/end date changes
       const months = updateMonths({
         newDates,
@@ -96,6 +116,8 @@ export default function useDates(
           ...currentDates,
           ...newDates,
           ...months,
+          // Deprecated – can be removed in v11
+          ...correctedDates,
         }
       })
 
@@ -105,7 +127,7 @@ export default function useDates(
         ...months,
       })
     },
-    [dates]
+    [dates, shouldCorrectDate, isRange]
   )
 
   return {
@@ -117,7 +139,11 @@ export default function useDates(
 
 function mapDates(
   dateProps: DatePickerDateProps,
-  { dateFormat, isRange }: Omit<UseDatesOptions, 'isLinked'>
+  {
+    dateFormat,
+    isRange,
+    shouldCorrectDate,
+  }: Omit<UseDatesOptions, 'isLinked'>
 ) {
   const date = dateProps.date
 
@@ -155,6 +181,11 @@ function mapDates(
     dateFormat,
   })
 
+  // Deprecated – can be removed in v11
+  const correctedDates = shouldCorrectDate
+    ? correctDates({ startDate, endDate, minDate, maxDate, isRange })
+    : {}
+
   const dates = {
     date,
     startDate,
@@ -163,6 +194,7 @@ function mapDates(
     endMonth,
     minDate,
     maxDate,
+    ...correctedDates,
   }
 
   return {
@@ -254,6 +286,38 @@ function deriveDatesFromProps({
   }
 
   return derivedDates
+}
+
+// Deprecated – can be removed in v11
+function correctDates({
+  startDate,
+  endDate,
+  minDate,
+  maxDate,
+  isRange,
+}: {
+  startDate: Date
+  endDate: Date
+  minDate: Date
+  maxDate: Date
+  isRange: boolean
+}) {
+  const correctedDates = {}
+
+  if (isDisabled(startDate, minDate, maxDate)) {
+    correctedDates['startDate'] = minDate
+  }
+  if (isDisabled(endDate, minDate, maxDate)) {
+    // state.endDate is only used by the input if range is set to true.
+    // this is done to make maxDate correction work if the input is not a range and only maxDate is defined.
+    if (!isRange && !minDate) {
+      correctedDates['startDate'] = maxDate
+    } else {
+      correctedDates['endDate'] = maxDate
+    }
+  }
+
+  return correctedDates
 }
 
 function updateMonths({
