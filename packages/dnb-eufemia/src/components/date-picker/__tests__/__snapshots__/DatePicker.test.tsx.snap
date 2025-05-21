@@ -4288,7 +4288,7 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
 .dnb-date-picker__header::after {
   background-color: var(--color-black-8);
 }
-.dnb-date-picker__header--only-month {
+.dnb-date-picker__header--only-month-label {
   justify-content: center;
   margin-bottom: 1rem;
 }

@@ -512,7 +512,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         </div>
       )}
       {onlyMonth && (
-        <div className="dnb-date-picker__header dnb-date-picker__header--only-month">
+        <div className="dnb-date-picker__header dnb-date-picker__header--only-month-label">
           <label
             id={`${id}--title`}
             className="dnb-date-picker__header__title dnb-no-focus"
