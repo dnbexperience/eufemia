@@ -5,6 +5,7 @@ showTabs: true
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { ValueProperties } from '@dnb/eufemia/src/extensions/forms/Value/ValueDocs'
+import { AvailableCountriesTable } from 'dnb-design-system-portal/src/docs/uilib/extensions/forms/feature-fields/SelectCountry/assets/AvailableCountriesTable'
 
 ## Properties
 
@@ -13,3 +14,9 @@ import { ValueProperties } from '@dnb/eufemia/src/extensions/forms/Value/ValueDo
 ## Translations
 
 <TranslationsTable localeKey={['SelectCountry', 'Field']} />
+
+## List of available countries
+
+[Link to the code of the available countries](https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/extensions/forms/constants/countries.ts#L46).
+
+<AvailableCountriesTable />
