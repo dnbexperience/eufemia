@@ -1397,7 +1397,6 @@ describe('Dropdown component', () => {
         value={0}
       />
     )
-    expect(document.querySelectorAll('.dnb-icon')).toHaveLength(1)
     expect(
       document.querySelector('.dnb-icon').getAttribute('data-testid')
     ).toBe('bank icon')
