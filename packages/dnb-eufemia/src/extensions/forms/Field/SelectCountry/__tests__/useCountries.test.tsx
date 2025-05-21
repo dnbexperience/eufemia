@@ -46,4 +46,62 @@ describe('useCountries', () => {
     expect(result.current.countries).not.toStrictEqual(listOfCountries)
     expect(getOneCountry(listOfCountries, 'WF').i18n['sv']).toBeUndefined()
   })
+
+  it('should warn about missing translations', () => {
+    const log = jest.spyOn(console, 'log').mockImplementation()
+
+    // Remove some countries from the translations to simulate missing translations
+    const partialTranslations = { ...svSE_forms_countries['sv-SE'] }
+      .countries
+    delete partialTranslations['BQ']
+    delete partialTranslations['FK']
+    delete partialTranslations['XK']
+    delete partialTranslations['GS']
+    delete partialTranslations['TK']
+    const translations = mergeTranslations({
+      'sv-SE': { countries: partialTranslations },
+    })
+
+    renderHook(useCountries, {
+      wrapper: ({ children }) => (
+        <Provider translations={translations} locale="sv-SE">
+          {children}
+        </Provider>
+      ),
+    })
+
+    expect(log).toHaveBeenCalledWith(
+      expect.any(String),
+      'Missing country translation:',
+      ['BQ', 'FK', 'XK', 'GS', 'TK']
+    )
+
+    log.mockRestore()
+  })
+
+  it('should fall back using the default translations when a translations is missing', () => {
+    const log = jest.spyOn(console, 'log').mockImplementation()
+
+    // Remove some countries from the translations to simulate missing translations
+    const partialTranslations = { ...svSE_forms_countries['sv-SE'] }
+      .countries
+    delete partialTranslations['WF']
+    const translations = mergeTranslations({
+      'sv-SE': { countries: partialTranslations },
+    })
+
+    const { result } = renderHook(useCountries, {
+      wrapper: ({ children }) => (
+        <Provider translations={translations} locale="sv-SE">
+          {children}
+        </Provider>
+      ),
+    })
+
+    expect(getOneCountry(result.current.countries, 'WF').i18n['sv']).toBe(
+      'Wallis og Futuna'
+    )
+
+    log.mockRestore()
+  })
 })
