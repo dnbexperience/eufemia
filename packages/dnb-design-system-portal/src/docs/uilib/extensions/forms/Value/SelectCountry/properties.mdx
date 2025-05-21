@@ -5,6 +5,7 @@ showTabs: true
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { ValueProperties } from '@dnb/eufemia/src/extensions/forms/Value/ValueDocs'
+import { AvailableCountriesTable } from './../../../feature-fields/SelectCountry/assets/AvailableCountriesTable'
 
 ## Properties
 
@@ -13,3 +14,11 @@ import { ValueProperties } from '@dnb/eufemia/src/extensions/forms/Value/ValueDo
 ## Translations
 
 <TranslationsTable localeKey={['SelectCountry', 'Field']} />
+
+## List of available countries
+
+[Link to the code of the available countries](https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/extensions/forms/constants/countries.ts#L46).
+
+NOTE: This list does not say anything about the order in which they will appear in component `Field.SelectCountry`. And is only meant to easily find which countries that's supported and available to use.
+
+<AvailableCountriesTable />
