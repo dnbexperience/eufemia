@@ -1,5 +1,6 @@
 import { InternalLocale } from '../../shared/Context'
 import { convertJsxToString } from '../../shared/component-helper'
+import { LOCALE as defaultLocale } from '../../shared/defaults'
 import { convertStringToDate } from '../date-picker/DatePickerCalc'
 import { formatDate } from './DateUtils'
 
@@ -75,7 +76,7 @@ type DateFormatOptions = {
 
 export default function DateFormat({
   date,
-  locale = 'nb-NO',
+  locale = defaultLocale,
   dateStyle = 'long',
   timeStyle,
   weekday,
