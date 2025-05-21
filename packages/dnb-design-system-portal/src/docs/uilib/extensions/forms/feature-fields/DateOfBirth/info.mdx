@@ -1,0 +1,21 @@
+---
+showTabs: true
+---
+
+## Description
+
+`Field.DateOfBirth` is a wrapper component for the [input of strings](/uilib/extensions/forms/base-fields/String), with user experience tailored for date of birth values.
+
+```jsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.DateOfBirth />)
+```
+
+There is a corresponding [Value.DateOfBirth](/uilib/extensions/forms/Value/DateOfBirth) component.
+
+## Validators
+
+### Internal validators exposed
+
+`Field.DateOfBirth` expose the `dateOfBirthValidator` validator through its `onChangeValidator` and `onBlurValidator` property, take a look at [this demo](/uilib/extensions/forms/feature-fields/DateOfBirth/demos/#extend-validation-with-custom-validation-function).
+The `dateOfBirthValidator` validator, validates if the date provided is a valid date or not.
