@@ -5,12 +5,6 @@ import { LOCALE as defaultLocale } from '../../../../shared/defaults'
 import SharedContext from '../../../../shared/Context'
 import { warn } from '../../../../shared/helpers'
 
-/**
- * Deprecated, as it is supported by all major browsers and Node.js >=v18
- * So its a question of time, when we will remove this polyfill
- */
-import structuredClone from '@ungap/structured-clone'
-
 export default function useCountries() {
   const { countries: countriesInOtherLocale } = useTranslation() || {}
   const { locale } = useContext(SharedContext)
@@ -31,14 +25,11 @@ export default function useCountries() {
           missing.push(country.iso)
         }
 
-        // Ensure we don't mutate the original list
-        country = structuredClone(country)
-
-        Object.assign(country.i18n, {
-          [lang]: translatedCountry,
-        })
-
-        return country
+        return {
+          // Ensure we don't mutate the original list
+          ...country,
+          i18n: { ...country.i18n, [lang]: translatedCountry },
+        }
       }) as unknown as typeof listOfCountries
 
       if (missing.length > 0) {
