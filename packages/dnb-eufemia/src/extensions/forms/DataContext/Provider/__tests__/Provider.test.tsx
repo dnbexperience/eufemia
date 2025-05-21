@@ -643,6 +643,141 @@ describe('DataContext.Provider', () => {
         expect(filteredData).toEqual({ bar: 'bar value' })
       })
 
+      it('should filter all paths starting with _', () => {
+        const filterDataHandler: FilterData = jest.fn(({ path }) => {
+          if (/\/_/.test(path)) {
+            return false
+          }
+        })
+
+        let filteredData = undefined
+        const onSubmit = jest.fn((data, { filterData }) => {
+          return (filteredData = filterData(filterDataHandler))
+        })
+
+        render(
+          <DataContext.Provider
+            onSubmit={onSubmit}
+            defaultData={{
+              nested: {
+                _baz: 'Exclude this value',
+                baz: 'Include this value',
+              },
+              _nested: {
+                baz: 'Exclude this value',
+              },
+            }}
+          >
+            <Field.String path="/foo" value="Include this value" />
+            <Field.String path="/_bar" value="Exclude this value" />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        fireEvent.click(document.querySelector('button'))
+
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(onSubmit).toHaveBeenLastCalledWith(
+          {
+            foo: 'Include this value',
+            _bar: 'Exclude this value',
+            _nested: {
+              baz: 'Exclude this value',
+            },
+            nested: {
+              _baz: 'Exclude this value',
+              baz: 'Include this value',
+            },
+          },
+          expect.anything()
+        )
+        expect(filteredData).toEqual({
+          foo: 'Include this value',
+          _nested: {},
+          nested: {
+            baz: 'Include this value',
+          },
+        })
+
+        const data = {
+          _bar: 'Exclude this value',
+          _nested: {
+            baz: 'Exclude this value',
+          },
+          foo: 'Include this value',
+          nested: {
+            _baz: 'Exclude this value',
+            baz: 'Include this value',
+          },
+        }
+
+        expect(filterDataHandler).toHaveBeenCalledTimes(5)
+        expect(filterDataHandler).toHaveBeenNthCalledWith(1, {
+          path: '/foo',
+          value: 'Include this value',
+          displayValue: 'Include this value',
+          label: undefined,
+          data,
+          props: expect.objectContaining({
+            value: 'Include this value',
+          }),
+          error: undefined,
+          internal: {
+            error: undefined,
+          },
+        })
+        expect(filterDataHandler).toHaveBeenNthCalledWith(2, {
+          path: '/_bar',
+          value: 'Exclude this value',
+          displayValue: 'Exclude this value',
+          label: undefined,
+          data,
+          props: expect.objectContaining({
+            value: 'Exclude this value',
+          }),
+          error: undefined,
+          internal: {
+            error: undefined,
+          },
+        })
+        expect(filterDataHandler).toHaveBeenNthCalledWith(3, {
+          path: '/nested/_baz',
+          value: 'Exclude this value',
+          displayValue: undefined,
+          label: undefined,
+          data,
+          props: {},
+          error: undefined,
+          internal: {
+            error: undefined,
+          },
+        })
+        expect(filterDataHandler).toHaveBeenNthCalledWith(4, {
+          path: '/nested/baz',
+          value: 'Include this value',
+          displayValue: undefined,
+          label: undefined,
+          data,
+          props: {},
+          error: undefined,
+          internal: {
+            error: undefined,
+          },
+        })
+        expect(filterDataHandler).toHaveBeenNthCalledWith(5, {
+          path: '/_nested/baz',
+          value: 'Exclude this value',
+          displayValue: undefined,
+          label: undefined,
+          data,
+          props: {},
+          error: undefined,
+          internal: {
+            error: undefined,
+          },
+        })
+      })
+
       it('"filterSubmitData" should not mutate internal data', async () => {
         const onSubmit: OnSubmit = jest.fn()
         const onChange = jest.fn()
