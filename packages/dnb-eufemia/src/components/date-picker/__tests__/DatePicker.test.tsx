@@ -3734,6 +3734,22 @@ describe('DatePicker component', () => {
       'dnb-date-picker__input--label-alignment-right'
     )
   })
+
+  it('should be able to only show the month in calendar', async () => {
+    render(<DatePicker onlyMonth />)
+
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
+
+    const calendar = document.querySelector('.dnb-date-picker__calendar')
+
+    expect(
+      calendar.querySelector('.dnb-date-picker__header--only-month-label')
+    ).toBeInTheDocument()
+
+    expect(
+      calendar.querySelector('.dnb-date-picker__labels')
+    ).not.toBeInTheDocument()
+  })
 })
 
 // for the unit calc tests
