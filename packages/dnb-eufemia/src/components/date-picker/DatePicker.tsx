@@ -866,9 +866,6 @@ function DatePicker(externalProps: DatePickerAllProps) {
     [restProps]
   )
 
-  const shouldHideDays = onlyMonth ? true : hideDays
-  const shouldHideNavigation = onlyMonth || hideNavigation
-
   const showStatus = getStatusState(status)
 
   const pickerParams = {} as HTMLProps<HTMLSpanElement>
@@ -1042,8 +1039,8 @@ function DatePicker(externalProps: DatePickerAllProps) {
                       isRange={range}
                       isLink={link}
                       isSync={sync}
-                      hideDays={shouldHideDays}
-                      hideNav={shouldHideNavigation}
+                      hideDays={hideDays}
+                      hideNavigation={hideNavigation}
                       onlyMonth={onlyMonth}
                       hideNextMonthWeek={hideLastWeek}
                       noAutoFocus={disableAutofocus}

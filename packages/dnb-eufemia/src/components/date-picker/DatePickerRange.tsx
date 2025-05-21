@@ -24,7 +24,7 @@ export type DatePickerRangeProps = Omit<
     isLink?: boolean
     isSync?: boolean
     onlyMonth?: boolean
-    hideNav?: boolean
+    hideNavigation?: boolean
     onPickerChange?: (
       event: DatePickerChangeEvent<
         | React.MouseEvent<HTMLSpanElement>
