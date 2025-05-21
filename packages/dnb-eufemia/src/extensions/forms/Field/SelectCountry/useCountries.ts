@@ -1,6 +1,7 @@
 import { useContext, useMemo } from 'react'
 import listOfCountries, { CountryLang } from '../../constants/countries'
-import { useTranslation } from '../../hooks'
+import useTranslation from '../../hooks/useTranslation'
+import { LOCALE as defaultLocale } from '../../../../shared/defaults'
 import SharedContext from '../../../../shared/Context'
 import { warn } from '../../../../shared/helpers'
 
@@ -26,7 +27,7 @@ export default function useCountries() {
 
         if (!translatedCountry) {
           // Fall back to the default translation
-          translatedCountry = country.i18n.nb
+          translatedCountry = country.i18n[defaultLocale.split('-')[0]]
           missing.push(country.iso)
         }
 
