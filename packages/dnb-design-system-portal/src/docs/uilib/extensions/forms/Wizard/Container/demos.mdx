@@ -52,12 +52,13 @@ const onSubmitRequest: OnSubmitRequest = ({ getErrors }) => {
 
 ### Outset and layout (Card.Provider)
 
-Like `<Form.Card>`, the container for the steps will be "outset" from the regular padding unless the wizard is
-inside a `<Card>` (of `<Form.Card>`) component.
+The wizard navigation area ([StepIndicator](/uilib/components/step-indicator/)) will "outset" (break out) from the layout using negative margins.
 
-This can be disabled by wrapping the area in a `<Card.Provider hasParentCard>` (or `<Form.Card.Provider hasParentCard>`) to tell all children
-to behave as if they are inside a `<Card>`. Or by setting `outset={false}`.
+This outset is turned off if the `Wizard.Container` is placed inside a `<Card>`, but if placed in a different wrapper that messes with the layout, you can manually turn it off in two ways:
 
-See more details in the [Form.Card "Outset" example](/uilib/extensions/forms/Form/Card/#outset) .
+– Wrap the Wizard.Container in `<Form.Card.Provider hasParentCard>` to make all nested cards act like they’re inside a `<Card>`.
+– Or set `outset={false}` on each card.
+
+See the [Form.Card "Outset" example](/uilib/extensions/forms/Form/Card/#outset) for more details.
 
 <Examples.Outset />

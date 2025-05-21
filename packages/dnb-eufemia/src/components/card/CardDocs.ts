@@ -7,7 +7,7 @@ export const CardProperties: PropertiesTableProps = {
     status: 'optional',
   },
   stack: {
-    doc: 'True to stack the sub components with lines between. The `spacing` will default to `medium`. Defaults to `false`.',
+    doc: 'True to stack the sub components with space between. The `spacing` will default to `medium`. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },

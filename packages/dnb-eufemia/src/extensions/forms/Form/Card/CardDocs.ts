@@ -7,7 +7,7 @@ export const FormCardProperties: PropertiesTableProps = {
     status: 'optional',
   },
   stack: {
-    doc: 'True to stack the sub components with lines between. The `spacing` will default to `medium`. Same as `stack` in [Card](/uilib/components/card/properties). But defaults to `true`',
+    doc: 'True to stack the sub components with space between. The `spacing` will default to `medium`. Same as `stack` in [Card](/uilib/components/card/properties). But defaults to `true`',
     type: 'boolean',
     status: 'optional',
   },
