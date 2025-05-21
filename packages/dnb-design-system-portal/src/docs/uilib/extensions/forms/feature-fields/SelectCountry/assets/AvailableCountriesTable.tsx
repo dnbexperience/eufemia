@@ -4,7 +4,9 @@ import useCountries from '@dnb/eufemia/src/extensions/forms/Field/SelectCountry/
 import { FormattedCode } from '../../../../../../../shared/parts/PropertiesTable'
 
 export function AvailableCountriesTable() {
-  const { countries } = useCountries()
+  const { countries } = useCountries({
+    translateAllLocales: true,
+  })
   return (
     <Table.ScrollView>
       <Table>

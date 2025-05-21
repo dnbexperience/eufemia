@@ -27,8 +27,27 @@ describe('useCountries', () => {
       ),
     })
 
-    expect(getOneCountry(result.current.countries, 'WF').i18n['sv']).toBe(
-      'Wallis och Futuna'
+    expect(getOneCountry(result.current.countries, 'CX').i18n['sv']).toBe(
+      'Julön'
+    )
+  })
+
+  it('should translate all locales, regardless of the current locale', () => {
+    const translations = mergeTranslations(svSE_forms_countries)
+
+    const { result } = renderHook(useCountries, {
+      initialProps: {
+        translateAllLocales: true,
+      },
+      wrapper: ({ children }) => (
+        <Provider translations={translations} locale="nb-NO">
+          {children}
+        </Provider>
+      ),
+    })
+
+    expect(getOneCountry(result.current.countries, 'CX').i18n['sv']).toBe(
+      'Julön'
     )
   })
 
@@ -44,7 +63,7 @@ describe('useCountries', () => {
     })
 
     expect(result.current.countries).not.toStrictEqual(listOfCountries)
-    expect(getOneCountry(listOfCountries, 'WF').i18n['sv']).toBeUndefined()
+    expect(getOneCountry(listOfCountries, 'CX').i18n['sv']).toBeUndefined()
   })
 
   it('should warn about missing translations', () => {
@@ -85,7 +104,7 @@ describe('useCountries', () => {
     // Remove some countries from the translations to simulate missing translations
     const partialTranslations = { ...svSE_forms_countries['sv-SE'] }
       .countries
-    delete partialTranslations['WF']
+    delete partialTranslations['CX']
     const translations = mergeTranslations({
       'sv-SE': { countries: partialTranslations },
     })
@@ -98,8 +117,8 @@ describe('useCountries', () => {
       ),
     })
 
-    expect(getOneCountry(result.current.countries, 'WF').i18n['sv']).toBe(
-      'Wallis og Futuna'
+    expect(getOneCountry(result.current.countries, 'CX').i18n['sv']).toBe(
+      'Christmasøya'
     )
 
     log.mockRestore()

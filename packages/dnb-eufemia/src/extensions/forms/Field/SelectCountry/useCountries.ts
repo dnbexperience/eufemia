@@ -1,46 +1,74 @@
-import { useContext, useMemo } from 'react'
-import listOfCountries, { CountryLang } from '../../constants/countries'
-import useTranslation from '../../hooks/useTranslation'
-import { LOCALE as defaultLocale } from '../../../../shared/defaults'
-import SharedContext from '../../../../shared/Context'
+import { useCallback, useContext, useMemo } from 'react'
+import listOfCountries from '../../constants/countries'
 import { warn } from '../../../../shared/helpers'
+import { LOCALE } from '../../../../shared/defaults'
+import SharedContext, { InternalLocale } from '../../../../shared/Context'
 
-export default function useCountries() {
-  const { countries: countriesInOtherLocale } = useTranslation() || {}
-  const { locale } = useContext(SharedContext)
-  const lang = locale?.split('-')[0] as CountryLang
+export default function useCountries({
+  translateAllLocales = false,
+}: {
+  /**
+   * If set to `true`, all locales will be translated.
+   * This is useful when you want to show the translated country name (e.g. sv) in the current locale (e.g. nb).
+   */
+  translateAllLocales?: boolean
+} = {}) {
+  const { locale, translations } = useContext(SharedContext)
 
-  const countries = useMemo(() => {
-    if (
-      countriesInOtherLocale &&
-      Object.keys(countriesInOtherLocale)?.length > 0
-    ) {
-      const missing = []
-      const result = listOfCountries.map((country) => {
-        let translatedCountry = countriesInOtherLocale[country.iso]
+  const translateCountries = useCallback(
+    (locales: Array<InternalLocale>) => {
+      const hasTranslations = locales.some((locale) => {
+        return Boolean(translations?.[locale]?.countries)
+      })
 
-        if (!translatedCountry) {
-          // Fall back to the default translation
-          translatedCountry = country.i18n[defaultLocale.split('-')[0]]
-          missing.push(country.iso)
+      if (hasTranslations) {
+        const missing = []
+        const defaultLocale = LOCALE.split('-')[0]
+
+        const result = listOfCountries.map((country) => {
+          const translated = {}
+
+          locales.forEach((locale) => {
+            const { countries } = translations?.[locale] || {}
+            if (countries) {
+              const key = locale.split('-')[0]
+              translated[key] = countries[country.iso]
+
+              if (!translated[key]) {
+                // Fall back to the default translation for this locale
+                translated[key] = country.i18n[defaultLocale]
+                missing.push(country.iso)
+              }
+            }
+          })
+
+          return {
+            // Ensure we don't mutate the original list
+            ...country,
+            i18n: { ...country.i18n, ...translated },
+          }
+        }) as unknown as typeof listOfCountries
+
+        if (missing.length > 0) {
+          warn('Missing country translation:', missing)
         }
 
-        return {
-          // Ensure we don't mutate the original list
-          ...country,
-          i18n: { ...country.i18n, [lang]: translatedCountry },
-        }
-      }) as unknown as typeof listOfCountries
-
-      if (missing.length > 0) {
-        warn('Missing country translation:', missing)
+        return result
       }
 
-      return result
+      return listOfCountries
+    },
+    [translations]
+  )
+
+  const countries = useMemo(() => {
+    if (translateAllLocales) {
+      const allLocales = Object.keys(translations)
+      return translateCountries(allLocales)
     }
 
-    return listOfCountries
-  }, [countriesInOtherLocale, lang])
+    return translateCountries([locale])
+  }, [locale, translateAllLocales, translateCountries, translations])
 
   return { countries }
 }
