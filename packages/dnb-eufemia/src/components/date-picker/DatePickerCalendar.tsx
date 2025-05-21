@@ -78,7 +78,7 @@ export type DatePickerCalendarProps = Omit<
   month?: Date
   hoverDate?: Date
   firstDayOfWeek?: string
-  hideNav?: boolean
+  hideNavigation?: boolean
   hideDays?: boolean
   onlyMonth?: boolean
   hideNextMonthWeek?: boolean
@@ -119,7 +119,7 @@ type DayObject = {
 }
 
 const defaultProps: DatePickerCalendarProps = {
-  hideNav: false,
+  hideNavigation: false,
   hideDays: false,
   onlyMonth: false,
   hideNextMonthWeek: false,
@@ -159,7 +159,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     month,
     isRange,
     firstDayOfWeek = defaultFirstDayOfWeek,
-    hideNav,
+    hideNavigation,
     locale,
     hideDays,
     onSelect,
@@ -392,7 +392,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       }
 
       // make sure we stay on the same month
-      if (onlyMonth || hideNav) {
+      if (onlyMonth || hideNavigation) {
         if (
           !isSameMonth(dates.startDate, startDate) ||
           !isSameMonth(dates.endDate, startDate) // Heads up, should this not be context.endDate?
@@ -424,7 +424,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       startDate,
       endDate,
       updateDates,
-      hideNav,
+      hideNavigation,
       isRange,
       keyNavCalc,
       nr,
@@ -491,32 +491,28 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       className={classnames('dnb-date-picker__calendar', rtl && 'rtl')}
       lang={locale}
     >
-      <div
-        className={classnames(
-          'dnb-date-picker__header',
-          hideNav && 'dnb-date-picker__header--only-month'
-        )}
-      >
-        {!hideNav ? (
-          <>
+      {!hideNavigation && !onlyMonth && (
+        <div className="dnb-date-picker__header">
+          <DatePickerCalendarNav
+            type={yearNavigation ? 'month' : 'both'}
+            id={id}
+            nr={nr}
+            date={month}
+            locale={locale}
+          />
+          {yearNavigation && (
             <DatePickerCalendarNav
-              type={yearNavigation ? 'month' : 'both'}
+              type="year"
               id={id}
               nr={nr}
               date={month}
               locale={locale}
             />
-            {yearNavigation && (
-              <DatePickerCalendarNav
-                type="year"
-                id={id}
-                nr={nr}
-                date={month}
-                locale={locale}
-              />
-            )}
-          </>
-        ) : (
+          )}
+        </div>
+      )}
+      {onlyMonth && (
+        <div className="dnb-date-picker__header dnb-date-picker__header--only-month">
           <label
             id={`${id}--title`}
             className="dnb-date-picker__header__title dnb-no-focus"
@@ -534,8 +530,8 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
               formatOptions: { month: 'long' },
             })}
           </label>
-        )}
-      </div>
+        </div>
+      )}
       <table
         role="grid"
         className="dnb-no-focus"
@@ -545,7 +541,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         onMouseLeave={onMouseLeaveHandler}
         ref={tableRef}
       >
-        {!hideDays && (
+        {!hideDays && !onlyMonth && (
           <thead aria-hidden>
             <tr role="row" className="dnb-date-picker__labels">
               {getWeek(dayOffset(firstDayOfWeek)).map((day, i) => (
