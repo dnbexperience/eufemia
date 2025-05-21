@@ -4,7 +4,7 @@ import useCountries from '../useCountries'
 import listOfCountries from '../../../constants/countries'
 import Provider from '../../../../../shared/Provider'
 import { mergeTranslations } from '../../../../../shared'
-import svSE_forms_SelectCountry from '../../../constants/locales/SelectCountry/sv-SE'
+import svSE_forms_countries from '../../../constants/locales/countries/sv-SE'
 
 const getOneCountry = (countries, country: string) => {
   return countries.find((c) => c.iso === country)
@@ -17,7 +17,7 @@ describe('useCountries', () => {
   })
 
   it('should extend the list of countries with the provided translations', () => {
-    const translations = mergeTranslations(svSE_forms_SelectCountry)
+    const translations = mergeTranslations(svSE_forms_countries)
 
     const { result } = renderHook(useCountries, {
       wrapper: ({ children }) => (
@@ -33,7 +33,7 @@ describe('useCountries', () => {
   })
 
   it('should not mutate the original list of countries', () => {
-    const translations = mergeTranslations(svSE_forms_SelectCountry)
+    const translations = mergeTranslations(svSE_forms_countries)
 
     const { result } = renderHook(useCountries, {
       wrapper: ({ children }) => (

@@ -768,12 +768,9 @@ Eufemia provides forms translations for the following locales:
 import { mergeTranslations } from '@dnb/eufemia/shared'
 import { Form } from '@dnb/eufemia/src/extensions/forms'
 import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
-import svSE_forms_SelectCountry from '@dnb/eufemia/extensions/forms/constants/locales/SelectCountry/sv-SE'
+import svSE_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/sv-SE'
 
-const translations = mergeTranslations(
-  svSE_forms,
-  svSE_forms_SelectCountry,
-)
+const translations = mergeTranslations(svSE_forms, svSE_forms_countries)
 
 render(
   <Form.Handler translations={translations} locale="sv-SE">

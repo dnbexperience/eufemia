@@ -43,7 +43,7 @@ import nbNO_forms from '@dnb/eufemia/extensions/forms/constants/locales/nb-NO'
 // Additional locales you can add
 import svSE from '@dnb/eufemia/shared/locales/sv-SE'
 import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
-import svSE_forms_SelectCountry from '@dnb/eufemia/extensions/forms/constants/locales/SelectCountry/sv-SE'
+import svSE_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/sv-SE'
 ```
 
 ## How to set the locale
@@ -426,12 +426,9 @@ You can provide forms translations to the `translations` property within the [Fo
 import { Form } from '@dnb/eufemia/src/extensions/forms'
 import { mergeTranslations } from '@dnb/eufemia/shared'
 import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
-import svSE_forms_SelectCountry from '@dnb/eufemia/extensions/forms/constants/locales/SelectCountry/sv-SE'
+import svSE_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/sv-SE'
 
-const translations = mergeTranslations(
-  svSE_forms,
-  svSE_forms_SelectCountry,
-)
+const translations = mergeTranslations(svSE_forms, svSE_forms_countries)
 
 render(
   <Form.Handler translations={translations} locale="sv-SE">
@@ -448,12 +445,12 @@ How ever, instead of providing the forms translations per form, you can also pro
 import { Provider, mergeTranslations } from '@dnb/eufemia/shared'
 import svSE from '@dnb/eufemia/shared/locales/sv-SE'
 import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
-import svSE_forms_SelectCountry from '@dnb/eufemia/extensions/forms/constants/locales/SelectCountry/sv-SE'
+import svSE_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/sv-SE'
 
 const translations = mergeTranslations(
   svSE,
   svSE_forms,
-  svSE_forms_SelectCountry,
+  svSE_forms_countries,
 )
 
 render(
