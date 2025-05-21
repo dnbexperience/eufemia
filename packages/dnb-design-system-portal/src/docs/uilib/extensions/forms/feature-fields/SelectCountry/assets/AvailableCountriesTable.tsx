@@ -1,9 +1,10 @@
 import React from 'react'
 import { Table, Th, Tr, Td } from '@dnb/eufemia/src'
-import countries from '@dnb/eufemia/src/extensions/forms/constants/countries'
+import useCountries from '@dnb/eufemia/src/extensions/forms/Field/SelectCountry/useCountries'
 import { FormattedCode } from '../../../../../../../shared/parts/PropertiesTable'
 
 export function AvailableCountriesTable() {
+  const { countries } = useCountries()
   return (
     <Table.ScrollView>
       <Table>
