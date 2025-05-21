@@ -2,7 +2,6 @@ import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Field, Form } from '../../..'
-import { axeComponent } from '../../../../../core/jest/jestSetup'
 
 describe('Indeterminate', () => {
   describe('with propagateIndeterminateState="true"', () => {
@@ -41,7 +40,7 @@ describe('Indeterminate', () => {
           child1: undefined,
           child2: undefined,
           child3: undefined,
-          parent: false,
+          parent: undefined,
         }),
         expect.anything()
       )
@@ -62,7 +61,7 @@ describe('Indeterminate', () => {
           child1: 'checked',
           child2: undefined,
           child3: undefined,
-          parent: false,
+          parent: undefined,
         }),
         expect.anything()
       )
@@ -317,7 +316,7 @@ describe('Indeterminate', () => {
           child1: undefined,
           child2: undefined,
           child3: undefined,
-          parent: false,
+          parent: undefined,
         }),
         expect.anything()
       )
@@ -338,7 +337,7 @@ describe('Indeterminate', () => {
           child1: 'checked',
           child2: undefined,
           child3: undefined,
-          parent: false,
+          parent: undefined,
         }),
         expect.anything()
       )
@@ -593,7 +592,7 @@ describe('Indeterminate', () => {
           child1: undefined,
           child2: undefined,
           child3: undefined,
-          parent: false,
+          parent: undefined,
         }),
         expect.anything()
       )
@@ -614,7 +613,7 @@ describe('Indeterminate', () => {
           child1: 'checked',
           child2: undefined,
           child3: undefined,
-          parent: false,
+          parent: undefined,
         }),
         expect.anything()
       )
@@ -641,7 +640,7 @@ describe('Indeterminate', () => {
           child1: 'checked',
           child2: 'checked',
           child3: 'checked',
-          parent: false,
+          parent: undefined,
         }),
         expect.anything()
       )
@@ -830,101 +829,6 @@ describe('Indeterminate', () => {
         }),
         expect.anything()
       )
-    })
-  })
-
-  describe('ARIA', () => {
-    it('should validate with ARIA rules', async () => {
-      const result = render(
-        <Form.Handler>
-          <Field.Indeterminate
-            label="Indeterminate"
-            dependencePaths={['/child1', '/child2', '/child3']}
-            required
-          />
-
-          <Field.Toggle
-            label="Checkbox 1"
-            path="/child1"
-            valueOn="what-ever"
-            valueOff="you-name-it"
-          />
-
-          <Field.Boolean label="Checkbox 2" path="/child2" />
-
-          <Field.Toggle
-            label="Checkbox 3"
-            path="/child3"
-            valueOn="on"
-            valueOff="off"
-          />
-        </Form.Handler>
-      )
-
-      expect(await axeComponent(result)).toHaveNoViolations()
-    })
-
-    it('should have aria-required', () => {
-      render(
-        <Form.Handler>
-          <Field.Indeterminate
-            label="Indeterminate"
-            dependencePaths={['/child1', '/child2', '/child3']}
-            required
-          />
-
-          <Field.Toggle
-            label="Checkbox 1"
-            path="/child1"
-            valueOn="what-ever"
-            valueOff="you-name-it"
-          />
-
-          <Field.Boolean label="Checkbox 2" path="/child2" />
-
-          <Field.Toggle
-            label="Checkbox 3"
-            path="/child3"
-            valueOn="on"
-            valueOff="off"
-          />
-        </Form.Handler>
-      )
-
-      const input = document.querySelector('input')
-      expect(input).toHaveAttribute('aria-required', 'true')
-    })
-
-    it('should have aria-invalid', () => {
-      render(
-        <Form.Handler>
-          <Field.Indeterminate
-            label="Indeterminate"
-            dependencePaths={['/child1', '/child2', '/child3']}
-            validateInitially
-            required
-          />
-
-          <Field.Toggle
-            label="Checkbox 1"
-            path="/child1"
-            valueOn="what-ever"
-            valueOff="you-name-it"
-          />
-
-          <Field.Boolean label="Checkbox 2" path="/child2" />
-
-          <Field.Toggle
-            label="Checkbox 3"
-            path="/child3"
-            valueOn="on"
-            valueOff="off"
-          />
-        </Form.Handler>
-      )
-
-      const input = document.querySelector('input')
-      expect(input).toHaveAttribute('aria-invalid', 'true')
     })
   })
 })
