@@ -8,11 +8,12 @@ import React, {
 import { Autocomplete } from '../../../../components'
 import { InputMaskedProps } from '../../../../components/InputMasked'
 import classnames from 'classnames'
-import countries, {
+import {
   CountryISO,
   type CountryLang,
   type CountryType,
 } from '../../constants/countries'
+import useCountries from '../SelectCountry/useCountries'
 import StringField, { Props as StringFieldProps } from '../String'
 import { Props as FieldBlockProps } from '../../FieldBlock'
 import CompositionField from '../Composition'
@@ -242,8 +243,11 @@ function PhoneNumber(props: Props) {
     [ccFilter, filterCountries]
   )
 
+  const { countries } = useCountries()
+
   const updateCurrentDataSet = useCallback(() => {
     dataRef.current = getCountryData({
+      countries,
       lang,
       filter:
         // Make sure the whole cc list is displayed when cc filter is set to specific region
@@ -255,7 +259,7 @@ function PhoneNumber(props: Props) {
       sort: ccFilter as Extract<CountryFilterSet, 'Prioritized'>,
       makeObject,
     })
-  }, [lang, filter, ccFilter])
+  }, [countries, lang, ccFilter, filter])
 
   const prepareEventValues = useCallback(
     ({
@@ -394,7 +398,7 @@ function PhoneNumber(props: Props) {
         }
       }
     },
-    [callOnChange, updateCurrentDataSet]
+    [callOnChange, countries, updateCurrentDataSet]
   )
 
   const isDefault = countryCodeRef.current?.includes(defaultCountryCode)

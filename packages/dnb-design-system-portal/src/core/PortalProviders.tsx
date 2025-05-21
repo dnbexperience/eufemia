@@ -16,13 +16,18 @@ import coreTranslations from '@dnb/eufemia/src/shared/locales'
 import enUS from '@dnb/eufemia/src/shared/locales/en-US'
 import svSE from '@dnb/eufemia/src/shared/locales/sv-SE'
 import svSE_forms from '@dnb/eufemia/src/extensions/forms/constants/locales/sv-SE'
+import svSE_forms_SelectCountry from '@dnb/eufemia/src/extensions/forms/constants/locales/SelectCountry/sv-SE'
 import { isTrue } from '@dnb/eufemia/src/shared/component-helper'
 import PortalLayout, { PortalLayoutProps } from './PortalLayout'
 import { useThemeHandler } from 'gatsby-plugin-eufemia-theme-handler'
 import { InternalLocale } from '@dnb/eufemia/src/shared/Context'
 
 // Enable other existing locales here
-export const translationsWithoutEnUS = mergeTranslations(svSE, svSE_forms)
+export const translationsWithoutEnUS = mergeTranslations(
+  svSE,
+  svSE_forms,
+  svSE_forms_SelectCountry,
+)
 export const translations = mergeTranslations(
   translationsWithoutEnUS,
   enUS,
