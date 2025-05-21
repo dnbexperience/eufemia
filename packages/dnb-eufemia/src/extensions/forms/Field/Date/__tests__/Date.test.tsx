@@ -968,8 +968,9 @@ describe('Field.Date', () => {
     const calendar = document.querySelector('.dnb-date-picker__calendar')
 
     expect(
-      calendar.querySelector('.dnb-date-picker__header')
-    ).not.toBeInTheDocument()
+      calendar.querySelector('.dnb-date-picker__header--only-month-label')
+    ).toBeInTheDocument()
+
     expect(
       calendar.querySelector('.dnb-date-picker__labels')
     ).not.toBeInTheDocument()
