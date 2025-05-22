@@ -25,6 +25,7 @@ import {
   OnSubmit,
   Iterate,
   OnSubmitRequest,
+  Wizard,
 } from '../../../'
 import { isCI } from 'repo-utils'
 import { Props as StringFieldProps } from '../../../Field/String'
@@ -5397,6 +5398,182 @@ describe('DataContext.Provider', () => {
       expect(submitData).toEqual({
         interactive: 'I am visible',
         isVisible: true,
+      })
+    })
+
+    it('should remove data entries of hidden fields using Visibility within a Wizard', async () => {
+      let submitData = null
+
+      const onSubmit = jest.fn((data, { reduceToVisibleFields }) => {
+        submitData = reduceToVisibleFields(data)
+      })
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+
+              <Field.Boolean
+                variant="button"
+                path="/isVisible"
+                defaultValue={false}
+              />
+
+              <Form.Visibility pathTrue="/isVisible">
+                <Field.String
+                  path="/interactive"
+                  defaultValue="I am visible"
+                />
+              </Form.Visibility>
+
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      const button = () =>
+        document.querySelector('.dnb-toggle-button__button')
+      const output = () => document.querySelector('output')
+
+      expect(output().textContent).toBe('Step 1')
+
+      fireEvent.submit(form)
+      await waitFor(() => {
+        expect(output().textContent).toBe('Step 2')
+      })
+
+      fireEvent.submit(form)
+      expect(submitData).toEqual({
+        isVisible: false,
+      })
+
+      await userEvent.click(button())
+      fireEvent.submit(form)
+      expect(submitData).toEqual({
+        interactive: 'I am visible',
+        isVisible: true,
+      })
+
+      await userEvent.click(button())
+      fireEvent.submit(form)
+      expect(submitData).toEqual({
+        isVisible: false,
+      })
+
+      await userEvent.click(button())
+      fireEvent.submit(form)
+      expect(submitData).toEqual({
+        interactive: 'I am visible',
+        isVisible: true,
+      })
+    })
+
+    it('should remove data entries of hidden Iterate.Array using Visibility within a Wizard', async () => {
+      let submitData = null
+
+      const onSubmit = jest.fn(async (data, { reduceToVisibleFields }) => {
+        await new Promise((resolve) => requestAnimationFrame(resolve)) // ensure we wait for the fields to unmount
+        submitData = reduceToVisibleFields(data, {
+          removePaths: ['/isVisible'],
+        })
+      })
+
+      render(
+        <Form.Handler
+          onSubmit={onSubmit}
+          defaultData={{
+            isVisible: true,
+            myArray: ['foo', 'bar', 'baz'],
+          }}
+        >
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <Field.Boolean variant="button" path="/isVisible" />
+
+              <Form.Visibility pathTrue="/isVisible">
+                <Iterate.Array path="/myArray">
+                  <Field.String itemPath="/" />
+                </Iterate.Array>
+              </Form.Visibility>
+
+              <output>Step 1</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      const button = () =>
+        document.querySelector('.dnb-toggle-button__button')
+      const output = () => document.querySelector('output')
+      const prevButton = () =>
+        document.querySelector('.dnb-forms-previous-button')
+      const nextButton = () =>
+        document.querySelector('.dnb-forms-next-button')
+
+      expect(output().textContent).toBe('Step 1')
+
+      await userEvent.click(nextButton())
+      await waitFor(() => {
+        expect(output().textContent).toBe('Step 2')
+      })
+
+      fireEvent.submit(form)
+      await waitFor(() => {
+        expect(submitData).toEqual({
+          myArray: ['foo', 'bar', 'baz'],
+        })
+      })
+
+      await userEvent.click(prevButton())
+      await waitFor(() => {
+        expect(output().textContent).toBe('Step 1')
+      })
+
+      await userEvent.click(button())
+
+      await userEvent.click(nextButton())
+      await waitFor(() => {
+        expect(output().textContent).toBe('Step 2')
+      })
+
+      fireEvent.submit(form)
+      await waitFor(() => {
+        expect(submitData).toEqual({})
+      })
+
+      await userEvent.click(prevButton())
+      await waitFor(() => {
+        expect(output().textContent).toBe('Step 1')
+      })
+
+      await userEvent.click(button())
+
+      await userEvent.click(nextButton())
+      await waitFor(() => {
+        expect(output().textContent).toBe('Step 2')
+      })
+
+      fireEvent.submit(form)
+      await waitFor(() => {
+        expect(submitData).toEqual({
+          myArray: ['foo', 'bar', 'baz'],
+        })
       })
     })
 
