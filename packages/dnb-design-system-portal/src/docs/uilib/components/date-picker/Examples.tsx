@@ -17,6 +17,7 @@ import { Provider } from '@dnb/eufemia/src/shared'
 
 const Wrapper = styled.div`
   [data-visual-test='date-picker-calendar'] .dnb-date-picker__container,
+  [data-visual-test='date-picker-only-month'] .dnb-date-picker__container,
   [data-visual-test='date-picker-year-navigation']
     .dnb-date-picker__container {
     display: block;
@@ -24,6 +25,7 @@ const Wrapper = styled.div`
     top: 0;
   }
   [data-visual-test='date-picker-calendar'] .dnb-date-picker,
+  [data-visual-test='date-picker-only-month'] .dnb-date-picker,
   [data-visual-test='date-picker-year-navigation'] .dnb-date-picker {
     margin-left: 1rem;
   }
@@ -366,17 +368,6 @@ export const DatePickerDateFnsRangeIsWeekend = () => (
   </ComponentBox>
 )
 
-export const DatePickerCorrectInvalidDate = () => (
-  <ComponentBox>
-    <DatePicker
-      showInput
-      minDate="2024-11-01"
-      maxDate="2024-12-31"
-      correctInvalidDate
-    />
-  </ComponentBox>
-)
-
 export const DatePickerLabelAlignmentRight = () => (
   <ComponentBox data-visual-test="date-picker-label-alignment-right">
     <DatePicker label="Label" labelAlignment="right" />
@@ -399,13 +390,21 @@ export const DatePickerYearNavigationOpen = () => (
   <Wrapper>
     <ComponentBox data-visual-test="date-picker-year-navigation">
       <DatePicker
-        showInput
+        date="2025-05-12"
         yearNavigation
         opened
         skipPortal
         preventClose
         disableAutofocus
       />
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const DatePickerOnlyMonthOpen = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="date-picker-only-month">
+      <DatePicker date="2025-05-20" onlyMonth opened skipPortal />
     </ComponentBox>
   </Wrapper>
 )

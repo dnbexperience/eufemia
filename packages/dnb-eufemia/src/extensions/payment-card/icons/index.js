@@ -1,39 +1,37 @@
 import React from 'react'
 
-import BankAxept from './BankAxept'
-import DNB from './DNB'
-import {
-  clock_medium as Expired,
-  padlock_medium as Blocked,
-  card_in_medium as CardIn,
-  hourglass as Hourglass,
-  question_medium as QuestionMark,
-} from '../../../icons'
-import MastercardDefault from './MastercardDefault'
-import MastercardDark from './MastercardDark'
-import Pluss from './Pluss'
-import Intro from './Intro'
-import Business from './Business'
-import Bedrift from './Bedrift'
-import PB from './PB'
-import SagaGold from './SagaGold'
-import SagaPlatinum from './SagaPlatinum'
-import VisaDefault from './VisaDefault'
-import VisaPlatinum from './VisaPlatinum'
-import Sbanken from './Sbanken'
-import Credit from './Credit'
-const BankLogo = ({ logoType, height }) =>
+// brand logos
+import DNB from './brandLogos/DNB'
+import Sbanken from './brandLogos/Sbanken'
+// loyalty logos
+import Bedrift from './loyaltyLogos/Bedrift'
+import Business from './loyaltyLogos/Business'
+import Corporate from './loyaltyLogos/Corporate'
+import Intro from './loyaltyLogos/Intro'
+import PB from './loyaltyLogos/PB'
+import Pluss from './loyaltyLogos/Pluss'
+import SagaGold from './loyaltyLogos/SagaGold'
+import SagaPlatinum from './loyaltyLogos/SagaPlatinum'
+import WorldElite from './loyaltyLogos/WorldElite'
+// provider icons
+import BankAxept from './providers/BankAxept'
+import ClickToPay from './providers/ClickToPay'
+import MastercardDefault from './providers/MastercardDefault'
+import MastercardDark from './providers/MastercardDark'
+import VisaDefault from './providers/VisaDefault'
+import VisaPlatinum from './providers/VisaPlatinum'
+import { StatusIcon } from './status'
+
+const BankLogo = ({ logoType }) =>
   logoType.cata({
     Colored: (color) => (
       <DNB
-        height={height}
         fill={color}
         className="dnb-payment-card__card__bank-logo"
       />
     ),
     Sbanken: (color) => (
       <Sbanken
-        height={height}
         fill={color}
         className="dnb-payment-card__card__bank-logo"
       />
@@ -53,6 +51,8 @@ const ProductLogo = ({ productType, cardDesign }) => {
     Intro: () => <Intro className={id} />,
     Business: () => <Business className={id} />,
     Bedrift: () => <Bedrift className={id} />,
+    Corporate: () => <Corporate className={id} />,
+    WorldElite: () => <WorldElite className={id} />,
     PrivateBanking: () =>
       cardDesign.privateBanking.cata({
         Default: () => <PB className={id} />,
@@ -67,47 +67,16 @@ const BankAxeptLogo = ({ bankAxept, cardDesign }) => {
   return bankAxept.cata({
     BankAxept: () =>
       cardDesign.bankAxept.cata({
-        White: () => <BankAxept className={id} fill="#ffffff" />,
-        Black20: () => <BankAxept className={id} fill="#cccccc" />,
+        White: () => <BankAxept className={id} fill="#FFFFFF" />,
+        Black20: () => <BankAxept className={id} fill="#CCCCCC" />,
         Gray: () => <BankAxept className={id} fill="#b2b4b3" />,
         GrayDark: () => <BankAxept className={id} fill="#55565A" />,
-        Black: () => <BankAxept className={id} fill="#333333" />,
-        Gold: () => <BankAxept className={id} fill="#BFA970" />,
+        Black: () => <BankAxept className={id} fill="#000000" />,
+        Gold: () => <BankAxept className={id} fill="#CAAB51" />,
       }),
-    Credit: () => (
-      <Credit className={'dnb-payment-card__card__credit'} fill="#fff" />
-    ),
+    Credit: () => null,
     None: () => null,
   })
-}
-
-const StatusIcon = ({ status }) => {
-  switch (status) {
-    case 'expired':
-      return <Expired />
-
-    case 'not_active':
-      return <CardIn />
-
-    case 'blocked':
-      return <Blocked />
-
-    case 'order_in_process':
-      return <Hourglass />
-
-    case 'renewed':
-      return <CardIn />
-
-    case 'replaced':
-      return <CardIn />
-
-    case 'unknown':
-      return <QuestionMark />
-
-    case 'active':
-    default:
-      return null
-  }
 }
 
 const TypeLogo = ({ cardType, cardDesign }) => {

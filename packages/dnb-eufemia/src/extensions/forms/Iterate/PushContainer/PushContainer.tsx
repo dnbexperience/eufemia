@@ -31,7 +31,7 @@ import {
   useSwitchContainerMode,
 } from '../hooks'
 import Toolbar from '../Toolbar'
-import { useTranslation } from '../../hooks'
+import { usePath, useTranslation } from '../../hooks'
 import { clearedData } from '../../DataContext/Provider'
 
 /**
@@ -171,6 +171,7 @@ function PushContainer(props: AllProps) {
   } = props
 
   const { absolutePath } = useItemPath(itemPath)
+  const { path: relativePath } = usePath({ path, itemPath })
   const commitHandleRef = useRef<() => void>()
   const switchContainerModeRef = useRef<(mode: ContainerMode) => void>()
   const containerModeRef = useRef<ContainerMode>()
@@ -258,7 +259,7 @@ function PushContainer(props: AllProps) {
       commitHandleRef={commitHandleRef}
       transformOnCommit={({ pushContainerItems }) => {
         return moveValueToPath(
-          path || absolutePath,
+          absolutePath || relativePath,
           typeof insertAt === 'number'
             ? [
                 ...entries.slice(0, insertAt),
@@ -287,6 +288,7 @@ function PushContainer(props: AllProps) {
           path="/pushContainerItems"
           containerMode={showOpenButton ? 'view' : 'edit'}
           withoutFlex
+          omitSectionPath
         >
           <NewContainer
             title={title}

@@ -1620,7 +1620,6 @@ describe('DatePicker component', () => {
         onChange={onChange}
         onType={onType}
         range={false}
-        correctInvalidDate={false}
         endDate={null}
       />
     )
@@ -1640,71 +1639,6 @@ describe('DatePicker component', () => {
 
     expect(onChange.mock.calls[4][0].date).toBe('2019-01-03')
     expect(onChange.mock.calls[4][0].is_valid).toBe(true)
-  })
-
-  it('has to auto-correct invalid min/max dates', async () => {
-    const onChange = jest.fn()
-
-    render(
-      <DatePicker
-        {...defaultProps}
-        onChange={onChange}
-        correctInvalidDate={true}
-        minDate="2019-01-02"
-        maxDate="2019-03-01"
-      />
-    )
-    const elem = document.querySelector(
-      'input.dnb-date-picker__input--day'
-    ) as HTMLInputElement
-
-    // by default we have the corrected start day
-    expect(elem).toHaveValue('02')
-
-    // change the date to something invalid
-    await userEvent.click(elem)
-    elem.setSelectionRange(0, 0)
-    await userEvent.keyboard('01')
-
-    expect(onChange).toHaveBeenCalledTimes(2)
-    expect(onChange).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        is_valid_start_date: true,
-        start_date: '2019-01-02',
-      })
-    )
-
-    // change the date to a valid date
-    await userEvent.click(elem)
-    elem.setSelectionRange(0, 0)
-    await userEvent.keyboard('{Backspace>2}03')
-
-    expect(onChange).toHaveBeenCalledTimes(3)
-    expect(onChange).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        is_valid_start_date: true,
-        start_date: '2019-01-03',
-      })
-    )
-  })
-
-  it('has to auto-correct invalid date based on min date', async () => {
-    render(
-      <DatePicker
-        {...defaultProps}
-        date="2022-01-01"
-        correctInvalidDate
-        minDate="2024-12-12"
-      />
-    )
-
-    const [dayElem, monthElem, yearElem] = Array.from(
-      document.querySelectorAll('input.dnb-date-picker__input')
-    )
-
-    expect(dayElem).toHaveValue('12')
-    expect(monthElem).toHaveValue('12')
-    expect(yearElem).toHaveValue('2024')
   })
 
   it('has valid on_type and onChange event calls', () => {
@@ -3733,6 +3667,22 @@ describe('DatePicker component', () => {
     expect(datePicker).not.toHaveClass(
       'dnb-date-picker__input--label-alignment-right'
     )
+  })
+
+  it('should be able to only show the month in calendar', async () => {
+    render(<DatePicker onlyMonth />)
+
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
+
+    const calendar = document.querySelector('.dnb-date-picker__calendar')
+
+    expect(
+      calendar.querySelector('.dnb-date-picker__header--only-month-label')
+    ).toBeInTheDocument()
+
+    expect(
+      calendar.querySelector('.dnb-date-picker__labels')
+    ).not.toBeInTheDocument()
   })
 })
 

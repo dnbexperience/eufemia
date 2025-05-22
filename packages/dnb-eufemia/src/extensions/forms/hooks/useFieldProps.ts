@@ -111,6 +111,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     updateContextDataInSync = false,
     omitMultiplePathWarning = false,
     forceUpdateWhenContextDataIsSet = false,
+    omitSectionPath = false,
   } = {}
 ): typeof localProps & ReturnAdditional<Value> {
   const { extend } = useContext(FieldProviderContext)
@@ -264,6 +265,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       id,
       path: pathProp,
       itemPath,
+      omitSectionPath,
     })
 
   const defaultValueRef = useRef(defaultValue)
@@ -1016,18 +1018,30 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       })
       setFieldStateDataContext?.(identifier, error ? 'error' : undefined)
 
+      if (updateContextDataInSync) {
+        setFieldErrorWizard?.(
+          wizardIndex,
+          identifier,
+          handleFieldAsVisible !== false ? !!error : undefined
+        )
+      }
+
       forceUpdate()
     },
     [
+      handleFieldAsVisible,
       identifier,
       inFieldBlock,
       prepareError,
       setBlockRecord,
       setFieldErrorBoundary,
       setFieldErrorDataContext,
+      setFieldErrorWizard,
       setFieldStateDataContext,
       stateId,
+      updateContextDataInSync,
       validateInitially,
+      wizardIndex,
     ]
   )
 
@@ -1742,7 +1756,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
       if (itemPath) {
         handleChangeIterateContext?.(
-          makeIteratePath(itemPath, ''),
+          makeIteratePath(itemPath, '', {
+            omitSectionPath: true,
+          }),
           contextValue
         )
       }
@@ -1924,6 +1940,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   }, [setMountedFieldStateDataContext, identifier, isVisible])
 
   useEffect(() => {
+    if (prerenderFieldProps) {
+      return // stop here, we don't want to set the state of the field
+    }
+
     if (typeof activeIndexRef?.current === 'number') {
       setMountedFieldStateDataContext(identifier, {
         wasStepChange: false,
@@ -1944,10 +1964,15 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     activeIndex,
     activeIndexRef,
     identifier,
+    prerenderFieldProps,
     setMountedFieldStateDataContext,
   ])
 
   useEffect(() => {
+    if (prerenderFieldProps) {
+      return // stop here, we don't want to set the state of the field
+    }
+
     // Mount procedure.
     setMountedFieldStateDataContext(identifier, {
       isMounted: true,
@@ -1965,6 +1990,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
   }, [
     identifier,
+    prerenderFieldProps,
     setMountedFieldSnapshot,
     setMountedFieldStateDataContext,
   ])

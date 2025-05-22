@@ -59,6 +59,7 @@ function ArrayComponent(props: Props) {
     countPath,
     countPathTransform,
     countPathLimit = Infinity,
+    omitSectionPath,
   } = props || {}
 
   const dataContext = useContext(DataContext)
@@ -102,8 +103,25 @@ function ArrayComponent(props: Props) {
 
   const preparedProps = useMemo(() => {
     const shared = {
+      schema: undefined,
       required: false,
       validateRequired,
+      ...props,
+    }
+
+    if (
+      typeof props.minItems === 'number' ||
+      typeof props.maxItems === 'number'
+    ) {
+      shared.schema = {
+        type: 'array',
+        minItems: props.minItems,
+        maxItems: props.maxItems,
+      }
+    }
+
+    if (shared.schema && !shared.emptyValue) {
+      shared.emptyValue = []
     }
 
     if (countPath) {
@@ -120,14 +138,12 @@ function ArrayComponent(props: Props) {
 
       return {
         ...shared,
-        ...props,
         value: newValue,
       }
     }
 
     return {
       ...shared,
-      ...props,
     }
   }, [
     countPath,
@@ -161,6 +177,7 @@ function ArrayComponent(props: Props) {
     updateContextDataInSync: true,
     omitMultiplePathWarning: true,
     forceUpdateWhenContextDataIsSet: Boolean(countPath),
+    omitSectionPath,
   })
 
   // - Call onChange on the data context, if the count value changes

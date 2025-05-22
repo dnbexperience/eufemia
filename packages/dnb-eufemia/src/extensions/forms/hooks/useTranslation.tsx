@@ -1,5 +1,6 @@
 import { useMemo, useContext } from 'react'
 import SharedContext, {
+  TranslationFlatToObject,
   TranslationObjectToFlat,
 } from '../../../shared/Context'
 import {
@@ -38,7 +39,9 @@ export default function useTranslation<T = FormsTranslation>(
     useContext(SharedContext)
   const { assignUtils } = useAdditionalUtils()
 
-  return useMemo(() => {
+  return useMemo<
+    TranslationFlatToObject<T> & AdditionalReturnUtils
+  >(() => {
     const translation = extendDeep(
       {},
       formsLocales[locale] || formsLocales[LOCALE],
@@ -51,6 +54,6 @@ export default function useTranslation<T = FormsTranslation>(
         messages,
         locale,
       })
-    ) as T & AdditionalReturnUtils
+    ) as TranslationFlatToObject<T> & AdditionalReturnUtils
   }, [assignUtils, globalTranslation, locale, messages])
 }

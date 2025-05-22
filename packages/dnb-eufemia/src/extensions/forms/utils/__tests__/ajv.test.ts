@@ -120,6 +120,8 @@ describe('getMessageValues', () => {
       'maxLength',
       'minimum',
       'maximum',
+      'minItems',
+      'maxItems',
       'exclusiveMinimum',
       'exclusiveMaximum',
     ]
@@ -398,6 +400,16 @@ describe('getTranslationKeyFromValidationRule', () => {
   it('should return the correct translation key for maximum', () => {
     const key = getTranslationKeyFromValidationRule('maximum')
     expect(key).toBe('NumberField.errorMaximum')
+  })
+
+  it('should return the correct translation key for minItems', () => {
+    const key = getTranslationKeyFromValidationRule('minItems')
+    expect(key).toBe('IterateArray.errorMinItems')
+  })
+
+  it('should return the correct translation key for maxItems', () => {
+    const key = getTranslationKeyFromValidationRule('maxItems')
+    expect(key).toBe('IterateArray.errorMaxItems')
   })
 
   it('should return the correct translation key for exclusiveMinimum', () => {

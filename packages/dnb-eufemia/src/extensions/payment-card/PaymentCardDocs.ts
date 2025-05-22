@@ -17,7 +17,7 @@ export const PaymentCardProperties: PropertiesTableProps = {
     status: 'optional',
   },
   card_status: {
-    doc: 'use one of these: `active`, `not_active`, `blocked`, `expired`, `renewed`, `replaced`, `order_in_process`, `unknown`. Defaults to `active`.',
+    doc: 'use one of these: `active`, `not_active`, `new_order`, `new`, `blocked`, `expired`, `renewed`, `replaced`, `order_in_process`, `unknown`. Defaults to `active`.',
     type: [
       'active',
       'not_active',
@@ -79,17 +79,17 @@ export const PaymentCardData: PropertiesTableProps = {
     status: 'required',
   },
   cardType: {
-    doc: "`import { CardType } from '@dnb/eufemia/extensions/payment-card'` to use. Can be CardType.Visa, CardType.Mastercard or CardType.None",
+    doc: "`import { CardType } from '@dnb/eufemia/extensions/payment-card'` to use. Can be `CardType.Visa`, `CardType.Mastercard` or `CardType.None`.",
     type: 'Union Type',
     status: 'required',
   },
   productType: {
-    doc: "`import { ProductType } from '@dnb/eufemia/extensions/payment-card'` to use. Can be ProductType.Saga, ProductType.Pluss, ProductType.Intro, ProductType.Business, ProductType.Bedrift, ProductType.PrivateBanking or ProductType.None",
+    doc: "`import { ProductType } from '@dnb/eufemia/extensions/payment-card'` to use. Can be `ProductType.Saga`, `ProductType.Pluss`, `ProductType.Intro`, `ProductType.Business`, `ProductType.Bedrift`, `ProductType.PrivateBanking`, `ProductType.Corporate`, `ProductType.WorldElite` or `ProductType.None`.",
     type: 'Union Type',
     status: 'required',
   },
   bankAxept: {
-    doc: "`import { BankAxeptType } from '@dnb/eufemia/extensions/payment-card'` to use. Can be BankAxeptType.BankAxept, BankAxeptType.Credit or BankAxeptType.None",
+    doc: "`import { BankAxeptType } from '@dnb/eufemia/extensions/payment-card'` to use. Can be `BankAxeptType.BankAxept`, `BankAxeptType.Credit` or `BankAxeptType.None`.",
     type: 'Union Type',
     status: 'required',
   },
@@ -97,42 +97,42 @@ export const PaymentCardData: PropertiesTableProps = {
 
 export const PaymentCardDesign: PropertiesTableProps = {
   name: {
-    doc: 'string Name of design ',
+    doc: 'string Name of design.',
     type: 'string',
     status: 'required',
   },
   cardStyle: {
-    doc: 'css class. mainly to set background and color',
+    doc: 'css class. mainly to set background and color.',
     type: 'string',
     status: 'required',
   },
   bankLogo: {
-    doc: "Union Type. import DNB from ./card/utils/Types to use. Can be DNB.Colored('HexValue')",
+    doc: "Union Type. import DNB from ./card/utils/Types to use. Can be `DNB.Colored('HexValue')`.",
     type: 'Union Type',
     status: 'required',
   },
   visa: {
-    doc: "Union Type. import Visa from ./card/utils/Types to use. Can be Visa.Colored('HexValue') or Visa.Platinum",
+    doc: "Union Type. import Visa from ./card/utils/Types to use. Can be `Visa.Colored('HexValue')` or `Visa.Platinum`.",
     type: 'Union Type',
     status: 'required',
   },
   mastercard: {
-    doc: 'Union Type. import Mastercard from ./card/utils/Types to use. Can be Mastercard.Default or Mastercard.Dark',
+    doc: 'Union Type. import Mastercard from ./card/utils/Types to use. Can be `Mastercard.Default` or `Mastercard.Dark`.',
     type: 'Union Type',
     status: 'required',
   },
   bankAxept: {
-    doc: 'Union Type. import BankAxept from ./card/utils/Types to use. Can be BankAxept.White, BankAxept.Black, BankAxept.Gold, BankAxept.Black20 or BankAxept.Gray',
+    doc: 'Union Type. import BankAxept from ./card/utils/Types to use. Can be `BankAxept.White`, `BankAxept.Black`, `BankAxept.Gold`, `BankAxept.Black20` or `BankAxept.Gray`.',
     type: 'Union Type',
     status: 'required',
   },
   saga: {
-    doc: 'Union Type. import Saga from ./card/utils/Types to use. Can be Saga.Gold, Saga.Platinum or Saga.None',
+    doc: 'Union Type. import Saga from ./card/utils/Types to use. Can be `Saga.Gold`, `Saga.Platinum` or `Saga.None`.',
     type: 'Union Type',
     status: 'required',
   },
   privateBanking: {
-    doc: 'Union Type. import PB from ./card/utils/Types to use. Can be PB.Default or PB.None',
+    doc: 'Union Type. import PB from ./card/utils/Types to use. Can be `PB.Default` or `PB.None`.',
     type: 'Union Type',
     status: 'required',
   },
@@ -154,7 +154,7 @@ export const PaymentCardDesigns: PropertiesTableProps = {
     status: 'optional',
   },
   myFirst: {
-    doc: 'My first ',
+    doc: 'My first',
     type: 'object',
     status: 'optional',
   },

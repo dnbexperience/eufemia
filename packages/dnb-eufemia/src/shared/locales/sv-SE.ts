@@ -127,13 +127,15 @@ export default {
       subtractTitle: 'Minska (%s)',
     },
     PaymentCard: {
-      text_card_number: 'Kortnummer',
-      text_expired: 'Utgånget',
+      text_card_number: 'Kortnummer', // Deprecated: As it's not in use anymore, can be removed in v11.
       text_blocked: 'Spärrat',
-      text_not_active: 'Inte aktiverat',
-      text_order_in_process: 'Under behandling',
-      text_renewed: 'Förnyat',
+      text_expired: 'Utgånget',
+      text_not_active: 'Inaktiv',
+      text_new_order: 'Beställd',
+      text_order_in_process: 'På väg',
       text_replaced: 'Ersatt',
+      text_renewed: 'Förnyat',
+      text_new: 'Ny',
       text_unknown: 'Okänt',
     },
     Tag: {

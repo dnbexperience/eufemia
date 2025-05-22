@@ -3,11 +3,10 @@
  *
  */
 
-import React, { useCallback, useContext } from 'react'
+import React, { useCallback, useContext, useMemo } from 'react'
 import type {
   DatePickerEventAttributes,
   DatePickerAllProps,
-  DatePickerProps,
 } from './DatePicker'
 
 import isValid from 'date-fns/isValid'
@@ -63,12 +62,13 @@ export type ReturnObject<E> = InvalidDates &
     is_valid_end_date?: boolean
   }
 
-const defaultProps: Partial<DatePickerProps> = {
-  returnFormat: 'yyyy-MM-dd', // used in date-fns v1: YYYY-MM-DD
-}
+function DatePickerProvider(props: DatePickerProviderProps) {
+  const sharedContext = useContext(SharedContext)
 
-function DatePickerProvider(externalProps: DatePickerProviderProps) {
-  const props = { ...defaultProps, ...externalProps }
+  const {
+    returnFormat: defaultReturnFormat,
+    dateFormat: defaultDateFormat,
+  } = sharedContext.translation.DatePicker
 
   const {
     date,
@@ -78,18 +78,22 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
     endMonth,
     minDate,
     maxDate,
-    dateFormat,
+    dateFormat = defaultDateFormat,
     range,
-    correctInvalidDate,
     attributes,
     returnFormat: returnFormatProp,
     children,
     onChange,
     setReturnObject,
     hidePicker,
+    // Deprecated – can be removed in v11
+    correctInvalidDate,
   } = props
 
-  const sharedContext = useContext(SharedContext)
+  const returnFormat = useMemo(
+    () => correctV1Format(returnFormatProp || defaultReturnFormat),
+    [returnFormatProp, defaultReturnFormat]
+  )
 
   const { dates, updateDates, previousDateProps } = useDates(
     {
@@ -102,8 +106,9 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
       maxDate,
     },
     {
-      dateFormat: dateFormat,
+      dateFormat,
       isRange: range,
+      // Deprecated – can be removed in v11
       shouldCorrectDate: correctInvalidDate,
     }
   )
@@ -139,7 +144,6 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
         ...rest,
       }
 
-      const returnFormat = correctV1Format(returnFormatProp)
       const startDateIsValid = Boolean(startDate && isValid(startDate))
       const endDateIsValid = Boolean(endDate && isValid(endDate))
       const hasMinOrMaxDates = minDate || maxDate
@@ -196,7 +200,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
             : startDateIsValid,
       }
     },
-    [dates, views, attributes, maxDate, minDate, range, returnFormatProp]
+    [dates, views, attributes, maxDate, minDate, range, returnFormat]
   )
 
   const callOnChangeHandler = useCallback(
@@ -242,6 +246,7 @@ function DatePickerProvider(externalProps: DatePickerProviderProps) {
         callOnChangeHandler,
         hidePicker: hidePicker,
         props,
+        dateFormat,
         ...dates,
         previousDateProps,
         submittedDates: submittedDatesRef.current,

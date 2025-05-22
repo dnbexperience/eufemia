@@ -30,6 +30,7 @@ export function DisplaySteps({
     }
     if (hasInvalidStepsState(undefined, ['error'])) {
       return {
+        // Show FormStatus inside the StepIndicator
         status: translations.Step.stepHasError,
         status_state: 'error',
       } satisfies Omit<StepIndicatorItemProps, 'title' | 'currentItemNum'>

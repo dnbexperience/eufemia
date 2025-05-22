@@ -16,6 +16,7 @@ export type DatePickerDateProps = {
 type UseDatesOptions = {
   dateFormat: string
   isRange: boolean
+  // Deprecated – can be removed in v11
   shouldCorrectDate: boolean
 }
 
@@ -34,6 +35,7 @@ export default function useDates(
   {
     dateFormat,
     isRange = false,
+    // Deprecated – can be removed in v11
     shouldCorrectDate = false,
   }: UseDatesOptions
 ) {
@@ -42,6 +44,7 @@ export default function useDates(
     ...mapDates(dateProps, {
       dateFormat,
       isRange,
+      // Deprecated – can be removed in v11
       shouldCorrectDate,
     }),
   })
@@ -91,7 +94,7 @@ export default function useDates(
       newDates: DatePickerDates,
       callback?: (dates: DatePickerDates) => void
     ) => {
-      // Correct dates based on min and max date
+      // Deprecated – can be removed in v11
       const correctedDates = shouldCorrectDate
         ? correctDates({
             startDate: newDates.startDate ?? dates.startDate,
@@ -113,6 +116,7 @@ export default function useDates(
           ...currentDates,
           ...newDates,
           ...months,
+          // Deprecated – can be removed in v11
           ...correctedDates,
         }
       })
@@ -121,6 +125,7 @@ export default function useDates(
         ...dates,
         ...newDates,
         ...months,
+        // Deprecated – can be removed in v11
         ...correctedDates,
       })
     },
@@ -178,6 +183,7 @@ function mapDates(
     dateFormat,
   })
 
+  // Deprecated – can be removed in v11
   const correctedDates = shouldCorrectDate
     ? correctDates({ startDate, endDate, minDate, maxDate, isRange })
     : {}
@@ -284,6 +290,7 @@ function deriveDatesFromProps({
   return derivedDates
 }
 
+// Deprecated – can be removed in v11
 function correctDates({
   startDate,
   endDate,

@@ -10,6 +10,7 @@ import Context, {
   TranslationLocale,
   TranslationCustomLocales,
   InternalLocale,
+  TranslationFlatToObject,
 } from './Context'
 import defaultLocales from './locales'
 
@@ -31,7 +32,9 @@ export default function useTranslation<T = Translation>(
   const { locale, translation } = useContext(Context)
   const { assignUtils } = useAdditionalUtils()
 
-  return useMemo(() => {
+  return useMemo<
+    TranslationFlatToObject<T> & AdditionalReturnUtils
+  >(() => {
     const id = typeof messages === 'string' ? messages : undefined
     if (id) {
       return formatMessage(id, args, translation)
@@ -55,6 +58,7 @@ export type CombineWithExternalTranslationsArgs = {
 export type AdditionalReturnUtils = {
   formatMessage: typeof formatMessage
   renderMessage: typeof renderMessage
+  countries: Array<string>
 }
 export type CombineWithExternalTranslationsReturn = Translation &
   TranslationCustomLocales &

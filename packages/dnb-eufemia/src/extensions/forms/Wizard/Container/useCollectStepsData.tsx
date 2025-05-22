@@ -24,6 +24,7 @@ export function useCollectStepsData() {
       if (index !== activeIndexRef.current && !inactive) {
         // - Never show the unknown state
         if (hasInvalidStepsState(index, ['error'])) {
+          // Show FormStatus inside the StepIndicator
           status = translations.Step.stepHasError
           statusState = 'error'
         }

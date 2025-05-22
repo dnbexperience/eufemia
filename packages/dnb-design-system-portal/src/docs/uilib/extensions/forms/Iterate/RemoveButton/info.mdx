@@ -8,16 +8,14 @@ hideInMenu: true
 `Iterate.RemoveButton` connects to the array of a surrounding `Iterate.Array` and removes the item when clicked.
 
 ```tsx
-import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
+import { Iterate, Form, Field } from '@dnb/eufemia/extensions/forms'
 
 render(
-  <>
-    <Iterate.Array path="/">
-      <Field.Name.Last itemPath="/name" />
+  <Form.Handler defaultData={{ myList: ['foo'] }}>
+    <Iterate.Array path="/myList">
+      <Iterate.RemoveButton text="Remove item" />
     </Iterate.Array>
-
-    <Iterate.RemoveButton text="Remove item" path="/" pushValue={{}} />
-  </>,
+  </Form.Handler>,
 )
 ```
 
@@ -27,4 +25,20 @@ You can use the `showConfirmDialog` property to open a confirmation dialog befor
 
 ```tsx
 <Iterate.RemoveButton showConfirmDialog />
+```
+
+## The item number in the title
+
+You can use the `{itemNo}` variable in the `text` or the `children` property to display the current item number.
+
+```tsx
+import { Iterate, Field, Value } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Handler defaultData={{ myList: ['foo'] }}>
+    <Iterate.Array path="/myList">
+      <Iterate.RemoveButton text="Remove item {itemNo}" />
+    </Iterate.Array>
+  </Form.Handler>,
+)
 ```

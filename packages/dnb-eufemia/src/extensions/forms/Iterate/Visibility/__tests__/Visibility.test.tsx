@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { Provider } from '../../../DataContext'
-import { Iterate } from '../../..'
+import { Form, Iterate } from '../../..'
 
 describe('Iterate.Visibility', () => {
   it('renders children when no props is given', () => {
@@ -361,6 +361,31 @@ describe('Iterate.Visibility', () => {
         </Provider>
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
+    })
+  })
+
+  describe('when in Form.Section', () => {
+    describe('pathTruthy', () => {
+      it('renders children when target path is truthy', () => {
+        render(
+          <Provider
+            data={{
+              mySection: {
+                myList: [{ isTruthy: 'value' }],
+              },
+            }}
+          >
+            <Form.Section path="/mySection">
+              <Iterate.Array path="/myList">
+                <Iterate.Visibility pathTruthy="/isTruthy">
+                  Child
+                </Iterate.Visibility>
+              </Iterate.Array>
+            </Form.Section>
+          </Provider>
+        )
+        expect(screen.getByText('Child')).toBeInTheDocument()
+      })
     })
   })
 })

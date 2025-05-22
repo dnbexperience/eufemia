@@ -127,13 +127,15 @@ export default {
       subtractTitle: 'Decrease (%s)',
     },
     PaymentCard: {
-      text_card_number: 'Card number',
-      text_expired: 'Expired',
+      text_card_number: 'Card number', // Deprecated: As it's not in use anymore, can be removed in v11.
       text_blocked: 'Blocked',
-      text_not_active: 'Not activated',
-      text_order_in_process: 'Order in process',
-      text_renewed: 'Renewed',
+      text_expired: 'Expired',
+      text_not_active: 'Inactive',
+      text_new_order: 'Ordered',
+      text_order_in_process: 'On the way',
       text_replaced: 'Replaced',
+      text_renewed: 'Renewed',
+      text_new: 'New',
       text_unknown: 'Unknown',
     },
     Tag: {

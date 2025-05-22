@@ -616,82 +616,6 @@ describe('Field.Date', () => {
 
   // TODO: Add test for month, sync and hideLastWeek prop when it's working again
 
-  it('should be able to correct invalid dates', async () => {
-    render(
-      <Field.Date
-        value="2024-10-07"
-        minDate="2024-10-07"
-        maxDate="2024-10-25"
-        correctInvalidDate
-      />
-    )
-
-    const [day, month, year]: Array<HTMLInputElement> = Array.from(
-      document.querySelectorAll('.dnb-date-picker__input')
-    )
-
-    expect(day).toHaveValue('07')
-    expect(month).toHaveValue('10')
-    expect(year).toHaveValue('2024')
-
-    await userEvent.dblClick(day)
-    await userEvent.keyboard('{ArrowRight>2}{Backspace>2}')
-    await userEvent.keyboard('06')
-
-    expect(day).toHaveValue('07')
-    expect(month).toHaveValue('10')
-    expect(year).toHaveValue('2024')
-
-    await userEvent.dblClick(month)
-    await userEvent.keyboard('{ArrowRight>2}{Backspace>2}')
-    await userEvent.keyboard('12')
-
-    expect(day).toHaveValue('07')
-    expect(month).toHaveValue('10')
-    expect(year).toHaveValue('2024')
-
-    await userEvent.dblClick(year)
-    await userEvent.keyboard('{ArrowRight>4}{Backspace>2}')
-    await userEvent.keyboard('2026')
-
-    expect(day).toHaveValue('07')
-    expect(month).toHaveValue('10')
-    expect(year).toHaveValue('2024')
-
-    await userEvent.dblClick(day)
-    await userEvent.keyboard('{ArrowDown>4}')
-
-    expect(day).toHaveValue('07')
-    expect(month).toHaveValue('10')
-    expect(year).toHaveValue('2024')
-
-    await userEvent.dblClick(month)
-    await userEvent.keyboard('{ArrowDown>3}')
-
-    expect(day).toHaveValue('07')
-    expect(month).toHaveValue('10')
-    expect(year).toHaveValue('2024')
-
-    await userEvent.keyboard('{ArrowUp>3}')
-
-    expect(day).toHaveValue('07')
-    expect(month).toHaveValue('10')
-    expect(year).toHaveValue('2024')
-
-    await userEvent.dblClick(year)
-    await userEvent.keyboard('{ArrowDown>3}')
-
-    expect(day).toHaveValue('07')
-    expect(month).toHaveValue('10')
-    expect(year).toHaveValue('2024')
-
-    await userEvent.keyboard('{ArrowUp>3}')
-
-    expect(day).toHaveValue('07')
-    expect(month).toHaveValue('10')
-    expect(year).toHaveValue('2024')
-  })
-
   it('should parse dates in specified format', async () => {
     render(<Field.Date value="01/10/2024" dateFormat="dd/MM/yyyy" />)
 
@@ -968,8 +892,9 @@ describe('Field.Date', () => {
     const calendar = document.querySelector('.dnb-date-picker__calendar')
 
     expect(
-      calendar.querySelector('.dnb-date-picker__header')
-    ).not.toBeInTheDocument()
+      calendar.querySelector('.dnb-date-picker__header--only-month-label')
+    ).toBeInTheDocument()
+
     expect(
       calendar.querySelector('.dnb-date-picker__labels')
     ).not.toBeInTheDocument()

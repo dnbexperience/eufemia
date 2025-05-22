@@ -8,6 +8,8 @@ export type PaymentCardCardStatus =
   | 'blocked'
   | 'expired'
   | 'not_active'
+  | 'new_order'
+  | 'new'
   | 'order_in_process'
   | 'renewed'
   | 'replaced'
@@ -26,6 +28,8 @@ export enum ProductType {
   Business,
   Bedrift,
   PrivateBanking,
+  Corporate,
+  WorldElite,
   None
 }
 export enum BankAxept {
@@ -43,17 +47,19 @@ export enum BankAxeptType {
 }
 export enum Designs {
   defaultDesign,
+  pluss,
   young,
   myFirst,
   youth,
-  pluss,
   gold,
   saga,
   sagaPlatinum,
   privateBanking,
   mcBlack,
   businessNoVisa,
-  businessWithVisa
+  businessWithVisa,
+  sbankenVisa,
+  sbankenMastercard
 }
 export interface PaymentCardRawData {
   productCode: string;
@@ -82,32 +88,32 @@ export interface PaymentCardProps
   extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
   /**
-   * <em>(required)</em> if product code matches one of the codes in the list the card will get that design, if no match is found Default design will be used.
+   * if product code matches one of the codes in the list the card will get that design, if no match is found Default design will be used.
    */
   product_code: string;
   /**
-   * <em>(required)</em> masked card number.
+   * masked card number.
    */
   card_number: string;
   /**
-   * Use one of these: `active`, `not_active`, `blocked`, `expired`, `renewed`, `replaced`, `order_in_process`, `unknown`. Defaults to `active`.
+   * use one of these: `active`, `not_active`, `new_order`, `new`, `blocked`, `expired`, `renewed`, `replaced`, `order_in_process`, `unknown`. Defaults to `active`.
    */
   card_status?: PaymentCardCardStatus;
   /**
-   * Defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.
+   * defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.
    */
   variant?: PaymentCardVariant;
   /**
-   * Will use 8 digits if none are specified.
+   * will use 8 digits if none are specified.
    */
   digits?: PaymentCardDigits;
   /**
-   * Useful if you want to create custom cards. See Card data properties.
+   * useful if you want to create custom cards. See Card data properties.
    */
   raw_data?: PaymentCardRawData;
   id?: string;
   /**
-   * Use `nb-NO` or `en-GB`. Defaults to the Eufemia provider.
+   * use `nb-NO` or `en-GB`. Defaults to the Eufemia provider.
    */
   locale?: InternalLocale;
   /**

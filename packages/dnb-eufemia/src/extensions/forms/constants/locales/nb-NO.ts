@@ -77,6 +77,10 @@ export default {
       createButton: 'Legg til',
       itemsLimitReached: 'Du har nådd grensen på: {limit}',
     },
+    IterateArray: {
+      errorMinItems: 'Du må legge til minst {minItems}.',
+      errorMaxItems: 'Du kan ikke legge til flere enn {maxItems}.',
+    },
 
     /**
      * Base fields

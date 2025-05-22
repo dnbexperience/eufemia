@@ -11,6 +11,7 @@ import {
   JSONSchema,
   Value,
   ValueBlock,
+  Wizard,
 } from '../../..'
 import { ContextState, FilterData } from '../../../DataContext'
 
@@ -698,6 +699,63 @@ describe('Iterate.Array', () => {
       })
     })
 
+    it('should not keep error when step Wizard navigates away', async () => {
+      render(
+        <Form.Handler>
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Iterate.Array path="/items" required>
+                content
+                {/* <Field.String itemPath="/" /> */}
+              </Iterate.Array>
+              <Iterate.PushButton path="/items" pushValue="baz" />
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      const nextButton = () => {
+        return document.querySelector('.dnb-forms-next-button')
+      }
+      const output = () => {
+        return document.querySelector('output')
+      }
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      fireEvent.submit(document.querySelector('form'))
+
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate-push-button')
+      )
+
+      expect(output()).toHaveTextContent('Step 1')
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
+
+      await userEvent.click(nextButton())
+      expect(output()).toHaveTextContent('Step 2')
+
+      await expect(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+      }).toNeverResolve()
+    })
+
     it('should report error to FieldBlock initially', async () => {
       render(
         <Form.Handler>
@@ -761,6 +819,38 @@ describe('Iterate.Array', () => {
       expect(
         document.querySelector('.dnb-form-status')
       ).not.toBeInTheDocument()
+    })
+  })
+
+  describe('minItems', () => {
+    it('should show error with correct message', async () => {
+      render(
+        <Form.Handler>
+          <Iterate.Array path="/items" minItems={1} validateInitially>
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.IterateArray.errorMinItems.replace('{minItems}', '1')
+      )
+    })
+  })
+
+  describe('maxItems', () => {
+    it('should show error with correct message', async () => {
+      render(
+        <Form.Handler defaultData={{ items: ['foo', 'bar'] }}>
+          <Iterate.Array path="/items" maxItems={1} validateInitially>
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.IterateArray.errorMaxItems.replace('{maxItems}', '1')
+      )
     })
   })
 
@@ -2383,6 +2473,53 @@ describe('Iterate.Array', () => {
   })
 
   describe('schema', () => {
+    it('should show error with custom error message when "minItems" and "maxItems" is not met', async () => {
+      const schema: JSONSchema = {
+        type: 'array',
+        minItems: 1,
+        maxItems: 2,
+      }
+
+      const errorMessages = {
+        minItems: 'You need at least {minItems} items.',
+        maxItems: 'You cannot have more than {maxItems} items.',
+      }
+
+      const { rerender } = render(
+        <Form.Handler>
+          <Iterate.Array
+            path="/items"
+            schema={schema}
+            errorMessages={errorMessages}
+            validateInitially
+          >
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        'You need at least 1 items.'
+      )
+
+      rerender(
+        <Form.Handler data={{ items: ['one', 'two', 'three'] }}>
+          <Iterate.Array
+            path="/items"
+            schema={schema}
+            errorMessages={errorMessages}
+            validateInitially
+          >
+            <Field.String itemPath="/" />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        'You cannot have more than 2 items.'
+      )
+    })
+
     it('should show error when "minItems" is not met', async () => {
       const schema: JSONSchema = {
         type: 'object',
@@ -2414,6 +2551,127 @@ describe('Iterate.Array', () => {
             path="/myList"
             pushValue={{ foo }}
           />
+        </Form.Handler>
+      )
+
+      expect(screen.getByText(foo)).toBeInTheDocument()
+      expect(screen.queryByText(minItems)).not.toBeInTheDocument()
+
+      await userEvent.click(screen.getByText('Fjern'))
+
+      await waitFor(() => {
+        expect(screen.queryByText(foo)).not.toBeInTheDocument()
+        expect(screen.queryByText(minItems)).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status').textContent
+        ).toBe(minItems)
+      })
+
+      await userEvent.click(screen.getByText('Add'))
+
+      await waitFor(() => {
+        expect(screen.getByText(foo)).toBeInTheDocument()
+        expect(screen.queryByText(minItems)).not.toBeInTheDocument()
+      })
+    })
+  })
+
+  describe('when in Form.Section', () => {
+    it('should write the correct path to the data context', async () => {
+      const onSubmit = jest.fn()
+
+      render(
+        <Form.Handler
+          defaultData={{
+            mySection: {
+              myList: [{ foo: 'foo' }],
+            },
+          }}
+          onSubmit={onSubmit}
+        >
+          <Form.Section path="/mySection">
+            <Iterate.Array path="/myList">
+              <Iterate.ViewContainer>
+                <Value.String itemPath="/foo" />
+              </Iterate.ViewContainer>
+
+              <Iterate.EditContainer>
+                <Field.String itemPath="/foo" />
+              </Iterate.EditContainer>
+            </Iterate.Array>
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      expect(input).toHaveValue('foo')
+      expect(
+        document.querySelector('.dnb-forms-value-block')
+      ).toHaveTextContent('foo')
+
+      await userEvent.type(input, '{Backspace>3}bar')
+      expect(input).toHaveValue('bar')
+      expect(
+        document.querySelector('.dnb-forms-value-block')
+      ).toHaveTextContent('bar')
+
+      fireEvent.submit(document.querySelector('form'))
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        {
+          mySection: {
+            myList: [{ foo: 'bar' }],
+          },
+        },
+        expect.anything()
+      )
+    })
+
+    it('should show error when "minItems" is not met', async () => {
+      const schema: JSONSchema = {
+        type: 'object',
+        properties: {
+          mySection: {
+            type: 'object',
+            properties: {
+              myList: {
+                type: 'array',
+                minItems: 1,
+              },
+            },
+          },
+        },
+      }
+
+      const foo = 'Remove me to see the minItems error.'
+      const minItems = 'You need at least one item.'
+
+      render(
+        <Form.Handler
+          schema={schema}
+          defaultData={{
+            mySection: {
+              myList: [{ foo }],
+            },
+          }}
+        >
+          <Form.Section path="/mySection">
+            <Iterate.Array path="/myList" errorMessages={{ minItems }}>
+              <Iterate.ViewContainer>
+                <Value.String itemPath="/foo" />
+              </Iterate.ViewContainer>
+
+              <Iterate.EditContainer>
+                <Field.String itemPath="/foo" />
+              </Iterate.EditContainer>
+            </Iterate.Array>
+
+            <Iterate.PushButton
+              text="Add"
+              path="/myList"
+              pushValue={{ foo }}
+            />
+          </Form.Section>
         </Form.Handler>
       )
 

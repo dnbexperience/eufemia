@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from 'react'
 import classnames from 'classnames'
 import SharedContext from '../../shared/Context'
 import { COUNTRY as defaultCountry } from '../../shared/defaults'
-import countries from '../../extensions/forms/constants/countries'
+import useCountries from '../../extensions/forms/Field/SelectCountry/useCountries'
 import Space, { SpaceAllProps } from '../space/Space'
 
 type CountryFlagProps = {
@@ -15,11 +15,12 @@ const CountryFlag = (props: CountryFlagProps) => {
   const { iso = defaultCountry, size, shape, className, ...rest } = props
 
   const { locale } = useContext(SharedContext)
+  const { countries } = useCountries()
   const countryName = useMemo(() => {
     return countries.find((item) => item.iso === iso)?.i18n[
       locale.split('-')[0]
     ]
-  }, [iso, locale])
+  }, [countries, iso, locale])
 
   return (
     <Space

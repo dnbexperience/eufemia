@@ -17,11 +17,11 @@ import {
   DatePickerCalendar,
   DatePickerScreenshotTestSizes,
   DatePickerScreenshotTestDisabled,
-  DatePickerCorrectInvalidDate,
   DatePickerLabelAlignmentRight,
   DatePickerLabelAlignmentWithButtonRight,
   DatePickerYearNavigation,
   DatePickerYearNavigationOpen,
+  DatePickerOnlyMonthOpen,
 } from 'Docs/uilib/components/date-picker/Examples'
 import ChangeLocale from 'dnb-design-system-portal/src/core/ChangeLocale'
 
@@ -90,13 +90,6 @@ import enUS from '@dnb/eufemia/shared/locales/en-US'
 
 <DatePickerYearNavigation />
 
-### Min and Max date correction
-
-The `correctInvalidDate` property is not on by default, as it can be confusing to screen reader users, when the value they type in changes, for seemingly no reason to them.
-For built in validation, use [Field.Date](/uilib/extensions/forms/feature-fields/Date/#date-limit-validation)
-
-<DatePickerCorrectInvalidDate />
-
 ### DatePicker with error status (no input)
 
 <DatePickerNoInputStatus />
@@ -119,4 +112,5 @@ For built in validation, use [Field.Date](/uilib/extensions/forms/feature-fields
   <DatePickerLabelAlignmentRight />
   <DatePickerLabelAlignmentWithButtonRight />
   <DatePickerYearNavigationOpen />
+  <DatePickerOnlyMonthOpen />
 </VisibleWhenVisualTest>

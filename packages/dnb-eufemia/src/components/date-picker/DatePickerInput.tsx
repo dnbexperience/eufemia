@@ -37,7 +37,7 @@ import type {
 } from '../FormStatus'
 import type { SkeletonShow } from '../Skeleton'
 import { ReturnObject } from './DatePickerProvider'
-import { DatePickerEventAttributes } from './DatePicker'
+import { DatePickerEventAttributes, DatePickerProps } from './DatePicker'
 import { Context, useTranslation } from '../../shared'
 import usePartialDates from './hooks/usePartialDates'
 import useInputDates, { DatePickerInputDates } from './hooks/useInputDates'
@@ -54,8 +54,8 @@ export type DatePickerInputProps = Omit<
   | 'label'
 > & {
   selectedDateTitle?: string
-  maskOrder?: string
-  maskPlaceholder?: string
+  maskOrder?: DatePickerProps['maskOrder']
+  maskPlaceholder?: DatePickerProps['maskPlaceholder']
   separatorRegExp?: RegExp
   submitAttributes?: Record<string, unknown>
   isRange?: boolean
@@ -113,8 +113,6 @@ export type InvalidDates = {
 }
 
 const defaultProps: DatePickerInputProps = {
-  maskOrder: 'dd/mm/yyyy',
-  maskPlaceholder: 'dd/mm/åååå',
   separatorRegExp: /[-/ ]/g,
   statusState: 'error',
   opened: false,
@@ -124,13 +122,18 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   const props = { ...defaultProps, ...externalProps }
 
   const {
+    maskOrder: defaultMaskOrder,
+    maskPlaceholder: defaultMaskPlaceholder,
+  } = useTranslation().DatePicker
+
+  const {
     isRange,
-    maskOrder,
+    maskOrder = defaultMaskOrder,
     separatorRegExp,
     id,
     title,
     submitAttributes,
-    maskPlaceholder, // eslint-disable-line
+    maskPlaceholder = defaultMaskPlaceholder, // eslint-disable-line
     onFocus,
     onBlur,
     onChange, // eslint-disable-line
@@ -165,7 +168,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     getReturnObject,
     startDate,
     endDate,
-    props: { onType, label, correctInvalidDate },
+    props: { onType, label },
   } = useContext(DatePickerContext)
 
   const { inputDates, updateInputDates } = useInputDates({
@@ -619,10 +622,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       const keyCode = event.key
       const target = event.target as HTMLInputElement
 
-      if (
-        correctInvalidDate &&
-        target.selectionStart !== target.selectionEnd
-      ) {
+      if (target.selectionStart !== target.selectionEnd) {
         setCursorPosition(target)
       }
 
@@ -713,7 +713,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         }
       }
     },
-    [correctInvalidDate, dateSetters]
+    [dateSetters]
   )
 
   const onInputHandler = useCallback(

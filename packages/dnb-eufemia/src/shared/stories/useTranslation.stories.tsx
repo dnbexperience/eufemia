@@ -42,7 +42,7 @@ export const Sandbox = () => {
 const Locale = () => {
   const translation = useTranslation()
 
-  return <P>{translation.DatePicker.mask_placeholder}</P>
+  return <P>{translation.DatePicker.maskPlaceholder}</P>
 }
 
 const tr = {

@@ -44,7 +44,7 @@ export const PaymentCards = () => (
       <PaymentCard
         locale="en-GB"
         product_code="DNB"
-        card_number="************1337"
+        card_number="••••••••••••1337"
         card_status="expired"
         variant="compact"
       />
@@ -53,7 +53,7 @@ export const PaymentCards = () => (
       <PaymentCard
         variant="compact"
         product_code="VG1"
-        card_number="************1337"
+        card_number="••••••••••••1337"
       />
     </Box>
     <Box>
@@ -61,7 +61,7 @@ export const PaymentCards = () => (
         product_code="UNDEFINED"
         raw_data={customData}
         variant="compact"
-        card_number="************1337"
+        card_number="••••••••••••1337"
       />
     </Box>
     <Box>
@@ -82,12 +82,12 @@ export const PaymentCards = () => (
             >
               <PaymentCard
                 product_code={product_code}
-                card_number="************1337"
+                card_number="••••••••••••1337"
               />
               {/* <PaymentCard
                 variant="compact"
                 product_code={product_code}
-                card_number="************1337"
+                card_number="••••••••••••1337"
               /> */}
             </div>
           </div>

@@ -29,6 +29,7 @@ export type Props = Omit<
     | 'validateInitially'
     | 'continuousValidation'
     | 'validateContinuously'
+    | 'schema'
   > & {
     children: ElementChild | Array<ElementChild>
     path?: Path
@@ -37,6 +38,8 @@ export type Props = Omit<
     reverse?: boolean
     countPath?: Path
     countPathLimit?: number
+    minItems?: number
+    maxItems?: number
     onChangeValidator?: Validator<Value>
     withoutFlex?: boolean
     animate?: boolean
@@ -48,4 +51,5 @@ export type Props = Omit<
 
     // internal
     validateValue?: () => void
+    omitSectionPath?: boolean
   }

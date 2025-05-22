@@ -119,10 +119,6 @@ export type DatePickerProps = {
    */
   maxDate?: DateType
   /**
-   * Corrects the input date value to be the same as either `minDate` or `maxDate`, when the user types in a date that is either before or after one of these. Defaults to `false`.
-   */
-  correctInvalidDate?: boolean
-  /**
    * To define the order of the masked placeholder input fields. Defaults to `dd/mm/yyyy`
    */
   maskOrder?: string
@@ -142,7 +138,6 @@ export type DatePickerProps = {
    * If set to `true`, the navigation will be hidden. Defaults to `false`.
    */
   hideNavigation?: boolean
-  hideNavigationButtons?: boolean
   /**
    * If set to `true`, the week days will be hidden. Defaults to `false`.
    */
@@ -371,7 +366,17 @@ type DatePickerDeprecatedProps = {
    */
   max_date?: DateType
   /**
-   * @deprecated use `correctInvalidDate` instead.
+   * @deprecated use `Field.Date` instead, for {@link https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Date/#date-limit-validation | built in validation}.
+   * It's not good UX, or best practice to automatically change the user input. This often leads to confusion, as what they typed in, magically changes for seemingly no reason. It's better to inform them about the error and let them correct it themselves.
+   *
+   * Deprecated – can be removed in v11
+   */
+  correctInvalidDate?: boolean
+  /**
+   * @deprecated use `Field.Date` instead, for {@link https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Date/#date-limit-validation | built in validation}.
+   * It's not good UX, or best practice to automatically change the user input. This often leads to confusion, as what they typed in, magically changes for seemingly no reason. It's better to inform them about the error and let them correct it themselves.
+   *
+   * Deprecated – can be removed in v11
    */
   correct_invalid_date?: boolean
   /**
@@ -395,7 +400,11 @@ type DatePickerDeprecatedProps = {
    */
   hide_navigation?: boolean
   /**
-   * @deprecated use `hideNavigationButtons` instead.
+   * @deprecated does not do anything.
+   */
+  hideNavigationButtons?: boolean
+  /**
+   * @deprecated does not do anything.
    */
   hide_navigation_buttons?: boolean
   /**
@@ -563,23 +572,14 @@ export type DatePickerAllProps = DatePickerProps &
   >
 
 const defaultProps: DatePickerProps = {
-  maskOrder: 'dd/mm/yyyy',
-  maskPlaceholder: 'dd/mm/åååå', // have to be same setup as "mask" - but can be like
-  dateFormat: 'yyyy-MM-dd', // in v1 of date-fns we were more flexible in terms of the format
-  returnFormat: 'yyyy-MM-dd', // used in date-fns v1
   hideNavigation: false,
-  hideNavigationButtons: false,
   hideDays: false,
   onlyMonth: false,
   hideLastWeek: false,
   disableAutofocus: false,
   enableKeyboardNav: false,
   showInput: false,
-  submitButtonText: 'Ok',
-  cancelButtonText: 'Avbryt',
-  resetButtonText: 'Nullstill',
   resetDate: true,
-  firstDay: 'monday',
   range: false,
   link: false,
   sync: true,
@@ -609,6 +609,8 @@ function DatePicker(externalProps: DatePickerAllProps) {
     range,
     hideDays,
     hideNavigation,
+    // Deprecated – can be removed in v11
+    correctInvalidDate,
     opened: openedProp,
     endDate: endDateProp,
   } = convertSnakeCaseProps(props) // convertSnakeCaseProps - can be removed in v11
@@ -633,6 +635,12 @@ function DatePicker(externalProps: DatePickerAllProps) {
   const calendarContainerRef = useRef<HTMLDivElement>()
 
   const translation = useTranslation().DatePicker
+
+  if (correctInvalidDate) {
+    warn(
+      `Use 'Field.Date' instead, for built in validation (https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Date/#date-limit-validation).`
+    )
+  }
 
   if (endDateProp && !range) {
     warn(
@@ -823,7 +831,6 @@ function DatePicker(externalProps: DatePickerAllProps) {
     onlyMonth,
     hideLastWeek,
     disableAutofocus,
-    hideNavigationButtons,
     firstDay,
     resetDate,
     link,
@@ -858,13 +865,6 @@ function DatePicker(externalProps: DatePickerAllProps) {
     () => filterOutNonAttributes(restProps),
     [restProps]
   )
-
-  const shouldHideDays = onlyMonth ? true : hideDays
-  const shouldHideNavigation = onlyMonth
-    ? hideNavigationButtons
-      ? false
-      : true
-    : hideNavigation
 
   const showStatus = getStatusState(status)
 
@@ -1039,18 +1039,12 @@ function DatePicker(externalProps: DatePickerAllProps) {
                       isRange={range}
                       isLink={link}
                       isSync={sync}
-                      hideDays={shouldHideDays}
-                      hideNav={shouldHideNavigation}
-                      // TODO: refactor to not be views, do reduce view complexity
-                      views={
-                        hideNavigationButtons
-                          ? [{ nextBtn: false, prevBtn: false }]
-                          : null
-                      }
+                      hideDays={hideDays}
+                      hideNavigation={hideNavigation}
                       onlyMonth={onlyMonth}
                       hideNextMonthWeek={hideLastWeek}
                       noAutoFocus={disableAutofocus}
-                      onChange={onPickerChange}
+                      onPickerChange={onPickerChange}
                       locale={context.locale}
                     />
                     {(addonElement || shortcuts) && (

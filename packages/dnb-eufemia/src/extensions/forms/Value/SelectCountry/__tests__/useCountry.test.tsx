@@ -3,6 +3,7 @@ import { renderHook } from '@testing-library/react'
 import SharedContext from '../../../../../shared/Context'
 import { getCountryData } from '../../../Field/SelectCountry'
 import useCountry from '../useCountry'
+import countries from '../../../constants/countries'
 
 jest.mock('../../../Field/SelectCountry', () => ({
   getCountryData: jest.fn(),
@@ -31,6 +32,7 @@ describe('useCountry', () => {
     expect(getCountryData).toHaveBeenCalledWith({
       lang: 'en',
       filter: expect.any(Function),
+      countries,
     })
   })
 

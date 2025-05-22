@@ -77,12 +77,8 @@ export type DatePickerCalendarProps = Omit<
    */
   month?: Date
   hoverDate?: Date
-  // TODO: rename for clarity
-  prevBtn?: boolean
-  // TODO: rename for clarity
-  nextBtn?: boolean
   firstDayOfWeek?: string
-  hideNav?: boolean
+  hideNavigation?: boolean
   hideDays?: boolean
   onlyMonth?: boolean
   hideNextMonthWeek?: boolean
@@ -123,10 +119,7 @@ type DayObject = {
 }
 
 const defaultProps: DatePickerCalendarProps = {
-  prevBtn: true,
-  nextBtn: true,
-  firstDayOfWeek: 'monday',
-  hideNav: false,
+  hideNavigation: false,
   hideDays: false,
   onlyMonth: false,
   hideNextMonthWeek: false,
@@ -154,6 +147,9 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     setHoverDate,
     setSubmittedDates,
     props: { onDaysRender, yearNavigation },
+    translation: {
+      DatePicker: { firstDay: defaultFirstDayOfWeek, selectedMonth },
+    },
   } = useContext(DatePickerContext)
 
   const {
@@ -162,15 +158,13 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     rtl,
     month,
     isRange,
-    firstDayOfWeek,
-    hideNav,
+    firstDayOfWeek = defaultFirstDayOfWeek,
+    hideNavigation,
     locale,
     hideDays,
     onSelect,
     onKeyDown,
     resetDate,
-    prevBtn,
-    nextBtn,
     noAutoFocus,
     hideNextMonthWeek,
     onlyMonth,
@@ -398,7 +392,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       }
 
       // make sure we stay on the same month
-      if (onlyMonth || hideNav) {
+      if (onlyMonth || hideNavigation) {
         if (
           !isSameMonth(dates.startDate, startDate) ||
           !isSameMonth(dates.endDate, startDate) // Heads up, should this not be context.endDate?
@@ -430,7 +424,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       startDate,
       endDate,
       updateDates,
-      hideNav,
+      hideNavigation,
       isRange,
       keyNavCalc,
       nr,
@@ -497,7 +491,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       className={classnames('dnb-date-picker__calendar', rtl && 'rtl')}
       lang={locale}
     >
-      {!hideNav && (
+      {!hideNavigation && !onlyMonth && (
         <div className="dnb-date-picker__header">
           <DatePickerCalendarNav
             type={yearNavigation ? 'month' : 'both'}
@@ -505,8 +499,6 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
             nr={nr}
             date={month}
             locale={locale}
-            showPreviousButton={prevBtn}
-            showNextButton={nextBtn}
           />
           {yearNavigation && (
             <DatePickerCalendarNav
@@ -515,10 +507,29 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
               nr={nr}
               date={month}
               locale={locale}
-              showPreviousButton={prevBtn}
-              showNextButton={nextBtn}
             />
           )}
+        </div>
+      )}
+      {onlyMonth && (
+        <div className="dnb-date-picker__header dnb-date-picker__header--only-month-label">
+          <label
+            id={`${id}--title`}
+            className="dnb-date-picker__header__title dnb-no-focus"
+            title={selectedMonth.replace(
+              /%s/,
+              formatDate(month, {
+                locale,
+                formatOptions: { month: 'long' },
+              })
+            )}
+            tabIndex={-1}
+          >
+            {formatDate(month, {
+              locale,
+              formatOptions: { month: 'long' },
+            })}
+          </label>
         </div>
       )}
       <table
@@ -530,7 +541,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         onMouseLeave={onMouseLeaveHandler}
         ref={tableRef}
       >
-        {!hideDays && (
+        {!hideDays && !onlyMonth && (
           <thead aria-hidden>
             <tr role="row" className="dnb-date-picker__labels">
               {getWeek(dayOffset(firstDayOfWeek)).map((day, i) => (
