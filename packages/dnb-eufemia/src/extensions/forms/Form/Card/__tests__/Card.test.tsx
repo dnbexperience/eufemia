@@ -74,7 +74,7 @@ describe('Form.Card', () => {
     }
   })
 
-  describe('CardContext', () => {
+  describe('Card.Provider', () => {
     const contextRef: React.MutableRefObject<CardContextState> =
       React.createRef()
 
