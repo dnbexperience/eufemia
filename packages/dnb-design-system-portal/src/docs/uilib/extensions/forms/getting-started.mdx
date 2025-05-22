@@ -214,15 +214,54 @@ As you can see in the code above, you can even handle the state outside the `For
 
 #### Filter data
 
-In this section we will show how to filter out some data based on your own logic. You can filter data by any given criteria. This is done by utilizing the `filterData` method from e.g.:
+In this section we will show how to filter out some data based on your own logic. You can filter data by any given criteria.
 
+##### Concepts of filtering data
+
+There are many ways to utilize `filterData`, here are some concepts to exclude a data entry:
+
+- When a field is disabled.
+- When a field is hidden.
+- When a field has an error.
+- When a field has a value that matches a given criteria.
+- When a field has a path that starts with e.g. `_`.
+
+Here is an example of how to filter data when a path starts with `_`:
+
+```tsx
+const filterDataHandler = ({ path }) => {
+  if (/\/_/.test(path)) {
+    // When returning false, the data entry will be left out
+    return false
+  }
+}
+
+render(
+  <Form.Handler
+    defaultData={{
+      foo: 'foo',
+      _bar: 'bar', // Will be excluded
+    }}
+    onSubmit={(data, { filterData }) => {
+      const filteredData = filterData(filterDataHandler)
+      console.log(filteredData) // Will be { foo: 'foo' }
+    }}
+  >
+    <MyComponent />
+  </Form.Handler>,
+)
+```
+
+##### How do I use it?
+
+You can utilizing the `filterData` method in:
+
+- [Form.Handler](/uilib/extensions/forms/Form/Handler/#filter-data) component.
 - [Form.useData](/uilib/extensions/forms/Form/useData/#filter-data) hook.
 - [Form.getData](/uilib/extensions/forms/Form/getData/#filter-data) method.
 - [Form.Visibility](/uilib/extensions/forms/Form/Visibility/#filter-data) component.
 
-You can provide either a function handler or an object with the paths (JSON Pointer) you want to filter out.
-
-Return `false` to exclude an entry.
+You can provide either an object with the paths (1) or a handler (2).
 
 Here is an example of how to filter data outlining the different ways to filter data:
 
@@ -236,9 +275,13 @@ const filterDataPaths = {
 }
 
 // 2. Method – by using a handler.
-// It will iterate over all fields regardless what path they have.
-const filterDataHandler = ({ path, value, data, props, error }) =>
-  value !== 'bar'
+// It will iterate over all fields and data entries regardless what path they have.
+const filterDataHandler = ({ path, value, data, props, error }) => {
+  if (/\/_/.test(path)) {
+    // When returning false, the data entry will be left out
+    return false
+  }
+}
 
 const MyComponent = () => {
   const { filterData } = Form.useData()

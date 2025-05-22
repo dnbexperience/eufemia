@@ -1,6 +1,13 @@
-import { useCallback, useContext, useEffect, useReducer } from 'react'
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from 'react'
 import DataContext from '../../DataContext/Context'
 import IsolationContext from './IsolationContext'
+import { createDataReference } from './IsolationDataReference'
 
 /**
  * Deprecated, as it is supported by all major browsers and Node.js >=v18
@@ -15,8 +22,14 @@ export default function useDataContextSnapshot({
 } = {}) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const { internalDataRef, setData } = useContext(DataContext)
-  const { dataReference, setIsolatedData } =
-    useContext(IsolationContext) || {}
+  const isolationContext = useContext(IsolationContext)
+  const [dataReferenceFallback] = useState(() => {
+    if (enabled && !isolationContext?.dataReference) {
+      return createDataReference()
+    }
+  })
+  const { dataReference = dataReferenceFallback, setIsolatedData } =
+    isolationContext || {}
   const { snapshotRef, eventsRef, update, refresh, cleanup } =
     dataReference || {}
 

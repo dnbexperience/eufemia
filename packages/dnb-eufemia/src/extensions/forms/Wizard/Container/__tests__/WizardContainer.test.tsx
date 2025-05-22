@@ -4547,7 +4547,7 @@ describe('Wizard.Container', () => {
 
       render(
         <Form.Handler>
-          <Wizard.Container prerenderFieldProps={false} mode="loose">
+          <Wizard.Container mode="loose">
             <Wizard.Step title="Step 1">
               <Field.String path="/foo" required />
               <output>Step 1</output>
