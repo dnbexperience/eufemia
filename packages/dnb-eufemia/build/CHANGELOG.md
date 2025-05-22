@@ -3,6 +3,34 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.75.0](https://github.com/dnbexperience/eufemia/compare/v10.74.0...v10.75.0) (2025-05-22)
+
+
+### :memo: Documentation
+
+* **CountryFlag:** list available countries ([#5170](https://github.com/dnbexperience/eufemia/issues/5170)) ([00081e2](https://github.com/dnbexperience/eufemia/commit/00081e2ad31097ae37340ce20b0edeb18323a545))
+* **Field.PhoneNumber:** list available countries ([#5171](https://github.com/dnbexperience/eufemia/issues/5171)) ([fd9adc2](https://github.com/dnbexperience/eufemia/commit/fd9adc2272703831cfb9793aee20157360dcd48b))
+* **Value.SelectCountry:** list available countries ([#5169](https://github.com/dnbexperience/eufemia/issues/5169)) ([636cf32](https://github.com/dnbexperience/eufemia/commit/636cf3233e1bf4c2fddcb2e961c87e0da46ab551))
+
+
+### :bug: Bug Fixes
+
+* **DatePicker:** show month label when `onlyMonth` is `true` ([#5166](https://github.com/dnbexperience/eufemia/issues/5166)) ([5bc6a0e](https://github.com/dnbexperience/eufemia/commit/5bc6a0e74836d45c690ae91356ad5d369efc946e))
+* **Forms:** add support for Iterate.Array in a Form.Section with a path ([#5156](https://github.com/dnbexperience/eufemia/issues/5156)) ([33f0ac4](https://github.com/dnbexperience/eufemia/commit/33f0ac41430c7e02dc5a25740a976fdf76f6086f)), closes [#3995](https://github.com/dnbexperience/eufemia/issues/3995)
+* **Forms:** ensure `reduceToVisibleFields` works properly within Wizard ([#5174](https://github.com/dnbexperience/eufemia/issues/5174)) ([3f74b9d](https://github.com/dnbexperience/eufemia/commit/3f74b9d8f337de791b4bf34caf8a574b4b14aba7))
+* **Forms:** ensure Iterate.Array with `required` prop removes error in Wizard step ([#5162](https://github.com/dnbexperience/eufemia/issues/5162)) ([e38027c](https://github.com/dnbexperience/eufemia/commit/e38027cf495d635f66ea4448ea0c60fdc38f28c3)), closes [#5159](https://github.com/dnbexperience/eufemia/issues/5159)
+* **Provider:** enhance handling of translations with potential to be overwritten ([#4827](https://github.com/dnbexperience/eufemia/issues/4827)) ([f45bc93](https://github.com/dnbexperience/eufemia/commit/f45bc93f60dc8b2070961a1ea50a188066b9917c))
+* **useTranslation:** ensure correct TypeScript typing support ([#5148](https://github.com/dnbexperience/eufemia/issues/5148)) ([db95526](https://github.com/dnbexperience/eufemia/commit/db9552671c0fb1a8f9a07920226cdc0d3328068b))
+
+
+### :sparkles: Features
+
+* **DatePicker:** deprecate `correctInvalidDate` ([#4916](https://github.com/dnbexperience/eufemia/issues/4916)) ([eced11b](https://github.com/dnbexperience/eufemia/commit/eced11b1c82df2de9490fda5880324cb7b2fcb36))
+* **Forms:** add support for country names in `sv-SE` locale ([#5168](https://github.com/dnbexperience/eufemia/issues/5168)) ([1383d7a](https://github.com/dnbexperience/eufemia/commit/1383d7a821e107805a89f8bfa6518e4dd98d8b01)), closes [#4769](https://github.com/dnbexperience/eufemia/issues/4769)
+* **Froms:** add `minItems` and `maxItems` properties to Iterate.Array ([#5164](https://github.com/dnbexperience/eufemia/issues/5164)) ([85d2e7e](https://github.com/dnbexperience/eufemia/commit/85d2e7e700406a0d3609e027c0a8d0f52bfd3198))
+* **Iterate.RemoveButton:** add support for `itemNo` ([#5158](https://github.com/dnbexperience/eufemia/issues/5158)) ([681c549](https://github.com/dnbexperience/eufemia/commit/681c54914928d6a9b91a82dc3bdc0dff7514fb3c))
+* **PaymentCard:** update PaymentCard designs  ([#5085](https://github.com/dnbexperience/eufemia/issues/5085)) ([91947b1](https://github.com/dnbexperience/eufemia/commit/91947b110a0b3a55580a5c1339cb5907b6aa0d7a))
+
 ## [10.74.0](https://github.com/dnbexperience/eufemia/compare/v10.73.2...v10.74.0) (2025-05-19)
 
 
