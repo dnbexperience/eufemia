@@ -3,6 +3,15 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.75.1](https://github.com/dnbexperience/eufemia/compare/v10.75.0...v10.75.1) (2025-05-22)
+
+
+### :bug: Bug Fixes
+
+* **Forms:** enhance change detection when using `preventUncommittedChanges` on a Iterate.PushContainer ([#5177](https://github.com/dnbexperience/eufemia/issues/5177)) ([30e5bf9](https://github.com/dnbexperience/eufemia/commit/30e5bf97a4678ab5a1270d87c4b48f8bd6a3f333))
+* **Forms:** ensure fields don't report errors when hidden inside Visibility ([#5176](https://github.com/dnbexperience/eufemia/issues/5176)) ([cb84095](https://github.com/dnbexperience/eufemia/commit/cb84095a478a2e1b416243b04d740e58ec719824))
+* **Forms:** run `filterData` on every data entry, not only on mounted fields ([#5175](https://github.com/dnbexperience/eufemia/issues/5175)) ([c9124fc](https://github.com/dnbexperience/eufemia/commit/c9124fcb613b63f5b8cd7640f058fbb95c88ca62))
+
 ## [10.75.0](https://github.com/dnbexperience/eufemia/compare/v10.74.0...v10.75.0) (2025-05-22)
 
 
