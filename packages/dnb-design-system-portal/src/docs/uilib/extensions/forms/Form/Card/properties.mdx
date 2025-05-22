@@ -5,8 +5,15 @@ hideInMenu: true
 
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { FormCardProperties } from '@dnb/eufemia/src/extensions/forms/Form/Card/CardDocs'
+import {
+  FormCardProperties,
+  InheritedCardProperties,
+} from '@dnb/eufemia/src/extensions/forms/Form/Card/CardDocs'
 
 ## Properties
 
 <PropertiesTable props={FormCardProperties} />
+
+## Other properties inherited from [Card](/uilib/components/card/properties)
+
+<PropertiesTable props={InheritedCardProperties} />

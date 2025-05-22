@@ -95,7 +95,7 @@ describe('Form.Card', () => {
     it('provider should tell children they are nested', () => {
       // Provider sets nested context
       const { rerender } = render(
-        <Form.Card.Provider hasParentCard>
+        <Form.Card.Provider disableCardBreakout>
           <ContextConsumer />
         </Form.Card.Provider>
       )
@@ -103,7 +103,7 @@ describe('Form.Card', () => {
 
       // Can set false context
       rerender(
-        <Form.Card.Provider hasParentCard={false}>
+        <Form.Card.Provider disableCardBreakout={false}>
           <ContextConsumer />
         </Form.Card.Provider>
       )
@@ -122,7 +122,7 @@ describe('Form.Card', () => {
       // Overrides parent card context if set
       const { rerender } = render(
         <Form.Card>
-          <Form.Card.Provider hasParentCard={false}>
+          <Form.Card.Provider disableCardBreakout={false}>
             <ContextConsumer />
           </Form.Card.Provider>
         </Form.Card>
@@ -131,8 +131,8 @@ describe('Form.Card', () => {
 
       // Overrides parent provider context if set
       rerender(
-        <Form.Card.Provider hasParentCard>
-          <Form.Card.Provider hasParentCard={false}>
+        <Form.Card.Provider disableCardBreakout>
+          <Form.Card.Provider disableCardBreakout={false}>
             <ContextConsumer />
           </Form.Card.Provider>
         </Form.Card.Provider>

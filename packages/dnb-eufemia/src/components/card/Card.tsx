@@ -101,7 +101,7 @@ function Card(props: Props) {
 
   return (
     <Flex.Item alignSelf={alignSelf} element="section" {...params}>
-      <Card.Provider hasParentCard>
+      <Card.Provider disableCardBreakout>
         <Flex.Container
           direction={direction ?? 'vertical'}
           divider={divider}
@@ -136,15 +136,15 @@ Card.Provider = function CardProvider({
    *
    * Defaults to existing context value.
    */
-  hasParentCard,
+  disableCardBreakout,
   children,
 }: {
-  hasParentCard?: boolean
+  disableCardBreakout?: boolean
   children: React.ReactNode
 }) {
   const context = useContext(CardContext) || {}
 
-  context.isNested = hasParentCard ?? context?.isNested
+  context.isNested = disableCardBreakout ?? context?.isNested
 
   return (
     <CardContext.Provider value={context}>{children}</CardContext.Provider>
