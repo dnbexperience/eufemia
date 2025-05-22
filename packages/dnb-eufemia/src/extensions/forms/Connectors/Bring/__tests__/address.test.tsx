@@ -32,8 +32,8 @@ describe('address', () => {
         Connectors.Bring.address.suggestionsElement,
         {
           countryCode: 'NO', // Can be "NO" or a path
-          cityPath: '/city',
-          postalCodePath: '/postalCode',
+          cityPath: '/myCity',
+          postalCodePath: '/myPostalCode',
         }
       )
     })
@@ -68,8 +68,8 @@ describe('address', () => {
       )
 
       const input = document.querySelector('input')
-      await userEvent.type(input, 'something')
-      expect(input.value).toBe('something')
+      await userEvent.type(input, 'a value')
+      expect(input.value).toBe('a value')
 
       await userEvent.click(
         document.querySelectorAll('[role="option"]')[0]
@@ -86,7 +86,7 @@ describe('address', () => {
       )
 
       const input = document.querySelector('input')
-      await userEvent.type(input, 'something')
+      await userEvent.type(input, 'a value')
 
       await waitFor(() => {
         expect(document.querySelectorAll('[role="option"]')).toHaveLength(
@@ -115,10 +115,10 @@ describe('address', () => {
           <Field.Address.Street element={addressSuggestionsElement} />
           <Field.PostalCodeAndCity
             postalCode={{
-              path: '/postalCode',
+              path: '/myPostalCode',
             }}
             city={{
-              path: '/city',
+              path: '/myCity',
             }}
           />
         </Form.Handler>
@@ -135,7 +135,7 @@ describe('address', () => {
       expect(addressInput).toHaveValue('')
       expect(cityInput).toHaveValue('')
 
-      await userEvent.type(input, 'something')
+      await userEvent.type(input, 'a value')
 
       await waitFor(() => {
         expect(document.querySelectorAll('[role="option"]')).toHaveLength(
@@ -146,6 +146,7 @@ describe('address', () => {
       await userEvent.click(
         document.querySelectorAll('[role="option"]')[0]
       )
+      expect(input).toHaveValue('Gransvea 37')
       expect(addressInput).toHaveValue('1391')
       expect(cityInput).toHaveValue('Vollen')
 
@@ -173,14 +174,16 @@ describe('address', () => {
 
     it('should overwrite existing when selecting a new option', async () => {
       render(
-        <Form.Handler defaultData={{ postalCode: '1234', city: 'City' }}>
+        <Form.Handler
+          defaultData={{ myPostalCode: '1234', myCity: 'City' }}
+        >
           <Field.Address.Street element={addressSuggestionsElement} />
           <Field.PostalCodeAndCity
             postalCode={{
-              path: '/postalCode',
+              path: '/myPostalCode',
             }}
             city={{
-              path: '/city',
+              path: '/myCity',
             }}
           />
         </Form.Handler>
@@ -197,7 +200,7 @@ describe('address', () => {
       expect(addressInput).toHaveValue('1234')
       expect(cityInput).toHaveValue('City')
 
-      await userEvent.type(input, 'something')
+      await userEvent.type(input, 'a value')
 
       await waitFor(() => {
         expect(document.querySelectorAll('[role="option"]')).toHaveLength(
@@ -208,6 +211,7 @@ describe('address', () => {
       await userEvent.click(
         document.querySelectorAll('[role="option"]')[0]
       )
+      expect(input).toHaveValue('Gransvea 37')
       expect(addressInput).toHaveValue('1391')
       expect(cityInput).toHaveValue('Vollen')
     })
@@ -220,10 +224,10 @@ describe('address', () => {
           <Field.Address.Street element={addressSuggestionsElement} />
           <Field.PostalCodeAndCity
             postalCode={{
-              path: '/postalCode',
+              path: '/myPostalCode',
             }}
             city={{
-              path: '/city',
+              path: '/myCity',
             }}
           />
         </Form.Handler>
@@ -240,7 +244,7 @@ describe('address', () => {
       expect(addressInput).toHaveValue('')
       expect(cityInput).toHaveValue('')
 
-      await userEvent.type(input, 'something')
+      await userEvent.type(input, 'a value')
 
       await waitFor(() => {
         expect(document.querySelectorAll('[role="option"]')).toHaveLength(
@@ -251,6 +255,7 @@ describe('address', () => {
       await userEvent.click(
         document.querySelectorAll('[role="option"]')[0]
       )
+      expect(input).toHaveValue('Gransvea 37')
       expect(addressInput).toHaveValue('1391')
       expect(cityInput).toHaveValue('Vollen')
 
@@ -259,8 +264,8 @@ describe('address', () => {
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit).toHaveBeenLastCalledWith(
         {
-          postalCode: '1391',
-          city: 'Vollen',
+          myPostalCode: '1391',
+          myCity: 'Vollen',
         },
         expect.anything()
       )
@@ -270,9 +275,9 @@ describe('address', () => {
       addressSuggestionsElement = withConfig(
         Connectors.Bring.address.suggestionsElement,
         {
-          countryCode: '/countryCode',
-          cityPath: '/city',
-          postalCodePath: '/postalCode',
+          countryCode: '/myCountryCode',
+          cityPath: '/myCity',
+          postalCodePath: '/myPostalCode',
         }
       )
 
@@ -280,19 +285,19 @@ describe('address', () => {
         <Form.Handler defaultData={{ countryCode: 'SE' }}>
           <Field.Address.Street element={addressSuggestionsElement} />
           <Field.PostalCodeAndCity
-            countryCode="/countryCode"
+            countryCode="/myCountryCode"
             postalCode={{
-              path: '/postalCode',
+              path: '/myPostalCode',
             }}
             city={{
-              path: '/city',
+              path: '/myCity',
             }}
           />
         </Form.Handler>
       )
 
       const input = document.querySelector('input')
-      await userEvent.type(input, 'something')
+      await userEvent.type(input, 'a value')
 
       expect(document.querySelectorAll('[role="option"]')).toHaveLength(0)
     })
@@ -308,8 +313,8 @@ describe('address', () => {
         Connectors.Bring.address.suggestionsElement,
         {
           countryCode: 'NO',
-          cityPath: '/city',
-          postalCodePath: '/postalCode',
+          cityPath: '/myCity',
+          postalCodePath: '/myPostalCode',
         }
       )
 

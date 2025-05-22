@@ -164,14 +164,17 @@ export function suggestionsElement(
     value,
     additionalArgs
   ) => {
-    const { dataContext, ...rest } = additionalArgs || {}
-    const data = rest?.['data']
+    const { cityPath, postalCodePath } = handlerConfig || {}
+    const data = additionalArgs?.data as AddressResolverPayload[0]
     if (data) {
+      const dataContext = additionalArgs.dataContext
+
       dataContext.handlePathChangeUnvalidated(
-        '/postalCode',
+        postalCodePath,
         data.item.postal_code
       )
-      dataContext.handlePathChangeUnvalidated('/city', data.item.city)
+
+      dataContext.handlePathChangeUnvalidated(cityPath, data.item.city)
     }
   }
 
