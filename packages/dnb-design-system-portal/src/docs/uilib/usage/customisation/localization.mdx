@@ -180,8 +180,10 @@ const myTranslations = {
   },
 }
 
+type Translation = (typeof myTranslations)[keyof typeof myTranslations]
+
 const MyComponent = () => {
-  const t = useTranslation<typeof myTranslations>()
+  const t = useTranslation<Translation>()
 
   // Internal translations
   const existingString = t.Dropdown.title
@@ -238,8 +240,7 @@ const myTranslations = {
 }
 
 // Infer the type of the translations
-type MyLocales = keyof typeof myTranslations
-type MyTranslation = (typeof myTranslations)[MyLocales]
+type Translation = (typeof myTranslations)[keyof typeof myTranslations]
 ```
 
 ## How to combine with other tools
@@ -296,6 +297,7 @@ import nb from './nb.json'
 import en from './en.json'
 
 const MyComponent = () => {
+  // Note: no TypeScript support when using an identifier.
   const str = useTranslation('my.string', {
     foo: 'bar',
   })
