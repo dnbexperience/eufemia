@@ -266,4 +266,17 @@ describe('Form.useTranslation', () => {
     // @ts-expect-error
     expect(result.current.my.foo).toBeUndefined()
   })
+
+  it('should not support an identifier', () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    const { result } = renderHook(() => useTranslation('Email.label'))
+
+    const nb = {}
+    extendDeep(nb, forms_nbNO['nb-NO'], global_nbNO['nb-NO'])
+    nb['formatMessage'] = expect.any(Function)
+    nb['renderMessage'] = expect.any(Function)
+
+    expect(result.current).toEqual(expect.objectContaining(nb))
+  })
 })

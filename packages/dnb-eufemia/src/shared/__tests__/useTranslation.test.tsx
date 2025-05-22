@@ -573,4 +573,15 @@ describe('useTranslation with an ID', () => {
       ])
     })
   })
+
+  it('should return translation with an identifier', () => {
+    const { result } = renderHook(
+      () => useTranslation('Modal.close_title'),
+      {
+        wrapper: ({ children }) => <Provider>{children}</Provider>,
+      }
+    )
+
+    expect(result.current).toEqual(nbNO['nb-NO'].Modal.close_title)
+  })
 })
