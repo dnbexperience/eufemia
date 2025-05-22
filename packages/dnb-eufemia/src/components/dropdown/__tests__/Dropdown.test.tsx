@@ -16,6 +16,9 @@ import {
   DrawerListDataArrayObject,
   DrawerListDataArray,
 } from '../../../fragments/drawer-list'
+import { bank } from '../../../icons'
+import Icon from '../../Icon'
+import NumberFormat from '../../NumberFormat'
 
 // use no_animation so we don't need to wait
 const mockProps: DropdownAllProps = {
@@ -1387,6 +1390,87 @@ describe('Dropdown component', () => {
     expect(
       document.querySelector('.dnb-dropdown__trigger')
     ).toHaveAttribute('title', title)
+  })
+
+  it('has correct title when passing a react fragment as selected_value', () => {
+    render(
+      <Dropdown
+        {...props}
+        data={[
+          {
+            selected_key: 'test',
+            selected_value: <>my value</>,
+            content: 'test',
+          },
+        ]}
+        value={0}
+      />
+    )
+    expect(
+      document.querySelector('.dnb-dropdown__trigger')
+    ).toHaveAttribute('title', 'my value')
+  })
+
+  it('has correct title when passing a react fragment with an Icon as selected_value', () => {
+    render(
+      <Dropdown
+        {...props}
+        data={[
+          {
+            selected_key: 'test',
+            selected_value: (
+              <>
+                <Icon icon={bank} />
+                Banking
+              </>
+            ),
+            content: 'test',
+          },
+        ]}
+        value={0}
+      />
+    )
+    expect(
+      document.querySelector('.dnb-dropdown__trigger')
+    ).toHaveAttribute('title', 'Banking')
+  })
+
+  it('has correct title when passing an Icon as selected_value', () => {
+    render(
+      <Dropdown
+        {...props}
+        data={[
+          {
+            selected_key: 'test',
+            selected_value: <>my value</>,
+            content: 'test',
+          },
+        ]}
+        value={0}
+      />
+    )
+    expect(
+      document.querySelector('.dnb-dropdown__trigger')
+    ).toHaveAttribute('title', 'not sure what the value should be then?')
+  })
+
+  it('has correct title when passing a NumberFormat as selected_value', () => {
+    render(
+      <Dropdown
+        {...props}
+        data={[
+          {
+            selected_key: 'test',
+            selected_value: <NumberFormat>11345678962</NumberFormat>,
+            content: 'test',
+          },
+        ]}
+        value={0}
+      />
+    )
+    expect(
+      document.querySelector('.dnb-dropdown__trigger')
+    ).toHaveAttribute('title', '1134 56 78962')
   })
 
   it('should support inline styling', () => {
