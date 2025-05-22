@@ -443,8 +443,8 @@ export default function Provider<Data extends JsonObject>(
         : undefined
       const { value: displayValue } =
         fieldDisplayValueRef.current[path] || {}
-      const props = fieldInternalsRef.current[path]?.props
-      const label = props?.label
+      const props = fieldInternalsRef.current[path]?.props || {}
+      const label = props?.['label']
       const error = fieldErrorRef.current[path]
 
       return {
@@ -492,16 +492,28 @@ export default function Provider<Data extends JsonObject>(
       }
 
       if (typeof handler === 'function') {
-        Object.keys(fieldInternalsRef.current).forEach((path) => {
+        const run = (path) => {
+          const { type } = fieldDisplayValueRef.current[path] || {}
+          if (fireHandlerWhen?.({ type }) !== false) {
+            const result = handler(
+              getDataPathHandlerParameters(path, data)
+            )
+            mutateEntry(path, result)
+          }
+        }
+
+        // First, iterate over fields which are already mounted
+        for (const path in fieldInternalsRef.current) {
           const exists = pointer.has(data, path)
           if (exists) {
-            const { type } = fieldDisplayValueRef.current[path] || {}
-            if (fireHandlerWhen?.({ type }) !== false) {
-              const result = handler(
-                getDataPathHandlerParameters(path, data)
-              )
-              mutateEntry(path, result)
-            }
+            run(path)
+          }
+        }
+
+        // Then iterate over the rest of the internal data set
+        pointer.walk(internalDataRef.current, (value, path) => {
+          if (fieldInternalsRef.current[path] === undefined) {
+            run(path)
           }
         })
 
