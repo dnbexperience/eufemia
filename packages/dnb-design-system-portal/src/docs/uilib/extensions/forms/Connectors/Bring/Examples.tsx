@@ -44,7 +44,7 @@ export const PostalCode = () => {
           Connectors.Bring.postalCode.validator,
         )
 
-        const onChange = withConfig(Connectors.Bring.postalCode.autofill, {
+        const onBlur = withConfig(Connectors.Bring.postalCode.autofill, {
           cityPath: '/city',
         })
 
@@ -56,7 +56,7 @@ export const PostalCode = () => {
                 postalCode={{
                   path: '/postalCode',
                   onBlurValidator,
-                  onChange,
+                  onBlur,
                   required: true,
                 }}
                 city={{
