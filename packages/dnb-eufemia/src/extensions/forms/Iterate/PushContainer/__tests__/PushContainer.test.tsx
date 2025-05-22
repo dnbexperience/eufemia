@@ -46,7 +46,7 @@ describe('PushContainer', () => {
     )
   })
 
-  it('should show errors when pressing commit button', async () => {
+  it('should show required error when pressing commit button', async () => {
     render(
       <Form.Handler>
         <Iterate.Array path="/entries">...</Iterate.Array>
@@ -57,7 +57,58 @@ describe('PushContainer', () => {
       </Form.Handler>
     )
 
-    await userEvent.click(document.querySelector('button'))
+    await userEvent.click(
+      document.querySelector('.dnb-forms-iterate__done-button')
+    )
+
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+      nb.Field.errorRequired
+    )
+  })
+
+  it('should show required error after opening the container again and pressing commit', async () => {
+    render(
+      <Form.Handler>
+        <Iterate.Array path="/entries">...</Iterate.Array>
+
+        <Iterate.PushContainer
+          path="/entries"
+          openButton={<Iterate.PushContainer.OpenButton />}
+          showOpenButtonWhen={(list) => list.length > 0}
+        >
+          <Field.String itemPath="/name" required />
+        </Iterate.PushContainer>
+      </Form.Handler>
+    )
+
+    await userEvent.click(
+      document.querySelector('.dnb-forms-iterate__done-button')
+    )
+
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+      nb.Field.errorRequired
+    )
+
+    await userEvent.type(document.querySelector('input'), 'foo')
+    await userEvent.click(
+      document.querySelector('.dnb-forms-iterate__done-button')
+    )
+
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
+
+    await userEvent.click(
+      document.querySelector('.dnb-forms-iterate__open-button')
+    )
+
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
+
+    await userEvent.click(
+      document.querySelector('.dnb-forms-iterate__done-button')
+    )
 
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
       nb.Field.errorRequired
@@ -77,9 +128,7 @@ describe('PushContainer', () => {
               path="/entries"
               required
               bubbleValidation
-              openButton={
-                <Iterate.PushContainer.OpenButton id="open-button" />
-              }
+              openButton={<Iterate.PushContainer.OpenButton />}
               showOpenButtonWhen={(list) => list.length > 0}
             >
               <Field.String itemPath="/name" />
@@ -1955,6 +2004,53 @@ describe('PushContainer', () => {
       expect(onCommit).toHaveBeenCalledTimes(1)
     })
 
+    it('should not report error to context after commit and the container is closed', async () => {
+      const onSubmitRequest = jest.fn()
+      const onSubmit = jest.fn()
+      const onCommit = jest.fn()
+
+      let hasErrors = false
+
+      const ErrorReporter = () => {
+        hasErrors = useContext(DataContext).hasErrors()
+        return null
+      }
+
+      render(
+        <Form.Handler
+          onSubmitRequest={onSubmitRequest}
+          onSubmit={onSubmit}
+        >
+          <Iterate.Array path="/entries">...</Iterate.Array>
+
+          <Iterate.PushContainer
+            path="/entries"
+            bubbleValidation
+            openButton={<Iterate.PushContainer.OpenButton />}
+            showOpenButtonWhen={() => true}
+            onCommit={onCommit}
+          >
+            <Field.String itemPath="/name" required />
+            <ErrorReporter />
+          </Iterate.PushContainer>
+        </Form.Handler>
+      )
+
+      await userEvent.type(document.querySelector('input'), 'Tony')
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate__done-button')
+      )
+      expect(onCommit).toHaveBeenCalledTimes(1)
+
+      expect(hasErrors).toBe(false)
+
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate__open-button')
+      )
+
+      expect(hasErrors).toBe(true)
+    })
+
     it('should not show errors when submitting the form when bubbleValidation is false', async () => {
       render(
         <Form.Handler>
@@ -2023,9 +2119,7 @@ describe('PushContainer', () => {
                 <Iterate.PushContainer
                   path="/myList"
                   bubbleValidation
-                  openButton={
-                    <Iterate.PushContainer.OpenButton id="open-button" />
-                  }
+                  openButton={<Iterate.PushContainer.OpenButton />}
                   showOpenButtonWhen={() => true}
                 >
                   <Field.String itemPath="/foo" required />
@@ -2053,7 +2147,9 @@ describe('PushContainer', () => {
 
         expect(output()).toHaveTextContent('Step 1')
 
-        await userEvent.click(document.querySelector('#open-button'))
+        await userEvent.click(
+          document.querySelector('.dnb-forms-iterate__open-button')
+        )
         expect(
           document.querySelector('.dnb-form-status')
         ).not.toBeInTheDocument()
@@ -2614,7 +2710,9 @@ describe('PushContainer', () => {
       )
 
       expect(document.querySelector('input')).toHaveValue('bar')
-      await userEvent.click(document.querySelector('button'))
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate__done-button')
+      )
 
       expect(document.querySelector('input')).toHaveValue('bar')
       expect(onChange).toHaveBeenCalledTimes(1)
@@ -2625,7 +2723,9 @@ describe('PushContainer', () => {
         expect.anything()
       )
 
-      await userEvent.click(document.querySelector('button'))
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate__done-button')
+      )
 
       expect(document.querySelector('input')).toHaveValue('bar')
       expect(onChange).toHaveBeenCalledTimes(2)
@@ -2649,13 +2749,17 @@ describe('PushContainer', () => {
       )
 
       expect(document.querySelector('input')).toHaveValue('foo')
-      await userEvent.click(document.querySelector('button'))
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate__done-button')
+      )
 
       expect(document.querySelector('input')).toHaveValue('foo')
       expect(onChange).toHaveBeenCalledTimes(1)
       expect(onChange).toHaveBeenLastCalledWith(['foo'], expect.anything())
 
-      await userEvent.click(document.querySelector('button'))
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate__done-button')
+      )
 
       expect(document.querySelector('input')).toHaveValue('foo')
       expect(onChange).toHaveBeenCalledTimes(2)

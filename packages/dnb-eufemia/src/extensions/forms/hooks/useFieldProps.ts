@@ -1002,18 +1002,20 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         return
       }
 
-      localErrorRef.current = error
+      const currentError =
+        handleFieldAsVisible !== false ? error : undefined
+      localErrorRef.current = currentError
 
       // Tell the data context about the error, so it can stop the user from submitting the form until the error has been fixed
-      setFieldErrorDataContext?.(identifier, error)
-      setFieldErrorBoundary?.(identifier, error)
+      setFieldErrorDataContext?.(identifier, currentError)
+      setFieldErrorBoundary?.(identifier, currentError)
 
       // Set the visual states
       setBlockRecord?.({
         stateId,
         identifier,
         type: 'error',
-        content: error,
+        content: currentError,
         showInitially: Boolean(inFieldBlock && validateInitially),
       })
       setFieldStateDataContext?.(identifier, error ? 'error' : undefined)
@@ -1022,7 +1024,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         setFieldErrorWizard?.(
           wizardIndex,
           identifier,
-          handleFieldAsVisible !== false ? !!error : undefined
+          Boolean(currentError)
         )
       }
 
@@ -2024,21 +2026,34 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   ])
 
   useEffect(() => {
+    if (prerenderFieldProps) {
+      return // stop here, we don't want to set the state of the field
+    }
+
     // Unmount procedure.
     return () => {
       setFieldErrorDataContext?.(identifier, undefined)
       setFieldErrorBoundary?.(identifier, undefined)
       localErrorRef.current = undefined
     }
-  }, [identifier, setFieldErrorBoundary, setFieldErrorDataContext])
+  }, [
+    identifier,
+    prerenderFieldProps,
+    setFieldErrorBoundary,
+    setFieldErrorDataContext,
+  ])
 
   useEffect(() => {
+    if (prerenderFieldProps) {
+      return // stop here, we don't want to set the state of the field
+    }
+
     // Unmount procedure.
     return () => {
       // Have this in a separate useEffect to avoid calling unmount when a step changes
       setFieldErrorWizard?.(wizardIndex, identifier, undefined)
     }
-  }, [identifier, setFieldErrorWizard, wizardIndex])
+  }, [identifier, prerenderFieldProps, setFieldErrorWizard, wizardIndex])
 
   useEffect(() => {
     validateValue()
