@@ -17,10 +17,8 @@ export default function useHasContentChanged() {
     let hasChanged = false
 
     pointer.walk(data, (value, path) => {
-      if (
-        pointer.has(snapshot, path) &&
-        pointer.get(snapshot, path) !== value
-      ) {
+      const exists = pointer.has(snapshot, path)
+      if (!exists || (exists && pointer.get(snapshot, path) !== value)) {
         hasChanged = true
         return false
       }
