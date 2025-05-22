@@ -92,7 +92,7 @@ describe('Form.Card', () => {
       expect(contextRef.current.isNested).toBe(true)
     })
 
-    it('provider should tell children they are nested', () => {
+    it('provider should tell children they are nested by using "disableCardBreakout"', () => {
       // Provider sets nested context
       const { rerender } = render(
         <Form.Card.Provider disableCardBreakout>
