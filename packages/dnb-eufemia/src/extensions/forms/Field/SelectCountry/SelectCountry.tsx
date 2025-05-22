@@ -5,12 +5,13 @@ import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import { LOCALE } from '../../../../shared/defaults'
 import { Autocomplete } from '../../../../components'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import countries, {
+import listOfCountries, {
   prioritizedCountries,
   type CountryType,
   type CountryLang,
   type CountryISO,
 } from '../../constants/countries'
+import useCountries from './useCountries'
 import { useFieldProps } from '../../hooks'
 import { FieldPropsWithExtraValue } from '../../types'
 import FieldBlock, {
@@ -70,6 +71,7 @@ function SelectCountry(props: Props) {
   const lang = (sharedContext.locale || LOCALE).split(
     '-'
   )[0] as CountryLang
+  const { countries } = useCountries()
 
   const getCountryObjectByIso = useCallback(
     (value: CountryType['iso']) => {
@@ -79,7 +81,7 @@ function SelectCountry(props: Props) {
       }
       return country
     },
-    [lang]
+    [countries, lang]
   )
 
   const provideAdditionalArgs = useCallback(
@@ -159,6 +161,7 @@ function SelectCountry(props: Props) {
     if (isLangChange || !wasFilled.current) {
       langRef.current = lang
       dataRef.current = getCountryData({
+        countries,
         lang,
         filter: !wasFilled.current
           ? (country) => country.iso === value
@@ -174,7 +177,7 @@ function SelectCountry(props: Props) {
         })
       }
     }
-  }, [lang, filter, ccFilter, updateValue, value])
+  }, [lang, countries, filter, ccFilter, value, updateValue])
 
   const handleCountryChange = useCallback(
     ({ data }: { data: { selectedKey: string } }) => {
@@ -191,13 +194,14 @@ function SelectCountry(props: Props) {
     if (!wasFilled.current) {
       wasFilled.current = true
       dataRef.current = getCountryData({
+        countries,
         lang: langRef.current,
         filter,
         sort: ccFilter as Extract<CountryFilterSet, 'Prioritized'>,
       })
       forceUpdate()
     }
-  }, [ccFilter, filter, forceUpdate])
+  }, [ccFilter, countries, filter, forceUpdate])
 
   const onFocusHandler = useCallback(
     ({ updateData }) => {
@@ -222,7 +226,7 @@ function SelectCountry(props: Props) {
         }
       }
     },
-    [handleChange]
+    [countries, handleChange]
   )
 
   useMemo(() => {
@@ -274,6 +278,7 @@ function SelectCountry(props: Props) {
 }
 
 type GetCountryData = {
+  countries: typeof listOfCountries
   lang?: CountryLang
   filter?: Props['filterCountries']
   sort?: Extract<CountryFilterSet, 'Prioritized'>
@@ -287,6 +292,7 @@ type GetCountryData = {
 }
 
 export function getCountryData({
+  countries,
   lang = 'nb',
   filter = null,
   sort = null,
@@ -297,7 +303,7 @@ export function getCountryData({
       content,
     }
   },
-}: GetCountryData = {}) {
+}: GetCountryData) {
   const sortedCountries = countries
     .filter((country) => {
       if (typeof filter === 'function') {

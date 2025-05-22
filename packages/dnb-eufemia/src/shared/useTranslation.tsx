@@ -58,6 +58,7 @@ export type CombineWithExternalTranslationsArgs = {
 export type AdditionalReturnUtils = {
   formatMessage: typeof formatMessage
   renderMessage: typeof renderMessage
+  countries: Array<string>
 }
 export type CombineWithExternalTranslationsReturn = Translation &
   TranslationCustomLocales &
