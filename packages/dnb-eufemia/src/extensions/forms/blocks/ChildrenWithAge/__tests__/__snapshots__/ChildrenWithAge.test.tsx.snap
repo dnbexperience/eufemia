@@ -15,9 +15,9 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
             aria-placeholder="0"
             aria-required="true"
             class="dnb-input__input"
-            id="id-rh1"
+            id="id-rkh"
             inputmode="numeric"
-            name="id-rh1"
+            name="id-rkh"
             type="text"
           />,
         },
@@ -125,9 +125,9 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
             aria-placeholder="0"
             aria-required="true"
             class="dnb-input__input"
-            id="id-rh7"
+            id="id-rkn"
             inputmode="numeric"
-            name="id-rh7"
+            name="id-rkn"
             type="text"
           />,
         },
@@ -225,7 +225,7 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
     },
     "animate": true,
     "countPath": "/countChildren",
-    "countPathLimit": 20,
+    "countPathLimit": 9,
     "path": "/children",
     "required": false,
     "space": {
@@ -328,12 +328,12 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
     "innerRef": {
       "current": <input
         aria-required="true"
-        aria-valuemax="20"
+        aria-valuemax="9"
         aria-valuemin="1"
         aria-valuenow="2"
         aria-valuetext="2"
         class="dnb-input__input"
-        id="id-rgl"
+        id="id-rk5"
         inputmode="numeric"
         name="countChildren"
         role="spinbutton"
@@ -342,14 +342,14 @@ exports[`ChildrenWithAge should match snapshot 1`] = `
       />,
     },
     "label": "Antall barn under 18 år",
-    "maximum": 20,
+    "maximum": 9,
     "minimum": 1,
     "path": "/countChildren",
     "required": true,
     "schema": {
       "exclusiveMaximum": undefined,
       "exclusiveMinimum": undefined,
-      "maximum": 20,
+      "maximum": 9,
       "minimum": 1,
       "multipleOf": undefined,
       "type": "number",
@@ -545,7 +545,7 @@ exports[`ChildrenWithAge should match snapshot 2`] = `
   ],
   "countChildren": {
     "label": "Antall barn under 18 år",
-    "maximum": 20,
+    "maximum": 9,
     "path": "/countChildren",
     "suffix": "barn",
   },
