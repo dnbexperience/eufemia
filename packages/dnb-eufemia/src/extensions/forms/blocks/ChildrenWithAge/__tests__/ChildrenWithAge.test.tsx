@@ -116,7 +116,7 @@ describe('ChildrenWithAge', () => {
     ).toHaveAttribute('inputmode', 'numeric')
   })
 
-  it('should render number of children with step controls', async () => {
+  it('should render a disabled increase button if 9 children', async () => {
     render(<ChildrenWithAge />)
 
     await userEvent.click(document.querySelector('button'))
@@ -144,7 +144,7 @@ describe('ChildrenWithAge', () => {
     ).toHaveProperty('disabled')
   })
 
-  it('should render error message if inputting more than 9 children', async () => {
+  it('should render error message if more than 9 children', async () => {
     render(<ChildrenWithAge />)
 
     await userEvent.click(document.querySelector('button'))
