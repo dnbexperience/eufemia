@@ -4,6 +4,7 @@ import { convertJsxToString } from '../../shared/component-helper'
 import { LOCALE as defaultLocale } from '../../shared/defaults'
 import { convertStringToDate } from '../date-picker/DatePickerCalc'
 import { formatDate } from './DateUtils'
+import { format } from 'date-fns'
 
 type DateFormatProps = {
   /**
@@ -61,10 +62,15 @@ export default function DateFormat({
   year,
   children,
 }: DateFormatProps) {
-  const dateToFormat = getDateToFormat({ date, children })
+  const dateToFormat = convertStringToDate(
+    getDateToFormat({ date, children })
+  )
 
   return (
-    <time className="dnb-date-format">
+    <time
+      dateTime={format(dateToFormat, 'yyyy-MM-dd')}
+      className="dnb-date-format"
+    >
       {formatDate(dateToFormat, {
         locale,
         options: {
