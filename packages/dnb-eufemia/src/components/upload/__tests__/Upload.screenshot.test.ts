@@ -99,6 +99,13 @@ describe.each(['ui', 'sbanken'])('Upload for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match the disabled', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="upload-disabled"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe('Upload', () => {

@@ -176,3 +176,13 @@ export const UploadEdgeCases = () => {
     </Wrapper>
   )
 }
+
+export const UploadDisabled = () => {
+  return (
+    <Wrapper>
+      <Box>
+        <Upload id="disabled" disabled acceptedFileTypes={['pdf']} />
+      </Box>
+    </Wrapper>
+  )
+}
