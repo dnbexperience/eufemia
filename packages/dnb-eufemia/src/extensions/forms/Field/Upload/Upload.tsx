@@ -119,6 +119,7 @@ function UploadComponent(props: Props) {
     labelDescription,
     help,
     htmlAttributes,
+    disabled,
     handleChange,
     handleFocus,
     handleBlur,
@@ -255,6 +256,7 @@ function UploadComponent(props: Props) {
         download={download}
         allowDuplicates={allowDuplicates}
         disableDragAndDrop={disableDragAndDrop}
+        disabled={disabled}
         fileMaxSize={fileMaxSize}
         skeleton={skeleton}
         onChange={changeHandler}

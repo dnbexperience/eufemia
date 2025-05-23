@@ -411,3 +411,14 @@ export const AsyncEverythingWithTransform = () => {
     </Form.Handler>
   )
 }
+
+export const DisabledProperty = () => {
+  return (
+    <Form.Handler onSubmit={async (form) => console.log(form)}>
+      <Flex.Stack>
+        <Field.Upload disabled />
+        <Tools.Log />
+      </Flex.Stack>
+    </Form.Handler>
+  )
+}
