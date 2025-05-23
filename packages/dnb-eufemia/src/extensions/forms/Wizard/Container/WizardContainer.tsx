@@ -508,7 +508,7 @@ function WizardContainer(props: Props) {
   const { check } = useVisibility()
 
   // This is used to map over the children and to give them the correct index,
-  // in case it could be given properly, like if no id or title was given in React.StrictMode.
+  // in case it could NOT be given properly, like if no id or title was given in React.StrictMode.
   const mapOverChildrenRef = useRef(false)
   const enableMapOverChildren = useCallback(() => {
     mapOverChildrenRef.current = true

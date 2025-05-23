@@ -73,20 +73,35 @@ export const OnStepChange = () => {
   return (
     <ComponentBox>
       {() => {
-        const Step1 = () => {
-          const onStepChange = React.useCallback(
-            (index, mode, { preventNavigation }) => {
-              console.log(
-                'onStepChange from Step1:',
-                index,
-                mode,
-                typeof preventNavigation,
-              )
-            },
-            [],
+        const onStepChange1 = (index, mode, { preventNavigation }) => {
+          console.log(
+            'onStepChange from Step1:',
+            index,
+            mode,
+            typeof preventNavigation,
           )
+        }
 
-          Wizard.useStep(undefined, { onStepChange })
+        const onStepChange2 = (index, mode, { preventNavigation }) => {
+          console.log(
+            'onStepChange from Step2:',
+            index,
+            mode,
+            typeof preventNavigation,
+          )
+        }
+
+        const onStepChange3 = (index, mode, { preventNavigation }) => {
+          console.log(
+            'onStepChange from Step3:',
+            index,
+            mode,
+            typeof preventNavigation,
+          )
+        }
+
+        const Step1 = () => {
+          Wizard.useStep(undefined, { onStepChange: onStepChange1 })
 
           return (
             <Wizard.Step title="Step 1">
@@ -96,19 +111,7 @@ export const OnStepChange = () => {
         }
 
         const Step2 = () => {
-          const onStepChange = React.useCallback(
-            (index, mode, { preventNavigation }) => {
-              console.log(
-                'onStepChange from Step2:',
-                index,
-                mode,
-                typeof preventNavigation,
-              )
-            },
-            [],
-          )
-
-          Wizard.useStep(undefined, { onStepChange })
+          Wizard.useStep(undefined, { onStepChange: onStepChange2 })
 
           return (
             <Wizard.Step title="Step 2">
@@ -118,19 +121,7 @@ export const OnStepChange = () => {
         }
 
         const Step3 = () => {
-          const onStepChange = React.useCallback(
-            (index, mode, { preventNavigation }) => {
-              console.log(
-                'onStepChange from Step3:',
-                index,
-                mode,
-                typeof preventNavigation,
-              )
-            },
-            [],
-          )
-
-          Wizard.useStep(undefined, { onStepChange })
+          Wizard.useStep(undefined, { onStepChange: onStepChange3 })
 
           return (
             <Wizard.Step title="Step 3">
