@@ -93,28 +93,30 @@ describe('useReactRouter', () => {
     const { useSearchParams, setSearchParams, set, searchParams } =
       getHookMock()
 
-    const Step = () => {
+    const MockComponent = () => {
       const { activeIndex } = useStep(identifier)
       const { getIndex } = useReactRouter(identifier, { useSearchParams })
       return (
-        <Wizard.Step>
+        <Form.Handler>
           <output>
             {JSON.stringify({ activeIndex, index: getIndex() })}
           </output>
-          <Wizard.Buttons />
-        </Wizard.Step>
+          <Wizard.Container mode="loose" id={identifier}>
+            <Wizard.Step title="Step 1">
+              <Wizard.Buttons />
+            </Wizard.Step>
+            <Wizard.Step title="Step 2">
+              <Wizard.Buttons />
+            </Wizard.Step>
+            <Wizard.Step title="Step 3">
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
       )
     }
 
-    render(
-      <Form.Handler>
-        <Wizard.Container mode="loose" id={identifier}>
-          <Step />
-          <Step />
-          <Step />
-        </Wizard.Container>
-      </Form.Handler>
-    )
+    render(<MockComponent />)
 
     expect(output()).toHaveTextContent('{"activeIndex":0,"index":null}')
     expect(set).toHaveBeenCalledTimes(0)

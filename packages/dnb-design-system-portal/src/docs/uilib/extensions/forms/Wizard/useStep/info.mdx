@@ -50,3 +50,23 @@ function MyForm() {
 ## EditButton
 
 In order to navigate to a new step when using `setActiveIndex` you can use the [Wizard.EditButton](/uilib/extensions/forms/Wizard/EditButton/) component.
+
+## Listen to step change
+
+You can also use the `onStepChange` event to listen to a step change.
+
+```jsx
+function MyStep() {
+  // Ensure to use "useCallback" to avoid memory leaks
+  const onStepChange = React.useCallback(
+    (index, mode, { preventNavigation }) => {
+      // Do something with the step change
+    },
+    [],
+  )
+
+  Wizard.useStep(undefined, { onStepChange })
+
+  return <Wizard.Step>...</Wizard.Step>
+}
+```

@@ -164,6 +164,7 @@ function WizardContainer(props: Props) {
   const visitedStepsRef = useRef<InternalVisitedSteps>(new Map())
   const fieldErrorRef = useRef<InternalFieldError>(new Map())
   const storeStepStateRef = useRef<InternalStepStatuses>(new Map())
+  const onStepChangeEventsRef = useRef<Set<OnStepChange>>(new Set())
   const hasErrorInOtherStepRef = useRef<boolean>(false)
   const elementRef = useRef<HTMLElement>()
   const stepElementRef = useRef<HTMLElement>()
@@ -179,12 +180,7 @@ function WizardContainer(props: Props) {
   const bypassOnNavigation = validationMode === 'bypassOnNavigation'
 
   // - Handle shared state
-  const sharedStateRef =
-    useRef<
-      SharedStateReturn<
-        WizardContextState & { onStepChange?: OnStepChange }
-      >
-    >()
+  const sharedStateRef = useRef<SharedStateReturn<WizardContextState>>()
   sharedStateRef.current = useSharedState<WizardContextState>(
     hasContext && id ? createReferenceKey(id, 'wizard') : undefined
   )
@@ -370,11 +366,11 @@ function WizardContainer(props: Props) {
       let didSubmit = false
       const onSubmit = async () => {
         if (!skipStepChangeCallFromHook) {
-          sharedStateRef.current?.data?.onStepChange?.(
-            index,
-            mode,
-            getStepChangeOptions(index)
-          )
+          onStepChangeEventsRef?.current?.forEach((onStepChange) => {
+            if (typeof onStepChange === 'function') {
+              onStepChange(index, mode, getStepChangeOptions(index))
+            }
+          })
         }
 
         let result = undefined
@@ -533,6 +529,7 @@ function WizardContainer(props: Props) {
       prerenderFieldProps,
       prerenderFieldPropsRef,
       hasErrorInOtherStepRef,
+      onStepChangeEventsRef,
       keepInDOM,
       enableMapOverChildren,
       mapOverChildrenRef,
