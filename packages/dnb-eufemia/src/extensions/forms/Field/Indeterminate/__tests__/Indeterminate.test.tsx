@@ -40,7 +40,7 @@ describe('Indeterminate', () => {
           child1: undefined,
           child2: undefined,
           child3: undefined,
-          parent: false,
+          parent: undefined,
         }),
         expect.anything()
       )
@@ -61,7 +61,7 @@ describe('Indeterminate', () => {
           child1: 'checked',
           child2: undefined,
           child3: undefined,
-          parent: false,
+          parent: undefined,
         }),
         expect.anything()
       )
@@ -316,7 +316,7 @@ describe('Indeterminate', () => {
           child1: undefined,
           child2: undefined,
           child3: undefined,
-          parent: false,
+          parent: undefined,
         }),
         expect.anything()
       )
@@ -337,7 +337,7 @@ describe('Indeterminate', () => {
           child1: 'checked',
           child2: undefined,
           child3: undefined,
-          parent: false,
+          parent: undefined,
         }),
         expect.anything()
       )
@@ -592,7 +592,7 @@ describe('Indeterminate', () => {
           child1: undefined,
           child2: undefined,
           child3: undefined,
-          parent: false,
+          parent: undefined,
         }),
         expect.anything()
       )
@@ -613,7 +613,7 @@ describe('Indeterminate', () => {
           child1: 'checked',
           child2: undefined,
           child3: undefined,
-          parent: false,
+          parent: undefined,
         }),
         expect.anything()
       )
@@ -640,7 +640,7 @@ describe('Indeterminate', () => {
           child1: 'checked',
           child2: 'checked',
           child3: 'checked',
-          parent: false,
+          parent: undefined,
         }),
         expect.anything()
       )
