@@ -141,6 +141,10 @@ export async function fetchData<Data = unknown>(
     options
   )
 
+  if (!response) {
+    throw new Error('Please try again!')
+  }
+
   // Check if the response status is in the range of 200-299
   if (!response.ok) {
     throw new Error(`${response.statusText} – Status: ${response.status}`)
