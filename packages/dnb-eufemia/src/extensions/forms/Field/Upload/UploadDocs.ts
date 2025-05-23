@@ -11,8 +11,8 @@ export const UploadFieldProperties: PropertiesTableProps = {
     status: 'optional',
   },
   ...UploadProperties,
-  title: undefined,
-  text: undefined,
+  title: undefined, // hiding from docs as we rather want user to use the `label` prop,
+  text: undefined, // hiding from docs as we rather want user to use the `labelDescription` prop,
 }
 
 export const UploadFieldEvents: PropertiesTableProps = {
