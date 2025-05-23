@@ -18,6 +18,8 @@ export type Props = SectionProps & {
   toWizardStep?: number
 } & SpacingProps
 
+const maximumChildren = 9
+
 export default function ChildrenWithAge({
   mode,
   enableAdditionalQuestions,
@@ -82,7 +84,7 @@ function EditContainer({
           width="small"
           showStepControls
           minimum={1}
-          maximum={20}
+          maximum={maximumChildren}
           decimalLimit={0}
           allowNegative={false}
         />
@@ -90,7 +92,7 @@ function EditContainer({
         <Iterate.Array
           path="/children"
           countPath="/countChildren"
-          countPathLimit={20}
+          countPathLimit={maximumChildren}
           animate
         >
           <Field.Number
@@ -206,7 +208,7 @@ function SummaryContainer({
             path="/countChildren"
             label={tr.ChildrenWithAge.countChildren.fieldLabel}
             suffix={tr.ChildrenWithAge.countChildren.suffix}
-            maximum={20}
+            maximum={maximumChildren}
           />
           <Iterate.Array path="/children">
             <Value.Number
