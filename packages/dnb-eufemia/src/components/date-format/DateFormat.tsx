@@ -1,3 +1,4 @@
+import React from 'react'
 import { InternalLocale } from '../../shared/Context'
 import { convertJsxToString } from '../../shared/component-helper'
 import { LOCALE as defaultLocale } from '../../shared/defaults'
@@ -91,7 +92,7 @@ export default function DateFormat({
   const dateToFormat = getDateToFormat({ date, children })
 
   return (
-    <span>
+    <span className="dnb-date-format">
       {formatDate(dateToFormat, {
         locale,
         options: {
