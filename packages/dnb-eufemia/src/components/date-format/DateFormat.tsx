@@ -26,12 +26,6 @@ type DateFormatOptions = {
    */
   dateStyle?: Intl.DateTimeFormatOptions['dateStyle']
   /**
-   * Defines the formatting for time. (hour, minute, second)
-   * Cannot be used together with `hour`, `minute`, and `second`.
-   * Defaults to `undefined`.
-   */
-  timeStyle?: Intl.DateTimeFormatOptions['timeStyle']
-  /**
    * Defines the formatting used for weekdays.
    * Cannot be used together with `dateStyle`.
    * Defaults to `undefined`.
@@ -55,52 +49,29 @@ type DateFormatOptions = {
    * Defaults to `undefined`.
    */
   year?: Intl.DateTimeFormatOptions['year']
-  /**
-   * Defines the formatting used for hours.
-   * Cannot be used together with `timeStyle`.
-   * Defaults to `undefined`.
-   */
-  hour?: Intl.DateTimeFormatOptions['hour']
-  /**
-   * Defines the formatting used for minutes.
-   * Cannot be used together with `timeStyle`.
-   * Defaults to `undefined`.
-   */
-  minute?: Intl.DateTimeFormatOptions['minute']
-  /**
-   * Defines the formatting used for seconds.
-   * Cannot be used together with `timeStyle`.
-   * Defaults to `undefined`.
-   */
-  second?: Intl.DateTimeFormatOptions['second']
 }
 
 export default function DateFormat({
   date,
   locale = defaultLocale,
   dateStyle = 'long',
-  timeStyle,
   weekday,
   day,
   month,
   year,
-  hour,
-  minute,
-  second,
   children,
 }: DateFormatProps) {
   const dateToFormat = getDateToFormat({ date, children })
 
   return (
-    <span className="dnb-date-format">
+    <time className="dnb-date-format">
       {formatDate(dateToFormat, {
         locale,
         options: {
           ...getDateOptions({ dateStyle, weekday, day, month, year }),
-          ...getTimeOptions({ timeStyle, hour, minute, second }),
         },
       })}
-    </span>
+    </time>
   )
 }
 
@@ -121,21 +92,6 @@ function getDateOptions({
   }
 
   return { dateStyle }
-}
-
-function getTimeOptions({
-  timeStyle,
-  hour,
-  minute,
-  second,
-}: Pick<DateFormatOptions, 'timeStyle' | 'hour' | 'minute' | 'second'>) {
-  // Prioritize time segment formatting if defined, as hour, minute and second options cannot be used at the same time as timeStyle
-  // Prevents application from crashing if developer defines segment formatting at the same time as timeStyle is used.
-  if (hour || minute || second) {
-    return { hour, minute, second }
-  }
-
-  return { timeStyle }
 }
 
 function getDateToFormat({

@@ -11,11 +11,6 @@ export const DateFormatProperties: PropertiesTableProps = {
     type: ['long', 'medium', 'short', 'full'],
     status: 'optional',
   },
-  timeStyle: {
-    doc: 'Defines the formatting for time. (hour, minute, second). Cannot be used together with `hour`, `minute`, and `second`. Defaults to `undefined`.',
-    type: ['long', 'medium', 'short', 'full'],
-    status: 'optional',
-  },
   weekday: {
     doc: 'Defines the formatting used for weekdays. Cannot be used together with `dateStyle`. Defaults to `undefined`.',
     type: ['long', 'short', 'narrow'],
@@ -33,21 +28,6 @@ export const DateFormatProperties: PropertiesTableProps = {
   },
   year: {
     doc: 'Defines the formatting used for years. Cannot be used together with `dateStyle`. Defaults to `undefined`.',
-    type: ['numeric', '2-digit'],
-    status: 'optional',
-  },
-  hour: {
-    doc: 'Defines the formatting used for hours. Cannot be used together with `timeStyle`. Defaults to `undefined`.',
-    type: ['numeric', '2-digit'],
-    status: 'optional',
-  },
-  minute: {
-    doc: 'Defines the formatting used for minutes. Cannot be used together with `timeStyle`. Defaults to `undefined`.',
-    type: ['numeric', '2-digit'],
-    status: 'optional',
-  },
-  second: {
-    doc: 'Defines the formatting used for seconds. Cannot be used together with `timeStyle`. Defaults to `undefined`.',
     type: ['numeric', '2-digit'],
     status: 'optional',
   },
