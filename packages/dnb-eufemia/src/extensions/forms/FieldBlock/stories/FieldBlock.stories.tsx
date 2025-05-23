@@ -461,7 +461,7 @@ export function LabelSrOnly() {
         <Field.Name.Last label="label" labelSrOnly />
         <Field.Password label="label" labelSrOnly />
         <Field.Slider label="label" labelSrOnly />
-        <Field.Upload label="label" labelSrOnly />
+        <Field.Upload label="label" />
         <Field.Address.Postal label="label" labelSrOnly />
         <Field.Address.Street label="label" labelSrOnly />
         <Field.Indeterminate

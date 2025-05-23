@@ -372,6 +372,16 @@ describe('Upload', () => {
       expect(screen.queryByText(buttonText)).toBeInTheDocument()
     })
 
+    it('renders the upload file input section button as disabled', () => {
+      render(<Upload {...defaultProps} disabled />)
+
+      expect(
+        screen.queryByRole('button', {
+          name: nb.buttonText,
+        })
+      ).toHaveAttribute('disabled')
+    })
+
     it('should support locale prop', () => {
       const { rerender } = render(<Upload {...defaultProps} />)
 
@@ -810,6 +820,16 @@ describe('Upload', () => {
       document
         .querySelector('.dnb-upload__file-input')
         .getAttribute('required')
+    ).toBe('')
+  })
+
+  it('passes down disabled to the upload file input', () => {
+    render(<Upload {...defaultProps} disabled />)
+
+    expect(
+      document
+        .querySelector('.dnb-upload__file-input')
+        .getAttribute('disabled')
     ).toBe('')
   })
 
@@ -1494,6 +1514,29 @@ describe('Upload', () => {
       render(
         <Upload {...defaultProps} id={id} disableDragAndDrop={true} />
       )
+
+      const getRootElement = () => document.querySelector('.dnb-upload')
+
+      const element = getRootElement()
+      const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: { files: [file1] },
+        })
+      )
+
+      expect(result.current.files.length).toBe(0)
+      expect(result.current.files).toEqual([])
+      expect(result.current.internalFiles.length).toBe(0)
+    })
+
+    it('will not support drop when disabled', async () => {
+      const id = 'disabled'
+
+      const { result } = renderHook(useUpload, { initialProps: id })
+
+      render(<Upload {...defaultProps} id={id} disabled={true} />)
 
       const getRootElement = () => document.querySelector('.dnb-upload')
 

@@ -93,6 +93,15 @@ describe('Field.Upload', () => {
     expect(onFileClick).toHaveBeenCalledTimes(1)
   })
 
+  it('should support being disabled', () => {
+    render(<Field.Upload disabled />)
+
+    expect(
+      document.querySelector('.dnb-upload__file-input')
+    ).toHaveAttribute('disabled')
+    expect(document.querySelector('button')).toHaveAttribute('disabled')
+  })
+
   it('should display spinner for an async onFileClick event', async () => {
     const onFileClick = jest.fn(async () => {
       await wait(1)

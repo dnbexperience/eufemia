@@ -116,6 +116,57 @@ describe('ChildrenWithAge', () => {
     ).toHaveAttribute('inputmode', 'numeric')
   })
 
+  it('should render a disabled increase button if 9 children', async () => {
+    render(<ChildrenWithAge />)
+
+    await userEvent.click(document.querySelector('button'))
+
+    const countChildrenFieldBlock = screen
+      .queryByText(translationsNO.ChildrenWithAge.countChildren.fieldLabel)
+      .closest('.dnb-forms-field-block') as HTMLElement
+
+    const numOfChildrenInput = document.querySelectorAll(
+      '.dnb-input__input'
+    )[0]
+
+    fireEvent.change(numOfChildrenInput, {
+      target: {
+        value: 9,
+      },
+    })
+    expect(numOfChildrenInput).toHaveValue('9')
+
+    expect(
+      within(countChildrenFieldBlock).getByTitle('Øk (10)')
+    ).toBeInTheDocument()
+    expect(
+      within(countChildrenFieldBlock).getByTitle('Øk (10)')
+    ).toHaveProperty('disabled')
+  })
+
+  it('should render error message if more than 9 children', async () => {
+    render(<ChildrenWithAge />)
+
+    await userEvent.click(document.querySelector('button'))
+
+    const numOfChildrenInput = document.querySelectorAll(
+      '.dnb-input__input'
+    )[0]
+
+    fireEvent.change(numOfChildrenInput, {
+      target: {
+        value: 90,
+      },
+    })
+    expect(numOfChildrenInput).toHaveValue('90')
+
+    fireEvent.blur(numOfChildrenInput)
+
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      nbNO['nb-NO'].NumberField.errorMaximum.replace('{maximum}', '9')
+    )
+  })
+
   it('should render age of child without step controls', async () => {
     render(<ChildrenWithAge />)
 

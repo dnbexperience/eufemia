@@ -181,7 +181,7 @@ function Step(props: Props): JSX.Element {
   // And if no title or id is given,
   // we need to force an re-render and use an alternative render method,
   // using React.Children.map(children, ...).
-  if (index >= totalSteps) {
+  if (!prerenderFieldProps && index >= totalSteps) {
     enableMapOverChildren()
   }
 

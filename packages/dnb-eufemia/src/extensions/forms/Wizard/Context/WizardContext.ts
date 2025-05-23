@@ -3,6 +3,7 @@ import { Path } from '../../types'
 import { VisibleWhen } from '../../Form/Visibility'
 import {
   InternalStepStatus,
+  OnStepChange,
   SetActiveIndexOptions,
   StepIndex,
   Steps,
@@ -36,6 +37,7 @@ export interface WizardContextState {
     >
   >
   hasErrorInOtherStepRef?: React.MutableRefObject<boolean>
+  onStepChangeEventsRef?: React.MutableRefObject<Set<OnStepChange>>
   prerenderFieldProps?: boolean
   keepInDOM?: boolean
   handlePrevious?: () => void

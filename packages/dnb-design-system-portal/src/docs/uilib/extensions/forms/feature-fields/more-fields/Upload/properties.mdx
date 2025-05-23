@@ -18,7 +18,18 @@ import { UploadFieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/U
 <PropertiesTable
   props={FieldProperties}
   valueType={['Array<{ file, id }>']}
-  omit={['layout', 'layoutOptions', 'onBlurValidator', 'contentWidth']}
+  omit={[
+    'layout',
+    'layoutOptions',
+    'onBlurValidator',
+    'onChangeValidator',
+    'contentWidth',
+    'labelSize',
+    'labelDescriptionInline',
+    'labelSrOnly',
+    'labelSize',
+    'labelSuffix',
+  ]}
 />
 
 ## Translations
