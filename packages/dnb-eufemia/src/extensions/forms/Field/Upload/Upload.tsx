@@ -27,7 +27,16 @@ export type { UploadFile, UploadFileNative }
 export type UploadValue = Array<UploadFile | UploadFileNative>
 export type Props = Omit<
   FieldProps<UploadValue, UploadValue | undefined>,
-  'name'
+  | 'layout'
+  | 'layoutOptions'
+  | 'onBlurValidator'
+  | 'onChangeValidator'
+  | 'contentWidth'
+  | 'labelSize'
+  | 'labelDescriptionInline'
+  | 'labelSrOnly'
+  | 'labelSize'
+  | 'labelSuffix'
 > &
   SpacingProps &
   Pick<
