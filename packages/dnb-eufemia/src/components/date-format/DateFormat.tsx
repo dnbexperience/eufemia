@@ -68,6 +68,7 @@ export default function DateFormat({
 
   return (
     <time
+      // Make dateTime attribute correspond with the props provided i.e. weekday, day, month, year
       dateTime={format(dateToFormat, 'yyyy-MM-dd')}
       className="dnb-date-format"
     >
