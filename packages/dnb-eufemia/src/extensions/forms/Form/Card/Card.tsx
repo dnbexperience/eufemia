@@ -7,6 +7,6 @@ function Card(props: CardProps) {
   return <CardInstance stack outset {...props} />
 }
 
-Card._supportsSpacingProps = true
+Object.assign(Card, CardInstance)
 
-export default Card
+export default Card as typeof CardInstance
