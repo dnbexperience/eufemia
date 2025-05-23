@@ -41,3 +41,51 @@ export const DateStyles = () => (
     </ComponentBox>
   </Style>
 )
+
+export const WeekdayStyles = () => (
+  <Style>
+    <ComponentBox>
+      <P>
+        <DateFormat weekday="long">2025-08-01</DateFormat>
+        <DateFormat weekday="short">2025-08-01</DateFormat>
+        <DateFormat weekday="narrow">2025-08-01</DateFormat>
+      </P>
+    </ComponentBox>
+  </Style>
+)
+
+export const DayStyles = () => (
+  <Style>
+    <ComponentBox>
+      <P>
+        <DateFormat day="2-digit">2025-08-01</DateFormat>
+        <DateFormat day="numeric">2025-08-01</DateFormat>
+      </P>
+    </ComponentBox>
+  </Style>
+)
+
+export const MonthStyles = () => (
+  <Style>
+    <ComponentBox>
+      <P>
+        <DateFormat month="long">2025-08-01</DateFormat>
+        <DateFormat month="short">2025-08-01</DateFormat>
+        <DateFormat month="narrow">2025-08-01</DateFormat>
+        <DateFormat month="2-digit">2025-08-01</DateFormat>
+        <DateFormat month="numeric">2025-08-01</DateFormat>
+      </P>
+    </ComponentBox>
+  </Style>
+)
+
+export const YearStyles = () => (
+  <Style>
+    <ComponentBox>
+      <P>
+        <DateFormat year="2-digit">2025-08-01</DateFormat>
+        <DateFormat year="numeric">2025-08-01</DateFormat>
+      </P>
+    </ComponentBox>
+  </Style>
+)
