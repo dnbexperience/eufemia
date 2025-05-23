@@ -66,6 +66,16 @@ export const UploadBasic = () => (
   </ComponentBox>
 )
 
+export const UploadDisabled = () => (
+  <ComponentBox data-visual-test="upload-disabled">
+    <Upload
+      acceptedFileTypes={['jpg', 'png']}
+      disabled
+      onChange={({ files }) => console.log('onChange', files)}
+    />
+  </ComponentBox>
+)
+
 export const UploadSingleFile = () => (
   <ComponentBox>
     {() => {
