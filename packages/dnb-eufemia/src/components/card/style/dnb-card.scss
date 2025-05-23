@@ -20,11 +20,7 @@
   }
 
   &.dnb-section {
-    --outline-color: var(--card-outline-color);
     --outline-width: var(--card-outline-width);
-    --background-color: var(--card-background-color);
-
-    background-color: var(--background-color);
   }
 
   & .dnb-section {
@@ -38,10 +34,6 @@
       --left: var(--nested-space-l);
       --width: calc(100% - var(--nested-space-r) * 2);
     }
-  }
-
-  &--filled#{&}.dnb-section {
-    --background-color: var(--outline-color);
   }
 
   &--responsive {

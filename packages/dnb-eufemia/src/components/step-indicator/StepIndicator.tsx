@@ -200,6 +200,7 @@ function StepIndicator({
             'dnb-step-indicator',
             createSpacingClasses(restOfProps)
           )}
+          backgroundColor="var(--step-indicator-trigger-content-background)"
           outset={outset}
         >
           <StepIndicatorTriggerButton />

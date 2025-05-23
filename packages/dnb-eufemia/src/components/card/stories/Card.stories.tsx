@@ -218,3 +218,16 @@ export const WithOutset = () => {
     </Space>
   )
 }
+
+export function BackgroundColor() {
+  return (
+    <Card filled backgroundColor="pistachio">
+      content
+    </Card>
+  )
+  return (
+    <Card outline="sea-green" backgroundColor="pistachio">
+      content
+    </Card>
+  )
+}

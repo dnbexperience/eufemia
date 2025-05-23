@@ -28,7 +28,7 @@ export type Props = {
    */
   filled?: boolean
 } & FlexContainerProps &
-  Pick<SectionProps, 'outset'> &
+  Pick<SectionProps, 'outset' | 'outline' | 'backgroundColor'> &
   FlexItemProps & {
     stack?: boolean
   } & SpaceProps &
@@ -50,6 +50,8 @@ function Card(props: Props) {
     rowGap,
     responsive = !nestedContext?.isNested,
     filled,
+    outline,
+    backgroundColor,
     outset,
     title,
     children,
@@ -87,7 +89,16 @@ function Card(props: Props) {
       ? falseWhenSmall
       : outset,
     roundedCorner: responsive ? falseWhenSmall : true,
-    outline: 'var(--outline-card-color)',
+    outline:
+      outline ??
+      (filled && backgroundColor
+        ? backgroundColor
+        : 'var(--card-outline-color)'),
+    backgroundColor:
+      backgroundColor ??
+      (filled
+        ? 'var(--card-outline-color)'
+        : 'var(--card-background-color)'),
     innerSpace:
       innerSpace ??
       ({
