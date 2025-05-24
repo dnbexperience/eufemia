@@ -44,7 +44,7 @@ import useUpdateEffect from '../../../shared/helpers/useUpdateEffect'
 import FieldBlockContext, {
   FieldBlockContextProps,
 } from '../FieldBlock/FieldBlockContext'
-import IterateElementContext from '../Iterate/IterateItemContext'
+import IterateItemContext from '../Iterate/IterateItemContext'
 import SectionContext from '../Form/Section/SectionContext'
 import FieldBoundaryContext from '../DataContext/FieldBoundary/FieldBoundaryContext'
 import VisibilityContext from '../Form/Visibility/VisibilityContext'
@@ -179,7 +179,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const id = useId(props.id)
   const dataContext = useContext(DataContext)
   const fieldBlockContext = useContext(FieldBlockContext)
-  const iterateItemContext = useContext(IterateElementContext)
+  const iterateItemContext = useContext(IterateItemContext)
   const sectionContext = useContext(SectionContext)
   const fieldBoundaryContext = useContext(FieldBoundaryContext)
   const wizardContext = useContext(WizardContext)
@@ -263,7 +263,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const { path, identifier, makeIteratePath, joinPath, cleanPath } =
     usePath({
       id,
-      path: pathProp,
+      path: pathProp || `/${id}`,
       itemPath,
       omitSectionPath,
     })
@@ -275,7 +275,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const tmpValue = useExternalValue<Value>({
-    path,
+    path: identifier,
     itemPath,
     value: valueProp,
     transformers,
@@ -760,7 +760,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   )
 
   contextErrorRef.current = useMemo(() => {
-    const dataContextError = dataContextErrors?.[path]
+    const dataContextError = dataContextErrors?.[identifier]
     if (!dataContextError) {
       return undefined
     }
@@ -769,7 +769,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       return error
     }
     return contextErrorRef.current
-  }, [dataContextErrors, path, prepareError])
+  }, [dataContextErrors, identifier, prepareError])
 
   // If the error is a type error, we want to show it even if the field has not been used
   if (localErrorRef.current?.['ajvKeyword'] === 'type') {

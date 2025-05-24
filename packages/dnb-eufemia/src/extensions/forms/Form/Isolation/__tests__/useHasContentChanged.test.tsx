@@ -23,6 +23,7 @@ describe('useHasContentChanged', () => {
   it('should return false when data matches snapshot', () => {
     const data = { name: 'Nora', age: 30 }
     const { result } = renderHook(useHasContentChanged, {
+      initialProps: { enabled: true },
       wrapper: ({ children }) => (
         <Form.Isolation defaultData={data}>{children}</Form.Isolation>
       ),
@@ -35,7 +36,9 @@ describe('useHasContentChanged', () => {
     let hasContentChanged = null
 
     const RenderTheHook = () => {
-      const { hasContentChanged: hasChanged } = useHasContentChanged()
+      const { hasContentChanged: hasChanged } = useHasContentChanged({
+        enabled: true,
+      })
       hasContentChanged = hasChanged
 
       return null
@@ -61,7 +64,9 @@ describe('useHasContentChanged', () => {
     let hasContentChanged = null
 
     const RenderTheHook = () => {
-      const { hasContentChanged: hasChanged } = useHasContentChanged()
+      const { hasContentChanged: hasChanged } = useHasContentChanged({
+        enabled: true,
+      })
       hasContentChanged = hasChanged
 
       return null

@@ -3093,7 +3093,7 @@ describe('Form.Isolation', () => {
             setTimeout(() => {
               dataReference.refresh() // <-- refresh the data reference
             }, 100)
-          }, 10)
+          }, 100) // <-- delay because of the internal "requestAnimationFrame" refresh delay
           // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [])
 

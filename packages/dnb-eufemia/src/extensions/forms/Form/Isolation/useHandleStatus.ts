@@ -14,13 +14,15 @@ export default function useHandleStatus({
   error: Error
   name?: string
 }) {
-  const { hasContentChanged } = useHasContentChanged()
+  const { hasContentChanged } = useHasContentChanged({
+    enabled: preventUncommittedChanges,
+  })
 
-  useReportError(
-    preventUncommittedChanges && hasContentChanged ? error : undefined,
-    outerContext,
-    name
-  )
+  let errorToReport = undefined
+  if (preventUncommittedChanges && hasContentChanged) {
+    errorToReport = error
+  }
+  useReportError(errorToReport, outerContext, name)
 
   const showStatus = useShowStatus({
     outerContext,

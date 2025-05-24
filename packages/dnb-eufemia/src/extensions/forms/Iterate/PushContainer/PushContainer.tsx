@@ -7,7 +7,7 @@ import React, {
   useRef,
 } from 'react'
 import classnames from 'classnames'
-import Isolation from '../../Form/Isolation'
+import Isolation, { IsolationProps } from '../../Form/Isolation'
 import useHandleStatus from '../../Form/Isolation/useHandleStatus'
 import PushContainerContext from './PushContainerContext'
 import IterateItemContext from '../IterateItemContext'
@@ -32,6 +32,7 @@ import {
 } from '../hooks'
 import Toolbar from '../Toolbar'
 import { usePath, useTranslation } from '../../hooks'
+import { JsonObject } from '../../utils'
 import { clearedData } from '../../DataContext/Provider'
 
 /**
@@ -139,7 +140,7 @@ export type Props = (OnlyPathRequired | OnlyItemPathRequired) & {
    * The container contents.
    */
   children: React.ReactNode
-}
+} & Pick<IsolationProps<JsonObject>, 'dataReference'>
 
 export type AllProps = Props &
   SpacingProps &
@@ -157,6 +158,7 @@ function PushContainer(props: AllProps) {
     bubbleValidation,
     preventUncommittedChanges = props?.requireCommit,
     requireCommit, // eslint-disable-line @typescript-eslint/no-unused-vars
+    dataReference,
     showResetButton,
     path,
     itemPath,
@@ -252,6 +254,7 @@ function PushContainer(props: AllProps) {
       data={data}
       defaultData={defaultData}
       required={required}
+      dataReference={dataReference}
       emptyData={emptyData}
       bubbleValidation={
         containerModeRef.current === 'view' ? false : bubbleValidation
@@ -342,7 +345,9 @@ function NewContainer({
   }, [containerMode, rerenderPushContainer])
 
   switchContainerModeRef.current = switchContainerMode
-  const isVisible = Boolean(!showOpenButton || containerMode === 'edit')
+  const isVisible = Boolean(
+    !showOpenButton || containerMode === 'edit' || showCommitStatus
+  )
   const { preventUncommittedChangesText } = useTranslation().Isolation
   const { createButton } = useTranslation().IteratePushContainer
   const { clearData } = useContext(DataContext) || {}
