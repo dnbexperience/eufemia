@@ -14,6 +14,7 @@ export default function IsolatedContainer({ children }) {
     outerContext,
     preventUncommittedChanges,
     error: isolationError,
+    name: 'isolation-container',
   })
 
   const { setFieldEventListener } = useContext(DataContext)

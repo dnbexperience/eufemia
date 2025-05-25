@@ -204,6 +204,7 @@ export interface ContextState {
   existingFieldsRef?: React.MutableRefObject<Map<Path, boolean>>
   formElementRef?: React.MutableRefObject<HTMLFormElement>
   fieldErrorRef?: React.MutableRefObject<Record<Path, Error>>
+  errorsRef?: React.MutableRefObject<Record<Path, Error>>
   showAllErrors: boolean | number
   hasVisibleError: boolean
   formState: SubmitState

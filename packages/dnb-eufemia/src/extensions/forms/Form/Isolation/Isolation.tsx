@@ -336,7 +336,8 @@ function BubbleValidation() {
 
   useReportError(
     innerContext.hasErrors() ? isolationError : undefined,
-    outerContext
+    outerContext,
+    'isolation'
   )
 
   return null

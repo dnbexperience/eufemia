@@ -7,16 +7,19 @@ export default function useHandleStatus({
   outerContext,
   preventUncommittedChanges,
   error,
+  name,
 }: {
   outerContext: ContextState
   preventUncommittedChanges: boolean
   error: Error
+  name?: string
 }) {
   const { hasContentChanged } = useHasContentChanged()
 
   useReportError(
     preventUncommittedChanges && hasContentChanged ? error : undefined,
-    outerContext
+    outerContext,
+    name
   )
 
   const showStatus = useShowStatus({

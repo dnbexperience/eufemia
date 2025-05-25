@@ -414,7 +414,11 @@ export default function Provider<Data extends JsonObject>(
    */
   const setFieldError: ContextState['setFieldError'] = useCallback(
     (path, error) => {
-      fieldErrorRef.current[path] = error
+      if (error) {
+        fieldErrorRef.current[path] = error
+      } else {
+        delete fieldErrorRef.current[path]
+      }
     },
     []
   )
@@ -1475,6 +1479,7 @@ export default function Provider<Data extends JsonObject>(
     formElementRef,
     isEmptyDataRef,
     fieldErrorRef,
+    errorsRef,
     ajvInstance: ajvRef.current,
     countryCode: countryCode
       ? getSourceValue<CountryCode>(countryCode)

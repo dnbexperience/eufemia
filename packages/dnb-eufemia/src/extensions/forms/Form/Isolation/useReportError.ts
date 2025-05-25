@@ -4,11 +4,14 @@ import { ContextState } from '../../DataContext'
 import DataContext from '../../DataContext/Context'
 import WizardStepContext from '../../Wizard/Step/StepContext'
 import WizardContext from '../../Wizard/Context'
+import { usePath } from '../../hooks'
 
 export default function useReportError(
   error: Error,
-  customDataContext?: ContextState
+  customDataContext?: ContextState,
+  name?: string
 ) {
+  const { joinPath } = usePath()
   const dataContext = useContext(DataContext)
   const wizardContext = useContext(WizardContext)
   const wizardStepContext = useContext(WizardStepContext)
@@ -20,8 +23,7 @@ export default function useReportError(
 
   const id = useId()
   useEffect(() => {
-    const path = `/${id}`
-
+    const path = joinPath(['internal', name, id])
     if (error) {
       setMountedFieldState?.(path, {
         isMounted: true,
@@ -43,6 +45,8 @@ export default function useReportError(
   }, [
     error,
     id,
+    joinPath,
+    name,
     setFieldErrorDataContext,
     setFieldErrorWizard,
     setMountedFieldState,
