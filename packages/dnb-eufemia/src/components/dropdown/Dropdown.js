@@ -18,6 +18,7 @@ import {
   combineLabelledBy,
   dispatchCustomElementEvent,
   keycode,
+  convertJsxToString,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
@@ -642,7 +643,7 @@ class DropdownInstance extends React.PureComponent {
                     </>
                   }
                   role="combobox"
-                  title={title}
+                  title={convertJsxToString(title) || undefined}
                   {...triggerParams}
                 />
               )}
