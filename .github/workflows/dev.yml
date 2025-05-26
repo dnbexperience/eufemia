@@ -64,7 +64,7 @@ jobs:
         run: yarn workspace @dnb/eufemia build:ci
 
       - name: Publish to StackBlitz
-        run: npx pkg-pr-new publish --compact './packages/dnb-eufemia/build' --template './packages/eufemia-starter/*' --packageManager=yarn
+        run: npx pkg-pr-new publish --compact './packages/dnb-eufemia/build' --packageManager=yarn
 
       - name: Slack
         uses: 8398a7/action-slack@v3
