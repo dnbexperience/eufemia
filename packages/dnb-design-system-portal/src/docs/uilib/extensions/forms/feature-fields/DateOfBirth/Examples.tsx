@@ -11,17 +11,6 @@ export const Empty = () => {
   )
 }
 
-export const Placeholder = () => {
-  return (
-    <ComponentBox>
-      <Field.DateOfBirth
-        placeholder="Enter 11 digits..."
-        onChange={(value) => console.log('onChange', value)}
-      />
-    </ComponentBox>
-  )
-}
-
 export const Label = () => {
   return (
     <ComponentBox>
@@ -136,8 +125,6 @@ export const Width = () => {
       <Form.Card>
         <Field.String width="stretch" />
         <Field.DateOfBirth label="default" />
-        <Field.DateOfBirth width="small" label="small" />
-        <Field.DateOfBirth width="medium" label="medium" />
         <Field.DateOfBirth width="large" label="large" />
         <Field.DateOfBirth width="stretch" label="stretch" />
       </Form.Card>

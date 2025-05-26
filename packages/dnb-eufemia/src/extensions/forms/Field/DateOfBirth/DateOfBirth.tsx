@@ -7,9 +7,14 @@ import useTranslation from '../../hooks/useTranslation'
 import type { ValidatorDisableable } from '../../types'
 import classNames from 'classnames'
 
-export type Props = Omit<StringFieldProps, 'onBlurValidator'> & {
+export type Props = Omit<
+  StringFieldProps,
+  'onBlurValidator' | 'width' | 'contentWidth'
+> & {
   validate?: boolean
   onBlurValidator?: ValidatorDisableable<string>
+  width?: 'large' | 'stretch'
+  contentWidth?: 'large' | 'stretch'
 }
 
 function DateOfBirth(props: Props) {
@@ -18,6 +23,9 @@ function DateOfBirth(props: Props) {
     errorDateOfBirthLength,
     errorRequired,
     label,
+    dayLabel,
+    monthLabel,
+    yearLabel,
   } = useTranslation().DateOfBirth
 
   const errorMessages = useMemo(() => {
@@ -52,7 +60,8 @@ function DateOfBirth(props: Props) {
     onChangeValidator,
     onBlurValidator = dateOfBirthValidator,
     label: labelProp,
-    width,
+    width = 'large',
+    help,
   } = props
 
   const onBlurValidatorToUse =
@@ -90,26 +99,39 @@ function DateOfBirth(props: Props) {
   return (
     <CompositionField
       className={classNames('dnb-forms-field-date-of-birth')}
-      label="a"
+      label={labelProp ?? label}
+      width={width}
+      help={help}
     >
       <StringField
         autoComplete="bday-day"
         className={classNames('dnb-forms-field-date-of-birth__day')}
-        label="b"
-        {...StringFieldProps}
+        labelDescription={dayLabel}
+        width="3.32813rem" // Enough width for 2 digits
+        inputMode="numeric"
+        pattern="^[0-9]{2}$"
       />
       <SelectionField
         autoComplete="bday-month"
         variant="autocomplete"
+        labelDescription={monthLabel}
         width="medium"
-        label="c"
+        placeholder=""
+        autocompleteProps={{
+          searchNumbers: true,
+          inputIcon: '',
+          showSubmitButton: true,
+        }}
         data={months}
         className={classNames('dnb-forms-field-date-of-birth__month')}
       />
       <StringField
         autoComplete="bday-year"
         className={classNames('dnb-forms-field-date-of-birth__year')}
-        label="d"
+        labelDescription={yearLabel}
+        width="stretch"
+        inputMode="numeric"
+        pattern="^[0-9]{4}$"
       />
     </CompositionField>
   )
