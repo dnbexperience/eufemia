@@ -7,6 +7,11 @@ import { format } from 'date-fns'
 import { SpacingProps } from '../space/types'
 import classnames from 'classnames'
 import { createSpacingClasses } from '../space/SpacingUtils'
+import { SkeletonShow } from '../Skeleton'
+import {
+  createSkeletonClass,
+  skeletonDOMAttributes,
+} from '../skeleton/SkeletonHelper'
 
 type DateFormatProps = {
   /**
@@ -52,20 +57,25 @@ type DateFormatOptions = SpacingProps & {
    * Defaults to `undefined`.
    */
   year?: Intl.DateTimeFormatOptions['year']
+  /**
+   * If set to `true`, an overlaying skeleton with animation will be shown.
+   */
+  skeleton?: SkeletonShow
 }
 
 function DateFormat(props: DateFormatProps) {
-  const { locale: contextLocale } = useContext(SharedContext)
+  const context = useContext(SharedContext)
 
   const {
     date,
-    locale = contextLocale,
+    locale = context.locale,
     dateStyle = 'long',
     weekday,
     day,
     month,
     year,
     children,
+    skeleton,
   } = props
 
   const dateObject = useMemo(
@@ -73,14 +83,19 @@ function DateFormat(props: DateFormatProps) {
     [date, children]
   )
 
+  const attributes = {}
+  skeletonDOMAttributes(attributes, skeleton, context)
+
   return (
     <time
       // Make dateTime attribute correspond with the props provided i.e. weekday, day, month, year
       dateTime={format(dateObject, 'yyyy-MM-dd')}
       className={classnames(
         'dnb-date-format',
-        createSpacingClasses(props)
+        createSpacingClasses(props),
+        createSkeletonClass('font', skeleton, context)
       )}
+      {...attributes}
     >
       {formatDate(dateObject, {
         locale,
