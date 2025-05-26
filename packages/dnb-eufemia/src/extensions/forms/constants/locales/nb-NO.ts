@@ -189,6 +189,9 @@ export default {
     },
     DateOfBirth: {
       label: 'Fødselsdato',
+      dayLabel: 'Dag',
+      monthLabel: 'Måned',
+      yearLabel: 'År',
       errorRequired: 'Du må fylle inn en fødselsdato.',
       errorDateOfBirth: 'Ugyldig fødselsdato.',
       errorDateOfBirthLength:

@@ -192,6 +192,9 @@ export default {
     },
     DateOfBirth: {
       label: 'Date of birth',
+      dayLabel: 'Day',
+      monthLabel: 'Month',
+      yearLabel: 'Year',
       errorRequired: 'You must enter a date of birth.',
       errorDateOfBirth: 'Invalid date of birth.',
       errorDateOfBirthLength:

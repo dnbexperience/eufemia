@@ -1,12 +1,19 @@
 import React from 'react'
 import { axeComponent } from '../../../../../core/jest/jestSetup'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { Field } from '../../..'
-// import nbNO from '../../../constants/locales/nb-NO'
+import nbNO from '../../../constants/locales/nb-NO'
 
-// const nb = nbNO['nb-NO']
+const nb = nbNO['nb-NO']
 
 describe('Field.DateOfBirth', () => {
+  it('should have correct label', () => {
+    render(<Field.DateOfBirth />)
+    expect(
+      screen.getByDisplayValue(nb.DateOfBirth.label)
+    ).toBeInTheDocument()
+  })
+
   describe('Day', () => {
     it('should have autoComplete value bday-day', () => {
       render(<Field.DateOfBirth />)
@@ -15,6 +22,13 @@ describe('Field.DateOfBirth', () => {
           .querySelector('.dnb-forms-field-date-of-birth__day input')
           .getAttribute('autocomplete')
       ).toBe('bday-day')
+    })
+
+    it('should have correct label description', () => {
+      render(<Field.DateOfBirth />)
+      expect(
+        screen.getByDisplayValue(nb.DateOfBirth.dayLabel)
+      ).toBeInTheDocument()
     })
   })
 
@@ -27,6 +41,13 @@ describe('Field.DateOfBirth', () => {
           .getAttribute('autocomplete')
       ).toBe('bday-month')
     })
+
+    it('should have correct label description', () => {
+      render(<Field.DateOfBirth />)
+      expect(
+        screen.getByDisplayValue(nb.DateOfBirth.monthLabel)
+      ).toBeInTheDocument()
+    })
   })
 
   describe('Year', () => {
@@ -37,6 +58,13 @@ describe('Field.DateOfBirth', () => {
           .querySelector('.dnb-forms-field-date-of-birth__year input')
           .getAttribute('autocomplete')
       ).toBe('bday-year')
+    })
+
+    it('should have correct label description', () => {
+      render(<Field.DateOfBirth />)
+      expect(
+        screen.getByDisplayValue(nb.DateOfBirth.yearLabel)
+      ).toBeInTheDocument()
     })
   })
 
