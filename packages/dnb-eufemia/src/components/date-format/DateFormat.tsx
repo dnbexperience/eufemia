@@ -1,7 +1,6 @@
-import React from 'react'
-import { InternalLocale } from '../../shared/Context'
+import React, { useContext } from 'react'
+import SharedContext, { InternalLocale } from '../../shared/Context'
 import { convertJsxToString } from '../../shared/component-helper'
-import { LOCALE as defaultLocale } from '../../shared/defaults'
 import { convertStringToDate } from '../date-picker/DatePickerCalc'
 import { formatDate } from './DateUtils'
 import { format } from 'date-fns'
@@ -52,16 +51,20 @@ type DateFormatOptions = {
   year?: Intl.DateTimeFormatOptions['year']
 }
 
-export default function DateFormat({
-  date,
-  locale = defaultLocale,
-  dateStyle = 'long',
-  weekday,
-  day,
-  month,
-  year,
-  children,
-}: DateFormatProps) {
+export default function DateFormat(props: DateFormatProps) {
+  const { locale: contextLocale } = useContext(SharedContext)
+
+  const {
+    date,
+    locale = contextLocale,
+    dateStyle = 'long',
+    weekday,
+    day,
+    month,
+    year,
+    children,
+  } = props
+
   const dateToFormat = convertStringToDate(
     getDateToFormat({ date, children })
   )

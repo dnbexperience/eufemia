@@ -1,6 +1,8 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import DateFormat from '../../DateFormat'
+import { axeComponent } from '../../../../core/jest/jestSetup'
+import { Provider } from '../../../../shared'
 
 describe('DateFormat', () => {
   describe('formats', () => {
@@ -143,5 +145,94 @@ describe('DateFormat', () => {
       expect(dateFormat).not.toHaveTextContent('fredag 1. august 2025')
       expect(dateFormat).toHaveTextContent('fre. 01. aug. 25')
     })
+  })
+
+  describe('locale', () => {
+    it('should default to `nb-NO`', () => {
+      render(<DateFormat dateStyle="full">2025-05-23</DateFormat>)
+
+      const dateFormat = document.querySelector('.dnb-date-format')
+
+      expect(dateFormat).toHaveTextContent('fredag 23. mai 2025')
+    })
+
+    it('should set locale based on prop', () => {
+      const { rerender } = render(
+        <DateFormat locale="en-GB" dateStyle="full">
+          2025-08-04
+        </DateFormat>
+      )
+
+      const dateFormat = document.querySelector('.dnb-date-format')
+
+      expect(dateFormat).toHaveTextContent('Monday 4 August 2025')
+
+      rerender(
+        <DateFormat locale="en-US" dateStyle="full">
+          2025-08-04
+        </DateFormat>
+      )
+      expect(dateFormat).toHaveTextContent('Monday, August 4, 2025')
+
+      rerender(
+        <DateFormat locale="sv-SE" dateStyle="full">
+          2025-08-04
+        </DateFormat>
+      )
+      expect(dateFormat).toHaveTextContent('måndag 4 augusti 2025')
+
+      rerender(
+        <DateFormat locale="nb-NO" dateStyle="full">
+          2025-08-04
+        </DateFormat>
+      )
+      expect(dateFormat).toHaveTextContent('mandag 4. august 2025')
+    })
+
+    it('should set locale based on provider prop', () => {
+      const { rerender } = render(
+        <Provider locale="en-GB">
+          <DateFormat dateStyle="full">2025-08-04</DateFormat>
+        </Provider>
+      )
+
+      const dateFormat = document.querySelector('.dnb-date-format')
+
+      expect(dateFormat).toHaveTextContent('Monday 4 August 2025')
+
+      rerender(
+        <Provider locale="en-GB">
+          <DateFormat locale="en-US" dateStyle="full">
+            2025-08-04
+          </DateFormat>
+        </Provider>
+      )
+      expect(dateFormat).toHaveTextContent('Monday, August 4, 2025')
+
+      rerender(
+        <Provider locale="en-GB">
+          <DateFormat locale="sv-SE" dateStyle="full">
+            2025-08-04
+          </DateFormat>
+        </Provider>
+      )
+      expect(dateFormat).toHaveTextContent('måndag 4 augusti 2025')
+
+      rerender(
+        <Provider locale="en-GB">
+          <DateFormat locale="nb-NO" dateStyle="full">
+            2025-08-04
+          </DateFormat>
+        </Provider>
+      )
+      expect(dateFormat).toHaveTextContent('mandag 4. august 2025')
+    })
+  })
+})
+
+describe('DateFormat ARIA', () => {
+  it('should validate', async () => {
+    const Comp = render(<DateFormat>2025-08-01</DateFormat>)
+    expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
