@@ -16,6 +16,8 @@ import {
   DrawerListDataArrayObject,
   DrawerListDataArray,
 } from '../../../fragments/drawer-list'
+import Icon from '../../Icon'
+import { bank } from '../../../icons'
 
 // use no_animation so we don't need to wait
 const mockProps: DropdownAllProps = {
@@ -1379,6 +1381,25 @@ describe('Dropdown component', () => {
     expect(options[newValue].classList).toContain(
       'dnb-drawer-list__option--focus'
     )
+  })
+
+  it('supports icon as title', () => {
+    render(
+      <Dropdown
+        {...props}
+        data={[
+          {
+            selected_key: 'banking',
+            selected_value: <Icon icon={bank} />,
+            content: <Icon icon={bank} />,
+          },
+        ]}
+        value={0}
+      />
+    )
+    expect(
+      document.querySelector('.dnb-icon').getAttribute('data-testid')
+    ).toBe('bank icon')
   })
 
   it('has a default title if no value is given', () => {
