@@ -190,6 +190,16 @@ export default {
       errorBankAccountNumberLength:
         'Invalid account number. Enter a valid organisation number with 11 digits.',
     },
+    DateOfBirth: {
+      label: 'Date of birth',
+      dayLabel: 'Day',
+      monthLabel: 'Month',
+      yearLabel: 'Year',
+      errorRequired: 'You must enter a date of birth.',
+      errorDateOfBirth: 'Invalid date of birth.',
+      errorDateOfBirthLength:
+        'Invalid date of birth. Enter a valid date of birth with TODO.',
+    },
     PhoneNumber: {
       label: 'Mobile number',
       countryCodeLabel: 'Country code',
