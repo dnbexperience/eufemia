@@ -3088,12 +3088,13 @@ describe('Form.Isolation', () => {
         const { update } = Form.useData()
 
         React.useEffect(() => {
-          setTimeout(() => {
+          requestAnimationFrame(() => {
             update('/isolated', 'With a delayed default value')
             setTimeout(() => {
               dataReference.refresh() // <-- refresh the data reference
             }, 100)
-          }, 100) // <-- delay because of the internal "requestAnimationFrame" refresh delay
+          }) // <-- delay because of the internal "requestAnimationFrame" refresh delay
+
           // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [])
 
