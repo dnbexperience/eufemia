@@ -228,6 +228,19 @@ describe('DateFormat', () => {
       expect(dateFormat).toHaveTextContent('mandag 4. august 2025')
     })
   })
+
+  describe('spacing', () => {
+    it('should support spacing props', () => {
+      render(<DateFormat top="2rem">2025-05-23</DateFormat>)
+
+      const element = document.querySelector('.dnb-date-format')
+
+      expect(Array.from(element.classList)).toEqual([
+        'dnb-date-format',
+        'dnb-space__top--large',
+      ])
+    })
+  })
 })
 
 describe('DateFormat ARIA', () => {

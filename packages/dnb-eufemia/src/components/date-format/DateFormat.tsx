@@ -4,6 +4,9 @@ import { convertJsxToString } from '../../shared/component-helper'
 import { convertStringToDate } from '../date-picker/DatePickerCalc'
 import { formatDate } from './DateUtils'
 import { format } from 'date-fns'
+import { SpacingProps } from '../space/types'
+import classnames from 'classnames'
+import { createSpacingClasses } from '../space/SpacingUtils'
 
 type DateFormatProps = {
   /**
@@ -18,7 +21,7 @@ type DateFormatProps = {
   children?: React.ReactNode
 } & DateFormatOptions
 
-type DateFormatOptions = {
+type DateFormatOptions = SpacingProps & {
   /**
    * Defines the formatting  used for dates. (weekday, day, month year)
    * Cannot be used together with `weekday`, `day`, `month` and `year`.
@@ -51,7 +54,7 @@ type DateFormatOptions = {
   year?: Intl.DateTimeFormatOptions['year']
 }
 
-export default function DateFormat(props: DateFormatProps) {
+function DateFormat(props: DateFormatProps) {
   const { locale: contextLocale } = useContext(SharedContext)
 
   const {
@@ -73,7 +76,10 @@ export default function DateFormat(props: DateFormatProps) {
     <time
       // Make dateTime attribute correspond with the props provided i.e. weekday, day, month, year
       dateTime={format(dateToFormat, 'yyyy-MM-dd')}
-      className="dnb-date-format"
+      className={classnames(
+        'dnb-date-format',
+        createSpacingClasses(props)
+      )}
     >
       {formatDate(dateToFormat, {
         locale,
@@ -114,3 +120,7 @@ function getDateToFormat({
 
   return date
 }
+
+export default DateFormat
+
+DateFormat._supportsSpacingProps = true
