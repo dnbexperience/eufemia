@@ -5,7 +5,7 @@ import { axeComponent } from '../../../../core/jest/jestSetup'
 import { Provider } from '../../../../shared'
 
 describe('DateFormat', () => {
-  describe('formats', () => {
+  describe('date value formats', () => {
     it('should support dates in `yyyy-MM-dd` format', () => {
       const { rerender } = render(<DateFormat>2025-05-23</DateFormat>)
 
