@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useMemo } from 'react'
 import SharedContext, { InternalLocale } from '../../shared/Context'
 import { convertJsxToString } from '../../shared/component-helper'
 import { convertStringToDate } from '../date-picker/DatePickerCalc'
@@ -68,20 +68,21 @@ function DateFormat(props: DateFormatProps) {
     children,
   } = props
 
-  const dateToFormat = convertStringToDate(
-    getDateToFormat({ date, children })
+  const dateObject = useMemo(
+    () => getDateObject({ date, children }),
+    [date, children]
   )
 
   return (
     <time
       // Make dateTime attribute correspond with the props provided i.e. weekday, day, month, year
-      dateTime={format(dateToFormat, 'yyyy-MM-dd')}
+      dateTime={format(dateObject, 'yyyy-MM-dd')}
       className={classnames(
         'dnb-date-format',
         createSpacingClasses(props)
       )}
     >
-      {formatDate(dateToFormat, {
+      {formatDate(dateObject, {
         locale,
         options: {
           ...getDateOptions({ dateStyle, weekday, day, month, year }),
@@ -110,7 +111,7 @@ function getDateOptions({
   return { dateStyle }
 }
 
-function getDateToFormat({
+function getDateObject({
   date,
   children,
 }: Pick<DateFormatProps, 'date' | 'children'>) {
@@ -118,7 +119,7 @@ function getDateToFormat({
     return convertStringToDate(convertJsxToString(children))
   }
 
-  return date
+  return convertStringToDate(date)
 }
 
 export default DateFormat
