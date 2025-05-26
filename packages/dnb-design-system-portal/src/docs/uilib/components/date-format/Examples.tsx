@@ -31,7 +31,7 @@ export const SupportedFormats = () => {
 
 export const DateStyles = () => (
   <Style>
-    <ComponentBox>
+    <ComponentBox data-visual-test="date-format-date-styles">
       <P>
         <DateFormat dateStyle="full">2025-08-01</DateFormat>
         <DateFormat dateStyle="long">2025-08-01</DateFormat>
@@ -44,7 +44,7 @@ export const DateStyles = () => (
 
 export const WeekdayStyles = () => (
   <Style>
-    <ComponentBox>
+    <ComponentBox data-visual-test="date-format-weekdays">
       <P>
         <DateFormat weekday="long">2025-08-01</DateFormat>
         <DateFormat weekday="short">2025-08-01</DateFormat>
@@ -56,7 +56,7 @@ export const WeekdayStyles = () => (
 
 export const DayStyles = () => (
   <Style>
-    <ComponentBox>
+    <ComponentBox data-visual-test="date-format-days">
       <P>
         <DateFormat day="2-digit">2025-08-01</DateFormat>
         <DateFormat day="numeric">2025-08-01</DateFormat>
@@ -67,7 +67,7 @@ export const DayStyles = () => (
 
 export const MonthStyles = () => (
   <Style>
-    <ComponentBox>
+    <ComponentBox data-visual-test="date-format-months">
       <P>
         <DateFormat month="long">2025-08-01</DateFormat>
         <DateFormat month="short">2025-08-01</DateFormat>
@@ -81,7 +81,7 @@ export const MonthStyles = () => (
 
 export const YearStyles = () => (
   <Style>
-    <ComponentBox>
+    <ComponentBox data-visual-test="date-format-years">
       <P>
         <DateFormat year="2-digit">2025-08-01</DateFormat>
         <DateFormat year="numeric">2025-08-01</DateFormat>
