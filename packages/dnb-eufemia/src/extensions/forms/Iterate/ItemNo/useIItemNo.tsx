@@ -12,7 +12,10 @@ export function useIterateItemNo({
 
   const { optionalLabelSuffix } = useTranslation().Field
   const labelSuffixText = useMemo(() => {
-    if (required === false || typeof labelSuffix !== 'undefined') {
+    if (
+      typeof labelSuffix !== 'boolean' &&
+      (required === false || typeof labelSuffix !== 'undefined')
+    ) {
       return labelSuffix ?? optionalLabelSuffix
     }
     return ''
