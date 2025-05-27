@@ -263,7 +263,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const { path, identifier, makeIteratePath, joinPath, cleanPath } =
     usePath({
       id,
-      path: pathProp || `/${id}`,
+      path: pathProp,
       itemPath,
       omitSectionPath,
     })
