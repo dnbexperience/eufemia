@@ -36,6 +36,7 @@ export type EventListenerCall = {
     | 'onBeforeCommit'
     | 'onPathChange'
     | 'onMount'
+    | 'onSetFieldError'
   callback: (
     params?: { value: unknown } | { preventSubmit: () => void }
   ) => void | Promise<void | Error>
@@ -137,7 +138,7 @@ export interface ContextState {
     value: any,
     options?: { preventUpdate?: boolean }
   ) => void
-  setData: (data: any) => void
+  setData: (data: any, options?: { preventUpdate?: boolean }) => void
   clearData?: () => void
   mutateDataHandler?: MutateDataHandler<unknown>
   filterDataHandler?: FilterDataHandler<unknown>

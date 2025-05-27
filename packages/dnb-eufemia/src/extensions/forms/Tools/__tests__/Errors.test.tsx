@@ -157,8 +157,9 @@ describe('Tools.Errors', () => {
     )
 
     await userEvent.click(commitButton)
-    fireEvent.submit(form)
 
+    // After commit, the errors should be cleared,
+    // which we achieve with the "forceUpdate" in handleSetFieldError.
     expect(element.textContent).toBe(
       JSON.stringify(
         {

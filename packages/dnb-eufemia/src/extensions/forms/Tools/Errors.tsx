@@ -1,9 +1,11 @@
-import React, { useContext } from 'react'
+import React, { useCallback, useContext, useReducer } from 'react'
 import DataContext from '../DataContext/Context'
 import Log from './Log'
 
 function Errors() {
-  const { fieldErrorRef, errorsRef } = useContext(DataContext)
+  const [, forceUpdate] = useReducer(() => ({}), {})
+  const { setFieldEventListener, fieldErrorRef, errorsRef } =
+    useContext(DataContext)
 
   const fieldErrors = Object.keys(fieldErrorRef?.current || {}).reduce(
     (acc, key) => {
@@ -18,6 +20,15 @@ function Errors() {
       return acc
     },
     {}
+  )
+
+  const handleSetFieldError = useCallback(() => {
+    forceUpdate()
+  }, [])
+  setFieldEventListener?.(
+    undefined,
+    'onSetFieldError',
+    handleSetFieldError
   )
 
   const data = {

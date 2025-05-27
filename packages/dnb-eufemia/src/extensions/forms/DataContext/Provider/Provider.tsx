@@ -419,6 +419,12 @@ export default function Provider<Data extends JsonObject>(
       } else {
         delete fieldErrorRef.current[path]
       }
+      for (const item of fieldEventListenersRef.current) {
+        const { type, callback } = item
+        if (type === 'onSetFieldError') {
+          callback()
+        }
+      }
     },
     []
   )
@@ -814,8 +820,8 @@ export default function Provider<Data extends JsonObject>(
     )
   }, [sessionStorageId])
 
-  const setData = useCallback(
-    (newData: Data, preventUpdate = false) => {
+  const setData: ContextState['setData'] = useCallback(
+    (newData: Data, { preventUpdate = false } = {}) => {
       // - Mutate the data context
       if (transformIn) {
         newData = mutateDataHandler(newData, transformIn)
@@ -881,7 +887,7 @@ export default function Provider<Data extends JsonObject>(
         pointer.set(newData, path, value)
       }
 
-      setData(newData, preventUpdate)
+      setData(newData, { preventUpdate })
       onUpdateDataValue?.(path, value, { preventUpdate })
     },
     [onUpdateDataValue, setData]

@@ -28,7 +28,7 @@ import {
   IsolationDataReference,
   createDataReference,
 } from './IsolationDataReference'
-import IsolatedContainer from './IsolatedContainer'
+import IsolatedContainer, { isolationError } from './IsolatedContainer'
 import IsolationContext from './IsolationContext'
 import type { OnCommit, Path } from '../../types'
 
@@ -342,8 +342,6 @@ function BubbleValidation() {
 
   return null
 }
-
-const isolationError = new Error('Form.Isolation')
 
 IsolationProvider.CommitButton = IsolationCommitButton
 IsolationProvider.ResetButton = IsolationResetButton
