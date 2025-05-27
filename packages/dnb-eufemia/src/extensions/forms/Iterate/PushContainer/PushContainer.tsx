@@ -334,6 +334,7 @@ function NewContainer({
       outerContext,
       preventUncommittedChanges,
       error: pushContainerError,
+      name: 'push-container',
     })
 
   useEffect(() => {
