@@ -12,6 +12,7 @@ import DataContext, {
 import WizardContext, {
   WizardContextState,
 } from '../Context/WizardContext'
+import useEventListener from '../../DataContext/Provider/useEventListener'
 
 export function PrerenderFieldPropsOfOtherSteps({
   prerenderFieldPropsRef,
@@ -50,7 +51,6 @@ export function PrerenderFieldPropsOfOtherSteps({
 
 function usePrerenderState() {
   const [, forceUpdate] = useReducer(() => ({}), {})
-  const { setFieldEventListener } = useContext(DataContext)
 
   // Keep track whether to render the content or not
   let renderContent = true
@@ -63,7 +63,7 @@ function usePrerenderState() {
     hasRenderedRef.current = null
     forceUpdate()
   }, [])
-  setFieldEventListener?.(undefined, 'onBeforeSubmit', handleBeforeSubmit)
+  useEventListener('onBeforeSubmit', handleBeforeSubmit)
 
   // Track state changes to handle re-rendering
   const state = hasRenderedRef.current
