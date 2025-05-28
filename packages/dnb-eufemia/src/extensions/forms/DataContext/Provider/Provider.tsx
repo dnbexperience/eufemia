@@ -1325,7 +1325,7 @@ export default function Provider<Data extends JsonObject>(
   }
 
   // - ajv validator routines
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (schema) {
       ajvValidatorRef.current = ajvRef.current?.compile(schema)
     }

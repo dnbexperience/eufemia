@@ -3,12 +3,17 @@ import pointer from '../../utils/json-pointer'
 import DataContext from '../../DataContext/Context'
 import useDataContextSnapshot from './useDataContextSnapshot'
 
-export default function useHasContentChanged() {
+export default function useHasContentChanged({
+  enabled = false,
+}: {
+  enabled?: boolean
+} = {}) {
   const { internalDataRef } = useContext(DataContext)
-  const { snapshotRef } = useDataContextSnapshot({ enabled: true })
+  const { snapshotRef } = useDataContextSnapshot({ enabled })
 
   const data = internalDataRef?.current
   const snapshot = snapshotRef?.current // To support a custom data reference, we need to have a snapshot in the hook deps.
+
   const hasContentChanged = useMemo(() => {
     if (!data || !snapshot) {
       return undefined

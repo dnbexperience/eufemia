@@ -3,8 +3,8 @@ import { FormStatus } from '../../../../components'
 import { useTranslation } from '../../hooks'
 import useHandleStatus from './useHandleStatus'
 import IsolationContext from './IsolationContext'
-import DataContext from '../../DataContext/Context'
 import useDataContextSnapshot from './useDataContextSnapshot'
+import useEventListener from '../../DataContext/Provider/useEventListener'
 
 export default function IsolatedContainer({ children }) {
   const { outerContext, preventUncommittedChanges } =
@@ -17,7 +17,6 @@ export default function IsolatedContainer({ children }) {
     name: 'isolation-container',
   })
 
-  const { setFieldEventListener } = useContext(DataContext)
   const { resetDataAfterCommit } = useContext(IsolationContext)
   const { handleReset } = useDataContextSnapshot({
     enabled: resetDataAfterCommit,
@@ -28,7 +27,7 @@ export default function IsolatedContainer({ children }) {
       handleReset()
     }
   }, [handleReset, resetDataAfterCommit])
-  setFieldEventListener?.(undefined, 'onBeforeCommit', handleSubmit)
+  useEventListener('onBeforeCommit', handleSubmit)
 
   return (
     <>

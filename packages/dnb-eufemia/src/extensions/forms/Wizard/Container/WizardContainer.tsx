@@ -27,6 +27,7 @@ import type {
   InternalStepStatuses,
 } from '../Context/types'
 import DataContext from '../../DataContext/Context'
+import useEventListener from '../../DataContext/Provider/useEventListener'
 import Handler from '../../Form/Handler/Handler'
 import {
   SharedStateReturn,
@@ -154,7 +155,6 @@ function WizardContainer(props: Props) {
     handleSubmitCall,
     setShowAllErrors,
     setSubmitState,
-    setFieldEventListener,
   } = dataContext
 
   const id = useId(idProp)
@@ -501,7 +501,7 @@ function WizardContainer(props: Props) {
     },
     [hasInvalidStepsState, handleNext]
   )
-  setFieldEventListener?.(undefined, 'onSubmit', handleSubmit)
+  useEventListener('onSubmit', handleSubmit)
 
   // NB: useVisibility needs to be imported here,
   // because it need the outer context to be available.

@@ -2847,11 +2847,11 @@ describe('DataContext.Provider', () => {
 
         expect(log).toHaveBeenNthCalledWith(
           1,
-          'The field value (original) type must be number'
+          'The field at path="/foo" value (original) type must be number'
         )
         expect(log).toHaveBeenNthCalledWith(
           2,
-          'The field at path="/foo" value (original) type must be number'
+          'The field value (original) type must be number'
         )
         expect(log).toHaveBeenNthCalledWith(
           3,

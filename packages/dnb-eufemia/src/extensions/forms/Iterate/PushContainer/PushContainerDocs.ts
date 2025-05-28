@@ -77,6 +77,11 @@ export const PushContainerProperties: PropertiesTableProps = {
     type: 'React.Node',
     status: 'optional',
   },
+  dataReference: {
+    doc: 'Provide a reference by using `Form.Isolation.createDataReference.`',
+    type: 'IsolationDataReference',
+    status: 'optional',
+  },
   children: {
     doc: 'The container contents.',
     type: 'React.Node',

@@ -3717,8 +3717,6 @@ describe('Wizard.Container', () => {
           document.querySelector('.dnb-forms-iterate__open-button')
         )
 
-        await wait(300)
-
         await userEvent.click(nextButton())
 
         expect(output()).toHaveTextContent('Step 1')
@@ -3740,6 +3738,62 @@ describe('Wizard.Container', () => {
             '.dnb-step-indicator__item-content__status'
           )
         ).toBeNull()
+      })
+
+      it('should not show error in menu when Iterate.PushContainer has shown error', async () => {
+        render(
+          <Form.Handler>
+            <Wizard.Container>
+              <Wizard.Step title="Step 1">
+                <output>Step 1</output>
+                <Iterate.PushContainer
+                  path="/does-not-matter"
+                  showOpenButtonWhen={() => true}
+                  openButton={<Iterate.PushContainer.OpenButton />}
+                  bubbleValidation
+                >
+                  <Field.String required itemPath="/initiateError" />
+                </Iterate.PushContainer>
+                <Wizard.Buttons />
+              </Wizard.Step>
+
+              <Wizard.Step title="Step 2">
+                <output>Step 2</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        expect(output()).toHaveTextContent('Step 1')
+
+        await userEvent.click(
+          document.querySelector('.dnb-forms-iterate__open-button')
+        )
+
+        await userEvent.click(nextButton())
+
+        expect(output()).toHaveTextContent('Step 1')
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+
+        await userEvent.click(
+          document.querySelector('.dnb-forms-iterate__cancel-button')
+        )
+
+        await userEvent.click(nextButton())
+
+        expect(output()).toHaveTextContent('Step 2')
+
+        fireEvent.submit(document.querySelector('form'))
+        fireEvent.submit(document.querySelector('form')) // Try a second time
+
+        await expect(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toBeInTheDocument()
+        }).toNeverResolve()
       })
 
       it('should render error status when form cannot be submitted', async () => {
