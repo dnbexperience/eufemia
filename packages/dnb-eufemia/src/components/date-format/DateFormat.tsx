@@ -18,10 +18,7 @@ type DateFormatProps = SpacingProps & {
    * The date that will be formatted.
    */
   date?: Date | string
-  /**
-   * Locale used for formatting.
-   * Defaults to `nb-NO`
-   */
+
   /**
    * Defines the formatting  used for dates. (weekday, day, month year)
    * Cannot be used together with `weekday`, `day`, `month` and `year`.
@@ -29,10 +26,14 @@ type DateFormatProps = SpacingProps & {
    */
   dateStyle?: Intl.DateTimeFormatOptions['dateStyle']
   /**
+   * Locale used for formatting.
+   * Defaults to `nb-NO`
+   */
+  locale?: InternalLocale
+  /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
   skeleton?: SkeletonShow
-  locale?: InternalLocale
   children?: React.ReactNode
 }
 
