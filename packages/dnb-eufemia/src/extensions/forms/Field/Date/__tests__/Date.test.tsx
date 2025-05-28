@@ -16,11 +16,11 @@ const en = enGB['en-GB']
 const formatOptions: Record<'no' | 'en', FormatDateOptions> = {
   no: {
     locale: 'nb-NO',
-    variant: 'long',
+    options: { dateStyle: 'long' },
   },
   en: {
     locale: 'en-GB',
-    variant: 'long',
+    options: { dateStyle: 'long' },
   },
 }
 
@@ -598,7 +598,7 @@ describe('Field.Date', () => {
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
       '/myValue': {
         type: 'field',
-        value: '10/01/2023',
+        value: '10/1/23',
       },
     })
 
@@ -609,7 +609,7 @@ describe('Field.Date', () => {
     expect(dataContext.fieldDisplayValueRef.current).toEqual({
       '/myValue': {
         type: 'field',
-        value: '11/02/2024',
+        value: '11/2/24',
       },
     })
   })

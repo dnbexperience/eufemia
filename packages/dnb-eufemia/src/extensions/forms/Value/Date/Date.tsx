@@ -18,7 +18,7 @@ function DateComponent(props: Props) {
   const translations = useTranslation().Date
   const { locale: contextLocale } = useContext(SharedContext)
   const locale = props.locale ?? contextLocale
-  const variant = props.variant ?? 'long'
+  const options = convertVariantToDateStyle(props.variant ?? 'long')
 
   const toInput = useCallback(
     (value: string) => {
@@ -32,12 +32,12 @@ function DateComponent(props: Props) {
       if (isRange) {
         const [startDate, endDate] = parseRangeValue(value)
 
-        return formatDateRange({ startDate, endDate }, { locale, variant })
+        return formatDateRange({ startDate, endDate }, { locale, options })
       }
 
-      return formatDate(value, { locale, variant })
+      return formatDate(value, { locale, options })
     },
-    [locale, variant]
+    [locale, options]
   )
 
   const stringProps: Props = {
@@ -46,6 +46,19 @@ function DateComponent(props: Props) {
     toInput,
   }
   return <StringValue {...stringProps} />
+}
+
+function convertVariantToDateStyle(
+  variant: Props['variant']
+): Intl.DateTimeFormatOptions {
+  if (variant === 'long') {
+    return { dateStyle: 'long' }
+  }
+  if (variant === 'short') {
+    return { dateStyle: 'medium' }
+  }
+
+  return { dateStyle: 'short' }
 }
 
 DateComponent._supportsSpacingProps = true

@@ -898,11 +898,8 @@ function DatePicker(externalProps: DatePickerAllProps) {
 
     const options: FormatDateOptions = {
       locale: context.locale,
-      formatOptions: {
-        weekday: 'long',
-        month: 'long',
-        day: 'numeric',
-        year: 'numeric',
+      options: {
+        dateStyle: 'full',
       },
     }
 

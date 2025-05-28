@@ -100,7 +100,7 @@ function DateFormat(props: DateFormatProps) {
     >
       {formatDate(dateObject, {
         locale,
-        formatOptions: {
+        options: {
           ...getDateOptions({ dateStyle, weekday, day, month, year }),
         },
       })}
