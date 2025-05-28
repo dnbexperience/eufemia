@@ -248,4 +248,11 @@ describe('DateFormat ARIA', () => {
     const Comp = render(<DateFormat>2025-08-01</DateFormat>)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
+
+  it('should have correct `dateTime` attribute', () => {
+    render(<DateFormat>01.08.2025</DateFormat>)
+    const dateFormat = document.querySelector('.dnb-date-format')
+
+    expect(dateFormat).toHaveAttribute('dateTime', '2025-08-01')
+  })
 })
