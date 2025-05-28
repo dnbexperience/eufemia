@@ -60,7 +60,7 @@ import {
   FormatDateOptions,
   formatDate,
   formatDateRange,
-} from './DatePickerCalc'
+} from '../date-format/DateFormatUtils'
 
 export type DatePickerEventAttributes = {
   day?: string

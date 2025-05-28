@@ -2,11 +2,12 @@ import React, { useCallback, useContext } from 'react'
 import StringValue, { Props as StringValueProps } from '../String'
 import useTranslation from '../../hooks/useTranslation'
 import SharedContext, { AnyLocale } from '../../../../shared/Context'
+
+import { parseRangeValue } from '../../Field/Date'
 import {
   formatDate,
   formatDateRange,
-} from '../../../../components/date-picker/DatePickerCalc'
-import { parseRangeValue } from '../../Field/Date'
+} from '../../../../components/date-format/DateFormatUtils'
 
 export type Props = StringValueProps & {
   variant?: 'long' | 'short' | 'numeric'

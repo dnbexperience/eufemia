@@ -16,16 +16,16 @@ import {
   DatePickerEvent,
   DatePickerProps,
 } from '../../../../components/DatePicker'
-import {
-  FormatDateOptions,
-  convertStringToDate,
-  formatDate,
-} from '../../../../components/date-picker/DatePickerCalc'
+import { convertStringToDate } from '../../../../components/date-picker/DatePickerCalc'
 import { ProviderProps } from '../../../../shared/Provider'
 import { FormError } from '../../utils'
 import startOfDay from 'date-fns/startOfDay'
 import { InvalidDates } from '../../../../components/date-picker/DatePickerInput'
 import useInvalidDates from './hooks/useInvalidDates'
+import {
+  FormatDateOptions,
+  formatDate,
+} from '../../../../components/date-format/DateFormatUtils'
 
 // `range`, `showInput`, `showCancelButton` and `showResetButton` are not picked from the `DatePickerProps`
 // Since they require `Field.Date` specific comments, due to them having different default values

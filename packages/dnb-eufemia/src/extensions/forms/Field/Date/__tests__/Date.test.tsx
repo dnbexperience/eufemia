@@ -8,7 +8,7 @@ import enGB from '../../../constants/locales/en-GB'
 import {
   FormatDateOptions,
   formatDate,
-} from '../../../../../components/date-picker/DatePickerCalc'
+} from '../../../../../components/date-format/DateFormatUtils'
 
 const nb = nbNO['nb-NO']
 const en = enGB['en-GB']

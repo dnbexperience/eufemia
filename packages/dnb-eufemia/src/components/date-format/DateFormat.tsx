@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from 'react'
 import SharedContext, { InternalLocale } from '../../shared/Context'
 import { convertJsxToString } from '../../shared/component-helper'
 import { convertStringToDate } from '../date-picker/DatePickerCalc'
-import { formatDate } from './DateUtils'
+import { formatDate } from './DateFormatUtils'
 import { format } from 'date-fns'
 import { SpacingProps } from '../space/types'
 import classnames from 'classnames'
@@ -100,7 +100,7 @@ function DateFormat(props: DateFormatProps) {
     >
       {formatDate(dateObject, {
         locale,
-        options: {
+        formatOptions: {
           ...getDateOptions({ dateStyle, weekday, day, month, year }),
         },
       })}
