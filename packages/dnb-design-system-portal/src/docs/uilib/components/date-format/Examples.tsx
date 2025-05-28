@@ -41,3 +41,14 @@ export const DateStyles = () => (
     </ComponentBox>
   </Style>
 )
+
+export const DateFormatInline = () => {
+  return (
+    <ComponentBox data-visual-test="date-format-date-inline">
+      <P>
+        Payment due <DateFormat>2025-08-01</DateFormat>. Please make sure
+        you have sufficient funds available.
+      </P>
+    </ComponentBox>
+  )
+}
