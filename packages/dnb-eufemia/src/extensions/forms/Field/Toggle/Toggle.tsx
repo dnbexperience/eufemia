@@ -8,7 +8,7 @@ import { FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
 import useTranslation from '../../hooks/useTranslation'
-import { useIterateItemNo } from '../../Iterate/ItemNo/useIItemNo'
+import { useIterateItemNo } from '../../Iterate/ItemNo/useIterateItemNo'
 import type {
   CheckboxProps,
   OnChangeParams,

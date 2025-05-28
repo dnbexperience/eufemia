@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import { useIterateItemNo } from '../useIItemNo'
+import { useIterateItemNo } from '../useIterateItemNo'
 import IterateItemContext from '../../IterateItemContext'
 
 function TestComponent(props: any) {
