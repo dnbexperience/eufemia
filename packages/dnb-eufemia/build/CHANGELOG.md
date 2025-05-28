@@ -3,6 +3,32 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.75.2](https://github.com/dnbexperience/eufemia/compare/v10.75.1...v10.75.2) (2025-05-28)
+
+
+### :memo: Documentation
+
+* **Field.BankAccountNumber:** list string and field props correctly ([#5210](https://github.com/dnbexperience/eufemia/issues/5210)) ([e192972](https://github.com/dnbexperience/eufemia/commit/e1929720f80f269da097929ea7fd5077851ed2f3))
+* **Field.NationalIdentityNumber:** list string and field props correctly ([#5209](https://github.com/dnbexperience/eufemia/issues/5209)) ([2f1afa1](https://github.com/dnbexperience/eufemia/commit/2f1afa1ae2529573eab230edb31805990350e689))
+* **Field.OrganizationNumber:** list string and field props correctly ([#5208](https://github.com/dnbexperience/eufemia/issues/5208)) ([0f67a95](https://github.com/dnbexperience/eufemia/commit/0f67a9549642074686f9a844d0c1ccfdf71d1c57))
+* **Field.Password:** list string and field props correctly ([#5207](https://github.com/dnbexperience/eufemia/issues/5207)) ([ec1ce2d](https://github.com/dnbexperience/eufemia/commit/ec1ce2d6b6726b355d52393887c74f281cba1110))
+* **Forms:** document `Tools.Errors` and `Tools.Log` for debugging ([#5192](https://github.com/dnbexperience/eufemia/issues/5192)) ([3209dd5](https://github.com/dnbexperience/eufemia/commit/3209dd546fd1ec7a9d597c617be2146c4dddf4e2))
+
+
+### :bug: Bug Fixes
+
+* **ChildrenWithAge:** set 9 as maximum amount of children  ([#5183](https://github.com/dnbexperience/eufemia/issues/5183)) ([74b7343](https://github.com/dnbexperience/eufemia/commit/74b7343fd5236fa56c57721684c06380b7b64ff2))
+* **Dropdown:** `title="[object Object]"` ([#5173](https://github.com/dnbexperience/eufemia/issues/5173)) ([1b61cec](https://github.com/dnbexperience/eufemia/commit/1b61cec0ee23bc2823045726de8661b761475346))
+* **Dropdown:** support Icon in `selected_value`  ([#5172](https://github.com/dnbexperience/eufemia/issues/5172)) ([8eaa44e](https://github.com/dnbexperience/eufemia/commit/8eaa44ea8dc30a8360cd7cbe80f5d1c8418838aa))
+* ensure `line-height-lead` has correct value when consumed via JavaScirpt in DNB Eiendom ([#5212](https://github.com/dnbexperience/eufemia/issues/5212)) ([c4c92ad](https://github.com/dnbexperience/eufemia/commit/c4c92adf671a25c7f27cc684ac7532617f47976c))
+* **Field.PhoneNumber:** remove unsupported label properties ([#5206](https://github.com/dnbexperience/eufemia/issues/5206)) ([a214eba](https://github.com/dnbexperience/eufemia/commit/a214eba0947b173286c26c45fdc7144965109b44))
+* **Field.Upload:** remove support for props not supported ([#5187](https://github.com/dnbexperience/eufemia/issues/5187)) ([178d74f](https://github.com/dnbexperience/eufemia/commit/178d74fc23f356cb5cd8983ad78a9de7b0719676))
+* **Field.Upload:** support disabled property ([#5189](https://github.com/dnbexperience/eufemia/issues/5189)) ([65189a5](https://github.com/dnbexperience/eufemia/commit/65189a5a95ff76c39a96a6c5b7df91c616d3753f))
+* **FieldBlock:** should not render boolean values as `labelSuffix` ([#5196](https://github.com/dnbexperience/eufemia/issues/5196)) ([7a27c79](https://github.com/dnbexperience/eufemia/commit/7a27c79787941e49ca758ce347eb252bc1ae025f))
+* **Forms:** call every `onStepChange` assigned to Wizard.useStep ([#5181](https://github.com/dnbexperience/eufemia/issues/5181)) ([118f444](https://github.com/dnbexperience/eufemia/commit/118f444fb56e1cf5ec8b4e2197427b56306407b8))
+* **Forms:** ensure `preventUncommittedChanges` with handler schema does not prevent Wizard navigation ([#5193](https://github.com/dnbexperience/eufemia/issues/5193)) ([0536de4](https://github.com/dnbexperience/eufemia/commit/0536de41f55a0b171399115631f0a92f7b5bbe57))
+* **Upload:** style disabled state ([#5188](https://github.com/dnbexperience/eufemia/issues/5188)) ([6596a42](https://github.com/dnbexperience/eufemia/commit/6596a4250c1ec9f9608bd62d889ecddffa0572df))
+
 ## [10.75.1](https://github.com/dnbexperience/eufemia/compare/v10.75.0...v10.75.1) (2025-05-22)
 
 
