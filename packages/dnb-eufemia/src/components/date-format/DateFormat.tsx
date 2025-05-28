@@ -13,7 +13,7 @@ import {
   skeletonDOMAttributes,
 } from '../skeleton/SkeletonHelper'
 
-type DateFormatProps = {
+type DateFormatProps = SpacingProps & {
   /**
    * The date that will be formatted.
    */
@@ -22,11 +22,6 @@ type DateFormatProps = {
    * Locale used for formatting.
    * Defaults to `nb-NO`
    */
-  locale?: InternalLocale
-  children?: React.ReactNode
-} & DateFormatOptions
-
-type DateFormatOptions = SpacingProps & {
   /**
    * Defines the formatting  used for dates. (weekday, day, month year)
    * Cannot be used together with `weekday`, `day`, `month` and `year`.
@@ -34,33 +29,11 @@ type DateFormatOptions = SpacingProps & {
    */
   dateStyle?: Intl.DateTimeFormatOptions['dateStyle']
   /**
-   * Defines the formatting used for weekdays.
-   * Cannot be used together with `dateStyle`.
-   * Defaults to `undefined`.
-   */
-  weekday?: Intl.DateTimeFormatOptions['weekday']
-  /**
-   * Defines the formatting used for days.
-   * Cannot be used together with `dateStyle`.
-   * Defaults to `undefined`.
-   */
-  day?: Intl.DateTimeFormatOptions['day']
-  /**
-   * Defines the formatting used for months.
-   * Cannot be used together with `dateStyle`.
-   * Defaults to `undefined`.
-   */
-  month?: Intl.DateTimeFormatOptions['month']
-  /**
-   * Defines the formatting used for years.
-   * Cannot be used together with `dateStyle`.
-   * Defaults to `undefined`.
-   */
-  year?: Intl.DateTimeFormatOptions['year']
-  /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
   skeleton?: SkeletonShow
+  locale?: InternalLocale
+  children?: React.ReactNode
 }
 
 function DateFormat(props: DateFormatProps) {
@@ -70,10 +43,6 @@ function DateFormat(props: DateFormatProps) {
     date,
     locale = context.locale,
     dateStyle = 'long',
-    weekday,
-    day,
-    month,
-    year,
     children,
     skeleton,
   } = props
@@ -88,44 +57,24 @@ function DateFormat(props: DateFormatProps) {
 
   return (
     <time
-      // Make dateTime attribute correspond with the props provided i.e. weekday, day, month, year
-      lang={locale}
-      // Makes sure that screen readers are reading the date correctly in the system language.
-      dateTime={format(dateObject, 'yyyy-MM-dd')}
       className={classnames(
         'dnb-date-format',
         createSpacingClasses(props),
         createSkeletonClass('font', skeleton, context)
       )}
+      lang={locale}
+      // Makes sure that screen readers are reading the date correctly in the system language.
+      dateTime={format(dateObject, 'yyyy-MM-dd')}
       {...attributes}
     >
       {formatDate(dateObject, {
         locale,
         formatOptions: {
-          ...getDateOptions({ dateStyle, weekday, day, month, year }),
+          dateStyle,
         },
       })}
     </time>
   )
-}
-
-function getDateOptions({
-  dateStyle,
-  weekday,
-  day,
-  month,
-  year,
-}: Pick<
-  DateFormatOptions,
-  'dateStyle' | 'weekday' | 'day' | 'month' | 'year'
->) {
-  // Prioritize date segment formatting if defined, as weekday, day, month and year options cannot be used at the same time as dateStyle.
-  // Prevents application from crashing if developer defines segment formatting at the same time as dateStyle is used.
-  if (weekday || day || year || month) {
-    return { weekday, day, year, month }
-  }
-
-  return { dateStyle }
 }
 
 function getDateObject({

@@ -19,32 +19,4 @@ describe('NumberFormat', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-
-  it('have to match date weekdays', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="date-format-weekdays"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match date days', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="date-format-days"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match date months', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="date-format-months"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match date years', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="date-format-years"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 })
