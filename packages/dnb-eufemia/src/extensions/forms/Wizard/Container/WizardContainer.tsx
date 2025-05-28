@@ -27,6 +27,7 @@ import type {
   InternalStepStatuses,
 } from '../Context/types'
 import DataContext from '../../DataContext/Context'
+import useEventListener from '../../DataContext/Provider/useEventListener'
 import Handler from '../../Form/Handler/Handler'
 import {
   SharedStateReturn,
@@ -154,7 +155,6 @@ function WizardContainer(props: Props) {
     handleSubmitCall,
     setShowAllErrors,
     setSubmitState,
-    setFieldEventListener,
   } = dataContext
 
   const id = useId(idProp)
@@ -164,6 +164,7 @@ function WizardContainer(props: Props) {
   const visitedStepsRef = useRef<InternalVisitedSteps>(new Map())
   const fieldErrorRef = useRef<InternalFieldError>(new Map())
   const storeStepStateRef = useRef<InternalStepStatuses>(new Map())
+  const onStepChangeEventsRef = useRef<Set<OnStepChange>>(new Set())
   const hasErrorInOtherStepRef = useRef<boolean>(false)
   const elementRef = useRef<HTMLElement>()
   const stepElementRef = useRef<HTMLElement>()
@@ -179,12 +180,7 @@ function WizardContainer(props: Props) {
   const bypassOnNavigation = validationMode === 'bypassOnNavigation'
 
   // - Handle shared state
-  const sharedStateRef =
-    useRef<
-      SharedStateReturn<
-        WizardContextState & { onStepChange?: OnStepChange }
-      >
-    >()
+  const sharedStateRef = useRef<SharedStateReturn<WizardContextState>>()
   sharedStateRef.current = useSharedState<WizardContextState>(
     hasContext && id ? createReferenceKey(id, 'wizard') : undefined
   )
@@ -370,11 +366,11 @@ function WizardContainer(props: Props) {
       let didSubmit = false
       const onSubmit = async () => {
         if (!skipStepChangeCallFromHook) {
-          sharedStateRef.current?.data?.onStepChange?.(
-            index,
-            mode,
-            getStepChangeOptions(index)
-          )
+          onStepChangeEventsRef?.current?.forEach((onStepChange) => {
+            if (typeof onStepChange === 'function') {
+              onStepChange(index, mode, getStepChangeOptions(index))
+            }
+          })
         }
 
         let result = undefined
@@ -505,14 +501,14 @@ function WizardContainer(props: Props) {
     },
     [hasInvalidStepsState, handleNext]
   )
-  setFieldEventListener?.(undefined, 'onSubmit', handleSubmit)
+  useEventListener('onSubmit', handleSubmit)
 
   // NB: useVisibility needs to be imported here,
   // because it need the outer context to be available.
   const { check } = useVisibility()
 
   // This is used to map over the children and to give them the correct index,
-  // in case it could be given properly, like if no id or title was given in React.StrictMode.
+  // in case it could NOT be given properly, like if no id or title was given in React.StrictMode.
   const mapOverChildrenRef = useRef(false)
   const enableMapOverChildren = useCallback(() => {
     mapOverChildrenRef.current = true
@@ -533,6 +529,7 @@ function WizardContainer(props: Props) {
       prerenderFieldProps,
       prerenderFieldPropsRef,
       hasErrorInOtherStepRef,
+      onStepChangeEventsRef,
       keepInDOM,
       enableMapOverChildren,
       mapOverChildrenRef,

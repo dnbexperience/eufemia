@@ -82,7 +82,7 @@ export const numberProperties: PropertiesTableProps = {
     status: 'optional',
   },
   step: {
-    doc: 'Determines step granularity when in/decreasing value input through step controls buttons or arrow keys. Defaults to 1.',
+    doc: 'Determines step granularity when in/decreasing value input through step controls buttons or arrow keys. Defaults to `1`.',
     type: 'number',
     status: 'optional',
   },

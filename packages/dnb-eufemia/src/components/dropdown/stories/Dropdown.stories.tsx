@@ -19,10 +19,11 @@ import {
   Drawer,
   GlobalStatus,
 } from '../..'
-import { Dialog, Flex, Link } from '../../..'
+import { Dialog, Flex, Icon, Link, P } from '../../..'
 import { DrawerListDataArray } from '../../../fragments/DrawerList'
 import { Provider } from '../../../shared'
 import { Field, Form } from '../../../extensions/forms'
+import { bank } from '../../../icons'
 
 export default {
   title: 'Eufemia/Components/Dropdown',
@@ -1055,5 +1056,71 @@ export function InDialog() {
         </Flex.Stack>
       </Form.Handler>
     </Dialog>
+  )
+}
+
+export function Title() {
+  return (
+    <>
+      <Dropdown
+        data={[
+          {
+            selected_key: 'test',
+            selected_value: <>my value</>,
+            content: 'test',
+          },
+        ]}
+        value={0}
+      />
+
+      <Dropdown
+        data={[
+          {
+            selected_key: 'test',
+            selected_value: <P>my value</P>,
+            content: 'test',
+          },
+        ]}
+        value={0}
+      />
+
+      <Dropdown
+        data={[
+          {
+            selected_key: 'test',
+            selected_value: (
+              <>
+                <Icon icon={bank} />
+                Banking
+              </>
+            ),
+            content: 'test',
+          },
+        ]}
+        value={0}
+      />
+
+      <Dropdown
+        data={[
+          {
+            selected_key: 'test',
+            selected_value: <Icon icon={bank} />,
+            content: 'test',
+          },
+        ]}
+        value={0}
+      />
+
+      <Dropdown
+        data={[
+          {
+            selected_key: 'test',
+            selected_value: <NumberFormat>11345678962</NumberFormat>,
+            content: 'test',
+          },
+        ]}
+        value={0}
+      />
+    </>
   )
 }

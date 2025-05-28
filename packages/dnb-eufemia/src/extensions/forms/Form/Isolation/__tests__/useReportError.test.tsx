@@ -12,7 +12,7 @@ describe('useReportError', () => {
     const setMountedFieldState = jest.fn()
 
     const error = new Error('My error')
-    const path = '/id-r0'
+    const path = '/id-r1'
 
     const dataContextValue = {
       setFieldError: setFieldErrorDataContext,
@@ -45,12 +45,12 @@ describe('useReportError', () => {
     expect(setMountedFieldState).toHaveBeenCalledTimes(0)
 
     expect(setFieldErrorDataContext).toHaveBeenLastCalledWith(
-      path,
+      `/internal${path}`,
       undefined
     )
     expect(setFieldErrorWizard).toHaveBeenLastCalledWith(
       1,
-      path,
+      `/internal${path}`,
       undefined
     )
 
@@ -60,11 +60,21 @@ describe('useReportError', () => {
     expect(setFieldErrorWizard).toHaveBeenCalledTimes(3)
     expect(setMountedFieldState).toHaveBeenCalledTimes(2)
 
-    expect(setFieldErrorDataContext).toHaveBeenLastCalledWith(path, error)
-    expect(setFieldErrorWizard).toHaveBeenLastCalledWith(1, path, true)
-    expect(setMountedFieldState).toHaveBeenLastCalledWith(path, {
-      isMounted: true,
-    })
+    expect(setFieldErrorDataContext).toHaveBeenLastCalledWith(
+      `/internal${path}`,
+      error
+    )
+    expect(setFieldErrorWizard).toHaveBeenLastCalledWith(
+      1,
+      `/internal${path}`,
+      true
+    )
+    expect(setMountedFieldState).toHaveBeenLastCalledWith(
+      `/internal${path}`,
+      {
+        isMounted: true,
+      }
+    )
 
     rerender(undefined)
 
@@ -73,17 +83,20 @@ describe('useReportError', () => {
     expect(setMountedFieldState).toHaveBeenCalledTimes(3)
 
     expect(setFieldErrorDataContext).toHaveBeenLastCalledWith(
-      path,
+      `/internal${path}`,
       undefined
     )
     expect(setFieldErrorWizard).toHaveBeenLastCalledWith(
       1,
-      path,
+      `/internal${path}`,
       undefined
     )
-    expect(setMountedFieldState).toHaveBeenLastCalledWith(path, {
-      isMounted: false,
-    })
+    expect(setMountedFieldState).toHaveBeenLastCalledWith(
+      `/internal${path}`,
+      {
+        isMounted: false,
+      }
+    )
   })
 
   it('should remove error when unmounted', () => {
@@ -92,7 +105,7 @@ describe('useReportError', () => {
     const setMountedFieldState = jest.fn()
 
     const error = new Error('My error')
-    const path = '/id-r1'
+    const path = '/id-r3'
 
     const dataContextValue = {
       setFieldError: setFieldErrorDataContext,
@@ -124,11 +137,21 @@ describe('useReportError', () => {
     expect(setFieldErrorWizard).toHaveBeenCalledTimes(1)
     expect(setMountedFieldState).toHaveBeenCalledTimes(1)
 
-    expect(setFieldErrorDataContext).toHaveBeenLastCalledWith(path, error)
-    expect(setFieldErrorWizard).toHaveBeenLastCalledWith(1, path, true)
-    expect(setMountedFieldState).toHaveBeenLastCalledWith(path, {
-      isMounted: true,
-    })
+    expect(setFieldErrorDataContext).toHaveBeenLastCalledWith(
+      `/internal${path}`,
+      error
+    )
+    expect(setFieldErrorWizard).toHaveBeenLastCalledWith(
+      1,
+      `/internal${path}`,
+      true
+    )
+    expect(setMountedFieldState).toHaveBeenLastCalledWith(
+      `/internal${path}`,
+      {
+        isMounted: true,
+      }
+    )
 
     unmount()
 
@@ -137,17 +160,20 @@ describe('useReportError', () => {
     expect(setMountedFieldState).toHaveBeenCalledTimes(2)
 
     expect(setFieldErrorDataContext).toHaveBeenLastCalledWith(
-      path,
+      `/internal${path}`,
       undefined
     )
     expect(setFieldErrorWizard).toHaveBeenLastCalledWith(
       1,
-      path,
+      `/internal${path}`,
       undefined
     )
-    expect(setMountedFieldState).toHaveBeenLastCalledWith(path, {
-      isMounted: false,
-    })
+    expect(setMountedFieldState).toHaveBeenLastCalledWith(
+      `/internal${path}`,
+      {
+        isMounted: false,
+      }
+    )
   })
 
   it('should support dataContext given as the second argument', () => {
@@ -156,7 +182,7 @@ describe('useReportError', () => {
     const setMountedFieldState = jest.fn()
 
     const error = new Error('My error')
-    const path = '/id-r2'
+    const path = '/id-r5'
 
     const dataContextValue = {
       setFieldError: setFieldErrorDataContext,
@@ -185,10 +211,20 @@ describe('useReportError', () => {
     expect(setFieldErrorWizard).toHaveBeenCalledTimes(1)
     expect(setMountedFieldState).toHaveBeenCalledTimes(1)
 
-    expect(setFieldErrorDataContext).toHaveBeenLastCalledWith(path, error)
-    expect(setFieldErrorWizard).toHaveBeenLastCalledWith(1, path, true)
-    expect(setMountedFieldState).toHaveBeenLastCalledWith(path, {
-      isMounted: true,
-    })
+    expect(setFieldErrorDataContext).toHaveBeenLastCalledWith(
+      `/internal${path}`,
+      error
+    )
+    expect(setFieldErrorWizard).toHaveBeenLastCalledWith(
+      1,
+      `/internal${path}`,
+      true
+    )
+    expect(setMountedFieldState).toHaveBeenLastCalledWith(
+      `/internal${path}`,
+      {
+        isMounted: true,
+      }
+    )
   })
 })

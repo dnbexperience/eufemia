@@ -27,7 +27,7 @@ export default function ResetButton(props: Props) {
   const { restoreOriginalValue } = useContext(IterateItemContext) || {}
   const { setShowBoundaryErrors } = useContext(FieldBoundaryContext) || {}
   const { setShowError } = useContext(ToolbarContext) || {}
-  const { hasContentChanged } = useHasContentChanged()
+  const { hasContentChanged } = useHasContentChanged({ enabled: true })
 
   const buttonProps = omitDataValueReadWriteProps(restProps)
   const { resetButton } = useTranslation().IterateEditContainer

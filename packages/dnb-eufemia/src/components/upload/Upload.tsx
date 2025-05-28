@@ -140,9 +140,8 @@ const Upload = (localProps: UploadAllProps) => {
     ]
   )
 
-  const UploadWrapper = disableDragAndDrop
-    ? HeightAnimation
-    : UploadDropzone
+  const UploadWrapper =
+    disableDragAndDrop || props.disabled ? HeightAnimation : UploadDropzone
 
   return (
     <UploadContext.Provider
@@ -158,7 +157,7 @@ const Upload = (localProps: UploadAllProps) => {
         >
           <UploadInfo />
 
-          <UploadFileInput {...props} />
+          <UploadFileInput disabled={props.disabled} {...props} />
 
           <UploadFileList />
         </UploadWrapper>

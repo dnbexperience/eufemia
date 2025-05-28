@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import { useIterateItemNo } from '../useIItemNo'
+import { useIterateItemNo } from '../useIterateItemNo'
 import IterateItemContext from '../../IterateItemContext'
 
 function TestComponent(props: any) {
@@ -48,5 +48,31 @@ describe('useIterateItemNo', () => {
       </IterateItemContext.Provider>
     )
     expect(screen.getByText('Custom 4 (custom)')).toBeInTheDocument()
+  })
+
+  it('should not append custom suffix when labelSuffix has value true', () => {
+    render(
+      <IterateItemContext.Provider value={{ index: 3 }}>
+        <TestComponent
+          label="Custom {itemNo}"
+          labelSuffix={true}
+          required={false}
+        />
+      </IterateItemContext.Provider>
+    )
+    expect(screen.getByText('Custom 4')).toBeInTheDocument()
+  })
+
+  it('should not append custom suffix when labelSuffix has value false', () => {
+    render(
+      <IterateItemContext.Provider value={{ index: 3 }}>
+        <TestComponent
+          label="Custom {itemNo}"
+          labelSuffix={false}
+          required={false}
+        />
+      </IterateItemContext.Provider>
+    )
+    expect(screen.getByText('Custom 4')).toBeInTheDocument()
   })
 })

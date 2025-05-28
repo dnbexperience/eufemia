@@ -16,9 +16,11 @@ import { getAcceptedFileTypes } from './UploadVerify'
 
 const UploadFileInput = ({
   children,
+  disabled,
   ...rest
 }: {
   children?: React.ReactNode
+  disabled?: boolean
 }) => {
   const fileInput = useRef<HTMLInputElement>(null)
 
@@ -48,6 +50,7 @@ const UploadFileInput = ({
         variant="secondary"
         wrap
         onClick={openFileDialog}
+        disabled={disabled}
       >
         {buttonText}
       </Button>
@@ -63,6 +66,7 @@ const UploadFileInput = ({
         onChange={onChangeHandler}
         onClick={onClickHandler}
         multiple={filesAmountLimit > 1}
+        disabled={disabled}
         {...rest}
       />
     </div>

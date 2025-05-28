@@ -1,7 +1,7 @@
 import React, { useContext, useLayoutEffect } from 'react'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Field, Form, Iterate, Value, Wizard } from '../../..'
+import { Field, Form, Iterate, JSONSchema, Value, Wizard } from '../../..'
 import { Div } from '../../../../../elements'
 import DataContext from '../../../DataContext/Context'
 
@@ -394,6 +394,10 @@ describe('PushContainer', () => {
           </Wizard.Container>
         </Form.Handler>
       )
+
+      // Wait for the internal "refresh" to be called,
+      // which is inside a requestAnimationFrame.
+      await new Promise((resolve) => requestAnimationFrame(resolve))
 
       expect(
         document.querySelector('.dnb-forms-iterate__reset-button')
@@ -1254,6 +1258,94 @@ describe('PushContainer', () => {
       expect(onCommit).toHaveBeenCalledTimes(1)
     })
 
+    it('should open the EditContainer when uncommitted changes are detected', async () => {
+      const onSubmitRequest = jest.fn()
+      const onSubmit = jest.fn()
+      const onCommit = jest.fn()
+
+      const dataReference = Form.Isolation.createDataReference()
+
+      render(
+        <Form.Handler
+          onSubmitRequest={onSubmitRequest}
+          onSubmit={onSubmit}
+        >
+          <Iterate.Array path="/entries">...</Iterate.Array>
+
+          <Iterate.PushContainer
+            path="/entries"
+            dataReference={dataReference}
+            preventUncommittedChanges
+            onCommit={onCommit}
+            openButton={<Iterate.PushContainer.OpenButton />}
+            showOpenButtonWhen={() => true}
+          >
+            <Field.String itemPath="/name" />
+          </Iterate.PushContainer>
+        </Form.Handler>
+      )
+
+      const form = document.querySelector('form')
+      const doneButton = document.querySelector(
+        '.dnb-forms-iterate__done-button'
+      )
+      const editContainer = document.querySelector(
+        '.dnb-forms-section-edit-block'
+      )
+
+      expect(editContainer).not.toHaveClass(
+        'dnb-height-animation--is-visible'
+      )
+
+      // Wait for the internal "refresh" to be called,
+      // which is inside a requestAnimationFrame.
+      await new Promise((resolve) => requestAnimationFrame(resolve))
+
+      // Invalidate the comparison
+      dataReference.refresh()
+      dataReference.update({
+        name: 'Tony',
+      })
+
+      // Wait for the form to be rendered
+      await new Promise((resolve) => requestAnimationFrame(resolve))
+
+      expect(editContainer).not.toHaveClass(
+        'dnb-height-animation--is-visible'
+      )
+
+      fireEvent.submit(form)
+
+      await waitFor(() => {
+        expect(editContainer).toHaveClass(
+          'dnb-height-animation--is-visible'
+        )
+      })
+      expect(onSubmit).toHaveBeenCalledTimes(0)
+      expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+      expect(onCommit).toHaveBeenCalledTimes(0)
+
+      await userEvent.click(doneButton)
+
+      await waitFor(() => {
+        expect(editContainer).not.toHaveClass(
+          'dnb-height-animation--is-visible'
+        )
+      })
+      expect(onCommit).toHaveBeenCalledTimes(1)
+
+      fireEvent.submit(form)
+
+      await waitFor(() => {
+        expect(editContainer).not.toHaveClass(
+          'dnb-height-animation--is-visible'
+        )
+      })
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmitRequest).toHaveBeenCalledTimes(1)
+      expect(onCommit).toHaveBeenCalledTimes(1)
+    })
+
     it('should show error when submitting the form', async () => {
       render(
         <Form.Handler>
@@ -1945,6 +2037,98 @@ describe('PushContainer', () => {
       expect(onSubmitRequest).toHaveBeenCalledTimes(1)
       expect(onCommit).toHaveBeenCalledTimes(0)
     })
+
+    describe('inside Wizard', () => {
+      const nextButton = () => {
+        return document.querySelector('.dnb-forms-next-button')
+      }
+      const output = () => {
+        return document.querySelector('output')
+      }
+
+      it('should not prevent Wizard navigation on field prerender in second step and PushContainer has no visible fields', async () => {
+        render(
+          <Form.Handler>
+            <Wizard.Container>
+              <Wizard.Step title="Step 1">
+                <output>Step 1</output>
+
+                <Iterate.PushContainer
+                  path="/myList"
+                  preventUncommittedChanges
+                >
+                  content
+                  <Form.Visibility visible={false}>
+                    <Field.String path="/foo" />
+                  </Form.Visibility>
+                </Iterate.PushContainer>
+
+                <Wizard.Buttons />
+              </Wizard.Step>
+
+              <Wizard.Step title="Step 2">
+                <output>Step 2</output>
+
+                <Field.String path="/bar" />
+                <Wizard.Buttons />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        expect(output()).toHaveTextContent('Step 1')
+
+        await userEvent.click(nextButton())
+
+        expect(output()).toHaveTextContent('Step 2')
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
+
+      it('should not prevent Wizard navigation when schema is given', async () => {
+        // When ajv.compile(schema) runs in a useEffect,
+        // it did evoke a rerender that caused the data comparison to report a difference,
+        // which we avoid by using useLayoutEffect instead, when calling ajv.compile(schema).
+
+        const schema: JSONSchema = { type: 'object', properties: {} }
+
+        render(
+          <Form.Handler schema={schema}>
+            <Wizard.Container>
+              <Wizard.Step title="Step 1">
+                <output>Step 1</output>
+
+                <Iterate.PushContainer
+                  path="/myList"
+                  preventUncommittedChanges
+                >
+                  content
+                </Iterate.PushContainer>
+
+                <Wizard.Buttons />
+              </Wizard.Step>
+
+              <Wizard.Step title="Step 2">
+                <output>Step 2</output>
+
+                <Field.String path="/foo" />
+                <Wizard.Buttons />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        expect(output()).toHaveTextContent('Step 1')
+
+        await userEvent.click(nextButton())
+
+        expect(output()).toHaveTextContent('Step 2')
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
+    })
   })
 
   describe('bubbleValidation', () => {
@@ -2229,6 +2413,64 @@ describe('PushContainer', () => {
         expect(
           document.querySelector('.dnb-form-status')
         ).toBeInTheDocument()
+      })
+
+      it('should not show error in menu when Iterate.PushContainer has shown error but got hidden with Form.Visibility and keepInDOM', async () => {
+        render(
+          <Form.Handler>
+            <Wizard.Container>
+              <Wizard.Step title="Step 1">
+                <output>Step 1</output>
+                <Field.Boolean
+                  path="/togglePushContainer"
+                  defaultValue={true}
+                />
+                <Form.Visibility pathTrue="/togglePushContainer" keepInDOM>
+                  <Iterate.PushContainer
+                    path="/does-not-matter"
+                    showOpenButtonWhen={() => true}
+                    openButton={<Iterate.PushContainer.OpenButton />}
+                    bubbleValidation
+                  >
+                    <Field.String required itemPath="/initiateError" />
+                  </Iterate.PushContainer>
+                </Form.Visibility>
+                <Wizard.Buttons />
+              </Wizard.Step>
+
+              <Wizard.Step title="Step 2">
+                <output>Step 2</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        expect(output()).toHaveTextContent('Step 1')
+
+        await userEvent.click(
+          document.querySelector('.dnb-forms-iterate__open-button')
+        )
+
+        await userEvent.click(nextButton())
+
+        expect(output()).toHaveTextContent('Step 1')
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+
+        await userEvent.click(screen.getByText('Ja'))
+        await userEvent.click(nextButton())
+
+        expect(output()).toHaveTextContent('Step 2')
+
+        fireEvent.submit(document.querySelector('form'))
+
+        await expect(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toBeInTheDocument()
+        }).toNeverResolve()
       })
     })
   })

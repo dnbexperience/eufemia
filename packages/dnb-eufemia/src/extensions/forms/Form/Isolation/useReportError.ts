@@ -4,32 +4,52 @@ import { ContextState } from '../../DataContext'
 import DataContext from '../../DataContext/Context'
 import WizardStepContext from '../../Wizard/Step/StepContext'
 import WizardContext from '../../Wizard/Context'
+import VisibilityContext from '../Visibility/VisibilityContext'
+import { usePath } from '../../hooks'
 
 export default function useReportError(
   error: Error,
-  customDataContext?: ContextState
+  customDataContext?: ContextState,
+  name?: string
 ) {
+  const { joinPath } = usePath()
   const dataContext = useContext(DataContext)
   const wizardContext = useContext(WizardContext)
   const wizardStepContext = useContext(WizardStepContext)
+  const visibilityContext = useContext(VisibilityContext)
 
-  const { setFieldError: setFieldErrorDataContext, setMountedFieldState } =
-    customDataContext || dataContext
+  const {
+    setFieldError: setFieldErrorDataContext,
+    setMountedFieldState,
+    prerenderFieldProps,
+  } = customDataContext || dataContext
   const { setFieldError: setFieldErrorWizard } = wizardContext || {}
   const { index: wizardIndex } = wizardStepContext || {}
+  const { isVisible } = visibilityContext || {}
+  const handleFieldAsVisible = isVisible
 
   const id = useId()
   useEffect(() => {
-    const path = `/${id}`
+    if (prerenderFieldProps) {
+      return // stop here
+    }
 
-    if (error) {
+    const path = joinPath(['internal', name, id])
+    const currentError = handleFieldAsVisible !== false ? error : undefined
+
+    if (currentError) {
       setMountedFieldState?.(path, {
         isMounted: true,
       })
     }
 
-    setFieldErrorWizard?.(wizardIndex, path, error ? true : undefined)
-    setFieldErrorDataContext?.(path, error)
+    setFieldErrorWizard?.(
+      wizardIndex,
+      path,
+      currentError ? true : undefined
+    )
+
+    setFieldErrorDataContext?.(path, currentError)
 
     // Unmount procedure
     return () => {
@@ -42,7 +62,11 @@ export default function useReportError(
     }
   }, [
     error,
+    handleFieldAsVisible,
     id,
+    joinPath,
+    name,
+    prerenderFieldProps,
     setFieldErrorDataContext,
     setFieldErrorWizard,
     setMountedFieldState,

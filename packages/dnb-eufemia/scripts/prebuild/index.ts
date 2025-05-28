@@ -47,7 +47,7 @@ export const runPrepublishTasks = async ({
     await makeReleaseVersion()
     await runStyleFactory()
     await runThemeFactory()
-    await makeLibStyles() // have to run before "makeLibModules"
+    await makeLibStyles()
     await makeMainStyle()
     await makePropertiesFile()
     await prepareTemplates()

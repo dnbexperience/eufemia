@@ -27,7 +27,16 @@ export type { UploadFile, UploadFileNative }
 export type UploadValue = Array<UploadFile | UploadFileNative>
 export type Props = Omit<
   FieldProps<UploadValue, UploadValue | undefined>,
-  'name'
+  | 'layout'
+  | 'layoutOptions'
+  | 'onBlurValidator'
+  | 'onChangeValidator'
+  | 'contentWidth'
+  | 'labelSize'
+  | 'labelDescriptionInline'
+  | 'labelSrOnly'
+  | 'labelSize'
+  | 'labelSuffix'
 > &
   SpacingProps &
   Pick<
@@ -110,6 +119,7 @@ function UploadComponent(props: Props) {
     labelDescription,
     help,
     htmlAttributes,
+    disabled,
     handleChange,
     handleFocus,
     handleBlur,
@@ -246,6 +256,7 @@ function UploadComponent(props: Props) {
         download={download}
         allowDuplicates={allowDuplicates}
         disableDragAndDrop={disableDragAndDrop}
+        disabled={disabled}
         fileMaxSize={fileMaxSize}
         skeleton={skeleton}
         onChange={changeHandler}

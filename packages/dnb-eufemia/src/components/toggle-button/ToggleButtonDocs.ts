@@ -38,7 +38,7 @@ export const ToggleButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   icon_size: {
-    doc: 'Define icon width and height. Defaults to 16px.',
+    doc: 'Define icon width and height. Defaults to `16px`.',
     type: 'string',
     status: 'optional',
   },

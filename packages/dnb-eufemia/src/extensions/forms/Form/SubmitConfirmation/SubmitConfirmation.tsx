@@ -6,6 +6,7 @@ import React, {
   useRef,
 } from 'react'
 import DataContext from '../../DataContext/Context'
+import useEventListener from '../../DataContext/Provider/useEventListener'
 import SharedProvider from '../../../../shared/Provider'
 import { ContextProps } from '../../../../shared/Context'
 import { HeightAnimation } from '../../../../components'
@@ -56,7 +57,6 @@ function SubmitConfirmation(props: ConfirmProps) {
 
   const {
     setFormState,
-    setFieldEventListener,
     handleSubmit: handleFinalSubmit,
     submitState,
     formElementRef,
@@ -171,12 +171,10 @@ function SubmitConfirmation(props: ConfirmProps) {
     },
     [setConfirmationState, validatePreventSubmit]
   )
-  setFieldEventListener?.(undefined, 'onSubmit', handleSubmit)
+  const { removeEvent } = useEventListener('onSubmit', handleSubmit)
 
   const submitHandler = useCallback(async () => {
-    setFieldEventListener?.(undefined, 'onSubmit', handleSubmit, {
-      remove: true,
-    })
+    removeEvent()
 
     await setConfirmationState('submitInProgress')
     await handleFinalSubmit()
@@ -184,11 +182,10 @@ function SubmitConfirmation(props: ConfirmProps) {
 
     setFocusOnButton()
   }, [
-    handleFinalSubmit,
-    handleSubmit,
-    setFocusOnButton,
-    setFieldEventListener,
+    removeEvent,
     setConfirmationState,
+    handleFinalSubmit,
+    setFocusOnButton,
   ])
 
   const sharedProviderParams: ContextProps = {

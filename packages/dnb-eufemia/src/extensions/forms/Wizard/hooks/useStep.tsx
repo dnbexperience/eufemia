@@ -32,12 +32,6 @@ export default function useStep(
     id ? createReferenceKey(id, 'wizard') : undefined
   )
 
-  useLayoutEffect(() => {
-    sharedDataRef.current.extend({
-      onStepChange,
-    } as unknown as WizardContextState) // Internal type
-  }, [onStepChange])
-
   const data = sharedDataRef.current.data
   if (data && !data.setFormError) {
     data.setFormError = setFormError
@@ -49,6 +43,24 @@ export default function useStep(
   if (context && context.totalSteps !== totalSteps) {
     context.totalSteps = totalSteps
   }
+
+  useLayoutEffect(() => {
+    const { onStepChangeEventsRef } = context || {}
+    if (
+      onStepChange &&
+      onStepChangeEventsRef?.current &&
+      !onStepChangeEventsRef.current.has(onStepChange)
+    ) {
+      onStepChangeEventsRef?.current.add(onStepChange)
+    }
+  }, [context, onStepChange])
+
+  useLayoutEffect(() => {
+    if (id) {
+      // Sync the shared context
+      sharedDataRef.current.extend({})
+    }
+  }, [id])
 
   return context
 }

@@ -58,7 +58,6 @@ export const transformPostcss = (config) => async (content, file) => {
   ).toString()
 }
 
-export const transformPaths = (from, to) => (content, file) => {
-  log.info(`> PrePublish: converting sass to css | ${file.path}`)
+export const transformPaths = (from, to) => (content) => {
   return content.replace(new RegExp(from, 'g'), to)
 }

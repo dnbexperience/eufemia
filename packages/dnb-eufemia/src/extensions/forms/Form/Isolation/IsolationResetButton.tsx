@@ -39,6 +39,7 @@ export default function IsolationResetButton(props: Props) {
     outerContext,
     preventUncommittedChanges,
     error: isolationError,
+    name: 'isolation-reset-button',
   })
 
   const buttonProps = omitDataValueReadWriteProps(restProps)

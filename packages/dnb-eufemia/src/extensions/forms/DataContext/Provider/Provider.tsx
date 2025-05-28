@@ -414,7 +414,17 @@ export default function Provider<Data extends JsonObject>(
    */
   const setFieldError: ContextState['setFieldError'] = useCallback(
     (path, error) => {
-      fieldErrorRef.current[path] = error
+      if (error) {
+        fieldErrorRef.current[path] = error
+      } else {
+        delete fieldErrorRef.current[path]
+      }
+      for (const item of fieldEventListenersRef.current) {
+        const { type, callback } = item
+        if (type === 'onSetFieldError') {
+          callback()
+        }
+      }
     },
     []
   )
@@ -810,8 +820,8 @@ export default function Provider<Data extends JsonObject>(
     )
   }, [sessionStorageId])
 
-  const setData = useCallback(
-    (newData: Data, preventUpdate = false) => {
+  const setData: ContextState['setData'] = useCallback(
+    (newData: Data, { preventUpdate = false } = {}) => {
       // - Mutate the data context
       if (transformIn) {
         newData = mutateDataHandler(newData, transformIn)
@@ -877,7 +887,7 @@ export default function Provider<Data extends JsonObject>(
         pointer.set(newData, path, value)
       }
 
-      setData(newData, preventUpdate)
+      setData(newData, { preventUpdate })
       onUpdateDataValue?.(path, value, { preventUpdate })
     },
     [onUpdateDataValue, setData]
@@ -1315,7 +1325,7 @@ export default function Provider<Data extends JsonObject>(
   }
 
   // - ajv validator routines
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (schema) {
       ajvValidatorRef.current = ajvRef.current?.compile(schema)
     }
@@ -1475,6 +1485,7 @@ export default function Provider<Data extends JsonObject>(
     formElementRef,
     isEmptyDataRef,
     fieldErrorRef,
+    errorsRef,
     ajvInstance: ajvRef.current,
     countryCode: countryCode
       ? getSourceValue<CountryCode>(countryCode)

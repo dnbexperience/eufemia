@@ -22,6 +22,7 @@ import {
 } from './DrawerList'
 import { DrawerListProviderProps } from './DrawerListProvider'
 import { DrawerListContextState } from './DrawerListContext'
+import Icon from '../../components/icon/Icon'
 
 // legacy used by Autocomplete and Dropdown
 export const drawerListPropTypes = {
@@ -252,6 +253,7 @@ export function parseContentTitle(
         convertJsxToString(dataItem.selected_value, separator, (word) => {
           const nestedChildren =
             !word.props.children &&
+            word?.type !== Icon &&
             typeof word?.type === 'function' &&
             (word.type as () => React.ReactElement)()
 

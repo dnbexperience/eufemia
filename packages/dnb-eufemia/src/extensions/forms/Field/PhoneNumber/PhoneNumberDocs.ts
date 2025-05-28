@@ -1,6 +1,7 @@
 import { PropertiesTableProps } from '../../../../shared/types'
 import { getFieldEventsWithTypes } from '../FieldDocs'
 import { stringProperties } from '../String/StringDocs'
+import { FieldProperties } from '../../Field/FieldDocs'
 
 export const PhoneNumberProperties: PropertiesTableProps = {
   countries: {
@@ -52,6 +53,10 @@ export const PhoneNumberProperties: PropertiesTableProps = {
     doc: '`large` for predefined standard width, `stretch` for fill available width.',
     type: 'string | false',
     status: 'optional',
+  },
+  label: {
+    ...FieldProperties.label,
+    doc: 'Field label to show above / before the phone number input field.',
   },
   size: stringProperties.size,
   '[Space](/uilib/layout/space/properties)': {
