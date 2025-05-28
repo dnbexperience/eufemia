@@ -23,7 +23,7 @@ export const stringProperties: PropertiesTableProps = {
     status: 'optional',
   },
   trim: {
-    doc: 'When true, it will trim leading and trailing whitespaces on blur, triggering onChange if the value changes.',
+    doc: 'When true, it will trim leading and trailing whitespaces on blur, triggering `onChange` if the value changes.',
     type: 'boolean',
     status: 'optional',
   },
@@ -70,22 +70,22 @@ export const stringProperties: PropertiesTableProps = {
 
   // - Textarea props
   rows: {
-    doc: 'For multiline, set how many rows of text can be shown by default. Defaults to 2.',
+    doc: 'To be used together with `multiline`. Set how many rows of text can be shown by default. Defaults to `2`.',
     type: 'number',
     status: 'optional',
   },
   autoresizeMaxRows: {
-    doc: 'For multiline, set how many rows of text can be shown at max. Defaults to 6',
+    doc: 'To be used together with `multiline`. Set how many rows of text can be shown at max. Defaults to `6`.',
     type: 'number',
     status: 'optional',
   },
   characterCounter: {
-    doc: "For multiline, use a number to define the displayed max length e.g. `40` or `{ max: 40, variant: 'down' }`.",
+    doc: "To be used together with `multiline`. Use a number to define the displayed max length e.g. `40` or `{ max: 40, variant: 'down' }`.",
     type: ['number', 'object'],
     status: 'optional',
   },
   autoresize: {
-    doc: 'For multiline, set true to expand when writing longer texts. Defaults to true.',
+    doc: 'To be used together with `multiline`. Set true to expand when writing longer texts. Defaults to `true`.',
     type: 'boolean',
     status: 'optional',
   },
