@@ -89,6 +89,7 @@ function DateFormat(props: DateFormatProps) {
   return (
     <time
       // Make dateTime attribute correspond with the props provided i.e. weekday, day, month, year
+      lang={locale}
       dateTime={format(dateObject, 'yyyy-MM-dd')}
       className={classnames(
         'dnb-date-format',
