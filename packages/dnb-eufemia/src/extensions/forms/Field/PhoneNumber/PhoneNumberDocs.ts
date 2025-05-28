@@ -53,6 +53,10 @@ export const PhoneNumberProperties: PropertiesTableProps = {
     type: 'string | false',
     status: 'optional',
   },
+  label: {
+    ...stringProperties.label,
+    doc: 'Field label to show above / before the phone number input field.',
+  },
   size: stringProperties.size,
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',

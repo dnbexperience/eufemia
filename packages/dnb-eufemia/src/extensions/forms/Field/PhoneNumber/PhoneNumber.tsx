@@ -40,7 +40,11 @@ export type AdditionalArgs = {
 
 export type Props = Omit<
   FieldPropsWithExtraValue<string, AdditionalArgs, undefined | string>,
-  'layout' | 'layoutOptions'
+  | 'layout'
+  | 'layoutOptions'
+  | 'labelSize'
+  | 'labelDescription'
+  | 'labelDescriptionInline'
 > & {
   countryCodeFieldClassName?: string
   numberFieldClassName?: string
@@ -200,6 +204,7 @@ function PhoneNumber(props: Props) {
     countryCodeLabel,
     label = defaultLabel,
     labelSrOnly,
+    labelSize,
     numberMask,
     countries: ccFilter = 'Prioritized',
     emptyValue,
