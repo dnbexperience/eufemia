@@ -896,9 +896,9 @@ function DatePicker(externalProps: DatePickerAllProps) {
       return ''
     }
 
-    const options: FormatDateOptions = {
+    const formatOptions: FormatDateOptions = {
       locale: context.locale,
-      options: {
+      formatOptions: {
         dateStyle: 'full',
       },
     }
@@ -906,9 +906,9 @@ function DatePicker(externalProps: DatePickerAllProps) {
     return range && endDate
       ? selectedDateRange.replace(
           /%s/,
-          formatDateRange({ startDate, endDate }, options)
+          formatDateRange({ startDate, endDate }, formatOptions)
         )
-      : selectedDate.replace(/%s/, formatDate(startDate, options))
+      : selectedDate.replace(/%s/, formatDate(startDate, formatOptions))
   }, [range, translation, dates, context.locale])
 
   const mainParams = {

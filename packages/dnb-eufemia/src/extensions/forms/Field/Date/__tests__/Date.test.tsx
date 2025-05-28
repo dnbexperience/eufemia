@@ -16,11 +16,11 @@ const en = enGB['en-GB']
 const formatOptions: Record<'no' | 'en', FormatDateOptions> = {
   no: {
     locale: 'nb-NO',
-    options: { dateStyle: 'long' },
+    formatOptions: { dateStyle: 'long' },
   },
   en: {
     locale: 'en-GB',
-    options: { dateStyle: 'long' },
+    formatOptions: { dateStyle: 'long' },
   },
 }
 

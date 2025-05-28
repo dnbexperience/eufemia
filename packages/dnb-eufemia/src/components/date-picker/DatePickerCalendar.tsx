@@ -531,12 +531,12 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                   className="dnb-date-picker__labels__day"
                   aria-label={formatDate(day, {
                     locale,
-                    options: { weekday: 'long' },
+                    formatOptions: { weekday: 'long' },
                   })}
                 >
                   {formatDate(day, {
                     locale,
-                    options: { weekday: 'short' },
+                    formatOptions: { weekday: 'short' },
                   }).substring(0, 2)}
                 </th>
               ))}
@@ -554,7 +554,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                 {week.map((day: DayObject, i) => {
                   const title = formatDate(day.date, {
                     locale,
-                    options: {
+                    formatOptions: {
                       weekday: 'long',
                       day: 'numeric',
                       month: 'long',

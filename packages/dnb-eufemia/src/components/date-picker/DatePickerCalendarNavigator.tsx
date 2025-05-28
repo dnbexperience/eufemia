@@ -133,11 +133,11 @@ export function DatePickerCalendarNav({
         className="dnb-date-picker__header__title dnb-no-focus"
         title={title.replace(
           /%s/,
-          formatDate(date, { locale, options: titleFormat })
+          formatDate(date, { locale, formatOptions: titleFormat })
         )}
         tabIndex={-1}
       >
-        {formatDate(date, { locale, options: titleFormat })}
+        {formatDate(date, { locale, formatOptions: titleFormat })}
       </label>
       <div className="dnb-date-picker__header__nav">
         <CalendarNavButton
@@ -205,7 +205,7 @@ function CalendarNavButton({
     /%s/,
     formatDate(dateHandler(date, 1), {
       locale,
-      options: dateFormat,
+      formatOptions: dateFormat,
     })
   )
 

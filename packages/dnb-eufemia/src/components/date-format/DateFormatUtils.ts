@@ -5,50 +5,46 @@ import { DateType } from '../date-picker/DatePickerContext'
 
 export type FormatDateOptions = {
   locale?: AnyLocale
-  options?: Intl.DateTimeFormatOptions
+  formatOptions?: Intl.DateTimeFormatOptions
   /**
    * @deprecated use `options={{dateStyle}}` instead.
    */
   variant?: 'long' | 'short' | 'numeric'
-  /**
-   * @deprecated use `options`instead.
-   */
-  formatOptions?: Intl.DateTimeFormatOptions
 }
 
 export function formatDate(
   dateValue: DateType,
   {
     locale = defaultLocale,
-    options = { dateStyle: 'short' },
+    formatOptions = { dateStyle: 'short' },
   }: FormatDateOptions = {}
 ) {
   const date = convertStringToDate(dateValue)
 
   return typeof Intl !== 'undefined'
-    ? new Intl.DateTimeFormat(locale, options).format(date)
-    : date.toLocaleString(locale, options)
+    ? new Intl.DateTimeFormat(locale, formatOptions).format(date)
+    : date.toLocaleString(locale, formatOptions)
 }
 
 export function formatDateRange(
   dates: { startDate: DateType; endDate: DateType },
   {
     locale = defaultLocale,
-    options = { dateStyle: 'long' },
+    formatOptions = { dateStyle: 'long' },
   }: FormatDateOptions = {}
 ) {
   const startDate = convertStringToDate(dates.startDate)
   const endDate = convertStringToDate(dates.endDate)
 
   if (typeof Intl !== 'undefined') {
-    return new Intl.DateTimeFormat(locale, options).formatRange(
+    return new Intl.DateTimeFormat(locale, formatOptions).formatRange(
       startDate,
       endDate
     )
   }
 
-  const startDateString = startDate.toLocaleString(locale, options)
-  const endDateString = endDate.toLocaleString(locale, options)
+  const startDateString = startDate.toLocaleString(locale, formatOptions)
+  const endDateString = endDate.toLocaleString(locale, formatOptions)
 
   return `${startDateString}-${endDateString}`
 }
