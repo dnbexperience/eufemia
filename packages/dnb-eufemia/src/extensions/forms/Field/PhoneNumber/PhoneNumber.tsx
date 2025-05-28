@@ -204,7 +204,6 @@ function PhoneNumber(props: Props) {
     countryCodeLabel,
     label = defaultLabel,
     labelSrOnly,
-    labelSize,
     numberMask,
     countries: ccFilter = 'Prioritized',
     emptyValue,
