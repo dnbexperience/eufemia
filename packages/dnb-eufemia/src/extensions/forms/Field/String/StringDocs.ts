@@ -8,12 +8,12 @@ export const stringProperties: PropertiesTableProps = {
     status: 'optional',
   },
   leftIcon: {
-    doc: 'For icon at the left side of the text input.',
+    doc: 'For icon at the left side of the text input. Only one of `leftIcon` or `rightIcon` can be used at the same time.',
     type: 'string',
     status: 'optional',
   },
   rightIcon: {
-    doc: 'For icon at the right side of the text input.',
+    doc: 'For icon at the right side of the text input. Only one of `leftIcon` or `rightIcon` can be used at the same time.',
     type: 'string',
     status: 'optional',
   },
