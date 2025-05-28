@@ -1,6 +1,8 @@
 import { PropertiesTableProps } from '../../../../shared/types'
+import { stringProperties } from '../String/StringDocs'
 
 export const BankAccountNumberProperties: PropertiesTableProps = {
+  ...stringProperties,
   validate: {
     doc: 'Using this prop you can disable the default validation.',
     type: 'boolean',
