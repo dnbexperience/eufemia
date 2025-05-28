@@ -831,4 +831,88 @@ describe('Indeterminate', () => {
       )
     })
   })
+
+  it('should support required property', async () => {
+    const onSubmit = jest.fn()
+
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Field.Indeterminate
+          dependencePaths={['/child1', '/child2']}
+          propagateIndeterminateState="auto"
+          valueOn="what-ever"
+          valueOff="you-name-it"
+          path="/parent"
+          required
+        />
+        <Field.Boolean path="/child1" />
+        <Field.Toggle
+          path="/child2"
+          valueOn="custom-on"
+          valueOff="custom-off"
+        />
+      </Form.Handler>
+    )
+
+    const form = document.querySelector('form')
+    const [parent, child1] = Array.from(document.querySelectorAll('input'))
+
+    fireEvent.submit(form)
+
+    expect(onSubmit).toHaveBeenCalledTimes(0)
+
+    await userEvent.click(child1)
+    fireEvent.submit(form)
+
+    expect(onSubmit).toHaveBeenCalledTimes(0)
+
+    expect(onSubmit).toHaveBeenCalledTimes(0)
+
+    await userEvent.click(parent)
+    fireEvent.submit(form)
+
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+  })
+
+  it('should change internal required state when indeterminate state changes', async () => {
+    const onSubmit = jest.fn()
+
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Field.Indeterminate
+          dependencePaths={['/child1', '/child2']}
+          propagateIndeterminateState="auto"
+          valueOn="what-ever"
+          valueOff="you-name-it"
+          path="/parent"
+          required
+        />
+        <Field.Boolean path="/child1" />
+        <Field.Toggle
+          path="/child2"
+          valueOn="custom-on"
+          valueOff="custom-off"
+        />
+      </Form.Handler>
+    )
+
+    const form = document.querySelector('form')
+    const [, child1, child2] = Array.from(
+      document.querySelectorAll('input')
+    )
+
+    fireEvent.submit(form)
+
+    expect(onSubmit).toHaveBeenCalledTimes(0)
+
+    await userEvent.click(child1)
+    fireEvent.submit(form)
+
+    expect(onSubmit).toHaveBeenCalledTimes(0)
+
+    await userEvent.click(child2)
+    fireEvent.submit(form)
+
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+  })
 })
