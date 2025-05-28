@@ -52,7 +52,7 @@ export const SelectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   children: {
-    doc: 'For providing Option components, and other children.',
+    doc: 'For providing [Field.Option](/uilib/extensions/forms/base-fields/Option/) components, and other children.',
     type: 'React.Node',
     status: 'optional',
   },
