@@ -344,10 +344,14 @@ function NewContainer({
     rerenderPushContainer()
   }, [containerMode, rerenderPushContainer])
 
+  const visibilityContext = useContext(VisibilityContext)
   switchContainerModeRef.current = switchContainerMode
-  const isVisible = Boolean(
-    !showOpenButton || containerMode === 'edit' || showCommitStatus
-  )
+  const isVisible =
+    visibilityContext?.isVisible === false
+      ? false
+      : Boolean(
+          !showOpenButton || containerMode === 'edit' || showCommitStatus
+        )
   const { preventUncommittedChangesText } = useTranslation().Isolation
   const { createButton } = useTranslation().IteratePushContainer
   const { clearData } = useContext(DataContext) || {}

@@ -2414,6 +2414,64 @@ describe('PushContainer', () => {
           document.querySelector('.dnb-form-status')
         ).toBeInTheDocument()
       })
+
+      it('should not show error in menu when Iterate.PushContainer has shown error but got hidden with Form.Visibility and keepInDOM', async () => {
+        render(
+          <Form.Handler>
+            <Wizard.Container>
+              <Wizard.Step title="Step 1">
+                <output>Step 1</output>
+                <Field.Boolean
+                  path="/togglePushContainer"
+                  defaultValue={true}
+                />
+                <Form.Visibility pathTrue="/togglePushContainer" keepInDOM>
+                  <Iterate.PushContainer
+                    path="/does-not-matter"
+                    showOpenButtonWhen={() => true}
+                    openButton={<Iterate.PushContainer.OpenButton />}
+                    bubbleValidation
+                  >
+                    <Field.String required itemPath="/initiateError" />
+                  </Iterate.PushContainer>
+                </Form.Visibility>
+                <Wizard.Buttons />
+              </Wizard.Step>
+
+              <Wizard.Step title="Step 2">
+                <output>Step 2</output>
+                <Wizard.Buttons />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        expect(output()).toHaveTextContent('Step 1')
+
+        await userEvent.click(
+          document.querySelector('.dnb-forms-iterate__open-button')
+        )
+
+        await userEvent.click(nextButton())
+
+        expect(output()).toHaveTextContent('Step 1')
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+
+        await userEvent.click(screen.getByText('Ja'))
+        await userEvent.click(nextButton())
+
+        expect(output()).toHaveTextContent('Step 2')
+
+        fireEvent.submit(document.querySelector('form'))
+
+        await expect(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toBeInTheDocument()
+        }).toNeverResolve()
+      })
     })
   })
 
