@@ -662,7 +662,6 @@ class AutocompleteInstance extends React.PureComponent {
     if (!data || !this.hasFilterActive(data)) {
       return data
     }
-
     const lastItem = this.context.drawerList.original_data.slice(-1)[0]
     if (lastItem && !lastItem.show_all) {
       const lastActiveItem = data.slice(-1)[0]

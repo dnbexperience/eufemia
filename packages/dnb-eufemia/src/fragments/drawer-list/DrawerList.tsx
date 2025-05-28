@@ -41,13 +41,18 @@ const propsToFilterOut = {
   options_render: null,
   wrapper_element: null,
 }
+/** @deprecated use `DrawerListDataArrayItem` */
+export type DrawerListDataObjectUnion = DrawerListDataArrayItem
 
 export type DrawerListContent =
   | string
   | React.ReactNode
   | (string | React.ReactNode)[]
+
 export type DrawerListDataArrayObject = {
   [customProperty: string]: any
+  /** index of group supplied in the `groups` prop */
+  groupIndex?: number
   selected_value?: string | React.ReactNode
   selectedKey?: string | number
   selected_key?: string | number
@@ -65,15 +70,22 @@ export type DrawerListDataArrayObject = {
   /** internal use only */
   render?: (children: React.ReactNode, id: string) => React.ReactNode
 }
-/** @deprecated use `DrawerListDataArrayItem` */
-export type DrawerListDataObjectUnion = DrawerListDataArrayItem
+
 export type DrawerListDataArrayItem =
   | DrawerListDataArrayObject
   | DrawerListContent
+
 export type DrawerListDataArray = DrawerListDataArrayItem[]
 export type DrawerListDataRecord = Record<string, DrawerListContent>
+
 export type DrawerListDataAll = DrawerListDataRecord | DrawerListDataArray
 
+export type DrawerListGroup<T> = {
+  groupTitle: React.ReactNode
+  groupData: T
+}
+
+export type DrawerListGroupTitles = React.ReactNode[]
 export type DrawerListOptionsRender = ({
   data,
   Items,
@@ -192,6 +204,7 @@ export interface DrawerListProps {
   skip_keysearch?: boolean
   opened?: boolean
   data?: DrawerListData
+  groups?: DrawerListGroupTitles
   prepared_data?: any[]
   /**
    * If set to `true`, all keyboard and mouse events will be ignored.
@@ -222,6 +235,18 @@ export interface DrawerListProps {
   on_select?: (...args: any[]) => any
   on_state_update?: (...args: any[]) => any
 }
+
+// Internal data structures
+export type DrawerListInternalItem = {
+  __id: number
+} & DrawerListDataArrayObject
+
+export type DrawerListInternalData = Array<DrawerListInternalItem>
+
+export type DrawerListRenderData = Array<
+  DrawerListGroup<DrawerListInternalData>
+>
+
 export type DrawerListAllProps = DrawerListProps &
   SpacingProps &
   Omit<
@@ -327,7 +352,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       // TODO: should we only allow getTranslation if we define lang and locale props?
       // this.context.getTranslation(this.props).Button
     )
-
+    console.log('DrawerListInstance render', props.groups)
     const {
       role,
       align_drawer,
@@ -356,7 +381,6 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       opened: _opened, // eslint-disable-line
       value: _value, // eslint-disable-line
       children,
-
       ...attributes
     } = props
 
@@ -378,6 +402,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
 
     const {
       data,
+      groups,
       opened,
       hidden,
       triangle_position,
@@ -397,6 +422,8 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       _refUl,
       _refRoot,
     } = noNullNumbers(this.context.drawerList)
+
+    const renderData = makeRenderData(data, groups)
 
     const mainParams = {
       id: `${id}-drawer-list`,
@@ -483,54 +510,77 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
 
     const ignoreEvents = isTrue(ignore_events)
 
-    const Items = () =>
-      data.map((dataItem, i) => {
-        const _id = dataItem.__id
-        const hash = `option-${id}-${_id}-${i}`
-        const liParams = {
-          role: role === 'menu' ? 'menuitem' : 'option',
-          'data-item': _id,
-          id: `option-${id}-${_id}`,
-          hash,
-          className: classnames(
-            // helper classes
-            i === closestToTop && 'closest-to-top',
-            i === closestToBottom && 'closest-to-bottom',
-            i === 0 && 'first-of-type', // because of the triangle element
-            i === data.length - 1 && 'last-of-type', // because of the triangle element
-            ignoreEvents || (dataItem.ignore_events && 'ignore-events'),
-            dataItem.class_name
-          ),
-          active: _id == active_item,
-          selected: !dataItem.ignore_events && _id == selected_item,
-          onClick: this.selectItemHandler,
-          onKeyDown: this.preventTab,
-          disabled: dataItem.disabled,
-          style: dataItem.style,
-        }
+    const GroupItems = () =>
+      renderData.map(({ groupTitle, groupData: data }, i) => {
+        const Items = () =>
+          data.map((dataItem, i) => {
+            const _id = dataItem.__id
+            const hash = `option-${id}-${_id}-${i}`
+            const liParams = {
+              role: role === 'menu' ? 'menuitem' : 'option',
+              'data-item': _id,
+              id: `option-${id}-${_id}`,
+              hash,
+              className: classnames(
+                // helper classes
+                i === closestToTop && 'closest-to-top',
+                i === closestToBottom && 'closest-to-bottom',
+                i === 0 && 'first-of-type', // because of the triangle element
+                i === data.length - 1 && 'last-of-type', // because of the triangle element
+                ignoreEvents ||
+                  (dataItem.ignore_events && 'ignore-events'),
+                dataItem.class_name
+              ),
+              active: _id == active_item,
+              selected: !dataItem.ignore_events && _id == selected_item,
+              onClick: this.selectItemHandler,
+              onKeyDown: this.preventTab,
+              disabled: dataItem.disabled,
+              style: dataItem.style,
+            }
 
-        if (ignoreEvents) {
-          liParams.active = null
-          liParams.selected = null
-          liParams.onClick = null
-          liParams.onKeyDown = null
-          liParams.className = classnames(
-            liParams.className,
-            'dnb-drawer-list__option--ignore'
+            if (ignoreEvents) {
+              liParams.active = null
+              liParams.selected = null
+              liParams.onClick = null
+              liParams.onKeyDown = null
+              liParams.className = classnames(
+                liParams.className,
+                'dnb-drawer-list__option--ignore'
+              )
+            }
+
+            return (
+              <DrawerList.Item key={hash} {...liParams}>
+                {dataItem}
+              </DrawerList.Item>
+            )
+          })
+        const ItemsRendered = () =>
+          typeof options_render === 'function' ? (
+            options_render({ data, Items, Item: DrawerList.Item })
+          ) : (
+            <Items />
           )
-        }
 
-        return (
-          <DrawerList.Item key={hash} {...liParams}>
-            {dataItem}
-          </DrawerList.Item>
+        return renderData.length === 1 && groupTitle === undefined ? (
+          <ItemsRendered />
+        ) : (
+          <li key={i} className="dnb-drawer-list__group">
+            <span className="dnb-drawer-list__group-title">
+              {groupTitle}
+            </span>
+            <ul className="dnb-drawer-list__group-list">
+              <ItemsRendered />
+            </ul>
+          </li>
         )
       })
 
     const mainList = (
       <span {...mainParams} ref={_refShell}>
         <span {...listParams}>
-          {hidden === false && data && data.length > 0 ? (
+          {hidden === false && renderData && renderData.length > 0 ? (
             <>
               <DrawerList.Options
                 cache_hash={
@@ -546,11 +596,7 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
                 showFocusRing={showFocusRing}
                 triangleRef={_refTriangle}
               >
-                {typeof options_render === 'function' ? (
-                  options_render({ data, Items, Item: DrawerList.Item })
-                ) : (
-                  <Items />
-                )}
+                <GroupItems />
               </DrawerList.Options>
               <OnMounted
                 addObservers={addObservers}
@@ -598,6 +644,49 @@ class DrawerListInstance extends React.Component<DrawerListAllProps> {
       </span>
     )
   }
+}
+
+function makeRenderData(
+  data: DrawerListInternalData,
+  groups?: DrawerListGroupTitles
+): DrawerListRenderData {
+  const renderData: DrawerListRenderData = []
+  const noIndex = []
+  // if (Array.isArray(groups) && groups.length > 0) {
+  //   groups.forEach((groupTitle, i) => {
+  //     renderData[i] = {
+  //       groupTitle,
+  //       groupData: [],
+  //     }
+  //   })
+  // }
+  if (Array.isArray(data) && data.length > 0) {
+    data.forEach((dataItem, i) => {
+      const index = dataItem.groupIndex ?? null
+
+      if (groups?.[index]) {
+        if (!renderData[index]) {
+          renderData[index] = {
+            groupTitle: groups[index],
+            groupData: [],
+          }
+        }
+        renderData[index].groupData.push(dataItem)
+      } else {
+        noIndex.push(dataItem)
+      }
+    })
+  }
+
+  if (noIndex.length > 0) {
+    renderData.push({
+      groupTitle: undefined,
+      groupData: noIndex,
+    })
+  }
+
+  console.log('makeRenderData', renderData, data, groups)
+  return renderData
 }
 
 export type DrawerListOptionsProps = React.HTMLProps<HTMLUListElement> & {
