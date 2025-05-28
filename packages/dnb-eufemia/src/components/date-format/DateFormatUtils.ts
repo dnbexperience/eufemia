@@ -18,7 +18,10 @@ export type FormatDateOptions = {
 
 export function formatDate(
   dateValue: DateType,
-  { locale = defaultLocale, options = {} }: FormatDateOptions = {}
+  {
+    locale = defaultLocale,
+    options = { dateStyle: 'short' },
+  }: FormatDateOptions = {}
 ) {
   const date = convertStringToDate(dateValue)
 
@@ -29,7 +32,10 @@ export function formatDate(
 
 export function formatDateRange(
   dates: { startDate: DateType; endDate: DateType },
-  { locale = defaultLocale, options = {} }: FormatDateOptions = {}
+  {
+    locale = defaultLocale,
+    options = { dateStyle: 'long' },
+  }: FormatDateOptions = {}
 ) {
   const startDate = convertStringToDate(dates.startDate)
   const endDate = convertStringToDate(dates.endDate)
