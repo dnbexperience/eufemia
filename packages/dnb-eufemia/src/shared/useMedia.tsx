@@ -1,4 +1,5 @@
 import React, {
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -118,42 +119,50 @@ export default function useMedia(
   const context = useContext(Context)
 
   const refs = useRef({})
-  const defaults = useRef({})
-  const isMounted = useRef(false)
-  const isDisabled = useRef(disabled)
-  const [result, updateRerender] = useState<UseMediaResult>(makeResult)
+  const defaultsRef = useRef({})
+  const resultRef = useRef<Partial<UseMediaResult>>({})
+  const isMountedRef = useRef(false)
+  const isDisabledRef = useRef(disabled)
 
-  const useLayoutEffect = useMemo(makeLayoutEffect, [])
-
-  useLayoutEffect(() => {
-    if (!isMounted.current) {
-      isMounted.current = true
-      updateRerender(makeResult())
-    }
-
-    return removeListeners
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-  useLayoutEffect(() => {
-    // If it was disabled before
-    if (isDisabled.current && !disabled) {
-      updateRerender(makeResult())
-    }
-    isDisabled.current = disabled
-  }, [disabled]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  return result
-
-  function removeListeners() {
+  const removeListeners = useCallback(() => {
     Object.entries(refs.current).forEach(
       ([key, item]: [Keys, UseMediaItem]) => {
         item?.event?.()
         delete refs.current[key]
       }
     )
-  }
+  }, [])
 
-  function makeResult() {
+  const runQuery = useCallback(
+    ({ when, name, key }: UseMediaQueryProps): UseMediaItem => {
+      if (!isMatchMediaSupported()) {
+        return // do nothing
+      }
+
+      const mediaQueryList = makeMediaQueryList(
+        { when },
+        breakpoints || context.breakpoints,
+        { disabled, correctRange, log }
+      )
+
+      const event = createMediaQueryListener(mediaQueryList, (match) => {
+        if (!isDisabledRef.current && match) {
+          const state = {
+            ...defaultsRef.current,
+            key,
+            isSSR: resultRef.current.isSSR,
+          } as UseMediaResult
+          state[name] = match
+          updateRerender(state)
+        }
+      })
+
+      return { event, mediaQueryList }
+    },
+    [breakpoints, context.breakpoints, correctRange, disabled, log]
+  )
+
+  const makeResult = useCallback(() => {
     return Object.entries(queries).reduce(
       (acc, [k, when]) => {
         const key = k as Keys
@@ -164,7 +173,7 @@ export default function useMedia(
           return acc
         }
 
-        defaults.current[name] = false
+        defaultsRef.current[name] = false
 
         const item = runQuery({
           when,
@@ -172,11 +181,17 @@ export default function useMedia(
           key,
         })
 
-        const hasMatch = !isMounted.current
-          ? typeof initialValue?.[name] !== 'undefined'
-            ? initialValue[name]
-            : false
-          : item?.mediaQueryList?.matches || false
+        let hasMatch = undefined
+
+        if (
+          typeof initialValue?.[name] !== 'undefined' &&
+          !isMountedRef.current
+        ) {
+          hasMatch = initialValue[name]
+        } else {
+          hasMatch = item?.mediaQueryList?.matches || false
+        }
+
         acc[name] = hasMatch
         if (hasMatch) {
           acc.key = key
@@ -188,35 +203,37 @@ export default function useMedia(
       },
       { isSSR: !isMatchMediaSupported(), key: null } as UseMediaResult
     ) as UseMediaResult
-  }
+  }, [disabled, initialValue, queries, runQuery])
 
-  function runQuery({
-    when,
-    name,
-    key,
-  }: UseMediaQueryProps): UseMediaItem {
-    if (!isMatchMediaSupported()) {
-      return // do nothing
+  const [result, updateRerender] = useState<UseMediaResult>(makeResult)
+  resultRef.current = result
+
+  const useLayoutEffect = useMemo(makeLayoutEffect, [])
+
+  useLayoutEffect(() => {
+    if (!isMountedRef.current) {
+      isMountedRef.current = true
+
+      const result = makeResult()
+
+      const hasChanged = Object.keys(result).some(
+        (key) => resultRef.current[key] !== result[key]
+      )
+      if (hasChanged) {
+        updateRerender(result)
+      }
     }
 
-    const mediaQueryList = makeMediaQueryList(
-      { when },
-      breakpoints || context.breakpoints,
-      { disabled, correctRange, log }
-    )
+    return removeListeners
+  }, [makeResult, removeListeners])
 
-    const event = createMediaQueryListener(mediaQueryList, (match) => {
-      if (!isDisabled.current && match) {
-        const state = {
-          ...defaults.current,
-          key,
-          isSSR: result.isSSR,
-        } as UseMediaResult
-        state[name] = match
-        updateRerender(state)
-      }
-    })
+  useLayoutEffect(() => {
+    // If it was disabled before
+    if (isDisabledRef.current && !disabled) {
+      updateRerender(makeResult())
+    }
+    isDisabledRef.current = disabled
+  }, [disabled, makeResult])
 
-    return { event, mediaQueryList }
-  }
+  return result
 }
