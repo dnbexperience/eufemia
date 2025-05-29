@@ -26,6 +26,28 @@ describe('Form.Card', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match outset variants on a large screen', async () => {
+    const screenshot = await makeScreenshot({
+      url,
+      pageViewport: {
+        width: 980,
+      },
+      selector: '[data-visual-test="forms-card-outset"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match outset variants on small screen', async () => {
+    const screenshot = await makeScreenshot({
+      url,
+      pageViewport: {
+        width: 400,
+      },
+      selector: '[data-visual-test="forms-card-outset"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe.each(['ui', 'sbanken'])(
