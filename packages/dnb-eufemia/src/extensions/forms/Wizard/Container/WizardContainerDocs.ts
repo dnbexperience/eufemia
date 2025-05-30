@@ -42,7 +42,7 @@ export const WizardContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   outset: {
-    doc: 'Same as `outset` in [Card](/uilib/components/card/properties). But defaults to `true`',
+    doc: 'Same as `outset` in [Card](/uilib/components/card/properties). But defaults to `true`.',
     type: 'boolean',
     status: 'optional',
   },

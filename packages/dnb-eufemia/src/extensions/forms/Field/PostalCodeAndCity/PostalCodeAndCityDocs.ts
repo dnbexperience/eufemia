@@ -8,7 +8,7 @@ export const PostalCodeAndCityProperties: PropertiesTableProps = {
       'Defines which country the postal code and city is for, based on the [ISO 3166-1 alpha-2 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) i.e. `NO`, `DE` etc. ' +
       'Setting it to anything other than `NO` will remove the default norwegian postal code pattern. ' +
       'You can also use the value of another field to define the countryCode, by using a path value i.e. `/myCountryCodePath`. ' +
-      'Defaults to `NO`',
+      'Defaults to `NO`.',
     type: ['Path', 'string'],
     status: 'optional',
   },
