@@ -14,7 +14,7 @@ export const DatePickerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   endDate: {
-    doc: 'To set the pre-filled ending date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `maskPlaceholder`',
+    doc: 'To set the pre-filled ending date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `maskPlaceholder`.',
     type: dateType,
     status: 'optional',
   },
@@ -96,7 +96,7 @@ export const DatePickerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   showCancelButton: {
-    doc: 'If set to `true`, a cancel button will be shown. You can change the default text by using `cancelButtonText="Avbryt"`. If the `range` property is `true`, then the cancel button is shown. Defaults to `false`',
+    doc: 'If set to `true`, a cancel button will be shown. You can change the default text by using `cancelButtonText="Avbryt"`. If the `range` property is `true`, then the cancel button is shown. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
@@ -159,7 +159,7 @@ export const DatePickerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   stretch: {
-    doc: 'If set to `true`, then the date-picker input field will be 100% in `width`',
+    doc: 'If set to `true`, then the date-picker input field will be 100% in `width`.',
     type: 'boolean',
     status: 'optional',
   },

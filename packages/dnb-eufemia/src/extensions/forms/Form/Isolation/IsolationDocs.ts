@@ -36,7 +36,7 @@ export const IsolationProperties: PropertiesTableProps = {
     status: 'optional',
   },
   dataReference: {
-    doc: 'Provide a reference by using `Form.Isolation.createDataReference.`',
+    doc: 'Provide a reference by using `Form.Isolation.createDataReference`.',
     type: 'IsolationDataReference',
     status: 'optional',
   },

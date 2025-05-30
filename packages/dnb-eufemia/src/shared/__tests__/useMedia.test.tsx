@@ -38,14 +38,13 @@ describe('useMedia', () => {
 
       const { result } = renderHook(useMedia, { wrapper })
 
-      expect(result.current).toEqual(
-        expect.objectContaining({
-          isSmall: false,
-          isMedium: false,
-          isLarge: false,
-          key: null,
-        })
-      )
+      expect(result.current).toEqual({
+        isSmall: false,
+        isMedium: false,
+        isLarge: false,
+        isSSR: false,
+        key: null,
+      })
     })
 
     it('will return positive isSmall', async () => {
@@ -53,28 +52,26 @@ describe('useMedia', () => {
 
       const { result } = renderHook(useMedia, { wrapper })
 
-      expect(result.current).toEqual(
-        expect.objectContaining({
-          isSmall: true,
-          isMedium: false,
-          isLarge: false,
-          key: 'small',
-        })
-      )
+      expect(result.current).toEqual({
+        isSmall: true,
+        isMedium: false,
+        isLarge: false,
+        isSSR: false,
+        key: 'small',
+      })
 
       act(() => {
         setMedia({ width: ABOVE })
       })
 
       await waitFor(() => {
-        expect(result.current).toEqual(
-          expect.objectContaining({
-            isSmall: false,
-            isMedium: false,
-            isLarge: true,
-            key: 'large',
-          })
-        )
+        expect(result.current).toEqual({
+          isSmall: false,
+          isMedium: false,
+          isLarge: true,
+          isSSR: false,
+          key: 'large',
+        })
       })
     })
 
@@ -83,28 +80,26 @@ describe('useMedia', () => {
 
       const { result } = renderHook(useMedia, { wrapper })
 
-      expect(result.current).toEqual(
-        expect.objectContaining({
-          isSmall: false,
-          isMedium: true,
-          isLarge: false,
-          key: 'medium',
-        })
-      )
+      expect(result.current).toEqual({
+        isSmall: false,
+        isMedium: true,
+        isLarge: false,
+        isSSR: false,
+        key: 'medium',
+      })
 
       act(() => {
         setMedia({ width: ABOVE })
       })
 
       await waitFor(() => {
-        expect(result.current).toEqual(
-          expect.objectContaining({
-            isSmall: false,
-            isMedium: false,
-            isLarge: true,
-            key: 'large',
-          })
-        )
+        expect(result.current).toEqual({
+          isSmall: false,
+          isMedium: false,
+          isLarge: true,
+          isSSR: false,
+          key: 'large',
+        })
       })
     })
 
@@ -113,28 +108,26 @@ describe('useMedia', () => {
 
       const { result } = renderHook(useMedia, { wrapper })
 
-      expect(result.current).toEqual(
-        expect.objectContaining({
-          isSmall: false,
-          isMedium: false,
-          isLarge: true,
-          key: 'large',
-        })
-      )
+      expect(result.current).toEqual({
+        isSmall: false,
+        isMedium: false,
+        isLarge: true,
+        isSSR: false,
+        key: 'large',
+      })
 
       act(() => {
         setMedia({ width: BELOW })
       })
 
       await waitFor(() => {
-        expect(result.current).toEqual(
-          expect.objectContaining({
-            isSmall: true,
-            isMedium: false,
-            isLarge: false,
-            key: 'small',
-          })
-        )
+        expect(result.current).toEqual({
+          isSmall: true,
+          isMedium: false,
+          isLarge: false,
+          isSSR: false,
+          key: 'small',
+        })
       })
     })
 
@@ -143,69 +136,74 @@ describe('useMedia', () => {
 
       const { result } = renderHook(useMedia, { wrapper })
 
-      expect(result.current).toEqual(
-        expect.objectContaining({
-          isSmall: false,
-          isMedium: false,
-          isLarge: true,
-          key: 'large',
-        })
-      )
+      expect(result.current).toEqual({
+        isSmall: false,
+        isMedium: false,
+        isLarge: true,
+        isSSR: false,
+        key: 'large',
+      })
 
       const queries = [
         {
           width: BELOW,
-          expectResult: expect.objectContaining({
+          expectResult: {
             isSmall: true,
             isMedium: false,
             isLarge: false,
+            isSSR: false,
             key: 'small',
-          }),
+          },
         },
         {
           width: ABOVE,
-          expectResult: expect.objectContaining({
+          expectResult: {
             isSmall: false,
             isMedium: false,
             isLarge: true,
+            isSSR: false,
             key: 'large',
-          }),
+          },
         },
         {
           width: MEDIUM,
-          expectResult: expect.objectContaining({
+          expectResult: {
             isSmall: false,
             isMedium: true,
             isLarge: false,
+            isSSR: false,
             key: 'medium',
-          }),
+          },
         },
         {
           width: LARGE,
-          expectResult: expect.objectContaining({
+          expectResult: {
             isSmall: false,
             isMedium: false,
             isLarge: true,
+            isSSR: false,
             key: 'large',
-          }),
+          },
         },
         {
           width: SMALL,
-          expectResult: expect.objectContaining({
+          expectResult: {
             isSmall: true,
             isMedium: false,
             isLarge: false,
+            isSSR: false,
             key: 'small',
-          }),
+          },
         },
         {
           width: BELOW,
-          expectResult: expect.objectContaining({
+          expectResult: {
             isSmall: true,
             isMedium: false,
             isLarge: false,
+            isSSR: false,
             key: 'small',
-          }),
+          },
         },
       ]
 
@@ -226,14 +224,13 @@ describe('useMedia', () => {
         initialProps: { disabled: false },
       })
 
-      expect(result.current).toEqual(
-        expect.objectContaining({
-          isSmall: false,
-          isMedium: false,
-          isLarge: true,
-          key: 'large',
-        })
-      )
+      expect(result.current).toEqual({
+        isSmall: false,
+        isMedium: false,
+        isLarge: true,
+        isSSR: false,
+        key: 'large',
+      })
 
       rerender({ disabled: true })
 
@@ -245,14 +242,13 @@ describe('useMedia', () => {
         /**
          * Keep the same state as before
          */
-        expect(result.current).toEqual(
-          expect.objectContaining({
-            isSmall: false,
-            isMedium: false,
-            isLarge: true,
-            key: 'large',
-          })
-        )
+        expect(result.current).toEqual({
+          isSmall: false,
+          isMedium: false,
+          isLarge: true,
+          isSSR: false,
+          key: 'large',
+        })
       })
 
       rerender({ disabled: false })
@@ -262,14 +258,13 @@ describe('useMedia', () => {
 
         await waitFor(() => result.current)
 
-        expect(result.current).toEqual(
-          expect.objectContaining({
-            isSmall: true,
-            isMedium: false,
-            isLarge: false,
-            key: 'small',
-          })
-        )
+        expect(result.current).toEqual({
+          isSmall: true,
+          isMedium: false,
+          isLarge: false,
+          isSSR: false,
+          key: 'small',
+        })
 
         /**
          * Set state before disable
@@ -287,14 +282,13 @@ describe('useMedia', () => {
         /**
          * Keep the same state as before
          */
-        expect(result.current).toEqual(
-          expect.objectContaining({
-            isSmall: false,
-            isMedium: false,
-            isLarge: true,
-            key: 'large',
-          })
-        )
+        expect(result.current).toEqual({
+          isSmall: false,
+          isMedium: false,
+          isLarge: true,
+          isSSR: false,
+          key: 'large',
+        })
       })
     })
 
@@ -305,15 +299,13 @@ describe('useMedia', () => {
 
       const { result } = renderHook(useMedia, { wrapper })
 
-      expect(result.current).toEqual(
-        expect.objectContaining({
-          isSmall: false,
-          isMedium: false,
-          isLarge: false,
-          isSSR: true,
-          key: null,
-        })
-      )
+      expect(result.current).toEqual({
+        isSmall: false,
+        isMedium: false,
+        isLarge: false,
+        isSSR: true,
+        key: null,
+      })
     })
 
     it('will re-render component', async () => {
@@ -446,7 +438,7 @@ describe('useMedia', () => {
         })
       )
 
-      expect(count).toBe(28)
+      expect(count).toBe(24)
     })
 
     it('will return correct key based on size', async () => {
@@ -454,69 +446,74 @@ describe('useMedia', () => {
 
       const { result } = renderHook(useMedia, { wrapper })
 
-      expect(result.current).toEqual(
-        expect.objectContaining({
-          isSmall: false,
-          isMedium: false,
-          isLarge: true,
-          key: 'large',
-        })
-      )
+      expect(result.current).toEqual({
+        isSmall: false,
+        isMedium: false,
+        isLarge: true,
+        isSSR: false,
+        key: 'large',
+      })
 
       const queries = [
         {
           width: BELOW,
-          expectResult: expect.objectContaining({
+          expectResult: {
             isSmall: true,
             isMedium: false,
             isLarge: false,
+            isSSR: false,
             key: 'small',
-          }),
+          },
         },
         {
           width: ABOVE,
-          expectResult: expect.objectContaining({
+          expectResult: {
             isSmall: false,
             isMedium: false,
             isLarge: true,
+            isSSR: false,
             key: 'large',
-          }),
+          },
         },
         {
           width: MEDIUM,
-          expectResult: expect.objectContaining({
+          expectResult: {
             isSmall: false,
             isMedium: true,
             isLarge: false,
+            isSSR: false,
             key: 'medium',
-          }),
+          },
         },
         {
           width: LARGE,
-          expectResult: expect.objectContaining({
+          expectResult: {
             isSmall: false,
             isMedium: false,
             isLarge: true,
+            isSSR: false,
             key: 'large',
-          }),
+          },
         },
         {
           width: SMALL,
-          expectResult: expect.objectContaining({
+          expectResult: {
             isSmall: true,
             isMedium: false,
             isLarge: false,
+            isSSR: false,
             key: 'small',
-          }),
+          },
         },
         {
           width: BELOW,
-          expectResult: expect.objectContaining({
+          expectResult: {
             isSmall: true,
             isMedium: false,
             isLarge: false,
+            isSSR: false,
             key: 'small',
-          }),
+          },
         },
       ]
 
@@ -831,14 +828,13 @@ describe('useMedia', () => {
 
       const { result } = renderHook(useMedia, { wrapper })
 
-      expect(result.current).toEqual(
-        expect.objectContaining({
-          isSmall: true,
-          isMedium: false,
-          isLarge: false,
-          key: 'small',
-        })
-      )
+      expect(result.current).toEqual({
+        isSmall: true,
+        isMedium: false,
+        isLarge: false,
+        isSSR: false,
+        key: 'small',
+      })
     })
 
     it('will return positive isMedium', () => {
@@ -847,14 +843,13 @@ describe('useMedia', () => {
 
       const { result } = renderHook(useMedia, { wrapper })
 
-      expect(result.current).toEqual(
-        expect.objectContaining({
-          isSmall: false,
-          isMedium: true,
-          isLarge: false,
-          key: 'medium',
-        })
-      )
+      expect(result.current).toEqual({
+        isSmall: false,
+        isMedium: true,
+        isLarge: false,
+        isSSR: false,
+        key: 'medium',
+      })
     })
 
     it('will return positive isLarge', () => {
@@ -863,14 +858,76 @@ describe('useMedia', () => {
 
       const { result } = renderHook(useMedia, { wrapper })
 
-      expect(result.current).toEqual(
-        expect.objectContaining({
+      expect(result.current).toEqual({
+        isSmall: false,
+        isMedium: false,
+        isLarge: true,
+        isSSR: false,
+        key: 'large',
+      })
+    })
+
+    it('will render once when same result was detected in layout effect', () => {
+      const query = `(min-width: 60.00625em)`
+      matchMedia.useMediaQuery(query)
+
+      const results = []
+
+      const MockComponent = () => {
+        results.push(useMedia())
+        return null
+      }
+
+      render(<MockComponent />)
+
+      expect(results).toEqual([
+        {
           isSmall: false,
           isMedium: false,
           isLarge: true,
+          isSSR: false,
           key: 'large',
-        })
-      )
+        },
+      ])
+    })
+
+    it('will render twice when different result was detected in layout effect', () => {
+      const query = `(min-width: 60.00625em)`
+      matchMedia.useMediaQuery(query)
+
+      const results = []
+
+      const MockComponent = () => {
+        results.push(
+          useMedia({
+            initialValue: {
+              isSmall: true,
+              isMedium: false,
+              isLarge: false,
+            },
+          })
+        )
+        return null
+      }
+
+      render(<MockComponent />)
+
+      expect(results).toEqual([
+        {
+          isSmall: true,
+          isMedium: false,
+          isLarge: false,
+          isSSR: false,
+          key: 'small',
+        },
+        {
+          isSmall: false,
+          isMedium: false,
+          isLarge: true,
+          isSSR: false,
+          key: 'large',
+        },
+      ])
     })
   })
 

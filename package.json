@@ -22,7 +22,7 @@
     "publish:dry": "yarn workspace @dnb/eufemia publish:dry",
     "reset": "yarn workspace dnb-design-system-portal reset && yarn workspace @dnb/eufemia reset && rm -rf ./node_modules && yarn install",
     "build": "yarn workspace @dnb/eufemia build",
-    "build:ci": "yarn workspace @dnb/eufemia build:ci",
+    "build:mini": "yarn workspace @dnb/eufemia build:mini",
     "build:clean": "yarn workspace @dnb/eufemia build:clean",
     "test": "yarn workspace @dnb/eufemia test",
     "test:update": "yarn workspace @dnb/eufemia test:update",
@@ -32,8 +32,7 @@
     "test:screenshots:update": "yarn workspace @dnb/eufemia test:screenshots:update",
     "prepare": "husky install",
     "lint": "yarn workspace @dnb/eufemia lint && yarn workspace dnb-design-system-portal lint",
-    "lint:styles": "yarn workspace @dnb/eufemia lint:styles && yarn workspace dnb-design-system-portal lint:styles",
-    "lint:ci": "yarn workspace @dnb/eufemia lint:ci && yarn workspace dnb-design-system-portal lint:ci"
+    "lint:styles": "yarn workspace @dnb/eufemia lint:styles && yarn workspace dnb-design-system-portal lint:styles"
   },
   "devDependencies": {
     "husky": "7.0.4",

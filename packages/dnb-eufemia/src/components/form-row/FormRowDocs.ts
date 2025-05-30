@@ -22,7 +22,7 @@ export const FormRowProperties: PropertiesTableProps = {
     status: 'optional',
   },
   vertical: {
-    doc: 'will force both `direction` and `label_direction` to be **vertical** if set to `true`',
+    doc: 'will force both `direction` and `label_direction` to be **vertical** if set to `true`.',
     type: 'boolean',
     status: 'optional',
   },

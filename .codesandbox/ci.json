@@ -4,6 +4,6 @@
     "@dnb/eufemia": "packages/dnb-eufemia/build"
   },
   "sandboxes": ["eufemia-starter-0gcwo"],
-  "buildCommand": "build:ci",
+  "buildCommand": "build:mini",
   "node": "18"
 }
