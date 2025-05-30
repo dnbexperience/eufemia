@@ -23,6 +23,50 @@ describe('DateFormat', () => {
     rerender(<DateFormat value="2025-08-01" dateStyle="short" />)
     expect(dateFormat).toHaveTextContent('01.08.2025')
   })
+
+  it('should return an invalid date message if the date is invalid', () => {
+    const { rerender } = render(<DateFormat>2025-13-01</DateFormat>)
+
+    const dateFormat = document.querySelector('.dnb-date-format')
+
+    expect(dateFormat).toHaveTextContent('Ugyldig dato')
+
+    // Test children prop
+    rerender(<DateFormat>2025-08</DateFormat>)
+    expect(dateFormat).toHaveTextContent('Ugyldig dato')
+
+    rerender(<DateFormat>not a date</DateFormat>)
+    expect(dateFormat).toHaveTextContent('Ugyldig dato')
+
+    rerender(<DateFormat>{null}</DateFormat>)
+    expect(dateFormat).toHaveTextContent('Ugyldig dato')
+
+    rerender(<DateFormat>{undefined}</DateFormat>)
+    expect(dateFormat).toHaveTextContent('Ugyldig dato')
+
+    rerender(<DateFormat />)
+    expect(dateFormat).toHaveTextContent('Ugyldig dato')
+
+    // Test value prop
+    rerender(<DateFormat value="2025-13-01" />)
+    expect(dateFormat).toHaveTextContent('Ugyldig dato')
+
+    rerender(<DateFormat value="2025-08" />)
+    expect(dateFormat).toHaveTextContent('Ugyldig dato')
+
+    rerender(<DateFormat value="not a date" />)
+    expect(dateFormat).toHaveTextContent('Ugyldig dato')
+
+    rerender(<DateFormat value={undefined} />)
+    expect(dateFormat).toHaveTextContent('Ugyldig dato')
+
+    rerender(<DateFormat value={null} />)
+    expect(dateFormat).toHaveTextContent('Ugyldig dato')
+
+    rerender(<DateFormat value={new Date('2026-12-99')} />)
+    expect(dateFormat).toHaveTextContent('Ugyldig dato')
+  })
+
   describe('date value formats', () => {
     it('should support dates in `yyyy-MM-dd` format', () => {
       const { rerender } = render(<DateFormat>2025-05-23</DateFormat>)

@@ -12,6 +12,7 @@ import {
   createSkeletonClass,
   skeletonDOMAttributes,
 } from '../skeleton/SkeletonHelper'
+import { useTranslation } from '../../shared'
 
 type DateFormatProps = SpacingProps & {
   /**
@@ -39,6 +40,7 @@ type DateFormatProps = SpacingProps & {
 
 function DateFormat(props: DateFormatProps) {
   const context = useContext(SharedContext)
+  const { invalidDate } = useTranslation().DateFormat
 
   const {
     value,
@@ -55,6 +57,10 @@ function DateFormat(props: DateFormatProps) {
 
   const attributes = {}
   skeletonDOMAttributes(attributes, skeleton, context)
+
+  if (!date) {
+    return <span className="dnb-date-format">{invalidDate}</span>
+  }
 
   return (
     <time
