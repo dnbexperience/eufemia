@@ -61,10 +61,10 @@ jobs:
         run: yarn install --immutable
 
       - name: Build
-        run: yarn workspace @dnb/eufemia build:ci
+        run: yarn workspace @dnb/eufemia build:mini
 
       - name: Publish to StackBlitz
-        run: npx pkg-pr-new publish --compact './packages/dnb-eufemia/build' --packageManager=yarn
+        run: yarn workspace eufemia-starter remove-src && yarn dlx pkg-pr-new publish './packages/dnb-eufemia/build' --template './packages/eufemia-starter' --packageManager=yarn
 
       - name: Slack
         uses: 8398a7/action-slack@v3
