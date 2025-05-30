@@ -36,10 +36,10 @@ export function DateFormatExamples() {
   return (
     <Provider>
       <Card stack bottom="large">
-        <DateFormat date="2025-08-01" dateStyle="full" />
-        <DateFormat date="2025-08-01" dateStyle="long" />
-        <DateFormat date="2025-08-01" dateStyle="medium" />
-        <DateFormat date="2025-08-01" dateStyle="short" />
+        <DateFormat value="2025-08-01" dateStyle="full" />
+        <DateFormat value="2025-08-01" dateStyle="long" />
+        <DateFormat value="2025-08-01" dateStyle="medium" />
+        <DateFormat value="2025-08-01" dateStyle="short" />
       </Card>
       <LocaleChanger />
     </Provider>
