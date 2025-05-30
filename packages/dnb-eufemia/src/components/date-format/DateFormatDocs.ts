@@ -12,7 +12,7 @@ export const DateFormatProperties: PropertiesTableProps = {
     status: 'optional',
   },
   locale: {
-    doc: 'Locale used for formatting. Defaults to `nb-NO`',
+    doc: 'Locale used for formatting. Defaults to `nb-NO`.',
     type: 'string',
     status: 'optional',
   },
