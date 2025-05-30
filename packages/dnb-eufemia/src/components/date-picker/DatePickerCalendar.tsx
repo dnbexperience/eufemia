@@ -32,7 +32,6 @@ import {
   getWeek,
   dayOffset,
   getCalendar,
-  formatDate,
 } from './DatePickerCalc'
 import Button, { ButtonProps } from '../button/Button'
 import DatePickerContext, {
@@ -45,6 +44,7 @@ import {
   CalendarNavButtonProps,
   DatePickerCalendarNav,
 } from './DatePickerCalendarNavigator'
+import { formatDate } from '../date-format/DateFormatUtils'
 
 export type CalendarDay = {
   date: Date

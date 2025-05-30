@@ -2,11 +2,12 @@ import React, { useCallback, useContext } from 'react'
 import StringValue, { Props as StringValueProps } from '../String'
 import useTranslation from '../../hooks/useTranslation'
 import SharedContext, { AnyLocale } from '../../../../shared/Context'
+
+import { parseRangeValue } from '../../Field/Date'
 import {
   formatDate,
   formatDateRange,
-} from '../../../../components/date-picker/DatePickerCalc'
-import { parseRangeValue } from '../../Field/Date'
+} from '../../../../components/date-format/DateFormatUtils'
 
 export type Props = StringValueProps & {
   variant?: 'long' | 'short' | 'numeric'
@@ -17,7 +18,7 @@ function DateComponent(props: Props) {
   const translations = useTranslation().Date
   const { locale: contextLocale } = useContext(SharedContext)
   const locale = props.locale ?? contextLocale
-  const variant = props.variant ?? 'long'
+  const formatOptions = convertVariantToDateStyle(props.variant ?? 'long')
 
   const toInput = useCallback(
     (value: string) => {
@@ -31,12 +32,15 @@ function DateComponent(props: Props) {
       if (isRange) {
         const [startDate, endDate] = parseRangeValue(value)
 
-        return formatDateRange({ startDate, endDate }, { locale, variant })
+        return formatDateRange(
+          { startDate, endDate },
+          { locale, formatOptions }
+        )
       }
 
-      return formatDate(value, { locale, variant })
+      return formatDate(value, { locale, formatOptions })
     },
-    [locale, variant]
+    [locale, formatOptions]
   )
 
   const stringProps: Props = {
@@ -45,6 +49,19 @@ function DateComponent(props: Props) {
     toInput,
   }
   return <StringValue {...stringProps} />
+}
+
+function convertVariantToDateStyle(
+  variant: Props['variant']
+): Intl.DateTimeFormatOptions {
+  if (variant === 'long') {
+    return { dateStyle: 'long' }
+  }
+  if (variant === 'short') {
+    return { dateStyle: 'medium' }
+  }
+
+  return { dateStyle: 'short' }
 }
 
 DateComponent._supportsSpacingProps = true

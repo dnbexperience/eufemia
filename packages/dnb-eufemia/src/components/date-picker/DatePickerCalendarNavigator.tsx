@@ -13,7 +13,7 @@ import Button from '../Button'
 import { useTranslation } from '../../shared'
 import DatePickerContext from './DatePickerContext'
 import { InternalLocale } from '../../shared/Context'
-import { formatDate } from './DatePickerCalc'
+import { formatDate } from '../date-format/DateFormatUtils'
 
 type CalendarNavigationDateType = 'month' | 'year'
 type CalendarNavigationType = 'both' | CalendarNavigationDateType

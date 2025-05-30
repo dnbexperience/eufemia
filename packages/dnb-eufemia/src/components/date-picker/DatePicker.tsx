@@ -60,7 +60,7 @@ import {
   FormatDateOptions,
   formatDate,
   formatDateRange,
-} from './DatePickerCalc'
+} from '../date-format/DateFormatUtils'
 
 export type DatePickerEventAttributes = {
   day?: string
@@ -896,10 +896,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
     const options: FormatDateOptions = {
       locale: context.locale,
       formatOptions: {
-        weekday: 'long',
-        month: 'long',
-        day: 'numeric',
-        year: 'numeric',
+        dateStyle: 'full',
       },
     }
 

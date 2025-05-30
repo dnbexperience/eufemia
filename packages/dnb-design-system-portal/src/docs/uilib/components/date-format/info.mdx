@@ -1,0 +1,22 @@
+---
+showTabs: true
+---
+
+import { SupportedFormats } from 'Docs/uilib/components/date-format/Examples'
+
+## Import
+
+```tsx
+import { DateFormat } from '@dnb/eufemia'
+```
+
+## Description
+
+A ready to use DNB date formatter. Use it wherever you want to format dates.
+
+Good reasons to use this component:
+
+- Makes the date formatting uniform for all DNB applications.
+- Makes dates accessible to screen readers.
+
+The component is using `Intl.DateTimeFormat` browser API, to format dates based on locale. It also uses the [time element](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/time) to ensure that the date is readable for screen readers.
