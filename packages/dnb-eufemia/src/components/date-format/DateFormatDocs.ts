@@ -1,7 +1,7 @@
 import { PropertiesTableProps } from '../../shared/types'
 
 export const DateFormatProperties: PropertiesTableProps = {
-  date: {
+  value: {
     doc: 'The date that will be formatted.',
     type: ['Date', 'string'],
     status: 'optional',

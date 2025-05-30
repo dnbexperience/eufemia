@@ -7,23 +7,22 @@ import { Provider } from '../../../../shared'
 describe('DateFormat', () => {
   it('should format the whole date based on `dateStyle`', () => {
     const { rerender } = render(
-      <DateFormat date="2025-08-01" dateStyle="full" />
+      <DateFormat value="2025-08-01" dateStyle="full" />
     )
 
     const dateFormat = document.querySelector('.dnb-date-format')
 
     expect(dateFormat).toHaveTextContent('fredag 1. august 2025')
 
-    rerender(<DateFormat date="2025-08-01" dateStyle="long" />)
+    rerender(<DateFormat value="2025-08-01" dateStyle="long" />)
     expect(dateFormat).toHaveTextContent('1. august 2025')
 
-    rerender(<DateFormat date="2025-08-01" dateStyle="medium" />)
+    rerender(<DateFormat value="2025-08-01" dateStyle="medium" />)
     expect(dateFormat).toHaveTextContent('1. aug. 2025')
 
-    rerender(<DateFormat date="2025-08-01" dateStyle="short" />)
+    rerender(<DateFormat value="2025-08-01" dateStyle="short" />)
     expect(dateFormat).toHaveTextContent('01.08.2025')
   })
-
   describe('date value formats', () => {
     it('should support dates in `yyyy-MM-dd` format', () => {
       const { rerender } = render(<DateFormat>2025-05-23</DateFormat>)
@@ -32,7 +31,7 @@ describe('DateFormat', () => {
 
       expect(dateFormat).toHaveTextContent('23. mai 2025')
 
-      rerender(<DateFormat date="2026-06-08" />)
+      rerender(<DateFormat value="2026-06-08" />)
       expect(dateFormat).toHaveTextContent('8. juni 2026')
     })
 
@@ -43,7 +42,7 @@ describe('DateFormat', () => {
 
       expect(dateFormat).toHaveTextContent('23. mai 2025')
 
-      rerender(<DateFormat date="08.06.2026" />)
+      rerender(<DateFormat value="08.06.2026" />)
       expect(dateFormat).toHaveTextContent('8. juni 2026')
     })
 
@@ -54,12 +53,12 @@ describe('DateFormat', () => {
 
       expect(dateFormat).toHaveTextContent('23. mai 2025')
 
-      rerender(<DateFormat date="08/06/2026" />)
+      rerender(<DateFormat value="08/06/2026" />)
       expect(dateFormat).toHaveTextContent('8. juni 2026')
     })
 
     it('should support dates in `Date object` format', () => {
-      render(<DateFormat date={new Date('2026-06-08')} />)
+      render(<DateFormat value={new Date('2026-06-08')} />)
 
       const dateFormat = document.querySelector('.dnb-date-format')
 

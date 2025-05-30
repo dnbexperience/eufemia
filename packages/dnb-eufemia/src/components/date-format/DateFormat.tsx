@@ -17,7 +17,7 @@ type DateFormatProps = SpacingProps & {
   /**
    * The date that will be formatted.
    */
-  date?: Date | string
+  value?: Date | string
 
   /**
    * Defines the formatting  used for dates. (weekday, day, month year)
@@ -41,16 +41,16 @@ function DateFormat(props: DateFormatProps) {
   const context = useContext(SharedContext)
 
   const {
-    date,
+    value,
     locale = context.locale,
     dateStyle = 'long',
     children,
     skeleton,
   } = props
 
-  const dateObject = useMemo(
-    () => getDateObject({ date, children }),
-    [date, children]
+  const date = useMemo(
+    () => getDate({ value, children }),
+    [value, children]
   )
 
   const attributes = {}
@@ -65,10 +65,10 @@ function DateFormat(props: DateFormatProps) {
       )}
       lang={locale}
       // Makes sure that screen readers are reading the date correctly in the system language.
-      dateTime={format(dateObject, 'yyyy-MM-dd')}
+      dateTime={format(date, 'yyyy-MM-dd')}
       {...attributes}
     >
-      {formatDate(dateObject, {
+      {formatDate(date, {
         locale,
         formatOptions: {
           dateStyle,
@@ -78,15 +78,15 @@ function DateFormat(props: DateFormatProps) {
   )
 }
 
-function getDateObject({
-  date,
+function getDate({
+  value,
   children,
-}: Pick<DateFormatProps, 'date' | 'children'>) {
+}: Pick<DateFormatProps, 'value' | 'children'>) {
   if (children) {
     return convertStringToDate(convertJsxToString(children))
   }
 
-  return convertStringToDate(date)
+  return convertStringToDate(value)
 }
 
 export default DateFormat
