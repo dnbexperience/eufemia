@@ -6,10 +6,6 @@ import { DateType } from '../date-picker/DatePickerContext'
 export type FormatDateOptions = {
   locale?: AnyLocale
   formatOptions?: Intl.DateTimeFormatOptions
-  /**
-   * @deprecated use `options={{dateStyle}}` instead.
-   */
-  variant?: 'long' | 'short' | 'numeric'
 }
 
 export function formatDate(
