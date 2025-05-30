@@ -7,7 +7,7 @@ export const DateFormatProperties: PropertiesTableProps = {
     status: 'optional',
   },
   dateStyle: {
-    doc: 'Defines the formatting  used for dates (weekday, day, month year). Cannot be used together with `weekday`, `day`, `month` and `year`. Defaults to `long`.',
+    doc: 'Defines the style used to formatt the date. Defaults to `long`.',
     type: ['long', 'medium', 'short', 'full'],
     status: 'optional',
   },
