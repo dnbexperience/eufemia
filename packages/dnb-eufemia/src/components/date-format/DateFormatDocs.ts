@@ -7,7 +7,7 @@ export const DateFormatProperties: PropertiesTableProps = {
     status: 'optional',
   },
   dateStyle: {
-    doc: 'Defines the style used to formatt the date. Defaults to `long`.',
+    doc: 'Defines the style used to format the date. Defaults to `long`.',
     type: ['long', 'medium', 'short', 'full'],
     status: 'optional',
   },

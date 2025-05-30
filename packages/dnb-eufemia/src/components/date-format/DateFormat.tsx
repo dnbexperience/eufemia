@@ -21,8 +21,7 @@ type DateFormatProps = SpacingProps & {
   value?: Date | string
 
   /**
-   * Defines the formatting  used for dates. (weekday, day, month year)
-   * Cannot be used together with `weekday`, `day`, `month` and `year`.
+   * Defines the style used to format the date. Defaults to `long`.
    * Defaults to `long`.
    */
   dateStyle?: Intl.DateTimeFormatOptions['dateStyle']
