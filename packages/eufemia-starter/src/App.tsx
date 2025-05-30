@@ -12,7 +12,7 @@ export default function App() {
             or make changes to your needs.
           </P>
 
-          <P>✨ Use this Eufemia stater to create and report issues.</P>
+          <P>✨ Use this Eufemia starter to create and report issues.</P>
 
           <P>🍀 Remember to update related versions</P>
 
