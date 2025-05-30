@@ -41,10 +41,11 @@ export default function Indeterminate(props: Props) {
   )
 
   const value = useMemo(() => {
-    if (typeof valueProp !== 'undefined') {
-      return valueProp
+    if (typeof internalValue !== 'undefined') {
+      return internalValue ? valueOn : valueOff
     }
-    return internalValue ? valueOn : valueOff
+
+    return valueProp
   }, [valueProp, internalValue, valueOn, valueOff])
 
   return (
