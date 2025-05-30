@@ -22,7 +22,7 @@ export const SupportedFormats = () => {
           <DateFormat>2025-08-01</DateFormat>
           <DateFormat>01.08.2025</DateFormat>
           <DateFormat>01/08/2025</DateFormat>
-          <DateFormat date={new Date('2025-08-01')} />
+          <DateFormat value={new Date('2025-08-01')} />
         </P>
       </ComponentBox>
     </Style>
