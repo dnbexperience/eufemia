@@ -26,7 +26,7 @@ type DateFormatProps = SpacingProps & {
    */
   dateStyle?: Intl.DateTimeFormatOptions['dateStyle']
   /**
-   * Locale used for formatting.
+   * A string in {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#locales_argument | Intl.DateTimeFormat locale} accepted format.
    * Defaults to `nb-NO`
    */
   locale?: InternalLocale

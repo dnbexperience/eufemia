@@ -12,7 +12,7 @@ export const DateFormatProperties: PropertiesTableProps = {
     status: 'optional',
   },
   locale: {
-    doc: 'Locale used for formatting. Defaults to `nb-NO`.',
+    doc: 'A string in [Intl.DateTimeFormat locale](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#locales_argument) format. Defaults to `nb-NO`.',
     type: 'string',
     status: 'optional',
   },

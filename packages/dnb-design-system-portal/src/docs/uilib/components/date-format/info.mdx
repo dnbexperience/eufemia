@@ -19,4 +19,19 @@ Good reasons to use this component:
 - Makes the date formatting uniform for all DNB applications.
 - Makes dates accessible to screen readers.
 
-The component is using `Intl.DateTimeFormat` browser API and `Date.toLocaleDateString` as a fallback, to format dates based on locale. It also uses the [time element](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/time) to ensure that the date is readable for screen readers.
+### Under the hood
+
+The component uses `Intl.DateTimeFormat` browser API and `Date.toLocaleDateString` as a fallback, to format dates based on locale.
+
+See [Intl.DateTimeFormat locale documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#locales_argument) for accepted string formats.
+
+The [time element](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/time) is used to ensure that the date is readable for screen readers.
+
+### Supported date value formats
+
+The following formats are supported as date values for conversion:
+
+- `yyyy-MM-dd`
+- `dd.MM.yyyy`
+- `dd/MM/yyyy`
+- `Date` object
