@@ -75,7 +75,7 @@ function DateFormat(props: DateFormatProps) {
     >
       {formatDate(date, {
         locale,
-        formatOptions: {
+        options: {
           dateStyle,
         },
       })}

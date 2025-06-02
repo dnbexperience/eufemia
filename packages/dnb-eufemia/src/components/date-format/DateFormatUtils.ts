@@ -5,42 +5,42 @@ import { DateType } from '../date-picker/DatePickerContext'
 
 export type FormatDateOptions = {
   locale?: AnyLocale
-  formatOptions?: Intl.DateTimeFormatOptions
+  options?: Intl.DateTimeFormatOptions
 }
 
 export function formatDate(
   dateValue: DateType,
   {
     locale = defaultLocale,
-    formatOptions = { dateStyle: 'short' },
+    options = { dateStyle: 'short' },
   }: FormatDateOptions = {}
 ) {
   const date = convertStringToDate(dateValue)
 
   return typeof Intl !== 'undefined'
-    ? new Intl.DateTimeFormat(locale, formatOptions).format(date)
-    : date.toLocaleString(locale, formatOptions)
+    ? new Intl.DateTimeFormat(locale, options).format(date)
+    : date.toLocaleString(locale, options)
 }
 
 export function formatDateRange(
   dates: { startDate: DateType; endDate: DateType },
   {
     locale = defaultLocale,
-    formatOptions = { dateStyle: 'long' },
+    options = { dateStyle: 'long' },
   }: FormatDateOptions = {}
 ) {
   const startDate = convertStringToDate(dates.startDate)
   const endDate = convertStringToDate(dates.endDate)
 
   if (typeof Intl !== 'undefined') {
-    return new Intl.DateTimeFormat(locale, formatOptions).formatRange(
+    return new Intl.DateTimeFormat(locale, options).formatRange(
       startDate,
       endDate
     )
   }
 
-  const startDateString = startDate.toLocaleString(locale, formatOptions)
-  const endDateString = endDate.toLocaleString(locale, formatOptions)
+  const startDateString = startDate.toLocaleString(locale, options)
+  const endDateString = endDate.toLocaleString(locale, options)
 
   return `${startDateString}-${endDateString}`
 }

@@ -18,7 +18,7 @@ function DateComponent(props: Props) {
   const translations = useTranslation().Date
   const { locale: contextLocale } = useContext(SharedContext)
   const locale = props.locale ?? contextLocale
-  const formatOptions = convertVariantToDateStyle(props.variant ?? 'long')
+  const options = convertVariantToDateStyle(props.variant ?? 'long')
 
   const toInput = useCallback(
     (value: string) => {
@@ -32,15 +32,12 @@ function DateComponent(props: Props) {
       if (isRange) {
         const [startDate, endDate] = parseRangeValue(value)
 
-        return formatDateRange(
-          { startDate, endDate },
-          { locale, formatOptions }
-        )
+        return formatDateRange({ startDate, endDate }, { locale, options })
       }
 
-      return formatDate(value, { locale, formatOptions })
+      return formatDate(value, { locale, options })
     },
-    [locale, formatOptions]
+    [locale, options]
   )
 
   const stringProps: Props = {

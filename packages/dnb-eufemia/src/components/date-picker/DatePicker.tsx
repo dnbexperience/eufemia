@@ -898,7 +898,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
 
     const options: FormatDateOptions = {
       locale: context.locale,
-      formatOptions: {
+      options: {
         dateStyle: 'full',
       },
     }

@@ -333,7 +333,7 @@ function validateDateLimit({
 
   const options: FormatDateOptions = {
     locale,
-    formatOptions: { dateStyle: 'long' },
+    options: { dateStyle: 'long' },
   }
 
   const messages: Array<FormError> = []
