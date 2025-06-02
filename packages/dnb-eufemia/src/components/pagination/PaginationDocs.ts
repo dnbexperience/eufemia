@@ -12,7 +12,7 @@ export const PaginationProperties: PropertiesTableProps = {
     status: 'optional',
   },
   children: {
-    doc: 'the given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section. ',
+    doc: 'the given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.',
     type: ['React.ReactNode', 'function'],
     status: 'optional',
   },
@@ -92,7 +92,7 @@ export const PaginationProperties: PropertiesTableProps = {
     status: 'optional',
   },
   set_content_handler: {
-    doc: 'callback function to get the `setContent` handler from the current pagination instance. e.g. `set_content_handler={fn => (...)}`. Use this handler to insert content during infinity mode. ',
+    doc: 'callback function to get the `setContent` handler from the current pagination instance. e.g. `set_content_handler={fn => (...)}`. Use this handler to insert content during infinity mode.',
     type: 'function',
     status: 'optional',
   },

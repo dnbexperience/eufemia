@@ -27,7 +27,7 @@ export const DrawerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   spacing: {
-    doc: 'If set to `false` then the drawer content will be shown without any spacing. Defaults to `true`. ',
+    doc: 'If set to `false` then the drawer content will be shown without any spacing. Defaults to `true`.',
     type: 'boolean',
     status: 'optional',
   },
@@ -57,7 +57,7 @@ export const DrawerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   fullscreen: {
-    doc: 'If set to `true` then the drawer content will be shown as fullscreen, without showing the original content behind. Can be set to `false` to omit the auto fullscreen. Defaults to `auto`. ',
+    doc: 'If set to `true` then the drawer content will be shown as fullscreen, without showing the original content behind. Can be set to `false` to omit the auto fullscreen. Defaults to `auto`.',
     type: ['boolean', 'string'],
     status: 'optional',
   },
