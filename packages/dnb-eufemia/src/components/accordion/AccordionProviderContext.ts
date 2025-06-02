@@ -23,7 +23,7 @@ type AccordionGroupContextProps = {
 
 const AccordionGroupContext =
   React.createContext<AccordionGroupContextProps>({
-    // Make sure the AccordionStore gets the correct expandBehavior default value when AccordionGroup is not used.
+    // Make sure the AccordionStore gets the correct `expandBehavior` default value, for when grouped `Accordions` are used outside of an `AccordionGroup`.
     expandBehavior: 'single',
   })
 
