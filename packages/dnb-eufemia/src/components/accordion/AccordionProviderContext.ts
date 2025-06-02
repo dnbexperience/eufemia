@@ -17,14 +17,14 @@ type AccordionGroupContextProps = {
   onInit?: (...args: any[]) => any
   collapseAccordionCallbacks?: React.MutableRefObject<(() => void)[]>
   collapseAllHandleRef?: React.MutableRefObject<() => void>
-  /**
-   * @deprecated – Replaced with expandBehavior, expandBehaviour can be removed in v11
-   */
-  expandBehaviour?: AccordionGroupProps['expandBehaviour']
+
   expandBehavior?: AccordionGroupProps['expandBehavior']
 }
 
 const AccordionGroupContext =
-  React.createContext<AccordionGroupContextProps>({})
+  React.createContext<AccordionGroupContextProps>({
+    // Make sure the AccordionStore gets the correct expandBehavior default value when AccordionGroup is not used.
+    expandBehavior: 'single',
+  })
 
 export default AccordionGroupContext

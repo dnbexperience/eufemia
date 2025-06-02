@@ -461,7 +461,7 @@ export type GroupProps = AccordionProps & {
 }
 
 const Group = ({
-  expandBehaviour = 'single',
+  expandBehaviour = undefined,
   expandBehavior = 'single',
   ...props
 }: GroupProps) => {
@@ -532,8 +532,7 @@ const Group = ({
       onInit={onInit}
       {...props}
       group={group}
-      expandBehaviour={expandBehaviour}
-      expandBehavior={expandBehavior}
+      expandBehavior={expandBehaviour || expandBehavior}
       expanded_id={expandedId || props.expanded_id}
     />
   )
