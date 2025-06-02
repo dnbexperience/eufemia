@@ -132,13 +132,13 @@ p > .dnb-icon {
   border-radius: var(--accordion-border-radius);
 }
 .dnb-accordion__header:focus {
-  user-select: none;
+  user-select: text;
 }
 .dnb-accordion__header * {
   pointer-events: none;
 }
 .dnb-accordion__header--prevent-click {
-  user-select: none;
+  user-select: text;
   pointer-events: none;
 }
 .dnb-accordion__header__wrapper {
