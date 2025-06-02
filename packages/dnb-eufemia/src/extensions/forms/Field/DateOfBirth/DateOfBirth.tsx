@@ -110,6 +110,8 @@ function DateOfBirth(props: Props) {
         width="3.32813rem" // Enough width for 2 digits
         inputMode="numeric"
         pattern="^[0-9]{2}$"
+        mask={[/[0-9]/, /[0-9]/]}
+        placeholder="DD"
       />
       <SelectionField
         autoComplete="bday-month"
@@ -121,6 +123,7 @@ function DateOfBirth(props: Props) {
           searchNumbers: true,
           inputIcon: '',
           showSubmitButton: true,
+          placeholder: 'MM',
         }}
         data={months}
         className={classNames('dnb-forms-field-date-of-birth__month')}
@@ -132,6 +135,8 @@ function DateOfBirth(props: Props) {
         width="stretch"
         inputMode="numeric"
         pattern="^[0-9]{4}$"
+        mask={[/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/]}
+        placeholder="YYYY"
       />
     </CompositionField>
   )
